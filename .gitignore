@@ -1,0 +1,16 @@
+/bin/
+/.gradle/
+/.idea/
+/.settings/
+/build/
+/gradle/
+/eclipse/
+/schematics/
+.classpath
+.project
+AfraidOfTheDark.iml
+AfraidOfTheDark.ipr
+AfraidOfTheDark.iws
+build.gradle
+gradlew
+gradlew.bat

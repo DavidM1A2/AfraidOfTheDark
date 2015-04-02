@@ -1,0 +1,6 @@
+{
+   "crossbowFire": {"category": "master","sounds": [{"name": "crossbowFire","stream": false}]},
+   "crossbowLoad": {"category": "master","sounds": [{"name": "crossbowLoad","stream": false}]},
+   "werewolf": {"category": "master","sounds": [{"name": "werewolf","stream": false}]},
+   "signedJournal": {"category": "master","sounds": [{"name": "signedJournal","stream": false}]}
+}

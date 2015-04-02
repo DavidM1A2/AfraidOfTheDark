@@ -1,0 +1,27 @@
+# Items
+item.afraidofthedark:template.name=Item Name Template
+item.afraidofthedark:insanityControl.name=Insanity Control Debug
+item.afraidofthedark:journal.name=Blood Stained Journal
+item.afraidofthedark:silverSword.name=Silver Sword
+item.afraidofthedark:silverIngot.name=Silver Ingot
+item.afraidofthedark:crossbow.name=Crossbow
+item.afraidofthedark:ironBolt.name=Iron Bolt
+item.afraidofthedark:silverBolt.name=Silver Bolt
+item.afraidofthedark:spawnWerewolf.name=Spawn Werewolf
+item.afraidofthedark:woodenBolt.name=Wooden Bolt
+
+# Blocks
+tile.afraidofthedark:silverOre.name=Silver Ore
+tile.afraidofthedark:darkness.name=Darkness
+tile.afraidofthedark:gravewoodLeaves.name=Gravewood Leaves
+tile.afraidofthedark:gravewood.name=Gravewood
+
+# Creative Tabs
+itemGroup.afraidofthedark=Afraid of the Dark
+
+# Keys
+keys.afraidofthedark.category=Afraid of the Dark
+keys.afraidofthedark.changeMode=Change Mode
+
+# Mobs
+entity.AfraidOfTheDark.Werewolf.name=Werewolf

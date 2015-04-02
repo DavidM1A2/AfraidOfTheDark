@@ -1,0 +1,19 @@
+[
+{
+  "modid": "AfraidOfTheDark",
+  "name": "Afraid of the Dark",
+  "description": "What will you do when...?",
+  "version": "1.0",
+  "credits": "Created by DavidM1A2",
+  "logoFile": "",
+  "mcversion": "1.7.10",
+  "url": "",
+  "updateUrl": "",
+  "authors": [ "David_M1A2" ],
+  "parent":"",
+  "screenshots": [],
+  "dependencies": [
+	 "mod_MinecraftForge"
+]
+}
+]
