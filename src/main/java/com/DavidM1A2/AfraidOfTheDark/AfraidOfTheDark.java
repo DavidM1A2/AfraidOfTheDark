@@ -24,6 +24,7 @@ import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModOreDictionaryCompatability
 import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModRecipes;
 import com.DavidM1A2.AfraidOfTheDark.proxy.IProxy;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.threads.RandomInsanityUpdate;
 import com.DavidM1A2.AfraidOfTheDark.utility.LogHelper;
 
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -32,6 +33,7 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
@@ -42,7 +44,7 @@ public class AfraidOfTheDark
 	@Mod.Instance(Refrence.MOD_ID)
 	public static AfraidOfTheDark instance;
 
-	public static SimpleNetworkWrapper channelNew; // ADDED
+	public static SimpleNetworkWrapper channelNew;
 
 	@SidedProxy(clientSide = Refrence.CLIENT_PROXY_CLASS, serverSide = Refrence.SERVER_PROXY_CLASS)
 	public static IProxy proxy;
@@ -106,5 +108,13 @@ public class AfraidOfTheDark
 	{
 		// Register any player commands
 		event.registerServerCommand(new InsanityCheck());
+	}
+
+	@Mod.EventHandler
+	public void randomInsanityUpdates(FMLServerStartedEvent event)
+	{
+		LogHelper.info("ThreadStarted");
+		Thread randomUpdate = new RandomInsanityUpdate();
+		randomUpdate.start();
 	}
 }

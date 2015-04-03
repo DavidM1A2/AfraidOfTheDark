@@ -1,3 +1,8 @@
+/*
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.item;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -13,6 +18,7 @@ import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
+// Silversword item which is a sword
 public class ItemSilverSword extends ItemSword
 {
 	public ItemSilverSword()
@@ -22,6 +28,7 @@ public class ItemSilverSword extends ItemSword
 		this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
 	}
 
+	// When left clicking attack from silver weapon damage
 	@Override
 	public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity)
 	{

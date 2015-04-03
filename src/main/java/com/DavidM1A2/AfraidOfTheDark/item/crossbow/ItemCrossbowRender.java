@@ -1,3 +1,8 @@
+/*
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.item.crossbow;
 
 import net.minecraft.client.Minecraft;
@@ -14,6 +19,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.utility.NBTHelper;
 
+// The renderer for the crossbow uses OpenGL to render the bow itself
 public class ItemCrossbowRender implements IItemRenderer
 {
 	protected CrossbowModel crossbowModel;
@@ -24,6 +30,7 @@ public class ItemCrossbowRender implements IItemRenderer
 		crossbowModel.pullBow(0.0F);
 	}
 
+	// If it is equipped or first person equipped render this item
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type)
 	{
@@ -44,36 +51,44 @@ public class ItemCrossbowRender implements IItemRenderer
 		}
 	}
 
+	// ?
 	@Override
 	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
 	{
 		return false;
 	}
 
+	// Use open GL matrices to render the item
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack itemStack, Object... data)
 	{
 		switch (type)
 		{
+		// If it is equipped (3rd person) render it one way
 			case EQUIPPED:
 			{
-				if (!(!((EntityPlayer) data[1] == Minecraft.getMinecraft().renderViewEntity && Minecraft.getMinecraft().gameSettings.thirdPersonView == 0 && !((Minecraft
-						.getMinecraft().currentScreen instanceof GuiInventory || Minecraft.getMinecraft().currentScreen instanceof GuiContainerCreative) && RenderManager.instance.playerViewY == 180.0F))))
+				// (3rd person check)
+				if (!(!((EntityPlayer) data[1] == Minecraft.getMinecraft().renderViewEntity && Minecraft.getMinecraft().gameSettings.thirdPersonView == 0 && !((Minecraft.getMinecraft().currentScreen instanceof GuiInventory || Minecraft.getMinecraft().currentScreen instanceof GuiContainerCreative) && RenderManager.instance.playerViewY == 180.0F))))
 				{
 					GL11.glPushMatrix();
 
+					// Get the texture
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("afraidofthedark:textures/models/crossbowTexture.png"));
 
-					float scaleB = 1.0F;
+					float scale = 1.0F;
 
-					GL11.glScalef(scaleB, scaleB, scaleB);
+					// No scaling needed
+					GL11.glScalef(scale, scale, scale);
 
-					GL11.glRotatef(90.0F, 1.0F, 0.0F, 0.0F); // Pitch
-					GL11.glRotatef(-50.0F, 0.0F, 1.0F, 0.0F); // Yaw
-					GL11.glRotatef(270.0F, 0.0F, 0.0F, 1.0F); // Roll
+					// Using an identity matrix we can set the pitch, yaw, and roll of the object
+					GL11.glRotatef(90.0F, scale, 0.0F, 0.0F); // Pitch
+					GL11.glRotatef(-50.0F, 0.0F, scale, 0.0F); // Yaw
+					GL11.glRotatef(270.0F, 0.0F, 0.0F, scale); // Roll
 
+					// Finally we translate the matrix
 					GL11.glTranslatef(0.2F, -1.0F, -0.2F);
 
+					// If it is cocked, we set the model accordingly
 					if (NBTHelper.getBoolean(itemStack, "isCocked"))
 					{
 						crossbowModel.Bolt.isHidden = false;
@@ -85,6 +100,7 @@ public class ItemCrossbowRender implements IItemRenderer
 						crossbowModel.pullBow(NBTHelper.getFloat(itemStack, "pullLevel"));
 					}
 
+					// Call the render function and pop the matrix off of the stack enabling the renderer
 					crossbowModel.render((Entity) data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 
 					GL11.glPopMatrix();
@@ -93,6 +109,7 @@ public class ItemCrossbowRender implements IItemRenderer
 			case EQUIPPED_FIRST_PERSON:
 			{
 
+				// First person works the same as third except this time we have different dimensions for scale, yaw, pitch, roll, and translation
 				GL11.glPushMatrix();
 
 				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("afraidofthedark:textures/models/crossbowTexture.png"));
@@ -107,6 +124,7 @@ public class ItemCrossbowRender implements IItemRenderer
 
 				GL11.glTranslatef(0.2F, -0.8F, -0.4F);
 
+				// Change the model if is cocked
 				if (NBTHelper.getBoolean(itemStack, "isCocked"))
 				{
 					crossbowModel.Bolt.isHidden = false;

@@ -42,6 +42,7 @@ public class WorldEvents
 					// If we are ready to spawn werewolves
 					if (readyToSpawnWerewolves)
 					{
+						// Set werewolf attributes and update each already spawned werewolf
 						EntityWereWolf.setMoveSpeedAndAgroRange(.51, 80.0D, 120.0D);
 						for (Object entity : currentWorld.loadedEntityList)
 						{
@@ -53,6 +54,7 @@ public class WorldEvents
 							}
 						}
 
+						// Tell each player that has started AOTD that it's "the night"
 						List<EntityPlayer> players = currentWorld.playerEntities;
 						for (EntityPlayer entityPlayer : players)
 						{
@@ -64,6 +66,7 @@ public class WorldEvents
 						readyToSpawnWerewolves = false;
 					}
 				}
+				// If the world time is between 23500 and 23700 (dawn) reset werewolf attributes and update each werewolf
 				else if (worldTime > 23500 && worldTime < 23700)
 				{
 					if (!readyToSpawnWerewolves)
@@ -79,6 +82,7 @@ public class WorldEvents
 							}
 						}
 
+						// Tell each player that the event is over
 						List<EntityPlayer> players = currentWorld.playerEntities;
 						for (EntityPlayer entityPlayer : players)
 						{

@@ -1,3 +1,8 @@
+/*
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.item;
 
 import net.minecraft.block.Block;
@@ -22,6 +27,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemSpawnWerewolf extends ItemBase
 {
+	// Werewolf spawn egg
 	@SideOnly(Side.CLIENT)
 	private IIcon theIcon;
 	protected String entityToSpawnName = "";
@@ -30,6 +36,7 @@ public class ItemSpawnWerewolf extends ItemBase
 
 	public ItemSpawnWerewolf(String entityToSpawnName)
 	{
+		// Set various item properties
 		super();
 		this.setUnlocalizedName("spawnWerewolf");
 		this.setHasSubtypes(false);
@@ -41,6 +48,7 @@ public class ItemSpawnWerewolf extends ItemBase
 	@Override
 	public boolean onItemUse(ItemStack itemStack, EntityPlayer entityPlayer, World world, int blockX, int blockY, int blockZ, int blockOffset, float par8, float par9, float par10)
 	{
+		// When we use the item, we check the block that was clicked on and spawn an entity on that block
 		if (world.isRemote)
 		{
 			return true;
@@ -61,6 +69,7 @@ public class ItemSpawnWerewolf extends ItemBase
 
 			Entity entity = spawnEntity(world, blockX + 0.5D, blockY + d0, blockZ + 0.5D);
 
+			// Set the tag of the entity and reduce the stack size of the eggs
 			if (entity != null)
 			{
 				if (entity instanceof EntityLivingBase && itemStack.hasDisplayName())
@@ -78,6 +87,7 @@ public class ItemSpawnWerewolf extends ItemBase
 		}
 	}
 
+	// On right click does a similar action to onUse, onUse is the result from an onRightClick trigger
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer)
 	{
@@ -134,12 +144,14 @@ public class ItemSpawnWerewolf extends ItemBase
 		}
 	}
 
+	// Here we can set the entity's name that we're spawning
 	public void setEntityToSpawnName(String parEntityToSpawnName)
 	{
 		entityToSpawnName = parEntityToSpawnName;
 		entityToSpawnNameFull = Refrence.MOD_ID + "." + entityToSpawnName;
 	}
 
+	// To spawn the entity we get it's name and spawn one with a random rotation
 	public Entity spawnEntity(World world, double x, double y, double z)
 	{
 		if (!world.isRemote)

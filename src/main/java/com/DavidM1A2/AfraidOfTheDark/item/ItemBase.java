@@ -1,3 +1,8 @@
+/*
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.item;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -9,8 +14,9 @@ import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemBase extends Item
+public abstract class ItemBase extends Item
 {
+	// Setup an item base class for all of our mod items
 	public ItemBase()
 	{
 		super();

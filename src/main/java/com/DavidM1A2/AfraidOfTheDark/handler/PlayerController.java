@@ -5,8 +5,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.handler;
 
-import java.util.Random;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -15,7 +13,6 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
-import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModBiomes;
 import com.DavidM1A2.AfraidOfTheDark.item.crossbow.ItemCrossbow;
 import com.DavidM1A2.AfraidOfTheDark.packets.UpdateAOTDStatus;
 import com.DavidM1A2.AfraidOfTheDark.packets.UpdateInsanity;
@@ -119,29 +116,6 @@ public class PlayerController
 			if (entityPlayer.getExtendedProperties("unlockedResearches") == null)
 			{
 				entityPlayer.registerExtendedProperties("unlockedResearches", new LoadResearchData());
-			}
-		}
-	}
-
-	// Over time the player becomes more sane. If the player is in the middle of nowhere, decrease insanity, else if he is in an erie forest, increase
-	// insanity
-	@SubscribeEvent
-	public void playerUpdateEvent(PlayerEvent event)
-	{
-		if (!event.entityPlayer.worldObj.isRemote)
-		{
-			if ((new Random()).nextInt(1000) == 0)
-			{
-				if (event.entityPlayer.worldObj.getBiomeGenForCoords((int) event.entityPlayer.posX, (int) event.entityPlayer.posZ) == ModBiomes.erieForest)
-				{
-					double amount = .01 + (.09) * (new Random().nextDouble());
-					Insanity.increaseInsanity(amount, event.entityPlayer);
-				}
-				else
-				{
-					double amount = .01 + (.02) * (new Random().nextDouble());
-					Insanity.decreaseInsanity(amount, event.entityPlayer);
-				}
 			}
 		}
 	}
