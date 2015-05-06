@@ -1,3 +1,8 @@
+/*
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.threads;
 
 import java.util.Random;
@@ -7,10 +12,8 @@ import net.minecraft.server.MinecraftServer;
 
 import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModBiomes;
 import com.DavidM1A2.AfraidOfTheDark.playerData.Insanity;
-import com.DavidM1A2.AfraidOfTheDark.utility.LogHelper;
 
 // Over time the player becomes more sane. If the player is in the middle of nowhere, decrease insanity, else if he is in an erie forest, increase insanity
-
 public class RandomInsanityUpdate extends Thread
 {
 	@Override
@@ -18,12 +21,13 @@ public class RandomInsanityUpdate extends Thread
 	{
 		try
 		{
+			// This thread runs while the player is connected
 			while (true)
 			{
-				this.sleep((long) ((new Random()).nextDouble() * 100000));
+				// Sleep a random amount of time
+				this.sleep((long) ((new Random()).nextDouble() * 10000));
 
-				LogHelper.info("Updating");
-
+				// Loop through
 				for (Object player : MinecraftServer.getServer().getConfigurationManager().playerEntityList)
 				{
 					EntityPlayer entityPlayer = (EntityPlayer) player;

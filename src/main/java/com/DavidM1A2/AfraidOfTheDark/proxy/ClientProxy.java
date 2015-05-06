@@ -1,3 +1,8 @@
+/*
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.proxy;
 
 import net.minecraftforge.client.IItemRenderer;
@@ -17,15 +22,17 @@ import com.DavidM1A2.AfraidOfTheDark.item.crossbow.ItemCrossbowRender;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
+// Just client things go here
 public class ClientProxy extends CommonProxy
 {
-
+	// register key bindings go here
 	@Override
 	public void registerKeyBindings()
 	{
 		// ClientRegistry.registerKeyBinding(Keybindings.changeMode);
 	}
 
+	// register renderers as well
 	@Override
 	public void registerRenderThings()
 	{

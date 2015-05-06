@@ -1,5 +1,12 @@
+/*
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.proxy;
 
+
+// Any server side-only things we want to do
 public class ServerProxy extends CommonProxy
 {
 	@Override

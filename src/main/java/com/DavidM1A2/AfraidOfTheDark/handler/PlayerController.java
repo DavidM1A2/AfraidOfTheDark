@@ -19,6 +19,7 @@ import com.DavidM1A2.AfraidOfTheDark.packets.UpdateInsanity;
 import com.DavidM1A2.AfraidOfTheDark.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.playerData.Insanity;
 import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
+import com.DavidM1A2.AfraidOfTheDark.utility.LogHelper;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
@@ -55,6 +56,7 @@ public class PlayerController
 			}
 			else
 			{
+				LogHelper.info(((float) Math.pow(1.001, 0.5f * insanity) - .9989f));
 				event.density = ((float) Math.pow(1.001, 0.5f * insanity) - .9989f);
 				event.setCanceled(true);
 			}

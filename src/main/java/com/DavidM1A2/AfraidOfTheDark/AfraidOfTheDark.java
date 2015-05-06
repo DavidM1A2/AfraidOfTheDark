@@ -10,6 +10,7 @@ import net.minecraftforge.common.MinecraftForge;
 
 import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
 import com.DavidM1A2.AfraidOfTheDark.commands.InsanityCheck;
+import com.DavidM1A2.AfraidOfTheDark.debug.DebugSpammer;
 import com.DavidM1A2.AfraidOfTheDark.handler.ConfigurationHandler;
 import com.DavidM1A2.AfraidOfTheDark.handler.KeyInputEventHandler;
 import com.DavidM1A2.AfraidOfTheDark.handler.PlayerController;
@@ -59,6 +60,8 @@ public class AfraidOfTheDark
 		MinecraftForge.EVENT_BUS.register(new PlayerController());
 		// Initialize any world events
 		MinecraftForge.EVENT_BUS.register(new WorldEvents());
+		// Initialize debug file to spam chat with variables
+		MinecraftForge.EVENT_BUS.register(new DebugSpammer());
 		// Initialize mod items
 		ModItems.initialize();
 		// Initialize mod blocks
@@ -111,9 +114,9 @@ public class AfraidOfTheDark
 	}
 
 	@Mod.EventHandler
-	public void randomInsanityUpdates(FMLServerStartedEvent event)
+	public void serverStartedEvent(FMLServerStartedEvent event)
 	{
-		LogHelper.info("ThreadStarted");
+		// Register background threads
 		Thread randomUpdate = new RandomInsanityUpdate();
 		randomUpdate.start();
 	}

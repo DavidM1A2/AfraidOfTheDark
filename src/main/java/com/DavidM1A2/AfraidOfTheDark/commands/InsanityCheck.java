@@ -61,7 +61,7 @@ public class InsanityCheck implements ICommand
 	public void processCommand(ICommandSender iCommandSender, String[] p_71515_2_)
 	{
 		EntityPlayer sender = iCommandSender.getEntityWorld().getPlayerEntityByName(iCommandSender.getCommandSenderName());
-		iCommandSender.addChatMessage(new ChatComponentText(("Your current insanity is: " + Insanity.get(sender))));
+		iCommandSender.addChatMessage(new ChatComponentText(("Your current insanity is: " + Insanity.get(sender) + "%")));
 		iCommandSender.addChatMessage(new ChatComponentText(("Your current has started AOTD status is: " + HasStartedAOTD.get(sender))));
 	}
 
