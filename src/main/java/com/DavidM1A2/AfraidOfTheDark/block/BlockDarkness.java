@@ -7,14 +7,10 @@ package com.DavidM1A2.AfraidOfTheDark.block;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockDarkness extends BlockContainer
 {
@@ -24,11 +20,12 @@ public class BlockDarkness extends BlockContainer
 	public BlockDarkness(Material material)
 	{
 		super(material);
-		this.setBlockName("darkness");
+		// this.setBlockName("darkness");
 		this.setHardness(9.0F);
 		this.setResistance(5.0F);
 		this.isBlockContainer = true;
 		this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
+		this.setUnlocalizedName("darkness");
 	}
 
 	// Decide what type of tile entity this should be
@@ -43,14 +40,6 @@ public class BlockDarkness extends BlockContainer
 	{
 		return String.format("tile.%s%s", Refrence.MOD_ID.toLowerCase() + ":", getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
 		// tile.modid:blockname.name
-	}
-
-	// Register icons and function name
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister)
-	{
-		blockIcon = iconRegister.registerIcon(String.format("%s", getUnwrappedUnlocalizedName(this.getUnlocalizedName())));
 	}
 
 	protected String getUnwrappedUnlocalizedName(String unlocalizedName)

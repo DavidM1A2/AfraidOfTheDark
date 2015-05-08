@@ -5,14 +5,10 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.item;
 
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class ItemBase extends Item
 {
@@ -35,14 +31,6 @@ public abstract class ItemBase extends Item
 	public String getUnlocalizedName(ItemStack itemStack)
 	{
 		return String.format("item.%s%s", Refrence.MOD_ID.toLowerCase() + ":", getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
-	}
-
-	// On the client's side load the textures in for the icon
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister iconRegister)
-	{
-		itemIcon = iconRegister.registerIcon(this.getUnlocalizedName().substring(this.getUnlocalizedName().indexOf(".") + 1));
 	}
 
 	protected String getUnwrappedUnlocalizedName(String unlocalizedName)

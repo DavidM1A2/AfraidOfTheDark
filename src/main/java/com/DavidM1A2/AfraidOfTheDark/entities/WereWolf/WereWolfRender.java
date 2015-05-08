@@ -7,6 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.entities.WereWolf;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
@@ -15,9 +16,9 @@ public class WereWolfRender extends RenderLiving
 {
 	private static final ResourceLocation myTexture = new ResourceLocation("afraidofthedark:textures/entity/WereWolf.png");
 
-	public WereWolfRender(ModelBase modelBase, float size)
+	public WereWolfRender(RenderManager renderManager, ModelBase modelBase, float size)
 	{
-		super(modelBase, size);
+		super(renderManager, modelBase, size);
 	}
 
 	@Override

@@ -5,6 +5,8 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui;
 
+import java.io.IOException;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
@@ -14,8 +16,6 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
-import com.DavidM1A2.AfraidOfTheDark.packets.UpdateAOTDStatus;
 import com.DavidM1A2.AfraidOfTheDark.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
 
@@ -32,14 +32,14 @@ public class BloodStainedJournalSignGUI extends GuiScreen
 	{
 		buttonList.clear();
 		buttonList.add(new GuiButton(SIGN_JOURNAL_BUTTON_ID, (this.width / 2) - 75, (this.height / 2) - 10, 150, 20, "Sign The Journal"));
-		signNameHere = new GuiTextField(this.fontRendererObj, this.width / 2 - 75, this.height / 2 - 35, 150, 20);
+		signNameHere = new GuiTextField(2, this.fontRendererObj, this.width / 2 - 75, this.height / 2 - 35, 150, 20);
 		signNameHere.setFocused(true);
 		signNameHere.setMaxStringLength(1000);
 	}
 
 	// When someone types a key, update the text field
 	@Override
-	public void keyTyped(char character, int i)
+	public void keyTyped(char character, int i) throws IOException
 	{
 		super.keyTyped(character, i);
 		signNameHere.textboxKeyTyped(character, i);
@@ -80,8 +80,8 @@ public class BloodStainedJournalSignGUI extends GuiScreen
 					if (HasStartedAOTD.get(playerWhoPressed) == false)
 					{
 						HasStartedAOTD.set(playerWhoPressed, true);
-						playerWhoPressed.inventory.getStackInSlot(playerWhoPressed.inventory.currentItem).stackTagCompound.setString("owner", playerWhoPressed.getDisplayName());
-						AfraidOfTheDark.channelNew.sendToServer(new UpdateAOTDStatus(true));
+						playerWhoPressed.inventory.getStackInSlot(playerWhoPressed.inventory.currentItem).getTagCompound().setString("owner", playerWhoPressed.getDisplayName().getFormattedText());
+						// AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateAOTDStatus(true));
 						playerWhoPressed.addChatMessage(new ChatComponentText("§4§oWhat §4§ohave §4§oI §4§odone?"));
 						Refrence.myResearch.unlockResearch(0);
 						playerWhoPressed.closeScreen();

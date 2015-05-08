@@ -5,7 +5,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.item;
 
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -14,9 +13,6 @@ import net.minecraft.item.ItemSword;
 import com.DavidM1A2.AfraidOfTheDark.entities.WereWolf.EntityWereWolf;
 import com.DavidM1A2.AfraidOfTheDark.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 // Silversword item which is a sword
 public class ItemSilverSword extends ItemSword
@@ -54,14 +50,6 @@ public class ItemSilverSword extends ItemSword
 	public String getUnlocalizedName(ItemStack itemStack)
 	{
 		return String.format("item.%s%s", Refrence.MOD_ID.toLowerCase() + ":", getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
-	}
-
-	// On the client's side load the textures in for the icon
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister iconRegister)
-	{
-		itemIcon = iconRegister.registerIcon(this.getUnlocalizedName().substring(this.getUnlocalizedName().indexOf(".") + 1));
 	}
 
 	protected String getUnwrappedUnlocalizedName(String unlocalizedName)

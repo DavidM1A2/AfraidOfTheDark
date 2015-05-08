@@ -5,6 +5,12 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.initializeMod;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+
 import com.DavidM1A2.AfraidOfTheDark.entities.Bolts.ItemIronBolt;
 import com.DavidM1A2.AfraidOfTheDark.entities.Bolts.ItemSilverBolt;
 import com.DavidM1A2.AfraidOfTheDark.entities.Bolts.ItemWoodenBolt;
@@ -15,8 +21,6 @@ import com.DavidM1A2.AfraidOfTheDark.item.ItemSilverSword;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemSpawnWerewolf;
 import com.DavidM1A2.AfraidOfTheDark.item.crossbow.ItemCrossbow;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
-
-import cpw.mods.fml.common.registry.GameRegistry;
 
 @GameRegistry.ObjectHolder(Refrence.MOD_ID)
 public class ModItems
@@ -32,7 +36,7 @@ public class ModItems
 	public static final ItemSpawnWerewolf spawnWerewolf = new ItemSpawnWerewolf("Werewolf");
 	public static final ItemWoodenBolt woodenBolt = new ItemWoodenBolt();
 
-	public static void initialize()
+	public static void initialize(Side side)
 	{
 		// Register items
 		GameRegistry.registerItem(insanityControl, "insanityControl");
@@ -44,5 +48,22 @@ public class ModItems
 		GameRegistry.registerItem(silverBolt, "silverBolt");
 		GameRegistry.registerItem(spawnWerewolf, "spawnWerewolf");
 		GameRegistry.registerItem(woodenBolt, "woodenBolt");
+	}
+
+	public static void initializeRenderers(Side side)
+	{
+		if (side == Side.CLIENT)
+		{
+			RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
+			renderItem.getItemModelMesher().register(insanityControl, 0, new ModelResourceLocation(Refrence.MOD_ID + ":insanityControl", "inventory"));
+			renderItem.getItemModelMesher().register(journal, 0, new ModelResourceLocation(Refrence.MOD_ID + ":journal", "inventory"));
+			renderItem.getItemModelMesher().register(silverSword, 0, new ModelResourceLocation(Refrence.MOD_ID + ":silverSword", "inventory"));
+			renderItem.getItemModelMesher().register(silverIngot, 0, new ModelResourceLocation(Refrence.MOD_ID + ":silverIngot", "inventory"));
+			renderItem.getItemModelMesher().register(crossbow, 0, new ModelResourceLocation(Refrence.MOD_ID + ":crossbow", "inventory"));
+			renderItem.getItemModelMesher().register(ironBolt, 0, new ModelResourceLocation(Refrence.MOD_ID + ":ironBolt", "inventory"));
+			renderItem.getItemModelMesher().register(silverBolt, 0, new ModelResourceLocation(Refrence.MOD_ID + ":silverBolt", "inventory"));
+			renderItem.getItemModelMesher().register(woodenBolt, 0, new ModelResourceLocation(Refrence.MOD_ID + ":woodenBolt", "inventory"));
+			renderItem.getItemModelMesher().register(spawnWerewolf, 0, new ModelResourceLocation(Refrence.MOD_ID + ":spawnWerewolf", "inventory"));
+		}
 	}
 }

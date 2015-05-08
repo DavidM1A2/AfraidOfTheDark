@@ -96,27 +96,13 @@ public class EntityWereWolf extends EntityMob
 		return (float) moveSpeed;
 	}
 
-	// We are using custom AI
-	@Override
-	protected boolean isAIEnabled()
-	{
-		return true;
-	}
-
 	// Only take damage from silver weapons
 	@Override
 	public boolean attackEntityFrom(DamageSource damageSource, float damage)
 	{
 		if (damageSource.damageType.equals(Refrence.silverWeapon.damageType) || damageSource.damageType.equals(DamageSource.outOfWorld))
 		{
-			if (this.isEntityInvulnerable())
-			{
-				return false;
-			}
-			else
-			{
-				return super.attackEntityFrom(damageSource, damage);
-			}
+			return super.attackEntityFrom(damageSource, damage);
 		}
 		else
 		{

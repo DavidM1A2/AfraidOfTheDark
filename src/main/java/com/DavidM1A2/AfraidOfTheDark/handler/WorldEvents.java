@@ -12,11 +12,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import com.DavidM1A2.AfraidOfTheDark.entities.WereWolf.EntityWereWolf;
 import com.DavidM1A2.AfraidOfTheDark.playerData.HasStartedAOTD;
-
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class WorldEvents
 {
@@ -28,7 +27,7 @@ public class WorldEvents
 	{
 		World currentWorld = event.world;
 		// Only in the overworld
-		if (currentWorld.provider.dimensionId == 0)
+		if (currentWorld.provider.getDimensionId() == 0)
 		{
 			// Full moon only
 			if (currentWorld.getCurrentMoonPhaseFactor() == 1.0F)

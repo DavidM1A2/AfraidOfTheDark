@@ -1,0 +1,7 @@
+{
+	"parent": "block/column_side",
+	"textures": {
+		"end": "afraidofthedark:blocks/gravewood_1",
+		"side": "afraidofthedark:blocks/gravewood"
+	}
+}

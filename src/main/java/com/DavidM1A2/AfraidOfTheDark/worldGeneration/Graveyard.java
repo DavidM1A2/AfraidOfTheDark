@@ -1,28 +1,29 @@
 /*
-*** MADE BY MRPONYCAPTAIN'S .SCHEMATIC TO .JAVA CONVERTING TOOL v2.0 ***
-*/
+ *** MADE BY MRPONYCAPTAIN'S .SCHEMATIC TO .JAVA CONVERTING TOOL v2.0 ***
+ */
 package com.DavidM1A2.AfraidOfTheDark.worldGeneration;
+
 import java.util.Random;
-import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModBlocks;
-import com.DavidM1A2.AfraidOfTheDark.utility.LogHelper;
-import cpw.mods.fml.common.IWorldGenerator;
+
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.gen.feature.WorldGenerator;
-import java.util.Random;
+
+import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModBlocks;
 
 public class Graveyard
 {
 	public static void setBlock(World world, int x, int y, int z, Block block, int metadata)
 	{
-		world.setBlock(x, y, z, block, metadata, 2);
+		BlockPos current = new BlockPos(x, y, z);
+		world.setBlockState(current, block.getDefaultState(), 2);
 	}
 
-	public static void generate(World world, Random rand, int i, int j, int k) {
+	public static void generate(World world, Random rand, int i, int j, int k)
+	{
 		setBlock(world, i + 0, j + 5, k + 2, Blocks.dirt, 2);
 		setBlock(world, i + 0, j + 5, k + 3, Blocks.dirt, 2);
 		setBlock(world, i + 0, j + 6, k + 2, Blocks.nether_brick_fence, 0);
@@ -1219,14 +1220,14 @@ public class Graveyard
 		setBlock(world, i + 12, j + 0, k + 11, Blocks.clay, 0);
 		setBlock(world, i + 12, j + 0, k + 12, Blocks.stone, 0);
 		setBlock(world, i + 12, j + 0, k + 13, Blocks.glowstone, 0);
-		
-		setBlock(world, i + 12, j + 2, k + 13, Blocks.chest, 0);	
-		TileEntityChest tileentitychest = (TileEntityChest)world.getTileEntity(i + 12, j + 2, k + 13);
+
+		setBlock(world, i + 12, j + 2, k + 13, Blocks.chest, 0);
+		TileEntityChest tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 12, j + 2, k + 13));
 		if (tileentitychest != null)
-        {
+		{
 			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
-        }
-		
+		}
+
 		setBlock(world, i + 12, j + 0, k + 14, Blocks.stone, 0);
 		setBlock(world, i + 12, j + 0, k + 15, Blocks.cobblestone, 0);
 		setBlock(world, i + 12, j + 0, k + 16, Blocks.cobblestone, 0);
@@ -1532,10 +1533,11 @@ public class Graveyard
 		setBlock(world, i + 14, j + 4, k + 14, ModBlocks.gravewoodLeaves, 0);
 
 		generate2(world, rand, i, j, k);
-		
+
 	}
 
-	public static void generate2(World world, Random rand, int i, int j, int k) {
+	public static void generate2(World world, Random rand, int i, int j, int k)
+	{
 		setBlock(world, i + 14, j + 4, k + 15, Blocks.air, 0);
 		setBlock(world, i + 14, j + 4, k + 16, Blocks.air, 0);
 		setBlock(world, i + 14, j + 4, k + 17, Blocks.nether_brick_stairs, 6);
@@ -1869,20 +1871,19 @@ public class Graveyard
 		setBlock(world, i + 17, j + 7, k + 16, Blocks.air, 0);
 		setBlock(world, i + 17, j + 7, k + 17, Blocks.air, 0);
 		setBlock(world, i + 17, j + 7, k + 18, Blocks.air, 0);
-		world.setBlockMetadataWithNotify(i + 8, j + 6, k + 13, 8, 2);
+		// world.setBlockState(new BlockPos(i + 8, j + 6, k + 13), 8, 2);
 		setBlock(world, i + 8, j + 6, k + 15, Blocks.standing_sign, 0);
 		setBlock(world, i + 10, j + 6, k + 9, Blocks.standing_sign, 0);
-		world.setBlockMetadataWithNotify(i + 10, j + 6, k + 13, 8, 2);
+		// world.setBlockMetadataWithNotify(i + 10, j + 6, k + 13, 8, 2);
 		setBlock(world, i + 10, j + 6, k + 15, Blocks.standing_sign, 0);
 		setBlock(world, i + 12, j + 6, k + 9, Blocks.standing_sign, 0);
-		world.setBlockMetadataWithNotify(i + 12, j + 6, k + 13, 8, 2);
+		// world.setBlockMetadataWithNotify(i + 12, j + 6, k + 13, 8, 2);
 		setBlock(world, i + 12, j + 6, k + 15, Blocks.standing_sign, 0);
 		setBlock(world, i + 14, j + 6, k + 9, Blocks.standing_sign, 0);
-		world.setBlockMetadataWithNotify(i + 15, j + 1, k + 16, 1, 2);
+		// world.setBlockMetadataWithNotify(i + 15, j + 1, k + 16, 1, 2);
 		setBlock(world, i + 16, j + 1, k + 16, Blocks.water, 0);
-		world.setBlockMetadataWithNotify(i + 16, j + 6, k + 13, 8, 2);
+		// world.setBlockMetadataWithNotify(i + 16, j + 6, k + 13, 8, 2);
 		setBlock(world, i + 16, j + 6, k + 15, Blocks.standing_sign, 0);
 
-		
 	}
 }

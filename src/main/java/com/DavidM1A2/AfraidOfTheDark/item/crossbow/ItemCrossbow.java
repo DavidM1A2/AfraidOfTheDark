@@ -7,31 +7,24 @@ package com.DavidM1A2.AfraidOfTheDark.item.crossbow;
 
 import java.util.List;
 
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.entities.Bolts.EntityIronBolt;
 import com.DavidM1A2.AfraidOfTheDark.entities.Bolts.EntitySilverBolt;
 import com.DavidM1A2.AfraidOfTheDark.entities.Bolts.EntityWoodenBolt;
 import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemBase;
-import com.DavidM1A2.AfraidOfTheDark.packets.UpdateCrossbow;
 import com.DavidM1A2.AfraidOfTheDark.utility.NBTHelper;
 
 // The crossbow Item
 public class ItemCrossbow extends ItemBase
 {
 	// Keep a loaded and unloaded icon and store reload time
-	private IIcon loaded;
-	private IIcon unloaded;
 	private final int RELOAD_TIME = 100;
 	// This array contains available bolts
 	private final String[] availableBolts =
@@ -223,12 +216,11 @@ public class ItemCrossbow extends ItemBase
 		}
 		if (clientSide)
 		{
-			AfraidOfTheDark.channelNew.sendToServer(new UpdateCrossbow(itemStack.getTagCompound()));
+			// AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateCrossbow(itemStack.getTagCompound()));
 		}
 		else
 		{
-			// ?
-			AfraidOfTheDark.channelNew.sendTo(new UpdateCrossbow(itemStack.getTagCompound()), (EntityPlayerMP) entityPlayer);
+			// AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateCrossbow(itemStack.getTagCompound()), (EntityPlayerMP) entityPlayer);
 		}
 	}
 
@@ -237,14 +229,6 @@ public class ItemCrossbow extends ItemBase
 	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean bool)
 	{
 		list.add("Bow will fire: " + availableBolts[NBTHelper.getInt(itemStack, "mode")] + "s.");
-	}
-
-	// There will be an unloaded and loaded icon
-	@Override
-	public void registerIcons(IIconRegister iconRegister)
-	{
-		loaded = iconRegister.registerIcon("afraidofthedark:crossbow");
-		unloaded = iconRegister.registerIcon("afraidofthedark:crossbowUnloaded");
 	}
 
 	// Initialize the item when it is created
@@ -263,25 +247,25 @@ public class ItemCrossbow extends ItemBase
 		NBTHelper.getBoolean(itemStack, "isCocked");
 		NBTHelper.getInt(itemStack, "icon");
 		NBTHelper.getInt(itemStack, "mode");
-		return itemStack.stackTagCompound;
+		return itemStack.getTagCompound();
 	}
 
-	// This tells MC which icon to use (loaded or unloaded)
-	@Override
-	public IIcon getIconIndex(ItemStack itemStack)
-	{
-		switch (NBTHelper.getInt(itemStack, "icon"))
-		{
-			case 1:
-			{
-				return loaded;
-			}
-			default:
-			{
-				return unloaded;
-			}
-		}
-	}
+	// // This tells MC which icon to use (loaded or unloaded)
+	// @Override
+	// public IIcon getIconIndex(ItemStack itemStack)
+	// {
+	// switch (NBTHelper.getInt(itemStack, "icon"))
+	// {
+	// case 1:
+	// {
+	// return loaded;
+	// }
+	// default:
+	// {
+	// return unloaded;
+	// }
+	// }
+	// }s
 
 	// This item has a custom model, therefore it is full 3D
 	@Override

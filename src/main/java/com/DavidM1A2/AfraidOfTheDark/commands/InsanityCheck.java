@@ -11,6 +11,7 @@ import java.util.List;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 
 import com.DavidM1A2.AfraidOfTheDark.playerData.HasStartedAOTD;
@@ -60,7 +61,7 @@ public class InsanityCheck implements ICommand
 	@Override
 	public void processCommand(ICommandSender iCommandSender, String[] p_71515_2_)
 	{
-		EntityPlayer sender = iCommandSender.getEntityWorld().getPlayerEntityByName(iCommandSender.getCommandSenderName());
+		EntityPlayer sender = (EntityPlayer) iCommandSender.getCommandSenderEntity();
 		iCommandSender.addChatMessage(new ChatComponentText(("Your current insanity is: " + Insanity.get(sender) + "%")));
 		iCommandSender.addChatMessage(new ChatComponentText(("Your current has started AOTD status is: " + HasStartedAOTD.get(sender))));
 	}
@@ -71,17 +72,18 @@ public class InsanityCheck implements ICommand
 		return true;
 	}
 
-	@Override
-	public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_)
-	{
-		return null;
-	}
-
 	// No username or tab completes
 	@Override
 	public boolean isUsernameIndex(String[] p_82358_1_, int p_82358_2_)
 	{
 		return false;
+	}
+
+	@Override
+	public List addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

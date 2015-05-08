@@ -6,20 +6,26 @@
 package com.DavidM1A2.AfraidOfTheDark.entities.Bolts;
 
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 // Mostly arrow source code but with an entity bolt
 @SideOnly(Side.CLIENT)
 public class BoltRender extends Render
 {
+	public BoltRender(RenderManager p_i46179_1_)
+	{
+		super(p_i46179_1_);
+	}
+
 	private static final ResourceLocation boltTexture = new ResourceLocation("textures/entity/arrow.png");
 	private static final String __OBFID = "CL_00000978";
 
@@ -35,7 +41,8 @@ public class BoltRender extends Render
 		GL11.glTranslatef((float) p_76986_2_, (float) p_76986_4_, (float) p_76986_6_);
 		GL11.glRotatef(p_76986_1_.prevRotationYaw + (p_76986_1_.rotationYaw - p_76986_1_.prevRotationYaw) * p_76986_9_ - 90.0F, 0.0F, 1.0F, 0.0F);
 		GL11.glRotatef(p_76986_1_.prevRotationPitch + (p_76986_1_.rotationPitch - p_76986_1_.prevRotationPitch) * p_76986_9_, 0.0F, 0.0F, 1.0F);
-		Tessellator tessellator = Tessellator.instance;
+		Tessellator tessellator = Tessellator.getInstance();
+		WorldRenderer worldRenderer = tessellator.getWorldRenderer();
 		byte b0 = 0;
 		float f2 = 0.0F;
 		float f3 = 0.5F;
@@ -52,29 +59,29 @@ public class BoltRender extends Render
 		GL11.glScalef(f10, f10, f10);
 		GL11.glTranslatef(-4.0F, 0.0F, 0.0F);
 		GL11.glNormal3f(f10, 0.0F, 0.0F);
-		tessellator.startDrawingQuads();
-		tessellator.addVertexWithUV(-7.0D, -2.0D, -2.0D, (double) f6, (double) f8);
-		tessellator.addVertexWithUV(-7.0D, -2.0D, 2.0D, (double) f7, (double) f8);
-		tessellator.addVertexWithUV(-7.0D, 2.0D, 2.0D, (double) f7, (double) f9);
-		tessellator.addVertexWithUV(-7.0D, 2.0D, -2.0D, (double) f6, (double) f9);
+		worldRenderer.startDrawingQuads();
+		worldRenderer.addVertexWithUV(-7.0D, -2.0D, -2.0D, (double) f6, (double) f8);
+		worldRenderer.addVertexWithUV(-7.0D, -2.0D, 2.0D, (double) f7, (double) f8);
+		worldRenderer.addVertexWithUV(-7.0D, 2.0D, 2.0D, (double) f7, (double) f9);
+		worldRenderer.addVertexWithUV(-7.0D, 2.0D, -2.0D, (double) f6, (double) f9);
 		tessellator.draw();
 		GL11.glNormal3f(-f10, 0.0F, 0.0F);
-		tessellator.startDrawingQuads();
-		tessellator.addVertexWithUV(-7.0D, 2.0D, -2.0D, (double) f6, (double) f8);
-		tessellator.addVertexWithUV(-7.0D, 2.0D, 2.0D, (double) f7, (double) f8);
-		tessellator.addVertexWithUV(-7.0D, -2.0D, 2.0D, (double) f7, (double) f9);
-		tessellator.addVertexWithUV(-7.0D, -2.0D, -2.0D, (double) f6, (double) f9);
+		worldRenderer.startDrawingQuads();
+		worldRenderer.addVertexWithUV(-7.0D, 2.0D, -2.0D, (double) f6, (double) f8);
+		worldRenderer.addVertexWithUV(-7.0D, 2.0D, 2.0D, (double) f7, (double) f8);
+		worldRenderer.addVertexWithUV(-7.0D, -2.0D, 2.0D, (double) f7, (double) f9);
+		worldRenderer.addVertexWithUV(-7.0D, -2.0D, -2.0D, (double) f6, (double) f9);
 		tessellator.draw();
 
 		for (int i = 0; i < 4; ++i)
 		{
 			GL11.glRotatef(90.0F, 1.0F, 0.0F, 0.0F);
 			GL11.glNormal3f(0.0F, 0.0F, f10);
-			tessellator.startDrawingQuads();
-			tessellator.addVertexWithUV(-8.0D, -2.0D, 0.0D, (double) f2, (double) f4);
-			tessellator.addVertexWithUV(8.0D, -2.0D, 0.0D, (double) f3, (double) f4);
-			tessellator.addVertexWithUV(8.0D, 2.0D, 0.0D, (double) f3, (double) f5);
-			tessellator.addVertexWithUV(-8.0D, 2.0D, 0.0D, (double) f2, (double) f5);
+			worldRenderer.startDrawingQuads();
+			worldRenderer.addVertexWithUV(-8.0D, -2.0D, 0.0D, (double) f2, (double) f4);
+			worldRenderer.addVertexWithUV(8.0D, -2.0D, 0.0D, (double) f3, (double) f4);
+			worldRenderer.addVertexWithUV(8.0D, 2.0D, 0.0D, (double) f3, (double) f5);
+			worldRenderer.addVertexWithUV(-8.0D, 2.0D, 0.0D, (double) f2, (double) f5);
 			tessellator.draw();
 		}
 

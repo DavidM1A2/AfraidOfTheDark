@@ -5,10 +5,10 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.handler;
 
-import com.DavidM1A2.AfraidOfTheDark.refrence.Key;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.InputEvent;
+import com.DavidM1A2.AfraidOfTheDark.refrence.Key;
 
 public class KeyInputEventHandler
 {

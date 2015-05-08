@@ -5,8 +5,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.block;
 
-import net.minecraft.entity.player.EntityPlayer;
-
 import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModBlocks;
 
 public class BlockTileEntityDarkness extends BlockTileEntityBase
@@ -23,28 +21,29 @@ public class BlockTileEntityDarkness extends BlockTileEntityBase
 		super(ModBlocks.darkness);
 	}
 
-	// Update is called every tick (20 times per second)
-	@Override
-	public void updateEntity()
-	{
-		if (ticksExisted % TICKSINBETWEENCHECKS == 0)
-		{
-			EntityPlayer entityPlayer = anyPlayerInRange();
-			if (entityPlayer != null)
-			{
-				// Do Stuff
-			}
-			ticksExisted = 1;
-		}
-		else
-		{
-			ticksExisted = ticksExisted + 1;
-		}
-	}
+	// // Update is called every tick (20 times per second)
+	// @Override
+	// public void updateEntity()
+	// {
+	// if (ticksExisted % TICKSINBETWEENCHECKS == 0)
+	// {
+	// EntityPlayer entityPlayer = anyPlayerInRange();
+	// if (entityPlayer != null)
+	// {
+	// // Do Stuff
+	// }
+	// ticksExisted = 1;
+	// }
+	// else
+	// {
+	// ticksExisted = ticksExisted + 1;
+	// }
+	// }
 
-	// Quick example function to get any players within some range
-	public EntityPlayer anyPlayerInRange()
-	{
-		return this.worldObj.getClosestPlayer((double) this.xCoord + 0.5D, (double) this.yCoord + 0.5D, (double) this.zCoord + 0.5D, NUMBEROFBLOCKSAWAYTOCHECK);
-	}
+	// // Quick example function to get any players within some range
+	// public EntityPlayer anyPlayerInRange()
+	// {
+	// return this.worldObj.getClosestPlayer((double) this.xCoord + 0.5D, (double) this.yCoord + 0.5D, (double) this.zCoord + 0.5D,
+	// NUMBEROFBLOCKSAWAYTOCHECK);
+	// }
 }

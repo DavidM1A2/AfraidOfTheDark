@@ -11,14 +11,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
 import com.DavidM1A2.AfraidOfTheDark.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.utility.NBTHelper;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemJournal extends ItemBase
 {
@@ -40,7 +39,7 @@ public class ItemJournal extends ItemBase
 			// If the player has started AOTD, set the NBT tag and open the journal
 			if (HasStartedAOTD.get(entityPlayer))
 			{
-				NBTHelper.setString(itemStack, "owner", entityPlayer.getDisplayName());
+				NBTHelper.setString(itemStack, "owner", entityPlayer.getDisplayName().getFormattedText());
 				if (world.isRemote)
 				{
 					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_ID, world, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);

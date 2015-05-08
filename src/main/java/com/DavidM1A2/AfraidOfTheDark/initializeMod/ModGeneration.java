@@ -5,10 +5,10 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.initializeMod;
 
+import net.minecraftforge.fml.common.registry.GameRegistry;
+
 import com.DavidM1A2.AfraidOfTheDark.worldGeneration.GenerateSilverOre;
 import com.DavidM1A2.AfraidOfTheDark.worldGeneration.VeronaTreeV40withleaves;
-
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ModGeneration
 {

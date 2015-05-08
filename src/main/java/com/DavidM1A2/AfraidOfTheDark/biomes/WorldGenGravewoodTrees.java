@@ -8,13 +8,14 @@ package com.DavidM1A2.AfraidOfTheDark.biomes;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.BlockPlanks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenTrees;
+import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 
 import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModBlocks;
 
-public class WorldGenGravewoodTrees extends WorldGenTrees
+public class WorldGenGravewoodTrees extends WorldGenAbstractTree
 {
 	private boolean field_150531_a;
 
@@ -25,45 +26,43 @@ public class WorldGenGravewoodTrees extends WorldGenTrees
 
 	// Slightly modified tree generator based on default MC tree used to get
 	// Gravewood Leaves and Wood
-	public boolean generate(World p_76484_1_, Random p_76484_2_, int p_76484_3_, int p_76484_4_, int p_76484_5_)
+	public boolean generate(World worldIn, Random p_180709_2_, BlockPos p_180709_3_)
 	{
-		int l = p_76484_2_.nextInt(3) + 5;
+		int i = p_180709_2_.nextInt(3) + 5;
 
 		if (this.field_150531_a)
 		{
-			l += p_76484_2_.nextInt(7);
+			i += p_180709_2_.nextInt(7);
 		}
 
 		boolean flag = true;
 
-		if (p_76484_4_ >= 1 && p_76484_4_ + l + 1 <= 256)
+		if (p_180709_3_.getY() >= 1 && p_180709_3_.getY() + i + 1 <= 256)
 		{
-			int j1;
-			int k1;
+			int k;
+			int l;
 
-			for (int i1 = p_76484_4_; i1 <= p_76484_4_ + 1 + l; ++i1)
+			for (int j = p_180709_3_.getY(); j <= p_180709_3_.getY() + 1 + i; ++j)
 			{
 				byte b0 = 1;
 
-				if (i1 == p_76484_4_)
+				if (j == p_180709_3_.getY())
 				{
 					b0 = 0;
 				}
 
-				if (i1 >= p_76484_4_ + 1 + l - 2)
+				if (j >= p_180709_3_.getY() + 1 + i - 2)
 				{
 					b0 = 2;
 				}
 
-				for (j1 = p_76484_3_ - b0; j1 <= p_76484_3_ + b0 && flag; ++j1)
+				for (k = p_180709_3_.getX() - b0; k <= p_180709_3_.getX() + b0 && flag; ++k)
 				{
-					for (k1 = p_76484_5_ - b0; k1 <= p_76484_5_ + b0 && flag; ++k1)
+					for (l = p_180709_3_.getZ() - b0; l <= p_180709_3_.getZ() + b0 && flag; ++l)
 					{
-						if (i1 >= 0 && i1 < 256)
+						if (j >= 0 && j < 256)
 						{
-							Block block = p_76484_1_.getBlock(j1, i1, k1);
-
-							if (!this.isReplaceable(p_76484_1_, j1, i1, k1))
+							if (!this.isReplaceable(worldIn, new BlockPos(k, j, l)))
 							{
 								flag = false;
 							}
@@ -82,47 +81,52 @@ public class WorldGenGravewoodTrees extends WorldGenTrees
 			}
 			else
 			{
-				Block block2 = p_76484_1_.getBlock(p_76484_3_, p_76484_4_ - 1, p_76484_5_);
+				BlockPos down = p_180709_3_.offsetDown();
+				Block block1 = worldIn.getBlockState(down).getBlock();
+				boolean isSoil = true; // block1.canSustainPlant(worldIn, down, net.minecraft.util.EnumFacing.UP, ((net.minecraft.block.BlockSapling)
+										// Blocks.sapling));
 
-				boolean isSoil = block2 == Blocks.mycelium;
-				if (isSoil && p_76484_4_ < 256 - l - 1)
+				if (isSoil && p_180709_3_.getY() < 256 - i - 1)
 				{
-					block2.onPlantGrow(p_76484_1_, p_76484_3_, p_76484_4_ - 1, p_76484_5_, p_76484_3_, p_76484_4_, p_76484_5_);
-					int k2;
+					block1.onPlantGrow(worldIn, down, p_180709_3_);
+					int i2;
 
-					for (k2 = p_76484_4_ - 3 + l; k2 <= p_76484_4_ + l; ++k2)
+					for (i2 = p_180709_3_.getY() - 3 + i; i2 <= p_180709_3_.getY() + i; ++i2)
 					{
-						j1 = k2 - (p_76484_4_ + l);
-						k1 = 1 - j1 / 2;
+						k = i2 - (p_180709_3_.getY() + i);
+						l = 1 - k / 2;
 
-						for (int l2 = p_76484_3_ - k1; l2 <= p_76484_3_ + k1; ++l2)
+						for (int i1 = p_180709_3_.getX() - l; i1 <= p_180709_3_.getX() + l; ++i1)
 						{
-							int l1 = l2 - p_76484_3_;
+							int j1 = i1 - p_180709_3_.getX();
 
-							for (int i2 = p_76484_5_ - k1; i2 <= p_76484_5_ + k1; ++i2)
+							for (int k1 = p_180709_3_.getZ() - l; k1 <= p_180709_3_.getZ() + l; ++k1)
 							{
-								int j2 = i2 - p_76484_5_;
+								int l1 = k1 - p_180709_3_.getZ();
 
-								if (Math.abs(l1) != k1 || Math.abs(j2) != k1 || p_76484_2_.nextInt(2) != 0 && j1 != 0)
+								if (Math.abs(j1) != l || Math.abs(l1) != l || p_180709_2_.nextInt(2) != 0 && k != 0)
 								{
-									Block block1 = p_76484_1_.getBlock(l2, k2, i2);
+									BlockPos blockpos1 = new BlockPos(i1, i2, k1);
+									Block block = worldIn.getBlockState(blockpos1).getBlock();
 
-									if (block1.isAir(p_76484_1_, l2, k2, i2) || block1.isLeaves(p_76484_1_, l2, k2, i2))
+									if (block.isAir(worldIn, blockpos1) || block.isLeaves(worldIn, blockpos1))
 									{
-										this.setBlockAndNotifyAdequately(p_76484_1_, l2, k2, i2, ModBlocks.gravewoodLeaves, 2);
+										// this.func_175905_a(worldIn, blockpos1, ModBlocks.gravewoodLeaves,
+										// BlockPlanks.EnumType.BIRCH.func_176839_a());
 									}
 								}
 							}
 						}
 					}
 
-					for (k2 = 0; k2 < l; ++k2)
+					for (i2 = 0; i2 < i; ++i2)
 					{
-						Block block3 = p_76484_1_.getBlock(p_76484_3_, p_76484_4_ + k2, p_76484_5_);
+						BlockPos upN = p_180709_3_.offsetUp(i2);
+						Block block2 = worldIn.getBlockState(upN).getBlock();
 
-						if (block3.isAir(p_76484_1_, p_76484_3_, p_76484_4_ + k2, p_76484_5_) || block3.isLeaves(p_76484_1_, p_76484_3_, p_76484_4_ + k2, p_76484_5_))
+						if (block2.isAir(worldIn, upN) || block2.isLeaves(worldIn, upN))
 						{
-							this.setBlockAndNotifyAdequately(p_76484_1_, p_76484_3_, p_76484_4_ + k2, p_76484_5_, ModBlocks.gravewood, 2);
+							this.func_175905_a(worldIn, p_180709_3_.offsetUp(i2), ModBlocks.gravewood, BlockPlanks.EnumType.BIRCH.func_176839_a());
 						}
 					}
 

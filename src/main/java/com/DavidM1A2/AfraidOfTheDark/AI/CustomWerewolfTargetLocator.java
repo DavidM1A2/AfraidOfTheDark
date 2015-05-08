@@ -6,30 +6,31 @@
 package com.DavidM1A2.AfraidOfTheDark.AI;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAITarget;
 import net.minecraft.entity.player.EntityPlayer;
 
 import com.DavidM1A2.AfraidOfTheDark.playerData.HasStartedAOTD;
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 
 public class CustomWerewolfTargetLocator extends EntityAITarget
 {
-	private final Class targetClass;
+	protected final Class targetClass;
 	private final int targetChance;
 	/** Instance of EntityAINearestAttackableTargetSorter. */
-	private final CustomWerewolfTargetLocator.Sorter theNearestAttackableTargetSorter;
+	protected final EntityAINearestAttackableTarget.Sorter theNearestAttackableTargetSorter;
 	/**
-	 * This filter is applied to the Entity search. Only matching entities will
-	 * be targetted. (null -> no restrictions)
+	 * This filter is applied to the Entity search. Only matching entities will be targetted. (null -> no restrictions)
 	 */
-	private final IEntitySelector targetEntitySelector;
-	private EntityLivingBase targetEntity;
+	protected Predicate targetEntitySelector;
+	protected EntityLivingBase targetEntity;
 
 	public CustomWerewolfTargetLocator(EntityCreature entityCreature, Class target, int targetChance, boolean shouldCheckSight)
 	{
@@ -38,10 +39,10 @@ public class CustomWerewolfTargetLocator extends EntityAITarget
 
 	public CustomWerewolfTargetLocator(EntityCreature entityCreature, Class target, int targetChance, boolean shouldCheckSight, boolean nearbyOnly)
 	{
-		this(entityCreature, target, targetChance, shouldCheckSight, nearbyOnly, (IEntitySelector) null);
+		this(entityCreature, target, targetChance, shouldCheckSight, nearbyOnly, (Predicate) null);
 	}
 
-	public CustomWerewolfTargetLocator(EntityCreature entityCreature, Class target, int targetChance, boolean shouldCheckSight, boolean nearbyOnly, final IEntitySelector iEntitySelector)
+	public CustomWerewolfTargetLocator(EntityCreature entityCreature, Class target, int targetChance, boolean shouldCheckSight, boolean nearbyOnly, final Predicate targetSelector)
 	{
 		// Call the superclass's constructor.
 		super(entityCreature, shouldCheckSight, nearbyOnly);
@@ -49,17 +50,59 @@ public class CustomWerewolfTargetLocator extends EntityAITarget
 		// behavior)
 		this.targetClass = target;
 		this.targetChance = targetChance;
-		this.theNearestAttackableTargetSorter = new CustomWerewolfTargetLocator.Sorter(entityCreature);
+		this.theNearestAttackableTargetSorter = new EntityAINearestAttackableTarget.Sorter(entityCreature);
 		this.setMutexBits(1);
 		// To select a target we run custom code (check HasStartedAOTD)
-		this.targetEntitySelector = new IEntitySelector()
+		this.targetEntitySelector = new Predicate()
 		{
 			/**
 			 * Return whether the specified entity is applicable to this filter.
 			 */
 			public boolean isEntityApplicable(Entity entity)
 			{
-				return !(entity instanceof EntityLivingBase) ? false : (iEntitySelector != null && !iEntitySelector.isEntityApplicable(entity) ? false : CustomWerewolfTargetLocator.this.isSuitableTarget((EntityLivingBase) entity, false));
+				if (targetSelector != null && !targetSelector.apply(entity))
+				{
+					return false;
+				}
+				else
+				{
+					if (entity instanceof EntityPlayer)
+					{
+						double d0 = CustomWerewolfTargetLocator.this.getTargetDistance();
+
+						if (entity.isSneaking())
+						{
+							d0 *= 0.800000011920929D;
+						}
+
+						if (entity.isInvisible())
+						{
+							float f = ((EntityPlayer) entity).getArmorVisibility();
+
+							if (f < 0.1F)
+							{
+								f = 0.1F;
+							}
+
+							d0 *= (double) (0.7F * f);
+						}
+
+						if ((double) entity.getDistanceToEntity(CustomWerewolfTargetLocator.this.taskOwner) > d0)
+						{
+							return false;
+						}
+					}
+
+					return CustomWerewolfTargetLocator.this.isSuitableTarget((EntityLivingBase) entity, false);
+				}
+				// return !(entity instanceof EntityLivingBase) ? false : (iEntitySelector != null && !iEntitySelector.isEntityApplicable(entity) ?
+				// false : CustomWerewolfTargetLocator.this.isSuitableTarget((EntityLivingBase) entity, false));
+			}
+
+			@Override
+			public boolean apply(Object input)
+			{
+				return this.isEntityApplicable((Entity) input);
 			}
 		};
 	}
@@ -76,7 +119,7 @@ public class CustomWerewolfTargetLocator extends EntityAITarget
 		else
 		{
 			double d0 = this.getTargetDistance();
-			List list = this.taskOwner.worldObj.selectEntitiesWithinAABB(this.targetClass, this.taskOwner.boundingBox.expand(d0, 4.0D, d0), this.targetEntitySelector);
+			List list = this.taskOwner.worldObj.func_175647_a(this.targetClass, this.taskOwner.getEntityBoundingBox().expand(d0, 4.0D, d0), Predicates.and(this.targetEntitySelector, IEntitySelector.NOT_SPECTATING));
 			Collections.sort(list, this.theNearestAttackableTargetSorter);
 
 			if (list.isEmpty())
@@ -86,8 +129,7 @@ public class CustomWerewolfTargetLocator extends EntityAITarget
 			else
 			{
 				/*
-				 * Here we added some extra code to check if the target is a
-				 * person who has started AOTD and we ignore all other players
+				 * Here we added some extra code to check if the target is a person who has started AOTD and we ignore all other players
 				 */
 				for (int i = 0; i < list.size(); i++)
 				{
@@ -96,8 +138,7 @@ public class CustomWerewolfTargetLocator extends EntityAITarget
 						if (HasStartedAOTD.get((EntityPlayer) list.get(i)))
 						{
 							/*
-							 * The first entity in the list that has started
-							 * AOTD is the target
+							 * The first entity in the list that has started AOTD is the target
 							 */
 							this.targetEntity = (EntityLivingBase) list.get(i);
 							return true;
@@ -108,38 +149,4 @@ public class CustomWerewolfTargetLocator extends EntityAITarget
 			}
 		}
 	}
-
-	/**
-	 * Execute a one shot task or start executing a continuous task
-	 */
-	public void startExecuting()
-	{
-		this.taskOwner.setAttackTarget(this.targetEntity);
-		super.startExecuting();
-	}
-
-	// Compare two entity's distance
-	public static class Sorter implements Comparator
-	{
-		private final Entity theEntity;
-		private static final String __OBFID = "CL_00001622";
-
-		public Sorter(Entity p_i1662_1_)
-		{
-			this.theEntity = p_i1662_1_;
-		}
-
-		public int compare(Entity p_compare_1_, Entity p_compare_2_)
-		{
-			double d0 = this.theEntity.getDistanceSqToEntity(p_compare_1_);
-			double d1 = this.theEntity.getDistanceSqToEntity(p_compare_2_);
-			return d0 < d1 ? -1 : (d0 > d1 ? 1 : 0);
-		}
-
-		public int compare(Object p_compare_1_, Object p_compare_2_)
-		{
-			return this.compare((Entity) p_compare_1_, (Entity) p_compare_2_);
-		}
-	}
-
 }

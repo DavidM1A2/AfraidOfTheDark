@@ -5,6 +5,8 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui;
 
+import java.io.IOException;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -102,7 +104,7 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 
 	// If E is typed we close the GUI screen
 	@Override
-	protected void keyTyped(char character, int iDontKnowWhatThisDoes)
+	protected void keyTyped(char character, int iDontKnowWhatThisDoes) throws IOException
 	{
 		if (character == 'e' || character == 'E')
 		{
@@ -127,7 +129,7 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 
 	// When you click the mouse move the background
 	@Override
-	protected void mouseClicked(int xPos, int yPos, int shouldBe0)
+	protected void mouseClicked(int xPos, int yPos, int shouldBe0) throws IOException
 	{
 		originalXPosition = xPos + guiOffsetX;
 		originalYPosition = yPos + guiOffsetY;

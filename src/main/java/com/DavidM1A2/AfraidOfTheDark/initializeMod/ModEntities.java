@@ -5,16 +5,13 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.initializeMod;
 
-import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 
 import com.DavidM1A2.AfraidOfTheDark.entities.Bolts.EntityIronBolt;
 import com.DavidM1A2.AfraidOfTheDark.entities.Bolts.EntitySilverBolt;
 import com.DavidM1A2.AfraidOfTheDark.entities.Bolts.EntityWoodenBolt;
-import com.DavidM1A2.AfraidOfTheDark.entities.WereWolf.EntityWereWolf;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
-
-import cpw.mods.fml.common.registry.EntityRegistry;
 
 public class ModEntities
 {
@@ -27,7 +24,7 @@ public class ModEntities
 	public static void intialize()
 	{
 		// register bolt entities and the werewolf
-		EntityRegistry.registerModEntity(EntityWereWolf.class, "Werewolf", wereWolfID, Refrence.MOD_ID, 50, 1, true);
+		// EntityRegistry.registerModEntity(EntityWereWolf.class, "Werewolf", wereWolfID, Refrence.MOD_ID, 50, 1, true);
 
 		EntityRegistry.registerModEntity(EntityIronBolt.class, "ironBolt", ironBoltID, Refrence.MOD_ID, 50, 10, true);
 		EntityRegistry.registerModEntity(EntitySilverBolt.class, "silverBolt", silverBoltID, Refrence.MOD_ID, 50, 10, true);
@@ -38,10 +35,10 @@ public class ModEntities
 		{
 			if (BiomeGenBase.getBiomeGenArray()[i] != null)
 			{
-				EntityRegistry.addSpawn(EntityWereWolf.class, 2, 1, 1, EnumCreatureType.monster, BiomeGenBase.getBiomeGenArray()[i]);
+				// EntityRegistry.addSpawn(EntityWereWolf.class, 2, 1, 1, EnumCreatureType.MONSTER, BiomeGenBase.getBiomeGenArray()[i]);
 			}
 		}
 		// Higher chance to spawn in erie biomes
-		EntityRegistry.addSpawn(EntityWereWolf.class, 30, 2, 2, EnumCreatureType.monster, ModBiomes.erieForest);
+		// EntityRegistry.addSpawn(EntityWereWolf.class, 30, 2, 2, EnumCreatureType.MONSTER, ModBiomes.erieForest);
 	}
 }

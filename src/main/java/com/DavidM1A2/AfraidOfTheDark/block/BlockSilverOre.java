@@ -11,7 +11,7 @@ public class BlockSilverOre extends BlockBase
 	{
 		// Simply silver ore
 		super();
-		this.setBlockName("silverOre");
+		this.setUnlocalizedName("silverOre");
 		this.blockHardness = 2.0F;
 		this.blockResistance = 1.0F;
 	}

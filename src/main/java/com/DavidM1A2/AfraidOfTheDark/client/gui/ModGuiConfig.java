@@ -8,11 +8,10 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.client.config.GuiConfig;
 
 import com.DavidM1A2.AfraidOfTheDark.handler.ConfigurationHandler;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
-
-import cpw.mods.fml.client.config.GuiConfig;
 
 /*
  * Setup the GUI configuration screen

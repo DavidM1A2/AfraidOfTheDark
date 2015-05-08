@@ -6,7 +6,7 @@
 package com.DavidM1A2.AfraidOfTheDark.initializeMod;
 
 import net.minecraft.item.ItemStack;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ModFurnaceRecipies
 {

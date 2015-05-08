@@ -1,7 +1,9 @@
 package com.DavidM1A2.AfraidOfTheDark.utility;
-import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
-import cpw.mods.fml.common.FMLLog;
+import net.minecraftforge.fml.common.FMLLog;
+
 import org.apache.logging.log4j.Level;
+
+import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
 
 
 public class LogHelper 

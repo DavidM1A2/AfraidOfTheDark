@@ -8,13 +8,12 @@ package com.DavidM1A2.AfraidOfTheDark.packets;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import com.DavidM1A2.AfraidOfTheDark.utility.LogHelper;
-
-import cpw.mods.fml.common.network.ByteBufUtils;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 // Packet to update if a crossbow is cocked or not upon relog
 public class UpdateCrossbow implements IMessage
@@ -50,7 +49,7 @@ public class UpdateCrossbow implements IMessage
 		public IMessage onMessage(UpdateCrossbow message, MessageContext ctx)
 		{
 			LogHelper.info("Update Crossbow Received!");
-			((EntityPlayer) ctx.getServerHandler().playerEntity).inventory.getCurrentItem().stackTagCompound = message.crossbowData;
+			((EntityPlayer) ctx.getServerHandler().playerEntity).inventory.getCurrentItem().setTagCompound(message.crossbowData);
 			return null;
 		}
 

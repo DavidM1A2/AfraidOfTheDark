@@ -55,7 +55,8 @@ public class NodeButton extends GuiButton
 			// Draw background start:
 			minecraft.getTextureManager().bindTexture(DEFAULT_RESEARCH_BACKGROUND);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			this.field_146123_n = int1 >= this.xPosition && int2 >= this.yPosition && int1 < this.xPosition + this.width && int2 < this.yPosition + this.height;
+			// this.field_146123_n = int1 >= this.xPosition && int2 >= this.yPosition && int1 < this.xPosition + this.width && int2 < this.yPosition +
+			// this.height;
 			GL11.glEnable(GL11.GL_BLEND);
 			OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -66,7 +67,8 @@ public class NodeButton extends GuiButton
 			{
 				minecraft.getTextureManager().bindTexture(RESEARCH_ICONS);
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-				this.field_146123_n = int1 >= this.xPosition && int2 >= this.yPosition && int1 < this.xPosition + this.width && int2 < this.yPosition + this.height;
+				// this.field_146123_n = int1 >= this.xPosition && int2 >= this.yPosition && int1 < this.xPosition + this.width && int2 <
+				// this.yPosition + this.height;
 				GL11.glEnable(GL11.GL_BLEND);
 				OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -76,7 +78,8 @@ public class NodeButton extends GuiButton
 			{
 				minecraft.getTextureManager().bindTexture(UNKNOWN_RESEARCH);
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-				this.field_146123_n = int1 >= this.xPosition && int2 >= this.yPosition && int1 < this.xPosition + this.width && int2 < this.yPosition + this.height;
+				// this.field_146123_n = int1 >= this.xPosition && int2 >= this.yPosition && int1 < this.xPosition + this.width && int2 <
+				// this.yPosition + this.height;
 				GL11.glEnable(GL11.GL_BLEND);
 				OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -94,10 +97,10 @@ public class NodeButton extends GuiButton
 			{
 				l = 10526880;
 			}
-			else if (this.field_146123_n)
-			{
-				l = 16777120;
-			}
+			// else if (this.field_146123_n)
+			// {
+			// l = 16777120;
+			// }
 		}
 	}
 

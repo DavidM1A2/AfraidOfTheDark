@@ -7,6 +7,16 @@ package com.DavidM1A2.AfraidOfTheDark;
 
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 
 import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
 import com.DavidM1A2.AfraidOfTheDark.commands.InsanityCheck;
@@ -28,24 +38,13 @@ import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
 import com.DavidM1A2.AfraidOfTheDark.threads.RandomInsanityUpdate;
 import com.DavidM1A2.AfraidOfTheDark.utility.LogHelper;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartedEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-
 @Mod(modid = Refrence.MOD_ID, name = Refrence.MOD_NAME, version = Refrence.VERSION, guiFactory = Refrence.GUI_FACTORY_CLASS)
 public class AfraidOfTheDark
 {
 	@Mod.Instance(Refrence.MOD_ID)
 	public static AfraidOfTheDark instance;
 
-	public static SimpleNetworkWrapper channelNew;
+	private static SimpleNetworkWrapper channelNew;
 
 	@SidedProxy(clientSide = Refrence.CLIENT_PROXY_CLASS, serverSide = Refrence.SERVER_PROXY_CLASS)
 	public static IProxy proxy;
@@ -63,7 +62,7 @@ public class AfraidOfTheDark
 		// Initialize debug file to spam chat with variables
 		MinecraftForge.EVENT_BUS.register(new DebugSpammer());
 		// Initialize mod items
-		ModItems.initialize();
+		ModItems.initialize(event.getSide());
 		// Initialize mod blocks
 		ModBlocks.initialize();
 		// Initialize mod entities
@@ -93,6 +92,10 @@ public class AfraidOfTheDark
 	{
 		// Initialize Recipes
 		ModRecipes.initialize();
+		// Initialize mod item renderers
+		ModItems.initializeRenderers(event.getSide());
+		// Initialize block renderers
+		ModBlocks.initializeRenderers(event.getSide());
 		// Initialize key input handler
 		FMLCommonHandler.instance().bus().register(new KeyInputEventHandler());
 		LogHelper.info("Initialization Complete");
@@ -119,5 +122,15 @@ public class AfraidOfTheDark
 		// Register background threads
 		Thread randomUpdate = new RandomInsanityUpdate();
 		randomUpdate.start();
+	}
+
+	public static SimpleNetworkWrapper getSimpleNetworkWrapper()
+	{
+		return AfraidOfTheDark.channelNew;
+	}
+
+	public static void setSimpleNetworkWrapper(SimpleNetworkWrapper wrapper)
+	{
+		AfraidOfTheDark.channelNew = wrapper;
 	}
 }
