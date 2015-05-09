@@ -1,5 +1,9 @@
 {
 	"variants": {
-		"normal": { "model": "afraidofthedark:gravewoodLeaves" }
+		"check_decay=false,decayable=true,variant=gravewood":    { "model": "afraidofthedark:gravewoodLeaves" },		
+		"check_decay=false,decayable=false,variant=gravewood":    { "model": "afraidofthedark:gravewoodLeaves" },
+		"check_decay=true,decayable=true,variant=gravewood":    { "model": "afraidofthedark:gravewoodLeaves" },
+		"check_decay=true,decayable=false,variant=gravewood":    { "model": "afraidofthedark:gravewoodLeaves" },
+		"inventory":    { "model": "afraidofthedark:gravewoodLeaves" }
 	}
 }

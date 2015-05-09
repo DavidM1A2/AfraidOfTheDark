@@ -8,12 +8,13 @@ package com.DavidM1A2.AfraidOfTheDark.biomes;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockPlanks;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 
 import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModBlocks;
+import com.DavidM1A2.AfraidOfTheDark.refrence.AOTDTreeTypes;
 
 public class WorldGenGravewoodTrees extends WorldGenAbstractTree
 {
@@ -83,8 +84,7 @@ public class WorldGenGravewoodTrees extends WorldGenAbstractTree
 			{
 				BlockPos down = p_180709_3_.offsetDown();
 				Block block1 = worldIn.getBlockState(down).getBlock();
-				boolean isSoil = true; // block1.canSustainPlant(worldIn, down, net.minecraft.util.EnumFacing.UP, ((net.minecraft.block.BlockSapling)
-										// Blocks.sapling));
+				boolean isSoil = block1.canSustainPlant(worldIn, down, net.minecraft.util.EnumFacing.UP, ((net.minecraft.block.BlockSapling) Blocks.sapling));
 
 				if (isSoil && p_180709_3_.getY() < 256 - i - 1)
 				{
@@ -111,8 +111,7 @@ public class WorldGenGravewoodTrees extends WorldGenAbstractTree
 
 									if (block.isAir(worldIn, blockpos1) || block.isLeaves(worldIn, blockpos1))
 									{
-										// this.func_175905_a(worldIn, blockpos1, ModBlocks.gravewoodLeaves,
-										// BlockPlanks.EnumType.BIRCH.func_176839_a());
+										this.func_175905_a(worldIn, blockpos1, ModBlocks.gravewoodLeaves, AOTDTreeTypes.GRAVEWOOD.getMetadata());
 									}
 								}
 							}
@@ -126,7 +125,7 @@ public class WorldGenGravewoodTrees extends WorldGenAbstractTree
 
 						if (block2.isAir(worldIn, upN) || block2.isLeaves(worldIn, upN))
 						{
-							this.func_175905_a(worldIn, p_180709_3_.offsetUp(i2), ModBlocks.gravewood, BlockPlanks.EnumType.BIRCH.func_176839_a());
+							this.func_175905_a(worldIn, p_180709_3_.offsetUp(i2), ModBlocks.gravewood, AOTDTreeTypes.GRAVEWOOD.getMetadata());
 						}
 					}
 

@@ -5,7 +5,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark;
 
-import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -79,8 +78,6 @@ public class AfraidOfTheDark
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
 		// Initialize key bindings
 		proxy.registerKeyBindings();
-		// Initialize renderers
-		proxy.registerRenderThings();
 		// Initialize the mod channel
 		proxy.registerChannel();
 
@@ -98,14 +95,14 @@ public class AfraidOfTheDark
 		ModBlocks.initializeRenderers(event.getSide());
 		// Initialize key input handler
 		FMLCommonHandler.instance().bus().register(new KeyInputEventHandler());
+		// Initialize renderers
+		proxy.registerRenderThings();
 		LogHelper.info("Initialization Complete");
 	}
 
 	@Mod.EventHandler
 	public void postInitialization(FMLPostInitializationEvent event)
 	{
-		// Initialize biome registry
-		BiomeDictionary.registerAllBiomes();
 		LogHelper.info("Post-Initialization Complete");
 	}
 

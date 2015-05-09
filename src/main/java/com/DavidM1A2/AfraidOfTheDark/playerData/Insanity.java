@@ -7,9 +7,13 @@ package com.DavidM1A2.AfraidOfTheDark.playerData;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
+
+import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
+import com.DavidM1A2.AfraidOfTheDark.packets.UpdateInsanity;
 
 //This property is saved on a player and keeps track of their current insanity
 public class Insanity implements IExtendedEntityProperties
@@ -101,6 +105,6 @@ public class Insanity implements IExtendedEntityProperties
 	// This sends an update packet to a client (sync packet)
 	public static void updateClientSideInsanity(EntityPlayer myPlayer)
 	{
-		// AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateInsanity(get(myPlayer)), (EntityPlayerMP) myPlayer);
+		AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateInsanity(get(myPlayer)), (EntityPlayerMP) myPlayer);
 	}
 }

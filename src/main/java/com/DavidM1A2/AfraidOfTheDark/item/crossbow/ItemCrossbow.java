@@ -9,16 +9,19 @@ import java.util.List;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
+import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.entities.Bolts.EntityIronBolt;
 import com.DavidM1A2.AfraidOfTheDark.entities.Bolts.EntitySilverBolt;
 import com.DavidM1A2.AfraidOfTheDark.entities.Bolts.EntityWoodenBolt;
 import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemBase;
+import com.DavidM1A2.AfraidOfTheDark.packets.UpdateCrossbow;
 import com.DavidM1A2.AfraidOfTheDark.utility.NBTHelper;
 
 // The crossbow Item
@@ -216,11 +219,11 @@ public class ItemCrossbow extends ItemBase
 		}
 		if (clientSide)
 		{
-			// AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateCrossbow(itemStack.getTagCompound()));
+			AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateCrossbow(itemStack.getTagCompound()));
 		}
 		else
 		{
-			// AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateCrossbow(itemStack.getTagCompound()), (EntityPlayerMP) entityPlayer);
+			AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateCrossbow(itemStack.getTagCompound()), (EntityPlayerMP) entityPlayer);
 		}
 	}
 
@@ -249,23 +252,6 @@ public class ItemCrossbow extends ItemBase
 		NBTHelper.getInt(itemStack, "mode");
 		return itemStack.getTagCompound();
 	}
-
-	// // This tells MC which icon to use (loaded or unloaded)
-	// @Override
-	// public IIcon getIconIndex(ItemStack itemStack)
-	// {
-	// switch (NBTHelper.getInt(itemStack, "icon"))
-	// {
-	// case 1:
-	// {
-	// return loaded;
-	// }
-	// default:
-	// {
-	// return unloaded;
-	// }
-	// }
-	// }s
 
 	// This item has a custom model, therefore it is full 3D
 	@Override

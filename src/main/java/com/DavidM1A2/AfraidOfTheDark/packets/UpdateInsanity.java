@@ -48,6 +48,11 @@ public class UpdateInsanity implements IMessage
 		public IMessage onMessage(UpdateInsanity message, MessageContext ctx)
 		{
 			LogHelper.info("Update Insanity Received!");
+			while (Minecraft.getMinecraft().thePlayer == null)
+			{
+				LogHelper.info("Waiting");
+				// Wait until the player gets initialized for some reason?
+			}
 			Minecraft.getMinecraft().thePlayer.getEntityData().setDouble("PlayerInsanity", message.insanity);
 			return null;
 		}
