@@ -75,14 +75,14 @@ public class BloodStainedJournalSignGUI extends GuiScreen
 		{
 			case 0:
 			{
-				if (signNameHere.getText().equals(playerWhoPressed.getDisplayName()))
+				if (signNameHere.getText().equals(playerWhoPressed.getDisplayName().getUnformattedText()))
 				{
 					// If the player signed their own name and has not started
 					// AOTD
 					if (HasStartedAOTD.get(playerWhoPressed) == false)
 					{
 						HasStartedAOTD.set(playerWhoPressed, true);
-						playerWhoPressed.inventory.getStackInSlot(playerWhoPressed.inventory.currentItem).getTagCompound().setString("owner", playerWhoPressed.getDisplayName().getFormattedText());
+						playerWhoPressed.inventory.getStackInSlot(playerWhoPressed.inventory.currentItem).getTagCompound().setString("owner", playerWhoPressed.getDisplayName().getUnformattedText());
 						AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateAOTDStatus(true));
 						playerWhoPressed.addChatMessage(new ChatComponentText("§4§oWhat §4§ohave §4§oI §4§odone?"));
 						Refrence.myResearch.unlockResearch(0);

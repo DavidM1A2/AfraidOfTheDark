@@ -39,7 +39,7 @@ public class ItemJournal extends ItemBase
 			// If the player has started AOTD, set the NBT tag and open the journal
 			if (HasStartedAOTD.get(entityPlayer))
 			{
-				NBTHelper.setString(itemStack, "owner", entityPlayer.getDisplayName().getFormattedText());
+				NBTHelper.setString(itemStack, "owner", entityPlayer.getDisplayName().getUnformattedText());
 				if (world.isRemote)
 				{
 					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_ID, world, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
@@ -55,7 +55,7 @@ public class ItemJournal extends ItemBase
 			}
 		}
 		// If the owner is the current entityPlayer then open the journal
-		else if (NBTHelper.getString(itemStack, "owner").equals(entityPlayer.getDisplayName()))
+		else if (NBTHelper.getString(itemStack, "owner").equals(entityPlayer.getDisplayName().getUnformattedText()))
 		{
 			if (world.isRemote)
 			{

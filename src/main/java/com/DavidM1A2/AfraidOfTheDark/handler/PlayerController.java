@@ -49,14 +49,15 @@ public class PlayerController
 			float insanity = (float) Insanity.get(entityPlayer);
 
 			// If the player is insane, set the fog equal to 1.001^(.5*insanity) - .9989
-			if (insanity < 0.1)
-			{
-				return;
-			}
-			else
+			if (insanity >= 0.1)
 			{
 				LogHelper.info(((float) Math.pow(1.001, 0.5f * insanity) - .9989f));
 				event.density = ((float) Math.pow(1.001, 0.5f * insanity) - .9989f);
+				event.setCanceled(true);
+			}
+			else
+			{
+				event.density = 0f;
 				event.setCanceled(true);
 			}
 		}
