@@ -15,6 +15,7 @@ tile.afraidofthedark:silverOre.name=Silver Ore
 tile.afraidofthedark:darkness.name=Darkness
 tile.afraidofthedark:gravewoodLeaves.name=Gravewood Leaves
 tile.afraidofthedark:gravewood.name=Gravewood
+tile.afraidofthedark:gravewoodPlanks.name=Gravewood Planks
 
 # Creative Tabs
 itemGroup.afraidofthedark=Afraid of the Dark

@@ -15,5 +15,7 @@ public class ModOreDictionaryCompatability
 		// We want our silver to be compatable with other silver ores
 		OreDictionary.registerOre("oreSilver", new ItemStack(ModBlocks.silverOre));
 		OreDictionary.registerOre("ingotSilver", new ItemStack(ModItems.silverIngot));
+		OreDictionary.registerOre("plankWood", new ItemStack(ModBlocks.gravewoodPlanks));
+		OreDictionary.registerOre("treeWood", new ItemStack(ModBlocks.gravewood));
 	}
 }

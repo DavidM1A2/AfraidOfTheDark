@@ -7,6 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.block;
 
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
@@ -45,6 +46,7 @@ public class BlockGravewood extends BlockLog
 	{
 		super();
 		this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
+		this.setStepSound(Block.soundTypeWood);
 		this.setUnlocalizedName("gravewood");
 	}
 

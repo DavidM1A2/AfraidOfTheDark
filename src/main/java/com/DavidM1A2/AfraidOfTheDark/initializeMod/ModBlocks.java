@@ -17,6 +17,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import com.DavidM1A2.AfraidOfTheDark.block.BlockDarkness;
 import com.DavidM1A2.AfraidOfTheDark.block.BlockGravewood;
 import com.DavidM1A2.AfraidOfTheDark.block.BlockGravewoodLeaves;
+import com.DavidM1A2.AfraidOfTheDark.block.BlockGravewoodPlanks;
 import com.DavidM1A2.AfraidOfTheDark.block.BlockSilverOre;
 import com.DavidM1A2.AfraidOfTheDark.block.BlockTileEntityDarkness;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
@@ -29,6 +30,7 @@ public class ModBlocks
 	public static final BlockDarkness darkness = new BlockDarkness(Material.ground);
 	public static final BlockGravewoodLeaves gravewoodLeaves = new BlockGravewoodLeaves();
 	public static final BlockGravewood gravewood = new BlockGravewood();
+	public static final BlockGravewoodPlanks gravewoodPlanks = new BlockGravewoodPlanks();
 
 	public static void initialize()
 	{
@@ -40,6 +42,8 @@ public class ModBlocks
 		Blocks.fire.func_180686_a(gravewoodLeaves, 5, 5);
 		GameRegistry.registerBlock(gravewood, "gravewood");
 		Blocks.fire.func_180686_a(gravewood, 5, 5);
+		GameRegistry.registerBlock(gravewoodPlanks, "gravewoodPlanks");
+		Blocks.fire.func_180686_a(gravewoodPlanks, 5, 5);
 	}
 
 	public static void initializeRenderers(Side side)
@@ -51,6 +55,7 @@ public class ModBlocks
 			renderItem.getItemModelMesher().register(Item.getItemFromBlock(darkness), 0, new ModelResourceLocation(Refrence.MOD_ID + ":darkness", "inventory"));
 			renderItem.getItemModelMesher().register(Item.getItemFromBlock(gravewood), 0, new ModelResourceLocation(Refrence.MOD_ID + ":gravewood", "inventory"));
 			renderItem.getItemModelMesher().register(Item.getItemFromBlock(gravewoodLeaves), 0, new ModelResourceLocation(Refrence.MOD_ID + ":gravewoodLeaves", "inventory"));
+			renderItem.getItemModelMesher().register(Item.getItemFromBlock(gravewoodPlanks), 0, new ModelResourceLocation(Refrence.MOD_ID + ":gravewoodPlanks", "inventory"));
 		}
 	}
 }

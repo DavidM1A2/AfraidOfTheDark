@@ -22,7 +22,6 @@ import com.DavidM1A2.AfraidOfTheDark.packets.UpdateInsanity;
 import com.DavidM1A2.AfraidOfTheDark.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.playerData.Insanity;
 import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
-import com.DavidM1A2.AfraidOfTheDark.utility.LogHelper;
 
 public class PlayerController
 {
@@ -51,7 +50,6 @@ public class PlayerController
 			// If the player is insane, set the fog equal to 1.001^(.5*insanity) - .9989
 			if (insanity >= 0.1)
 			{
-				LogHelper.info(((float) Math.pow(1.001, 0.5f * insanity) - .9989f));
 				event.density = ((float) Math.pow(1.001, 0.5f * insanity) - .9989f);
 				event.setCanceled(true);
 			}
