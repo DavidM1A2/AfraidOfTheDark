@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogDensity;
+import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -19,9 +20,11 @@ import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.item.crossbow.ItemCrossbow;
 import com.DavidM1A2.AfraidOfTheDark.packets.UpdateAOTDStatus;
 import com.DavidM1A2.AfraidOfTheDark.packets.UpdateInsanity;
+import com.DavidM1A2.AfraidOfTheDark.packets.UpdateResearch;
 import com.DavidM1A2.AfraidOfTheDark.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.playerData.Insanity;
 import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
+import com.DavidM1A2.AfraidOfTheDark.research.Research;
 
 public class PlayerController
 {
@@ -33,8 +36,8 @@ public class PlayerController
 		HasStartedAOTD.set(event.entityPlayer, hasStartedAOTD);
 		double insanity = Insanity.get(event.original);
 		Insanity.increaseInsanity(insanity, event.entityPlayer);
-		byte[] research = LoadResearchData.get(event.original);
-		LoadResearchData.set(event.entityPlayer, research);
+		// NBTTagCompound research = LoadResearchData.get(event.original);
+		// LoadResearchData.set(event.entityPlayer, research);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -110,12 +113,29 @@ public class PlayerController
 				AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateAOTDStatus(HasStartedAOTD.get(entityPlayer)), (EntityPlayerMP) entityPlayer);
 			}
 
+			if (!event.world.isRemote)
+			{
+				for (int i = 0; i < Research.getResearchAmount(); i++)
+				{
+					AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateResearch(i, LoadResearchData.get(entityPlayer).getResearch().getResearches().get(i).isResearched()), (EntityPlayerMP) entityPlayer);
+				}
+			}
+		}
+	}
+
+	@SubscribeEvent
+	public void onEntityConstructing(EntityConstructing event)
+	{
+		if (event.entity instanceof EntityPlayer)
+		{
+			EntityPlayer entityPlayer = (EntityPlayer) event.entity;
+
 			/*
 			 * This fourth block of code will load the player's research.
 			 */
-			if (entityPlayer.getExtendedProperties("unlockedResearches") == null)
+			if (LoadResearchData.get(entityPlayer) == null)
 			{
-				entityPlayer.registerExtendedProperties("unlockedResearches", new LoadResearchData());
+				LoadResearchData.register(entityPlayer);
 			}
 		}
 	}

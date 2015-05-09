@@ -16,6 +16,7 @@ import net.minecraft.util.ChatComponentText;
 
 import com.DavidM1A2.AfraidOfTheDark.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.playerData.Insanity;
+import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
 
 public class InsanityCheck implements ICommand
 {
@@ -64,6 +65,7 @@ public class InsanityCheck implements ICommand
 		EntityPlayer sender = (EntityPlayer) iCommandSender.getCommandSenderEntity();
 		iCommandSender.addChatMessage(new ChatComponentText(("Your current insanity is: " + Insanity.get(sender) + "%")));
 		iCommandSender.addChatMessage(new ChatComponentText(("Your current has started AOTD status is: " + HasStartedAOTD.get(sender))));
+		iCommandSender.addChatMessage(new ChatComponentText((LoadResearchData.get(sender).getResearch().toString())));
 	}
 
 	@Override

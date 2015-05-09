@@ -12,7 +12,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.util.EnumHelper;
 
 import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModItems;
-import com.DavidM1A2.AfraidOfTheDark.research.Research;
 
 //Refrences for static final variables
 public class Refrence
@@ -32,11 +31,10 @@ public class Refrence
 	public static final int PACKET_ID_INSANITY_UPDATE = 2;
 	public static final int PACKET_ID_HAS_STARTED_AOTD_UPDATE_CLIENT = 3;
 	public static final int PACKET_ID_HAS_STARTED_AOTD_UPDATE_SERVER = 4;
+	public static final int PACKET_ID_RESEARCH_UPDATE_CLIENT = 5;
+	public static final int PACKET_ID_RESEARCH_UPDATE_SERVER = 6;
 	// Network channel name is the same as the ID
 	public static final String NETWORK_CHANNEL_NAME = Refrence.MOD_ID;
-
-	// This user's research
-	public static Research myResearch = new Research();
 
 	// Silver weapon damage type and silver tool material
 	public static final DamageSource silverWeapon = new DamageSource("silverWeapon").setProjectile();

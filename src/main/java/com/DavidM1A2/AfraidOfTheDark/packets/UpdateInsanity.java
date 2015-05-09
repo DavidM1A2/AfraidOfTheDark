@@ -47,7 +47,6 @@ public class UpdateInsanity implements IMessage
 		@Override
 		public IMessage onMessage(UpdateInsanity message, MessageContext ctx)
 		{
-			LogHelper.info("Update Insanity Received!");
 			while (Minecraft.getMinecraft().thePlayer == null)
 			{
 				LogHelper.info("Waiting");

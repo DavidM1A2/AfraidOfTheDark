@@ -11,36 +11,61 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 
-import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.research.Research;
 
 public class LoadResearchData implements IExtendedEntityProperties
 {
-	// A byte array represents all of our unlocked researches
-	private byte[] unlockedResearches;
-	private final static String RESEARCH_DATA = "unlockedResearches";
+	private Research myResearch = new Research();
+	private boolean[] unlockedResearches = new boolean[myResearch.getResearches().size()];
+	private final static String RESEARCH_DATA = "unlockedResearches:";
+	private final EntityPlayer entityPlayer;
+
+	public LoadResearchData(EntityPlayer entityPlayer)
+	{
+		this.entityPlayer = entityPlayer;
+	}
+
+	public static final void register(EntityPlayer player)
+	{
+		player.registerExtendedProperties(LoadResearchData.RESEARCH_DATA, new LoadResearchData(player));
+	}
+
+	/**
+	 * Returns ExtendedPlayer properties for player This method is for convenience only; it will make your code look nicer
+	 */
+	public static final LoadResearchData get(EntityPlayer player)
+	{
+		return (LoadResearchData) player.getExtendedProperties(RESEARCH_DATA);
+	}
 
 	// Each player has a byte array representing their completed research
 	// save it here
 	@Override
 	public void saveNBTData(NBTTagCompound compound)
 	{
-		unlockedResearches = Refrence.myResearch.unlockedResearches();
-		for (int i = 0; i < unlockedResearches.length; i++)
+		NBTTagCompound researches = new NBTTagCompound();
+		for (int i = 0; i < myResearch.getResearches().size(); i++)
 		{
-			compound.setByteArray(RESEARCH_DATA, unlockedResearches);
+			researches.setBoolean(RESEARCH_DATA + myResearch.getResearches().get(i).getNodeID(), unlockedResearches[i]);
 		}
+		compound.setTag(RESEARCH_DATA, researches);
 	}
 
 	// Loading research
 	@Override
 	public void loadNBTData(NBTTagCompound compound)
 	{
-		unlockedResearches = compound.getByteArray(RESEARCH_DATA);
-		for (int i = 0; i < unlockedResearches.length; i++)
+		NBTTagCompound researches = (NBTTagCompound) compound.getTag(RESEARCH_DATA);
+		for (int i = 0; i < researches.getKeySet().size(); i++)
 		{
-			if (unlockedResearches[i] == 1)
+			if (researches.getBoolean(RESEARCH_DATA + myResearch.getResearches().get(i).getNodeID()))
 			{
-				Refrence.myResearch.unlockResearch(i);
+				this.unlockedResearches[i] = true;
+				myResearch.unlockResearch(i);
+			}
+			else
+			{
+				this.unlockedResearches[i] = false;
 			}
 		}
 	}
@@ -49,17 +74,19 @@ public class LoadResearchData implements IExtendedEntityProperties
 	@Override
 	public void init(Entity entity, World world)
 	{
-		loadNBTData(entity.getEntityData());
 	}
 
-	// Getters and setters
-	public static byte[] get(EntityPlayer myPlayer)
+	public void setResearch(int index, boolean isResearched)
 	{
-		return myPlayer.getEntityData().getByteArray(RESEARCH_DATA);
+		this.unlockedResearches[index] = isResearched;
+		if (isResearched)
+		{
+			myResearch.unlockResearch(index);
+		}
 	}
 
-	public static void set(EntityPlayer myPlayer, byte[] unlockedResearch)
+	public Research getResearch()
 	{
-		myPlayer.getEntityData().setByteArray(RESEARCH_DATA, unlockedResearch);
+		return this.myResearch;
 	}
 }

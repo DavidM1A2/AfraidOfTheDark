@@ -12,7 +12,7 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
 
 /*
  * A button for researches
@@ -63,7 +63,7 @@ public class NodeButton extends GuiButton
 			this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 0, this.width, this.height);
 			// Draw background end:
 
-			if (Refrence.myResearch.isUnlocked(this.id - 1))
+			if (LoadResearchData.get(Minecraft.getMinecraft().thePlayer).getResearch().getResearches().get(this.id - 1).isResearched())
 			{
 				minecraft.getTextureManager().bindTexture(RESEARCH_ICONS);
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

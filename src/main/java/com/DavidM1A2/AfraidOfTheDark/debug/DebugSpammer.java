@@ -12,7 +12,8 @@ public class DebugSpammer
 		if (e.entityLiving instanceof EntityPlayer)
 		{
 			EntityPlayer p = (EntityPlayer) e.entityLiving;
-			// LogHelper.info(Insanity.get(p));
+
+			// LogHelper.info(LoadResearchData.get(p).getResearch());
 		}
 	}
 }

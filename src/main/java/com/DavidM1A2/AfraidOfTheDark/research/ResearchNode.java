@@ -36,4 +36,9 @@ public class ResearchNode
 	{
 		return this.isResearched;
 	}
+
+	public String toString()
+	{
+		return "Name = " + this.name + "      isResearched? " + this.isResearched;
+	}
 }

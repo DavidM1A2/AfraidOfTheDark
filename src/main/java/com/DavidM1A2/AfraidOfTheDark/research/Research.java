@@ -37,29 +37,23 @@ public class Research
 		}
 	}
 
-	// Array of bytes representing unlocked reseraches
-	public byte[] unlockedResearches()
+	public List<ResearchNode> getResearches()
 	{
-		byte[] unlockedResearches = new byte[researches.size()];
-
-		for (int i = 0; i < researches.size(); i++)
-		{
-			if (researches.get(i).isResearched())
-			{
-				unlockedResearches[i] = 1;
-			}
-			else
-			{
-				unlockedResearches[i] = 0;
-			}
-		}
-
-		return unlockedResearches;
+		return this.researches;
 	}
 
-	// Check if a research is unlocked
-	public boolean isUnlocked(int id)
+	public static int getResearchAmount()
 	{
-		return researches.get(id).isResearched();
+		return 4;
+	}
+
+	public String toString()
+	{
+		String toReturn = "\n";
+		for (int i = 0; i < getResearchAmount(); i++)
+		{
+			toReturn = toReturn + this.getResearches().get(i).toString() + "\n";
+		}
+		return toReturn;
 	}
 }

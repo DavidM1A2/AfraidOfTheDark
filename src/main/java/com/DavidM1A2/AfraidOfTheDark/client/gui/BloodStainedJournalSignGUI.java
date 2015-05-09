@@ -18,8 +18,9 @@ import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.packets.UpdateAOTDStatus;
+import com.DavidM1A2.AfraidOfTheDark.packets.UpdateResearch;
 import com.DavidM1A2.AfraidOfTheDark.playerData.HasStartedAOTD;
-import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
 
 public class BloodStainedJournalSignGUI extends GuiScreen
 {
@@ -85,7 +86,8 @@ public class BloodStainedJournalSignGUI extends GuiScreen
 						playerWhoPressed.inventory.getStackInSlot(playerWhoPressed.inventory.currentItem).getTagCompound().setString("owner", playerWhoPressed.getDisplayName().getUnformattedText());
 						AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateAOTDStatus(true));
 						playerWhoPressed.addChatMessage(new ChatComponentText("§4§oWhat §4§ohave §4§oI §4§odone?"));
-						Refrence.myResearch.unlockResearch(0);
+						LoadResearchData.get(playerWhoPressed).getResearch().unlockResearch(0);
+						AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateResearch(0, true));
 						playerWhoPressed.closeScreen();
 					}
 				}
