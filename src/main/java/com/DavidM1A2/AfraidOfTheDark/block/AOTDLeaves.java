@@ -7,6 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.block;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
@@ -54,6 +55,8 @@ public abstract class AOTDLeaves extends BlockLeaves
 		super();
 		this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, AOTDTreeTypes.GRAVEWOOD).withProperty(field_176236_b, Boolean.valueOf(true)).withProperty(field_176237_a, Boolean.valueOf(true)));
+		this.setGraphicsLevel(true);
+		this.setTickRandomly(true);
 	}
 
 	@Override
@@ -170,6 +173,23 @@ public abstract class AOTDLeaves extends BlockLeaves
 		{
 			super.harvestBlock(worldIn, playerIn, pos, state, te);
 		}
+	}
+
+	/**
+	 * Get the Item that this Block should drop when harvested.
+	 * 
+	 * @param fortune
+	 *            the level of the Fortune enchantment on the player's tool
+	 */
+	public Item getItemDropped(IBlockState state, Random rand, int fortune)
+	{
+		return null;
+	}
+
+	@Override
+	public void updateTick(World world, BlockPos position, IBlockState state, Random random)
+	{
+		super.updateTick(world, position, state, random);
 	}
 
 	@Override
