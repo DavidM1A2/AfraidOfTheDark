@@ -23,6 +23,7 @@ import com.DavidM1A2.AfraidOfTheDark.block.BlockGravewoodPlanks;
 import com.DavidM1A2.AfraidOfTheDark.block.BlockGravewoodStairs;
 import com.DavidM1A2.AfraidOfTheDark.block.BlockSilverOre;
 import com.DavidM1A2.AfraidOfTheDark.block.BlockTileEntityDarkness;
+import com.DavidM1A2.AfraidOfTheDark.item.ItemGravewoodSlab;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
 
 @GameRegistry.ObjectHolder(Refrence.MOD_ID)
@@ -52,9 +53,9 @@ public class ModBlocks
 		Blocks.fire.func_180686_a(gravewoodPlanks, 5, 5);
 		GameRegistry.registerBlock(gravewoodStairs, "gravewoodStairs");
 		Blocks.fire.func_180686_a(gravewoodStairs, 5, 5);
-		GameRegistry.registerBlock(gravewoodHalfSlab, "gravewoodHalfSlab");
+		GameRegistry.registerBlock(gravewoodHalfSlab, ItemGravewoodSlab.class, "gravewoodHalfSlab", gravewoodHalfSlab, gravewoodDoubleSlab, false);
 		Blocks.fire.func_180686_a(gravewoodHalfSlab, 5, 5);
-		GameRegistry.registerBlock(gravewoodDoubleSlab, "gravewoodDoubleSlab");
+		GameRegistry.registerBlock(gravewoodDoubleSlab, ItemGravewoodSlab.class, "gravewoodDoubleSlab", gravewoodHalfSlab, gravewoodDoubleSlab, true);
 		Blocks.fire.func_180686_a(gravewoodDoubleSlab, 5, 5);
 	}
 
