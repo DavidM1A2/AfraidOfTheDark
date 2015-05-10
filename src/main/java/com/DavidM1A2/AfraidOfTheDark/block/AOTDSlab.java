@@ -125,14 +125,7 @@ public abstract class AOTDSlab extends BlockSlab
 	@Override
 	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
 	{
-		try
-		{
-			return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer);
-		}
-		catch (IllegalArgumentException e)
-		{
-			return this.getDefaultState();
-		}
+		return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer);
 	}
 
 	/**

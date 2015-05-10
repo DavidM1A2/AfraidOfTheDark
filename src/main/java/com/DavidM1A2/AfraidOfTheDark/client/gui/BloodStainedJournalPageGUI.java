@@ -37,7 +37,7 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 		drawDefaultBackground();
 
 		GL11.glColor4f(1, 1, 1, 1);
-		mc.renderEngine.bindTexture(new ResourceLocation("afraidofthedark:textures/gui/bloodStainedJournal.png"));
+		mc.renderEngine.bindTexture(new ResourceLocation("afraidofthedark:textures/gui/bloodStainedJournalPage.png"));
 		this.drawTexturedModalRect((this.width - 256) / 2, (this.height - 256) / 2, 0, 0, 256, 256);
 
 		super.drawScreen(i, j, f);

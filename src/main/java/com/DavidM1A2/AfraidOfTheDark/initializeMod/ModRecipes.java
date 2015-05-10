@@ -18,6 +18,8 @@ public class ModRecipes
 	public static void initialize()
 	{
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.silverSword, 1), " s ", " s ", " a ", 's', "ingotSilver", 'a', "stickWood"));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.silverSword, 1), "s  ", "s  ", "a  ", 's', "ingotSilver", 'a', "stickWood"));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.silverSword, 1), "  s", "  s", "  a", 's', "ingotSilver", 'a', "stickWood"));
 		// This can be: "stickWood" or new ItemStack(Items.stick))
 
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.ironBolt, 6), new ItemStack(Items.iron_ingot), new ItemStack(Items.iron_ingot)));
@@ -26,5 +28,8 @@ public class ModRecipes
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.crossbow), "abb", "bcd", "bdc", 'a', new ItemStack(Items.bow), 'b', new ItemStack(Items.iron_ingot), 'c', new ItemStack(Blocks.planks), 'd', new ItemStack(Items.string)));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModBlocks.gravewoodPlanks, 4), new ItemStack(ModBlocks.gravewood, 1)));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.gravewoodStairs, 4), "aab", "abb", "bbb", 'b', ModBlocks.gravewoodPlanks));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.gravewoodHalfSlab, 6), "   ", "bbb", "   ", 'b', ModBlocks.gravewoodPlanks));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.gravewoodHalfSlab, 6), "bbb", "   ", "   ", 'b', ModBlocks.gravewoodPlanks));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.gravewoodHalfSlab, 6), "   ", "   ", "bbb", 'b', ModBlocks.gravewoodPlanks));
 	}
 }
