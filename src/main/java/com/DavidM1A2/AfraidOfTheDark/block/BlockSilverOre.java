@@ -5,7 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.block;
 
-public class BlockSilverOre extends BlockBase
+public class BlockSilverOre extends AOTDBlock
 {
 	public BlockSilverOre()
 	{

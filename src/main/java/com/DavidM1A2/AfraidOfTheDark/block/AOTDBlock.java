@@ -18,11 +18,11 @@ import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
 /*
  * This will be the base for all of our modded blocks
  */
-public abstract class BlockBase extends Block
+public abstract class AOTDBlock extends Block
 {
 	// private static final PropertyBool VARIANT = PropertyBool.create("variant");
 
-	public BlockBase(Material material)
+	public AOTDBlock(Material material)
 	{
 		// Set the material and creative tab
 		super(material);
@@ -31,7 +31,7 @@ public abstract class BlockBase extends Block
 	}
 
 	// Default material is rock (stone)
-	public BlockBase()
+	public AOTDBlock()
 	{
 		this(Material.rock);
 	}

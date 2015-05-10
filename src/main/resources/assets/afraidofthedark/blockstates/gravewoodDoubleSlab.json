@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "seamless=true,variant=gravewood": { "model": "afraidofthedark:gravewoodPlanks" } ,
+        "seamless=false,variant=gravewood": { "model": "afraidofthedark:gravewoodPlanks" }
+    }
+}
