@@ -36,8 +36,8 @@ public class PlayerController
 		HasStartedAOTD.set(event.entityPlayer, hasStartedAOTD);
 		double insanity = Insanity.get(event.original);
 		Insanity.increaseInsanity(insanity, event.entityPlayer);
-		// NBTTagCompound research = LoadResearchData.get(event.original);
-		// LoadResearchData.set(event.entityPlayer, research);
+		Research research = LoadResearchData.get(event.original);
+		LoadResearchData.set(event.entityPlayer, research);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -117,7 +117,7 @@ public class PlayerController
 			{
 				for (int i = 0; i < Research.getResearchAmount(); i++)
 				{
-					AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateResearch(i, LoadResearchData.get(entityPlayer).getResearch().getResearches().get(i).isResearched()), (EntityPlayerMP) entityPlayer);
+					AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateResearch(i, LoadResearchData.get(entityPlayer).getResearches().get(i).isResearched()), (EntityPlayerMP) entityPlayer);
 				}
 			}
 		}
@@ -133,7 +133,7 @@ public class PlayerController
 			/*
 			 * This fourth block of code will load the player's research.
 			 */
-			if (LoadResearchData.get(entityPlayer) == null)
+			if (entityPlayer.getExtendedProperties("unlockedResearches") == null)
 			{
 				LoadResearchData.register(entityPlayer);
 			}

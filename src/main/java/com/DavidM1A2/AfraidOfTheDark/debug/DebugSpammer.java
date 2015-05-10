@@ -13,7 +13,7 @@ public class DebugSpammer
 		{
 			EntityPlayer p = (EntityPlayer) e.entityLiving;
 
-			// LogHelper.info(LoadResearchData.get(p).getResearch());
+			// LogHelper.info(LoadResearchData.get(p));
 		}
 	}
 }
