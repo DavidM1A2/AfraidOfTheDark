@@ -13,6 +13,7 @@ public class GuiHandler implements IGuiHandler
 {
 	public static final int BLOOD_STAINED_JOURNAL_SIGN_ID = 1;
 	public static final int BLOOD_STAINED_JOURNAL_ID = 2;
+	public static final int BLOOD_STAINED_JOURNAL_PAGE_ID = 3;
 
 	/*
 	 * Create GUIS
@@ -33,9 +34,13 @@ public class GuiHandler implements IGuiHandler
 		{
 			return new BloodStainedJournalSignGUI();
 		}
-		if (ID == BLOOD_STAINED_JOURNAL_ID)
+		else if (ID == BLOOD_STAINED_JOURNAL_ID)
 		{
 			return new BloodStainedJournalResearchGUI();
+		}
+		else if (ID == BLOOD_STAINED_JOURNAL_PAGE_ID)
+		{
+			return new BloodStainedJournalPageGUI();
 		}
 		return null;
 	}

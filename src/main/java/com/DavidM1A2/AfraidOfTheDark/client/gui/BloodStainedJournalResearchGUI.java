@@ -10,9 +10,12 @@ import java.io.IOException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
+
+import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 
 public class BloodStainedJournalResearchGUI extends GuiScreen
 {
@@ -117,9 +120,10 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 	@Override
 	protected void actionPerformed(GuiButton button)
 	{
+		EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
 		if (button.id == this.RESEARCH_AN_UNBREAKABLE_COVENANT_ID)
 		{
-
+			Minecraft.getMinecraft().thePlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
 		}
 		else if (button.id == this.RESEARCH_WEREWOLF_EXAMINATION)
 		{

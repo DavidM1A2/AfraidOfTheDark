@@ -12,32 +12,32 @@ import com.DavidM1A2.AfraidOfTheDark.utility.LogHelper;
 public class UpdateResearch implements IMessage
 {
 	private int index;
-	private boolean isCompleted;
+	private boolean unlocked;
 
 	public UpdateResearch()
 	{
-		this.index = -1;
-		this.isCompleted = false;
+		index = -1;
+		unlocked = false;
 	}
 
-	public UpdateResearch(int index, boolean isCompleted)
+	public UpdateResearch(int index, boolean unlocked)
 	{
 		this.index = index;
-		this.isCompleted = isCompleted;
+		this.unlocked = unlocked;
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf)
 	{
 		this.index = buf.readInt();
-		this.isCompleted = buf.readBoolean();
+		this.unlocked = buf.readBoolean();
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf)
 	{
 		buf.writeInt(index);
-		buf.writeBoolean(isCompleted);
+		buf.writeBoolean(unlocked);
 	}
 
 	// when we receive a packet we set HasStartedAOTD
@@ -46,9 +46,8 @@ public class UpdateResearch implements IMessage
 		@Override
 		public IMessage onMessage(UpdateResearch message, MessageContext ctx)
 		{
-			LogHelper.info("Update Research #" + message.index + " received! Status: " + message.isCompleted);
-			LoadResearchData data = LoadResearchData.get(ctx.getServerHandler().playerEntity);
-			data.setResearch(message.index, message.isCompleted);
+			LogHelper.info("Update Server Research");
+			LoadResearchData.setSingleResearch(ctx.getServerHandler().playerEntity, message.index, message.unlocked);
 			return null;
 		}
 	}
@@ -59,9 +58,8 @@ public class UpdateResearch implements IMessage
 		@Override
 		public IMessage onMessage(UpdateResearch message, MessageContext ctx)
 		{
-			LogHelper.info("Update Research #" + message.index + " received! Status: " + message.isCompleted);
-			LoadResearchData data = LoadResearchData.get(Minecraft.getMinecraft().thePlayer);
-			data.setResearch(message.index, message.isCompleted);
+			LogHelper.info("Update Client Research");
+			LoadResearchData.setSingleResearch(Minecraft.getMinecraft().thePlayer, message.index, message.unlocked);
 			return null;
 		}
 	}

@@ -86,7 +86,7 @@ public class BloodStainedJournalSignGUI extends GuiScreen
 						playerWhoPressed.inventory.getStackInSlot(playerWhoPressed.inventory.currentItem).getTagCompound().setString("owner", playerWhoPressed.getDisplayName().getUnformattedText());
 						AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateAOTDStatus(true));
 						playerWhoPressed.addChatMessage(new ChatComponentText("§4§oWhat §4§ohave §4§oI §4§odone?"));
-						LoadResearchData.get(playerWhoPressed).getResearch().unlockResearch(0);
+						LoadResearchData.setSingleResearch(playerWhoPressed, 0, true);
 						AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateResearch(0, true));
 						playerWhoPressed.closeScreen();
 					}

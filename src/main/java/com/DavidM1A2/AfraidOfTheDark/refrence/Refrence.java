@@ -21,7 +21,7 @@ public class Refrence
 	// The mod name
 	public static final String MOD_NAME = "Afraid of the Dark";
 	// The minecraft version number and version
-	public static final String VERSION = "1.7.10-Alpha 0.1";
+	public static final String VERSION = "1.8-Alpha 0.1";
 	// Refrences to the proxies
 	public static final String SERVER_PROXY_CLASS = "com.DavidM1A2.AfraidOfTheDark.proxy.ServerProxy";
 	public static final String CLIENT_PROXY_CLASS = "com.DavidM1A2.AfraidOfTheDark.proxy.ClientProxy";

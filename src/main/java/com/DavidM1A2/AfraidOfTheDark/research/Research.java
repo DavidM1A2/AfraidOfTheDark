@@ -8,7 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.research;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Research
+public class Research implements Cloneable
 {
 	/*
 	 * 1 Look at werewolf, unlock werewolf entry 2 Learn how to refine silver 3 Learn how to infuse silver 4
@@ -45,6 +45,20 @@ public class Research
 	public static int getResearchAmount()
 	{
 		return 4;
+	}
+
+	@Override
+	public Object clone()
+	{
+		try
+		{
+			return super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public String toString()
