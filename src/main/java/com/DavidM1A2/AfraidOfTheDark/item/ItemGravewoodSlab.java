@@ -12,5 +12,4 @@ public class ItemGravewoodSlab extends ItemSlab
 	{
 		super(block, blockSlabHalf, blockSlabDouble);
 	}
-
 }

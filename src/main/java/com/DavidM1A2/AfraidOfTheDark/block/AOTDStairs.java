@@ -12,6 +12,7 @@ public abstract class AOTDStairs extends BlockStairs
 		super(modelState);
 		this.setUnlocalizedName("FORGOT TO SET");
 		this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
+		this.useNeighborBrightness = true;
 	}
 
 	@Override

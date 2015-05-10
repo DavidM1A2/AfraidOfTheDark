@@ -18,9 +18,7 @@ tile.afraidofthedark:gravewood.name=Gravewood
 tile.afraidofthedark:gravewoodPlanks.name=Gravewood Planks
 tile.afraidofthedark:gravewoodStairs.name=Gravewood Stairs
 tile.afraidofthedark:gravewoodHalfSlab.name=Gravewood Slab
-tile.afraidofthedark:gravewoodHalfSlab.gravewood.name=Gravewood Slab
 tile.afraidofthedark:gravewoodDoubleSlab.name=Gravewood Double Slab
-tile.afraidofthedark:gravewoodDoubleSlab.gravewood.name=Gravewood Double Slab
 
 # Creative Tabs
 itemGroup.afraidofthedark=Afraid of the Dark
