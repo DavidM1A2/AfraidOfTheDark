@@ -8,7 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.biomes;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.BlockDirt;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
@@ -84,8 +84,7 @@ public class WorldGenGravewoodTrees extends WorldGenAbstractTree
 			{
 				BlockPos down = p_180709_3_.offsetDown();
 				Block block1 = worldIn.getBlockState(down).getBlock();
-				boolean isSoil = block1.canSustainPlant(worldIn, down, net.minecraft.util.EnumFacing.UP, ((net.minecraft.block.BlockSapling) Blocks.sapling));
-
+				boolean isSoil = block1 instanceof BlockDirt;
 				if (isSoil && p_180709_3_.getY() < 256 - i - 1)
 				{
 					block1.onPlantGrow(worldIn, down, p_180709_3_);

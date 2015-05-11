@@ -15,7 +15,7 @@ public class GraveyardChestLoot
 	{
 		ArrayList<WeightedRandomChestContent> ret = new ArrayList<WeightedRandomChestContent>();
 
-		WeightedRandomChestContent n = new WeightedRandomChestContent(ModItems.journal, 1, 1, 1, 1000);
+		WeightedRandomChestContent n = new WeightedRandomChestContent(ModItems.journal, 0, 1, 1, 1000);
 		if (n != null)
 		{
 			ret.add(n);
