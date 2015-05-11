@@ -3,16 +3,24 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui;
 import java.io.IOException;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiLabel;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.utility.LogHelper;
+
 public class BloodStainedJournalPageGUI extends GuiScreen
 {
+	private final GuiLabel mainText;
+
 	public BloodStainedJournalPageGUI()
 	{
 		super();
+		mainText = new GuiLabel(Minecraft.getMinecraft().fontRendererObj, 9001, 50, 50, 300, 300, 0xFF33CC);
+		mainText.visible = true;
 	}
 
 	@Override
@@ -38,8 +46,10 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 
 		GL11.glColor4f(1, 1, 1, 1);
 		mc.renderEngine.bindTexture(new ResourceLocation("afraidofthedark:textures/gui/bloodStainedJournalPage.png"));
-		this.drawTexturedModalRect((this.width - 256) / 2, (this.height - 256) / 2, 0, 0, 256, 256);
-
+		double scale = this.width / 640.0;
+		LogHelper.info(scale + "   width = " + this.width);
+		Refrence.drawTexturedQuadFit((this.width - 400 * scale) / 2, (this.height - 400 * scale) / 2, 400 * scale, 400 * scale, scale);
+		mainText.drawString(Minecraft.getMinecraft().fontRendererObj, "Hello World", 50, 50, 0xFF33CC);
 		super.drawScreen(i, j, f);
 	}
 

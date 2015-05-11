@@ -5,6 +5,8 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.refrence;
 
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
@@ -50,4 +52,16 @@ public class Refrence
 			return ModItems.journal;
 		}
 	};
+
+	public static void drawTexturedQuadFit(double x, double y, double width, double height, double zLevel)
+	{
+		Tessellator tessellator = Tessellator.getInstance();
+		WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+		worldRenderer.startDrawingQuads();
+		worldRenderer.addVertexWithUV(x + 0, y + height, zLevel, 0, 1);
+		worldRenderer.addVertexWithUV(x + width, y + height, zLevel, 1, 1);
+		worldRenderer.addVertexWithUV(x + width, y + 0, zLevel, 1, 0);
+		worldRenderer.addVertexWithUV(x + 0, y + 0, zLevel, 0, 0);
+		tessellator.draw();
+	}
 }
