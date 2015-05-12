@@ -3,24 +3,21 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui;
 import java.io.IOException;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiLabel;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
-import com.DavidM1A2.AfraidOfTheDark.utility.LogHelper;
 
 public class BloodStainedJournalPageGUI extends GuiScreen
 {
-	private final GuiLabel mainText;
+	private final String text;
 
-	public BloodStainedJournalPageGUI()
+	public BloodStainedJournalPageGUI(String text)
 	{
 		super();
-		mainText = new GuiLabel(Minecraft.getMinecraft().fontRendererObj, 9001, 50, 50, 300, 300, 0xFF33CC);
-		mainText.visible = true;
+		this.text = text;
 	}
 
 	@Override
@@ -44,12 +41,16 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 	{
 		drawDefaultBackground();
 
+		double scale;
+
 		GL11.glColor4f(1, 1, 1, 1);
-		mc.renderEngine.bindTexture(new ResourceLocation("afraidofthedark:textures/gui/bloodStainedJournalPage.png"));
-		double scale = this.width / 640.0;
-		LogHelper.info(scale + "   width = " + this.width);
-		Refrence.drawTexturedQuadFit((this.width - 400 * scale) / 2, (this.height - 400 * scale) / 2, 400 * scale, 400 * scale, scale);
-		mainText.drawString(Minecraft.getMinecraft().fontRendererObj, "Hello World", 50, 50, 0xFF33CC);
+		ResourceLocation texture = new ResourceLocation("afraidofthedark:textures/gui/bloodStainedJournalPage.png");
+		mc.renderEngine.bindTexture(texture);
+		scale = this.width / 640.0;
+		this.drawScaledCustomSizeModalRect((int) ((this.width - 330 * scale) / 2), (int) ((this.height - 330 * scale) / 2), 0, 0, (int) (330 * scale), (int) (330 * scale), (int) (330 * scale), (int) (330 * scale), (float) (330 * scale), (float) (330 * scale));
+
+		this.drawText(((int) ((this.width - 330 * scale) / 2) + 10), ((int) ((this.height - 330 * scale)) / 2) + 10);
+
 		super.drawScreen(i, j, f);
 	}
 
@@ -62,5 +63,10 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 			Minecraft.getMinecraft().thePlayer.closeScreen();
 		}
 		super.keyTyped(character, iDontKnowWhatThisDoes);
+	}
+
+	private void drawText(int leftPageCoord, int topPageCoord)
+	{
+		Refrence.aotdFont.drawString(this, text, leftPageCoord, topPageCoord, 0xFF7F00FF);
 	}
 }

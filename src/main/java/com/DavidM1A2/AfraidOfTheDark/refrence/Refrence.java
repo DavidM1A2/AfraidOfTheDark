@@ -5,12 +5,16 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.refrence;
 
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
+import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
 
 import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModItems;
@@ -38,9 +42,28 @@ public class Refrence
 	// Network channel name is the same as the ID
 	public static final String NETWORK_CHANNEL_NAME = Refrence.MOD_ID;
 
+	public static CustomFont aotdFont;
+
 	// Silver weapon damage type and silver tool material
 	public static final DamageSource silverWeapon = new DamageSource("silverWeapon").setProjectile();
 	public static final ToolMaterial silver = EnumHelper.addToolMaterial("silverTool", 2, 250, 1, 4F, 22);
+
+	static
+	{
+		try
+		{
+			InputStream stream = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(Refrence.MOD_ID, "fonts/Face Your Fears.ttf")).getInputStream();
+			aotdFont = new CustomFont(Minecraft.getMinecraft(), stream, 14);
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
 
 	// The creative tab
 	public static final CreativeTabs AFRAID_OF_THE_DARK = new CreativeTabs(Refrence.MOD_ID.toLowerCase())
@@ -52,16 +75,4 @@ public class Refrence
 			return ModItems.journal;
 		}
 	};
-
-	public static void drawTexturedQuadFit(double x, double y, double width, double height, double zLevel)
-	{
-		Tessellator tessellator = Tessellator.getInstance();
-		WorldRenderer worldRenderer = tessellator.getWorldRenderer();
-		worldRenderer.startDrawingQuads();
-		worldRenderer.addVertexWithUV(x + 0, y + height, zLevel, 0, 1);
-		worldRenderer.addVertexWithUV(x + width, y + height, zLevel, 1, 1);
-		worldRenderer.addVertexWithUV(x + width, y + 0, zLevel, 1, 0);
-		worldRenderer.addVertexWithUV(x + 0, y + 0, zLevel, 0, 0);
-		tessellator.draw();
-	}
 }
