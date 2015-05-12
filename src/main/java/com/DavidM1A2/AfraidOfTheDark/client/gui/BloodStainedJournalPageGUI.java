@@ -49,7 +49,7 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 		scale = this.width / 640.0;
 		this.drawScaledCustomSizeModalRect((int) ((this.width - 330 * scale) / 2), (int) ((this.height - 330 * scale) / 2), 0, 0, (int) (330 * scale), (int) (330 * scale), (int) (330 * scale), (int) (330 * scale), (float) (330 * scale), (float) (330 * scale));
 
-		this.drawText(((int) ((this.width - 330 * scale) / 2) + 10), ((int) ((this.height - 330 * scale)) / 2) + 10, scale);
+		this.drawText(((int) ((this.width - 330 * scale) / 2) + (int) (25 * scale)), ((int) ((this.height - 330 * scale)) / 2) + (int) (20 * scale), scale);
 
 		super.drawScreen(i, j, f);
 	}

@@ -5,19 +5,15 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 
 import org.lwjgl.opengl.GL11;
+
+import com.DavidM1A2.AfraidOfTheDark.client.gui.BloodStainedJournalPageGUI;
 
 /**
  * 
@@ -30,15 +26,17 @@ public class CustomFont
 
 	private int texID;
 	private int[] xPos;
-	private int[] yPos;
 	private int startChar;
 	private int endChar;
 	private FontMetrics metrics;
 	private Font myFont;
 	private int previousSize = 0;
+	private final int eachCharImageDimension = 128;
 
 	// NEW
 	private int[] images;
+	private char[] characters;
+	private int fontSize;
 
 	/**
 	 * Instantiates the font, filling in default start and end character parameters.
@@ -76,17 +74,19 @@ public class CustomFont
 	 */
 	public CustomFont(Minecraft mc, Object font, int size, int startChar, int endChar)
 	{
+		this.fontSize = size;
+		size = 128;
 		this.startChar = startChar;
 		this.endChar = endChar;
 		xPos = new int[endChar - startChar];
-		yPos = new int[endChar - startChar];
 		images = new int[endChar - startChar];
+		characters = new char[endChar - startChar];
 
 		// Create a bitmap and fill it with a transparent color as well
 		// as obtain a Graphics instance which can be drawn on.
 		// NOTE: It is CRUICIAL that the size of the image is 256x256, if
 		// it is not the Minecraft engine will not draw it properly.
-		BufferedImage img = new BufferedImage(1024, 1024, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage img = new BufferedImage(eachCharImageDimension, eachCharImageDimension, BufferedImage.TYPE_INT_ARGB);
 		Graphics g = img.getGraphics();
 		try
 		{
@@ -102,7 +102,7 @@ public class CustomFont
 		}
 
 		g.setColor(new Color(255, 255, 255, 0));
-		g.fillRect(0, 0, 1024, 1024);
+		g.fillRect(0, 0, eachCharImageDimension, eachCharImageDimension);
 		g.setColor(Color.white);
 		metrics = g.getFontMetrics();
 
@@ -113,32 +113,22 @@ public class CustomFont
 		// later when drawing.
 		int x = 2;
 		int y = 2;
+
 		for (int i = startChar; i < endChar; i++)
 		{
+			img = new BufferedImage(eachCharImageDimension, eachCharImageDimension, BufferedImage.TYPE_INT_ARGB);
+			g = img.getGraphics();
+			g.setFont(myFont.deriveFont((float) size));
+
+			g.setColor(new Color(255, 255, 255, 0));
+			g.fillRect(0, 0, 64, 64);
+			g.setColor(Color.white);
+			metrics = g.getFontMetrics();
+
 			g.drawString("" + ((char) i), x, y + g.getFontMetrics().getAscent());
-			xPos[i - startChar] = x;
-			yPos[i - startChar] = y - metrics.getMaxDescent();
-			x += metrics.stringWidth("" + (char) i) + 2;
-			if (x >= 1019 - metrics.getMaxAdvance())
-			{
-				x = 2;
-				y += metrics.getMaxAscent() + metrics.getMaxDescent() + size / 2;
-			}
+			images[i - startChar] = new DynamicTexture(img).getGlTextureId();
+			characters[i - startChar] = ((char) i);
 		}
-
-		JFrame panel = new JFrame();
-		panel.setLayout(null);
-		panel.getContentPane().setBackground(Color.black);
-		panel.getContentPane().setForeground(Color.black);
-		JLabel xyz = new JLabel(new ImageIcon(img));
-		xyz.setBounds(new Rectangle(30, 30, 1024, 1024));
-		panel.add(xyz);
-		panel.setVisible(true);
-
-		// Render the finished bitmap into the Minecraft
-		// graphics engine.
-
-		texID = new DynamicTexture(img).getGlTextureId();
 	}
 
 	/**
@@ -155,7 +145,7 @@ public class CustomFont
 	 * @param color
 	 *            The color of the non-shadowed text (Hex)
 	 */
-	public void drawStringS(Gui gui, String text, int x, int y, int color)
+	public void drawStringS(BloodStainedJournalPageGUI gui, String text, int x, int y, int color)
 	{
 		int l = color & 0xff000000;
 		int shade = (color & 0xfcfcfc) >> 2;
@@ -178,11 +168,10 @@ public class CustomFont
 	 * @param color
 	 *            The color of the non-shadowed text (Hex)
 	 */
-	public void drawString(Gui gui, String text, int x, int y, int color)
+	public void drawString(BloodStainedJournalPageGUI gui, String text, int x, int y, int color)
 	{
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texID);
 		float red = (float) (color >> 16 & 0xff) / 255F;
 		float green = (float) (color >> 8 & 0xff) / 255F;
 		float blue = (float) (color & 0xff) / 255F;
@@ -192,6 +181,15 @@ public class CustomFont
 		for (int i = 0; i < text.length(); i++)
 		{
 			char c = text.charAt(i);
+
+			for (int j = 0; j < characters.length; j++)
+			{
+				if (c == characters[j])
+				{
+					GL11.glBindTexture(GL11.GL_TEXTURE_2D, images[j]);
+				}
+			}
+
 			if (c == '\\')
 			{
 				char type = text.charAt(i + 1);
@@ -204,7 +202,7 @@ public class CustomFont
 				continue;
 			}
 			drawChar(gui, c, x, y);
-			x += metrics.getStringBounds("" + c, null).getWidth();
+			x += metrics.getStringBounds("" + c, null).getWidth() / (this.eachCharImageDimension / this.fontSize);
 		}
 	}
 
@@ -282,50 +280,59 @@ public class CustomFont
 	/**
 	 * Private drawing method used within other drawing methods.
 	 */
-	private void drawChar(Gui gui, char c, int x, int y)
+	private void drawChar(BloodStainedJournalPageGUI gui, char c, int x, int y)
 	{
-		Rectangle2D bounds = metrics.getStringBounds("" + c, null);
-		gui.drawTexturedModalRect(x, y, xPos[(byte) c - startChar], yPos[(byte) c - startChar], (int) bounds.getWidth(), (int) bounds.getHeight() + metrics.getMaxDescent());
+		gui.drawScaledCustomSizeModalRect(x, y, 0, 0, eachCharImageDimension, eachCharImageDimension, fontSize, fontSize, eachCharImageDimension, eachCharImageDimension);
 	}
 
 	public void setFontSize(int size, int startChar, int endChar)
 	{
-		// if (previousSize != size)
-		// {
-		// this.startChar = startChar;
-		// this.endChar = endChar;
-		// xPos = new int[endChar - startChar];
-		// yPos = new int[endChar - startChar];
-		//
-		// Font newFont = myFont.deriveFont((float) size);
-		// BufferedImage img = new BufferedImage(256, 256, BufferedImage.TYPE_INT_ARGB);
-		// Graphics g = img.getGraphics();
-		// g.setFont(newFont);
-		// g.setColor(new Color(255, 255, 255, 0));
-		// g.fillRect(0, 0, 256, 256);
-		// g.setColor(Color.white);
-		// this.metrics = g.getFontMetrics();
-		//
-		// int x = 2;
-		// int y = 2;
-		// for (int i = startChar; i < endChar; i++)
-		// {
-		// g.drawString("" + ((char) i), x, y + g.getFontMetrics().getAscent());
-		// xPos[i - startChar] = x;
-		// yPos[i - startChar] = y - metrics.getMaxDescent();
-		// x += metrics.stringWidth("" + (char) i) + 2;
-		// if (x >= 250 - metrics.getMaxAdvance())
-		// {
-		// x = 2;
-		// y += metrics.getMaxAscent() + metrics.getMaxDescent() + size / 2;
-		// }
-		// }
-		//
-		// // Render the finished bitmap into the Minecraft
-		// // graphics engine.
-		//
-		// texID = new DynamicTexture(img).getGlTextureId();
-		// this.previousSize = size;
-		// }
+		if (previousSize != size)
+		{
+			this.fontSize = size;
+			size = 128;
+			this.startChar = startChar;
+			this.endChar = endChar;
+			xPos = new int[endChar - startChar];
+			images = new int[endChar - startChar];
+			characters = new char[endChar - startChar];
+
+			// Create a bitmap and fill it with a transparent color as well
+			// as obtain a Graphics instance which can be drawn on.
+			// NOTE: It is CRUICIAL that the size of the image is 256x256, if
+			// it is not the Minecraft engine will not draw it properly.
+			BufferedImage img = new BufferedImage(eachCharImageDimension, eachCharImageDimension, BufferedImage.TYPE_INT_ARGB);
+			Graphics g = img.getGraphics();
+			g.setFont(myFont.deriveFont((float) size));
+
+			g.setColor(new Color(255, 255, 255, 0));
+			g.fillRect(0, 0, eachCharImageDimension, eachCharImageDimension);
+			g.setColor(Color.white);
+			metrics = g.getFontMetrics();
+
+			// Draw the specified range of characters onto
+			// the new bitmap, spacing according to the font
+			// widths. Also allocating positions of characters
+			// on the bitmap to two arrays which will be used
+			// later when drawing.
+			int x = 2;
+			int y = 2;
+
+			for (int i = startChar; i < endChar; i++)
+			{
+				img = new BufferedImage(eachCharImageDimension, eachCharImageDimension, BufferedImage.TYPE_INT_ARGB);
+				g = img.getGraphics();
+				g.setFont(myFont.deriveFont((float) size));
+
+				g.setColor(new Color(255, 255, 255, 0));
+				g.fillRect(0, 0, 64, 64);
+				g.setColor(Color.white);
+				metrics = g.getFontMetrics();
+
+				g.drawString("" + ((char) i), x, y + g.getFontMetrics().getAscent());
+				images[i - startChar] = new DynamicTexture(img).getGlTextureId();
+				characters[i - startChar] = ((char) i);
+			}
+		}
 	}
 }

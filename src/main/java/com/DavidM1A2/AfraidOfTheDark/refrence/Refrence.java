@@ -53,7 +53,7 @@ public class Refrence
 		try
 		{
 			InputStream stream = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(Refrence.MOD_ID, "fonts/Face Your Fears.ttf")).getInputStream();
-			aotdFont = new CustomFont(Minecraft.getMinecraft(), stream, 50);
+			aotdFont = new CustomFont(Minecraft.getMinecraft(), stream, 20);
 		}
 		catch (FileNotFoundException e)
 		{

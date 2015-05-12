@@ -120,7 +120,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
-		return this.getDefaultState();
+		return this.getDefaultState().withProperty(VARIANT, AOTDTreeTypes.getTypeFromMeta(meta)).withProperty(field_176237_a, Boolean.valueOf((meta & 4) == 0)).withProperty(field_176236_b, Boolean.valueOf((meta & 8) > 0));
 	}
 
 	/**
