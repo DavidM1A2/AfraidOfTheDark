@@ -10,13 +10,11 @@ public class ResearchNode
 	// Is the research node researched?
 	private boolean isResearched = false;
 	// Name of the research and ID
-	private String name = "";
-	private int ID = -1;
+	private ResearchTypes type;
 
-	public ResearchNode(int ID, String researchName)
+	public ResearchNode(ResearchTypes researchName)
 	{
-		this.name = researchName;
-		this.ID = ID;
+		this.type = researchName;
 	}
 
 	// Unlock this node
@@ -25,10 +23,9 @@ public class ResearchNode
 		this.isResearched = true;
 	}
 
-	// Get the node ID
-	public int getNodeID()
+	public ResearchTypes getType()
 	{
-		return this.ID;
+		return this.type;
 	}
 
 	// Is the node researched?
@@ -39,6 +36,6 @@ public class ResearchNode
 
 	public String toString()
 	{
-		return "Name = " + this.name + "      isResearched? " + this.isResearched;
+		return "Name = " + this.type.toString() + "      isResearched? " + this.isResearched;
 	}
 }

@@ -34,7 +34,7 @@ public class LoadResearchData implements IExtendedEntityProperties
 		NBTTagCompound researches = new NBTTagCompound();
 		for (int i = 0; i < myResearch.getResearches().size(); i++)
 		{
-			researches.setBoolean(RESEARCH_DATA + myResearch.getResearches().get(i).getNodeID(), myResearch.getResearches().get(i).isResearched());
+			researches.setBoolean(RESEARCH_DATA + myResearch.getResearches().get(i).getType().toString(), myResearch.getResearches().get(i).isResearched());
 		}
 		compound.setTag(RESEARCH_DATA, researches);
 	}
@@ -46,9 +46,9 @@ public class LoadResearchData implements IExtendedEntityProperties
 		NBTTagCompound researches = (NBTTagCompound) compound.getTag(RESEARCH_DATA);
 		for (int i = 0; i < researches.getKeySet().size(); i++)
 		{
-			if (researches.getBoolean(RESEARCH_DATA + myResearch.getResearches().get(i).getNodeID()))
+			if (researches.getBoolean(RESEARCH_DATA + myResearch.getResearches().get(i).getType().toString()))
 			{
-				myResearch.unlockResearch(i);
+				myResearch.unlockResearch(myResearch.getResearches().get(i).getType());
 			}
 		}
 
@@ -65,9 +65,9 @@ public class LoadResearchData implements IExtendedEntityProperties
 		Research data = LoadResearchData.get(entityPlayer);
 		if (isResearched)
 		{
-			data.unlockResearch(index);
+			data.unlockResearch(data.getResearches().get(index).getType());
 			NBTTagCompound researches = entityPlayer.getEntityData().getCompoundTag(RESEARCH_DATA);
-			researches.setBoolean(RESEARCH_DATA + data.getResearches().get(index).getNodeID(), data.getResearches().get(index).isResearched());
+			researches.setBoolean(RESEARCH_DATA + data.getResearches().get(index).getType().toString(), isResearched);
 			entityPlayer.getEntityData().setTag(RESEARCH_DATA, researches);
 		}
 	}
@@ -78,7 +78,7 @@ public class LoadResearchData implements IExtendedEntityProperties
 		NBTTagCompound researches = entityPlayer.getEntityData().getCompoundTag(RESEARCH_DATA);
 		for (int i = 0; i < Research.getResearchAmount(); i++)
 		{
-			researches.setBoolean(RESEARCH_DATA + research.getResearches().get(i).getNodeID(), research.getResearches().get(i).isResearched());
+			researches.setBoolean(RESEARCH_DATA + research.getResearches().get(i).getType().toString(), research.isUnlocked(research.getResearches().get(i).getType()));
 			AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateResearch(i, research.getResearches().get(i).isResearched()), (EntityPlayerMP) entityPlayer);
 		}
 		entityPlayer.getEntityData().setTag(RESEARCH_DATA, researches);

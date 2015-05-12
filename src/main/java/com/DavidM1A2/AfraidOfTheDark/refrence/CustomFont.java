@@ -37,6 +37,9 @@ public class CustomFont
 	private Font myFont;
 	private int previousSize = 0;
 
+	// NEW
+	private int[] images;
+
 	/**
 	 * Instantiates the font, filling in default start and end character parameters.
 	 * 
@@ -77,6 +80,7 @@ public class CustomFont
 		this.endChar = endChar;
 		xPos = new int[endChar - startChar];
 		yPos = new int[endChar - startChar];
+		images = new int[endChar - startChar];
 
 		// Create a bitmap and fill it with a transparent color as well
 		// as obtain a Graphics instance which can be drawn on.

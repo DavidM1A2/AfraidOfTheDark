@@ -16,6 +16,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
+import com.DavidM1A2.AfraidOfTheDark.research.ResearchTypes;
 
 public class BloodStainedJournalResearchGUI extends GuiScreen
 {
@@ -73,9 +74,9 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 		yPosBaseResearch = yPosBackground + BACKGROUND_WIDTH / 2 - 8;
 
 		// Setup the reserach nodes with an ID and position.
-		unbreakableCovenantResearch = new NodeButton(RESEARCH_AN_UNBREAKABLE_COVENANT_ID, xPosBaseResearch, yPosBaseResearch, 0, 0);
+		unbreakableCovenantResearch = new NodeButton(RESEARCH_AN_UNBREAKABLE_COVENANT_ID, xPosBaseResearch, yPosBaseResearch, 0, 0, ResearchTypes.AnUnbreakableCovenant);
 
-		werewolfExamination = new NodeButton(RESEARCH_WEREWOLF_EXAMINATION, xPosBaseResearch, yPosBaseResearch - 90, 32, 0);
+		werewolfExamination = new NodeButton(RESEARCH_WEREWOLF_EXAMINATION, xPosBaseResearch, yPosBaseResearch - 90, 32, 0, ResearchTypes.WerewolfExamination);
 
 		// Clear and pre-existing buttons on the GUI and add the new ones
 		this.buttonList.clear();

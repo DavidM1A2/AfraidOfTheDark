@@ -13,6 +13,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
+import com.DavidM1A2.AfraidOfTheDark.research.ResearchTypes;
 
 /*
  * A button for researches
@@ -27,15 +28,17 @@ public class NodeButton extends GuiButton
 	private static final ResourceLocation UNKNOWN_RESEARCH = new ResourceLocation("afraidofthedark:textures/gui/QuestionMark.png");
 	private final int iconOffsetX;
 	private final int iconOffsetY;
+	private final ResearchTypes myType;
 
 	// Each button has a position and offset
-	public NodeButton(int ID, int xPosition, int yPosition, int iconOffsetX, int iconOffsetY)
+	public NodeButton(int ID, int xPosition, int yPosition, int iconOffsetX, int iconOffsetY, ResearchTypes myType)
 	{
 		super(ID, xPosition, yPosition, 32, 32, "");
 		this.ORIGINAL_X_POSITION = xPosition;
 		this.ORIGINAL_Y_POSITION = yPosition;
 		this.iconOffsetX = iconOffsetX;
 		this.iconOffsetY = iconOffsetY;
+		this.myType = myType;
 	}
 
 	// Set the position of this node
@@ -63,7 +66,7 @@ public class NodeButton extends GuiButton
 			this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 0, this.width, this.height);
 			// Draw background end:
 
-			if (LoadResearchData.get(Minecraft.getMinecraft().thePlayer).getResearches().get(this.id - 1).isResearched())
+			if (LoadResearchData.get(Minecraft.getMinecraft().thePlayer).isUnlocked(myType))
 			{
 				minecraft.getTextureManager().bindTexture(RESEARCH_ICONS);
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

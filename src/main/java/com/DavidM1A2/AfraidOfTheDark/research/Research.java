@@ -18,23 +18,35 @@ public class Research implements Cloneable
 	private List<ResearchNode> researches = new ArrayList<ResearchNode>()
 	{
 		{
-			add(new ResearchNode(0, "An Unbreakable Covenant"));
-			add(new ResearchNode(1, "Werewolf Examination"));
-			add(new ResearchNode(2, "Refining Silver"));
-			add(new ResearchNode(3, "Infusing Silver"));
+			add(new ResearchNode(ResearchTypes.AnUnbreakableCovenant));
+			add(new ResearchNode(ResearchTypes.WerewolfExamination));
+			add(new ResearchNode(ResearchTypes.RefiningSilver));
+			add(new ResearchNode(ResearchTypes.InfusingSilver));
 		}
 	};
 
 	// Given an ID we can unlock a research by setting the node
-	public void unlockResearch(int ID)
+	public void unlockResearch(ResearchTypes type)
 	{
 		for (int i = 0; i < researches.size(); i++)
 		{
-			if (researches.get(i).getNodeID() == ID)
+			if (researches.get(i).getType() == type)
 			{
 				researches.get(i).unlockNode();
 			}
 		}
+	}
+
+	public boolean isUnlocked(ResearchTypes type)
+	{
+		for (int i = 0; i < researches.size(); i++)
+		{
+			if (researches.get(i).getType() == type)
+			{
+				return researches.get(i).isResearched();
+			}
+		}
+		return false;
 	}
 
 	public List<ResearchNode> getResearches()
