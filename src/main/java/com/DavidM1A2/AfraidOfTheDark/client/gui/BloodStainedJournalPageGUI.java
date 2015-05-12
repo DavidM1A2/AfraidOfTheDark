@@ -49,7 +49,7 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 		scale = this.width / 640.0;
 		this.drawScaledCustomSizeModalRect((int) ((this.width - 330 * scale) / 2), (int) ((this.height - 330 * scale) / 2), 0, 0, (int) (330 * scale), (int) (330 * scale), (int) (330 * scale), (int) (330 * scale), (float) (330 * scale), (float) (330 * scale));
 
-		this.drawText(((int) ((this.width - 330 * scale) / 2) + 10), ((int) ((this.height - 330 * scale)) / 2) + 10);
+		this.drawText(((int) ((this.width - 330 * scale) / 2) + 10), ((int) ((this.height - 330 * scale)) / 2) + 10, scale);
 
 		super.drawScreen(i, j, f);
 	}
@@ -65,8 +65,9 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 		super.keyTyped(character, iDontKnowWhatThisDoes);
 	}
 
-	private void drawText(int leftPageCoord, int topPageCoord)
+	private void drawText(int leftPageCoord, int topPageCoord, double scale)
 	{
+		Refrence.aotdFont.setFontSize((int) (scale * 8), 32, 126);
 		Refrence.aotdFont.drawString(this, text, leftPageCoord, topPageCoord, 0xFF7F00FF);
 	}
 }

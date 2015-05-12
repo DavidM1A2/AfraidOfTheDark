@@ -40,7 +40,7 @@ public class GuiHandler implements IGuiHandler
 		}
 		else if (ID == BLOOD_STAINED_JOURNAL_PAGE_ID)
 		{
-			return new BloodStainedJournalPageGUI("Test 123456789");
+			return new BloodStainedJournalPageGUI("This is an example research!");
 		}
 		return null;
 	}

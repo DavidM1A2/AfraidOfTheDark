@@ -7,8 +7,11 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.InputStream;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -31,6 +34,8 @@ public class CustomFont
 	private int startChar;
 	private int endChar;
 	private FontMetrics metrics;
+	private Font myFont;
+	private int previousSize = 0;
 
 	/**
 	 * Instantiates the font, filling in default start and end character parameters.
@@ -77,25 +82,14 @@ public class CustomFont
 		// as obtain a Graphics instance which can be drawn on.
 		// NOTE: It is CRUICIAL that the size of the image is 256x256, if
 		// it is not the Minecraft engine will not draw it properly.
-		BufferedImage img = new BufferedImage(256, 256, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage img = new BufferedImage(1024, 1024, BufferedImage.TYPE_INT_ARGB);
 		Graphics g = img.getGraphics();
 		try
 		{
-			if (font instanceof String)
+			if (font instanceof InputStream)
 			{
-				String fontName = (String) font;
-				if (fontName.contains("/"))
-					g.setFont(Font.createFont(Font.TRUETYPE_FONT, new File(fontName)).deriveFont((float) size));
-				else
-					g.setFont(new Font(fontName, 0, size));
-			}
-			else if (font instanceof InputStream)
-			{
-				g.setFont(Font.createFont(Font.TRUETYPE_FONT, (InputStream) font).deriveFont((float) size));
-			}
-			else if (font instanceof File)
-			{
-				g.setFont(Font.createFont(Font.TRUETYPE_FONT, (File) font).deriveFont((float) size));
+				this.myFont = Font.createFont(Font.TRUETYPE_FONT, (InputStream) font);
+				g.setFont(myFont.deriveFont((float) size));
 			}
 		}
 		catch (Exception e)
@@ -104,7 +98,7 @@ public class CustomFont
 		}
 
 		g.setColor(new Color(255, 255, 255, 0));
-		g.fillRect(0, 0, 256, 256);
+		g.fillRect(0, 0, 1024, 1024);
 		g.setColor(Color.white);
 		metrics = g.getFontMetrics();
 
@@ -121,12 +115,21 @@ public class CustomFont
 			xPos[i - startChar] = x;
 			yPos[i - startChar] = y - metrics.getMaxDescent();
 			x += metrics.stringWidth("" + (char) i) + 2;
-			if (x >= 250 - metrics.getMaxAdvance())
+			if (x >= 1019 - metrics.getMaxAdvance())
 			{
 				x = 2;
 				y += metrics.getMaxAscent() + metrics.getMaxDescent() + size / 2;
 			}
 		}
+
+		JFrame panel = new JFrame();
+		panel.setLayout(null);
+		panel.getContentPane().setBackground(Color.black);
+		panel.getContentPane().setForeground(Color.black);
+		JLabel xyz = new JLabel(new ImageIcon(img));
+		xyz.setBounds(new Rectangle(30, 30, 1024, 1024));
+		panel.add(xyz);
+		panel.setVisible(true);
 
 		// Render the finished bitmap into the Minecraft
 		// graphics engine.
@@ -281,4 +284,44 @@ public class CustomFont
 		gui.drawTexturedModalRect(x, y, xPos[(byte) c - startChar], yPos[(byte) c - startChar], (int) bounds.getWidth(), (int) bounds.getHeight() + metrics.getMaxDescent());
 	}
 
+	public void setFontSize(int size, int startChar, int endChar)
+	{
+		// if (previousSize != size)
+		// {
+		// this.startChar = startChar;
+		// this.endChar = endChar;
+		// xPos = new int[endChar - startChar];
+		// yPos = new int[endChar - startChar];
+		//
+		// Font newFont = myFont.deriveFont((float) size);
+		// BufferedImage img = new BufferedImage(256, 256, BufferedImage.TYPE_INT_ARGB);
+		// Graphics g = img.getGraphics();
+		// g.setFont(newFont);
+		// g.setColor(new Color(255, 255, 255, 0));
+		// g.fillRect(0, 0, 256, 256);
+		// g.setColor(Color.white);
+		// this.metrics = g.getFontMetrics();
+		//
+		// int x = 2;
+		// int y = 2;
+		// for (int i = startChar; i < endChar; i++)
+		// {
+		// g.drawString("" + ((char) i), x, y + g.getFontMetrics().getAscent());
+		// xPos[i - startChar] = x;
+		// yPos[i - startChar] = y - metrics.getMaxDescent();
+		// x += metrics.stringWidth("" + (char) i) + 2;
+		// if (x >= 250 - metrics.getMaxAdvance())
+		// {
+		// x = 2;
+		// y += metrics.getMaxAscent() + metrics.getMaxDescent() + size / 2;
+		// }
+		// }
+		//
+		// // Render the finished bitmap into the Minecraft
+		// // graphics engine.
+		//
+		// texID = new DynamicTexture(img).getGlTextureId();
+		// this.previousSize = size;
+		// }
+	}
 }
