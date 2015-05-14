@@ -1,7 +1,5 @@
 /*
- * Author: David Slovikosky
- * Mod: Afraid of the Dark
- * Ideas and Textures: Michael Albertson
+ * Author: David Slovikosky Mod: Afraid of the Dark Ideas and Textures: Michael Albertson
  */
 package com.DavidM1A2.AfraidOfTheDark.research;
 
@@ -10,11 +8,13 @@ public class ResearchNode
 	// Is the research node researched?
 	private boolean isResearched = false;
 	// Name of the research and ID
-	private ResearchTypes type;
+	private ResearchTypes researchName;
+	private ResearchTypes previousResearch = null;
 
-	public ResearchNode(ResearchTypes researchName)
+	public ResearchNode(ResearchTypes researchName, ResearchTypes previousResearch)
 	{
-		this.type = researchName;
+		this.researchName = researchName;
+		this.previousResearch = previousResearch;
 	}
 
 	// Unlock this node
@@ -25,7 +25,12 @@ public class ResearchNode
 
 	public ResearchTypes getType()
 	{
-		return this.type;
+		return this.researchName;
+	}
+
+	public ResearchTypes getPrevious()
+	{
+		return this.previousResearch;
 	}
 
 	// Is the node researched?
@@ -36,6 +41,6 @@ public class ResearchNode
 
 	public String toString()
 	{
-		return "Name = " + this.type.toString() + "      isResearched? " + this.isResearched;
+		return "Name = " + this.researchName.toString() + "      isResearched? " + this.isResearched;
 	}
 }

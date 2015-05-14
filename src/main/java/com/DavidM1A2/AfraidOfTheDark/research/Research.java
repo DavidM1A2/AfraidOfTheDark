@@ -1,7 +1,5 @@
 /*
- * Author: David Slovikosky
- * Mod: Afraid of the Dark
- * Ideas and Textures: Michael Albertson
+ * Author: David Slovikosky Mod: Afraid of the Dark Ideas and Textures: Michael Albertson
  */
 package com.DavidM1A2.AfraidOfTheDark.research;
 
@@ -18,10 +16,10 @@ public class Research implements Cloneable
 	private List<ResearchNode> researches = new ArrayList<ResearchNode>()
 	{
 		{
-			add(new ResearchNode(ResearchTypes.AnUnbreakableCovenant));
-			add(new ResearchNode(ResearchTypes.WerewolfExamination));
-			add(new ResearchNode(ResearchTypes.RefiningSilver));
-			add(new ResearchNode(ResearchTypes.InfusingSilver));
+			add(new ResearchNode(ResearchTypes.AnUnbreakableCovenant, null));
+			add(new ResearchNode(ResearchTypes.WerewolfExamination, ResearchTypes.AnUnbreakableCovenant));
+			add(new ResearchNode(ResearchTypes.RefiningSilver, ResearchTypes.WerewolfExamination));
+			add(new ResearchNode(ResearchTypes.InfusingSilver, ResearchTypes.RefiningSilver));
 		}
 	};
 
@@ -52,6 +50,23 @@ public class Research implements Cloneable
 	public List<ResearchNode> getResearches()
 	{
 		return this.researches;
+	}
+
+	public boolean isPreviousResearched(ResearchTypes type)
+	{
+		return getResearch(getResearch(type).getPrevious()).isResearched();
+	}
+
+	public ResearchNode getResearch(ResearchTypes type)
+	{
+		for (int i = 0; i < researches.size(); i++)
+		{
+			if (researches.get(i).getType() == type)
+			{
+				return researches.get(i);
+			}
+		}
+		return null;
 	}
 
 	public static int getResearchAmount()

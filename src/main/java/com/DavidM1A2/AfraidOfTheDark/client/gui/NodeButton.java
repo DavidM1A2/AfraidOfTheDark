@@ -1,7 +1,5 @@
 /*
- * Author: David Slovikosky
- * Mod: Afraid of the Dark
- * Ideas and Textures: Michael Albertson
+ * Author: David Slovikosky Mod: Afraid of the Dark Ideas and Textures: Michael Albertson
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui;
 
@@ -13,6 +11,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
+import com.DavidM1A2.AfraidOfTheDark.research.Research;
 import com.DavidM1A2.AfraidOfTheDark.research.ResearchTypes;
 
 /*
@@ -66,23 +65,36 @@ public class NodeButton extends GuiButton
 			this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 0, this.width, this.height);
 			// Draw background end:
 
-			if (LoadResearchData.get(Minecraft.getMinecraft().thePlayer).isUnlocked(myType))
+			Research myResearch = LoadResearchData.get(Minecraft.getMinecraft().thePlayer);
+			if (myResearch.getResearch(myType).isResearched())
 			{
 				minecraft.getTextureManager().bindTexture(RESEARCH_ICONS);
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-				// this.field_146123_n = int1 >= this.xPosition && int2 >= this.yPosition && int1 < this.xPosition + this.width && int2 <
-				// this.yPosition + this.height;
 				GL11.glEnable(GL11.GL_BLEND);
 				OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 				this.drawTexturedModalRect(this.xPosition + 2, this.yPosition + 2, iconOffsetX, iconOffsetY, this.width - 4, this.height - 4);
 			}
+			else if (myResearch.getResearch(myResearch.getResearch(myType).getPrevious()).isResearched())
+			{
+				minecraft.getTextureManager().bindTexture(RESEARCH_ICONS);
+				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+				GL11.glEnable(GL11.GL_BLEND);
+				OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+				this.drawTexturedModalRect(this.xPosition + 2, this.yPosition + 2, iconOffsetX, iconOffsetY + 32, this.width - 4, this.height - 4);
+
+				minecraft.getTextureManager().bindTexture(UNKNOWN_RESEARCH);
+				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+				GL11.glEnable(GL11.GL_BLEND);
+				OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+				this.drawTexturedModalRect(this.xPosition + 2, this.yPosition + 2, 0, 0, this.width - 4, this.height - 4);
+			}
 			else
 			{
 				minecraft.getTextureManager().bindTexture(UNKNOWN_RESEARCH);
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-				// this.field_146123_n = int1 >= this.xPosition && int2 >= this.yPosition && int1 < this.xPosition + this.width && int2 <
-				// this.yPosition + this.height;
 				GL11.glEnable(GL11.GL_BLEND);
 				OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);

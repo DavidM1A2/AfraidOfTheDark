@@ -1,7 +1,5 @@
 /*
- * Author: David Slovikosky
- * Mod: Afraid of the Dark
- * Ideas and Textures: Michael Albertson
+ * Author: David Slovikosky Mod: Afraid of the Dark Ideas and Textures: Michael Albertson
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui;
 
@@ -16,6 +14,9 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
+import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
+import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.research.Research;
 import com.DavidM1A2.AfraidOfTheDark.research.ResearchTypes;
 
 public class BloodStainedJournalResearchGUI extends GuiScreen
@@ -23,7 +24,7 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 	// IDs of different researches
 	private static final int BACKGROUND_IMAGE_ID = 0;
 	private static final int RESEARCH_AN_UNBREAKABLE_COVENANT_ID = 1;
-	private static final int RESEARCH_WEREWOLF_EXAMINATION = 2;
+	private static final int RESEARCH_WEREWOLF_EXAMINATION_ID = 2;
 
 	// GUI height and width
 	private static int baseWidth = 512;
@@ -76,7 +77,7 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 		// Setup the reserach nodes with an ID and position.
 		unbreakableCovenantResearch = new NodeButton(RESEARCH_AN_UNBREAKABLE_COVENANT_ID, xPosBaseResearch, yPosBaseResearch, 0, 0, ResearchTypes.AnUnbreakableCovenant);
 
-		werewolfExamination = new NodeButton(RESEARCH_WEREWOLF_EXAMINATION, xPosBaseResearch, yPosBaseResearch - 90, 32, 0, ResearchTypes.WerewolfExamination);
+		werewolfExamination = new NodeButton(RESEARCH_WEREWOLF_EXAMINATION_ID, xPosBaseResearch, yPosBaseResearch - 90, 32, 0, ResearchTypes.WerewolfExamination);
 
 		// Clear and pre-existing buttons on the GUI and add the new ones
 		this.buttonList.clear();
@@ -122,13 +123,27 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 	protected void actionPerformed(GuiButton button)
 	{
 		EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
+		Research myResearch = LoadResearchData.get(entityPlayer);
 		if (button.id == this.RESEARCH_AN_UNBREAKABLE_COVENANT_ID)
 		{
-			Minecraft.getMinecraft().thePlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
+			if (myResearch.getResearch(ResearchTypes.AnUnbreakableCovenant).isResearched())
+			{
+				Refrence.currentlySelected = ResearchTypes.AnUnbreakableCovenant;
+				entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
+			}
 		}
-		else if (button.id == this.RESEARCH_WEREWOLF_EXAMINATION)
+		else if (button.id == this.RESEARCH_WEREWOLF_EXAMINATION_ID)
 		{
-
+			if (myResearch.getResearch(ResearchTypes.WerewolfExamination).isResearched())
+			{
+				Refrence.currentlySelected = ResearchTypes.WerewolfExamination;
+				entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
+			}
+			else if (myResearch.isPreviousResearched(ResearchTypes.WerewolfExamination))
+			{
+				Refrence.currentlySelected = ResearchTypes.PreWerewolfExamination;
+				entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
+			}
 		}
 	}
 

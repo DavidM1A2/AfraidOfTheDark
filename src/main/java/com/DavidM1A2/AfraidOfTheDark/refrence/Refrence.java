@@ -1,7 +1,5 @@
 /*
- * Author: David Slovikosky
- * Mod: Afraid of the Dark
- * Ideas and Textures: Michael Albertson
+ * Author: David Slovikosky Mod: Afraid of the Dark Ideas and Textures: Michael Albertson
  */
 package com.DavidM1A2.AfraidOfTheDark.refrence;
 
@@ -18,8 +16,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
 
 import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModItems;
+import com.DavidM1A2.AfraidOfTheDark.research.ResearchTypes;
 
-//Refrences for static final variables
+// Refrences for static final variables
 public class Refrence
 {
 	// The ID of the mod
@@ -42,7 +41,10 @@ public class Refrence
 	// Network channel name is the same as the ID
 	public static final String NETWORK_CHANNEL_NAME = Refrence.MOD_ID;
 
-	public static CustomFont aotdFont;
+	public static ResearchTypes currentlySelected = ResearchTypes.AnUnbreakableCovenant;
+
+	public static CustomFont journalFont;
+	public static CustomFont journalTitleFont;
 
 	// Silver weapon damage type and silver tool material
 	public static final DamageSource silverWeapon = new DamageSource("silverWeapon").setProjectile();
@@ -52,8 +54,9 @@ public class Refrence
 	{
 		try
 		{
-			InputStream stream = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(Refrence.MOD_ID, "fonts/Face Your Fears.ttf")).getInputStream();
-			aotdFont = new CustomFont(Minecraft.getMinecraft(), stream, 20);
+			InputStream stream = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(Refrence.MOD_ID, "fonts/Targa MS Hand.ttf")).getInputStream();
+			journalFont = new CustomFont(Minecraft.getMinecraft(), stream, 16);
+			journalTitleFont = new CustomFont(Minecraft.getMinecraft(), stream, 26);
 		}
 		catch (FileNotFoundException e)
 		{

@@ -29,9 +29,10 @@ public class CustomFont
 	private int startChar;
 	private int endChar;
 	private FontMetrics metrics;
-	private Font myFont;
+	private static Font myFont;
 	private int previousSize = 0;
 	private final int eachCharImageDimension = 128;
+	private DynamicTexture[] textures;
 
 	// NEW
 	private int[] images;
@@ -75,12 +76,13 @@ public class CustomFont
 	public CustomFont(Minecraft mc, Object font, int size, int startChar, int endChar)
 	{
 		this.fontSize = size;
-		size = 128;
+		size = 100;
 		this.startChar = startChar;
 		this.endChar = endChar;
 		xPos = new int[endChar - startChar];
 		images = new int[endChar - startChar];
 		characters = new char[endChar - startChar];
+		textures = new DynamicTexture[endChar - startChar];
 
 		// Create a bitmap and fill it with a transparent color as well
 		// as obtain a Graphics instance which can be drawn on.
@@ -90,10 +92,9 @@ public class CustomFont
 		Graphics g = img.getGraphics();
 		try
 		{
-			if (font instanceof InputStream)
+			if (font instanceof InputStream && this.myFont == null)
 			{
 				this.myFont = Font.createFont(Font.TRUETYPE_FONT, (InputStream) font);
-				g.setFont(myFont.deriveFont((float) size));
 			}
 		}
 		catch (Exception e)
@@ -101,6 +102,7 @@ public class CustomFont
 			e.printStackTrace();
 		}
 
+		g.setFont(myFont.deriveFont((float) size).deriveFont(Font.BOLD));
 		g.setColor(new Color(255, 255, 255, 0));
 		g.fillRect(0, 0, eachCharImageDimension, eachCharImageDimension);
 		g.setColor(Color.white);
@@ -126,8 +128,12 @@ public class CustomFont
 			metrics = g.getFontMetrics();
 
 			g.drawString("" + ((char) i), x, y + g.getFontMetrics().getAscent());
-			images[i - startChar] = new DynamicTexture(img).getGlTextureId();
+			textures[i - startChar] = new DynamicTexture(img);
+			images[i - startChar] = textures[i - startChar].getGlTextureId();
 			characters[i - startChar] = ((char) i);
+
+			img.flush();
+			g.dispose();
 		}
 	}
 
@@ -178,6 +184,7 @@ public class CustomFont
 		float alpha = (float) (color >> 24 & 0xff) / 255F;
 		GL11.glColor4f(red, green, blue, alpha);
 		int startX = x;
+
 		for (int i = 0; i < text.length(); i++)
 		{
 			char c = text.charAt(i);
@@ -289,13 +296,19 @@ public class CustomFont
 	{
 		if (previousSize != size)
 		{
+			for (int i = 0; i < textures.length; i++)
+			{
+				textures[i].deleteGlTexture();
+			}
+
 			this.fontSize = size;
-			size = 128;
+			size = 100;
 			this.startChar = startChar;
 			this.endChar = endChar;
 			xPos = new int[endChar - startChar];
 			images = new int[endChar - startChar];
 			characters = new char[endChar - startChar];
+			textures = new DynamicTexture[endChar - startChar];
 
 			// Create a bitmap and fill it with a transparent color as well
 			// as obtain a Graphics instance which can be drawn on.
@@ -322,7 +335,7 @@ public class CustomFont
 			{
 				img = new BufferedImage(eachCharImageDimension, eachCharImageDimension, BufferedImage.TYPE_INT_ARGB);
 				g = img.getGraphics();
-				g.setFont(myFont.deriveFont((float) size));
+				g.setFont(myFont.deriveFont((float) size).deriveFont(Font.BOLD));
 
 				g.setColor(new Color(255, 255, 255, 0));
 				g.fillRect(0, 0, 64, 64);
@@ -330,9 +343,21 @@ public class CustomFont
 				metrics = g.getFontMetrics();
 
 				g.drawString("" + ((char) i), x, y + g.getFontMetrics().getAscent());
-				images[i - startChar] = new DynamicTexture(img).getGlTextureId();
+				textures[i - startChar] = new DynamicTexture(img);
+				images[i - startChar] = textures[i - startChar].getGlTextureId();
+
 				characters[i - startChar] = ((char) i);
+
+				img.flush();
+				g.dispose();
 			}
+
+			previousSize = fontSize;
 		}
+	}
+
+	public int getFontSize()
+	{
+		return this.fontSize;
 	}
 }

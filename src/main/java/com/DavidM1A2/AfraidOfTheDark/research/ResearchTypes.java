@@ -4,6 +4,9 @@ public enum ResearchTypes
 {
 	AnUnbreakableCovenant,
 	WerewolfExamination,
+	PreWerewolfExamination,
 	RefiningSilver,
-	InfusingSilver
+	PreRefiningSilver,
+	InfusingSilver,
+	PreInfusingSilver
 }
