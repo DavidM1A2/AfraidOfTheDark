@@ -12,6 +12,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 
@@ -30,9 +31,9 @@ import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModGeneration;
 import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModOreDictionaryCompatability;
 import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModRecipes;
+import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModThreads;
 import com.DavidM1A2.AfraidOfTheDark.proxy.IProxy;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
-import com.DavidM1A2.AfraidOfTheDark.threads.RandomInsanityUpdate;
 import com.DavidM1A2.AfraidOfTheDark.utility.LogHelper;
 
 @Mod(modid = Refrence.MOD_ID, name = Refrence.MOD_NAME, version = Refrence.VERSION, guiFactory = Refrence.GUI_FACTORY_CLASS)
@@ -81,6 +82,8 @@ public class AfraidOfTheDark
 		proxy.registerKeyBindings();
 		// Initialize the mod channel
 		proxy.registerChannel();
+		// Setup mod threads
+		ModThreads.register();
 
 		LogHelper.info("Pre-Initialization Complete");
 	}
@@ -117,9 +120,13 @@ public class AfraidOfTheDark
 	@Mod.EventHandler
 	public void serverStartedEvent(FMLServerStartedEvent event)
 	{
-		// Register background threads
-		Thread randomInsanityUpdate = new RandomInsanityUpdate();
-		randomInsanityUpdate.start();
+		ModThreads.startInGameThreads();
+	}
+
+	@Mod.EventHandler
+	public void serverStoppedEvent(FMLServerStoppedEvent event)
+	{
+		ModThreads.stopInGameThreads();
 	}
 
 	public static SimpleNetworkWrapper getSimpleNetworkWrapper()
