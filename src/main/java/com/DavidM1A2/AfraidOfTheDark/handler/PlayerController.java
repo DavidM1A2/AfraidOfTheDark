@@ -23,6 +23,7 @@ import com.DavidM1A2.AfraidOfTheDark.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.playerData.Insanity;
 import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
 import com.DavidM1A2.AfraidOfTheDark.research.Research;
+import com.DavidM1A2.AfraidOfTheDark.threads.UpdateReserachAfterDelay;
 
 public class PlayerController
 {
@@ -36,7 +37,7 @@ public class PlayerController
 		double insanity = Insanity.get(event.original);
 		Insanity.increaseInsanity(insanity, event.entityPlayer);
 		Research research = LoadResearchData.get(event.original);
-		LoadResearchData.set(event.entityPlayer, research);
+		(new UpdateReserachAfterDelay(event.entityPlayer, research)).start();
 	}
 
 	@SideOnly(Side.CLIENT)
