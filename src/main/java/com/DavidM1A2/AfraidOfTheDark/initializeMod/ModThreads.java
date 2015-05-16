@@ -16,6 +16,7 @@ public class ModThreads
 
 	public static void startInGameThreads()
 	{
+		register();
 		if (!randomInsanityUpdate.isAlive())
 		{
 			randomInsanityUpdate.start();

@@ -1,7 +1,5 @@
 /*
- * Author: David Slovikosky
- * Mod: Afraid of the Dark
- * Ideas and Textures: Michael Albertson
+ * Author: David Slovikosky Mod: Afraid of the Dark Ideas and Textures: Michael Albertson
  */
 package com.DavidM1A2.AfraidOfTheDark.playerData;
 
@@ -74,14 +72,11 @@ public class LoadResearchData implements IExtendedEntityProperties
 
 	public static final void set(EntityPlayer entityPlayer, Research research)
 	{
-		((LoadResearchData) entityPlayer.getExtendedProperties(RESEARCH_DATA)).myResearch = research;
-		NBTTagCompound researches = entityPlayer.getEntityData().getCompoundTag(RESEARCH_DATA);
 		for (int i = 0; i < Research.getResearchAmount(); i++)
 		{
-			researches.setBoolean(RESEARCH_DATA + research.getResearches().get(i).getType().toString(), research.isUnlocked(research.getResearches().get(i).getType()));
+			LoadResearchData.setSingleResearch(entityPlayer, i, research.getResearches().get(i).isResearched());
 			AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateResearch(i, research.getResearches().get(i).isResearched()), (EntityPlayerMP) entityPlayer);
 		}
-		entityPlayer.getEntityData().setTag(RESEARCH_DATA, researches);
 	}
 
 	/**

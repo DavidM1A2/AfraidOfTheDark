@@ -72,18 +72,6 @@ public class PlayerController
 			EntityPlayer entityPlayer = (EntityPlayer) event.entity;
 
 			/*
-			 * This first block of code will determine if the player has insanity yet, and if he/she does we will load it.
-			 */
-			if (entityPlayer.getExtendedProperties("PlayerInsanity") == null)
-			{
-				entityPlayer.registerExtendedProperties("PlayerInsanity", new Insanity());
-			}
-			if (!event.world.isRemote)
-			{
-				AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateInsanity(Insanity.get(entityPlayer)), (EntityPlayerMP) entityPlayer);
-			}
-
-			/*
 			 * This second block of code will update any crossbows when the player loads in.
 			 */
 			for (int i = 0; i < entityPlayer.inventory.getSizeInventory(); i++)
@@ -100,29 +88,16 @@ public class PlayerController
 				}
 			}
 
-			/*
-			 * This third block of code will check if the player has begun the mod.
-			 */
-			if (entityPlayer.getExtendedProperties("playerStartedAOTD") == null)
-			{
-				entityPlayer.registerExtendedProperties("playerStartedAOTD", new HasStartedAOTD());
-			}
 			if (!event.world.isRemote)
 			{
-				AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateAOTDStatus(HasStartedAOTD.get(entityPlayer)), (EntityPlayerMP) entityPlayer);
-			}
+				AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateInsanity(Insanity.get(entityPlayer)), (EntityPlayerMP) entityPlayer);
 
-			if (!event.world.isRemote)
-			{
+				AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateAOTDStatus(HasStartedAOTD.get(entityPlayer)), (EntityPlayerMP) entityPlayer);
+
 				for (int i = 0; i < Research.getResearchAmount(); i++)
 				{
 					AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateResearch(i, LoadResearchData.get(entityPlayer).getResearches().get(i).isResearched()), (EntityPlayerMP) entityPlayer);
 				}
-			}
-
-			if (event.world.isRemote)
-			{
-
 			}
 		}
 	}
@@ -140,6 +115,20 @@ public class PlayerController
 			if (entityPlayer.getExtendedProperties("unlockedResearches") == null)
 			{
 				LoadResearchData.register(entityPlayer);
+			}
+			/*
+			 * This third block of code will check if the player has begun the mod.
+			 */
+			if (entityPlayer.getExtendedProperties("playerStartedAOTD") == null)
+			{
+				entityPlayer.registerExtendedProperties("playerStartedAOTD", new HasStartedAOTD());
+			}
+			/*
+			 * This first block of code will determine if the player has insanity yet, and if he/she does we will load it.
+			 */
+			if (entityPlayer.getExtendedProperties("PlayerInsanity") == null)
+			{
+				entityPlayer.registerExtendedProperties("PlayerInsanity", new Insanity());
 			}
 		}
 	}

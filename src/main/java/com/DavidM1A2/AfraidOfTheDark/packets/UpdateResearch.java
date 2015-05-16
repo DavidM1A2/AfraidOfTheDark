@@ -46,7 +46,7 @@ public class UpdateResearch implements IMessage
 		@Override
 		public IMessage onMessage(UpdateResearch message, MessageContext ctx)
 		{
-			LogHelper.info("Update Server Research");
+			LogHelper.info("Update Server Research: index = " + message.index + " value = " + message.unlocked);
 			LoadResearchData.setSingleResearch(ctx.getServerHandler().playerEntity, message.index, message.unlocked);
 			return null;
 		}
@@ -58,7 +58,7 @@ public class UpdateResearch implements IMessage
 		@Override
 		public IMessage onMessage(UpdateResearch message, MessageContext ctx)
 		{
-			LogHelper.info("Update Client Research");
+			LogHelper.info("Update Client Research: index = " + message.index + " value = " + message.unlocked);
 			LoadResearchData.setSingleResearch(Minecraft.getMinecraft().thePlayer, message.index, message.unlocked);
 			return null;
 		}

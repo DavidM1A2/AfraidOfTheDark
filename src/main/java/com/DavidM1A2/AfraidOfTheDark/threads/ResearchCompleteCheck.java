@@ -2,7 +2,7 @@ package com.DavidM1A2.AfraidOfTheDark.threads;
 
 import java.util.List;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
@@ -26,9 +26,9 @@ public class ResearchCompleteCheck extends Thread
 			{
 				Thread.sleep(1000);
 
-				List<EntityPlayer> allPlayers = MinecraftServer.getServer().getConfigurationManager().playerEntityList;
+				List<EntityPlayerMP> allPlayers = MinecraftServer.getServer().getConfigurationManager().playerEntityList;
 
-				for (EntityPlayer player : allPlayers)
+				for (EntityPlayerMP player : allPlayers)
 				{
 					if (HasStartedAOTD.get(player))
 					{
@@ -36,13 +36,13 @@ public class ResearchCompleteCheck extends Thread
 						{
 							if (!LoadResearchData.get(player).isUnlocked(ResearchTypes.WerewolfExamination))
 							{
-								for (Object entity : player.worldObj.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().expand(15, 15, 15)))
+								for (Object entity : player.worldObj.getEntitiesWithinAABBExcludingEntity(player, player.getEntityBoundingBox().expand(15, 15, 15)))
 								{
 									if (entity instanceof EntityWereWolf)
 									{
 										LoadResearchData.get(player).unlockResearch(ResearchTypes.WerewolfExamination);
 										LoadResearchData.setSingleResearch(player, 0, true);
-										AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateResearch(1, true));
+										AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateResearch(1, true), player);
 									}
 								}
 							}

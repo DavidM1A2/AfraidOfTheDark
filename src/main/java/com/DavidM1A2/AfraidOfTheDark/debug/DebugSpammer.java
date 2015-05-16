@@ -4,6 +4,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
+import com.DavidM1A2.AfraidOfTheDark.utility.LogHelper;
+
 public class DebugSpammer
 {
 	@SubscribeEvent
@@ -13,7 +16,7 @@ public class DebugSpammer
 		{
 			EntityPlayer p = (EntityPlayer) e.entityLiving;
 
-			// LogHelper.info(LoadResearchData.get(p));
+			LogHelper.info(LoadResearchData.get(p));
 		}
 	}
 }

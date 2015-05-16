@@ -75,7 +75,7 @@ public class NodeButton extends GuiButton
 				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 				this.drawTexturedModalRect(this.xPosition + 2, this.yPosition + 2, iconOffsetX, iconOffsetY, this.width - 4, this.height - 4);
 			}
-			else if (myResearch.getResearch(myResearch.getResearch(myType).getPrevious()).isResearched())
+			else if (myResearch.getResearch(myResearch.getResearch(myType).getPrevious()) != null && myResearch.getResearch(myResearch.getResearch(myType).getPrevious()).isResearched())
 			{
 				minecraft.getTextureManager().bindTexture(RESEARCH_ICONS);
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
