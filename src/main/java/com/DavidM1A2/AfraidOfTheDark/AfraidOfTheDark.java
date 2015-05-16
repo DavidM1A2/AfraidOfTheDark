@@ -1,7 +1,5 @@
 /*
- * Author: David Slovikosky
- * Mod: Afraid of the Dark
- * Ideas and Textures: Michael Albertson
+ * Author: David Slovikosky Mod: Afraid of the Dark Ideas and Textures: Michael Albertson
  */
 package com.DavidM1A2.AfraidOfTheDark;
 
@@ -51,11 +49,14 @@ public class AfraidOfTheDark
 	@Mod.EventHandler
 	public void preInitialization(FMLPreInitializationEvent event)
 	{
+
 		// Initialize configuration
 		ConfigurationHandler.initializataion(event.getSuggestedConfigurationFile());
 		FMLCommonHandler.instance().bus().register(new ConfigurationHandler());
 		// Initialize any player events
-		MinecraftForge.EVENT_BUS.register(new PlayerController());
+		PlayerController controller = new PlayerController();
+		MinecraftForge.EVENT_BUS.register(controller);
+		FMLCommonHandler.instance().bus().register(controller);
 		// Initialize any world events
 		MinecraftForge.EVENT_BUS.register(new WorldEvents());
 		// Initialize debug file to spam chat with variables
@@ -117,8 +118,8 @@ public class AfraidOfTheDark
 	public void serverStartedEvent(FMLServerStartedEvent event)
 	{
 		// Register background threads
-		Thread randomUpdate = new RandomInsanityUpdate();
-		randomUpdate.start();
+		Thread randomInsanityUpdate = new RandomInsanityUpdate();
+		randomInsanityUpdate.start();
 	}
 
 	public static SimpleNetworkWrapper getSimpleNetworkWrapper()

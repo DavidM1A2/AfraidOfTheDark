@@ -1,7 +1,5 @@
 /*
- * Author: David Slovikosky
- * Mod: Afraid of the Dark
- * Ideas and Textures: Michael Albertson
+ * Author: David Slovikosky Mod: Afraid of the Dark Ideas and Textures: Michael Albertson
  */
 package com.DavidM1A2.AfraidOfTheDark.handler;
 
@@ -28,6 +26,7 @@ import com.DavidM1A2.AfraidOfTheDark.research.Research;
 
 public class PlayerController
 {
+
 	// When the player dies, he is cloned. We move over extended properties such as hasStartedAOTD, insanity, and research
 	@SubscribeEvent
 	public void onClonePlayer(PlayerEvent.Clone event)
@@ -119,6 +118,11 @@ public class PlayerController
 				{
 					AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateResearch(i, LoadResearchData.get(entityPlayer).getResearches().get(i).isResearched()), (EntityPlayerMP) entityPlayer);
 				}
+			}
+
+			if (event.world.isRemote)
+			{
+
 			}
 		}
 	}

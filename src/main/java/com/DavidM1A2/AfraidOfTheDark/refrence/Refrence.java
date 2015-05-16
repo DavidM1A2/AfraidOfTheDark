@@ -14,6 +14,9 @@ import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.research.ResearchTypes;
@@ -43,7 +46,9 @@ public class Refrence
 
 	public static ResearchTypes currentlySelected = ResearchTypes.AnUnbreakableCovenant;
 
+	@SideOnly(Side.CLIENT)
 	public static CustomFont journalFont;
+	@SideOnly(Side.CLIENT)
 	public static CustomFont journalTitleFont;
 
 	// Silver weapon damage type and silver tool material
@@ -52,19 +57,24 @@ public class Refrence
 
 	static
 	{
-		try
+		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
 		{
-			InputStream stream = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(Refrence.MOD_ID, "fonts/Targa MS Hand.ttf")).getInputStream();
-			journalFont = new CustomFont(Minecraft.getMinecraft(), stream, 16);
-			journalTitleFont = new CustomFont(Minecraft.getMinecraft(), stream, 26);
-		}
-		catch (FileNotFoundException e)
-		{
-			e.printStackTrace();
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
+			try
+			{
+				InputStream textFont = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(Refrence.MOD_ID, "fonts/Targa MS Hand.ttf")).getInputStream();
+				InputStream titleFont = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(Refrence.MOD_ID, "fonts/coolvetica.ttf")).getInputStream();
+
+				journalFont = new CustomFont(textFont, 16);
+				journalTitleFont = new CustomFont(titleFont, 26);
+			}
+			catch (FileNotFoundException e)
+			{
+				e.printStackTrace();
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
 		}
 	}
 

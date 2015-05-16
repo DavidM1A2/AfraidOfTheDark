@@ -1,7 +1,5 @@
 /*
- * Author: David Slovikosky
- * Mod: Afraid of the Dark
- * Ideas and Textures: Michael Albertson
+ * Author: David Slovikosky Mod: Afraid of the Dark Ideas and Textures: Michael Albertson
  */
 package com.DavidM1A2.AfraidOfTheDark.block;
 
@@ -55,7 +53,6 @@ public abstract class AOTDLeaves extends BlockLeaves
 		super();
 		this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, AOTDTreeTypes.GRAVEWOOD).withProperty(field_176236_b, Boolean.valueOf(true)).withProperty(field_176237_a, Boolean.valueOf(true)));
-		this.setGraphicsLevel(true);
 		this.setTickRandomly(true);
 	}
 
@@ -66,6 +63,12 @@ public abstract class AOTDLeaves extends BlockLeaves
 		int meta = this.getMetaFromState(this.getDefaultState());
 		ret.add(new ItemStack(this, 1, meta));
 		return ret;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public void setGraphicsLevel()
+	{
+		super.setGraphicsLevel(true);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -184,12 +187,6 @@ public abstract class AOTDLeaves extends BlockLeaves
 	public Item getItemDropped(IBlockState state, Random rand, int fortune)
 	{
 		return null;
-	}
-
-	@Override
-	public void updateTick(World world, BlockPos position, IBlockState state, Random random)
-	{
-		super.updateTick(world, position, state, random);
 	}
 
 	@Override

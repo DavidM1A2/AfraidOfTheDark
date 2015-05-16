@@ -1,7 +1,5 @@
 /*
- * Author: David Slovikosky
- * Mod: Afraid of the Dark
- * Ideas and Textures: Michael Albertson
+ * Author: David Slovikosky Mod: Afraid of the Dark Ideas and Textures: Michael Albertson
  */
 package com.DavidM1A2.AfraidOfTheDark.proxy;
 
@@ -13,6 +11,12 @@ public class ServerProxy extends CommonProxy
 	public void registerKeyBindings()
 	{
 		// NOOP
+	}
+
+	// Here we register packets and a channel
+	public void registerChannel()
+	{
+		super.registerChannel();
 	}
 
 	@Override

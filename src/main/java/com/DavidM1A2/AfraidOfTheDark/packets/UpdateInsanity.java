@@ -1,7 +1,5 @@
 /*
- * Author: David Slovikosky
- * Mod: Afraid of the Dark
- * Ideas and Textures: Michael Albertson
+ * Author: David Slovikosky Mod: Afraid of the Dark Ideas and Textures: Michael Albertson
  */
 package com.DavidM1A2.AfraidOfTheDark.packets;
 
@@ -47,11 +45,19 @@ public class UpdateInsanity implements IMessage
 		@Override
 		public IMessage onMessage(UpdateInsanity message, MessageContext ctx)
 		{
+			// For whatever stupid reason, minecraft's EntityPlayerSP object takes a few moments to get initialized so we wait for that
 			while (Minecraft.getMinecraft().thePlayer == null)
 			{
-				LogHelper.info("Waiting");
-				// Wait until the player gets initialized for some reason?
+				try
+				{
+					Thread.sleep(50);
+				}
+				catch (InterruptedException e)
+				{
+					System.out.println("Error Sleeping?");
+				}
 			}
+			LogHelper.info("Update Insanity Received! Status: " + message.insanity);
 			Minecraft.getMinecraft().thePlayer.getEntityData().setDouble("PlayerInsanity", message.insanity);
 			return null;
 		}

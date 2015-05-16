@@ -1,7 +1,5 @@
 /*
- * Author: David Slovikosky
- * Mod: Afraid of the Dark
- * Ideas and Textures: Michael Albertson
+ * Author: David Slovikosky Mod: Afraid of the Dark Ideas and Textures: Michael Albertson
  */
 package com.DavidM1A2.AfraidOfTheDark.proxy;
 
@@ -22,11 +20,9 @@ public abstract class CommonProxy implements IProxy
 	public void registerChannel()
 	{
 		AfraidOfTheDark.setSimpleNetworkWrapper(NetworkRegistry.INSTANCE.newSimpleChannel("AOTD Packets"));
+		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(UpdateResearch.HandlerServer.class, UpdateResearch.class, Refrence.PACKET_ID_RESEARCH_UPDATE_SERVER, Side.SERVER);
 		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(UpdateCrossbow.Handler.class, UpdateCrossbow.class, Refrence.PACKET_ID_CROSSBOW, Side.SERVER);
 		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(UpdateAOTDStatus.HandlerServer.class, UpdateAOTDStatus.class, Refrence.PACKET_ID_HAS_STARTED_AOTD_UPDATE_SERVER, Side.SERVER);
-		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(UpdateAOTDStatus.HandlerClient.class, UpdateAOTDStatus.class, Refrence.PACKET_ID_HAS_STARTED_AOTD_UPDATE_CLIENT, Side.CLIENT);
-		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(UpdateInsanity.Handler.class, UpdateInsanity.class, Refrence.PACKET_ID_INSANITY_UPDATE, Side.CLIENT);
-		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(UpdateResearch.HandlerServer.class, UpdateResearch.class, Refrence.PACKET_ID_RESEARCH_UPDATE_SERVER, Side.SERVER);
-		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(UpdateResearch.HandlerClient.class, UpdateResearch.class, Refrence.PACKET_ID_RESEARCH_UPDATE_CLIENT, Side.CLIENT);
+		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(UpdateInsanity.Handler.class, UpdateInsanity.class, Refrence.PACKET_ID_INSANITY_UPDATE, Side.SERVER);
 	}
 }
