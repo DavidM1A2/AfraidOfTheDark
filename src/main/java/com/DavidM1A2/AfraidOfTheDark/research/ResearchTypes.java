@@ -10,7 +10,7 @@ public enum ResearchTypes
 {
 	AnUnbreakableCovenant,
 	WerewolfExamination, PreWerewolfExamination,
-	Crossbow, PreCrossbow,
+	Crossbow,
 	Astronomy1, PreAstronomy1,
 	AstralSilver, PreAstralSilver,
 	SilverInfusion, PreSilverInfusion,

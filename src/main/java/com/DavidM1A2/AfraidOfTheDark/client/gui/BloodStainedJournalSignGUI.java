@@ -93,6 +93,9 @@ public class BloodStainedJournalSignGUI extends GuiScreen
 						LoadResearchData.setSingleResearch(playerWhoPressed, 0, true);
 						AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateResearch(0, true));
 						Refrence.researchAchievedOverlay.displayResearch(ResearchTypes.AnUnbreakableCovenant, new ItemStack(ModItems.journal, 1));
+						LoadResearchData.setSingleResearch(playerWhoPressed, 2, true);
+						AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateResearch(2, true));
+						Refrence.researchAchievedOverlay.displayResearch(ResearchTypes.AnUnbreakableCovenant, new ItemStack(ModItems.crossbow, 1));
 						playerWhoPressed.closeScreen();
 					}
 				}

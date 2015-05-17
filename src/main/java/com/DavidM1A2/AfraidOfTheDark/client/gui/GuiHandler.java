@@ -58,7 +58,7 @@ public class GuiHandler implements IGuiHandler
 				case CloakOfAgility:
 					break;
 				case Crossbow:
-					break;
+					return new BloodStainedJournalPageGUI(ResearchDesciptions.crossbow, "Crossbow");
 				case DarkForest:
 					break;
 				case IgneousArmor:
@@ -70,8 +70,6 @@ public class GuiHandler implements IGuiHandler
 				case PreAstronomy2:
 					break;
 				case PreCloakOfAgility:
-					break;
-				case PreCrossbow:
 					break;
 				case PreDarkForest:
 					break;

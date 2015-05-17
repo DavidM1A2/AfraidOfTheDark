@@ -14,7 +14,7 @@ public class Research implements Cloneable
 		{
 			add(new ResearchNode(ResearchTypes.AnUnbreakableCovenant, null));
 			add(new ResearchNode(ResearchTypes.WerewolfExamination, ResearchTypes.AnUnbreakableCovenant));
-			add(new ResearchNode(ResearchTypes.Crossbow, ResearchTypes.AnUnbreakableCovenant));
+			add(new ResearchNode(ResearchTypes.Crossbow, null));
 			add(new ResearchNode(ResearchTypes.Astronomy1, ResearchTypes.WerewolfExamination));
 			add(new ResearchNode(ResearchTypes.AstralSilver, ResearchTypes.Astronomy1));
 			add(new ResearchNode(ResearchTypes.SilverInfusion, ResearchTypes.AstralSilver));

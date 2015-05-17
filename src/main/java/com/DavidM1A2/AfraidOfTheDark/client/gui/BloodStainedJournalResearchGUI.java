@@ -29,6 +29,10 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 	private static final int RESEARCH_WEREWOLF_EXAMINATION_ID = 2;
 	private static final int RESEARCH_CROSSBOW_ID = 3;
 
+	private static final ResourceLocation upArrow = new ResourceLocation("afraidofthedark:textures/gui/arrowUp.png");
+	private static final ResourceLocation leftArrow = new ResourceLocation("afraidofthedark:textures/gui/arrowLeft.png");
+	private static final ResourceLocation rightArrow = new ResourceLocation("afraidofthedark:textures/gui/arrowRight.png");
+
 	// GUI height and width
 	private static int baseWidth = 512;
 	private static int baseHeight = 512;
@@ -50,10 +54,6 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 	// Background will always be 256x256
 	private static final int BACKGROUND_HEIGHT = 256;
 	private static final int BACKGROUND_WIDTH = 256;
-
-	// Arrow from 1 research to another always is 12x64
-	private static final int ARROW_WIDTH = 12;
-	private static final int ARROW_HEIGHT = 64;
 
 	// Variables for calculating the GUI offset
 	private int guiOffsetX = 0;
@@ -155,6 +155,14 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
 				}
 			}
+			case BloodStainedJournalResearchGUI.RESEARCH_CROSSBOW_ID:
+			{
+				if (myResearch.getResearch(ResearchTypes.Crossbow).isResearched())
+				{
+					Refrence.currentlySelected = ResearchTypes.Crossbow;
+					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
+				}
+			}
 		}
 	}
 
@@ -200,7 +208,10 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 	// Draw an arrow for the gui
 	private void drawLines(int offsetX, int offsetY)
 	{
-		mc.renderEngine.bindTexture(new ResourceLocation("afraidofthedark:textures/gui/Arrow.png"));
-		this.drawTexturedModalRect(xPosBaseResearch - offsetX + 10, yPosBaseResearch - offsetY - 50, 0, 0, ARROW_WIDTH, ARROW_HEIGHT);
+		mc.renderEngine.bindTexture(this.upArrow);
+		BloodStainedJournalPageGUI.drawScaledCustomSizeModalRect(xPosBaseResearch - offsetX + 10, yPosBaseResearch - offsetY - 50, 0, 0, 10, 43, 10, 43, 10, 43);
+		mc.renderEngine.bindTexture(this.rightArrow);
+		BloodStainedJournalPageGUI.drawScaledCustomSizeModalRect(xPosBaseResearch - offsetX + 40, yPosBaseResearch - offsetY + 10, 0, 0, 43, 10, 43, 10, 43, 10);
+
 	}
 }
