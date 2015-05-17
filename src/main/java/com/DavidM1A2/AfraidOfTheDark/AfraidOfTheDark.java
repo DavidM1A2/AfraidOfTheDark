@@ -3,6 +3,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark;
 
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -15,8 +16,10 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.relauncher.Side;
 
 import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.ResearchAchieved;
 import com.DavidM1A2.AfraidOfTheDark.commands.InsanityCheck;
 import com.DavidM1A2.AfraidOfTheDark.debug.DebugSpammer;
 import com.DavidM1A2.AfraidOfTheDark.handler.ConfigurationHandler;
@@ -107,6 +110,10 @@ public class AfraidOfTheDark
 	@Mod.EventHandler
 	public void postInitialization(FMLPostInitializationEvent event)
 	{
+		if (event.getSide() == Side.CLIENT)
+		{
+			Refrence.researchAchievedOverlay = new ResearchAchieved(Minecraft.getMinecraft());
+		}
 		LogHelper.info("Post-Initialization Complete");
 	}
 

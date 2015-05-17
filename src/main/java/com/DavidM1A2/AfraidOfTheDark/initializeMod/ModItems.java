@@ -11,6 +11,7 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
+import com.DavidM1A2.AfraidOfTheDark.armor.IgneousArmor;
 import com.DavidM1A2.AfraidOfTheDark.entities.Bolts.ItemIronBolt;
 import com.DavidM1A2.AfraidOfTheDark.entities.Bolts.ItemSilverBolt;
 import com.DavidM1A2.AfraidOfTheDark.entities.Bolts.ItemWoodenBolt;
@@ -35,6 +36,10 @@ public class ModItems
 	public static final ItemSilverBolt silverBolt = new ItemSilverBolt();
 	public static final ItemSpawnWerewolf spawnWerewolf = new ItemSpawnWerewolf("Werewolf");
 	public static final ItemWoodenBolt woodenBolt = new ItemWoodenBolt();
+	public static final IgneousArmor igneousHelmet = new IgneousArmor(Refrence.igneous, 5, 0);
+	public static final IgneousArmor igneousChestplate = new IgneousArmor(Refrence.igneous, 5, 1);
+	public static final IgneousArmor igneousLeggings = new IgneousArmor(Refrence.igneous, 5, 2);
+	public static final IgneousArmor igneousBoots = new IgneousArmor(Refrence.igneous, 5, 3);
 
 	public static void initialize(Side side)
 	{
@@ -48,6 +53,10 @@ public class ModItems
 		GameRegistry.registerItem(silverBolt, "silverBolt");
 		GameRegistry.registerItem(spawnWerewolf, "spawnWerewolf");
 		GameRegistry.registerItem(woodenBolt, "woodenBolt");
+		GameRegistry.registerItem(igneousHelmet, "igneousHelmet");
+		GameRegistry.registerItem(igneousChestplate, "igneousChestplate");
+		GameRegistry.registerItem(igneousLeggings, "igneousLeggings");
+		GameRegistry.registerItem(igneousBoots, "igneousBoots");
 	}
 
 	public static void initializeRenderers(Side side)
@@ -64,6 +73,10 @@ public class ModItems
 			renderItem.getItemModelMesher().register(silverBolt, 0, new ModelResourceLocation(Refrence.MOD_ID + ":silverBolt", "inventory"));
 			renderItem.getItemModelMesher().register(woodenBolt, 0, new ModelResourceLocation(Refrence.MOD_ID + ":woodenBolt", "inventory"));
 			renderItem.getItemModelMesher().register(spawnWerewolf, 0, new ModelResourceLocation(Refrence.MOD_ID + ":spawnWerewolf", "inventory"));
+			renderItem.getItemModelMesher().register(igneousHelmet, 0, new ModelResourceLocation(Refrence.MOD_ID + ":igneousHelmet", "inventory"));
+			renderItem.getItemModelMesher().register(igneousChestplate, 0, new ModelResourceLocation(Refrence.MOD_ID + ":igneousChestplate", "inventory"));
+			renderItem.getItemModelMesher().register(igneousLeggings, 0, new ModelResourceLocation(Refrence.MOD_ID + ":igneousLeggings", "inventory"));
+			renderItem.getItemModelMesher().register(igneousBoots, 0, new ModelResourceLocation(Refrence.MOD_ID + ":igneousBoots", "inventory"));
 		}
 	}
 }

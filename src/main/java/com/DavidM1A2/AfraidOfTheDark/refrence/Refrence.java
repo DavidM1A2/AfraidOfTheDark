@@ -13,6 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
@@ -20,6 +21,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import com.DavidM1A2.AfraidOfTheDark.client.gui.ResearchAchieved;
 import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.research.ResearchTypes;
 
@@ -56,6 +58,10 @@ public class Refrence
 	// Silver weapon damage type and silver tool material
 	public static final DamageSource silverWeapon = new DamageSource("silverWeapon").setProjectile();
 	public static final ToolMaterial silver = EnumHelper.addToolMaterial("silverTool", 2, 250, 1, 4F, 22);
+	public static final ArmorMaterial igneous = EnumHelper.addArmorMaterial("igneous", "texture", 100, new int[]
+	{ 3, 5, 4, 3 }, 25);
+
+	public static ResearchAchieved researchAchievedOverlay;
 
 	static
 	{

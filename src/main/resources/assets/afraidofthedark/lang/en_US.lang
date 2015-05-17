@@ -9,6 +9,10 @@ item.afraidofthedark:ironBolt.name=Iron Bolt
 item.afraidofthedark:silverBolt.name=Silver Bolt
 item.afraidofthedark:spawnWerewolf.name=Spawn Werewolf
 item.afraidofthedark:woodenBolt.name=Wooden Bolt
+item.afraidofthedark:igneousHelmet.name=Igneous Helmet
+item.afraidofthedark:igneousChestplate.name=Igneous Chestplate
+item.afraidofthedark:igneousLeggings.name=Igneous Leggings
+item.afraidofthedark:igneousBoots.name=Igneous Boots
 
 # Blocks
 tile.afraidofthedark:silverOre.name=Silver Ore

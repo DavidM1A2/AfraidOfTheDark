@@ -16,11 +16,13 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.AI.CustomWerewolfTargetLocator;
+import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.packets.UpdateResearch;
 import com.DavidM1A2.AfraidOfTheDark.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
@@ -133,6 +135,7 @@ public class EntityWereWolf extends EntityMob
 						LoadResearchData.get(thePlayer).unlockResearch(ResearchTypes.WerewolfExamination);
 						LoadResearchData.setSingleResearch(thePlayer, 0, true);
 						AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateResearch(1, true), (EntityPlayerMP) thePlayer);
+						Refrence.researchAchievedOverlay.displayResearch(ResearchTypes.WerewolfExamination, new ItemStack(ModItems.spawnWerewolf, 1));
 					}
 				}
 			}
