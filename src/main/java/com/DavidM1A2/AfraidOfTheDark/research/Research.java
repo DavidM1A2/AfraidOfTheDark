@@ -14,8 +14,12 @@ public class Research implements Cloneable
 		{
 			add(new ResearchNode(ResearchTypes.AnUnbreakableCovenant, null));
 			add(new ResearchNode(ResearchTypes.WerewolfExamination, ResearchTypes.AnUnbreakableCovenant));
-			add(new ResearchNode(ResearchTypes.RefiningSilver, ResearchTypes.WerewolfExamination));
-			add(new ResearchNode(ResearchTypes.InfusingSilver, ResearchTypes.RefiningSilver));
+			add(new ResearchNode(ResearchTypes.Crossbow, ResearchTypes.AnUnbreakableCovenant));
+			add(new ResearchNode(ResearchTypes.Astronomy1, ResearchTypes.WerewolfExamination));
+			add(new ResearchNode(ResearchTypes.AstralSilver, ResearchTypes.Astronomy1));
+			add(new ResearchNode(ResearchTypes.SilverInfusion, ResearchTypes.AstralSilver));
+			add(new ResearchNode(ResearchTypes.DarkForest, ResearchTypes.AstralSilver));
+			add(new ResearchNode(ResearchTypes.Astronomy2, ResearchTypes.DarkForest));
 		}
 	};
 
@@ -67,7 +71,7 @@ public class Research implements Cloneable
 
 	public static int getResearchAmount()
 	{
-		return 4;
+		return 8;
 	}
 
 	@Override

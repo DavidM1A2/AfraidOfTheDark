@@ -10,6 +10,19 @@ public enum ResearchTypes
 {
 	AnUnbreakableCovenant,
 	WerewolfExamination, PreWerewolfExamination,
-	RefiningSilver, PreRefiningSilver,
-	InfusingSilver, PreInfusingSilver
+	Crossbow, PreCrossbow,
+	Astronomy1, PreAstronomy1,
+	AstralSilver, PreAstralSilver,
+	SilverInfusion, PreSilverInfusion,
+	Vitae1, PreVitae1,
+	SanityLantern, PreSanityLantern,
+	VitaeLantern1, PreVitaeLantern1,
+	Vampire, PreVampire,
+	SunProtection, PreSunprotection,
+	SpiderTurn, PreSpiderTurn,
+	DarkForest, PreDarkForest,
+	CloakOfAgility, PreCloakOfAgility,
+	Astronomy2, PreAstronomy2,
+	IgneousArmor, PreIgneousArmor,
+	StarMetal, PreStarMetal
 }

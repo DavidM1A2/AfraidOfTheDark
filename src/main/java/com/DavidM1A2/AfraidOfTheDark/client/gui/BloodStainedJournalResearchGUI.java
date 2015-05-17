@@ -27,6 +27,7 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 	private static final int BACKGROUND_IMAGE_ID = 0;
 	private static final int RESEARCH_AN_UNBREAKABLE_COVENANT_ID = 1;
 	private static final int RESEARCH_WEREWOLF_EXAMINATION_ID = 2;
+	private static final int RESEARCH_CROSSBOW_ID = 3;
 
 	// GUI height and width
 	private static int baseWidth = 512;
@@ -42,6 +43,9 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 
 	private static int xPosBaseResearch;
 	private static int yPosBaseResearch;
+
+	private static final int MAX_HEIGHT = 200;
+	private static final int MAX_WIDTH = 200;
 
 	// Background will always be 256x256
 	private static final int BACKGROUND_HEIGHT = 256;
@@ -62,6 +66,7 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 	// NodeButton is a research
 	private NodeButton unbreakableCovenantResearch;
 	private NodeButton werewolfExamination;
+	private NodeButton crossbow;
 
 	@Override
 	public void initGui()
@@ -78,13 +83,14 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 
 		// Setup the reserach nodes with an ID and position.
 		unbreakableCovenantResearch = new NodeButton(RESEARCH_AN_UNBREAKABLE_COVENANT_ID, xPosBaseResearch, yPosBaseResearch, 0, 0, ResearchTypes.AnUnbreakableCovenant);
-
 		werewolfExamination = new NodeButton(RESEARCH_WEREWOLF_EXAMINATION_ID, xPosBaseResearch, yPosBaseResearch - 90, 32, 0, ResearchTypes.WerewolfExamination);
+		crossbow = new NodeButton(RESEARCH_CROSSBOW_ID, xPosBaseResearch + 90, yPosBaseResearch, 64, 0, ResearchTypes.Crossbow);
 
 		// Clear and pre-existing buttons on the GUI and add the new ones
 		this.buttonList.clear();
 		this.buttonList.add(unbreakableCovenantResearch);
 		this.buttonList.add(werewolfExamination);
+		this.buttonList.add(crossbow);
 	}
 
 	// Opening a research book DOES NOT pause the game (unlike escape)
@@ -126,25 +132,28 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 	{
 		EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
 		Research myResearch = LoadResearchData.get(entityPlayer);
-		if (button.id == this.RESEARCH_AN_UNBREAKABLE_COVENANT_ID)
+		switch (button.id)
 		{
-			if (myResearch.getResearch(ResearchTypes.AnUnbreakableCovenant).isResearched())
+			case BloodStainedJournalResearchGUI.RESEARCH_AN_UNBREAKABLE_COVENANT_ID:
 			{
-				Refrence.currentlySelected = ResearchTypes.AnUnbreakableCovenant;
-				entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
+				if (myResearch.getResearch(ResearchTypes.AnUnbreakableCovenant).isResearched())
+				{
+					Refrence.currentlySelected = ResearchTypes.AnUnbreakableCovenant;
+					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
+				}
 			}
-		}
-		else if (button.id == this.RESEARCH_WEREWOLF_EXAMINATION_ID)
-		{
-			if (myResearch.getResearch(ResearchTypes.WerewolfExamination).isResearched())
+			case BloodStainedJournalResearchGUI.RESEARCH_WEREWOLF_EXAMINATION_ID:
 			{
-				Refrence.currentlySelected = ResearchTypes.WerewolfExamination;
-				entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
-			}
-			else if (myResearch.isPreviousResearched(ResearchTypes.WerewolfExamination))
-			{
-				Refrence.currentlySelected = ResearchTypes.PreWerewolfExamination;
-				entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
+				if (myResearch.getResearch(ResearchTypes.WerewolfExamination).isResearched())
+				{
+					Refrence.currentlySelected = ResearchTypes.WerewolfExamination;
+					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
+				}
+				else if (myResearch.isPreviousResearched(ResearchTypes.WerewolfExamination))
+				{
+					Refrence.currentlySelected = ResearchTypes.PreWerewolfExamination;
+					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
+				}
 			}
 		}
 	}
@@ -165,26 +174,27 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 		guiOffsetX = originalXPosition - mouseX;
 		guiOffsetY = originalYPosition - mouseY;
 
-		if (guiOffsetX > 100)
+		if (guiOffsetX > MAX_WIDTH)
 		{
-			guiOffsetX = 100;
+			guiOffsetX = MAX_WIDTH;
 		}
-		if (guiOffsetX < -100)
+		if (guiOffsetX < -MAX_WIDTH)
 		{
-			guiOffsetX = -100;
+			guiOffsetX = -MAX_WIDTH;
 		}
-		if (guiOffsetY > 100)
+		if (guiOffsetY > MAX_HEIGHT)
 		{
-			guiOffsetY = 100;
+			guiOffsetY = MAX_HEIGHT;
 		}
-		if (guiOffsetY < -100)
+		if (guiOffsetY < -MAX_HEIGHT)
 		{
-			guiOffsetY = -100;
+			guiOffsetY = -MAX_HEIGHT;
 		}
 
-		// Set the position of the GUI node button
-		((NodeButton) this.buttonList.get(0)).setPosition(guiOffsetX, guiOffsetY);
-		((NodeButton) this.buttonList.get(1)).setPosition(guiOffsetX, guiOffsetY);
+		for (Object o : this.buttonList)
+		{
+			((NodeButton) o).setPosition(guiOffsetX, guiOffsetY);
+		}
 	}
 
 	// Draw an arrow for the gui

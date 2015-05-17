@@ -49,17 +49,68 @@ public class GuiHandler implements IGuiHandler
 					return new BloodStainedJournalPageGUI(ResearchDesciptions.preWerewolfExamination, "W~~-wo-+f");
 				case WerewolfExamination:
 					return new BloodStainedJournalPageGUI(ResearchDesciptions.werewolfExamination, "Werewolf Examination");
-				case PreInfusingSilver:
+				case AstralSilver:
 					break;
-				case InfusingSilver:
+				case Astronomy1:
 					break;
-				case PreRefiningSilver:
+				case Astronomy2:
 					break;
-				case RefiningSilver:
+				case CloakOfAgility:
+					break;
+				case Crossbow:
+					break;
+				case DarkForest:
+					break;
+				case IgneousArmor:
+					break;
+				case PreAstralSilver:
+					break;
+				case PreAstronomy1:
+					break;
+				case PreAstronomy2:
+					break;
+				case PreCloakOfAgility:
+					break;
+				case PreCrossbow:
+					break;
+				case PreDarkForest:
+					break;
+				case PreIgneousArmor:
+					break;
+				case PreSanityLantern:
+					break;
+				case PreSilverInfusion:
+					break;
+				case PreSpiderTurn:
+					break;
+				case PreStarMetal:
+					break;
+				case PreSunprotection:
+					break;
+				case PreVampire:
+					break;
+				case PreVitae1:
+					break;
+				case PreVitaeLantern1:
+					break;
+				case SanityLantern:
+					break;
+				case SilverInfusion:
+					break;
+				case SpiderTurn:
+					break;
+				case StarMetal:
+					break;
+				case SunProtection:
+					break;
+				case Vampire:
+					break;
+				case Vitae1:
+					break;
+				case VitaeLantern1:
 					break;
 				default:
 					break;
-
 			}
 		}
 		return null;
