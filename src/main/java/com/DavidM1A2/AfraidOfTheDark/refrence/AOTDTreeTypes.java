@@ -1,7 +1,13 @@
+/*
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.refrence;
 
 import net.minecraft.util.IStringSerializable;
 
+// All AOTD tree types are listed here
 public enum AOTDTreeTypes implements IStringSerializable
 {
 	GRAVEWOOD;

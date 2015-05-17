@@ -1,5 +1,7 @@
 /*
- * Author: David Slovikosky Mod: Afraid of the Dark Ideas and Textures: Michael Albertson
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
  */
 package com.DavidM1A2.AfraidOfTheDark.block;
 
@@ -34,6 +36,7 @@ import com.google.common.base.Predicate;
 
 public abstract class AOTDLeaves extends BlockLeaves
 {
+	// Leaves have a few variants
 	public static final PropertyEnum VARIANT = PropertyEnum.create("variant", AOTDTreeTypes.class, new Predicate()
 	{
 		@Override
@@ -48,6 +51,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 		}
 	});
 
+	// Default is gravewood and decayable
 	public AOTDLeaves()
 	{
 		super();
@@ -56,6 +60,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 		this.setTickRandomly(true);
 	}
 
+	// When the leaves are sheared
 	@Override
 	public List<ItemStack> onSheared(ItemStack item, IBlockAccess world, BlockPos pos, int fortune)
 	{
@@ -65,37 +70,42 @@ public abstract class AOTDLeaves extends BlockLeaves
 		return ret;
 	}
 
+	// Always use fancy graphics because reasons (They look way better!)
 	@SideOnly(Side.CLIENT)
 	public void setGraphicsLevel()
 	{
 		super.setGraphicsLevel(true);
 	}
 
+	// Color of the leaves
 	@SideOnly(Side.CLIENT)
 	public int getBlockColor()
 	{
 		return ColorizerFoliage.getFoliageColor(0.5D, 1.0D);
 	}
 
+	// Leaf render color
 	@SideOnly(Side.CLIENT)
 	public int getRenderColor(IBlockState state)
 	{
 		return ColorizerFoliage.getFoliageColorPine();
 	}
 
+	// What color to multiply these leaves by
 	@SideOnly(Side.CLIENT)
 	public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass)
 	{
 		return ColorizerFoliage.getFoliageColorPine();
 	}
 
+	// Interface implements it so we need to, but it's unused
 	@Override
 	public EnumType func_176233_b(int p_176233_1_)
 	{
 		return null;
 	}
 
-	// on decay i believe
+	// on decay i believe (Currently no saplings!)
 	@Override
 	protected void func_176234_a(World worldIn, BlockPos p_176234_2_, IBlockState p_176234_3_, int p_176234_4_)
 	{
@@ -111,6 +121,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 		list.add(new ItemStack(itemIn, 1, AOTDTreeTypes.GRAVEWOOD.getMetadata()));
 	}
 
+	// Can these leaf types stack?
 	@Override
 	protected ItemStack createStackedBlock(IBlockState state)
 	{
@@ -148,6 +159,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 		return i;
 	}
 
+	// Create default block state
 	@Override
 	protected BlockState createBlockState()
 	{
@@ -164,6 +176,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 		return ((AOTDTreeTypes) state.getValue(VARIANT)).getMetadata();
 	}
 
+	// When the player harvests the block, what happens?
 	@Override
 	public void harvestBlock(World worldIn, EntityPlayer playerIn, BlockPos pos, IBlockState state, TileEntity te)
 	{

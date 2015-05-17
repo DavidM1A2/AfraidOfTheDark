@@ -1,5 +1,7 @@
 /*
- * Author: David Slovikosky Mod: Afraid of the Dark Ideas and Textures: Michael Albertson
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
  */
 package com.DavidM1A2.AfraidOfTheDark.block;
 
@@ -23,6 +25,7 @@ import com.google.common.base.Predicate;
 
 public class BlockGravewood extends BlockLog
 {
+	// Different log variants
 	public static final PropertyEnum VARIANT = PropertyEnum.create("variant", AOTDTreeTypes.class, new Predicate()
 	{
 		@Override
@@ -105,12 +108,14 @@ public class BlockGravewood extends BlockLog
 		return i;
 	}
 
+	// Default block states
 	protected BlockState createBlockState()
 	{
 		return new BlockState(this, new IProperty[]
 		{ VARIANT, AXIS_PROP });
 	}
 
+	// Can these woods stack?
 	protected ItemStack createStackedBlock(IBlockState state)
 	{
 		return new ItemStack(Item.getItemFromBlock(this), 1, ((AOTDTreeTypes) state.getValue(VARIANT)).getMetadata());
@@ -136,6 +141,7 @@ public class BlockGravewood extends BlockLog
 		return unlocalizedName.substring(unlocalizedName.indexOf(".") + 1);
 	}
 
+	// Axis on which to place the log (side ways? top bottom?)
 	private static final class SwitchEnumAxis
 	{
 		static final int[] switchAxis = new int[BlockLog.EnumAxis.values().length];

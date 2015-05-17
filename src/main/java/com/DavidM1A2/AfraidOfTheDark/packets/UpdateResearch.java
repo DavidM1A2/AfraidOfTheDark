@@ -1,3 +1,8 @@
+/*
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.packets;
 
 import io.netty.buffer.ByteBuf;
@@ -40,7 +45,7 @@ public class UpdateResearch implements IMessage
 		buf.writeBoolean(unlocked);
 	}
 
-	// when we receive a packet we set HasStartedAOTD
+	// when we receive a packet we sets some research
 	public static class HandlerServer implements IMessageHandler<UpdateResearch, IMessage>
 	{
 		@Override
@@ -52,7 +57,7 @@ public class UpdateResearch implements IMessage
 		}
 	}
 
-	// when we receive a packet we set HasStartedAOTD
+	// when we receive a packet we set some research
 	public static class HandlerClient implements IMessageHandler<UpdateResearch, IMessage>
 	{
 		@Override

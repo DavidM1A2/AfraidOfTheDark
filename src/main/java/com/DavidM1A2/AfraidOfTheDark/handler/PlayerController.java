@@ -1,5 +1,7 @@
 /*
- * Author: David Slovikosky Mod: Afraid of the Dark Ideas and Textures: Michael Albertson
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
  */
 package com.DavidM1A2.AfraidOfTheDark.handler;
 
@@ -37,6 +39,8 @@ public class PlayerController
 		double insanity = Insanity.get(event.original);
 		Insanity.increaseInsanity(insanity, event.entityPlayer);
 		Research research = LoadResearchData.get(event.original);
+		// When the player gets new research we will wait 500ms before updating because otherwise the event.original player
+		// will get the new data
 		(new UpdateReserachAfterDelay(event.entityPlayer, research)).start();
 	}
 

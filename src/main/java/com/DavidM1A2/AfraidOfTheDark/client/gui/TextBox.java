@@ -1,3 +1,8 @@
+/*
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.client.gui;
 
 import java.util.ArrayList;
@@ -6,6 +11,7 @@ import java.util.List;
 import com.DavidM1A2.AfraidOfTheDark.refrence.CustomFont;
 import com.google.common.base.Splitter;
 
+// Textbox for simple text painting
 public class TextBox
 {
 	private int xPosition;
@@ -16,6 +22,7 @@ public class TextBox
 
 	public TextBox(int x, int y, int width, int height, CustomFont myFont)
 	{
+		// Given x, y, widht, height, and a font we can draw the textbox
 		this.xPosition = x;
 		this.yPosition = y;
 		this.width = width;
@@ -23,6 +30,7 @@ public class TextBox
 		this.myFontRefrence = myFont;
 	}
 
+	// Draw the text given the width and height as bounds
 	public String drawText(String text)
 	{
 		String toReturn = "";
@@ -46,6 +54,7 @@ public class TextBox
 		return toReturn;
 	}
 
+	// Split a string based on page width
 	private List<String> splitString(String text)
 	{
 		List<String> toReturn = new ArrayList<String>();
@@ -79,6 +88,7 @@ public class TextBox
 		return toReturn;
 	}
 
+	// Update x, y, width, and height of a textbox
 	public void updateBounds(int x, int y, int width, int height)
 	{
 		this.xPosition = x;

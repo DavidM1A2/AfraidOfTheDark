@@ -1,3 +1,8 @@
+/*
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.threads;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,6 +21,7 @@ public class UpdateReserachAfterDelay extends Thread
 		this.refrence = refrence;
 	}
 
+	// After 500ms, update the players research. This allows for the recreation of the EntityPlayer object before applying changes
 	@Override
 	public void run()
 	{

@@ -1,3 +1,8 @@
+/*
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.item;
 
 import net.minecraft.block.Block;
@@ -9,6 +14,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import com.DavidM1A2.AfraidOfTheDark.block.AOTDLeaves;
 import com.DavidM1A2.AfraidOfTheDark.block.BlockGravewoodLeaves;
 
+// Leaves must have an item attached to allow for colored leaves to be held
 public class ItemGravewoodLeaves extends ItemBlock
 {
 	private AOTDLeaves leaves;

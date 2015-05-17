@@ -5,6 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.entities.WereWolf;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
@@ -14,11 +15,17 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
+import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.AI.CustomWerewolfTargetLocator;
+import com.DavidM1A2.AfraidOfTheDark.packets.UpdateResearch;
+import com.DavidM1A2.AfraidOfTheDark.playerData.HasStartedAOTD;
+import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.research.ResearchTypes;
 
 // Define a new werewolf
 public class EntityWereWolf extends EntityMob
@@ -39,14 +46,15 @@ public class EntityWereWolf extends EntityMob
 		this.setSize(.7F, 2);
 
 		// Add various AI tasks
-		this.tasks.addTask(0, new EntityAISwimming(this));
-		this.tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, false));
+		this.tasks.addTask(1, new EntityAISwimming(this));
+		this.tasks.addTask(4, new EntityAIAttackOnCollide(this, 1.0D, false));
 		this.tasks.addTask(7, myWanderer);
 		this.tasks.addTask(8, myWatchClosest);
 		this.tasks.addTask(8, new EntityAILookIdle(this));
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
 		// Use custom werewolf target locator
-		this.targetTasks.addTask(2, new CustomWerewolfTargetLocator(this, EntityPlayer.class, 0, true));
+		this.targetTasks.addTask(2, new CustomWerewolfTargetLocator(this, EntityPlayer.class, 10, true));
+
 	}
 
 	// Apply entity attributes
@@ -108,6 +116,34 @@ public class EntityWereWolf extends EntityMob
 		{
 			return super.attackEntityFrom(DamageSource.generic, 1);
 		}
+	}
+
+	@Override
+	public boolean attackEntityAsMob(Entity entity)
+	{
+		if (entity instanceof EntityPlayer)
+		{
+			EntityPlayer thePlayer = (EntityPlayer) entity;
+			if (HasStartedAOTD.get(thePlayer))
+			{
+				if (LoadResearchData.get(thePlayer).isPreviousResearched(ResearchTypes.WerewolfExamination))
+				{
+					if (!LoadResearchData.get(thePlayer).isUnlocked(ResearchTypes.WerewolfExamination))
+					{
+						LoadResearchData.get(thePlayer).unlockResearch(ResearchTypes.WerewolfExamination);
+						LoadResearchData.setSingleResearch(thePlayer, 0, true);
+						AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateResearch(1, true), (EntityPlayerMP) thePlayer);
+					}
+				}
+			}
+		}
+		return super.attackEntityAsMob(entity);
+	}
+
+	@Override
+	public float getEyeHeight()
+	{
+		return 2.0f;
 	}
 
 	// This is used to set movespeed and agro range during full moons

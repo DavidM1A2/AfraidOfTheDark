@@ -8,10 +8,6 @@ import java.util.List;
 
 public class Research implements Cloneable
 {
-	/*
-	 * 1 Look at werewolf, unlock werewolf entry 2 Learn how to refine silver 3 Learn how to infuse silver 4
-	 */
-
 	// Array list of various researches available to the user
 	private List<ResearchNode> researches = new ArrayList<ResearchNode>()
 	{

@@ -120,12 +120,14 @@ public class AfraidOfTheDark
 	@Mod.EventHandler
 	public void serverStartedEvent(FMLServerStartedEvent event)
 	{
+		// Launch any threads to  be used in game
 		ModThreads.startInGameThreads();
 	}
 
 	@Mod.EventHandler
 	public void serverStoppedEvent(FMLServerStoppedEvent event)
 	{
+		// Stop any ingame threads
 		ModThreads.stopInGameThreads();
 	}
 

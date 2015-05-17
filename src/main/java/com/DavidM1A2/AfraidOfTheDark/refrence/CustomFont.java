@@ -1,3 +1,7 @@
+/*
+ * Author: TheObliterator
+ * Mod: Afraid of the Dark
+ */
 package com.DavidM1A2.AfraidOfTheDark.refrence;
 
 import java.awt.Color;

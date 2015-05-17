@@ -1,3 +1,8 @@
+/*
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.block;
 
 import java.util.List;
@@ -23,6 +28,7 @@ import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
 
 public abstract class AOTDSlab extends BlockSlab
 {
+	// Different variants of slabs
 	public static final PropertyEnum VARIANT_PROP = PropertyEnum.create("variant", AOTDTreeTypes.class);
 
 	public AOTDSlab(Material material)
@@ -36,6 +42,7 @@ public abstract class AOTDSlab extends BlockSlab
 
 		IBlockState iblockstate = this.blockState.getBaseState();
 
+		// Is this a double or single half slab?
 		if (!this.isDouble())
 		{
 			iblockstate = iblockstate.withProperty(HALF_PROP, BlockSlab.EnumBlockHalf.BOTTOM);
@@ -56,6 +63,7 @@ public abstract class AOTDSlab extends BlockSlab
 		return Item.getItemFromBlock(ModBlocks.gravewoodHalfSlab);
 	}
 
+	// What item does this block drop?
 	@SideOnly(Side.CLIENT)
 	public Item getItem(World worldIn, BlockPos pos)
 	{
@@ -71,12 +79,14 @@ public abstract class AOTDSlab extends BlockSlab
 		return this.getUnlocalizedName();
 	}
 
+	// What property is this slab?
 	@Override
 	public IProperty func_176551_l()
 	{
 		return VARIANT_PROP;
 	}
 
+	// Get type from item
 	@Override
 	public Object func_176553_a(ItemStack itemStack)
 	{
@@ -136,6 +146,7 @@ public abstract class AOTDSlab extends BlockSlab
 		return i;
 	}
 
+	// Create default block state
 	@Override
 	protected BlockState createBlockState()
 	{

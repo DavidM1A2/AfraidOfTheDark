@@ -6,13 +6,13 @@
 package com.DavidM1A2.AfraidOfTheDark.AI;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAITarget;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -25,7 +25,7 @@ public class CustomWerewolfTargetLocator extends EntityAITarget
 	protected final Class targetClass;
 	private final int targetChance;
 	/** Instance of EntityAINearestAttackableTargetSorter. */
-	protected final EntityAINearestAttackableTarget.Sorter theNearestAttackableTargetSorter;
+	protected final CustomWerewolfTargetLocator.Sorter theCustomWerewolfTargetLocatorSorter;
 	/**
 	 * This filter is applied to the Entity search. Only matching entities will be targetted. (null -> no restrictions)
 	 */
@@ -50,7 +50,7 @@ public class CustomWerewolfTargetLocator extends EntityAITarget
 		// behavior)
 		this.targetClass = target;
 		this.targetChance = targetChance;
-		this.theNearestAttackableTargetSorter = new EntityAINearestAttackableTarget.Sorter(entityCreature);
+		this.theCustomWerewolfTargetLocatorSorter = new CustomWerewolfTargetLocator.Sorter(entityCreature);
 		this.setMutexBits(1);
 		// To select a target we run custom code (check HasStartedAOTD)
 		this.targetEntitySelector = new Predicate()
@@ -58,7 +58,7 @@ public class CustomWerewolfTargetLocator extends EntityAITarget
 			/**
 			 * Return whether the specified entity is applicable to this filter.
 			 */
-			public boolean isEntityApplicable(Entity entity)
+			public boolean isEntityApplicable(EntityLivingBase entity)
 			{
 				if (targetSelector != null && !targetSelector.apply(entity))
 				{
@@ -93,16 +93,14 @@ public class CustomWerewolfTargetLocator extends EntityAITarget
 						}
 					}
 
-					return CustomWerewolfTargetLocator.this.isSuitableTarget((EntityLivingBase) entity, false);
+					return CustomWerewolfTargetLocator.this.isSuitableTarget(entity, false);
 				}
-				// return !(entity instanceof EntityLivingBase) ? false : (iEntitySelector != null && !iEntitySelector.isEntityApplicable(entity) ?
-				// false : CustomWerewolfTargetLocator.this.isSuitableTarget((EntityLivingBase) entity, false));
 			}
 
 			@Override
 			public boolean apply(Object input)
 			{
-				return this.isEntityApplicable((Entity) input);
+				return this.isEntityApplicable((EntityLivingBase) input);
 			}
 		};
 	}
@@ -120,7 +118,7 @@ public class CustomWerewolfTargetLocator extends EntityAITarget
 		{
 			double d0 = this.getTargetDistance();
 			List list = this.taskOwner.worldObj.func_175647_a(this.targetClass, this.taskOwner.getEntityBoundingBox().expand(d0, 4.0D, d0), Predicates.and(this.targetEntitySelector, IEntitySelector.NOT_SPECTATING));
-			Collections.sort(list, this.theNearestAttackableTargetSorter);
+			Collections.sort(list, this.theCustomWerewolfTargetLocatorSorter);
 
 			if (list.isEmpty())
 			{
@@ -147,6 +145,38 @@ public class CustomWerewolfTargetLocator extends EntityAITarget
 				}
 				return false;
 			}
+		}
+	}
+
+	/**
+	 * Execute a one shot task or start executing a continuous task
+	 */
+	public void startExecuting()
+	{
+		this.taskOwner.setAttackTarget(this.targetEntity);
+		super.startExecuting();
+	}
+
+	public static class Sorter implements Comparator
+	{
+		private final Entity theEntity;
+		private static final String __OBFID = "CL_00001622";
+
+		public Sorter(Entity p_i1662_1_)
+		{
+			this.theEntity = p_i1662_1_;
+		}
+
+		public int compare(Entity p_compare_1_, Entity p_compare_2_)
+		{
+			double d0 = this.theEntity.getDistanceSqToEntity(p_compare_1_);
+			double d1 = this.theEntity.getDistanceSqToEntity(p_compare_2_);
+			return d0 < d1 ? -1 : (d0 > d1 ? 1 : 0);
+		}
+
+		public int compare(Object p_compare_1_, Object p_compare_2_)
+		{
+			return this.compare((Entity) p_compare_1_, (Entity) p_compare_2_);
 		}
 	}
 }

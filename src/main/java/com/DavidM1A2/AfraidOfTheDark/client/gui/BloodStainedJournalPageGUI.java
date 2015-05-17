@@ -1,3 +1,8 @@
+/*
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.client.gui;
 
 import java.io.IOException;
@@ -31,6 +36,7 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 
 	public BloodStainedJournalPageGUI(String text, String title)
 	{
+		// Setup tile and page text. Then add left and right page text boxes
 		super();
 		this.text = text;
 		this.title = title;
@@ -63,16 +69,21 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 		GL11.glColor4f(1, 1, 1, 1);
 		mc.renderEngine.bindTexture(journalTexture);
 
+		// Has the window been resized?
 		if (this.width != this.previousWidth || this.height != this.previousHeight)
 		{
+			// Scale relative to 640x480
 			pageScale = this.width / 640.0;
+			// Calculate various variables later used in text box width/height calculation
 			this.xCornerOfPage = (int) ((this.width - 330 * pageScale) / 2);
 			this.yCornerOfPage = (int) ((this.height - 330 * pageScale) / 2);
 			this.journalWidth = (int) (330 * pageScale);
 
+			// Set the journal font sizes
 			Refrence.journalFont.setFontSize((int) (pageScale * 20), 32, 126, false);
 			Refrence.journalTitleFont.setFontSize((int) (pageScale * 32), 32, 126, false);
 
+			// Set the text box bounds
 			leftPage.updateBounds(xCornerOfPage + (int) (20 * pageScale), yCornerOfPage + (int) (35 * pageScale), this.journalWidth, this.journalWidth - (yCornerOfPage + (int) (35 * pageScale)));
 			rightPage.updateBounds(xCornerOfPage + (int) (20 * pageScale) + (int) (pageScale * (this.width / 2)), yCornerOfPage + (int) (35 * pageScale), this.journalWidth, this.journalWidth - (yCornerOfPage + (int) (35 * pageScale)));
 
@@ -80,8 +91,10 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 			this.previousHeight = this.height;
 		}
 
+		// Draw the journal background
 		this.drawScaledCustomSizeModalRect(xCornerOfPage, yCornerOfPage, 0, 0, journalWidth, journalWidth, journalWidth, journalWidth, journalWidth, journalWidth);
 
+		// Draw the title
 		Refrence.journalTitleFont.drawString(this.title, xCornerOfPage + (int) (15 * pageScale), yCornerOfPage + (int) (15 * pageScale), 0xFF800000);
 		// Anything the left page can't draw, move to right page
 		rightPage.drawText(leftPage.drawText(text));
