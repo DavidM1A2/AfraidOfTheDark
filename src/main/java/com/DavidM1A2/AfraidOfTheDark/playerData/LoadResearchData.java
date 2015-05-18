@@ -5,19 +5,17 @@ package com.DavidM1A2.AfraidOfTheDark.playerData;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 
-import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
-import com.DavidM1A2.AfraidOfTheDark.packets.UpdateResearch;
 import com.DavidM1A2.AfraidOfTheDark.research.Research;
 
 public class LoadResearchData implements IExtendedEntityProperties
 {
 	private Research myResearch = new Research();
-	private final static String RESEARCH_DATA = "unlockedResearches";
+	public final static String RESEARCH_DATA = "unlockedResearches";
+	private NBTTagCompound researches;
 
 	public static final void register(EntityPlayer player)
 	{
@@ -29,7 +27,7 @@ public class LoadResearchData implements IExtendedEntityProperties
 	@Override
 	public void saveNBTData(NBTTagCompound compound)
 	{
-		NBTTagCompound researches = new NBTTagCompound();
+		researches = new NBTTagCompound();
 		for (int i = 0; i < myResearch.getResearches().size(); i++)
 		{
 			researches.setBoolean(RESEARCH_DATA + myResearch.getResearches().get(i).getType().toString(), myResearch.getResearches().get(i).isResearched());
@@ -41,7 +39,7 @@ public class LoadResearchData implements IExtendedEntityProperties
 	@Override
 	public void loadNBTData(NBTTagCompound compound)
 	{
-		NBTTagCompound researches = (NBTTagCompound) compound.getTag(RESEARCH_DATA);
+		researches = (NBTTagCompound) compound.getTag(RESEARCH_DATA);
 		for (int i = 0; i < researches.getKeySet().size(); i++)
 		{
 			if (researches.getBoolean(RESEARCH_DATA + myResearch.getResearches().get(i).getType().toString()))
@@ -49,7 +47,6 @@ public class LoadResearchData implements IExtendedEntityProperties
 				myResearch.unlockResearch(myResearch.getResearches().get(i).getType());
 			}
 		}
-
 	}
 
 	// Init for new players that don't have this IExtendedPropertyYet
@@ -58,33 +55,30 @@ public class LoadResearchData implements IExtendedEntityProperties
 	{
 	}
 
-	public static void setSingleResearch(EntityPlayer entityPlayer, int index, boolean isResearched)
+	public static Research getResearch(EntityPlayer entityPlayer)
 	{
-		Research data = LoadResearchData.get(entityPlayer);
-		if (isResearched)
-		{
-			data.unlockResearch(data.getResearches().get(index).getType());
-			NBTTagCompound researches = entityPlayer.getEntityData().getCompoundTag(RESEARCH_DATA);
-			researches.setBoolean(RESEARCH_DATA + data.getResearches().get(index).getType().toString(), isResearched);
-			entityPlayer.getEntityData().setTag(RESEARCH_DATA, researches);
-		}
+		return ((LoadResearchData) entityPlayer.getExtendedProperties(RESEARCH_DATA)).myResearch;
 	}
 
-	public static final void set(EntityPlayer entityPlayer, Research research)
+	public static final void set(EntityPlayer entityPlayer, NBTTagCompound compound)
 	{
-		for (int i = 0; i < Research.getResearchAmount(); i++)
+		entityPlayer.getEntityData().setTag(RESEARCH_DATA, compound);
+		Research playerResearch = getResearch(entityPlayer);
+		for (int i = 0; i < playerResearch.getResearches().size(); i++)
 		{
-			LoadResearchData.setSingleResearch(entityPlayer, i, research.getResearches().get(i).isResearched());
-			AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateResearch(i, research.getResearches().get(i).isResearched()), (EntityPlayerMP) entityPlayer);
+			if (compound.getBoolean(RESEARCH_DATA + playerResearch.getResearches().get(i).getType().toString()))
+			{
+				playerResearch.unlockResearch(playerResearch.getResearches().get(i).getType());
+			}
 		}
 	}
 
 	/**
 	 * Returns ExtendedPlayer properties for player This method is for convenience only; it will make your code look nicer
 	 */
-	public static final Research get(EntityPlayer entityPlayer)
+	public static final NBTTagCompound get(EntityPlayer entityPlayer)
 	{
-		return ((LoadResearchData) entityPlayer.getExtendedProperties(RESEARCH_DATA)).myResearch;
+		return entityPlayer.getEntityData().getCompoundTag(RESEARCH_DATA);
 	}
 
 }

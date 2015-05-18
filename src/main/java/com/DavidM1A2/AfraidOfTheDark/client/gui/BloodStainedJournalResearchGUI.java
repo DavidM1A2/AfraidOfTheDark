@@ -132,7 +132,7 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 	protected void actionPerformed(GuiButton button)
 	{
 		EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
-		Research myResearch = LoadResearchData.get(entityPlayer);
+		Research myResearch = LoadResearchData.getResearch(entityPlayer);
 		switch (button.id)
 		{
 			case BloodStainedJournalResearchGUI.RESEARCH_AN_UNBREAKABLE_COVENANT_ID:

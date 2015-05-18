@@ -9,6 +9,7 @@ import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -17,8 +18,9 @@ import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.packets.UpdateResearch;
 import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.utility.LogHelper;
 
-public class Research implements Cloneable
+public class Research
 {
 	// Array list of various researches available to the user
 	private List<ResearchNode> researches = new ArrayList<ResearchNode>()
@@ -35,7 +37,7 @@ public class Research implements Cloneable
 		}
 	};
 
-	// Given an ID we can unlock a research by setting the node
+	// Given a type we can unlock a research by setting the node
 	public void unlockResearch(ResearchTypes type)
 	{
 		for (int i = 0; i < researches.size(); i++)
@@ -86,20 +88,6 @@ public class Research implements Cloneable
 		return 8;
 	}
 
-	@Override
-	public Object clone()
-	{
-		try
-		{
-			return super.clone();
-		}
-		catch (CloneNotSupportedException e)
-		{
-			e.printStackTrace();
-		}
-		return null;
-	}
-
 	public String toString()
 	{
 		String toReturn = "\n";
@@ -110,17 +98,20 @@ public class Research implements Cloneable
 		return toReturn;
 	}
 
-	public static void unlockResearchSynced(EntityPlayer entityPlayer, ResearchTypes type)
+	public static void unlockResearchSynced(EntityPlayer entityPlayer, ResearchTypes type, Side side)
 	{
-		LoadResearchData.setSingleResearch(entityPlayer, getIndexFromResearch(type), true);
-		Refrence.researchAchievedOverlay.displayResearch(type, new ItemStack(ModItems.journal, 1), false);
-		if (FMLCommonHandler.instance().getSide() == Side.CLIENT)
+		NBTTagCompound current = entityPlayer.getEntityData().getCompoundTag(LoadResearchData.RESEARCH_DATA);
+		current.setBoolean(LoadResearchData.RESEARCH_DATA + type.toString(), true);
+		LoadResearchData.set(entityPlayer, current);
+		LogHelper.info("Updating research on " + FMLCommonHandler.instance().getSide().toString() + " side.");
+		if (side == Side.CLIENT)
 		{
-			AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateResearch(getIndexFromResearch(type), true));
+			AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateResearch(entityPlayer.getEntityData().getCompoundTag(LoadResearchData.RESEARCH_DATA)));
+			Refrence.researchAchievedOverlay.displayResearch(type, new ItemStack(ModItems.journal, 1), false);
 		}
 		else
 		{
-			AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateResearch(getIndexFromResearch(type), true), (EntityPlayerMP) entityPlayer);
+			AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateResearch(entityPlayer.getEntityData().getCompoundTag(LoadResearchData.RESEARCH_DATA)), (EntityPlayerMP) entityPlayer);
 		}
 	}
 

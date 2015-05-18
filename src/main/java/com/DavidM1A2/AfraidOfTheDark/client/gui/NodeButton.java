@@ -65,7 +65,7 @@ public class NodeButton extends GuiButton
 			this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 0, this.width, this.height);
 			// Draw background end:
 
-			Research myResearch = LoadResearchData.get(Minecraft.getMinecraft().thePlayer);
+			Research myResearch = LoadResearchData.getResearch(Minecraft.getMinecraft().thePlayer);
 			if (myResearch.getResearch(myType).isResearched())
 			{
 				minecraft.getTextureManager().bindTexture(RESEARCH_ICONS);

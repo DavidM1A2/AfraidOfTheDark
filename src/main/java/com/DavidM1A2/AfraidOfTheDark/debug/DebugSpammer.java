@@ -16,7 +16,7 @@ public class DebugSpammer
 	{
 		if (e.entityLiving instanceof EntityPlayer)
 		{
-			EntityPlayer p = (EntityPlayer) e.entityLiving;
+			EntityPlayer entityPlayer = (EntityPlayer) e.entityLiving;
 		}
 	}
 }

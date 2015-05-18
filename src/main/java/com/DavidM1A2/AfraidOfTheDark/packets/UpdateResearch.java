@@ -7,42 +7,38 @@ package com.DavidM1A2.AfraidOfTheDark.packets;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
-import com.DavidM1A2.AfraidOfTheDark.utility.LogHelper;
 
 public class UpdateResearch implements IMessage
 {
-	private int index;
-	private boolean unlocked;
+	private NBTTagCompound research;
 
 	public UpdateResearch()
 	{
-		index = -1;
-		unlocked = false;
+		research = null;
 	}
 
-	public UpdateResearch(int index, boolean unlocked)
+	public UpdateResearch(NBTTagCompound research)
 	{
-		this.index = index;
-		this.unlocked = unlocked;
+		this.research = research;
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf)
 	{
-		this.index = buf.readInt();
-		this.unlocked = buf.readBoolean();
+		this.research = ByteBufUtils.readTag(buf);
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf)
 	{
-		buf.writeInt(index);
-		buf.writeBoolean(unlocked);
+		ByteBufUtils.writeTag(buf, research);
 	}
 
 	// when we receive a packet we sets some research
@@ -51,8 +47,7 @@ public class UpdateResearch implements IMessage
 		@Override
 		public IMessage onMessage(UpdateResearch message, MessageContext ctx)
 		{
-			LogHelper.info("Update Server Research: index = " + message.index + " value = " + message.unlocked);
-			LoadResearchData.setSingleResearch(ctx.getServerHandler().playerEntity, message.index, message.unlocked);
+			LoadResearchData.set(ctx.getServerHandler().playerEntity, message.research);
 			return null;
 		}
 	}
@@ -63,8 +58,7 @@ public class UpdateResearch implements IMessage
 		@Override
 		public IMessage onMessage(UpdateResearch message, MessageContext ctx)
 		{
-			LogHelper.info("Update Client Research: index = " + message.index + " value = " + message.unlocked);
-			LoadResearchData.setSingleResearch(Minecraft.getMinecraft().thePlayer, message.index, message.unlocked);
+			LoadResearchData.set(Minecraft.getMinecraft().thePlayer, message.research);
 			return null;
 		}
 	}

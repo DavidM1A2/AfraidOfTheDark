@@ -36,7 +36,6 @@ public class ItemJournal extends ItemBase
 		// If the journal has no owner
 		if (NBTHelper.getString(itemStack, "owner").equals(""))
 		{
-			NBTHelper.setString(itemStack, "owner", entityPlayer.getDisplayName().getUnformattedText());
 			// If the player has started AOTD, set the NBT tag and open the journal
 			if (HasStartedAOTD.get(entityPlayer))
 			{

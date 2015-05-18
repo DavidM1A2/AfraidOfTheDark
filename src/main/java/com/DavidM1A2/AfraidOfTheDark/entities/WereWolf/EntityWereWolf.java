@@ -17,6 +17,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import com.DavidM1A2.AfraidOfTheDark.AI.CustomWerewolfTargetLocator;
 import com.DavidM1A2.AfraidOfTheDark.playerData.HasStartedAOTD;
@@ -123,11 +124,11 @@ public class EntityWereWolf extends EntityMob
 			EntityPlayer thePlayer = (EntityPlayer) entity;
 			if (HasStartedAOTD.get(thePlayer))
 			{
-				if (LoadResearchData.get(thePlayer).isPreviousResearched(ResearchTypes.WerewolfExamination))
+				if (LoadResearchData.getResearch(thePlayer).isPreviousResearched(ResearchTypes.WerewolfExamination))
 				{
-					if (!LoadResearchData.get(thePlayer).isUnlocked(ResearchTypes.WerewolfExamination))
+					if (!LoadResearchData.getResearch(thePlayer).isUnlocked(ResearchTypes.WerewolfExamination))
 					{
-						Research.unlockResearchSynced(thePlayer, ResearchTypes.WerewolfExamination);
+						Research.unlockResearchSynced(thePlayer, ResearchTypes.WerewolfExamination, FMLCommonHandler.instance().getSide());
 					}
 				}
 			}

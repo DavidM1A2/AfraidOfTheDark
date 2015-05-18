@@ -13,6 +13,7 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import org.lwjgl.opengl.GL11;
 
@@ -86,8 +87,8 @@ public class BloodStainedJournalSignGUI extends GuiScreen
 						playerWhoPressed.inventory.getStackInSlot(playerWhoPressed.inventory.currentItem).getTagCompound().setString("owner", playerWhoPressed.getDisplayName().getUnformattedText());
 						AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateAOTDStatus(true));
 						playerWhoPressed.addChatMessage(new ChatComponentText("§4§oWhat §4§ohave §4§oI §4§odone?"));
-						Research.unlockResearchSynced(playerWhoPressed, ResearchTypes.AnUnbreakableCovenant);
-						Research.unlockResearchSynced(playerWhoPressed, ResearchTypes.Crossbow);
+						Research.unlockResearchSynced(playerWhoPressed, ResearchTypes.AnUnbreakableCovenant, FMLCommonHandler.instance().getSide());
+						Research.unlockResearchSynced(playerWhoPressed, ResearchTypes.Crossbow, FMLCommonHandler.instance().getSide());
 						playerWhoPressed.closeScreen();
 					}
 				}

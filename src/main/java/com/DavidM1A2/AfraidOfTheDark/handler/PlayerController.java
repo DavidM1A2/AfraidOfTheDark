@@ -8,6 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.handler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogDensity;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
@@ -28,7 +29,6 @@ import com.DavidM1A2.AfraidOfTheDark.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.playerData.Insanity;
 import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
-import com.DavidM1A2.AfraidOfTheDark.research.Research;
 import com.DavidM1A2.AfraidOfTheDark.threads.UpdateReserachAfterDelay;
 
 public class PlayerController
@@ -42,7 +42,7 @@ public class PlayerController
 		HasStartedAOTD.set(event.entityPlayer, hasStartedAOTD);
 		double insanity = Insanity.get(event.original);
 		Insanity.increaseInsanity(insanity, event.entityPlayer);
-		Research research = LoadResearchData.get(event.original);
+		NBTTagCompound research = LoadResearchData.get(event.original);
 		// When the player gets new research we will wait 500ms before updating because otherwise the event.original player
 		// will get the new data
 		(new UpdateReserachAfterDelay(event.entityPlayer, research)).start();
@@ -103,10 +103,7 @@ public class PlayerController
 
 				AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateAOTDStatus(HasStartedAOTD.get(entityPlayer)), (EntityPlayerMP) entityPlayer);
 
-				for (int i = 0; i < Research.getResearchAmount(); i++)
-				{
-					AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateResearch(i, LoadResearchData.get(entityPlayer).getResearches().get(i).isResearched()), (EntityPlayerMP) entityPlayer);
-				}
+				AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateResearch(LoadResearchData.get(entityPlayer)), (EntityPlayerMP) entityPlayer);
 			}
 		}
 	}
