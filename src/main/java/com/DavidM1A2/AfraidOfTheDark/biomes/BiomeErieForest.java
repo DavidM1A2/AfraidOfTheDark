@@ -36,7 +36,6 @@ public class BiomeErieForest extends BiomeGenBase
 		this.spawnableCreatureList.clear();
 		this.waterColorMultiplier = 0x000099;
 		this.theBiomeDecorator.treesPerChunk = 15;
-		// this.worldGeneratorTrees = new WorldGenGravewoodTrees(false);
 		this.worldGeneratorBigTree = new WorldGenBigTree(false);
 		this.topBlock = Blocks.dirt.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.PODZOL);
 	}
@@ -46,6 +45,7 @@ public class BiomeErieForest extends BiomeGenBase
 		return (WorldGenAbstractTree) (new WorldGenGravewoodTrees(false));
 	}
 
+	// Called every chunk gen
 	public void func_180624_a(World world, Random random, BlockPos blockPosition)
 	{
 		if (random.nextDouble() < 0.005)

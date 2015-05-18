@@ -67,7 +67,10 @@ public class IgneousArmor extends AOTDArmor implements ISpecialArmor
 		{
 			return new ArmorProperties(0, .25, 25);
 		}
-
+		if (source == DamageSource.drown || source == DamageSource.fall || source == DamageSource.inWall || source == DamageSource.outOfWorld || source == DamageSource.starve)
+		{
+			return new ArmorProperties(0, .25, 0);
+		}
 		return new ArmorProperties(0, .25, getReductionBasedOffOfSlot(slot) * 5);
 	}
 

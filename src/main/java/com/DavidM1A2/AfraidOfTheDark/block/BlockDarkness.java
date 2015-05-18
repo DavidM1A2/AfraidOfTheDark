@@ -20,7 +20,6 @@ public class BlockDarkness extends BlockContainer
 	public BlockDarkness(Material material)
 	{
 		super(material);
-		// this.setBlockName("darkness");
 		this.setHardness(9.0F);
 		this.setResistance(5.0F);
 		this.isBlockContainer = true;
