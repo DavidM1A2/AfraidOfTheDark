@@ -20,6 +20,7 @@ import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
 import com.DavidM1A2.AfraidOfTheDark.research.Research;
 import com.DavidM1A2.AfraidOfTheDark.research.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.utility.LogHelper;
 
 public class BloodStainedJournalResearchGUI extends GuiScreen
 {
@@ -139,7 +140,9 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 				if (myResearch.getResearch(ResearchTypes.AnUnbreakableCovenant).isResearched())
 				{
 					Refrence.currentlySelected = ResearchTypes.AnUnbreakableCovenant;
+					LogHelper.info(Refrence.currentlySelected);
 					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
+					break;
 				}
 			}
 			case BloodStainedJournalResearchGUI.RESEARCH_WEREWOLF_EXAMINATION_ID:
@@ -147,12 +150,16 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 				if (myResearch.getResearch(ResearchTypes.WerewolfExamination).isResearched())
 				{
 					Refrence.currentlySelected = ResearchTypes.WerewolfExamination;
+					LogHelper.info(Refrence.currentlySelected);
 					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
+					break;
 				}
 				else if (myResearch.isPreviousResearched(ResearchTypes.WerewolfExamination))
 				{
 					Refrence.currentlySelected = ResearchTypes.PreWerewolfExamination;
+					LogHelper.info(Refrence.currentlySelected);
 					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
+					break;
 				}
 			}
 			case BloodStainedJournalResearchGUI.RESEARCH_CROSSBOW_ID:
@@ -160,8 +167,11 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 				if (myResearch.getResearch(ResearchTypes.Crossbow).isResearched())
 				{
 					Refrence.currentlySelected = ResearchTypes.Crossbow;
+					LogHelper.info(Refrence.currentlySelected);
 					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
+					break;
 				}
+				break;
 			}
 		}
 	}

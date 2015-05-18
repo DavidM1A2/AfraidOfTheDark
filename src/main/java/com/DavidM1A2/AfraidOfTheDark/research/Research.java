@@ -6,6 +6,18 @@ package com.DavidM1A2.AfraidOfTheDark.research;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.Side;
+
+import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
+import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModItems;
+import com.DavidM1A2.AfraidOfTheDark.packets.UpdateResearch;
+import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
+import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
+
 public class Research implements Cloneable
 {
 	// Array list of various researches available to the user
@@ -91,10 +103,37 @@ public class Research implements Cloneable
 	public String toString()
 	{
 		String toReturn = "\n";
-		for (int i = 0; i < getResearchAmount(); i++)
+		for (int i = 0; i < this.getResearches().size(); i++)
 		{
 			toReturn = toReturn + this.getResearches().get(i).toString() + "\n";
 		}
 		return toReturn;
+	}
+
+	public static void unlockResearchSynced(EntityPlayer entityPlayer, ResearchTypes type)
+	{
+		LoadResearchData.setSingleResearch(entityPlayer, getIndexFromResearch(type), true);
+		Refrence.researchAchievedOverlay.displayResearch(type, new ItemStack(ModItems.journal, 1), false);
+		if (FMLCommonHandler.instance().getSide() == Side.CLIENT)
+		{
+			AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateResearch(getIndexFromResearch(type), true));
+		}
+		else
+		{
+			AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateResearch(getIndexFromResearch(type), true), (EntityPlayerMP) entityPlayer);
+		}
+	}
+
+	public static int getIndexFromResearch(ResearchTypes type)
+	{
+		Research temp = new Research();
+		for (int i = 0; i < temp.getResearches().size(); i++)
+		{
+			if (temp.getResearches().get(i).getType() == type)
+			{
+				return i;
+			}
+		}
+		return Integer.MIN_VALUE;
 	}
 }

@@ -5,6 +5,8 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.research;
 
+import com.DavidM1A2.AfraidOfTheDark.utility.LogHelper;
+
 // All available researches
 public enum ResearchTypes
 {
@@ -24,5 +26,17 @@ public enum ResearchTypes
 	CloakOfAgility, PreCloakOfAgility,
 	Astronomy2, PreAstronomy2,
 	IgneousArmor, PreIgneousArmor,
-	StarMetal, PreStarMetal
+	StarMetal, PreStarMetal;
+	
+	public String formattedString()
+	{
+		String toReturn = "";
+		
+		for (String string : this.toString().split("(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])")) 
+		{
+	        toReturn = toReturn + string + " ";
+	    }
+		
+		return toReturn;
+	}
 }

@@ -41,10 +41,8 @@ public class Refrence
 	// Packet ids
 	public static final int PACKET_ID_CROSSBOW = 1;
 	public static final int PACKET_ID_INSANITY_UPDATE = 2;
-	public static final int PACKET_ID_HAS_STARTED_AOTD_UPDATE_CLIENT = 3;
-	public static final int PACKET_ID_HAS_STARTED_AOTD_UPDATE_SERVER = 4;
-	public static final int PACKET_ID_RESEARCH_UPDATE_CLIENT = 5;
-	public static final int PACKET_ID_RESEARCH_UPDATE_SERVER = 6;
+	public static final int PACKET_ID_HAS_STARTED_AOTD_UPDATE = 3;
+	public static final int PACKET_ID_RESEARCH_UPDATE = 4;
 	// Network channel name is the same as the ID
 	public static final String NETWORK_CHANNEL_NAME = Refrence.MOD_ID;
 

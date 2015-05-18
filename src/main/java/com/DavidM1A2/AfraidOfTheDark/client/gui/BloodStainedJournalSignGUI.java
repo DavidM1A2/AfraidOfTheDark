@@ -11,19 +11,15 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
-import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.packets.UpdateAOTDStatus;
-import com.DavidM1A2.AfraidOfTheDark.packets.UpdateResearch;
 import com.DavidM1A2.AfraidOfTheDark.playerData.HasStartedAOTD;
-import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
-import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.research.Research;
 import com.DavidM1A2.AfraidOfTheDark.research.ResearchTypes;
 
 public class BloodStainedJournalSignGUI extends GuiScreen
@@ -90,12 +86,8 @@ public class BloodStainedJournalSignGUI extends GuiScreen
 						playerWhoPressed.inventory.getStackInSlot(playerWhoPressed.inventory.currentItem).getTagCompound().setString("owner", playerWhoPressed.getDisplayName().getUnformattedText());
 						AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateAOTDStatus(true));
 						playerWhoPressed.addChatMessage(new ChatComponentText("§4§oWhat §4§ohave §4§oI §4§odone?"));
-						LoadResearchData.setSingleResearch(playerWhoPressed, 0, true);
-						AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateResearch(0, true));
-						Refrence.researchAchievedOverlay.displayResearch(ResearchTypes.AnUnbreakableCovenant, new ItemStack(ModItems.journal, 1));
-						LoadResearchData.setSingleResearch(playerWhoPressed, 2, true);
-						AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateResearch(2, true));
-						Refrence.researchAchievedOverlay.displayResearch(ResearchTypes.AnUnbreakableCovenant, new ItemStack(ModItems.crossbow, 1));
+						Research.unlockResearchSynced(playerWhoPressed, ResearchTypes.AnUnbreakableCovenant);
+						Research.unlockResearchSynced(playerWhoPressed, ResearchTypes.Crossbow);
 						playerWhoPressed.closeScreen();
 					}
 				}

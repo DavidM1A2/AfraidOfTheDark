@@ -20,26 +20,67 @@ public class ResearchAchieved extends Gui
 	private String achievementTitle;
 	private String achievementDescription;
 	private ResearchTypes theType;
+	private ResearchTypes nextType;
 	private long notificationTime;
 	private RenderItem renderItem;
 	private boolean permanentNotification;
 	private ItemStack icon;
+	private ItemStack nextIcon;
+	private Thread previousResearchDisplayed;
 
 	public ResearchAchieved(Minecraft mc)
 	{
 		super();
 		this.mc = mc;
 		this.renderItem = mc.getRenderItem();
+		previousResearchDisplayed = new Thread();
 	}
 
-	public void displayResearch(ResearchTypes research, ItemStack icon)
+	public void displayResearch(ResearchTypes research, ItemStack icon, boolean queue)
 	{
 		this.achievementTitle = "New Research!";
-		this.achievementDescription = research.toString();
-		this.notificationTime = Minecraft.getSystemTime();
-		this.theType = research;
-		this.permanentNotification = false;
-		this.icon = icon;
+		if (queue)
+		{
+			if (research != null)
+			{
+				this.achievementDescription = research.formattedString();
+				this.notificationTime = Minecraft.getSystemTime();
+				this.theType = research;
+				this.permanentNotification = false;
+				this.icon = icon;
+				this.nextIcon = null;
+				this.nextType = null;
+			}
+		}
+		else if (!previousResearchDisplayed.isAlive())
+		{
+			this.achievementDescription = research.formattedString();
+			this.notificationTime = Minecraft.getSystemTime();
+			this.theType = research;
+			this.permanentNotification = false;
+			this.icon = icon;
+			previousResearchDisplayed = new Thread()
+			{
+				@Override
+				public void run()
+				{
+					try
+					{
+						Thread.sleep(4000);
+						ResearchAchieved.this.displayResearch(ResearchAchieved.this.nextType, ResearchAchieved.this.nextIcon, true);
+					}
+					catch (InterruptedException e)
+					{
+					}
+				}
+			};
+			previousResearchDisplayed.start();
+		}
+		else
+		{
+			this.nextIcon = icon;
+			this.nextType = research;
+		}
 	}
 
 	private void updateResearchAchievedWindowScale()

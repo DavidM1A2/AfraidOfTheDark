@@ -37,8 +37,8 @@ public class ClientProxy extends CommonProxy
 	public void registerChannel()
 	{
 		super.registerChannel();
-		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(UpdateAOTDStatus.HandlerClient.class, UpdateAOTDStatus.class, Refrence.PACKET_ID_HAS_STARTED_AOTD_UPDATE_CLIENT, Side.CLIENT);
-		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(UpdateResearch.HandlerClient.class, UpdateResearch.class, Refrence.PACKET_ID_RESEARCH_UPDATE_CLIENT, Side.CLIENT);
+		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(UpdateAOTDStatus.HandlerClient.class, UpdateAOTDStatus.class, Refrence.PACKET_ID_HAS_STARTED_AOTD_UPDATE, Side.CLIENT);
+		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(UpdateResearch.HandlerClient.class, UpdateResearch.class, Refrence.PACKET_ID_RESEARCH_UPDATE, Side.CLIENT);
 		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(UpdateInsanity.Handler.class, UpdateInsanity.class, Refrence.PACKET_ID_INSANITY_UPDATE, Side.CLIENT);
 	}
 
