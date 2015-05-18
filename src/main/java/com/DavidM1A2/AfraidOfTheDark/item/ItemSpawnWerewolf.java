@@ -53,17 +53,12 @@ public class ItemSpawnWerewolf extends ItemBase
 		}
 		else
 		{
-			// Block block = world.getB.getBlock(blockX, blockY, blockZ);
-			// blockX = blockX + Facing.offsetsXForSide[blockOffset];
-			// blockY = blockY + Facing.offsetsYForSide[blockOffset];
-			// blockZ = blockZ + Facing.offsetsZForSide[blockOffset];
-
 			double d0 = 0.0D;
 
-			// if (blockOffset == 1 && block.getRenderType() == 11)
-			// {
-			// d0 = 0.5D;
-			// }
+			if (world.getBlockState(pos).getBlock().isSolidFullCube())
+			{
+				d0 = 1.0D;
+			}
 
 			Entity entity = spawnEntity(world, blockX + 0.5D, blockY + d0, blockZ + 0.5D);
 
