@@ -52,7 +52,7 @@ public class GuiHandler implements IGuiHandler
 				case AstralSilver:
 					break;
 				case Astronomy1:
-					break;
+					new BloodStainedJournalPageGUI(ResearchDesciptions.astronomy1, "Astronomy 1");
 				case Astronomy2:
 					break;
 				case CloakOfAgility:
@@ -66,7 +66,7 @@ public class GuiHandler implements IGuiHandler
 				case PreAstralSilver:
 					break;
 				case PreAstronomy1:
-					break;
+					return new BloodStainedJournalPageGUI(ResearchDesciptions.preAstronomy1, "Astor -- star");
 				case PreAstronomy2:
 					break;
 				case PreCloakOfAgility:

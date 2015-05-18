@@ -13,14 +13,12 @@ import net.minecraftforge.client.event.EntityViewRenderEvent.FogDensity;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
-import com.DavidM1A2.AfraidOfTheDark.armor.IgneousArmor;
 import com.DavidM1A2.AfraidOfTheDark.item.crossbow.ItemCrossbow;
 import com.DavidM1A2.AfraidOfTheDark.packets.UpdateAOTDStatus;
 import com.DavidM1A2.AfraidOfTheDark.packets.UpdateInsanity;
@@ -137,27 +135,6 @@ public class PlayerController
 				entityPlayer.registerExtendedProperties("PlayerInsanity", new Insanity());
 			}
 
-		}
-	}
-
-	// When the player is hurt, if he has IgneousArmor set the enemy on fire
-	@SubscribeEvent
-	public void onLivingHurtEvent(LivingHurtEvent event)
-	{
-		if (event.entity instanceof EntityPlayer)
-		{
-			EntityPlayer player = (EntityPlayer) event.entityLiving;
-			if (player.inventory.armorInventory[0] != null && player.inventory.armorInventory[1] != null && player.inventory.armorInventory[2] != null && player.inventory.armorInventory[3] != null)
-			{
-				if (player.inventory.armorInventory[0].getItem() instanceof IgneousArmor && player.inventory.armorInventory[1].getItem() instanceof IgneousArmor && player.inventory.armorInventory[2].getItem() instanceof IgneousArmor
-						&& player.inventory.armorInventory[3].getItem() instanceof IgneousArmor)
-				{
-					if (event.source.getEntity() != null)
-					{
-						event.source.getEntity().setFire(5);
-					}
-				}
-			}
 		}
 	}
 

@@ -1,37 +1,26 @@
 package com.DavidM1A2.AfraidOfTheDark.armor;
 
+import java.util.List;
+
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.util.DamageSource;
+import net.minecraftforge.common.ISpecialArmor;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
 
-public class IgneousArmor extends AOTDArmor
+public class IgneousArmor extends AOTDArmor implements ISpecialArmor
 {
 	public IgneousArmor(ArmorMaterial armorMaterial, int renderIndex, int type)
 	{
 		super(armorMaterial, renderIndex, type);
 		this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
 		this.setUnlocalizedName((type == 0) ? "igneousHelmet" : (type == 1) ? "igneousChestplate" : (type == 2) ? "igneousLeggings" : "igneousBoots");
-	}
-
-	@Override
-	public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack)
-	{
-		super.onArmorTick(world, player, itemStack);
-		if (player.inventory.armorInventory[0] != null && player.inventory.armorInventory[1] != null && player.inventory.armorInventory[2] != null && player.inventory.armorInventory[3] != null)
-		{
-			if (player.inventory.armorInventory[0].getItem() instanceof IgneousArmor && player.inventory.armorInventory[1].getItem() instanceof IgneousArmor && player.inventory.armorInventory[2].getItem() instanceof IgneousArmor
-					&& player.inventory.armorInventory[3].getItem() instanceof IgneousArmor)
-			{
-				if (player.isBurning())
-				{
-					player.extinguish();
-				}
-			}
-		}
 	}
 
 	@Override
@@ -46,5 +35,66 @@ public class IgneousArmor extends AOTDArmor
 		{
 			return "afraidofthedark:textures/armor/igneous_1.png";
 		}
+	}
+
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack stack, EntityPlayer playerIn, List tooltip, boolean advanced)
+	{
+		tooltip.add("Magical armor will never break.");
+	}
+
+	@Override
+	public ArmorProperties getProperties(EntityLivingBase player, ItemStack armor, DamageSource source, double damage, int slot)
+	{
+		if (player instanceof EntityPlayer)
+		{
+			EntityPlayer entityPlayer = (EntityPlayer) player;
+
+			if (isWearingFullArmor(entityPlayer))
+			{
+				if (source.getEntity() != null)
+				{
+					source.getEntity().setFire(5);
+				}
+				if (player.isBurning())
+				{
+					player.extinguish();
+				}
+			}
+		}
+
+		if (source == DamageSource.onFire || source == DamageSource.inFire)
+		{
+			return new ArmorProperties(0, .25, 25);
+		}
+
+		return new ArmorProperties(0, .25, getReductionBasedOffOfSlot(slot) * 5);
+	}
+
+	@Override
+	public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot)
+	{
+		return getReductionBasedOffOfSlot(slot);
+	}
+
+	@Override
+	public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot)
+	{
+		return;
+	}
+
+	private boolean isWearingFullArmor(EntityPlayer entityPlayer)
+	{
+		if (entityPlayer.inventory.armorInventory[0] != null && entityPlayer.inventory.armorInventory[1] != null && entityPlayer.inventory.armorInventory[2] != null && entityPlayer.inventory.armorInventory[3] != null)
+		{
+			return (entityPlayer.inventory.armorInventory[0].getItem() instanceof IgneousArmor && entityPlayer.inventory.armorInventory[1].getItem() instanceof IgneousArmor && entityPlayer.inventory.armorInventory[2].getItem() instanceof IgneousArmor && entityPlayer.inventory.armorInventory[3]
+					.getItem() instanceof IgneousArmor);
+		}
+		return false;
+	}
+
+	private int getReductionBasedOffOfSlot(int slot)
+	{
+		return slot == 0 ? 3 : slot == 1 ? 4 : slot == 2 ? 6 : 5;
 	}
 }

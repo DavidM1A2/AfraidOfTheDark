@@ -20,7 +20,6 @@ import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
 import com.DavidM1A2.AfraidOfTheDark.research.Research;
 import com.DavidM1A2.AfraidOfTheDark.research.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.utility.LogHelper;
 
 public class BloodStainedJournalResearchGUI extends GuiScreen
 {
@@ -29,6 +28,7 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 	private static final int RESEARCH_AN_UNBREAKABLE_COVENANT_ID = 1;
 	private static final int RESEARCH_WEREWOLF_EXAMINATION_ID = 2;
 	private static final int RESEARCH_CROSSBOW_ID = 3;
+	private static final int RESEARCH_ASTRONOMY_1_ID = 4;
 
 	private static final ResourceLocation upArrow = new ResourceLocation("afraidofthedark:textures/gui/arrowUp.png");
 	private static final ResourceLocation leftArrow = new ResourceLocation("afraidofthedark:textures/gui/arrowLeft.png");
@@ -51,6 +51,8 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 
 	private static final int MAX_HEIGHT = 200;
 	private static final int MAX_WIDTH = 200;
+	private static final int MAX_NEGATIVE_HEIGHT = -50;
+	private static final int MAX_NEGATIVE_WIDTH = -20;
 
 	// Background will always be 256x256
 	private static final int BACKGROUND_HEIGHT = 256;
@@ -68,6 +70,7 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 	private NodeButton unbreakableCovenantResearch;
 	private NodeButton werewolfExamination;
 	private NodeButton crossbow;
+	private NodeButton astronomy1;
 
 	@Override
 	public void initGui()
@@ -84,14 +87,16 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 
 		// Setup the reserach nodes with an ID and position.
 		unbreakableCovenantResearch = new NodeButton(RESEARCH_AN_UNBREAKABLE_COVENANT_ID, xPosBaseResearch, yPosBaseResearch, 0, 0, ResearchTypes.AnUnbreakableCovenant);
-		werewolfExamination = new NodeButton(RESEARCH_WEREWOLF_EXAMINATION_ID, xPosBaseResearch, yPosBaseResearch - 90, 32, 0, ResearchTypes.WerewolfExamination);
-		crossbow = new NodeButton(RESEARCH_CROSSBOW_ID, xPosBaseResearch + 90, yPosBaseResearch, 64, 0, ResearchTypes.Crossbow);
+		werewolfExamination = new NodeButton(RESEARCH_WEREWOLF_EXAMINATION_ID, xPosBaseResearch, yPosBaseResearch - 75, 32, 0, ResearchTypes.WerewolfExamination);
+		crossbow = new NodeButton(RESEARCH_CROSSBOW_ID, xPosBaseResearch + 75, yPosBaseResearch, 64, 0, ResearchTypes.Crossbow);
+		astronomy1 = new NodeButton(RESEARCH_ASTRONOMY_1_ID, xPosBaseResearch, yPosBaseResearch - 150, 96, 0, ResearchTypes.Astronomy1);
 
 		// Clear and pre-existing buttons on the GUI and add the new ones
 		this.buttonList.clear();
 		this.buttonList.add(unbreakableCovenantResearch);
 		this.buttonList.add(werewolfExamination);
 		this.buttonList.add(crossbow);
+		this.buttonList.add(astronomy1);
 	}
 
 	// Opening a research book DOES NOT pause the game (unlike escape)
@@ -111,7 +116,7 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 		mc.renderEngine.bindTexture(new ResourceLocation("afraidofthedark:textures/gui/BloodStainedJournalResearchBackdrop.png"));
 		this.drawTexturedModalRect(xPosScroll, yPosScroll, 0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
 		super.drawScreen(i, j, f);
-		drawLines(guiOffsetX, guiOffsetY);
+		drawLines();
 		mc.renderEngine.bindTexture(new ResourceLocation("afraidofthedark:textures/gui/BloodStainedJournalResearchBackground.png"));
 		this.drawTexturedModalRect(xPosScroll, yPosScroll, 0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
 	}
@@ -133,45 +138,23 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 	{
 		EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
 		Research myResearch = LoadResearchData.getResearch(entityPlayer);
-		switch (button.id)
+		for (Object o : this.buttonList)
 		{
-			case BloodStainedJournalResearchGUI.RESEARCH_AN_UNBREAKABLE_COVENANT_ID:
+			NodeButton current = (NodeButton) o;
+			if (current.id == button.id)
 			{
-				if (myResearch.getResearch(ResearchTypes.AnUnbreakableCovenant).isResearched())
+				if (myResearch.getResearch(current.getMyType()).isResearched())
 				{
-					Refrence.currentlySelected = ResearchTypes.AnUnbreakableCovenant;
-					LogHelper.info(Refrence.currentlySelected);
+					Refrence.currentlySelected = current.getMyType();
 					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
 					break;
 				}
-			}
-			case BloodStainedJournalResearchGUI.RESEARCH_WEREWOLF_EXAMINATION_ID:
-			{
-				if (myResearch.getResearch(ResearchTypes.WerewolfExamination).isResearched())
+				else if (myResearch.isPreviousResearched(current.getMyType()))
 				{
-					Refrence.currentlySelected = ResearchTypes.WerewolfExamination;
-					LogHelper.info(Refrence.currentlySelected);
+					Refrence.currentlySelected = ResearchTypes.valueOf("Pre" + current.getMyType());
 					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
 					break;
 				}
-				else if (myResearch.isPreviousResearched(ResearchTypes.WerewolfExamination))
-				{
-					Refrence.currentlySelected = ResearchTypes.PreWerewolfExamination;
-					LogHelper.info(Refrence.currentlySelected);
-					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
-					break;
-				}
-			}
-			case BloodStainedJournalResearchGUI.RESEARCH_CROSSBOW_ID:
-			{
-				if (myResearch.getResearch(ResearchTypes.Crossbow).isResearched())
-				{
-					Refrence.currentlySelected = ResearchTypes.Crossbow;
-					LogHelper.info(Refrence.currentlySelected);
-					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
-					break;
-				}
-				break;
 			}
 		}
 	}
@@ -196,17 +179,17 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 		{
 			guiOffsetX = MAX_WIDTH;
 		}
-		if (guiOffsetX < -MAX_WIDTH)
+		if (guiOffsetX < MAX_NEGATIVE_WIDTH)
 		{
-			guiOffsetX = -MAX_WIDTH;
+			guiOffsetX = MAX_NEGATIVE_WIDTH;
 		}
 		if (guiOffsetY > MAX_HEIGHT)
 		{
 			guiOffsetY = MAX_HEIGHT;
 		}
-		if (guiOffsetY < -MAX_HEIGHT)
+		if (guiOffsetY < MAX_NEGATIVE_HEIGHT)
 		{
-			guiOffsetY = -MAX_HEIGHT;
+			guiOffsetY = MAX_NEGATIVE_HEIGHT;
 		}
 
 		for (Object o : this.buttonList)
@@ -216,12 +199,12 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 	}
 
 	// Draw an arrow for the gui
-	private void drawLines(int offsetX, int offsetY)
+	private void drawLines()
 	{
 		mc.renderEngine.bindTexture(this.upArrow);
-		BloodStainedJournalPageGUI.drawScaledCustomSizeModalRect(xPosBaseResearch - offsetX + 10, yPosBaseResearch - offsetY - 50, 0, 0, 10, 43, 10, 43, 10, 43);
+		BloodStainedJournalPageGUI.drawScaledCustomSizeModalRect(unbreakableCovenantResearch.xPosition + 10, unbreakableCovenantResearch.yPosition - 43, 0, 0, 10, 43, 10, 43, 10, 43);
+		BloodStainedJournalPageGUI.drawScaledCustomSizeModalRect(this.werewolfExamination.xPosition + 10, this.werewolfExamination.yPosition - 43, 0, 0, 10, 43, 10, 43, 10, 43);
 		mc.renderEngine.bindTexture(this.rightArrow);
-		BloodStainedJournalPageGUI.drawScaledCustomSizeModalRect(xPosBaseResearch - offsetX + 40, yPosBaseResearch - offsetY + 10, 0, 0, 43, 10, 43, 10, 43, 10);
-
+		BloodStainedJournalPageGUI.drawScaledCustomSizeModalRect(unbreakableCovenantResearch.xPosition + 30, unbreakableCovenantResearch.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
 	}
 }

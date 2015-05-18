@@ -68,6 +68,10 @@ public class Research
 
 	public boolean isPreviousResearched(ResearchTypes type)
 	{
+		if (getResearch(type).getPrevious() == null)
+		{
+			return false;
+		}
 		return getResearch(getResearch(type).getPrevious()).isResearched();
 	}
 

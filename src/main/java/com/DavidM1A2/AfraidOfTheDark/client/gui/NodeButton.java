@@ -49,74 +49,85 @@ public class NodeButton extends GuiButton
 
 	// Draw button draws the button using OpenGL
 	@Override
-	public void drawButton(Minecraft minecraft, int int1, int int2)
+	public void drawButton(Minecraft minecraft, int mouseX, int mouseY)
 	{
 		// Make sure it should be visible
 		if (this.visible)
 		{
+			this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+
 			// Draw background start:
 			minecraft.getTextureManager().bindTexture(DEFAULT_RESEARCH_BACKGROUND);
-			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			// this.field_146123_n = int1 >= this.xPosition && int2 >= this.yPosition && int1 < this.xPosition + this.width && int2 < this.yPosition +
-			// this.height;
+			if (this.isMouseOver())
+			{
+				GL11.glColor4f(1.0F, 1.0F, 1.0F, .8F);
+			}
+			else
+			{
+				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+			}
 			GL11.glEnable(GL11.GL_BLEND);
 			OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 0, this.width, this.height);
-			// Draw background end:
 
 			Research myResearch = LoadResearchData.getResearch(Minecraft.getMinecraft().thePlayer);
 			if (myResearch.getResearch(myType).isResearched())
 			{
-				minecraft.getTextureManager().bindTexture(RESEARCH_ICONS);
-				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-				GL11.glEnable(GL11.GL_BLEND);
-				OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-				this.drawTexturedModalRect(this.xPosition + 2, this.yPosition + 2, iconOffsetX, iconOffsetY, this.width - 4, this.height - 4);
+				drawKnownResearch(minecraft);
 			}
 			else if (myResearch.getResearch(myResearch.getResearch(myType).getPrevious()) != null && myResearch.getResearch(myResearch.getResearch(myType).getPrevious()).isResearched())
 			{
-				minecraft.getTextureManager().bindTexture(RESEARCH_ICONS);
-				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-				GL11.glEnable(GL11.GL_BLEND);
-				OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-				this.drawTexturedModalRect(this.xPosition + 2, this.yPosition + 2, iconOffsetX, iconOffsetY + 32, this.width - 4, this.height - 4);
-
-				minecraft.getTextureManager().bindTexture(UNKNOWN_RESEARCH);
-				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-				GL11.glEnable(GL11.GL_BLEND);
-				OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-				this.drawTexturedModalRect(this.xPosition + 2, this.yPosition + 2, 0, 0, this.width - 4, this.height - 4);
+				drawAlmostKnownResearch(minecraft);
 			}
 			else
 			{
-				minecraft.getTextureManager().bindTexture(UNKNOWN_RESEARCH);
-				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-				GL11.glEnable(GL11.GL_BLEND);
-				OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-				this.drawTexturedModalRect(this.xPosition + 2, this.yPosition + 2, 0, 0, this.width - 4, this.height - 4);
+				drawUnknownResearch(minecraft);
 			}
 
-			this.mouseDragged(minecraft, int1, int2);
-			int l = 14737632;
-
-			if (packedFGColour != 0)
-			{
-				l = packedFGColour;
-			}
-			else if (!this.enabled)
-			{
-				l = 10526880;
-			}
-			// else if (this.field_146123_n)
-			// {
-			// l = 16777120;
-			// }
+			this.mouseDragged(minecraft, mouseX, mouseY);
 		}
 	}
 
+	public ResearchTypes getMyType()
+	{
+		return this.myType;
+	}
+
+	private void drawKnownResearch(Minecraft minecraft)
+	{
+		minecraft.getTextureManager().bindTexture(RESEARCH_ICONS);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glEnable(GL11.GL_BLEND);
+		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		this.drawTexturedModalRect(this.xPosition + 2, this.yPosition + 2, iconOffsetX, iconOffsetY, this.width - 4, this.height - 4);
+	}
+
+	private void drawUnknownResearch(Minecraft minecraft)
+	{
+		minecraft.getTextureManager().bindTexture(UNKNOWN_RESEARCH);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glEnable(GL11.GL_BLEND);
+		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		this.drawTexturedModalRect(this.xPosition + 2, this.yPosition + 2, 0, 0, this.width - 4, this.height - 4);
+	}
+
+	private void drawAlmostKnownResearch(Minecraft minecraft)
+	{
+		minecraft.getTextureManager().bindTexture(RESEARCH_ICONS);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glEnable(GL11.GL_BLEND);
+		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		this.drawTexturedModalRect(this.xPosition + 2, this.yPosition + 2, iconOffsetX, iconOffsetY + 32, this.width - 4, this.height - 4);
+
+		minecraft.getTextureManager().bindTexture(UNKNOWN_RESEARCH);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glEnable(GL11.GL_BLEND);
+		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		this.drawTexturedModalRect(this.xPosition + 2, this.yPosition + 2, 0, 0, this.width - 4, this.height - 4);
+	}
 }
