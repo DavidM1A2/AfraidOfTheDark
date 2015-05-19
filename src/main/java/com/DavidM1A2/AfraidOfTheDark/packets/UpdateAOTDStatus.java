@@ -49,7 +49,7 @@ public class UpdateAOTDStatus implements IMessage
 		public IMessage onMessage(UpdateAOTDStatus message, MessageContext ctx)
 		{
 			LogHelper.info("Update Has Started AOTD Received! Status: " + message.started);
-			HasStartedAOTD.set(ctx.getServerHandler().playerEntity, message.started);
+			ctx.getServerHandler().playerEntity.getEntityData().setBoolean(HasStartedAOTD.PLAYER_STARTED_AOTD, message.started);
 			return null;
 		}
 	}
@@ -61,7 +61,7 @@ public class UpdateAOTDStatus implements IMessage
 		public IMessage onMessage(UpdateAOTDStatus message, MessageContext ctx)
 		{
 			LogHelper.info("Update Has Started AOTD Received! Status: " + message.started);
-			HasStartedAOTD.set(Minecraft.getMinecraft().thePlayer, message.started);
+			Minecraft.getMinecraft().thePlayer.getEntityData().setBoolean(HasStartedAOTD.PLAYER_STARTED_AOTD, message.started);
 			return null;
 		}
 	}

@@ -29,12 +29,12 @@ public class ItemInsanityControl extends ItemBase
 		{
 			if (myPlayer.isSneaking())
 			{
-				Insanity.decreaseInsanity(5, myPlayer);
+				Insanity.addInsanity(-5, myPlayer);
 				LogHelper.info("Insanity Level = " + Insanity.get(myPlayer));
 			}
 			else
 			{
-				Insanity.increaseInsanity(5, myPlayer);
+				Insanity.addInsanity(5, myPlayer);
 				LogHelper.info("Insanity Level = " + Insanity.get(myPlayer));
 			}
 		}

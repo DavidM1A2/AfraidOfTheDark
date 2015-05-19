@@ -43,49 +43,24 @@ public class Insanity implements IExtendedEntityProperties
 	}
 
 	// Returns true if we are at max insanity
-	public static boolean increaseInsanity(double amount, EntityPlayer myPlayer)
+	public static void addInsanity(double amount, EntityPlayer myPlayer)
 	{
 		// if the player has begun the mod we can change his insanity
 		if (HasStartedAOTD.get(myPlayer))
 		{
-			NBTTagCompound compound = myPlayer.getEntityData();
-			if ((get(myPlayer) + amount) > 100.0)
+			if (amount > 0)
 			{
-				compound.setDouble(PLAYER_INSANITY, 100.0);
+				NBTTagCompound compound = myPlayer.getEntityData();
+				compound.setDouble(PLAYER_INSANITY, Math.min(100.0, get(myPlayer) + amount));
 				updateClientSideInsanity(myPlayer);
-				return true;
 			}
 			else
 			{
-				compound.setDouble(PLAYER_INSANITY, get(myPlayer) + amount);
+				NBTTagCompound compound = myPlayer.getEntityData();
+				compound.setDouble(PLAYER_INSANITY, Math.max(0, get(myPlayer) + amount));
 				updateClientSideInsanity(myPlayer);
-				return false;
 			}
 		}
-		return false;
-	}
-
-	// Returns true if we are at the minimum
-	public static boolean decreaseInsanity(double amount, EntityPlayer myPlayer)
-	{
-		// if the player has begun the mod we can change his insanity
-		if (HasStartedAOTD.get(myPlayer))
-		{
-			NBTTagCompound compound = myPlayer.getEntityData();
-			if ((get(myPlayer) - amount) < 0.0)
-			{
-				compound.setDouble(PLAYER_INSANITY, 0.0);
-				updateClientSideInsanity(myPlayer);
-				return true;
-			}
-			else
-			{
-				compound.setDouble(PLAYER_INSANITY, get(myPlayer) - amount);
-				updateClientSideInsanity(myPlayer);
-				return false;
-			}
-		}
-		return true;
 	}
 
 	// Save NBTData saves this piece of data to the player

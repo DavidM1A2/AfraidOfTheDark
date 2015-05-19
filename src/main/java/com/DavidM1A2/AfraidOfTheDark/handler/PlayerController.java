@@ -27,6 +27,7 @@ import com.DavidM1A2.AfraidOfTheDark.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.playerData.Insanity;
 import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.threads.DelayedAOTDUpdate;
 
 public class PlayerController
 {
@@ -36,14 +37,14 @@ public class PlayerController
 	public void onClonePlayer(PlayerEvent.Clone event)
 	{
 		boolean hasStartedAOTD = HasStartedAOTD.get(event.original);
-		HasStartedAOTD.set(event.entityPlayer, hasStartedAOTD);
+		HasStartedAOTD.set(event.entityPlayer, hasStartedAOTD, Side.SERVER);
 		double insanity = Insanity.get(event.original);
-		Insanity.increaseInsanity(insanity, event.entityPlayer);
+		Insanity.addInsanity(insanity, event.entityPlayer);
 		NBTTagCompound research = LoadResearchData.get(event.original);
 		LoadResearchData.set(event.entityPlayer, research);
 		// When the player gets new research we will wait 500ms before updating because otherwise the event.original player
 		// will get the new data
-		//(new UpdateReserachAfterDelay(event.entityPlayer, research)).start();
+		(new DelayedAOTDUpdate(event.entityPlayer, hasStartedAOTD)).start();
 	}
 
 	@SideOnly(Side.CLIENT)

@@ -36,12 +36,12 @@ public class RandomInsanityUpdate extends Thread
 					if (entityPlayer.worldObj.getBiomeGenForCoords(new BlockPos((int) entityPlayer.posX, 0, (int) entityPlayer.posZ)) == ModBiomes.erieForest)
 					{
 						double amount = .01 + (.09) * (new Random().nextDouble());
-						Insanity.increaseInsanity(amount, entityPlayer);
+						Insanity.addInsanity(-amount, entityPlayer);
 					}
 					else
 					{
 						double amount = .01 + (.02) * (new Random().nextDouble());
-						Insanity.decreaseInsanity(amount, entityPlayer);
+						Insanity.addInsanity(amount, entityPlayer);
 					}
 				}
 			}
