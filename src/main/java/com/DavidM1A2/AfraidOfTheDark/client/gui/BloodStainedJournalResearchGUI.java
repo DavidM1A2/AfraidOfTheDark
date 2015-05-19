@@ -48,10 +48,10 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 	private static int xPosBaseResearch;
 	private static int yPosBaseResearch;
 
-	private static final int MAX_HEIGHT = 200;
+	private static final int MAX_HEIGHT = 0;
 	private static final int MAX_WIDTH = 200;
-	private static final int MAX_NEGATIVE_HEIGHT = -50;
-	private static final int MAX_NEGATIVE_WIDTH = -20;
+	private static final int MAX_NEGATIVE_HEIGHT = -400;
+	private static final int MAX_NEGATIVE_WIDTH = -200;
 
 	// Background will always be 256x256
 	private static final int BACKGROUND_HEIGHT = 256;
@@ -113,9 +113,16 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 		drawDefaultBackground();
 		GL11.glColor4f(1, 1, 1, 1);
 		mc.renderEngine.bindTexture(new ResourceLocation("afraidofthedark:textures/gui/BloodStainedJournalResearchBackdrop.png"));
-		this.drawTexturedModalRect(xPosScroll, yPosScroll, 0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
+		this.drawScaledCustomSizeModalRect(xPosScroll, yPosScroll, guiOffsetX * 2 + 384, guiOffsetY * 2 + 768, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, 1024, 1024);
+
+		GL11.glEnable(GL11.GL_SCISSOR_TEST);
+		int disWidth = Minecraft.getMinecraft().displayWidth;
+		int disHeight = Minecraft.getMinecraft().displayHeight;
+		GL11.glScissor(disWidth - (xPosScroll + BACKGROUND_WIDTH) * 3, disHeight - (yPosScroll + BACKGROUND_HEIGHT) * 3, BACKGROUND_WIDTH * 3, BACKGROUND_HEIGHT * 3);
 		super.drawScreen(i, j, f);
 		drawLines();
+		GL11.glDisable(GL11.GL_SCISSOR_TEST);
+
 		mc.renderEngine.bindTexture(new ResourceLocation("afraidofthedark:textures/gui/BloodStainedJournalResearchBackground.png"));
 		this.drawTexturedModalRect(xPosScroll, yPosScroll, 0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
 	}
@@ -136,7 +143,6 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 	protected void actionPerformed(GuiButton button)
 	{
 		EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
-		//Research myResearch = LoadResearchData.getResearch(entityPlayer);
 		for (Object o : this.buttonList)
 		{
 			NodeButton current = (NodeButton) o;

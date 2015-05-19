@@ -9,9 +9,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import com.DavidM1A2.AfraidOfTheDark.playerData.Insanity;
-import com.DavidM1A2.AfraidOfTheDark.utility.LogHelper;
-
 public class DebugSpammer
 {
 	@SubscribeEvent
@@ -20,8 +17,6 @@ public class DebugSpammer
 		if (e.entityLiving instanceof EntityPlayer)
 		{
 			EntityPlayer entityPlayer = (EntityPlayer) e.entityLiving;
-
-			LogHelper.info(Insanity.get(entityPlayer));
 		}
 	}
 }

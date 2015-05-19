@@ -50,6 +50,7 @@ public class NodeButton extends GuiButton
 	@Override
 	public void drawButton(Minecraft minecraft, int mouseX, int mouseY)
 	{
+
 		// Make sure it should be visible
 		if (this.visible)
 		{
@@ -90,6 +91,16 @@ public class NodeButton extends GuiButton
 	public ResearchTypes getMyType()
 	{
 		return this.myType;
+	}
+
+	public int getOriginalXCoord()
+	{
+		return this.ORIGINAL_X_POSITION;
+	}
+
+	public int getOriginalYCoord()
+	{
+		return this.ORIGINAL_Y_POSITION;
 	}
 
 	private void drawKnownResearch(Minecraft minecraft)
