@@ -18,7 +18,6 @@ import org.lwjgl.opengl.GL11;
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
-import com.DavidM1A2.AfraidOfTheDark.research.Research;
 import com.DavidM1A2.AfraidOfTheDark.research.ResearchTypes;
 
 public class BloodStainedJournalResearchGUI extends GuiScreen
@@ -137,19 +136,19 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 	protected void actionPerformed(GuiButton button)
 	{
 		EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
-		Research myResearch = LoadResearchData.getResearch(entityPlayer);
+		//Research myResearch = LoadResearchData.getResearch(entityPlayer);
 		for (Object o : this.buttonList)
 		{
 			NodeButton current = (NodeButton) o;
 			if (current.id == button.id)
 			{
-				if (myResearch.getResearch(current.getMyType()).isResearched())
+				if (LoadResearchData.isResearched(entityPlayer, current.getMyType()))
 				{
 					Refrence.currentlySelected = current.getMyType();
 					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
 					break;
 				}
-				else if (myResearch.isPreviousResearched(current.getMyType()))
+				else if (LoadResearchData.isResearched(entityPlayer, current.getMyType().getPrevious()))
 				{
 					Refrence.currentlySelected = ResearchTypes.valueOf("Pre" + current.getMyType());
 					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);

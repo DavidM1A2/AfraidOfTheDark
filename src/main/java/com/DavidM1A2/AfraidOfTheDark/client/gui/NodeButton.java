@@ -11,7 +11,6 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
-import com.DavidM1A2.AfraidOfTheDark.research.Research;
 import com.DavidM1A2.AfraidOfTheDark.research.ResearchTypes;
 
 /*
@@ -71,12 +70,11 @@ public class NodeButton extends GuiButton
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 0, this.width, this.height);
 
-			Research myResearch = LoadResearchData.getResearch(Minecraft.getMinecraft().thePlayer);
-			if (myResearch.getResearch(myType).isResearched())
+			if (LoadResearchData.isResearched(Minecraft.getMinecraft().thePlayer, myType))
 			{
 				drawKnownResearch(minecraft);
 			}
-			else if (myResearch.getResearch(myResearch.getResearch(myType).getPrevious()) != null && myResearch.getResearch(myResearch.getResearch(myType).getPrevious()).isResearched())
+			else if (myType.getPrevious() != null && LoadResearchData.isResearched(Minecraft.getMinecraft().thePlayer, myType.getPrevious()))
 			{
 				drawAlmostKnownResearch(minecraft);
 			}

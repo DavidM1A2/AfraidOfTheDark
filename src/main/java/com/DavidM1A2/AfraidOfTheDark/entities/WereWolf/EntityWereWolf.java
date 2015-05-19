@@ -23,7 +23,6 @@ import com.DavidM1A2.AfraidOfTheDark.AI.CustomWerewolfTargetLocator;
 import com.DavidM1A2.AfraidOfTheDark.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
-import com.DavidM1A2.AfraidOfTheDark.research.Research;
 import com.DavidM1A2.AfraidOfTheDark.research.ResearchTypes;
 
 public class EntityWereWolf extends EntityMob
@@ -124,11 +123,11 @@ public class EntityWereWolf extends EntityMob
 			EntityPlayer thePlayer = (EntityPlayer) entity;
 			if (HasStartedAOTD.get(thePlayer))
 			{
-				if (LoadResearchData.getResearch(thePlayer).isPreviousResearched(ResearchTypes.WerewolfExamination))
+				if (LoadResearchData.isResearched(thePlayer, ResearchTypes.WerewolfExamination.getPrevious()))
 				{
-					if (!LoadResearchData.getResearch(thePlayer).isUnlocked(ResearchTypes.WerewolfExamination))
+					if (!LoadResearchData.isResearched(thePlayer, ResearchTypes.WerewolfExamination))
 					{
-						Research.unlockResearchSynced(thePlayer, ResearchTypes.WerewolfExamination, FMLCommonHandler.instance().getSide());
+						LoadResearchData.unlockResearchSynced(thePlayer, ResearchTypes.WerewolfExamination, FMLCommonHandler.instance().getSide());
 					}
 				}
 			}
