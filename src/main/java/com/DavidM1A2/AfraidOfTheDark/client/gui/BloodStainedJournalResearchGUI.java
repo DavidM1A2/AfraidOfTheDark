@@ -111,14 +111,15 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 	public void drawScreen(int i, int j, float f)
 	{
 		drawDefaultBackground();
-		GL11.glColor4f(1, 1, 1, 1);
 		mc.renderEngine.bindTexture(new ResourceLocation("afraidofthedark:textures/gui/BloodStainedJournalResearchBackdrop.png"));
 		this.drawScaledCustomSizeModalRect(xPosScroll, yPosScroll, guiOffsetX * 2 + 384, guiOffsetY * 2 + 768, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, 1024, 1024);
 
 		GL11.glEnable(GL11.GL_SCISSOR_TEST);
 		int disWidth = Minecraft.getMinecraft().displayWidth;
 		int disHeight = Minecraft.getMinecraft().displayHeight;
-		GL11.glScissor(disWidth - (xPosScroll + BACKGROUND_WIDTH) * 3, disHeight - (yPosScroll + BACKGROUND_HEIGHT) * 3, BACKGROUND_WIDTH * 3, BACKGROUND_HEIGHT * 3);
+		int widthScale = Math.round(disWidth / (float) this.width);
+		int heightScale = Math.round(disHeight / (float) this.height);
+		GL11.glScissor(disWidth - (xPosScroll + BACKGROUND_WIDTH) * widthScale, disHeight - (yPosScroll + BACKGROUND_HEIGHT) * heightScale, BACKGROUND_WIDTH * 3, BACKGROUND_HEIGHT * 3);
 		super.drawScreen(i, j, f);
 		drawLines();
 		GL11.glDisable(GL11.GL_SCISSOR_TEST);
