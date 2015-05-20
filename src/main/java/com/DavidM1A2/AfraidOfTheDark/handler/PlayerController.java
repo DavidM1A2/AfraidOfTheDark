@@ -28,6 +28,8 @@ import com.DavidM1A2.AfraidOfTheDark.playerData.Insanity;
 import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
 import com.DavidM1A2.AfraidOfTheDark.threads.DelayedAOTDUpdate;
+import com.DavidM1A2.AfraidOfTheDark.threads.DelayedInsanityUpdate;
+import com.DavidM1A2.AfraidOfTheDark.threads.DelayedResearchUpdate;
 
 public class PlayerController
 {
@@ -45,6 +47,8 @@ public class PlayerController
 		// When the player gets new research we will wait 500ms before updating because otherwise the event.original player
 		// will get the new data
 		(new DelayedAOTDUpdate(event.entityPlayer, hasStartedAOTD)).start();
+		(new DelayedInsanityUpdate(event.entityPlayer, insanity)).start();
+		(new DelayedResearchUpdate(event.entityPlayer, research)).start();
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -126,14 +130,14 @@ public class PlayerController
 			 */
 			if (entityPlayer.getExtendedProperties("playerStartedAOTD") == null)
 			{
-				entityPlayer.registerExtendedProperties("playerStartedAOTD", new HasStartedAOTD());
+				HasStartedAOTD.register(entityPlayer);
 			}
 			/*
 			 * This first block of code will determine if the player has insanity yet, and if he/she does we will load it.
 			 */
 			if (entityPlayer.getExtendedProperties("PlayerInsanity") == null)
 			{
-				entityPlayer.registerExtendedProperties("PlayerInsanity", new Insanity());
+				Insanity.register(entityPlayer);
 			}
 
 		}

@@ -20,14 +20,20 @@ import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
 import com.DavidM1A2.AfraidOfTheDark.research.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.utility.LogHelper;
 
+//This property is saved on a player and keeps track of their current researches
 public class LoadResearchData implements IExtendedEntityProperties
 {
-	public final static String RESEARCH_DATA = "unlockedResearches";
 	private NBTTagCompound researches = new NBTTagCompound();;
+	public final static String RESEARCH_DATA = "unlockedResearches";
 
 	public static final void register(EntityPlayer player)
 	{
 		player.registerExtendedProperties(LoadResearchData.RESEARCH_DATA, new LoadResearchData());
+	}
+
+	@Override
+	public void init(Entity entity, World world)
+	{
 	}
 
 	// Each player has a byte array representing their completed research
@@ -45,22 +51,17 @@ public class LoadResearchData implements IExtendedEntityProperties
 		researches = (NBTTagCompound) compound.getTag(RESEARCH_DATA);
 	}
 
-	public static final void set(EntityPlayer entityPlayer, NBTTagCompound compound)
-	{
-		entityPlayer.getEntityData().setTag(RESEARCH_DATA, compound);
-	}
-
-	@Override
-	public void init(Entity entity, World world)
-	{
-	}
-
 	/**
 	 * Returns ExtendedPlayer properties for player This method is for convenience only; it will make your code look nicer
 	 */
 	public static final NBTTagCompound get(EntityPlayer entityPlayer)
 	{
 		return entityPlayer.getEntityData().getCompoundTag(RESEARCH_DATA);
+	}
+
+	public static final void set(EntityPlayer entityPlayer, NBTTagCompound compound)
+	{
+		entityPlayer.getEntityData().setTag(RESEARCH_DATA, compound);
 	}
 
 	public static final boolean isResearched(EntityPlayer entityPlayer, ResearchTypes type)

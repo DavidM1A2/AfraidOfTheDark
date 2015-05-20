@@ -1,8 +1,10 @@
 package com.DavidM1A2.AfraidOfTheDark.threads;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 
-import com.DavidM1A2.AfraidOfTheDark.playerData.HasStartedAOTD;
+import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
+import com.DavidM1A2.AfraidOfTheDark.packets.UpdateAOTDStatus;
 
 public class DelayedAOTDUpdate extends DelayedUpdate<Boolean>
 {
@@ -14,6 +16,6 @@ public class DelayedAOTDUpdate extends DelayedUpdate<Boolean>
 	@Override
 	protected void updatePlayer()
 	{
-		entityPlayer.getEntityData().setBoolean(HasStartedAOTD.PLAYER_STARTED_AOTD, this.data);
+		AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateAOTDStatus(data), (EntityPlayerMP) entityPlayer);
 	}
 }

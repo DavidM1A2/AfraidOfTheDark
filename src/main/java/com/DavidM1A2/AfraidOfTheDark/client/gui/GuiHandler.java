@@ -53,7 +53,7 @@ public class GuiHandler implements IGuiHandler
 				case AstralSilver:
 					break;
 				case Astronomy1:
-					new BloodStainedJournalPageGUI(ResearchDesciptions.astronomy1, "Astronomy 1");
+					return new BloodStainedJournalPageGUI(ResearchDesciptions.astronomy1, "Astronomy 1");
 				case Astronomy2:
 					break;
 				case CloakOfAgility:

@@ -22,6 +22,16 @@ public class HasStartedAOTD implements IExtendedEntityProperties
 	private boolean hasStartedAOTD = false;
 	public final static String PLAYER_STARTED_AOTD = "playerStartedAOTD";
 
+	public static final void register(EntityPlayer player)
+	{
+		player.registerExtendedProperties(HasStartedAOTD.PLAYER_STARTED_AOTD, new HasStartedAOTD());
+	}
+
+	@Override
+	public void init(Entity entity, World world)
+	{
+	}
+
 	// saveNBTData is called whenever data needs to be saved
 	@Override
 	public void saveNBTData(NBTTagCompound compound)
@@ -34,21 +44,6 @@ public class HasStartedAOTD implements IExtendedEntityProperties
 	public void loadNBTData(NBTTagCompound compound)
 	{
 		this.hasStartedAOTD = compound.getBoolean(PLAYER_STARTED_AOTD);
-	}
-
-	// init is for new players that don't have this IExtendedProperty yet
-	@Override
-	public void init(Entity entity, World world)
-	{
-		if (entity.getEntityData().hasKey(PLAYER_STARTED_AOTD))
-		{
-			loadNBTData(entity.getEntityData());
-		}
-		else
-		{
-			entity.getEntityData().setBoolean(PLAYER_STARTED_AOTD, false);
-			loadNBTData(entity.getEntityData());
-		}
 	}
 
 	// Getters and setters for if a player has begun AOTD
