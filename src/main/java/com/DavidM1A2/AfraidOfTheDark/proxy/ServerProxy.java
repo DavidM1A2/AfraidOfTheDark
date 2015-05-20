@@ -3,7 +3,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.proxy;
 
-
 // Any server side-only things we want to do
 public class ServerProxy extends CommonProxy
 {

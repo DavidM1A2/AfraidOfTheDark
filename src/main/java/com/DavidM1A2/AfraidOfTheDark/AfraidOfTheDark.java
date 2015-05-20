@@ -53,7 +53,6 @@ public class AfraidOfTheDark
 	@Mod.EventHandler
 	public void preInitialization(FMLPreInitializationEvent event)
 	{
-
 		// Initialize configuration
 		ConfigurationHandler.initializataion(event.getSuggestedConfigurationFile());
 		FMLCommonHandler.instance().bus().register(new ConfigurationHandler());

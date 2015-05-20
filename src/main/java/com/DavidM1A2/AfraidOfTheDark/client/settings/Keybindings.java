@@ -5,7 +5,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.settings;
 
-
 // No keybindings yet
 public class Keybindings
 {

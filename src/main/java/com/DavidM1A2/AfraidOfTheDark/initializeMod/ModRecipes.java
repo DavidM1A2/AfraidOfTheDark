@@ -28,8 +28,16 @@ public class ModRecipes
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.crossbow), "abb", "bcd", "bdc", 'a', new ItemStack(Items.bow), 'b', new ItemStack(Items.iron_ingot), 'c', new ItemStack(Blocks.planks), 'd', new ItemStack(Items.string)));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModBlocks.gravewoodPlanks, 4), new ItemStack(ModBlocks.gravewood, 1)));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.gravewoodStairs, 4), "aab", "abb", "bbb", 'b', ModBlocks.gravewoodPlanks));
+
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.gravewoodHalfSlab, 6), "   ", "bbb", "   ", 'b', ModBlocks.gravewoodPlanks));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.gravewoodHalfSlab, 6), "bbb", "   ", "   ", 'b', ModBlocks.gravewoodPlanks));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.gravewoodHalfSlab, 6), "   ", "   ", "bbb", 'b', ModBlocks.gravewoodPlanks));
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.igneousHelmet, 1), "aaa", "a a", "   ", 'a', ModItems.igneousGem));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.igneousHelmet, 1), "   ", "aaa", "a a", 'a', ModItems.igneousGem));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.igneousChestplate, 1), "a a", "aaa", "aaa", 'a', ModItems.igneousGem));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.igneousLeggings, 1), "aaa", "a a", "a a", 'a', ModItems.igneousGem));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.igneousBoots, 1), "   ", "a a", "a a", 'a', ModItems.igneousGem));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.igneousBoots, 1), "a a", "a a", "   ", 'a', ModItems.igneousGem));
 	}
 }
