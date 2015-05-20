@@ -50,7 +50,7 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 
 	private static final int MAX_HEIGHT = 0;
 	private static final int MAX_WIDTH = 200;
-	private static final int MAX_NEGATIVE_HEIGHT = -400;
+	private static final int MAX_NEGATIVE_HEIGHT = -380;
 	private static final int MAX_NEGATIVE_WIDTH = -200;
 
 	// Background will always be 256x256

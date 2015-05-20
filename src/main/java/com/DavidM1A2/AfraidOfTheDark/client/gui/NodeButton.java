@@ -69,7 +69,7 @@ public class NodeButton extends GuiButton
 			GL11.glEnable(GL11.GL_BLEND);
 			OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-			this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 0, this.width, this.height);
+			this.drawScaledCustomSizeModalRect(this.xPosition, this.yPosition, 0, 0, 512, 512, this.width, this.height, 512, 512);
 
 			if (LoadResearchData.isResearched(Minecraft.getMinecraft().thePlayer, myType))
 			{
@@ -130,7 +130,7 @@ public class NodeButton extends GuiButton
 		GL11.glEnable(GL11.GL_BLEND);
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		this.drawTexturedModalRect(this.xPosition + 2, this.yPosition + 2, iconOffsetX, iconOffsetY + 32, this.width - 4, this.height - 4);
+		this.drawTexturedModalRect(this.xPosition + 2, this.yPosition + 2, iconOffsetX, iconOffsetY, this.width - 4, this.height - 4);
 
 		minecraft.getTextureManager().bindTexture(UNKNOWN_RESEARCH);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
