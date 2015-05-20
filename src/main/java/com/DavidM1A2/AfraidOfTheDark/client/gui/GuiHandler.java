@@ -15,6 +15,7 @@ public class GuiHandler implements IGuiHandler
 	public static final int BLOOD_STAINED_JOURNAL_SIGN_ID = 1;
 	public static final int BLOOD_STAINED_JOURNAL_ID = 2;
 	public static final int BLOOD_STAINED_JOURNAL_PAGE_ID = 3;
+	public static final int TELESCOPE_ID = 4;
 
 	/*
 	 * Create GUIS
@@ -110,6 +111,10 @@ public class GuiHandler implements IGuiHandler
 				default:
 					break;
 			}
+		}
+		else if (ID == TELESCOPE_ID)
+		{
+			return new Telescope();
 		}
 		return null;
 	}

@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 import com.DavidM1A2.AfraidOfTheDark.playerData.Insanity;
 import com.DavidM1A2.AfraidOfTheDark.utility.LogHelper;
 
-public class ItemInsanityControl extends ItemBase
+public class ItemInsanityControl extends AOTDItem
 {
 	// Set the item name
 	public ItemInsanityControl()

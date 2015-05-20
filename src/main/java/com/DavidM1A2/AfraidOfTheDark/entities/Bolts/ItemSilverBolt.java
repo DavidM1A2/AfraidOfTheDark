@@ -5,9 +5,9 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.entities.Bolts;
 
-import com.DavidM1A2.AfraidOfTheDark.item.ItemBase;
+import com.DavidM1A2.AfraidOfTheDark.item.AOTDItem;
 
-public class ItemSilverBolt extends ItemBase
+public class ItemSilverBolt extends AOTDItem
 {
 	// Setup the silver bolt item
 	public ItemSilverBolt()

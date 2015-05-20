@@ -18,12 +18,12 @@ import com.DavidM1A2.AfraidOfTheDark.entities.Bolts.EntityIronBolt;
 import com.DavidM1A2.AfraidOfTheDark.entities.Bolts.EntitySilverBolt;
 import com.DavidM1A2.AfraidOfTheDark.entities.Bolts.EntityWoodenBolt;
 import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModItems;
-import com.DavidM1A2.AfraidOfTheDark.item.ItemBase;
+import com.DavidM1A2.AfraidOfTheDark.item.AOTDItem;
 import com.DavidM1A2.AfraidOfTheDark.packets.UpdateCrossbow;
 import com.DavidM1A2.AfraidOfTheDark.utility.NBTHelper;
 
 // The crossbow Item
-public class ItemCrossbow extends ItemBase
+public class ItemCrossbow extends AOTDItem
 {
 	// Keep a loaded and unloaded icon and store reload time
 	private final int RELOAD_TIME = 100;

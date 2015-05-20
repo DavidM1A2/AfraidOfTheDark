@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
 
-public class ItemSpawnWerewolf extends ItemBase
+public class ItemSpawnWerewolf extends AOTDItem
 {
 	// Werewolf spawn egg
 	protected String entityToSpawnName = "";

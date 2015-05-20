@@ -70,7 +70,7 @@ public class LoadResearchData implements IExtendedEntityProperties
 
 	public static void unlockResearchSynced(EntityPlayer entityPlayer, ResearchTypes type, Side side)
 	{
-		NBTTagCompound current = entityPlayer.getEntityData().getCompoundTag(RESEARCH_DATA);
+		NBTTagCompound current = get(entityPlayer);
 		current.setBoolean(RESEARCH_DATA + type.toString(), true);
 		LoadResearchData.set(entityPlayer, current);
 		LogHelper.info("Updating research on " + FMLCommonHandler.instance().getSide().toString() + " side.");

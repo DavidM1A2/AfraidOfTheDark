@@ -19,7 +19,7 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
 import com.DavidM1A2.AfraidOfTheDark.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.utility.NBTHelper;
 
-public class ItemJournal extends ItemBase
+public class ItemJournal extends AOTDItem
 {
 	// Set the name and stack size to 1
 	public ItemJournal()

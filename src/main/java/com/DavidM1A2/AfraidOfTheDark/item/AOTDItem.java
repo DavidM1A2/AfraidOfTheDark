@@ -10,10 +10,10 @@ import net.minecraft.item.ItemStack;
 
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
 
-public abstract class ItemBase extends Item
+public abstract class AOTDItem extends Item
 {
 	// Setup an item base class for all of our mod items
-	public ItemBase()
+	public AOTDItem()
 	{
 		super();
 		this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);

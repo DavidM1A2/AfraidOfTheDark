@@ -5,10 +5,10 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.entities.Bolts;
 
-import com.DavidM1A2.AfraidOfTheDark.item.ItemBase;
+import com.DavidM1A2.AfraidOfTheDark.item.AOTDItem;
 
 // Setup the iron bolt item
-public class ItemIronBolt extends ItemBase
+public class ItemIronBolt extends AOTDItem
 {
 	public ItemIronBolt()
 	{
