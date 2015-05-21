@@ -7,13 +7,14 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
-import com.DavidM1A2.AfraidOfTheDark.utility.LogHelper;
+import com.DavidM1A2.AfraidOfTheDark.utility.NBTHelper;
 
 public class IgneousArmor extends AOTDArmor implements ISpecialArmor
 {
@@ -73,8 +74,9 @@ public class IgneousArmor extends AOTDArmor implements ISpecialArmor
 			return new ArmorProperties(0, .25, 0);
 		}
 
-		LogHelper.info(this.damageReduceAmount / 25D);
-		LogHelper.info(armor.getMaxDamage());
+		// Remove the ability of thorns to damage armor
+		armor.setItemDamage(0);
+
 		return new ArmorProperties(0, this.damageReduceAmount / 25D, armor.getMaxDamage());
 	}
 
@@ -88,6 +90,13 @@ public class IgneousArmor extends AOTDArmor implements ISpecialArmor
 	public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot)
 	{
 		return;
+	}
+
+	// Initialize the item when it is created
+	@Override
+	public void onCreated(ItemStack itemStack, World world, EntityPlayer entityPlayer)
+	{
+		NBTHelper.setBoolean(itemStack, "Unbreakable", true);
 	}
 
 	private boolean isWearingFullArmor(EntityPlayer entityPlayer)

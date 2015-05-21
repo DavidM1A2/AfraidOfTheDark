@@ -25,6 +25,10 @@ tile.afraidofthedark:gravewoodPlanks.name=Gravewood Planks
 tile.afraidofthedark:gravewoodStairs.name=Gravewood Stairs
 tile.afraidofthedark:gravewoodHalfSlab.name=Gravewood Slab
 tile.afraidofthedark:gravewoodDoubleSlab.name=Gravewood Double Slab
+tile.afraidofthedark:sunstone.name=Sunstone
+tile.afraidofthedark:meteoricSilver.name=Meteoric Silver
+tile.afraidofthedark:meteor.name=Meteor
+tile.afraidofthedark:starMetal.name=Star Metal
 
 # Creative Tabs
 itemGroup.afraidofthedark=Afraid of the Dark

@@ -21,7 +21,11 @@ import com.DavidM1A2.AfraidOfTheDark.block.BlockGravewoodHalfSlab;
 import com.DavidM1A2.AfraidOfTheDark.block.BlockGravewoodLeaves;
 import com.DavidM1A2.AfraidOfTheDark.block.BlockGravewoodPlanks;
 import com.DavidM1A2.AfraidOfTheDark.block.BlockGravewoodStairs;
+import com.DavidM1A2.AfraidOfTheDark.block.BlockMeteor;
+import com.DavidM1A2.AfraidOfTheDark.block.BlockMeteoricSilver;
 import com.DavidM1A2.AfraidOfTheDark.block.BlockSilverOre;
+import com.DavidM1A2.AfraidOfTheDark.block.BlockStarMetal;
+import com.DavidM1A2.AfraidOfTheDark.block.BlockSunstone;
 import com.DavidM1A2.AfraidOfTheDark.block.BlockTileEntityDarkness;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemGravewoodLeaves;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemGravewoodSlab;
@@ -39,6 +43,10 @@ public class ModBlocks
 	public static final BlockGravewoodStairs gravewoodStairs = new BlockGravewoodStairs(gravewoodPlanks.getDefaultState());
 	public static final BlockGravewoodHalfSlab gravewoodHalfSlab = new BlockGravewoodHalfSlab(Material.wood);
 	public static final BlockGravewoodDoubleSlab gravewoodDoubleSlab = new BlockGravewoodDoubleSlab(Material.wood);
+	public static final BlockSunstone sunstone = new BlockSunstone(Material.rock);
+	public static final BlockMeteoricSilver meteoricSilver = new BlockMeteoricSilver(Material.rock);
+	public static final BlockMeteor meteor = new BlockMeteor(Material.rock);
+	public static final BlockStarMetal starMetal = new BlockStarMetal(Material.rock);
 
 	public static void initialize()
 	{
@@ -58,6 +66,10 @@ public class ModBlocks
 		Blocks.fire.func_180686_a(gravewoodHalfSlab, 5, 5);
 		GameRegistry.registerBlock(gravewoodDoubleSlab, ItemGravewoodSlab.class, "gravewoodDoubleSlab", gravewoodHalfSlab, gravewoodDoubleSlab, true);
 		Blocks.fire.func_180686_a(gravewoodDoubleSlab, 5, 5);
+		GameRegistry.registerBlock(sunstone, "sunstone");
+		GameRegistry.registerBlock(meteoricSilver, "meteoricSilver");
+		GameRegistry.registerBlock(meteor, "meteor");
+		GameRegistry.registerBlock(starMetal, "starMetal");
 	}
 
 	public static void initializeRenderers(Side side)
@@ -73,6 +85,10 @@ public class ModBlocks
 			renderItem.getItemModelMesher().register(Item.getItemFromBlock(gravewoodStairs), 0, new ModelResourceLocation(Refrence.MOD_ID + ":gravewoodStairs", "inventory"));
 			renderItem.getItemModelMesher().register(Item.getItemFromBlock(gravewoodHalfSlab), 0, new ModelResourceLocation(Refrence.MOD_ID + ":gravewoodHalfSlab", "inventory"));
 			renderItem.getItemModelMesher().register(Item.getItemFromBlock(gravewoodDoubleSlab), 0, new ModelResourceLocation(Refrence.MOD_ID + ":gravewoodDoubleSlab", "inventory"));
+			renderItem.getItemModelMesher().register(Item.getItemFromBlock(sunstone), 0, new ModelResourceLocation(Refrence.MOD_ID + ":sunstone", "inventory"));
+			renderItem.getItemModelMesher().register(Item.getItemFromBlock(meteoricSilver), 0, new ModelResourceLocation(Refrence.MOD_ID + ":meteoricSilver", "inventory"));
+			renderItem.getItemModelMesher().register(Item.getItemFromBlock(meteor), 0, new ModelResourceLocation(Refrence.MOD_ID + ":meteor", "inventory"));
+			renderItem.getItemModelMesher().register(Item.getItemFromBlock(starMetal), 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetal", "inventory"));
 		}
 	}
 }

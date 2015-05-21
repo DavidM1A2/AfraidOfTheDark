@@ -28,6 +28,17 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 	private static final int RESEARCH_WEREWOLF_EXAMINATION_ID = 2;
 	private static final int RESEARCH_CROSSBOW_ID = 3;
 	private static final int RESEARCH_ASTRONOMY_1_ID = 4;
+	private static final int RESEARCH_VITAE_1_ID = 5;
+	private static final int RESEARCH_ASTRAL_SILVER_ID = 6;
+	private static final int RESEARCH_SILVER_INFUSION_ID = 7;
+	private static final int RESEARCH_DARK_FOREST_ID = 8;
+	private static final int RESEARCH_ASTRONOMY_2_ID = 9;
+	private static final int RESEARCH_IGNEOUS_ARMOR_ID = 10;
+	private static final int RESEARCH_STAR_METAL_ID = 11;
+	private static final int RESEARCH_SANITY_LANTERN_ID = 12;
+	private static final int RESEARCH_VITAE_LANTERN_ID = 13;
+
+	private static final int DISTANCE_BETWEEN_NODES = 75;
 
 	private static final ResourceLocation upArrow = new ResourceLocation("afraidofthedark:textures/gui/arrowUp.png");
 	private static final ResourceLocation leftArrow = new ResourceLocation("afraidofthedark:textures/gui/arrowLeft.png");
@@ -70,6 +81,15 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 	private NodeButton werewolfExamination;
 	private NodeButton crossbow;
 	private NodeButton astronomy1;
+	private NodeButton vitae1;
+	private NodeButton astralSilver;
+	private NodeButton silverInfusion;
+	private NodeButton darkForest;
+	private NodeButton astronomy2;
+	private NodeButton igneousArmor;
+	private NodeButton starMetal;
+	private NodeButton sanityLantern;
+	private NodeButton vitaeLantern1;
 
 	@Override
 	public void initGui()
@@ -84,18 +104,7 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 		xPosBaseResearch = xPosBackground + 100 - 8;
 		yPosBaseResearch = yPosBackground + BACKGROUND_WIDTH / 2 - 8;
 
-		// Setup the reserach nodes with an ID and position.
-		unbreakableCovenantResearch = new NodeButton(RESEARCH_AN_UNBREAKABLE_COVENANT_ID, xPosBaseResearch, yPosBaseResearch, 0, 0, ResearchTypes.AnUnbreakableCovenant);
-		werewolfExamination = new NodeButton(RESEARCH_WEREWOLF_EXAMINATION_ID, xPosBaseResearch, yPosBaseResearch - 75, 32, 0, ResearchTypes.WerewolfExamination);
-		crossbow = new NodeButton(RESEARCH_CROSSBOW_ID, xPosBaseResearch + 75, yPosBaseResearch, 64, 0, ResearchTypes.Crossbow);
-		astronomy1 = new NodeButton(RESEARCH_ASTRONOMY_1_ID, xPosBaseResearch, yPosBaseResearch - 150, 96, 0, ResearchTypes.Astronomy1);
-
-		// Clear and pre-existing buttons on the GUI and add the new ones
-		this.buttonList.clear();
-		this.buttonList.add(unbreakableCovenantResearch);
-		this.buttonList.add(werewolfExamination);
-		this.buttonList.add(crossbow);
-		this.buttonList.add(astronomy1);
+		this.setupButtons();
 	}
 
 	// Opening a research book DOES NOT pause the game (unlike escape)
@@ -208,9 +217,56 @@ public class BloodStainedJournalResearchGUI extends GuiScreen
 	private void drawLines()
 	{
 		mc.renderEngine.bindTexture(this.upArrow);
-		BloodStainedJournalPageGUI.drawScaledCustomSizeModalRect(unbreakableCovenantResearch.xPosition + 10, unbreakableCovenantResearch.yPosition - 43, 0, 0, 10, 43, 10, 43, 10, 43);
+		BloodStainedJournalPageGUI.drawScaledCustomSizeModalRect(this.unbreakableCovenantResearch.xPosition + 10, this.unbreakableCovenantResearch.yPosition - 43, 0, 0, 10, 43, 10, 43, 10, 43);
 		BloodStainedJournalPageGUI.drawScaledCustomSizeModalRect(this.werewolfExamination.xPosition + 10, this.werewolfExamination.yPosition - 43, 0, 0, 10, 43, 10, 43, 10, 43);
+		BloodStainedJournalPageGUI.drawScaledCustomSizeModalRect(this.astronomy1.xPosition + 10, this.astronomy1.yPosition - 43, 0, 0, 10, 43, 10, 43, 10, 43);
+		BloodStainedJournalPageGUI.drawScaledCustomSizeModalRect(this.astralSilver.xPosition + 10, this.astralSilver.yPosition - 43, 0, 0, 10, 43, 10, 43, 10, 43);
+		BloodStainedJournalPageGUI.drawScaledCustomSizeModalRect(this.darkForest.xPosition + 10, this.darkForest.yPosition - 43, 0, 0, 10, 43, 10, 43, 10, 43);
+		BloodStainedJournalPageGUI.drawScaledCustomSizeModalRect(this.sanityLantern.xPosition + 10, this.sanityLantern.yPosition - 43, 0, 0, 10, 43, 10, 43, 10, 43);
+
 		mc.renderEngine.bindTexture(this.rightArrow);
-		BloodStainedJournalPageGUI.drawScaledCustomSizeModalRect(unbreakableCovenantResearch.xPosition + 30, unbreakableCovenantResearch.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
+		BloodStainedJournalPageGUI.drawScaledCustomSizeModalRect(this.unbreakableCovenantResearch.xPosition + 30, this.unbreakableCovenantResearch.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
+		BloodStainedJournalPageGUI.drawScaledCustomSizeModalRect(this.astralSilver.xPosition + 30, this.astralSilver.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
+		BloodStainedJournalPageGUI.drawScaledCustomSizeModalRect(this.astronomy2.xPosition + 30, this.astronomy2.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
+
+		mc.renderEngine.bindTexture(this.leftArrow);
+		BloodStainedJournalPageGUI.drawScaledCustomSizeModalRect(this.astronomy1.xPosition - 43, this.astronomy1.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
+		BloodStainedJournalPageGUI.drawScaledCustomSizeModalRect(this.astronomy2.xPosition - 43, this.astronomy2.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
+		BloodStainedJournalPageGUI.drawScaledCustomSizeModalRect(this.vitae1.xPosition - 43, this.vitae1.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
+
+	}
+
+	private void setupButtons()
+	{
+		// Setup the reserach nodes with an ID and position.
+		this.unbreakableCovenantResearch = new NodeButton(RESEARCH_AN_UNBREAKABLE_COVENANT_ID, xPosBaseResearch, yPosBaseResearch, 0, 0, ResearchTypes.AnUnbreakableCovenant);
+		this.werewolfExamination = new NodeButton(RESEARCH_WEREWOLF_EXAMINATION_ID, xPosBaseResearch, yPosBaseResearch - DISTANCE_BETWEEN_NODES, 32, 0, ResearchTypes.WerewolfExamination);
+		this.crossbow = new NodeButton(RESEARCH_CROSSBOW_ID, xPosBaseResearch + DISTANCE_BETWEEN_NODES, yPosBaseResearch, 64, 0, ResearchTypes.Crossbow);
+		this.astronomy1 = new NodeButton(RESEARCH_ASTRONOMY_1_ID, xPosBaseResearch, yPosBaseResearch - DISTANCE_BETWEEN_NODES * 2, 96, 0, ResearchTypes.Astronomy1);
+		this.vitae1 = new NodeButton(RESEARCH_VITAE_1_ID, xPosBaseResearch - DISTANCE_BETWEEN_NODES, yPosBaseResearch - DISTANCE_BETWEEN_NODES * 2, 128, 0, ResearchTypes.Vitae1);
+		this.astralSilver = new NodeButton(RESEARCH_ASTRAL_SILVER_ID, xPosBaseResearch, yPosBaseResearch - DISTANCE_BETWEEN_NODES * 3, 160, 0, ResearchTypes.AstralSilver);
+		this.silverInfusion = new NodeButton(RESEARCH_SILVER_INFUSION_ID, xPosBaseResearch + DISTANCE_BETWEEN_NODES, yPosBaseResearch - DISTANCE_BETWEEN_NODES * 3, 192, 0, ResearchTypes.SilverInfusion);
+		this.darkForest = new NodeButton(RESEARCH_DARK_FOREST_ID, xPosBaseResearch, yPosBaseResearch - DISTANCE_BETWEEN_NODES * 4, 224, 0, ResearchTypes.DarkForest);
+		this.astronomy2 = new NodeButton(RESEARCH_ASTRONOMY_2_ID, xPosBaseResearch, yPosBaseResearch - DISTANCE_BETWEEN_NODES * 5, 0, 32, ResearchTypes.Astronomy2);
+		this.igneousArmor = new NodeButton(RESEARCH_IGNEOUS_ARMOR_ID, xPosBaseResearch - DISTANCE_BETWEEN_NODES, yPosBaseResearch - DISTANCE_BETWEEN_NODES * 5, 32, 32, ResearchTypes.IgneousArmor);
+		this.starMetal = new NodeButton(RESEARCH_STAR_METAL_ID, xPosBaseResearch + DISTANCE_BETWEEN_NODES, yPosBaseResearch - DISTANCE_BETWEEN_NODES * 5, 64, 32, ResearchTypes.StarMetal);
+		this.sanityLantern = new NodeButton(RESEARCH_SANITY_LANTERN_ID, xPosBaseResearch - DISTANCE_BETWEEN_NODES * 2, yPosBaseResearch - DISTANCE_BETWEEN_NODES * 2, 96, 32, ResearchTypes.SanityLantern);
+		this.vitaeLantern1 = new NodeButton(RESEARCH_VITAE_LANTERN_ID, xPosBaseResearch - DISTANCE_BETWEEN_NODES * 2, yPosBaseResearch - DISTANCE_BETWEEN_NODES * 3, 128, 32, ResearchTypes.VitaeLantern1);
+
+		// Clear and pre-existing buttons on the GUI and add the new ones
+		this.buttonList.clear();
+		this.buttonList.add(unbreakableCovenantResearch);
+		this.buttonList.add(werewolfExamination);
+		this.buttonList.add(crossbow);
+		this.buttonList.add(astronomy1);
+		this.buttonList.add(vitae1);
+		this.buttonList.add(astralSilver);
+		this.buttonList.add(silverInfusion);
+		this.buttonList.add(darkForest);
+		this.buttonList.add(astronomy2);
+		this.buttonList.add(igneousArmor);
+		this.buttonList.add(starMetal);
+		this.buttonList.add(sanityLantern);
+		this.buttonList.add(vitaeLantern1);
 	}
 }
