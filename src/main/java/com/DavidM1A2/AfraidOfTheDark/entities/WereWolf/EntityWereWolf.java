@@ -60,7 +60,7 @@ public class EntityWereWolf extends EntityMob
 	{
 		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.maxHealth) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(60.0D);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(80.0D);
 		}
 		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange) == null)
 		{

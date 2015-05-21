@@ -54,10 +54,10 @@ public class Refrence
 	public static CustomFont journalTitleFont;
 
 	// Silver weapon damage type and silver tool material
-	public static final DamageSource silverWeapon = new DamageSource("silverWeapon").setProjectile();
-	public static final ToolMaterial silver = EnumHelper.addToolMaterial("silverTool", 2, 250, 1, 4F, 22);
+	public static final DamageSource silverWeapon = new DamageSource("silverWeapon");
+	public static final ToolMaterial silver = EnumHelper.addToolMaterial("silverTool", 2, 250, 1, .5F, 20);
 	public static final ArmorMaterial igneous = EnumHelper.addArmorMaterial("igneous", "texture", 100, new int[]
-	{ 3, 5, 4, 3 }, 25);
+	{ 3, 8, 6, 3 }, 20);
 
 	public static ResearchAchieved researchAchievedOverlay;
 

@@ -7,13 +7,13 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.utility.LogHelper;
 
 public class IgneousArmor extends AOTDArmor implements ISpecialArmor
 {
@@ -72,7 +72,10 @@ public class IgneousArmor extends AOTDArmor implements ISpecialArmor
 		{
 			return new ArmorProperties(0, .25, 0);
 		}
-		return new ArmorProperties(0, .25, (MathHelper.floor_double(damage * .5) + 5));
+
+		LogHelper.info(this.damageReduceAmount / 25D);
+		LogHelper.info(armor.getMaxDamage());
+		return new ArmorProperties(0, this.damageReduceAmount / 25D, armor.getMaxDamage());
 	}
 
 	@Override
