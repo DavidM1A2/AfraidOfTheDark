@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -44,11 +45,11 @@ public class IgneousArmor extends AOTDArmor implements ISpecialArmor
 	}
 
 	@Override
-	public ArmorProperties getProperties(EntityLivingBase player, ItemStack armor, DamageSource source, double damage, int slot)
+	public ArmorProperties getProperties(EntityLivingBase entity, ItemStack armor, DamageSource source, double damage, int slot)
 	{
-		if (player instanceof EntityPlayer)
+		if (entity instanceof EntityPlayer)
 		{
-			EntityPlayer entityPlayer = (EntityPlayer) player;
+			EntityPlayer entityPlayer = (EntityPlayer) entity;
 
 			if (isWearingFullArmor(entityPlayer))
 			{
@@ -56,9 +57,9 @@ public class IgneousArmor extends AOTDArmor implements ISpecialArmor
 				{
 					source.getEntity().setFire(5);
 				}
-				if (player.isBurning())
+				if (entity.isBurning())
 				{
-					player.extinguish();
+					entity.extinguish();
 				}
 			}
 		}
@@ -71,7 +72,7 @@ public class IgneousArmor extends AOTDArmor implements ISpecialArmor
 		{
 			return new ArmorProperties(0, .25, 0);
 		}
-		return new ArmorProperties(0, .25, getReductionBasedOffOfSlot(slot) * 5);
+		return new ArmorProperties(0, .25, (MathHelper.floor_double(damage * .5) + 5));
 	}
 
 	@Override
@@ -98,6 +99,6 @@ public class IgneousArmor extends AOTDArmor implements ISpecialArmor
 
 	private int getReductionBasedOffOfSlot(int slot)
 	{
-		return slot == 0 ? 3 : slot == 1 ? 4 : slot == 2 ? 6 : 5;
+		return slot == 0 ? 3 : slot == 1 ? 6 : slot == 2 ? 8 : 3;
 	}
 }

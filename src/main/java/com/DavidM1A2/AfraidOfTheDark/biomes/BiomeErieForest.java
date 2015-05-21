@@ -16,7 +16,7 @@ import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraft.world.gen.feature.WorldGenBigTree;
 
 import com.DavidM1A2.AfraidOfTheDark.utility.LogHelper;
-import com.DavidM1A2.AfraidOfTheDark.worldGeneration.Graveyard;
+import com.DavidM1A2.AfraidOfTheDark.worldGeneration.CryptModel;
 
 public class BiomeErieForest extends BiomeGenBase
 {
@@ -32,7 +32,7 @@ public class BiomeErieForest extends BiomeGenBase
 		this.enableRain = true;
 		this.setFillerBlockMetadata(5159473);
 		this.flowers.clear();
-		this.setHeight(new BiomeGenBase.Height(0.3f, 0.5f));
+		this.setHeight(new BiomeGenBase.Height(0.125F, 0.05F));
 		this.spawnableCreatureList.clear();
 		this.waterColorMultiplier = 0x000099;
 		this.theBiomeDecorator.treesPerChunk = 15;
@@ -48,16 +48,16 @@ public class BiomeErieForest extends BiomeGenBase
 	// Called every chunk gen
 	public void func_180624_a(World world, Random random, BlockPos blockPosition)
 	{
-		if (random.nextDouble() < 0.005)
+		if (random.nextDouble() < 0.01)
 		{
 			BlockPos newPos = new BlockPos(blockPosition.getX(), 255, blockPosition.getZ());
 			for (int i = 255; i > 0; i--)
 			{
 				if (world.getBlockState(newPos).getBlock() instanceof BlockDirt)
 				{
-					newPos.add(0, -4, 0);
+					newPos = new BlockPos(newPos.getX(), newPos.getY() - 17, newPos.getZ());
 					LogHelper.info("Chose: " + newPos.getX() + ", " + newPos.getY() + ", " + newPos.getZ());
-					Graveyard.generate(world, random, newPos.getX(), newPos.getY(), newPos.getZ());
+					new CryptModel().generate(world, random, newPos.getX(), newPos.getY(), newPos.getZ());
 					break;
 				}
 				else

@@ -5,7 +5,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.research;
 
-
 // All available researches
 public enum ResearchTypes
 {
