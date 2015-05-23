@@ -23,7 +23,7 @@ import com.DavidM1A2.AfraidOfTheDark.AI.CustomWerewolfTargetLocator;
 import com.DavidM1A2.AfraidOfTheDark.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
-import com.DavidM1A2.AfraidOfTheDark.research.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.refrence.ResearchTypes;
 
 public class EntityWereWolf extends EntityMob
 {

@@ -23,7 +23,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.DavidM1A2.AfraidOfTheDark.client.gui.ResearchAchieved;
 import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModItems;
-import com.DavidM1A2.AfraidOfTheDark.research.ResearchTypes;
 
 // Refrences for static final variables
 public class Refrence
@@ -59,6 +58,9 @@ public class Refrence
 	public static final ToolMaterial silver = EnumHelper.addToolMaterial("silverTool", 2, 250, 1, .5F, 20);
 	public static final ArmorMaterial igneous = EnumHelper.addArmorMaterial("igneous", "texture", 100, new int[]
 	{ 3, 8, 6, 3 }, 20);
+
+	@SideOnly(Side.CLIENT)
+	public static int[] selectedMeteor = new int[3];
 
 	public static ResearchAchieved researchAchievedOverlay;
 

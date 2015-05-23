@@ -8,8 +8,9 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
+import com.DavidM1A2.AfraidOfTheDark.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
-import com.DavidM1A2.AfraidOfTheDark.research.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.refrence.ResearchTypes;
 
 public class ItemTelescope extends AOTDItem
 {
@@ -24,20 +25,25 @@ public class ItemTelescope extends AOTDItem
 	{
 		if (world.isRemote)
 		{
-			if (entityPlayer.getPosition().getY() <= 128)
+			if (HasStartedAOTD.get(entityPlayer) && LoadResearchData.isResearched(entityPlayer, ResearchTypes.Astronomy1.getPrevious()))
 			{
-				entityPlayer.addChatComponentMessage(new ChatComponentText("§oI §ocan't §osee §oanything §othrough §othese §othick §oclouds. §oMaybe §oI §ocould §omove §oto §oa §ohigher §oelevation."));
-			}
-			else
-			{
-				entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.TELESCOPE_ID, world, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ());
-				if (LoadResearchData.isResearched(entityPlayer, ResearchTypes.Astronomy1.getPrevious()))
+				if (entityPlayer.getPosition().getY() <= 128)
 				{
+					entityPlayer.addChatComponentMessage(new ChatComponentText("§oI §ocan't §osee §oanything §othrough §othese §othick §oclouds. §oMaybe §oI §ocould §omove §oto §oa §ohigher §oelevation."));
+				}
+				else
+				{
+					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.TELESCOPE_ID, world, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ());
+
 					if (!LoadResearchData.isResearched(entityPlayer, ResearchTypes.Astronomy1))
 					{
 						LoadResearchData.unlockResearchSynced(entityPlayer, ResearchTypes.Astronomy1, Side.CLIENT);
 					}
 				}
+			}
+			else
+			{
+				entityPlayer.addChatComponentMessage(new ChatComponentText("§oI §ocan't §ounderstand §owhat §othis §othing §odoes."));
 			}
 		}
 

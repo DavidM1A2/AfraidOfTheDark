@@ -18,6 +18,7 @@ import com.DavidM1A2.AfraidOfTheDark.entities.Bolts.ItemWoodenBolt;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemIgneousGem;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemInsanityControl;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemJournal;
+import com.DavidM1A2.AfraidOfTheDark.item.ItemSextant;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemSilverIngot;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemSilverSword;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemSpawnWerewolf;
@@ -44,6 +45,7 @@ public class ModItems
 	public static final IgneousArmor igneousBoots = new IgneousArmor(Refrence.igneous, 5, 3);
 	public static final ItemIgneousGem igneousGem = new ItemIgneousGem();
 	public static final ItemTelescope telescope = new ItemTelescope();
+	public static final ItemSextant sextant = new ItemSextant();
 
 	public static void initialize(Side side)
 	{
@@ -63,6 +65,7 @@ public class ModItems
 		GameRegistry.registerItem(igneousBoots, "igneousBoots");
 		GameRegistry.registerItem(igneousGem, "igneousGem");
 		GameRegistry.registerItem(telescope, "telescope");
+		GameRegistry.registerItem(sextant, "sextant");
 	}
 
 	public static void initializeRenderers(Side side)
@@ -85,6 +88,7 @@ public class ModItems
 			renderItem.getItemModelMesher().register(igneousBoots, 0, new ModelResourceLocation(Refrence.MOD_ID + ":igneousBoots", "inventory"));
 			renderItem.getItemModelMesher().register(igneousGem, 0, new ModelResourceLocation(Refrence.MOD_ID + ":igneousGem", "inventory"));
 			renderItem.getItemModelMesher().register(telescope, 0, new ModelResourceLocation(Refrence.MOD_ID + ":telescope", "inventory"));
+			renderItem.getItemModelMesher().register(sextant, 0, new ModelResourceLocation(Refrence.MOD_ID + ":sextant", "inventory"));
 		}
 	}
 }

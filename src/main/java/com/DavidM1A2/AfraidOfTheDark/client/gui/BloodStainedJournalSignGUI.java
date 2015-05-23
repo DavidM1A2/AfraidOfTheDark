@@ -22,7 +22,7 @@ import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.packets.UpdateAOTDStatus;
 import com.DavidM1A2.AfraidOfTheDark.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
-import com.DavidM1A2.AfraidOfTheDark.research.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.refrence.ResearchTypes;
 
 public class BloodStainedJournalSignGUI extends GuiScreen
 {

@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
-import com.DavidM1A2.AfraidOfTheDark.research.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.refrence.ResearchTypes;
 
 /*
  * A button for researches

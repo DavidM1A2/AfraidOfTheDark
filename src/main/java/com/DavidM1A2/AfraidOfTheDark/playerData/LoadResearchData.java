@@ -17,7 +17,7 @@ import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.packets.UpdateResearch;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
-import com.DavidM1A2.AfraidOfTheDark.research.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.utility.LogHelper;
 
 //This property is saved on a player and keeps track of their current researches
