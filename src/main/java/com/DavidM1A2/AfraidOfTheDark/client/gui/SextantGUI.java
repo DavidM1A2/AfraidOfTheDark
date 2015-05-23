@@ -1,13 +1,16 @@
 package com.DavidM1A2.AfraidOfTheDark.client.gui;
 
 import java.io.IOException;
+import java.util.Random;
 
+import net.minecraft.block.BlockAir;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiLabel;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
 
@@ -143,19 +146,46 @@ public class SextantGUI extends GuiScreen
 		if (button.id == RUN_CALCULATIONS_ID)
 		{
 			EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
-			if (this.angle.getText().equals(Refrence.selectedMeteor[0]) && this.latitude.getText().equals(Refrence.selectedMeteor[1]) && this.longitude.getText().equals(Refrence.selectedMeteor[2]))
+			try
 			{
-				//BlockPos location = new BlockPos(entityPlayer.posX + 15);
-				AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new TellServerToCreateMeteor());
+				if (Integer.parseInt(this.angle.getText()) == Refrence.selectedMeteor[0] && Integer.parseInt(this.latitude.getText()) == Refrence.selectedMeteor[1] && Integer.parseInt(this.longitude.getText()) == Refrence.selectedMeteor[2])
+				{
+					tellServerToCreateMeteor(entityPlayer);
+					entityPlayer.closeScreen();
+				}
+				else if (this.angle.getText().isEmpty() || this.latitude.getText().isEmpty() || this.longitude.getText().isEmpty())
+				{
+					entityPlayer.addChatMessage(new ChatComponentText("§oI §oforgot §oto §ofill §oout §oone §oof §othe §ofields."));
+				}
+				else
+				{
+					entityPlayer.addChatMessage(new ChatComponentText("§oThe §ocalculation §owas §onot §osucessful.\n§oMaybe §oI §oentered §oincorrect §onumbers §oor §oshould §ofind §oanother §ometeor §oto §otrack."));
+				}
 			}
-			else if (this.angle.getText().isEmpty() || this.latitude.getText().isEmpty() || this.longitude.getText().isEmpty())
+			catch (Exception e)
 			{
-				entityPlayer.addChatMessage(new ChatComponentText("§oI §oforgot §oto §ofill §oout §oone §oof §othe §ofields."));
-			}
-			else
-			{
-				entityPlayer.addChatMessage(new ChatComponentText("The calculation was not sucessful.\nMaybe I entered incorrect numbers or should find another meteor to track."));
+				entityPlayer.addChatMessage(new ChatComponentText("§oThe §ocalculation §owas §onot §osucessful.\n§oMaybe §oI §oentered §oincorrect §onumbers §oor §oshould §ofind §oanother §ometeor §oto §otrack."));
 			}
 		}
+	}
+
+	private void tellServerToCreateMeteor(EntityPlayer entityPlayer)
+	{
+		Random random = entityPlayer.worldObj.rand;
+		int xLocOfDrop = (int) entityPlayer.posX + 15 + entityPlayer.worldObj.rand.nextInt(100);
+		int yLocOfDrop = 255;
+		int zLocOfDrop = (int) entityPlayer.posZ + 15 + entityPlayer.worldObj.rand.nextInt(100);
+		xLocOfDrop = xLocOfDrop * ((random.nextDouble() >= .5) ? -1 : 1);
+		zLocOfDrop = zLocOfDrop * ((random.nextDouble() >= .5) ? -1 : 1);
+		BlockPos location = new BlockPos(xLocOfDrop, yLocOfDrop, zLocOfDrop);
+		while (entityPlayer.worldObj.getBlockState(location).getBlock() instanceof BlockAir)
+		{
+			yLocOfDrop = yLocOfDrop - 1;
+			location = new BlockPos(xLocOfDrop, yLocOfDrop, zLocOfDrop);
+		}
+		AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new TellServerToCreateMeteor(location, 3, 3));
+		entityPlayer.addChatMessage(new ChatComponentText("§oBased §ooff §oof §othis §oinformation §othe §ometeor §ofell §oat §o" + xLocOfDrop + "§o, §o" + yLocOfDrop + "§o, §o" + zLocOfDrop));
+		Refrence.selectedMeteor = new int[]
+		{ -1, -1, -1 };
 	}
 }

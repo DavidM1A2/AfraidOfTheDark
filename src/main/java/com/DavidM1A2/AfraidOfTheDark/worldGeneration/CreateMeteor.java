@@ -8,6 +8,7 @@ import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockDirt;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockStone;
+import net.minecraft.block.material.Material;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -42,7 +43,7 @@ public class CreateMeteor
 					if (dist < radius * radius && !(hollow && dist < (radius - 1) * (radius - 1)))
 					{
 						Block current = world.getBlockState(new BlockPos(x, y, z)).getBlock();
-						if (current instanceof BlockDirt || current instanceof BlockAir || current instanceof BlockLog || current instanceof BlockStone)
+						if (current instanceof BlockDirt || current instanceof BlockAir || current instanceof BlockLog || current instanceof BlockStone || current.getMaterial() == Material.water || current.getMaterial() == Material.lava)
 						{
 							world.setBlockState(new BlockPos(x, y, z), ModBlocks.meteor.getDefaultState());
 						}
