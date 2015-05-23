@@ -3,7 +3,6 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui;
 import java.io.IOException;
 import java.util.Random;
 
-import net.minecraft.block.BlockAir;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiLabel;
@@ -173,18 +172,12 @@ public class SextantGUI extends GuiScreen
 	{
 		Random random = entityPlayer.worldObj.rand;
 		int xLocOfDrop = (int) entityPlayer.posX + 15 + entityPlayer.worldObj.rand.nextInt(100);
-		int yLocOfDrop = 255;
 		int zLocOfDrop = (int) entityPlayer.posZ + 15 + entityPlayer.worldObj.rand.nextInt(100);
 		xLocOfDrop = xLocOfDrop * ((random.nextDouble() >= .5) ? -1 : 1);
 		zLocOfDrop = zLocOfDrop * ((random.nextDouble() >= .5) ? -1 : 1);
-		BlockPos location = new BlockPos(xLocOfDrop, yLocOfDrop, zLocOfDrop);
-		while (entityPlayer.worldObj.getBlockState(location).getBlock() instanceof BlockAir)
-		{
-			yLocOfDrop = yLocOfDrop - 1;
-			location = new BlockPos(xLocOfDrop, yLocOfDrop, zLocOfDrop);
-		}
+		BlockPos location = new BlockPos(xLocOfDrop, 255, zLocOfDrop);
 		AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new TellServerToCreateMeteor(location, 3, 3));
-		entityPlayer.addChatMessage(new ChatComponentText("§oBased §ooff §oof §othis §oinformation §othe §ometeor §ofell §oat §o" + xLocOfDrop + "§o, §o" + yLocOfDrop + "§o, §o" + zLocOfDrop));
+		entityPlayer.addChatMessage(new ChatComponentText("§oBased §ooff §oof §othis §oinformation §othe §ometeor §ofell §oat §o" + xLocOfDrop + "§o, §o" + zLocOfDrop));
 		Refrence.selectedMeteor = new int[]
 		{ -1, -1, -1 };
 	}

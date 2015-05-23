@@ -31,7 +31,7 @@ public class CreateMeteor
 	public static void create(final World world, final BlockPos location, final int radius, final int height, final boolean hollow, final boolean isSphere)
 	{
 		int cx = location.getX();
-		int cy = location.getY();
+		int cy = makeSureChunkIsGenerated(world, location);
 		int cz = location.getZ();
 		for (int x = cx - radius; x <= cx + radius; x++)
 		{
@@ -52,7 +52,7 @@ public class CreateMeteor
 			}
 		}
 
-		CreateMeteor.createCore(world, location, MathHelper.ceiling_double_int(radius / 2.5), MathHelper.ceiling_double_int(height / 2.5), hollow, isSphere);
+		CreateMeteor.createCore(world, new BlockPos(cx, cy, cz), MathHelper.ceiling_double_int(radius / 2.5), MathHelper.ceiling_double_int(height / 2.5), hollow, isSphere);
 	}
 
 	private static void createCore(World world, BlockPos location, int radius, int height, boolean hollow, boolean isSphere)
@@ -79,5 +79,19 @@ public class CreateMeteor
 				}
 			}
 		}
+	}
+
+	private static int makeSureChunkIsGenerated(World world, BlockPos location)
+	{
+		if (!world.getChunkProvider().chunkExists(location.getX(), location.getZ()))
+		{
+			world.getChunkProvider().provideChunk(location.getX(), location.getZ());
+		}
+
+		while (world.getBlockState(location).getBlock() instanceof BlockAir)
+		{
+			location = new BlockPos(location.getX(), location.getY() - 1, location.getZ());
+		}
+		return location.getY();
 	}
 }
