@@ -171,10 +171,9 @@ public class SextantGUI extends GuiScreen
 	private void tellServerToCreateMeteor(EntityPlayer entityPlayer)
 	{
 		Random random = entityPlayer.worldObj.rand;
-		int xLocOfDrop = (int) entityPlayer.posX + 15 + entityPlayer.worldObj.rand.nextInt(100);
-		int zLocOfDrop = (int) entityPlayer.posZ + 15 + entityPlayer.worldObj.rand.nextInt(100);
-		xLocOfDrop = xLocOfDrop * ((random.nextDouble() >= .5) ? -1 : 1);
-		zLocOfDrop = zLocOfDrop * ((random.nextDouble() >= .5) ? -1 : 1);
+		int xLocOfDrop = (int) entityPlayer.posX + ((random.nextDouble() >= .5) ? -1 : 1) * (entityPlayer.worldObj.rand.nextInt(500) + 15);
+		int zLocOfDrop = (int) entityPlayer.posZ + ((random.nextDouble() >= .5) ? -1 : 1) * (entityPlayer.worldObj.rand.nextInt(500) + 15);
+
 		BlockPos location = new BlockPos(xLocOfDrop, 255, zLocOfDrop);
 		AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new TellServerToCreateMeteor(location, 3, 3));
 		entityPlayer.addChatMessage(new ChatComponentText("§oBased §ooff §oof §othis §oinformation §othe §ometeor §ofell §oat §o" + xLocOfDrop + "§o, §o" + zLocOfDrop));
