@@ -6,6 +6,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
+import com.DavidM1A2.AfraidOfTheDark.refrence.MeteorTypes;
 import com.DavidM1A2.AfraidOfTheDark.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.worldGeneration.CreateMeteor;
 
@@ -14,19 +15,22 @@ public class TellServerToCreateMeteor implements IMessage
 	private BlockPos thePosition;
 	private int radius;
 	private int height;
+	private int index;
 
 	public TellServerToCreateMeteor()
 	{
 		thePosition = null;
 		radius = 0;
 		height = 0;
+		index = -1;
 	}
 
-	public TellServerToCreateMeteor(BlockPos thePosition, int radius, int height)
+	public TellServerToCreateMeteor(BlockPos thePosition, int radius, int height, int index)
 	{
 		this.thePosition = thePosition;
 		this.radius = radius;
 		this.height = height;
+		this.index = index;
 	}
 
 	@Override
@@ -35,6 +39,7 @@ public class TellServerToCreateMeteor implements IMessage
 		this.thePosition = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 		this.radius = buf.readInt();
 		this.height = buf.readInt();
+		this.index = buf.readInt();
 	}
 
 	@Override
@@ -45,6 +50,7 @@ public class TellServerToCreateMeteor implements IMessage
 		buf.writeInt(this.thePosition.getZ());
 		buf.writeInt(this.radius);
 		buf.writeInt(this.height);
+		buf.writeInt(this.index);
 	}
 
 	// when we receive a packet we set HasStartedAOTD
@@ -54,7 +60,7 @@ public class TellServerToCreateMeteor implements IMessage
 		public IMessage onMessage(TellServerToCreateMeteor message, MessageContext ctx)
 		{
 			LogHelper.info("Player has requested to place a meteor at " + message.thePosition.toString());
-			CreateMeteor.create(ctx.getServerHandler().playerEntity.worldObj, message.thePosition, message.radius, message.height, false, true);
+			CreateMeteor.create(ctx.getServerHandler().playerEntity.worldObj, message.thePosition, message.radius, message.height, false, true, MeteorTypes.typeFromIndex(message.index));
 			return null;
 		}
 	}

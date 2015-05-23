@@ -60,7 +60,10 @@ public class Refrence
 	{ 3, 8, 6, 3 }, 20);
 
 	@SideOnly(Side.CLIENT)
-	public static int[] selectedMeteor = new int[3];
+	public static int[] selectedMeteor = new int[]
+	{ -1, -1, -1 };
+	@SideOnly(Side.CLIENT)
+	public static MeteorTypes watchedMeteorType = null;
 
 	public static ResearchAchieved researchAchievedOverlay;
 

@@ -143,6 +143,7 @@ public class TelescopeGUI extends GuiClickAndDragable
 		Refrence.selectedMeteor[0] = random.nextInt(45);
 		Refrence.selectedMeteor[1] = random.nextInt(random.nextInt(50));
 		Refrence.selectedMeteor[2] = random.nextInt(random.nextInt(50));
+		Refrence.watchedMeteorType = type;
 
 		toReturn = toReturn + "§oIt §oappears §othat §othis " + type.formattedString() + "§ometeor §ois §ofalling §oto §oearth. §oI §ohave §ocollected §osome §oinformation §oon §oit:\n";
 		toReturn = toReturn + "§oDrop §oAngle: " + Refrence.selectedMeteor[0] + "§o°  §oLatitude: " + Refrence.selectedMeteor[1] + "§o°  §oLongitude: " + Refrence.selectedMeteor[2] + "§o° ";

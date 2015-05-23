@@ -5,30 +5,38 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
-import net.minecraft.block.BlockDirt;
-import net.minecraft.block.BlockLog;
-import net.minecraft.block.BlockStone;
 import net.minecraft.block.material.Material;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-import com.DavidM1A2.AfraidOfTheDark.block.AOTDBlock;
-import com.DavidM1A2.AfraidOfTheDark.block.BlockMeteor;
 import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModBlocks;
+import com.DavidM1A2.AfraidOfTheDark.refrence.MeteorTypes;
 
 public class CreateMeteor
 {
-	private static final List<AOTDBlock> types = new ArrayList<AOTDBlock>()
+	private static final List<Block> replaceableBlocks = new ArrayList<Block>()
 	{
 		{
 			add(ModBlocks.meteoricSilver);
-			add(ModBlocks.sunstone);
 			add(ModBlocks.starMetal);
+			add(ModBlocks.sunstone);
+			add(Blocks.dirt);
+			add(Blocks.grass);
+			add(Blocks.leaves);
+			add(Blocks.leaves2);
+			add(Blocks.sand);
+			add(Blocks.log);
+			add(Blocks.log2);
+			add(Blocks.vine);
+			add(Blocks.deadbush);
+			add(Blocks.double_plant);
+			add(Blocks.ice);
 		}
 	};
 
-	public static void create(final World world, final BlockPos location, final int radius, final int height, final boolean hollow, final boolean isSphere)
+	public static void create(final World world, final BlockPos location, final int radius, final int height, final boolean hollow, final boolean isSphere, final MeteorTypes type)
 	{
 		int cx = location.getX();
 		int cy = makeSureChunkIsGenerated(world, location);
@@ -43,7 +51,7 @@ public class CreateMeteor
 					if (dist < radius * radius && !(hollow && dist < (radius - 1) * (radius - 1)))
 					{
 						Block current = world.getBlockState(new BlockPos(x, y, z)).getBlock();
-						if (current instanceof BlockDirt || current instanceof BlockAir || current instanceof BlockLog || current instanceof BlockStone || current.getMaterial() == Material.water || current.getMaterial() == Material.lava)
+						if (replaceableBlocks.contains(current) || current.getMaterial() == Material.water || current.getMaterial() == Material.lava)
 						{
 							world.setBlockState(new BlockPos(x, y, z), ModBlocks.meteor.getDefaultState());
 						}
@@ -52,12 +60,12 @@ public class CreateMeteor
 			}
 		}
 
-		CreateMeteor.createCore(world, new BlockPos(cx, cy, cz), MathHelper.ceiling_double_int(radius / 2.5), MathHelper.ceiling_double_int(height / 2.5), hollow, isSphere);
+		CreateMeteor.createCore(world, new BlockPos(cx, cy, cz), MathHelper.ceiling_double_int(radius / 2.5), MathHelper.ceiling_double_int(height / 2.5), hollow, isSphere, type);
 	}
 
-	private static void createCore(World world, BlockPos location, int radius, int height, boolean hollow, boolean isSphere)
+	private static void createCore(World world, BlockPos location, int radius, int height, boolean hollow, boolean isSphere, MeteorTypes type)
 	{
-		Block toPlace = types.get(world.rand.nextInt(types.size()));
+		Block toPlace = (type == MeteorTypes.silver) ? ModBlocks.meteoricSilver : (type == MeteorTypes.sunstone) ? ModBlocks.sunstone : ModBlocks.starMetal;
 		int cx = location.getX();
 		int cy = location.getY();
 		int cz = location.getZ();
@@ -71,7 +79,7 @@ public class CreateMeteor
 					if (dist < radius * radius && !(hollow && dist < (radius - 1) * (radius - 1)))
 					{
 						Block current = world.getBlockState(new BlockPos(x, y, z)).getBlock();
-						if (current instanceof BlockMeteor || current instanceof BlockDirt || current instanceof BlockAir || current instanceof BlockLog || current instanceof BlockStone)
+						if (replaceableBlocks.contains(current) || current.getMaterial() == Material.water || current.getMaterial() == Material.lava)
 						{
 							world.setBlockState(new BlockPos(x, y, z), toPlace.getDefaultState());
 						}
