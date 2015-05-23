@@ -140,9 +140,9 @@ public class TelescopeGUI extends GuiClickAndDragable
 		String toReturn = "";
 		Random random = Minecraft.getMinecraft().theWorld.rand;
 
-		Refrence.selectedMeteor[0] = random.nextInt(45);
-		Refrence.selectedMeteor[1] = random.nextInt(random.nextInt(50));
-		Refrence.selectedMeteor[2] = random.nextInt(random.nextInt(50));
+		Refrence.selectedMeteor[0] = random.nextInt(45) + 5;
+		Refrence.selectedMeteor[1] = random.nextInt(50) + 5;
+		Refrence.selectedMeteor[2] = random.nextInt(50) + 5;
 		Refrence.watchedMeteorType = type;
 
 		toReturn = toReturn + "§oIt §oappears §othat §othis " + type.formattedString() + "§ometeor §ois §ofalling §oto §oearth. §oI §ohave §ocollected §osome §oinformation §oon §oit:\n";

@@ -22,6 +22,7 @@ public class CreateMeteor
 			add(ModBlocks.meteoricSilver);
 			add(ModBlocks.starMetal);
 			add(ModBlocks.sunstone);
+			add(ModBlocks.meteor);
 			add(Blocks.dirt);
 			add(Blocks.grass);
 			add(Blocks.leaves);
@@ -33,6 +34,7 @@ public class CreateMeteor
 			add(Blocks.deadbush);
 			add(Blocks.double_plant);
 			add(Blocks.ice);
+			add(Blocks.air);
 		}
 	};
 

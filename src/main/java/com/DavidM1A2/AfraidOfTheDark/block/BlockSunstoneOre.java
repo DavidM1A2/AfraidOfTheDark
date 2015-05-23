@@ -2,9 +2,9 @@ package com.DavidM1A2.AfraidOfTheDark.block;
 
 import net.minecraft.block.material.Material;
 
-public class BlockSunstone extends AOTDBlock
+public class BlockSunstoneOre extends AOTDBlock
 {
-	public BlockSunstone(Material material)
+	public BlockSunstoneOre(Material material)
 	{
 		super(material);
 		this.setUnlocalizedName("sunstone");

@@ -30,6 +30,7 @@ tile.afraidofthedark:sunstone.name=Sunstone
 tile.afraidofthedark:meteoricSilver.name=Meteoric Silver
 tile.afraidofthedark:meteor.name=Meteor
 tile.afraidofthedark:starMetal.name=Star Metal
+tile.afraidofthedark:igneousBlock.name=Igneous Block
 
 # Creative Tabs
 itemGroup.afraidofthedark=Afraid of the Dark

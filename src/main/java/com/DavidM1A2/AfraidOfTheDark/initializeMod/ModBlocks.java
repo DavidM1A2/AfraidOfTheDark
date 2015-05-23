@@ -21,11 +21,12 @@ import com.DavidM1A2.AfraidOfTheDark.block.BlockGravewoodHalfSlab;
 import com.DavidM1A2.AfraidOfTheDark.block.BlockGravewoodLeaves;
 import com.DavidM1A2.AfraidOfTheDark.block.BlockGravewoodPlanks;
 import com.DavidM1A2.AfraidOfTheDark.block.BlockGravewoodStairs;
+import com.DavidM1A2.AfraidOfTheDark.block.BlockIgneous;
 import com.DavidM1A2.AfraidOfTheDark.block.BlockMeteor;
-import com.DavidM1A2.AfraidOfTheDark.block.BlockMeteoricSilver;
+import com.DavidM1A2.AfraidOfTheDark.block.BlockMeteoricSilverOre;
 import com.DavidM1A2.AfraidOfTheDark.block.BlockSilverOre;
-import com.DavidM1A2.AfraidOfTheDark.block.BlockStarMetal;
-import com.DavidM1A2.AfraidOfTheDark.block.BlockSunstone;
+import com.DavidM1A2.AfraidOfTheDark.block.BlockStarMetalOre;
+import com.DavidM1A2.AfraidOfTheDark.block.BlockSunstoneOre;
 import com.DavidM1A2.AfraidOfTheDark.block.BlockTileEntityDarkness;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemGravewoodLeaves;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemGravewoodSlab;
@@ -43,10 +44,11 @@ public class ModBlocks
 	public static final BlockGravewoodStairs gravewoodStairs = new BlockGravewoodStairs(gravewoodPlanks.getDefaultState());
 	public static final BlockGravewoodHalfSlab gravewoodHalfSlab = new BlockGravewoodHalfSlab(Material.wood);
 	public static final BlockGravewoodDoubleSlab gravewoodDoubleSlab = new BlockGravewoodDoubleSlab(Material.wood);
-	public static final BlockSunstone sunstone = new BlockSunstone(Material.rock);
-	public static final BlockMeteoricSilver meteoricSilver = new BlockMeteoricSilver(Material.rock);
+	public static final BlockSunstoneOre sunstone = new BlockSunstoneOre(Material.rock);
+	public static final BlockMeteoricSilverOre meteoricSilver = new BlockMeteoricSilverOre(Material.rock);
 	public static final BlockMeteor meteor = new BlockMeteor(Material.rock);
-	public static final BlockStarMetal starMetal = new BlockStarMetal(Material.rock);
+	public static final BlockStarMetalOre starMetal = new BlockStarMetalOre(Material.rock);
+	public static final BlockIgneous igneousBlock = new BlockIgneous();
 
 	public static void initialize()
 	{
@@ -70,6 +72,7 @@ public class ModBlocks
 		GameRegistry.registerBlock(meteoricSilver, "meteoricSilver");
 		GameRegistry.registerBlock(meteor, "meteor");
 		GameRegistry.registerBlock(starMetal, "starMetal");
+		GameRegistry.registerBlock(igneousBlock, "igneousBlock");
 	}
 
 	public static void initializeRenderers(Side side)
@@ -89,6 +92,7 @@ public class ModBlocks
 			renderItem.getItemModelMesher().register(Item.getItemFromBlock(meteoricSilver), 0, new ModelResourceLocation(Refrence.MOD_ID + ":meteoricSilver", "inventory"));
 			renderItem.getItemModelMesher().register(Item.getItemFromBlock(meteor), 0, new ModelResourceLocation(Refrence.MOD_ID + ":meteor", "inventory"));
 			renderItem.getItemModelMesher().register(Item.getItemFromBlock(starMetal), 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetal", "inventory"));
+			renderItem.getItemModelMesher().register(Item.getItemFromBlock(igneousBlock), 0, new ModelResourceLocation(Refrence.MOD_ID + ":igneousBlock"));
 		}
 	}
 }

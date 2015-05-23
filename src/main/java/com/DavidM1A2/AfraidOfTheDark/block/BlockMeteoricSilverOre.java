@@ -2,9 +2,9 @@ package com.DavidM1A2.AfraidOfTheDark.block;
 
 import net.minecraft.block.material.Material;
 
-public class BlockMeteoricSilver extends AOTDBlock
+public class BlockMeteoricSilverOre extends AOTDBlock
 {
-	public BlockMeteoricSilver(Material material)
+	public BlockMeteoricSilverOre(Material material)
 	{
 		super(material);
 		this.setUnlocalizedName("meteoricSilver");
