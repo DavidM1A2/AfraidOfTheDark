@@ -27,6 +27,7 @@ public class WorldGenGravewoodTrees extends WorldGenAbstractTree
 
 	// Slightly modified tree generator based on default MC tree used to get
 	// Gravewood Leaves and Wood
+	@Override
 	public boolean generate(World worldIn, Random p_180709_2_, BlockPos p_180709_3_)
 	{
 		int i = p_180709_2_.nextInt(3) + 5;

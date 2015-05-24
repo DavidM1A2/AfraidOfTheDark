@@ -120,7 +120,7 @@ public class ItemCrossbow extends AOTDItem
 		// If the bow is not fully cocked, set the animation on the bow
 		if (count > RELOAD_TIME - 60)
 		{
-			NBTHelper.setFloat(itemStack, "pullLevel", ((float) (1.0F - (count - 40.0F) / 60.0F)));
+			NBTHelper.setFloat(itemStack, "pullLevel", (1.0F - (count - 40.0F) / 60.0F));
 		}
 	}
 

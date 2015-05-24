@@ -84,10 +84,10 @@ public class CustomWerewolfTargetLocator extends EntityAITarget
 								f = 0.1F;
 							}
 
-							d0 *= (double) (0.7F * f);
+							d0 *= 0.7F * f;
 						}
 
-						if ((double) entity.getDistanceToEntity(CustomWerewolfTargetLocator.this.taskOwner) > d0)
+						if (entity.getDistanceToEntity(CustomWerewolfTargetLocator.this.taskOwner) > d0)
 						{
 							return false;
 						}
@@ -108,6 +108,7 @@ public class CustomWerewolfTargetLocator extends EntityAITarget
 	/**
 	 * Returns whether the EntityAIBase should begin execution.
 	 */
+	@Override
 	public boolean shouldExecute()
 	{
 		if (this.targetChance > 0 && this.taskOwner.getRNG().nextInt(this.targetChance) != 0)
@@ -151,6 +152,7 @@ public class CustomWerewolfTargetLocator extends EntityAITarget
 	/**
 	 * Execute a one shot task or start executing a continuous task
 	 */
+	@Override
 	public void startExecuting()
 	{
 		this.taskOwner.setAttackTarget(this.targetEntity);
@@ -174,6 +176,7 @@ public class CustomWerewolfTargetLocator extends EntityAITarget
 			return d0 < d1 ? -1 : (d0 > d1 ? 1 : 0);
 		}
 
+		@Override
 		public int compare(Object p_compare_1_, Object p_compare_2_)
 		{
 			return this.compare((Entity) p_compare_1_, (Entity) p_compare_2_);

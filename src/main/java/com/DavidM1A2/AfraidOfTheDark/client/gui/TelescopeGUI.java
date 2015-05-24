@@ -3,6 +3,7 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui;
 import java.util.Random;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
@@ -69,7 +70,7 @@ public class TelescopeGUI extends GuiClickAndDragable
 		this.drawDefaultBackground();
 
 		mc.renderEngine.bindTexture(nebula);
-		this.drawScaledCustomSizeModalRect(xPosTelescope, yPosTelescope, guiOffsetX + 3840 / 2, guiOffsetY + 2160 / 2, FRAME_WIDTH, FRAME_HEIGHT, FRAME_WIDTH, FRAME_HEIGHT, 3840, 2160);
+		Gui.drawScaledCustomSizeModalRect(xPosTelescope, yPosTelescope, guiOffsetX + 3840 / 2, guiOffsetY + 2160 / 2, FRAME_WIDTH, FRAME_HEIGHT, FRAME_WIDTH, FRAME_HEIGHT, 3840, 2160);
 
 		int disWidth = Minecraft.getMinecraft().displayWidth;
 		int disHeight = Minecraft.getMinecraft().displayHeight;
@@ -89,7 +90,7 @@ public class TelescopeGUI extends GuiClickAndDragable
 	@Override
 	public void actionPerformed(GuiButton button)
 	{
-		EntityPlayer playerWhoPressed = mc.getMinecraft().thePlayer;
+		EntityPlayer playerWhoPressed = Minecraft.getMinecraft().thePlayer;
 		for (Object o : this.buttonList)
 		{
 			MeteorButton theButton = (MeteorButton) o;

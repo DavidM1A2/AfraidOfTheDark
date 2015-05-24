@@ -58,12 +58,14 @@ public abstract class AOTDSlab extends BlockSlab
 	 * @param fortune
 	 *            the level of the Fortune enchantment on the player's tool
 	 */
+	@Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune)
 	{
 		return Item.getItemFromBlock(ModBlocks.gravewoodHalfSlab);
 	}
 
 	// What item does this block drop?
+	@Override
 	@SideOnly(Side.CLIENT)
 	public Item getItem(World worldIn, BlockPos pos)
 	{

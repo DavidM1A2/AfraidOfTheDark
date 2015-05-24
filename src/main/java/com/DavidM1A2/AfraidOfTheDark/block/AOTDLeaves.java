@@ -78,6 +78,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 	}
 
 	// Color of the leaves
+	@Override
 	@SideOnly(Side.CLIENT)
 	public int getBlockColor()
 	{
@@ -85,6 +86,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 	}
 
 	// Leaf render color
+	@Override
 	@SideOnly(Side.CLIENT)
 	public int getRenderColor(IBlockState state)
 	{
@@ -92,6 +94,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 	}
 
 	// What color to multiply these leaves by
+	@Override
 	@SideOnly(Side.CLIENT)
 	public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass)
 	{
@@ -115,6 +118,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 	/**
 	 * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
 	 */
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item itemIn, CreativeTabs tab, List list)
 	{
@@ -197,6 +201,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 	 * @param fortune
 	 *            the level of the Fortune enchantment on the player's tool
 	 */
+	@Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune)
 	{
 		return null;

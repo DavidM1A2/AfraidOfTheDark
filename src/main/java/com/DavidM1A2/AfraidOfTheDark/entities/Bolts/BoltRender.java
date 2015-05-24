@@ -46,12 +46,12 @@ public class BoltRender extends Render
 		byte b0 = 0;
 		float f2 = 0.0F;
 		float f3 = 0.5F;
-		float f4 = (float) (0 + b0 * 10) / 32.0F;
-		float f5 = (float) (5 + b0 * 10) / 32.0F;
+		float f4 = (0 + b0 * 10) / 32.0F;
+		float f5 = (5 + b0 * 10) / 32.0F;
 		float f6 = 0.0F;
 		float f7 = 0.15625F;
-		float f8 = (float) (5 + b0 * 10) / 32.0F;
-		float f9 = (float) (10 + b0 * 10) / 32.0F;
+		float f8 = (5 + b0 * 10) / 32.0F;
+		float f9 = (10 + b0 * 10) / 32.0F;
 		float f10 = 0.05625F;
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 
@@ -60,17 +60,17 @@ public class BoltRender extends Render
 		GL11.glTranslatef(-4.0F, 0.0F, 0.0F);
 		GL11.glNormal3f(f10, 0.0F, 0.0F);
 		worldRenderer.startDrawingQuads();
-		worldRenderer.addVertexWithUV(-7.0D, -2.0D, -2.0D, (double) f6, (double) f8);
-		worldRenderer.addVertexWithUV(-7.0D, -2.0D, 2.0D, (double) f7, (double) f8);
-		worldRenderer.addVertexWithUV(-7.0D, 2.0D, 2.0D, (double) f7, (double) f9);
-		worldRenderer.addVertexWithUV(-7.0D, 2.0D, -2.0D, (double) f6, (double) f9);
+		worldRenderer.addVertexWithUV(-7.0D, -2.0D, -2.0D, f6, f8);
+		worldRenderer.addVertexWithUV(-7.0D, -2.0D, 2.0D, f7, f8);
+		worldRenderer.addVertexWithUV(-7.0D, 2.0D, 2.0D, f7, f9);
+		worldRenderer.addVertexWithUV(-7.0D, 2.0D, -2.0D, f6, f9);
 		tessellator.draw();
 		GL11.glNormal3f(-f10, 0.0F, 0.0F);
 		worldRenderer.startDrawingQuads();
-		worldRenderer.addVertexWithUV(-7.0D, 2.0D, -2.0D, (double) f6, (double) f8);
-		worldRenderer.addVertexWithUV(-7.0D, 2.0D, 2.0D, (double) f7, (double) f8);
-		worldRenderer.addVertexWithUV(-7.0D, -2.0D, 2.0D, (double) f7, (double) f9);
-		worldRenderer.addVertexWithUV(-7.0D, -2.0D, -2.0D, (double) f6, (double) f9);
+		worldRenderer.addVertexWithUV(-7.0D, 2.0D, -2.0D, f6, f8);
+		worldRenderer.addVertexWithUV(-7.0D, 2.0D, 2.0D, f7, f8);
+		worldRenderer.addVertexWithUV(-7.0D, -2.0D, 2.0D, f7, f9);
+		worldRenderer.addVertexWithUV(-7.0D, -2.0D, -2.0D, f6, f9);
 		tessellator.draw();
 
 		for (int i = 0; i < 4; ++i)
@@ -78,10 +78,10 @@ public class BoltRender extends Render
 			GL11.glRotatef(90.0F, 1.0F, 0.0F, 0.0F);
 			GL11.glNormal3f(0.0F, 0.0F, f10);
 			worldRenderer.startDrawingQuads();
-			worldRenderer.addVertexWithUV(-8.0D, -2.0D, 0.0D, (double) f2, (double) f4);
-			worldRenderer.addVertexWithUV(8.0D, -2.0D, 0.0D, (double) f3, (double) f4);
-			worldRenderer.addVertexWithUV(8.0D, 2.0D, 0.0D, (double) f3, (double) f5);
-			worldRenderer.addVertexWithUV(-8.0D, 2.0D, 0.0D, (double) f2, (double) f5);
+			worldRenderer.addVertexWithUV(-8.0D, -2.0D, 0.0D, f2, f4);
+			worldRenderer.addVertexWithUV(8.0D, -2.0D, 0.0D, f3, f4);
+			worldRenderer.addVertexWithUV(8.0D, 2.0D, 0.0D, f3, f5);
+			worldRenderer.addVertexWithUV(-8.0D, 2.0D, 0.0D, f2, f5);
 			tessellator.draw();
 		}
 
@@ -100,6 +100,7 @@ public class BoltRender extends Render
 	/**
 	 * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
 	 */
+	@Override
 	protected ResourceLocation getEntityTexture(Entity p_110775_1_)
 	{
 		return this.getEntityTexture((EntityBolt) p_110775_1_);
@@ -110,6 +111,7 @@ public class BoltRender extends Render
 	 * function which does the actual work. In all probabilty, the class Render is generic (Render<T extends Entity) and this method has signature
 	 * public void func_76986_a(T entity, double d, double d1, double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
 	 */
+	@Override
 	public void doRender(Entity p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_)
 	{
 		this.doRender((EntityBolt) p_76986_1_, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);

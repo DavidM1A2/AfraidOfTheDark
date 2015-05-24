@@ -39,6 +39,7 @@ public class IgneousArmor extends AOTDArmor implements ISpecialArmor
 		}
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List tooltip, boolean advanced)
 	{

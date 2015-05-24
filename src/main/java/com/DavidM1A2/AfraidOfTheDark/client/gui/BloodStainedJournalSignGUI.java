@@ -7,6 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui;
 
 import java.io.IOException;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
@@ -73,7 +74,7 @@ public class BloodStainedJournalSignGUI extends GuiScreen
 	@Override
 	public void actionPerformed(GuiButton button)
 	{
-		EntityPlayer playerWhoPressed = mc.getMinecraft().thePlayer;
+		EntityPlayer playerWhoPressed = Minecraft.getMinecraft().thePlayer;
 		switch (button.id)
 		{
 			case 0:

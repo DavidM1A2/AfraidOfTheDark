@@ -34,6 +34,7 @@ public class ClientProxy extends CommonProxy
 	}
 
 	// Here we register packets and a channel
+	@Override
 	public void registerChannel()
 	{
 		super.registerChannel();

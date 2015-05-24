@@ -40,12 +40,14 @@ public class BiomeErieForest extends BiomeGenBase
 		this.topBlock = Blocks.dirt.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.PODZOL);
 	}
 
+	@Override
 	public WorldGenAbstractTree genBigTreeChance(Random p_150567_1_)
 	{
-		return (WorldGenAbstractTree) (new WorldGenGravewoodTrees(false));
+		return (new WorldGenGravewoodTrees(false));
 	}
 
 	// Called every chunk gen
+	@Override
 	public void func_180624_a(World world, Random random, BlockPos blockPosition)
 	{
 		if (random.nextDouble() < 0.01)

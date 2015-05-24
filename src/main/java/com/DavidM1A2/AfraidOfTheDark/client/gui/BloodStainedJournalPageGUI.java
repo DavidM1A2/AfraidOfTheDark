@@ -8,6 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui;
 import java.io.IOException;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;
 
@@ -92,7 +93,7 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 		}
 
 		// Draw the journal background
-		this.drawScaledCustomSizeModalRect(xCornerOfPage, yCornerOfPage, 0, 0, journalWidth, journalWidth, journalWidth, journalWidth, journalWidth, journalWidth);
+		Gui.drawScaledCustomSizeModalRect(xCornerOfPage, yCornerOfPage, 0, 0, journalWidth, journalWidth, journalWidth, journalWidth, journalWidth, journalWidth);
 
 		// Draw the title
 		Refrence.journalTitleFont.drawString(this.title, xCornerOfPage + (int) (15 * pageScale), yCornerOfPage + (int) (15 * pageScale), 0xFF800000);

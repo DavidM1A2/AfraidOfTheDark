@@ -50,6 +50,7 @@ public class ItemSilverSword extends ItemSword
 	 * @param advanced
 	 *            Whether the setting "Advanced tooltips" is enabled
 	 */
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List tooltip, boolean advanced)
 	{

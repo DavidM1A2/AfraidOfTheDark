@@ -18,6 +18,7 @@ import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
 public abstract class CommonProxy implements IProxy
 {
 	// Here we register packets and a channel
+	@Override
 	public void registerChannel()
 	{
 		AfraidOfTheDark.setSimpleNetworkWrapper(NetworkRegistry.INSTANCE.newSimpleChannel("AOTD Packets"));

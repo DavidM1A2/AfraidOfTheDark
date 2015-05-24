@@ -13,6 +13,7 @@ public class ServerProxy extends CommonProxy
 	}
 
 	// Here we register packets and a channel
+	@Override
 	public void registerChannel()
 	{
 		super.registerChannel();

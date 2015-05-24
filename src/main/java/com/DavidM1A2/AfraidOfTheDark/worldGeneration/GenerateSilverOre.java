@@ -12,6 +12,7 @@ import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModBlocks;
 
 public class GenerateSilverOre implements IWorldGenerator
 {
+	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider)
 	{
 		switch (world.provider.getDimensionId())

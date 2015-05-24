@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Random;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiLabel;
 import net.minecraft.client.gui.GuiScreen;
@@ -103,7 +104,7 @@ public class SextantGUI extends GuiScreen
 		this.drawDefaultBackground();
 
 		mc.renderEngine.bindTexture(background);
-		this.drawScaledCustomSizeModalRect(xPosBackground, yPosBackground, 0, 0, 512, 512, 256, 256, 512, 512);
+		Gui.drawScaledCustomSizeModalRect(xPosBackground, yPosBackground, 0, 0, 512, 512, 256, 256, 512, 512);
 
 		angle.drawTextBox();
 		latitude.drawTextBox();
@@ -115,6 +116,7 @@ public class SextantGUI extends GuiScreen
 	/**
 	 * Called when the mouse is clicked. Args : mouseX, mouseY, clickedButton
 	 */
+	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
 	{
 		super.mouseClicked(mouseX, mouseY, mouseButton);

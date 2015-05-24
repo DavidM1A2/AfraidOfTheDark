@@ -12,6 +12,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
 
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 
 import org.lwjgl.opengl.GL11;
@@ -133,10 +134,10 @@ public class CustomFont
 	{
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		float red = (float) (color >> 16 & 0xff) / 255F;
-		float green = (float) (color >> 8 & 0xff) / 255F;
-		float blue = (float) (color & 0xff) / 255F;
-		float alpha = (float) (color >> 24 & 0xff) / 255F;
+		float red = (color >> 16 & 0xff) / 255F;
+		float green = (color >> 8 & 0xff) / 255F;
+		float blue = (color & 0xff) / 255F;
+		float alpha = (color >> 24 & 0xff) / 255F;
 		GL11.glColor4f(red, green, blue, alpha);
 		int startX = x;
 
@@ -244,7 +245,7 @@ public class CustomFont
 	 */
 	private void drawChar(char c, int x, int y)
 	{
-		BloodStainedJournalPageGUI.drawScaledCustomSizeModalRect(x, y, 0, 0, eachCharImageDimension, eachCharImageDimension, fontSize, fontSize, eachCharImageDimension, eachCharImageDimension);
+		Gui.drawScaledCustomSizeModalRect(x, y, 0, 0, eachCharImageDimension, eachCharImageDimension, fontSize, fontSize, eachCharImageDimension, eachCharImageDimension);
 	}
 
 	public void setFontSize(int size, int startChar, int endChar, boolean firstLaunch)
