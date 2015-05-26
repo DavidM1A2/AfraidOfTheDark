@@ -44,10 +44,10 @@ public class ModBlocks
 	public static final BlockGravewoodStairs gravewoodStairs = new BlockGravewoodStairs(gravewoodPlanks.getDefaultState());
 	public static final BlockGravewoodHalfSlab gravewoodHalfSlab = new BlockGravewoodHalfSlab(Material.wood);
 	public static final BlockGravewoodDoubleSlab gravewoodDoubleSlab = new BlockGravewoodDoubleSlab(Material.wood);
-	public static final BlockSunstoneOre sunstone = new BlockSunstoneOre(Material.rock);
+	public static final BlockSunstoneOre sunstoneOre = new BlockSunstoneOre(Material.rock);
 	public static final BlockMeteoricSilverOre meteoricSilver = new BlockMeteoricSilverOre(Material.rock);
 	public static final BlockMeteor meteor = new BlockMeteor(Material.rock);
-	public static final BlockStarMetalOre starMetal = new BlockStarMetalOre(Material.rock);
+	public static final BlockStarMetalOre starMetalOre = new BlockStarMetalOre(Material.rock);
 	public static final BlockIgneous igneousBlock = new BlockIgneous();
 
 	public static void initialize()
@@ -68,10 +68,10 @@ public class ModBlocks
 		Blocks.fire.func_180686_a(gravewoodHalfSlab, 5, 5);
 		GameRegistry.registerBlock(gravewoodDoubleSlab, ItemGravewoodSlab.class, "gravewoodDoubleSlab", gravewoodHalfSlab, gravewoodDoubleSlab, true);
 		Blocks.fire.func_180686_a(gravewoodDoubleSlab, 5, 5);
-		GameRegistry.registerBlock(sunstone, "sunstone");
+		GameRegistry.registerBlock(sunstoneOre, "sunstoneOre");
 		GameRegistry.registerBlock(meteoricSilver, "meteoricSilver");
 		GameRegistry.registerBlock(meteor, "meteor");
-		GameRegistry.registerBlock(starMetal, "starMetal");
+		GameRegistry.registerBlock(starMetalOre, "starMetalOre");
 		GameRegistry.registerBlock(igneousBlock, "igneousBlock");
 	}
 
@@ -88,10 +88,10 @@ public class ModBlocks
 			renderItem.getItemModelMesher().register(Item.getItemFromBlock(gravewoodStairs), 0, new ModelResourceLocation(Refrence.MOD_ID + ":gravewoodStairs", "inventory"));
 			renderItem.getItemModelMesher().register(Item.getItemFromBlock(gravewoodHalfSlab), 0, new ModelResourceLocation(Refrence.MOD_ID + ":gravewoodHalfSlab", "inventory"));
 			renderItem.getItemModelMesher().register(Item.getItemFromBlock(gravewoodDoubleSlab), 0, new ModelResourceLocation(Refrence.MOD_ID + ":gravewoodDoubleSlab", "inventory"));
-			renderItem.getItemModelMesher().register(Item.getItemFromBlock(sunstone), 0, new ModelResourceLocation(Refrence.MOD_ID + ":sunstone", "inventory"));
+			renderItem.getItemModelMesher().register(Item.getItemFromBlock(sunstoneOre), 0, new ModelResourceLocation(Refrence.MOD_ID + ":sunstoneOre", "inventory"));
 			renderItem.getItemModelMesher().register(Item.getItemFromBlock(meteoricSilver), 0, new ModelResourceLocation(Refrence.MOD_ID + ":meteoricSilver", "inventory"));
 			renderItem.getItemModelMesher().register(Item.getItemFromBlock(meteor), 0, new ModelResourceLocation(Refrence.MOD_ID + ":meteor", "inventory"));
-			renderItem.getItemModelMesher().register(Item.getItemFromBlock(starMetal), 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetal", "inventory"));
+			renderItem.getItemModelMesher().register(Item.getItemFromBlock(starMetalOre), 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalOre", "inventory"));
 			renderItem.getItemModelMesher().register(Item.getItemFromBlock(igneousBlock), 0, new ModelResourceLocation(Refrence.MOD_ID + ":igneousBlock"));
 		}
 	}

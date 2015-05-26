@@ -1,16 +1,15 @@
-package com.DavidM1A2.AfraidOfTheDark.armor;
-
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.ISpecialArmor;
+package com.DavidM1A2.AfraidOfTheDark.item;
 
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
 
-public abstract class AOTDArmor extends ItemArmor implements ISpecialArmor
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
+
+public abstract class AOTDSword extends ItemSword
 {
-	public AOTDArmor(ArmorMaterial armorMaterial, int renderIndex, int type)
+	public AOTDSword(ToolMaterial material) 
 	{
-		super(armorMaterial, renderIndex, type);
+		super(material);
 		this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
 	}
 

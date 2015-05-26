@@ -20,8 +20,8 @@ public class CreateMeteor
 	{
 		{
 			add(ModBlocks.meteoricSilver);
-			add(ModBlocks.starMetal);
-			add(ModBlocks.sunstone);
+			add(ModBlocks.starMetalOre);
+			add(ModBlocks.sunstoneOre);
 			add(ModBlocks.meteor);
 			add(Blocks.dirt);
 			add(Blocks.grass);
@@ -67,7 +67,7 @@ public class CreateMeteor
 
 	private static void createCore(World world, BlockPos location, int radius, int height, boolean hollow, boolean isSphere, MeteorTypes type)
 	{
-		Block toPlace = (type == MeteorTypes.silver) ? ModBlocks.meteoricSilver : (type == MeteorTypes.sunstone) ? ModBlocks.sunstone : ModBlocks.starMetal;
+		Block toPlace = (type == MeteorTypes.silver) ? ModBlocks.meteoricSilver : (type == MeteorTypes.sunstone) ? ModBlocks.sunstoneOre : ModBlocks.starMetalOre;
 		int cx = location.getX();
 		int cy = location.getY();
 		int cz = location.getZ();

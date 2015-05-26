@@ -1,5 +1,5 @@
 {
-	"parent": "AfraidOfTheDark:block/starMetal",
+	"parent": "AfraidOfTheDark:block/starMetalOre",
 	"display": {
 		"thirdperson": {
 			"rotation": [ 10, -45, 170 ],

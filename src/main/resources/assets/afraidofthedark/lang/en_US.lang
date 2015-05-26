@@ -3,6 +3,7 @@ item.afraidofthedark:template.name=Item Name Template
 item.afraidofthedark:insanityControl.name=Insanity Control Debug
 item.afraidofthedark:journal.name=Blood Stained Journal
 item.afraidofthedark:silverSword.name=Silver Sword
+item.afraidofthedark:igneousSword.name=Igneous Sword
 item.afraidofthedark:silverIngot.name=Silver Ingot
 item.afraidofthedark:crossbow.name=Crossbow
 item.afraidofthedark:ironBolt.name=Iron Bolt
@@ -16,6 +17,13 @@ item.afraidofthedark:igneousBoots.name=Igneous Boots
 item.afraidofthedark:igneousGem.name=Igneous Gem
 item.afraidofthedark:telescope.name=Telescope
 item.afraidofthedark:sextant.name=Sextant
+item.afraidofthedark:sunstoneIngot.name=Sunstone Fragment
+item.afraidofthedark:starMetalIngot.name=Star Metal Fragment
+item.afraidofthedark:starMetalHelmet.name=Star Metal Helmet
+item.afraidofthedark:starMetalChestplate.name=Star Metal Chestplate
+item.afraidofthedark:starMetalLeggings.name=Star Metal Leggings
+item.afraidofthedark:starMetalBoots.name=Star Metal Boots
+item.afraidofthedark:trollPole.name=Troll Pole
 
 # Blocks
 tile.afraidofthedark:silverOre.name=Silver Ore
@@ -26,10 +34,10 @@ tile.afraidofthedark:gravewoodPlanks.name=Gravewood Planks
 tile.afraidofthedark:gravewoodStairs.name=Gravewood Stairs
 tile.afraidofthedark:gravewoodHalfSlab.name=Gravewood Slab
 tile.afraidofthedark:gravewoodDoubleSlab.name=Gravewood Double Slab
-tile.afraidofthedark:sunstone.name=Sunstone
+tile.afraidofthedark:sunstoneOre.name=Sunstone Ore
 tile.afraidofthedark:meteoricSilver.name=Meteoric Silver
 tile.afraidofthedark:meteor.name=Meteor
-tile.afraidofthedark:starMetal.name=Star Metal
+tile.afraidofthedark:starMetalOre.name=Star Metal Ore
 tile.afraidofthedark:igneousBlock.name=Igneous Block
 
 # Creative Tabs

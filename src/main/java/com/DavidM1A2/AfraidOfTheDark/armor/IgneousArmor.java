@@ -16,12 +16,11 @@ import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
 import com.DavidM1A2.AfraidOfTheDark.utility.NBTHelper;
 
-public class IgneousArmor extends AOTDArmor implements ISpecialArmor
+public class IgneousArmor extends AOTDArmor
 {
 	public IgneousArmor(ArmorMaterial armorMaterial, int renderIndex, int type)
 	{
 		super(armorMaterial, renderIndex, type);
-		this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
 		this.setUnlocalizedName((type == 0) ? "igneousHelmet" : (type == 1) ? "igneousChestplate" : (type == 2) ? "igneousLeggings" : "igneousBoots");
 	}
 
@@ -91,13 +90,6 @@ public class IgneousArmor extends AOTDArmor implements ISpecialArmor
 	public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot)
 	{
 		return;
-	}
-
-	// Initialize the item when it is created
-	@Override
-	public void onCreated(ItemStack itemStack, World world, EntityPlayer entityPlayer)
-	{
-		NBTHelper.setBoolean(itemStack, "Unbreakable", true);
 	}
 
 	private boolean isWearingFullArmor(EntityPlayer entityPlayer)

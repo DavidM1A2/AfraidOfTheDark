@@ -19,13 +19,12 @@ import com.DavidM1A2.AfraidOfTheDark.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
 
 // Silversword item which is a sword
-public class ItemSilverSword extends ItemSword
+public class ItemSilverSword extends AOTDSword
 {
 	public ItemSilverSword()
 	{
 		super(Refrence.silver);
 		this.setUnlocalizedName("silverSword");
-		this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
 	}
 
 	// When left clicking attack from silver weapon damage
@@ -56,24 +55,5 @@ public class ItemSilverSword extends ItemSword
 	{
 		tooltip.add("Seems weak at first but deals much needed");
 		tooltip.add("silver damage against werewolves.");
-	}
-
-	// Set the item name in the game (not the visual name but the refrence name)
-	@Override
-	public String getUnlocalizedName()
-	{
-		return String.format("item.%s%s", Refrence.MOD_ID.toLowerCase() + ":", getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
-	}
-
-	// Set a stack of items name?
-	@Override
-	public String getUnlocalizedName(ItemStack itemStack)
-	{
-		return String.format("item.%s%s", Refrence.MOD_ID.toLowerCase() + ":", getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
-	}
-
-	protected String getUnwrappedUnlocalizedName(String unlocalizedName)
-	{
-		return unlocalizedName.substring(unlocalizedName.indexOf(".") + 1);
 	}
 }

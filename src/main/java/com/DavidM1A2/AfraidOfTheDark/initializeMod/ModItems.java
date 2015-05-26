@@ -12,17 +12,22 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
 import com.DavidM1A2.AfraidOfTheDark.armor.IgneousArmor;
+import com.DavidM1A2.AfraidOfTheDark.armor.StarMetalArmor;
 import com.DavidM1A2.AfraidOfTheDark.entities.Bolts.ItemIronBolt;
 import com.DavidM1A2.AfraidOfTheDark.entities.Bolts.ItemSilverBolt;
 import com.DavidM1A2.AfraidOfTheDark.entities.Bolts.ItemWoodenBolt;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemIgneousGem;
+import com.DavidM1A2.AfraidOfTheDark.item.ItemIgneousSword;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemInsanityControl;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemJournal;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemSextant;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemSilverIngot;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemSilverSword;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemSpawnWerewolf;
+import com.DavidM1A2.AfraidOfTheDark.item.ItemStarMetal;
+import com.DavidM1A2.AfraidOfTheDark.item.ItemSunstone;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemTelescope;
+import com.DavidM1A2.AfraidOfTheDark.item.ItemTrollPole;
 import com.DavidM1A2.AfraidOfTheDark.item.crossbow.ItemCrossbow;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
 
@@ -33,6 +38,7 @@ public class ModItems
 	public static final ItemInsanityControl insanityControl = new ItemInsanityControl();
 	public static final ItemJournal journal = new ItemJournal();
 	public static final ItemSilverSword silverSword = new ItemSilverSword();
+	public static final ItemIgneousSword igneousSword = new ItemIgneousSword();
 	public static final ItemSilverIngot silverIngot = new ItemSilverIngot();
 	public static final ItemCrossbow crossbow = new ItemCrossbow();
 	public static final ItemIronBolt ironBolt = new ItemIronBolt();
@@ -43,9 +49,16 @@ public class ModItems
 	public static final IgneousArmor igneousChestplate = new IgneousArmor(Refrence.igneous, 5, 1);
 	public static final IgneousArmor igneousLeggings = new IgneousArmor(Refrence.igneous, 5, 2);
 	public static final IgneousArmor igneousBoots = new IgneousArmor(Refrence.igneous, 5, 3);
+	public static final StarMetalArmor starMetalHelmet = new StarMetalArmor(Refrence.starMetal, 5, 0);
+	public static final StarMetalArmor starMetalChestplate = new StarMetalArmor(Refrence.starMetal, 5, 1);
+	public static final StarMetalArmor starMetalLeggings = new StarMetalArmor(Refrence.starMetal, 5, 2);
+	public static final StarMetalArmor starMetalBoots = new StarMetalArmor(Refrence.starMetal, 5, 3);
 	public static final ItemIgneousGem igneousGem = new ItemIgneousGem();
 	public static final ItemTelescope telescope = new ItemTelescope();
 	public static final ItemSextant sextant = new ItemSextant();
+	public static final ItemSunstone sunstoneIngot = new ItemSunstone();
+	public static final ItemStarMetal starMetalIngot = new ItemStarMetal();
+	public static final ItemTrollPole trollPole = new ItemTrollPole();
 
 	public static void initialize(Side side)
 	{
@@ -53,6 +66,7 @@ public class ModItems
 		GameRegistry.registerItem(insanityControl, "insanityControl");
 		GameRegistry.registerItem(journal, "journal");
 		GameRegistry.registerItem(silverSword, "silverSword");
+		GameRegistry.registerItem(igneousSword, "igneousSword");
 		GameRegistry.registerItem(silverIngot, "silverIngot");
 		GameRegistry.registerItem(crossbow, "crossbow");
 		GameRegistry.registerItem(ironBolt, "ironBolt");
@@ -64,8 +78,15 @@ public class ModItems
 		GameRegistry.registerItem(igneousLeggings, "igneousLeggings");
 		GameRegistry.registerItem(igneousBoots, "igneousBoots");
 		GameRegistry.registerItem(igneousGem, "igneousGem");
+		GameRegistry.registerItem(starMetalHelmet, "starMetalHelmet");
+		GameRegistry.registerItem(starMetalChestplate, "starMetalChestplate");
+		GameRegistry.registerItem(starMetalLeggings, "starMetalLeggings");
+		GameRegistry.registerItem(starMetalBoots, "starMetalBoots");
 		GameRegistry.registerItem(telescope, "telescope");
 		GameRegistry.registerItem(sextant, "sextant");
+		GameRegistry.registerItem(sunstoneIngot, "sunstoneIngot");
+		GameRegistry.registerItem(starMetalIngot, "starMetalIngot");
+		GameRegistry.registerItem(trollPole, "trollPole");
 	}
 
 	public static void initializeRenderers(Side side)
@@ -76,6 +97,7 @@ public class ModItems
 			renderItem.getItemModelMesher().register(insanityControl, 0, new ModelResourceLocation(Refrence.MOD_ID + ":insanityControl", "inventory"));
 			renderItem.getItemModelMesher().register(journal, 0, new ModelResourceLocation(Refrence.MOD_ID + ":journal", "inventory"));
 			renderItem.getItemModelMesher().register(silverSword, 0, new ModelResourceLocation(Refrence.MOD_ID + ":silverSword", "inventory"));
+			renderItem.getItemModelMesher().register(igneousSword, 0, new ModelResourceLocation(Refrence.MOD_ID + ":igneousSword", "inventory"));
 			renderItem.getItemModelMesher().register(silverIngot, 0, new ModelResourceLocation(Refrence.MOD_ID + ":silverIngot", "inventory"));
 			renderItem.getItemModelMesher().register(crossbow, 0, new ModelResourceLocation(Refrence.MOD_ID + ":crossbow", "inventory"));
 			renderItem.getItemModelMesher().register(ironBolt, 0, new ModelResourceLocation(Refrence.MOD_ID + ":ironBolt", "inventory"));
@@ -87,8 +109,15 @@ public class ModItems
 			renderItem.getItemModelMesher().register(igneousLeggings, 0, new ModelResourceLocation(Refrence.MOD_ID + ":igneousLeggings", "inventory"));
 			renderItem.getItemModelMesher().register(igneousBoots, 0, new ModelResourceLocation(Refrence.MOD_ID + ":igneousBoots", "inventory"));
 			renderItem.getItemModelMesher().register(igneousGem, 0, new ModelResourceLocation(Refrence.MOD_ID + ":igneousGem", "inventory"));
+			renderItem.getItemModelMesher().register(starMetalHelmet, 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalHelmet", "inventory"));
+			renderItem.getItemModelMesher().register(starMetalChestplate, 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalChestplate", "inventory"));
+			renderItem.getItemModelMesher().register(starMetalLeggings, 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalLeggings", "inventory"));
+			renderItem.getItemModelMesher().register(starMetalBoots, 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalBoots", "inventory"));
 			renderItem.getItemModelMesher().register(telescope, 0, new ModelResourceLocation(Refrence.MOD_ID + ":telescope", "inventory"));
 			renderItem.getItemModelMesher().register(sextant, 0, new ModelResourceLocation(Refrence.MOD_ID + ":sextant", "inventory"));
+			renderItem.getItemModelMesher().register(sunstoneIngot, 0, new ModelResourceLocation(Refrence.MOD_ID + ":sunstoneIngot", "inventory"));
+			renderItem.getItemModelMesher().register(starMetalIngot, 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalIngot", "inventory"));
+			renderItem.getItemModelMesher().register(trollPole, 0, new ModelResourceLocation(Refrence.MOD_ID + ":trollPole", "inventory"));
 		}
 	}
 }
