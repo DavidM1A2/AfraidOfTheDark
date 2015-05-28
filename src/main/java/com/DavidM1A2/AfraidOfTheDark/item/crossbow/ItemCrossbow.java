@@ -20,6 +20,7 @@ import com.DavidM1A2.AfraidOfTheDark.entities.Bolts.EntityWoodenBolt;
 import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.item.AOTDItem;
 import com.DavidM1A2.AfraidOfTheDark.packets.UpdateCrossbow;
+import com.DavidM1A2.AfraidOfTheDark.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.utility.NBTHelper;
 
 // The crossbow Item
@@ -103,6 +104,7 @@ public class ItemCrossbow extends AOTDItem
 	@Override
 	public void onUsingTick(ItemStack itemStack, EntityPlayer entityPlayer, int count)
 	{
+		LogHelper.info("Got here!");
 		// On using we play a sound
 		if (count == RELOAD_TIME - 1)
 		{

@@ -5,7 +5,10 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.debug;
 
+import java.util.Iterator;
+
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -13,6 +16,7 @@ import com.DavidM1A2.AfraidOfTheDark.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.playerData.Insanity;
 import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
 import com.DavidM1A2.AfraidOfTheDark.refrence.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.utility.LogHelper;
 
 public class DebugSpammer
 {
@@ -35,7 +39,21 @@ public class DebugSpammer
 						toDebug = toDebug + "\n" + ResearchTypes.values()[i].formattedString() + " is unlocked.";
 					}
 				}
-				//System.out.println(toDebug);
+				
+				toDebug = "";
+				Iterator i = entityPlayer.getActivePotionEffects().iterator();
+				
+				while (i.hasNext())
+				{
+					PotionEffect next =  (PotionEffect) i.next();
+					toDebug = toDebug + "\n" + next.getEffectName();
+					toDebug = toDebug + "  " + next.getAmplifier();
+				}
+				
+				if (!toDebug.isEmpty())
+				{
+					LogHelper.info(toDebug);
+				}				
 			}
 		}
 	}
