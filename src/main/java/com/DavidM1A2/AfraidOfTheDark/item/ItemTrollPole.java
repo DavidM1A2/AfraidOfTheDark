@@ -7,6 +7,8 @@ import com.DavidM1A2.AfraidOfTheDark.utility.LogHelper;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -16,6 +18,9 @@ public class ItemTrollPole extends AOTDItem
 {
 	private static final int MAX_TROLL_POLE_TIME_IN_TICKS = 60;
 	private TrollPoleCooldown cooldown;
+	private int ticksOnPole = 0;
+	private int previousResistanceDuration = 0;
+	private int previousResistancePower = 0;
 	
 	public ItemTrollPole()
 	{
@@ -30,6 +35,12 @@ public class ItemTrollPole extends AOTDItem
 	{
 		if (!this.cooldown.isAlive())
 		{
+			if (entityPlayer.isPotionActive(Potion.resistance))
+			{
+				this.previousResistanceDuration = entityPlayer.getActivePotionEffect(Potion.resistance).getDuration();
+				this.previousResistancePower = entityPlayer.getActivePotionEffect(Potion.resistance).getAmplifier();
+			}
+			entityPlayer.removePotionEffect(Potion.resistance.id);
 			entityPlayer.setItemInUse(itemStack, MAX_TROLL_POLE_TIME_IN_TICKS);
 		}
 		else
@@ -51,22 +62,20 @@ public class ItemTrollPole extends AOTDItem
      */
     public void onUsingTick(ItemStack stack, EntityPlayer player, int count)
     {
-    	count = MAX_TROLL_POLE_TIME_IN_TICKS - count;
-    	if (count == 0)
+    	if (ticksOnPole == 0)
     	{
     		player.setVelocity(0, 0.5, 0);
     	}
-    	if (count >= 3)
+    	if (ticksOnPole >= 3)
     	{
-    		LogHelper.info("InAir? " + count);
+    		player.addPotionEffect(new PotionEffect(Potion.resistance.id, 200, 5));
     		player.setVelocity(0, 0, 0);
-    		player.setInvisible(true);
     	}
-    	if (count == MAX_TROLL_POLE_TIME_IN_TICKS - 1)
+    	if (ticksOnPole == MAX_TROLL_POLE_TIME_IN_TICKS - 1)
     	{
     		player.stopUsingItem();
-    		player.fallDistance = 0;
     	}
+    	ticksOnPole = ticksOnPole + 1;
     }
     
     /**
@@ -75,11 +84,14 @@ public class ItemTrollPole extends AOTDItem
      * @param timeLeft The amount of ticks left before the using would have been complete
      */
     public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityPlayer playerIn, int timeLeft) 
-    {
-    	playerIn.setInvisible(false);
-    	
+    {    	
     	playerIn.fallDistance = 0.0f;
-
+    	playerIn.removePotionEffect(Potion.resistance.id);
+    	if (this.previousResistanceDuration != 0)
+    	{
+    		playerIn.addPotionEffect(new PotionEffect(Potion.resistance.id, this.previousResistanceDuration, this.previousResistancePower));
+    	}
+    	ticksOnPole = 0;
 		this.cooldown = new TrollPoleCooldown(20000);
 		this.cooldown.start();
     }
