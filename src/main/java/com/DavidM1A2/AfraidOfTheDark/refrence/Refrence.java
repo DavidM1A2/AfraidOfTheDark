@@ -43,6 +43,7 @@ public class Refrence
 	public static final int PACKET_ID_HAS_STARTED_AOTD_UPDATE = 3;
 	public static final int PACKET_ID_RESEARCH_UPDATE = 4;
 	public static final int PACKET_ID_CREATE_METEOR = 5;
+	public static final int PACKET_ID_VITAE_UPDATE = 6;
 	// Network channel name is the same as the ID
 	public static final String NETWORK_CHANNEL_NAME = Refrence.MOD_ID;
 

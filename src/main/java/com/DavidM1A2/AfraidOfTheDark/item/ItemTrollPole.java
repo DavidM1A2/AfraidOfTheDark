@@ -18,11 +18,6 @@ public class ItemTrollPole extends AOTDItem
 	private static final int MAX_TROLL_POLE_TIME_IN_TICKS = 60;
 	private static final int TROLL_POLE_COOLDOWN_IN_TICKS = 20000;
 	private TrollPoleCooldown cooldown;
-	private int previousResistanceDuration = 0;
-	private int previousResistancePower = 0;
-	private boolean previousResistanceIsAmbient = false;
-	private boolean previousResistanceShowParticles = false;
-	private boolean thereIsPreviousResistance = false;
 
 	public ItemTrollPole()
 	{
@@ -36,17 +31,7 @@ public class ItemTrollPole extends AOTDItem
 	{
 		if (!this.cooldown.isAlive())
 		{
-			// Begin troll-poling
-			if (entityPlayer.isPotionActive(Potion.resistance))
-			{
-				this.previousResistanceDuration = entityPlayer.getActivePotionEffect(Potion.resistance).getDuration();
-				this.previousResistancePower = entityPlayer.getActivePotionEffect(Potion.resistance).getAmplifier();
-				this.previousResistanceShowParticles = entityPlayer.getActivePotionEffect(Potion.resistance).getIsShowParticles();
-				this.previousResistanceIsAmbient = entityPlayer.getActivePotionEffect(Potion.resistance).getIsAmbient();
-				this.thereIsPreviousResistance = true;
-			}
-			entityPlayer.removePotionEffect(Potion.resistance.id);
-			entityPlayer.addPotionEffect(new PotionEffect(Potion.resistance.id, ItemTrollPole.MAX_TROLL_POLE_TIME_IN_TICKS, 5, false, false));
+			entityPlayer.capabilities.disableDamage = true;
 			if (entityPlayer.worldObj.isRemote)
 			{
 				entityPlayer.addVelocity(0, .5,	0);
@@ -90,18 +75,10 @@ public class ItemTrollPole extends AOTDItem
 	 * @param timeLeft The amount of ticks left before the using would have been complete
 	 */
 	@Override
-	public void onPlayerStoppedUsing(final ItemStack stack, final World worldIn, final EntityPlayer playerIn, final int timeLeft)
+	public void onPlayerStoppedUsing(final ItemStack stack, final World worldIn, final EntityPlayer entityPlayer, final int timeLeft)
 	{
-		playerIn.fallDistance = 0.0f;
-		playerIn.removePotionEffect(Potion.resistance.id);
-		if (this.thereIsPreviousResistance)
-		{
-			playerIn.addPotionEffect(new PotionEffect(Potion.resistance.id, this.previousResistanceDuration, this.previousResistancePower, this.previousResistanceIsAmbient, this.previousResistanceShowParticles));
-			if (!worldIn.isRemote)
-			{
-				this.thereIsPreviousResistance = false;
-			}
-		}
+		entityPlayer.fallDistance = 0.0f;
+		entityPlayer.capabilities.disableDamage = false;
 		this.cooldown = new TrollPoleCooldown(ItemTrollPole.TROLL_POLE_COOLDOWN_IN_TICKS);
 		this.cooldown.start();
 	}

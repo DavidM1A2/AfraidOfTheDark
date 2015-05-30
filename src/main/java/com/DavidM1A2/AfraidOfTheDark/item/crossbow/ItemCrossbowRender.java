@@ -35,18 +35,18 @@ public class ItemCrossbowRender implements IItemRenderer
 	{
 		switch (type)
 		{
-		case EQUIPPED:
-		{
-			return true;
-		}
-		case EQUIPPED_FIRST_PERSON:
-		{
-			return true;
-		}
-		default:
-		{
-			return false;
-		}
+			case EQUIPPED:
+			{
+				return true;
+			}
+			case EQUIPPED_FIRST_PERSON:
+			{
+				return true;
+			}
+			default:
+			{
+				return false;
+			}
 		}
 	}
 
