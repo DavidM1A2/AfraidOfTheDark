@@ -36,13 +36,13 @@ public class PlayerController
 
 	// When the player dies, he is cloned. We move over extended properties such as hasStartedAOTD, insanity, and research
 	@SubscribeEvent
-	public void onClonePlayer(PlayerEvent.Clone event)
+	public void onClonePlayer(final PlayerEvent.Clone event)
 	{
-		boolean hasStartedAOTD = HasStartedAOTD.get(event.original);
+		final boolean hasStartedAOTD = HasStartedAOTD.get(event.original);
 		HasStartedAOTD.set(event.entityPlayer, hasStartedAOTD, Side.SERVER);
-		double insanity = Insanity.get(event.original);
+		final double insanity = Insanity.get(event.original);
 		Insanity.addInsanity(insanity, event.entityPlayer);
-		NBTTagCompound research = LoadResearchData.get(event.original);
+		final NBTTagCompound research = LoadResearchData.get(event.original);
 		LoadResearchData.set(event.entityPlayer, research);
 		// When the player gets new research we will wait 500ms before updating because otherwise the event.original player
 		// will get the new data
@@ -53,13 +53,13 @@ public class PlayerController
 
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
-	public void renderEvent(FogDensity event)
+	public void renderEvent(final FogDensity event)
 	{
 		if (event.entity instanceof EntityPlayer)
 		{
-			EntityPlayer entityPlayer = (EntityPlayer) event.entity;
+			final EntityPlayer entityPlayer = (EntityPlayer) event.entity;
 
-			float insanity = (float) Insanity.get(entityPlayer);
+			final float insanity = (float) Insanity.get(entityPlayer);
 
 			// If the player is insane, set the fog equal to 1.001^(.5*insanity) - .9989
 			if (insanity >= 0.1)
@@ -76,24 +76,24 @@ public class PlayerController
 	}
 
 	@SubscribeEvent
-	public void onEntityJoinWorld(EntityJoinWorldEvent event)
+	public void onEntityJoinWorld(final EntityJoinWorldEvent event)
 	{
 		// When the player joins the world
 		if (event.entity instanceof EntityPlayer)
 		{
-			EntityPlayer entityPlayer = (EntityPlayer) event.entity;
+			final EntityPlayer entityPlayer = (EntityPlayer) event.entity;
 
 			/*
 			 * This second block of code will update any crossbows when the player loads in.
 			 */
 			for (int i = 0; i < entityPlayer.inventory.getSizeInventory(); i++)
 			{
-				ItemStack currentStack = entityPlayer.inventory.getStackInSlot(i);
+				final ItemStack currentStack = entityPlayer.inventory.getStackInSlot(i);
 				if (currentStack != null)
 				{
 					if (currentStack.getItem() instanceof ItemCrossbow)
 					{
-						ItemCrossbow currentItem = (ItemCrossbow) currentStack.getItem();
+						final ItemCrossbow currentItem = (ItemCrossbow) currentStack.getItem();
 
 						currentStack.setTagCompound(currentItem.loadNBTData(currentStack));
 					}
@@ -112,11 +112,11 @@ public class PlayerController
 	}
 
 	@SubscribeEvent
-	public void onEntityConstructing(EntityConstructing event)
+	public void onEntityConstructing(final EntityConstructing event)
 	{
 		if (event.entity instanceof EntityPlayer)
 		{
-			EntityPlayer entityPlayer = (EntityPlayer) event.entity;
+			final EntityPlayer entityPlayer = (EntityPlayer) event.entity;
 
 			/*
 			 * This fourth block of code will load the player's research.
@@ -145,7 +145,7 @@ public class PlayerController
 
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
-	public void onRenderGameOverlayEventPost(RenderGameOverlayEvent.Post event)
+	public void onRenderGameOverlayEventPost(final RenderGameOverlayEvent.Post event)
 	{
 		if (Refrence.researchAchievedOverlay != null)
 		{

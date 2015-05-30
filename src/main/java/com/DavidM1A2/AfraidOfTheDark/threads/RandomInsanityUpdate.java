@@ -24,29 +24,29 @@ public class RandomInsanityUpdate extends Thread
 		try
 		{
 			// This thread runs while the player is connected
-			while (running)
+			while (this.running)
 			{
 				// Sleep a random amount of time
 				Thread.sleep((long) ((new Random()).nextDouble() * 10000));
 
 				// Loop through
-				for (Object player : MinecraftServer.getServer().getConfigurationManager().playerEntityList)
+				for (final Object player : MinecraftServer.getServer().getConfigurationManager().playerEntityList)
 				{
-					EntityPlayer entityPlayer = (EntityPlayer) player;
+					final EntityPlayer entityPlayer = (EntityPlayer) player;
 					if (entityPlayer.worldObj.getBiomeGenForCoords(new BlockPos((int) entityPlayer.posX, 0, (int) entityPlayer.posZ)) == ModBiomes.erieForest)
 					{
-						double amount = .01 + (.09) * (new Random().nextDouble());
+						final double amount = .01 + ((.09) * (new Random().nextDouble()));
 						Insanity.addInsanity(amount, entityPlayer);
 					}
 					else
 					{
-						double amount = .01 + (.02) * (new Random().nextDouble());
+						final double amount = .01 + ((.02) * (new Random().nextDouble()));
 						Insanity.addInsanity(-amount, entityPlayer);
 					}
 				}
 			}
 		}
-		catch (InterruptedException e)
+		catch (final InterruptedException e)
 		{
 			e.printStackTrace();
 		}

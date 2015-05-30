@@ -13,7 +13,7 @@ public class ItemIgneousGem extends AOTDItem
 	}
 
 	@Override
-	public void onUpdate(ItemStack itemstack, World world, Entity entity, int i, boolean flag)
+	public void onUpdate(final ItemStack itemstack, final World world, final Entity entity, final int i, final boolean flag)
 	{
 		entity.setFire(3);
 	}

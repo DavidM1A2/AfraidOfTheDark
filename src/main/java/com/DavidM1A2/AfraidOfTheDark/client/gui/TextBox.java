@@ -18,9 +18,9 @@ public class TextBox
 	private int yPosition;
 	private int width;
 	private int height;
-	private CustomFont myFontRefrence;
+	private final CustomFont myFontRefrence;
 
-	public TextBox(int x, int y, int width, int height, CustomFont myFont)
+	public TextBox(final int x, final int y, final int width, final int height, final CustomFont myFont)
 	{
 		// Given x, y, widht, height, and a font we can draw the textbox
 		this.xPosition = x;
@@ -31,24 +31,24 @@ public class TextBox
 	}
 
 	// Draw the text given the width and height as bounds
-	public String drawText(String text)
+	public String drawText(final String text)
 	{
 		String toReturn = "";
-		int x = xPosition;
-		int y = yPosition;
+		int x = this.xPosition;
+		final int y = this.yPosition;
 		int line = 0;
-		for (Object o : splitString(text))
+		for (final Object o : this.splitString(text))
 		{
-			String string = (String) o;
-			if (y + line > this.height)
+			final String string = (String) o;
+			if ((y + line) > this.height)
 			{
-				x = x + width;
+				x = x + this.width;
 				toReturn = toReturn + string;
 			}
 			else
 			{
-				myFontRefrence.drawString(string, x, y + line, 0xFF800000);
-				line = line + myFontRefrence.getFontSize() / 2;
+				this.myFontRefrence.drawString(string, x, y + line, 0xFF800000);
+				line = line + (this.myFontRefrence.getFontSize() / 2);
 			}
 		}
 		return toReturn;
@@ -57,13 +57,12 @@ public class TextBox
 	// Split a string based on page width
 	private List<String> splitString(String text)
 	{
-		List<String> toReturn = new ArrayList<String>();
-		float pixelsAcrossPage = this.width;
-		int charactersPerPage = 2 * (int) (Math.floor(pixelsAcrossPage / (myFontRefrence.getFontSize())));
-		String string = "";
+		final List<String> toReturn = new ArrayList<String>();
+		final float pixelsAcrossPage = this.width;
+		final int charactersPerPage = 2 * (int) (Math.floor(pixelsAcrossPage / (this.myFontRefrence.getFontSize())));
 		while (!text.equals(""))
 		{
-			Iterable iterable = Splitter.fixedLength(charactersPerPage).split(text);
+			final Iterable iterable = Splitter.fixedLength(charactersPerPage).split(text);
 			if (iterable.iterator().hasNext())
 			{
 				String next = (String) iterable.iterator().next();
@@ -72,7 +71,7 @@ public class TextBox
 				{
 					while (next.charAt(charIndex - 1) != ' ')
 					{
-						if (charIndex - 1 <= 0)
+						if ((charIndex - 1) <= 0)
 						{
 							break;
 						}
@@ -89,7 +88,7 @@ public class TextBox
 	}
 
 	// Update x, y, width, and height of a textbox
-	public void updateBounds(int x, int y, int width, int height)
+	public void updateBounds(final int x, final int y, final int width, final int height)
 	{
 		this.xPosition = x;
 		this.yPosition = y;

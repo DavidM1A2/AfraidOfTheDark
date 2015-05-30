@@ -19,7 +19,7 @@ public class ModGeneration
 	public static void initialize()
 	{
 		// Register generators
-		GameRegistry.registerWorldGenerator(generateSilverOre, 1);
+		GameRegistry.registerWorldGenerator(ModGeneration.generateSilverOre, 1);
 		// GameRegistry.registerWorldGenerator(generateTree, 1);
 	}
 }

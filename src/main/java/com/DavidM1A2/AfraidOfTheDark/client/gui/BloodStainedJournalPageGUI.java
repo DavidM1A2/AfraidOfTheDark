@@ -21,8 +21,8 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 	private final String text;
 	private final String title;
 
-	private TextBox leftPage;
-	private TextBox rightPage;
+	private final TextBox leftPage;
+	private final TextBox rightPage;
 
 	private double pageScale = 1.0;
 
@@ -35,22 +35,22 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 	private int yCornerOfPage = 0;
 	private int journalWidth = 0;
 
-	public BloodStainedJournalPageGUI(String text, String title)
+	public BloodStainedJournalPageGUI(final String text, final String title)
 	{
 		// Setup tile and page text. Then add left and right page text boxes
 		super();
 		this.text = text;
 		this.title = title;
-		leftPage = new TextBox(xCornerOfPage, yCornerOfPage, this.journalWidth, this.journalWidth, Refrence.journalFont);
-		rightPage = new TextBox(xCornerOfPage, yCornerOfPage, this.journalWidth, this.journalWidth, Refrence.journalFont);
-		journalTexture = new ResourceLocation("afraidofthedark:textures/gui/bloodStainedJournalPage.png");
+		this.leftPage = new TextBox(this.xCornerOfPage, this.yCornerOfPage, this.journalWidth, this.journalWidth, Refrence.journalFont);
+		this.rightPage = new TextBox(this.xCornerOfPage, this.yCornerOfPage, this.journalWidth, this.journalWidth, Refrence.journalFont);
+		this.journalTexture = new ResourceLocation("afraidofthedark:textures/gui/bloodStainedJournalPage.png");
 	}
 
 	@Override
 	public void initGui()
 	{
 		super.initGui();
-		buttonList.clear();
+		this.buttonList.clear();
 	}
 
 	// Opening a research book DOES NOT pause the game (unlike escape)
@@ -63,51 +63,51 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 	// To draw the screen we first draw the default GUI background, then the
 	// background images. Then we add buttons and a frame.
 	@Override
-	public void drawScreen(int i, int j, float f)
+	public void drawScreen(final int i, final int j, final float f)
 	{
-		drawDefaultBackground();
+		this.drawDefaultBackground();
 
 		GL11.glColor4f(1, 1, 1, 1);
-		mc.renderEngine.bindTexture(journalTexture);
+		this.mc.renderEngine.bindTexture(this.journalTexture);
 
 		// Has the window been resized?
-		if (this.width != this.previousWidth || this.height != this.previousHeight)
+		if ((this.width != this.previousWidth) || (this.height != this.previousHeight))
 		{
 			// Scale relative to 640x480
-			pageScale = this.width / 640.0;
+			this.pageScale = this.width / 640.0;
 			// Calculate various variables later used in text box width/height calculation
-			this.xCornerOfPage = (int) ((this.width - 330 * pageScale) / 2);
-			this.yCornerOfPage = (int) ((this.height - 330 * pageScale) / 2);
-			this.journalWidth = (int) (330 * pageScale);
+			this.xCornerOfPage = (int) ((this.width - (330 * this.pageScale)) / 2);
+			this.yCornerOfPage = (int) ((this.height - (330 * this.pageScale)) / 2);
+			this.journalWidth = (int) (330 * this.pageScale);
 
 			// Set the journal font sizes
-			Refrence.journalFont.setFontSize((int) (pageScale * 20), 32, 126, false);
-			Refrence.journalTitleFont.setFontSize((int) (pageScale * 32), 32, 126, false);
+			Refrence.journalFont.setFontSize((int) (this.pageScale * 20), 32, 126, false);
+			Refrence.journalTitleFont.setFontSize((int) (this.pageScale * 32), 32, 126, false);
 
 			// Set the text box bounds
-			leftPage.updateBounds(xCornerOfPage + (int) (20 * pageScale), yCornerOfPage + (int) (35 * pageScale), this.journalWidth, this.journalWidth - (yCornerOfPage + (int) (35 * pageScale)));
-			rightPage.updateBounds(xCornerOfPage + (int) (20 * pageScale) + (int) (pageScale * (this.width / 2)), yCornerOfPage + (int) (35 * pageScale), this.journalWidth, this.journalWidth - (yCornerOfPage + (int) (35 * pageScale)));
+			this.leftPage.updateBounds(this.xCornerOfPage + (int) (20 * this.pageScale), this.yCornerOfPage + (int) (35 * this.pageScale), this.journalWidth, this.journalWidth - (this.yCornerOfPage + (int) (35 * this.pageScale)));
+			this.rightPage.updateBounds(this.xCornerOfPage + (int) (20 * this.pageScale) + (int) (this.pageScale * (this.width / 2)), this.yCornerOfPage + (int) (35 * this.pageScale), this.journalWidth, this.journalWidth - (this.yCornerOfPage + (int) (35 * this.pageScale)));
 
 			this.previousWidth = this.width;
 			this.previousHeight = this.height;
 		}
 
 		// Draw the journal background
-		Gui.drawScaledCustomSizeModalRect(xCornerOfPage, yCornerOfPage, 0, 0, journalWidth, journalWidth, journalWidth, journalWidth, journalWidth, journalWidth);
+		Gui.drawScaledCustomSizeModalRect(this.xCornerOfPage, this.yCornerOfPage, 0, 0, this.journalWidth, this.journalWidth, this.journalWidth, this.journalWidth, this.journalWidth, this.journalWidth);
 
 		// Draw the title
-		Refrence.journalTitleFont.drawString(this.title, xCornerOfPage + (int) (15 * pageScale), yCornerOfPage + (int) (15 * pageScale), 0xFF800000);
+		Refrence.journalTitleFont.drawString(this.title, this.xCornerOfPage + (int) (15 * this.pageScale), this.yCornerOfPage + (int) (15 * this.pageScale), 0xFF800000);
 		// Anything the left page can't draw, move to right page
-		rightPage.drawText(leftPage.drawText(text));
+		this.rightPage.drawText(this.leftPage.drawText(this.text));
 
 		super.drawScreen(i, j, f);
 	}
 
 	// If E is typed we close the GUI screen
 	@Override
-	protected void keyTyped(char character, int iDontKnowWhatThisDoes) throws IOException
+	protected void keyTyped(final char character, final int iDontKnowWhatThisDoes) throws IOException
 	{
-		if (character == 'e' || character == 'E')
+		if ((character == 'e') || (character == 'E'))
 		{
 			Minecraft.getMinecraft().thePlayer.closeScreen();
 			GL11.glFlush();

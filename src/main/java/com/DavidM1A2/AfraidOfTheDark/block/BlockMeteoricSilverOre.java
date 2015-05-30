@@ -4,7 +4,7 @@ import net.minecraft.block.material.Material;
 
 public class BlockMeteoricSilverOre extends AOTDBlock
 {
-	public BlockMeteoricSilverOre(Material material)
+	public BlockMeteoricSilverOre(final Material material)
 	{
 		super(material);
 		this.setUnlocalizedName("meteoricSilver");

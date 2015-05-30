@@ -25,28 +25,28 @@ public class UpdateCrossbow implements IMessage
 		this.crossbowData = null;
 	}
 
-	public UpdateCrossbow(NBTTagCompound crossbowData)
+	public UpdateCrossbow(final NBTTagCompound crossbowData)
 	{
 		this.crossbowData = crossbowData;
 	}
 
 	@Override
-	public void fromBytes(ByteBuf buf)
+	public void fromBytes(final ByteBuf buf)
 	{
 		this.crossbowData = ByteBufUtils.readTag(buf);
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf)
+	public void toBytes(final ByteBuf buf)
 	{
-		ByteBufUtils.writeTag(buf, crossbowData);
+		ByteBufUtils.writeTag(buf, this.crossbowData);
 	}
 
 	// When we get a packet we set the current item that the player is holding to the data we rececived
 	public static class Handler implements IMessageHandler<UpdateCrossbow, IMessage>
 	{
 		@Override
-		public IMessage onMessage(UpdateCrossbow message, MessageContext ctx)
+		public IMessage onMessage(final UpdateCrossbow message, final MessageContext ctx)
 		{
 			LogHelper.info("Update Crossbow Received!");
 			((EntityPlayer) ctx.getServerHandler().playerEntity).inventory.getCurrentItem().setTagCompound(message.crossbowData);

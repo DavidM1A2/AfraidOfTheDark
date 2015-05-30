@@ -17,9 +17,9 @@ public abstract class GuiClickAndDragable extends GuiScreen
 
 	// If E is typed we close the GUI screen
 	@Override
-	protected void keyTyped(char character, int iDontKnowWhatThisDoes) throws IOException
+	protected void keyTyped(final char character, final int iDontKnowWhatThisDoes) throws IOException
 	{
-		if (character == 'e' || character == 'E')
+		if ((character == 'e') || (character == 'E'))
 		{
 			Minecraft.getMinecraft().thePlayer.closeScreen();
 			GL11.glFlush();
@@ -29,21 +29,21 @@ public abstract class GuiClickAndDragable extends GuiScreen
 
 	// When you click the mouse move the background
 	@Override
-	protected void mouseClicked(int xPos, int yPos, int shouldBe0) throws IOException
+	protected void mouseClicked(final int xPos, final int yPos, final int shouldBe0) throws IOException
 	{
-		originalXPosition = xPos + guiOffsetX;
-		originalYPosition = yPos + guiOffsetY;
+		this.originalXPosition = xPos + this.guiOffsetX;
+		this.originalYPosition = yPos + this.guiOffsetY;
 		super.mouseClicked(xPos, yPos, shouldBe0);
 	}
 
 	// When the mouse is dragged, update the GUI accordingly
 	@Override
-	protected void mouseClickMove(int mouseX, int mouseY, int lastButtonClicked, long timeBetweenClicks)
+	protected void mouseClickMove(final int mouseX, final int mouseY, final int lastButtonClicked, final long timeBetweenClicks)
 	{
-		guiOffsetX = originalXPosition - mouseX;
-		guiOffsetY = originalYPosition - mouseY;
+		this.guiOffsetX = this.originalXPosition - mouseX;
+		this.guiOffsetY = this.originalYPosition - mouseY;
 
-		checkOutOfBounds();
+		this.checkOutOfBounds();
 	}
 
 	// Opening a research book DOES NOT pause the game (unlike escape)

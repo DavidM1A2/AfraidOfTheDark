@@ -30,7 +30,7 @@ public class NodeButton extends GuiButton
 	private final ResearchTypes myType;
 
 	// Each button has a position and offset
-	public NodeButton(int ID, int xPosition, int yPosition, int iconOffsetX, int iconOffsetY, ResearchTypes myType)
+	public NodeButton(final int ID, final int xPosition, final int yPosition, final int iconOffsetX, final int iconOffsetY, final ResearchTypes myType)
 	{
 		super(ID, xPosition, yPosition, 32, 32, "");
 		this.ORIGINAL_X_POSITION = xPosition;
@@ -41,24 +41,24 @@ public class NodeButton extends GuiButton
 	}
 
 	// Set the position of this node
-	public void setPosition(int xPos, int yPos)
+	public void setPosition(final int xPos, final int yPos)
 	{
-		this.xPosition = ORIGINAL_X_POSITION - xPos;
-		this.yPosition = ORIGINAL_Y_POSITION - yPos;
+		this.xPosition = this.ORIGINAL_X_POSITION - xPos;
+		this.yPosition = this.ORIGINAL_Y_POSITION - yPos;
 	}
 
 	// Draw button draws the button using OpenGL
 	@Override
-	public void drawButton(Minecraft minecraft, int mouseX, int mouseY)
+	public void drawButton(final Minecraft minecraft, final int mouseX, final int mouseY)
 	{
 
 		// Make sure it should be visible
 		if (this.visible)
 		{
-			this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+			this.hovered = (mouseX >= this.xPosition) && (mouseY >= this.yPosition) && (mouseX < (this.xPosition + this.width)) && (mouseY < (this.yPosition + this.height));
 
 			// Draw background start:
-			minecraft.getTextureManager().bindTexture(DEFAULT_RESEARCH_BACKGROUND);
+			minecraft.getTextureManager().bindTexture(NodeButton.DEFAULT_RESEARCH_BACKGROUND);
 			if (this.isMouseOver())
 			{
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, .8F);
@@ -72,17 +72,17 @@ public class NodeButton extends GuiButton
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			Gui.drawScaledCustomSizeModalRect(this.xPosition, this.yPosition, 0, 0, 512, 512, this.width, this.height, 512, 512);
 
-			if (LoadResearchData.isResearched(Minecraft.getMinecraft().thePlayer, myType))
+			if (LoadResearchData.isResearched(Minecraft.getMinecraft().thePlayer, this.myType))
 			{
-				drawKnownResearch(minecraft);
+				this.drawKnownResearch(minecraft);
 			}
-			else if (myType.getPrevious() != null && LoadResearchData.isResearched(Minecraft.getMinecraft().thePlayer, myType.getPrevious()))
+			else if ((this.myType.getPrevious() != null) && LoadResearchData.isResearched(Minecraft.getMinecraft().thePlayer, this.myType.getPrevious()))
 			{
-				drawAlmostKnownResearch(minecraft);
+				this.drawAlmostKnownResearch(minecraft);
 			}
 			else
 			{
-				drawUnknownResearch(minecraft);
+				this.drawUnknownResearch(minecraft);
 			}
 
 			this.mouseDragged(minecraft, mouseX, mouseY);
@@ -104,19 +104,19 @@ public class NodeButton extends GuiButton
 		return this.ORIGINAL_Y_POSITION;
 	}
 
-	private void drawKnownResearch(Minecraft minecraft)
+	private void drawKnownResearch(final Minecraft minecraft)
 	{
-		minecraft.getTextureManager().bindTexture(RESEARCH_ICONS);
+		minecraft.getTextureManager().bindTexture(NodeButton.RESEARCH_ICONS);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GL11.glEnable(GL11.GL_BLEND);
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		this.drawTexturedModalRect(this.xPosition + 2, this.yPosition + 2, iconOffsetX, iconOffsetY, this.width - 4, this.height - 4);
+		this.drawTexturedModalRect(this.xPosition + 2, this.yPosition + 2, this.iconOffsetX, this.iconOffsetY, this.width - 4, this.height - 4);
 	}
 
-	private void drawUnknownResearch(Minecraft minecraft)
+	private void drawUnknownResearch(final Minecraft minecraft)
 	{
-		minecraft.getTextureManager().bindTexture(UNKNOWN_RESEARCH);
+		minecraft.getTextureManager().bindTexture(NodeButton.UNKNOWN_RESEARCH);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GL11.glEnable(GL11.GL_BLEND);
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
@@ -124,16 +124,16 @@ public class NodeButton extends GuiButton
 		this.drawTexturedModalRect(this.xPosition + 2, this.yPosition + 2, 0, 0, this.width - 4, this.height - 4);
 	}
 
-	private void drawAlmostKnownResearch(Minecraft minecraft)
+	private void drawAlmostKnownResearch(final Minecraft minecraft)
 	{
-		minecraft.getTextureManager().bindTexture(RESEARCH_ICONS);
+		minecraft.getTextureManager().bindTexture(NodeButton.RESEARCH_ICONS);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GL11.glEnable(GL11.GL_BLEND);
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		this.drawTexturedModalRect(this.xPosition + 2, this.yPosition + 2, iconOffsetX, iconOffsetY, this.width - 4, this.height - 4);
+		this.drawTexturedModalRect(this.xPosition + 2, this.yPosition + 2, this.iconOffsetX, this.iconOffsetY, this.width - 4, this.height - 4);
 
-		minecraft.getTextureManager().bindTexture(UNKNOWN_RESEARCH);
+		minecraft.getTextureManager().bindTexture(NodeButton.UNKNOWN_RESEARCH);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GL11.glEnable(GL11.GL_BLEND);
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0);

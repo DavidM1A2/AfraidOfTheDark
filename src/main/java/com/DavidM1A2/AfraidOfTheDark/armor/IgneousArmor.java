@@ -7,18 +7,14 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import net.minecraft.world.World;
-import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModItems;
-import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
-import com.DavidM1A2.AfraidOfTheDark.utility.NBTHelper;
 
 public class IgneousArmor extends AOTDArmor
 {
-	public IgneousArmor(ArmorMaterial armorMaterial, int renderIndex, int type)
+	public IgneousArmor(final ArmorMaterial armorMaterial, final int renderIndex, final int type)
 	{
 		super(armorMaterial, renderIndex, type);
 		this.setUnlocalizedName((type == 0) ? "igneousHelmet" : (type == 1) ? "igneousChestplate" : (type == 2) ? "igneousLeggings" : "igneousBoots");
@@ -26,7 +22,7 @@ public class IgneousArmor extends AOTDArmor
 
 	@Override
 	//This is pretty self explanatory
-	public String getArmorTexture(ItemStack armor, Entity entity, int slot, String type)
+	public String getArmorTexture(final ItemStack armor, final Entity entity, final int slot, final String type)
 	{
 		if (armor.getItem() == ModItems.igneousLeggings)
 		{
@@ -40,19 +36,19 @@ public class IgneousArmor extends AOTDArmor
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List tooltip, boolean advanced)
+	public void addInformation(final ItemStack stack, final EntityPlayer playerIn, final List tooltip, final boolean advanced)
 	{
 		tooltip.add("Magical armor will never break.");
 	}
 
 	@Override
-	public ArmorProperties getProperties(EntityLivingBase entity, ItemStack armor, DamageSource source, double damage, int slot)
+	public ArmorProperties getProperties(final EntityLivingBase entity, final ItemStack armor, final DamageSource source, final double damage, final int slot)
 	{
 		if (entity instanceof EntityPlayer)
 		{
-			EntityPlayer entityPlayer = (EntityPlayer) entity;
+			final EntityPlayer entityPlayer = (EntityPlayer) entity;
 
-			if (isWearingFullArmor(entityPlayer))
+			if (this.isWearingFullArmor(entityPlayer))
 			{
 				if (source.getEntity() != null)
 				{
@@ -65,11 +61,11 @@ public class IgneousArmor extends AOTDArmor
 			}
 		}
 
-		if (source == DamageSource.onFire || source == DamageSource.inFire)
+		if ((source == DamageSource.onFire) || (source == DamageSource.inFire))
 		{
 			return new ArmorProperties(0, .25, 25);
 		}
-		if (source == DamageSource.drown || source == DamageSource.fall || source == DamageSource.inWall || source == DamageSource.outOfWorld || source == DamageSource.starve)
+		if ((source == DamageSource.drown) || (source == DamageSource.fall) || (source == DamageSource.inWall) || (source == DamageSource.outOfWorld) || (source == DamageSource.starve))
 		{
 			return new ArmorProperties(0, .25, 0);
 		}
@@ -81,28 +77,28 @@ public class IgneousArmor extends AOTDArmor
 	}
 
 	@Override
-	public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot)
+	public int getArmorDisplay(final EntityPlayer player, final ItemStack armor, final int slot)
 	{
-		return getReductionBasedOffOfSlot(slot);
+		return this.getReductionBasedOffOfSlot(slot);
 	}
 
 	@Override
-	public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot)
+	public void damageArmor(final EntityLivingBase entity, final ItemStack stack, final DamageSource source, final int damage, final int slot)
 	{
 		return;
 	}
 
-	private boolean isWearingFullArmor(EntityPlayer entityPlayer)
+	private boolean isWearingFullArmor(final EntityPlayer entityPlayer)
 	{
-		if (entityPlayer.inventory.armorInventory[0] != null && entityPlayer.inventory.armorInventory[1] != null && entityPlayer.inventory.armorInventory[2] != null && entityPlayer.inventory.armorInventory[3] != null)
+		if ((entityPlayer.inventory.armorInventory[0] != null) && (entityPlayer.inventory.armorInventory[1] != null) && (entityPlayer.inventory.armorInventory[2] != null) && (entityPlayer.inventory.armorInventory[3] != null))
 		{
-			return (entityPlayer.inventory.armorInventory[0].getItem() instanceof IgneousArmor && entityPlayer.inventory.armorInventory[1].getItem() instanceof IgneousArmor && entityPlayer.inventory.armorInventory[2].getItem() instanceof IgneousArmor && entityPlayer.inventory.armorInventory[3]
-					.getItem() instanceof IgneousArmor);
+			return ((entityPlayer.inventory.armorInventory[0].getItem() instanceof IgneousArmor) && (entityPlayer.inventory.armorInventory[1].getItem() instanceof IgneousArmor) && (entityPlayer.inventory.armorInventory[2].getItem() instanceof IgneousArmor) && (entityPlayer.inventory.armorInventory[3]
+					.getItem() instanceof IgneousArmor));
 		}
 		return false;
 	}
 
-	private int getReductionBasedOffOfSlot(int slot)
+	private int getReductionBasedOffOfSlot(final int slot)
 	{
 		return slot == 0 ? 3 : slot == 1 ? 6 : slot == 2 ? 8 : 3;
 	}

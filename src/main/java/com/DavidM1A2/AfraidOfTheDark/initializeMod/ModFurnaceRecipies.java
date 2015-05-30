@@ -21,9 +21,9 @@ public class ModFurnaceRecipies implements IFuelHandler
 	}
 
 	@Override
-	public int getBurnTime(ItemStack fuel)
+	public int getBurnTime(final ItemStack fuel)
 	{
-		int fuelID = Item.getIdFromItem(fuel.getItem());
+		final int fuelID = Item.getIdFromItem(fuel.getItem());
 		if (fuelID == Item.getIdFromItem(Item.getItemFromBlock(ModBlocks.gravewood)))
 		{
 			return 300;

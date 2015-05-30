@@ -20,7 +20,7 @@ public class GuiFactory implements IModGuiFactory
 	 * GUI factory class?
 	 */
 	@Override
-	public void initialize(Minecraft minecraftInstance)
+	public void initialize(final Minecraft minecraftInstance)
 	{
 
 	}
@@ -38,7 +38,7 @@ public class GuiFactory implements IModGuiFactory
 	}
 
 	@Override
-	public RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element)
+	public RuntimeOptionGuiHandler getHandlerFor(final RuntimeOptionCategoryElement element)
 	{
 		return null;
 	}

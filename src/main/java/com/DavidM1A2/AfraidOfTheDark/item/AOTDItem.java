@@ -23,17 +23,17 @@ public abstract class AOTDItem extends Item
 	@Override
 	public String getUnlocalizedName()
 	{
-		return String.format("item.%s%s", Refrence.MOD_ID.toLowerCase() + ":", getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
+		return String.format("item.%s%s", Refrence.MOD_ID.toLowerCase() + ":", this.getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
 	}
 
 	// Set a stack of items name?
 	@Override
-	public String getUnlocalizedName(ItemStack itemStack)
+	public String getUnlocalizedName(final ItemStack itemStack)
 	{
-		return String.format("item.%s%s", Refrence.MOD_ID.toLowerCase() + ":", getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
+		return String.format("item.%s%s", Refrence.MOD_ID.toLowerCase() + ":", this.getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
 	}
 
-	protected String getUnwrappedUnlocalizedName(String unlocalizedName)
+	protected String getUnwrappedUnlocalizedName(final String unlocalizedName)
 	{
 		return unlocalizedName.substring(unlocalizedName.indexOf(".") + 1);
 	}

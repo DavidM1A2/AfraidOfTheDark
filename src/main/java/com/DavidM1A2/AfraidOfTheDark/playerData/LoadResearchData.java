@@ -26,63 +26,63 @@ public class LoadResearchData implements IExtendedEntityProperties
 	private NBTTagCompound researches = new NBTTagCompound();;
 	public final static String RESEARCH_DATA = "unlockedResearches";
 
-	public static final void register(EntityPlayer player)
+	public static final void register(final EntityPlayer player)
 	{
 		player.registerExtendedProperties(LoadResearchData.RESEARCH_DATA, new LoadResearchData());
 	}
 
 	@Override
-	public void init(Entity entity, World world)
+	public void init(final Entity entity, final World world)
 	{
 	}
 
 	// Each player has a byte array representing their completed research
 	// save it here
 	@Override
-	public void saveNBTData(NBTTagCompound compound)
+	public void saveNBTData(final NBTTagCompound compound)
 	{
-		compound.setTag(RESEARCH_DATA, researches);
+		compound.setTag(LoadResearchData.RESEARCH_DATA, this.researches);
 	}
 
 	// Loading research
 	@Override
-	public void loadNBTData(NBTTagCompound compound)
+	public void loadNBTData(final NBTTagCompound compound)
 	{
-		researches = (NBTTagCompound) compound.getTag(RESEARCH_DATA);
+		this.researches = (NBTTagCompound) compound.getTag(LoadResearchData.RESEARCH_DATA);
 	}
 
 	/**
 	 * Returns ExtendedPlayer properties for player This method is for convenience only; it will make your code look nicer
 	 */
-	public static final NBTTagCompound get(EntityPlayer entityPlayer)
+	public static final NBTTagCompound get(final EntityPlayer entityPlayer)
 	{
-		return entityPlayer.getEntityData().getCompoundTag(RESEARCH_DATA);
+		return entityPlayer.getEntityData().getCompoundTag(LoadResearchData.RESEARCH_DATA);
 	}
 
-	public static final void set(EntityPlayer entityPlayer, NBTTagCompound compound)
+	public static final void set(final EntityPlayer entityPlayer, final NBTTagCompound compound)
 	{
-		entityPlayer.getEntityData().setTag(RESEARCH_DATA, compound);
+		entityPlayer.getEntityData().setTag(LoadResearchData.RESEARCH_DATA, compound);
 	}
 
-	public static final boolean isResearched(EntityPlayer entityPlayer, ResearchTypes type)
+	public static final boolean isResearched(final EntityPlayer entityPlayer, final ResearchTypes type)
 	{
-		return entityPlayer.getEntityData().getCompoundTag(RESEARCH_DATA).getBoolean(RESEARCH_DATA + type.toString());
+		return entityPlayer.getEntityData().getCompoundTag(LoadResearchData.RESEARCH_DATA).getBoolean(LoadResearchData.RESEARCH_DATA + type.toString());
 	}
 
-	public static void unlockResearchSynced(EntityPlayer entityPlayer, ResearchTypes type, Side side)
+	public static void unlockResearchSynced(final EntityPlayer entityPlayer, final ResearchTypes type, final Side side)
 	{
-		NBTTagCompound current = get(entityPlayer);
-		current.setBoolean(RESEARCH_DATA + type.toString(), true);
+		final NBTTagCompound current = LoadResearchData.get(entityPlayer);
+		current.setBoolean(LoadResearchData.RESEARCH_DATA + type.toString(), true);
 		LoadResearchData.set(entityPlayer, current);
 		LogHelper.info("Updating research on " + FMLCommonHandler.instance().getSide().toString() + " side.");
 		if (side == Side.CLIENT)
 		{
-			AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateResearch(entityPlayer.getEntityData().getCompoundTag(RESEARCH_DATA)));
+			AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateResearch(entityPlayer.getEntityData().getCompoundTag(LoadResearchData.RESEARCH_DATA)));
 			Refrence.researchAchievedOverlay.displayResearch(type, new ItemStack(ModItems.journal, 1), false);
 		}
 		else
 		{
-			AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateResearch(entityPlayer.getEntityData().getCompoundTag(RESEARCH_DATA)), (EntityPlayerMP) entityPlayer);
+			AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateResearch(entityPlayer.getEntityData().getCompoundTag(LoadResearchData.RESEARCH_DATA)), (EntityPlayerMP) entityPlayer);
 		}
 	}
 }

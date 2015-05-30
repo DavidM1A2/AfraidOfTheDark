@@ -10,7 +10,7 @@ import net.minecraft.block.material.Material;
 // Double gravewood slab
 public class BlockGravewoodDoubleSlab extends AOTDSlab
 {
-	public BlockGravewoodDoubleSlab(Material material)
+	public BlockGravewoodDoubleSlab(final Material material)
 	{
 		super(material);
 		this.setUnlocalizedName("gravewoodDoubleSlab");

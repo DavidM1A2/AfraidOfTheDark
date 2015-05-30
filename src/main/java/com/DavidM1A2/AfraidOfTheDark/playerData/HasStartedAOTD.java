@@ -22,46 +22,46 @@ public class HasStartedAOTD implements IExtendedEntityProperties
 	private boolean hasStartedAOTD = false;
 	public final static String PLAYER_STARTED_AOTD = "playerStartedAOTD";
 
-	public static final void register(EntityPlayer player)
+	public static final void register(final EntityPlayer player)
 	{
 		player.registerExtendedProperties(HasStartedAOTD.PLAYER_STARTED_AOTD, new HasStartedAOTD());
 	}
 
 	@Override
-	public void init(Entity entity, World world)
+	public void init(final Entity entity, final World world)
 	{
 	}
 
 	// saveNBTData is called whenever data needs to be saved
 	@Override
-	public void saveNBTData(NBTTagCompound compound)
+	public void saveNBTData(final NBTTagCompound compound)
 	{
-		compound.setBoolean(PLAYER_STARTED_AOTD, hasStartedAOTD);
+		compound.setBoolean(HasStartedAOTD.PLAYER_STARTED_AOTD, this.hasStartedAOTD);
 	}
 
 	// load works the same way
 	@Override
-	public void loadNBTData(NBTTagCompound compound)
+	public void loadNBTData(final NBTTagCompound compound)
 	{
-		this.hasStartedAOTD = compound.getBoolean(PLAYER_STARTED_AOTD);
+		this.hasStartedAOTD = compound.getBoolean(HasStartedAOTD.PLAYER_STARTED_AOTD);
 	}
 
 	// Getters and setters for if a player has begun AOTD
-	public static boolean get(EntityPlayer entityPlayer)
+	public static boolean get(final EntityPlayer entityPlayer)
 	{
-		return entityPlayer.getEntityData().getBoolean(PLAYER_STARTED_AOTD);
+		return entityPlayer.getEntityData().getBoolean(HasStartedAOTD.PLAYER_STARTED_AOTD);
 	}
 
-	public static void set(EntityPlayer entityPlayer, boolean value, Side side)
+	public static void set(final EntityPlayer entityPlayer, final boolean value, final Side side)
 	{
-		entityPlayer.getEntityData().setBoolean(PLAYER_STARTED_AOTD, value);
+		entityPlayer.getEntityData().setBoolean(HasStartedAOTD.PLAYER_STARTED_AOTD, value);
 		if (side == Side.CLIENT)
 		{
-			AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateAOTDStatus(get(entityPlayer)));
+			AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateAOTDStatus(HasStartedAOTD.get(entityPlayer)));
 		}
 		else
 		{
-			AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateAOTDStatus(get(entityPlayer)), (EntityPlayerMP) entityPlayer);
+			AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateAOTDStatus(HasStartedAOTD.get(entityPlayer)), (EntityPlayerMP) entityPlayer);
 		}
 	}
 }

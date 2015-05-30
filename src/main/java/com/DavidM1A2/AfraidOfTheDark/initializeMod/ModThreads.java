@@ -17,32 +17,32 @@ public class ModThreads
 	// hand out insanity updates
 	public static void register()
 	{
-		randomInsanityUpdate = new RandomInsanityUpdate();
-		researchCompleteUpdate = new ResearchCompleteCheck();
+		ModThreads.randomInsanityUpdate = new RandomInsanityUpdate();
+		ModThreads.researchCompleteUpdate = new ResearchCompleteCheck();
 	}
 
 	public static void startInGameThreads()
 	{
-		register();
-		if (!randomInsanityUpdate.isAlive())
+		ModThreads.register();
+		if (!ModThreads.randomInsanityUpdate.isAlive())
 		{
-			randomInsanityUpdate.start();
+			ModThreads.randomInsanityUpdate.start();
 		}
-		if (!researchCompleteUpdate.isAlive())
+		if (!ModThreads.researchCompleteUpdate.isAlive())
 		{
-			researchCompleteUpdate.start();
+			ModThreads.researchCompleteUpdate.start();
 		}
 	}
 
 	public static void stopInGameThreads()
 	{
-		if (randomInsanityUpdate.isAlive())
+		if (ModThreads.randomInsanityUpdate.isAlive())
 		{
-			randomInsanityUpdate.terminate();
+			ModThreads.randomInsanityUpdate.terminate();
 		}
-		if (researchCompleteUpdate.isAlive())
+		if (ModThreads.researchCompleteUpdate.isAlive())
 		{
-			researchCompleteUpdate.terminate();
+			ModThreads.researchCompleteUpdate.terminate();
 		}
 	}
 }

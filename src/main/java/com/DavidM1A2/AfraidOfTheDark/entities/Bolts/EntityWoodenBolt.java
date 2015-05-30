@@ -13,22 +13,22 @@ import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModItems;
 
 public class EntityWoodenBolt extends EntityBolt
 {
-	public EntityWoodenBolt(World world)
+	public EntityWoodenBolt(final World world)
 	{
 		super(world);
-		setProperties();
+		this.setProperties();
 	}
 
-	public EntityWoodenBolt(World world, EntityLivingBase entityLivingBase)
+	public EntityWoodenBolt(final World world, final EntityLivingBase entityLivingBase)
 	{
 		super(world, entityLivingBase);
-		setProperties();
+		this.setProperties();
 	}
 
-	public EntityWoodenBolt(World world, double x, double y, double z)
+	public EntityWoodenBolt(final World world, final double x, final double y, final double z)
 	{
 		super(world, x, y, z);
-		setProperties();
+		this.setProperties();
 	}
 
 	// Set the properties of the bolt

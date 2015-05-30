@@ -13,22 +13,22 @@ import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModItems;
 
 public class EntityIronBolt extends EntityBolt
 {
-	public EntityIronBolt(World world)
+	public EntityIronBolt(final World world)
 	{
 		super(world);
-		setProperties();
+		this.setProperties();
 	}
 
-	public EntityIronBolt(World world, EntityLivingBase entityLivingBase)
+	public EntityIronBolt(final World world, final EntityLivingBase entityLivingBase)
 	{
 		super(world, entityLivingBase);
-		setProperties();
+		this.setProperties();
 	}
 
-	public EntityIronBolt(World world, double x, double y, double z)
+	public EntityIronBolt(final World world, final double x, final double y, final double z)
 	{
 		super(world, x, y, z);
-		setProperties();
+		this.setProperties();
 	}
 
 	// Set the properties of the bolt

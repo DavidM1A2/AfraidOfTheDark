@@ -21,31 +21,31 @@ public class UpdateResearch implements IMessage
 
 	public UpdateResearch()
 	{
-		research = null;
+		this.research = null;
 	}
 
-	public UpdateResearch(NBTTagCompound research)
+	public UpdateResearch(final NBTTagCompound research)
 	{
 		this.research = research;
 	}
 
 	@Override
-	public void fromBytes(ByteBuf buf)
+	public void fromBytes(final ByteBuf buf)
 	{
 		this.research = ByteBufUtils.readTag(buf);
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf)
+	public void toBytes(final ByteBuf buf)
 	{
-		ByteBufUtils.writeTag(buf, research);
+		ByteBufUtils.writeTag(buf, this.research);
 	}
 
 	// when we receive a packet we sets some research
 	public static class HandlerServer implements IMessageHandler<UpdateResearch, IMessage>
 	{
 		@Override
-		public IMessage onMessage(UpdateResearch message, MessageContext ctx)
+		public IMessage onMessage(final UpdateResearch message, final MessageContext ctx)
 		{
 			LoadResearchData.set(ctx.getServerHandler().playerEntity, message.research);
 			return null;
@@ -56,7 +56,7 @@ public class UpdateResearch implements IMessage
 	public static class HandlerClient implements IMessageHandler<UpdateResearch, IMessage>
 	{
 		@Override
-		public IMessage onMessage(UpdateResearch message, MessageContext ctx)
+		public IMessage onMessage(final UpdateResearch message, final MessageContext ctx)
 		{
 			LoadResearchData.set(Minecraft.getMinecraft().thePlayer, message.research);
 			return null;

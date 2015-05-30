@@ -51,13 +51,13 @@ public class AfraidOfTheDark
 	public static IProxy proxy;
 
 	@Mod.EventHandler
-	public void preInitialization(FMLPreInitializationEvent event)
+	public void preInitialization(final FMLPreInitializationEvent event)
 	{
 		// Initialize configuration
 		ConfigurationHandler.initializataion(event.getSuggestedConfigurationFile());
 		FMLCommonHandler.instance().bus().register(new ConfigurationHandler());
 		// Initialize any player events
-		PlayerController controller = new PlayerController();
+		final PlayerController controller = new PlayerController();
 		MinecraftForge.EVENT_BUS.register(controller);
 		FMLCommonHandler.instance().bus().register(controller);
 		// Initialize any world events
@@ -79,11 +79,11 @@ public class AfraidOfTheDark
 		// Initialize the ORE-Dictionary compatability
 		ModOreDictionaryCompatability.initialize();
 		// Initialize GUI handler
-		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
+		NetworkRegistry.INSTANCE.registerGuiHandler(AfraidOfTheDark.instance, new GuiHandler());
 		// Initialize key bindings
-		proxy.registerKeyBindings();
+		AfraidOfTheDark.proxy.registerKeyBindings();
 		// Initialize the mod channel
-		proxy.registerChannel();
+		AfraidOfTheDark.proxy.registerChannel();
 		// Setup mod threads
 		ModThreads.register();
 
@@ -91,7 +91,7 @@ public class AfraidOfTheDark
 	}
 
 	@Mod.EventHandler
-	public void initialization(FMLInitializationEvent event)
+	public void initialization(final FMLInitializationEvent event)
 	{
 		// Initialize Recipes
 		ModRecipes.initialize();
@@ -102,12 +102,12 @@ public class AfraidOfTheDark
 		// Initialize key input handler
 		FMLCommonHandler.instance().bus().register(new KeyInputEventHandler());
 		// Initialize renderers
-		proxy.registerRenderThings();
+		AfraidOfTheDark.proxy.registerRenderThings();
 		LogHelper.info("Initialization Complete");
 	}
 
 	@Mod.EventHandler
-	public void postInitialization(FMLPostInitializationEvent event)
+	public void postInitialization(final FMLPostInitializationEvent event)
 	{
 		if (event.getSide() == Side.CLIENT)
 		{
@@ -117,21 +117,21 @@ public class AfraidOfTheDark
 	}
 
 	@Mod.EventHandler
-	public void serverStartingEvent(FMLServerStartingEvent event)
+	public void serverStartingEvent(final FMLServerStartingEvent event)
 	{
 		// Register any player commands
 		event.registerServerCommand(new InsanityCheck());
 	}
 
 	@Mod.EventHandler
-	public void serverStartedEvent(FMLServerStartedEvent event)
+	public void serverStartedEvent(final FMLServerStartedEvent event)
 	{
 		// Launch any threads to  be used in game
 		ModThreads.startInGameThreads();
 	}
 
 	@Mod.EventHandler
-	public void serverStoppedEvent(FMLServerStoppedEvent event)
+	public void serverStoppedEvent(final FMLServerStoppedEvent event)
 	{
 		// Stop any ingame threads
 		ModThreads.stopInGameThreads();
@@ -142,7 +142,7 @@ public class AfraidOfTheDark
 		return AfraidOfTheDark.channelNew;
 	}
 
-	public static void setSimpleNetworkWrapper(SimpleNetworkWrapper wrapper)
+	public static void setSimpleNetworkWrapper(final SimpleNetworkWrapper wrapper)
 	{
 		AfraidOfTheDark.channelNew = wrapper;
 	}

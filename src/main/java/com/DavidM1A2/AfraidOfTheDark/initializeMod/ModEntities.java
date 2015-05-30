@@ -26,11 +26,11 @@ public class ModEntities
 	public static void intialize()
 	{
 		// register bolt entities and the werewolf
-		EntityRegistry.registerModEntity(EntityWereWolf.class, "Werewolf", wereWolfID, Refrence.MOD_ID, 50, 1, true);
+		EntityRegistry.registerModEntity(EntityWereWolf.class, "Werewolf", ModEntities.wereWolfID, Refrence.MOD_ID, 50, 1, true);
 
-		EntityRegistry.registerModEntity(EntityIronBolt.class, "ironBolt", ironBoltID, Refrence.MOD_ID, 50, 10, true);
-		EntityRegistry.registerModEntity(EntitySilverBolt.class, "silverBolt", silverBoltID, Refrence.MOD_ID, 50, 10, true);
-		EntityRegistry.registerModEntity(EntityWoodenBolt.class, "woodenBolt", woodenBoltID, Refrence.MOD_ID, 50, 10, true);
+		EntityRegistry.registerModEntity(EntityIronBolt.class, "ironBolt", ModEntities.ironBoltID, Refrence.MOD_ID, 50, 10, true);
+		EntityRegistry.registerModEntity(EntitySilverBolt.class, "silverBolt", ModEntities.silverBoltID, Refrence.MOD_ID, 50, 10, true);
+		EntityRegistry.registerModEntity(EntityWoodenBolt.class, "woodenBolt", ModEntities.woodenBoltID, Refrence.MOD_ID, 50, 10, true);
 
 		// Allow the werewolf to rarely spawn in all biomes
 		for (int i = 0; i < BiomeGenBase.getBiomeGenArray().length; i++)

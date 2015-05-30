@@ -22,7 +22,7 @@ public abstract class AOTDBlock extends Block
 {
 	// private static final PropertyBool VARIANT = PropertyBool.create("variant");
 
-	public AOTDBlock(Material material)
+	public AOTDBlock(final Material material)
 	{
 		// Set the material and creative tab
 		super(material);
@@ -40,7 +40,7 @@ public abstract class AOTDBlock extends Block
 	protected BlockState createBlockState()
 	{
 		return new BlockState(this, new IProperty[]
-		{});
+				{});
 	}
 
 	// the block will render in the SOLID layer. See http://greyminecraftcoder.blogspot.co.at/2014/12/block-rendering-18.html for more information.
@@ -81,12 +81,12 @@ public abstract class AOTDBlock extends Block
 	@Override
 	public String getUnlocalizedName()
 	{
-		return String.format("tile.%s%s", Refrence.MOD_ID.toLowerCase() + ":", getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
+		return String.format("tile.%s%s", Refrence.MOD_ID.toLowerCase() + ":", this.getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
 		// Format for a block is: tile.modid:blockname.name
 	}
 
 	// Get the unlocalized name
-	protected String getUnwrappedUnlocalizedName(String unlocalizedName)
+	protected String getUnwrappedUnlocalizedName(final String unlocalizedName)
 	{
 		return unlocalizedName.substring(unlocalizedName.indexOf(".") + 1);
 	}

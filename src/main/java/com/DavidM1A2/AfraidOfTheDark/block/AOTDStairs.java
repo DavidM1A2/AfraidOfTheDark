@@ -12,7 +12,7 @@ import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
 
 public abstract class AOTDStairs extends BlockStairs
 {
-	protected AOTDStairs(IBlockState modelState)
+	protected AOTDStairs(final IBlockState modelState)
 	{
 		super(modelState);
 		this.setUnlocalizedName("FORGOT TO SET");
@@ -23,12 +23,12 @@ public abstract class AOTDStairs extends BlockStairs
 	@Override
 	public String getUnlocalizedName()
 	{
-		return String.format("tile.%s%s", Refrence.MOD_ID.toLowerCase() + ":", getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
+		return String.format("tile.%s%s", Refrence.MOD_ID.toLowerCase() + ":", this.getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
 		// Format for a block is: tile.modid:blockname.name
 	}
 
 	// Get the unlocalized name
-	protected String getUnwrappedUnlocalizedName(String unlocalizedName)
+	protected String getUnwrappedUnlocalizedName(final String unlocalizedName)
 	{
 		return unlocalizedName.substring(unlocalizedName.indexOf(".") + 1);
 	}

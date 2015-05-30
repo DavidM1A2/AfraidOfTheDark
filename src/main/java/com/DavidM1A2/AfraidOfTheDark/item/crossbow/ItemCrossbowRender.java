@@ -25,124 +25,124 @@ public class ItemCrossbowRender implements IItemRenderer
 
 	public ItemCrossbowRender()
 	{
-		crossbowModel = new CrossbowModel();
-		crossbowModel.pullBow(0.0F);
+		this.crossbowModel = new CrossbowModel();
+		this.crossbowModel.pullBow(0.0F);
 	}
 
 	// If it is equipped or first person equipped render this item
 	@Override
-	public boolean handleRenderType(ItemStack item, ItemRenderType type)
+	public boolean handleRenderType(final ItemStack item, final ItemRenderType type)
 	{
 		switch (type)
 		{
-			case EQUIPPED:
-			{
-				return true;
-			}
-			case EQUIPPED_FIRST_PERSON:
-			{
-				return true;
-			}
-			default:
-			{
-				return false;
-			}
+		case EQUIPPED:
+		{
+			return true;
+		}
+		case EQUIPPED_FIRST_PERSON:
+		{
+			return true;
+		}
+		default:
+		{
+			return false;
+		}
 		}
 	}
 
 	// ?
 	@Override
-	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
+	public boolean shouldUseRenderHelper(final ItemRenderType type, final ItemStack item, final ItemRendererHelper helper)
 	{
 		return false;
 	}
 
 	// Use open GL matrices to render the item
 	@Override
-	public void renderItem(ItemRenderType type, ItemStack itemStack, Object... data)
+	public void renderItem(final ItemRenderType type, final ItemStack itemStack, final Object... data)
 	{
 		switch (type)
 		{
 		// If it is equipped (3rd person) render it one way
-			case EQUIPPED:
+		case EQUIPPED:
+		{
+			// (3rd person check)
+			if (!(!(((EntityPlayer) data[1] == Minecraft.getMinecraft().getRenderViewEntity()) && (Minecraft.getMinecraft().gameSettings.thirdPersonView == 0) && !(((Minecraft.getMinecraft().currentScreen instanceof GuiInventory) || (Minecraft.getMinecraft().currentScreen instanceof GuiContainerCreative))))))
 			{
-				// (3rd person check)
-				if (!(!((EntityPlayer) data[1] == Minecraft.getMinecraft().getRenderViewEntity() && Minecraft.getMinecraft().gameSettings.thirdPersonView == 0 && !((Minecraft.getMinecraft().currentScreen instanceof GuiInventory || Minecraft.getMinecraft().currentScreen instanceof GuiContainerCreative)))))
-				{
-					GL11.glPushMatrix();
-
-					// Get the texture
-					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("afraidofthedark:textures/models/crossbowTexture.png"));
-
-					float scale = 1.0F;
-
-					// No scaling needed
-					GL11.glScalef(scale, scale, scale);
-
-					// Using an identity matrix we can set the pitch, yaw, and roll of the object
-					GL11.glRotatef(90.0F, scale, 0.0F, 0.0F); // Pitch
-					GL11.glRotatef(-50.0F, 0.0F, scale, 0.0F); // Yaw
-					GL11.glRotatef(270.0F, 0.0F, 0.0F, scale); // Roll
-
-					// Finally we translate the matrix
-					GL11.glTranslatef(0.2F, -1.0F, -0.2F);
-
-					// If it is cocked, we set the model accordingly
-					if (NBTHelper.getBoolean(itemStack, "isCocked"))
-					{
-						crossbowModel.Bolt.isHidden = false;
-						crossbowModel.pullBow(1.0F);
-					}
-					else
-					{
-						crossbowModel.Bolt.isHidden = true;
-						crossbowModel.pullBow(NBTHelper.getFloat(itemStack, "pullLevel"));
-					}
-
-					// Call the render function and pop the matrix off of the stack enabling the renderer
-					crossbowModel.render((Entity) data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-
-					GL11.glPopMatrix();
-				}
-			}
-			case EQUIPPED_FIRST_PERSON:
-			{
-
-				// First person works the same as third except this time we have different dimensions for scale, yaw, pitch, roll, and translation
 				GL11.glPushMatrix();
 
+				// Get the texture
 				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("afraidofthedark:textures/models/crossbowTexture.png"));
 
-				float scaleA = 1.0F;
+				final float scale = 1.0F;
 
-				GL11.glScalef(scaleA, scaleA, scaleA);
+				// No scaling needed
+				GL11.glScalef(scale, scale, scale);
 
-				GL11.glRotatef(90.0F, 1.0F, 0.0F, 0.0F); // Pitch
-				GL11.glRotatef(-50.0F, 0.0F, 1.0F, 0.0F); // Yaw
-				GL11.glRotatef(270.0F, 0.0F, 0.0F, 1.0F); // Roll
+				// Using an identity matrix we can set the pitch, yaw, and roll of the object
+				GL11.glRotatef(90.0F, scale, 0.0F, 0.0F); // Pitch
+				GL11.glRotatef(-50.0F, 0.0F, scale, 0.0F); // Yaw
+				GL11.glRotatef(270.0F, 0.0F, 0.0F, scale); // Roll
 
-				GL11.glTranslatef(0.2F, -0.8F, -0.4F);
+				// Finally we translate the matrix
+				GL11.glTranslatef(0.2F, -1.0F, -0.2F);
 
-				// Change the model if is cocked
+				// If it is cocked, we set the model accordingly
 				if (NBTHelper.getBoolean(itemStack, "isCocked"))
 				{
-					crossbowModel.Bolt.isHidden = false;
-					crossbowModel.pullBow(1.0F);
+					this.crossbowModel.Bolt.isHidden = false;
+					this.crossbowModel.pullBow(1.0F);
 				}
 				else
 				{
-					crossbowModel.Bolt.isHidden = true;
-					crossbowModel.pullBow(NBTHelper.getFloat(itemStack, "pullLevel"));
+					this.crossbowModel.Bolt.isHidden = true;
+					this.crossbowModel.pullBow(NBTHelper.getFloat(itemStack, "pullLevel"));
 				}
 
-				crossbowModel.render((Entity) data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+				// Call the render function and pop the matrix off of the stack enabling the renderer
+				this.crossbowModel.render((Entity) data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 
 				GL11.glPopMatrix();
 			}
-			default:
+		}
+		case EQUIPPED_FIRST_PERSON:
+		{
+
+			// First person works the same as third except this time we have different dimensions for scale, yaw, pitch, roll, and translation
+			GL11.glPushMatrix();
+
+			Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("afraidofthedark:textures/models/crossbowTexture.png"));
+
+			final float scaleA = 1.0F;
+
+			GL11.glScalef(scaleA, scaleA, scaleA);
+
+			GL11.glRotatef(90.0F, 1.0F, 0.0F, 0.0F); // Pitch
+			GL11.glRotatef(-50.0F, 0.0F, 1.0F, 0.0F); // Yaw
+			GL11.glRotatef(270.0F, 0.0F, 0.0F, 1.0F); // Roll
+
+			GL11.glTranslatef(0.2F, -0.8F, -0.4F);
+
+			// Change the model if is cocked
+			if (NBTHelper.getBoolean(itemStack, "isCocked"))
 			{
-				break;
+				this.crossbowModel.Bolt.isHidden = false;
+				this.crossbowModel.pullBow(1.0F);
 			}
+			else
+			{
+				this.crossbowModel.Bolt.isHidden = true;
+				this.crossbowModel.pullBow(NBTHelper.getFloat(itemStack, "pullLevel"));
+			}
+
+			this.crossbowModel.render((Entity) data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+
+			GL11.glPopMatrix();
+		}
+		default:
+		{
+			break;
+		}
 		}
 	}
 

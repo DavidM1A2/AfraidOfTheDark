@@ -17,9 +17,9 @@ import com.DavidM1A2.AfraidOfTheDark.block.BlockGravewoodLeaves;
 // Leaves must have an item attached to allow for colored leaves to be held
 public class ItemGravewoodLeaves extends ItemBlock
 {
-	private AOTDLeaves leaves;
+	private final AOTDLeaves leaves;
 
-	public ItemGravewoodLeaves(Block leaves)
+	public ItemGravewoodLeaves(final Block leaves)
 	{
 		super(leaves);
 		this.leaves = (BlockGravewoodLeaves) leaves;
@@ -30,14 +30,14 @@ public class ItemGravewoodLeaves extends ItemBlock
 	 * ItemBlocks).
 	 */
 	@Override
-	public int getMetadata(int damage)
+	public int getMetadata(final int damage)
 	{
 		return damage | 4;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public int getColorFromItemStack(ItemStack stack, int renderPass)
+	public int getColorFromItemStack(final ItemStack stack, final int renderPass)
 	{
 		return this.leaves.getRenderColor(this.leaves.getStateFromMeta(stack.getMetadata()));
 	}

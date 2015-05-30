@@ -4,7 +4,7 @@ import net.minecraft.block.material.Material;
 
 public class BlockMeteor extends AOTDBlock
 {
-	public BlockMeteor(Material material)
+	public BlockMeteor(final Material material)
 	{
 		super(material);
 		this.setUnlocalizedName("meteor");

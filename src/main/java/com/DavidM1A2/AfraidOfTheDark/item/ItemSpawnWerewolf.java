@@ -27,7 +27,7 @@ public class ItemSpawnWerewolf extends AOTDItem
 	protected String entityToSpawnNameFull = "";
 	protected EntityLiving entityToSpawn = null;
 
-	public ItemSpawnWerewolf(String entityToSpawnName)
+	public ItemSpawnWerewolf(final String entityToSpawnName)
 	{
 		// Set various item properties
 		super();
@@ -35,17 +35,17 @@ public class ItemSpawnWerewolf extends AOTDItem
 		this.setHasSubtypes(false);
 		this.maxStackSize = 64;
 		this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
-		setEntityToSpawnName(entityToSpawnName);
+		this.setEntityToSpawnName(entityToSpawnName);
 	}
 
 	@Override
 	// public boolean onItemUse(ItemStack itemStack, EntityPlayer entityPlayer, World world, int blockX, int blockY, int blockZ, int blockOffset,
 	// float par8, float par9, float par10)
-	public boolean onItemUse(ItemStack itemStack, EntityPlayer entityPlayer, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ)
+	public boolean onItemUse(final ItemStack itemStack, final EntityPlayer entityPlayer, final World world, final BlockPos pos, final EnumFacing side, final float hitX, final float hitY, final float hitZ)
 	{
-		int blockX = pos.getX();
-		int blockY = pos.getY();
-		int blockZ = pos.getZ();
+		final int blockX = pos.getX();
+		final int blockY = pos.getY();
+		final int blockZ = pos.getZ();
 		// When we use the item, we check the block that was clicked on and spawn an entity on that block
 		if (world.isRemote)
 		{
@@ -60,12 +60,12 @@ public class ItemSpawnWerewolf extends AOTDItem
 				d0 = 1.0D;
 			}
 
-			Entity entity = spawnEntity(world, blockX + 0.5D, blockY + d0, blockZ + 0.5D);
+			final Entity entity = this.spawnEntity(world, blockX + 0.5D, blockY + d0, blockZ + 0.5D);
 
 			// Set the tag of the entity and reduce the stack size of the eggs
 			if (entity != null)
 			{
-				if (entity instanceof EntityLivingBase && itemStack.hasDisplayName())
+				if ((entity instanceof EntityLivingBase) && itemStack.hasDisplayName())
 				{
 					((EntityLiving) entity).setCustomNameTag(itemStack.getDisplayName());
 				}
@@ -82,7 +82,7 @@ public class ItemSpawnWerewolf extends AOTDItem
 
 	// On right click does a similar action to onUse, onUse is the result from an onRightClick trigger
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer)
+	public ItemStack onItemRightClick(final ItemStack itemStack, final World world, final EntityPlayer entityPlayer)
 	{
 		if (world.isRemote)
 		{
@@ -90,7 +90,7 @@ public class ItemSpawnWerewolf extends AOTDItem
 		}
 		else
 		{
-			MovingObjectPosition movingObjectPosition = getMovingObjectPositionFromPlayer(world, entityPlayer, true);
+			final MovingObjectPosition movingObjectPosition = this.getMovingObjectPositionFromPlayer(world, entityPlayer, true);
 
 			if (movingObjectPosition == null)
 			{
@@ -100,7 +100,7 @@ public class ItemSpawnWerewolf extends AOTDItem
 			{
 				if (movingObjectPosition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
 				{
-					BlockPos thisPos = entityPlayer.getPosition();
+					final BlockPos thisPos = entityPlayer.getPosition();
 
 					if (!world.canMineBlockBody(entityPlayer, thisPos))
 					{
@@ -114,11 +114,11 @@ public class ItemSpawnWerewolf extends AOTDItem
 
 					if (world.getBlockState(thisPos) instanceof BlockLiquid)
 					{
-						Entity entity = spawnEntity(world, thisPos.getX(), thisPos.getY(), thisPos.getZ());
+						final Entity entity = this.spawnEntity(world, thisPos.getX(), thisPos.getY(), thisPos.getZ());
 
 						if (entity != null)
 						{
-							if (entity instanceof EntityLivingBase && itemStack.hasDisplayName())
+							if ((entity instanceof EntityLivingBase) && itemStack.hasDisplayName())
 							{
 								((EntityLiving) entity).setCustomNameTag(itemStack.getDisplayName());
 							}
@@ -136,29 +136,29 @@ public class ItemSpawnWerewolf extends AOTDItem
 	}
 
 	// Here we can set the entity's name that we're spawning
-	public void setEntityToSpawnName(String parEntityToSpawnName)
+	public void setEntityToSpawnName(final String parEntityToSpawnName)
 	{
-		entityToSpawnName = parEntityToSpawnName;
-		entityToSpawnNameFull = Refrence.MOD_ID + "." + entityToSpawnName;
+		this.entityToSpawnName = parEntityToSpawnName;
+		this.entityToSpawnNameFull = Refrence.MOD_ID + "." + this.entityToSpawnName;
 	}
 
 	// To spawn the entity we get it's name and spawn one with a random rotation
-	public Entity spawnEntity(World world, double x, double y, double z)
+	public Entity spawnEntity(final World world, final double x, final double y, final double z)
 	{
 		if (!world.isRemote)
 		{
-			entityToSpawnNameFull = Refrence.MOD_ID + "." + entityToSpawnName;
+			this.entityToSpawnNameFull = Refrence.MOD_ID + "." + this.entityToSpawnName;
 
-			if (EntityList.stringToClassMapping.containsKey(entityToSpawnNameFull))
+			if (EntityList.stringToClassMapping.containsKey(this.entityToSpawnNameFull))
 			{
-				entityToSpawn = (EntityLiving) EntityList.createEntityByName(entityToSpawnNameFull, world);
-				entityToSpawn.setLocationAndAngles(x, y, z, MathHelper.wrapAngleTo180_float(world.rand.nextFloat() * 360), 0.0F);
-				world.spawnEntityInWorld(entityToSpawn);
+				this.entityToSpawn = (EntityLiving) EntityList.createEntityByName(this.entityToSpawnNameFull, world);
+				this.entityToSpawn.setLocationAndAngles(x, y, z, MathHelper.wrapAngleTo180_float(world.rand.nextFloat() * 360), 0.0F);
+				world.spawnEntityInWorld(this.entityToSpawn);
 				// entityToSpawn..onSpawnWithEgg((IEntityLivingData) null);
-				entityToSpawn.playLivingSound();
+				this.entityToSpawn.playLivingSound();
 			}
 		}
 
-		return entityToSpawn;
+		return this.entityToSpawn;
 	}
 }

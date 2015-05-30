@@ -29,9 +29,9 @@ public class BlockGravewood extends BlockLog
 	public static final PropertyEnum VARIANT = PropertyEnum.create("variant", AOTDTreeTypes.class, new Predicate()
 	{
 		@Override
-		public boolean apply(Object input)
+		public boolean apply(final Object input)
 		{
-			AOTDTreeTypes type = (AOTDTreeTypes) input;
+			final AOTDTreeTypes type = (AOTDTreeTypes) input;
 			if (type == AOTDTreeTypes.GRAVEWOOD)
 			{
 				return true;
@@ -56,7 +56,7 @@ public class BlockGravewood extends BlockLog
 	 */
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, List list)
+	public void getSubBlocks(final Item itemIn, final CreativeTabs tab, final List list)
 	{
 		list.add(new ItemStack(itemIn, 1, AOTDTreeTypes.GRAVEWOOD.getMetadata()));
 	}
@@ -65,23 +65,23 @@ public class BlockGravewood extends BlockLog
 	 * Convert the given metadata into a BlockState for this Block
 	 */
 	@Override
-	public IBlockState getStateFromMeta(int meta)
+	public IBlockState getStateFromMeta(final int meta)
 	{
 		IBlockState iblockstate = this.getDefaultState();
 
 		switch (meta & 12)
 		{
-			case 0:
-				iblockstate = iblockstate.withProperty(AXIS_PROP, BlockLog.EnumAxis.Y);
-				break;
-			case 4:
-				iblockstate = iblockstate.withProperty(AXIS_PROP, BlockLog.EnumAxis.X);
-				break;
-			case 8:
-				iblockstate = iblockstate.withProperty(AXIS_PROP, BlockLog.EnumAxis.Z);
-				break;
-			default:
-				iblockstate = iblockstate.withProperty(AXIS_PROP, BlockLog.EnumAxis.NONE);
+		case 0:
+			iblockstate = iblockstate.withProperty(BlockLog.AXIS_PROP, BlockLog.EnumAxis.Y);
+			break;
+		case 4:
+			iblockstate = iblockstate.withProperty(BlockLog.AXIS_PROP, BlockLog.EnumAxis.X);
+			break;
+		case 8:
+			iblockstate = iblockstate.withProperty(BlockLog.AXIS_PROP, BlockLog.EnumAxis.Z);
+			break;
+		default:
+			iblockstate = iblockstate.withProperty(BlockLog.AXIS_PROP, BlockLog.EnumAxis.NONE);
 		}
 
 		return iblockstate;
@@ -91,21 +91,21 @@ public class BlockGravewood extends BlockLog
 	 * Convert the BlockState into the correct metadata value
 	 */
 	@Override
-	public int getMetaFromState(IBlockState state)
+	public int getMetaFromState(final IBlockState state)
 	{
-		byte b0 = 0;
-		int i = b0 | ((AOTDTreeTypes) state.getValue(VARIANT)).getMetadata();
+		final byte b0 = 0;
+		int i = b0 | ((AOTDTreeTypes) state.getValue(BlockGravewood.VARIANT)).getMetadata();
 
-		switch (BlockGravewood.SwitchEnumAxis.switchAxis[((BlockLog.EnumAxis) state.getValue(AXIS_PROP)).ordinal()])
+		switch (BlockGravewood.SwitchEnumAxis.switchAxis[((BlockLog.EnumAxis) state.getValue(BlockLog.AXIS_PROP)).ordinal()])
 		{
-			case 1:
-				i |= 4;
-				break;
-			case 2:
-				i |= 8;
-				break;
-			case 3:
-				i |= 12;
+		case 1:
+			i |= 4;
+			break;
+		case 2:
+			i |= 8;
+			break;
+		case 3:
+			i |= 12;
 		}
 
 		return i;
@@ -116,33 +116,33 @@ public class BlockGravewood extends BlockLog
 	protected BlockState createBlockState()
 	{
 		return new BlockState(this, new IProperty[]
-		{ VARIANT, AXIS_PROP });
+				{ BlockGravewood.VARIANT, BlockLog.AXIS_PROP });
 	}
 
 	// Can these woods stack?
 	@Override
-	protected ItemStack createStackedBlock(IBlockState state)
+	protected ItemStack createStackedBlock(final IBlockState state)
 	{
-		return new ItemStack(Item.getItemFromBlock(this), 1, ((AOTDTreeTypes) state.getValue(VARIANT)).getMetadata());
+		return new ItemStack(Item.getItemFromBlock(this), 1, ((AOTDTreeTypes) state.getValue(BlockGravewood.VARIANT)).getMetadata());
 	}
 
 	/**
 	 * Get the damage value that this Block should drop
 	 */
 	@Override
-	public int damageDropped(IBlockState state)
+	public int damageDropped(final IBlockState state)
 	{
-		return ((AOTDTreeTypes) state.getValue(VARIANT)).getMetadata();
+		return ((AOTDTreeTypes) state.getValue(BlockGravewood.VARIANT)).getMetadata();
 	}
 
 	@Override
 	public String getUnlocalizedName()
 	{
-		return String.format("tile.%s%s", Refrence.MOD_ID.toLowerCase() + ":", getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
+		return String.format("tile.%s%s", Refrence.MOD_ID.toLowerCase() + ":", this.getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
 		// tile.modid:blockname.name
 	}
 
-	protected String getUnwrappedUnlocalizedName(String unlocalizedName)
+	protected String getUnwrappedUnlocalizedName(final String unlocalizedName)
 	{
 		return unlocalizedName.substring(unlocalizedName.indexOf(".") + 1);
 	}
@@ -156,25 +156,25 @@ public class BlockGravewood extends BlockLog
 		{
 			try
 			{
-				switchAxis[BlockLog.EnumAxis.X.ordinal()] = 1;
+				SwitchEnumAxis.switchAxis[BlockLog.EnumAxis.X.ordinal()] = 1;
 			}
-			catch (NoSuchFieldError var3)
+			catch (final NoSuchFieldError var3)
 			{
 			}
 
 			try
 			{
-				switchAxis[BlockLog.EnumAxis.Z.ordinal()] = 2;
+				SwitchEnumAxis.switchAxis[BlockLog.EnumAxis.Z.ordinal()] = 2;
 			}
-			catch (NoSuchFieldError var2)
+			catch (final NoSuchFieldError var2)
 			{
 			}
 
 			try
 			{
-				switchAxis[BlockLog.EnumAxis.NONE.ordinal()] = 3;
+				SwitchEnumAxis.switchAxis[BlockLog.EnumAxis.NONE.ordinal()] = 3;
 			}
-			catch (NoSuchFieldError var1)
+			catch (final NoSuchFieldError var1)
 			{
 			}
 		}

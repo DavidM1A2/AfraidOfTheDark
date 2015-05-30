@@ -19,34 +19,34 @@ public class ConfigurationHandler
 	public static Configuration configuration;
 	public static boolean configValue = false;
 
-	public static void initializataion(File configFile)
+	public static void initializataion(final File configFile)
 	{
-		if (configuration == null)
+		if (ConfigurationHandler.configuration == null)
 		{
 			// Create the configuration object from the given file
-			configuration = new Configuration(configFile);
-			loadConfiguration();
+			ConfigurationHandler.configuration = new Configuration(configFile);
+			ConfigurationHandler.loadConfiguration();
 		}
 	}
 
 	@SubscribeEvent
-	public void onConfigurationChangedEvent(ConfigChangedEvent.OnConfigChangedEvent event)
+	public void onConfigurationChangedEvent(final ConfigChangedEvent.OnConfigChangedEvent event)
 	{
 		if (event.modID.equalsIgnoreCase(Refrence.MOD_ID))
 		{
 			// Resync the configuration
-			loadConfiguration();
+			ConfigurationHandler.loadConfiguration();
 		}
 	}
 
 	private static void loadConfiguration()
 	{
 		// Ex. Config value
-		configValue = configuration.getBoolean("configValue", Configuration.CATEGORY_GENERAL, false, "This is an example of a configuration value of type boolean!");
+		ConfigurationHandler.configValue = ConfigurationHandler.configuration.getBoolean("configValue", Configuration.CATEGORY_GENERAL, false, "This is an example of a configuration value of type boolean!");
 
-		if (configuration.hasChanged())
+		if (ConfigurationHandler.configuration.hasChanged())
 		{
-			configuration.save();
+			ConfigurationHandler.configuration.save();
 		}
 	}
 }

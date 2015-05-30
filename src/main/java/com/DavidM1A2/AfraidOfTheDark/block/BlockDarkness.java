@@ -17,7 +17,7 @@ public class BlockDarkness extends BlockContainer
 	/*
 	 * Temporary tile entity block to understand how TE's work
 	 */
-	public BlockDarkness(Material material)
+	public BlockDarkness(final Material material)
 	{
 		super(material);
 		this.setHardness(9.0F);
@@ -29,7 +29,7 @@ public class BlockDarkness extends BlockContainer
 
 	// Decide what type of tile entity this should be
 	@Override
-	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_)
+	public TileEntity createNewTileEntity(final World p_149915_1_, final int p_149915_2_)
 	{
 		return new BlockTileEntityDarkness();
 	}
@@ -37,11 +37,11 @@ public class BlockDarkness extends BlockContainer
 	@Override
 	public String getUnlocalizedName()
 	{
-		return String.format("tile.%s%s", Refrence.MOD_ID.toLowerCase() + ":", getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
+		return String.format("tile.%s%s", Refrence.MOD_ID.toLowerCase() + ":", this.getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
 		// tile.modid:blockname.name
 	}
 
-	protected String getUnwrappedUnlocalizedName(String unlocalizedName)
+	protected String getUnwrappedUnlocalizedName(final String unlocalizedName)
 	{
 		return unlocalizedName.substring(unlocalizedName.indexOf(".") + 1);
 	}

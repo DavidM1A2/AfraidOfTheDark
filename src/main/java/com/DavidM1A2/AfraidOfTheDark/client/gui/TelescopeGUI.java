@@ -43,21 +43,21 @@ public class TelescopeGUI extends GuiClickAndDragable
 	public void initGui()
 	{
 		// Calculate the various positions of GUI elements on the screen
-		baseHeight = (this.height - 256) / 2;
-		baseWidth = (this.width - 256) / 2;
-		xPosTelescope = baseWidth;
-		yPosTelescope = baseHeight;
-		buttonList.clear();
-		for (int i = 0; i < NUMBER_OF_METEORS; i++)
+		TelescopeGUI.baseHeight = (this.height - 256) / 2;
+		TelescopeGUI.baseWidth = (this.width - 256) / 2;
+		TelescopeGUI.xPosTelescope = TelescopeGUI.baseWidth;
+		TelescopeGUI.yPosTelescope = TelescopeGUI.baseHeight;
+		this.buttonList.clear();
+		for (int i = 0; i < TelescopeGUI.NUMBER_OF_METEORS; i++)
 		{
 			if (LoadResearchData.isResearched(Minecraft.getMinecraft().thePlayer, ResearchTypes.Astronomy2))
 			{
-				buttonList.add(new MeteorButton(BUTTON_BASE_ID + i, Minecraft.getMinecraft().theWorld.rand.nextInt(3840 * 2) - 3840, Minecraft.getMinecraft().theWorld.rand.nextInt(2160 * 2) - 2160, 64, 64,
+				this.buttonList.add(new MeteorButton(TelescopeGUI.BUTTON_BASE_ID + i, Minecraft.getMinecraft().theWorld.rand.nextInt(3840 * 2) - 3840, Minecraft.getMinecraft().theWorld.rand.nextInt(2160 * 2) - 2160, 64, 64,
 						MeteorTypes.values()[Minecraft.getMinecraft().theWorld.rand.nextInt(MeteorTypes.values().length)]));
 			}
 			else
 			{
-				buttonList.add(new MeteorButton(BUTTON_BASE_ID + i, Minecraft.getMinecraft().theWorld.rand.nextInt(3840 * 2) - 3840, Minecraft.getMinecraft().theWorld.rand.nextInt(2160 * 2) - 2160, 64, 64, MeteorTypes.silver));
+				this.buttonList.add(new MeteorButton(TelescopeGUI.BUTTON_BASE_ID + i, Minecraft.getMinecraft().theWorld.rand.nextInt(3840 * 2) - 3840, Minecraft.getMinecraft().theWorld.rand.nextInt(2160 * 2) - 2160, 64, 64, MeteorTypes.silver));
 			}
 		}
 	}
@@ -65,38 +65,38 @@ public class TelescopeGUI extends GuiClickAndDragable
 	// To draw the screen we first draw the default GUI background, then the
 	// background images. Then we add buttons and a frame.
 	@Override
-	public void drawScreen(int i, int j, float f)
+	public void drawScreen(final int i, final int j, final float f)
 	{
 		this.drawDefaultBackground();
 
-		mc.renderEngine.bindTexture(nebula);
-		Gui.drawScaledCustomSizeModalRect(xPosTelescope, yPosTelescope, guiOffsetX + 3840 / 2, guiOffsetY + 2160 / 2, FRAME_WIDTH, FRAME_HEIGHT, FRAME_WIDTH, FRAME_HEIGHT, 3840, 2160);
+		this.mc.renderEngine.bindTexture(TelescopeGUI.nebula);
+		Gui.drawScaledCustomSizeModalRect(TelescopeGUI.xPosTelescope, TelescopeGUI.yPosTelescope, this.guiOffsetX + (3840 / 2), this.guiOffsetY + (2160 / 2), TelescopeGUI.FRAME_WIDTH, TelescopeGUI.FRAME_HEIGHT, TelescopeGUI.FRAME_WIDTH, TelescopeGUI.FRAME_HEIGHT, 3840, 2160);
 
-		int disWidth = Minecraft.getMinecraft().displayWidth;
-		int disHeight = Minecraft.getMinecraft().displayHeight;
-		int widthScale = Math.round(disWidth / (float) this.width);
-		int heightScale = Math.round(disHeight / (float) this.height);
+		final int disWidth = Minecraft.getMinecraft().displayWidth;
+		final int disHeight = Minecraft.getMinecraft().displayHeight;
+		final int widthScale = Math.round(disWidth / (float) this.width);
+		final int heightScale = Math.round(disHeight / (float) this.height);
 
 		GL11.glEnable(GL11.GL_SCISSOR_TEST);
-		GL11.glScissor(disWidth - (xPosTelescope + FRAME_WIDTH) * widthScale, disHeight - (yPosTelescope + FRAME_HEIGHT) * heightScale, FRAME_WIDTH * 3, FRAME_HEIGHT * 3);
+		GL11.glScissor(disWidth - ((TelescopeGUI.xPosTelescope + TelescopeGUI.FRAME_WIDTH) * widthScale), disHeight - ((TelescopeGUI.yPosTelescope + TelescopeGUI.FRAME_HEIGHT) * heightScale), TelescopeGUI.FRAME_WIDTH * widthScale, TelescopeGUI.FRAME_HEIGHT * heightScale);
 		super.drawScreen(i, j, f);
 		GL11.glDisable(GL11.GL_SCISSOR_TEST);
 
-		mc.renderEngine.bindTexture(new ResourceLocation("afraidofthedark:textures/gui/TelescopeGUI.png"));
-		this.drawTexturedModalRect(xPosTelescope, yPosTelescope, 0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+		this.mc.renderEngine.bindTexture(new ResourceLocation("afraidofthedark:textures/gui/TelescopeGUI.png"));
+		this.drawTexturedModalRect(TelescopeGUI.xPosTelescope, TelescopeGUI.yPosTelescope, 0, 0, TelescopeGUI.FRAME_WIDTH, TelescopeGUI.FRAME_HEIGHT);
 	}
 
 	// If you press the sign button one of two things happens
 	@Override
-	public void actionPerformed(GuiButton button)
+	public void actionPerformed(final GuiButton button)
 	{
-		EntityPlayer playerWhoPressed = Minecraft.getMinecraft().thePlayer;
-		for (Object o : this.buttonList)
+		final EntityPlayer playerWhoPressed = Minecraft.getMinecraft().thePlayer;
+		for (final Object o : this.buttonList)
 		{
-			MeteorButton theButton = (MeteorButton) o;
+			final MeteorButton theButton = (MeteorButton) o;
 			if (theButton.id == button.id)
 			{
-				playerWhoPressed.addChatMessage(new ChatComponentText(createMeteorMessage(theButton.getMyType())));
+				playerWhoPressed.addChatMessage(new ChatComponentText(this.createMeteorMessage(theButton.getMyType())));
 
 				playerWhoPressed.closeScreen();
 				GL11.glFlush();
@@ -106,40 +106,40 @@ public class TelescopeGUI extends GuiClickAndDragable
 
 	// When the mouse is dragged, update the GUI accordingly
 	@Override
-	protected void mouseClickMove(int mouseX, int mouseY, int lastButtonClicked, long timeBetweenClicks)
+	protected void mouseClickMove(final int mouseX, final int mouseY, final int lastButtonClicked, final long timeBetweenClicks)
 	{
 		super.mouseClickMove(mouseX, mouseY, lastButtonClicked, timeBetweenClicks);
-		for (Object o : this.buttonList)
+		for (final Object o : this.buttonList)
 		{
-			((MeteorButton) o).setPosition(guiOffsetX, guiOffsetY);
+			((MeteorButton) o).setPosition(this.guiOffsetX, this.guiOffsetY);
 		}
 	}
 
 	@Override
 	protected void checkOutOfBounds()
 	{
-		if (guiOffsetX > 3840 / 2)
+		if (this.guiOffsetX > (3840 / 2))
 		{
-			guiOffsetX = 3840 / 2;
+			this.guiOffsetX = 3840 / 2;
 		}
-		if (guiOffsetX < -3840 / 2)
+		if (this.guiOffsetX < (-3840 / 2))
 		{
-			guiOffsetX = -3840 / 2;
+			this.guiOffsetX = -3840 / 2;
 		}
-		if (guiOffsetY > 2160 / 2)
+		if (this.guiOffsetY > (2160 / 2))
 		{
-			guiOffsetY = 2160 / 2;
+			this.guiOffsetY = 2160 / 2;
 		}
-		if (guiOffsetY < -2160 / 2)
+		if (this.guiOffsetY < (-2160 / 2))
 		{
-			guiOffsetY = -2160 / 2;
+			this.guiOffsetY = -2160 / 2;
 		}
 	}
 
-	private String createMeteorMessage(MeteorTypes type)
+	private String createMeteorMessage(final MeteorTypes type)
 	{
 		String toReturn = "";
-		Random random = Minecraft.getMinecraft().theWorld.rand;
+		final Random random = Minecraft.getMinecraft().theWorld.rand;
 
 		Refrence.selectedMeteor[0] = random.nextInt(45) + 5;
 		Refrence.selectedMeteor[1] = random.nextInt(50) + 5;

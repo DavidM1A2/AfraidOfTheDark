@@ -20,25 +20,25 @@ public class EntitySilverBolt extends EntityBolt
 {
 	private final EntityLivingBase myDamageSource;
 
-	public EntitySilverBolt(World world)
+	public EntitySilverBolt(final World world)
 	{
 		super(world);
-		setProperties();
-		myDamageSource = null;
+		this.setProperties();
+		this.myDamageSource = null;
 	}
 
-	public EntitySilverBolt(World world, EntityLivingBase entityLivingBase)
+	public EntitySilverBolt(final World world, final EntityLivingBase entityLivingBase)
 	{
 		super(world, entityLivingBase);
-		setProperties();
-		myDamageSource = entityLivingBase;
+		this.setProperties();
+		this.myDamageSource = entityLivingBase;
 	}
 
-	public EntitySilverBolt(World world, double x, double y, double z)
+	public EntitySilverBolt(final World world, final double x, final double y, final double z)
 	{
 		super(world, x, y, z);
-		setProperties();
-		myDamageSource = null;
+		this.setProperties();
+		this.myDamageSource = null;
 	}
 
 	// Set the properties of the bolt
@@ -53,9 +53,9 @@ public class EntitySilverBolt extends EntityBolt
 
 	// Silver bolts have special on hit properties
 	@Override
-	protected void onImpact(MovingObjectPosition movingObjectPosition)
+	protected void onImpact(final MovingObjectPosition movingObjectPosition)
 	{
-		Entity entityHit = movingObjectPosition.entityHit;
+		final Entity entityHit = movingObjectPosition.entityHit;
 
 		if (!this.worldObj.isRemote)
 		{
@@ -63,29 +63,29 @@ public class EntitySilverBolt extends EntityBolt
 			{
 				if (!(entityHit instanceof EntityWereWolf))
 				{
-					entityHit.attackEntityFrom(getDamageType(), getDamage());
+					entityHit.attackEntityFrom(this.getDamageType(), this.getDamage());
 				}
 				else
 				{
-					if (myDamageSource != null && myDamageSource instanceof EntityPlayer)
+					if ((this.myDamageSource != null) && (this.myDamageSource instanceof EntityPlayer))
 					{
-						if (HasStartedAOTD.get((EntityPlayer) myDamageSource))
+						if (HasStartedAOTD.get((EntityPlayer) this.myDamageSource))
 						{
-							entityHit.attackEntityFrom(getDamageType(), getDamage());
+							entityHit.attackEntityFrom(this.getDamageType(), this.getDamage());
 						}
 					}
 				}
 
 				if (Math.random() < this.getMyChanceToDropHitEntity())
 				{
-					entityHit.dropItem(getMyType(), 1);
+					entityHit.dropItem(this.getMyType(), 1);
 				}
 			}
 			else
 			{
 				if (Math.random() < this.getMyChanceToDropHitEntity())
 				{
-					this.dropItem(getMyType(), 1);
+					this.dropItem(this.getMyType(), 1);
 				}
 			}
 		}

@@ -47,7 +47,7 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void registerRenderThings()
 	{
-		RenderManager current = Minecraft.getMinecraft().getRenderManager();
+		final RenderManager current = Minecraft.getMinecraft().getRenderManager();
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityWereWolf.class, new WereWolfRender(current, new ModelWereWolf(), 0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityIronBolt.class, new IronBoltRender(current));

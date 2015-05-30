@@ -18,31 +18,31 @@ public class MeteorButton extends GuiButton
 
 	private final MeteorTypes myType;
 
-	public MeteorButton(int buttonId, int x, int y, int widthIn, int heightIn, MeteorTypes myType)
+	public MeteorButton(final int buttonId, final int x, final int y, final int widthIn, final int heightIn, final MeteorTypes myType)
 	{
 		super(buttonId, x, y, widthIn, heightIn, "");
-		this.ORIGINAL_X_POSITION = xPosition;
-		this.ORIGINAL_Y_POSITION = yPosition;
+		this.ORIGINAL_X_POSITION = this.xPosition;
+		this.ORIGINAL_Y_POSITION = this.yPosition;
 		this.myType = myType;
 		if (myType == MeteorTypes.silver)
 		{
-			METEOR_TEXTURE = new ResourceLocation("afraidofthedark:textures/blocks/meteoricSilver.png");
+			this.METEOR_TEXTURE = new ResourceLocation("afraidofthedark:textures/blocks/meteoricSilver.png");
 		}
 		else if (myType == MeteorTypes.starMetal)
 		{
-			METEOR_TEXTURE = new ResourceLocation("afraidofthedark:textures/blocks/starMetal.png");
+			this.METEOR_TEXTURE = new ResourceLocation("afraidofthedark:textures/blocks/starMetal.png");
 		}
 		else
 		{
-			METEOR_TEXTURE = new ResourceLocation("afraidofthedark:textures/blocks/sunstone.png");
+			this.METEOR_TEXTURE = new ResourceLocation("afraidofthedark:textures/blocks/sunstone.png");
 		}
 	}
 
 	// Set the position of this node
-	public void setPosition(int xPos, int yPos)
+	public void setPosition(final int xPos, final int yPos)
 	{
-		this.xPosition = ORIGINAL_X_POSITION - xPos;
-		this.yPosition = ORIGINAL_Y_POSITION - yPos;
+		this.xPosition = this.ORIGINAL_X_POSITION - xPos;
+		this.yPosition = this.ORIGINAL_Y_POSITION - yPos;
 	}
 
 	public MeteorTypes getMyType()
@@ -52,14 +52,14 @@ public class MeteorButton extends GuiButton
 
 	// Draw button draws the button using OpenGL
 	@Override
-	public void drawButton(Minecraft minecraft, int mouseX, int mouseY)
+	public void drawButton(final Minecraft minecraft, final int mouseX, final int mouseY)
 	{
 		// Make sure it should be visible
 		if (this.visible)
 		{
-			this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+			this.hovered = (mouseX >= this.xPosition) && (mouseY >= this.yPosition) && (mouseX < (this.xPosition + this.width)) && (mouseY < (this.yPosition + this.height));
 
-			minecraft.getTextureManager().bindTexture(METEOR_TEXTURE);
+			minecraft.getTextureManager().bindTexture(this.METEOR_TEXTURE);
 			GL11.glEnable(GL11.GL_BLEND);
 			OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);

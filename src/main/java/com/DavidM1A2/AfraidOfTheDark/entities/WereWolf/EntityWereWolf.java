@@ -33,10 +33,10 @@ public class EntityWereWolf extends EntityMob
 	private static double followRange = 32.0D;
 
 	// AI wanderer and watcher
-	private EntityAIWander myWanderer = new EntityAIWander(this, moveSpeed * 10);
-	private EntityAIWatchClosest myWatchClosest = new EntityAIWatchClosest(this, EntityPlayer.class, (float) agroRange);
+	private EntityAIWander myWanderer = new EntityAIWander(this, EntityWereWolf.moveSpeed * 10);
+	private EntityAIWatchClosest myWatchClosest = new EntityAIWatchClosest(this, EntityPlayer.class, (float) EntityWereWolf.agroRange);
 
-	public EntityWereWolf(World world)
+	public EntityWereWolf(final World world)
 	{
 		// Set the model size
 		super(world);
@@ -45,8 +45,8 @@ public class EntityWereWolf extends EntityMob
 		// Add various AI tasks
 		this.tasks.addTask(1, new EntityAISwimming(this));
 		this.tasks.addTask(4, new EntityAIAttackOnCollide(this, 1.0D, false));
-		this.tasks.addTask(7, myWanderer);
-		this.tasks.addTask(8, myWatchClosest);
+		this.tasks.addTask(7, this.myWanderer);
+		this.tasks.addTask(8, this.myWatchClosest);
 		this.tasks.addTask(8, new EntityAILookIdle(this));
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
 		// Use custom werewolf target locator
@@ -64,7 +64,7 @@ public class EntityWereWolf extends EntityMob
 		}
 		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.followRange).setBaseValue(followRange);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.followRange).setBaseValue(EntityWereWolf.followRange);
 		}
 		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.knockbackResistance) == null)
 		{
@@ -72,7 +72,7 @@ public class EntityWereWolf extends EntityMob
 		}
 		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(moveSpeed);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(EntityWereWolf.moveSpeed);
 		}
 		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.attackDamage) == null)
 		{
@@ -98,12 +98,12 @@ public class EntityWereWolf extends EntityMob
 	@Override
 	public float getAIMoveSpeed()
 	{
-		return (float) moveSpeed;
+		return (float) EntityWereWolf.moveSpeed;
 	}
 
 	// Only take damage from silver weapons
 	@Override
-	public boolean attackEntityFrom(DamageSource damageSource, float damage)
+	public boolean attackEntityFrom(final DamageSource damageSource, final float damage)
 	{
 		if (damageSource.damageType.equals(Refrence.silverWeapon.damageType) || damageSource.damageType.equals(DamageSource.outOfWorld))
 		{
@@ -116,11 +116,11 @@ public class EntityWereWolf extends EntityMob
 	}
 
 	@Override
-	public boolean attackEntityAsMob(Entity entity)
+	public boolean attackEntityAsMob(final Entity entity)
 	{
 		if (entity instanceof EntityPlayer)
 		{
-			EntityPlayer thePlayer = (EntityPlayer) entity;
+			final EntityPlayer thePlayer = (EntityPlayer) entity;
 			if (HasStartedAOTD.get(thePlayer))
 			{
 				if (LoadResearchData.isResearched(thePlayer, ResearchTypes.WerewolfExamination.getPrevious()))
@@ -142,31 +142,31 @@ public class EntityWereWolf extends EntityMob
 	}
 
 	// This is used to set movespeed and agro range during full moons
-	public static void setMoveSpeedAndAgroRange(double _moveSpeed, double _agroRange, double _followRange)
+	public static void setMoveSpeedAndAgroRange(final double _moveSpeed, final double _agroRange, final double _followRange)
 	{
-		moveSpeed = _moveSpeed;
-		agroRange = _agroRange;
-		followRange = _followRange;
+		EntityWereWolf.moveSpeed = _moveSpeed;
+		EntityWereWolf.agroRange = _agroRange;
+		EntityWereWolf.followRange = _followRange;
 	}
 
 	// Various getters and setters
 	public EntityAIWander getWanderer()
 	{
-		return myWanderer;
+		return this.myWanderer;
 	}
 
 	public void setWanderer()
 	{
-		myWanderer = new EntityAIWander(this, moveSpeed * 10);
+		this.myWanderer = new EntityAIWander(this, EntityWereWolf.moveSpeed * 10);
 	}
 
 	public EntityAIWatchClosest getMyWatchClosest()
 	{
-		return myWatchClosest;
+		return this.myWatchClosest;
 	}
 
 	public void setMyWatchClosest()
 	{
-		myWatchClosest = new EntityAIWatchClosest(this, EntityPlayer.class, (float) agroRange);
+		this.myWatchClosest = new EntityAIWatchClosest(this, EntityPlayer.class, (float) EntityWereWolf.agroRange);
 	}
 }

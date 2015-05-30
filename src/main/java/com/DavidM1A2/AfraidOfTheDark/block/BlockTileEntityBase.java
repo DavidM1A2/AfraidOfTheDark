@@ -13,7 +13,7 @@ public class BlockTileEntityBase extends TileEntity
 	/*
 	 * A base class for tile entities
 	 */
-	public BlockTileEntityBase(Block block)
+	public BlockTileEntityBase(final Block block)
 	{
 		super();
 		this.blockType = block;

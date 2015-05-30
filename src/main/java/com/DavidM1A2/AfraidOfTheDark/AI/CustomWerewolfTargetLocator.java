@@ -32,17 +32,17 @@ public class CustomWerewolfTargetLocator extends EntityAITarget
 	protected Predicate targetEntitySelector;
 	protected EntityLivingBase targetEntity;
 
-	public CustomWerewolfTargetLocator(EntityCreature entityCreature, Class target, int targetChance, boolean shouldCheckSight)
+	public CustomWerewolfTargetLocator(final EntityCreature entityCreature, final Class target, final int targetChance, final boolean shouldCheckSight)
 	{
 		this(entityCreature, target, targetChance, shouldCheckSight, false);
 	}
 
-	public CustomWerewolfTargetLocator(EntityCreature entityCreature, Class target, int targetChance, boolean shouldCheckSight, boolean nearbyOnly)
+	public CustomWerewolfTargetLocator(final EntityCreature entityCreature, final Class target, final int targetChance, final boolean shouldCheckSight, final boolean nearbyOnly)
 	{
 		this(entityCreature, target, targetChance, shouldCheckSight, nearbyOnly, (Predicate) null);
 	}
 
-	public CustomWerewolfTargetLocator(EntityCreature entityCreature, Class target, int targetChance, boolean shouldCheckSight, boolean nearbyOnly, final Predicate targetSelector)
+	public CustomWerewolfTargetLocator(final EntityCreature entityCreature, final Class target, final int targetChance, final boolean shouldCheckSight, final boolean nearbyOnly, final Predicate targetSelector)
 	{
 		// Call the superclass's constructor.
 		super(entityCreature, shouldCheckSight, nearbyOnly);
@@ -58,9 +58,9 @@ public class CustomWerewolfTargetLocator extends EntityAITarget
 			/**
 			 * Return whether the specified entity is applicable to this filter.
 			 */
-			public boolean isEntityApplicable(EntityLivingBase entity)
+			public boolean isEntityApplicable(final EntityLivingBase entity)
 			{
-				if (targetSelector != null && !targetSelector.apply(entity))
+				if ((targetSelector != null) && !targetSelector.apply(entity))
 				{
 					return false;
 				}
@@ -98,7 +98,7 @@ public class CustomWerewolfTargetLocator extends EntityAITarget
 			}
 
 			@Override
-			public boolean apply(Object input)
+			public boolean apply(final Object input)
 			{
 				return this.isEntityApplicable((EntityLivingBase) input);
 			}
@@ -111,14 +111,14 @@ public class CustomWerewolfTargetLocator extends EntityAITarget
 	@Override
 	public boolean shouldExecute()
 	{
-		if (this.targetChance > 0 && this.taskOwner.getRNG().nextInt(this.targetChance) != 0)
+		if ((this.targetChance > 0) && (this.taskOwner.getRNG().nextInt(this.targetChance) != 0))
 		{
 			return false;
 		}
 		else
 		{
-			double d0 = this.getTargetDistance();
-			List list = this.taskOwner.worldObj.func_175647_a(this.targetClass, this.taskOwner.getEntityBoundingBox().expand(d0, 4.0D, d0), Predicates.and(this.targetEntitySelector, IEntitySelector.NOT_SPECTATING));
+			final double d0 = this.getTargetDistance();
+			final List list = this.taskOwner.worldObj.func_175647_a(this.targetClass, this.taskOwner.getEntityBoundingBox().expand(d0, 4.0D, d0), Predicates.and(this.targetEntitySelector, IEntitySelector.NOT_SPECTATING));
 			Collections.sort(list, this.theCustomWerewolfTargetLocatorSorter);
 
 			if (list.isEmpty())
@@ -162,22 +162,20 @@ public class CustomWerewolfTargetLocator extends EntityAITarget
 	public static class Sorter implements Comparator
 	{
 		private final Entity theEntity;
-		private static final String __OBFID = "CL_00001622";
-
-		public Sorter(Entity p_i1662_1_)
+		public Sorter(final Entity p_i1662_1_)
 		{
 			this.theEntity = p_i1662_1_;
 		}
 
-		public int compare(Entity p_compare_1_, Entity p_compare_2_)
+		public int compare(final Entity p_compare_1_, final Entity p_compare_2_)
 		{
-			double d0 = this.theEntity.getDistanceSqToEntity(p_compare_1_);
-			double d1 = this.theEntity.getDistanceSqToEntity(p_compare_2_);
+			final double d0 = this.theEntity.getDistanceSqToEntity(p_compare_1_);
+			final double d1 = this.theEntity.getDistanceSqToEntity(p_compare_2_);
 			return d0 < d1 ? -1 : (d0 > d1 ? 1 : 0);
 		}
 
 		@Override
-		public int compare(Object p_compare_1_, Object p_compare_2_)
+		public int compare(final Object p_compare_1_, final Object p_compare_2_)
 		{
 			return this.compare((Entity) p_compare_1_, (Entity) p_compare_2_);
 		}

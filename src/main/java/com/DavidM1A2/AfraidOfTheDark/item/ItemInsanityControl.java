@@ -23,7 +23,7 @@ public class ItemInsanityControl extends AOTDItem
 
 	// When rightclicking + holding shift, decrease insanity, else increase it
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer myPlayer)
+	public ItemStack onItemRightClick(final ItemStack itemStack, final World world, final EntityPlayer myPlayer)
 	{
 		if (!world.isRemote)
 		{

@@ -9,10 +9,6 @@ import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModBlocks;
 
 public class BlockTileEntityDarkness extends BlockTileEntityBase
 {
-	private int ticksExisted = 0;
-	private final int NUMBEROFBLOCKSAWAYTOCHECK = 10;
-	private final int TICKSINBETWEENCHECKS = 100;
-
 	/*
 	 * An example tile entity
 	 */

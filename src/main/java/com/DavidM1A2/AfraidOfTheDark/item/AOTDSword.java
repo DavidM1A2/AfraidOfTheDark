@@ -1,13 +1,13 @@
 package com.DavidM1A2.AfraidOfTheDark.item;
 
-import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 
+import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
+
 public abstract class AOTDSword extends ItemSword
 {
-	public AOTDSword(ToolMaterial material) 
+	public AOTDSword(final ToolMaterial material)
 	{
 		super(material);
 		this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
@@ -17,17 +17,17 @@ public abstract class AOTDSword extends ItemSword
 	@Override
 	public String getUnlocalizedName()
 	{
-		return String.format("item.%s%s", Refrence.MOD_ID.toLowerCase() + ":", getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
+		return String.format("item.%s%s", Refrence.MOD_ID.toLowerCase() + ":", this.getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
 	}
 
 	// Set a stack of items name?
 	@Override
-	public String getUnlocalizedName(ItemStack itemStack)
+	public String getUnlocalizedName(final ItemStack itemStack)
 	{
-		return String.format("item.%s%s", Refrence.MOD_ID.toLowerCase() + ":", getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
+		return String.format("item.%s%s", Refrence.MOD_ID.toLowerCase() + ":", this.getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
 	}
 
-	protected String getUnwrappedUnlocalizedName(String unlocalizedName)
+	protected String getUnwrappedUnlocalizedName(final String unlocalizedName)
 	{
 		return unlocalizedName.substring(unlocalizedName.indexOf(".") + 1);
 	}

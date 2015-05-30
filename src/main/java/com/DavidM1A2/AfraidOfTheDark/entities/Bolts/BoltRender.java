@@ -21,38 +21,36 @@ import org.lwjgl.opengl.GL12;
 @SideOnly(Side.CLIENT)
 public class BoltRender extends Render
 {
-	public BoltRender(RenderManager p_i46179_1_)
+	public BoltRender(final RenderManager p_i46179_1_)
 	{
 		super(p_i46179_1_);
 	}
 
 	private static final ResourceLocation boltTexture = new ResourceLocation("textures/entity/arrow.png");
-	private static final String __OBFID = "CL_00000978";
-
 	/**
 	 * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then handing it off to a worker
 	 * function which does the actual work. In all probabilty, the class Render is generic (Render<T extends Entity) and this method has signature
 	 * public void func_76986_a(T entity, double d, double d1, double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
 	 */
-	public void doRender(EntityBolt p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_)
+	public void doRender(final EntityBolt p_76986_1_, final double p_76986_2_, final double p_76986_4_, final double p_76986_6_, final float p_76986_8_, final float p_76986_9_)
 	{
 		this.bindEntityTexture(p_76986_1_);
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) p_76986_2_, (float) p_76986_4_, (float) p_76986_6_);
-		GL11.glRotatef(p_76986_1_.prevRotationYaw + (p_76986_1_.rotationYaw - p_76986_1_.prevRotationYaw) * p_76986_9_ - 90.0F, 0.0F, 1.0F, 0.0F);
-		GL11.glRotatef(p_76986_1_.prevRotationPitch + (p_76986_1_.rotationPitch - p_76986_1_.prevRotationPitch) * p_76986_9_, 0.0F, 0.0F, 1.0F);
-		Tessellator tessellator = Tessellator.getInstance();
-		WorldRenderer worldRenderer = tessellator.getWorldRenderer();
-		byte b0 = 0;
-		float f2 = 0.0F;
-		float f3 = 0.5F;
-		float f4 = (0 + b0 * 10) / 32.0F;
-		float f5 = (5 + b0 * 10) / 32.0F;
-		float f6 = 0.0F;
-		float f7 = 0.15625F;
-		float f8 = (5 + b0 * 10) / 32.0F;
-		float f9 = (10 + b0 * 10) / 32.0F;
-		float f10 = 0.05625F;
+		GL11.glRotatef((p_76986_1_.prevRotationYaw + ((p_76986_1_.rotationYaw - p_76986_1_.prevRotationYaw) * p_76986_9_)) - 90.0F, 0.0F, 1.0F, 0.0F);
+		GL11.glRotatef(p_76986_1_.prevRotationPitch + ((p_76986_1_.rotationPitch - p_76986_1_.prevRotationPitch) * p_76986_9_), 0.0F, 0.0F, 1.0F);
+		final Tessellator tessellator = Tessellator.getInstance();
+		final WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+		final byte b0 = 0;
+		final float f2 = 0.0F;
+		final float f3 = 0.5F;
+		final float f4 = (0 + (b0 * 10)) / 32.0F;
+		final float f5 = (5 + (b0 * 10)) / 32.0F;
+		final float f6 = 0.0F;
+		final float f7 = 0.15625F;
+		final float f8 = (5 + (b0 * 10)) / 32.0F;
+		final float f9 = (10 + (b0 * 10)) / 32.0F;
+		final float f10 = 0.05625F;
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 
 		GL11.glRotatef(45.0F, 1.0F, 0.0F, 0.0F);
@@ -92,16 +90,16 @@ public class BoltRender extends Render
 	/**
 	 * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
 	 */
-	protected ResourceLocation getEntityTexture(EntityBolt p_110775_1_)
+	protected ResourceLocation getEntityTexture(final EntityBolt p_110775_1_)
 	{
-		return boltTexture;
+		return BoltRender.boltTexture;
 	}
 
 	/**
 	 * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
 	 */
 	@Override
-	protected ResourceLocation getEntityTexture(Entity p_110775_1_)
+	protected ResourceLocation getEntityTexture(final Entity p_110775_1_)
 	{
 		return this.getEntityTexture((EntityBolt) p_110775_1_);
 	}
@@ -112,7 +110,7 @@ public class BoltRender extends Render
 	 * public void func_76986_a(T entity, double d, double d1, double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
 	 */
 	@Override
-	public void doRender(Entity p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_)
+	public void doRender(final Entity p_76986_1_, final double p_76986_2_, final double p_76986_4_, final double p_76986_6_, final float p_76986_8_, final float p_76986_9_)
 	{
 		this.doRender((EntityBolt) p_76986_1_, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
 	}

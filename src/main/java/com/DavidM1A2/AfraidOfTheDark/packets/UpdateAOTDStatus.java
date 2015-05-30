@@ -25,28 +25,28 @@ public class UpdateAOTDStatus implements IMessage
 		this.started = false;
 	}
 
-	public UpdateAOTDStatus(boolean started)
+	public UpdateAOTDStatus(final boolean started)
 	{
 		this.started = started;
 	}
 
 	@Override
-	public void fromBytes(ByteBuf buf)
+	public void fromBytes(final ByteBuf buf)
 	{
 		this.started = buf.readBoolean();
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf)
+	public void toBytes(final ByteBuf buf)
 	{
-		buf.writeBoolean(started);
+		buf.writeBoolean(this.started);
 	}
 
 	// when we receive a packet we set HasStartedAOTD
 	public static class HandlerServer implements IMessageHandler<UpdateAOTDStatus, IMessage>
 	{
 		@Override
-		public IMessage onMessage(UpdateAOTDStatus message, MessageContext ctx)
+		public IMessage onMessage(final UpdateAOTDStatus message, final MessageContext ctx)
 		{
 			LogHelper.info("Update Has Started AOTD Received! Status: " + message.started);
 			ctx.getServerHandler().playerEntity.getEntityData().setBoolean(HasStartedAOTD.PLAYER_STARTED_AOTD, message.started);
@@ -58,7 +58,7 @@ public class UpdateAOTDStatus implements IMessage
 	public static class HandlerClient implements IMessageHandler<UpdateAOTDStatus, IMessage>
 	{
 		@Override
-		public IMessage onMessage(UpdateAOTDStatus message, MessageContext ctx)
+		public IMessage onMessage(final UpdateAOTDStatus message, final MessageContext ctx)
 		{
 			LogHelper.info("Update Has Started AOTD Received! Status: " + message.started);
 			Minecraft.getMinecraft().thePlayer.getEntityData().setBoolean(HasStartedAOTD.PLAYER_STARTED_AOTD, message.started);

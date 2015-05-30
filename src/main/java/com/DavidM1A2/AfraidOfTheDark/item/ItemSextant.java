@@ -21,7 +21,7 @@ public class ItemSextant extends AOTDItem
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer)
+	public ItemStack onItemRightClick(final ItemStack itemStack, final World world, final EntityPlayer entityPlayer)
 	{
 		if (world.isRemote)
 		{

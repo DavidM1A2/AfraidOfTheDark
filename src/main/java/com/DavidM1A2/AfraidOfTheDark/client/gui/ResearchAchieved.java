@@ -14,7 +14,7 @@ import com.DavidM1A2.AfraidOfTheDark.refrence.ResearchTypes;
 public class ResearchAchieved extends Gui
 {
 	private static final ResourceLocation achievementBg = new ResourceLocation("textures/gui/achievement/achievement_background.png");
-	private Minecraft mc;
+	private final Minecraft mc;
 	private int width;
 	private int height;
 	private String achievementTitle;
@@ -22,21 +22,21 @@ public class ResearchAchieved extends Gui
 	private ResearchTypes theType;
 	private ResearchTypes nextType;
 	private long notificationTime;
-	private RenderItem renderItem;
+	private final RenderItem renderItem;
 	private boolean permanentNotification;
 	private ItemStack icon;
 	private ItemStack nextIcon;
 	private Thread previousResearchDisplayed;
 
-	public ResearchAchieved(Minecraft mc)
+	public ResearchAchieved(final Minecraft mc)
 	{
 		super();
 		this.mc = mc;
 		this.renderItem = mc.getRenderItem();
-		previousResearchDisplayed = new Thread();
+		this.previousResearchDisplayed = new Thread();
 	}
 
-	public void displayResearch(ResearchTypes research, ItemStack icon, boolean queue)
+	public void displayResearch(final ResearchTypes research, final ItemStack icon, final boolean queue)
 	{
 		this.achievementTitle = "New Research!";
 		if (queue)
@@ -52,14 +52,14 @@ public class ResearchAchieved extends Gui
 				this.nextType = null;
 			}
 		}
-		else if (!previousResearchDisplayed.isAlive())
+		else if (!this.previousResearchDisplayed.isAlive())
 		{
 			this.achievementDescription = research.formattedString();
 			this.notificationTime = Minecraft.getSystemTime();
 			this.theType = research;
 			this.permanentNotification = false;
 			this.icon = icon;
-			previousResearchDisplayed = new Thread()
+			this.previousResearchDisplayed = new Thread()
 			{
 				@Override
 				public void run()
@@ -69,12 +69,12 @@ public class ResearchAchieved extends Gui
 						Thread.sleep(4000);
 						ResearchAchieved.this.displayResearch(ResearchAchieved.this.nextType, ResearchAchieved.this.nextIcon, true);
 					}
-					catch (InterruptedException e)
+					catch (final InterruptedException e)
 					{
 					}
 				}
 			};
-			previousResearchDisplayed.start();
+			this.previousResearchDisplayed.start();
 		}
 		else
 		{
@@ -92,7 +92,7 @@ public class ResearchAchieved extends Gui
 		GlStateManager.loadIdentity();
 		this.width = this.mc.displayWidth;
 		this.height = this.mc.displayHeight;
-		ScaledResolution scaledresolution = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
+		final ScaledResolution scaledresolution = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
 		this.width = scaledresolution.getScaledWidth();
 		this.height = scaledresolution.getScaledHeight();
 		GlStateManager.clear(256);
@@ -106,13 +106,13 @@ public class ResearchAchieved extends Gui
 
 	public void updateResearchAchievedWindow()
 	{
-		if (this.theType != null && this.notificationTime != 0L && Minecraft.getMinecraft().thePlayer != null)
+		if ((this.theType != null) && (this.notificationTime != 0L) && (Minecraft.getMinecraft().thePlayer != null))
 		{
 			double d0 = (Minecraft.getSystemTime() - this.notificationTime) / 3000.0D;
 
 			if (!this.permanentNotification)
 			{
-				if (d0 < 0.0D || d0 > 1.0D)
+				if ((d0 < 0.0D) || (d0 > 1.0D))
 				{
 					this.notificationTime = 0L;
 					return;
@@ -143,11 +143,11 @@ public class ResearchAchieved extends Gui
 
 			d1 *= d1;
 			d1 *= d1;
-			int i = this.width - 160;
-			int j = 0 - (int) (d1 * 36.0D);
+			final int i = this.width - 160;
+			final int j = 0 - (int) (d1 * 36.0D);
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 			GlStateManager.func_179098_w();
-			this.mc.getTextureManager().bindTexture(achievementBg);
+			this.mc.getTextureManager().bindTexture(ResearchAchieved.achievementBg);
 			GlStateManager.disableLighting();
 			this.drawTexturedModalRect(i, j, 96, 202, 160, 32);
 
@@ -166,7 +166,7 @@ public class ResearchAchieved extends Gui
 			GlStateManager.enableRescaleNormal();
 			GlStateManager.enableColorMaterial();
 			GlStateManager.enableLighting();
-			this.renderItem.func_180450_b(icon, i + 8, j + 8);
+			this.renderItem.func_180450_b(this.icon, i + 8, j + 8);
 			GlStateManager.disableLighting();
 			GlStateManager.depthMask(true);
 			GlStateManager.enableDepth();

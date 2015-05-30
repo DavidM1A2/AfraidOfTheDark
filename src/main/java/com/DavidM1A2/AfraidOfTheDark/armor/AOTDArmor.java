@@ -8,7 +8,7 @@ import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
 
 public abstract class AOTDArmor extends ItemArmor implements ISpecialArmor
 {
-	public AOTDArmor(ArmorMaterial armorMaterial, int renderIndex, int type)
+	public AOTDArmor(final ArmorMaterial armorMaterial, final int renderIndex, final int type)
 	{
 		super(armorMaterial, renderIndex, type);
 		this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
@@ -18,17 +18,17 @@ public abstract class AOTDArmor extends ItemArmor implements ISpecialArmor
 	@Override
 	public String getUnlocalizedName()
 	{
-		return String.format("item.%s%s", Refrence.MOD_ID.toLowerCase() + ":", getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
+		return String.format("item.%s%s", Refrence.MOD_ID.toLowerCase() + ":", this.getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
 	}
 
 	// Set a stack of items name?
 	@Override
-	public String getUnlocalizedName(ItemStack itemStack)
+	public String getUnlocalizedName(final ItemStack itemStack)
 	{
-		return String.format("item.%s%s", Refrence.MOD_ID.toLowerCase() + ":", getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
+		return String.format("item.%s%s", Refrence.MOD_ID.toLowerCase() + ":", this.getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
 	}
 
-	protected String getUnwrappedUnlocalizedName(String unlocalizedName)
+	protected String getUnwrappedUnlocalizedName(final String unlocalizedName)
 	{
 		return unlocalizedName.substring(unlocalizedName.indexOf(".") + 1);
 	}

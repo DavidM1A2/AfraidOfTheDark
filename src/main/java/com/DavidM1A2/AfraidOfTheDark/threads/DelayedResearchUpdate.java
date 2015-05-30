@@ -9,7 +9,7 @@ import com.DavidM1A2.AfraidOfTheDark.packets.UpdateResearch;
 
 public class DelayedResearchUpdate extends DelayedUpdate<NBTTagCompound>
 {
-	public DelayedResearchUpdate(EntityPlayer entityPlayer, NBTTagCompound data)
+	public DelayedResearchUpdate(final EntityPlayer entityPlayer, final NBTTagCompound data)
 	{
 		super(entityPlayer, data);
 	}
@@ -17,6 +17,6 @@ public class DelayedResearchUpdate extends DelayedUpdate<NBTTagCompound>
 	@Override
 	protected void updatePlayer()
 	{
-		AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateResearch(data), (EntityPlayerMP) entityPlayer);
+		AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateResearch(this.data), (EntityPlayerMP) this.entityPlayer);
 	}
 }

@@ -8,7 +8,7 @@ import com.DavidM1A2.AfraidOfTheDark.packets.UpdateInsanity;
 
 public class DelayedInsanityUpdate extends DelayedUpdate<Double>
 {
-	public DelayedInsanityUpdate(EntityPlayer entityPlayer, double data)
+	public DelayedInsanityUpdate(final EntityPlayer entityPlayer, final double data)
 	{
 		super(entityPlayer, data);
 	}
@@ -16,6 +16,6 @@ public class DelayedInsanityUpdate extends DelayedUpdate<Double>
 	@Override
 	protected void updatePlayer()
 	{
-		AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateInsanity(data), (EntityPlayerMP) entityPlayer);
+		AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateInsanity(this.data), (EntityPlayerMP) this.entityPlayer);
 	}
 }

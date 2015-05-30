@@ -18,7 +18,7 @@ import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
  */
 public class ModGuiConfig extends GuiConfig
 {
-	public ModGuiConfig(GuiScreen guiScreen)
+	public ModGuiConfig(final GuiScreen guiScreen)
 	{
 		super(guiScreen, new ConfigElement(ConfigurationHandler.configuration.getCategory(Configuration.CATEGORY_GENERAL)).getChildElements(), Refrence.MOD_ID, false, false, GuiConfig.getAbridgedConfigPath(ConfigurationHandler.configuration.toString()));
 	}

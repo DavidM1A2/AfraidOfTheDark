@@ -8,7 +8,7 @@ import com.DavidM1A2.AfraidOfTheDark.packets.UpdateAOTDStatus;
 
 public class DelayedAOTDUpdate extends DelayedUpdate<Boolean>
 {
-	public DelayedAOTDUpdate(EntityPlayer entityPlayer, boolean data)
+	public DelayedAOTDUpdate(final EntityPlayer entityPlayer, final boolean data)
 	{
 		super(entityPlayer, data);
 	}
@@ -16,6 +16,6 @@ public class DelayedAOTDUpdate extends DelayedUpdate<Boolean>
 	@Override
 	protected void updatePlayer()
 	{
-		AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateAOTDStatus(data), (EntityPlayerMP) entityPlayer);
+		AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateAOTDStatus(this.data), (EntityPlayerMP) this.entityPlayer);
 	}
 }

@@ -24,43 +24,43 @@ public abstract class EntityBolt extends EntityThrowable
 	private double myChanceToDropHitEntity = .4;
 	private double myChanceToDropHitGround = .8;
 
-	public EntityBolt(World world)
+	public EntityBolt(final World world)
 	{
 		super(world);
 	}
 
-	public EntityBolt(World world, EntityLivingBase entityLivingBase)
+	public EntityBolt(final World world, final EntityLivingBase entityLivingBase)
 	{
 		super(world, entityLivingBase);
 	}
 
-	public EntityBolt(World world, double x, double y, double z)
+	public EntityBolt(final World world, final double x, final double y, final double z)
 	{
 		super(world, x, y, z);
 	}
 
 	// The bolt may drop depending on if the chance to drop is great enough
 	@Override
-	protected void onImpact(MovingObjectPosition movingObjectPosition)
+	protected void onImpact(final MovingObjectPosition movingObjectPosition)
 	{
-		Entity entityHit = movingObjectPosition.entityHit;
+		final Entity entityHit = movingObjectPosition.entityHit;
 
 		if (!this.worldObj.isRemote)
 		{
 			if (entityHit != null)
 			{
-				entityHit.attackEntityFrom(myDamageType, damageAmount);
+				entityHit.attackEntityFrom(this.myDamageType, this.damageAmount);
 
-				if (Math.random() < myChanceToDropHitEntity)
+				if (Math.random() < this.myChanceToDropHitEntity)
 				{
-					entityHit.dropItem(myDrop, 1);
+					entityHit.dropItem(this.myDrop, 1);
 				}
 			}
 			else
 			{
-				if (Math.random() < myChanceToDropHitGround)
+				if (Math.random() < this.myChanceToDropHitGround)
 				{
-					this.dropItem(myDrop, 1);
+					this.dropItem(this.myDrop, 1);
 				}
 			}
 		}
@@ -69,33 +69,33 @@ public abstract class EntityBolt extends EntityThrowable
 	}
 
 	// Set the damage of this bolt
-	public void setDamage(int damage)
+	public void setDamage(final int damage)
 	{
 		this.damageAmount = damage;
 	}
 
 	// Set the damage type of this bolt
-	public void setDamageType(DamageSource damage)
+	public void setDamageType(final DamageSource damage)
 	{
 		this.myDamageType = damage;
 	}
 
 	// Set the type of bolt
-	public void setMyType(Item item)
+	public void setMyType(final Item item)
 	{
-		myDrop = item;
+		this.myDrop = item;
 	}
 
 	// Set the chance to drop if the bolt hit the ground
-	public void setChanceToDropHitGround(double chance)
+	public void setChanceToDropHitGround(final double chance)
 	{
-		myChanceToDropHitGround = chance;
+		this.myChanceToDropHitGround = chance;
 	}
 
 	// Set the chance to drop if the bolt hit an entity
-	public void setChanceToDropHitEntity(double chance)
+	public void setChanceToDropHitEntity(final double chance)
 	{
-		myChanceToDropHitEntity = chance;
+		this.myChanceToDropHitEntity = chance;
 	}
 
 	// Various getters

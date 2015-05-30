@@ -10,7 +10,6 @@ import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -29,7 +28,7 @@ public class ItemSilverSword extends AOTDSword
 
 	// When left clicking attack from silver weapon damage
 	@Override
-	public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity)
+	public boolean onLeftClickEntity(final ItemStack stack, final EntityPlayer player, final Entity entity)
 	{
 		if (entity instanceof EntityWereWolf)
 		{
@@ -43,7 +42,7 @@ public class ItemSilverSword extends AOTDSword
 
 	/**
 	 * allows items to add custom lines of information to the mouseover description
-	 * 
+	 *
 	 * @param tooltip
 	 *            All lines to display in the Item's tooltip. This is a List of Strings.
 	 * @param advanced
@@ -51,7 +50,7 @@ public class ItemSilverSword extends AOTDSword
 	 */
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List tooltip, boolean advanced)
+	public void addInformation(final ItemStack stack, final EntityPlayer playerIn, final List tooltip, final boolean advanced)
 	{
 		tooltip.add("Seems weak at first but deals much needed");
 		tooltip.add("silver damage against werewolves.");

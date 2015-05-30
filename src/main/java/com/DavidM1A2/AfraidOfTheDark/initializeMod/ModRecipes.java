@@ -41,7 +41,7 @@ public class ModRecipes
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.igneousBoots, 1), "a a", "a a", "   ", 'a', ModItems.igneousGem));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.igneousBlock, 1), "aaa", "aaa", "aaa", 'a', ModItems.igneousGem));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.igneousGem, 9), new ItemStack(ModBlocks.igneousBlock, 1)));
-		
+
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.starMetalHelmet, 1), "aaa", "a a", "   ", 'a', ModItems.starMetalIngot));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.starMetalHelmet, 1), "   ", "aaa", "a a", 'a', ModItems.starMetalIngot));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.starMetalChestplate, 1), "a a", "aaa", "aaa", 'a', ModItems.starMetalIngot));

@@ -23,9 +23,9 @@ public class WorldEvents
 
 	// At midnight, spawn werewolves
 	@SubscribeEvent
-	public void midnightWerewolves(WorldEvent event)
+	public void midnightWerewolves(final WorldEvent event)
 	{
-		World currentWorld = event.world;
+		final World currentWorld = event.world;
 		// Only in the overworld
 		if (currentWorld.provider.getDimensionId() == 0)
 		{
@@ -33,64 +33,64 @@ public class WorldEvents
 			if (currentWorld.getCurrentMoonPhaseFactor() == 1.0F)
 			{
 				// Current world time is total world time - (24,000 ticks * number of days passed)
-				long daysPassed = currentWorld.getWorldTime() / 24000L;
-				long worldTime = currentWorld.getWorldInfo().getWorldTime() - (24000L * daysPassed);
+				final long daysPassed = currentWorld.getWorldTime() / 24000L;
+				final long worldTime = currentWorld.getWorldInfo().getWorldTime() - (24000L * daysPassed);
 				// If it is 12oClock
-				if (worldTime > 16500 && worldTime < 16700)
+				if ((worldTime > 16500) && (worldTime < 16700))
 				{
 					// If we are ready to spawn werewolves
-					if (readyToSpawnWerewolves)
+					if (this.readyToSpawnWerewolves)
 					{
 						// Set werewolf attributes and update each already spawned werewolf
 						EntityWereWolf.setMoveSpeedAndAgroRange(.51, 80.0D, 120.0D);
-						for (Object entity : currentWorld.loadedEntityList)
+						for (final Object entity : currentWorld.loadedEntityList)
 						{
 							if (entity instanceof EntityWereWolf)
 							{
-								EntityWereWolf myWolf = (EntityWereWolf) entity;
+								final EntityWereWolf myWolf = (EntityWereWolf) entity;
 								myWolf.setWanderer();
 								myWolf.setMyWatchClosest();
 							}
 						}
 
 						// Tell each player that has started AOTD that it's "the night"
-						List<EntityPlayer> players = currentWorld.playerEntities;
-						for (EntityPlayer entityPlayer : players)
+						final List<EntityPlayer> players = currentWorld.playerEntities;
+						for (final EntityPlayer entityPlayer : players)
 						{
 							if (HasStartedAOTD.get(entityPlayer))
 							{
 								entityPlayer.addChatMessage(new ChatComponentText("§4§oSomething §4§ofeels §4§odifferent §4§otonight..."));
 							}
 						}
-						readyToSpawnWerewolves = false;
+						this.readyToSpawnWerewolves = false;
 					}
 				}
 				// If the world time is between 23500 and 23700 (dawn) reset werewolf attributes and update each werewolf
-				else if (worldTime > 23500 && worldTime < 23700)
+				else if ((worldTime > 23500) && (worldTime < 23700))
 				{
-					if (!readyToSpawnWerewolves)
+					if (!this.readyToSpawnWerewolves)
 					{
 						EntityWereWolf.setMoveSpeedAndAgroRange(.38, 16.0D, 32.0D);
-						for (Object entity : currentWorld.loadedEntityList)
+						for (final Object entity : currentWorld.loadedEntityList)
 						{
 							if (entity instanceof EntityWereWolf)
 							{
-								EntityWereWolf myWolf = (EntityWereWolf) entity;
+								final EntityWereWolf myWolf = (EntityWereWolf) entity;
 								myWolf.setWanderer();
 								myWolf.setMyWatchClosest();
 							}
 						}
 
 						// Tell each player that the event is over
-						List<EntityPlayer> players = currentWorld.playerEntities;
-						for (EntityPlayer entityPlayer : players)
+						final List<EntityPlayer> players = currentWorld.playerEntities;
+						for (final EntityPlayer entityPlayer : players)
 						{
 							if (HasStartedAOTD.get(entityPlayer))
 							{
 								entityPlayer.addChatMessage(new ChatComponentText("§2I §2feel §2better §2some §2how."));
 							}
 						}
-						readyToSpawnWerewolves = true;
+						this.readyToSpawnWerewolves = true;
 					}
 				}
 			}

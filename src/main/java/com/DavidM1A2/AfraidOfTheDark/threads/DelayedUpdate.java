@@ -7,7 +7,7 @@ public abstract class DelayedUpdate<E> extends Thread
 	protected final EntityPlayer entityPlayer;
 	protected final E data;
 
-	public DelayedUpdate(EntityPlayer entityPlayer, E data)
+	public DelayedUpdate(final EntityPlayer entityPlayer, final E data)
 	{
 		this.entityPlayer = entityPlayer;
 		this.data = data;
@@ -22,7 +22,7 @@ public abstract class DelayedUpdate<E> extends Thread
 
 			this.updatePlayer();
 		}
-		catch (InterruptedException e)
+		catch (final InterruptedException e)
 		{
 		}
 	}

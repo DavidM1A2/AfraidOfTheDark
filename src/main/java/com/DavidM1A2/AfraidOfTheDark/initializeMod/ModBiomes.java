@@ -21,10 +21,10 @@ public class ModBiomes
 	public static void initialize()
 	{
 		// Register it and add it
-		BiomeDictionary.registerBiomeType(erieForest, Type.FOREST, Type.CONIFEROUS, Type.PLAINS);
-		BiomeManager.addBiome(BiomeManager.BiomeType.COOL, new BiomeEntry(erieForest, 10));
-		BiomeManager.addBiome(BiomeManager.BiomeType.WARM, new BiomeEntry(erieForest, 10));
+		BiomeDictionary.registerBiomeType(ModBiomes.erieForest, Type.FOREST, Type.CONIFEROUS, Type.PLAINS);
+		BiomeManager.addBiome(BiomeManager.BiomeType.COOL, new BiomeEntry(ModBiomes.erieForest, 10));
+		BiomeManager.addBiome(BiomeManager.BiomeType.WARM, new BiomeEntry(ModBiomes.erieForest, 10));
 		// This biome is only temporarily the spawn biome
-		BiomeManager.addSpawnBiome(erieForest);
+		BiomeManager.addSpawnBiome(ModBiomes.erieForest);
 	}
 }

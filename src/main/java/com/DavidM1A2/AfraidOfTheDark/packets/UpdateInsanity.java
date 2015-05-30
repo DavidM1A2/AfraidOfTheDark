@@ -22,28 +22,28 @@ public class UpdateInsanity implements IMessage
 		this.insanity = -1.0;
 	}
 
-	public UpdateInsanity(double insanity)
+	public UpdateInsanity(final double insanity)
 	{
 		this.insanity = insanity;
 	}
 
 	@Override
-	public void fromBytes(ByteBuf buf)
+	public void fromBytes(final ByteBuf buf)
 	{
 		this.insanity = buf.readDouble();
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf)
+	public void toBytes(final ByteBuf buf)
 	{
-		buf.writeDouble(insanity);
+		buf.writeDouble(this.insanity);
 	}
 
 	// Upon receiving player insanity data update it on the player
 	public static class Handler implements IMessageHandler<UpdateInsanity, IMessage>
 	{
 		@Override
-		public IMessage onMessage(UpdateInsanity message, MessageContext ctx)
+		public IMessage onMessage(final UpdateInsanity message, final MessageContext ctx)
 		{
 			// For whatever stupid reason, minecraft's EntityPlayerSP object takes a few moments to get initialized so we wait for that
 			while (Minecraft.getMinecraft().thePlayer == null)
@@ -52,7 +52,7 @@ public class UpdateInsanity implements IMessage
 				{
 					Thread.sleep(50);
 				}
-				catch (InterruptedException e)
+				catch (final InterruptedException e)
 				{
 					System.out.println("Error Sleeping?");
 				}

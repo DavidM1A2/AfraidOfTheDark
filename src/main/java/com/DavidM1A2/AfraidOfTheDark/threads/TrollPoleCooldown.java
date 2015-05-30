@@ -4,27 +4,27 @@ public class TrollPoleCooldown extends Thread
 {
 	private final int COOLDOWN;
 	private long launchTime;
-	
-	public TrollPoleCooldown(int cooldown)
+
+	public TrollPoleCooldown(final int cooldown)
 	{
 		this.COOLDOWN = cooldown;
 	}
-	
+
 	@Override
 	public void run()
 	{
 		this.launchTime = System.currentTimeMillis();
-		try 
+		try
 		{
-			Thread.sleep(COOLDOWN);
-		} 
-		catch (InterruptedException e) 
+			Thread.sleep(this.COOLDOWN);
+		}
+		catch (final InterruptedException e)
 		{
 		}
 	}
-	
+
 	public int getSecondsRemaining()
 	{
-		return (int) ((COOLDOWN - (System.currentTimeMillis() - launchTime)) / 1000);
+		return (int) ((this.COOLDOWN - (System.currentTimeMillis() - this.launchTime)) / 1000);
 	}
 }

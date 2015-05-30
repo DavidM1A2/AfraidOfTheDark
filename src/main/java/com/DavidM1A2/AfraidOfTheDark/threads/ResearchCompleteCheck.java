@@ -22,13 +22,13 @@ public class ResearchCompleteCheck extends Thread
 		try
 		{
 			// This thread runs while the player is connected
-			while (running)
+			while (this.running)
 			{
 				Thread.sleep(1000);
 
-				List<EntityPlayerMP> allPlayers = MinecraftServer.getServer().getConfigurationManager().playerEntityList;
+				final List<EntityPlayerMP> allPlayers = MinecraftServer.getServer().getConfigurationManager().playerEntityList;
 
-				for (EntityPlayerMP player : allPlayers)
+				for (final EntityPlayerMP player : allPlayers)
 				{
 					if (HasStartedAOTD.get(player))
 					{
@@ -37,7 +37,7 @@ public class ResearchCompleteCheck extends Thread
 				}
 			}
 		}
-		catch (InterruptedException e)
+		catch (final InterruptedException e)
 		{
 			e.printStackTrace();
 		}

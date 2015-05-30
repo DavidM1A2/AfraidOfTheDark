@@ -20,19 +20,19 @@ import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
 
 public class InsanityCheck implements ICommand
 {
-	private List aliases;
+	private final List aliases;
 
 	public InsanityCheck()
 	{
 		// Aliases aka command (/debug or /d)
-		aliases = new ArrayList();
-		aliases.add("debug");
-		aliases.add("d");
+		this.aliases = new ArrayList();
+		this.aliases.add("debug");
+		this.aliases.add("d");
 	}
 
 	// No idea what this does
 	@Override
-	public int compareTo(Object arg0)
+	public int compareTo(final Object arg0)
 	{
 		return 0;
 	}
@@ -46,7 +46,7 @@ public class InsanityCheck implements ICommand
 
 	// How do i use the command?
 	@Override
-	public String getCommandUsage(ICommandSender iCommandSender)
+	public String getCommandUsage(final ICommandSender iCommandSender)
 	{
 		return "debug";
 	}
@@ -55,34 +55,34 @@ public class InsanityCheck implements ICommand
 	@Override
 	public List getCommandAliases()
 	{
-		return aliases;
+		return this.aliases;
 	}
 
 	// What to do when the command happens
 	@Override
-	public void processCommand(ICommandSender iCommandSender, String[] p_71515_2_)
+	public void processCommand(final ICommandSender iCommandSender, final String[] p_71515_2_)
 	{
-		EntityPlayer sender = (EntityPlayer) iCommandSender.getCommandSenderEntity();
+		final EntityPlayer sender = (EntityPlayer) iCommandSender.getCommandSenderEntity();
 		iCommandSender.addChatMessage(new ChatComponentText(("Your current insanity is: " + Insanity.get(sender) + "%")));
 		iCommandSender.addChatMessage(new ChatComponentText(("Your current has started AOTD status is: " + HasStartedAOTD.get(sender))));
 		iCommandSender.addChatMessage(new ChatComponentText((LoadResearchData.get(sender).toString())));
 	}
 
 	@Override
-	public boolean canCommandSenderUseCommand(ICommandSender p_71519_1_)
+	public boolean canCommandSenderUseCommand(final ICommandSender p_71519_1_)
 	{
 		return true;
 	}
 
 	// No username or tab completes
 	@Override
-	public boolean isUsernameIndex(String[] p_82358_1_, int p_82358_2_)
+	public boolean isUsernameIndex(final String[] p_82358_1_, final int p_82358_2_)
 	{
 		return false;
 	}
 
 	@Override
-	public List addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
+	public List addTabCompletionOptions(final ICommandSender sender, final String[] args, final BlockPos pos)
 	{
 		// TODO Auto-generated method stub
 		return null;

@@ -19,13 +19,13 @@ public class TellServerToCreateMeteor implements IMessage
 
 	public TellServerToCreateMeteor()
 	{
-		thePosition = null;
-		radius = 0;
-		height = 0;
-		index = -1;
+		this.thePosition = null;
+		this.radius = 0;
+		this.height = 0;
+		this.index = -1;
 	}
 
-	public TellServerToCreateMeteor(BlockPos thePosition, int radius, int height, int index)
+	public TellServerToCreateMeteor(final BlockPos thePosition, final int radius, final int height, final int index)
 	{
 		this.thePosition = thePosition;
 		this.radius = radius;
@@ -34,7 +34,7 @@ public class TellServerToCreateMeteor implements IMessage
 	}
 
 	@Override
-	public void fromBytes(ByteBuf buf)
+	public void fromBytes(final ByteBuf buf)
 	{
 		this.thePosition = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 		this.radius = buf.readInt();
@@ -43,7 +43,7 @@ public class TellServerToCreateMeteor implements IMessage
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf)
+	public void toBytes(final ByteBuf buf)
 	{
 		buf.writeInt(this.thePosition.getX());
 		buf.writeInt(this.thePosition.getY());
@@ -57,7 +57,7 @@ public class TellServerToCreateMeteor implements IMessage
 	public static class HandlerServer implements IMessageHandler<TellServerToCreateMeteor, IMessage>
 	{
 		@Override
-		public IMessage onMessage(TellServerToCreateMeteor message, MessageContext ctx)
+		public IMessage onMessage(final TellServerToCreateMeteor message, final MessageContext ctx)
 		{
 			LogHelper.info("Player has requested to place a meteor at " + message.thePosition.toString());
 			CreateMeteor.create(ctx.getServerHandler().playerEntity.worldObj, message.thePosition, message.radius, message.height, false, true, MeteorTypes.typeFromIndex(message.index));

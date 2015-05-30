@@ -58,13 +58,13 @@ public class Refrence
 	public static final ToolMaterial silver = EnumHelper.addToolMaterial("silverTool", 2, 250, 1, .5F, 20);
 	public static final ToolMaterial igneousTool = EnumHelper.addToolMaterial("igneous", 3, 600, 1, 4, 15);
 	public static final ArmorMaterial igneous = EnumHelper.addArmorMaterial("igneous", "texture", 100, new int[]
-	{ 3, 8, 6, 3 }, 20);
+			{ 3, 8, 6, 3 }, 20);
 	public static final ArmorMaterial starMetal = EnumHelper.addArmorMaterial("starMetal", "texture", 100, new int[]
-	{ 3, 8, 6, 3 }, 20);
+			{ 3, 8, 6, 3 }, 20);
 
 	@SideOnly(Side.CLIENT)
 	public static int[] selectedMeteor = new int[]
-	{ -1, -1, -1 };
+			{ -1, -1, -1 };
 	@SideOnly(Side.CLIENT)
 	public static MeteorTypes watchedMeteorType = null;
 
@@ -76,17 +76,17 @@ public class Refrence
 		{
 			try
 			{
-				InputStream textFont = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(Refrence.MOD_ID, "fonts/Targa MS Hand.ttf")).getInputStream();
-				InputStream titleFont = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(Refrence.MOD_ID, "fonts/coolvetica.ttf")).getInputStream();
+				final InputStream textFont = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(Refrence.MOD_ID, "fonts/Targa MS Hand.ttf")).getInputStream();
+				final InputStream titleFont = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(Refrence.MOD_ID, "fonts/coolvetica.ttf")).getInputStream();
 
-				journalFont = new CustomFont(textFont, 16);
-				journalTitleFont = new CustomFont(titleFont, 26);
+				Refrence.journalFont = new CustomFont(textFont, 16);
+				Refrence.journalTitleFont = new CustomFont(titleFont, 26);
 			}
-			catch (FileNotFoundException e)
+			catch (final FileNotFoundException e)
 			{
 				e.printStackTrace();
 			}
-			catch (IOException e)
+			catch (final IOException e)
 			{
 				e.printStackTrace();
 			}

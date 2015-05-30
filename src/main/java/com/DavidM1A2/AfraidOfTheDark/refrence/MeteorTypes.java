@@ -6,7 +6,7 @@ public enum MeteorTypes
 
 	private final int index;
 
-	private MeteorTypes(int index)
+	private MeteorTypes(final int index)
 	{
 		this.index = index;
 	}
@@ -16,9 +16,9 @@ public enum MeteorTypes
 		return this.index;
 	}
 
-	public static MeteorTypes typeFromIndex(int index)
+	public static MeteorTypes typeFromIndex(final int index)
 	{
-		for (MeteorTypes type : values())
+		for (final MeteorTypes type : MeteorTypes.values())
 		{
 			if (type.index == index)
 			{
@@ -32,7 +32,7 @@ public enum MeteorTypes
 	{
 		String toReturn = "";
 
-		for (String string : this.toString().split("(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])"))
+		for (final String string : this.toString().split("(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])"))
 		{
 			toReturn = toReturn + string + " ";
 		}

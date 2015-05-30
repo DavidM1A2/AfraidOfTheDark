@@ -23,7 +23,7 @@ public class BiomeErieForest extends BiomeGenBase
 	/*
 	 * This will be the erie biome creation class
 	 */
-	public BiomeErieForest(int biomeID)
+	public BiomeErieForest(final int biomeID)
 	{
 		// This sets the features of the erie biome
 		super(biomeID);
@@ -41,14 +41,14 @@ public class BiomeErieForest extends BiomeGenBase
 	}
 
 	@Override
-	public WorldGenAbstractTree genBigTreeChance(Random p_150567_1_)
+	public WorldGenAbstractTree genBigTreeChance(final Random p_150567_1_)
 	{
 		return (new WorldGenGravewoodTrees(false));
 	}
 
 	// Called every chunk gen
 	@Override
-	public void func_180624_a(World world, Random random, BlockPos blockPosition)
+	public void func_180624_a(final World world, final Random random, final BlockPos blockPosition)
 	{
 		if (random.nextDouble() < 0.01)
 		{

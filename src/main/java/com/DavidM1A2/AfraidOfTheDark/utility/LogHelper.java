@@ -8,48 +8,48 @@ import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
 
 public class LogHelper
 {
-	public static void log(Level logLevel, Object object)
+	public static void log(final Level logLevel, final Object object)
 	{
 		FMLLog.log(Refrence.MOD_NAME, logLevel, String.valueOf(object));
 	}
 
-	public static void all(Object object)
+	public static void all(final Object object)
 	{
-		log(Level.ALL, object);
+		LogHelper.log(Level.ALL, object);
 	}
 
-	public static void debug(Object object)
+	public static void debug(final Object object)
 	{
-		log(Level.DEBUG, object);
+		LogHelper.log(Level.DEBUG, object);
 	}
 
-	public static void error(Object object)
+	public static void error(final Object object)
 	{
-		log(Level.ERROR, object);
+		LogHelper.log(Level.ERROR, object);
 	}
 
-	public static void fatal(Object object)
+	public static void fatal(final Object object)
 	{
-		log(Level.FATAL, object);
+		LogHelper.log(Level.FATAL, object);
 	}
 
-	public static void info(Object object)
+	public static void info(final Object object)
 	{
-		log(Level.INFO, object);
+		LogHelper.log(Level.INFO, object);
 	}
 
-	public static void off(Object object)
+	public static void off(final Object object)
 	{
-		log(Level.OFF, object);
+		LogHelper.log(Level.OFF, object);
 	}
 
-	public static void trace(Object object)
+	public static void trace(final Object object)
 	{
-		log(Level.TRACE, object);
+		LogHelper.log(Level.TRACE, object);
 	}
 
-	public static void warn(Object object)
+	public static void warn(final Object object)
 	{
-		log(Level.WARN, object);
+		LogHelper.log(Level.WARN, object);
 	}
 }

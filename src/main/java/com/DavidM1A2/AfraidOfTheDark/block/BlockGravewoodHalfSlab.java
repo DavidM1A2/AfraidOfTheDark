@@ -10,7 +10,7 @@ import net.minecraft.block.material.Material;
 // Double half slab
 public class BlockGravewoodHalfSlab extends AOTDSlab
 {
-	public BlockGravewoodHalfSlab(Material material)
+	public BlockGravewoodHalfSlab(final Material material)
 	{
 		super(material);
 		this.setUnlocalizedName("gravewoodHalfSlab");

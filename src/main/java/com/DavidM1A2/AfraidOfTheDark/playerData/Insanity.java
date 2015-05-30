@@ -21,60 +21,60 @@ public class Insanity implements IExtendedEntityProperties
 	private double playerInsanity;
 	public final static String PLAYER_INSANITY = "PlayerInsanity";
 
-	public static final void register(EntityPlayer player)
+	public static final void register(final EntityPlayer player)
 	{
 		player.registerExtendedProperties(Insanity.PLAYER_INSANITY, new Insanity());
 	}
 
 	@Override
-	public void init(Entity entity, World world)
+	public void init(final Entity entity, final World world)
 	{
 	}
 
 	// Save NBTData saves this piece of data to the player
 	@Override
-	public void saveNBTData(NBTTagCompound compound)
+	public void saveNBTData(final NBTTagCompound compound)
 	{
-		compound.setDouble(PLAYER_INSANITY, this.playerInsanity);
+		compound.setDouble(Insanity.PLAYER_INSANITY, this.playerInsanity);
 	}
 
 	// load loads the data
 	@Override
-	public void loadNBTData(NBTTagCompound compound)
+	public void loadNBTData(final NBTTagCompound compound)
 	{
-		this.playerInsanity = compound.getDouble(PLAYER_INSANITY);
+		this.playerInsanity = compound.getDouble(Insanity.PLAYER_INSANITY);
 	}
 
 	// Getter for insanity
-	public static double get(EntityPlayer myPlayer)
+	public static double get(final EntityPlayer myPlayer)
 	{
-		return myPlayer.getEntityData().getDouble(PLAYER_INSANITY);
+		return myPlayer.getEntityData().getDouble(Insanity.PLAYER_INSANITY);
 	}
 
 	// Returns true if we are at max insanity
-	public static void addInsanity(double amount, EntityPlayer myPlayer)
+	public static void addInsanity(final double amount, final EntityPlayer myPlayer)
 	{
 		// if the player has begun the mod we can change his insanity
 		if (HasStartedAOTD.get(myPlayer))
 		{
 			if (amount > 0)
 			{
-				NBTTagCompound compound = myPlayer.getEntityData();
-				compound.setDouble(PLAYER_INSANITY, Math.min(100.0, get(myPlayer) + amount));
-				updateClientSideInsanity(myPlayer);
+				final NBTTagCompound compound = myPlayer.getEntityData();
+				compound.setDouble(Insanity.PLAYER_INSANITY, Math.min(100.0, Insanity.get(myPlayer) + amount));
+				Insanity.updateClientSideInsanity(myPlayer);
 			}
 			else
 			{
-				NBTTagCompound compound = myPlayer.getEntityData();
-				compound.setDouble(PLAYER_INSANITY, Math.max(0, get(myPlayer) + amount));
-				updateClientSideInsanity(myPlayer);
+				final NBTTagCompound compound = myPlayer.getEntityData();
+				compound.setDouble(Insanity.PLAYER_INSANITY, Math.max(0, Insanity.get(myPlayer) + amount));
+				Insanity.updateClientSideInsanity(myPlayer);
 			}
 		}
 	}
 
 	// This sends an update packet to a client (sync packet)
-	public static void updateClientSideInsanity(EntityPlayer myPlayer)
+	public static void updateClientSideInsanity(final EntityPlayer myPlayer)
 	{
-		AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateInsanity(get(myPlayer)), (EntityPlayerMP) myPlayer);
+		AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateInsanity(Insanity.get(myPlayer)), (EntityPlayerMP) myPlayer);
 	}
 }

@@ -40,9 +40,9 @@ public abstract class AOTDLeaves extends BlockLeaves
 	public static final PropertyEnum VARIANT = PropertyEnum.create("variant", AOTDTreeTypes.class, new Predicate()
 	{
 		@Override
-		public boolean apply(Object input)
+		public boolean apply(final Object input)
 		{
-			AOTDTreeTypes type = (AOTDTreeTypes) input;
+			final AOTDTreeTypes type = (AOTDTreeTypes) input;
 			if (type == AOTDTreeTypes.GRAVEWOOD)
 			{
 				return true;
@@ -56,16 +56,16 @@ public abstract class AOTDLeaves extends BlockLeaves
 	{
 		super();
 		this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, AOTDTreeTypes.GRAVEWOOD).withProperty(field_176236_b, Boolean.valueOf(true)).withProperty(field_176237_a, Boolean.valueOf(true)));
+		this.setDefaultState(this.blockState.getBaseState().withProperty(AOTDLeaves.VARIANT, AOTDTreeTypes.GRAVEWOOD).withProperty(BlockLeaves.field_176236_b, Boolean.valueOf(true)).withProperty(BlockLeaves.field_176237_a, Boolean.valueOf(true)));
 		this.setTickRandomly(true);
 	}
 
 	// When the leaves are sheared
 	@Override
-	public List<ItemStack> onSheared(ItemStack item, IBlockAccess world, BlockPos pos, int fortune)
+	public List<ItemStack> onSheared(final ItemStack item, final IBlockAccess world, final BlockPos pos, final int fortune)
 	{
-		List<ItemStack> ret = new ArrayList<ItemStack>();
-		int meta = this.getMetaFromState(this.getDefaultState());
+		final List<ItemStack> ret = new ArrayList<ItemStack>();
+		final int meta = this.getMetaFromState(this.getDefaultState());
 		ret.add(new ItemStack(this, 1, meta));
 		return ret;
 	}
@@ -88,7 +88,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 	// Leaf render color
 	@Override
 	@SideOnly(Side.CLIENT)
-	public int getRenderColor(IBlockState state)
+	public int getRenderColor(final IBlockState state)
 	{
 		return ColorizerFoliage.getFoliageColorPine();
 	}
@@ -96,21 +96,21 @@ public abstract class AOTDLeaves extends BlockLeaves
 	// What color to multiply these leaves by
 	@Override
 	@SideOnly(Side.CLIENT)
-	public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass)
+	public int colorMultiplier(final IBlockAccess worldIn, final BlockPos pos, final int renderPass)
 	{
 		return ColorizerFoliage.getFoliageColorPine();
 	}
 
 	// Interface implements it so we need to, but it's unused
 	@Override
-	public EnumType func_176233_b(int p_176233_1_)
+	public EnumType func_176233_b(final int p_176233_1_)
 	{
 		return null;
 	}
 
 	// on decay i believe (Currently no saplings!)
 	@Override
-	protected void func_176234_a(World worldIn, BlockPos p_176234_2_, IBlockState p_176234_3_, int p_176234_4_)
+	protected void func_176234_a(final World worldIn, final BlockPos p_176234_2_, final IBlockState p_176234_3_, final int p_176234_4_)
 	{
 		return;
 	}
@@ -120,42 +120,42 @@ public abstract class AOTDLeaves extends BlockLeaves
 	 */
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, List list)
+	public void getSubBlocks(final Item itemIn, final CreativeTabs tab, final List list)
 	{
 		list.add(new ItemStack(itemIn, 1, AOTDTreeTypes.GRAVEWOOD.getMetadata()));
 	}
 
 	// Can these leaf types stack?
 	@Override
-	protected ItemStack createStackedBlock(IBlockState state)
+	protected ItemStack createStackedBlock(final IBlockState state)
 	{
-		return new ItemStack(Item.getItemFromBlock(this), 1, ((AOTDTreeTypes) state.getValue(VARIANT)).getMetadata());
+		return new ItemStack(Item.getItemFromBlock(this), 1, ((AOTDTreeTypes) state.getValue(AOTDLeaves.VARIANT)).getMetadata());
 	}
 
 	/**
 	 * Convert the given metadata into a BlockState for this Block
 	 */
 	@Override
-	public IBlockState getStateFromMeta(int meta)
+	public IBlockState getStateFromMeta(final int meta)
 	{
-		return this.getDefaultState().withProperty(VARIANT, AOTDTreeTypes.getTypeFromMeta(meta)).withProperty(field_176237_a, Boolean.valueOf((meta & 4) == 0)).withProperty(field_176236_b, Boolean.valueOf((meta & 8) > 0));
+		return this.getDefaultState().withProperty(AOTDLeaves.VARIANT, AOTDTreeTypes.getTypeFromMeta(meta)).withProperty(BlockLeaves.field_176237_a, Boolean.valueOf((meta & 4) == 0)).withProperty(BlockLeaves.field_176236_b, Boolean.valueOf((meta & 8) > 0));
 	}
 
 	/**
 	 * Convert the BlockState into the correct metadata value
 	 */
 	@Override
-	public int getMetaFromState(IBlockState state)
+	public int getMetaFromState(final IBlockState state)
 	{
-		byte b0 = 0;
-		int i = b0 | ((AOTDTreeTypes) state.getValue(VARIANT)).getMetadata();
+		final byte b0 = 0;
+		int i = b0 | ((AOTDTreeTypes) state.getValue(AOTDLeaves.VARIANT)).getMetadata();
 
-		if (!((Boolean) state.getValue(field_176237_a)).booleanValue())
+		if (!((Boolean) state.getValue(BlockLeaves.field_176237_a)).booleanValue())
 		{
 			i |= 4;
 		}
 
-		if (((Boolean) state.getValue(field_176236_b)).booleanValue())
+		if (((Boolean) state.getValue(BlockLeaves.field_176236_b)).booleanValue())
 		{
 			i |= 8;
 		}
@@ -168,26 +168,26 @@ public abstract class AOTDLeaves extends BlockLeaves
 	protected BlockState createBlockState()
 	{
 		return new BlockState(this, new IProperty[]
-		{ VARIANT, field_176236_b, field_176237_a });
+				{ AOTDLeaves.VARIANT, BlockLeaves.field_176236_b, BlockLeaves.field_176237_a });
 	}
 
 	/**
 	 * Get the damage value that this Block should drop
 	 */
 	@Override
-	public int damageDropped(IBlockState state)
+	public int damageDropped(final IBlockState state)
 	{
-		return ((AOTDTreeTypes) state.getValue(VARIANT)).getMetadata();
+		return ((AOTDTreeTypes) state.getValue(AOTDLeaves.VARIANT)).getMetadata();
 	}
 
 	// When the player harvests the block, what happens?
 	@Override
-	public void harvestBlock(World worldIn, EntityPlayer playerIn, BlockPos pos, IBlockState state, TileEntity te)
+	public void harvestBlock(final World worldIn, final EntityPlayer playerIn, final BlockPos pos, final IBlockState state, final TileEntity te)
 	{
-		if (!worldIn.isRemote && playerIn.getCurrentEquippedItem() != null && playerIn.getCurrentEquippedItem().getItem() == Items.shears)
+		if (!worldIn.isRemote && (playerIn.getCurrentEquippedItem() != null) && (playerIn.getCurrentEquippedItem().getItem() == Items.shears))
 		{
 			playerIn.triggerAchievement(StatList.mineBlockStatArray[Block.getIdFromBlock(this)]);
-			spawnAsEntity(worldIn, pos, new ItemStack(Item.getItemFromBlock(this), 1, ((AOTDTreeTypes) state.getValue(VARIANT)).getMetadata()));
+			Block.spawnAsEntity(worldIn, pos, new ItemStack(Item.getItemFromBlock(this), 1, ((AOTDTreeTypes) state.getValue(AOTDLeaves.VARIANT)).getMetadata()));
 		}
 		else
 		{
@@ -197,12 +197,12 @@ public abstract class AOTDLeaves extends BlockLeaves
 
 	/**
 	 * Get the Item that this Block should drop when harvested.
-	 * 
+	 *
 	 * @param fortune
 	 *            the level of the Fortune enchantment on the player's tool
 	 */
 	@Override
-	public Item getItemDropped(IBlockState state, Random rand, int fortune)
+	public Item getItemDropped(final IBlockState state, final Random rand, final int fortune)
 	{
 		return null;
 	}
@@ -210,12 +210,12 @@ public abstract class AOTDLeaves extends BlockLeaves
 	@Override
 	public String getUnlocalizedName()
 	{
-		return String.format("tile.%s%s", Refrence.MOD_ID.toLowerCase() + ":", getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
+		return String.format("tile.%s%s", Refrence.MOD_ID.toLowerCase() + ":", this.getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
 		// Format for a block is: tile.modid:blockname.name
 	}
 
 	// Get the unlocalized name
-	protected String getUnwrappedUnlocalizedName(String unlocalizedName)
+	protected String getUnwrappedUnlocalizedName(final String unlocalizedName)
 	{
 		return unlocalizedName.substring(unlocalizedName.indexOf(".") + 1);
 	}

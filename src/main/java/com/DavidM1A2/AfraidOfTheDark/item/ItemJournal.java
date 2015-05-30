@@ -31,7 +31,7 @@ public class ItemJournal extends AOTDItem
 
 	// If you right click with a journal
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer)
+	public ItemStack onItemRightClick(final ItemStack itemStack, final World world, final EntityPlayer entityPlayer)
 	{
 		// If the journal has no owner
 		if (NBTHelper.getString(itemStack, "owner").equals(""))
@@ -75,7 +75,7 @@ public class ItemJournal extends AOTDItem
 
 	// When created a journal has no owner
 	@Override
-	public void onCreated(ItemStack itemStack, World world, EntityPlayer entityPlayer)
+	public void onCreated(final ItemStack itemStack, final World world, final EntityPlayer entityPlayer)
 	{
 		NBTHelper.setString(itemStack, "owner", "no one.");
 	}
@@ -83,7 +83,7 @@ public class ItemJournal extends AOTDItem
 	// The journal shows who it is soulbound to
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List information, boolean p_77624_4_)
+	public void addInformation(final ItemStack itemStack, final EntityPlayer entityPlayer, final List information, final boolean p_77624_4_)
 	{
 		information.add("Item soulbound to " + NBTHelper.getString(itemStack, "owner"));
 	}

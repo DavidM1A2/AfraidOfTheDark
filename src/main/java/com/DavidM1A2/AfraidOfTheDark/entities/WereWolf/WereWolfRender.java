@@ -16,14 +16,14 @@ public class WereWolfRender extends RenderLiving
 {
 	private static final ResourceLocation myTexture = new ResourceLocation("afraidofthedark:textures/entity/WereWolf.png");
 
-	public WereWolfRender(RenderManager renderManager, ModelBase modelBase, float size)
+	public WereWolfRender(final RenderManager renderManager, final ModelBase modelBase, final float size)
 	{
 		super(renderManager, modelBase, size);
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(Entity entity)
+	protected ResourceLocation getEntityTexture(final Entity entity)
 	{
-		return myTexture;
+		return WereWolfRender.myTexture;
 	}
 }
