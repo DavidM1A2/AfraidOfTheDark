@@ -5,13 +5,13 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.item;
 
-public class ItemSilverIngot extends AOTDItem
+public class ItemAstralSilverIngot extends AOTDItem
 {
 	// Quick silver ingot item
-	public ItemSilverIngot()
+	public ItemAstralSilverIngot()
 	{
 		super();
-		this.setUnlocalizedName("silverIngot");
+		this.setUnlocalizedName("astralSilverIngot");
 		this.maxStackSize = 64;
 	}
 }

@@ -35,11 +35,11 @@ public class StarMetalArmor extends AOTDArmor
 	{
 		if (armor.getItem() == ModItems.starMetalLeggings)
 		{
-			return "afraidofthedark:textures/armor/igneous_2.png";
+			return "afraidofthedark:textures/armor/starMetal_2.png";
 		}
 		else
 		{
-			return "afraidofthedark:textures/armor/igneous_1.png";
+			return "afraidofthedark:textures/armor/starMetal_1.png";
 		}
 	}
 
@@ -58,7 +58,7 @@ public class StarMetalArmor extends AOTDArmor
 	{
 		if (!entityPlayer.isPotionActive(Potion.absorption))
 		{
-			entityPlayer.addPotionEffect(new PotionEffect(Potion.absorption.id, 1200, MathHelper.floor_double(this.getNumberOfWornPieces(entityPlayer) * 1.5)));
+			entityPlayer.addPotionEffect(new PotionEffect(Potion.absorption.id, 1200, MathHelper.floor_double(this.getNumberOfWornPieces(entityPlayer) * 1.5), false, false));
 		}
 	}
 

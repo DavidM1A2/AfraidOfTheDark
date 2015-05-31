@@ -15,7 +15,7 @@ public class ModFurnaceRecipies implements IFuelHandler
 	public static void initialize()
 	{
 		// Add one smelting recipie
-		GameRegistry.addSmelting(ModBlocks.astralSilverOre, new ItemStack(ModItems.silverIngot), .4F);
+		GameRegistry.addSmelting(ModBlocks.astralSilverOre, new ItemStack(ModItems.astralSilverIngot), .4F);
 		GameRegistry.addSmelting(ModBlocks.gravewood, new ItemStack(Item.getItemById(263), 1, 1), .1F);
 		GameRegistry.registerFuelHandler(new ModFurnaceRecipies());
 	}
