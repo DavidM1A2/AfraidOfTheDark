@@ -9,6 +9,9 @@ import java.util.Iterator;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.EnumSkyBlock;
+import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -25,7 +28,7 @@ public class DebugSpammer
 		if (e.entityLiving instanceof EntityPlayer)
 		{
 			final EntityPlayer entityPlayer = (EntityPlayer) e.entityLiving;
-
+			//addLight(entityPlayer);
 			if (true)
 			{
 				String toDebug = "";

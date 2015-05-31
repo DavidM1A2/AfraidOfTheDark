@@ -1,3 +1,8 @@
+/*
+ * Author: David Slovikosky 
+ * Mod: Afraid of the Dark 
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.worldGeneration;
 
 import java.util.ArrayList;
@@ -19,7 +24,7 @@ public class CreateMeteor
 	private static final List<Block> replaceableBlocks = new ArrayList<Block>()
 	{
 		{
-			add(ModBlocks.meteoricSilver);
+			add(ModBlocks.astralSilverOre);
 			add(ModBlocks.starMetalOre);
 			add(ModBlocks.sunstoneOre);
 			add(ModBlocks.meteor);
@@ -67,7 +72,7 @@ public class CreateMeteor
 
 	private static void createCore(World world, BlockPos location, int radius, int height, boolean hollow, boolean isSphere, MeteorTypes type)
 	{
-		Block toPlace = (type == MeteorTypes.silver) ? ModBlocks.meteoricSilver : (type == MeteorTypes.sunstone) ? ModBlocks.sunstoneOre : ModBlocks.starMetalOre;
+		Block toPlace = (type == MeteorTypes.silver) ? ModBlocks.astralSilverOre : (type == MeteorTypes.sunstone) ? ModBlocks.sunstoneOre : ModBlocks.starMetalOre;
 		int cx = location.getX();
 		int cy = location.getY();
 		int cz = location.getZ();

@@ -1,5 +1,7 @@
 /*
- * Author: David Slovikosky Mod: Afraid of the Dark Ideas and Textures: Michael Albertson
+ * Author: David Slovikosky 
+ * Mod: Afraid of the Dark 
+ * Ideas and Textures: Michael Albertson
  */
 package com.DavidM1A2.AfraidOfTheDark;
 
@@ -39,17 +41,32 @@ import com.DavidM1A2.AfraidOfTheDark.proxy.IProxy;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
 import com.DavidM1A2.AfraidOfTheDark.utility.LogHelper;
 
+/*
+ * Main class run when the mod is started up
+ */
 @Mod(modid = Refrence.MOD_ID, name = Refrence.MOD_NAME, version = Refrence.VERSION, guiFactory = Refrence.GUI_FACTORY_CLASS)
 public class AfraidOfTheDark
 {
+	/**
+	 * Singleton design pattern used here
+	 */
 	@Mod.Instance(Refrence.MOD_ID)
 	public static AfraidOfTheDark instance;
 
+	/**
+	 * Channel for sending and receiving packets
+	 */
 	private static SimpleNetworkWrapper channelNew;
 
+	/**
+	 * Sided proxy used to distinguish client & server side
+	 */
 	@SidedProxy(clientSide = Refrence.CLIENT_PROXY_CLASS, serverSide = Refrence.SERVER_PROXY_CLASS)
 	public static IProxy proxy;
 
+	/**
+	 * @param event Pre-init used to register events and various other things (see class names for what each line does)
+	 */
 	@Mod.EventHandler
 	public void preInitialization(final FMLPreInitializationEvent event)
 	{
@@ -90,6 +107,9 @@ public class AfraidOfTheDark
 		LogHelper.info("Pre-Initialization Complete");
 	}
 
+	/**
+	 * @param event Initialization event is responsible for renders and recipes
+	 */
 	@Mod.EventHandler
 	public void initialization(final FMLInitializationEvent event)
 	{
@@ -106,6 +126,9 @@ public class AfraidOfTheDark
 		LogHelper.info("Initialization Complete");
 	}
 
+	/**
+	 * @param event Register the research achieved overlay on the client side only
+	 */
 	@Mod.EventHandler
 	public void postInitialization(final FMLPostInitializationEvent event)
 	{
@@ -116,6 +139,9 @@ public class AfraidOfTheDark
 		LogHelper.info("Post-Initialization Complete");
 	}
 
+	/**
+	 * @param event Register commands when the server starts
+	 */
 	@Mod.EventHandler
 	public void serverStartingEvent(final FMLServerStartingEvent event)
 	{
@@ -123,6 +149,9 @@ public class AfraidOfTheDark
 		event.registerServerCommand(new InsanityCheck());
 	}
 
+	/**
+	 * @param event Register threads that begin once the server is started
+	 */
 	@Mod.EventHandler
 	public void serverStartedEvent(final FMLServerStartedEvent event)
 	{
@@ -130,6 +159,9 @@ public class AfraidOfTheDark
 		ModThreads.startInGameThreads();
 	}
 
+	/**
+	 * @param event Stop threads that began once the server is started
+	 */
 	@Mod.EventHandler
 	public void serverStoppedEvent(final FMLServerStoppedEvent event)
 	{
@@ -137,11 +169,17 @@ public class AfraidOfTheDark
 		ModThreads.stopInGameThreads();
 	}
 
+	/**
+	 * @return SimpleNetworkWrapper instance
+	 */
 	public static SimpleNetworkWrapper getSimpleNetworkWrapper()
 	{
 		return AfraidOfTheDark.channelNew;
 	}
 
+	/**
+	 * @param wrapper Set the channel up
+	 */
 	public static void setSimpleNetworkWrapper(final SimpleNetworkWrapper wrapper)
 	{
 		AfraidOfTheDark.channelNew = wrapper;

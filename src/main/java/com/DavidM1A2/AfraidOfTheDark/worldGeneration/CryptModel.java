@@ -1,3 +1,8 @@
+/*
+ * Author: David Slovikosky 
+ * Mod: Afraid of the Dark 
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.worldGeneration;
 
 import java.util.Random;
@@ -166,26 +171,26 @@ public class CryptModel
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 1, j + 2, k + 5));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 1, j + 2, k + 6, Blocks.chest, 5);
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 1, j + 2, k + 6));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 1, j + 2, k + 7, Blocks.air, 0);
 		this.setBlock(world, i + 1, j + 2, k + 8, Blocks.chest, 5);
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 1, j + 2, k + 8));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 1, j + 2, k + 9, Blocks.chest, 5);
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 1, j + 2, k + 9));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 1, j + 2, k + 10, Blocks.cobblestone, 0);
 		this.setBlock(world, i + 1, j + 2, k + 12, Blocks.mossy_cobblestone, 0);
@@ -193,26 +198,26 @@ public class CryptModel
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 1, j + 2, k + 13));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 1, j + 2, k + 14, Blocks.chest, 5);
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 1, j + 2, k + 14));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 1, j + 2, k + 15, Blocks.air, 0);
 		this.setBlock(world, i + 1, j + 2, k + 16, Blocks.chest, 5);
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 1, j + 2, k + 16));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 1, j + 2, k + 17, Blocks.chest, 5);
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 1, j + 2, k + 17));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 1, j + 2, k + 18, Blocks.cobblestone, 0);
 		this.setBlock(world, i + 1, j + 2, k + 20, Blocks.mossy_cobblestone, 0);
@@ -220,26 +225,26 @@ public class CryptModel
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 1, j + 2, k + 21));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 1, j + 2, k + 22, Blocks.chest, 5);
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 1, j + 2, k + 22));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 1, j + 2, k + 23, Blocks.air, 0);
 		this.setBlock(world, i + 1, j + 2, k + 24, Blocks.chest, 5);
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 1, j + 2, k + 24));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 1, j + 2, k + 25, Blocks.chest, 5);
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 1, j + 2, k + 25));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 1, j + 2, k + 26, Blocks.cobblestone, 0);
 		this.setBlock(world, i + 1, j + 3, k + 4, Blocks.cobblestone, 0);
@@ -992,7 +997,7 @@ public class CryptModel
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 5, j + 2, k + 1));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 5, j + 2, k + 2, Blocks.air, 0);
 		this.setBlock(world, i + 5, j + 2, k + 3, Blocks.air, 0);
@@ -1025,7 +1030,7 @@ public class CryptModel
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 5, j + 2, k + 29));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 5, j + 2, k + 30, Blocks.mossy_cobblestone, 0);
 		this.setBlock(world, i + 5, j + 3, k + 0, Blocks.cobblestone, 0);
@@ -1283,7 +1288,7 @@ public class CryptModel
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 6, j + 2, k + 1));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 6, j + 2, k + 2, Blocks.air, 0);
 		this.setBlock(world, i + 6, j + 2, k + 3, Blocks.air, 0);
@@ -1316,7 +1321,7 @@ public class CryptModel
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 6, j + 2, k + 29));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 6, j + 2, k + 30, Blocks.mossy_cobblestone, 0);
 		this.setBlock(world, i + 6, j + 3, k + 0, Blocks.mossy_cobblestone, 0);
@@ -1906,7 +1911,7 @@ public class CryptModel
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 8, j + 2, k + 1));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 8, j + 2, k + 2, Blocks.air, 0);
 		this.setBlock(world, i + 8, j + 2, k + 3, Blocks.air, 0);
@@ -1939,7 +1944,7 @@ public class CryptModel
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 8, j + 2, k + 29));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 8, j + 2, k + 30, Blocks.cobblestone, 0);
 		this.setBlock(world, i + 8, j + 3, k + 0, Blocks.cobblestone, 0);
@@ -2219,7 +2224,7 @@ public class CryptModel
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 9, j + 2, k + 1));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 9, j + 2, k + 2, Blocks.air, 0);
 		this.setBlock(world, i + 9, j + 2, k + 3, Blocks.air, 0);
@@ -2252,7 +2257,7 @@ public class CryptModel
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 9, j + 2, k + 29));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 9, j + 2, k + 30, Blocks.mossy_cobblestone, 0);
 		this.setBlock(world, i + 9, j + 3, k + 0, Blocks.cobblestone, 0);
@@ -3234,7 +3239,7 @@ public class CryptModel
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 13, j + 2, k + 1));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 13, j + 2, k + 2, Blocks.air, 0);
 		this.setBlock(world, i + 13, j + 2, k + 3, Blocks.air, 0);
@@ -3267,7 +3272,7 @@ public class CryptModel
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 13, j + 2, k + 29));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 13, j + 2, k + 30, Blocks.mossy_cobblestone, 0);
 		this.setBlock(world, i + 13, j + 3, k + 0, Blocks.cobblestone, 0);
@@ -3566,7 +3571,7 @@ public class CryptModel
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 14, j + 2, k + 1));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 14, j + 2, k + 2, Blocks.air, 0);
 		this.setBlock(world, i + 14, j + 2, k + 3, Blocks.air, 0);
@@ -3599,7 +3604,7 @@ public class CryptModel
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 14, j + 2, k + 29));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 14, j + 2, k + 30, Blocks.mossy_cobblestone, 0);
 		this.setBlock(world, i + 14, j + 3, k + 0, Blocks.mossy_cobblestone, 0);
@@ -4290,7 +4295,7 @@ public class CryptModel
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 16, j + 2, k + 1));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 16, j + 2, k + 2, Blocks.air, 0);
 		this.setBlock(world, i + 16, j + 2, k + 3, Blocks.air, 0);
@@ -4323,7 +4328,7 @@ public class CryptModel
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 16, j + 2, k + 29));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 16, j + 2, k + 30, Blocks.cobblestone, 0);
 		this.setBlock(world, i + 16, j + 3, k + 0, Blocks.cobblestone, 0);
@@ -4654,7 +4659,7 @@ public class CryptModel
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 17, j + 2, k + 1));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 17, j + 2, k + 2, Blocks.air, 0);
 		this.setBlock(world, i + 17, j + 2, k + 3, Blocks.air, 0);
@@ -4687,7 +4692,7 @@ public class CryptModel
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 17, j + 2, k + 29));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 
 		generate4(world, rand, i, j, k);
@@ -5709,7 +5714,7 @@ public class CryptModel
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 21, j + 2, k + 1));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 21, j + 2, k + 2, Blocks.air, 0);
 		this.setBlock(world, i + 21, j + 2, k + 3, Blocks.air, 0);
@@ -5742,7 +5747,7 @@ public class CryptModel
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 21, j + 2, k + 29));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 21, j + 2, k + 30, Blocks.mossy_cobblestone, 0);
 		this.setBlock(world, i + 21, j + 3, k + 0, Blocks.cobblestone, 0);
@@ -6000,7 +6005,7 @@ public class CryptModel
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 22, j + 2, k + 1));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 22, j + 2, k + 2, Blocks.air, 0);
 		this.setBlock(world, i + 22, j + 2, k + 3, Blocks.air, 0);
@@ -6033,7 +6038,7 @@ public class CryptModel
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 22, j + 2, k + 29));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 22, j + 2, k + 30, Blocks.mossy_cobblestone, 0);
 		this.setBlock(world, i + 22, j + 3, k + 0, Blocks.mossy_cobblestone, 0);
@@ -6623,7 +6628,7 @@ public class CryptModel
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 24, j + 2, k + 1));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 24, j + 2, k + 2, Blocks.air, 0);
 		this.setBlock(world, i + 24, j + 2, k + 3, Blocks.air, 0);
@@ -6656,7 +6661,7 @@ public class CryptModel
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 24, j + 2, k + 29));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 24, j + 2, k + 30, Blocks.cobblestone, 0);
 		this.setBlock(world, i + 24, j + 3, k + 0, Blocks.cobblestone, 0);
@@ -6936,7 +6941,7 @@ public class CryptModel
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 25, j + 2, k + 1));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 25, j + 2, k + 2, Blocks.air, 0);
 		this.setBlock(world, i + 25, j + 2, k + 3, Blocks.air, 0);
@@ -6969,7 +6974,7 @@ public class CryptModel
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 25, j + 2, k + 29));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 25, j + 2, k + 30, Blocks.mossy_cobblestone, 0);
 		this.setBlock(world, i + 25, j + 3, k + 0, Blocks.cobblestone, 0);
@@ -7834,26 +7839,26 @@ public class CryptModel
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 29, j + 2, k + 5));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 29, j + 2, k + 6, Blocks.chest, 4);
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 29, j + 2, k + 6));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 29, j + 2, k + 7, Blocks.air, 0);
 		this.setBlock(world, i + 29, j + 2, k + 8, Blocks.chest, 4);
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 29, j + 2, k + 8));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 29, j + 2, k + 9, Blocks.chest, 4);
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 29, j + 2, k + 9));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 29, j + 2, k + 10, Blocks.mossy_cobblestone, 0);
 		this.setBlock(world, i + 29, j + 2, k + 12, Blocks.cobblestone, 0);
@@ -7861,26 +7866,26 @@ public class CryptModel
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 29, j + 2, k + 13));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 29, j + 2, k + 14, Blocks.chest, 4);
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 29, j + 2, k + 14));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 29, j + 2, k + 15, Blocks.air, 0);
 		this.setBlock(world, i + 29, j + 2, k + 16, Blocks.chest, 4);
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 29, j + 2, k + 16));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 29, j + 2, k + 17, Blocks.chest, 4);
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 29, j + 2, k + 17));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 29, j + 2, k + 18, Blocks.mossy_cobblestone, 0);
 		this.setBlock(world, i + 29, j + 2, k + 20, Blocks.cobblestone, 0);
@@ -7888,26 +7893,26 @@ public class CryptModel
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 29, j + 2, k + 21));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 29, j + 2, k + 22, Blocks.chest, 4);
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 29, j + 2, k + 22));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 29, j + 2, k + 23, Blocks.air, 0);
 		this.setBlock(world, i + 29, j + 2, k + 24, Blocks.chest, 4);
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 29, j + 2, k + 24));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 29, j + 2, k + 25, Blocks.chest, 4);
 		tileentitychest = (TileEntityChest) world.getTileEntity(new BlockPos(i + 29, j + 2, k + 25));
 		if (tileentitychest != null)
 		{
-			WeightedRandomChestContent.generateChestContents(new Random(), GraveyardChestLoot.getItems(new Random()), tileentitychest, 1);
+			WeightedRandomChestContent.generateChestContents(new Random(), CryptChestLoot.getItems(new Random()), tileentitychest, 1);
 		}
 		this.setBlock(world, i + 29, j + 2, k + 26, Blocks.mossy_cobblestone, 0);
 		this.setBlock(world, i + 29, j + 3, k + 4, Blocks.mossy_cobblestone, 0);

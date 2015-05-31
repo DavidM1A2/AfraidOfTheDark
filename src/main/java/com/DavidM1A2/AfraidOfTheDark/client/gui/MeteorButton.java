@@ -1,3 +1,8 @@
+/*
+ * Author: David Slovikosky 
+ * Mod: Afraid of the Dark 
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.client.gui;
 
 import net.minecraft.client.Minecraft;
@@ -26,7 +31,7 @@ public class MeteorButton extends GuiButton
 		this.myType = myType;
 		if (myType == MeteorTypes.silver)
 		{
-			this.METEOR_TEXTURE = new ResourceLocation("afraidofthedark:textures/blocks/meteoricSilver.png");
+			this.METEOR_TEXTURE = new ResourceLocation("afraidofthedark:textures/blocks/astralSilverOre.png");
 		}
 		else if (myType == MeteorTypes.starMetal)
 		{

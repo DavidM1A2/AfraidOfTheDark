@@ -9,9 +9,8 @@ import net.minecraft.util.WeightedRandomChestContent;
 
 import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModItems;
 
-public class GraveyardChestLoot
+public class CryptChestLoot
 {
-
 	public static List getItems(Random rnd)
 	{
 		ArrayList<WeightedRandomChestContent> toReturn = new ArrayList<WeightedRandomChestContent>();

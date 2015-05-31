@@ -24,6 +24,7 @@ item.afraidofthedark:starMetalChestplate.name=Star Metal Chestplate
 item.afraidofthedark:starMetalLeggings.name=Star Metal Leggings
 item.afraidofthedark:starMetalBoots.name=Star Metal Boots
 item.afraidofthedark:trollPole.name=Troll Pole
+item.afraidofthedark:vitaeLantern.name=Vitae Lantern
 
 # Blocks
 tile.afraidofthedark:silverOre.name=Silver Ore
@@ -35,7 +36,7 @@ tile.afraidofthedark:gravewoodStairs.name=Gravewood Stairs
 tile.afraidofthedark:gravewoodHalfSlab.name=Gravewood Slab
 tile.afraidofthedark:gravewoodDoubleSlab.name=Gravewood Double Slab
 tile.afraidofthedark:sunstoneOre.name=Sunstone Ore
-tile.afraidofthedark:meteoricSilver.name=Meteoric Silver
+tile.afraidofthedark:astralSilverOre.name=Astral Silver Ore
 tile.afraidofthedark:meteor.name=Meteor
 tile.afraidofthedark:starMetalOre.name=Star Metal Ore
 tile.afraidofthedark:igneousBlock.name=Igneous Block

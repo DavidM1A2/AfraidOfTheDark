@@ -1,3 +1,8 @@
+/*
+ * Author: David Slovikosky 
+ * Mod: Afraid of the Dark 
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.worldGeneration;
 
 import java.util.Random;
@@ -31,19 +36,19 @@ public class GenerateSilverOre implements IWorldGenerator
 
 	private void generateSurface(World world, Random random, int chunkX, int chunkZ)
 	{
-		// The 5 is the amount of spawns per chunk
-		for (int i = 0; i < 2; i++)
-		{
-			//
-			int randomPositionX = chunkX + random.nextInt(16);
-			// 64 =
-			int randomPositionY = random.nextInt(64);
-			//
-			int randomPositionZ = chunkZ + random.nextInt(16);
-
-			// up to 10 per vein
-			(new WorldGenMinable(ModBlocks.silverOre.getDefaultState(), 20)).generate(world, random, new BlockPos(randomPositionX, randomPositionY, randomPositionZ));
-		}
+//		// The 5 is the amount of spawns per chunk
+//		for (int i = 0; i < 2; i++)
+//		{
+//			//
+//			int randomPositionX = chunkX + random.nextInt(16);
+//			// 64 =
+//			int randomPositionY = random.nextInt(64);
+//			//
+//			int randomPositionZ = chunkZ + random.nextInt(16);
+//
+//			// up to 10 per vein
+//			(new WorldGenMinable(ModBlocks.silverOre.getDefaultState(), 20)).generate(world, random, new BlockPos(randomPositionX, randomPositionY, randomPositionZ));
+//		}
 	}
 
 	private void generateNether(World world, Random random, int chunkX, int chunkZ)

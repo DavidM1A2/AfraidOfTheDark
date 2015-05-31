@@ -28,6 +28,7 @@ import com.DavidM1A2.AfraidOfTheDark.item.ItemStarMetal;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemSunstone;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemTelescope;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemTrollPole;
+import com.DavidM1A2.AfraidOfTheDark.item.ItemVitaeLantern;
 import com.DavidM1A2.AfraidOfTheDark.item.crossbow.ItemCrossbow;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
 
@@ -59,6 +60,7 @@ public class ModItems
 	public static final ItemSunstone sunstoneIngot = new ItemSunstone();
 	public static final ItemStarMetal starMetalIngot = new ItemStarMetal();
 	public static final ItemTrollPole trollPole = new ItemTrollPole();
+	public static final ItemVitaeLantern vitaeLantern = new ItemVitaeLantern(); 
 
 	public static void initialize(final Side side)
 	{
@@ -87,6 +89,7 @@ public class ModItems
 		GameRegistry.registerItem(ModItems.sunstoneIngot, "sunstoneIngot");
 		GameRegistry.registerItem(ModItems.starMetalIngot, "starMetalIngot");
 		GameRegistry.registerItem(ModItems.trollPole, "trollPole");
+		GameRegistry.registerItem(ModItems.vitaeLantern, "vitaeLantern");
 	}
 
 	public static void initializeRenderers(final Side side)
@@ -118,6 +121,7 @@ public class ModItems
 			renderItem.getItemModelMesher().register(ModItems.sunstoneIngot, 0, new ModelResourceLocation(Refrence.MOD_ID + ":sunstoneIngot", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.starMetalIngot, 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalIngot", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.trollPole, 0, new ModelResourceLocation(Refrence.MOD_ID + ":trollPole", "inventory"));
+			renderItem.getItemModelMesher().register(ModItems.vitaeLantern, 0, new ModelResourceLocation(Refrence.MOD_ID + ":vitaeLantern", "inventory"));
 		}
 	}
 }
