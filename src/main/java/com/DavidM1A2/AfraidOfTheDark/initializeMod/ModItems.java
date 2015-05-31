@@ -22,12 +22,13 @@ import com.DavidM1A2.AfraidOfTheDark.item.ItemInsanityControl;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemJournal;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemSextant;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemAstralSilverIngot;
-import com.DavidM1A2.AfraidOfTheDark.item.ItemSilverSword;
+import com.DavidM1A2.AfraidOfTheDark.item.ItemAstralSilverSword;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemSpawnWerewolf;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemStarMetal;
+import com.DavidM1A2.AfraidOfTheDark.item.ItemStarMetalKatana;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemSunstone;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemTelescope;
-import com.DavidM1A2.AfraidOfTheDark.item.ItemTrollPole;
+import com.DavidM1A2.AfraidOfTheDark.item.ItemStarMetalStaff;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemVitaeLantern;
 import com.DavidM1A2.AfraidOfTheDark.item.crossbow.ItemCrossbow;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
@@ -38,7 +39,7 @@ public class ModItems
 	// Register mod items
 	public static final ItemInsanityControl insanityControl = new ItemInsanityControl();
 	public static final ItemJournal journal = new ItemJournal();
-	public static final ItemSilverSword silverSword = new ItemSilverSword();
+	public static final ItemAstralSilverSword astralSilverSword = new ItemAstralSilverSword();
 	public static final ItemIgneousSword igneousSword = new ItemIgneousSword();
 	public static final ItemAstralSilverIngot astralSilverIngot = new ItemAstralSilverIngot();
 	public static final ItemCrossbow crossbow = new ItemCrossbow();
@@ -59,15 +60,16 @@ public class ModItems
 	public static final ItemSextant sextant = new ItemSextant();
 	public static final ItemSunstone sunstoneIngot = new ItemSunstone();
 	public static final ItemStarMetal starMetalIngot = new ItemStarMetal();
-	public static final ItemTrollPole trollPole = new ItemTrollPole();
+	public static final ItemStarMetalStaff starMetalStaff = new ItemStarMetalStaff();
 	public static final ItemVitaeLantern vitaeLantern = new ItemVitaeLantern(); 
+	public static final ItemStarMetalKatana starMetalKatana = new ItemStarMetalKatana();
 
 	public static void initialize(final Side side)
 	{
 		// Register items
 		GameRegistry.registerItem(ModItems.insanityControl, "insanityControl");
 		GameRegistry.registerItem(ModItems.journal, "journal");
-		GameRegistry.registerItem(ModItems.silverSword, "silverSword");
+		GameRegistry.registerItem(ModItems.astralSilverSword, "astralSilverSword");
 		GameRegistry.registerItem(ModItems.igneousSword, "igneousSword");
 		GameRegistry.registerItem(ModItems.astralSilverIngot, "astralSilverIngot");
 		GameRegistry.registerItem(ModItems.crossbow, "crossbow");
@@ -88,8 +90,9 @@ public class ModItems
 		GameRegistry.registerItem(ModItems.sextant, "sextant");
 		GameRegistry.registerItem(ModItems.sunstoneIngot, "sunstoneIngot");
 		GameRegistry.registerItem(ModItems.starMetalIngot, "starMetalIngot");
-		GameRegistry.registerItem(ModItems.trollPole, "trollPole");
+		GameRegistry.registerItem(ModItems.starMetalStaff, "starMetalStaff");
 		GameRegistry.registerItem(ModItems.vitaeLantern, "vitaeLantern");
+		GameRegistry.registerItem(ModItems.starMetalKatana, "starMetalKatana");
 	}
 
 	public static void initializeRenderers(final Side side)
@@ -99,7 +102,7 @@ public class ModItems
 			final RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 			renderItem.getItemModelMesher().register(ModItems.insanityControl, 0, new ModelResourceLocation(Refrence.MOD_ID + ":insanityControl", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.journal, 0, new ModelResourceLocation(Refrence.MOD_ID + ":journal", "inventory"));
-			renderItem.getItemModelMesher().register(ModItems.silverSword, 0, new ModelResourceLocation(Refrence.MOD_ID + ":silverSword", "inventory"));
+			renderItem.getItemModelMesher().register(ModItems.astralSilverSword, 0, new ModelResourceLocation(Refrence.MOD_ID + ":astralSilverSword", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.igneousSword, 0, new ModelResourceLocation(Refrence.MOD_ID + ":igneousSword", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.astralSilverIngot, 0, new ModelResourceLocation(Refrence.MOD_ID + ":astralSilverIngot", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.crossbow, 0, new ModelResourceLocation(Refrence.MOD_ID + ":crossbow", "inventory"));
@@ -120,8 +123,9 @@ public class ModItems
 			renderItem.getItemModelMesher().register(ModItems.sextant, 0, new ModelResourceLocation(Refrence.MOD_ID + ":sextant", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.sunstoneIngot, 0, new ModelResourceLocation(Refrence.MOD_ID + ":sunstoneIngot", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.starMetalIngot, 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalIngot", "inventory"));
-			renderItem.getItemModelMesher().register(ModItems.trollPole, 0, new ModelResourceLocation(Refrence.MOD_ID + ":trollPole", "inventory"));
+			renderItem.getItemModelMesher().register(ModItems.starMetalStaff, 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalStaff", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.vitaeLantern, 0, new ModelResourceLocation(Refrence.MOD_ID + ":vitaeLantern", "inventory"));
+			renderItem.getItemModelMesher().register(ModItems.starMetalKatana, 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalKatana", "inventory"));
 		}
 	}
 }

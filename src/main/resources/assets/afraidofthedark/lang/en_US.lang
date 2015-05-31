@@ -2,7 +2,7 @@
 item.afraidofthedark:template.name=Item Name Template
 item.afraidofthedark:insanityControl.name=Insanity Control Debug
 item.afraidofthedark:journal.name=Blood Stained Journal
-item.afraidofthedark:silverSword.name=Silver Sword
+item.afraidofthedark:astralSilverSword.name=Astral Silver Sword
 item.afraidofthedark:igneousSword.name=Igneous Sword
 item.afraidofthedark:astralSilverIngot.name=Astral Silver Ingot
 item.afraidofthedark:crossbow.name=Crossbow
@@ -23,7 +23,8 @@ item.afraidofthedark:starMetalHelmet.name=Star Metal Helmet
 item.afraidofthedark:starMetalChestplate.name=Star Metal Chestplate
 item.afraidofthedark:starMetalLeggings.name=Star Metal Leggings
 item.afraidofthedark:starMetalBoots.name=Star Metal Boots
-item.afraidofthedark:trollPole.name=Troll Pole
+item.afraidofthedark:starMetalStaff.name=Star Metal Staff
+item.afraidofthedark:starMetalKatana.name=Star Metal Katana
 item.afraidofthedark:vitaeLantern.name=Vitae Lantern
 
 # Blocks

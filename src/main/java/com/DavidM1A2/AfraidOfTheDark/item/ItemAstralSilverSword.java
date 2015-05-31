@@ -18,12 +18,12 @@ import com.DavidM1A2.AfraidOfTheDark.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
 
 // Silversword item which is a sword
-public class ItemSilverSword extends AOTDSword
+public class ItemAstralSilverSword extends AOTDSword
 {
-	public ItemSilverSword()
+	public ItemAstralSilverSword()
 	{
-		super(Refrence.silver);
-		this.setUnlocalizedName("silverSword");
+		super(Refrence.astralSilver);
+		this.setUnlocalizedName("astralSilverSword");
 	}
 
 	// When left clicking attack from silver weapon damage
@@ -38,21 +38,5 @@ public class ItemSilverSword extends AOTDSword
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * allows items to add custom lines of information to the mouseover description
-	 *
-	 * @param tooltip
-	 *            All lines to display in the Item's tooltip. This is a List of Strings.
-	 * @param advanced
-	 *            Whether the setting "Advanced tooltips" is enabled
-	 */
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void addInformation(final ItemStack stack, final EntityPlayer playerIn, final List tooltip, final boolean advanced)
-	{
-		tooltip.add("Seems weak at first but deals much needed");
-		tooltip.add("silver damage against werewolves.");
 	}
 }

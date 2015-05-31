@@ -1,18 +1,17 @@
-/*
- * Author: David Slovikosky 
- * Mod: Afraid of the Dark 
- * Ideas and Textures: Michael Albertson
- */
 package com.DavidM1A2.AfraidOfTheDark.threads;
 
-public class TrollPoleCooldown extends Thread
+import com.DavidM1A2.AfraidOfTheDark.item.IHasCooldown;
+
+public class Cooldown<T extends IHasCooldown> extends Thread
 {
 	private final int COOLDOWN;
 	private long launchTime;
+	private final T classWithCooldown;
 
-	public TrollPoleCooldown(final int cooldown)
+	public Cooldown(final T classWithCooldown)
 	{
-		this.COOLDOWN = cooldown;
+		this.COOLDOWN = classWithCooldown.getItemCooldownInMillis();
+		this.classWithCooldown = classWithCooldown;
 	}
 
 	@Override
@@ -26,6 +25,12 @@ public class TrollPoleCooldown extends Thread
 		catch (final InterruptedException e)
 		{
 		}
+		classWithCooldown.cooldownCallback();
+	}
+	
+	public boolean onCooldown()
+	{
+		return this.isAlive();
 	}
 
 	public int getSecondsRemaining()

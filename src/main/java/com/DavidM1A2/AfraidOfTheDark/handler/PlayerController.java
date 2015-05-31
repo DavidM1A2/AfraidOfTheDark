@@ -5,6 +5,8 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.handler;
 
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -26,6 +28,7 @@ import com.DavidM1A2.AfraidOfTheDark.packets.UpdateResearch;
 import com.DavidM1A2.AfraidOfTheDark.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.playerData.Insanity;
 import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
+import com.DavidM1A2.AfraidOfTheDark.playerData.Vitae;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
 import com.DavidM1A2.AfraidOfTheDark.threads.DelayedAOTDUpdate;
 import com.DavidM1A2.AfraidOfTheDark.threads.DelayedInsanityUpdate;
@@ -121,26 +124,34 @@ public class PlayerController
 			/*
 			 * This fourth block of code will load the player's research.
 			 */
-			if (entityPlayer.getExtendedProperties("unlockedResearches") == null)
+			if (entityPlayer.getExtendedProperties(LoadResearchData.RESEARCH_DATA) == null)
 			{
 				LoadResearchData.register(entityPlayer);
 			}
 			/*
 			 * This third block of code will check if the player has begun the mod.
 			 */
-			if (entityPlayer.getExtendedProperties("playerStartedAOTD") == null)
+			if (entityPlayer.getExtendedProperties(HasStartedAOTD.PLAYER_STARTED_AOTD) == null)
 			{
 				HasStartedAOTD.register(entityPlayer);
 			}
 			/*
 			 * This first block of code will determine if the player has insanity yet, and if he/she does we will load it.
 			 */
-			if (entityPlayer.getExtendedProperties("PlayerInsanity") == null)
+			if (entityPlayer.getExtendedProperties(Insanity.PLAYER_INSANITY) == null)
 			{
 				Insanity.register(entityPlayer);
 			}
-
 		}
+		
+		if (event.entity instanceof EntityLivingBase)
+		{
+			EntityLivingBase entityLivingBase = (EntityLivingBase) event.entity;
+			if (entityLivingBase.getExtendedProperties(Vitae.VITAE_LEVEL) == null)
+			{
+				Vitae.register(entityLivingBase);
+			}
+		}		
 	}
 
 	@SideOnly(Side.CLIENT)
