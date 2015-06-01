@@ -69,7 +69,7 @@ public class LoadResearchData implements IExtendedEntityProperties
 		return entityPlayer.getEntityData().getCompoundTag(LoadResearchData.RESEARCH_DATA).getBoolean(LoadResearchData.RESEARCH_DATA + type.toString());
 	}
 
-	public static void unlockResearchSynced(final EntityPlayer entityPlayer, final ResearchTypes type, final Side side)
+	public static void unlockResearchSynced(final EntityPlayer entityPlayer, final ResearchTypes type, final Side side, boolean firstTimeResearched)
 	{
 		final NBTTagCompound current = LoadResearchData.get(entityPlayer);
 		current.setBoolean(LoadResearchData.RESEARCH_DATA + type.toString(), true);
@@ -77,12 +77,15 @@ public class LoadResearchData implements IExtendedEntityProperties
 		LogHelper.info("Updating research on " + FMLCommonHandler.instance().getSide().toString() + " side.");
 		if (side == Side.CLIENT)
 		{
-			AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateResearch(entityPlayer.getEntityData().getCompoundTag(LoadResearchData.RESEARCH_DATA)));
-			Refrence.researchAchievedOverlay.displayResearch(type, new ItemStack(ModItems.journal, 1), false);
+			AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateResearch(entityPlayer.getEntityData().getCompoundTag(LoadResearchData.RESEARCH_DATA), firstTimeResearched));
+			if (firstTimeResearched)
+			{
+				Refrence.researchAchievedOverlay.displayResearch(type, new ItemStack(ModItems.journal, 1), false);
+			}
 		}
 		else
 		{
-			AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateResearch(entityPlayer.getEntityData().getCompoundTag(LoadResearchData.RESEARCH_DATA)), (EntityPlayerMP) entityPlayer);
+			AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateResearch(entityPlayer.getEntityData().getCompoundTag(LoadResearchData.RESEARCH_DATA), firstTimeResearched), (EntityPlayerMP) entityPlayer);
 		}
 	}
 }

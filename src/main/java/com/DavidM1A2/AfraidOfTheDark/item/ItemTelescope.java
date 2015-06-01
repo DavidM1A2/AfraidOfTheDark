@@ -42,7 +42,7 @@ public class ItemTelescope extends AOTDItem
 
 					if (!LoadResearchData.isResearched(entityPlayer, ResearchTypes.Astronomy1))
 					{
-						LoadResearchData.unlockResearchSynced(entityPlayer, ResearchTypes.Astronomy1, Side.CLIENT);
+						LoadResearchData.unlockResearchSynced(entityPlayer, ResearchTypes.Astronomy1, Side.CLIENT, true);
 					}
 				}
 			}

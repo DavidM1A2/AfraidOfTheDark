@@ -127,7 +127,7 @@ public class EntityWereWolf extends EntityMob
 				{
 					if (!LoadResearchData.isResearched(thePlayer, ResearchTypes.WerewolfExamination))
 					{
-						LoadResearchData.unlockResearchSynced(thePlayer, ResearchTypes.WerewolfExamination, Side.SERVER);
+						LoadResearchData.unlockResearchSynced(thePlayer, ResearchTypes.WerewolfExamination, Side.SERVER, true);
 					}
 				}
 			}

@@ -6,7 +6,6 @@
 package com.DavidM1A2.AfraidOfTheDark.handler;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -109,7 +108,7 @@ public class PlayerController
 
 				AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateAOTDStatus(HasStartedAOTD.get(entityPlayer)), (EntityPlayerMP) entityPlayer);
 
-				AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateResearch(LoadResearchData.get(entityPlayer)), (EntityPlayerMP) entityPlayer);
+				AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateResearch(LoadResearchData.get(entityPlayer), false), (EntityPlayerMP) entityPlayer);
 			}
 		}
 	}
@@ -143,7 +142,7 @@ public class PlayerController
 				Insanity.register(entityPlayer);
 			}
 		}
-		
+
 		if (event.entity instanceof EntityLivingBase)
 		{
 			EntityLivingBase entityLivingBase = (EntityLivingBase) event.entity;
@@ -151,7 +150,7 @@ public class PlayerController
 			{
 				Vitae.register(entityLivingBase);
 			}
-		}		
+		}
 	}
 
 	@SideOnly(Side.CLIENT)

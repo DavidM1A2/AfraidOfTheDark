@@ -77,32 +77,32 @@ public class BloodStainedJournalSignGUI extends GuiScreen
 		final EntityPlayer playerWhoPressed = Minecraft.getMinecraft().thePlayer;
 		switch (button.id)
 		{
-		case 0:
-		{
-			if (this.signNameHere.getText().equals(playerWhoPressed.getDisplayName().getUnformattedText()))
+			case 0:
 			{
-				// If the player signed their own name and has not started
-				// AOTD
-				if (HasStartedAOTD.get(playerWhoPressed) == false)
+				if (this.signNameHere.getText().equals(playerWhoPressed.getDisplayName().getUnformattedText()))
 				{
-					HasStartedAOTD.set(playerWhoPressed, true, Side.CLIENT);
-					playerWhoPressed.inventory.getStackInSlot(playerWhoPressed.inventory.currentItem).getTagCompound().setString("owner", playerWhoPressed.getDisplayName().getUnformattedText());
-					AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateAOTDStatus(true));
-					playerWhoPressed.addChatMessage(new ChatComponentText("§4§oWhat §4§ohave §4§oI §4§odone?"));
-					LoadResearchData.unlockResearchSynced(playerWhoPressed, ResearchTypes.AnUnbreakableCovenant, FMLCommonHandler.instance().getSide());
-					LoadResearchData.unlockResearchSynced(playerWhoPressed, ResearchTypes.Crossbow, FMLCommonHandler.instance().getSide());
-					playerWhoPressed.closeScreen();
+					// If the player signed their own name and has not started
+					// AOTD
+					if (HasStartedAOTD.get(playerWhoPressed) == false)
+					{
+						HasStartedAOTD.set(playerWhoPressed, true, Side.CLIENT);
+						playerWhoPressed.inventory.getStackInSlot(playerWhoPressed.inventory.currentItem).getTagCompound().setString("owner", playerWhoPressed.getDisplayName().getUnformattedText());
+						AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateAOTDStatus(true));
+						playerWhoPressed.addChatMessage(new ChatComponentText("§4§oWhat §4§ohave §4§oI §4§odone?"));
+						LoadResearchData.unlockResearchSynced(playerWhoPressed, ResearchTypes.AnUnbreakableCovenant, FMLCommonHandler.instance().getSide(), true);
+						LoadResearchData.unlockResearchSynced(playerWhoPressed, ResearchTypes.Crossbow, FMLCommonHandler.instance().getSide(), true);
+						playerWhoPressed.closeScreen();
+					}
+				}
+				else
+				{
+					if (HasStartedAOTD.get(playerWhoPressed) == false)
+					{
+						playerWhoPressed.addChatMessage(new ChatComponentText("*You expect something to happen... but nothing does."));
+						playerWhoPressed.closeScreen();
+					}
 				}
 			}
-			else
-			{
-				if (HasStartedAOTD.get(playerWhoPressed) == false)
-				{
-					playerWhoPressed.addChatMessage(new ChatComponentText("*You expect something to happen... but nothing does."));
-					playerWhoPressed.closeScreen();
-				}
-			}
-		}
 		}
 	}
 }
