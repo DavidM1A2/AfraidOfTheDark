@@ -40,6 +40,9 @@ public class CreateMeteor
 			add(Blocks.double_plant);
 			add(Blocks.ice);
 			add(Blocks.air);
+			add(Blocks.stone);
+			add(Blocks.gravel);
+			add(Blocks.sandstone);
 		}
 	};
 
@@ -103,7 +106,7 @@ public class CreateMeteor
 			world.getChunkProvider().provideChunk(location.getX(), location.getZ());
 		}
 
-		while (world.getBlockState(location).getBlock() instanceof BlockAir)
+		while (world.getBlockState(location).getBlock() instanceof BlockAir || world.getBlockState(location).getBlock().getMaterial() == Material.water)
 		{
 			location = new BlockPos(location.getX(), location.getY() - 1, location.getZ());
 		}
