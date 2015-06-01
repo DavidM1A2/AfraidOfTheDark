@@ -18,7 +18,7 @@ public abstract class AOTDSword extends ItemSword
 		this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
 	}
 
-	// Set the item name in the game (not the visual name but the refrence name)
+	// Set the item name in the game (not the visual name but the reference name)
 	@Override
 	public String getUnlocalizedName()
 	{
