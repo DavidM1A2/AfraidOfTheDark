@@ -7,6 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.entities.Bolts;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.Item;
 import net.minecraft.util.DamageSource;
@@ -18,25 +19,28 @@ import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModItems;
 // The bolt is a throwable entity and does Generic damage.
 public abstract class EntityBolt extends EntityThrowable
 {
-	private DamageSource myDamageType = DamageSource.generic;
 	private int damageAmount = 6;
 	private Item myDrop = ModItems.ironBolt;
 	private double myChanceToDropHitEntity = .4;
 	private double myChanceToDropHitGround = .8;
+	protected final EntityLivingBase myDamageSource;
 
 	public EntityBolt(final World world)
 	{
 		super(world);
+		myDamageSource = null;
 	}
 
 	public EntityBolt(final World world, final EntityLivingBase entityLivingBase)
 	{
 		super(world, entityLivingBase);
+		myDamageSource = entityLivingBase;
 	}
 
 	public EntityBolt(final World world, final double x, final double y, final double z)
 	{
 		super(world, x, y, z);
+		myDamageSource = null;
 	}
 
 	// The bolt may drop depending on if the chance to drop is great enough
@@ -49,7 +53,10 @@ public abstract class EntityBolt extends EntityThrowable
 		{
 			if (entityHit != null)
 			{
-				entityHit.attackEntityFrom(this.myDamageType, this.damageAmount);
+				if (myDamageSource instanceof EntityPlayer)
+				{
+					entityHit.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) myDamageSource), this.damageAmount);
+				}
 
 				if (Math.random() < this.myChanceToDropHitEntity)
 				{
@@ -74,12 +81,6 @@ public abstract class EntityBolt extends EntityThrowable
 		this.damageAmount = damage;
 	}
 
-	// Set the damage type of this bolt
-	public void setDamageType(final DamageSource damage)
-	{
-		this.myDamageType = damage;
-	}
-
 	// Set the type of bolt
 	public void setMyType(final Item item)
 	{
@@ -96,12 +97,6 @@ public abstract class EntityBolt extends EntityThrowable
 	public void setChanceToDropHitEntity(final double chance)
 	{
 		this.myChanceToDropHitEntity = chance;
-	}
-
-	// Various getters
-	public DamageSource getDamageType()
-	{
-		return this.myDamageType;
 	}
 
 	public float getDamage()

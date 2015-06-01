@@ -21,7 +21,6 @@ import com.DavidM1A2.AfraidOfTheDark.entities.Bolts.EntityWoodenBolt;
 import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.item.AOTDItem;
 import com.DavidM1A2.AfraidOfTheDark.packets.UpdateCrossbow;
-import com.DavidM1A2.AfraidOfTheDark.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.utility.NBTHelper;
 
 // The crossbow Item
@@ -31,7 +30,7 @@ public class ItemCrossbow extends AOTDItem
 	private final int RELOAD_TIME = 100;
 	// This array contains available bolts
 	private final String[] availableBolts =
-		{ "IronBolt", "SilverBolt", "WoodenBolt" };
+	{ "IronBolt", "SilverBolt", "WoodenBolt" };
 
 	public ItemCrossbow()
 	{
@@ -105,7 +104,6 @@ public class ItemCrossbow extends AOTDItem
 	@Override
 	public void onUsingTick(final ItemStack itemStack, final EntityPlayer entityPlayer, final int count)
 	{
-		LogHelper.info("Got here!");
 		// On using we play a sound
 		if (count == (this.RELOAD_TIME - 1))
 		{

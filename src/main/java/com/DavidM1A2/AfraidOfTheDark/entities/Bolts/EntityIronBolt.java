@@ -6,7 +6,6 @@
 package com.DavidM1A2.AfraidOfTheDark.entities.Bolts;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModItems;
@@ -35,7 +34,6 @@ public class EntityIronBolt extends EntityBolt
 	public void setProperties()
 	{
 		this.setDamage(8);
-		this.setDamageType(DamageSource.generic.setProjectile());
 		this.setMyType(ModItems.ironBolt);
 		this.setChanceToDropHitEntity(.4);
 		this.setChanceToDropHitGround(.8);
