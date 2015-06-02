@@ -30,7 +30,7 @@ public class ItemSextant extends AOTDItem
 	{
 		if (world.isRemote)
 		{
-			if (HasStartedAOTD.get(entityPlayer) && LoadResearchData.isResearched(entityPlayer, ResearchTypes.Astronomy1.getPrevious()))
+			if (HasStartedAOTD.get(entityPlayer) && LoadResearchData.isResearched(entityPlayer, ResearchTypes.AstronomyI.getPrevious()))
 			{
 				entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.SEXTANT_ID, world, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ());
 			}

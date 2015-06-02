@@ -35,84 +35,84 @@ public class GuiHandler implements IGuiHandler
 	{
 		switch (ID)
 		{
-		case GuiHandler.BLOOD_STAINED_JOURNAL_SIGN_ID:
-			return new BloodStainedJournalSignGUI();
-		case GuiHandler.BLOOD_STAINED_JOURNAL_ID:
-			return new BloodStainedJournalResearchGUI();
-		case GuiHandler.TELESCOPE_ID:
-			return new TelescopeGUI();
-		case GuiHandler.SEXTANT_ID:
-			return new SextantGUI();
-		case GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID:
-			switch (Refrence.currentlySelected)
-			{
-			case AnUnbreakableCovenant:
-				return new BloodStainedJournalPageGUI(ResearchDesciptions.anUnbreakableCovenant, "An Unbreakable Covenant");
-			case PreWerewolfExamination:
-				return new BloodStainedJournalPageGUI(ResearchDesciptions.preWerewolfExamination, "W~~-wo-+f");
-			case WerewolfExamination:
-				return new BloodStainedJournalPageGUI(ResearchDesciptions.werewolfExamination, "Werewolf Examination");
-			case AstralSilver:
-				break;
-			case Astronomy1:
-				return new BloodStainedJournalPageGUI(ResearchDesciptions.astronomy1, "Astronomy 1");
-			case Astronomy2:
-				break;
-			case CloakOfAgility:
-				break;
-			case Crossbow:
-				return new BloodStainedJournalPageGUI(ResearchDesciptions.crossbow, "Crossbow");
-			case DarkForest:
-				break;
-			case IgneousArmor:
-				break;
-			case PreAstralSilver:
-				break;
-			case PreAstronomy1:
-				return new BloodStainedJournalPageGUI(ResearchDesciptions.preAstronomy1, "Astor -- star");
-			case PreAstronomy2:
-				break;
-			case PreCloakOfAgility:
-				break;
-			case PreDarkForest:
-				break;
-			case PreIgneousArmor:
-				break;
-			case PreSanityLantern:
-				break;
-			case PreSilverInfusion:
-				break;
-			case PreSpiderTurn:
-				break;
-			case PreStarMetal:
-				break;
-			case PreSunprotection:
-				break;
-			case PreVampire:
-				break;
-			case PreVitae1:
-				break;
-			case PreVitaeLantern1:
-				break;
-			case SanityLantern:
-				break;
-			case SilverInfusion:
-				break;
-			case SpiderTurn:
-				break;
-			case StarMetal:
-				break;
-			case SunProtection:
-				break;
-			case Vampire:
-				break;
-			case Vitae1:
-				break;
-			case VitaeLantern1:
-				break;
-			default:
-				break;
-			}
+			case GuiHandler.BLOOD_STAINED_JOURNAL_SIGN_ID:
+				return new BloodStainedJournalSignGUI();
+			case GuiHandler.BLOOD_STAINED_JOURNAL_ID:
+				return new BloodStainedJournalResearchGUI();
+			case GuiHandler.TELESCOPE_ID:
+				return new TelescopeGUI();
+			case GuiHandler.SEXTANT_ID:
+				return new SextantGUI();
+			case GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID:
+				switch (Refrence.currentlySelected)
+				{
+					case AnUnbreakableCovenant:
+						return new BloodStainedJournalPageGUI(ResearchDesciptions.anUnbreakableCovenant, "An Unbreakable Covenant");
+					case PreWerewolfExamination:
+						return new BloodStainedJournalPageGUI(ResearchDesciptions.preWerewolfExamination, "W~~-wo-+f");
+					case WerewolfExamination:
+						return new BloodStainedJournalPageGUI(ResearchDesciptions.werewolfExamination, "Werewolf Examination");
+					case AstralSilver:
+						break;
+					case AstronomyI:
+						return new BloodStainedJournalPageGUI(ResearchDesciptions.astronomy1, "Astronomy 1");
+					case AstronomyII:
+						break;
+					case CloakOfAgility:
+						break;
+					case Crossbow:
+						return new BloodStainedJournalPageGUI(ResearchDesciptions.crossbow, "Crossbow");
+					case DarkForest:
+						break;
+					case IgneousArmor:
+						break;
+					case PreAstralSilver:
+						break;
+					case PreAstronomyI:
+						return new BloodStainedJournalPageGUI(ResearchDesciptions.preAstronomy1, "Astor -- star");
+					case PreAstronomyII:
+						break;
+					case PreCloakOfAgility:
+						break;
+					case PreDarkForest:
+						break;
+					case PreIgneousArmor:
+						break;
+					case PreSanityLantern:
+						break;
+					case PreSilverInfusion:
+						break;
+					case PreSpiderTurn:
+						break;
+					case PreStarMetal:
+						break;
+					case PreSunprotection:
+						break;
+					case PreVampire:
+						break;
+					case PreVitaeI:
+						break;
+					case PreVitaeLanternI:
+						break;
+					case SanityLantern:
+						break;
+					case SilverInfusion:
+						break;
+					case SpiderTurn:
+						break;
+					case StarMetal:
+						break;
+					case SunProtection:
+						break;
+					case Vampire:
+						break;
+					case VitaeI:
+						break;
+					case VitaeLanternI:
+						break;
+					default:
+						break;
+				}
 		}
 		return null;
 	}

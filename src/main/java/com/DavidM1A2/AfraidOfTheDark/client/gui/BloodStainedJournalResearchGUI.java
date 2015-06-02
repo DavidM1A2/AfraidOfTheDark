@@ -89,20 +89,35 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 	{
 		this.drawDefaultBackground();
 		this.mc.renderEngine.bindTexture(new ResourceLocation("afraidofthedark:textures/gui/BloodStainedJournalResearchBackdrop.png"));
-		Gui.drawScaledCustomSizeModalRect(BloodStainedJournalResearchGUI.xPosScroll, BloodStainedJournalResearchGUI.yPosScroll, (this.guiOffsetX * 2) + 384, (this.guiOffsetY * 2) + 768, BloodStainedJournalResearchGUI.BACKGROUND_WIDTH, BloodStainedJournalResearchGUI.BACKGROUND_HEIGHT, BloodStainedJournalResearchGUI.BACKGROUND_WIDTH, BloodStainedJournalResearchGUI.BACKGROUND_HEIGHT, 1024, 1024);
+		Gui.drawScaledCustomSizeModalRect(BloodStainedJournalResearchGUI.xPosScroll, BloodStainedJournalResearchGUI.yPosScroll, (this.guiOffsetX * 2) + 384, (this.guiOffsetY * 2) + 768, BloodStainedJournalResearchGUI.BACKGROUND_WIDTH, BloodStainedJournalResearchGUI.BACKGROUND_HEIGHT,
+				BloodStainedJournalResearchGUI.BACKGROUND_WIDTH, BloodStainedJournalResearchGUI.BACKGROUND_HEIGHT, 1024, 1024);
 
 		GL11.glEnable(GL11.GL_SCISSOR_TEST);
 		final int disWidth = Minecraft.getMinecraft().displayWidth;
 		final int disHeight = Minecraft.getMinecraft().displayHeight;
 		final int widthScale = Math.round(disWidth / (float) this.width);
 		final int heightScale = Math.round(disHeight / (float) this.height);
-		GL11.glScissor(disWidth - ((BloodStainedJournalResearchGUI.xPosScroll + BloodStainedJournalResearchGUI.BACKGROUND_WIDTH) * widthScale), disHeight - ((BloodStainedJournalResearchGUI.yPosScroll + BloodStainedJournalResearchGUI.BACKGROUND_HEIGHT) * widthScale), BloodStainedJournalResearchGUI.BACKGROUND_WIDTH * heightScale, BloodStainedJournalResearchGUI.BACKGROUND_HEIGHT * heightScale);
+		GL11.glScissor(disWidth - ((BloodStainedJournalResearchGUI.xPosScroll + BloodStainedJournalResearchGUI.BACKGROUND_WIDTH) * widthScale), disHeight - ((BloodStainedJournalResearchGUI.yPosScroll + BloodStainedJournalResearchGUI.BACKGROUND_HEIGHT) * widthScale),
+				BloodStainedJournalResearchGUI.BACKGROUND_WIDTH * heightScale, BloodStainedJournalResearchGUI.BACKGROUND_HEIGHT * heightScale);
 		super.drawScreen(i, j, f);
 		this.drawLines();
 		GL11.glDisable(GL11.GL_SCISSOR_TEST);
 
 		this.mc.renderEngine.bindTexture(new ResourceLocation("afraidofthedark:textures/gui/BloodStainedJournalResearchBackground.png"));
 		this.drawTexturedModalRect(BloodStainedJournalResearchGUI.xPosScroll, BloodStainedJournalResearchGUI.yPosScroll, 0, 0, BloodStainedJournalResearchGUI.BACKGROUND_WIDTH, BloodStainedJournalResearchGUI.BACKGROUND_HEIGHT);
+
+		for (Object nodeButton : this.buttonList)
+		{
+			if (nodeButton instanceof NodeButton)
+			{
+				NodeButton newNodeButton = (NodeButton) nodeButton;
+
+				if (newNodeButton.isMouseOver() && LoadResearchData.isResearched(Minecraft.getMinecraft().thePlayer, newNodeButton.getMyType()))
+				{
+					this.drawString(Minecraft.getMinecraft().fontRendererObj, newNodeButton.getMyType().formattedString(), newNodeButton.xPosition + newNodeButton.height, newNodeButton.yPosition, 0xFF3399);
+				}
+			}
+		}
 	}
 
 	// When the mouse is dragged, update the GUI accordingly
@@ -171,16 +186,22 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 		this.unbreakableCovenantResearch = new NodeButton(BloodStainedJournalResearchGUI.RESEARCH_BASE_ID, BloodStainedJournalResearchGUI.xPosBaseResearch, BloodStainedJournalResearchGUI.yPosBaseResearch, 0, 0, ResearchTypes.AnUnbreakableCovenant);
 		this.werewolfExamination = new NodeButton(BloodStainedJournalResearchGUI.RESEARCH_BASE_ID + 1, BloodStainedJournalResearchGUI.xPosBaseResearch, BloodStainedJournalResearchGUI.yPosBaseResearch - BloodStainedJournalResearchGUI.DISTANCE_BETWEEN_NODES, 32, 0, ResearchTypes.WerewolfExamination);
 		this.crossbow = new NodeButton(BloodStainedJournalResearchGUI.RESEARCH_BASE_ID + 2, BloodStainedJournalResearchGUI.xPosBaseResearch + BloodStainedJournalResearchGUI.DISTANCE_BETWEEN_NODES, BloodStainedJournalResearchGUI.yPosBaseResearch, 64, 0, ResearchTypes.Crossbow);
-		this.astronomy1 = new NodeButton(BloodStainedJournalResearchGUI.RESEARCH_BASE_ID + 3, BloodStainedJournalResearchGUI.xPosBaseResearch, BloodStainedJournalResearchGUI.yPosBaseResearch - (BloodStainedJournalResearchGUI.DISTANCE_BETWEEN_NODES * 2), 96, 0, ResearchTypes.Astronomy1);
-		this.vitae1 = new NodeButton(BloodStainedJournalResearchGUI.RESEARCH_BASE_ID + 4, BloodStainedJournalResearchGUI.xPosBaseResearch - BloodStainedJournalResearchGUI.DISTANCE_BETWEEN_NODES, BloodStainedJournalResearchGUI.yPosBaseResearch - (BloodStainedJournalResearchGUI.DISTANCE_BETWEEN_NODES * 2), 128, 0, ResearchTypes.Vitae1);
+		this.astronomy1 = new NodeButton(BloodStainedJournalResearchGUI.RESEARCH_BASE_ID + 3, BloodStainedJournalResearchGUI.xPosBaseResearch, BloodStainedJournalResearchGUI.yPosBaseResearch - (BloodStainedJournalResearchGUI.DISTANCE_BETWEEN_NODES * 2), 96, 0, ResearchTypes.AstronomyI);
+		this.vitae1 = new NodeButton(BloodStainedJournalResearchGUI.RESEARCH_BASE_ID + 4, BloodStainedJournalResearchGUI.xPosBaseResearch - BloodStainedJournalResearchGUI.DISTANCE_BETWEEN_NODES, BloodStainedJournalResearchGUI.yPosBaseResearch
+				- (BloodStainedJournalResearchGUI.DISTANCE_BETWEEN_NODES * 2), 128, 0, ResearchTypes.VitaeI);
 		this.astralSilver = new NodeButton(BloodStainedJournalResearchGUI.RESEARCH_BASE_ID + 5, BloodStainedJournalResearchGUI.xPosBaseResearch, BloodStainedJournalResearchGUI.yPosBaseResearch - (BloodStainedJournalResearchGUI.DISTANCE_BETWEEN_NODES * 3), 160, 0, ResearchTypes.AstralSilver);
-		this.silverInfusion = new NodeButton(BloodStainedJournalResearchGUI.RESEARCH_BASE_ID + 6, BloodStainedJournalResearchGUI.xPosBaseResearch + BloodStainedJournalResearchGUI.DISTANCE_BETWEEN_NODES, BloodStainedJournalResearchGUI.yPosBaseResearch - (BloodStainedJournalResearchGUI.DISTANCE_BETWEEN_NODES * 3), 192, 0, ResearchTypes.SilverInfusion);
+		this.silverInfusion = new NodeButton(BloodStainedJournalResearchGUI.RESEARCH_BASE_ID + 6, BloodStainedJournalResearchGUI.xPosBaseResearch + BloodStainedJournalResearchGUI.DISTANCE_BETWEEN_NODES, BloodStainedJournalResearchGUI.yPosBaseResearch
+				- (BloodStainedJournalResearchGUI.DISTANCE_BETWEEN_NODES * 3), 192, 0, ResearchTypes.SilverInfusion);
 		this.darkForest = new NodeButton(BloodStainedJournalResearchGUI.RESEARCH_BASE_ID + 7, BloodStainedJournalResearchGUI.xPosBaseResearch, BloodStainedJournalResearchGUI.yPosBaseResearch - (BloodStainedJournalResearchGUI.DISTANCE_BETWEEN_NODES * 4), 224, 0, ResearchTypes.DarkForest);
-		this.astronomy2 = new NodeButton(BloodStainedJournalResearchGUI.RESEARCH_BASE_ID + 8, BloodStainedJournalResearchGUI.xPosBaseResearch, BloodStainedJournalResearchGUI.yPosBaseResearch - (BloodStainedJournalResearchGUI.DISTANCE_BETWEEN_NODES * 5), 0, 32, ResearchTypes.Astronomy2);
-		this.igneousArmor = new NodeButton(BloodStainedJournalResearchGUI.RESEARCH_BASE_ID + 9, BloodStainedJournalResearchGUI.xPosBaseResearch - BloodStainedJournalResearchGUI.DISTANCE_BETWEEN_NODES, BloodStainedJournalResearchGUI.yPosBaseResearch - (BloodStainedJournalResearchGUI.DISTANCE_BETWEEN_NODES * 5), 32, 32, ResearchTypes.IgneousArmor);
-		this.starMetal = new NodeButton(BloodStainedJournalResearchGUI.RESEARCH_BASE_ID + 10, BloodStainedJournalResearchGUI.xPosBaseResearch + BloodStainedJournalResearchGUI.DISTANCE_BETWEEN_NODES, BloodStainedJournalResearchGUI.yPosBaseResearch - (BloodStainedJournalResearchGUI.DISTANCE_BETWEEN_NODES * 5), 64, 32, ResearchTypes.StarMetal);
-		this.sanityLantern = new NodeButton(BloodStainedJournalResearchGUI.RESEARCH_BASE_ID + 11, BloodStainedJournalResearchGUI.xPosBaseResearch - (BloodStainedJournalResearchGUI.DISTANCE_BETWEEN_NODES * 2), BloodStainedJournalResearchGUI.yPosBaseResearch - (BloodStainedJournalResearchGUI.DISTANCE_BETWEEN_NODES * 2), 96, 32, ResearchTypes.SanityLantern);
-		this.vitaeLantern1 = new NodeButton(BloodStainedJournalResearchGUI.RESEARCH_BASE_ID + 12, BloodStainedJournalResearchGUI.xPosBaseResearch - (BloodStainedJournalResearchGUI.DISTANCE_BETWEEN_NODES * 2), BloodStainedJournalResearchGUI.yPosBaseResearch - (BloodStainedJournalResearchGUI.DISTANCE_BETWEEN_NODES * 3), 128, 32, ResearchTypes.VitaeLantern1);
+		this.astronomy2 = new NodeButton(BloodStainedJournalResearchGUI.RESEARCH_BASE_ID + 8, BloodStainedJournalResearchGUI.xPosBaseResearch, BloodStainedJournalResearchGUI.yPosBaseResearch - (BloodStainedJournalResearchGUI.DISTANCE_BETWEEN_NODES * 5), 0, 32, ResearchTypes.AstronomyII);
+		this.igneousArmor = new NodeButton(BloodStainedJournalResearchGUI.RESEARCH_BASE_ID + 9, BloodStainedJournalResearchGUI.xPosBaseResearch - BloodStainedJournalResearchGUI.DISTANCE_BETWEEN_NODES, BloodStainedJournalResearchGUI.yPosBaseResearch
+				- (BloodStainedJournalResearchGUI.DISTANCE_BETWEEN_NODES * 5), 32, 32, ResearchTypes.IgneousArmor);
+		this.starMetal = new NodeButton(BloodStainedJournalResearchGUI.RESEARCH_BASE_ID + 10, BloodStainedJournalResearchGUI.xPosBaseResearch + BloodStainedJournalResearchGUI.DISTANCE_BETWEEN_NODES, BloodStainedJournalResearchGUI.yPosBaseResearch
+				- (BloodStainedJournalResearchGUI.DISTANCE_BETWEEN_NODES * 5), 64, 32, ResearchTypes.StarMetal);
+		this.sanityLantern = new NodeButton(BloodStainedJournalResearchGUI.RESEARCH_BASE_ID + 11, BloodStainedJournalResearchGUI.xPosBaseResearch - (BloodStainedJournalResearchGUI.DISTANCE_BETWEEN_NODES * 2), BloodStainedJournalResearchGUI.yPosBaseResearch
+				- (BloodStainedJournalResearchGUI.DISTANCE_BETWEEN_NODES * 2), 96, 32, ResearchTypes.SanityLantern);
+		this.vitaeLantern1 = new NodeButton(BloodStainedJournalResearchGUI.RESEARCH_BASE_ID + 12, BloodStainedJournalResearchGUI.xPosBaseResearch - (BloodStainedJournalResearchGUI.DISTANCE_BETWEEN_NODES * 2), BloodStainedJournalResearchGUI.yPosBaseResearch
+				- (BloodStainedJournalResearchGUI.DISTANCE_BETWEEN_NODES * 3), 128, 32, ResearchTypes.VitaeLanternI);
 
 		// Clear and pre-existing buttons on the GUI and add the new ones
 		this.buttonList.clear();

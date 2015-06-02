@@ -8,9 +8,38 @@ package com.DavidM1A2.AfraidOfTheDark.refrence;
 // All available researches
 public enum ResearchTypes
 {
-	AnUnbreakableCovenant(null), Crossbow(null), WerewolfExamination(AnUnbreakableCovenant), PreWerewolfExamination(null), Astronomy1(WerewolfExamination), PreAstronomy1(null), AstralSilver(Astronomy1), PreAstralSilver(null), SilverInfusion(AstralSilver), PreSilverInfusion(null), Vitae1(Astronomy1), PreVitae1(
-			null), SanityLantern(Vitae1), PreSanityLantern(null), VitaeLantern1(SanityLantern), PreVitaeLantern1(null), Vampire(VitaeLantern1), PreVampire(null), SunProtection(Vampire), PreSunprotection(null), SpiderTurn(Vampire), PreSpiderTurn(null), DarkForest(AstralSilver), PreDarkForest(null), CloakOfAgility(
-					DarkForest), PreCloakOfAgility(null), Astronomy2(DarkForest), PreAstronomy2(null), IgneousArmor(Astronomy2), PreIgneousArmor(null), StarMetal(Astronomy2), PreStarMetal(null);
+	AnUnbreakableCovenant(null),
+	Crossbow(null),
+	WerewolfExamination(AnUnbreakableCovenant),
+	PreWerewolfExamination(null),
+	AstronomyI(WerewolfExamination),
+	PreAstronomyI(null),
+	AstralSilver(AstronomyI),
+	PreAstralSilver(null),
+	SilverInfusion(AstralSilver),
+	PreSilverInfusion(null),
+	VitaeI(AstronomyI),
+	PreVitaeI(null),
+	SanityLantern(VitaeI),
+	PreSanityLantern(null),
+	VitaeLanternI(SanityLantern),
+	PreVitaeLanternI(null),
+	Vampire(VitaeLanternI),
+	PreVampire(null),
+	SunProtection(Vampire),
+	PreSunprotection(null),
+	SpiderTurn(Vampire),
+	PreSpiderTurn(null),
+	DarkForest(AstralSilver),
+	PreDarkForest(null),
+	CloakOfAgility(DarkForest),
+	PreCloakOfAgility(null),
+	AstronomyII(DarkForest),
+	PreAstronomyII(null),
+	IgneousArmor(AstronomyII),
+	PreIgneousArmor(null),
+	StarMetal(AstronomyII),
+	PreStarMetal(null);
 
 	private ResearchTypes previous = null;
 

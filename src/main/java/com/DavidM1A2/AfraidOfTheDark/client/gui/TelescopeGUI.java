@@ -55,10 +55,10 @@ public class TelescopeGUI extends GuiClickAndDragable
 		this.buttonList.clear();
 		for (int i = 0; i < TelescopeGUI.NUMBER_OF_METEORS; i++)
 		{
-			if (LoadResearchData.isResearched(Minecraft.getMinecraft().thePlayer, ResearchTypes.Astronomy2))
+			if (LoadResearchData.isResearched(Minecraft.getMinecraft().thePlayer, ResearchTypes.AstronomyII))
 			{
-				this.buttonList.add(new MeteorButton(TelescopeGUI.BUTTON_BASE_ID + i, Minecraft.getMinecraft().theWorld.rand.nextInt(3840 * 2) - 3840, Minecraft.getMinecraft().theWorld.rand.nextInt(2160 * 2) - 2160, 64, 64,
-						MeteorTypes.values()[Minecraft.getMinecraft().theWorld.rand.nextInt(MeteorTypes.values().length)]));
+				this.buttonList.add(new MeteorButton(TelescopeGUI.BUTTON_BASE_ID + i, Minecraft.getMinecraft().theWorld.rand.nextInt(3840 * 2) - 3840, Minecraft.getMinecraft().theWorld.rand.nextInt(2160 * 2) - 2160, 64, 64, MeteorTypes.values()[Minecraft.getMinecraft().theWorld.rand
+						.nextInt(MeteorTypes.values().length)]));
 			}
 			else
 			{

@@ -30,7 +30,7 @@ public class ItemTelescope extends AOTDItem
 	{
 		if (world.isRemote)
 		{
-			if (HasStartedAOTD.get(entityPlayer) && LoadResearchData.isResearched(entityPlayer, ResearchTypes.Astronomy1.getPrevious()))
+			if (HasStartedAOTD.get(entityPlayer) && LoadResearchData.isResearched(entityPlayer, ResearchTypes.AstronomyI.getPrevious()))
 			{
 				if (entityPlayer.getPosition().getY() <= 128)
 				{
@@ -40,9 +40,9 @@ public class ItemTelescope extends AOTDItem
 				{
 					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.TELESCOPE_ID, world, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ());
 
-					if (!LoadResearchData.isResearched(entityPlayer, ResearchTypes.Astronomy1))
+					if (!LoadResearchData.isResearched(entityPlayer, ResearchTypes.AstronomyI))
 					{
-						LoadResearchData.unlockResearchSynced(entityPlayer, ResearchTypes.Astronomy1, Side.CLIENT, true);
+						LoadResearchData.unlockResearchSynced(entityPlayer, ResearchTypes.AstronomyI, Side.CLIENT, true);
 					}
 				}
 			}
