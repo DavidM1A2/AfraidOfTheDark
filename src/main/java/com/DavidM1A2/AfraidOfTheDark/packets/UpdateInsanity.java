@@ -9,8 +9,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-import com.DavidM1A2.AfraidOfTheDark.utility.LogHelper;
-
 // Update player insanity upon relog
 public class UpdateInsanity implements IMessage
 {
@@ -57,7 +55,6 @@ public class UpdateInsanity implements IMessage
 					System.out.println("Error Sleeping?");
 				}
 			}
-			LogHelper.info("Update Insanity Received! Status: " + message.insanity);
 			Minecraft.getMinecraft().thePlayer.getEntityData().setDouble("PlayerInsanity", message.insanity);
 			return null;
 		}

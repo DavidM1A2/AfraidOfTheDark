@@ -44,6 +44,7 @@ public class Refrence
 	public static final int PACKET_ID_RESEARCH_UPDATE = 4;
 	public static final int PACKET_ID_CREATE_METEOR = 5;
 	public static final int PACKET_ID_VITAE_UPDATE = 6;
+	public static final int PACKET_ID_ROTATE_PLAYER_UPDATE = 7;
 	// Network channel name is the same as the ID
 	public static final String NETWORK_CHANNEL_NAME = Refrence.MOD_ID;
 
@@ -60,12 +61,12 @@ public class Refrence
 	public static final ToolMaterial igneousTool = EnumHelper.addToolMaterial("igneousTool", 3, 600, 1, 4, 15);
 	public static final ToolMaterial starMetalTool = EnumHelper.addToolMaterial("starMetalTool", 3, 600, 1, 8, 15);
 	public static final ArmorMaterial igneous = EnumHelper.addArmorMaterial("igneous", "texture", 100, new int[]
-			{ 3, 8, 6, 3 }, 20);
+	{ 3, 8, 6, 3 }, 20);
 	public static final ArmorMaterial starMetal = EnumHelper.addArmorMaterial("starMetal", "texture", 100, new int[]
-			{ 3, 8, 6, 3 }, 20);
+	{ 3, 8, 6, 3 }, 20);
 
 	public static int[] selectedMeteor = new int[]
-			{ -1, -1, -1 };
+	{ -1, -1, -1 };
 	public static MeteorTypes watchedMeteorType = null;
 
 	public static ResearchAchieved researchAchievedOverlay;

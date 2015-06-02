@@ -45,7 +45,10 @@ public class ItemStarMetalStaff extends AOTDItem implements IHasCooldown
 		{
 			if (world.isRemote)
 			{
-				entityPlayer.addChatMessage(new ChatComponentText(this.cooldownRemaining != 0 ? ("Cooldown remaining: " + (this.cooldownRemaining / 20 + 1) + " second" + (this.cooldownRemaining / 20 == 0.0 ? "." : "s.")) : "Ready to Use"));
+				if (entityPlayer.getItemInUse() != itemStack)
+				{
+					entityPlayer.addChatMessage(new ChatComponentText(this.cooldownRemaining != 0 ? ("Cooldown remaining: " + (this.cooldownRemaining / 20 + 1) + " second" + (this.cooldownRemaining / 20 == 0.0 ? "." : "s.")) : "Ready to Use"));
+				}
 			}
 		}
 
@@ -66,7 +69,11 @@ public class ItemStarMetalStaff extends AOTDItem implements IHasCooldown
 	public void onUsingTick(final ItemStack stack, final EntityPlayer player, int count)
 	{
 		count = ItemStarMetalStaff.MAX_TROLL_POLE_TIME_IN_TICKS - count;
-		if (count >= 3)
+		if (count == 1)
+		{
+			cooldownRemaining = this.getItemCooldownInTicks();
+		}
+		else if (count >= 3)
 		{
 			if (player.worldObj.isRemote)
 			{
@@ -113,7 +120,11 @@ public class ItemStarMetalStaff extends AOTDItem implements IHasCooldown
 				}
 			}
 		}
-		cooldownRemaining = this.getItemCooldownInTicks();
+	}
+
+	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityPlayer playerIn)
+	{
+		return super.onItemUseFinish(stack, worldIn, playerIn);
 	}
 
 	@Override

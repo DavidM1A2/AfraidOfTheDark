@@ -26,7 +26,6 @@ import com.DavidM1A2.AfraidOfTheDark.packets.UpdateAOTDStatus;
 import com.DavidM1A2.AfraidOfTheDark.packets.UpdateInsanity;
 import com.DavidM1A2.AfraidOfTheDark.packets.UpdateResearch;
 import com.DavidM1A2.AfraidOfTheDark.packets.UpdateVitae;
-import com.DavidM1A2.AfraidOfTheDark.playerData.Vitae;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
 
 // Just client things go here

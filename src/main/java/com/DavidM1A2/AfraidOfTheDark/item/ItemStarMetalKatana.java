@@ -1,3 +1,8 @@
+/*
+ * Author: David Slovikosky 
+ * Mod: Afraid of the Dark 
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.item;
 
 import java.util.List;
@@ -8,6 +13,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
@@ -17,6 +23,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.threads.PlayerSpinning;
 
 public class ItemStarMetalKatana extends AOTDSword implements IHasCooldown
 {
@@ -47,12 +54,18 @@ public class ItemStarMetalKatana extends AOTDSword implements IHasCooldown
 						double motionX = entityPlayer.getPosition().getX() - entity.getPosition().getX();
 						double motionZ = entityPlayer.getPosition().getZ() - entity.getPosition().getZ();
 
+						motionX = motionX >= 0 ? 1 : -1;
+						motionZ = motionZ >= 0 ? 1 : -1;
+
 						double hypotenuse = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
 
 						entity.attackEntityFrom(DamageSource.causePlayerDamage(entityPlayer), Refrence.starMetalTool.getDamageVsEntity() + 4.0F);
 						entity.addVelocity(-motionX * knockbackStrength * 0.6000000238418579D / hypotenuse, 0.1D, -motionZ * knockbackStrength * 0.6000000238418579D / hypotenuse);
 					}
 				}
+
+				new PlayerSpinning((EntityPlayerMP) entityPlayer).start();
+
 				this.cooldownRemaining = this.getItemCooldownInTicks();
 			}
 			else

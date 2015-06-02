@@ -32,6 +32,7 @@ import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
 import com.DavidM1A2.AfraidOfTheDark.threads.DelayedAOTDUpdate;
 import com.DavidM1A2.AfraidOfTheDark.threads.DelayedInsanityUpdate;
 import com.DavidM1A2.AfraidOfTheDark.threads.DelayedResearchUpdate;
+import com.DavidM1A2.AfraidOfTheDark.threads.DelayedVitaeUpdate;
 
 public class PlayerController
 {
@@ -46,11 +47,14 @@ public class PlayerController
 		Insanity.addInsanity(insanity, event.entityPlayer);
 		final NBTTagCompound research = LoadResearchData.get(event.original);
 		LoadResearchData.set(event.entityPlayer, research);
+		final int vitaeLevel = Vitae.get(event.original);
+		Vitae.set(event.entityPlayer, vitaeLevel, Side.SERVER);
 		// When the player gets new research we will wait 500ms before updating because otherwise the event.original player
 		// will get the new data
 		(new DelayedAOTDUpdate(event.entityPlayer, hasStartedAOTD)).start();
 		(new DelayedInsanityUpdate(event.entityPlayer, insanity)).start();
 		(new DelayedResearchUpdate(event.entityPlayer, research)).start();
+		(new DelayedVitaeUpdate(event.entityPlayer, vitaeLevel)).start();
 	}
 
 	@SideOnly(Side.CLIENT)
