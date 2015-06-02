@@ -86,7 +86,7 @@ public class PlayerController
 			final EntityPlayer entityPlayer = (EntityPlayer) event.entity;
 
 			/*
-			 * This second block of code will update any crossbows when the player loads in.
+			 * This first block of code will update any crossbows when the player loads in.
 			 */
 			for (int i = 0; i < entityPlayer.inventory.getSizeInventory(); i++)
 			{
@@ -102,6 +102,9 @@ public class PlayerController
 				}
 			}
 
+			/*
+			 * Sync player research, insanity, and AOTDStart status
+			 */
 			if (!event.world.isRemote)
 			{
 				AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateInsanity(Insanity.get(entityPlayer)), (EntityPlayerMP) entityPlayer);
@@ -121,21 +124,21 @@ public class PlayerController
 			final EntityPlayer entityPlayer = (EntityPlayer) event.entity;
 
 			/*
-			 * This fourth block of code will load the player's research.
+			 * This first block of code will load the player's research.
 			 */
 			if (entityPlayer.getExtendedProperties(LoadResearchData.RESEARCH_DATA) == null)
 			{
 				LoadResearchData.register(entityPlayer);
 			}
 			/*
-			 * This third block of code will check if the player has begun the mod.
+			 * This second block of code will check if the player has begun the mod.
 			 */
 			if (entityPlayer.getExtendedProperties(HasStartedAOTD.PLAYER_STARTED_AOTD) == null)
 			{
 				HasStartedAOTD.register(entityPlayer);
 			}
 			/*
-			 * This first block of code will determine if the player has insanity yet, and if he/she does we will load it.
+			 * This third block of code will determine if the player has insanity yet, and if he/she does we will load it.
 			 */
 			if (entityPlayer.getExtendedProperties(Insanity.PLAYER_INSANITY) == null)
 			{
