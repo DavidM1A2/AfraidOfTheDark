@@ -7,10 +7,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
+import com.DavidM1A2.AfraidOfTheDark.client.settings.Keybindings;
 import com.DavidM1A2.AfraidOfTheDark.entities.Bolts.EntityIronBolt;
 import com.DavidM1A2.AfraidOfTheDark.entities.Bolts.EntitySilverBolt;
 import com.DavidM1A2.AfraidOfTheDark.entities.Bolts.EntityWoodenBolt;
@@ -35,7 +37,7 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void registerKeyBindings()
 	{
-		// ClientRegistry.registerKeyBinding(Keybindings.changeMode);
+		ClientRegistry.registerKeyBinding(Keybindings.rollWithCloakOfAgility);
 	}
 
 	// Here we register packets and a channel

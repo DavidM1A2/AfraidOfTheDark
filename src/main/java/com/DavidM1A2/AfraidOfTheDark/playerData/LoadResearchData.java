@@ -88,4 +88,9 @@ public class LoadResearchData implements IExtendedEntityProperties
 			AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateResearch(entityPlayer.getEntityData().getCompoundTag(LoadResearchData.RESEARCH_DATA), firstTimeResearched), (EntityPlayerMP) entityPlayer);
 		}
 	}
+
+	public static boolean canResearch(final EntityPlayer entityPlayer, final ResearchTypes type)
+	{
+		return HasStartedAOTD.get(entityPlayer) && !isResearched(entityPlayer, type) && isResearched(entityPlayer, type.getPrevious());
+	}
 }

@@ -24,8 +24,9 @@ item.afraidofthedark:starMetalChestplate.name=Star Metal Chestplate
 item.afraidofthedark:starMetalLeggings.name=Star Metal Leggings
 item.afraidofthedark:starMetalBoots.name=Star Metal Boots
 item.afraidofthedark:starMetalStaff.name=Star Metal Staff
-item.afraidofthedark:starMetalKatana.name=Star Metal Katana
+item.afraidofthedark:starMetalKhopesh.name=Star Metal Khopesh
 item.afraidofthedark:vitaeLantern.name=Vitae Lantern
+item.afraidofthedark:cloakOfAgility.name=Cloak of Agility
 
 # Blocks
 tile.afraidofthedark:silverOre.name=Silver Ore
@@ -41,13 +42,14 @@ tile.afraidofthedark:astralSilverOre.name=Astral Silver Ore
 tile.afraidofthedark:meteor.name=Meteor
 tile.afraidofthedark:starMetalOre.name=Star Metal Ore
 tile.afraidofthedark:igneousBlock.name=Igneous Block
+tile.afraidofthedark:spring.name=Spring
 
 # Creative Tabs
 itemGroup.afraidofthedark=Afraid of the Dark
 
 # Keys
 keys.afraidofthedark.category=Afraid of the Dark
-keys.afraidofthedark.changeMode=Change Mode
+keys.afraidofthedark.rollWithCloakOfAgility=Roll with Cloak of Agility
 
 # Mobs
 entity.AfraidOfTheDark.Werewolf.name=Werewolf

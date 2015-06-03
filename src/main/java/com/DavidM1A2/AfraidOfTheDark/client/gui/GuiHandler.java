@@ -78,10 +78,6 @@ public class GuiHandler implements IGuiHandler
 						break;
 					case PreIgneousArmor:
 						break;
-					case PreSanityLantern:
-						break;
-					case PreSilverInfusion:
-						break;
 					case PreSpiderTurn:
 						break;
 					case PreStarMetal:
@@ -93,10 +89,6 @@ public class GuiHandler implements IGuiHandler
 					case PreVitaeI:
 						break;
 					case PreVitaeLanternI:
-						break;
-					case SanityLantern:
-						break;
-					case SilverInfusion:
 						break;
 					case SpiderTurn:
 						break;

@@ -65,7 +65,8 @@ public class AfraidOfTheDark
 	public static IProxy proxy;
 
 	/**
-	 * @param event Pre-init used to register events and various other things (see class names for what each line does)
+	 * @param event
+	 *            Pre-init used to register events and various other things (see class names for what each line does)
 	 */
 	@Mod.EventHandler
 	public void preInitialization(final FMLPreInitializationEvent event)
@@ -108,7 +109,8 @@ public class AfraidOfTheDark
 	}
 
 	/**
-	 * @param event Initialization event is responsible for renders and recipes
+	 * @param event
+	 *            Initialization event is responsible for renders and recipes
 	 */
 	@Mod.EventHandler
 	public void initialization(final FMLInitializationEvent event)
@@ -119,15 +121,19 @@ public class AfraidOfTheDark
 		ModItems.initializeRenderers(event.getSide());
 		// Initialize block renderers
 		ModBlocks.initializeRenderers(event.getSide());
-		// Initialize key input handler
-		FMLCommonHandler.instance().bus().register(new KeyInputEventHandler());
+		// Initialize key input handler on client side only
+		if (event.getSide() == Side.CLIENT)
+		{
+			FMLCommonHandler.instance().bus().register(new KeyInputEventHandler());
+		}
 		// Initialize renderers
 		AfraidOfTheDark.proxy.registerRenderThings();
 		LogHelper.info("Initialization Complete");
 	}
 
 	/**
-	 * @param event Register the research achieved overlay on the client side only
+	 * @param event
+	 *            Register the research achieved overlay on the client side only
 	 */
 	@Mod.EventHandler
 	public void postInitialization(final FMLPostInitializationEvent event)
@@ -140,7 +146,8 @@ public class AfraidOfTheDark
 	}
 
 	/**
-	 * @param event Register commands when the server starts
+	 * @param event
+	 *            Register commands when the server starts
 	 */
 	@Mod.EventHandler
 	public void serverStartingEvent(final FMLServerStartingEvent event)
@@ -150,7 +157,8 @@ public class AfraidOfTheDark
 	}
 
 	/**
-	 * @param event Register threads that begin once the server is started
+	 * @param event
+	 *            Register threads that begin once the server is started
 	 */
 	@Mod.EventHandler
 	public void serverStartedEvent(final FMLServerStartedEvent event)
@@ -160,7 +168,8 @@ public class AfraidOfTheDark
 	}
 
 	/**
-	 * @param event Stop threads that began once the server is started
+	 * @param event
+	 *            Stop threads that began once the server is started
 	 */
 	@Mod.EventHandler
 	public void serverStoppedEvent(final FMLServerStoppedEvent event)
@@ -178,7 +187,8 @@ public class AfraidOfTheDark
 	}
 
 	/**
-	 * @param wrapper Set the channel up
+	 * @param wrapper
+	 *            Set the channel up
 	 */
 	public static void setSimpleNetworkWrapper(final SimpleNetworkWrapper wrapper)
 	{

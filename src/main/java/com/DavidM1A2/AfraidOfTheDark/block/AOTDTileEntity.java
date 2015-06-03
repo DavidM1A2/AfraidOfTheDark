@@ -8,15 +8,14 @@ package com.DavidM1A2.AfraidOfTheDark.block;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 
-public class BlockTileEntityBase extends TileEntity
+public class AOTDTileEntity extends TileEntity
 {
 	/*
 	 * A base class for tile entities
 	 */
-	public BlockTileEntityBase(final Block block)
+	public AOTDTileEntity(final Block block)
 	{
 		super();
 		this.blockType = block;
 	}
-
 }

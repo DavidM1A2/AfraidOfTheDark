@@ -11,6 +11,6 @@ public final class Names
 	public static final class Keys
 	{
 		public static final String CATEGORY = "keys.afraidofthedark.category";
-		public static final String CHANGE_MODE = "keys.afraidofthedark.changeMode";
+		public static final String ROLL_CLOAK_OF_AGILITY = "keys.afraidofthedark.rollWithCloakOfAgility";
 	}
 }

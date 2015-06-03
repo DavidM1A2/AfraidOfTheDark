@@ -16,19 +16,20 @@ import com.DavidM1A2.AfraidOfTheDark.armor.StarMetalArmor;
 import com.DavidM1A2.AfraidOfTheDark.entities.Bolts.ItemIronBolt;
 import com.DavidM1A2.AfraidOfTheDark.entities.Bolts.ItemSilverBolt;
 import com.DavidM1A2.AfraidOfTheDark.entities.Bolts.ItemWoodenBolt;
+import com.DavidM1A2.AfraidOfTheDark.item.ItemAstralSilverIngot;
+import com.DavidM1A2.AfraidOfTheDark.item.ItemAstralSilverSword;
+import com.DavidM1A2.AfraidOfTheDark.item.ItemCloakOfAgility;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemIgneousGem;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemIgneousSword;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemInsanityControl;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemJournal;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemSextant;
-import com.DavidM1A2.AfraidOfTheDark.item.ItemAstralSilverIngot;
-import com.DavidM1A2.AfraidOfTheDark.item.ItemAstralSilverSword;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemSpawnWerewolf;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemStarMetal;
-import com.DavidM1A2.AfraidOfTheDark.item.ItemStarMetalKatana;
+import com.DavidM1A2.AfraidOfTheDark.item.ItemStarMetalKhopesh;
+import com.DavidM1A2.AfraidOfTheDark.item.ItemStarMetalStaff;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemSunstone;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemTelescope;
-import com.DavidM1A2.AfraidOfTheDark.item.ItemStarMetalStaff;
 import com.DavidM1A2.AfraidOfTheDark.item.ItemVitaeLantern;
 import com.DavidM1A2.AfraidOfTheDark.item.crossbow.ItemCrossbow;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
@@ -61,8 +62,9 @@ public class ModItems
 	public static final ItemSunstone sunstoneIngot = new ItemSunstone();
 	public static final ItemStarMetal starMetalIngot = new ItemStarMetal();
 	public static final ItemStarMetalStaff starMetalStaff = new ItemStarMetalStaff();
-	public static final ItemVitaeLantern vitaeLantern = new ItemVitaeLantern(); 
-	public static final ItemStarMetalKatana starMetalKatana = new ItemStarMetalKatana();
+	public static final ItemVitaeLantern vitaeLantern = new ItemVitaeLantern();
+	public static final ItemStarMetalKhopesh starMetalKhopesh = new ItemStarMetalKhopesh();
+	public static final ItemCloakOfAgility cloakOfAgility = new ItemCloakOfAgility();
 
 	public static void initialize(final Side side)
 	{
@@ -92,7 +94,8 @@ public class ModItems
 		GameRegistry.registerItem(ModItems.starMetalIngot, "starMetalIngot");
 		GameRegistry.registerItem(ModItems.starMetalStaff, "starMetalStaff");
 		GameRegistry.registerItem(ModItems.vitaeLantern, "vitaeLantern");
-		GameRegistry.registerItem(ModItems.starMetalKatana, "starMetalKatana");
+		GameRegistry.registerItem(ModItems.starMetalKhopesh, "starMetalKhopesh");
+		GameRegistry.registerItem(ModItems.cloakOfAgility, "cloakOfAgility");
 	}
 
 	public static void initializeRenderers(final Side side)
@@ -125,7 +128,8 @@ public class ModItems
 			renderItem.getItemModelMesher().register(ModItems.starMetalIngot, 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalIngot", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.starMetalStaff, 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalStaff", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.vitaeLantern, 0, new ModelResourceLocation(Refrence.MOD_ID + ":vitaeLantern", "inventory"));
-			renderItem.getItemModelMesher().register(ModItems.starMetalKatana, 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalKatana", "inventory"));
+			renderItem.getItemModelMesher().register(ModItems.starMetalKhopesh, 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalKhopesh", "inventory"));
+			renderItem.getItemModelMesher().register(ModItems.cloakOfAgility, 0, new ModelResourceLocation(Refrence.MOD_ID + ":cloakOfAgility", "inventory"));
 		}
 	}
 }

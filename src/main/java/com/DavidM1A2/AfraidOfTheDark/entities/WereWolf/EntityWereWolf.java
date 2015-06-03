@@ -20,7 +20,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 
 import com.DavidM1A2.AfraidOfTheDark.AI.CustomWerewolfTargetLocator;
-import com.DavidM1A2.AfraidOfTheDark.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
 import com.DavidM1A2.AfraidOfTheDark.refrence.ResearchTypes;
@@ -121,15 +120,9 @@ public class EntityWereWolf extends EntityMob
 		if (entity instanceof EntityPlayer)
 		{
 			final EntityPlayer thePlayer = (EntityPlayer) entity;
-			if (HasStartedAOTD.get(thePlayer))
+			if (LoadResearchData.canResearch(thePlayer, ResearchTypes.WerewolfExamination))
 			{
-				if (LoadResearchData.isResearched(thePlayer, ResearchTypes.WerewolfExamination.getPrevious()))
-				{
-					if (!LoadResearchData.isResearched(thePlayer, ResearchTypes.WerewolfExamination))
-					{
-						LoadResearchData.unlockResearchSynced(thePlayer, ResearchTypes.WerewolfExamination, Side.SERVER, true);
-					}
-				}
+				LoadResearchData.unlockResearchSynced(thePlayer, ResearchTypes.WerewolfExamination, Side.SERVER, true);
 			}
 		}
 		return super.attackEntityAsMob(entity);

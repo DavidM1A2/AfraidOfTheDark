@@ -5,8 +5,13 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.settings;
 
-// No keybindings yet
+import net.minecraft.client.settings.KeyBinding;
+
+import org.lwjgl.input.Keyboard;
+
+import com.DavidM1A2.AfraidOfTheDark.refrence.Names;
+
 public class Keybindings
 {
-	// public static KeyBinding changeMode = new KeyBinding(Names.Keys.CHANGE_MODE, Keyboard.KEY_LSHIFT, Names.Keys.CATEGORY);
+	public static KeyBinding rollWithCloakOfAgility = new KeyBinding(Names.Keys.ROLL_CLOAK_OF_AGILITY, Keyboard.KEY_G, Names.Keys.CATEGORY);
 }

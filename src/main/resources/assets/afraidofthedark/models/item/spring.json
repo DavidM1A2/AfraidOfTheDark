@@ -1,5 +1,5 @@
 {
-	"parent": "afraidofthedark:block/darkness",
+	"parent": "afraidofthedark:block/spring",
 	"display": {
 		"thirdperson": {
 			"rotation": [ 10, -45, 170 ],

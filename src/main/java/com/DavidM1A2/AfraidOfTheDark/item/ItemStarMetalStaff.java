@@ -18,10 +18,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import com.DavidM1A2.AfraidOfTheDark.threads.TemporaryInvincibility;
+import com.DavidM1A2.AfraidOfTheDark.utility.Converter;
+
 public class ItemStarMetalStaff extends AOTDItem implements IHasCooldown
 {
 	private static final int MAX_TROLL_POLE_TIME_IN_TICKS = 60;
-	private int cooldownRemaining = 0;
+	private double cooldownRemaining = 0;
 
 	public ItemStarMetalStaff()
 	{
@@ -36,7 +39,7 @@ public class ItemStarMetalStaff extends AOTDItem implements IHasCooldown
 		{
 			if (!entityPlayer.capabilities.isCreativeMode)
 			{
-				entityPlayer.capabilities.disableDamage = true;
+				new TemporaryInvincibility(Converter.ticksToMilliseconds(MAX_TROLL_POLE_TIME_IN_TICKS), entityPlayer);
 			}
 			entityPlayer.addVelocity(0, .5, 0);
 			entityPlayer.setItemInUse(itemStack, ItemStarMetalStaff.MAX_TROLL_POLE_TIME_IN_TICKS);
@@ -47,7 +50,7 @@ public class ItemStarMetalStaff extends AOTDItem implements IHasCooldown
 			{
 				if (entityPlayer.getItemInUse() != itemStack)
 				{
-					entityPlayer.addChatMessage(new ChatComponentText(this.cooldownRemaining != 0 ? ("Cooldown remaining: " + (this.cooldownRemaining / 20 + 1) + " second" + (this.cooldownRemaining / 20 == 0.0 ? "." : "s.")) : "Ready to Use"));
+					entityPlayer.addChatMessage(new ChatComponentText(this.cooldownRemaining != 0 ? ("Cooldown remaining: " + ((int) this.cooldownRemaining / 20 + 1) + " second" + (this.cooldownRemaining / 20 == 0.0 ? "." : "s.")) : "Ready to Use"));
 				}
 			}
 		}
@@ -66,23 +69,24 @@ public class ItemStarMetalStaff extends AOTDItem implements IHasCooldown
 	 *            The amount of time in tick the item has been used for continuously
 	 */
 	@Override
-	public void onUsingTick(final ItemStack stack, final EntityPlayer player, int count)
+	public void onUsingTick(final ItemStack stack, final EntityPlayer entityPlayer, int count)
 	{
 		count = ItemStarMetalStaff.MAX_TROLL_POLE_TIME_IN_TICKS - count;
 		if (count == 1)
 		{
 			cooldownRemaining = this.getItemCooldownInTicks();
+			entityPlayer.fallDistance = 0.0f;
 		}
 		else if (count >= 3)
 		{
-			if (player.worldObj.isRemote)
+			if (entityPlayer.worldObj.isRemote)
 			{
-				player.setVelocity(0, 0, 0);
+				entityPlayer.setVelocity(0, 0, 0);
 			}
 		}
 		if (count == (ItemStarMetalStaff.MAX_TROLL_POLE_TIME_IN_TICKS - 1))
 		{
-			player.stopUsingItem();
+			entityPlayer.stopUsingItem();
 		}
 	}
 
@@ -95,7 +99,6 @@ public class ItemStarMetalStaff extends AOTDItem implements IHasCooldown
 	@Override
 	public void onPlayerStoppedUsing(final ItemStack stack, final World worldIn, final EntityPlayer entityPlayer, final int timeLeft)
 	{
-		entityPlayer.fallDistance = 0.0f;
 		if (!entityPlayer.capabilities.isCreativeMode)
 		{
 			entityPlayer.capabilities.disableDamage = false;
@@ -157,13 +160,13 @@ public class ItemStarMetalStaff extends AOTDItem implements IHasCooldown
 	{
 		if (this.cooldownRemaining > 0)
 		{
-			cooldownRemaining = cooldownRemaining - 1;
+			cooldownRemaining = cooldownRemaining - 0.5;
 		}
 	}
 
 	@Override
 	public int getItemCooldownInTicks()
 	{
-		return 600;
+		return 1200;
 	}
 }

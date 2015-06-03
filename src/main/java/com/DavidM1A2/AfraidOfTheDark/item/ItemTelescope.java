@@ -40,7 +40,7 @@ public class ItemTelescope extends AOTDItem
 				{
 					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.TELESCOPE_ID, world, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ());
 
-					if (!LoadResearchData.isResearched(entityPlayer, ResearchTypes.AstronomyI))
+					if (LoadResearchData.canResearch(entityPlayer, ResearchTypes.AstronomyI))
 					{
 						LoadResearchData.unlockResearchSynced(entityPlayer, ResearchTypes.AstronomyI, Side.CLIENT, true);
 					}

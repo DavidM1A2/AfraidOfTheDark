@@ -25,15 +25,15 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
 import com.DavidM1A2.AfraidOfTheDark.threads.PlayerSpinning;
 
-public class ItemStarMetalKatana extends AOTDSword implements IHasCooldown
+public class ItemStarMetalKhopesh extends AOTDSword implements IHasCooldown
 {
 	private static final int HITRANGE = 5;
-	private int cooldownRemaining = 0;
+	private double cooldownRemaining = 0;
 
-	public ItemStarMetalKatana()
+	public ItemStarMetalKhopesh()
 	{
 		super(Refrence.starMetalTool);
-		this.setUnlocalizedName("starMetalKatana");
+		this.setUnlocalizedName("starMetalKhopesh");
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class ItemStarMetalKatana extends AOTDSword implements IHasCooldown
 			}
 			else
 			{
-				entityPlayer.addChatMessage(new ChatComponentText(this.cooldownRemaining != 0 ? ("Cooldown remaining: " + (this.cooldownRemaining / 20 + 1) + " second" + (this.cooldownRemaining / 20 == 0.0 ? "." : "s.")) : "Ready to Use"));
+				entityPlayer.addChatMessage(new ChatComponentText(this.cooldownRemaining != 0 ? ("Cooldown remaining: " + ((int) this.cooldownRemaining / 20 + 1) + " second" + (this.cooldownRemaining / 20 == 0.0 ? "." : "s.")) : "Ready to Use"));
 			}
 		}
 		return super.onItemRightClick(itemStack, world, entityPlayer);
@@ -99,14 +99,14 @@ public class ItemStarMetalKatana extends AOTDSword implements IHasCooldown
 	{
 		if (this.cooldownRemaining > 0)
 		{
-			cooldownRemaining = cooldownRemaining - 1;
+			cooldownRemaining = cooldownRemaining - 0.5;
 		}
 	}
 
 	@Override
 	public int getItemCooldownInTicks()
 	{
-		return 200;
+		return 600;
 	}
 
 }
