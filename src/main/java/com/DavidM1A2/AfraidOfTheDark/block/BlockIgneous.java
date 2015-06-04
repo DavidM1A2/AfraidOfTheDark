@@ -13,5 +13,6 @@ public class BlockIgneous extends AOTDBlock
 		this.setUnlocalizedName("igneousBlock");
 		this.blockHardness = 2.0F;
 		this.blockResistance = 1.0F;
+		this.setLightLevel(1.0f);
 	}
 }

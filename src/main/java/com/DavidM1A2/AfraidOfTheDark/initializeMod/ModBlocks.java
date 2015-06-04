@@ -88,7 +88,7 @@ public class ModBlocks
 			renderItem.getItemModelMesher().register(Item.getItemFromBlock(ModBlocks.astralSilverOre), 0, new ModelResourceLocation(Refrence.MOD_ID + ":astralSilverOre", "inventory"));
 			renderItem.getItemModelMesher().register(Item.getItemFromBlock(ModBlocks.meteor), 0, new ModelResourceLocation(Refrence.MOD_ID + ":meteor", "inventory"));
 			renderItem.getItemModelMesher().register(Item.getItemFromBlock(ModBlocks.starMetalOre), 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalOre", "inventory"));
-			renderItem.getItemModelMesher().register(Item.getItemFromBlock(ModBlocks.igneousBlock), 0, new ModelResourceLocation(Refrence.MOD_ID + ":igneousBlock"));
+			renderItem.getItemModelMesher().register(Item.getItemFromBlock(ModBlocks.igneousBlock), 0, new ModelResourceLocation(Refrence.MOD_ID + ":igneousBlock", "inventory"));
 		}
 	}
 }
