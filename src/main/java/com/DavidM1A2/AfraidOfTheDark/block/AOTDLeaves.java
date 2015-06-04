@@ -168,7 +168,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 	protected BlockState createBlockState()
 	{
 		return new BlockState(this, new IProperty[]
-				{ AOTDLeaves.VARIANT, BlockLeaves.field_176236_b, BlockLeaves.field_176237_a });
+		{ AOTDLeaves.VARIANT, BlockLeaves.field_176236_b, BlockLeaves.field_176237_a });
 	}
 
 	/**
@@ -202,10 +202,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 	 *            the level of the Fortune enchantment on the player's tool
 	 */
 	@Override
-	public Item getItemDropped(final IBlockState state, final Random rand, final int fortune)
-	{
-		return null;
-	}
+	public abstract Item getItemDropped(final IBlockState state, final Random rand, final int fortune);
 
 	@Override
 	public String getUnlocalizedName()
