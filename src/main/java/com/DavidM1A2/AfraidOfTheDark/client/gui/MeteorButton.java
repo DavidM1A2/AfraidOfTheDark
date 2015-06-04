@@ -31,15 +31,15 @@ public class MeteorButton extends GuiButton
 		this.myType = myType;
 		if (myType == MeteorTypes.silver)
 		{
-			this.METEOR_TEXTURE = new ResourceLocation("afraidofthedark:textures/blocks/astralSilverOre.png");
+			this.METEOR_TEXTURE = new ResourceLocation("afraidofthedark:textures/gui/astralSilverMeteor.png");
 		}
 		else if (myType == MeteorTypes.starMetal)
 		{
-			this.METEOR_TEXTURE = new ResourceLocation("afraidofthedark:textures/blocks/starMetal.png");
+			this.METEOR_TEXTURE = new ResourceLocation("afraidofthedark:textures/gui/starMetalMeteor.png");
 		}
 		else
 		{
-			this.METEOR_TEXTURE = new ResourceLocation("afraidofthedark:textures/blocks/sunstone.png");
+			this.METEOR_TEXTURE = new ResourceLocation("afraidofthedark:textures/gui/sunstoneMeteor.png");
 		}
 	}
 

@@ -27,6 +27,7 @@ item.afraidofthedark:starMetalStaff.name=Star Metal Staff
 item.afraidofthedark:starMetalKhopesh.name=Star Metal Khopesh
 item.afraidofthedark:vitaeLantern.name=Vitae Lantern
 item.afraidofthedark:cloakOfAgility.name=Cloak of Agility
+item.afraidofthedark:researchScrollCloakOfAgility.name=Research Cloak of Agility
 
 # Blocks
 tile.afraidofthedark:silverOre.name=Silver Ore

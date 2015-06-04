@@ -14,7 +14,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -58,7 +57,7 @@ public class StarMetalArmor extends AOTDArmor
 	{
 		if (!entityPlayer.isPotionActive(Potion.absorption))
 		{
-			entityPlayer.addPotionEffect(new PotionEffect(Potion.absorption.id, 1200, MathHelper.floor_double(this.getNumberOfWornPieces(entityPlayer) * 1.5), false, false));
+			entityPlayer.addPotionEffect(new PotionEffect(Potion.absorption.id, 1200, this.getNumberOfWornPieces(entityPlayer) - 1, false, false));
 		}
 	}
 
@@ -96,7 +95,8 @@ public class StarMetalArmor extends AOTDArmor
 	private int getNumberOfWornPieces(final EntityPlayer entityPlayer)
 	{
 		int number = 0;
-		for (final ItemStack element : entityPlayer.inventory.armorInventory) {
+		for (final ItemStack element : entityPlayer.inventory.armorInventory)
+		{
 			if ((element != null) && (element.getItem() instanceof StarMetalArmor))
 			{
 				number = number + 1;

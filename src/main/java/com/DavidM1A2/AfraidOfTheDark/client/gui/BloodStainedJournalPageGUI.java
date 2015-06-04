@@ -9,11 +9,14 @@ import java.io.IOException;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
 
 public class BloodStainedJournalPageGUI extends GuiScreen
@@ -23,6 +26,8 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 
 	private final TextBox leftPage;
 	private final TextBox rightPage;
+
+	private BookmarkButton bookmarkButton;
 
 	private double pageScale = 1.0;
 
@@ -43,6 +48,7 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 		this.title = title;
 		this.leftPage = new TextBox(this.xCornerOfPage, this.yCornerOfPage, this.journalWidth, this.journalWidth, Refrence.journalFont);
 		this.rightPage = new TextBox(this.xCornerOfPage, this.yCornerOfPage, this.journalWidth, this.journalWidth, Refrence.journalFont);
+		this.bookmarkButton = new BookmarkButton(1, 0, (int) (this.yCornerOfPage + this.journalWidth / 2.1), this.width, 40);
 		this.journalTexture = new ResourceLocation("afraidofthedark:textures/gui/bloodStainedJournalPage.png");
 	}
 
@@ -51,6 +57,7 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 	{
 		super.initGui();
 		this.buttonList.clear();
+		this.buttonList.add(this.bookmarkButton);
 	}
 
 	// Opening a research book DOES NOT pause the game (unlike escape)
@@ -84,9 +91,17 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 			Refrence.journalFont.setFontSize((int) (this.pageScale * 20), 32, 126, false);
 			Refrence.journalTitleFont.setFontSize((int) (this.pageScale * 32), 32, 126, false);
 
+			int scaledXLeftPageCoord = this.xCornerOfPage + (int) (20 * this.pageScale);
+			int scaledYLeftPageCoord = this.yCornerOfPage + (int) (35 * this.pageScale);
+
+			int scaledXRightPageCoord = this.xCornerOfPage + (int) (180 * this.pageScale);
+			int scaledYRightPageCoord = this.yCornerOfPage + (int) (35 * this.pageScale);
+
 			// Set the text box bounds
-			this.leftPage.updateBounds(this.xCornerOfPage + (int) (20 * this.pageScale), this.yCornerOfPage + (int) (35 * this.pageScale), this.journalWidth, this.journalWidth - (this.yCornerOfPage + (int) (35 * this.pageScale)));
-			this.rightPage.updateBounds(this.xCornerOfPage + (int) (20 * this.pageScale) + (int) (this.pageScale * (this.width / 2)), this.yCornerOfPage + (int) (35 * this.pageScale), this.journalWidth, this.journalWidth - (this.yCornerOfPage + (int) (35 * this.pageScale)));
+			this.leftPage.updateBounds(scaledXLeftPageCoord, scaledYLeftPageCoord, this.journalWidth, this.journalWidth - (this.yCornerOfPage + (int) (35 * this.pageScale)));
+			this.rightPage.updateBounds(scaledXRightPageCoord, scaledYRightPageCoord, this.journalWidth, this.journalWidth - (this.yCornerOfPage + (int) (35 * this.pageScale)));
+
+			this.bookmarkButton.updateBounds(0, this.height - (int) (40 * pageScale), this.width, (int) (40 * this.pageScale));
 
 			this.previousWidth = this.width;
 			this.previousHeight = this.height;
@@ -101,6 +116,17 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 		this.rightPage.drawText(this.leftPage.drawText(this.text));
 
 		super.drawScreen(i, j, f);
+	}
+
+	@Override
+	protected void actionPerformed(GuiButton button) throws IOException
+	{
+		if (button.id == this.bookmarkButton.id)
+		{
+			EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
+			entityPlayer.closeScreen();
+			entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_ID, entityPlayer.worldObj, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ());
+		}
 	}
 
 	// If E is typed we close the GUI screen

@@ -30,7 +30,7 @@ public enum ResearchTypes
 	PreSpiderTurn(null),
 	DarkForest(AstralSilver),
 	PreDarkForest(null),
-	CloakOfAgility(DarkForest),
+	CloakOfAgility(WerewolfExamination),
 	PreCloakOfAgility(null),
 	AstronomyII(DarkForest),
 	PreAstronomyII(null),
