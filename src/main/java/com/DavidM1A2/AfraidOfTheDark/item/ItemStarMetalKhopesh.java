@@ -7,12 +7,15 @@ package com.DavidM1A2.AfraidOfTheDark.item;
 
 import java.util.List;
 
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
@@ -72,6 +75,47 @@ public class ItemStarMetalKhopesh extends AOTDSword
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * This used to be 'display damage' but its really just 'aux' data in the ItemStack, usually shares the same variable as damage.
+	 * 
+	 * @param stack
+	 * @return
+	 */
+	public int getMetadata(ItemStack itemStack)
+	{
+		return NBTHelper.getInt(itemStack, "charge") == 100 ? 1 : 0;
+	}
+
+	/**
+	 * Player, Render pass, and item usage sensitive version of getIconIndex.
+	 *
+	 * @param stack
+	 *            The item stack to get the icon for.
+	 * @param player
+	 *            The player holding the item
+	 * @param useRemaining
+	 *            The ticks remaining for the active item.
+	 * @return Null to use default model, or a custom ModelResourceLocation for the stage of use.
+	 */
+	@SideOnly(Side.CLIENT)
+	public net.minecraft.client.resources.model.ModelResourceLocation getModel(ItemStack stack, EntityPlayer player, int useRemaining)
+	{
+		return stack.getMetadata() == 1 ? new ModelResourceLocation(Refrence.MOD_ID + ":starMetalKhopeshFullCharge", "inventory") : new ModelResourceLocation(Refrence.MOD_ID + ":starMetalKhopesh", "inventory");
+	}
+
+	/**
+	 * returns a list of items with the same ID, but different meta (eg: dye returns 16 items)
+	 * 
+	 * @param subItems
+	 *            The List of sub-items. This is a List of ItemStacks.
+	 */
+	@SideOnly(Side.CLIENT)
+	public void getSubItems(Item itemIn, CreativeTabs tab, List subItems)
+	{
+		subItems.add(new ItemStack(itemIn, 1, 0));
+		subItems.add(new ItemStack(itemIn, 1, 1));
 	}
 
 	@Override
