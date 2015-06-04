@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.fml.relauncher.Side;
 
 import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModBlocks;
@@ -24,28 +25,28 @@ public class BlockTileEntitySpring extends AOTDTileEntity implements IUpdatePlay
 	@Override
 	public void update()
 	{
-		if (ticksExisted % TICKS_INBETWEEN_CHECKS == 0)
+		if (!this.worldObj.isRemote)
 		{
-			ticksExisted = 1;
-			for (Object object : this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.getRenderBoundingBox().expand(CHECK_RANGE, CHECK_RANGE, CHECK_RANGE)))
+			if (ticksExisted % TICKS_INBETWEEN_CHECKS == 0)
 			{
-				if (object instanceof EntityPlayer)
+				ticksExisted = 1;
+				for (Object object : this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.fromBounds(this.pos.getX(), this.pos.getY(), this.pos.getZ(), this.pos.getX() + 1, this.pos.getY() + 1, this.pos.getZ() + 1).expand(CHECK_RANGE, CHECK_RANGE, CHECK_RANGE)))
 				{
-					EntityPlayer entityPlayer = (EntityPlayer) object;
-					if (!this.worldObj.isRemote)
+					if (object instanceof EntityPlayer)
 					{
+						EntityPlayer entityPlayer = (EntityPlayer) object;
 						if (LoadResearchData.canResearch(entityPlayer, ResearchTypes.VitaeI))
 						{
 							LoadResearchData.unlockResearchSynced(entityPlayer, ResearchTypes.VitaeI, Side.SERVER, true);
 						}
+						entityPlayer.addPotionEffect(new PotionEffect(Potion.regeneration.id, 100, 1, true, true));
 					}
-					entityPlayer.addPotionEffect(new PotionEffect(Potion.regeneration.id, 100, 1, true, true));
 				}
 			}
-		}
-		else
-		{
-			ticksExisted = ticksExisted + 1;
+			else
+			{
+				ticksExisted = ticksExisted + 1;
+			}
 		}
 	}
 }
