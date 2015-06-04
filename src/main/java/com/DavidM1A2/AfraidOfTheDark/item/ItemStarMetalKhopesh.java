@@ -8,14 +8,13 @@ package com.DavidM1A2.AfraidOfTheDark.item;
 import java.util.List;
 
 import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.Item;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
@@ -48,6 +47,12 @@ public class ItemStarMetalKhopesh extends AOTDSword
 	public double getDurabilityForDisplay(ItemStack itemStack)
 	{
 		return 1.0 - (double) NBTHelper.getInt(itemStack, "charge") / (double) 100;
+	}
+
+	@Override
+	public boolean isDamageable()
+	{
+		return false;
 	}
 
 	@Override
@@ -106,16 +111,11 @@ public class ItemStarMetalKhopesh extends AOTDSword
 	}
 
 	/**
-	 * returns a list of items with the same ID, but different meta (eg: dye returns 16 items)
-	 * 
-	 * @param subItems
-	 *            The List of sub-items. This is a List of ItemStacks.
+	 * Can't block with this sword
 	 */
-	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item itemIn, CreativeTabs tab, List subItems)
+	public EnumAction getItemUseAction(ItemStack stack)
 	{
-		subItems.add(new ItemStack(itemIn, 1, 0));
-		subItems.add(new ItemStack(itemIn, 1, 1));
+		return EnumAction.NONE;
 	}
 
 	@Override
@@ -152,10 +152,10 @@ public class ItemStarMetalKhopesh extends AOTDSword
 			}
 			else
 			{
-				entityPlayer.addChatMessage(new ChatComponentText("Charge at " + NBTHelper.getInt(itemStack, "charge") + "%"));
+				entityPlayer.addChatMessage(new ChatComponentText("I'll need more energy to perform the AOE attack."));
 			}
 		}
-		return super.onItemRightClick(itemStack, world, entityPlayer);
+		return itemStack;
 	}
 
 	/**
