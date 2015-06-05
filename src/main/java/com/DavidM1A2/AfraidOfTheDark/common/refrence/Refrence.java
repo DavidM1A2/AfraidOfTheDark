@@ -51,7 +51,7 @@ public class Refrence
 	// Silver weapon damage type and silver tool material
 	public static final DamageSource silverWeapon = new DamageSource("silverWeapon");
 	public static final ToolMaterial astralSilver = EnumHelper.addToolMaterial("silverTool", 2, 250, 1, 3.0F, 20);
-	public static final ToolMaterial igneousTool = EnumHelper.addToolMaterial("igneousTool", 3, 600, 1, 4, 15);
+	public static final ToolMaterial igneousTool = EnumHelper.addToolMaterial("igneousTool", 3, 600, 1, 5, 15);
 	public static final ToolMaterial starMetalTool = EnumHelper.addToolMaterial("starMetalTool", 3, 600, 1, 4, 15);
 	public static final ArmorMaterial igneous = EnumHelper.addArmorMaterial("igneous", "texture", 100, new int[]
 	{ 3, 8, 6, 3 }, 20);
