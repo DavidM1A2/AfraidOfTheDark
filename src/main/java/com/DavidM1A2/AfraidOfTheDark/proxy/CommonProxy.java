@@ -1,7 +1,7 @@
 /*
  * Author: David Slovikosky Mod: Afraid of the Dark Ideas and Textures: Michael Albertson
  */
-package com.DavidM1A2.AfraidOfTheDark.common.proxy;
+package com.DavidM1A2.AfraidOfTheDark.proxy;
 
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;

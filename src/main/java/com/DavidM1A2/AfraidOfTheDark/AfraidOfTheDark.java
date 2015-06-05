@@ -23,6 +23,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.ResearchAchieved;
 import com.DavidM1A2.AfraidOfTheDark.common.commands.InsanityCheck;
+import com.DavidM1A2.AfraidOfTheDark.common.debug.DebugSpammer;
 import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.handler.KeyInputEventHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.handler.PlayerController;
@@ -36,10 +37,9 @@ import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModOreDictionaryCompatability;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModRecipes;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModThreads;
-import com.DavidM1A2.AfraidOfTheDark.common.proxy.IProxy;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
-import com.DavidM1A2.AfraidOfTheDark.debug.DebugSpammer;
+import com.DavidM1A2.AfraidOfTheDark.proxy.IProxy;
 
 /*
  * Main class run when the mod is started up
