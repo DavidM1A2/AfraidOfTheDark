@@ -13,4 +13,6 @@ public interface IProxy
 	public abstract void registerRenderThings();
 
 	public abstract void registerChannel();
+
+	public abstract void registerMiscelaneous();
 }

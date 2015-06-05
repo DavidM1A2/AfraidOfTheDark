@@ -16,6 +16,7 @@ import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraft.world.gen.feature.WorldGenBigTree;
 
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.CryptModel;
 
 public class BiomeErieForest extends BiomeGenBase
@@ -48,25 +49,23 @@ public class BiomeErieForest extends BiomeGenBase
 
 	// Called every chunk gen
 	@Override
-	public void func_180624_a(final World world, final Random random, final BlockPos blockPosition)
+	public void func_180624_a(final World world, final Random random, BlockPos blockPosition)
 	{
-		if (random.nextDouble() < 0.01)
+		if (random.nextDouble() < 0.003)
 		{
-			BlockPos newPos = new BlockPos(blockPosition.getX(), 255, blockPosition.getZ());
-			for (int i = 255; i > 0; i--)
+			int y;
+			try
 			{
-				if (world.getBlockState(newPos).getBlock() instanceof BlockDirt)
-				{
-					newPos = new BlockPos(newPos.getX(), newPos.getY() - 17, newPos.getZ());
-					LogHelper.info("Chose: " + newPos.getX() + ", " + newPos.getY() + ", " + newPos.getZ());
-					new CryptModel().generate(world, random, newPos.getX(), newPos.getY(), newPos.getZ());
-					break;
-				}
-				else
-				{
-					newPos = new BlockPos(newPos.getX(), newPos.getY() - 1, newPos.getZ());
-				}
+				y = Utility.getPlaceToSpawn(world, blockPosition.getX() + 12, blockPosition.getZ() + 12, 8, 8);
 			}
+			catch (Exception e)
+			{
+				y = 0;
+			}
+
+			blockPosition = new BlockPos(blockPosition.getX(), y - 17, blockPosition.getZ());
+			LogHelper.info("Chose: " + blockPosition.getX() + ", " + blockPosition.getY() + ", " + blockPosition.getZ());
+			new CryptModel(world, random, blockPosition.getX(), blockPosition.getY(), blockPosition.getZ());
 		}
 
 		super.func_180624_a(world, random, blockPosition);

@@ -102,6 +102,8 @@ public class AfraidOfTheDark
 		AfraidOfTheDark.proxy.registerKeyBindings();
 		// Initialize the mod channel
 		AfraidOfTheDark.proxy.registerChannel();
+		// Initialize font renderers
+		AfraidOfTheDark.proxy.registerMiscelaneous();
 		// Setup mod threads
 		ModThreads.register();
 

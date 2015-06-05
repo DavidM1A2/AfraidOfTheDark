@@ -5,19 +5,12 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.refrence;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-
-import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -34,8 +27,8 @@ public class Refrence
 	// The minecraft version number and version
 	public static final String VERSION = "1.8-Alpha 0.1";
 	// Refrences to the proxies
-	public static final String SERVER_PROXY_CLASS = "com.DavidM1A2.AfraidOfTheDark.proxy.ServerProxy";
-	public static final String CLIENT_PROXY_CLASS = "com.DavidM1A2.AfraidOfTheDark.proxy.ClientProxy";
+	public static final String SERVER_PROXY_CLASS = "com.DavidM1A2.AfraidOfTheDark.common.proxy.ServerProxy";
+	public static final String CLIENT_PROXY_CLASS = "com.DavidM1A2.AfraidOfTheDark.common.proxy.ClientProxy";
 	public static final String GUI_FACTORY_CLASS = "com.DavidM1A2.AfraidOfTheDark.client.gui.GuiFactory";
 	// Packet ids
 	public static final int PACKET_ID_CROSSBOW = 1;
@@ -70,29 +63,6 @@ public class Refrence
 	public static MeteorTypes watchedMeteorType = null;
 
 	public static ResearchAchieved researchAchievedOverlay;
-
-	static
-	{
-		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
-		{
-			try
-			{
-				final InputStream textFont = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(Refrence.MOD_ID, "fonts/Targa MS Hand.ttf")).getInputStream();
-				final InputStream titleFont = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(Refrence.MOD_ID, "fonts/coolvetica.ttf")).getInputStream();
-
-				Refrence.journalFont = new CustomFont(textFont, 16);
-				Refrence.journalTitleFont = new CustomFont(titleFont, 26);
-			}
-			catch (final FileNotFoundException e)
-			{
-				e.printStackTrace();
-			}
-			catch (final IOException e)
-			{
-				e.printStackTrace();
-			}
-		}
-	}
 
 	// The creative tab
 	public static final CreativeTabs AFRAID_OF_THE_DARK = new CreativeTabs(Refrence.MOD_ID.toLowerCase())

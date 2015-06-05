@@ -3,7 +3,7 @@
  * Mod: Afraid of the Dark 
  * Ideas and Textures: Michael Albertson
  */
-package com.DavidM1A2.AfraidOfTheDark.common.armor;
+package com.DavidM1A2.AfraidOfTheDark.common.item.armor;
 
 import java.util.List;
 

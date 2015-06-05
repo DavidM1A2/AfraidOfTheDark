@@ -1,13 +1,19 @@
-package com.DavidM1A2.AfraidOfTheDark.common.worldGeneration;
+package com.DavidM1A2.AfraidOfTheDark.common.utility;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockDirt;
 import net.minecraft.block.BlockGrass;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
-public class WorldgenValid
+public class Utility
 {
-	public static int getPlaceToSpawn(World world, int x, int z, int height, int width)
+	public static int ticksToMilliseconds(int ticks)
+	{
+		return ticks * 50;
+	}
+
+	public static int getPlaceToSpawn(World world, int x, int z, int height, int width) throws UnsupportedLocationException
 	{
 		int y1 = 0;
 		int y2 = 0;
@@ -21,7 +27,7 @@ public class WorldgenValid
 
 		if (y1 == 0 || y2 == 0 || y3 == 0 || y4 == 0)
 		{
-			return 0;
+			throw new UnsupportedLocationException();
 		}
 		else
 		{
@@ -38,6 +44,14 @@ public class WorldgenValid
 			if (current instanceof BlockGrass)
 			{
 				return temp;
+			}
+			if (current instanceof BlockDirt)
+			{
+				BlockDirt currentDirt = (BlockDirt) current;
+				if (world.getBlockState(new BlockPos(x, temp, z)).getValue(BlockDirt.VARIANT) == BlockDirt.DirtType.PODZOL)
+				{
+					return temp;
+				}
 			}
 			temp = temp - 1;
 		}

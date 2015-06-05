@@ -12,6 +12,8 @@ import net.minecraftforge.fml.common.IWorldGenerator;
 
 import com.DavidM1A2.AfraidOfTheDark.common.biomes.BiomeErieForest;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.UnsupportedLocationException;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 public class GenerateSprings implements IWorldGenerator
 {
@@ -37,7 +39,15 @@ public class GenerateSprings implements IWorldGenerator
 				{
 					if (!(world.getBlockState(new BlockPos(chunkX, i, chunkZ)).getBlock() instanceof BlockAir) && world.getBlockState(new BlockPos(chunkX, i, chunkZ)).getBlock() instanceof BlockGrass)
 					{
-						int y = WorldgenValid.getPlaceToSpawn(world, chunkX, chunkZ, 28, 28);
+						int y;
+						try
+						{
+							y = Utility.getPlaceToSpawn(world, chunkX, chunkZ, 28, 28);
+						}
+						catch (UnsupportedLocationException e)
+						{
+							y = 0;
+						}
 						if (y != 0)
 						{
 							LogHelper.info("Chose the location: x = " + chunkX + ", y = " + y + ", z = " + chunkZ);

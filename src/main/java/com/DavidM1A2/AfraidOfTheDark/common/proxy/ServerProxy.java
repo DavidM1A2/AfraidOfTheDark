@@ -24,4 +24,10 @@ public class ServerProxy extends CommonProxy
 	{
 		// NOOP
 	}
+
+	@Override
+	public void registerMiscelaneous()
+	{
+		// Not used
+	}
 }

@@ -19,7 +19,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.DavidM1A2.AfraidOfTheDark.common.threads.TemporaryInvincibility;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.Converter;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 public class ItemStarMetalStaff extends AOTDItem implements IHasCooldown
 {
@@ -39,7 +39,7 @@ public class ItemStarMetalStaff extends AOTDItem implements IHasCooldown
 		{
 			if (!entityPlayer.capabilities.isCreativeMode)
 			{
-				new TemporaryInvincibility(Converter.ticksToMilliseconds(MAX_TROLL_POLE_TIME_IN_TICKS), entityPlayer);
+				new TemporaryInvincibility(Utility.ticksToMilliseconds(MAX_TROLL_POLE_TIME_IN_TICKS), entityPlayer);
 			}
 			entityPlayer.addVelocity(0, .5, 0);
 			entityPlayer.setItemInUse(itemStack, ItemStarMetalStaff.MAX_TROLL_POLE_TIME_IN_TICKS);

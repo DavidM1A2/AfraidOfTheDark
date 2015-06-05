@@ -3,8 +3,13 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.proxy;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -28,6 +33,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateAOTDStatus;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateInsanity;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateResearch;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateVitae;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.CustomFont;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 
 // Just client things go here
@@ -62,5 +68,26 @@ public class ClientProxy extends CommonProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntitySilverBolt.class, new SilverBoltRender(current));
 		RenderingRegistry.registerEntityRenderingHandler(EntityWoodenBolt.class, new WoodenBoltRender(current));
 		MinecraftForgeClient.registerItemRenderer(ModItems.crossbow, (IItemRenderer) new ItemCrossbowRender());
+	}
+
+	@Override
+	public void registerMiscelaneous()
+	{
+		try
+		{
+			final InputStream textFont = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(Refrence.MOD_ID, "fonts/Targa MS Hand.ttf")).getInputStream();
+			final InputStream titleFont = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(Refrence.MOD_ID, "fonts/coolvetica.ttf")).getInputStream();
+
+			Refrence.journalFont = new CustomFont(textFont, 16);
+			Refrence.journalTitleFont = new CustomFont(titleFont, 26);
+		}
+		catch (final FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		catch (final IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 }

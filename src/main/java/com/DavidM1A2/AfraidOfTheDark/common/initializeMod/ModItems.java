@@ -12,8 +12,6 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
-import com.DavidM1A2.AfraidOfTheDark.common.armor.IgneousArmor;
-import com.DavidM1A2.AfraidOfTheDark.common.armor.StarMetalArmor;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.ItemIronBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.ItemSilverBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.ItemWoodenBolt;
@@ -32,6 +30,8 @@ import com.DavidM1A2.AfraidOfTheDark.common.item.ItemStarMetalStaff;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemSunstone;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemTelescope;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemVitaeLantern;
+import com.DavidM1A2.AfraidOfTheDark.common.item.armor.IgneousArmor;
+import com.DavidM1A2.AfraidOfTheDark.common.item.armor.StarMetalArmor;
 import com.DavidM1A2.AfraidOfTheDark.common.item.crossbow.ItemCrossbow;
 import com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls.ItemResearchScrollCloakOfAgility;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;

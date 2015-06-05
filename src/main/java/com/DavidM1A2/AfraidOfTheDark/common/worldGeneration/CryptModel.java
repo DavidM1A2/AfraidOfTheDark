@@ -22,6 +22,11 @@ public class CryptModel
 {
 	private TileEntityChest tileentitychest;
 
+	public CryptModel(World world, Random rand, int x, int y, int z)
+	{
+		this.generate(world, rand, x, y, z);
+	}
+
 	public void setBlock(World world, int x, int y, int z, Block block, int metadata)
 	{
 		world.setBlockState(new BlockPos(x, y, z), block.getStateFromMeta(metadata));
@@ -3162,13 +3167,13 @@ public class CryptModel
 		this.setBlock(world, i + 12, j + 16, k + 14, Blocks.stonebrick, 1);
 		this.setBlock(world, i + 12, j + 16, k + 15, Blocks.stonebrick, 1);
 		this.setBlock(world, i + 12, j + 16, k + 16, Blocks.cobblestone, 0);
-		this.setBlock(world, i + 12, j + 17, k + 12, Blocks.mycelium, 2);
-		this.setBlock(world, i + 12, j + 17, k + 13, Blocks.mycelium, 2);
-		this.setBlock(world, i + 12, j + 17, k + 14, Blocks.mycelium, 2);
-		this.setBlock(world, i + 12, j + 17, k + 15, Blocks.mycelium, 2);
-		this.setBlock(world, i + 12, j + 17, k + 16, Blocks.mycelium, 2);
-		this.setBlock(world, i + 12, j + 17, k + 17, Blocks.mycelium, 2);
-		this.setBlock(world, i + 12, j + 17, k + 18, Blocks.mycelium, 2);
+		this.setBlock(world, i + 12, j + 17, k + 12, Blocks.dirt, 2);
+		this.setBlock(world, i + 12, j + 17, k + 13, Blocks.dirt, 2);
+		this.setBlock(world, i + 12, j + 17, k + 14, Blocks.dirt, 2);
+		this.setBlock(world, i + 12, j + 17, k + 15, Blocks.dirt, 2);
+		this.setBlock(world, i + 12, j + 17, k + 16, Blocks.dirt, 2);
+		this.setBlock(world, i + 12, j + 17, k + 17, Blocks.dirt, 2);
+		this.setBlock(world, i + 12, j + 17, k + 18, Blocks.dirt, 2);
 		this.setBlock(world, i + 12, j + 18, k + 15, Blocks.mossy_cobblestone, 0);
 		this.setBlock(world, i + 12, j + 19, k + 15, Blocks.mossy_cobblestone, 0);
 		this.setBlock(world, i + 12, j + 20, k + 15, Blocks.mossy_cobblestone, 0);
@@ -3491,13 +3496,13 @@ public class CryptModel
 		this.setBlock(world, i + 13, j + 16, k + 15, Blocks.air, 0);
 		this.setBlock(world, i + 13, j + 16, k + 16, Blocks.air, 0);
 		this.setBlock(world, i + 13, j + 16, k + 17, Blocks.mossy_cobblestone, 0);
-		this.setBlock(world, i + 13, j + 17, k + 12, Blocks.mycelium, 2);
-		this.setBlock(world, i + 13, j + 17, k + 13, Blocks.mycelium, 2);
+		this.setBlock(world, i + 13, j + 17, k + 12, Blocks.dirt, 2);
+		this.setBlock(world, i + 13, j + 17, k + 13, Blocks.dirt, 2);
 		this.setBlock(world, i + 13, j + 17, k + 14, Blocks.air, 0);
 		this.setBlock(world, i + 13, j + 17, k + 15, Blocks.air, 0);
 		this.setBlock(world, i + 13, j + 17, k + 16, Blocks.stone_slab, 11);
-		this.setBlock(world, i + 13, j + 17, k + 17, Blocks.mycelium, 2);
-		this.setBlock(world, i + 13, j + 17, k + 18, Blocks.mycelium, 2);
+		this.setBlock(world, i + 13, j + 17, k + 17, Blocks.dirt, 2);
+		this.setBlock(world, i + 13, j + 17, k + 18, Blocks.dirt, 2);
 		this.setBlock(world, i + 13, j + 18, k + 13, Blocks.mossy_cobblestone, 0);
 		this.setBlock(world, i + 13, j + 18, k + 17, Blocks.mossy_cobblestone, 0);
 		this.setBlock(world, i + 13, j + 19, k + 13, Blocks.mossy_cobblestone, 0);
@@ -3861,13 +3866,13 @@ public class CryptModel
 		this.setBlock(world, i + 14, j + 16, k + 16, Blocks.air, 0);
 		this.setBlock(world, i + 14, j + 16, k + 17, Blocks.air, 0);
 		this.setBlock(world, i + 14, j + 16, k + 18, Blocks.stonebrick, 1);
-		this.setBlock(world, i + 14, j + 17, k + 12, Blocks.mycelium, 2);
+		this.setBlock(world, i + 14, j + 17, k + 12, Blocks.dirt, 2);
 		this.setBlock(world, i + 14, j + 17, k + 13, Blocks.air, 0);
 		this.setBlock(world, i + 14, j + 17, k + 14, Blocks.air, 0);
 		this.setBlock(world, i + 14, j + 17, k + 15, Blocks.air, 0);
 		this.setBlock(world, i + 14, j + 17, k + 16, Blocks.stone_slab, 11);
 		this.setBlock(world, i + 14, j + 17, k + 17, Blocks.stone_slab, 11);
-		this.setBlock(world, i + 14, j + 17, k + 18, Blocks.mycelium, 2);
+		this.setBlock(world, i + 14, j + 17, k + 18, Blocks.dirt, 2);
 		this.setBlock(world, i + 15, j + 0, k + 0, Blocks.stonebrick, 3);
 		this.setBlock(world, i + 15, j + 0, k + 1, Blocks.stonebrick, 3);
 		this.setBlock(world, i + 15, j + 0, k + 2, Blocks.stonebrick, 3);
@@ -4215,13 +4220,13 @@ public class CryptModel
 		this.setBlock(world, i + 15, j + 16, k + 16, Blocks.air, 0);
 		this.setBlock(world, i + 15, j + 16, k + 17, Blocks.air, 0);
 		this.setBlock(world, i + 15, j + 16, k + 18, Blocks.stonebrick, 1);
-		this.setBlock(world, i + 15, j + 17, k + 12, Blocks.mycelium, 2);
+		this.setBlock(world, i + 15, j + 17, k + 12, Blocks.dirt, 2);
 		this.setBlock(world, i + 15, j + 17, k + 13, Blocks.air, 0);
 		this.setBlock(world, i + 15, j + 17, k + 14, Blocks.air, 0);
 		this.setBlock(world, i + 15, j + 17, k + 15, Blocks.cobblestone, 0);
 		this.setBlock(world, i + 15, j + 17, k + 16, Blocks.stone_stairs, 1);
 		this.setBlock(world, i + 15, j + 17, k + 17, Blocks.stone_stairs, 1);
-		this.setBlock(world, i + 15, j + 17, k + 18, Blocks.mycelium, 2);
+		this.setBlock(world, i + 15, j + 17, k + 18, Blocks.dirt, 2);
 		this.setBlock(world, i + 15, j + 18, k + 12, Blocks.mossy_cobblestone, 0);
 		this.setBlock(world, i + 15, j + 18, k + 18, Blocks.mossy_cobblestone, 0);
 		this.setBlock(world, i + 15, j + 19, k + 12, Blocks.mossy_cobblestone, 0);
@@ -4585,13 +4590,13 @@ public class CryptModel
 		this.setBlock(world, i + 16, j + 16, k + 16, Blocks.stone_slab, 11);
 		this.setBlock(world, i + 16, j + 16, k + 17, Blocks.stone_slab, 11);
 		this.setBlock(world, i + 16, j + 16, k + 18, Blocks.cobblestone, 0);
-		this.setBlock(world, i + 16, j + 17, k + 12, Blocks.mycelium, 2);
+		this.setBlock(world, i + 16, j + 17, k + 12, Blocks.dirt, 2);
 		this.setBlock(world, i + 16, j + 17, k + 13, Blocks.air, 0);
 		this.setBlock(world, i + 16, j + 17, k + 14, Blocks.air, 0);
 		this.setBlock(world, i + 16, j + 17, k + 15, Blocks.air, 0);
 		this.setBlock(world, i + 16, j + 17, k + 16, Blocks.air, 0);
 		this.setBlock(world, i + 16, j + 17, k + 17, Blocks.air, 0);
-		this.setBlock(world, i + 16, j + 17, k + 18, Blocks.mycelium, 2);
+		this.setBlock(world, i + 16, j + 17, k + 18, Blocks.dirt, 2);
 		this.setBlock(world, i + 17, j + 0, k + 0, Blocks.stonebrick, 3);
 		this.setBlock(world, i + 17, j + 0, k + 1, Blocks.stonebrick, 3);
 		this.setBlock(world, i + 17, j + 0, k + 2, Blocks.stonebrick, 3);
@@ -4918,13 +4923,13 @@ public class CryptModel
 		this.setBlock(world, i + 17, j + 16, k + 15, Blocks.stone_stairs, 2);
 		this.setBlock(world, i + 17, j + 16, k + 16, Blocks.stone_slab, 11);
 		this.setBlock(world, i + 17, j + 16, k + 17, Blocks.mossy_cobblestone, 0);
-		this.setBlock(world, i + 17, j + 17, k + 12, Blocks.mycelium, 2);
-		this.setBlock(world, i + 17, j + 17, k + 13, Blocks.mycelium, 2);
+		this.setBlock(world, i + 17, j + 17, k + 12, Blocks.dirt, 2);
+		this.setBlock(world, i + 17, j + 17, k + 13, Blocks.dirt, 2);
 		this.setBlock(world, i + 17, j + 17, k + 14, Blocks.air, 0);
 		this.setBlock(world, i + 17, j + 17, k + 15, Blocks.air, 0);
 		this.setBlock(world, i + 17, j + 17, k + 16, Blocks.air, 0);
-		this.setBlock(world, i + 17, j + 17, k + 17, Blocks.mycelium, 2);
-		this.setBlock(world, i + 17, j + 17, k + 18, Blocks.mycelium, 2);
+		this.setBlock(world, i + 17, j + 17, k + 17, Blocks.dirt, 2);
+		this.setBlock(world, i + 17, j + 17, k + 18, Blocks.dirt, 2);
 		this.setBlock(world, i + 17, j + 18, k + 13, Blocks.mossy_cobblestone, 0);
 		this.setBlock(world, i + 17, j + 18, k + 17, Blocks.mossy_cobblestone, 0);
 		this.setBlock(world, i + 17, j + 19, k + 13, Blocks.mossy_cobblestone, 0);
@@ -5190,13 +5195,13 @@ public class CryptModel
 		this.setBlock(world, i + 18, j + 16, k + 14, Blocks.mossy_cobblestone, 0);
 		this.setBlock(world, i + 18, j + 16, k + 15, Blocks.stonebrick, 1);
 		this.setBlock(world, i + 18, j + 16, k + 16, Blocks.cobblestone, 0);
-		this.setBlock(world, i + 18, j + 17, k + 12, Blocks.mycelium, 2);
-		this.setBlock(world, i + 18, j + 17, k + 13, Blocks.mycelium, 2);
-		this.setBlock(world, i + 18, j + 17, k + 14, Blocks.mycelium, 2);
-		this.setBlock(world, i + 18, j + 17, k + 15, Blocks.mycelium, 2);
-		this.setBlock(world, i + 18, j + 17, k + 16, Blocks.mycelium, 2);
-		this.setBlock(world, i + 18, j + 17, k + 17, Blocks.mycelium, 2);
-		this.setBlock(world, i + 18, j + 17, k + 18, Blocks.mycelium, 2);
+		this.setBlock(world, i + 18, j + 17, k + 12, Blocks.dirt, 2);
+		this.setBlock(world, i + 18, j + 17, k + 13, Blocks.dirt, 2);
+		this.setBlock(world, i + 18, j + 17, k + 14, Blocks.dirt, 2);
+		this.setBlock(world, i + 18, j + 17, k + 15, Blocks.dirt, 2);
+		this.setBlock(world, i + 18, j + 17, k + 16, Blocks.dirt, 2);
+		this.setBlock(world, i + 18, j + 17, k + 17, Blocks.dirt, 2);
+		this.setBlock(world, i + 18, j + 17, k + 18, Blocks.dirt, 2);
 		this.setBlock(world, i + 18, j + 18, k + 15, Blocks.mossy_cobblestone, 0);
 		this.setBlock(world, i + 18, j + 19, k + 15, Blocks.mossy_cobblestone, 0);
 		this.setBlock(world, i + 18, j + 20, k + 15, Blocks.mossy_cobblestone, 0);
