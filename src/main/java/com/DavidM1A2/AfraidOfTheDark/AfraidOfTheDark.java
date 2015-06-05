@@ -22,24 +22,24 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.ResearchAchieved;
-import com.DavidM1A2.AfraidOfTheDark.commands.InsanityCheck;
+import com.DavidM1A2.AfraidOfTheDark.common.commands.InsanityCheck;
+import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.handler.KeyInputEventHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.handler.PlayerController;
+import com.DavidM1A2.AfraidOfTheDark.common.handler.WorldEvents;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBiomes;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModEntities;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModFurnaceRecipies;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModGeneration;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModOreDictionaryCompatability;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModRecipes;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModThreads;
+import com.DavidM1A2.AfraidOfTheDark.common.proxy.IProxy;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.debug.DebugSpammer;
-import com.DavidM1A2.AfraidOfTheDark.handler.ConfigurationHandler;
-import com.DavidM1A2.AfraidOfTheDark.handler.KeyInputEventHandler;
-import com.DavidM1A2.AfraidOfTheDark.handler.PlayerController;
-import com.DavidM1A2.AfraidOfTheDark.handler.WorldEvents;
-import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModBiomes;
-import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModBlocks;
-import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModEntities;
-import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModFurnaceRecipies;
-import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModGeneration;
-import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModItems;
-import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModOreDictionaryCompatability;
-import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModRecipes;
-import com.DavidM1A2.AfraidOfTheDark.initializeMod.ModThreads;
-import com.DavidM1A2.AfraidOfTheDark.proxy.IProxy;
-import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
-import com.DavidM1A2.AfraidOfTheDark.utility.LogHelper;
 
 /*
  * Main class run when the mod is started up

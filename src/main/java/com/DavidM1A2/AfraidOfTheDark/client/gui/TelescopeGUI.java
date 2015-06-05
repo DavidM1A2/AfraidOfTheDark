@@ -16,10 +16,10 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
-import com.DavidM1A2.AfraidOfTheDark.refrence.MeteorTypes;
-import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
-import com.DavidM1A2.AfraidOfTheDark.refrence.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.MeteorTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 public class TelescopeGUI extends GuiClickAndDragable
 {

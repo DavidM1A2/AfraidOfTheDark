@@ -10,8 +10,8 @@ import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.config.GuiConfig;
 
-import com.DavidM1A2.AfraidOfTheDark.handler.ConfigurationHandler;
-import com.DavidM1A2.AfraidOfTheDark.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 
 /*
  * Setup the GUI configuration screen

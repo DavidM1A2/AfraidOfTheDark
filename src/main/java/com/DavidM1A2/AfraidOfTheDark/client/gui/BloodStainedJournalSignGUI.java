@@ -20,10 +20,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
-import com.DavidM1A2.AfraidOfTheDark.packets.UpdateAOTDStatus;
-import com.DavidM1A2.AfraidOfTheDark.playerData.HasStartedAOTD;
-import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
-import com.DavidM1A2.AfraidOfTheDark.refrence.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateAOTDStatus;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 public class BloodStainedJournalSignGUI extends GuiScreen
 {

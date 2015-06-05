@@ -9,7 +9,7 @@ import net.minecraft.client.settings.KeyBinding;
 
 import org.lwjgl.input.Keyboard;
 
-import com.DavidM1A2.AfraidOfTheDark.refrence.Names;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Names;
 
 public class Keybindings
 {

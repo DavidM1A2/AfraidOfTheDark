@@ -9,16 +9,13 @@ import java.util.Iterator;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.BlockPos;
-import net.minecraft.world.EnumSkyBlock;
-import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import com.DavidM1A2.AfraidOfTheDark.playerData.HasStartedAOTD;
-import com.DavidM1A2.AfraidOfTheDark.playerData.Insanity;
-import com.DavidM1A2.AfraidOfTheDark.playerData.LoadResearchData;
-import com.DavidM1A2.AfraidOfTheDark.refrence.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Insanity;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 public class DebugSpammer
 {

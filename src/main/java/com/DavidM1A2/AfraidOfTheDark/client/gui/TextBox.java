@@ -8,7 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.DavidM1A2.AfraidOfTheDark.refrence.CustomFont;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.CustomFont;
 import com.google.common.base.Splitter;
 
 // Textbox for simple text painting

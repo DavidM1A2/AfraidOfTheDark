@@ -14,7 +14,7 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-import com.DavidM1A2.AfraidOfTheDark.refrence.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 public class ResearchAchieved extends Gui
 {
