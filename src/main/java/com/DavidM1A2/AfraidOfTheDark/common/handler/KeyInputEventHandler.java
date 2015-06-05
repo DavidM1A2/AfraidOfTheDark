@@ -14,6 +14,7 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 
 import com.DavidM1A2.AfraidOfTheDark.client.settings.Keybindings;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
+import com.DavidM1A2.AfraidOfTheDark.common.item.ItemCloakOfAgility;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
@@ -27,11 +28,19 @@ public class KeyInputEventHandler
 			EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
 			if (entityPlayer.inventory.hasItem(ModItems.cloakOfAgility) && entityPlayer.onGround && LoadResearchData.isResearched(entityPlayer, ResearchTypes.CloakOfAgility))
 			{
-				Vec3 lookDirection = entityPlayer.getLookVec();
-				double rollVelocity = 15;
-				entityPlayer.motionX = entityPlayer.motionX * rollVelocity;
-				entityPlayer.motionY = 0.2;
-				entityPlayer.motionZ = entityPlayer.motionZ * rollVelocity;
+				if (!ItemCloakOfAgility.isOnCooldown())
+				{
+					ItemCloakOfAgility.setOnCooldown();
+					Vec3 lookDirection = entityPlayer.getLookVec();
+					double rollVelocity = 15;
+					entityPlayer.motionX = entityPlayer.motionX * rollVelocity;
+					entityPlayer.motionY = 0.2;
+					entityPlayer.motionZ = entityPlayer.motionZ * rollVelocity;
+				}
+				else
+				{
+					entityPlayer.addChatMessage(new ChatComponentText("I'm too tired to roll again. (" + ItemCloakOfAgility.cooldownRemaining() + " seconds)"));
+				}
 			}
 			else if (!LoadResearchData.isResearched(entityPlayer, ResearchTypes.CloakOfAgility))
 			{

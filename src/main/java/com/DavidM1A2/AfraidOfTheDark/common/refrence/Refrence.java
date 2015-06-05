@@ -27,8 +27,8 @@ public class Refrence
 	// The minecraft version number and version
 	public static final String VERSION = "1.8-Alpha 0.1";
 	// Refrences to the proxies
-	public static final String SERVER_PROXY_CLASS = "com.DavidM1A2.AfraidOfTheDark.common.proxy.ServerProxy";
-	public static final String CLIENT_PROXY_CLASS = "com.DavidM1A2.AfraidOfTheDark.common.proxy.ClientProxy";
+	public static final String SERVER_PROXY_CLASS = "com.DavidM1A2.AfraidOfTheDark.proxy.ServerProxy";
+	public static final String CLIENT_PROXY_CLASS = "com.DavidM1A2.AfraidOfTheDark.proxy.ClientProxy";
 	public static final String GUI_FACTORY_CLASS = "com.DavidM1A2.AfraidOfTheDark.client.gui.GuiFactory";
 	// Packet ids
 	public static final int PACKET_ID_CROSSBOW = 1;
