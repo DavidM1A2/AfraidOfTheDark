@@ -1,6 +1,7 @@
 package com.DavidM1A2.AfraidOfTheDark.common.block;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
@@ -8,8 +9,11 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.fml.relauncher.Side;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
+import com.DavidM1A2.AfraidOfTheDark.common.item.ItemVitaeLantern;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 public class BlockTileEntitySpring extends AOTDTileEntity implements IUpdatePlayerListBox
 {
@@ -35,9 +39,26 @@ public class BlockTileEntitySpring extends AOTDTileEntity implements IUpdatePlay
 					if (object instanceof EntityPlayer)
 					{
 						EntityPlayer entityPlayer = (EntityPlayer) object;
-						if (LoadResearchData.canResearch(entityPlayer, ResearchTypes.VitaeI))
+						if (entityPlayer.inventory.hasItem(ModItems.vitaeLantern))
 						{
-							LoadResearchData.unlockResearchSynced(entityPlayer, ResearchTypes.VitaeI, Side.SERVER, true);
+							if (LoadResearchData.canResearch(entityPlayer, ResearchTypes.VitaeLanternI))
+							{
+								LoadResearchData.unlockResearchSynced(entityPlayer, ResearchTypes.VitaeLanternI, Side.SERVER, true);
+							}
+							for (Object stack : entityPlayer.inventoryContainer.getInventory())
+							{
+								if (stack instanceof ItemStack)
+								{
+									ItemStack current = (ItemStack) stack;
+									if (current.getItem() instanceof ItemVitaeLantern)
+									{
+										if (NBTHelper.getInt(current, "vitaeLevel") == 0)
+										{
+											NBTHelper.setInteger(current, "vitaeLevel", 10);
+										}
+									}
+								}
+							}
 						}
 						entityPlayer.addPotionEffect(new PotionEffect(Potion.regeneration.id, 100, 1, true, true));
 					}
