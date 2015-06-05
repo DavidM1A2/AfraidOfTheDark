@@ -33,7 +33,9 @@ import com.DavidM1A2.AfraidOfTheDark.common.item.ItemVitaeLantern;
 import com.DavidM1A2.AfraidOfTheDark.common.item.armor.IgneousArmor;
 import com.DavidM1A2.AfraidOfTheDark.common.item.armor.StarMetalArmor;
 import com.DavidM1A2.AfraidOfTheDark.common.item.crossbow.ItemCrossbow;
+import com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls.ItemResearchScrollAstronomy2;
 import com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls.ItemResearchScrollCloakOfAgility;
+import com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls.ItemResearchScrollVitae1;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 
 @GameRegistry.ObjectHolder(Refrence.MOD_ID)
@@ -68,6 +70,8 @@ public class ModItems
 	public static final ItemStarMetalKhopesh starMetalKhopesh = new ItemStarMetalKhopesh();
 	public static final ItemCloakOfAgility cloakOfAgility = new ItemCloakOfAgility();
 	public static final ItemResearchScrollCloakOfAgility researchScrollCloakOfAgility = new ItemResearchScrollCloakOfAgility();
+	public static final ItemResearchScrollAstronomy2 researchScrollAstronomy2 = new ItemResearchScrollAstronomy2();
+	public static final ItemResearchScrollVitae1 researchScrollVitae1 = new ItemResearchScrollVitae1();
 
 	public static void initialize(final Side side)
 	{
@@ -100,6 +104,8 @@ public class ModItems
 		GameRegistry.registerItem(ModItems.starMetalKhopesh, "starMetalKhopesh");
 		GameRegistry.registerItem(ModItems.cloakOfAgility, "cloakOfAgility");
 		GameRegistry.registerItem(ModItems.researchScrollCloakOfAgility, "researchScrollCloakOfAgility");
+		GameRegistry.registerItem(ModItems.researchScrollAstronomy2, "researchScrollAstronomy2");
+		GameRegistry.registerItem(ModItems.researchScrollVitae1, "researchScrollVitae1");
 	}
 
 	public static void initializeRenderers(final Side side)
@@ -111,6 +117,8 @@ public class ModItems
 			renderItem.getItemModelMesher().register(ModItems.journal, 0, new ModelResourceLocation(Refrence.MOD_ID + ":journal", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.astralSilverSword, 0, new ModelResourceLocation(Refrence.MOD_ID + ":astralSilverSword", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.igneousSword, 0, new ModelResourceLocation(Refrence.MOD_ID + ":igneousSword", "inventory"));
+			renderItem.getItemModelMesher().register(ModItems.igneousSword, 1, new ModelResourceLocation(Refrence.MOD_ID + ":igneousSwordFullCharge", "inventory"));
+			ModelBakery.addVariantName(ModItems.igneousSword, Refrence.MOD_ID + ":igneousSword", Refrence.MOD_ID + ":igneousSwordFullCharge");
 			renderItem.getItemModelMesher().register(ModItems.astralSilverIngot, 0, new ModelResourceLocation(Refrence.MOD_ID + ":astralSilverIngot", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.crossbow, 0, new ModelResourceLocation(Refrence.MOD_ID + ":crossbow", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.ironBolt, 0, new ModelResourceLocation(Refrence.MOD_ID + ":ironBolt", "inventory"));
@@ -137,6 +145,8 @@ public class ModItems
 			ModelBakery.addVariantName(ModItems.starMetalKhopesh, Refrence.MOD_ID + ":starMetalKhopesh", Refrence.MOD_ID + ":starMetalKhopeshFullCharge");
 			renderItem.getItemModelMesher().register(ModItems.cloakOfAgility, 0, new ModelResourceLocation(Refrence.MOD_ID + ":cloakOfAgility", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.researchScrollCloakOfAgility, 0, new ModelResourceLocation(Refrence.MOD_ID + ":researchScrollCloakOfAgility", "inventory"));
+			renderItem.getItemModelMesher().register(ModItems.researchScrollAstronomy2, 0, new ModelResourceLocation(Refrence.MOD_ID + ":researchScrollAstronomy2", "inventory"));
+			renderItem.getItemModelMesher().register(ModItems.researchScrollVitae1, 0, new ModelResourceLocation(Refrence.MOD_ID + ":researchScrollVitae1", "inventory"));
 		}
 	}
 }

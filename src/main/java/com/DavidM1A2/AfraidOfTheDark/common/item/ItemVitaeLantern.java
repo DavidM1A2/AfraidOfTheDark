@@ -10,7 +10,6 @@ import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -34,7 +33,7 @@ public class ItemVitaeLantern extends AOTDItem
 		if (Vitae.get(entityPlayer) > 5 && NBTHelper.getInt(itemStack, "vitaeLevel") + 5 <= MAX_VITAE && !entityPlayer.isSneaking())
 		{
 			NBTHelper.setInteger(itemStack, "vitaeLevel", NBTHelper.getInt(itemStack, "vitaeLevel") + 5);
-			Vitae.set(entityPlayer, Vitae.get(entityPlayer) - 5, FMLCommonHandler.instance().getEffectiveSide());
+			Vitae.set(entityPlayer, Vitae.get(entityPlayer) - 5, world.isRemote ? Side.CLIENT : Side.SERVER);
 		}
 
 		return super.onItemRightClick(itemStack, world, entityPlayer);
