@@ -27,7 +27,7 @@ public class Utility
 
 		if (y1 == 0 || y2 == 0 || y3 == 0 || y4 == 0)
 		{
-			throw new UnsupportedLocationException();
+			throw new UnsupportedLocationException(y1, y2, y3, y4);
 		}
 		else
 		{
@@ -41,17 +41,9 @@ public class Utility
 		while (temp > 0)
 		{
 			Block current = world.getBlockState(new BlockPos(x, temp, z)).getBlock();
-			if (current instanceof BlockGrass)
+			if (current instanceof BlockGrass || current instanceof BlockDirt)
 			{
 				return temp;
-			}
-			if (current instanceof BlockDirt)
-			{
-				BlockDirt currentDirt = (BlockDirt) current;
-				if (world.getBlockState(new BlockPos(x, temp, z)).getValue(BlockDirt.VARIANT) == BlockDirt.DirtType.PODZOL)
-				{
-					return temp;
-				}
 			}
 			temp = temp - 1;
 		}
