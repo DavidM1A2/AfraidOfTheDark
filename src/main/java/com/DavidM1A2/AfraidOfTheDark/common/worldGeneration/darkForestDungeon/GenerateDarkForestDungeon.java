@@ -75,7 +75,7 @@ public class GenerateDarkForestDungeon implements IWorldGenerator
 		{
 			case 0:
 				placeX = chunkX + randInt(random, -23, 10);
-				placeZ = chunkZ - 15 + randInt(random, -15, 0);
+				placeZ = chunkZ + randInt(random, -30, -15);
 				break;
 			case 1:
 				placeX = chunkX + randInt(random, 15, 30);
@@ -83,14 +83,14 @@ public class GenerateDarkForestDungeon implements IWorldGenerator
 				placeZ = placeZ + randInt(random, -23, 15);
 				break;
 			case 2:
-				placeX = chunkX + 23;
-				placeZ = chunkZ - 23;
+				placeX = chunkX - 23;
+				placeZ = chunkZ + 23;
 				placeX = placeX + randInt(random, -15, 23);
 				placeZ = placeZ + randInt(random, 15, 30);
 				break;
 			case 3:
-				placeZ = chunkZ - 23;
-				placeX = chunkX + randInt(random, -15, -5);
+				placeX = chunkX - 23;
+				placeX = chunkX + randInt(random, -30, -15);
 				placeZ = chunkZ + randInt(random, -15, 23);
 				break;
 			default:
