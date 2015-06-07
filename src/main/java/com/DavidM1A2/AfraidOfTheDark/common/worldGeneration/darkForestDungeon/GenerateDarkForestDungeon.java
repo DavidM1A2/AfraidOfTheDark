@@ -2,67 +2,56 @@ package com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.darkForestDungeon;
 
 import java.util.Random;
 
-import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenForest;
-import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraftforge.fml.common.IWorldGenerator;
 
-import com.DavidM1A2.AfraidOfTheDark.common.biomes.BiomeErieForest;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.UnsupportedLocationException;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
-public class GenerateDarkForestDungeon implements IWorldGenerator
+public class GenerateDarkForestDungeon
 {
-	@Override
-	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider)
+	public GenerateDarkForestDungeon(Random random, int chunkX, int chunkZ, World world)
 	{
-		switch (world.provider.getDimensionId())
-		{
-			case 0:
-			{
-				this.generateSurface(world, random, chunkX * 16, chunkZ * 16);
-			}
-		}
+		this.generateSurface(world, random, chunkX, chunkZ);
 	}
 
 	private void generateSurface(World world, Random random, int chunkX, int chunkZ)
 	{
-		if (world.getBiomeGenForCoords(new BlockPos(chunkX, 50, chunkZ)) instanceof BiomeGenForest || world.getBiomeGenForCoords(new BlockPos(chunkX, 50, chunkZ)) instanceof BiomeErieForest)
+		try
 		{
-			if (random.nextDouble() < 0.003)
+			Utility.getPlaceToSpawn(world, chunkX, chunkZ, 23, 23);
+			LogHelper.info("Generating dark forest at " + chunkX + ", " + chunkZ);
+
+			for (int i = 0; i < 25; i++)
 			{
 				try
 				{
-					this.generateBedHouse(world, random, chunkX, chunkZ);
-					LogHelper.info("Generating dark forest at " + chunkX + ", " + chunkZ);
-					for (int i = 0; i < 20; i++)
-					{
-						try
-						{
-							this.generateSurroundingObject(world, random, chunkX, chunkZ);
-						}
-						catch (UnsupportedLocationException e)
-						{
-						}
-					}
-					for (int i = 0; i < 20; i++)
-					{
-						try
-						{
-							this.generateSurroundingTree(world, random, chunkX, chunkZ);
-						}
-						catch (UnsupportedLocationException e)
-						{
-							LogHelper.info(e.getMessage());
-						}
-					}
+					this.generateSurroundingObject(world, random, chunkX, chunkZ);
 				}
 				catch (UnsupportedLocationException e)
 				{
 				}
 			}
+			try
+			{
+				this.generateBedHouse(world, random, chunkX, chunkZ);
+			}
+			catch (UnsupportedLocationException e)
+			{
+			}
+			for (int i = 0; i < 30; i++)
+			{
+				try
+				{
+					this.generateSurroundingTree(world, random, chunkX, chunkZ);
+				}
+				catch (UnsupportedLocationException e)
+				{
+				}
+			}
+		}
+		catch (UnsupportedLocationException e)
+		{
 		}
 	}
 
@@ -74,24 +63,32 @@ public class GenerateDarkForestDungeon implements IWorldGenerator
 		switch (random.nextInt(4))
 		{
 			case 0:
-				placeX = chunkX + randInt(random, -23, 10);
-				placeZ = chunkZ + randInt(random, -30, -15);
+				placeX = chunkX;
+				placeZ = chunkZ;
+
+				placeX = placeX + randInt(random, 46, -23);
+				placeZ = placeZ + randInt(random, -30, -7);
 				break;
 			case 1:
-				placeX = chunkX + randInt(random, 15, 30);
+				placeX = chunkX;
 				placeZ = chunkZ + 23;
-				placeZ = placeZ + randInt(random, -23, 15);
+
+				placeX = placeX + randInt(random, -7, -30);
+				placeZ = placeZ + randInt(random, 23, -46);
 				break;
 			case 2:
-				placeX = chunkX - 23;
+				placeX = chunkX + 23;
 				placeZ = chunkZ + 23;
-				placeX = placeX + randInt(random, -15, 23);
-				placeZ = placeZ + randInt(random, 15, 30);
+
+				placeX = placeX + randInt(random, 23, -46);
+				placeZ = placeZ + randInt(random, 7, 30);
 				break;
 			case 3:
-				placeX = chunkX - 23;
-				placeX = chunkX + randInt(random, -30, -15);
-				placeZ = chunkZ + randInt(random, -15, 23);
+				placeX = chunkX + 23;
+				placeZ = chunkZ;
+
+				placeX = placeX + randInt(random, -23, 46);
+				placeZ = placeZ + randInt(random, -7, -30);
 				break;
 			default:
 				break;
@@ -100,19 +97,19 @@ public class GenerateDarkForestDungeon implements IWorldGenerator
 		switch (random.nextInt(5))
 		{
 			case 0:
-				new TreeSmall(world, random, placeX - 38 / 2, Utility.getPlaceToSpawn(world, placeX - 38 / 2, placeZ - 38 / 2, 5, 5) - 2, placeZ - 38 / 2);
+				new TreeSmall(world, random, placeX - 38 / 2, Utility.getPlaceToSpawn(world, placeX - 38 / 2, placeZ - 38 / 2, 5, 5) - 5, placeZ - 38 / 2);
 				break;
 			case 1:
-				new TreeLargeCircle(world, random, placeX - 49 / 2, Utility.getPlaceToSpawn(world, placeX - 49 / 2, placeZ - 52 / 2, 5, 5) - 2, placeZ - 52 / 2);
+				new TreeLargeCircle(world, random, placeX - 49 / 2, Utility.getPlaceToSpawn(world, placeX - 49 / 2, placeZ - 52 / 2, 5, 5) - 5, placeZ - 52 / 2);
 				break;
 			case 2:
-				new TreeLargeDonut(world, random, placeX - 55 / 2, Utility.getPlaceToSpawn(world, placeX - 55 / 2, placeZ - 57 / 2, 5, 5) - 2, placeZ - 57 / 2);
+				new TreeLargeDonut(world, random, placeX - 55 / 2, Utility.getPlaceToSpawn(world, placeX - 55 / 2, placeZ - 57 / 2, 5, 5) - 5, placeZ - 57 / 2);
 				break;
 			case 3:
-				new TreeBranchyType1(world, random, placeX - 49 / 2, Utility.getPlaceToSpawn(world, placeX - 49 / 2, placeZ - 54 / 2, 5, 5) - 2, placeZ - 54 / 2);
+				new TreeBranchyType1(world, random, placeX - 49 / 2, Utility.getPlaceToSpawn(world, placeX - 49 / 2, placeZ - 54 / 2, 5, 5) - 5, placeZ - 54 / 2);
 				break;
 			case 4:
-				new TreeBranchyType2(world, random, placeX - 55 / 2, Utility.getPlaceToSpawn(world, placeX - 55 / 2, placeZ - 55 / 2, 5, 5) - 2, placeZ - 55 / 2);
+				new TreeBranchyType2(world, random, placeX - 55 / 2, Utility.getPlaceToSpawn(world, placeX - 55 / 2, placeZ - 55 / 2, 5, 5) - 5, placeZ - 55 / 2);
 				break;
 			default:
 				break;
@@ -124,31 +121,35 @@ public class GenerateDarkForestDungeon implements IWorldGenerator
 		int placeX = 0;
 		int placeZ = 0;
 
-		switch (random.nextInt(6))
+		switch (random.nextInt(4))
 		{
 			case 0:
-				placeX = chunkX - random.nextInt(10) - 5;
-				placeZ = chunkZ - random.nextInt(10) - 5;
+				placeX = chunkX;
+				placeZ = chunkZ;
+
+				placeX = placeX + randInt(random, 46, -23);
+				placeZ = placeZ + randInt(random, -30, 0);
 				break;
 			case 1:
-				placeX = chunkX + random.nextInt(10) + 5;
-				placeZ = chunkZ - random.nextInt(10) - 5;
+				placeX = chunkX;
+				placeZ = chunkZ + 23;
+
+				placeX = placeX + randInt(random, 0, -30);
+				placeZ = placeZ + randInt(random, 23, -46);
 				break;
 			case 2:
-				placeX = chunkX - random.nextInt(10) - 5;
-				placeZ = chunkZ + random.nextInt(10) + 5;
+				placeX = chunkX + 23;
+				placeZ = chunkZ + 23;
+
+				placeX = placeX + randInt(random, 23, -46);
+				placeZ = placeZ + randInt(random, 0, 30);
 				break;
 			case 3:
-				placeX = chunkX + 23 + random.nextInt(10) + 5;
-				placeZ = chunkZ + 23 + random.nextInt(10) + 5;
-				break;
-			case 4:
-				placeX = chunkX + 23 - random.nextInt(10) - 5;
-				placeZ = chunkZ + 23 + random.nextInt(10) + 5;
-				break;
-			case 5:
-				placeX = chunkX + 23 + random.nextInt(10) + 5;
-				placeZ = chunkZ + 23 - random.nextInt(10) - 5;
+				placeX = chunkX + 23;
+				placeZ = chunkZ;
+
+				placeX = placeX + randInt(random, -23, 46);
+				placeZ = placeZ + randInt(random, 0, -30);
 				break;
 			default:
 				break;
@@ -192,11 +193,17 @@ public class GenerateDarkForestDungeon implements IWorldGenerator
 	{
 		int y = Utility.getPlaceToSpawn(world, chunkX, chunkZ, 23, 23);
 
-		new BedHouse(world, random, chunkX, y - 1, chunkZ);
+		new BedHouse(world, random, chunkX, y, chunkZ);
 	}
 
 	private int randInt(Random random, int min, int max)
 	{
+		if (min > max)
+		{
+			int temp = max;
+			max = min;
+			min = temp;
+		}
 		return random.nextInt((max - min) + 1) + min;
 	}
 }
