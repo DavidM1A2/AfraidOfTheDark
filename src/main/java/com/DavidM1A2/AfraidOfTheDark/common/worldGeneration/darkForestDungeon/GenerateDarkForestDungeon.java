@@ -19,7 +19,7 @@ public class GenerateDarkForestDungeon
 	{
 		try
 		{
-			Utility.getPlaceToSpawn(world, chunkX, chunkZ, 23, 23);
+			Utility.getPlaceToSpawnAverage(world, chunkX, chunkZ, 23, 23);
 			LogHelper.info("Generating dark forest at " + chunkX + ", " + chunkZ);
 
 			for (int i = 0; i < 25; i++)
@@ -39,7 +39,7 @@ public class GenerateDarkForestDungeon
 			catch (UnsupportedLocationException e)
 			{
 			}
-			for (int i = 0; i < 30; i++)
+			for (int i = 0; i < 40; i++)
 			{
 				try
 				{
@@ -94,22 +94,35 @@ public class GenerateDarkForestDungeon
 				break;
 		}
 
+		int adjustedX;
+		int adjustedZ;
+
 		switch (random.nextInt(5))
 		{
 			case 0:
-				new TreeSmall(world, random, placeX - 38 / 2, Utility.getPlaceToSpawn(world, placeX - 38 / 2, placeZ - 38 / 2, 5, 5) - 5, placeZ - 38 / 2);
+				adjustedX = placeX - TreeSmall.width / 2;
+				adjustedZ = placeZ - TreeSmall.height / 2;
+				new TreeSmall(world, random, adjustedX, Utility.getPlaceToSpawnLowest(world, adjustedX - 5, adjustedZ - 5, 10, 10) - 10, adjustedZ);
 				break;
 			case 1:
-				new TreeLargeCircle(world, random, placeX - 49 / 2, Utility.getPlaceToSpawn(world, placeX - 49 / 2, placeZ - 52 / 2, 5, 5) - 5, placeZ - 52 / 2);
+				adjustedX = placeX - TreeLargeCircle.width / 2;
+				adjustedZ = placeZ - TreeLargeCircle.height / 2;
+				new TreeLargeCircle(world, random, adjustedX, Utility.getPlaceToSpawnLowest(world, adjustedX - 5, adjustedZ - 5, 10, 10) - 10, adjustedZ);
 				break;
 			case 2:
-				new TreeLargeDonut(world, random, placeX - 55 / 2, Utility.getPlaceToSpawn(world, placeX - 55 / 2, placeZ - 57 / 2, 5, 5) - 5, placeZ - 57 / 2);
+				adjustedX = placeX - TreeLargeDonut.width / 2;
+				adjustedZ = placeZ - TreeLargeDonut.height / 2;
+				new TreeLargeDonut(world, random, adjustedX, Utility.getPlaceToSpawnLowest(world, adjustedX - 5, adjustedZ - 5, 10, 10) - 10, adjustedZ);
 				break;
 			case 3:
-				new TreeBranchyType1(world, random, placeX - 49 / 2, Utility.getPlaceToSpawn(world, placeX - 49 / 2, placeZ - 54 / 2, 5, 5) - 5, placeZ - 54 / 2);
+				adjustedX = placeX - TreeBranchyType1.width / 2;
+				adjustedZ = placeZ - TreeBranchyType1.height / 2;
+				new TreeBranchyType1(world, random, adjustedX, Utility.getPlaceToSpawnLowest(world, adjustedX - 5, adjustedZ - 5, 10, 10) - 10, adjustedZ);
 				break;
 			case 4:
-				new TreeBranchyType2(world, random, placeX - 55 / 2, Utility.getPlaceToSpawn(world, placeX - 55 / 2, placeZ - 55 / 2, 5, 5) - 5, placeZ - 55 / 2);
+				adjustedX = placeX - TreeBranchyType2.width / 2;
+				adjustedZ = placeZ - TreeBranchyType2.height / 2;
+				new TreeBranchyType2(world, random, adjustedX, Utility.getPlaceToSpawnLowest(world, adjustedX - 5, adjustedZ - 5, 10, 10) - 10, adjustedZ);
 				break;
 			default:
 				break;
@@ -158,31 +171,31 @@ public class GenerateDarkForestDungeon
 		switch (random.nextInt(9))
 		{
 			case 0:
-				new PropBush1(world, random, placeX, Utility.getPlaceToSpawn(world, placeX, placeZ, 4, 3), placeZ);
+				new PropBush1(world, random, placeX, Utility.getPlaceToSpawnAverage(world, placeX, placeZ, 4, 3), placeZ);
 				break;
 			case 1:
-				new PropFallenOverLog(world, random, placeX, Utility.getPlaceToSpawn(world, placeX, placeZ, 17, 11), placeZ);
+				new PropFallenOverLog(world, random, placeX, Utility.getPlaceToSpawnAverage(world, placeX, placeZ, 17, 11), placeZ);
 				break;
 			case 2:
-				new PropFence1(world, random, placeX, Utility.getPlaceToSpawn(world, placeX, placeZ, 1, 6), placeZ);
+				new PropFence1(world, random, placeX, Utility.getPlaceToSpawnAverage(world, placeX, placeZ, 1, 6), placeZ);
 				break;
 			case 3:
-				new PropFence2(world, random, placeX, Utility.getPlaceToSpawn(world, placeX, placeZ, 3, 1), placeZ);
+				new PropFence2(world, random, placeX, Utility.getPlaceToSpawnAverage(world, placeX, placeZ, 3, 1), placeZ);
 				break;
 			case 4:
-				new PropFountain(world, random, placeX, Utility.getPlaceToSpawn(world, placeX, placeZ, 5, 6), placeZ);
+				new PropFountain(world, random, placeX, Utility.getPlaceToSpawnAverage(world, placeX, placeZ, 5, 6), placeZ);
 				break;
 			case 5:
-				new PropLog(world, random, placeX, Utility.getPlaceToSpawn(world, placeX, placeZ, 2, 4), placeZ);
+				new PropLog(world, random, placeX, Utility.getPlaceToSpawnAverage(world, placeX, placeZ, 2, 4), placeZ);
 				break;
 			case 6:
-				new PropPumpkin1(world, random, placeX, Utility.getPlaceToSpawn(world, placeX, placeZ, 4, 5), placeZ);
+				new PropPumpkin1(world, random, placeX, Utility.getPlaceToSpawnAverage(world, placeX, placeZ, 4, 5), placeZ);
 				break;
 			case 7:
-				new PropPumpkin2(world, random, placeX, Utility.getPlaceToSpawn(world, placeX, placeZ, 4, 5), placeZ);
+				new PropPumpkin2(world, random, placeX, Utility.getPlaceToSpawnAverage(world, placeX, placeZ, 4, 5), placeZ);
 				break;
 			case 8:
-				new PropStump(world, random, placeX, Utility.getPlaceToSpawn(world, placeX, placeZ, 3, 3), placeZ);
+				new PropStump(world, random, placeX, Utility.getPlaceToSpawnAverage(world, placeX, placeZ, 3, 3), placeZ);
 				break;
 			default:
 				break;
@@ -191,7 +204,7 @@ public class GenerateDarkForestDungeon
 
 	private void generateBedHouse(World world, Random random, int chunkX, int chunkZ) throws UnsupportedLocationException
 	{
-		int y = Utility.getPlaceToSpawn(world, chunkX, chunkZ, 23, 23);
+		int y = Utility.getPlaceToSpawnAverage(world, chunkX, chunkZ, 23, 23);
 
 		new BedHouse(world, random, chunkX, y, chunkZ);
 	}

@@ -56,7 +56,7 @@ public class BiomeErieForest extends BiomeGenBase
 			int y;
 			try
 			{
-				y = Utility.getPlaceToSpawn(world, blockPosition.getX() + 12, blockPosition.getZ() + 12, 8, 8);
+				y = Utility.getPlaceToSpawnAverage(world, blockPosition.getX() + 12, blockPosition.getZ() + 12, 8, 8);
 			}
 			catch (Exception e)
 			{

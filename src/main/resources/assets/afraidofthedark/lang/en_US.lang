@@ -47,6 +47,7 @@ tile.afraidofthedark:starMetalOre.name=Star Metal Ore
 tile.afraidofthedark:igneousBlock.name=Igneous Block
 tile.afraidofthedark:spring.name=Spring
 tile.afraidofthedark:gravewoodSapling.name=Gravewood Sapling
+tile.afraidofthedark:darkForest.name=Dark Forest
 
 # Creative Tabs
 itemGroup.afraidofthedark=Afraid of the Dark

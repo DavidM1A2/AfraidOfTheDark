@@ -1,4 +1,4 @@
-package com.DavidM1A2.AfraidOfTheDark.common.block;
+package com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

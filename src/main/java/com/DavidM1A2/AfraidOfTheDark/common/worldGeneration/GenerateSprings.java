@@ -20,7 +20,7 @@ public class GenerateSprings
 		int y;
 		try
 		{
-			y = Utility.getPlaceToSpawn(world, chunkX, chunkZ, 28, 28);
+			y = Utility.getPlaceToSpawnAverage(world, chunkX, chunkZ, 28, 28);
 		}
 		catch (UnsupportedLocationException e)
 		{

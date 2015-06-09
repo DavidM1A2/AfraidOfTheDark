@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockAstralSilverOre;
+import com.DavidM1A2.AfraidOfTheDark.common.block.BlockDarkForest;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewood;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewoodDoubleSlab;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewoodHalfSlab;
@@ -27,7 +28,8 @@ import com.DavidM1A2.AfraidOfTheDark.common.block.BlockMeteor;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockSpring;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockStarMetalOre;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockSunstoneOre;
-import com.DavidM1A2.AfraidOfTheDark.common.block.BlockTileEntitySpring;
+import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.BlockTileEntityDarkForest;
+import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.BlockTileEntitySpring;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemGravewoodLeaves;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemGravewoodSlab;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
@@ -48,6 +50,7 @@ public class ModBlocks
 	public static final BlockStarMetalOre starMetalOre = new BlockStarMetalOre(Material.rock);
 	public static final BlockIgneous igneousBlock = new BlockIgneous();
 	public static final BlockSpring spring = new BlockSpring(Material.rock);
+	public static final BlockDarkForest darkForest = new BlockDarkForest(Material.rock);
 	public static final BlockGravewoodSapling gravewoodSapling = new BlockGravewoodSapling();
 
 	public static void initialize()
@@ -55,6 +58,8 @@ public class ModBlocks
 		// Register the items, allow gravewood to burn, and register tileEntities
 		GameRegistry.registerBlock(ModBlocks.spring, "spring");
 		GameRegistry.registerTileEntity(BlockTileEntitySpring.class, "tileEntitySpring");
+		GameRegistry.registerBlock(ModBlocks.darkForest, "darkForest");
+		GameRegistry.registerTileEntity(BlockTileEntityDarkForest.class, "tileEntityDarkForest");
 		GameRegistry.registerBlock(ModBlocks.gravewoodLeaves, ItemGravewoodLeaves.class, "gravewoodLeaves");
 		Blocks.fire.func_180686_a(ModBlocks.gravewoodLeaves, 5, 5);
 		GameRegistry.registerBlock(ModBlocks.gravewood, "gravewood");
@@ -81,6 +86,7 @@ public class ModBlocks
 		{
 			final RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 			renderItem.getItemModelMesher().register(Item.getItemFromBlock(ModBlocks.spring), 0, new ModelResourceLocation(Refrence.MOD_ID + ":spring", "inventory"));
+			renderItem.getItemModelMesher().register(Item.getItemFromBlock(ModBlocks.darkForest), 0, new ModelResourceLocation(Refrence.MOD_ID + ":darkForest", "inventory"));
 			renderItem.getItemModelMesher().register(Item.getItemFromBlock(ModBlocks.gravewood), 0, new ModelResourceLocation(Refrence.MOD_ID + ":gravewood", "inventory"));
 			renderItem.getItemModelMesher().register(Item.getItemFromBlock(ModBlocks.gravewoodLeaves), 0, new ModelResourceLocation(Refrence.MOD_ID + ":gravewoodLeaves", "inventory"));
 			renderItem.getItemModelMesher().register(Item.getItemFromBlock(ModBlocks.gravewoodPlanks), 0, new ModelResourceLocation(Refrence.MOD_ID + ":gravewoodPlanks", "inventory"));
