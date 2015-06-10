@@ -35,6 +35,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModFurnaceRecipies;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModGeneration;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModOreDictionaryCompatability;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModRecipes;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModThreads;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
@@ -104,6 +105,8 @@ public class AfraidOfTheDark
 		AfraidOfTheDark.proxy.registerChannel();
 		// Initialize font renderers
 		AfraidOfTheDark.proxy.registerMiscelaneous();
+		// Setup Potion effects
+		ModPotionEffects.initialize();
 		// Setup mod threads
 		ModThreads.register();
 

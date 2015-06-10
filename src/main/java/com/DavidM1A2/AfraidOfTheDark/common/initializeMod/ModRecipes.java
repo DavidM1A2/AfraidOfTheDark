@@ -22,7 +22,7 @@ public class ModRecipes
 	// Add recipes
 	public static void initialize()
 	{
-		RecipeSorter.INSTANCE.setCategory(AOTDDisablableShapedRecipe.class, Category.SHAPED);
+		RecipeSorter.register("afraidofthedark:research", AOTDDisablableShapedRecipe.class, Category.SHAPED, "after:minecraft:shaped");
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.astralSilverSword, 1), " s ", " s ", " a ", 's', ModItems.astralSilverIngot, 'a', "stickWood"));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.astralSilverSword, 1), "s  ", "s  ", "a  ", 's', ModItems.astralSilverIngot, 'a', "stickWood"));

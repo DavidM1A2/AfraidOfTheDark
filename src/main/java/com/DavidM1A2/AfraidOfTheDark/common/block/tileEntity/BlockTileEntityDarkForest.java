@@ -1,6 +1,7 @@
 package com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.fml.relauncher.Side;
@@ -13,7 +14,7 @@ public class BlockTileEntityDarkForest extends AOTDTileEntity implements IUpdate
 {
 	private int ticksExisted = 0;
 	private static final int TICKS_INBETWEEN_CHECKS = 60;
-	private static final int CHECK_RANGE = 3;
+	private static final int CHECK_RANGE = 14;
 
 	public BlockTileEntityDarkForest()
 	{
@@ -37,6 +38,7 @@ public class BlockTileEntityDarkForest extends AOTDTileEntity implements IUpdate
 						{
 							LoadResearchData.unlockResearchSynced(entityPlayer, ResearchTypes.DarkForest, Side.SERVER, true);
 						}
+						entityPlayer.addPotionEffect(new PotionEffect(30, 120, 0, true, false));
 					}
 				}
 			}

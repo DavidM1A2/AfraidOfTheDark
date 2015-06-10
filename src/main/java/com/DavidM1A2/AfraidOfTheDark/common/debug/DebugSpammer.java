@@ -25,6 +25,7 @@ public class DebugSpammer
 		if (e.entityLiving instanceof EntityPlayer)
 		{
 			final EntityPlayer entityPlayer = (EntityPlayer) e.entityLiving;
+
 			//addLight(entityPlayer);
 			if (true)
 			{
@@ -44,7 +45,7 @@ public class DebugSpammer
 
 				while (i.hasNext())
 				{
-					final PotionEffect next =  (PotionEffect) i.next();
+					final PotionEffect next = (PotionEffect) i.next();
 					toDebug = toDebug + "\n" + next.getEffectName();
 					toDebug = toDebug + "  " + next.getAmplifier();
 				}

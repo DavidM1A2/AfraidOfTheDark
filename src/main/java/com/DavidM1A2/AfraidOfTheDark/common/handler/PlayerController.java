@@ -15,11 +15,13 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
 import com.DavidM1A2.AfraidOfTheDark.common.item.crossbow.ItemCrossbow;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateAOTDStatus;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateInsanity;
@@ -160,9 +162,18 @@ public class PlayerController
 		}
 	}
 
+	@SubscribeEvent
+	public void onPlayerSleepInBedEvent(PlayerSleepInBedEvent event)
+	{
+		if (event.entityPlayer.getActivePotionEffect(ModPotionEffects.sleepingPotion) != null)
+		{
+
+		}
+	}
+
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
-	public void onRenderGameOverlayEventPost(final RenderGameOverlayEvent.Post event)
+	public void onRenderGameOverlayEventChat(final RenderGameOverlayEvent.Chat event)
 	{
 		if (Refrence.researchAchievedOverlay != null)
 		{
