@@ -23,7 +23,7 @@ public class NodeButton extends GuiButton
 	private final int ORIGINAL_Y_POSITION;
 	// Reserach locations for default textures
 	private static final ResourceLocation DEFAULT_RESEARCH_BACKGROUND = new ResourceLocation("afraidofthedark:textures/gui/nodeStandard.png");
-	private static final ResourceLocation UNKNOWN_RESEARCH = new ResourceLocation("afraidofthedark:textures/gui/QuestionMark.png");
+	private static final ResourceLocation UNKNOWN_RESEARCH = new ResourceLocation("afraidofthedark:textures/gui/researchIcons/QuestionMark.png");
 	private final ResearchTypes myType;
 
 	// Each button has a position and offset
@@ -56,7 +56,7 @@ public class NodeButton extends GuiButton
 			minecraft.getTextureManager().bindTexture(NodeButton.DEFAULT_RESEARCH_BACKGROUND);
 			if (this.isMouseOver())
 			{
-				GL11.glColor4f(1.0F, 1.0F, 1.0F, .8F);
+				GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.8F);
 			}
 			else
 			{
@@ -71,7 +71,7 @@ public class NodeButton extends GuiButton
 			{
 				this.drawKnownResearch(minecraft);
 			}
-			else if ((this.myType.getPrevious() != null) && LoadResearchData.isResearched(Minecraft.getMinecraft().thePlayer, this.myType.getPrevious()))
+			else if (LoadResearchData.canResearch(Minecraft.getMinecraft().thePlayer, this.myType))
 			{
 				this.drawAlmostKnownResearch(minecraft);
 			}
@@ -116,7 +116,7 @@ public class NodeButton extends GuiButton
 		GL11.glEnable(GL11.GL_BLEND);
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		Gui.drawScaledCustomSizeModalRect(this.xPosition + 2, this.yPosition + 2, 0, 0, 32, 32, this.width - 4, this.height - 4, 32, 32);
+		Gui.drawScaledCustomSizeModalRect(this.xPosition + 2, this.yPosition + 2, 0, 0, 32, 32, this.width, this.height, 32, 32);
 	}
 
 	private void drawAlmostKnownResearch(final Minecraft minecraft)
@@ -126,13 +126,13 @@ public class NodeButton extends GuiButton
 		GL11.glEnable(GL11.GL_BLEND);
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		Gui.drawScaledCustomSizeModalRect(this.xPosition + 2, this.yPosition + 2, 0, 0, 32, 32, this.width - 4, this.height - 4, 32, 32);
+		Gui.drawScaledCustomSizeModalRect(this.xPosition + 2, this.yPosition + 2, 0, 0, 32, 32, this.width, this.height, 32, 32);
 
 		minecraft.getTextureManager().bindTexture(NodeButton.UNKNOWN_RESEARCH);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GL11.glEnable(GL11.GL_BLEND);
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		Gui.drawScaledCustomSizeModalRect(this.xPosition + 2, this.yPosition + 2, 0, 0, 32, 32, this.width - 4, this.height - 4, 32, 32);
+		Gui.drawScaledCustomSizeModalRect(this.xPosition + 2, this.yPosition + 2, 0, 0, 32, 32, this.width, this.height, 32, 32);
 	}
 }
