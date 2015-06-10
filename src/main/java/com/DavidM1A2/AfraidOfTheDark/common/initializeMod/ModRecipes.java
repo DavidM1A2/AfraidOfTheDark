@@ -9,6 +9,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.RecipeSorter;
+import net.minecraftforge.oredict.RecipeSorter.Category;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
@@ -20,6 +22,8 @@ public class ModRecipes
 	// Add recipes
 	public static void initialize()
 	{
+		RecipeSorter.INSTANCE.setCategory(AOTDDisablableShapedRecipe.class, Category.SHAPED);
+
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.astralSilverSword, 1), " s ", " s ", " a ", 's', ModItems.astralSilverIngot, 'a', "stickWood"));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.astralSilverSword, 1), "s  ", "s  ", "a  ", 's', ModItems.astralSilverIngot, 'a', "stickWood"));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.astralSilverSword, 1), "  s", "  s", "  a", 's', ModItems.astralSilverIngot, 'a', "stickWood"));

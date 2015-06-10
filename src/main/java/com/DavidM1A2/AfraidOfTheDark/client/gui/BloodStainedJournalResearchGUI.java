@@ -186,20 +186,20 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 	private void setupButtons()
 	{
 		// Setup the research nodes with an ID and position.
-		this.unbreakableCovenantResearch = new NodeButton(currentID++, xPosBaseResearch, yPosBaseResearch, 0, 0, ResearchTypes.AnUnbreakableCovenant);
-		this.werewolfExamination = new NodeButton(currentID++, xPosBaseResearch, yPosBaseResearch - DISTANCE_BETWEEN_NODES, 32, 0, ResearchTypes.WerewolfExamination);
-		this.crossbow = new NodeButton(currentID++, xPosBaseResearch + DISTANCE_BETWEEN_NODES, yPosBaseResearch, 64, 0, ResearchTypes.Crossbow);
-		this.astronomy1 = new NodeButton(currentID++, xPosBaseResearch, yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 2), 96, 0, ResearchTypes.AstronomyI);
-		this.vitae1 = new NodeButton(currentID++, xPosBaseResearch - DISTANCE_BETWEEN_NODES, yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 2), 128, 0, ResearchTypes.VitaeI);
-		this.astralSilver = new NodeButton(currentID++, xPosBaseResearch, yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 3), 160, 0, ResearchTypes.AstralSilver);
-		this.astralSilverSword = new NodeButton(currentID++, xPosBaseResearch + DISTANCE_BETWEEN_NODES, yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 3), 160, 0, ResearchTypes.AstralSilverSword);
-		this.darkForest = new NodeButton(currentID++, xPosBaseResearch, yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 4), 224, 0, ResearchTypes.DarkForest);
-		this.astronomy2 = new NodeButton(currentID++, xPosBaseResearch, yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 5), 0, 32, ResearchTypes.AstronomyII);
-		this.igneousArmor = new NodeButton(currentID++, xPosBaseResearch - (DISTANCE_BETWEEN_NODES * 2), yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 5), 32, 32, ResearchTypes.IgneousArmor);
-		this.starMetal = new NodeButton(currentID++, xPosBaseResearch + DISTANCE_BETWEEN_NODES, yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 5), 64, 32, ResearchTypes.StarMetal);
-		this.vitaeLantern1 = new NodeButton(currentID++, xPosBaseResearch - (DISTANCE_BETWEEN_NODES * 2), yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 2), 96, 32, ResearchTypes.VitaeLanternI);
-		this.igneousGem = new NodeButton(currentID++, xPosBaseResearch - DISTANCE_BETWEEN_NODES, yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 5), 32, 32, ResearchTypes.Sunstone);
-		this.cloakOfAgility = new NodeButton(currentID++, xPosBaseResearch - DISTANCE_BETWEEN_NODES, yPosBaseResearch - DISTANCE_BETWEEN_NODES, 32, 32, ResearchTypes.CloakOfAgility);
+		this.unbreakableCovenantResearch = new NodeButton(currentID++, xPosBaseResearch, yPosBaseResearch, ResearchTypes.AnUnbreakableCovenant);
+		this.werewolfExamination = new NodeButton(currentID++, xPosBaseResearch, yPosBaseResearch - DISTANCE_BETWEEN_NODES, ResearchTypes.WerewolfExamination);
+		this.crossbow = new NodeButton(currentID++, xPosBaseResearch + DISTANCE_BETWEEN_NODES, yPosBaseResearch, ResearchTypes.Crossbow);
+		this.astronomy1 = new NodeButton(currentID++, xPosBaseResearch, yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 2), ResearchTypes.AstronomyI);
+		this.astralSilver = new NodeButton(currentID++, xPosBaseResearch, yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 3), ResearchTypes.AstralSilver);
+		this.vitae1 = new NodeButton(currentID++, xPosBaseResearch - DISTANCE_BETWEEN_NODES, yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 2), ResearchTypes.VitaeI);
+		this.astralSilverSword = new NodeButton(currentID++, xPosBaseResearch + DISTANCE_BETWEEN_NODES, yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 3), ResearchTypes.AstralSilverSword);
+		this.darkForest = new NodeButton(currentID++, xPosBaseResearch, yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 4), ResearchTypes.DarkForest);
+		this.astronomy2 = new NodeButton(currentID++, xPosBaseResearch, yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 5), ResearchTypes.AstronomyII);
+		this.igneousArmor = new NodeButton(currentID++, xPosBaseResearch - (DISTANCE_BETWEEN_NODES * 2), yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 5), ResearchTypes.IgneousArmor);
+		this.starMetal = new NodeButton(currentID++, xPosBaseResearch + DISTANCE_BETWEEN_NODES, yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 5), ResearchTypes.StarMetal);
+		this.vitaeLantern1 = new NodeButton(currentID++, xPosBaseResearch - (DISTANCE_BETWEEN_NODES * 2), yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 2), ResearchTypes.VitaeLanternI);
+		this.igneousGem = new NodeButton(currentID++, xPosBaseResearch - DISTANCE_BETWEEN_NODES, yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 5), ResearchTypes.Sunstone);
+		this.cloakOfAgility = new NodeButton(currentID++, xPosBaseResearch - DISTANCE_BETWEEN_NODES, yPosBaseResearch - DISTANCE_BETWEEN_NODES, ResearchTypes.CloakOfAgility);
 
 		// Clear and pre-existing buttons on the GUI and add the new ones
 		this.buttonList.clear();
