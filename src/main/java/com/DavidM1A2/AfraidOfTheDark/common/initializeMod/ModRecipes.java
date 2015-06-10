@@ -12,6 +12,9 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
+import com.DavidM1A2.AfraidOfTheDark.common.recipe.AOTDDisablableShapedRecipe;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+
 public class ModRecipes
 {
 	// Add recipes
@@ -50,5 +53,7 @@ public class ModRecipes
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.starMetalBoots, 1), "a a", "a a", "   ", 'a', ModItems.starMetalIngot));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.igneousGem, 1), "aba", "bab", "aba", 'a', Items.diamond, 'b', ModItems.sunstoneIngot));
+
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.cloakOfAgility, 1), ResearchTypes.CloakOfAgility, "aba", "cdc", "aba", 'a', Items.leather, 'b', Items.feather, 'c', Items.string, 'd', Items.gold_ingot));
 	}
 }
