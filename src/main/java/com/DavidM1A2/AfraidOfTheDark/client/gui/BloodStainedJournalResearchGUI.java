@@ -198,7 +198,7 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 		this.igneousArmor = new NodeButton(currentID++, xPosBaseResearch - (DISTANCE_BETWEEN_NODES * 2), yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 5), 32, 32, ResearchTypes.IgneousArmor);
 		this.starMetal = new NodeButton(currentID++, xPosBaseResearch + DISTANCE_BETWEEN_NODES, yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 5), 64, 32, ResearchTypes.StarMetal);
 		this.vitaeLantern1 = new NodeButton(currentID++, xPosBaseResearch - (DISTANCE_BETWEEN_NODES * 2), yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 2), 96, 32, ResearchTypes.VitaeLanternI);
-		this.igneousGem = new NodeButton(currentID++, xPosBaseResearch - DISTANCE_BETWEEN_NODES, yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 5), 32, 32, ResearchTypes.IgneousGem);
+		this.igneousGem = new NodeButton(currentID++, xPosBaseResearch - DISTANCE_BETWEEN_NODES, yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 5), 32, 32, ResearchTypes.Sunstone);
 		this.cloakOfAgility = new NodeButton(currentID++, xPosBaseResearch - DISTANCE_BETWEEN_NODES, yPosBaseResearch - DISTANCE_BETWEEN_NODES, 32, 32, ResearchTypes.CloakOfAgility);
 
 		// Clear and pre-existing buttons on the GUI and add the new ones

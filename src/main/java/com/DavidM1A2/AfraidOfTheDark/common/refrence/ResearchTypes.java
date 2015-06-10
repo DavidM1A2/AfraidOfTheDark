@@ -34,9 +34,9 @@ public enum ResearchTypes
 	PreCloakOfAgility(null),
 	AstronomyII(DarkForest),
 	PreAstronomyII(null),
-	IgneousGem(AstronomyII),
-	PreIgneousGem(null),
-	IgneousArmor(IgneousGem),
+	Sunstone(AstronomyII),
+	PreSunstone(null),
+	IgneousArmor(Sunstone),
 	PreIgneousArmor(null),
 	StarMetal(AstronomyII),
 	PreStarMetal(null);
