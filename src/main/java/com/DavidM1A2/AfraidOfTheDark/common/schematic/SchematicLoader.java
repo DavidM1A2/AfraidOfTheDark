@@ -12,7 +12,7 @@ public class SchematicLoader
 	{
 		try
 		{
-			InputStream is = this.getClass().getClassLoader().getResourceAsStream("assets/mymod/schem/" + schemname);
+			InputStream is = SchematicLoader.class.getClassLoader().getResourceAsStream("assets/afraidofthedark/schematics/" + schemname);
 			NBTTagCompound nbtdata = CompressedStreamTools.readCompressed(is);
 			short width = nbtdata.getShort("Width");
 			short height = nbtdata.getShort("Height");
