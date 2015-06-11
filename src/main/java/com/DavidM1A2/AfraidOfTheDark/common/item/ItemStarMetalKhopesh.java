@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.threads.PlayerSpinning;
 
 public class ItemStarMetalKhopesh extends AOTDChargableSword
@@ -29,7 +29,7 @@ public class ItemStarMetalKhopesh extends AOTDChargableSword
 
 	public ItemStarMetalKhopesh()
 	{
-		super(Refrence.starMetalTool, "starMetalKhopesh");
+		super(Constants.AOTDToolMaterials.starMetalTool, "starMetalKhopesh");
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class ItemStarMetalKhopesh extends AOTDChargableSword
 
 				double hypotenuse = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
 
-				entity.attackEntityFrom(DamageSource.causePlayerDamage(entityPlayer), Refrence.starMetalTool.getDamageVsEntity() + 4.0F);
+				entity.attackEntityFrom(DamageSource.causePlayerDamage(entityPlayer), Constants.AOTDToolMaterials.starMetalTool.getDamageVsEntity() + 4.0F);
 				entity.addVelocity(-motionX * knockbackStrength * 0.6000000238418579D / hypotenuse, 0.1D, -motionZ * knockbackStrength * 0.6000000238418579D / hypotenuse);
 			}
 		}

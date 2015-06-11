@@ -13,6 +13,7 @@ import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 
 /*
@@ -26,7 +27,7 @@ public abstract class AOTDBlock extends Block
 	{
 		// Set the material and creative tab
 		super(material);
-		this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
+		this.setCreativeTab(Constants.AFRAID_OF_THE_DARK);
 		this.setUnlocalizedName("FORGOT TO SET");
 	}
 

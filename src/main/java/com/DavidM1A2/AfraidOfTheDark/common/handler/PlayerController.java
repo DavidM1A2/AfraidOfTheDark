@@ -30,7 +30,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Insanity;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.threads.DelayedAOTDUpdate;
 import com.DavidM1A2.AfraidOfTheDark.common.threads.DelayedInsanityUpdate;
 import com.DavidM1A2.AfraidOfTheDark.common.threads.DelayedResearchUpdate;
@@ -175,9 +175,9 @@ public class PlayerController
 	@SubscribeEvent
 	public void onRenderGameOverlayEventChat(final RenderGameOverlayEvent.Chat event)
 	{
-		if (Refrence.researchAchievedOverlay != null)
+		if (ClientData.researchAchievedOverlay != null)
 		{
-			Refrence.researchAchievedOverlay.updateResearchAchievedWindow();
+			ClientData.researchAchievedOverlay.updateResearchAchievedWindow();
 		}
 	}
 }

@@ -31,6 +31,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDTreeTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 import com.google.common.base.Predicate;
 
@@ -55,7 +56,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 	public AOTDLeaves()
 	{
 		super();
-		this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
+		this.setCreativeTab(Constants.AFRAID_OF_THE_DARK);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(AOTDLeaves.VARIANT, AOTDTreeTypes.GRAVEWOOD).withProperty(BlockLeaves.field_176236_b, Boolean.valueOf(true)).withProperty(BlockLeaves.field_176237_a, Boolean.valueOf(true)));
 		this.setTickRandomly(true);
 	}

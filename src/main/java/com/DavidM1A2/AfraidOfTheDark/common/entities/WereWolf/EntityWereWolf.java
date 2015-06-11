@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 public class EntityWereWolf extends EntityMob
@@ -103,7 +103,7 @@ public class EntityWereWolf extends EntityMob
 	@Override
 	public boolean attackEntityFrom(final DamageSource damageSource, final float damage)
 	{
-		if (damageSource.damageType.equals(Refrence.silverWeapon.damageType) || damageSource.damageType.equals(DamageSource.outOfWorld))
+		if (damageSource.damageType.equals(Constants.AOTDDamageSources.silverWeapon.damageType) || damageSource.damageType.equals(DamageSource.outOfWorld))
 		{
 			return super.attackEntityFrom(damageSource, damage);
 		}

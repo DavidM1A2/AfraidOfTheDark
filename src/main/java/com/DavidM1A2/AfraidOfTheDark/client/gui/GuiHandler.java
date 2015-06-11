@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchDesciptions;
 
 public class GuiHandler implements IGuiHandler
@@ -44,7 +44,7 @@ public class GuiHandler implements IGuiHandler
 			case GuiHandler.SEXTANT_ID:
 				return new SextantGUI();
 			case GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID:
-				switch (Refrence.currentlySelected)
+				switch (ClientData.currentlySelected)
 				{
 					case AnUnbreakableCovenant:
 						return new BloodStainedJournalPageGUI(ResearchDesciptions.anUnbreakableCovenant, "An Unbreakable Covenant");

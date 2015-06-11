@@ -36,6 +36,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.item.crossbow.ItemCrossbow;
 import com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls.ItemResearchScrollAstronomy2;
 import com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls.ItemResearchScrollCloakOfAgility;
 import com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls.ItemResearchScrollVitae1;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 
 @GameRegistry.ObjectHolder(Refrence.MOD_ID)
@@ -52,14 +53,14 @@ public class ModItems
 	public static final ItemSilverBolt silverBolt = new ItemSilverBolt();
 	public static final ItemSpawnWerewolf spawnWerewolf = new ItemSpawnWerewolf("Werewolf");
 	public static final ItemWoodenBolt woodenBolt = new ItemWoodenBolt();
-	public static final IgneousArmor igneousHelmet = new IgneousArmor(Refrence.igneous, 5, 0);
-	public static final IgneousArmor igneousChestplate = new IgneousArmor(Refrence.igneous, 5, 1);
-	public static final IgneousArmor igneousLeggings = new IgneousArmor(Refrence.igneous, 5, 2);
-	public static final IgneousArmor igneousBoots = new IgneousArmor(Refrence.igneous, 5, 3);
-	public static final StarMetalArmor starMetalHelmet = new StarMetalArmor(Refrence.starMetal, 5, 0);
-	public static final StarMetalArmor starMetalChestplate = new StarMetalArmor(Refrence.starMetal, 5, 1);
-	public static final StarMetalArmor starMetalLeggings = new StarMetalArmor(Refrence.starMetal, 5, 2);
-	public static final StarMetalArmor starMetalBoots = new StarMetalArmor(Refrence.starMetal, 5, 3);
+	public static final IgneousArmor igneousHelmet = new IgneousArmor(Constants.AOTDArmorMaterials.igneous, 5, 0);
+	public static final IgneousArmor igneousChestplate = new IgneousArmor(Constants.AOTDArmorMaterials.igneous, 5, 1);
+	public static final IgneousArmor igneousLeggings = new IgneousArmor(Constants.AOTDArmorMaterials.igneous, 5, 2);
+	public static final IgneousArmor igneousBoots = new IgneousArmor(Constants.AOTDArmorMaterials.igneous, 5, 3);
+	public static final StarMetalArmor starMetalHelmet = new StarMetalArmor(Constants.AOTDArmorMaterials.starMetal, 5, 0);
+	public static final StarMetalArmor starMetalChestplate = new StarMetalArmor(Constants.AOTDArmorMaterials.starMetal, 5, 1);
+	public static final StarMetalArmor starMetalLeggings = new StarMetalArmor(Constants.AOTDArmorMaterials.starMetal, 5, 2);
+	public static final StarMetalArmor starMetalBoots = new StarMetalArmor(Constants.AOTDArmorMaterials.starMetal, 5, 3);
 	public static final ItemIgneousGem igneousGem = new ItemIgneousGem();
 	public static final ItemTelescope telescope = new ItemTelescope();
 	public static final ItemSextant sextant = new ItemSextant();

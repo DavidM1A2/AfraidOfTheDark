@@ -13,6 +13,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDTreeTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 
 public abstract class AOTDSapling extends BlockBush implements IGrowable
@@ -25,7 +26,7 @@ public abstract class AOTDSapling extends BlockBush implements IGrowable
 		this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE_PROP, AOTDTreeTypes.GRAVEWOOD).withProperty(STAGE_PROP, Integer.valueOf(0)));
 		float f = 0.4F;
 		this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 2.0F, 0.5F + f);
-		this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
+		this.setCreativeTab(Constants.AFRAID_OF_THE_DARK);
 		this.setStepSound(soundTypeGrass);
 	}
 

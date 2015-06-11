@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
@@ -80,7 +80,7 @@ public class UpdateResearch implements IMessage
 					if (!LoadResearchData.get(Minecraft.getMinecraft().thePlayer).getBoolean(keyString) && message.research.getBoolean(keyString))
 					{
 						LogHelper.info(keyString.substring(LoadResearchData.RESEARCH_DATA.length()));
-						Refrence.researchAchievedOverlay.displayResearch(ResearchTypes.valueOf(keyString.substring(LoadResearchData.RESEARCH_DATA.length())), new ItemStack(ModItems.journal, 1), false);
+						ClientData.researchAchievedOverlay.displayResearch(ResearchTypes.valueOf(keyString.substring(LoadResearchData.RESEARCH_DATA.length())), new ItemStack(ModItems.journal, 1), false);
 					}
 				}
 			}

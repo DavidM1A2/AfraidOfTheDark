@@ -8,6 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 
 public abstract class AOTDItem extends Item
@@ -16,7 +17,7 @@ public abstract class AOTDItem extends Item
 	public AOTDItem()
 	{
 		super();
-		this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
+		this.setCreativeTab(Constants.AFRAID_OF_THE_DARK);
 	}
 
 	// Set the item name in the game (not the visual name but the refrence name)

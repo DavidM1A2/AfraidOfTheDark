@@ -8,6 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 
 public abstract class AOTDSword extends ItemSword
@@ -15,7 +16,7 @@ public abstract class AOTDSword extends ItemSword
 	public AOTDSword(final ToolMaterial material)
 	{
 		super(material);
-		this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
+		this.setCreativeTab(Constants.AFRAID_OF_THE_DARK);
 	}
 
 	// Set the item name in the game (not the visual name but the reference name)

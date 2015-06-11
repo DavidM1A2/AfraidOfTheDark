@@ -16,7 +16,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateResearch;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
@@ -80,7 +80,7 @@ public class LoadResearchData implements IExtendedEntityProperties
 			AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateResearch(entityPlayer.getEntityData().getCompoundTag(LoadResearchData.RESEARCH_DATA), firstTimeResearched));
 			if (firstTimeResearched)
 			{
-				Refrence.researchAchievedOverlay.displayResearch(type, new ItemStack(ModItems.journal, 1), false);
+				ClientData.researchAchievedOverlay.displayResearch(type, new ItemStack(ModItems.journal, 1), false);
 			}
 		}
 		else

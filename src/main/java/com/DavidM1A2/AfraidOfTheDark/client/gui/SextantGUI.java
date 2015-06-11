@@ -23,7 +23,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.TellServerToCreateMeteor;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ClientData;
 
 public class SextantGUI extends GuiScreen
 {
@@ -154,7 +154,7 @@ public class SextantGUI extends GuiScreen
 			final EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
 			try
 			{
-				if ((Integer.parseInt(this.angle.getText()) == Refrence.selectedMeteor[0]) && (Integer.parseInt(this.latitude.getText()) == Refrence.selectedMeteor[1]) && (Integer.parseInt(this.longitude.getText()) == Refrence.selectedMeteor[2]))
+				if ((Integer.parseInt(this.angle.getText()) == ClientData.selectedMeteor[0]) && (Integer.parseInt(this.latitude.getText()) == ClientData.selectedMeteor[1]) && (Integer.parseInt(this.longitude.getText()) == ClientData.selectedMeteor[2]))
 				{
 					this.tellServerToCreateMeteor(entityPlayer);
 					entityPlayer.closeScreen();
@@ -182,10 +182,10 @@ public class SextantGUI extends GuiScreen
 		final int zLocOfDrop = (int) entityPlayer.posZ + (((random.nextDouble() >= .5) ? -1 : 1) * (entityPlayer.worldObj.rand.nextInt(500) + 15));
 
 		final BlockPos location = new BlockPos(xLocOfDrop, 255, zLocOfDrop);
-		AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new TellServerToCreateMeteor(location, 3, 3, Refrence.watchedMeteorType.getIndex()));
+		AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new TellServerToCreateMeteor(location, 3, 3, ClientData.watchedMeteorType.getIndex()));
 		entityPlayer.addChatMessage(new ChatComponentText("§oBased §ooff §oof §othis §oinformation §othe §ometeor §ofell §oat §o" + xLocOfDrop + "§o, §o" + zLocOfDrop));
-		Refrence.selectedMeteor = new int[]
-				{ -1, -1, -1 };
-		Refrence.watchedMeteorType = null;
+		ClientData.selectedMeteor = new int[]
+		{ -1, -1, -1 };
+		ClientData.watchedMeteorType = null;
 	}
 }

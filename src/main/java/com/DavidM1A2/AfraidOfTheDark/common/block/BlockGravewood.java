@@ -20,6 +20,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDTreeTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 import com.google.common.base.Predicate;
 
@@ -46,7 +47,7 @@ public class BlockGravewood extends BlockLog
 	public BlockGravewood()
 	{
 		super();
-		this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
+		this.setCreativeTab(Constants.AFRAID_OF_THE_DARK);
 		this.setStepSound(Block.soundTypeWood);
 		this.setUnlocalizedName("gravewood");
 	}

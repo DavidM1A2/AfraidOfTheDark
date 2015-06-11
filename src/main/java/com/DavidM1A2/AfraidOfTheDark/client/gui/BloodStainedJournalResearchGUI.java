@@ -15,7 +15,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
@@ -146,13 +146,13 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 			{
 				if (LoadResearchData.isResearched(entityPlayer, current.getMyType()))
 				{
-					Refrence.currentlySelected = current.getMyType();
+					ClientData.currentlySelected = current.getMyType();
 					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
 					break;
 				}
 				else if (LoadResearchData.isResearched(entityPlayer, current.getMyType().getPrevious()))
 				{
-					Refrence.currentlySelected = ResearchTypes.valueOf("Pre" + current.getMyType());
+					ClientData.currentlySelected = ResearchTypes.valueOf("Pre" + current.getMyType());
 					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
 					break;
 				}

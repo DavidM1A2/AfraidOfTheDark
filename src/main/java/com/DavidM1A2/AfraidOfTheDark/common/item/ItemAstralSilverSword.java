@@ -11,14 +11,14 @@ import net.minecraft.item.ItemStack;
 
 import com.DavidM1A2.AfraidOfTheDark.common.entities.WereWolf.EntityWereWolf;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 
 // Silversword item which is a sword
 public class ItemAstralSilverSword extends AOTDSword
 {
 	public ItemAstralSilverSword()
 	{
-		super(Refrence.astralSilver);
+		super(Constants.AOTDToolMaterials.astralSilver);
 		this.setUnlocalizedName("astralSilverSword");
 	}
 
@@ -30,7 +30,7 @@ public class ItemAstralSilverSword extends AOTDSword
 		{
 			if (HasStartedAOTD.get(player))
 			{
-				entity.attackEntityFrom(Refrence.silverWeapon, 6F);
+				entity.attackEntityFrom(Constants.AOTDDamageSources.silverWeapon, 6F);
 			}
 		}
 		return false;

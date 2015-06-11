@@ -34,7 +34,6 @@ public class ItemSpawnWerewolf extends AOTDItem
 		this.setUnlocalizedName("spawnWerewolf");
 		this.setHasSubtypes(false);
 		this.maxStackSize = 64;
-		this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
 		this.setEntityToSpawnName(entityToSpawnName);
 	}
 

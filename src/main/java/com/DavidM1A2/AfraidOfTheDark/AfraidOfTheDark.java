@@ -38,6 +38,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModOreDictionaryCompat
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModRecipes;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModThreads;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.proxy.IProxy;
@@ -145,7 +146,7 @@ public class AfraidOfTheDark
 	{
 		if (event.getSide() == Side.CLIENT)
 		{
-			Refrence.researchAchievedOverlay = new ResearchAchieved(Minecraft.getMinecraft());
+			ClientData.researchAchievedOverlay = new ResearchAchieved(Minecraft.getMinecraft());
 		}
 		LogHelper.info("Post-Initialization Complete");
 	}

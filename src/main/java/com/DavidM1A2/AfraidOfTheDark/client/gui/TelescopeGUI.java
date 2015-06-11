@@ -17,8 +17,8 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.MeteorTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 public class TelescopeGUI extends GuiClickAndDragable
@@ -146,13 +146,13 @@ public class TelescopeGUI extends GuiClickAndDragable
 		String toReturn = "";
 		final Random random = Minecraft.getMinecraft().theWorld.rand;
 
-		Refrence.selectedMeteor[0] = random.nextInt(45) + 5;
-		Refrence.selectedMeteor[1] = random.nextInt(50) + 5;
-		Refrence.selectedMeteor[2] = random.nextInt(50) + 5;
-		Refrence.watchedMeteorType = type;
+		ClientData.selectedMeteor[0] = random.nextInt(45) + 5;
+		ClientData.selectedMeteor[1] = random.nextInt(50) + 5;
+		ClientData.selectedMeteor[2] = random.nextInt(50) + 5;
+		ClientData.watchedMeteorType = type;
 
 		toReturn = toReturn + "§oIt §oappears §othat §othis " + type.formattedString() + "§ometeor §ois §ofalling §oto §oearth. §oI §ohave §ocollected §osome §oinformation §oon §oit:\n";
-		toReturn = toReturn + "§oDrop §oAngle: " + Refrence.selectedMeteor[0] + "§o°  §oLatitude: " + Refrence.selectedMeteor[1] + "§o°  §oLongitude: " + Refrence.selectedMeteor[2] + "§o° ";
+		toReturn = toReturn + "§oDrop §oAngle: " + ClientData.selectedMeteor[0] + "§o°  §oLatitude: " + ClientData.selectedMeteor[1] + "§o°  §oLongitude: " + ClientData.selectedMeteor[2] + "§o° ";
 		toReturn = toReturn + "\n§oI §oshould §oprobably §owrite §othis §odown §oand §olater §orun §ocalculations §oin §omy §osextant.";
 
 		return toReturn;

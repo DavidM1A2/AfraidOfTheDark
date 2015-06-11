@@ -17,7 +17,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ClientData;
 
 public class BloodStainedJournalPageGUI extends GuiScreen
 {
@@ -46,8 +46,8 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 		super();
 		this.text = text;
 		this.title = title;
-		this.leftPage = new TextBox(this.xCornerOfPage, this.yCornerOfPage, this.journalWidth, this.journalWidth, Refrence.journalFont);
-		this.rightPage = new TextBox(this.xCornerOfPage, this.yCornerOfPage, this.journalWidth, this.journalWidth, Refrence.journalFont);
+		this.leftPage = new TextBox(this.xCornerOfPage, this.yCornerOfPage, this.journalWidth, this.journalWidth, ClientData.journalFont);
+		this.rightPage = new TextBox(this.xCornerOfPage, this.yCornerOfPage, this.journalWidth, this.journalWidth, ClientData.journalFont);
 		this.bookmarkButton = new BookmarkButton(1, 0, (int) (this.yCornerOfPage + this.journalWidth / 2.1), this.width, 40);
 		this.journalTexture = new ResourceLocation("afraidofthedark:textures/gui/bloodStainedJournalPage.png");
 	}
@@ -88,8 +88,8 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 			this.journalWidth = (int) (330 * this.pageScale);
 
 			// Set the journal font sizes
-			Refrence.journalFont.setFontSize((int) (this.pageScale * 20), 32, 126, false);
-			Refrence.journalTitleFont.setFontSize((int) (this.pageScale * 32), 32, 126, false);
+			ClientData.journalFont.setFontSize((int) (this.pageScale * 20), 32, 126, false);
+			ClientData.journalTitleFont.setFontSize((int) (this.pageScale * 32), 32, 126, false);
 
 			int scaledXLeftPageCoord = this.xCornerOfPage + (int) (20 * this.pageScale);
 			int scaledYLeftPageCoord = this.yCornerOfPage + (int) (35 * this.pageScale);
@@ -111,7 +111,7 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 		Gui.drawScaledCustomSizeModalRect(this.xCornerOfPage, this.yCornerOfPage, 0, 0, this.journalWidth, this.journalWidth, this.journalWidth, this.journalWidth, this.journalWidth, this.journalWidth);
 
 		// Draw the title
-		Refrence.journalTitleFont.drawString(this.title, this.xCornerOfPage + (int) (15 * this.pageScale), this.yCornerOfPage + (int) (15 * this.pageScale), 0xFF800000);
+		ClientData.journalTitleFont.drawString(this.title, this.xCornerOfPage + (int) (15 * this.pageScale), this.yCornerOfPage + (int) (15 * this.pageScale), 0xFF800000);
 		// Anything the left page can't draw, move to right page
 		this.rightPage.drawText(this.leftPage.drawText(this.text));
 

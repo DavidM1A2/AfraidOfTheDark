@@ -33,6 +33,8 @@ import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateAOTDStatus;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateInsanity;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateResearch;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateVitae;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ClientData;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.CustomFont;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 
@@ -51,10 +53,10 @@ public class ClientProxy extends CommonProxy
 	public void registerChannel()
 	{
 		super.registerChannel();
-		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(UpdateAOTDStatus.HandlerClient.class, UpdateAOTDStatus.class, Refrence.PACKET_ID_HAS_STARTED_AOTD_UPDATE, Side.CLIENT);
-		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(UpdateResearch.HandlerClient.class, UpdateResearch.class, Refrence.PACKET_ID_RESEARCH_UPDATE, Side.CLIENT);
-		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(UpdateInsanity.Handler.class, UpdateInsanity.class, Refrence.PACKET_ID_INSANITY_UPDATE, Side.CLIENT);
-		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(UpdateVitae.HandlerClient.class, UpdateVitae.class, Refrence.PACKET_ID_VITAE_UPDATE, Side.CLIENT);
+		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(UpdateAOTDStatus.HandlerClient.class, UpdateAOTDStatus.class, Constants.Packets.PACKET_ID_HAS_STARTED_AOTD_UPDATE, Side.CLIENT);
+		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(UpdateResearch.HandlerClient.class, UpdateResearch.class, Constants.Packets.PACKET_ID_RESEARCH_UPDATE, Side.CLIENT);
+		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(UpdateInsanity.Handler.class, UpdateInsanity.class, Constants.Packets.PACKET_ID_INSANITY_UPDATE, Side.CLIENT);
+		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(UpdateVitae.HandlerClient.class, UpdateVitae.class, Constants.Packets.PACKET_ID_VITAE_UPDATE, Side.CLIENT);
 	}
 
 	// register renderers as well
@@ -78,8 +80,8 @@ public class ClientProxy extends CommonProxy
 			final InputStream textFont = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(Refrence.MOD_ID, "fonts/Targa MS Hand.ttf")).getInputStream();
 			final InputStream titleFont = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(Refrence.MOD_ID, "fonts/coolvetica.ttf")).getInputStream();
 
-			Refrence.journalFont = new CustomFont(textFont, 16);
-			Refrence.journalTitleFont = new CustomFont(titleFont, 26);
+			ClientData.journalFont = new CustomFont(textFont, 16);
+			ClientData.journalTitleFont = new CustomFont(titleFont, 26);
 		}
 		catch (final FileNotFoundException e)
 		{

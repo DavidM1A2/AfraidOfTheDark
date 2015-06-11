@@ -25,6 +25,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDTreeTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 
 public abstract class AOTDSlab extends BlockSlab
@@ -36,7 +37,7 @@ public abstract class AOTDSlab extends BlockSlab
 	{
 		super(material);
 		this.setUnlocalizedName("NAME NOT SET");
-		this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
+		this.setCreativeTab(Constants.AFRAID_OF_THE_DARK);
 		this.setHardness(2.0F);
 		this.setResistance(5.0F);
 		this.setStepSound(Block.soundTypeWood);
