@@ -1,13 +1,18 @@
 package com.DavidM1A2.AfraidOfTheDark.common.refrence;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.util.EnumHelper;
 
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
+import com.DavidM1A2.AfraidOfTheDark.common.schematic.Schematic;
+import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicBlockReplacer;
+import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicLoader;
 
 public final class Constants
 {
@@ -42,6 +47,50 @@ public final class Constants
 	{
 		// Silver weapon damage type and silver tool material
 		public static final DamageSource silverWeapon = new DamageSource("silverWeapon");
+	}
+
+	public static final class AOTDSchematics
+	{
+		public static final Schematic treeSmall;
+		public static final Schematic treeBranchyType1;
+		public static final Schematic treeBranchyType2;
+		public static final Schematic treeLargeCircle;
+		public static final Schematic treeLargeDonut;
+		public static final Schematic bedHouse;
+		public static final Schematic propBush1;
+		public static final Schematic propFallenOverLog;
+		public static final Schematic propFence1;
+		public static final Schematic propFence2;
+		public static final Schematic propFountain;
+		public static final Schematic propLog;
+		public static final Schematic propPumpkin1;
+		public static final Schematic propPumpkin2;
+		public static final Schematic propStump;
+
+		static
+		{
+			treeSmall = SchematicLoader.load("TreeSmall.schematic");
+			treeBranchyType1 = SchematicLoader.load("TreeBranchyType1.schematic");
+			treeBranchyType2 = SchematicLoader.load("TreeBranchyType2.schematic");
+			treeLargeCircle = SchematicLoader.load("TreeLargeCircle.schematic");
+			treeLargeDonut = SchematicLoader.load("TreeLargeDonut.schematic");
+			bedHouse = SchematicLoader.load("BedHouse.schematic");
+			propBush1 = SchematicLoader.load("PropBush1.schematic");
+			propFallenOverLog = SchematicLoader.load("PropFallenOverLog.schematic");
+			propFence1 = SchematicLoader.load("PropFence1.schematic");
+			propFence2 = SchematicLoader.load("PropFence2.schematic");
+			propFountain = SchematicLoader.load("PropFountain.schematic");
+			propLog = SchematicLoader.load("PropLog.schematic");
+			propPumpkin1 = SchematicLoader.load("PropPumpkin1.schematic");
+			propPumpkin2 = SchematicLoader.load("PropPumpkin2.schematic");
+			propStump = SchematicLoader.load("PropStump.schematic");
+			SchematicBlockReplacer.replaceBlocks(treeSmall, Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
+			SchematicBlockReplacer.replaceBlocks(treeBranchyType1, Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
+			SchematicBlockReplacer.replaceBlocks(treeBranchyType2, Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
+			SchematicBlockReplacer.replaceBlocks(treeLargeCircle, Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
+			SchematicBlockReplacer.replaceBlocks(treeLargeDonut, Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
+			SchematicBlockReplacer.replaceBlocks(bedHouse, Blocks.lapis_block, ModBlocks.darkForest, Blocks.gold_block, Blocks.flower_pot, Blocks.iron_block, Blocks.cobblestone_wall, Blocks.gold_ore, Blocks.dark_oak_stairs, Blocks.bedrock, Blocks.spruce_stairs);
+		}
 	}
 
 	// The creative tab
