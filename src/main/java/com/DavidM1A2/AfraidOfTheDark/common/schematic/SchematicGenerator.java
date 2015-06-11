@@ -4,9 +4,12 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.schematic;
 
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
@@ -20,9 +23,6 @@ public final class SchematicGenerator
 		}
 		
 		int i = 0;
-		
-		xPosition = xPosition - schematic.getWidth() / 2;
-		zPosition = zPosition - schematic.getLength() / 2;
 		
 		for (int y = 0; y < schematic.getHeight(); y++)
 		{

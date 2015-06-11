@@ -4,6 +4,9 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.schematic;
 
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
+
+import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagList;
 
 public class Schematic
@@ -53,5 +56,11 @@ public class Schematic
 	public byte[] getData() 
 	{
 		return data;
+	}
+	
+	public void setBlock(Block block, int index)
+	{
+		LogHelper.info(Block.getIdFromBlock(block));
+		data[index] = Byte.parseByte(Integer.toString(Block.getIdFromBlock(block)));
 	}
 }
