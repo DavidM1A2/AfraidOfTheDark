@@ -4,8 +4,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.schematic;
 
-import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
-
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagList;
 
@@ -15,10 +13,10 @@ public class Schematic
 	private final short width;
 	private final short height;
 	private final short length;
-	private final byte[] blocks;
+	private final short[] blocks;
 	private final byte[] data;
 
-	public Schematic(NBTTagList tileentities, short width, short height, short length, byte[] blocks, byte[] data)
+	public Schematic(NBTTagList tileentities, short width, short height, short length, short[] blocks, byte[] data)
 	{
 		this.tileentities = tileentities;
 		this.width = width;
@@ -28,39 +26,38 @@ public class Schematic
 		this.data = data;
 	}
 
-	public NBTTagList getTileentities() 
+	public NBTTagList getTileentities()
 	{
 		return tileentities;
 	}
 
-	public short getWidth() 
-	{ 
+	public short getWidth()
+	{
 		return width;
 	}
 
-	public short getHeight() 
+	public short getHeight()
 	{
 		return height;
 	}
 
-	public short getLength() 
+	public short getLength()
 	{
 		return length;
 	}
 
-	public byte[] getBlocks() 
+	public short[] getBlocks()
 	{
 		return blocks;
 	}
 
-	public byte[] getData() 
+	public byte[] getData()
 	{
 		return data;
 	}
-	
+
 	public void setBlock(Block block, int index)
 	{
-		LogHelper.info(Block.getIdFromBlock(block));
-		data[index] = Byte.parseByte(Integer.toString(Block.getIdFromBlock(block)));
+		blocks[index] = Short.parseShort(Integer.toString(Block.getIdFromBlock(block)));
 	}
 }

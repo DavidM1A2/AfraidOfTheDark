@@ -4,6 +4,7 @@
  */
 
 package com.DavidM1A2.AfraidOfTheDark.common.schematic;
+
 import java.io.InputStream;
 
 import net.minecraft.nbt.CompressedStreamTools;
@@ -26,15 +27,27 @@ public class SchematicLoader
 			byte[] data = nbtdata.getByteArray("Data");
 
 			NBTTagList tileentities = nbtdata.getTagList("TileEntities", 10);
-			
+
 			schematicInputStream.close();
 
-			return new Schematic(tileentities, width, height, length, blocks, data);
+			return new Schematic(tileentities, width, height, length, byteArrayToShortArray(blocks), data);
 		}
 		catch (Exception e)
 		{
 			System.out.println("I can't load schematic, because " + e.toString());
 			return null;
 		}
+	}
+
+	private static short[] byteArrayToShortArray(byte[] byteArray)
+	{
+		short[] toReturn = new short[byteArray.length];
+
+		for (int i = 0; i < byteArray.length; i++)
+		{
+			toReturn[i] = (short) byteArray[i];
+		}
+
+		return toReturn;
 	}
 }
