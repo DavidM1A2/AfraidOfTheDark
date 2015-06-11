@@ -1,5 +1,9 @@
-package com.DavidM1A2.AfraidOfTheDark.common.schematic;
+/*
+ * Credit to:
+ * http://www.minecraftforge.net/forum/index.php/topic,21045.0.html
+ */
 
+package com.DavidM1A2.AfraidOfTheDark.common.schematic;
 import java.io.InputStream;
 
 import net.minecraft.nbt.CompressedStreamTools;
@@ -8,12 +12,12 @@ import net.minecraft.nbt.NBTTagList;
 
 public class SchematicLoader
 {
-	public Schematic get(String schemname)
+	public static Schematic load(String schemname)
 	{
 		try
 		{
-			InputStream is = SchematicLoader.class.getClassLoader().getResourceAsStream("assets/afraidofthedark/schematics/" + schemname);
-			NBTTagCompound nbtdata = CompressedStreamTools.readCompressed(is);
+			InputStream schematicInputStream = SchematicLoader.class.getClassLoader().getResourceAsStream("assets/afraidofthedark/schematics/" + schemname);
+			NBTTagCompound nbtdata = CompressedStreamTools.readCompressed(schematicInputStream);
 			short width = nbtdata.getShort("Width");
 			short height = nbtdata.getShort("Height");
 			short length = nbtdata.getShort("Length");
@@ -21,9 +25,9 @@ public class SchematicLoader
 			byte[] blocks = nbtdata.getByteArray("Blocks");
 			byte[] data = nbtdata.getByteArray("Data");
 
-			System.out.println("schem size:" + width + " x " + height + " x " + length);
 			NBTTagList tileentities = nbtdata.getTagList("TileEntities", 10);
-			is.close();
+			
+			schematicInputStream.close();
 
 			return new Schematic(tileentities, width, height, length, blocks, data);
 		}

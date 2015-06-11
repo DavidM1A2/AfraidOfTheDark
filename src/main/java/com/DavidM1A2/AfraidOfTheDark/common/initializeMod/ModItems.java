@@ -12,6 +12,8 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
+import com.DavidM1A2.AfraidOfTheDark.common.debug.ItemInsanityControl;
+import com.DavidM1A2.AfraidOfTheDark.common.debug.ItemWorldGenTest;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.ItemIronBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.ItemSilverBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.ItemWoodenBolt;
@@ -20,12 +22,12 @@ import com.DavidM1A2.AfraidOfTheDark.common.item.ItemAstralSilverSword;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemCloakOfAgility;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemIgneousGem;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemIgneousSword;
-import com.DavidM1A2.AfraidOfTheDark.common.item.ItemInsanityControl;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemJournal;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemSextant;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemSpawnWerewolf;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemStarMetal;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemStarMetalKhopesh;
+import com.DavidM1A2.AfraidOfTheDark.common.item.ItemStarMetalPlate;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemStarMetalStaff;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemSunstone;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemTelescope;
@@ -42,8 +44,10 @@ import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 @GameRegistry.ObjectHolder(Refrence.MOD_ID)
 public class ModItems
 {
-	// Register mod items
 	public static final ItemInsanityControl insanityControl = new ItemInsanityControl();
+	public static final ItemWorldGenTest worldGenTest = new ItemWorldGenTest();
+	
+	// Register mod items
 	public static final ItemJournal journal = new ItemJournal();
 	public static final ItemAstralSilverSword astralSilverSword = new ItemAstralSilverSword();
 	public static final ItemIgneousSword igneousSword = new ItemIgneousSword();
@@ -73,11 +77,15 @@ public class ModItems
 	public static final ItemResearchScrollCloakOfAgility researchScrollCloakOfAgility = new ItemResearchScrollCloakOfAgility();
 	public static final ItemResearchScrollAstronomy2 researchScrollAstronomy2 = new ItemResearchScrollAstronomy2();
 	public static final ItemResearchScrollVitae1 researchScrollVitae1 = new ItemResearchScrollVitae1();
+	public static final ItemStarMetalPlate starMetalPlate = new ItemStarMetalPlate();
+	
 
 	public static void initialize(final Side side)
 	{
 		// Register items
 		GameRegistry.registerItem(ModItems.insanityControl, "insanityControl");
+		GameRegistry.registerItem(ModItems.worldGenTest, "worldGenTest");
+		
 		GameRegistry.registerItem(ModItems.journal, "journal");
 		GameRegistry.registerItem(ModItems.astralSilverSword, "astralSilverSword");
 		GameRegistry.registerItem(ModItems.igneousSword, "igneousSword");
@@ -107,6 +115,7 @@ public class ModItems
 		GameRegistry.registerItem(ModItems.researchScrollCloakOfAgility, "researchScrollCloakOfAgility");
 		GameRegistry.registerItem(ModItems.researchScrollAstronomy2, "researchScrollAstronomy2");
 		GameRegistry.registerItem(ModItems.researchScrollVitae1, "researchScrollVitae1");
+		GameRegistry.registerItem(ModItems.starMetalPlate, "starMetalPlate");
 	}
 
 	public static void initializeRenderers(final Side side)
@@ -115,6 +124,8 @@ public class ModItems
 		{
 			final RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 			renderItem.getItemModelMesher().register(ModItems.insanityControl, 0, new ModelResourceLocation(Refrence.MOD_ID + ":insanityControl", "inventory"));
+			renderItem.getItemModelMesher().register(ModItems.worldGenTest, 0, new ModelResourceLocation(Refrence.MOD_ID + ":worldGenTest", "inventory"));
+			
 			renderItem.getItemModelMesher().register(ModItems.journal, 0, new ModelResourceLocation(Refrence.MOD_ID + ":journal", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.astralSilverSword, 0, new ModelResourceLocation(Refrence.MOD_ID + ":astralSilverSword", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.igneousSword, 0, new ModelResourceLocation(Refrence.MOD_ID + ":igneousSword", "inventory"));
@@ -148,6 +159,7 @@ public class ModItems
 			renderItem.getItemModelMesher().register(ModItems.researchScrollCloakOfAgility, 0, new ModelResourceLocation(Refrence.MOD_ID + ":researchScrollCloakOfAgility", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.researchScrollAstronomy2, 0, new ModelResourceLocation(Refrence.MOD_ID + ":researchScrollAstronomy2", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.researchScrollVitae1, 0, new ModelResourceLocation(Refrence.MOD_ID + ":researchScrollVitae1", "inventory"));
+			renderItem.getItemModelMesher().register(ModItems.starMetalPlate, 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalPlate", "inventory"));
 		}
 	}
 }
