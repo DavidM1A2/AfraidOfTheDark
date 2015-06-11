@@ -1,4 +1,4 @@
-package com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.darkForestDungeon;
+package com.DavidM1A2.AfraidOfTheDark.common.worldGeneration;
 
 import java.util.Random;
 
@@ -102,28 +102,28 @@ public class GenerateDarkForestDungeon
 		switch (random.nextInt(5))
 		{
 			case 0:
-				adjustedX = placeX - TreeSmall.width / 2;
-				adjustedZ = placeZ - TreeSmall.height / 2;
+				adjustedX = placeX - Constants.AOTDSchematics.treeSmall.getWidth() / 2;
+				adjustedZ = placeZ - Constants.AOTDSchematics.treeSmall.getHeight() / 2;
 				SchematicGenerator.generateSchematic(Constants.AOTDSchematics.treeSmall, world, adjustedX, Utility.getPlaceToSpawnLowest(world, adjustedX - 5, adjustedZ - 5, 10, 10) - 10, adjustedZ);
 				break;
 			case 1:
-				adjustedX = placeX - TreeLargeCircle.width / 2;
-				adjustedZ = placeZ - TreeLargeCircle.height / 2;
+				adjustedX = placeX - Constants.AOTDSchematics.treeLargeCircle.getWidth() / 2;
+				adjustedZ = placeZ - Constants.AOTDSchematics.treeLargeCircle.getHeight() / 2;
 				SchematicGenerator.generateSchematic(Constants.AOTDSchematics.treeLargeCircle, world, adjustedX, Utility.getPlaceToSpawnLowest(world, adjustedX - 5, adjustedZ - 5, 10, 10) - 10, adjustedZ);
 				break;
 			case 2:
-				adjustedX = placeX - TreeLargeDonut.width / 2;
-				adjustedZ = placeZ - TreeLargeDonut.height / 2;
+				adjustedX = placeX - Constants.AOTDSchematics.treeLargeDonut.getWidth() / 2;
+				adjustedZ = placeZ - Constants.AOTDSchematics.treeLargeDonut.getHeight() / 2;
 				SchematicGenerator.generateSchematic(Constants.AOTDSchematics.treeLargeDonut, world, adjustedX, Utility.getPlaceToSpawnLowest(world, adjustedX - 5, adjustedZ - 5, 10, 10) - 10, adjustedZ);
 				break;
 			case 3:
-				adjustedX = placeX - TreeBranchyType1.width / 2;
-				adjustedZ = placeZ - TreeBranchyType1.height / 2;
+				adjustedX = placeX - Constants.AOTDSchematics.treeBranchyType1.getWidth() / 2;
+				adjustedZ = placeZ - Constants.AOTDSchematics.treeBranchyType1.getHeight() / 2;
 				SchematicGenerator.generateSchematic(Constants.AOTDSchematics.treeBranchyType1, world, adjustedX, Utility.getPlaceToSpawnLowest(world, adjustedX - 5, adjustedZ - 5, 10, 10) - 10, adjustedZ);
 				break;
 			case 4:
-				adjustedX = placeX - TreeBranchyType2.width / 2;
-				adjustedZ = placeZ - TreeBranchyType2.height / 2;
+				adjustedX = placeX - Constants.AOTDSchematics.treeBranchyType2.getWidth() / 2;
+				adjustedZ = placeZ - Constants.AOTDSchematics.treeBranchyType2.getHeight() / 2;
 				SchematicGenerator.generateSchematic(Constants.AOTDSchematics.treeBranchyType2, world, adjustedX, Utility.getPlaceToSpawnLowest(world, adjustedX - 5, adjustedZ - 5, 10, 10) - 10, adjustedZ);
 				break;
 			default:

@@ -10,7 +10,6 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.fml.common.IWorldGenerator;
 
 import com.DavidM1A2.AfraidOfTheDark.common.biomes.BiomeErieForest;
-import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.darkForestDungeon.GenerateDarkForestDungeon;
 
 public class AOTDWorldGenerationHandler implements IWorldGenerator
 {
