@@ -29,33 +29,33 @@ public class AOTDWorldGenerationHandler implements IWorldGenerator
 	{
 		if (world.getBiomeGenForCoords(new BlockPos(chunkX, 50, chunkZ)) instanceof BiomeGenPlains)
 		{
-			if (random.nextDouble() < 0.003)
+			if (random.nextDouble() < 0.001)
 			{
 				new GenerateSprings(random, chunkX, chunkZ, world);
 			}
-			if (random.nextDouble() < 0.003)
+			if (random.nextDouble() < 0.001)
 			{
 				new GenerateDarkForestDungeon(random, chunkX, chunkZ, world);
 			}
 		}
 		else if (world.getBiomeGenForCoords(new BlockPos(chunkX, 50, chunkZ)) instanceof BiomeErieForest)
 		{
-			if (random.nextDouble() < 0.003)
+			if (random.nextDouble() < 0.001)
 			{
 				new GenerateSprings(random, chunkX, chunkZ, world);
 			}
-			if (random.nextDouble() < 0.003)
+			if (random.nextDouble() < 0.001)
 			{
 				new GenerateDarkForestDungeon(random, chunkX, chunkZ, world);
 			}
 		}
 		else if (world.getBiomeGenForCoords(new BlockPos(chunkX, 50, chunkZ)) instanceof BiomeGenSavanna)
 		{
-			if (random.nextDouble() < 0.003)
+			if (random.nextDouble() < 0.001)
 			{
 				new GenerateSprings(random, chunkX, chunkZ, world);
 			}
-			if (random.nextDouble() < 0.003)
+			if (random.nextDouble() < 0.001)
 			{
 				new GenerateDarkForestDungeon(random, chunkX, chunkZ, world);
 			}

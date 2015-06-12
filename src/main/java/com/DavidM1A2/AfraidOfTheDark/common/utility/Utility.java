@@ -2,8 +2,10 @@ package com.DavidM1A2.AfraidOfTheDark.common.utility;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;
+import net.minecraft.block.BlockDirt.DirtType;
 import net.minecraft.block.BlockGrass;
 import net.minecraft.block.material.Material;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
@@ -68,9 +70,20 @@ public class Utility
 			{
 				return 0;
 			}
-			if (current instanceof BlockGrass || (current instanceof BlockDirt && world.canSeeSky(new BlockPos(x, temp, z))))
+			if (current instanceof BlockGrass)
 			{
 				return temp;
+			}
+			if (current instanceof BlockDirt)
+			{
+				if (world.canSeeSky(new BlockPos(x, temp, z)))
+				{
+					return temp;
+				}
+				else if (world.getBlockState(new BlockPos(x, temp, z)) == Blocks.dirt.getDefaultState().withProperty(BlockDirt.VARIANT, DirtType.PODZOL))
+				{
+					return temp;
+				}
 			}
 			temp = temp - 1;
 		}

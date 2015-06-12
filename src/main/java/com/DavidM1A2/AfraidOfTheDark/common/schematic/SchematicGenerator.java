@@ -12,12 +12,16 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
+
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.IChestGenerator;
 
 public final class SchematicGenerator
 {
-	public static void generateSchematic(Schematic schematic, World world, int xPosition, int yPosition, int zPosition)
+	public static void generateSchematic(Schematic schematic, World world, int xPosition, int yPosition, int zPosition, IChestGenerator chestItemRandomizer)
 	{
 		if (schematic == null)
 		{
@@ -36,19 +40,18 @@ public final class SchematicGenerator
 				for (int x = 0; x < schematic.getWidth(); x++)
 				{
 					Block nextToPlace = Block.getBlockById(schematic.getBlocks()[i]);
+					BlockPos currentLocation = new BlockPos(x + xPosition, y + yPosition, z + zPosition);
 					if (nextToPlace == Blocks.diamond_block)
 					{
-						BlockPos currentLocation = new BlockPos(x + xPosition, y + yPosition, z + zPosition);
 						world.setBlockToAir(new BlockPos(currentLocation));
 					}
-					else if (nextToPlace == Blocks.bed || nextToPlace == Blocks.torch)
+					else if (nextToPlace == Blocks.bed || nextToPlace == Blocks.torch || nextToPlace == Blocks.standing_sign || nextToPlace == Blocks.wall_sign || nextToPlace == Blocks.trapdoor)
 					{
 						blocksToPlaceLater.add(nextToPlace.getStateFromMeta(schematic.getData()[i]));
 						laterBlockPositions.add(new BlockPos(x + xPosition, y + yPosition, z + zPosition));
 					}
 					else if (nextToPlace != Blocks.air)
 					{
-						BlockPos currentLocation = new BlockPos(x + xPosition, y + yPosition, z + zPosition);
 						world.setBlockToAir(new BlockPos(currentLocation));
 						world.setBlockState(currentLocation, nextToPlace.getStateFromMeta(schematic.getData()[i]));
 					}
@@ -74,8 +77,21 @@ public final class SchematicGenerator
 				if (tileEntity != null)
 				{
 					BlockPos tileEntityLocation = new BlockPos(tileEntity.getPos().add(xPosition, yPosition, zPosition));
-					tileEntity.setPos(tileEntityLocation);
+
+					// Remove the default tile entity
+					world.removeTileEntity(tileEntityLocation);
+
 					world.setTileEntity(tileEntityLocation, tileEntity);
+					tileEntity.setPos(tileEntityLocation);
+
+					if (tileEntity instanceof TileEntityChest && chestItemRandomizer != null)
+					{
+						TileEntityChest tileEntityChest = (TileEntityChest) world.getTileEntity(tileEntityLocation);
+						if (tileEntityChest != null)
+						{
+							WeightedRandomChestContent.generateChestContents(world.rand, chestItemRandomizer.getPossibleItems(world.rand), tileEntityChest, 1);
+						}
+					}
 				}
 			}
 		}

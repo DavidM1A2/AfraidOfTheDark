@@ -67,29 +67,36 @@ public final class Constants
 		public static final Schematic propPumpkin2;
 		public static final Schematic propStump;
 
+		public static final Schematic crypt;
+
 		static
 		{
-			treeSmall = SchematicLoader.load("TreeSmall.schematic");
-			treeBranchyType1 = SchematicLoader.load("TreeBranchyType1.schematic");
-			treeBranchyType2 = SchematicLoader.load("TreeBranchyType2.schematic");
-			treeLargeCircle = SchematicLoader.load("TreeLargeCircle.schematic");
-			treeLargeDonut = SchematicLoader.load("TreeLargeDonut.schematic");
-			bedHouse = SchematicLoader.load("BedHouse.schematic");
-			propBush1 = SchematicLoader.load("PropBush1.schematic");
-			propFallenOverLog = SchematicLoader.load("PropFallenOverLog.schematic");
-			propFence1 = SchematicLoader.load("PropFence1.schematic");
-			propFence2 = SchematicLoader.load("PropFence2.schematic");
-			propFountain = SchematicLoader.load("PropFountain.schematic");
-			propLog = SchematicLoader.load("PropLog.schematic");
-			propPumpkin1 = SchematicLoader.load("PropPumpkin1.schematic");
-			propPumpkin2 = SchematicLoader.load("PropPumpkin2.schematic");
-			propStump = SchematicLoader.load("PropStump.schematic");
+			treeSmall = SchematicLoader.load("darkForest/TreeSmall.schematic");
+			treeBranchyType1 = SchematicLoader.load("darkForest/TreeBranchyType1.schematic");
+			treeBranchyType2 = SchematicLoader.load("darkForest/TreeBranchyType2.schematic");
+			treeLargeCircle = SchematicLoader.load("darkForest/TreeLargeCircle.schematic");
+			treeLargeDonut = SchematicLoader.load("darkForest/TreeLargeDonut.schematic");
+			bedHouse = SchematicLoader.load("darkForest/BedHouse.schematic");
+			propBush1 = SchematicLoader.load("darkForest/PropBush1.schematic");
+			propFallenOverLog = SchematicLoader.load("darkForest/PropFallenOverLog.schematic");
+			propFence1 = SchematicLoader.load("darkForest/PropFence1.schematic");
+			propFence2 = SchematicLoader.load("darkForest/PropFence2.schematic");
+			propFountain = SchematicLoader.load("darkForest/PropFountain.schematic");
+			propLog = SchematicLoader.load("darkForest/PropLog.schematic");
+			propPumpkin1 = SchematicLoader.load("darkForest/PropPumpkin1.schematic");
+			propPumpkin2 = SchematicLoader.load("darkForest/PropPumpkin2.schematic");
+			propStump = SchematicLoader.load("darkForest/PropStump.schematic");
+
+			crypt = SchematicLoader.load("crypt.schematic");
+
 			SchematicBlockReplacer.replaceBlocks(treeSmall, Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
 			SchematicBlockReplacer.replaceBlocks(treeBranchyType1, Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
 			SchematicBlockReplacer.replaceBlocks(treeBranchyType2, Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
 			SchematicBlockReplacer.replaceBlocks(treeLargeCircle, Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
 			SchematicBlockReplacer.replaceBlocks(treeLargeDonut, Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
 			SchematicBlockReplacer.replaceBlocks(bedHouse, Blocks.lapis_block, ModBlocks.darkForest, Blocks.gold_block, Blocks.flower_pot, Blocks.iron_block, Blocks.cobblestone_wall, Blocks.gold_ore, Blocks.dark_oak_stairs, Blocks.bedrock, Blocks.spruce_stairs);
+
+			SchematicBlockReplacer.replaceBlocks(crypt, Blocks.gold_block, ModBlocks.gravewoodStairs, Blocks.gold_ore, ModBlocks.gravewoodPlanks);
 		}
 	}
 

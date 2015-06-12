@@ -15,9 +15,11 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraft.world.gen.feature.WorldGenBigTree;
 
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicGenerator;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
-import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.CryptModel;
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.CryptChestLoot;
 
 public class BiomeErieForest extends BiomeGenBase
 {
@@ -51,21 +53,23 @@ public class BiomeErieForest extends BiomeGenBase
 	@Override
 	public void func_180624_a(final World world, final Random random, BlockPos blockPosition)
 	{
-		if (random.nextDouble() < 0.003)
+		if (random.nextDouble() < 0.01)
 		{
 			int y;
 			try
 			{
 				y = Utility.getPlaceToSpawnAverage(world, blockPosition.getX() + 12, blockPosition.getZ() + 12, 8, 8);
+
+				blockPosition = new BlockPos(blockPosition.getX(), y - 17, blockPosition.getZ());
+				LogHelper.info("Chose: " + blockPosition.getX() + ", " + blockPosition.getY() + ", " + blockPosition.getZ());
+
+				SchematicGenerator.generateSchematic(Constants.AOTDSchematics.crypt, world, blockPosition.getX(), blockPosition.getY(), blockPosition.getZ(), new CryptChestLoot());
 			}
 			catch (Exception e)
 			{
-				y = 0;
 			}
 
-			blockPosition = new BlockPos(blockPosition.getX(), y - 17, blockPosition.getZ());
-			LogHelper.info("Chose: " + blockPosition.getX() + ", " + blockPosition.getY() + ", " + blockPosition.getZ());
-			new CryptModel(world, random, blockPosition.getX(), blockPosition.getY(), blockPosition.getZ());
+			//new CryptModel(world, random, blockPosition.getX(), blockPosition.getY(), blockPosition.getZ());
 		}
 
 		super.func_180624_a(world, random, blockPosition);
