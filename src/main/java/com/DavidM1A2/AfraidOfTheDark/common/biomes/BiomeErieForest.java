@@ -9,17 +9,9 @@ import java.util.Random;
 
 import net.minecraft.block.BlockDirt;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
-import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraft.world.gen.feature.WorldGenBigTree;
-
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
-import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicGenerator;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
-import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.CryptChestLoot;
 
 public class BiomeErieForest extends BiomeGenBase
 {
@@ -47,31 +39,5 @@ public class BiomeErieForest extends BiomeGenBase
 	public WorldGenAbstractTree genBigTreeChance(final Random p_150567_1_)
 	{
 		return (new WorldGenGravewoodTrees(false));
-	}
-
-	// Called every chunk gen
-	@Override
-	public void func_180624_a(final World world, final Random random, BlockPos blockPosition)
-	{
-		if (random.nextDouble() < 0.003)
-		{
-			int y;
-			try
-			{
-				y = Utility.getPlaceToSpawnAverage(world, blockPosition.getX() + 12, blockPosition.getZ() + 12, 8, 8);
-
-				blockPosition = new BlockPos(blockPosition.getX(), y - 17, blockPosition.getZ());
-				LogHelper.info("Spawning a crypt at x = " + blockPosition.getX() + ", y = " + blockPosition.getY() + ", z = " + blockPosition.getZ());
-
-				SchematicGenerator.generateSchematic(Constants.AOTDSchematics.crypt, world, blockPosition.getX(), blockPosition.getY(), blockPosition.getZ(), new CryptChestLoot(), 1);
-			}
-			catch (Exception e)
-			{
-			}
-
-			//new CryptModel(world, random, blockPosition.getX(), blockPosition.getY(), blockPosition.getZ());
-		}
-
-		super.func_180624_a(world, random, blockPosition);
 	}
 }

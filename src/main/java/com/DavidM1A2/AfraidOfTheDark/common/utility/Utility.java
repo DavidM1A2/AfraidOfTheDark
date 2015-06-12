@@ -4,10 +4,14 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;
 import net.minecraft.block.BlockDirt.DirtType;
 import net.minecraft.block.BlockGrass;
+import net.minecraft.block.BlockLog;
+import net.minecraft.block.BlockSnow;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+
+import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewood;
 
 public class Utility
 {
@@ -84,6 +88,14 @@ public class Utility
 				{
 					return temp;
 				}
+				else if (world.getBlockState(new BlockPos(x, temp + 1, z)).getBlock() instanceof BlockLog || world.getBlockState(new BlockPos(x, temp + 1, z)).getBlock() instanceof BlockGravewood)
+				{
+					return temp;
+				}
+			}
+			if (world.getBlockState(new BlockPos(x, temp + 1, z)).getBlock() instanceof BlockSnow)
+			{
+				return temp;
 			}
 			temp = temp - 1;
 		}

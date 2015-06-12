@@ -10,9 +10,9 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.UnsupportedLocationException;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
-public class GenerateSprings
+public class GenerateCrypt
 {
-	public GenerateSprings(Random random, int chunkX, int chunkZ, World world)
+	public GenerateCrypt(Random random, int chunkX, int chunkZ, World world)
 	{
 		this.generateSurface(world, random, chunkX, chunkZ);
 	}
@@ -22,19 +22,14 @@ public class GenerateSprings
 		int y;
 		try
 		{
-			y = Utility.getPlaceToSpawnAverage(world, chunkX, chunkZ, 28, 28);
+			y = Utility.getPlaceToSpawnAverage(world, chunkX + 12, chunkZ + 12, 8, 8);
 
-			LogHelper.info("Spawning a spring at x = " + chunkX + ", y = " + y + ", z = " + chunkZ);
-
-			SchematicGenerator.generateSchematic(Constants.AOTDSchematics.spring, world, chunkX, y - 2, chunkZ, null, 0);
+			LogHelper.info("Spawning a crypt at x = " + (chunkX + 12) + ", y = " + (y - 17) + ", z = " + (chunkZ + 12));
+			SchematicGenerator.generateSchematic(Constants.AOTDSchematics.crypt, world, chunkX + 12, y - 17, chunkZ + 12, new CryptChestLoot(), 1);
 		}
 		catch (UnsupportedLocationException e)
 		{
-			y = 0;
-		}
-		if (y != 0)
-		{
-
+			return;
 		}
 	}
 }
