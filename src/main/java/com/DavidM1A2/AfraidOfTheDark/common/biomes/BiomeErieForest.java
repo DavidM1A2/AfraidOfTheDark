@@ -53,7 +53,7 @@ public class BiomeErieForest extends BiomeGenBase
 	@Override
 	public void func_180624_a(final World world, final Random random, BlockPos blockPosition)
 	{
-		if (random.nextDouble() < 0.01)
+		if (random.nextDouble() < 0.003)
 		{
 			int y;
 			try
@@ -61,9 +61,9 @@ public class BiomeErieForest extends BiomeGenBase
 				y = Utility.getPlaceToSpawnAverage(world, blockPosition.getX() + 12, blockPosition.getZ() + 12, 8, 8);
 
 				blockPosition = new BlockPos(blockPosition.getX(), y - 17, blockPosition.getZ());
-				LogHelper.info("Chose: " + blockPosition.getX() + ", " + blockPosition.getY() + ", " + blockPosition.getZ());
+				LogHelper.info("Spawning a crypt at x = " + blockPosition.getX() + ", y = " + blockPosition.getY() + ", z = " + blockPosition.getZ());
 
-				SchematicGenerator.generateSchematic(Constants.AOTDSchematics.crypt, world, blockPosition.getX(), blockPosition.getY(), blockPosition.getZ(), new CryptChestLoot());
+				SchematicGenerator.generateSchematic(Constants.AOTDSchematics.crypt, world, blockPosition.getX(), blockPosition.getY(), blockPosition.getZ(), new CryptChestLoot(), 1);
 			}
 			catch (Exception e)
 			{

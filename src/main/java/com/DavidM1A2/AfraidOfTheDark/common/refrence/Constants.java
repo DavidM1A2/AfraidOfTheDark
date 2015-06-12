@@ -68,6 +68,7 @@ public final class Constants
 		public static final Schematic propStump;
 
 		public static final Schematic crypt;
+		public static final Schematic spring;
 
 		static
 		{
@@ -88,6 +89,7 @@ public final class Constants
 			propStump = SchematicLoader.load("darkForest/PropStump.schematic");
 
 			crypt = SchematicLoader.load("crypt.schematic");
+			spring = SchematicLoader.load("spring.schematic");
 
 			SchematicBlockReplacer.replaceBlocks(treeSmall, Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
 			SchematicBlockReplacer.replaceBlocks(treeBranchyType1, Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
@@ -97,6 +99,7 @@ public final class Constants
 			SchematicBlockReplacer.replaceBlocks(bedHouse, Blocks.lapis_block, ModBlocks.darkForest, Blocks.gold_block, Blocks.flower_pot, Blocks.iron_block, Blocks.cobblestone_wall, Blocks.gold_ore, Blocks.dark_oak_stairs, Blocks.bedrock, Blocks.spruce_stairs);
 
 			SchematicBlockReplacer.replaceBlocks(crypt, Blocks.gold_block, ModBlocks.gravewoodStairs, Blocks.gold_ore, ModBlocks.gravewoodPlanks);
+			SchematicBlockReplacer.replaceBlocks(spring, Blocks.gold_ore, ModBlocks.gravewoodLeaves, Blocks.gold_block, ModBlocks.spring);
 		}
 	}
 

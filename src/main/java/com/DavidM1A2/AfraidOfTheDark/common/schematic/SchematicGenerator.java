@@ -21,7 +21,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.IChestGenerator;
 
 public final class SchematicGenerator
 {
-	public static void generateSchematic(Schematic schematic, World world, int xPosition, int yPosition, int zPosition, IChestGenerator chestItemRandomizer)
+	public static void generateSchematic(Schematic schematic, World world, int xPosition, int yPosition, int zPosition, IChestGenerator chestItemRandomizer, int lootAmount)
 	{
 		if (schematic == null)
 		{
@@ -89,7 +89,7 @@ public final class SchematicGenerator
 						TileEntityChest tileEntityChest = (TileEntityChest) world.getTileEntity(tileEntityLocation);
 						if (tileEntityChest != null)
 						{
-							WeightedRandomChestContent.generateChestContents(world.rand, chestItemRandomizer.getPossibleItems(world.rand), tileEntityChest, 1);
+							WeightedRandomChestContent.generateChestContents(world.rand, chestItemRandomizer.getPossibleItems(world.rand), tileEntityChest, lootAmount);
 						}
 					}
 				}
