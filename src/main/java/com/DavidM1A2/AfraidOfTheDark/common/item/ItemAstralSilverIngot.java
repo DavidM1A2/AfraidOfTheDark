@@ -5,6 +5,8 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.item;
 
+import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
+
 public class ItemAstralSilverIngot extends AOTDItem
 {
 	// Quick silver ingot item

@@ -35,6 +35,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.item.ItemVitaeLantern;
 import com.DavidM1A2.AfraidOfTheDark.common.item.armor.IgneousArmor;
 import com.DavidM1A2.AfraidOfTheDark.common.item.armor.StarMetalArmor;
 import com.DavidM1A2.AfraidOfTheDark.common.item.crossbow.ItemCrossbow;
+import com.DavidM1A2.AfraidOfTheDark.common.item.crossbow.ItemWristCrossbow;
 import com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls.ItemResearchScrollAstronomy2;
 import com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls.ItemResearchScrollCloakOfAgility;
 import com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls.ItemResearchScrollVitae1;
@@ -46,13 +47,14 @@ public class ModItems
 {
 	public static final ItemInsanityControl insanityControl = new ItemInsanityControl();
 	public static final ItemWorldGenTest worldGenTest = new ItemWorldGenTest();
-	
+
 	// Register mod items
 	public static final ItemJournal journal = new ItemJournal();
 	public static final ItemAstralSilverSword astralSilverSword = new ItemAstralSilverSword();
 	public static final ItemIgneousSword igneousSword = new ItemIgneousSword();
 	public static final ItemAstralSilverIngot astralSilverIngot = new ItemAstralSilverIngot();
 	public static final ItemCrossbow crossbow = new ItemCrossbow();
+	public static final ItemWristCrossbow wristCrossbow = new ItemWristCrossbow();
 	public static final ItemIronBolt ironBolt = new ItemIronBolt();
 	public static final ItemSilverBolt silverBolt = new ItemSilverBolt();
 	public static final ItemSpawnWerewolf spawnWerewolf = new ItemSpawnWerewolf("Werewolf");
@@ -78,19 +80,19 @@ public class ModItems
 	public static final ItemResearchScrollAstronomy2 researchScrollAstronomy2 = new ItemResearchScrollAstronomy2();
 	public static final ItemResearchScrollVitae1 researchScrollVitae1 = new ItemResearchScrollVitae1();
 	public static final ItemStarMetalPlate starMetalPlate = new ItemStarMetalPlate();
-	
 
 	public static void initialize(final Side side)
 	{
 		// Register items
 		GameRegistry.registerItem(ModItems.insanityControl, "insanityControl");
 		GameRegistry.registerItem(ModItems.worldGenTest, "worldGenTest");
-		
+
 		GameRegistry.registerItem(ModItems.journal, "journal");
 		GameRegistry.registerItem(ModItems.astralSilverSword, "astralSilverSword");
 		GameRegistry.registerItem(ModItems.igneousSword, "igneousSword");
 		GameRegistry.registerItem(ModItems.astralSilverIngot, "astralSilverIngot");
 		GameRegistry.registerItem(ModItems.crossbow, "crossbow");
+		GameRegistry.registerItem(ModItems.wristCrossbow, "wristCrossbow");
 		GameRegistry.registerItem(ModItems.ironBolt, "ironBolt");
 		GameRegistry.registerItem(ModItems.silverBolt, "silverBolt");
 		GameRegistry.registerItem(ModItems.spawnWerewolf, "spawnWerewolf");
@@ -125,7 +127,7 @@ public class ModItems
 			final RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 			renderItem.getItemModelMesher().register(ModItems.insanityControl, 0, new ModelResourceLocation(Refrence.MOD_ID + ":insanityControl", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.worldGenTest, 0, new ModelResourceLocation(Refrence.MOD_ID + ":worldGenTest", "inventory"));
-			
+
 			renderItem.getItemModelMesher().register(ModItems.journal, 0, new ModelResourceLocation(Refrence.MOD_ID + ":journal", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.astralSilverSword, 0, new ModelResourceLocation(Refrence.MOD_ID + ":astralSilverSword", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.igneousSword, 0, new ModelResourceLocation(Refrence.MOD_ID + ":igneousSword", "inventory"));
@@ -133,6 +135,7 @@ public class ModItems
 			ModelBakery.addVariantName(ModItems.igneousSword, Refrence.MOD_ID + ":igneousSword", Refrence.MOD_ID + ":igneousSwordFullCharge");
 			renderItem.getItemModelMesher().register(ModItems.astralSilverIngot, 0, new ModelResourceLocation(Refrence.MOD_ID + ":astralSilverIngot", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.crossbow, 0, new ModelResourceLocation(Refrence.MOD_ID + ":crossbow", "inventory"));
+			renderItem.getItemModelMesher().register(ModItems.wristCrossbow, 0, new ModelResourceLocation(Refrence.MOD_ID + ":wristCrossbow", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.ironBolt, 0, new ModelResourceLocation(Refrence.MOD_ID + ":ironBolt", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.silverBolt, 0, new ModelResourceLocation(Refrence.MOD_ID + ":silverBolt", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.woodenBolt, 0, new ModelResourceLocation(Refrence.MOD_ID + ":woodenBolt", "inventory"));

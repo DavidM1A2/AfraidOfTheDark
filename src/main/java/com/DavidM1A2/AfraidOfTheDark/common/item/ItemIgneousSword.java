@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDChargableSword;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 
 public class ItemIgneousSword extends AOTDChargableSword

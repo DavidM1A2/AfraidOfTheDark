@@ -7,6 +7,7 @@ item.afraidofthedark:astralSilverSword.name=Astral Silver Sword
 item.afraidofthedark:igneousSword.name=Igneous Sword
 item.afraidofthedark:astralSilverIngot.name=Astral Silver Ingot
 item.afraidofthedark:crossbow.name=Crossbow
+item.afraidofthedark:wristCrossbow.name=Wrist Crossbow
 item.afraidofthedark:ironBolt.name=Iron Bolt
 item.afraidofthedark:silverBolt.name=Silver Bolt
 item.afraidofthedark:spawnWerewolf.name=Spawn Werewolf
@@ -57,6 +58,7 @@ itemGroup.afraidofthedark=Afraid of the Dark
 # Keys
 keys.afraidofthedark.category=Afraid of the Dark
 keys.afraidofthedark.rollWithCloakOfAgility=Roll with Cloak of Agility
+keys.afraidofthedark.fireWristCrossbow=Fire Wrist Crossbow
 
 # Mobs
 entity.AfraidOfTheDark.Werewolf.name=Werewolf

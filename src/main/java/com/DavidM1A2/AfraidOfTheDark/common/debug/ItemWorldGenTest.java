@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
-import com.DavidM1A2.AfraidOfTheDark.common.item.AOTDItem;
+import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicGenerator;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.UnsupportedLocationException;

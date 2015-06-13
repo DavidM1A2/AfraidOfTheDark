@@ -46,6 +46,7 @@ public class ClientProxy extends CommonProxy
 	public void registerKeyBindings()
 	{
 		ClientRegistry.registerKeyBinding(Keybindings.rollWithCloakOfAgility);
+		ClientRegistry.registerKeyBinding(Keybindings.fireWristCrossbow);
 	}
 
 	// Here we register packets and a channel

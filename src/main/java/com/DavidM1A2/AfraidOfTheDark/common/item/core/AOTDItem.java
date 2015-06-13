@@ -1,25 +1,26 @@
 /*
- * Author: David Slovikosky 
- * Mod: Afraid of the Dark 
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
  * Ideas and Textures: Michael Albertson
  */
-package com.DavidM1A2.AfraidOfTheDark.common.item;
+package com.DavidM1A2.AfraidOfTheDark.common.item.core;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
 
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 
-public abstract class AOTDSword extends ItemSword
+public abstract class AOTDItem extends Item
 {
-	public AOTDSword(final ToolMaterial material)
+	// Setup an item base class for all of our mod items
+	public AOTDItem()
 	{
-		super(material);
+		super();
 		this.setCreativeTab(Constants.AFRAID_OF_THE_DARK);
 	}
 
-	// Set the item name in the game (not the visual name but the reference name)
+	// Set the item name in the game (not the visual name but the refrence name)
 	@Override
 	public String getUnlocalizedName()
 	{
@@ -37,4 +38,5 @@ public abstract class AOTDSword extends ItemSword
 	{
 		return unlocalizedName.substring(unlocalizedName.indexOf(".") + 1);
 	}
+
 }

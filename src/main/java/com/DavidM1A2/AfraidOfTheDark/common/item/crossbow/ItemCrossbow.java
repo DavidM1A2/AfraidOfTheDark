@@ -19,7 +19,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityIronBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntitySilverBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityWoodenBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
-import com.DavidM1A2.AfraidOfTheDark.common.item.AOTDItem;
+import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateCrossbow;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 

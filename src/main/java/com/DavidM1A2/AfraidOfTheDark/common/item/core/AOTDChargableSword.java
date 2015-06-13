@@ -1,4 +1,4 @@
-package com.DavidM1A2.AfraidOfTheDark.common.item;
+package com.DavidM1A2.AfraidOfTheDark.common.item.core;
 
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.EntityLiving;

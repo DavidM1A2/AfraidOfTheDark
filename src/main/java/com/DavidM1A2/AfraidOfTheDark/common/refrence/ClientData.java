@@ -14,6 +14,8 @@ public final class ClientData
 	@SideOnly(Side.CLIENT)
 	public static CustomFont journalTitleFont;
 
+	public static AOTDCrossbowBoltTypes currentlySelectedBolt = AOTDCrossbowBoltTypes.iron;
+
 	public static int[] selectedMeteor = new int[]
 	{ -1, -1, -1 };
 	public static MeteorTypes watchedMeteorType = null;
