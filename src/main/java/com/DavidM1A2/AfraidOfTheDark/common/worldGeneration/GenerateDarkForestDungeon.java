@@ -206,7 +206,7 @@ public class GenerateDarkForestDungeon
 
 	private void generateBedHouse(World world, Random random, int chunkX, int y, int chunkZ) throws UnsupportedLocationException
 	{
-		SchematicGenerator.generateSchematic(Constants.AOTDSchematics.bedHouse, world, chunkX, y, chunkZ, new DarkForestChestLoot(), 6);
+		SchematicGenerator.generateSchematic(Constants.AOTDSchematics.bedHouse, world, chunkX - 2, y, chunkZ - 2, new DarkForestChestLoot(), 6);
 	}
 
 	private int randInt(Random random, int min, int max)
