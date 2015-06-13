@@ -22,7 +22,7 @@ public class GenerateSprings
 		int y;
 		try
 		{
-			y = Utility.getPlaceToSpawnAverage(world, chunkX, chunkZ, 28, 28);
+			y = Utility.getPlaceToSpawnLowest(world, chunkX, chunkZ, 28, 28);
 
 			LogHelper.info("Spawning a spring at x = " + chunkX + ", y = " + y + ", z = " + chunkZ);
 
