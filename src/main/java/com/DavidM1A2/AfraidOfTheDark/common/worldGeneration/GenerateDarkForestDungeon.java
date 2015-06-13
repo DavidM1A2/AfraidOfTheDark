@@ -21,7 +21,8 @@ public class GenerateDarkForestDungeon
 	{
 		try
 		{
-			LogHelper.info("Spawning a dark forest at x = " + chunkX + ", y = " + Utility.getPlaceToSpawnAverage(world, chunkX, chunkZ, 23, 23) + ", z = " + chunkZ);
+			int y = Utility.getPlaceToSpawnAverage(world, chunkX, chunkZ, 23, 23);
+			LogHelper.info("Spawning a dark forest at x = " + chunkX + ", y = " + y + ", z = " + chunkZ);
 
 			for (int i = 0; i < 25; i++)
 			{
@@ -35,7 +36,7 @@ public class GenerateDarkForestDungeon
 			}
 			try
 			{
-				this.generateBedHouse(world, random, chunkX, chunkZ);
+				this.generateBedHouse(world, random, chunkX, y, chunkZ);
 			}
 			catch (UnsupportedLocationException e)
 			{
@@ -203,10 +204,8 @@ public class GenerateDarkForestDungeon
 		}
 	}
 
-	private void generateBedHouse(World world, Random random, int chunkX, int chunkZ) throws UnsupportedLocationException
+	private void generateBedHouse(World world, Random random, int chunkX, int y, int chunkZ) throws UnsupportedLocationException
 	{
-		int y = Utility.getPlaceToSpawnAverage(world, chunkX, chunkZ, 23, 23);
-
 		SchematicGenerator.generateSchematic(Constants.AOTDSchematics.bedHouse, world, chunkX, y, chunkZ, new DarkForestChestLoot(), 4);
 	}
 

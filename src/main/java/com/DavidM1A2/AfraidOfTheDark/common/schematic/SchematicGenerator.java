@@ -14,6 +14,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 
@@ -89,7 +90,7 @@ public final class SchematicGenerator
 						TileEntityChest tileEntityChest = (TileEntityChest) world.getTileEntity(tileEntityLocation);
 						if (tileEntityChest != null)
 						{
-							WeightedRandomChestContent.generateChestContents(world.rand, chestItemRandomizer.getPossibleItems(world.rand), tileEntityChest, world.rand.nextInt(lootAmount));
+							WeightedRandomChestContent.generateChestContents(world.rand, chestItemRandomizer.getPossibleItems(world.rand), tileEntityChest, world.rand.nextInt(MathHelper.ceiling_double_int(lootAmount * 0.5) + MathHelper.floor_double(lootAmount * 0.5)));
 						}
 					}
 				}
