@@ -55,9 +55,20 @@ public class KeyInputEventHandler
 							ItemWristCrossbow current = (ItemWristCrossbow) itemStack.getItem();
 							if (!current.isOnCooldown())
 							{
-								willFire = true;
-								current.setOnCooldown();
-								break;
+								if (entityPlayer.inventory.hasItem(ClientData.currentlySelectedBolt.getMyBoltItem()))
+								{
+									willFire = true;
+									current.setOnCooldown();
+									break;
+								}
+								else
+								{
+									entityPlayer.addChatMessage(new ChatComponentText("No bolts of type " + ClientData.currentlySelectedBolt + " found."));
+								}
+							}
+							else
+							{
+								entityPlayer.addChatMessage(new ChatComponentText("Crossbow still reloading..."));
 							}
 						}
 					}
@@ -65,11 +76,6 @@ public class KeyInputEventHandler
 				if (willFire)
 				{
 					AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new FireCrossbowBolt(ClientData.currentlySelectedBolt));
-					willFire = false;
-				}
-				else
-				{
-					entityPlayer.addChatMessage(new ChatComponentText("Crossbow still reloading..."));
 				}
 			}
 			else if (!LoadResearchData.isResearched(entityPlayer, ResearchTypes.Crossbow))

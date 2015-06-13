@@ -1,14 +1,20 @@
 package com.DavidM1A2.AfraidOfTheDark.common.refrence;
 
+import net.minecraft.item.Item;
+
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
+
 public enum AOTDCrossbowBoltTypes
 {
-	wooden(0), iron(1), silver(2);
+	wooden(0, ModItems.woodenBolt), iron(1, ModItems.ironBolt), silver(2, ModItems.silverBolt);
 
 	private int id = 0;
+	private Item myBoltItem;
 
-	private AOTDCrossbowBoltTypes(int id)
+	private AOTDCrossbowBoltTypes(int id, Item myBoltItem)
 	{
 		this.id = id;
+		this.myBoltItem = myBoltItem;
 	}
 
 	public static int getIDFromType(AOTDCrossbowBoltTypes crossbowType)
@@ -26,6 +32,11 @@ public enum AOTDCrossbowBoltTypes
 			}
 		}
 		return null;
+	}
+
+	public Item getMyBoltItem()
+	{
+		return this.myBoltItem;
 	}
 
 	public AOTDCrossbowBoltTypes next()
