@@ -69,13 +69,13 @@ public class GenerateDarkForestDungeon
 				placeZ = chunkZ;
 
 				placeX = placeX + randInt(random, 23, -23);
-				placeZ = placeZ + randInt(random, -30, -7);
+				placeZ = placeZ + randInt(random, -30, -10);
 				break;
 			case 1:
 				placeX = chunkX;
 				placeZ = chunkZ + 23;
 
-				placeX = placeX + randInt(random, -7, -30);
+				placeX = placeX + randInt(random, -10, -30);
 				placeZ = placeZ + randInt(random, -23, 23);
 				break;
 			case 2:
@@ -83,13 +83,13 @@ public class GenerateDarkForestDungeon
 				placeZ = chunkZ + 23;
 
 				placeX = placeX + randInt(random, 23, -23);
-				placeZ = placeZ + randInt(random, 7, 30);
+				placeZ = placeZ + randInt(random, 10, 30);
 				break;
 			case 3:
 				placeX = chunkX + 23;
 				placeZ = chunkZ;
 
-				placeX = placeX + randInt(random, 7, 30);
+				placeX = placeX + randInt(random, 10, 30);
 				placeZ = placeZ + randInt(random, 23, -23);
 				break;
 			default:
