@@ -22,9 +22,10 @@ public class GenerateCrypt
 		int y;
 		try
 		{
-			y = Utility.getPlaceToSpawnAverage(world, chunkX + 12, chunkZ + 12, 8, 8);
+			y = Utility.getPlaceToSpawnLowest(world, chunkX + 12, chunkZ + 12, 8, 8);
 
 			LogHelper.info("Spawning a crypt at x = " + (chunkX + 12) + ", y = " + (y - 17) + ", z = " + (chunkZ + 12));
+
 			SchematicGenerator.generateSchematic(Constants.AOTDSchematics.crypt, world, chunkX + 12, y - 17, chunkZ + 12, new CryptChestLoot(), 1);
 		}
 		catch (UnsupportedLocationException e)
