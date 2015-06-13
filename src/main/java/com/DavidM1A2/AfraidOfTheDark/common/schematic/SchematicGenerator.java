@@ -90,7 +90,7 @@ public final class SchematicGenerator
 						TileEntityChest tileEntityChest = (TileEntityChest) world.getTileEntity(tileEntityLocation);
 						if (tileEntityChest != null)
 						{
-							WeightedRandomChestContent.generateChestContents(world.rand, chestItemRandomizer.getPossibleItems(world.rand), tileEntityChest, world.rand.nextInt(MathHelper.ceiling_double_int(lootAmount * 0.5) + MathHelper.ceiling_double_int(lootAmount * 0.8)));
+							WeightedRandomChestContent.generateChestContents(world.rand, chestItemRandomizer.getPossibleItems(world.rand), tileEntityChest, world.rand.nextInt(MathHelper.ceiling_double_int(lootAmount * 0.5)) + MathHelper.ceiling_double_int(lootAmount * 0.8));
 						}
 					}
 				}
