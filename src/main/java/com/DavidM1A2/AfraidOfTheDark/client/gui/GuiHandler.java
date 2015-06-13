@@ -63,7 +63,7 @@ public class GuiHandler implements IGuiHandler
 					case Crossbow:
 						return new BloodStainedJournalPageGUI(ResearchDesciptions.crossbow, "Crossbow");
 					case DarkForest:
-						break;
+						return new BloodStainedJournalPageGUI(ResearchDesciptions.darkForest, "Dark Forest");
 					case IgneousArmor:
 						break;
 					case PreAstralSilver:
@@ -75,6 +75,10 @@ public class GuiHandler implements IGuiHandler
 					case PreCloakOfAgility:
 						break;
 					case PreDarkForest:
+						return new BloodStainedJournalPageGUI(ResearchDesciptions.preDarkForest, "Fo-rrts");
+					case AstralSilverSword:
+						break;
+					case PreAstralSilverSword:
 						break;
 					case PreIgneousArmor:
 						break;
@@ -83,6 +87,8 @@ public class GuiHandler implements IGuiHandler
 					case PreStarMetal:
 						break;
 					case PreSunprotection:
+						break;
+					case PreSunstone:
 						break;
 					case PreVampire:
 						break;
@@ -95,6 +101,8 @@ public class GuiHandler implements IGuiHandler
 					case StarMetal:
 						break;
 					case SunProtection:
+						break;
+					case Sunstone:
 						break;
 					case Vampire:
 						break;

@@ -6,10 +6,10 @@ import net.minecraft.block.BlockDirt.DirtType;
 import net.minecraft.block.BlockGrass;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockSnow;
-import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.BlockFluidBase;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewood;
 
@@ -70,31 +70,43 @@ public class Utility
 		while (temp > 0)
 		{
 			Block current = world.getBlockState(new BlockPos(x, temp, z)).getBlock();
-			if (current.getMaterial() == Material.water)
+			if (current instanceof BlockFluidBase)
 			{
+				LogHelper.info("Fluid  " + current + "  y = " + temp);
+				world.setBlockState(new BlockPos(x, temp, z), Blocks.diamond_block.getDefaultState());
 				return 0;
 			}
 			if (current instanceof BlockGrass)
 			{
+				LogHelper.info("Grass  " + current + "  y = " + temp);
+				world.setBlockState(new BlockPos(x, temp, z), Blocks.diamond_block.getDefaultState());
 				return temp;
 			}
 			if (current instanceof BlockDirt)
 			{
 				if (world.canSeeSky(new BlockPos(x, temp, z)))
 				{
+					LogHelper.info("Sky  " + current + "  y = " + temp);
+					world.setBlockState(new BlockPos(x, temp, z), Blocks.diamond_block.getDefaultState());
 					return temp;
 				}
 				else if (world.getBlockState(new BlockPos(x, temp, z)) == Blocks.dirt.getDefaultState().withProperty(BlockDirt.VARIANT, DirtType.PODZOL))
 				{
+					LogHelper.info("Podzol  " + current + "  y = " + temp);
+					world.setBlockState(new BlockPos(x, temp, z), Blocks.diamond_block.getDefaultState());
 					return temp;
 				}
 				else if (world.getBlockState(new BlockPos(x, temp + 1, z)).getBlock() instanceof BlockLog || world.getBlockState(new BlockPos(x, temp + 1, z)).getBlock() instanceof BlockGravewood)
 				{
+					LogHelper.info("Log  " + current + "  y = " + temp);
+					world.setBlockState(new BlockPos(x, temp, z), Blocks.diamond_block.getDefaultState());
 					return temp;
 				}
 			}
 			if (world.getBlockState(new BlockPos(x, temp + 1, z)).getBlock() instanceof BlockSnow)
 			{
+				LogHelper.info("Snow  " + current + "  y = " + temp);
+				world.setBlockState(new BlockPos(x, temp, z), Blocks.diamond_block.getDefaultState());
 				return temp;
 			}
 			temp = temp - 1;
