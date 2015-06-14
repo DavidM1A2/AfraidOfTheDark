@@ -7,11 +7,11 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
 
-public class ItemStarMetal extends AOTDItem
+public class ItemStarMetalFragment extends AOTDItem
 {
-	public ItemStarMetal()
+	public ItemStarMetalFragment()
 	{
 		super();
-		this.setUnlocalizedName("starMetalIngot");
+		this.setUnlocalizedName("starMetalFragment");
 	}
 }

@@ -39,7 +39,7 @@ public class BlockStarMetalOre extends AOTDBlock
 	@Override
 	public Item getItemDropped(final IBlockState state, final Random rand, final int fortune)
 	{
-		return ModItems.starMetalIngot;
+		return ModItems.starMetalFragment;
 	}
 
 	@Override

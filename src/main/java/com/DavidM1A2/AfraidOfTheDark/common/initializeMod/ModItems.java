@@ -25,7 +25,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.item.ItemIgneousSword;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemJournal;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemSextant;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemSpawnWerewolf;
-import com.DavidM1A2.AfraidOfTheDark.common.item.ItemStarMetal;
+import com.DavidM1A2.AfraidOfTheDark.common.item.ItemStarMetalFragment;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemStarMetalKhopesh;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemStarMetalPlate;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemStarMetalStaff;
@@ -71,7 +71,7 @@ public class ModItems
 	public static final ItemTelescope telescope = new ItemTelescope();
 	public static final ItemSextant sextant = new ItemSextant();
 	public static final ItemSunstone sunstoneIngot = new ItemSunstone();
-	public static final ItemStarMetal starMetalIngot = new ItemStarMetal();
+	public static final ItemStarMetalFragment starMetalFragment = new ItemStarMetalFragment();
 	public static final ItemStarMetalStaff starMetalStaff = new ItemStarMetalStaff();
 	public static final ItemVitaeLantern vitaeLantern = new ItemVitaeLantern();
 	public static final ItemStarMetalKhopesh starMetalKhopesh = new ItemStarMetalKhopesh();
@@ -109,7 +109,7 @@ public class ModItems
 		GameRegistry.registerItem(ModItems.telescope, "telescope");
 		GameRegistry.registerItem(ModItems.sextant, "sextant");
 		GameRegistry.registerItem(ModItems.sunstoneIngot, "sunstoneIngot");
-		GameRegistry.registerItem(ModItems.starMetalIngot, "starMetalIngot");
+		GameRegistry.registerItem(ModItems.starMetalFragment, "starMetalFragment");
 		GameRegistry.registerItem(ModItems.starMetalStaff, "starMetalStaff");
 		GameRegistry.registerItem(ModItems.vitaeLantern, "vitaeLantern");
 		GameRegistry.registerItem(ModItems.starMetalKhopesh, "starMetalKhopesh");
@@ -152,7 +152,7 @@ public class ModItems
 			renderItem.getItemModelMesher().register(ModItems.telescope, 0, new ModelResourceLocation(Refrence.MOD_ID + ":telescope", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.sextant, 0, new ModelResourceLocation(Refrence.MOD_ID + ":sextant", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.sunstoneIngot, 0, new ModelResourceLocation(Refrence.MOD_ID + ":sunstoneIngot", "inventory"));
-			renderItem.getItemModelMesher().register(ModItems.starMetalIngot, 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalIngot", "inventory"));
+			renderItem.getItemModelMesher().register(ModItems.starMetalFragment, 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalFragment", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.starMetalStaff, 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalStaff", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.vitaeLantern, 0, new ModelResourceLocation(Refrence.MOD_ID + ":vitaeLantern", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.starMetalKhopesh, 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalKhopesh", "inventory"));

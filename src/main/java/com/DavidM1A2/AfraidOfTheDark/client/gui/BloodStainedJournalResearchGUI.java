@@ -25,6 +25,7 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 	private static final int DISTANCE_BETWEEN_NODES = 75;
 
 	private static final ResourceLocation upArrow = new ResourceLocation("afraidofthedark:textures/gui/arrowUp.png");
+	private static final ResourceLocation downArrow = new ResourceLocation("afraidofthedark:textures/gui/arrowDown.png");
 	private static final ResourceLocation leftArrow = new ResourceLocation("afraidofthedark:textures/gui/arrowLeft.png");
 	private static final ResourceLocation rightArrow = new ResourceLocation("afraidofthedark:textures/gui/arrowRight.png");
 
@@ -152,50 +153,33 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 			if (object instanceof NodeButton)
 			{
 				NodeButton nodeButton = (NodeButton) object;
-				if (nodeButton.getMyType().getPositionX() == 0)
+
+				if (nodeButton.getMyType().getPrevious() != null)
 				{
-					if (ResearchTypes.researchTypeExists(nodeButton.getMyType().getPositionX() + 1, nodeButton.getMyType().getPositionY()))
-					{
-						this.mc.renderEngine.bindTexture(BloodStainedJournalResearchGUI.rightArrow);
-						Gui.drawScaledCustomSizeModalRect(nodeButton.xPosition + 30, nodeButton.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
-					}
-					if (ResearchTypes.researchTypeExists(nodeButton.getMyType().getPositionX() - 1, nodeButton.getMyType().getPositionY()))
+					ResearchTypes previous = nodeButton.getMyType().getPrevious();
+					ResearchTypes current = nodeButton.getMyType();
+					if (current.getPositionX() < previous.getPositionX())
 					{
 						this.mc.renderEngine.bindTexture(BloodStainedJournalResearchGUI.leftArrow);
-						Gui.drawScaledCustomSizeModalRect(nodeButton.xPosition - 43, nodeButton.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
-					}
-					if (ResearchTypes.researchTypeExists(nodeButton.getMyType().getPositionX(), nodeButton.getMyType().getPositionY() + 1))
-					{
-						this.mc.renderEngine.bindTexture(BloodStainedJournalResearchGUI.upArrow);
-						Gui.drawScaledCustomSizeModalRect(nodeButton.xPosition + 10, nodeButton.yPosition - 43, 0, 0, 10, 43, 10, 43, 10, 43);
-					}
-				}
-				else if (nodeButton.getMyType().getPositionX() < 0)
-				{
-					if (ResearchTypes.researchTypeExists(nodeButton.getMyType().getPositionX() - 1, nodeButton.getMyType().getPositionY()))
-					{
-						this.mc.renderEngine.bindTexture(BloodStainedJournalResearchGUI.leftArrow);
-						Gui.drawScaledCustomSizeModalRect(nodeButton.xPosition - 43, nodeButton.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
-					}
-					if (ResearchTypes.researchTypeExists(nodeButton.getMyType().getPositionX(), nodeButton.getMyType().getPositionY() + 1))
-					{
-						this.mc.renderEngine.bindTexture(BloodStainedJournalResearchGUI.upArrow);
-						Gui.drawScaledCustomSizeModalRect(nodeButton.xPosition + 10, nodeButton.yPosition - 43, 0, 0, 10, 43, 10, 43, 10, 43);
-					}
-				}
-				else
-				{
-					if (ResearchTypes.researchTypeExists(nodeButton.getMyType().getPositionX() + 1, nodeButton.getMyType().getPositionY()))
-					{
-						this.mc.renderEngine.bindTexture(BloodStainedJournalResearchGUI.rightArrow);
 						Gui.drawScaledCustomSizeModalRect(nodeButton.xPosition + 30, nodeButton.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
 					}
-					if (ResearchTypes.researchTypeExists(nodeButton.getMyType().getPositionX(), nodeButton.getMyType().getPositionY() + 1))
+					else if (current.getPositionX() > previous.getPositionX())
+					{
+						this.mc.renderEngine.bindTexture(BloodStainedJournalResearchGUI.rightArrow);
+						Gui.drawScaledCustomSizeModalRect(nodeButton.xPosition - 43, nodeButton.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
+					}
+					else if (current.getPositionY() > previous.getPositionY())
 					{
 						this.mc.renderEngine.bindTexture(BloodStainedJournalResearchGUI.upArrow);
-						Gui.drawScaledCustomSizeModalRect(nodeButton.xPosition + 10, nodeButton.yPosition - 43, 0, 0, 10, 43, 10, 43, 10, 43);
+						Gui.drawScaledCustomSizeModalRect(nodeButton.xPosition + 10, nodeButton.yPosition - (-75 + 43), 0, 0, 10, 43, 10, 43, 10, 43);
+					}
+					else if (current.getPositionY() < previous.getPositionY())
+					{
+						this.mc.renderEngine.bindTexture(BloodStainedJournalResearchGUI.downArrow);
+						Gui.drawScaledCustomSizeModalRect(nodeButton.xPosition + 10, nodeButton.yPosition + 30, 0, 0, 10, 43, 10, 43, 10, 43);
 					}
 				}
+
 			}
 		}
 	}

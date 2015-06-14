@@ -32,7 +32,6 @@ public class BlockAstralSilverOre extends AOTDBlock
 		if (LoadResearchData.canResearch(entityPlayer, ResearchTypes.AstralSilver))
 		{
 			LoadResearchData.unlockResearchSynced(entityPlayer, ResearchTypes.AstralSilver, Side.SERVER, true);
-			LoadResearchData.unlockResearchSynced(entityPlayer, ResearchTypes.AstralSilverSword, Side.SERVER, true);
 		}
 		super.harvestBlock(world, entityPlayer, blockPos, iBlockState, tileEntity);
 	}

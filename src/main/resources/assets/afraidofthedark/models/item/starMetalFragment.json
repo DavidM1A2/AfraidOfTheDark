@@ -1,7 +1,7 @@
 {
 	"parent": "builtin/generated",
 	"textures": {
-		"layer0": "afraidofthedark:items/starMetalIngot"
+		"layer0": "afraidofthedark:items/starMetalFragment"
 	},
 	"display": {
 		"thirdperson": {
