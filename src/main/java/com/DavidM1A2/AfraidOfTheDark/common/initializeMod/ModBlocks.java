@@ -61,9 +61,7 @@ public class ModBlocks
 		GameRegistry.registerBlock(ModBlocks.darkForest, "darkForest");
 		GameRegistry.registerTileEntity(BlockTileEntityDarkForest.class, "tileEntityDarkForest");
 		GameRegistry.registerBlock(ModBlocks.gravewoodLeaves, ItemGravewoodLeaves.class, "gravewoodLeaves");
-		Blocks.fire.func_180686_a(ModBlocks.gravewoodLeaves, 5, 5);
 		GameRegistry.registerBlock(ModBlocks.gravewood, "gravewood");
-		Blocks.fire.func_180686_a(ModBlocks.gravewood, 5, 5);
 		GameRegistry.registerBlock(ModBlocks.gravewoodPlanks, "gravewoodPlanks");
 		Blocks.fire.func_180686_a(ModBlocks.gravewoodPlanks, 5, 5);
 		GameRegistry.registerBlock(ModBlocks.gravewoodStairs, "gravewoodStairs");

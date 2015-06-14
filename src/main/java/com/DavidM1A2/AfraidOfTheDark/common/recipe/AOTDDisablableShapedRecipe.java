@@ -45,15 +45,25 @@ public class AOTDDisablableShapedRecipe extends ShapedOreRecipe
 		return super.matches(inventoryCrafting, world);
 	}
 
-	// TODO: SRG names for non-dev environment
-	/*
-	 * InventoryCrafting#eventHandler = field_70465_c
-	 * ContainerPlayer#thePlayer = field_82862_h
-	 * SlotCraftin#thePlayer = field_75238_b
-	 */
-	private static final Field eventHandlerField = ReflectionHelper.findField(InventoryCrafting.class, "eventHandler");
-	private static final Field containerPlayerPlayerField = ReflectionHelper.findField(ContainerPlayer.class, "thePlayer");
-	private static final Field slotCraftingPlayerField = ReflectionHelper.findField(SlotCrafting.class, "thePlayer");
+	private static Field eventHandlerField;
+	private static Field containerPlayerPlayerField;
+	private static Field slotCraftingPlayerField;
+
+	static
+	{
+		try
+		{
+			eventHandlerField = ReflectionHelper.findField(InventoryCrafting.class, "eventHandler");
+			containerPlayerPlayerField = ReflectionHelper.findField(ContainerPlayer.class, "thePlayer");
+			slotCraftingPlayerField = ReflectionHelper.findField(SlotCrafting.class, "thePlayer");
+		}
+		catch (Exception e)
+		{
+			eventHandlerField = ReflectionHelper.findField(InventoryCrafting.class, "field_70465_c");
+			containerPlayerPlayerField = ReflectionHelper.findField(ContainerPlayer.class, "field_82862_h");
+			slotCraftingPlayerField = ReflectionHelper.findField(SlotCrafting.class, "field_75238_b");
+		}
+	}
 
 	private static EntityPlayer findPlayer(InventoryCrafting inv)
 	{

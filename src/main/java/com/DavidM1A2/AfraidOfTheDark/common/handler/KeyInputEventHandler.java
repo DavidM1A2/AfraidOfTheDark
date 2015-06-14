@@ -44,7 +44,7 @@ public class KeyInputEventHandler
 		if (!entityPlayer.isSneaking())
 		{
 			boolean willFire = false;
-			if (entityPlayer.inventory.hasItem(ModItems.wristCrossbow) && LoadResearchData.isResearched(entityPlayer, ResearchTypes.Crossbow))
+			if (entityPlayer.inventory.hasItem(ModItems.wristCrossbow) && LoadResearchData.isResearched(entityPlayer, ResearchTypes.WristCrossbow))
 			{
 				for (ItemStack itemStack : entityPlayer.inventory.mainInventory)
 				{
@@ -78,7 +78,7 @@ public class KeyInputEventHandler
 					AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new FireCrossbowBolt(ClientData.currentlySelectedBolt));
 				}
 			}
-			else if (!LoadResearchData.isResearched(entityPlayer, ResearchTypes.Crossbow))
+			else if (!LoadResearchData.isResearched(entityPlayer, ResearchTypes.WristCrossbow))
 			{
 				entityPlayer.addChatMessage(new ChatComponentText("I don't understand how this works."));
 			}

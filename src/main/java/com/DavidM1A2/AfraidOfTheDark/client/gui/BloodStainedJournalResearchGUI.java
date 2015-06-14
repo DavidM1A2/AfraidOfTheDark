@@ -56,6 +56,7 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 	private NodeButton unbreakableCovenantResearch;
 	private NodeButton werewolfExamination;
 	private NodeButton crossbow;
+	private NodeButton wristCrossbow;
 	private NodeButton astronomy1;
 	private NodeButton vitae1;
 	private NodeButton astralSilver;
@@ -174,6 +175,7 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 		Gui.drawScaledCustomSizeModalRect(this.unbreakableCovenantResearch.xPosition + 30, this.unbreakableCovenantResearch.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
 		Gui.drawScaledCustomSizeModalRect(this.astralSilver.xPosition + 30, this.astralSilver.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
 		Gui.drawScaledCustomSizeModalRect(this.astronomy2.xPosition + 30, this.astronomy2.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
+		Gui.drawScaledCustomSizeModalRect(this.crossbow.xPosition + 30, this.crossbow.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
 
 		this.mc.renderEngine.bindTexture(BloodStainedJournalResearchGUI.leftArrow);
 		Gui.drawScaledCustomSizeModalRect(this.astronomy1.xPosition - 43, this.astronomy1.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
@@ -189,6 +191,7 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 		this.unbreakableCovenantResearch = new NodeButton(currentID++, xPosBaseResearch, yPosBaseResearch, ResearchTypes.AnUnbreakableCovenant);
 		this.werewolfExamination = new NodeButton(currentID++, xPosBaseResearch, yPosBaseResearch - DISTANCE_BETWEEN_NODES, ResearchTypes.WerewolfExamination);
 		this.crossbow = new NodeButton(currentID++, xPosBaseResearch + DISTANCE_BETWEEN_NODES, yPosBaseResearch, ResearchTypes.Crossbow);
+		this.wristCrossbow = new NodeButton(currentID++, xPosBaseResearch + DISTANCE_BETWEEN_NODES * 2, yPosBaseResearch, ResearchTypes.WristCrossbow);
 		this.astronomy1 = new NodeButton(currentID++, xPosBaseResearch, yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 2), ResearchTypes.AstronomyI);
 		this.astralSilver = new NodeButton(currentID++, xPosBaseResearch, yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 3), ResearchTypes.AstralSilver);
 		this.vitae1 = new NodeButton(currentID++, xPosBaseResearch - DISTANCE_BETWEEN_NODES, yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 2), ResearchTypes.VitaeI);
@@ -206,6 +209,7 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 		this.buttonList.add(this.unbreakableCovenantResearch);
 		this.buttonList.add(this.werewolfExamination);
 		this.buttonList.add(this.crossbow);
+		this.buttonList.add(this.wristCrossbow);
 		this.buttonList.add(this.astronomy1);
 		this.buttonList.add(this.vitae1);
 		this.buttonList.add(this.astralSilver);

@@ -12,6 +12,8 @@ public enum ResearchTypes
 {
 	AnUnbreakableCovenant(null, "afraidofthedark:textures/gui/researchIcons/AnUnbreakableCovenant.png"),
 	Crossbow(null, "afraidofthedark:textures/gui/researchIcons/Crossbow.png"),
+	WristCrossbow(Crossbow, "afraidofthedark:textures/gui/researchIcons/None.png"),
+	PreWristCrossbow(null, null),
 	WerewolfExamination(AnUnbreakableCovenant, "afraidofthedark:textures/gui/researchIcons/WerewolfExamination.png"),
 	PreWerewolfExamination(null, null),
 	AstronomyI(WerewolfExamination, "afraidofthedark:textures/gui/researchIcons/AstronomyI.png"),
