@@ -1,0 +1,7 @@
+Upon rummaging around the insides of an asteroid, I have discovered a new material, which I have named
+starmetal. If starmetal fragments are combined with iron ingots, they can be made into starmetal plates,
+which can then be forged into various tools and armor. Starmetal armor provides superior protection to
+diamond, and gives the user an overshield which will absorb damage before the user. A starmetal sword
+gains energy upon striking an enemy. When it reaches maximum charge, it will begin to shimmer with
+arcane power. When at maximum charge, it can unleash a devastating area of effect slash by using right
+click.

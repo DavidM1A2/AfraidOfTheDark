@@ -1,0 +1,4 @@
+I have discovered my first practical application for vitae. It is a lantern energized from the power of nature.
+Not only does the lantern accumulates vitae from the environment slowly, but it also restores the user's sanity
+slowly. Stiking an enemy with the lantern will transfer an almost uncontrollable amount of vitae into the
+victim, causing them any range of the associated effects. The lantern does not in fact, emit light.
