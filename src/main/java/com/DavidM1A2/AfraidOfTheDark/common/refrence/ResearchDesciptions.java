@@ -5,6 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.refrence;
 
+
 public class ResearchDesciptions
 {
 	// All research descriptions
@@ -16,4 +17,6 @@ public class ResearchDesciptions
 	public static final String preAstronomy1 = "     I have failed to kill the wolves. Science has failed to deliver rational answers to the source of their power. I will have to use unorthodox methods if I want to survive. I think that I should construct a telescope and take it to a high mountain. Perhaps the stars can provide answers to this problem which is clearly not of this world.";
 	public static final String darkForest = "     It seems that I am not the first person to have the idea to explore this place. I found a small, yet deserted compound within the dark forest. I cannot shake this eyrie feeling of doom this place gives me.";
 	public static final String preDarkForest = "     Despite my successes with astral silver, there is reason to be wanting more. I know there must be more advanced methods of combating werewolves and the undead legions. I recall once reading about areas in the world where strange energies caused trees to grow extraordinarily tall and twisted. I should visit one of these locations to perhaps enhance the quality of my astral silver tools. I should look for these forests in flat areas.";
+	public static final String astralSilver = "     ";
+
 }

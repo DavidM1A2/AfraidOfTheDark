@@ -52,23 +52,6 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 	private static final int BACKGROUND_HEIGHT = 256;
 	private static final int BACKGROUND_WIDTH = 256;
 
-	// NodeButton is a research
-	private NodeButton unbreakableCovenantResearch;
-	private NodeButton werewolfExamination;
-	private NodeButton crossbow;
-	private NodeButton wristCrossbow;
-	private NodeButton astronomy1;
-	private NodeButton vitae1;
-	private NodeButton astralSilver;
-	private NodeButton darkForest;
-	private NodeButton astronomy2;
-	private NodeButton igneousArmor;
-	private NodeButton igneousGem;
-	private NodeButton starMetal;
-	private NodeButton vitaeLantern1;
-	private NodeButton astralSilverSword;
-	private NodeButton cloakOfAgility;
-
 	@Override
 	public void initGui()
 	{
@@ -164,63 +147,69 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 	// Draw an arrow for the gui
 	private void drawLines()
 	{
-		this.mc.renderEngine.bindTexture(BloodStainedJournalResearchGUI.upArrow);
-		Gui.drawScaledCustomSizeModalRect(this.unbreakableCovenantResearch.xPosition + 10, this.unbreakableCovenantResearch.yPosition - 43, 0, 0, 10, 43, 10, 43, 10, 43);
-		Gui.drawScaledCustomSizeModalRect(this.werewolfExamination.xPosition + 10, this.werewolfExamination.yPosition - 43, 0, 0, 10, 43, 10, 43, 10, 43);
-		Gui.drawScaledCustomSizeModalRect(this.astronomy1.xPosition + 10, this.astronomy1.yPosition - 43, 0, 0, 10, 43, 10, 43, 10, 43);
-		Gui.drawScaledCustomSizeModalRect(this.astralSilver.xPosition + 10, this.astralSilver.yPosition - 43, 0, 0, 10, 43, 10, 43, 10, 43);
-		Gui.drawScaledCustomSizeModalRect(this.darkForest.xPosition + 10, this.darkForest.yPosition - 43, 0, 0, 10, 43, 10, 43, 10, 43);
-
-		this.mc.renderEngine.bindTexture(BloodStainedJournalResearchGUI.rightArrow);
-		Gui.drawScaledCustomSizeModalRect(this.unbreakableCovenantResearch.xPosition + 30, this.unbreakableCovenantResearch.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
-		Gui.drawScaledCustomSizeModalRect(this.astralSilver.xPosition + 30, this.astralSilver.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
-		Gui.drawScaledCustomSizeModalRect(this.astronomy2.xPosition + 30, this.astronomy2.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
-		Gui.drawScaledCustomSizeModalRect(this.crossbow.xPosition + 30, this.crossbow.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
-
-		this.mc.renderEngine.bindTexture(BloodStainedJournalResearchGUI.leftArrow);
-		Gui.drawScaledCustomSizeModalRect(this.astronomy1.xPosition - 43, this.astronomy1.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
-		Gui.drawScaledCustomSizeModalRect(this.igneousGem.xPosition - 43, this.igneousGem.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
-		Gui.drawScaledCustomSizeModalRect(this.vitae1.xPosition - 43, this.vitae1.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
-		Gui.drawScaledCustomSizeModalRect(this.astronomy2.xPosition - 43, this.astronomy2.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
-		Gui.drawScaledCustomSizeModalRect(this.werewolfExamination.xPosition - 43, this.werewolfExamination.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
+		for (Object object : this.buttonList)
+		{
+			if (object instanceof NodeButton)
+			{
+				NodeButton nodeButton = (NodeButton) object;
+				if (nodeButton.getMyType().getPositionX() == 0)
+				{
+					if (ResearchTypes.researchTypeExists(nodeButton.getMyType().getPositionX() + 1, nodeButton.getMyType().getPositionY()))
+					{
+						this.mc.renderEngine.bindTexture(BloodStainedJournalResearchGUI.rightArrow);
+						Gui.drawScaledCustomSizeModalRect(nodeButton.xPosition + 30, nodeButton.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
+					}
+					if (ResearchTypes.researchTypeExists(nodeButton.getMyType().getPositionX() - 1, nodeButton.getMyType().getPositionY()))
+					{
+						this.mc.renderEngine.bindTexture(BloodStainedJournalResearchGUI.leftArrow);
+						Gui.drawScaledCustomSizeModalRect(nodeButton.xPosition - 43, nodeButton.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
+					}
+					if (ResearchTypes.researchTypeExists(nodeButton.getMyType().getPositionX(), nodeButton.getMyType().getPositionY() + 1))
+					{
+						this.mc.renderEngine.bindTexture(BloodStainedJournalResearchGUI.upArrow);
+						Gui.drawScaledCustomSizeModalRect(nodeButton.xPosition + 10, nodeButton.yPosition - 43, 0, 0, 10, 43, 10, 43, 10, 43);
+					}
+				}
+				else if (nodeButton.getMyType().getPositionX() < 0)
+				{
+					if (ResearchTypes.researchTypeExists(nodeButton.getMyType().getPositionX() - 1, nodeButton.getMyType().getPositionY()))
+					{
+						this.mc.renderEngine.bindTexture(BloodStainedJournalResearchGUI.leftArrow);
+						Gui.drawScaledCustomSizeModalRect(nodeButton.xPosition - 43, nodeButton.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
+					}
+					if (ResearchTypes.researchTypeExists(nodeButton.getMyType().getPositionX(), nodeButton.getMyType().getPositionY() + 1))
+					{
+						this.mc.renderEngine.bindTexture(BloodStainedJournalResearchGUI.upArrow);
+						Gui.drawScaledCustomSizeModalRect(nodeButton.xPosition + 10, nodeButton.yPosition - 43, 0, 0, 10, 43, 10, 43, 10, 43);
+					}
+				}
+				else
+				{
+					if (ResearchTypes.researchTypeExists(nodeButton.getMyType().getPositionX() + 1, nodeButton.getMyType().getPositionY()))
+					{
+						this.mc.renderEngine.bindTexture(BloodStainedJournalResearchGUI.rightArrow);
+						Gui.drawScaledCustomSizeModalRect(nodeButton.xPosition + 30, nodeButton.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
+					}
+					if (ResearchTypes.researchTypeExists(nodeButton.getMyType().getPositionX(), nodeButton.getMyType().getPositionY() + 1))
+					{
+						this.mc.renderEngine.bindTexture(BloodStainedJournalResearchGUI.upArrow);
+						Gui.drawScaledCustomSizeModalRect(nodeButton.xPosition + 10, nodeButton.yPosition - 43, 0, 0, 10, 43, 10, 43, 10, 43);
+					}
+				}
+			}
+		}
 	}
 
 	private void setupButtons()
 	{
-		// Setup the research nodes with an ID and position.
-		this.unbreakableCovenantResearch = new NodeButton(currentID++, xPosBaseResearch, yPosBaseResearch, ResearchTypes.AnUnbreakableCovenant);
-		this.werewolfExamination = new NodeButton(currentID++, xPosBaseResearch, yPosBaseResearch - DISTANCE_BETWEEN_NODES, ResearchTypes.WerewolfExamination);
-		this.crossbow = new NodeButton(currentID++, xPosBaseResearch + DISTANCE_BETWEEN_NODES, yPosBaseResearch, ResearchTypes.Crossbow);
-		this.wristCrossbow = new NodeButton(currentID++, xPosBaseResearch + DISTANCE_BETWEEN_NODES * 2, yPosBaseResearch, ResearchTypes.WristCrossbow);
-		this.astronomy1 = new NodeButton(currentID++, xPosBaseResearch, yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 2), ResearchTypes.AstronomyI);
-		this.astralSilver = new NodeButton(currentID++, xPosBaseResearch, yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 3), ResearchTypes.AstralSilver);
-		this.vitae1 = new NodeButton(currentID++, xPosBaseResearch - DISTANCE_BETWEEN_NODES, yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 2), ResearchTypes.VitaeI);
-		this.astralSilverSword = new NodeButton(currentID++, xPosBaseResearch + DISTANCE_BETWEEN_NODES, yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 3), ResearchTypes.AstralSilverSword);
-		this.darkForest = new NodeButton(currentID++, xPosBaseResearch, yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 4), ResearchTypes.DarkForest);
-		this.astronomy2 = new NodeButton(currentID++, xPosBaseResearch, yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 5), ResearchTypes.AstronomyII);
-		this.igneousArmor = new NodeButton(currentID++, xPosBaseResearch - (DISTANCE_BETWEEN_NODES * 2), yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 5), ResearchTypes.IgneousArmor);
-		this.starMetal = new NodeButton(currentID++, xPosBaseResearch + DISTANCE_BETWEEN_NODES, yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 5), ResearchTypes.StarMetal);
-		this.vitaeLantern1 = new NodeButton(currentID++, xPosBaseResearch - (DISTANCE_BETWEEN_NODES * 2), yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 2), ResearchTypes.VitaeLanternI);
-		this.igneousGem = new NodeButton(currentID++, xPosBaseResearch - DISTANCE_BETWEEN_NODES, yPosBaseResearch - (DISTANCE_BETWEEN_NODES * 5), ResearchTypes.Sunstone);
-		this.cloakOfAgility = new NodeButton(currentID++, xPosBaseResearch - DISTANCE_BETWEEN_NODES, yPosBaseResearch - DISTANCE_BETWEEN_NODES, ResearchTypes.CloakOfAgility);
-
-		// Clear and pre-existing buttons on the GUI and add the new ones
 		this.buttonList.clear();
-		this.buttonList.add(this.unbreakableCovenantResearch);
-		this.buttonList.add(this.werewolfExamination);
-		this.buttonList.add(this.crossbow);
-		this.buttonList.add(this.wristCrossbow);
-		this.buttonList.add(this.astronomy1);
-		this.buttonList.add(this.vitae1);
-		this.buttonList.add(this.astralSilver);
-		this.buttonList.add(this.astralSilverSword);
-		this.buttonList.add(this.darkForest);
-		this.buttonList.add(this.astronomy2);
-		this.buttonList.add(this.igneousArmor);
-		this.buttonList.add(this.starMetal);
-		this.buttonList.add(this.vitaeLantern1);
-		this.buttonList.add(this.igneousGem);
-		this.buttonList.add(this.cloakOfAgility);
+		for (ResearchTypes researchType : ResearchTypes.values())
+		{
+			if (!researchType.toString().startsWith("Pre"))
+			{
+				this.buttonList.add(new NodeButton(currentID++, xPosBaseResearch + DISTANCE_BETWEEN_NODES * researchType.getPositionX(), yPosBaseResearch - DISTANCE_BETWEEN_NODES * researchType.getPositionY(), researchType));
+			}
+		}
 	}
 
 	@Override

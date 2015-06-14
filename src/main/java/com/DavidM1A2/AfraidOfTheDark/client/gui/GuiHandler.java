@@ -8,7 +8,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ClientData;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchDesciptions;
 
 public class GuiHandler implements IGuiHandler
 {
@@ -44,74 +43,13 @@ public class GuiHandler implements IGuiHandler
 			case GuiHandler.SEXTANT_ID:
 				return new SextantGUI();
 			case GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID:
-				switch (ClientData.currentlySelected)
+				if (ClientData.currentlySelected.toString().contains("Pre"))
 				{
-					case AnUnbreakableCovenant:
-						return new BloodStainedJournalPageGUI(ResearchDesciptions.anUnbreakableCovenant, "An Unbreakable Covenant");
-					case PreWerewolfExamination:
-						return new BloodStainedJournalPageGUI(ResearchDesciptions.preWerewolfExamination, "W~~-wo-+f");
-					case WerewolfExamination:
-						return new BloodStainedJournalPageGUI(ResearchDesciptions.werewolfExamination, "Werewolf Examination");
-					case AstralSilver:
-						break;
-					case AstronomyI:
-						return new BloodStainedJournalPageGUI(ResearchDesciptions.astronomy1, "Astronomy 1");
-					case AstronomyII:
-						break;
-					case CloakOfAgility:
-						break;
-					case Crossbow:
-						return new BloodStainedJournalPageGUI(ResearchDesciptions.crossbow, "Crossbow");
-					case DarkForest:
-						return new BloodStainedJournalPageGUI(ResearchDesciptions.darkForest, "Dark Forest");
-					case IgneousArmor:
-						break;
-					case PreAstralSilver:
-						break;
-					case PreAstronomyI:
-						return new BloodStainedJournalPageGUI(ResearchDesciptions.preAstronomy1, "Astor -- star");
-					case PreAstronomyII:
-						break;
-					case PreCloakOfAgility:
-						break;
-					case PreDarkForest:
-						return new BloodStainedJournalPageGUI(ResearchDesciptions.preDarkForest, "Fo-rrts");
-					case AstralSilverSword:
-						break;
-					case PreAstralSilverSword:
-						break;
-					case PreIgneousArmor:
-						break;
-					case PreSpiderTurn:
-						break;
-					case PreStarMetal:
-						break;
-					case PreSunprotection:
-						break;
-					case PreSunstone:
-						break;
-					case PreVampire:
-						break;
-					case PreVitaeI:
-						break;
-					case PreVitaeLanternI:
-						break;
-					case SpiderTurn:
-						break;
-					case StarMetal:
-						break;
-					case SunProtection:
-						break;
-					case Sunstone:
-						break;
-					case Vampire:
-						break;
-					case VitaeI:
-						break;
-					case VitaeLanternI:
-						break;
-					default:
-						break;
+					return new BloodStainedJournalPageGUI(ClientData.currentlySelected.getResearchDescription(), "???");
+				}
+				else
+				{
+					return new BloodStainedJournalPageGUI(ClientData.currentlySelected.getResearchDescription(), ClientData.currentlySelected.formattedString());
 				}
 		}
 		return null;
