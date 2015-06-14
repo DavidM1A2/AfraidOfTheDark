@@ -129,16 +129,15 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 			final NodeButton current = (NodeButton) o;
 			if (current.id == button.id)
 			{
+				ClientData.currentlySelected = current.getMyType();
 				if (LoadResearchData.isResearched(entityPlayer, current.getMyType()))
 				{
-					ClientData.currentlySelected = current.getMyType();
 					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
 					break;
 				}
 				else if (LoadResearchData.isResearched(entityPlayer, current.getMyType().getPrevious()))
 				{
-					ClientData.currentlySelected = ResearchTypes.valueOf("Pre" + current.getMyType());
-					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
+					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_PRE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
 					break;
 				}
 			}

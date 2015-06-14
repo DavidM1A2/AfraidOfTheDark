@@ -14,8 +14,9 @@ public class GuiHandler implements IGuiHandler
 	public static final int BLOOD_STAINED_JOURNAL_SIGN_ID = 1;
 	public static final int BLOOD_STAINED_JOURNAL_ID = 2;
 	public static final int BLOOD_STAINED_JOURNAL_PAGE_ID = 3;
-	public static final int TELESCOPE_ID = 4;
-	public static final int SEXTANT_ID = 5;
+	public static final int BLOOD_STAINED_JOURNAL_PAGE_PRE_ID = 4;
+	public static final int TELESCOPE_ID = 5;
+	public static final int SEXTANT_ID = 6;
 
 	/*
 	 * Create GUIS
@@ -43,14 +44,9 @@ public class GuiHandler implements IGuiHandler
 			case GuiHandler.SEXTANT_ID:
 				return new SextantGUI();
 			case GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID:
-				if (ClientData.currentlySelected.toString().contains("Pre"))
-				{
-					return new BloodStainedJournalPageGUI(ClientData.currentlySelected.getResearchDescription(), "???");
-				}
-				else
-				{
-					return new BloodStainedJournalPageGUI(ClientData.currentlySelected.getResearchDescription(), ClientData.currentlySelected.formattedString());
-				}
+				return new BloodStainedJournalPageGUI(ClientData.currentlySelected.getResearchDescription(), ClientData.currentlySelected.formattedString());
+			case GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_PRE_ID:
+				return new BloodStainedJournalPageGUI(ClientData.currentlySelected.getPreResearchDescription(), "???");
 		}
 		return null;
 	}

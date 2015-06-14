@@ -46,9 +46,9 @@ public class BlockSunstoneOre extends AOTDBlock
 	@Override
 	public void harvestBlock(World world, EntityPlayer entityPlayer, BlockPos blockPos, IBlockState iBlockState, TileEntity tileEntity)
 	{
-		if (LoadResearchData.canResearch(entityPlayer, ResearchTypes.Sunstone))
+		if (LoadResearchData.canResearch(entityPlayer, ResearchTypes.IgneousArmor))
 		{
-			LoadResearchData.unlockResearchSynced(entityPlayer, ResearchTypes.Sunstone, Side.SERVER, true);
+			LoadResearchData.unlockResearchSynced(entityPlayer, ResearchTypes.IgneousArmor, Side.SERVER, true);
 		}
 		super.harvestBlock(world, entityPlayer, blockPos, iBlockState, tileEntity);
 	}
