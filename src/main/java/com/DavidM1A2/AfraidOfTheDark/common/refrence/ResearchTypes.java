@@ -55,7 +55,7 @@ public enum ResearchTypes
 		}
 
 		this.researchDescription = loadResearchDescription("assets/afraidofthedark/researchNotes/" + this.toString() + ".txt");
-		this.preResearchDescription = loadResearchDescription("assets/afraidofthedark/researchNotes/Pre" + this.toString() + ".txt");
+		this.preResearchDescription = loadResearchDescription("assets/afraidofthedark/researchNotes/" + this.toString() + "Pre.txt");
 	}
 
 	public String formattedString()
