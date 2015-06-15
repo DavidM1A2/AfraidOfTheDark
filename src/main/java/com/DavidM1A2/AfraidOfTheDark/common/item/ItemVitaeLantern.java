@@ -7,6 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 
 import java.util.List;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -19,6 +20,8 @@ public class ItemVitaeLantern extends AOTDItem
 {
 	private static final int VITAE_CAPACITY = 300;
 	private LanternStates currentState = LanternStates.Medium;
+	private int ticksUpdated = 0;
+	private final int UPDATE_FREQUENCY_IN_TICKS = 40;
 
 	public ItemVitaeLantern()
 	{
@@ -48,6 +51,36 @@ public class ItemVitaeLantern extends AOTDItem
 		}
 
 		return super.onItemRightClick(itemStack, world, entityPlayer);
+	}
+
+	/**
+	 * Called each tick as long the item is on a player inventory. Uses by maps to check if is on a player hand and update it's contents.
+	 */
+	public void onUpdate(ItemStack itemStack, World world, Entity entity, int itemSlot, boolean isSelected)
+	{
+		if (ticksUpdated % UPDATE_FREQUENCY_IN_TICKS == 0)
+		{
+			if (NBTHelper.getBoolean(itemStack, "isActive"))
+			{
+				switch (this.currentState)
+				{
+					case High:
+						break;
+					case Low:
+						break;
+					case Medium:
+						break;
+					case None:
+						break;
+					case Obnoxious:
+						break;
+				}
+			}
+		}
+		else
+		{
+			ticksUpdated = ticksUpdated + 1;
+		}
 	}
 
 	/**
@@ -94,11 +127,11 @@ public class ItemVitaeLantern extends AOTDItem
 
 	public enum LanternStates
 	{
-		Obnoxious,
-		High,
-		Medium,
+		None,
 		Low,
-		None;
+		Medium,
+		High,
+		Obnoxious;
 
 		public LanternStates getNext()
 		{
