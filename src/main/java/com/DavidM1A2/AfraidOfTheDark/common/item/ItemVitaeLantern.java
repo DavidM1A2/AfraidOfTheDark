@@ -9,6 +9,7 @@ import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
@@ -17,6 +18,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 public class ItemVitaeLantern extends AOTDItem
 {
 	private static final int VITAE_CAPACITY = 300;
+	private LanternStates currentState = LanternStates.Medium;
 
 	public ItemVitaeLantern()
 	{
@@ -28,16 +30,33 @@ public class ItemVitaeLantern extends AOTDItem
 	@Override
 	public ItemStack onItemRightClick(final ItemStack itemStack, final World world, final EntityPlayer entityPlayer)
 	{
-		if (NBTHelper.getBoolean(itemStack, "isActive"))
+		if (!entityPlayer.isSneaking())
 		{
-			NBTHelper.setBoolean(itemStack, "isActive", false);
+			if (NBTHelper.getBoolean(itemStack, "isActive"))
+			{
+				NBTHelper.setBoolean(itemStack, "isActive", false);
+			}
+			else
+			{
+				NBTHelper.setBoolean(itemStack, "isActive", true);
+			}
 		}
 		else
 		{
-			NBTHelper.setBoolean(itemStack, "isActive", true);
+			currentState = currentState.getNext();
+			NBTHelper.setInteger(itemStack, "state", currentState.ordinal());
 		}
 
 		return super.onItemRightClick(itemStack, world, entityPlayer);
+	}
+
+	/**
+	 * Called when an ItemStack with NBT data is read to potentially that ItemStack's NBT data
+	 */
+	public boolean updateItemStackNBT(NBTTagCompound nbt)
+	{
+		this.currentState = LanternStates.values()[nbt.getInteger("state")];
+		return super.updateItemStackNBT(nbt);
 	}
 
 	// A message under the bow will tell us what type of arrows the bow will fire
@@ -45,6 +64,7 @@ public class ItemVitaeLantern extends AOTDItem
 	public void addInformation(final ItemStack itemStack, final EntityPlayer entityPlayer, final List list, final boolean bool)
 	{
 		list.add("Lantern is active? " + NBTHelper.getBoolean(itemStack, "isActive"));
+		list.add("Lantern state: " + this.currentState.toString());
 	}
 
 	/**
@@ -70,5 +90,19 @@ public class ItemVitaeLantern extends AOTDItem
 	public double getDurabilityForDisplay(ItemStack stack)
 	{
 		return (double) this.VITAE_CAPACITY / NBTHelper.getInt(stack, "storedVitae");
+	}
+
+	public enum LanternStates
+	{
+		Obnoxious,
+		High,
+		Medium,
+		Low,
+		None;
+
+		public LanternStates getNext()
+		{
+			return values()[(ordinal() + 1) % values().length];
+		}
 	}
 }
