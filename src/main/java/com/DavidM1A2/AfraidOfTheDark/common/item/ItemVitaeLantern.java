@@ -8,6 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -47,7 +48,7 @@ public class ItemVitaeLantern extends AOTDItem
 			{
 				for (ItemStack itemStackCurrent : entityPlayer.inventory.mainInventory)
 				{
-					if (itemStackCurrent.getItem() != null && itemStackCurrent.getItem() instanceof ItemVitaeLantern)
+					if (itemStackCurrent != null && itemStackCurrent.getItem() instanceof ItemVitaeLantern)
 					{
 						NBTHelper.setBoolean(itemStackCurrent, "isActive", false);
 					}
@@ -62,6 +63,26 @@ public class ItemVitaeLantern extends AOTDItem
 		}
 
 		return super.onItemRightClick(itemStack, world, entityPlayer);
+	}
+
+	/**
+	 * Current implementations of this method in child classes do not use the entry argument beside ev. They just raise the damage on the stack.
+	 * 
+	 * @param target
+	 *            The Entity being hit
+	 * @param attacker
+	 *            the attacking entity
+	 */
+	@Override
+	public boolean hitEntity(ItemStack itemStack, EntityLivingBase target, EntityLivingBase attacker)
+	{
+		if (NBTHelper.getInt(itemStack, "storedVitae") >= 5)
+		{
+			int vitaeToTransfer = attacker.worldObj.rand.nextInt(5) + 1;
+			this.addVitae(itemStack, -vitaeToTransfer);
+			Vitae.addVitae(target, vitaeToTransfer, null);
+		}
+		return true;
 	}
 
 	/**

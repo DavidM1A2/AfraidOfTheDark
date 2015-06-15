@@ -16,7 +16,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateVitae;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 //This property is saved on ENTITIES and keeps track of their vitae levels
 public class Vitae implements IExtendedEntityProperties
@@ -72,7 +71,8 @@ public class Vitae implements IExtendedEntityProperties
 	{
 		if (Vitae.get(entityLivingBase) + additionalVitae > Constants.entityVitaeResistance.get(entityLivingBase.getClass()))
 		{
-			LogHelper.info("Kaboom");
+			entityLivingBase.worldObj.createExplosion(entityLivingBase, entityLivingBase.getPosition().getX(), entityLivingBase.getPosition().getY(), entityLivingBase.getPosition().getZ(), 2, true).doExplosionB(true);
+			entityLivingBase.setDead();
 		}
 		else
 		{
