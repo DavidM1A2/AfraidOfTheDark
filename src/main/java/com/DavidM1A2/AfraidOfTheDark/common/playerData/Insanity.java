@@ -57,15 +57,14 @@ public class Insanity implements IExtendedEntityProperties
 		// if the player has begun the mod we can change his insanity
 		if (HasStartedAOTD.get(myPlayer))
 		{
+			final NBTTagCompound compound = myPlayer.getEntityData();
 			if (amount > 0)
 			{
-				final NBTTagCompound compound = myPlayer.getEntityData();
 				compound.setDouble(Insanity.PLAYER_INSANITY, Math.min(100.0, Insanity.get(myPlayer) + amount));
 				Insanity.updateClientSideInsanity(myPlayer);
 			}
 			else
 			{
-				final NBTTagCompound compound = myPlayer.getEntityData();
 				compound.setDouble(Insanity.PLAYER_INSANITY, Math.max(0, Insanity.get(myPlayer) + amount));
 				Insanity.updateClientSideInsanity(myPlayer);
 			}

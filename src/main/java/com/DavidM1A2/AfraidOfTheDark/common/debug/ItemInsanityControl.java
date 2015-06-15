@@ -42,12 +42,12 @@ public class ItemInsanityControl extends AOTDItem
 			}
 			else if (myPlayer.isSneaking() && myPlayer.onGround)
 			{
-				Vitae.set(myPlayer, Vitae.get(myPlayer) + 5, Side.SERVER);
+				Vitae.addVitae(myPlayer, 5, Side.SERVER);
 				LogHelper.info("Vitae Level = " + Vitae.get(myPlayer));
 			}
 			else
 			{
-				Vitae.set(myPlayer, Vitae.get(myPlayer) - 5, Side.SERVER);
+				Vitae.addVitae(myPlayer, -5, Side.SERVER);
 				LogHelper.info("Vitae Level = " + Vitae.get(myPlayer));
 			}
 		}

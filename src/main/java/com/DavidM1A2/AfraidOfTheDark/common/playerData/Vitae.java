@@ -15,6 +15,8 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateVitae;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 //This property is saved on ENTITIES and keeps track of their vitae levels
 public class Vitae implements IExtendedEntityProperties
@@ -60,9 +62,37 @@ public class Vitae implements IExtendedEntityProperties
 		{
 			AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateVitae(Vitae.get(entityLivingBase), entityLivingBase.getEntityId()));
 		}
-		else
+		else if (side == side.SERVER)
 		{
 			AfraidOfTheDark.getSimpleNetworkWrapper().sendToAll(new UpdateVitae(Vitae.get(entityLivingBase), entityLivingBase.getEntityId()));
+		}
+	}
+
+	public static void addVitae(final EntityLivingBase entityLivingBase, final int additionalVitae, final Side side)
+	{
+		if (Vitae.get(entityLivingBase) + additionalVitae > Constants.entityVitaeResistance.get(entityLivingBase.getClass()))
+		{
+			LogHelper.info("Kaboom");
+		}
+		else
+		{
+			if (Vitae.get(entityLivingBase) + additionalVitae < 0)
+			{
+				entityLivingBase.getEntityData().setInteger(Vitae.VITAE_LEVEL, 0);
+			}
+			else
+			{
+				entityLivingBase.getEntityData().setInteger(Vitae.VITAE_LEVEL, Vitae.get(entityLivingBase) + additionalVitae);
+			}
+
+			if (side == Side.CLIENT)
+			{
+				AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateVitae(Vitae.get(entityLivingBase), entityLivingBase.getEntityId()));
+			}
+			else if (side == side.SERVER)
+			{
+				AfraidOfTheDark.getSimpleNetworkWrapper().sendToAll(new UpdateVitae(Vitae.get(entityLivingBase), entityLivingBase.getEntityId()));
+			}
 		}
 	}
 }

@@ -1,6 +1,44 @@
 package com.DavidM1A2.AfraidOfTheDark.common.refrence;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import net.minecraft.client.entity.EntityOtherPlayerMP;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.boss.EntityDragon;
+import net.minecraft.entity.boss.EntityWither;
+import net.minecraft.entity.monster.EntityBlaze;
+import net.minecraft.entity.monster.EntityCaveSpider;
+import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.monster.EntityEnderman;
+import net.minecraft.entity.monster.EntityEndermite;
+import net.minecraft.entity.monster.EntityGhast;
+import net.minecraft.entity.monster.EntityGuardian;
+import net.minecraft.entity.monster.EntityIronGolem;
+import net.minecraft.entity.monster.EntityMagmaCube;
+import net.minecraft.entity.monster.EntityPigZombie;
+import net.minecraft.entity.monster.EntitySilverfish;
+import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.EntitySlime;
+import net.minecraft.entity.monster.EntitySnowman;
+import net.minecraft.entity.monster.EntitySpider;
+import net.minecraft.entity.monster.EntityWitch;
+import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.passive.EntityBat;
+import net.minecraft.entity.passive.EntityChicken;
+import net.minecraft.entity.passive.EntityCow;
+import net.minecraft.entity.passive.EntityHorse;
+import net.minecraft.entity.passive.EntityMooshroom;
+import net.minecraft.entity.passive.EntityOcelot;
+import net.minecraft.entity.passive.EntityPig;
+import net.minecraft.entity.passive.EntityRabbit;
+import net.minecraft.entity.passive.EntitySheep;
+import net.minecraft.entity.passive.EntitySquid;
+import net.minecraft.entity.passive.EntityVillager;
+import net.minecraft.entity.passive.EntityWolf;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
@@ -8,6 +46,7 @@ import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.util.EnumHelper;
 
+import com.DavidM1A2.AfraidOfTheDark.common.entities.WereWolf.EntityWereWolf;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.Schematic;
@@ -16,6 +55,48 @@ import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicLoader;
 
 public final class Constants
 {
+	public static Map<Class, Integer> entityVitaeResistance = new HashMap<Class, Integer>();
+
+	static
+	{
+		entityVitaeResistance.put(EntityPlayer.class, 100);
+		entityVitaeResistance.put(EntityPlayerMP.class, 100);
+		entityVitaeResistance.put(EntityPlayerSP.class, 100);
+		entityVitaeResistance.put(EntityOtherPlayerMP.class, 100);
+		entityVitaeResistance.put(EntityBat.class, 5);
+		entityVitaeResistance.put(EntityChicken.class, 10);
+		entityVitaeResistance.put(EntityCow.class, 50);
+		entityVitaeResistance.put(EntityMooshroom.class, 50);
+		entityVitaeResistance.put(EntityPig.class, 40);
+		entityVitaeResistance.put(EntityRabbit.class, 5);
+		entityVitaeResistance.put(EntitySheep.class, 40);
+		entityVitaeResistance.put(EntitySquid.class, 30);
+		entityVitaeResistance.put(EntityVillager.class, 100);
+		entityVitaeResistance.put(EntityCaveSpider.class, 90);
+		entityVitaeResistance.put(EntityEnderman.class, 105);
+		entityVitaeResistance.put(EntitySpider.class, 60);
+		entityVitaeResistance.put(EntityPigZombie.class, 100);
+		entityVitaeResistance.put(EntityBlaze.class, 100);
+		entityVitaeResistance.put(EntityCreeper.class, 100);
+		entityVitaeResistance.put(EntityGuardian.class, 150);
+		entityVitaeResistance.put(EntityEndermite.class, 4);
+		entityVitaeResistance.put(EntityGhast.class, 115);
+		entityVitaeResistance.put(EntityMagmaCube.class, 60);
+		entityVitaeResistance.put(EntitySilverfish.class, 25);
+		entityVitaeResistance.put(EntitySkeleton.class, 100);
+		entityVitaeResistance.put(EntitySlime.class, 85);
+		entityVitaeResistance.put(EntityWitch.class, 100);
+		entityVitaeResistance.put(EntityZombie.class, 100);
+		entityVitaeResistance.put(EntityHorse.class, 50);
+		entityVitaeResistance.put(EntityOcelot.class, 25);
+		entityVitaeResistance.put(EntityWolf.class, 70);
+		entityVitaeResistance.put(EntityIronGolem.class, 190);
+		entityVitaeResistance.put(EntitySnowman.class, 15);
+		entityVitaeResistance.put(EntityDragon.class, 300);
+		entityVitaeResistance.put(EntityWither.class, 300);
+		entityVitaeResistance.put(EntityWereWolf.class, 120);
+	}
+
 	public static final class Packets
 	{
 		// Packet ids
