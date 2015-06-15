@@ -19,6 +19,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 public class ItemVitaeLantern extends AOTDItem
@@ -66,22 +67,41 @@ public class ItemVitaeLantern extends AOTDItem
 	}
 
 	/**
-	 * Current implementations of this method in child classes do not use the entry argument beside ev. They just raise the damage on the stack.
-	 * 
-	 * @param target
-	 *            The Entity being hit
-	 * @param attacker
-	 *            the attacking entity
+	 * Called when the player Left Clicks (attacks) an entity. Processed before damage is done, if return value is true further processing is canceled
+	 * and the entity is not attacked.
+	 *
+	 * @param stack
+	 *            The Item being used
+	 * @param player
+	 *            The player that is attacking
+	 * @param entity
+	 *            The entity being attacked
+	 * @return True to cancel the rest of the interaction.
 	 */
 	@Override
-	public boolean hitEntity(ItemStack itemStack, EntityLivingBase target, EntityLivingBase attacker)
+	public boolean onLeftClickEntity(ItemStack itemStack, EntityPlayer entityPlayer, Entity entity)
 	{
-		if (NBTHelper.getInt(itemStack, "storedVitae") >= 5)
+		if (entity instanceof EntityLivingBase)
 		{
-			int vitaeToTransfer = attacker.worldObj.rand.nextInt(5) + 1;
-			this.addVitae(itemStack, -vitaeToTransfer);
-			Vitae.addVitae(target, vitaeToTransfer, null);
+			EntityLivingBase entityLivingBase = (EntityLivingBase) entity;
+
+			if (!entityPlayer.worldObj.isRemote)
+			{
+				if (NBTHelper.getInt(itemStack, "storedVitae") >= 5)
+				{
+					int vitaeToTransfer = entityPlayer.worldObj.rand.nextInt(5) + 1;
+					this.addVitae(itemStack, -vitaeToTransfer);
+					Vitae.addVitae(entityLivingBase, vitaeToTransfer, Side.SERVER);
+				}
+				else if (NBTHelper.getInt(itemStack, "storedVitae") > 0)
+				{
+					int vitaeToTransfer = NBTHelper.getInt(itemStack, "storedVitae");
+					this.addVitae(itemStack, -vitaeToTransfer);
+					Vitae.addVitae(entityLivingBase, vitaeToTransfer, Side.SERVER);
+				}
+			}
 		}
+
 		return true;
 	}
 
@@ -147,18 +167,21 @@ public class ItemVitaeLantern extends AOTDItem
 	private void approachEqualibrium(ItemStack itemStack, EntityPlayer entityPlayer, int equalibrium)
 	{
 		int currentVitae = Vitae.get(entityPlayer);
-		if (currentVitae > equalibrium)
+		LogHelper.info("Current vitae = " + currentVitae);
+		LogHelper.info("Equalibrium vitae = " + equalibrium);
+
+		if (Math.abs(currentVitae - equalibrium) <= 5)
 		{
-			if (addVitae(itemStack, 5))
+			if (addVitae(itemStack, currentVitae - equalibrium))
 			{
-				Vitae.addVitae(entityPlayer, -5, Side.SERVER);
+				Vitae.addVitae(entityPlayer, -(currentVitae - equalibrium), Side.SERVER);
 			}
 		}
-		else if (currentVitae < equalibrium)
+		else
 		{
-			if (addVitae(itemStack, -5))
+			if (addVitae(itemStack, currentVitae > equalibrium ? 5 : -5))
 			{
-				Vitae.addVitae(entityPlayer, 5, Side.SERVER);
+				Vitae.addVitae(entityPlayer, currentVitae > equalibrium ? -5 : 5, Side.SERVER);
 			}
 		}
 	}
