@@ -13,11 +13,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
 
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 public class ItemVitaeLantern extends AOTDItem
@@ -45,6 +45,13 @@ public class ItemVitaeLantern extends AOTDItem
 			}
 			else
 			{
+				for (ItemStack itemStackCurrent : entityPlayer.inventory.mainInventory)
+				{
+					if (itemStackCurrent.getItem() != null && itemStackCurrent.getItem() instanceof ItemVitaeLantern)
+					{
+						NBTHelper.setBoolean(itemStackCurrent, "isActive", false);
+					}
+				}
 				NBTHelper.setBoolean(itemStack, "isActive", true);
 			}
 		}
@@ -58,62 +65,79 @@ public class ItemVitaeLantern extends AOTDItem
 	}
 
 	/**
+	 * Called when a player drops the item into the world, returning false from this will prevent the item from being removed from the players
+	 * inventory and spawning in the world
+	 *
+	 * @param player
+	 *            The player that dropped the item
+	 * @param item
+	 *            The item stack, before the item is removed.
+	 */
+	@Override
+	public boolean onDroppedByPlayer(ItemStack itemStack, EntityPlayer entityPlayer)
+	{
+		NBTHelper.setBoolean(itemStack, "isActive", false);
+		return super.onDroppedByPlayer(itemStack, entityPlayer);
+	}
+
+	/**
 	 * Called each tick as long the item is on a player inventory. Uses by maps to check if is on a player hand and update it's contents.
 	 */
 	public void onUpdate(ItemStack itemStack, World world, Entity entity, int itemSlot, boolean isSelected)
 	{
-		if (ticksUpdated % UPDATE_FREQUENCY_IN_TICKS == 0)
+		if (!world.isRemote)
 		{
-			if (NBTHelper.getBoolean(itemStack, "isActive"))
+			if (ticksUpdated % UPDATE_FREQUENCY_IN_TICKS == 0)
 			{
-				if (entity instanceof EntityPlayer)
+				if (NBTHelper.getBoolean(itemStack, "isActive"))
 				{
-					EntityPlayer entityPlayer = (EntityPlayer) entity;
-					switch (this.currentState)
+					if (entity instanceof EntityPlayer)
 					{
-						case High:
-							approachEqualibrium(itemStack, entityPlayer, MathHelper.floor_double(Constants.entityVitaeResistance.get(EntityPlayer.class) * 0.90));
-							break;
-						case Low:
-							approachEqualibrium(itemStack, entityPlayer, MathHelper.floor_double(Constants.entityVitaeResistance.get(EntityPlayer.class) * 0.20));
-							break;
-						case Medium:
-							approachEqualibrium(itemStack, entityPlayer, MathHelper.floor_double(Constants.entityVitaeResistance.get(EntityPlayer.class) * 0.50));
-							break;
-						case None:
-							approachEqualibrium(itemStack, entityPlayer, 0);
-							break;
-						case Obnoxious:
-							approachEqualibrium(itemStack, entityPlayer, MathHelper.floor_double(Constants.entityVitaeResistance.get(EntityPlayer.class) * 0.99));
-							break;
+						EntityPlayer entityPlayer = (EntityPlayer) entity;
+						switch (this.currentState)
+						{
+							case High:
+								approachEqualibrium(itemStack, entityPlayer, MathHelper.floor_double(Constants.entityVitaeResistance.get(EntityPlayer.class) * 0.90));
+								break;
+							case Low:
+								approachEqualibrium(itemStack, entityPlayer, MathHelper.floor_double(Constants.entityVitaeResistance.get(EntityPlayer.class) * 0.20));
+								break;
+							case Medium:
+								approachEqualibrium(itemStack, entityPlayer, MathHelper.floor_double(Constants.entityVitaeResistance.get(EntityPlayer.class) * 0.50));
+								break;
+							case None:
+								approachEqualibrium(itemStack, entityPlayer, 0);
+								break;
+							case Obnoxious:
+								approachEqualibrium(itemStack, entityPlayer, MathHelper.floor_double(Constants.entityVitaeResistance.get(EntityPlayer.class) * 0.99));
+								break;
+						}
 					}
 				}
+				ticksUpdated = 1;
 			}
-			ticksUpdated = 1;
-		}
-		else
-		{
-			ticksUpdated = ticksUpdated + 1;
+			else
+			{
+				ticksUpdated = ticksUpdated + 1;
+			}
 		}
 	}
 
 	private void approachEqualibrium(ItemStack itemStack, EntityPlayer entityPlayer, int equalibrium)
 	{
 		int currentVitae = Vitae.get(entityPlayer);
-		LogHelper.info(currentVitae);
-		LogHelper.info(equalibrium);
 		if (currentVitae > equalibrium)
 		{
 			if (addVitae(itemStack, 5))
 			{
-				Vitae.addVitae(entityPlayer, -5, null);
+				Vitae.addVitae(entityPlayer, -5, Side.SERVER);
 			}
 		}
 		else if (currentVitae < equalibrium)
 		{
 			if (addVitae(itemStack, -5))
 			{
-				Vitae.addVitae(entityPlayer, 5, null);
+				Vitae.addVitae(entityPlayer, 5, Side.SERVER);
 			}
 		}
 	}
@@ -175,7 +199,7 @@ public class ItemVitaeLantern extends AOTDItem
 	 */
 	public double getDurabilityForDisplay(ItemStack stack)
 	{
-		return (double) NBTHelper.getInt(stack, "storedVitae") / (double) this.VITAE_CAPACITY;
+		return 1 - (double) NBTHelper.getInt(stack, "storedVitae") / (double) this.VITAE_CAPACITY;
 	}
 
 	public enum LanternStates
