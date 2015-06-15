@@ -8,6 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.playerData;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityArmorStand;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
@@ -69,6 +70,13 @@ public class Vitae implements IExtendedEntityProperties
 
 	public static void addVitae(final EntityLivingBase entityLivingBase, final int additionalVitae, final Side side)
 	{
+		if (entityLivingBase instanceof EntityPlayer)
+		{
+			if (((EntityPlayer) entityLivingBase).capabilities.isCreativeMode)
+			{
+				return;
+			}
+		}
 		if (Vitae.get(entityLivingBase) + additionalVitae > Constants.entityVitaeResistance.get(entityLivingBase.getClass()))
 		{
 			entityLivingBase.worldObj.createExplosion(entityLivingBase, entityLivingBase.getPosition().getX(), entityLivingBase.getPosition().getY(), entityLivingBase.getPosition().getZ(), 2, true).doExplosionB(true);
