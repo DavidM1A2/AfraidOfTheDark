@@ -40,7 +40,7 @@ public class BlockSunstoneOre extends AOTDBlock
 	@Override
 	public Item getItemDropped(final IBlockState state, final Random rand, final int fortune)
 	{
-		return ModItems.sunstoneIngot;
+		return ModItems.sunstoneFragment;
 	}
 
 	@Override

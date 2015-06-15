@@ -7,11 +7,11 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
 
-public class ItemSunstone extends AOTDItem
+public class ItemSunstoneFragment extends AOTDItem
 {
-	public ItemSunstone()
+	public ItemSunstoneFragment()
 	{
 		super();
-		this.setUnlocalizedName("sunstoneIngot");
+		this.setUnlocalizedName("sunstoneFragment");
 	}
 }

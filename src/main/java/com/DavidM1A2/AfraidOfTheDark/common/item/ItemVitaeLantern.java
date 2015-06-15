@@ -10,16 +10,13 @@ import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 public class ItemVitaeLantern extends AOTDItem
 {
-	private static final int MAX_VITAE = 100;
+	private static final int VITAE_CAPACITY = 300;
 
 	public ItemVitaeLantern()
 	{
@@ -31,27 +28,47 @@ public class ItemVitaeLantern extends AOTDItem
 	@Override
 	public ItemStack onItemRightClick(final ItemStack itemStack, final World world, final EntityPlayer entityPlayer)
 	{
-		if (Vitae.get(entityPlayer) > 5 && NBTHelper.getInt(itemStack, "vitaeLevel") + 5 <= MAX_VITAE && !entityPlayer.isSneaking())
+		if (NBTHelper.getBoolean(itemStack, "isActive"))
 		{
-			NBTHelper.setInteger(itemStack, "vitaeLevel", NBTHelper.getInt(itemStack, "vitaeLevel") + 5);
-			Vitae.set(entityPlayer, Vitae.get(entityPlayer) - 5, world.isRemote ? Side.CLIENT : Side.SERVER);
+			NBTHelper.setBoolean(itemStack, "isActive", false);
+		}
+		else
+		{
+			NBTHelper.setBoolean(itemStack, "isActive", true);
 		}
 
 		return super.onItemRightClick(itemStack, world, entityPlayer);
 	}
 
-	/**
-	 * allows items to add custom lines of information to the mouseover description
-	 *
-	 * @param tooltip
-	 *            All lines to display in the Item's tooltip. This is a List of Strings.
-	 * @param advanced
-	 *            Whether the setting "Advanced tooltips" is enabled
-	 */
+	// A message under the bow will tell us what type of arrows the bow will fire
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void addInformation(final ItemStack stack, final EntityPlayer playerIn, final List tooltip, final boolean advanced)
+	public void addInformation(final ItemStack itemStack, final EntityPlayer entityPlayer, final List list, final boolean bool)
 	{
-		tooltip.add("Stored Vitae: " + NBTHelper.getInt(stack, "vitaeLevel"));
+		list.add("Lantern is active? " + NBTHelper.getBoolean(itemStack, "isActive"));
+	}
+
+	/**
+	 * Determines if the durability bar should be rendered for this item. Defaults to vanilla stack.isDamaged behavior. But modders can use this for
+	 * any data they wish.
+	 *
+	 * @param stack
+	 *            The current Item Stack
+	 * @return True if it should render the 'durability' bar.
+	 */
+	public boolean showDurabilityBar(ItemStack stack)
+	{
+		return true;
+	}
+
+	/**
+	 * Queries the percentage of the 'Durability' bar that should be drawn.
+	 *
+	 * @param stack
+	 *            The current ItemStack
+	 * @return 1.0 for 100% 0 for 0%
+	 */
+	public double getDurabilityForDisplay(ItemStack stack)
+	{
+		return (double) this.VITAE_CAPACITY / NBTHelper.getInt(stack, "storedVitae");
 	}
 }
