@@ -24,7 +24,7 @@ public class ItemVitaeLantern extends AOTDItem
 {
 	private static final int VITAE_CAPACITY = 300;
 	private int ticksUpdated = 0;
-	private final int UPDATE_FREQUENCY_IN_TICKS = 40;
+	private final int UPDATE_FREQUENCY_IN_TICKS = 80;
 
 	public ItemVitaeLantern()
 	{
