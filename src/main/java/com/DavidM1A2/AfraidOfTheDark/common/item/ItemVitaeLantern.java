@@ -25,6 +25,7 @@ public class ItemVitaeLantern extends AOTDItem
 	private static final int VITAE_CAPACITY = 300;
 	private int ticksUpdated = 0;
 	private final int UPDATE_FREQUENCY_IN_TICKS = 80;
+	public static final String STORED_VITAE = "storedVitae";
 
 	public ItemVitaeLantern()
 	{
@@ -76,15 +77,15 @@ public class ItemVitaeLantern extends AOTDItem
 
 			if (!entityPlayer.worldObj.isRemote)
 			{
-				if (NBTHelper.getInt(itemStack, "storedVitae") >= 5)
+				if (NBTHelper.getInt(itemStack, STORED_VITAE) >= 5)
 				{
 					int vitaeToTransfer = entityPlayer.worldObj.rand.nextInt(5) + 1;
 					this.addVitae(itemStack, -vitaeToTransfer);
 					Vitae.addVitae(entityLivingBase, vitaeToTransfer, Side.SERVER);
 				}
-				else if (NBTHelper.getInt(itemStack, "storedVitae") > 0)
+				else if (NBTHelper.getInt(itemStack, STORED_VITAE) > 0)
 				{
-					int vitaeToTransfer = NBTHelper.getInt(itemStack, "storedVitae");
+					int vitaeToTransfer = NBTHelper.getInt(itemStack, STORED_VITAE);
 					this.addVitae(itemStack, -vitaeToTransfer);
 					Vitae.addVitae(entityLivingBase, vitaeToTransfer, Side.SERVER);
 				}
@@ -165,17 +166,17 @@ public class ItemVitaeLantern extends AOTDItem
 
 	private boolean addVitae(ItemStack itemStack, int amount)
 	{
-		if (NBTHelper.getInt(itemStack, "storedVitae") + amount > this.VITAE_CAPACITY)
+		if (NBTHelper.getInt(itemStack, STORED_VITAE) + amount > this.VITAE_CAPACITY)
 		{
 			return false;
 		}
-		else if (NBTHelper.getInt(itemStack, "storedVitae") + amount < 0)
+		else if (NBTHelper.getInt(itemStack, STORED_VITAE) + amount < 0)
 		{
 			return false;
 		}
 		else
 		{
-			NBTHelper.setInteger(itemStack, "storedVitae", NBTHelper.getInt(itemStack, "storedVitae") + amount);
+			NBTHelper.setInteger(itemStack, STORED_VITAE, NBTHelper.getInt(itemStack, STORED_VITAE) + amount);
 			return true;
 		}
 	}
@@ -186,7 +187,7 @@ public class ItemVitaeLantern extends AOTDItem
 	{
 		list.add("Lantern is active? " + NBTHelper.getBoolean(itemStack, "isActive"));
 		list.add("Lantern state: " + NBTHelper.getDouble(itemStack, "equalibriumPercentage") * 100 + "%");
-		list.add("Stored vitae: " + NBTHelper.getInt(itemStack, "storedVitae"));
+		list.add("Stored vitae: " + NBTHelper.getInt(itemStack, STORED_VITAE));
 	}
 
 	/**
@@ -211,6 +212,6 @@ public class ItemVitaeLantern extends AOTDItem
 	 */
 	public double getDurabilityForDisplay(ItemStack stack)
 	{
-		return 1 - (double) NBTHelper.getInt(stack, "storedVitae") / (double) this.VITAE_CAPACITY;
+		return 1 - (double) NBTHelper.getInt(stack, STORED_VITAE) / (double) this.VITAE_CAPACITY;
 	}
 }

@@ -128,6 +128,12 @@ public final class Constants
 		public static final DamageSource silverWeapon = new DamageSource("silverWeapon");
 	}
 
+	public static final class NightmareWorld
+	{
+		public static final String NIGHTMARE_WORLD_NAME = "";
+		public static final int NIGHTMARE_WORLD_ID = 67;
+	}
+
 	public static final class AOTDSchematics
 	{
 		public static final Schematic treeSmall;

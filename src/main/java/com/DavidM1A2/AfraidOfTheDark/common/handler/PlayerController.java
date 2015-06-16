@@ -31,6 +31,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.playerData.Insanity;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ClientData;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.threads.DelayedAOTDUpdate;
 import com.DavidM1A2.AfraidOfTheDark.common.threads.DelayedInsanityUpdate;
 import com.DavidM1A2.AfraidOfTheDark.common.threads.DelayedResearchUpdate;
@@ -63,7 +64,7 @@ public class PlayerController
 	@SubscribeEvent
 	public void renderEvent(final FogDensity event)
 	{
-		if (event.entity instanceof EntityPlayer)
+		if (event.entity instanceof EntityPlayer && event.entity.dimension == 0)
 		{
 			final EntityPlayer entityPlayer = (EntityPlayer) event.entity;
 
@@ -165,9 +166,15 @@ public class PlayerController
 	@SubscribeEvent
 	public void onPlayerSleepInBedEvent(PlayerSleepInBedEvent event)
 	{
-		if (event.entityPlayer.getActivePotionEffect(ModPotionEffects.sleepingPotion) != null)
+		if (!event.entityPlayer.worldObj.isRemote)
 		{
-
+			if (event.entityPlayer.getActivePotionEffect(ModPotionEffects.sleepingPotion) != null)
+			{
+				if (LoadResearchData.canResearch(event.entityPlayer, ResearchTypes.Nightmares))
+				{
+					LoadResearchData.unlockResearchSynced(event.entityPlayer, ResearchTypes.Nightmares, Side.SERVER, true);
+				}
+			}
 		}
 	}
 

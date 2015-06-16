@@ -1,8 +1,3 @@
-/*
- * Author: David Slovikosky
- * Mod: Afraid of the Dark
- * Ideas and Textures: Michael Albertson
- */
 package com.DavidM1A2.AfraidOfTheDark.common.commands;
 
 import java.util.ArrayList;
@@ -12,22 +7,19 @@ import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
 
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Insanity;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 
-public class InsanityCheck implements ICommand
+public class TPDimension implements ICommand
 {
 	private final List aliases;
 
-	public InsanityCheck()
+	public TPDimension()
 	{
 		// Aliases aka command (/debug or /d)
 		this.aliases = new ArrayList();
-		this.aliases.add("debug");
-		this.aliases.add("d");
+		this.aliases.add("debugTP");
+		this.aliases.add("dTP");
 	}
 
 	// No idea what this does
@@ -41,14 +33,14 @@ public class InsanityCheck implements ICommand
 	@Override
 	public String getCommandName()
 	{
-		return "debug";
+		return "debugTP";
 	}
 
 	// How do i use the command?
 	@Override
 	public String getCommandUsage(final ICommandSender iCommandSender)
 	{
-		return "debug";
+		return "debugTP";
 	}
 
 	// Aliases of the command
@@ -63,11 +55,14 @@ public class InsanityCheck implements ICommand
 	public void processCommand(final ICommandSender iCommandSender, final String[] p_71515_2_)
 	{
 		final EntityPlayer sender = (EntityPlayer) iCommandSender.getCommandSenderEntity();
-		iCommandSender.addChatMessage(new ChatComponentText("Your current insanity is: " + Insanity.get(sender) + "%"));
-		iCommandSender.addChatMessage(new ChatComponentText("Your current has started AOTD status is: " + HasStartedAOTD.get(sender)));
-		iCommandSender.addChatMessage(new ChatComponentText("Current Vitae level is: " + Vitae.get(sender)));
-		iCommandSender.addChatMessage(new ChatComponentText("Current dimension is: " + sender.dimension));
-		iCommandSender.addChatMessage(new ChatComponentText("Current dimension is: " + sender.worldObj.getWorldInfo().getGeneratorOptions()));
+		if (sender.dimension == 0)
+		{
+			sender.travelToDimension(Constants.NightmareWorld.NIGHTMARE_WORLD_ID);
+		}
+		else
+		{
+			sender.travelToDimension(0);
+		}
 	}
 
 	@Override

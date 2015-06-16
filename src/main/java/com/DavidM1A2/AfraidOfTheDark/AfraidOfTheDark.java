@@ -23,6 +23,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.ResearchAchieved;
 import com.DavidM1A2.AfraidOfTheDark.common.commands.InsanityCheck;
+import com.DavidM1A2.AfraidOfTheDark.common.commands.TPDimension;
 import com.DavidM1A2.AfraidOfTheDark.common.debug.DebugSpammer;
 import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.handler.KeyInputEventHandler;
@@ -30,6 +31,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.handler.PlayerController;
 import com.DavidM1A2.AfraidOfTheDark.common.handler.WorldEvents;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBiomes;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModDimensions;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModEntities;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModFurnaceRecipies;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModGeneration;
@@ -94,6 +96,8 @@ public class AfraidOfTheDark
 		ModGeneration.initialize();
 		// Initialize furnace recipes
 		ModFurnaceRecipies.initialize();
+		// Initialize dimensions
+		ModDimensions.intialize();
 		// Initialize mod biomes
 		ModBiomes.initialize();
 		// Initialize the ORE-Dictionary compatability
@@ -160,6 +164,7 @@ public class AfraidOfTheDark
 	{
 		// Register any player commands
 		event.registerServerCommand(new InsanityCheck());
+		event.registerServerCommand(new TPDimension());
 	}
 
 	/**

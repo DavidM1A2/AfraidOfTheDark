@@ -52,9 +52,9 @@ public class BlockTileEntitySpring extends AOTDTileEntity implements IUpdatePlay
 									ItemStack current = (ItemStack) stack;
 									if (current.getItem() instanceof ItemVitaeLantern)
 									{
-										if (NBTHelper.getInt(current, "vitaeLevel") == 0)
+										if (NBTHelper.getInt(current, ItemVitaeLantern.STORED_VITAE) == 0)
 										{
-											NBTHelper.setInteger(current, "vitaeLevel", 10);
+											NBTHelper.setInteger(current, ItemVitaeLantern.STORED_VITAE, 10);
 										}
 									}
 								}

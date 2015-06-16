@@ -73,7 +73,7 @@ public class Vitae implements IExtendedEntityProperties
 		if (Vitae.get(entityLivingBase) + additionalVitae > Constants.entityVitaeResistance.get(entityLivingBase.getClass()) && !(entityLivingBase instanceof EntityPlayer && ((EntityPlayer) entityLivingBase).capabilities.isCreativeMode))
 		{
 			entityLivingBase.worldObj.createExplosion(entityLivingBase, entityLivingBase.getPosition().getX(), entityLivingBase.getPosition().getY(), entityLivingBase.getPosition().getZ(), 2, true).doExplosionB(true);
-			entityLivingBase.setDead();
+			entityLivingBase.killCommand();
 		}
 		else
 		{

@@ -60,6 +60,7 @@ itemGroup.afraidofthedark=Afraid of the Dark
 keys.afraidofthedark.category=Afraid of the Dark
 keys.afraidofthedark.rollWithCloakOfAgility=Roll with Cloak of Agility
 keys.afraidofthedark.fireWristCrossbow=Fire Wrist Crossbow
+keys.afraidofthedark.changeLanternMode=Change Lantern Mode
 
 # Mobs
 entity.AfraidOfTheDark.Werewolf.name=Werewolf

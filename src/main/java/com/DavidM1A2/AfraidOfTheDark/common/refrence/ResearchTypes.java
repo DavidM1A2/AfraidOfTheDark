@@ -28,9 +28,10 @@ public enum ResearchTypes
 	VitaeLanternI(VitaeI, -2, 3),
 	DarkForest(AstralSilver, 0, 4),
 	CloakOfAgility(WerewolfExamination, -1, 2),
-	AstronomyII(DarkForest, 0, 5),
-	IgneousArmor(AstronomyII, -1, 5),
-	StarMetal(AstronomyII, 1, 5);
+	Nightmares(DarkForest, 0, 5),
+	AstronomyII(Nightmares, 0, 6),
+	IgneousArmor(AstronomyII, -1, 6),
+	StarMetal(AstronomyII, 1, 6);
 
 	private ResearchTypes previous = null;
 	private ResourceLocation icon = null;
