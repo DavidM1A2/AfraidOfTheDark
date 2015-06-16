@@ -13,5 +13,6 @@ public final class Names
 		public static final String CATEGORY = "keys.afraidofthedark.category";
 		public static final String ROLL_CLOAK_OF_AGILITY = "keys.afraidofthedark.rollWithCloakOfAgility";
 		public static final String FIRE_WRIST_CROSSBOW = "keys.afraidofthedark.fireWristCrossbow";
+		public static final String CHANGE_LANTERN_MODE = "keys.afraidofthedark.changeLanternMode";
 	}
 }

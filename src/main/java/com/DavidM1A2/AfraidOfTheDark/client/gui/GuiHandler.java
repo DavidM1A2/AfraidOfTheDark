@@ -17,6 +17,7 @@ public class GuiHandler implements IGuiHandler
 	public static final int BLOOD_STAINED_JOURNAL_PAGE_PRE_ID = 4;
 	public static final int TELESCOPE_ID = 5;
 	public static final int SEXTANT_ID = 6;
+	public static final int VITAE_LANTERN_ID = 7;
 
 	/*
 	 * Create GUIS
@@ -47,6 +48,8 @@ public class GuiHandler implements IGuiHandler
 				return new BloodStainedJournalPageGUI(ClientData.currentlySelected.getResearchDescription(), ClientData.currentlySelected.formattedString());
 			case GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_PRE_ID:
 				return new BloodStainedJournalPageGUI(ClientData.currentlySelected.getPreResearchDescription(), "???");
+			case GuiHandler.VITAE_LANTERN_ID:
+				return new VitaeLanternGUI();
 		}
 		return null;
 	}

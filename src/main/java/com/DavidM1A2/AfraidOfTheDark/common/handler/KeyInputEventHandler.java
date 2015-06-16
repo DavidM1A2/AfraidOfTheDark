@@ -14,6 +14,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.Keybindings;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemCloakOfAgility;
@@ -21,10 +22,13 @@ import com.DavidM1A2.AfraidOfTheDark.common.item.crossbow.ItemWristCrossbow;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.FireCrossbowBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ClientData;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 public class KeyInputEventHandler
 {
+	public boolean changeLanternModeActive = false;
+
 	@SubscribeEvent
 	public void handleKeyInputEvent(final InputEvent.KeyInputEvent event)
 	{
@@ -32,9 +36,14 @@ public class KeyInputEventHandler
 		{
 			this.rollWithCloakOfAgility();
 		}
-		else if (Keybindings.fireWristCrossbow.isPressed())
+		if (Keybindings.fireWristCrossbow.isPressed())
 		{
 			this.fireWristCrossbow();
+		}
+		if (Keybindings.changeLanternMode.isPressed())
+		{
+			EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
+			entityPlayer.openGui(Refrence.MOD_ID, GuiHandler.VITAE_LANTERN_ID, entityPlayer.worldObj, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ());
 		}
 	}
 
