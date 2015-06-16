@@ -63,8 +63,11 @@ public class UpdateVitae implements IMessage
 		@Override
 		public IMessage onMessage(final UpdateVitae message, final MessageContext ctx)
 		{
-			LogHelper.info("Update Vitae Status: " + message.vitaeLevel + " on entity " + Minecraft.getMinecraft().thePlayer.worldObj.getEntityByID(message.entityIDToUpdate).getName());
-			Minecraft.getMinecraft().thePlayer.getEntityData().setInteger(Vitae.VITAE_LEVEL, message.vitaeLevel);
+			if (Minecraft.getMinecraft().thePlayer.getEntityId() == message.entityIDToUpdate)
+			{
+				LogHelper.info("Update Vitae Status: My player");
+				Minecraft.getMinecraft().thePlayer.getEntityData().setInteger(Vitae.VITAE_LEVEL, message.vitaeLevel);
+			}
 			return null;
 		}
 	}

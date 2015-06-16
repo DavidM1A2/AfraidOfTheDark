@@ -66,6 +66,10 @@ public class LoadResearchData implements IExtendedEntityProperties
 
 	public static final boolean isResearched(final EntityPlayer entityPlayer, final ResearchTypes type)
 	{
+		if (type == null)
+		{
+			return true;
+		}
 		return entityPlayer.getEntityData().getCompoundTag(LoadResearchData.RESEARCH_DATA).getBoolean(LoadResearchData.RESEARCH_DATA + type.toString());
 	}
 
