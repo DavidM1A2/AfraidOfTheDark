@@ -12,6 +12,8 @@ import java.io.InputStreamReader;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.Side;
 
 // All available researches
 public enum ResearchTypes
@@ -39,23 +41,26 @@ public enum ResearchTypes
 
 	private ResearchTypes(final ResearchTypes previous, final int x, final int y)
 	{
-		this.previous = previous;
-		this.x = x;
-		this.y = y;
-
-		this.icon = new ResourceLocation("afraidofthedark:textures/gui/researchIcons/" + this.toString() + ".png");
-
-		try
+		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
 		{
-			Minecraft.getMinecraft().getResourceManager().getResource(this.icon);
-		}
-		catch (IOException e)
-		{
-			this.icon = new ResourceLocation("afraidofthedark:textures/gui/researchIcons/None.png");
-		}
+			this.previous = previous;
+			this.x = x;
+			this.y = y;
 
-		this.researchDescription = loadResearchDescription("assets/afraidofthedark/researchNotes/" + this.toString() + ".txt");
-		this.preResearchDescription = loadResearchDescription("assets/afraidofthedark/researchNotes/" + this.toString() + "Pre.txt");
+			this.icon = new ResourceLocation("afraidofthedark:textures/gui/researchIcons/" + this.toString() + ".png");
+
+			try
+			{
+				Minecraft.getMinecraft().getResourceManager().getResource(this.icon);
+			}
+			catch (IOException e)
+			{
+				this.icon = new ResourceLocation("afraidofthedark:textures/gui/researchIcons/None.png");
+			}
+
+			this.researchDescription = loadResearchDescription("assets/afraidofthedark/researchNotes/" + this.toString() + ".txt");
+			this.preResearchDescription = loadResearchDescription("assets/afraidofthedark/researchNotes/" + this.toString() + "Pre.txt");
+		}
 	}
 
 	public String formattedString()
