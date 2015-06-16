@@ -72,7 +72,7 @@ public class UpdateLanternState implements IMessage
 					}
 				}
 			}
-			return new UpdateLanternState(message.lanternState);
+			return null;
 		}
 	}
 }

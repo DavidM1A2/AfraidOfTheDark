@@ -138,23 +138,26 @@ public class ItemVitaeLantern extends AOTDItem
 	{
 		int currentVitae = Vitae.get(entityPlayer);
 
-		if (Math.abs(currentVitae - equalibrium) <= 5)
+		if (equalibrium != currentVitae)
 		{
-			if (addVitae(itemStack, currentVitae - equalibrium))
+			if (Math.abs(currentVitae - equalibrium) <= 5)
 			{
-				if (!entityPlayer.worldObj.isRemote)
+				if (addVitae(itemStack, currentVitae - equalibrium))
 				{
-					Vitae.addVitae(entityPlayer, -(currentVitae - equalibrium), Side.SERVER);
+					if (!entityPlayer.worldObj.isRemote)
+					{
+						Vitae.addVitae(entityPlayer, -(currentVitae - equalibrium), Side.SERVER);
+					}
 				}
 			}
-		}
-		else
-		{
-			if (addVitae(itemStack, currentVitae > equalibrium ? 5 : -5))
+			else
 			{
-				if (!entityPlayer.worldObj.isRemote)
+				if (addVitae(itemStack, currentVitae > equalibrium ? 5 : -5))
 				{
-					Vitae.addVitae(entityPlayer, currentVitae > equalibrium ? -5 : 5, Side.SERVER);
+					if (!entityPlayer.worldObj.isRemote)
+					{
+						Vitae.addVitae(entityPlayer, currentVitae > equalibrium ? -5 : 5, Side.SERVER);
+					}
 				}
 			}
 		}

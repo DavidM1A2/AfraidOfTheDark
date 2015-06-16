@@ -70,14 +70,7 @@ public class Vitae implements IExtendedEntityProperties
 
 	public static void addVitae(final EntityLivingBase entityLivingBase, final int additionalVitae, final Side side)
 	{
-		if (entityLivingBase instanceof EntityPlayer)
-		{
-			if (((EntityPlayer) entityLivingBase).capabilities.isCreativeMode)
-			{
-				return;
-			}
-		}
-		if (Vitae.get(entityLivingBase) + additionalVitae > Constants.entityVitaeResistance.get(entityLivingBase.getClass()))
+		if (Vitae.get(entityLivingBase) + additionalVitae > Constants.entityVitaeResistance.get(entityLivingBase.getClass()) && !(entityLivingBase instanceof EntityPlayer && ((EntityPlayer) entityLivingBase).capabilities.isCreativeMode))
 		{
 			entityLivingBase.worldObj.createExplosion(entityLivingBase, entityLivingBase.getPosition().getX(), entityLivingBase.getPosition().getY(), entityLivingBase.getPosition().getZ(), 2, true).doExplosionB(true);
 			entityLivingBase.setDead();

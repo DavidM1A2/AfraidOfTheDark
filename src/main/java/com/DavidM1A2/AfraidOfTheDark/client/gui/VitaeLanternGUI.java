@@ -44,6 +44,8 @@ public class VitaeLanternGUI extends GuiScreen
 		double lanternState = angle / 360.0;
 
 		AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateLanternState(lanternState));
+
+		Minecraft.getMinecraft().thePlayer.closeScreen();
 	}
 
 	// To draw the screen we first draw the default GUI background, then the
