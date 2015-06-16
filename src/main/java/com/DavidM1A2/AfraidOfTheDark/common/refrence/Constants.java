@@ -3,8 +3,6 @@ package com.DavidM1A2.AfraidOfTheDark.common.refrence;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.minecraft.client.entity.EntityOtherPlayerMP;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.boss.EntityWither;
@@ -61,8 +59,6 @@ public final class Constants
 	{
 		entityVitaeResistance.put(EntityPlayer.class, 100);
 		entityVitaeResistance.put(EntityPlayerMP.class, 100);
-		entityVitaeResistance.put(EntityPlayerSP.class, 100);
-		entityVitaeResistance.put(EntityOtherPlayerMP.class, 100);
 		entityVitaeResistance.put(EntityBat.class, 5);
 		entityVitaeResistance.put(EntityChicken.class, 10);
 		entityVitaeResistance.put(EntityCow.class, 50);

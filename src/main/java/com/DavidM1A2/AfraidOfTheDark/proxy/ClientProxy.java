@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityOtherPlayerMP;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
@@ -95,5 +97,8 @@ public class ClientProxy extends CommonProxy
 		{
 			e.printStackTrace();
 		}
+
+		Constants.entityVitaeResistance.put(EntityPlayerSP.class, 100);
+		Constants.entityVitaeResistance.put(EntityOtherPlayerMP.class, 100);
 	}
 }
