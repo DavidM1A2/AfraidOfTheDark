@@ -1,24 +1,19 @@
-package yourModPackage.client.MCAClientLibrary;
+package com.DavidM1A2.AfraidOfTheDark.client.MCA.MCAClientLibrary;
 
 import java.nio.FloatBuffer;
-import java.util.ArrayList;
-
-import org.lwjgl.opengl.GL11;
-
-import yourModPackage.common.MCACommonLibrary.Utils;
-import yourModPackage.common.MCACommonLibrary.math.Matrix4f;
-import yourModPackage.common.MCACommonLibrary.math.Quaternion;
-import yourModPackage.common.MCACommonLibrary.math.Vector3f;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.model.TextureOffset;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.Tessellator;
+
+import org.lwjgl.opengl.GL11;
+
+import com.DavidM1A2.AfraidOfTheDark.common.MCA.MCACommonLibrary.Utils;
+import com.DavidM1A2.AfraidOfTheDark.common.MCA.MCACommonLibrary.math.Matrix4f;
+import com.DavidM1A2.AfraidOfTheDark.common.MCA.MCACommonLibrary.math.Quaternion;
+import com.DavidM1A2.AfraidOfTheDark.common.MCA.MCACommonLibrary.math.Vector3f;
 
 public class MCAModelRenderer extends ModelRenderer
 {
@@ -28,10 +23,10 @@ public class MCAModelRenderer extends ModelRenderer
 	/** Custom version, as parent variable is PRIVATE */
 	private int DDStextureOffsetY;
 
-	/** Custom version, as parent variable is PRIVATE */  
+	/** Custom version, as parent variable is PRIVATE */
 	private boolean DDScompiled;
 
-	/** Custom version, as parent variable is PRIVATE */ 
+	/** Custom version, as parent variable is PRIVATE */
 	private int DDSdisplayList;
 
 	private Matrix4f rotationMatrix = new Matrix4f();
@@ -109,7 +104,7 @@ public class MCAModelRenderer extends ModelRenderer
 						{
 							for (i = 0; i < this.childModels.size(); ++i)
 							{
-								((ModelRenderer)this.childModels.get(i)).render(par1);
+								((ModelRenderer) this.childModels.get(i)).render(par1);
 							}
 						}
 					}
@@ -123,7 +118,7 @@ public class MCAModelRenderer extends ModelRenderer
 						{
 							for (i = 0; i < this.childModels.size(); ++i)
 							{
-								((ModelRenderer)this.childModels.get(i)).render(par1);
+								((ModelRenderer) this.childModels.get(i)).render(par1);
 							}
 						}
 
@@ -144,7 +139,7 @@ public class MCAModelRenderer extends ModelRenderer
 					{
 						for (i = 0; i < this.childModels.size(); ++i)
 						{
-							((ModelRenderer)this.childModels.get(i)).render(par1);
+							((ModelRenderer) this.childModels.get(i)).render(par1);
 						}
 					}
 
@@ -203,15 +198,17 @@ public class MCAModelRenderer extends ModelRenderer
 		this.setRotationPoint(par1, par2, par3);
 	}
 
-	/** Set the rotation point*/
-	public void setRotationPoint(float par1, float par2, float par3) {
+	/** Set the rotation point */
+	public void setRotationPoint(float par1, float par2, float par3)
+	{
 		this.rotationPointX = par1;
 		this.rotationPointY = par2;
 		this.rotationPointZ = par3;
 	}
 
 	/** Reset the rotation point to the default values. */
-	public void resetRotationPoint(){
+	public void resetRotationPoint()
+	{
 		this.rotationPointX = this.defaultRotationPointX;
 		this.rotationPointY = this.defaultRotationPointY;
 		this.rotationPointZ = this.defaultRotationPointZ;
@@ -252,31 +249,33 @@ public class MCAModelRenderer extends ModelRenderer
 	}
 
 	/** Reset the rotation matrix to the default one. */
-	public void resetRotationMatrix() {
+	public void resetRotationMatrix()
+	{
 		setRotationMatrix(this.defaultRotationMatrix);
 	}
 
-	public Matrix4f getRotationMatrix() {
+	public Matrix4f getRotationMatrix()
+	{
 		return this.rotationMatrix;
 	}
 
-	public Quaternion getDefaultRotationAsQuaternion() {
+	public Quaternion getDefaultRotationAsQuaternion()
+	{
 		return defaultRotationAsQuaternion;
 	}
 
 	/**
-	 * Compiles a GL display list for this model.
-	 * EDITED VERSION BECAUSE OF THE PRIVATE FIELDS
+	 * Compiles a GL display list for this model. EDITED VERSION BECAUSE OF THE PRIVATE FIELDS
 	 */
 	public void DDScompileDisplayList(float par1)
 	{
 		this.DDSdisplayList = GLAllocation.generateDisplayLists(1);
 		GL11.glNewList(this.DDSdisplayList, GL11.GL_COMPILE);
-		Tessellator tessellator = Tessellator.instance;
+		Tessellator tessellator = Tessellator.getInstance();
 
 		for (int i = 0; i < this.cubeList.size(); ++i)
 		{
-			((ModelBox)this.cubeList.get(i)).render(tessellator, par1);
+			((ModelBox) this.cubeList.get(i)).render(tessellator.getWorldRenderer(), par1);
 		}
 
 		GL11.glEndList();

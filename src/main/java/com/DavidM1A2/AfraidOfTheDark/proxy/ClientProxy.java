@@ -26,6 +26,8 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityWoodenBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.IronBoltRender;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.SilverBoltRender;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.WoodenBoltRender;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.RenderDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.WereWolf.EntityWereWolf;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.WereWolf.ModelWereWolf;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.WereWolf.WereWolfRender;
@@ -72,6 +74,7 @@ public class ClientProxy extends CommonProxy
 		final RenderManager current = Minecraft.getMinecraft().getRenderManager();
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityWereWolf.class, new WereWolfRender(current, new ModelWereWolf(), 0.5F));
+		RenderingRegistry.registerEntityRenderingHandler(EntityDeeeSyft.class, new RenderDeeeSyft());
 		RenderingRegistry.registerEntityRenderingHandler(EntityIronBolt.class, new IronBoltRender(current));
 		RenderingRegistry.registerEntityRenderingHandler(EntitySilverBolt.class, new SilverBoltRender(current));
 		RenderingRegistry.registerEntityRenderingHandler(EntityWoodenBolt.class, new WoodenBoltRender(current));

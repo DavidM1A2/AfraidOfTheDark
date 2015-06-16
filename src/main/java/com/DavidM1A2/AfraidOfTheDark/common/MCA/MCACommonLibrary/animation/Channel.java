@@ -1,10 +1,10 @@
-package yourModPackage.common.MCACommonLibrary.animation;
+package com.DavidM1A2.AfraidOfTheDark.common.MCA.MCACommonLibrary.animation;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Channel {
+public class Channel
+{
 	public static final byte LINEAR = 0;
 	public static final byte LOOP = 1;
 	public static final byte CYCLE = 2;
@@ -37,24 +37,27 @@ public class Channel {
 	}
 
 	/** Create all the frames and add them in the list in the correct order. */
-	protected void initializeAllFrames() {
+	protected void initializeAllFrames()
+	{
 		//Channels must initialize their frames inside this function.
 	}
 
 	/**
-	 * Return the previous rotation KeyFrame before this frame that uses this box, if it exists. 
-	 * If currentFrame is a keyFrame that uses this box, it is returned.
+	 * Return the previous rotation KeyFrame before this frame that uses this box, if it exists. If currentFrame is a keyFrame that uses this box, it
+	 * is returned.
 	 */
 	public KeyFrame getPreviousRotationKeyFrameForBox(String boxName, float currentFrame)
 	{
 		int latestFramePosition = -1;
 		KeyFrame latestKeyFrame = null;
-		for (Map.Entry<Integer, KeyFrame> entry : keyFrames.entrySet()) {
+		for (Map.Entry<Integer, KeyFrame> entry : keyFrames.entrySet())
+		{
 			Integer key = entry.getKey();
 			KeyFrame value = entry.getValue();
 
-			if (key <= currentFrame && key > latestFramePosition) {
-				if(value.useBoxInRotations(boxName))
+			if (key <= currentFrame && key > latestFramePosition)
+			{
+				if (value.useBoxInRotations(boxName))
 				{
 					latestFramePosition = key;
 					latestKeyFrame = value;
@@ -66,19 +69,21 @@ public class Channel {
 	}
 
 	/**
-	 * Return the next rotation KeyFrame before this frame that uses this box, if it exists. 
-	 * If currentFrame is a keyFrame that uses this box, it is NOT considered.
+	 * Return the next rotation KeyFrame before this frame that uses this box, if it exists. If currentFrame is a keyFrame that uses this box, it is
+	 * NOT considered.
 	 */
 	public KeyFrame getNextRotationKeyFrameForBox(String boxName, float currentFrame)
 	{
 		int nextFramePosition = -1;
 		KeyFrame nextKeyFrame = null;
-		for (Map.Entry<Integer, KeyFrame> entry : keyFrames.entrySet()) {
+		for (Map.Entry<Integer, KeyFrame> entry : keyFrames.entrySet())
+		{
 			Integer key = entry.getKey();
 			KeyFrame value = entry.getValue();
 
-			if (key > currentFrame && (key < nextFramePosition || nextFramePosition == -1)) {
-				if(value.useBoxInRotations(boxName))
+			if (key > currentFrame && (key < nextFramePosition || nextFramePosition == -1))
+			{
+				if (value.useBoxInRotations(boxName))
 				{
 					nextFramePosition = key;
 					nextKeyFrame = value;
@@ -90,19 +95,21 @@ public class Channel {
 	}
 
 	/**
-	 * Return the previous translation KeyFrame before this frame that uses this box, if it exists. 
-	 * If curretFrame is a keyFrame that uses this box, it is returned.
+	 * Return the previous translation KeyFrame before this frame that uses this box, if it exists. If curretFrame is a keyFrame that uses this box,
+	 * it is returned.
 	 */
 	public KeyFrame getPreviousTranslationKeyFrameForBox(String boxName, float currentFrame)
 	{
 		int latestFramePosition = -1;
 		KeyFrame latestKeyFrame = null;
-		for (Map.Entry<Integer, KeyFrame> entry : keyFrames.entrySet()) {
+		for (Map.Entry<Integer, KeyFrame> entry : keyFrames.entrySet())
+		{
 			Integer key = entry.getKey();
 			KeyFrame value = entry.getValue();
 
-			if (key <= currentFrame && key > latestFramePosition) {
-				if(value.useBoxInTranslations(boxName))
+			if (key <= currentFrame && key > latestFramePosition)
+			{
+				if (value.useBoxInTranslations(boxName))
 				{
 					latestFramePosition = key;
 					latestKeyFrame = value;
@@ -114,19 +121,21 @@ public class Channel {
 	}
 
 	/**
-	 * Return the next translation KeyFrame before this frame that uses this box, if it exists. 
-	 * If currentFrame is a keyFrame that uses this box, it is NOT considered.
+	 * Return the next translation KeyFrame before this frame that uses this box, if it exists. If currentFrame is a keyFrame that uses this box, it
+	 * is NOT considered.
 	 */
 	public KeyFrame getNextTranslationKeyFrameForBox(String boxName, float currentFrame)
 	{
 		int nextFramePosition = -1;
 		KeyFrame nextKeyFrame = null;
-		for (Map.Entry<Integer, KeyFrame> entry : keyFrames.entrySet()) {
+		for (Map.Entry<Integer, KeyFrame> entry : keyFrames.entrySet())
+		{
 			Integer key = entry.getKey();
 			KeyFrame value = entry.getValue();
 
-			if (key > currentFrame && (key < nextFramePosition || nextFramePosition == -1)) {
-				if(value.useBoxInTranslations(boxName))
+			if (key > currentFrame && (key < nextFramePosition || nextFramePosition == -1))
+			{
+				if (value.useBoxInTranslations(boxName))
 				{
 					nextFramePosition = key;
 					nextKeyFrame = value;
@@ -138,16 +147,19 @@ public class Channel {
 	}
 
 	/**
-	 * Get the position of the keyframe in this animation, if the keyframe
-	 * exists.
+	 * Get the position of the keyframe in this animation, if the keyframe exists.
 	 */
-	public int getKeyFramePosition(KeyFrame keyFrame) {
-		if (keyFrame != null) {
-			for (Map.Entry<Integer, KeyFrame> entry : this.keyFrames.entrySet()) {
+	public int getKeyFramePosition(KeyFrame keyFrame)
+	{
+		if (keyFrame != null)
+		{
+			for (Map.Entry<Integer, KeyFrame> entry : this.keyFrames.entrySet())
+			{
 				Integer key = entry.getKey();
 				KeyFrame keyframe = entry.getValue();
 
-				if (keyframe == keyFrame) {
+				if (keyframe == keyFrame)
+				{
 					return key;
 				}
 			}
@@ -156,7 +168,8 @@ public class Channel {
 	}
 
 	/** Check if an animation should stop, restart or whatever. */
-	public static boolean shouldAnimationStop() {	
+	public static boolean shouldAnimationStop()
+	{
 		return false;
 	}
 }

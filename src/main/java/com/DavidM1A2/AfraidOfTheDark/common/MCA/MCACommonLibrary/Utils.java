@@ -1,21 +1,25 @@
-package yourModPackage.common.MCACommonLibrary;
+package com.DavidM1A2.AfraidOfTheDark.common.MCA.MCACommonLibrary;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-import yourModPackage.common.MCACommonLibrary.math.Matrix4f;
-import yourModPackage.common.MCACommonLibrary.math.Quaternion;
-import yourModPackage.common.MCACommonLibrary.math.Vector3f;
+import com.DavidM1A2.AfraidOfTheDark.common.MCA.MCACommonLibrary.math.Matrix4f;
+import com.DavidM1A2.AfraidOfTheDark.common.MCA.MCACommonLibrary.math.Quaternion;
+import com.DavidM1A2.AfraidOfTheDark.common.MCA.MCACommonLibrary.math.Vector3f;
 
-public class Utils {
+public class Utils
+{
 	/**
 	 * Make a direct NIO FloatBuffer from an array of floats
-	 * @param arr The array
+	 * 
+	 * @param arr
+	 *            The array
 	 * @return The newly created FloatBuffer
 	 */
-	public static FloatBuffer makeFloatBuffer(float[] arr) {
-		ByteBuffer bb = ByteBuffer.allocateDirect(arr.length*4);
+	public static FloatBuffer makeFloatBuffer(float[] arr)
+	{
+		ByteBuffer bb = ByteBuffer.allocateDirect(arr.length * 4);
 		bb.order(ByteOrder.nativeOrder());
 		FloatBuffer fb = bb.asFloatBuffer();
 		fb.put(arr);
@@ -25,10 +29,13 @@ public class Utils {
 
 	/**
 	 * Make a direct NIO ByteBuffer from an array of floats
-	 * @param arr The array
+	 * 
+	 * @param arr
+	 *            The array
 	 * @return The newly created FloatBuffer
 	 */
-	public static ByteBuffer makeByteBuffer(byte[] arr) {
+	public static ByteBuffer makeByteBuffer(byte[] arr)
+	{
 		ByteBuffer bb = ByteBuffer.allocateDirect(arr.length);
 		bb.order(ByteOrder.nativeOrder());
 		bb.put(arr);
@@ -44,7 +51,8 @@ public class Utils {
 	}
 
 	/** Get the quaternion from euler angles. Minecraft eulers order is XYZ. */
-	public static Quaternion getQuaternionFromEulers(float x, float y, float z) {
+	public static Quaternion getQuaternionFromEulers(float x, float y, float z)
+	{
 		Quaternion quatX = new Quaternion(Vector3f.UNIT_X, (float) Math.toRadians(x));
 		Quaternion quatY = new Quaternion(Vector3f.UNIT_Y, (float) Math.toRadians(y));
 		Quaternion quatZ = new Quaternion(Vector3f.UNIT_Z, (float) Math.toRadians(z));

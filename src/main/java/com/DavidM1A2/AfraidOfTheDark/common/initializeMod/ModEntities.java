@@ -12,6 +12,7 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityIronBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntitySilverBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityWoodenBolt;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.WereWolf.EntityWereWolf;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 
@@ -22,11 +23,13 @@ public class ModEntities
 	public static final int ironBoltID = 1;
 	public static final int silverBoltID = 2;
 	public static final int woodenBoltID = 3;
+	public static final int deeeSyft = 4;
 
 	public static void intialize()
 	{
 		// register bolt entities and the werewolf
 		EntityRegistry.registerModEntity(EntityWereWolf.class, "Werewolf", ModEntities.wereWolfID, Refrence.MOD_ID, 50, 1, true);
+		EntityRegistry.registerModEntity(EntityDeeeSyft.class, "deeeSyft", ModEntities.deeeSyft, Refrence.MOD_ID, 50, 1, true);
 
 		EntityRegistry.registerModEntity(EntityIronBolt.class, "ironBolt", ModEntities.ironBoltID, Refrence.MOD_ID, 50, 10, true);
 		EntityRegistry.registerModEntity(EntitySilverBolt.class, "silverBolt", ModEntities.silverBoltID, Refrence.MOD_ID, 50, 10, true);
