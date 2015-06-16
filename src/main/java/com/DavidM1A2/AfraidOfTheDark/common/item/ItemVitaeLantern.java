@@ -11,7 +11,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -19,13 +18,11 @@ import net.minecraftforge.fml.relauncher.Side;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 public class ItemVitaeLantern extends AOTDItem
 {
 	private static final int VITAE_CAPACITY = 300;
-	private LanternStates currentState = LanternStates.Medium;
 	private int ticksUpdated = 0;
 	private final int UPDATE_FREQUENCY_IN_TICKS = 40;
 
@@ -39,28 +36,20 @@ public class ItemVitaeLantern extends AOTDItem
 	@Override
 	public ItemStack onItemRightClick(final ItemStack itemStack, final World world, final EntityPlayer entityPlayer)
 	{
-		if (!entityPlayer.isSneaking())
+		if (NBTHelper.getBoolean(itemStack, "isActive"))
 		{
-			if (NBTHelper.getBoolean(itemStack, "isActive"))
-			{
-				NBTHelper.setBoolean(itemStack, "isActive", false);
-			}
-			else
-			{
-				for (ItemStack itemStackCurrent : entityPlayer.inventory.mainInventory)
-				{
-					if (itemStackCurrent != null && itemStackCurrent.getItem() instanceof ItemVitaeLantern)
-					{
-						NBTHelper.setBoolean(itemStackCurrent, "isActive", false);
-					}
-				}
-				NBTHelper.setBoolean(itemStack, "isActive", true);
-			}
+			NBTHelper.setBoolean(itemStack, "isActive", false);
 		}
 		else
 		{
-			currentState = currentState.getNext();
-			NBTHelper.setInteger(itemStack, "state", currentState.ordinal());
+			for (ItemStack itemStackCurrent : entityPlayer.inventory.mainInventory)
+			{
+				if (itemStackCurrent != null && itemStackCurrent.getItem() instanceof ItemVitaeLantern)
+				{
+					NBTHelper.setBoolean(itemStackCurrent, "isActive", false);
+				}
+			}
+			NBTHelper.setBoolean(itemStack, "isActive", true);
 		}
 
 		return super.onItemRightClick(itemStack, world, entityPlayer);
@@ -126,62 +115,47 @@ public class ItemVitaeLantern extends AOTDItem
 	 */
 	public void onUpdate(ItemStack itemStack, World world, Entity entity, int itemSlot, boolean isSelected)
 	{
-		if (!world.isRemote)
+		if (ticksUpdated % UPDATE_FREQUENCY_IN_TICKS == 0)
 		{
-			if (ticksUpdated % UPDATE_FREQUENCY_IN_TICKS == 0)
+			if (NBTHelper.getBoolean(itemStack, "isActive"))
 			{
-				if (NBTHelper.getBoolean(itemStack, "isActive"))
+				if (entity instanceof EntityPlayer)
 				{
-					if (entity instanceof EntityPlayer)
-					{
-						EntityPlayer entityPlayer = (EntityPlayer) entity;
-						switch (this.currentState)
-						{
-							case High:
-								approachEqualibrium(itemStack, entityPlayer, MathHelper.floor_double(Constants.entityVitaeResistance.get(EntityPlayer.class) * 0.90));
-								break;
-							case Low:
-								approachEqualibrium(itemStack, entityPlayer, MathHelper.floor_double(Constants.entityVitaeResistance.get(EntityPlayer.class) * 0.20));
-								break;
-							case Medium:
-								approachEqualibrium(itemStack, entityPlayer, MathHelper.floor_double(Constants.entityVitaeResistance.get(EntityPlayer.class) * 0.50));
-								break;
-							case None:
-								approachEqualibrium(itemStack, entityPlayer, 0);
-								break;
-							case Obnoxious:
-								approachEqualibrium(itemStack, entityPlayer, MathHelper.floor_double(Constants.entityVitaeResistance.get(EntityPlayer.class) * 0.99));
-								break;
-						}
-					}
+					EntityPlayer entityPlayer = (EntityPlayer) entity;
+
+					approachEqualibrium(itemStack, entityPlayer, MathHelper.floor_double(Constants.entityVitaeResistance.get(EntityPlayer.class) * NBTHelper.getDouble(itemStack, "equalibriumPercentage")));
 				}
-				ticksUpdated = 1;
 			}
-			else
-			{
-				ticksUpdated = ticksUpdated + 1;
-			}
+			ticksUpdated = 1;
+		}
+		else
+		{
+			ticksUpdated = ticksUpdated + 1;
 		}
 	}
 
 	private void approachEqualibrium(ItemStack itemStack, EntityPlayer entityPlayer, int equalibrium)
 	{
 		int currentVitae = Vitae.get(entityPlayer);
-		LogHelper.info("Current vitae = " + currentVitae);
-		LogHelper.info("Equalibrium vitae = " + equalibrium);
 
 		if (Math.abs(currentVitae - equalibrium) <= 5)
 		{
 			if (addVitae(itemStack, currentVitae - equalibrium))
 			{
-				Vitae.addVitae(entityPlayer, -(currentVitae - equalibrium), Side.SERVER);
+				if (!entityPlayer.worldObj.isRemote)
+				{
+					Vitae.addVitae(entityPlayer, -(currentVitae - equalibrium), Side.SERVER);
+				}
 			}
 		}
 		else
 		{
 			if (addVitae(itemStack, currentVitae > equalibrium ? 5 : -5))
 			{
-				Vitae.addVitae(entityPlayer, currentVitae > equalibrium ? -5 : 5, Side.SERVER);
+				if (!entityPlayer.worldObj.isRemote)
+				{
+					Vitae.addVitae(entityPlayer, currentVitae > equalibrium ? -5 : 5, Side.SERVER);
+				}
 			}
 		}
 	}
@@ -203,21 +177,12 @@ public class ItemVitaeLantern extends AOTDItem
 		}
 	}
 
-	/**
-	 * Called when an ItemStack with NBT data is read to potentially that ItemStack's NBT data
-	 */
-	public boolean updateItemStackNBT(NBTTagCompound nbt)
-	{
-		this.currentState = LanternStates.values()[nbt.getInteger("state")];
-		return super.updateItemStackNBT(nbt);
-	}
-
 	// A message under the bow will tell us what type of arrows the bow will fire
 	@Override
 	public void addInformation(final ItemStack itemStack, final EntityPlayer entityPlayer, final List list, final boolean bool)
 	{
 		list.add("Lantern is active? " + NBTHelper.getBoolean(itemStack, "isActive"));
-		list.add("Lantern state: " + this.currentState.toString());
+		list.add("Lantern state: " + NBTHelper.getDouble(itemStack, "equalibriumPercentage") * 100 + "%");
 		list.add("Stored vitae: " + NBTHelper.getInt(itemStack, "storedVitae"));
 	}
 
@@ -244,19 +209,5 @@ public class ItemVitaeLantern extends AOTDItem
 	public double getDurabilityForDisplay(ItemStack stack)
 	{
 		return 1 - (double) NBTHelper.getInt(stack, "storedVitae") / (double) this.VITAE_CAPACITY;
-	}
-
-	public enum LanternStates
-	{
-		None,
-		Low,
-		Medium,
-		High,
-		Obnoxious;
-
-		public LanternStates getNext()
-		{
-			return values()[(ordinal() + 1) % values().length];
-		}
 	}
 }

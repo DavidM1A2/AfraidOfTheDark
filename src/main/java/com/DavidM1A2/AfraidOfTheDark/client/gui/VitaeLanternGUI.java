@@ -8,8 +8,9 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.input.Keyboard;
 
+import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.Keybindings;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateLanternState;
 
 public class VitaeLanternGUI extends GuiScreen
 {
@@ -32,7 +33,17 @@ public class VitaeLanternGUI extends GuiScreen
 	 */
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
 	{
+		int centerOfScreenX = this.width / 2;
+		int centerOfScreenY = this.height / 2;
 
+		double angle = Math.toDegrees(Math.atan2(mouseX - centerOfScreenX, mouseY - centerOfScreenY));
+		if (angle < 0)
+		{
+			angle = angle + 360;
+		}
+		double lanternState = angle / 360.0;
+
+		AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateLanternState(lanternState));
 	}
 
 	// To draw the screen we first draw the default GUI background, then the
@@ -44,12 +55,6 @@ public class VitaeLanternGUI extends GuiScreen
 
 		this.mc.renderEngine.bindTexture(DIAL);
 		this.drawTexturedModalRect((this.width - 256) / 2, (this.height - 256) / 2, 0, 0, 256, 256);
-
-		int centerOfScreenX = (this.width - 256) / 2;
-		int centerOfScreenY = (this.height - 256) / 2;
-
-		LogHelper.info(centerOfScreenX);
-		LogHelper.info(centerOfScreenY);
 
 		if (!Keyboard.isKeyDown(Keybindings.changeLanternMode.getKeyCode()))
 		{
