@@ -6,7 +6,6 @@ import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.WorldChunkManager;
 import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.gen.ChunkProviderFlat;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -28,7 +27,7 @@ public class NightmareWorldProvider extends WorldProvider
 	@Override
 	public IChunkProvider createChunkGenerator()
 	{
-		return new ChunkProviderFlat(this.worldObj, this.worldObj.getSeed(), false, "3;1*afraidofthedark:gravewood;1;biome_1");
+		return new NightmareChunkProvider(this.worldObj);
 	}
 
 	@Override
