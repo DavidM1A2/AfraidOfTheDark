@@ -1,4 +1,4 @@
-package com.DavidM1A2.AfraidOfTheDark.common.MCA.animations.DeeeSyft;
+package com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft;
 
 import java.util.HashMap;
 

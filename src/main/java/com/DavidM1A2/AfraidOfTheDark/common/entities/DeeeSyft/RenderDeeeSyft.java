@@ -13,7 +13,7 @@ public class RenderDeeeSyft extends RenderLiving
 
 	public static final ResourceLocation DeeeSyft_texture = new ResourceLocation("afraidofthedark:textures/entity/DeeeSyft.png");
 	public static ModelDeeeSyft modelDeeeSyft = new ModelDeeeSyft();
-	public static float modelHeight = 2F;
+	public static float modelHeight = -0.5F;
 
 	public RenderDeeeSyft()
 	{
@@ -37,7 +37,7 @@ public class RenderDeeeSyft extends RenderLiving
 	{
 		GL11.glRotatef(180F, 0, 1F, 0F);
 		GL11.glRotatef(180F, 0, 0, 1F);
-		GL11.glTranslatef(0, modelHeight, 0);
+		GL11.glTranslatef(-1, modelHeight, -1);
 	}
 
 	@Override

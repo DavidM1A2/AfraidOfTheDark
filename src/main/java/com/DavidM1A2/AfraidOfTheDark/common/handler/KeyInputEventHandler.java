@@ -18,12 +18,14 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.Keybindings;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemCloakOfAgility;
+import com.DavidM1A2.AfraidOfTheDark.common.item.ItemVitaeLantern;
 import com.DavidM1A2.AfraidOfTheDark.common.item.crossbow.ItemWristCrossbow;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.FireCrossbowBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 public class KeyInputEventHandler
 {
@@ -42,8 +44,40 @@ public class KeyInputEventHandler
 		}
 		if (Keybindings.changeLanternMode.isPressed())
 		{
-			EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
-			entityPlayer.openGui(Refrence.MOD_ID, GuiHandler.VITAE_LANTERN_ID, entityPlayer.worldObj, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ());
+			this.changeLanternMode();
+		}
+	}
+
+	private void changeLanternMode()
+	{
+		EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
+
+		if (LoadResearchData.isResearched(entityPlayer, ResearchTypes.VitaeLanternI))
+		{
+			boolean hasLantern = false;
+			for (ItemStack itemStack : entityPlayer.inventory.mainInventory)
+			{
+				if (itemStack != null)
+				{
+					if (itemStack.getItem() instanceof ItemVitaeLantern)
+					{
+						if (NBTHelper.getBoolean(itemStack, "isActive"))
+						{
+							entityPlayer.openGui(Refrence.MOD_ID, GuiHandler.VITAE_LANTERN_ID, entityPlayer.worldObj, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ());
+							hasLantern = true;
+							break;
+						}
+					}
+				}
+			}
+			if (!hasLantern)
+			{
+				entityPlayer.addChatMessage(new ChatComponentText("I'll need an active vitae lantern in my inventory to use this."));
+			}
+		}
+		else
+		{
+			entityPlayer.addChatMessage(new ChatComponentText("I don't know what this could be useful for."));
 		}
 	}
 
