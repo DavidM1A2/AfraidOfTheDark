@@ -12,7 +12,7 @@ public class AnimationHandlerDeeeSyft extends AnimationHandler
 	public static HashMap<String, Channel> animChannels = new HashMap<String, Channel>();
 	static
 	{
-		animChannels.put("jiggle", new ChannelJiggle("jiggle", 20.0F, 43, Channel.LOOP));
+		animChannels.put("jiggle", new ChannelJiggle("jiggle", 20.0F, 43, Channel.LINEAR));
 	}
 
 	public AnimationHandlerDeeeSyft(IMCAnimatedEntity entity)

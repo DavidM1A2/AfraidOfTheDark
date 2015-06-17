@@ -28,7 +28,7 @@ public class ModEntities
 	public static void intialize()
 	{
 		// register bolt entities and the werewolf
-		EntityRegistry.registerModEntity(EntityWereWolf.class, "Werewolf", ModEntities.wereWolfID, Refrence.MOD_ID, 50, 1, true);
+		EntityRegistry.registerModEntity(EntityWereWolf.class, "werewolf", ModEntities.wereWolfID, Refrence.MOD_ID, 50, 1, true);
 		EntityRegistry.registerModEntity(EntityDeeeSyft.class, "deeeSyft", ModEntities.deeeSyft, Refrence.MOD_ID, 50, 1, true);
 
 		EntityRegistry.registerModEntity(EntityIronBolt.class, "ironBolt", ModEntities.ironBoltID, Refrence.MOD_ID, 50, 10, true);
@@ -45,5 +45,6 @@ public class ModEntities
 		}
 		// Higher chance to spawn in erie biomes
 		EntityRegistry.addSpawn(EntityWereWolf.class, 30, 2, 2, EnumCreatureType.MONSTER, ModBiomes.erieForest);
+		EntityRegistry.addSpawn(EntityDeeeSyft.class, 4, 1, 3, EnumCreatureType.MONSTER, ModBiomes.erieForest);
 	}
 }

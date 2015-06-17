@@ -8,6 +8,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityMoveHelper;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
@@ -34,15 +35,16 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 		return animHandler;
 	}
 
-	@Override
-	public void onUpdate()
+	/**
+	 * Called when the entity is attacked.
+	 */
+	public boolean attackEntityFrom(DamageSource source, float amount)
 	{
 		if (!this.getAnimationHandler().isAnimationActive("jiggle"))
 		{
 			this.getAnimationHandler().activateAnimation("jiggle", 0);
 		}
-
-		super.onUpdate();
+		return super.attackEntityFrom(source, amount);
 	}
 
 	// Apply entity attributes

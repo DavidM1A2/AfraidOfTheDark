@@ -1,9 +1,4 @@
-/*
- * Author: David Slovikosky
- * Mod: Afraid of the Dark
- * Ideas and Textures: Michael Albertson
- */
-package com.DavidM1A2.AfraidOfTheDark.common.item;
+package com.DavidM1A2.AfraidOfTheDark.common.item.core;
 
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.entity.Entity;
@@ -18,21 +13,19 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
-import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 
-public class ItemSpawnWerewolf extends AOTDItem
+public abstract class AOTDSpawnEgg extends AOTDItem
 {
 	// Werewolf spawn egg
 	protected String entityToSpawnName = "";
 	protected String entityToSpawnNameFull = "";
 	protected EntityLiving entityToSpawn = null;
 
-	public ItemSpawnWerewolf(final String entityToSpawnName)
+	public AOTDSpawnEgg(final String entityToSpawnName)
 	{
 		// Set various item properties
 		super();
-		this.setUnlocalizedName("spawnWerewolf");
 		this.setHasSubtypes(false);
 		this.maxStackSize = 64;
 		this.setEntityToSpawnName(entityToSpawnName);
@@ -107,11 +100,6 @@ public class ItemSpawnWerewolf extends AOTDItem
 						return itemStack;
 					}
 
-					// if (!entityPlayer.canPlayerEdit(thisPos, movingObjectPosition.sideHit, itemStack))
-					// {
-					// return itemStack;
-					// }
-
 					if (world.getBlockState(thisPos) instanceof BlockLiquid)
 					{
 						final Entity entity = this.spawnEntity(world, thisPos.getX(), thisPos.getY(), thisPos.getZ());
@@ -154,7 +142,6 @@ public class ItemSpawnWerewolf extends AOTDItem
 				this.entityToSpawn = (EntityLiving) EntityList.createEntityByName(this.entityToSpawnNameFull, world);
 				this.entityToSpawn.setLocationAndAngles(x, y, z, MathHelper.wrapAngleTo180_float(world.rand.nextFloat() * 360), 0.0F);
 				world.spawnEntityInWorld(this.entityToSpawn);
-				// entityToSpawn..onSpawnWithEgg((IEntityLivingData) null);
 				this.entityToSpawn.playLivingSound();
 			}
 		}
