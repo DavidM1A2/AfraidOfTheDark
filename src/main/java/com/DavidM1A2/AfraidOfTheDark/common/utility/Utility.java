@@ -1,5 +1,7 @@
 package com.DavidM1A2.AfraidOfTheDark.common.utility;
 
+import java.io.InputStream;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;
 import net.minecraft.block.BlockDirt.DirtType;
@@ -18,6 +20,16 @@ public class Utility
 	public static int ticksToMilliseconds(int ticks)
 	{
 		return ticks * 50;
+	}
+
+	public static InputStream getInputStreamFromPath(String path)
+	{
+		InputStream inputStream = Utility.class.getClassLoader().getResourceAsStream(path);
+		if (inputStream == null)
+		{
+			inputStream = Utility.class.getClassLoader().getResourceAsStream("assets/afraidofthedark/researchNotes/None.txt");
+		}
+		return inputStream;
 	}
 
 	public static int getPlaceToSpawnAverage(World world, int x, int z, int height, int width) throws UnsupportedLocationException

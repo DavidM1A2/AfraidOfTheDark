@@ -60,12 +60,12 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 		BloodStainedJournalResearchGUI.currentID = this.RESEARCH_BASE_ID;
 		BloodStainedJournalResearchGUI.baseHeight = (this.height - 256) / 2;
 		BloodStainedJournalResearchGUI.baseWidth = (this.width - 256) / 2;
-		BloodStainedJournalResearchGUI.xPosScroll = BloodStainedJournalResearchGUI.baseWidth;
-		BloodStainedJournalResearchGUI.yPosScroll = BloodStainedJournalResearchGUI.baseHeight;
-		BloodStainedJournalResearchGUI.xPosBackground = BloodStainedJournalResearchGUI.baseWidth + 20;
-		BloodStainedJournalResearchGUI.yPosBackground = BloodStainedJournalResearchGUI.baseHeight + 20;
-		BloodStainedJournalResearchGUI.xPosBaseResearch = (BloodStainedJournalResearchGUI.xPosBackground + 100) - 8;
-		BloodStainedJournalResearchGUI.yPosBaseResearch = (BloodStainedJournalResearchGUI.yPosBackground + (BloodStainedJournalResearchGUI.BACKGROUND_WIDTH / 2)) - 8;
+		BloodStainedJournalResearchGUI.xPosScroll = baseWidth;
+		BloodStainedJournalResearchGUI.yPosScroll = baseHeight;
+		BloodStainedJournalResearchGUI.xPosBackground = baseWidth + 20;
+		BloodStainedJournalResearchGUI.yPosBackground = baseHeight + 20;
+		BloodStainedJournalResearchGUI.xPosBaseResearch = (xPosBackground + 100) - 8;
+		BloodStainedJournalResearchGUI.yPosBaseResearch = (yPosBackground + (BACKGROUND_WIDTH / 2)) - 8;
 
 		this.setupButtons();
 	}

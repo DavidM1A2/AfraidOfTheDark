@@ -44,7 +44,7 @@ public class NightmareChunkProvider implements IChunkProvider
 
 		for (int i = 0; i < biome.length; i++)
 		{
-			biome[i] = (byte) ModBiomes.erieForest.biomeID;
+			biome[i] = (byte) ModBiomes.nightmare.biomeID;
 		}
 
 		chunk.generateSkylightMap();

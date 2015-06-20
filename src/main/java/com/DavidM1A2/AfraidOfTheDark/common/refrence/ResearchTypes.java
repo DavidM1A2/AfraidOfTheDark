@@ -15,6 +15,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 
+import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
+
 // All available researches
 public enum ResearchTypes
 {
@@ -30,7 +32,7 @@ public enum ResearchTypes
 	CloakOfAgility(WerewolfExamination, -1, 2),
 	Nightmares(DarkForest, 0, 5),
 	AstronomyII(Nightmares, 0, 6),
-	IgneousArmor(AstronomyII, -1, 6),
+	Igneous(AstronomyII, -1, 6),
 	StarMetal(AstronomyII, 1, 6);
 
 	private ResearchTypes previous = null;
@@ -80,11 +82,8 @@ public enum ResearchTypes
 	{
 		BufferedReader bufferedReader = null;
 
-		InputStream inputStream = ClassLoader.getSystemClassLoader().getResourceAsStream(path);
-		if (inputStream == null)
-		{
-			inputStream = ClassLoader.getSystemClassLoader().getResourceAsStream("assets/afraidofthedark/researchNotes/None.txt");
-		}
+		InputStream inputStream = Utility.getInputStreamFromPath(path);
+
 		bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 		StringBuffer stringBuffer = new StringBuffer();
 		stringBuffer.append("     ");

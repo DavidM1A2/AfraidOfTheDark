@@ -12,16 +12,19 @@ import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.common.BiomeManager.BiomeEntry;
 
 import com.DavidM1A2.AfraidOfTheDark.common.biomes.BiomeErieForest;
+import com.DavidM1A2.AfraidOfTheDark.common.biomes.BiomeNightmare;
 
 public class ModBiomes
 {
 	// Create a biome
-	public static final BiomeGenBase erieForest = new BiomeErieForest(30);
+	public static final BiomeGenBase erieForest = new BiomeErieForest(68);
+	public static final BiomeGenBase nightmare = new BiomeNightmare(69);
 
 	public static void initialize()
 	{
 		// Register it and add it
 		BiomeDictionary.registerBiomeType(ModBiomes.erieForest, Type.FOREST, Type.CONIFEROUS, Type.PLAINS);
+		BiomeDictionary.registerBiomeType(ModBiomes.nightmare);
 		BiomeManager.addBiome(BiomeManager.BiomeType.COOL, new BiomeEntry(ModBiomes.erieForest, 10));
 		BiomeManager.addBiome(BiomeManager.BiomeType.WARM, new BiomeEntry(ModBiomes.erieForest, 10));
 		// This biome is only temporarily the spawn biome

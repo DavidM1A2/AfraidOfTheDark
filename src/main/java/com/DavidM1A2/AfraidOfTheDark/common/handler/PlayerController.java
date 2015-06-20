@@ -17,6 +17,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -28,9 +29,11 @@ import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateInsanity;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateResearch;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Insanity;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.InventorySaver;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ClientData;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.threads.DelayedAOTDUpdate;
 import com.DavidM1A2.AfraidOfTheDark.common.threads.DelayedInsanityUpdate;
@@ -151,6 +154,11 @@ public class PlayerController
 			{
 				Insanity.register(entityPlayer);
 			}
+
+			if (entityPlayer.getExtendedProperties(InventorySaver.INVENTORY_SAVER) == null)
+			{
+				//InventorySaver.register(entityPlayer);
+			}
 		}
 
 		if (event.entity instanceof EntityLivingBase)
@@ -185,6 +193,22 @@ public class PlayerController
 		if (ClientData.researchAchievedOverlay != null)
 		{
 			ClientData.researchAchievedOverlay.updateResearchAchievedWindow();
+		}
+	}
+
+	@SubscribeEvent
+	public void onPlayerChangedDimensionEvent(final PlayerChangedDimensionEvent event)
+	{
+		EntityPlayer entityPlayer = event.player;
+		if (event.toDim == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
+		{
+			//InventorySaver.save(entityPlayer);
+			//entityPlayer.inventory.clear();
+		}
+		else if (event.fromDim == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
+		{
+			//entityPlayer.inventory.mainInventory = InventorySaver.loadInventory(entityPlayer);
+			//entityPlayer.inventory.armorInventory = InventorySaver.loadArmor(entityPlayer);
 		}
 	}
 }
