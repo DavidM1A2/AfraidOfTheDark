@@ -22,6 +22,7 @@ public class NightmareWorldProvider extends WorldProvider
 		this.dimensionId = Constants.NightmareWorld.NIGHTMARE_WORLD_ID;
 		this.worldChunkMgr = new WorldChunkManager(ModBiomes.nightmare.biomeID, WorldType.CUSTOMIZED, "");
 		this.hasNoSky = false;
+		//this.setSkyRenderer(new NightmareSkyRenderer());
 	}
 
 	@Override
@@ -41,7 +42,7 @@ public class NightmareWorldProvider extends WorldProvider
 	@Override
 	public int getAverageGroundLevel()
 	{
-		return 0;
+		return 255;
 	}
 
 	//	@SideOnly(Side.CLIENT)
@@ -68,7 +69,7 @@ public class NightmareWorldProvider extends WorldProvider
 	@Override
 	public boolean canRespawnHere()
 	{
-		return true;
+		return false;
 	}
 
 	@Override

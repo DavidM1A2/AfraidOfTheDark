@@ -55,6 +55,11 @@ public class PlayerController
 		LoadResearchData.set(event.entityPlayer, research);
 		final int vitaeLevel = Vitae.get(event.original);
 		Vitae.set(event.entityPlayer, vitaeLevel, Side.SERVER);
+		if (event.original.dimension == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
+		{
+			InventorySaver.setInventory(event.entityPlayer, InventorySaver.saveInventory(event.original));
+			InventorySaver.loadInventory(event.entityPlayer);
+		}
 		// When the player gets new research we will wait 500ms before updating because otherwise the event.original player
 		// will get the new data
 		(new DelayedAOTDUpdate(event.entityPlayer, hasStartedAOTD)).start();
