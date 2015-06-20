@@ -202,14 +202,12 @@ public class PlayerController
 		EntityPlayer entityPlayer = event.player;
 		if (event.toDim == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
 		{
-			InventorySaver.save(entityPlayer);
+			InventorySaver.saveInventory(entityPlayer);
 			entityPlayer.inventory.clear();
 		}
 		else if (event.fromDim == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
 		{
-			entityPlayer.inventory.mainInventory = InventorySaver.loadInventory(entityPlayer);
-			entityPlayer.inventory.armorInventory = InventorySaver.loadArmor(entityPlayer);
-			int x = 3;
+			InventorySaver.loadInventory(entityPlayer);
 		}
 	}
 }
