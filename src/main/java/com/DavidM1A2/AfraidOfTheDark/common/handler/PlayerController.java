@@ -157,7 +157,7 @@ public class PlayerController
 
 			if (entityPlayer.getExtendedProperties(InventorySaver.INVENTORY_SAVER) == null)
 			{
-				//InventorySaver.register(entityPlayer);
+				InventorySaver.register(entityPlayer);
 			}
 		}
 
@@ -202,13 +202,14 @@ public class PlayerController
 		EntityPlayer entityPlayer = event.player;
 		if (event.toDim == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
 		{
-			//InventorySaver.save(entityPlayer);
-			//entityPlayer.inventory.clear();
+			InventorySaver.save(entityPlayer);
+			entityPlayer.inventory.clear();
 		}
 		else if (event.fromDim == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
 		{
-			//entityPlayer.inventory.mainInventory = InventorySaver.loadInventory(entityPlayer);
-			//entityPlayer.inventory.armorInventory = InventorySaver.loadArmor(entityPlayer);
+			entityPlayer.inventory.mainInventory = InventorySaver.loadInventory(entityPlayer);
+			entityPlayer.inventory.armorInventory = InventorySaver.loadArmor(entityPlayer);
+			int x = 3;
 		}
 	}
 }

@@ -39,7 +39,14 @@ public class InventorySaver implements IExtendedEntityProperties
 		compound.setIntArray(InventorySaver.INVENTORY_STACK_SIZE, itemStackSize);
 		for (int i = 0; i < itemNbtTagCompounds.length; i++)
 		{
-			compound.setTag(INVENTORY_NBTS + i, itemNbtTagCompounds[i]);
+			if (itemNbtTagCompounds[i] != null)
+			{
+				compound.getCompoundTag(INVENTORY_NBTS).setTag(Integer.toString(i), itemNbtTagCompounds[i]);
+			}
+			else
+			{
+				compound.getCompoundTag(INVENTORY_NBTS).setTag(Integer.toString(i), new NBTTagCompound());
+			}
 		}
 	}
 
@@ -52,7 +59,14 @@ public class InventorySaver implements IExtendedEntityProperties
 		itemStackSize = compound.getIntArray(InventorySaver.INVENTORY_STACK_SIZE);
 		for (int i = 0; i < 40; i++)
 		{
-			itemNbtTagCompounds[i] = compound.getCompoundTag(INVENTORY_NBTS + i);
+			if (compound.getCompoundTag(INVENTORY_NBTS).getCompoundTag(Integer.toString(i)) != null)
+			{
+				itemNbtTagCompounds[i] = compound.getCompoundTag(INVENTORY_NBTS).getCompoundTag(Integer.toString(i));
+			}
+			else
+			{
+				itemNbtTagCompounds[i] = new NBTTagCompound();
+			}
 		}
 	}
 
@@ -64,22 +78,21 @@ public class InventorySaver implements IExtendedEntityProperties
 		NBTTagCompound[] itemNbtTagCompounds = new NBTTagCompound[40];
 		for (int i = 0; i < 36; i++)
 		{
-			itemNbtTagCompounds[i] = (NBTTagCompound) entityPlayer.getEntityData().getTag(INVENTORY_NBTS + i);
+			itemNbtTagCompounds[i] = (NBTTagCompound) entityPlayer.getEntityData().getCompoundTag(INVENTORY_NBTS).getCompoundTag(Integer.toString(i));
 		}
 
-		ItemStack[] toReturn = new ItemStack[35];
+		ItemStack[] toReturn = new ItemStack[36];
 
 		for (int i = 0; i < toReturn.length; i++)
 		{
-			ItemStack current = toReturn[i];
 			if (itemIds[i] != -1)
 			{
-				current = new ItemStack(Item.getItemById(itemIds[i]), itemStackSize[i], itemMeta[i]);
-				current.setTagCompound(itemNbtTagCompounds[i]);
+				toReturn[i] = new ItemStack(Item.getItemById(itemIds[i]), itemStackSize[i], itemMeta[i]);
+				toReturn[i].setTagCompound(itemNbtTagCompounds[i]);
 			}
 			else
 			{
-				current = null;
+				toReturn[i] = null;
 			}
 		}
 
@@ -94,7 +107,7 @@ public class InventorySaver implements IExtendedEntityProperties
 		NBTTagCompound[] itemNbtTagCompounds = new NBTTagCompound[4];
 		for (int i = 36; i < 40; i++)
 		{
-			itemNbtTagCompounds[i - 36] = (NBTTagCompound) entityPlayer.getEntityData().getTag(INVENTORY_NBTS + i);
+			itemNbtTagCompounds[i - 36] = (NBTTagCompound) entityPlayer.getEntityData().getCompoundTag(INVENTORY_NBTS).getCompoundTag(Integer.toString(i));
 		}
 
 		ItemStack[] toReturn = new ItemStack[4];
@@ -102,10 +115,10 @@ public class InventorySaver implements IExtendedEntityProperties
 		for (int i = 0; i < toReturn.length; i++)
 		{
 			ItemStack current = toReturn[i];
-			if (itemIds[i + 36] != -1)
+			if (itemIds[i] != -1)
 			{
 				current = new ItemStack(Item.getItemById(itemIds[i + 36]), itemStackSize[i + 36], itemMeta[i + 36]);
-				current.setTagCompound(itemNbtTagCompounds[i + 36]);
+				current.setTagCompound(itemNbtTagCompounds[i]);
 			}
 			else
 			{
@@ -165,7 +178,7 @@ public class InventorySaver implements IExtendedEntityProperties
 		entityPlayer.getEntityData().setIntArray(InventorySaver.INVENTORY_STACK_SIZE, itemStackSize);
 		for (int i = 0; i < itemNbtTagCompounds.length; i++)
 		{
-			entityPlayer.getEntityData().setTag(INVENTORY_NBTS + i, itemNbtTagCompounds[i]);
+			entityPlayer.getEntityData().getCompoundTag(INVENTORY_NBTS).setTag(Integer.toString(i), itemNbtTagCompounds[i]);
 		}
 	}
 }
