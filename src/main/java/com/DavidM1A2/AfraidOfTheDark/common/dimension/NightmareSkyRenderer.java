@@ -3,9 +3,13 @@ package com.DavidM1A2.AfraidOfTheDark.common.dimension;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.GLAllocation;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.vertex.VertexBuffer;
+import net.minecraft.client.renderer.vertex.VertexFormat;
+import net.minecraft.client.renderer.vertex.VertexFormatElement;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
@@ -18,208 +22,239 @@ import org.lwjgl.opengl.GL11;
 public class NightmareSkyRenderer extends IRenderHandler
 {
 
-	private int starGLCallList;
-	private int glSkyList;
-	private int glSkyList2;
-	private static final ResourceLocation locationEndSkyPng = new ResourceLocation("textures/environment/end_sky.png");
-
-	public NightmareSkyRenderer()
-	{
-
-	}
-
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void render(float partialTicks, WorldClient world, Minecraft mc)
 	{
-		starGLCallList = GLAllocation.generateDisplayLists(3);
-		glSkyList = this.starGLCallList + 1;
-		glSkyList2 = this.starGLCallList + 2;
-		GL11.glDisable(GL11.GL_FOG);
-		GL11.glDisable(GL11.GL_ALPHA_TEST);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		RenderHelper.disableStandardItemLighting();
-		GL11.glDepthMask(false);
-		mc.renderEngine.bindTexture((locationEndSkyPng));
+		int strangeVariableInt = 2;
+		boolean someBooleanField = true;
+		VertexFormat vertexFormat = new VertexFormat();
+		vertexFormat.func_177349_a(new VertexFormatElement(0, VertexFormatElement.EnumType.FLOAT, VertexFormatElement.EnumUsage.POSITION, 3));
+		VertexBuffer someVertexBuffer = new VertexBuffer(vertexFormat);
+		VertexBuffer someVertexBuffer2 = new VertexBuffer(vertexFormat);
+		VertexBuffer someVertexBuffer3 = new VertexBuffer(vertexFormat);
+		int starGLCallList = GLAllocation.generateDisplayLists(3);
+		int glSkyList = starGLCallList + 1;
+		int glSkyList2 = starGLCallList + 2;
 
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GlStateManager.func_179090_x();
 		Vec3 vec3 = world.getSkyColor(mc.getRenderViewEntity(), partialTicks);
 		float f1 = (float) vec3.xCoord;
 		float f2 = (float) vec3.yCoord;
 		float f3 = (float) vec3.zCoord;
-		float f4;
 
-		if (mc.gameSettings.anaglyph)
+		if (strangeVariableInt != 2)
 		{
-			float f5 = (f1 * 30.0F + f2 * 59.0F + f3 * 11.0F) / 100.0F;
-			float f6 = (f1 * 30.0F + f2 * 70.0F) / 100.0F;
-			f4 = (f1 * 30.0F + f3 * 70.0F) / 100.0F;
-			f1 = f5;
-			f2 = f6;
-			f3 = f4;
+			float f4 = (f1 * 30.0F + f2 * 59.0F + f3 * 11.0F) / 100.0F;
+			float f5 = (f1 * 30.0F + f2 * 70.0F) / 100.0F;
+			float f6 = (f1 * 30.0F + f3 * 70.0F) / 100.0F;
+			f1 = f4;
+			f2 = f5;
+			f3 = f6;
 		}
 
-		GL11.glColor3f(f1, f2, f3);
-		Tessellator tessellator1 = Tessellator.getInstance();
-		WorldRenderer worldRenderer = tessellator1.getWorldRenderer();
-		GL11.glDepthMask(false);
-		GL11.glEnable(GL11.GL_FOG);
-		GL11.glColor3f(f1, f2, f3);
-		GL11.glCallList(this.glSkyList);
-		GL11.glDisable(GL11.GL_FOG);
-		GL11.glDisable(GL11.GL_ALPHA_TEST);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GlStateManager.color(f1, f2, f3);
+		Tessellator tessellator = Tessellator.getInstance();
+		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+		GlStateManager.depthMask(false);
+		GlStateManager.enableFog();
+		GlStateManager.color(f1, f2, f3);
+
+		if (someBooleanField)
+		{
+			someVertexBuffer.func_177359_a();
+			GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
+			GL11.glVertexPointer(3, GL11.GL_FLOAT, 12, 0L);
+			someVertexBuffer.func_177358_a(7);
+			someVertexBuffer.func_177361_b();
+			GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
+		}
+		else
+		{
+			GlStateManager.callList(glSkyList);
+		}
+
+		GlStateManager.disableFog();
+		GlStateManager.disableAlpha();
+		GlStateManager.enableBlend();
+		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
 		RenderHelper.disableStandardItemLighting();
 		float[] afloat = world.provider.calcSunriseSunsetColors(world.getCelestialAngle(partialTicks), partialTicks);
 		float f7;
 		float f8;
 		float f9;
 		float f10;
+		float f11;
 
 		if (afloat != null)
 		{
-			GL11.glDisable(GL11.GL_TEXTURE_2D);
-			GL11.glShadeModel(GL11.GL_SMOOTH);
-			GL11.glPushMatrix();
-			GL11.glRotatef(90.0F, 1.0F, 0.0F, 0.0F);
-			GL11.glRotatef(MathHelper.sin(world.getCelestialAngleRadians(partialTicks)) < 0.0F ? 180.0F : 0.0F, 0.0F, 0.0F, 1.0F);
-			GL11.glRotatef(90.0F, 0.0F, 0.0F, 1.0F);
-			f4 = afloat[0];
-			f7 = afloat[1];
-			f8 = afloat[2];
-			float f11;
+			GlStateManager.func_179090_x();
+			GlStateManager.shadeModel(7425);
+			GlStateManager.pushMatrix();
+			GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
+			GlStateManager.rotate(MathHelper.sin(world.getCelestialAngleRadians(partialTicks)) < 0.0F ? 180.0F : 0.0F, 0.0F, 0.0F, 1.0F);
+			GlStateManager.rotate(90.0F, 0.0F, 0.0F, 1.0F);
+			f7 = afloat[0];
+			f8 = afloat[1];
+			f9 = afloat[2];
+			float f12;
 
-			if (mc.gameSettings.anaglyph)
+			if (strangeVariableInt != 2)
 			{
-				f9 = (f4 * 30.0F + f7 * 59.0F + f8 * 11.0F) / 100.0F;
-				f10 = (f4 * 30.0F + f7 * 70.0F) / 100.0F;
-				f11 = (f4 * 30.0F + f8 * 70.0F) / 100.0F;
-				f4 = f9;
+				f10 = (f7 * 30.0F + f8 * 59.0F + f9 * 11.0F) / 100.0F;
+				f11 = (f7 * 30.0F + f8 * 70.0F) / 100.0F;
+				f12 = (f7 * 30.0F + f9 * 70.0F) / 100.0F;
 				f7 = f10;
 				f8 = f11;
+				f9 = f12;
 			}
 
-			worldRenderer.startDrawing(6);
-			//worldRenderer.setColorRGBA_F(f4, f7, f8, afloat[3]);
-			worldRenderer.addVertex(0.0D, 100.0D, 0.0D);
-			byte b0 = 16;
-			//worldRenderer.setColorRGBA_F(afloat[0], afloat[1], afloat[2], 0.0F);
+			worldrenderer.startDrawing(6);
+			worldrenderer.func_178960_a(f7, f8, f9, afloat[3]);
+			worldrenderer.addVertex(0.0D, 100.0D, 0.0D);
+			boolean flag = true;
+			worldrenderer.func_178960_a(afloat[0], afloat[1], afloat[2], 0.0F);
 
-			for (int j = 0; j <= b0; ++j)
+			for (int j = 0; j <= 16; ++j)
 			{
-				f11 = j * (float) Math.PI * 2.0F / b0;
-				float f12 = MathHelper.sin(f11);
-				float f13 = MathHelper.cos(f11);
-				worldRenderer.addVertex(f12 * 120.0F, f13 * 120.0F, -f13 * 40.0F * afloat[3]);
+				f12 = (float) j * (float) Math.PI * 2.0F / 16.0F;
+				float f13 = MathHelper.sin(f12);
+				float f14 = MathHelper.cos(f12);
+				worldrenderer.addVertex((double) (f13 * 120.0F), (double) (f14 * 120.0F), (double) (-f14 * 40.0F * afloat[3]));
 			}
 
-			tessellator1.draw();
-			GL11.glPopMatrix();
-			GL11.glShadeModel(GL11.GL_FLAT);
+			tessellator.draw();
+			GlStateManager.popMatrix();
+			GlStateManager.shadeModel(7424);
 		}
 
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-		GL11.glPushMatrix();
-		f4 = 1.0F - world.getRainStrength(partialTicks);
-		f7 = 0.0F;
+		GlStateManager.func_179098_w();
+		GlStateManager.tryBlendFuncSeparate(770, 1, 1, 0);
+		GlStateManager.pushMatrix();
+		f7 = 1.0F - world.getRainStrength(partialTicks);
 		f8 = 0.0F;
 		f9 = 0.0F;
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, f4);
-		GL11.glTranslatef(f7, f8, f9);
-		GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
-		GL11.glRotatef(world.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
-		f10 = 30.0F;
-		mc.renderEngine.bindTexture(new ResourceLocation("textures/environment/sun.png"));
-		worldRenderer.startDrawingQuads();
-		worldRenderer.addVertexWithUV((-f10), 100.0D, (-f10), 0.0D, 0.0D);
-		worldRenderer.addVertexWithUV(f10, 100.0D, (-f10), 1.0D, 0.0D);
-		worldRenderer.addVertexWithUV(f10, 100.0D, f10, 1.0D, 1.0D);
-		worldRenderer.addVertexWithUV((-f10), 100.0D, f10, 0.0D, 1.0D);
-		tessellator1.draw();
-		f10 = 20.0F;
-		mc.renderEngine.bindTexture(new ResourceLocation("textures/environment/sun.png"));
+		f10 = 0.0F;
+		GlStateManager.color(1.0F, 1.0F, 1.0F, f7);
+		GlStateManager.translate(0.0F, 0.0F, 0.0F);
+		GlStateManager.rotate(-90.0F, 0.0F, 1.0F, 0.0F);
+		GlStateManager.rotate(world.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
+		f11 = 30.0F;
+		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("textures/environment/sun.png"));
+		worldrenderer.startDrawingQuads();
+		worldrenderer.addVertexWithUV((double) (-f11), 100.0D, (double) (-f11), 0.0D, 0.0D);
+		worldrenderer.addVertexWithUV((double) f11, 100.0D, (double) (-f11), 1.0D, 0.0D);
+		worldrenderer.addVertexWithUV((double) f11, 100.0D, (double) f11, 1.0D, 1.0D);
+		worldrenderer.addVertexWithUV((double) (-f11), 100.0D, (double) f11, 0.0D, 1.0D);
+		tessellator.draw();
+		f11 = 20.0F;
+		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("textures/environment/moon_phases.png"));
 		int k = world.getMoonPhase();
 		int l = k % 4;
 		int i1 = k / 4 % 2;
-		float f14 = l + 0;
-		float f15 = i1 + 0;
-		float f16 = l + 1;
-		float f17 = i1 + 1;
-		worldRenderer.startDrawingQuads();
-		worldRenderer.addVertexWithUV((-f10), -100.0D, f10, f16, f17);
-		worldRenderer.addVertexWithUV(f10, -100.0D, f10, f14, f17);
-		worldRenderer.addVertexWithUV(f10, -100.0D, (-f10), f14, f15);
-		worldRenderer.addVertexWithUV((-f10), -100.0D, (-f10), f16, f15);
-		tessellator1.draw();
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		float f18 = world.getStarBrightness(partialTicks) * f4;
+		float f15 = (float) (l + 0) / 4.0F;
+		float f16 = (float) (i1 + 0) / 2.0F;
+		float f17 = (float) (l + 1) / 4.0F;
+		float f18 = (float) (i1 + 1) / 2.0F;
+		worldrenderer.startDrawingQuads();
+		worldrenderer.addVertexWithUV((double) (-f11), -100.0D, (double) f11, (double) f17, (double) f18);
+		worldrenderer.addVertexWithUV((double) f11, -100.0D, (double) f11, (double) f15, (double) f18);
+		worldrenderer.addVertexWithUV((double) f11, -100.0D, (double) (-f11), (double) f15, (double) f16);
+		worldrenderer.addVertexWithUV((double) (-f11), -100.0D, (double) (-f11), (double) f17, (double) f16);
+		tessellator.draw();
+		GlStateManager.func_179090_x();
+		float f19 = world.getStarBrightness(partialTicks) * f7;
 
-		if (f18 > 0.0F)
+		if (f19 > 0.0F)
 		{
-			GL11.glColor4f(f18, f18, f18, f18);
-			GL11.glCallList(this.starGLCallList);
+			GlStateManager.color(f19, f19, f19, f19);
+
+			if (someBooleanField)
+			{
+				someVertexBuffer2.func_177359_a();
+				GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
+				GL11.glVertexPointer(3, GL11.GL_FLOAT, 12, 0L);
+				someVertexBuffer2.func_177358_a(7);
+				someVertexBuffer2.func_177361_b();
+				GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
+			}
+			else
+			{
+				GlStateManager.callList(starGLCallList);
+			}
 		}
 
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glEnable(GL11.GL_ALPHA_TEST);
-		GL11.glEnable(GL11.GL_FOG);
-		GL11.glPopMatrix();
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glColor3f(0.0F, 0.0F, 0.0F);
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		GlStateManager.disableBlend();
+		GlStateManager.enableAlpha();
+		GlStateManager.enableFog();
+		GlStateManager.popMatrix();
+		GlStateManager.func_179090_x();
+		GlStateManager.color(0.0F, 0.0F, 0.0F);
 		double d0 = mc.thePlayer.getPositionEyes(partialTicks).yCoord - world.getHorizon();
 
 		if (d0 < 0.0D)
 		{
-			GL11.glPushMatrix();
-			GL11.glTranslatef(0.0F, 12.0F, 0.0F);
-			GL11.glCallList(this.glSkyList2);
-			GL11.glPopMatrix();
-			f8 = 1.0F;
-			f9 = -((float) (d0 + 65.0D));
-			f10 = -f8;
-			worldRenderer.startDrawingQuads();
-			//worldRenderer.setColorRGBA_I(0, 255);
-			worldRenderer.addVertex((-f8), f9, f8);
-			worldRenderer.addVertex(f8, f9, f8);
-			worldRenderer.addVertex(f8, f10, f8);
-			worldRenderer.addVertex((-f8), f10, f8);
-			worldRenderer.addVertex((-f8), f10, (-f8));
-			worldRenderer.addVertex(f8, f10, (-f8));
-			worldRenderer.addVertex(f8, f9, (-f8));
-			worldRenderer.addVertex((-f8), f9, (-f8));
-			worldRenderer.addVertex(f8, f10, (-f8));
-			worldRenderer.addVertex(f8, f10, f8);
-			worldRenderer.addVertex(f8, f9, f8);
-			worldRenderer.addVertex(f8, f9, (-f8));
-			worldRenderer.addVertex((-f8), f9, (-f8));
-			worldRenderer.addVertex((-f8), f9, f8);
-			worldRenderer.addVertex((-f8), f10, f8);
-			worldRenderer.addVertex((-f8), f10, (-f8));
-			worldRenderer.addVertex((-f8), f10, (-f8));
-			worldRenderer.addVertex((-f8), f10, f8);
-			worldRenderer.addVertex(f8, f10, f8);
-			worldRenderer.addVertex(f8, f10, (-f8));
-			tessellator1.draw();
+			GlStateManager.pushMatrix();
+			GlStateManager.translate(0.0F, 12.0F, 0.0F);
+
+			if (someBooleanField)
+			{
+				someVertexBuffer3.func_177359_a();
+				GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
+				GL11.glVertexPointer(3, GL11.GL_FLOAT, 12, 0L);
+				someVertexBuffer3.func_177358_a(7);
+				someVertexBuffer3.func_177361_b();
+				GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
+			}
+			else
+			{
+				GlStateManager.callList(glSkyList2);
+			}
+
+			GlStateManager.popMatrix();
+			f9 = 1.0F;
+			f10 = -((float) (d0 + 65.0D));
+			f11 = -1.0F;
+			worldrenderer.startDrawingQuads();
+			worldrenderer.func_178974_a(0, 255);
+			worldrenderer.addVertex(-1.0D, (double) f10, 1.0D);
+			worldrenderer.addVertex(1.0D, (double) f10, 1.0D);
+			worldrenderer.addVertex(1.0D, -1.0D, 1.0D);
+			worldrenderer.addVertex(-1.0D, -1.0D, 1.0D);
+			worldrenderer.addVertex(-1.0D, -1.0D, -1.0D);
+			worldrenderer.addVertex(1.0D, -1.0D, -1.0D);
+			worldrenderer.addVertex(1.0D, (double) f10, -1.0D);
+			worldrenderer.addVertex(-1.0D, (double) f10, -1.0D);
+			worldrenderer.addVertex(1.0D, -1.0D, -1.0D);
+			worldrenderer.addVertex(1.0D, -1.0D, 1.0D);
+			worldrenderer.addVertex(1.0D, (double) f10, 1.0D);
+			worldrenderer.addVertex(1.0D, (double) f10, -1.0D);
+			worldrenderer.addVertex(-1.0D, (double) f10, -1.0D);
+			worldrenderer.addVertex(-1.0D, (double) f10, 1.0D);
+			worldrenderer.addVertex(-1.0D, -1.0D, 1.0D);
+			worldrenderer.addVertex(-1.0D, -1.0D, -1.0D);
+			worldrenderer.addVertex(-1.0D, -1.0D, -1.0D);
+			worldrenderer.addVertex(-1.0D, -1.0D, 1.0D);
+			worldrenderer.addVertex(1.0D, -1.0D, 1.0D);
+			worldrenderer.addVertex(1.0D, -1.0D, -1.0D);
+			tessellator.draw();
 		}
 
 		if (world.provider.isSkyColored())
 		{
-			GL11.glColor3f(f1 * 0.2F + 0.04F, f2 * 0.2F + 0.04F, f3 * 0.6F + 0.1F);
+			GlStateManager.color(f1 * 0.2F + 0.04F, f2 * 0.2F + 0.04F, f3 * 0.6F + 0.1F);
 		}
 		else
 		{
-			GL11.glColor3f(f1, f2, f3);
+			GlStateManager.color(f1, f2, f3);
 		}
 
-		GL11.glPushMatrix();
-		GL11.glTranslatef(0.0F, -((float) (d0 - 16.0D)), 0.0F);
-		GL11.glCallList(this.glSkyList2);
-		GL11.glPopMatrix();
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glDepthMask(true);
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(0.0F, -((float) (d0 - 16.0D)), 0.0F);
+		GlStateManager.callList(glSkyList2);
+		GlStateManager.popMatrix();
+		GlStateManager.func_179098_w();
+		GlStateManager.depthMask(true);
 	}
 }

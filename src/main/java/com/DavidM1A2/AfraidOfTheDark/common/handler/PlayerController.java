@@ -59,6 +59,7 @@ public class PlayerController
 		{
 			InventorySaver.setInventory(event.entityPlayer, InventorySaver.saveInventory(event.original));
 			InventorySaver.loadInventory(event.entityPlayer);
+			InventorySaver.resetSavedInventory(event.entityPlayer);
 		}
 		// When the player gets new research we will wait 500ms before updating because otherwise the event.original player
 		// will get the new data
@@ -213,6 +214,7 @@ public class PlayerController
 		else if (event.fromDim == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
 		{
 			InventorySaver.loadInventory(entityPlayer);
+			InventorySaver.resetSavedInventory(entityPlayer);
 		}
 	}
 }

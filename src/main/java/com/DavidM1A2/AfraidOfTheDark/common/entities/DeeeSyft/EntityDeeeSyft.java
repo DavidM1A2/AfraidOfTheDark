@@ -18,6 +18,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.MCA.MCACommonLibrary.animation.Anima
 public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 {
 	protected AnimationHandler animHandler = new AnimationHandlerDeeeSyft(this);
+	private double flightCeiling = 75;
 
 	public EntityDeeeSyft(World par1World)
 	{
@@ -152,7 +153,7 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 		{
 			Random random = this.instance.getRNG();
 			double d0 = this.instance.posX + (double) ((random.nextFloat() * 2.0F - 1.0F) * 16.0F);
-			double d1 = this.instance.posY + (double) ((random.nextFloat() * 2.0F - 1.0F) * 16.0F);
+			double d1 = MathHelper.clamp_double(this.instance.posY + (double) ((random.nextFloat() * 2.0F - 1.0F) * 16.0D), 0.0D, flightCeiling);
 			double d2 = this.instance.posZ + (double) ((random.nextFloat() * 2.0F - 1.0F) * 16.0F);
 			this.instance.getMoveHelper().setMoveTo(d0, d1, d2, EntityDeeeSyft.this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed).getBaseValue());
 		}

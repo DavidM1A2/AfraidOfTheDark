@@ -41,6 +41,11 @@ public class InventorySaver implements IExtendedEntityProperties
 		entityPlayer.inventory.readFromNBT(entityPlayer.getEntityData().getTagList(INVENTORY_SAVER, 10));
 	}
 
+	public static void resetSavedInventory(final EntityPlayer entityPlayer)
+	{
+		entityPlayer.getEntityData().setTag(INVENTORY_SAVER, new NBTTagCompound());
+	}
+
 	public static void setInventory(final EntityPlayer entityPlayer, NBTTagList nbtTagList)
 	{
 		entityPlayer.inventory.writeToNBT(nbtTagList);

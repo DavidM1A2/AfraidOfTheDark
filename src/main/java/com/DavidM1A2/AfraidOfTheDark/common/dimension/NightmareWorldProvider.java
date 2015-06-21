@@ -22,7 +22,7 @@ public class NightmareWorldProvider extends WorldProvider
 		this.dimensionId = Constants.NightmareWorld.NIGHTMARE_WORLD_ID;
 		this.worldChunkMgr = new WorldChunkManager(ModBiomes.nightmare.biomeID, WorldType.CUSTOMIZED, "");
 		this.hasNoSky = false;
-		//this.setSkyRenderer(new NightmareSkyRenderer());
+		this.setSkyRenderer(new NightmareSkyRenderer());
 	}
 
 	@Override
@@ -75,7 +75,7 @@ public class NightmareWorldProvider extends WorldProvider
 	@Override
 	public boolean isSurfaceWorld()
 	{
-		return true;
+		return false;
 	}
 
 	@SideOnly(Side.CLIENT)
