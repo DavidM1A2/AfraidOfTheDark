@@ -1,6 +1,5 @@
 package com.DavidM1A2.AfraidOfTheDark.common.MCA.MCACommonLibrary.math;
 
-
 /**
  * A four-element axis angle represented by single-precision floating point x,y,z,angle components. An axis angle is a rotation of angle (radians)
  * about the vector (x,y,z).

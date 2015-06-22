@@ -1,3 +1,8 @@
+/*
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.common.refrence;
 
 import net.minecraft.item.Item;
@@ -6,7 +11,9 @@ import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 
 public enum AOTDCrossbowBoltTypes
 {
-	wooden(0, ModItems.woodenBolt), iron(1, ModItems.ironBolt), silver(2, ModItems.silverBolt);
+	wooden(0, ModItems.woodenBolt),
+	iron(1, ModItems.ironBolt),
+	silver(2, ModItems.silverBolt);
 
 	private int id = 0;
 	private Item myBoltItem;

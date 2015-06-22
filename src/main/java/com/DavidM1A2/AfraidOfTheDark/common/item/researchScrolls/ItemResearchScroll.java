@@ -1,7 +1,13 @@
+/*
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -31,6 +37,10 @@ public abstract class ItemResearchScroll extends AOTDItem
 			{
 				itemStack.stackSize = itemStack.stackSize - 1;
 				LoadResearchData.unlockResearchSynced(entityPlayer, this.myType, Side.SERVER, true);
+			}
+			else if (!LoadResearchData.isResearched(entityPlayer, this.myType))
+			{
+				entityPlayer.addChatMessage(new ChatComponentText("I don't understand the material refrenced in this research scroll."));
 			}
 		}
 
