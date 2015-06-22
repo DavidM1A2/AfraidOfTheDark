@@ -35,10 +35,11 @@ import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.threads.DelayedAOTDUpdate;
-import com.DavidM1A2.AfraidOfTheDark.common.threads.DelayedInsanityUpdate;
-import com.DavidM1A2.AfraidOfTheDark.common.threads.DelayedResearchUpdate;
-import com.DavidM1A2.AfraidOfTheDark.common.threads.DelayedVitaeUpdate;
+import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedAOTDUpdate;
+import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedInsanityUpdate;
+import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedResearchUpdate;
+import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedTeleport;
+import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedVitaeUpdate;
 
 public class PlayerController
 {
@@ -57,9 +58,7 @@ public class PlayerController
 		Vitae.set(event.entityPlayer, vitaeLevel, Side.SERVER);
 		if (event.original.dimension == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
 		{
-			InventorySaver.setInventory(event.entityPlayer, InventorySaver.saveInventory(event.original));
-			InventorySaver.loadInventory(event.entityPlayer);
-			InventorySaver.resetSavedInventory(event.entityPlayer);
+			InventorySaver.saveInventory(event.entityPlayer, InventorySaver.loadInventory(event.original));
 		}
 		// When the player gets new research we will wait 500ms before updating because otherwise the event.original player
 		// will get the new data
@@ -67,6 +66,7 @@ public class PlayerController
 		(new DelayedInsanityUpdate(event.entityPlayer, insanity)).start();
 		(new DelayedResearchUpdate(event.entityPlayer, research)).start();
 		(new DelayedVitaeUpdate(event.entityPlayer, vitaeLevel)).start();
+		(new DelayedTeleport(event.entityPlayer, 0)).start();
 	}
 
 	@SideOnly(Side.CLIENT)

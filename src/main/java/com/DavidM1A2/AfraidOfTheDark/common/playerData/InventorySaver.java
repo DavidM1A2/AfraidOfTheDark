@@ -36,9 +36,10 @@ public class InventorySaver implements IExtendedEntityProperties
 		this.inventoryList = compound.getTagList(INVENTORY_SAVER, 10);
 	}
 
-	public static void loadInventory(final EntityPlayer entityPlayer)
+	public static NBTTagList loadInventory(final EntityPlayer entityPlayer)
 	{
 		entityPlayer.inventory.readFromNBT(entityPlayer.getEntityData().getTagList(INVENTORY_SAVER, 10));
+		return entityPlayer.inventory.writeToNBT(new NBTTagList());
 	}
 
 	public static void resetSavedInventory(final EntityPlayer entityPlayer)
@@ -46,16 +47,16 @@ public class InventorySaver implements IExtendedEntityProperties
 		entityPlayer.getEntityData().setTag(INVENTORY_SAVER, new NBTTagCompound());
 	}
 
-	public static void setInventory(final EntityPlayer entityPlayer, NBTTagList nbtTagList)
-	{
-		entityPlayer.inventory.writeToNBT(nbtTagList);
-	}
-
-	public static NBTTagList saveInventory(final EntityPlayer entityPlayer)
+	public static void saveInventory(final EntityPlayer entityPlayer)
 	{
 		NBTTagList inventoryList = new NBTTagList();
 		entityPlayer.inventory.writeToNBT(inventoryList);
 		entityPlayer.getEntityData().setTag(INVENTORY_SAVER, inventoryList);
-		return inventoryList;
+	}
+
+	public static void saveInventory(final EntityPlayer entityPlayer, NBTTagList toSetTo)
+	{
+		entityPlayer.inventory.writeToNBT(toSetTo);
+		entityPlayer.getEntityData().setTag(INVENTORY_SAVER, toSetTo);
 	}
 }

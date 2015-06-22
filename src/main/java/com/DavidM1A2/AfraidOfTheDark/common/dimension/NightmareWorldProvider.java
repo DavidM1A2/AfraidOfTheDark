@@ -69,7 +69,7 @@ public class NightmareWorldProvider extends WorldProvider
 	@Override
 	public boolean canRespawnHere()
 	{
-		return false;
+		return true;
 	}
 
 	@Override
@@ -113,7 +113,7 @@ public class NightmareWorldProvider extends WorldProvider
 	@Override
 	public int getRespawnDimension(net.minecraft.entity.player.EntityPlayerMP player)
 	{
-		return 0;
+		return this.dimensionId;
 	}
 
 	public BiomeGenBase getBiomeGenForCoords(BlockPos pos)

@@ -1,4 +1,4 @@
-package com.DavidM1A2.AfraidOfTheDark.common.threads;
+package com.DavidM1A2.AfraidOfTheDark.common.threads.delayed;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
