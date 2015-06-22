@@ -6,9 +6,11 @@ import java.util.List;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.BlockPos;
 
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 public class TPDimension implements ICommand
 {
@@ -55,9 +57,9 @@ public class TPDimension implements ICommand
 	public void processCommand(final ICommandSender iCommandSender, final String[] p_71515_2_)
 	{
 		final EntityPlayer sender = (EntityPlayer) iCommandSender.getCommandSenderEntity();
-		if (sender.dimension == 0)
+		if (sender.dimension != Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
 		{
-			sender.travelToDimension(Constants.NightmareWorld.NIGHTMARE_WORLD_ID);
+			Utility.sendPlayerToDimension((EntityPlayerMP) sender, Constants.NightmareWorld.NIGHTMARE_WORLD_ID, false);
 		}
 		else
 		{

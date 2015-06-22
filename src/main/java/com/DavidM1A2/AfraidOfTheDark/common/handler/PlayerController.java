@@ -41,6 +41,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedInsanityUpdat
 import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedResearchUpdate;
 import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedTeleport;
 import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedVitaeUpdate;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 public class PlayerController
 {
@@ -189,7 +190,7 @@ public class PlayerController
 				{
 					LoadResearchData.unlockResearchSynced(event.entityPlayer, ResearchTypes.Nightmares, Side.SERVER, true);
 				}
-				event.entityPlayer.travelToDimension(Constants.NightmareWorld.NIGHTMARE_WORLD_ID);
+				Utility.sendPlayerToDimension((EntityPlayerMP) event.entityPlayer, Constants.NightmareWorld.NIGHTMARE_WORLD_ID, false);
 				AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new TellPlayerHesSleeping(), (EntityPlayerMP) event.entityPlayer);
 			}
 		}
