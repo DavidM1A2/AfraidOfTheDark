@@ -15,8 +15,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.Point;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.customButtons.BookmarkButton;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ClientData;
 
 public class BloodStainedJournalPageGUI extends GuiScreen
@@ -28,8 +30,6 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 	private final TextBox rightPage;
 
 	private BookmarkButton bookmarkButton;
-
-	private double pageScale = 1.0;
 
 	private int previousWidth = 0;
 	private int previousHeight = 0;
@@ -82,47 +82,61 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 		// Has the window been resized?
 		if ((this.width != this.previousWidth) || (this.height != this.previousHeight))
 		{
-			// Scale relative to 640x480
-			double pageScaleWidth = this.width / 640.0;
-			double pageScaleHeight = this.height / 480.0;
-			double pageScale = (pageScaleWidth + pageScaleHeight) / 2.0;
-
 			// Calculate various variables later used in text box width/height calculation
-			this.xCornerOfPage = (int) ((this.width - (330 * pageScale)) / 2);
-			this.yCornerOfPage = (int) ((this.height - (330 * pageScale)) / 2);
+			this.xCornerOfPage = (this.width - 330) / 2;
+			this.yCornerOfPage = (this.height - 330) / 2;
 
-			this.journalWidth = (int) (330 * pageScale);
-			this.journalHeight = (int) (330 * pageScale);
+			this.journalWidth = 330;
+			this.journalHeight = 330;
 
 			// Set the journal font sizes
-			ClientData.journalFont.setFontSize((int) (pageScale * 20), 32, 126, false);
-			ClientData.journalTitleFont.setFontSize((int) (pageScale * 32), 32, 126, false);
+			ClientData.journalFont.setFontSize(20, 32, 126, false);
+			ClientData.journalTitleFont.setFontSize(32, 32, 126, false);
 
-			int scaledXLeftPageCoord = this.xCornerOfPage + (int) (20 * pageScale);
-			int scaledYLeftPageCoord = this.yCornerOfPage + (int) (35 * pageScale);
+			int scaledXLeftPageCoord = this.xCornerOfPage + 20;
+			int scaledYLeftPageCoord = this.yCornerOfPage + 35;
 
-			int scaledXRightPageCoord = this.xCornerOfPage + (int) (170 * pageScale);
-			int scaledYRightPageCoord = this.yCornerOfPage + (int) (35 * pageScale);
+			int scaledXRightPageCoord = this.xCornerOfPage + 170;
+			int scaledYRightPageCoord = this.yCornerOfPage + 35;
 
 			// Set the text box bounds
-			this.leftPage.updateBounds(scaledXLeftPageCoord, scaledYLeftPageCoord, this.journalWidth, this.journalHeight - (int) (20 * this.pageScale));
-			this.rightPage.updateBounds(scaledXRightPageCoord, scaledYRightPageCoord, this.journalWidth, this.journalHeight - (int) (20 * this.pageScale));
+			this.leftPage.updateBounds(scaledXLeftPageCoord, scaledYLeftPageCoord, this.journalWidth, this.journalHeight - 20);
+			this.rightPage.updateBounds(scaledXRightPageCoord, scaledYRightPageCoord, this.journalWidth, this.journalHeight - 20);
 
-			this.bookmarkButton.updateBounds(0, this.height - (int) (40 * pageScale), this.width, (int) (40 * pageScale));
+			this.bookmarkButton.updateBounds(0, this.height - 40, this.width, 40);
 
 			this.previousWidth = this.width;
 			this.previousHeight = this.height;
 		}
 
+		GL11.glPushMatrix();
+		GL11.glEnable(GL11.GL_BLEND);
+
+		double pageScaleWidth = this.width / 640.0D;
+		double pageScaleHeight = this.height / 480.0D;
+		double pageScaleCombined = (pageScaleWidth + pageScaleHeight) / 2.0D;
+
+		GL11.glTranslated(this.width / 2, this.height / 2, 0.0D);
+		GL11.glScaled(pageScaleCombined, pageScaleCombined, 1.0D);
+		GL11.glTranslated(-this.width / 2, -this.height / 2, 0.0D);
+
 		// Draw the journal background
 		Gui.drawScaledCustomSizeModalRect(this.xCornerOfPage, this.yCornerOfPage, 0, 0, this.journalWidth, this.journalHeight, this.journalWidth, this.journalHeight, this.journalWidth, this.journalHeight);
 
 		// Draw the title
-		ClientData.journalTitleFont.drawString(this.title, this.xCornerOfPage + (int) (15 * pageScale), this.yCornerOfPage + (int) (15 * pageScale), 0xFF800000);
+		ClientData.journalTitleFont.drawString(this.title, this.xCornerOfPage + 15, this.yCornerOfPage + 15, 0xFF800000);
 		// Anything the left page can't draw, move to right page
 		this.rightPage.drawText(this.leftPage.drawText(this.text));
 
 		super.drawScreen(i, j, f);
+
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glPopMatrix();
+	}
+
+	private static Point centerPointOfRect(Point point)
+	{
+		return new Point(point.getX() / 2, point.getY() / 2);
 	}
 
 	@Override
