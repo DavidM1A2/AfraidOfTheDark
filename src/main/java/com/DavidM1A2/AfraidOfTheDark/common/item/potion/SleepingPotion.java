@@ -9,5 +9,4 @@ public class SleepingPotion extends AOTDPotion
 		super(id, resourceLocation, isBad, color);
 		this.setPotionName("Drowsyness");
 	}
-
 }

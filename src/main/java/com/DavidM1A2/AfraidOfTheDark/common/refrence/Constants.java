@@ -105,6 +105,7 @@ public final class Constants
 		public static final int PACKET_ID_ROTATE_PLAYER_UPDATE = 7;
 		public static final int PACKET_ID_FIRE_BOLT = 8;
 		public static final int PACKET_ID_UPDATE_LANTERN_STATE = 9;
+		public static final int PACKET_ID_UPDATE_SLEEPING_STATE = 10;;
 	}
 
 	public static final class AOTDToolMaterials

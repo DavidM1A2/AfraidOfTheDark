@@ -24,6 +24,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
 import com.DavidM1A2.AfraidOfTheDark.common.item.crossbow.ItemCrossbow;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.TellPlayerHesSleeping;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateAOTDStatus;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateInsanity;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateResearch;
@@ -188,6 +189,8 @@ public class PlayerController
 				{
 					LoadResearchData.unlockResearchSynced(event.entityPlayer, ResearchTypes.Nightmares, Side.SERVER, true);
 				}
+				event.entityPlayer.travelToDimension(Constants.NightmareWorld.NIGHTMARE_WORLD_ID);
+				AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new TellPlayerHesSleeping(), (EntityPlayerMP) event.entityPlayer);
 			}
 		}
 	}
