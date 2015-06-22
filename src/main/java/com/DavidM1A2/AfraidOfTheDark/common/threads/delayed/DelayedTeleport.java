@@ -1,6 +1,9 @@
 package com.DavidM1A2.AfraidOfTheDark.common.threads.delayed;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+
+import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 public class DelayedTeleport extends DelayedUpdate<Integer>
 {
@@ -12,6 +15,6 @@ public class DelayedTeleport extends DelayedUpdate<Integer>
 	@Override
 	protected void updatePlayer()
 	{
-		entityPlayer.travelToDimension(data);
+		Utility.sendPlayerToDimension((EntityPlayerMP) entityPlayer, data, false);
 	}
 }

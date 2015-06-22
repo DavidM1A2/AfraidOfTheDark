@@ -60,7 +60,8 @@ public class PlayerController
 		Vitae.set(event.entityPlayer, vitaeLevel, Side.SERVER);
 		if (event.original.dimension == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
 		{
-			InventorySaver.saveInventory(event.entityPlayer, InventorySaver.loadInventory(event.original));
+			InventorySaver.setInventory(event.entityPlayer, InventorySaver.getInventory(event.original), InventorySaver.getPlayerLocation(event.original));
+			(new DelayedTeleport(event.entityPlayer, 0)).start();
 		}
 		// When the player gets new research we will wait 500ms before updating because otherwise the event.original player
 		// will get the new data
@@ -68,7 +69,6 @@ public class PlayerController
 		(new DelayedInsanityUpdate(event.entityPlayer, insanity)).start();
 		(new DelayedResearchUpdate(event.entityPlayer, research)).start();
 		(new DelayedVitaeUpdate(event.entityPlayer, vitaeLevel)).start();
-		(new DelayedTeleport(event.entityPlayer, 0)).start();
 	}
 
 	@SideOnly(Side.CLIENT)

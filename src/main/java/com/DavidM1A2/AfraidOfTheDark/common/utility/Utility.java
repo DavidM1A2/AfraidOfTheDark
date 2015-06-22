@@ -51,13 +51,13 @@ public class Utility
 		WorldServer worldserver = serverConfigurationManager.getServerInstance().worldServerForDimension(entityPlayer.dimension);
 		entityPlayer.dimension = dimensionId;
 		WorldServer worldserver1 = serverConfigurationManager.getServerInstance().worldServerForDimension(entityPlayer.dimension);
-		entityPlayer.playerNetServerHandler.sendPacket(new S07PacketRespawn(entityPlayer.dimension, worldserver1.getDifficulty(), worldserver1.getWorldInfo().getTerrainType(), entityPlayer.theItemInWorldManager.getGameType())); // Forge: Use new dimensions information
+		entityPlayer.playerNetServerHandler.sendPacket(new S07PacketRespawn(entityPlayer.dimension, worldserver1.getDifficulty(), worldserver1.getWorldInfo().getTerrainType(), entityPlayer.theItemInWorldManager.getGameType()));
 		worldserver.removePlayerEntityDangerously(entityPlayer);
 		entityPlayer.isDead = false;
 
 		if (!spawnPortal)
 		{
-			serverConfigurationManager.transferEntityToWorld(entityPlayer, j, worldserver, worldserver1, new NightmareTeleporter(worldserver1));
+			serverConfigurationManager.transferEntityToWorld(entityPlayer, j, worldserver, worldserver1, new NightmareTeleporter(worldserver1, j, dimensionId));
 		}
 		else
 		{
