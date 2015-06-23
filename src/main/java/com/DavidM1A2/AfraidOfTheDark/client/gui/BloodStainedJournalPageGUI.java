@@ -217,6 +217,33 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 	private void advancePage()
 	{
 		pageNumber = pageNumber + 2;
+
+		boolean leftPageValid = true;
+		boolean rightPageValid = true;
+
+		try
+		{
+			this.textOnEachPage.get(pageNumber);
+		}
+		catch (IndexOutOfBoundsException e)
+		{
+			this.leftPage.drawText("");
+			leftPageValid = false;
+		}
+		try
+		{
+			this.textOnEachPage.get(pageNumber + 1);
+		}
+		catch (IndexOutOfBoundsException e)
+		{
+			this.rightPage.drawText("");
+			rightPageValid = false;
+		}
+
+		if (!leftPageValid && !rightPageValid)
+		{
+			pageNumber = pageNumber - 2;
+		}
 	}
 
 	private void rewindPage()
