@@ -16,7 +16,8 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import com.DavidM1A2.AfraidOfTheDark.client.gui.customButtons.MeteorButton;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.GuiClickAndDragable;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.MeteorButton;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.MeteorTypes;

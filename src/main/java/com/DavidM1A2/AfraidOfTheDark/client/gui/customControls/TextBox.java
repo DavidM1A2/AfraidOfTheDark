@@ -3,7 +3,7 @@
  * Mod: Afraid of the Dark
  * Ideas and Textures: Michael Albertson
  */
-package com.DavidM1A2.AfraidOfTheDark.client.gui;
+package com.DavidM1A2.AfraidOfTheDark.client.gui.customControls;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,13 +54,35 @@ public class TextBox
 		return toReturn;
 	}
 
+	public String getExtraText(final String text)
+	{
+		String toReturn = "";
+		int x = this.xPosition;
+		final int y = this.yPosition;
+		int line = 0;
+		for (final Object o : this.splitString(text))
+		{
+			final String string = (String) o;
+			if ((y + line) > this.height)
+			{
+				x = x + this.width;
+				toReturn = toReturn + string;
+			}
+			else
+			{
+				line = line + (this.myFontRefrence.getFontSize() / 2);
+			}
+		}
+		return toReturn;
+	}
+
 	// Split a string based on page width
 	private List<String> splitString(String text)
 	{
 		final List<String> toReturn = new ArrayList<String>();
 		final float pixelsAcrossPage = this.width;
 		final int charactersPerPage = 2 * (int) (Math.floor(pixelsAcrossPage / (this.myFontRefrence.getFontSize())));
-		while (!text.equals(""))
+		while (!text.equals("") && charactersPerPage != 0)
 		{
 			final Iterable iterable = Splitter.fixedLength(charactersPerPage).split(text);
 			if (iterable.iterator().hasNext())
