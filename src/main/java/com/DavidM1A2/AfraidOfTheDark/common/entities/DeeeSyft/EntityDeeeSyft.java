@@ -12,18 +12,25 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityMoveHelper;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
 
 import com.DavidM1A2.AfraidOfTheDark.common.MCA.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.MCA.MCACommonLibrary.animation.AnimationHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
 
 public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 {
 	protected AnimationHandler animHandler = new AnimationHandlerDeeeSyft(this);
-	private double flightCeiling = 75;
+	private int flightCeiling = 85;
+	private static final int PASSIVE_VITAE_GEN_IN_TICKS = 400;
+	private static final String TICKS_UNTIL_NORMAL_AI = "ticksUntilNormalAI";
+	private static final String FLIGHT_CEILING = "flightCeiling";
+	private int timeUntilNormalAI = 0;
 
 	public EntityDeeeSyft(World par1World)
 	{
@@ -42,13 +49,39 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 	}
 
 	/**
+	 * Gets called every tick from main Entity class
+	 */
+	@Override
+	public void onEntityUpdate()
+	{
+		if (!this.worldObj.isRemote)
+		{
+			if (ticksExisted % PASSIVE_VITAE_GEN_IN_TICKS == 0)
+			{
+				if (Vitae.get(this) < 100)
+				{
+					Vitae.addVitae(this, this.rand.nextInt(3), Side.SERVER);
+				}
+			}
+		}
+
+		super.onEntityUpdate();
+	}
+
+	/**
 	 * Called when the entity is attacked.
 	 */
 	public boolean attackEntityFrom(DamageSource source, float amount)
 	{
+		this.getEntityData().setInteger(TICKS_UNTIL_NORMAL_AI, 100);
 		if (!this.getAnimationHandler().isAnimationActive("jiggle"))
 		{
 			this.getAnimationHandler().activateAnimation("jiggle", 0);
+		}
+		if (source == DamageSource.inFire || source == DamageSource.onFire || source == DamageSource.lava)
+		{
+			this.setDead();
+			this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 7.0F, true);
 		}
 		return super.attackEntityFrom(source, amount);
 	}
@@ -72,7 +105,32 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 		}
 	}
 
-	class AILookAround extends EntityAIBase
+	/**
+	 * (abstract) Protected helper method to write subclass entity data to NBT.
+	 */
+	public void writeEntityToNBT(NBTTagCompound tagCompound)
+	{
+		super.writeEntityToNBT(tagCompound);
+		tagCompound.setInteger(TICKS_UNTIL_NORMAL_AI, this.timeUntilNormalAI);
+		tagCompound.setInteger(FLIGHT_CEILING, this.flightCeiling);
+	}
+
+	/**
+	 * (abstract) Protected helper method to read subclass entity data from NBT.
+	 */
+	public void readEntityFromNBT(NBTTagCompound tagCompound)
+	{
+		super.readEntityFromNBT(tagCompound);
+		this.timeUntilNormalAI = tagCompound.getInteger(TICKS_UNTIL_NORMAL_AI);
+		this.flightCeiling = tagCompound.getInteger(FLIGHT_CEILING);
+	}
+
+	public void setFlightCeiling(int ceiling)
+	{
+		this.flightCeiling = ceiling;
+	}
+
+	private class AILookAround extends EntityAIBase
 	{
 		private EntityDeeeSyft instance = EntityDeeeSyft.this;
 
@@ -113,7 +171,7 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 		}
 	}
 
-	class AIRandomFly extends EntityAIBase
+	private class AIRandomFly extends EntityAIBase
 	{
 		private EntityDeeeSyft instance = EntityDeeeSyft.this;
 
@@ -158,13 +216,24 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 		{
 			Random random = this.instance.getRNG();
 			double d0 = this.instance.posX + (double) ((random.nextFloat() * 2.0F - 1.0F) * 16.0F);
-			double d1 = MathHelper.clamp_double(this.instance.posY + (double) ((random.nextFloat() * 2.0F - 1.0F) * 16.0D), 0.0D, flightCeiling);
+
+			double d1;
+			if (this.instance.timeUntilNormalAI == 0)
+			{
+				d1 = MathHelper.clamp_double(this.instance.posY + (double) ((random.nextFloat() * 2.0F - 1.0F) * 16.0D), 0.0D, flightCeiling);
+			}
+			else
+			{
+				this.instance.timeUntilNormalAI = this.instance.timeUntilNormalAI - 1;
+				d1 = this.instance.posY - 10;
+			}
+
 			double d2 = this.instance.posZ + (double) ((random.nextFloat() * 2.0F - 1.0F) * 16.0F);
 			this.instance.getMoveHelper().setMoveTo(d0, d1, d2, EntityDeeeSyft.this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed).getBaseValue());
 		}
 	}
 
-	class DeeeSyftMoveHelper extends EntityMoveHelper
+	private class DeeeSyftMoveHelper extends EntityMoveHelper
 	{
 		private EntityDeeeSyft instance = EntityDeeeSyft.this;
 		private int temp;

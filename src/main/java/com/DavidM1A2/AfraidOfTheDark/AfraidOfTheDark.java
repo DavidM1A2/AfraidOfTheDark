@@ -22,6 +22,7 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.ResearchAchieved;
+import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.commands.InsanityCheck;
 import com.DavidM1A2.AfraidOfTheDark.common.commands.TPDimension;
 import com.DavidM1A2.AfraidOfTheDark.common.debug.DebugSpammer;
@@ -40,7 +41,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModOreDictionaryCompat
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModRecipes;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModThreads;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.proxy.IProxy;

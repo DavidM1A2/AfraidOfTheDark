@@ -49,6 +49,7 @@ import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.util.EnumHelper;
 
+import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.WereWolf.EntityWereWolf;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
@@ -96,6 +97,7 @@ public final class Constants
 		entityVitaeResistance.put(EntityDragon.class, 300);
 		entityVitaeResistance.put(EntityWither.class, 300);
 		entityVitaeResistance.put(EntityWereWolf.class, 120);
+		entityVitaeResistance.put(EntityDeeeSyft.class, 150);
 	}
 
 	public static final class Packets

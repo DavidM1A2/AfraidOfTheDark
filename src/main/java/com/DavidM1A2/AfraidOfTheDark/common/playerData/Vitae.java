@@ -15,8 +15,10 @@ import net.minecraftforge.common.IExtendedEntityProperties;
 import net.minecraftforge.fml.relauncher.Side;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateVitae;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 //This property is saved on ENTITIES and keeps track of their vitae levels
 public class Vitae implements IExtendedEntityProperties
@@ -70,30 +72,43 @@ public class Vitae implements IExtendedEntityProperties
 
 	public static void addVitae(final EntityLivingBase entityLivingBase, final int additionalVitae, final Side side)
 	{
-		if (Vitae.get(entityLivingBase) + additionalVitae > Constants.entityVitaeResistance.get(entityLivingBase.getClass()) && !(entityLivingBase instanceof EntityPlayer && ((EntityPlayer) entityLivingBase).capabilities.isCreativeMode))
+		if (Constants.entityVitaeResistance.containsKey(entityLivingBase.getClass()))
 		{
-			entityLivingBase.worldObj.createExplosion(entityLivingBase, entityLivingBase.getPosition().getX(), entityLivingBase.getPosition().getY(), entityLivingBase.getPosition().getZ(), 2, true).doExplosionB(true);
-			entityLivingBase.killCommand();
-		}
-		else
-		{
-			if (Vitae.get(entityLivingBase) + additionalVitae < 0)
+			if (Vitae.get(entityLivingBase) + additionalVitae > Constants.entityVitaeResistance.get(entityLivingBase.getClass()) && !(entityLivingBase instanceof EntityPlayer && ((EntityPlayer) entityLivingBase).capabilities.isCreativeMode))
 			{
-				entityLivingBase.getEntityData().setInteger(Vitae.VITAE_LEVEL, 0);
+				entityLivingBase.worldObj.createExplosion(entityLivingBase, entityLivingBase.getPosition().getX(), entityLivingBase.getPosition().getY(), entityLivingBase.getPosition().getZ(), 2, true).doExplosionB(true);
+				entityLivingBase.killCommand();
 			}
 			else
 			{
-				entityLivingBase.getEntityData().setInteger(Vitae.VITAE_LEVEL, Vitae.get(entityLivingBase) + additionalVitae);
-			}
+				if (Vitae.get(entityLivingBase) + additionalVitae < 0)
+				{
+					entityLivingBase.getEntityData().setInteger(Vitae.VITAE_LEVEL, 0);
+				}
+				else
+				{
+					entityLivingBase.getEntityData().setInteger(Vitae.VITAE_LEVEL, Vitae.get(entityLivingBase) + additionalVitae);
+				}
 
-			if (side == Side.CLIENT)
-			{
-				AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateVitae(Vitae.get(entityLivingBase), entityLivingBase.getEntityId()));
-			}
-			else if (side == side.SERVER)
-			{
-				AfraidOfTheDark.getSimpleNetworkWrapper().sendToAll(new UpdateVitae(Vitae.get(entityLivingBase), entityLivingBase.getEntityId()));
+				if (side == Side.CLIENT)
+				{
+					AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateVitae(Vitae.get(entityLivingBase), entityLivingBase.getEntityId()));
+				}
+				else if (side == side.SERVER)
+				{
+					AfraidOfTheDark.getSimpleNetworkWrapper().sendToAll(new UpdateVitae(Vitae.get(entityLivingBase), entityLivingBase.getEntityId()));
+				}
+
+				if (entityLivingBase instanceof EntityDeeeSyft)
+				{
+					((EntityDeeeSyft) entityLivingBase).setFlightCeiling(85 + (int) ((double) Vitae.get(entityLivingBase) / (double) Constants.entityVitaeResistance.get(EntityDeeeSyft.class) * 150.0D));
+				}
 			}
 		}
+		else
+		{
+			LogHelper.warn(entityLivingBase.getClass().getSimpleName() + " is not registered in the vitae dictionary and therefore cannot receive vitae.");
+		}
+
 	}
 }

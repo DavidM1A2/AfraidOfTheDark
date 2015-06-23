@@ -8,12 +8,14 @@ package com.DavidM1A2.AfraidOfTheDark.common.handler;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemFlintAndSteel;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogDensity;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -22,6 +24,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
+import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
 import com.DavidM1A2.AfraidOfTheDark.common.item.crossbow.ItemCrossbow;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.TellPlayerHesSleeping;
@@ -33,7 +37,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.playerData.Insanity;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.InventorySaver;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedAOTDUpdate;
@@ -203,6 +206,18 @@ public class PlayerController
 		if (ClientData.researchAchievedOverlay != null)
 		{
 			ClientData.researchAchievedOverlay.updateResearchAchievedWindow();
+		}
+	}
+
+	@SubscribeEvent
+	public void onEntityInteractEvent(final EntityInteractEvent event)
+	{
+		if (event.target instanceof EntityDeeeSyft)
+		{
+			if (event.entityPlayer.inventory.getCurrentItem().getItem() instanceof ItemFlintAndSteel)
+			{
+				event.target.setFire(1);
+			}
 		}
 	}
 

@@ -23,7 +23,7 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.BookmarkButton;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.ForwardBackwardButtons;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.PageNumberLabel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.TextBox;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.ClientData;
+import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 
 public class BloodStainedJournalPageGUI extends GuiScreen
 {

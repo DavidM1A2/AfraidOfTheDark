@@ -29,6 +29,7 @@ public class ForwardBackwardButtons extends GuiButton
 		// Make sure it should be visible
 		if (this.visible)
 		{
+			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			this.hovered = (mouseX >= this.xPosition) && (mouseY >= this.yPosition) && (mouseX < (this.xPosition + this.width)) && (mouseY < (this.yPosition + this.height));
 
 			if (isForward)

@@ -7,6 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -63,10 +64,10 @@ public class UpdateVitae implements IMessage
 		@Override
 		public IMessage onMessage(final UpdateVitae message, final MessageContext ctx)
 		{
-			if (Minecraft.getMinecraft().thePlayer.getEntityId() == message.entityIDToUpdate)
+			Entity toUpdate = Minecraft.getMinecraft().thePlayer.worldObj.getEntityByID(message.entityIDToUpdate);
+			if (toUpdate != null)
 			{
-				LogHelper.info("Update Vitae Status: My player");
-				Minecraft.getMinecraft().thePlayer.getEntityData().setInteger(Vitae.VITAE_LEVEL, message.vitaeLevel);
+				toUpdate.getEntityData().setInteger(Vitae.VITAE_LEVEL, message.vitaeLevel);
 			}
 			return null;
 		}

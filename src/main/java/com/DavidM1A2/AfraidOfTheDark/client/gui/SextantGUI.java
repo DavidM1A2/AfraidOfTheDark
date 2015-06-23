@@ -22,8 +22,8 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
+import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.TellServerToCreateMeteor;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.ClientData;
 
 public class SextantGUI extends GuiScreen
 {

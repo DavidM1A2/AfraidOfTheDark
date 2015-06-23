@@ -3,12 +3,16 @@
  * Mod: Afraid of the Dark
  * Ideas and Textures: Michael Albertson
  */
-package com.DavidM1A2.AfraidOfTheDark.common.refrence;
+package com.DavidM1A2.AfraidOfTheDark.client.settings;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.DavidM1A2.AfraidOfTheDark.client.gui.ResearchAchieved;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDCrossbowBoltTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.CustomFont;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.MeteorTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 public final class ClientData
 {

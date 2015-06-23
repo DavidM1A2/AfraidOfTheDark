@@ -18,8 +18,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.GuiClickAndDragable;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.MeteorButton;
+import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.MeteorTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 

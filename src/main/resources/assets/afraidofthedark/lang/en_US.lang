@@ -64,4 +64,4 @@ keys.afraidofthedark.fireWristCrossbow=Fire Wrist Crossbow
 keys.afraidofthedark.changeLanternMode=Change Lantern Mode
 
 # Mobs
-entity.AfraidOfTheDark.Werewolf.name=Werewolf
+entity.AfraidOfTheDark.werewolf.name=Werewolf

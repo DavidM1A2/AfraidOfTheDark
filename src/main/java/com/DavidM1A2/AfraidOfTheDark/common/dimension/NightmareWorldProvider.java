@@ -27,7 +27,11 @@ public class NightmareWorldProvider extends WorldProvider
 		this.dimensionId = Constants.NightmareWorld.NIGHTMARE_WORLD_ID;
 		this.worldChunkMgr = new WorldChunkManager(ModBiomes.nightmare.biomeID, WorldType.CUSTOMIZED, "");
 		this.hasNoSky = false;
-		this.setSkyRenderer(new NightmareSkyRenderer());
+
+		if (this.worldObj.isRemote)
+		{
+			this.setSkyRenderer(new NightmareSkyRenderer());
+		}
 	}
 
 	@Override
