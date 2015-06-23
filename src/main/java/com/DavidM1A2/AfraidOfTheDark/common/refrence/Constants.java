@@ -50,7 +50,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.util.EnumHelper;
 
 import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
-import com.DavidM1A2.AfraidOfTheDark.common.entities.WereWolf.EntityWereWolf;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWereWolf;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.Schematic;

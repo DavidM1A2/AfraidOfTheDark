@@ -27,7 +27,7 @@ import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewood;
-import com.DavidM1A2.AfraidOfTheDark.common.dimension.NightmareTeleporter;
+import com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare.NightmareTeleporter;
 
 public class Utility
 {

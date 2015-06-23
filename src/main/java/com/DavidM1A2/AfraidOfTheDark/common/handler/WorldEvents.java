@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import com.DavidM1A2.AfraidOfTheDark.common.entities.WereWolf.EntityWereWolf;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWereWolf;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
 
 public class WorldEvents

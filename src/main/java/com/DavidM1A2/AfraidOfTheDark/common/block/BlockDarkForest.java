@@ -10,6 +10,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
+import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDBlock;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.BlockTileEntityDarkForest;
 
 public class BlockDarkForest extends AOTDBlock implements ITileEntityProvider

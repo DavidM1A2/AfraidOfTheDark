@@ -7,7 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.initializeMod;
 
 import net.minecraftforge.common.DimensionManager;
 
-import com.DavidM1A2.AfraidOfTheDark.common.dimension.NightmareWorldProvider;
+import com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare.NightmareWorldProvider;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 
 public class ModDimensions

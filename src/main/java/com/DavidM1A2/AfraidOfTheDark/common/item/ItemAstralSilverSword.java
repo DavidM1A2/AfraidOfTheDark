@@ -9,7 +9,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
-import com.DavidM1A2.AfraidOfTheDark.common.entities.WereWolf.EntityWereWolf;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWereWolf;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDSword;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;

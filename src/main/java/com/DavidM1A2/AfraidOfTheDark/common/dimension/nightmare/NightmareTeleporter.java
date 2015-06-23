@@ -3,7 +3,7 @@
  * Mod: Afraid of the Dark
  * Ideas and Textures: Michael Albertson
  */
-package com.DavidM1A2.AfraidOfTheDark.common.dimension;
+package com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

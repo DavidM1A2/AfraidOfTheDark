@@ -68,7 +68,7 @@ public class TPDimension implements ICommand
 		}
 		else
 		{
-			sender.travelToDimension(0);
+			Utility.sendPlayerToDimension((EntityPlayerMP) sender, 0, false);
 		}
 	}
 

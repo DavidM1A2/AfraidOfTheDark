@@ -11,7 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
-import com.DavidM1A2.AfraidOfTheDark.common.entities.WereWolf.EntityWereWolf;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWereWolf;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;

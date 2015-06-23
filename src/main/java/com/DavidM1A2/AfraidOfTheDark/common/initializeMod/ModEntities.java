@@ -13,7 +13,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityIronBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntitySilverBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityWoodenBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
-import com.DavidM1A2.AfraidOfTheDark.common.entities.WereWolf.EntityWereWolf;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWereWolf;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 
 public class ModEntities
