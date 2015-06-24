@@ -7,7 +7,6 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 
 import java.util.List;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,15 +17,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
-import com.DavidM1A2.AfraidOfTheDark.common.item.core.IHasCooldown;
+import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItemWithCooldown;
 import com.DavidM1A2.AfraidOfTheDark.common.threads.TemporaryInvincibility;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
-public class ItemStarMetalStaff extends AOTDItem implements IHasCooldown
+public class ItemStarMetalStaff extends AOTDItemWithCooldown
 {
 	private static final int MAX_TROLL_POLE_TIME_IN_TICKS = 60;
-	private double cooldownRemaining = 0;
 
 	public ItemStarMetalStaff()
 	{
@@ -37,7 +34,7 @@ public class ItemStarMetalStaff extends AOTDItem implements IHasCooldown
 	@Override
 	public ItemStack onItemRightClick(final ItemStack itemStack, final World world, final EntityPlayer entityPlayer)
 	{
-		if (cooldownRemaining == 0)
+		if (!this.isOnCooldown())
 		{
 			if (!entityPlayer.capabilities.isCreativeMode)
 			{
@@ -52,7 +49,7 @@ public class ItemStarMetalStaff extends AOTDItem implements IHasCooldown
 			{
 				if (entityPlayer.getItemInUse() != itemStack)
 				{
-					entityPlayer.addChatMessage(new ChatComponentText(this.cooldownRemaining != 0 ? ("Cooldown remaining: " + ((int) this.cooldownRemaining / 20 + 1) + " second" + (this.cooldownRemaining / 20 == 0.0 ? "." : "s.")) : "Ready to Use"));
+					entityPlayer.addChatMessage(new ChatComponentText(this.isOnCooldown() ? ("Cooldown remaining: " + this.cooldownRemaining() + " second" + (this.cooldownRemaining() - 1 == 0.0 ? "." : "s.")) : "Ready to Use"));
 				}
 			}
 		}
@@ -76,7 +73,7 @@ public class ItemStarMetalStaff extends AOTDItem implements IHasCooldown
 		count = ItemStarMetalStaff.MAX_TROLL_POLE_TIME_IN_TICKS - count;
 		if (count == 1)
 		{
-			cooldownRemaining = this.getItemCooldownInTicks();
+			this.setOnCooldown();
 			entityPlayer.fallDistance = 0.0f;
 		}
 		else if (count >= 3)
@@ -153,17 +150,6 @@ public class ItemStarMetalStaff extends AOTDItem implements IHasCooldown
 		tooltip.add("Right click for temporary invincibility");
 		tooltip.add("followed by an AOE knockback.");
 		tooltip.add("Max cooldown: " + this.getItemCooldownInTicks() / 20 + " seconds.");
-	}
-
-	/**
-	 * Called each tick as long the item is on a player inventory. Uses by maps to check if is on a player hand and update it's contents.
-	 */
-	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
-	{
-		if (this.cooldownRemaining > 0)
-		{
-			cooldownRemaining = cooldownRemaining - 0.5;
-		}
 	}
 
 	@Override
