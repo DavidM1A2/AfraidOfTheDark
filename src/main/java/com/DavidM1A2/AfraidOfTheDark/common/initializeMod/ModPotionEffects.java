@@ -22,18 +22,18 @@ public class ModPotionEffects
 	{
 		Potion[] potionTypes = null;
 
-		for (Field f : Potion.class.getDeclaredFields())
+		for (Field field : Potion.class.getDeclaredFields())
 		{
-			f.setAccessible(true);
+			field.setAccessible(true);
 			try
 			{
-				if (f.getName().equals("potionTypes") || f.getName().equals("field_76425_a"))
+				if (field.getName().equals("potionTypes") || field.getName().equals("field_76425_a"))
 				{
 					Field modfield = Field.class.getDeclaredField("modifiers");
 					modfield.setAccessible(true);
-					modfield.setInt(f, f.getModifiers() & ~Modifier.FINAL);
+					modfield.setInt(field, field.getModifiers() & ~Modifier.FINAL);
 
-					potionTypes = (Potion[]) f.get(null);
+					potionTypes = (Potion[]) field.get(null);
 					final Potion[] newPotionTypes = new Potion[256];
 					System.arraycopy(potionTypes, 0, newPotionTypes, 0, potionTypes.length);
 
@@ -46,7 +46,7 @@ public class ModPotionEffects
 						}
 					}
 
-					f.set(null, newPotionTypes);
+					field.set(null, newPotionTypes);
 				}
 			}
 			catch (Exception e)
