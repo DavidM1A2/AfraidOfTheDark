@@ -1,4 +1,4 @@
-package com.DavidM1A2.AfraidOfTheDark.common.MCA.MCACommonLibrary.math;
+package com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.math;
 
 public class Matrix4f implements java.io.Serializable
 {

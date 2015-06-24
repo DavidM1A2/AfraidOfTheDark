@@ -1,4 +1,4 @@
-package com.DavidM1A2.AfraidOfTheDark.common.MCA.MCACommonLibrary.math;
+package com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.math;
 
 /**
  * A double precision floating point 3 by 3 matrix. Primarily to support 3D rotations.

@@ -1,9 +1,9 @@
-package com.DavidM1A2.AfraidOfTheDark.common.MCA.MCACommonLibrary.animation;
+package com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation;
 
 import java.util.HashMap;
 
-import com.DavidM1A2.AfraidOfTheDark.common.MCA.MCACommonLibrary.math.Quaternion;
-import com.DavidM1A2.AfraidOfTheDark.common.MCA.MCACommonLibrary.math.Vector3f;
+import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.math.Quaternion;
+import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.math.Vector3f;
 
 public class KeyFrame
 {

@@ -1,9 +1,9 @@
-package com.DavidM1A2.AfraidOfTheDark.common.MCA.MCACommonLibrary.animation;
+package com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation;
 
 import java.util.HashMap;
 
 import com.DavidM1A2.AfraidOfTheDark.client.MCA.MCAClientLibrary.MCAModelRenderer;
-import com.DavidM1A2.AfraidOfTheDark.common.MCA.MCACommonLibrary.IMCAnimatedEntity;
+import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 
 public class CustomChannel extends Channel
 {

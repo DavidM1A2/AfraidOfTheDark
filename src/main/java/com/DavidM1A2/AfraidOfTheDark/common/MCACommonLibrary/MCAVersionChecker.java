@@ -1,4 +1,4 @@
-package com.DavidM1A2.AfraidOfTheDark.common.MCA.MCACommonLibrary;
+package com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary;
 
 public class MCAVersionChecker
 {

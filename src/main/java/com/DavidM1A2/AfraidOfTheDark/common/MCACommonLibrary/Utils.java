@@ -1,12 +1,12 @@
-package com.DavidM1A2.AfraidOfTheDark.common.MCA.MCACommonLibrary;
+package com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-import com.DavidM1A2.AfraidOfTheDark.common.MCA.MCACommonLibrary.math.Matrix4f;
-import com.DavidM1A2.AfraidOfTheDark.common.MCA.MCACommonLibrary.math.Quaternion;
-import com.DavidM1A2.AfraidOfTheDark.common.MCA.MCACommonLibrary.math.Vector3f;
+import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.math.Matrix4f;
+import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.math.Quaternion;
+import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.math.Vector3f;
 
 public class Utils
 {

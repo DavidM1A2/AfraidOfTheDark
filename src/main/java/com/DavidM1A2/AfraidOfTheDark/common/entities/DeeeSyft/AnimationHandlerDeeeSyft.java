@@ -7,9 +7,9 @@ package com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft;
 
 import java.util.HashMap;
 
-import com.DavidM1A2.AfraidOfTheDark.common.MCA.MCACommonLibrary.IMCAnimatedEntity;
-import com.DavidM1A2.AfraidOfTheDark.common.MCA.MCACommonLibrary.animation.AnimationHandler;
-import com.DavidM1A2.AfraidOfTheDark.common.MCA.MCACommonLibrary.animation.Channel;
+import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
+import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.Channel;
 
 public class AnimationHandlerDeeeSyft extends AnimationHandler
 {

@@ -1,4 +1,4 @@
-package com.DavidM1A2.AfraidOfTheDark.common.MCA.MCACommonLibrary.animation;
+package com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation;
 
 import java.util.ArrayList;
 
@@ -8,7 +8,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 
-import com.DavidM1A2.AfraidOfTheDark.common.MCA.MCACommonLibrary.IMCAnimatedEntity;
+import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 
 public class AnimTickHandler
 {
