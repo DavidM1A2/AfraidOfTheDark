@@ -54,11 +54,11 @@ public class NightmareWorldProvider extends WorldProvider
 		return 255;
 	}
 
-	//	@SideOnly(Side.CLIENT)
-	//	public boolean doesXZShowFog(int par1, int par2)
-	//	{
-	//		return false;
-	//	}
+	@SideOnly(Side.CLIENT)
+	public boolean doesXZShowFog(int par1, int par2)
+	{
+		return true;
+	}
 
 	@Override
 	public String getDimensionName()

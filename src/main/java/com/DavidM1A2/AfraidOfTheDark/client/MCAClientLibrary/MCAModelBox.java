@@ -1,4 +1,4 @@
-package com.DavidM1A2.AfraidOfTheDark.client.MCA.MCAClientLibrary;
+package com.DavidM1A2.AfraidOfTheDark.client.MCAClientLibrary;
 
 import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;

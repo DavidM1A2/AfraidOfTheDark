@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWereWolf;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 
 public class WorldEvents
 {
@@ -91,6 +92,23 @@ public class WorldEvents
 						}
 						this.readyToSpawnWerewolves = true;
 					}
+				}
+			}
+		}
+	}
+
+	@SubscribeEvent
+	public void constantNightmareWorldRain(final WorldEvent event)
+	{
+		World world = event.world;
+		if (world.isRemote)
+		{
+			if (world.provider.getDimensionId() == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
+			{
+				if (!world.isRaining())
+				{
+					world.setRainStrength(1.0F);
+					world.setThunderStrength(1.0F);
 				}
 			}
 		}

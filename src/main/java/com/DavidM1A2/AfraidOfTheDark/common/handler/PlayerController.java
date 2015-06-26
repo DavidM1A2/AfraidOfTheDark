@@ -11,7 +11,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemFlintAndSteel;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.client.event.EntityViewRenderEvent.FogDensity;
+import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -76,24 +76,16 @@ public class PlayerController
 
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
-	public void renderEvent(final FogDensity event)
+	public void renderEvent(final FogColors event)
 	{
 		if (event.entity instanceof EntityPlayer && event.entity.dimension == 0)
 		{
-			final EntityPlayer entityPlayer = (EntityPlayer) event.entity;
-
-			final float insanity = (float) Insanity.get(entityPlayer);
+			final float insanity = (float) Insanity.get((EntityPlayer) event.entity);
 
 			// If the player is insane, set the fog equal to 1.001^(.5*insanity) - .9989
 			if (insanity >= 0.1)
 			{
-				event.density = ((float) Math.pow(1.001, 0.5f * insanity) - .9989f);
-				event.setCanceled(true);
-			}
-			else
-			{
-				event.density = 0f;
-				event.setCanceled(true);
+				event.red = insanity / 100.0F; //((float) Math.pow(1.001, 0.5f * insanity) - .9989f);
 			}
 		}
 	}

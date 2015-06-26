@@ -27,6 +27,7 @@ public enum ResearchTypes
 	AstronomyI(WerewolfExamination, 0, 2),
 	AstralSilver(AstronomyI, 0, 3),
 	VitaeI(AstronomyI, -1, 3),
+	DeeeSyft(VitaeI, -1, 4),
 	VitaeLanternI(VitaeI, -2, 3),
 	DarkForest(AstralSilver, 0, 4),
 	CloakOfAgility(WerewolfExamination, -1, 2),

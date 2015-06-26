@@ -78,10 +78,13 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 		{
 			this.getAnimationHandler().activateAnimation("jiggle", 0);
 		}
-		if (source == DamageSource.inFire || source == DamageSource.onFire || source == DamageSource.lava)
+		if (!this.isDead)
 		{
-			this.setDead();
-			this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 7.0F, true);
+			if (source == DamageSource.inFire || source == DamageSource.onFire || source == DamageSource.lava || source.isExplosion())
+			{
+				this.setDead();
+				this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 7.0F, true);
+			}
 		}
 		return super.attackEntityFrom(source, amount);
 	}
