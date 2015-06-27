@@ -15,9 +15,12 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 
+import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 public class ItemVitaeLantern extends AOTDItem
@@ -77,6 +80,14 @@ public class ItemVitaeLantern extends AOTDItem
 
 			if (!entityPlayer.worldObj.isRemote)
 			{
+				if (entityLivingBase instanceof EntityDeeeSyft)
+				{
+					if (LoadResearchData.canResearch(entityPlayer, ResearchTypes.DeeeSyft))
+					{
+						LoadResearchData.unlockResearchSynced(entityPlayer, ResearchTypes.DeeeSyft, Side.SERVER, true);
+					}
+				}
+
 				if (NBTHelper.getInt(itemStack, STORED_VITAE) >= 5)
 				{
 					int vitaeToTransfer = entityPlayer.worldObj.rand.nextInt(5) + 1;
