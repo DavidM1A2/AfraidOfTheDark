@@ -127,22 +127,22 @@ public final class SchematicGenerator
 	private static void printIncorrectIds(short[] blocks)
 	{
 		List<Short> incorrectIds = new ArrayList<Short>();
-		int[] numberOfIncorrect = new int[10000];
+		int[] numberOfIncorrect = new int[20000];
 		for (short b : blocks)
 		{
 			if (b < 0 && !incorrectIds.contains(b))
 			{
 				incorrectIds.add(b);
-				numberOfIncorrect[Math.abs(b) - 2] = 1;
+				numberOfIncorrect[Math.abs(b)] = 1;
 			}
 			else if (b < 0)
 			{
-				numberOfIncorrect[Math.abs(b) - 2] = numberOfIncorrect[Math.abs(b) - 2] + 1;
+				numberOfIncorrect[Math.abs(b)] = numberOfIncorrect[Math.abs(b)] + 1;
 			}
 		}
 		for (short b : incorrectIds)
 		{
-			LogHelper.info(numberOfIncorrect[Math.abs(b) - 2] + " incorrect ids of type " + b + " found in the schematic.");
+			LogHelper.info(numberOfIncorrect[Math.abs(b)] + " incorrect ids of the id " + b + " found in the schematic. ");
 		}
 	}
 }
