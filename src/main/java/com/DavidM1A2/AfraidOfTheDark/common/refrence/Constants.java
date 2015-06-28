@@ -8,6 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.refrence;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.boss.EntityWither;
@@ -163,6 +164,8 @@ public final class Constants
 		public static final Schematic crypt;
 		public static final Schematic spring;
 
+		public static final Schematic nightmareIsland;
+
 		static
 		{
 			treeSmall = SchematicLoader.load("darkForest/TreeSmall.schematic");
@@ -184,6 +187,8 @@ public final class Constants
 			crypt = SchematicLoader.load("crypt.schematic");
 			spring = SchematicLoader.load("spring.schematic");
 
+			nightmareIsland = SchematicLoader.load("nightmareIsland.schematic");
+
 			SchematicBlockReplacer.replaceBlocks(treeSmall, Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
 			SchematicBlockReplacer.replaceBlocks(treeBranchyType1, Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
 			SchematicBlockReplacer.replaceBlocks(treeBranchyType2, Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
@@ -193,6 +198,9 @@ public final class Constants
 
 			SchematicBlockReplacer.replaceBlocks(crypt, Blocks.gold_block, ModBlocks.gravewoodStairs, Blocks.gold_ore, ModBlocks.gravewoodPlanks);
 			SchematicBlockReplacer.replaceBlocks(spring, Blocks.gold_ore, ModBlocks.gravewoodLeaves, Blocks.gold_block, ModBlocks.spring);
+
+			SchematicBlockReplacer.replaceBlocks(nightmareIsland, ((short) -56), (short) Block.getIdFromBlock(ModBlocks.gravewoodLeaves), ((short) -55), (short) Block.getIdFromBlock(ModBlocks.gravewood));
+			SchematicBlockReplacer.fixKnownSchematicErrors(nightmareIsland);
 		}
 	}
 

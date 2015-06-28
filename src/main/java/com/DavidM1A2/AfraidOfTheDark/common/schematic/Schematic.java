@@ -15,8 +15,9 @@ public class Schematic
 	private final short length;
 	private final short[] blocks;
 	private final byte[] data;
+	private final NBTTagList entities;
 
-	public Schematic(NBTTagList tileentities, short width, short height, short length, short[] blocks, byte[] data)
+	public Schematic(NBTTagList tileentities, short width, short height, short length, short[] blocks, byte[] data, NBTTagList entities)
 	{
 		this.tileentities = tileentities;
 		this.width = width;
@@ -24,6 +25,7 @@ public class Schematic
 		this.length = length;
 		this.blocks = blocks;
 		this.data = data;
+		this.entities = entities;
 	}
 
 	public NBTTagList getTileentities()
@@ -56,8 +58,18 @@ public class Schematic
 		return data;
 	}
 
+	public NBTTagList getEntities()
+	{
+		return this.entities;
+	}
+
 	public void setBlock(Block block, int index)
 	{
 		blocks[index] = Short.parseShort(Integer.toString(Block.getIdFromBlock(block)));
+	}
+
+	public void setBlock(Short block, int index)
+	{
+		blocks[index] = block;
 	}
 }

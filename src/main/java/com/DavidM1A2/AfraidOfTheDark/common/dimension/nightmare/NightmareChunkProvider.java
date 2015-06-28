@@ -9,8 +9,10 @@ import java.util.List;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IProgressUpdate;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
@@ -18,6 +20,8 @@ import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.chunk.IChunkProvider;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBiomes;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicGenerator;
 
 public class NightmareChunkProvider implements IChunkProvider
 {
@@ -53,6 +57,18 @@ public class NightmareChunkProvider implements IChunkProvider
 		}
 
 		chunk.generateSkylightMap();
+
+		if (x == 0 && z == 0)
+		{
+			for (Object entityPlayer : this.worldObj.playerEntities)
+			{
+				if (entityPlayer instanceof EntityPlayer)
+				{
+					((EntityPlayer) entityPlayer).addChatMessage(new ChatComponentText("A player has entered his/her nightmare realm for the first time. Expect some server lag for the next few seconds."));
+				}
+			}
+			SchematicGenerator.generateSchematic(Constants.AOTDSchematics.nightmareIsland, this.worldObj, 0, 0, 0, null, 0);
+		}
 
 		return chunk;
 	}

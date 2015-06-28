@@ -9,6 +9,8 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -18,6 +20,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.IChestGenerator;
 
 public final class SchematicGenerator
@@ -34,6 +37,8 @@ public final class SchematicGenerator
 		List<IBlockState> blocksToPlaceLater = new ArrayList<IBlockState>();
 		List<BlockPos> laterBlockPositions = new ArrayList<BlockPos>();
 
+		printIncorrectIds(schematic.getBlocks());
+
 		for (int y = 0; y < schematic.getHeight(); y++)
 		{
 			for (int z = 0; z < schematic.getLength(); z++)
@@ -46,10 +51,10 @@ public final class SchematicGenerator
 					{
 						world.setBlockToAir(new BlockPos(currentLocation));
 					}
-					else if (nextToPlace == Blocks.bed || nextToPlace == Blocks.torch || nextToPlace == Blocks.standing_sign || nextToPlace == Blocks.wall_sign || nextToPlace == Blocks.trapdoor)
+					else if (nextToPlace == Blocks.bed || nextToPlace == Blocks.torch || nextToPlace == Blocks.standing_sign || nextToPlace == Blocks.wall_sign || nextToPlace == Blocks.trapdoor || nextToPlace == Blocks.carpet || nextToPlace == Blocks.iron_door || nextToPlace == Blocks.ladder)
 					{
 						blocksToPlaceLater.add(nextToPlace.getStateFromMeta(schematic.getData()[i]));
-						laterBlockPositions.add(new BlockPos(x + xPosition, y + yPosition, z + zPosition));
+						laterBlockPositions.add(currentLocation);
 					}
 					else if (nextToPlace != Blocks.air)
 					{
@@ -95,6 +100,43 @@ public final class SchematicGenerator
 					}
 				}
 			}
+		}
+
+		if (schematic.getEntities() != null)
+		{
+			for (int j = 0; j < schematic.getEntities().tagCount(); j++)
+			{
+				NBTTagCompound entityCompound = schematic.getEntities().getCompoundTagAt(j);
+				Entity entity = EntityList.createEntityFromNBT(entityCompound, world);
+
+				if (entity != null)
+				{
+					entity.getPosition().add(xPosition, yPosition, zPosition);
+					world.spawnEntityInWorld(entity);
+				}
+			}
+		}
+	}
+
+	private static void printIncorrectIds(short[] blocks)
+	{
+		List<Short> incorrectIds = new ArrayList<Short>();
+		int[] numberOfIncorrect = new int[10000];
+		for (short b : blocks)
+		{
+			if (b < 0 && !incorrectIds.contains(b))
+			{
+				incorrectIds.add(b);
+				numberOfIncorrect[Math.abs(b) - 2] = 1;
+			}
+			else if (b < 0)
+			{
+				numberOfIncorrect[Math.abs(b) - 2] = numberOfIncorrect[Math.abs(b) - 2] + 1;
+			}
+		}
+		for (short b : incorrectIds)
+		{
+			LogHelper.info(numberOfIncorrect[Math.abs(b) - 2] + " incorrect ids of type " + b + " found in the schematic.");
 		}
 	}
 }

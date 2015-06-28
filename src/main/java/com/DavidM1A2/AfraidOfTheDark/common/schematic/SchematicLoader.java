@@ -5,6 +5,7 @@
 
 package com.DavidM1A2.AfraidOfTheDark.common.schematic;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import net.minecraft.nbt.CompressedStreamTools;
@@ -17,6 +18,7 @@ public class SchematicLoader
 	{
 		try
 		{
+
 			InputStream schematicInputStream = SchematicLoader.class.getClassLoader().getResourceAsStream("assets/afraidofthedark/schematics/" + schemname);
 			NBTTagCompound nbtdata = CompressedStreamTools.readCompressed(schematicInputStream);
 			short width = nbtdata.getShort("Width");
@@ -24,15 +26,17 @@ public class SchematicLoader
 			short length = nbtdata.getShort("Length");
 
 			byte[] blocks = nbtdata.getByteArray("Blocks");
+
 			byte[] data = nbtdata.getByteArray("Data");
 
 			NBTTagList tileentities = nbtdata.getTagList("TileEntities", 10);
+			NBTTagList entities = nbtdata.getTagList("Entities", 10);
 
 			schematicInputStream.close();
 
-			return new Schematic(tileentities, width, height, length, byteArrayToShortArray(blocks), data);
+			return new Schematic(tileentities, width, height, length, byteArrayToShortArray(blocks), data, entities);
 		}
-		catch (Exception e)
+		catch (IOException e)
 		{
 			System.out.println("I can't load schematic, because " + e.toString());
 			return null;
