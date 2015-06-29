@@ -20,6 +20,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.ItemWoodenBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemAstralSilverIngot;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemAstralSilverSword;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemCloakOfAgility;
+import com.DavidM1A2.AfraidOfTheDark.common.item.ItemEnchantedSkeletonBone;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemIgneousGem;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemIgneousSword;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemJournal;
@@ -84,6 +85,7 @@ public class ModItems
 	public static final ItemResearchScrollVitae1 researchScrollVitae1 = new ItemResearchScrollVitae1();
 	public static final ItemResearchScrollWristCrossbow researchScrollWristCrossbow = new ItemResearchScrollWristCrossbow();
 	public static final ItemStarMetalPlate starMetalPlate = new ItemStarMetalPlate();
+	public static final ItemEnchantedSkeletonBone enchantedSkeletonBone = new ItemEnchantedSkeletonBone();
 
 	public static void initialize(final Side side)
 	{
@@ -124,6 +126,7 @@ public class ModItems
 		GameRegistry.registerItem(ModItems.researchScrollVitae1, "researchScrollVitae1");
 		GameRegistry.registerItem(ModItems.researchScrollWristCrossbow, "researchScrollWristCrossbow");
 		GameRegistry.registerItem(ModItems.starMetalPlate, "starMetalPlate");
+		GameRegistry.registerItem(ModItems.enchantedSkeletonBone, "enchantedSkeletonBone");
 	}
 
 	public static void initializeRenderers(final Side side)
@@ -171,6 +174,7 @@ public class ModItems
 			renderItem.getItemModelMesher().register(ModItems.researchScrollVitae1, 0, new ModelResourceLocation(Refrence.MOD_ID + ":researchScrollVitae1", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.researchScrollWristCrossbow, 0, new ModelResourceLocation(Refrence.MOD_ID + ":researchScrollWristCrossbow", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.starMetalPlate, 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalPlate", "inventory"));
+			renderItem.getItemModelMesher().register(ModItems.enchantedSkeletonBone, 0, new ModelResourceLocation(Refrence.MOD_ID + ":enchantedSkeletonBone", "inventory"));
 		}
 	}
 }
