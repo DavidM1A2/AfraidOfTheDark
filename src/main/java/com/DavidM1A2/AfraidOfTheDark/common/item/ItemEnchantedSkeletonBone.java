@@ -15,6 +15,7 @@ public class ItemEnchantedSkeletonBone extends AOTDItem
 {
 	private static final int BONES_PER_SKELETON = 4;
 	private static final int COMBINE_RADIUS = 4;
+	private static final int UPDATE_TIME_IN_TICKS = 120;
 
 	public ItemEnchantedSkeletonBone()
 	{
@@ -32,8 +33,9 @@ public class ItemEnchantedSkeletonBone extends AOTDItem
 	 */
 	public boolean onEntityItemUpdate(EntityItem entityItem)
 	{
-		if (!entityItem.worldObj.isRemote)
+		if (entityItem.ticksExisted % UPDATE_TIME_IN_TICKS == 0)
 		{
+			if (!entityItem.worldObj.isRemote)
 			{
 				List surroundingEntities = entityItem.worldObj.getEntitiesWithinAABB(EntityItem.class, entityItem.getEntityBoundingBox().expand(COMBINE_RADIUS, COMBINE_RADIUS, COMBINE_RADIUS));
 
@@ -66,15 +68,15 @@ public class ItemEnchantedSkeletonBone extends AOTDItem
 						world.spawnEntityInWorld(skeleton);
 					}
 
-					for (EntityItem items : surroundingBones)
-					{
-						items.setDead();
-					}
-
 					if (bonesRemaining > 0)
 					{
 						EntityItem leftOver = new EntityItem(world, entityItem.posX, entityItem.posY, entityItem.posZ, new ItemStack(ModItems.enchantedSkeletonBone, bonesRemaining));
 						world.spawnEntityInWorld(leftOver);
+					}
+
+					for (EntityItem items : surroundingBones)
+					{
+						items.setDead();
 					}
 				}
 			}
