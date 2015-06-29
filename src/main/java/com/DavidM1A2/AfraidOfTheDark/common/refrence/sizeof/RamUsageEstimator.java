@@ -299,7 +299,6 @@ public final class RamUsageEstimator
 	}
 
 	// Object with just one field to determine the object header size by getting the offset of the dummy field:
-	@SuppressWarnings("unused")
 	private static final class DummyOneFieldObject
 	{
 		public byte base;
@@ -307,7 +306,6 @@ public final class RamUsageEstimator
 
 	// Another test object for checking, if the difference in offsets of dummy1 and dummy2 is 8 bytes.
 	// Only then we can be sure that those are real, unscaled offsets:
-	@SuppressWarnings("unused")
 	private static final class DummyTwoLongObject
 	{
 		public long dummy1, dummy2;

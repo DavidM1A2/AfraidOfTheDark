@@ -1,7 +1,7 @@
 {
 	"parent": "builtin/generated",
 	"textures": {
-		"layer0": "afraidofthedark:items/vitaeLanternEmpty"
+		"layer0": "afraidofthedark:items/vitaeLanternLow"
 	},
 	"display": {
 		"thirdperson": {

@@ -164,7 +164,12 @@ public class ModItems
 			renderItem.getItemModelMesher().register(ModItems.sunstoneFragment, 0, new ModelResourceLocation(Refrence.MOD_ID + ":sunstoneFragment", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.starMetalFragment, 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalFragment", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.starMetalStaff, 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalStaff", "inventory"));
-			renderItem.getItemModelMesher().register(ModItems.vitaeLantern, 0, new ModelResourceLocation(Refrence.MOD_ID + ":vitaeLantern", "inventory"));
+			renderItem.getItemModelMesher().register(ModItems.vitaeLantern, 0, new ModelResourceLocation(Refrence.MOD_ID + ":vitaeLanternEmpty", "inventory"));
+			renderItem.getItemModelMesher().register(ModItems.vitaeLantern, 1, new ModelResourceLocation(Refrence.MOD_ID + ":vitaeLanternLow", "inventory"));
+			renderItem.getItemModelMesher().register(ModItems.vitaeLantern, 2, new ModelResourceLocation(Refrence.MOD_ID + ":vitaeLanternHalf", "inventory"));
+			renderItem.getItemModelMesher().register(ModItems.vitaeLantern, 3, new ModelResourceLocation(Refrence.MOD_ID + ":vitaeLanternThreeQuarters", "inventory"));
+			renderItem.getItemModelMesher().register(ModItems.vitaeLantern, 4, new ModelResourceLocation(Refrence.MOD_ID + ":vitaeLanternFull", "inventory"));
+			ModelBakery.addVariantName(ModItems.vitaeLantern, Refrence.MOD_ID + ":vitaeLanternEmpty", Refrence.MOD_ID + ":vitaeLanternLow", Refrence.MOD_ID + ":vitaeLanternHalf", Refrence.MOD_ID + ":vitaeLanternThreeQuarters", Refrence.MOD_ID + ":vitaeLanternFull");
 			renderItem.getItemModelMesher().register(ModItems.starMetalKhopesh, 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalKhopesh", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.starMetalKhopesh, 1, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalKhopeshFullCharge", "inventory"));
 			ModelBakery.addVariantName(ModItems.starMetalKhopesh, Refrence.MOD_ID + ":starMetalKhopesh", Refrence.MOD_ID + ":starMetalKhopeshFullCharge");

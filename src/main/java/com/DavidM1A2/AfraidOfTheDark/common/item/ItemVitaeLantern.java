@@ -134,7 +134,6 @@ public class ItemVitaeLantern extends AOTDItem
 				if (entity instanceof EntityPlayer)
 				{
 					EntityPlayer entityPlayer = (EntityPlayer) entity;
-
 					approachEqualibrium(itemStack, entityPlayer, MathHelper.floor_double(Constants.entityVitaeResistance.get(EntityPlayer.class) * NBTHelper.getDouble(itemStack, "equalibriumPercentage")));
 				}
 			}
@@ -199,6 +198,16 @@ public class ItemVitaeLantern extends AOTDItem
 		list.add("Lantern is active? " + NBTHelper.getBoolean(itemStack, "isActive"));
 		list.add("Lantern state: " + NBTHelper.getDouble(itemStack, "equalibriumPercentage") * 100 + "%");
 		list.add("Stored vitae: " + NBTHelper.getInt(itemStack, STORED_VITAE));
+	}
+
+	/**
+	 * Converts the given ItemStack damage value into a metadata value to be placed in the world when this Item is placed as a Block (mostly used with
+	 * ItemBlocks).
+	 */
+	public int getMetadata(ItemStack itemStack)
+	{
+		int storedVitae = NBTHelper.getInt(itemStack, STORED_VITAE);
+		return storedVitae < 5 ? 0 : storedVitae < 100 ? 1 : storedVitae < 200 ? 2 : storedVitae < 290 ? 3 : 4;
 	}
 
 	/**
