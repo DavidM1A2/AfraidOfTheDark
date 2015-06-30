@@ -36,6 +36,7 @@ item.afraidofthedark:researchScrollVitae1.name=Research Vitae 1
 item.afraidofthedark:researchScrollWristCrossbow.name=Research Wrist Crossbow
 item.afraidofthedark:starMetalPlate.name=Star Metal Plate
 item.afraidofthedark:enchantedSkeletonBone.name=Enchanted Skeleton Bone
+item.afraidofthedark:sleepingPotion.name=Sleeping Potion
 
 # Blocks
 tile.afraidofthedark:silverOre.name=Silver Ore

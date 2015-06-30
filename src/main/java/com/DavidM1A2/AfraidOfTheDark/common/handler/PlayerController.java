@@ -28,7 +28,6 @@ import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
 import com.DavidM1A2.AfraidOfTheDark.common.item.crossbow.ItemCrossbow;
-import com.DavidM1A2.AfraidOfTheDark.common.packets.TellPlayerHesSleeping;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateAOTDStatus;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateInsanity;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateResearch;
@@ -44,6 +43,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedInsanityUpdat
 import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedResearchUpdate;
 import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedTeleport;
 import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedVitaeUpdate;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 public class PlayerController
@@ -186,7 +186,6 @@ public class PlayerController
 					LoadResearchData.unlockResearchSynced(event.entityPlayer, ResearchTypes.Nightmares, Side.SERVER, true);
 				}
 				Utility.sendPlayerToDimension((EntityPlayerMP) event.entityPlayer, Constants.NightmareWorld.NIGHTMARE_WORLD_ID, false);
-				AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new TellPlayerHesSleeping(), (EntityPlayerMP) event.entityPlayer);
 			}
 		}
 	}
@@ -216,11 +215,13 @@ public class PlayerController
 	@SubscribeEvent
 	public void onPlayerChangedDimensionEvent(final PlayerChangedDimensionEvent event)
 	{
+		LogHelper.info("Changed dims");
 		EntityPlayer entityPlayer = event.player;
 		if (event.toDim == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
 		{
 			InventorySaver.saveInventory(entityPlayer);
 			entityPlayer.inventory.clear();
+			entityPlayer.inventoryContainer.detectAndSendChanges();
 		}
 		else if (event.fromDim == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
 		{

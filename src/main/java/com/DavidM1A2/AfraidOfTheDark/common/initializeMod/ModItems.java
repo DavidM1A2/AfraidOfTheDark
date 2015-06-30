@@ -25,6 +25,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.item.ItemIgneousGem;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemIgneousSword;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemJournal;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemSextant;
+import com.DavidM1A2.AfraidOfTheDark.common.item.ItemSleepingPotion;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemStarMetalFragment;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemStarMetalKhopesh;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemStarMetalPlate;
@@ -86,6 +87,7 @@ public class ModItems
 	public static final ItemResearchScrollWristCrossbow researchScrollWristCrossbow = new ItemResearchScrollWristCrossbow();
 	public static final ItemStarMetalPlate starMetalPlate = new ItemStarMetalPlate();
 	public static final ItemEnchantedSkeletonBone enchantedSkeletonBone = new ItemEnchantedSkeletonBone();
+	public static final ItemSleepingPotion sleepingPotion = new ItemSleepingPotion();
 
 	public static void initialize(final Side side)
 	{
@@ -127,6 +129,7 @@ public class ModItems
 		GameRegistry.registerItem(ModItems.researchScrollWristCrossbow, "researchScrollWristCrossbow");
 		GameRegistry.registerItem(ModItems.starMetalPlate, "starMetalPlate");
 		GameRegistry.registerItem(ModItems.enchantedSkeletonBone, "enchantedSkeletonBone");
+		GameRegistry.registerItem(ModItems.sleepingPotion, "sleepingPotion");
 	}
 
 	public static void initializeRenderers(final Side side)
@@ -180,6 +183,7 @@ public class ModItems
 			renderItem.getItemModelMesher().register(ModItems.researchScrollWristCrossbow, 0, new ModelResourceLocation(Refrence.MOD_ID + ":researchScrollWristCrossbow", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.starMetalPlate, 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalPlate", "inventory"));
 			renderItem.getItemModelMesher().register(ModItems.enchantedSkeletonBone, 0, new ModelResourceLocation(Refrence.MOD_ID + ":enchantedSkeletonBone", "inventory"));
+			renderItem.getItemModelMesher().register(ModItems.sleepingPotion, 0, new ModelResourceLocation(Refrence.MOD_ID + ":sleepingPotion", "inventory"));
 		}
 	}
 }
