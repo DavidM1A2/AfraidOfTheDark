@@ -6,12 +6,16 @@
 package com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemPotion;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.fml.relauncher.Side;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
@@ -43,7 +47,28 @@ public class BlockTileEntityDarkForest extends AOTDTileEntity implements IUpdate
 						{
 							LoadResearchData.unlockResearchSynced(entityPlayer, ResearchTypes.DarkForest, Side.SERVER, true);
 						}
-						entityPlayer.addPotionEffect(new PotionEffect(30, 120, 0, true, false));
+
+						if (LoadResearchData.isResearched(entityPlayer, ResearchTypes.DarkForest))
+						{
+							entityPlayer.addPotionEffect(new PotionEffect(30, 120, 0, true, false));
+							if (entityPlayer.inventory.hasItem(Items.potionitem))
+							{
+								for (int i = 0; i < entityPlayer.inventory.mainInventory.length; i++)
+								{
+									ItemStack itemStack = entityPlayer.inventory.mainInventory[i];
+									if (itemStack != null)
+									{
+										if (itemStack.getItem() instanceof ItemPotion)
+										{
+											if (itemStack.getMetadata() == 0)
+											{
+												entityPlayer.inventory.setInventorySlotContents(i, new ItemStack(ModItems.sleepingPotion, itemStack.stackSize));
+											}
+										}
+									}
+								}
+							}
+						}
 					}
 				}
 			}
