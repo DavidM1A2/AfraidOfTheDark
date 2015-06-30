@@ -11,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemFlintAndSteel;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MathHelper;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
@@ -85,7 +86,7 @@ public class PlayerController
 			// If the player is insane, set the fog equal to 1.001^(.5*insanity) - .9989
 			if (insanity >= 0.1)
 			{
-				event.red = insanity / 100.0F; //((float) Math.pow(1.001, 0.5f * insanity) - .9989f);
+				event.red = MathHelper.clamp_float(event.red + (insanity / 100.0F), 0.0F, 1.0F);
 			}
 		}
 	}

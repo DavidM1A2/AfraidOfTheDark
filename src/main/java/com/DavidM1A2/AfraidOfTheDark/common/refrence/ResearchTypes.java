@@ -31,6 +31,7 @@ public enum ResearchTypes
 	DeeeSyft(VitaeLanternI, -2, 4),
 	DarkForest(AstralSilver, 0, 4),
 	Insanity(DarkForest, 1, 4),
+	SleepingPotion(DarkForest, -1, 4),
 	CloakOfAgility(WerewolfExamination, -1, 2),
 	Nightmares(DarkForest, 0, 5),
 	AstronomyII(Nightmares, 0, 6),
