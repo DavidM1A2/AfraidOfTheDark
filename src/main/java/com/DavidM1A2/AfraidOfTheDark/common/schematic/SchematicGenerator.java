@@ -29,7 +29,7 @@ public final class SchematicGenerator
 	private static final List<Block> latePlacePriorityBlocks = Arrays.asList(new Block[]
 	{ Blocks.rail, Blocks.reeds, Blocks.powered_comparator, Blocks.powered_repeater, Blocks.sapling, Blocks.detector_rail, Blocks.redstone_torch, Blocks.vine, Blocks.standing_sign, Blocks.wall_sign, Blocks.redstone_wire, Blocks.torch, Blocks.wooden_button, Blocks.stone_button,
 			Blocks.wooden_pressure_plate, Blocks.stone_pressure_plate, Blocks.light_weighted_pressure_plate, Blocks.heavy_weighted_pressure_plate, Blocks.deadbush, Blocks.bed, Blocks.trapdoor, Blocks.carpet, Blocks.iron_door, Blocks.ladder, Blocks.dark_oak_door, Blocks.birch_door, Blocks.oak_door,
-			Blocks.acacia_door, Blocks.spruce_door });
+			Blocks.acacia_door, Blocks.spruce_door, Blocks.double_plant });
 
 	public static void generateSchematic(Schematic schematic, World world, int xPosition, int yPosition, int zPosition, IChestGenerator chestItemRandomizer, int lootAmount)
 	{

@@ -199,6 +199,16 @@ public final class Constants
 			SchematicBlockReplacer.replaceBlocks(crypt, Blocks.gold_block, ModBlocks.gravewoodStairs, Blocks.gold_ore, ModBlocks.gravewoodPlanks);
 			SchematicBlockReplacer.replaceBlocks(spring, Blocks.gold_ore, ModBlocks.gravewoodLeaves, Blocks.gold_block, ModBlocks.spring);
 
+			SchematicBlockReplacer.fixKnownSchematicErrors(propBush1);
+			SchematicBlockReplacer.fixKnownSchematicErrors(propFallenOverLog);
+			SchematicBlockReplacer.fixKnownSchematicErrors(propFence1);
+			SchematicBlockReplacer.fixKnownSchematicErrors(propFence2);
+			SchematicBlockReplacer.fixKnownSchematicErrors(propFountain);
+			SchematicBlockReplacer.fixKnownSchematicErrors(propLog);
+			SchematicBlockReplacer.fixKnownSchematicErrors(propPumpkin1);
+			SchematicBlockReplacer.fixKnownSchematicErrors(propPumpkin2);
+			SchematicBlockReplacer.fixKnownSchematicErrors(propStump);
+
 			SchematicBlockReplacer.replaceBlocks(nightmareIsland, ((short) -56), (short) Block.getIdFromBlock(ModBlocks.gravewoodLeaves), ((short) -55), (short) Block.getIdFromBlock(ModBlocks.gravewood));
 			SchematicBlockReplacer.fixKnownSchematicErrors(nightmareIsland);
 		}

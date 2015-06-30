@@ -16,7 +16,8 @@ public class SchematicBlockReplacer
 			(short) Block.getIdFromBlock(Blocks.hopper), -116, (short) Block.getIdFromBlock(Blocks.flower_pot), -108, (short) Block.getIdFromBlock(Blocks.heavy_weighted_pressure_plate), -109, (short) Block.getIdFromBlock(Blocks.light_weighted_pressure_plate), -125,
 			(short) Block.getIdFromBlock(Blocks.tripwire_hook), -124, (short) Block.getIdFromBlock(Blocks.tripwire), -110, (short) Block.getIdFromBlock(Blocks.trapped_chest), -68, (short) Block.getIdFromBlock(Blocks.spruce_fence), -96, (short) Block.getIdFromBlock(Blocks.stained_glass_pane), -120,
 			(short) Block.getIdFromBlock(Blocks.acacia_stairs), -67, (short) Block.getIdFromBlock(Blocks.birch_fence), -65, (short) Block.getIdFromBlock(Blocks.dark_oak_fence), -121, (short) Block.getIdFromBlock(Blocks.birch_stairs), -128, (short) Block.getIdFromBlock(Blocks.sandstone_stairs), -86,
-			(short) Block.getIdFromBlock(Blocks.hay_block), -87, (short) Block.getIdFromBlock(Blocks.sea_lantern), -81, (short) Block.getIdFromBlock(Blocks.double_plant), -63, (short) Block.getIdFromBlock(Blocks.spruce_door), -59, (short) Block.getIdFromBlock(Blocks.dark_oak_door) };
+			(short) Block.getIdFromBlock(Blocks.hay_block), -87, (short) Block.getIdFromBlock(Blocks.sea_lantern), -81, (short) Block.getIdFromBlock(Blocks.double_plant), -63, (short) Block.getIdFromBlock(Blocks.spruce_door), -59, (short) Block.getIdFromBlock(Blocks.dark_oak_door), -112,
+			(short) Block.getIdFromBlock(Blocks.skull), -93, (short) Block.getIdFromBlock(Blocks.acacia_stairs), -95, (short) Block.getIdFromBlock(Blocks.leaves) };
 
 	public static Schematic replaceBlocks(Schematic schematic, Block... blocks)
 	{
