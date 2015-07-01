@@ -79,7 +79,7 @@ public class PlayerController
 	@SubscribeEvent
 	public void renderEvent(final FogColors event)
 	{
-		if (event.entity instanceof EntityPlayer && event.entity.dimension == 0)
+		if (event.entity instanceof EntityPlayer)
 		{
 			final float insanity = (float) Insanity.get((EntityPlayer) event.entity);
 

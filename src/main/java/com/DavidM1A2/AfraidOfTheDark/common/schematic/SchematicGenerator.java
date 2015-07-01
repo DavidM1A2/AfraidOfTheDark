@@ -62,6 +62,10 @@ public final class SchematicGenerator
 						blocksToPlaceLater.add(nextToPlace.getStateFromMeta(schematic.getData()[i]));
 						laterBlockPositions.add(currentLocation);
 					}
+					else if (schematic.getBlocks()[i] == -107)
+					{
+						LogHelper.info(currentLocation);
+					}
 					else if (nextToPlace != Blocks.air)
 					{
 						world.setBlockToAir(new BlockPos(currentLocation));
