@@ -62,9 +62,25 @@ public final class SchematicGenerator
 						blocksToPlaceLater.add(nextToPlace.getStateFromMeta(schematic.getData()[i]));
 						laterBlockPositions.add(currentLocation);
 					}
-					else if (schematic.getBlocks()[i] == -107)
+					else if (schematic.getBlocks()[i] == -114)
 					{
-						LogHelper.info(currentLocation);
+						LogHelper.info("-114 = " + currentLocation);
+					}
+					else if (schematic.getBlocks()[i] == -115)
+					{
+						LogHelper.info("-115 = " + currentLocation);
+					}
+					else if (schematic.getBlocks()[i] == -70)
+					{
+						LogHelper.info("-70 = " + currentLocation);
+					}
+					else if (schematic.getBlocks()[i] == -100)
+					{
+						LogHelper.info("-100 = " + currentLocation);
+					}
+					else if (schematic.getBlocks()[i] == -88)
+					{
+						LogHelper.info("-88 = " + currentLocation);
 					}
 					else if (nextToPlace != Blocks.air)
 					{
