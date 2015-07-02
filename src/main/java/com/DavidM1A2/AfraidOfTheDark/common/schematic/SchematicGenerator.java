@@ -5,10 +5,14 @@
 package com.DavidM1A2.AfraidOfTheDark.common.schematic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.init.Blocks;
@@ -19,17 +23,20 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
-import scala.actors.threadpool.Arrays;
 
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.Point3D;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.IChestGenerator;
 
 public final class SchematicGenerator
 {
-	private static final List<Block> latePlacePriorityBlocks = Arrays.asList(new Block[]
-	{ Blocks.rail, Blocks.reeds, Blocks.powered_comparator, Blocks.powered_repeater, Blocks.sapling, Blocks.detector_rail, Blocks.redstone_torch, Blocks.vine, Blocks.standing_sign, Blocks.wall_sign, Blocks.redstone_wire, Blocks.torch, Blocks.wooden_button, Blocks.stone_button,
-			Blocks.wooden_pressure_plate, Blocks.stone_pressure_plate, Blocks.light_weighted_pressure_plate, Blocks.heavy_weighted_pressure_plate, Blocks.deadbush, Blocks.bed, Blocks.trapdoor, Blocks.carpet, Blocks.iron_door, Blocks.ladder, Blocks.dark_oak_door, Blocks.birch_door, Blocks.oak_door,
-			Blocks.acacia_door, Blocks.spruce_door, Blocks.double_plant });
+	private static final Set<Short> latePlacePriorityBlocks = new HashSet<Short>(Arrays.asList(new Short[]
+	{ (short) Block.getIdFromBlock(Blocks.rail), (short) Block.getIdFromBlock(Blocks.reeds), (short) Block.getIdFromBlock(Blocks.powered_comparator), (short) Block.getIdFromBlock(Blocks.powered_repeater), (short) Block.getIdFromBlock(Blocks.sapling),
+			(short) Block.getIdFromBlock(Blocks.detector_rail), (short) Block.getIdFromBlock(Blocks.redstone_torch), (short) Block.getIdFromBlock(Blocks.vine), (short) Block.getIdFromBlock(Blocks.standing_sign), (short) Block.getIdFromBlock(Blocks.wall_sign),
+			(short) Block.getIdFromBlock(Blocks.redstone_wire), (short) Block.getIdFromBlock(Blocks.torch), (short) Block.getIdFromBlock(Blocks.wooden_button), (short) Block.getIdFromBlock(Blocks.stone_button), (short) Block.getIdFromBlock(Blocks.wooden_pressure_plate),
+			(short) Block.getIdFromBlock(Blocks.stone_pressure_plate), (short) Block.getIdFromBlock(Blocks.light_weighted_pressure_plate), (short) Block.getIdFromBlock(Blocks.heavy_weighted_pressure_plate), (short) Block.getIdFromBlock(Blocks.deadbush), (short) Block.getIdFromBlock(Blocks.bed),
+			(short) Block.getIdFromBlock(Blocks.trapdoor), (short) Block.getIdFromBlock(Blocks.carpet), (short) Block.getIdFromBlock(Blocks.iron_door), (short) Block.getIdFromBlock(Blocks.ladder), (short) Block.getIdFromBlock(Blocks.dark_oak_door), (short) Block.getIdFromBlock(Blocks.birch_door),
+			(short) Block.getIdFromBlock(Blocks.oak_door), (short) Block.getIdFromBlock(Blocks.acacia_door), (short) Block.getIdFromBlock(Blocks.spruce_door), (short) Block.getIdFromBlock(Blocks.double_plant) }));
 
 	public static void generateSchematic(Schematic schematic, World world, int xPosition, int yPosition, int zPosition, IChestGenerator chestItemRandomizer, int lootAmount)
 	{
@@ -40,8 +47,9 @@ public final class SchematicGenerator
 
 		int i = 0;
 
-		List<IBlockState> blocksToPlaceLater = new ArrayList<IBlockState>();
-		List<BlockPos> laterBlockPositions = new ArrayList<BlockPos>();
+		List<Short> blocksToPlaceLater = new LinkedList<Short>();
+		List<Byte> blocksToPlaceLaterMeta = new LinkedList<Byte>();
+		List<Point3D> laterBlockPositions = new LinkedList<Point3D>();
 
 		printIncorrectIds(schematic.getBlocks());
 
@@ -57,34 +65,14 @@ public final class SchematicGenerator
 					{
 						world.setBlockToAir(new BlockPos(currentLocation));
 					}
-					else if (latePlacePriorityBlocks.contains(nextToPlace))
+					else if (latePlacePriorityBlocks.contains(schematic.getBlocks()[i]))
 					{
-						blocksToPlaceLater.add(nextToPlace.getStateFromMeta(schematic.getData()[i]));
-						laterBlockPositions.add(currentLocation);
-					}
-					else if (schematic.getBlocks()[i] == -114)
-					{
-						LogHelper.info("-114 = " + currentLocation);
-					}
-					else if (schematic.getBlocks()[i] == -115)
-					{
-						LogHelper.info("-115 = " + currentLocation);
-					}
-					else if (schematic.getBlocks()[i] == -70)
-					{
-						LogHelper.info("-70 = " + currentLocation);
-					}
-					else if (schematic.getBlocks()[i] == -100)
-					{
-						LogHelper.info("-100 = " + currentLocation);
-					}
-					else if (schematic.getBlocks()[i] == -88)
-					{
-						LogHelper.info("-88 = " + currentLocation);
+						blocksToPlaceLater.add(schematic.getBlocks()[i]);
+						blocksToPlaceLaterMeta.add(schematic.getData()[i]);
+						laterBlockPositions.add(new Point3D(currentLocation.getX(), currentLocation.getY(), currentLocation.getZ()));
 					}
 					else if (nextToPlace != Blocks.air)
 					{
-						world.setBlockToAir(new BlockPos(currentLocation));
 						world.setBlockState(currentLocation, nextToPlace.getStateFromMeta(schematic.getData()[i]));
 					}
 
@@ -93,10 +81,13 @@ public final class SchematicGenerator
 			}
 		}
 
-		for (int j = 0; j < blocksToPlaceLater.size(); j++)
+		Iterator iteratorBlock = blocksToPlaceLater.iterator();
+		Iterator iteratorMeta = blocksToPlaceLaterMeta.iterator();
+		Iterator iteratorLocation = laterBlockPositions.iterator();
+
+		while (iteratorBlock.hasNext())
 		{
-			world.setBlockToAir(laterBlockPositions.get(j));
-			world.setBlockState(laterBlockPositions.get(j), blocksToPlaceLater.get(j));
+			world.setBlockState(((Point3D) iteratorLocation.next()).toBlockPos(), Block.getBlockById(Short.toUnsignedInt((Short) iteratorBlock.next())).getStateFromMeta(Byte.toUnsignedInt((Byte) iteratorMeta.next())));
 		}
 
 		if (schematic.getTileentities() != null)

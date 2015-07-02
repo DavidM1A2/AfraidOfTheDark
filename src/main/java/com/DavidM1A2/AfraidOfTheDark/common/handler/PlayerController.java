@@ -186,7 +186,10 @@ public class PlayerController
 				{
 					LoadResearchData.unlockResearchSynced(event.entityPlayer, ResearchTypes.Nightmares, Side.SERVER, true);
 				}
-				Utility.sendPlayerToDimension((EntityPlayerMP) event.entityPlayer, Constants.NightmareWorld.NIGHTMARE_WORLD_ID, false);
+				if (LoadResearchData.isResearched(event.entityPlayer, ResearchTypes.Nightmares))
+				{
+					Utility.sendPlayerToDimension((EntityPlayerMP) event.entityPlayer, Constants.NightmareWorld.NIGHTMARE_WORLD_ID, false);
+				}
 			}
 		}
 	}
@@ -223,6 +226,7 @@ public class PlayerController
 			InventorySaver.saveInventory(entityPlayer);
 			entityPlayer.inventory.clear();
 			entityPlayer.inventoryContainer.detectAndSendChanges();
+			entityPlayer.setPosition(240, 78, 146);
 		}
 		else if (event.fromDim == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
 		{

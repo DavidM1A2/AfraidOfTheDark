@@ -34,12 +34,50 @@ public class NightmareWorldProvider extends WorldProvider
 		}
 	}
 
+	/**
+	 * Returns the sub-folder of the world folder that this WorldProvider saves to. EXA: DIM1, DIM-1
+	 * 
+	 * @return The sub-folder name to save this world's chunks to.
+	 */
+	@Override
+	public String getSaveFolder()
+	{
+		return "NightmareWorld";
+	}
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Vec3 getSkyColor(Entity cameraEntity, float partialTicks)
 	{
 		return super.getSkyColor(cameraEntity, partialTicks);
-		//return new Vec3(0f, 255f, 0f);
+	}
+
+	/**
+	 * Returns a double value representing the Y value relative to the top of the map at which void fog is at its maximum. The default factor of
+	 * 0.03125 relative to 256, for example, means the void fog will be at its maximum at (256*0.03125), or 8.
+	 */
+	@SideOnly(Side.CLIENT)
+	public double getVoidFogYFactor()
+	{
+		return 0.25d;
+	}
+
+	@Override
+	public boolean isDaytime()
+	{
+		return false;
+	}
+
+	/**
+	 * The current sun brightness factor for this dimension. 0.0f means no light at all, and 1.0f means maximum sunlight. This will be used for the
+	 * "calculateSkylightSubtracted" which is for Sky light value calculation.
+	 *
+	 * @return The current brightness factor
+	 * */
+	@Override
+	public float getSunBrightnessFactor(float par1)
+	{
+		return 0.0f;
 	}
 
 	@Override
@@ -97,7 +135,13 @@ public class NightmareWorldProvider extends WorldProvider
 	@Override
 	protected void generateLightBrightnessTable()
 	{
-		super.generateLightBrightnessTable();
+		float f = 0.0F;
+
+		for (int i = 0; i <= 15; ++i)
+		{
+			float f1 = 1.0F - (float) i / 15.0F;
+			this.lightBrightnessTable[i] = (1.0F - f1) / (f1 * 3.0F + 1.0F) * (1.0F - f) + f;
+		}
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -140,21 +184,22 @@ public class NightmareWorldProvider extends WorldProvider
 	@SideOnly(Side.CLIENT)
 	public float[] calcSunriseSunsetColors(float par1, float par2)
 	{
-		return super.calcSunriseSunsetColors(par1, par2);
+		return new float[]
+		{ 0, 0, 0, 0 };
 	}
 
 	@Override
 	public float calculateCelestialAngle(long par1, float par3)
 	{
-		return super.calculateCelestialAngle(par1, par3);
+		return 0.5f;
 	}
 
 	@SideOnly(Side.CLIENT)
 	public Vec3 getFogColor(float par1, float par2)
 	{
-		return super.getFogColor(par1, par2);
+		//return super.getFogColor(par1, par2);
 		// RGB
-		// return new Vec3(0f, 255f, 0f);
+		return new Vec3(0.65f, 0f, 0f);
 	}
 
 	@Override
