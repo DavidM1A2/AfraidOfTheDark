@@ -12,9 +12,11 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 
 public class IgneousArmor extends AOTDArmor
@@ -70,9 +72,16 @@ public class IgneousArmor extends AOTDArmor
 		{
 			return new ArmorProperties(0, .25, 25);
 		}
-		if ((source == DamageSource.drown) || (source == DamageSource.fall) || (source == DamageSource.inWall) || (source == DamageSource.outOfWorld) || (source == DamageSource.starve))
+		else if ((source == DamageSource.drown) || (source == DamageSource.fall) || (source == DamageSource.inWall) || (source == DamageSource.outOfWorld) || (source == DamageSource.starve))
 		{
 			return new ArmorProperties(0, .25, 0);
+		}
+		else if (source instanceof EntityDamageSource)
+		{
+			if (((EntityDamageSource) source).getEntity() instanceof EntityWerewolf)
+			{
+				return new ArmorProperties(0, .25, 110);
+			}
 		}
 
 		// Remove the ability of thorns to damage armor

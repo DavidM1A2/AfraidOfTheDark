@@ -14,10 +14,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 
 public class StarMetalArmor extends AOTDArmor
@@ -67,6 +69,13 @@ public class StarMetalArmor extends AOTDArmor
 		if ((source == DamageSource.drown) || (source == DamageSource.fall) || (source == DamageSource.inWall) || (source == DamageSource.outOfWorld) || (source == DamageSource.starve) || (source == DamageSource.lava))
 		{
 			return new ArmorProperties(0, .25, 0);
+		}
+		else if (source instanceof EntityDamageSource)
+		{
+			if (((EntityDamageSource) source).getEntity() instanceof EntityWerewolf)
+			{
+				return new ArmorProperties(0, .25, 108);
+			}
 		}
 
 		// Remove the ability of thorns to damage armor
