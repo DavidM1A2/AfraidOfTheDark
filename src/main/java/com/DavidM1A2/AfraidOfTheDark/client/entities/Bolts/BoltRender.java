@@ -3,7 +3,7 @@
  * Mod: Afraid of the Dark
  * Ideas and Textures: Michael Albertson
  */
-package com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts;
+package com.DavidM1A2.AfraidOfTheDark.client.entities.Bolts;
 
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -16,6 +16,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityBolt;
 
 // Mostly arrow source code but with an entity bolt
 @SideOnly(Side.CLIENT)

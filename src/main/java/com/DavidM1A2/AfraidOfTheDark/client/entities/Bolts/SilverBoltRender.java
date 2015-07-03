@@ -3,7 +3,10 @@
  * Mod: Afraid of the Dark
  * Ideas and Textures: Michael Albertson
  */
-package com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts;
+package com.DavidM1A2.AfraidOfTheDark.client.entities.Bolts;
+
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityBolt;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityIronBolt;
 
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
