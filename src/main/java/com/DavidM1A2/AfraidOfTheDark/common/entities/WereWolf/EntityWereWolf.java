@@ -163,7 +163,7 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 	@Override
 	public float getEyeHeight()
 	{
-		return 1.5f;
+		return 1.3f;
 	}
 
 	// This is used to set movespeed and agro range during full moons
