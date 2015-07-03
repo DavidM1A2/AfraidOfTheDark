@@ -36,7 +36,7 @@ public class EntitySilverBolt extends EntityBolt
 	// Set the properties of the bolt
 	public void setProperties()
 	{
-		this.setDamage(10);
+		this.setDamage(7);
 		this.setMyType(ModItems.silverBolt);
 		this.setChanceToDropHitEntity(.4);
 		this.setChanceToDropHitGround(.8);
