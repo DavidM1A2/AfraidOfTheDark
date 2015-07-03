@@ -9,6 +9,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.FireCrossbowBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.RotatePlayer;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.TellClientToPlayAnimation;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.TellServerToCreateMeteor;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateAOTDStatus;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateCrossbow;
@@ -34,6 +35,7 @@ public abstract class CommonProxy implements IProxy
 		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(UpdateVitae.HandlerServer.class, UpdateVitae.class, Constants.Packets.PACKET_ID_VITAE_UPDATE, Side.SERVER);
 		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(FireCrossbowBolt.HandlerServer.class, FireCrossbowBolt.class, Constants.Packets.PACKET_ID_FIRE_BOLT, Side.SERVER);
 		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(RotatePlayer.HandlerClient.class, RotatePlayer.class, Constants.Packets.PACKET_ID_ROTATE_PLAYER_UPDATE, Side.CLIENT);
+		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(TellClientToPlayAnimation.HandlerClient.class, TellClientToPlayAnimation.class, Constants.Packets.PACKET_ID_PLAY_ANIMATION, Side.CLIENT);
 		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(UpdateLanternState.HandlerServer.class, UpdateLanternState.class, Constants.Packets.PACKET_ID_UPDATE_LANTERN_STATE, Side.SERVER);
 	}
 }

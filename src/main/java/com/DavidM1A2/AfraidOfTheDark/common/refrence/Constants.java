@@ -51,7 +51,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.util.EnumHelper;
 
 import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWereWolf;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.Schematic;
@@ -97,7 +97,7 @@ public final class Constants
 		entityVitaeResistance.put(EntitySnowman.class, 15);
 		entityVitaeResistance.put(EntityDragon.class, 300);
 		entityVitaeResistance.put(EntityWither.class, 300);
-		entityVitaeResistance.put(EntityWereWolf.class, 120);
+		entityVitaeResistance.put(EntityWerewolf.class, 120);
 		entityVitaeResistance.put(EntityDeeeSyft.class, 150);
 	}
 
@@ -113,7 +113,8 @@ public final class Constants
 		public static final int PACKET_ID_ROTATE_PLAYER_UPDATE = 7;
 		public static final int PACKET_ID_FIRE_BOLT = 8;
 		public static final int PACKET_ID_UPDATE_LANTERN_STATE = 9;
-		public static final int PACKET_ID_UPDATE_SLEEPING_STATE = 10;;
+		public static final int PACKET_ID_UPDATE_SLEEPING_STATE = 10;
+		public static final int PACKET_ID_PLAY_ANIMATION = 11;
 	}
 
 	public static final class AOTDToolMaterials

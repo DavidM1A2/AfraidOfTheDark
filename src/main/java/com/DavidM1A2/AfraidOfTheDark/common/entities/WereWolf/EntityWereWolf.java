@@ -17,28 +17,34 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraftforge.fml.relauncher.Side;
 
+import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
+import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
+import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.TellClientToPlayAnimation;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
-public class EntityWereWolf extends EntityMob
+public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 {
+	protected AnimationHandler animHandler = new AnimationHandlerWerewolf(this);
 	// setup movespeed, agroRange, and followRange
 	private static double moveSpeed = .43D;
 	private static double agroRange = 16.0D;
 	private static double followRange = 32.0D;
 
 	// AI wanderer and watcher
-	private EntityAIWander myWanderer = new EntityAIWander(this, EntityWereWolf.moveSpeed * 10);
-	private EntityAIWatchClosest myWatchClosest = new EntityAIWatchClosest(this, EntityPlayer.class, (float) EntityWereWolf.agroRange);
+	private EntityAIWander myWanderer = new EntityAIWander(this, EntityWerewolf.moveSpeed * 10);
+	private EntityAIWatchClosest myWatchClosest = new EntityAIWatchClosest(this, EntityPlayer.class, (float) EntityWerewolf.agroRange);
 
-	public EntityWereWolf(final World world)
+	public EntityWerewolf(final World world)
 	{
 		// Set the model size
 		super(world);
-		this.setSize(.7F, 2);
+		this.setSize(1.8F, 0.8F);
 
 		// Add various AI tasks
 		this.tasks.addTask(1, new EntityAISwimming(this));
@@ -49,7 +55,28 @@ public class EntityWereWolf extends EntityMob
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
 		// Use custom werewolf target locator
 		this.targetTasks.addTask(2, new CustomWerewolfTargetLocator(this, EntityPlayer.class, 10, true));
+	}
 
+	@Override
+	public AnimationHandler getAnimationHandler()
+	{
+		return animHandler;
+	}
+
+	/**
+	 * Moves the entity based on the specified heading. Args: strafe, forward
+	 */
+	@Override
+	public void moveEntityWithHeading(float strafe, float forward)
+	{
+		if (this.motionX > 0.05 || this.motionZ > 0.05)
+		{
+			if (!animHandler.isAnimationActive("Bite") && !animHandler.isAnimationActive("Run"))
+			{
+				animHandler.activateAnimation("Run", 0);
+			}
+		}
+		super.moveEntityWithHeading(strafe, forward);
 	}
 
 	// Apply entity attributes
@@ -62,7 +89,7 @@ public class EntityWereWolf extends EntityMob
 		}
 		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.followRange).setBaseValue(EntityWereWolf.followRange);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.followRange).setBaseValue(EntityWerewolf.followRange);
 		}
 		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.knockbackResistance) == null)
 		{
@@ -70,11 +97,11 @@ public class EntityWereWolf extends EntityMob
 		}
 		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(EntityWereWolf.moveSpeed);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(EntityWerewolf.moveSpeed);
 		}
 		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.attackDamage) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(20.0D);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(1.0D);
 		}
 	}
 
@@ -96,7 +123,7 @@ public class EntityWereWolf extends EntityMob
 	@Override
 	public float getAIMoveSpeed()
 	{
-		return (float) EntityWereWolf.moveSpeed;
+		return (float) EntityWerewolf.moveSpeed;
 	}
 
 	// Only take damage from silver weapons
@@ -124,21 +151,26 @@ public class EntityWereWolf extends EntityMob
 				LoadResearchData.unlockResearchSynced(thePlayer, ResearchTypes.WerewolfExamination, Side.SERVER, true);
 			}
 		}
+		if (!animHandler.isAnimationActive("Bite"))
+		{
+			animHandler.activateAnimation("Bite", 0);
+			AfraidOfTheDark.getSimpleNetworkWrapper().sendToAllAround(new TellClientToPlayAnimation("Bite", this.getEntityId()), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 15));
+		}
 		return super.attackEntityAsMob(entity);
 	}
 
 	@Override
 	public float getEyeHeight()
 	{
-		return 2.0f;
+		return 0.8f;
 	}
 
 	// This is used to set movespeed and agro range during full moons
 	public static void setMoveSpeedAndAgroRange(final double _moveSpeed, final double _agroRange, final double _followRange)
 	{
-		EntityWereWolf.moveSpeed = _moveSpeed;
-		EntityWereWolf.agroRange = _agroRange;
-		EntityWereWolf.followRange = _followRange;
+		EntityWerewolf.moveSpeed = _moveSpeed;
+		EntityWerewolf.agroRange = _agroRange;
+		EntityWerewolf.followRange = _followRange;
 	}
 
 	// Various getters and setters
@@ -149,7 +181,7 @@ public class EntityWereWolf extends EntityMob
 
 	public void setWanderer()
 	{
-		this.myWanderer = new EntityAIWander(this, EntityWereWolf.moveSpeed * 10);
+		this.myWanderer = new EntityAIWander(this, EntityWerewolf.moveSpeed * 10);
 	}
 
 	public EntityAIWatchClosest getMyWatchClosest()
@@ -159,6 +191,6 @@ public class EntityWereWolf extends EntityMob
 
 	public void setMyWatchClosest()
 	{
-		this.myWatchClosest = new EntityAIWatchClosest(this, EntityPlayer.class, (float) EntityWereWolf.agroRange);
+		this.myWatchClosest = new EntityAIWatchClosest(this, EntityPlayer.class, (float) EntityWerewolf.agroRange);
 	}
 }
