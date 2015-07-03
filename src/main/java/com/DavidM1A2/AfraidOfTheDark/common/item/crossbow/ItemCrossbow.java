@@ -13,16 +13,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityIgneousBolt;
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityIronBolt;
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntitySilverBolt;
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityStarMetalBolt;
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityWoodenBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.FireCrossbowBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateCrossbow;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDCrossbowBoltTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 // The crossbow Item
@@ -30,9 +29,6 @@ public class ItemCrossbow extends AOTDItem
 {
 	// Keep a loaded and unloaded icon and store reload time
 	private final int RELOAD_TIME = 100;
-	// This array contains available bolts
-	private final String[] availableBolts =
-	{ "IronBolt", "SilverBolt", "WoodenBolt", "IgneousBolt", "StarMetalBolt" };
 
 	public ItemCrossbow()
 	{
@@ -52,9 +48,9 @@ public class ItemCrossbow extends AOTDItem
 
 			if (NBTHelper.getBoolean(itemStack, "isCocked"))
 			{
-				if (!entityPlayer.worldObj.isRemote)
+				this.setIsCocked(itemStack, false, entityPlayer, true);
+				if (entityPlayer.worldObj.isRemote)
 				{
-					this.setIsCocked(itemStack, false, entityPlayer, false);
 					this.fireBolt(entityPlayer, entityPlayer.getEntityWorld(), itemStack);
 				}
 			}
@@ -69,10 +65,7 @@ public class ItemCrossbow extends AOTDItem
 	{
 		if (entityPlayer.isSneaking())
 		{
-			if (!world.isRemote)
-			{
-				this.changeMode(itemStack, entityPlayer);
-			}
+			this.changeMode(itemStack, entityPlayer);
 		}
 		else
 		{
@@ -86,18 +79,14 @@ public class ItemCrossbow extends AOTDItem
 				}
 				else
 				{
-					// If we are not in creative, check to see if the the player has the required bolt in his/her inventory
-					if ((this.availableBolts[NBTHelper.getInt(itemStack, "mode")].equals("IronBolt") && entityPlayer.inventory.hasItem(ModItems.ironBolt)) || (this.availableBolts[NBTHelper.getInt(itemStack, "mode")].equals("WoodenBolt") && entityPlayer.inventory.hasItem(ModItems.woodenBolt))
-							|| (this.availableBolts[NBTHelper.getInt(itemStack, "mode")].equals("SilverBolt") && entityPlayer.inventory.hasItem(ModItems.silverBolt))
-							|| (this.availableBolts[NBTHelper.getInt(itemStack, "mode")].equals("IgneousBolt") && entityPlayer.inventory.hasItem(ModItems.igneousBolt))
-							|| (this.availableBolts[NBTHelper.getInt(itemStack, "mode")].equals("StarMetalBolt") && entityPlayer.inventory.hasItem(ModItems.starMetalBolt)))
+					if (entityPlayer.inventory.hasItem(AOTDCrossbowBoltTypes.getTypeFromID(NBTHelper.getInt(itemStack, "mode")).getMyBoltItem()))
 					{
 						entityPlayer.setItemInUse(itemStack, this.RELOAD_TIME);
 					}
 					else
 					{
 						// Else we print out that the player needs bolts to fire
-						entityPlayer.addChatMessage(new ChatComponentText("You do not have any bolts of type: " + this.availableBolts[NBTHelper.getInt(itemStack, "mode")]));
+						entityPlayer.addChatMessage(new ChatComponentText("You do not have any bolts of type: " + AOTDCrossbowBoltTypes.getTypeFromID(NBTHelper.getInt(itemStack, "mode"))));
 					}
 				}
 			}
@@ -116,8 +105,9 @@ public class ItemCrossbow extends AOTDItem
 		// If the bow hase been in use for RELOADTIME, we set the bow cocked
 		if (count == (this.RELOAD_TIME - 60))
 		{
-			if (entityPlayer.worldObj.isRemote && !NBTHelper.getBoolean(itemStack, "isCocked")
-					&& (entityPlayer.capabilities.isCreativeMode || entityPlayer.inventory.hasItem(ModItems.silverBolt) || entityPlayer.inventory.hasItem(ModItems.ironBolt) || entityPlayer.inventory.hasItem(ModItems.woodenBolt)))
+			if (!NBTHelper.getBoolean(itemStack, "isCocked")
+					&& (entityPlayer.capabilities.isCreativeMode || entityPlayer.inventory.hasItem(ModItems.silverBolt) || entityPlayer.inventory.hasItem(ModItems.ironBolt) || entityPlayer.inventory.hasItem(ModItems.woodenBolt) || entityPlayer.inventory.hasItem(ModItems.igneousBolt) || entityPlayer.inventory
+							.hasItem(ModItems.starMetalBolt)))
 			{
 				this.setIsCocked(itemStack, true, entityPlayer, true);
 			}
@@ -144,88 +134,33 @@ public class ItemCrossbow extends AOTDItem
 	{
 		if (!NBTHelper.getBoolean(itemStack, "isCocked"))
 		{
-			if (NBTHelper.getInt(itemStack, "mode") < (this.availableBolts.length - 1))
-			{
-				NBTHelper.setInteger(itemStack, "mode", NBTHelper.getInt(itemStack, "mode") + 1);
-				entityPlayer.addChatMessage(new ChatComponentText("Crossbow will now fire " + this.availableBolts[NBTHelper.getInt(itemStack, "mode")] + "s!"));
-			}
-			else
-			{
-				NBTHelper.setInteger(itemStack, "mode", 0);
-				entityPlayer.addChatMessage(new ChatComponentText("Crossbow will now fire " + this.availableBolts[NBTHelper.getInt(itemStack, "mode")] + "s!"));
-			}
+			NBTHelper.setInteger(itemStack, "mode", AOTDCrossbowBoltTypes.getIDFromType(AOTDCrossbowBoltTypes.getTypeFromID(NBTHelper.getInt(itemStack, "mode")).next()));
+			entityPlayer.addChatMessage(new ChatComponentText("Crossbow will fire: " + AOTDCrossbowBoltTypes.getTypeFromID(NBTHelper.getInt(itemStack, "mode")) + " bolts."));
 		}
-
 	}
 
 	// When we fire, set the pull level of the bow to 0
 	public void fireBolt(final EntityPlayer entityPlayer, final World world, final ItemStack itemStack)
 	{
-		NBTHelper.setFloat(itemStack, "pullLevel", (0.0F));
-		// If the player is in creative mode, fire the appropriate bolt
-		if (entityPlayer.capabilities.isCreativeMode)
+		if (world.isRemote)
 		{
-			if (!world.isRemote)
+			if (entityPlayer.capabilities.isCreativeMode)
 			{
-				world.playSoundAtEntity(entityPlayer, "afraidofthedark:crossbowFire", 0.5F, ((Item.itemRand.nextFloat() * 0.4F) + 0.8F));
-				if (this.availableBolts[NBTHelper.getInt(itemStack, "mode")].equals("IronBolt"))
-				{
-					world.spawnEntityInWorld(new EntityIronBolt(world, entityPlayer));
-				}
-				else if (this.availableBolts[NBTHelper.getInt(itemStack, "mode")].equals("SilverBolt"))
-				{
-					world.spawnEntityInWorld(new EntitySilverBolt(world, entityPlayer));
-				}
-				else if (this.availableBolts[NBTHelper.getInt(itemStack, "mode")].equals("WoodenBolt"))
-				{
-					world.spawnEntityInWorld(new EntityWoodenBolt(world, entityPlayer));
-				}
-				else if (this.availableBolts[NBTHelper.getInt(itemStack, "mode")].equals("IgneousBolt"))
-				{
-					world.spawnEntityInWorld(new EntityIgneousBolt(world, entityPlayer));
-				}
-				else if (this.availableBolts[NBTHelper.getInt(itemStack, "mode")].equals("StarMetalBolt"))
-				{
-					world.spawnEntityInWorld(new EntityStarMetalBolt(world, entityPlayer));
-				}
+				AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new FireCrossbowBolt(AOTDCrossbowBoltTypes.getTypeFromID(NBTHelper.getInt(itemStack, "mode"))));
 			}
-		}
-		// Else check to see if the player has the correct bolt in his/her inventory and fire
-		else
-		{
-			if (!world.isRemote)
+			// Else check to see if the player has the correct bolt in his/her inventory and fire
+			else
 			{
-				if (this.availableBolts[NBTHelper.getInt(itemStack, "mode")].equals("IronBolt") && entityPlayer.inventory.consumeInventoryItem(ModItems.ironBolt))
+				if (entityPlayer.inventory.consumeInventoryItem(AOTDCrossbowBoltTypes.getTypeFromID(NBTHelper.getInt(itemStack, "mode")).getMyBoltItem()))
 				{
-					world.spawnEntityInWorld(new EntityIronBolt(world, entityPlayer));
-					world.playSoundAtEntity(entityPlayer, "afraidofthedark:crossbowFire", 0.5F, ((Item.itemRand.nextFloat() * 0.4F) + 0.8F));
-				}
-				else if (this.availableBolts[NBTHelper.getInt(itemStack, "mode")].equals("SilverBolt") && entityPlayer.inventory.consumeInventoryItem(ModItems.silverBolt))
-				{
-					world.spawnEntityInWorld(new EntitySilverBolt(world, entityPlayer));
-					world.playSoundAtEntity(entityPlayer, "afraidofthedark:crossbowFire", 0.5F, ((Item.itemRand.nextFloat() * 0.4F) + 0.8F));
-				}
-				else if (this.availableBolts[NBTHelper.getInt(itemStack, "mode")].equals("WoodenBolt") && entityPlayer.inventory.consumeInventoryItem(ModItems.woodenBolt))
-				{
-					world.playSoundAtEntity(entityPlayer, "afraidofthedark:crossbowFire", 0.5F, ((Item.itemRand.nextFloat() * 0.4F) + 0.8F));
-					world.spawnEntityInWorld(new EntityWoodenBolt(world, entityPlayer));
-				}
-				else if (this.availableBolts[NBTHelper.getInt(itemStack, "mode")].equals("IgneousBolt") && entityPlayer.inventory.consumeInventoryItem(ModItems.igneousBolt))
-				{
-					world.playSoundAtEntity(entityPlayer, "afraidofthedark:crossbowFire", 0.5F, ((Item.itemRand.nextFloat() * 0.4F) + 0.8F));
-					world.spawnEntityInWorld(new EntityIgneousBolt(world, entityPlayer));
-				}
-				else if (this.availableBolts[NBTHelper.getInt(itemStack, "mode")].equals("StarMetalBolt") && entityPlayer.inventory.consumeInventoryItem(ModItems.starMetalBolt))
-				{
-					world.playSoundAtEntity(entityPlayer, "afraidofthedark:crossbowFire", 0.5F, ((Item.itemRand.nextFloat() * 0.4F) + 0.8F));
-					world.spawnEntityInWorld(new EntityStarMetalBolt(world, entityPlayer));
+					AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new FireCrossbowBolt(AOTDCrossbowBoltTypes.getTypeFromID(NBTHelper.getInt(itemStack, "mode"))));
 				}
 			}
 		}
 	}
 
 	// To set the cocked value of the crossbow we change the NBT value
-	public void setIsCocked(final ItemStack itemStack, final boolean isCocked, final EntityPlayer entityPlayer, final boolean clientSide)
+	public void setIsCocked(final ItemStack itemStack, final boolean isCocked, final EntityPlayer entityPlayer, boolean clientSide)
 	{
 		NBTHelper.setBoolean(itemStack, "isCocked", isCocked);
 		if (NBTHelper.getBoolean(itemStack, "isCocked"))
@@ -235,6 +170,7 @@ public class ItemCrossbow extends AOTDItem
 		else
 		{
 			NBTHelper.setInteger(itemStack, "icon", 0);
+			NBTHelper.setFloat(itemStack, "pullLevel", (0.0F));
 		}
 		if (clientSide)
 		{
@@ -250,7 +186,7 @@ public class ItemCrossbow extends AOTDItem
 	@Override
 	public void addInformation(final ItemStack itemStack, final EntityPlayer entityPlayer, final List list, final boolean bool)
 	{
-		list.add("Bow will fire: " + this.availableBolts[NBTHelper.getInt(itemStack, "mode")] + "s.");
+		list.add("Bow will fire: " + AOTDCrossbowBoltTypes.getTypeFromID(NBTHelper.getInt(itemStack, "mode")) + " bolts.");
 	}
 
 	// Initialize the item when it is created
@@ -274,6 +210,7 @@ public class ItemCrossbow extends AOTDItem
 
 	// This item has a custom model, therefore it is full 3D
 	@Override
+	@SideOnly(Side.CLIENT)
 	public boolean isFull3D()
 	{
 		return true;
