@@ -63,6 +63,12 @@ public class StarMetalArmor extends AOTDArmor
 		}
 	}
 
+	/*
+	 * ArmorProperties(0, .24, 200);
+	 * 0 = priority
+	 * .24 = %age of damage reduced
+	 * 200 is the max damage reduced
+	 */
 	@Override
 	public ArmorProperties getProperties(final EntityLivingBase player, final ItemStack armor, final DamageSource source, final double damage, final int slot)
 	{
@@ -70,11 +76,12 @@ public class StarMetalArmor extends AOTDArmor
 		{
 			return new ArmorProperties(0, .25, 0);
 		}
+
 		else if (source instanceof EntityDamageSource)
 		{
 			if (((EntityDamageSource) source).getEntity() instanceof EntityWerewolf)
 			{
-				return new ArmorProperties(0, .25, 108);
+				return new ArmorProperties(0, .24, 200);
 			}
 		}
 

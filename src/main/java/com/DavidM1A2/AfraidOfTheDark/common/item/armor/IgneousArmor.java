@@ -48,6 +48,12 @@ public class IgneousArmor extends AOTDArmor
 		tooltip.add("Magical armor will never break.");
 	}
 
+	/*
+	 * ArmorProperties(0, .24, 200);
+	 * 0 = priority
+	 * .24 = %age of damage reduced
+	 * 200 is the max damage reduced
+	 */
 	@Override
 	public ArmorProperties getProperties(final EntityLivingBase entity, final ItemStack armor, final DamageSource source, final double damage, final int slot)
 	{
@@ -80,7 +86,7 @@ public class IgneousArmor extends AOTDArmor
 		{
 			if (((EntityDamageSource) source).getEntity() instanceof EntityWerewolf)
 			{
-				return new ArmorProperties(0, .25, 110);
+				return new ArmorProperties(0, .24, 200);
 			}
 		}
 
