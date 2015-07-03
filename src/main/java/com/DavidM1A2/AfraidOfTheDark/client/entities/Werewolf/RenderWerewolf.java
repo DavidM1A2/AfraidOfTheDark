@@ -19,7 +19,7 @@ public class RenderWerewolf extends RenderLiving
 
 	public RenderWerewolf()
 	{
-		super(Minecraft.getMinecraft().getRenderManager(), modelWerewolf, 1F);
+		super(Minecraft.getMinecraft().getRenderManager(), modelWerewolf, 2.0F);
 	}
 
 	@Override

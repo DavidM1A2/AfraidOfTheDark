@@ -59,7 +59,10 @@ public class WorldEvents
 						{
 							if (HasStartedAOTD.get(entityPlayer))
 							{
-								entityPlayer.addChatMessage(new ChatComponentText("§4§oSomething §4§ofeels §4§odifferent §4§otonight..."));
+								if (currentWorld.isRemote)
+								{
+									entityPlayer.addChatMessage(new ChatComponentText("§4§oSomething §4§ofeels §4§odifferent §4§otonight..."));
+								}
 							}
 						}
 						this.readyToSpawnWerewolves = false;
@@ -87,7 +90,10 @@ public class WorldEvents
 						{
 							if (HasStartedAOTD.get(entityPlayer))
 							{
-								entityPlayer.addChatMessage(new ChatComponentText("§2I §2feel §2better §2some §2how."));
+								if (currentWorld.isRemote)
+								{
+									entityPlayer.addChatMessage(new ChatComponentText("§2I §2feel §2better §2some §2how."));
+								}
 							}
 						}
 						this.readyToSpawnWerewolves = true;

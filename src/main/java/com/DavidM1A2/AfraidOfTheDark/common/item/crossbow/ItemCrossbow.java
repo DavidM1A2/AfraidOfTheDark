@@ -85,8 +85,11 @@ public class ItemCrossbow extends AOTDItem
 					}
 					else
 					{
-						// Else we print out that the player needs bolts to fire
-						entityPlayer.addChatMessage(new ChatComponentText("You do not have any bolts of type: " + AOTDCrossbowBoltTypes.getTypeFromID(NBTHelper.getInt(itemStack, "mode"))));
+						if (world.isRemote)
+						{
+							// Else we print out that the player needs bolts to fire
+							entityPlayer.addChatMessage(new ChatComponentText("You do not have any bolts of type: " + AOTDCrossbowBoltTypes.getTypeFromID(NBTHelper.getInt(itemStack, "mode"))));
+						}
 					}
 				}
 			}
@@ -135,7 +138,10 @@ public class ItemCrossbow extends AOTDItem
 		if (!NBTHelper.getBoolean(itemStack, "isCocked"))
 		{
 			NBTHelper.setInteger(itemStack, "mode", AOTDCrossbowBoltTypes.getIDFromType(AOTDCrossbowBoltTypes.getTypeFromID(NBTHelper.getInt(itemStack, "mode")).next()));
-			entityPlayer.addChatMessage(new ChatComponentText("Crossbow will fire: " + AOTDCrossbowBoltTypes.getTypeFromID(NBTHelper.getInt(itemStack, "mode")) + " bolts."));
+			if (entityPlayer.worldObj.isRemote)
+			{
+				entityPlayer.addChatMessage(new ChatComponentText("Crossbow will fire: " + AOTDCrossbowBoltTypes.getTypeFromID(NBTHelper.getInt(itemStack, "mode")) + " bolts."));
+			}
 		}
 	}
 
