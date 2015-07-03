@@ -37,8 +37,9 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 	private static double followRange = 32.0D;
 
 	// AI wanderer and watcher
-	private EntityAIWander myWanderer = new EntityAIWander(this, EntityWerewolf.moveSpeed * 10);
+	private EntityAIWander myWanderer = new EntityAIWander(this, EntityWerewolf.moveSpeed * 2);
 	private EntityAIWatchClosest myWatchClosest = new EntityAIWatchClosest(this, EntityPlayer.class, (float) EntityWerewolf.agroRange);
+	private final CustomWerewolfTargetLocator myTargetLocator = new CustomWerewolfTargetLocator(this, EntityPlayer.class, 10, true);
 
 	public EntityWerewolf(final World world)
 	{
@@ -54,7 +55,7 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 		this.tasks.addTask(8, new EntityAILookIdle(this));
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
 		// Use custom werewolf target locator
-		this.targetTasks.addTask(2, new CustomWerewolfTargetLocator(this, EntityPlayer.class, 10, true));
+		this.targetTasks.addTask(2, myTargetLocator);
 	}
 
 	@Override
@@ -93,7 +94,7 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 		}
 		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.knockbackResistance) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.0D);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.5D);
 		}
 		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed) == null)
 		{
@@ -101,7 +102,7 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 		}
 		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.attackDamage) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(1.0D);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(20.0D);
 		}
 	}
 
