@@ -13,7 +13,9 @@ public enum AOTDCrossbowBoltTypes
 {
 	wooden(0, ModItems.woodenBolt),
 	iron(1, ModItems.ironBolt),
-	silver(2, ModItems.silverBolt);
+	silver(2, ModItems.silverBolt),
+	igneous(3, ModItems.igneousBolt),
+	starMetal(4, ModItems.starMetalBolt);
 
 	private int id = 0;
 	private Item myBoltItem;
@@ -48,9 +50,9 @@ public enum AOTDCrossbowBoltTypes
 
 	public AOTDCrossbowBoltTypes next()
 	{
-		if (this == silver)
+		if (this == AOTDCrossbowBoltTypes.values()[AOTDCrossbowBoltTypes.values().length - 1])
 		{
-			return wooden;
+			return AOTDCrossbowBoltTypes.values()[0];
 		}
 		else
 		{

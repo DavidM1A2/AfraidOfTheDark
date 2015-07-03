@@ -15,19 +15,16 @@ public class EntityWoodenBolt extends EntityBolt
 	public EntityWoodenBolt(final World world)
 	{
 		super(world);
-		this.setProperties();
 	}
 
 	public EntityWoodenBolt(final World world, final EntityLivingBase entityLivingBase)
 	{
 		super(world, entityLivingBase);
-		this.setProperties();
 	}
 
 	public EntityWoodenBolt(final World world, final double x, final double y, final double z)
 	{
 		super(world, x, y, z);
-		this.setProperties();
 	}
 
 	// Set the properties of the bolt

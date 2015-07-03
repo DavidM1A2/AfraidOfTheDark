@@ -19,15 +19,19 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
+import com.DavidM1A2.AfraidOfTheDark.client.entities.Bolts.IgneousBoltRender;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.Bolts.IronBoltRender;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.Bolts.SilverBoltRender;
+import com.DavidM1A2.AfraidOfTheDark.client.entities.Bolts.StarMetalBoltRender;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.Bolts.WoodenBoltRender;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.DeeeSyft.RenderDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.Werewolf.RenderWerewolf;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.Keybindings;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityIgneousBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityIronBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntitySilverBolt;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityStarMetalBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityWoodenBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
@@ -77,6 +81,8 @@ public class ClientProxy extends CommonProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityIronBolt.class, new IronBoltRender(current));
 		RenderingRegistry.registerEntityRenderingHandler(EntitySilverBolt.class, new SilverBoltRender(current));
 		RenderingRegistry.registerEntityRenderingHandler(EntityWoodenBolt.class, new WoodenBoltRender(current));
+		RenderingRegistry.registerEntityRenderingHandler(EntityIgneousBolt.class, new IgneousBoltRender(current));
+		RenderingRegistry.registerEntityRenderingHandler(EntityStarMetalBolt.class, new StarMetalBoltRender(current));
 		MinecraftForgeClient.registerItemRenderer(ModItems.crossbow, (IItemRenderer) new ItemCrossbowRender());
 	}
 

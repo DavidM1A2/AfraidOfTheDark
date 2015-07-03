@@ -15,19 +15,16 @@ public class EntityIronBolt extends EntityBolt
 	public EntityIronBolt(final World world)
 	{
 		super(world);
-		this.setProperties();
 	}
 
 	public EntityIronBolt(final World world, final EntityLivingBase entityLivingBase)
 	{
 		super(world, entityLivingBase);
-		this.setProperties();
 	}
 
 	public EntityIronBolt(final World world, final double x, final double y, final double z)
 	{
 		super(world, x, y, z);
-		this.setProperties();
 	}
 
 	// Set the properties of the bolt

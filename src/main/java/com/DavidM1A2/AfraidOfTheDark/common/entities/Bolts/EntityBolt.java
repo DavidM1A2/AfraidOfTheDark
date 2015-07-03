@@ -29,18 +29,23 @@ public abstract class EntityBolt extends EntityThrowable
 	{
 		super(world);
 		myDamageSource = null;
+		this.setProperties();
 	}
+
+	protected abstract void setProperties();
 
 	public EntityBolt(final World world, final EntityLivingBase entityLivingBase)
 	{
 		super(world, entityLivingBase);
 		myDamageSource = entityLivingBase;
+		this.setProperties();
 	}
 
 	public EntityBolt(final World world, final double x, final double y, final double z)
 	{
 		super(world, x, y, z);
 		myDamageSource = null;
+		this.setProperties();
 	}
 
 	// The bolt may drop depending on if the chance to drop is great enough

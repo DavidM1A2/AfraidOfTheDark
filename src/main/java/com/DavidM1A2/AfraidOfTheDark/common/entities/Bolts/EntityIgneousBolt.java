@@ -1,8 +1,3 @@
-/*
- * Author: David Slovikosky
- * Mod: Afraid of the Dark
- * Ideas and Textures: Michael Albertson
- */
 package com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts;
 
 import net.minecraft.entity.Entity;
@@ -16,19 +11,19 @@ import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 
-public class EntitySilverBolt extends EntityBolt
+public class EntityIgneousBolt extends EntityBolt
 {
-	public EntitySilverBolt(final World world)
+	public EntityIgneousBolt(final World world)
 	{
 		super(world);
 	}
 
-	public EntitySilverBolt(final World world, final EntityLivingBase entityLivingBase)
+	public EntityIgneousBolt(final World world, final EntityLivingBase entityLivingBase)
 	{
 		super(world, entityLivingBase);
 	}
 
-	public EntitySilverBolt(final World world, final double x, final double y, final double z)
+	public EntityIgneousBolt(final World world, final double x, final double y, final double z)
 	{
 		super(world, x, y, z);
 	}
@@ -36,8 +31,8 @@ public class EntitySilverBolt extends EntityBolt
 	// Set the properties of the bolt
 	public void setProperties()
 	{
-		this.setDamage(10);
-		this.setMyType(ModItems.silverBolt);
+		this.setDamage(11);
+		this.setMyType(ModItems.igneousBolt);
 		this.setChanceToDropHitEntity(.4);
 		this.setChanceToDropHitGround(.8);
 	}
@@ -48,6 +43,10 @@ public class EntitySilverBolt extends EntityBolt
 	{
 		final Entity entityHit = movingObjectPosition.entityHit;
 
+		if (entityHit != null)
+		{
+			entityHit.setFire(10);
+		}
 		if (!(entityHit instanceof EntityWerewolf))
 		{
 			super.onImpact(movingObjectPosition);

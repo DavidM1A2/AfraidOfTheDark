@@ -15,8 +15,10 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityIgneousBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityIronBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntitySilverBolt;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityStarMetalBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityWoodenBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
@@ -30,7 +32,7 @@ public class ItemCrossbow extends AOTDItem
 	private final int RELOAD_TIME = 100;
 	// This array contains available bolts
 	private final String[] availableBolts =
-	{ "IronBolt", "SilverBolt", "WoodenBolt" };
+	{ "IronBolt", "SilverBolt", "WoodenBolt", "IgneousBolt", "StarMetalBolt" };
 
 	public ItemCrossbow()
 	{
@@ -86,7 +88,9 @@ public class ItemCrossbow extends AOTDItem
 				{
 					// If we are not in creative, check to see if the the player has the required bolt in his/her inventory
 					if ((this.availableBolts[NBTHelper.getInt(itemStack, "mode")].equals("IronBolt") && entityPlayer.inventory.hasItem(ModItems.ironBolt)) || (this.availableBolts[NBTHelper.getInt(itemStack, "mode")].equals("WoodenBolt") && entityPlayer.inventory.hasItem(ModItems.woodenBolt))
-							|| (this.availableBolts[NBTHelper.getInt(itemStack, "mode")].equals("SilverBolt") && entityPlayer.inventory.hasItem(ModItems.silverBolt)))
+							|| (this.availableBolts[NBTHelper.getInt(itemStack, "mode")].equals("SilverBolt") && entityPlayer.inventory.hasItem(ModItems.silverBolt))
+							|| (this.availableBolts[NBTHelper.getInt(itemStack, "mode")].equals("IgneousBolt") && entityPlayer.inventory.hasItem(ModItems.igneousBolt))
+							|| (this.availableBolts[NBTHelper.getInt(itemStack, "mode")].equals("StarMetalBolt") && entityPlayer.inventory.hasItem(ModItems.starMetalBolt)))
 					{
 						entityPlayer.setItemInUse(itemStack, this.RELOAD_TIME);
 					}
@@ -163,20 +167,26 @@ public class ItemCrossbow extends AOTDItem
 		{
 			if (!world.isRemote)
 			{
+				world.playSoundAtEntity(entityPlayer, "afraidofthedark:crossbowFire", 0.5F, ((Item.itemRand.nextFloat() * 0.4F) + 0.8F));
 				if (this.availableBolts[NBTHelper.getInt(itemStack, "mode")].equals("IronBolt"))
 				{
-					world.playSoundAtEntity(entityPlayer, "afraidofthedark:crossbowFire", 0.5F, ((Item.itemRand.nextFloat() * 0.4F) + 0.8F));
 					world.spawnEntityInWorld(new EntityIronBolt(world, entityPlayer));
 				}
 				else if (this.availableBolts[NBTHelper.getInt(itemStack, "mode")].equals("SilverBolt"))
 				{
-					world.playSoundAtEntity(entityPlayer, "afraidofthedark:crossbowFire", 0.5F, ((Item.itemRand.nextFloat() * 0.4F) + 0.8F));
 					world.spawnEntityInWorld(new EntitySilverBolt(world, entityPlayer));
 				}
 				else if (this.availableBolts[NBTHelper.getInt(itemStack, "mode")].equals("WoodenBolt"))
 				{
-					world.playSoundAtEntity(entityPlayer, "afraidofthedark:crossbowFire", 0.5F, ((Item.itemRand.nextFloat() * 0.4F) + 0.8F));
 					world.spawnEntityInWorld(new EntityWoodenBolt(world, entityPlayer));
+				}
+				else if (this.availableBolts[NBTHelper.getInt(itemStack, "mode")].equals("IgneousBolt"))
+				{
+					world.spawnEntityInWorld(new EntityIgneousBolt(world, entityPlayer));
+				}
+				else if (this.availableBolts[NBTHelper.getInt(itemStack, "mode")].equals("StarMetalBolt"))
+				{
+					world.spawnEntityInWorld(new EntityStarMetalBolt(world, entityPlayer));
 				}
 			}
 		}
@@ -199,6 +209,16 @@ public class ItemCrossbow extends AOTDItem
 				{
 					world.playSoundAtEntity(entityPlayer, "afraidofthedark:crossbowFire", 0.5F, ((Item.itemRand.nextFloat() * 0.4F) + 0.8F));
 					world.spawnEntityInWorld(new EntityWoodenBolt(world, entityPlayer));
+				}
+				else if (this.availableBolts[NBTHelper.getInt(itemStack, "mode")].equals("IgneousBolt") && entityPlayer.inventory.consumeInventoryItem(ModItems.igneousBolt))
+				{
+					world.playSoundAtEntity(entityPlayer, "afraidofthedark:crossbowFire", 0.5F, ((Item.itemRand.nextFloat() * 0.4F) + 0.8F));
+					world.spawnEntityInWorld(new EntityIgneousBolt(world, entityPlayer));
+				}
+				else if (this.availableBolts[NBTHelper.getInt(itemStack, "mode")].equals("StarMetalBolt") && entityPlayer.inventory.consumeInventoryItem(ModItems.starMetalBolt))
+				{
+					world.playSoundAtEntity(entityPlayer, "afraidofthedark:crossbowFire", 0.5F, ((Item.itemRand.nextFloat() * 0.4F) + 0.8F));
+					world.spawnEntityInWorld(new EntityStarMetalBolt(world, entityPlayer));
 				}
 			}
 		}

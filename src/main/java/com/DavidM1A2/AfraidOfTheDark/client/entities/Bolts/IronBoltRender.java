@@ -5,24 +5,18 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.entities.Bolts;
 
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityBolt;
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityIronBolt;
-
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityBolt;
+
 // Setup the IronBolt renderer
 public class IronBoltRender extends BoltRender
 {
-	public IronBoltRender(final RenderManager p_i46179_1_)
+	public IronBoltRender(final RenderManager renderManager)
 	{
-		super(p_i46179_1_);
-	}
-
-	public void doRender(final EntityIronBolt entity, final double d0, final double d1, final double d2, final float f, final float f1)
-	{
-		this.doRender(entity, d0, d1, d2, f, f1);
+		super(renderManager);
 	}
 
 	@Override
