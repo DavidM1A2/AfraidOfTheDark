@@ -39,6 +39,6 @@ public class ItemWristCrossbow extends AOTDItemWithCooldown
 	@Override
 	public int getItemCooldownInTicks()
 	{
-		return 200;
+		return 80;
 	}
 }

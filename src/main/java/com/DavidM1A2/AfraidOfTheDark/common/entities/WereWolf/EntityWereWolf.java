@@ -86,7 +86,7 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 	{
 		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.maxHealth) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(80.0D);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(40.0D);
 		}
 		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange) == null)
 		{
@@ -131,7 +131,7 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 	@Override
 	public boolean attackEntityFrom(final DamageSource damageSource, final float damage)
 	{
-		if (damageSource.damageType.equals(Constants.AOTDDamageSources.silverWeapon.damageType) || damageSource.damageType.equals(DamageSource.outOfWorld))
+		if (damageSource.damageType.equals(Constants.AOTDDamageSources.silverDamage.damageType) || damageSource.damageType.equals(DamageSource.outOfWorld))
 		{
 			return super.attackEntityFrom(damageSource, damage);
 		}
@@ -182,7 +182,7 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 
 	public void setWanderer()
 	{
-		this.myWanderer = new EntityAIWander(this, EntityWerewolf.moveSpeed * 10);
+		this.myWanderer = new EntityAIWander(this, EntityWerewolf.moveSpeed * 2);
 	}
 
 	public EntityAIWatchClosest getMyWatchClosest()

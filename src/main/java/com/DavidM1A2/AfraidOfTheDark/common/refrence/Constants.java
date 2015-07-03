@@ -135,7 +135,7 @@ public final class Constants
 	public static final class AOTDDamageSources
 	{
 		// Silver weapon damage type and silver tool material
-		public static final DamageSource silverWeapon = new DamageSource("silverWeapon");
+		public static final DamageSource silverDamage = new DamageSource("silverDamage");
 	}
 
 	public static final class NightmareWorld

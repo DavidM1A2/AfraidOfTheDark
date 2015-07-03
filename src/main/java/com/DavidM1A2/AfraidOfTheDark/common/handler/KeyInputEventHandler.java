@@ -98,7 +98,7 @@ public class KeyInputEventHandler
 							ItemWristCrossbow current = (ItemWristCrossbow) itemStack.getItem();
 							if (!current.isOnCooldown())
 							{
-								if (entityPlayer.inventory.hasItem(ClientData.currentlySelectedBolt.getMyBoltItem()))
+								if (entityPlayer.inventory.hasItem(ClientData.currentlySelectedBolt.getMyBoltItem()) || entityPlayer.capabilities.isCreativeMode)
 								{
 									willFire = true;
 									current.setOnCooldown();

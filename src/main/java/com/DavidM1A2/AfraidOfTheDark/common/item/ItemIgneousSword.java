@@ -15,7 +15,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDChargableSword;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 
 public class ItemIgneousSword extends AOTDChargableSword
@@ -33,7 +35,16 @@ public class ItemIgneousSword extends AOTDChargableSword
 		if (entity != null)
 		{
 			entity.setFire(5);
+
+			if (entity instanceof EntityWerewolf)
+			{
+				if (HasStartedAOTD.get(player))
+				{
+					entity.attackEntityFrom(Constants.AOTDDamageSources.silverDamage, 10F);
+				}
+			}
 		}
+
 		return super.onLeftClickEntity(stack, player, entity);
 	}
 
