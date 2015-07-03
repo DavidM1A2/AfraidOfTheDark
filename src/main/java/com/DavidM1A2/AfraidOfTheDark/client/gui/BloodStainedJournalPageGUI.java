@@ -74,11 +74,6 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 		this.journalTexture = new ResourceLocation("afraidofthedark:textures/gui/bloodStainedJournalPage.png");
 
 		this.updateBounds();
-
-		//this.textPrevious = "";
-		//this.textCurrent = this.textNext.substring(0, leftPage.getExtraText(rightPage.getExtraText(textNext)).length());
-		//LogHelper.info(leftPage.getExtraText(rightPage.getExtraText(textNext)).length());
-		//this.textNext = this.textNext.substring(textCurrent.length(), this.textNext.length());
 	}
 
 	@Override
@@ -189,7 +184,7 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 		this.forwardButton.updateBounds(this.width - 64, this.height - 64);
 		this.backwardButton.updateBounds(0, this.height - 64);
 
-		this.bookmarkButton.updateBounds(64, this.height - 40, this.width - 128, 40);
+		this.bookmarkButton.updateBounds(64, this.height - 60, this.width - 128, 40);
 
 		this.previousWidth = this.width;
 		this.previousHeight = this.height;
