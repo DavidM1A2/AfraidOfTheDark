@@ -86,7 +86,7 @@ public class IgneousArmor extends AOTDArmor
 		{
 			if (((EntityDamageSource) source).getEntity() instanceof EntityWerewolf)
 			{
-				return new ArmorProperties(0, .24, 200);
+				return new ArmorProperties(0, .21, 200);
 			}
 		}
 
