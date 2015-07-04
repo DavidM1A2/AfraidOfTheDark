@@ -217,6 +217,9 @@ public class ItemVitaeLantern extends AOTDItem
 	@Override
 	public void addInformation(final ItemStack itemStack, final EntityPlayer entityPlayer, final List list, final boolean bool)
 	{
+		list.add("Shift & Right click to toggle the lantern on and off.");
+		list.add("Right click to take vitae out of the right-clicked entity.");
+		list.add("Left click to transfer vitae into the clicked entity.");
 		list.add("Lantern is active? " + NBTHelper.getBoolean(itemStack, "isActive"));
 		list.add("Lantern state: " + NBTHelper.getDouble(itemStack, "equalibriumPercentage") * 100 + "%");
 		list.add("Stored vitae: " + NBTHelper.getInt(itemStack, STORED_VITAE));
