@@ -16,7 +16,7 @@ import net.minecraft.util.EntityDamageSource;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.DavidM1A2.AfraidOfTheDark.common.entities.POOPER123.EntityPOOPER123;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 
 public class IgneousArmor extends AOTDArmor
@@ -84,7 +84,7 @@ public class IgneousArmor extends AOTDArmor
 		}
 		else if (source instanceof EntityDamageSource)
 		{
-			if (((EntityDamageSource) source).getEntity() instanceof EntityPOOPER123)
+			if (((EntityDamageSource) source).getEntity() instanceof EntityWerewolf)
 			{
 				return new ArmorProperties(0, .21, 200);
 			}

@@ -9,7 +9,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
-import com.DavidM1A2.AfraidOfTheDark.common.entities.POOPER123.EntityPOOPER123;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDSword;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
@@ -27,7 +27,7 @@ public class ItemAstralSilverSword extends AOTDSword
 	@Override
 	public boolean onLeftClickEntity(final ItemStack stack, final EntityPlayer player, final Entity entity)
 	{
-		if (entity instanceof EntityPOOPER123)
+		if (entity instanceof EntityWerewolf)
 		{
 			if (HasStartedAOTD.get(player))
 			{

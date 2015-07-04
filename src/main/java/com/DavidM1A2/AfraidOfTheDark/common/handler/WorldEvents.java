@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import com.DavidM1A2.AfraidOfTheDark.common.entities.POOPER123.EntityPOOPER123;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 
@@ -42,12 +42,12 @@ public class WorldEvents
 					if (this.readyToSpawnWerewolves)
 					{
 						// Set werewolf attributes and update each already spawned werewolf
-						EntityPOOPER123.setMoveSpeedAndAgroRange(.51, 80.0D, 120.0D);
+						EntityWerewolf.setMoveSpeedAndAgroRange(.51, 80.0D, 120.0D);
 						for (final Object entity : currentWorld.loadedEntityList)
 						{
-							if (entity instanceof EntityPOOPER123)
+							if (entity instanceof EntityWerewolf)
 							{
-								final EntityPOOPER123 myWolf = (EntityPOOPER123) entity;
+								final EntityWerewolf myWolf = (EntityWerewolf) entity;
 								myWolf.setWanderer();
 								myWolf.setMyWatchClosest();
 							}
@@ -73,12 +73,12 @@ public class WorldEvents
 				{
 					if (!this.readyToSpawnWerewolves)
 					{
-						EntityPOOPER123.setMoveSpeedAndAgroRange(.38, 16.0D, 32.0D);
+						EntityWerewolf.setMoveSpeedAndAgroRange(.38, 16.0D, 32.0D);
 						for (final Object entity : currentWorld.loadedEntityList)
 						{
-							if (entity instanceof EntityPOOPER123)
+							if (entity instanceof EntityWerewolf)
 							{
-								final EntityPOOPER123 myWolf = (EntityPOOPER123) entity;
+								final EntityWerewolf myWolf = (EntityWerewolf) entity;
 								myWolf.setWanderer();
 								myWolf.setMyWatchClosest();
 							}

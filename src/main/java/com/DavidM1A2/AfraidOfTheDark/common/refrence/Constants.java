@@ -51,7 +51,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.util.EnumHelper;
 
 import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
-import com.DavidM1A2.AfraidOfTheDark.common.entities.POOPER123.EntityPOOPER123;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.Schematic;
@@ -98,7 +98,7 @@ public final class Constants
 		entityVitaeResistance.put(EntitySnowman.class, 15);
 		entityVitaeResistance.put(EntityDragon.class, 300);
 		entityVitaeResistance.put(EntityWither.class, 300);
-		entityVitaeResistance.put(EntityPOOPER123.class, 120);
+		entityVitaeResistance.put(EntityWerewolf.class, 120);
 		entityVitaeResistance.put(EntityDeeeSyft.class, 150);
 
 		toolMaterialRepairCosts.put("EMERALD", 4);

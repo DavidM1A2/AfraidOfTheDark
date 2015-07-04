@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import com.DavidM1A2.AfraidOfTheDark.common.entities.POOPER123.EntityPOOPER123;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
 
 public class RenderWerewolf extends RenderLiving
 {
@@ -25,7 +25,7 @@ public class RenderWerewolf extends RenderLiving
 	@Override
 	public void doRender(Entity _entity, double posX, double posY, double posZ, float var8, float var9)
 	{
-		EntityPOOPER123 entity = (EntityPOOPER123) _entity;
+		EntityWerewolf entity = (EntityWerewolf) _entity;
 
 		GL11.glPushMatrix();
 		GL11.glDisable(GL11.GL_CULL_FACE);

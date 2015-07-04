@@ -1,4 +1,4 @@
-package com.DavidM1A2.AfraidOfTheDark.common.entities.POOPER123;
+package com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf;
 
 /*
  * Author: David Slovikosky

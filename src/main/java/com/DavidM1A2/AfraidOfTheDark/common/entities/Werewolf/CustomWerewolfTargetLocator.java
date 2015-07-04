@@ -3,7 +3,7 @@
  * Mod: Afraid of the Dark
  * Ideas and Textures: Michael Albertson
  */
-package com.DavidM1A2.AfraidOfTheDark.common.entities.POOPER123;
+package com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf;
 
 import java.util.Collections;
 import java.util.Comparator;

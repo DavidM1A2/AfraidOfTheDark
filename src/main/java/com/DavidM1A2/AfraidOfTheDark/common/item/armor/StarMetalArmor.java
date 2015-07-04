@@ -19,7 +19,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.DavidM1A2.AfraidOfTheDark.common.entities.POOPER123.EntityPOOPER123;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 
 public class StarMetalArmor extends AOTDArmor
@@ -79,7 +79,7 @@ public class StarMetalArmor extends AOTDArmor
 
 		else if (source instanceof EntityDamageSource)
 		{
-			if (((EntityDamageSource) source).getEntity() instanceof EntityPOOPER123)
+			if (((EntityDamageSource) source).getEntity() instanceof EntityWerewolf)
 			{
 				return new ArmorProperties(0, .218, 200);
 			}
