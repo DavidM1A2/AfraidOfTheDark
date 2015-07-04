@@ -28,6 +28,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.block.BlockMeteor;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockSpring;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockStarMetalOre;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockSunstoneOre;
+import com.DavidM1A2.AfraidOfTheDark.common.block.BlockVitaeDisenchanter;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.BlockTileEntityDarkForest;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.BlockTileEntitySpring;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemGravewoodLeaves;
@@ -52,6 +53,7 @@ public class ModBlocks
 	public static final BlockSpring spring = new BlockSpring(Material.rock);
 	public static final BlockDarkForest darkForest = new BlockDarkForest(Material.rock);
 	public static final BlockGravewoodSapling gravewoodSapling = new BlockGravewoodSapling();
+	public static final BlockVitaeDisenchanter vitaeDisenchanter = new BlockVitaeDisenchanter();
 
 	public static void initialize()
 	{
@@ -76,6 +78,7 @@ public class ModBlocks
 		GameRegistry.registerBlock(ModBlocks.starMetalOre, "starMetalOre");
 		GameRegistry.registerBlock(ModBlocks.igneousBlock, "igneousBlock");
 		GameRegistry.registerBlock(ModBlocks.gravewoodSapling, "gravewoodSapling");
+		GameRegistry.registerBlock(ModBlocks.vitaeDisenchanter, "vitaeDisenchanter");
 	}
 
 	public static void initializeRenderers(final Side side)
@@ -97,6 +100,7 @@ public class ModBlocks
 			renderItem.getItemModelMesher().register(Item.getItemFromBlock(ModBlocks.starMetalOre), 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalOre", "inventory"));
 			renderItem.getItemModelMesher().register(Item.getItemFromBlock(ModBlocks.igneousBlock), 0, new ModelResourceLocation(Refrence.MOD_ID + ":igneousBlock", "inventory"));
 			renderItem.getItemModelMesher().register(Item.getItemFromBlock(ModBlocks.gravewoodSapling), 0, new ModelResourceLocation(Refrence.MOD_ID + ":gravewoodSapling", "inventory"));
+			renderItem.getItemModelMesher().register(Item.getItemFromBlock(ModBlocks.vitaeDisenchanter), 0, new ModelResourceLocation(Refrence.MOD_ID + ":vitaeDisenchanter", "inventory"));
 		}
 	}
 }

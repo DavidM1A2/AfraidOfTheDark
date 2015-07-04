@@ -28,6 +28,7 @@ public enum ResearchTypes
 	AstralSilver(AstronomyI, 0, 3),
 	VitaeI(AstronomyI, -1, 3),
 	VitaeLanternI(VitaeI, -2, 3),
+	VitaeDisenchanter(VitaeLanternI, -3, 3),
 	DeeeSyft(VitaeLanternI, -2, 4),
 	DarkForest(AstralSilver, 0, 4),
 	Insanity(DarkForest, 1, 4),

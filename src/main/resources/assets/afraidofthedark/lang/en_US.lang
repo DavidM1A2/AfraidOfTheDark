@@ -57,6 +57,7 @@ tile.afraidofthedark:igneousBlock.name=Igneous Block
 tile.afraidofthedark:spring.name=Spring
 tile.afraidofthedark:gravewoodSapling.name=Gravewood Sapling
 tile.afraidofthedark:darkForest.name=Dark Forest
+tile.afraidofthedark:vitaeDisenchanter.name=Vitae Disenchanter
 
 # Creative Tabs
 itemGroup.afraidofthedark=Afraid of the Dark
