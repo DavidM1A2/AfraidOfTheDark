@@ -11,7 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.POOPER123.EntityPOOPER123;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
@@ -48,7 +48,7 @@ public class EntitySilverBolt extends EntityBolt
 	{
 		final Entity entityHit = movingObjectPosition.entityHit;
 
-		if (!(entityHit instanceof EntityWerewolf))
+		if (!(entityHit instanceof EntityPOOPER123))
 		{
 			super.onImpact(movingObjectPosition);
 		}

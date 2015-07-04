@@ -10,7 +10,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.MCAVersionChecker;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.math.Matrix4f;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.math.Quaternion;
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.POOPER123.EntityPOOPER123;
 
 public class ModelWerewolf extends ModelBase
 {
@@ -209,7 +209,7 @@ public class ModelWerewolf extends ModelBase
 	@Override
 	public void render(Entity par1Entity, float par2, float par3, float par4, float par5, float par6, float par7)
 	{
-		EntityWerewolf entity = (EntityWerewolf) par1Entity;
+		EntityPOOPER123 entity = (EntityPOOPER123) par1Entity;
 
 		AnimationHandler.performAnimationInModel(parts, entity);
 

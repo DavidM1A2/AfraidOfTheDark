@@ -3,7 +3,7 @@
  * Mod: Afraid of the Dark
  * Ideas and Textures: Michael Albertson
  */
-package com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf;
+package com.DavidM1A2.AfraidOfTheDark.common.entities.POOPER123;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -28,7 +28,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
-public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
+public class EntityPOOPER123 extends EntityMob implements IMCAnimatedEntity
 {
 	protected AnimationHandler animHandler = new AnimationHandlerWerewolf(this);
 	// setup movespeed, agroRange, and followRange
@@ -37,11 +37,11 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 	private static double followRange = 32.0D;
 
 	// AI wanderer and watcher
-	private EntityAIWander myWanderer = new EntityAIWander(this, EntityWerewolf.moveSpeed * 2);
-	private EntityAIWatchClosest myWatchClosest = new EntityAIWatchClosest(this, EntityPlayer.class, (float) EntityWerewolf.agroRange);
+	private EntityAIWander myWanderer = new EntityAIWander(this, EntityPOOPER123.moveSpeed * 2);
+	private EntityAIWatchClosest myWatchClosest = new EntityAIWatchClosest(this, EntityPlayer.class, (float) EntityPOOPER123.agroRange);
 	private final CustomWerewolfTargetLocator myTargetLocator = new CustomWerewolfTargetLocator(this, EntityPlayer.class, 10, true);
 
-	public EntityWerewolf(final World world)
+	public EntityPOOPER123(final World world)
 	{
 		// Set the model size
 		super(world);
@@ -90,7 +90,7 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 		}
 		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.followRange).setBaseValue(EntityWerewolf.followRange);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.followRange).setBaseValue(EntityPOOPER123.followRange);
 		}
 		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.knockbackResistance) == null)
 		{
@@ -98,7 +98,7 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 		}
 		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(EntityWerewolf.moveSpeed);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(EntityPOOPER123.moveSpeed);
 		}
 		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.attackDamage) == null)
 		{
@@ -124,7 +124,7 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 	@Override
 	public float getAIMoveSpeed()
 	{
-		return (float) EntityWerewolf.moveSpeed;
+		return (float) EntityPOOPER123.moveSpeed;
 	}
 
 	// Only take damage from silver weapons
@@ -169,9 +169,9 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 	// This is used to set movespeed and agro range during full moons
 	public static void setMoveSpeedAndAgroRange(final double _moveSpeed, final double _agroRange, final double _followRange)
 	{
-		EntityWerewolf.moveSpeed = _moveSpeed;
-		EntityWerewolf.agroRange = _agroRange;
-		EntityWerewolf.followRange = _followRange;
+		EntityPOOPER123.moveSpeed = _moveSpeed;
+		EntityPOOPER123.agroRange = _agroRange;
+		EntityPOOPER123.followRange = _followRange;
 	}
 
 	// Various getters and setters
@@ -182,7 +182,7 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 
 	public void setWanderer()
 	{
-		this.myWanderer = new EntityAIWander(this, EntityWerewolf.moveSpeed * 2);
+		this.myWanderer = new EntityAIWander(this, EntityPOOPER123.moveSpeed * 2);
 	}
 
 	public EntityAIWatchClosest getMyWatchClosest()
@@ -192,6 +192,6 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 
 	public void setMyWatchClosest()
 	{
-		this.myWatchClosest = new EntityAIWatchClosest(this, EntityPlayer.class, (float) EntityWerewolf.agroRange);
+		this.myWatchClosest = new EntityAIWatchClosest(this, EntityPlayer.class, (float) EntityPOOPER123.agroRange);
 	}
 }
