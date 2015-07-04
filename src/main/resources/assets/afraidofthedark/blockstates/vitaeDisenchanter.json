@@ -1,5 +1,7 @@
 {
 	"variants": {
-		"normal": { "model": "AfraidOfTheDark:vitaeDisenchanter" }
+		"variant=false": { "model": "AfraidOfTheDark:vitaeDisenchanterFalse" },
+		"variant=true": { "model": "AfraidOfTheDark:vitaeDisenchanterTrue" },
+		"inventory":                   { "model": "AfraidOfTheDark:vitaeDisenchanterTrue" }
 	}
 }

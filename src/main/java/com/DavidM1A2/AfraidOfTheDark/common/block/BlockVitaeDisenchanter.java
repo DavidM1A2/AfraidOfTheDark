@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
@@ -13,6 +16,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBook;
+import net.minecraft.item.ItemEnchantedBook;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
@@ -29,11 +33,12 @@ import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.google.common.collect.Maps;
 
 public class BlockVitaeDisenchanter extends AOTDBlock
 {
+	private static final PropertyBool VARIANT = PropertyBool.create("variant");
+
 	public BlockVitaeDisenchanter()
 	{
 		super(Material.rock);
@@ -42,64 +47,208 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 		this.setResistance(50.0F);
 	}
 
+	/**
+	 * Convert the given metadata into a BlockState for this Block
+	 */
+	@Override
+	public IBlockState getStateFromMeta(final int meta)
+	{
+		IBlockState defaultState = this.getDefaultState();
+		return defaultState.withProperty(VARIANT, meta == 0 ? true : false);
+	}
+
+	/**
+	 * Convert the BlockState into the correct metadata value
+	 */
+	@Override
+	public int getMetaFromState(final IBlockState state)
+	{
+		return state.getValue(VARIANT).compareTo(true) == 0 ? 0 : 1;
+	}
+
+	// Default block states
+	@Override
+	protected BlockState createBlockState()
+	{
+		return new BlockState(this, new IProperty[]
+		{ BlockVitaeDisenchanter.VARIANT });
+	}
+
 	public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState iBlockState, EntityPlayer entityPlayer, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
 		if (!world.isRemote)
 		{
 			if (entityPlayer.inventory.getCurrentItem() == null)
 			{
-				// Change mode
+				world.setBlockState(blockPos, iBlockState.withProperty(VARIANT, this.getMetaFromState(iBlockState) == 0 ? false : true));
 			}
 			else
 			{
-				if (readyToDisenchant(entityPlayer))
+				if (this.getMetaFromState(iBlockState) == 0)
 				{
-					NBTTagList enchantments = entityPlayer.getHeldItem().getEnchantmentTagList();
-					for (int i = 0; i < enchantments.tagCount(); i++)
+					if (readyToDisenchant(entityPlayer))
 					{
-						if (enchantments.get(i) instanceof NBTTagCompound)
-						{
-							NBTTagCompound enchantment = (NBTTagCompound) enchantments.get(i);
-
-							for (int j = 0; j < entityPlayer.inventory.mainInventory.length; j++)
-							{
-								ItemStack book = entityPlayer.inventory.mainInventory[j];
-								if (book != null && book.getItem() instanceof ItemBook)
-								{
-									if (book.stackSize == 1)
-									{
-										entityPlayer.inventory.setInventorySlotContents(j, null);
-									}
-									else
-									{
-										book.stackSize = book.stackSize - 1;
-									}
-									break;
-								}
-							}
-
-							ItemStack newBook = Items.enchanted_book.getEnchantedItemStack(new EnchantmentData(Enchantment.func_180306_c(enchantment.getInteger("id")), enchantment.getInteger("lvl")));
-
-							if (entityPlayer.inventory.getFirstEmptyStack() < 0)
-							{
-								EntityItem entity = new EntityItem(world, entityPlayer.posX, entityPlayer.posY + 1, entityPlayer.posZ, newBook);
-								world.spawnEntityInWorld(entity);
-							}
-							else
-							{
-								entityPlayer.inventory.addItemStackToInventory(newBook);
-							}
-						}
+						disenchantItem(entityPlayer);
 					}
-
-					EnchantmentHelper.setEnchantments(Maps.newHashMap(), entityPlayer.getHeldItem());
-
-					entityPlayer.inventoryContainer.detectAndSendChanges();
+				}
+				else
+				{
+					if (readyToConvertBook(entityPlayer))
+					{
+						convertBook(entityPlayer);
+					}
 				}
 			}
 		}
 
 		return super.onBlockActivated(world, blockPos, iBlockState, entityPlayer, side, hitX, hitY, hitZ);
+	}
+
+	private void convertBook(EntityPlayer entityPlayer)
+	{
+		ItemStack itemstack = entityPlayer.getCurrentEquippedItem();
+		NBTTagList enchantments = ((ItemEnchantedBook) itemstack.getItem()).func_92110_g(itemstack);
+		int numberOfXPBottlesToAdd = 0;
+
+		for (int i = 0; i < enchantments.tagCount(); i++)
+		{
+			if (enchantments.get(i) instanceof NBTTagCompound)
+			{
+				NBTTagCompound enchantment = (NBTTagCompound) enchantments.get(i);
+				numberOfXPBottlesToAdd = numberOfXPBottlesToAdd + enchantment.getInteger("lvl");
+			}
+		}
+
+		numberOfXPBottlesToAdd = numberOfXPBottlesToAdd * 3;
+
+		int bottlesToSpawn = numberOfXPBottlesToAdd / 64;
+		int extraBottlesToSpawn = numberOfXPBottlesToAdd % 64;
+
+		for (int i = 0; i < bottlesToSpawn; i++)
+		{
+			if (entityPlayer.inventory.getFirstEmptyStack() < 0)
+			{
+				EntityItem entity = new EntityItem(entityPlayer.worldObj, entityPlayer.posX, entityPlayer.posY + 1, entityPlayer.posZ, new ItemStack(Items.experience_bottle, 64));
+				entityPlayer.worldObj.spawnEntityInWorld(entity);
+			}
+			else
+			{
+				entityPlayer.inventory.addItemStackToInventory(new ItemStack(Items.experience_bottle, 64));
+			}
+		}
+		if (extraBottlesToSpawn > 0)
+		{
+			if (entityPlayer.inventory.getFirstEmptyStack() < 0)
+			{
+				EntityItem entity = new EntityItem(entityPlayer.worldObj, entityPlayer.posX, entityPlayer.posY + 1, entityPlayer.posZ, new ItemStack(Items.experience_bottle, extraBottlesToSpawn));
+				entityPlayer.worldObj.spawnEntityInWorld(entity);
+			}
+			else
+			{
+				entityPlayer.inventory.addItemStackToInventory(new ItemStack(Items.experience_bottle, extraBottlesToSpawn));
+			}
+		}
+
+		entityPlayer.setCurrentItemOrArmor(0, new ItemStack(Items.book, 1));
+		entityPlayer.inventoryContainer.detectAndSendChanges();
+	}
+
+	private boolean readyToConvertBook(EntityPlayer entityPlayer)
+	{
+		if (LoadResearchData.isResearched(entityPlayer, ResearchTypes.VitaeDisenchanter))
+		{
+			ItemStack itemStack = entityPlayer.getCurrentEquippedItem();
+			if (itemStack != null && itemStack.getItem() instanceof ItemEnchantedBook)
+			{
+				NBTTagList enchantments = ((ItemEnchantedBook) itemStack.getItem()).func_92110_g(itemStack);
+				int vitaeCost = 0;
+
+				for (int i = 0; i < enchantments.tagCount(); i++)
+				{
+					if (enchantments.get(i) instanceof NBTTagCompound)
+					{
+						NBTTagCompound enchantment = (NBTTagCompound) enchantments.get(i);
+						vitaeCost = vitaeCost + enchantment.getInteger("lvl");
+					}
+				}
+
+				vitaeCost = vitaeCost * 3;
+
+				if (Vitae.get(entityPlayer) >= vitaeCost)
+				{
+					Vitae.addVitae(entityPlayer, -vitaeCost, Side.SERVER);
+					return true;
+				}
+				else
+				{
+					if (!entityPlayer.worldObj.isRemote)
+					{
+						entityPlayer.addChatMessage(new ChatComponentText("I'll need more vitae to do this."));
+					}
+				}
+			}
+			else
+			{
+				if (!entityPlayer.worldObj.isRemote)
+				{
+					entityPlayer.addChatMessage(new ChatComponentText("I'll need to right click this with an enchanted book."));
+				}
+			}
+		}
+		else
+		{
+			if (!entityPlayer.worldObj.isRemote)
+			{
+				entityPlayer.addChatMessage(new ChatComponentText("I don't understand how to use this."));
+			}
+		}
+		return false;
+	}
+
+	private void disenchantItem(EntityPlayer entityPlayer)
+	{
+		ItemStack itemstack = entityPlayer.getCurrentEquippedItem();
+		NBTTagList enchantments = entityPlayer.getHeldItem().getEnchantmentTagList();
+		for (int i = 0; i < enchantments.tagCount(); i++)
+		{
+			if (enchantments.get(i) instanceof NBTTagCompound)
+			{
+				NBTTagCompound enchantment = (NBTTagCompound) enchantments.get(i);
+
+				for (int j = 0; j < entityPlayer.inventory.mainInventory.length; j++)
+				{
+					ItemStack book = entityPlayer.inventory.mainInventory[j];
+					if (book != null && book.getItem() instanceof ItemBook)
+					{
+						if (book.stackSize == 1)
+						{
+							entityPlayer.inventory.setInventorySlotContents(j, null);
+						}
+						else
+						{
+							book.stackSize = book.stackSize - 1;
+						}
+						break;
+					}
+				}
+
+				ItemStack newBook = Items.enchanted_book.getEnchantedItemStack(new EnchantmentData(Enchantment.func_180306_c(enchantment.getInteger("id")), enchantment.getInteger("lvl")));
+
+				if (entityPlayer.inventory.getFirstEmptyStack() < 0)
+				{
+					EntityItem entity = new EntityItem(entityPlayer.worldObj, entityPlayer.posX, entityPlayer.posY + 1, entityPlayer.posZ, newBook);
+					entityPlayer.worldObj.spawnEntityInWorld(entity);
+				}
+				else
+				{
+					entityPlayer.inventory.addItemStackToInventory(newBook);
+				}
+			}
+		}
+
+		EnchantmentHelper.setEnchantments(Maps.newHashMap(), entityPlayer.getHeldItem());
+
+		entityPlayer.inventoryContainer.detectAndSendChanges();
 	}
 
 	private boolean readyToDisenchant(EntityPlayer entityPlayer)
@@ -150,7 +299,6 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 						{
 							vitaeMultiplier = Constants.toolMaterialRepairCosts.get(material);
 						}
-						LogHelper.info(material);
 					}
 
 					vitaeCost = vitaeCost * vitaeMultiplier;
