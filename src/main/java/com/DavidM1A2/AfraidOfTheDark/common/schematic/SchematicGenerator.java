@@ -87,7 +87,7 @@ public final class SchematicGenerator
 
 		while (iteratorBlock.hasNext())
 		{
-			world.setBlockState(((Point3D) iteratorLocation.next()).toBlockPos(), Block.getBlockById(Short.toUnsignedInt((Short) iteratorBlock.next())).getStateFromMeta(Byte.toUnsignedInt((Byte) iteratorMeta.next())));
+			world.setBlockState(((Point3D) iteratorLocation.next()).toBlockPos(), Block.getBlockById((Short) iteratorBlock.next()).getStateFromMeta((Byte) iteratorMeta.next()));
 		}
 
 		if (schematic.getTileentities() != null)
