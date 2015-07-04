@@ -27,7 +27,7 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 {
 	protected AnimationHandler animHandler = new AnimationHandlerDeeeSyft(this);
 	private int flightCeiling = 85;
-	private static final int PASSIVE_VITAE_GEN_IN_TICKS = 400;
+	private static final int PASSIVE_VITAE_GEN_IN_TICKS = 160;
 	private static final String TICKS_UNTIL_NORMAL_AI = "ticksUntilNormalAI";
 	private static final String FLIGHT_CEILING = "flightCeiling";
 	private int timeUntilNormalAI = 0;

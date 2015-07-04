@@ -40,23 +40,45 @@ public class ItemVitaeLantern extends AOTDItem
 	@Override
 	public ItemStack onItemRightClick(final ItemStack itemStack, final World world, final EntityPlayer entityPlayer)
 	{
-		if (NBTHelper.getBoolean(itemStack, "isActive"))
+		if (entityPlayer.isSneaking())
 		{
-			NBTHelper.setBoolean(itemStack, "isActive", false);
-		}
-		else
-		{
-			for (ItemStack itemStackCurrent : entityPlayer.inventory.mainInventory)
+			if (NBTHelper.getBoolean(itemStack, "isActive"))
 			{
-				if (itemStackCurrent != null && itemStackCurrent.getItem() instanceof ItemVitaeLantern)
-				{
-					NBTHelper.setBoolean(itemStackCurrent, "isActive", false);
-				}
+				NBTHelper.setBoolean(itemStack, "isActive", false);
 			}
-			NBTHelper.setBoolean(itemStack, "isActive", true);
+			else
+			{
+				for (ItemStack itemStackCurrent : entityPlayer.inventory.mainInventory)
+				{
+					if (itemStackCurrent != null && itemStackCurrent.getItem() instanceof ItemVitaeLantern)
+					{
+						NBTHelper.setBoolean(itemStackCurrent, "isActive", false);
+					}
+				}
+				NBTHelper.setBoolean(itemStack, "isActive", true);
+			}
 		}
 
 		return super.onItemRightClick(itemStack, world, entityPlayer);
+	}
+
+	/**
+	 * Returns true if the item can be used on the given entity, e.g. shears on sheep.
+	 */
+	@Override
+	public boolean itemInteractionForEntity(ItemStack itemStack, EntityPlayer entityPlayer, EntityLivingBase entityLivingBase)
+	{
+		if (LoadResearchData.isResearched(entityPlayer, ResearchTypes.VitaeLanternI))
+		{
+			if (Vitae.get(entityLivingBase) > 5 && !(entityLivingBase instanceof EntityPlayer))
+			{
+				Vitae.addVitae(entityLivingBase, -5, null);
+				// Itemstack here is wrong? wtf?
+				addVitae(entityPlayer.getCurrentEquippedItem(), 5);
+			}
+		}
+
+		return super.itemInteractionForEntity(itemStack, entityPlayer, entityLivingBase);
 	}
 
 	/**

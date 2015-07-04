@@ -26,6 +26,11 @@ public class DebugSpammer
 		{
 			final EntityPlayer entityPlayer = (EntityPlayer) e.entityLiving;
 
+			//			if (entityPlayer.getHeldItem() != null)
+			//			{
+			//				LogHelper.info(NBTHelper.getInt(entityPlayer.getHeldItem(), "storedVitae"));
+			//			}
+
 			//addLight(entityPlayer);
 			if (true)
 			{
