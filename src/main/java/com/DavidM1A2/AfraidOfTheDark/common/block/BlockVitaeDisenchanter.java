@@ -11,7 +11,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBook;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
@@ -29,6 +29,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.google.common.collect.Maps;
 
 public class BlockVitaeDisenchanter extends AOTDBlock
@@ -141,30 +142,15 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 					}
 
 					int vitaeMultiplier = 1;
-					if (itemStack.getItem() instanceof ItemTool || itemStack.getItem() instanceof ItemSword)
+					if (itemStack.getItem() instanceof ItemTool || itemStack.getItem() instanceof ItemSword || itemStack.getItem() instanceof ItemArmor)
 					{
-						ToolMaterial material = (itemStack.getItem() instanceof ItemTool) ? ((ItemTool) itemStack.getItem()).getToolMaterial() : ToolMaterial.valueOf(((ItemSword) itemStack.getItem()).getToolMaterialName());
-						switch (material)
+						String material = (itemStack.getItem() instanceof ItemTool) ? ((ItemTool) itemStack.getItem()).getToolMaterial().toString() : (itemStack.getItem() instanceof ItemSword) ? ((ItemSword) itemStack.getItem()).getToolMaterialName() : ((ItemArmor) itemStack.getItem())
+								.getArmorMaterial().toString();
+						if (Constants.toolMaterialRepairCosts.containsKey(material))
 						{
-							case EMERALD:
-								vitaeMultiplier = 4;
-								break;
-							case GOLD:
-								vitaeMultiplier = 5;
-								break;
-							case IRON:
-								vitaeMultiplier = 3;
-								break;
-							case STONE:
-								vitaeMultiplier = 1;
-								break;
-							case WOOD:
-								vitaeMultiplier = 1;
-								break;
-							default:
-								vitaeMultiplier = 1;
-								break;
+							vitaeMultiplier = Constants.toolMaterialRepairCosts.get(material);
 						}
+						LogHelper.info(material);
 					}
 
 					vitaeCost = vitaeCost * vitaeMultiplier;

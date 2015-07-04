@@ -61,6 +61,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicLoader;
 public final class Constants
 {
 	public static Map<Class, Integer> entityVitaeResistance = new HashMap<Class, Integer>();
+	public static Map<String, Integer> toolMaterialRepairCosts = new HashMap<String, Integer>();
 
 	static
 	{
@@ -99,6 +100,22 @@ public final class Constants
 		entityVitaeResistance.put(EntityWither.class, 300);
 		entityVitaeResistance.put(EntityWerewolf.class, 120);
 		entityVitaeResistance.put(EntityDeeeSyft.class, 150);
+
+		toolMaterialRepairCosts.put("EMERALD", 4);
+		toolMaterialRepairCosts.put("GOLD", 5);
+		toolMaterialRepairCosts.put("IRON", 3);
+		toolMaterialRepairCosts.put("STONE", 1);
+		toolMaterialRepairCosts.put("WOOD", 1);
+
+		toolMaterialRepairCosts.put("LEATHER", 1);
+		toolMaterialRepairCosts.put("CHAINMAIL", 2);
+		toolMaterialRepairCosts.put("DIAMOND", 4);
+
+		toolMaterialRepairCosts.put("silverTool", 4);
+		toolMaterialRepairCosts.put("igneousTool", 4);
+		toolMaterialRepairCosts.put("starMetalTool", 4);
+		toolMaterialRepairCosts.put("igneous", 4);
+		toolMaterialRepairCosts.put("starMetal", 4);
 	}
 
 	public static final class Packets
