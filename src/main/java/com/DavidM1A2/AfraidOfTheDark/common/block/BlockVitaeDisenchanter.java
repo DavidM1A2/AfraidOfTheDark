@@ -101,7 +101,7 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 			}
 		}
 
-		return super.onBlockActivated(world, blockPos, iBlockState, entityPlayer, side, hitX, hitY, hitZ);
+		return true;
 	}
 
 	private void convertBook(EntityPlayer entityPlayer)
@@ -183,7 +183,14 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 				{
 					if (!entityPlayer.worldObj.isRemote)
 					{
-						entityPlayer.addChatMessage(new ChatComponentText("I'll need more vitae to do this."));
+						if (vitaeCost > Constants.entityVitaeResistance.get(EntityPlayer.class))
+						{
+							entityPlayer.addChatMessage(new ChatComponentText("I'm not powerful enough to perform this action."));
+						}
+						else
+						{
+							entityPlayer.addChatMessage(new ChatComponentText("I don't have enough vitae to perform this action."));
+						}
 					}
 				}
 			}
