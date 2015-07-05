@@ -16,4 +16,24 @@ public class ConvertedRecipe
 		this.output = output;
 		this.input = input;
 	}
+
+	public int getWidth()
+	{
+		return this.width;
+	}
+
+	public int getHeight()
+	{
+		return this.height;
+	}
+
+	public ItemStack getOutput()
+	{
+		return this.output;
+	}
+
+	public ItemStack[] getInput()
+	{
+		return this.input;
+	}
 }

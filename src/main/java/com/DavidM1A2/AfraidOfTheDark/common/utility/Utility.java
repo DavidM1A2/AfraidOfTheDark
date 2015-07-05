@@ -6,6 +6,7 @@
 package com.DavidM1A2.AfraidOfTheDark.common.utility;
 
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.util.Iterator;
 import java.util.List;
 
@@ -61,8 +62,20 @@ public class Utility
 		else if (currentRecipe instanceof ShapedOreRecipe)
 		{
 			ShapedOreRecipe shapedOreRecipe = (ShapedOreRecipe) currentRecipe;
-			width = 0; // reflection
-			height = 0;// reflection
+			Field[] fields = ShapedOreRecipe.class.getDeclaredFields();
+			fields[4].setAccessible(true);
+			fields[5].setAccessible(true);
+			try
+			{
+				width = (Integer) fields[4].get(shapedOreRecipe);
+				height = (Integer) fields[5].get(shapedOreRecipe);// reflection
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+			fields[4].setAccessible(false);
+			fields[5].setAccessible(false);
 			input = new ItemStack[shapedOreRecipe.getInput().length];
 			for (int i = 0; i < shapedOreRecipe.getInput().length; i++)
 			{
