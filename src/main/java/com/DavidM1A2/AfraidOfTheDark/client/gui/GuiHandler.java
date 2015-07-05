@@ -9,7 +9,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 
 public class GuiHandler implements IGuiHandler
 {
@@ -47,11 +46,10 @@ public class GuiHandler implements IGuiHandler
 			case GuiHandler.SEXTANT_ID:
 				return new SextantGUI();
 			case GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID:
-				return new BloodStainedJournalPageGUI(ClientData.currentlySelected.getResearchDescription(), ClientData.currentlySelected.formattedString(), new Item[]
-				{ ModItems.crossbow });
+				return new BloodStainedJournalPageGUI(ClientData.currentlySelected.getResearchDescription(), ClientData.currentlySelected.formattedString(), ClientData.currentlySelected.researchRecipes());
 			case GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_PRE_ID:
 				return new BloodStainedJournalPageGUI(ClientData.currentlySelected.getPreResearchDescription(), "???", new Item[]
-				{ ModItems.crossbow });
+				{});
 			case GuiHandler.VITAE_LANTERN_ID:
 				return new VitaeLanternGUI();
 		}

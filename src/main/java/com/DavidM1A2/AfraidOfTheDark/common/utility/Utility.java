@@ -82,11 +82,11 @@ public class Utility
 				Object object = shapedOreRecipe.getInput()[i];
 				if (object instanceof Item)
 				{
-					input[i] = new ItemStack((Item) object);
+					input[i] = new ItemStack((Item) object, 1, 0);
 				}
 				else if (object instanceof Block)
 				{
-					input[i] = new ItemStack((Block) object);
+					input[i] = new ItemStack((Block) object, 1, 0);
 				}
 				else if (object instanceof ItemStack)
 				{
@@ -115,11 +115,11 @@ public class Utility
 				Object object = requiredItems.get(i);
 				if (object instanceof Item)
 				{
-					input[i] = new ItemStack((Item) object);
+					input[i] = new ItemStack((Item) object, 1, 0);
 				}
 				else if (object instanceof Block)
 				{
-					input[i] = new ItemStack((Block) object);
+					input[i] = new ItemStack((Block) object, 1, 0);
 				}
 				else
 				{
@@ -139,11 +139,11 @@ public class Utility
 				Object object = requiredItems.get(i);
 				if (object instanceof Item)
 				{
-					input[i] = new ItemStack((Item) object);
+					input[i] = new ItemStack((Item) object, 1, 0);
 				}
 				else if (object instanceof Block)
 				{
-					input[i] = new ItemStack((Block) object);
+					input[i] = new ItemStack((Block) object, 1, 0);
 				}
 				else if (object instanceof ItemStack)
 				{

@@ -17,7 +17,6 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
@@ -30,7 +29,6 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.ForwardBackwardBu
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.PageNumberLabel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.TextBox;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.ConvertedRecipe;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
@@ -89,36 +87,6 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 		this.updateBounds();
 	}
 
-	private void setupRecipes(Item[] relatedItemRecipes)
-	{
-		for (Object recipe : CraftingManager.getInstance().getRecipeList())
-		{
-			// Is this a recipe?
-			if (recipe instanceof IRecipe)
-			{
-				IRecipe currentRecipe = (IRecipe) recipe;
-				for (Item item : relatedItemRecipes)
-				{
-					// Does this recipe apply to one of our items?
-					if (currentRecipe.getRecipeOutput() != null && currentRecipe.getRecipeOutput().getItem() == item)
-					{
-						// We know at this point that the recipe is for our item
-						ConvertedRecipe cleanedRecipe = Utility.getConvertedRecipeFromIRecipe(currentRecipe);
-
-						if (cleanedRecipe != null)
-						{
-							researchRecipes.add(cleanedRecipe);
-						}
-						else
-						{
-							LogHelper.info("Something went wrong in the recipe decoding");
-						}
-					}
-				}
-			}
-		}
-	}
-
 	@Override
 	public void initGui()
 	{
@@ -143,15 +111,48 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 	{
 		this.drawDefaultBackground();
 
-		this.mc.renderEngine.bindTexture(this.journalTexture);
-
 		// Has the window been resized?
 		if ((this.width != this.previousWidth) || (this.height != this.previousHeight))
 		{
-			updateBounds();
-			updateText();
+			this.updateBounds();
+			this.updateText();
 		}
 
+		this.drawScaledJournal(mouseX, mouseY);
+	}
+
+	private void setupRecipes(Item[] relatedItemRecipes)
+	{
+		for (Object recipe : CraftingManager.getInstance().getRecipeList())
+		{
+			// Is this a recipe?
+			if (recipe instanceof IRecipe)
+			{
+				IRecipe currentRecipe = (IRecipe) recipe;
+				for (Item item : relatedItemRecipes)
+				{
+					// Does this recipe apply to one of our items?
+					if (currentRecipe.getRecipeOutput() != null && currentRecipe.getRecipeOutput().getItem() == item)
+					{
+						// We know at this point that the recipe is for our item
+						ConvertedRecipe cleanedRecipe = Utility.getConvertedRecipeFromIRecipe(currentRecipe);
+
+						if (cleanedRecipe != null)
+						{
+							researchRecipes.add(cleanedRecipe);
+						}
+						else
+						{
+							LogHelper.info("Something went wrong in the recipe decoding of the item + " + item.toString());
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private void drawScaledJournal(int mouseX, int mouseY)
+	{
 		GL11.glPushMatrix();
 		GL11.glEnable(GL11.GL_BLEND);
 
@@ -163,6 +164,7 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 		GL11.glScaled(pageScaleCombined, pageScaleCombined, 1.0D);
 		GL11.glTranslated(-this.width / 2, -this.height / 2, 0.0D);
 
+		this.mc.renderEngine.bindTexture(this.journalTexture);
 		// Draw the journal background
 		Gui.drawScaledCustomSizeModalRect(this.xCornerOfPage, this.yCornerOfPage, 0, 0, this.journalWidth, this.journalHeight, this.journalWidth, this.journalHeight, this.journalWidth, this.journalHeight);
 
@@ -191,10 +193,13 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 
 		bookmarkButton.drawButton(mc, mouseX, mouseY);
 
+		for (ConvertedRecipe recipe : this.researchRecipes)
+		{
+			this.drawCraftingRecipe(50, 50, recipe);
+		}
+
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glPopMatrix();
-
-		drawCraftingRecipe(50, 50, ModItems.vitaeLantern);
 
 		this.backwardButton.drawButton(mc, mouseX, mouseY);
 		this.forwardButton.drawButton(mc, mouseX, mouseY);
@@ -321,11 +326,32 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 		}
 	}
 
-	private void drawCraftingRecipe(int x, int y, Item item)
+	private void drawCraftingRecipe(int x, int y, ConvertedRecipe recipe)
 	{
 		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 		renderItem.zLevel = 100.0F;
-		renderItem.func_180450_b(new ItemStack(item), x, y);
+
+		if (recipe.getWidth() == -1)
+		{
+			for (int i = 0; i < recipe.getInput().length; i++)
+			{
+				if (recipe.getInput()[i] != null)
+				{
+					renderItem.func_180450_b(recipe.getInput()[i], x + i * 20, y + i % 3);
+				}
+			}
+		}
+		else
+		{
+			for (int i = 0; i < recipe.getHeight(); i++)
+			{
+				for (int j = 0; j < recipe.getWidth(); j++)
+				{
+					renderItem.func_180450_b(recipe.getInput()[i * recipe.getWidth() + j], x + j * 20, y + i * 20);
+				}
+			}
+		}
+
 		renderItem.zLevel = 0.0F;
 	}
 
