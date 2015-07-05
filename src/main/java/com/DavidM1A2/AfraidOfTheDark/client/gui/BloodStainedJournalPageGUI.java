@@ -195,7 +195,7 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 
 		for (ConvertedRecipe recipe : this.researchRecipes)
 		{
-			this.drawCraftingRecipe(50, 50, recipe);
+			this.drawCraftingRecipe(rightPage.getX() + 10, rightPage.getY() + 10, recipe);
 		}
 
 		GL11.glDisable(GL11.GL_BLEND);

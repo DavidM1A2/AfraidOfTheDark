@@ -117,4 +117,14 @@ public class TextBox
 		this.width = width;
 		this.height = height;
 	}
+
+	public int getX()
+	{
+		return this.xPosition;
+	}
+
+	public int getY()
+	{
+		return this.yPosition;
+	}
 }
