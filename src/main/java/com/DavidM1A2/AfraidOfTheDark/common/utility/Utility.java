@@ -7,6 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.utility;
 
 import java.io.InputStream;
 import java.util.Iterator;
+import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;
@@ -16,6 +17,11 @@ import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockSnow;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.ShapedRecipes;
+import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.network.play.server.S07PacketRespawn;
 import net.minecraft.network.play.server.S1DPacketEntityEffect;
 import net.minecraft.potion.PotionEffect;
@@ -25,6 +31,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewood;
 import com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare.NightmareTeleporter;
@@ -34,6 +42,117 @@ public class Utility
 	public static int ticksToMilliseconds(int ticks)
 	{
 		return ticks * 50;
+	}
+
+	public static ConvertedRecipe getConvertedRecipeFromIRecipe(IRecipe currentRecipe)
+	{
+		int width = 0;
+		int height = 0;
+		ItemStack output = currentRecipe.getRecipeOutput();
+		ItemStack[] input = null;
+
+		if (currentRecipe instanceof ShapedRecipes)
+		{
+			ShapedRecipes shapedRecipe = (ShapedRecipes) currentRecipe;
+			width = shapedRecipe.recipeWidth;
+			height = shapedRecipe.recipeHeight;
+			input = shapedRecipe.recipeItems;
+		}
+		else if (currentRecipe instanceof ShapedOreRecipe)
+		{
+			ShapedOreRecipe shapedOreRecipe = (ShapedOreRecipe) currentRecipe;
+			width = 0; // reflection
+			height = 0;// reflection
+			input = new ItemStack[shapedOreRecipe.getInput().length];
+			for (int i = 0; i < shapedOreRecipe.getInput().length; i++)
+			{
+				Object object = shapedOreRecipe.getInput()[i];
+				if (object instanceof Item)
+				{
+					input[i] = new ItemStack((Item) object);
+				}
+				else if (object instanceof Block)
+				{
+					input[i] = new ItemStack((Block) object);
+				}
+				else if (object instanceof ItemStack)
+				{
+					input[i] = (ItemStack) object;
+				}
+				else if (object instanceof List)
+				{
+					// Don't fully support ore dictionary yet
+					List<ItemStack> oreDictionaryList = (List<ItemStack>) object;
+					if (!oreDictionaryList.isEmpty())
+					{
+						input[i] = oreDictionaryList.get(0);
+					}
+				}
+			}
+		}
+		else if (currentRecipe instanceof ShapelessRecipes)
+		{
+			ShapelessRecipes shapelessRecipe = (ShapelessRecipes) currentRecipe;
+			width = -1;
+			height = -1;
+			List<?> requiredItems = shapelessRecipe.recipeItems;
+			input = new ItemStack[requiredItems.size()];
+			for (int i = 0; i < requiredItems.size(); i++)
+			{
+				Object object = requiredItems.get(i);
+				if (object instanceof Item)
+				{
+					input[i] = new ItemStack((Item) object);
+				}
+				else if (object instanceof Block)
+				{
+					input[i] = new ItemStack((Block) object);
+				}
+				else
+				{
+					input[i] = (ItemStack) object;
+				}
+			}
+		}
+		else if (currentRecipe instanceof ShapelessOreRecipe)
+		{
+			ShapelessOreRecipe shapelessOreRecipe = (ShapelessOreRecipe) currentRecipe;
+			width = -1;
+			height = -1;
+			input = new ItemStack[shapelessOreRecipe.getInput().size()];
+			List<Object> requiredItems = shapelessOreRecipe.getInput();
+			for (int i = 0; i < requiredItems.size(); i++)
+			{
+				Object object = requiredItems.get(i);
+				if (object instanceof Item)
+				{
+					input[i] = new ItemStack((Item) object);
+				}
+				else if (object instanceof Block)
+				{
+					input[i] = new ItemStack((Block) object);
+				}
+				else if (object instanceof ItemStack)
+				{
+					input[i] = (ItemStack) object;
+				}
+				else if (object instanceof List)
+				{
+					// Don't fully support ore dictionary yet
+					List<ItemStack> oreDictionaryList = (List<ItemStack>) object;
+					if (!oreDictionaryList.isEmpty())
+					{
+						input[i] = oreDictionaryList.get(0);
+					}
+				}
+			}
+		}
+
+		if (width != 0)
+		{
+			return new ConvertedRecipe(width, height, output, input);
+		}
+		return null;
 	}
 
 	public static InputStream getInputStreamFromPath(String path)

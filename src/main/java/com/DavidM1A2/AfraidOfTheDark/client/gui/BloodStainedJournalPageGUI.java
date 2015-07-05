@@ -6,6 +6,7 @@
 package com.DavidM1A2.AfraidOfTheDark.client.gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,7 +14,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
@@ -24,6 +30,10 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.ForwardBackwardBu
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.PageNumberLabel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.TextBox;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.ConvertedRecipe;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 public class BloodStainedJournalPageGUI extends GuiScreen
 {
@@ -51,15 +61,18 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 
 	private final ResourceLocation journalTexture;
 
+	private final List<ConvertedRecipe> researchRecipes = new ArrayList<ConvertedRecipe>();
+
 	private int xCornerOfPage = 0;
 	private int yCornerOfPage = 0;
 	private int journalWidth = 0;
 	private int journalHeight = 0;
 
-	public BloodStainedJournalPageGUI(final String textNext, final String title)
+	public BloodStainedJournalPageGUI(final String textNext, final String title, Item[] relatedItemRecipes)
 	{
 		// Setup tile and page text. Then add left and right page text boxes
 		super();
+		this.setupRecipes(relatedItemRecipes);
 		this.originalCompleteText = textNext;
 		this.title = title;
 		this.textOnEachPage = new LinkedList<String>();
@@ -74,6 +87,36 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 		this.journalTexture = new ResourceLocation("afraidofthedark:textures/gui/bloodStainedJournalPage.png");
 
 		this.updateBounds();
+	}
+
+	private void setupRecipes(Item[] relatedItemRecipes)
+	{
+		for (Object recipe : CraftingManager.getInstance().getRecipeList())
+		{
+			// Is this a recipe?
+			if (recipe instanceof IRecipe)
+			{
+				IRecipe currentRecipe = (IRecipe) recipe;
+				for (Item item : relatedItemRecipes)
+				{
+					// Does this recipe apply to one of our items?
+					if (currentRecipe.getRecipeOutput() != null && currentRecipe.getRecipeOutput().getItem() == item)
+					{
+						// We know at this point that the recipe is for our item
+						ConvertedRecipe cleanedRecipe = Utility.getConvertedRecipeFromIRecipe(currentRecipe);
+
+						if (cleanedRecipe != null)
+						{
+							researchRecipes.add(cleanedRecipe);
+						}
+						else
+						{
+							LogHelper.info("Something went wrong in the recipe decoding");
+						}
+					}
+				}
+			}
+		}
 	}
 
 	@Override
@@ -150,6 +193,8 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glPopMatrix();
+
+		drawCraftingRecipe(50, 50, ModItems.vitaeLantern);
 
 		this.backwardButton.drawButton(mc, mouseX, mouseY);
 		this.forwardButton.drawButton(mc, mouseX, mouseY);
@@ -274,6 +319,14 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 
 			this.textOnEachPage.add(page);
 		}
+	}
+
+	private void drawCraftingRecipe(int x, int y, Item item)
+	{
+		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
+		renderItem.zLevel = 100.0F;
+		renderItem.func_180450_b(new ItemStack(item), x, y);
+		renderItem.zLevel = 0.0F;
 	}
 
 	// If E is typed we close the GUI screen
