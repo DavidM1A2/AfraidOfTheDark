@@ -161,6 +161,8 @@ public class CustomFont
 			this.drawChar(c, x, y);
 			x += this.metrics.getStringBounds("" + c, null).getWidth() / (this.eachCharImageDimension / this.fontSize);
 		}
+
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 	}
 
 	/**

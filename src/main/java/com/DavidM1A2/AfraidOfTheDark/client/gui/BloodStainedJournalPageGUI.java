@@ -14,6 +14,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -59,6 +60,8 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 
 	private final ResourceLocation journalTexture;
 
+	private final ResourceLocation journalCraftingGrid;
+
 	private final List<ConvertedRecipe> researchRecipes = new ArrayList<ConvertedRecipe>();
 
 	private int xCornerOfPage = 0;
@@ -83,6 +86,7 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 		this.backwardButton = new ForwardBackwardButtons(16, 0, this.height - 64, 64, 64, false);
 		this.bookmarkButton = new BookmarkButton(1, 0, (int) (this.yCornerOfPage + this.journalWidth / 2.1), this.width, 40);
 		this.journalTexture = new ResourceLocation("afraidofthedark:textures/gui/bloodStainedJournalPage.png");
+		this.journalCraftingGrid = new ResourceLocation("afraidofthedark:textures/gui/journalCrafting.png");
 
 		this.updateBounds();
 	}
@@ -109,8 +113,6 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 	@Override
 	public void drawScreen(final int mouseX, final int mouseY, final float f)
 	{
-		this.drawDefaultBackground();
-
 		// Has the window been resized?
 		if ((this.width != this.previousWidth) || (this.height != this.previousHeight))
 		{
@@ -166,37 +168,62 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 
 		this.mc.renderEngine.bindTexture(this.journalTexture);
 		// Draw the journal background
+
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		Gui.drawScaledCustomSizeModalRect(this.xCornerOfPage, this.yCornerOfPage, 0, 0, this.journalWidth, this.journalHeight, this.journalWidth, this.journalHeight, this.journalWidth, this.journalHeight);
 
 		// Draw the title
 		ClientData.journalTitleFont.drawString(this.title, this.xCornerOfPage + 15, this.yCornerOfPage + 15, 0xFF800000);
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
-		try
+		int adjustedIndexForRecipe = (pageNumber - textOnEachPage.size()) * 2;
+
+		if (Utility.hasIndex(this.textOnEachPage, pageNumber))
 		{
 			this.leftPage.drawText(this.textOnEachPage.get(pageNumber));
+			if (Utility.hasIndex(textOnEachPage, pageNumber + 1))
+			{
+				this.rightPage.drawText(this.textOnEachPage.get(pageNumber + 1));
+			}
+			else
+			{
+				this.rightPage.drawText("");
+				if (Utility.hasIndex(researchRecipes, adjustedIndexForRecipe + 2))
+				{
+					this.drawCraftingRecipe(rightPage.getX() + 10, rightPage.getY(), this.researchRecipes.get(adjustedIndexForRecipe + 2));
+				}
+				if (Utility.hasIndex(researchRecipes, adjustedIndexForRecipe + 3))
+				{
+					this.drawCraftingRecipe(rightPage.getX() + 10, rightPage.getY() + 100, this.researchRecipes.get(adjustedIndexForRecipe + 3));
+				}
+			}
 		}
-		catch (IndexOutOfBoundsException e)
+		else
 		{
 			this.leftPage.drawText("");
+			if (Utility.hasIndex(researchRecipes, adjustedIndexForRecipe))
+			{
+				this.drawCraftingRecipe(leftPage.getX() + 5, leftPage.getY(), this.researchRecipes.get(adjustedIndexForRecipe));
+			}
+			if (Utility.hasIndex(researchRecipes, adjustedIndexForRecipe + 1))
+			{
+				this.drawCraftingRecipe(leftPage.getX() + 5, leftPage.getY() + 100, this.researchRecipes.get(adjustedIndexForRecipe + 1));
+			}
+			if (Utility.hasIndex(researchRecipes, adjustedIndexForRecipe + 2))
+			{
+				this.drawCraftingRecipe(rightPage.getX() + 10, rightPage.getY(), this.researchRecipes.get(adjustedIndexForRecipe + 2));
+			}
+			if (Utility.hasIndex(researchRecipes, adjustedIndexForRecipe + 3))
+			{
+				this.drawCraftingRecipe(rightPage.getX() + 10, rightPage.getY() + 100, this.researchRecipes.get(adjustedIndexForRecipe + 3));
+			}
 		}
-		try
-		{
-			this.rightPage.drawText(this.textOnEachPage.get(pageNumber + 1));
-		}
-		catch (IndexOutOfBoundsException e)
-		{
-			this.rightPage.drawText("");
-		}
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
 		this.leftPageLabel.drawNumber(Integer.toString(this.pageNumber + 1));
 		this.rightPageLabel.drawNumber(Integer.toString(this.pageNumber + 2));
 
 		bookmarkButton.drawButton(mc, mouseX, mouseY);
-
-		for (ConvertedRecipe recipe : this.researchRecipes)
-		{
-			this.drawCraftingRecipe(rightPage.getX() + 10, rightPage.getY() + 10, recipe);
-		}
 
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glPopMatrix();
@@ -263,29 +290,7 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 	{
 		pageNumber = pageNumber + 2;
 
-		boolean leftPageValid = true;
-		boolean rightPageValid = true;
-
-		try
-		{
-			this.textOnEachPage.get(pageNumber);
-		}
-		catch (IndexOutOfBoundsException e)
-		{
-			this.leftPage.drawText("");
-			leftPageValid = false;
-		}
-		try
-		{
-			this.textOnEachPage.get(pageNumber + 1);
-		}
-		catch (IndexOutOfBoundsException e)
-		{
-			this.rightPage.drawText("");
-			rightPageValid = false;
-		}
-
-		if (!leftPageValid && !rightPageValid)
+		if (!Utility.hasIndex(this.textOnEachPage, pageNumber) && !Utility.hasIndex(this.researchRecipes, (pageNumber - this.textOnEachPage.size()) * 2))
 		{
 			pageNumber = pageNumber - 2;
 		}
@@ -328,6 +333,10 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 
 	private void drawCraftingRecipe(int x, int y, ConvertedRecipe recipe)
 	{
+		this.mc.renderEngine.bindTexture(journalCraftingGrid);
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		Gui.drawModalRectWithCustomSizedTexture(x, y, 0, 0, 130, 90, 130, 90);
+
 		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 		renderItem.zLevel = 100.0F;
 
@@ -337,7 +346,7 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 			{
 				if (recipe.getInput()[i] != null)
 				{
-					renderItem.func_180450_b(recipe.getInput()[i], x + i * 20, y + i % 3);
+					renderItem.func_180450_b(recipe.getInput()[i], x + 5 + i * 30, y + 5 + i % 3);
 				}
 			}
 		}
@@ -347,10 +356,12 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 			{
 				for (int j = 0; j < recipe.getWidth(); j++)
 				{
-					renderItem.func_180450_b(recipe.getInput()[i * recipe.getWidth() + j], x + j * 20, y + i * 20);
+					renderItem.func_180450_b(recipe.getInput()[i * recipe.getWidth() + j], x + 5 + j * 30, y + 5 + i * 30);
 				}
 			}
 		}
+
+		renderItem.func_180450_b(recipe.getOutput(), x + 105, y + 35);
 
 		renderItem.zLevel = 0.0F;
 	}

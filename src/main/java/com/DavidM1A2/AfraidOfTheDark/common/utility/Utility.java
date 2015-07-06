@@ -45,6 +45,19 @@ public class Utility
 		return ticks * 50;
 	}
 
+	public static boolean hasIndex(List<?> list, int index)
+	{
+		try
+		{
+			list.get(index);
+			return true;
+		}
+		catch (IndexOutOfBoundsException e)
+		{
+			return false;
+		}
+	}
+
 	public static ConvertedRecipe getConvertedRecipeFromIRecipe(IRecipe currentRecipe)
 	{
 		int width = 0;
