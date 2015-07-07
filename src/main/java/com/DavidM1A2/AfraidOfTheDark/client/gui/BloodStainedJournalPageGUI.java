@@ -362,6 +362,8 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 
 		renderItem.func_180450_b(recipe.getOutput(), x + 105, y + 35);
 
+		RenderHelper.disableStandardItemLighting();
+
 		renderItem.zLevel = 0.0F;
 	}
 
