@@ -24,41 +24,59 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 public enum ResearchTypes
 {
 	AnUnbreakableCovenant(null, 0, 0, new Item[]
+	{}, new Item[]
 	{}),
 	Crossbow(AnUnbreakableCovenant, 1, 0, new Item[]
-	{ ModItems.crossbow, ModItems.woodenBolt, ModItems.ironBolt }),
+	{ ModItems.crossbow, ModItems.woodenBolt, ModItems.ironBolt }, new Item[]
+	{}),
 	WristCrossbow(Crossbow, 2, 0, new Item[]
-	{ ModItems.wristCrossbow }),
+	{ ModItems.wristCrossbow }, new Item[]
+	{}),
 	WerewolfExamination(AnUnbreakableCovenant, 0, 1, new Item[]
+	{}, new Item[]
 	{}),
 	AstronomyI(WerewolfExamination, 0, 2, new Item[]
+	{ ModItems.telescope, ModItems.sextant }, new Item[]
 	{ ModItems.telescope, ModItems.sextant }),
 	AstralSilver(AstronomyI, 0, 3, new Item[]
-	{ ModItems.astralSilverSword, ModItems.silverBolt }),
-	VitaeI(AstronomyI, -1, 3, new Item[]
+	{ ModItems.astralSilverSword, ModItems.silverBolt }, new Item[]
+	{}),
+	VitaeI(AstralSilver, -1, 3, new Item[]
+	{}, new Item[]
 	{}),
 	VitaeLanternI(VitaeI, -2, 3, new Item[]
+	{ ModItems.vitaeLantern }, new Item[]
 	{ ModItems.vitaeLantern }),
 	VitaeDisenchanter(VitaeLanternI, -3, 3, new Item[]
-	{ Item.getItemFromBlock(ModBlocks.vitaeDisenchanter) }),
+	{ Item.getItemFromBlock(ModBlocks.vitaeDisenchanter) }, new Item[]
+	{}),
 	DeeeSyft(VitaeLanternI, -2, 4, new Item[]
+	{}, new Item[]
 	{}),
 	DarkForest(AstralSilver, 0, 4, new Item[]
+	{}, new Item[]
 	{}),
 	Insanity(DarkForest, 1, 4, new Item[]
+	{}, new Item[]
 	{}),
 	SleepingPotion(DarkForest, -1, 4, new Item[]
+	{}, new Item[]
 	{}),
-	CloakOfAgility(WerewolfExamination, -1, 2, new Item[]
-	{ ModItems.cloakOfAgility }),
+	CloakOfAgility(AstronomyI, -1, 2, new Item[]
+	{ ModItems.cloakOfAgility }, new Item[]
+	{}),
 	Nightmares(DarkForest, 0, 5, new Item[]
+	{}, new Item[]
 	{}),
 	AstronomyII(Nightmares, 0, 6, new Item[]
+	{}, new Item[]
 	{}),
 	Igneous(AstronomyII, -1, 6, new Item[]
-	{ ModItems.igneousGem, ModItems.igneousBolt, ModItems.igneousSword, ModItems.igneousHelmet, ModItems.igneousChestplate, ModItems.igneousLeggings, ModItems.igneousBoots }),
+	{ ModItems.igneousGem, ModItems.igneousBolt, ModItems.igneousSword, ModItems.igneousHelmet, ModItems.igneousChestplate, ModItems.igneousLeggings, ModItems.igneousBoots }, new Item[]
+	{}),
 	StarMetal(AstronomyII, 1, 6, new Item[]
-	{ ModItems.starMetalFragment, ModItems.starMetalBolt, ModItems.starMetalKhopesh, ModItems.starMetalHelmet, ModItems.starMetalChestplate, ModItems.starMetalLeggings, ModItems.starMetalBoots, ModItems.starMetalStaff });
+	{ ModItems.starMetalFragment, ModItems.starMetalBolt, ModItems.starMetalKhopesh, ModItems.starMetalHelmet, ModItems.starMetalChestplate, ModItems.starMetalLeggings, ModItems.starMetalBoots, ModItems.starMetalStaff, ModItems.starMetalPlate }, new Item[]
+	{});
 
 	private ResearchTypes previous = null;
 	private ResourceLocation icon = null;
@@ -67,8 +85,9 @@ public enum ResearchTypes
 	private int x;
 	private int y;
 	private Item[] researchRecipes;
+	private Item[] researchRecipesPre;
 
-	private ResearchTypes(final ResearchTypes previous, final int x, final int y, final Item[] researchRecipes)
+	private ResearchTypes(final ResearchTypes previous, final int x, final int y, final Item[] researchRecipes, final Item[] researchRecipesPre)
 	{
 		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
 		{
@@ -91,6 +110,7 @@ public enum ResearchTypes
 			this.preResearchDescription = loadResearchDescription("assets/afraidofthedark/researchNotes/" + this.toString() + "Pre.txt");
 
 			this.researchRecipes = researchRecipes;
+			this.researchRecipesPre = researchRecipesPre;
 		}
 	}
 
@@ -109,6 +129,11 @@ public enum ResearchTypes
 	public Item[] researchRecipes()
 	{
 		return this.researchRecipes;
+	}
+
+	public Item[] preResearchRecipes()
+	{
+		return this.researchRecipesPre;
 	}
 
 	private String loadResearchDescription(String path)

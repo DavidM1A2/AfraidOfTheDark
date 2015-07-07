@@ -1,8 +1,3 @@
-/*
- * Author: David Slovikosky
- * Mod: Afraid of the Dark
- * Ideas and Textures: Michael Albertson
- */
 package com.DavidM1A2.AfraidOfTheDark.common.worldGeneration;
 
 import java.util.Random;
@@ -15,9 +10,9 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.UnsupportedLocationException;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
-public class GenerateSprings
+public class GenerateWitchHut
 {
-	public GenerateSprings(Random random, int chunkX, int chunkZ, World world)
+	public GenerateWitchHut(Random random, int chunkX, int chunkZ, World world)
 	{
 		this.generateSurface(world, random, chunkX, chunkZ);
 	}
@@ -26,11 +21,11 @@ public class GenerateSprings
 	{
 		try
 		{
-			int y = Utility.getPlaceToSpawnLowest(world, chunkX, chunkZ, 28, 28);
+			int y = Utility.getPlaceToSpawnLowest(world, chunkX, chunkZ, 11, 11);
 
-			LogHelper.info("Spawning a spring at x = " + chunkX + ", y = " + y + ", z = " + chunkZ);
+			LogHelper.info("Spawning a hut at x = " + chunkX + ", y = " + y + ", z = " + chunkZ);
 
-			SchematicGenerator.generateSchematic(Constants.AOTDSchematics.spring, world, chunkX, y - 2, chunkZ, null, 0);
+			SchematicGenerator.generateSchematic(Constants.AOTDSchematics.witchHut, world, chunkX, y, chunkZ, new WitchHutLoot(), 3);
 		}
 		catch (UnsupportedLocationException e)
 		{

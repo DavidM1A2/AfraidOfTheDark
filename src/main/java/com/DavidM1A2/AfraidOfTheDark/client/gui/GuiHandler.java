@@ -4,7 +4,6 @@
 package com.DavidM1A2.AfraidOfTheDark.client.gui;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 
@@ -48,8 +47,7 @@ public class GuiHandler implements IGuiHandler
 			case GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID:
 				return new BloodStainedJournalPageGUI(ClientData.currentlySelected.getResearchDescription(), ClientData.currentlySelected.formattedString(), ClientData.currentlySelected.researchRecipes());
 			case GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_PRE_ID:
-				return new BloodStainedJournalPageGUI(ClientData.currentlySelected.getPreResearchDescription(), "???", new Item[]
-				{});
+				return new BloodStainedJournalPageGUI(ClientData.currentlySelected.getPreResearchDescription(), "???", ClientData.currentlySelected.preResearchRecipes());
 			case GuiHandler.VITAE_LANTERN_ID:
 				return new VitaeLanternGUI();
 		}

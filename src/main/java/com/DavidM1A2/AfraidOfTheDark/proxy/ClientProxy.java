@@ -96,6 +96,10 @@ public class ClientProxy extends CommonProxy
 
 			ClientData.journalFont = new CustomFont(textFont, 16);
 			ClientData.journalTitleFont = new CustomFont(titleFont, 26);
+
+			// Set the journal font sizes
+			ClientData.journalFont.setFontSize(20, 32, 126, false);
+			ClientData.journalTitleFont.setFontSize(32, 32, 126, false);
 		}
 		catch (final FileNotFoundException e)
 		{

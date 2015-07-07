@@ -184,6 +184,8 @@ public final class Constants
 
 		public static final Schematic nightmareIsland;
 
+		public static final Schematic witchHut;
+
 		static
 		{
 			treeSmall = SchematicLoader.load("darkForest/TreeSmall.schematic");
@@ -207,6 +209,8 @@ public final class Constants
 
 			nightmareIsland = SchematicLoader.load("nightmareIsland.schematic");
 
+			witchHut = SchematicLoader.load("witchHut.schematic");
+
 			SchematicBlockReplacer.replaceBlocks(treeSmall, Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
 			SchematicBlockReplacer.replaceBlocks(treeBranchyType1, Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
 			SchematicBlockReplacer.replaceBlocks(treeBranchyType2, Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
@@ -229,6 +233,10 @@ public final class Constants
 
 			SchematicBlockReplacer.replaceBlocks(nightmareIsland, ((short) -56), (short) Block.getIdFromBlock(ModBlocks.gravewoodLeaves), ((short) -55), (short) Block.getIdFromBlock(ModBlocks.gravewood));
 			SchematicBlockReplacer.fixKnownSchematicErrors(nightmareIsland);
+
+			SchematicBlockReplacer.fixKnownSchematicErrors(witchHut);
+			SchematicBlockReplacer.replaceBlocks(witchHut, ((short) -56), (short) Block.getIdFromBlock(ModBlocks.gravewoodLeaves), ((short) -55), (short) Block.getIdFromBlock(ModBlocks.gravewood), ((short) -52), (short) Block.getIdFromBlock(ModBlocks.gravewoodHalfSlab), ((short) -53), (short) Block
+					.getIdFromBlock(ModBlocks.gravewoodStairs), ((short) -54), (short) Block.getIdFromBlock(ModBlocks.gravewoodPlanks));
 		}
 	}
 

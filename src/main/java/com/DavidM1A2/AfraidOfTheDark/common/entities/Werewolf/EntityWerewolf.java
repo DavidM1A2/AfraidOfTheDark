@@ -144,20 +144,28 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 	@Override
 	public boolean attackEntityAsMob(final Entity entity)
 	{
-		if (entity instanceof EntityPlayer)
-		{
-			final EntityPlayer thePlayer = (EntityPlayer) entity;
-			if (LoadResearchData.canResearch(thePlayer, ResearchTypes.WerewolfExamination))
-			{
-				LoadResearchData.unlockResearchSynced(thePlayer, ResearchTypes.WerewolfExamination, Side.SERVER, true);
-			}
-		}
 		if (!animHandler.isAnimationActive("Bite"))
 		{
 			animHandler.activateAnimation("Bite", 0);
 			AfraidOfTheDark.getSimpleNetworkWrapper().sendToAllAround(new TellClientToPlayAnimation("Bite", this.getEntityId()), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 15));
 		}
-		return super.attackEntityAsMob(entity);
+
+		boolean x = super.attackEntityAsMob(entity);
+
+		if (entity instanceof EntityPlayer)
+		{
+			final EntityPlayer entityPlayer = (EntityPlayer) entity;
+
+			if (entityPlayer.getHealth() != 0)
+			{
+				if (LoadResearchData.canResearch(entityPlayer, ResearchTypes.WerewolfExamination))
+				{
+					LoadResearchData.unlockResearchSynced(entityPlayer, ResearchTypes.WerewolfExamination, Side.SERVER, true);
+				}
+			}
+		}
+
+		return x;
 	}
 
 	@Override

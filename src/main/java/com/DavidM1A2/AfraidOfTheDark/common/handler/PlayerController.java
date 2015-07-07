@@ -11,12 +11,14 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemFlintAndSteel;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -232,6 +234,29 @@ public class PlayerController
 		{
 			InventorySaver.loadInventory(entityPlayer);
 			InventorySaver.resetSavedInventory(entityPlayer);
+		}
+	}
+
+	@SubscribeEvent
+	public void onItemTooltipEvent(ItemTooltipEvent event)
+	{
+		if (event.itemStack.isItemEnchanted())
+		{
+			NBTTagList enchantments = event.itemStack.getEnchantmentTagList();
+			for (int i = 0; i < enchantments.tagCount(); i++)
+			{
+				if (enchantments.get(i) instanceof NBTTagCompound)
+				{
+					Integer enchantment = ((NBTTagCompound) enchantments.get(i)).getInteger("id");
+					if (enchantment == 1 || enchantment == 3 || enchantment == 4 || enchantment == 17 || enchantment == 18)
+					{
+						if (LoadResearchData.canResearch(event.entityPlayer, ResearchTypes.VitaeDisenchanter))
+						{
+							LoadResearchData.unlockResearchSynced(event.entityPlayer, ResearchTypes.VitaeDisenchanter, Side.CLIENT, true);
+						}
+					}
+				}
+			}
 		}
 	}
 }

@@ -43,6 +43,8 @@ public class CreateMeteor
 			add(Blocks.stone);
 			add(Blocks.gravel);
 			add(Blocks.sandstone);
+			add(Blocks.snow);
+			add(Blocks.snow_layer);
 		}
 	};
 

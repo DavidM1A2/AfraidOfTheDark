@@ -241,10 +241,6 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 		this.xCornerOfPage = (this.width - journalWidth) / 2;
 		this.yCornerOfPage = (this.height - journalHeight) / 2;
 
-		// Set the journal font sizes
-		ClientData.journalFont.setFontSize(20, 32, 126, false);
-		ClientData.journalTitleFont.setFontSize(32, 32, 126, false);
-
 		int scaledXLeftPageCoord = this.xCornerOfPage + 20;
 		int scaledYLeftPageCoord = this.yCornerOfPage + 35;
 

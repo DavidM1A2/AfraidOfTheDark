@@ -11,6 +11,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenPlains;
 import net.minecraft.world.biome.BiomeGenSavanna;
+import net.minecraft.world.biome.BiomeGenSwamp;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.fml.common.IWorldGenerator;
 
@@ -57,6 +58,10 @@ public class AOTDWorldGenerationHandler implements IWorldGenerator
 			{
 				new GenerateCrypt(random, chunkX, chunkZ, world);
 			}
+			if (random.nextDouble() < 0.005)
+			{
+				new GenerateWitchHut(random, chunkX, chunkZ, world);
+			}
 		}
 		else if (world.getBiomeGenForCoords(new BlockPos(chunkX, 50, chunkZ)) instanceof BiomeGenSavanna)
 		{
@@ -67,6 +72,13 @@ public class AOTDWorldGenerationHandler implements IWorldGenerator
 			if (random.nextDouble() < 0.002)
 			{
 				new GenerateDarkForestDungeon(random, chunkX, chunkZ, world);
+			}
+		}
+		else if (world.getBiomeGenForCoords(new BlockPos(chunkX, 50, chunkZ)) instanceof BiomeGenSwamp)
+		{
+			if (random.nextDouble() < 0.01)
+			{
+				new GenerateWitchHut(random, chunkX, chunkZ, world);
 			}
 		}
 	}
