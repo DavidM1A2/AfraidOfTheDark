@@ -46,6 +46,8 @@ public class ModRecipes
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.igneousBlock, 1), "aaa", "aaa", "aaa", 'a', ModItems.igneousGem));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.igneousGem, 9), new ItemStack(ModBlocks.igneousBlock, 1, 0)));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.igneousGem, 1), "aba", "bab", "aba", 'a', Items.diamond, 'b', ModItems.sunstoneFragment));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.igneousSword, 1), "b", "b", "a", 'a', Items.iron_ingot, 'b', ModItems.igneousGem));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.igneousBolt, 1), "a", "a", 'a', ModItems.sunstoneFragment));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.starMetalHelmet, 1), "aaa", "a a", 'a', ModItems.starMetalPlate));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.starMetalChestplate, 1), "a a", "aaa", "aaa", 'a', ModItems.starMetalPlate));
@@ -53,6 +55,9 @@ public class ModRecipes
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.starMetalBoots, 1), "a a", "a a", 'a', ModItems.starMetalPlate));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.starMetalPlate, 1), "aaa", "aba", "aaa", 'a', ModItems.starMetalFragment, 'b', Items.iron_ingot));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.starMetalPlate, 1), "aaa", "aba", "aaa", 'a', ModItems.starMetalFragment, 'b', Items.gold_ingot));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.starMetalBolt, 1), "a", "a", 'a', ModItems.starMetalFragment));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.starMetalStaff, 1), "a", "a", "a", 'a', ModItems.starMetalPlate));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.starMetalKhopesh, 1), " a ", "a  ", " ab", 'a', ModItems.starMetalPlate, 'b', Items.iron_ingot));
 
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.cloakOfAgility, 1), ResearchTypes.CloakOfAgility, "aba", "cdc", "aba", 'a', Items.leather, 'b', Items.feather, 'c', Items.string, 'd', Items.gold_ingot));
 
@@ -60,6 +65,8 @@ public class ModRecipes
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.sextant), " ab", "cac", " c ", 'a', "stickWood", 'b', new ItemStack(Blocks.glass, 1, 0), 'c', Items.iron_ingot));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.vitaeLantern), "aba", "cdc", "aaa", 'a', Items.iron_ingot, 'b', new ItemStack(Blocks.iron_block, 1, 0), 'c', new ItemStack(Blocks.glass, 1, 0), 'd', Items.diamond));
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.vitaeDisenchanter), "aba", "bcb", "aba", 'a', new ItemStack(ModBlocks.gravewood, 1, 0), 'b', new ItemStack(Blocks.iron_block, 1, 0), 'c', new ItemStack(Blocks.diamond_block, 1, 0)));
 
 	}
 }

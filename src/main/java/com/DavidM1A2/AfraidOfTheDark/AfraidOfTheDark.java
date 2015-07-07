@@ -87,10 +87,10 @@ public class AfraidOfTheDark
 		MinecraftForge.EVENT_BUS.register(new WorldEvents());
 		// Initialize debug file to spam chat with variables
 		MinecraftForge.EVENT_BUS.register(new DebugSpammer());
-		// Initialize mod items
-		ModItems.initialize(event.getSide());
 		// Initialize mod blocks
 		ModBlocks.initialize();
+		// Initialize mod items
+		ModItems.initialize(event.getSide());
 		// Initialize mod entities
 		ModEntities.intialize();
 		// Initialize mod world generation

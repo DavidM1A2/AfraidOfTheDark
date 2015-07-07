@@ -47,6 +47,10 @@ public class BlockTileEntityDarkForest extends AOTDTileEntity implements IUpdate
 						{
 							LoadResearchData.unlockResearchSynced(entityPlayer, ResearchTypes.DarkForest, Side.SERVER, true);
 						}
+						if (LoadResearchData.canResearch(entityPlayer, ResearchTypes.Insanity))
+						{
+							LoadResearchData.unlockResearchSynced(entityPlayer, ResearchTypes.Insanity, Side.SERVER, true);
+						}
 
 						if (LoadResearchData.isResearched(entityPlayer, ResearchTypes.DarkForest))
 						{
@@ -62,6 +66,11 @@ public class BlockTileEntityDarkForest extends AOTDTileEntity implements IUpdate
 										{
 											if (itemStack.getMetadata() == 0)
 											{
+												if (LoadResearchData.canResearch(entityPlayer, ResearchTypes.SleepingPotion))
+												{
+													LoadResearchData.unlockResearchSynced(entityPlayer, ResearchTypes.SleepingPotion, Side.SERVER, true);
+												}
+
 												entityPlayer.inventory.setInventorySlotContents(i, new ItemStack(ModItems.sleepingPotion, itemStack.stackSize));
 											}
 										}

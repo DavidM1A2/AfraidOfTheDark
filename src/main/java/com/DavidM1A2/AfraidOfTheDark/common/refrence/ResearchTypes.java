@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
@@ -18,64 +19,65 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 // All available researches
 public enum ResearchTypes
 {
-	AnUnbreakableCovenant(null, 0, 0, new Item[]
-	{}, new Item[]
+	AnUnbreakableCovenant(null, 0, 0, new Object[]
+	{}, new Object[]
 	{}),
-	Crossbow(AnUnbreakableCovenant, 1, 0, new Item[]
-	{ ModItems.crossbow, ModItems.woodenBolt, ModItems.ironBolt }, new Item[]
+	Crossbow(AnUnbreakableCovenant, 1, 0, new Object[]
+	{ ModItems.crossbow, ModItems.woodenBolt, ModItems.ironBolt }, new Object[]
 	{}),
-	WristCrossbow(Crossbow, 2, 0, new Item[]
-	{ ModItems.wristCrossbow }, new Item[]
+	WristCrossbow(Crossbow, 2, 0, new Object[]
+	{ ModItems.wristCrossbow }, new Object[]
 	{}),
-	WerewolfExamination(AnUnbreakableCovenant, 0, 1, new Item[]
-	{}, new Item[]
+	WerewolfExamination(AnUnbreakableCovenant, 0, 1, new Object[]
+	{}, new Object[]
 	{}),
-	AstronomyI(WerewolfExamination, 0, 2, new Item[]
-	{ ModItems.telescope, ModItems.sextant }, new Item[]
+	AstronomyI(WerewolfExamination, 0, 2, new Object[]
+	{ ModItems.telescope, ModItems.sextant }, new Object[]
 	{ ModItems.telescope, ModItems.sextant }),
-	AstralSilver(AstronomyI, 0, 3, new Item[]
-	{ ModItems.astralSilverSword, ModItems.silverBolt }, new Item[]
+	AstralSilver(AstronomyI, 0, 3, new Object[]
+	{ ModItems.astralSilverSword, ModItems.silverBolt }, new Object[]
 	{}),
-	VitaeI(AstralSilver, -1, 3, new Item[]
-	{}, new Item[]
+	VitaeI(AstralSilver, -1, 3, new Object[]
+	{}, new Object[]
 	{}),
-	VitaeLanternI(VitaeI, -2, 3, new Item[]
-	{ ModItems.vitaeLantern }, new Item[]
+	VitaeLanternI(VitaeI, -2, 3, new Object[]
+	{ ModItems.vitaeLantern }, new Object[]
 	{ ModItems.vitaeLantern }),
-	VitaeDisenchanter(VitaeLanternI, -3, 3, new Item[]
-	{ Item.getItemFromBlock(ModBlocks.vitaeDisenchanter) }, new Item[]
+	VitaeDisenchanter(VitaeLanternI, -3, 3, new Object[]
+	{ ModBlocks.vitaeDisenchanter }, new Object[]
 	{}),
-	DeeeSyft(VitaeLanternI, -2, 4, new Item[]
-	{}, new Item[]
+	DeeeSyft(VitaeLanternI, -2, 4, new Object[]
+	{}, new Object[]
 	{}),
-	DarkForest(AstralSilver, 0, 4, new Item[]
-	{}, new Item[]
+	DarkForest(AstralSilver, 0, 4, new Object[]
+	{}, new Object[]
 	{}),
-	Insanity(DarkForest, 1, 4, new Item[]
-	{}, new Item[]
+	Insanity(DarkForest, 1, 4, new Object[]
+	{}, new Object[]
 	{}),
-	SleepingPotion(DarkForest, -1, 4, new Item[]
-	{}, new Item[]
+	SleepingPotion(DarkForest, -1, 4, new Object[]
+	{}, new Object[]
 	{}),
-	CloakOfAgility(AstronomyI, -1, 2, new Item[]
-	{ ModItems.cloakOfAgility }, new Item[]
+	CloakOfAgility(AstronomyI, -1, 2, new Object[]
+	{ ModItems.cloakOfAgility }, new Object[]
 	{}),
-	Nightmares(DarkForest, 0, 5, new Item[]
-	{}, new Item[]
+	Nightmares(DarkForest, 0, 5, new Object[]
+	{}, new Object[]
 	{}),
-	AstronomyII(Nightmares, 0, 6, new Item[]
-	{}, new Item[]
+	AstronomyII(Nightmares, 0, 6, new Object[]
+	{}, new Object[]
 	{}),
-	Igneous(AstronomyII, -1, 6, new Item[]
-	{ ModItems.igneousGem, ModItems.igneousBolt, ModItems.igneousSword, ModItems.igneousHelmet, ModItems.igneousChestplate, ModItems.igneousLeggings, ModItems.igneousBoots }, new Item[]
+	Igneous(AstronomyII, -1, 6, new Object[]
+	{ ModItems.igneousGem, ModBlocks.igneousBlock, ModItems.igneousBolt, ModItems.igneousSword, ModItems.igneousHelmet, ModItems.igneousChestplate, ModItems.igneousLeggings, ModItems.igneousBoots }, new Object[]
 	{}),
-	StarMetal(AstronomyII, 1, 6, new Item[]
-	{ ModItems.starMetalFragment, ModItems.starMetalBolt, ModItems.starMetalKhopesh, ModItems.starMetalHelmet, ModItems.starMetalChestplate, ModItems.starMetalLeggings, ModItems.starMetalBoots, ModItems.starMetalStaff, ModItems.starMetalPlate }, new Item[]
+	StarMetal(AstronomyII, 1, 6, new Object[]
+	{ ModItems.starMetalPlate, ModItems.starMetalBolt, ModItems.starMetalKhopesh, ModItems.starMetalHelmet, ModItems.starMetalChestplate, ModItems.starMetalLeggings, ModItems.starMetalBoots, ModItems.starMetalStaff }, new Object[]
 	{});
 
 	private ResearchTypes previous = null;
@@ -84,11 +86,14 @@ public enum ResearchTypes
 	private String preResearchDescription = "";
 	private int x;
 	private int y;
-	private Item[] researchRecipes;
-	private Item[] researchRecipesPre;
+	private Object[] researchRecipes;
+	private Object[] researchRecipesPre;
 
-	private ResearchTypes(final ResearchTypes previous, final int x, final int y, final Item[] researchRecipes, final Item[] researchRecipesPre)
+	private ResearchTypes(final ResearchTypes previous, final int x, final int y, final Object[] researchRecipes, final Object[] researchRecipesPre)
 	{
+		LogHelper.info(ModBlocks.igneousBlock);
+		LogHelper.info(Item.getItemFromBlock(ModBlocks.igneousBlock));
+
 		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
 		{
 			this.previous = previous;
@@ -128,12 +133,42 @@ public enum ResearchTypes
 
 	public Item[] researchRecipes()
 	{
-		return this.researchRecipes;
+		Item[] toReturn = new Item[this.researchRecipes.length];
+
+		for (int i = 0; i < this.researchRecipes.length; i++)
+		{
+			Object object = this.researchRecipes[i];
+			if (object instanceof Item)
+			{
+				toReturn[i] = (Item) object;
+			}
+			else
+			{
+				toReturn[i] = Item.getItemFromBlock((Block) object);
+			}
+		}
+
+		return toReturn;
 	}
 
 	public Item[] preResearchRecipes()
 	{
-		return this.researchRecipesPre;
+		Item[] toReturn = new Item[this.researchRecipesPre.length];
+
+		for (int i = 0; i < this.researchRecipesPre.length; i++)
+		{
+			Object object = this.researchRecipesPre[i];
+			if (object instanceof Item)
+			{
+				toReturn[i] = (Item) object;
+			}
+			else
+			{
+				toReturn[i] = Item.getItemFromBlock((Block) object);
+			}
+		}
+
+		return toReturn;
 	}
 
 	private String loadResearchDescription(String path)

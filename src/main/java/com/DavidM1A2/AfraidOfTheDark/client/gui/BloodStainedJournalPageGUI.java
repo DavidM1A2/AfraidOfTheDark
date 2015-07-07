@@ -15,6 +15,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -335,6 +336,8 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 
 		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 		renderItem.zLevel = 100.0F;
+
+		RenderHelper.enableGUIStandardItemLighting();
 
 		if (recipe.getWidth() == -1)
 		{

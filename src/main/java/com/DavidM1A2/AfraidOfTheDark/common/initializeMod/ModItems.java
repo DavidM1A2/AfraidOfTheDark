@@ -85,13 +85,13 @@ public class ModItems
 	public static final ItemVitaeLantern vitaeLantern = new ItemVitaeLantern();
 	public static final ItemStarMetalKhopesh starMetalKhopesh = new ItemStarMetalKhopesh();
 	public static final ItemCloakOfAgility cloakOfAgility = new ItemCloakOfAgility();
+	public static final ItemStarMetalPlate starMetalPlate = new ItemStarMetalPlate();
+	public static final ItemEnchantedSkeletonBone enchantedSkeletonBone = new ItemEnchantedSkeletonBone();
+	public static final ItemSleepingPotion sleepingPotion = new ItemSleepingPotion();
 	public static final ItemResearchScrollCloakOfAgility researchScrollCloakOfAgility = new ItemResearchScrollCloakOfAgility();
 	public static final ItemResearchScrollAstronomy2 researchScrollAstronomy2 = new ItemResearchScrollAstronomy2();
 	public static final ItemResearchScrollVitae1 researchScrollVitae1 = new ItemResearchScrollVitae1();
 	public static final ItemResearchScrollWristCrossbow researchScrollWristCrossbow = new ItemResearchScrollWristCrossbow();
-	public static final ItemStarMetalPlate starMetalPlate = new ItemStarMetalPlate();
-	public static final ItemEnchantedSkeletonBone enchantedSkeletonBone = new ItemEnchantedSkeletonBone();
-	public static final ItemSleepingPotion sleepingPotion = new ItemSleepingPotion();
 
 	public static void initialize(final Side side)
 	{
@@ -129,13 +129,13 @@ public class ModItems
 		GameRegistry.registerItem(ModItems.vitaeLantern, "vitaeLantern");
 		GameRegistry.registerItem(ModItems.starMetalKhopesh, "starMetalKhopesh");
 		GameRegistry.registerItem(ModItems.cloakOfAgility, "cloakOfAgility");
+		GameRegistry.registerItem(ModItems.starMetalPlate, "starMetalPlate");
+		GameRegistry.registerItem(ModItems.enchantedSkeletonBone, "enchantedSkeletonBone");
+		GameRegistry.registerItem(ModItems.sleepingPotion, "sleepingPotion");
 		GameRegistry.registerItem(ModItems.researchScrollCloakOfAgility, "researchScrollCloakOfAgility");
 		GameRegistry.registerItem(ModItems.researchScrollAstronomy2, "researchScrollAstronomy2");
 		GameRegistry.registerItem(ModItems.researchScrollVitae1, "researchScrollVitae1");
 		GameRegistry.registerItem(ModItems.researchScrollWristCrossbow, "researchScrollWristCrossbow");
-		GameRegistry.registerItem(ModItems.starMetalPlate, "starMetalPlate");
-		GameRegistry.registerItem(ModItems.enchantedSkeletonBone, "enchantedSkeletonBone");
-		GameRegistry.registerItem(ModItems.sleepingPotion, "sleepingPotion");
 	}
 
 	public static void initializeRenderers(final Side side)
