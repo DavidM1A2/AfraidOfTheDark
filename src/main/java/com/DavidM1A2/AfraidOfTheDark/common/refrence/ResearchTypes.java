@@ -19,7 +19,6 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 // All available researches
@@ -91,9 +90,6 @@ public enum ResearchTypes
 
 	private ResearchTypes(final ResearchTypes previous, final int x, final int y, final Object[] researchRecipes, final Object[] researchRecipesPre)
 	{
-		LogHelper.info(ModBlocks.igneousBlock);
-		LogHelper.info(Item.getItemFromBlock(ModBlocks.igneousBlock));
-
 		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
 		{
 			this.previous = previous;

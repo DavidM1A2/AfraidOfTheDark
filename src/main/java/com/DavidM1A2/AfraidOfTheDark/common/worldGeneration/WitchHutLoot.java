@@ -22,8 +22,7 @@ public class WitchHutLoot implements IChestGenerator
 			toReturn.add(new WeightedRandomChestContent(Items.potionitem, i, 1, 3, 7));
 		}
 
-		toReturn.add(new WeightedRandomChestContent(ModItems.researchScrollWristCrossbow, 0, 1, 1, 4));
-		toReturn.add(new WeightedRandomChestContent(ModItems.researchScrollCloakOfAgility, 0, 1, 1, 4));
+		toReturn.add(new WeightedRandomChestContent(ModItems.researchScrollWristCrossbow, 0, 1, 1, 5));
 
 		return toReturn;
 	}

@@ -189,10 +189,7 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 		this.buttonList.clear();
 		for (ResearchTypes researchType : ResearchTypes.values())
 		{
-			if (!researchType.toString().startsWith("Pre"))
-			{
-				this.buttonList.add(new NodeButton(currentID++, xPosBaseResearch + DISTANCE_BETWEEN_NODES * researchType.getPositionX(), yPosBaseResearch - DISTANCE_BETWEEN_NODES * researchType.getPositionY(), researchType));
-			}
+			this.buttonList.add(new NodeButton(currentID++, xPosBaseResearch + DISTANCE_BETWEEN_NODES * researchType.getPositionX(), yPosBaseResearch - DISTANCE_BETWEEN_NODES * researchType.getPositionY(), researchType));
 		}
 	}
 

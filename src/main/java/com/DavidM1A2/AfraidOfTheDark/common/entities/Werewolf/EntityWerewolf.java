@@ -32,9 +32,9 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 {
 	protected AnimationHandler animHandler = new AnimationHandlerWerewolf(this);
 	// setup movespeed, agroRange, and followRange
-	private static double moveSpeed = .43D;
-	private static double agroRange = 16.0D;
-	private static double followRange = 32.0D;
+	private static final double moveSpeed = .43D;
+	private static final double agroRange = 16.0D;
+	private static final double followRange = 32.0D;
 
 	// AI wanderer and watcher
 	private EntityAIWander myWanderer = new EntityAIWander(this, EntityWerewolf.moveSpeed * 2);
@@ -172,34 +172,5 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 	public float getEyeHeight()
 	{
 		return 1.3f;
-	}
-
-	// This is used to set movespeed and agro range during full moons
-	public static void setMoveSpeedAndAgroRange(final double _moveSpeed, final double _agroRange, final double _followRange)
-	{
-		EntityWerewolf.moveSpeed = _moveSpeed;
-		EntityWerewolf.agroRange = _agroRange;
-		EntityWerewolf.followRange = _followRange;
-	}
-
-	// Various getters and setters
-	public EntityAIWander getWanderer()
-	{
-		return this.myWanderer;
-	}
-
-	public void setWanderer()
-	{
-		this.myWanderer = new EntityAIWander(this, EntityWerewolf.moveSpeed * 2);
-	}
-
-	public EntityAIWatchClosest getMyWatchClosest()
-	{
-		return this.myWatchClosest;
-	}
-
-	public void setMyWatchClosest()
-	{
-		this.myWatchClosest = new EntityAIWatchClosest(this, EntityPlayer.class, (float) EntityWerewolf.agroRange);
 	}
 }

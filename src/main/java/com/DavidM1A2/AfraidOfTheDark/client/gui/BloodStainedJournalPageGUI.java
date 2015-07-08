@@ -21,6 +21,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
@@ -295,11 +296,7 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 
 	private void rewindPage()
 	{
-		pageNumber = pageNumber - 2;
-		if (pageNumber < 0)
-		{
-			pageNumber = 0;
-		}
+		pageNumber = MathHelper.clamp_int(pageNumber - 2, 0, Integer.MAX_VALUE);
 	}
 
 	private void updateText()
