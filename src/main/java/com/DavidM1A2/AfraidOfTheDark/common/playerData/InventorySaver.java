@@ -69,7 +69,14 @@ public class InventorySaver implements IExtendedEntityProperties
 
 	public static int getPlayerLocationNightmare(final EntityPlayer entityPlayer)
 	{
-		return entityPlayer.getEntityData().getInteger(PLAYER_LOCATION_NIGHTMARE);
+		if (entityPlayer.getEntityData().hasKey(PLAYER_LOCATION_NIGHTMARE))
+		{
+			return entityPlayer.getEntityData().getInteger(PLAYER_LOCATION_NIGHTMARE);
+		}
+		else
+		{
+			return -1;
+		}
 	}
 
 	public static void setPlayerLocationNightmare(final EntityPlayer entityPlayer, int value)
