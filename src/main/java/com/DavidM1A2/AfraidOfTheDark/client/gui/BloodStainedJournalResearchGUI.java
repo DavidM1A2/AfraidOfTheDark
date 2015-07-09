@@ -5,12 +5,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
@@ -19,6 +13,12 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.NodeButton;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
 
 public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 {
@@ -101,7 +101,7 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 			{
 				NodeButton newNodeButton = (NodeButton) nodeButton;
 
-				if (newNodeButton.isMouseOver())// && LoadResearchData.isResearched(Minecraft.getMinecraft().thePlayer, newNodeButton.getMyType()))
+				if (newNodeButton.isMouseOver()) // && LoadResearchData.isResearched(Minecraft.getMinecraft().thePlayer, newNodeButton.getMyType()))
 				{
 					this.drawString(Minecraft.getMinecraft().fontRendererObj, newNodeButton.getMyType().formattedString(), newNodeButton.xPosition + newNodeButton.height, newNodeButton.yPosition, 0xFF3399);
 				}

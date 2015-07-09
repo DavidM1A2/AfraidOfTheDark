@@ -10,20 +10,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.crafting.CraftingManager;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
@@ -35,6 +21,19 @@ import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.ConvertedRecipe;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
 
 public class BloodStainedJournalPageGUI extends GuiScreen
 {
@@ -171,12 +170,12 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 		this.mc.renderEngine.bindTexture(this.journalTexture);
 		// Draw the journal background
 
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		//GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		Gui.drawScaledCustomSizeModalRect(this.xCornerOfPage, this.yCornerOfPage, 0, 0, this.journalWidth, this.journalHeight, this.journalWidth, this.journalHeight, this.journalWidth, this.journalHeight);
 
 		// Draw the title
 		ClientData.journalTitleFont.drawString(this.title, this.xCornerOfPage + 15, this.yCornerOfPage + 15, 0xFF800000);
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		//GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
 		int adjustedIndexForRecipe = (pageNumber - textOnEachPage.size()) * 2;
 
@@ -220,7 +219,7 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 				this.drawCraftingRecipe(rightPage.getX() + 10, rightPage.getY() + 100, this.researchRecipes.get(adjustedIndexForRecipe + 3));
 			}
 		}
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		//GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
 		this.leftPageLabel.drawNumber(Integer.toString(this.pageNumber + 1));
 		this.rightPageLabel.drawNumber(Integer.toString(this.pageNumber + 2));
@@ -328,7 +327,7 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 	private void drawCraftingRecipe(int x, int y, ConvertedRecipe recipe)
 	{
 		this.mc.renderEngine.bindTexture(journalCraftingGrid);
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		//GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		Gui.drawModalRectWithCustomSizedTexture(x, y, 0, 0, 130, 90, 130, 90);
 
 		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
