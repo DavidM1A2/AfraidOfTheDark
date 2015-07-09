@@ -16,7 +16,7 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 public class BlockTileEntityDarkForest extends AOTDTileEntity implements IUpdatePlayerListBox
@@ -43,16 +43,16 @@ public class BlockTileEntityDarkForest extends AOTDTileEntity implements IUpdate
 					if (object instanceof EntityPlayer)
 					{
 						EntityPlayer entityPlayer = (EntityPlayer) object;
-						if (LoadResearchData.canResearch(entityPlayer, ResearchTypes.DarkForest))
+						if (Research.canResearch(entityPlayer, ResearchTypes.DarkForest))
 						{
-							LoadResearchData.unlockResearchSynced(entityPlayer, ResearchTypes.DarkForest, Side.SERVER, true);
+							Research.unlockResearchSynced(entityPlayer, ResearchTypes.DarkForest, Side.SERVER, true);
 						}
-						if (LoadResearchData.canResearch(entityPlayer, ResearchTypes.Insanity))
+						if (Research.canResearch(entityPlayer, ResearchTypes.Insanity))
 						{
-							LoadResearchData.unlockResearchSynced(entityPlayer, ResearchTypes.Insanity, Side.SERVER, true);
+							Research.unlockResearchSynced(entityPlayer, ResearchTypes.Insanity, Side.SERVER, true);
 						}
 
-						if (LoadResearchData.isResearched(entityPlayer, ResearchTypes.DarkForest))
+						if (Research.isResearched(entityPlayer, ResearchTypes.DarkForest))
 						{
 							entityPlayer.addPotionEffect(new PotionEffect(30, 120, 0, true, false));
 							if (entityPlayer.inventory.hasItem(Items.potionitem))
@@ -66,9 +66,9 @@ public class BlockTileEntityDarkForest extends AOTDTileEntity implements IUpdate
 										{
 											if (itemStack.getMetadata() == 0)
 											{
-												if (LoadResearchData.canResearch(entityPlayer, ResearchTypes.SleepingPotion))
+												if (Research.canResearch(entityPlayer, ResearchTypes.SleepingPotion))
 												{
-													LoadResearchData.unlockResearchSynced(entityPlayer, ResearchTypes.SleepingPotion, Side.SERVER, true);
+													Research.unlockResearchSynced(entityPlayer, ResearchTypes.SleepingPotion, Side.SERVER, true);
 												}
 
 												entityPlayer.inventory.setInventorySlotContents(i, new ItemStack(ModItems.sleepingPotion, itemStack.stackSize));

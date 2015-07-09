@@ -5,6 +5,13 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity;
 
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
+import com.DavidM1A2.AfraidOfTheDark.common.item.ItemVitaeLantern;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
@@ -12,13 +19,6 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.fml.relauncher.Side;
-
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
-import com.DavidM1A2.AfraidOfTheDark.common.item.ItemVitaeLantern;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 public class BlockTileEntitySpring extends AOTDTileEntity implements IUpdatePlayerListBox
 {
@@ -46,26 +46,30 @@ public class BlockTileEntitySpring extends AOTDTileEntity implements IUpdatePlay
 						EntityPlayer entityPlayer = (EntityPlayer) object;
 						if (entityPlayer.inventory.hasItem(ModItems.vitaeLantern))
 						{
-							if (LoadResearchData.canResearch(entityPlayer, ResearchTypes.VitaeLanternI))
+							if (Research.canResearch(entityPlayer, ResearchTypes.VitaeLanternI))
 							{
-								LoadResearchData.unlockResearchSynced(entityPlayer, ResearchTypes.VitaeLanternI, Side.SERVER, true);
+								Research.unlockResearchSynced(entityPlayer, ResearchTypes.VitaeLanternI, Side.SERVER, true);
 							}
-							for (Object stack : entityPlayer.inventoryContainer.getInventory())
+
+							if (Research.isResearched(entityPlayer, ResearchTypes.VitaeLanternI))
 							{
-								if (stack instanceof ItemStack)
+								for (Object stack : entityPlayer.inventoryContainer.getInventory())
 								{
-									ItemStack current = (ItemStack) stack;
-									if (current.getItem() instanceof ItemVitaeLantern)
+									if (stack instanceof ItemStack)
 									{
-										if (NBTHelper.getInt(current, ItemVitaeLantern.STORED_VITAE) == 0)
+										ItemStack current = (ItemStack) stack;
+										if (current.getItem() instanceof ItemVitaeLantern)
 										{
-											NBTHelper.setInteger(current, ItemVitaeLantern.STORED_VITAE, 10);
+											if (NBTHelper.getInt(current, ItemVitaeLantern.STORED_VITAE) == 0)
+											{
+												NBTHelper.setInteger(current, ItemVitaeLantern.STORED_VITAE, 10);
+											}
 										}
 									}
 								}
 							}
+							entityPlayer.addPotionEffect(new PotionEffect(Potion.regeneration.id, 100, 1, true, true));
 						}
-						entityPlayer.addPotionEffect(new PotionEffect(Potion.regeneration.id, 100, 1, true, true));
 					}
 				}
 			}

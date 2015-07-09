@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 /*
@@ -67,11 +67,11 @@ public class NodeButton extends GuiButton
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			Gui.drawScaledCustomSizeModalRect(this.xPosition, this.yPosition, 0, 0, 512, 512, this.width, this.height, 512, 512);
 
-			if (LoadResearchData.isResearched(Minecraft.getMinecraft().thePlayer, this.myType))
+			if (Research.isResearched(Minecraft.getMinecraft().thePlayer, this.myType))
 			{
 				this.drawKnownResearch(minecraft);
 			}
-			else if (LoadResearchData.canResearch(Minecraft.getMinecraft().thePlayer, this.myType))
+			else if (Research.canResearch(Minecraft.getMinecraft().thePlayer, this.myType))
 			{
 				this.drawAlmostKnownResearch(minecraft);
 			}

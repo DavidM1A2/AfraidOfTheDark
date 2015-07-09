@@ -10,6 +10,9 @@ import java.lang.reflect.Field;
 import java.util.Iterator;
 import java.util.List;
 
+import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewood;
+import com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare.NightmareTeleporter;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;
 import net.minecraft.block.BlockDirt.DirtType;
@@ -34,9 +37,6 @@ import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
-
-import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewood;
-import com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare.NightmareTeleporter;
 
 public class Utility
 {

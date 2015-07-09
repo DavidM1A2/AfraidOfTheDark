@@ -16,7 +16,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateResearch;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Insanity;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.InventorySaver;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
@@ -62,21 +62,21 @@ public class PlayerController
 		HasStartedAOTD.set(event.entityPlayer, hasStartedAOTD, Side.SERVER);
 		final double insanity = Insanity.get(event.original);
 		Insanity.addInsanity(insanity, event.entityPlayer);
-		final NBTTagCompound research = LoadResearchData.get(event.original);
-		LoadResearchData.set(event.entityPlayer, research);
+		final NBTTagCompound research = Research.get(event.original);
+		Research.set(event.entityPlayer, research);
 		final int vitaeLevel = Vitae.get(event.original);
 		Vitae.set(event.entityPlayer, vitaeLevel, Side.SERVER);
 		if (event.original.dimension == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
 		{
 			InventorySaver.setInventory(event.entityPlayer, InventorySaver.getInventory(event.original), InventorySaver.getPlayerLocationOverworld(event.original), InventorySaver.getPlayerLocationNightmare(event.original));
-			(new DelayedTeleport(event.entityPlayer, 0)).start();
+			(new DelayedTeleport(500, event.entityPlayer, 0)).start();
 		}
 		// When the player gets new research we will wait 500ms before updating because otherwise the event.original player
 		// will get the new data
-		(new DelayedAOTDUpdate(event.entityPlayer, hasStartedAOTD)).start();
-		(new DelayedInsanityUpdate(event.entityPlayer, insanity)).start();
-		(new DelayedResearchUpdate(event.entityPlayer, research)).start();
-		(new DelayedVitaeUpdate(event.entityPlayer, vitaeLevel)).start();
+		(new DelayedAOTDUpdate(600, event.entityPlayer, hasStartedAOTD)).start();
+		(new DelayedInsanityUpdate(700, event.entityPlayer, insanity)).start();
+		(new DelayedResearchUpdate(800, event.entityPlayer, research)).start();
+		(new DelayedVitaeUpdate(900, event.entityPlayer, vitaeLevel)).start();
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -129,7 +129,7 @@ public class PlayerController
 
 				AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateAOTDStatus(HasStartedAOTD.get(entityPlayer)), (EntityPlayerMP) entityPlayer);
 
-				AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateResearch(LoadResearchData.get(entityPlayer), false), (EntityPlayerMP) entityPlayer);
+				AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateResearch(Research.get(entityPlayer), false), (EntityPlayerMP) entityPlayer);
 			}
 		}
 	}
@@ -144,9 +144,9 @@ public class PlayerController
 			/*
 			 * This first block of code will load the player's research.
 			 */
-			if (entityPlayer.getExtendedProperties(LoadResearchData.RESEARCH_DATA) == null)
+			if (entityPlayer.getExtendedProperties(Research.RESEARCH_DATA) == null)
 			{
-				LoadResearchData.register(entityPlayer);
+				Research.register(entityPlayer);
 			}
 			/*
 			 * This second block of code will check if the player has begun the mod.
@@ -186,11 +186,11 @@ public class PlayerController
 		{
 			if (event.entityPlayer.getActivePotionEffect(ModPotionEffects.sleepingPotion) != null)
 			{
-				if (LoadResearchData.canResearch(event.entityPlayer, ResearchTypes.Nightmares))
+				if (Research.canResearch(event.entityPlayer, ResearchTypes.Nightmares))
 				{
-					LoadResearchData.unlockResearchSynced(event.entityPlayer, ResearchTypes.Nightmares, Side.SERVER, true);
+					Research.unlockResearchSynced(event.entityPlayer, ResearchTypes.Nightmares, Side.SERVER, true);
 				}
-				if (LoadResearchData.isResearched(event.entityPlayer, ResearchTypes.Nightmares))
+				if (Research.isResearched(event.entityPlayer, ResearchTypes.Nightmares))
 				{
 					Utility.sendPlayerToDimension((EntityPlayerMP) event.entityPlayer, Constants.NightmareWorld.NIGHTMARE_WORLD_ID, false);
 				}
@@ -235,7 +235,7 @@ public class PlayerController
 				ISaveHandler iSaveHandler = MinecraftServer.getServer().worldServers[0].getSaveHandler();
 				if (iSaveHandler instanceof SaveHandler)
 				{
-					InventorySaver.setPlayerLocationNightmare(entityPlayer, ((SaveHandler) iSaveHandler).getAvailablePlayerDat().length);
+					InventorySaver.setPlayerLocationNightmare(entityPlayer, ((SaveHandler) iSaveHandler).getAvailablePlayerDat().length - 1);
 				}
 			}
 			((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(InventorySaver.getPlayerLocationNightmare(entityPlayer) * Constants.NightmareWorld.BLOCKS_BETWEEN_ISLANDS + 20, 79, 40, 0, 0);
@@ -260,9 +260,9 @@ public class PlayerController
 					Integer enchantment = ((NBTTagCompound) enchantments.get(i)).getInteger("id");
 					if (enchantment == 1 || enchantment == 3 || enchantment == 4 || enchantment == 17 || enchantment == 18)
 					{
-						if (LoadResearchData.canResearch(event.entityPlayer, ResearchTypes.VitaeDisenchanter))
+						if (Research.canResearch(event.entityPlayer, ResearchTypes.VitaeDisenchanter))
 						{
-							LoadResearchData.unlockResearchSynced(event.entityPlayer, ResearchTypes.VitaeDisenchanter, Side.CLIENT, true);
+							Research.unlockResearchSynced(event.entityPlayer, ResearchTypes.VitaeDisenchanter, Side.CLIENT, true);
 						}
 					}
 				}

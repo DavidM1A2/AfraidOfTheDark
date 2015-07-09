@@ -18,7 +18,7 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDBlock;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 public class BlockSunstoneOre extends AOTDBlock
@@ -47,9 +47,9 @@ public class BlockSunstoneOre extends AOTDBlock
 	@Override
 	public void harvestBlock(World world, EntityPlayer entityPlayer, BlockPos blockPos, IBlockState iBlockState, TileEntity tileEntity)
 	{
-		if (LoadResearchData.canResearch(entityPlayer, ResearchTypes.Igneous))
+		if (Research.canResearch(entityPlayer, ResearchTypes.Igneous))
 		{
-			LoadResearchData.unlockResearchSynced(entityPlayer, ResearchTypes.Igneous, Side.SERVER, true);
+			Research.unlockResearchSynced(entityPlayer, ResearchTypes.Igneous, Side.SERVER, true);
 		}
 		super.harvestBlock(world, entityPlayer, blockPos, iBlockState, tileEntity);
 	}

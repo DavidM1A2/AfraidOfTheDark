@@ -22,7 +22,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.item.ItemCloakOfAgility;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemVitaeLantern;
 import com.DavidM1A2.AfraidOfTheDark.common.item.crossbow.ItemWristCrossbow;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.FireCrossbowBolt;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
@@ -52,7 +52,7 @@ public class KeyInputEventHandler
 	{
 		EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
 
-		if (LoadResearchData.isResearched(entityPlayer, ResearchTypes.VitaeLanternI))
+		if (Research.isResearched(entityPlayer, ResearchTypes.VitaeLanternI))
 		{
 			boolean hasLantern = false;
 			for (ItemStack itemStack : entityPlayer.inventory.mainInventory)
@@ -87,7 +87,7 @@ public class KeyInputEventHandler
 		if (!entityPlayer.isSneaking())
 		{
 			boolean willFire = false;
-			if (entityPlayer.inventory.hasItem(ModItems.wristCrossbow) && LoadResearchData.isResearched(entityPlayer, ResearchTypes.WristCrossbow))
+			if (entityPlayer.inventory.hasItem(ModItems.wristCrossbow) && Research.isResearched(entityPlayer, ResearchTypes.WristCrossbow))
 			{
 				for (ItemStack itemStack : entityPlayer.inventory.mainInventory)
 				{
@@ -121,7 +121,7 @@ public class KeyInputEventHandler
 					AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new FireCrossbowBolt(ClientData.currentlySelectedBolt));
 				}
 			}
-			else if (!LoadResearchData.isResearched(entityPlayer, ResearchTypes.WristCrossbow))
+			else if (!Research.isResearched(entityPlayer, ResearchTypes.WristCrossbow))
 			{
 				entityPlayer.addChatMessage(new ChatComponentText("I don't understand how this works."));
 			}
@@ -141,7 +141,7 @@ public class KeyInputEventHandler
 	{
 		EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
 		boolean willRoll = false;
-		if (entityPlayer.inventory.hasItem(ModItems.cloakOfAgility) && entityPlayer.onGround && LoadResearchData.isResearched(entityPlayer, ResearchTypes.CloakOfAgility))
+		if (entityPlayer.inventory.hasItem(ModItems.cloakOfAgility) && entityPlayer.onGround && Research.isResearched(entityPlayer, ResearchTypes.CloakOfAgility))
 		{
 			for (ItemStack itemStack : entityPlayer.inventory.mainInventory)
 			{
@@ -173,7 +173,7 @@ public class KeyInputEventHandler
 				entityPlayer.addChatMessage(new ChatComponentText("I'm too tired to roll again."));
 			}
 		}
-		else if (!LoadResearchData.isResearched(entityPlayer, ResearchTypes.CloakOfAgility))
+		else if (!Research.isResearched(entityPlayer, ResearchTypes.CloakOfAgility))
 		{
 			entityPlayer.addChatMessage(new ChatComponentText("I don't understand how this works."));
 		}

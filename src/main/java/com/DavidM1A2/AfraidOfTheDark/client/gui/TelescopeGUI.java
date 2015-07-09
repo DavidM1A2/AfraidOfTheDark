@@ -19,7 +19,7 @@ import org.lwjgl.opengl.GL11;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.GuiClickAndDragable;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.MeteorButton;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.MeteorTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
@@ -57,7 +57,7 @@ public class TelescopeGUI extends GuiClickAndDragable
 		this.buttonList.clear();
 		for (int i = 0; i < TelescopeGUI.NUMBER_OF_METEORS; i++)
 		{
-			if (LoadResearchData.isResearched(Minecraft.getMinecraft().thePlayer, ResearchTypes.AstronomyII))
+			if (Research.isResearched(Minecraft.getMinecraft().thePlayer, ResearchTypes.AstronomyII))
 			{
 				this.buttonList.add(new MeteorButton(TelescopeGUI.BUTTON_BASE_ID + i, Minecraft.getMinecraft().theWorld.rand.nextInt(3840 * 2) - 3840, Minecraft.getMinecraft().theWorld.rand.nextInt(2160 * 2) - 2160, 64, 64, MeteorTypes.values()[Minecraft.getMinecraft().theWorld.rand
 						.nextInt(MeteorTypes.values().length)]));

@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDBlock;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 public class BlockAstralSilverOre extends AOTDBlock
@@ -30,9 +30,9 @@ public class BlockAstralSilverOre extends AOTDBlock
 	@Override
 	public void harvestBlock(World world, EntityPlayer entityPlayer, BlockPos blockPos, IBlockState iBlockState, TileEntity tileEntity)
 	{
-		if (LoadResearchData.canResearch(entityPlayer, ResearchTypes.AstralSilver))
+		if (Research.canResearch(entityPlayer, ResearchTypes.AstralSilver))
 		{
-			LoadResearchData.unlockResearchSynced(entityPlayer, ResearchTypes.AstralSilver, Side.SERVER, true);
+			Research.unlockResearchSynced(entityPlayer, ResearchTypes.AstralSilver, Side.SERVER, true);
 		}
 		super.harvestBlock(world, entityPlayer, blockPos, iBlockState, tileEntity);
 	}

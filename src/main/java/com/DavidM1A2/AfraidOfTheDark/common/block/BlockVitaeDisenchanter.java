@@ -3,6 +3,13 @@ package com.DavidM1A2.AfraidOfTheDark.common.block;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDBlock;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+import com.google.common.collect.Maps;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
@@ -27,13 +34,6 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
-
-import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDBlock;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-import com.google.common.collect.Maps;
 
 public class BlockVitaeDisenchanter extends AOTDBlock
 {
@@ -78,26 +78,33 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 	{
 		if (!world.isRemote)
 		{
-			if (entityPlayer.inventory.getCurrentItem() == null)
+			if (Research.isResearched(entityPlayer, ResearchTypes.VitaeDisenchanter))
 			{
-				world.setBlockState(blockPos, iBlockState.withProperty(VARIANT, this.getMetaFromState(iBlockState) == 0 ? false : true));
-			}
-			else
-			{
-				if (this.getMetaFromState(iBlockState) == 0)
+				if (entityPlayer.inventory.getCurrentItem() == null)
 				{
-					if (readyToDisenchant(entityPlayer))
-					{
-						disenchantItem(entityPlayer);
-					}
+					world.setBlockState(blockPos, iBlockState.withProperty(VARIANT, this.getMetaFromState(iBlockState) == 0 ? false : true));
 				}
 				else
 				{
-					if (readyToConvertBook(entityPlayer))
+					if (this.getMetaFromState(iBlockState) == 0)
 					{
-						convertBook(entityPlayer);
+						if (readyToDisenchant(entityPlayer))
+						{
+							disenchantItem(entityPlayer);
+						}
+					}
+					else
+					{
+						if (readyToConvertBook(entityPlayer))
+						{
+							convertBook(entityPlayer);
+						}
 					}
 				}
+			}
+			else
+			{
+				entityPlayer.addChatMessage(new ChatComponentText("I can't understand this block"));
 			}
 		}
 
@@ -155,7 +162,7 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 
 	private boolean readyToConvertBook(EntityPlayer entityPlayer)
 	{
-		if (LoadResearchData.isResearched(entityPlayer, ResearchTypes.VitaeDisenchanter))
+		if (Research.isResearched(entityPlayer, ResearchTypes.VitaeDisenchanter))
 		{
 			ItemStack itemStack = entityPlayer.getCurrentEquippedItem();
 			if (itemStack != null && itemStack.getItem() instanceof ItemEnchantedBook)
@@ -260,7 +267,7 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 
 	private boolean readyToDisenchant(EntityPlayer entityPlayer)
 	{
-		if (LoadResearchData.isResearched(entityPlayer, ResearchTypes.VitaeDisenchanter))
+		if (Research.isResearched(entityPlayer, ResearchTypes.VitaeDisenchanter))
 		{
 			if (entityPlayer.inventory.getCurrentItem().isItemEnchanted())
 			{
@@ -300,8 +307,8 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 					int vitaeMultiplier = 1;
 					if (itemStack.getItem() instanceof ItemTool || itemStack.getItem() instanceof ItemSword || itemStack.getItem() instanceof ItemArmor)
 					{
-						String material = (itemStack.getItem() instanceof ItemTool) ? ((ItemTool) itemStack.getItem()).getToolMaterial().toString() : (itemStack.getItem() instanceof ItemSword) ? ((ItemSword) itemStack.getItem()).getToolMaterialName() : ((ItemArmor) itemStack.getItem())
-								.getArmorMaterial().toString();
+						String material = (itemStack.getItem() instanceof ItemTool) ? ((ItemTool) itemStack.getItem()).getToolMaterial().toString()
+								: (itemStack.getItem() instanceof ItemSword) ? ((ItemSword) itemStack.getItem()).getToolMaterialName() : ((ItemArmor) itemStack.getItem()).getArmorMaterial().toString();
 						if (Constants.toolMaterialRepairCosts.containsKey(material))
 						{
 							vitaeMultiplier = Constants.toolMaterialRepairCosts.get(material);

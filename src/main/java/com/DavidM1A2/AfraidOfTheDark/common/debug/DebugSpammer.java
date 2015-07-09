@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Insanity;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 public class DebugSpammer
@@ -39,7 +39,7 @@ public class DebugSpammer
 				toDebug = toDebug + "\nThe player is " + Insanity.get(entityPlayer) + "% insane.";
 				for (int i = 0; i < ResearchTypes.values().length; i++)
 				{
-					if (LoadResearchData.get(entityPlayer).getBoolean(LoadResearchData.RESEARCH_DATA + ResearchTypes.values()[i].toString()))
+					if (Research.get(entityPlayer).getBoolean(Research.RESEARCH_DATA + ResearchTypes.values()[i].toString()))
 					{
 						toDebug = toDebug + "\n" + ResearchTypes.values()[i].formattedString() + " is unlocked.";
 					}

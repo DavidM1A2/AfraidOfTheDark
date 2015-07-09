@@ -10,7 +10,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 public class ResearchUnlocker implements ICommand
@@ -61,9 +61,9 @@ public class ResearchUnlocker implements ICommand
 		{
 			for (ResearchTypes type : ResearchTypes.values())
 			{
-				if (!LoadResearchData.isResearched(sender, type))
+				if (!Research.isResearched(sender, type))
 				{
-					LoadResearchData.unlockResearchSynced(sender, type, Side.SERVER, false);
+					Research.unlockResearchSynced(sender, type, Side.SERVER, false);
 				}
 			}
 		}

@@ -5,17 +5,17 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.threads.delayed;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateAOTDStatus;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+
 public class DelayedAOTDUpdate extends DelayedUpdate<Boolean>
 {
-	public DelayedAOTDUpdate(final EntityPlayer entityPlayer, final boolean data)
+	public DelayedAOTDUpdate(final int delayInMillis, final EntityPlayer entityPlayer, final boolean data)
 	{
-		super(entityPlayer, data);
+		super(delayInMillis, entityPlayer, data);
 	}
 
 	@Override

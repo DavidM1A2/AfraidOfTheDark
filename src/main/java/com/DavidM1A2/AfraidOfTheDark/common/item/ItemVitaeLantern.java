@@ -17,7 +17,7 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
@@ -68,7 +68,7 @@ public class ItemVitaeLantern extends AOTDItem
 	@Override
 	public boolean itemInteractionForEntity(ItemStack itemStack, EntityPlayer entityPlayer, EntityLivingBase entityLivingBase)
 	{
-		if (LoadResearchData.isResearched(entityPlayer, ResearchTypes.VitaeLanternI))
+		if (Research.isResearched(entityPlayer, ResearchTypes.VitaeLanternI))
 		{
 			if (Vitae.get(entityLivingBase) > 5 && !(entityLivingBase instanceof EntityPlayer))
 			{
@@ -104,9 +104,9 @@ public class ItemVitaeLantern extends AOTDItem
 			{
 				if (entityLivingBase instanceof EntityDeeeSyft)
 				{
-					if (LoadResearchData.canResearch(entityPlayer, ResearchTypes.DeeeSyft))
+					if (Research.canResearch(entityPlayer, ResearchTypes.DeeeSyft))
 					{
-						LoadResearchData.unlockResearchSynced(entityPlayer, ResearchTypes.DeeeSyft, Side.SERVER, true);
+						Research.unlockResearchSynced(entityPlayer, ResearchTypes.DeeeSyft, Side.SERVER, true);
 					}
 				}
 

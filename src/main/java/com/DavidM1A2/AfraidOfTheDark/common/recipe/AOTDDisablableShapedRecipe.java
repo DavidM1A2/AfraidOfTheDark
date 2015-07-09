@@ -18,7 +18,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.google.common.base.Throwables;
 
@@ -41,7 +41,7 @@ public class AOTDDisablableShapedRecipe extends ShapedOreRecipe
 		EntityPlayer entityPlayer = findPlayer(inventoryCrafting);
 		if (entityPlayer != null)
 		{
-			if (!LoadResearchData.isResearched(entityPlayer, preRequisite))
+			if (!Research.isResearched(entityPlayer, preRequisite))
 			{
 				return false;
 			}

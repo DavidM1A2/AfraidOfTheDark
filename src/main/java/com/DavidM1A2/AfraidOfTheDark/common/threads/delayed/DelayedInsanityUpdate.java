@@ -5,17 +5,17 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.threads.delayed;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateInsanity;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+
 public class DelayedInsanityUpdate extends DelayedUpdate<Double>
 {
-	public DelayedInsanityUpdate(final EntityPlayer entityPlayer, final double data)
+	public DelayedInsanityUpdate(final int delayInMillis, final EntityPlayer entityPlayer, final double data)
 	{
-		super(entityPlayer, data);
+		super(delayInMillis, entityPlayer, data);
 	}
 
 	@Override

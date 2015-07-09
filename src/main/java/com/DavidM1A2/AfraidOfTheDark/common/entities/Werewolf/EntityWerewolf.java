@@ -24,7 +24,7 @@ import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.TellClientToPlayAnimation;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.LoadResearchData;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
@@ -158,9 +158,9 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 
 			if (entityPlayer.getHealth() != 0)
 			{
-				if (LoadResearchData.canResearch(entityPlayer, ResearchTypes.WerewolfExamination))
+				if (Research.canResearch(entityPlayer, ResearchTypes.WerewolfExamination))
 				{
-					LoadResearchData.unlockResearchSynced(entityPlayer, ResearchTypes.WerewolfExamination, Side.SERVER, true);
+					Research.unlockResearchSynced(entityPlayer, ResearchTypes.WerewolfExamination, Side.SERVER, true);
 				}
 			}
 		}
