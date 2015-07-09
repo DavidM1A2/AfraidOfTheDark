@@ -24,5 +24,9 @@ public class BiomeNightmare extends BiomeGenBase
 		this.waterColorMultiplier = 0xFF0000;
 		this.theBiomeDecorator.treesPerChunk = 0;
 		this.topBlock = Blocks.dirt.getDefaultState();
+		this.spawnableCaveCreatureList.clear();
+		this.spawnableCreatureList.clear();
+		this.spawnableMonsterList.clear();
+		this.spawnableWaterCreatureList.clear();
 	}
 }

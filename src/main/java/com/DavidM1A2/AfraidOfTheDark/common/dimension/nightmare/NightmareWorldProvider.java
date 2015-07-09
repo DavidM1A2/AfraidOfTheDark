@@ -5,6 +5,9 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare;
 
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBiomes;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
@@ -15,9 +18,6 @@ import net.minecraft.world.biome.WorldChunkManager;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBiomes;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 
 public class NightmareWorldProvider extends WorldProvider
 {
@@ -73,7 +73,7 @@ public class NightmareWorldProvider extends WorldProvider
 	 * "calculateSkylightSubtracted" which is for Sky light value calculation.
 	 *
 	 * @return The current brightness factor
-	 * */
+	 */
 	@Override
 	public float getSunBrightnessFactor(float par1)
 	{
@@ -106,7 +106,7 @@ public class NightmareWorldProvider extends WorldProvider
 
 	/**
 	 * Gets the Star Brightness for rendering sky.
-	 * */
+	 */
 	@SideOnly(Side.CLIENT)
 	public float getStarBrightness(float par1)
 	{
@@ -175,9 +175,13 @@ public class NightmareWorldProvider extends WorldProvider
 	}
 
 	@Override
-	public boolean canCoordinateBeSpawn(int par1, int par2)
+	public boolean canCoordinateBeSpawn(int x, int z)
 	{
-		return true;
+		if (x % Constants.NightmareWorld.BLOCKS_BETWEEN_ISLANDS == 0 && z == 0)
+		{
+			return true;
+		}
+		return false;
 	}
 
 	@Override

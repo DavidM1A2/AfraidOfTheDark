@@ -5,27 +5,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.handler;
 
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemFlintAndSteel;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.MathHelper;
-import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.entity.player.EntityInteractEvent;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
@@ -46,8 +25,31 @@ import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedInsanityUpdat
 import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedResearchUpdate;
 import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedTeleport;
 import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedVitaeUpdate;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
+
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemFlintAndSteel;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.MathHelper;
+import net.minecraft.world.storage.ISaveHandler;
+import net.minecraft.world.storage.SaveHandler;
+import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.player.EntityInteractEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class PlayerController
 {
@@ -66,7 +68,7 @@ public class PlayerController
 		Vitae.set(event.entityPlayer, vitaeLevel, Side.SERVER);
 		if (event.original.dimension == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
 		{
-			InventorySaver.setInventory(event.entityPlayer, InventorySaver.getInventory(event.original), InventorySaver.getPlayerLocation(event.original));
+			InventorySaver.setInventory(event.entityPlayer, InventorySaver.getInventory(event.original), InventorySaver.getPlayerLocationOverworld(event.original), InventorySaver.getPlayerLocationNightmare(event.original));
 			(new DelayedTeleport(event.entityPlayer, 0)).start();
 		}
 		// When the player gets new research we will wait 500ms before updating because otherwise the event.original player
@@ -221,14 +223,27 @@ public class PlayerController
 	@SubscribeEvent
 	public void onPlayerChangedDimensionEvent(final PlayerChangedDimensionEvent event)
 	{
-		LogHelper.info("Changed dims");
 		EntityPlayer entityPlayer = event.player;
 		if (event.toDim == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
 		{
 			InventorySaver.saveInventory(entityPlayer);
 			entityPlayer.inventory.clear();
 			entityPlayer.inventoryContainer.detectAndSendChanges();
-			entityPlayer.setPosition(240, 78, 146);
+
+			if (InventorySaver.getPlayerLocationNightmare(entityPlayer) == -1)
+			{
+				ISaveHandler iSaveHandler = MinecraftServer.getServer().worldServers[0].getSaveHandler();
+				if (iSaveHandler instanceof SaveHandler)
+				{
+					InventorySaver.setPlayerLocationNightmare(entityPlayer, ((SaveHandler) iSaveHandler).getAvailablePlayerDat().length);
+				}
+			}
+
+			while (entityPlayer.posZ != 146 && entityPlayer.posX != 79)
+			{
+				((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(InventorySaver.getPlayerLocationNightmare(entityPlayer) * Constants.NightmareWorld.BLOCKS_BETWEEN_ISLANDS + 240, 79, 146, 0, 0);
+				entityPlayer.setPosition(InventorySaver.getPlayerLocationNightmare(entityPlayer) * Constants.NightmareWorld.BLOCKS_BETWEEN_ISLANDS + 240, 79, 146);
+			}
 		}
 		else if (event.fromDim == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
 		{

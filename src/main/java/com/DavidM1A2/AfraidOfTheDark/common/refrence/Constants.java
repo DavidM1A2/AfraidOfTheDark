@@ -8,6 +8,14 @@ package com.DavidM1A2.AfraidOfTheDark.common.refrence;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
+import com.DavidM1A2.AfraidOfTheDark.common.schematic.Schematic;
+import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicBlockReplacer;
+import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicLoader;
+
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.boss.EntityDragon;
@@ -49,14 +57,6 @@ import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.util.EnumHelper;
-
-import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
-import com.DavidM1A2.AfraidOfTheDark.common.schematic.Schematic;
-import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicBlockReplacer;
-import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicLoader;
 
 public final class Constants
 {
@@ -159,6 +159,7 @@ public final class Constants
 	{
 		public static final String NIGHTMARE_WORLD_NAME = "";
 		public static final int NIGHTMARE_WORLD_ID = 67;
+		public static final int BLOCKS_BETWEEN_ISLANDS = 992;
 	}
 
 	public static final class AOTDSchematics

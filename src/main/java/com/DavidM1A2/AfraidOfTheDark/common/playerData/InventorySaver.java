@@ -16,9 +16,11 @@ import net.minecraftforge.common.IExtendedEntityProperties;
 public class InventorySaver implements IExtendedEntityProperties
 {
 	public final static String INVENTORY_SAVER = "inventorySaver";
-	public final static String PLAYER_LOCATION = "playerLocation";
+	public final static String PLAYER_LOCATION_OVERWORLD = "playerLocationOverworld";
+	public final static String PLAYER_LOCATION_NIGHTMARE = "playerLocationNightmare";
 	private NBTTagList inventoryList = new NBTTagList();
-	private int[] playerLocation = new int[3];
+	private int[] playerLocationOverworld = new int[3];
+	private int playerLocationNightmare = -1;
 
 	public static final void register(final EntityPlayer player)
 	{
@@ -35,7 +37,8 @@ public class InventorySaver implements IExtendedEntityProperties
 	public void saveNBTData(final NBTTagCompound compound)
 	{
 		compound.setTag(INVENTORY_SAVER, inventoryList);
-		compound.setIntArray(PLAYER_LOCATION, playerLocation);
+		compound.setIntArray(PLAYER_LOCATION_OVERWORLD, playerLocationOverworld);
+		compound.setInteger(PLAYER_LOCATION_NIGHTMARE, playerLocationNightmare);
 	}
 
 	// load works the same way
@@ -43,7 +46,8 @@ public class InventorySaver implements IExtendedEntityProperties
 	public void loadNBTData(final NBTTagCompound compound)
 	{
 		this.inventoryList = compound.getTagList(INVENTORY_SAVER, 10);
-		this.playerLocation = compound.getIntArray(PLAYER_LOCATION);
+		this.playerLocationOverworld = compound.getIntArray(PLAYER_LOCATION_OVERWORLD);
+		this.playerLocationNightmare = compound.getInteger(PLAYER_LOCATION_NIGHTMARE);
 	}
 
 	public static void loadInventory(final EntityPlayer entityPlayer)
@@ -57,10 +61,20 @@ public class InventorySaver implements IExtendedEntityProperties
 		return entityPlayer.inventory.writeToNBT(new NBTTagList());
 	}
 
-	public static BlockPos getPlayerLocation(final EntityPlayer entityPlayer)
+	public static BlockPos getPlayerLocationOverworld(final EntityPlayer entityPlayer)
 	{
-		int[] location = entityPlayer.getEntityData().getIntArray(PLAYER_LOCATION);
+		int[] location = entityPlayer.getEntityData().getIntArray(PLAYER_LOCATION_OVERWORLD);
 		return new BlockPos(location[0], location[1], location[2]);
+	}
+
+	public static int getPlayerLocationNightmare(final EntityPlayer entityPlayer)
+	{
+		return entityPlayer.getEntityData().getInteger(PLAYER_LOCATION_NIGHTMARE);
+	}
+
+	public static void setPlayerLocationNightmare(final EntityPlayer entityPlayer, int value)
+	{
+		entityPlayer.getEntityData().setInteger(PLAYER_LOCATION_NIGHTMARE, value);
 	}
 
 	public static void resetSavedInventory(final EntityPlayer entityPlayer)
@@ -73,15 +87,16 @@ public class InventorySaver implements IExtendedEntityProperties
 		NBTTagList inventoryList = new NBTTagList();
 		entityPlayer.inventory.writeToNBT(inventoryList);
 		entityPlayer.getEntityData().setTag(INVENTORY_SAVER, inventoryList);
-		entityPlayer.getEntityData().setIntArray(PLAYER_LOCATION, new int[]
+		entityPlayer.getEntityData().setIntArray(PLAYER_LOCATION_OVERWORLD, new int[]
 		{ entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY() + 1, entityPlayer.getPosition().getZ() });
 	}
 
-	public static void setInventory(final EntityPlayer entityPlayer, NBTTagList toSetTo, BlockPos location)
+	public static void setInventory(final EntityPlayer entityPlayer, NBTTagList toSetTo, BlockPos overworldLocation, int nightmareLocation)
 	{
 		entityPlayer.inventory.writeToNBT(toSetTo);
 		entityPlayer.getEntityData().setTag(INVENTORY_SAVER, toSetTo);
-		entityPlayer.getEntityData().setIntArray(PLAYER_LOCATION, new int[]
-		{ location.getX(), location.getY() + 1, location.getZ() });
+		entityPlayer.getEntityData().setIntArray(PLAYER_LOCATION_OVERWORLD, new int[]
+		{ overworldLocation.getX(), overworldLocation.getY() + 1, overworldLocation.getZ() });
+		entityPlayer.getEntityData().setInteger(PLAYER_LOCATION_NIGHTMARE, nightmareLocation);
 	}
 }

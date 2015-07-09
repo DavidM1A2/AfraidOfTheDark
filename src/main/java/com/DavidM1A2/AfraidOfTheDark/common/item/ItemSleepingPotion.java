@@ -1,14 +1,16 @@
 package com.DavidM1A2.AfraidOfTheDark.common.item;
 
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
+import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
-
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
-import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemSleepingPotion extends AOTDItem
 {
@@ -25,6 +27,12 @@ public class ItemSleepingPotion extends AOTDItem
 	public int getMaxItemUseDuration(ItemStack stack)
 	{
 		return 32;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public boolean hasEffect(ItemStack stack)
+	{
+		return true;
 	}
 
 	/**

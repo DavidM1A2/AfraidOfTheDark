@@ -5,15 +5,15 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare;
 
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.InventorySaver;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
-
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.InventorySaver;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 
 public class NightmareTeleporter extends Teleporter
 {
@@ -45,7 +45,7 @@ public class NightmareTeleporter extends Teleporter
 			if (entity instanceof EntityPlayer)
 			{
 				EntityPlayer entityPlayer = (EntityPlayer) entity;
-				BlockPos playerPostionOld = InventorySaver.getPlayerLocation(entityPlayer);
+				BlockPos playerPostionOld = InventorySaver.getPlayerLocationOverworld(entityPlayer);
 				entityPlayer.setPosition(playerPostionOld.getX(), playerPostionOld.getY(), playerPostionOld.getZ());
 				entity.motionX = 0.0D;
 				entity.motionY = 0.0D;
