@@ -238,12 +238,7 @@ public class PlayerController
 					InventorySaver.setPlayerLocationNightmare(entityPlayer, ((SaveHandler) iSaveHandler).getAvailablePlayerDat().length);
 				}
 			}
-
-			while (entityPlayer.posZ != 146 && entityPlayer.posX != 79)
-			{
-				((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(InventorySaver.getPlayerLocationNightmare(entityPlayer) * Constants.NightmareWorld.BLOCKS_BETWEEN_ISLANDS + 240, 79, 146, 0, 0);
-				entityPlayer.setPosition(InventorySaver.getPlayerLocationNightmare(entityPlayer) * Constants.NightmareWorld.BLOCKS_BETWEEN_ISLANDS + 240, 79, 146);
-			}
+			((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(InventorySaver.getPlayerLocationNightmare(entityPlayer) * Constants.NightmareWorld.BLOCKS_BETWEEN_ISLANDS + 20, 79, 40, 0, 0);
 		}
 		else if (event.fromDim == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
 		{
