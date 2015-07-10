@@ -10,16 +10,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
-
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 // All available researches
 public enum ResearchTypes
@@ -38,7 +38,7 @@ public enum ResearchTypes
 	{}),
 	AstronomyI(WerewolfExamination, 0, 2, new Object[]
 	{ ModItems.telescope, ModItems.sextant }, new Object[]
-	{ ModItems.telescope, ModItems.sextant }),
+	{ ModItems.telescope }),
 	AstralSilver(AstronomyI, 0, 3, new Object[]
 	{ ModItems.astralSilverSword, ModItems.silverBolt }, new Object[]
 	{}),

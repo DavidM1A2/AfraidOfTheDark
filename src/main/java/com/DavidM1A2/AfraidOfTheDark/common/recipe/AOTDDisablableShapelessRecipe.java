@@ -1,8 +1,3 @@
-/*
- * Author: David Slovikosky
- * Mod: Afraid of the Dark
- * Ideas and Textures: Michael Albertson
- */
 package com.DavidM1A2.AfraidOfTheDark.common.recipe;
 
 import java.lang.reflect.Field;
@@ -20,16 +15,16 @@ import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
-import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 
-public class AOTDDisablableShapedRecipe extends ShapedOreRecipe
+public class AOTDDisablableShapelessRecipe extends ShapelessOreRecipe
 {
 	private final ResearchTypes preRequisite;
 	private static Field eventHandlerField;
 	private static Field containerPlayerPlayerField;
 	private static Field slotCraftingPlayerField;
 
-	public AOTDDisablableShapedRecipe(ItemStack result, ResearchTypes preRequisite, Object... recipe)
+	public AOTDDisablableShapelessRecipe(ItemStack result, ResearchTypes preRequisite, Object... recipe)
 	{
 		super(result, recipe);
 		this.preRequisite = preRequisite;

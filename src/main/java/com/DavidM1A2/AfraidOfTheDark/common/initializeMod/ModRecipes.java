@@ -5,6 +5,10 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.initializeMod;
 
+import com.DavidM1A2.AfraidOfTheDark.common.recipe.AOTDDisablableShapedRecipe;
+import com.DavidM1A2.AfraidOfTheDark.common.recipe.AOTDDisablableShapelessRecipe;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -14,21 +18,19 @@ import net.minecraftforge.oredict.RecipeSorter.Category;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
-import com.DavidM1A2.AfraidOfTheDark.common.recipe.AOTDDisablableShapedRecipe;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-
 public class ModRecipes
 {
 	// Add recipes
 	public static void initialize()
 	{
 		RecipeSorter.register("afraidofthedark:research", AOTDDisablableShapedRecipe.class, Category.SHAPED, "after:minecraft:shaped");
+		RecipeSorter.register("afraidofthedark:research", AOTDDisablableShapelessRecipe.class, Category.SHAPELESS, "after:minecraft:shaped");
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.astralSilverSword, 1), "s", "s", "a", 's', ModItems.astralSilverIngot, 'a', "stickWood"));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.astralSilverSword, 1), ResearchTypes.AstralSilver, "s", "s", "a", 's', ModItems.astralSilverIngot, 'a', "stickWood"));
 		// This can be: "stickWood" or new ItemStack(Items.stick))
 
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.ironBolt, 6), new ItemStack(Items.iron_ingot), new ItemStack(Items.iron_ingot)));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.silverBolt, 6), new ItemStack(ModItems.astralSilverIngot, 1), new ItemStack(ModItems.astralSilverIngot, 1)));
+		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(ModItems.silverBolt, 6), ResearchTypes.AstralSilver, new ItemStack(ModItems.astralSilverIngot, 1), new ItemStack(ModItems.astralSilverIngot, 1)));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.woodenBolt, 6), "stickWood", "stickWood"));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.crossbow), "abb", "bcd", "bdc", 'a', new ItemStack(Items.bow), 'b', new ItemStack(Items.iron_ingot), 'c', new ItemStack(Blocks.planks, 1), 'd', new ItemStack(Items.string)));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.wristCrossbow), "aba", "aca", "aba", 'a', new ItemStack(Items.leather), 'b', new ItemStack(Items.string), 'c', new ItemStack(ModItems.crossbow, 1)));
@@ -39,34 +41,35 @@ public class ModRecipes
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.gravewoodHalfSlab, 6), "bbb", "   ", "   ", 'b', new ItemStack(ModBlocks.gravewoodPlanks, 1, 0)));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.gravewoodHalfSlab, 6), "   ", "   ", "bbb", 'b', new ItemStack(ModBlocks.gravewoodPlanks, 1, 0)));
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.igneousHelmet, 1), "aaa", "a a", 'a', ModItems.igneousGem));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.igneousChestplate, 1), "a a", "aaa", "aaa", 'a', ModItems.igneousGem));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.igneousLeggings, 1), "aaa", "a a", "a a", 'a', ModItems.igneousGem));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.igneousBoots, 1), "a a", "a a", 'a', ModItems.igneousGem));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.igneousBlock, 1), "aaa", "aaa", "aaa", 'a', ModItems.igneousGem));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.igneousGem, 9), new ItemStack(ModBlocks.igneousBlock, 1, 0)));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.igneousGem, 1), "aba", "bab", "aba", 'a', Items.diamond, 'b', ModItems.sunstoneFragment));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.igneousSword, 1), "b", "b", "a", 'a', Items.iron_ingot, 'b', ModItems.igneousGem));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.igneousBolt, 1), "a", "a", 'a', ModItems.sunstoneFragment));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.igneousHelmet, 1), ResearchTypes.Igneous, "aaa", "a a", 'a', ModItems.igneousGem));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.igneousChestplate, 1), ResearchTypes.Igneous, "a a", "aaa", "aaa", 'a', ModItems.igneousGem));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.igneousLeggings, 1), ResearchTypes.Igneous, "aaa", "a a", "a a", 'a', ModItems.igneousGem));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.igneousBoots, 1), ResearchTypes.Igneous, "a a", "a a", 'a', ModItems.igneousGem));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModBlocks.igneousBlock, 1), ResearchTypes.Igneous, "aaa", "aaa", "aaa", 'a', ModItems.igneousGem));
+		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(ModItems.igneousGem, 9), ResearchTypes.Igneous, new ItemStack(ModBlocks.igneousBlock, 1, 0)));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.igneousGem, 1), ResearchTypes.Igneous, "aba", "bab", "aba", 'a', Items.diamond, 'b', ModItems.sunstoneFragment));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.igneousSword, 1), ResearchTypes.Igneous, "b", "b", "a", 'a', Items.iron_ingot, 'b', ModItems.igneousGem));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.igneousBolt, 1), ResearchTypes.Igneous, "a", "a", 'a', ModItems.sunstoneFragment));
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.starMetalHelmet, 1), "aaa", "a a", 'a', ModItems.starMetalPlate));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.starMetalChestplate, 1), "a a", "aaa", "aaa", 'a', ModItems.starMetalPlate));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.starMetalLeggings, 1), "aaa", "a a", "a a", 'a', ModItems.starMetalPlate));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.starMetalBoots, 1), "a a", "a a", 'a', ModItems.starMetalPlate));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.starMetalPlate, 1), "aaa", "aba", "aaa", 'a', ModItems.starMetalFragment, 'b', Items.iron_ingot));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.starMetalPlate, 1), "aaa", "aba", "aaa", 'a', ModItems.starMetalFragment, 'b', Items.gold_ingot));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.starMetalBolt, 1), "a", "a", 'a', ModItems.starMetalFragment));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.starMetalStaff, 1), "a", "a", "a", 'a', ModItems.starMetalPlate));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.starMetalKhopesh, 1), " a ", "a  ", " ab", 'a', ModItems.starMetalPlate, 'b', Items.iron_ingot));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.starMetalHelmet, 1), ResearchTypes.StarMetal, "aaa", "a a", 'a', ModItems.starMetalPlate));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.starMetalChestplate, 1), ResearchTypes.StarMetal, "a a", "aaa", "aaa", 'a', ModItems.starMetalPlate));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.starMetalLeggings, 1), ResearchTypes.StarMetal, "aaa", "a a", "a a", 'a', ModItems.starMetalPlate));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.starMetalBoots, 1), ResearchTypes.StarMetal, "a a", "a a", 'a', ModItems.starMetalPlate));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.starMetalPlate, 1), ResearchTypes.StarMetal, "aaa", "aba", "aaa", 'a', ModItems.starMetalFragment, 'b', Items.iron_ingot));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.starMetalPlate, 1), ResearchTypes.StarMetal, "aaa", "aba", "aaa", 'a', ModItems.starMetalFragment, 'b', Items.gold_ingot));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.starMetalBolt, 1), ResearchTypes.StarMetal, "a", "a", 'a', ModItems.starMetalFragment));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.starMetalStaff, 1), ResearchTypes.StarMetal, "a", "a", "a", 'a', ModItems.starMetalPlate));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.starMetalKhopesh, 1), ResearchTypes.StarMetal, " a ", "a  ", " ab", 'a', ModItems.starMetalPlate, 'b', Items.iron_ingot));
 
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.cloakOfAgility, 1), ResearchTypes.CloakOfAgility, "aba", "cdc", "aba", 'a', Items.leather, 'b', Items.feather, 'c', Items.string, 'd', Items.gold_ingot));
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.telescope), "ab ", "bcb", " ba", 'a', new ItemStack(Blocks.glass, 1, 0), 'b', Items.iron_ingot, 'c', Items.diamond));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.sextant), " ab", "cac", " c ", 'a', "stickWood", 'b', new ItemStack(Blocks.glass, 1, 0), 'c', Items.iron_ingot));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.telescope), ResearchTypes.AstronomyI, "ab ", "bcb", " ba", 'a', new ItemStack(Blocks.glass, 1, 0), 'b', Items.iron_ingot, 'c', Items.diamond));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.sextant), ResearchTypes.AstronomyI, " ab", "cac", " c ", 'a', "stickWood", 'b', new ItemStack(Blocks.glass, 1, 0), 'c', Items.iron_ingot));
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.vitaeLantern), "aba", "cdc", "aaa", 'a', Items.iron_ingot, 'b', new ItemStack(Blocks.iron_block, 1, 0), 'c', new ItemStack(Blocks.glass, 1, 0), 'd', Items.diamond));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.vitaeLantern), ResearchTypes.VitaeLanternI, "aba", "cdc", "aaa", 'a', Items.iron_ingot, 'b', new ItemStack(Blocks.iron_block, 1, 0), 'c', new ItemStack(Blocks.glass, 1, 0), 'd', Items.diamond));
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.vitaeDisenchanter), "aba", "bcb", "aba", 'a', new ItemStack(ModBlocks.gravewood, 1, 0), 'b', new ItemStack(Blocks.iron_block, 1, 0), 'c', new ItemStack(Blocks.diamond_block, 1, 0)));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModBlocks.vitaeDisenchanter), ResearchTypes.VitaeDisenchanter, "aba", "bcb", "aba", 'a', new ItemStack(ModBlocks.gravewood, 1, 0), 'b', new ItemStack(Blocks.iron_block, 1, 0), 'c', new ItemStack(Blocks.diamond_block, 1,
+				0)));
 
 	}
 }
