@@ -7,18 +7,18 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 
 import java.util.List;
 
+import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
-import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 public class ItemJournal extends AOTDItem
 {
@@ -72,13 +72,6 @@ public class ItemJournal extends AOTDItem
 			}
 		}
 		return itemStack;
-	}
-
-	// When created a journal has no owner
-	@Override
-	public void onCreated(final ItemStack itemStack, final World world, final EntityPlayer entityPlayer)
-	{
-		NBTHelper.setString(itemStack, "owner", "no one.");
 	}
 
 	// The journal shows who it is soulbound to

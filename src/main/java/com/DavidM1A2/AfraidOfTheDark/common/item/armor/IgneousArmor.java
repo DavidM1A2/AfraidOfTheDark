@@ -7,6 +7,11 @@ package com.DavidM1A2.AfraidOfTheDark.common.item.armor;
 
 import java.util.List;
 
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,9 +20,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 
 public class IgneousArmor extends AOTDArmor
 {
@@ -57,49 +59,65 @@ public class IgneousArmor extends AOTDArmor
 	@Override
 	public ArmorProperties getProperties(final EntityLivingBase entity, final ItemStack armor, final DamageSource source, final double damage, final int slot)
 	{
+
 		if (entity instanceof EntityPlayer)
 		{
 			final EntityPlayer entityPlayer = (EntityPlayer) entity;
 
-			if (this.isWearingFullArmor(entityPlayer))
+			if (Research.isResearched(entityPlayer, ResearchTypes.Igneous))
 			{
-				if (source.getEntity() != null)
+				if (this.isWearingFullArmor(entityPlayer))
 				{
-					source.getEntity().setFire(5);
+					if (source.getEntity() != null)
+					{
+						source.getEntity().setFire(5);
+					}
+					if (entity.isBurning())
+					{
+						entity.extinguish();
+					}
 				}
-				if (entity.isBurning())
+
+				if ((source == DamageSource.onFire) || (source == DamageSource.inFire))
 				{
-					entity.extinguish();
+					return new ArmorProperties(0, .25, 25);
+				}
+				else if ((source == DamageSource.drown) || (source == DamageSource.fall) || (source == DamageSource.inWall) || (source == DamageSource.outOfWorld) || (source == DamageSource.starve))
+				{
+					return new ArmorProperties(0, .25, 0);
+				}
+				else if (source instanceof EntityDamageSource)
+				{
+					if (((EntityDamageSource) source).getEntity() instanceof EntityWerewolf)
+					{
+						return new ArmorProperties(0, .21, 200);
+					}
 				}
 			}
-		}
-
-		if ((source == DamageSource.onFire) || (source == DamageSource.inFire))
-		{
-			return new ArmorProperties(0, .25, 25);
-		}
-		else if ((source == DamageSource.drown) || (source == DamageSource.fall) || (source == DamageSource.inWall) || (source == DamageSource.outOfWorld) || (source == DamageSource.starve))
-		{
-			return new ArmorProperties(0, .25, 0);
-		}
-		else if (source instanceof EntityDamageSource)
-		{
-			if (((EntityDamageSource) source).getEntity() instanceof EntityWerewolf)
+			else
 			{
-				return new ArmorProperties(0, .21, 200);
+				return new ArmorProperties(0, this.damageReduceAmount / 50D, armor.getMaxDamage());
 			}
 		}
 
 		// Remove the ability of thorns to damage armor
 		armor.setItemDamage(0);
 
+		// Default armor calculation
 		return new ArmorProperties(0, this.damageReduceAmount / 25D, armor.getMaxDamage());
 	}
 
 	@Override
-	public int getArmorDisplay(final EntityPlayer player, final ItemStack armor, final int slot)
+	public int getArmorDisplay(final EntityPlayer entityPlayer, final ItemStack itemStack, final int slot)
 	{
-		return this.getReductionBasedOffOfSlot(slot);
+		if (Research.isResearched(entityPlayer, ResearchTypes.Igneous))
+		{
+			return this.getReductionBasedOffOfSlot(slot);
+		}
+		else
+		{
+			return this.getReductionBasedOffOfSlot(slot) / 2;
+		}
 	}
 
 	@Override
@@ -112,8 +130,8 @@ public class IgneousArmor extends AOTDArmor
 	{
 		if ((entityPlayer.inventory.armorInventory[0] != null) && (entityPlayer.inventory.armorInventory[1] != null) && (entityPlayer.inventory.armorInventory[2] != null) && (entityPlayer.inventory.armorInventory[3] != null))
 		{
-			return ((entityPlayer.inventory.armorInventory[0].getItem() instanceof IgneousArmor) && (entityPlayer.inventory.armorInventory[1].getItem() instanceof IgneousArmor) && (entityPlayer.inventory.armorInventory[2].getItem() instanceof IgneousArmor) && (entityPlayer.inventory.armorInventory[3]
-					.getItem() instanceof IgneousArmor));
+			return ((entityPlayer.inventory.armorInventory[0].getItem() instanceof IgneousArmor) && (entityPlayer.inventory.armorInventory[1].getItem() instanceof IgneousArmor) && (entityPlayer.inventory.armorInventory[2].getItem() instanceof IgneousArmor)
+					&& (entityPlayer.inventory.armorInventory[3].getItem() instanceof IgneousArmor));
 		}
 		return false;
 	}

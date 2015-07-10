@@ -5,18 +5,17 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.item;
 
+import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
-
-import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
-import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 public class ItemTelescope extends AOTDItem
 {
@@ -31,7 +30,7 @@ public class ItemTelescope extends AOTDItem
 	{
 		if (world.isRemote)
 		{
-			if (HasStartedAOTD.get(entityPlayer) && Research.isResearched(entityPlayer, ResearchTypes.AstronomyI.getPrevious()))
+			if (Research.isResearched(entityPlayer, ResearchTypes.AstronomyI.getPrevious()))
 			{
 				if (entityPlayer.getPosition().getY() <= 128)
 				{

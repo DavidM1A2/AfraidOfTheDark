@@ -7,6 +7,12 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 
 import java.util.List;
 
+import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItemWithCooldown;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.threads.TemporaryInvincibility;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
+
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,10 +22,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItemWithCooldown;
-import com.DavidM1A2.AfraidOfTheDark.common.threads.TemporaryInvincibility;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 public class ItemStarMetalStaff extends AOTDItemWithCooldown
 {
@@ -34,24 +36,31 @@ public class ItemStarMetalStaff extends AOTDItemWithCooldown
 	@Override
 	public ItemStack onItemRightClick(final ItemStack itemStack, final World world, final EntityPlayer entityPlayer)
 	{
-		if (!this.isOnCooldown())
+		if (Research.isResearched(entityPlayer, ResearchTypes.StarMetal))
 		{
-			if (!entityPlayer.capabilities.isCreativeMode)
+			if (!this.isOnCooldown())
 			{
-				new TemporaryInvincibility(Utility.ticksToMilliseconds(MAX_TROLL_POLE_TIME_IN_TICKS), entityPlayer);
+				if (!entityPlayer.capabilities.isCreativeMode)
+				{
+					new TemporaryInvincibility(Utility.ticksToMilliseconds(MAX_TROLL_POLE_TIME_IN_TICKS), entityPlayer);
+				}
+				entityPlayer.addVelocity(0, .5, 0);
+				entityPlayer.setItemInUse(itemStack, ItemStarMetalStaff.MAX_TROLL_POLE_TIME_IN_TICKS);
 			}
-			entityPlayer.addVelocity(0, .5, 0);
-			entityPlayer.setItemInUse(itemStack, ItemStarMetalStaff.MAX_TROLL_POLE_TIME_IN_TICKS);
+			else
+			{
+				if (world.isRemote)
+				{
+					if (entityPlayer.getItemInUse() != itemStack)
+					{
+						entityPlayer.addChatMessage(new ChatComponentText("Cooldown remaining: " + this.cooldownRemaining() + " second" + (this.cooldownRemaining() - 1 == 0.0 ? "." : "s.")));
+					}
+				}
+			}
 		}
 		else
 		{
-			if (world.isRemote)
-			{
-				if (entityPlayer.getItemInUse() != itemStack)
-				{
-					entityPlayer.addChatMessage(new ChatComponentText(this.isOnCooldown() ? ("Cooldown remaining: " + this.cooldownRemaining() + " second" + (this.cooldownRemaining() - 1 == 0.0 ? "." : "s.")) : "Ready to Use"));
-				}
-			}
+			entityPlayer.addChatMessage(new ChatComponentText("I'm not sure what this is used for."));
 		}
 
 		return super.onItemRightClick(itemStack, world, entityPlayer);

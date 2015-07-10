@@ -5,14 +5,17 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.item;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDSword;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
 
 // Silversword item which is a sword
 public class ItemAstralSilverSword extends AOTDSword
@@ -27,13 +30,21 @@ public class ItemAstralSilverSword extends AOTDSword
 	@Override
 	public boolean onLeftClickEntity(final ItemStack stack, final EntityPlayer player, final Entity entity)
 	{
-		if (entity instanceof EntityWerewolf)
+		if (Research.isResearched(player, ResearchTypes.AstralSilver))
 		{
-			if (HasStartedAOTD.get(player))
+			if (entity instanceof EntityWerewolf)
 			{
-				entity.attackEntityFrom(Constants.AOTDDamageSources.silverDamage, 8.0F);
+				if (HasStartedAOTD.get(player))
+				{
+					entity.attackEntityFrom(Constants.AOTDDamageSources.silverDamage, 12.0F);
+				}
 			}
+			return super.onLeftClickEntity(stack, player, entity);
 		}
-		return super.onLeftClickEntity(stack, player, entity);
+		else
+		{
+			entity.attackEntityFrom(DamageSource.causePlayerDamage(player), this.func_150931_i());
+			return true;
+		}
 	}
 }

@@ -7,6 +7,14 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 
 import java.util.List;
 
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
+import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDChargableSword;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.threads.PlayerSpinning;
+
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -20,12 +28,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
-import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDChargableSword;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
-import com.DavidM1A2.AfraidOfTheDark.common.threads.PlayerSpinning;
 
 public class ItemStarMetalKhopesh extends AOTDChargableSword
 {
@@ -57,14 +59,22 @@ public class ItemStarMetalKhopesh extends AOTDChargableSword
 	@Override
 	public boolean onLeftClickEntity(final ItemStack stack, final EntityPlayer player, final Entity entity)
 	{
-		if (entity instanceof EntityWerewolf)
+		if (Research.isResearched(player, ResearchTypes.StarMetal))
 		{
-			if (HasStartedAOTD.get(player))
+			if (entity instanceof EntityWerewolf)
 			{
-				entity.attackEntityFrom(Constants.AOTDDamageSources.silverDamage, 10F);
+				if (HasStartedAOTD.get(player))
+				{
+					entity.attackEntityFrom(Constants.AOTDDamageSources.silverDamage, 10F);
+				}
 			}
+			return super.onLeftClickEntity(stack, player, entity);
 		}
-		return super.onLeftClickEntity(stack, player, entity);
+		else
+		{
+			entity.attackEntityFrom(DamageSource.causePlayerDamage(player), this.func_150931_i());
+			return true;
+		}
 	}
 
 	@Override

@@ -7,18 +7,20 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 
 import java.util.List;
 
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
+import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDChargableSword;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
-import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDChargableSword;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 
 public class ItemIgneousSword extends AOTDChargableSword
 {
@@ -32,20 +34,28 @@ public class ItemIgneousSword extends AOTDChargableSword
 	@Override
 	public boolean onLeftClickEntity(final ItemStack stack, final EntityPlayer player, final Entity entity)
 	{
-		if (entity != null)
+		if (Research.isResearched(player, ResearchTypes.Igneous))
 		{
-			entity.setFire(5);
-
-			if (entity instanceof EntityWerewolf)
+			if (entity != null)
 			{
-				if (HasStartedAOTD.get(player))
+				entity.setFire(5);
+
+				if (Research.isResearched(player, ResearchTypes.Igneous))
 				{
-					entity.attackEntityFrom(Constants.AOTDDamageSources.silverDamage, 10F);
+					if (entity instanceof EntityWerewolf)
+					{
+						entity.attackEntityFrom(Constants.AOTDDamageSources.silverDamage, 10F);
+					}
 				}
 			}
-		}
 
-		return super.onLeftClickEntity(stack, player, entity);
+			return super.onLeftClickEntity(stack, player, entity);
+		}
+		else
+		{
+			entity.attackEntityFrom(DamageSource.causePlayerDamage(player), this.func_150931_i());
+			return true;
+		}
 	}
 
 	// The journal shows who it is soulbound to

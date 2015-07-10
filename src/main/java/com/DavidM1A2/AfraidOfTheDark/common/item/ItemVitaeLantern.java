@@ -7,21 +7,23 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 
 import java.util.List;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-
 import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.MathHelper;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
 
 public class ItemVitaeLantern extends AOTDItem
 {
@@ -40,23 +42,30 @@ public class ItemVitaeLantern extends AOTDItem
 	@Override
 	public ItemStack onItemRightClick(final ItemStack itemStack, final World world, final EntityPlayer entityPlayer)
 	{
-		if (entityPlayer.isSneaking())
+		if (Research.isResearched(entityPlayer, ResearchTypes.VitaeLanternI))
 		{
-			if (NBTHelper.getBoolean(itemStack, "isActive"))
+			if (entityPlayer.isSneaking())
 			{
-				NBTHelper.setBoolean(itemStack, "isActive", false);
-			}
-			else
-			{
-				for (ItemStack itemStackCurrent : entityPlayer.inventory.mainInventory)
+				if (NBTHelper.getBoolean(itemStack, "isActive"))
 				{
-					if (itemStackCurrent != null && itemStackCurrent.getItem() instanceof ItemVitaeLantern)
-					{
-						NBTHelper.setBoolean(itemStackCurrent, "isActive", false);
-					}
+					NBTHelper.setBoolean(itemStack, "isActive", false);
 				}
-				NBTHelper.setBoolean(itemStack, "isActive", true);
+				else
+				{
+					for (ItemStack itemStackCurrent : entityPlayer.inventory.mainInventory)
+					{
+						if (itemStackCurrent != null && itemStackCurrent.getItem() instanceof ItemVitaeLantern)
+						{
+							NBTHelper.setBoolean(itemStackCurrent, "isActive", false);
+						}
+					}
+					NBTHelper.setBoolean(itemStack, "isActive", true);
+				}
 			}
+		}
+		else
+		{
+			LogHelper.info("I'm uncertain of how to operate this device.");
 		}
 
 		return super.onItemRightClick(itemStack, world, entityPlayer);
@@ -96,33 +105,40 @@ public class ItemVitaeLantern extends AOTDItem
 	@Override
 	public boolean onLeftClickEntity(ItemStack itemStack, EntityPlayer entityPlayer, Entity entity)
 	{
-		if (entity instanceof EntityLivingBase)
+		if (Research.isResearched(entityPlayer, ResearchTypes.VitaeLanternI))
 		{
-			EntityLivingBase entityLivingBase = (EntityLivingBase) entity;
-
-			if (!entityPlayer.worldObj.isRemote)
+			if (entity instanceof EntityLivingBase)
 			{
-				if (entityLivingBase instanceof EntityDeeeSyft)
+				EntityLivingBase entityLivingBase = (EntityLivingBase) entity;
+
+				if (!entityPlayer.worldObj.isRemote)
 				{
-					if (Research.canResearch(entityPlayer, ResearchTypes.DeeeSyft))
+					if (entityLivingBase instanceof EntityDeeeSyft)
 					{
-						Research.unlockResearchSynced(entityPlayer, ResearchTypes.DeeeSyft, Side.SERVER, true);
+						if (Research.canResearch(entityPlayer, ResearchTypes.DeeeSyft))
+						{
+							Research.unlockResearchSynced(entityPlayer, ResearchTypes.DeeeSyft, Side.SERVER, true);
+						}
+					}
+
+					if (NBTHelper.getInt(itemStack, STORED_VITAE) >= 5)
+					{
+						int vitaeToTransfer = entityPlayer.worldObj.rand.nextInt(5) + 1;
+						this.addVitae(itemStack, -vitaeToTransfer);
+						Vitae.addVitae(entityLivingBase, vitaeToTransfer, Side.SERVER);
+					}
+					else if (NBTHelper.getInt(itemStack, STORED_VITAE) > 0)
+					{
+						int vitaeToTransfer = NBTHelper.getInt(itemStack, STORED_VITAE);
+						this.addVitae(itemStack, -vitaeToTransfer);
+						Vitae.addVitae(entityLivingBase, vitaeToTransfer, Side.SERVER);
 					}
 				}
-
-				if (NBTHelper.getInt(itemStack, STORED_VITAE) >= 5)
-				{
-					int vitaeToTransfer = entityPlayer.worldObj.rand.nextInt(5) + 1;
-					this.addVitae(itemStack, -vitaeToTransfer);
-					Vitae.addVitae(entityLivingBase, vitaeToTransfer, Side.SERVER);
-				}
-				else if (NBTHelper.getInt(itemStack, STORED_VITAE) > 0)
-				{
-					int vitaeToTransfer = NBTHelper.getInt(itemStack, STORED_VITAE);
-					this.addVitae(itemStack, -vitaeToTransfer);
-					Vitae.addVitae(entityLivingBase, vitaeToTransfer, Side.SERVER);
-				}
 			}
+		}
+		else
+		{
+			entityPlayer.addChatMessage(new ChatComponentText("The lantern is trying to operate but can't."));
 		}
 
 		return true;

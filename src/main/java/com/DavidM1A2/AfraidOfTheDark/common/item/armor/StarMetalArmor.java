@@ -7,6 +7,11 @@ package com.DavidM1A2.AfraidOfTheDark.common.item.armor;
 
 import java.util.List;
 
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,9 +23,6 @@ import net.minecraft.util.EntityDamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 
 public class StarMetalArmor extends AOTDArmor
 {
@@ -57,9 +59,12 @@ public class StarMetalArmor extends AOTDArmor
 	@Override
 	public void onArmorTick(final World world, final EntityPlayer entityPlayer, final ItemStack itemStack)
 	{
-		if (!entityPlayer.isPotionActive(Potion.absorption))
+		if (Research.isResearched(entityPlayer, ResearchTypes.StarMetal))
 		{
-			entityPlayer.addPotionEffect(new PotionEffect(Potion.absorption.id, 1200, this.getNumberOfWornPieces(entityPlayer) - 1, false, false));
+			if (!entityPlayer.isPotionActive(Potion.absorption))
+			{
+				entityPlayer.addPotionEffect(new PotionEffect(Potion.absorption.id, 1200, this.getNumberOfWornPieces(entityPlayer) - 1, false, false));
+			}
 		}
 	}
 
@@ -70,31 +75,48 @@ public class StarMetalArmor extends AOTDArmor
 	 * 200 is the max damage reduced
 	 */
 	@Override
-	public ArmorProperties getProperties(final EntityLivingBase player, final ItemStack armor, final DamageSource source, final double damage, final int slot)
+	public ArmorProperties getProperties(final EntityLivingBase entityLivingBase, final ItemStack itemStack, final DamageSource source, final double damage, final int slot)
 	{
+		// Remove the ability of thorns to damage armor
+		itemStack.setItemDamage(0);
+
 		if ((source == DamageSource.drown) || (source == DamageSource.fall) || (source == DamageSource.inWall) || (source == DamageSource.outOfWorld) || (source == DamageSource.starve) || (source == DamageSource.lava))
 		{
 			return new ArmorProperties(0, .25, 0);
 		}
 
-		else if (source instanceof EntityDamageSource)
+		if (entityLivingBase instanceof EntityPlayer)
 		{
-			if (((EntityDamageSource) source).getEntity() instanceof EntityWerewolf)
+			EntityPlayer entityPlayer = (EntityPlayer) entityLivingBase;
+			if (Research.isResearched(entityPlayer, ResearchTypes.StarMetal))
 			{
-				return new ArmorProperties(0, .218, 200);
+				if (source instanceof EntityDamageSource)
+				{
+					if (((EntityDamageSource) source).getEntity() instanceof EntityWerewolf)
+					{
+						return new ArmorProperties(0, .218, 200);
+					}
+				}
+			}
+			else
+			{
+				return new ArmorProperties(0, this.damageReduceAmount / 50, itemStack.getMaxDamage());
 			}
 		}
-
-		// Remove the ability of thorns to damage armor
-		armor.setItemDamage(0);
-
-		return new ArmorProperties(0, this.damageReduceAmount / 25D, armor.getMaxDamage());
+		return new ArmorProperties(0, this.damageReduceAmount / 25D, itemStack.getMaxDamage());
 	}
 
 	@Override
-	public int getArmorDisplay(final EntityPlayer player, final ItemStack armor, final int slot)
+	public int getArmorDisplay(final EntityPlayer entityPlayer, final ItemStack itemStack, final int slot)
 	{
-		return this.getReductionBasedOffOfSlot(slot);
+		if (Research.isResearched(entityPlayer, ResearchTypes.StarMetal))
+		{
+			return this.getReductionBasedOffOfSlot(slot);
+		}
+		else
+		{
+			return this.getReductionBasedOffOfSlot(slot) / 2;
+		}
 	}
 
 	@Override
