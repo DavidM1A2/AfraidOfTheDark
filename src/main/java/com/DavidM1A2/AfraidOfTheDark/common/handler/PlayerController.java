@@ -71,7 +71,7 @@ public class PlayerController
 		{
 			(new DelayedTeleport(500, event.entityPlayer, 0)).start();
 		}
-		InventorySaver.setInventory(event.entityPlayer, InventorySaver.getInventory(event.original), InventorySaver.getPlayerLocationOverworld(event.original), InventorySaver.getPlayerLocationNightmare(event.original));
+		InventorySaver.set(event.entityPlayer, InventorySaver.getInventory(event.original), InventorySaver.getPlayerLocationOverworld(event.original), InventorySaver.getPlayerLocationNightmare(event.original));
 		// When the player gets new research we will wait 500ms before updating because otherwise the event.original player
 		// will get the new data
 		(new DelayedAOTDUpdate(600, event.entityPlayer, hasStartedAOTD)).start();
@@ -114,9 +114,7 @@ public class PlayerController
 				{
 					if (currentStack.getItem() instanceof ItemCrossbow)
 					{
-						final ItemCrossbow currentItem = (ItemCrossbow) currentStack.getItem();
-
-						currentStack.setTagCompound(currentItem.loadNBTData(currentStack));
+						currentStack.setTagCompound(ItemCrossbow.loadNBTData(currentStack));
 					}
 				}
 			}

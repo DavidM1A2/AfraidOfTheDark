@@ -5,6 +5,14 @@ package com.DavidM1A2.AfraidOfTheDark.common.item.crossbow;
 
 import java.util.List;
 
+import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
+import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.FireCrossbowBolt;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateCrossbow;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDCrossbowBoltTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -15,14 +23,6 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
-import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
-import com.DavidM1A2.AfraidOfTheDark.common.packets.FireCrossbowBolt;
-import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateCrossbow;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDCrossbowBoltTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 // The crossbow Item
 public class ItemCrossbow extends AOTDItem
@@ -108,9 +108,8 @@ public class ItemCrossbow extends AOTDItem
 		// If the bow hase been in use for RELOADTIME, we set the bow cocked
 		if (count == (this.RELOAD_TIME - 60))
 		{
-			if (!NBTHelper.getBoolean(itemStack, "isCocked")
-					&& (entityPlayer.capabilities.isCreativeMode || entityPlayer.inventory.hasItem(ModItems.silverBolt) || entityPlayer.inventory.hasItem(ModItems.ironBolt) || entityPlayer.inventory.hasItem(ModItems.woodenBolt) || entityPlayer.inventory.hasItem(ModItems.igneousBolt) || entityPlayer.inventory
-							.hasItem(ModItems.starMetalBolt)))
+			if (!NBTHelper.getBoolean(itemStack, "isCocked") && (entityPlayer.capabilities.isCreativeMode || entityPlayer.inventory.hasItem(ModItems.silverBolt) || entityPlayer.inventory.hasItem(ModItems.ironBolt) || entityPlayer.inventory.hasItem(ModItems.woodenBolt) || entityPlayer.inventory
+					.hasItem(ModItems.igneousBolt) || entityPlayer.inventory.hasItem(ModItems.starMetalBolt)))
 			{
 				this.setIsCocked(itemStack, true, entityPlayer, true);
 			}
@@ -206,7 +205,7 @@ public class ItemCrossbow extends AOTDItem
 	}
 
 	// Load NBT data onto an itemstack
-	public NBTTagCompound loadNBTData(final ItemStack itemStack)
+	public static NBTTagCompound loadNBTData(final ItemStack itemStack)
 	{
 		NBTHelper.getBoolean(itemStack, "isCocked");
 		NBTHelper.getInt(itemStack, "icon");
