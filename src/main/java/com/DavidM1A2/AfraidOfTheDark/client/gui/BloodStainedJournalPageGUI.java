@@ -170,12 +170,10 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 		this.mc.renderEngine.bindTexture(this.journalTexture);
 		// Draw the journal background
 
-		//GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		Gui.drawScaledCustomSizeModalRect(this.xCornerOfPage, this.yCornerOfPage, 0, 0, this.journalWidth, this.journalHeight, this.journalWidth, this.journalHeight, this.journalWidth, this.journalHeight);
 
 		// Draw the title
 		ClientData.journalTitleFont.drawString(this.title, this.xCornerOfPage + 15, this.yCornerOfPage + 15, 0xFF800000);
-		//GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
 		int adjustedIndexForRecipe = (pageNumber - textOnEachPage.size()) * 2;
 
@@ -219,7 +217,6 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 				this.drawCraftingRecipe(rightPage.getX() + 10, rightPage.getY() + 100, this.researchRecipes.get(adjustedIndexForRecipe + 3));
 			}
 		}
-		//GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
 		this.leftPageLabel.drawNumber(Integer.toString(this.pageNumber + 1));
 		this.rightPageLabel.drawNumber(Integer.toString(this.pageNumber + 2));
@@ -327,7 +324,6 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 	private void drawCraftingRecipe(int x, int y, ConvertedRecipe recipe)
 	{
 		this.mc.renderEngine.bindTexture(journalCraftingGrid);
-		//GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		Gui.drawModalRectWithCustomSizedTexture(x, y, 0, 0, 130, 90, 130, 90);
 
 		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();

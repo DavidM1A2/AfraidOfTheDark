@@ -98,10 +98,10 @@ public class InventorySaver implements IExtendedEntityProperties
 		{ entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY() + 1, entityPlayer.getPosition().getZ() });
 	}
 
-	public static void setInventory(final EntityPlayer entityPlayer, NBTTagList toSetTo, BlockPos overworldLocation, int nightmareLocation)
+	public static void setInventory(final EntityPlayer entityPlayer, NBTTagList inventory, BlockPos overworldLocation, int nightmareLocation)
 	{
-		entityPlayer.inventory.writeToNBT(toSetTo);
-		entityPlayer.getEntityData().setTag(INVENTORY_SAVER, toSetTo);
+		entityPlayer.inventory.writeToNBT(inventory);
+		entityPlayer.getEntityData().setTag(INVENTORY_SAVER, inventory);
 		entityPlayer.getEntityData().setIntArray(PLAYER_LOCATION_OVERWORLD, new int[]
 		{ overworldLocation.getX(), overworldLocation.getY() + 1, overworldLocation.getZ() });
 		entityPlayer.getEntityData().setInteger(PLAYER_LOCATION_NIGHTMARE, nightmareLocation);

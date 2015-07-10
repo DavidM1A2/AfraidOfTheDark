@@ -25,6 +25,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedInsanityUpdat
 import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedResearchUpdate;
 import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedTeleport;
 import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedVitaeUpdate;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -68,9 +69,9 @@ public class PlayerController
 		Vitae.set(event.entityPlayer, vitaeLevel, Side.SERVER);
 		if (event.original.dimension == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
 		{
-			InventorySaver.setInventory(event.entityPlayer, InventorySaver.getInventory(event.original), InventorySaver.getPlayerLocationOverworld(event.original), InventorySaver.getPlayerLocationNightmare(event.original));
 			(new DelayedTeleport(500, event.entityPlayer, 0)).start();
 		}
+		InventorySaver.setInventory(event.entityPlayer, InventorySaver.getInventory(event.original), InventorySaver.getPlayerLocationOverworld(event.original), InventorySaver.getPlayerLocationNightmare(event.original));
 		// When the player gets new research we will wait 500ms before updating because otherwise the event.original player
 		// will get the new data
 		(new DelayedAOTDUpdate(600, event.entityPlayer, hasStartedAOTD)).start();
@@ -232,6 +233,7 @@ public class PlayerController
 
 			if (InventorySaver.getPlayerLocationNightmare(entityPlayer) == -1)
 			{
+				LogHelper.info(entityPlayer.getDisplayName().getUnformattedText() + " has entered their nightmare world for the first time!");
 				ISaveHandler iSaveHandler = MinecraftServer.getServer().worldServers[0].getSaveHandler();
 				if (iSaveHandler instanceof SaveHandler)
 				{
