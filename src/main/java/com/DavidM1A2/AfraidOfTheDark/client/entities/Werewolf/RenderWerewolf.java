@@ -1,14 +1,14 @@
 package com.DavidM1A2.AfraidOfTheDark.client.entities.Werewolf;
 
+import org.lwjgl.opengl.GL11;
+
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
-
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
 
 public class RenderWerewolf extends RenderLiving
 {

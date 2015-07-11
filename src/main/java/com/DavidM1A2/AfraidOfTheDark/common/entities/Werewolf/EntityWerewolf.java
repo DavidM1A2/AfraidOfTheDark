@@ -5,6 +5,14 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf;
 
+import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
+import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
+import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.TellClientToPlayAnimation;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
@@ -19,14 +27,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraftforge.fml.relauncher.Side;
-
-import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
-import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
-import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
-import com.DavidM1A2.AfraidOfTheDark.common.packets.TellClientToPlayAnimation;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 {
@@ -64,13 +64,19 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 		return animHandler;
 	}
 
+	@Override
+	protected void entityInit()
+	{
+		super.entityInit();
+	}
+
 	/**
 	 * Moves the entity based on the specified heading. Args: strafe, forward
 	 */
 	@Override
 	public void moveEntityWithHeading(float strafe, float forward)
 	{
-		if (this.motionX > 0.05 || this.motionZ > 0.05)
+		if (this.motionX > 0.05 || this.motionZ > 0.05 || this.motionX < -0.05 || this.motionZ < -0.05)
 		{
 			if (!animHandler.isAnimationActive("Bite") && !animHandler.isAnimationActive("Run"))
 			{
