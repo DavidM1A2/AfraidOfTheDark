@@ -63,9 +63,16 @@ public class ItemIgneousSword extends AOTDChargableSword
 	@SideOnly(Side.CLIENT)
 	public void addInformation(final ItemStack itemStack, final EntityPlayer entityPlayer, final List tooltip, final boolean p_77624_4_)
 	{
-		tooltip.add("Magical items will never break.");
-		tooltip.add("Right click to use an AOE fire strike");
-		tooltip.add("when charged to 100%");
+		if (Research.isResearched(entityPlayer, ResearchTypes.Igneous))
+		{
+			tooltip.add("Magical items will never break.");
+			tooltip.add("Right click to use an AOE fire strike");
+			tooltip.add("when charged to 100%");
+		}
+		else
+		{
+			tooltip.add("I'm not sure how to use this.");
+		}
 	}
 
 	@Override

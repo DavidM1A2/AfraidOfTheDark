@@ -3,9 +3,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.proxy;
 
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.FireCrossbowBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.RotatePlayer;
@@ -18,6 +15,9 @@ import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateLanternState;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateResearch;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateVitae;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.relauncher.Side;
 
 // Common proxy does both Client and Server registrations
 public abstract class CommonProxy implements IProxy

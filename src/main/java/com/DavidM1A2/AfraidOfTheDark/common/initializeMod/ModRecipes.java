@@ -23,8 +23,8 @@ public class ModRecipes
 	// Add recipes
 	public static void initialize()
 	{
-		RecipeSorter.register("afraidofthedark:research", AOTDDisablableShapedRecipe.class, Category.SHAPED, "after:minecraft:shaped");
-		RecipeSorter.register("afraidofthedark:research", AOTDDisablableShapelessRecipe.class, Category.SHAPELESS, "after:minecraft:shaped");
+		RecipeSorter.register("afraidofthedark:researchShaped", AOTDDisablableShapedRecipe.class, Category.SHAPED, "after:minecraft:shaped");
+		RecipeSorter.register("afraidofthedark:researchShapeless", AOTDDisablableShapelessRecipe.class, Category.SHAPELESS, "after:minecraft:shaped");
 
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.astralSilverSword, 1), ResearchTypes.AstralSilver, "s", "s", "a", 's', ModItems.astralSilverIngot, 'a', "stickWood"));
 		// This can be: "stickWood" or new ItemStack(Items.stick))
