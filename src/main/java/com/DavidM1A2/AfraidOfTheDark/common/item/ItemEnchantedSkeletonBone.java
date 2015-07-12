@@ -3,13 +3,13 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
-
+import com.DavidM1A2.AfraidOfTheDark.common.entities.EnchantedSkeleton.EntityEnchantedSkeleton;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
+
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 public class ItemEnchantedSkeletonBone extends AOTDItem
 {
@@ -63,7 +63,7 @@ public class ItemEnchantedSkeletonBone extends AOTDItem
 					World world = entityItem.worldObj;
 					for (int i = 0; i < numberOfSkeletonsToSpawn; i++)
 					{
-						EntitySkeleton skeleton = new EntitySkeleton(world);
+						EntityEnchantedSkeleton skeleton = new EntityEnchantedSkeleton(world);
 						skeleton.setLocationAndAngles(entityItem.posX, entityItem.posY + 1, entityItem.posZ, entityItem.rotationYaw, 0.0F);
 						world.spawnEntityInWorld(skeleton);
 					}

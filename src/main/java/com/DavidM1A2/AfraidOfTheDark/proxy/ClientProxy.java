@@ -14,6 +14,7 @@ import com.DavidM1A2.AfraidOfTheDark.client.entities.Bolts.SilverBoltRender;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.Bolts.StarMetalBoltRender;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.Bolts.WoodenBoltRender;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.DeeeSyft.RenderDeeeSyft;
+import com.DavidM1A2.AfraidOfTheDark.client.entities.EnchantedSkeleton.RenderEnchantedSkeleton;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.Werewolf.RenderWerewolf;
 import com.DavidM1A2.AfraidOfTheDark.client.particleFX.AOTDParticleFX;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
@@ -24,6 +25,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntitySilverBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityStarMetalBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityWoodenBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.EnchantedSkeleton.EntityEnchantedSkeleton;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.item.crossbow.ItemCrossbowRender;
@@ -93,6 +95,7 @@ public class ClientProxy extends CommonProxy
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityWerewolf.class, new RenderWerewolf());
 		RenderingRegistry.registerEntityRenderingHandler(EntityDeeeSyft.class, new RenderDeeeSyft());
+		RenderingRegistry.registerEntityRenderingHandler(EntityEnchantedSkeleton.class, new RenderEnchantedSkeleton());
 		RenderingRegistry.registerEntityRenderingHandler(EntityIronBolt.class, new IronBoltRender(current));
 		RenderingRegistry.registerEntityRenderingHandler(EntitySilverBolt.class, new SilverBoltRender(current));
 		RenderingRegistry.registerEntityRenderingHandler(EntityWoodenBolt.class, new WoodenBoltRender(current));
