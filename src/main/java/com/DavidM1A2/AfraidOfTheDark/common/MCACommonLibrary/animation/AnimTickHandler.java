@@ -1,6 +1,6 @@
 package com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation;
 
-import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 
@@ -12,13 +12,8 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 
 public class AnimTickHandler
 {
-	//private ArrayList<IMCAnimatedEntity> activeEntities = new ArrayList<IMCAnimatedEntity>();
-	//private ArrayList<IMCAnimatedEntity> removableEntities = new ArrayList<IMCAnimatedEntity>();
-
-	private ArrayList<IMCAnimatedEntity> activeEntitiesServer = new ArrayList<IMCAnimatedEntity>();
-	private ArrayList<IMCAnimatedEntity> removableEntitiesServer = new ArrayList<IMCAnimatedEntity>();
-	private ArrayList<IMCAnimatedEntity> activeEntitiesClient = new ArrayList<IMCAnimatedEntity>();
-	private ArrayList<IMCAnimatedEntity> removableEntitiesClient = new ArrayList<IMCAnimatedEntity>();
+	private CopyOnWriteArrayList<IMCAnimatedEntity> activeEntities = new CopyOnWriteArrayList<IMCAnimatedEntity>();
+	private CopyOnWriteArrayList<IMCAnimatedEntity> removableEntities = new CopyOnWriteArrayList<IMCAnimatedEntity>();
 
 	public AnimTickHandler()
 	{
@@ -27,33 +22,32 @@ public class AnimTickHandler
 
 	public void addEntity(IMCAnimatedEntity entity)
 	{
-		activeEntitiesServer.add(entity);
-		activeEntitiesClient.add(entity);
+		activeEntities.add(entity);
 	}
 
 	//Called when the client ticks. 
 	@SubscribeEvent
 	public void onClientTick(TickEvent.ClientTickEvent event)
 	{
-		if (!activeEntitiesClient.isEmpty())
+		if (!activeEntities.isEmpty())
 		{
 			if (event.phase == Phase.START)
 			{
-				for (IMCAnimatedEntity entity : activeEntitiesClient)
+				for (IMCAnimatedEntity entity : activeEntities)
 				{
 					entity.getAnimationHandler().animationsUpdate();
 
 					if (((Entity) entity).isDead)
 					{
-						removableEntitiesClient.add(entity);
+						removableEntities.add(entity);
 					}
 				}
 
-				for (IMCAnimatedEntity entity : removableEntitiesClient)
+				for (IMCAnimatedEntity entity : removableEntities)
 				{
-					activeEntitiesClient.remove(entity);
+					activeEntities.remove(entity);
 				}
-				removableEntitiesClient.clear();
+				removableEntities.clear();
 			}
 		}
 	}
@@ -62,25 +56,25 @@ public class AnimTickHandler
 	@SubscribeEvent
 	public void onServerTick(TickEvent.ServerTickEvent event)
 	{
-		if (!activeEntitiesServer.isEmpty())
+		if (!activeEntities.isEmpty())
 		{
 			if (event.phase == Phase.START)
 			{
-				for (IMCAnimatedEntity entity : activeEntitiesServer)
+				for (IMCAnimatedEntity entity : activeEntities)
 				{
 					entity.getAnimationHandler().animationsUpdate();
 
 					if (((Entity) entity).isDead)
 					{
-						removableEntitiesServer.add(entity);
+						removableEntities.add(entity);
 					}
 				}
 
-				for (IMCAnimatedEntity entity : removableEntitiesServer)
+				for (IMCAnimatedEntity entity : removableEntities)
 				{
-					activeEntitiesServer.remove(entity);
+					activeEntities.remove(entity);
 				}
-				removableEntitiesServer.clear();
+				removableEntities.clear();
 			}
 		}
 	}

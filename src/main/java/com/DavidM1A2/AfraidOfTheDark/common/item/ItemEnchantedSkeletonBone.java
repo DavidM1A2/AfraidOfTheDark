@@ -64,7 +64,7 @@ public class ItemEnchantedSkeletonBone extends AOTDItem
 					for (int i = 0; i < numberOfSkeletonsToSpawn; i++)
 					{
 						EntityEnchantedSkeleton skeleton = new EntityEnchantedSkeleton(world);
-						skeleton.setLocationAndAngles(entityItem.posX, entityItem.posY + 1, entityItem.posZ, entityItem.rotationYaw, 0.0F);
+						skeleton.setLocationAndAngles(entityItem.posX, entityItem.posY + 0.01, entityItem.posZ, entityItem.rotationYaw, 0.0F);
 						world.spawnEntityInWorld(skeleton);
 					}
 

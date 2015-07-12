@@ -16,7 +16,7 @@ public class AnimationHandlerEnchantedSkeleton extends AnimationHandler
 		animChannels.put("Walk", new ChannelWalk("Walk", 20.0F, 40, Channel.LINEAR));
 		animChannels.put("Attack", new ChannelAttack("Attack", 30.0F, 20, Channel.LINEAR));
 		animChannels.put("Spawn", new ChannelSpawn("Spawn", 20.0F, 40, Channel.LINEAR));
-		animChannels.put("Idle", new ChannelIdle("Idle", 10.0F, 20, Channel.LINEAR));
+		animChannels.put("Idle", new ChannelIdle("Idle", 10.0F, 20, Channel.LOOP));
 	}
 
 	public AnimationHandlerEnchantedSkeleton(IMCAnimatedEntity entity)

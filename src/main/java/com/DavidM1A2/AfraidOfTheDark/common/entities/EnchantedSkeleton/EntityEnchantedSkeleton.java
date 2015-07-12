@@ -24,10 +24,13 @@ import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEntity
 {
 	protected AnimationHandler animHandler = new AnimationHandlerEnchantedSkeleton(this);
-	// setup movespeed, agroRange, and followRange
-	private static final double moveSpeed = .25D;
-	private static final double agroRange = 16.0D;
-	private static final double followRange = 32.0D;
+	// setup MOVE_SPEED, AGRO_RANGE, and FOLLOW_RANGE
+	private static final double MOVE_SPEED = .25D;
+	private static final double AGRO_RANGE = 16.0D;
+	private static final double FOLLOW_RANGE = 32.0D;
+	private static final double MAX_HEALTH = 10.0D;
+	private static final double ATTACK_DAMAGE = 4.0D;
+	private static final double KNOCKBACK_RESISTANCE = 0.5D;
 
 	// AI wanderer and watcher
 
@@ -40,8 +43,8 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 		// Add various AI tasks
 		this.tasks.addTask(1, new EntityAISwimming(this));
 		this.tasks.addTask(4, new EntityAIAttackOnCollide(this, 1.0D, false));
-		this.tasks.addTask(7, new EntityAIWander(this, EntityEnchantedSkeleton.moveSpeed));
-		this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, (float) EntityEnchantedSkeleton.agroRange));
+		this.tasks.addTask(7, new EntityAIWander(this, EntityEnchantedSkeleton.MOVE_SPEED));
+		this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, (float) EntityEnchantedSkeleton.AGRO_RANGE));
 		this.tasks.addTask(8, new EntityAILookIdle(this));
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
 		// Use custom werewolf target locator
@@ -107,23 +110,23 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 	{
 		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.maxHealth) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(10.0D);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(MAX_HEALTH);
 		}
 		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.followRange).setBaseValue(EntityEnchantedSkeleton.followRange);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.followRange).setBaseValue(EntityEnchantedSkeleton.FOLLOW_RANGE);
 		}
 		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.knockbackResistance) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.5D);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(KNOCKBACK_RESISTANCE);
 		}
 		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(EntityEnchantedSkeleton.moveSpeed);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(EntityEnchantedSkeleton.MOVE_SPEED);
 		}
 		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.attackDamage) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(1.0D);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(ATTACK_DAMAGE);
 		}
 	}
 

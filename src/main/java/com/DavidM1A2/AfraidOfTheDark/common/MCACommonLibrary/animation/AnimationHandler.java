@@ -3,17 +3,19 @@ package com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-
-import net.minecraft.entity.Entity;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.DavidM1A2.AfraidOfTheDark.client.MCAClientLibrary.MCAModelRenderer;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.math.Quaternion;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.math.Vector3f;
+
+import net.minecraft.entity.Entity;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class AnimationHandler
 {
@@ -21,7 +23,11 @@ public abstract class AnimationHandler
 	/** Owner of this handler. */
 	private IMCAnimatedEntity animatedEntity;
 	/** List of all the activate animations of this Entity. */
-	public ArrayList<Channel> animCurrentChannels = new ArrayList();
+	public CopyOnWriteArrayList<Channel> animCurrentChannels = new CopyOnWriteArrayList<Channel>();
+
+	/** List of channels to remove (Fixes concurrentModificationException). Added by David_M1A2 */
+	List<Channel> channelsToRemove = new CopyOnWriteArrayList<Channel>();
+
 	/** Previous time of every active animation. */
 	public HashMap<String, Long> animPrevTime = new HashMap<String, Long>();
 	/** Current frame of every active animation. */
@@ -110,12 +116,26 @@ public abstract class AnimationHandler
 			}
 			if (!animStatus)
 			{
-				it.remove();
-				animPrevTime.remove(anim.name);
-				animCurrentFrame.remove(anim.name);
-				animationEvents.get(anim.name).clear();
+				channelsToRemove.add(anim);
+				// it.remove();
+				// animPrevTime.remove(anim.name);
+				// animCurrentFrame.remove(anim.name);
+				// animationEvents.get(anim.name).clear();
 			}
 		}
+
+		/*
+		 * Added this
+		 */
+		for (Channel channel : channelsToRemove)
+		{
+			animCurrentChannels.remove(channel);
+			animPrevTime.remove(channel.name);
+			animCurrentFrame.remove(channel.name);
+			animationEvents.get(channel.name).clear();
+		}
+
+		channelsToRemove.clear();
 	}
 
 	public boolean isAnimationActive(String name)
