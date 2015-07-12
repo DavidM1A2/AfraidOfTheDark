@@ -3,6 +3,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.entities.EnchantedSkeleton;
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.TellClientToPlayAnimation;
 
 import net.minecraft.entity.Entity;
@@ -16,6 +17,7 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
@@ -52,6 +54,18 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 				this.animHandler.activateAnimation("Spawn", 0);
 			}
 		}
+	}
+
+	@Override
+	protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
+	{
+		this.dropItem(this.getDropItem(), 3);
+	}
+
+	@Override
+	protected Item getDropItem()
+	{
+		return ModItems.enchantedSkeletonBone;
 	}
 
 	@Override
