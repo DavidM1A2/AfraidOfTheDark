@@ -1,4 +1,4 @@
-package com.DavidM1A2.AfraidOfTheDark.common.worldGeneration;
+package com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot;
 
 import java.util.ArrayList;
 import java.util.List;

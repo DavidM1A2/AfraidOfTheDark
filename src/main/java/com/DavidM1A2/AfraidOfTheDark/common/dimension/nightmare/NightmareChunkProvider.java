@@ -10,6 +10,7 @@ import java.util.List;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBiomes;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicGenerator;
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.LootTable;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EnumCreatureType;
@@ -74,7 +75,7 @@ public class NightmareChunkProvider implements IChunkProvider
 		if (x * 16 % Constants.NightmareWorld.BLOCKS_BETWEEN_ISLANDS == 0 && z == 0)
 		{
 			MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("A player has entered his/her nightmare realm for the first time. Expect a server freeze for the next 30 or so seconds."));
-			SchematicGenerator.generateSchematic(Constants.AOTDSchematics.nightmareIsland, this.worldObj, x * 16, 0, z * 16, null, 0);
+			SchematicGenerator.generateSchematicWithLoot(Constants.AOTDSchematics.nightmareIsland, this.worldObj, x * 16, 0, z * 16, new LootTable());
 		}
 	}
 

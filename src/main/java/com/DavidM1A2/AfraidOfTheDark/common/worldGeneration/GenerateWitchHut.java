@@ -2,13 +2,13 @@ package com.DavidM1A2.AfraidOfTheDark.common.worldGeneration;
 
 import java.util.Random;
 
-import net.minecraft.world.World;
-
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicGenerator;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.UnsupportedLocationException;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
+
+import net.minecraft.world.World;
 
 public class GenerateWitchHut
 {
@@ -25,7 +25,7 @@ public class GenerateWitchHut
 
 			LogHelper.info("Spawning a hut at x = " + chunkX + ", y = " + y + ", z = " + chunkZ);
 
-			SchematicGenerator.generateSchematic(Constants.AOTDSchematics.witchHut, world, chunkX, y, chunkZ, new WitchHutLoot(), 3);
+			SchematicGenerator.generateSchematicWithLoot(Constants.AOTDSchematics.witchHut, world, chunkX, y, chunkZ, Constants.witchHutLootTable);
 		}
 		catch (UnsupportedLocationException e)
 		{

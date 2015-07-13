@@ -15,6 +15,11 @@ import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.Schematic;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicBlockReplacer;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicLoader;
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.CryptChestLoot;
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.DarkForestChestLoot;
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.LootTable;
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.LootTableEntry;
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.WitchHutLoot;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -62,6 +67,10 @@ public final class Constants
 {
 	public static Map<Class, Integer> entityVitaeResistance = new HashMap<Class, Integer>();
 	public static Map<String, Integer> toolMaterialRepairCosts = new HashMap<String, Integer>();
+
+	public static LootTable cryptLootTable = new LootTable(new LootTableEntry(new CryptChestLoot(), null, 1));
+	public static LootTable darkForestLootTable = new LootTable(new LootTableEntry(new DarkForestChestLoot(), null, 6));
+	public static LootTable witchHutLootTable = new LootTable(new LootTableEntry(new WitchHutLoot(), null, 3));
 
 	static
 	{

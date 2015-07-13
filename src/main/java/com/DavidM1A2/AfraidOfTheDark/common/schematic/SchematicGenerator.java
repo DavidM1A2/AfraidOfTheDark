@@ -12,6 +12,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.Point3D;
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.LootTable;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
@@ -20,38 +24,55 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
-
-import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.Point3D;
-import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.IChestGenerator;
 
 public final class SchematicGenerator
 {
 	private static final Set<Short> latePlacePriorityBlocks = new HashSet<Short>(Arrays.asList(new Short[]
-	{ (short) Block.getIdFromBlock(Blocks.rail), (short) Block.getIdFromBlock(Blocks.reeds), (short) Block.getIdFromBlock(Blocks.powered_comparator), (short) Block.getIdFromBlock(Blocks.powered_repeater), (short) Block.getIdFromBlock(Blocks.sapling),
-			(short) Block.getIdFromBlock(Blocks.detector_rail), (short) Block.getIdFromBlock(Blocks.redstone_torch), (short) Block.getIdFromBlock(Blocks.vine), (short) Block.getIdFromBlock(Blocks.standing_sign), (short) Block.getIdFromBlock(Blocks.wall_sign),
-			(short) Block.getIdFromBlock(Blocks.redstone_wire), (short) Block.getIdFromBlock(Blocks.torch), (short) Block.getIdFromBlock(Blocks.wooden_button), (short) Block.getIdFromBlock(Blocks.stone_button), (short) Block.getIdFromBlock(Blocks.wooden_pressure_plate),
-			(short) Block.getIdFromBlock(Blocks.stone_pressure_plate), (short) Block.getIdFromBlock(Blocks.light_weighted_pressure_plate), (short) Block.getIdFromBlock(Blocks.heavy_weighted_pressure_plate), (short) Block.getIdFromBlock(Blocks.deadbush), (short) Block.getIdFromBlock(Blocks.bed),
-			(short) Block.getIdFromBlock(Blocks.trapdoor), (short) Block.getIdFromBlock(Blocks.carpet), (short) Block.getIdFromBlock(Blocks.iron_door), (short) Block.getIdFromBlock(Blocks.ladder), (short) Block.getIdFromBlock(Blocks.dark_oak_door), (short) Block.getIdFromBlock(Blocks.birch_door),
-			(short) Block.getIdFromBlock(Blocks.oak_door), (short) Block.getIdFromBlock(Blocks.acacia_door), (short) Block.getIdFromBlock(Blocks.spruce_door), (short) Block.getIdFromBlock(Blocks.double_plant) }));
+	{ (short) Block.getIdFromBlock(Blocks.rail), (short) Block.getIdFromBlock(Blocks.reeds), (short) Block.getIdFromBlock(Blocks.powered_comparator), (short) Block.getIdFromBlock(Blocks.powered_repeater), (short) Block.getIdFromBlock(Blocks.sapling), (short) Block.getIdFromBlock(
+			Blocks.detector_rail), (short) Block.getIdFromBlock(Blocks.redstone_torch), (short) Block.getIdFromBlock(Blocks.vine), (short) Block.getIdFromBlock(Blocks.standing_sign), (short) Block.getIdFromBlock(Blocks.wall_sign), (short) Block.getIdFromBlock(Blocks.redstone_wire), (short) Block
+					.getIdFromBlock(Blocks.torch), (short) Block.getIdFromBlock(Blocks.wooden_button), (short) Block.getIdFromBlock(Blocks.stone_button), (short) Block.getIdFromBlock(Blocks.wooden_pressure_plate), (short) Block.getIdFromBlock(Blocks.stone_pressure_plate), (short) Block
+							.getIdFromBlock(Blocks.light_weighted_pressure_plate), (short) Block.getIdFromBlock(Blocks.heavy_weighted_pressure_plate), (short) Block.getIdFromBlock(Blocks.deadbush), (short) Block.getIdFromBlock(Blocks.bed), (short) Block.getIdFromBlock(Blocks.trapdoor), (short) Block
+									.getIdFromBlock(Blocks.carpet), (short) Block.getIdFromBlock(Blocks.iron_door), (short) Block.getIdFromBlock(Blocks.ladder), (short) Block.getIdFromBlock(Blocks.dark_oak_door), (short) Block.getIdFromBlock(Blocks.birch_door), (short) Block.getIdFromBlock(
+											Blocks.oak_door), (short) Block.getIdFromBlock(Blocks.acacia_door), (short) Block.getIdFromBlock(Blocks.spruce_door), (short) Block.getIdFromBlock(Blocks.double_plant) }));
 
-	public static void generateSchematic(Schematic schematic, World world, int xPosition, int yPosition, int zPosition, IChestGenerator chestItemRandomizer, int lootAmount)
+	public static void generateSchematic(Schematic schematic, World world, int xPosition, int yPosition, int zPosition)
 	{
 		if (schematic == null)
 		{
 			return;
 		}
 
+		SchematicGenerator.generateBlocks(schematic, world, xPosition, yPosition, zPosition);
+
+		SchematicGenerator.loadTileEntities(schematic, world, xPosition, yPosition, zPosition);
+
+		SchematicGenerator.loadEntities(schematic, world, xPosition, yPosition, zPosition);
+	}
+
+	public static void generateSchematicWithLoot(Schematic schematic, World world, int xPosition, int yPosition, int zPosition, LootTable lootTable)
+	{
+		if (schematic == null)
+		{
+			return;
+		}
+
+		SchematicGenerator.generateBlocks(schematic, world, xPosition, yPosition, zPosition);
+
+		SchematicGenerator.loadTileEntitiesWithLoot(schematic, world, xPosition, yPosition, zPosition, lootTable);
+
+		SchematicGenerator.loadEntities(schematic, world, xPosition, yPosition, zPosition);
+	}
+
+	private static void generateBlocks(Schematic schematic, World world, int xPosition, int yPosition, int zPosition)
+	{
 		int i = 0;
 
 		List<Short> blocksToPlaceLater = new LinkedList<Short>();
 		List<Byte> blocksToPlaceLaterMeta = new LinkedList<Byte>();
 		List<Point3D> laterBlockPositions = new LinkedList<Point3D>();
 
-		printIncorrectIds(schematic.getBlocks());
+		SchematicGenerator.printIncorrectIds(schematic.getBlocks());
 
 		for (int y = 0; y < schematic.getHeight(); y++)
 		{
@@ -89,7 +110,33 @@ public final class SchematicGenerator
 		{
 			world.setBlockState(((Point3D) iteratorLocation.next()).toBlockPos(), Block.getBlockById((Short) iteratorBlock.next()).getStateFromMeta((Byte) iteratorMeta.next()));
 		}
+	}
 
+	private static void loadTileEntities(Schematic schematic, World world, int xPosition, int yPosition, int zPosition)
+	{
+		if (schematic.getTileentities() != null)
+		{
+			for (int j = 0; j < schematic.getTileentities().tagCount(); j++)
+			{
+				NBTTagCompound tileEntityCompound = schematic.getTileentities().getCompoundTagAt(j);
+				TileEntity tileEntity = TileEntity.createAndLoadEntity(tileEntityCompound);
+
+				if (tileEntity != null)
+				{
+					BlockPos tileEntityLocation = new BlockPos(tileEntity.getPos().add(xPosition, yPosition, zPosition));
+
+					// Remove the default tile entity
+					world.removeTileEntity(tileEntityLocation);
+
+					world.setTileEntity(tileEntityLocation, tileEntity);
+					tileEntity.setPos(tileEntityLocation);
+				}
+			}
+		}
+	}
+
+	private static void loadTileEntitiesWithLoot(Schematic schematic, World world, int xPosition, int yPosition, int zPosition, LootTable lootTable)
+	{
 		if (schematic.getTileentities() != null)
 		{
 			for (int j = 0; j < schematic.getTileentities().tagCount(); j++)
@@ -107,18 +154,22 @@ public final class SchematicGenerator
 					world.setTileEntity(tileEntityLocation, tileEntity);
 					tileEntity.setPos(tileEntityLocation);
 
-					if (tileEntity instanceof TileEntityChest && chestItemRandomizer != null)
+					if (tileEntity instanceof TileEntityChest)
 					{
 						TileEntityChest tileEntityChest = (TileEntityChest) world.getTileEntity(tileEntityLocation);
+
 						if (tileEntityChest != null)
 						{
-							WeightedRandomChestContent.generateChestContents(world.rand, chestItemRandomizer.getPossibleItems(world.rand), tileEntityChest, world.rand.nextInt(MathHelper.ceiling_double_int(lootAmount * 0.5)) + MathHelper.ceiling_double_int(lootAmount * 0.8));
+							lootTable.generate(tileEntityChest);
 						}
 					}
 				}
 			}
 		}
+	}
 
+	private static void loadEntities(Schematic schematic, World world, int xPosition, int yPosition, int zPosition)
+	{
 		if (schematic.getEntities() != null)
 		{
 			for (int j = 0; j < schematic.getEntities().tagCount(); j++)
@@ -156,4 +207,5 @@ public final class SchematicGenerator
 			LogHelper.info(numberOfIncorrect[Math.abs(b)] + " incorrect ids of the id " + b + " found in the schematic. ");
 		}
 	}
+
 }
