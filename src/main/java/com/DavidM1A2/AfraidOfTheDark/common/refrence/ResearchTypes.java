@@ -30,6 +30,9 @@ public enum ResearchTypes
 	Crossbow(AnUnbreakableCovenant, 1, 0, new Object[]
 	{ ModItems.crossbow, ModItems.woodenBolt, ModItems.ironBolt }, new Object[]
 	{}),
+	EnchantedSkeleton(AnUnbreakableCovenant, -1, 0, new Object[]
+	{}, new Object[]
+	{}),
 	WristCrossbow(Crossbow, 2, 0, new Object[]
 	{ ModItems.wristCrossbow }, new Object[]
 	{}),

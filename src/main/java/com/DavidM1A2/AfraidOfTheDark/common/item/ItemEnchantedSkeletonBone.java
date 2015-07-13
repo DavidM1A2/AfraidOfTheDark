@@ -6,16 +6,22 @@ import java.util.List;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.EnchantedSkeleton.EntityEnchantedSkeleton;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
 
 public class ItemEnchantedSkeletonBone extends AOTDItem
 {
 	private static final int BONES_PER_SKELETON = 4;
 	private static final int COMBINE_RADIUS = 4;
 	private static final int UPDATE_TIME_IN_TICKS = 120;
+	private static final int RESEARCH_UNLOCK_RADIUS = 10;
 
 	public ItemEnchantedSkeletonBone()
 	{
@@ -65,7 +71,20 @@ public class ItemEnchantedSkeletonBone extends AOTDItem
 					{
 						EntityEnchantedSkeleton skeleton = new EntityEnchantedSkeleton(world);
 						skeleton.setLocationAndAngles(entityItem.posX, entityItem.posY + 0.01, entityItem.posZ, entityItem.rotationYaw, 0.0F);
+						skeleton.addPotionEffect(new PotionEffect(14, 2));
 						world.spawnEntityInWorld(skeleton);
+
+						for (Object object : world.getEntitiesWithinAABB(EntityPlayer.class, entityItem.getEntityBoundingBox().expand(RESEARCH_UNLOCK_RADIUS, RESEARCH_UNLOCK_RADIUS, RESEARCH_UNLOCK_RADIUS)))
+						{
+							if (object instanceof EntityPlayer)
+							{
+								EntityPlayer entityPlayer = (EntityPlayer) object;
+								if (Research.canResearch(entityPlayer, ResearchTypes.EnchantedSkeleton))
+								{
+									Research.unlockResearchSynced(entityPlayer, ResearchTypes.EnchantedSkeleton, Side.SERVER, true);
+								}
+							}
+						}
 					}
 
 					if (bonesRemaining > 0)

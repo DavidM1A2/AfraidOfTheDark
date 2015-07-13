@@ -1,5 +1,8 @@
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
+import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -7,8 +10,6 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-
-import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 
 public class TellClientToPlayAnimation implements IMessage
 {
@@ -54,6 +55,10 @@ public class TellClientToPlayAnimation implements IMessage
 				{
 					((IMCAnimatedEntity) toUpdate).getAnimationHandler().activateAnimation(message.animationName, 0);
 				}
+			}
+			else
+			{
+				LogHelper.info("Null entity to play animation for");
 			}
 			return null;
 		}

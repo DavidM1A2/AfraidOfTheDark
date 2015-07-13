@@ -6,6 +6,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.Animation
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.TellClientToPlayAnimation;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
@@ -18,6 +19,7 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
@@ -31,8 +33,7 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 	private static final double MAX_HEALTH = 10.0D;
 	private static final double ATTACK_DAMAGE = 4.0D;
 	private static final double KNOCKBACK_RESISTANCE = 0.5D;
-
-	// AI wanderer and watcher
+	public static final String FIRST_SPAWN = "firstSpawn";
 
 	public EntityEnchantedSkeleton(final World world)
 	{
@@ -49,14 +50,20 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
 		// Use custom werewolf target locator
 		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
+	}
 
-		if (this.firstUpdate)
+	@Override
+	public void onEntityUpdate()
+	{
+		if (this.ticksExisted == 2)
 		{
-			if (!this.animHandler.isAnimationActive("Spawn"))
+			if (!this.worldObj.isRemote)
 			{
 				this.animHandler.activateAnimation("Spawn", 0);
+				AfraidOfTheDark.getSimpleNetworkWrapper().sendToAllAround(new TellClientToPlayAnimation("Spawn", this.getEntityId()), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 15));
 			}
 		}
+		super.onEntityUpdate();
 	}
 
 	@Override
@@ -130,6 +137,35 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 		}
 	}
 
+	/**
+	 * Returns the sound this mob makes while it's alive.
+	 */
+	protected String getLivingSound()
+	{
+		return "mob.skeleton.say";
+	}
+
+	/**
+	 * Returns the sound this mob makes when it is hurt.
+	 */
+	protected String getHurtSound()
+	{
+		return "mob.skeleton.hurt";
+	}
+
+	/**
+	 * Returns the sound this mob makes on death.
+	 */
+	protected String getDeathSound()
+	{
+		return "mob.skeleton.death";
+	}
+
+	protected void playStepSound(BlockPos p_180429_1_, Block p_180429_2_)
+	{
+		this.playSound("mob.skeleton.step", 0.15F, 1.0F);
+	}
+
 	@Override
 	public boolean attackEntityAsMob(final Entity entity)
 	{
@@ -139,22 +175,7 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 			AfraidOfTheDark.getSimpleNetworkWrapper().sendToAllAround(new TellClientToPlayAnimation("Attack", this.getEntityId()), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 15));
 		}
 
-		boolean x = super.attackEntityAsMob(entity);
-
-		//		if (entity instanceof EntityPlayer)
-		//		{
-		//			final EntityPlayer entityPlayer = (EntityPlayer) entity;
-		//
-		//			if (entityPlayer.getHealth() != 0)
-		//			{
-		//				if (Research.canResearch(entityPlayer, ResearchTypes.WerewolfExamination))
-		//				{
-		//					Research.unlockResearchSynced(entityPlayer, ResearchTypes.WerewolfExamination, Side.SERVER, true);
-		//				}
-		//			}
-		//		}
-
-		return x;
+		return super.attackEntityAsMob(entity);
 	}
 
 	@Override
