@@ -1,9 +1,0 @@
-I have discovered strange gems inside of a meteor. I have named the gems sunstones for their warm feeling and
-vibrant colors. Sunstones can be combined with diamonds to create igneous gems, powerful crystals which contain
-trapped elemental fire within their latices. Igneous gems burn their holder severely, so caution must be taken
-handling them. I should invest in a good fire blanket... If igneous gems are gathered, they can be crafted into
-igneous armor, a powerful suit which renders the user impervious to damage from fire and resistant to lava. In
-addition, when wearing a full suit of igneous armor, the armor lights any attackers on fire, regardless of the
-attacks being ranged or physical. Igneous gems can also be made into a sword which lights enemies on fire. Striking
-enemies builds up a magical charge. When the sword is at maximum charge, it glows with latent energy. When
-energized, it can unleash a flaming tempest with a right click.
