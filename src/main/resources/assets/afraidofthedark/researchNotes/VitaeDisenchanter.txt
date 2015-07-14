@@ -1,0 +1,7 @@
+Frickin bane of arthropods! Why is this stupid shit even in the ga- er universe. After being plagued with one of the
+many useless enchantments one too many times, I have decided forsake my worship of the RNG in favor of a better option.
+The vitae disenchanter has two modes, which are toggled by activating it with an empty hand. The blue mode consumes
+an enchanted item other than books and produces an unenchanted item along with the enchantments it previously held
+stored in books. The process cannot be started without enough books or vitae. The green mode turns enchanted books
+into bottles o' enchanting and empty books at the cost of vitae. Mass disenchanting and xp recycling will take a good
+deal of vitae, so I should probably have a steady source of power nearby.
