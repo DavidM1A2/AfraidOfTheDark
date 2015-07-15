@@ -46,6 +46,7 @@ import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.IItemRenderer;
@@ -154,6 +155,21 @@ public class ClientProxy extends CommonProxy
 			LogHelper.info("Error loading particle FX.... see client proxy line 149.");
 			e.printStackTrace();
 		}
+	}
 
+	@Override
+	public void generateParticles(World world, BlockPos location, Class<? extends AOTDParticleFX> particleClass)
+	{
+		try
+		{
+			AOTDParticleFX particleFX = particleClass.getDeclaredConstructor(particleFXParameters).newInstance(world, location.getX(), location.getY(), location.getZ(), 0, 0, 0);
+
+			Minecraft.getMinecraft().effectRenderer.addEffect(particleFX);
+		}
+		catch (Exception e)
+		{
+			LogHelper.info("Error loading particle FX.... see client proxy line 172.");
+			e.printStackTrace();
+		}
 	}
 }

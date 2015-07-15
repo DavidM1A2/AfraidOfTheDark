@@ -2,6 +2,8 @@ package com.DavidM1A2.AfraidOfTheDark.common.block;
 
 import java.util.Random;
 
+import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
+import com.DavidM1A2.AfraidOfTheDark.client.particleFX.Test;
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDBlockTileEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityVoidChest;
 
@@ -92,8 +94,9 @@ public class BlockVoidChest extends AOTDBlockTileEntity
 	}
 
 	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
+	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand)
 	{
+		AfraidOfTheDark.proxy.generateParticles(world, pos, Test.class);
 		for (int i = 0; i < 3; ++i)
 		{
 			int j = rand.nextInt(2) * 2 - 1;
@@ -104,7 +107,7 @@ public class BlockVoidChest extends AOTDBlockTileEntity
 			double d3 = (double) (rand.nextFloat() * (float) j);
 			double d4 = ((double) rand.nextFloat() - 0.5D) * 0.125D;
 			double d5 = (double) (rand.nextFloat() * (float) k);
-			worldIn.spawnParticle(EnumParticleTypes.PORTAL, d0, d1, d2, d3, d4, d5, new int[0]);
+			world.spawnParticle(EnumParticleTypes.PORTAL, d0, d1, d2, d3, d4, d5, new int[0]);
 		}
 	}
 

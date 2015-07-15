@@ -12,7 +12,7 @@ public class TileEntityVoidChestRenderer extends TileEntitySpecialRenderer
 {
 	private static final ResourceLocation texturesNormal[] = new ResourceLocation[10];
 	private ModelChest simpleChest = new ModelChest();
-	private int currentFrame = 0;
+	private static int currentFrame = 0;
 	private int ticksExpired = 0;
 
 	public TileEntityVoidChestRenderer()
@@ -51,15 +51,6 @@ public class TileEntityVoidChestRenderer extends TileEntitySpecialRenderer
 			}
 			else
 			{
-				if (this.ticksExpired % 5 == 0)
-				{
-					currentFrame = advanceFrame(texturesNormal.length);
-					this.ticksExpired = 1;
-				}
-				else
-				{
-					this.ticksExpired = this.ticksExpired + 1;
-				}
 				this.bindTexture(this.texturesNormal[currentFrame]);
 			}
 
@@ -116,12 +107,12 @@ public class TileEntityVoidChestRenderer extends TileEntitySpecialRenderer
 		}
 	}
 
-	private int advanceFrame(int max)
+	public static void advanceFrame()
 	{
-		if (this.currentFrame + 1 >= max)
+		if (TileEntityVoidChestRenderer.currentFrame + 1 >= TileEntityVoidChestRenderer.texturesNormal.length)
 		{
-			return 0;
+			TileEntityVoidChestRenderer.currentFrame = 0;
 		}
-		return currentFrame + 1;
+		TileEntityVoidChestRenderer.currentFrame = TileEntityVoidChestRenderer.currentFrame + 1;
 	}
 }
