@@ -5,15 +5,14 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.block;
 
-import net.minecraft.block.ITileEntityProvider;
+import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDBlockTileEntity;
+import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntitySpring;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDBlock;
-import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.BlockTileEntitySpring;
-
-public class BlockSpring extends AOTDBlock implements ITileEntityProvider
+public class BlockSpring extends AOTDBlockTileEntity
 {
 	public BlockSpring(Material material)
 	{
@@ -24,6 +23,6 @@ public class BlockSpring extends AOTDBlock implements ITileEntityProvider
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta)
 	{
-		return new BlockTileEntitySpring();
+		return new TileEntitySpring();
 	}
 }

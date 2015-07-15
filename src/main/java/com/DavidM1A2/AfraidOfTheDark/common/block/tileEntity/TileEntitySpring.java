@@ -5,6 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity;
 
+import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDTileEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemVitaeLantern;
@@ -20,13 +21,13 @@ import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class BlockTileEntitySpring extends AOTDTileEntity implements IUpdatePlayerListBox
+public class TileEntitySpring extends AOTDTileEntity implements IUpdatePlayerListBox
 {
 	private int ticksExisted = 0;
 	private static final int TICKS_INBETWEEN_CHECKS = 60;
 	private static final int CHECK_RANGE = 3;
 
-	public BlockTileEntitySpring()
+	public TileEntitySpring()
 	{
 		super(ModBlocks.spring);
 	}

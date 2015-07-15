@@ -14,18 +14,19 @@ import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.fml.relauncher.Side;
 
+import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDTileEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
-public class BlockTileEntityDarkForest extends AOTDTileEntity implements IUpdatePlayerListBox
+public class TileEntityDarkForest extends AOTDTileEntity implements IUpdatePlayerListBox
 {
 	private int ticksExisted = 0;
 	private static final int TICKS_INBETWEEN_CHECKS = 60;
 	private static final int CHECK_RANGE = 14;
 
-	public BlockTileEntityDarkForest()
+	public TileEntityDarkForest()
 	{
 		super(ModBlocks.darkForest);
 	}

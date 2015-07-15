@@ -5,15 +5,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.initializeMod;
 
-import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockAstralSilverOre;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockDarkForest;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewood;
@@ -29,11 +20,22 @@ import com.DavidM1A2.AfraidOfTheDark.common.block.BlockSpring;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockStarMetalOre;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockSunstoneOre;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockVitaeDisenchanter;
-import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.BlockTileEntityDarkForest;
-import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.BlockTileEntitySpring;
+import com.DavidM1A2.AfraidOfTheDark.common.block.BlockVoidChest;
+import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityDarkForest;
+import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntitySpring;
+import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityVoidChest;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemGravewoodLeaves;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemGravewoodSlab;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
+
+import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
 
 @GameRegistry.ObjectHolder(Refrence.MOD_ID)
 public class ModBlocks
@@ -54,14 +56,15 @@ public class ModBlocks
 	public static final BlockDarkForest darkForest = new BlockDarkForest(Material.rock);
 	public static final BlockGravewoodSapling gravewoodSapling = new BlockGravewoodSapling();
 	public static final BlockVitaeDisenchanter vitaeDisenchanter = new BlockVitaeDisenchanter();
+	public static final BlockVoidChest voidChest = new BlockVoidChest();
 
 	public static void initialize()
 	{
 		// Register the items, allow gravewood to burn, and register tileEntities
 		GameRegistry.registerBlock(ModBlocks.spring, "spring");
-		GameRegistry.registerTileEntity(BlockTileEntitySpring.class, "tileEntitySpring");
+		GameRegistry.registerTileEntity(TileEntitySpring.class, "tileEntitySpring");
 		GameRegistry.registerBlock(ModBlocks.darkForest, "darkForest");
-		GameRegistry.registerTileEntity(BlockTileEntityDarkForest.class, "tileEntityDarkForest");
+		GameRegistry.registerTileEntity(TileEntityDarkForest.class, "tileEntityDarkForest");
 		GameRegistry.registerBlock(ModBlocks.gravewoodLeaves, ItemGravewoodLeaves.class, "gravewoodLeaves");
 		GameRegistry.registerBlock(ModBlocks.gravewood, "gravewood");
 		GameRegistry.registerBlock(ModBlocks.gravewoodPlanks, "gravewoodPlanks");
@@ -79,6 +82,8 @@ public class ModBlocks
 		GameRegistry.registerBlock(ModBlocks.igneousBlock, "igneousBlock");
 		GameRegistry.registerBlock(ModBlocks.gravewoodSapling, "gravewoodSapling");
 		GameRegistry.registerBlock(ModBlocks.vitaeDisenchanter, "vitaeDisenchanter");
+		GameRegistry.registerBlock(ModBlocks.voidChest, "voidChest");
+		GameRegistry.registerTileEntity(TileEntityVoidChest.class, "tileEntityVoidChest");
 	}
 
 	public static void initializeRenderers(final Side side)
@@ -101,6 +106,7 @@ public class ModBlocks
 			renderItem.getItemModelMesher().register(Item.getItemFromBlock(ModBlocks.igneousBlock), 0, new ModelResourceLocation(Refrence.MOD_ID + ":igneousBlock", "inventory"));
 			renderItem.getItemModelMesher().register(Item.getItemFromBlock(ModBlocks.gravewoodSapling), 0, new ModelResourceLocation(Refrence.MOD_ID + ":gravewoodSapling", "inventory"));
 			renderItem.getItemModelMesher().register(Item.getItemFromBlock(ModBlocks.vitaeDisenchanter), 0, new ModelResourceLocation(Refrence.MOD_ID + ":vitaeDisenchanter", "inventory"));
+			renderItem.getItemModelMesher().register(Item.getItemFromBlock(ModBlocks.voidChest), 0, new ModelResourceLocation(Refrence.MOD_ID + ":voidChest", "inventory"));
 		}
 	}
 }
