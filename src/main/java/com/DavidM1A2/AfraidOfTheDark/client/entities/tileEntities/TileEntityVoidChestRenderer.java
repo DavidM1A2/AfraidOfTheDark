@@ -10,18 +10,9 @@ import net.minecraft.util.ResourceLocation;
 
 public class TileEntityVoidChestRenderer extends TileEntitySpecialRenderer
 {
-	private static final ResourceLocation texturesNormal[] = new ResourceLocation[10];
+	private static final ResourceLocation texturesNormal = new ResourceLocation("afraidofthedark:textures/blocks/voidChest.png");
 	private ModelChest simpleChest = new ModelChest();
-	private static int currentFrame = 0;
 	private int ticksExpired = 0;
-
-	public TileEntityVoidChestRenderer()
-	{
-		for (int i = 0; i < texturesNormal.length; i++)
-		{
-			texturesNormal[i] = new ResourceLocation("afraidofthedark:textures/blocks/voidChest/voidChest" + i + ".png");
-		}
-	}
 
 	@Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float lidPosition, int damage)
@@ -51,7 +42,7 @@ public class TileEntityVoidChestRenderer extends TileEntitySpecialRenderer
 			}
 			else
 			{
-				this.bindTexture(this.texturesNormal[currentFrame]);
+				this.bindTexture(this.texturesNormal);
 			}
 
 			GlStateManager.pushMatrix();
@@ -105,14 +96,5 @@ public class TileEntityVoidChestRenderer extends TileEntitySpecialRenderer
 				GlStateManager.matrixMode(5888);
 			}
 		}
-	}
-
-	public static void advanceFrame()
-	{
-		if (TileEntityVoidChestRenderer.currentFrame + 1 >= TileEntityVoidChestRenderer.texturesNormal.length)
-		{
-			TileEntityVoidChestRenderer.currentFrame = 0;
-		}
-		TileEntityVoidChestRenderer.currentFrame = TileEntityVoidChestRenderer.currentFrame + 1;
 	}
 }

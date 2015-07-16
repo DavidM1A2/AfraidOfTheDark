@@ -3,7 +3,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.block;
 import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
-import com.DavidM1A2.AfraidOfTheDark.client.particleFX.Test;
+import com.DavidM1A2.AfraidOfTheDark.client.particleFX.VoidChestParticle;
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDBlockTileEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityVoidChest;
 
@@ -18,7 +18,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -75,7 +74,7 @@ public class BlockVoidChest extends AOTDBlockTileEntity
 			TileEntityVoidChest entityVoidChest = (TileEntityVoidChest) world.getTileEntity(blockPos);
 			entityVoidChest.shouldBeOpen = !entityVoidChest.shouldBeOpen;
 		}
-		return super.onBlockActivated(world, blockPos, state, playerIn, side, hitX, hitY, hitZ);
+		return true;
 	}
 
 	/**
@@ -96,19 +95,7 @@ public class BlockVoidChest extends AOTDBlockTileEntity
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand)
 	{
-		AfraidOfTheDark.proxy.generateParticles(world, pos, Test.class);
-		for (int i = 0; i < 3; ++i)
-		{
-			int j = rand.nextInt(2) * 2 - 1;
-			int k = rand.nextInt(2) * 2 - 1;
-			double d0 = (double) pos.getX() + 0.5D + 0.25D * (double) j;
-			double d1 = (double) ((float) pos.getY() + rand.nextFloat());
-			double d2 = (double) pos.getZ() + 0.5D + 0.25D * (double) k;
-			double d3 = (double) (rand.nextFloat() * (float) j);
-			double d4 = ((double) rand.nextFloat() - 0.5D) * 0.125D;
-			double d5 = (double) (rand.nextFloat() * (float) k);
-			world.spawnParticle(EnumParticleTypes.PORTAL, d0, d1, d2, d3, d4, d5, new int[0]);
-		}
+		AfraidOfTheDark.proxy.generateParticles(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, VoidChestParticle.class);
 	}
 
 	/**

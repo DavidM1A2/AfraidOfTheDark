@@ -1,9 +1,7 @@
 package com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity;
 
-import com.DavidM1A2.AfraidOfTheDark.client.entities.tileEntities.TileEntityVoidChestRenderer;
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDTileEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 
@@ -33,16 +31,6 @@ public class TileEntityVoidChest extends AOTDTileEntity implements IUpdatePlayer
 		int k = this.pos.getZ();
 		this.ticksSinceSync = this.ticksSinceSync + 1;;
 		float f;
-
-		if ((this.ticksSinceSync + i + j + k) % 200 == 0)
-		{
-			LogHelper.info(worldObj.isRemote);
-		}
-
-		if (this.ticksSinceSync % 4 == 0 && !worldObj.isRemote)
-		{
-			TileEntityVoidChestRenderer.advanceFrame();
-		}
 
 		//		if (!this.worldObj.isRemote && this.numPlayersUsing != 0 && (this.ticksSinceSync + i + j + k) % 200 == 0)
 		//		{

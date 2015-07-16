@@ -46,7 +46,6 @@ import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.IItemRenderer;
@@ -158,11 +157,11 @@ public class ClientProxy extends CommonProxy
 	}
 
 	@Override
-	public void generateParticles(World world, BlockPos location, Class<? extends AOTDParticleFX> particleClass)
+	public void generateParticles(World world, double x, double y, double z, Class<? extends AOTDParticleFX> particleClass)
 	{
 		try
 		{
-			AOTDParticleFX particleFX = particleClass.getDeclaredConstructor(particleFXParameters).newInstance(world, location.getX(), location.getY(), location.getZ(), 0, 0, 0);
+			AOTDParticleFX particleFX = particleClass.getDeclaredConstructor(particleFXParameters).newInstance(world, x, y, z, 0, 0, 0);
 
 			Minecraft.getMinecraft().effectRenderer.addEffect(particleFX);
 		}
