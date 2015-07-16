@@ -11,7 +11,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewood;
-import com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare.NightmareTeleporter;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;
@@ -31,6 +30,7 @@ import net.minecraft.network.play.server.S1DPacketEntityEffect;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.management.ServerConfigurationManager;
 import net.minecraft.util.BlockPos;
+import net.minecraft.world.Teleporter;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fluids.BlockFluidBase;
@@ -194,7 +194,7 @@ public class Utility
 	/*
 	 * See EntityPlayerMP.travelToDimension
 	 */
-	public static void sendPlayerToDimension(EntityPlayerMP entityPlayer, int dimensionId, boolean spawnPortal)
+	public static void sendPlayerToDimension(EntityPlayerMP entityPlayer, int dimensionId, boolean spawnPortal, Class<? extends Teleporter> teleporter)
 	{
 		ServerConfigurationManager serverConfigurationManager = entityPlayer.mcServer.getConfigurationManager();
 		int j = entityPlayer.dimension;
@@ -207,7 +207,14 @@ public class Utility
 
 		if (!spawnPortal)
 		{
-			serverConfigurationManager.transferEntityToWorld(entityPlayer, j, worldserver, worldserver1, new NightmareTeleporter(worldserver1, j, dimensionId));
+			try
+			{
+				serverConfigurationManager.transferEntityToWorld(entityPlayer, j, worldserver, worldserver1, teleporter.getDeclaredConstructor(WorldServer.class, int.class, int.class).newInstance(worldserver1, j, dimensionId));
+			}
+			catch (Exception e)
+			{
+				LogHelper.info("Error gererating portal at line 219 client proxy");
+			}
 		}
 		else
 		{

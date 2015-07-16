@@ -5,6 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.threads.delayed;
 
+import com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare.NightmareTeleporter;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,6 +21,6 @@ public class DelayedTeleport extends DelayedUpdate<Integer>
 	@Override
 	protected void updatePlayer()
 	{
-		Utility.sendPlayerToDimension((EntityPlayerMP) entityPlayer, data, false);
+		Utility.sendPlayerToDimension((EntityPlayerMP) entityPlayer, data, false, NightmareTeleporter.class);
 	}
 }

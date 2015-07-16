@@ -7,6 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.handler;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
+import com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare.NightmareTeleporter;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
 import com.DavidM1A2.AfraidOfTheDark.common.item.crossbow.ItemCrossbow;
@@ -25,7 +26,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedInsanityUpdat
 import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedResearchUpdate;
 import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedTeleport;
 import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedVitaeUpdate;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -191,7 +191,7 @@ public class PlayerController
 				}
 				if (Research.isResearched(event.entityPlayer, ResearchTypes.Nightmares))
 				{
-					Utility.sendPlayerToDimension((EntityPlayerMP) event.entityPlayer, Constants.NightmareWorld.NIGHTMARE_WORLD_ID, false);
+					Utility.sendPlayerToDimension((EntityPlayerMP) event.entityPlayer, Constants.NightmareWorld.NIGHTMARE_WORLD_ID, false, NightmareTeleporter.class);
 				}
 			}
 		}
@@ -231,7 +231,6 @@ public class PlayerController
 
 			if (InventorySaver.getPlayerLocationNightmare(entityPlayer) == -1)
 			{
-				LogHelper.info(entityPlayer.getDisplayName().getUnformattedText() + " has entered their nightmare world for the first time!");
 				ISaveHandler iSaveHandler = MinecraftServer.getServer().worldServers[0].getSaveHandler();
 				if (iSaveHandler instanceof SaveHandler)
 				{

@@ -166,8 +166,15 @@ public final class Constants
 
 	public static final class NightmareWorld
 	{
-		public static final String NIGHTMARE_WORLD_NAME = "";
+		public static final String NIGHTMARE_WORLD_NAME = "nightmare";
 		public static final int NIGHTMARE_WORLD_ID = 67;
+		public static final int BLOCKS_BETWEEN_ISLANDS = 992;
+	}
+
+	public static final class VoidChestWorld
+	{
+		public static final String VOID_CHEST_WORLD_NAME = "voidChest";
+		public static final int VOID_CHEST_WORLD_ID = 68;
 		public static final int BLOCKS_BETWEEN_ISLANDS = 992;
 	}
 
