@@ -18,7 +18,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -203,13 +202,6 @@ public class ItemCrossbow extends AOTDItem
 	public void onCreated(final ItemStack itemStack, final World world, final EntityPlayer entityPlayer)
 	{
 		NBTHelper.setInteger(itemStack, "mode", 0);
-	}
-
-	// Load NBT data onto an itemstack
-	public static NBTTagCompound loadNBTData(final ItemStack itemStack)
-	{
-		NBTHelper.getInt(itemStack, "mode");
-		return itemStack.getTagCompound();
 	}
 
 	/**
