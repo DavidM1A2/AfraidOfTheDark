@@ -52,7 +52,7 @@ public class BlockVoidChest extends AOTDBlockTileEntity
 	@Override
 	public int getRenderType()
 	{
-		return 2;
+		return 22;
 	}
 
 	@Override

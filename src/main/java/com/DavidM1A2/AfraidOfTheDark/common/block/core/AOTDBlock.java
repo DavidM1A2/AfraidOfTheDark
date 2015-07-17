@@ -5,6 +5,9 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.block.core;
 
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -13,16 +16,11 @@ import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
-
 /*
  * This will be the base for all of our modded blocks
  */
 public abstract class AOTDBlock extends Block
 {
-	// private static final PropertyBool VARIANT = PropertyBool.create("variant");
-
 	public AOTDBlock(final Material material)
 	{
 		// Set the material and creative tab
