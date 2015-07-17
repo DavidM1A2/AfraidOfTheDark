@@ -72,7 +72,7 @@ public class BlockVoidChest extends AOTDBlockTileEntity
 		if (world.getTileEntity(blockPos) instanceof TileEntityVoidChest)
 		{
 			TileEntityVoidChest entityVoidChest = (TileEntityVoidChest) world.getTileEntity(blockPos);
-			entityVoidChest.shouldBeOpen = !entityVoidChest.shouldBeOpen;
+			entityVoidChest.interact();
 		}
 		return true;
 	}

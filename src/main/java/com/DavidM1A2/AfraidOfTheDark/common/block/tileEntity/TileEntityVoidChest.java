@@ -12,11 +12,13 @@ public class TileEntityVoidChest extends AOTDTileEntity implements IUpdatePlayer
 	/** The angle of the lid last tick */
 	public float prevLidAngle;
 
-	public boolean shouldBeOpen = false;
+	private boolean shouldBeOpen = false;
 
 	/** Server sync counter (once per 20 ticks) */
 	private int ticksSinceSync;
 	private int cachedChestType;
+
+	private long lastInteraction = -1;
 
 	public TileEntityVoidChest()
 	{
@@ -32,19 +34,13 @@ public class TileEntityVoidChest extends AOTDTileEntity implements IUpdatePlayer
 		this.ticksSinceSync = this.ticksSinceSync + 1;;
 		float f;
 
-		//		if (!this.worldObj.isRemote && this.numPlayersUsing != 0 && (this.ticksSinceSync + i + j + k) % 200 == 0)
-		//		{
-		//			this.numPlayersUsing = 0;
-		//			f = 5.0F;
-		//			List list = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB((double) ((float) i - f), (double) ((float) j - f), (double) ((float) k - f), (double) ((float) (i + 1) + f), (double) ((float) (j + 1) + f), (double) ((float) (k + 1) + f)));
-		//			Iterator iterator = list.iterator();
-		//
-		//			while (iterator.hasNext())
-		//			{
-		//				EntityPlayer entityplayer = (EntityPlayer) iterator.next();
-		//				numPlayersUsing = list.size();
-		//			}
-		//		}
+		if (ticksSinceSync % 20 == 0)
+		{
+			if ((System.currentTimeMillis() - this.lastInteraction) > 3000)
+			{
+				this.shouldBeOpen = false;
+			}
+		}
 
 		this.prevLidAngle = this.lidAngle;
 		f = 0.1F;
@@ -93,5 +89,11 @@ public class TileEntityVoidChest extends AOTDTileEntity implements IUpdatePlayer
 				this.lidAngle = 0.0F;
 			}
 		}
+	}
+
+	public void interact()
+	{
+		this.lastInteraction = System.currentTimeMillis();
+		this.shouldBeOpen = true;
 	}
 }
