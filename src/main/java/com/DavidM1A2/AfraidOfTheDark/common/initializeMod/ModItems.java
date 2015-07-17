@@ -152,7 +152,13 @@ public class ModItems
 			itemModelMesher.register(ModItems.igneousSword, 1, new ModelResourceLocation(Refrence.MOD_ID + ":igneousSwordFullCharge", "inventory"));
 			ModelBakery.addVariantName(ModItems.igneousSword, Refrence.MOD_ID + ":igneousSword", Refrence.MOD_ID + ":igneousSwordFullCharge");
 			itemModelMesher.register(ModItems.astralSilverIngot, 0, new ModelResourceLocation(Refrence.MOD_ID + ":astralSilverIngot", "inventory"));
-			itemModelMesher.register(ModItems.crossbow, 0, new ModelResourceLocation(Refrence.MOD_ID + ":crossbow", "inventory"));
+
+			itemModelMesher.register(ModItems.crossbow, 0, new ModelResourceLocation(Refrence.MOD_ID + ":crossbowUnloaded", "inventory"));
+			itemModelMesher.register(ModItems.crossbow, 1, new ModelResourceLocation(Refrence.MOD_ID + ":crossbowQuarter", "inventory"));
+			itemModelMesher.register(ModItems.crossbow, 2, new ModelResourceLocation(Refrence.MOD_ID + ":crossbowHalf", "inventory"));
+			itemModelMesher.register(ModItems.crossbow, 3, new ModelResourceLocation(Refrence.MOD_ID + ":crossbowLoaded", "inventory"));
+			ModelBakery.addVariantName(ModItems.crossbow, Refrence.MOD_ID + ":crossbowUnloaded", Refrence.MOD_ID + ":crossbowQuarter", Refrence.MOD_ID + ":crossbowHalf", Refrence.MOD_ID + ":crossbowLoaded");
+
 			itemModelMesher.register(ModItems.wristCrossbow, 0, new ModelResourceLocation(Refrence.MOD_ID + ":wristCrossbow", "inventory"));
 			itemModelMesher.register(ModItems.woodenBolt, 0, new ModelResourceLocation(Refrence.MOD_ID + ":woodenBolt", "inventory"));
 			itemModelMesher.register(ModItems.ironBolt, 0, new ModelResourceLocation(Refrence.MOD_ID + ":ironBolt", "inventory"));

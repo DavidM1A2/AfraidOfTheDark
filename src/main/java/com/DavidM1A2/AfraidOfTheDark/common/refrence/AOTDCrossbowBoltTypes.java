@@ -5,17 +5,17 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.refrence;
 
-import net.minecraft.item.Item;
-
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
+
+import net.minecraft.item.Item;
 
 public enum AOTDCrossbowBoltTypes
 {
-	wooden(0, ModItems.woodenBolt),
-	iron(1, ModItems.ironBolt),
-	silver(2, ModItems.silverBolt),
-	igneous(3, ModItems.igneousBolt),
-	starMetal(4, ModItems.starMetalBolt);
+	Wooden(0, ModItems.woodenBolt),
+	Iron(1, ModItems.ironBolt),
+	Silver(2, ModItems.silverBolt),
+	Igneous(3, ModItems.igneousBolt),
+	StarMetal(4, ModItems.starMetalBolt);
 
 	private int id = 0;
 	private Item myBoltItem;
@@ -41,6 +41,18 @@ public enum AOTDCrossbowBoltTypes
 			}
 		}
 		return null;
+	}
+
+	public String formattedString()
+	{
+		String toReturn = "";
+
+		for (final String string : this.toString().split("(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])"))
+		{
+			toReturn = toReturn + string + " ";
+		}
+
+		return toReturn;
 	}
 
 	public Item getMyBoltItem()

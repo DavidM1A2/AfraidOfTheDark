@@ -10,7 +10,6 @@ import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare.NightmareTeleporter;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
-import com.DavidM1A2.AfraidOfTheDark.common.item.crossbow.ItemCrossbow;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateAOTDStatus;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateInsanity;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateResearch;
@@ -32,7 +31,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemFlintAndSteel;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
@@ -102,28 +100,13 @@ public class PlayerController
 		// When the player joins the world
 		if (event.entity instanceof EntityPlayer)
 		{
-			final EntityPlayer entityPlayer = (EntityPlayer) event.entity;
-
-			/*
-			 * This first block of code will update any crossbows when the player loads in.
-			 */
-			for (int i = 0; i < entityPlayer.inventory.getSizeInventory(); i++)
-			{
-				final ItemStack currentStack = entityPlayer.inventory.getStackInSlot(i);
-				if (currentStack != null)
-				{
-					if (currentStack.getItem() instanceof ItemCrossbow)
-					{
-						currentStack.setTagCompound(ItemCrossbow.loadNBTData(currentStack));
-					}
-				}
-			}
-
 			/*
 			 * Sync player research, insanity, and AOTDStart status
 			 */
 			if (!event.world.isRemote)
 			{
+				final EntityPlayer entityPlayer = (EntityPlayer) event.entity;
+
 				AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateInsanity(Insanity.get(entityPlayer)), (EntityPlayerMP) entityPlayer);
 
 				AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateAOTDStatus(HasStartedAOTD.get(entityPlayer)), (EntityPlayerMP) entityPlayer);

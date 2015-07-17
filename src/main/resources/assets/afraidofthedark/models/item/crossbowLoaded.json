@@ -1,7 +1,7 @@
 {
 	"parent": "builtin/generated",
 	"textures": {
-		"layer0": "afraidofthedark:items/crossbowUnloaded"
+		"layer0": "afraidofthedark:items/crossbowLoaded"
 	},
 	"display": {
 		"thirdperson": {

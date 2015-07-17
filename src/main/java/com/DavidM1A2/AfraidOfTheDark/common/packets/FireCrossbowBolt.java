@@ -5,13 +5,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
-import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityIgneousBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityIronBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntitySilverBolt;
@@ -20,13 +13,20 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityWoodenBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDCrossbowBoltTypes;
 
+import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+
 public class FireCrossbowBolt implements IMessage
 {
 	private AOTDCrossbowBoltTypes boltType;
 
 	public FireCrossbowBolt()
 	{
-		boltType = AOTDCrossbowBoltTypes.iron;
+		boltType = AOTDCrossbowBoltTypes.Iron;
 	}
 
 	public FireCrossbowBolt(AOTDCrossbowBoltTypes boltType)
@@ -59,19 +59,19 @@ public class FireCrossbowBolt implements IMessage
 				currentWorld.playSoundAtEntity(entityPlayer, "afraidofthedark:crossbowFire", 0.5F, ((currentWorld.rand.nextFloat() * 0.4F) + 0.8F));
 				switch (message.boltType)
 				{
-					case iron:
+					case Iron:
 						currentWorld.spawnEntityInWorld(new EntityIronBolt(currentWorld, entityPlayer));
 						break;
-					case silver:
+					case Silver:
 						currentWorld.spawnEntityInWorld(new EntitySilverBolt(currentWorld, entityPlayer));
 						break;
-					case wooden:
+					case Wooden:
 						currentWorld.spawnEntityInWorld(new EntityWoodenBolt(currentWorld, entityPlayer));
 						break;
-					case igneous:
+					case Igneous:
 						currentWorld.spawnEntityInWorld(new EntityIgneousBolt(currentWorld, entityPlayer));
 						break;
-					case starMetal:
+					case StarMetal:
 						currentWorld.spawnEntityInWorld(new EntityStarMetalBolt(currentWorld, entityPlayer));
 						break;
 					default:
@@ -84,35 +84,35 @@ public class FireCrossbowBolt implements IMessage
 				boolean fired = false;
 				switch (message.boltType)
 				{
-					case iron:
+					case Iron:
 						if (entityPlayer.inventory.consumeInventoryItem(ModItems.ironBolt))
 						{
 							currentWorld.spawnEntityInWorld(new EntityIronBolt(currentWorld, entityPlayer));
 							fired = true;
 						}
 						break;
-					case silver:
+					case Silver:
 						if (entityPlayer.inventory.consumeInventoryItem(ModItems.silverBolt))
 						{
 							currentWorld.spawnEntityInWorld(new EntitySilverBolt(currentWorld, entityPlayer));
 							fired = true;
 						}
 						break;
-					case wooden:
+					case Wooden:
 						if (entityPlayer.inventory.consumeInventoryItem(ModItems.woodenBolt))
 						{
 							currentWorld.spawnEntityInWorld(new EntityWoodenBolt(currentWorld, entityPlayer));
 							fired = true;
 						}
 						break;
-					case igneous:
+					case Igneous:
 						if (entityPlayer.inventory.consumeInventoryItem(ModItems.igneousBolt))
 						{
 							currentWorld.spawnEntityInWorld(new EntityIgneousBolt(currentWorld, entityPlayer));
 							fired = true;
 						}
 						break;
-					case starMetal:
+					case StarMetal:
 						if (entityPlayer.inventory.consumeInventoryItem(ModItems.starMetalBolt))
 						{
 							currentWorld.spawnEntityInWorld(new EntityStarMetalBolt(currentWorld, entityPlayer));
