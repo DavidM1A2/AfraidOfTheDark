@@ -12,7 +12,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityStarMetalBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityWoodenBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDCrossbowBoltTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -102,7 +101,6 @@ public class ItemCrossbow extends AOTDItem
 		if (!entityPlayer.worldObj.isRemote)
 		{
 			count = this.getMaxItemUseDuration(itemStack) - count;
-			LogHelper.info(count);
 			// On using we play a sound
 			if (count == 1)
 			{
