@@ -16,6 +16,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -31,7 +32,7 @@ public enum ResearchTypes
 	{ ModItems.crossbow, ModItems.woodenBolt, ModItems.ironBolt }, new Object[]
 	{}),
 	EnchantedSkeleton(AnUnbreakableCovenant, -1, 0, new Object[]
-	{}, new Object[]
+	{ Items.dye }, new Object[]
 	{}),
 	WristCrossbow(Crossbow, 2, 0, new Object[]
 	{ ModItems.wristCrossbow }, new Object[]

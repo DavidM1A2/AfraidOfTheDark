@@ -11,6 +11,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.RecipeSorter;
@@ -73,5 +74,7 @@ public class ModRecipes
 				0)));
 
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModBlocks.voidChest), ResearchTypes.VoidChest, "aba", "bcb", "aba", 'a', new ItemStack(Blocks.obsidian, 1, 0), 'b', new ItemStack(Blocks.coal_block, 1, 0), 'c', new ItemStack(Blocks.ender_chest, 1, 0)));
+
+		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(Items.dye, 5, EnumDyeColor.WHITE.getDyeColorDamage()), ResearchTypes.EnchantedSkeleton, new ItemStack(ModItems.enchantedSkeletonBone)));
 	}
 }
