@@ -46,7 +46,7 @@ public enum ResearchTypes
 	{ ModItems.astralSilverSword, ModItems.silverBolt }, new Object[]
 	{}),
 	VoidChest(AstralSilver, 1, 3, new Object[]
-	{}, new Object[]
+	{ ModBlocks.voidChest }, new Object[]
 	{}),
 	VitaeI(AstralSilver, -1, 3, new Object[]
 	{}, new Object[]

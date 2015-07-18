@@ -72,5 +72,6 @@ public class ModRecipes
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModBlocks.vitaeDisenchanter), ResearchTypes.VitaeDisenchanter, "aba", "bcb", "aba", 'a', new ItemStack(ModBlocks.gravewood, 1, 0), 'b', new ItemStack(Blocks.iron_block, 1, 0), 'c', new ItemStack(Blocks.diamond_block, 1,
 				0)));
 
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModBlocks.voidChest), ResearchTypes.VoidChest, "aba", "bcb", "aba", 'a', new ItemStack(Blocks.obsidian, 1, 0), 'b', new ItemStack(Blocks.coal_block, 1, 0), 'c', new ItemStack(Blocks.ender_chest, 1, 0)));
 	}
 }

@@ -7,9 +7,12 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui.customControls;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.util.ResourceLocation;
 
 public class BookmarkButton extends GuiButton
 {
+	private static final ResourceLocation BUTTON_TEXTURE = new ResourceLocation("afraidofthedark:textures/gui/buttons/backToResearchButton.png");
+
 	public BookmarkButton(int buttonId, int x, int y, int widthIn, int heightIn)
 	{
 		super(buttonId, x, y, widthIn, heightIn, "");
@@ -19,6 +22,7 @@ public class BookmarkButton extends GuiButton
 	@Override
 	public void drawButton(final Minecraft minecraft, final int mouseX, final int mouseY)
 	{
+
 	}
 
 	// Update x, y, width, and height of a textbox

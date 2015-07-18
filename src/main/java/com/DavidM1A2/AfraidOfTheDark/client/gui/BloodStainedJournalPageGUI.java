@@ -159,12 +159,12 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 		GL11.glPushMatrix();
 		GL11.glEnable(GL11.GL_BLEND);
 
-		double pageScaleWidth = this.width / 640.0D;
-		double pageScaleHeight = this.height / 480.0D;
-		double pageScaleCombined = (pageScaleWidth + pageScaleHeight) / 2.0D;
+		double currentGUIScaleX = this.width / 640.0D;
+		double currentGUIScaleY = this.height / 480.0D;
+		double currentGUIScale = (currentGUIScaleX + currentGUIScaleY) / 2.0D;
 
 		GL11.glTranslated(this.width / 2, this.height / 2, 0.0D);
-		GL11.glScaled(pageScaleCombined, pageScaleCombined, 1.0D);
+		GL11.glScaled(currentGUIScale, currentGUIScale, 1.0D);
 		GL11.glTranslated(-this.width / 2, -this.height / 2, 0.0D);
 
 		this.mc.renderEngine.bindTexture(this.journalTexture);
@@ -221,10 +221,10 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 		this.leftPageLabel.drawNumber(Integer.toString(this.pageNumber + 1));
 		this.rightPageLabel.drawNumber(Integer.toString(this.pageNumber + 2));
 
-		bookmarkButton.drawButton(mc, mouseX, mouseY);
-
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glPopMatrix();
+
+		bookmarkButton.drawButton(mc, mouseX, mouseY);
 
 		GL11.glEnable(GL11.GL_BLEND);
 		this.backwardButton.drawButton(mc, mouseX, mouseY);
@@ -241,23 +241,23 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 		this.xCornerOfPage = (this.width - journalWidth) / 2;
 		this.yCornerOfPage = (this.height - journalHeight) / 2;
 
-		int scaledXLeftPageCoord = this.xCornerOfPage + 20;
-		int scaledYLeftPageCoord = this.yCornerOfPage + 35;
+		int translatedXLeftPageCoord = this.xCornerOfPage + 20;
+		int translatedYLeftPageCoord = this.yCornerOfPage + 35;
 
-		int scaledXRightPageCoord = this.xCornerOfPage + 170;
-		int scaledYRightPageCoord = this.yCornerOfPage + 35;
+		int translatedXRightPageCoord = this.xCornerOfPage + 170;
+		int translatedYRightPageCoord = this.yCornerOfPage + 35;
 
 		// Set the text box bounds
-		this.leftPage.updateBounds(scaledXLeftPageCoord, scaledYLeftPageCoord, this.journalWidth, this.journalHeight - 50);
-		this.rightPage.updateBounds(scaledXRightPageCoord, scaledYRightPageCoord, this.journalWidth, this.journalHeight - 50);
+		this.leftPage.updateBounds(translatedXLeftPageCoord, translatedYLeftPageCoord, this.journalWidth, this.journalHeight - 50);
+		this.rightPage.updateBounds(translatedXRightPageCoord, translatedYRightPageCoord, this.journalWidth, this.journalHeight - 50);
 
-		this.leftPageLabel.updateBounds(scaledXLeftPageCoord, scaledYLeftPageCoord + this.journalHeight - 85, 50, 50);
-		this.rightPageLabel.updateBounds(scaledXRightPageCoord + (int) (this.journalWidth * .42), scaledYRightPageCoord + this.journalHeight - 85, 50, 50);
+		this.leftPageLabel.updateBounds(translatedXLeftPageCoord, translatedYLeftPageCoord + this.journalHeight - 85, 50, 50);
+		this.rightPageLabel.updateBounds(translatedXRightPageCoord + (int) (this.journalWidth * .42), translatedYRightPageCoord + this.journalHeight - 85, 50, 50);
 
 		this.forwardButton.updateBounds(this.width - 64, this.height - 64);
 		this.backwardButton.updateBounds(0, this.height - 64);
 
-		this.bookmarkButton.updateBounds(64, this.height - 60, this.width - 128, 40);
+		this.bookmarkButton.updateBounds(this.width / 2 - 20, this.height - 100, 40, 100);
 
 		this.previousWidth = this.width;
 		this.previousHeight = this.height;
