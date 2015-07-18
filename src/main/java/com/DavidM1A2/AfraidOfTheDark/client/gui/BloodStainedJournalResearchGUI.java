@@ -17,6 +17,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
@@ -89,6 +90,8 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 		GL11.glScissor(disWidth - ((BloodStainedJournalResearchGUI.xPosScroll + BloodStainedJournalResearchGUI.BACKGROUND_WIDTH) * widthScale), disHeight - ((BloodStainedJournalResearchGUI.yPosScroll + BloodStainedJournalResearchGUI.BACKGROUND_HEIGHT) * widthScale),
 				BloodStainedJournalResearchGUI.BACKGROUND_WIDTH * heightScale, BloodStainedJournalResearchGUI.BACKGROUND_HEIGHT * heightScale);
 		super.drawScreen(i, j, f);
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+
 		this.drawLines();
 		GL11.glDisable(GL11.GL_SCISSOR_TEST);
 
