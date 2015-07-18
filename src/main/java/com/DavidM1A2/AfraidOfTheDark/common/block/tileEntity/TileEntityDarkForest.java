@@ -5,6 +5,12 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity;
 
+import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDTileEntity;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemPotion;
@@ -13,12 +19,6 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.fml.relauncher.Side;
-
-import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDTileEntity;
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 public class TileEntityDarkForest extends AOTDTileEntity implements IUpdatePlayerListBox
 {
@@ -47,10 +47,6 @@ public class TileEntityDarkForest extends AOTDTileEntity implements IUpdatePlaye
 						if (Research.canResearch(entityPlayer, ResearchTypes.DarkForest))
 						{
 							Research.unlockResearchSynced(entityPlayer, ResearchTypes.DarkForest, Side.SERVER, true);
-						}
-						if (Research.canResearch(entityPlayer, ResearchTypes.Insanity))
-						{
-							Research.unlockResearchSynced(entityPlayer, ResearchTypes.Insanity, Side.SERVER, true);
 						}
 
 						if (Research.isResearched(entityPlayer, ResearchTypes.DarkForest))

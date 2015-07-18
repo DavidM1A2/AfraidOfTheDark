@@ -49,31 +49,31 @@ public enum ResearchTypes
 	VoidChest(AstralSilver, 1, 3, new Object[]
 	{ ModBlocks.voidChest }, new Object[]
 	{}),
-	VitaeI(AstralSilver, -1, 3, new Object[]
-	{}, new Object[]
-	{}),
-	VitaeLanternI(VitaeI, -2, 3, new Object[]
-	{ ModItems.vitaeLantern }, new Object[]
-	{ ModItems.vitaeLantern }),
-	VitaeDisenchanter(VitaeLanternI, -3, 3, new Object[]
-	{ ModBlocks.vitaeDisenchanter }, new Object[]
-	{}),
-	DeeeSyft(VitaeLanternI, -2, 4, new Object[]
-	{}, new Object[]
-	{}),
 	DarkForest(AstralSilver, 0, 4, new Object[]
-	{}, new Object[]
-	{}),
-	Insanity(DarkForest, 1, 4, new Object[]
 	{}, new Object[]
 	{}),
 	SleepingPotion(DarkForest, -1, 4, new Object[]
 	{}, new Object[]
 	{}),
-	CloakOfAgility(AstronomyI, -1, 2, new Object[]
+	CloakOfAgility(DarkForest, 1, 4, new Object[]
 	{ ModItems.cloakOfAgility }, new Object[]
 	{}),
 	Nightmares(DarkForest, 0, 5, new Object[]
+	{}, new Object[]
+	{}),
+	VitaeI(Nightmares, -1, 5, new Object[]
+	{}, new Object[]
+	{}),
+	VitaeLanternI(VitaeI, -2, 5, new Object[]
+	{ ModItems.vitaeLantern }, new Object[]
+	{ ModItems.vitaeLantern }),
+	Insanity(Nightmares, 1, 5, new Object[]
+	{}, new Object[]
+	{}),
+	VitaeDisenchanter(VitaeLanternI, -3, 5, new Object[]
+	{ ModBlocks.vitaeDisenchanter }, new Object[]
+	{}),
+	DeeeSyft(VitaeLanternI, -2, 6, new Object[]
 	{}, new Object[]
 	{}),
 	AstronomyII(Nightmares, 0, 6, new Object[]

@@ -27,7 +27,6 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -425,7 +424,8 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 	 */
 	private void drawItemStack(ItemStack stack, int x, int y, int stackSize)
 	{
-		GlStateManager.translate(0.0F, 0.0F, 32.0F);
+		// Fixed an issue regarding drawing of certain recipes... idk why this exists
+		//GlStateManager.translate(0.0F, 0.0F, 32.0F);
 		this.zLevel = 200.0F;
 		this.itemRender.zLevel = 200.0F;
 		FontRenderer font = null;
@@ -434,7 +434,7 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 		if (font == null)
 			font = fontRendererObj;
 		this.itemRender.func_180450_b(stack, x, y);
-		this.itemRender.func_180453_a(font, stack, x, y, stackSize == 1 ? "" : Integer.toString(stackSize));
+		this.itemRender.func_180453_a(font, stack, x, y, null);
 		this.zLevel = 0.0F;
 		this.itemRender.zLevel = 0.0F;
 	}
