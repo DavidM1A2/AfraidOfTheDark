@@ -147,9 +147,12 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 						{
 							for (ItemStack itemStack : cleanedRecipe.getInput())
 							{
-								if (itemStack.getItemDamage() == 32767)
+								if (itemStack != null)
 								{
-									itemStack.setItemDamage(0);
+									if (itemStack.getItemDamage() == 32767)
+									{
+										itemStack.setItemDamage(0);
+									}
 								}
 							}
 							if (cleanedRecipe.getOutput().getItemDamage() == 32767)
@@ -242,6 +245,22 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 		bookmarkButton.drawButton(mc, mouseX, mouseY);
 
 		GL11.glEnable(GL11.GL_BLEND);
+		if (this.hasPageBackward())
+		{
+			this.backwardButton.visible = true;
+		}
+		else
+		{
+			this.backwardButton.visible = false;
+		}
+		if (this.hasPageForward())
+		{
+			this.forwardButton.visible = true;
+		}
+		else
+		{
+			this.forwardButton.visible = false;
+		}
 		this.backwardButton.drawButton(mc, mouseX, mouseY);
 		this.forwardButton.drawButton(mc, mouseX, mouseY);
 		GL11.glDisable(GL11.GL_BLEND);
@@ -312,6 +331,16 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 		pageNumber = MathHelper.clamp_int(pageNumber - 2, 0, Integer.MAX_VALUE);
 	}
 
+	private boolean hasPageBackward()
+	{
+		return pageNumber != 0;
+	}
+
+	private boolean hasPageForward()
+	{
+		return !(!Utility.hasIndex(this.textOnEachPage, pageNumber + 2) && !Utility.hasIndex(this.researchRecipes, (pageNumber + 2 - this.textOnEachPage.size()) * 2));
+	}
+
 	private void updateText()
 	{
 		this.textOnEachPage.clear();
@@ -364,7 +393,10 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 			{
 				for (int j = 0; j < recipe.getWidth(); j++)
 				{
-					this.drawItemStack(recipe.getInput()[i * recipe.getWidth() + j], x + 5 + j * 30, y + 5 + i * 30, recipe.getInput()[i].stackSize);
+					if (recipe.getInput()[i * recipe.getWidth() + j] != null)
+					{
+						this.drawItemStack(recipe.getInput()[i * recipe.getWidth() + j], x + 5 + j * 30, y + 5 + i * 30, recipe.getInput()[i * recipe.getWidth() + j].stackSize);
+					}
 				}
 			}
 		}
