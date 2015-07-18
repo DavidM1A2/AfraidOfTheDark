@@ -5,6 +5,9 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.playerData;
 
+import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateAOTDStatus;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -12,9 +15,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import net.minecraftforge.fml.relauncher.Side;
-
-import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
-import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateAOTDStatus;
 
 // This property is saved on a player and keeps track of if they have begun the mod
 public class HasStartedAOTD implements IExtendedEntityProperties

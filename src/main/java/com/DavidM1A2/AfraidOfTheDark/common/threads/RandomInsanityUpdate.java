@@ -1,16 +1,18 @@
 /*
- * Author: David Slovikosky Mod: Afraid of the Dark Ideas and Textures: Michael Albertson
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
  */
 package com.DavidM1A2.AfraidOfTheDark.common.threads;
 
 import java.util.Random;
 
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBiomes;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Insanity;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
-
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBiomes;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Insanity;
 
 // Over time the player becomes more sane. If the player is in the middle of nowhere, decrease insanity, else if he is in an erie forest, increase
 // insanity

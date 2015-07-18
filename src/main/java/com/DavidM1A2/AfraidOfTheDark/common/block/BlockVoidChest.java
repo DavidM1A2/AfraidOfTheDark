@@ -1,3 +1,8 @@
+/*
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.common.block;
 
 import java.util.Random;
@@ -67,6 +72,7 @@ public class BlockVoidChest extends AOTDBlockTileEntity
 		worldIn.setBlockState(pos, state.withProperty(FACING_PROP, placer.func_174811_aO().getOpposite()), 2);
 	}
 
+	@Override
 	public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
 		if (world.getTileEntity(blockPos) instanceof TileEntityVoidChest)
@@ -80,6 +86,7 @@ public class BlockVoidChest extends AOTDBlockTileEntity
 	/**
 	 * Convert the given metadata into a BlockState for this Block
 	 */
+	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
 		EnumFacing enumfacing = EnumFacing.getFront(meta);
@@ -92,6 +99,7 @@ public class BlockVoidChest extends AOTDBlockTileEntity
 		return this.getDefaultState().withProperty(FACING_PROP, enumfacing);
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand)
 	{
@@ -101,11 +109,13 @@ public class BlockVoidChest extends AOTDBlockTileEntity
 	/**
 	 * Convert the BlockState into the correct metadata value
 	 */
+	@Override
 	public int getMetaFromState(IBlockState state)
 	{
 		return ((EnumFacing) state.getValue(FACING_PROP)).getIndex();
 	}
 
+	@Override
 	protected BlockState createBlockState()
 	{
 		return new BlockState(this, new IProperty[]

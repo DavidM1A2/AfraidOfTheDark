@@ -5,16 +5,16 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts;
 
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 
 public class EntitySilverBolt extends EntityBolt
 {
@@ -34,6 +34,7 @@ public class EntitySilverBolt extends EntityBolt
 	}
 
 	// Set the properties of the bolt
+	@Override
 	public void setProperties()
 	{
 		this.setDamage(7);

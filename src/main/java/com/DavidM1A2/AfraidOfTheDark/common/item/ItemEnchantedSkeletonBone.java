@@ -1,3 +1,8 @@
+/*
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.common.item;
 
 import java.util.ArrayList;
@@ -37,6 +42,7 @@ public class ItemEnchantedSkeletonBone extends AOTDItem
 	 *            The entity Item
 	 * @return Return true to skip any further update code.
 	 */
+	@Override
 	public boolean onEntityItemUpdate(EntityItem entityItem)
 	{
 		if (entityItem.ticksExisted % UPDATE_TIME_IN_TICKS == 0)

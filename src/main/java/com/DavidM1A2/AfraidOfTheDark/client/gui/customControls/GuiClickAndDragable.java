@@ -7,10 +7,10 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui.customControls;
 
 import java.io.IOException;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-
-import org.lwjgl.opengl.GL11;
 
 public abstract class GuiClickAndDragable extends GuiScreen
 {

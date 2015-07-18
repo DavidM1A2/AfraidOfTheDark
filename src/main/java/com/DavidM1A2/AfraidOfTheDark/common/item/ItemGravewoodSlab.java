@@ -5,11 +5,11 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.item;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.ItemSlab;
-
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewoodDoubleSlab;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewoodHalfSlab;
+
+import net.minecraft.block.Block;
+import net.minecraft.item.ItemSlab;
 
 // Item version of the slab
 public class ItemGravewoodSlab extends ItemSlab

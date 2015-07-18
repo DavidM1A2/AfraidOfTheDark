@@ -5,11 +5,11 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.utility;
 
-import net.minecraftforge.fml.common.FMLLog;
-
 import org.apache.logging.log4j.Level;
 
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
+
+import net.minecraftforge.fml.common.FMLLog;
 
 public class LogHelper
 {

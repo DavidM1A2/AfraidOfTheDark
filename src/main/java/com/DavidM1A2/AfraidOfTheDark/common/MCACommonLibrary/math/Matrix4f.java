@@ -302,6 +302,7 @@ public class Matrix4f implements java.io.Serializable
 	 * 
 	 * @return the String representation
 	 */
+	@Override
 	public String toString()
 	{
 		return this.m00 + ", " + this.m01 + ", " + this.m02 + ", " + this.m03 + "\n" + this.m10 + ", " + this.m11 + ", " + this.m12 + ", " + this.m13 + "\n" + this.m20 + ", " + this.m21 + ", " + this.m22 + ", " + this.m23 + "\n" + this.m30 + ", " + this.m31 + ", " + this.m32 + ", " + this.m33
@@ -1162,8 +1163,8 @@ public class Matrix4f implements java.io.Serializable
 			float ay = a1.y * mag;
 			float az = a1.z * mag;
 
-			float sinTheta = (float) Math.sin((double) a1.angle);
-			float cosTheta = (float) Math.cos((double) a1.angle);
+			float sinTheta = (float) Math.sin(a1.angle);
+			float cosTheta = (float) Math.cos(a1.angle);
 			float t = 1.0f - cosTheta;
 
 			float xz = ax * az;
@@ -1839,8 +1840,8 @@ public class Matrix4f implements java.io.Serializable
 	{
 		float sinAngle, cosAngle;
 
-		sinAngle = (float) Math.sin((double) angle);
-		cosAngle = (float) Math.cos((double) angle);
+		sinAngle = (float) Math.sin(angle);
+		cosAngle = (float) Math.cos(angle);
 
 		this.m00 = (float) 1.0;
 		this.m01 = (float) 0.0;
@@ -1873,8 +1874,8 @@ public class Matrix4f implements java.io.Serializable
 	{
 		float sinAngle, cosAngle;
 
-		sinAngle = (float) Math.sin((double) angle);
-		cosAngle = (float) Math.cos((double) angle);
+		sinAngle = (float) Math.sin(angle);
+		cosAngle = (float) Math.cos(angle);
 
 		this.m00 = cosAngle;
 		this.m01 = (float) 0.0;
@@ -1907,8 +1908,8 @@ public class Matrix4f implements java.io.Serializable
 	{
 		float sinAngle, cosAngle;
 
-		sinAngle = (float) Math.sin((double) angle);
-		cosAngle = (float) Math.cos((double) angle);
+		sinAngle = (float) Math.sin(angle);
+		cosAngle = (float) Math.cos(angle);
 
 		this.m00 = cosAngle;
 		this.m01 = -sinAngle;
@@ -2143,7 +2144,7 @@ public class Matrix4f implements java.io.Serializable
 		else
 		{
 			float m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, // vars for temp result matrix
-			m30, m31, m32, m33;
+					m30, m31, m32, m33;
 
 			m00 = m1.m00 * m2.m00 + m1.m10 * m2.m01 + m1.m20 * m2.m02 + m1.m30 * m2.m03;
 			m01 = m1.m00 * m2.m10 + m1.m10 * m2.m11 + m1.m20 * m2.m12 + m1.m30 * m2.m13;
@@ -2220,7 +2221,7 @@ public class Matrix4f implements java.io.Serializable
 		else
 		{
 			float m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, // vars for temp result matrix
-			m30, m31, m32, m33;
+					m30, m31, m32, m33;
 
 			m00 = m1.m00 * m2.m00 + m1.m01 * m2.m01 + m1.m02 * m2.m02 + m1.m03 * m2.m03;
 			m01 = m1.m00 * m2.m10 + m1.m01 * m2.m11 + m1.m02 * m2.m12 + m1.m03 * m2.m13;
@@ -2297,7 +2298,7 @@ public class Matrix4f implements java.io.Serializable
 		else
 		{
 			float m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, // vars for temp result matrix
-			m30, m31, m32, m33;
+					m30, m31, m32, m33;
 
 			m00 = m1.m00 * m2.m00 + m1.m10 * m2.m10 + m1.m20 * m2.m20 + m1.m30 * m2.m30;
 			m01 = m1.m00 * m2.m01 + m1.m10 * m2.m11 + m1.m20 * m2.m21 + m1.m30 * m2.m31;
@@ -2368,6 +2369,7 @@ public class Matrix4f implements java.io.Serializable
 	 *            the matrix with which the comparison is made.
 	 * @return true or false
 	 */
+	@Override
 	public boolean equals(Object t1)
 	{
 		try
@@ -2694,6 +2696,7 @@ public class Matrix4f implements java.io.Serializable
 	 *                if there is not enough memory.
 	 * @see java.lang.Cloneable
 	 */
+	@Override
 	public Object clone()
 	{
 		Matrix4f m1 = null;

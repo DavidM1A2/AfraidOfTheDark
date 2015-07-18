@@ -1,10 +1,15 @@
+/*
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.client.entities.Bolts;
+
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityBolt;
 
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityBolt;
 
 public class StarMetalBoltRender extends BoltRender
 {

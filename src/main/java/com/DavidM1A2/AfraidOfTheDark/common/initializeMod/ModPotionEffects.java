@@ -8,10 +8,10 @@ package com.DavidM1A2.AfraidOfTheDark.common.initializeMod;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
+import com.DavidM1A2.AfraidOfTheDark.common.item.potion.SleepingPotion;
+
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
-
-import com.DavidM1A2.AfraidOfTheDark.common.item.potion.SleepingPotion;
 
 public class ModPotionEffects
 {

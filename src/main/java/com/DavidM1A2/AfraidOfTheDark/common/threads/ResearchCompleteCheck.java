@@ -7,10 +7,10 @@ package com.DavidM1A2.AfraidOfTheDark.common.threads;
 
 import java.util.List;
 
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
+
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
 
 public class ResearchCompleteCheck extends Thread
 {

@@ -5,11 +5,11 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.settings;
 
-import net.minecraft.client.settings.KeyBinding;
-
 import org.lwjgl.input.Keyboard;
 
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Names;
+
+import net.minecraft.client.settings.KeyBinding;
 
 public class Keybindings
 {

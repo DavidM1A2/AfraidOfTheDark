@@ -7,6 +7,10 @@ package com.DavidM1A2.AfraidOfTheDark.common.block.core;
 
 import java.util.Random;
 
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDTreeTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
+
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.properties.IProperty;
@@ -16,10 +20,6 @@ import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDTreeTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 
 public abstract class AOTDSapling extends BlockBush implements IGrowable
 {
@@ -81,7 +81,7 @@ public abstract class AOTDSapling extends BlockBush implements IGrowable
 	@Override
 	public boolean canUseBonemeal(World world, Random random, BlockPos blockPos, IBlockState iBlockState)
 	{
-		return (double) world.rand.nextFloat() < 0.45D;
+		return world.rand.nextFloat() < 0.45D;
 	}
 
 	@Override

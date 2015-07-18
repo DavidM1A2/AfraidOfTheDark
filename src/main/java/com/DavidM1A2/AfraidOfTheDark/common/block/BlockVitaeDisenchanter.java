@@ -1,3 +1,8 @@
+/*
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.common.block;
 
 import java.util.ArrayList;
@@ -74,6 +79,7 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 		{ BlockVitaeDisenchanter.VARIANT });
 	}
 
+	@Override
 	public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState iBlockState, EntityPlayer entityPlayer, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
 		if (!world.isRemote)

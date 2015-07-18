@@ -49,7 +49,7 @@ public class SchematicLoader
 
 		for (int i = 0; i < byteArray.length; i++)
 		{
-			toReturn[i] = (short) byteArray[i];
+			toReturn[i] = byteArray[i];
 		}
 
 		return toReturn;

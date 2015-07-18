@@ -1,9 +1,11 @@
+/*
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.client.entities.Werewolf;
 
 import java.util.HashMap;
-
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.entity.Entity;
 
 import com.DavidM1A2.AfraidOfTheDark.client.MCAClientLibrary.MCAModelRenderer;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.MCAVersionChecker;
@@ -11,6 +13,9 @@ import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.Animation
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.math.Matrix4f;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.math.Quaternion;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
+
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.entity.Entity;
 
 public class ModelWerewolf extends ModelBase
 {

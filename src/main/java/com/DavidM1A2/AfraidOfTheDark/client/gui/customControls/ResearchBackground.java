@@ -3,12 +3,12 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui.customControls;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
 
 // The background is in fact a button
 public class ResearchBackground extends GuiButton

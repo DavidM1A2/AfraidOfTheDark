@@ -5,6 +5,12 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.playerData;
 
+import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateVitae;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityArmorStand;
@@ -13,12 +19,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import net.minecraftforge.fml.relauncher.Side;
-
-import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
-import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
-import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateVitae;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 //This property is saved on ENTITIES and keeps track of their vitae levels
 public class Vitae implements IExtendedEntityProperties
@@ -64,7 +64,7 @@ public class Vitae implements IExtendedEntityProperties
 		{
 			AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateVitae(Vitae.get(entityLivingBase), entityLivingBase.getEntityId()));
 		}
-		else if (side == side.SERVER)
+		else if (side == Side.SERVER)
 		{
 			AfraidOfTheDark.getSimpleNetworkWrapper().sendToAll(new UpdateVitae(Vitae.get(entityLivingBase), entityLivingBase.getEntityId()));
 		}
@@ -94,7 +94,7 @@ public class Vitae implements IExtendedEntityProperties
 				{
 					AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateVitae(Vitae.get(entityLivingBase), entityLivingBase.getEntityId()));
 				}
-				else if (side == side.SERVER)
+				else if (side == Side.SERVER)
 				{
 					AfraidOfTheDark.getSimpleNetworkWrapper().sendToAll(new UpdateVitae(Vitae.get(entityLivingBase), entityLivingBase.getEntityId()));
 				}

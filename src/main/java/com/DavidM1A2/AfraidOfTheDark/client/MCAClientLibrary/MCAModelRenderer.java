@@ -2,18 +2,18 @@ package com.DavidM1A2.AfraidOfTheDark.client.MCAClientLibrary;
 
 import java.nio.FloatBuffer;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelBox;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.renderer.GLAllocation;
-import net.minecraft.client.renderer.Tessellator;
-
 import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.Utils;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.math.Matrix4f;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.math.Quaternion;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.math.Vector3f;
+
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelBox;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.GLAllocation;
+import net.minecraft.client.renderer.Tessellator;
 
 public class MCAModelRenderer extends ModelRenderer
 {
@@ -199,6 +199,7 @@ public class MCAModelRenderer extends ModelRenderer
 	}
 
 	/** Set the rotation point */
+	@Override
 	public void setRotationPoint(float par1, float par2, float par3)
 	{
 		this.rotationPointX = par1;

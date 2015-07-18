@@ -5,15 +5,15 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 public class UpdateVitae implements IMessage
 {

@@ -181,6 +181,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable
 	 * 
 	 * @return the String representation
 	 */
+	@Override
 	public String toString()
 	{
 		return this.m00 + ", " + this.m01 + ", " + this.m02 + "\n" + this.m10 + ", " + this.m11 + ", " + this.m12 + "\n" + this.m20 + ", " + this.m21 + ", " + this.m22 + "\n";
@@ -1988,6 +1989,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable
 	 *            the matrix with which the comparison is made
 	 * @return true or false
 	 */
+	@Override
 	public boolean equals(Object t1)
 	{
 		try
@@ -2461,7 +2463,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable
 		System.out.println("t1="+t1[0]+" "+t1[1]+" "+t1[2]);
 		System.out.println("t1="+t1[3]+" "+t1[4]+" "+t1[5]);
 		System.out.println("t1="+t1[6]+" "+t1[7]+" "+t1[8]);
-
+		
 		System.out.println("t2 is \n" + t2);
 		System.out.println("t2="+t2[0]+" "+t2[1]+" "+t2[2]);
 		System.out.println("t2="+t2[3]+" "+t2[4]+" "+t2[5]);
@@ -3352,6 +3354,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable
 	 * @see java.lang.Cloneable
 	 * @since vecmath 1.3
 	 */
+	@Override
 	public Object clone()
 	{
 		Matrix3d m1 = null;

@@ -7,11 +7,11 @@ package com.DavidM1A2.AfraidOfTheDark.common.handler;
 
 import java.io.File;
 
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
+
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 
 // Configuration handler
 public class ConfigurationHandler

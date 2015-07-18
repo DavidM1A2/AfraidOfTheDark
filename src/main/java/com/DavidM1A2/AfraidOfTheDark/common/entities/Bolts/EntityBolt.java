@@ -5,6 +5,8 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts;
 
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,8 +15,6 @@ import net.minecraft.item.Item;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 
 // The bolt is a throwable entity and does Generic damage.
 public abstract class EntityBolt extends EntityThrowable

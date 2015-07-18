@@ -5,10 +5,10 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.threads;
 
-import net.minecraft.entity.player.EntityPlayerMP;
-
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.RotatePlayer;
+
+import net.minecraft.entity.player.EntityPlayerMP;
 
 public class PlayerSpinning extends Thread
 {

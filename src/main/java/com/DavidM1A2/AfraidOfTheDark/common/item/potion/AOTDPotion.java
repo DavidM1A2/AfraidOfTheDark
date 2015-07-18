@@ -18,7 +18,7 @@ public class AOTDPotion extends Potion
 	public AOTDPotion(int id, ResourceLocation resourceLocation, boolean isBad, int color)
 	{
 		super(id, resourceLocation, isBad, color);
-		this.resourceLocation = resourceLocation;
+		AOTDPotion.resourceLocation = resourceLocation;
 		this.setIconIndex(0, 0);
 	}
 

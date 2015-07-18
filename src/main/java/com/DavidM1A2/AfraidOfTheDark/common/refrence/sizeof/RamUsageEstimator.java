@@ -117,6 +117,7 @@ public final class RamUsageEstimator
 	 * Sizes of primitive classes.
 	 */
 	private static final Map<Class<?>, Integer> primitiveSizes;
+
 	static
 	{
 		primitiveSizes = new IdentityHashMap<Class<?>, Integer>();
@@ -326,7 +327,7 @@ public final class RamUsageEstimator
 	 */
 	public static long alignObjectSize(long size)
 	{
-		size += (long) NUM_BYTES_OBJECT_ALIGNMENT - 1L;
+		size += NUM_BYTES_OBJECT_ALIGNMENT - 1L;
 		return size - (size % NUM_BYTES_OBJECT_ALIGNMENT);
 	}
 
@@ -345,37 +346,37 @@ public final class RamUsageEstimator
 	/** Returns the size in bytes of the char[] object. */
 	public static long sizeOf(char[] arr)
 	{
-		return alignObjectSize((long) NUM_BYTES_ARRAY_HEADER + (long) NUM_BYTES_CHAR * arr.length);
+		return alignObjectSize(NUM_BYTES_ARRAY_HEADER + (long) NUM_BYTES_CHAR * arr.length);
 	}
 
 	/** Returns the size in bytes of the short[] object. */
 	public static long sizeOf(short[] arr)
 	{
-		return alignObjectSize((long) NUM_BYTES_ARRAY_HEADER + (long) NUM_BYTES_SHORT * arr.length);
+		return alignObjectSize(NUM_BYTES_ARRAY_HEADER + (long) NUM_BYTES_SHORT * arr.length);
 	}
 
 	/** Returns the size in bytes of the int[] object. */
 	public static long sizeOf(int[] arr)
 	{
-		return alignObjectSize((long) NUM_BYTES_ARRAY_HEADER + (long) NUM_BYTES_INT * arr.length);
+		return alignObjectSize(NUM_BYTES_ARRAY_HEADER + (long) NUM_BYTES_INT * arr.length);
 	}
 
 	/** Returns the size in bytes of the float[] object. */
 	public static long sizeOf(float[] arr)
 	{
-		return alignObjectSize((long) NUM_BYTES_ARRAY_HEADER + (long) NUM_BYTES_FLOAT * arr.length);
+		return alignObjectSize(NUM_BYTES_ARRAY_HEADER + (long) NUM_BYTES_FLOAT * arr.length);
 	}
 
 	/** Returns the size in bytes of the long[] object. */
 	public static long sizeOf(long[] arr)
 	{
-		return alignObjectSize((long) NUM_BYTES_ARRAY_HEADER + (long) NUM_BYTES_LONG * arr.length);
+		return alignObjectSize(NUM_BYTES_ARRAY_HEADER + (long) NUM_BYTES_LONG * arr.length);
 	}
 
 	/** Returns the size in bytes of the double[] object. */
 	public static long sizeOf(double[] arr)
 	{
-		return alignObjectSize((long) NUM_BYTES_ARRAY_HEADER + (long) NUM_BYTES_DOUBLE * arr.length);
+		return alignObjectSize(NUM_BYTES_ARRAY_HEADER + (long) NUM_BYTES_DOUBLE * arr.length);
 	}
 
 	/**

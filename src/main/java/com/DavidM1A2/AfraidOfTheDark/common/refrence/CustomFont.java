@@ -12,10 +12,10 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.texture.DynamicTexture;
-
-import org.lwjgl.opengl.GL11;
 
 /**
  *

@@ -275,7 +275,7 @@ public abstract class AnimationHandler
 					KeyFrame nextRotationKeyFrame = channel.getNextRotationKeyFrameForBox(boxName, entity.getAnimationHandler().animCurrentFrame.get(channel.name));
 					int nextRotationKeyFramePosition = nextRotationKeyFrame != null ? channel.getKeyFramePosition(nextRotationKeyFrame) : 0;
 
-					float SLERPProgress = (currentFrame - (float) prevRotationKeyFramePosition) / ((float) (nextRotationKeyFramePosition - prevRotationKeyFramePosition));
+					float SLERPProgress = (currentFrame - prevRotationKeyFramePosition) / (nextRotationKeyFramePosition - prevRotationKeyFramePosition);
 					if (SLERPProgress > 1F || SLERPProgress < 0F)
 					{
 						SLERPProgress = 1F;
@@ -313,7 +313,7 @@ public abstract class AnimationHandler
 					KeyFrame nextTranslationKeyFrame = channel.getNextTranslationKeyFrameForBox(boxName, entity.getAnimationHandler().animCurrentFrame.get(channel.name));
 					int nextTranslationsKeyFramePosition = nextTranslationKeyFrame != null ? channel.getKeyFramePosition(nextTranslationKeyFrame) : 0;
 
-					float LERPProgress = (currentFrame - (float) prevTranslationsKeyFramePosition) / ((float) (nextTranslationsKeyFramePosition - prevTranslationsKeyFramePosition));
+					float LERPProgress = (currentFrame - prevTranslationsKeyFramePosition) / (nextTranslationsKeyFramePosition - prevTranslationsKeyFramePosition);
 					if (LERPProgress > 1F)
 					{
 						LERPProgress = 1F;

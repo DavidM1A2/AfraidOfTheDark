@@ -33,6 +33,7 @@ public abstract class AOTDItemWithCooldown extends AOTDItem implements IHasCoold
 	 *            The current ItemStack
 	 * @return 1.0 for 100% 0 for 0%
 	 */
+	@Override
 	public double getDurabilityForDisplay(ItemStack stack)
 	{
 		return cooldown / this.getItemCooldownInTicks();
@@ -59,6 +60,7 @@ public abstract class AOTDItemWithCooldown extends AOTDItem implements IHasCoold
 	/**
 	 * Called each tick as long the item is on a player inventory. Uses by maps to check if is on a player hand and update it's contents.
 	 */
+	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
 	{
 		if (cooldown > 0)

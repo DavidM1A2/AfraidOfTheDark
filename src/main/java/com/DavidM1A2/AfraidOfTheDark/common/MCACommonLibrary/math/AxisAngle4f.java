@@ -266,9 +266,9 @@ public class AxisAngle4f implements java.io.Serializable, Cloneable
 	 */
 	public final void set(Matrix3f m1)
 	{
-		x = (float) (m1.m21 - m1.m12);
-		y = (float) (m1.m02 - m1.m20);
-		z = (float) (m1.m10 - m1.m01);
+		x = m1.m21 - m1.m12;
+		y = m1.m02 - m1.m20;
+		z = m1.m10 - m1.m01;
 		double mag = x * x + y * y + z * z;
 		if (mag > EPS)
 		{
@@ -335,6 +335,7 @@ public class AxisAngle4f implements java.io.Serializable, Cloneable
 	 * 
 	 * @return the String representation
 	 */
+	@Override
 	public String toString()
 	{
 		return "(" + this.x + ", " + this.y + ", " + this.z + ", " + this.angle + ")";
@@ -368,6 +369,7 @@ public class AxisAngle4f implements java.io.Serializable, Cloneable
 	 *            the object with which the comparison is made
 	 * @return true or false
 	 */
+	@Override
 	public boolean equals(Object o1)
 	{
 		try
@@ -427,6 +429,7 @@ public class AxisAngle4f implements java.io.Serializable, Cloneable
 	 *                if there is not enough memory.
 	 * @see java.lang.Cloneable
 	 */
+	@Override
 	public Object clone()
 	{
 		// Since there are no arrays we can just use Object.clone()

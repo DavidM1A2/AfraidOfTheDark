@@ -1,3 +1,8 @@
+/*
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDTileEntity;
@@ -49,10 +54,10 @@ public class TileEntityVoidChest extends AOTDTileEntity implements IUpdatePlayer
 		// Opening chest
 		if (shouldBeOpen && this.lidAngle == 0.0F)
 		{
-			double d1 = (double) i + 0.5D;
-			d2 = (double) k + 0.5D;
+			double d1 = i + 0.5D;
+			d2 = k + 0.5D;
 
-			this.worldObj.playSoundEffect(d1, (double) j + 0.5D, d2, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+			this.worldObj.playSoundEffect(d1, j + 0.5D, d2, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
 		}
 
 		// Closing chest
@@ -78,10 +83,10 @@ public class TileEntityVoidChest extends AOTDTileEntity implements IUpdatePlayer
 
 			if (this.lidAngle < f2 && f1 >= f2)
 			{
-				d2 = (double) i + 0.5D;
-				double d0 = (double) k + 0.5D;
+				d2 = i + 0.5D;
+				double d0 = k + 0.5D;
 
-				this.worldObj.playSoundEffect(d2, (double) j + 0.5D, d0, "random.chestclosed", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+				this.worldObj.playSoundEffect(d2, j + 0.5D, d0, "random.chestclosed", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
 			}
 
 			if (this.lidAngle < 0.0F)

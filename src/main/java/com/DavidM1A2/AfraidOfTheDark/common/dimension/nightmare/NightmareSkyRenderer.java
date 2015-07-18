@@ -5,6 +5,8 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.GLAllocation;
@@ -21,8 +23,6 @@ import net.minecraft.util.Vec3;
 import net.minecraftforge.client.IRenderHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import org.lwjgl.opengl.GL11;
 
 public class NightmareSkyRenderer extends IRenderHandler
 {
@@ -122,10 +122,10 @@ public class NightmareSkyRenderer extends IRenderHandler
 
 			for (int j = 0; j <= 16; ++j)
 			{
-				f12 = (float) j * (float) Math.PI * 2.0F / 16.0F;
+				f12 = j * (float) Math.PI * 2.0F / 16.0F;
 				float f13 = MathHelper.sin(f12);
 				float f14 = MathHelper.cos(f12);
-				worldrenderer.addVertex((double) (f13 * 120.0F), (double) (f14 * 120.0F), (double) (-f14 * 40.0F * afloat[3]));
+				worldrenderer.addVertex(f13 * 120.0F, f14 * 120.0F, -f14 * 40.0F * afloat[3]);
 			}
 
 			tessellator.draw();
@@ -147,25 +147,25 @@ public class NightmareSkyRenderer extends IRenderHandler
 		f11 = 30.0F;
 		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("textures/environment/sun.png"));
 		worldrenderer.startDrawingQuads();
-		worldrenderer.addVertexWithUV((double) (-f11), 100.0D, (double) (-f11), 0.0D, 0.0D);
-		worldrenderer.addVertexWithUV((double) f11, 100.0D, (double) (-f11), 1.0D, 0.0D);
-		worldrenderer.addVertexWithUV((double) f11, 100.0D, (double) f11, 1.0D, 1.0D);
-		worldrenderer.addVertexWithUV((double) (-f11), 100.0D, (double) f11, 0.0D, 1.0D);
+		worldrenderer.addVertexWithUV((-f11), 100.0D, (-f11), 0.0D, 0.0D);
+		worldrenderer.addVertexWithUV(f11, 100.0D, (-f11), 1.0D, 0.0D);
+		worldrenderer.addVertexWithUV(f11, 100.0D, f11, 1.0D, 1.0D);
+		worldrenderer.addVertexWithUV((-f11), 100.0D, f11, 0.0D, 1.0D);
 		tessellator.draw();
 		f11 = 20.0F;
 		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("textures/environment/moon_phases.png"));
 		int k = world.getMoonPhase();
 		int l = k % 4;
 		int i1 = k / 4 % 2;
-		float f15 = (float) (l + 0) / 4.0F;
-		float f16 = (float) (i1 + 0) / 2.0F;
-		float f17 = (float) (l + 1) / 4.0F;
-		float f18 = (float) (i1 + 1) / 2.0F;
+		float f15 = (l + 0) / 4.0F;
+		float f16 = (i1 + 0) / 2.0F;
+		float f17 = (l + 1) / 4.0F;
+		float f18 = (i1 + 1) / 2.0F;
 		worldrenderer.startDrawingQuads();
-		worldrenderer.addVertexWithUV((double) (-f11), -100.0D, (double) f11, (double) f17, (double) f18);
-		worldrenderer.addVertexWithUV((double) f11, -100.0D, (double) f11, (double) f15, (double) f18);
-		worldrenderer.addVertexWithUV((double) f11, -100.0D, (double) (-f11), (double) f15, (double) f16);
-		worldrenderer.addVertexWithUV((double) (-f11), -100.0D, (double) (-f11), (double) f17, (double) f16);
+		worldrenderer.addVertexWithUV((-f11), -100.0D, f11, f17, f18);
+		worldrenderer.addVertexWithUV(f11, -100.0D, f11, f15, f18);
+		worldrenderer.addVertexWithUV(f11, -100.0D, (-f11), f15, f16);
+		worldrenderer.addVertexWithUV((-f11), -100.0D, (-f11), f17, f16);
 		tessellator.draw();
 		GlStateManager.func_179090_x();
 		float f19 = world.getStarBrightness(partialTicks) * f7;
@@ -223,20 +223,20 @@ public class NightmareSkyRenderer extends IRenderHandler
 			f11 = -1.0F;
 			worldrenderer.startDrawingQuads();
 			worldrenderer.func_178974_a(0, 255);
-			worldrenderer.addVertex(-1.0D, (double) f10, 1.0D);
-			worldrenderer.addVertex(1.0D, (double) f10, 1.0D);
+			worldrenderer.addVertex(-1.0D, f10, 1.0D);
+			worldrenderer.addVertex(1.0D, f10, 1.0D);
 			worldrenderer.addVertex(1.0D, -1.0D, 1.0D);
 			worldrenderer.addVertex(-1.0D, -1.0D, 1.0D);
 			worldrenderer.addVertex(-1.0D, -1.0D, -1.0D);
 			worldrenderer.addVertex(1.0D, -1.0D, -1.0D);
-			worldrenderer.addVertex(1.0D, (double) f10, -1.0D);
-			worldrenderer.addVertex(-1.0D, (double) f10, -1.0D);
+			worldrenderer.addVertex(1.0D, f10, -1.0D);
+			worldrenderer.addVertex(-1.0D, f10, -1.0D);
 			worldrenderer.addVertex(1.0D, -1.0D, -1.0D);
 			worldrenderer.addVertex(1.0D, -1.0D, 1.0D);
-			worldrenderer.addVertex(1.0D, (double) f10, 1.0D);
-			worldrenderer.addVertex(1.0D, (double) f10, -1.0D);
-			worldrenderer.addVertex(-1.0D, (double) f10, -1.0D);
-			worldrenderer.addVertex(-1.0D, (double) f10, 1.0D);
+			worldrenderer.addVertex(1.0D, f10, 1.0D);
+			worldrenderer.addVertex(1.0D, f10, -1.0D);
+			worldrenderer.addVertex(-1.0D, f10, -1.0D);
+			worldrenderer.addVertex(-1.0D, f10, 1.0D);
 			worldrenderer.addVertex(-1.0D, -1.0D, 1.0D);
 			worldrenderer.addVertex(-1.0D, -1.0D, -1.0D);
 			worldrenderer.addVertex(-1.0D, -1.0D, -1.0D);

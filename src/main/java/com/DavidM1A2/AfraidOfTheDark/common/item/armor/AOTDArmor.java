@@ -5,12 +5,12 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.item.armor;
 
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
+
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.ISpecialArmor;
-
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 
 public abstract class AOTDArmor extends ItemArmor implements ISpecialArmor
 {

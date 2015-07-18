@@ -5,10 +5,10 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts;
 
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
-
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 
 public class EntityWoodenBolt extends EntityBolt
 {
@@ -28,6 +28,7 @@ public class EntityWoodenBolt extends EntityBolt
 	}
 
 	// Set the properties of the bolt
+	@Override
 	public void setProperties()
 	{
 		this.setDamage(2);

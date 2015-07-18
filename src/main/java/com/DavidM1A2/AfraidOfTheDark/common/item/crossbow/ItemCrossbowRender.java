@@ -5,6 +5,10 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.item.crossbow;
 
+import org.lwjgl.opengl.GL11;
+
+import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.client.gui.inventory.GuiInventory;
@@ -13,10 +17,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
-
-import org.lwjgl.opengl.GL11;
-
-import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 // The renderer for the crossbow uses OpenGL to render the bow itself
 public class ItemCrossbowRender implements IItemRenderer
@@ -63,11 +63,12 @@ public class ItemCrossbowRender implements IItemRenderer
 	{
 		switch (type)
 		{
-		// If it is equipped (3rd person) render it one way
+			// If it is equipped (3rd person) render it one way
 			case EQUIPPED:
 			{
 				// (3rd person check)
-				if (!(!(((EntityPlayer) data[1] == Minecraft.getMinecraft().getRenderViewEntity()) && (Minecraft.getMinecraft().gameSettings.thirdPersonView == 0) && !(((Minecraft.getMinecraft().currentScreen instanceof GuiInventory) || (Minecraft.getMinecraft().currentScreen instanceof GuiContainerCreative))))))
+				if (!(!(((EntityPlayer) data[1] == Minecraft.getMinecraft().getRenderViewEntity()) && (Minecraft.getMinecraft().gameSettings.thirdPersonView == 0) && !(((Minecraft.getMinecraft().currentScreen instanceof GuiInventory) || (Minecraft
+						.getMinecraft().currentScreen instanceof GuiContainerCreative))))))
 				{
 					GL11.glPushMatrix();
 

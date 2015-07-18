@@ -7,6 +7,10 @@ package com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft;
 
 import java.util.Random;
 
+import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
+import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
+
 import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -18,10 +22,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
-
-import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
-import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
 
 public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 {
@@ -71,6 +71,7 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 	/**
 	 * Called when the entity is attacked.
 	 */
+	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount)
 	{
 		this.getEntityData().setInteger(TICKS_UNTIL_NORMAL_AI, 100);
@@ -111,6 +112,7 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 	/**
 	 * (abstract) Protected helper method to write subclass entity data to NBT.
 	 */
+	@Override
 	public void writeEntityToNBT(NBTTagCompound tagCompound)
 	{
 		super.writeEntityToNBT(tagCompound);
@@ -121,6 +123,7 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 	/**
 	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
+	@Override
 	public void readEntityFromNBT(NBTTagCompound tagCompound)
 	{
 		super.readEntityFromNBT(tagCompound);
@@ -145,6 +148,7 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 		/**
 		 * Returns whether the EntityAIBase should begin execution.
 		 */
+		@Override
 		public boolean shouldExecute()
 		{
 			return true;
@@ -153,6 +157,7 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 		/**
 		 * Updates the task
 		 */
+		@Override
 		public void updateTask()
 		{
 			if (this.instance.getAttackTarget() == null)
@@ -186,6 +191,7 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 		/**
 		 * Returns whether the EntityAIBase should begin execution.
 		 */
+		@Override
 		public boolean shouldExecute()
 		{
 			EntityMoveHelper entitymovehelper = this.instance.getMoveHelper();
@@ -207,6 +213,7 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 		/**
 		 * Returns whether an in-progress EntityAIBase should continue executing
 		 */
+		@Override
 		public boolean continueExecuting()
 		{
 			return false;
@@ -215,15 +222,16 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 		/**
 		 * Execute a one shot task or start executing a continuous task
 		 */
+		@Override
 		public void startExecuting()
 		{
 			Random random = this.instance.getRNG();
-			double d0 = this.instance.posX + (double) ((random.nextFloat() * 2.0F - 1.0F) * 16.0F);
+			double d0 = this.instance.posX + (random.nextFloat() * 2.0F - 1.0F) * 16.0F;
 
 			double d1;
 			if (this.instance.timeUntilNormalAI == 0)
 			{
-				d1 = MathHelper.clamp_double(this.instance.posY + (double) ((random.nextFloat() * 2.0F - 1.0F) * 16.0D), 0.0D, flightCeiling);
+				d1 = MathHelper.clamp_double(this.instance.posY + (random.nextFloat() * 2.0F - 1.0F) * 16.0D, 0.0D, flightCeiling);
 			}
 			else
 			{
@@ -231,7 +239,7 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 				d1 = this.instance.posY - 10;
 			}
 
-			double d2 = this.instance.posZ + (double) ((random.nextFloat() * 2.0F - 1.0F) * 16.0F);
+			double d2 = this.instance.posZ + (random.nextFloat() * 2.0F - 1.0F) * 16.0F;
 			this.instance.getMoveHelper().setMoveTo(d0, d1, d2, EntityDeeeSyft.this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed).getBaseValue());
 		}
 	}
@@ -246,6 +254,7 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 			super(EntityDeeeSyft.this);
 		}
 
+		@Override
 		public void onUpdateMoveHelper()
 		{
 			if (this.update)
@@ -258,7 +267,7 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 				if (this.temp-- <= 0)
 				{
 					this.temp += this.instance.getRNG().nextInt(5) + 2;
-					d3 = (double) MathHelper.sqrt_double(d3);
+					d3 = MathHelper.sqrt_double(d3);
 
 					if (this.func_179926_b(this.posX, this.posY, this.posZ, d3))
 					{
@@ -281,7 +290,7 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 			double d6 = (p_179926_5_ - this.instance.posZ) / p_179926_7_;
 			AxisAlignedBB axisalignedbb = this.instance.getEntityBoundingBox();
 
-			for (int i = 1; (double) i < p_179926_7_; ++i)
+			for (int i = 1; i < p_179926_7_; ++i)
 			{
 				axisalignedbb = axisalignedbb.offset(d4, d5, d6);
 

@@ -1,3 +1,8 @@
+/*
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBiomes;
@@ -51,6 +56,7 @@ public class VoidChestWorldProvider extends WorldProvider
 	 * Returns a double value representing the Y value relative to the top of the map at which void fog is at its maximum. The default factor of
 	 * 0.03125 relative to 256, for example, means the void fog will be at its maximum at (256*0.03125), or 8.
 	 */
+	@Override
 	@SideOnly(Side.CLIENT)
 	public double getVoidFogYFactor()
 	{
@@ -87,6 +93,7 @@ public class VoidChestWorldProvider extends WorldProvider
 		return 255;
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean doesXZShowFog(int par1, int par2)
 	{
@@ -102,6 +109,7 @@ public class VoidChestWorldProvider extends WorldProvider
 	/**
 	 * Gets the Star Brightness for rendering sky.
 	 */
+	@Override
 	@SideOnly(Side.CLIENT)
 	public float getStarBrightness(float par1)
 	{
@@ -134,11 +142,12 @@ public class VoidChestWorldProvider extends WorldProvider
 
 		for (int i = 0; i <= 15; ++i)
 		{
-			float f1 = 1.0F - (float) i / 15.0F;
+			float f1 = 1.0F - i / 15.0F;
 			this.lightBrightnessTable[i] = (1.0F - f1) / (f1 * 3.0F + 1.0F) * (1.0F - f) + f;
 		}
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public String getWelcomeMessage()
 	{
@@ -164,6 +173,7 @@ public class VoidChestWorldProvider extends WorldProvider
 		return this.dimensionId;
 	}
 
+	@Override
 	public BiomeGenBase getBiomeGenForCoords(BlockPos pos)
 	{
 		return ModBiomes.voidChest;
@@ -192,6 +202,7 @@ public class VoidChestWorldProvider extends WorldProvider
 		return super.calculateCelestialAngle(par1, par3);
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public Vec3 getFogColor(float par1, float par2)
 	{

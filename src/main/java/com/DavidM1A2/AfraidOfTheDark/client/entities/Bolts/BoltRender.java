@@ -5,6 +5,11 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.entities.Bolts;
 
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityBolt;
+
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.Render;
@@ -13,11 +18,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityBolt;
 
 // Mostly arrow source code but with an entity bolt
 @SideOnly(Side.CLIENT)

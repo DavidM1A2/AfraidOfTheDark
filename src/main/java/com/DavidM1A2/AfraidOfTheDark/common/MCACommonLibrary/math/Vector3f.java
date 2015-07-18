@@ -912,6 +912,7 @@ public final class Vector3f implements Cloneable, java.io.Serializable
 	 *            the object to compare for equality
 	 * @return true if they are equal
 	 */
+	@Override
 	public boolean equals(Object o)
 	{
 		if (!(o instanceof Vector3f))
@@ -940,6 +941,7 @@ public final class Vector3f implements Cloneable, java.io.Serializable
 	 * 
 	 * @return the hash code value of this vector.
 	 */
+	@Override
 	public int hashCode()
 	{
 		int hash = 37;
@@ -956,6 +958,7 @@ public final class Vector3f implements Cloneable, java.io.Serializable
 	 *
 	 * @return the string representation of this vector.
 	 */
+	@Override
 	public String toString()
 	{
 		return "(" + x + ", " + y + ", " + z + ")";

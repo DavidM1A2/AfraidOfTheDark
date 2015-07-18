@@ -1,3 +1,8 @@
+/*
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.client.particleFX;
 
 import net.minecraft.client.Minecraft;
@@ -26,9 +31,9 @@ public abstract class AOTDParticleFX extends EntityFX
 	{
 		Minecraft.getMinecraft().renderEngine.bindTexture(customParticleTextures);
 
-		float f6 = (float) this.particleTextureIndexX / 16.0F;
+		float f6 = this.particleTextureIndexX / 16.0F;
 		float f7 = f6 + 0.0624375F;
-		float f8 = (float) this.particleTextureIndexY / 16.0F;
+		float f8 = this.particleTextureIndexY / 16.0F;
 		float f9 = f8 + 0.0624375F;
 		float f10 = 0.1F * this.particleScale;
 
@@ -40,14 +45,14 @@ public abstract class AOTDParticleFX extends EntityFX
 			f9 = this.particleIcon.getMaxV();
 		}
 
-		float f11 = (float) (this.prevPosX + (this.posX - this.prevPosX) * (double) float1 - interpPosX);
-		float f12 = (float) (this.prevPosY + (this.posY - this.prevPosY) * (double) float1 - interpPosY);
-		float f13 = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * (double) float1 - interpPosZ);
+		float f11 = (float) (this.prevPosX + (this.posX - this.prevPosX) * float1 - interpPosX);
+		float f12 = (float) (this.prevPosY + (this.posY - this.prevPosY) * float1 - interpPosY);
+		float f13 = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * float1 - interpPosZ);
 		worldRenderer.func_178960_a(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha);
-		worldRenderer.addVertexWithUV((double) (f11 - float2 * f10 - float5 * f10), (double) (f12 - float3 * f10), (double) (f13 - float4 * f10 - float6 * f10), (double) f7, (double) f9);
-		worldRenderer.addVertexWithUV((double) (f11 - float2 * f10 + float5 * f10), (double) (f12 + float3 * f10), (double) (f13 - float4 * f10 + float6 * f10), (double) f7, (double) f8);
-		worldRenderer.addVertexWithUV((double) (f11 + float2 * f10 + float5 * f10), (double) (f12 + float3 * f10), (double) (f13 + float4 * f10 + float6 * f10), (double) f6, (double) f8);
-		worldRenderer.addVertexWithUV((double) (f11 + float2 * f10 - float5 * f10), (double) (f12 - float3 * f10), (double) (f13 + float4 * f10 - float6 * f10), (double) f6, (double) f9);
+		worldRenderer.addVertexWithUV(f11 - float2 * f10 - float5 * f10, f12 - float3 * f10, f13 - float4 * f10 - float6 * f10, f7, f9);
+		worldRenderer.addVertexWithUV(f11 - float2 * f10 + float5 * f10, f12 + float3 * f10, f13 - float4 * f10 + float6 * f10, f7, f8);
+		worldRenderer.addVertexWithUV(f11 + float2 * f10 + float5 * f10, f12 + float3 * f10, f13 + float4 * f10 + float6 * f10, f6, f8);
+		worldRenderer.addVertexWithUV(f11 + float2 * f10 - float5 * f10, f12 - float3 * f10, f13 + float4 * f10 - float6 * f10, f6, f9);
 
 		Tessellator.getInstance().draw();
 

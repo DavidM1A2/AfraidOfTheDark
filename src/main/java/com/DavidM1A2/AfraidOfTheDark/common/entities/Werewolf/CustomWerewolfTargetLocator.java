@@ -9,16 +9,16 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
+
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAITarget;
 import net.minecraft.entity.player.EntityPlayer;
-
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
 
 public class CustomWerewolfTargetLocator extends EntityAITarget
 {

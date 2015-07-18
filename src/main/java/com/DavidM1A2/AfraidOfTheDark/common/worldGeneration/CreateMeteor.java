@@ -8,6 +8,9 @@ package com.DavidM1A2.AfraidOfTheDark.common.worldGeneration;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.MeteorTypes;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.material.Material;
@@ -15,9 +18,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.MeteorTypes;
 
 public class CreateMeteor
 {

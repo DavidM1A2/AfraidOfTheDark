@@ -7,11 +7,11 @@ package com.DavidM1A2.AfraidOfTheDark.common.block;
 
 import java.util.Random;
 
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.item.Item;
-
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDLeaves;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
+
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.Item;
 
 public class BlockGravewoodLeaves extends AOTDLeaves
 {

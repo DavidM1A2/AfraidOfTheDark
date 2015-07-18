@@ -7,6 +7,8 @@ package com.DavidM1A2.AfraidOfTheDark.common.worldGeneration;
 
 import java.util.Random;
 
+import com.DavidM1A2.AfraidOfTheDark.common.biomes.BiomeErieForest;
+
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenPlains;
@@ -14,8 +16,6 @@ import net.minecraft.world.biome.BiomeGenSavanna;
 import net.minecraft.world.biome.BiomeGenSwamp;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.fml.common.IWorldGenerator;
-
-import com.DavidM1A2.AfraidOfTheDark.common.biomes.BiomeErieForest;
 
 public class AOTDWorldGenerationHandler implements IWorldGenerator
 {

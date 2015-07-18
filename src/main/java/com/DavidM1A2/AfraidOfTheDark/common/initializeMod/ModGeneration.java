@@ -5,9 +5,9 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.initializeMod;
 
-import net.minecraftforge.fml.common.registry.GameRegistry;
-
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.AOTDWorldGenerationHandler;
+
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ModGeneration
 {

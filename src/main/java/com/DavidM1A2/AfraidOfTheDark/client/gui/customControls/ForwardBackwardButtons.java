@@ -1,3 +1,8 @@
+/*
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.client.gui.customControls;
 
 import net.minecraft.client.Minecraft;
@@ -33,11 +38,11 @@ public class ForwardBackwardButtons extends GuiButton
 
 			if (isForward)
 			{
-				minecraft.getTextureManager().bindTexture(this.FORWARD_TEXTURE);
+				minecraft.getTextureManager().bindTexture(ForwardBackwardButtons.FORWARD_TEXTURE);
 			}
 			else
 			{
-				minecraft.getTextureManager().bindTexture(this.BACKWARD_TEXTURE);
+				minecraft.getTextureManager().bindTexture(ForwardBackwardButtons.BACKWARD_TEXTURE);
 			}
 
 			this.hovered = (mouseX >= this.xPosition) && (mouseY >= this.yPosition) && (mouseX < (this.xPosition + this.width)) && (mouseY < (this.yPosition + this.height));

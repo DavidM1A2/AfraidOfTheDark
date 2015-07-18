@@ -5,11 +5,11 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.block.core;
 
-import net.minecraft.block.BlockStairs;
-import net.minecraft.block.state.IBlockState;
-
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
+
+import net.minecraft.block.BlockStairs;
+import net.minecraft.block.state.IBlockState;
 
 public abstract class AOTDStairs extends BlockStairs
 {

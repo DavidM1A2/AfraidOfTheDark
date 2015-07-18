@@ -8,15 +8,15 @@ package com.DavidM1A2.AfraidOfTheDark.common.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Insanity;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
+
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
-
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Insanity;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
 
 public class InsanityCheck implements ICommand
 {

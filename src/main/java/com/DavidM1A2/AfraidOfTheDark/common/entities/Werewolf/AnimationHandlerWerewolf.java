@@ -1,3 +1,8 @@
+/*
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf;
 
 import java.util.HashMap;
@@ -10,6 +15,7 @@ public class AnimationHandlerWerewolf extends AnimationHandler
 {
 	/** Map with all the animations. */
 	public static HashMap<String, Channel> animChannels = new HashMap<String, Channel>();
+
 	static
 	{
 		animChannels.put("Bite", new ChannelBite("Bite", 50.0F, 21, Channel.LINEAR));

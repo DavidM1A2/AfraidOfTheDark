@@ -21,9 +21,9 @@ public class MCAModelBox extends ModelBox
 
 		this.MCAquadList = new TexturedQuad[6];
 
-		float endX = posX + (float) sizeX;
-		float endY = posY + (float) sizeY;
-		float endZ = posZ + (float) sizeZ;
+		float endX = posX + sizeX;
+		float endY = posY + sizeY;
+		float endZ = posZ + sizeZ;
 		posX -= scaleFactor;
 		posY -= scaleFactor;
 		posZ -= scaleFactor;

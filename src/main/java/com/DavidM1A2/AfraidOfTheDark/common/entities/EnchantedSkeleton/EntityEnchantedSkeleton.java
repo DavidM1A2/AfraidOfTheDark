@@ -1,3 +1,8 @@
+/*
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.common.entities.EnchantedSkeleton;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
@@ -140,6 +145,7 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 	/**
 	 * Returns the sound this mob makes while it's alive.
 	 */
+	@Override
 	protected String getLivingSound()
 	{
 		return "mob.skeleton.say";
@@ -148,6 +154,7 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 	/**
 	 * Returns the sound this mob makes when it is hurt.
 	 */
+	@Override
 	protected String getHurtSound()
 	{
 		return "mob.skeleton.hurt";
@@ -156,11 +163,13 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 	/**
 	 * Returns the sound this mob makes on death.
 	 */
+	@Override
 	protected String getDeathSound()
 	{
 		return "mob.skeleton.death";
 	}
 
+	@Override
 	protected void playStepSound(BlockPos p_180429_1_, Block p_180429_2_)
 	{
 		this.playSound("mob.skeleton.step", 0.15F, 1.0F);

@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
+
 import net.minecraft.init.Items;
 import net.minecraft.util.WeightedRandomChestContent;
-
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 
 public class CryptChestLoot implements IChestGenerator
 {

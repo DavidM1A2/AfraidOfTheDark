@@ -7,14 +7,14 @@ package com.DavidM1A2.AfraidOfTheDark.common.biomes;
 
 import java.util.Random;
 
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDTreeTypes;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
-
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDTreeTypes;
 
 public class WorldGenGravewoodTrees extends WorldGenAbstractTree
 {

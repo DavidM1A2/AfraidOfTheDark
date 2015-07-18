@@ -5,6 +5,9 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.item.core;
 
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
+
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -15,9 +18,6 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 public abstract class AOTDChargableSword extends AOTDSword
 {
@@ -62,6 +62,7 @@ public abstract class AOTDChargableSword extends AOTDSword
 	 *            The current ItemStack
 	 * @return 1.0 for 100% 0 for 0%
 	 */
+	@Override
 	public double getDurabilityForDisplay(ItemStack itemStack)
 	{
 		return 1.0 - (double) NBTHelper.getInt(itemStack, "charge") / (double) 100;
@@ -85,6 +86,7 @@ public abstract class AOTDChargableSword extends AOTDSword
 	 * @param stack
 	 * @return
 	 */
+	@Override
 	public int getMetadata(ItemStack itemStack)
 	{
 		return NBTHelper.getInt(itemStack, "charge") == 100 ? 1 : 0;
@@ -101,6 +103,7 @@ public abstract class AOTDChargableSword extends AOTDSword
 	 *            The ticks remaining for the active item.
 	 * @return Null to use default model, or a custom ModelResourceLocation for the stage of use.
 	 */
+	@Override
 	@SideOnly(Side.CLIENT)
 	public ModelResourceLocation getModel(ItemStack stack, EntityPlayer player, int useRemaining)
 	{
@@ -110,6 +113,7 @@ public abstract class AOTDChargableSword extends AOTDSword
 	/**
 	 * Can't block with this sword
 	 */
+	@Override
 	public EnumAction getItemUseAction(ItemStack stack)
 	{
 		return EnumAction.NONE;

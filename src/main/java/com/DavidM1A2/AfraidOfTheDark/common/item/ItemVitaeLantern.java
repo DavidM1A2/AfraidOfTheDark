@@ -163,6 +163,7 @@ public class ItemVitaeLantern extends AOTDItem
 	/**
 	 * Called each tick as long the item is on a player inventory. Uses by maps to check if is on a player hand and update it's contents.
 	 */
+	@Override
 	public void onUpdate(ItemStack itemStack, World world, Entity entity, int itemSlot, boolean isSelected)
 	{
 		if (ticksUpdated % UPDATE_FREQUENCY_IN_TICKS == 0)
@@ -214,7 +215,7 @@ public class ItemVitaeLantern extends AOTDItem
 
 	private boolean addVitae(ItemStack itemStack, int amount)
 	{
-		if (NBTHelper.getInt(itemStack, STORED_VITAE) + amount > this.VITAE_CAPACITY)
+		if (NBTHelper.getInt(itemStack, STORED_VITAE) + amount > ItemVitaeLantern.VITAE_CAPACITY)
 		{
 			return false;
 		}
@@ -245,6 +246,7 @@ public class ItemVitaeLantern extends AOTDItem
 	 * Converts the given ItemStack damage value into a metadata value to be placed in the world when this Item is placed as a Block (mostly used with
 	 * ItemBlocks).
 	 */
+	@Override
 	public int getMetadata(ItemStack itemStack)
 	{
 		int storedVitae = NBTHelper.getInt(itemStack, STORED_VITAE);
@@ -259,6 +261,7 @@ public class ItemVitaeLantern extends AOTDItem
 	 *            The current Item Stack
 	 * @return True if it should render the 'durability' bar.
 	 */
+	@Override
 	public boolean showDurabilityBar(ItemStack stack)
 	{
 		return true;
@@ -271,8 +274,9 @@ public class ItemVitaeLantern extends AOTDItem
 	 *            The current ItemStack
 	 * @return 1.0 for 100% 0 for 0%
 	 */
+	@Override
 	public double getDurabilityForDisplay(ItemStack stack)
 	{
-		return 1 - (double) NBTHelper.getInt(stack, STORED_VITAE) / (double) this.VITAE_CAPACITY;
+		return 1 - (double) NBTHelper.getInt(stack, STORED_VITAE) / (double) ItemVitaeLantern.VITAE_CAPACITY;
 	}
 }

@@ -133,6 +133,7 @@ public class ItemStarMetalStaff extends AOTDItemWithCooldown
 		}
 	}
 
+	@Override
 	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityPlayer playerIn)
 	{
 		return super.onItemUseFinish(stack, worldIn, playerIn);

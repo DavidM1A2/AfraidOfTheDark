@@ -5,15 +5,15 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
+import com.DavidM1A2.AfraidOfTheDark.common.item.ItemVitaeLantern;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-
-import com.DavidM1A2.AfraidOfTheDark.common.item.ItemVitaeLantern;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 public class UpdateLanternState implements IMessage
 {

@@ -60,7 +60,7 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 	public void initGui()
 	{
 		// Calculate the various positions of GUI elements on the screen
-		BloodStainedJournalResearchGUI.currentID = this.RESEARCH_BASE_ID;
+		BloodStainedJournalResearchGUI.currentID = BloodStainedJournalResearchGUI.RESEARCH_BASE_ID;
 		BloodStainedJournalResearchGUI.baseHeight = (this.height - 256) / 2;
 		BloodStainedJournalResearchGUI.baseWidth = (this.width - 256) / 2;
 		BloodStainedJournalResearchGUI.xPosScroll = baseWidth;

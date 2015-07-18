@@ -1,3 +1,8 @@
+/*
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.client.entities.tileEntities;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityVoidChest;
@@ -42,7 +47,7 @@ public class TileEntityVoidChestRenderer extends TileEntitySpecialRenderer
 			}
 			else
 			{
-				this.bindTexture(this.texturesNormal);
+				this.bindTexture(TileEntityVoidChestRenderer.texturesNormal);
 			}
 
 			GlStateManager.pushMatrix();
@@ -76,7 +81,7 @@ public class TileEntityVoidChestRenderer extends TileEntitySpecialRenderer
 				short1 = -90;
 			}
 
-			GlStateManager.rotate((float) short1, 0.0F, 1.0F, 0.0F);
+			GlStateManager.rotate(short1, 0.0F, 1.0F, 0.0F);
 			GlStateManager.translate(-0.5F, -0.5F, -0.5F);
 			float f1 = tileEntityVoidChest.prevLidAngle + (tileEntityVoidChest.lidAngle - tileEntityVoidChest.prevLidAngle) * lidPosition;
 			float f2;

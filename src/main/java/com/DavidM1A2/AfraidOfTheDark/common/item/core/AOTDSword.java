@@ -5,11 +5,11 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.item.core;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
-
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
+
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 
 public abstract class AOTDSword extends ItemSword
 {

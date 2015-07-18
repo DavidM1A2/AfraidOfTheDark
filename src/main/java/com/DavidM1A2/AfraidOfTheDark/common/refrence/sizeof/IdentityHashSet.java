@@ -167,7 +167,7 @@ final class IdentityHashSet<KType> implements Iterable<KType>
 	protected int nextCapacity(int current)
 	{
 		assert current > 0 && Long.bitCount(current) == 1 : "Capacity must be a power of two.";
-		assert ((current << 1) > 0) : "Maximum capacity exceeded (" + (0x80000000 >>> 1) + ").";
+		assert((current << 1) > 0) : "Maximum capacity exceeded (" + (0x80000000 >>> 1) + ").";
 
 		if (current < MIN_CAPACITY / 2)
 			current = MIN_CAPACITY / 2;

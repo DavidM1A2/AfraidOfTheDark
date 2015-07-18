@@ -5,11 +5,11 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.entities.Bolts;
 
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityBolt;
+
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityBolt;
 
 // Setup the IronBolt renderer
 public class IronBoltRender extends BoltRender

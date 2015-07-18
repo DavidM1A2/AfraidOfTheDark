@@ -3,11 +3,11 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui;
 
+import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
-
-import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 
 public class GuiHandler implements IGuiHandler
 {

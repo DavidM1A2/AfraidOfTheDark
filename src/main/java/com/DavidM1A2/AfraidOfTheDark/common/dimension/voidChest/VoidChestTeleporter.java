@@ -1,3 +1,8 @@
+/*
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest;
 
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
@@ -30,7 +35,7 @@ public class VoidChestTeleporter extends Teleporter
 			int i = MathHelper.floor_double(entity.posX);
 			int j = MathHelper.floor_double(entity.posY) - 1;
 			int k = MathHelper.floor_double(entity.posZ);
-			entity.setLocationAndAngles((double) i, (double) j, (double) k, entity.rotationYaw, 0.0F);
+			entity.setLocationAndAngles(i, j, k, entity.rotationYaw, 0.0F);
 			entity.motionX = entity.motionY = entity.motionZ = 0.0D;
 		}
 		else if (dimensionOld == Constants.VoidChestWorld.VOID_CHEST_WORLD_ID)
