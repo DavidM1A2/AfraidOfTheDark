@@ -44,6 +44,14 @@ public class NodeButton extends GuiButton
 	@Override
 	public void drawButton(final Minecraft minecraft, final int mouseX, final int mouseY)
 	{
+		if (Research.isResearched(Minecraft.getMinecraft().thePlayer, this.myType) || Research.canResearch(Minecraft.getMinecraft().thePlayer, this.myType))
+		{
+			this.visible = true;
+		}
+		else
+		{
+			this.visible = false;
+		}
 
 		// Make sure it should be visible
 		if (this.visible)
@@ -71,15 +79,10 @@ public class NodeButton extends GuiButton
 				minecraft.getTextureManager().bindTexture(this.myType.getIcon());
 				Gui.drawScaledCustomSizeModalRect(this.xPosition + 2, this.yPosition + 2, 0, 0, 32, 32, this.width, this.height, 32, 32);
 			}
-			else if (Research.canResearch(Minecraft.getMinecraft().thePlayer, this.myType))
+			else
 			{
 				minecraft.getTextureManager().bindTexture(this.myType.getIcon());
 				Gui.drawScaledCustomSizeModalRect(this.xPosition + 2, this.yPosition + 2, 0, 0, 32, 32, this.width, this.height, 32, 32);
-				minecraft.getTextureManager().bindTexture(NodeButton.UNKNOWN_RESEARCH);
-				Gui.drawScaledCustomSizeModalRect(this.xPosition + 2, this.yPosition + 2, 0, 0, 32, 32, this.width, this.height, 32, 32);
-			}
-			else
-			{
 				minecraft.getTextureManager().bindTexture(NodeButton.UNKNOWN_RESEARCH);
 				Gui.drawScaledCustomSizeModalRect(this.xPosition + 2, this.yPosition + 2, 0, 0, 32, 32, this.width, this.height, 32, 32);
 			}
