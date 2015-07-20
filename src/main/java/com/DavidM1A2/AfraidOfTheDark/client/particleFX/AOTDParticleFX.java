@@ -29,6 +29,11 @@ public abstract class AOTDParticleFX extends EntityFX
 	@Override
 	public void func_180434_a(WorldRenderer worldRenderer, Entity entity, float float1, float float2, float float3, float float4, float float5, float float6)
 	{
+		// Draw whatever we have currently loaded into memory
+		Tessellator.getInstance().draw();
+		// Begin drawing our custom particle
+		worldRenderer.startDrawingQuads();
+
 		Minecraft.getMinecraft().renderEngine.bindTexture(customParticleTextures);
 
 		float f6 = this.particleTextureIndexX / 16.0F;
@@ -54,9 +59,13 @@ public abstract class AOTDParticleFX extends EntityFX
 		worldRenderer.addVertexWithUV(f11 + float2 * f10 + float5 * f10, f12 + float3 * f10, f13 + float4 * f10 + float6 * f10, f6, f8);
 		worldRenderer.addVertexWithUV(f11 + float2 * f10 - float5 * f10, f12 - float3 * f10, f13 + float4 * f10 - float6 * f10, f6, f9);
 
+		// Draw our custom particle
 		Tessellator.getInstance().draw();
 
+		// Begin drawing remaining particles
 		worldRenderer.startDrawingQuads();
+
 		Minecraft.getMinecraft().renderEngine.bindTexture(defaultParticleTextures);
+
 	}
 }
