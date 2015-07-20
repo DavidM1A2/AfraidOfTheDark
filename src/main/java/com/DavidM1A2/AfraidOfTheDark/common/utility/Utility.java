@@ -10,7 +10,10 @@ import java.lang.reflect.Field;
 import java.util.Iterator;
 import java.util.List;
 
+import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewood;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateResearch;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;
@@ -233,6 +236,12 @@ public class Utility
 			PotionEffect potioneffect = (PotionEffect) iterator.next();
 			entityPlayer.playerNetServerHandler.sendPacket(new S1DPacketEntityEffect(entityPlayer.getEntityId(), potioneffect));
 		}
+
+		/*
+		 * Sync research
+		 */
+		AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateResearch(Research.get(entityPlayer), false), entityPlayer);
+
 		FMLCommonHandler.instance().firePlayerChangedDimensionEvent(entityPlayer, j, dimensionId);
 
 	}
