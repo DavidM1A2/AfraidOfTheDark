@@ -76,5 +76,10 @@ public class ModRecipes
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModBlocks.voidChest), ResearchTypes.VoidChest, "aba", "bcb", "aba", 'a', new ItemStack(Blocks.obsidian, 1, 0), 'b', new ItemStack(Blocks.coal_block, 1, 0), 'c', new ItemStack(Blocks.ender_chest, 1, 0)));
 
 		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(Items.dye, 5, EnumDyeColor.WHITE.getDyeColorDamage()), ResearchTypes.EnchantedSkeleton, new ItemStack(ModItems.enchantedSkeletonBone)));
+
+		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(ModItems.researchScrollVitae1, 1, 0), ResearchTypes.VitaeI.getPrevious(), new ItemStack(ModItems.researchScrollVitae1, 1, 1), new ItemStack(ModItems.researchScrollVitae1, 1, 2), new ItemStack(
+				ModItems.researchScrollVitae1, 1, 3), new ItemStack(ModItems.researchScrollVitae1, 1, 4), new ItemStack(ModItems.researchScrollVitae1, 1, 5)));
+		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(ModItems.researchScrollAstronomy2, 1, 0), ResearchTypes.AstronomyII.getPrevious(), new ItemStack(ModItems.researchScrollAstronomy2, 1, 1), new ItemStack(ModItems.researchScrollAstronomy2, 1, 2), new ItemStack(
+				ModItems.researchScrollAstronomy2, 1, 3), new ItemStack(ModItems.researchScrollAstronomy2, 1, 4)));
 	}
 }

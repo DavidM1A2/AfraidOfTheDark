@@ -22,7 +22,7 @@ public class InsanityResearchLoot implements IChestGenerator
 		ArrayList<WeightedRandomChestContent> toReturn = new ArrayList<WeightedRandomChestContent>();
 
 		//                                          Item, meta, min, max, chance
-		toReturn.add(new WeightedRandomChestContent(ModItems.researchScrollAstronomy2, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(ModItems.researchScrollInsanity, 0, 64, 64, 100));
 
 		return toReturn;
 	}

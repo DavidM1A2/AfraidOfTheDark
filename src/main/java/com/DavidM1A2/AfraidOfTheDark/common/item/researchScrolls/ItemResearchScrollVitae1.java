@@ -20,4 +20,10 @@ public class ItemResearchScrollVitae1 extends ItemResearchScroll
 	{
 		this.myType = ResearchTypes.VitaeI;
 	}
+
+	@Override
+	public int numberOfScrollsToMakeCompleteResearch()
+	{
+		return 5;
+	}
 }

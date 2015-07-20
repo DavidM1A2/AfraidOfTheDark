@@ -20,6 +20,10 @@ import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.DarkForestChest
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.LootTable;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.LootTableEntry;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.WitchHutLoot;
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.nightmareIsland.Astronomy2Part1;
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.nightmareIsland.Astronomy2Part2;
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.nightmareIsland.Astronomy2Part3;
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.nightmareIsland.Astronomy2Part4;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.nightmareIsland.FoodLoot;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.nightmareIsland.InsanityResearchLoot;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.nightmareIsland.PotionLoot;
@@ -97,6 +101,10 @@ public final class Constants
 		new LootTableEntry(new Vitae1Part3Loot(), Items.gold_ingot, 20),
 		new LootTableEntry(new Vitae1Part4Loot(), Items.netherbrick, 20),
 		new LootTableEntry(new Vitae1Part5Loot(), Items.coal, 20),
+		new LootTableEntry(new Astronomy2Part1(), Items.gold_nugget, 20),
+		new LootTableEntry(new Astronomy2Part2(), Items.glowstone_dust, 20),
+		new LootTableEntry(new Astronomy2Part3(), Items.nether_wart, 20),
+		new LootTableEntry(new Astronomy2Part4(), Items.rabbit_hide, 20),
 	});
 
 	static

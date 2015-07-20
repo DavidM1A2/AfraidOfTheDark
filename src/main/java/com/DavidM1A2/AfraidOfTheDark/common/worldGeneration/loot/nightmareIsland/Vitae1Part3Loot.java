@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.IChestGenerator;
 
-import net.minecraft.init.Items;
 import net.minecraft.util.WeightedRandomChestContent;
 
 public class Vitae1Part3Loot implements IChestGenerator
@@ -22,7 +22,7 @@ public class Vitae1Part3Loot implements IChestGenerator
 		ArrayList<WeightedRandomChestContent> toReturn = new ArrayList<WeightedRandomChestContent>();
 
 		//                                          Item, meta, min, max, chance
-		toReturn.add(new WeightedRandomChestContent(Items.stick, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(ModItems.researchScrollVitae1, 3, 64, 64, 100));
 
 		return toReturn;
 	}

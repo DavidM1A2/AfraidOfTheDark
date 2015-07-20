@@ -34,6 +34,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.item.crossbow.ItemCrossbow;
 import com.DavidM1A2.AfraidOfTheDark.common.item.crossbow.ItemWristCrossbow;
 import com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls.ItemResearchScrollAstronomy2;
 import com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls.ItemResearchScrollCloakOfAgility;
+import com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls.ItemResearchScrollInsanity;
 import com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls.ItemResearchScrollVitae1;
 import com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls.ItemResearchScrollWristCrossbow;
 import com.DavidM1A2.AfraidOfTheDark.common.item.spawnEggs.ItemSpawnDeeeSyft;
@@ -92,6 +93,7 @@ public class ModItems
 	public static final ItemResearchScrollAstronomy2 researchScrollAstronomy2 = new ItemResearchScrollAstronomy2();
 	public static final ItemResearchScrollVitae1 researchScrollVitae1 = new ItemResearchScrollVitae1();
 	public static final ItemResearchScrollWristCrossbow researchScrollWristCrossbow = new ItemResearchScrollWristCrossbow();
+	public static final ItemResearchScrollInsanity researchScrollInsanity = new ItemResearchScrollInsanity();
 
 	public static void initialize(final Side side)
 	{
@@ -136,6 +138,7 @@ public class ModItems
 		GameRegistry.registerItem(ModItems.researchScrollAstronomy2, "researchScrollAstronomy2");
 		GameRegistry.registerItem(ModItems.researchScrollVitae1, "researchScrollVitae1");
 		GameRegistry.registerItem(ModItems.researchScrollWristCrossbow, "researchScrollWristCrossbow");
+		GameRegistry.registerItem(ModItems.researchScrollInsanity, "researchScrollInsanity");
 	}
 
 	public static void initializeRenderers(final Side side)
@@ -193,11 +196,21 @@ public class ModItems
 			itemModelMesher.register(ModItems.cloakOfAgility, 0, new ModelResourceLocation(Refrence.MOD_ID + ":cloakOfAgility", "inventory"));
 			itemModelMesher.register(ModItems.researchScrollCloakOfAgility, 0, new ModelResourceLocation(Refrence.MOD_ID + ":researchScrollCloakOfAgility", "inventory"));
 			itemModelMesher.register(ModItems.researchScrollAstronomy2, 0, new ModelResourceLocation(Refrence.MOD_ID + ":researchScrollAstronomy2", "inventory"));
+			itemModelMesher.register(ModItems.researchScrollAstronomy2, 1, new ModelResourceLocation(Refrence.MOD_ID + ":researchScrollAstronomy2", "inventory"));
+			itemModelMesher.register(ModItems.researchScrollAstronomy2, 2, new ModelResourceLocation(Refrence.MOD_ID + ":researchScrollAstronomy2", "inventory"));
+			itemModelMesher.register(ModItems.researchScrollAstronomy2, 3, new ModelResourceLocation(Refrence.MOD_ID + ":researchScrollAstronomy2", "inventory"));
+			itemModelMesher.register(ModItems.researchScrollAstronomy2, 4, new ModelResourceLocation(Refrence.MOD_ID + ":researchScrollAstronomy2", "inventory"));
 			itemModelMesher.register(ModItems.researchScrollVitae1, 0, new ModelResourceLocation(Refrence.MOD_ID + ":researchScrollVitae1", "inventory"));
+			itemModelMesher.register(ModItems.researchScrollVitae1, 1, new ModelResourceLocation(Refrence.MOD_ID + ":researchScrollVitae1", "inventory"));
+			itemModelMesher.register(ModItems.researchScrollVitae1, 2, new ModelResourceLocation(Refrence.MOD_ID + ":researchScrollVitae1", "inventory"));
+			itemModelMesher.register(ModItems.researchScrollVitae1, 3, new ModelResourceLocation(Refrence.MOD_ID + ":researchScrollVitae1", "inventory"));
+			itemModelMesher.register(ModItems.researchScrollVitae1, 4, new ModelResourceLocation(Refrence.MOD_ID + ":researchScrollVitae1", "inventory"));
+			itemModelMesher.register(ModItems.researchScrollVitae1, 5, new ModelResourceLocation(Refrence.MOD_ID + ":researchScrollVitae1", "inventory"));
 			itemModelMesher.register(ModItems.researchScrollWristCrossbow, 0, new ModelResourceLocation(Refrence.MOD_ID + ":researchScrollWristCrossbow", "inventory"));
 			itemModelMesher.register(ModItems.starMetalPlate, 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalPlate", "inventory"));
 			itemModelMesher.register(ModItems.enchantedSkeletonBone, 0, new ModelResourceLocation(Refrence.MOD_ID + ":enchantedSkeletonBone", "inventory"));
 			itemModelMesher.register(ModItems.sleepingPotion, 0, new ModelResourceLocation(Refrence.MOD_ID + ":sleepingPotion", "inventory"));
+			itemModelMesher.register(ModItems.researchScrollInsanity, 0, new ModelResourceLocation(Refrence.MOD_ID + ":researchScrollInsanity", "inventory"));
 		}
 	}
 }

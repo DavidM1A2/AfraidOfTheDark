@@ -14,7 +14,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.IChestGenerator
 
 import net.minecraft.util.WeightedRandomChestContent;
 
-public class Vitae1Part1Loot implements IChestGenerator
+public class Astronomy2Part1 implements IChestGenerator
 {
 	@Override
 	public List<WeightedRandomChestContent> getPossibleItems(Random random)
@@ -22,7 +22,7 @@ public class Vitae1Part1Loot implements IChestGenerator
 		ArrayList<WeightedRandomChestContent> toReturn = new ArrayList<WeightedRandomChestContent>();
 
 		//                                          Item, meta, min, max, chance
-		toReturn.add(new WeightedRandomChestContent(ModItems.researchScrollVitae1, 1, 64, 64, 100));
+		toReturn.add(new WeightedRandomChestContent(ModItems.researchScrollAstronomy2, 1, 64, 64, 100));
 
 		return toReturn;
 	}

@@ -7,23 +7,17 @@ package com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls;
 
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
-public class ItemResearchScrollAstronomy2 extends ItemResearchScroll
+public class ItemResearchScrollInsanity extends ItemResearchScroll
 {
-	public ItemResearchScrollAstronomy2()
+	public ItemResearchScrollInsanity()
 	{
 		super();
-		this.setUnlocalizedName("researchScrollAstronomy2");
+		this.setUnlocalizedName("researchScrollInsanity");
 	}
 
 	@Override
 	public void setMyType()
 	{
-		this.myType = ResearchTypes.AstronomyII;
-	}
-
-	@Override
-	public int numberOfScrollsToMakeCompleteResearch()
-	{
-		return 4;
+		this.myType = ResearchTypes.Insanity;
 	}
 }
