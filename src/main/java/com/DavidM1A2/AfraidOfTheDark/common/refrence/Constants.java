@@ -87,7 +87,7 @@ public final class Constants
 	public static LootTable nightmareIslandLootTable = new LootTable(new LootTableEntry[]
 	{
 		new LootTableEntry(new FoodLoot(), Items.cooked_beef, 5 + MathHelper.floor_double(Math.random() * 5)),
-		new LootTableEntry(new InsanityResearchLoot(), ModItems.researchScrollAstronomy2, 20),
+		new LootTableEntry(new InsanityResearchLoot(), Items.feather, 20),
 		new LootTableEntry(new PotionLoot(), Items.sugar, 5),
 		new LootTableEntry(new RandomBlockLoot(), null, 12),
 		new LootTableEntry(new ValueableLoot(), Items.diamond, 5),
