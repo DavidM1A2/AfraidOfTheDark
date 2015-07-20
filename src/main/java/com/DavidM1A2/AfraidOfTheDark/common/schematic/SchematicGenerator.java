@@ -123,7 +123,7 @@ public final class SchematicGenerator
 
 				if (tileEntity != null)
 				{
-					BlockPos tileEntityLocation = new BlockPos(tileEntity.getPos().add(xPosition, yPosition, zPosition));
+					BlockPos tileEntityLocation = new BlockPos(tileEntity.getPos().getX() + xPosition, tileEntity.getPos().getY() + yPosition, tileEntity.getPos().getZ() + zPosition);
 
 					// Remove the default tile entity
 					world.removeTileEntity(tileEntityLocation);
@@ -146,7 +146,7 @@ public final class SchematicGenerator
 
 				if (tileEntity != null)
 				{
-					BlockPos tileEntityLocation = new BlockPos(tileEntity.getPos().add(xPosition, yPosition, zPosition));
+					BlockPos tileEntityLocation = new BlockPos(tileEntity.getPos().getX() + xPosition, tileEntity.getPos().getY() + yPosition, tileEntity.getPos().getZ() + zPosition);
 
 					// Remove the default tile entity
 					world.removeTileEntity(tileEntityLocation);
@@ -157,8 +157,6 @@ public final class SchematicGenerator
 					if (tileEntity instanceof TileEntityChest)
 					{
 						TileEntityChest tileEntityChest = (TileEntityChest) world.getTileEntity(tileEntityLocation);
-
-						tileEntityChest.clear();
 
 						if (tileEntityChest != null)
 						{
