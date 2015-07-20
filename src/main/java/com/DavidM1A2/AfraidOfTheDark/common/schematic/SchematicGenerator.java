@@ -158,6 +158,8 @@ public final class SchematicGenerator
 					{
 						TileEntityChest tileEntityChest = (TileEntityChest) world.getTileEntity(tileEntityLocation);
 
+						tileEntityChest.clear();
+
 						if (tileEntityChest != null)
 						{
 							lootTable.generate(tileEntityChest);

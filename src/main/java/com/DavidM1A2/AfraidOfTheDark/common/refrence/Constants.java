@@ -20,6 +20,17 @@ import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.DarkForestChest
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.LootTable;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.LootTableEntry;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.WitchHutLoot;
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.nightmareIsland.FoodLoot;
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.nightmareIsland.InsanityResearchLoot;
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.nightmareIsland.PotionLoot;
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.nightmareIsland.RandomBlockLoot;
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.nightmareIsland.ValueableLoot;
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.nightmareIsland.Vitae1Part1Loot;
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.nightmareIsland.Vitae1Part2Loot;
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.nightmareIsland.Vitae1Part3Loot;
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.nightmareIsland.Vitae1Part4Loot;
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.nightmareIsland.Vitae1Part5Loot;
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.nightmareIsland.WeaponryLoot;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -57,10 +68,12 @@ import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.EnumHelper;
 
 public final class Constants
@@ -71,6 +84,20 @@ public final class Constants
 	public static LootTable cryptLootTable = new LootTable(new LootTableEntry(new CryptChestLoot(), null, 1));
 	public static LootTable darkForestLootTable = new LootTable(new LootTableEntry(new DarkForestChestLoot(), null, 6));
 	public static LootTable witchHutLootTable = new LootTable(new LootTableEntry(new WitchHutLoot(), null, 3));
+	public static LootTable nightmareIslandLootTable = new LootTable(new LootTableEntry[]
+	{
+		new LootTableEntry(new FoodLoot(), Items.cooked_beef, 5 + MathHelper.floor_double(Math.random() * 5)),
+		new LootTableEntry(new InsanityResearchLoot(), ModItems.researchScrollAstronomy2, 20),
+		new LootTableEntry(new PotionLoot(), Items.sugar, 5),
+		new LootTableEntry(new RandomBlockLoot(), null, 12),
+		new LootTableEntry(new ValueableLoot(), Items.diamond, 5),
+		new LootTableEntry(new WeaponryLoot(), Items.blaze_rod, 4),
+		new LootTableEntry(new Vitae1Part1Loot(), Items.emerald, 20),
+		new LootTableEntry(new Vitae1Part2Loot(), Items.iron_ingot, 20),
+		new LootTableEntry(new Vitae1Part3Loot(), Items.gold_ingot, 20),
+		new LootTableEntry(new Vitae1Part4Loot(), Items.netherbrick, 20),
+		new LootTableEntry(new Vitae1Part5Loot(), Items.coal, 20),
+	});
 
 	static
 	{
