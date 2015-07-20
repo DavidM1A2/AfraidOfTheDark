@@ -39,7 +39,7 @@ public class AOTDWorldGenerationHandler implements IWorldGenerator
 			{
 				new GenerateSprings(random, chunkX, chunkZ, world);
 			}
-			if (random.nextDouble() < 0.002)
+			if (random.nextDouble() < 0.0016)
 			{
 				new GenerateDarkForestDungeon(random, chunkX, chunkZ, world);
 			}
@@ -50,7 +50,7 @@ public class AOTDWorldGenerationHandler implements IWorldGenerator
 			{
 				new GenerateSprings(random, chunkX, chunkZ, world);
 			}
-			if (random.nextDouble() < 0.002)
+			if (random.nextDouble() < 0.0016)
 			{
 				new GenerateDarkForestDungeon(random, chunkX, chunkZ, world);
 			}

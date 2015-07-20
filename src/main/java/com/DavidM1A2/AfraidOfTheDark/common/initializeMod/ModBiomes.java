@@ -30,7 +30,5 @@ public class ModBiomes
 		BiomeDictionary.registerBiomeType(ModBiomes.voidChest);
 		BiomeManager.addBiome(BiomeManager.BiomeType.COOL, new BiomeEntry(ModBiomes.erieForest, 10));
 		BiomeManager.addBiome(BiomeManager.BiomeType.WARM, new BiomeEntry(ModBiomes.erieForest, 10));
-		// This biome is only temporarily the spawn biome
-		BiomeManager.addSpawnBiome(ModBiomes.erieForest);
 	}
 }
