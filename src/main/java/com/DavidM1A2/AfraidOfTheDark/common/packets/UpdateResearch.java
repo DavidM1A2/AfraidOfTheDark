@@ -77,6 +77,7 @@ public class UpdateResearch implements IMessage
 					String keyString = (String) key;
 					if (!Research.get(Minecraft.getMinecraft().thePlayer).getBoolean(keyString) && message.research.getBoolean(keyString))
 					{
+						Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:achievementUnlocked", 0.5f, 1.0f);
 						ClientData.researchAchievedOverlay.displayResearch(ResearchTypes.valueOf(keyString.substring(Research.RESEARCH_DATA.length())), new ItemStack(ModItems.journal, 1), false);
 					}
 				}

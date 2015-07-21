@@ -413,8 +413,8 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 	{
 		if ((character == 'e') || (character == 'E'))
 		{
-			Minecraft.getMinecraft().thePlayer.closeScreen();
-			GL11.glFlush();
+			EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
+			entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
 		}
 		super.keyTyped(character, iDontKnowWhatThisDoes);
 	}

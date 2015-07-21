@@ -10,7 +10,6 @@ import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateResearch;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,7 +18,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 
 //This property is saved on a player and keeps track of their current researches
@@ -80,13 +78,13 @@ public class Research implements IExtendedEntityProperties
 		final NBTTagCompound current = Research.get(entityPlayer);
 		current.setBoolean(Research.RESEARCH_DATA + type.toString(), true);
 		Research.set(entityPlayer, current);
-		LogHelper.info("Updating research on " + FMLCommonHandler.instance().getSide().toString() + " side.");
 		if (side == Side.CLIENT)
 		{
 			AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateResearch(entityPlayer.getEntityData().getCompoundTag(Research.RESEARCH_DATA), firstTimeResearched));
 			if (firstTimeResearched)
 			{
 				ClientData.researchAchievedOverlay.displayResearch(type, new ItemStack(ModItems.journal, 1), false);
+				entityPlayer.playSound("afraidofthedark:achievementUnlocked", 0.5f, 1.0f);
 			}
 		}
 		else
