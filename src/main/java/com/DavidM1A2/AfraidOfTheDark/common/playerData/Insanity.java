@@ -21,9 +21,15 @@ public class Insanity implements IExtendedEntityProperties
 	private double playerInsanity;
 	public final static String PLAYER_INSANITY = "PlayerInsanity";
 
-	public static final void register(final EntityPlayer player)
+	public static final void register(final EntityPlayer entityPlayer)
 	{
-		player.registerExtendedProperties(Insanity.PLAYER_INSANITY, new Insanity());
+		/*
+		 * This third block of code will determine if the player has insanity yet, and if he/she does we will load it.
+		 */
+		if (entityPlayer.getExtendedProperties(Insanity.PLAYER_INSANITY) == null)
+		{
+			entityPlayer.registerExtendedProperties(Insanity.PLAYER_INSANITY, new Insanity());
+		}
 	}
 
 	@Override
@@ -61,19 +67,12 @@ public class Insanity implements IExtendedEntityProperties
 			if (amount > 0)
 			{
 				compound.setDouble(Insanity.PLAYER_INSANITY, Math.min(100.0, Insanity.get(myPlayer) + amount));
-				Insanity.updateClientSideInsanity(myPlayer);
 			}
 			else
 			{
 				compound.setDouble(Insanity.PLAYER_INSANITY, Math.max(0, Insanity.get(myPlayer) + amount));
-				Insanity.updateClientSideInsanity(myPlayer);
 			}
+			AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateInsanity(Insanity.get(myPlayer)), (EntityPlayerMP) myPlayer);
 		}
-	}
-
-	// This sends an update packet to a client (sync packet)
-	public static void updateClientSideInsanity(final EntityPlayer myPlayer)
-	{
-		AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateInsanity(Insanity.get(myPlayer)), (EntityPlayerMP) myPlayer);
 	}
 }

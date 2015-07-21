@@ -30,7 +30,10 @@ public class Vitae implements IExtendedEntityProperties
 	{
 		if (!(entityLivingBase instanceof EntityArmorStand))
 		{
-			entityLivingBase.registerExtendedProperties(Vitae.VITAE_LEVEL, new Vitae());
+			if (entityLivingBase.getExtendedProperties(Vitae.VITAE_LEVEL) == null)
+			{
+				entityLivingBase.registerExtendedProperties(Vitae.VITAE_LEVEL, new Vitae());
+			}
 		}
 	}
 

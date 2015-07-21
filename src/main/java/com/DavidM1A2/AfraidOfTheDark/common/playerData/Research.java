@@ -26,9 +26,15 @@ public class Research implements IExtendedEntityProperties
 	private NBTTagCompound researches = new NBTTagCompound();;
 	public final static String RESEARCH_DATA = "unlockedResearches";
 
-	public static final void register(final EntityPlayer player)
+	public static final void register(final EntityPlayer entityPlayer)
 	{
-		player.registerExtendedProperties(Research.RESEARCH_DATA, new Research());
+		/*
+		 * This first block of code will load the player's research.
+		 */
+		if (entityPlayer.getExtendedProperties(Research.RESEARCH_DATA) == null)
+		{
+			entityPlayer.registerExtendedProperties(Research.RESEARCH_DATA, new Research());
+		}
 	}
 
 	@Override

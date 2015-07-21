@@ -19,12 +19,16 @@ public class InventorySaver implements IExtendedEntityProperties
 	public final static String PLAYER_LOCATION_OVERWORLD = "playerLocationOverworld";
 	public final static String PLAYER_LOCATION_NIGHTMARE = "playerLocationNightmare";
 	private NBTTagList inventoryList = new NBTTagList();
-	private int[] playerLocationOverworld = new int[3];
+	private int[] playerLocationOverworld = new int[]
+	{ 0, 255, 0 };
 	private int playerLocationNightmare = -1;
 
-	public static final void register(final EntityPlayer player)
+	public static final void register(final EntityPlayer entityPlayer)
 	{
-		player.registerExtendedProperties(InventorySaver.INVENTORY_SAVER, new InventorySaver());
+		if (entityPlayer.getExtendedProperties(InventorySaver.INVENTORY_SAVER) == null)
+		{
+			entityPlayer.registerExtendedProperties(InventorySaver.INVENTORY_SAVER, new InventorySaver());
+		}
 	}
 
 	@Override

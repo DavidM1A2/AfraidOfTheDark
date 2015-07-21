@@ -22,9 +22,15 @@ public class HasStartedAOTD implements IExtendedEntityProperties
 	private boolean hasStartedAOTD = false;
 	public final static String PLAYER_STARTED_AOTD = "playerStartedAOTD";
 
-	public static final void register(final EntityPlayer player)
+	public static final void register(final EntityPlayer entityPlayer)
 	{
-		player.registerExtendedProperties(HasStartedAOTD.PLAYER_STARTED_AOTD, new HasStartedAOTD());
+		/*
+		 * This second block of code will check if the player has begun the mod.
+		 */
+		if (entityPlayer.getExtendedProperties(HasStartedAOTD.PLAYER_STARTED_AOTD) == null)
+		{
+			entityPlayer.registerExtendedProperties(HasStartedAOTD.PLAYER_STARTED_AOTD, new HasStartedAOTD());
+		}
 	}
 
 	@Override

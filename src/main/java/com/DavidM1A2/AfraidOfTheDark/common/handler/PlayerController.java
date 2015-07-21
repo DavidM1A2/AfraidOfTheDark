@@ -123,41 +123,16 @@ public class PlayerController
 		{
 			final EntityPlayer entityPlayer = (EntityPlayer) event.entity;
 
-			/*
-			 * This first block of code will load the player's research.
-			 */
-			if (entityPlayer.getExtendedProperties(Research.RESEARCH_DATA) == null)
-			{
-				Research.register(entityPlayer);
-			}
-			/*
-			 * This second block of code will check if the player has begun the mod.
-			 */
-			if (entityPlayer.getExtendedProperties(HasStartedAOTD.PLAYER_STARTED_AOTD) == null)
-			{
-				HasStartedAOTD.register(entityPlayer);
-			}
-			/*
-			 * This third block of code will determine if the player has insanity yet, and if he/she does we will load it.
-			 */
-			if (entityPlayer.getExtendedProperties(Insanity.PLAYER_INSANITY) == null)
-			{
-				Insanity.register(entityPlayer);
-			}
-
-			if (entityPlayer.getExtendedProperties(InventorySaver.INVENTORY_SAVER) == null)
-			{
-				InventorySaver.register(entityPlayer);
-			}
+			Research.register(entityPlayer);
+			HasStartedAOTD.register(entityPlayer);
+			Insanity.register(entityPlayer);
+			InventorySaver.register(entityPlayer);
 		}
 
 		if (event.entity instanceof EntityLivingBase)
 		{
 			EntityLivingBase entityLivingBase = (EntityLivingBase) event.entity;
-			if (entityLivingBase.getExtendedProperties(Vitae.VITAE_LEVEL) == null)
-			{
-				Vitae.register(entityLivingBase);
-			}
+			Vitae.register(entityLivingBase);
 		}
 	}
 
