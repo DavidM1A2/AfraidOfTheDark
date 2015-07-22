@@ -89,23 +89,10 @@ public final class Constants
 	public static LootTable darkForestLootTable = new LootTable(new LootTableEntry(new DarkForestChestLoot(), null, 6));
 	public static LootTable witchHutLootTable = new LootTable(new LootTableEntry(new WitchHutLoot(), null, 3));
 	public static LootTable nightmareIslandLootTable = new LootTable(new LootTableEntry[]
-	{
-		new LootTableEntry(new FoodLoot(), Items.cooked_beef, 5 + MathHelper.floor_double(Math.random() * 5)),
-		new LootTableEntry(new InsanityResearchLoot(), Items.feather, 20),
-		new LootTableEntry(new PotionLoot(), Items.sugar, 5),
-		new LootTableEntry(new RandomBlockLoot(), null, 12),
-		new LootTableEntry(new ValueableLoot(), Items.diamond, 5),
-		new LootTableEntry(new WeaponryLoot(), Items.blaze_rod, 4),
-		new LootTableEntry(new Vitae1Part1Loot(), Items.emerald, 20),
-		new LootTableEntry(new Vitae1Part2Loot(), Items.iron_ingot, 20),
-		new LootTableEntry(new Vitae1Part3Loot(), Items.gold_ingot, 20),
-		new LootTableEntry(new Vitae1Part4Loot(), Items.netherbrick, 20),
-		new LootTableEntry(new Vitae1Part5Loot(), Items.coal, 20),
-		new LootTableEntry(new Astronomy2Part1(), Items.gold_nugget, 20),
-		new LootTableEntry(new Astronomy2Part2(), Items.glowstone_dust, 20),
-		new LootTableEntry(new Astronomy2Part3(), Items.nether_wart, 20),
-		new LootTableEntry(new Astronomy2Part4(), Items.rabbit_hide, 20),
-	});
+	{ new LootTableEntry(new FoodLoot(), Items.cooked_beef, 5 + MathHelper.floor_double(Math.random() * 5)), new LootTableEntry(new InsanityResearchLoot(), Items.feather, 20), new LootTableEntry(new PotionLoot(), Items.sugar, 5), new LootTableEntry(new RandomBlockLoot(), null, 12),
+			new LootTableEntry(new ValueableLoot(), Items.diamond, 5), new LootTableEntry(new WeaponryLoot(), Items.blaze_rod, 4), new LootTableEntry(new Vitae1Part1Loot(), Items.emerald, 20), new LootTableEntry(new Vitae1Part2Loot(), Items.iron_ingot, 20), new LootTableEntry(new Vitae1Part3Loot(),
+					Items.gold_ingot, 20), new LootTableEntry(new Vitae1Part4Loot(), Items.netherbrick, 20), new LootTableEntry(new Vitae1Part5Loot(), Items.coal, 20), new LootTableEntry(new Astronomy2Part1(), Items.gold_nugget, 20), new LootTableEntry(new Astronomy2Part2(), Items.glowstone_dust,
+							20), new LootTableEntry(new Astronomy2Part3(), Items.nether_wart, 20), new LootTableEntry(new Astronomy2Part4(), Items.rabbit_hide, 20), });
 
 	static
 	{
@@ -176,6 +163,7 @@ public final class Constants
 		public static final int PACKET_ID_UPDATE_LANTERN_STATE = 9;
 		public static final int PACKET_ID_UPDATE_SLEEPING_STATE = 10;
 		public static final int PACKET_ID_PLAY_ANIMATION = 11;
+		public static final int PACKET_ID_OPEN_CHEST = 12;
 	}
 
 	public static final class AOTDToolMaterials

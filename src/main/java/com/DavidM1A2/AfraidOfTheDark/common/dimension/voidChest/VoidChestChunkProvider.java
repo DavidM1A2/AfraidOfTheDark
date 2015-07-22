@@ -76,15 +76,21 @@ public class VoidChestChunkProvider implements IChunkProvider
 			{
 				for (int j = 0; j < 48; j++)
 				{
-					worldObj.setBlockState(new BlockPos(x + i, 100, z + j), Blocks.obsidian.getDefaultState());
-					worldObj.setBlockState(new BlockPos(x + i, 100 + 48, z + j), Blocks.obsidian.getDefaultState());
-					worldObj.setBlockState(new BlockPos(x + 0, 100 + i, z + j), Blocks.obsidian.getDefaultState());
-					worldObj.setBlockState(new BlockPos(x + i, 100 + j, z + 0), Blocks.obsidian.getDefaultState());
-					worldObj.setBlockState(new BlockPos(x + 48, 100 + i, z + j), Blocks.obsidian.getDefaultState());
-					worldObj.setBlockState(new BlockPos(x + i, 100 + j, z + 48), Blocks.obsidian.getDefaultState());
+					worldObj.setBlockState(new BlockPos(x + i, 100, z + j), Blocks.barrier.getDefaultState());
+					worldObj.setBlockState(new BlockPos(x + i, 100 + 48, z + j), Blocks.barrier.getDefaultState());
+					worldObj.setBlockState(new BlockPos(x + 0, 100 + i, z + j), Blocks.barrier.getDefaultState());
+					worldObj.setBlockState(new BlockPos(x + i, 100 + j, z + 0), Blocks.barrier.getDefaultState());
+					worldObj.setBlockState(new BlockPos(x + 48, 100 + i, z + j), Blocks.barrier.getDefaultState());
+					worldObj.setBlockState(new BlockPos(x + i, 100 + j, z + 48), Blocks.barrier.getDefaultState());
 				}
 			}
-			worldObj.setBlockState(new BlockPos(x + 24, 101, 5), ModBlocks.voidChestPortal.getDefaultState());
+			for (int i = 0; i < 3; i++)
+			{
+				for (int j = 0; j < 3; j++)
+				{
+					worldObj.setBlockState(new BlockPos(x + 23 + i, 101 + j, 0), ModBlocks.voidChestPortal.getDefaultState());
+				}
+			}
 		}
 	}
 

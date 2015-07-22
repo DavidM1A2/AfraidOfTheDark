@@ -5,16 +5,29 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDTileEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest.VoidChestTeleporter;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncVoidChest;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemNameTag;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
 public class TileEntityVoidChest extends AOTDTileEntity implements IUpdatePlayerListBox
 {
@@ -29,13 +42,55 @@ public class TileEntityVoidChest extends AOTDTileEntity implements IUpdatePlayer
 	private int ticksSinceSync;
 	private int cachedChestType;
 
+	private String owner = "";
+	private List<String> friends = new ArrayList<String>();
+
 	private EntityPlayer entityPlayerToSend = null;
+	private int coordinateToSendTo = -1;
 
 	private long lastInteraction = -1;
 
 	public TileEntityVoidChest()
 	{
 		super(ModBlocks.voidChest);
+	}
+
+	public void readFromNBT(NBTTagCompound compound)
+	{
+		this.owner = compound.getString("owner");
+
+		NBTTagList friends = compound.getTagList("friends", net.minecraftforge.common.util.Constants.NBT.TAG_STRING);
+
+		for (int i = 0; i < friends.tagCount(); i++)
+		{
+			NBTBase friend = friends.get(i);
+			if (friend instanceof NBTTagString)
+			{
+				this.friends.add(((NBTTagString) friend).getString());
+			}
+		}
+
+		super.readFromNBT(compound);
+	}
+
+	public void writeToNBT(NBTTagCompound compound)
+	{
+		compound.setString("owner", this.owner);
+
+		NBTTagList friends = new NBTTagList();
+
+		for (int i = 0; i < this.friends.size(); i++)
+		{
+			String string = this.friends.get(i);
+			if (string != null)
+			{
+				NBTTagString friend = new NBTTagString(string);
+				friends.appendTag(friend);
+			}
+		}
+		compound.setTag("friends", friends);
+
+		super.writeToNBT(compound);
 	}
 
 	@Override
@@ -73,9 +128,9 @@ public class TileEntityVoidChest extends AOTDTileEntity implements IUpdatePlayer
 			double xVelocity = this.pos.getX() - entityPlayerToSend.posX;
 			double yVelocity = this.pos.getY() - entityPlayerToSend.posY;
 			double zVelocity = this.pos.getZ() - entityPlayerToSend.posZ;
-			xVelocity = xVelocity / 30.0D;
-			yVelocity = yVelocity / 30.0D;
-			zVelocity = zVelocity / 30.0D;
+			xVelocity = Utility.clampDouble(xVelocity, -0.05, 0.05);
+			yVelocity = Utility.clampDouble(yVelocity, -0.05, 0.05);
+			zVelocity = Utility.clampDouble(zVelocity, -0.05, 0.05);
 			entityPlayerToSend.addVelocity(xVelocity, yVelocity, zVelocity);
 		}
 
@@ -127,7 +182,72 @@ public class TileEntityVoidChest extends AOTDTileEntity implements IUpdatePlayer
 		}
 	}
 
+	public void setOwner(String owner)
+	{
+		this.owner = owner;
+	}
+
 	public void interact(EntityPlayer entityPlayer)
+	{
+		if (!entityPlayer.worldObj.isRemote)
+		{
+			if (this.owner.equals(""))
+			{
+				this.owner = entityPlayer.getDisplayName().getUnformattedText();
+				this.openChest(entityPlayer);
+				AfraidOfTheDark.getSimpleNetworkWrapper().sendToAllAround(new SyncVoidChest(this.pos.getX(), this.pos.getY(), this.pos.getZ(), entityPlayer.getEntityId()), new TargetPoint(this.worldObj.provider.getDimensionId(), this.pos.getX(), this.pos.getY(), this.pos.getZ(), 30));
+			}
+			else if (entityPlayer.getDisplayName().getUnformattedText().equals(owner))
+			{
+				if (entityPlayer.getCurrentEquippedItem() != null)
+				{
+					ItemStack itemStack = entityPlayer.getCurrentEquippedItem();
+					if (itemStack.getItem() instanceof ItemNameTag)
+					{
+						if (!friends.contains(itemStack.getDisplayName()))
+						{
+							friends.add(itemStack.getDisplayName());
+							if (!worldObj.isRemote)
+							{
+								entityPlayer.addChatMessage(new ChatComponentText("Player " + itemStack.getDisplayName() + " was added to this chest's friend list."));
+							}
+						}
+						else
+						{
+							friends.remove(itemStack.getDisplayName());
+							if (!worldObj.isRemote)
+							{
+								entityPlayer.addChatMessage(new ChatComponentText("Player " + itemStack.getDisplayName() + " was removed from this chest's friend list."));
+							}
+						}
+						return;
+					}
+				}
+				this.openChest(entityPlayer);
+				AfraidOfTheDark.getSimpleNetworkWrapper().sendToAllAround(new SyncVoidChest(this.pos.getX(), this.pos.getY(), this.pos.getZ(), entityPlayer.getEntityId()), new TargetPoint(this.worldObj.provider.getDimensionId(), this.pos.getX(), this.pos.getY(), this.pos.getZ(), 30));
+			}
+			else if (friends.contains(entityPlayer.getDisplayName().getUnformattedText()))
+			{
+				if (entityPlayer.getCurrentEquippedItem() != null)
+				{
+					ItemStack itemStack = entityPlayer.getCurrentEquippedItem();
+					if (itemStack.getItem() instanceof ItemNameTag)
+					{
+						entityPlayer.addChatMessage(new ChatComponentText("I can't edit access to this chest"));
+						return;
+					}
+				}
+				this.openChest(entityPlayer);
+				AfraidOfTheDark.getSimpleNetworkWrapper().sendToAllAround(new SyncVoidChest(this.pos.getX(), this.pos.getY(), this.pos.getZ(), entityPlayer.getEntityId()), new TargetPoint(this.worldObj.provider.getDimensionId(), this.pos.getX(), this.pos.getY(), this.pos.getZ(), 30));
+			}
+			else
+			{
+				entityPlayer.addChatMessage(new ChatComponentText("I don't have access to this chest."));
+			}
+		}
+	}
+
+	public void openChest(EntityPlayer entityPlayer)
 	{
 		this.lastInteraction = System.currentTimeMillis();
 		this.shouldBeOpen = true;

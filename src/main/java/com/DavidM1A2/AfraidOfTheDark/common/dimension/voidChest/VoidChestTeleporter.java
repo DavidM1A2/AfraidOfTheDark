@@ -13,7 +13,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.ISaveHandler;
@@ -38,10 +37,6 @@ public class VoidChestTeleporter extends Teleporter
 	{
 		if (dimensionNew == Constants.VoidChestWorld.VOID_CHEST_WORLD_ID)
 		{
-			int i = MathHelper.floor_double(entity.posX);
-			int j = MathHelper.floor_double(entity.posY) - 1;
-			int k = MathHelper.floor_double(entity.posZ);
-			entity.setLocationAndAngles(i, j, k, entity.rotationYaw, 0.0F);
 			entity.motionX = entity.motionY = entity.motionZ = 0.0D;
 
 			if (entity instanceof EntityPlayer)
@@ -58,7 +53,7 @@ public class VoidChestTeleporter extends Teleporter
 						VoidChestLocation.setVoidChestLocation(entityPlayer, ((SaveHandler) iSaveHandler).getAvailablePlayerDat().length - 1);
 					}
 				}
-				((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(VoidChestLocation.getVoidChestLocation(entityPlayer) * Constants.VoidChestWorld.BLOCKS_BETWEEN_ISLANDS + 24.5, 110, 1.5, 0, 0);
+				((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(VoidChestLocation.getVoidChestLocation(entityPlayer) * Constants.VoidChestWorld.BLOCKS_BETWEEN_ISLANDS + 24.5, 110, 3, 0, 0);
 			}
 		}
 		else if (dimensionOld == Constants.VoidChestWorld.VOID_CHEST_WORLD_ID)

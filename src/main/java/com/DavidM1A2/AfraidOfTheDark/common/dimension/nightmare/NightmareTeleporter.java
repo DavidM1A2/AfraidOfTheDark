@@ -39,10 +39,6 @@ public class NightmareTeleporter extends Teleporter
 		LogHelper.info("Teleporter called");
 		if (dimensionNew == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
 		{
-			//			int i = MathHelper.floor_double(entity.posX);
-			//			int j = MathHelper.floor_double(entity.posY) - 1;
-			//			int k = MathHelper.floor_double(entity.posZ);
-			//			entity.setLocationAndAngles(i, j, k, entity.rotationYaw, 0.0F);
 			entity.motionX = entity.motionY = entity.motionZ = 0.0D;
 
 			if (entity instanceof EntityPlayer)

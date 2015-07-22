@@ -48,6 +48,11 @@ public class Utility
 		return ticks * 50;
 	}
 
+	public static double clampDouble(double val, double min, double max)
+	{
+		return Math.max(min, Math.min(max, val));
+	}
+
 	public static boolean hasIndex(List<?> list, int index)
 	{
 		try

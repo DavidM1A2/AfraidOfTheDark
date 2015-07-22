@@ -87,7 +87,10 @@ public class BlockVoidChest extends AOTDBlockTileEntity
 			}
 			else
 			{
-				entityPlayer.addChatMessage(new ChatComponentText("I'm not sure how to open this chest."));
+				if (!world.isRemote)
+				{
+					entityPlayer.addChatMessage(new ChatComponentText("I'm not sure how to open this chest."));
+				}
 			}
 		}
 		return true;

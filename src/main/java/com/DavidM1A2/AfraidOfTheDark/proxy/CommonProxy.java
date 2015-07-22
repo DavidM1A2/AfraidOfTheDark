@@ -6,6 +6,7 @@ package com.DavidM1A2.AfraidOfTheDark.proxy;
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.FireCrossbowBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.RotatePlayer;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncVoidChest;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.TellClientToPlayAnimation;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.TellServerToCreateMeteor;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateAOTDStatus;
@@ -37,5 +38,6 @@ public abstract class CommonProxy implements IProxy
 		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(RotatePlayer.HandlerClient.class, RotatePlayer.class, Constants.Packets.PACKET_ID_ROTATE_PLAYER_UPDATE, Side.CLIENT);
 		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(TellClientToPlayAnimation.HandlerClient.class, TellClientToPlayAnimation.class, Constants.Packets.PACKET_ID_PLAY_ANIMATION, Side.CLIENT);
 		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(UpdateLanternState.HandlerServer.class, UpdateLanternState.class, Constants.Packets.PACKET_ID_UPDATE_LANTERN_STATE, Side.SERVER);
+		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(SyncVoidChest.HandlerClient.class, SyncVoidChest.class, Constants.Packets.PACKET_ID_OPEN_CHEST, Side.CLIENT);
 	}
 }
