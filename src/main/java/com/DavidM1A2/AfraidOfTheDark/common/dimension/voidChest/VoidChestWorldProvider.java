@@ -120,7 +120,7 @@ public class VoidChestWorldProvider extends WorldProvider
 	@Override
 	public boolean isSurfaceWorld()
 	{
-		return false;
+		return true;
 	}
 
 	@SideOnly(Side.CLIENT)

@@ -34,6 +34,7 @@ public class BlockVoidChestPortal extends AOTDBlock
 		super(Material.portal);
 		this.setUnlocalizedName("voidChestPortal");
 		this.setCreativeTab(null);
+		this.setLightLevel(1.0f);
 	}
 
 	@Override
