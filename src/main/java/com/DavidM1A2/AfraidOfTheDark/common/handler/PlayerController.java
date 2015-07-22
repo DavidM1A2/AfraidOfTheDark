@@ -35,6 +35,7 @@ import net.minecraft.item.ItemFlintAndSteel;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.SaveHandler;
@@ -71,6 +72,11 @@ public class PlayerController
 			(new DelayedTeleport(500, event.entityPlayer, 0)).start();
 		}
 		InventorySaver.set(event.entityPlayer, InventorySaver.getInventory(event.original), InventorySaver.getPlayerLocationOverworld(event.original), InventorySaver.getPlayerLocationNightmare(event.original));
+		final BlockPos overworldVoidChestLocation = VoidChestLocation.getOverworldLocation(event.original);
+		final int voidChestIndex = VoidChestLocation.getVoidChestLocation(event.original);
+		VoidChestLocation.setOverworldLocation(event.entityPlayer, new int[]
+		{ overworldVoidChestLocation.getX(), overworldVoidChestLocation.getY(), overworldVoidChestLocation.getZ() });
+		VoidChestLocation.setVoidChestLocation(event.entityPlayer, voidChestIndex);
 		// When the player gets new research we will wait 500ms before updating because otherwise the event.original player
 		// will get the new data
 		(new DelayedAOTDUpdate(600, event.entityPlayer, hasStartedAOTD)).start();
