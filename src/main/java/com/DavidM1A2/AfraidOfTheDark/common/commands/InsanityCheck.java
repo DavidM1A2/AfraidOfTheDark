@@ -15,8 +15,10 @@ import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.world.storage.SaveHandler;
 
 public class InsanityCheck implements ICommand
 {
@@ -67,7 +69,10 @@ public class InsanityCheck implements ICommand
 		iCommandSender.addChatMessage(new ChatComponentText("Your current has started AOTD status is: " + HasStartedAOTD.get(sender)));
 		iCommandSender.addChatMessage(new ChatComponentText("Current Vitae level is: " + Vitae.get(sender)));
 		iCommandSender.addChatMessage(new ChatComponentText("Current dimension is: " + sender.dimension));
-		iCommandSender.addChatMessage(new ChatComponentText("Current dimension is: " + sender.worldObj.getWorldInfo().getGeneratorOptions()));
+		if (!sender.worldObj.isRemote)
+		{
+			iCommandSender.addChatMessage(new ChatComponentText("Number of registered players: " + ((SaveHandler) MinecraftServer.getServer().worldServers[0].getSaveHandler()).getAvailablePlayerDat().length));
+		}
 	}
 
 	@Override

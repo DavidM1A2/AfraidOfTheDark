@@ -5,6 +5,9 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.playerData;
 
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -68,6 +71,11 @@ public class InventorySaver implements IExtendedEntityProperties
 	public static BlockPos getPlayerLocationOverworld(final EntityPlayer entityPlayer)
 	{
 		int[] location = entityPlayer.getEntityData().getIntArray(PLAYER_LOCATION_OVERWORLD);
+		if (location[1] == 0)
+		{
+			location[1] = Utility.getPlaceToSpawnLowest(entityPlayer.worldObj, 0, 0, 0, 0) + 2;
+			LogHelper.error("Player data incorrectly saved. Defaulting to 0, 0. Please report this to the mod author.");
+		}
 		return new BlockPos(location[0], location[1], location[2]);
 	}
 

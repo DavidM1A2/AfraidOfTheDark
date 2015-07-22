@@ -34,11 +34,8 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemFlintAndSteel;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.storage.ISaveHandler;
-import net.minecraft.world.storage.SaveHandler;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
@@ -48,7 +45,6 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -182,48 +178,6 @@ public class PlayerController
 			{
 				event.target.setFire(1);
 			}
-		}
-	}
-
-	@SubscribeEvent
-	public void onPlayerChangedDimensionEvent(final PlayerChangedDimensionEvent event)
-	{
-		EntityPlayer entityPlayer = event.player;
-		if (event.toDim == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
-		{
-			InventorySaver.saveInventory(entityPlayer);
-			entityPlayer.inventory.clear();
-			entityPlayer.inventoryContainer.detectAndSendChanges();
-
-			if (InventorySaver.getPlayerLocationNightmare(entityPlayer) == -1)
-			{
-				ISaveHandler iSaveHandler = MinecraftServer.getServer().worldServers[0].getSaveHandler();
-				if (iSaveHandler instanceof SaveHandler)
-				{
-					InventorySaver.setPlayerLocationNightmare(entityPlayer, ((SaveHandler) iSaveHandler).getAvailablePlayerDat().length - 1);
-				}
-			}
-			((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(InventorySaver.getPlayerLocationNightmare(entityPlayer) * Constants.NightmareWorld.BLOCKS_BETWEEN_ISLANDS + 20, 79, 40, 0, 0);
-		}
-		else if (event.fromDim == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
-		{
-			InventorySaver.loadInventory(entityPlayer);
-			InventorySaver.resetSavedInventory(entityPlayer);
-		}
-		else if (event.toDim == Constants.VoidChestWorld.VOID_CHEST_WORLD_ID)
-		{
-			VoidChestLocation.setOverworldLocation(entityPlayer, new int[]
-			{ (int) entityPlayer.posX, (int) entityPlayer.posY + 1, (int) entityPlayer.posZ });
-
-			if (VoidChestLocation.getVoidChestLocation(entityPlayer) == -1)
-			{
-				ISaveHandler iSaveHandler = MinecraftServer.getServer().worldServers[0].getSaveHandler();
-				if (iSaveHandler instanceof SaveHandler)
-				{
-					VoidChestLocation.setVoidChestLocation(entityPlayer, ((SaveHandler) iSaveHandler).getAvailablePlayerDat().length - 1);
-				}
-			}
-			((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(VoidChestLocation.getVoidChestLocation(entityPlayer) * Constants.VoidChestWorld.BLOCKS_BETWEEN_ISLANDS + 24.5, 110, 1.5, 0, 0);
 		}
 	}
 

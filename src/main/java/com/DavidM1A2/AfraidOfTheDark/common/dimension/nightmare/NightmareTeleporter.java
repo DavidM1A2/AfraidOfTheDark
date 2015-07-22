@@ -7,13 +7,17 @@ package com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare;
 
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.InventorySaver;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
+import net.minecraft.world.storage.ISaveHandler;
+import net.minecraft.world.storage.SaveHandler;
 
 public class NightmareTeleporter extends Teleporter
 {
@@ -32,13 +36,35 @@ public class NightmareTeleporter extends Teleporter
 	@Override
 	public void func_180266_a(Entity entity, float entityYaw)
 	{
+		LogHelper.info("Teleporter called");
 		if (dimensionNew == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
 		{
-			int i = MathHelper.floor_double(entity.posX);
-			int j = MathHelper.floor_double(entity.posY) - 1;
-			int k = MathHelper.floor_double(entity.posZ);
-			entity.setLocationAndAngles(i, j, k, entity.rotationYaw, 0.0F);
+			//			int i = MathHelper.floor_double(entity.posX);
+			//			int j = MathHelper.floor_double(entity.posY) - 1;
+			//			int k = MathHelper.floor_double(entity.posZ);
+			//			entity.setLocationAndAngles(i, j, k, entity.rotationYaw, 0.0F);
 			entity.motionX = entity.motionY = entity.motionZ = 0.0D;
+
+			if (entity instanceof EntityPlayer)
+			{
+				if (!entity.worldObj.isRemote)
+				{
+					EntityPlayer entityPlayer = (EntityPlayer) entity;
+					InventorySaver.saveInventory(entityPlayer);
+					entityPlayer.inventory.clear();
+					entityPlayer.inventoryContainer.detectAndSendChanges();
+
+					if (InventorySaver.getPlayerLocationNightmare(entityPlayer) == -1)
+					{
+						ISaveHandler iSaveHandler = MinecraftServer.getServer().worldServers[0].getSaveHandler();
+						if (iSaveHandler instanceof SaveHandler)
+						{
+							InventorySaver.setPlayerLocationNightmare(entityPlayer, ((SaveHandler) iSaveHandler).getAvailablePlayerDat().length - 1);
+						}
+					}
+					((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(InventorySaver.getPlayerLocationNightmare(entityPlayer) * Constants.NightmareWorld.BLOCKS_BETWEEN_ISLANDS + 20, 79, 40, 0, 0);
+				}
+			}
 		}
 		else if (dimensionOld == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
 		{
@@ -50,6 +76,9 @@ public class NightmareTeleporter extends Teleporter
 				entity.motionX = 0.0D;
 				entity.motionY = 0.0D;
 				entity.motionZ = 0.0D;
+
+				InventorySaver.loadInventory(entityPlayer);
+				InventorySaver.resetSavedInventory(entityPlayer);
 			}
 		}
 	}
