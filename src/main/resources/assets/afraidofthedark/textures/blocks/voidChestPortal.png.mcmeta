@@ -3,6 +3,6 @@
       "width":1,
       "height":100,
       "interpolate": true,
-      "frametime":5
+      "frametime":10
 	}
 }
