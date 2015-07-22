@@ -68,6 +68,17 @@ public class TileEntityVoidChest extends AOTDTileEntity implements IUpdatePlayer
 			this.worldObj.playSoundEffect(d1, j + 0.5D, d2, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
 		}
 
+		if (shouldBeOpen)
+		{
+			double xVelocity = this.pos.getX() - entityPlayerToSend.posX;
+			double yVelocity = this.pos.getY() - entityPlayerToSend.posY;
+			double zVelocity = this.pos.getZ() - entityPlayerToSend.posZ;
+			xVelocity = xVelocity / 30.0D;
+			yVelocity = yVelocity / 30.0D;
+			zVelocity = zVelocity / 30.0D;
+			entityPlayerToSend.addVelocity(xVelocity, yVelocity, zVelocity);
+		}
+
 		// Closing chest
 		if (!shouldBeOpen && this.lidAngle > 0.0F || shouldBeOpen && this.lidAngle < 1.0F)
 		{
@@ -104,17 +115,6 @@ public class TileEntityVoidChest extends AOTDTileEntity implements IUpdatePlayer
 						if (entityPlayerMP == entityPlayerToSend)
 						{
 							Utility.sendPlayerToDimension(entityPlayerMP, Constants.VoidChestWorld.VOID_CHEST_WORLD_ID, false, VoidChestTeleporter.class);
-						}
-					}
-				}
-				else
-				{
-					for (Object object : this.worldObj.getEntitiesWithinAABB(EntityPlayerMP.class, new AxisAlignedBB(this.pos, this.pos.add(.625D, .625D, .625D)).expand(2.0D, 2.0D, 2.0D)))
-					{
-						EntityPlayerMP entityPlayerMP = (EntityPlayerMP) object;
-						if (entityPlayerMP == entityPlayerToSend)
-						{
-							Utility.sendPlayerToDimension(entityPlayerMP, 0, false, VoidChestTeleporter.class);
 						}
 					}
 				}
