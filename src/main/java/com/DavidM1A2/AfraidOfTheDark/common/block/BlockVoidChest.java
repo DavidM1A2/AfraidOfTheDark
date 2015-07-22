@@ -73,12 +73,12 @@ public class BlockVoidChest extends AOTDBlockTileEntity
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState state, EntityPlayer entityPlayer, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
 		if (world.getTileEntity(blockPos) instanceof TileEntityVoidChest)
 		{
 			TileEntityVoidChest entityVoidChest = (TileEntityVoidChest) world.getTileEntity(blockPos);
-			entityVoidChest.interact();
+			entityVoidChest.interact(entityPlayer);
 		}
 		return true;
 	}

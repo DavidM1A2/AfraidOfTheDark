@@ -6,6 +6,7 @@
         "north": "AfraidOfTheDark:blocks/voidChest/voidChestFront",
         "south": "AfraidOfTheDark:blocks/voidChest/voidChestSide",
         "east": "AfraidOfTheDark:blocks/voidChest/voidChestSide",
-        "west": "AfraidOfTheDark:blocks/voidChest/voidChestSide"
+        "west": "AfraidOfTheDark:blocks/voidChest/voidChestSide",
+		"particle": "AfraidOfTheDark:blocks/voidChest/voidChestTop"
 	}
 }

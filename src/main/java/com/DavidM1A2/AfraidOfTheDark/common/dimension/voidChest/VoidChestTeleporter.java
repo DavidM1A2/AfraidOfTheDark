@@ -5,10 +5,12 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest;
 
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.VoidChestLocation;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
@@ -42,9 +44,9 @@ public class VoidChestTeleporter extends Teleporter
 		{
 			if (entity instanceof EntityPlayer)
 			{
-				//				EntityPlayer entityPlayer = (EntityPlayer) entity;
-				//				BlockPos playerPostionOld = InventorySaver.getPlayerLocationOverworld(entityPlayer);
-				//				entityPlayer.setPosition(playerPostionOld.getX(), playerPostionOld.getY(), playerPostionOld.getZ());
+				EntityPlayer entityPlayer = (EntityPlayer) entity;
+				BlockPos playerPostionOld = VoidChestLocation.getOverworldLocation(entityPlayer);
+				entityPlayer.setPosition(playerPostionOld.getX(), playerPostionOld.getY(), playerPostionOld.getZ());
 				entity.motionX = 0.0D;
 				entity.motionY = 0.0D;
 				entity.motionZ = 0.0D;

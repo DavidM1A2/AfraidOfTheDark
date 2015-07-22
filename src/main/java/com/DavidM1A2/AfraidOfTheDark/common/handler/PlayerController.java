@@ -18,6 +18,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.playerData.Insanity;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.InventorySaver;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.VoidChestLocation;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedAOTDUpdate;
@@ -127,6 +128,7 @@ public class PlayerController
 			HasStartedAOTD.register(entityPlayer);
 			Insanity.register(entityPlayer);
 			InventorySaver.register(entityPlayer);
+			VoidChestLocation.register(entityPlayer);
 		}
 
 		if (event.entity instanceof EntityLivingBase)
@@ -201,6 +203,21 @@ public class PlayerController
 		{
 			InventorySaver.loadInventory(entityPlayer);
 			InventorySaver.resetSavedInventory(entityPlayer);
+		}
+		else if (event.toDim == Constants.VoidChestWorld.VOID_CHEST_WORLD_ID)
+		{
+			VoidChestLocation.setOverworldLocation(entityPlayer, new int[]
+			{ (int) entityPlayer.posX, (int) entityPlayer.posY + 1, (int) entityPlayer.posZ });
+
+			if (VoidChestLocation.getVoidChestLocation(entityPlayer) == -1)
+			{
+				ISaveHandler iSaveHandler = MinecraftServer.getServer().worldServers[0].getSaveHandler();
+				if (iSaveHandler instanceof SaveHandler)
+				{
+					VoidChestLocation.setVoidChestLocation(entityPlayer, ((SaveHandler) iSaveHandler).getAvailablePlayerDat().length - 1);
+				}
+			}
+			((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(VoidChestLocation.getVoidChestLocation(entityPlayer) * Constants.VoidChestWorld.BLOCKS_BETWEEN_ISLANDS + 24.5, 110, 1.5, 0, 0);
 		}
 	}
 

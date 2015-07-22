@@ -6,9 +6,15 @@
 package com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDTileEntity;
+import com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest.VoidChestTeleporter;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
+import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntityVoidChest extends AOTDTileEntity implements IUpdatePlayerListBox
 {
@@ -22,6 +28,8 @@ public class TileEntityVoidChest extends AOTDTileEntity implements IUpdatePlayer
 	/** Server sync counter (once per 20 ticks) */
 	private int ticksSinceSync;
 	private int cachedChestType;
+
+	private EntityPlayer entityPlayerToSend = null;
 
 	private long lastInteraction = -1;
 
@@ -87,6 +95,29 @@ public class TileEntityVoidChest extends AOTDTileEntity implements IUpdatePlayer
 				double d0 = k + 0.5D;
 
 				this.worldObj.playSoundEffect(d2, j + 0.5D, d0, "random.chestclosed", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+
+				if (this.worldObj.provider.getDimensionId() != Constants.VoidChestWorld.VOID_CHEST_WORLD_ID)
+				{
+					for (Object object : this.worldObj.getEntitiesWithinAABB(EntityPlayerMP.class, new AxisAlignedBB(this.pos, this.pos.add(.625D, .625D, .625D)).expand(2.0D, 2.0D, 2.0D)))
+					{
+						EntityPlayerMP entityPlayerMP = (EntityPlayerMP) object;
+						if (entityPlayerMP == entityPlayerToSend)
+						{
+							Utility.sendPlayerToDimension(entityPlayerMP, Constants.VoidChestWorld.VOID_CHEST_WORLD_ID, false, VoidChestTeleporter.class);
+						}
+					}
+				}
+				else
+				{
+					for (Object object : this.worldObj.getEntitiesWithinAABB(EntityPlayerMP.class, new AxisAlignedBB(this.pos, this.pos.add(.625D, .625D, .625D)).expand(2.0D, 2.0D, 2.0D)))
+					{
+						EntityPlayerMP entityPlayerMP = (EntityPlayerMP) object;
+						if (entityPlayerMP == entityPlayerToSend)
+						{
+							Utility.sendPlayerToDimension(entityPlayerMP, 0, false, VoidChestTeleporter.class);
+						}
+					}
+				}
 			}
 
 			if (this.lidAngle < 0.0F)
@@ -96,9 +127,10 @@ public class TileEntityVoidChest extends AOTDTileEntity implements IUpdatePlayer
 		}
 	}
 
-	public void interact()
+	public void interact(EntityPlayer entityPlayer)
 	{
 		this.lastInteraction = System.currentTimeMillis();
 		this.shouldBeOpen = true;
+		this.entityPlayerToSend = entityPlayer;
 	}
 }

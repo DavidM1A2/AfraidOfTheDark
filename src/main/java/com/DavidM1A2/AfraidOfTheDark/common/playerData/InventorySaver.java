@@ -68,10 +68,6 @@ public class InventorySaver implements IExtendedEntityProperties
 	public static BlockPos getPlayerLocationOverworld(final EntityPlayer entityPlayer)
 	{
 		int[] location = entityPlayer.getEntityData().getIntArray(PLAYER_LOCATION_OVERWORLD);
-		if (location.length == 0)
-		{
-			return new BlockPos(0, 0, 0);
-		}
 		return new BlockPos(location[0], location[1], location[2]);
 	}
 
