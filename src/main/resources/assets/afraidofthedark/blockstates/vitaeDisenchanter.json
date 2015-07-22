@@ -2,6 +2,6 @@
 	"variants": {
 		"variant=false": { "model": "AfraidOfTheDark:vitaeDisenchanterFalse" },
 		"variant=true": { "model": "AfraidOfTheDark:vitaeDisenchanterTrue" },
-		"inventory":                   { "model": "AfraidOfTheDark:vitaeDisenchanterTrue" }
+		"inventory":  { "model": "AfraidOfTheDark:vitaeDisenchanterTrue" }
 	}
 }
