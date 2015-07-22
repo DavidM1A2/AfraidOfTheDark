@@ -21,6 +21,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.block.BlockStarMetalOre;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockSunstoneOre;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockVitaeDisenchanter;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockVoidChest;
+import com.DavidM1A2.AfraidOfTheDark.common.block.BlockVoidChestPortal;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityDarkForest;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntitySpring;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityVoidChest;
@@ -57,6 +58,7 @@ public class ModBlocks
 	public static final BlockGravewoodSapling gravewoodSapling = new BlockGravewoodSapling();
 	public static final BlockVitaeDisenchanter vitaeDisenchanter = new BlockVitaeDisenchanter();
 	public static final BlockVoidChest voidChest = new BlockVoidChest();
+	public static final BlockVoidChestPortal voidChestPortal = new BlockVoidChestPortal();
 
 	public static void initialize()
 	{
@@ -84,6 +86,7 @@ public class ModBlocks
 		GameRegistry.registerBlock(ModBlocks.vitaeDisenchanter, "vitaeDisenchanter");
 		GameRegistry.registerBlock(ModBlocks.voidChest, "voidChest");
 		GameRegistry.registerTileEntity(TileEntityVoidChest.class, "tileEntityVoidChest");
+		GameRegistry.registerBlock(ModBlocks.voidChestPortal, "voidChestPortal");
 	}
 
 	public static void initializeRenderers(final Side side)
@@ -107,6 +110,7 @@ public class ModBlocks
 			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gravewoodSapling), 0, new ModelResourceLocation(Refrence.MOD_ID + ":gravewoodSapling", "inventory"));
 			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.vitaeDisenchanter), 0, new ModelResourceLocation(Refrence.MOD_ID + ":vitaeDisenchanter", "inventory"));
 			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.voidChest), 0, new ModelResourceLocation(Refrence.MOD_ID + ":voidChest", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.voidChestPortal), 0, new ModelResourceLocation(Refrence.MOD_ID + ":voidChestPortal", "inventory"));
 		}
 	}
 }

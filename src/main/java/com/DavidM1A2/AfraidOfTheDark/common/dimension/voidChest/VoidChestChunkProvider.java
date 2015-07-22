@@ -8,6 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest;
 import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBiomes;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 
 import net.minecraft.block.state.IBlockState;
@@ -83,6 +84,7 @@ public class VoidChestChunkProvider implements IChunkProvider
 					worldObj.setBlockState(new BlockPos(x + i, 100 + j, z + 48), Blocks.obsidian.getDefaultState());
 				}
 			}
+			worldObj.setBlockState(new BlockPos(x + 24, 101, 5), ModBlocks.voidChestPortal.getDefaultState());
 		}
 	}
 

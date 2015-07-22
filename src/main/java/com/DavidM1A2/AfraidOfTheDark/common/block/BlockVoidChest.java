@@ -11,6 +11,8 @@ import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.particleFX.VoidChestParticle;
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDBlockTileEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityVoidChest;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -22,6 +24,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -78,7 +81,14 @@ public class BlockVoidChest extends AOTDBlockTileEntity
 		if (world.getTileEntity(blockPos) instanceof TileEntityVoidChest)
 		{
 			TileEntityVoidChest entityVoidChest = (TileEntityVoidChest) world.getTileEntity(blockPos);
-			entityVoidChest.interact(entityPlayer);
+			if (Research.isResearched(entityPlayer, ResearchTypes.VoidChest))
+			{
+				entityVoidChest.interact(entityPlayer);
+			}
+			else
+			{
+				entityPlayer.addChatMessage(new ChatComponentText("I'm not sure how to open this chest."));
+			}
 		}
 		return true;
 	}

@@ -46,7 +46,7 @@ public class VoidChestTeleporter extends Teleporter
 			{
 				EntityPlayer entityPlayer = (EntityPlayer) entity;
 				BlockPos playerPostionOld = VoidChestLocation.getOverworldLocation(entityPlayer);
-				entityPlayer.setPosition(playerPostionOld.getX(), playerPostionOld.getY(), playerPostionOld.getZ());
+				entityPlayer.setPosition(playerPostionOld.getX(), playerPostionOld.getY() + 1, playerPostionOld.getZ());
 				entity.motionX = 0.0D;
 				entity.motionY = 0.0D;
 				entity.motionZ = 0.0D;
