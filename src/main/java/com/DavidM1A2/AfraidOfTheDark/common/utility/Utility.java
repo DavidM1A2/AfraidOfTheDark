@@ -12,8 +12,10 @@ import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewood;
+import com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest.VoidChestTeleporter;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateResearch;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;
@@ -197,6 +199,12 @@ public class Utility
 			inputStream = Utility.class.getClassLoader().getResourceAsStream("assets/afraidofthedark/researchNotes/None.txt");
 		}
 		return inputStream;
+	}
+
+	public static void sendPlayerToVoidChest(EntityPlayerMP entityPlayer, int location)
+	{
+		Utility.sendPlayerToDimension(entityPlayer, Constants.VoidChestWorld.VOID_CHEST_WORLD_ID, false, VoidChestTeleporter.class);
+		entityPlayer.playerNetServerHandler.setPlayerLocation(location * Constants.VoidChestWorld.BLOCKS_BETWEEN_ISLANDS + 24.5, 110, 3, 0, 0);
 	}
 
 	/*

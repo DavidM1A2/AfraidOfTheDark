@@ -10,9 +10,9 @@ import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDTileEntity;
-import com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest.VoidChestTeleporter;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncVoidChest;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.VoidChestLocation;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
@@ -45,6 +45,8 @@ public class TileEntityVoidChest extends AOTDTileEntity implements IUpdatePlayer
 	private String owner = "";
 	private List<String> friends = new ArrayList<String>();
 
+	private int locationToGoTo = -1;
+
 	private EntityPlayer entityPlayerToSend = null;
 	private int coordinateToSendTo = -1;
 
@@ -58,6 +60,7 @@ public class TileEntityVoidChest extends AOTDTileEntity implements IUpdatePlayer
 	public void readFromNBT(NBTTagCompound compound)
 	{
 		this.owner = compound.getString("owner");
+		this.locationToGoTo = compound.getInteger("location");
 
 		NBTTagList friends = compound.getTagList("friends", net.minecraftforge.common.util.Constants.NBT.TAG_STRING);
 
@@ -76,6 +79,7 @@ public class TileEntityVoidChest extends AOTDTileEntity implements IUpdatePlayer
 	public void writeToNBT(NBTTagCompound compound)
 	{
 		compound.setString("owner", this.owner);
+		compound.setInteger("location", this.locationToGoTo);
 
 		NBTTagList friends = new NBTTagList();
 
@@ -169,7 +173,7 @@ public class TileEntityVoidChest extends AOTDTileEntity implements IUpdatePlayer
 						EntityPlayerMP entityPlayerMP = (EntityPlayerMP) object;
 						if (entityPlayerMP == entityPlayerToSend)
 						{
-							Utility.sendPlayerToDimension(entityPlayerMP, Constants.VoidChestWorld.VOID_CHEST_WORLD_ID, false, VoidChestTeleporter.class);
+							Utility.sendPlayerToVoidChest(entityPlayerMP, this.locationToGoTo);
 						}
 					}
 				}
@@ -194,8 +198,8 @@ public class TileEntityVoidChest extends AOTDTileEntity implements IUpdatePlayer
 			if (this.owner.equals(""))
 			{
 				this.owner = entityPlayer.getDisplayName().getUnformattedText();
-				this.openChest(entityPlayer);
-				AfraidOfTheDark.getSimpleNetworkWrapper().sendToAllAround(new SyncVoidChest(this.pos.getX(), this.pos.getY(), this.pos.getZ(), entityPlayer.getEntityId()), new TargetPoint(this.worldObj.provider.getDimensionId(), this.pos.getX(), this.pos.getY(), this.pos.getZ(), 30));
+				this.locationToGoTo = VoidChestLocation.getVoidChestLocation(entityPlayer);
+				entityPlayer.addChatMessage(new ChatComponentText("The owner of this chest has been set to " + entityPlayer.getDisplayName().getUnformattedText() + "."));
 			}
 			else if (entityPlayer.getDisplayName().getUnformattedText().equals(owner))
 			{

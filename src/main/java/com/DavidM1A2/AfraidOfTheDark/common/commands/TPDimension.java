@@ -8,14 +8,11 @@ package com.DavidM1A2.AfraidOfTheDark.common.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest.VoidChestTeleporter;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.BlockPos;
 
 public class TPDimension implements ICommand
@@ -65,11 +62,11 @@ public class TPDimension implements ICommand
 		final EntityPlayer sender = (EntityPlayer) iCommandSender.getCommandSenderEntity();
 		if (sender.dimension != Constants.VoidChestWorld.VOID_CHEST_WORLD_ID)
 		{
-			Utility.sendPlayerToDimension((EntityPlayerMP) sender, Constants.VoidChestWorld.VOID_CHEST_WORLD_ID, false, VoidChestTeleporter.class);
+			//Utility.sendPlayerToDimension((EntityPlayerMP) sender, Constants.VoidChestWorld.VOID_CHEST_WORLD_ID, false, VoidChestTeleporter.class);
 		}
 		else
 		{
-			Utility.sendPlayerToDimension((EntityPlayerMP) sender, 0, false, VoidChestTeleporter.class);
+			//Utility.sendPlayerToDimension((EntityPlayerMP) sender, 0, false, VoidChestTeleporter.class);
 		}
 	}
 

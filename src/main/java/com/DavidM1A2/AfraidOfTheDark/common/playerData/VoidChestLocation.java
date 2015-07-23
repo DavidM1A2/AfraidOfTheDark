@@ -8,8 +8,11 @@ package com.DavidM1A2.AfraidOfTheDark.common.playerData;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.storage.ISaveHandler;
+import net.minecraft.world.storage.SaveHandler;
 import net.minecraftforge.common.IExtendedEntityProperties;
 
 public class VoidChestLocation implements IExtendedEntityProperties
@@ -63,6 +66,14 @@ public class VoidChestLocation implements IExtendedEntityProperties
 	// Getters and setters for if a player has begun AOTD
 	public static int getVoidChestLocation(final EntityPlayer entityPlayer)
 	{
+		if (!entityPlayer.getEntityData().hasKey(PLAYER_LOCATION_VOID_CHEST))
+		{
+			ISaveHandler iSaveHandler = MinecraftServer.getServer().worldServers[0].getSaveHandler();
+			if (iSaveHandler instanceof SaveHandler)
+			{
+				VoidChestLocation.setVoidChestLocation(entityPlayer, ((SaveHandler) iSaveHandler).getAvailablePlayerDat().length - 1);
+			}
+		}
 		return entityPlayer.getEntityData().getInteger(PLAYER_LOCATION_VOID_CHEST);
 	}
 

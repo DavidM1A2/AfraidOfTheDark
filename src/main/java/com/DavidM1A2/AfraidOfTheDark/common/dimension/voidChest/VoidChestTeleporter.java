@@ -11,12 +11,9 @@ import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
-import net.minecraft.world.storage.ISaveHandler;
-import net.minecraft.world.storage.SaveHandler;
 
 public class VoidChestTeleporter extends Teleporter
 {
@@ -45,14 +42,6 @@ public class VoidChestTeleporter extends Teleporter
 				VoidChestLocation.setOverworldLocation(entityPlayer, new int[]
 				{ (int) entityPlayer.posX, (int) entityPlayer.posY + 1, (int) entityPlayer.posZ });
 
-				if (VoidChestLocation.getVoidChestLocation(entityPlayer) == -1)
-				{
-					ISaveHandler iSaveHandler = MinecraftServer.getServer().worldServers[0].getSaveHandler();
-					if (iSaveHandler instanceof SaveHandler)
-					{
-						VoidChestLocation.setVoidChestLocation(entityPlayer, ((SaveHandler) iSaveHandler).getAvailablePlayerDat().length - 1);
-					}
-				}
 				((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(VoidChestLocation.getVoidChestLocation(entityPlayer) * Constants.VoidChestWorld.BLOCKS_BETWEEN_ISLANDS + 24.5, 110, 3, 0, 0);
 			}
 		}
