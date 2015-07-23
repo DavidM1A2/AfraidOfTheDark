@@ -20,6 +20,10 @@ public class VoidChestSkyRenderer extends IRenderHandler
 {
 	private static final ResourceLocation ENDER_STARFIELD = new ResourceLocation("afraidofthedark:textures/skybox/voidChest.png");
 
+	private static final ResourceLocation[] VOID_CHEST = new ResourceLocation[]
+	{ new ResourceLocation("afraidofthedark:textures/skybox/voidChestTop.png"), new ResourceLocation("afraidofthedark:textures/skybox/voidChestBottom.png"), new ResourceLocation("afraidofthedark:textures/skybox/voidChestSide1.png"), new ResourceLocation(
+			"afraidofthedark:textures/skybox/voidChestSide2.png"), new ResourceLocation("afraidofthedark:textures/skybox/voidChestSide3.png"), new ResourceLocation("afraidofthedark:textures/skybox/voidChestSide4.png") };
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void render(float partialTicks, WorldClient world, Minecraft mc)
@@ -30,7 +34,6 @@ public class VoidChestSkyRenderer extends IRenderHandler
 		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
 		RenderHelper.disableStandardItemLighting();
 		GlStateManager.depthMask(false);
-		Minecraft.getMinecraft().renderEngine.bindTexture(ENDER_STARFIELD);
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 
@@ -38,37 +41,48 @@ public class VoidChestSkyRenderer extends IRenderHandler
 		{
 			GlStateManager.pushMatrix();
 
+			Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("afraidofthedark:textures/skybox/voidChest.png"));
+
 			if (i == 1)
 			{
+				// Correct
+				Minecraft.getMinecraft().renderEngine.bindTexture(VOID_CHEST[3]);
 				GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
 			}
-
-			if (i == 2)
+			else if (i == 2)
 			{
+				Minecraft.getMinecraft().renderEngine.bindTexture(VOID_CHEST[5]);
 				GlStateManager.rotate(-90.0F, 1.0F, 0.0F, 0.0F);
 			}
-
-			if (i == 3)
+			else if (i == 3)
 			{
+				// Correct
+				Minecraft.getMinecraft().renderEngine.bindTexture(VOID_CHEST[0]);
 				GlStateManager.rotate(180.0F, 1.0F, 0.0F, 0.0F);
 			}
-
-			if (i == 4)
+			else if (i == 4)
 			{
+				// Correct
+				Minecraft.getMinecraft().renderEngine.bindTexture(VOID_CHEST[4]);
 				GlStateManager.rotate(90.0F, 0.0F, 0.0F, 1.0F);
 			}
-
-			if (i == 5)
+			else if (i == 5)
 			{
+				Minecraft.getMinecraft().renderEngine.bindTexture(VOID_CHEST[2]);
 				GlStateManager.rotate(-90.0F, 0.0F, 0.0F, 1.0F);
+			}
+			else
+			{
+				// Correct
+				Minecraft.getMinecraft().renderEngine.bindTexture(VOID_CHEST[1]);
 			}
 
 			worldrenderer.startDrawingQuads();
-			worldrenderer.func_178991_c(2631720);
+			//worldrenderer.func_178991_c(2631720);
 			worldrenderer.addVertexWithUV(-100.0D, -100.0D, -100.0D, 0.0D, 0.0D);
-			worldrenderer.addVertexWithUV(-100.0D, -100.0D, 100.0D, 0.0D, 16.0D);
-			worldrenderer.addVertexWithUV(100.0D, -100.0D, 100.0D, 16.0D, 16.0D);
-			worldrenderer.addVertexWithUV(100.0D, -100.0D, -100.0D, 16.0D, 0.0D);
+			worldrenderer.addVertexWithUV(-100.0D, -100.0D, 100.0D, 0.0D, 1.0D);
+			worldrenderer.addVertexWithUV(100.0D, -100.0D, 100.0D, 1.0D, 1.0D);
+			worldrenderer.addVertexWithUV(100.0D, -100.0D, -100.0D, 1.0D, 0.0D);
 			tessellator.draw();
 			GlStateManager.popMatrix();
 		}
