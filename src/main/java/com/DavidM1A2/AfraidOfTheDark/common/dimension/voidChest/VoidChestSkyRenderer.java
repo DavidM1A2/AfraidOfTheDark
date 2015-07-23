@@ -18,8 +18,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class VoidChestSkyRenderer extends IRenderHandler
 {
-	private static final ResourceLocation ENDER_STARFIELD = new ResourceLocation("afraidofthedark:textures/skybox/voidChest.png");
-
 	private static final ResourceLocation[] VOID_CHEST = new ResourceLocation[]
 	{ new ResourceLocation("afraidofthedark:textures/skybox/voidChestTop.png"), new ResourceLocation("afraidofthedark:textures/skybox/voidChestBottom.png"), new ResourceLocation("afraidofthedark:textures/skybox/voidChestSide1.png"), new ResourceLocation(
 			"afraidofthedark:textures/skybox/voidChestSide2.png"), new ResourceLocation("afraidofthedark:textures/skybox/voidChestSide3.png"), new ResourceLocation("afraidofthedark:textures/skybox/voidChestSide4.png") };
@@ -40,8 +38,6 @@ public class VoidChestSkyRenderer extends IRenderHandler
 		for (int i = 0; i < 6; ++i)
 		{
 			GlStateManager.pushMatrix();
-
-			Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("afraidofthedark:textures/skybox/voidChest.png"));
 
 			if (i == 1)
 			{
