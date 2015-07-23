@@ -8,8 +8,8 @@ package com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest;
 import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBiomes;
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicGenerator;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EnumCreatureType;
@@ -72,9 +72,9 @@ public class VoidChestChunkProvider implements IChunkProvider
 		if (x * 16 % Constants.NightmareWorld.BLOCKS_BETWEEN_ISLANDS == 0 && z == 0)
 		{
 			x = x * 16;
-			for (int i = 0; i < 48; i++)
+			for (int i = 0; i < 49; i++)
 			{
-				for (int j = 0; j < 48; j++)
+				for (int j = 0; j < 49; j++)
 				{
 					worldObj.setBlockState(new BlockPos(x + i, 100, z + j), Blocks.barrier.getDefaultState());
 					worldObj.setBlockState(new BlockPos(x + i, 100 + 48, z + j), Blocks.barrier.getDefaultState());
@@ -84,13 +84,8 @@ public class VoidChestChunkProvider implements IChunkProvider
 					worldObj.setBlockState(new BlockPos(x + i, 100 + j, z + 48), Blocks.barrier.getDefaultState());
 				}
 			}
-			for (int i = 0; i < 3; i++)
-			{
-				for (int j = 0; j < 3; j++)
-				{
-					worldObj.setBlockState(new BlockPos(x + 23 + i, 101 + j, 0), ModBlocks.voidChestPortal.getDefaultState());
-				}
-			}
+
+			SchematicGenerator.generateSchematic(Constants.AOTDSchematics.voidChestPortal, this.worldObj, x + 20, 100, z - 2);
 		}
 	}
 

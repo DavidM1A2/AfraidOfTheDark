@@ -23,6 +23,7 @@ import net.minecraft.item.Item;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -35,12 +36,27 @@ public class BlockVoidChestPortal extends AOTDBlock
 		this.setUnlocalizedName("voidChestPortal");
 		this.setCreativeTab(null);
 		this.setLightLevel(1.0f);
+		this.setBlockUnbreakable();
 	}
 
 	@Override
 	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
 	{
 		return null;
+	}
+
+	/**
+	 * Determines if this block is can be destroyed by the specified entities normal behavior.
+	 *
+	 * @param world
+	 *            The current world
+	 * @param pos
+	 *            Block position in world
+	 * @return True to allow the ender dragon to destroy this block
+	 */
+	public boolean canEntityDestroy(IBlockAccess world, BlockPos pos, Entity entity)
+	{
+		return false;
 	}
 
 	/**
