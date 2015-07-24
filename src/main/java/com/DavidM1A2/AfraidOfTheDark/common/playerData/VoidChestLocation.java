@@ -5,8 +5,14 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.playerData;
 
+import java.io.File;
+import java.io.FileInputStream;
+
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
@@ -71,7 +77,29 @@ public class VoidChestLocation implements IExtendedEntityProperties
 			ISaveHandler iSaveHandler = MinecraftServer.getServer().worldServers[0].getSaveHandler();
 			if (iSaveHandler instanceof SaveHandler)
 			{
-				VoidChestLocation.setVoidChestLocation(entityPlayer, ((SaveHandler) iSaveHandler).getAvailablePlayerDat().length - 1);
+				SaveHandler saveHandler = (SaveHandler) iSaveHandler;
+				int furthestOutPlayer = 0;
+				File playersDirectory = new File(saveHandler.getWorldDirectory(), "playerdata");
+				for (String username : saveHandler.getAvailablePlayerDat())
+				{
+					File playerData = new File(playersDirectory, username + ".dat");
+
+					if (playerData.exists() && playerData.isFile())
+					{
+						NBTTagCompound playerDataCompound;
+						try
+						{
+							playerDataCompound = CompressedStreamTools.readCompressed(new FileInputStream(playerData));
+							furthestOutPlayer = Math.max(furthestOutPlayer, playerDataCompound.getCompoundTag("ForgeData").getInteger(VoidChestLocation.PLAYER_LOCATION_VOID_CHEST));
+						}
+						catch (Exception e)
+						{
+							LogHelper.info("Error reading player data for username " + username);
+						}
+					}
+				}
+
+				VoidChestLocation.setVoidChestLocation(entityPlayer, furthestOutPlayer + 1);
 			}
 		}
 		return entityPlayer.getEntityData().getInteger(PLAYER_LOCATION_VOID_CHEST);

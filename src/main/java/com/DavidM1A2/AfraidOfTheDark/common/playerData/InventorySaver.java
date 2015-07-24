@@ -5,15 +5,22 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.playerData;
 
+import java.io.File;
+import java.io.FileInputStream;
+
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.storage.ISaveHandler;
+import net.minecraft.world.storage.SaveHandler;
 import net.minecraftforge.common.IExtendedEntityProperties;
 
 public class InventorySaver implements IExtendedEntityProperties
@@ -81,14 +88,37 @@ public class InventorySaver implements IExtendedEntityProperties
 
 	public static int getPlayerLocationNightmare(final EntityPlayer entityPlayer)
 	{
-		if (entityPlayer.getEntityData().hasKey(PLAYER_LOCATION_NIGHTMARE))
+		if (!entityPlayer.getEntityData().hasKey(PLAYER_LOCATION_NIGHTMARE))
 		{
-			return entityPlayer.getEntityData().getInteger(PLAYER_LOCATION_NIGHTMARE);
+			ISaveHandler iSaveHandler = MinecraftServer.getServer().worldServers[0].getSaveHandler();
+			if (iSaveHandler instanceof SaveHandler)
+			{
+				SaveHandler saveHandler = (SaveHandler) iSaveHandler;
+				int furthestOutPlayer = 0;
+				File playersDirectory = new File(saveHandler.getWorldDirectory(), "playerdata");
+				for (String username : saveHandler.getAvailablePlayerDat())
+				{
+					File playerData = new File(playersDirectory, username + ".dat");
+
+					if (playerData.exists() && playerData.isFile())
+					{
+						NBTTagCompound playerDataCompound;
+						try
+						{
+							playerDataCompound = CompressedStreamTools.readCompressed(new FileInputStream(playerData));
+							furthestOutPlayer = Math.max(furthestOutPlayer, playerDataCompound.getCompoundTag("ForgeData").getInteger(InventorySaver.PLAYER_LOCATION_NIGHTMARE));
+						}
+						catch (Exception e)
+						{
+							LogHelper.info("Error reading player data for username " + username);
+						}
+					}
+				}
+
+				InventorySaver.setPlayerLocationNightmare(entityPlayer, furthestOutPlayer + 1);
+			}
 		}
-		else
-		{
-			return -1;
-		}
+		return entityPlayer.getEntityData().getInteger(PLAYER_LOCATION_NIGHTMARE);
 	}
 
 	public static void setPlayerLocationNightmare(final EntityPlayer entityPlayer, int value)

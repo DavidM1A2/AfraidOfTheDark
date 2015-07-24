@@ -12,12 +12,9 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
-import net.minecraft.world.storage.ISaveHandler;
-import net.minecraft.world.storage.SaveHandler;
 
 public class NightmareTeleporter extends Teleporter
 {
@@ -50,14 +47,6 @@ public class NightmareTeleporter extends Teleporter
 					entityPlayer.inventory.clear();
 					entityPlayer.inventoryContainer.detectAndSendChanges();
 
-					if (InventorySaver.getPlayerLocationNightmare(entityPlayer) == -1)
-					{
-						ISaveHandler iSaveHandler = MinecraftServer.getServer().worldServers[0].getSaveHandler();
-						if (iSaveHandler instanceof SaveHandler)
-						{
-							InventorySaver.setPlayerLocationNightmare(entityPlayer, ((SaveHandler) iSaveHandler).getAvailablePlayerDat().length - 1);
-						}
-					}
 					((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(InventorySaver.getPlayerLocationNightmare(entityPlayer) * Constants.NightmareWorld.BLOCKS_BETWEEN_ISLANDS + 20, 79, 40, 0, 0);
 				}
 			}
