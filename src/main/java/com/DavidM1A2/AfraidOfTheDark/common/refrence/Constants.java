@@ -164,6 +164,7 @@ public final class Constants
 		public static final int PACKET_ID_UPDATE_SLEEPING_STATE = 10;
 		public static final int PACKET_ID_PLAY_ANIMATION = 11;
 		public static final int PACKET_ID_OPEN_CHEST = 12;
+		public static final int PACKET_ID_UPDATE_WEATHER = 13;
 	}
 
 	public static final class AOTDToolMaterials

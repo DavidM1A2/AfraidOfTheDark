@@ -27,6 +27,7 @@ public class VoidChestWorldProvider extends WorldProvider
 		this.dimensionId = Constants.VoidChestWorld.VOID_CHEST_WORLD_ID;
 		this.worldChunkMgr = new WorldChunkManager(ModBiomes.voidChest.biomeID, WorldType.CUSTOMIZED, "");
 		this.hasNoSky = false;
+
 		if (this.worldObj.isRemote)
 		{
 			this.setSkyRenderer(new VoidChestSkyRenderer());

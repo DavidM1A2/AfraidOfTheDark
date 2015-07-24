@@ -28,5 +28,6 @@ public class BiomeNightmare extends BiomeGenBase
 		this.spawnableCreatureList.clear();
 		this.spawnableMonsterList.clear();
 		this.spawnableWaterCreatureList.clear();
+		this.rainfall = 1.0F;
 	}
 }
