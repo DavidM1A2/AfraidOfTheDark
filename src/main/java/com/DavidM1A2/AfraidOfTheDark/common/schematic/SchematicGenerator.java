@@ -179,7 +179,7 @@ public final class SchematicGenerator
 
 				if (entity != null)
 				{
-					entity.getPosition().add(xPosition, yPosition, zPosition);
+					entity.setPosition(entity.posX + xPosition, entity.posY + yPosition, entity.posZ + zPosition);
 					world.spawnEntityInWorld(entity);
 				}
 			}
