@@ -5,22 +5,25 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.threads.delayed;
 
-import com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare.NightmareTeleporter;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.world.Teleporter;
 
 public class DelayedTeleport extends DelayedUpdate<Integer>
 {
-	public DelayedTeleport(final int delayInMillis, EntityPlayer entityPlayer, Integer data)
+	private final Class<? extends Teleporter> teleporter;
+
+	public DelayedTeleport(final int delayInMillis, EntityPlayer entityPlayer, Integer data, Class<? extends Teleporter> teleporter)
 	{
 		super(delayInMillis, entityPlayer, data);
+		this.teleporter = teleporter;
 	}
 
 	@Override
 	protected void updatePlayer()
 	{
-		Utility.sendPlayerToDimension((EntityPlayerMP) entityPlayer, data, false, NightmareTeleporter.class);
+		Utility.sendPlayerToDimension((EntityPlayerMP) entityPlayer, data, false, teleporter);
 	}
 }

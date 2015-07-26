@@ -7,7 +7,6 @@ package com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare;
 
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.InventorySaver;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -33,7 +32,6 @@ public class NightmareTeleporter extends Teleporter
 	@Override
 	public void func_180266_a(Entity entity, float entityYaw)
 	{
-		LogHelper.info("Teleporter called");
 		if (dimensionNew == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
 		{
 			entity.motionX = entity.motionY = entity.motionZ = 0.0D;

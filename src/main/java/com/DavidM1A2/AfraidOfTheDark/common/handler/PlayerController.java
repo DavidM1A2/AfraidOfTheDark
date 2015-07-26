@@ -8,6 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.handler;
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare.NightmareTeleporter;
+import com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest.VoidChestTeleporter;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateAOTDStatus;
@@ -65,7 +66,11 @@ public class PlayerController
 		Vitae.set(event.entityPlayer, vitaeLevel, Side.SERVER);
 		if (event.original.dimension == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
 		{
-			(new DelayedTeleport(500, event.entityPlayer, 0)).start();
+			(new DelayedTeleport(1000, event.entityPlayer, 0, NightmareTeleporter.class)).start();
+		}
+		else if (event.original.dimension == Constants.VoidChestWorld.VOID_CHEST_WORLD_ID)
+		{
+			(new DelayedTeleport(1000, event.entityPlayer, 0, VoidChestTeleporter.class)).start();
 		}
 		InventorySaver.set(event.entityPlayer, InventorySaver.getInventory(event.original), InventorySaver.getPlayerLocationOverworld(event.original), InventorySaver.getPlayerLocationNightmare(event.original));
 		final BlockPos overworldVoidChestLocation = VoidChestLocation.getOverworldLocation(event.original);
