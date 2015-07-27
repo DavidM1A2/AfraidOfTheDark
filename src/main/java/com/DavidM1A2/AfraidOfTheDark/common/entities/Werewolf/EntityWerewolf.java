@@ -116,7 +116,23 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 	@Override
 	protected String getLivingSound()
 	{
-		return "afraidofthedark:werewolf";
+		return this.myTargetLocator.targetEntity == null ? "afraidofthedark:werewolfIdle" : "afraidofthedark:werewolfAgro";
+	}
+
+	/**
+	 * Returns the sound this mob makes on death.
+	 */
+	protected String getDeathSound()
+	{
+		return "afraidofthedark:werewolfDeath";
+	}
+
+	/**
+	 * Returns the sound this mob makes when it is hurt.
+	 */
+	protected String getHurtSound()
+	{
+		return "afraidofthedark:werewolfHurt";
 	}
 
 	// Get werewolf's volume

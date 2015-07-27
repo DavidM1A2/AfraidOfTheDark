@@ -1,6 +1,9 @@
 {
    "crossbowFire": {"category": "master","sounds": [{"name": "crossbowFire","stream": false}]},
    "crossbowLoad": {"category": "master","sounds": [{"name": "crossbowLoad","stream": false}]},
-   "werewolf": {"category": "master","sounds": [{"name": "werewolf","stream": false}]},
+   "werewolfIdle": {"category": "master","sounds": [{"name": "werewolfIdle","stream": false}]},
+   "werewolfAgro": {"category": "master","sounds": [{"name": "werewolfAgro","stream": false}]},
+   "werewolfDeath": {"category": "master","sounds": [{"name": "werewolfDeath","stream": false}]},
+   "werewolfHurt": {"category": "master","sounds": [{"name": "werewolfHurt","stream": false}]},
    "achievementUnlocked": {"category": "master","sounds": [{"name": "achievementUnlocked","stream": false}]}
 }
