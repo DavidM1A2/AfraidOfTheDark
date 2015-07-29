@@ -12,6 +12,7 @@ import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewood;
+import com.DavidM1A2.AfraidOfTheDark.common.block.BlockVoidChestPortal;
 import com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest.VoidChestTeleporter;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateResearch;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
@@ -268,6 +269,11 @@ public class Utility
 			Block current = world.getBlockState(new BlockPos(x, y, z)).getBlock();
 			if (!(current instanceof BlockAir))
 			{
+				return y;
+			}
+			else if (current instanceof BlockVoidChestPortal)
+			{
+				world.setBlockState(new BlockPos(x, y, z), Blocks.stone.getDefaultState());
 				return y;
 			}
 			y = y - 1;
