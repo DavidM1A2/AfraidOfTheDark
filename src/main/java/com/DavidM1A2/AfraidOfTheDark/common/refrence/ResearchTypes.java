@@ -43,11 +43,11 @@ public enum ResearchTypes
 	AstronomyI(WerewolfExamination, 0, 2, new Object[]
 	{ ModItems.telescope, ModItems.sextant }, new Object[]
 	{ ModItems.telescope }),
-	VoidChest(AstronomyI, 1, 2, new Object[]
-	{ ModBlocks.voidChest }, new Object[]
-	{}),
 	AstralSilver(AstronomyI, 0, 3, new Object[]
 	{ ModItems.astralSilverSword, ModItems.silverBolt }, new Object[]
+	{}),
+	VoidChest(AstralSilver, 1, 3, new Object[]
+	{ ModBlocks.voidChest }, new Object[]
 	{}),
 	DarkForest(AstralSilver, 0, 4, new Object[]
 	{}, new Object[]

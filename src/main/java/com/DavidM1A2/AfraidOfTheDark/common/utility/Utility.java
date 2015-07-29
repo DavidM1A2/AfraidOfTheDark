@@ -229,7 +229,7 @@ public class Utility
 			}
 			catch (Exception e)
 			{
-				LogHelper.info("Error gererating portal at line 219 client proxy");
+				LogHelper.info("Error gererating portal at line 219 utility");
 			}
 		}
 		else
