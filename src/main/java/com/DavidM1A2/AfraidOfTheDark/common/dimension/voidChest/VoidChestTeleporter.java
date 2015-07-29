@@ -8,11 +8,13 @@ package com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockVoidChestPortal;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.VoidChestLocation;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.block.BlockAir;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
@@ -63,8 +65,16 @@ public class VoidChestTeleporter extends Teleporter
 					}
 				}
 
-				VoidChestLocation.setOverworldLocation(entityPlayer, new int[]
-				{ 0, 255, 0 });
+				if (!entityPlayer.worldObj.isRemote)
+				{
+					VoidChestLocation.setOverworldLocation(entityPlayer, new int[]
+					{ 0, Utility.getFirstNonAirBlock(MinecraftServer.getServer().worldServerForDimension(0), 0, 0), 0 });
+				}
+				else
+				{
+					VoidChestLocation.setOverworldLocation(entityPlayer, new int[]
+					{ 0, 255, 0 });
+				}
 				((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(VoidChestLocation.getVoidChestLocation(entityPlayer) * Constants.VoidChestWorld.BLOCKS_BETWEEN_ISLANDS + 24.5, 106, 3, 0, 0);
 			}
 		}

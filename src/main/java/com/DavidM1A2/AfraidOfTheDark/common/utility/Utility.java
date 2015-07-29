@@ -18,6 +18,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockDirt;
 import net.minecraft.block.BlockDirt.DirtType;
 import net.minecraft.block.BlockGrass;
@@ -257,6 +258,21 @@ public class Utility
 
 		FMLCommonHandler.instance().firePlayerChangedDimensionEvent(entityPlayer, j, dimensionId);
 
+	}
+
+	public static int getFirstNonAirBlock(World world, int x, int z) throws UnsupportedLocationException
+	{
+		int y = 255;
+		while (y > 0)
+		{
+			Block current = world.getBlockState(new BlockPos(x, y, z)).getBlock();
+			if (!(current instanceof BlockAir))
+			{
+				return y;
+			}
+			y = y - 1;
+		}
+		return 0;
 	}
 
 	public static int getPlaceToSpawnAverage(World world, int x, int z, int height, int width) throws UnsupportedLocationException

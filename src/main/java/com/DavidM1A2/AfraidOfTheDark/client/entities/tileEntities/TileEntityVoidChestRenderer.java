@@ -15,7 +15,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class TileEntityVoidChestRenderer extends TileEntitySpecialRenderer
 {
-	private static final ResourceLocation texturesNormal = new ResourceLocation("afraidofthedark:textures/blocks/voidChest.png");
+	private static final ResourceLocation texturesNormal = new ResourceLocation("afraidofthedark:textures/blocks/voidChest/voidChest.png");
 	private ModelChest simpleChest = new ModelChest();
 	private int ticksExpired = 0;
 
