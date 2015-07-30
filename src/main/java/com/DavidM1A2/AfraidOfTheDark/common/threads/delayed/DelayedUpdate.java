@@ -5,6 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.threads.delayed;
 
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,7 +30,11 @@ public abstract class DelayedUpdate<E> extends Thread
 		{
 			Thread.sleep(delayInMillis);
 
-			LogHelper.info(this.getClass().getSimpleName());
+			if (Constants.isDebug)
+			{
+				LogHelper.info(this.getClass().getSimpleName());
+			}
+
 			this.updatePlayer();
 		}
 		catch (final InterruptedException e)

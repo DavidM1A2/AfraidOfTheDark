@@ -13,7 +13,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 import net.minecraft.entity.Entity;
@@ -65,7 +64,7 @@ public class ItemVitaeLantern extends AOTDItem
 		}
 		else
 		{
-			LogHelper.info("I'm uncertain of how to operate this device.");
+			entityPlayer.addChatMessage(new ChatComponentText("I'm uncertain of how to operate this device."));
 		}
 
 		return super.onItemRightClick(itemStack, world, entityPlayer);

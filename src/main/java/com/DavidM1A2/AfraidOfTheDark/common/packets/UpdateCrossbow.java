@@ -5,6 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import io.netty.buffer.ByteBuf;
@@ -48,7 +49,10 @@ public class UpdateCrossbow implements IMessage
 		@Override
 		public IMessage onMessage(final UpdateCrossbow message, final MessageContext ctx)
 		{
-			LogHelper.info("Update Crossbow Received!");
+			if (Constants.isDebug)
+			{
+				LogHelper.info("Update Crossbow Received!");
+			}
 			((EntityPlayer) ctx.getServerHandler().playerEntity).inventory.getCurrentItem().setTagCompound(message.crossbowData);
 			return null;
 		}

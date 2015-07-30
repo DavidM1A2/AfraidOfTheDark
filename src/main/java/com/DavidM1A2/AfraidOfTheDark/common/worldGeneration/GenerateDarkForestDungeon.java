@@ -27,7 +27,11 @@ public class GenerateDarkForestDungeon
 		try
 		{
 			int y = Utility.getPlaceToSpawnAverage(world, chunkX, chunkZ, 23, 23);
-			LogHelper.info("Spawning a dark forest at x = " + chunkX + ", y = " + y + ", z = " + chunkZ);
+
+			if (Constants.isDebug)
+			{
+				LogHelper.info("Spawning a dark forest at x = " + chunkX + ", y = " + y + ", z = " + chunkZ);
+			}
 
 			for (int i = 0; i < 25; i++)
 			{

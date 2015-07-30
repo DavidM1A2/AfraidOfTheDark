@@ -52,8 +52,8 @@ import net.minecraftforge.fml.relauncher.Side;
 @GameRegistry.ObjectHolder(Refrence.MOD_ID)
 public class ModItems
 {
-	public static final ItemInsanityControl insanityControl = new ItemInsanityControl();
-	public static final ItemWorldGenTest worldGenTest = new ItemWorldGenTest();
+	public static ItemInsanityControl insanityControl;
+	public static ItemWorldGenTest worldGenTest;
 
 	// Register mod items
 	public static final ItemJournal journal = new ItemJournal();
@@ -95,11 +95,23 @@ public class ModItems
 	public static final ItemResearchScrollWristCrossbow researchScrollWristCrossbow = new ItemResearchScrollWristCrossbow();
 	public static final ItemResearchScrollInsanity researchScrollInsanity = new ItemResearchScrollInsanity();
 
+	static
+	{
+		if (Constants.isDebug)
+		{
+			insanityControl = new ItemInsanityControl();
+			worldGenTest = new ItemWorldGenTest();
+		}
+	}
+
 	public static void initialize(final Side side)
 	{
 		// Register items
-		GameRegistry.registerItem(ModItems.insanityControl, "insanityControl");
-		GameRegistry.registerItem(ModItems.worldGenTest, "worldGenTest");
+		if (Constants.isDebug)
+		{
+			GameRegistry.registerItem(ModItems.insanityControl, "insanityControl");
+			GameRegistry.registerItem(ModItems.worldGenTest, "worldGenTest");
+		}
 
 		GameRegistry.registerItem(ModItems.journal, "journal");
 		GameRegistry.registerItem(ModItems.astralSilverSword, "astralSilverSword");
@@ -146,8 +158,12 @@ public class ModItems
 		if (side == Side.CLIENT)
 		{
 			final ItemModelMesher itemModelMesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
-			itemModelMesher.register(ModItems.insanityControl, 0, new ModelResourceLocation(Refrence.MOD_ID + ":insanityControl", "inventory"));
-			itemModelMesher.register(ModItems.worldGenTest, 0, new ModelResourceLocation(Refrence.MOD_ID + ":worldGenTest", "inventory"));
+
+			if (Constants.isDebug)
+			{
+				itemModelMesher.register(ModItems.insanityControl, 0, new ModelResourceLocation(Refrence.MOD_ID + ":insanityControl", "inventory"));
+				itemModelMesher.register(ModItems.worldGenTest, 0, new ModelResourceLocation(Refrence.MOD_ID + ":worldGenTest", "inventory"));
+			}
 
 			itemModelMesher.register(ModItems.journal, 0, new ModelResourceLocation(Refrence.MOD_ID + ":journal", "inventory"));
 			itemModelMesher.register(ModItems.astralSilverSword, 0, new ModelResourceLocation(Refrence.MOD_ID + ":astralSilverSword", "inventory"));

@@ -27,6 +27,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModOreDictionaryCompat
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModRecipes;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModThreads;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.proxy.IProxy;
@@ -86,7 +87,10 @@ public class AfraidOfTheDark
 		// Initialize any world events
 		MinecraftForge.EVENT_BUS.register(new WorldEvents());
 		// Initialize debug file to spam chat with variables
-		MinecraftForge.EVENT_BUS.register(new DebugSpammer());
+		if (Constants.isDebug)
+		{
+			MinecraftForge.EVENT_BUS.register(new DebugSpammer());
+		}
 		// Initialize mod blocks
 		ModBlocks.initialize();
 		// Initialize mod items
@@ -164,9 +168,12 @@ public class AfraidOfTheDark
 	public void serverStartingEvent(final FMLServerStartingEvent event)
 	{
 		// Register any player commands
-		event.registerServerCommand(new InsanityCheck());
-		event.registerServerCommand(new TPDimension());
-		event.registerServerCommand(new ResearchUnlocker());
+		if (Constants.isDebug)
+		{
+			event.registerServerCommand(new InsanityCheck());
+			event.registerServerCommand(new TPDimension());
+			event.registerServerCommand(new ResearchUnlocker());
+		}
 	}
 
 	/**

@@ -28,7 +28,10 @@ public class GenerateSprings
 		{
 			int y = Utility.getPlaceToSpawnLowest(world, chunkX, chunkZ, 28, 28);
 
-			LogHelper.info("Spawning a spring at x = " + chunkX + ", y = " + y + ", z = " + chunkZ);
+			if (Constants.isDebug)
+			{
+				LogHelper.info("Spawning a spring at x = " + chunkX + ", y = " + y + ", z = " + chunkZ);
+			}
 
 			SchematicGenerator.generateSchematic(Constants.AOTDSchematics.spring, world, chunkX, y - 2, chunkZ);
 		}

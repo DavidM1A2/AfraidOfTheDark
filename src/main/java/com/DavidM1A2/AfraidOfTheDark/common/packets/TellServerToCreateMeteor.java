@@ -5,6 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.MeteorTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.CreateMeteor;
@@ -64,7 +65,10 @@ public class TellServerToCreateMeteor implements IMessage
 		@Override
 		public IMessage onMessage(final TellServerToCreateMeteor message, final MessageContext ctx)
 		{
-			LogHelper.info("Player has requested to place a meteor at " + message.thePosition.toString());
+			if (Constants.isDebug)
+			{
+				LogHelper.info("Player has requested to place a meteor at " + message.thePosition.toString());
+			}
 			CreateMeteor.create(ctx.getServerHandler().playerEntity.worldObj, message.thePosition, message.radius, message.height, false, true, MeteorTypes.typeFromIndex(message.index));
 			return null;
 		}

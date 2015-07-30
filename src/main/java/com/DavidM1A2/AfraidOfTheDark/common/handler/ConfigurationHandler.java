@@ -17,7 +17,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class ConfigurationHandler
 {
 	public static Configuration configuration;
-	public static boolean configValue = false;
+	//public static boolean configValue = false;
 
 	public static void initializataion(final File configFile)
 	{
@@ -42,7 +42,7 @@ public class ConfigurationHandler
 	private static void loadConfiguration()
 	{
 		// Ex. Config value
-		ConfigurationHandler.configValue = ConfigurationHandler.configuration.getBoolean("configValue", Configuration.CATEGORY_GENERAL, false, "This is an example of a configuration value of type boolean!");
+		//ConfigurationHandler.configValue = ConfigurationHandler.configuration.getBoolean("configValue", Configuration.CATEGORY_GENERAL, false, "This is an example of a configuration value of type boolean!");
 
 		if (ConfigurationHandler.configuration.hasChanged())
 		{

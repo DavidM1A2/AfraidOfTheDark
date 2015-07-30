@@ -29,7 +29,10 @@ public class GenerateCrypt
 		{
 			y = Utility.getPlaceToSpawnLowest(world, chunkX + 12, chunkZ + 12, 8, 8);
 
-			LogHelper.info("Spawning a crypt at x = " + (chunkX + 12) + ", y = " + (y - 17) + ", z = " + (chunkZ + 12));
+			if (Constants.isDebug)
+			{
+				LogHelper.info("Spawning a crypt at x = " + (chunkX + 12) + ", y = " + (y - 17) + ", z = " + (chunkZ + 12));
+			}
 
 			SchematicGenerator.generateSchematicWithLoot(Constants.AOTDSchematics.crypt, world, chunkX + 12, y - 17, chunkZ + 12, Constants.cryptLootTable);
 		}

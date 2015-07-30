@@ -5,10 +5,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.block;
 
-import java.util.Random;
-
-import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
-import com.DavidM1A2.AfraidOfTheDark.client.particleFX.VoidChestParticle;
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDBlockTileEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityVoidChest;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
@@ -27,8 +23,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockVoidChest extends AOTDBlockTileEntity
 {
@@ -110,13 +104,6 @@ public class BlockVoidChest extends AOTDBlockTileEntity
 		}
 
 		return this.getDefaultState().withProperty(FACING_PROP, enumfacing);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand)
-	{
-		AfraidOfTheDark.proxy.generateParticles(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, VoidChestParticle.class);
 	}
 
 	/**

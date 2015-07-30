@@ -28,7 +28,10 @@ public class GenerateWitchHut
 		{
 			int y = Utility.getPlaceToSpawnLowest(world, chunkX, chunkZ, 11, 11);
 
-			LogHelper.info("Spawning a hut at x = " + chunkX + ", y = " + y + ", z = " + chunkZ);
+			if (Constants.isDebug)
+			{
+				LogHelper.info("Spawning a hut at x = " + chunkX + ", y = " + y + ", z = " + chunkZ);
+			}
 
 			SchematicGenerator.generateSchematicWithLoot(Constants.AOTDSchematics.witchHut, world, chunkX, y, chunkZ, Constants.witchHutLootTable);
 		}

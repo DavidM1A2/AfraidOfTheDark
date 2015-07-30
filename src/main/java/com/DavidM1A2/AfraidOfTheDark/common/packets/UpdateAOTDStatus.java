@@ -6,6 +6,7 @@
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import io.netty.buffer.ByteBuf;
@@ -48,7 +49,10 @@ public class UpdateAOTDStatus implements IMessage
 		@Override
 		public IMessage onMessage(final UpdateAOTDStatus message, final MessageContext ctx)
 		{
-			LogHelper.info("Update Has Started AOTD Received! Status: " + message.started);
+			if (Constants.isDebug)
+			{
+				LogHelper.info("Update Has Started AOTD Received! Status: " + message.started);
+			}
 			ctx.getServerHandler().playerEntity.getEntityData().setBoolean(HasStartedAOTD.PLAYER_STARTED_AOTD, message.started);
 			return null;
 		}
@@ -60,7 +64,10 @@ public class UpdateAOTDStatus implements IMessage
 		@Override
 		public IMessage onMessage(final UpdateAOTDStatus message, final MessageContext ctx)
 		{
-			LogHelper.info("Update Has Started AOTD Received! Status: " + message.started);
+			if (Constants.isDebug)
+			{
+				LogHelper.info("Update Has Started AOTD Received! Status: " + message.started);
+			}
 			Minecraft.getMinecraft().thePlayer.getEntityData().setBoolean(HasStartedAOTD.PLAYER_STARTED_AOTD, message.started);
 			return null;
 		}

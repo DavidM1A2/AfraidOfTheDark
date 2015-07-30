@@ -6,6 +6,7 @@
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import io.netty.buffer.ByteBuf;
@@ -52,7 +53,10 @@ public class UpdateVitae implements IMessage
 		@Override
 		public IMessage onMessage(final UpdateVitae message, final MessageContext ctx)
 		{
-			LogHelper.info("Update Vitae Status: " + message.vitaeLevel + " on entity " + ctx.getServerHandler().playerEntity.worldObj.getEntityByID(message.entityIDToUpdate).getName());
+			if (Constants.isDebug)
+			{
+				LogHelper.info("Update Vitae Status: " + message.vitaeLevel + " on entity " + ctx.getServerHandler().playerEntity.worldObj.getEntityByID(message.entityIDToUpdate).getName());
+			}
 			ctx.getServerHandler().playerEntity.worldObj.getEntityByID(message.entityIDToUpdate).getEntityData().setInteger(Vitae.VITAE_LEVEL, message.vitaeLevel);
 			return null;
 		}
