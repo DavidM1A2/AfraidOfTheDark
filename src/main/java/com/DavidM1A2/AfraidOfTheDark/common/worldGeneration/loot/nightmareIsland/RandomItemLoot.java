@@ -23,6 +23,24 @@ public class RandomItemLoot implements IChestGenerator
 
 		//                                          Item, meta, min, max, chance
 		toReturn.add(new WeightedRandomChestContent(Items.compass, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.painting, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.sign, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.saddle, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.minecart, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.snowball, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.paper, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.book, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.banner, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.fishing_rod, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.dye, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.map, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.redstone, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.spider_eye, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.writable_book, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.writable_book, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.skull, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.lead, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.diamond_horse_armor, 0, 1, 5, 10));
 
 		return toReturn;
 	}
