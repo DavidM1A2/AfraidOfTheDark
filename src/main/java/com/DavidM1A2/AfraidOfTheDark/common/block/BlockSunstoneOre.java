@@ -30,6 +30,7 @@ public class BlockSunstoneOre extends AOTDBlock
 		this.setLightLevel(1.0f);
 		this.setHardness(10.0F);
 		this.setResistance(50.0F);
+		this.setHarvestLevel("pickaxe", 2);
 	}
 
 	/**

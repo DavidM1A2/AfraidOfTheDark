@@ -18,6 +18,9 @@ public class BlockDarkForest extends AOTDBlockTileEntity
 	{
 		super(material);
 		this.setUnlocalizedName("darkForest");
+		this.setHardness(10.0F);
+		this.setResistance(50.0F);
+		this.setHarvestLevel("pickaxe", 3);
 	}
 
 	@Override
