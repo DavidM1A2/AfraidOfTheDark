@@ -38,7 +38,6 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 	private static final double MAX_HEALTH = 10.0D;
 	private static final double ATTACK_DAMAGE = 4.0D;
 	private static final double KNOCKBACK_RESISTANCE = 0.5D;
-	public static final String FIRST_SPAWN = "firstSpawn";
 
 	public EntityEnchantedSkeleton(final World world)
 	{

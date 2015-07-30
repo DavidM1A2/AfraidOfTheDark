@@ -10,7 +10,9 @@ import java.util.Set;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -83,6 +85,10 @@ public class UpdateResearch implements IMessage
 				}
 			}
 			Research.set(Minecraft.getMinecraft().thePlayer, message.research);
+			if (Constants.isDebug)
+			{
+				LogHelper.info("Update research packet received, " + message.research.toString());
+			}
 			return null;
 		}
 	}

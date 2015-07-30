@@ -54,6 +54,7 @@ public class NightmareTeleporter extends Teleporter
 			if (entity instanceof EntityPlayer)
 			{
 				EntityPlayer entityPlayer = (EntityPlayer) entity;
+
 				BlockPos playerPostionOld = InventorySaver.getPlayerLocationOverworld(entityPlayer);
 				entityPlayer.setPosition(playerPostionOld.getX(), playerPostionOld.getY(), playerPostionOld.getZ());
 				entity.motionX = 0.0D;

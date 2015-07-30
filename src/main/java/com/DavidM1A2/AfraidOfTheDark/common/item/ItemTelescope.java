@@ -23,6 +23,7 @@ public class ItemTelescope extends AOTDItem
 	{
 		super();
 		this.setUnlocalizedName("telescope");
+		this.setMaxStackSize(1);
 	}
 
 	@Override
@@ -34,7 +35,7 @@ public class ItemTelescope extends AOTDItem
 			{
 				if (entityPlayer.getPosition().getY() <= 128)
 				{
-					entityPlayer.addChatComponentMessage(new ChatComponentText("§oI §ocan't §osee §oanything §othrough §othese §othick §oclouds. §oMaybe §oI §ocould §omove §oto §oa §ohigher §oelevation."));
+					entityPlayer.addChatComponentMessage(new ChatComponentText("I can't see anything through these thick clouds. Maybe I could move to a higher elevation."));
 				}
 				else
 				{
@@ -48,7 +49,7 @@ public class ItemTelescope extends AOTDItem
 			}
 			else
 			{
-				entityPlayer.addChatComponentMessage(new ChatComponentText("§oI §ocan't §ounderstand §owhat §othis §othing §odoes."));
+				entityPlayer.addChatComponentMessage(new ChatComponentText("I can't understand what this thing does."));
 			}
 		}
 

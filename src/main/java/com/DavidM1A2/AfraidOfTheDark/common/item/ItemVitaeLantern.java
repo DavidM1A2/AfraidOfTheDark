@@ -35,6 +35,7 @@ public class ItemVitaeLantern extends AOTDItem
 	{
 		super();
 		this.setUnlocalizedName("vitaeLantern");
+		this.setMaxStackSize(1);
 	}
 
 	// If the player is sneaking and right clicks, we change the mode.
@@ -64,7 +65,10 @@ public class ItemVitaeLantern extends AOTDItem
 		}
 		else
 		{
-			entityPlayer.addChatMessage(new ChatComponentText("I'm uncertain of how to operate this device."));
+			if (world.isRemote)
+			{
+				entityPlayer.addChatMessage(new ChatComponentText("I'm uncertain of how to operate this device."));
+			}
 		}
 
 		return super.onItemRightClick(itemStack, world, entityPlayer);

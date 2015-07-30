@@ -60,7 +60,10 @@ public class ItemStarMetalStaff extends AOTDItemWithCooldown
 		}
 		else
 		{
-			entityPlayer.addChatMessage(new ChatComponentText("I'm not sure what this is used for."));
+			if (world.isRemote)
+			{
+				entityPlayer.addChatMessage(new ChatComponentText("I'm not sure what this is used for."));
+			}
 		}
 
 		return super.onItemRightClick(itemStack, world, entityPlayer);

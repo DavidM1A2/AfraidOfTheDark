@@ -153,9 +153,9 @@ public class TelescopeGUI extends GuiClickAndDragable
 		ClientData.selectedMeteor[2] = random.nextInt(50) + 5;
 		ClientData.watchedMeteorType = type;
 
-		toReturn = toReturn + "§oIt §oappears §othat §othis " + type.formattedString() + "§ometeor §ois §ofalling §oto §oearth. §oI §ohave §ocollected §osome §oinformation §oon §oit:\n";
-		toReturn = toReturn + "§oDrop §oAngle: " + ClientData.selectedMeteor[0] + "§o°  §oLatitude: " + ClientData.selectedMeteor[1] + "§o°  §oLongitude: " + ClientData.selectedMeteor[2] + "§o° ";
-		toReturn = toReturn + "\n§oI §oshould §oprobably §owrite §othis §odown §oand §olater §orun §ocalculations §oin §omy §osextant.";
+		toReturn = toReturn + "It appears that this " + type.formattedString() + "meteor is falling to earth. I have collected some information on it:\n";
+		toReturn = toReturn + "Drop Angle: " + ClientData.selectedMeteor[0] + " degrees  Latitude: " + ClientData.selectedMeteor[1] + " degrees Longitude: " + ClientData.selectedMeteor[2] + " degrees ";
+		toReturn = toReturn + "\nI should probably write this down and later run calculations in my sextant.";
 
 		return toReturn;
 	}

@@ -161,16 +161,16 @@ public class SextantGUI extends GuiScreen
 				}
 				else if (this.angle.getText().isEmpty() || this.latitude.getText().isEmpty() || this.longitude.getText().isEmpty())
 				{
-					entityPlayer.addChatMessage(new ChatComponentText("§oI §oforgot §oto §ofill §oout §oone §oof §othe §ofields."));
+					entityPlayer.addChatMessage(new ChatComponentText("I forgot to fill out one of the fields."));
 				}
 				else
 				{
-					entityPlayer.addChatMessage(new ChatComponentText("§oThe §ocalculation §owas §onot §osucessful.\n§oMaybe §oI §oentered §oincorrect §onumbers §oor §oshould §ofind §oanother §ometeor §oto §otrack."));
+					entityPlayer.addChatMessage(new ChatComponentText("The calculation was not sucessful.\nMaybe I entered incorrect numbers or should find another meteor to track."));
 				}
 			}
 			catch (final Exception e)
 			{
-				entityPlayer.addChatMessage(new ChatComponentText("§oThe §ocalculation §owas §onot §osucessful.\n§oMaybe §oI §oentered §oincorrect §onumbers §oor §oshould §ofind §oanother §ometeor §oto §otrack."));
+				entityPlayer.addChatMessage(new ChatComponentText("The calculation was not sucessful.\nMaybe I entered incorrect numbers or should find another meteor to track."));
 			}
 		}
 	}
@@ -183,7 +183,7 @@ public class SextantGUI extends GuiScreen
 
 		final BlockPos location = new BlockPos(xLocOfDrop, 255, zLocOfDrop);
 		AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new TellServerToCreateMeteor(location, 3, 3, ClientData.watchedMeteorType.getIndex()));
-		entityPlayer.addChatMessage(new ChatComponentText("§oBased §ooff §oof §othis §oinformation §othe §ometeor §ofell §oat §o" + xLocOfDrop + "§o, §o" + zLocOfDrop));
+		entityPlayer.addChatMessage(new ChatComponentText("Based off of this information the meteor fell at " + xLocOfDrop + ", " + zLocOfDrop));
 		ClientData.selectedMeteor = new int[]
 		{ -1, -1, -1 };
 		ClientData.watchedMeteorType = null;

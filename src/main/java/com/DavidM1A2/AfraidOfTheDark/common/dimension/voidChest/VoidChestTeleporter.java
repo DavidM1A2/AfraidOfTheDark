@@ -58,7 +58,7 @@ public class VoidChestTeleporter extends Teleporter
 							{
 								VoidChestLocation.setOverworldLocation(entityPlayer, new int[]
 								{ i, j + 1, k });
-								((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(VoidChestLocation.getVoidChestLocation(entityPlayer) * Constants.VoidChestWorld.BLOCKS_BETWEEN_ISLANDS + 24.5, 106, 3, 0, 0);
+								((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(VoidChestLocation.getVoidChestLocation(entityPlayer) * Constants.VoidChestWorld.BLOCKS_BETWEEN_ISLANDS + 24.5, 104, 3, 0, 0);
 								return;
 							}
 						}
@@ -75,7 +75,8 @@ public class VoidChestTeleporter extends Teleporter
 					VoidChestLocation.setOverworldLocation(entityPlayer, new int[]
 					{ 0, 255, 0 });
 				}
-				((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(VoidChestLocation.getVoidChestLocation(entityPlayer) * Constants.VoidChestWorld.BLOCKS_BETWEEN_ISLANDS + 24.5, 106, 3, 0, 0);
+				((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(VoidChestLocation.getVoidChestLocation(entityPlayer) * Constants.VoidChestWorld.BLOCKS_BETWEEN_ISLANDS + 24.5, 104, 3, 0, 0);
+
 			}
 		}
 		else if (dimensionOld == Constants.VoidChestWorld.VOID_CHEST_WORLD_ID)

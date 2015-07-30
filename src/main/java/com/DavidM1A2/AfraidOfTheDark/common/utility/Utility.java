@@ -10,13 +10,18 @@ import java.lang.reflect.Field;
 import java.util.Iterator;
 import java.util.List;
 
-import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewood;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockVoidChestPortal;
 import com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest.VoidChestTeleporter;
-import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateResearch;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Insanity;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedAOTDUpdate;
+import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedInsanityUpdate;
+import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedResearchUpdate;
+import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedVitaeUpdate;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
@@ -206,7 +211,7 @@ public class Utility
 	public static void sendPlayerToVoidChest(EntityPlayerMP entityPlayer, int location)
 	{
 		Utility.sendPlayerToDimension(entityPlayer, Constants.VoidChestWorld.VOID_CHEST_WORLD_ID, false, VoidChestTeleporter.class);
-		entityPlayer.playerNetServerHandler.setPlayerLocation(location * Constants.VoidChestWorld.BLOCKS_BETWEEN_ISLANDS + 24.5, 110, 3, 0, 0);
+		entityPlayer.playerNetServerHandler.setPlayerLocation(location * Constants.VoidChestWorld.BLOCKS_BETWEEN_ISLANDS + 24.5, 104, 3, 0, 0);
 	}
 
 	/*
@@ -252,13 +257,12 @@ public class Utility
 			entityPlayer.playerNetServerHandler.sendPacket(new S1DPacketEntityEffect(entityPlayer.getEntityId(), potioneffect));
 		}
 
-		/*
-		 * Sync research
-		 */
-		AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateResearch(Research.get(entityPlayer), false), entityPlayer);
-
 		FMLCommonHandler.instance().firePlayerChangedDimensionEvent(entityPlayer, j, dimensionId);
 
+		new DelayedAOTDUpdate(600, entityPlayer, HasStartedAOTD.get(entityPlayer)).start();
+		new DelayedInsanityUpdate(700, entityPlayer, Insanity.get(entityPlayer)).start();
+		new DelayedResearchUpdate(800, entityPlayer, Research.get(entityPlayer)).start();
+		new DelayedVitaeUpdate(900, entityPlayer, Vitae.get(entityPlayer)).start();
 	}
 
 	public static int getFirstNonAirBlock(World world, int x, int z) throws UnsupportedLocationException

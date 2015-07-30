@@ -24,6 +24,7 @@ public class ItemSextant extends AOTDItem
 	{
 		super();
 		this.setUnlocalizedName("sextant");
+		this.setMaxStackSize(1);
 	}
 
 	@Override
@@ -37,7 +38,7 @@ public class ItemSextant extends AOTDItem
 		{
 			if (world.isRemote)
 			{
-				entityPlayer.addChatComponentMessage(new ChatComponentText("§oI §ocan't §ounderstand §owhat §othis §othing §odoes."));
+				entityPlayer.addChatComponentMessage(new ChatComponentText("I can't understand what this thing does."));
 			}
 		}
 		return itemStack;
