@@ -294,7 +294,7 @@ public final class Constants
 			SchematicBlockReplacer.replaceBlocks(voidChestPortal, (short) -42, (short) Block.getIdFromBlock(ModBlocks.voidChestPortal), (short) -90, (short) Block.getIdFromBlock(Blocks.barrier));
 
 			SchematicBlockReplacer.fixKnownSchematicErrors(voidChest);
-			SchematicBlockReplacer.replaceBlocks(voidChest, (short) -41, (short) Block.getIdFromBlock(ModBlocks.eldritchStone), (short) -40, (short) Block.getIdFromBlock(ModBlocks.amorphousEldritchMetal), (short) -39, (short) Block.getIdFromBlock(ModBlocks.eldritchObsidian), (short) -42,
+			SchematicBlockReplacer.replaceBlocks(voidChest, (short) -41, (short) Block.getIdFromBlock(ModBlocks.eldritchObsidian), (short) -40, (short) Block.getIdFromBlock(ModBlocks.amorphousEldritchMetal), (short) -39, (short) Block.getIdFromBlock(ModBlocks.eldritchStone), (short) -42,
 					(short) Block.getIdFromBlock(ModBlocks.voidChestPortal));
 		}
 	}
