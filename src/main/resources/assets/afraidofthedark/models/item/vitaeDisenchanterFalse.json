@@ -1,5 +1,5 @@
 {
-	"parent": "AfraidOfTheDark:block/vitaeDisenchanterFalse",
+	"parent": "afraidofthedark:block/vitaeDisenchanterFalse",
 	"display": {
 		"thirdperson": {
 			"rotation": [ 10, -45, 170 ],
