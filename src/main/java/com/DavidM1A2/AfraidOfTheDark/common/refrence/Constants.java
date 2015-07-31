@@ -230,6 +230,7 @@ public final class Constants
 		public static final Schematic witchHut;
 
 		public static final Schematic voidChestPortal;
+		public static final Schematic voidChest;
 
 		static
 		{
@@ -257,6 +258,8 @@ public final class Constants
 			witchHut = SchematicLoader.load("witchHut.schematic");
 
 			voidChestPortal = SchematicLoader.load("voidChestPortal.schematic");
+
+			voidChest = SchematicLoader.load("voidChest.schematic");
 
 			SchematicBlockReplacer.replaceBlocks(treeSmall, Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
 			SchematicBlockReplacer.replaceBlocks(treeBranchyType1, Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
@@ -287,6 +290,10 @@ public final class Constants
 
 			SchematicBlockReplacer.fixKnownSchematicErrors(voidChestPortal);
 			SchematicBlockReplacer.replaceBlocks(voidChestPortal, (short) -42, (short) Block.getIdFromBlock(ModBlocks.voidChestPortal), (short) -90, (short) Block.getIdFromBlock(Blocks.barrier));
+
+			SchematicBlockReplacer.fixKnownSchematicErrors(voidChest);
+			SchematicBlockReplacer.replaceBlocks(voidChest, (short) -41, (short) Block.getIdFromBlock(ModBlocks.eldritchStone), (short) -40, (short) Block.getIdFromBlock(ModBlocks.amorphousEldritchMetal), (short) -39, (short) Block.getIdFromBlock(ModBlocks.eldritchObsidian), (short) -42,
+					(short) Block.getIdFromBlock(ModBlocks.voidChestPortal));
 		}
 	}
 

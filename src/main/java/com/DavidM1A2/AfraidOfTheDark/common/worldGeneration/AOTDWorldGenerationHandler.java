@@ -12,8 +12,10 @@ import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.BiomeGenPlains;
 import net.minecraft.world.biome.BiomeGenSavanna;
+import net.minecraft.world.biome.BiomeGenSnow;
 import net.minecraft.world.biome.BiomeGenSwamp;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.fml.common.IWorldGenerator;
@@ -43,7 +45,9 @@ public class AOTDWorldGenerationHandler implements IWorldGenerator
 			dungeonRarityMultiplyer = RELEASE_DUNGEON_RARITY;
 		}
 
-		if (world.getBiomeGenForCoords(new BlockPos(chunkX, 50, chunkZ)) instanceof BiomeGenPlains)
+		BiomeGenBase current = world.getBiomeGenForCoords(new BlockPos(chunkX, 50, chunkZ));
+
+		if (current instanceof BiomeGenPlains)
 		{
 			if (random.nextDouble() < 0.002 * dungeonRarityMultiplyer)
 			{
@@ -54,7 +58,7 @@ public class AOTDWorldGenerationHandler implements IWorldGenerator
 				new GenerateDarkForestDungeon(random, chunkX, chunkZ, world);
 			}
 		}
-		else if (world.getBiomeGenForCoords(new BlockPos(chunkX, 50, chunkZ)) instanceof BiomeErieForest)
+		else if (current instanceof BiomeErieForest)
 		{
 			if (random.nextDouble() < 0.002 * dungeonRarityMultiplyer)
 			{
@@ -73,7 +77,7 @@ public class AOTDWorldGenerationHandler implements IWorldGenerator
 				new GenerateWitchHut(random, chunkX, chunkZ, world);
 			}
 		}
-		else if (world.getBiomeGenForCoords(new BlockPos(chunkX, 50, chunkZ)) instanceof BiomeGenSavanna)
+		else if (current instanceof BiomeGenSavanna)
 		{
 			if (random.nextDouble() < 0.002 * dungeonRarityMultiplyer)
 			{
@@ -84,11 +88,18 @@ public class AOTDWorldGenerationHandler implements IWorldGenerator
 				new GenerateDarkForestDungeon(random, chunkX, chunkZ, world);
 			}
 		}
-		else if (world.getBiomeGenForCoords(new BlockPos(chunkX, 50, chunkZ)) instanceof BiomeGenSwamp)
+		else if (current instanceof BiomeGenSwamp)
 		{
 			if (random.nextDouble() < 0.01 * dungeonRarityMultiplyer)
 			{
 				new GenerateWitchHut(random, chunkX, chunkZ, world);
+			}
+		}
+		else if (current instanceof BiomeGenSnow)
+		{
+			if (random.nextDouble() < 0.01 * dungeonRarityMultiplyer)
+			{
+				new GenerateVoidChest(random, chunkX, chunkZ, world);
 			}
 		}
 	}
