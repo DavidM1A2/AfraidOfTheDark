@@ -15,6 +15,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.ItemWoodenBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemAstralSilverIngot;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemAstralSilverSword;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemCloakOfAgility;
+import com.DavidM1A2.AfraidOfTheDark.common.item.ItemEldritchMetalIngot;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemEnchantedSkeletonBone;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemIgneousGem;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemIgneousSword;
@@ -94,6 +95,7 @@ public class ModItems
 	public static final ItemResearchScrollVitae1 researchScrollVitae1 = new ItemResearchScrollVitae1();
 	public static final ItemResearchScrollWristCrossbow researchScrollWristCrossbow = new ItemResearchScrollWristCrossbow();
 	public static final ItemResearchScrollInsanity researchScrollInsanity = new ItemResearchScrollInsanity();
+	public static final ItemEldritchMetalIngot eldritchMetalIngot = new ItemEldritchMetalIngot();
 
 	static
 	{
@@ -151,6 +153,7 @@ public class ModItems
 		GameRegistry.registerItem(ModItems.researchScrollVitae1, "researchScrollVitae1");
 		GameRegistry.registerItem(ModItems.researchScrollWristCrossbow, "researchScrollWristCrossbow");
 		GameRegistry.registerItem(ModItems.researchScrollInsanity, "researchScrollInsanity");
+		GameRegistry.registerItem(ModItems.eldritchMetalIngot, "eldritchMetalIngot");
 	}
 
 	public static void initializeRenderers(final Side side)
@@ -227,6 +230,7 @@ public class ModItems
 			itemModelMesher.register(ModItems.enchantedSkeletonBone, 0, new ModelResourceLocation(Refrence.MOD_ID + ":enchantedSkeletonBone", "inventory"));
 			itemModelMesher.register(ModItems.sleepingPotion, 0, new ModelResourceLocation(Refrence.MOD_ID + ":sleepingPotion", "inventory"));
 			itemModelMesher.register(ModItems.researchScrollInsanity, 0, new ModelResourceLocation(Refrence.MOD_ID + ":researchScrollInsanity", "inventory"));
+			itemModelMesher.register(ModItems.eldritchMetalIngot, 0, new ModelResourceLocation(Refrence.MOD_ID + ":eldritchMetalIngot", "inventory"));
 		}
 	}
 }

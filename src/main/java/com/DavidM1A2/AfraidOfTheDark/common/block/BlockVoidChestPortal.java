@@ -42,6 +42,7 @@ public class BlockVoidChestPortal extends AOTDBlock
 		this.setCreativeTab(null);
 		this.setLightLevel(1.0f);
 		this.setBlockUnbreakable();
+		this.setResistance(6000000.0F);
 	}
 
 	@Override

@@ -5,8 +5,11 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.initializeMod;
 
+import com.DavidM1A2.AfraidOfTheDark.common.block.BlockAmorphousEldritchMetal;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockAstralSilverOre;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockDarkForest;
+import com.DavidM1A2.AfraidOfTheDark.common.block.BlockEldritchObsidian;
+import com.DavidM1A2.AfraidOfTheDark.common.block.BlockEldritchStone;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewood;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewoodDoubleSlab;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewoodHalfSlab;
@@ -59,6 +62,9 @@ public class ModBlocks
 	public static final BlockVitaeDisenchanter vitaeDisenchanter = new BlockVitaeDisenchanter();
 	public static final BlockVoidChest voidChest = new BlockVoidChest();
 	public static final BlockVoidChestPortal voidChestPortal = new BlockVoidChestPortal();
+	public static final BlockEldritchObsidian eldritchObsidian = new BlockEldritchObsidian(Material.rock);
+	public static final BlockAmorphousEldritchMetal amorphousEldritchMetal = new BlockAmorphousEldritchMetal(Material.portal);
+	public static final BlockEldritchStone eldritchStone = new BlockEldritchStone(Material.rock);
 
 	public static void initialize()
 	{
@@ -87,6 +93,9 @@ public class ModBlocks
 		GameRegistry.registerBlock(ModBlocks.voidChest, "voidChest");
 		GameRegistry.registerTileEntity(TileEntityVoidChest.class, "tileEntityVoidChest");
 		GameRegistry.registerBlock(ModBlocks.voidChestPortal, "voidChestPortal");
+		GameRegistry.registerBlock(ModBlocks.eldritchObsidian, "eldritchObsidian");
+		GameRegistry.registerBlock(ModBlocks.amorphousEldritchMetal, "amorphousEldritchMetal");
+		GameRegistry.registerBlock(ModBlocks.eldritchStone, "eldritchStone");
 	}
 
 	public static void initializeRenderers(final Side side)
@@ -111,6 +120,9 @@ public class ModBlocks
 			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.vitaeDisenchanter), 0, new ModelResourceLocation(Refrence.MOD_ID + ":vitaeDisenchanter", "inventory"));
 			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.voidChest), 0, new ModelResourceLocation(Refrence.MOD_ID + ":voidChest", "inventory"));
 			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.voidChestPortal), 0, new ModelResourceLocation(Refrence.MOD_ID + ":voidChestPortal", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.eldritchObsidian), 0, new ModelResourceLocation(Refrence.MOD_ID + ":eldritchObsidian", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.amorphousEldritchMetal), 0, new ModelResourceLocation(Refrence.MOD_ID + ":amorphousEldritchMetal", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.eldritchStone), 0, new ModelResourceLocation(Refrence.MOD_ID + ":eldritchStone", "inventory"));
 		}
 	}
 }
