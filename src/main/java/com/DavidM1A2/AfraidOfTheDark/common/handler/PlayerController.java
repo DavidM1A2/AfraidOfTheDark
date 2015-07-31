@@ -179,9 +179,12 @@ public class PlayerController
 	{
 		if (event.target instanceof EntityDeeeSyft)
 		{
-			if (event.entityPlayer.inventory.getCurrentItem().getItem() instanceof ItemFlintAndSteel)
+			if (event.entityPlayer.inventory.getCurrentItem() != null)
 			{
-				event.target.setFire(1);
+				if (event.entityPlayer.inventory.getCurrentItem().getItem() instanceof ItemFlintAndSteel)
+				{
+					event.target.setFire(1);
+				}
 			}
 		}
 	}
