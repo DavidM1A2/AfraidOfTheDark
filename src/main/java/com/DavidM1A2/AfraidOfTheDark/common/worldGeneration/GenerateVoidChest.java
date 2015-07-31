@@ -33,7 +33,7 @@ public class GenerateVoidChest
 				LogHelper.info("Spawning a void chest at x = " + chunkX + ", y = " + y + ", z = " + chunkZ);
 			}
 
-			SchematicGenerator.generateSchematic(Constants.AOTDSchematics.voidChest, world, chunkX, y - 6, chunkZ);
+			SchematicGenerator.generateSchematicWithLoot(Constants.AOTDSchematics.voidChest, world, chunkX, y - 6, chunkZ, Constants.voidChestTable);
 		}
 		catch (UnsupportedLocationException e)
 		{
