@@ -82,6 +82,8 @@ public class ModRecipes
 		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(ModItems.researchScrollAstronomy2, 1, 0), ResearchTypes.AstronomyII.getPrevious(), new ItemStack(ModItems.researchScrollAstronomy2, 1, 1), new ItemStack(ModItems.researchScrollAstronomy2, 1, 2), new ItemStack(
 				ModItems.researchScrollAstronomy2, 1, 3), new ItemStack(ModItems.researchScrollAstronomy2, 1, 4)));
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.eldritchMetalIngot, 8), "aaa", "aba", "aaa", 'a', Items.iron_ingot, 'b', Items.ender_pearl));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.eldritchMetalIngot, 8), ResearchTypes.EldritchMetal, "aaa", "aba", "aaa", 'a', Items.iron_ingot, 'b', Items.ender_pearl));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModBlocks.eldritchStone, 8), ResearchTypes.EldritchMetal, "aaa", "aba", "aaa", 'a', ModItems.eldritchMetalIngot, 'b', new ItemStack(Blocks.stone)));
+		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(ModBlocks.eldritchObsidian), ResearchTypes.EldritchMetal, ModItems.eldritchMetalIngot, Blocks.obsidian));
 	}
 }

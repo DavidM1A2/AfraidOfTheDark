@@ -47,10 +47,6 @@ public class BlockAmorphousEldritchMetal extends AOTDBlock
 	@Override
 	public boolean shouldSideBeRendered(IBlockAccess iBlockAccess, BlockPos blockPos, EnumFacing side)
 	{
-		if (iBlockAccess.getBlockState(blockPos.offset(side)).getBlock() instanceof BlockAmorphousEldritchMetal)
-		{
-			return false;
-		}
 		return true;
 	}
 }

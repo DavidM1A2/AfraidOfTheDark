@@ -99,6 +99,7 @@ public class BlockVoidChestPortal extends AOTDBlock
 						if (Research.canResearch((EntityPlayer) entity, ResearchTypes.VoidChest))
 						{
 							Research.unlockResearchSynced(entityPlayer, ResearchTypes.VoidChest, Side.SERVER, true);
+							Research.unlockResearchSynced(entityPlayer, ResearchTypes.EldritchMetal, Side.SERVER, true);
 						}
 						if (Research.isResearched(entityPlayer, ResearchTypes.VoidChest))
 						{
