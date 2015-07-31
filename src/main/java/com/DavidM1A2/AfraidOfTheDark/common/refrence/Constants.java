@@ -12,9 +12,11 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.sizeof.RamUsageEstimator;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.Schematic;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicBlockReplacer;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicLoader;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.CryptChestLoot;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.DarkForestChestLoot;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.LootTable;
@@ -292,10 +294,18 @@ public final class Constants
 
 			SchematicBlockReplacer.fixKnownSchematicErrors(voidChestPortal);
 			SchematicBlockReplacer.replaceBlocks(voidChestPortal, (short) -42, (short) Block.getIdFromBlock(ModBlocks.voidChestPortal), (short) -90, (short) Block.getIdFromBlock(Blocks.barrier));
+			SchematicBlockReplacer.replaceBlocks(voidChestPortal, Blocks.lapis_block, ModBlocks.eldritchStone);
 
 			SchematicBlockReplacer.fixKnownSchematicErrors(voidChest);
 			SchematicBlockReplacer.replaceBlocks(voidChest, (short) -41, (short) Block.getIdFromBlock(ModBlocks.eldritchObsidian), (short) -40, (short) Block.getIdFromBlock(ModBlocks.amorphousEldritchMetal), (short) -39, (short) Block.getIdFromBlock(ModBlocks.eldritchStone), (short) -42,
 					(short) Block.getIdFromBlock(ModBlocks.voidChestPortal));
+
+			if (Constants.isDebug)
+			{
+				LogHelper.info("Schematics are using this much ram: " + RamUsageEstimator.humanReadableUnits(RamUsageEstimator.sizeOfAll(treeSmall, treeBranchyType1, treeBranchyType2, treeLargeCircle, treeLargeDonut, bedHouse, propBush1, propFallenOverLog, propFence1, propFence2, propFountain,
+						propLog, propPumpkin1, propPumpkin2, propStump, crypt, spring, nightmareIsland, witchHut, voidChest, voidChestPortal)));
+				LogHelper.info("Nightmare island is using this much ram: " + RamUsageEstimator.humanReadableUnits(RamUsageEstimator.sizeOfAll(nightmareIsland)));
+			}
 		}
 	}
 

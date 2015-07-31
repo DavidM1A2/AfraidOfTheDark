@@ -57,9 +57,9 @@ public class ModRecipes
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.starMetalChestplate, 1), ResearchTypes.StarMetal, "a a", "aaa", "aaa", 'a', ModItems.starMetalPlate));
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.starMetalLeggings, 1), ResearchTypes.StarMetal, "aaa", "a a", "a a", 'a', ModItems.starMetalPlate));
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.starMetalBoots, 1), ResearchTypes.StarMetal, "a a", "a a", 'a', ModItems.starMetalPlate));
-		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.starMetalPlate, 1), ResearchTypes.StarMetal, "aaa", "aba", "aaa", 'a', ModItems.starMetalFragment, 'b', Items.iron_ingot));
-		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.starMetalPlate, 1), ResearchTypes.StarMetal, "aaa", "aba", "aaa", 'a', ModItems.starMetalFragment, 'b', Items.gold_ingot));
-		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.starMetalBolt, 1), ResearchTypes.StarMetal, "a", "a", 'a', ModItems.starMetalFragment));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.starMetalPlate, 1), ResearchTypes.StarMetal, "aaa", "aba", "aaa", 'a', ModItems.starMetalIngot, 'b', Items.iron_ingot));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.starMetalPlate, 1), ResearchTypes.StarMetal, "aaa", "aba", "aaa", 'a', ModItems.starMetalIngot, 'b', Items.gold_ingot));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.starMetalBolt, 6), ResearchTypes.StarMetal, "a", "a", 'a', ModItems.starMetalIngot));
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.starMetalStaff, 1), ResearchTypes.StarMetal, "a", "a", "a", 'a', ModItems.starMetalPlate));
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.starMetalKhopesh, 1), ResearchTypes.StarMetal, " a ", "a  ", " ab", 'a', ModItems.starMetalPlate, 'b', Items.iron_ingot));
 
@@ -84,6 +84,6 @@ public class ModRecipes
 
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.eldritchMetalIngot, 8), ResearchTypes.EldritchMetal, "aaa", "aba", "aaa", 'a', Items.iron_ingot, 'b', Items.ender_pearl));
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModBlocks.eldritchStone, 8), ResearchTypes.EldritchMetal, "aaa", "aba", "aaa", 'a', ModItems.eldritchMetalIngot, 'b', new ItemStack(Blocks.stone)));
-		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(ModBlocks.eldritchObsidian), ResearchTypes.EldritchMetal, ModItems.eldritchMetalIngot, Blocks.obsidian));
+		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(ModBlocks.eldritchObsidian, 1), ResearchTypes.EldritchMetal, ModItems.eldritchMetalIngot, Blocks.obsidian));
 	}
 }

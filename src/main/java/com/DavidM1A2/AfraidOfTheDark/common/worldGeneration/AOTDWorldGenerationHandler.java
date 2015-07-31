@@ -97,7 +97,7 @@ public class AOTDWorldGenerationHandler implements IWorldGenerator
 		}
 		else if (current instanceof BiomeGenSnow)
 		{
-			if (random.nextDouble() < 0.01 * dungeonRarityMultiplyer)
+			if (random.nextDouble() < 0.005 * dungeonRarityMultiplyer)
 			{
 				new GenerateVoidChest(random, chunkX, chunkZ, world);
 			}

@@ -23,6 +23,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.item.ItemJournal;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemSextant;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemSleepingPotion;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemStarMetalFragment;
+import com.DavidM1A2.AfraidOfTheDark.common.item.ItemStarMetalIngot;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemStarMetalKhopesh;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemStarMetalPlate;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemStarMetalStaff;
@@ -90,12 +91,15 @@ public class ModItems
 	public static final ItemStarMetalPlate starMetalPlate = new ItemStarMetalPlate();
 	public static final ItemEnchantedSkeletonBone enchantedSkeletonBone = new ItemEnchantedSkeletonBone();
 	public static final ItemSleepingPotion sleepingPotion = new ItemSleepingPotion();
+	public static final ItemEldritchMetalIngot eldritchMetalIngot = new ItemEldritchMetalIngot();
+	public static final ItemStarMetalIngot starMetalIngot = new ItemStarMetalIngot();
+
+	// Register scrolls last
 	public static final ItemResearchScrollCloakOfAgility researchScrollCloakOfAgility = new ItemResearchScrollCloakOfAgility();
 	public static final ItemResearchScrollAstronomy2 researchScrollAstronomy2 = new ItemResearchScrollAstronomy2();
 	public static final ItemResearchScrollVitae1 researchScrollVitae1 = new ItemResearchScrollVitae1();
 	public static final ItemResearchScrollWristCrossbow researchScrollWristCrossbow = new ItemResearchScrollWristCrossbow();
 	public static final ItemResearchScrollInsanity researchScrollInsanity = new ItemResearchScrollInsanity();
-	public static final ItemEldritchMetalIngot eldritchMetalIngot = new ItemEldritchMetalIngot();
 
 	static
 	{
@@ -154,6 +158,7 @@ public class ModItems
 		GameRegistry.registerItem(ModItems.researchScrollWristCrossbow, "researchScrollWristCrossbow");
 		GameRegistry.registerItem(ModItems.researchScrollInsanity, "researchScrollInsanity");
 		GameRegistry.registerItem(ModItems.eldritchMetalIngot, "eldritchMetalIngot");
+		GameRegistry.registerItem(ModItems.starMetalIngot, "starMetalIngot");
 	}
 
 	public static void initializeRenderers(final Side side)
@@ -231,6 +236,7 @@ public class ModItems
 			itemModelMesher.register(ModItems.sleepingPotion, 0, new ModelResourceLocation(Refrence.MOD_ID + ":sleepingPotion", "inventory"));
 			itemModelMesher.register(ModItems.researchScrollInsanity, 0, new ModelResourceLocation(Refrence.MOD_ID + ":researchScrollInsanity", "inventory"));
 			itemModelMesher.register(ModItems.eldritchMetalIngot, 0, new ModelResourceLocation(Refrence.MOD_ID + ":eldritchMetalIngot", "inventory"));
+			itemModelMesher.register(ModItems.starMetalIngot, 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalIngot", "inventory"));
 		}
 	}
 }
