@@ -40,6 +40,7 @@ item.afraidofthedark:researchScrollInsanity.name=Research Insanity
 item.afraidofthedark:starMetalPlate.name=Star Metal Plate
 item.afraidofthedark:enchantedSkeletonBone.name=Enchanted Skeleton Bone
 item.afraidofthedark:sleepingPotion.name=Sleeping Potion
+item.afraidofthedark:eldritchMetalIngot.name=Eldritch Metal Ingot
 
 # Blocks
 tile.afraidofthedark:silverOre.name=Silver Ore
@@ -61,6 +62,9 @@ tile.afraidofthedark:darkForest.name=Dark Forest
 tile.afraidofthedark:vitaeDisenchanter.name=Vitae Disenchanter
 tile.afraidofthedark:voidChest.name=Void Chest
 tile.afraidofthedark:voidChestPortal.name=Void Chest Portal
+tile.afraidofthedark:eldritchObsidian.name=Eldritch Obsidian
+tile.afraidofthedark:amorphousEldritchMetal.name=Amorphous Eldritch Metal
+tile.afraidofthedark:eldritchStone.name=Eldritch Stone
 
 # Creative Tabs
 itemGroup.afraidofthedark=Afraid of the Dark
