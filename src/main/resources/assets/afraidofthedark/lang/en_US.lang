@@ -42,6 +42,7 @@ item.afraidofthedark:enchantedSkeletonBone.name=Enchanted Skeleton Bone
 item.afraidofthedark:sleepingPotion.name=Sleeping Potion
 item.afraidofthedark:eldritchMetalIngot.name=Eldritch Metal Ingot
 item.afraidofthedark:starMetalIngot.name=Star Metal Ingot
+item.afraidofthedark:bladeOfExhumation.name=Blade of Exhumation
 
 # Blocks
 tile.afraidofthedark:silverOre.name=Silver Ore

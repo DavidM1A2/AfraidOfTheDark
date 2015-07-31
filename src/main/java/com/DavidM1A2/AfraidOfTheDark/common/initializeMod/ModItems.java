@@ -14,6 +14,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.ItemStarMetalBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.ItemWoodenBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemAstralSilverIngot;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemAstralSilverSword;
+import com.DavidM1A2.AfraidOfTheDark.common.item.ItemBladeOfExhumation;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemCloakOfAgility;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemEldritchMetalIngot;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemEnchantedSkeletonBone;
@@ -93,6 +94,7 @@ public class ModItems
 	public static final ItemSleepingPotion sleepingPotion = new ItemSleepingPotion();
 	public static final ItemEldritchMetalIngot eldritchMetalIngot = new ItemEldritchMetalIngot();
 	public static final ItemStarMetalIngot starMetalIngot = new ItemStarMetalIngot();
+	public static final ItemBladeOfExhumation bladeOfExhumation = new ItemBladeOfExhumation();
 
 	// Register scrolls last
 	public static final ItemResearchScrollCloakOfAgility researchScrollCloakOfAgility = new ItemResearchScrollCloakOfAgility();
@@ -159,6 +161,7 @@ public class ModItems
 		GameRegistry.registerItem(ModItems.researchScrollInsanity, "researchScrollInsanity");
 		GameRegistry.registerItem(ModItems.eldritchMetalIngot, "eldritchMetalIngot");
 		GameRegistry.registerItem(ModItems.starMetalIngot, "starMetalIngot");
+		GameRegistry.registerItem(ModItems.bladeOfExhumation, "bladeOfExhumation");
 	}
 
 	public static void initializeRenderers(final Side side)
@@ -237,6 +240,7 @@ public class ModItems
 			itemModelMesher.register(ModItems.researchScrollInsanity, 0, new ModelResourceLocation(Refrence.MOD_ID + ":researchScrollInsanity", "inventory"));
 			itemModelMesher.register(ModItems.eldritchMetalIngot, 0, new ModelResourceLocation(Refrence.MOD_ID + ":eldritchMetalIngot", "inventory"));
 			itemModelMesher.register(ModItems.starMetalIngot, 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalIngot", "inventory"));
+			itemModelMesher.register(ModItems.bladeOfExhumation, 0, new ModelResourceLocation(Refrence.MOD_ID + ":bladeOfExhumation", "inventory"));
 		}
 	}
 }
