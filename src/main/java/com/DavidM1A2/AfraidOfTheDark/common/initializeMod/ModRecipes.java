@@ -14,6 +14,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.RecipeSorter.Category;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -85,5 +86,8 @@ public class ModRecipes
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.eldritchMetalIngot, 8), ResearchTypes.EldritchDecoration, "aaa", "aba", "aaa", 'a', Items.iron_ingot, 'b', Items.ender_pearl));
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModBlocks.eldritchStone, 8), ResearchTypes.EldritchDecoration, "aaa", "aba", "aaa", 'a', ModItems.eldritchMetalIngot, 'b', new ItemStack(Blocks.stone)));
 		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(ModBlocks.eldritchObsidian, 1), ResearchTypes.EldritchDecoration, ModItems.eldritchMetalIngot, Blocks.obsidian));
+
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.bladeOfExhumation, 1), ResearchTypes.BladeOfExhumation, "ab ", "ba ", "  b", 'a', Items.diamond, 'b', ModItems.enchantedSkeletonBone));
+		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(ModItems.bladeOfExhumation, 1), ResearchTypes.BladeOfExhumation, Items.diamond, new ItemStack(ModItems.bladeOfExhumation, 1, OreDictionary.WILDCARD_VALUE)));
 	}
 }

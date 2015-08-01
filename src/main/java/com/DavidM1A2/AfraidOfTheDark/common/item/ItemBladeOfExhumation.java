@@ -7,9 +7,12 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 
 import com.DavidM1A2.AfraidOfTheDark.common.entities.EnchantedSkeleton.EntityEnchantedSkeleton;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDSword;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
@@ -36,14 +39,43 @@ public class ItemBladeOfExhumation extends AOTDSword
 	 */
 	public boolean onLeftClickEntity(ItemStack itemStack, EntityPlayer entityPlayer, Entity entity)
 	{
+		if (itemStack.getItemDamage() == itemStack.getMaxDamage() - 1)
+		{
+			return true;
+		}
+
 		boolean result = super.onLeftClickEntity(itemStack, entityPlayer, entity);
 
-		if (entity instanceof EntityEnchantedSkeleton && !entity.isDead)
+		if (Research.isResearched(entityPlayer, ResearchTypes.BladeOfExhumation))
 		{
-			entity.attackEntityFrom(DamageSource.causePlayerDamage(entityPlayer), Float.MAX_VALUE);
+			if (entity instanceof EntityEnchantedSkeleton && !entity.isDead)
+			{
+				entity.attackEntityFrom(DamageSource.causePlayerDamage(entityPlayer), Float.MAX_VALUE);
+				this.hitEntity(itemStack, (EntityEnchantedSkeleton) entity, entityPlayer);
+			}
 		}
 
 		return result;
+	}
+
+	/**
+	 * Current implementations of this method in child classes do not use the entry argument beside ev. They just raise the damage on the stack.
+	 * 
+	 * @param target
+	 *            The Entity being hit
+	 * @param attacker
+	 *            the attacking entity
+	 */
+	public boolean hitEntity(ItemStack itemStack, EntityLivingBase target, EntityLivingBase attacker)
+	{
+		if (itemStack.getItemDamage() == this.getMaxDamage() - 1)
+		{
+			return false;
+		}
+		else
+		{
+			return super.hitEntity(itemStack, target, attacker);
+		}
 	}
 
 }

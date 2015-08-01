@@ -11,6 +11,8 @@ import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.Animation
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemBladeOfExhumation;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.TellClientToPlayAnimation;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -31,6 +33,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraftforge.fml.relauncher.Side;
 
 public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEntity
 {
@@ -84,11 +87,28 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 		if (damageSource.getSourceOfDamage() instanceof EntityPlayer)
 		{
 			EntityPlayer killer = (EntityPlayer) damageSource.getSourceOfDamage();
-			if (killer.getCurrentEquippedItem() != null)
+			if (Research.isResearched(killer, ResearchTypes.BladeOfExhumation))
 			{
-				if (killer.getCurrentEquippedItem().getItem() instanceof ItemBladeOfExhumation)
+				if (killer.getCurrentEquippedItem() != null)
 				{
-					this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY + 1, this.posZ, new ItemStack(ModItems.enchantedSkeletonBone, 1, 0)));
+					if (killer.getCurrentEquippedItem().getItem() instanceof ItemBladeOfExhumation)
+					{
+						this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY + 1, this.posZ, new ItemStack(ModItems.enchantedSkeletonBone, 1, 0)));
+					}
+				}
+			}
+			else if (Research.canResearch(killer, ResearchTypes.BladeOfExhumation))
+			{
+				if (!killer.worldObj.isRemote)
+				{
+					Research.unlockResearchSynced(killer, ResearchTypes.BladeOfExhumation, Side.SERVER, true);
+				}
+				if (killer.getCurrentEquippedItem() != null)
+				{
+					if (killer.getCurrentEquippedItem().getItem() instanceof ItemBladeOfExhumation)
+					{
+						this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY + 1, this.posZ, new ItemStack(ModItems.enchantedSkeletonBone, 1, 0)));
+					}
 				}
 			}
 		}
