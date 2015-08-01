@@ -9,6 +9,7 @@ import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
+import com.DavidM1A2.AfraidOfTheDark.common.item.ItemBladeOfExhumation;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.TellClientToPlayAnimation;
 
 import net.minecraft.block.Block;
@@ -21,10 +22,13 @@ import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
@@ -68,6 +72,26 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 			}
 		}
 		super.onEntityUpdate();
+	}
+
+	/**
+	 * Called when the mob's health reaches 0.
+	 */
+	@Override
+	public void onDeath(DamageSource damageSource)
+	{
+		super.onDeath(damageSource);
+		if (damageSource.getSourceOfDamage() instanceof EntityPlayer)
+		{
+			EntityPlayer killer = (EntityPlayer) damageSource.getSourceOfDamage();
+			if (killer.getCurrentEquippedItem() != null)
+			{
+				if (killer.getCurrentEquippedItem().getItem() instanceof ItemBladeOfExhumation)
+				{
+					this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY + 1, this.posZ, new ItemStack(ModItems.enchantedSkeletonBone, 1, 0)));
+				}
+			}
+		}
 	}
 
 	@Override

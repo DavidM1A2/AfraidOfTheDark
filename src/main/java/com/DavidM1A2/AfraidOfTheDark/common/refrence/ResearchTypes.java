@@ -34,6 +34,9 @@ public enum ResearchTypes
 	EnchantedSkeleton(AnUnbreakableCovenant, -1, 0, new Object[]
 	{ Items.dye }, new Object[]
 	{}),
+	BladeOfExhumation(EnchantedSkeleton, -2, 0, new Object[]
+	{ ModItems.bladeOfExhumation }, new Object[]
+	{}),
 	WristCrossbow(Crossbow, 2, 0, new Object[]
 	{ ModItems.wristCrossbow }, new Object[]
 	{}),
