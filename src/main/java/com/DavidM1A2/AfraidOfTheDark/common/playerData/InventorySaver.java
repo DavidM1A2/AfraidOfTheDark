@@ -90,6 +90,11 @@ public class InventorySaver implements IExtendedEntityProperties
 	{
 		if (!entityPlayer.getEntityData().hasKey(PLAYER_LOCATION_NIGHTMARE))
 		{
+			if (!entityPlayer.worldObj.isRemote)
+			{
+				MinecraftServer.getServer().getCommandManager().executeCommand(MinecraftServer.getServer(), "/save-all");
+			}
+
 			ISaveHandler iSaveHandler = MinecraftServer.getServer().worldServers[0].getSaveHandler();
 			if (iSaveHandler instanceof SaveHandler)
 			{

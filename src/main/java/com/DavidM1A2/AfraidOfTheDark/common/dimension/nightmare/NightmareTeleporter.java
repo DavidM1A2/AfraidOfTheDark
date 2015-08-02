@@ -46,6 +46,7 @@ public class NightmareTeleporter extends Teleporter
 					entityPlayer.inventoryContainer.detectAndSendChanges();
 
 					((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(InventorySaver.getPlayerLocationNightmare(entityPlayer) * Constants.NightmareWorld.BLOCKS_BETWEEN_ISLANDS + 20, 79, 40, 0, 0);
+
 				}
 			}
 		}

@@ -74,6 +74,11 @@ public class VoidChestLocation implements IExtendedEntityProperties
 	{
 		if (!entityPlayer.getEntityData().hasKey(PLAYER_LOCATION_VOID_CHEST))
 		{
+			if (!entityPlayer.worldObj.isRemote)
+			{
+				MinecraftServer.getServer().getCommandManager().executeCommand(MinecraftServer.getServer(), "/save-all");
+			}
+
 			ISaveHandler iSaveHandler = MinecraftServer.getServer().worldServers[0].getSaveHandler();
 			if (iSaveHandler instanceof SaveHandler)
 			{
