@@ -1,6 +1,5 @@
 Upon rummaging around the insides of an asteroid, I have discovered a new material, which I have named
-starmetal. Starmetal ingots are made by smelting starmetal fragments for a very long time. Perhaps I should
-make an auto smelter for this purpose. If starmetal ingots are combined with iron ingots, they can be made
+starmetal. Starmetal ingots are made by smelting starmetal fragments. If starmetal ingots are combined with iron ingots, they can be made
 into starmetal plates,
 which can then be forged into various tools and armor. Starmetal armor provides superior protection to
 diamond, and gives the user an overshield which will absorb damage before the user. A starmetal khopesh
