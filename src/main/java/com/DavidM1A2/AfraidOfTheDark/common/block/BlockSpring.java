@@ -5,6 +5,8 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.block;
 
+import java.util.Random;
+
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDBlockTileEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntitySpring;
 
@@ -27,5 +29,14 @@ public class BlockSpring extends AOTDBlockTileEntity
 	public TileEntity createNewTileEntity(World worldIn, int meta)
 	{
 		return new TileEntitySpring();
+	}
+
+	/**
+	 * Returns the quantity of items to drop on block destruction.
+	 */
+	@Override
+	public int quantityDropped(Random random)
+	{
+		return 0;
 	}
 }
