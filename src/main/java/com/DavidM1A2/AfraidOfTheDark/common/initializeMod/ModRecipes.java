@@ -66,7 +66,7 @@ public class ModRecipes
 
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.cloakOfAgility, 1), ResearchTypes.CloakOfAgility, "aba", "cdc", "aba", 'a', Items.leather, 'b', Items.feather, 'c', Items.string, 'd', Items.gold_ingot));
 
-		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.telescope), ResearchTypes.AstronomyI, "ab ", "bcb", " ba", 'a', new ItemStack(Blocks.glass, 1, 0), 'b', Items.iron_ingot, 'c', Items.diamond));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.telescope), ResearchTypes.WerewolfExamination, "ab ", "bcb", " ba", 'a', new ItemStack(Blocks.glass, 1, 0), 'b', Items.iron_ingot, 'c', Items.diamond));
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.sextant), ResearchTypes.AstronomyI, " ab", "cac", " c ", 'a', "stickWood", 'b', new ItemStack(Blocks.glass, 1, 0), 'c', Items.iron_ingot));
 
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.vitaeLantern), ResearchTypes.VitaeI, "aba", "cdc", "aaa", 'a', Items.iron_ingot, 'b', new ItemStack(Blocks.iron_block, 1, 0), 'c', new ItemStack(Blocks.glass, 1, 0), 'd', Items.diamond));
