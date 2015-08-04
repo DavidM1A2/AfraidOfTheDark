@@ -53,7 +53,7 @@ public enum ResearchTypes
 	{ ModBlocks.voidChest }, new Object[]
 	{}),
 	EldritchDecoration(VoidChest, 2, 3, new Object[]
-	{ ModBlocks.eldritchObsidian, ModBlocks.eldritchStone, ModItems.eldritchMetalIngot }, new Object[]
+	{ ModBlocks.eldritchObsidian, ModBlocks.amorphousEldritchMetal, ModBlocks.eldritchStone, ModItems.eldritchMetalIngot }, new Object[]
 	{}),
 	DarkForest(AstralSilver, 0, 4, new Object[]
 	{}, new Object[]
