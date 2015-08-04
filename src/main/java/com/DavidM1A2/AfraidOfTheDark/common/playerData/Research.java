@@ -90,7 +90,7 @@ public class Research implements IExtendedEntityProperties
 			if (firstTimeResearched)
 			{
 				ClientData.researchAchievedOverlay.displayResearch(type, new ItemStack(ModItems.journal, 1), false);
-				entityPlayer.playSound("afraidofthedark:achievementUnlocked", 0.5f, 1.0f);
+				entityPlayer.playSound("afraidofthedark:achievementUnlocked", 1.0f, 1.0f);
 			}
 		}
 		else

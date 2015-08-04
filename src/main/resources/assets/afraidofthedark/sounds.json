@@ -5,5 +5,6 @@
    "werewolfAgro": {"category": "master","sounds": [{"name": "werewolfAgro","stream": false}]},
    "werewolfDeath": {"category": "master","sounds": [{"name": "werewolfDeath","stream": false}]},
    "werewolfHurt": {"category": "master","sounds": [{"name": "werewolfHurt","stream": false}]},
+   "journalSign": {"category": "master","sounds": [{"name": "journalSign","stream": false}]},
    "achievementUnlocked": {"category": "master","sounds": [{"name": "achievementUnlocked","stream": false}]}
 }
