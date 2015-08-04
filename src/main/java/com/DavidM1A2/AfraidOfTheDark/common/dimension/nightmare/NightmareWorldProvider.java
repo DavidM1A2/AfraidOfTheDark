@@ -208,7 +208,7 @@ public class NightmareWorldProvider extends WorldProvider
 	public Vec3 getFogColor(float par1, float par2)
 	{
 		// RGB
-		return new Vec3(0.18f, .07f, 0.02f);
+		return new Vec3(0.67f, 0f, 0f);
 	}
 
 	@Override
