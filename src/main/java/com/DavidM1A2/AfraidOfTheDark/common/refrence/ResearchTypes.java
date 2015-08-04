@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.block.Block;
@@ -203,7 +204,19 @@ public enum ResearchTypes
 			e.printStackTrace();
 		}
 
-		return stringBuffer.toString();
+		String toReturn = stringBuffer.toString();
+
+		try
+		{
+			bufferedReader.close();
+			inputStream.close();
+		}
+		catch (IOException e)
+		{
+			LogHelper.error("Error closing input streams... please report this to the mod author.");
+		}
+
+		return toReturn;
 	}
 
 	public String getResearchDescription()
