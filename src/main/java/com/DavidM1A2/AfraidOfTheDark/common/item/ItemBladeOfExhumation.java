@@ -74,6 +74,10 @@ public class ItemBladeOfExhumation extends AOTDSword
 		}
 		else
 		{
+			if (itemStack.getItemDamage() == this.getMaxDamage() - 2)
+			{
+				attacker.playSound("random.break", 0.8F, 0.8F + attacker.worldObj.rand.nextFloat() * 0.4F);
+			}
 			return super.hitEntity(itemStack, target, attacker);
 		}
 	}

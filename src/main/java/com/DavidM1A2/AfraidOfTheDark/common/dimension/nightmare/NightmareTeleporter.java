@@ -5,12 +5,15 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare;
 
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.InventorySaver;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
@@ -45,11 +48,12 @@ public class NightmareTeleporter extends Teleporter
 					entityPlayer.inventory.clear();
 					entityPlayer.inventoryContainer.detectAndSendChanges();
 
-					((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(InventorySaver.getPlayerLocationNightmare(entityPlayer) * Constants.NightmareWorld.BLOCKS_BETWEEN_ISLANDS + 20, 79, 40, 0, 0);
+					((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(InventorySaver.getPlayerLocationNightmare(entityPlayer) * Constants.NightmareWorld.BLOCKS_BETWEEN_ISLANDS + 20, 77, 40, 0, 0);
 
 					entityPlayer.setHealth(20.0F);
 					entityPlayer.getFoodStats().setFoodLevel(20);
 					entityPlayer.getFoodStats().setFoodSaturationLevel(20.0F);
+					entityPlayer.inventory.addItemStackToInventory(getNamedJournal(entityPlayer));
 				}
 			}
 		}
@@ -69,5 +73,12 @@ public class NightmareTeleporter extends Teleporter
 				InventorySaver.resetSavedInventory(entityPlayer);
 			}
 		}
+	}
+
+	private ItemStack getNamedJournal(EntityPlayer entityPlayer)
+	{
+		ItemStack toReturn = new ItemStack(ModItems.journal, 1, 0);
+		NBTHelper.setString(toReturn, "owner", entityPlayer.getDisplayName().getUnformattedText());
+		return toReturn;
 	}
 }

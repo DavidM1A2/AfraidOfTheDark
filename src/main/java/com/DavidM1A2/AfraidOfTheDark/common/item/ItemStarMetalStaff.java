@@ -162,12 +162,12 @@ public class ItemStarMetalStaff extends AOTDItemWithCooldown
 	{
 		tooltip.add("Right click for temporary invincibility");
 		tooltip.add("followed by an AOE knockback.");
-		tooltip.add("Max cooldown: " + this.getItemCooldownInTicks() / 20 + " seconds.");
+		tooltip.add("Cooldown: " + this.getItemCooldownInTicks() / 20 + " seconds.");
 	}
 
 	@Override
 	public int getItemCooldownInTicks()
 	{
-		return 1200;
+		return 240;
 	}
 }

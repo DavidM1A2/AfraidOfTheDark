@@ -17,6 +17,8 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.Point3D;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.LootTable;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockDoor;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.init.Blocks;
@@ -108,7 +110,23 @@ public final class SchematicGenerator
 
 		while (iteratorBlock.hasNext())
 		{
-			world.setBlockState(((Point3D) iteratorLocation.next()).toBlockPos(), Block.getBlockById((Short) iteratorBlock.next()).getStateFromMeta((Byte) iteratorMeta.next()));
+			Block next = Block.getBlockById((Short) iteratorBlock.next());
+			IBlockState blockState = next.getStateFromMeta((Byte) iteratorMeta.next());
+			BlockPos blockPos = ((Point3D) iteratorLocation.next()).toBlockPos();
+
+			// Doors need to be specially placed because reasons, things, and stuff (top & bottom need to be placed at the same time)
+			if (next instanceof BlockDoor)
+			{
+				if (blockState.getValue(BlockDoor.HALF_PROP).equals(BlockDoor.EnumDoorHalf.LOWER))
+				{
+					world.setBlockState(blockPos, blockState);
+					world.setBlockState(blockPos.offsetUp(), blockState.withProperty(BlockDoor.HALF_PROP, BlockDoor.EnumDoorHalf.UPPER));
+				}
+			}
+			else
+			{
+				world.setBlockState(blockPos, blockState);
+			}
 		}
 	}
 
