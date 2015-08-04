@@ -22,7 +22,7 @@ public class Vitae1Part1Loot implements IChestGenerator
 		ArrayList<WeightedRandomChestContent> toReturn = new ArrayList<WeightedRandomChestContent>();
 
 		//                                          Item, meta, min, max, chance
-		toReturn.add(new WeightedRandomChestContent(ModItems.researchScrollVitae1, 1, 64, 64, 100));
+		toReturn.add(new WeightedRandomChestContent(ModItems.researchScrollVitae1, 1, 1, 1, 100));
 
 		return toReturn;
 	}

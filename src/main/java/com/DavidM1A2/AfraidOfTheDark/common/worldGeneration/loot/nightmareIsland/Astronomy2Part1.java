@@ -22,7 +22,7 @@ public class Astronomy2Part1 implements IChestGenerator
 		ArrayList<WeightedRandomChestContent> toReturn = new ArrayList<WeightedRandomChestContent>();
 
 		//                                          Item, meta, min, max, chance
-		toReturn.add(new WeightedRandomChestContent(ModItems.researchScrollAstronomy2, 1, 64, 64, 100));
+		toReturn.add(new WeightedRandomChestContent(ModItems.researchScrollAstronomy2, 1, 1, 1, 100));
 
 		return toReturn;
 	}

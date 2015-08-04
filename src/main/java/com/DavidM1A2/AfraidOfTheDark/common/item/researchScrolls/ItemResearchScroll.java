@@ -26,6 +26,7 @@ public abstract class ItemResearchScroll extends AOTDItem
 	{
 		super();
 		this.setMyType();
+		this.setMaxStackSize(1);
 	}
 
 	/**
