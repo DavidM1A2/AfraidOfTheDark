@@ -13,7 +13,10 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
@@ -54,6 +57,7 @@ public class NightmareTeleporter extends Teleporter
 					entityPlayer.getFoodStats().setFoodLevel(20);
 					entityPlayer.getFoodStats().setFoodSaturationLevel(20.0F);
 					entityPlayer.inventory.addItemStackToInventory(getNamedJournal(entityPlayer));
+					entityPlayer.inventory.addItemStackToInventory(getHintBook(entityPlayer));
 				}
 			}
 		}
@@ -73,6 +77,21 @@ public class NightmareTeleporter extends Teleporter
 				InventorySaver.resetSavedInventory(entityPlayer);
 			}
 		}
+	}
+
+	private ItemStack getHintBook(EntityPlayer entityPlayer)
+	{
+		ItemStack toReturn = new ItemStack(Items.written_book, 1, 0);
+		NBTHelper.setString(toReturn, "title", "The Void");
+		NBTHelper.setString(toReturn, "author", "The Void");
+		NBTHelper.setBoolean(toReturn, "resolved", true);
+		NBTTagList pages = toReturn.getTagCompound().getTagList("pages", 8);
+		for (int i = 0; i < 10; i++)
+		{
+			pages.appendTag(new NBTTagString("Asdf 123"));
+		}
+		toReturn.getTagCompound().setTag("pages", pages);
+		return toReturn;
 	}
 
 	private ItemStack getNamedJournal(EntityPlayer entityPlayer)
