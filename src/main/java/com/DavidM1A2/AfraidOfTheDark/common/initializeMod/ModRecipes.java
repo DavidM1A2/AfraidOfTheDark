@@ -86,7 +86,7 @@ public class ModRecipes
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.eldritchMetalIngot, 8), ResearchTypes.EldritchDecoration, "aaa", "aba", "aaa", 'a', Items.iron_ingot, 'b', Items.ender_pearl));
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModBlocks.amorphousEldritchMetal, 8), ResearchTypes.EldritchDecoration, "aaa", "aba", "aaa", 'a', Blocks.glass, 'b', ModItems.eldritchMetalIngot));
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModBlocks.eldritchStone, 8), ResearchTypes.EldritchDecoration, "aaa", "aba", "aaa", 'a', Blocks.stone, 'b', ModItems.eldritchMetalIngot));
-		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModBlocks.eldritchObsidian, 1), ResearchTypes.EldritchDecoration, "aaa", "aba", "aaa", 'a', Blocks.obsidian, 'b', ModItems.eldritchMetalIngot));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModBlocks.eldritchObsidian, 8), ResearchTypes.EldritchDecoration, "aaa", "aba", "aaa", 'a', Blocks.obsidian, 'b', ModItems.eldritchMetalIngot));
 
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.bladeOfExhumation, 1), ResearchTypes.BladeOfExhumation, "ab ", "ba ", "  b", 'a', Items.diamond, 'b', ModItems.enchantedSkeletonBone));
 		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(ModItems.bladeOfExhumation, 1), ResearchTypes.BladeOfExhumation, Items.diamond, new ItemStack(ModItems.bladeOfExhumation, 1, OreDictionary.WILDCARD_VALUE)));

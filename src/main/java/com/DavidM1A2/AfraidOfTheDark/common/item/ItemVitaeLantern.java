@@ -7,6 +7,9 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+
+import com.DavidM1A2.AfraidOfTheDark.client.settings.Keybindings;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
@@ -49,6 +52,10 @@ public class ItemVitaeLantern extends AOTDItem
 				if (NBTHelper.getBoolean(itemStack, "isActive"))
 				{
 					NBTHelper.setBoolean(itemStack, "isActive", false);
+					if (!world.isRemote)
+					{
+						entityPlayer.addChatMessage(new ChatComponentText("Lantern deactivated."));
+					}
 				}
 				else
 				{
@@ -60,6 +67,10 @@ public class ItemVitaeLantern extends AOTDItem
 						}
 					}
 					NBTHelper.setBoolean(itemStack, "isActive", true);
+					if (!world.isRemote)
+					{
+						entityPlayer.addChatMessage(new ChatComponentText("Lantern activated."));
+					}
 				}
 			}
 		}
@@ -238,8 +249,8 @@ public class ItemVitaeLantern extends AOTDItem
 	public void addInformation(final ItemStack itemStack, final EntityPlayer entityPlayer, final List list, final boolean bool)
 	{
 		list.add("Shift & Right click to toggle the lantern on and off.");
-		list.add("Right click to take vitae out of the right-clicked entity.");
-		list.add("Left click to transfer vitae into the clicked entity.");
+		list.add("Press and hold " + Keyboard.getKeyName(Keybindings.changeLanternMode.getKeyCode()) + " to set the vitae percentage");
+		list.add("at which the lantern is to keep you at.");
 		if (NBTHelper.getBoolean(itemStack, "isActive"))
 		{
 			list.add("Lantern is active.");
@@ -249,11 +260,8 @@ public class ItemVitaeLantern extends AOTDItem
 			list.add("Lantern is not active.");
 		}
 
-		if (Constants.isDebug)
-		{
-			list.add("Lantern state: " + NBTHelper.getDouble(itemStack, "equalibriumPercentage") * 100 + "%");
-			list.add("Stored vitae: " + NBTHelper.getInt(itemStack, STORED_VITAE));
-		}
+		list.add("Lantern will attempt to keep you at " + Math.round(NBTHelper.getDouble(itemStack, "equalibriumPercentage") * 100) + "% of your maximum vitae.");
+		list.add("Lantern is " + Math.round(100.0 * NBTHelper.getInt(itemStack, STORED_VITAE) / ItemVitaeLantern.VITAE_CAPACITY) + "% full.");
 	}
 
 	/**
