@@ -82,8 +82,8 @@ public class NightmareTeleporter extends Teleporter
 	private ItemStack getHintBook(EntityPlayer entityPlayer)
 	{
 		ItemStack toReturn = new ItemStack(Items.written_book, 1, 0);
-		NBTHelper.setString(toReturn, "title", "The Void");
-		NBTHelper.setString(toReturn, "author", "The Void");
+		NBTHelper.setString(toReturn, "title", "Insanity's Heights");
+		NBTHelper.setString(toReturn, "author", "Foul Ole Ron");
 		NBTHelper.setBoolean(toReturn, "resolved", true);
 		NBTTagList pages = toReturn.getTagCompound().getTagList("pages", 8);
 		for (int i = 0; i < 10; i++)
