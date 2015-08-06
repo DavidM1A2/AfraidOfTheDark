@@ -19,6 +19,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
 public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
@@ -107,6 +108,7 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 				if (newNodeButton.isMouseOver() && Research.isResearched(Minecraft.getMinecraft().thePlayer, newNodeButton.getMyType()))
 				{
 					this.drawString(Minecraft.getMinecraft().fontRendererObj, newNodeButton.getMyType().formattedString(), newNodeButton.xPosition + newNodeButton.height, newNodeButton.yPosition, 0xFF3399);
+					this.drawString(Minecraft.getMinecraft().fontRendererObj, EnumChatFormatting.ITALIC + newNodeButton.getMyType().getTooltip(), newNodeButton.xPosition + newNodeButton.height + 2, newNodeButton.yPosition + 10, 0xE62E8A);
 				}
 				else if (newNodeButton.isMouseOver() && Research.canResearch(Minecraft.getMinecraft().thePlayer, newNodeButton.getMyType()))
 				{

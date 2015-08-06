@@ -101,6 +101,7 @@ public enum ResearchTypes
 	private int y;
 	private Object[] researchRecipes;
 	private Object[] researchRecipesPre;
+	private String toolTip = "";
 
 	private ResearchTypes(final ResearchTypes previous, final int x, final int y, final Object[] researchRecipes, final Object[] researchRecipesPre)
 	{
@@ -121,11 +122,13 @@ public enum ResearchTypes
 				this.icon = new ResourceLocation("afraidofthedark:textures/gui/researchIcons/None.png");
 			}
 
-			this.researchDescription = loadResearchDescription("assets/afraidofthedark/researchNotes/" + this.toString() + ".txt");
-			this.preResearchDescription = loadResearchDescription("assets/afraidofthedark/researchNotes/" + this.toString() + "Pre.txt");
+			this.researchDescription = this.loadResearchDescription("assets/afraidofthedark/researchNotes/" + this.toString() + ".txt");
+			this.preResearchDescription = this.loadResearchDescription("assets/afraidofthedark/researchNotes/" + this.toString() + "Pre.txt");
 
 			this.researchRecipes = researchRecipes;
 			this.researchRecipesPre = researchRecipesPre;
+
+			this.toolTip = this.loadReserachTooltip();
 		}
 	}
 
@@ -219,6 +222,45 @@ public enum ResearchTypes
 		return toReturn;
 	}
 
+	private String loadReserachTooltip()
+	{
+		BufferedReader bufferedReader = null;
+		String toReturn = "";
+
+		InputStream inputStream = Utility.getInputStreamFromPath("assets/afraidofthedark/researchNotes/ResearchToolTips.txt");
+
+		bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+		String currentLine = null;
+
+		try
+		{
+			while ((currentLine = bufferedReader.readLine()) != null)
+			{
+				if (currentLine.length() > this.toString().length() && currentLine.substring(0, this.toString().length()).equals(this.toString()) && currentLine.charAt(this.toString().length()) == ':')
+				{
+					toReturn = currentLine.substring(this.toString().length() + 1, currentLine.length());
+					break;
+				}
+			}
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+
+		try
+		{
+			bufferedReader.close();
+			inputStream.close();
+		}
+		catch (IOException e)
+		{
+			LogHelper.error("Error closing input streams... please report this to the mod author.");
+		}
+
+		return toReturn;
+	}
+
 	public String getResearchDescription()
 	{
 		return this.researchDescription;
@@ -242,6 +284,11 @@ public enum ResearchTypes
 	public int getPositionY()
 	{
 		return this.y;
+	}
+
+	public String getTooltip()
+	{
+		return this.toolTip;
 	}
 
 	public static boolean researchTypeExists(int x, int y)
