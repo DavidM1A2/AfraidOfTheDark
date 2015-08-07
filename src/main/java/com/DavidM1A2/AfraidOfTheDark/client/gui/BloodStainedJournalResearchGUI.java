@@ -112,7 +112,8 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 				}
 				else if (newNodeButton.isMouseOver() && Research.canResearch(Minecraft.getMinecraft().thePlayer, newNodeButton.getMyType()))
 				{
-					this.drawString(Minecraft.getMinecraft().fontRendererObj, "???", newNodeButton.xPosition + newNodeButton.height, newNodeButton.yPosition, 0xFF3399);
+					this.drawString(Minecraft.getMinecraft().fontRendererObj, "?", newNodeButton.xPosition + newNodeButton.height, newNodeButton.yPosition, 0xFF3399);
+					this.drawString(Minecraft.getMinecraft().fontRendererObj, EnumChatFormatting.ITALIC + "Unknown Reserach", newNodeButton.xPosition + newNodeButton.height + 2, newNodeButton.yPosition + 10, 0xE62E8A);
 				}
 			}
 		}
