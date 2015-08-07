@@ -85,12 +85,9 @@ public class NightmareTeleporter extends Teleporter
 		NBTHelper.setString(toReturn, "title", "Insanity's Heights");
 		NBTHelper.setString(toReturn, "author", "Foul Ole Ron");
 		NBTHelper.setBoolean(toReturn, "resolved", true);
-		NBTTagList pages = toReturn.getTagCompound().getTagList("pages", 8);
-		for (int i = 0; i < 10; i++)
-		{
-			pages.appendTag(new NBTTagString("Asdf 123"));
-		}
-		toReturn.getTagCompound().setTag("pages", pages);
+		//NBTTagList pages = toReturn.getTagCompound().getTagList("pages", 8);
+
+		toReturn.getTagCompound().setTag("pages", createPages());
 		return toReturn;
 	}
 
@@ -99,5 +96,16 @@ public class NightmareTeleporter extends Teleporter
 		ItemStack toReturn = new ItemStack(ModItems.journal, 1, 0);
 		NBTHelper.setString(toReturn, "owner", entityPlayer.getDisplayName().getUnformattedText());
 		return toReturn;
+	}
+
+	private NBTTagList createPages()
+	{
+		NBTTagList pages = new NBTTagList();
+		pages.appendTag(new NBTTagString("To whomever finds this: don't stay here. This place is evil. I have been stuck here for longer than I can remember. I can hear the abyss calling to me. It beckons me to jump, calling my name. I've found all of the notes, but I cannot"));
+		pages.appendTag(new NBTTagString("leave with them. There are ten scrolls hidden here. Three are in the tallest tower, with two being near the top and one being near the bottom. The saw mill whispers such sweet things to be. The stone tower says that it has two"));
+		pages.appendTag(new NBTTagString("gifts for me. What pretty things they have, so many rings. Enaria's bones whisper to me from her grave. I'm sorry; we tried to save you! Her whispers make me want to hide inside of the log. The roof top rooms are hiding something"));
+		pages.appendTag(new NBTTagString("from me. They always stay quiet when I am near. I know they are keeping secrets from me! What has it told you? What has the monolith told you to make you stop talking to me? Answer me Enaria! Where have you gone? Have you left me?"));
+		pages.appendTag(new NBTTagString("You said we would be together forever!"));
+		return pages;
 	}
 }
