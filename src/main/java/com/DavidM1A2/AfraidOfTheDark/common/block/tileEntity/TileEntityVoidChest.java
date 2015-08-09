@@ -129,9 +129,9 @@ public class TileEntityVoidChest extends AOTDTileEntity implements IUpdatePlayer
 
 		if (shouldBeOpen)
 		{
-			double xVelocity = this.pos.getX() - entityPlayerToSend.posX;
-			double yVelocity = this.pos.getY() - entityPlayerToSend.posY;
-			double zVelocity = this.pos.getZ() - entityPlayerToSend.posZ;
+			double xVelocity = this.pos.getX() + 0.5 - entityPlayerToSend.posX;
+			double yVelocity = this.pos.getY() + 0.5 - entityPlayerToSend.posY;
+			double zVelocity = this.pos.getZ() + 0.5 - entityPlayerToSend.posZ;
 			xVelocity = Utility.clampDouble(xVelocity, -0.05, 0.05);
 			yVelocity = Utility.clampDouble(yVelocity, -0.05, 0.05);
 			zVelocity = Utility.clampDouble(zVelocity, -0.05, 0.05);

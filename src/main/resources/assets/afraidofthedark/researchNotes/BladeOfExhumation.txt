@@ -3,4 +3,4 @@ and seeing as they require 4 bones to reform, I have to fight them over and over
 enchanted skeletons, seventy-five would reform. If I killed seventy-five of them, fifty-six would reform and so on. This blade ensures a one-shot
 kill on enchanted skeletons and makes them drop 4 bones, meaning I can easily use it to grind enchanting levels until
 the sword runs out of charge. The sword can be crafted with a single diamond to recharge it. The sword contains
-enough energy for one hundred uses and after that, it becomes inert until recharged.
+enough energy for one hundred fifty uses and after that, it becomes inert until recharged.

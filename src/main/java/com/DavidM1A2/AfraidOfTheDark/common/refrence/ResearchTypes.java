@@ -105,11 +105,11 @@ public enum ResearchTypes
 
 	private ResearchTypes(final ResearchTypes previous, final int x, final int y, final Object[] researchRecipes, final Object[] researchRecipesPre)
 	{
+		this.previous = previous;
+		this.x = x;
+		this.y = y;
 		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
 		{
-			this.previous = previous;
-			this.x = x;
-			this.y = y;
 
 			this.icon = new ResourceLocation("afraidofthedark:textures/gui/researchIcons/" + this.toString() + ".png");
 

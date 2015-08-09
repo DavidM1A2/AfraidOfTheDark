@@ -22,7 +22,7 @@ import net.minecraftforge.fml.common.IWorldGenerator;
 
 public class AOTDWorldGenerationHandler implements IWorldGenerator
 {
-	private static final double RELEASE_DUNGEON_RARITY = 0.6;
+	private static final double RELEASE_DUNGEON_RARITY = 0.8;
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider)
@@ -60,19 +60,19 @@ public class AOTDWorldGenerationHandler implements IWorldGenerator
 		}
 		else if (current instanceof BiomeErieForest)
 		{
-			if (random.nextDouble() < 0.002 * dungeonRarityMultiplyer)
+			if (random.nextDouble() < 0.003 * dungeonRarityMultiplyer)
 			{
 				new GenerateSprings(random, chunkX, chunkZ, world);
 			}
-			if (random.nextDouble() < 0.0012 * dungeonRarityMultiplyer)
+			if (random.nextDouble() < 0.002 * dungeonRarityMultiplyer)
 			{
 				new GenerateDarkForestDungeon(random, chunkX, chunkZ, world);
 			}
-			if (random.nextDouble() < 0.003 * dungeonRarityMultiplyer)
+			if (random.nextDouble() < 0.004 * dungeonRarityMultiplyer)
 			{
 				new GenerateCrypt(random, chunkX, chunkZ, world);
 			}
-			if (random.nextDouble() < 0.004 * dungeonRarityMultiplyer)
+			if (random.nextDouble() < 0.005 * dungeonRarityMultiplyer)
 			{
 				new GenerateWitchHut(random, chunkX, chunkZ, world);
 			}

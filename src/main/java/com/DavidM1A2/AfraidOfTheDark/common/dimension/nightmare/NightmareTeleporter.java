@@ -51,11 +51,10 @@ public class NightmareTeleporter extends Teleporter
 					entityPlayer.inventory.clear();
 					entityPlayer.inventoryContainer.detectAndSendChanges();
 
-					((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(InventorySaver.getPlayerLocationNightmare(entityPlayer) * Constants.NightmareWorld.BLOCKS_BETWEEN_ISLANDS + 20, 77, 40, 0, 0);
+					((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(InventorySaver.getPlayerLocationNightmare(entityPlayer) * Constants.NightmareWorld.BLOCKS_BETWEEN_ISLANDS + 20, 74, 40, 0, 0);
 
 					entityPlayer.setHealth(20.0F);
 					entityPlayer.getFoodStats().setFoodLevel(20);
-					entityPlayer.getFoodStats().setFoodSaturationLevel(20.0F);
 					entityPlayer.inventory.addItemStackToInventory(getNamedJournal(entityPlayer));
 					entityPlayer.inventory.addItemStackToInventory(getHintBook(entityPlayer));
 				}

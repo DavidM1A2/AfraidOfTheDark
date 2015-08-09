@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
@@ -409,14 +410,22 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 
 	// If E is typed we close the GUI screen
 	@Override
-	protected void keyTyped(final char character, final int iDontKnowWhatThisDoes) throws IOException
+	protected void keyTyped(final char character, final int keyCode) throws IOException
 	{
 		if ((character == 'e') || (character == 'E'))
 		{
 			EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
 			entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
 		}
-		super.keyTyped(character, iDontKnowWhatThisDoes);
+		else if ((character == 'a') || (character == 'A') || (keyCode == Keyboard.KEY_LEFT))
+		{
+			this.rewindPage();
+		}
+		else if ((character == 'd') || (character == 'D') || (keyCode == Keyboard.KEY_RIGHT))
+		{
+			this.advancePage();
+		}
+		super.keyTyped(character, keyCode);
 	}
 
 	/**

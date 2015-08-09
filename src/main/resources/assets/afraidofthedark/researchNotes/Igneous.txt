@@ -6,4 +6,5 @@ igneous armor, a powerful suit which renders the user impervious to damage from 
 addition, when wearing a full suit of igneous armor, the armor lights any attackers on fire, regardless of the
 attacks being ranged or physical. Igneous gems can also be made into a sword which lights enemies on fire. Striking
 enemies builds up a magical charge. When the sword is at maximum charge, it glows with latent energy. When
-energized, it can unleash a flaming tempest with a right click.
+energized, it can unleash a flaming tempest with a right click. It should also be noted that igneous crossbow
+ bolts will deal massive damage to werewolves.

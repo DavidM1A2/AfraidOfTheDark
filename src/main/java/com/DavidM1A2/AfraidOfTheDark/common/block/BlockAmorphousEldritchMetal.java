@@ -36,6 +36,12 @@ public class BlockAmorphousEldritchMetal extends AOTDBlock
 		return null;
 	}
 
+	@Override
+	public boolean isOpaqueCube()
+	{
+		return false;
+	}
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public EnumWorldBlockLayer getBlockLayer()

@@ -10,5 +10,5 @@ also return to the research tree by clicking the bookmark below. Additionally, I
 run into others' research in the wilderness. This will take the form of research scrolls.
 Simply finding these scrolls and reading them will let me copy their notes into my own
 journal. Sometimes, there will be multiple multiple parts to a scroll and it will be
-labeled as such eg: part seven of nine. SOmetimes, there may be stories or histories
+labelled as such eg: part seven of nine. Sometimes, there may be stories or histories
 coming in multiple volumes which also contain hints for future researches.

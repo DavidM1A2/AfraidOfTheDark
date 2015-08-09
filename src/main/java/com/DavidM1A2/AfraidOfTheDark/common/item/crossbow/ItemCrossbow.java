@@ -14,6 +14,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDCrossbowBoltTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -34,6 +35,21 @@ public class ItemCrossbow extends AOTDItem
 		super();
 		this.setUnlocalizedName("crossbow");
 		this.setMaxStackSize(1);
+	}
+
+	/**
+	 * Called each tick as long the item is on a player inventory. Uses by maps to check if is on a player hand and update it's contents.
+	 */
+	@Override
+	public void onUpdate(ItemStack itemStack, World world, Entity entity, int itemSlot, boolean isSelected)
+	{
+		if (!isSelected)
+		{
+			if (itemStack.getItemDamage() == 2 || itemStack.getItemDamage() == 1)
+			{
+				itemStack.setItemDamage(0);
+			}
+		}
 	}
 
 	// On swing (left click) if the bow is cocked we fire
@@ -192,6 +208,7 @@ public class ItemCrossbow extends AOTDItem
 	@Override
 	public void addInformation(final ItemStack itemStack, final EntityPlayer entityPlayer, final List list, final boolean bool)
 	{
+		list.add("Shift & Right click to change crossbow bolt type.");
 		list.add("Bow will fire: " + AOTDCrossbowBoltTypes.getTypeFromID(NBTHelper.getInt(itemStack, "mode")) + " bolts.");
 	}
 

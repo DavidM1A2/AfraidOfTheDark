@@ -13,6 +13,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -38,14 +39,11 @@ public class ItemIgneousSword extends AOTDChargableSword
 		{
 			if (entity != null)
 			{
-				entity.setFire(5);
+				entity.setFire(5 + EnchantmentHelper.getEnchantmentLevel(20, stack) * 10);
 
-				if (Research.isResearched(player, ResearchTypes.Igneous))
+				if (entity instanceof EntityWerewolf)
 				{
-					if (entity instanceof EntityWerewolf)
-					{
-						entity.attackEntityFrom(Constants.AOTDDamageSources.silverDamage, 10F);
-					}
+					entity.attackEntityFrom(Constants.AOTDDamageSources.silverDamage, 10F);
 				}
 			}
 
