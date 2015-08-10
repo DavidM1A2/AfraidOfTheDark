@@ -27,7 +27,7 @@ public class GenerateCrypt
 		int y;
 		try
 		{
-			y = Utility.getPlaceToSpawnLowest(world, chunkX + 12, chunkZ + 12, 8, 8);
+			y = Utility.getPlaceToSpawnLowest(world, chunkX + 12, chunkZ + 12, 7, 7);
 
 			if (Constants.isDebug)
 			{

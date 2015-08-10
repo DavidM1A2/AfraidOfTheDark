@@ -60,30 +60,30 @@ public class AOTDWorldGenerationHandler implements IWorldGenerator
 		}
 		else if (current instanceof BiomeErieForest)
 		{
-			if (random.nextDouble() < 0.003 * dungeonRarityMultiplyer)
+			if (random.nextDouble() < 0.004 * dungeonRarityMultiplyer)
 			{
 				new GenerateSprings(random, chunkX, chunkZ, world);
 			}
-			if (random.nextDouble() < 0.002 * dungeonRarityMultiplyer)
+			if (random.nextDouble() < 0.003 * dungeonRarityMultiplyer)
 			{
 				new GenerateDarkForestDungeon(random, chunkX, chunkZ, world);
 			}
-			if (random.nextDouble() < 0.004 * dungeonRarityMultiplyer)
+			if (random.nextDouble() < 0.01 * dungeonRarityMultiplyer)
 			{
 				new GenerateCrypt(random, chunkX, chunkZ, world);
 			}
-			if (random.nextDouble() < 0.005 * dungeonRarityMultiplyer)
+			if (random.nextDouble() < 0.006 * dungeonRarityMultiplyer)
 			{
 				new GenerateWitchHut(random, chunkX, chunkZ, world);
 			}
 		}
 		else if (current instanceof BiomeGenSavanna)
 		{
-			if (random.nextDouble() < 0.002 * dungeonRarityMultiplyer)
+			if (random.nextDouble() < 0.004 * dungeonRarityMultiplyer)
 			{
 				new GenerateSprings(random, chunkX, chunkZ, world);
 			}
-			if (random.nextDouble() < 0.002 * dungeonRarityMultiplyer)
+			if (random.nextDouble() < 0.003 * dungeonRarityMultiplyer)
 			{
 				new GenerateDarkForestDungeon(random, chunkX, chunkZ, world);
 			}
@@ -97,7 +97,7 @@ public class AOTDWorldGenerationHandler implements IWorldGenerator
 		}
 		else if (current instanceof BiomeGenSnow)
 		{
-			if (random.nextDouble() < 0.005 * dungeonRarityMultiplyer)
+			if (random.nextDouble() < 0.003 * dungeonRarityMultiplyer)
 			{
 				new GenerateVoidChest(random, chunkX, chunkZ, world);
 			}
