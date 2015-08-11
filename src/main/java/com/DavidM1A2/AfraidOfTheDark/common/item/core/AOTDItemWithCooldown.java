@@ -13,6 +13,7 @@ import net.minecraft.world.World;
 public abstract class AOTDItemWithCooldown extends AOTDItem implements IHasCooldown
 {
 	protected double cooldown = 0;
+	private long lastUpdate = -1;
 
 	public AOTDItemWithCooldown()
 	{
@@ -65,7 +66,11 @@ public abstract class AOTDItemWithCooldown extends AOTDItem implements IHasCoold
 	{
 		if (cooldown > 0)
 		{
-			cooldown = cooldown - 0.5;
+			if (lastUpdate + 50 <= System.currentTimeMillis())
+			{
+				lastUpdate = System.currentTimeMillis();
+				cooldown = cooldown - 1;
+			}
 		}
 	}
 

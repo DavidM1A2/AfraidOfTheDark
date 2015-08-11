@@ -85,14 +85,14 @@ import net.minecraftforge.common.util.EnumHelper;
 
 public final class Constants
 {
-	public static final boolean isDebug = false;
+	public static final boolean isDebug = true;
 
 	public static Map<Class, Integer> entityVitaeResistance = new HashMap<Class, Integer>();
 	public static Map<String, Integer> toolMaterialRepairCosts = new HashMap<String, Integer>();
 
 	public static LootTable cryptLootTable = new LootTable(new LootTableEntry(new CryptChestLoot(), null, 1));
 	public static LootTable darkForestLootTable = new LootTable(new LootTableEntry(new DarkForestChestLoot(), null, 6));
-	public static LootTable witchHutLootTable = new LootTable(new LootTableEntry(new WitchHutLoot(), null, 3));
+	public static LootTable witchHutLootTable = new LootTable(new LootTableEntry(new WitchHutLoot(), null, 1));
 	public static LootTable nightmareIslandLootTable = new LootTable(new LootTableEntry[]
 	{ new LootTableEntry(new FoodLoot(), Items.cooked_beef, 5 + MathHelper.floor_double(Math.random() * 5)), new LootTableEntry(new InsanityResearchLoot(), Items.feather, 20), new LootTableEntry(new PotionLoot(), Items.sugar, 5), new LootTableEntry(new RandomBlockLoot(), null, 12),
 			new LootTableEntry(new ValueableLoot(), Items.diamond, 5), new LootTableEntry(new WeaponryLoot(), Items.blaze_rod, 4), new LootTableEntry(new Vitae1Part1Loot(), Items.emerald, 20), new LootTableEntry(new Vitae1Part2Loot(), Items.iron_ingot, 20), new LootTableEntry(new Vitae1Part3Loot(),

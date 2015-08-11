@@ -21,13 +21,10 @@ public class WitchHutLoot implements IChestGenerator
 	{
 		ArrayList<WeightedRandomChestContent> toReturn = new ArrayList<WeightedRandomChestContent>();
 
-		for (int i = 5; i < 25; i++)
-		{
-			//                                          Item, meta, min, max, chance
-			toReturn.add(new WeightedRandomChestContent(Items.potionitem, i, 1, 3, 7));
-		}
+		//                                          Item, meta, min, max, chance
+		toReturn.add(new WeightedRandomChestContent(Items.potionitem, random.nextInt(20) + 5, 1, 1, 8));
 
-		toReturn.add(new WeightedRandomChestContent(ModItems.researchScrollWristCrossbow, 0, 1, 1, 5));
+		toReturn.add(new WeightedRandomChestContent(ModItems.researchScrollWristCrossbow, 0, 1, 1, 1));
 
 		return toReturn;
 	}

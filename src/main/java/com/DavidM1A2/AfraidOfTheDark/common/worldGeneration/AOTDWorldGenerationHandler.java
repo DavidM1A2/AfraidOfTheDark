@@ -8,7 +8,6 @@ package com.DavidM1A2.AfraidOfTheDark.common.worldGeneration;
 import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.biomes.BiomeErieForest;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
@@ -38,12 +37,7 @@ public class AOTDWorldGenerationHandler implements IWorldGenerator
 
 	private void generateSurface(World world, Random random, int chunkX, int chunkZ)
 	{
-		double dungeonRarityMultiplyer = 1.0;
-
-		if (!Constants.isDebug)
-		{
-			dungeonRarityMultiplyer = RELEASE_DUNGEON_RARITY;
-		}
+		double dungeonRarityMultiplyer = RELEASE_DUNGEON_RARITY;
 
 		BiomeGenBase current = world.getBiomeGenForCoords(new BlockPos(chunkX, 50, chunkZ));
 
