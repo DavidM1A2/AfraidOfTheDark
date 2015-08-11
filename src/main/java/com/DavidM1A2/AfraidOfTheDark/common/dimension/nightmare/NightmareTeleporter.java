@@ -62,6 +62,8 @@ public class NightmareTeleporter extends Teleporter
 		}
 		else if (dimensionOld == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
 		{
+			entity.motionX = entity.motionY = entity.motionZ = 0.0D;
+
 			if (entity instanceof EntityPlayer)
 			{
 				EntityPlayer entityPlayer = (EntityPlayer) entity;

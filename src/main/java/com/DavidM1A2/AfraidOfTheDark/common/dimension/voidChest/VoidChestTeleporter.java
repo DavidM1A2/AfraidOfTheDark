@@ -81,6 +81,8 @@ public class VoidChestTeleporter extends Teleporter
 		}
 		else if (dimensionOld == Constants.VoidChestWorld.VOID_CHEST_WORLD_ID)
 		{
+			entity.motionX = entity.motionY = entity.motionZ = 0.0D;
+
 			if (entity instanceof EntityPlayer)
 			{
 				EntityPlayer entityPlayer = (EntityPlayer) entity;
@@ -90,9 +92,6 @@ public class VoidChestTeleporter extends Teleporter
 					entityPlayer.addChatMessage(new ChatComponentText("There were no air blocks surrounding the portal you passed through. Defaulting to 0, 0"));
 				}
 				entityPlayer.setPosition(playerPostionOld.getX() + 0.5, playerPostionOld.getY() + 1, playerPostionOld.getZ() + 0.5);
-				entity.motionX = 0.0D;
-				entity.motionY = 0.0D;
-				entity.motionZ = 0.0D;
 			}
 		}
 	}
