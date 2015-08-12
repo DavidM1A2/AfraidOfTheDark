@@ -59,7 +59,7 @@ public class EntitySilverBolt extends EntityBolt
 			{
 				if (HasStartedAOTD.get((EntityPlayer) this.myDamageSource))
 				{
-					entityHit.attackEntityFrom(Constants.AOTDDamageSources.silverDamage, this.getDamage() * 2.0F);
+					entityHit.attackEntityFrom(Constants.AOTDDamageSources.getSilverDamage((EntityPlayer) this.myDamageSource), this.getDamage() * 2.0F);
 				}
 			}
 		}

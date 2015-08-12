@@ -11,7 +11,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.Animation
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.TellClientToPlayAnimation;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 import net.minecraft.entity.Entity;
@@ -24,8 +23,9 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
+import net.minecraft.init.Items;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraftforge.fml.relauncher.Side;
@@ -66,9 +66,21 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 		return animHandler;
 	}
 
-	protected Item getDropItem()
+	@Override
+	public void onDeath(DamageSource cause)
 	{
-		return ModItems.werewolfBlood;
+		super.onDeath(cause);
+
+		if (cause instanceof EntityDamageSource)
+		{
+			if (cause.getEntity() instanceof EntityPlayer)
+			{
+				if (((EntityPlayer) cause.getEntity()).inventory.consumeInventoryItem(Items.glass_bottle))
+				{
+					this.dropItem(ModItems.werewolfBlood, 1);
+				}
+			}
+		}
 	}
 
 	/**
@@ -154,14 +166,14 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 	@Override
 	public boolean attackEntityFrom(final DamageSource damageSource, final float damage)
 	{
-		if (damageSource.damageType.equals(Constants.AOTDDamageSources.silverDamage.damageType) || damageSource.damageType.equals(DamageSource.outOfWorld))
+		if (damageSource instanceof EntityDamageSource)
 		{
-			return super.attackEntityFrom(damageSource, damage);
+			if (((EntityDamageSource) damageSource).damageType.equals("silverDamage"))
+			{
+				return super.attackEntityFrom(damageSource, damage);
+			}
 		}
-		else
-		{
-			return super.attackEntityFrom(DamageSource.generic, 1);
-		}
+		return super.attackEntityFrom(DamageSource.generic, 1);
 	}
 
 	@Override

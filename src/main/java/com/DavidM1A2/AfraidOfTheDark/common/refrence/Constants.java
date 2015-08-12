@@ -80,6 +80,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.EnumHelper;
 
@@ -191,8 +192,10 @@ public final class Constants
 
 	public static final class AOTDDamageSources
 	{
-		// Silver weapon damage type and silver tool material
-		public static final DamageSource silverDamage = new DamageSource("silverDamage");
+		public static DamageSource getSilverDamage(EntityPlayer entityPlayer)
+		{
+			return new EntityDamageSource("silverDamage", entityPlayer);
+		}
 	}
 
 	public static final class NightmareWorld

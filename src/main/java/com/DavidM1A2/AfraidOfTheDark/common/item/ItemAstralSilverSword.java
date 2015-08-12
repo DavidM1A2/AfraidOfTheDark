@@ -36,7 +36,7 @@ public class ItemAstralSilverSword extends AOTDSword
 			{
 				if (HasStartedAOTD.get(player))
 				{
-					entity.attackEntityFrom(Constants.AOTDDamageSources.silverDamage, 12.0F);
+					entity.attackEntityFrom(Constants.AOTDDamageSources.getSilverDamage(player), 12.0F);
 				}
 			}
 			return super.onLeftClickEntity(stack, player, entity);

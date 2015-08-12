@@ -43,7 +43,7 @@ public class ItemIgneousSword extends AOTDChargableSword
 
 				if (entity instanceof EntityWerewolf)
 				{
-					entity.attackEntityFrom(Constants.AOTDDamageSources.silverDamage, 10F);
+					entity.attackEntityFrom(Constants.AOTDDamageSources.getSilverDamage(player), 10F);
 				}
 			}
 

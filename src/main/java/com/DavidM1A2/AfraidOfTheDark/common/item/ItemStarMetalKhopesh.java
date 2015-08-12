@@ -65,7 +65,7 @@ public class ItemStarMetalKhopesh extends AOTDChargableSword
 			{
 				if (HasStartedAOTD.get(player))
 				{
-					entity.attackEntityFrom(Constants.AOTDDamageSources.silverDamage, 10F);
+					entity.attackEntityFrom(Constants.AOTDDamageSources.getSilverDamage(player), 10F);
 				}
 			}
 			return super.onLeftClickEntity(stack, player, entity);
