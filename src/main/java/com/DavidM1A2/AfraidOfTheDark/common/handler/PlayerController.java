@@ -14,6 +14,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare.NightmareTelepor
 import com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest.VoidChestTeleporter;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
+import com.DavidM1A2.AfraidOfTheDark.common.item.ItemFlaskOfSouls;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateAOTDStatus;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateInsanity;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateResearch;
@@ -30,6 +31,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedInsanityUpdat
 import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedResearchUpdate;
 import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedTeleport;
 import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedVitaeUpdate;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.block.material.Material;
@@ -40,6 +42,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemFlintAndSteel;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
@@ -50,6 +53,7 @@ import net.minecraftforge.client.event.EntityViewRenderEvent.FogDensity;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -308,6 +312,50 @@ public class PlayerController
 						if (Research.canResearch(event.entityPlayer, ResearchTypes.VitaeDisenchanter))
 						{
 							Research.unlockResearchSynced(event.entityPlayer, ResearchTypes.VitaeDisenchanter, Side.CLIENT, true);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	@SubscribeEvent
+	public void onEvent(LivingDeathEvent event)
+	{
+		if (event.source.getEntity() instanceof EntityPlayer)
+		{
+			if (ItemFlaskOfSouls.flaskKillRequirements.containsKey(event.entityLiving.getName()))
+			{
+				EntityPlayer entityPlayer = (EntityPlayer) event.source.getEntity();
+				for (int i = 0; i < 9; i++)
+				{
+					if (entityPlayer.inventory.mainInventory[i] != null)
+					{
+						ItemStack itemStack = entityPlayer.inventory.mainInventory[i];
+						if (itemStack.getItem() instanceof ItemFlaskOfSouls)
+						{
+							if (NBTHelper.getString(itemStack, ItemFlaskOfSouls.FLASK_TYPE).equals(""))
+							{
+								NBTHelper.setString(itemStack, ItemFlaskOfSouls.FLASK_TYPE, event.entityLiving.getName());
+								NBTHelper.setInteger(itemStack, ItemFlaskOfSouls.KILLS, 1);
+								break;
+							}
+							else if (NBTHelper.getString(itemStack, ItemFlaskOfSouls.FLASK_TYPE).equals(event.entityLiving.getName()))
+							{
+								if (itemStack.getItemDamage() == 0)
+								{
+									int newKills = NBTHelper.getInt(itemStack, ItemFlaskOfSouls.KILLS) + 1;
+									if (newKills == ItemFlaskOfSouls.flaskKillRequirements.get(event.entityLiving.getName()))
+									{
+										itemStack.setItemDamage(1);
+										NBTHelper.setInteger(itemStack, ItemFlaskOfSouls.KILLS, newKills);
+									}
+									else
+									{
+										NBTHelper.setInteger(itemStack, ItemFlaskOfSouls.KILLS, newKills);
+									}
+								}
+							}
 						}
 					}
 				}

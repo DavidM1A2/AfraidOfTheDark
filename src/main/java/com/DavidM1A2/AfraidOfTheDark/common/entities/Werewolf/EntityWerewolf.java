@@ -8,6 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf;
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.TellClientToPlayAnimation;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
@@ -23,6 +24,7 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
@@ -64,10 +66,9 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 		return animHandler;
 	}
 
-	@Override
-	protected void entityInit()
+	protected Item getDropItem()
 	{
-		super.entityInit();
+		return ModItems.werewolfBlood;
 	}
 
 	/**

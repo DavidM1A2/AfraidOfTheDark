@@ -43,6 +43,8 @@ item.afraidofthedark:sleepingPotion.name=Sleeping Potion
 item.afraidofthedark:eldritchMetalIngot.name=Eldritch Metal Ingot
 item.afraidofthedark:starMetalIngot.name=Star Metal Ingot
 item.afraidofthedark:bladeOfExhumation.name=Blade of Exhumation
+item.afraidofthedark:flaskOfSouls.name=Flask of Souls
+item.afraidofthedark:werewolfBlood.name=Werewolf Blood
 
 # Blocks
 tile.afraidofthedark:silverOre.name=Silver Ore

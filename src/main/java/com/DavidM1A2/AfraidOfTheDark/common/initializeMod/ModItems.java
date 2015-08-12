@@ -18,6 +18,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.item.ItemBladeOfExhumation;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemCloakOfAgility;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemEldritchMetalIngot;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemEnchantedSkeletonBone;
+import com.DavidM1A2.AfraidOfTheDark.common.item.ItemFlaskOfSouls;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemIgneousGem;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemIgneousSword;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemJournal;
@@ -31,6 +32,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.item.ItemStarMetalStaff;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemSunstoneFragment;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemTelescope;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemVitaeLantern;
+import com.DavidM1A2.AfraidOfTheDark.common.item.ItemWerewolfBlood;
 import com.DavidM1A2.AfraidOfTheDark.common.item.armor.IgneousArmor;
 import com.DavidM1A2.AfraidOfTheDark.common.item.armor.StarMetalArmor;
 import com.DavidM1A2.AfraidOfTheDark.common.item.crossbow.ItemCrossbow;
@@ -95,6 +97,8 @@ public class ModItems
 	public static final ItemEldritchMetalIngot eldritchMetalIngot = new ItemEldritchMetalIngot();
 	public static final ItemStarMetalIngot starMetalIngot = new ItemStarMetalIngot();
 	public static final ItemBladeOfExhumation bladeOfExhumation = new ItemBladeOfExhumation();
+	public static final ItemFlaskOfSouls flaskOfSouls = new ItemFlaskOfSouls();
+	public static final ItemWerewolfBlood werewolfBlood = new ItemWerewolfBlood();
 
 	// Register scrolls last
 	public static final ItemResearchScrollCloakOfAgility researchScrollCloakOfAgility = new ItemResearchScrollCloakOfAgility();
@@ -162,6 +166,8 @@ public class ModItems
 		GameRegistry.registerItem(ModItems.eldritchMetalIngot, "eldritchMetalIngot");
 		GameRegistry.registerItem(ModItems.starMetalIngot, "starMetalIngot");
 		GameRegistry.registerItem(ModItems.bladeOfExhumation, "bladeOfExhumation");
+		GameRegistry.registerItem(ModItems.flaskOfSouls, "flaskOfSouls");
+		GameRegistry.registerItem(ModItems.werewolfBlood, "werewolfBlood");
 	}
 
 	public static void initializeRenderers(final Side side)
@@ -241,6 +247,10 @@ public class ModItems
 			itemModelMesher.register(ModItems.eldritchMetalIngot, 0, new ModelResourceLocation(Refrence.MOD_ID + ":eldritchMetalIngot", "inventory"));
 			itemModelMesher.register(ModItems.starMetalIngot, 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalIngot", "inventory"));
 			itemModelMesher.register(ModItems.bladeOfExhumation, 0, new ModelResourceLocation(Refrence.MOD_ID + ":bladeOfExhumation", "inventory"));
+			itemModelMesher.register(ModItems.flaskOfSouls, 0, new ModelResourceLocation(Refrence.MOD_ID + ":flaskOfSouls", "inventory"));
+			itemModelMesher.register(ModItems.flaskOfSouls, 1, new ModelResourceLocation(Refrence.MOD_ID + ":flaskOfSoulsCharged", "inventory"));
+			ModelBakery.addVariantName(ModItems.flaskOfSouls, Refrence.MOD_ID + ":flaskOfSouls", Refrence.MOD_ID + ":flaskOfSoulsCharged");
+			itemModelMesher.register(ModItems.werewolfBlood, 0, new ModelResourceLocation(Refrence.MOD_ID + ":werewolfBlood", "inventory"));
 		}
 	}
 }

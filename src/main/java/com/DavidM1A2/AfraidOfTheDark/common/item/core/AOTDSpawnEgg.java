@@ -129,14 +129,14 @@ public abstract class AOTDSpawnEgg extends AOTDItem
 	}
 
 	// Here we can set the entity's name that we're spawning
-	public void setEntityToSpawnName(final String parEntityToSpawnName)
+	private void setEntityToSpawnName(final String parEntityToSpawnName)
 	{
 		this.entityToSpawnName = parEntityToSpawnName;
 		this.entityToSpawnNameFull = Refrence.MOD_ID + "." + this.entityToSpawnName;
 	}
 
 	// To spawn the entity we get it's name and spawn one with a random rotation
-	public Entity spawnEntity(final World world, final double x, final double y, final double z)
+	private Entity spawnEntity(final World world, final double x, final double y, final double z)
 	{
 		if (!world.isRemote)
 		{
