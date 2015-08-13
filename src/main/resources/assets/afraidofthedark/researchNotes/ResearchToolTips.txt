@@ -20,3 +20,5 @@ VitaeDisenchanter:loaded dice
 AstronomyII:OP incoming
 StarMetal:troll pole
 Igneous:totally not a sunfire cape
+SlayingOfTheWolves:WW OP
+PhylacteryOfSouls:Is this worse than murder?
