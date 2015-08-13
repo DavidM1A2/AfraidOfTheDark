@@ -170,4 +170,10 @@ public class ItemStarMetalStaff extends AOTDItemWithCooldownStatic
 	{
 		return 240;
 	}
+
+	@Override
+	public int getItemCooldownInTicks(ItemStack itemStack)
+	{
+		return 240;
+	}
 }

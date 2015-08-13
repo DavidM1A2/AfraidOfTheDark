@@ -5,7 +5,11 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.item.core;
 
+import net.minecraft.item.ItemStack;
+
 public interface IHasCooldown
 {
+	public int getItemCooldownInTicks(ItemStack itemStack);
+
 	public int getItemCooldownInTicks();
 }

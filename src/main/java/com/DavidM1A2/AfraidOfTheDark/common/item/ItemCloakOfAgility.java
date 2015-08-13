@@ -39,4 +39,10 @@ public class ItemCloakOfAgility extends AOTDItemWithCooldownStatic
 	{
 		return 80;
 	}
+
+	@Override
+	public int getItemCooldownInTicks(ItemStack itemStack)
+	{
+		return 80;
+	}
 }

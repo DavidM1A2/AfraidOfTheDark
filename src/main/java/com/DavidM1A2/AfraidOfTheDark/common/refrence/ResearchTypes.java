@@ -54,8 +54,8 @@ public enum ResearchTypes
 	{}, new Object[]
 	{}),
 	PhylacteryOfSouls(SlayingOfTheWolves, -2, 3, new Object[]
-	{}, new Object[]
-	{}),
+	{ ModItems.flaskOfSouls }, new Object[]
+	{ ModItems.flaskOfSouls }),
 	VoidChest(AstralSilver, 1, 3, new Object[]
 	{ ModBlocks.voidChest }, new Object[]
 	{}),

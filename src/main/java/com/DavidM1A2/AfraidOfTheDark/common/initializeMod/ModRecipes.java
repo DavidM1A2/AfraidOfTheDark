@@ -90,5 +90,8 @@ public class ModRecipes
 
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.bladeOfExhumation, 1), ResearchTypes.BladeOfExhumation, "ab ", "ba ", "  b", 'a', Items.diamond, 'b', ModItems.enchantedSkeletonBone));
 		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(ModItems.bladeOfExhumation, 1), ResearchTypes.BladeOfExhumation, Items.diamond, new ItemStack(ModItems.bladeOfExhumation, 1, OreDictionary.WILDCARD_VALUE)));
+
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.flaskOfSouls, 1), ResearchTypes.SlayingOfTheWolves, "ada", "bcb", "aba", 'a', ModItems.werewolfBlood, 'b', Blocks.glass, 'c', Blocks.diamond_block, 'd', Items.leather));
+		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(ModItems.flaskOfSouls, 1), ResearchTypes.PhylacteryOfSouls, new ItemStack(ModItems.flaskOfSouls, 1, 1), new ItemStack(Items.potionitem, 1, 0)));
 	}
 }

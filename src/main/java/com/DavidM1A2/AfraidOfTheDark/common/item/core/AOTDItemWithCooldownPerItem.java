@@ -36,7 +36,7 @@ public abstract class AOTDItemWithCooldownPerItem extends AOTDItem implements IH
 	@Override
 	public double getDurabilityForDisplay(ItemStack itemStack)
 	{
-		return Math.max(0, 1 - (System.currentTimeMillis() - NBTHelper.getLong(itemStack, LAST_COOLDOWN)) / (this.getItemCooldownInTicks() * 50.0));
+		return Math.max(0, 1 - (System.currentTimeMillis() - NBTHelper.getLong(itemStack, LAST_COOLDOWN)) / (this.getItemCooldownInTicks(itemStack) * 50.0));
 	}
 
 	public void setOnCooldown(ItemStack itemStack)
@@ -46,7 +46,7 @@ public abstract class AOTDItemWithCooldownPerItem extends AOTDItem implements IH
 
 	public boolean isOnCooldown(ItemStack itemStack)
 	{
-		return (System.currentTimeMillis() - NBTHelper.getLong(itemStack, LAST_COOLDOWN)) < this.getItemCooldownInTicks() * 50;
+		return (System.currentTimeMillis() - NBTHelper.getLong(itemStack, LAST_COOLDOWN)) < this.getItemCooldownInTicks(itemStack) * 50;
 	}
 
 	public int cooldownRemaining(ItemStack itemStack)

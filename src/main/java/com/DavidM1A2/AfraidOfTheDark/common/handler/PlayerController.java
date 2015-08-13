@@ -47,6 +47,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogDensity;
@@ -340,39 +341,49 @@ public class PlayerController
 	{
 		if (event.source.getEntity() instanceof EntityPlayer)
 		{
-			if (ItemFlaskOfSouls.flaskKillRequirements.containsKey(event.entityLiving.getName()))
+			if (ItemFlaskOfSouls.flaskKillRequirements.containsKey(event.entityLiving.getClass().getSimpleName()))
 			{
 				EntityPlayer entityPlayer = (EntityPlayer) event.source.getEntity();
-				for (int i = 0; i < 9; i++)
+				if (Research.isResearched(entityPlayer, ResearchTypes.PhylacteryOfSouls))
 				{
-					if (entityPlayer.inventory.mainInventory[i] != null)
+					for (int i = 0; i < 9; i++)
 					{
-						ItemStack itemStack = entityPlayer.inventory.mainInventory[i];
-						if (itemStack.getItem() instanceof ItemFlaskOfSouls)
+						if (entityPlayer.inventory.mainInventory[i] != null)
 						{
-							if (NBTHelper.getString(itemStack, ItemFlaskOfSouls.FLASK_TYPE).equals(""))
+							ItemStack itemStack = entityPlayer.inventory.mainInventory[i];
+							if (itemStack.getItem() instanceof ItemFlaskOfSouls)
 							{
-								NBTHelper.setString(itemStack, ItemFlaskOfSouls.FLASK_TYPE, event.entityLiving.getName());
-								NBTHelper.setInteger(itemStack, ItemFlaskOfSouls.KILLS, 1);
-								break;
-							}
-							else if (NBTHelper.getString(itemStack, ItemFlaskOfSouls.FLASK_TYPE).equals(event.entityLiving.getName()))
-							{
-								if (itemStack.getItemDamage() == 0)
+								if (NBTHelper.getString(itemStack, ItemFlaskOfSouls.FLASK_TYPE).equals(""))
 								{
-									int newKills = NBTHelper.getInt(itemStack, ItemFlaskOfSouls.KILLS) + 1;
-									if (newKills == ItemFlaskOfSouls.flaskKillRequirements.get(event.entityLiving.getName()))
+									NBTHelper.setString(itemStack, ItemFlaskOfSouls.FLASK_TYPE, event.entityLiving.getClass().getSimpleName());
+									NBTHelper.setInteger(itemStack, ItemFlaskOfSouls.KILLS, 1);
+									break;
+								}
+								else if (NBTHelper.getString(itemStack, ItemFlaskOfSouls.FLASK_TYPE).equals(event.entityLiving.getClass().getSimpleName()))
+								{
+									if (itemStack.getItemDamage() == 0)
 									{
-										itemStack.setItemDamage(1);
-										NBTHelper.setInteger(itemStack, ItemFlaskOfSouls.KILLS, newKills);
-									}
-									else
-									{
-										NBTHelper.setInteger(itemStack, ItemFlaskOfSouls.KILLS, newKills);
+										int newKills = NBTHelper.getInt(itemStack, ItemFlaskOfSouls.KILLS) + 1;
+										if (newKills == ItemFlaskOfSouls.flaskKillRequirements.get(event.entityLiving.getClass().getSimpleName()))
+										{
+											itemStack.setItemDamage(1);
+											NBTHelper.setInteger(itemStack, ItemFlaskOfSouls.KILLS, newKills);
+										}
+										else
+										{
+											NBTHelper.setInteger(itemStack, ItemFlaskOfSouls.KILLS, newKills);
+										}
 									}
 								}
 							}
 						}
+					}
+				}
+				else
+				{
+					if (!entityPlayer.worldObj.isRemote)
+					{
+						entityPlayer.addChatMessage(new ChatComponentText("This flask is trying to interact with the kill I just got but something's wrong."));
 					}
 				}
 			}
