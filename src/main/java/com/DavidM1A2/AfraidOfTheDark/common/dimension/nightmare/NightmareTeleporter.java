@@ -74,6 +74,9 @@ public class NightmareTeleporter extends Teleporter
 				entity.motionY = 0.0D;
 				entity.motionZ = 0.0D;
 
+				entityPlayer.inventory.clear();
+				entityPlayer.inventoryContainer.detectAndSendChanges();
+
 				InventorySaver.loadInventory(entityPlayer);
 				InventorySaver.resetSavedInventory(entityPlayer);
 			}
