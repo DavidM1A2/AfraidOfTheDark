@@ -75,7 +75,17 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 		{
 			if (cause.getEntity() instanceof EntityPlayer)
 			{
-				if (((EntityPlayer) cause.getEntity()).inventory.consumeInventoryItem(Items.glass_bottle))
+				EntityPlayer entityPlayer = (EntityPlayer) cause.getEntity();
+
+				if (!worldObj.isRemote)
+				{
+					if (Research.canResearch(entityPlayer, ResearchTypes.SlayingOfTheWolves))
+					{
+						Research.unlockResearchSynced(entityPlayer, ResearchTypes.SlayingOfTheWolves, Side.SERVER, true);
+					}
+				}
+
+				if (Research.isResearched(entityPlayer, ResearchTypes.SlayingOfTheWolves) && entityPlayer.inventory.consumeInventoryItem(Items.glass_bottle))
 				{
 					this.dropItem(ModItems.werewolfBlood, 1);
 				}

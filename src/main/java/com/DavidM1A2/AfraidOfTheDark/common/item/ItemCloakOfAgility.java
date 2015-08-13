@@ -10,14 +10,14 @@ import java.util.List;
 import org.lwjgl.input.Keyboard;
 
 import com.DavidM1A2.AfraidOfTheDark.client.settings.Keybindings;
-import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItemWithCooldown;
+import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItemWithCooldownStatic;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemCloakOfAgility extends AOTDItemWithCooldown
+public class ItemCloakOfAgility extends AOTDItemWithCooldownStatic
 {
 	protected static double cooldown = 0;
 

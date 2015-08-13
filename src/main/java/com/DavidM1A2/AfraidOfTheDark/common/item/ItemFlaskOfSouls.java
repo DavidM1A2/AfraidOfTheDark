@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItemWithCooldown;
+import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItemWithCooldownPerItem;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
@@ -28,7 +28,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemFlaskOfSouls extends AOTDItemWithCooldown
+public class ItemFlaskOfSouls extends AOTDItemWithCooldownPerItem
 {
 	public static Map<String, Integer> flaskKillRequirements = new HashMap<String, Integer>();
 	public static final String FLASK_TYPE = "flaskType";
@@ -164,16 +164,17 @@ public class ItemFlaskOfSouls extends AOTDItemWithCooldown
 			{
 				if (itemStack.getItemDamage() == 1)
 				{
-					if (!this.isOnCooldown())
+					if (!this.isOnCooldown(itemStack))
 					{
 						String entityToSpawnName = NBTHelper.getString(itemStack, FLASK_TYPE);
+						String aotdEntity = Refrence.MOD_ID + "." + entityToSpawnName.substring(0, 1).toLowerCase() + entityToSpawnName.substring(1);
 						if (EntityList.stringToClassMapping.containsKey(entityToSpawnName))
 						{
 							entityToSpawn = (EntityLiving) EntityList.createEntityByName(entityToSpawnName, world);
 						}
-						else if (EntityList.stringToClassMapping.containsKey(Refrence.MOD_ID + "." + entityToSpawnName))
+						else if (EntityList.stringToClassMapping.containsKey(aotdEntity))
 						{
-							entityToSpawn = (EntityLiving) EntityList.createEntityByName(Refrence.MOD_ID + "." + entityToSpawnName, world);
+							entityToSpawn = (EntityLiving) EntityList.createEntityByName(aotdEntity, world);
 						}
 
 						if (entityToSpawn != null)
@@ -182,7 +183,7 @@ public class ItemFlaskOfSouls extends AOTDItemWithCooldown
 							world.spawnEntityInWorld(entityToSpawn);
 							entityToSpawn.playLivingSound();
 						}
-						this.setOnCooldown();
+						this.setOnCooldown(itemStack);
 					}
 				}
 			}

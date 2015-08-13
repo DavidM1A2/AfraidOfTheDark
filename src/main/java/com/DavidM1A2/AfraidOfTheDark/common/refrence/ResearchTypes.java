@@ -50,6 +50,12 @@ public enum ResearchTypes
 	AstralSilver(AstronomyI, 0, 3, new Object[]
 	{ ModItems.astralSilverSword, ModItems.silverBolt }, new Object[]
 	{}),
+	SlayingOfTheWolves(AstralSilver, -1, 3, new Object[]
+	{}, new Object[]
+	{}),
+	PhylacteryOfSouls(SlayingOfTheWolves, -2, 3, new Object[]
+	{}, new Object[]
+	{}),
 	VoidChest(AstralSilver, 1, 3, new Object[]
 	{ ModBlocks.voidChest }, new Object[]
 	{}),

@@ -59,6 +59,7 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -320,7 +321,22 @@ public class PlayerController
 	}
 
 	@SubscribeEvent
-	public void onEvent(LivingDeathEvent event)
+	public void onItemCraftedEvent(ItemCraftedEvent event)
+	{
+		if (event.crafting.getItem() instanceof ItemFlaskOfSouls)
+		{
+			if (!event.player.worldObj.isRemote)
+			{
+				if (Research.canResearch(event.player, ResearchTypes.PhylacteryOfSouls))
+				{
+					Research.unlockResearchSynced(event.player, ResearchTypes.PhylacteryOfSouls, Side.SERVER, true);
+				}
+			}
+		}
+	}
+
+	@SubscribeEvent
+	public void onLivingDeathEvent(LivingDeathEvent event)
 	{
 		if (event.source.getEntity() instanceof EntityPlayer)
 		{

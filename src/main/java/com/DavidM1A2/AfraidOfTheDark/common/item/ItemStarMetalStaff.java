@@ -7,7 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 
 import java.util.List;
 
-import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItemWithCooldown;
+import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItemWithCooldownStatic;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.threads.TemporaryInvincibility;
@@ -23,7 +23,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemStarMetalStaff extends AOTDItemWithCooldown
+public class ItemStarMetalStaff extends AOTDItemWithCooldownStatic
 {
 	private static final int MAX_TROLL_POLE_TIME_IN_TICKS = 60;
 

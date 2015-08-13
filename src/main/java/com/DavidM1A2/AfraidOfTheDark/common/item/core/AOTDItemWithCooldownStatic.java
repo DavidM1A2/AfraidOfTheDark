@@ -10,12 +10,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public abstract class AOTDItemWithCooldown extends AOTDItem implements IHasCooldown
+public abstract class AOTDItemWithCooldownStatic extends AOTDItem implements IHasCooldown
 {
 	protected double cooldown = 0;
 	private long lastUpdate = -1;
 
-	public AOTDItemWithCooldown()
+	public AOTDItemWithCooldownStatic()
 	{
 		super();
 		this.setMaxStackSize(1);
