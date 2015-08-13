@@ -8,6 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest;
 import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBiomes;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicGenerator;
 
@@ -76,12 +77,12 @@ public class VoidChestChunkProvider implements IChunkProvider
 			{
 				for (int j = 0; j < 49; j++)
 				{
-					worldObj.setBlockState(new BlockPos(x + i, 100, z + j), Blocks.barrier.getDefaultState());
-					worldObj.setBlockState(new BlockPos(x + i, 100 + 48, z + j), Blocks.barrier.getDefaultState());
-					worldObj.setBlockState(new BlockPos(x + 0, 100 + i, z + j), Blocks.barrier.getDefaultState());
-					worldObj.setBlockState(new BlockPos(x + i, 100 + j, z + 0), Blocks.barrier.getDefaultState());
-					worldObj.setBlockState(new BlockPos(x + 48, 100 + i, z + j), Blocks.barrier.getDefaultState());
-					worldObj.setBlockState(new BlockPos(x + i, 100 + j, z + 48), Blocks.barrier.getDefaultState());
+					worldObj.setBlockState(new BlockPos(x + i, 100, z + j), ModBlocks.aOTDBarrier.getDefaultState());
+					worldObj.setBlockState(new BlockPos(x + i, 100 + 48, z + j), ModBlocks.aOTDBarrier.getDefaultState());
+					worldObj.setBlockState(new BlockPos(x + 0, 100 + i, z + j), ModBlocks.aOTDBarrier.getDefaultState());
+					worldObj.setBlockState(new BlockPos(x + i, 100 + j, z + 0), ModBlocks.aOTDBarrier.getDefaultState());
+					worldObj.setBlockState(new BlockPos(x + 48, 100 + i, z + j), ModBlocks.aOTDBarrier.getDefaultState());
+					worldObj.setBlockState(new BlockPos(x + i, 100 + j, z + 48), ModBlocks.aOTDBarrier.getDefaultState());
 				}
 			}
 

@@ -69,6 +69,7 @@ tile.afraidofthedark:voidChestPortal.name=Void Chest Portal
 tile.afraidofthedark:eldritchObsidian.name=Eldritch Obsidian
 tile.afraidofthedark:amorphousEldritchMetal.name=Amorphous Eldritch Metal
 tile.afraidofthedark:eldritchStone.name=Eldritch Stone
+tile.afraidofthedark:aOTDBarrier.name=Witherproof Barrier
 
 # Creative Tabs
 itemGroup.afraidofthedark=Afraid of the Dark

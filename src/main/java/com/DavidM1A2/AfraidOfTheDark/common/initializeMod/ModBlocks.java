@@ -5,6 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.initializeMod;
 
+import com.DavidM1A2.AfraidOfTheDark.common.block.BlockAOTDBarrier;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockAmorphousEldritchMetal;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockAstralSilverOre;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockDarkForest;
@@ -65,6 +66,7 @@ public class ModBlocks
 	public static final BlockEldritchObsidian eldritchObsidian = new BlockEldritchObsidian(Material.rock);
 	public static final BlockAmorphousEldritchMetal amorphousEldritchMetal = new BlockAmorphousEldritchMetal(Material.portal);
 	public static final BlockEldritchStone eldritchStone = new BlockEldritchStone(Material.rock);
+	public static final BlockAOTDBarrier aOTDBarrier = new BlockAOTDBarrier();
 
 	public static void initialize()
 	{
@@ -96,6 +98,7 @@ public class ModBlocks
 		GameRegistry.registerBlock(ModBlocks.eldritchObsidian, "eldritchObsidian");
 		GameRegistry.registerBlock(ModBlocks.amorphousEldritchMetal, "amorphousEldritchMetal");
 		GameRegistry.registerBlock(ModBlocks.eldritchStone, "eldritchStone");
+		GameRegistry.registerBlock(ModBlocks.aOTDBarrier, "aOTDBarrier");
 	}
 
 	public static void initializeRenderers(final Side side)
@@ -123,6 +126,7 @@ public class ModBlocks
 			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.eldritchObsidian), 0, new ModelResourceLocation(Refrence.MOD_ID + ":eldritchObsidian", "inventory"));
 			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.amorphousEldritchMetal), 0, new ModelResourceLocation(Refrence.MOD_ID + ":amorphousEldritchMetal", "inventory"));
 			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.eldritchStone), 0, new ModelResourceLocation(Refrence.MOD_ID + ":eldritchStone", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.aOTDBarrier), 0, new ModelResourceLocation(Refrence.MOD_ID + ":aOTDBarrier", "inventory"));
 		}
 	}
 }

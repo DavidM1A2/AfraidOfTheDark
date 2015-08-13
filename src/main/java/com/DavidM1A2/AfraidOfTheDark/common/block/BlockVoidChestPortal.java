@@ -25,6 +25,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -43,6 +44,23 @@ public class BlockVoidChestPortal extends AOTDBlock
 		this.setLightLevel(1.0f);
 		this.setBlockUnbreakable();
 		this.setResistance(6000000.0F);
+	}
+
+	/**
+	 * Called when the block is destroyed by an explosion. Useful for allowing the block to take into account tile entities, state, etc. when
+	 * exploded, before it is removed.
+	 *
+	 * @param world
+	 *            The current world
+	 * @param pos
+	 *            Block position in world
+	 * @param Explosion
+	 *            The explosion instance affecting the block
+	 */
+	@Override
+	public void onBlockExploded(World world, BlockPos pos, Explosion explosion)
+	{
+		return;
 	}
 
 	@Override
