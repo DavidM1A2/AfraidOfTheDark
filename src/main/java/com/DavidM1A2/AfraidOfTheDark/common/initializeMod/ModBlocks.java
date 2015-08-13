@@ -11,6 +11,9 @@ import com.DavidM1A2.AfraidOfTheDark.common.block.BlockAstralSilverOre;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockDarkForest;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockEldritchObsidian;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockEldritchStone;
+import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGlowStalk;
+import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGnomishMetalPlate;
+import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGnomishMetalStrut;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewood;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewoodDoubleSlab;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewoodHalfSlab;
@@ -67,6 +70,9 @@ public class ModBlocks
 	public static final BlockAmorphousEldritchMetal amorphousEldritchMetal = new BlockAmorphousEldritchMetal(Material.portal);
 	public static final BlockEldritchStone eldritchStone = new BlockEldritchStone(Material.rock);
 	public static final BlockAOTDBarrier aOTDBarrier = new BlockAOTDBarrier();
+	public static final BlockGnomishMetalPlate gnomishMetalPlate = new BlockGnomishMetalPlate();
+	public static final BlockGnomishMetalStrut gnomishMetalStrut = new BlockGnomishMetalStrut();
+	public static final BlockGlowStalk glowStalk = new BlockGlowStalk();
 
 	public static void initialize()
 	{
@@ -99,6 +105,9 @@ public class ModBlocks
 		GameRegistry.registerBlock(ModBlocks.amorphousEldritchMetal, "amorphousEldritchMetal");
 		GameRegistry.registerBlock(ModBlocks.eldritchStone, "eldritchStone");
 		GameRegistry.registerBlock(ModBlocks.aOTDBarrier, "aOTDBarrier");
+		GameRegistry.registerBlock(ModBlocks.gnomishMetalPlate, "gnomishMetalPlate");
+		GameRegistry.registerBlock(ModBlocks.gnomishMetalStrut, "gnomishMetalStrut");
+		GameRegistry.registerBlock(ModBlocks.glowStalk, "glowStalk");
 	}
 
 	public static void initializeRenderers(final Side side)
@@ -127,6 +136,9 @@ public class ModBlocks
 			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.amorphousEldritchMetal), 0, new ModelResourceLocation(Refrence.MOD_ID + ":amorphousEldritchMetal", "inventory"));
 			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.eldritchStone), 0, new ModelResourceLocation(Refrence.MOD_ID + ":eldritchStone", "inventory"));
 			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.aOTDBarrier), 0, new ModelResourceLocation(Refrence.MOD_ID + ":aOTDBarrier", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gnomishMetalPlate), 0, new ModelResourceLocation(Refrence.MOD_ID + ":gnomishMetalPlate", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gnomishMetalStrut), 0, new ModelResourceLocation(Refrence.MOD_ID + ":gnomishMetalStrut", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.glowStalk), 0, new ModelResourceLocation(Refrence.MOD_ID + ":glowStalk", "inventory"));
 		}
 	}
 }
