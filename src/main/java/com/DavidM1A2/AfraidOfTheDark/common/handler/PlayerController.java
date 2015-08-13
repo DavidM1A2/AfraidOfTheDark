@@ -5,13 +5,14 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.handler;
 
+import java.util.concurrent.TimeUnit;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare.NightmareTeleporter;
-import com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest.VoidChestTeleporter;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemFlaskOfSouls;
@@ -79,14 +80,6 @@ public class PlayerController
 		Research.set(event.entityPlayer, research);
 		final int vitaeLevel = Vitae.get(event.original);
 		Vitae.set(event.entityPlayer, vitaeLevel, Side.SERVER);
-		if (event.original.dimension == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
-		{
-			(new DelayedTeleport(1000, event.entityPlayer, 0, NightmareTeleporter.class)).start();
-		}
-		else if (event.original.dimension == Constants.VoidChestWorld.VOID_CHEST_WORLD_ID)
-		{
-			(new DelayedTeleport(1000, event.entityPlayer, 0, VoidChestTeleporter.class)).start();
-		}
 		InventorySaver.set(event.entityPlayer, InventorySaver.getInventory(event.original), InventorySaver.getPlayerLocationOverworld(event.original), InventorySaver.getPlayerLocationNightmare(event.original));
 		final BlockPos overworldVoidChestLocation = VoidChestLocation.getOverworldLocation(event.original);
 		final int voidChestIndex = VoidChestLocation.getVoidChestLocation(event.original);
@@ -95,10 +88,27 @@ public class PlayerController
 		VoidChestLocation.setVoidChestLocation(event.entityPlayer, voidChestIndex);
 		// When the player gets new research we will wait 500ms before updating because otherwise the event.original player
 		// will get the new data
-		(new DelayedAOTDUpdate(600, event.entityPlayer, hasStartedAOTD)).start();
-		(new DelayedInsanityUpdate(700, event.entityPlayer, insanity)).start();
-		(new DelayedResearchUpdate(800, event.entityPlayer, research)).start();
-		(new DelayedVitaeUpdate(900, event.entityPlayer, vitaeLevel)).start();
+
+		Constants.TIMER_FOR_DELAYS.schedule(new DelayedAOTDUpdate(event.entityPlayer, hasStartedAOTD), 500, TimeUnit.MILLISECONDS);
+		Constants.TIMER_FOR_DELAYS.schedule(new DelayedInsanityUpdate(event.entityPlayer, insanity), 600, TimeUnit.MILLISECONDS);
+		Constants.TIMER_FOR_DELAYS.schedule(new DelayedResearchUpdate(event.entityPlayer, research), 700, TimeUnit.MILLISECONDS);
+		Constants.TIMER_FOR_DELAYS.schedule(new DelayedVitaeUpdate(event.entityPlayer, vitaeLevel), 800, TimeUnit.MILLISECONDS);
+
+		//(new DelayedAOTDUpdate(600, event.entityPlayer, hasStartedAOTD)).start();
+		//(new DelayedInsanityUpdate(700, event.entityPlayer, insanity)).start();
+		//(new DelayedResearchUpdate(800, event.entityPlayer, research)).start();
+		//(new DelayedVitaeUpdate(900, event.entityPlayer, vitaeLevel)).start();
+
+		if (event.original.dimension == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
+		{
+			Constants.TIMER_FOR_DELAYS.schedule(new DelayedTeleport(event.entityPlayer, 0, NightmareTeleporter.class), 900, TimeUnit.MILLISECONDS);
+			//(new DelayedTeleport(1000, event.entityPlayer, 0, NightmareTeleporter.class)).start();
+		}
+		else if (event.original.dimension == Constants.VoidChestWorld.VOID_CHEST_WORLD_ID)
+		{
+			Constants.TIMER_FOR_DELAYS.schedule(new DelayedTeleport(event.entityPlayer, 0, NightmareTeleporter.class), 900, TimeUnit.MILLISECONDS);
+			//(new DelayedTeleport(1000, event.entityPlayer, 0, VoidChestTeleporter.class)).start();
+		}
 	}
 
 	@SideOnly(Side.CLIENT)

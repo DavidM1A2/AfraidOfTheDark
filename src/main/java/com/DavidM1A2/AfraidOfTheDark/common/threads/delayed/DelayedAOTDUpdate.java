@@ -13,9 +13,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 
 public class DelayedAOTDUpdate extends DelayedUpdate<Boolean>
 {
-	public DelayedAOTDUpdate(final int delayInMillis, final EntityPlayer entityPlayer, final boolean data)
+	public DelayedAOTDUpdate(final EntityPlayer entityPlayer, final boolean data)
 	{
-		super(delayInMillis, entityPlayer, data);
+		super(entityPlayer, data);
 	}
 
 	@Override

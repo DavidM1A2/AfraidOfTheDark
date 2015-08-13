@@ -13,9 +13,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 
 public class DelayedVitaeUpdate extends DelayedUpdate<Integer>
 {
-	public DelayedVitaeUpdate(final int delayInMillis, EntityPlayer entityPlayer, Integer data)
+	public DelayedVitaeUpdate(EntityPlayer entityPlayer, Integer data)
 	{
-		super(delayInMillis, entityPlayer, data);
+		super(entityPlayer, data);
 	}
 
 	@Override

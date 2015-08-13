@@ -6,19 +6,16 @@
 package com.DavidM1A2.AfraidOfTheDark.common.initializeMod;
 
 import com.DavidM1A2.AfraidOfTheDark.common.threads.RandomInsanityUpdate;
-import com.DavidM1A2.AfraidOfTheDark.common.threads.ResearchCompleteCheck;
 
 public class ModThreads
 {
 	public static RandomInsanityUpdate randomInsanityUpdate;
-	public static ResearchCompleteCheck researchCompleteUpdate;
 
 	// These threads check for research completion server side and also randomly
 	// hand out insanity updates
 	public static void register()
 	{
 		ModThreads.randomInsanityUpdate = new RandomInsanityUpdate();
-		ModThreads.researchCompleteUpdate = new ResearchCompleteCheck();
 	}
 
 	public static void startInGameThreads()
@@ -28,10 +25,6 @@ public class ModThreads
 		{
 			ModThreads.randomInsanityUpdate.start();
 		}
-		if (!ModThreads.researchCompleteUpdate.isAlive())
-		{
-			ModThreads.researchCompleteUpdate.start();
-		}
 	}
 
 	public static void stopInGameThreads()
@@ -39,10 +32,6 @@ public class ModThreads
 		if (ModThreads.randomInsanityUpdate.isAlive())
 		{
 			ModThreads.randomInsanityUpdate.terminate();
-		}
-		if (ModThreads.researchCompleteUpdate.isAlive())
-		{
-			ModThreads.researchCompleteUpdate.terminate();
 		}
 	}
 }

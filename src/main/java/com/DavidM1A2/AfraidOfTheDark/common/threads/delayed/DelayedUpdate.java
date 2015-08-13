@@ -10,36 +10,26 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import net.minecraft.entity.player.EntityPlayer;
 
-public abstract class DelayedUpdate<E> extends Thread
+public abstract class DelayedUpdate<E> implements Runnable
 {
 	protected final EntityPlayer entityPlayer;
 	protected final E data;
-	protected final int delayInMillis;
 
-	public DelayedUpdate(final int delayInMillis, final EntityPlayer entityPlayer, final E data)
+	public DelayedUpdate(final EntityPlayer entityPlayer, final E data)
 	{
 		this.entityPlayer = entityPlayer;
 		this.data = data;
-		this.delayInMillis = delayInMillis;
 	}
 
 	@Override
 	public void run()
 	{
-		try
+		if (Constants.isDebug)
 		{
-			Thread.sleep(delayInMillis);
-
-			if (Constants.isDebug)
-			{
-				LogHelper.info(this.getClass().getSimpleName());
-			}
-
-			this.updatePlayer();
+			LogHelper.info(this.getClass().getSimpleName());
 		}
-		catch (final InterruptedException e)
-		{
-		}
+
+		this.updatePlayer();
 	}
 
 	protected abstract void updatePlayer();

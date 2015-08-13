@@ -14,9 +14,9 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class DelayedResearchUpdate extends DelayedUpdate<NBTTagCompound>
 {
-	public DelayedResearchUpdate(final int delayInMillis, final EntityPlayer entityPlayer, final NBTTagCompound data)
+	public DelayedResearchUpdate(final EntityPlayer entityPlayer, final NBTTagCompound data)
 	{
-		super(delayInMillis, entityPlayer, data);
+		super(entityPlayer, data);
 	}
 
 	@Override

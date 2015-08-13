@@ -13,9 +13,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 
 public class DelayedInsanityUpdate extends DelayedUpdate<Double>
 {
-	public DelayedInsanityUpdate(final int delayInMillis, final EntityPlayer entityPlayer, final double data)
+	public DelayedInsanityUpdate(final EntityPlayer entityPlayer, final double data)
 	{
-		super(delayInMillis, entityPlayer, data);
+		super(entityPlayer, data);
 	}
 
 	@Override

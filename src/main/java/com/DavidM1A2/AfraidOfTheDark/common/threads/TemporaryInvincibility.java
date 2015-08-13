@@ -7,7 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.threads;
 
 import net.minecraft.entity.player.EntityPlayer;
 
-public class TemporaryInvincibility extends Thread
+public class TemporaryInvincibility implements Runnable
 {
 	private final int INVINCIBILITY_TIME;
 	private final EntityPlayer ENTITY_PLAYER;
@@ -17,7 +17,6 @@ public class TemporaryInvincibility extends Thread
 		this.INVINCIBILITY_TIME = invincibilityTime;
 		this.ENTITY_PLAYER = entityPlayer;
 		this.ENTITY_PLAYER.capabilities.disableDamage = true;
-		this.start();
 	}
 
 	@Override

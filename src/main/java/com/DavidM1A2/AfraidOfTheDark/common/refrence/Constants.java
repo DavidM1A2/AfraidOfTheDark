@@ -7,6 +7,8 @@ package com.DavidM1A2.AfraidOfTheDark.common.refrence;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
@@ -100,6 +102,8 @@ public final class Constants
 					Items.gold_ingot, 20), new LootTableEntry(new Vitae1Part4Loot(), Items.netherbrick, 20), new LootTableEntry(new Vitae1Part5Loot(), Items.coal, 20), new LootTableEntry(new Astronomy2Part1(), Items.gold_nugget, 20), new LootTableEntry(new Astronomy2Part2(), Items.glowstone_dust,
 							20), new LootTableEntry(new Astronomy2Part3(), Items.nether_wart, 20), new LootTableEntry(new Astronomy2Part4(), Items.rabbit_hide, 20), });
 	public static LootTable voidChestTable = new LootTable(new LootTableEntry(new VoidChestLoot(), null, 3));
+
+	public static final ScheduledExecutorService TIMER_FOR_DELAYS = Executors.newSingleThreadScheduledExecutor();
 
 	static
 	{

@@ -10,7 +10,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.packets.RotatePlayer;
 
 import net.minecraft.entity.player.EntityPlayerMP;
 
-public class PlayerSpinning extends Thread
+public class PlayerSpinning implements Runnable
 {
 	private final EntityPlayerMP entityPlayerMP;
 	private static final int DEGREES_PER_ROTATION = 30;

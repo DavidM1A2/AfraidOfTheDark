@@ -15,9 +15,9 @@ public class DelayedTeleport extends DelayedUpdate<Integer>
 {
 	private final Class<? extends Teleporter> teleporter;
 
-	public DelayedTeleport(final int delayInMillis, EntityPlayer entityPlayer, Integer data, Class<? extends Teleporter> teleporter)
+	public DelayedTeleport(EntityPlayer entityPlayer, Integer data, Class<? extends Teleporter> teleporter)
 	{
-		super(delayInMillis, entityPlayer, data);
+		super(entityPlayer, data);
 		this.teleporter = teleporter;
 	}
 

@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItemWithCooldownStatic;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.threads.TemporaryInvincibility;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
@@ -42,7 +43,7 @@ public class ItemStarMetalStaff extends AOTDItemWithCooldownStatic
 			{
 				if (!entityPlayer.capabilities.isCreativeMode)
 				{
-					new TemporaryInvincibility(Utility.ticksToMilliseconds(MAX_TROLL_POLE_TIME_IN_TICKS), entityPlayer);
+					Constants.TIMER_FOR_DELAYS.execute(new TemporaryInvincibility(Utility.ticksToMilliseconds(MAX_TROLL_POLE_TIME_IN_TICKS), entityPlayer));
 				}
 				entityPlayer.addVelocity(0, .5, 0);
 				entityPlayer.setItemInUse(itemStack, ItemStarMetalStaff.MAX_TROLL_POLE_TIME_IN_TICKS);

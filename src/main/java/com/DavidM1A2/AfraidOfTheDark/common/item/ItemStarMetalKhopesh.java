@@ -107,6 +107,6 @@ public class ItemStarMetalKhopesh extends AOTDChargableSword
 			}
 		}
 
-		new PlayerSpinning((EntityPlayerMP) entityPlayer).start();
+		Constants.TIMER_FOR_DELAYS.submit(new PlayerSpinning((EntityPlayerMP) entityPlayer));
 	}
 }
