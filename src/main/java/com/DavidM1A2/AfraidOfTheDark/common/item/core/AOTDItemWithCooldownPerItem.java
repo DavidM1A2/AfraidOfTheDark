@@ -12,7 +12,7 @@ import net.minecraft.util.MathHelper;
 
 public abstract class AOTDItemWithCooldownPerItem extends AOTDItem implements IHasCooldown
 {
-	private static final String LAST_COOLDOWN = "lastCooldown";
+	public static final String LAST_COOLDOWN = "lastCooldown";
 
 	public AOTDItemWithCooldownPerItem()
 	{
