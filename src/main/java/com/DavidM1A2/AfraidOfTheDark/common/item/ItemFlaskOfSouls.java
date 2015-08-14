@@ -13,6 +13,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItemWithCooldownPerIte
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 import net.minecraft.block.BlockLiquid;
@@ -84,36 +85,31 @@ public class ItemFlaskOfSouls extends AOTDItemWithCooldownPerItem
 		final int blockY = pos.getY();
 		final int blockZ = pos.getZ();
 		// When we use the item, we check the block that was clicked on and spawn an entity on that block
-		if (world.isRemote)
+
+		if (Research.isResearched(entityPlayer, ResearchTypes.PhylacteryOfSouls))
 		{
-			return true;
+			double y = 0.0D;
+
+			if (world.getBlockState(pos).getBlock().isSolidFullCube())
+			{
+				y = 1.0D;
+			}
+
+			if (this.spawnEntity(world, blockX + 0.5D, blockY + y, blockZ + 0.5D, itemStack) == null)
+			{
+				if (!world.isRemote)
+				{
+					entityPlayer.addChatMessage(new ChatComponentText("Flask is incomplete or on cooldown."));
+				}
+			}
 		}
 		else
 		{
-			if (Research.isResearched(entityPlayer, ResearchTypes.PhylacteryOfSouls))
-			{
-				double y = 0.0D;
-
-				if (world.getBlockState(pos).getBlock().isSolidFullCube())
-				{
-					y = 1.0D;
-				}
-
-				if (this.spawnEntity(world, blockX + 0.5D, blockY + y, blockZ + 0.5D, itemStack) == null)
-				{
-					if (!world.isRemote)
-					{
-						entityPlayer.addChatMessage(new ChatComponentText("Flask is incomplete or on cooldown."));
-					}
-				}
-			}
-			else
-			{
-				entityPlayer.addChatMessage(new ChatComponentText("I'm not sure how to operate this."));
-			}
-
-			return true;
+			entityPlayer.addChatMessage(new ChatComponentText("I'm not sure how to operate this."));
 		}
+
+		return true;
+
 	}
 
 	/**
@@ -122,90 +118,93 @@ public class ItemFlaskOfSouls extends AOTDItemWithCooldownPerItem
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer)
 	{
-		if (world.isRemote)
+		if (Research.isResearched(entityPlayer, ResearchTypes.PhylacteryOfSouls))
 		{
-			return itemStack;
-		}
-		else
-		{
-			if (Research.isResearched(entityPlayer, ResearchTypes.PhylacteryOfSouls))
+			final MovingObjectPosition movingObjectPosition = this.getMovingObjectPositionFromPlayer(world, entityPlayer, true);
+
+			if (movingObjectPosition == null)
 			{
-				final MovingObjectPosition movingObjectPosition = this.getMovingObjectPositionFromPlayer(world, entityPlayer, true);
-
-				if (movingObjectPosition == null)
-				{
-					return itemStack;
-				}
-				else
-				{
-					if (movingObjectPosition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
-					{
-						final BlockPos thisPos = entityPlayer.getPosition();
-
-						if (!world.canMineBlockBody(entityPlayer, thisPos))
-						{
-							return itemStack;
-						}
-
-						if (world.getBlockState(thisPos) instanceof BlockLiquid)
-						{
-							if (this.spawnEntity(world, thisPos.getX(), thisPos.getY(), thisPos.getZ(), itemStack) == null)
-							{
-								if (!world.isRemote)
-								{
-									entityPlayer.addChatMessage(new ChatComponentText("Flask is incomplete or on cooldown."));
-								}
-							}
-						}
-					}
-					return itemStack;
-				}
+				return itemStack;
 			}
 			else
 			{
-				entityPlayer.addChatMessage(new ChatComponentText("I'm not sure how to operate this."));
+				if (movingObjectPosition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
+				{
+					final BlockPos thisPos = entityPlayer.getPosition();
+
+					if (!world.canMineBlockBody(entityPlayer, thisPos))
+					{
+						return itemStack;
+					}
+
+					if (world.getBlockState(thisPos) instanceof BlockLiquid)
+					{
+						if (this.spawnEntity(world, thisPos.getX(), thisPos.getY(), thisPos.getZ(), itemStack) == null)
+						{
+							if (!world.isRemote)
+							{
+								entityPlayer.addChatMessage(new ChatComponentText("Flask is incomplete or on cooldown."));
+							}
+						}
+					}
+				}
 				return itemStack;
 			}
 		}
+		else
+		{
+			entityPlayer.addChatMessage(new ChatComponentText("I'm not sure how to operate this."));
+			return itemStack;
+		}
+
 	}
 
 	// To spawn the entity we get it's name and spawn one with a random rotation
 	private Entity spawnEntity(final World world, final double x, final double y, final double z, ItemStack itemStack)
 	{
 		EntityLiving entityToSpawn = null;
-		if (!world.isRemote)
+		if (ItemFlaskOfSouls.flaskKillRequirements.containsKey(NBTHelper.getString(itemStack, FLASK_TYPE)))
 		{
-			if (ItemFlaskOfSouls.flaskKillRequirements.containsKey(NBTHelper.getString(itemStack, FLASK_TYPE)))
+			if (itemStack.getItemDamage() == 1)
 			{
-				if (itemStack.getItemDamage() == 1)
+				if (!this.isOnCooldown(itemStack))
 				{
-					if (!this.isOnCooldown(itemStack))
+					String entityToSpawnName = NBTHelper.getString(itemStack, FLASK_TYPE);
+					String aotdEntity = Refrence.MOD_ID + "." + entityToSpawnName.substring(0, 1).toLowerCase() + entityToSpawnName.substring(1);
+					if (EntityList.stringToClassMapping.containsKey(entityToSpawnName))
 					{
-						String entityToSpawnName = NBTHelper.getString(itemStack, FLASK_TYPE);
-						String aotdEntity = Refrence.MOD_ID + "." + entityToSpawnName.substring(0, 1).toLowerCase() + entityToSpawnName.substring(1);
-						if (EntityList.stringToClassMapping.containsKey(entityToSpawnName))
-						{
-							entityToSpawn = (EntityLiving) EntityList.createEntityByName(entityToSpawnName, world);
-						}
-						else if (EntityList.stringToClassMapping.containsKey(aotdEntity))
-						{
-							entityToSpawn = (EntityLiving) EntityList.createEntityByName(aotdEntity, world);
-						}
-						else if (EntityList.stringToClassMapping.containsKey(entityToSpawnName.substring(6)))
-						{
-							entityToSpawn = (EntityLiving) EntityList.createEntityByName(entityToSpawnName.substring(6), world);
-						}
+						entityToSpawn = (EntityLiving) EntityList.createEntityByName(entityToSpawnName, world);
+					}
+					else if (EntityList.stringToClassMapping.containsKey(aotdEntity))
+					{
+						entityToSpawn = (EntityLiving) EntityList.createEntityByName(aotdEntity, world);
+					}
+					else if (EntityList.stringToClassMapping.containsKey(entityToSpawnName.substring(6)))
+					{
+						entityToSpawn = (EntityLiving) EntityList.createEntityByName(entityToSpawnName.substring(6), world);
+					}
 
-						if (entityToSpawn != null)
+					if (entityToSpawn != null)
+					{
+						if (!world.isRemote)
 						{
 							entityToSpawn.setLocationAndAngles(x, y, z, MathHelper.wrapAngleTo180_float(world.rand.nextFloat() * 360), 0.0F);
 							world.spawnEntityInWorld(entityToSpawn);
 							entityToSpawn.playLivingSound();
-							this.setOnCooldown(itemStack);
 						}
+						if (world.isRemote)
+						{
+							LogHelper.info("Client side cd");
+						}
+						else
+						{
+							LogHelper.info("Server side cd");
+						}
+						this.setOnCooldown(itemStack);
 					}
 				}
 			}
+
 		}
 
 		return entityToSpawn;
