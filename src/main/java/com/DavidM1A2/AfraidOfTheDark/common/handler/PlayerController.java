@@ -354,14 +354,14 @@ public class PlayerController
 			if (ItemFlaskOfSouls.flaskKillRequirements.containsKey(event.entityLiving.getClass().getSimpleName()))
 			{
 				EntityPlayer entityPlayer = (EntityPlayer) event.source.getEntity();
-				if (Research.isResearched(entityPlayer, ResearchTypes.PhylacteryOfSouls))
+				for (int i = 0; i < 9; i++)
 				{
-					for (int i = 0; i < 9; i++)
+					if (entityPlayer.inventory.mainInventory[i] != null)
 					{
-						if (entityPlayer.inventory.mainInventory[i] != null)
+						ItemStack itemStack = entityPlayer.inventory.mainInventory[i];
+						if (itemStack.getItem() instanceof ItemFlaskOfSouls)
 						{
-							ItemStack itemStack = entityPlayer.inventory.mainInventory[i];
-							if (itemStack.getItem() instanceof ItemFlaskOfSouls)
+							if (Research.isResearched(entityPlayer, ResearchTypes.PhylacteryOfSouls))
 							{
 								if (NBTHelper.getString(itemStack, ItemFlaskOfSouls.FLASK_TYPE).equals(""))
 								{
@@ -383,17 +383,19 @@ public class PlayerController
 										{
 											NBTHelper.setInteger(itemStack, ItemFlaskOfSouls.KILLS, newKills);
 										}
+										break;
 									}
 								}
 							}
+							else
+							{
+								if (!entityPlayer.worldObj.isRemote)
+								{
+									entityPlayer.addChatMessage(new ChatComponentText("This flask is trying to interact with the kill I just got but something's wrong."));
+								}
+								break;
+							}
 						}
-					}
-				}
-				else
-				{
-					if (!entityPlayer.worldObj.isRemote)
-					{
-						entityPlayer.addChatMessage(new ChatComponentText("This flask is trying to interact with the kill I just got but something's wrong."));
 					}
 				}
 			}

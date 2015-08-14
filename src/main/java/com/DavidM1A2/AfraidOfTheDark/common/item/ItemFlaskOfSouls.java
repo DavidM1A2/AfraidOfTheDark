@@ -72,6 +72,7 @@ public class ItemFlaskOfSouls extends AOTDItemWithCooldownPerItem
 		flaskKillRequirements.put("EntitySnowman", 32);
 		flaskKillRequirements.put("EntityWerewolf", 8);
 		flaskKillRequirements.put("EntityDeeeSyft", 8);
+		flaskKillRequirements.put("EntityEnchantedSkeleton", 32);
 	}
 
 	public ItemFlaskOfSouls()
@@ -180,7 +181,7 @@ public class ItemFlaskOfSouls extends AOTDItemWithCooldownPerItem
 					if (!this.isOnCooldown(itemStack))
 					{
 						String entityToSpawnName = NBTHelper.getString(itemStack, FLASK_TYPE);
-						String aotdEntity = Refrence.MOD_ID + "." + entityToSpawnName.substring(0, 1).toLowerCase() + entityToSpawnName.substring(1);
+						String aotdEntity = Refrence.MOD_ID + "." + entityToSpawnName.substring(6, 7).toLowerCase() + entityToSpawnName.substring(7);
 						if (EntityList.stringToClassMapping.containsKey(entityToSpawnName))
 						{
 							entityToSpawn = (EntityLiving) EntityList.createEntityByName(entityToSpawnName, world);
@@ -192,6 +193,10 @@ public class ItemFlaskOfSouls extends AOTDItemWithCooldownPerItem
 						else if (EntityList.stringToClassMapping.containsKey(entityToSpawnName.substring(6)))
 						{
 							entityToSpawn = (EntityLiving) EntityList.createEntityByName(entityToSpawnName.substring(6), world);
+						}
+						else
+						{
+							entityPlayer.addChatMessage(new ChatComponentText("The entity: " + entityToSpawnName + " is not supported by flasks at this time."));
 						}
 
 						if (entityToSpawn != null)
