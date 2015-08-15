@@ -13,6 +13,7 @@ import net.minecraft.util.MathHelper;
 public abstract class AOTDItemWithCooldownPerItem extends AOTDItem implements IHasCooldown
 {
 	public static final String LAST_COOLDOWN = "lastCooldown";
+	private long serverClientTimeDifference = 0;
 
 	public AOTDItemWithCooldownPerItem()
 	{
@@ -36,12 +37,17 @@ public abstract class AOTDItemWithCooldownPerItem extends AOTDItem implements IH
 	@Override
 	public double getDurabilityForDisplay(ItemStack itemStack)
 	{
-		return Math.max(0, 1 - (System.currentTimeMillis() - NBTHelper.getLong(itemStack, LAST_COOLDOWN)) / (this.getItemCooldownInTicks(itemStack) * 50.0));
+		return Math.max(0, 1 - (System.currentTimeMillis() - this.serverClientTimeDifference - NBTHelper.getLong(itemStack, LAST_COOLDOWN)) / (this.getItemCooldownInTicks(itemStack) * 50.0));
 	}
 
 	public void setOnCooldown(ItemStack itemStack)
 	{
 		NBTHelper.setLong(itemStack, LAST_COOLDOWN, System.currentTimeMillis());
+	}
+
+	public void setServerClientDifference(long difference)
+	{
+		this.serverClientTimeDifference = difference;
 	}
 
 	public boolean isOnCooldown(ItemStack itemStack)
