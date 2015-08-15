@@ -6,6 +6,7 @@
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
@@ -53,6 +54,7 @@ public class FlaskOfSoulsUpdate implements IMessage
 		public IMessage onMessage(final FlaskOfSoulsUpdate message, final MessageContext ctx)
 		{
 			long timeDifference = System.currentTimeMillis() - message.timeServer;
+			LogHelper.info(timeDifference);
 			ModItems.flaskOfSouls.setServerClientDifference(timeDifference);
 			return null;
 		}
