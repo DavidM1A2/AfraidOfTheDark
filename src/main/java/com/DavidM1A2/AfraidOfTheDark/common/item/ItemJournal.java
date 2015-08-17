@@ -13,7 +13,9 @@ import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
@@ -34,44 +36,85 @@ public class ItemJournal extends AOTDItem
 	@Override
 	public ItemStack onItemRightClick(final ItemStack itemStack, final World world, final EntityPlayer entityPlayer)
 	{
-		// If the journal has no owner
-		if (NBTHelper.getString(itemStack, "owner").equals(""))
+		if (itemStack.getItemDamage() == 0)
 		{
-			// If the player has started AOTD, set the NBT tag and open the journal
-			if (HasStartedAOTD.get(entityPlayer))
+			// If the journal has no owner
+			if (NBTHelper.getString(itemStack, "owner").equals(""))
 			{
-				NBTHelper.setString(itemStack, "owner", entityPlayer.getDisplayName().getUnformattedText());
+				// If the player has started AOTD, set the NBT tag and open the journal
+				if (HasStartedAOTD.get(entityPlayer))
+				{
+					NBTHelper.setString(itemStack, "owner", entityPlayer.getDisplayName().getUnformattedText());
+					if (world.isRemote)
+					{
+						entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_ID, world, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
+					}
+				}
+				else
+				{
+					// else open the signup page
+					if (world.isRemote)
+					{
+						entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_SIGN_ID, world, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
+					}
+				}
+			}
+			// If the owner is the current entityPlayer then open the journal
+			else if (NBTHelper.getString(itemStack, "owner").equals(entityPlayer.getDisplayName().getUnformattedText()))
+			{
 				if (world.isRemote)
 				{
 					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_ID, world, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
 				}
 			}
+			// Else this is someone else's journal so you cannot comprehend it
 			else
 			{
-				// else open the signup page
 				if (world.isRemote)
 				{
-					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_SIGN_ID, world, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
+					entityPlayer.addChatMessage(new ChatComponentText("I cannot comprehend this..."));
 				}
 			}
 		}
-		// If the owner is the current entityPlayer then open the journal
-		else if (NBTHelper.getString(itemStack, "owner").equals(entityPlayer.getDisplayName().getUnformattedText()))
+		else if (itemStack.getItemDamage() == 1)
 		{
-			if (world.isRemote)
+			if (entityPlayer.capabilities.isCreativeMode)
 			{
-				entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_ID, world, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
+				if (HasStartedAOTD.get(entityPlayer))
+				{
+					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_CHEAT_SHEET, world, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
+				}
+				else
+				{
+					if (!world.isRemote)
+					{
+						entityPlayer.addChatMessage(new ChatComponentText("You will need to sign a standard journal first."));
+					}
+				}
 			}
-		}
-		// Else this is someone else's journal so you cannot comprehend it
-		else
-		{
-			if (world.isRemote)
+			else
 			{
-				entityPlayer.addChatMessage(new ChatComponentText("I cannot comprehend this..."));
+				if (!world.isRemote)
+				{
+					entityPlayer.addChatMessage(new ChatComponentText("You must be in creative mode to use the cheat sheet."));
+				}
 			}
 		}
 		return itemStack;
+	}
+
+	/**
+	 * returns a list of items with the same ID, but different meta (eg: dye returns 16 items)
+	 * 
+	 * @param subItems
+	 *            The List of sub-items. This is a List of ItemStacks.
+	 */
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void getSubItems(Item item, CreativeTabs tab, List subItems)
+	{
+		subItems.add(new ItemStack(item, 1, 0));
+		subItems.add(new ItemStack(item, 1, 1));
 	}
 
 	// The journal shows who it is soulbound to
@@ -79,6 +122,13 @@ public class ItemJournal extends AOTDItem
 	@SideOnly(Side.CLIENT)
 	public void addInformation(final ItemStack itemStack, final EntityPlayer entityPlayer, final List information, final boolean p_77624_4_)
 	{
-		information.add("Item soulbound to " + NBTHelper.getString(itemStack, "owner"));
+		if (itemStack.getItemDamage() == 0)
+		{
+			information.add("Item soulbound to " + NBTHelper.getString(itemStack, "owner"));
+		}
+		else if (itemStack.getItemDamage() == 1)
+		{
+			information.add("Cheat Sheet");
+		}
 	}
 }

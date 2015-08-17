@@ -183,6 +183,8 @@ public class ModItems
 			}
 
 			itemModelMesher.register(ModItems.journal, 0, new ModelResourceLocation(Refrence.MOD_ID + ":journal", "inventory"));
+			itemModelMesher.register(ModItems.journal, 1, new ModelResourceLocation(Refrence.MOD_ID + ":journal", "inventory"));
+
 			itemModelMesher.register(ModItems.astralSilverSword, 0, new ModelResourceLocation(Refrence.MOD_ID + ":astralSilverSword", "inventory"));
 			itemModelMesher.register(ModItems.igneousSword, 0, new ModelResourceLocation(Refrence.MOD_ID + ":igneousSword", "inventory"));
 			itemModelMesher.register(ModItems.igneousSword, 1, new ModelResourceLocation(Refrence.MOD_ID + ":igneousSwordFullCharge", "inventory"));

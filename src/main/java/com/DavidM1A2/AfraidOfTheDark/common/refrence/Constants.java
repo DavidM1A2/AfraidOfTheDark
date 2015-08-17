@@ -251,8 +251,8 @@ public final class Constants
 		public static final Schematic tunnelNS;
 		public static final Schematic roomStairUp;
 		public static final Schematic roomStairDown;
-
 		public static final List<Schematic> rooms;
+		public static final Schematic stairwell;
 
 		static
 		{
@@ -287,7 +287,6 @@ public final class Constants
 			tunnelNS = SchematicLoader.load("gnomishCity/tunnelNS.schematic");
 			roomStairUp = SchematicLoader.load("gnomishCity/RoomStairUp.schematic");
 			roomStairDown = SchematicLoader.load("gnomishCity/RoomStairDown.schematic");
-
 			rooms = new ArrayList<Schematic>()
 			{
 				{
@@ -307,6 +306,7 @@ public final class Constants
 							ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block.getIdFromBlock(ModBlocks.eldritchObsidian)));
 				}
 			};
+			stairwell = SchematicLoader.load("gnomishCity/Stairwell.schematic");
 
 			SchematicBlockReplacer.replaceBlocks(treeSmall, Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
 			SchematicBlockReplacer.replaceBlocks(treeBranchyType1, Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
@@ -347,6 +347,7 @@ public final class Constants
 			SchematicBlockReplacer.fixKnownSchematicErrors(tunnelNS);
 			SchematicBlockReplacer.fixKnownSchematicErrors(roomStairUp);
 			SchematicBlockReplacer.fixKnownSchematicErrors(roomStairDown);
+			SchematicBlockReplacer.fixKnownSchematicErrors(stairwell);
 			SchematicBlockReplacer.replaceBlocks(tunnelEW, (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block
 					.getIdFromBlock(ModBlocks.eldritchObsidian));
 			SchematicBlockReplacer.replaceBlocks(tunnelNS, (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block
@@ -354,6 +355,8 @@ public final class Constants
 			SchematicBlockReplacer.replaceBlocks(roomStairUp, (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block
 					.getIdFromBlock(ModBlocks.eldritchObsidian));
 			SchematicBlockReplacer.replaceBlocks(roomStairDown, (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block
+					.getIdFromBlock(ModBlocks.eldritchObsidian));
+			SchematicBlockReplacer.replaceBlocks(stairwell, (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block
 					.getIdFromBlock(ModBlocks.eldritchObsidian));
 
 			if (Constants.isDebug)
