@@ -230,7 +230,8 @@ public class ItemFlaskOfSouls extends AOTDItemWithCooldownPerItem
 		if (NBTHelper.getString(itemStack, FLASK_TYPE).equals(""))
 		{
 			tooltip.add("Flask unbound.");
-			tooltip.add("Hold this in your hotbar while killing a mob to bind this flask.");
+			tooltip.add("Hold this in your hotbar while");
+			tooltip.add("killing a mob to bind this flask.");
 		}
 		else
 		{

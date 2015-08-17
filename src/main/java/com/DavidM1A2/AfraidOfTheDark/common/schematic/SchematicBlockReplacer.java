@@ -18,7 +18,8 @@ public class SchematicBlockReplacer
 							.getIdFromBlock(Blocks.acacia_stairs), -67, (short) Block.getIdFromBlock(Blocks.birch_fence), -65, (short) Block.getIdFromBlock(Blocks.dark_oak_fence), -121, (short) Block.getIdFromBlock(Blocks.birch_stairs), -128, (short) Block.getIdFromBlock(Blocks.sandstone_stairs),
 			-86, (short) Block.getIdFromBlock(Blocks.hay_block), -87, (short) Block.getIdFromBlock(Blocks.sea_lantern), -81, (short) Block.getIdFromBlock(Blocks.double_plant), -63, (short) Block.getIdFromBlock(Blocks.spruce_door), -59, (short) Block.getIdFromBlock(Blocks.dark_oak_door), -112,
 			(short) Block.getIdFromBlock(Blocks.skull), -93, (short) Block.getIdFromBlock(Blocks.acacia_stairs), -95, (short) Block.getIdFromBlock(Blocks.leaves), -107, (short) Block.getIdFromBlock(Blocks.unpowered_comparator), -115, (short) Block.getIdFromBlock(Blocks.carrots), -114, (short) Block
-					.getIdFromBlock(Blocks.potatoes), -70, (short) Block.getIdFromBlock(Blocks.dark_oak_fence_gate), -100, (short) Block.getIdFromBlock(Blocks.quartz_stairs), -88, (short) Block.getIdFromBlock(Blocks.prismarine) };
+					.getIdFromBlock(Blocks.potatoes), -70, (short) Block.getIdFromBlock(Blocks.dark_oak_fence_gate), -100, (short) Block.getIdFromBlock(Blocks.quartz_stairs), -88, (short) Block.getIdFromBlock(Blocks.prismarine), -79, (short) Block.getIdFromBlock(Blocks.wall_banner), -104,
+			(short) Block.getIdFromBlock(Blocks.redstone_block), (short) -77, (short) Block.getIdFromBlock(Blocks.red_sandstone), (short) -127, (short) Block.getIdFromBlock(Blocks.gold_ore) };
 
 	public static Schematic replaceBlocks(Schematic schematic, Block... blocks)
 	{

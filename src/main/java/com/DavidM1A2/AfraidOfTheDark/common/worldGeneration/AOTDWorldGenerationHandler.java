@@ -41,7 +41,11 @@ public class AOTDWorldGenerationHandler implements IWorldGenerator
 
 		BiomeGenBase current = world.getBiomeGenForCoords(new BlockPos(chunkX, 50, chunkZ));
 
-		if (current instanceof BiomeGenPlains)
+		if (chunkX == 0 && chunkZ == 0)
+		{
+			new GenerateGnomishCity(random, chunkX, chunkZ, world);
+		}
+		else if (current instanceof BiomeGenPlains)
 		{
 			if (random.nextDouble() < 0.002 * dungeonRarityMultiplyer)
 			{
