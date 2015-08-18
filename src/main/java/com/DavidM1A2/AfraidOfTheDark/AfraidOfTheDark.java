@@ -157,6 +157,7 @@ public class AfraidOfTheDark
 		{
 			ClientData.researchAchievedOverlay = new ResearchAchieved(Minecraft.getMinecraft());
 		}
+
 		LogHelper.info("Post-Initialization Complete");
 	}
 

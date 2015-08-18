@@ -8,6 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.worldGeneration;
 import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.biomes.BiomeErieForest;
+import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
 
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
@@ -21,8 +22,6 @@ import net.minecraftforge.fml.common.IWorldGenerator;
 
 public class AOTDWorldGenerationHandler implements IWorldGenerator
 {
-	private static final double RELEASE_DUNGEON_RARITY = 0.8;
-
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider)
 	{
@@ -30,15 +29,13 @@ public class AOTDWorldGenerationHandler implements IWorldGenerator
 		{
 			case 0:
 			{
-				generateSurface(world, random, chunkX * 16, chunkZ * 16);
+				this.generateSurface(world, random, chunkX * 16, chunkZ * 16);
 			}
 		}
 	}
 
 	private void generateSurface(World world, Random random, int chunkX, int chunkZ)
 	{
-		double dungeonRarityMultiplyer = RELEASE_DUNGEON_RARITY;
-
 		BiomeGenBase current = world.getBiomeGenForCoords(new BlockPos(chunkX, 50, chunkZ));
 
 		if (chunkX == 0 && chunkZ == 0)
@@ -47,55 +44,55 @@ public class AOTDWorldGenerationHandler implements IWorldGenerator
 		}
 		else if (current instanceof BiomeGenPlains)
 		{
-			if (random.nextDouble() < 0.002 * dungeonRarityMultiplyer)
+			if (random.nextDouble() < 0.0016 * ConfigurationHandler.dungeonFrequencyMultiplier)
 			{
 				new GenerateSprings(random, chunkX, chunkZ, world);
 			}
-			if (random.nextDouble() < 0.0012 * dungeonRarityMultiplyer)
+			if (random.nextDouble() < 0.00096 * ConfigurationHandler.dungeonFrequencyMultiplier)
 			{
 				new GenerateDarkForestDungeon(random, chunkX, chunkZ, world);
 			}
 		}
 		else if (current instanceof BiomeErieForest)
 		{
-			if (random.nextDouble() < 0.004 * dungeonRarityMultiplyer)
+			if (random.nextDouble() < 0.0032 * ConfigurationHandler.dungeonFrequencyMultiplier)
 			{
 				new GenerateSprings(random, chunkX, chunkZ, world);
 			}
-			if (random.nextDouble() < 0.003 * dungeonRarityMultiplyer)
+			if (random.nextDouble() < 0.002 * ConfigurationHandler.dungeonFrequencyMultiplier)
 			{
 				new GenerateDarkForestDungeon(random, chunkX, chunkZ, world);
 			}
-			if (random.nextDouble() < 0.01 * dungeonRarityMultiplyer)
+			if (random.nextDouble() < 0.01 * ConfigurationHandler.dungeonFrequencyMultiplier)
 			{
 				new GenerateCrypt(random, chunkX, chunkZ, world);
 			}
-			if (random.nextDouble() < 0.006 * dungeonRarityMultiplyer)
+			if (random.nextDouble() < 0.0048 * ConfigurationHandler.dungeonFrequencyMultiplier)
 			{
 				new GenerateWitchHut(random, chunkX, chunkZ, world);
 			}
 		}
 		else if (current instanceof BiomeGenSavanna)
 		{
-			if (random.nextDouble() < 0.004 * dungeonRarityMultiplyer)
+			if (random.nextDouble() < 0.0032 * ConfigurationHandler.dungeonFrequencyMultiplier)
 			{
 				new GenerateSprings(random, chunkX, chunkZ, world);
 			}
-			if (random.nextDouble() < 0.003 * dungeonRarityMultiplyer)
+			if (random.nextDouble() < 0.0024 * ConfigurationHandler.dungeonFrequencyMultiplier)
 			{
 				new GenerateDarkForestDungeon(random, chunkX, chunkZ, world);
 			}
 		}
 		else if (current instanceof BiomeGenSwamp)
 		{
-			if (random.nextDouble() < 0.01 * dungeonRarityMultiplyer)
+			if (random.nextDouble() < 0.008 * ConfigurationHandler.dungeonFrequencyMultiplier)
 			{
 				new GenerateWitchHut(random, chunkX, chunkZ, world);
 			}
 		}
 		else if (current instanceof BiomeGenSnow)
 		{
-			if (random.nextDouble() < 0.003 * dungeonRarityMultiplyer)
+			if (random.nextDouble() < 0.0024 * ConfigurationHandler.dungeonFrequencyMultiplier)
 			{
 				new GenerateVoidChest(random, chunkX, chunkZ, world);
 			}
