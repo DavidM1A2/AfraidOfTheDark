@@ -83,6 +83,7 @@ public class AfraidOfTheDark
 		// Initialize any player events
 		final PlayerController controller = new PlayerController();
 		MinecraftForge.EVENT_BUS.register(controller);
+		MinecraftForge.TERRAIN_GEN_BUS.register(controller);
 		FMLCommonHandler.instance().bus().register(controller);
 		// Initialize any world events
 		MinecraftForge.EVENT_BUS.register(new WorldEvents());

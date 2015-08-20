@@ -40,7 +40,7 @@ public class AOTDWorldGenerationHandler implements IWorldGenerator
 
 		if (chunkX == 0 && chunkZ == 0)
 		{
-			new GenerateGnomishCity(random, chunkX, chunkZ, world);
+			//new GenerateGnomishCity(random, chunkX, chunkZ, world);
 		}
 		else if (current instanceof BiomeGenPlains)
 		{
