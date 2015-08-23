@@ -5,7 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts;
 
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.ICanTakeSilverDamage;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
@@ -49,7 +49,7 @@ public class EntitySilverBolt extends EntityBolt
 	{
 		final Entity entityHit = movingObjectPosition.entityHit;
 
-		if (!(entityHit instanceof EntityWerewolf))
+		if (!(entityHit instanceof ICanTakeSilverDamage))
 		{
 			super.onImpact(movingObjectPosition);
 		}

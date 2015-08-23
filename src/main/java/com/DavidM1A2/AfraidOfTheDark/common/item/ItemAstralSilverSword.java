@@ -5,7 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.item;
 
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.ICanTakeSilverDamage;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDSword;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
@@ -32,7 +32,7 @@ public class ItemAstralSilverSword extends AOTDSword
 	{
 		if (Research.isResearched(player, ResearchTypes.AstralSilver))
 		{
-			if (entity instanceof EntityWerewolf)
+			if (entity instanceof ICanTakeSilverDamage)
 			{
 				if (HasStartedAOTD.get(player))
 				{

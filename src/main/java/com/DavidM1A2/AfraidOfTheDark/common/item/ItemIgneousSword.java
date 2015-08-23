@@ -7,7 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 
 import java.util.List;
 
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.ICanTakeSilverDamage;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDChargableSword;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
@@ -41,7 +41,7 @@ public class ItemIgneousSword extends AOTDChargableSword
 			{
 				entity.setFire(5 + EnchantmentHelper.getEnchantmentLevel(20, stack) * 10);
 
-				if (entity instanceof EntityWerewolf)
+				if (entity instanceof ICanTakeSilverDamage)
 				{
 					entity.attackEntityFrom(Constants.AOTDDamageSources.getSilverDamage(player), 10F);
 				}

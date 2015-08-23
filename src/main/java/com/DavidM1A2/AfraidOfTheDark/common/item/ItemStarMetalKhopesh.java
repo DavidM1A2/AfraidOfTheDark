@@ -7,7 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 
 import java.util.List;
 
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.ICanTakeSilverDamage;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDChargableSword;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
@@ -61,7 +61,7 @@ public class ItemStarMetalKhopesh extends AOTDChargableSword
 	{
 		if (Research.isResearched(player, ResearchTypes.StarMetal))
 		{
-			if (entity instanceof EntityWerewolf)
+			if (entity instanceof ICanTakeSilverDamage)
 			{
 				if (HasStartedAOTD.get(player))
 				{

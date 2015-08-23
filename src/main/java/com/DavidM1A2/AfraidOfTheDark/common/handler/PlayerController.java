@@ -14,6 +14,7 @@ import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare.NightmareTeleporter;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.EntityEnaria;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemFlaskOfSouls;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateAOTDStatus;
@@ -239,6 +240,13 @@ public class PlayerController
 				AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateAOTDStatus(HasStartedAOTD.get(entityPlayer)), (EntityPlayerMP) entityPlayer);
 
 				AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateResearch(Research.get(entityPlayer), false), (EntityPlayerMP) entityPlayer);
+			}
+		}
+		else if (event.entity instanceof EntityEnaria)
+		{
+			if (!event.entity.getEntityData().getBoolean(EntityEnaria.IS_VALID))
+			{
+				event.entity.killCommand();
 			}
 		}
 	}

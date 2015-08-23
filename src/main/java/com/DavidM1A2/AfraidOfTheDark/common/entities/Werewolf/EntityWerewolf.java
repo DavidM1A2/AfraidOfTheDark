@@ -8,6 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf;
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.ICanTakeSilverDamage;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.TellClientToPlayAnimation;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
@@ -30,7 +31,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
+public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity, ICanTakeSilverDamage
 {
 	protected AnimationHandler animHandler = new AnimationHandlerWerewolf(this);
 	// setup movespeed, agroRange, and followRange

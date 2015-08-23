@@ -8,15 +8,12 @@ package com.DavidM1A2.AfraidOfTheDark.common.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.EntityEnaria;
 
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
-import net.minecraftforge.fml.relauncher.Side;
 
 public class ResearchUnlocker implements ICommand
 {
@@ -62,16 +59,23 @@ public class ResearchUnlocker implements ICommand
 	public void processCommand(final ICommandSender iCommandSender, final String[] p_71515_2_)
 	{
 		final EntityPlayer sender = (EntityPlayer) iCommandSender.getCommandSenderEntity();
-		if (HasStartedAOTD.get(sender))
+		if (!sender.worldObj.isRemote)
 		{
-			for (ResearchTypes type : ResearchTypes.values())
-			{
-				if (!Research.isResearched(sender, type))
-				{
-					Research.unlockResearchSynced(sender, type, Side.SERVER, false);
-				}
-			}
+			EntityEnaria enaria = new EntityEnaria(sender.worldObj);
+			enaria.getEntityData().setBoolean(EntityEnaria.IS_VALID, true);
+			enaria.setPosition(sender.posX, sender.posY, sender.posZ);
+			sender.worldObj.spawnEntityInWorld(enaria);
 		}
+		//		if (HasStartedAOTD.get(sender))
+		//		{
+		//			for (ResearchTypes type : ResearchTypes.values())
+		//			{
+		//				if (!Research.isResearched(sender, type))
+		//				{
+		//					Research.unlockResearchSynced(sender, type, Side.SERVER, false);
+		//				}
+		//			}
+		//		}
 	}
 
 	@Override
