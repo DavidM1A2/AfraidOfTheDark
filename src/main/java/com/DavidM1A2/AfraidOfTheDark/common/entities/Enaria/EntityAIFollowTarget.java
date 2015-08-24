@@ -19,6 +19,7 @@ public class EntityAIFollowTarget extends EntityAIBase
 	private double speed;
 	private double range;
 	private static final int MAX_RANGE = 256;
+	private static final int TRACK_RANGE = 32;
 	private int timeSinceLastUpdate = 0;
 
 	public EntityAIFollowTarget(EntityLiving entity, double speed, double range)
@@ -31,7 +32,7 @@ public class EntityAIFollowTarget extends EntityAIBase
 	@Override
 	public boolean shouldExecute()
 	{
-		List list = this.entity.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.entity.getEntityBoundingBox().expand(range, range, range));
+		List list = this.entity.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.entity.getEntityBoundingBox().expand(TRACK_RANGE, TRACK_RANGE, TRACK_RANGE));
 		EntityPlayer entityPlayer = null;
 		double minDistance = Double.MAX_VALUE;
 		Iterator iterator = list.iterator();
@@ -73,6 +74,7 @@ public class EntityAIFollowTarget extends EntityAIBase
 	@Override
 	public void resetTask()
 	{
+		this.entity.getNavigator().clearPathEntity();
 		this.target = null;
 	}
 
@@ -88,7 +90,7 @@ public class EntityAIFollowTarget extends EntityAIBase
 	@Override
 	public boolean continueExecuting()
 	{
-		if (!this.target.isEntityAlive())
+		if (!this.target.isEntityAlive() || this.target.capabilities.isCreativeMode)
 		{
 			return false;
 		}

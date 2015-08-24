@@ -8,7 +8,6 @@ package com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
@@ -39,7 +38,7 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 {
 	protected AnimationHandler animHandler = new AnimationHandlerEnaria(this);
 
-	private static final double MOVE_SPEED = 0.25D;
+	private static final double MOVE_SPEED = 1.0D;
 	private static final double AGRO_RANGE = 16.0D;
 	private static final double FOLLOW_RANGE = 32.0D;
 	private static final double MAX_HEALTH = 400.0D;
@@ -52,7 +51,6 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 	private static final double KNOCKBACK_POWER = 30;
 	private static final int MAX_KNOCKBACK_RANGE = 10;
 	private static final int POTION_POISON_RANGE = 20;
-	private Random random = new Random();
 	private final PotionEffect[] possibleEffects;
 
 	public EntityEnaria(World world)
@@ -119,7 +117,7 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 		}
 		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(EntityEnaria.MOVE_SPEED);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(EntityEnaria.MOVE_SPEED / 0.25);
 		}
 		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.attackDamage) == null)
 		{
@@ -178,7 +176,7 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 	{
 		if (!this.worldObj.isRemote)
 		{
-			switch (random.nextInt(3))
+			switch (this.rand.nextInt(4))
 			{
 				case 0:
 				{
@@ -195,6 +193,27 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 					this.attackAOEPotion();
 					break;
 				}
+				case 3:
+				{
+					this.attackShuffleInventory();
+					break;
+				}
+			}
+		}
+	}
+
+	private void attackShuffleInventory()
+	{
+		for (Object object : this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().expand(POTION_POISON_RANGE, POTION_POISON_RANGE, POTION_POISON_RANGE)))
+		{
+			if (object instanceof EntityPlayer)
+			{
+				EntityPlayer entityPlayer = (EntityPlayer) object;
+
+				if (!entityPlayer.capabilities.isCreativeMode)
+				{
+					Collections.shuffle(Arrays.asList(entityPlayer.inventory.mainInventory));
+				}
 			}
 		}
 	}
@@ -202,18 +221,22 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 	private void attackSummonWerewolves()
 	{
 		int numberOfWWsSpawned = 0;
+		int maxWWsSpawned = this.rand.nextInt(3) + 2;
 
 		for (EnumFacing facing : EnumFacing.HORIZONTALS)
 		{
-			BlockPos current = this.getPosition().offset(facing);
-			IBlockState block = this.worldObj.getBlockState(current);
-			if (block.getBlock() instanceof BlockAir)
+			if (numberOfWWsSpawned < maxWWsSpawned)
 			{
-				EntityWerewolf werewolf = new EntityWerewolf(this.worldObj);
-				werewolf.setPosition(current.getX(), current.getY(), current.getZ());
-				this.worldObj.spawnEntityInWorld(werewolf);
+				BlockPos current = this.getPosition().offset(facing);
+				IBlockState block = this.worldObj.getBlockState(current);
+				if (block.getBlock() instanceof BlockAir)
+				{
+					EntityWerewolf werewolf = new EntityWerewolf(this.worldObj);
+					werewolf.setPosition(current.getX(), current.getY(), current.getZ());
+					this.worldObj.spawnEntityInWorld(werewolf);
 
-				numberOfWWsSpawned = numberOfWWsSpawned + 1;
+					numberOfWWsSpawned = numberOfWWsSpawned + 1;
+				}
 			}
 		}
 
@@ -231,13 +254,15 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 			{
 				EntityPlayer entityPlayer = (EntityPlayer) object;
 
-				Collections.shuffle(Arrays.asList(this.possibleEffects));
+				if (!entityPlayer.capabilities.isCreativeMode)
+				{
+					Collections.shuffle(Arrays.asList(this.possibleEffects));
 
-				// 4 random potion effects
-				entityPlayer.addPotionEffect(this.possibleEffects[0]);
-				entityPlayer.addPotionEffect(this.possibleEffects[1]);
-				entityPlayer.addPotionEffect(this.possibleEffects[2]);
-				entityPlayer.addPotionEffect(this.possibleEffects[3]);
+					// 3 random potion effects
+					entityPlayer.addPotionEffect(this.possibleEffects[0]);
+					entityPlayer.addPotionEffect(this.possibleEffects[1]);
+					entityPlayer.addPotionEffect(this.possibleEffects[2]);
+				}
 			}
 		}
 	}
@@ -251,8 +276,8 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 			int y = (int) this.posY;
 			int z = (int) this.posZ;
 
-			x = (int) (x + (random.nextDouble() - 0.5) * TELEPORT_RANGE);
-			z = (int) (z + (random.nextDouble() - 0.5) * TELEPORT_RANGE);
+			x = (int) (x + (this.rand.nextDouble() - 0.5) * TELEPORT_RANGE);
+			z = (int) (z + (this.rand.nextDouble() - 0.5) * TELEPORT_RANGE);
 
 			BlockPos newPosition = new BlockPos(x, y, z);
 
