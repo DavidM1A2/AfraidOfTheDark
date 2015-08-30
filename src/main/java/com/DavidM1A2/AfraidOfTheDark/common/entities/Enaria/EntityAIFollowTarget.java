@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -16,16 +17,14 @@ public class EntityAIFollowTarget extends EntityAIBase
 {
 	private EntityLiving entity;
 	private EntityPlayer target;
-	private double speed;
 	private double range;
 	private static final int MAX_RANGE = 256;
 	private static final int TRACK_RANGE = 32;
 	private int timeSinceLastUpdate = 0;
 
-	public EntityAIFollowTarget(EntityLiving entity, double speed, double range)
+	public EntityAIFollowTarget(EntityLiving entity, double range)
 	{
 		this.entity = entity;
-		this.speed = speed;
 		this.range = range;
 	}
 
@@ -111,7 +110,7 @@ public class EntityAIFollowTarget extends EntityAIBase
 		if (this.timeSinceLastUpdate <= 0)
 		{
 			this.timeSinceLastUpdate = 10;
-			this.entity.getNavigator().tryMoveToEntityLiving(this.target, this.speed);
+			this.entity.getNavigator().tryMoveToEntityLiving(this.target, this.entity.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue());
 		}
 	}
 }

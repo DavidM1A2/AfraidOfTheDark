@@ -64,7 +64,12 @@ public class EntityAIAttackEnaria extends EntityAIBase
 		if (this.attackTime <= 0)
 		{
 			this.attackTime = this.enaria.worldObj.rand.nextInt(100) + 100;
-			this.enaria.attackEntityWithRangedAttack(target, 0);
+			this.enaria.getEnariaAttacks().performRandomAttack();
+		}
+		else if (this.attackTime % 40 == 0)
+		{
+			this.enaria.getEnariaAttacks().performBasicAttack();
+			this.attackTime = this.attackTime - 1;
 		}
 		else
 		{

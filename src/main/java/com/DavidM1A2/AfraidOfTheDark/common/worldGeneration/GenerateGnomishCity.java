@@ -61,6 +61,7 @@ public class GenerateGnomishCity
 
 			List<Integer> rooms = new LinkedList<Integer>();
 
+			// Make sure every room is added
 			for (int i = 0; i < 12; i++)
 			{
 				if (i < Constants.AOTDSchematics.rooms.size())
@@ -75,6 +76,7 @@ public class GenerateGnomishCity
 
 			Collections.shuffle(rooms, random);
 
+			// Rooms
 			for (int k = 0; k < 2; k++)
 			{
 				for (int i = 0; i < 3; i++)
@@ -108,6 +110,7 @@ public class GenerateGnomishCity
 					}
 				}
 			}
+			//Create tunnels
 			for (int k = 0; k < 2; k++)
 			{
 				for (int i = 0; i < 3; i++)

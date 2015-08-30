@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Point3D;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.LootTable;
@@ -74,7 +75,10 @@ public final class SchematicGenerator
 		List<Byte> blocksToPlaceLaterMeta = new LinkedList<Byte>();
 		List<Point3D> laterBlockPositions = new LinkedList<Point3D>();
 
-		SchematicGenerator.printIncorrectIds(schematic.getBlocks());
+		if (Constants.isDebug)
+		{
+			SchematicGenerator.printIncorrectIds(schematic.getBlocks());
+		}
 
 		for (int y = 0; y < schematic.getHeight(); y++)
 		{
@@ -83,20 +87,20 @@ public final class SchematicGenerator
 				for (int x = 0; x < schematic.getWidth(); x++)
 				{
 					Block nextToPlace = Block.getBlockById(schematic.getBlocks()[i]);
-					BlockPos currentLocation = new BlockPos(x + xPosition, y + yPosition, z + zPosition);
+
 					if (nextToPlace == Blocks.diamond_block)
 					{
-						world.setBlockToAir(new BlockPos(currentLocation));
+						world.setBlockToAir(new BlockPos(x + xPosition, y + yPosition, z + zPosition));
 					}
 					else if (latePlacePriorityBlocks.contains(schematic.getBlocks()[i]))
 					{
 						blocksToPlaceLater.add(schematic.getBlocks()[i]);
 						blocksToPlaceLaterMeta.add(schematic.getData()[i]);
-						laterBlockPositions.add(new Point3D(currentLocation.getX(), currentLocation.getY(), currentLocation.getZ()));
+						laterBlockPositions.add(new Point3D(x + xPosition, y + yPosition, z + zPosition));
 					}
 					else if (nextToPlace != Blocks.air)
 					{
-						world.setBlockState(currentLocation, nextToPlace.getStateFromMeta(schematic.getData()[i]));
+						world.setBlockState(new BlockPos(x + xPosition, y + yPosition, z + zPosition), nextToPlace.getStateFromMeta(schematic.getData()[i]), 0);
 					}
 
 					i = i + 1;
@@ -119,13 +123,13 @@ public final class SchematicGenerator
 			{
 				if (blockState.getValue(BlockDoor.HALF_PROP).equals(BlockDoor.EnumDoorHalf.LOWER))
 				{
-					world.setBlockState(blockPos, blockState);
-					world.setBlockState(blockPos.offsetUp(), blockState.withProperty(BlockDoor.HALF_PROP, BlockDoor.EnumDoorHalf.UPPER));
+					world.setBlockState(blockPos, blockState, 0);
+					world.setBlockState(blockPos.offsetUp(), blockState.withProperty(BlockDoor.HALF_PROP, BlockDoor.EnumDoorHalf.UPPER), 0);
 				}
 			}
 			else
 			{
-				world.setBlockState(blockPos, blockState);
+				world.setBlockState(blockPos, blockState, 0);
 			}
 		}
 	}
