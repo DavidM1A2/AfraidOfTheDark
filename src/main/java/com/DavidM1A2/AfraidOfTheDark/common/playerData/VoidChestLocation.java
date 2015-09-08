@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.FileInputStream;
 
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.WorldGenerationUtility;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -69,7 +69,7 @@ public class VoidChestLocation implements IExtendedEntityProperties
 		int[] location = entityPlayer.getEntityData().getIntArray(PLAYER_LOCATION_OVERWORLD);
 		if (location.length == 0)
 		{
-			return new BlockPos(0, Utility.getFirstNonAirBlock(entityPlayer.worldObj, 0, 0) + 2, 0);
+			return new BlockPos(0, WorldGenerationUtility.getFirstNonAirBlock(entityPlayer.worldObj, 0, 0) + 2, 0);
 		}
 		return new BlockPos(location[0], location[1], location[2]);
 	}

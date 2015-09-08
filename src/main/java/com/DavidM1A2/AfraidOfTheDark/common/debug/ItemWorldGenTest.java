@@ -9,7 +9,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicGenerator;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.UnsupportedLocationException;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.WorldGenerationUtility;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -37,7 +37,7 @@ public class ItemWorldGenTest extends AOTDItem
 
 			try
 			{
-				int y = Utility.getPlaceToSpawnLowest(world, adjustedX + Constants.AOTDSchematics.treeBranchyType2.getWidth() / 2 + 2, adjustedZ + Constants.AOTDSchematics.treeBranchyType2.getHeight() / 2 - 7, 5, 5);
+				int y = WorldGenerationUtility.getPlaceToSpawnLowest(world, adjustedX + Constants.AOTDSchematics.treeBranchyType2.getWidth() / 2 + 2, adjustedZ + Constants.AOTDSchematics.treeBranchyType2.getHeight() / 2 - 7, 5, 5);
 				entityPlayer.addChatMessage(new ChatComponentText("Placed... may take a few seconds to load."));
 				SchematicGenerator.generateSchematic(Constants.AOTDSchematics.treeLargeDonut, world, adjustedX, y - 3, adjustedZ);
 			}

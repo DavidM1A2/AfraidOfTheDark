@@ -34,6 +34,17 @@ public class AOTDWorldGenerationHandler implements IWorldGenerator
 		}
 	}
 
+	public void generate(Random random, int chunkX, int chunkZ, World world)
+	{
+		switch (world.provider.getDimensionId())
+		{
+			case 0:
+			{
+				this.generateSurface(world, random, chunkX * 16, chunkZ * 16);
+			}
+		}
+	}
+
 	private void generateSurface(World world, Random random, int chunkX, int chunkZ)
 	{
 		BiomeGenBase current = world.getBiomeGenForCoords(new BlockPos(chunkX, 50, chunkZ));

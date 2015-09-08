@@ -11,8 +11,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewood;
-import com.DavidM1A2.AfraidOfTheDark.common.block.BlockVoidChestPortal;
 import com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest.VoidChestTeleporter;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Insanity;
@@ -25,14 +23,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedResearchUpdat
 import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedVitaeUpdate;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockAir;
-import net.minecraft.block.BlockDirt;
-import net.minecraft.block.BlockDirt.DirtType;
-import net.minecraft.block.BlockGrass;
-import net.minecraft.block.BlockLog;
-import net.minecraft.block.BlockSnow;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -42,11 +33,8 @@ import net.minecraft.network.play.server.S07PacketRespawn;
 import net.minecraft.network.play.server.S1DPacketEntityEffect;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.management.ServerConfigurationManager;
-import net.minecraft.util.BlockPos;
 import net.minecraft.world.Teleporter;
-import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
@@ -268,107 +256,5 @@ public class Utility
 		Constants.TIMER_FOR_DELAYS.schedule(new DelayedInsanityUpdate(entityPlayer, Insanity.get(entityPlayer)), 600, TimeUnit.MILLISECONDS);
 		Constants.TIMER_FOR_DELAYS.schedule(new DelayedResearchUpdate(entityPlayer, Research.get(entityPlayer)), 700, TimeUnit.MILLISECONDS);
 		Constants.TIMER_FOR_DELAYS.schedule(new DelayedVitaeUpdate(entityPlayer, Vitae.get(entityPlayer)), 800, TimeUnit.MILLISECONDS);
-	}
-
-	public static int getFirstNonAirBlock(World world, int x, int z) throws UnsupportedLocationException
-	{
-		int y = 255;
-		while (y > 0)
-		{
-			Block current = world.getBlockState(new BlockPos(x, y, z)).getBlock();
-			if (!(current instanceof BlockAir))
-			{
-				return y;
-			}
-			else if (current instanceof BlockVoidChestPortal)
-			{
-				world.setBlockState(new BlockPos(x, y, z), Blocks.stone.getDefaultState());
-				return y;
-			}
-			y = y - 1;
-		}
-		return 0;
-	}
-
-	public static int getPlaceToSpawnAverage(World world, int x, int z, int height, int width) throws UnsupportedLocationException
-	{
-		int y1 = 0;
-		int y2 = 0;
-		int y3 = 0;
-		int y4 = 0;
-
-		y1 = getTheYValueAtCoords(world, x, z);
-		y2 = getTheYValueAtCoords(world, x + width, z);
-		y3 = getTheYValueAtCoords(world, x, z + height);
-		y4 = getTheYValueAtCoords(world, x + width, z + height);
-
-		if (y1 == 0 || y2 == 0 || y3 == 0 || y4 == 0)
-		{
-			throw new UnsupportedLocationException(y1, y2, y3, y4);
-		}
-		else
-		{
-			return (y1 + y2 + y3 + y4) / 4;
-		}
-	}
-
-	public static int getPlaceToSpawnLowest(World world, int x, int z, int height, int width) throws UnsupportedLocationException
-	{
-		int y1 = 0;
-		int y2 = 0;
-		int y3 = 0;
-		int y4 = 0;
-
-		y1 = getTheYValueAtCoords(world, x, z);
-		y2 = getTheYValueAtCoords(world, x + width, z);
-		y3 = getTheYValueAtCoords(world, x, z + height);
-		y4 = getTheYValueAtCoords(world, x + width, z + height);
-
-		if (y1 == 0 || y2 == 0 || y3 == 0 || y4 == 0)
-		{
-			throw new UnsupportedLocationException(y1, y2, y3, y4);
-		}
-		else
-		{
-			return Math.min(y1, Math.min(y2, Math.min(y3, y4)));
-		}
-	}
-
-	private static int getTheYValueAtCoords(World world, int x, int z)
-	{
-		int temp = 255;
-		while (temp > 0)
-		{
-			Block current = world.getBlockState(new BlockPos(x, temp, z)).getBlock();
-			if (current instanceof BlockFluidBase)
-			{
-				return 0;
-			}
-			if (current instanceof BlockGrass)
-			{
-				return temp;
-			}
-			if (current instanceof BlockDirt)
-			{
-				if (world.canSeeSky(new BlockPos(x, temp, z)))
-				{
-					return temp;
-				}
-				else if (world.getBlockState(new BlockPos(x, temp, z)) == Blocks.dirt.getDefaultState().withProperty(BlockDirt.VARIANT, DirtType.PODZOL))
-				{
-					return temp;
-				}
-				else if (world.getBlockState(new BlockPos(x, temp + 1, z)).getBlock() instanceof BlockLog || world.getBlockState(new BlockPos(x, temp + 1, z)).getBlock() instanceof BlockGravewood)
-				{
-					return temp;
-				}
-			}
-			if (world.getBlockState(new BlockPos(x, temp + 1, z)).getBlock() instanceof BlockSnow)
-			{
-				return temp;
-			}
-			temp = temp - 1;
-		}
-		return 0;
 	}
 }

@@ -11,7 +11,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicGenerator;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.UnsupportedLocationException;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.WorldGenerationUtility;
 
 import net.minecraft.world.World;
 
@@ -27,7 +27,7 @@ public class GenerateCrypt
 		int y;
 		try
 		{
-			y = Utility.getPlaceToSpawnLowest(world, chunkX + 12, chunkZ + 12, 7, 7);
+			y = WorldGenerationUtility.getPlaceToSpawnLowest(world, chunkX + 12, chunkZ + 12, 7, 7);
 
 			if (Constants.isDebug)
 			{

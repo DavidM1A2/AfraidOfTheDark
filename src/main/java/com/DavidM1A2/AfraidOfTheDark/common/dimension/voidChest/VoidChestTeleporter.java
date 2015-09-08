@@ -8,7 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockVoidChestPortal;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.VoidChestLocation;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.WorldGenerationUtility;
 
 import net.minecraft.block.BlockAir;
 import net.minecraft.entity.Entity;
@@ -68,7 +68,7 @@ public class VoidChestTeleporter extends Teleporter
 				if (!entityPlayer.worldObj.isRemote)
 				{
 					VoidChestLocation.setOverworldLocation(entityPlayer, new int[]
-					{ 0, Utility.getFirstNonAirBlock(MinecraftServer.getServer().worldServerForDimension(0), 0, 0), 0 });
+					{ 0, WorldGenerationUtility.getFirstNonAirBlock(MinecraftServer.getServer().worldServerForDimension(0), 0, 0), 0 });
 				}
 				else
 				{

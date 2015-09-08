@@ -15,6 +15,7 @@ import java.util.Set;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Point3D;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.WorldGenerationUtility;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.LootTable;
 
 import net.minecraft.block.Block;
@@ -39,18 +40,23 @@ public final class SchematicGenerator
 									.getIdFromBlock(Blocks.carpet), (short) Block.getIdFromBlock(Blocks.iron_door), (short) Block.getIdFromBlock(Blocks.ladder), (short) Block.getIdFromBlock(Blocks.dark_oak_door), (short) Block.getIdFromBlock(Blocks.birch_door), (short) Block.getIdFromBlock(
 											Blocks.oak_door), (short) Block.getIdFromBlock(Blocks.acacia_door), (short) Block.getIdFromBlock(Blocks.spruce_door), (short) Block.getIdFromBlock(Blocks.double_plant) }));
 
+	private static final int DIAMOND_BLOCK_ID = Block.getIdFromBlock(Blocks.diamond_block);
+	private static final int AIR_BLOCK_ID = Block.getIdFromBlock(Blocks.air);
+
 	public static void generateSchematic(Schematic schematic, World world, int xPosition, int yPosition, int zPosition)
 	{
 		if (schematic == null)
 		{
 			return;
 		}
+		else
+		{
+			SchematicGenerator.generateBlocks(schematic, world, xPosition, yPosition, zPosition);
 
-		SchematicGenerator.generateBlocks(schematic, world, xPosition, yPosition, zPosition);
+			SchematicGenerator.loadTileEntities(schematic, world, xPosition, yPosition, zPosition);
 
-		SchematicGenerator.loadTileEntities(schematic, world, xPosition, yPosition, zPosition);
-
-		SchematicGenerator.loadEntities(schematic, world, xPosition, yPosition, zPosition);
+			SchematicGenerator.loadEntities(schematic, world, xPosition, yPosition, zPosition);
+		}
 	}
 
 	public static void generateSchematicWithLoot(Schematic schematic, World world, int xPosition, int yPosition, int zPosition, LootTable lootTable)
@@ -59,12 +65,14 @@ public final class SchematicGenerator
 		{
 			return;
 		}
+		else
+		{
+			SchematicGenerator.generateBlocks(schematic, world, xPosition, yPosition, zPosition);
 
-		SchematicGenerator.generateBlocks(schematic, world, xPosition, yPosition, zPosition);
+			SchematicGenerator.loadTileEntitiesWithLoot(schematic, world, xPosition, yPosition, zPosition, lootTable);
 
-		SchematicGenerator.loadTileEntitiesWithLoot(schematic, world, xPosition, yPosition, zPosition, lootTable);
-
-		SchematicGenerator.loadEntities(schematic, world, xPosition, yPosition, zPosition);
+			SchematicGenerator.loadEntities(schematic, world, xPosition, yPosition, zPosition);
+		}
 	}
 
 	private static void generateBlocks(Schematic schematic, World world, int xPosition, int yPosition, int zPosition)
@@ -80,27 +88,41 @@ public final class SchematicGenerator
 			SchematicGenerator.printIncorrectIds(schematic.getBlocks());
 		}
 
+		// A schematic is just a code representation of an MCEdit Schematic
 		for (int y = 0; y < schematic.getHeight(); y++)
 		{
 			for (int z = 0; z < schematic.getLength(); z++)
 			{
 				for (int x = 0; x < schematic.getWidth(); x++)
 				{
-					Block nextToPlace = Block.getBlockById(schematic.getBlocks()[i]);
+					// This is the next block in the schematic file we will place stored as a short
 
-					if (nextToPlace == Blocks.diamond_block)
+					//Block nextToPlace = Block.getBlockById(schematic.getBlocks()[i]);
+					int nextToPlace = schematic.getBlocks()[i];
+
+					if (nextToPlace != SchematicGenerator.AIR_BLOCK_ID)
 					{
-						world.setBlockToAir(new BlockPos(x + xPosition, y + yPosition, z + zPosition));
-					}
-					else if (latePlacePriorityBlocks.contains(schematic.getBlocks()[i]))
-					{
-						blocksToPlaceLater.add(schematic.getBlocks()[i]);
-						blocksToPlaceLaterMeta.add(schematic.getData()[i]);
-						laterBlockPositions.add(new Point3D(x + xPosition, y + yPosition, z + zPosition));
-					}
-					else if (nextToPlace != Blocks.air)
-					{
-						world.setBlockState(new BlockPos(x + xPosition, y + yPosition, z + zPosition), nextToPlace.getStateFromMeta(schematic.getData()[i]), 0);
+						// Diamond blocks represent air blocks in my schematic system. This allows for easy underground
+						// structure generation.
+						if (nextToPlace == SchematicGenerator.DIAMOND_BLOCK_ID)
+						{
+							WorldGenerationUtility.setBlockStateFast(world, new BlockPos(x + xPosition, y + yPosition, z + zPosition), Blocks.air.getDefaultState(), 3);
+						}
+						// latePlacePriorityBlocks is a hashset that contains a list of blocks that need another block
+						// placed first in order to be placed (Like torches or laddedrs require a block to be hanging off, etc)
+						else if (latePlacePriorityBlocks.contains(schematic.getBlocks()[i]))
+						{
+							// 3 Array lists that save each of these block's properties
+							blocksToPlaceLater.add(schematic.getBlocks()[i]);
+							blocksToPlaceLaterMeta.add(schematic.getData()[i]);
+							laterBlockPositions.add(new Point3D(x + xPosition, y + yPosition, z + zPosition));
+						}
+						// If the block is air, we leave the block untouched, this makes underground world gen easy
+						// Else, we set the block state
+						else
+						{
+							WorldGenerationUtility.setBlockStateFast(world, new BlockPos(x + xPosition, y + yPosition, z + zPosition), Block.getBlockById(nextToPlace).getStateFromMeta(schematic.getData()[i]), 3);
+						}
 					}
 
 					i = i + 1;
@@ -123,13 +145,13 @@ public final class SchematicGenerator
 			{
 				if (blockState.getValue(BlockDoor.HALF_PROP).equals(BlockDoor.EnumDoorHalf.LOWER))
 				{
-					world.setBlockState(blockPos, blockState, 0);
-					world.setBlockState(blockPos.offsetUp(), blockState.withProperty(BlockDoor.HALF_PROP, BlockDoor.EnumDoorHalf.UPPER), 0);
+					WorldGenerationUtility.setBlockStateFast(world, blockPos, blockState, 3);
+					WorldGenerationUtility.setBlockStateFast(world, blockPos.offsetUp(), blockState.withProperty(BlockDoor.HALF_PROP, BlockDoor.EnumDoorHalf.UPPER), 3);
 				}
 			}
 			else
 			{
-				world.setBlockState(blockPos, blockState, 0);
+				WorldGenerationUtility.setBlockStateFast(world, blockPos, blockState, 3);
 			}
 		}
 	}
@@ -229,5 +251,4 @@ public final class SchematicGenerator
 			LogHelper.info(numberOfIncorrect[Math.abs(b)] + " incorrect ids of the id " + b + " found in the schematic. ");
 		}
 	}
-
 }

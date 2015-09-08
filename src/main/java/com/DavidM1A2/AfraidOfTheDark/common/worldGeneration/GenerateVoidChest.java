@@ -11,7 +11,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicGenerator;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.UnsupportedLocationException;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.WorldGenerationUtility;
 
 import net.minecraft.world.World;
 
@@ -26,7 +26,7 @@ public class GenerateVoidChest
 	{
 		try
 		{
-			int y = Utility.getPlaceToSpawnLowest(world, chunkX, chunkZ, 14, 14);
+			int y = WorldGenerationUtility.getPlaceToSpawnLowest(world, chunkX, chunkZ, 14, 14);
 
 			if (Constants.isDebug)
 			{
