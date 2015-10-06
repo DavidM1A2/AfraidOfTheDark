@@ -5,6 +5,8 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.particleFX;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
@@ -35,6 +37,8 @@ public abstract class AOTDParticleFX extends EntityFX
 		worldRenderer.startDrawingQuads();
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(customParticleTextures);
+
+		GL11.glColor4f(1f, 1f, 1f, 1f);
 
 		float f6 = this.particleTextureIndexX / 16.0F;
 		float f7 = f6 + 0.0624375F;

@@ -35,7 +35,6 @@ public class BloodStainedJournalCheatSheet extends GuiScreen
 		this.buttonList.clear();
 		this.buttonList.add(new GuiButton(BloodStainedJournalCheatSheet.YES_ID, (this.width / 2) - 75, (this.height / 2) - 35, 150, 20, "Okay"));
 		this.buttonList.add(new GuiButton(BloodStainedJournalCheatSheet.NO_ID, (this.width / 2) - 75, (this.height / 2) - 10, 150, 20, "No Thanks"));
-
 	}
 
 	// GUI does not pause the game

@@ -10,6 +10,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
+import com.DavidM1A2.AfraidOfTheDark.client.particleFX.EnariaBasicAttack;
+import com.DavidM1A2.AfraidOfTheDark.client.particleFX.EnariaTeleport;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
 
 import net.minecraft.block.BlockAir;
@@ -27,9 +30,12 @@ public class EnariaAttacks
 	private final Random random;
 	private static final int POTION_POISON_RANGE = 20;
 	private static final int TELEPORT_RANGE = 20;
-	private static final double KNOCKBACK_POWER = 30;
+	private static final double KNOCKBACK_POWER = 5;
 	private static final int MAX_KNOCKBACK_RANGE = 10;
 	private static final int BASIC_RANGE = 20;
+	private static final int NUMBER_OF_PARTICLES_PER_ATTACK = 30;
+	private static final int NUMBER_OF_PARTICLES_PER_TELEPORT = 30;
+	private static final int TELEPORT_ATTEMPTS = 200;
 	private final PotionEffect[] possibleEffects;
 
 	public EnariaAttacks(EntityEnaria enaria, Random random)
@@ -67,7 +73,20 @@ public class EnariaAttacks
 			{
 				EntityPlayer entityPlayer = (EntityPlayer) object;
 				entityPlayer.attackEntityFrom(EntityDamageSource.causeMobDamage(this.enaria), 10);
+				this.performBasicAttackParticleEffectTo(entityPlayer);
 			}
+		}
+	}
+
+	private void performBasicAttackParticleEffectTo(EntityPlayer entityPlayer)
+	{
+		for (int i = 0; i < NUMBER_OF_PARTICLES_PER_ATTACK; i++)
+		{
+			int x = (int) Math.round(this.enaria.posX + (entityPlayer.posX - this.enaria.posX) * i / NUMBER_OF_PARTICLES_PER_ATTACK);
+			int y = 1 + (int) Math.round(this.enaria.posY + (entityPlayer.posY - this.enaria.posY) * i / NUMBER_OF_PARTICLES_PER_ATTACK);
+			int z = (int) Math.round(this.enaria.posZ + (entityPlayer.posZ - this.enaria.posZ) * i / NUMBER_OF_PARTICLES_PER_ATTACK);
+
+			AfraidOfTheDark.proxy.generateParticles(entityPlayer.worldObj, x, y, z, EnariaBasicAttack.class);
 		}
 	}
 
@@ -176,19 +195,19 @@ public class EnariaAttacks
 	{
 		if (!this.enaria.worldObj.isRemote)
 		{
-			int counter = 200;
+			int counter = TELEPORT_ATTEMPTS;
 			while (counter > 0)
 			{
-				int x = (int) this.enaria.posX;
-				int y = (int) this.enaria.posY;
-				int z = (int) this.enaria.posZ;
+				int x = (int) this.enaria.getPosition().getX();
+				int y = (int) this.enaria.getPosition().getY();
+				int z = (int) this.enaria.getPosition().getZ();
 
 				x = (int) (x + (this.random.nextDouble() - 0.5) * TELEPORT_RANGE);
+				y = y + (counter < TELEPORT_ATTEMPTS / 3 ? 0 : counter < TELEPORT_ATTEMPTS / 2 ? 1 : 2);
 				z = (int) (z + (this.random.nextDouble() - 0.5) * TELEPORT_RANGE);
 
-				BlockPos newPosition = new BlockPos(x, y, z);
-
-				if (this.enaria.worldObj.getBlockState(newPosition).getBlock() instanceof BlockAir)
+				BlockPos location = new BlockPos(x, y, z);
+				if (this.enaria.worldObj.isAirBlock(location) && !this.enaria.worldObj.isAirBlock(location.add(0, -1, 0)) && this.enaria.worldObj.isAirBlock(location.add(0, 1, 0)))
 				{
 					this.enaria.setPosition(x, y, z);
 					this.enaria.addPotionEffect(new PotionEffect(14, 40, 0, false, false));
@@ -210,7 +229,12 @@ public class EnariaAttacks
 						}
 					}
 
-					break;
+					for (int i = 0; i < NUMBER_OF_PARTICLES_PER_TELEPORT; i++)
+					{
+						AfraidOfTheDark.proxy.generateParticles(this.enaria.worldObj, this.enaria.getPosition().getX() + Math.random(), this.enaria.getPosition().getY() + .7 + Math.random(), this.enaria.getPosition().getZ() + Math.random(), EnariaTeleport.class);
+					}
+
+					return;
 				}
 
 				counter = counter - 1;

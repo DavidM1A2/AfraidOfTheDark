@@ -101,10 +101,15 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 	@Override
 	public boolean attackEntityFrom(final DamageSource damageSource, float damage)
 	{
+		long timeBetweenHits = System.currentTimeMillis() - this.getEntityData().getLong(LAST_HIT);
+		this.getEntityData().setLong(LAST_HIT, System.currentTimeMillis());
+
+		// /kill the entity
 		if (damage == Float.MAX_VALUE)
 		{
 			return super.attackEntityFrom(damageSource, damage);
 		}
+		// Cant nuke enaria
 		else if (damage > MAX_DAMAGE_IN_1_HIT)
 		{
 			damage = MAX_DAMAGE_IN_1_HIT;
@@ -114,8 +119,6 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 		{
 			if (((EntityDamageSource) damageSource).damageType.equals("silverDamage"))
 			{
-				long timeBetweenHits = System.currentTimeMillis() - this.getEntityData().getLong(LAST_HIT);
-
 				if (timeBetweenHits < 1000)
 				{
 					if (timeBetweenHits > 800)
@@ -129,14 +132,33 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 					else
 					{
 						damage = 1.0f;
+						// 1/2 chance to teleport if taking silver damage
+						if (this.rand.nextInt(2) == 0)
+						{
+							this.enariaAttacks.randomTeleport();
+						}
 					}
 				}
 
 				return super.attackEntityFrom(damageSource, damage);
 			}
+			else
+			{
+				// 1/4 chance to tele if taking non-silver, player damage
+				if (this.rand.nextInt(4) == 0)
+				{
+					this.enariaAttacks.randomTeleport();
+				}
+			}
 		}
-
-		this.getEntityData().setLong(LAST_HIT, System.currentTimeMillis());
+		else
+		{
+			// 1/10 chance to tele if taking non-player damage
+			if (this.rand.nextInt(10) == 0)
+			{
+				this.enariaAttacks.randomTeleport();
+			}
+		}
 
 		return super.attackEntityFrom(DamageSource.generic, 1);
 	}
