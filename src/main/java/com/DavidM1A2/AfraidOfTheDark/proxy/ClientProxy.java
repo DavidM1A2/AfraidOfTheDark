@@ -18,7 +18,6 @@ import com.DavidM1A2.AfraidOfTheDark.client.entities.Enaria.RenderEnaria;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.EnchantedSkeleton.RenderEnchantedSkeleton;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.Werewolf.RenderWerewolf;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.tileEntities.TileEntityVoidChestRenderer;
-import com.DavidM1A2.AfraidOfTheDark.client.particleFX.AOTDParticleFX;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.Keybindings;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityVoidChest;
@@ -41,15 +40,12 @@ import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateVitae;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.CustomFont;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -58,17 +54,6 @@ import net.minecraftforge.fml.relauncher.Side;
 // Just client things go here
 public class ClientProxy extends CommonProxy
 {
-	private static final Class[] particleFXParameters = new Class[7];
-
-	static
-	{
-		particleFXParameters[0] = World.class;
-		for (int i = 1; i < particleFXParameters.length; i++)
-		{
-			particleFXParameters[i] = double.class;
-		}
-	}
-
 	// register key bindings go here
 	@Override
 	public void registerKeyBindings()
@@ -135,42 +120,5 @@ public class ClientProxy extends CommonProxy
 
 		Constants.entityVitaeResistance.put(EntityPlayerSP.class, 100);
 		Constants.entityVitaeResistance.put(EntityOtherPlayerMP.class, 100);
-	}
-
-	@Override
-	public void generateParticles(Entity entity, Class<? extends AOTDParticleFX> particleClass)
-	{
-		double motionX = entity.worldObj.rand.nextGaussian() * 0.02D;
-		double motionY = entity.worldObj.rand.nextGaussian() * 0.02D;
-		double motionZ = entity.worldObj.rand.nextGaussian() * 0.02D;
-
-		try
-		{
-			AOTDParticleFX particleFX = particleClass.getDeclaredConstructor(particleFXParameters).newInstance(entity.worldObj, entity.posX + entity.worldObj.rand.nextFloat() * entity.width * 2.0F - entity.width, entity.posY + 0.5D + entity.worldObj.rand.nextFloat() * entity.height, entity.posZ
-					+ entity.worldObj.rand.nextFloat() * entity.width * 2.0F - entity.width, motionX, motionY, motionZ);
-
-			Minecraft.getMinecraft().effectRenderer.addEffect(particleFX);
-		}
-		catch (Exception e)
-		{
-			LogHelper.info("Error loading particle FX.... see client proxy line 149.");
-			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public void generateParticles(World world, double x, double y, double z, Class<? extends AOTDParticleFX> particleClass)
-	{
-		try
-		{
-			AOTDParticleFX particleFX = particleClass.getDeclaredConstructor(particleFXParameters).newInstance(world, x, y, z, 0, 0, 0);
-
-			Minecraft.getMinecraft().effectRenderer.addEffect(particleFX);
-		}
-		catch (Exception e)
-		{
-			LogHelper.info("Error loading particle FX.... see client proxy line 172.");
-			e.printStackTrace();
-		}
 	}
 }

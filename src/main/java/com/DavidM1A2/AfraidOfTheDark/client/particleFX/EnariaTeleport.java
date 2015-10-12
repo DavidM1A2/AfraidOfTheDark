@@ -16,7 +16,7 @@ public class EnariaTeleport extends AOTDParticleFX
 	@Override
 	public int getTextureIndex()
 	{
-		return 1;
+		return 0;
 	}
 
 	/**

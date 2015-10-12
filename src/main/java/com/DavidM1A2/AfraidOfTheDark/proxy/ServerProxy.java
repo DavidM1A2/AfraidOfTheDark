@@ -3,11 +3,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.proxy;
 
-import com.DavidM1A2.AfraidOfTheDark.client.particleFX.AOTDParticleFX;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.world.World;
-
 // Any server side-only things we want to do
 public class ServerProxy extends CommonProxy
 {
@@ -35,17 +30,4 @@ public class ServerProxy extends CommonProxy
 	{
 		// Not used
 	}
-
-	@Override
-	public void generateParticles(Entity entity, Class<? extends AOTDParticleFX> particleClass)
-	{
-		// Not used
-	}
-
-	@Override
-	public void generateParticles(World world, double x, double y, double z, Class<? extends AOTDParticleFX> particleClass)
-	{
-		// Not used
-	}
-
 }

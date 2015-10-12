@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
-import com.DavidM1A2.AfraidOfTheDark.client.particleFX.EnariaBasicAttack;
-import com.DavidM1A2.AfraidOfTheDark.client.particleFX.EnariaTeleport;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncParticleFX;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDParticleFXTypes;
 
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.state.IBlockState;
@@ -23,6 +23,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
+import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
 public class EnariaAttacks
 {
@@ -86,7 +87,10 @@ public class EnariaAttacks
 			int y = 1 + (int) Math.round(this.enaria.posY + (entityPlayer.posY - this.enaria.posY) * i / NUMBER_OF_PARTICLES_PER_ATTACK);
 			int z = (int) Math.round(this.enaria.posZ + (entityPlayer.posZ - this.enaria.posZ) * i / NUMBER_OF_PARTICLES_PER_ATTACK);
 
-			AfraidOfTheDark.proxy.generateParticles(entityPlayer.worldObj, x, y, z, EnariaBasicAttack.class);
+			if (!entityPlayer.worldObj.isRemote)
+			{
+				AfraidOfTheDark.getSimpleNetworkWrapper().sendToAllAround(new SyncParticleFX(AOTDParticleFXTypes.EnariaBasicAttack, x, y, z), new TargetPoint(entityPlayer.dimension, x, y, z, 40));
+			}
 		}
 	}
 
@@ -195,6 +199,12 @@ public class EnariaAttacks
 	{
 		if (!this.enaria.worldObj.isRemote)
 		{
+			for (int i = 0; i < NUMBER_OF_PARTICLES_PER_TELEPORT; i++)
+			{
+				AfraidOfTheDark.getSimpleNetworkWrapper().sendToAllAround(new SyncParticleFX(AOTDParticleFXTypes.EnariaTeleport, this.enaria.getPosition().getX() + Math.random(), this.enaria.getPosition().getY() + .7 + Math.random(), this.enaria.getPosition().getZ() + Math.random()),
+						new TargetPoint(this.enaria.dimension, this.enaria.getPosition().getX() + Math.random(), this.enaria.getPosition().getY() + .7 + Math.random(), this.enaria.getPosition().getZ() + Math.random(), 40));
+			}
+
 			int counter = TELEPORT_ATTEMPTS;
 			while (counter > 0)
 			{
@@ -227,11 +237,6 @@ public class EnariaAttacks
 							entityPlayer.addVelocity(-motionX * KNOCKBACK_POWER * 0.6000000238418579D / hypotenuse, 0.1D, -motionZ * KNOCKBACK_POWER * 0.6000000238418579D / hypotenuse);
 							entityPlayer.velocityChanged = true;
 						}
-					}
-
-					for (int i = 0; i < NUMBER_OF_PARTICLES_PER_TELEPORT; i++)
-					{
-						AfraidOfTheDark.proxy.generateParticles(this.enaria.worldObj, this.enaria.getPosition().getX() + Math.random(), this.enaria.getPosition().getY() + .7 + Math.random(), this.enaria.getPosition().getZ() + Math.random(), EnariaTeleport.class);
 					}
 
 					return;

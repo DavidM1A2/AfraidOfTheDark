@@ -16,7 +16,7 @@ public class EnariaBasicAttack extends AOTDParticleFX
 	@Override
 	public int getTextureIndex()
 	{
-		return 0;
+		return this.rand.nextInt(4) + 1;
 	}
 
 	/**
