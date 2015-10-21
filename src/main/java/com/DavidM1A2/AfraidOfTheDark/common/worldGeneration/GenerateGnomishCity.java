@@ -14,6 +14,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicGenerator;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.UnsupportedLocationException;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.WorldGenerationUtility;
 
 import net.minecraft.world.World;
 
@@ -28,7 +29,8 @@ public class GenerateGnomishCity
 	{
 		try
 		{
-			int y = 150;//Utility.getFirstNonAirBlock(world, chunkX, chunkZ);
+			int y = WorldGenerationUtility.getFirstNonAirBlock(world, chunkX, chunkZ);
+			y = y - 38;
 
 			if (Constants.isDebug)
 			{
@@ -57,7 +59,7 @@ public class GenerateGnomishCity
 			{
 				stairs3To4 = random.nextInt(9);
 			}
-			while (stairs3To4 == stairs2To3);
+			while (stairs3To4 == stairs2To3 || stairs3To4 == stairs1To2);
 
 			List<Integer> rooms = new LinkedList<Integer>();
 
@@ -77,13 +79,16 @@ public class GenerateGnomishCity
 			Collections.shuffle(rooms, random);
 
 			// Rooms
+			// k = floor 0 (bottom) or 1 (upper)
 			for (int k = 0; k < 2; k++)
 			{
+				// i and j is the room in the x and y dimension
 				for (int i = 0; i < 3; i++)
 				{
 					for (int j = 0; j < 3; j++)
 					{
-						if (i + j * 3 == stairs2To3)
+						int currentRoom = i + j * 3;
+						if (currentRoom == stairs2To3)
 						{
 							if (k == 0)
 							{
@@ -94,22 +99,25 @@ public class GenerateGnomishCity
 								SchematicGenerator.generateSchematic(Constants.AOTDSchematics.roomStairDown, world, chunkX + i * 50, y + k * 15, chunkZ + j * 50);
 							}
 						}
-						else if (i + j * 3 == stairs1To2 && k == 0)
+						else if (currentRoom == stairs1To2 && k == 0)
 						{
 							SchematicGenerator.generateSchematic(Constants.AOTDSchematics.roomStairDown, world, chunkX + i * 50, y + k * 15, chunkZ + j * 50);
 						}
-						else if (i + j * 3 == stairs3To4 && k == 1)
+						else if (currentRoom == stairs3To4 && k == 1)
 						{
 							SchematicGenerator.generateSchematic(Constants.AOTDSchematics.roomStairUp, world, chunkX + i * 50, y + k * 15, chunkZ + j * 50);
+
 							SchematicGenerator.generateSchematic(Constants.AOTDSchematics.stairwell, world, chunkX + i * 50 + 13, y + k * 15 + 15, chunkZ + j * 50 + 13);
+							SchematicGenerator.generateSchematic(Constants.AOTDSchematics.stairwell, world, chunkX + i * 50 + 13, y + k * 15 + 31, chunkZ + j * 50 + 13);
 						}
 						else
 						{
-							SchematicGenerator.generateSchematic(Constants.AOTDSchematics.rooms.get(rooms.get(i + j * 3)), world, chunkX + i * 50, y + k * 15, chunkZ + j * 50);
+							SchematicGenerator.generateSchematic(Constants.AOTDSchematics.rooms.get(rooms.get(currentRoom)), world, chunkX + i * 50, y + k * 15, chunkZ + j * 50);
 						}
 					}
 				}
 			}
+
 			//Create tunnels
 			for (int k = 0; k < 2; k++)
 			{
@@ -126,5 +134,7 @@ public class GenerateGnomishCity
 		catch (UnsupportedLocationException e)
 		{
 		}
+
+		// +22 for the enaria dungeon
 	}
 }

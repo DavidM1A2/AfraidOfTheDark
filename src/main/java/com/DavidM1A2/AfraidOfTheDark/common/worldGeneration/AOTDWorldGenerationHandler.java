@@ -51,7 +51,7 @@ public class AOTDWorldGenerationHandler implements IWorldGenerator
 
 		if (chunkX == 0 && chunkZ == 0)
 		{
-			new GenerateGnomishCity(random, chunkX, chunkZ, world);
+			//new GenerateGnomishCity(random, chunkX, chunkZ, world);
 		}
 		else if (current instanceof BiomeGenPlains)
 		{
@@ -62,6 +62,10 @@ public class AOTDWorldGenerationHandler implements IWorldGenerator
 			if (random.nextDouble() < 0.00096 * ConfigurationHandler.dungeonFrequencyMultiplier)
 			{
 				new GenerateDarkForestDungeon(random, chunkX, chunkZ, world);
+			}
+			if (random.nextDouble() < 0.0015)
+			{
+				new GenerateGnomishCity(random, chunkX, chunkZ, world);
 			}
 		}
 		else if (current instanceof BiomeErieForest)
