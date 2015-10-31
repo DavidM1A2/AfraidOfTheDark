@@ -19,6 +19,67 @@ import net.minecraftforge.fml.relauncher.Side;
 // This property is saved on a player and keeps track of if they have begun the mod
 public class HasStartedAOTD implements IExtendedEntityProperties
 {
+	//	// PROPERTIES =============================================================
+	//
+	//	private boolean hasStartedAOTD = false;
+	//	private static final String hasStartedAOTDKey = "hasStartedAOTD";
+	//
+	//	// CONSTRUCTOR, GETTER, REGISTER ==========================================
+	//
+	//	public HasStartedAOTD(EntityPlayer entityPlayer)
+	//	{
+	//		super(entityPlayer);
+	//	}
+	//
+	//	public static String getIdentifier()
+	//	{
+	//		return "playerStartedAOTD";
+	//	}
+	//
+	//	public static HasStartedAOTD get(EntityPlayer entityPlayer)
+	//	{
+	//		return (HasStartedAOTD) entityPlayer.getExtendedProperties(HasStartedAOTD.getIdentifier());
+	//	}
+	//
+	//	public static void register(EntityPlayer entityPlayer)
+	//	{
+	//		entityPlayer.registerExtendedProperties(HasStartedAOTD.getIdentifier(), new HasStartedAOTD(entityPlayer));
+	//	}
+	//
+	//	// LOAD, SAVE =============================================================
+	//
+	//	@Override
+	//	public void saveNBTData(NBTTagCompound nbt)
+	//	{
+	//		nbt.setBoolean(hasStartedAOTDKey, this.hasStartedAOTD());
+	//	}
+	//
+	//	@Override
+	//	public void loadNBTData(NBTTagCompound nbt)
+	//	{
+	//		if (nbt.hasKey(hasStartedAOTDKey))
+	//		{
+	//			this.setHasStartedAOTD(nbt.getBoolean(hasStartedAOTDKey));
+	//		}
+	//	}
+	//
+	//	@Override
+	//	public void init(Entity entity, World world)
+	//	{
+	//	}
+	//
+	//	// GETTER, SETTER, SYNCER =================================================
+	//
+	//	public boolean hasStartedAOTD()
+	//	{
+	//		return this.hasStartedAOTD;
+	//	}
+	//
+	//	public void setHasStartedAOTD(boolean hasStartedAOTD)
+	//	{
+	//		this.hasStartedAOTD = hasStartedAOTD;
+	//	}
+
 	private boolean hasStartedAOTD = false;
 	public final static String PLAYER_STARTED_AOTD = "playerStartedAOTD";
 
@@ -63,11 +124,11 @@ public class HasStartedAOTD implements IExtendedEntityProperties
 		entityPlayer.getEntityData().setBoolean(HasStartedAOTD.PLAYER_STARTED_AOTD, value);
 		if (side == Side.CLIENT)
 		{
-			AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateAOTDStatus(HasStartedAOTD.get(entityPlayer)));
+			AfraidOfTheDark.getPacketHandler().sendToServer(new UpdateAOTDStatus(HasStartedAOTD.get(entityPlayer)));
 		}
 		else
 		{
-			AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateAOTDStatus(HasStartedAOTD.get(entityPlayer)), (EntityPlayerMP) entityPlayer);
+			AfraidOfTheDark.getPacketHandler().sendTo(new UpdateAOTDStatus(HasStartedAOTD.get(entityPlayer)), (EntityPlayerMP) entityPlayer);
 		}
 	}
 }

@@ -72,7 +72,7 @@ public class Insanity implements IExtendedEntityProperties
 			{
 				compound.setDouble(Insanity.PLAYER_INSANITY, Math.max(0, Insanity.get(myPlayer) + amount));
 			}
-			AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateInsanity(Insanity.get(myPlayer)), (EntityPlayerMP) myPlayer);
+			AfraidOfTheDark.getPacketHandler().sendTo(new UpdateInsanity(Insanity.get(myPlayer)), (EntityPlayerMP) myPlayer);
 		}
 	}
 }

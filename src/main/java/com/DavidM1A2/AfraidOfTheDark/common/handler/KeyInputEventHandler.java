@@ -118,7 +118,7 @@ public class KeyInputEventHandler
 				}
 				if (willFire)
 				{
-					AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new FireCrossbowBolt(ClientData.currentlySelectedBolt));
+					AfraidOfTheDark.getPacketHandler().sendToServer(new FireCrossbowBolt(ClientData.currentlySelectedBolt));
 				}
 			}
 			else if (!Research.isResearched(entityPlayer, ResearchTypes.WristCrossbow))

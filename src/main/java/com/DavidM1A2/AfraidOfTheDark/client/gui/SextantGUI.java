@@ -182,7 +182,7 @@ public class SextantGUI extends GuiScreen
 		final int zLocOfDrop = (int) entityPlayer.posZ + (((random.nextDouble() >= .5) ? -1 : 1) * (entityPlayer.worldObj.rand.nextInt(500) + 15));
 
 		final BlockPos location = new BlockPos(xLocOfDrop, 255, zLocOfDrop);
-		AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new TellServerToCreateMeteor(location, 3, 3, ClientData.watchedMeteorType.getIndex()));
+		AfraidOfTheDark.getPacketHandler().sendToServer(new TellServerToCreateMeteor(location, 3, 3, ClientData.watchedMeteorType.getIndex()));
 		entityPlayer.addChatMessage(new ChatComponentText("Based off of this information the meteor fell at " + xLocOfDrop + ", " + zLocOfDrop));
 		ClientData.selectedMeteor = new int[]
 		{ -1, -1, -1 };

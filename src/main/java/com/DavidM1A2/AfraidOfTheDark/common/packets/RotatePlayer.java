@@ -5,10 +5,12 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
+import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class RotatePlayer implements IMessage
@@ -38,12 +40,19 @@ public class RotatePlayer implements IMessage
 	}
 
 	// When we get a packet we set the current item that the player is holding to the data we rececived
-	public static class HandlerClient implements IMessageHandler<RotatePlayer, IMessage>
+	public static class Handler extends MessageHandler.Client<RotatePlayer>
 	{
 		@Override
-		public IMessage onMessage(final RotatePlayer message, final MessageContext ctx)
+		public IMessage handleClientMessage(final EntityPlayer entityPlayer, final RotatePlayer msg, final MessageContext ctx)
 		{
-			Minecraft.getMinecraft().thePlayer.rotationYaw = Minecraft.getMinecraft().thePlayer.rotationYaw + message.degrees;
+			Minecraft.getMinecraft().addScheduledTask(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					entityPlayer.rotationYaw = entityPlayer.rotationYaw + msg.degrees;
+				}
+			});
 			return null;
 		}
 	}

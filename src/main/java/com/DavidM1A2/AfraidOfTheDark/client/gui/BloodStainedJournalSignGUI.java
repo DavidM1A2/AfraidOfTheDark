@@ -86,7 +86,7 @@ public class BloodStainedJournalSignGUI extends GuiScreen
 					{
 						HasStartedAOTD.set(playerWhoPressed, true, Side.CLIENT);
 						playerWhoPressed.inventory.getStackInSlot(playerWhoPressed.inventory.currentItem).getTagCompound().setString("owner", playerWhoPressed.getDisplayName().getUnformattedText());
-						AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateAOTDStatus(true));
+						AfraidOfTheDark.getPacketHandler().sendToServer(new UpdateAOTDStatus(true));
 						playerWhoPressed.addChatMessage(new ChatComponentText("What have I done?"));
 						playerWhoPressed.playSound("afraidofthedark:journalSign", 4.0F, 1.0F);
 						Research.unlockResearchSynced(playerWhoPressed, ResearchTypes.AnUnbreakableCovenant, FMLCommonHandler.instance().getSide(), true);

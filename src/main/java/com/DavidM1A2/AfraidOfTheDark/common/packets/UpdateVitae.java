@@ -5,6 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
+import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
@@ -12,8 +13,9 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class UpdateVitae implements IMessage
@@ -48,31 +50,41 @@ public class UpdateVitae implements IMessage
 	}
 
 	// when we receive a packet we set HasStartedAOTD
-	public static class HandlerServer implements IMessageHandler<UpdateVitae, IMessage>
+	public static class Handler extends MessageHandler.Bidirectional<UpdateVitae>
 	{
 		@Override
-		public IMessage onMessage(final UpdateVitae message, final MessageContext ctx)
+		public IMessage handleClientMessage(final EntityPlayer entityPlayer, final UpdateVitae msg, MessageContext ctx)
 		{
-			if (Constants.isDebug)
+			Minecraft.getMinecraft().addScheduledTask(new Runnable()
 			{
-				LogHelper.info("Update Vitae Status: " + message.vitaeLevel + " on entity " + ctx.getServerHandler().playerEntity.worldObj.getEntityByID(message.entityIDToUpdate).getName());
-			}
-			ctx.getServerHandler().playerEntity.worldObj.getEntityByID(message.entityIDToUpdate).getEntityData().setInteger(Vitae.VITAE_LEVEL, message.vitaeLevel);
+				@Override
+				public void run()
+				{
+					Entity toUpdate = entityPlayer.worldObj.getEntityByID(msg.entityIDToUpdate);
+					if (toUpdate != null)
+					{
+						toUpdate.getEntityData().setInteger(Vitae.VITAE_LEVEL, msg.vitaeLevel);
+					}
+				}
+			});
 			return null;
 		}
-	}
 
-	// when we receive a packet we set HasStartedAOTD
-	public static class HandlerClient implements IMessageHandler<UpdateVitae, IMessage>
-	{
 		@Override
-		public IMessage onMessage(final UpdateVitae message, final MessageContext ctx)
+		public IMessage handleServerMessage(final EntityPlayer entityPlayer, final UpdateVitae msg, MessageContext ctx)
 		{
-			Entity toUpdate = Minecraft.getMinecraft().thePlayer.worldObj.getEntityByID(message.entityIDToUpdate);
-			if (toUpdate != null)
+			MinecraftServer.getServer().addScheduledTask(new Runnable()
 			{
-				toUpdate.getEntityData().setInteger(Vitae.VITAE_LEVEL, message.vitaeLevel);
-			}
+				@Override
+				public void run()
+				{
+					if (Constants.isDebug)
+					{
+						LogHelper.info("Update Vitae Status: " + msg.vitaeLevel + " on entity " + entityPlayer.worldObj.getEntityByID(msg.entityIDToUpdate).getName());
+					}
+					entityPlayer.worldObj.getEntityByID(msg.entityIDToUpdate).getEntityData().setInteger(Vitae.VITAE_LEVEL, msg.vitaeLevel);
+				}
+			});
 			return null;
 		}
 	}

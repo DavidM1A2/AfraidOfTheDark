@@ -21,6 +21,6 @@ public class DelayedAOTDUpdate extends DelayedUpdate<Boolean>
 	@Override
 	protected void updatePlayer()
 	{
-		AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateAOTDStatus(this.data), (EntityPlayerMP) this.entityPlayer);
+		AfraidOfTheDark.getPacketHandler().sendTo(new UpdateAOTDStatus(this.data), (EntityPlayerMP) this.entityPlayer);
 	}
 }

@@ -9,6 +9,7 @@ import java.util.Set;
 
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
@@ -16,11 +17,12 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class UpdateResearch implements IMessage
@@ -55,40 +57,50 @@ public class UpdateResearch implements IMessage
 	}
 
 	// when we receive a packet we sets some research
-	public static class HandlerServer implements IMessageHandler<UpdateResearch, IMessage>
+	public static class Handler extends MessageHandler.Bidirectional<UpdateResearch>
 	{
 		@Override
-		public IMessage onMessage(final UpdateResearch message, final MessageContext ctx)
+		public IMessage handleClientMessage(final EntityPlayer entityPlayer, final UpdateResearch msg, MessageContext ctx)
 		{
-			Research.set(ctx.getServerHandler().playerEntity, message.research);
-			return null;
-		}
-	}
-
-	// when we receive a packet we set some research
-	public static class HandlerClient implements IMessageHandler<UpdateResearch, IMessage>
-	{
-		@Override
-		public IMessage onMessage(final UpdateResearch message, final MessageContext ctx)
-		{
-			if (message.firstTimeResearched)
+			Minecraft.getMinecraft().addScheduledTask(new Runnable()
 			{
-				Set<String> keysOriginal = Research.get(Minecraft.getMinecraft().thePlayer).getKeySet();
-				for (Object key : message.research.getKeySet())
+				@Override
+				public void run()
 				{
-					String keyString = (String) key;
-					if (!Research.get(Minecraft.getMinecraft().thePlayer).getBoolean(keyString) && message.research.getBoolean(keyString))
+					if (msg.firstTimeResearched)
 					{
-						Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:achievementUnlocked", 1.0f, 1.0f);
-						ClientData.researchAchievedOverlay.displayResearch(ResearchTypes.valueOf(keyString.substring(Research.RESEARCH_DATA.length())), new ItemStack(ModItems.journal, 1), false);
+						Set<String> keysOriginal = Research.get(entityPlayer).getKeySet();
+						for (Object key : msg.research.getKeySet())
+						{
+							String keyString = (String) key;
+							if (!Research.get(entityPlayer).getBoolean(keyString) && msg.research.getBoolean(keyString))
+							{
+								entityPlayer.playSound("afraidofthedark:achievementUnlocked", 1.0f, 1.0f);
+								ClientData.researchAchievedOverlay.displayResearch(ResearchTypes.valueOf(keyString.substring(Research.RESEARCH_DATA.length())), new ItemStack(ModItems.journal, 1), false);
+							}
+						}
+					}
+					Research.set(entityPlayer, msg.research);
+					if (Constants.isDebug)
+					{
+						LogHelper.info("Update research packet received, " + msg.research.toString());
 					}
 				}
-			}
-			Research.set(Minecraft.getMinecraft().thePlayer, message.research);
-			if (Constants.isDebug)
+			});
+			return null;
+		}
+
+		@Override
+		public IMessage handleServerMessage(final EntityPlayer entityPlayer, final UpdateResearch msg, MessageContext ctx)
+		{
+			MinecraftServer.getServer().addScheduledTask(new Runnable()
 			{
-				LogHelper.info("Update research packet received, " + message.research.toString());
-			}
+				@Override
+				public void run()
+				{
+					Research.set(entityPlayer, msg.research);
+				}
+			});
 			return null;
 		}
 	}

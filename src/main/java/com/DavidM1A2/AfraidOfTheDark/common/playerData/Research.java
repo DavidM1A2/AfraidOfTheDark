@@ -86,7 +86,7 @@ public class Research implements IExtendedEntityProperties
 		Research.set(entityPlayer, current);
 		if (side == Side.CLIENT)
 		{
-			AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateResearch(entityPlayer.getEntityData().getCompoundTag(Research.RESEARCH_DATA), firstTimeResearched));
+			AfraidOfTheDark.getPacketHandler().sendToServer(new UpdateResearch(entityPlayer.getEntityData().getCompoundTag(Research.RESEARCH_DATA), firstTimeResearched));
 			if (firstTimeResearched)
 			{
 				ClientData.researchAchievedOverlay.displayResearch(type, new ItemStack(ModItems.journal, 1), false);
@@ -95,7 +95,7 @@ public class Research implements IExtendedEntityProperties
 		}
 		else
 		{
-			AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateResearch(entityPlayer.getEntityData().getCompoundTag(Research.RESEARCH_DATA), firstTimeResearched), (EntityPlayerMP) entityPlayer);
+			AfraidOfTheDark.getPacketHandler().sendTo(new UpdateResearch(entityPlayer.getEntityData().getCompoundTag(Research.RESEARCH_DATA), firstTimeResearched), (EntityPlayerMP) entityPlayer);
 		}
 	}
 

@@ -65,11 +65,11 @@ public class Vitae implements IExtendedEntityProperties
 		entityLivingBase.getEntityData().setInteger(Vitae.VITAE_LEVEL, vitaeValue);
 		if (side == Side.CLIENT)
 		{
-			AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateVitae(Vitae.get(entityLivingBase), entityLivingBase.getEntityId()));
+			AfraidOfTheDark.getPacketHandler().sendToServer(new UpdateVitae(Vitae.get(entityLivingBase), entityLivingBase.getEntityId()));
 		}
 		else if (side == Side.SERVER)
 		{
-			AfraidOfTheDark.getSimpleNetworkWrapper().sendToAll(new UpdateVitae(Vitae.get(entityLivingBase), entityLivingBase.getEntityId()));
+			AfraidOfTheDark.getPacketHandler().sendToAll(new UpdateVitae(Vitae.get(entityLivingBase), entityLivingBase.getEntityId()));
 		}
 	}
 
@@ -95,11 +95,11 @@ public class Vitae implements IExtendedEntityProperties
 
 				if (side == Side.CLIENT)
 				{
-					AfraidOfTheDark.getSimpleNetworkWrapper().sendToServer(new UpdateVitae(Vitae.get(entityLivingBase), entityLivingBase.getEntityId()));
+					AfraidOfTheDark.getPacketHandler().sendToServer(new UpdateVitae(Vitae.get(entityLivingBase), entityLivingBase.getEntityId()));
 				}
 				else if (side == Side.SERVER)
 				{
-					AfraidOfTheDark.getSimpleNetworkWrapper().sendToAll(new UpdateVitae(Vitae.get(entityLivingBase), entityLivingBase.getEntityId()));
+					AfraidOfTheDark.getPacketHandler().sendToAll(new UpdateVitae(Vitae.get(entityLivingBase), entityLivingBase.getEntityId()));
 				}
 
 				if (entityLivingBase instanceof EntityDeeeSyft)

@@ -5,15 +5,17 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
+import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.MeteorTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.CreateMeteor;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class TellServerToCreateMeteor implements IMessage
@@ -60,16 +62,23 @@ public class TellServerToCreateMeteor implements IMessage
 	}
 
 	// when we receive a packet we set HasStartedAOTD
-	public static class HandlerServer implements IMessageHandler<TellServerToCreateMeteor, IMessage>
+	public static class Handler extends MessageHandler.Server<TellServerToCreateMeteor>
 	{
 		@Override
-		public IMessage onMessage(final TellServerToCreateMeteor message, final MessageContext ctx)
+		public IMessage handleServerMessage(final EntityPlayer entityPlayer, final TellServerToCreateMeteor msg, MessageContext ctx)
 		{
-			if (Constants.isDebug)
+			MinecraftServer.getServer().addScheduledTask(new Runnable()
 			{
-				LogHelper.info("Player has requested to place a meteor at " + message.thePosition.toString());
-			}
-			CreateMeteor.create(ctx.getServerHandler().playerEntity.worldObj, message.thePosition, message.radius, message.height, false, true, MeteorTypes.typeFromIndex(message.index));
+				@Override
+				public void run()
+				{
+					if (Constants.isDebug)
+					{
+						LogHelper.info("Player has requested to place a meteor at " + msg.thePosition.toString());
+					}
+					CreateMeteor.create(entityPlayer.worldObj, msg.thePosition, msg.radius, msg.height, false, true, MeteorTypes.typeFromIndex(msg.index));
+				}
+			});
 			return null;
 		}
 	}

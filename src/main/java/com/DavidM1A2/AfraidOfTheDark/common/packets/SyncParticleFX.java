@@ -1,13 +1,14 @@
 
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
+import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDParticleFXTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.ParticleFXUtility;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class SyncParticleFX implements IMessage
@@ -52,12 +53,19 @@ public class SyncParticleFX implements IMessage
 	}
 
 	// when we receive a packet we set HasStartedAOTD
-	public static class HandlerClient implements IMessageHandler<SyncParticleFX, IMessage>
+	public static class Handler extends MessageHandler.Client<SyncParticleFX>
 	{
 		@Override
-		public IMessage onMessage(final SyncParticleFX message, final MessageContext ctx)
+		public IMessage handleClientMessage(final EntityPlayer entityPlayer, final SyncParticleFX msg, MessageContext ctx)
 		{
-			ParticleFXUtility.generateParticles(Minecraft.getMinecraft().thePlayer.worldObj, message.x, message.y, message.z, message.particle);
+			Minecraft.getMinecraft().addScheduledTask(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					ParticleFXUtility.generateParticles(entityPlayer.worldObj, msg.x, msg.y, msg.z, msg.particle);
+				}
+			});
 
 			return null;
 		}

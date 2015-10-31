@@ -6,13 +6,15 @@
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemVitaeLantern;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class UpdateLanternState implements IMessage
@@ -42,41 +44,51 @@ public class UpdateLanternState implements IMessage
 	}
 
 	// Upon receiving player insanity data update it on the player
-	public static class HandlerClient implements IMessageHandler<UpdateLanternState, IMessage>
+	public static class Handler extends MessageHandler.Bidirectional<UpdateLanternState>
 	{
 		@Override
-		public IMessage onMessage(final UpdateLanternState message, final MessageContext ctx)
+		public IMessage handleClientMessage(final EntityPlayer entityPlayer, final UpdateLanternState msg, MessageContext ctx)
 		{
-			for (ItemStack itemStack : Minecraft.getMinecraft().thePlayer.inventory.mainInventory)
+			Minecraft.getMinecraft().addScheduledTask(new Runnable()
 			{
-				if (itemStack != null && itemStack.getItem() instanceof ItemVitaeLantern)
+				@Override
+				public void run()
 				{
-					if (NBTHelper.getBoolean(itemStack, "isActive"))
+					for (ItemStack itemStack : entityPlayer.inventory.mainInventory)
 					{
-						NBTHelper.setDouble(itemStack, "equalibriumPercentage", message.lanternState);
+						if (itemStack != null && itemStack.getItem() instanceof ItemVitaeLantern)
+						{
+							if (NBTHelper.getBoolean(itemStack, "isActive"))
+							{
+								NBTHelper.setDouble(itemStack, "equalibriumPercentage", msg.lanternState);
+							}
+						}
 					}
 				}
-			}
+			});
 			return null;
 		}
-	}
 
-	// Upon receiving player insanity data update it on the player
-	public static class HandlerServer implements IMessageHandler<UpdateLanternState, IMessage>
-	{
 		@Override
-		public IMessage onMessage(final UpdateLanternState message, final MessageContext ctx)
+		public IMessage handleServerMessage(final EntityPlayer entityPlayer, final UpdateLanternState msg, MessageContext ctx)
 		{
-			for (ItemStack itemStack : ctx.getServerHandler().playerEntity.inventory.mainInventory)
+			MinecraftServer.getServer().addScheduledTask(new Runnable()
 			{
-				if (itemStack != null && itemStack.getItem() instanceof ItemVitaeLantern)
+				@Override
+				public void run()
 				{
-					if (NBTHelper.getBoolean(itemStack, "isActive"))
+					for (ItemStack itemStack : entityPlayer.inventory.mainInventory)
 					{
-						NBTHelper.setDouble(itemStack, "equalibriumPercentage", message.lanternState);
+						if (itemStack != null && itemStack.getItem() instanceof ItemVitaeLantern)
+						{
+							if (NBTHelper.getBoolean(itemStack, "isActive"))
+							{
+								NBTHelper.setDouble(itemStack, "equalibriumPercentage", msg.lanternState);
+							}
+						}
 					}
 				}
-			}
+			});
 			return null;
 		}
 	}

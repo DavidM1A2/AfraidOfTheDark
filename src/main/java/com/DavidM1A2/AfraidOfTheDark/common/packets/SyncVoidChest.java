@@ -6,6 +6,7 @@
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityVoidChest;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import io.netty.buffer.ByteBuf;
@@ -15,7 +16,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class SyncVoidChest implements IMessage
@@ -60,27 +60,34 @@ public class SyncVoidChest implements IMessage
 	}
 
 	// when we receive a packet we set HasStartedAOTD
-	public static class HandlerClient implements IMessageHandler<SyncVoidChest, IMessage>
+	public static class Handler extends MessageHandler.Client<SyncVoidChest>
 	{
 		@Override
-		public IMessage onMessage(final SyncVoidChest message, final MessageContext ctx)
+		public IMessage handleClientMessage(final EntityPlayer entityPlayer, final SyncVoidChest msg, MessageContext ctx)
 		{
-			Entity toUpdate = Minecraft.getMinecraft().thePlayer.worldObj.getEntityByID(message.entityIDToUpdate);
-			if (toUpdate != null && toUpdate instanceof EntityPlayer)
+			Minecraft.getMinecraft().addScheduledTask(new Runnable()
 			{
-				if (toUpdate.worldObj.getTileEntity(new BlockPos(message.x, message.y, message.z)) != null)
+				@Override
+				public void run()
 				{
-					TileEntity tileEntity = toUpdate.worldObj.getTileEntity(new BlockPos(message.x, message.y, message.z));
-					if (tileEntity instanceof TileEntityVoidChest)
+					Entity toUpdate = entityPlayer.worldObj.getEntityByID(msg.entityIDToUpdate);
+					if (toUpdate != null && toUpdate instanceof EntityPlayer)
 					{
-						((TileEntityVoidChest) tileEntity).openChest((EntityPlayer) toUpdate);
+						if (toUpdate.worldObj.getTileEntity(new BlockPos(msg.x, msg.y, msg.z)) != null)
+						{
+							TileEntity tileEntity = toUpdate.worldObj.getTileEntity(new BlockPos(msg.x, msg.y, msg.z));
+							if (tileEntity instanceof TileEntityVoidChest)
+							{
+								((TileEntityVoidChest) tileEntity).openChest((EntityPlayer) toUpdate);
+							}
+						}
+					}
+					else
+					{
+						LogHelper.info("Null entity to update chest for");
 					}
 				}
-			}
-			else
-			{
-				LogHelper.info("Null entity to update chest for");
-			}
+			});
 			return null;
 		}
 	}

@@ -6,14 +6,15 @@
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class TellClientToPlayAnimation implements IMessage
@@ -48,23 +49,30 @@ public class TellClientToPlayAnimation implements IMessage
 	}
 
 	// when we receive a packet we set HasStartedAOTD
-	public static class HandlerClient implements IMessageHandler<TellClientToPlayAnimation, IMessage>
+	public static class Handler extends MessageHandler.Client<TellClientToPlayAnimation>
 	{
 		@Override
-		public IMessage onMessage(final TellClientToPlayAnimation message, final MessageContext ctx)
+		public IMessage handleClientMessage(final EntityPlayer entityPlayer, final TellClientToPlayAnimation msg, MessageContext ctx)
 		{
-			Entity toUpdate = Minecraft.getMinecraft().thePlayer.worldObj.getEntityByID(message.entityIDToUpdate);
-			if (toUpdate != null)
+			Minecraft.getMinecraft().addScheduledTask(new Runnable()
 			{
-				if (toUpdate instanceof IMCAnimatedEntity)
+				@Override
+				public void run()
 				{
-					((IMCAnimatedEntity) toUpdate).getAnimationHandler().activateAnimation(message.animationName, 0);
+					Entity toUpdate = entityPlayer.worldObj.getEntityByID(msg.entityIDToUpdate);
+					if (toUpdate != null)
+					{
+						if (toUpdate instanceof IMCAnimatedEntity)
+						{
+							((IMCAnimatedEntity) toUpdate).getAnimationHandler().activateAnimation(msg.animationName, 0);
+						}
+					}
+					else
+					{
+						LogHelper.info("Null entity to play animation for");
+					}
 				}
-			}
-			else
-			{
-				LogHelper.info("Null entity to play animation for");
-			}
+			});
 			return null;
 		}
 	}

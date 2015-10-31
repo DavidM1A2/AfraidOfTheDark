@@ -27,6 +27,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModOreDictionaryCompat
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModRecipes;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModThreads;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.PacketHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
@@ -44,7 +45,6 @@ import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
 /*
@@ -62,7 +62,7 @@ public class AfraidOfTheDark
 	/**
 	 * Channel for sending and receiving packets
 	 */
-	private static SimpleNetworkWrapper channelNew;
+	private static PacketHandler packetHandler = new PacketHandler("AOTD Packets");
 
 	/**
 	 * Sided proxy used to distinguish client & server side
@@ -203,17 +203,8 @@ public class AfraidOfTheDark
 	/**
 	 * @return SimpleNetworkWrapper instance
 	 */
-	public static SimpleNetworkWrapper getSimpleNetworkWrapper()
+	public static PacketHandler getPacketHandler()
 	{
-		return AfraidOfTheDark.channelNew;
-	}
-
-	/**
-	 * @param wrapper
-	 *            Set the channel up
-	 */
-	public static void setSimpleNetworkWrapper(final SimpleNetworkWrapper wrapper)
-	{
-		AfraidOfTheDark.channelNew = wrapper;
+		return AfraidOfTheDark.packetHandler;
 	}
 }

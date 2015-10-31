@@ -11,13 +11,14 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntitySilverBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityStarMetalBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityWoodenBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDCrossbowBoltTypes;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class FireCrossbowBolt implements IMessage
@@ -47,87 +48,93 @@ public class FireCrossbowBolt implements IMessage
 	}
 
 	// When we get a packet we set the current item that the player is holding to the data we rececived
-	public static class HandlerServer implements IMessageHandler<FireCrossbowBolt, IMessage>
+	public static class Handler extends MessageHandler.Server<FireCrossbowBolt>
 	{
 		@Override
-		public IMessage onMessage(final FireCrossbowBolt message, final MessageContext ctx)
+		public IMessage handleServerMessage(final EntityPlayer entityPlayer, final FireCrossbowBolt msg, final MessageContext ctx)
 		{
-			EntityPlayer entityPlayer = ctx.getServerHandler().playerEntity;
-			World currentWorld = entityPlayer.worldObj;
-			if (entityPlayer.capabilities.isCreativeMode)
+			MinecraftServer.getServer().addScheduledTask(new Runnable()
 			{
-				currentWorld.playSoundAtEntity(entityPlayer, "afraidofthedark:crossbowFire", 0.5F, ((currentWorld.rand.nextFloat() * 0.4F) + 0.8F));
-				switch (message.boltType)
+				@Override
+				public void run()
 				{
-					case Iron:
-						currentWorld.spawnEntityInWorld(new EntityIronBolt(currentWorld, entityPlayer));
-						break;
-					case Silver:
-						currentWorld.spawnEntityInWorld(new EntitySilverBolt(currentWorld, entityPlayer));
-						break;
-					case Wooden:
-						currentWorld.spawnEntityInWorld(new EntityWoodenBolt(currentWorld, entityPlayer));
-						break;
-					case Igneous:
-						currentWorld.spawnEntityInWorld(new EntityIgneousBolt(currentWorld, entityPlayer));
-						break;
-					case StarMetal:
-						currentWorld.spawnEntityInWorld(new EntityStarMetalBolt(currentWorld, entityPlayer));
-						break;
-					default:
-						break;
+					World currentWorld = entityPlayer.worldObj;
+					if (entityPlayer.capabilities.isCreativeMode)
+					{
+						currentWorld.playSoundAtEntity(entityPlayer, "afraidofthedark:crossbowFire", 0.5F, ((currentWorld.rand.nextFloat() * 0.4F) + 0.8F));
+						switch (msg.boltType)
+						{
+							case Iron:
+								currentWorld.spawnEntityInWorld(new EntityIronBolt(currentWorld, entityPlayer));
+								break;
+							case Silver:
+								currentWorld.spawnEntityInWorld(new EntitySilverBolt(currentWorld, entityPlayer));
+								break;
+							case Wooden:
+								currentWorld.spawnEntityInWorld(new EntityWoodenBolt(currentWorld, entityPlayer));
+								break;
+							case Igneous:
+								currentWorld.spawnEntityInWorld(new EntityIgneousBolt(currentWorld, entityPlayer));
+								break;
+							case StarMetal:
+								currentWorld.spawnEntityInWorld(new EntityStarMetalBolt(currentWorld, entityPlayer));
+								break;
+							default:
+								break;
 
-				}
-			}
-			else
-			{
-				boolean fired = false;
-				switch (message.boltType)
-				{
-					case Iron:
-						if (entityPlayer.inventory.consumeInventoryItem(ModItems.ironBolt))
-						{
-							currentWorld.spawnEntityInWorld(new EntityIronBolt(currentWorld, entityPlayer));
-							fired = true;
 						}
-						break;
-					case Silver:
-						if (entityPlayer.inventory.consumeInventoryItem(ModItems.silverBolt))
+					}
+					else
+					{
+						boolean fired = false;
+						switch (msg.boltType)
 						{
-							currentWorld.spawnEntityInWorld(new EntitySilverBolt(currentWorld, entityPlayer));
-							fired = true;
-						}
-						break;
-					case Wooden:
-						if (entityPlayer.inventory.consumeInventoryItem(ModItems.woodenBolt))
-						{
-							currentWorld.spawnEntityInWorld(new EntityWoodenBolt(currentWorld, entityPlayer));
-							fired = true;
-						}
-						break;
-					case Igneous:
-						if (entityPlayer.inventory.consumeInventoryItem(ModItems.igneousBolt))
-						{
-							currentWorld.spawnEntityInWorld(new EntityIgneousBolt(currentWorld, entityPlayer));
-							fired = true;
-						}
-						break;
-					case StarMetal:
-						if (entityPlayer.inventory.consumeInventoryItem(ModItems.starMetalBolt))
-						{
-							currentWorld.spawnEntityInWorld(new EntityStarMetalBolt(currentWorld, entityPlayer));
-							fired = true;
-						}
-						break;
-					default:
-						break;
+							case Iron:
+								if (entityPlayer.inventory.consumeInventoryItem(ModItems.ironBolt))
+								{
+									currentWorld.spawnEntityInWorld(new EntityIronBolt(currentWorld, entityPlayer));
+									fired = true;
+								}
+								break;
+							case Silver:
+								if (entityPlayer.inventory.consumeInventoryItem(ModItems.silverBolt))
+								{
+									currentWorld.spawnEntityInWorld(new EntitySilverBolt(currentWorld, entityPlayer));
+									fired = true;
+								}
+								break;
+							case Wooden:
+								if (entityPlayer.inventory.consumeInventoryItem(ModItems.woodenBolt))
+								{
+									currentWorld.spawnEntityInWorld(new EntityWoodenBolt(currentWorld, entityPlayer));
+									fired = true;
+								}
+								break;
+							case Igneous:
+								if (entityPlayer.inventory.consumeInventoryItem(ModItems.igneousBolt))
+								{
+									currentWorld.spawnEntityInWorld(new EntityIgneousBolt(currentWorld, entityPlayer));
+									fired = true;
+								}
+								break;
+							case StarMetal:
+								if (entityPlayer.inventory.consumeInventoryItem(ModItems.starMetalBolt))
+								{
+									currentWorld.spawnEntityInWorld(new EntityStarMetalBolt(currentWorld, entityPlayer));
+									fired = true;
+								}
+								break;
+							default:
+								break;
 
+						}
+						if (fired)
+						{
+							currentWorld.playSoundAtEntity(entityPlayer, "afraidofthedark:crossbowFire", 0.5F, ((currentWorld.rand.nextFloat() * 0.4F) + 0.8F));
+						}
+					}
 				}
-				if (fired)
-				{
-					currentWorld.playSoundAtEntity(entityPlayer, "afraidofthedark:crossbowFire", 0.5F, ((currentWorld.rand.nextFloat() * 0.4F) + 0.8F));
-				}
-			}
+			});
 
 			return null;
 		}

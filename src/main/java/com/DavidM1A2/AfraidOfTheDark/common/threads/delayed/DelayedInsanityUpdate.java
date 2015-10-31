@@ -21,6 +21,6 @@ public class DelayedInsanityUpdate extends DelayedUpdate<Double>
 	@Override
 	protected void updatePlayer()
 	{
-		AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateInsanity(this.data), (EntityPlayerMP) this.entityPlayer);
+		AfraidOfTheDark.getPacketHandler().sendTo(new UpdateInsanity(this.data), (EntityPlayerMP) this.entityPlayer);
 	}
 }

@@ -34,7 +34,7 @@ public class PlayerSpinning implements Runnable
 			{
 			}
 
-			AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new RotatePlayer(DEGREES_PER_ROTATION), entityPlayerMP);
+			AfraidOfTheDark.getPacketHandler().sendTo(new RotatePlayer(DEGREES_PER_ROTATION), entityPlayerMP);
 		}
 	}
 }

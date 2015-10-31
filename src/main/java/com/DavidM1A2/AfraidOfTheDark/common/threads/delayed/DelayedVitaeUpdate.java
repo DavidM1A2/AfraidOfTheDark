@@ -21,6 +21,6 @@ public class DelayedVitaeUpdate extends DelayedUpdate<Integer>
 	@Override
 	protected void updatePlayer()
 	{
-		AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateVitae(data, entityPlayer.getEntityId()), (EntityPlayerMP) this.entityPlayer);
+		AfraidOfTheDark.getPacketHandler().sendTo(new UpdateVitae(data, entityPlayer.getEntityId()), (EntityPlayerMP) this.entityPlayer);
 	}
 }

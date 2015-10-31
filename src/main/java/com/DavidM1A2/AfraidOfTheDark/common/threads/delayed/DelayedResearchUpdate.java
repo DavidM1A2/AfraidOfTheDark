@@ -22,6 +22,6 @@ public class DelayedResearchUpdate extends DelayedUpdate<NBTTagCompound>
 	@Override
 	protected void updatePlayer()
 	{
-		AfraidOfTheDark.getSimpleNetworkWrapper().sendTo(new UpdateResearch(this.data, false), (EntityPlayerMP) this.entityPlayer);
+		AfraidOfTheDark.getPacketHandler().sendTo(new UpdateResearch(this.data, false), (EntityPlayerMP) this.entityPlayer);
 	}
 }

@@ -5,14 +5,16 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
+import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 // This is an UpdateAOTD packet that is sent to a client or from a client to the server
@@ -43,32 +45,59 @@ public class UpdateAOTDStatus implements IMessage
 		buf.writeBoolean(this.started);
 	}
 
-	// when we receive a packet we set HasStartedAOTD
-	public static class HandlerServer implements IMessageHandler<UpdateAOTDStatus, IMessage>
-	{
-		@Override
-		public IMessage onMessage(final UpdateAOTDStatus message, final MessageContext ctx)
-		{
-			if (Constants.isDebug)
-			{
-				LogHelper.info("Update Has Started AOTD Received! Status: " + message.started);
-			}
-			ctx.getServerHandler().playerEntity.getEntityData().setBoolean(HasStartedAOTD.PLAYER_STARTED_AOTD, message.started);
-			return null;
-		}
-	}
+	//	public static class Handler extends MessageHandler.Bidirectional<UpdateAOTDStatus>
+	//	{
+	//		@Override
+	//		public IMessage handleClientMessage(EntityPlayer player, UpdateAOTDStatus msg, MessageContext ctx)
+	//		{
+	//			HasStartedAOTD.get(player).setHasStartedAOTD(msg.started);
+	//			return null;
+	//		}
+	//
+	//		@Override
+	//		public IMessage handleServerMessage(EntityPlayer player, UpdateAOTDStatus msg, MessageContext ctx)
+	//		{
+	//			HasStartedAOTD.get(player).setHasStartedAOTD(msg.started);
+	//			return null;
+	//		}
+	//	}
 
 	// when we receive a packet we set HasStartedAOTD
-	public static class HandlerClient implements IMessageHandler<UpdateAOTDStatus, IMessage>
+	public static class Handler extends MessageHandler.Bidirectional<UpdateAOTDStatus>
 	{
 		@Override
-		public IMessage onMessage(final UpdateAOTDStatus message, final MessageContext ctx)
+		public IMessage handleServerMessage(final EntityPlayer entityPlayer, final UpdateAOTDStatus msg, MessageContext ctx)
 		{
-			if (Constants.isDebug)
+			MinecraftServer.getServer().addScheduledTask(new Runnable()
 			{
-				LogHelper.info("Update Has Started AOTD Received! Status: " + message.started);
-			}
-			Minecraft.getMinecraft().thePlayer.getEntityData().setBoolean(HasStartedAOTD.PLAYER_STARTED_AOTD, message.started);
+				@Override
+				public void run()
+				{
+					if (Constants.isDebug)
+					{
+						LogHelper.info("Update Has Started AOTD Received! Status: " + msg.started);
+					}
+					entityPlayer.getEntityData().setBoolean(HasStartedAOTD.PLAYER_STARTED_AOTD, msg.started);
+				}
+			});
+			return null;
+		}
+
+		@Override
+		public IMessage handleClientMessage(final EntityPlayer entityPlayer, final UpdateAOTDStatus msg, MessageContext ctx)
+		{
+			Minecraft.getMinecraft().addScheduledTask(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					if (Constants.isDebug)
+					{
+						LogHelper.info("Update Has Started AOTD Received! Status: " + msg.started);
+					}
+					entityPlayer.getEntityData().setBoolean(HasStartedAOTD.PLAYER_STARTED_AOTD, msg.started);
+				}
+			});
 			return null;
 		}
 	}

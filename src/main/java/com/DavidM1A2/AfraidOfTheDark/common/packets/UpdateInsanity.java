@@ -5,10 +5,14 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
+import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 // Update player insanity upon relog
@@ -40,24 +44,23 @@ public class UpdateInsanity implements IMessage
 	}
 
 	// Upon receiving player insanity data update it on the player
-	public static class Handler implements IMessageHandler<UpdateInsanity, IMessage>
+	public static class Handler extends MessageHandler.Client<UpdateInsanity>
 	{
 		@Override
-		public IMessage onMessage(final UpdateInsanity message, final MessageContext ctx)
+		public IMessage handleClientMessage(final EntityPlayer entityPlayer, final UpdateInsanity msg, MessageContext ctx)
 		{
-			// For whatever stupid reason, minecraft's EntityPlayerSP object takes a few moments to get initialized so we wait for that
-			while (Minecraft.getMinecraft().thePlayer == null)
+			Minecraft.getMinecraft().addScheduledTask(new Runnable()
 			{
-				try
+				@Override
+				public void run()
 				{
-					Thread.sleep(50);
+					if (Constants.isDebug)
+					{
+						LogHelper.info("Updating insanity: " + msg.insanity);
+					}
+					entityPlayer.getEntityData().setDouble("PlayerInsanity", msg.insanity);
 				}
-				catch (final InterruptedException e)
-				{
-					System.out.println("Error Sleeping?");
-				}
-			}
-			Minecraft.getMinecraft().thePlayer.getEntityData().setDouble("PlayerInsanity", message.insanity);
+			});
 			return null;
 		}
 

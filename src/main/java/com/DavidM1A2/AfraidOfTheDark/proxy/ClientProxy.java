@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.Bolts.IgneousBoltRender;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.Bolts.IronBoltRender;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.Bolts.SilverBoltRender;
@@ -32,11 +31,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.EnchantedSkeleton.EntityEnc
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.item.crossbow.ItemCrossbowRender;
-import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateAOTDStatus;
-import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateInsanity;
-import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateLanternState;
-import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateResearch;
-import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateVitae;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.CustomFont;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
@@ -49,7 +43,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import net.minecraftforge.fml.relauncher.Side;
 
 // Just client things go here
 public class ClientProxy extends CommonProxy
@@ -61,18 +54,6 @@ public class ClientProxy extends CommonProxy
 		ClientRegistry.registerKeyBinding(Keybindings.rollWithCloakOfAgility);
 		ClientRegistry.registerKeyBinding(Keybindings.fireWristCrossbow);
 		ClientRegistry.registerKeyBinding(Keybindings.changeLanternMode);
-	}
-
-	// Here we register packets and a channel
-	@Override
-	public void registerChannel()
-	{
-		super.registerChannel();
-		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(UpdateAOTDStatus.HandlerClient.class, UpdateAOTDStatus.class, Constants.Packets.PACKET_ID_HAS_STARTED_AOTD_UPDATE, Side.CLIENT);
-		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(UpdateResearch.HandlerClient.class, UpdateResearch.class, Constants.Packets.PACKET_ID_RESEARCH_UPDATE, Side.CLIENT);
-		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(UpdateInsanity.Handler.class, UpdateInsanity.class, Constants.Packets.PACKET_ID_INSANITY_UPDATE, Side.CLIENT);
-		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(UpdateVitae.HandlerClient.class, UpdateVitae.class, Constants.Packets.PACKET_ID_VITAE_UPDATE, Side.CLIENT);
-		AfraidOfTheDark.getSimpleNetworkWrapper().registerMessage(UpdateLanternState.HandlerClient.class, UpdateLanternState.class, Constants.Packets.PACKET_ID_UPDATE_LANTERN_STATE, Side.CLIENT);
 	}
 
 	// register renderers as well

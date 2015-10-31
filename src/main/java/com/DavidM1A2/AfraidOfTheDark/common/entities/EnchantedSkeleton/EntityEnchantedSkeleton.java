@@ -72,7 +72,7 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 			if (!this.worldObj.isRemote)
 			{
 				this.animHandler.activateAnimation("Spawn", 0);
-				AfraidOfTheDark.getSimpleNetworkWrapper().sendToAllAround(new TellClientToPlayAnimation("Spawn", this.getEntityId()), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 15));
+				AfraidOfTheDark.getPacketHandler().sendToAllAround(new TellClientToPlayAnimation("Spawn", this.getEntityId()), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 15));
 			}
 		}
 		super.onEntityUpdate();
@@ -231,7 +231,7 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 		if (!animHandler.isAnimationActive("Attack") && !animHandler.isAnimationActive("Spawn"))
 		{
 			animHandler.activateAnimation("Attack", 0);
-			AfraidOfTheDark.getSimpleNetworkWrapper().sendToAllAround(new TellClientToPlayAnimation("Attack", this.getEntityId()), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 15));
+			AfraidOfTheDark.getPacketHandler().sendToAllAround(new TellClientToPlayAnimation("Attack", this.getEntityId()), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 15));
 		}
 
 		return super.attackEntityAsMob(entity);

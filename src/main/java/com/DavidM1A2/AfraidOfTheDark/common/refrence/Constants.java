@@ -162,26 +162,6 @@ public final class Constants
 		toolMaterialRepairCosts.put("starMetal", 4);
 	}
 
-	public static final class Packets
-	{
-		// Packet ids
-		public static final int PACKET_ID_CROSSBOW = 1;
-		public static final int PACKET_ID_INSANITY_UPDATE = 2;
-		public static final int PACKET_ID_HAS_STARTED_AOTD_UPDATE = 3;
-		public static final int PACKET_ID_RESEARCH_UPDATE = 4;
-		public static final int PACKET_ID_CREATE_METEOR = 5;
-		public static final int PACKET_ID_VITAE_UPDATE = 6;
-		public static final int PACKET_ID_ROTATE_PLAYER_UPDATE = 7;
-		public static final int PACKET_ID_FIRE_BOLT = 8;
-		public static final int PACKET_ID_UPDATE_LANTERN_STATE = 9;
-		public static final int PACKET_ID_UPDATE_SLEEPING_STATE = 10;
-		public static final int PACKET_ID_PLAY_ANIMATION = 11;
-		public static final int PACKET_ID_OPEN_CHEST = 12;
-		public static final int PACKET_ID_UPDATE_WEATHER = 13;
-		public static final int PACKET_ID_UPDATE_FLASK = 14;
-		public static final int PACKET_ID_SYNC_PARTICLEFX = 15;
-	}
-
 	public static final class AOTDToolMaterials
 	{
 		public static final ToolMaterial astralSilver = EnumHelper.addToolMaterial("silverTool", 2, 250, 1, 3.0F, 20);

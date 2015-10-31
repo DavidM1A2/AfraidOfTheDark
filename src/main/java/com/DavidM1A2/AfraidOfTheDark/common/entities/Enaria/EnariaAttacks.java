@@ -89,7 +89,7 @@ public class EnariaAttacks
 
 			if (!entityPlayer.worldObj.isRemote)
 			{
-				AfraidOfTheDark.getSimpleNetworkWrapper().sendToAllAround(new SyncParticleFX(AOTDParticleFXTypes.EnariaBasicAttack, x, y, z), new TargetPoint(entityPlayer.dimension, x, y, z, 40));
+				AfraidOfTheDark.getPacketHandler().sendToAllAround(new SyncParticleFX(AOTDParticleFXTypes.EnariaBasicAttack, x, y, z), new TargetPoint(entityPlayer.dimension, x, y, z, 40));
 			}
 		}
 	}
@@ -201,8 +201,8 @@ public class EnariaAttacks
 		{
 			for (int i = 0; i < NUMBER_OF_PARTICLES_PER_TELEPORT; i++)
 			{
-				AfraidOfTheDark.getSimpleNetworkWrapper().sendToAllAround(new SyncParticleFX(AOTDParticleFXTypes.EnariaTeleport, this.enaria.getPosition().getX() + Math.random(), this.enaria.getPosition().getY() + .7 + Math.random(), this.enaria.getPosition().getZ() + Math.random()),
-						new TargetPoint(this.enaria.dimension, this.enaria.getPosition().getX() + Math.random(), this.enaria.getPosition().getY() + .7 + Math.random(), this.enaria.getPosition().getZ() + Math.random(), 40));
+				AfraidOfTheDark.getPacketHandler().sendToAllAround(new SyncParticleFX(AOTDParticleFXTypes.EnariaTeleport, this.enaria.getPosition().getX() + Math.random(), this.enaria.getPosition().getY() + .7 + Math.random(), this.enaria.getPosition().getZ() + Math.random()), new TargetPoint(
+						this.enaria.dimension, this.enaria.getPosition().getX() + Math.random(), this.enaria.getPosition().getY() + .7 + Math.random(), this.enaria.getPosition().getZ() + Math.random(), 40));
 			}
 
 			int counter = TELEPORT_ATTEMPTS;

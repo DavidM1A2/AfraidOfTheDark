@@ -6,13 +6,15 @@
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class FlaskOfSoulsUpdate implements IMessage
@@ -48,14 +50,21 @@ public class FlaskOfSoulsUpdate implements IMessage
 	}
 
 	// Upon receiving player insanity data update it on the player
-	public static class HandlerClient implements IMessageHandler<FlaskOfSoulsUpdate, IMessage>
+	public static class Handler extends MessageHandler.Client<FlaskOfSoulsUpdate>
 	{
 		@Override
-		public IMessage onMessage(final FlaskOfSoulsUpdate message, final MessageContext ctx)
+		public IMessage handleClientMessage(EntityPlayer entityPlayer, final FlaskOfSoulsUpdate msg, MessageContext ctx)
 		{
-			long timeDifference = System.currentTimeMillis() - message.timeServer;
-			LogHelper.info(timeDifference);
-			ModItems.flaskOfSouls.setServerClientDifference(timeDifference);
+			Minecraft.getMinecraft().addScheduledTask(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					long timeDifference = System.currentTimeMillis() - msg.timeServer;
+					LogHelper.info(timeDifference);
+					ModItems.flaskOfSouls.setServerClientDifference(timeDifference);
+				}
+			});
 			return null;
 		}
 	}
