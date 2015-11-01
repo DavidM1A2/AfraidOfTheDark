@@ -7,7 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.block;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDBlockTileEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityVoidChest;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 import net.minecraft.block.material.Material;
@@ -78,7 +78,7 @@ public class BlockVoidChest extends AOTDBlockTileEntity
 		if (world.getTileEntity(blockPos) instanceof TileEntityVoidChest)
 		{
 			TileEntityVoidChest entityVoidChest = (TileEntityVoidChest) world.getTileEntity(blockPos);
-			if (Research.isResearched(entityPlayer, ResearchTypes.VoidChest))
+			if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.VoidChest))
 			{
 				entityVoidChest.interact(entityPlayer);
 			}

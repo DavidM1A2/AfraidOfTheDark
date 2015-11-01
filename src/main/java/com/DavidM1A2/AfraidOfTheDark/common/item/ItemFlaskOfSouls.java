@@ -12,7 +12,7 @@ import java.util.Map;
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItemWithCooldownPerItem;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.FlaskOfSoulsUpdate;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
@@ -95,7 +95,7 @@ public class ItemFlaskOfSouls extends AOTDItemWithCooldownPerItem
 		}
 		else
 		{
-			if (Research.isResearched(entityPlayer, ResearchTypes.PhylacteryOfSouls))
+			if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.PhylacteryOfSouls))
 			{
 				double y = 0.0D;
 
@@ -130,7 +130,7 @@ public class ItemFlaskOfSouls extends AOTDItemWithCooldownPerItem
 		}
 		else
 		{
-			if (Research.isResearched(entityPlayer, ResearchTypes.PhylacteryOfSouls))
+			if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.PhylacteryOfSouls))
 			{
 				final MovingObjectPosition movingObjectPosition = this.getMovingObjectPositionFromPlayer(world, entityPlayer, true);
 

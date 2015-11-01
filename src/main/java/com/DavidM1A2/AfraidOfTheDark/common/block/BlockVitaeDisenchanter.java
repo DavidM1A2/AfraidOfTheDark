@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDBlock;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDEntityData;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.google.common.collect.Maps;
@@ -38,7 +38,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
 
 public class BlockVitaeDisenchanter extends AOTDBlock
 {
@@ -85,7 +84,7 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 	{
 		if (!world.isRemote)
 		{
-			if (Research.isResearched(entityPlayer, ResearchTypes.VitaeDisenchanter))
+			if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.VitaeDisenchanter))
 			{
 				if (entityPlayer.inventory.getCurrentItem() == null)
 				{
@@ -169,7 +168,7 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 
 	private boolean readyToConvertBook(EntityPlayer entityPlayer)
 	{
-		if (Research.isResearched(entityPlayer, ResearchTypes.VitaeDisenchanter))
+		if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.VitaeDisenchanter))
 		{
 			ItemStack itemStack = entityPlayer.getCurrentEquippedItem();
 			if (itemStack != null && itemStack.getItem() instanceof ItemEnchantedBook)
@@ -188,9 +187,18 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 
 				vitaeCost = vitaeCost * 3;
 
-				if (Vitae.get(entityPlayer) >= vitaeCost)
+				if (AOTDEntityData.get(entityPlayer).getVitaeLevel() >= vitaeCost)
 				{
-					Vitae.addVitae(entityPlayer, -vitaeCost, Side.SERVER);
+					int newVitae = AOTDEntityData.get(entityPlayer).getVitaeLevel() - vitaeCost;
+					if (AOTDEntityData.get(entityPlayer).setVitaeLevel(newVitae))
+					{
+						if (!entityPlayer.capabilities.isCreativeMode)
+						{
+							entityPlayer.worldObj.createExplosion(entityPlayer, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ(), 2, true).doExplosionB(true);
+							entityPlayer.killCommand();
+						}
+					}
+					AOTDEntityData.get(entityPlayer).syncVitaeLevel();
 					return true;
 				}
 				else
@@ -274,7 +282,7 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 
 	private boolean readyToDisenchant(EntityPlayer entityPlayer)
 	{
-		if (Research.isResearched(entityPlayer, ResearchTypes.VitaeDisenchanter))
+		if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.VitaeDisenchanter))
 		{
 			if (entityPlayer.inventory.getCurrentItem().isItemEnchanted())
 			{
@@ -324,9 +332,18 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 
 					vitaeCost = vitaeCost * vitaeMultiplier;
 
-					if (Vitae.get(entityPlayer) >= vitaeCost)
+					if (AOTDEntityData.get(entityPlayer).getVitaeLevel() >= vitaeCost)
 					{
-						Vitae.addVitae(entityPlayer, -vitaeCost, Side.SERVER);
+						int newVitae = AOTDEntityData.get(entityPlayer).getVitaeLevel() - vitaeCost;
+						if (AOTDEntityData.get(entityPlayer).setVitaeLevel(newVitae))
+						{
+							if (!entityPlayer.capabilities.isCreativeMode)
+							{
+								entityPlayer.worldObj.createExplosion(entityPlayer, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ(), 2, true).doExplosionB(true);
+								entityPlayer.killCommand();
+							}
+						}
+						AOTDEntityData.get(entityPlayer).syncVitaeLevel();
 						return true;
 					}
 					else

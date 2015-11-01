@@ -9,7 +9,7 @@ import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.entities.ICanTakeSilverDamage;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDChargableSword;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
@@ -35,7 +35,7 @@ public class ItemIgneousSword extends AOTDChargableSword
 	@Override
 	public boolean onLeftClickEntity(final ItemStack stack, final EntityPlayer player, final Entity entity)
 	{
-		if (Research.isResearched(player, ResearchTypes.Igneous))
+		if (AOTDPlayerData.get(player).isResearched(ResearchTypes.Igneous))
 		{
 			if (entity != null)
 			{
@@ -61,7 +61,7 @@ public class ItemIgneousSword extends AOTDChargableSword
 	@SideOnly(Side.CLIENT)
 	public void addInformation(final ItemStack itemStack, final EntityPlayer entityPlayer, final List tooltip, final boolean p_77624_4_)
 	{
-		if (Research.isResearched(entityPlayer, ResearchTypes.Igneous))
+		if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.Igneous))
 		{
 			tooltip.add("Magical items will never break.");
 			tooltip.add("Right click to use an AOE fire strike");

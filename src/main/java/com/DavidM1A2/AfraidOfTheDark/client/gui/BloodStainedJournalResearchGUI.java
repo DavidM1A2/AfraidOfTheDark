@@ -11,7 +11,7 @@ import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.GuiClickAndDragable;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.NodeButton;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 import net.minecraft.client.Minecraft;
@@ -105,12 +105,12 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 			{
 				NodeButton newNodeButton = (NodeButton) nodeButton;
 
-				if (newNodeButton.isMouseOver() && Research.isResearched(Minecraft.getMinecraft().thePlayer, newNodeButton.getMyType()))
+				if (newNodeButton.isMouseOver() && AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).isResearched(newNodeButton.getMyType()))
 				{
 					this.drawString(Minecraft.getMinecraft().fontRendererObj, newNodeButton.getMyType().formattedString(), newNodeButton.xPosition + newNodeButton.height, newNodeButton.yPosition, 0xFF3399);
 					this.drawString(Minecraft.getMinecraft().fontRendererObj, EnumChatFormatting.ITALIC + newNodeButton.getMyType().getTooltip(), newNodeButton.xPosition + newNodeButton.height + 2, newNodeButton.yPosition + 10, 0xE62E8A);
 				}
-				else if (newNodeButton.isMouseOver() && Research.canResearch(Minecraft.getMinecraft().thePlayer, newNodeButton.getMyType()))
+				else if (newNodeButton.isMouseOver() && AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).canResearch(newNodeButton.getMyType()))
 				{
 					this.drawString(Minecraft.getMinecraft().fontRendererObj, "?", newNodeButton.xPosition + newNodeButton.height, newNodeButton.yPosition, 0xFF3399);
 					this.drawString(Minecraft.getMinecraft().fontRendererObj, EnumChatFormatting.ITALIC + "Unknown Reserach", newNodeButton.xPosition + newNodeButton.height + 2, newNodeButton.yPosition + 10, 0xE62E8A);
@@ -141,12 +141,12 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 			if (current.id == button.id)
 			{
 				ClientData.currentlySelected = current.getMyType();
-				if (Research.isResearched(entityPlayer, current.getMyType()))
+				if (AOTDPlayerData.get(entityPlayer).isResearched(current.getMyType()))
 				{
 					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
 					break;
 				}
-				else if (Research.isResearched(entityPlayer, current.getMyType().getPrevious()))
+				else if (AOTDPlayerData.get(entityPlayer).isResearched(current.getMyType().getPrevious()))
 				{
 					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_PRE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
 					break;
@@ -166,7 +166,7 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 
 				if (nodeButton.getMyType().getPrevious() != null)
 				{
-					if (Research.isResearched(Minecraft.getMinecraft().thePlayer, nodeButton.getMyType()) || Research.canResearch(Minecraft.getMinecraft().thePlayer, nodeButton.getMyType()))
+					if (AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).isResearched(nodeButton.getMyType()) || AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).canResearch(nodeButton.getMyType()))
 					{
 						ResearchTypes previous = nodeButton.getMyType().getPrevious();
 						ResearchTypes current = nodeButton.getMyType();

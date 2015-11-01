@@ -9,10 +9,7 @@ import java.io.IOException;
 
 import org.lwjgl.opengl.GL11;
 
-import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
-import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateAOTDStatus;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 import net.minecraft.client.Minecraft;
@@ -22,8 +19,6 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.relauncher.Side;
 
 public class BloodStainedJournalSignGUI extends GuiScreen
 {
@@ -82,21 +77,22 @@ public class BloodStainedJournalSignGUI extends GuiScreen
 				{
 					// If the player signed their own name and has not started
 					// AOTD
-					if (HasStartedAOTD.get(playerWhoPressed) == false)
+					if (AOTDPlayerData.get(playerWhoPressed).getHasStartedAOTD() == false)
 					{
-						HasStartedAOTD.set(playerWhoPressed, true, Side.CLIENT);
+						AOTDPlayerData.get(playerWhoPressed).setHasStartedAOTD(true);
+						AOTDPlayerData.get(playerWhoPressed).syncHasStartedAOTD();
+
 						playerWhoPressed.inventory.getStackInSlot(playerWhoPressed.inventory.currentItem).getTagCompound().setString("owner", playerWhoPressed.getDisplayName().getUnformattedText());
-						AfraidOfTheDark.getPacketHandler().sendToServer(new UpdateAOTDStatus(true));
 						playerWhoPressed.addChatMessage(new ChatComponentText("What have I done?"));
 						playerWhoPressed.playSound("afraidofthedark:journalSign", 4.0F, 1.0F);
-						Research.unlockResearchSynced(playerWhoPressed, ResearchTypes.AnUnbreakableCovenant, FMLCommonHandler.instance().getSide(), true);
-						Research.unlockResearchSynced(playerWhoPressed, ResearchTypes.Crossbow, FMLCommonHandler.instance().getSide(), true);
+						AOTDPlayerData.get(playerWhoPressed).unlockResearch(ResearchTypes.AnUnbreakableCovenant, true);
+						AOTDPlayerData.get(playerWhoPressed).unlockResearch(ResearchTypes.Crossbow, true);
 						playerWhoPressed.closeScreen();
 					}
 				}
 				else
 				{
-					if (HasStartedAOTD.get(playerWhoPressed) == false)
+					if (AOTDPlayerData.get(playerWhoPressed).getHasStartedAOTD() == false)
 					{
 						playerWhoPressed.addChatMessage(new ChatComponentText("*You expect something to happen... but nothing does."));
 						playerWhoPressed.closeScreen();

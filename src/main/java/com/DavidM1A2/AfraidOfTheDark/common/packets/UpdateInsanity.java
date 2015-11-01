@@ -6,6 +6,7 @@
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
 import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
@@ -58,7 +59,7 @@ public class UpdateInsanity implements IMessage
 					{
 						LogHelper.info("Updating insanity: " + msg.insanity);
 					}
-					entityPlayer.getEntityData().setDouble("PlayerInsanity", msg.insanity);
+					AOTDPlayerData.get(entityPlayer).setPlayerInsanity(msg.insanity);
 				}
 			});
 			return null;

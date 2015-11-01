@@ -9,7 +9,7 @@ import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDBlock;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 import net.minecraft.block.material.Material;
@@ -19,7 +19,6 @@ import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
 
 public class BlockStarMetalOre extends AOTDBlock
 {
@@ -47,9 +46,9 @@ public class BlockStarMetalOre extends AOTDBlock
 	@Override
 	public void harvestBlock(World world, EntityPlayer entityPlayer, BlockPos blockPos, IBlockState iBlockState, TileEntity tileEntity)
 	{
-		if (Research.canResearch(entityPlayer, ResearchTypes.StarMetal))
+		if (AOTDPlayerData.get(entityPlayer).canResearch(ResearchTypes.StarMetal))
 		{
-			Research.unlockResearchSynced(entityPlayer, ResearchTypes.StarMetal, Side.SERVER, true);
+			AOTDPlayerData.get(entityPlayer).unlockResearch(ResearchTypes.StarMetal, true);
 		}
 		super.harvestBlock(world, entityPlayer, blockPos, iBlockState, tileEntity);
 	}

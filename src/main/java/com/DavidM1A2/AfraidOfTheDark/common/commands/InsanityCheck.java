@@ -8,9 +8,8 @@ package com.DavidM1A2.AfraidOfTheDark.common.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Insanity;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDEntityData;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
@@ -65,9 +64,9 @@ public class InsanityCheck implements ICommand
 	public void processCommand(final ICommandSender iCommandSender, final String[] p_71515_2_)
 	{
 		final EntityPlayer sender = (EntityPlayer) iCommandSender.getCommandSenderEntity();
-		iCommandSender.addChatMessage(new ChatComponentText("Your current insanity is: " + Insanity.get(sender) + "%"));
-		iCommandSender.addChatMessage(new ChatComponentText("Your current has started AOTD status is: " + HasStartedAOTD.get(sender)));
-		iCommandSender.addChatMessage(new ChatComponentText("Current Vitae level is: " + Vitae.get(sender)));
+		iCommandSender.addChatMessage(new ChatComponentText("Your current insanity is: " + AOTDPlayerData.get(sender).getPlayerInsanity() + "%"));
+		iCommandSender.addChatMessage(new ChatComponentText("Your current has started AOTD status is: " + AOTDPlayerData.get(sender).getHasStartedAOTD()));
+		iCommandSender.addChatMessage(new ChatComponentText("Current Vitae level is: " + AOTDEntityData.get(sender).getVitaeLevel()));
 		iCommandSender.addChatMessage(new ChatComponentText("Current dimension is: " + sender.dimension));
 		if (!sender.worldObj.isRemote)
 		{

@@ -7,7 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.recipe;
 
 import java.lang.reflect.Field;
 
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.google.common.base.Throwables;
 
@@ -44,7 +44,7 @@ public class AOTDDisablableShapelessRecipe extends ShapelessOreRecipe
 		EntityPlayer entityPlayer = findPlayer(inventoryCrafting);
 		if (entityPlayer != null)
 		{
-			if (!Research.isResearched(entityPlayer, preRequisite))
+			if (!AOTDPlayerData.get(entityPlayer).isResearched(preRequisite))
 			{
 				return false;
 			}

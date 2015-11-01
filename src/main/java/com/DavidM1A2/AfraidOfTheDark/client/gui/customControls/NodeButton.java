@@ -3,7 +3,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui.customControls;
 
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 import net.minecraft.client.Minecraft;
@@ -44,7 +44,7 @@ public class NodeButton extends GuiButton
 	@Override
 	public void drawButton(final Minecraft minecraft, final int mouseX, final int mouseY)
 	{
-		if (Research.isResearched(Minecraft.getMinecraft().thePlayer, this.myType) || Research.canResearch(Minecraft.getMinecraft().thePlayer, this.myType))
+		if (AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).isResearched(this.myType) || AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).canResearch(this.myType))
 		{
 			this.visible = true;
 		}
@@ -74,7 +74,7 @@ public class NodeButton extends GuiButton
 			Gui.drawScaledCustomSizeModalRect(this.xPosition, this.yPosition, 0, 0, 512, 512, this.width, this.height, 512, 512);
 
 			// Draw the button differently depending on if the research is researched, not research, or almost researched
-			if (Research.isResearched(Minecraft.getMinecraft().thePlayer, this.myType))
+			if (AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).isResearched(this.myType))
 			{
 				minecraft.getTextureManager().bindTexture(this.myType.getIcon());
 				Gui.drawScaledCustomSizeModalRect(this.xPosition + 2, this.yPosition + 2, 0, 0, 32, 32, this.width, this.height, 32, 32);

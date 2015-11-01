@@ -5,6 +5,8 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,21 +14,26 @@ import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDTileEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncVoidChest;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.VoidChestLocation;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemNameTag;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.world.storage.ISaveHandler;
+import net.minecraft.world.storage.SaveHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
 public class TileEntityVoidChest extends AOTDTileEntity implements IUpdatePlayerListBox
@@ -198,7 +205,7 @@ public class TileEntityVoidChest extends AOTDTileEntity implements IUpdatePlayer
 			if (this.owner.equals(""))
 			{
 				this.owner = entityPlayer.getDisplayName().getUnformattedText();
-				this.locationToGoTo = VoidChestLocation.getVoidChestLocation(entityPlayer);
+				this.locationToGoTo = this.validatePlayerLocationVoidChest(AOTDPlayerData.get(entityPlayer).getPlayerLocationVoidChest(), entityPlayer);
 				entityPlayer.addChatMessage(new ChatComponentText("The owner of this chest has been set to " + entityPlayer.getDisplayName().getUnformattedText() + "."));
 			}
 			else if (entityPlayer.getDisplayName().getUnformattedText().equals(owner))
@@ -256,5 +263,45 @@ public class TileEntityVoidChest extends AOTDTileEntity implements IUpdatePlayer
 		this.lastInteraction = System.currentTimeMillis();
 		this.shouldBeOpen = true;
 		this.entityPlayerToSend = entityPlayer;
+	}
+
+	private int validatePlayerLocationVoidChest(int locationX, EntityPlayer entityPlayer)
+	{
+		if (locationX == 0)
+		{
+			if (!entityPlayer.worldObj.isRemote)
+			{
+				MinecraftServer.getServer().getCommandManager().executeCommand(MinecraftServer.getServer(), "/save-all");
+			}
+
+			ISaveHandler iSaveHandler = MinecraftServer.getServer().worldServers[0].getSaveHandler();
+			if (iSaveHandler instanceof SaveHandler)
+			{
+				SaveHandler saveHandler = (SaveHandler) iSaveHandler;
+				int furthestOutPlayer = 0;
+				File playersDirectory = new File(saveHandler.getWorldDirectory(), "playerdata");
+				for (String username : saveHandler.getAvailablePlayerDat())
+				{
+					File playerData = new File(playersDirectory, username + ".dat");
+
+					if (playerData.exists() && playerData.isFile())
+					{
+						NBTTagCompound playerDataCompound;
+						try
+						{
+							playerDataCompound = CompressedStreamTools.readCompressed(new FileInputStream(playerData));
+							furthestOutPlayer = Math.max(furthestOutPlayer, AOTDPlayerData.getPlayerLocationVoidChestOffline(playerDataCompound));
+						}
+						catch (Exception e)
+						{
+							LogHelper.info("Error reading player data for username " + username);
+						}
+					}
+				}
+
+				AOTDPlayerData.get(entityPlayer).setPlayerLocationVoidChest(furthestOutPlayer + 1);
+			}
+		}
+		return AOTDPlayerData.get(entityPlayer).getPlayerLocationVoidChest();
 	}
 }

@@ -10,7 +10,7 @@ import java.util.List;
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 import net.minecraft.creativetab.CreativeTabs;
@@ -42,7 +42,7 @@ public class ItemJournal extends AOTDItem
 			if (NBTHelper.getString(itemStack, "owner").equals(""))
 			{
 				// If the player has started AOTD, set the NBT tag and open the journal
-				if (HasStartedAOTD.get(entityPlayer))
+				if (AOTDPlayerData.get(entityPlayer).getHasStartedAOTD())
 				{
 					NBTHelper.setString(itemStack, "owner", entityPlayer.getDisplayName().getUnformattedText());
 					if (world.isRemote)
@@ -80,7 +80,7 @@ public class ItemJournal extends AOTDItem
 		{
 			if (entityPlayer.capabilities.isCreativeMode)
 			{
-				if (HasStartedAOTD.get(entityPlayer))
+				if (AOTDPlayerData.get(entityPlayer).getHasStartedAOTD())
 				{
 					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_CHEAT_SHEET, world, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
 				}

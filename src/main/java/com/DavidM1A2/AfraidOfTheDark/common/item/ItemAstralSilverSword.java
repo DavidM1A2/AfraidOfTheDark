@@ -7,8 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 
 import com.DavidM1A2.AfraidOfTheDark.common.entities.ICanTakeSilverDamage;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDSword;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
@@ -30,11 +29,11 @@ public class ItemAstralSilverSword extends AOTDSword
 	@Override
 	public boolean onLeftClickEntity(final ItemStack stack, final EntityPlayer player, final Entity entity)
 	{
-		if (Research.isResearched(player, ResearchTypes.AstralSilver))
+		if (AOTDPlayerData.get(player).isResearched(ResearchTypes.AstralSilver))
 		{
 			if (entity instanceof ICanTakeSilverDamage)
 			{
-				if (HasStartedAOTD.get(player))
+				if (AOTDPlayerData.get(player).getHasStartedAOTD())
 				{
 					entity.attackEntityFrom(Constants.AOTDDamageSources.getSilverDamage(player), 12.0F);
 				}

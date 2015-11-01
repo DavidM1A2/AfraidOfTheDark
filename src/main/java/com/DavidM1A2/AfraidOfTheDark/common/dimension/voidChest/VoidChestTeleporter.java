@@ -5,15 +5,21 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest;
 
+import java.io.File;
+import java.io.FileInputStream;
+
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockVoidChestPortal;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.VoidChestLocation;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.WorldGenerationUtility;
 
 import net.minecraft.block.BlockAir;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
@@ -21,6 +27,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraft.world.storage.ISaveHandler;
+import net.minecraft.world.storage.SaveHandler;
 
 public class VoidChestTeleporter extends Teleporter
 {
@@ -56,9 +64,13 @@ public class VoidChestTeleporter extends Teleporter
 						{
 							if (isValidSpawnLocation(entityPlayer.worldObj, new BlockPos(i, j, k)))
 							{
-								VoidChestLocation.setOverworldLocation(entityPlayer, new int[]
+								AOTDPlayerData.get(entityPlayer).setPlayerLocationOverworld(new int[]
 								{ i, j + 1, k });
-								((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(VoidChestLocation.getVoidChestLocation(entityPlayer) * Constants.VoidChestWorld.BLOCKS_BETWEEN_ISLANDS + 24.5, 104, 3, 0, 0);
+
+								int locationX = this.validatePlayerLocationVoidChest(AOTDPlayerData.get(entityPlayer).getPlayerLocationVoidChest(), entityPlayer) * Constants.VoidChestWorld.BLOCKS_BETWEEN_ISLANDS + 25;
+
+								((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(locationX, 104, 3, 0, 0);
+
 								return;
 							}
 						}
@@ -67,15 +79,18 @@ public class VoidChestTeleporter extends Teleporter
 
 				if (!entityPlayer.worldObj.isRemote)
 				{
-					VoidChestLocation.setOverworldLocation(entityPlayer, new int[]
+					AOTDPlayerData.get(entityPlayer).setPlayerLocationOverworld(new int[]
 					{ 0, WorldGenerationUtility.getFirstNonAirBlock(MinecraftServer.getServer().worldServerForDimension(0), 0, 0), 0 });
 				}
 				else
 				{
-					VoidChestLocation.setOverworldLocation(entityPlayer, new int[]
+					AOTDPlayerData.get(entityPlayer).setPlayerLocationOverworld(new int[]
 					{ 0, 255, 0 });
 				}
-				((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(VoidChestLocation.getVoidChestLocation(entityPlayer) * Constants.VoidChestWorld.BLOCKS_BETWEEN_ISLANDS + 24.5, 104, 3, 0, 0);
+
+				int locationX = this.validatePlayerLocationVoidChest(AOTDPlayerData.get(entityPlayer).getPlayerLocationVoidChest(), entityPlayer) * Constants.VoidChestWorld.BLOCKS_BETWEEN_ISLANDS + 25;
+
+				((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(locationX, 104, 3, 0, 0);
 
 			}
 		}
@@ -86,7 +101,8 @@ public class VoidChestTeleporter extends Teleporter
 			if (entity instanceof EntityPlayer)
 			{
 				EntityPlayer entityPlayer = (EntityPlayer) entity;
-				BlockPos playerPostionOld = VoidChestLocation.getOverworldLocation(entityPlayer);
+				BlockPos playerPostionOld = this.intArrToBlockPos(AOTDPlayerData.get(entityPlayer).getPlayerLocationOverworld(), entityPlayer);
+
 				if (playerPostionOld.getX() == 0 && playerPostionOld.getZ() == 0)
 				{
 					entityPlayer.addChatMessage(new ChatComponentText("There were no air blocks surrounding the portal you passed through. Defaulting to 0, 0"));
@@ -106,5 +122,60 @@ public class VoidChestTeleporter extends Teleporter
 			}
 		}
 		return false;
+	}
+
+	private BlockPos intArrToBlockPos(int[] location, EntityPlayer entityPlayer)
+	{
+		if (location.length == 0)
+		{
+			return new BlockPos(0, WorldGenerationUtility.getFirstNonAirBlock(entityPlayer.worldObj, 0, 0) + 2, 0);
+		}
+
+		if (location[1] == 0)
+		{
+			location[1] = WorldGenerationUtility.getFirstNonAirBlock(entityPlayer.worldObj, 0, 0) + 2;
+			LogHelper.error("Player data incorrectly saved. Defaulting to 0, 0. Please report this to the mod author.");
+		}
+		return new BlockPos(location[0], location[1], location[2]);
+	}
+
+	private int validatePlayerLocationVoidChest(int locationX, EntityPlayer entityPlayer)
+	{
+		if (locationX == 0)
+		{
+			if (!entityPlayer.worldObj.isRemote)
+			{
+				MinecraftServer.getServer().getCommandManager().executeCommand(MinecraftServer.getServer(), "/save-all");
+			}
+
+			ISaveHandler iSaveHandler = MinecraftServer.getServer().worldServers[0].getSaveHandler();
+			if (iSaveHandler instanceof SaveHandler)
+			{
+				SaveHandler saveHandler = (SaveHandler) iSaveHandler;
+				int furthestOutPlayer = 0;
+				File playersDirectory = new File(saveHandler.getWorldDirectory(), "playerdata");
+				for (String username : saveHandler.getAvailablePlayerDat())
+				{
+					File playerData = new File(playersDirectory, username + ".dat");
+
+					if (playerData.exists() && playerData.isFile())
+					{
+						NBTTagCompound playerDataCompound;
+						try
+						{
+							playerDataCompound = CompressedStreamTools.readCompressed(new FileInputStream(playerData));
+							furthestOutPlayer = Math.max(furthestOutPlayer, AOTDPlayerData.getPlayerLocationVoidChestOffline(playerDataCompound));
+						}
+						catch (Exception e)
+						{
+							LogHelper.info("Error reading player data for username " + username);
+						}
+					}
+				}
+
+				AOTDPlayerData.get(entityPlayer).setPlayerLocationVoidChest(furthestOutPlayer + 1);
+			}
+		}
+		return AOTDPlayerData.get(entityPlayer).getPlayerLocationVoidChest();
 	}
 }

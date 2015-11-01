@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
@@ -134,7 +134,7 @@ public class CustomWerewolfTargetLocator extends EntityAITarget
 				{
 					if (list.get(i) instanceof EntityPlayer)
 					{
-						if (HasStartedAOTD.get((EntityPlayer) list.get(i)))
+						if (AOTDPlayerData.get((EntityPlayer) list.get(i)).getHasStartedAOTD())
 						{
 							/*
 							 * The first entity in the list that has started AOTD is the target

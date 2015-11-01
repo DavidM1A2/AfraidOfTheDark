@@ -9,7 +9,7 @@ import java.io.IOException;
 
 import org.lwjgl.opengl.GL11;
 
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 import net.minecraft.client.Minecraft;
@@ -18,7 +18,6 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
-import net.minecraftforge.fml.relauncher.Side;
 
 public class BloodStainedJournalCheatSheet extends GuiScreen
 {
@@ -68,9 +67,9 @@ public class BloodStainedJournalCheatSheet extends GuiScreen
 			{
 				for (ResearchTypes type : ResearchTypes.values())
 				{
-					if (!Research.isResearched(Minecraft.getMinecraft().thePlayer, type))
+					if (!AOTDPlayerData.get(playerWhoPressed).isResearched(type))
 					{
-						Research.unlockResearchSynced(Minecraft.getMinecraft().thePlayer, type, Side.CLIENT, false);
+						AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).unlockResearch(type, false);
 					}
 				}
 				Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("All researches unlocked."));

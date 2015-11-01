@@ -5,21 +5,31 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare;
 
+import java.io.File;
+import java.io.FileInputStream;
+
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.InventorySaver;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.WorldGenerationUtility;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
+import net.minecraft.world.storage.ISaveHandler;
+import net.minecraft.world.storage.SaveHandler;
 
 public class NightmareTeleporter extends Teleporter
 {
@@ -47,11 +57,17 @@ public class NightmareTeleporter extends Teleporter
 				if (!entity.worldObj.isRemote)
 				{
 					EntityPlayer entityPlayer = (EntityPlayer) entity;
-					InventorySaver.saveInventory(entityPlayer);
+					NBTTagList inventory = new NBTTagList();
+					entityPlayer.inventory.writeToNBT(inventory);
+					AOTDPlayerData.get(entityPlayer).setPlayerInventory(inventory);
+					AOTDPlayerData.get(entityPlayer).setPlayerLocationOverworld(new int[]
+					{ entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY() + 1, entityPlayer.getPosition().getZ() });
 					entityPlayer.inventory.clear();
 					entityPlayer.inventoryContainer.detectAndSendChanges();
 
-					((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(InventorySaver.getPlayerLocationNightmare(entityPlayer) * Constants.NightmareWorld.BLOCKS_BETWEEN_ISLANDS + 20, 74, 40, 0, 0);
+					int locationX = this.validatePlayerLocationNightmare(AOTDPlayerData.get(entityPlayer).getPlayerLocationNightmare(), entityPlayer) * Constants.NightmareWorld.BLOCKS_BETWEEN_ISLANDS + 20;
+
+					((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(locationX, 74, 40, 0, 0);
 
 					entityPlayer.setHealth(20.0F);
 					entityPlayer.getFoodStats().setFoodLevel(20);
@@ -68,7 +84,8 @@ public class NightmareTeleporter extends Teleporter
 			{
 				EntityPlayer entityPlayer = (EntityPlayer) entity;
 
-				BlockPos playerPostionOld = InventorySaver.getPlayerLocationOverworld(entityPlayer);
+				BlockPos playerPostionOld = this.intArrToBlockPos(AOTDPlayerData.get(entityPlayer).getPlayerLocationOverworld(), entityPlayer);
+
 				entityPlayer.setPosition(playerPostionOld.getX(), playerPostionOld.getY(), playerPostionOld.getZ());
 				entity.motionX = 0.0D;
 				entity.motionY = 0.0D;
@@ -77,8 +94,8 @@ public class NightmareTeleporter extends Teleporter
 				entityPlayer.inventory.clear();
 				entityPlayer.inventoryContainer.detectAndSendChanges();
 
-				InventorySaver.loadInventory(entityPlayer);
-				InventorySaver.resetSavedInventory(entityPlayer);
+				entityPlayer.inventory.readFromNBT(AOTDPlayerData.get(entityPlayer).getPlayerInventory());
+				AOTDPlayerData.get(entityPlayer).setPlayerInventory(new NBTTagList());
 			}
 		}
 	}
@@ -111,5 +128,60 @@ public class NightmareTeleporter extends Teleporter
 		pages.appendTag(new NBTTagString("from me. They always stay quiet when I am near. I know they are keeping secrets from me! What has it told you? What has the monolith told you to make you stop talking to me? Answer me Enaria! Where have you gone? Have you left me?"));
 		pages.appendTag(new NBTTagString("You said we would be together forever!"));
 		return pages;
+	}
+
+	private BlockPos intArrToBlockPos(int[] location, EntityPlayer entityPlayer)
+	{
+		if (location.length == 0)
+		{
+			return new BlockPos(0, WorldGenerationUtility.getFirstNonAirBlock(entityPlayer.worldObj, 0, 0) + 2, 0);
+		}
+
+		if (location[1] == 0)
+		{
+			location[1] = WorldGenerationUtility.getFirstNonAirBlock(entityPlayer.worldObj, 0, 0) + 2;
+			LogHelper.error("Player data incorrectly saved. Defaulting to 0, 0. Please report this to the mod author.");
+		}
+		return new BlockPos(location[0], location[1], location[2]);
+	}
+
+	private int validatePlayerLocationNightmare(int locationX, EntityPlayer entityPlayer)
+	{
+		if (locationX == 0)
+		{
+			if (!entityPlayer.worldObj.isRemote)
+			{
+				MinecraftServer.getServer().getCommandManager().executeCommand(MinecraftServer.getServer(), "/save-all");
+			}
+
+			ISaveHandler iSaveHandler = MinecraftServer.getServer().worldServers[0].getSaveHandler();
+			if (iSaveHandler instanceof SaveHandler)
+			{
+				SaveHandler saveHandler = (SaveHandler) iSaveHandler;
+				int furthestOutPlayer = 0;
+				File playersDirectory = new File(saveHandler.getWorldDirectory(), "playerdata");
+				for (String username : saveHandler.getAvailablePlayerDat())
+				{
+					File playerData = new File(playersDirectory, username + ".dat");
+
+					if (playerData.exists() && playerData.isFile())
+					{
+						NBTTagCompound playerDataCompound;
+						try
+						{
+							playerDataCompound = CompressedStreamTools.readCompressed(new FileInputStream(playerData));
+							furthestOutPlayer = Math.max(furthestOutPlayer, AOTDPlayerData.getPlayerLocationNightmareOffline(playerDataCompound));
+						}
+						catch (Exception e)
+						{
+							LogHelper.info("Error reading player data for username " + username);
+						}
+					}
+				}
+
+				AOTDPlayerData.get(entityPlayer).setPlayerLocationNightmare(furthestOutPlayer + 1);
+			}
+		}
+		return AOTDPlayerData.get(entityPlayer).getPlayerLocationNightmare();
 	}
 }

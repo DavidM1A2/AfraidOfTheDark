@@ -12,8 +12,8 @@ import org.lwjgl.input.Keyboard;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.Keybindings;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDEntityData;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
@@ -25,7 +25,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
 
 public class ItemVitaeLantern extends AOTDItem
 {
@@ -45,7 +44,7 @@ public class ItemVitaeLantern extends AOTDItem
 	@Override
 	public ItemStack onItemRightClick(final ItemStack itemStack, final World world, final EntityPlayer entityPlayer)
 	{
-		if (Research.isResearched(entityPlayer, ResearchTypes.VitaeLanternI))
+		if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.VitaeLanternI))
 		{
 			if (entityPlayer.isSneaking())
 			{
@@ -91,12 +90,19 @@ public class ItemVitaeLantern extends AOTDItem
 	@Override
 	public boolean itemInteractionForEntity(ItemStack itemStack, EntityPlayer entityPlayer, EntityLivingBase entityLivingBase)
 	{
-		if (Research.isResearched(entityPlayer, ResearchTypes.VitaeLanternI))
+		if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.VitaeLanternI))
 		{
-			if (Vitae.get(entityLivingBase) > 5 && !(entityLivingBase instanceof EntityPlayer))
+			if (AOTDEntityData.get(entityLivingBase).getVitaeLevel() > 5 && !(entityLivingBase instanceof EntityPlayer))
 			{
-				Vitae.addVitae(entityLivingBase, -5, null);
-				// Itemstack here is wrong? wtf?
+				int newVitae = AOTDEntityData.get(entityLivingBase).getVitaeLevel() - 5;
+				if (AOTDEntityData.get(entityLivingBase).setVitaeLevel(newVitae))
+				{
+					entityLivingBase.worldObj.createExplosion(entityLivingBase, entityLivingBase.getPosition().getX(), entityLivingBase.getPosition().getY(), entityLivingBase.getPosition().getZ(), 2, true).doExplosionB(true);
+					entityLivingBase.killCommand();
+				}
+				AOTDEntityData.get(entityLivingBase).syncVitaeLevel();
+
+				// Itemstack here is wrong?
 				addVitae(entityPlayer.getCurrentEquippedItem(), 5);
 			}
 		}
@@ -119,7 +125,7 @@ public class ItemVitaeLantern extends AOTDItem
 	@Override
 	public boolean onLeftClickEntity(ItemStack itemStack, EntityPlayer entityPlayer, Entity entity)
 	{
-		if (Research.isResearched(entityPlayer, ResearchTypes.VitaeLanternI))
+		if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.VitaeLanternI))
 		{
 			if (entity instanceof EntityLivingBase)
 			{
@@ -129,9 +135,9 @@ public class ItemVitaeLantern extends AOTDItem
 				{
 					if (entityLivingBase instanceof EntityDeeeSyft)
 					{
-						if (Research.canResearch(entityPlayer, ResearchTypes.DeeeSyft))
+						if (AOTDPlayerData.get(entityPlayer).canResearch(ResearchTypes.DeeeSyft))
 						{
-							Research.unlockResearchSynced(entityPlayer, ResearchTypes.DeeeSyft, Side.SERVER, true);
+							AOTDPlayerData.get(entityPlayer).unlockResearch(ResearchTypes.DeeeSyft, true);
 						}
 					}
 
@@ -139,13 +145,33 @@ public class ItemVitaeLantern extends AOTDItem
 					{
 						int vitaeToTransfer = entityPlayer.worldObj.rand.nextInt(5) + 1;
 						this.addVitae(itemStack, -vitaeToTransfer);
-						Vitae.addVitae(entityLivingBase, vitaeToTransfer, Side.SERVER);
+
+						int newVitae = AOTDEntityData.get(entityPlayer).getVitaeLevel() + vitaeToTransfer;
+						if (AOTDEntityData.get(entityPlayer).setVitaeLevel(newVitae))
+						{
+							if (!entityPlayer.capabilities.isCreativeMode)
+							{
+								entityPlayer.worldObj.createExplosion(entityPlayer, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ(), 2, true).doExplosionB(true);
+								entityPlayer.killCommand();
+							}
+						}
+						AOTDEntityData.get(entityPlayer).syncVitaeLevel();
 					}
 					else if (NBTHelper.getInt(itemStack, STORED_VITAE) > 0)
 					{
 						int vitaeToTransfer = NBTHelper.getInt(itemStack, STORED_VITAE);
 						this.addVitae(itemStack, -vitaeToTransfer);
-						Vitae.addVitae(entityLivingBase, vitaeToTransfer, Side.SERVER);
+
+						int newVitae = AOTDEntityData.get(entityPlayer).getVitaeLevel() + vitaeToTransfer;
+						if (AOTDEntityData.get(entityPlayer).setVitaeLevel(newVitae))
+						{
+							if (!entityPlayer.capabilities.isCreativeMode)
+							{
+								entityPlayer.worldObj.createExplosion(entityPlayer, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ(), 2, true).doExplosionB(true);
+								entityPlayer.killCommand();
+							}
+						}
+						AOTDEntityData.get(entityPlayer).syncVitaeLevel();
 					}
 				}
 			}
@@ -200,7 +226,7 @@ public class ItemVitaeLantern extends AOTDItem
 
 	private void approachEqualibrium(ItemStack itemStack, EntityPlayer entityPlayer, int equalibrium)
 	{
-		int currentVitae = Vitae.get(entityPlayer);
+		int currentVitae = AOTDEntityData.get(entityPlayer).getVitaeLevel();
 
 		if (equalibrium != currentVitae)
 		{
@@ -210,7 +236,16 @@ public class ItemVitaeLantern extends AOTDItem
 				{
 					if (!entityPlayer.worldObj.isRemote)
 					{
-						Vitae.addVitae(entityPlayer, -(currentVitae - equalibrium), Side.SERVER);
+						int newVitae = currentVitae - (currentVitae - equalibrium);
+						if (AOTDEntityData.get(entityPlayer).setVitaeLevel(newVitae))
+						{
+							if (!entityPlayer.capabilities.isCreativeMode)
+							{
+								entityPlayer.worldObj.createExplosion(entityPlayer, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ(), 2, true).doExplosionB(true);
+								entityPlayer.killCommand();
+							}
+						}
+						AOTDEntityData.get(entityPlayer).syncVitaeLevel();
 					}
 				}
 			}
@@ -220,7 +255,16 @@ public class ItemVitaeLantern extends AOTDItem
 				{
 					if (!entityPlayer.worldObj.isRemote)
 					{
-						Vitae.addVitae(entityPlayer, currentVitae > equalibrium ? -5 : 5, Side.SERVER);
+						int newVitae = currentVitae + (currentVitae > equalibrium ? -5 : 5);
+						if (AOTDEntityData.get(entityPlayer).setVitaeLevel(newVitae))
+						{
+							if (!entityPlayer.capabilities.isCreativeMode)
+							{
+								entityPlayer.worldObj.createExplosion(entityPlayer, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ(), 2, true).doExplosionB(true);
+								entityPlayer.killCommand();
+							}
+						}
+						AOTDEntityData.get(entityPlayer).syncVitaeLevel();
 					}
 				}
 			}

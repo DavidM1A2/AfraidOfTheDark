@@ -10,7 +10,7 @@ import java.util.Set;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
@@ -28,32 +28,27 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 public class UpdateResearch implements IMessage
 {
 	private NBTTagCompound research;
-	private boolean firstTimeResearched;
 
 	public UpdateResearch()
 	{
 		this.research = null;
-		this.firstTimeResearched = false;
 	}
 
-	public UpdateResearch(final NBTTagCompound research, boolean firstTimeResearched)
+	public UpdateResearch(final NBTTagCompound research)
 	{
 		this.research = research;
-		this.firstTimeResearched = firstTimeResearched;
 	}
 
 	@Override
 	public void fromBytes(final ByteBuf buf)
 	{
 		this.research = ByteBufUtils.readTag(buf);
-		this.firstTimeResearched = buf.readBoolean();
 	}
 
 	@Override
 	public void toBytes(final ByteBuf buf)
 	{
 		ByteBufUtils.writeTag(buf, this.research);
-		buf.writeBoolean(this.firstTimeResearched);
 	}
 
 	// when we receive a packet we sets some research
@@ -67,20 +62,18 @@ public class UpdateResearch implements IMessage
 				@Override
 				public void run()
 				{
-					if (msg.firstTimeResearched)
+					Set<String> keysOriginal = AOTDPlayerData.get(entityPlayer).getResearches().getKeySet();
+					for (Object key : msg.research.getKeySet())
 					{
-						Set<String> keysOriginal = Research.get(entityPlayer).getKeySet();
-						for (Object key : msg.research.getKeySet())
+						String keyString = (String) key;
+						if (!AOTDPlayerData.get(entityPlayer).getResearches().getBoolean(keyString) && msg.research.getBoolean(keyString))
 						{
-							String keyString = (String) key;
-							if (!Research.get(entityPlayer).getBoolean(keyString) && msg.research.getBoolean(keyString))
-							{
-								entityPlayer.playSound("afraidofthedark:achievementUnlocked", 1.0f, 1.0f);
-								ClientData.researchAchievedOverlay.displayResearch(ResearchTypes.valueOf(keyString.substring(Research.RESEARCH_DATA.length())), new ItemStack(ModItems.journal, 1), false);
-							}
+							entityPlayer.playSound("afraidofthedark:achievementUnlocked", 1.0f, 1.0f);
+							ClientData.researchAchievedOverlay.displayResearch(ResearchTypes.valueOf(keyString.substring("unlockedResearches".length())), new ItemStack(ModItems.journal, 1), false);
 						}
 					}
-					Research.set(entityPlayer, msg.research);
+
+					AOTDPlayerData.get(entityPlayer).setReseraches(msg.research);
 					if (Constants.isDebug)
 					{
 						LogHelper.info("Update research packet received, " + msg.research.toString());
@@ -98,7 +91,7 @@ public class UpdateResearch implements IMessage
 				@Override
 				public void run()
 				{
-					Research.set(entityPlayer, msg.research);
+					AOTDPlayerData.get(entityPlayer).setReseraches(msg.research);
 				}
 			});
 			return null;

@@ -9,7 +9,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDTileEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemVitaeLantern;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
@@ -19,7 +19,6 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.fml.relauncher.Side;
 
 public class TileEntitySpring extends AOTDTileEntity implements IUpdatePlayerListBox
 {
@@ -47,12 +46,12 @@ public class TileEntitySpring extends AOTDTileEntity implements IUpdatePlayerLis
 						EntityPlayer entityPlayer = (EntityPlayer) object;
 						if (entityPlayer.inventory.hasItem(ModItems.vitaeLantern))
 						{
-							if (Research.canResearch(entityPlayer, ResearchTypes.VitaeLanternI))
+							if (AOTDPlayerData.get(entityPlayer).canResearch(ResearchTypes.VitaeLanternI))
 							{
-								Research.unlockResearchSynced(entityPlayer, ResearchTypes.VitaeLanternI, Side.SERVER, true);
+								AOTDPlayerData.get(entityPlayer).unlockResearch(ResearchTypes.VitaeLanternI, true);
 							}
 
-							if (Research.isResearched(entityPlayer, ResearchTypes.VitaeLanternI))
+							if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.VitaeLanternI))
 							{
 								for (Object stack : entityPlayer.inventoryContainer.getInventory())
 								{

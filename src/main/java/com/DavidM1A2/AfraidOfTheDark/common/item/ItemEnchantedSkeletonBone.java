@@ -11,7 +11,7 @@ import java.util.List;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.EnchantedSkeleton.EntityEnchantedSkeleton;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 import net.minecraft.entity.item.EntityItem;
@@ -19,7 +19,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
 
 public class ItemEnchantedSkeletonBone extends AOTDItem
 {
@@ -85,9 +84,9 @@ public class ItemEnchantedSkeletonBone extends AOTDItem
 							if (object instanceof EntityPlayer)
 							{
 								EntityPlayer entityPlayer = (EntityPlayer) object;
-								if (Research.canResearch(entityPlayer, ResearchTypes.EnchantedSkeleton))
+								if (AOTDPlayerData.get(entityPlayer).canResearch(ResearchTypes.EnchantedSkeleton))
 								{
-									Research.unlockResearchSynced(entityPlayer, ResearchTypes.EnchantedSkeleton, Side.SERVER, true);
+									AOTDPlayerData.get(entityPlayer).unlockResearch(ResearchTypes.EnchantedSkeleton, true);
 								}
 							}
 						}

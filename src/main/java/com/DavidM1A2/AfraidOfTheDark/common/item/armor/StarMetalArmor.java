@@ -9,7 +9,7 @@ import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 import net.minecraft.entity.Entity;
@@ -59,7 +59,7 @@ public class StarMetalArmor extends AOTDArmor
 	@Override
 	public void onArmorTick(final World world, final EntityPlayer entityPlayer, final ItemStack itemStack)
 	{
-		if (Research.isResearched(entityPlayer, ResearchTypes.StarMetal))
+		if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.StarMetal))
 		{
 			if (!entityPlayer.isPotionActive(Potion.absorption))
 			{
@@ -88,7 +88,7 @@ public class StarMetalArmor extends AOTDArmor
 		if (entityLivingBase instanceof EntityPlayer)
 		{
 			EntityPlayer entityPlayer = (EntityPlayer) entityLivingBase;
-			if (Research.isResearched(entityPlayer, ResearchTypes.StarMetal))
+			if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.StarMetal))
 			{
 				if (source instanceof EntityDamageSource)
 				{
@@ -109,7 +109,7 @@ public class StarMetalArmor extends AOTDArmor
 	@Override
 	public int getArmorDisplay(final EntityPlayer entityPlayer, final ItemStack itemStack, final int slot)
 	{
-		if (Research.isResearched(entityPlayer, ResearchTypes.StarMetal))
+		if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.StarMetal))
 		{
 			return this.getReductionBasedOffOfSlot(slot);
 		}

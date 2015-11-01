@@ -7,7 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 
 import com.DavidM1A2.AfraidOfTheDark.common.entities.EnchantedSkeleton.EntityEnchantedSkeleton;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDSword;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
@@ -46,7 +46,7 @@ public class ItemBladeOfExhumation extends AOTDSword
 
 		boolean result = super.onLeftClickEntity(itemStack, entityPlayer, entity);
 
-		if (Research.isResearched(entityPlayer, ResearchTypes.BladeOfExhumation))
+		if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.BladeOfExhumation))
 		{
 			if (entity instanceof EntityEnchantedSkeleton && !entity.isDead)
 			{

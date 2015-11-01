@@ -8,7 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls;
 import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -37,19 +37,19 @@ public abstract class ItemResearchScroll extends AOTDItem
 	{
 		if (!world.isRemote)
 		{
-			if (Research.canResearch(entityPlayer, this.myType))
+			if (AOTDPlayerData.get(entityPlayer).canResearch(this.myType))
 			{
 				if (itemStack.getMetadata() == 0)
 				{
 					itemStack.stackSize = itemStack.stackSize - 1;
-					Research.unlockResearchSynced(entityPlayer, this.myType, Side.SERVER, true);
+					AOTDPlayerData.get(entityPlayer).unlockResearch(this.myType, true);
 				}
 				else
 				{
 					entityPlayer.addChatMessage(new ChatComponentText("This research scroll is not complete yet."));
 				}
 			}
-			else if (!Research.isResearched(entityPlayer, this.myType))
+			else if (!AOTDPlayerData.get(entityPlayer).isResearched(this.myType))
 			{
 				entityPlayer.addChatMessage(new ChatComponentText("I don't understand the material refrenced in this research scroll."));
 			}

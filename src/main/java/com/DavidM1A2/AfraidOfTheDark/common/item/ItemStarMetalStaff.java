@@ -8,7 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItemWithCooldownStatic;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.threads.TemporaryInvincibility;
@@ -37,7 +37,7 @@ public class ItemStarMetalStaff extends AOTDItemWithCooldownStatic
 	@Override
 	public ItemStack onItemRightClick(final ItemStack itemStack, final World world, final EntityPlayer entityPlayer)
 	{
-		if (Research.isResearched(entityPlayer, ResearchTypes.StarMetal))
+		if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.StarMetal))
 		{
 			if (!this.isOnCooldown())
 			{

@@ -9,7 +9,8 @@ import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDEntityData;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 
 import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.EntityLivingBase;
@@ -21,7 +22,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
 
 public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 {
@@ -58,9 +58,16 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 		{
 			if (ticksExisted % PASSIVE_VITAE_GEN_IN_TICKS == 0)
 			{
-				if (Vitae.get(this) < 100)
+				if (AOTDEntityData.get(this).getVitaeLevel() < 100)
 				{
-					Vitae.addVitae(this, this.rand.nextInt(3), Side.SERVER);
+					int newVitae = AOTDEntityData.get(this).getVitaeLevel() + this.rand.nextInt(3);
+					if (AOTDEntityData.get(this).setVitaeLevel(newVitae))
+					{
+						this.worldObj.createExplosion(this, this.getPosition().getX(), this.getPosition().getY(), this.getPosition().getZ(), 2, true).doExplosionB(true);
+						this.killCommand();
+					}
+					AOTDEntityData.get(this).syncVitaeLevel();
+					this.setFlightCeiling(85 + (int) ((double) AOTDEntityData.get(this).getVitaeLevel() / (double) Constants.entityVitaeResistance.get(EntityDeeeSyft.class) * 150.0D));
 				}
 			}
 		}

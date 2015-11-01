@@ -9,18 +9,9 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest.VoidChestTeleporter;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.HasStartedAOTD;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Insanity;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Vitae;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
-import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedAOTDUpdate;
-import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedInsanityUpdate;
-import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedResearchUpdate;
-import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedVitaeUpdate;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -248,13 +239,13 @@ public class Utility
 
 		FMLCommonHandler.instance().firePlayerChangedDimensionEvent(entityPlayer, j, dimensionId);
 
-		//new DelayedAOTDUpdate(600, entityPlayer, HasStartedAOTD.get(entityPlayer)).start();
-		//new DelayedInsanityUpdate(700, entityPlayer, Insanity.get(entityPlayer)).start();
-		//new DelayedResearchUpdate(800, entityPlayer, Research.get(entityPlayer)).start();
-		//new DelayedVitaeUpdate(900, entityPlayer, Vitae.get(entityPlayer)).start();
-		Constants.TIMER_FOR_DELAYS.schedule(new DelayedAOTDUpdate(entityPlayer, HasStartedAOTD.get(entityPlayer)), 500, TimeUnit.MILLISECONDS);
-		Constants.TIMER_FOR_DELAYS.schedule(new DelayedInsanityUpdate(entityPlayer, Insanity.get(entityPlayer)), 600, TimeUnit.MILLISECONDS);
-		Constants.TIMER_FOR_DELAYS.schedule(new DelayedResearchUpdate(entityPlayer, Research.get(entityPlayer)), 700, TimeUnit.MILLISECONDS);
-		Constants.TIMER_FOR_DELAYS.schedule(new DelayedVitaeUpdate(entityPlayer, Vitae.get(entityPlayer)), 800, TimeUnit.MILLISECONDS);
+		//		//new DelayedAOTDUpdate(600, entityPlayer, HasStartedAOTD.get(entityPlayer)).start();
+		//		//new DelayedInsanityUpdate(700, entityPlayer, Insanity.get(entityPlayer)).start();
+		//		//new DelayedResearchUpdate(800, entityPlayer, Research.get(entityPlayer)).start();
+		//		//new DelayedVitaeUpdate(900, entityPlayer, Vitae.get(entityPlayer)).start();
+		//		Constants.TIMER_FOR_DELAYS.schedule(new DelayedAOTDUpdate(entityPlayer, HasStartedAOTD.get(entityPlayer)), 500, TimeUnit.MILLISECONDS);
+		//		Constants.TIMER_FOR_DELAYS.schedule(new DelayedInsanityUpdate(entityPlayer, Insanity.get(entityPlayer)), 600, TimeUnit.MILLISECONDS);
+		//		Constants.TIMER_FOR_DELAYS.schedule(new DelayedResearchUpdate(entityPlayer, Research.get(entityPlayer)), 700, TimeUnit.MILLISECONDS);
+		//		Constants.TIMER_FOR_DELAYS.schedule(new DelayedVitaeUpdate(entityPlayer, Vitae.get(entityPlayer)), 800, TimeUnit.MILLISECONDS);
 	}
 }

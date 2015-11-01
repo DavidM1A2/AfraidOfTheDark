@@ -5,14 +5,16 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.block;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDBlock;
 import com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest.VoidChestTeleporter;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.VoidChestLocation;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.block.material.Material;
@@ -21,6 +23,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
+import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
@@ -28,6 +33,8 @@ import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraft.world.storage.ISaveHandler;
+import net.minecraft.world.storage.SaveHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -105,31 +112,28 @@ public class BlockVoidChestPortal extends AOTDBlock
 				EntityPlayerMP entityPlayer = (EntityPlayerMP) entity;
 				if (world.provider.getDimensionId() == Constants.VoidChestWorld.VOID_CHEST_WORLD_ID)
 				{
-					if (Research.isResearched(entityPlayer, ResearchTypes.VoidChest))
+					if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.VoidChest))
 					{
 						Utility.sendPlayerToDimension(entityPlayer, 0, false, VoidChestTeleporter.class);
 					}
 				}
 				else if (world.provider.getDimensionId() == 0)
 				{
-					if (entity instanceof EntityPlayerMP)
+					if (AOTDPlayerData.get(entityPlayer).canResearch(ResearchTypes.VoidChest))
 					{
-						if (Research.canResearch((EntityPlayer) entity, ResearchTypes.VoidChest))
+						AOTDPlayerData.get(entityPlayer).unlockResearch(ResearchTypes.VoidChest, true);
+						AOTDPlayerData.get(entityPlayer).unlockResearch(ResearchTypes.EldritchDecoration, true);
+					}
+					if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.VoidChest))
+					{
+						Utility.sendPlayerToVoidChest(entityPlayer, this.validatePlayerLocationVoidChest(AOTDPlayerData.get(entityPlayer).getPlayerLocationVoidChest(), entityPlayer));
+					}
+					else
+					{
+						if (System.currentTimeMillis() - this.lastTimeEntered > BlockVoidChestPortal.TIME_INBETWEEN_MESSAGES)
 						{
-							Research.unlockResearchSynced(entityPlayer, ResearchTypes.VoidChest, Side.SERVER, true);
-							Research.unlockResearchSynced(entityPlayer, ResearchTypes.EldritchDecoration, Side.SERVER, true);
-						}
-						if (Research.isResearched(entityPlayer, ResearchTypes.VoidChest))
-						{
-							Utility.sendPlayerToVoidChest(entityPlayer, VoidChestLocation.getVoidChestLocation(entityPlayer));
-						}
-						else
-						{
-							if (System.currentTimeMillis() - this.lastTimeEntered > BlockVoidChestPortal.TIME_INBETWEEN_MESSAGES)
-							{
-								entityPlayer.addChatMessage(new ChatComponentText("This mysterious block could become more useful later. I should write down the location of this place."));
-								this.lastTimeEntered = System.currentTimeMillis();
-							}
+							entityPlayer.addChatMessage(new ChatComponentText("This mysterious block could become more useful later. I should write down the location of this place."));
+							this.lastTimeEntered = System.currentTimeMillis();
 						}
 					}
 				}
@@ -149,5 +153,45 @@ public class BlockVoidChestPortal extends AOTDBlock
 	public Item getItem(World worldIn, BlockPos pos)
 	{
 		return null;
+	}
+
+	private int validatePlayerLocationVoidChest(int locationX, EntityPlayer entityPlayer)
+	{
+		if (locationX == 0)
+		{
+			if (!entityPlayer.worldObj.isRemote)
+			{
+				MinecraftServer.getServer().getCommandManager().executeCommand(MinecraftServer.getServer(), "/save-all");
+			}
+
+			ISaveHandler iSaveHandler = MinecraftServer.getServer().worldServers[0].getSaveHandler();
+			if (iSaveHandler instanceof SaveHandler)
+			{
+				SaveHandler saveHandler = (SaveHandler) iSaveHandler;
+				int furthestOutPlayer = 0;
+				File playersDirectory = new File(saveHandler.getWorldDirectory(), "playerdata");
+				for (String username : saveHandler.getAvailablePlayerDat())
+				{
+					File playerData = new File(playersDirectory, username + ".dat");
+
+					if (playerData.exists() && playerData.isFile())
+					{
+						NBTTagCompound playerDataCompound;
+						try
+						{
+							playerDataCompound = CompressedStreamTools.readCompressed(new FileInputStream(playerData));
+							furthestOutPlayer = Math.max(furthestOutPlayer, AOTDPlayerData.getPlayerLocationVoidChestOffline(playerDataCompound));
+						}
+						catch (Exception e)
+						{
+							LogHelper.info("Error reading player data for username " + username);
+						}
+					}
+				}
+
+				AOTDPlayerData.get(entityPlayer).setPlayerLocationVoidChest(furthestOutPlayer + 1);
+			}
+		}
+		return AOTDPlayerData.get(entityPlayer).getPlayerLocationVoidChest();
 	}
 }

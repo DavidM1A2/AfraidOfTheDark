@@ -9,7 +9,7 @@ import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Research;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 import net.minecraft.entity.Entity;
@@ -64,7 +64,7 @@ public class IgneousArmor extends AOTDArmor
 		{
 			final EntityPlayer entityPlayer = (EntityPlayer) entity;
 
-			if (Research.isResearched(entityPlayer, ResearchTypes.Igneous))
+			if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.Igneous))
 			{
 				if (this.isWearingFullArmor(entityPlayer))
 				{
@@ -110,7 +110,7 @@ public class IgneousArmor extends AOTDArmor
 	@Override
 	public int getArmorDisplay(final EntityPlayer entityPlayer, final ItemStack itemStack, final int slot)
 	{
-		if (Research.isResearched(entityPlayer, ResearchTypes.Igneous))
+		if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.Igneous))
 		{
 			return this.getReductionBasedOffOfSlot(slot);
 		}

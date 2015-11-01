@@ -8,7 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.threads;
 import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBiomes;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.Insanity;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
@@ -38,12 +38,16 @@ public class RandomInsanityUpdate extends Thread
 					if (entityPlayer.worldObj.getBiomeGenForCoords(new BlockPos((int) entityPlayer.posX, 0, (int) entityPlayer.posZ)) == ModBiomes.erieForest)
 					{
 						final double amount = .01 + ((.09) * (new Random().nextDouble()));
-						Insanity.addInsanity(amount, entityPlayer);
+						double newInsanity = AOTDPlayerData.get(entityPlayer).getPlayerInsanity() + amount;
+						AOTDPlayerData.get(entityPlayer).setPlayerInsanity(newInsanity);
+						AOTDPlayerData.get(entityPlayer).syncPlayerInsanity();
 					}
 					else
 					{
 						final double amount = .01 + ((.02) * (new Random().nextDouble()));
-						Insanity.addInsanity(-amount, entityPlayer);
+						double newInsanity = AOTDPlayerData.get(entityPlayer).getPlayerInsanity() - amount;
+						AOTDPlayerData.get(entityPlayer).setPlayerInsanity(newInsanity);
+						AOTDPlayerData.get(entityPlayer).syncPlayerInsanity();
 					}
 				}
 			}
