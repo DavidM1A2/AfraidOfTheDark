@@ -65,10 +65,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 	@Override
 	public List<ItemStack> onSheared(final ItemStack item, final IBlockAccess world, final BlockPos pos, final int fortune)
 	{
-		final List<ItemStack> ret = new ArrayList<ItemStack>();
-		final int meta = this.getMetaFromState(this.getDefaultState());
-		ret.add(new ItemStack(this, 1, meta));
-		return ret;
+		return new ArrayList<ItemStack>();
 	}
 
 	// Always use fancy graphics because reasons (They look way better!)
