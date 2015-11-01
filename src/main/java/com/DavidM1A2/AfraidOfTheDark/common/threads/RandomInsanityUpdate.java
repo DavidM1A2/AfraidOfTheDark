@@ -29,7 +29,7 @@ public class RandomInsanityUpdate extends Thread
 			while (this.running)
 			{
 				// Sleep a random amount of time
-				Thread.sleep((long) ((new Random()).nextDouble() * 10000));
+				Thread.sleep((long) ((new Random()).nextDouble() * 50000));
 
 				// Loop through
 				for (final Object player : MinecraftServer.getServer().getConfigurationManager().playerEntityList)

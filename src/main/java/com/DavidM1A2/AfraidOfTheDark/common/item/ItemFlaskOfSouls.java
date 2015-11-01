@@ -227,16 +227,23 @@ public class ItemFlaskOfSouls extends AOTDItemWithCooldownPerItem
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List tooltip, boolean advanced)
 	{
-		if (NBTHelper.getString(itemStack, FLASK_TYPE).equals(""))
+		if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.PhylacteryOfSouls))
 		{
-			tooltip.add("Flask unbound.");
-			tooltip.add("Hold this in your hotbar while");
-			tooltip.add("killing a mob to bind this flask.");
+			if (NBTHelper.getString(itemStack, FLASK_TYPE).equals(""))
+			{
+				tooltip.add("Flask unbound.");
+				tooltip.add("Hold this in your hotbar while");
+				tooltip.add("killing a mob to bind this flask.");
+			}
+			else
+			{
+				tooltip.add("Entity bound to: " + NBTHelper.getString(itemStack, FLASK_TYPE).substring(6));
+				tooltip.add("Entity kills: " + NBTHelper.getInt(itemStack, KILLS) + "/" + ItemFlaskOfSouls.flaskKillRequirements.get(NBTHelper.getString(itemStack, FLASK_TYPE)));
+			}
 		}
 		else
 		{
-			tooltip.add("Entity bound to: " + NBTHelper.getString(itemStack, FLASK_TYPE).substring(6));
-			tooltip.add("Entity kills: " + NBTHelper.getInt(itemStack, KILLS) + "/" + ItemFlaskOfSouls.flaskKillRequirements.get(NBTHelper.getString(itemStack, FLASK_TYPE)));
+			tooltip.add("I'm not sure how to use this.");
 		}
 	}
 

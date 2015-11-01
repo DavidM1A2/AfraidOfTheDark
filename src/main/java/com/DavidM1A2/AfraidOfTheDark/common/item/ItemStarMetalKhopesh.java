@@ -47,11 +47,18 @@ public class ItemStarMetalKhopesh extends AOTDChargableSword
 	 */
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(final ItemStack stack, final EntityPlayer playerIn, final List tooltip, final boolean advanced)
+	public void addInformation(final ItemStack stack, final EntityPlayer entityPlayer, final List tooltip, final boolean advanced)
 	{
-		tooltip.add("Magical items will never break.");
-		tooltip.add("Right click to use an AOE knockback and");
-		tooltip.add("damage attack when charged to 100%");
+		if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.StarMetal))
+		{
+			tooltip.add("Magical items will never break.");
+			tooltip.add("Right click to use an AOE knockback and");
+			tooltip.add("damage attack when charged to 100%");
+		}
+		else
+		{
+			tooltip.add("I'm not sure how to use this.");
+		}
 	}
 
 	// When left clicking attack from silver weapon damage

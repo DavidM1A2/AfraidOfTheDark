@@ -11,6 +11,8 @@ import org.lwjgl.input.Keyboard;
 
 import com.DavidM1A2.AfraidOfTheDark.client.settings.Keybindings;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItemWithCooldownStatic;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -32,8 +34,15 @@ public class ItemWristCrossbow extends AOTDItemWithCooldownStatic
 	@SideOnly(Side.CLIENT)
 	public void addInformation(final ItemStack itemStack, final EntityPlayer entityPlayer, final List list, final boolean bool)
 	{
-		list.add("Use " + Keyboard.getKeyName(Keybindings.fireWristCrossbow.getKeyCode()) + " to fire a bolt in the current look direction.");
-		list.add("Shift + " + Keyboard.getKeyName(Keybindings.fireWristCrossbow.getKeyCode()) + " to change bolt type.");
+		if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.WristCrossbow))
+		{
+			list.add("Use " + Keyboard.getKeyName(Keybindings.fireWristCrossbow.getKeyCode()) + " to fire a bolt in the current look direction.");
+			list.add("Shift + " + Keyboard.getKeyName(Keybindings.fireWristCrossbow.getKeyCode()) + " to change bolt type.");
+		}
+		else
+		{
+			list.add("I'm not sure how to use this.");
+		}
 	}
 
 	@Override

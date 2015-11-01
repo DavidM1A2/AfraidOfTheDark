@@ -159,11 +159,18 @@ public class ItemStarMetalStaff extends AOTDItemWithCooldownStatic
 	 */
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(final ItemStack stack, final EntityPlayer playerIn, final List tooltip, final boolean advanced)
+	public void addInformation(final ItemStack stack, final EntityPlayer entityPlayer, final List tooltip, final boolean advanced)
 	{
-		tooltip.add("Right click for temporary invincibility");
-		tooltip.add("followed by an AOE knockback.");
-		tooltip.add("Cooldown: " + this.getItemCooldownInTicks() / 20 + " seconds.");
+		if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.StarMetal))
+		{
+			tooltip.add("Right click for temporary invincibility");
+			tooltip.add("followed by an AOE knockback.");
+			tooltip.add("Cooldown: " + this.getItemCooldownInTicks() / 20 + " seconds.");
+		}
+		else
+		{
+			tooltip.add("I'm not sure how to use this.");
+		}
 	}
 
 	@Override

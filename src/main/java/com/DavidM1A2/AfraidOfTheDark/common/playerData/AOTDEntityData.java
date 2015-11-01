@@ -86,9 +86,10 @@ public class AOTDEntityData implements IExtendedEntityProperties
 
 	public boolean setVitaeLevel(int vitaeLevel)
 	{
-		boolean boom = vitaeLevel > Constants.entityVitaeResistance.get(entity.getClass());
+		boolean boom = false;
 		if (Constants.entityVitaeResistance.containsKey(entity.getClass()))
 		{
+			boom = vitaeLevel > Constants.entityVitaeResistance.get(entity.getClass());
 			this.vitae = MathHelper.clamp_int(vitaeLevel, 0, Integer.MAX_VALUE);
 		}
 		else

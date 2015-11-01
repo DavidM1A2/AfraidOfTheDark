@@ -5,6 +5,8 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.handler;
 
+import java.util.concurrent.TimeUnit;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 
@@ -18,6 +20,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDEntityData;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.threads.delayed.DelayedTeleport;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
@@ -26,6 +29,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemFlintAndSteel;
@@ -90,16 +94,16 @@ public class PlayerController
 		//		//(new DelayedResearchUpdate(800, event.entityPlayer, research)).start();
 		//		//(new DelayedVitaeUpdate(900, event.entityPlayer, vitaeLevel)).start();
 		//
-		//		if (event.original.dimension == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
-		//		{
-		//			Constants.TIMER_FOR_DELAYS.schedule(new DelayedTeleport(event.entityPlayer, 0, NightmareTeleporter.class), 900, TimeUnit.MILLISECONDS);
-		//			//(new DelayedTeleport(1000, event.entityPlayer, 0, NightmareTeleporter.class)).start();
-		//		}
-		//		else if (event.original.dimension == Constants.VoidChestWorld.VOID_CHEST_WORLD_ID)
-		//		{
-		//			Constants.TIMER_FOR_DELAYS.schedule(new DelayedTeleport(event.entityPlayer, 0, NightmareTeleporter.class), 900, TimeUnit.MILLISECONDS);
-		//			//(new DelayedTeleport(1000, event.entityPlayer, 0, VoidChestTeleporter.class)).start();
-		//		}
+		if (event.original.dimension == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
+		{
+			Constants.TIMER_FOR_DELAYS.schedule(new DelayedTeleport(event.entityPlayer, 0, NightmareTeleporter.class), 900, TimeUnit.MILLISECONDS);
+			//(new DelayedTeleport(1000, event.entityPlayer, 0, NightmareTeleporter.class)).start();
+		}
+		else if (event.original.dimension == Constants.VoidChestWorld.VOID_CHEST_WORLD_ID)
+		{
+			Constants.TIMER_FOR_DELAYS.schedule(new DelayedTeleport(event.entityPlayer, 0, NightmareTeleporter.class), 900, TimeUnit.MILLISECONDS);
+			//(new DelayedTeleport(1000, event.entityPlayer, 0, VoidChestTeleporter.class)).start();
+		}
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -259,7 +263,7 @@ public class PlayerController
 			//			VoidChestLocation.register(entityPlayer);
 		}
 
-		if (event.entity instanceof EntityLivingBase)
+		if (event.entity instanceof EntityLivingBase && !(event.entity instanceof EntityArmorStand))
 		{
 			AOTDEntityData.register(event.entity);
 		}

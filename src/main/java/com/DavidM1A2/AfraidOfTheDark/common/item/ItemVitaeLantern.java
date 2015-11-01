@@ -292,20 +292,27 @@ public class ItemVitaeLantern extends AOTDItem
 	@Override
 	public void addInformation(final ItemStack itemStack, final EntityPlayer entityPlayer, final List list, final boolean bool)
 	{
-		list.add("Shift & Right click to toggle the lantern on and off.");
-		list.add("Press and hold " + Keyboard.getKeyName(Keybindings.changeLanternMode.getKeyCode()) + " to set the vitae percentage");
-		list.add("at which the lantern is to keep you at.");
-		if (NBTHelper.getBoolean(itemStack, "isActive"))
+		if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.VitaeLanternI))
 		{
-			list.add("Lantern is active.");
+			list.add("Shift & Right click to toggle the lantern on and off.");
+			list.add("Press and hold " + Keyboard.getKeyName(Keybindings.changeLanternMode.getKeyCode()) + " to set the vitae percentage");
+			list.add("at which the lantern is to keep you at.");
+			if (NBTHelper.getBoolean(itemStack, "isActive"))
+			{
+				list.add("Lantern is active.");
+			}
+			else
+			{
+				list.add("Lantern is not active.");
+			}
+
+			list.add("Lantern will attempt to keep you at " + Math.round(NBTHelper.getDouble(itemStack, "equalibriumPercentage") * 100) + "% of your maximum vitae.");
+			list.add("Lantern is " + Math.round(100.0 * NBTHelper.getInt(itemStack, STORED_VITAE) / ItemVitaeLantern.VITAE_CAPACITY) + "% full.");
 		}
 		else
 		{
-			list.add("Lantern is not active.");
+			list.add("I'm not sure how to use this.");
 		}
-
-		list.add("Lantern will attempt to keep you at " + Math.round(NBTHelper.getDouble(itemStack, "equalibriumPercentage") * 100) + "% of your maximum vitae.");
-		list.add("Lantern is " + Math.round(100.0 * NBTHelper.getInt(itemStack, STORED_VITAE) / ItemVitaeLantern.VITAE_CAPACITY) + "% full.");
 	}
 
 	/**

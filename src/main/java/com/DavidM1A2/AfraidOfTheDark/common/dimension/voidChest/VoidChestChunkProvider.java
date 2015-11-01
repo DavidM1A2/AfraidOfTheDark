@@ -10,6 +10,7 @@ import java.util.List;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBiomes;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicGenerator;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EnumCreatureType;
@@ -85,7 +86,7 @@ public class VoidChestChunkProvider implements IChunkProvider
 				}
 			}
 
-			//SchematicGenerator.generateSchematic(Constants.AOTDSchematics.voidChestPortal, this.worldObj, x + 20, 100, z - 2);
+			SchematicGenerator.generateSchematic(Constants.AOTDSchematics.voidChestPortal, this.worldObj, x + 20, 100, z - 2);
 		}
 	}
 

@@ -13,6 +13,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
 import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.EntityEnaria;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
@@ -144,6 +145,7 @@ public final class Constants
 		entityVitaeResistance.put(EntityWither.class, 300);
 		entityVitaeResistance.put(EntityWerewolf.class, 120);
 		entityVitaeResistance.put(EntityDeeeSyft.class, 150);
+		entityVitaeResistance.put(EntityEnaria.class, Integer.MAX_VALUE);
 
 		toolMaterialRepairCosts.put("EMERALD", 4);
 		toolMaterialRepairCosts.put("GOLD", 5);

@@ -11,6 +11,8 @@ import org.lwjgl.input.Keyboard;
 
 import com.DavidM1A2.AfraidOfTheDark.client.settings.Keybindings;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItemWithCooldownStatic;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -31,7 +33,14 @@ public class ItemCloakOfAgility extends AOTDItemWithCooldownStatic
 	@SideOnly(Side.CLIENT)
 	public void addInformation(final ItemStack itemStack, final EntityPlayer entityPlayer, final List list, final boolean bool)
 	{
-		list.add("Use " + Keyboard.getKeyName(Keybindings.rollWithCloakOfAgility.getKeyCode()) + " to perform a roll in the current direction of movement.");
+		if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.CloakOfAgility))
+		{
+			list.add("Use " + Keyboard.getKeyName(Keybindings.rollWithCloakOfAgility.getKeyCode()) + " to perform a roll in the current direction of movement.");
+		}
+		else
+		{
+			list.add("I'm not sure how to use this.");
+		}
 	}
 
 	@Override
