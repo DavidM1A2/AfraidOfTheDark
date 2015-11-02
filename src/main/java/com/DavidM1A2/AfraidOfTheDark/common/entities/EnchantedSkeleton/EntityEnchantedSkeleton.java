@@ -10,7 +10,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemBladeOfExhumation;
-import com.DavidM1A2.AfraidOfTheDark.common.packets.TellClientToPlayAnimation;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncAnimation;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
@@ -71,7 +71,7 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 			if (!this.worldObj.isRemote)
 			{
 				this.animHandler.activateAnimation("Spawn", 0);
-				AfraidOfTheDark.getPacketHandler().sendToAllAround(new TellClientToPlayAnimation("Spawn", this.getEntityId()), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 15));
+				AfraidOfTheDark.getPacketHandler().sendToAllAround(new SyncAnimation("Spawn", this.getEntityId()), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 15));
 			}
 		}
 		super.onEntityUpdate();
@@ -230,7 +230,7 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 		if (!animHandler.isAnimationActive("Attack") && !animHandler.isAnimationActive("Spawn"))
 		{
 			animHandler.activateAnimation("Attack", 0);
-			AfraidOfTheDark.getPacketHandler().sendToAllAround(new TellClientToPlayAnimation("Attack", this.getEntityId()), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 15));
+			AfraidOfTheDark.getPacketHandler().sendToAllAround(new SyncAnimation("Attack", this.getEntityId()), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 15));
 		}
 
 		return super.attackEntityAsMob(entity);

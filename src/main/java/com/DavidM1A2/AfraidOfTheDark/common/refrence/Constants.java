@@ -236,6 +236,7 @@ public final class Constants
 		public static final Schematic roomStairDown;
 		public static final List<Schematic> rooms;
 		public static final Schematic stairwell;
+		public static final Schematic enariaLair;
 
 		static
 		{
@@ -290,6 +291,7 @@ public final class Constants
 				}
 			};
 			stairwell = SchematicLoader.load("gnomishCity/Stairwell.schematic");
+			enariaLair = SchematicLoader.load("gnomishCity/EnariaLair.schematic");
 
 			SchematicBlockReplacer.replaceBlocks(treeSmall, Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
 			SchematicBlockReplacer.replaceBlocks(treeBranchyType1, Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
@@ -331,6 +333,7 @@ public final class Constants
 			SchematicBlockReplacer.fixKnownSchematicErrors(roomStairUp);
 			SchematicBlockReplacer.fixKnownSchematicErrors(roomStairDown);
 			SchematicBlockReplacer.fixKnownSchematicErrors(stairwell);
+			SchematicBlockReplacer.fixKnownSchematicErrors(enariaLair);
 			SchematicBlockReplacer.replaceBlocks(tunnelEW, (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block
 					.getIdFromBlock(ModBlocks.eldritchObsidian));
 			SchematicBlockReplacer.replaceBlocks(tunnelNS, (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block
@@ -341,6 +344,9 @@ public final class Constants
 					.getIdFromBlock(ModBlocks.eldritchObsidian));
 			SchematicBlockReplacer.replaceBlocks(stairwell, (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block
 					.getIdFromBlock(ModBlocks.eldritchObsidian));
+			SchematicBlockReplacer.replaceBlocks(enariaLair, (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block
+					.getIdFromBlock(ModBlocks.eldritchObsidian), (short) -40, (short) Block.getIdFromBlock(ModBlocks.amorphousEldritchMetal), (short) -39, (short) Block.getIdFromBlock(ModBlocks.eldritchStone), (short) -48, (short) Block.getIdFromBlock(ModBlocks.meteor), (short) -47, (short) Block
+							.getIdFromBlock(ModBlocks.starMetalOre), (short) -46, (short) Block.getIdFromBlock(ModBlocks.igneousBlock), (short) -55, (short) Block.getIdFromBlock(ModBlocks.gravewood));
 
 			if (Constants.isDebug)
 			{

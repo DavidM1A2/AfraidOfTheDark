@@ -10,7 +10,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.ICanTakeSilverDamage;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
-import com.DavidM1A2.AfraidOfTheDark.common.packets.TellClientToPlayAnimation;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncAnimation;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
@@ -192,7 +192,7 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity, ICan
 		if (!animHandler.isAnimationActive("Bite"))
 		{
 			animHandler.activateAnimation("Bite", 0);
-			AfraidOfTheDark.getPacketHandler().sendToAllAround(new TellClientToPlayAnimation("Bite", this.getEntityId()), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 15));
+			AfraidOfTheDark.getPacketHandler().sendToAllAround(new SyncAnimation("Bite", this.getEntityId()), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 15));
 		}
 
 		boolean x = super.attackEntityAsMob(entity);

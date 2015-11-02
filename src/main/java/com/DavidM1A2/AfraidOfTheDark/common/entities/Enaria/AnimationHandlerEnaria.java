@@ -13,7 +13,10 @@ public class AnimationHandlerEnaria extends AnimationHandler
 
 	static
 	{
-		animChannels.put("Derp", new ChannelDerp("Derp", 10.0F, 60, Channel.LINEAR));
+		animChannels.put("walk", new ChannelWalk("walk", 59.0F, 59, Channel.LINEAR));
+		animChannels.put("armthrow", new ChannelArmthrow("armthrow", 61.0F, 61, Channel.LINEAR));
+		animChannels.put("autoattack", new ChannelAutoattack("autoattack", 70.0F, 51, Channel.LINEAR));
+		animChannels.put("spell", new ChannelSpell("spell", 90.0F, 121, Channel.LINEAR));
 	}
 
 	public AnimationHandlerEnaria(IMCAnimatedEntity entity)

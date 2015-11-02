@@ -17,18 +17,18 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-public class TellClientToPlayAnimation implements IMessage
+public class SyncAnimation implements IMessage
 {
 	private String animationName = "";
 	private int entityIDToUpdate = 0;
 
-	public TellClientToPlayAnimation()
+	public SyncAnimation()
 	{
 		this.animationName = "";
 		this.entityIDToUpdate = 0;
 	}
 
-	public TellClientToPlayAnimation(String animationName, int entityIDToUpdate)
+	public SyncAnimation(String animationName, int entityIDToUpdate)
 	{
 		this.animationName = animationName;
 		this.entityIDToUpdate = entityIDToUpdate;
@@ -49,10 +49,10 @@ public class TellClientToPlayAnimation implements IMessage
 	}
 
 	// when we receive a packet we set HasStartedAOTD
-	public static class Handler extends MessageHandler.Client<TellClientToPlayAnimation>
+	public static class Handler extends MessageHandler.Client<SyncAnimation>
 	{
 		@Override
-		public IMessage handleClientMessage(final EntityPlayer entityPlayer, final TellClientToPlayAnimation msg, MessageContext ctx)
+		public IMessage handleClientMessage(final EntityPlayer entityPlayer, final SyncAnimation msg, MessageContext ctx)
 		{
 			Minecraft.getMinecraft().addScheduledTask(new Runnable()
 			{

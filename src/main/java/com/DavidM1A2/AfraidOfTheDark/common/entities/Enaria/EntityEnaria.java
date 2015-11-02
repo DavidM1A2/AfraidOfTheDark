@@ -164,6 +164,22 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 	}
 
 	/**
+	 * Moves the entity based on the specified heading. Args: strafe, forward
+	 */
+	@Override
+	public void moveEntityWithHeading(float strafe, float forward)
+	{
+		if (this.motionX > 0.05 || this.motionZ > 0.05 || this.motionX < -0.05 || this.motionZ < -0.05)
+		{
+			if (!animHandler.isAnimationActive("autoattack") && !animHandler.isAnimationActive("armthrow") && !animHandler.isAnimationActive("walk"))
+			{
+				animHandler.activateAnimation("walk", 0);
+			}
+		}
+		super.moveEntityWithHeading(strafe, forward);
+	}
+
+	/**
 	 * Called when a player mounts an entity. e.g. mounts a pig, mounts a boat.
 	 */
 	@Override

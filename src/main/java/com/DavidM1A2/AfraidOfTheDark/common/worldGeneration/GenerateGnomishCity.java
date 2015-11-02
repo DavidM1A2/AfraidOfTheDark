@@ -31,10 +31,12 @@ public class GenerateGnomishCity
 		{
 			int y = WorldGenerationUtility.getFirstNonAirBlock(world, chunkX, chunkZ);
 			y = y - 38;
+			chunkX = chunkX - 65;
+			chunkX = chunkZ - 65;
 
 			if (Constants.isDebug)
 			{
-				LogHelper.info("Spawning a gnomish city at x = " + chunkX + ", y = " + y + ", z = " + chunkZ);
+				LogHelper.info("Spawning a gnomish city at x = " + chunkX + 65 + ", y = " + y + ", z = " + chunkZ + 65);
 			}
 
 			int stairs2To3 = 4;
@@ -102,6 +104,9 @@ public class GenerateGnomishCity
 						else if (currentRoom == stairs1To2 && k == 0)
 						{
 							SchematicGenerator.generateSchematic(Constants.AOTDSchematics.roomStairDown, world, chunkX + i * 50, y + k * 15, chunkZ + j * 50);
+
+							// Create enaria's lair
+							SchematicGenerator.generateSchematic(Constants.AOTDSchematics.enariaLair, world, chunkX + i * 50 - 14, y + k * 15 - 15, chunkZ + j * 50 - 73);
 						}
 						else if (currentRoom == stairs3To4 && k == 1)
 						{
@@ -109,6 +114,7 @@ public class GenerateGnomishCity
 
 							SchematicGenerator.generateSchematic(Constants.AOTDSchematics.stairwell, world, chunkX + i * 50 + 13, y + k * 15 + 15, chunkZ + j * 50 + 13);
 							SchematicGenerator.generateSchematic(Constants.AOTDSchematics.stairwell, world, chunkX + i * 50 + 13, y + k * 15 + 31, chunkZ + j * 50 + 13);
+
 						}
 						else
 						{

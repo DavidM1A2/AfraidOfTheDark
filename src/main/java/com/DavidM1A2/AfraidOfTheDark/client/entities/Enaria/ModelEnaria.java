@@ -17,12 +17,12 @@ public class ModelEnaria extends ModelBase
 	public final int MCA_MIN_REQUESTED_VERSION = 5;
 	public HashMap<String, MCAModelRenderer> parts = new HashMap<String, MCAModelRenderer>();
 
-	MCAModelRenderer head;
 	MCAModelRenderer body;
 	MCAModelRenderer rightarm;
 	MCAModelRenderer leftarm;
 	MCAModelRenderer rightleg;
 	MCAModelRenderer leftleg;
+	MCAModelRenderer head;
 
 	public ModelEnaria()
 	{
@@ -30,14 +30,6 @@ public class ModelEnaria extends ModelBase
 
 		textureWidth = 64;
 		textureHeight = 64;
-
-		head = new MCAModelRenderer(this, "head", 0, 0);
-		head.mirror = false;
-		head.addBox(-4.0F, 0.0F, -4.0F, 8, 8, 8);
-		head.setInitialRotationPoint(0.0F, 2.0F, 2.0F);
-		head.setInitialRotationMatrix(new Matrix4f().set(new Quaternion(0.0F, 0.0F, 0.0F, 1.0F)).transpose());
-		head.setTextureSize(64, 64);
-		parts.put(head.boxName, head);
 
 		body = new MCAModelRenderer(this, "body", 0, 16);
 		body.mirror = false;
@@ -50,34 +42,47 @@ public class ModelEnaria extends ModelBase
 		rightarm = new MCAModelRenderer(this, "rightarm", 41, 16);
 		rightarm.mirror = false;
 		rightarm.addBox(-3.0F, -10.0F, -2.0F, 3, 12, 4);
-		rightarm.setInitialRotationPoint(-4.0F, 0.0F, 2.0F);
+		rightarm.setInitialRotationPoint(-4.0F, -2.0F, 0.0F);
 		rightarm.setInitialRotationMatrix(new Matrix4f().set(new Quaternion(0.0F, 0.0F, 0.0F, 1.0F)).transpose());
 		rightarm.setTextureSize(64, 64);
 		parts.put(rightarm.boxName, rightarm);
+		body.addChild(rightarm);
 
 		leftarm = new MCAModelRenderer(this, "leftarm", 25, 16);
 		leftarm.mirror = false;
 		leftarm.addBox(0.0F, -10.0F, -2.0F, 3, 12, 4);
-		leftarm.setInitialRotationPoint(4.0F, 0.0F, 2.0F);
+		leftarm.setInitialRotationPoint(4.0F, -2.0F, 0.0F);
 		leftarm.setInitialRotationMatrix(new Matrix4f().set(new Quaternion(0.0F, 0.0F, 0.0F, 1.0F)).transpose());
 		leftarm.setTextureSize(64, 64);
 		parts.put(leftarm.boxName, leftarm);
+		body.addChild(leftarm);
 
 		rightleg = new MCAModelRenderer(this, "rightleg", 16, 32);
 		rightleg.mirror = false;
 		rightleg.addBox(-2.0F, -12.0F, -2.0F, 4, 12, 4);
-		rightleg.setInitialRotationPoint(-2.0F, -10.0F, 2.0F);
+		rightleg.setInitialRotationPoint(-2.0F, -12.0F, 0.0F);
 		rightleg.setInitialRotationMatrix(new Matrix4f().set(new Quaternion(0.0F, 0.0F, 0.0F, 1.0F)).transpose());
 		rightleg.setTextureSize(64, 64);
 		parts.put(rightleg.boxName, rightleg);
+		body.addChild(rightleg);
 
 		leftleg = new MCAModelRenderer(this, "leftleg", 0, 32);
 		leftleg.mirror = false;
 		leftleg.addBox(-2.0F, -12.0F, -2.0F, 4, 12, 4);
-		leftleg.setInitialRotationPoint(2.0F, -10.0F, 2.0F);
+		leftleg.setInitialRotationPoint(2.0F, -12.0F, 0.0F);
 		leftleg.setInitialRotationMatrix(new Matrix4f().set(new Quaternion(0.0F, 0.0F, 0.0F, 1.0F)).transpose());
 		leftleg.setTextureSize(64, 64);
 		parts.put(leftleg.boxName, leftleg);
+		body.addChild(leftleg);
+
+		head = new MCAModelRenderer(this, "head", 0, 0);
+		head.mirror = false;
+		head.addBox(-4.0F, 0.0F, -4.0F, 8, 8, 8);
+		head.setInitialRotationPoint(0.0F, 0.0F, 0.0F);
+		head.setInitialRotationMatrix(new Matrix4f().set(new Quaternion(0.0F, 0.0F, 0.0F, 1.0F)).transpose());
+		head.setTextureSize(64, 64);
+		parts.put(head.boxName, head);
+		body.addChild(head);
 
 	}
 
@@ -89,12 +94,7 @@ public class ModelEnaria extends ModelBase
 		AnimationHandler.performAnimationInModel(parts, entity);
 
 		//Render every non-child part
-		head.render(par7);
 		body.render(par7);
-		rightarm.render(par7);
-		leftarm.render(par7);
-		rightleg.render(par7);
-		leftleg.render(par7);
 	}
 
 	@Override

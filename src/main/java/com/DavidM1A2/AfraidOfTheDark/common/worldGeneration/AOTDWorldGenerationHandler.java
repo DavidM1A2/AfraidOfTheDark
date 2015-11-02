@@ -49,11 +49,7 @@ public class AOTDWorldGenerationHandler implements IWorldGenerator
 	{
 		BiomeGenBase current = world.getBiomeGenForCoords(new BlockPos(chunkX, 50, chunkZ));
 
-		if (chunkX == 0 && chunkZ == 0)
-		{
-			//new GenerateGnomishCity(random, chunkX, chunkZ, world);
-		}
-		else if (current instanceof BiomeGenPlains)
+		if (current instanceof BiomeGenPlains)
 		{
 			if (random.nextDouble() < 0.0016 * ConfigurationHandler.dungeonFrequencyMultiplier)
 			{
@@ -63,7 +59,7 @@ public class AOTDWorldGenerationHandler implements IWorldGenerator
 			{
 				new GenerateDarkForestDungeon(random, chunkX, chunkZ, world);
 			}
-			if (random.nextDouble() < 0.0015)
+			if (random.nextDouble() < 0.0015 * ConfigurationHandler.dungeonFrequencyMultiplier)
 			{
 				new GenerateGnomishCity(random, chunkX, chunkZ, world);
 			}

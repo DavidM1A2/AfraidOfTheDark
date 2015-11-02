@@ -26,6 +26,7 @@ public class BlockStarMetalOre extends AOTDBlock
 	{
 		super(material);
 		this.setUnlocalizedName("starMetalOre");
+		this.setLightLevel(0.4f);
 		this.setHardness(10.0F);
 		this.setResistance(50.0F);
 		this.setHarvestLevel("pickaxe", 2);
