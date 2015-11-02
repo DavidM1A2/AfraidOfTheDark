@@ -9,6 +9,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.ICanTakeSilverDamage;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -180,10 +181,10 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 
 				if (!worldObj.isRemote)
 				{
-					//					if (AOTDPlayerData.get(entityPlayer).canResearch(ResearchTypes.SlayingOfTheWolves))
-					//					{
-					//						AOTDPlayerData.get(entityPlayer).unlockResearch(ResearchTypes.SlayingOfTheWolves, true);
-					//					}
+					if (AOTDPlayerData.get(entityPlayer).canResearch(ResearchTypes.Enaria))
+					{
+						AOTDPlayerData.get(entityPlayer).unlockResearch(ResearchTypes.Enaria, true);
+					}
 				}
 			}
 		}

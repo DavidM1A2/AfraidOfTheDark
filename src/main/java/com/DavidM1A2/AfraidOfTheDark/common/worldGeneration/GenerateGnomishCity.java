@@ -14,7 +14,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicGenerator;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.UnsupportedLocationException;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.WorldGenerationUtility;
 
 import net.minecraft.world.World;
 
@@ -29,14 +28,13 @@ public class GenerateGnomishCity
 	{
 		try
 		{
-			int y = WorldGenerationUtility.getFirstNonAirBlock(world, chunkX, chunkZ);
-			y = y - 38;
+			int y = 20;
 			chunkX = chunkX - 65;
 			chunkX = chunkZ - 65;
 
 			if (Constants.isDebug)
 			{
-				LogHelper.info("Spawning a gnomish city at x = " + chunkX + 65 + ", y = " + y + ", z = " + chunkZ + 65);
+				LogHelper.info("Spawning a gnomish city at x = " + (chunkX + 65) + ", y = " + y + ", z = " + (chunkZ + 65));
 			}
 
 			int stairs2To3 = 4;
@@ -66,7 +64,7 @@ public class GenerateGnomishCity
 			List<Integer> rooms = new LinkedList<Integer>();
 
 			// Make sure every room is added
-			for (int i = 0; i < 12; i++)
+			for (int i = 0; i < 14; i++)
 			{
 				if (i < Constants.AOTDSchematics.rooms.size())
 				{

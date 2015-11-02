@@ -136,6 +136,8 @@ public class EnariaAttacks
 			{
 				EntityPlayer entityPlayer = (EntityPlayer) object;
 
+				this.enaria.worldObj.playSoundAtEntity(entityPlayer, "mob.wither.hurt", 1.0f, 0.5f);
+
 				// remove night vision
 				if (entityPlayer.isPotionActive(16))
 				{
