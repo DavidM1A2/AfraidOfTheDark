@@ -16,6 +16,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncParticleFX;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDParticleFXTypes;
 
 import net.minecraft.block.BlockAir;
+import net.minecraft.block.BlockTorch;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
@@ -30,6 +31,7 @@ public class EnariaAttacks
 	private final EntityEnaria enaria;
 	private final Random random;
 	private static final int POTION_POISON_RANGE = 20;
+	private static final int DARKNESS_RANGE = 30;
 	private static final int TELEPORT_RANGE = 20;
 	private static final double KNOCKBACK_POWER = 5;
 	private static final int MAX_KNOCKBACK_RANGE = 10;
@@ -96,7 +98,7 @@ public class EnariaAttacks
 
 	public void performRandomAttack()
 	{
-		switch (this.random.nextInt(4))
+		switch (this.random.nextInt(5))
 		{
 			case 0:
 			{
@@ -117,6 +119,45 @@ public class EnariaAttacks
 			{
 				this.attackShuffleInventory();
 				break;
+			}
+			case 4:
+			{
+				this.attackDarkness();
+				break;
+			}
+		}
+	}
+
+	private void attackDarkness()
+	{
+		for (Object object : this.enaria.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.enaria.getEntityBoundingBox().expand(DARKNESS_RANGE, DARKNESS_RANGE, DARKNESS_RANGE)))
+		{
+			if (object instanceof EntityPlayer)
+			{
+				EntityPlayer entityPlayer = (EntityPlayer) object;
+
+				// remove night vision
+				if (entityPlayer.isPotionActive(16))
+				{
+					entityPlayer.removePotionEffect(16);
+				}
+				// Add blindness
+				entityPlayer.addPotionEffect(new PotionEffect(15, 260, 0, false, false));
+			}
+		}
+
+		for (int i = this.enaria.getPosition().getX() - 5; i < this.enaria.getPosition().getX() + 5; i++)
+		{
+			for (int j = this.enaria.getPosition().getY() - 5; j < this.enaria.getPosition().getY() + 5; j++)
+			{
+				for (int k = this.enaria.getPosition().getZ() - 5; k < this.enaria.getPosition().getZ() + 5; k++)
+				{
+					BlockPos current = new BlockPos(i, j, k);
+					if (this.enaria.worldObj.getBlockState(current).getBlock() instanceof BlockTorch)
+					{
+						this.enaria.worldObj.setBlockToAir(current);
+					}
+				}
 			}
 		}
 	}

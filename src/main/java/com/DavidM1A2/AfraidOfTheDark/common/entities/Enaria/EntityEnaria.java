@@ -8,6 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.ICanTakeSilverDamage;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -161,6 +162,31 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 		}
 
 		return super.attackEntityFrom(DamageSource.generic, 1);
+	}
+
+	@Override
+	public void onDeath(DamageSource cause)
+	{
+		super.onDeath(cause);
+
+		if (cause instanceof EntityDamageSource)
+		{
+			if (cause.getEntity() instanceof EntityPlayer)
+			{
+				EntityPlayer entityPlayer = (EntityPlayer) cause.getEntity();
+
+				AOTDPlayerData.get(entityPlayer).setHasBeatenEnaria(true);
+				AOTDPlayerData.get(entityPlayer).syncHasBeatenEnaria();
+
+				if (!worldObj.isRemote)
+				{
+					//					if (AOTDPlayerData.get(entityPlayer).canResearch(ResearchTypes.SlayingOfTheWolves))
+					//					{
+					//						AOTDPlayerData.get(entityPlayer).unlockResearch(ResearchTypes.SlayingOfTheWolves, true);
+					//					}
+				}
+			}
+		}
 	}
 
 	/**

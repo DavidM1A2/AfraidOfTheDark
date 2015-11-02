@@ -6,6 +6,7 @@ import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncAOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateAOTDStatus;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateHasBeatenEnaria;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateInsanity;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateResearch;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
@@ -33,13 +34,15 @@ public class AOTDPlayerData implements IExtendedEntityProperties
 	private int playerLocationNightmare;
 	private int playerLocationVoidChest;
 	private NBTTagCompound researches = new NBTTagCompound();
+	private boolean hasBeatenEnaria;
 	private static final String HAS_STARTED_AOTD = "playerStartedAOTD";
 	private final static String PLAYER_INSANITY = "PlayerInsanity";
 	private final static String INVENTORY_SAVER = "inventorySaver";
 	private final static String PLAYER_LOCATION_OVERWORLD = "playerLocationOverworld";
 	private final static String PLAYER_LOCATION_NIGHTMARE = "playerLocationNightmare";
+	private final static String PLAYER_LOCATION_VOID_CHEST = "playerLocationVoidChest";
 	private final static String RESEARCH_DATA = "unlockedResearches";
-	public final static String PLAYER_LOCATION_VOID_CHEST = "playerLocationVoidChest";
+	private final static String HAS_BEATEN_ENARIA = "hasBeatenEnaria";
 
 	// CONSTRUCTOR, GETTER, REGISTER ==========================================
 
@@ -78,39 +81,20 @@ public class AOTDPlayerData implements IExtendedEntityProperties
 		nbt.setInteger(PLAYER_LOCATION_NIGHTMARE, playerLocationNightmare);
 		nbt.setTag(RESEARCH_DATA, researches);
 		nbt.setInteger(PLAYER_LOCATION_VOID_CHEST, this.playerLocationVoidChest);
+		nbt.setBoolean(HAS_BEATEN_ENARIA, this.hasBeatenEnaria);
 	}
 
 	@Override
 	public void loadNBTData(NBTTagCompound nbt)
 	{
-		//if (nbt.hasKey(HAS_STARTED_AOTD))
-		{
-			this.setHasStartedAOTD(nbt.getBoolean(HAS_STARTED_AOTD));
-		}
-		//if (nbt.hasKey(PLAYER_INSANITY))
-		{
-			this.setPlayerInsanity(nbt.getDouble(PLAYER_INSANITY));
-		}
-		//if (nbt.hasKey(INVENTORY_SAVER))
-		{
-			this.setPlayerInventory(nbt.getTagList(INVENTORY_SAVER, 10));
-		}
-		//if (nbt.hasKey(PLAYER_LOCATION_OVERWORLD))
-		{
-			this.setPlayerLocationOverworld(nbt.getIntArray(PLAYER_LOCATION_OVERWORLD));
-		}
-		//if (nbt.hasKey(PLAYER_LOCATION_NIGHTMARE))
-		{
-			this.setPlayerLocationNightmare(nbt.getInteger(PLAYER_LOCATION_NIGHTMARE));
-		}
-		//if (nbt.hasKey(RESEARCH_DATA))
-		{
-			this.setReseraches((NBTTagCompound) nbt.getTag(RESEARCH_DATA));
-		}
-		//if (nbt.hasKey(PLAYER_LOCATION_VOID_CHEST))
-		{
-			this.playerLocationVoidChest = nbt.getInteger(PLAYER_LOCATION_VOID_CHEST);
-		}
+		this.setHasStartedAOTD(nbt.getBoolean(HAS_STARTED_AOTD));
+		this.setPlayerInsanity(nbt.getDouble(PLAYER_INSANITY));
+		this.setPlayerInventory(nbt.getTagList(INVENTORY_SAVER, 10));
+		this.setPlayerLocationOverworld(nbt.getIntArray(PLAYER_LOCATION_OVERWORLD));
+		this.setPlayerLocationNightmare(nbt.getInteger(PLAYER_LOCATION_NIGHTMARE));
+		this.setReseraches((NBTTagCompound) nbt.getTag(RESEARCH_DATA));
+		this.setPlayerLocationVoidChest(nbt.getInteger(PLAYER_LOCATION_VOID_CHEST));
+		this.setHasBeatenEnaria(nbt.getBoolean(HAS_BEATEN_ENARIA));
 	}
 
 	@Override
@@ -259,6 +243,24 @@ public class AOTDPlayerData implements IExtendedEntityProperties
 		else
 		{
 			AfraidOfTheDark.getPacketHandler().sendToServer(new UpdateResearch(this.researches));
+		}
+	}
+
+	public boolean getHasBeatenEnaria()
+	{
+		return this.hasBeatenEnaria;
+	}
+
+	public void setHasBeatenEnaria(boolean hasBeatenEnaria)
+	{
+		this.hasBeatenEnaria = hasBeatenEnaria;
+	}
+
+	public void syncHasBeatenEnaria()
+	{
+		if (this.isServerSide())
+		{
+			AfraidOfTheDark.getPacketHandler().sendTo(new UpdateHasBeatenEnaria(this.hasBeatenEnaria), (EntityPlayerMP) this.entityPlayer);
 		}
 	}
 

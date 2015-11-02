@@ -57,44 +57,4 @@ public class UpdateAOTDStatus implements IMessage
 			return null;
 		}
 	}
-
-	//	// when we receive a packet we set HasStartedAOTD
-	//	public static class Handler extends MessageHandler.Bidirectional<UpdateAOTDStatus>
-	//	{
-	//		@Override
-	//		public IMessage handleServerMessage(final EntityPlayer entityPlayer, final UpdateAOTDStatus msg, MessageContext ctx)
-	//		{
-	//			MinecraftServer.getServer().addScheduledTask(new Runnable()
-	//			{
-	//				@Override
-	//				public void run()
-	//				{
-	//					if (Constants.isDebug)
-	//					{
-	//						LogHelper.info("Update Has Started AOTD Received! Status: " + msg.started);
-	//					}
-	//					entityPlayer.getEntityData().setBoolean(HasStartedAOTD.PLAYER_STARTED_AOTD, msg.started);
-	//				}
-	//			});
-	//			return null;
-	//		}
-	//
-	//		@Override
-	//		public IMessage handleClientMessage(final EntityPlayer entityPlayer, final UpdateAOTDStatus msg, MessageContext ctx)
-	//		{
-	//			Minecraft.getMinecraft().addScheduledTask(new Runnable()
-	//			{
-	//				@Override
-	//				public void run()
-	//				{
-	//					if (Constants.isDebug)
-	//					{
-	//						LogHelper.info("Update Has Started AOTD Received! Status: " + msg.started);
-	//					}
-	//					entityPlayer.getEntityData().setBoolean(HasStartedAOTD.PLAYER_STARTED_AOTD, msg.started);
-	//				}
-	//			});
-	//			return null;
-	//		}
-	//	}
 }
