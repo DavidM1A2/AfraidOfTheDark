@@ -17,7 +17,10 @@ public abstract class AOTDItem extends Item
 	public AOTDItem()
 	{
 		super();
-		this.setCreativeTab(Constants.AFRAID_OF_THE_DARK);
+		if (this.displayInCreative())
+		{
+			this.setCreativeTab(Constants.AFRAID_OF_THE_DARK);
+		}
 	}
 
 	// Set the item name in the game (not the visual name but the refrence name)
@@ -39,4 +42,8 @@ public abstract class AOTDItem extends Item
 		return unlocalizedName.substring(unlocalizedName.indexOf(".") + 1);
 	}
 
+	protected boolean displayInCreative()
+	{
+		return true;
+	}
 }

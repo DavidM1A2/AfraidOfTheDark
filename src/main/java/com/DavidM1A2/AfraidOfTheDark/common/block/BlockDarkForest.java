@@ -26,6 +26,12 @@ public class BlockDarkForest extends AOTDBlockTileEntity
 	}
 
 	@Override
+	protected boolean displayInCreative()
+	{
+		return false;
+	}
+
+	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta)
 	{
 		return new TileEntityDarkForest();

@@ -29,6 +29,12 @@ public class BlockAOTDBarrier extends AOTDBlock
 		this.setUnlocalizedName("aOTDBarrier");
 	}
 
+	@Override
+	protected boolean displayInCreative()
+	{
+		return false;
+	}
+
 	/**
 	 * The type of render function that is called for this block
 	 */

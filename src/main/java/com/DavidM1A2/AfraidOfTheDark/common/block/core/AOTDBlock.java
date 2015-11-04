@@ -25,8 +25,16 @@ public abstract class AOTDBlock extends Block
 	{
 		// Set the material and creative tab
 		super(material);
-		this.setCreativeTab(Constants.AFRAID_OF_THE_DARK);
+		if (this.displayInCreative())
+		{
+			this.setCreativeTab(Constants.AFRAID_OF_THE_DARK);
+		}
 		this.setUnlocalizedName("FORGOT TO SET");
+	}
+
+	protected boolean displayInCreative()
+	{
+		return true;
 	}
 
 	// Default material is rock (stone)
