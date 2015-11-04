@@ -1,3 +1,8 @@
+/*
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria;
 
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.Channel;

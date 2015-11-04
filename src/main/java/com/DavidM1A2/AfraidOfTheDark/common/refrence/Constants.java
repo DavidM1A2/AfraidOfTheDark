@@ -349,9 +349,7 @@ public final class Constants
 							.getIdFromBlock(ModBlocks.starMetalOre), (short) -46, (short) Block.getIdFromBlock(ModBlocks.igneousBlock), (short) -55, (short) Block.getIdFromBlock(ModBlocks.gravewood));
 
 			if (Constants.isDebug)
-			{
-				LogHelper.info("Schematics are using this much ram: " + RamUsageEstimator.humanReadableUnits(RamUsageEstimator.sizeOfAll(treeSmall, treeBranchyType1, treeBranchyType2, treeLargeCircle, treeLargeDonut, bedHouse, propBush1, propFallenOverLog, propFence1, propFence2, propFountain,
-						propLog, propPumpkin1, propPumpkin2, propStump, crypt, spring, nightmareIsland, witchHut, voidChest, voidChestPortal, tunnelEW, tunnelNS, roomStairUp, roomStairDown, rooms)));
+			{				
 				LogHelper.info("Nightmare island is using this much ram: " + RamUsageEstimator.humanReadableUnits(RamUsageEstimator.sizeOfAll(nightmareIsland)));
 			}
 		}
