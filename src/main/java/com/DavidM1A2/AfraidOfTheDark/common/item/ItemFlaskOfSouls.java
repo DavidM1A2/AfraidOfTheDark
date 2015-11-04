@@ -11,7 +11,7 @@ import java.util.Map;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItemWithCooldownPerItem;
-import com.DavidM1A2.AfraidOfTheDark.common.packets.FlaskOfSoulsUpdate;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncFlaskOfSouls;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
@@ -205,7 +205,7 @@ public class ItemFlaskOfSouls extends AOTDItemWithCooldownPerItem
 							world.spawnEntityInWorld(entityToSpawn);
 							entityToSpawn.playLivingSound();
 							this.setOnCooldown(itemStack);
-							AfraidOfTheDark.getPacketHandler().sendTo(new FlaskOfSoulsUpdate(itemStack, System.currentTimeMillis()), (EntityPlayerMP) entityPlayer);
+							AfraidOfTheDark.getPacketHandler().sendTo(new SyncFlaskOfSouls(System.currentTimeMillis()), (EntityPlayerMP) entityPlayer);
 						}
 					}
 				}

@@ -57,7 +57,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class PlayerController
 {
-
 	// When the player dies, he is cloned. We move over extended properties such as hasStartedAOTD, insanity, and research
 	@SubscribeEvent
 	public void onClonePlayer(final PlayerEvent.Clone event)

@@ -238,14 +238,5 @@ public class Utility
 		}
 
 		FMLCommonHandler.instance().firePlayerChangedDimensionEvent(entityPlayer, j, dimensionId);
-
-		//		//new DelayedAOTDUpdate(600, entityPlayer, HasStartedAOTD.get(entityPlayer)).start();
-		//		//new DelayedInsanityUpdate(700, entityPlayer, Insanity.get(entityPlayer)).start();
-		//		//new DelayedResearchUpdate(800, entityPlayer, Research.get(entityPlayer)).start();
-		//		//new DelayedVitaeUpdate(900, entityPlayer, Vitae.get(entityPlayer)).start();
-		//		Constants.TIMER_FOR_DELAYS.schedule(new DelayedAOTDUpdate(entityPlayer, HasStartedAOTD.get(entityPlayer)), 500, TimeUnit.MILLISECONDS);
-		//		Constants.TIMER_FOR_DELAYS.schedule(new DelayedInsanityUpdate(entityPlayer, Insanity.get(entityPlayer)), 600, TimeUnit.MILLISECONDS);
-		//		Constants.TIMER_FOR_DELAYS.schedule(new DelayedResearchUpdate(entityPlayer, Research.get(entityPlayer)), 700, TimeUnit.MILLISECONDS);
-		//		Constants.TIMER_FOR_DELAYS.schedule(new DelayedVitaeUpdate(entityPlayer, Vitae.get(entityPlayer)), 800, TimeUnit.MILLISECONDS);
 	}
 }

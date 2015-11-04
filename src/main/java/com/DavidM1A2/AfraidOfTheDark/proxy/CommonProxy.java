@@ -5,7 +5,7 @@ package com.DavidM1A2.AfraidOfTheDark.proxy;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.FireCrossbowBolt;
-import com.DavidM1A2.AfraidOfTheDark.common.packets.FlaskOfSoulsUpdate;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncFlaskOfSouls;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.RotatePlayer;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncAOTDEntityData;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncAOTDPlayerData;
@@ -39,7 +39,7 @@ public abstract class CommonProxy implements IProxy
 		AfraidOfTheDark.getPacketHandler().registerPacket(SyncAnimation.class, new SyncAnimation.Handler(), Side.CLIENT);
 		AfraidOfTheDark.getPacketHandler().registerBidiPacket(UpdateLanternState.class, new UpdateLanternState.Handler());
 		AfraidOfTheDark.getPacketHandler().registerPacket(SyncVoidChest.class, new SyncVoidChest.Handler(), Side.CLIENT);
-		AfraidOfTheDark.getPacketHandler().registerPacket(FlaskOfSoulsUpdate.class, new FlaskOfSoulsUpdate.Handler(), Side.CLIENT);
+		AfraidOfTheDark.getPacketHandler().registerPacket(SyncFlaskOfSouls.class, new SyncFlaskOfSouls.Handler(), Side.CLIENT);
 		AfraidOfTheDark.getPacketHandler().registerPacket(SyncParticleFX.class, new SyncParticleFX.Handler(), Side.CLIENT);
 		AfraidOfTheDark.getPacketHandler().registerBidiPacket(SyncAOTDPlayerData.class, new SyncAOTDPlayerData.Handler());
 		AfraidOfTheDark.getPacketHandler().registerBidiPacket(SyncAOTDEntityData.class, new SyncAOTDEntityData.Handler());
