@@ -212,19 +212,8 @@ public class PlayerController
 			/*
 			 * Sync player research, insanity, and AOTDStart status
 			 */
-
 			AOTDPlayerData.get((EntityPlayer) event.entity).requestSyncAll();
-
-			//			if (!event.world.isRemote)
-			//			{
-			//				final EntityPlayer entityPlayer = (EntityPlayer) event.entity;
-			//
-			//				AfraidOfTheDark.getPacketHandler().sendTo(new UpdateInsanity(Insanity.get(entityPlayer)), (EntityPlayerMP) entityPlayer);
-			//
-			//				AfraidOfTheDark.getPacketHandler().sendTo(new UpdateAOTDStatus(HasStartedAOTD.get(entityPlayer)), (EntityPlayerMP) entityPlayer);
-			//
-			//				AfraidOfTheDark.getPacketHandler().sendTo(new UpdateResearch(Research.get(entityPlayer), false), (EntityPlayerMP) entityPlayer);
-			//			}
+			AOTDEntityData.get((EntityPlayer) event.entity).requestSyncAll(); 
 		}
 		else if (event.entity instanceof EntityEnaria)
 		{
@@ -241,13 +230,6 @@ public class PlayerController
 		if (event.entity instanceof EntityPlayer)
 		{
 			AOTDPlayerData.register((EntityPlayer) event.entity);
-			//			final EntityPlayer entityPlayer = (EntityPlayer) event.entity;
-			//
-			//			Research.register(entityPlayer);
-			//			HasStartedAOTD.register(entityPlayer);
-			//			Insanity.register(entityPlayer);
-			//			InventorySaver.register(entityPlayer);
-			//			VoidChestLocation.register(entityPlayer);
 		}
 
 		if (event.entity instanceof EntityLivingBase && !(event.entity instanceof EntityArmorStand))
