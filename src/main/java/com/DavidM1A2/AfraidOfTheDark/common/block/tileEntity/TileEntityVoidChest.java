@@ -36,7 +36,7 @@ import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.SaveHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
-public class TileEntityVoidChest extends AOTDTileEntity implements IUpdatePlayerListBox
+public class TileEntityVoidChest extends AOTDTileEntity
 {
 	/** The current angle of the lid (between 0 and 1) */
 	public float lidAngle;

@@ -20,7 +20,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntitySpring extends AOTDTileEntity implements IUpdatePlayerListBox
+public class TileEntitySpring extends AOTDTileEntity
 {
 	private int ticksExisted = 0;
 	private static final int TICKS_INBETWEEN_CHECKS = 60;

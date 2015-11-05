@@ -6,9 +6,10 @@
 package com.DavidM1A2.AfraidOfTheDark.common.block.core;
 
 import net.minecraft.block.Block;
+import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
 
-public class AOTDTileEntity extends TileEntity
+public abstract class AOTDTileEntity extends TileEntity implements IUpdatePlayerListBox
 {
 	/*
 	 * A base class for tile entities
@@ -17,5 +18,10 @@ public class AOTDTileEntity extends TileEntity
 	{
 		super();
 		this.blockType = block;
+	}
+	
+	@Override
+	public void update()
+	{		
 	}
 }

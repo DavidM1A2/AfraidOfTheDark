@@ -15,9 +15,11 @@ import com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare.NightmareTelepor
 import com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest.VoidChestTeleporter;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.EntityEnaria;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemFlaskOfSouls;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemOtherworldlyPrism;
+import com.DavidM1A2.AfraidOfTheDark.common.item.crossbow.ItemCrossbow;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDEntityData;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
@@ -42,6 +44,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogDensity;
+import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -377,5 +380,13 @@ public class PlayerController
 				}
 			}
 		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public void onModelBake(ModelBakeEvent event)
+	{
+        ((ItemCrossbow) ModItems.crossbow).setRenderer(new ItemRenderBeeBarker());
+        event.modelRegistry.putObject(new ModelResourceLocation("beebarker:BeeBarker", "inventory"), new PerspectiveAwareModelBaseWrapper(((ItemBeeBarker)BeeBarker.itemBeeBarker).renderer));
 	}
 }
