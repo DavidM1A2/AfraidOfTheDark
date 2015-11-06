@@ -20,7 +20,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.IPerspectiveAwareModel;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -29,8 +28,6 @@ public class ItemCrossbow extends AOTDItem
 {
 	// Keep a loaded and unloaded icon and store reload time
 	private final int RELOAD_TIME = 50;
-	
-	private IPerspectiveAwareModel renderer;
 
 	public ItemCrossbow()
 	{
@@ -238,10 +235,4 @@ public class ItemCrossbow extends AOTDItem
 	{
 		return true;
 	}
-	
-	public void setRenderer(IPerspectiveAwareModel renderer)
-	{
-		this.renderer = renderer;
-	}
-
 }
