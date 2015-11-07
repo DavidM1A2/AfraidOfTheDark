@@ -17,7 +17,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.EntityEnaria;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemFlaskOfSouls;
-import com.DavidM1A2.AfraidOfTheDark.common.item.ItemOtherworldlyPrism;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDEntityData;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
@@ -316,10 +315,6 @@ public class PlayerController
 					AOTDPlayerData.get(event.player).unlockResearch(ResearchTypes.PhylacteryOfSouls, true);
 				}
 			}
-		}
-		else if (event.crafting.getItem() instanceof ItemOtherworldlyPrism)
-		{
-			((ItemOtherworldlyPrism) event.crafting.getItem()).setOwner(event.player, event.crafting);
 		}
 	}
 

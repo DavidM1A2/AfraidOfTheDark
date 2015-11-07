@@ -14,16 +14,19 @@ import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncParticleFX;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDParticleFXTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockTorch;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
 public class EnariaAttacks
@@ -35,6 +38,7 @@ public class EnariaAttacks
 	private static final int TELEPORT_RANGE = 20;
 	private static final double KNOCKBACK_POWER = 5;
 	private static final int MAX_KNOCKBACK_RANGE = 10;
+	private static final int TELEPORT_PLAYER_RANGE = 80;
 	private static final int BASIC_RANGE = 20;
 	private static final int NUMBER_OF_PARTICLES_PER_ATTACK = 30;
 	private static final int NUMBER_OF_PARTICLES_PER_TELEPORT = 30;
@@ -98,7 +102,7 @@ public class EnariaAttacks
 
 	public void performRandomAttack()
 	{
-		switch (this.random.nextInt(5))
+		switch (this.random.nextInt(6))
 		{
 			case 0:
 			{
@@ -123,6 +127,11 @@ public class EnariaAttacks
 			case 4:
 			{
 				this.attackDarkness();
+				break;
+			}
+			case 5:
+			{
+				this.teleportToPlayer();
 				break;
 			}
 		}
@@ -286,6 +295,38 @@ public class EnariaAttacks
 				}
 
 				counter = counter - 1;
+			}
+		}
+	}
+
+	private void teleportToPlayer()
+	{
+		List entityList = this.enaria.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.enaria.getEntityBoundingBox().expand(TELEPORT_PLAYER_RANGE, TELEPORT_PLAYER_RANGE, TELEPORT_PLAYER_RANGE));
+		for (Object entityObject : entityList)
+		{
+			if (entityObject instanceof EntityPlayer)
+			{
+				EntityPlayer entityPlayer = (EntityPlayer) entityObject;
+
+				entityPlayer.setHealth(entityPlayer.getHealth() - 7.0f);
+
+				this.enaria.setPosition(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ);
+
+				this.enaria.addPotionEffect(new PotionEffect(Potion.resistance.getId(), 20, 99, false, false));
+
+				entityPlayer.addPotionEffect(new PotionEffect(Potion.blindness.getId(), 30, 0, false, false));
+
+				// Server side
+				if (this.enaria.worldObj instanceof WorldServer)
+				{
+					Utility.createExplosionWithoutBlockDamageServer(this.enaria.worldObj, entityPlayer, this.enaria.posX, this.enaria.posY, this.enaria.posZ, 7, false, true);
+				}
+				else
+				{
+					Utility.createExplosionWithoutBlockDamageClient(this.enaria.worldObj, entityPlayer, this.enaria.posX, this.enaria.posY, this.enaria.posZ, 7, false, true);
+				}
+
+				return;
 			}
 		}
 	}

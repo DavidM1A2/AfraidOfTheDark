@@ -14,6 +14,8 @@ import com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest.VoidChestTelepor
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -22,9 +24,13 @@ import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.network.play.server.S07PacketRespawn;
 import net.minecraft.network.play.server.S1DPacketEntityEffect;
+import net.minecraft.network.play.server.S27PacketExplosion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.management.ServerConfigurationManager;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.Teleporter;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -32,16 +38,6 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public class Utility
 {
-	public static int ticksToMilliseconds(int ticks)
-	{
-		return ticks * 50;
-	}
-
-	public static double clampDouble(double val, double min, double max)
-	{
-		return Math.max(min, Math.min(max, val));
-	}
-
 	public static boolean hasIndex(List<?> list, int index)
 	{
 		try
@@ -238,5 +234,38 @@ public class Utility
 		}
 
 		FMLCommonHandler.instance().firePlayerChangedDimensionEvent(entityPlayer, j, dimensionId);
+	}
+
+	public static void createExplosionWithoutBlockDamageServer(World world, Entity entity, double x, double y, double z, int strength, boolean isFlaming, boolean isSmoking)
+	{
+		Explosion explosion = new Explosion(world, entity, x, y, z, strength, isFlaming, isSmoking);
+		if (net.minecraftforge.event.ForgeEventFactory.onExplosionStart(world, explosion))
+			return;
+		explosion.doExplosionB(false);
+
+		if (!isSmoking)
+		{
+			explosion.func_180342_d();
+		}
+
+		Iterator iterator = world.playerEntities.iterator();
+
+		while (iterator.hasNext())
+		{
+			EntityPlayer entityplayer = (EntityPlayer) iterator.next();
+
+			if (entityplayer.getDistanceSq(x, y, z) < 4096.0D)
+			{
+				((EntityPlayerMP) entityplayer).playerNetServerHandler.sendPacket(new S27PacketExplosion(x, y, z, strength, explosion.func_180343_e(), (Vec3) explosion.func_77277_b().get(entityplayer)));
+			}
+		}
+	}
+
+	public static void createExplosionWithoutBlockDamageClient(World world, Entity entity, double x, double y, double z, int strength, boolean isFlaming, boolean isSmoking)
+	{
+		Explosion explosion = new Explosion(world, entity, x, y, z, strength, isFlaming, isSmoking);
+		if (net.minecraftforge.event.ForgeEventFactory.onExplosionStart(world, explosion))
+			return;
+		explosion.doExplosionB(true);
 	}
 }

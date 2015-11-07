@@ -29,9 +29,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.SaveHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
@@ -139,9 +139,9 @@ public class TileEntityVoidChest extends AOTDTileEntity
 			double xVelocity = this.pos.getX() + 0.5 - entityPlayerToSend.posX;
 			double yVelocity = this.pos.getY() + 0.5 - entityPlayerToSend.posY;
 			double zVelocity = this.pos.getZ() + 0.5 - entityPlayerToSend.posZ;
-			xVelocity = Utility.clampDouble(xVelocity, -0.05, 0.05);
-			yVelocity = Utility.clampDouble(yVelocity, -0.05, 0.05);
-			zVelocity = Utility.clampDouble(zVelocity, -0.05, 0.05);
+			xVelocity = MathHelper.clamp_double(xVelocity, -0.05, 0.05);
+			yVelocity = MathHelper.clamp_double(yVelocity, -0.05, 0.05);
+			zVelocity = MathHelper.clamp_double(zVelocity, -0.05, 0.05);
 			entityPlayerToSend.addVelocity(xVelocity, yVelocity, zVelocity);
 		}
 
