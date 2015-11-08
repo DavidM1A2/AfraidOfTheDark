@@ -102,34 +102,29 @@ public class EnariaAttacks
 
 	public void performRandomAttack()
 	{
-		switch (this.random.nextInt(6))
+		switch (this.random.nextInt(5))
 		{
 			case 0:
-			{
-				this.randomTeleport();
-				break;
-			}
-			case 1:
 			{
 				this.attackSummonWerewolves();
 				break;
 			}
-			case 2:
+			case 1:
 			{
 				this.attackAOEPotion();
 				break;
 			}
-			case 3:
+			case 2:
 			{
 				this.attackShuffleInventory();
 				break;
 			}
-			case 4:
+			case 3:
 			{
 				this.attackDarkness();
 				break;
 			}
-			case 5:
+			case 4:
 			{
 				this.teleportToPlayer();
 				break;

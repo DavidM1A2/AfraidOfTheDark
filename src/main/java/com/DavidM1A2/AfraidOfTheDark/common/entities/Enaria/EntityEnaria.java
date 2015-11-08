@@ -198,7 +198,7 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 	{
 		if (this.motionX > 0.05 || this.motionZ > 0.05 || this.motionX < -0.05 || this.motionZ < -0.05)
 		{
-			if (!animHandler.isAnimationActive("autoattack") && !animHandler.isAnimationActive("armthrow") && !animHandler.isAnimationActive("walk"))
+			if (!this.animHandler.isAnimationActive("spell") && !animHandler.isAnimationActive("autoattack") && !animHandler.isAnimationActive("armthrow") && !animHandler.isAnimationActive("walk"))
 			{
 				animHandler.activateAnimation("walk", 0);
 			}
