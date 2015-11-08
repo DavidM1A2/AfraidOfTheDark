@@ -92,23 +92,23 @@ public class GenerateGnomishCity
 						{
 							if (k == 0)
 							{
-								SchematicGenerator.generateSchematic(Constants.AOTDSchematics.roomStairUp, world, chunkX + i * 50, y + k * 15, chunkZ + j * 50);
+								SchematicGenerator.generateSchematicWithLoot(Constants.AOTDSchematics.roomStairUp, world, chunkX + i * 50, y + k * 15, chunkZ + j * 50, Constants.gnomishCityLootTable);
 							}
 							else
 							{
-								SchematicGenerator.generateSchematic(Constants.AOTDSchematics.roomStairDown, world, chunkX + i * 50, y + k * 15, chunkZ + j * 50);
+								SchematicGenerator.generateSchematicWithLoot(Constants.AOTDSchematics.roomStairDown, world, chunkX + i * 50, y + k * 15, chunkZ + j * 50, Constants.gnomishCityLootTable);
 							}
 						}
 						else if (currentRoom == stairs1To2 && k == 0)
 						{
-							SchematicGenerator.generateSchematic(Constants.AOTDSchematics.roomStairDown, world, chunkX + i * 50, y + k * 15, chunkZ + j * 50);
+							SchematicGenerator.generateSchematicWithLoot(Constants.AOTDSchematics.roomStairDown, world, chunkX + i * 50, y + k * 15, chunkZ + j * 50, Constants.gnomishCityLootTable);
 
 							// Create enaria's lair
 							SchematicGenerator.generateSchematic(Constants.AOTDSchematics.enariaLair, world, chunkX + i * 50 - 14, y + k * 15 - 15, chunkZ + j * 50 - 73);
 						}
 						else if (currentRoom == stairs3To4 && k == 1)
 						{
-							SchematicGenerator.generateSchematic(Constants.AOTDSchematics.roomStairUp, world, chunkX + i * 50, y + k * 15, chunkZ + j * 50);
+							SchematicGenerator.generateSchematicWithLoot(Constants.AOTDSchematics.roomStairUp, world, chunkX + i * 50, y + k * 15, chunkZ + j * 50, Constants.gnomishCityLootTable);
 
 							SchematicGenerator.generateSchematic(Constants.AOTDSchematics.stairwell, world, chunkX + i * 50 + 13, y + k * 15 + 15, chunkZ + j * 50 + 13);
 							SchematicGenerator.generateSchematic(Constants.AOTDSchematics.stairwell, world, chunkX + i * 50 + 13, y + k * 15 + 31, chunkZ + j * 50 + 13);
@@ -116,7 +116,7 @@ public class GenerateGnomishCity
 						}
 						else
 						{
-							SchematicGenerator.generateSchematic(Constants.AOTDSchematics.rooms.get(rooms.get(currentRoom)), world, chunkX + i * 50, y + k * 15, chunkZ + j * 50);
+							SchematicGenerator.generateSchematicWithLoot(Constants.AOTDSchematics.rooms.get(rooms.get(currentRoom)), world, chunkX + i * 50, y + k * 15, chunkZ + j * 50, Constants.gnomishCityLootTable);
 						}
 					}
 				}
