@@ -3,7 +3,6 @@ package com.DavidM1A2.AfraidOfTheDark.common.entities.SplinterDrone;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.projectile.EntitySmallFireball;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 
@@ -76,9 +75,9 @@ public class EntityAIAttackSplinterDrone extends EntityAIBase
 				double zVelocity = this.target.posZ - this.splinterDrone.posZ;
 
 				this.splinterDrone.worldObj.playAuxSFXAtEntity(null, 1009, new BlockPos((int) this.splinterDrone.posX, (int) this.splinterDrone.posY, (int) this.splinterDrone.posZ), 0);
-				EntitySmallFireball fireballAttack = new EntitySmallFireball(this.splinterDrone.worldObj, this.splinterDrone, xVelocity, yVelocity, zVelocity);
-				fireballAttack.posY = this.splinterDrone.posY + (double) (this.splinterDrone.height / 2.0F) + 0.5D;
-				this.splinterDrone.worldObj.spawnEntityInWorld(fireballAttack);
+				//EntitySmallFireball fireballAttack = new EntitySmallFireball(this.splinterDrone.worldObj, this.splinterDrone, xVelocity, yVelocity, zVelocity);
+				//fireballAttack.posY = this.splinterDrone.posY + (double) (this.splinterDrone.height / 2.0F) + 0.5D;
+				//this.splinterDrone.worldObj.spawnEntityInWorld(fireballAttack);
 
 				this.attackTime = TIME_BETWEEN_ATTACKS;
 			}

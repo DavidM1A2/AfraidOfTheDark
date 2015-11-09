@@ -42,6 +42,33 @@ public class ChannelActivate extends Channel
 		frame0.modelRenderersTranslations.put("Pillar5", new Vector3f(0.0F, 0.0F, 3.0F));
 		keyFrames.put(0, frame0);
 
+		KeyFrame frame1 = new KeyFrame();
+		frame1.modelRenderersRotations.put("Pillar1", new Quaternion(0.0F, 0.0F, 0.0F, 1.0F));
+		frame1.modelRenderersRotations.put("BottomPlate", new Quaternion(0.0F, 0.0F, 0.0F, 1.0F));
+		frame1.modelRenderersRotations.put("Sphere2", new Quaternion(0.0F, 0.0F, 0.0F, 1.0F));
+		frame1.modelRenderersRotations.put("Sphere1", new Quaternion(0.0F, 0.0F, 0.0F, 1.0F));
+		frame1.modelRenderersRotations.put("TopPlate", new Quaternion(0.0F, 0.0F, 0.0F, 1.0F));
+		frame1.modelRenderersRotations.put("Pillar2", new Quaternion(0.0F, 0.38268346F, 0.0F, 0.9238795F));
+		frame1.modelRenderersRotations.put("Pillar6", new Quaternion(0.0F, -0.9238795F, 0.0F, 0.38268343F));
+		frame1.modelRenderersRotations.put("Pillar7", new Quaternion(0.0F, -0.70710677F, 0.0F, 0.70710677F));
+		frame1.modelRenderersRotations.put("Pillar8", new Quaternion(0.0F, -0.38268346F, 0.0F, 0.9238795F));
+		frame1.modelRenderersRotations.put("Pillar4", new Quaternion(0.0F, 0.9238795F, 0.0F, 0.38268343F));
+		frame1.modelRenderersRotations.put("Pillar3", new Quaternion(0.0F, 0.70710677F, 0.0F, 0.70710677F));
+		frame1.modelRenderersRotations.put("Pillar5", new Quaternion(0.0F, 1.0F, 0.0F, 7.54979E-8F));
+		frame1.modelRenderersTranslations.put("Pillar1", new Vector3f(0.0F, 0.0F, -3.0F));
+		frame1.modelRenderersTranslations.put("BottomPlate", new Vector3f(0.0F, -12.0F, 0.0F));
+		frame1.modelRenderersTranslations.put("Sphere2", new Vector3f(0.0F, 11.0F, 0.0F));
+		frame1.modelRenderersTranslations.put("Sphere1", new Vector3f(0.0F, -11.0F, 0.0F));
+		frame1.modelRenderersTranslations.put("TopPlate", new Vector3f(0.0F, 12.0F, 0.0F));
+		frame1.modelRenderersTranslations.put("Pillar2", new Vector3f(-3.5F, 0.0F, -3.5F));
+		frame1.modelRenderersTranslations.put("Pillar6", new Vector3f(3.5F, 0.0F, 3.5F));
+		frame1.modelRenderersTranslations.put("Pillar7", new Vector3f(3.0F, 0.0F, 0.0F));
+		frame1.modelRenderersTranslations.put("Pillar8", new Vector3f(3.5F, 0.0F, -3.5F));
+		frame1.modelRenderersTranslations.put("Pillar4", new Vector3f(-3.5F, 0.0F, 3.5F));
+		frame1.modelRenderersTranslations.put("Pillar3", new Vector3f(-3.0F, 0.0F, 0.0F));
+		frame1.modelRenderersTranslations.put("Pillar5", new Vector3f(0.0F, 0.0F, 3.0F));
+		keyFrames.put(1, frame1);
+
 		KeyFrame frame86 = new KeyFrame();
 		frame86.modelRenderersRotations.put("Sphere2", new Quaternion(-1.0F, 0.0F, 0.0F, -4.371139E-8F));
 		frame86.modelRenderersRotations.put("Sphere1", new Quaternion(-1.0F, 0.0F, 0.0F, -4.371139E-8F));
