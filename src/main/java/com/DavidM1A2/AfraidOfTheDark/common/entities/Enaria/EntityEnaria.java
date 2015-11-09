@@ -20,8 +20,11 @@ import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 
 public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossDisplayData, ICanTakeSilverDamage
@@ -31,7 +34,7 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 	private static final double MOVE_SPEED = 0.6D;
 	private static final double AGRO_RANGE = 16.0D;
 	private static final double FOLLOW_RANGE = 32.0D;
-	private static final double MAX_HEALTH = 40.0D;
+	private static final double MAX_HEALTH = 20.0D;
 	private static final double ATTACK_DAMAGE = 4.0D;
 	private static final double KNOCKBACK_RESISTANCE = 0.5D;
 	public static final String IS_VALID = "isValid";
@@ -45,7 +48,7 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 		this.setSize(0.8F, 1.8F);
 
 		this.setCustomNameTag("Enaria");
-
+		
 		this.tasks.addTask(1, new EntityAISwimming(this));
 		this.tasks.addTask(2, new EntityAIAttackEnaria(this));
 		this.tasks.addTask(3, new EntityAIFollowTarget(this, 8.0D));
@@ -188,6 +191,12 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 				}
 			}
 		}
+	}
+	
+	@Override
+	public IChatComponent getDisplayName() 
+	{
+		return new ChatComponentText(EnumChatFormatting.RED + "" + EnumChatFormatting.BOLD + super.getDisplayName().getFormattedText());
 	}
 
 	/**

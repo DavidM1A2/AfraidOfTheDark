@@ -20,8 +20,7 @@ public class TileEntityEnariaSpawner extends AOTDTileEntity
 	private UUID enariaEntityID = null;
 	private static final int TICKS_INBETWEEN_CHECKS = 100;
 	private static final int CHECK_RANGE = 30;
-	
-	
+		
 	public TileEntityEnariaSpawner() 
 	{
 		super(ModBlocks.enariaSpawner);
