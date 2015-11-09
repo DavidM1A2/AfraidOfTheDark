@@ -11,6 +11,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.block.BlockAstralSilverOre;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockDarkForest;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockEldritchObsidian;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockEldritchStone;
+import com.DavidM1A2.AfraidOfTheDark.common.block.BlockEnariaSpawner;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGlowStalk;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGnomishMetalPlate;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGnomishMetalStrut;
@@ -30,6 +31,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.block.BlockVitaeDisenchanter;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockVoidChest;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockVoidChestPortal;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityDarkForest;
+import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityEnariaSpawner;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntitySpring;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityVoidChest;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemGravewoodLeaves;
@@ -73,6 +75,7 @@ public class ModBlocks
 	public static final BlockGnomishMetalPlate gnomishMetalPlate = new BlockGnomishMetalPlate();
 	public static final BlockGnomishMetalStrut gnomishMetalStrut = new BlockGnomishMetalStrut();
 	public static final BlockGlowStalk glowStalk = new BlockGlowStalk();
+	public static final BlockEnariaSpawner enariaSpawner = new BlockEnariaSpawner(Material.rock);
 
 	public static void initialize()
 	{
@@ -108,6 +111,8 @@ public class ModBlocks
 		GameRegistry.registerBlock(ModBlocks.gnomishMetalPlate, "gnomishMetalPlate");
 		GameRegistry.registerBlock(ModBlocks.gnomishMetalStrut, "gnomishMetalStrut");
 		GameRegistry.registerBlock(ModBlocks.glowStalk, "glowStalk");
+		GameRegistry.registerBlock(ModBlocks.enariaSpawner, "enariaSpawner");
+		GameRegistry.registerTileEntity(TileEntityEnariaSpawner.class, "tileEntityEnariaSpawner");
 	}
 
 	public static void initializeRenderers(final Side side)
@@ -139,6 +144,7 @@ public class ModBlocks
 			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gnomishMetalPlate), 0, new ModelResourceLocation(Refrence.MOD_ID + ":gnomishMetalPlate", "inventory"));
 			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gnomishMetalStrut), 0, new ModelResourceLocation(Refrence.MOD_ID + ":gnomishMetalStrut", "inventory"));
 			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.glowStalk), 0, new ModelResourceLocation(Refrence.MOD_ID + ":glowStalk", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.enariaSpawner), 0, new ModelResourceLocation(Refrence.MOD_ID + ":enariaSpawner", "inventory"));
 		}
 	}
 }

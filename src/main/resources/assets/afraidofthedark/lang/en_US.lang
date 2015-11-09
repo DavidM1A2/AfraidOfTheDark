@@ -74,6 +74,7 @@ tile.afraidofthedark:aOTDBarrier.name=Witherproof Barrier
 tile.afraidofthedark:gnomishMetalPlate.name=Gnomish Metal Plate
 tile.afraidofthedark:gnomishMetalStrut.name=Gnomish Metal Strut
 tile.afraidofthedark:glowStalk.name=Glow Stalk
+tile.afraidofthedark:enariaSpawner.name=Enaria Spawner
 
 # Creative Tabs
 itemGroup.afraidofthedark=Afraid of the Dark

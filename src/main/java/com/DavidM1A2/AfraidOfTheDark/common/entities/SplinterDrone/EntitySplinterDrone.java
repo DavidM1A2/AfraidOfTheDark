@@ -32,36 +32,23 @@ public class EntitySplinterDrone extends EntityMob implements IMCAnimatedEntity
 		super(par1World);
 		this.setSize(0.8F, 3.0F);
 
-		this.tasks.addTask(4, new EntityAIAttackSplinterDrone(this));
-		this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, (float) EntitySplinterDrone.AGRO_RANGE));
-		this.tasks.addTask(8, new EntityAILookIdle(this));
+		this.tasks.addTask(3, new EntityAIWatchClosest(this, EntityPlayer.class, (float) EntitySplinterDrone.AGRO_RANGE));
+		this.tasks.addTask(4, new EntityAILookIdleSplinterDrone(this));
 
+		this.targetTasks.addTask(1, new EntityAIAttackSplinterDrone(this));
 		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
 	}
 
 	@Override
 	public void onEntityUpdate()
 	{
-		if (!this.worldObj.isRemote)
+		if (!hasPlayedStartAnimation)
 		{
-			if (!hasPlayedStartAnimation)
+			if (!this.worldObj.isRemote)
 			{
 				this.animHandler.activateAnimation("Activate", 0);
 				AfraidOfTheDark.getPacketHandler().sendToAllAround(new SyncAnimation("Activate", this.getEntityId()), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 50));
 				this.hasPlayedStartAnimation = true;
-			}
-			else if (!this.animHandler.isAnimationActive("Activate") && !this.animHandler.isAnimationActive("Charge") && !this.animHandler.isAnimationActive("Idle"))
-			{
-				if (this.getAttackTarget() == null)
-				{
-					this.animHandler.activateAnimation("Idle", 0);
-					AfraidOfTheDark.getPacketHandler().sendToAllAround(new SyncAnimation("Idle", this.getEntityId()), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 50));
-				}
-				else
-				{
-					this.animHandler.activateAnimation("Charge", 0);
-					AfraidOfTheDark.getPacketHandler().sendToAllAround(new SyncAnimation("Charge", this.getEntityId()), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 50));
-				}
 			}
 		}
 		super.onEntityUpdate();

@@ -1,10 +1,15 @@
 
 package com.DavidM1A2.AfraidOfTheDark.common.entities.SplinterDrone;
 
+import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
+import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncAnimation;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
+import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
 public class EntityAIAttackSplinterDrone extends EntityAIBase
 {
@@ -65,10 +70,18 @@ public class EntityAIAttackSplinterDrone extends EntityAIBase
 
 		if (!this.splinterDrone.worldObj.isRemote)
 		{
+			AnimationHandler animationHandler = this.splinterDrone.getAnimationHandler();
+			if (!animationHandler.isAnimationActive("Activate") && !animationHandler.isAnimationActive("Charge"))
+			{
+				if (this.splinterDrone.getAttackTarget() != null)
+				{
+					animationHandler.activateAnimation("Charge", 0);
+					AfraidOfTheDark.getPacketHandler().sendToAllAround(new SyncAnimation("Charge", this.splinterDrone.getEntityId()), new TargetPoint(this.splinterDrone.dimension, this.splinterDrone.posX, this.splinterDrone.posY, this.splinterDrone.posZ, 50));
+				}
+			}			
+			
 			if (this.attackTime <= 0)
 			{
-				//this.target.attackEntityFrom(DamageSource.causeMobDamage(splinterDrone), (float) this.splinterDrone.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.attackDamage).getAttributeValue());
-
 				float force = MathHelper.sqrt_float(MathHelper.sqrt_double(this.splinterDrone.getDistanceSqToEntity(this.target))) * 0.5F;
 				double xVelocity = this.target.posX - this.splinterDrone.posX;
 				double yVelocity = this.target.getEntityBoundingBox().minY + (double) (target.height / 2.0F) - (this.splinterDrone.posY + (double) (this.splinterDrone.height / 2.0F));
