@@ -13,6 +13,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityWoodenBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.EntityEnaria;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.EnchantedSkeleton.EntityEnchantedSkeleton;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.SplinterDrone.EntitySplinterDrone;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 
@@ -32,6 +33,7 @@ public class ModEntities
 	public static final int starMetalBoltID = 6;
 	public static final int enchantedSkeletonID = 7;
 	public static final int enariaID = 8;
+	public static final int splinterDroneID = 9;
 
 	public static void intialize()
 	{
@@ -40,6 +42,7 @@ public class ModEntities
 		EntityRegistry.registerModEntity(EntityDeeeSyft.class, "deeeSyft", ModEntities.deeeSyft, Refrence.MOD_ID, 50, 1, true);
 		EntityRegistry.registerModEntity(EntityEnchantedSkeleton.class, "enchantedSkeleton", ModEntities.enchantedSkeletonID, Refrence.MOD_ID, 50, 1, true);
 		EntityRegistry.registerModEntity(EntityEnaria.class, "enaria", ModEntities.enariaID, Refrence.MOD_ID, 50, 1, true);
+		EntityRegistry.registerModEntity(EntitySplinterDrone.class, "splinterDrone", ModEntities.splinterDroneID, Refrence.MOD_ID, 50, 1, true);
 
 		EntityRegistry.registerModEntity(EntityIronBolt.class, "ironBolt", ModEntities.ironBoltID, Refrence.MOD_ID, 50, 10, true);
 		EntityRegistry.registerModEntity(EntitySilverBolt.class, "silverBolt", ModEntities.silverBoltID, Refrence.MOD_ID, 50, 10, true);

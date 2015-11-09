@@ -134,7 +134,7 @@ public class CustomWerewolfTargetLocator extends EntityAITarget
 				{
 					if (list.get(i) instanceof EntityPlayer)
 					{
-						if (AOTDPlayerData.get((EntityPlayer) list.get(i)).getHasStartedAOTD())
+						if (AOTDPlayerData.get((EntityPlayer) list.get(i)).getHasStartedAOTD() || ((EntityWerewolf) this.taskOwner).canAttackAnyone())
 						{
 							/*
 							 * The first entity in the list that has started AOTD is the target

@@ -29,6 +29,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
@@ -45,6 +46,7 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 	private static final double MAX_HEALTH = 10.0D;
 	private static final double ATTACK_DAMAGE = 4.0D;
 	private static final double KNOCKBACK_RESISTANCE = 0.5D;
+	private boolean hasPlayedStartAnimation = false;
 
 	public EntityEnchantedSkeleton(final World world)
 	{
@@ -59,19 +61,19 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 		this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, (float) EntityEnchantedSkeleton.AGRO_RANGE));
 		this.tasks.addTask(8, new EntityAILookIdle(this));
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
-		// Use custom werewolf target locator
 		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
 	}
 
 	@Override
 	public void onEntityUpdate()
 	{
-		if (this.ticksExisted == 2)
+		if (!this.worldObj.isRemote)
 		{
-			if (!this.worldObj.isRemote)
+			if (!hasPlayedStartAnimation)
 			{
 				this.animHandler.activateAnimation("Spawn", 0);
-				AfraidOfTheDark.getPacketHandler().sendToAllAround(new SyncAnimation("Spawn", this.getEntityId()), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 15));
+				AfraidOfTheDark.getPacketHandler().sendToAllAround(new SyncAnimation("Spawn", this.getEntityId()), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 50));
+				this.hasPlayedStartAnimation = true;
 			}
 		}
 		super.onEntityUpdate();
@@ -165,7 +167,7 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 	{
 		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.maxHealth) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(MAX_HEALTH);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(EntityEnchantedSkeleton.MAX_HEALTH);
 		}
 		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange) == null)
 		{
@@ -173,7 +175,7 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 		}
 		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.knockbackResistance) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(KNOCKBACK_RESISTANCE);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(EntityEnchantedSkeleton.KNOCKBACK_RESISTANCE);
 		}
 		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed) == null)
 		{
@@ -181,8 +183,22 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 		}
 		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.attackDamage) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(ATTACK_DAMAGE);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(EntityEnchantedSkeleton.ATTACK_DAMAGE);
 		}
+	}
+
+	@Override
+	public void writeEntityToNBT(NBTTagCompound tagCompound)
+	{
+		tagCompound.setBoolean("hasPlayedStartAnimation", hasPlayedStartAnimation);
+		super.writeEntityToNBT(tagCompound);
+	}
+
+	@Override
+	public void readEntityFromNBT(NBTTagCompound tagCompund)
+	{
+		this.hasPlayedStartAnimation = tagCompund.getBoolean("hasPlayedStartAnimation");
+		super.readEntityFromNBT(tagCompund);
 	}
 
 	/**

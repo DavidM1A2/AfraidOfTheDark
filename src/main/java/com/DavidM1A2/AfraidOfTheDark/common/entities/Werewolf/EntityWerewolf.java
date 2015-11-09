@@ -25,6 +25,7 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.world.World;
@@ -37,6 +38,7 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity, ICan
 	private static final double moveSpeed = .43D;
 	private static final double agroRange = 16.0D;
 	private static final double followRange = 32.0D;
+	private boolean attacksAnyone = false;
 
 	// AI wanderer and watcher
 	private EntityAIWander myWanderer = new EntityAIWander(this, EntityWerewolf.moveSpeed * 2);
@@ -48,6 +50,7 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity, ICan
 		// Set the model size
 		super(world);
 		this.setSize(1.8F, 1.6F);
+		this.setCanAttackAnyone(false);
 
 		// Add various AI tasks
 		this.tasks.addTask(1, new EntityAISwimming(this));
@@ -64,6 +67,20 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity, ICan
 	public AnimationHandler getAnimationHandler()
 	{
 		return animHandler;
+	}
+
+	@Override
+	public void readEntityFromNBT(NBTTagCompound nbttagcompound)
+	{
+		this.attacksAnyone = nbttagcompound.getBoolean("attacksAnyone");
+		super.readEntityFromNBT(nbttagcompound);
+	}
+
+	@Override
+	public void writeEntityToNBT(NBTTagCompound nbttagcompound)
+	{
+		nbttagcompound.setBoolean("attacksAnyone", attacksAnyone);
+		super.writeEntityToNBT(nbttagcompound);
 	}
 
 	@Override
@@ -162,7 +179,7 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity, ICan
 	@Override
 	protected float getSoundVolume()
 	{
-		return 1.0F;
+		return 0.5F;
 	}
 
 	// Get the AI movespeed
@@ -218,4 +235,15 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity, ICan
 	{
 		return 1.3f;
 	}
+
+	public boolean canAttackAnyone()
+	{
+		return this.attacksAnyone;
+	}
+
+	public void setCanAttackAnyone(boolean attacksAnyone)
+	{
+		this.attacksAnyone = attacksAnyone;
+	}
+
 }

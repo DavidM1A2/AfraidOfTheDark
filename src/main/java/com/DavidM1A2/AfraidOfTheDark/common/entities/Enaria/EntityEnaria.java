@@ -215,6 +215,15 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 		this.ridingEntity = null;
 	}
 
+	/**
+	 * Determines if an entity can be despawned, used on idle far away entities
+	 */
+	@Override
+	protected boolean canDespawn()
+	{
+		return false;
+	}
+
 	@Override
 	public AnimationHandler getAnimationHandler()
 	{

@@ -204,6 +204,7 @@ public class EnariaAttacks
 					{
 						EntityWerewolf werewolf = new EntityWerewolf(this.enaria.worldObj);
 						werewolf.setPosition(current.getX(), current.getY(), current.getZ());
+						werewolf.setCanAttackAnyone(true);
 						this.enaria.worldObj.spawnEntityInWorld(werewolf);
 
 						numberOfWWsSpawned = numberOfWWsSpawned + 1;
