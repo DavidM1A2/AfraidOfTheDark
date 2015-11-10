@@ -19,12 +19,11 @@ public class TileEntityEnariaSpawner extends AOTDTileEntity
 	private int ticksExisted = 0;
 	private UUID enariaEntityID = null;
 	private static final int TICKS_INBETWEEN_CHECKS = 40;
-	private final AxisAlignedBB playerCheckRegion;
+	private AxisAlignedBB playerCheckRegion = null;
 
 	public TileEntityEnariaSpawner()
 	{
 		super(ModBlocks.enariaSpawner);
-		playerCheckRegion = AxisAlignedBB.fromBounds(this.pos.getX() - 11, this.pos.getY() - 2, this.pos.getZ() - 2, this.pos.getX() + 11, this.pos.getY() + 11, this.pos.getZ() + 20);
 	}
 
 	@Override
@@ -38,6 +37,10 @@ public class TileEntityEnariaSpawner extends AOTDTileEntity
 				{
 					if (enariaEntityID == null)
 					{
+						if (playerCheckRegion == null)
+						{
+							playerCheckRegion = AxisAlignedBB.fromBounds(this.pos.getX() - 11, this.pos.getY() - 2, this.pos.getZ() - 2, this.pos.getX() + 11, this.pos.getY() + 11, this.pos.getZ() + 20);
+						}
 						for (Object object : this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, playerCheckRegion))
 						{
 							if (object instanceof EntityPlayer)
