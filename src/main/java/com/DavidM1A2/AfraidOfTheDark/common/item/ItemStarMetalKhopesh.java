@@ -86,7 +86,7 @@ public class ItemStarMetalKhopesh extends AOTDChargableSword
 	@Override
 	public int percentChargePerAttack()
 	{
-		return 5;
+		return 10;
 	}
 
 	@Override
@@ -108,7 +108,9 @@ public class ItemStarMetalKhopesh extends AOTDChargableSword
 
 				double hypotenuse = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
 
-				entity.attackEntityFrom(DamageSource.causePlayerDamage(entityPlayer), Constants.AOTDToolMaterials.starMetalTool.getDamageVsEntity() + 4.0F);
+				int sharpnessDamage = EnchantmentHelper.getEnchantmentLevel(Enchantment.field_180314_l.effectId, itemStack);
+
+				entity.attackEntityFrom(DamageSource.causePlayerDamage(entityPlayer), Constants.AOTDToolMaterials.starMetalTool.getDamageVsEntity() + 4.0F + sharpnessDamage * 1.5F);
 				entity.addVelocity(-motionX * knockbackStrength * 0.6000000238418579D / hypotenuse, 0.1D, -motionZ * knockbackStrength * 0.6000000238418579D / hypotenuse);
 			}
 		}

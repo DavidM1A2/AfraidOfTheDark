@@ -76,7 +76,7 @@ public class ItemIgneousSword extends AOTDChargableSword
 	@Override
 	public int percentChargePerAttack()
 	{
-		return 5;
+		return 10;
 	}
 
 	@Override

@@ -26,7 +26,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModOreDictionaryCompatability;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModRecipes;
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModThreads;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.PacketHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
@@ -41,9 +40,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -86,7 +83,7 @@ public class AfraidOfTheDark
 		MinecraftForge.TERRAIN_GEN_BUS.register(controller);
 		FMLCommonHandler.instance().bus().register(controller);
 		// Initialize any world events
-		MinecraftForge.EVENT_BUS.register(new WorldEvents());
+		FMLCommonHandler.instance().bus().register(new WorldEvents());
 		// Initialize debug file to spam chat with variables
 		if (Constants.isDebug)
 		{
@@ -119,7 +116,6 @@ public class AfraidOfTheDark
 		// Setup Potion effects
 		ModPotionEffects.initialize();
 		// Setup mod threads
-		ModThreads.register();
 
 		LogHelper.info("Pre-Initialization Complete");
 	}
@@ -176,28 +172,6 @@ public class AfraidOfTheDark
 			event.registerServerCommand(new TPDimension());
 			event.registerServerCommand(new ResearchUnlocker());
 		}
-	}
-
-	/**
-	 * @param event
-	 *            Register threads that begin once the server is started
-	 */
-	@Mod.EventHandler
-	public void serverStartedEvent(final FMLServerStartedEvent event)
-	{
-		// Launch any threads to  be used in game
-		ModThreads.startInGameThreads();
-	}
-
-	/**
-	 * @param event
-	 *            Stop threads that began once the server is started
-	 */
-	@Mod.EventHandler
-	public void serverStoppedEvent(final FMLServerStoppedEvent event)
-	{
-		// Stop any ingame threads
-		ModThreads.stopInGameThreads();
 	}
 
 	/**
