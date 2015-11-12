@@ -78,8 +78,8 @@ public class EntityAIAttackSplinterDrone extends EntityAIBase
 					animationHandler.activateAnimation("Charge", 0);
 					AfraidOfTheDark.getPacketHandler().sendToAllAround(new SyncAnimation("Charge", this.splinterDrone.getEntityId()), new TargetPoint(this.splinterDrone.dimension, this.splinterDrone.posX, this.splinterDrone.posY, this.splinterDrone.posZ, 50));
 				}
-			}			
-			
+			}
+
 			if (this.attackTime <= 0)
 			{
 				float force = MathHelper.sqrt_float(MathHelper.sqrt_double(this.splinterDrone.getDistanceSqToEntity(this.target))) * 0.5F;
@@ -88,9 +88,9 @@ public class EntityAIAttackSplinterDrone extends EntityAIBase
 				double zVelocity = this.target.posZ - this.splinterDrone.posZ;
 
 				this.splinterDrone.worldObj.playAuxSFXAtEntity(null, 1009, new BlockPos((int) this.splinterDrone.posX, (int) this.splinterDrone.posY, (int) this.splinterDrone.posZ), 0);
-				//EntitySmallFireball fireballAttack = new EntitySmallFireball(this.splinterDrone.worldObj, this.splinterDrone, xVelocity, yVelocity, zVelocity);
-				//fireballAttack.posY = this.splinterDrone.posY + (double) (this.splinterDrone.height / 2.0F) + 0.5D;
-				//this.splinterDrone.worldObj.spawnEntityInWorld(fireballAttack);
+				EntitySplinterDroneProjectile attack = new EntitySplinterDroneProjectile(this.splinterDrone.worldObj, this.splinterDrone, xVelocity, yVelocity, zVelocity);
+				attack.posY = this.splinterDrone.posY + (double) (this.splinterDrone.height / 2.0F) + 0.5D;
+				this.splinterDrone.worldObj.spawnEntityInWorld(attack);
 
 				this.attackTime = TIME_BETWEEN_ATTACKS;
 			}

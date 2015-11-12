@@ -30,6 +30,7 @@ public class EntitySplinterDrone extends EntityMob implements IMCAnimatedEntity
 	{
 		super(par1World);
 		this.setSize(0.8F, 3.0F);
+		this.isImmuneToFire = true;
 
 		this.tasks.addTask(3, new EntityAIWatchClosest(this, EntityPlayer.class, (float) EntitySplinterDrone.AGRO_RANGE));
 		this.tasks.addTask(4, new EntityAILookIdleSplinterDrone(this));
