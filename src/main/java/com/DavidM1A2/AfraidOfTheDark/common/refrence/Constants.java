@@ -87,8 +87,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.EnumHelper;
 
@@ -184,14 +182,6 @@ public final class Constants
 		{ 3, 8, 6, 3 }, 20);
 		public static final ArmorMaterial starMetal = EnumHelper.addArmorMaterial("starMetal", "texture", 100, new int[]
 		{ 3, 8, 6, 3 }, 20);
-	}
-
-	public static final class AOTDDamageSources
-	{
-		public static DamageSource getSilverDamage(EntityPlayer entityPlayer)
-		{
-			return new EntityDamageSource("silverDamage", entityPlayer);
-		}
 	}
 
 	public static final class NightmareWorld

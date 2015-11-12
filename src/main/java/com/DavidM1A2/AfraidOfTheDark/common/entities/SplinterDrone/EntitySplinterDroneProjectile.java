@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDamageSources;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -16,8 +17,6 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntityDamageSourceIndirect;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
@@ -112,7 +111,7 @@ public class EntitySplinterDroneProjectile extends Entity implements IMCAnimated
 			{
 				if (this.worldObj.getBlockState(new BlockPos(this.tileX, this.tileY, this.tileZ)).getBlock() == this.insideOf)
 				{
-					++this.ticksAlive;
+					this.ticksAlive = this.ticksAlive + 1;
 
 					if (this.ticksAlive == 600)
 					{
@@ -131,7 +130,12 @@ public class EntitySplinterDroneProjectile extends Entity implements IMCAnimated
 			}
 			else
 			{
-				++this.ticksInAir;
+				this.ticksInAir = this.ticksInAir + 1;
+			}
+
+			if (this.ticksInAir > 600 && !worldObj.isRemote)
+			{
+				this.setDead();
 			}
 
 			Vec3 vec3 = new Vec3(this.posX, this.posY, this.posZ);
@@ -211,24 +215,15 @@ public class EntitySplinterDroneProjectile extends Entity implements IMCAnimated
 			this.rotationYaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * 0.2F;
 			float f2 = this.getMotionFactor();
 
-			if (this.isInWater())
-			{
-				for (int j = 0; j < 4; ++j)
-				{
-					float f3 = 0.25F;
-					this.worldObj.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX - this.motionX * (double) f3, this.posY - this.motionY * (double) f3, this.posZ - this.motionZ * (double) f3, this.motionX, this.motionY, this.motionZ, new int[0]);
-				}
-
-				f2 = 0.8F;
-			}
-
 			this.motionX += this.accelerationX;
 			this.motionY += this.accelerationY;
 			this.motionZ += this.accelerationZ;
 			this.motionX *= (double) f2;
 			this.motionY *= (double) f2;
 			this.motionZ *= (double) f2;
-			this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, this.posX, this.posY + 0.5D, this.posZ, 0.0D, 0.0D, 0.0D, new int[0]);
+
+			//this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, this.posX, this.posY + 0.5D, this.posZ, 0.0D, 0.0D, 0.0D, new int[0]);
+
 			this.setPosition(this.posX, this.posY, this.posZ);
 		}
 	}
@@ -242,7 +237,7 @@ public class EntitySplinterDroneProjectile extends Entity implements IMCAnimated
 		{
 			if (movingObjectPosition.entityHit != null)
 			{
-				if (movingObjectPosition.entityHit.attackEntityFrom(new EntityDamageSourceIndirect("ice", this, this.shootingEntity).setProjectile(), 4.0F))
+				if (movingObjectPosition.entityHit.attackEntityFrom(AOTDDamageSources.causePlasmaBallDamage(this, this.shootingEntity), 1.0F))
 				{
 					this.func_174815_a(this.shootingEntity, movingObjectPosition.entityHit);
 

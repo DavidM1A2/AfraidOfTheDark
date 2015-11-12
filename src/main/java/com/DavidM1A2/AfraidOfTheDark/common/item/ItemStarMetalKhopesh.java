@@ -10,6 +10,7 @@ import java.util.List;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.ICanTakeSilverDamage;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDChargableSword;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDamageSources;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.threads.PlayerSpinning;
@@ -71,7 +72,7 @@ public class ItemStarMetalKhopesh extends AOTDChargableSword
 			{
 				if (AOTDPlayerData.get(player).getHasStartedAOTD())
 				{
-					entity.attackEntityFrom(Constants.AOTDDamageSources.getSilverDamage(player), 10F);
+					entity.attackEntityFrom(AOTDDamageSources.causeSilverDamage(player), 10F);
 				}
 			}
 			return super.onLeftClickEntity(stack, player, entity);
