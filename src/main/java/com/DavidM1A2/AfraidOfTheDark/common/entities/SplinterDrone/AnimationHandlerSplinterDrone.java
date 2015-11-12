@@ -15,7 +15,7 @@ public class AnimationHandlerSplinterDrone extends AnimationHandler
 	{
 		animChannels.put("Activate", new ChannelActivate("Activate", 25.0F, 100, Channel.LINEAR));
 		animChannels.put("Charge", new ChannelCharge("Charge", 100.0F, 100, Channel.LINEAR));
-		animChannels.put("Idle", new ChannelIdle("Idle", 25.0F, 100, Channel.LOOP));
+		animChannels.put("Idle", new ChannelIdle("Idle", 25.0F, 100, Channel.LINEAR));
 	}
 
 	public AnimationHandlerSplinterDrone(IMCAnimatedEntity entity)

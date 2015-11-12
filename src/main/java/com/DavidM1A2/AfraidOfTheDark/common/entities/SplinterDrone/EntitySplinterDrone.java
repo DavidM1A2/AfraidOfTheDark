@@ -6,7 +6,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.Animation
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncAnimation;
 
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
@@ -49,6 +48,13 @@ public class EntitySplinterDrone extends EntityMob implements IMCAnimatedEntity
 				this.animHandler.activateAnimation("Activate", 0);
 				AfraidOfTheDark.getPacketHandler().sendToAllAround(new SyncAnimation("Activate", this.getEntityId()), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 50));
 				this.hasPlayedStartAnimation = true;
+			}
+		}
+		if (!animHandler.isAnimationActive("Activate") && !animHandler.isAnimationActive("Charge") && !animHandler.isAnimationActive("Idle"))
+		{
+			if (this.worldObj.isRemote)
+			{
+				animHandler.activateAnimation("Idle", 0);
 			}
 		}
 		super.onEntityUpdate();
