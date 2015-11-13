@@ -15,6 +15,10 @@ import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicGenerator;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.UnsupportedLocationException;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockAir;
+import net.minecraft.block.BlockLeaves;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class GenerateGnomishCity
@@ -113,6 +117,7 @@ public class GenerateGnomishCity
 							SchematicGenerator.generateSchematic(Constants.AOTDSchematics.stairwell, world, chunkX + i * 50 + 13, y + k * 15 + 15, chunkZ + j * 50 + 13);
 							SchematicGenerator.generateSchematic(Constants.AOTDSchematics.stairwell, world, chunkX + i * 50 + 13, y + k * 15 + 31, chunkZ + j * 50 + 13);
 
+							this.fixStairs(world, chunkX + i * 50 + 13, y + k * 15 + 47, chunkZ + j * 50 + 13);
 						}
 						else
 						{
@@ -140,5 +145,43 @@ public class GenerateGnomishCity
 		}
 
 		// +22 for the enaria dungeon
+	}
+
+	private void fixStairs(World world, int x, int y, int z)
+	{
+		while (y > 5)
+		{
+			Block block1 = world.getBlockState(new BlockPos(x + 3, y, z - 1)).getBlock();
+			Block block2 = world.getBlockState(new BlockPos(x - 1, y, z + 3)).getBlock();
+			Block block3 = world.getBlockState(new BlockPos(x + 7, y, z + 3)).getBlock();
+			Block block4 = world.getBlockState(new BlockPos(x + 3, y, z + 7)).getBlock();
+
+			boolean levelValidToRemove = block1 instanceof BlockAir || block1 instanceof BlockLeaves;
+			levelValidToRemove = levelValidToRemove && (block2 instanceof BlockAir || block2 instanceof BlockLeaves);
+			levelValidToRemove = levelValidToRemove && (block3 instanceof BlockAir || block3 instanceof BlockLeaves);
+			levelValidToRemove = levelValidToRemove && (block4 instanceof BlockAir || block4 instanceof BlockLeaves);
+
+			if (levelValidToRemove)
+			{
+				this.clearLevel(world, x, y, z);
+			}
+			else
+			{
+				return;
+			}
+
+			y = y - 1;
+		}
+	}
+
+	private void clearLevel(World world, int x, int y, int z)
+	{
+		for (int i = 0; i < 7; i++)
+		{
+			for (int j = 0; j < 7; j++)
+			{
+				world.setBlockToAir(new BlockPos(x + i, y, z + j));
+			}
+		}
 	}
 }
