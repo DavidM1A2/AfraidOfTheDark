@@ -87,13 +87,13 @@ public class ModBlocks
 		GameRegistry.registerBlock(ModBlocks.gravewoodLeaves, ItemGravewoodLeaves.class, "gravewoodLeaves");
 		GameRegistry.registerBlock(ModBlocks.gravewood, "gravewood");
 		GameRegistry.registerBlock(ModBlocks.gravewoodPlanks, "gravewoodPlanks");
-		Blocks.fire.func_180686_a(ModBlocks.gravewoodPlanks, 5, 5);
+		Blocks.fire.setFireInfo(ModBlocks.gravewoodPlanks, 5, 5);
 		GameRegistry.registerBlock(ModBlocks.gravewoodStairs, "gravewoodStairs");
-		Blocks.fire.func_180686_a(ModBlocks.gravewoodStairs, 5, 5);
+		Blocks.fire.setFireInfo(ModBlocks.gravewoodStairs, 5, 5);
 		GameRegistry.registerBlock(ModBlocks.gravewoodHalfSlab, ItemGravewoodSlab.class, "gravewoodHalfSlab", ModBlocks.gravewoodHalfSlab, ModBlocks.gravewoodDoubleSlab, false);
-		Blocks.fire.func_180686_a(ModBlocks.gravewoodHalfSlab, 5, 5);
+		Blocks.fire.setFireInfo(ModBlocks.gravewoodHalfSlab, 5, 5);
 		GameRegistry.registerBlock(ModBlocks.gravewoodDoubleSlab, ItemGravewoodSlab.class, "gravewoodDoubleSlab", ModBlocks.gravewoodHalfSlab, ModBlocks.gravewoodDoubleSlab, true);
-		Blocks.fire.func_180686_a(ModBlocks.gravewoodDoubleSlab, 5, 5);
+		Blocks.fire.setFireInfo(ModBlocks.gravewoodDoubleSlab, 5, 5);
 		GameRegistry.registerBlock(ModBlocks.sunstoneOre, "sunstoneOre");
 		GameRegistry.registerBlock(ModBlocks.astralSilverOre, "astralSilverOre");
 		GameRegistry.registerBlock(ModBlocks.meteor, "meteor");

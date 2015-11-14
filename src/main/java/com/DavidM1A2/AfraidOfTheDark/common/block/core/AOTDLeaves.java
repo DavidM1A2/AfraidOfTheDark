@@ -57,7 +57,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 	{
 		super();
 		this.setCreativeTab(Constants.AFRAID_OF_THE_DARK);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(AOTDLeaves.VARIANT, AOTDTreeTypes.GRAVEWOOD).withProperty(BlockLeaves.field_176236_b, Boolean.valueOf(true)).withProperty(BlockLeaves.field_176237_a, Boolean.valueOf(true)));
+		this.setDefaultState(this.blockState.getBaseState().withProperty(AOTDLeaves.VARIANT, AOTDTreeTypes.GRAVEWOOD).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(true)).withProperty(BlockLeaves.DECAYABLE, Boolean.valueOf(true)));
 		this.setTickRandomly(true);
 	}
 
@@ -101,16 +101,9 @@ public abstract class AOTDLeaves extends BlockLeaves
 
 	// Interface implements it so we need to, but it's unused
 	@Override
-	public EnumType func_176233_b(final int p_176233_1_)
+	public EnumType getWoodType(final int p_176233_1_)
 	{
 		return null;
-	}
-
-	// on decay i believe (Currently no saplings!)
-	@Override
-	protected void func_176234_a(final World worldIn, final BlockPos p_176234_2_, final IBlockState p_176234_3_, final int p_176234_4_)
-	{
-		return;
 	}
 
 	/**
@@ -136,7 +129,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 	@Override
 	public IBlockState getStateFromMeta(final int meta)
 	{
-		return this.getDefaultState().withProperty(AOTDLeaves.VARIANT, AOTDTreeTypes.getTypeFromMeta(meta)).withProperty(BlockLeaves.field_176237_a, Boolean.valueOf((meta & 4) == 0)).withProperty(BlockLeaves.field_176236_b, Boolean.valueOf((meta & 8) > 0));
+		return this.getDefaultState().withProperty(AOTDLeaves.VARIANT, AOTDTreeTypes.getTypeFromMeta(meta)).withProperty(BlockLeaves.DECAYABLE, Boolean.valueOf((meta & 4) == 0)).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf((meta & 8) > 0));
 	}
 
 	/**
@@ -148,12 +141,12 @@ public abstract class AOTDLeaves extends BlockLeaves
 		final byte b0 = 0;
 		int i = b0 | ((AOTDTreeTypes) state.getValue(AOTDLeaves.VARIANT)).getMetadata();
 
-		if (!((Boolean) state.getValue(BlockLeaves.field_176237_a)).booleanValue())
+		if (!((Boolean) state.getValue(BlockLeaves.DECAYABLE)).booleanValue())
 		{
 			i |= 4;
 		}
 
-		if (((Boolean) state.getValue(BlockLeaves.field_176236_b)).booleanValue())
+		if (((Boolean) state.getValue(BlockLeaves.CHECK_DECAY)).booleanValue())
 		{
 			i |= 8;
 		}
@@ -166,7 +159,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 	protected BlockState createBlockState()
 	{
 		return new BlockState(this, new IProperty[]
-		{ AOTDLeaves.VARIANT, BlockLeaves.field_176236_b, BlockLeaves.field_176237_a });
+		{ AOTDLeaves.VARIANT, BlockLeaves.CHECK_DECAY, BlockLeaves.DECAYABLE });
 	}
 
 	/**

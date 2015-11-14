@@ -19,6 +19,7 @@ import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public abstract class AOTDSapling extends BlockBush implements IGrowable
@@ -42,7 +43,7 @@ public abstract class AOTDSapling extends BlockBush implements IGrowable
 		{
 			super.updateTick(world, blockPos, iBlockState, random);
 
-			if (world.getLightFromNeighbors(blockPos.offsetUp()) >= 9 && random.nextInt(7) == 0)
+			if (world.getLightFromNeighbors(blockPos.offset(EnumFacing.UP)) >= 9 && random.nextInt(7) == 0)
 			{
 				this.updateBlock(world, blockPos, iBlockState, random);
 			}
@@ -70,12 +71,6 @@ public abstract class AOTDSapling extends BlockBush implements IGrowable
 	public int damageDropped(IBlockState state)
 	{
 		return ((AOTDTreeTypes) state.getValue(TYPE_PROP)).getMetadata();
-	}
-
-	@Override
-	public boolean isStillGrowing(World worldIn, BlockPos blockPos, IBlockState iBlockState, boolean booleanPar)
-	{
-		return true;
 	}
 
 	@Override

@@ -84,7 +84,7 @@ public class VoidChestSkyRenderer extends IRenderHandler
 		}
 
 		GlStateManager.depthMask(true);
-		GlStateManager.func_179098_w();
+		GlStateManager.enableTexture2D();
 		GlStateManager.enableAlpha();
 	}
 }

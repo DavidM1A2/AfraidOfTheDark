@@ -36,7 +36,7 @@ public class TPDimension implements ICommand
 
 	// This is the name of the command
 	@Override
-	public String getCommandName()
+	public String getName()
 	{
 		return "debugTP";
 	}
@@ -50,14 +50,14 @@ public class TPDimension implements ICommand
 
 	// Aliases of the command
 	@Override
-	public List getCommandAliases()
+	public List getAliases()
 	{
 		return this.aliases;
 	}
 
 	// What to do when the command happens
 	@Override
-	public void processCommand(final ICommandSender iCommandSender, final String[] p_71515_2_)
+	public void execute(final ICommandSender iCommandSender, final String[] p_71515_2_)
 	{
 		final EntityPlayer sender = (EntityPlayer) iCommandSender.getCommandSenderEntity();
 		if (sender.dimension != Constants.VoidChestWorld.VOID_CHEST_WORLD_ID)
@@ -71,7 +71,7 @@ public class TPDimension implements ICommand
 	}
 
 	@Override
-	public boolean canCommandSenderUseCommand(final ICommandSender p_71519_1_)
+	public boolean canCommandSenderUse(final ICommandSender p_71519_1_)
 	{
 		return true;
 	}

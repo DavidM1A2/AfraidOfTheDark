@@ -40,7 +40,7 @@ public class InsanityCheck implements ICommand
 
 	// This is the name of the command
 	@Override
-	public String getCommandName()
+	public String getName()
 	{
 		return "debug";
 	}
@@ -54,14 +54,14 @@ public class InsanityCheck implements ICommand
 
 	// Aliases of the command
 	@Override
-	public List getCommandAliases()
+	public List getAliases()
 	{
 		return this.aliases;
 	}
 
 	// What to do when the command happens
 	@Override
-	public void processCommand(final ICommandSender iCommandSender, final String[] p_71515_2_)
+	public void execute(final ICommandSender iCommandSender, final String[] p_71515_2_)
 	{
 		final EntityPlayer sender = (EntityPlayer) iCommandSender.getCommandSenderEntity();
 		iCommandSender.addChatMessage(new ChatComponentText("Your current insanity is: " + AOTDPlayerData.get(sender).getPlayerInsanity() + "%"));
@@ -75,7 +75,7 @@ public class InsanityCheck implements ICommand
 	}
 
 	@Override
-	public boolean canCommandSenderUseCommand(final ICommandSender p_71519_1_)
+	public boolean canCommandSenderUse(final ICommandSender p_71519_1_)
 	{
 		return true;
 	}
@@ -90,7 +90,6 @@ public class InsanityCheck implements ICommand
 	@Override
 	public List addTabCompletionOptions(final ICommandSender sender, final String[] args, final BlockPos pos)
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

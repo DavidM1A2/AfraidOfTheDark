@@ -47,7 +47,7 @@ public abstract class AOTDSlab extends BlockSlab
 		// Is this a double or single half slab?
 		if (!this.isDouble())
 		{
-			iblockstate = iblockstate.withProperty(BlockSlab.HALF_PROP, BlockSlab.EnumBlockHalf.BOTTOM);
+			iblockstate = iblockstate.withProperty(BlockSlab.HALF, BlockSlab.EnumBlockHalf.BOTTOM);
 		}
 		this.useNeighborBrightness = !this.isDouble();
 
@@ -74,25 +74,16 @@ public abstract class AOTDSlab extends BlockSlab
 		return Item.getItemFromBlock(ModBlocks.gravewoodHalfSlab);
 	}
 
-	/**
-	 * Returns the slab block name with the type associated with it
-	 */
-	@Override
-	public String getFullSlabName(final int meta)
-	{
-		return this.getUnlocalizedName();
-	}
-
 	// What property is this slab?
 	@Override
-	public IProperty func_176551_l()
+	public IProperty getVariantProperty()
 	{
 		return AOTDSlab.VARIANT_PROP;
 	}
 
 	// Get type from item
 	@Override
-	public Object func_176553_a(final ItemStack itemStack)
+	public Object getVariant(final ItemStack itemStack)
 	{
 		return AOTDTreeTypes.getTypeFromMeta(itemStack.getMetadata() & 7);
 	}
@@ -127,7 +118,7 @@ public abstract class AOTDSlab extends BlockSlab
 
 		if (!this.isDouble())
 		{
-			iblockstate = iblockstate.withProperty(BlockSlab.HALF_PROP, (meta & 8) == 0 ? BlockSlab.EnumBlockHalf.BOTTOM : BlockSlab.EnumBlockHalf.TOP);
+			iblockstate = iblockstate.withProperty(BlockSlab.HALF, (meta & 8) == 0 ? BlockSlab.EnumBlockHalf.BOTTOM : BlockSlab.EnumBlockHalf.TOP);
 		}
 
 		return iblockstate;
@@ -142,7 +133,7 @@ public abstract class AOTDSlab extends BlockSlab
 		final byte b0 = 0;
 		int i = b0 | ((AOTDTreeTypes) state.getValue(AOTDSlab.VARIANT_PROP)).getMetadata();
 
-		if (!this.isDouble() && (state.getValue(BlockSlab.HALF_PROP) == BlockSlab.EnumBlockHalf.TOP))
+		if (!this.isDouble() && (state.getValue(BlockSlab.HALF) == BlockSlab.EnumBlockHalf.TOP))
 		{
 			i |= 8;
 		}
@@ -156,7 +147,7 @@ public abstract class AOTDSlab extends BlockSlab
 	{
 		return this.isDouble() ? new BlockState(this, new IProperty[]
 		{ AOTDSlab.VARIANT_PROP }) : new BlockState(this, new IProperty[]
-		{ BlockSlab.HALF_PROP, AOTDSlab.VARIANT_PROP });
+		{ BlockSlab.HALF, AOTDSlab.VARIANT_PROP });
 	}
 
 	/**
@@ -166,6 +157,15 @@ public abstract class AOTDSlab extends BlockSlab
 	public int damageDropped(final IBlockState state)
 	{
 		return ((AOTDTreeTypes) state.getValue(AOTDSlab.VARIANT_PROP)).getMetadata();
+	}
+
+	/**
+	 * Returns the slab block name with the type associated with it
+	 */
+	@Override
+	public String getUnlocalizedName(final int meta)
+	{
+		return this.getUnlocalizedName();
 	}
 
 	@Override

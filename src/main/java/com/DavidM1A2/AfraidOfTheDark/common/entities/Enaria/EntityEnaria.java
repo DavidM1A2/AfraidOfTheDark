@@ -48,7 +48,7 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 		this.setSize(0.8F, 1.8F);
 
 		this.setCustomNameTag("Enaria");
-		
+
 		this.tasks.addTask(1, new EntityAISwimming(this));
 		this.tasks.addTask(2, new EntityAIAttackEnaria(this));
 		this.tasks.addTask(3, new EntityAIFollowTarget(this, 8.0D));
@@ -66,7 +66,7 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 		{
 			if (!this.getEntityData().getBoolean(IS_VALID))
 			{
-				this.killCommand();
+				this.onKillCommand();
 			}
 		}
 		if (this.worldObj.isRemote)
@@ -192,9 +192,9 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 			}
 		}
 	}
-	
+
 	@Override
-	public IChatComponent getDisplayName() 
+	public IChatComponent getDisplayName()
 	{
 		return new ChatComponentText(EnumChatFormatting.RED + "" + EnumChatFormatting.BOLD + super.getDisplayName().getFormattedText());
 	}

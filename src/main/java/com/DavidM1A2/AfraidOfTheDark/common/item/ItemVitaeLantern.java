@@ -98,7 +98,7 @@ public class ItemVitaeLantern extends AOTDItem
 				if (AOTDEntityData.get(entityLivingBase).setVitaeLevel(newVitae))
 				{
 					entityLivingBase.worldObj.createExplosion(entityLivingBase, entityLivingBase.getPosition().getX(), entityLivingBase.getPosition().getY(), entityLivingBase.getPosition().getZ(), 2, true).doExplosionB(true);
-					entityLivingBase.killCommand();
+					entityLivingBase.onKillCommand();
 				}
 				AOTDEntityData.get(entityLivingBase).syncVitaeLevel();
 
@@ -152,7 +152,7 @@ public class ItemVitaeLantern extends AOTDItem
 							if (!entityPlayer.capabilities.isCreativeMode)
 							{
 								entityPlayer.worldObj.createExplosion(entityPlayer, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ(), 2, true).doExplosionB(true);
-								entityPlayer.killCommand();
+								entityPlayer.onKillCommand();
 							}
 						}
 						AOTDEntityData.get(entityPlayer).syncVitaeLevel();
@@ -168,7 +168,7 @@ public class ItemVitaeLantern extends AOTDItem
 							if (!entityPlayer.capabilities.isCreativeMode)
 							{
 								entityPlayer.worldObj.createExplosion(entityPlayer, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ(), 2, true).doExplosionB(true);
-								entityPlayer.killCommand();
+								entityPlayer.onKillCommand();
 							}
 						}
 						AOTDEntityData.get(entityPlayer).syncVitaeLevel();
@@ -242,7 +242,7 @@ public class ItemVitaeLantern extends AOTDItem
 							if (!entityPlayer.capabilities.isCreativeMode)
 							{
 								entityPlayer.worldObj.createExplosion(entityPlayer, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ(), 2, true).doExplosionB(true);
-								entityPlayer.killCommand();
+								entityPlayer.onKillCommand();
 							}
 						}
 						AOTDEntityData.get(entityPlayer).syncVitaeLevel();
@@ -261,7 +261,7 @@ public class ItemVitaeLantern extends AOTDItem
 							if (!entityPlayer.capabilities.isCreativeMode)
 							{
 								entityPlayer.worldObj.createExplosion(entityPlayer, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ(), 2, true).doExplosionB(true);
-								entityPlayer.killCommand();
+								entityPlayer.onKillCommand();
 							}
 						}
 						AOTDEntityData.get(entityPlayer).syncVitaeLevel();

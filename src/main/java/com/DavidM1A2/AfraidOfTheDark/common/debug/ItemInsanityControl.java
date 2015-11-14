@@ -51,7 +51,7 @@ public class ItemInsanityControl extends AOTDItem
 					if (!myPlayer.capabilities.isCreativeMode)
 					{
 						myPlayer.worldObj.createExplosion(myPlayer, myPlayer.getPosition().getX(), myPlayer.getPosition().getY(), myPlayer.getPosition().getZ(), 2, true).doExplosionB(true);
-						myPlayer.killCommand();
+						myPlayer.onKillCommand();
 					}
 				}
 				AOTDEntityData.get(myPlayer).syncVitaeLevel();
@@ -65,7 +65,7 @@ public class ItemInsanityControl extends AOTDItem
 					if (!myPlayer.capabilities.isCreativeMode)
 					{
 						myPlayer.worldObj.createExplosion(myPlayer, myPlayer.getPosition().getX(), myPlayer.getPosition().getY(), myPlayer.getPosition().getZ(), 2, true).doExplosionB(true);
-						myPlayer.killCommand();
+						myPlayer.onKillCommand();
 					}
 				}
 				AOTDEntityData.get(myPlayer).syncVitaeLevel();

@@ -73,16 +73,16 @@ public class BlockGravewood extends BlockLog
 		switch (meta & 12)
 		{
 			case 0:
-				iblockstate = iblockstate.withProperty(BlockLog.AXIS_PROP, BlockLog.EnumAxis.Y);
+				iblockstate = iblockstate.withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.Y);
 				break;
 			case 4:
-				iblockstate = iblockstate.withProperty(BlockLog.AXIS_PROP, BlockLog.EnumAxis.X);
+				iblockstate = iblockstate.withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.X);
 				break;
 			case 8:
-				iblockstate = iblockstate.withProperty(BlockLog.AXIS_PROP, BlockLog.EnumAxis.Z);
+				iblockstate = iblockstate.withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.Z);
 				break;
 			default:
-				iblockstate = iblockstate.withProperty(BlockLog.AXIS_PROP, BlockLog.EnumAxis.NONE);
+				iblockstate = iblockstate.withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.NONE);
 		}
 
 		return iblockstate;
@@ -97,7 +97,7 @@ public class BlockGravewood extends BlockLog
 		final byte b0 = 0;
 		int i = b0 | ((AOTDTreeTypes) state.getValue(BlockGravewood.VARIANT)).getMetadata();
 
-		switch (BlockGravewood.SwitchEnumAxis.switchAxis[((BlockLog.EnumAxis) state.getValue(BlockLog.AXIS_PROP)).ordinal()])
+		switch (BlockGravewood.SwitchEnumAxis.switchAxis[((BlockLog.EnumAxis) state.getValue(BlockLog.LOG_AXIS)).ordinal()])
 		{
 			case 1:
 				i |= 4;
@@ -117,7 +117,7 @@ public class BlockGravewood extends BlockLog
 	protected BlockState createBlockState()
 	{
 		return new BlockState(this, new IProperty[]
-		{ BlockGravewood.VARIANT, BlockLog.AXIS_PROP });
+		{ BlockGravewood.VARIANT, BlockLog.LOG_AXIS });
 	}
 
 	// Can these woods stack?

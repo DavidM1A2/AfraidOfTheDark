@@ -28,6 +28,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public final class SchematicGenerator
@@ -143,10 +144,10 @@ public final class SchematicGenerator
 			// Doors need to be specially placed because reasons, things, and stuff (top & bottom need to be placed at the same time)
 			if (next instanceof BlockDoor)
 			{
-				if (blockState.getValue(BlockDoor.HALF_PROP).equals(BlockDoor.EnumDoorHalf.LOWER))
+				if (blockState.getValue(BlockDoor.HALF).equals(BlockDoor.EnumDoorHalf.LOWER))
 				{
 					WorldGenerationUtility.setBlockStateFast(world, blockPos, blockState, 3);
-					WorldGenerationUtility.setBlockStateFast(world, blockPos.offsetUp(), blockState.withProperty(BlockDoor.HALF_PROP, BlockDoor.EnumDoorHalf.UPPER), 3);
+					WorldGenerationUtility.setBlockStateFast(world, blockPos.offset(EnumFacing.UP), blockState.withProperty(BlockDoor.HALF, BlockDoor.EnumDoorHalf.UPPER), 3);
 				}
 			}
 			else

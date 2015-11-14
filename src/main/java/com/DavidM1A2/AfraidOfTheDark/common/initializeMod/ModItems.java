@@ -42,9 +42,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls.ItemResearchScr
 import com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls.ItemResearchScrollInsanity;
 import com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls.ItemResearchScrollVitae1;
 import com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls.ItemResearchScrollWristCrossbow;
-import com.DavidM1A2.AfraidOfTheDark.common.item.spawnEggs.ItemSpawnDeeeSyft;
-import com.DavidM1A2.AfraidOfTheDark.common.item.spawnEggs.ItemSpawnSplinterDrone;
-import com.DavidM1A2.AfraidOfTheDark.common.item.spawnEggs.ItemSpawnWerewolf;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 
@@ -73,9 +70,6 @@ public class ModItems
 	public static final ItemSilverBolt silverBolt = new ItemSilverBolt();
 	public static final ItemIgneousBolt igneousBolt = new ItemIgneousBolt();
 	public static final ItemStarMetalBolt starMetalBolt = new ItemStarMetalBolt();
-	public static final ItemSpawnWerewolf spawnWerewolf = new ItemSpawnWerewolf();
-	public static final ItemSpawnDeeeSyft spawnDeeeSyft = new ItemSpawnDeeeSyft();
-	public static final ItemSpawnSplinterDrone spawnSplinterDrone = new ItemSpawnSplinterDrone();
 	public static final IgneousArmor igneousHelmet = new IgneousArmor(Constants.AOTDArmorMaterials.igneous, 5, 0);
 	public static final IgneousArmor igneousChestplate = new IgneousArmor(Constants.AOTDArmorMaterials.igneous, 5, 1);
 	public static final IgneousArmor igneousLeggings = new IgneousArmor(Constants.AOTDArmorMaterials.igneous, 5, 2);
@@ -138,9 +132,6 @@ public class ModItems
 		GameRegistry.registerItem(ModItems.silverBolt, "silverBolt");
 		GameRegistry.registerItem(ModItems.igneousBolt, "igneousBolt");
 		GameRegistry.registerItem(ModItems.starMetalBolt, "starMetalBolt");
-		GameRegistry.registerItem(ModItems.spawnWerewolf, "spawnWerewolf");
-		GameRegistry.registerItem(ModItems.spawnDeeeSyft, "spawnDeeeSyft");
-		GameRegistry.registerItem(ModItems.spawnSplinterDrone, "spawnSplinterDrone");
 		GameRegistry.registerItem(ModItems.igneousHelmet, "igneousHelmet");
 		GameRegistry.registerItem(ModItems.igneousChestplate, "igneousChestplate");
 		GameRegistry.registerItem(ModItems.igneousLeggings, "igneousLeggings");
@@ -206,9 +197,6 @@ public class ModItems
 			itemModelMesher.register(ModItems.silverBolt, 0, new ModelResourceLocation(Refrence.MOD_ID + ":silverBolt", "inventory"));
 			itemModelMesher.register(ModItems.igneousBolt, 0, new ModelResourceLocation(Refrence.MOD_ID + ":igneousBolt", "inventory"));
 			itemModelMesher.register(ModItems.starMetalBolt, 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalBolt", "inventory"));
-			itemModelMesher.register(ModItems.spawnWerewolf, 0, new ModelResourceLocation(Refrence.MOD_ID + ":spawnWerewolf", "inventory"));
-			itemModelMesher.register(ModItems.spawnDeeeSyft, 0, new ModelResourceLocation(Refrence.MOD_ID + ":spawnDeeeSyft", "inventory"));
-			itemModelMesher.register(ModItems.spawnSplinterDrone, 0, new ModelResourceLocation(Refrence.MOD_ID + ":spawnSplinterDrone", "inventory"));
 			itemModelMesher.register(ModItems.igneousHelmet, 0, new ModelResourceLocation(Refrence.MOD_ID + ":igneousHelmet", "inventory"));
 			itemModelMesher.register(ModItems.igneousChestplate, 0, new ModelResourceLocation(Refrence.MOD_ID + ":igneousChestplate", "inventory"));
 			itemModelMesher.register(ModItems.igneousLeggings, 0, new ModelResourceLocation(Refrence.MOD_ID + ":igneousLeggings", "inventory"));

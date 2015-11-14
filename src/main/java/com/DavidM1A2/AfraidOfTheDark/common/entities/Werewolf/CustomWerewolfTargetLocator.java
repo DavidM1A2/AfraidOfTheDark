@@ -118,7 +118,7 @@ public class CustomWerewolfTargetLocator extends EntityAITarget
 		else
 		{
 			final double d0 = this.getTargetDistance();
-			final List list = this.taskOwner.worldObj.func_175647_a(this.targetClass, this.taskOwner.getEntityBoundingBox().expand(d0, 4.0D, d0), Predicates.and(this.targetEntitySelector, IEntitySelector.NOT_SPECTATING));
+			final List list = this.taskOwner.worldObj.getEntitiesWithinAABB(this.targetClass, this.taskOwner.getEntityBoundingBox().expand(d0, 4.0D, d0), Predicates.and(this.targetEntitySelector, IEntitySelector.NOT_SPECTATING));
 			Collections.sort(list, this.theCustomWerewolfTargetLocatorSorter);
 
 			if (list.isEmpty())

@@ -43,7 +43,7 @@ public class ItemAstralSilverSword extends AOTDSword
 		}
 		else
 		{
-			entity.attackEntityFrom(DamageSource.causePlayerDamage(player), this.func_150931_i());
+			entity.attackEntityFrom(DamageSource.causePlayerDamage(player), this.getDamageVsEntity());
 			return true;
 		}
 	}

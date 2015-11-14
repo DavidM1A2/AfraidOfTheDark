@@ -52,7 +52,7 @@ public class ItemIgneousSword extends AOTDChargableSword
 		}
 		else
 		{
-			entity.attackEntityFrom(DamageSource.causePlayerDamage(player), this.func_150931_i());
+			entity.attackEntityFrom(DamageSource.causePlayerDamage(player), this.getDamageVsEntity());
 			return true;
 		}
 	}

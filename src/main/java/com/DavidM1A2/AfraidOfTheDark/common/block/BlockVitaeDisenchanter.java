@@ -120,7 +120,7 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 	private void convertBook(EntityPlayer entityPlayer)
 	{
 		ItemStack itemstack = entityPlayer.getCurrentEquippedItem();
-		NBTTagList enchantments = ((ItemEnchantedBook) itemstack.getItem()).func_92110_g(itemstack);
+		NBTTagList enchantments = ((ItemEnchantedBook) itemstack.getItem()).getEnchantments(itemstack);
 		int numberOfXPBottlesToAdd = 0;
 
 		for (int i = 0; i < enchantments.tagCount(); i++)
@@ -173,7 +173,7 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 			ItemStack itemStack = entityPlayer.getCurrentEquippedItem();
 			if (itemStack != null && itemStack.getItem() instanceof ItemEnchantedBook)
 			{
-				NBTTagList enchantments = ((ItemEnchantedBook) itemStack.getItem()).func_92110_g(itemStack);
+				NBTTagList enchantments = ((ItemEnchantedBook) itemStack.getItem()).getEnchantments(itemStack);
 				int vitaeCost = 0;
 
 				for (int i = 0; i < enchantments.tagCount(); i++)
@@ -195,7 +195,7 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 						if (!entityPlayer.capabilities.isCreativeMode)
 						{
 							entityPlayer.worldObj.createExplosion(entityPlayer, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ(), 2, true).doExplosionB(true);
-							entityPlayer.killCommand();
+							entityPlayer.onKillCommand();
 						}
 					}
 					AOTDEntityData.get(entityPlayer).syncVitaeLevel();
@@ -261,7 +261,7 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 					}
 				}
 
-				ItemStack newBook = Items.enchanted_book.getEnchantedItemStack(new EnchantmentData(Enchantment.func_180306_c(enchantment.getInteger("id")), enchantment.getInteger("lvl")));
+				ItemStack newBook = Items.enchanted_book.getEnchantedItemStack(new EnchantmentData(Enchantment.getEnchantmentById(enchantment.getInteger("id")), enchantment.getInteger("lvl")));
 
 				if (entityPlayer.inventory.getFirstEmptyStack() < 0)
 				{
@@ -340,7 +340,7 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 							if (!entityPlayer.capabilities.isCreativeMode)
 							{
 								entityPlayer.worldObj.createExplosion(entityPlayer, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ(), 2, true).doExplosionB(true);
-								entityPlayer.killCommand();
+								entityPlayer.onKillCommand();
 							}
 						}
 						AOTDEntityData.get(entityPlayer).syncVitaeLevel();

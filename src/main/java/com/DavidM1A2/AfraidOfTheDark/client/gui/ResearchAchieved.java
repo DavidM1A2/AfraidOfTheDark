@@ -151,7 +151,7 @@ public class ResearchAchieved extends Gui
 			final int i = this.width - 160;
 			final int j = 0 - (int) (d1 * 36.0D);
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			GlStateManager.func_179098_w();
+			GlStateManager.enableTexture2D();
 			this.mc.getTextureManager().bindTexture(ResearchAchieved.achievementBg);
 			GlStateManager.disableLighting();
 			this.drawTexturedModalRect(i, j, 96, 202, 160, 32);
@@ -171,7 +171,7 @@ public class ResearchAchieved extends Gui
 			GlStateManager.enableRescaleNormal();
 			GlStateManager.enableColorMaterial();
 			GlStateManager.enableLighting();
-			this.renderItem.func_180450_b(this.icon, i + 8, j + 8);
+			this.renderItem.renderItemAndEffectIntoGUI(this.icon, i + 8, j + 8);
 			GlStateManager.disableLighting();
 			GlStateManager.depthMask(true);
 			GlStateManager.enableDepth();

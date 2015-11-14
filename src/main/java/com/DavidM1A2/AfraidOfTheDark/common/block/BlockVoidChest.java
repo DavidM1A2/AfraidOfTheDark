@@ -63,13 +63,13 @@ public class BlockVoidChest extends AOTDBlockTileEntity
 	@Override
 	public IBlockState onBlockPlaced(World world, BlockPos blockPos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
 	{
-		return this.getDefaultState().withProperty(FACING_PROP, placer.func_174811_aO().getOpposite());
+		return this.getDefaultState().withProperty(FACING_PROP, placer.getHorizontalFacing().getOpposite());
 	}
 
 	@Override
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
 	{
-		worldIn.setBlockState(pos, state.withProperty(FACING_PROP, placer.func_174811_aO().getOpposite()), 2);
+		worldIn.setBlockState(pos, state.withProperty(FACING_PROP, placer.getHorizontalFacing().getOpposite()), 2);
 	}
 
 	@Override

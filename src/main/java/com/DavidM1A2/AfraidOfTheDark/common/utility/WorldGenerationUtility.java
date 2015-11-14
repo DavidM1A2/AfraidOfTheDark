@@ -179,13 +179,13 @@ public class WorldGenerationUtility
 			{
 				if (existingIBlockState.getBlock() != parIBlockState.getBlock()) //Only fire block breaks when the block changes.
 					existingBlock.breakBlock(parChunk.getWorld(), parBlockPos, existingIBlockState);
-				TileEntity te = parChunk.func_177424_a(parBlockPos, Chunk.EnumCreateEntityType.CHECK);
+				TileEntity te = parChunk.getTileEntity(parBlockPos, Chunk.EnumCreateEntityType.CHECK);
 				if (te != null && te.shouldRefresh(parChunk.getWorld(), parBlockPos, existingIBlockState, parIBlockState))
 					parChunk.getWorld().removeTileEntity(parBlockPos);
 			}
 			else if (existingBlock.hasTileEntity(existingIBlockState))
 			{
-				TileEntity te = parChunk.func_177424_a(parBlockPos, Chunk.EnumCreateEntityType.CHECK);
+				TileEntity te = parChunk.getTileEntity(parBlockPos, Chunk.EnumCreateEntityType.CHECK);
 				if (te != null && te.shouldRefresh(parChunk.getWorld(), parBlockPos, existingIBlockState, parIBlockState))
 					parChunk.getWorld().removeTileEntity(parBlockPos);
 			}
@@ -231,7 +231,7 @@ public class WorldGenerationUtility
 
 				if (newBlock.hasTileEntity(parIBlockState))
 				{
-					tileentity = parChunk.func_177424_a(parBlockPos, Chunk.EnumCreateEntityType.CHECK);
+					tileentity = parChunk.getTileEntity(parBlockPos, Chunk.EnumCreateEntityType.CHECK);
 
 					if (tileentity == null)
 					{

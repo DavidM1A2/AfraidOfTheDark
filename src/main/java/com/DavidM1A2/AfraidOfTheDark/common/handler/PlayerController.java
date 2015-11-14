@@ -163,7 +163,7 @@ public class PlayerController
 			}
 			else
 			{
-				fogDensity.density = 0.1F - (float) EnchantmentHelper.func_180319_a(Minecraft.getMinecraft().thePlayer) * 0.03F;
+				fogDensity.density = 0.1F - (float) EnchantmentHelper.getRespiration(Minecraft.getMinecraft().thePlayer) * 0.03F;
 			}
 		}
 		else if (fogDensity.block.getMaterial() == Material.lava)
@@ -217,7 +217,7 @@ public class PlayerController
 		{
 			if (!event.entity.getEntityData().getBoolean(EntityEnaria.IS_VALID))
 			{
-				event.entity.killCommand();
+				event.entity.onKillCommand();
 			}
 		}
 	}

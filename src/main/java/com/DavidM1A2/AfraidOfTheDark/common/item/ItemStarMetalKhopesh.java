@@ -79,7 +79,7 @@ public class ItemStarMetalKhopesh extends AOTDChargableSword
 		}
 		else
 		{
-			entity.attackEntityFrom(DamageSource.causePlayerDamage(player), this.func_150931_i());
+			entity.attackEntityFrom(DamageSource.causePlayerDamage(player), this.getDamageVsEntity());
 			return true;
 		}
 	}
@@ -99,7 +99,7 @@ public class ItemStarMetalKhopesh extends AOTDChargableSword
 			if (entityObject instanceof EntityPlayer || entityObject instanceof EntityLiving)
 			{
 				EntityLivingBase entity = (EntityLivingBase) entityObject;
-				double knockbackStrength = EnchantmentHelper.getEnchantmentLevel(Enchantment.field_180313_o.effectId, itemStack) + 2;
+				double knockbackStrength = EnchantmentHelper.getEnchantmentLevel(Enchantment.knockback.effectId, itemStack) + 2;
 
 				double motionX = entityPlayer.getPosition().getX() - entity.getPosition().getX();
 				double motionZ = entityPlayer.getPosition().getZ() - entity.getPosition().getZ();
@@ -109,7 +109,7 @@ public class ItemStarMetalKhopesh extends AOTDChargableSword
 
 				double hypotenuse = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
 
-				int sharpnessDamage = EnchantmentHelper.getEnchantmentLevel(Enchantment.field_180314_l.effectId, itemStack);
+				int sharpnessDamage = EnchantmentHelper.getEnchantmentLevel(Enchantment.sharpness.effectId, itemStack);
 
 				entity.attackEntityFrom(DamageSource.causePlayerDamage(entityPlayer), Constants.AOTDToolMaterials.starMetalTool.getDamageVsEntity() + 4.0F + sharpnessDamage * 1.5F);
 				entity.addVelocity(-motionX * knockbackStrength * 0.6000000238418579D / hypotenuse, 0.1D, -motionZ * knockbackStrength * 0.6000000238418579D / hypotenuse);

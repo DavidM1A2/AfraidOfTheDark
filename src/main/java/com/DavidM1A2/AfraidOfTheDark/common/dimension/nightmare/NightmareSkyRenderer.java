@@ -34,7 +34,7 @@ public class NightmareSkyRenderer extends IRenderHandler
 		int strangeVariableInt = 2;
 		boolean someBooleanField = true;
 		VertexFormat vertexFormat = new VertexFormat();
-		vertexFormat.func_177349_a(new VertexFormatElement(0, VertexFormatElement.EnumType.FLOAT, VertexFormatElement.EnumUsage.POSITION, 3));
+		vertexFormat.setElement(new VertexFormatElement(0, VertexFormatElement.EnumType.FLOAT, VertexFormatElement.EnumUsage.POSITION, 3));
 		VertexBuffer someVertexBuffer = new VertexBuffer(vertexFormat);
 		VertexBuffer someVertexBuffer2 = new VertexBuffer(vertexFormat);
 		VertexBuffer someVertexBuffer3 = new VertexBuffer(vertexFormat);
@@ -42,7 +42,7 @@ public class NightmareSkyRenderer extends IRenderHandler
 		int glSkyList = starGLCallList + 1;
 		int glSkyList2 = starGLCallList + 2;
 
-		GlStateManager.func_179090_x();
+		GlStateManager.disableTexture2D();
 		Vec3 vec3 = world.getSkyColor(mc.getRenderViewEntity(), partialTicks);
 		float f1 = (float) vec3.xCoord;
 		float f2 = (float) vec3.yCoord;
@@ -67,11 +67,11 @@ public class NightmareSkyRenderer extends IRenderHandler
 
 		if (someBooleanField)
 		{
-			someVertexBuffer.func_177359_a();
+			someVertexBuffer.bindBuffer();
 			GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
 			GL11.glVertexPointer(3, GL11.GL_FLOAT, 12, 0L);
-			someVertexBuffer.func_177358_a(7);
-			someVertexBuffer.func_177361_b();
+			someVertexBuffer.drawArrays(7);
+			someVertexBuffer.unbindBuffer();
 			GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
 		}
 		else
@@ -93,7 +93,7 @@ public class NightmareSkyRenderer extends IRenderHandler
 
 		if (afloat != null)
 		{
-			GlStateManager.func_179090_x();
+			GlStateManager.disableTexture2D();
 			GlStateManager.shadeModel(7425);
 			GlStateManager.pushMatrix();
 			GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
@@ -115,10 +115,10 @@ public class NightmareSkyRenderer extends IRenderHandler
 			}
 
 			worldrenderer.startDrawing(6);
-			worldrenderer.func_178960_a(f7, f8, f9, afloat[3]);
+			worldrenderer.setColorRGBA_F(f7, f8, f9, afloat[3]);
 			worldrenderer.addVertex(0.0D, 100.0D, 0.0D);
 			boolean flag = true;
-			worldrenderer.func_178960_a(afloat[0], afloat[1], afloat[2], 0.0F);
+			worldrenderer.setColorRGBA_F(afloat[0], afloat[1], afloat[2], 0.0F);
 
 			for (int j = 0; j <= 16; ++j)
 			{
@@ -133,7 +133,7 @@ public class NightmareSkyRenderer extends IRenderHandler
 			GlStateManager.shadeModel(7424);
 		}
 
-		GlStateManager.func_179098_w();
+		GlStateManager.enableTexture2D();
 		GlStateManager.tryBlendFuncSeparate(770, 1, 1, 0);
 		GlStateManager.pushMatrix();
 		f7 = 1.0F - world.getRainStrength(partialTicks);
@@ -167,7 +167,7 @@ public class NightmareSkyRenderer extends IRenderHandler
 		worldrenderer.addVertexWithUV(f11, -100.0D, (-f11), f15, f16);
 		worldrenderer.addVertexWithUV((-f11), -100.0D, (-f11), f17, f16);
 		tessellator.draw();
-		GlStateManager.func_179090_x();
+		GlStateManager.disableTexture2D();
 		float f19 = world.getStarBrightness(partialTicks) * f7;
 
 		if (f19 > 0.0F)
@@ -176,11 +176,11 @@ public class NightmareSkyRenderer extends IRenderHandler
 
 			if (someBooleanField)
 			{
-				someVertexBuffer2.func_177359_a();
+				someVertexBuffer2.bindBuffer();
 				GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
 				GL11.glVertexPointer(3, GL11.GL_FLOAT, 12, 0L);
-				someVertexBuffer2.func_177358_a(7);
-				someVertexBuffer2.func_177361_b();
+				someVertexBuffer2.drawArrays(7);
+				someVertexBuffer2.unbindBuffer();
 				GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
 			}
 			else
@@ -194,7 +194,7 @@ public class NightmareSkyRenderer extends IRenderHandler
 		GlStateManager.enableAlpha();
 		GlStateManager.enableFog();
 		GlStateManager.popMatrix();
-		GlStateManager.func_179090_x();
+		GlStateManager.disableTexture2D();
 		GlStateManager.color(0.0F, 0.0F, 0.0F);
 		double d0 = mc.thePlayer.getPositionEyes(partialTicks).yCoord - world.getHorizon();
 
@@ -205,11 +205,11 @@ public class NightmareSkyRenderer extends IRenderHandler
 
 			if (someBooleanField)
 			{
-				someVertexBuffer3.func_177359_a();
+				someVertexBuffer3.bindBuffer();
 				GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
 				GL11.glVertexPointer(3, GL11.GL_FLOAT, 12, 0L);
-				someVertexBuffer3.func_177358_a(7);
-				someVertexBuffer3.func_177361_b();
+				someVertexBuffer3.drawArrays(7);
+				someVertexBuffer3.unbindBuffer();
 				GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
 			}
 			else
@@ -222,7 +222,7 @@ public class NightmareSkyRenderer extends IRenderHandler
 			f10 = -((float) (d0 + 65.0D));
 			f11 = -1.0F;
 			worldrenderer.startDrawingQuads();
-			worldrenderer.func_178974_a(0, 255);
+			worldrenderer.setColorRGBA_I(0, 255);
 			worldrenderer.addVertex(-1.0D, f10, 1.0D);
 			worldrenderer.addVertex(1.0D, f10, 1.0D);
 			worldrenderer.addVertex(1.0D, -1.0D, 1.0D);
@@ -259,7 +259,7 @@ public class NightmareSkyRenderer extends IRenderHandler
 		GlStateManager.translate(0.0F, -((float) (d0 - 16.0D)), 0.0F);
 		GlStateManager.callList(glSkyList2);
 		GlStateManager.popMatrix();
-		GlStateManager.func_179098_w();
+		GlStateManager.enableTexture2D();
 		GlStateManager.depthMask(true);
 	}
 }

@@ -64,7 +64,7 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 					if (AOTDEntityData.get(this).setVitaeLevel(newVitae))
 					{
 						this.worldObj.createExplosion(this, this.getPosition().getX(), this.getPosition().getY(), this.getPosition().getZ(), 2, true).doExplosionB(true);
-						this.killCommand();
+						this.onKillCommand();
 					}
 					AOTDEntityData.get(this).syncVitaeLevel();
 					this.setFlightCeiling(85 + (int) ((double) AOTDEntityData.get(this).getVitaeLevel() / (double) Constants.entityVitaeResistance.get(EntityDeeeSyft.class) * 150.0D));

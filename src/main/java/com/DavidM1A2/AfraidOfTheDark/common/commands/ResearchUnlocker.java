@@ -35,7 +35,7 @@ public class ResearchUnlocker implements ICommand
 
 	// This is the name of the command
 	@Override
-	public String getCommandName()
+	public String getName()
 	{
 		return "knowledge";
 	}
@@ -49,14 +49,14 @@ public class ResearchUnlocker implements ICommand
 
 	// Aliases of the command
 	@Override
-	public List getCommandAliases()
+	public List getAliases()
 	{
 		return this.aliases;
 	}
 
 	// What to do when the command happens
 	@Override
-	public void processCommand(final ICommandSender iCommandSender, final String[] p_71515_2_)
+	public void execute(final ICommandSender iCommandSender, final String[] p_71515_2_)
 	{
 		final EntityPlayer sender = (EntityPlayer) iCommandSender.getCommandSenderEntity();
 		if (!sender.worldObj.isRemote)
@@ -79,7 +79,7 @@ public class ResearchUnlocker implements ICommand
 	}
 
 	@Override
-	public boolean canCommandSenderUseCommand(final ICommandSender p_71519_1_)
+	public boolean canCommandSenderUse(final ICommandSender p_71519_1_)
 	{
 		return true;
 	}
@@ -94,7 +94,6 @@ public class ResearchUnlocker implements ICommand
 	@Override
 	public List addTabCompletionOptions(final ICommandSender sender, final String[] args, final BlockPos pos)
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

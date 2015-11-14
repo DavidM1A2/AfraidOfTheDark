@@ -13,6 +13,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDTreeTypes;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 
@@ -83,7 +84,7 @@ public class WorldGenGravewoodTrees extends WorldGenAbstractTree
 			}
 			else
 			{
-				final BlockPos down = p_180709_3_.offsetDown();
+				final BlockPos down = p_180709_3_.offset(EnumFacing.DOWN);
 				final Block block1 = worldIn.getBlockState(down).getBlock();
 				final boolean isSoil = block1 instanceof BlockDirt;
 				if (isSoil && (p_180709_3_.getY() < (256 - i - 1)))
@@ -120,12 +121,12 @@ public class WorldGenGravewoodTrees extends WorldGenAbstractTree
 
 					for (i2 = 0; i2 < i; ++i2)
 					{
-						final BlockPos upN = p_180709_3_.offsetUp(i2);
+						final BlockPos upN = p_180709_3_.offset(EnumFacing.UP, i2);
 						final Block block2 = worldIn.getBlockState(upN).getBlock();
 
 						if (block2.isAir(worldIn, upN) || block2.isLeaves(worldIn, upN))
 						{
-							this.func_175905_a(worldIn, p_180709_3_.offsetUp(i2), ModBlocks.gravewood, AOTDTreeTypes.GRAVEWOOD.getMetadata());
+							this.func_175905_a(worldIn, p_180709_3_.offset(EnumFacing.UP, i2), ModBlocks.gravewood, AOTDTreeTypes.GRAVEWOOD.getMetadata());
 						}
 					}
 

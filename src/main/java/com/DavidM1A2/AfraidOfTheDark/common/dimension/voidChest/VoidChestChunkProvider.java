@@ -61,7 +61,7 @@ public class VoidChestChunkProvider implements IChunkProvider
 	}
 
 	@Override
-	public Chunk func_177459_a(BlockPos blockPos)
+	public Chunk provideChunk(BlockPos blockPos)
 	{
 		return this.provideChunk(blockPos.getX() >> 4, blockPos.getZ() >> 4);
 	}
@@ -127,7 +127,7 @@ public class VoidChestChunkProvider implements IChunkProvider
 	}
 
 	@Override
-	public BlockPos func_180513_a(World world, String structureType, BlockPos blockPos)
+	public BlockPos getStrongholdGen(World world, String structureType, BlockPos blockPos)
 	{
 		// Gen structures
 		return null;
@@ -140,7 +140,7 @@ public class VoidChestChunkProvider implements IChunkProvider
 	}
 
 	@Override
-	public void func_180514_a(Chunk chunk, int x, int z)
+	public void recreateStructures(Chunk chunk, int x, int z)
 	{
 	}
 

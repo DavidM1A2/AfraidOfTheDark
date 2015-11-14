@@ -46,7 +46,7 @@ public class NightmareTeleporter extends Teleporter
 	}
 
 	@Override
-	public void func_180266_a(Entity entity, float entityYaw)
+	public void placeInPortal(Entity entity, float entityYaw)
 	{
 		if (dimensionNew == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
 		{

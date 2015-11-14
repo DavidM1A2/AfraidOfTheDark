@@ -442,8 +442,8 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 			font = stack.getItem().getFontRenderer(stack);
 		if (font == null)
 			font = fontRendererObj;
-		this.itemRender.func_180450_b(stack, x, y);
-		this.itemRender.func_180453_a(font, stack, x, y, null);
+		this.itemRender.renderItemAndEffectIntoGUI(stack, x, y);
+		this.itemRender.renderItemOverlayIntoGUI(font, stack, x, y, null);
 		this.zLevel = 0.0F;
 		this.itemRender.zLevel = 0.0F;
 	}

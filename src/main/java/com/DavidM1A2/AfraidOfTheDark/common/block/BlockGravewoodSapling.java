@@ -15,6 +15,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class BlockGravewoodSapling extends AOTDSapling
@@ -55,7 +56,7 @@ public class BlockGravewoodSapling extends AOTDSapling
 
 						if (block.isAir(world, blockpos1) || block.isLeaves(world, blockpos1))
 						{
-							this.setBlock(world, blockpos1, ModBlocks.gravewoodLeaves, AOTDTreeTypes.GRAVEWOOD.getMetadata());
+							world.setBlockState(blockpos1, ModBlocks.gravewoodLeaves.getStateFromMeta(AOTDTreeTypes.GRAVEWOOD.getMetadata()));
 						}
 					}
 				}
@@ -64,18 +65,19 @@ public class BlockGravewoodSapling extends AOTDSapling
 
 		for (i2 = 0; i2 < i; ++i2)
 		{
-			final BlockPos upN = blockPos.offsetUp(i2);
+			final BlockPos upN = blockPos.offset(EnumFacing.UP, i2);
 			final Block block2 = world.getBlockState(upN).getBlock();
 
 			if (block2.isAir(world, upN) || block2.isLeaves(world, upN))
 			{
-				this.setBlock(world, blockPos.offsetUp(i2), ModBlocks.gravewood, AOTDTreeTypes.GRAVEWOOD.getMetadata());
+				world.setBlockState(blockPos.offset(EnumFacing.UP, i2), ModBlocks.gravewood.getStateFromMeta(AOTDTreeTypes.GRAVEWOOD.getMetadata()));
 			}
 		}
 	}
 
-	public void setBlock(World world, BlockPos blockPos, Block block, int meta)
+	@Override
+	public boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient)
 	{
-		world.setBlockState(blockPos, block.getStateFromMeta(meta), 3);
+		return true;
 	}
 }

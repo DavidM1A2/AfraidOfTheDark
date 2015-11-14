@@ -39,13 +39,16 @@ public class ModEntities
 
 	public static void intialize()
 	{
-		// register bolt entities and the werewolf
+		// register entities
 		EntityRegistry.registerModEntity(EntityWerewolf.class, "werewolf", ModEntities.wereWolfID, Refrence.MOD_ID, 50, 1, true);
 		EntityRegistry.registerModEntity(EntityDeeeSyft.class, "deeeSyft", ModEntities.deeeSyft, Refrence.MOD_ID, 50, 1, true);
 		EntityRegistry.registerModEntity(EntityEnchantedSkeleton.class, "enchantedSkeleton", ModEntities.enchantedSkeletonID, Refrence.MOD_ID, 50, 1, true);
 		EntityRegistry.registerModEntity(EntityEnaria.class, "enaria", ModEntities.enariaID, Refrence.MOD_ID, 50, 1, true);
 		EntityRegistry.registerModEntity(EntitySplinterDrone.class, "splinterDrone", ModEntities.splinterDroneID, Refrence.MOD_ID, 50, 1, true);
 		EntityRegistry.registerModEntity(EntitySplinterDroneProjectile.class, "splinterDroneProjectile", ModEntities.splinterDroneProjectileID, Refrence.MOD_ID, 50, 1, true);
+		EntityRegistry.registerEgg(EntityWerewolf.class, 0x3B170B, 0x181907);
+		EntityRegistry.registerEgg(EntitySplinterDrone.class, 0xcc6600, 0x63300);
+		EntityRegistry.registerEgg(EntityEnchantedSkeleton.class, 0x996600, 0xe69900);
 
 		EntityRegistry.registerModEntity(EntityIronBolt.class, "ironBolt", ModEntities.ironBoltID, Refrence.MOD_ID, 50, 10, true);
 		EntityRegistry.registerModEntity(EntitySilverBolt.class, "silverBolt", ModEntities.silverBoltID, Refrence.MOD_ID, 50, 10, true);

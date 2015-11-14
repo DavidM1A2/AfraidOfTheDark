@@ -57,8 +57,7 @@ public abstract class AOTDParticleFX extends EntityFX
 		float f11 = (float) (this.prevPosX + (this.posX - this.prevPosX) * float1 - interpPosX);
 		float f12 = (float) (this.prevPosY + (this.posY - this.prevPosY) * float1 - interpPosY);
 		float f13 = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * float1 - interpPosZ);
-		worldRenderer.func_178960_a(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha);
-		worldRenderer.addVertexWithUV(f11 - float2 * f10 - float5 * f10, f12 - float3 * f10, f13 - float4 * f10 - float6 * f10, f7, f9);
+		worldRenderer.setColorRGBA_F(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha);
 		worldRenderer.addVertexWithUV(f11 - float2 * f10 + float5 * f10, f12 + float3 * f10, f13 - float4 * f10 + float6 * f10, f7, f8);
 		worldRenderer.addVertexWithUV(f11 + float2 * f10 + float5 * f10, f12 + float3 * f10, f13 + float4 * f10 + float6 * f10, f6, f8);
 		worldRenderer.addVertexWithUV(f11 + float2 * f10 - float5 * f10, f12 - float3 * f10, f13 + float4 * f10 - float6 * f10, f6, f9);

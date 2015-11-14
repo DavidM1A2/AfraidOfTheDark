@@ -27,10 +27,10 @@ public class DarkForestChestLoot implements IChestGenerator
 		ItemStack whiteChestplate = new ItemStack(Items.leather_chestplate);
 		ItemStack whiteBoots = new ItemStack(Items.leather_boots);
 
-		Items.leather_helmet.func_82813_b(whiteHelmet, 0xFFFFFF);
-		Items.leather_leggings.func_82813_b(whiteLeggings, 0xFFFFFF);
-		Items.leather_chestplate.func_82813_b(whiteChestplate, 0xFFFFFF);
-		Items.leather_boots.func_82813_b(whiteBoots, 0xFFFFFF);
+		Items.leather_helmet.setColor(whiteHelmet, 0xFFFFFF);
+		Items.leather_leggings.setColor(whiteLeggings, 0xFFFFFF);
+		Items.leather_chestplate.setColor(whiteChestplate, 0xFFFFFF);
+		Items.leather_boots.setColor(whiteBoots, 0xFFFFFF);
 
 		WeightedRandomChestContent clocks = new WeightedRandomChestContent(Items.clock, 0, 1, 1, 10);
 		WeightedRandomChestContent bones = new WeightedRandomChestContent(Items.bone, 0, 3, 5, 35);

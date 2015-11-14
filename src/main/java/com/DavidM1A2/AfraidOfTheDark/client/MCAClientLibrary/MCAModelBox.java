@@ -84,7 +84,7 @@ public class MCAModelBox extends ModelBox
 	{
 		for (int i = 0; i < this.MCAquadList.length; ++i)
 		{
-			this.MCAquadList[i].func_178765_a(par1Tessellator, textureX);
+			this.MCAquadList[i].draw(par1Tessellator, textureX);
 		}
 	}
 }
