@@ -98,7 +98,10 @@ public enum ResearchTypes
 	StarMetal(AstronomyII, 1, 6, new Object[]
 	{ ModItems.starMetalPlate, ModItems.starMetalBolt, ModItems.starMetalKhopesh, ModItems.starMetalHelmet, ModItems.starMetalChestplate, ModItems.starMetalLeggings, ModItems.starMetalBoots, ModItems.starMetalStaff }, new Object[]
 	{}),
-	Enaria(AstronomyII, 0, 7, new Object[]
+	GnomishCity(AstronomyII, 0, 7, new Object[]
+	{}, new Object[]
+	{}),
+	Enaria(GnomishCity, 1, 7, new Object[]
 	{}, new Object[]
 	{});
 

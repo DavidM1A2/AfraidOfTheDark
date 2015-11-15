@@ -4,6 +4,8 @@ import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncAnimation;
+import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -11,6 +13,8 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
@@ -90,6 +94,32 @@ public class EntitySplinterDrone extends EntityMob implements IMCAnimatedEntity
 		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.attackDamage) == null)
 		{
 			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(EntitySplinterDrone.ATTACK_DAMAGE);
+		}
+	}
+
+	@Override
+	public void onDeath(DamageSource cause)
+	{
+		super.onDeath(cause);
+
+		if (cause instanceof EntityDamageSource)
+		{
+			if (cause.getEntity() instanceof EntityPlayer)
+			{
+				EntityPlayer entityPlayer = (EntityPlayer) cause.getEntity();
+
+				if (!worldObj.isRemote)
+				{
+					if (AOTDPlayerData.get(entityPlayer).canResearch(ResearchTypes.GnomishCity))
+					{
+						AOTDPlayerData.get(entityPlayer).unlockResearch(ResearchTypes.GnomishCity, true);
+						if (AOTDPlayerData.get(entityPlayer).getHasBeatenEnaria())
+						{
+							AOTDPlayerData.get(entityPlayer).unlockResearch(ResearchTypes.Enaria, true);
+						}
+					}
+				}
+			}
 		}
 	}
 

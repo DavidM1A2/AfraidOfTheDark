@@ -49,6 +49,7 @@ public class ModEntities
 		EntityRegistry.registerEgg(EntityWerewolf.class, 0x3B170B, 0x181907);
 		EntityRegistry.registerEgg(EntitySplinterDrone.class, 0xcc6600, 0x63300);
 		EntityRegistry.registerEgg(EntityEnchantedSkeleton.class, 0x996600, 0xe69900);
+		EntityRegistry.registerEgg(EntityDeeeSyft.class, 0x0086b3, 0x00bfff);
 
 		EntityRegistry.registerModEntity(EntityIronBolt.class, "ironBolt", ModEntities.ironBoltID, Refrence.MOD_ID, 50, 10, true);
 		EntityRegistry.registerModEntity(EntitySilverBolt.class, "silverBolt", ModEntities.silverBoltID, Refrence.MOD_ID, 50, 10, true);
