@@ -5,6 +5,8 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.schematic;
 
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
+
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 
@@ -19,7 +21,13 @@ public class SchematicBlockReplacer
 			-86, (short) Block.getIdFromBlock(Blocks.hay_block), -87, (short) Block.getIdFromBlock(Blocks.sea_lantern), -81, (short) Block.getIdFromBlock(Blocks.double_plant), -63, (short) Block.getIdFromBlock(Blocks.spruce_door), -59, (short) Block.getIdFromBlock(Blocks.dark_oak_door), -112,
 			(short) Block.getIdFromBlock(Blocks.skull), -93, (short) Block.getIdFromBlock(Blocks.acacia_stairs), -95, (short) Block.getIdFromBlock(Blocks.leaves), -107, (short) Block.getIdFromBlock(Blocks.unpowered_comparator), -115, (short) Block.getIdFromBlock(Blocks.carrots), -114, (short) Block
 					.getIdFromBlock(Blocks.potatoes), -70, (short) Block.getIdFromBlock(Blocks.dark_oak_fence_gate), -100, (short) Block.getIdFromBlock(Blocks.quartz_stairs), -88, (short) Block.getIdFromBlock(Blocks.prismarine), -79, (short) Block.getIdFromBlock(Blocks.wall_banner), -104,
-			(short) Block.getIdFromBlock(Blocks.redstone_block), (short) -77, (short) Block.getIdFromBlock(Blocks.red_sandstone), (short) -127, (short) Block.getIdFromBlock(Blocks.gold_ore) };
+			(short) Block.getIdFromBlock(Blocks.redstone_block), (short) -77, (short) Block.getIdFromBlock(Blocks.red_sandstone), (short) -127, (short) Block.getIdFromBlock(Blocks.gold_ore), (short) -90, (short) Block.getIdFromBlock(Blocks.barrier) };
+
+	private static final short[] knownModProblemIds = new short[]
+	{ (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -39, (short) Block.getIdFromBlock(ModBlocks.eldritchStone), (short) -40,
+			(short) Block.getIdFromBlock(ModBlocks.amorphousEldritchMetal), (short) -41, (short) Block.getIdFromBlock(ModBlocks.eldritchObsidian), (short) -42, (short) Block.getIdFromBlock(ModBlocks.voidChestPortal), (short) -52, (short) Block.getIdFromBlock(ModBlocks.gravewoodHalfSlab),
+			(short) -53, (short) Block.getIdFromBlock(ModBlocks.gravewoodStairs), (short) -54, (short) Block.getIdFromBlock(ModBlocks.gravewoodPlanks), (short) -55, (short) Block.getIdFromBlock(ModBlocks.gravewood), (short) -56, (short) Block.getIdFromBlock(ModBlocks.gravewoodLeaves), (short) -48,
+			(short) Block.getIdFromBlock(ModBlocks.meteor), (short) -47, (short) Block.getIdFromBlock(ModBlocks.starMetalOre), (short) -46, (short) Block.getIdFromBlock(ModBlocks.igneousBlock) };
 
 	public static Schematic replaceBlocks(Schematic schematic, Block... blocks)
 	{
@@ -87,31 +95,27 @@ public class SchematicBlockReplacer
 		return schematic;
 	}
 
-	public static Schematic fixKnownSchematicErrors(Schematic schematic)
+	public static void fixKnownSchematicErrors(Schematic schematic)
 	{
-		int i = 0;
-
-		for (int y = 0; y < schematic.getHeight(); y++)
+		for (int i = 0; i < schematic.getBlocks().length; i++)
 		{
-			for (int z = 0; z < schematic.getLength(); z++)
+			Short nextToPlace = schematic.getBlocks()[i];
+
+			for (int j = 0; j < knownProblemIds.length; j = j + 2)
 			{
-				for (int x = 0; x < schematic.getWidth(); x++)
+				if (nextToPlace == knownProblemIds[j])
 				{
-					Short nextToPlace = schematic.getBlocks()[i];
+					schematic.setBlock(knownProblemIds[j + 1], i);
+				}
+			}
 
-					for (int j = 0; j < knownProblemIds.length; j = j + 2)
-					{
-						if (nextToPlace == knownProblemIds[j])
-						{
-							schematic.setBlock(knownProblemIds[j + 1], i);
-						}
-					}
-
-					i = i + 1;
+			for (int j = 0; j < knownModProblemIds.length; j = j + 2)
+			{
+				if (nextToPlace == knownModProblemIds[j])
+				{
+					schematic.setBlock(knownModProblemIds[j + 1], i);
 				}
 			}
 		}
-
-		return schematic;
 	}
 }

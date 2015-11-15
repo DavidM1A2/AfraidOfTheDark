@@ -270,20 +270,20 @@ public final class Constants
 			rooms = new ArrayList<Schematic>()
 			{
 				{
-					add(SchematicBlockReplacer.replaceBlocks(SchematicBlockReplacer.fixKnownSchematicErrors(SchematicLoader.load("gnomishCity/RoomCave.schematic")), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(
-							ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block.getIdFromBlock(ModBlocks.eldritchObsidian)));
-					add(SchematicBlockReplacer.replaceBlocks(SchematicBlockReplacer.fixKnownSchematicErrors(SchematicLoader.load("gnomishCity/RoomFarm.schematic")), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(
-							ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block.getIdFromBlock(ModBlocks.eldritchObsidian)));
-					add(SchematicBlockReplacer.replaceBlocks(SchematicBlockReplacer.fixKnownSchematicErrors(SchematicLoader.load("gnomishCity/RoomHotel.schematic")), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(
-							ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block.getIdFromBlock(ModBlocks.eldritchObsidian)));
-					add(SchematicBlockReplacer.replaceBlocks(SchematicBlockReplacer.fixKnownSchematicErrors(SchematicLoader.load("gnomishCity/RoomMeetingHall.schematic")), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(
-							ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block.getIdFromBlock(ModBlocks.eldritchObsidian)));
-					add(SchematicBlockReplacer.replaceBlocks(SchematicBlockReplacer.fixKnownSchematicErrors(SchematicLoader.load("gnomishCity/RoomMushroom.schematic")), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(
-							ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block.getIdFromBlock(ModBlocks.eldritchObsidian)));
-					add(SchematicBlockReplacer.replaceBlocks(SchematicBlockReplacer.fixKnownSchematicErrors(SchematicLoader.load("gnomishCity/RoomRuin.schematic")), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(
-							ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block.getIdFromBlock(ModBlocks.eldritchObsidian)));
-					add(SchematicBlockReplacer.replaceBlocks(SchematicBlockReplacer.fixKnownSchematicErrors(SchematicLoader.load("gnomishCity/RoomTanks.schematic")), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(
-							ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block.getIdFromBlock(ModBlocks.eldritchObsidian)));
+					add(SchematicBlockReplacer.replaceBlocks(SchematicLoader.load("gnomishCity/RoomCave.schematic"), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block
+							.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block.getIdFromBlock(ModBlocks.eldritchObsidian)));
+					add(SchematicBlockReplacer.replaceBlocks(SchematicLoader.load("gnomishCity/RoomFarm.schematic"), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block
+							.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block.getIdFromBlock(ModBlocks.eldritchObsidian)));
+					add(SchematicBlockReplacer.replaceBlocks(SchematicLoader.load("gnomishCity/RoomHotel.schematic"), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block
+							.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block.getIdFromBlock(ModBlocks.eldritchObsidian)));
+					add(SchematicBlockReplacer.replaceBlocks(SchematicLoader.load("gnomishCity/RoomMeetingHall.schematic"), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block
+							.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block.getIdFromBlock(ModBlocks.eldritchObsidian)));
+					add(SchematicBlockReplacer.replaceBlocks(SchematicLoader.load("gnomishCity/RoomMushroom.schematic"), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block
+							.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block.getIdFromBlock(ModBlocks.eldritchObsidian)));
+					add(SchematicBlockReplacer.replaceBlocks(SchematicLoader.load("gnomishCity/RoomRuin.schematic"), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block
+							.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block.getIdFromBlock(ModBlocks.eldritchObsidian)));
+					add(SchematicBlockReplacer.replaceBlocks(SchematicLoader.load("gnomishCity/RoomTanks.schematic"), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block
+							.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block.getIdFromBlock(ModBlocks.eldritchObsidian)));
 				}
 			};
 			stairwell = SchematicLoader.load("gnomishCity/Stairwell.schematic");
@@ -299,37 +299,17 @@ public final class Constants
 			SchematicBlockReplacer.replaceBlocks(crypt, Blocks.gold_block, ModBlocks.gravewoodStairs, Blocks.gold_ore, ModBlocks.gravewoodPlanks);
 			SchematicBlockReplacer.replaceBlocks(spring, Blocks.gold_ore, ModBlocks.gravewoodLeaves, Blocks.gold_block, ModBlocks.spring);
 
-			SchematicBlockReplacer.fixKnownSchematicErrors(propBush1);
-			SchematicBlockReplacer.fixKnownSchematicErrors(propFallenOverLog);
-			SchematicBlockReplacer.fixKnownSchematicErrors(propFence1);
-			SchematicBlockReplacer.fixKnownSchematicErrors(propFence2);
-			SchematicBlockReplacer.fixKnownSchematicErrors(propFountain);
-			SchematicBlockReplacer.fixKnownSchematicErrors(propLog);
-			SchematicBlockReplacer.fixKnownSchematicErrors(propPumpkin1);
-			SchematicBlockReplacer.fixKnownSchematicErrors(propPumpkin2);
-			SchematicBlockReplacer.fixKnownSchematicErrors(propStump);
+			//SchematicBlockReplacer.replaceBlocks(nightmareIsland, ((short) -56), (short) Block.getIdFromBlock(ModBlocks.gravewoodLeaves), ((short) -55), (short) Block.getIdFromBlock(ModBlocks.gravewood));
 
-			SchematicBlockReplacer.replaceBlocks(nightmareIsland, ((short) -56), (short) Block.getIdFromBlock(ModBlocks.gravewoodLeaves), ((short) -55), (short) Block.getIdFromBlock(ModBlocks.gravewood));
-			SchematicBlockReplacer.fixKnownSchematicErrors(nightmareIsland);
+			//SchematicBlockReplacer.replaceBlocks(witchHut, ((short) -56), (short) Block.getIdFromBlock(ModBlocks.gravewoodLeaves), ((short) -55), (short) Block.getIdFromBlock(ModBlocks.gravewood), ((short) -52), (short) Block.getIdFromBlock(ModBlocks.gravewoodHalfSlab), ((short) -53), (short) Block
+			//		.getIdFromBlock(ModBlocks.gravewoodStairs), ((short) -54), (short) Block.getIdFromBlock(ModBlocks.gravewoodPlanks));
 
-			SchematicBlockReplacer.fixKnownSchematicErrors(witchHut);
-			SchematicBlockReplacer.replaceBlocks(witchHut, ((short) -56), (short) Block.getIdFromBlock(ModBlocks.gravewoodLeaves), ((short) -55), (short) Block.getIdFromBlock(ModBlocks.gravewood), ((short) -52), (short) Block.getIdFromBlock(ModBlocks.gravewoodHalfSlab), ((short) -53), (short) Block
-					.getIdFromBlock(ModBlocks.gravewoodStairs), ((short) -54), (short) Block.getIdFromBlock(ModBlocks.gravewoodPlanks));
-
-			SchematicBlockReplacer.fixKnownSchematicErrors(voidChestPortal);
-			SchematicBlockReplacer.replaceBlocks(voidChestPortal, (short) -42, (short) Block.getIdFromBlock(ModBlocks.voidChestPortal), (short) -90, (short) Block.getIdFromBlock(Blocks.barrier));
+			//SchematicBlockReplacer.replaceBlocks(voidChestPortal, (short) -42, (short) Block.getIdFromBlock(ModBlocks.voidChestPortal), (short) -90, (short) Block.getIdFromBlock(Blocks.barrier));
 			SchematicBlockReplacer.replaceBlocks(voidChestPortal, Blocks.lapis_block, ModBlocks.eldritchStone);
 
-			SchematicBlockReplacer.fixKnownSchematicErrors(voidChest);
-			SchematicBlockReplacer.replaceBlocks(voidChest, (short) -41, (short) Block.getIdFromBlock(ModBlocks.eldritchObsidian), (short) -40, (short) Block.getIdFromBlock(ModBlocks.amorphousEldritchMetal), (short) -39, (short) Block.getIdFromBlock(ModBlocks.eldritchStone), (short) -42,
-					(short) Block.getIdFromBlock(ModBlocks.voidChestPortal));
+			//SchematicBlockReplacer.replaceBlocks(voidChest, (short) -41, (short) Block.getIdFromBlock(ModBlocks.eldritchObsidian), (short) -40, (short) Block.getIdFromBlock(ModBlocks.amorphousEldritchMetal), (short) -39, (short) Block.getIdFromBlock(ModBlocks.eldritchStone), (short) -42,
+			//		(short) Block.getIdFromBlock(ModBlocks.voidChestPortal));
 
-			SchematicBlockReplacer.fixKnownSchematicErrors(tunnelEW);
-			SchematicBlockReplacer.fixKnownSchematicErrors(tunnelNS);
-			SchematicBlockReplacer.fixKnownSchematicErrors(roomStairUp);
-			SchematicBlockReplacer.fixKnownSchematicErrors(roomStairDown);
-			SchematicBlockReplacer.fixKnownSchematicErrors(stairwell);
-			SchematicBlockReplacer.fixKnownSchematicErrors(enariaLair);
 			SchematicBlockReplacer.replaceBlocks(tunnelEW, (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block
 					.getIdFromBlock(ModBlocks.eldritchObsidian));
 			SchematicBlockReplacer.replaceBlocks(tunnelNS, (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block

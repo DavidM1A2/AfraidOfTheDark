@@ -4,7 +4,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.schematic;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -12,8 +11,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Point3D;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.WorldGenerationUtility;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.LootTable;
@@ -83,11 +80,6 @@ public final class SchematicGenerator
 		List<Short> blocksToPlaceLater = new LinkedList<Short>();
 		List<Byte> blocksToPlaceLaterMeta = new LinkedList<Byte>();
 		List<Point3D> laterBlockPositions = new LinkedList<Point3D>();
-
-		if (Constants.isDebug)
-		{
-			SchematicGenerator.printIncorrectIds(schematic.getBlocks());
-		}
 
 		// A schematic is just a code representation of an MCEdit Schematic
 		for (int y = 0; y < schematic.getHeight(); y++)
@@ -228,28 +220,6 @@ public final class SchematicGenerator
 					world.spawnEntityInWorld(entity);
 				}
 			}
-		}
-	}
-
-	private static void printIncorrectIds(short[] blocks)
-	{
-		List<Short> incorrectIds = new ArrayList<Short>();
-		int[] numberOfIncorrect = new int[20000];
-		for (short b : blocks)
-		{
-			if (b < 0 && !incorrectIds.contains(b))
-			{
-				incorrectIds.add(b);
-				numberOfIncorrect[Math.abs(b)] = 1;
-			}
-			else if (b < 0)
-			{
-				numberOfIncorrect[Math.abs(b)] = numberOfIncorrect[Math.abs(b)] + 1;
-			}
-		}
-		for (short b : incorrectIds)
-		{
-			LogHelper.info(numberOfIncorrect[Math.abs(b)] + " incorrect ids of the id " + b + " found in the schematic. ");
 		}
 	}
 }

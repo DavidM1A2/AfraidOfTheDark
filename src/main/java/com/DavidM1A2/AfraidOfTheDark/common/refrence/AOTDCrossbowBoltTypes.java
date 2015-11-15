@@ -5,9 +5,17 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.refrence;
 
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityBolt;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityIgneousBolt;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityIronBolt;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntitySilverBolt;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityStarMetalBolt;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityWoodenBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.world.World;
 
 public enum AOTDCrossbowBoltTypes
 {
@@ -70,5 +78,33 @@ public enum AOTDCrossbowBoltTypes
 		{
 			return getTypeFromID(this.id + 1);
 		}
+	}
+
+	public EntityBolt createBolt(World world, EntityPlayer entityPlayer)
+	{
+		EntityBolt toReturn = null;
+
+		switch (this)
+		{
+			case Igneous:
+				toReturn = new EntityIgneousBolt(world, entityPlayer);
+				break;
+			case Iron:
+				toReturn = new EntityIronBolt(world, entityPlayer);
+				break;
+			case Silver:
+				toReturn = new EntitySilverBolt(world, entityPlayer);
+				break;
+			case StarMetal:
+				toReturn = new EntityStarMetalBolt(world, entityPlayer);
+				break;
+			case Wooden:
+				toReturn = new EntityWoodenBolt(world, entityPlayer);
+				break;
+			default:
+				break;
+		}
+
+		return toReturn;
 	}
 }

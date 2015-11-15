@@ -7,6 +7,11 @@ package com.DavidM1A2.AfraidOfTheDark.common.schematic;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
@@ -33,7 +38,16 @@ public class SchematicLoader
 
 			schematicInputStream.close();
 
-			return new Schematic(tileentities, width, height, length, byteArrayToShortArray(blocks), data, entities);
+			Schematic toReturn = new Schematic(tileentities, width, height, length, byteArrayToShortArray(blocks), data, entities);
+
+			SchematicBlockReplacer.fixKnownSchematicErrors(toReturn);
+
+			if (Constants.isDebug)
+			{
+				SchematicLoader.printIncorrectIds(toReturn.getBlocks(), schemname);
+			}
+
+			return toReturn;
 		}
 		catch (IOException e)
 		{
@@ -52,5 +66,27 @@ public class SchematicLoader
 		}
 
 		return toReturn;
+	}
+
+	private static void printIncorrectIds(short[] blocks, String schematicName)
+	{
+		List<Short> incorrectIds = new ArrayList<Short>();
+		int[] numberOfIncorrect = new int[20000];
+		for (short b : blocks)
+		{
+			if (b < 0 && !incorrectIds.contains(b))
+			{
+				incorrectIds.add(b);
+				numberOfIncorrect[Math.abs(b)] = 1;
+			}
+			else if (b < 0)
+			{
+				numberOfIncorrect[Math.abs(b)] = numberOfIncorrect[Math.abs(b)] + 1;
+			}
+		}
+		for (short b : incorrectIds)
+		{
+			LogHelper.info(numberOfIncorrect[Math.abs(b)] + " incorrect ids of the id " + b + " found in the schematic " + schematicName + ".");
+		}
 	}
 }

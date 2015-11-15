@@ -5,11 +5,6 @@ package com.DavidM1A2.AfraidOfTheDark.common.item.crossbow;
 
 import java.util.List;
 
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityIgneousBolt;
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityIronBolt;
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntitySilverBolt;
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityStarMetalBolt;
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityWoodenBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDCrossbowBoltTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
@@ -56,13 +51,13 @@ public class ItemCrossbow extends AOTDItem
 	@Override
 	public boolean onEntitySwing(final EntityLivingBase entityLiving, final ItemStack itemStack)
 	{
-		if (entityLiving instanceof EntityPlayer)
+		if (!entityLiving.worldObj.isRemote)
 		{
-			if (itemStack.getItemDamage() == 3)
+			if (entityLiving instanceof EntityPlayer)
 			{
-				itemStack.setItemDamage(0);
-				if (!entityLiving.worldObj.isRemote)
+				if (itemStack.getItemDamage() == 3)
 				{
+					itemStack.setItemDamage(0);
 					this.fireBolt((EntityPlayer) entityLiving, entityLiving.worldObj, itemStack);
 				}
 			}
@@ -102,7 +97,7 @@ public class ItemCrossbow extends AOTDItem
 						if (world.isRemote)
 						{
 							// Else we print out that the player needs bolts to fire
-							entityPlayer.addChatMessage(new ChatComponentText("You do not have any bolts of type: " + AOTDCrossbowBoltTypes.getTypeFromID(NBTHelper.getInt(itemStack, "mode"))));
+							entityPlayer.addChatMessage(new ChatComponentText("I'll need at least one " + AOTDCrossbowBoltTypes.getTypeFromID(NBTHelper.getInt(itemStack, "mode")).formattedString() + "bolt in my inventory to shoot."));
 						}
 					}
 				}
@@ -182,26 +177,7 @@ public class ItemCrossbow extends AOTDItem
 	public void fireBolt(final EntityPlayer entityPlayer, final World world, final ItemStack itemStack)
 	{
 		world.playSoundAtEntity(entityPlayer, "afraidofthedark:crossbowFire", 0.5F, ((world.rand.nextFloat() * 0.4F) + 0.8F));
-		switch (AOTDCrossbowBoltTypes.getTypeFromID(NBTHelper.getInt(itemStack, "mode")))
-		{
-			case Iron:
-				world.spawnEntityInWorld(new EntityIronBolt(world, entityPlayer));
-				break;
-			case Silver:
-				world.spawnEntityInWorld(new EntitySilverBolt(world, entityPlayer));
-				break;
-			case Wooden:
-				world.spawnEntityInWorld(new EntityWoodenBolt(world, entityPlayer));
-				break;
-			case Igneous:
-				world.spawnEntityInWorld(new EntityIgneousBolt(world, entityPlayer));
-				break;
-			case StarMetal:
-				world.spawnEntityInWorld(new EntityStarMetalBolt(world, entityPlayer));
-				break;
-			default:
-				break;
-		}
+		world.spawnEntityInWorld(AOTDCrossbowBoltTypes.getTypeFromID(NBTHelper.getInt(itemStack, "mode")).createBolt(world, entityPlayer));
 	}
 
 	// A message under the bow will tell us what type of arrows the bow will fire

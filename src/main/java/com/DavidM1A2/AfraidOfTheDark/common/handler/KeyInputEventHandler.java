@@ -86,7 +86,6 @@ public class KeyInputEventHandler
 		EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
 		if (!entityPlayer.isSneaking())
 		{
-			boolean willFire = false;
 			if (entityPlayer.inventory.hasItem(ModItems.wristCrossbow) && AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.WristCrossbow))
 			{
 				for (ItemStack itemStack : entityPlayer.inventory.mainInventory)
@@ -100,13 +99,13 @@ public class KeyInputEventHandler
 							{
 								if (entityPlayer.inventory.hasItem(ClientData.currentlySelectedBolt.getMyBoltItem()) || entityPlayer.capabilities.isCreativeMode)
 								{
-									willFire = true;
+									AfraidOfTheDark.getPacketHandler().sendToServer(new FireCrossbowBolt(ClientData.currentlySelectedBolt));
 									current.setOnCooldown();
 									break;
 								}
 								else
 								{
-									entityPlayer.addChatMessage(new ChatComponentText("No bolts of type " + ClientData.currentlySelectedBolt + " found."));
+									entityPlayer.addChatMessage(new ChatComponentText("I'll need at least one " + ClientData.currentlySelectedBolt.formattedString() + "bolt in my inventory to shoot."));
 								}
 							}
 							else
@@ -115,10 +114,6 @@ public class KeyInputEventHandler
 							}
 						}
 					}
-				}
-				if (willFire)
-				{
-					AfraidOfTheDark.getPacketHandler().sendToServer(new FireCrossbowBolt(ClientData.currentlySelectedBolt));
 				}
 			}
 			else if (!AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.WristCrossbow))
@@ -133,7 +128,7 @@ public class KeyInputEventHandler
 		else
 		{
 			ClientData.currentlySelectedBolt = ClientData.currentlySelectedBolt.next();
-			entityPlayer.addChatMessage(new ChatComponentText("Crossbow will now fire " + ClientData.currentlySelectedBolt + " bolts."));
+			entityPlayer.addChatMessage(new ChatComponentText("Crossbow will now fire " + ClientData.currentlySelectedBolt.formattedString() + "bolts."));
 		}
 	}
 
