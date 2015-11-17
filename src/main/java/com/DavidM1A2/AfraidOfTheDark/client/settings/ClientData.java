@@ -30,4 +30,7 @@ public final class ClientData
 	public static MeteorTypes watchedMeteorType = null;
 
 	public static ResearchAchieved researchAchievedOverlay;
+
+	public static int currentBloodStainedJournalX = 0;
+	public static int currentBloodStainedJournalY = 0;
 }
