@@ -26,8 +26,9 @@ public class GnomishCityLoot implements IChestGenerator
 		toReturn.add(new WeightedRandomChestContent(ModItems.silverBolt, 0, 1, 13, 10));
 		toReturn.add(new WeightedRandomChestContent(ModItems.igneousBolt, 0, 1, 6, 4));
 		toReturn.add(new WeightedRandomChestContent(ModItems.starMetalBolt, 0, 1, 6, 4));
-		toReturn.add(new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.gnomishMetalPlate), 0, 3, 5, 25));
-		toReturn.add(new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.gnomishMetalStrut), 0, 3, 5, 25));
+		toReturn.add(new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.gnomishMetalPlate), 0, 1, 2, 25));
+		toReturn.add(new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.gnomishMetalStrut), 0, 1, 2, 25));
+		toReturn.add(new WeightedRandomChestContent(ModItems.gnomishMetalIngot, 0, 4, 6, 25));
 		toReturn.add(Items.enchanted_book.getRandom(random, 1, 1, 3));
 		toReturn.add(new WeightedRandomChestContent(Items.diamond, 0, 1, 5, 1));
 		toReturn.add(new WeightedRandomChestContent(Items.gold_nugget, 0, 5, 40, 18));

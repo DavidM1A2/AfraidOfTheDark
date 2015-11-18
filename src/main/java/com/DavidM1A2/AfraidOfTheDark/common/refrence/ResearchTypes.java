@@ -99,7 +99,7 @@ public enum ResearchTypes
 	{ ModItems.starMetalPlate, ModItems.starMetalBolt, ModItems.starMetalKhopesh, ModItems.starMetalHelmet, ModItems.starMetalChestplate, ModItems.starMetalLeggings, ModItems.starMetalBoots, ModItems.starMetalStaff }, new Object[]
 	{}),
 	GnomishCity(AstronomyII, 0, 7, new Object[]
-	{}, new Object[]
+	{ ModBlocks.gnomishMetalPlate, ModBlocks.gnomishMetalStrut, ModItems.gnomishMetalIngot }, new Object[]
 	{}),
 	Enaria(GnomishCity, 1, 7, new Object[]
 	{}, new Object[]

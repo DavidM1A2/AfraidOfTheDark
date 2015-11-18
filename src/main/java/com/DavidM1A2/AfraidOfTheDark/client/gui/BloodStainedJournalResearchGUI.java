@@ -71,7 +71,15 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 		BloodStainedJournalResearchGUI.xPosBaseResearch = xPosBackground + 92;
 		BloodStainedJournalResearchGUI.yPosBaseResearch = (yPosBackground + (BACKGROUND_WIDTH / 2)) + 35;
 
+		this.guiOffsetX = ClientData.currentBloodStainedJournalX;
+		this.guiOffsetY = ClientData.currentBloodStainedJournalY;
+
 		this.setupButtons();
+
+		for (final Object o : this.buttonList)
+		{
+			((NodeButton) o).setPosition(this.guiOffsetX, this.guiOffsetY);
+		}
 	}
 
 	// To draw the screen we first draw the default GUI background, then the
@@ -224,5 +232,16 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 		{
 			this.guiOffsetY = BloodStainedJournalResearchGUI.MAX_NEGATIVE_HEIGHT;
 		}
+	}
+
+	/**
+	 * Called when the screen is unloaded. Used to disable keyboard repeat events
+	 */
+	@Override
+	public void onGuiClosed()
+	{
+		ClientData.currentBloodStainedJournalX = guiOffsetX;
+		ClientData.currentBloodStainedJournalY = guiOffsetY;
+		super.onGuiClosed();
 	}
 }

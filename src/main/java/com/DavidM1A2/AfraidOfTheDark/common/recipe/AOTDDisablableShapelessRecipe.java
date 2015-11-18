@@ -18,6 +18,7 @@ import net.minecraft.inventory.ContainerWorkbench;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
@@ -41,6 +42,7 @@ public class AOTDDisablableShapelessRecipe extends ShapelessOreRecipe
 	@Override
 	public boolean matches(InventoryCrafting inventoryCrafting, World world)
 	{
+		boolean matches = super.matches(inventoryCrafting, world);
 		EntityPlayer entityPlayer = findPlayer(inventoryCrafting);
 		if (entityPlayer != null)
 		{
@@ -48,9 +50,13 @@ public class AOTDDisablableShapelessRecipe extends ShapelessOreRecipe
 			{
 				return false;
 			}
+			else if (matches)
+			{
+				entityPlayer.addChatMessage(new ChatComponentText("I'll need to do some more research before I can craft this."));
+			}
 		}
 
-		return super.matches(inventoryCrafting, world);
+		return matches;
 	}
 
 	static

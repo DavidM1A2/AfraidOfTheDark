@@ -4,7 +4,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.schematic;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -30,13 +29,41 @@ import net.minecraft.world.World;
 
 public final class SchematicGenerator
 {
-	private static final Set<Short> latePlacePriorityBlocks = new HashSet<Short>(Arrays.asList(new Short[]
-	{ (short) Block.getIdFromBlock(Blocks.rail), (short) Block.getIdFromBlock(Blocks.reeds), (short) Block.getIdFromBlock(Blocks.powered_comparator), (short) Block.getIdFromBlock(Blocks.powered_repeater), (short) Block.getIdFromBlock(Blocks.sapling), (short) Block.getIdFromBlock(
-			Blocks.detector_rail), (short) Block.getIdFromBlock(Blocks.redstone_torch), (short) Block.getIdFromBlock(Blocks.vine), (short) Block.getIdFromBlock(Blocks.standing_sign), (short) Block.getIdFromBlock(Blocks.wall_sign), (short) Block.getIdFromBlock(Blocks.redstone_wire), (short) Block
-					.getIdFromBlock(Blocks.torch), (short) Block.getIdFromBlock(Blocks.wooden_button), (short) Block.getIdFromBlock(Blocks.stone_button), (short) Block.getIdFromBlock(Blocks.wooden_pressure_plate), (short) Block.getIdFromBlock(Blocks.stone_pressure_plate), (short) Block
-							.getIdFromBlock(Blocks.light_weighted_pressure_plate), (short) Block.getIdFromBlock(Blocks.heavy_weighted_pressure_plate), (short) Block.getIdFromBlock(Blocks.deadbush), (short) Block.getIdFromBlock(Blocks.bed), (short) Block.getIdFromBlock(Blocks.trapdoor), (short) Block
-									.getIdFromBlock(Blocks.carpet), (short) Block.getIdFromBlock(Blocks.iron_door), (short) Block.getIdFromBlock(Blocks.ladder), (short) Block.getIdFromBlock(Blocks.dark_oak_door), (short) Block.getIdFromBlock(Blocks.birch_door), (short) Block.getIdFromBlock(
-											Blocks.oak_door), (short) Block.getIdFromBlock(Blocks.acacia_door), (short) Block.getIdFromBlock(Blocks.spruce_door), (short) Block.getIdFromBlock(Blocks.double_plant) }));
+	private static final Set<Short> latePlacePriorityBlocks = new HashSet<Short>()
+	{
+		{
+			add((short) Block.getIdFromBlock(Blocks.rail));
+			add((short) Block.getIdFromBlock(Blocks.reeds));
+			add((short) Block.getIdFromBlock(Blocks.powered_comparator));
+			add((short) Block.getIdFromBlock(Blocks.powered_repeater));
+			add((short) Block.getIdFromBlock(Blocks.sapling));
+			add((short) Block.getIdFromBlock(Blocks.detector_rail));
+			add((short) Block.getIdFromBlock(Blocks.redstone_torch));
+			add((short) Block.getIdFromBlock(Blocks.vine));
+			add((short) Block.getIdFromBlock(Blocks.standing_sign));
+			add((short) Block.getIdFromBlock(Blocks.wall_sign));
+			add((short) Block.getIdFromBlock(Blocks.redstone_wire));
+			add((short) Block.getIdFromBlock(Blocks.torch));
+			add((short) Block.getIdFromBlock(Blocks.wooden_button));
+			add((short) Block.getIdFromBlock(Blocks.stone_button));
+			add((short) Block.getIdFromBlock(Blocks.wooden_pressure_plate));
+			add((short) Block.getIdFromBlock(Blocks.stone_pressure_plate));
+			add((short) Block.getIdFromBlock(Blocks.light_weighted_pressure_plate));
+			add((short) Block.getIdFromBlock(Blocks.heavy_weighted_pressure_plate));
+			add((short) Block.getIdFromBlock(Blocks.deadbush));
+			add((short) Block.getIdFromBlock(Blocks.bed));
+			add((short) Block.getIdFromBlock(Blocks.trapdoor));
+			add((short) Block.getIdFromBlock(Blocks.carpet));
+			add((short) Block.getIdFromBlock(Blocks.iron_door));
+			add((short) Block.getIdFromBlock(Blocks.ladder));
+			add((short) Block.getIdFromBlock(Blocks.dark_oak_door));
+			add((short) Block.getIdFromBlock(Blocks.birch_door));
+			add((short) Block.getIdFromBlock(Blocks.oak_door));
+			add((short) Block.getIdFromBlock(Blocks.acacia_door));
+			add((short) Block.getIdFromBlock(Blocks.spruce_door));
+			add((short) Block.getIdFromBlock(Blocks.double_plant));
+		}
+	};
 
 	private static final int DIAMOND_BLOCK_ID = Block.getIdFromBlock(Blocks.diamond_block);
 	private static final int AIR_BLOCK_ID = Block.getIdFromBlock(Blocks.air);
@@ -123,15 +150,15 @@ public final class SchematicGenerator
 			}
 		}
 
-		Iterator iteratorBlock = blocksToPlaceLater.iterator();
-		Iterator iteratorMeta = blocksToPlaceLaterMeta.iterator();
-		Iterator iteratorLocation = laterBlockPositions.iterator();
+		Iterator<Short> iteratorBlock = blocksToPlaceLater.iterator();
+		Iterator<Byte> iteratorMeta = blocksToPlaceLaterMeta.iterator();
+		Iterator<Point3D> iteratorLocation = laterBlockPositions.iterator();
 
 		while (iteratorBlock.hasNext())
 		{
-			Block next = Block.getBlockById((Short) iteratorBlock.next());
-			IBlockState blockState = next.getStateFromMeta((Byte) iteratorMeta.next());
-			BlockPos blockPos = ((Point3D) iteratorLocation.next()).toBlockPos();
+			Block next = Block.getBlockById(iteratorBlock.next());
+			IBlockState blockState = next.getStateFromMeta(iteratorMeta.next());
+			BlockPos blockPos = (iteratorLocation.next()).toBlockPos();
 
 			// Doors need to be specially placed because reasons, things, and stuff (top & bottom need to be placed at the same time)
 			if (next instanceof BlockDoor)
