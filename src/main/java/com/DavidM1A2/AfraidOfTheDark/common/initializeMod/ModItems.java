@@ -19,6 +19,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.item.ItemCloakOfAgility;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemEldritchMetalIngot;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemEnchantedSkeletonBone;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemFlaskOfSouls;
+import com.DavidM1A2.AfraidOfTheDark.common.item.ItemGnomishMetalIngot;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemIgneousGem;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemIgneousSword;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemJournal;
@@ -95,6 +96,7 @@ public class ModItems
 	public static final ItemBladeOfExhumation bladeOfExhumation = new ItemBladeOfExhumation();
 	public static final ItemFlaskOfSouls flaskOfSouls = new ItemFlaskOfSouls();
 	public static final ItemWerewolfBlood werewolfBlood = new ItemWerewolfBlood();
+	public static final ItemGnomishMetalIngot gnomishMetalIngot = new ItemGnomishMetalIngot();
 
 	// Register scrolls last
 	public static final ItemResearchScrollCloakOfAgility researchScrollCloakOfAgility = new ItemResearchScrollCloakOfAgility();
@@ -162,6 +164,7 @@ public class ModItems
 		GameRegistry.registerItem(ModItems.bladeOfExhumation, "bladeOfExhumation");
 		GameRegistry.registerItem(ModItems.flaskOfSouls, "flaskOfSouls");
 		GameRegistry.registerItem(ModItems.werewolfBlood, "werewolfBlood");
+		GameRegistry.registerItem(ModItems.gnomishMetalIngot, "gnomishMetalIngot");
 	}
 
 	public static void initializeRenderers(final Side side)
@@ -245,6 +248,7 @@ public class ModItems
 			itemModelMesher.register(ModItems.flaskOfSouls, 1, new ModelResourceLocation(Refrence.MOD_ID + ":flaskOfSoulsCharged", "inventory"));
 			ModelBakery.addVariantName(ModItems.flaskOfSouls, Refrence.MOD_ID + ":flaskOfSouls", Refrence.MOD_ID + ":flaskOfSoulsCharged");
 			itemModelMesher.register(ModItems.werewolfBlood, 0, new ModelResourceLocation(Refrence.MOD_ID + ":werewolfBlood", "inventory"));
+			itemModelMesher.register(ModItems.gnomishMetalIngot, 0, new ModelResourceLocation(Refrence.MOD_ID + ":gnomishMetalIngot", "inventory"));
 		}
 	}
 }
