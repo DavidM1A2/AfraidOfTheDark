@@ -22,7 +22,7 @@ public class EntitySplinterDrone extends EntityFlying implements IMCAnimatedEnti
 {
 	protected AnimationHandler animHandler = new AnimationHandlerSplinterDrone(this);
 	// setup MOVE_SPEED, AGRO_RANGE, and FOLLOW_RANGE
-	private static final double MOVE_SPEED = 0.1D;
+	private static final double MOVE_SPEED = 0.05D;
 	private static final double AGRO_RANGE = 20.0D;
 	private static final double FOLLOW_RANGE = 20.0D;
 	private static final double MAX_HEALTH = 25.0D;

@@ -23,7 +23,7 @@ public class EntitySplinterDroneMoveHelper extends EntityMoveHelper
 	@Override
 	public void onUpdateMoveHelper()
 	{
-		if (this.update)
+		if (this.update && this.splinterDrone.getAttackTarget() == null)
 		{
 			double x = this.posX - this.splinterDrone.posX;
 			double y = this.posY - this.splinterDrone.posY;
@@ -32,14 +32,14 @@ public class EntitySplinterDroneMoveHelper extends EntityMoveHelper
 
 			if (this.temp-- <= 0)
 			{
-				this.temp += this.splinterDrone.getRNG().nextInt(5) + 2;
+				this.temp = this.temp + this.splinterDrone.getRNG().nextInt(5) + 2;
 				vector = MathHelper.sqrt_double(vector);
 
 				if (this.canMoveHere(this.posX, this.posY, this.posZ, vector))
 				{
-					this.splinterDrone.motionX = this.splinterDrone.motionX + x / vector * 0.1D;
-					this.splinterDrone.motionY = this.splinterDrone.motionY + y / vector * 0.1D;
-					this.splinterDrone.motionZ = this.splinterDrone.motionZ + z / vector * 0.1D;
+					this.splinterDrone.motionX = this.splinterDrone.motionX + x / vector * this.speed;
+					this.splinterDrone.motionY = this.splinterDrone.motionY + y / vector * this.speed;
+					this.splinterDrone.motionZ = this.splinterDrone.motionZ + z / vector * this.speed;
 				}
 				else
 				{

@@ -13,6 +13,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.commands.ResearchUnlocker;
 import com.DavidM1A2.AfraidOfTheDark.common.commands.TPDimension;
 import com.DavidM1A2.AfraidOfTheDark.common.debug.DebugSpammer;
 import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.handler.FogRenderingEvents;
 import com.DavidM1A2.AfraidOfTheDark.common.handler.KeyInputEventHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.handler.PlayerController;
 import com.DavidM1A2.AfraidOfTheDark.common.handler.WorldEvents;
@@ -80,6 +81,7 @@ public class AfraidOfTheDark
 		// Initialize any player events
 		final PlayerController controller = new PlayerController();
 		MinecraftForge.EVENT_BUS.register(controller);
+		MinecraftForge.EVENT_BUS.register(new FogRenderingEvents());
 		MinecraftForge.TERRAIN_GEN_BUS.register(controller);
 		FMLCommonHandler.instance().bus().register(controller);
 		// Initialize any world events

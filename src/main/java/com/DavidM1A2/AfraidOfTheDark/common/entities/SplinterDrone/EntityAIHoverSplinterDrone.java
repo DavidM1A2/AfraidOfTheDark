@@ -36,10 +36,7 @@ public class EntityAIHoverSplinterDrone extends EntityAIBase
 		{
 			if (this.splinterDrone.getAttackTarget() == null)
 			{
-				if (this.splinterDrone.getRNG().nextInt(10) == 0)
-				{
-					return true;
-				}
+				return true;
 			}
 		}
 
