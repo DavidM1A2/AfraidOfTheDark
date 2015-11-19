@@ -11,14 +11,17 @@ import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIFindEntityNearestPlayer;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
-public class EntitySplinterDrone extends EntityFlying implements IMCAnimatedEntity
+public class EntitySplinterDrone extends EntityFlying implements IMCAnimatedEntity, IMob
 {
 	protected AnimationHandler animHandler = new AnimationHandlerSplinterDrone(this);
 	// setup MOVE_SPEED, AGRO_RANGE, and FOLLOW_RANGE
@@ -35,6 +38,7 @@ public class EntitySplinterDrone extends EntityFlying implements IMCAnimatedEnti
 		super(par1World);
 		this.setSize(0.8F, 3.0F);
 		this.isImmuneToFire = true;
+		this.experienceValue = 5;
 
 		this.moveHelper = new EntitySplinterDroneMoveHelper(this);
 
@@ -66,6 +70,20 @@ public class EntitySplinterDrone extends EntityFlying implements IMCAnimatedEnti
 			}
 		}
 		super.onEntityUpdate();
+	}
+
+	/**
+	 * Called to update the entity's position/logic.
+	 */
+	@Override
+	public void onUpdate()
+	{
+		super.onUpdate();
+
+		if (!this.worldObj.isRemote && this.worldObj.getDifficulty() == EnumDifficulty.PEACEFUL)
+		{
+			this.setDead();
+		}
 	}
 
 	@Override
@@ -110,6 +128,28 @@ public class EntitySplinterDrone extends EntityFlying implements IMCAnimatedEnti
 					}
 				}
 			}
+		}
+	}
+
+	/**
+	 * Drop 0-2 items of this living's type
+	 */
+	@Override
+	protected void dropFewItems(boolean unused, int number)
+	{
+		int j = this.rand.nextInt(2) + this.rand.nextInt(1 + p_70628_2_);
+		int k;
+
+		for (k = 0; k < j; ++k)
+		{
+			this.dropItem(Items.ghast_tear, 1);
+		}
+
+		j = this.rand.nextInt(3) + this.rand.nextInt(1 + p_70628_2_);
+
+		for (k = 0; k < j; ++k)
+		{
+			this.dropItem(Items.gunpowder, 1);
 		}
 	}
 
