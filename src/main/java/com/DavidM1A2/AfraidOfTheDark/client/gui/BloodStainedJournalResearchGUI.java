@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL11;
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.GuiClickAndDragable;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.NodeButton;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.spriteSheet.SpriteSheetAnimation;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
@@ -28,10 +29,8 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 	private static int currentID;
 	private static final int DISTANCE_BETWEEN_NODES = 75;
 
-	private static final ResourceLocation upArrow = new ResourceLocation("afraidofthedark:textures/gui/ArrowVertical.png");
-	private static final ResourceLocation downArrow = new ResourceLocation("afraidofthedark:textures/gui/ArrowVertical.png");
-	private static final ResourceLocation leftArrow = new ResourceLocation("afraidofthedark:textures/gui/ArrowHorizontal.png");
-	private static final ResourceLocation rightArrow = new ResourceLocation("afraidofthedark:textures/gui/ArrowHorizontal.png");
+	private static final SpriteSheetAnimation verticalArrow = new SpriteSheetAnimation(new ResourceLocation("afraidofthedark:textures/gui/ArrowVertical.png"), 2000, 1, 104, 474, false);
+	private static final SpriteSheetAnimation horizontalArrow = new SpriteSheetAnimation(new ResourceLocation("afraidofthedark:textures/gui/ArrowHorizontal.png"), 2000, 1, 474, 104, false);
 
 	// GUI height and width
 	private static int baseWidth = 512;
@@ -99,11 +98,12 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 		GL11.glScissor(disWidth - ((BloodStainedJournalResearchGUI.xPosScroll + BloodStainedJournalResearchGUI.BACKGROUND_WIDTH) * widthScale), disHeight - ((BloodStainedJournalResearchGUI.yPosScroll + BloodStainedJournalResearchGUI.BACKGROUND_HEIGHT) * widthScale),
 				BloodStainedJournalResearchGUI.BACKGROUND_WIDTH * heightScale, BloodStainedJournalResearchGUI.BACKGROUND_HEIGHT * heightScale);
 		super.drawScreen(i, j, f);
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.drawLines();
 		GL11.glDisable(GL11.GL_SCISSOR_TEST);
 
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.renderEngine.bindTexture(new ResourceLocation("afraidofthedark:textures/gui/BloodStainedJournalResearchBackground.png"));
 		this.drawTexturedModalRect(BloodStainedJournalResearchGUI.xPosScroll, BloodStainedJournalResearchGUI.yPosScroll, 0, 0, BloodStainedJournalResearchGUI.BACKGROUND_WIDTH, BloodStainedJournalResearchGUI.BACKGROUND_HEIGHT);
 
@@ -166,6 +166,8 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 	// Draw an arrow for the gui
 	private void drawLines()
 	{
+		verticalArrow.update();
+		horizontalArrow.update();
 		for (Object object : this.buttonList)
 		{
 			if (object instanceof NodeButton)
@@ -180,23 +182,19 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 						ResearchTypes current = nodeButton.getMyType();
 						if (current.getPositionX() < previous.getPositionX())
 						{
-							this.mc.renderEngine.bindTexture(BloodStainedJournalResearchGUI.leftArrow);
-							Gui.drawScaledCustomSizeModalRect(nodeButton.xPosition + 30, nodeButton.yPosition + 10, 0, 0, 474, 104, 43, 10, 474, 104);
+							horizontalArrow.draw(nodeButton.xPosition + 30, nodeButton.yPosition + 10, 43, 10);
 						}
 						else if (current.getPositionX() > previous.getPositionX())
 						{
-							this.mc.renderEngine.bindTexture(BloodStainedJournalResearchGUI.rightArrow);
-							Gui.drawScaledCustomSizeModalRect(nodeButton.xPosition - 43, nodeButton.yPosition + 10, 0, 0, 474, 104, 43, 10, 474, 104);
+							horizontalArrow.draw(nodeButton.xPosition - 43, nodeButton.yPosition + 10, 43, 10);
 						}
 						else if (current.getPositionY() > previous.getPositionY())
 						{
-							this.mc.renderEngine.bindTexture(BloodStainedJournalResearchGUI.upArrow);
-							Gui.drawScaledCustomSizeModalRect(nodeButton.xPosition + 10, nodeButton.yPosition - (-75 + 43), 0, 0, 104, 474, 10, 43, 104, 474);
+							verticalArrow.draw(nodeButton.xPosition + 10, nodeButton.yPosition - (-75 + 43), 10, 43);
 						}
 						else if (current.getPositionY() < previous.getPositionY())
 						{
-							this.mc.renderEngine.bindTexture(BloodStainedJournalResearchGUI.downArrow);
-							Gui.drawScaledCustomSizeModalRect(nodeButton.xPosition + 10, nodeButton.yPosition + 30, 0, 0, 104, 474, 10, 43, 104, 474);
+							verticalArrow.draw(nodeButton.xPosition + 10, nodeButton.yPosition - (-75 + 43), 10, 43);
 						}
 					}
 				}
