@@ -17,8 +17,4 @@ gradlew.bat
 Minecraft
 /MinecraftModelFiles/
 /JsonGenerator1.0/
-AfraidOfTheDark_Client.launch
-AfraidOfTheDark_Server.launch
-*.launch
-*.launch
 *.launch
