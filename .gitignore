@@ -19,3 +19,5 @@ Minecraft
 /JsonGenerator1.0/
 AfraidOfTheDark_Client.launch
 AfraidOfTheDark_Server.launch
+*.launch
+*.launch
