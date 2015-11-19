@@ -303,18 +303,6 @@ public enum ResearchTypes
 		return this.toolTip;
 	}
 
-	public static boolean researchTypeExists(int x, int y)
-	{
-		for (ResearchTypes researchType : values())
-		{
-			if (researchType.getPositionX() == x && researchType.getPositionY() == y)
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public ResourceLocation getIcon()
 	{
 		return this.icon;
