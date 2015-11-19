@@ -28,10 +28,10 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 	private static int currentID;
 	private static final int DISTANCE_BETWEEN_NODES = 75;
 
-	private static final ResourceLocation upArrow = new ResourceLocation("afraidofthedark:textures/gui/arrowUp.png");
-	private static final ResourceLocation downArrow = new ResourceLocation("afraidofthedark:textures/gui/arrowDown.png");
-	private static final ResourceLocation leftArrow = new ResourceLocation("afraidofthedark:textures/gui/arrowLeft.png");
-	private static final ResourceLocation rightArrow = new ResourceLocation("afraidofthedark:textures/gui/arrowRight.png");
+	private static final ResourceLocation upArrow = new ResourceLocation("afraidofthedark:textures/gui/ArrowVertical.png");
+	private static final ResourceLocation downArrow = new ResourceLocation("afraidofthedark:textures/gui/ArrowVertical.png");
+	private static final ResourceLocation leftArrow = new ResourceLocation("afraidofthedark:textures/gui/ArrowHorizontal.png");
+	private static final ResourceLocation rightArrow = new ResourceLocation("afraidofthedark:textures/gui/ArrowHorizontal.png");
 
 	// GUI height and width
 	private static int baseWidth = 512;
@@ -181,22 +181,22 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 						if (current.getPositionX() < previous.getPositionX())
 						{
 							this.mc.renderEngine.bindTexture(BloodStainedJournalResearchGUI.leftArrow);
-							Gui.drawScaledCustomSizeModalRect(nodeButton.xPosition + 30, nodeButton.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
+							Gui.drawScaledCustomSizeModalRect(nodeButton.xPosition + 30, nodeButton.yPosition + 10, 0, 0, 474, 104, 43, 10, 474, 104);
 						}
 						else if (current.getPositionX() > previous.getPositionX())
 						{
 							this.mc.renderEngine.bindTexture(BloodStainedJournalResearchGUI.rightArrow);
-							Gui.drawScaledCustomSizeModalRect(nodeButton.xPosition - 43, nodeButton.yPosition + 10, 0, 0, 43, 10, 43, 10, 43, 10);
+							Gui.drawScaledCustomSizeModalRect(nodeButton.xPosition - 43, nodeButton.yPosition + 10, 0, 0, 474, 104, 43, 10, 474, 104);
 						}
 						else if (current.getPositionY() > previous.getPositionY())
 						{
 							this.mc.renderEngine.bindTexture(BloodStainedJournalResearchGUI.upArrow);
-							Gui.drawScaledCustomSizeModalRect(nodeButton.xPosition + 10, nodeButton.yPosition - (-75 + 43), 0, 0, 10, 43, 10, 43, 10, 43);
+							Gui.drawScaledCustomSizeModalRect(nodeButton.xPosition + 10, nodeButton.yPosition - (-75 + 43), 0, 0, 104, 474, 10, 43, 104, 474);
 						}
 						else if (current.getPositionY() < previous.getPositionY())
 						{
 							this.mc.renderEngine.bindTexture(BloodStainedJournalResearchGUI.downArrow);
-							Gui.drawScaledCustomSizeModalRect(nodeButton.xPosition + 10, nodeButton.yPosition + 30, 0, 0, 10, 43, 10, 43, 10, 43);
+							Gui.drawScaledCustomSizeModalRect(nodeButton.xPosition + 10, nodeButton.yPosition + 30, 0, 0, 104, 474, 10, 43, 104, 474);
 						}
 					}
 				}
