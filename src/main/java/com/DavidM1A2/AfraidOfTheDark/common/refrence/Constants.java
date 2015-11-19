@@ -31,6 +31,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.LootTableEntry;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.VoidChestLoot;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.WitchHutLoot;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.gnomishCity.GnomishCityLoot;
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.gnomishCity.GnomishCityRareLoot;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.nightmareIsland.Astronomy2Part1;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.nightmareIsland.Astronomy2Part2;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.nightmareIsland.Astronomy2Part3;
@@ -106,7 +107,7 @@ public final class Constants
 					Items.gold_ingot, 20), new LootTableEntry(new Vitae1Part4Loot(), Items.netherbrick, 20), new LootTableEntry(new Vitae1Part5Loot(), Items.coal, 20), new LootTableEntry(new Astronomy2Part1(), Items.gold_nugget, 20), new LootTableEntry(new Astronomy2Part2(), Items.glowstone_dust,
 							20), new LootTableEntry(new Astronomy2Part3(), Items.nether_wart, 20), new LootTableEntry(new Astronomy2Part4(), Items.rabbit_hide, 20), });
 	public static LootTable voidChestTable = new LootTable(new LootTableEntry(new VoidChestLoot(), null, 3));
-	public static LootTable gnomishCityLootTable = new LootTable(new LootTableEntry(new GnomishCityLoot(), null, 1));
+	public static LootTable gnomishCityLootTable = new LootTable(new LootTableEntry(new GnomishCityLoot(), null, 1), new LootTableEntry(new GnomishCityRareLoot(), Items.diamond, 2));
 
 	public static final ScheduledExecutorService TIMER_FOR_DELAYS = Executors.newSingleThreadScheduledExecutor();
 
