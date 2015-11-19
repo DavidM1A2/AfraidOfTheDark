@@ -3,6 +3,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.entities.SplinterDrone;
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncAnimation;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
@@ -13,7 +14,6 @@ import net.minecraft.entity.ai.EntityAIFindEntityNearestPlayer;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
@@ -137,20 +137,7 @@ public class EntitySplinterDrone extends EntityFlying implements IMCAnimatedEnti
 	@Override
 	protected void dropFewItems(boolean unused, int number)
 	{
-		int j = this.rand.nextInt(2) + this.rand.nextInt(1 + p_70628_2_);
-		int k;
-
-		for (k = 0; k < j; ++k)
-		{
-			this.dropItem(Items.ghast_tear, 1);
-		}
-
-		j = this.rand.nextInt(3) + this.rand.nextInt(1 + p_70628_2_);
-
-		for (k = 0; k < j; ++k)
-		{
-			this.dropItem(Items.gunpowder, 1);
-		}
+		this.dropItem(ModItems.gnomishMetalIngot, rand.nextInt(5) + 3);
 	}
 
 	@Override
