@@ -36,6 +36,7 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 	{
 		super(par1World);
 		this.setSize(2.5f, 3.5f);
+		this.experienceValue = 5;
 
 		this.moveHelper = new EntityDeeeSyft.DeeeSyftMoveHelper();
 		this.tasks.addTask(5, new EntityDeeeSyft.AIRandomFly());

@@ -46,6 +46,7 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 	{
 		super(world);
 		this.setSize(0.8F, 1.8F);
+		this.experienceValue = 50;
 
 		this.setCustomNameTag("Enaria");
 

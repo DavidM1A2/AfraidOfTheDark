@@ -51,6 +51,7 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity, ICan
 		super(world);
 		this.setSize(1.8F, 1.6F);
 		this.setCanAttackAnyone(false);
+		this.experienceValue = 10;
 
 		// Add various AI tasks
 		this.tasks.addTask(1, new EntityAISwimming(this));

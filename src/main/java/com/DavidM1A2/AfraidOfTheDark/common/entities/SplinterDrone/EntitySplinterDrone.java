@@ -38,7 +38,7 @@ public class EntitySplinterDrone extends EntityFlying implements IMCAnimatedEnti
 		super(par1World);
 		this.setSize(0.8F, 3.0F);
 		this.isImmuneToFire = true;
-		this.experienceValue = 5;
+		this.experienceValue = 7;
 
 		this.moveHelper = new EntitySplinterDroneMoveHelper(this);
 

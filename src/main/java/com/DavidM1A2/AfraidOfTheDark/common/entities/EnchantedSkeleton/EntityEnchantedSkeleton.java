@@ -53,6 +53,7 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 		// Set the model size
 		super(world);
 		this.setSize(0.8F, 2.0F);
+		this.experienceValue = 4;
 
 		// Add various AI tasks
 		this.tasks.addTask(1, new EntityAISwimming(this));
