@@ -7,10 +7,10 @@ import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncAnimation;
 import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
+import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.EntityAIFindEntityNearestPlayer;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
@@ -18,11 +18,11 @@ import net.minecraft.util.EntityDamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
-public class EntitySplinterDrone extends EntityMob implements IMCAnimatedEntity
+public class EntitySplinterDrone extends EntityFlying implements IMCAnimatedEntity
 {
 	protected AnimationHandler animHandler = new AnimationHandlerSplinterDrone(this);
 	// setup MOVE_SPEED, AGRO_RANGE, and FOLLOW_RANGE
-	private static final double MOVE_SPEED = 0D;
+	private static final double MOVE_SPEED = 0.05D;
 	private static final double AGRO_RANGE = 20.0D;
 	private static final double FOLLOW_RANGE = 20.0D;
 	private static final double MAX_HEALTH = 25.0D;
@@ -36,11 +36,14 @@ public class EntitySplinterDrone extends EntityMob implements IMCAnimatedEntity
 		this.setSize(0.8F, 3.0F);
 		this.isImmuneToFire = true;
 
+		this.moveHelper = new EntitySplinterDroneMoveHelper(this);
+
 		this.tasks.addTask(3, new EntityAIWatchClosest(this, EntityPlayer.class, (float) EntitySplinterDrone.AGRO_RANGE));
-		this.tasks.addTask(4, new EntityAILookIdleSplinterDrone(this));
+		this.tasks.addTask(4, new EntityAIHoverSplinterDrone(this));
+		this.tasks.addTask(5, new EntityAILookIdleSplinterDrone(this));
 
 		this.targetTasks.addTask(1, new EntityAIAttackSplinterDrone(this));
-		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
+		this.targetTasks.addTask(2, new EntityAIFindEntityNearestPlayer(this));
 	}
 
 	@Override
@@ -75,26 +78,13 @@ public class EntitySplinterDrone extends EntityMob implements IMCAnimatedEntity
 	@Override
 	protected void applyEntityAttributes()
 	{
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.maxHealth) == null)
-		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(EntitySplinterDrone.MAX_HEALTH);
-		}
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange) == null)
-		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.followRange).setBaseValue(EntitySplinterDrone.FOLLOW_RANGE);
-		}
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.knockbackResistance) == null)
-		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(EntitySplinterDrone.KNOCKBACK_RESISTANCE);
-		}
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed) == null)
-		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(EntitySplinterDrone.MOVE_SPEED);
-		}
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.attackDamage) == null)
-		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(EntitySplinterDrone.ATTACK_DAMAGE);
-		}
+		super.applyEntityAttributes();
+		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.attackDamage);
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(EntitySplinterDrone.MAX_HEALTH);
+		this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(EntitySplinterDrone.FOLLOW_RANGE);
+		this.getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(EntitySplinterDrone.KNOCKBACK_RESISTANCE);
+		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(EntitySplinterDrone.MOVE_SPEED);
+		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(EntitySplinterDrone.ATTACK_DAMAGE);
 	}
 
 	@Override

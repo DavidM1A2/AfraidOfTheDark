@@ -12,6 +12,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
@@ -93,5 +94,13 @@ public class ModRecipes
 
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.flaskOfSouls, 1), ResearchTypes.SlayingOfTheWolves, "ada", "bcb", "aba", 'a', ModItems.werewolfBlood, 'b', Blocks.glass, 'c', Blocks.diamond_block, 'd', Items.leather));
 		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(ModItems.flaskOfSouls, 1), ResearchTypes.PhylacteryOfSouls, new ItemStack(ModItems.flaskOfSouls, 1, 1), new ItemStack(Items.potionitem, 1, 0)));
+
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModBlocks.gnomishMetalPlate, 3), ResearchTypes.GnomishCity, " a ", "bbb", " a ", 'a', ModItems.gnomishMetalIngot, 'b', Blocks.stone));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModBlocks.gnomishMetalStrut, 3), ResearchTypes.GnomishCity, " b ", "aba", " b ", 'a', ModItems.gnomishMetalIngot, 'b', Blocks.stone));
+
+		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(ModItems.gnomishMetalIngot), ResearchTypes.GnomishCity, new ItemStack(Items.iron_ingot), new ItemStack(Items.potionitem, 1, 0)));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.gnomishMetalIngot, 8), ResearchTypes.GnomishCity, "aaa", "aba", "aaa", 'a', new ItemStack(Items.iron_ingot), 'b', new ItemStack(Items.potionitem, 1, 0)));
+		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(ModItems.gnomishMetalIngot, 9), ResearchTypes.GnomishCity, new ItemStack(Item.getItemFromBlock(Blocks.iron_block)), new ItemStack(Items.potionitem, 1, 0)));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.gnomishMetalIngot, 64), ResearchTypes.GnomishCity, "aaa", "aba", "aaa", 'a', new ItemStack(Item.getItemFromBlock(Blocks.iron_block)), 'b', new ItemStack(Items.potionitem, 1, 0)));
 	}
 }
