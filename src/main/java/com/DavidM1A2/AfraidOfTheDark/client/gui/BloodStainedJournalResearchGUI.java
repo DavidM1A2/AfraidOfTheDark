@@ -29,7 +29,7 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 	private static int currentID;
 	private static final int DISTANCE_BETWEEN_NODES = 75;
 
-	private static final SpriteSheetAnimation verticalArrow = new SpriteSheetAnimation(new ResourceLocation("afraidofthedark:textures/gui/waterVertical2.png"), 500, 20, 30, 90, true);
+	private static final SpriteSheetAnimation verticalArrow = new SpriteSheetAnimation(new ResourceLocation("afraidofthedark:textures/gui/researchVertical.png"), 500, 20, 60, 180, true);
 	private static final SpriteSheetAnimation horizontalArrow = new SpriteSheetAnimation(new ResourceLocation("afraidofthedark:textures/gui/ArrowHorizontal.png"), 2000, 1, 474, 104, false);
 
 	// GUI height and width
