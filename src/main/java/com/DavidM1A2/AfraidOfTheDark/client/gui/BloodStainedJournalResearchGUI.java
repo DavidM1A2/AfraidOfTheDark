@@ -63,15 +63,15 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 	public void initGui()
 	{
 		// Calculate the various positions of GUI elements on the screen
-		BloodStainedJournalResearchGUI.currentID = BloodStainedJournalResearchGUI.RESEARCH_BASE_ID;
-		BloodStainedJournalResearchGUI.baseHeight = (this.height - 256) / 2;
-		BloodStainedJournalResearchGUI.baseWidth = (this.width - 256) / 2;
-		BloodStainedJournalResearchGUI.xPosScroll = baseWidth;
-		BloodStainedJournalResearchGUI.yPosScroll = baseHeight;
-		BloodStainedJournalResearchGUI.xPosBackground = baseWidth + 20;
-		BloodStainedJournalResearchGUI.yPosBackground = baseHeight + 20;
-		BloodStainedJournalResearchGUI.xPosBaseResearch = xPosBackground + 92;
-		BloodStainedJournalResearchGUI.yPosBaseResearch = (yPosBackground + (BACKGROUND_WIDTH / 2)) + 35;
+		currentID = RESEARCH_BASE_ID;
+		baseHeight = (this.height - 256) / 2;
+		baseWidth = (this.width - 256) / 2;
+		xPosScroll = baseWidth;
+		yPosScroll = baseHeight;
+		xPosBackground = baseWidth + 20;
+		yPosBackground = baseHeight + 20;
+		xPosBaseResearch = xPosBackground + 92;
+		yPosBaseResearch = (yPosBackground + (BACKGROUND_WIDTH / 2)) + 35;
 
 		this.guiOffsetX = ClientData.currentBloodStainedJournalX;
 		this.guiOffsetY = ClientData.currentBloodStainedJournalY;
@@ -90,16 +90,14 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 	public void drawScreen(final int i, final int j, final float f)
 	{
 		this.mc.renderEngine.bindTexture(researchBackdrop);
-		Gui.drawScaledCustomSizeModalRect(BloodStainedJournalResearchGUI.xPosScroll, BloodStainedJournalResearchGUI.yPosScroll, (this.guiOffsetX * 2) + 384, (this.guiOffsetY * 2) + 768, BloodStainedJournalResearchGUI.BACKGROUND_WIDTH, BloodStainedJournalResearchGUI.BACKGROUND_HEIGHT,
-				BloodStainedJournalResearchGUI.BACKGROUND_WIDTH, BloodStainedJournalResearchGUI.BACKGROUND_HEIGHT, 1024, 1024);
+		Gui.drawScaledCustomSizeModalRect(xPosScroll, yPosScroll, (this.guiOffsetX * 2) + 384, (this.guiOffsetY * 2) + 768, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, 1024, 1024);
 
 		GL11.glEnable(GL11.GL_SCISSOR_TEST);
 		final int disWidth = Minecraft.getMinecraft().displayWidth;
 		final int disHeight = Minecraft.getMinecraft().displayHeight;
 		final int widthScale = Math.round(disWidth / (float) this.width);
 		final int heightScale = Math.round(disHeight / (float) this.height);
-		GL11.glScissor(disWidth - ((BloodStainedJournalResearchGUI.xPosScroll + BloodStainedJournalResearchGUI.BACKGROUND_WIDTH) * widthScale), disHeight - ((BloodStainedJournalResearchGUI.yPosScroll + BloodStainedJournalResearchGUI.BACKGROUND_HEIGHT) * widthScale),
-				BloodStainedJournalResearchGUI.BACKGROUND_WIDTH * heightScale, BloodStainedJournalResearchGUI.BACKGROUND_HEIGHT * heightScale);
+		GL11.glScissor(disWidth - ((xPosScroll + BACKGROUND_WIDTH) * widthScale), disHeight - ((yPosScroll + BACKGROUND_HEIGHT) * widthScale), BACKGROUND_WIDTH * heightScale, BACKGROUND_HEIGHT * heightScale);
 
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.drawLines();
@@ -110,7 +108,7 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.renderEngine.bindTexture(researchBackground);
-		this.drawTexturedModalRect(BloodStainedJournalResearchGUI.xPosScroll, BloodStainedJournalResearchGUI.yPosScroll, 0, 0, BloodStainedJournalResearchGUI.BACKGROUND_WIDTH, BloodStainedJournalResearchGUI.BACKGROUND_HEIGHT);
+		this.drawTexturedModalRect(xPosScroll, yPosScroll, 0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
 
 		for (Object nodeButton : this.buttonList)
 		{
@@ -219,21 +217,21 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 	@Override
 	protected void checkOutOfBounds()
 	{
-		if (this.guiOffsetX > BloodStainedJournalResearchGUI.MAX_WIDTH)
+		if (this.guiOffsetX > MAX_WIDTH)
 		{
-			this.guiOffsetX = BloodStainedJournalResearchGUI.MAX_WIDTH;
+			this.guiOffsetX = MAX_WIDTH;
 		}
-		if (this.guiOffsetX < BloodStainedJournalResearchGUI.MAX_NEGATIVE_WIDTH)
+		if (this.guiOffsetX < MAX_NEGATIVE_WIDTH)
 		{
-			this.guiOffsetX = BloodStainedJournalResearchGUI.MAX_NEGATIVE_WIDTH;
+			this.guiOffsetX = MAX_NEGATIVE_WIDTH;
 		}
-		if (this.guiOffsetY > BloodStainedJournalResearchGUI.MAX_HEIGHT)
+		if (this.guiOffsetY > MAX_HEIGHT)
 		{
-			this.guiOffsetY = BloodStainedJournalResearchGUI.MAX_HEIGHT;
+			this.guiOffsetY = MAX_HEIGHT;
 		}
-		if (this.guiOffsetY < BloodStainedJournalResearchGUI.MAX_NEGATIVE_HEIGHT)
+		if (this.guiOffsetY < MAX_NEGATIVE_HEIGHT)
 		{
-			this.guiOffsetY = BloodStainedJournalResearchGUI.MAX_NEGATIVE_HEIGHT;
+			this.guiOffsetY = MAX_NEGATIVE_HEIGHT;
 		}
 	}
 
