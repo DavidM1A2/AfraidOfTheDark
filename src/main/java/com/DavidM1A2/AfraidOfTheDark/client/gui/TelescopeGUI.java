@@ -37,6 +37,7 @@ public class TelescopeGUI extends GuiClickAndDragable
 	private static int baseHeight = 512;
 
 	private static final ResourceLocation nebula = new ResourceLocation("afraidofthedark:textures/gui/TelescopeBackground.png");
+	private static final ResourceLocation telescopeGUI = new ResourceLocation("afraidofthedark:textures/gui/TelescopeGUI.png");
 
 	// Current GUI x/y Scrool positions, background positions, and research
 	// positions
@@ -89,7 +90,7 @@ public class TelescopeGUI extends GuiClickAndDragable
 		super.drawScreen(i, j, f);
 		GL11.glDisable(GL11.GL_SCISSOR_TEST);
 
-		this.mc.renderEngine.bindTexture(new ResourceLocation("afraidofthedark:textures/gui/TelescopeGUI.png"));
+		this.mc.renderEngine.bindTexture(telescopeGUI);
 		this.drawTexturedModalRect(TelescopeGUI.xPosTelescope, TelescopeGUI.yPosTelescope, 0, 0, TelescopeGUI.FRAME_WIDTH, TelescopeGUI.FRAME_HEIGHT);
 	}
 

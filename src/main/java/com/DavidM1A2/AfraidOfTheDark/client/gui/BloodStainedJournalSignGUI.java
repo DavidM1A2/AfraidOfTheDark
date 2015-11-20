@@ -24,6 +24,7 @@ public class BloodStainedJournalSignGUI extends GuiScreen
 {
 	private static final int SIGN_JOURNAL_BUTTON_ID = 0;
 	private GuiTextField signNameHere;
+	private static final ResourceLocation background = new ResourceLocation("afraidofthedark:textures/gui/bloodStainedJournal.png");
 
 	/*
 	 * GUI for the blood stained journal on the initial signing
@@ -58,7 +59,7 @@ public class BloodStainedJournalSignGUI extends GuiScreen
 	public void drawScreen(final int i, final int j, final float f)
 	{
 		GL11.glColor4f(1, 1, 1, 1);
-		this.mc.renderEngine.bindTexture(new ResourceLocation("afraidofthedark:textures/gui/bloodStainedJournal.png"));
+		this.mc.renderEngine.bindTexture(background);
 		this.drawTexturedModalRect((this.width - 256) / 2, (this.height - 256) / 2, 0, 0, 256, 256);
 		this.signNameHere.drawTextBox();
 		super.drawScreen(i, j, f);

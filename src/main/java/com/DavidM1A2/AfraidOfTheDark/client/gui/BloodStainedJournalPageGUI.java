@@ -62,9 +62,8 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 
 	private int pageNumber = 0;
 
-	private final ResourceLocation journalTexture;
-
-	private final ResourceLocation journalCraftingGrid;
+	private static final ResourceLocation journalTexture = new ResourceLocation("afraidofthedark:textures/gui/bloodStainedJournalPage.png");
+	private static final ResourceLocation journalCraftingGrid = new ResourceLocation("afraidofthedark:textures/gui/journalCrafting.png");
 
 	private final List<ConvertedRecipe> researchRecipes = new ArrayList<ConvertedRecipe>();
 
@@ -89,8 +88,6 @@ public class BloodStainedJournalPageGUI extends GuiScreen
 		this.forwardButton = new ForwardBackwardButtons(15, this.width - 64, this.height - 64, 64, 64, true);
 		this.backwardButton = new ForwardBackwardButtons(16, 0, this.height - 64, 64, 64, false);
 		this.bookmarkButton = new BookmarkButton(1, 0, (int) (this.yCornerOfPage + this.journalWidth / 2.1), this.width, 40);
-		this.journalTexture = new ResourceLocation("afraidofthedark:textures/gui/bloodStainedJournalPage.png");
-		this.journalCraftingGrid = new ResourceLocation("afraidofthedark:textures/gui/journalCrafting.png");
 
 		this.updateBounds();
 	}

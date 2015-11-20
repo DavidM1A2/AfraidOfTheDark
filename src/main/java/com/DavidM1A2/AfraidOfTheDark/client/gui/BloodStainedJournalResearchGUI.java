@@ -32,6 +32,9 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 	private static final SpriteSheetAnimation verticalArrow = new SpriteSheetAnimation(new ResourceLocation("afraidofthedark:textures/gui/researchVertical.png"), 500, 20, 60, 180, true, true);
 	private static final SpriteSheetAnimation horizontalArrow = new SpriteSheetAnimation(new ResourceLocation("afraidofthedark:textures/gui/researchHorizontal.png"), 500, 20, 180, 60, true, false);
 
+	private static final ResourceLocation researchBackdrop = new ResourceLocation("afraidofthedark:textures/gui/BloodStainedJournalResearchBackdrop.png");
+	private static final ResourceLocation researchBackground = new ResourceLocation("afraidofthedark:textures/gui/BloodStainedJournalResearchBackground.png");
+
 	// GUI height and width
 	private static int baseWidth = 512;
 	private static int baseHeight = 512;
@@ -86,7 +89,7 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 	@Override
 	public void drawScreen(final int i, final int j, final float f)
 	{
-		this.mc.renderEngine.bindTexture(new ResourceLocation("afraidofthedark:textures/gui/BloodStainedJournalResearchBackdrop.png"));
+		this.mc.renderEngine.bindTexture(researchBackdrop);
 		Gui.drawScaledCustomSizeModalRect(BloodStainedJournalResearchGUI.xPosScroll, BloodStainedJournalResearchGUI.yPosScroll, (this.guiOffsetX * 2) + 384, (this.guiOffsetY * 2) + 768, BloodStainedJournalResearchGUI.BACKGROUND_WIDTH, BloodStainedJournalResearchGUI.BACKGROUND_HEIGHT,
 				BloodStainedJournalResearchGUI.BACKGROUND_WIDTH, BloodStainedJournalResearchGUI.BACKGROUND_HEIGHT, 1024, 1024);
 
@@ -106,7 +109,7 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 		GL11.glDisable(GL11.GL_SCISSOR_TEST);
 
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-		this.mc.renderEngine.bindTexture(new ResourceLocation("afraidofthedark:textures/gui/BloodStainedJournalResearchBackground.png"));
+		this.mc.renderEngine.bindTexture(researchBackground);
 		this.drawTexturedModalRect(BloodStainedJournalResearchGUI.xPosScroll, BloodStainedJournalResearchGUI.yPosScroll, 0, 0, BloodStainedJournalResearchGUI.BACKGROUND_WIDTH, BloodStainedJournalResearchGUI.BACKGROUND_HEIGHT);
 
 		for (Object nodeButton : this.buttonList)
