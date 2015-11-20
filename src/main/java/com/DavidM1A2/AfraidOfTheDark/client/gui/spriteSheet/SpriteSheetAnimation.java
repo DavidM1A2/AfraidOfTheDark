@@ -79,6 +79,7 @@ public class SpriteSheetAnimation
 		}
 		else
 		{
+			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 			if (this.isVertical)
 			{
 				Gui.drawScaledCustomSizeModalRect(x, y, 0, currentFrame * frameHeight, frameWidth, frameHeight, width, height, frameWidth, frameHeight * totalFrames);
