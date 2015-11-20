@@ -29,8 +29,8 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 	private static int currentID;
 	private static final int DISTANCE_BETWEEN_NODES = 75;
 
-	private static final SpriteSheetAnimation verticalArrow = new SpriteSheetAnimation(new ResourceLocation("afraidofthedark:textures/gui/researchVertical.png"), 500, 20, 60, 180, true);
-	private static final SpriteSheetAnimation horizontalArrow = new SpriteSheetAnimation(new ResourceLocation("afraidofthedark:textures/gui/ArrowHorizontal.png"), 2000, 1, 474, 104, false);
+	private static final SpriteSheetAnimation verticalArrow = new SpriteSheetAnimation(new ResourceLocation("afraidofthedark:textures/gui/researchVertical.png"), 400, 20, 60, 180, true, true);
+	private static final SpriteSheetAnimation horizontalArrow = new SpriteSheetAnimation(new ResourceLocation("afraidofthedark:textures/gui/researchHorizontal.png"), 400, 20, 180, 60, true, false);
 
 	// GUI height and width
 	private static int baseWidth = 512;
@@ -184,11 +184,11 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 						ResearchTypes current = nodeButton.getMyType();
 						if (current.getPositionX() < previous.getPositionX())
 						{
-							horizontalArrow.draw(nodeButton.xPosition + 30, nodeButton.yPosition + 10, 43, 10);
+							horizontalArrow.draw(nodeButton.xPosition + 26, nodeButton.yPosition + 9, 54, 14);
 						}
 						else if (current.getPositionX() > previous.getPositionX())
 						{
-							horizontalArrow.draw(nodeButton.xPosition - 43, nodeButton.yPosition + 10, 43, 10);
+							horizontalArrow.draw(nodeButton.xPosition - 50, nodeButton.yPosition + 9, 54, 14);
 						}
 						else if (current.getPositionY() > previous.getPositionY())
 						{
@@ -196,7 +196,7 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 						}
 						else if (current.getPositionY() < previous.getPositionY())
 						{
-							verticalArrow.draw(nodeButton.xPosition + 10, nodeButton.yPosition - (-75 + 43), 10, 43);
+							verticalArrow.draw(nodeButton.xPosition + 9, nodeButton.yPosition - 46, 14, 46);
 						}
 					}
 				}

@@ -21,8 +21,9 @@ public class SpriteSheetAnimation
 	private int frameHeight;
 	private ResourceLocation spriteSheet;
 	private boolean frameInterpolation;
+	private boolean isVertical;
 
-	public SpriteSheetAnimation(ResourceLocation spriteSheet, int frameDelayInMillis, int totalFrames, int frameWidth, int frameHeight, boolean frameInterpolation)
+	public SpriteSheetAnimation(ResourceLocation spriteSheet, int frameDelayInMillis, int totalFrames, int frameWidth, int frameHeight, boolean frameInterpolation, boolean isVertical)
 	{
 		this.spriteSheet = spriteSheet;
 		this.frameCount = 0;
@@ -32,6 +33,7 @@ public class SpriteSheetAnimation
 		this.frameWidth = frameWidth;
 		this.frameHeight = frameHeight;
 		this.frameInterpolation = frameInterpolation;
+		this.isVertical = isVertical;
 	}
 
 	public void update()
@@ -58,18 +60,39 @@ public class SpriteSheetAnimation
 			float percentageToNextFrame = MathHelper.clamp_float(1 - (timeSinceLastUpdate / frameDelay), 0.0f, 1.0f);
 
 			GlStateManager.color(1.0F, 1.0F, 1.0F, percentageToNextFrame);
-			Gui.drawScaledCustomSizeModalRect(x, y, 0, currentFrame * frameHeight, frameWidth, frameHeight, width, height, frameWidth, frameHeight * totalFrames);
+			if (this.isVertical)
+			{
+				Gui.drawScaledCustomSizeModalRect(x, y, 0, currentFrame * frameHeight, frameWidth, frameHeight, width, height, frameWidth, frameHeight * totalFrames);
+			}
+			else
+			{
+				Gui.drawScaledCustomSizeModalRect(x, y, currentFrame * frameWidth, 0, frameWidth, frameHeight, width, height, frameWidth * totalFrames, frameHeight);
+			}
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1 - percentageToNextFrame);
 			int nextFrame = currentFrame + 1;
 			if (nextFrame > totalFrames - 1)
 			{
 				nextFrame = 0;
 			}
-			Gui.drawScaledCustomSizeModalRect(x, y, 0, nextFrame * frameHeight, frameWidth, frameHeight, width, height, frameWidth, frameHeight * totalFrames);
+			if (this.isVertical)
+			{
+				Gui.drawScaledCustomSizeModalRect(x, y, 0, nextFrame * frameHeight, frameWidth, frameHeight, width, height, frameWidth, frameHeight * totalFrames);
+			}
+			else
+			{
+				Gui.drawScaledCustomSizeModalRect(x, y, nextFrame * frameWidth, 0, frameWidth, frameHeight, width, height, frameWidth * totalFrames, frameHeight);
+			}
 		}
 		else
 		{
-			Gui.drawScaledCustomSizeModalRect(x, y, 0, currentFrame * frameHeight, frameWidth, frameHeight, width, height, frameWidth, frameHeight * totalFrames);
+			if (this.isVertical)
+			{
+				Gui.drawScaledCustomSizeModalRect(x, y, 0, currentFrame * frameHeight, frameWidth, frameHeight, width, height, frameWidth, frameHeight * totalFrames);
+			}
+			else
+			{
+				Gui.drawScaledCustomSizeModalRect(x, y, currentFrame * frameWidth, 0, frameWidth, frameHeight, width, height, frameWidth * totalFrames, frameHeight);
+			}
 		}
 	}
 }
