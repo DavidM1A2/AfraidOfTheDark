@@ -29,7 +29,7 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 	private static int currentID;
 	private static final int DISTANCE_BETWEEN_NODES = 75;
 
-	private static final SpriteSheetAnimation verticalArrow = new SpriteSheetAnimation(new ResourceLocation("afraidofthedark:textures/gui/ArrowVertical.png"), 2000, 1, 104, 474, false);
+	private static final SpriteSheetAnimation verticalArrow = new SpriteSheetAnimation(new ResourceLocation("afraidofthedark:textures/gui/waterVertical2.png"), 500, 20, 30, 90, true);
 	private static final SpriteSheetAnimation horizontalArrow = new SpriteSheetAnimation(new ResourceLocation("afraidofthedark:textures/gui/ArrowHorizontal.png"), 2000, 1, 474, 104, false);
 
 	// GUI height and width
@@ -97,10 +97,12 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 		final int heightScale = Math.round(disHeight / (float) this.height);
 		GL11.glScissor(disWidth - ((BloodStainedJournalResearchGUI.xPosScroll + BloodStainedJournalResearchGUI.BACKGROUND_WIDTH) * widthScale), disHeight - ((BloodStainedJournalResearchGUI.yPosScroll + BloodStainedJournalResearchGUI.BACKGROUND_HEIGHT) * widthScale),
 				BloodStainedJournalResearchGUI.BACKGROUND_WIDTH * heightScale, BloodStainedJournalResearchGUI.BACKGROUND_HEIGHT * heightScale);
-		super.drawScreen(i, j, f);
 
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.drawLines();
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		super.drawScreen(i, j, f);
+
 		GL11.glDisable(GL11.GL_SCISSOR_TEST);
 
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
@@ -190,7 +192,7 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 						}
 						else if (current.getPositionY() > previous.getPositionY())
 						{
-							verticalArrow.draw(nodeButton.xPosition + 10, nodeButton.yPosition - (-75 + 43), 10, 43);
+							verticalArrow.draw(nodeButton.xPosition + 9, nodeButton.yPosition + 30, 14, 46);
 						}
 						else if (current.getPositionY() < previous.getPositionY())
 						{
