@@ -18,7 +18,7 @@ import net.minecraft.util.ResourceLocation;
 public class RenderEnchantedSkeleton extends RenderLiving
 {
 
-	public static final ResourceLocation Enchanted_Sekeleton_Texture = new ResourceLocation("afraidofthedark:textures/entity/EnchantedSkeleton.png");
+	public static final ResourceLocation Enchanted_Sekeleton_Texture = new ResourceLocation("afraidofthedark:textures/entity/enchantedSkeleton.png");
 	public static ModelEnchantedSkeleton modelEnchantedSkeleton = new ModelEnchantedSkeleton();
 	public static float modelHeight = 2.9F;
 

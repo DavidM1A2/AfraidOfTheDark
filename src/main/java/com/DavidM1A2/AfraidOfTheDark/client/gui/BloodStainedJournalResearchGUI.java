@@ -32,8 +32,8 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 	private final SpriteSheetAnimation verticalArrow = new SpriteSheetAnimation(new ResourceLocation("afraidofthedark:textures/gui/researchVertical.png"), 500, 20, 60, 180, true, true);
 	private final SpriteSheetAnimation horizontalArrow = new SpriteSheetAnimation(new ResourceLocation("afraidofthedark:textures/gui/researchHorizontal.png"), 500, 20, 180, 60, true, false);
 
-	private static final ResourceLocation researchBackdrop = new ResourceLocation("afraidofthedark:textures/gui/BloodStainedJournalResearchBackdrop.png");
-	private static final ResourceLocation researchBackground = new ResourceLocation("afraidofthedark:textures/gui/BloodStainedJournalResearchBackground.png");
+	private static final ResourceLocation researchBackdrop = new ResourceLocation("afraidofthedark:textures/gui/bloodStainedJournalResearchBackdrop.png");
+	private static final ResourceLocation researchBackground = new ResourceLocation("afraidofthedark:textures/gui/bloodStainedJournalResearchBackground.png");
 
 	// GUI height and width
 	private static int baseWidth = 512;

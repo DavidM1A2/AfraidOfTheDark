@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderSplinterDroneProjectile extends Render
 {
-	public static final ResourceLocation SplinterDroneProjectile_texture = new ResourceLocation("afraidofthedark:textures/entity/SplinterDroneProjectile.png");
+	public static final ResourceLocation SplinterDroneProjectile_texture = new ResourceLocation("afraidofthedark:textures/entity/splinterDroneProjectile.png");
 	public static ModelSplinterDroneProjectile modelSplinterDroneProjectile;
 
 	public RenderSplinterDroneProjectile()

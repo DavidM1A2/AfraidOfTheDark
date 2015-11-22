@@ -36,8 +36,8 @@ public class TelescopeGUI extends GuiClickAndDragable
 	private static int baseWidth = 512;
 	private static int baseHeight = 512;
 
-	private static final ResourceLocation nebula = new ResourceLocation("afraidofthedark:textures/gui/TelescopeBackground.png");
-	private static final ResourceLocation telescopeGUI = new ResourceLocation("afraidofthedark:textures/gui/TelescopeGUI.png");
+	private static final ResourceLocation nebula = new ResourceLocation("afraidofthedark:textures/gui/telescopeBackground.png");
+	private static final ResourceLocation telescopeGUI = new ResourceLocation("afraidofthedark:textures/gui/telescopeGUI.png");
 
 	// Current GUI x/y Scrool positions, background positions, and research
 	// positions

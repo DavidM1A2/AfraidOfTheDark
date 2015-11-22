@@ -18,7 +18,7 @@ import net.minecraft.util.ResourceLocation;
 public class RenderEnaria extends RenderLiving
 {
 
-	public static final ResourceLocation Enaria_texture = new ResourceLocation("afraidofthedark:textures/entity/Enaria.png");
+	public static final ResourceLocation Enaria_texture = new ResourceLocation("afraidofthedark:textures/entity/enaria.png");
 	public static ModelEnaria modelEnaria = new ModelEnaria();
 	public static float modelHeight = 2.8F;
 
