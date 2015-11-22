@@ -241,7 +241,7 @@ public class ItemVitaeLantern extends AOTDItem
 						{
 							if (!entityPlayer.capabilities.isCreativeMode)
 							{
-								entityPlayer.worldObj.createExplosion(entityPlayer, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ(), 2, true).doExplosionB(true);
+								entityPlayer.worldObj.createExplosion(entityPlayer, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ(), 2, entityPlayer.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"));
 								entityPlayer.onKillCommand();
 							}
 						}

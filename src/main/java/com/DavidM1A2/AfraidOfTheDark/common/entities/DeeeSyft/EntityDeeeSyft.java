@@ -64,7 +64,7 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 					int newVitae = AOTDEntityData.get(this).getVitaeLevel() + this.rand.nextInt(3);
 					if (AOTDEntityData.get(this).setVitaeLevel(newVitae))
 					{
-						this.worldObj.createExplosion(this, this.getPosition().getX(), this.getPosition().getY(), this.getPosition().getZ(), 2, true).doExplosionB(true);
+						this.worldObj.createExplosion(this, this.getPosition().getX(), this.getPosition().getY(), this.getPosition().getZ(), 2, this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"));
 						this.onKillCommand();
 					}
 					AOTDEntityData.get(this).syncVitaeLevel();
@@ -92,7 +92,7 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 			if (source == DamageSource.inFire || source == DamageSource.onFire || source == DamageSource.lava || source.isExplosion())
 			{
 				this.setDead();
-				this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 7.0F, true);
+				this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 7.0F, this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"));
 			}
 		}
 		return super.attackEntityFrom(source, amount);

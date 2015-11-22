@@ -5,8 +5,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.particleFX;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
@@ -29,46 +27,20 @@ public abstract class AOTDParticleFX extends EntityFX
 	public abstract int getTextureIndex();
 
 	@Override
-	public void func_180434_a(WorldRenderer worldRenderer, Entity entity, float float1, float float2, float float3, float float4, float float5, float float6)
+	public void func_180434_a(WorldRenderer worldRenderer, Entity entity, float partialTicks, float float2, float float3, float float4, float float5, float float6)
 	{
 		// Draw whatever we have currently loaded into memory
 		Tessellator.getInstance().draw();
+		Minecraft.getMinecraft().renderEngine.bindTexture(customParticleTextures);
 		// Begin drawing our custom particle
 		worldRenderer.startDrawingQuads();
 
-		Minecraft.getMinecraft().renderEngine.bindTexture(customParticleTextures);
-
-		GL11.glColor4f(1f, 1f, 1f, 1f);
-
-		float f6 = this.particleTextureIndexX / 16.0F;
-		float f7 = f6 + 0.0624375F;
-		float f8 = this.particleTextureIndexY / 16.0F;
-		float f9 = f8 + 0.0624375F;
-		float f10 = 0.1F * this.particleScale;
-
-		if (this.particleIcon != null)
-		{
-			f6 = this.particleIcon.getMinU();
-			f7 = this.particleIcon.getMaxU();
-			f8 = this.particleIcon.getMinV();
-			f9 = this.particleIcon.getMaxV();
-		}
-
-		float f11 = (float) (this.prevPosX + (this.posX - this.prevPosX) * float1 - interpPosX);
-		float f12 = (float) (this.prevPosY + (this.posY - this.prevPosY) * float1 - interpPosY);
-		float f13 = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * float1 - interpPosZ);
-		worldRenderer.setColorRGBA_F(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha);
-		worldRenderer.addVertexWithUV(f11 - float2 * f10 + float5 * f10, f12 + float3 * f10, f13 - float4 * f10 + float6 * f10, f7, f8);
-		worldRenderer.addVertexWithUV(f11 + float2 * f10 + float5 * f10, f12 + float3 * f10, f13 + float4 * f10 + float6 * f10, f6, f8);
-		worldRenderer.addVertexWithUV(f11 + float2 * f10 - float5 * f10, f12 - float3 * f10, f13 + float4 * f10 - float6 * f10, f6, f9);
+		super.func_180434_a(worldRenderer, entity, partialTicks, float2, float3, float4, float5, float6);
 
 		// Draw our custom particle
 		Tessellator.getInstance().draw();
-
+		Minecraft.getMinecraft().renderEngine.bindTexture(defaultParticleTextures);
 		// Begin drawing remaining particles
 		worldRenderer.startDrawingQuads();
-
-		Minecraft.getMinecraft().renderEngine.bindTexture(defaultParticleTextures);
-
 	}
 }
