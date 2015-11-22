@@ -67,6 +67,7 @@ public class SchematicBlockReplacer
 	private static final Map<Short, Short> knownModProblemIds = new HashMap<Short, Short>()
 	{
 		{
+			put((short) -34, (short) Block.getIdFromBlock(ModBlocks.enariaSpawner));
 			put((short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk));
 			put((short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut));
 			put((short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate));
