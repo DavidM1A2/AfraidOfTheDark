@@ -55,7 +55,7 @@ public class AOTDWorldGenerationHandler implements IWorldGenerator
 			{
 				new GenerateSprings(random, chunkX, chunkZ, world);
 			}
-			if (random.nextDouble() < 0.00096 * ConfigurationHandler.dungeonFrequencyMultiplier)
+			if (random.nextDouble() < 0.0012 * ConfigurationHandler.dungeonFrequencyMultiplier)
 			{
 				new GenerateDarkForestDungeon(random, chunkX, chunkZ, world);
 			}
@@ -82,6 +82,10 @@ public class AOTDWorldGenerationHandler implements IWorldGenerator
 			{
 				new GenerateWitchHut(random, chunkX, chunkZ, world);
 			}
+			if (random.nextDouble() < 0.002 * ConfigurationHandler.dungeonFrequencyMultiplier)
+			{
+				new GenerateGnomishCity(random, chunkX, chunkZ, world);
+			}
 		}
 		else if (current instanceof BiomeGenSavanna)
 		{
@@ -92,6 +96,10 @@ public class AOTDWorldGenerationHandler implements IWorldGenerator
 			if (random.nextDouble() < 0.0024 * ConfigurationHandler.dungeonFrequencyMultiplier)
 			{
 				new GenerateDarkForestDungeon(random, chunkX, chunkZ, world);
+			}
+			if (random.nextDouble() < 0.002 * ConfigurationHandler.dungeonFrequencyMultiplier)
+			{
+				new GenerateGnomishCity(random, chunkX, chunkZ, world);
 			}
 		}
 		else if (current instanceof BiomeGenSwamp)
@@ -106,6 +114,10 @@ public class AOTDWorldGenerationHandler implements IWorldGenerator
 			if (random.nextDouble() < 0.0024 * ConfigurationHandler.dungeonFrequencyMultiplier)
 			{
 				new GenerateVoidChest(random, chunkX, chunkZ, world);
+			}
+			if (random.nextDouble() < 0.002 * ConfigurationHandler.dungeonFrequencyMultiplier)
+			{
+				new GenerateGnomishCity(random, chunkX, chunkZ, world);
 			}
 		}
 	}

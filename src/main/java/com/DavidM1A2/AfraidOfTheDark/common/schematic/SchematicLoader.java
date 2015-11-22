@@ -12,6 +12,7 @@ import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
@@ -23,8 +24,9 @@ public class SchematicLoader
 	{
 		try
 		{
-			InputStream schematicInputStream = SchematicLoader.class.getClassLoader().getResourceAsStream("assets/afraidofthedark/schematics/" + schemname);
+			InputStream schematicInputStream = Utility.getInputStreamFromPath("assets/afraidofthedark/schematics/" + schemname);
 			NBTTagCompound nbtdata = CompressedStreamTools.readCompressed(schematicInputStream);
+			schematicInputStream.close();
 			short width = nbtdata.getShort("Width");
 			short height = nbtdata.getShort("Height");
 			short length = nbtdata.getShort("Length");
@@ -35,8 +37,6 @@ public class SchematicLoader
 
 			NBTTagList tileentities = nbtdata.getTagList("TileEntities", 10);
 			NBTTagList entities = nbtdata.getTagList("Entities", 10);
-
-			schematicInputStream.close();
 
 			Schematic toReturn = new Schematic(tileentities, width, height, length, byteArrayToShortArray(blocks), data, entities);
 
@@ -51,7 +51,7 @@ public class SchematicLoader
 		}
 		catch (IOException e)
 		{
-			System.out.println("I can't load schematic, because " + e.toString());
+			System.out.println("I can't load schematic: " + schemname + ", because " + e.toString() + "\nMessage: " + e.getMessage());
 			return null;
 		}
 	}

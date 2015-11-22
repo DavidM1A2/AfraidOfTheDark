@@ -93,7 +93,7 @@ import net.minecraftforge.common.util.EnumHelper;
 
 public final class Constants
 {
-	public static final boolean isDebug = true;
+	public static final boolean isDebug = false;
 
 	public static Map<Class, Integer> entityVitaeResistance = new HashMap<Class, Integer>();
 	public static Map<String, Integer> toolMaterialRepairCosts = new HashMap<String, Integer>();
@@ -253,19 +253,19 @@ public final class Constants
 			propPumpkin2 = SchematicLoader.load("darkForest/PropPumpkin2.schematic");
 			propStump = SchematicLoader.load("darkForest/PropStump.schematic");
 
-			crypt = SchematicLoader.load("crypt.schematic");
-			spring = SchematicLoader.load("spring.schematic");
+			crypt = SchematicLoader.load("Crypt.schematic");
+			spring = SchematicLoader.load("Spring.schematic");
 
-			nightmareIsland = SchematicLoader.load("nightmareIsland.schematic");
+			nightmareIsland = SchematicLoader.load("NightmareIsland.schematic");
 
-			witchHut = SchematicLoader.load("witchHut.schematic");
+			witchHut = SchematicLoader.load("WitchHut.schematic");
 
-			voidChestPortal = SchematicLoader.load("voidChestPortal.schematic");
+			voidChestPortal = SchematicLoader.load("VoidChestPortal.schematic");
 
-			voidChest = SchematicLoader.load("voidChest.schematic");
+			voidChest = SchematicLoader.load("VoidChest.schematic");
 
-			tunnelEW = SchematicLoader.load("gnomishCity/tunnelEW.schematic");
-			tunnelNS = SchematicLoader.load("gnomishCity/tunnelNS.schematic");
+			tunnelEW = SchematicLoader.load("gnomishCity/TunnelEW.schematic");
+			tunnelNS = SchematicLoader.load("gnomishCity/TunnelNS.schematic");
 			roomStairUp = SchematicLoader.load("gnomishCity/RoomStairUp.schematic");
 			roomStairDown = SchematicLoader.load("gnomishCity/RoomStairDown.schematic");
 			rooms = new ArrayList<Schematic>()

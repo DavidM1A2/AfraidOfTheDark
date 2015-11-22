@@ -48,11 +48,14 @@ public class AOTDDisablableShapedRecipe extends ShapedOreRecipe
 		{
 			if (!AOTDPlayerData.get(entityPlayer).isResearched(preRequisite))
 			{
+				if (matches)
+				{
+					if (!entityPlayer.worldObj.isRemote)
+					{
+						entityPlayer.addChatMessage(new ChatComponentText("I'll need to do some more research before I can craft this."));
+					}
+				}
 				return false;
-			}
-			else if (matches)
-			{
-				entityPlayer.addChatMessage(new ChatComponentText("I'll need to do some more research before I can craft this."));
 			}
 		}
 

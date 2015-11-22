@@ -34,7 +34,7 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 	private static final double MOVE_SPEED = 0.6D;
 	private static final double AGRO_RANGE = 16.0D;
 	private static final double FOLLOW_RANGE = 32.0D;
-	private static final double MAX_HEALTH = 20.0D;
+	private static final double MAX_HEALTH = 400.0D;
 	private static final double ATTACK_DAMAGE = 4.0D;
 	private static final double KNOCKBACK_RESISTANCE = 0.5D;
 	public static final String IS_VALID = "isValid";
