@@ -197,7 +197,7 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 	@Override
 	public IChatComponent getDisplayName()
 	{
-		return new ChatComponentText(EnumChatFormatting.RED + "" + EnumChatFormatting.BOLD + super.getDisplayName().getFormattedText());
+		return new ChatComponentText(EnumChatFormatting.RED + "" + EnumChatFormatting.BOLD + super.getDisplayName().getUnformattedTextForChat());
 	}
 
 	/**

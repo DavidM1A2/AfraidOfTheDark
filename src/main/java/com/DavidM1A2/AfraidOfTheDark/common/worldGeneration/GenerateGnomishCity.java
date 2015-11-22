@@ -33,7 +33,6 @@ public class GenerateGnomishCity
 		chunkX = chunkX - 65;
 		chunkX = chunkZ - 65;
 
-		LogHelper.info("Spawning a gnomish city at x = " + (chunkX + 65) + ", y = " + 10 + ", z = " + (chunkZ + 65));
 		if (Constants.isDebug)
 		{
 			LogHelper.info("Spawning a gnomish city at x = " + (chunkX + 65) + ", y = " + y + ", z = " + (chunkZ + 65));
@@ -65,17 +64,11 @@ public class GenerateGnomishCity
 
 		List<Integer> rooms = new LinkedList<Integer>();
 
-		// Make sure every room is added
-		for (int i = 0; i < 14; i++)
+		// Make sure every room is added at least once
+		for (int i = 0; i < Constants.AOTDSchematics.rooms.size(); i++)
 		{
-			if (i < Constants.AOTDSchematics.rooms.size())
-			{
-				rooms.add(i, i);
-			}
-			else
-			{
-				rooms.add(i, random.nextInt(Constants.AOTDSchematics.rooms.size()));
-			}
+			rooms.add(i);
+			rooms.add(i);
 		}
 
 		Collections.shuffle(rooms, random);
@@ -119,7 +112,8 @@ public class GenerateGnomishCity
 					}
 					else
 					{
-						SchematicGenerator.generateSchematicWithLoot(Constants.AOTDSchematics.rooms.get(rooms.get(currentRoom)), world, chunkX + i * 50, y + k * 15, chunkZ + j * 50, Constants.gnomishCityLootTable);
+						SchematicGenerator.generateSchematicWithLoot(Constants.AOTDSchematics.rooms.get(rooms.get(0)), world, chunkX + i * 50, y + k * 15, chunkZ + j * 50, Constants.gnomishCityLootTable);
+						rooms.remove(0);
 					}
 				}
 			}
