@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDBlock;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDEntityData;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDEntityData;
+import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 import com.google.common.collect.Maps;
 
 import net.minecraft.block.material.Material;

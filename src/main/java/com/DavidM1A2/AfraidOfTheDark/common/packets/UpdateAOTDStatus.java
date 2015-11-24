@@ -6,7 +6,7 @@
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
 import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
+import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;

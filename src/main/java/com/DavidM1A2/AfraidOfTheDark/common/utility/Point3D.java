@@ -5,9 +5,11 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.utility;
 
+import java.io.Serializable;
+
 import net.minecraft.util.BlockPos;
 
-public class Point3D
+public class Point3D implements Serializable
 {
 	private final int x;
 	private final int y;
@@ -23,5 +25,20 @@ public class Point3D
 	public BlockPos toBlockPos()
 	{
 		return new BlockPos(this.x, this.y, this.z);
+	}
+
+	public int getX()
+	{
+		return this.x;
+	}
+
+	public int getY()
+	{
+		return this.y;
+	}
+
+	public int getZ()
+	{
+		return this.z;
 	}
 }

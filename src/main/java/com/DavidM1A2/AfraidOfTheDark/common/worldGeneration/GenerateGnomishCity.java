@@ -11,8 +11,10 @@ import java.util.List;
 import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDWorldData;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicGenerator;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.Point3D;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
@@ -22,16 +24,18 @@ import net.minecraft.world.World;
 
 public class GenerateGnomishCity
 {
-	public GenerateGnomishCity(Random random, int chunkX, int chunkZ, World world)
-	{
-		this.generateSurface(world, random, chunkX, chunkZ);
-	}
-
-	private void generateSurface(World world, Random random, int chunkX, int chunkZ)
+	public static boolean generateSurface(World world, Random random, int chunkX, int chunkZ)
 	{
 		int y = 20;
 		chunkX = chunkX - 65;
-		chunkX = chunkZ - 65;
+		chunkZ = chunkZ - 65;
+
+		if (!AOTDWorldData.get(world).isValidLocation(new Point3D(chunkX, 100, chunkZ), false))
+		{
+			return false;
+		}
+		AOTDWorldData.get(world).addDungeon(new Point3D(chunkX, 100, chunkZ), false);
+		AOTDWorldData.get(world).setDirty(true);
 
 		if (Constants.isDebug)
 		{
@@ -108,7 +112,7 @@ public class GenerateGnomishCity
 						SchematicGenerator.generateSchematic(Constants.AOTDSchematics.stairwell, world, chunkX + i * 50 + 13, y + k * 15 + 15, chunkZ + j * 50 + 13);
 						SchematicGenerator.generateSchematic(Constants.AOTDSchematics.stairwell, world, chunkX + i * 50 + 13, y + k * 15 + 31, chunkZ + j * 50 + 13);
 
-						this.fixStairs(world, chunkX + i * 50 + 13, y + k * 15 + 47, chunkZ + j * 50 + 13);
+						GenerateGnomishCity.fixStairs(world, chunkX + i * 50 + 13, y + k * 15 + 47, chunkZ + j * 50 + 13);
 					}
 					else
 					{
@@ -132,10 +136,10 @@ public class GenerateGnomishCity
 			}
 		}
 
-		// +22 for the enaria dungeon
+		return true;
 	}
 
-	private void fixStairs(World world, int x, int y, int z)
+	private static void fixStairs(World world, int x, int y, int z)
 	{
 		while (y > 5)
 		{
@@ -151,7 +155,7 @@ public class GenerateGnomishCity
 
 			if (levelValidToRemove)
 			{
-				this.clearLevel(world, x, y, z);
+				GenerateGnomishCity.clearLevel(world, x, y, z);
 			}
 			else
 			{
@@ -162,7 +166,7 @@ public class GenerateGnomishCity
 		}
 	}
 
-	private void clearLevel(World world, int x, int y, int z)
+	private static void clearLevel(World world, int x, int y, int z)
 	{
 		for (int i = 0; i < 7; i++)
 		{

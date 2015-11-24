@@ -7,10 +7,10 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 
 import com.DavidM1A2.AfraidOfTheDark.common.entities.ICanTakeSilverDamage;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDSword;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDamageSources;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

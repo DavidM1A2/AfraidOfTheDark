@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
+import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 

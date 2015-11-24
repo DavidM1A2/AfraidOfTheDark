@@ -85,7 +85,9 @@ public class AfraidOfTheDark
 		MinecraftForge.TERRAIN_GEN_BUS.register(controller);
 		FMLCommonHandler.instance().bus().register(controller);
 		// Initialize any world events
-		FMLCommonHandler.instance().bus().register(new WorldEvents());
+		WorldEvents worldEvents = new WorldEvents();
+		FMLCommonHandler.instance().bus().register(worldEvents);
+		MinecraftForge.EVENT_BUS.register(worldEvents);
 		// Initialize debug file to spam chat with variables
 		if (Constants.isDebug)
 		{

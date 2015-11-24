@@ -5,6 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts;
 
+import com.DavidM1A2.AfraidOfTheDark.common.entities.SplinterDrone.EntitySplinterDroneProjectile;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 
 import net.minecraft.entity.Entity;
@@ -58,6 +59,11 @@ public abstract class EntityBolt extends EntityThrowable
 		{
 			if (entityHit != null)
 			{
+				if (entityHit instanceof EntitySplinterDroneProjectile)
+				{
+					return;
+				}
+
 				if (myDamageSource instanceof EntityPlayer)
 				{
 					entityHit.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) myDamageSource), this.damageAmount);

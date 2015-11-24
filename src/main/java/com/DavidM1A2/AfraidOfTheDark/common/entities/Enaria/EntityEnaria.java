@@ -8,8 +8,8 @@ package com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.ICanTakeSilverDamage;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -35,7 +35,7 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 	private static final double AGRO_RANGE = 16.0D;
 	private static final double FOLLOW_RANGE = 32.0D;
 	private static final double MAX_HEALTH = 400.0D;
-	private static final double ATTACK_DAMAGE = 4.0D;
+	private static final double ATTACK_DAMAGE = 10.0D;
 	private static final double KNOCKBACK_RESISTANCE = 0.5D;
 	public static final String IS_VALID = "isValid";
 	public static final String LAST_HIT = "lastHit";

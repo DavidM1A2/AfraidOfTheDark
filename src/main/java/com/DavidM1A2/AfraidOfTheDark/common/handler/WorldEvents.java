@@ -8,11 +8,13 @@ package com.DavidM1A2.AfraidOfTheDark.common.handler;
 import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBiomes;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
+import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
+import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDWorldData;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -31,6 +33,15 @@ public class WorldEvents
 		else
 		{
 			counter = counter + 1;
+		}
+	}
+
+	@SubscribeEvent
+	public void onWorldLoadEvent(WorldEvent.Load event)
+	{
+		if (!event.world.isRemote)
+		{
+			AOTDWorldData.register(event.world);
 		}
 	}
 

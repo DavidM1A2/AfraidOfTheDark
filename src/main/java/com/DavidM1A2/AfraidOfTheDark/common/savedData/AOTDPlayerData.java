@@ -4,7 +4,7 @@
  * Ideas and Textures: Michael Albertson
  */
 
-package com.DavidM1A2.AfraidOfTheDark.common.playerData;
+package com.DavidM1A2.AfraidOfTheDark.common.savedData;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;

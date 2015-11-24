@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.SplinterDrone.EntitySplinterDrone;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncParticleFX;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDParticleFXTypes;
@@ -19,6 +20,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockTorch;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -26,6 +28,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
@@ -34,7 +37,7 @@ public class EnariaAttacks
 	private final EntityEnaria enaria;
 	private final Random random;
 	private static final int POTION_POISON_RANGE = 20;
-	private static final int DARKNESS_RANGE = 30;
+	private static final int DARKNESS_RANGE = 100;
 	private static final int TELEPORT_RANGE = 20;
 	private static final double KNOCKBACK_POWER = 5;
 	private static final int MAX_KNOCKBACK_RANGE = 10;
@@ -42,7 +45,9 @@ public class EnariaAttacks
 	private static final int BASIC_RANGE = 20;
 	private static final int NUMBER_OF_PARTICLES_PER_ATTACK = 30;
 	private static final int NUMBER_OF_PARTICLES_PER_TELEPORT = 30;
-	private static final int TELEPORT_ATTEMPTS = 200;
+	private static final int RAY_TELEPORT_RANGE = 120;
+	private static final int SHUFFLE_INVENTORY_RANGE = 30;
+	private static final int SIGHT_RANGE = 130;
 	private final PotionEffect[] possibleEffects;
 
 	public EnariaAttacks(EntityEnaria enaria, Random random)
@@ -53,23 +58,23 @@ public class EnariaAttacks
 		possibleEffects = new PotionEffect[]
 		{
 				// Slowness
-				new PotionEffect(2, 300, 0, false, true),
+				new PotionEffect(Potion.moveSlowdown.getId(), 300, 0, false, true),
 				// Mining fatigue
-				new PotionEffect(4, 300, 1, false, true),
+				new PotionEffect(Potion.digSlowdown.getId(), 300, 1, false, true),
 				// Instant dmg
-				new PotionEffect(7, 1, 2, false, true),
+				new PotionEffect(Potion.harm.getId(), 1, 2, false, true),
 				// Nausea
-				new PotionEffect(9, 300, 0, false, true),
+				new PotionEffect(Potion.confusion.getId(), 350, 0, false, true),
 				// Blindness
-				new PotionEffect(15, 100, 0, false, true),
+				new PotionEffect(Potion.blindness.getId(), 100, 0, false, true),
 				// Hunger
-				new PotionEffect(17, 100, 10, false, true),
+				new PotionEffect(Potion.hunger.getId(), 100, 10, false, true),
 				// Weakness
-				new PotionEffect(18, 100, 2, false, true),
+				new PotionEffect(Potion.weakness.getId(), 100, 4, false, true),
 				// Poison
-				new PotionEffect(19, 100, 2, false, true),
+				new PotionEffect(Potion.poison.getId(), 100, 3, false, true),
 				// Wither
-				new PotionEffect(20, 100, 2, false, true) };
+				new PotionEffect(Potion.wither.getId(), 100, 2, false, true) };
 	}
 
 	public void performBasicAttack()
@@ -79,7 +84,7 @@ public class EnariaAttacks
 			if (object instanceof EntityPlayer)
 			{
 				EntityPlayer entityPlayer = (EntityPlayer) object;
-				entityPlayer.attackEntityFrom(EntityDamageSource.causeMobDamage(this.enaria), 10);
+				entityPlayer.attackEntityFrom(EntityDamageSource.causeMobDamage(this.enaria), (float) this.enaria.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue());
 				this.performBasicAttackParticleEffectTo(entityPlayer);
 			}
 		}
@@ -100,9 +105,70 @@ public class EnariaAttacks
 		}
 	}
 
+	public void randomTeleport()
+	{
+		if (!this.enaria.worldObj.isRemote)
+		{
+			for (int i = 0; i < NUMBER_OF_PARTICLES_PER_TELEPORT; i++)
+			{
+				AfraidOfTheDark.getPacketHandler().sendToAllAround(new SyncParticleFX(AOTDParticleFXTypes.EnariaTeleport, this.enaria.getPosition().getX() + Math.random(), this.enaria.getPosition().getY() + .7 + Math.random(), this.enaria.getPosition().getZ() + Math.random()), new TargetPoint(
+						this.enaria.dimension, this.enaria.getPosition().getX() + Math.random(), this.enaria.getPosition().getY() + .7 + Math.random(), this.enaria.getPosition().getZ() + Math.random(), 40));
+			}
+
+			MovingObjectPosition hit = this.enaria.rayTrace(RAY_TELEPORT_RANGE, 1.0F);
+
+			switch (hit.typeOfHit)
+			{
+				case BLOCK:
+					BlockPos hitPos = new BlockPos(hit.hitVec);
+					if (this.enaria.worldObj.isAirBlock(hitPos) && this.enaria.worldObj.isAirBlock(hitPos.up()))
+					{
+						teleportWithShockwave(hit.hitVec.xCoord, hit.hitVec.yCoord, hit.hitVec.zCoord);
+					}
+					else
+					{
+						hitPos = hitPos.offset(hit.sideHit);
+						teleportWithShockwave(hitPos.getX() + 0.5, hitPos.getY(), hitPos.getZ() + 0.5);
+					}
+					break;
+				case ENTITY:
+					if (hit.entityHit != null)
+					{
+						teleportWithShockwave(hit.entityHit.posX, hit.entityHit.posY, hit.entityHit.posZ);
+					}
+					break;
+				case MISS:
+					break;
+			}
+		}
+	}
+
+	private void teleportWithShockwave(double x, double y, double z)
+	{
+		this.enaria.setPosition(x, y, z);
+		this.enaria.addPotionEffect(new PotionEffect(14, 40, 0, false, false));
+
+		List entityList = this.enaria.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.enaria.getEntityBoundingBox().expand(MAX_KNOCKBACK_RANGE, MAX_KNOCKBACK_RANGE, MAX_KNOCKBACK_RANGE));
+		for (Object entityObject : entityList)
+		{
+			if (entityObject instanceof EntityPlayer)
+			{
+				EntityPlayer entityPlayer = (EntityPlayer) entityObject;
+
+				double motionX = this.enaria.getPosition().getX() - entityPlayer.getPosition().getX();
+				double motionZ = this.enaria.getPosition().getZ() - entityPlayer.getPosition().getZ();
+
+				double hypotenuse = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
+
+				entityPlayer.addVelocity(-motionX * KNOCKBACK_POWER * 0.6000000238418579D / hypotenuse, 0.1D, -motionZ * KNOCKBACK_POWER * 0.6000000238418579D / hypotenuse);
+				entityPlayer.velocityChanged = true;
+			}
+		}
+	}
+
 	public void performRandomAttack()
 	{
-		switch (this.random.nextInt(5))
+		switch (this.random.nextInt(7))
 		{
 			case 0:
 			{
@@ -121,12 +187,22 @@ public class EnariaAttacks
 			}
 			case 3:
 			{
-				this.attackDarkness();
+				this.attackSummonEnchantedSkeletons();
 				break;
 			}
 			case 4:
 			{
 				this.teleportToPlayer();
+				break;
+			}
+			case 5:
+			{
+				this.attackDarkness();
+				break;
+			}
+			case 6:
+			{
+				this.attackSummonSplinterDrones();
 				break;
 			}
 		}
@@ -143,12 +219,12 @@ public class EnariaAttacks
 				this.enaria.worldObj.playSoundAtEntity(entityPlayer, "mob.wither.hurt", 1.0f, 0.5f);
 
 				// remove night vision
-				if (entityPlayer.isPotionActive(16))
+				if (entityPlayer.isPotionActive(Potion.nightVision.getId()))
 				{
-					entityPlayer.removePotionEffect(16);
+					entityPlayer.removePotionEffect(Potion.nightVision.getId());
 				}
 				// Add blindness
-				entityPlayer.addPotionEffect(new PotionEffect(15, 260, 0, false, false));
+				entityPlayer.addPotionEffect(new PotionEffect(Potion.blindness.getId(), 260, 0, false, false));
 			}
 		}
 
@@ -172,7 +248,7 @@ public class EnariaAttacks
 	{
 		if (!this.enaria.worldObj.isRemote)
 		{
-			for (Object object : this.enaria.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.enaria.getEntityBoundingBox().expand(POTION_POISON_RANGE, POTION_POISON_RANGE, POTION_POISON_RANGE)))
+			for (Object object : this.enaria.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.enaria.getEntityBoundingBox().expand(SHUFFLE_INVENTORY_RANGE, SHUFFLE_INVENTORY_RANGE, SHUFFLE_INVENTORY_RANGE)))
 			{
 				if (object instanceof EntityPlayer)
 				{
@@ -219,6 +295,71 @@ public class EnariaAttacks
 		}
 	}
 
+	public void attackSummonSplinterDrones()
+	{
+		if (!this.enaria.worldObj.isRemote)
+		{
+			int numberOfSplintersSpawned = 0;
+			int maxSplintersSpawned = this.random.nextInt(2) + 1;
+
+			for (EnumFacing facing : EnumFacing.HORIZONTALS)
+			{
+				if (numberOfSplintersSpawned < maxSplintersSpawned)
+				{
+					BlockPos current = this.enaria.getPosition().offset(facing).up();
+					IBlockState block = this.enaria.worldObj.getBlockState(current);
+					if (block.getBlock() instanceof BlockAir)
+					{
+						EntitySplinterDrone splinterDrone = new EntitySplinterDrone(this.enaria.worldObj);
+						splinterDrone.setPosition(current.getX(), current.getY(), current.getZ());
+						this.enaria.worldObj.spawnEntityInWorld(splinterDrone);
+
+						numberOfSplintersSpawned = numberOfSplintersSpawned + 1;
+					}
+				}
+			}
+
+			if (numberOfSplintersSpawned == 0)
+			{
+				this.randomTeleport();
+			}
+		}
+	}
+
+	public void attackSummonEnchantedSkeletons()
+	{
+		if (!this.enaria.worldObj.isRemote)
+		{
+			int numberOfSkeletonsSpawned = 0;
+			int maxSkeletonsSpawned = this.random.nextInt(6) + 4;
+
+			for (EnumFacing facing : EnumFacing.HORIZONTALS)
+			{
+				if (numberOfSkeletonsSpawned < maxSkeletonsSpawned)
+				{
+					BlockPos current = this.enaria.getPosition().offset(facing).up();
+					IBlockState block = this.enaria.worldObj.getBlockState(current);
+					if (block.getBlock() instanceof BlockAir)
+					{
+						EntitySplinterDrone splinterDrone = new EntitySplinterDrone(this.enaria.worldObj);
+						splinterDrone.setPosition(current.getX(), current.getY(), current.getZ());
+						this.enaria.worldObj.spawnEntityInWorld(splinterDrone);
+						EntitySplinterDrone splinterDrone2 = new EntitySplinterDrone(this.enaria.worldObj);
+						splinterDrone2.setPosition(current.getX(), current.getY(), current.getZ());
+						this.enaria.worldObj.spawnEntityInWorld(splinterDrone2);
+
+						numberOfSkeletonsSpawned = numberOfSkeletonsSpawned + 2;
+					}
+				}
+			}
+
+			if (numberOfSkeletonsSpawned == 0)
+			{
+				this.randomTeleport();
+			}
+		}
+	}
+
 	public void attackAOEPotion()
 	{
 		if (!this.enaria.worldObj.isRemote)
@@ -231,7 +372,7 @@ public class EnariaAttacks
 
 					if (!entityPlayer.capabilities.isCreativeMode)
 					{
-						Collections.shuffle(Arrays.asList(this.possibleEffects));
+						Collections.shuffle(Arrays.asList(this.possibleEffects), this.enaria.getRNG());
 
 						// 3 random potion effects
 						entityPlayer.addPotionEffect(this.possibleEffects[0]);
@@ -239,58 +380,6 @@ public class EnariaAttacks
 						entityPlayer.addPotionEffect(this.possibleEffects[2]);
 					}
 				}
-			}
-		}
-	}
-
-	public void randomTeleport()
-	{
-		if (!this.enaria.worldObj.isRemote)
-		{
-			for (int i = 0; i < NUMBER_OF_PARTICLES_PER_TELEPORT; i++)
-			{
-				AfraidOfTheDark.getPacketHandler().sendToAllAround(new SyncParticleFX(AOTDParticleFXTypes.EnariaTeleport, this.enaria.getPosition().getX() + Math.random(), this.enaria.getPosition().getY() + .7 + Math.random(), this.enaria.getPosition().getZ() + Math.random()), new TargetPoint(
-						this.enaria.dimension, this.enaria.getPosition().getX() + Math.random(), this.enaria.getPosition().getY() + .7 + Math.random(), this.enaria.getPosition().getZ() + Math.random(), 40));
-			}
-
-			int counter = TELEPORT_ATTEMPTS;
-			while (counter > 0)
-			{
-				int x = (int) this.enaria.getPosition().getX();
-				int y = (int) this.enaria.getPosition().getY();
-				int z = (int) this.enaria.getPosition().getZ();
-
-				x = (int) (x + (this.random.nextDouble() - 0.5) * TELEPORT_RANGE);
-				y = y + (counter < TELEPORT_ATTEMPTS / 3 ? 0 : counter < TELEPORT_ATTEMPTS / 2 ? 1 : 2);
-				z = (int) (z + (this.random.nextDouble() - 0.5) * TELEPORT_RANGE);
-
-				BlockPos location = new BlockPos(x, y, z);
-				if (this.enaria.worldObj.isAirBlock(location) && !this.enaria.worldObj.isAirBlock(location.add(0, -1, 0)) && this.enaria.worldObj.isAirBlock(location.add(0, 1, 0)))
-				{
-					this.enaria.setPosition(x, y, z);
-					this.enaria.addPotionEffect(new PotionEffect(14, 40, 0, false, false));
-
-					List entityList = this.enaria.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.enaria.getEntityBoundingBox().expand(MAX_KNOCKBACK_RANGE, MAX_KNOCKBACK_RANGE, MAX_KNOCKBACK_RANGE));
-					for (Object entityObject : entityList)
-					{
-						if (entityObject instanceof EntityPlayer)
-						{
-							EntityPlayer entityPlayer = (EntityPlayer) entityObject;
-
-							double motionX = this.enaria.getPosition().getX() - entityPlayer.getPosition().getX();
-							double motionZ = this.enaria.getPosition().getZ() - entityPlayer.getPosition().getZ();
-
-							double hypotenuse = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
-
-							entityPlayer.addVelocity(-motionX * KNOCKBACK_POWER * 0.6000000238418579D / hypotenuse, 0.1D, -motionZ * KNOCKBACK_POWER * 0.6000000238418579D / hypotenuse);
-							entityPlayer.velocityChanged = true;
-						}
-					}
-
-					return;
-				}
-
-				counter = counter - 1;
 			}
 		}
 	}
@@ -304,7 +393,7 @@ public class EnariaAttacks
 			{
 				EntityPlayer entityPlayer = (EntityPlayer) entityObject;
 
-				entityPlayer.setHealth(entityPlayer.getHealth() - 7.0f);
+				entityPlayer.setHealth(entityPlayer.getHealth() - 6.0f);
 
 				this.enaria.setPosition(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ);
 

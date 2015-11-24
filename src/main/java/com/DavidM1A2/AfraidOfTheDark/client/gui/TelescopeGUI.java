@@ -12,9 +12,9 @@ import org.lwjgl.opengl.GL11;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.GuiClickAndDragable;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.MeteorButton;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.MeteorTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;

@@ -7,8 +7,8 @@ package com.DavidM1A2.AfraidOfTheDark.common.recipe;
 
 import java.lang.reflect.Field;
 
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 import com.google.common.base.Throwables;
 
 import net.minecraft.entity.player.EntityPlayer;

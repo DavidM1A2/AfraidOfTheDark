@@ -6,8 +6,8 @@
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
 import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDEntityData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDEntityData;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import io.netty.buffer.ByteBuf;

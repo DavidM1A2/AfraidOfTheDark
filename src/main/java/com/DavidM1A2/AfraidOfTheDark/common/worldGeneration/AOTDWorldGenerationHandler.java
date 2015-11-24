@@ -34,90 +34,93 @@ public class AOTDWorldGenerationHandler implements IWorldGenerator
 		}
 	}
 
-	public void generate(Random random, int chunkX, int chunkZ, World world)
-	{
-		switch (world.provider.getDimensionId())
-		{
-			case 0:
-			{
-				this.generateSurface(world, random, chunkX * 16, chunkZ * 16);
-			}
-		}
-	}
-
 	private void generateSurface(World world, Random random, int chunkX, int chunkZ)
 	{
 		BiomeGenBase current = world.getBiomeGenForCoords(new BlockPos(chunkX, 50, chunkZ));
 
 		if (current instanceof BiomeGenPlains)
 		{
-			if (random.nextDouble() < 0.0016 * ConfigurationHandler.dungeonFrequencyMultiplier)
+			if (random.nextDouble() < 0.0015 * ConfigurationHandler.dungeonFrequencyMultiplier)
 			{
-				new GenerateSprings(random, chunkX, chunkZ, world);
+				if (GenerateGnomishCity.generateSurface(world, random, chunkX, chunkZ))
+					return;
 			}
 			if (random.nextDouble() < 0.0012 * ConfigurationHandler.dungeonFrequencyMultiplier)
 			{
-				new GenerateDarkForestDungeon(random, chunkX, chunkZ, world);
+				if (GenerateDarkForestDungeon.generateSurface(world, random, chunkX, chunkZ))
+					return;
 			}
-			if (random.nextDouble() < 0.0015 * ConfigurationHandler.dungeonFrequencyMultiplier)
+			if (random.nextDouble() < 0.0016 * ConfigurationHandler.dungeonFrequencyMultiplier)
 			{
-				new GenerateGnomishCity(random, chunkX, chunkZ, world);
+				if (GenerateSprings.generateSurface(world, random, chunkX, chunkZ))
+					return;
 			}
 		}
 		else if (current instanceof BiomeErieForest)
 		{
+			if (random.nextDouble() < 0.004 * ConfigurationHandler.dungeonFrequencyMultiplier)
+			{
+				if (GenerateGnomishCity.generateSurface(world, random, chunkX, chunkZ))
+					return;
+			}
+			if (random.nextDouble() < 0.004 * ConfigurationHandler.dungeonFrequencyMultiplier)
+			{
+				if (GenerateDarkForestDungeon.generateSurface(world, random, chunkX, chunkZ))
+					return;
+			}
+			if (random.nextDouble() < 0.005 * ConfigurationHandler.dungeonFrequencyMultiplier)
+			{
+				if (GenerateCrypt.generateSurface(world, random, chunkX, chunkZ))
+					return;
+			}
 			if (random.nextDouble() < 0.0032 * ConfigurationHandler.dungeonFrequencyMultiplier)
 			{
-				new GenerateSprings(random, chunkX, chunkZ, world);
+				if (GenerateSprings.generateSurface(world, random, chunkX, chunkZ))
+					return;
 			}
-			if (random.nextDouble() < 0.002 * ConfigurationHandler.dungeonFrequencyMultiplier)
+			if (random.nextDouble() < 0.0045 * ConfigurationHandler.dungeonFrequencyMultiplier)
 			{
-				new GenerateDarkForestDungeon(random, chunkX, chunkZ, world);
-			}
-			if (random.nextDouble() < 0.01 * ConfigurationHandler.dungeonFrequencyMultiplier)
-			{
-				new GenerateCrypt(random, chunkX, chunkZ, world);
-			}
-			if (random.nextDouble() < 0.0048 * ConfigurationHandler.dungeonFrequencyMultiplier)
-			{
-				new GenerateWitchHut(random, chunkX, chunkZ, world);
-			}
-			if (random.nextDouble() < 0.002 * ConfigurationHandler.dungeonFrequencyMultiplier)
-			{
-				new GenerateGnomishCity(random, chunkX, chunkZ, world);
+				if (GenerateWitchHut.generateSurface(world, random, chunkX, chunkZ))
+					return;
 			}
 		}
 		else if (current instanceof BiomeGenSavanna)
 		{
-			if (random.nextDouble() < 0.0032 * ConfigurationHandler.dungeonFrequencyMultiplier)
+			if (random.nextDouble() < 0.002 * ConfigurationHandler.dungeonFrequencyMultiplier)
 			{
-				new GenerateSprings(random, chunkX, chunkZ, world);
+				if (GenerateGnomishCity.generateSurface(world, random, chunkX, chunkZ))
+					return;
 			}
 			if (random.nextDouble() < 0.0024 * ConfigurationHandler.dungeonFrequencyMultiplier)
 			{
-				new GenerateDarkForestDungeon(random, chunkX, chunkZ, world);
+				if (GenerateDarkForestDungeon.generateSurface(world, random, chunkX, chunkZ))
+					return;
 			}
-			if (random.nextDouble() < 0.002 * ConfigurationHandler.dungeonFrequencyMultiplier)
+			if (random.nextDouble() < 0.0032 * ConfigurationHandler.dungeonFrequencyMultiplier)
 			{
-				new GenerateGnomishCity(random, chunkX, chunkZ, world);
+				if (GenerateSprings.generateSurface(world, random, chunkX, chunkZ))
+					return;
 			}
 		}
 		else if (current instanceof BiomeGenSwamp)
 		{
 			if (random.nextDouble() < 0.008 * ConfigurationHandler.dungeonFrequencyMultiplier)
 			{
-				new GenerateWitchHut(random, chunkX, chunkZ, world);
+				if (GenerateWitchHut.generateSurface(world, random, chunkX, chunkZ))
+					return;
 			}
 		}
 		else if (current instanceof BiomeGenSnow)
 		{
-			if (random.nextDouble() < 0.0024 * ConfigurationHandler.dungeonFrequencyMultiplier)
-			{
-				new GenerateVoidChest(random, chunkX, chunkZ, world);
-			}
 			if (random.nextDouble() < 0.002 * ConfigurationHandler.dungeonFrequencyMultiplier)
 			{
-				new GenerateGnomishCity(random, chunkX, chunkZ, world);
+				if (GenerateGnomishCity.generateSurface(world, random, chunkX, chunkZ))
+					return;
+			}
+			if (random.nextDouble() < 0.0024 * ConfigurationHandler.dungeonFrequencyMultiplier)
+			{
+				if (GenerateVoidChest.generateSurface(world, random, chunkX, chunkZ))
+					return;
 			}
 		}
 	}

@@ -8,8 +8,10 @@ package com.DavidM1A2.AfraidOfTheDark.common.worldGeneration;
 import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDWorldData;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicGenerator;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.Point3D;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.UnsupportedLocationException;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.WorldGenerationUtility;
 
@@ -17,56 +19,65 @@ import net.minecraft.world.World;
 
 public class GenerateDarkForestDungeon
 {
-	public GenerateDarkForestDungeon(Random random, int chunkX, int chunkZ, World world)
+	public static boolean generateSurface(World world, Random random, int chunkX, int chunkZ)
 	{
-		this.generateSurface(world, random, chunkX, chunkZ);
-	}
+		if (!AOTDWorldData.get(world).isValidLocation(new Point3D(chunkX + 11, 85, chunkZ + 11), true))
+		{
+			return false;
+		}
 
-	private void generateSurface(World world, Random random, int chunkX, int chunkZ)
-	{
+		int y;
 		try
 		{
-			int y = WorldGenerationUtility.getPlaceToSpawnAverage(world, chunkX, chunkZ, 23, 23);
+			y = WorldGenerationUtility.getPlaceToSpawnAverage(world, chunkX, chunkZ, 23, 23);
+		}
+		catch (UnsupportedLocationException e)
+		{
+			return false;
+		}
 
-			if (Constants.isDebug)
-			{
-				LogHelper.info("Spawning a dark forest at x = " + chunkX + ", y = " + y + ", z = " + chunkZ);
-			}
+		AOTDWorldData.get(world).addDungeon(new Point3D(chunkX + 11, 85, chunkZ + 11), true);
+		AOTDWorldData.get(world).setDirty(true);
 
-			for (int i = 0; i < 25; i++)
-			{
-				try
-				{
-					this.generateSurroundingObject(world, random, chunkX, chunkZ);
-				}
-				catch (UnsupportedLocationException e)
-				{
-				}
-			}
+		//if (Constants.isDebug)
+		{
+			LogHelper.info("Spawning a dark forest at x = " + chunkX + ", y = " + y + ", z = " + chunkZ);
+		}
+
+		for (int i = 0; i < 25; i++)
+		{
 			try
 			{
-				this.generateBedHouse(world, random, chunkX, y, chunkZ);
+				GenerateDarkForestDungeon.generateSurroundingObject(world, random, chunkX, chunkZ);
 			}
 			catch (UnsupportedLocationException e)
 			{
 			}
-			for (int i = 0; i < 40; i++)
-			{
-				try
-				{
-					this.generateSurroundingTree(world, random, chunkX, chunkZ);
-				}
-				catch (UnsupportedLocationException e)
-				{
-				}
-			}
+		}
+
+		try
+		{
+			GenerateDarkForestDungeon.generateBedHouse(world, random, chunkX, y, chunkZ);
 		}
 		catch (UnsupportedLocationException e)
 		{
 		}
+
+		for (int i = 0; i < 40; i++)
+		{
+			try
+			{
+				GenerateDarkForestDungeon.generateSurroundingTree(world, random, chunkX, chunkZ);
+			}
+			catch (UnsupportedLocationException e)
+			{
+			}
+		}
+
+		return true;
 	}
 
-	private void generateSurroundingTree(World world, Random random, int chunkX, int chunkZ) throws UnsupportedLocationException
+	private static void generateSurroundingTree(World world, Random random, int chunkX, int chunkZ) throws UnsupportedLocationException
 	{
 		int placeX = 0;
 		int placeZ = 0;
@@ -140,7 +151,7 @@ public class GenerateDarkForestDungeon
 		}
 	}
 
-	private void generateSurroundingObject(World world, Random random, int chunkX, int chunkZ) throws UnsupportedLocationException
+	private static void generateSurroundingObject(World world, Random random, int chunkX, int chunkZ) throws UnsupportedLocationException
 	{
 		int placeX = 0;
 		int placeZ = 0;
@@ -213,12 +224,12 @@ public class GenerateDarkForestDungeon
 		}
 	}
 
-	private void generateBedHouse(World world, Random random, int chunkX, int y, int chunkZ) throws UnsupportedLocationException
+	private static void generateBedHouse(World world, Random random, int chunkX, int y, int chunkZ) throws UnsupportedLocationException
 	{
 		SchematicGenerator.generateSchematicWithLoot(Constants.AOTDSchematics.bedHouse, world, chunkX - 2, y, chunkZ - 2, Constants.darkForestLootTable);
 	}
 
-	private int randInt(Random random, int min, int max)
+	private static int randInt(Random random, int min, int max)
 	{
 		if (min > max)
 		{

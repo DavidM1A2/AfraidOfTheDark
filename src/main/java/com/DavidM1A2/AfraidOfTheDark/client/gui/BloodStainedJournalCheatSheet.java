@@ -9,8 +9,8 @@ import java.io.IOException;
 
 import org.lwjgl.opengl.GL11;
 
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;

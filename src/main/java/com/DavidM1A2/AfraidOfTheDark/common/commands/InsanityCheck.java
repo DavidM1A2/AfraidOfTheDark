@@ -8,8 +8,8 @@ package com.DavidM1A2.AfraidOfTheDark.common.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDEntityData;
-import com.DavidM1A2.AfraidOfTheDark.common.playerData.AOTDPlayerData;
+import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDEntityData;
+import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
