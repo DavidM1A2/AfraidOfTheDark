@@ -37,7 +37,7 @@ public class EntityStarMetalBolt extends EntityBolt
 	@Override
 	public void setProperties()
 	{
-		this.setDamage(14);
+		this.setDamage(20);
 		this.setMyType(ModItems.starMetalBolt);
 		this.setChanceToDropHitEntity(.4);
 		this.setChanceToDropHitGround(.8);

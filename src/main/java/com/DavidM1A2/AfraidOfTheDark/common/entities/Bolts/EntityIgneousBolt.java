@@ -37,7 +37,7 @@ public class EntityIgneousBolt extends EntityBolt
 	@Override
 	public void setProperties()
 	{
-		this.setDamage(11);
+		this.setDamage(18);
 		this.setMyType(ModItems.igneousBolt);
 		this.setChanceToDropHitEntity(.4);
 		this.setChanceToDropHitGround(.8);

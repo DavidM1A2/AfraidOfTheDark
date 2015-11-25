@@ -73,7 +73,7 @@ public class NightmareChunkProvider implements IChunkProvider
 		// Every 62 chunks in the x direction (992 blocks)
 		if (x * 16 % Constants.NightmareWorld.BLOCKS_BETWEEN_ISLANDS == 0 && z == 0 && x != 0)
 		{
-			MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("A player has entered his/her nightmare realm for the first time. Expect a server freeze for the next 30 or so seconds."));
+			MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("A player has entered his/her nightmare realm for the first time. Expect a server freeze for the next 5 or so seconds."));
 
 			SchematicGenerator.generateSchematicWithLoot(Constants.AOTDSchematics.nightmareIsland, this.worldObj, x * 16, 0, z * 16, Constants.nightmareIslandLootTable);
 		}

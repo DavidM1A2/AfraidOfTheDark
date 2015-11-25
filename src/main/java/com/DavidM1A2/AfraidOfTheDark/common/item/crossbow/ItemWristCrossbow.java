@@ -28,6 +28,7 @@ public class ItemWristCrossbow extends AOTDItemWithCooldownStatic
 		// 1 bow per itemstack
 		super();
 		this.setUnlocalizedName("wristCrossbow");
+		this.setMaxStackSize(1);
 	}
 
 	@Override
