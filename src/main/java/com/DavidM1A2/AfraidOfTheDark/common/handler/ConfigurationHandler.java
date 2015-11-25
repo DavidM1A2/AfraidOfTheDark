@@ -22,6 +22,12 @@ public class ConfigurationHandler
 	public static int biomeNightmareID = 70;
 	public static int erieBiomeFrequency = 10;
 	public static float dungeonFrequencyMultiplier = 1.0f;
+	public static float cryptFrequency = 0.5f;
+	public static float darkForestFrequency = 0.4f;
+	public static float gnomishCityFrequency = 0.4f;
+	public static float springFrequency = 0.32f;
+	public static float voidChestFrequency = 0.24f;
+	public static float witchHutFrequency = 0.8f;
 
 	public static void initializataion(final File configFile)
 	{
@@ -45,12 +51,21 @@ public class ConfigurationHandler
 
 	private static void loadConfiguration()
 	{
-		ConfigurationHandler.biomeErieID = ConfigurationHandler.configuration.getInt("biomeErieID", Configuration.CATEGORY_GENERAL, 68, 5, 255, "The Biome ID for the erie forest. Use this to make this mod compatable with other biome mods.");
-		ConfigurationHandler.biomeNightmareID = ConfigurationHandler.configuration.getInt("biomeNightmareID", Configuration.CATEGORY_GENERAL, 69, 5, 255, "The Biome ID for the nightmare. Use this to make this mod compatable with other biome mods.");
-		ConfigurationHandler.biomeVoidChestID = ConfigurationHandler.configuration.getInt("biomeVoidChestID", Configuration.CATEGORY_GENERAL, 70, 5, 255, "The Biome ID for the Void Chest. Use this to make this mod compatable with other biome mods.");
+		ConfigurationHandler.configuration.addCustomCategoryComment("Biome IDs", "Here you can configure Afraid of the Dark biome IDs");
+		ConfigurationHandler.configuration.addCustomCategoryComment("Dungeon Frequency", "Here you can set how frequently certain dungeons appear.");
+		ConfigurationHandler.biomeErieID = ConfigurationHandler.configuration.getInt("biomeErieID", "Biome IDs", 68, 5, 255, "The Biome ID for the erie forest. Use this to make this mod compatable with other biome mods.");
+		ConfigurationHandler.biomeNightmareID = ConfigurationHandler.configuration.getInt("biomeNightmareID", "Biome IDs", 69, 5, 255, "The Biome ID for the nightmare. Use this to make this mod compatable with other biome mods.");
+		ConfigurationHandler.biomeVoidChestID = ConfigurationHandler.configuration.getInt("biomeVoidChestID", "Biome IDs", 70, 5, 255, "The Biome ID for the Void Chest. Use this to make this mod compatable with other biome mods.");
 		ConfigurationHandler.erieBiomeFrequency = ConfigurationHandler.configuration.getInt("erieBiomeFrequency", Configuration.CATEGORY_GENERAL, 10, 0, 1000, "Increase this value to increase the number of Erie Biomes. 10 is the default MC forest value.");
-		ConfigurationHandler.dungeonFrequencyMultiplier = ConfigurationHandler.configuration.getFloat("dungeonFrequencyMultiplier", Configuration.CATEGORY_GENERAL, 1.0f, 0.0f, 1000.0f,
-				"The dungeon frequency multiplier increases or decreases dungeon rarity. (ex. 2.0 would result in double the dungeons and 0.5 in half)");
+		ConfigurationHandler.dungeonFrequencyMultiplier = ConfigurationHandler.configuration.getFloat("dungeonFrequencyMultiplier", "Dungeon Frequency", 1.0f, 0.0f, 1000.0f,
+				"The dungeon frequency multiplier increases or decreases dungeon rarity across ALL Afraid of the Dark dungeons. (ex. 2.0 would result in double the dungeons and 0.5 in half)");
+
+		ConfigurationHandler.cryptFrequency = ConfigurationHandler.configuration.getFloat("cryptFrequency", "Dungeon Frequency", 0.5f, 0.0f, 100.0f, "This property is the percentage chance per chunk that a crypt will spawn.");
+		ConfigurationHandler.darkForestFrequency = ConfigurationHandler.configuration.getFloat("darkForestFrequency", "Dungeon Frequency", 0.4f, 0.0f, 100.0f, "This property is the percentage chance per chunk that a dark forest will spawn.");
+		ConfigurationHandler.gnomishCityFrequency = ConfigurationHandler.configuration.getFloat("gnomishCityFrequency", "Dungeon Frequency", 0.4f, 0.0f, 100.0f, "This property is the percentage chance per chunk that a gnomish city will spawn.");
+		ConfigurationHandler.springFrequency = ConfigurationHandler.configuration.getFloat("springFrequency", "Dungeon Frequency", 0.32f, 0.0f, 100.0f, "This property is the percentage chance per chunk that a spring will spawn.");
+		ConfigurationHandler.voidChestFrequency = ConfigurationHandler.configuration.getFloat("voidChestFrequency", "Dungeon Frequency", 0.24f, 0.0f, 100.0f, "This property is the percentage chance per chunk that a void chest will spawn.");
+		ConfigurationHandler.witchHutFrequency = ConfigurationHandler.configuration.getFloat("witchHutFrequency", "Dungeon Frequency", 0.8f, 0.0f, 100.0f, "This property is the percentage chance per chunk that a witch hut will spawn.");
 
 		if (ConfigurationHandler.configuration.hasChanged())
 		{
