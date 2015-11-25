@@ -12,7 +12,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.client.IModGuiFactory;
 
 /*
- * No Clue who this class does...
+ * Allows for configuration of the mod in the options screen
  */
 public class GuiFactory implements IModGuiFactory
 {
@@ -22,7 +22,6 @@ public class GuiFactory implements IModGuiFactory
 	@Override
 	public void initialize(final Minecraft minecraftInstance)
 	{
-
 	}
 
 	@Override

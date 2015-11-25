@@ -29,15 +29,15 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 	private static int currentID;
 	private static final int DISTANCE_BETWEEN_NODES = 75;
 
-	private final SpriteSheetAnimation verticalArrow = new SpriteSheetAnimation(new ResourceLocation("afraidofthedark:textures/gui/researchVertical.png"), 500, 20, 60, 180, true, true);
-	private final SpriteSheetAnimation horizontalArrow = new SpriteSheetAnimation(new ResourceLocation("afraidofthedark:textures/gui/researchHorizontal.png"), 500, 20, 180, 60, true, false);
+	private static final SpriteSheetAnimation verticalArrow = new SpriteSheetAnimation(new ResourceLocation("afraidofthedark:textures/gui/researchVertical.png"), 500, 20, 60, 180, true, true);
+	private static final SpriteSheetAnimation horizontalArrow = new SpriteSheetAnimation(new ResourceLocation("afraidofthedark:textures/gui/researchHorizontal.png"), 500, 20, 180, 60, true, false);
 
 	private static final ResourceLocation researchBackdrop = new ResourceLocation("afraidofthedark:textures/gui/bloodStainedJournalResearchBackdrop.png");
 	private static final ResourceLocation researchBackground = new ResourceLocation("afraidofthedark:textures/gui/bloodStainedJournalResearchBackground.png");
 
 	// GUI height and width
-	private static int baseWidth = 512;
-	private static int baseHeight = 512;
+	private static int baseWidth;
+	private static int baseHeight;
 
 	// Current GUI x/y Scrool positions, background positions, and research
 	// positions

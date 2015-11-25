@@ -18,7 +18,7 @@ import net.minecraft.util.ResourceLocation;
 public class RenderWerewolf extends RenderLiving
 {
 
-	public static final ResourceLocation Werewolf_texture = new ResourceLocation("afraidofthedark:textures/entity/werewolf.png");
+	public static final ResourceLocation WEREWOLF_TEXTURE = new ResourceLocation("afraidofthedark:textures/entity/werewolf.png");
 	public static ModelWerewolf modelWerewolf = new ModelWerewolf();
 	public static float modelHeight = 2.5F;
 
@@ -50,6 +50,6 @@ public class RenderWerewolf extends RenderLiving
 	@Override
 	protected ResourceLocation getEntityTexture(Entity var1)
 	{
-		return Werewolf_texture;
+		return WEREWOLF_TEXTURE;
 	}
 }

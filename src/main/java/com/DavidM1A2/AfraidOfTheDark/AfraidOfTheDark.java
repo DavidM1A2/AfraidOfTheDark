@@ -126,7 +126,10 @@ public class AfraidOfTheDark
 		ModPotionEffects.initialize();
 		// Setup mod threads
 
-		LogHelper.info("Pre-Initialization Complete");
+		if (Constants.isDebug)
+		{
+			LogHelper.info("Pre-Initialization Complete");
+		}
 	}
 
 	/**
@@ -149,7 +152,11 @@ public class AfraidOfTheDark
 		}
 		// Initialize renderers
 		AfraidOfTheDark.proxy.registerRenderThings();
-		LogHelper.info("Initialization Complete");
+
+		if (Constants.isDebug)
+		{
+			LogHelper.info("Initialization Complete");
+		}
 	}
 
 	/**
@@ -164,7 +171,10 @@ public class AfraidOfTheDark
 			ClientData.researchAchievedOverlay = new ResearchAchieved(Minecraft.getMinecraft());
 		}
 
-		LogHelper.info("Post-Initialization Complete");
+		if (Constants.isDebug)
+		{
+			LogHelper.info("Post-Initialization Complete");
+		}
 	}
 
 	/**

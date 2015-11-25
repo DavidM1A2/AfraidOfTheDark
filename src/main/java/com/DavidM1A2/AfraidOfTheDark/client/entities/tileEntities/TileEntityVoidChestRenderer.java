@@ -15,7 +15,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class TileEntityVoidChestRenderer extends TileEntitySpecialRenderer
 {
-	private static final ResourceLocation texturesNormal = new ResourceLocation("afraidofthedark:textures/blocks/voidChest/voidChest.png");
+	private static final ResourceLocation VOID_CHEST_TEXTURE = new ResourceLocation("afraidofthedark:textures/blocks/voidChest/voidChest.png");
 	private ModelChest simpleChest = new ModelChest();
 	private int ticksExpired = 0;
 
@@ -47,7 +47,7 @@ public class TileEntityVoidChestRenderer extends TileEntitySpecialRenderer
 			}
 			else
 			{
-				this.bindTexture(TileEntityVoidChestRenderer.texturesNormal);
+				this.bindTexture(TileEntityVoidChestRenderer.VOID_CHEST_TEXTURE);
 			}
 
 			GlStateManager.pushMatrix();

@@ -23,12 +23,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class BoltRender extends Render
 {
-	public BoltRender(final RenderManager p_i46179_1_)
-	{
-		super(p_i46179_1_);
-	}
+	// The texture the bolt will use to render itself
+	private final ResourceLocation BOLT_TEXTURE;
 
-	private static final ResourceLocation boltTexture = new ResourceLocation("textures/entity/arrow.png");
+	public BoltRender(final RenderManager renderManager, final String boltTexture)
+	{
+		super(renderManager);
+		this.BOLT_TEXTURE = new ResourceLocation(boltTexture);
+	}
 
 	/**
 	 * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then handing it off to a worker
@@ -95,16 +97,16 @@ public class BoltRender extends Render
 	 */
 	protected ResourceLocation getEntityTexture(final EntityBolt p_110775_1_)
 	{
-		return BoltRender.boltTexture;
+		return BOLT_TEXTURE;
 	}
 
 	/**
 	 * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
 	 */
 	@Override
-	protected ResourceLocation getEntityTexture(final Entity p_110775_1_)
+	protected ResourceLocation getEntityTexture(final Entity entity)
 	{
-		return this.getEntityTexture((EntityBolt) p_110775_1_);
+		return this.getEntityTexture((EntityBolt) entity);
 	}
 
 	/**

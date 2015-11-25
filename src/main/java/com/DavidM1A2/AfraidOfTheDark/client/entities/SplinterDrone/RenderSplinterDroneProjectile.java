@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderSplinterDroneProjectile extends Render
 {
-	public static final ResourceLocation SplinterDroneProjectile_texture = new ResourceLocation("afraidofthedark:textures/entity/splinterDroneProjectile.png");
+	public static final ResourceLocation SPLINTER_DRONE_PROJECTILE_TEXTURE = new ResourceLocation("afraidofthedark:textures/entity/splinterDroneProjectile.png");
 	public static ModelSplinterDroneProjectile modelSplinterDroneProjectile;
 
 	public RenderSplinterDroneProjectile()
@@ -37,6 +37,6 @@ public class RenderSplinterDroneProjectile extends Render
 	@Override
 	protected ResourceLocation getEntityTexture(Entity var1)
 	{
-		return SplinterDroneProjectile_texture;
+		return SPLINTER_DRONE_PROJECTILE_TEXTURE;
 	}
 }

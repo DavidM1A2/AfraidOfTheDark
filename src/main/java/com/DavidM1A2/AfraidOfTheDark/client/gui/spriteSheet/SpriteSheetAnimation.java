@@ -13,24 +13,22 @@ import net.minecraft.util.ResourceLocation;
 
 public class SpriteSheetAnimation
 {
-	private long frameCount;
-	private int frameDelay;
-	private int currentFrame;
-	private int nextFrame;
-	private int totalFrames;
-	private int frameWidth;
-	private int frameHeight;
-	private ResourceLocation spriteSheet;
-	private boolean frameInterpolation;
-	private boolean isVertical;
-	private float percentageToNextFrame;
+	private long frameCount = 0;
+	private final int frameDelay;
+	private int currentFrame = 0;
+	private int nextFrame = 0;
+	private final int totalFrames;
+	private final int frameWidth;
+	private final int frameHeight;
+	private final ResourceLocation spriteSheet;
+	private final boolean frameInterpolation;
+	private final boolean isVertical;
+	private float percentageToNextFrame = 0;
 
 	public SpriteSheetAnimation(ResourceLocation spriteSheet, int frameDelayInMillis, int totalFrames, int frameWidth, int frameHeight, boolean frameInterpolation, boolean isVertical)
 	{
 		this.spriteSheet = spriteSheet;
-		this.frameCount = 0;
 		this.frameDelay = frameDelayInMillis;
-		this.currentFrame = 0;
 		this.totalFrames = totalFrames;
 		this.frameWidth = frameWidth;
 		this.frameHeight = frameHeight;
