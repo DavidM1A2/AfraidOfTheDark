@@ -115,7 +115,7 @@ public class EnariaAttacks
 						this.enaria.dimension, this.enaria.getPosition().getX() + Math.random(), this.enaria.getPosition().getY() + .7 + Math.random(), this.enaria.getPosition().getZ() + Math.random(), 40));
 			}
 
-			MovingObjectPosition hit = this.enaria.rayTrace(RAY_TELEPORT_RANGE, 1.0F);
+			MovingObjectPosition hit = Utility.rayTraceServerSide(this.enaria, RAY_TELEPORT_RANGE, 1.0F);
 
 			switch (hit.typeOfHit)
 			{

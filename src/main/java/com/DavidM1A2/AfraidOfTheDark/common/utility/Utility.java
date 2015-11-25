@@ -27,6 +27,7 @@ import net.minecraft.network.play.server.S1DPacketEntityEffect;
 import net.minecraft.network.play.server.S27PacketExplosion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.management.ServerConfigurationManager;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.Teleporter;
@@ -267,5 +268,13 @@ public class Utility
 		if (net.minecraftforge.event.ForgeEventFactory.onExplosionStart(world, explosion))
 			return;
 		explosion.doExplosionB(true);
+	}
+
+	public static MovingObjectPosition rayTraceServerSide(Entity entity, double distance, float eyeHeight)
+	{
+		Vec3 locationFrom = new Vec3(entity.posX, entity.posY + (double) entity.getEyeHeight(), entity.posZ);
+		Vec3 look = entity.getLook(eyeHeight);
+		Vec3 locationTo = locationFrom.addVector(look.xCoord * distance, look.yCoord * distance, look.zCoord * distance);
+		return entity.worldObj.rayTraceBlocks(locationFrom, locationTo, false, false, true);
 	}
 }
