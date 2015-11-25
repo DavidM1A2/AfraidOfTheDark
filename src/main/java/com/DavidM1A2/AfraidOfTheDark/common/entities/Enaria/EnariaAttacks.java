@@ -28,7 +28,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
@@ -115,30 +114,18 @@ public class EnariaAttacks
 						this.enaria.dimension, this.enaria.getPosition().getX() + Math.random(), this.enaria.getPosition().getY() + .7 + Math.random(), this.enaria.getPosition().getZ() + Math.random(), 40));
 			}
 
-			MovingObjectPosition hit = Utility.rayTraceServerSide(this.enaria, RAY_TELEPORT_RANGE, 1.0F);
-
-			switch (hit.typeOfHit)
+			List entityList = this.enaria.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.enaria.getEntityBoundingBox().expand(TELEPORT_PLAYER_RANGE, TELEPORT_PLAYER_RANGE, TELEPORT_PLAYER_RANGE));
+			for (Object entityObject : entityList)
 			{
-				case BLOCK:
-					BlockPos hitPos = new BlockPos(hit.hitVec);
-					if (this.enaria.worldObj.isAirBlock(hitPos) && this.enaria.worldObj.isAirBlock(hitPos.up()))
-					{
-						teleportWithShockwave(hit.hitVec.xCoord, hit.hitVec.yCoord, hit.hitVec.zCoord);
-					}
-					else
-					{
-						hitPos = hitPos.offset(hit.sideHit);
-						teleportWithShockwave(hitPos.getX() + 0.5, hitPos.getY(), hitPos.getZ() + 0.5);
-					}
-					break;
-				case ENTITY:
-					if (hit.entityHit != null)
-					{
-						teleportWithShockwave(hit.entityHit.posX, hit.entityHit.posY, hit.entityHit.posZ);
-					}
-					break;
-				case MISS:
-					break;
+				if (entityObject instanceof EntityPlayer)
+				{
+					EntityPlayer entityPlayer = (EntityPlayer) entityObject;
+
+					this.enaria.addPotionEffect(new PotionEffect(Potion.invisibility.getId(), 60, 0, false, false));
+					this.teleportWithShockwave(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ);
+
+					return;
+				}
 			}
 		}
 	}
@@ -171,36 +158,41 @@ public class EnariaAttacks
 		switch (this.random.nextInt(7))
 		{
 			case 0:
+			case 1:
 			{
 				this.attackSummonWerewolves();
 				break;
 			}
-			case 1:
+			case 2:
+			case 3:
 			{
 				this.attackAOEPotion();
 				break;
 			}
-			case 2:
+			case 4:
 			{
 				this.attackShuffleInventory();
 				break;
 			}
-			case 3:
+			case 5:
+			case 6:
 			{
 				this.attackSummonEnchantedSkeletons();
 				break;
 			}
-			case 4:
+			case 7:
 			{
 				this.teleportToPlayer();
 				break;
 			}
-			case 5:
+			case 8:
+			case 9:
 			{
 				this.attackDarkness();
 				break;
 			}
-			case 6:
+			case 10:
+			case 11:
 			{
 				this.attackSummonSplinterDrones();
 				break;
@@ -393,7 +385,7 @@ public class EnariaAttacks
 			{
 				EntityPlayer entityPlayer = (EntityPlayer) entityObject;
 
-				entityPlayer.setHealth(entityPlayer.getHealth() - 6.0f);
+				entityPlayer.setHealth(entityPlayer.getHealth() - 5.0f);
 
 				this.enaria.setPosition(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ);
 

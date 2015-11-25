@@ -138,6 +138,15 @@ public abstract class AOTDChargableSword extends AOTDSword
 		return itemStack;
 	}
 
+	/**
+	 * Does not check isDamagable and check if it cannot be stacked
+	 */
+	@Override
+	public boolean isItemTool(ItemStack stack)
+	{
+		return this.getItemStackLimit(stack) == 1;
+	}
+
 	public abstract int percentChargePerAttack();
 
 	public abstract void performChargeAttack(final ItemStack itemStack, final World world, final EntityPlayer entityPlayer);

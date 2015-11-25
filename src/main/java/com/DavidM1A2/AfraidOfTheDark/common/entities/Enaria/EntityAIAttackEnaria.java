@@ -10,6 +10,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncAnimation;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.potion.Potion;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
 public class EntityAIAttackEnaria extends EntityAIBase
@@ -83,11 +84,14 @@ public class EntityAIAttackEnaria extends EntityAIBase
 		else if (this.attackTime % 40 == 0)
 		{
 			this.attackTime = this.attackTime - 1;
-			this.enaria.getEnariaAttacks().performBasicAttack();
-			if (!this.enaria.getAnimationHandler().isAnimationActive("spell") && !this.enaria.getAnimationHandler().isAnimationActive("autoattack"))
+			if (!this.enaria.isPotionActive(Potion.invisibility.getId()))
 			{
-				this.enaria.getAnimationHandler().activateAnimation("autoattack", 0);
-				AfraidOfTheDark.getPacketHandler().sendToAllAround(new SyncAnimation("autoattack", this.enaria.getEntityId()), new TargetPoint(this.enaria.dimension, this.enaria.posX, this.enaria.posY, this.enaria.posZ, 100));
+				this.enaria.getEnariaAttacks().performBasicAttack();
+				if (!this.enaria.getAnimationHandler().isAnimationActive("spell") && !this.enaria.getAnimationHandler().isAnimationActive("autoattack"))
+				{
+					this.enaria.getAnimationHandler().activateAnimation("autoattack", 0);
+					AfraidOfTheDark.getPacketHandler().sendToAllAround(new SyncAnimation("autoattack", this.enaria.getEntityId()), new TargetPoint(this.enaria.dimension, this.enaria.posX, this.enaria.posY, this.enaria.posZ, 100));
+				}
 			}
 		}
 		else

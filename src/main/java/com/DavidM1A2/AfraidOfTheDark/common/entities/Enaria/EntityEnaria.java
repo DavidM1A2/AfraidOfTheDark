@@ -35,8 +35,9 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 	private static final double AGRO_RANGE = 16.0D;
 	private static final double FOLLOW_RANGE = 32.0D;
 	private static final double MAX_HEALTH = 400.0D;
-	private static final double ATTACK_DAMAGE = 10.0D;
+	private static final double ATTACK_DAMAGE = 20.0D;
 	private static final double KNOCKBACK_RESISTANCE = 0.5D;
+	private static final double RESEARCH_UNLOCK_RANGE = 50D;
 	public static final String IS_VALID = "isValid";
 	public static final String LAST_HIT = "lastHit";
 	private static final int MAX_DAMAGE_IN_1_HIT = 10;
@@ -138,8 +139,8 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 					else
 					{
 						damage = 1.0f;
-						// 1/2 chance to teleport if taking silver damage
-						if (this.rand.nextInt(2) == 0)
+						// 1/70 chance to teleport if taking silver damage
+						if (this.rand.nextInt(40) == 0)
 						{
 							this.enariaAttacks.randomTeleport();
 						}
@@ -150,8 +151,8 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 			}
 			else
 			{
-				// 1/4 chance to tele if taking non-silver, player damage
-				if (this.rand.nextInt(4) == 0)
+				// 1/60 chance to tele if taking non-silver, player damage
+				if (this.rand.nextInt(60) == 0)
 				{
 					this.enariaAttacks.randomTeleport();
 				}
@@ -159,8 +160,8 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 		}
 		else
 		{
-			// 1/10 chance to tele if taking non-player damage
-			if (this.rand.nextInt(10) == 0)
+			// 1/100 chance to tele if taking non-player damage
+			if (this.rand.nextInt(100) == 0)
 			{
 				this.enariaAttacks.randomTeleport();
 			}
@@ -178,16 +179,19 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 		{
 			if (cause.getEntity() instanceof EntityPlayer)
 			{
-				EntityPlayer entityPlayer = (EntityPlayer) cause.getEntity();
-
-				AOTDPlayerData.get(entityPlayer).setHasBeatenEnaria(true);
-				AOTDPlayerData.get(entityPlayer).syncHasBeatenEnaria();
-
-				if (!worldObj.isRemote)
+				for (Object object : this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().expand(RESEARCH_UNLOCK_RANGE, RESEARCH_UNLOCK_RANGE, RESEARCH_UNLOCK_RANGE)))
 				{
-					if (AOTDPlayerData.get(entityPlayer).canResearch(ResearchTypes.Enaria))
+					EntityPlayer entityPlayer = (EntityPlayer) object;
+
+					AOTDPlayerData.get(entityPlayer).setHasBeatenEnaria(true);
+					AOTDPlayerData.get(entityPlayer).syncHasBeatenEnaria();
+
+					if (!worldObj.isRemote)
 					{
-						AOTDPlayerData.get(entityPlayer).unlockResearch(ResearchTypes.Enaria, true);
+						if (AOTDPlayerData.get(entityPlayer).canResearch(ResearchTypes.Enaria))
+						{
+							AOTDPlayerData.get(entityPlayer).unlockResearch(ResearchTypes.Enaria, true);
+						}
 					}
 				}
 			}
