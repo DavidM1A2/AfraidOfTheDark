@@ -68,13 +68,9 @@ public class EntityAIAttackEnaria extends EntityAIBase
 
 		if (this.attackTime <= 0)
 		{
-			this.attackTime = this.enaria.worldObj.rand.nextInt(100) + 100;
+			this.attackTime = this.enaria.worldObj.rand.nextInt(100) + 140;
 			this.enaria.getEnariaAttacks().performRandomAttack();
 			this.enaria.clearActivePotions();
-			if (this.enaria.isBurning())
-			{
-				this.enaria.extinguish();
-			}
 			if (!this.enaria.getAnimationHandler().isAnimationActive("spell"))
 			{
 				this.enaria.getAnimationHandler().activateAnimation("spell", 0);

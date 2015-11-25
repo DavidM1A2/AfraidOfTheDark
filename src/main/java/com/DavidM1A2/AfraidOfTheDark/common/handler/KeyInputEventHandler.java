@@ -7,13 +7,13 @@ package com.DavidM1A2.AfraidOfTheDark.common.handler;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
-import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.Keybindings;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemCloakOfAgility;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemVitaeLantern;
 import com.DavidM1A2.AfraidOfTheDark.common.item.crossbow.ItemWristCrossbow;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.FireCrossbowBolt;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDCrossbowBoltTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
@@ -84,6 +84,7 @@ public class KeyInputEventHandler
 	private void fireWristCrossbow()
 	{
 		EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
+		AOTDCrossbowBoltTypes currentlySelected = AOTDCrossbowBoltTypes.getTypeFromID(AOTDPlayerData.get(entityPlayer).getSelectedWristCrossbowBolt());
 		if (!entityPlayer.isSneaking())
 		{
 			if (entityPlayer.inventory.hasItem(ModItems.wristCrossbow) && AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.WristCrossbow))
@@ -97,15 +98,15 @@ public class KeyInputEventHandler
 							ItemWristCrossbow current = (ItemWristCrossbow) itemStack.getItem();
 							if (!current.isOnCooldown())
 							{
-								if (entityPlayer.inventory.hasItem(ClientData.currentlySelectedBolt.getMyBoltItem()) || entityPlayer.capabilities.isCreativeMode)
+								if (entityPlayer.inventory.hasItem(currentlySelected.getMyBoltItem()) || entityPlayer.capabilities.isCreativeMode)
 								{
-									AfraidOfTheDark.getPacketHandler().sendToServer(new FireCrossbowBolt(ClientData.currentlySelectedBolt));
+									AfraidOfTheDark.getPacketHandler().sendToServer(new FireCrossbowBolt(currentlySelected));
 									current.setOnCooldown();
 									break;
 								}
 								else
 								{
-									entityPlayer.addChatMessage(new ChatComponentText("I'll need at least one " + ClientData.currentlySelectedBolt.formattedString() + "bolt in my inventory to shoot."));
+									entityPlayer.addChatMessage(new ChatComponentText("I'll need at least one " + currentlySelected.formattedString() + "bolt in my inventory to shoot."));
 								}
 							}
 							else
@@ -127,8 +128,8 @@ public class KeyInputEventHandler
 		}
 		else
 		{
-			ClientData.currentlySelectedBolt = ClientData.currentlySelectedBolt.next();
-			entityPlayer.addChatMessage(new ChatComponentText("Crossbow will now fire " + ClientData.currentlySelectedBolt.formattedString() + "bolts."));
+			AOTDPlayerData.get(entityPlayer).setSelectedWristCrossbowBolt(AOTDCrossbowBoltTypes.getIDFromType(currentlySelected.next()));
+			entityPlayer.addChatMessage(new ChatComponentText("Crossbow will now fire " + currentlySelected.next().formattedString() + "bolts."));
 		}
 	}
 

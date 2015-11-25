@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.EnchantedSkeleton.EntityEnchantedSkeleton;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.SplinterDrone.EntitySplinterDrone;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncParticleFX;
@@ -155,48 +156,35 @@ public class EnariaAttacks
 
 	public void performRandomAttack()
 	{
-		switch (this.random.nextInt(7))
+		int attackToPerform = this.random.nextInt(12);
+		switch (attackToPerform)
 		{
 			case 0:
 			case 1:
-			{
 				this.attackSummonWerewolves();
 				break;
-			}
 			case 2:
 			case 3:
-			{
 				this.attackAOEPotion();
 				break;
-			}
 			case 4:
-			{
 				this.attackShuffleInventory();
 				break;
-			}
 			case 5:
 			case 6:
-			{
 				this.attackSummonEnchantedSkeletons();
 				break;
-			}
 			case 7:
-			{
 				this.teleportToPlayer();
 				break;
-			}
 			case 8:
 			case 9:
-			{
 				this.attackDarkness();
 				break;
-			}
 			case 10:
 			case 11:
-			{
 				this.attackSummonSplinterDrones();
 				break;
-			}
 		}
 	}
 
@@ -298,6 +286,7 @@ public class EnariaAttacks
 			{
 				if (numberOfSplintersSpawned < maxSplintersSpawned)
 				{
+					System.out.println(numberOfSplintersSpawned + "    :    " + maxSplintersSpawned);
 					BlockPos current = this.enaria.getPosition().offset(facing).up();
 					IBlockState block = this.enaria.worldObj.getBlockState(current);
 					if (block.getBlock() instanceof BlockAir)
@@ -333,12 +322,12 @@ public class EnariaAttacks
 					IBlockState block = this.enaria.worldObj.getBlockState(current);
 					if (block.getBlock() instanceof BlockAir)
 					{
-						EntitySplinterDrone splinterDrone = new EntitySplinterDrone(this.enaria.worldObj);
-						splinterDrone.setPosition(current.getX(), current.getY(), current.getZ());
-						this.enaria.worldObj.spawnEntityInWorld(splinterDrone);
-						EntitySplinterDrone splinterDrone2 = new EntitySplinterDrone(this.enaria.worldObj);
-						splinterDrone2.setPosition(current.getX(), current.getY(), current.getZ());
-						this.enaria.worldObj.spawnEntityInWorld(splinterDrone2);
+						EntityEnchantedSkeleton enchantedSkeleton = new EntityEnchantedSkeleton(this.enaria.worldObj);
+						enchantedSkeleton.setPosition(current.getX(), current.getY(), current.getZ());
+						this.enaria.worldObj.spawnEntityInWorld(enchantedSkeleton);
+						EntityEnchantedSkeleton enchantedSkeleton2 = new EntityEnchantedSkeleton(this.enaria.worldObj);
+						enchantedSkeleton2.setPosition(current.getX(), current.getY(), current.getZ());
+						this.enaria.worldObj.spawnEntityInWorld(enchantedSkeleton2);
 
 						numberOfSkeletonsSpawned = numberOfSkeletonsSpawned + 2;
 					}

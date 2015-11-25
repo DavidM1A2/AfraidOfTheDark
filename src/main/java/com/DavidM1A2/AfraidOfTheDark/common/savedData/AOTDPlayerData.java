@@ -10,6 +10,7 @@ import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncAOTDPlayerData;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncSelectedWristCrossbowBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateAOTDStatus;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateHasBeatenEnaria;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateInsanity;
@@ -40,6 +41,7 @@ public class AOTDPlayerData implements IExtendedEntityProperties
 	private int playerLocationVoidChest;
 	private NBTTagCompound researches = new NBTTagCompound();
 	private boolean hasBeatenEnaria;
+	private int selectedWristCrossbowBolt = 0;
 	private static final String HAS_STARTED_AOTD = "playerStartedAOTD";
 	private final static String PLAYER_INSANITY = "PlayerInsanity";
 	private final static String INVENTORY_SAVER = "inventorySaver";
@@ -48,6 +50,7 @@ public class AOTDPlayerData implements IExtendedEntityProperties
 	private final static String PLAYER_LOCATION_VOID_CHEST = "playerLocationVoidChest";
 	private final static String RESEARCH_DATA = "unlockedResearches";
 	private final static String HAS_BEATEN_ENARIA = "hasBeatenEnaria";
+	private final static String SELECTED_WRIST_CROSSBOW_BOLT = "selectedWristCrossbowBolt";
 
 	// CONSTRUCTOR, GETTER, REGISTER ==========================================
 
@@ -87,6 +90,7 @@ public class AOTDPlayerData implements IExtendedEntityProperties
 		nbt.setTag(RESEARCH_DATA, researches);
 		nbt.setInteger(PLAYER_LOCATION_VOID_CHEST, this.playerLocationVoidChest);
 		nbt.setBoolean(HAS_BEATEN_ENARIA, this.hasBeatenEnaria);
+		nbt.setInteger(SELECTED_WRIST_CROSSBOW_BOLT, this.selectedWristCrossbowBolt);
 	}
 
 	@Override
@@ -100,6 +104,7 @@ public class AOTDPlayerData implements IExtendedEntityProperties
 		this.setReseraches((NBTTagCompound) nbt.getTag(RESEARCH_DATA));
 		this.setPlayerLocationVoidChest(nbt.getInteger(PLAYER_LOCATION_VOID_CHEST));
 		this.setHasBeatenEnaria(nbt.getBoolean(HAS_BEATEN_ENARIA));
+		this.setSelectedWristCrossbowBolt(nbt.getInteger(SELECTED_WRIST_CROSSBOW_BOLT));
 	}
 
 	@Override
@@ -266,6 +271,24 @@ public class AOTDPlayerData implements IExtendedEntityProperties
 		if (this.isServerSide())
 		{
 			AfraidOfTheDark.getPacketHandler().sendTo(new UpdateHasBeatenEnaria(this.hasBeatenEnaria), (EntityPlayerMP) this.entityPlayer);
+		}
+	}
+
+	public void setSelectedWristCrossbowBolt(int selectedWristCrossbowBolt)
+	{
+		this.selectedWristCrossbowBolt = selectedWristCrossbowBolt;
+	}
+
+	public int getSelectedWristCrossbowBolt()
+	{
+		return this.selectedWristCrossbowBolt;
+	}
+
+	public void syncSelectedWristCrossbowBolt()
+	{
+		if (!this.isServerSide())
+		{
+			AfraidOfTheDark.getPacketHandler().sendToServer(new SyncSelectedWristCrossbowBolt(this.selectedWristCrossbowBolt));
 		}
 	}
 

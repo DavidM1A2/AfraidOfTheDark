@@ -35,7 +35,7 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 	private static final double AGRO_RANGE = 16.0D;
 	private static final double FOLLOW_RANGE = 32.0D;
 	private static final double MAX_HEALTH = 400.0D;
-	private static final double ATTACK_DAMAGE = 20.0D;
+	private static final double ATTACK_DAMAGE = 12.0D;
 	private static final double KNOCKBACK_RESISTANCE = 0.5D;
 	private static final double RESEARCH_UNLOCK_RANGE = 50D;
 	public static final String IS_VALID = "isValid";
@@ -48,6 +48,7 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 		super(world);
 		this.setSize(0.8F, 1.8F);
 		this.experienceValue = 50;
+		this.isImmuneToFire = true;
 
 		this.setCustomNameTag("Enaria");
 
