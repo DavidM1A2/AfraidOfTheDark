@@ -15,7 +15,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.handler.FogRenderingEvents;
 import com.DavidM1A2.AfraidOfTheDark.common.handler.KeyInputEventHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.handler.PlayerController;
 import com.DavidM1A2.AfraidOfTheDark.common.handler.WorldEvents;
-import com.DavidM1A2.AfraidOfTheDark.common.handler.WorldEventsClient;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBiomes;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModDimensions;
@@ -87,10 +86,6 @@ public class AfraidOfTheDark
 		WorldEvents worldEvents = new WorldEvents();
 		FMLCommonHandler.instance().bus().register(worldEvents);
 		MinecraftForge.EVENT_BUS.register(worldEvents);
-		if (event.getSide() == Side.CLIENT)
-		{
-			FMLCommonHandler.instance().bus().register(new WorldEventsClient());
-		}
 		// Initialize debug file to spam chat with variables
 		if (Constants.isDebug)
 		{

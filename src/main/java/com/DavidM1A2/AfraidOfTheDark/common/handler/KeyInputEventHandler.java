@@ -129,6 +129,7 @@ public class KeyInputEventHandler
 		else
 		{
 			AOTDPlayerData.get(entityPlayer).setSelectedWristCrossbowBolt(AOTDCrossbowBoltTypes.getIDFromType(currentlySelected.next()));
+			AOTDPlayerData.get(entityPlayer).syncSelectedWristCrossbowBolt();
 			entityPlayer.addChatMessage(new ChatComponentText("Crossbow will now fire " + currentlySelected.next().formattedString() + "bolts."));
 		}
 	}
