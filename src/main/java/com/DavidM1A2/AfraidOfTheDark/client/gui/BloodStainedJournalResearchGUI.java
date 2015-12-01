@@ -8,22 +8,21 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui;
 import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.GuiClickAndDragable;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiButton;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiClickAndDragable;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.NodeButton;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.spriteSheet.SpriteSheetAnimation;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
-public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
+public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 {
 	private static final int RESEARCH_BASE_ID = 1;
 	private static int currentID;
@@ -62,6 +61,7 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 	@Override
 	public void initGui()
 	{
+		super.initGui();
 		// Calculate the various positions of GUI elements on the screen
 		currentID = RESEARCH_BASE_ID;
 		baseHeight = (this.height - 256) / 2;
@@ -78,9 +78,9 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 
 		this.setupButtons();
 
-		for (final Object o : this.buttonList)
+		for (final AOTDGuiButton o : this.getButtonController().getButtons())
 		{
-			((NodeButton) o).setPosition(this.guiOffsetX, this.guiOffsetY);
+			((NodeButton) o).offset(this.guiOffsetX, this.guiOffsetY);
 		}
 	}
 
@@ -100,7 +100,9 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 		GL11.glScissor(disWidth - ((xPosScroll + BACKGROUND_WIDTH) * widthScale), disHeight - ((yPosScroll + BACKGROUND_HEIGHT) * widthScale), BACKGROUND_WIDTH * heightScale, BACKGROUND_HEIGHT * heightScale);
 
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		GlStateManager.enableBlend();
 		this.drawLines();
+		GlStateManager.disableBlend();
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		super.drawScreen(i, j, f);
 
@@ -110,7 +112,7 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 		this.mc.renderEngine.bindTexture(researchBackground);
 		this.drawTexturedModalRect(xPosScroll, yPosScroll, 0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
 
-		for (Object nodeButton : this.buttonList)
+		for (AOTDGuiButton nodeButton : this.getButtonController().getButtons())
 		{
 			if (nodeButton instanceof NodeButton)
 			{
@@ -118,13 +120,13 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 
 				if (newNodeButton.isMouseOver() && AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).isResearched(newNodeButton.getMyType()))
 				{
-					this.drawString(Minecraft.getMinecraft().fontRendererObj, newNodeButton.getMyType().formattedString(), newNodeButton.xPosition + newNodeButton.height, newNodeButton.yPosition, 0xFF3399);
-					this.drawString(Minecraft.getMinecraft().fontRendererObj, EnumChatFormatting.ITALIC + newNodeButton.getMyType().getTooltip(), newNodeButton.xPosition + newNodeButton.height + 2, newNodeButton.yPosition + 10, 0xE62E8A);
+					this.drawString(Minecraft.getMinecraft().fontRendererObj, newNodeButton.getMyType().formattedString(), newNodeButton.getX() + newNodeButton.getHeight(), newNodeButton.getY(), 0xFF3399);
+					this.drawString(Minecraft.getMinecraft().fontRendererObj, EnumChatFormatting.ITALIC + newNodeButton.getMyType().getTooltip(), newNodeButton.getX() + newNodeButton.getHeight() + 2, newNodeButton.getY() + 10, 0xE62E8A);
 				}
 				else if (newNodeButton.isMouseOver() && AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).canResearch(newNodeButton.getMyType()))
 				{
-					this.drawString(Minecraft.getMinecraft().fontRendererObj, "?", newNodeButton.xPosition + newNodeButton.height, newNodeButton.yPosition, 0xFF3399);
-					this.drawString(Minecraft.getMinecraft().fontRendererObj, EnumChatFormatting.ITALIC + "Unknown Research", newNodeButton.xPosition + newNodeButton.height + 2, newNodeButton.yPosition + 10, 0xE62E8A);
+					this.drawString(Minecraft.getMinecraft().fontRendererObj, "?", newNodeButton.getX() + newNodeButton.getHeight(), newNodeButton.getY(), 0xFF3399);
+					this.drawString(Minecraft.getMinecraft().fontRendererObj, EnumChatFormatting.ITALIC + "Unknown Research", newNodeButton.getX() + newNodeButton.getHeight() + 2, newNodeButton.getY() + 10, 0xE62E8A);
 				}
 			}
 		}
@@ -135,21 +137,21 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 	protected void mouseClickMove(final int mouseX, final int mouseY, final int lastButtonClicked, final long timeBetweenClicks)
 	{
 		super.mouseClickMove(mouseX, mouseY, lastButtonClicked, timeBetweenClicks);
-		for (final Object o : this.buttonList)
+		for (final AOTDGuiButton o : this.getButtonController().getButtons())
 		{
-			((NodeButton) o).setPosition(this.guiOffsetX, this.guiOffsetY);
+			((NodeButton) o).offset(this.guiOffsetX, this.guiOffsetY);
 		}
 	}
 
 	// When a button is pressed, open the respective research
 	@Override
-	protected void actionPerformed(final GuiButton button)
+	public void actionPerformed(final AOTDGuiButton button)
 	{
 		final EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
-		for (final Object o : this.buttonList)
+		for (final AOTDGuiButton o : this.getButtonController().getButtons())
 		{
 			final NodeButton current = (NodeButton) o;
-			if (current.id == button.id)
+			if (current.getId() == button.getId())
 			{
 				ClientData.currentlySelected = current.getMyType();
 				if (AOTDPlayerData.get(entityPlayer).isResearched(current.getMyType()))
@@ -171,7 +173,7 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 	{
 		verticalArrow.update();
 		horizontalArrow.update();
-		for (Object object : this.buttonList)
+		for (AOTDGuiButton object : this.getButtonController().getButtons())
 		{
 			if (object instanceof NodeButton)
 			{
@@ -185,19 +187,19 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 						ResearchTypes current = nodeButton.getMyType();
 						if (current.getPositionX() < previous.getPositionX())
 						{
-							horizontalArrow.draw(nodeButton.xPosition + 26, nodeButton.yPosition + 9, 54, 14);
+							horizontalArrow.draw(nodeButton.getX() + 26, nodeButton.getY() + 9, 54, 14);
 						}
 						else if (current.getPositionX() > previous.getPositionX())
 						{
-							horizontalArrow.draw(nodeButton.xPosition - 50, nodeButton.yPosition + 9, 54, 14);
+							horizontalArrow.draw(nodeButton.getX() - 50, nodeButton.getY() + 9, 54, 14);
 						}
 						else if (current.getPositionY() > previous.getPositionY())
 						{
-							verticalArrow.draw(nodeButton.xPosition + 9, nodeButton.yPosition + 30, 14, 46);
+							verticalArrow.draw(nodeButton.getX() + 9, nodeButton.getY() + 30, 14, 46);
 						}
 						else if (current.getPositionY() < previous.getPositionY())
 						{
-							verticalArrow.draw(nodeButton.xPosition + 9, nodeButton.yPosition - 46, 14, 46);
+							verticalArrow.draw(nodeButton.getX() + 9, nodeButton.getY() - 46, 14, 46);
 						}
 					}
 				}
@@ -207,10 +209,9 @@ public class BloodStainedJournalResearchGUI extends GuiClickAndDragable
 
 	private void setupButtons()
 	{
-		this.buttonList.clear();
 		for (ResearchTypes researchType : ResearchTypes.values())
 		{
-			this.buttonList.add(new NodeButton(currentID++, xPosBaseResearch + DISTANCE_BETWEEN_NODES * researchType.getPositionX(), yPosBaseResearch - DISTANCE_BETWEEN_NODES * researchType.getPositionY(), researchType));
+			this.getButtonController().add(new NodeButton(currentID++, xPosBaseResearch + DISTANCE_BETWEEN_NODES * researchType.getPositionX(), yPosBaseResearch - DISTANCE_BETWEEN_NODES * researchType.getPositionY(), researchType));
 		}
 	}
 

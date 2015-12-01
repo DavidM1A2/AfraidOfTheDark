@@ -204,7 +204,7 @@ public enum ResearchTypes
 
 		bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 		StringBuffer stringBuffer = new StringBuffer();
-		stringBuffer.append("     ");
+		stringBuffer.append("	");
 		String currentLine = null;
 
 		try

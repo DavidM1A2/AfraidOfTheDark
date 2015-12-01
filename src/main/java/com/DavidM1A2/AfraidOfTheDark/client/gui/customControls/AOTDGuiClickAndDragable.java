@@ -10,9 +10,8 @@ import java.io.IOException;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
 
-public abstract class GuiClickAndDragable extends GuiScreen
+public abstract class AOTDGuiClickAndDragable extends AOTDGuiScreen
 {
 	// Variables for calculating the GUI offset
 	protected int guiOffsetX = 0;

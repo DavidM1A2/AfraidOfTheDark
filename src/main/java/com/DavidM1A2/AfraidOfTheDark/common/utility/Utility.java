@@ -5,174 +5,91 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.utility;
 
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Field;
 import java.util.Iterator;
 import java.util.List;
 
+import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.TrueTypeFont;
 import com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest.VoidChestTeleporter;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 
-import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.ShapedRecipes;
-import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.network.play.server.S07PacketRespawn;
 import net.minecraft.network.play.server.S1DPacketEntityEffect;
 import net.minecraft.network.play.server.S27PacketExplosion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.management.ServerConfigurationManager;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public class Utility
 {
-	public static boolean hasIndex(List<?> list, int index)
+	public static TrueTypeFont createTrueTypeFont(String name, float size, boolean antiAliasing)
 	{
 		try
 		{
-			list.get(index);
-			return true;
+			final InputStream fontInputStream = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(Refrence.MOD_ID, "fonts/" + name + ".ttf")).getInputStream();
+			return new TrueTypeFont(Font.createFont(Font.TRUETYPE_FONT, fontInputStream).deriveFont(size), antiAliasing);
 		}
-		catch (IndexOutOfBoundsException e)
+		catch (final FileNotFoundException e)
 		{
-			return false;
+			LogHelper.error("Error loading AOTD fonts. This will cause your minecraft to crash. Please mention this to the mod developer.");
+			return null;
+		}
+		catch (final IOException e)
+		{
+			LogHelper.error("Error loading AOTD fonts. This will cause your minecraft to crash. Please mention this to the mod developer.");
+			return null;
+		}
+		catch (FontFormatException e)
+		{
+			LogHelper.error("Error loading AOTD fonts. This will cause your minecraft to crash. Please mention this to the mod developer.");
+			return null;
 		}
 	}
 
-	public static ConvertedRecipe getConvertedRecipeFromIRecipe(IRecipe currentRecipe)
+	public static ScaledResolution getScaledResolution()
 	{
-		int width = 0;
-		int height = 0;
-		ItemStack output = currentRecipe.getRecipeOutput();
-		ItemStack[] input = null;
+		return new ScaledResolution(Minecraft.getMinecraft(), Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
+	}
 
-		if (currentRecipe instanceof ShapedRecipes)
-		{
-			ShapedRecipes shapedRecipe = (ShapedRecipes) currentRecipe;
-			width = shapedRecipe.recipeWidth;
-			height = shapedRecipe.recipeHeight;
-			input = shapedRecipe.recipeItems;
-		}
-		else if (currentRecipe instanceof ShapedOreRecipe)
-		{
-			ShapedOreRecipe shapedOreRecipe = (ShapedOreRecipe) currentRecipe;
-			Field[] fields = ShapedOreRecipe.class.getDeclaredFields();
-			fields[4].setAccessible(true);
-			fields[5].setAccessible(true);
-			try
-			{
-				width = (Integer) fields[4].get(shapedOreRecipe);
-				height = (Integer) fields[5].get(shapedOreRecipe);// reflection
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-			fields[4].setAccessible(false);
-			fields[5].setAccessible(false);
-			input = new ItemStack[shapedOreRecipe.getInput().length];
-			for (int i = 0; i < shapedOreRecipe.getInput().length; i++)
-			{
-				Object object = shapedOreRecipe.getInput()[i];
-				if (object instanceof Item)
-				{
-					input[i] = new ItemStack((Item) object, 1, 0);
-				}
-				else if (object instanceof Block)
-				{
-					input[i] = new ItemStack((Block) object, 1, 0);
-				}
-				else if (object instanceof ItemStack)
-				{
-					input[i] = (ItemStack) object;
-				}
-				else if (object instanceof List)
-				{
-					// Don't fully support ore dictionary yet
-					List<ItemStack> oreDictionaryList = (List<ItemStack>) object;
-					if (!oreDictionaryList.isEmpty())
-					{
-						input[i] = oreDictionaryList.get(0);
-					}
-				}
-			}
-		}
-		else if (currentRecipe instanceof ShapelessRecipes)
-		{
-			ShapelessRecipes shapelessRecipe = (ShapelessRecipes) currentRecipe;
-			width = -1;
-			height = -1;
-			List<?> requiredItems = shapelessRecipe.recipeItems;
-			input = new ItemStack[requiredItems.size()];
-			for (int i = 0; i < requiredItems.size(); i++)
-			{
-				Object object = requiredItems.get(i);
-				if (object instanceof Item)
-				{
-					input[i] = new ItemStack((Item) object, 1, 0);
-				}
-				else if (object instanceof Block)
-				{
-					input[i] = new ItemStack((Block) object, 1, 0);
-				}
-				else
-				{
-					input[i] = (ItemStack) object;
-				}
-			}
-		}
-		else if (currentRecipe instanceof ShapelessOreRecipe)
-		{
-			ShapelessOreRecipe shapelessOreRecipe = (ShapelessOreRecipe) currentRecipe;
-			width = -1;
-			height = -1;
-			input = new ItemStack[shapelessOreRecipe.getInput().size()];
-			List<Object> requiredItems = shapelessOreRecipe.getInput();
-			for (int i = 0; i < requiredItems.size(); i++)
-			{
-				Object object = requiredItems.get(i);
-				if (object instanceof Item)
-				{
-					input[i] = new ItemStack((Item) object, 1, 0);
-				}
-				else if (object instanceof Block)
-				{
-					input[i] = new ItemStack((Block) object, 1, 0);
-				}
-				else if (object instanceof ItemStack)
-				{
-					input[i] = (ItemStack) object;
-				}
-				else if (object instanceof List)
-				{
-					// Don't fully support ore dictionary yet
-					List<ItemStack> oreDictionaryList = (List<ItemStack>) object;
-					if (!oreDictionaryList.isEmpty())
-					{
-						input[i] = oreDictionaryList.get(0);
-					}
-				}
-			}
-		}
+	public static Point3D minecraftToRealScreenCoords(int x, int y)
+	{
+		ScaledResolution scaledResolution = Utility.getScaledResolution();
 
-		if (width != 0)
-		{
-			return new ConvertedRecipe(width, height, output, input);
-		}
-		return null;
+		x = x * (int) Math.round(5.0 / scaledResolution.getScaleFactor());
+		y = y * (int) Math.round(5.0 / scaledResolution.getScaleFactor());
+
+		return new Point3D(x, y, 1);
+	}
+
+	public static Point3D realToMinecraftScreenCoords(int x, int y)
+	{
+		ScaledResolution scaledResolution = Utility.getScaledResolution();
+
+		x = x / (int) Math.round(5.0 / scaledResolution.getScaleFactor());
+		y = y / (int) Math.round(5.0 / scaledResolution.getScaleFactor());
+
+		return new Point3D(x, y, 1);
+	}
+
+	public static boolean hasIndex(List<?> list, int index)
+	{
+		return index >= 0 && index < list.size();
 	}
 
 	public static InputStream getInputStreamFromPath(String path)
@@ -268,13 +185,5 @@ public class Utility
 		if (net.minecraftforge.event.ForgeEventFactory.onExplosionStart(world, explosion))
 			return;
 		explosion.doExplosionB(true);
-	}
-
-	public static MovingObjectPosition rayTraceServerSide(Entity entity, double distance, float eyeHeight)
-	{
-		Vec3 locationFrom = new Vec3(entity.posX, entity.posY + (double) entity.getEyeHeight(), entity.posZ);
-		Vec3 look = entity.getLook(eyeHeight);
-		Vec3 locationTo = locationFrom.addVector(look.xCoord * distance, look.yCoord * distance, look.zCoord * distance);
-		return entity.worldObj.rayTraceBlocks(locationFrom, locationTo, false, false, true);
 	}
 }

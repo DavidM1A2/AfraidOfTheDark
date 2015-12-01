@@ -9,17 +9,17 @@ import java.io.IOException;
 
 import org.lwjgl.opengl.GL11;
 
+import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiScreen;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 
-public class BloodStainedJournalCheatSheet extends GuiScreen
+public class BloodStainedJournalCheatSheet extends AOTDGuiScreen
 {
 	private static final int YES_ID = 0;
 	private static final int NO_ID = 1;
@@ -63,7 +63,7 @@ public class BloodStainedJournalCheatSheet extends GuiScreen
 		final EntityPlayer playerWhoPressed = Minecraft.getMinecraft().thePlayer;
 		switch (button.id)
 		{
-			case BloodStainedJournalCheatSheet.YES_ID:
+			case YES_ID:
 			{
 				for (ResearchTypes type : ResearchTypes.values())
 				{
@@ -76,7 +76,7 @@ public class BloodStainedJournalCheatSheet extends GuiScreen
 				Minecraft.getMinecraft().thePlayer.closeScreen();
 				break;
 			}
-			case BloodStainedJournalCheatSheet.NO_ID:
+			case NO_ID:
 			{
 				Minecraft.getMinecraft().thePlayer.closeScreen();
 				break;

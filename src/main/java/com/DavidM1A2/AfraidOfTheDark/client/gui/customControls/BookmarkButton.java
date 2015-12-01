@@ -6,31 +6,23 @@
 package com.DavidM1A2.AfraidOfTheDark.client.gui.customControls;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.util.ResourceLocation;
 
-public class BookmarkButton extends GuiButton
+public class BookmarkButton extends AOTDGuiButton
 {
 	private static final ResourceLocation BUTTON_TEXTURE = new ResourceLocation("afraidofthedark:textures/gui/buttons/backToResearchButton.png");
 
-	public BookmarkButton(int buttonId, int x, int y, int widthIn, int heightIn)
+	public BookmarkButton(int buttonId, int x, int y, int width, int height)
 	{
-		super(buttonId, x, y, widthIn, heightIn, "");
+		super(buttonId, x, y, width, height, null);
 	}
 
-	// Bookmark button has no texture
+	/**
+	 * Returns true if the mouse has been pressed on this control. Equivalent of MouseListener.mousePressed(MouseEvent e).
+	 */
 	@Override
-	public void drawButton(final Minecraft minecraft, final int mouseX, final int mouseY)
+	public boolean mousePressed(Minecraft mc, int mouseX, int mouseY)
 	{
-
-	}
-
-	// Update x, y, width, and height of a textbox
-	public void updateBounds(final int x, final int y, final int width, final int height)
-	{
-		this.xPosition = x;
-		this.yPosition = y;
-		this.width = width;
-		this.height = height;
+		return this.isMouseOver();
 	}
 }

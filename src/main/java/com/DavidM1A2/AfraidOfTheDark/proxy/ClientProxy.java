@@ -3,10 +3,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.proxy;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-
 import com.DavidM1A2.AfraidOfTheDark.client.entities.Bolts.IgneousBoltRender;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.Bolts.IronBoltRender;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.Bolts.SilverBoltRender;
@@ -19,7 +15,6 @@ import com.DavidM1A2.AfraidOfTheDark.client.entities.SplinterDrone.RenderSplinte
 import com.DavidM1A2.AfraidOfTheDark.client.entities.SplinterDrone.RenderSplinterDroneProjectile;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.Werewolf.RenderWerewolf;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.tileEntities.TileEntityVoidChestRenderer;
-import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.Keybindings;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityVoidChest;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityIgneousBolt;
@@ -36,14 +31,11 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.item.crossbow.ItemCrossbowRender;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.CustomFont;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -84,27 +76,6 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void registerMiscelaneous()
 	{
-		try
-		{
-			final InputStream textFont = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(Refrence.MOD_ID, "fonts/Targa MS Hand.ttf")).getInputStream();
-			final InputStream titleFont = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(Refrence.MOD_ID, "fonts/coolvetica.ttf")).getInputStream();
-
-			ClientData.journalFont = new CustomFont(textFont, 16);
-			ClientData.journalTitleFont = new CustomFont(titleFont, 26);
-
-			// Set the journal font sizes
-			ClientData.journalFont.setFontSize(20, 32, 126, false);
-			ClientData.journalTitleFont.setFontSize(32, 32, 126, false);
-		}
-		catch (final FileNotFoundException e)
-		{
-			e.printStackTrace();
-		}
-		catch (final IOException e)
-		{
-			e.printStackTrace();
-		}
-
 		Constants.entityVitaeResistance.put(EntityPlayerSP.class, 100);
 		Constants.entityVitaeResistance.put(EntityOtherPlayerMP.class, 100);
 	}
