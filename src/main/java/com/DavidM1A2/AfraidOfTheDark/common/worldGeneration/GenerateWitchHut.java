@@ -7,6 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.worldGeneration;
 
 import java.util.Random;
 
+import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDWorldData;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicGenerator;
@@ -33,7 +34,7 @@ public class GenerateWitchHut
 			AOTDWorldData.get(world).addDungeon(new Point3D(chunkX + 5, 8, chunkZ + 5), true);
 			AOTDWorldData.get(world).setDirty(true);
 
-			if (Constants.isDebug)
+			if (ConfigurationHandler.debugMessages)
 			{
 				LogHelper.info("Spawning a hut at x = " + chunkX + ", y = " + y + ", z = " + chunkZ);
 			}

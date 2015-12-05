@@ -119,7 +119,7 @@ public class AfraidOfTheDark
 		ModPotionEffects.initialize();
 		// Setup mod threads
 
-		if (Constants.isDebug)
+		if (ConfigurationHandler.debugMessages)
 		{
 			LogHelper.info("Pre-Initialization Complete");
 		}
@@ -146,7 +146,7 @@ public class AfraidOfTheDark
 		// Initialize renderers
 		AfraidOfTheDark.proxy.registerRenderThings();
 
-		if (Constants.isDebug)
+		if (ConfigurationHandler.debugMessages)
 		{
 			LogHelper.info("Initialization Complete");
 		}
@@ -164,7 +164,7 @@ public class AfraidOfTheDark
 			ClientData.researchAchievedOverlay = new ResearchAchieved(Minecraft.getMinecraft());
 		}
 
-		if (Constants.isDebug)
+		if (ConfigurationHandler.debugMessages)
 		{
 			LogHelper.info("Post-Initialization Complete");
 		}

@@ -3,7 +3,7 @@
  * Mod: Afraid of the Dark 
  * Ideas and Textures: Michael Albertson
  */
-package com.DavidM1A2.AfraidOfTheDark.client.gui;
+package com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens;
 
 import java.util.Random;
 
@@ -43,6 +43,11 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
 	// positions
 	private static int xPosTelescope;
 	private static int yPosTelescope;
+
+	public TelescopeGUI()
+	{
+
+	}
 
 	/*
 	 * GUI for the blood stained journal on the initial signing
@@ -103,7 +108,7 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
 		for (final AOTDGuiButton o : this.getButtonController().getButtons())
 		{
 			final MeteorButton theButton = (MeteorButton) o;
-			if (theButton.getId() == button.getId())
+			//if (theButton.getId() == button.getId())
 			{
 				playerWhoPressed.addChatMessage(new ChatComponentText(this.createMeteorMessage(theButton.getMyType())));
 

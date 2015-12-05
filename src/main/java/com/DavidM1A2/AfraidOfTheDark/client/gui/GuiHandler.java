@@ -3,6 +3,13 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui;
 
+import com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens.BloodStainedJournalCheatSheetGUI;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens.BloodStainedJournalPageGUI;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens.BloodStainedJournalResearchGUI;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens.BloodStainedJournalSignGUI;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens.SextantGUI;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens.TelescopeGUI;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens.VitaeLanternGUI;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -52,7 +59,7 @@ public class GuiHandler implements IGuiHandler
 			case GuiHandler.VITAE_LANTERN_ID:
 				return new VitaeLanternGUI();
 			case GuiHandler.BLOOD_STAINED_JOURNAL_CHEAT_SHEET:
-				return new BloodStainedJournalCheatSheet();
+				return new BloodStainedJournalCheatSheetGUI();
 		}
 		return null;
 	}

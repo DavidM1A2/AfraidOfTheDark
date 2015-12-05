@@ -10,17 +10,14 @@ import java.util.List;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.renderer.GlStateManager;
 
 public class AOTDButtonController extends GuiButton
 {
 	private List<AOTDGuiButton> buttons = new ArrayList<AOTDGuiButton>();
-	private final AOTDGuiScreen parent;
 
-	public AOTDButtonController(AOTDGuiScreen parent)
+	public AOTDButtonController()
 	{
 		super(0, 0, 0, 0, 0, "");
-		this.parent = parent;
 	}
 
 	public void add(AOTDGuiButton button)
@@ -46,12 +43,7 @@ public class AOTDButtonController extends GuiButton
 	{
 		for (AOTDGuiButton button : this.buttons)
 		{
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			button.setHovered(mouseX >= button.getX() && mouseY >= button.getY() && mouseX < button.getX() + button.getWidth() && mouseY < button.getY() + button.getHeight());
-			GlStateManager.enableBlend();
-			GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-			GlStateManager.blendFunc(770, 771);
-			button.draw();
+			button.setHovered(mouseX >= button.getXScaled() && mouseY >= button.getYScaled() && mouseX < button.getXScaled() + button.getWidthScaled() && mouseY < button.getYScaled() + button.getHeightScaled());
 			button.mouseDragged(mc, mouseX, mouseY);
 		}
 	}
@@ -80,8 +72,8 @@ public class AOTDButtonController extends GuiButton
 		{
 			if (button.mousePressed(mc, mouseX, mouseY))
 			{
-				button.playPressSound(parent.mc.getSoundHandler());
-				parent.actionPerformed(button);
+				button.playPressSound(mc.getSoundHandler());
+				button.mousePressed();
 			}
 		}
 		return false;

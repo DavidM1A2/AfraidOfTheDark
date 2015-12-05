@@ -7,6 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.worldGeneration;
 
 import java.util.Random;
 
+import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDWorldData;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicGenerator;
@@ -39,7 +40,7 @@ public class GenerateDarkForestDungeon
 		AOTDWorldData.get(world).addDungeon(new Point3D(chunkX + 11, 85, chunkZ + 11), true);
 		AOTDWorldData.get(world).setDirty(true);
 
-		//if (Constants.isDebug)
+		if (ConfigurationHandler.debugMessages)
 		{
 			LogHelper.info("Spawning a dark forest at x = " + chunkX + ", y = " + y + ", z = " + chunkZ);
 		}

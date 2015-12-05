@@ -3,13 +3,17 @@
  * Mod: Afraid of the Dark
  * Ideas and Textures: Michael Albertson
  */
-package com.DavidM1A2.AfraidOfTheDark.client.gui;
+package com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens;
 
 import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.SpriteSheetAnimation;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiButton;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiClickAndDragable;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiComponent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.NodeButton;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
@@ -120,13 +124,13 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 
 				if (newNodeButton.isMouseOver() && AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).isResearched(newNodeButton.getMyType()))
 				{
-					this.drawString(Minecraft.getMinecraft().fontRendererObj, newNodeButton.getMyType().formattedString(), newNodeButton.getX() + newNodeButton.getHeight(), newNodeButton.getY(), 0xFF3399);
-					this.drawString(Minecraft.getMinecraft().fontRendererObj, EnumChatFormatting.ITALIC + newNodeButton.getMyType().getTooltip(), newNodeButton.getX() + newNodeButton.getHeight() + 2, newNodeButton.getY() + 10, 0xE62E8A);
+					this.drawString(Minecraft.getMinecraft().fontRendererObj, newNodeButton.getMyType().formattedString(), newNodeButton.getXScaled() + newNodeButton.getHeightScaled(), newNodeButton.getYScaled(), 0xFF3399);
+					this.drawString(Minecraft.getMinecraft().fontRendererObj, EnumChatFormatting.ITALIC + newNodeButton.getMyType().getTooltip(), newNodeButton.getXScaled() + newNodeButton.getHeightScaled() + 2, newNodeButton.getYScaled() + 10, 0xE62E8A);
 				}
 				else if (newNodeButton.isMouseOver() && AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).canResearch(newNodeButton.getMyType()))
 				{
-					this.drawString(Minecraft.getMinecraft().fontRendererObj, "?", newNodeButton.getX() + newNodeButton.getHeight(), newNodeButton.getY(), 0xFF3399);
-					this.drawString(Minecraft.getMinecraft().fontRendererObj, EnumChatFormatting.ITALIC + "Unknown Research", newNodeButton.getX() + newNodeButton.getHeight() + 2, newNodeButton.getY() + 10, 0xE62E8A);
+					this.drawString(Minecraft.getMinecraft().fontRendererObj, "?", newNodeButton.getXScaled() + newNodeButton.getHeightScaled(), newNodeButton.getYScaled(), 0xFF3399);
+					this.drawString(Minecraft.getMinecraft().fontRendererObj, EnumChatFormatting.ITALIC + "Unknown Research", newNodeButton.getXScaled() + newNodeButton.getHeightScaled() + 2, newNodeButton.getYScaled() + 10, 0xE62E8A);
 				}
 			}
 		}
@@ -140,31 +144,6 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 		for (final AOTDGuiButton o : this.getButtonController().getButtons())
 		{
 			((NodeButton) o).offset(this.guiOffsetX, this.guiOffsetY);
-		}
-	}
-
-	// When a button is pressed, open the respective research
-	@Override
-	public void actionPerformed(final AOTDGuiButton button)
-	{
-		final EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
-		for (final AOTDGuiButton o : this.getButtonController().getButtons())
-		{
-			final NodeButton current = (NodeButton) o;
-			if (current.getId() == button.getId())
-			{
-				ClientData.currentlySelected = current.getMyType();
-				if (AOTDPlayerData.get(entityPlayer).isResearched(current.getMyType()))
-				{
-					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
-					break;
-				}
-				else if (AOTDPlayerData.get(entityPlayer).isResearched(current.getMyType().getPrevious()))
-				{
-					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_PRE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
-					break;
-				}
-			}
 		}
 	}
 
@@ -187,19 +166,19 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 						ResearchTypes current = nodeButton.getMyType();
 						if (current.getPositionX() < previous.getPositionX())
 						{
-							horizontalArrow.draw(nodeButton.getX() + 26, nodeButton.getY() + 9, 54, 14);
+							horizontalArrow.draw(nodeButton.getXScaled() + 26, nodeButton.getYScaled() + 9, 54, 14);
 						}
 						else if (current.getPositionX() > previous.getPositionX())
 						{
-							horizontalArrow.draw(nodeButton.getX() - 50, nodeButton.getY() + 9, 54, 14);
+							horizontalArrow.draw(nodeButton.getXScaled() - 50, nodeButton.getYScaled() + 9, 54, 14);
 						}
 						else if (current.getPositionY() > previous.getPositionY())
 						{
-							verticalArrow.draw(nodeButton.getX() + 9, nodeButton.getY() + 30, 14, 46);
+							verticalArrow.draw(nodeButton.getXScaled() + 9, nodeButton.getYScaled() + 30, 14, 46);
 						}
 						else if (current.getPositionY() < previous.getPositionY())
 						{
-							verticalArrow.draw(nodeButton.getX() + 9, nodeButton.getY() - 46, 14, 46);
+							verticalArrow.draw(nodeButton.getXScaled() + 9, nodeButton.getYScaled() - 46, 14, 46);
 						}
 					}
 				}
@@ -209,9 +188,35 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 
 	private void setupButtons()
 	{
+		AOTDActionListener onPress = new AOTDActionListener()
+		{
+			@Override
+			public void actionPerformed(AOTDGuiComponent component, AOTDActionListener.ActionType actionType)
+			{
+				if (actionType == ActionType.MouseClick)
+				{
+					if (component instanceof NodeButton)
+					{
+						NodeButton current = (NodeButton) component;
+						final EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
+						ClientData.currentlySelected = current.getMyType();
+						if (AOTDPlayerData.get(entityPlayer).isResearched(current.getMyType()))
+						{
+							entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
+						}
+						else if (AOTDPlayerData.get(entityPlayer).isResearched(current.getMyType().getPrevious()))
+						{
+							entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_PRE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
+						}
+					}
+				}
+			}
+		};
 		for (ResearchTypes researchType : ResearchTypes.values())
 		{
-			this.getButtonController().add(new NodeButton(currentID++, xPosBaseResearch + DISTANCE_BETWEEN_NODES * researchType.getPositionX(), yPosBaseResearch - DISTANCE_BETWEEN_NODES * researchType.getPositionY(), researchType));
+			NodeButton toAdd = new NodeButton(currentID++, xPosBaseResearch + DISTANCE_BETWEEN_NODES * researchType.getPositionX(), yPosBaseResearch - DISTANCE_BETWEEN_NODES * researchType.getPositionY(), researchType);
+			toAdd.addActionListener(onPress);
+			this.getButtonController().add(toAdd);
 		}
 	}
 

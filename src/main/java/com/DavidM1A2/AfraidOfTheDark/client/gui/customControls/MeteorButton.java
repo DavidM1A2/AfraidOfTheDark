@@ -18,7 +18,7 @@ public class MeteorButton extends AOTDGuiButtonMovable
 
 	public MeteorButton(final int buttonId, final int x, final int y, final int width, final int height, final MeteorTypes myType)
 	{
-		super(buttonId, x, y, width, height);
+		super(x, y, width, height);
 		this.myType = myType;
 
 		if (myType == MeteorTypes.silver)
@@ -39,7 +39,7 @@ public class MeteorButton extends AOTDGuiButtonMovable
 			super.draw();
 
 			Minecraft.getMinecraft().getTextureManager().bindTexture(this.METEOR_TEXTURE);
-			Gui.drawScaledCustomSizeModalRect(this.getX(), this.getY(), 0, 0, 64, 64, this.getWidth(), this.getHeight(), 64, 64);
+			Gui.drawScaledCustomSizeModalRect(this.getXScaled(), this.getYScaled(), 0, 0, 64, 64, this.getWidthScaled(), this.getHeightScaled(), 64, 64);
 		}
 	}
 

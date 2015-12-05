@@ -24,7 +24,7 @@ public class NodeButton extends AOTDGuiButtonMovable
 	// Each button has a position and offset
 	public NodeButton(final int buttonID, final int xPosition, final int yPosition, final ResearchTypes myType)
 	{
-		super(buttonID, xPosition, yPosition, 32, 32);
+		super(xPosition, yPosition, 32, 32);
 		this.myType = myType;
 	}
 
@@ -45,20 +45,20 @@ public class NodeButton extends AOTDGuiButtonMovable
 
 			Minecraft minecraft = Minecraft.getMinecraft();
 			minecraft.getTextureManager().bindTexture(DEFAULT_RESEARCH_BACKGROUND);
-			Gui.drawScaledCustomSizeModalRect(this.getX(), this.getY(), 0, 0, 512, 512, this.getWidth(), this.getHeight(), 512, 512);
+			Gui.drawScaledCustomSizeModalRect(this.getXScaled(), this.getYScaled(), 0, 0, 512, 512, this.getWidthScaled(), this.getHeightScaled(), 512, 512);
 
 			// Draw the button differently depending on if the research is researched, not research, or almost researched
 			if (AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).isResearched(this.myType))
 			{
 				minecraft.getTextureManager().bindTexture(this.myType.getIcon());
-				Gui.drawScaledCustomSizeModalRect(this.getX() + 2, this.getY() + 2, 0, 0, 32, 32, this.getWidth(), this.getHeight(), 32, 32);
+				Gui.drawScaledCustomSizeModalRect(this.getXScaled() + 2, this.getYScaled() + 2, 0, 0, 32, 32, this.getWidthScaled(), this.getHeightScaled(), 32, 32);
 			}
 			else
 			{
 				minecraft.getTextureManager().bindTexture(this.myType.getIcon());
-				Gui.drawScaledCustomSizeModalRect(this.getX() + 2, this.getY() + 2, 0, 0, 32, 32, this.getWidth(), this.getHeight(), 32, 32);
+				Gui.drawScaledCustomSizeModalRect(this.getXScaled() + 2, this.getYScaled() + 2, 0, 0, 32, 32, this.getWidthScaled(), this.getHeightScaled(), 32, 32);
 				minecraft.getTextureManager().bindTexture(NodeButton.UNKNOWN_RESEARCH);
-				Gui.drawScaledCustomSizeModalRect(this.getX() + 2, this.getY() + 2, 0, 0, 32, 32, this.getWidth(), this.getHeight(), 32, 32);
+				Gui.drawScaledCustomSizeModalRect(this.getXScaled() + 2, this.getYScaled() + 2, 0, 0, 32, 32, this.getWidthScaled(), this.getHeightScaled(), 32, 32);
 			}
 		}
 	}

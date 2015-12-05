@@ -8,9 +8,9 @@ package com.DavidM1A2.AfraidOfTheDark.common.packets;
 import java.util.Set;
 
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
+import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
@@ -74,7 +74,7 @@ public class UpdateResearch implements IMessage
 					}
 
 					AOTDPlayerData.get(entityPlayer).setReseraches(msg.research);
-					if (Constants.isDebug)
+					if (ConfigurationHandler.debugMessages)
 					{
 						LogHelper.info("Update research packet received, " + msg.research.toString());
 					}

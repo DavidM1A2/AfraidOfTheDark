@@ -11,6 +11,12 @@ public abstract class AOTDGuiTextComponent extends AOTDGuiComponent
 	private String text = "";
 	private int color = 0;
 
+	public AOTDGuiTextComponent()
+	{
+		super();
+		this.font = null;
+	}
+
 	public AOTDGuiTextComponent(int x, int y, int width, int height, TrueTypeFont font)
 	{
 		super(x, y, width, height);

@@ -3,7 +3,7 @@
  * Mod: Afraid of the Dark 
  * Ideas and Textures: Michael Albertson
  */
-package com.DavidM1A2.AfraidOfTheDark.client.gui;
+package com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens;
 
 import java.io.IOException;
 import java.util.Random;
@@ -12,7 +12,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
-import com.DavidM1A2.AfraidOfTheDark.common.packets.TellServerToCreateMeteor;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.SpawnMeteor;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -182,7 +182,7 @@ public class SextantGUI extends GuiScreen
 		final int zLocOfDrop = (int) entityPlayer.posZ + (((random.nextDouble() >= .5) ? -1 : 1) * (entityPlayer.worldObj.rand.nextInt(500) + 15));
 
 		final BlockPos location = new BlockPos(xLocOfDrop, 255, zLocOfDrop);
-		AfraidOfTheDark.getPacketHandler().sendToServer(new TellServerToCreateMeteor(location, 3, 3, ClientData.watchedMeteorType.getIndex()));
+		AfraidOfTheDark.getPacketHandler().sendToServer(new SpawnMeteor(location, 3, 3, ClientData.watchedMeteorType.getIndex()));
 		entityPlayer.addChatMessage(new ChatComponentText("Based off of this information the meteor fell at " + xLocOfDrop + ", " + zLocOfDrop));
 		ClientData.selectedMeteor = new int[]
 		{ -1, -1, -1 };

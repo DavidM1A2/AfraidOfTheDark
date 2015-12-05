@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
@@ -42,7 +42,7 @@ public class SchematicLoader
 
 			SchematicBlockReplacer.fixKnownSchematicErrors(toReturn);
 
-			if (Constants.isDebug)
+			if (ConfigurationHandler.debugMessages)
 			{
 				SchematicLoader.printIncorrectIds(toReturn.getBlocks(), schemname);
 			}

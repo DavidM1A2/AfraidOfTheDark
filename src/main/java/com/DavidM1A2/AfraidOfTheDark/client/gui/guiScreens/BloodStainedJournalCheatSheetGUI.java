@@ -3,7 +3,7 @@
  * Mod: Afraid of the Dark
  * Ideas and Textures: Michael Albertson
  */
-package com.DavidM1A2.AfraidOfTheDark.client.gui;
+package com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens;
 
 import java.io.IOException;
 
@@ -19,7 +19,7 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 
-public class BloodStainedJournalCheatSheet extends AOTDGuiScreen
+public class BloodStainedJournalCheatSheetGUI extends AOTDGuiScreen
 {
 	private static final int YES_ID = 0;
 	private static final int NO_ID = 1;
@@ -32,8 +32,8 @@ public class BloodStainedJournalCheatSheet extends AOTDGuiScreen
 	public void initGui()
 	{
 		this.buttonList.clear();
-		this.buttonList.add(new GuiButton(BloodStainedJournalCheatSheet.YES_ID, (this.width / 2) - 75, (this.height / 2) - 35, 150, 20, "Okay"));
-		this.buttonList.add(new GuiButton(BloodStainedJournalCheatSheet.NO_ID, (this.width / 2) - 75, (this.height / 2) - 10, 150, 20, "No Thanks"));
+		this.buttonList.add(new GuiButton(BloodStainedJournalCheatSheetGUI.YES_ID, (this.width / 2) - 75, (this.height / 2) - 35, 150, 20, "Okay"));
+		this.buttonList.add(new GuiButton(BloodStainedJournalCheatSheetGUI.NO_ID, (this.width / 2) - 75, (this.height / 2) - 10, 150, 20, "No Thanks"));
 	}
 
 	// GUI does not pause the game

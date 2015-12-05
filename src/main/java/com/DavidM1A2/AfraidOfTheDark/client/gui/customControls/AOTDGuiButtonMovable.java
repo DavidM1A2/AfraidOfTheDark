@@ -10,9 +10,9 @@ public abstract class AOTDGuiButtonMovable extends AOTDGuiButton
 	protected final int ORIGINAL_X_POSITION;
 	protected final int ORIGINAL_Y_POSITION;
 
-	public AOTDGuiButtonMovable(int buttonId, int x, int y, int width, int height)
+	public AOTDGuiButtonMovable(int x, int y, int width, int height)
 	{
-		super(buttonId, x, y, width, height, null);
+		super(x, y, width, height, null, "");
 		this.ORIGINAL_X_POSITION = x;
 		this.ORIGINAL_Y_POSITION = y;
 	}

@@ -7,6 +7,7 @@
 package com.DavidM1A2.AfraidOfTheDark.common.savedData;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
+import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncAOTDEntityData;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncAOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateVitae;
@@ -99,7 +100,10 @@ public class AOTDEntityData implements IExtendedEntityProperties
 		}
 		else
 		{
-			LogHelper.warn(entity.getClass().getSimpleName() + " is not registered in the vitae dictionary and therefore cannot receive vitae.");
+			if (ConfigurationHandler.debugMessages)
+			{
+				LogHelper.warn(entity.getClass().getSimpleName() + " is not registered in the vitae dictionary and therefore cannot receive vitae.");
+			}
 		}
 		return boom;
 	}

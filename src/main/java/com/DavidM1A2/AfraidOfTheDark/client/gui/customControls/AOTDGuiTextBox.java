@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import org.apache.commons.lang3.StringUtils;
+import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
@@ -17,6 +18,12 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 public class AOTDGuiTextBox extends AOTDGuiTextComponent
 {
 	private List<String> textLines = new ArrayList<String>();
+	private int maxCharsPerLine = 24;
+
+	public AOTDGuiTextBox()
+	{
+		super();
+	}
 
 	public AOTDGuiTextBox(final int x, final int y, final int width, final int height, TrueTypeFont font)
 	{
@@ -33,23 +40,25 @@ public class AOTDGuiTextBox extends AOTDGuiTextComponent
 		while (tok.hasMoreTokens())
 		{
 			String word = StringUtils.replace(tok.nextToken(), "\t", "   ");
+			int nextLineLength = lineWidth + word.length() + 1;
 
-			if (lineWidth + word.length() > 20)
+			if (nextLineLength > maxCharsPerLine)
 			{
 				currentLineIndex = currentLineIndex + 1;
-				lineWidth = 0;
+				lineWidth = word.length() + 1;
+				nextLineLength = word.length() + 1;
 			}
 
 			if (Utility.hasIndex(this.textLines, currentLineIndex))
 			{
-				this.textLines.set(currentLineIndex, this.textLines.get(currentLineIndex) + " " + word);
+				this.textLines.set(currentLineIndex, this.textLines.get(currentLineIndex) + word + " ");
 			}
 			else
 			{
 				this.textLines.add(word + " ");
 			}
 
-			lineWidth = lineWidth + word.length();
+			lineWidth = nextLineLength;
 		}
 	}
 
@@ -63,45 +72,83 @@ public class AOTDGuiTextBox extends AOTDGuiTextComponent
 	public void draw()
 	{
 		super.draw();
+		super.drawBoundingBox();
 		int x = this.getX();
 		int y = this.getY();
+		GL11.glPushMatrix();
+		GL11.glScaled(this.getScaleX(), this.getScaleY(), 1.0f);
 		for (int i = 0; i < this.textLines.size(); i++)
 		{
 			String text = this.textLines.get(i);
 
 			this.getFont().drawString(x, y + i * (this.getFont().getFontSize() / 3), text, 0.3f, 0.3f, this.getColor());
 		}
+		GL11.glPopMatrix();
 	}
 
 	public String getOverflowText(String text)
 	{
-		int x = this.getX();
-		int y = this.getY();
-		int currentLine = 0;
-
-		while (!text.equals(" ") && currentLine + y < this.getHeight())
+		String toReturn = "";
+		StringTokenizer tok = new StringTokenizer(text, " ");
+		int lineWidth = 0;
+		int currentLineIndex = 0;
+		while (tok.hasMoreTokens())
 		{
-			String originalTextDuplicate = text;
-			while (this.getFont().getWidth(originalTextDuplicate) > this.getWidth())
+			String word = StringUtils.replace(tok.nextToken(), "\t", "   ");
+			int nextLineLength = lineWidth + word.length() + 1;
+
+			if (word.contains("   "))
 			{
-				originalTextDuplicate = originalTextDuplicate.substring(0, originalTextDuplicate.length() - 1);
+				nextLineLength = nextLineLength + 2;
 			}
 
-			char nextChar = originalTextDuplicate.charAt(originalTextDuplicate.length() - 1);
-
-			while (nextChar != ' ')
+			if (nextLineLength > maxCharsPerLine)
 			{
-				if ((originalTextDuplicate.length() - 1) < 0)
-				{
-					break;
-				}
-				originalTextDuplicate = originalTextDuplicate.substring(0, originalTextDuplicate.length() - 1);
-				nextChar = originalTextDuplicate.charAt(originalTextDuplicate.length() - 1);
+				currentLineIndex = currentLineIndex + 1;
+				lineWidth = word.length() + 1;
+				nextLineLength = word.length() + 1;
 			}
-			text = text.substring(originalTextDuplicate.length() - 1, text.length());
-			currentLine = currentLine + this.getFont().getFontSize() / 3;
+
+			if (currentLineIndex * this.getFont().getHeight() * 0.25 > this.getHeight())
+			{
+				if (toReturn.isEmpty())
+					toReturn = word;
+				else
+					toReturn = toReturn + " " + word;
+			}
+
+			lineWidth = nextLineLength;
 		}
 
-		return text;
+		return toReturn;
+
+		//		int x = this.getX();
+		//		int y = this.getY();
+		//		int currentLine = 0;
+		//
+		//		while (!text.equals(" ") && currentLine + y < this.getHeight())
+		//		{
+		//			String originalTextDuplicate = text;
+		//			while (this.getFont().getWidth(originalTextDuplicate) > this.getWidth())
+		//			{
+		//				originalTextDuplicate = originalTextDuplicate.substring(0, originalTextDuplicate.length() - 1);
+		//			}
+		//
+		//			char nextChar = originalTextDuplicate.charAt(originalTextDuplicate.length() - 1);
+		//
+		//			while (nextChar != ' ')
+		//			{
+		//				if ((originalTextDuplicate.length() - 1) < 0)
+		//				{
+		//					break;
+		//				}
+		//				originalTextDuplicate = originalTextDuplicate.substring(0, originalTextDuplicate.length() - 1);
+		//				nextChar = originalTextDuplicate.charAt(originalTextDuplicate.length() - 1);
+		//			}
+		//			text = text.substring(originalTextDuplicate.length() - 1, text.length());
+		//			currentLine = currentLine + this.getFont().getFontSize() / 3;
+		//		}
+		//
+		//		return text;
 	}
 }

@@ -7,6 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.worldGeneration;
 
 import java.util.Random;
 
+import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDWorldData;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicGenerator;
@@ -34,7 +35,7 @@ public class GenerateCrypt
 			AOTDWorldData.get(world).addDungeon(new Point3D(chunkX, 23, chunkZ), false);
 			AOTDWorldData.get(world).setDirty(true);
 
-			if (Constants.isDebug)
+			if (ConfigurationHandler.debugMessages)
 			{
 				LogHelper.info("Spawning a crypt at x = " + (chunkX + 12) + ", y = " + (y - 17) + ", z = " + (chunkZ + 12));
 			}

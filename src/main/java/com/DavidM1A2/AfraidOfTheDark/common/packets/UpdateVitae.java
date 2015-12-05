@@ -5,8 +5,8 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
+import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDEntityData;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
@@ -78,7 +78,7 @@ public class UpdateVitae implements IMessage
 				@Override
 				public void run()
 				{
-					if (Constants.isDebug)
+					if (ConfigurationHandler.debugMessages)
 					{
 						LogHelper.info("Update Vitae Status: " + msg.vitaeLevel + " on entity " + entityPlayer.worldObj.getEntityByID(msg.entityIDToUpdate).getName());
 					}

@@ -17,6 +17,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.EntityEnaria;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.EnchantedSkeleton.EntityEnchantedSkeleton;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.SplinterDrone.EntitySplinterDrone;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
+import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.sizeof.RamUsageEstimator;
@@ -325,7 +326,7 @@ public final class Constants
 					.getIdFromBlock(ModBlocks.eldritchObsidian), (short) -40, (short) Block.getIdFromBlock(ModBlocks.amorphousEldritchMetal), (short) -39, (short) Block.getIdFromBlock(ModBlocks.eldritchStone), (short) -48, (short) Block.getIdFromBlock(ModBlocks.meteor), (short) -47, (short) Block
 							.getIdFromBlock(ModBlocks.starMetalOre), (short) -46, (short) Block.getIdFromBlock(ModBlocks.igneousBlock), (short) -55, (short) Block.getIdFromBlock(ModBlocks.gravewood));
 
-			if (Constants.isDebug)
+			if (ConfigurationHandler.debugMessages)
 			{
 				LogHelper.info("Nightmare island is using this much ram: " + RamUsageEstimator.humanReadableUnits(RamUsageEstimator.sizeOfAll(nightmareIsland)));
 			}

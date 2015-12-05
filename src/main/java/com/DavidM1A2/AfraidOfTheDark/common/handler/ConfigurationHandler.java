@@ -28,6 +28,7 @@ public class ConfigurationHandler
 	public static float springFrequency = 0.32f;
 	public static float voidChestFrequency = 0.24f;
 	public static float witchHutFrequency = 0.8f;
+	public static boolean debugMessages = false;
 
 	public static void initializataion(final File configFile)
 	{
@@ -66,6 +67,8 @@ public class ConfigurationHandler
 		ConfigurationHandler.springFrequency = ConfigurationHandler.configuration.getFloat("springFrequency", "Dungeon Frequency", 0.32f, 0.0f, 100.0f, "This property is the percentage chance per chunk that a spring will spawn.");
 		ConfigurationHandler.voidChestFrequency = ConfigurationHandler.configuration.getFloat("voidChestFrequency", "Dungeon Frequency", 0.24f, 0.0f, 100.0f, "This property is the percentage chance per chunk that a void chest will spawn.");
 		ConfigurationHandler.witchHutFrequency = ConfigurationHandler.configuration.getFloat("witchHutFrequency", "Dungeon Frequency", 0.8f, 0.0f, 100.0f, "This property is the percentage chance per chunk that a witch hut will spawn.");
+
+		ConfigurationHandler.debugMessages = ConfigurationHandler.configuration.getBoolean("debugMessages", Configuration.CATEGORY_GENERAL, false, "If you wish to receive all possible kinds of spammy debug messages in the console turn this on. Mostly used for developers only.");
 
 		if (ConfigurationHandler.configuration.hasChanged())
 		{

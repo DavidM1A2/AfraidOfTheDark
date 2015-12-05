@@ -10,7 +10,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler;
 
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import net.minecraft.entity.Entity;
@@ -86,7 +86,7 @@ public final class PacketHandler
 			throw new IllegalStateException("Too many packets registered for channel " + this.channelid);
 
 		this.wrapper.registerMessage(messageHandler, packetClass, this.nextPacketID, target);
-		if (Constants.isDebug)
+		if (ConfigurationHandler.debugMessages)
 		{
 			LogHelper.info(String.format("Registered packet class %s with handler class %s for the channel %s. Send direction: to %s. The discriminator is %s.", packetClass.getSimpleName(), messageHandler.getClass().getSimpleName(), this.channelid, target.name().toLowerCase(), this.nextPacketID));
 		}
@@ -112,7 +112,7 @@ public final class PacketHandler
 
 		this.wrapper.registerMessage(messageHandler, packetClass, this.nextPacketID, Side.CLIENT);
 		this.wrapper.registerMessage(messageHandler, packetClass, this.nextPacketID, Side.SERVER);
-		if (Constants.isDebug)
+		if (ConfigurationHandler.debugMessages)
 		{
 			LogHelper.info(String.format("Registered bidirectional packet class %s with handler class %s for the channel %s. The discriminator is %s.", packetClass.getSimpleName(), messageHandler.getClass().getSimpleName(), this.channelid, this.nextPacketID));
 		}
