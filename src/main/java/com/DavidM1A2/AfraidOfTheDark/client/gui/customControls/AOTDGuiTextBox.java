@@ -72,9 +72,9 @@ public class AOTDGuiTextBox extends AOTDGuiTextComponent
 	public void draw()
 	{
 		super.draw();
-		super.drawBoundingBox();
 		int x = this.getX();
 		int y = this.getY();
+		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 		GL11.glPushMatrix();
 		GL11.glScaled(this.getScaleX(), this.getScaleY(), 1.0f);
 		for (int i = 0; i < this.textLines.size(); i++)
@@ -121,34 +121,5 @@ public class AOTDGuiTextBox extends AOTDGuiTextComponent
 		}
 
 		return toReturn;
-
-		//		int x = this.getX();
-		//		int y = this.getY();
-		//		int currentLine = 0;
-		//
-		//		while (!text.equals(" ") && currentLine + y < this.getHeight())
-		//		{
-		//			String originalTextDuplicate = text;
-		//			while (this.getFont().getWidth(originalTextDuplicate) > this.getWidth())
-		//			{
-		//				originalTextDuplicate = originalTextDuplicate.substring(0, originalTextDuplicate.length() - 1);
-		//			}
-		//
-		//			char nextChar = originalTextDuplicate.charAt(originalTextDuplicate.length() - 1);
-		//
-		//			while (nextChar != ' ')
-		//			{
-		//				if ((originalTextDuplicate.length() - 1) < 0)
-		//				{
-		//					break;
-		//				}
-		//				originalTextDuplicate = originalTextDuplicate.substring(0, originalTextDuplicate.length() - 1);
-		//				nextChar = originalTextDuplicate.charAt(originalTextDuplicate.length() - 1);
-		//			}
-		//			text = text.substring(originalTextDuplicate.length() - 1, text.length());
-		//			currentLine = currentLine + this.getFont().getFontSize() / 3;
-		//		}
-		//
-		//		return text;
 	}
 }

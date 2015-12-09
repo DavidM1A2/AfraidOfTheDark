@@ -9,89 +9,18 @@ import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public class RecipeUtility
 {
-	private static final ResourceLocation CRAFTING_GRID_TEXTURE = new ResourceLocation("afraidofthedark:textures/gui/journalCrafting.png");
-
-	public static void drawCraftingRecipe(int x, int y, ConvertedRecipe recipe)
-	{
-		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-		Minecraft.getMinecraft().renderEngine.bindTexture(CRAFTING_GRID_TEXTURE);
-		Gui.drawModalRectWithCustomSizedTexture(x, y, 0, 0, 130, 90, 130, 90);
-
-		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
-		renderItem.zLevel = 100.0F;
-
-		RenderHelper.enableGUIStandardItemLighting();
-
-		if (recipe.getWidth() == -1)
-		{
-			for (int i = 0; i < recipe.getInput().length; i++)
-			{
-				if (recipe.getInput()[i] != null)
-				{
-					RecipeUtility.drawItemStack(recipe.getInput()[i], x + 5 + (i % 3) * 30, y + 5 + 30 * (i > 2 ? 1 : i > 4 ? 2 : 0), recipe.getInput()[i].stackSize);
-				}
-			}
-		}
-		else
-		{
-			for (int i = 0; i < recipe.getHeight(); i++)
-			{
-				for (int j = 0; j < recipe.getWidth(); j++)
-				{
-					if (recipe.getInput()[i * recipe.getWidth() + j] != null)
-					{
-						RecipeUtility.drawItemStack(recipe.getInput()[i * recipe.getWidth() + j], x + 5 + j * 30, y + 5 + i * 30, recipe.getInput()[i * recipe.getWidth() + j].stackSize);
-					}
-				}
-			}
-		}
-
-		RecipeUtility.drawItemStack(recipe.getOutput(), x + 105, y + 35, recipe.getOutput().stackSize);
-
-		RenderHelper.disableStandardItemLighting();
-
-		renderItem.zLevel = 0.0F;
-	}
-
-	/**
-	 * Render an ItemStack. Args : stack, x, y, format
-	 */
-	private static void drawItemStack(ItemStack stack, int x, int y, int stackSize)
-	{
-		// Fixed an issue regarding drawing of certain recipes... idk why this exists
-		//GlStateManager.translate(0.0F, 0.0F, 32.0F);
-		Minecraft.getMinecraft().getRenderItem().zLevel = 200.0F;
-		FontRenderer font = null;
-		if (stack != null)
-			font = stack.getItem().getFontRenderer(stack);
-		if (font == null)
-			font = Minecraft.getMinecraft().fontRendererObj;
-		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
-		renderItem.renderItemAndEffectIntoGUI(stack, x, y);
-		renderItem.renderItemOverlayIntoGUI(font, stack, x, y, null);
-		renderItem.zLevel = 0.0F;
-	}
-
 	public static List<ConvertedRecipe> getRecipesForItem(Item item)
 	{
 		List<ConvertedRecipe> convertedRecipes = new LinkedList<ConvertedRecipe>();

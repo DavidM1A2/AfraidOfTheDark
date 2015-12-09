@@ -9,7 +9,7 @@ import net.minecraft.client.gui.GuiScreen;
 
 public abstract class AOTDGuiScreen extends GuiScreen
 {
-	private AOTDButtonController buttonController = new AOTDButtonController();
+	private final AOTDEventController eventController;
 	private double guiScale = 1.0f;
 	private AOTDGuiPanel contentPane = new AOTDGuiPanel();
 
@@ -20,6 +20,7 @@ public abstract class AOTDGuiScreen extends GuiScreen
 		contentPane.setY(0);
 		contentPane.setWidth(640);
 		contentPane.setHeight(360);
+		eventController = new AOTDEventController(contentPane);
 	}
 
 	@Override
@@ -27,7 +28,7 @@ public abstract class AOTDGuiScreen extends GuiScreen
 	{
 		super.initGui();
 		this.buttonList.clear();
-		this.buttonList.add(buttonController);
+		this.buttonList.add(eventController);
 
 		double guiScaleX = this.width / 640D;
 		double guiScaleY = this.height / 360D;
@@ -36,11 +37,13 @@ public abstract class AOTDGuiScreen extends GuiScreen
 		this.getContentPane().setScaleXAndY(guiScale);
 		if (guiScaleX < guiScaleY)
 		{
+			this.getContentPane().setX(0);
 			this.getContentPane().setY((this.height - this.getContentPane().getHeightScaled()) / 2);
 		}
 		else
 		{
 			this.getContentPane().setX((this.width - this.getContentPane().getWidthScaled()) / 2);
+			this.getContentPane().setY(0);
 		}
 	}
 
@@ -51,13 +54,9 @@ public abstract class AOTDGuiScreen extends GuiScreen
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 
-	public AOTDButtonController getButtonController()
+	public AOTDEventController getEventController()
 	{
-		return this.buttonController;
-	}
-
-	public void actionPerformed(AOTDGuiButton button)
-	{
+		return this.eventController;
 	}
 
 	public double getGuiScale()

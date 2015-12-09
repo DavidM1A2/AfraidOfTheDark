@@ -18,12 +18,12 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiButton;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiComponent;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiImage;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiLabel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiRecipe;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiScreen;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiTextBox;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDImage;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.TrueTypeFont;
 import com.DavidM1A2.AfraidOfTheDark.common.recipe.ConvertedRecipe;
 import com.DavidM1A2.AfraidOfTheDark.common.recipe.RecipeUtility;
@@ -55,7 +55,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 
 	private AOTDGuiButton bookmarkButton;
 
-	private AOTDImage journalBackground;
+	private AOTDGuiImage journalBackground;
 
 	private AOTDGuiPanel journal = new AOTDGuiPanel();
 
@@ -86,7 +86,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 		this.journal.setWidth(journalWidth);
 		this.journal.setHeight(journalHeight);
 
-		this.journal.add(new AOTDImage(0, 0, journalWidth, journalHeight, "textures/gui/bloodStainedJournalPage.png"));
+		this.journal.add(new AOTDGuiImage(0, 0, journalWidth, journalHeight, "textures/gui/bloodStainedJournalPage.png"));
 
 		AOTDGuiLabel title = new AOTDGuiLabel(5, 15, Utility.createTrueTypeFont("Targa MS Hand", 50f, true));
 		title.setText(titleText);
@@ -106,8 +106,6 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 		TrueTypeFont pageFont = Utility.createTrueTypeFont("Targa MS Hand", 32f, false);
 		this.leftPage = new AOTDGuiTextBox(5, 45, this.journalWidth / 2 - 10, this.journalHeight - 80, pageFont);
 		this.rightPage = new AOTDGuiTextBox(130, 45, this.journalWidth / 2 - 10, this.journalHeight - 80, pageFont);
-		this.updateText();
-		this.updatePages();
 		this.leftPage.setColor(0xFF4d0000);
 		this.rightPage.setColor(0xFF4d0000);
 		this.journal.add(this.leftPage);
@@ -119,7 +117,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 			@Override
 			public void actionPerformed(AOTDGuiComponent component, AOTDActionListener.ActionType actionType)
 			{
-				if (actionType == ActionType.MouseClick)
+				if (actionType == ActionType.MousePressed)
 				{
 					EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
 					entityPlayer.closeScreen();
@@ -128,7 +126,15 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 			}
 		});
 		this.journal.add(this.bookmarkButton);
-		this.getButtonController().add(this.bookmarkButton);
+
+		this.topLeftRecipe = new AOTDGuiRecipe(10, 38, 110, 90, null);
+		this.journal.add(this.topLeftRecipe);
+		this.bottomLeftRecipe = new AOTDGuiRecipe(10, 130, 110, 90, null);
+		this.journal.add(this.bottomLeftRecipe);
+		this.topRightRecipe = new AOTDGuiRecipe(130, 38, 110, 90, null);
+		this.journal.add(this.topRightRecipe);
+		this.bottomRightRecipe = new AOTDGuiRecipe(130, 130, 110, 90, null);
+		this.journal.add(this.bottomRightRecipe);
 
 		this.getContentPane().add(this.journal);
 
@@ -139,7 +145,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 			@Override
 			public void actionPerformed(AOTDGuiComponent component, AOTDActionListener.ActionType actionType)
 			{
-				if (actionType == ActionType.MouseClick)
+				if (actionType == ActionType.MousePressed)
 				{
 					BloodStainedJournalPageGUI.this.advancePage();
 				}
@@ -150,7 +156,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 			@Override
 			public void actionPerformed(AOTDGuiComponent component, AOTDActionListener.ActionType actionType)
 			{
-				if (actionType == ActionType.MouseClick)
+				if (actionType == ActionType.MousePressed)
 				{
 					BloodStainedJournalPageGUI.this.rewindPage();
 				}
@@ -158,8 +164,9 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 		});
 		this.getContentPane().add(this.forwardButton);
 		this.getContentPane().add(this.backwardButton);
-		this.getButtonController().add(this.forwardButton);
-		this.getButtonController().add(this.backwardButton);
+
+		this.updateText();
+		this.updatePages();
 
 		this.forwardButton.setVisible(this.hasPageForward());
 		this.backwardButton.setVisible(this.hasPageBackward());
@@ -175,54 +182,10 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 		GL11.glDisable(GL11.GL_BLEND);
 	}
 
-	private void drawPageContents()
-	{
-		// 2 Recipes per page, so (page number - number of pages of text) * 2 is the current place to start drawing recipes
-		int adjustedIndexForRecipe = (pageNumber - textOnEachPage.size()) * 2;
-
-		if (this.leftPage.getText().equals(""))
-		{
-			if (Utility.hasIndex(researchRecipes, adjustedIndexForRecipe))
-			{
-				RecipeUtility.drawCraftingRecipe(leftPage.getXScaled() + 5, leftPage.getYScaled(), this.researchRecipes.get(adjustedIndexForRecipe));
-				adjustedIndexForRecipe = adjustedIndexForRecipe + 1;
-				if (Utility.hasIndex(researchRecipes, adjustedIndexForRecipe))
-				{
-					RecipeUtility.drawCraftingRecipe(leftPage.getXScaled() + 5, leftPage.getYScaled() + 100, this.researchRecipes.get(adjustedIndexForRecipe));
-					adjustedIndexForRecipe = adjustedIndexForRecipe + 1;
-				}
-			}
-		}
-		else
-		{
-			adjustedIndexForRecipe = adjustedIndexForRecipe + 2;
-			this.leftPage.draw();
-		}
-
-		if (this.rightPage.getText().equals(""))
-		{
-			if (Utility.hasIndex(researchRecipes, adjustedIndexForRecipe))
-			{
-				RecipeUtility.drawCraftingRecipe(rightPage.getXScaled() + 10, rightPage.getYScaled(), this.researchRecipes.get(adjustedIndexForRecipe));
-				adjustedIndexForRecipe = adjustedIndexForRecipe + 1;
-				if (Utility.hasIndex(researchRecipes, adjustedIndexForRecipe))
-				{
-					RecipeUtility.drawCraftingRecipe(rightPage.getXScaled() + 10, rightPage.getYScaled() + 100, this.researchRecipes.get(adjustedIndexForRecipe));
-				}
-			}
-		}
-		else
-		{
-			this.rightPage.draw();
-		}
-	}
-
 	private void advancePage()
 	{
 		if (this.hasPageForward())
-		{
 			pageNumber = pageNumber + 2;
-		}
 		this.leftPageNumber.setText(Integer.toString(this.pageNumber + 1));
 		this.rightPageNumber.setText(Integer.toString(this.pageNumber + 2));
 		this.backwardButton.setVisible(this.hasPageBackward());
@@ -233,9 +196,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 	private void rewindPage()
 	{
 		if (this.hasPageBackward())
-		{
 			pageNumber = pageNumber - 2;
-		}
 		this.leftPageNumber.setText(Integer.toString(this.pageNumber + 1));
 		this.rightPageNumber.setText(Integer.toString(this.pageNumber + 2));
 		this.backwardButton.setVisible(this.hasPageBackward());
@@ -255,14 +216,32 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 
 	private void updatePages()
 	{
+		int adjustedIndexForRecipe = (pageNumber - textOnEachPage.size()) * 2;
 		if (Utility.hasIndex(this.textOnEachPage, pageNumber))
+		{
 			this.leftPage.setText(this.textOnEachPage.get(pageNumber));
+			this.topLeftRecipe.setRecipe(null);
+			this.bottomLeftRecipe.setRecipe(null);
+			adjustedIndexForRecipe = adjustedIndexForRecipe + 2;
+		}
 		else
+		{
 			this.leftPage.setText("");
+			this.topLeftRecipe.setRecipe(Utility.hasIndex(this.researchRecipes, adjustedIndexForRecipe) ? this.researchRecipes.get(adjustedIndexForRecipe++) : null);
+			this.bottomLeftRecipe.setRecipe(Utility.hasIndex(this.researchRecipes, adjustedIndexForRecipe) ? this.researchRecipes.get(adjustedIndexForRecipe++) : null);
+		}
 		if (Utility.hasIndex(textOnEachPage, pageNumber + 1))
+		{
 			this.rightPage.setText(this.textOnEachPage.get(pageNumber + 1));
+			this.topRightRecipe.setRecipe(null);
+			this.bottomRightRecipe.setRecipe(null);
+		}
 		else
+		{
 			this.rightPage.setText("");
+			this.topRightRecipe.setRecipe(Utility.hasIndex(this.researchRecipes, adjustedIndexForRecipe) ? this.researchRecipes.get(adjustedIndexForRecipe++) : null);
+			this.bottomRightRecipe.setRecipe(Utility.hasIndex(this.researchRecipes, adjustedIndexForRecipe) ? this.researchRecipes.get(adjustedIndexForRecipe++) : null);
+		}
 	}
 
 	private void updateText()

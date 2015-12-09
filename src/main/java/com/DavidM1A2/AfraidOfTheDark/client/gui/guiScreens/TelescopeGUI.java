@@ -9,7 +9,6 @@ import java.util.Random;
 
 import org.lwjgl.opengl.GL11;
 
-import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiButton;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiClickAndDragable;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.MeteorButton;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
@@ -19,8 +18,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
 
 public class TelescopeGUI extends AOTDGuiClickAndDragable
@@ -66,12 +63,12 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
 		{
 			if (AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).isResearched(ResearchTypes.AstronomyII))
 			{
-				this.getButtonController().add(new MeteorButton(TelescopeGUI.BUTTON_BASE_ID + i, Minecraft.getMinecraft().theWorld.rand.nextInt(3840 * 2) - 3840, Minecraft.getMinecraft().theWorld.rand.nextInt(2160 * 2) - 2160, 64, 64, MeteorTypes.values()[Minecraft.getMinecraft().theWorld.rand
-						.nextInt(MeteorTypes.values().length)]));
+				this.getContentPane().add(new MeteorButton(TelescopeGUI.BUTTON_BASE_ID + i, Minecraft.getMinecraft().theWorld.rand.nextInt(3840 * 2) - 3840, Minecraft.getMinecraft().theWorld.rand.nextInt(2160 * 2) - 2160, 64, 64, MeteorTypes.values()[Minecraft.getMinecraft().theWorld.rand.nextInt(
+						MeteorTypes.values().length)]));
 			}
 			else
 			{
-				this.getButtonController().add(new MeteorButton(TelescopeGUI.BUTTON_BASE_ID + i, Minecraft.getMinecraft().theWorld.rand.nextInt(3840 * 2) - 3840, Minecraft.getMinecraft().theWorld.rand.nextInt(2160 * 2) - 2160, 64, 64, MeteorTypes.silver));
+				this.getContentPane().add(new MeteorButton(TelescopeGUI.BUTTON_BASE_ID + i, Minecraft.getMinecraft().theWorld.rand.nextInt(3840 * 2) - 3840, Minecraft.getMinecraft().theWorld.rand.nextInt(2160 * 2) - 2160, 64, 64, MeteorTypes.silver));
 			}
 		}
 	}
@@ -100,33 +97,36 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
 		this.drawTexturedModalRect(TelescopeGUI.xPosTelescope, TelescopeGUI.yPosTelescope, 0, 0, TelescopeGUI.FRAME_WIDTH, TelescopeGUI.FRAME_HEIGHT);
 	}
 
-	// If you press the sign button one of two things happens
-	@Override
-	public void actionPerformed(final AOTDGuiButton button)
-	{
-		final EntityPlayer playerWhoPressed = Minecraft.getMinecraft().thePlayer;
-		for (final AOTDGuiButton o : this.getButtonController().getButtons())
-		{
-			final MeteorButton theButton = (MeteorButton) o;
-			//if (theButton.getId() == button.getId())
-			{
-				playerWhoPressed.addChatMessage(new ChatComponentText(this.createMeteorMessage(theButton.getMyType())));
+	//	// If you press the sign button one of two things happens
+	//	@Override
+	//	public void actionPerformed(final AOTDGuiButton button)
+	//	{
+	//		final EntityPlayer playerWhoPressed = Minecraft.getMinecraft().thePlayer;
+	//		for (Object object : this.getContentPane().getComponents())
+	//		{
+	//			if (object instanceof MeteorButton)
+	//			{
+	//				final MeteorButton theButton = (MeteorButton) object;
+	//				//if (theButton.getId() == button.getId())
+	//				{
+	//					playerWhoPressed.addChatMessage(new ChatComponentText(this.createMeteorMessage(theButton.getMyType())));
+	//
+	//					playerWhoPressed.closeScreen();
+	//				}
+	//			}
+	//		}
+	//	}
 
-				playerWhoPressed.closeScreen();
-			}
-		}
-	}
-
-	// When the mouse is dragged, update the GUI accordingly
-	@Override
-	protected void mouseClickMove(final int mouseX, final int mouseY, final int lastButtonClicked, final long timeBetweenClicks)
-	{
-		super.mouseClickMove(mouseX, mouseY, lastButtonClicked, timeBetweenClicks);
-		for (final AOTDGuiButton o : this.getButtonController().getButtons())
-		{
-			((MeteorButton) o).offset(this.guiOffsetX, this.guiOffsetY);
-		}
-	}
+	//	// When the mouse is dragged, update the GUI accordingly
+	//	@Override
+	//	protected void mouseClickMove(final int mouseX, final int mouseY, final int lastButtonClicked, final long timeBetweenClicks)
+	//	{
+	//		super.mouseClickMove(mouseX, mouseY, lastButtonClicked, timeBetweenClicks);
+	//		for (final AOTDGuiButton o : this.getButtonController().getButtons())
+	//		{
+	//			((MeteorButton) o).offset(this.guiOffsetX, this.guiOffsetY);
+	//		}
+	//	}
 
 	@Override
 	protected void checkOutOfBounds()

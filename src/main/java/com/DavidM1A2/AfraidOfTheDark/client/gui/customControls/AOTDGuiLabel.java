@@ -23,6 +23,7 @@ public class AOTDGuiLabel extends AOTDGuiTextComponent
 	public void draw()
 	{
 		super.draw();
+		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 		GL11.glPushMatrix();
 		GL11.glScaled(this.getScaleX(), this.getScaleY(), 1.0);
 		this.getFont().drawString(this.getX(), this.getY(), this.getText(), 0.3f, 0.3f, this.getColor());

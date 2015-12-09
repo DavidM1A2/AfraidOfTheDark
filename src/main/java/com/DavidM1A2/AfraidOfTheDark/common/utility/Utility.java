@@ -92,6 +92,11 @@ public class Utility
 		return index >= 0 && index < list.size();
 	}
 
+	public static <T> boolean hasIndex(T[] array, int index)
+	{
+		return index >= 0 && index < array.length;
+	}
+
 	public static InputStream getInputStreamFromPath(String path)
 	{
 		InputStream inputStream = Utility.class.getClassLoader().getResourceAsStream(path);

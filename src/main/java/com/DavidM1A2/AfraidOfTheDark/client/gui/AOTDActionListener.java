@@ -11,7 +11,8 @@ public interface AOTDActionListener
 {
 	public enum ActionType
 	{
-		MouseClick,
+		MousePressed,
+		MouseReleased,
 		MouseHover;
 	}
 

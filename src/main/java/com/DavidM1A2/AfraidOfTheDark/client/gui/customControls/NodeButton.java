@@ -38,7 +38,7 @@ public class NodeButton extends AOTDGuiButtonMovable
 		if (this.isVisible())
 		{
 			super.draw();
-			if (this.isMouseOver())
+			if (this.isHovered())
 				GlStateManager.color(1.0F, 1.0F, 1.0F, 0.7F);
 			else
 				GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);

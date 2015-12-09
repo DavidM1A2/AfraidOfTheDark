@@ -11,7 +11,6 @@ import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.SpriteSheetAnimation;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiButton;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiClickAndDragable;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiComponent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.NodeButton;
@@ -82,9 +81,12 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 
 		this.setupButtons();
 
-		for (final AOTDGuiButton o : this.getButtonController().getButtons())
+		for (Object object : this.getContentPane().getComponents())
 		{
-			((NodeButton) o).offset(this.guiOffsetX, this.guiOffsetY);
+			if (object instanceof NodeButton)
+			{
+				((NodeButton) object).offset(this.guiOffsetX, this.guiOffsetY);
+			}
 		}
 	}
 
@@ -93,6 +95,7 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 	@Override
 	public void drawScreen(final int i, final int j, final float f)
 	{
+		GlStateManager.enableBlend();
 		this.mc.renderEngine.bindTexture(researchBackdrop);
 		Gui.drawScaledCustomSizeModalRect(xPosScroll, yPosScroll, (this.guiOffsetX * 2) + 384, (this.guiOffsetY * 2) + 768, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, 1024, 1024);
 
@@ -104,9 +107,7 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 		GL11.glScissor(disWidth - ((xPosScroll + BACKGROUND_WIDTH) * widthScale), disHeight - ((yPosScroll + BACKGROUND_HEIGHT) * widthScale), BACKGROUND_WIDTH * heightScale, BACKGROUND_HEIGHT * heightScale);
 
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-		GlStateManager.enableBlend();
 		this.drawLines();
-		GlStateManager.disableBlend();
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		super.drawScreen(i, j, f);
 
@@ -116,24 +117,25 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 		this.mc.renderEngine.bindTexture(researchBackground);
 		this.drawTexturedModalRect(xPosScroll, yPosScroll, 0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
 
-		for (AOTDGuiButton nodeButton : this.getButtonController().getButtons())
+		for (Object object : this.getContentPane().getComponents())
 		{
-			if (nodeButton instanceof NodeButton)
+			if (object instanceof NodeButton)
 			{
-				NodeButton newNodeButton = (NodeButton) nodeButton;
+				NodeButton newNodeButton = (NodeButton) object;
 
-				if (newNodeButton.isMouseOver() && AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).isResearched(newNodeButton.getMyType()))
+				if (newNodeButton.isHovered() && AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).isResearched(newNodeButton.getMyType()))
 				{
 					this.drawString(Minecraft.getMinecraft().fontRendererObj, newNodeButton.getMyType().formattedString(), newNodeButton.getXScaled() + newNodeButton.getHeightScaled(), newNodeButton.getYScaled(), 0xFF3399);
 					this.drawString(Minecraft.getMinecraft().fontRendererObj, EnumChatFormatting.ITALIC + newNodeButton.getMyType().getTooltip(), newNodeButton.getXScaled() + newNodeButton.getHeightScaled() + 2, newNodeButton.getYScaled() + 10, 0xE62E8A);
 				}
-				else if (newNodeButton.isMouseOver() && AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).canResearch(newNodeButton.getMyType()))
+				else if (newNodeButton.isHovered() && AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).canResearch(newNodeButton.getMyType()))
 				{
 					this.drawString(Minecraft.getMinecraft().fontRendererObj, "?", newNodeButton.getXScaled() + newNodeButton.getHeightScaled(), newNodeButton.getYScaled(), 0xFF3399);
 					this.drawString(Minecraft.getMinecraft().fontRendererObj, EnumChatFormatting.ITALIC + "Unknown Research", newNodeButton.getXScaled() + newNodeButton.getHeightScaled() + 2, newNodeButton.getYScaled() + 10, 0xE62E8A);
 				}
 			}
 		}
+		GlStateManager.disableBlend();
 	}
 
 	// When the mouse is dragged, update the GUI accordingly
@@ -141,9 +143,12 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 	protected void mouseClickMove(final int mouseX, final int mouseY, final int lastButtonClicked, final long timeBetweenClicks)
 	{
 		super.mouseClickMove(mouseX, mouseY, lastButtonClicked, timeBetweenClicks);
-		for (final AOTDGuiButton o : this.getButtonController().getButtons())
+		for (Object object : this.getContentPane().getComponents())
 		{
-			((NodeButton) o).offset(this.guiOffsetX, this.guiOffsetY);
+			if (object instanceof NodeButton)
+			{
+				((NodeButton) object).offset(this.guiOffsetX, this.guiOffsetY);
+			}
 		}
 	}
 
@@ -152,7 +157,7 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 	{
 		verticalArrow.update();
 		horizontalArrow.update();
-		for (AOTDGuiButton object : this.getButtonController().getButtons())
+		for (Object object : this.getContentPane().getComponents())
 		{
 			if (object instanceof NodeButton)
 			{
@@ -193,7 +198,7 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 			@Override
 			public void actionPerformed(AOTDGuiComponent component, AOTDActionListener.ActionType actionType)
 			{
-				if (actionType == ActionType.MouseClick)
+				if (actionType == ActionType.MousePressed)
 				{
 					if (component instanceof NodeButton)
 					{
@@ -216,7 +221,7 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 		{
 			NodeButton toAdd = new NodeButton(currentID++, xPosBaseResearch + DISTANCE_BETWEEN_NODES * researchType.getPositionX(), yPosBaseResearch - DISTANCE_BETWEEN_NODES * researchType.getPositionY(), researchType);
 			toAdd.addActionListener(onPress);
-			this.getButtonController().add(toAdd);
+			this.getContentPane().add(toAdd);
 		}
 	}
 

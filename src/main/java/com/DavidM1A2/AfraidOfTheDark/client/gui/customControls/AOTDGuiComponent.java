@@ -5,61 +5,60 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui.customControls;
 
+import java.awt.Rectangle;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.lwjgl.opengl.GL11;
+
+import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
 
 import net.minecraft.client.gui.Gui;
 
 public abstract class AOTDGuiComponent
 {
-	private int x;
-	private int y;
-	private int xPosScaled = 0;
-	private int yPosScaled = 0;
-	private int width;
-	private int height;
-	private int widthScaled = 0;
-	private int heightScaled = 0;
-	private String name;
 	private double scaleX = 1.0;
 	private double scaleY = 1.0;
+	private boolean isHovered;
+	private boolean isVisible;
+	private Rectangle boundingBox;
+	private Rectangle scaledBoundingBox = new Rectangle();
+	private List<AOTDActionListener> actionListeners = new LinkedList<AOTDActionListener>();
 
 	public AOTDGuiComponent()
 	{
-		this.x = 0;
-		this.y = 0;
-		this.width = 0;
-		this.height = 0;
+		this.boundingBox = new Rectangle(0, 0, 0, 0);
 	}
 
 	public AOTDGuiComponent(int x, int y, int width, int height)
 	{
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
+		this.boundingBox = new Rectangle(x, y, width, height);
 	}
 
 	public void draw()
 	{
-		GL11.glColor4d(1.0, 1.0, 1.0, 1.0);
 	}
 
 	public void drawBoundingBox()
 	{
+		GL11.glColor4d(1.0, 1.0, 1.0, 1.0);
 		Gui.drawRect(this.getXScaled(), this.getYScaled(), this.getXScaled() + this.getWidthScaled(), this.getYScaled() + 1, 0xFFFFFFFF);
 		Gui.drawRect(this.getXScaled(), this.getYScaled(), this.getXScaled() + 1, this.getYScaled() + this.getHeightScaled(), 0xFFFFFFFF);
 		Gui.drawRect(this.getXScaled() + this.getWidthScaled() - 1, this.getYScaled(), this.getXScaled() + this.getWidthScaled(), this.getYScaled() + this.getHeightScaled(), 0xFFFFFFFF);
 		Gui.drawRect(this.getXScaled(), this.getYScaled() + this.getHeightScaled() - 1, this.getXScaled() + this.getWidthScaled(), this.getYScaled() + this.getHeightScaled(), 0xFFFFFFFF);
 	}
 
-	public void setName(String name)
+	public void addActionListener(AOTDActionListener actionListener)
 	{
-		this.name = name;
+		this.actionListeners.add(actionListener);
 	}
 
-	public String getName()
+	public void fireEvent(AOTDActionListener.ActionType actionType)
 	{
-		return name.isEmpty() ? Integer.toString(this.hashCode()) : this.name;
+		for (AOTDActionListener actionListener : this.actionListeners)
+		{
+			actionListener.actionPerformed(this, actionType);
+		}
 	}
 
 	public void setScaleXAndY(double scale)
@@ -71,25 +70,22 @@ public abstract class AOTDGuiComponent
 	public void setScaleX(double scaleX)
 	{
 		this.scaleX = scaleX;
-		this.calculateNewWidthAndX();
+		this.updateBounds();
 	}
 
 	public void setScaleY(double scaleY)
 	{
 		this.scaleY = scaleY;
-		this.calculateNewHeightAndY();
+		this.updateBounds();
 	}
 
-	private void calculateNewWidthAndX()
+	private void updateBounds()
 	{
-		this.xPosScaled = (int) Math.round(this.scaleX * this.x);
-		this.widthScaled = (int) Math.round(this.scaleX * this.width);
-	}
-
-	private void calculateNewHeightAndY()
-	{
-		this.yPosScaled = (int) Math.round(this.scaleY * this.y);
-		this.heightScaled = (int) Math.round(this.scaleY * this.height);
+		int xNew = (int) Math.round(this.scaleX * this.boundingBox.x);
+		int yNew = (int) Math.round(this.scaleY * this.boundingBox.y);
+		int widthNew = (int) Math.round(this.scaleX * this.boundingBox.width);
+		int heightNew = (int) Math.round(this.scaleY * this.boundingBox.height);
+		this.scaledBoundingBox.setBounds(xNew, yNew, widthNew, heightNew);
 	}
 
 	public double getScaleX()
@@ -99,70 +95,90 @@ public abstract class AOTDGuiComponent
 
 	public double getScaleY()
 	{
-		return this.scaleX;
+		return this.scaleY;
 	}
 
 	public void setX(int x)
 	{
-		this.x = x;
-		this.calculateNewWidthAndX();
+		this.boundingBox.x = x;
+		this.updateBounds();
 	}
 
 	public int getXScaled()
 	{
-		return this.xPosScaled;
+		return this.scaledBoundingBox.x;
 	}
 
 	public int getX()
 	{
-		return this.x;
+		return this.boundingBox.x;
 	}
 
 	public void setY(int y)
 	{
-		this.y = y;
-		this.calculateNewHeightAndY();
+		this.boundingBox.y = y;
+		this.updateBounds();
 	}
 
 	public int getYScaled()
 	{
-		return this.yPosScaled;
+		return this.scaledBoundingBox.y;
 	}
 
 	public int getY()
 	{
-		return this.y;
+		return this.boundingBox.y;
 	}
 
 	public void setWidth(int width)
 	{
-		this.width = width;
-		this.calculateNewWidthAndX();
+		this.boundingBox.width = width;
+		this.updateBounds();
 	}
 
 	public int getWidthScaled()
 	{
-		return widthScaled;
+		return this.scaledBoundingBox.width;
 	}
 
 	public int getWidth()
 	{
-		return this.width;
+		return this.boundingBox.width;
 	}
 
 	public void setHeight(int height)
 	{
-		this.height = height;
-		this.calculateNewHeightAndY();
+		this.boundingBox.height = height;
+		this.updateBounds();
 	}
 
 	public int getHeightScaled()
 	{
-		return this.heightScaled;
+		return this.scaledBoundingBox.height;
 	}
 
 	public int getHeight()
 	{
-		return this.height;
+		return this.boundingBox.height;
+	}
+
+	public boolean isVisible()
+	{
+		return isVisible;
+	}
+
+	public void setVisible(boolean isVisible)
+	{
+		this.isVisible = isVisible;
+	}
+
+	public boolean isHovered()
+	{
+		return isHovered;
+	}
+
+	public void setHovered(boolean isHovered)
+	{
+		this.isHovered = isHovered;
 	}
 }

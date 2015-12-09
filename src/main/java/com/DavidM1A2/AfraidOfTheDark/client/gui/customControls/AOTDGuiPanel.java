@@ -8,6 +8,8 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui.customControls;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener.ActionType;
+
 public class AOTDGuiPanel extends AOTDGuiComponent
 {
 	private final List<AOTDGuiComponent> subComponents;
@@ -24,18 +26,29 @@ public class AOTDGuiPanel extends AOTDGuiComponent
 		subComponents = new LinkedList<AOTDGuiComponent>();
 	}
 
+	public List<AOTDGuiComponent> getComponents()
+	{
+		return this.subComponents;
+	}
+
+	@Override
+	public void fireEvent(ActionType actionType)
+	{
+		super.fireEvent(actionType);
+		for (AOTDGuiComponent component : this.subComponents)
+		{
+			if (component.isHovered())
+			{
+				component.fireEvent(actionType);
+			}
+		}
+	}
+
 	public void add(AOTDGuiComponent component)
 	{
 		component.setX(component.getX() + this.getX());
 		component.setY(component.getY() + this.getY());
 		this.subComponents.add(component);
-	}
-
-	public void remove(AOTDGuiComponent component)
-	{
-		component.setX(component.getX() - this.getX());
-		component.setY(component.getY() - this.getY());
-		this.subComponents.remove(component);
 	}
 
 	@Override
@@ -82,10 +95,21 @@ public class AOTDGuiPanel extends AOTDGuiComponent
 	public void draw()
 	{
 		super.draw();
-		this.drawBoundingBox();
 		for (AOTDGuiComponent component : this.subComponents)
 		{
 			component.draw();
+		}
+	}
+
+	public void onHover(int mouseX, int mouseY)
+	{
+		this.setHovered(mouseX >= this.getXScaled() && mouseY >= this.getYScaled() && mouseX < this.getXScaled() + this.getWidthScaled() && mouseY < this.getYScaled() + this.getHeightScaled());
+		for (AOTDGuiComponent component : this.subComponents)
+		{
+			if (component instanceof AOTDGuiPanel)
+				((AOTDGuiPanel) component).onHover(mouseX, mouseY);
+			else
+				component.setHovered(mouseX >= component.getXScaled() && mouseY >= component.getYScaled() && mouseX < component.getXScaled() + component.getWidthScaled() && mouseY < component.getYScaled() + component.getHeightScaled());
 		}
 	}
 }
