@@ -18,12 +18,27 @@ public class AOTDGuiRecipe extends AOTDGuiPanel
 	private final AOTDGuiImage CRAFTING_GRID;
 	private final AOTDGuiItemStack[] guiItemStacks;
 	private final AOTDGuiItemStack output;
+	private final AOTDGuiImage itemStackHighlight;
 
 	public AOTDGuiRecipe(int x, int y, int width, int height, ConvertedRecipe recipe)
 	{
 		super(x, y, width, height);
 		CRAFTING_GRID = new AOTDGuiImage(0, 0, width, height, "textures/gui/journalCrafting2.png");
 		this.add(CRAFTING_GRID);
+		itemStackHighlight = new AOTDGuiImage(0, 0, 0, 0, "textures/gui/slotHighlight.png");
+		itemStackHighlight.setVisible(false);
+		itemStackHighlight.addActionListener(new AOTDActionListener()
+		{
+			@Override
+			public void actionPerformed(AOTDGuiComponent component, ActionType actionType)
+			{
+				if (actionType == actionType.MouseEnterBoundingBox)
+					component.setVisible(true);
+				else if (actionType == actionType.MouseExitBoundingBox)
+					component.setVisible(false);
+			}
+		});
+		this.add(itemStackHighlight);
 		guiItemStacks = new AOTDGuiItemStack[9];
 
 		AOTDActionListener onItemHover = new AOTDActionListener()
@@ -35,10 +50,17 @@ public class AOTDGuiRecipe extends AOTDGuiPanel
 				{
 					if (component instanceof AOTDGuiItemStack)
 					{
-						ItemStack itemStack = ((AOTDGuiItemStack) component).getItemStack();
-						if (itemStack != null)
+						if (component.isVisible() && AOTDGuiRecipe.this.isVisible())
 						{
-							Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(itemStack.getDisplayName() + " x" + itemStack.stackSize, component.getXScaled(), component.getYScaled() - 5, 0xFFFFFFFF);
+							ItemStack itemStack = ((AOTDGuiItemStack) component).getItemStack();
+							if (itemStack != null)
+							{
+								itemStackHighlight.setX(component.getX());
+								itemStackHighlight.setY(component.getY());
+								itemStackHighlight.setWidth(component.getWidth());
+								itemStackHighlight.setHeight(component.getHeight());
+								Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(itemStack.getDisplayName() + " x" + itemStack.stackSize, component.getXScaled(), component.getYScaled() - 5, 0xFFFFFFFF);
+							}
 						}
 					}
 				}
@@ -62,10 +84,15 @@ public class AOTDGuiRecipe extends AOTDGuiPanel
 	@Override
 	public void draw()
 	{
-		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-		if (this.output.getItemStack() != null)
+		if (this.isVisible())
 		{
-			super.draw();
+			if (this.output.getItemStack() != null)
+			{
+				GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+				GL11.glEnable(GL11.GL_BLEND);
+				super.draw();
+				GL11.glDisable(GL11.GL_BLEND);
+			}
 		}
 	}
 
@@ -74,8 +101,14 @@ public class AOTDGuiRecipe extends AOTDGuiPanel
 		if (recipe == null)
 		{
 			this.output.setItemStack(null);
+			this.setVisible(false);
 			return;
 		}
+
+		this.setVisible(true);
+
+		for (int i = 0; i < this.guiItemStacks.length; i++)
+			guiItemStacks[i].setItemStack(null);
 
 		if (recipe.getWidth() == -1)
 		{
@@ -89,5 +122,12 @@ public class AOTDGuiRecipe extends AOTDGuiPanel
 					guiItemStacks[i * 3 + j].setItemStack(recipe.getInput()[i * recipe.getWidth() + j]);
 		}
 		this.output.setItemStack(recipe.getOutput());
+	}
+
+	@Override
+	public void setVisible(boolean isVisible)
+	{
+		super.setVisible(isVisible);
+		this.itemStackHighlight.setVisible(false);
 	}
 }

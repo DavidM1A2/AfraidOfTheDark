@@ -5,8 +5,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui.customControls;
 
-import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 
@@ -26,11 +24,7 @@ public class AOTDEventController extends GuiButton
 	@Override
 	public void drawButton(Minecraft mc, int mouseX, int mouseY)
 	{
-		panel.onHover(mouseX, mouseY);
-		if (panel.isHovered())
-		{
-			panel.fireEvent(AOTDActionListener.ActionType.MouseHover);
-		}
+		panel.update(mouseX, mouseY);
 	}
 
 	/**
@@ -40,7 +34,7 @@ public class AOTDEventController extends GuiButton
 	{
 		if (panel.isHovered())
 		{
-			panel.fireEvent(AOTDActionListener.ActionType.MouseReleased);
+			panel.mouseReleased();
 		}
 	}
 
@@ -52,7 +46,7 @@ public class AOTDEventController extends GuiButton
 	{
 		if (panel.isHovered())
 		{
-			panel.fireEvent(AOTDActionListener.ActionType.MousePressed);
+			panel.mousePressed();
 		}
 		return false;
 	}

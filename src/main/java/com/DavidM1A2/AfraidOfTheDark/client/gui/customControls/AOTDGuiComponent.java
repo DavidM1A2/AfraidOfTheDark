@@ -14,21 +14,17 @@ import org.lwjgl.opengl.GL11;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
 
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.GlStateManager;
 
 public abstract class AOTDGuiComponent
 {
 	private double scaleX = 1.0;
 	private double scaleY = 1.0;
-	private boolean isHovered;
-	private boolean isVisible;
-	private Rectangle boundingBox;
+	private boolean isHovered = false;
+	private boolean isVisible = true;
+	private Rectangle boundingBox = new Rectangle();
 	private Rectangle scaledBoundingBox = new Rectangle();
 	private List<AOTDActionListener> actionListeners = new LinkedList<AOTDActionListener>();
-
-	public AOTDGuiComponent()
-	{
-		this.boundingBox = new Rectangle(0, 0, 0, 0);
-	}
 
 	public AOTDGuiComponent(int x, int y, int width, int height)
 	{
@@ -46,6 +42,7 @@ public abstract class AOTDGuiComponent
 		Gui.drawRect(this.getXScaled(), this.getYScaled(), this.getXScaled() + 1, this.getYScaled() + this.getHeightScaled(), 0xFFFFFFFF);
 		Gui.drawRect(this.getXScaled() + this.getWidthScaled() - 1, this.getYScaled(), this.getXScaled() + this.getWidthScaled(), this.getYScaled() + this.getHeightScaled(), 0xFFFFFFFF);
 		Gui.drawRect(this.getXScaled(), this.getYScaled() + this.getHeightScaled() - 1, this.getXScaled() + this.getWidthScaled(), this.getYScaled() + this.getHeightScaled(), 0xFFFFFFFF);
+		GlStateManager.enableBlend();
 	}
 
 	public void addActionListener(AOTDActionListener actionListener)
@@ -180,5 +177,11 @@ public abstract class AOTDGuiComponent
 	public void setHovered(boolean isHovered)
 	{
 		this.isHovered = isHovered;
+	}
+
+	@Override
+	public String toString()
+	{
+		return this.getClass().getSimpleName() + " located at x = " + getX() + ", y = " + getY();
 	}
 }

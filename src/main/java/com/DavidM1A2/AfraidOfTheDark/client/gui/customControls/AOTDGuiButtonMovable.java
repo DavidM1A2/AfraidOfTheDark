@@ -17,6 +17,13 @@ public abstract class AOTDGuiButtonMovable extends AOTDGuiButton
 		this.ORIGINAL_Y_POSITION = y;
 	}
 
+	public AOTDGuiButtonMovable(int x, int y, int width, int height, TrueTypeFont font, String icon)
+	{
+		super(x, y, width, height, font, icon);
+		this.ORIGINAL_X_POSITION = x;
+		this.ORIGINAL_Y_POSITION = y;
+	}
+
 	public void offset(int xOffset, int yOffset)
 	{
 		this.setX(ORIGINAL_X_POSITION - xOffset);

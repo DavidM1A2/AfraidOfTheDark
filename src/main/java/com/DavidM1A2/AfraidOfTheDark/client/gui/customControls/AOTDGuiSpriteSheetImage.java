@@ -3,7 +3,7 @@
  * Mod: Afraid of the Dark
  * Ideas and Textures: Michael Albertson
  */
-package com.DavidM1A2.AfraidOfTheDark.client.gui;
+package com.DavidM1A2.AfraidOfTheDark.client.gui.customControls;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
-public class SpriteSheetAnimation
+public class AOTDGuiSpriteSheetImage extends AOTDGuiContainer
 {
 	private long frameCount = 0;
 	private final int frameDelay;
@@ -25,8 +25,9 @@ public class SpriteSheetAnimation
 	private final boolean isVertical;
 	private float percentageToNextFrame = 0;
 
-	public SpriteSheetAnimation(ResourceLocation spriteSheet, int frameDelayInMillis, int totalFrames, int frameWidth, int frameHeight, boolean frameInterpolation, boolean isVertical)
+	public AOTDGuiSpriteSheetImage(int x, int y, int width, int height, ResourceLocation spriteSheet, int frameDelayInMillis, int totalFrames, int frameWidth, int frameHeight, boolean frameInterpolation, boolean isVertical)
 	{
+		super(x, y, width, height);
 		this.spriteSheet = spriteSheet;
 		this.frameDelay = frameDelayInMillis;
 		this.totalFrames = totalFrames;
@@ -36,7 +37,7 @@ public class SpriteSheetAnimation
 		this.isVertical = isVertical;
 	}
 
-	public void update()
+	private void update()
 	{
 		if ((System.currentTimeMillis() - frameCount) > frameDelay)
 		{
@@ -56,23 +57,25 @@ public class SpriteSheetAnimation
 		percentageToNextFrame = MathHelper.clamp_float(1 - ((float) (System.currentTimeMillis() - frameCount) / frameDelay), 0.0f, 1.0f);
 	}
 
-	public void draw(int x, int y, int width, int height)
+	@Override
+	public void draw()
 	{
+		this.update();
 		Minecraft.getMinecraft().getTextureManager().bindTexture(spriteSheet);
 		if (frameInterpolation)
 		{
 			GlStateManager.color(1.0F, 1.0F, 1.0F, percentageToNextFrame);
 			if (this.isVertical)
 			{
-				Gui.drawScaledCustomSizeModalRect(x, y, 0, currentFrame * frameHeight, frameWidth, frameHeight, width, height, frameWidth, frameHeight * totalFrames);
+				Gui.drawScaledCustomSizeModalRect(this.getXScaled(), this.getYScaled(), 0, currentFrame * frameHeight, frameWidth, frameHeight, this.getWidthScaled(), this.getHeightScaled(), frameWidth, frameHeight * totalFrames);
 				GlStateManager.color(1.0F, 1.0F, 1.0F, 1 - percentageToNextFrame);
-				Gui.drawScaledCustomSizeModalRect(x, y, 0, nextFrame * frameHeight, frameWidth, frameHeight, width, height, frameWidth, frameHeight * totalFrames);
+				Gui.drawScaledCustomSizeModalRect(this.getXScaled(), this.getYScaled(), 0, nextFrame * frameHeight, frameWidth, frameHeight, this.getWidthScaled(), this.getHeightScaled(), frameWidth, frameHeight * totalFrames);
 			}
 			else
 			{
-				Gui.drawScaledCustomSizeModalRect(x, y, currentFrame * frameWidth, 0, frameWidth, frameHeight, width, height, frameWidth * totalFrames, frameHeight);
+				Gui.drawScaledCustomSizeModalRect(this.getXScaled(), this.getYScaled(), currentFrame * frameWidth, 0, frameWidth, frameHeight, this.getWidthScaled(), this.getHeightScaled(), frameWidth * totalFrames, frameHeight);
 				GlStateManager.color(1.0F, 1.0F, 1.0F, 1 - percentageToNextFrame);
-				Gui.drawScaledCustomSizeModalRect(x, y, nextFrame * frameWidth, 0, frameWidth, frameHeight, width, height, frameWidth * totalFrames, frameHeight);
+				Gui.drawScaledCustomSizeModalRect(this.getXScaled(), this.getYScaled(), nextFrame * frameWidth, 0, frameWidth, frameHeight, this.getWidthScaled(), this.getHeightScaled(), frameWidth * totalFrames, frameHeight);
 			}
 		}
 		else
@@ -80,11 +83,11 @@ public class SpriteSheetAnimation
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 			if (this.isVertical)
 			{
-				Gui.drawScaledCustomSizeModalRect(x, y, 0, currentFrame * frameHeight, frameWidth, frameHeight, width, height, frameWidth, frameHeight * totalFrames);
+				Gui.drawScaledCustomSizeModalRect(this.getXScaled(), this.getYScaled(), 0, currentFrame * frameHeight, frameWidth, frameHeight, this.getWidthScaled(), this.getHeightScaled(), frameWidth, frameHeight * totalFrames);
 			}
 			else
 			{
-				Gui.drawScaledCustomSizeModalRect(x, y, currentFrame * frameWidth, 0, frameWidth, frameHeight, width, height, frameWidth * totalFrames, frameHeight);
+				Gui.drawScaledCustomSizeModalRect(this.getXScaled(), this.getYScaled(), currentFrame * frameWidth, 0, frameWidth, frameHeight, this.getWidthScaled(), this.getHeightScaled(), frameWidth * totalFrames, frameHeight);
 			}
 		}
 	}

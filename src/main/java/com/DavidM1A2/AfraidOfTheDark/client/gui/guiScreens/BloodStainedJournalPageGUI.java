@@ -57,7 +57,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 
 	private AOTDGuiImage journalBackground;
 
-	private AOTDGuiPanel journal = new AOTDGuiPanel();
+	private AOTDGuiPanel journal;
 
 	private int pageNumber = 0;
 
@@ -81,10 +81,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 		this.xCornerOfPage = (640 - journalWidth) / 2;
 		this.yCornerOfPage = (360 - journalHeight) / 2;
 
-		this.journal.setX(xCornerOfPage);
-		this.journal.setY(yCornerOfPage);
-		this.journal.setWidth(journalWidth);
-		this.journal.setHeight(journalHeight);
+		this.journal = new AOTDGuiPanel(xCornerOfPage, yCornerOfPage, journalWidth, journalHeight);
 
 		this.journal.add(new AOTDGuiImage(0, 0, journalWidth, journalHeight, "textures/gui/bloodStainedJournalPage.png"));
 
@@ -104,8 +101,8 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 		this.journal.add(this.rightPageNumber);
 
 		TrueTypeFont pageFont = Utility.createTrueTypeFont("Targa MS Hand", 32f, false);
-		this.leftPage = new AOTDGuiTextBox(5, 45, this.journalWidth / 2 - 10, this.journalHeight - 80, pageFont);
-		this.rightPage = new AOTDGuiTextBox(130, 45, this.journalWidth / 2 - 10, this.journalHeight - 80, pageFont);
+		this.leftPage = new AOTDGuiTextBox(5, 45, this.journalWidth / 2 - 10, this.journalHeight - 80, pageFont, 24);
+		this.rightPage = new AOTDGuiTextBox(130, 45, this.journalWidth / 2 - 10, this.journalHeight - 80, pageFont, 24);
 		this.leftPage.setColor(0xFF4d0000);
 		this.rightPage.setColor(0xFF4d0000);
 		this.journal.add(this.leftPage);
@@ -170,6 +167,8 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 
 		this.forwardButton.setVisible(this.hasPageForward());
 		this.backwardButton.setVisible(this.hasPageBackward());
+
+		Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:pageTurn", 1.0F, 1.0F);
 	}
 
 	// To draw the screen we first draw the default GUI background, then the
@@ -185,7 +184,10 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 	private void advancePage()
 	{
 		if (this.hasPageForward())
+		{
 			pageNumber = pageNumber + 2;
+			Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:pageTurn", 1.0F, 1.0F);
+		}
 		this.leftPageNumber.setText(Integer.toString(this.pageNumber + 1));
 		this.rightPageNumber.setText(Integer.toString(this.pageNumber + 2));
 		this.backwardButton.setVisible(this.hasPageBackward());
@@ -196,7 +198,10 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 	private void rewindPage()
 	{
 		if (this.hasPageBackward())
+		{
 			pageNumber = pageNumber - 2;
+			Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:pageTurn", 1.0F, 1.0F);
+		}
 		this.leftPageNumber.setText(Integer.toString(this.pageNumber + 1));
 		this.rightPageNumber.setText(Integer.toString(this.pageNumber + 2));
 		this.backwardButton.setVisible(this.hasPageBackward());

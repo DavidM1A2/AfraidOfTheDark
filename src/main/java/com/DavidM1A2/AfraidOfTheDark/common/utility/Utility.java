@@ -71,8 +71,8 @@ public class Utility
 	{
 		ScaledResolution scaledResolution = Utility.getScaledResolution();
 
-		x = x * (int) Math.round(5.0 / scaledResolution.getScaleFactor());
-		y = y * (int) Math.round(5.0 / scaledResolution.getScaleFactor());
+		x = x * scaledResolution.getScaleFactor();
+		y = y * scaledResolution.getScaleFactor();
 
 		return new Point3D(x, y, 1);
 	}
@@ -81,8 +81,8 @@ public class Utility
 	{
 		ScaledResolution scaledResolution = Utility.getScaledResolution();
 
-		x = x / (int) Math.round(5.0 / scaledResolution.getScaleFactor());
-		y = y / (int) Math.round(5.0 / scaledResolution.getScaleFactor());
+		x = x / scaledResolution.getScaleFactor();
+		y = y / scaledResolution.getScaleFactor();
 
 		return new Point3D(x, y, 1);
 	}

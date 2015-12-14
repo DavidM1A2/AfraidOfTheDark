@@ -16,17 +16,9 @@ public class AOTDGuiButton extends AOTDGuiTextComponent
 {
 	private ResourceLocation icon;
 
-	public AOTDGuiButton()
-	{
-		super();
-		this.setVisible(false);
-		this.icon = null;
-	}
-
 	public AOTDGuiButton(int x, int y, int width, int height, TrueTypeFont font, String icon)
 	{
 		super(x, y, width, height, font);
-		this.setVisible(true);
 		if (icon == null || icon.isEmpty())
 			this.icon = null;
 		else
@@ -38,12 +30,12 @@ public class AOTDGuiButton extends AOTDGuiTextComponent
 	{
 		if (icon != null)
 		{
-			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			GlStateManager.enableBlend();
-			GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-			GlStateManager.blendFunc(770, 771);
 			if (this.isVisible())
 			{
+				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+				GlStateManager.enableBlend();
+				GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+				GlStateManager.blendFunc(770, 771);
 				Minecraft.getMinecraft().getTextureManager().bindTexture(this.icon);
 				Gui.drawScaledCustomSizeModalRect(this.getXScaled(), this.getYScaled(), 0, 0, this.getWidth(), this.getWidth(), this.getWidthScaled(), this.getHeightScaled(), this.getWidth(), this.getWidth());
 			}

@@ -5,17 +5,11 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui.customControls;
 
-public abstract class AOTDGuiTextComponent extends AOTDGuiComponent
+public abstract class AOTDGuiTextComponent extends AOTDGuiContainer
 {
 	private TrueTypeFont font;
 	private String text = "";
 	private int color = 0;
-
-	public AOTDGuiTextComponent()
-	{
-		super();
-		this.font = null;
-	}
 
 	public AOTDGuiTextComponent(int x, int y, int width, int height, TrueTypeFont font)
 	{

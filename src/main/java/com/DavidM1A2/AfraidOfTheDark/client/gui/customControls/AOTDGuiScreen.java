@@ -11,15 +11,12 @@ public abstract class AOTDGuiScreen extends GuiScreen
 {
 	private final AOTDEventController eventController;
 	private double guiScale = 1.0f;
-	private AOTDGuiPanel contentPane = new AOTDGuiPanel();
+	private final AOTDGuiPanel contentPane;
 
 	public AOTDGuiScreen()
 	{
 		super();
-		contentPane.setX(0);
-		contentPane.setY(0);
-		contentPane.setWidth(640);
-		contentPane.setHeight(360);
+		contentPane = new AOTDGuiPanel(0, 0, 640, 360);
 		eventController = new AOTDEventController(contentPane);
 	}
 

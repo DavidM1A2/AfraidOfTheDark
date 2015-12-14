@@ -13,7 +13,9 @@ public interface AOTDActionListener
 	{
 		MousePressed,
 		MouseReleased,
-		MouseHover;
+		MouseHover,
+		MouseExitBoundingBox,
+		MouseEnterBoundingBox;
 	}
 
 	public abstract void actionPerformed(AOTDGuiComponent component, ActionType actionType);

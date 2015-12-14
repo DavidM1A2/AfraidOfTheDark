@@ -18,16 +18,12 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 public class AOTDGuiTextBox extends AOTDGuiTextComponent
 {
 	private List<String> textLines = new ArrayList<String>();
-	private int maxCharsPerLine = 24;
+	private final int maxCharsPerLine;
 
-	public AOTDGuiTextBox()
-	{
-		super();
-	}
-
-	public AOTDGuiTextBox(final int x, final int y, final int width, final int height, TrueTypeFont font)
+	public AOTDGuiTextBox(final int x, final int y, final int width, final int height, TrueTypeFont font, int maxCharsPerLine)
 	{
 		super(x, y, width, height, font);
+		this.maxCharsPerLine = maxCharsPerLine;
 	}
 
 	@Override
@@ -72,18 +68,19 @@ public class AOTDGuiTextBox extends AOTDGuiTextComponent
 	public void draw()
 	{
 		super.draw();
-		int x = this.getX();
-		int y = this.getY();
-		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-		GL11.glPushMatrix();
-		GL11.glScaled(this.getScaleX(), this.getScaleY(), 1.0f);
-		for (int i = 0; i < this.textLines.size(); i++)
+		if (this.isVisible())
 		{
-			String text = this.textLines.get(i);
-
-			this.getFont().drawString(x, y + i * (this.getFont().getFontSize() / 3), text, 0.3f, 0.3f, this.getColor());
+			int x = this.getX();
+			int y = this.getY();
+			GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+			GL11.glPushMatrix();
+			GL11.glScaled(this.getScaleX(), this.getScaleY(), 1.0f);
+			for (int i = 0; i < this.textLines.size(); i++)
+			{
+				this.getFont().drawString(x, y + i * (this.getFont().getFontSize() / 3), this.textLines.get(i), 0.3f, 0.3f, this.getColor());
+			}
+			GL11.glPopMatrix();
 		}
-		GL11.glPopMatrix();
 	}
 
 	public String getOverflowText(String text)

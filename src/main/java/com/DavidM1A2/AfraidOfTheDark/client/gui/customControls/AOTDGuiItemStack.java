@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
 
-public class AOTDGuiItemStack extends AOTDGuiComponent
+public class AOTDGuiItemStack extends AOTDGuiContainer
 {
 	private ItemStack itemStack;
 
@@ -29,25 +29,29 @@ public class AOTDGuiItemStack extends AOTDGuiComponent
 	@Override
 	public void draw()
 	{
-		RenderHelper.enableGUIStandardItemLighting();
-		GL11.glPushMatrix();
-		GL11.glTranslated(this.getXScaled(), this.getYScaled(), 1.0);
-		GL11.glScaled(this.getScaleX(), this.getScaleY(), 1.0D);
-		GL11.glTranslated(3 - this.getXScaled(), 3 - this.getYScaled(), 1.0);
-		// Fixed an issue regarding drawing of certain recipes... idk why this exists
-		//GlStateManager.translate(0.0F, 0.0F, 32.0F);
-		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
-		renderItem.zLevel = 100.0F;
-		FontRenderer font = null;
-		if (itemStack != null)
-			font = itemStack.getItem().getFontRenderer(itemStack);
-		if (font == null)
-			font = Minecraft.getMinecraft().fontRendererObj;
-		renderItem.renderItemAndEffectIntoGUI(itemStack, this.getXScaled(), this.getYScaled());
-		renderItem.renderItemOverlayIntoGUI(font, itemStack, this.getXScaled(), this.getYScaled(), null);
-		renderItem.zLevel = 0.0F;
-		GL11.glPopMatrix();
-		RenderHelper.disableStandardItemLighting();
+		if (this.isVisible())
+		{
+			RenderHelper.enableGUIStandardItemLighting();
+			GL11.glPushMatrix();
+
+			GL11.glTranslated(this.getXScaled(), this.getYScaled(), 1.0);
+			GL11.glScaled(this.getScaleX(), this.getScaleY(), 1.0D);
+			GL11.glTranslated(3 - this.getXScaled(), 3 - this.getYScaled(), 1.0);
+
+			RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
+			renderItem.zLevel = 100.0F;
+			FontRenderer font = null;
+			if (itemStack != null)
+				font = itemStack.getItem().getFontRenderer(itemStack);
+			if (font == null)
+				font = Minecraft.getMinecraft().fontRendererObj;
+			renderItem.renderItemAndEffectIntoGUI(itemStack, this.getXScaled(), this.getYScaled());
+			renderItem.renderItemOverlayIntoGUI(font, itemStack, this.getXScaled(), this.getYScaled(), null);
+			renderItem.zLevel = 0.0F;
+
+			GL11.glPopMatrix();
+			RenderHelper.disableStandardItemLighting();
+		}
 	}
 
 	public void setItemStack(ItemStack itemStack)

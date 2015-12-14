@@ -11,28 +11,52 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.util.ResourceLocation;
 
-public class AOTDGuiImage extends AOTDGuiComponent
+public class AOTDGuiImage extends AOTDGuiContainer
 {
 	private final ResourceLocation imageTexture;
+	private int u = 0;
+	private int v = 0;
+	private final int textureWidth;
+	private final int textureHeight;
 
-	public AOTDGuiImage()
+	public AOTDGuiImage(int x, int y, int width, int height, int textureHeight, int textureWidth, String imageTexture)
 	{
-		super();
-		this.imageTexture = null;
+		super(x, y, width, height);
+		this.imageTexture = new ResourceLocation("afraidofthedark:" + imageTexture);
+		this.textureHeight = textureHeight;
+		this.textureWidth = textureWidth;
 	}
 
 	public AOTDGuiImage(int x, int y, int width, int height, String imageTexture)
 	{
 		super(x, y, width, height);
 		this.imageTexture = new ResourceLocation("afraidofthedark:" + imageTexture);
+		this.textureHeight = -1;
+		this.textureWidth = -1;
 	}
 
 	@Override
 	public void draw()
 	{
-		super.draw();
-		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-		Minecraft.getMinecraft().getTextureManager().bindTexture(imageTexture);
-		Gui.drawModalRectWithCustomSizedTexture(this.getXScaled(), this.getYScaled(), 0, 0, this.getWidthScaled(), this.getHeightScaled(), this.getWidthScaled(), this.getHeightScaled());
+		if (this.isVisible())
+		{
+			GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+			Minecraft.getMinecraft().getTextureManager().bindTexture(imageTexture);
+			if (textureHeight == -1 || textureWidth == -1)
+				Gui.drawModalRectWithCustomSizedTexture(this.getXScaled(), this.getYScaled(), u, v, this.getWidthScaled(), this.getHeightScaled(), this.getWidthScaled(), this.getHeightScaled());
+			else
+				Gui.drawModalRectWithCustomSizedTexture(this.getXScaled(), this.getYScaled(), u, v, this.getWidthScaled(), this.getHeightScaled(), textureWidth, textureHeight);
+		}
+		this.drawBoundingBox();
+	}
+
+	public void setU(int u)
+	{
+		this.u = u;
+	}
+
+	public void setV(int v)
+	{
+		this.v = v;
 	}
 }
