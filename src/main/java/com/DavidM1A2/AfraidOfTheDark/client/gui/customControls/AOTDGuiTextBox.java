@@ -67,17 +67,16 @@ public class AOTDGuiTextBox extends AOTDGuiTextComponent
 	// Draw the text given the width and height as bounds
 	public void draw()
 	{
-		super.draw();
 		if (this.isVisible())
 		{
+			super.draw();
 			int x = this.getX();
 			int y = this.getY();
-			GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 			GL11.glPushMatrix();
 			GL11.glScaled(this.getScaleX(), this.getScaleY(), 1.0f);
 			for (int i = 0; i < this.textLines.size(); i++)
 			{
-				this.getFont().drawString(x, y + i * (this.getFont().getFontSize() / 3), this.textLines.get(i), 0.3f, 0.3f, this.getColor());
+				this.getFont().drawString(x, y + i * (this.getFont().getFontSize() / 3), this.textLines.get(i), 0.3f, 0.3f);
 			}
 			GL11.glPopMatrix();
 		}

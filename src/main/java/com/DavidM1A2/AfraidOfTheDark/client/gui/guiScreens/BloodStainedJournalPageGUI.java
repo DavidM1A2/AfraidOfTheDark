@@ -5,6 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -37,7 +38,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 {
 	private final String COMPLETE_TEXT;
 
-	private final List<String> textOnEachPage = new LinkedList<String>();;
+	private final List<String> textOnEachPage = new LinkedList<String>();
 
 	private AOTDGuiTextBox leftPage;
 	private AOTDGuiTextBox rightPage;
@@ -81,13 +82,13 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 		this.xCornerOfPage = (640 - journalWidth) / 2;
 		this.yCornerOfPage = (360 - journalHeight) / 2;
 
-		this.journal = new AOTDGuiPanel(xCornerOfPage, yCornerOfPage, journalWidth, journalHeight);
+		this.journal = new AOTDGuiPanel(xCornerOfPage, yCornerOfPage, journalWidth, journalHeight, false);
 
 		this.journal.add(new AOTDGuiImage(0, 0, journalWidth, journalHeight, "textures/gui/bloodStainedJournalPage.png"));
 
 		AOTDGuiLabel title = new AOTDGuiLabel(5, 15, Utility.createTrueTypeFont("Targa MS Hand", 50f, true));
 		title.setText(titleText);
-		title.setColor(0xFF4d0000);
+		title.setColor(new Color(200, 0, 0));
 		this.journal.add(title);
 
 		TrueTypeFont pageNumberFont = Utility.createTrueTypeFont("Targa MS Hand", 32f, false);
@@ -95,16 +96,16 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 		this.rightPageNumber = new AOTDGuiLabel(230, this.journalHeight - 40, pageNumberFont);
 		this.leftPageNumber.setText(Integer.toString(1));
 		this.rightPageNumber.setText(Integer.toString(2));
-		this.leftPageNumber.setColor(0xFF4d0000);
-		this.rightPageNumber.setColor(0xFF4d0000);
+		this.leftPageNumber.setColor(new Color(200, 0, 0));
+		this.rightPageNumber.setColor(new Color(200, 0, 0));
 		this.journal.add(this.leftPageNumber);
 		this.journal.add(this.rightPageNumber);
 
 		TrueTypeFont pageFont = Utility.createTrueTypeFont("Targa MS Hand", 32f, false);
 		this.leftPage = new AOTDGuiTextBox(5, 45, this.journalWidth / 2 - 10, this.journalHeight - 80, pageFont, 24);
 		this.rightPage = new AOTDGuiTextBox(130, 45, this.journalWidth / 2 - 10, this.journalHeight - 80, pageFont, 24);
-		this.leftPage.setColor(0xFF4d0000);
-		this.rightPage.setColor(0xFF4d0000);
+		this.leftPage.setColor(new Color(200, 0, 0));
+		this.rightPage.setColor(new Color(200, 0, 0));
 		this.journal.add(this.leftPage);
 		this.journal.add(this.rightPage);
 
@@ -143,8 +144,10 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 			public void actionPerformed(AOTDGuiComponent component, AOTDActionListener.ActionType actionType)
 			{
 				if (actionType == ActionType.MousePressed)
-				{
 					BloodStainedJournalPageGUI.this.advancePage();
+				else if (actionType == ActionType.MouseHover)
+				{
+
 				}
 			}
 		});
@@ -154,9 +157,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 			public void actionPerformed(AOTDGuiComponent component, AOTDActionListener.ActionType actionType)
 			{
 				if (actionType == ActionType.MousePressed)
-				{
 					BloodStainedJournalPageGUI.this.rewindPage();
-				}
 			}
 		});
 		this.getContentPane().add(this.forwardButton);

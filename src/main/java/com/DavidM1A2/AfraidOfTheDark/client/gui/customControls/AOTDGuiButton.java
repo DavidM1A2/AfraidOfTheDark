@@ -5,8 +5,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui.customControls;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -32,7 +30,7 @@ public class AOTDGuiButton extends AOTDGuiTextComponent
 		{
 			if (this.isVisible())
 			{
-				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+				super.draw();
 				GlStateManager.enableBlend();
 				GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
 				GlStateManager.blendFunc(770, 771);

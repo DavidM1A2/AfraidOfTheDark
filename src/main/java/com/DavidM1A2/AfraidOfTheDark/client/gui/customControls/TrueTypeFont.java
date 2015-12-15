@@ -308,17 +308,17 @@ public class TrueTypeFont
 		return fontHeight;
 	}
 
-	public void drawString(float x, float y, String whatchars, float scaleX, float scaleY, int color)
+	public void drawString(float x, float y, String whatchars, float scaleX, float scaleY)
 	{
-		drawString(x, y, whatchars, 0, whatchars.length() - 1, scaleX, scaleY, ALIGN_LEFT, color);
+		drawString(x, y, whatchars, 0, whatchars.length() - 1, scaleX, scaleY, ALIGN_LEFT);
 	}
 
-	public void drawString(float x, float y, String whatchars, float scaleX, float scaleY, int format, int color)
+	public void drawString(float x, float y, String whatchars, float scaleX, float scaleY, int format)
 	{
-		drawString(x, y, whatchars, 0, whatchars.length() - 1, scaleX, scaleY, format, color);
+		drawString(x, y, whatchars, 0, whatchars.length() - 1, scaleX, scaleY, format);
 	}
 
-	public void drawString(float x, float y, String whatchars, int startIndex, int endIndex, float scaleX, float scaleY, int format, int color)
+	public void drawString(float x, float y, String whatchars, int startIndex, int endIndex, float scaleX, float scaleY, int format)
 	{
 		//		GL11.glMatrixMode(GL11.GL_PROJECTION); // Select The Projection Matrix
 		//		GL11.glPushMatrix(); // Store The Projection Matrix
@@ -327,8 +327,6 @@ public class TrueTypeFont
 		//		GL11.glMatrixMode(GL11.GL_MODELVIEW); // Select The Modelview Matrix
 		//		GL11.glPushMatrix(); // Store The Modelview Matrix
 		//		GL11.glLoadIdentity(); // Reset The Modelview Matrix
-		Color drawColor = new Color(color, true);
-		GL11.glColor4d(drawColor.getRed(), drawColor.getGreen(), drawColor.getBlue(), drawColor.getAlpha());
 
 		IntObject intObject = null;
 		int charCurrent;

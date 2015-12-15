@@ -6,6 +6,7 @@
 package com.DavidM1A2.AfraidOfTheDark.client.gui.customControls;
 
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.GlStateManager;
 
 public abstract class AOTDGuiScreen extends GuiScreen
 {
@@ -16,7 +17,7 @@ public abstract class AOTDGuiScreen extends GuiScreen
 	public AOTDGuiScreen()
 	{
 		super();
-		contentPane = new AOTDGuiPanel(0, 0, 640, 360);
+		contentPane = new AOTDGuiPanel(0, 0, 640, 360, false);
 		eventController = new AOTDEventController(contentPane);
 	}
 
@@ -47,8 +48,11 @@ public abstract class AOTDGuiScreen extends GuiScreen
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks)
 	{
+		GlStateManager.enableBlend();
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.getContentPane().draw();
 		super.drawScreen(mouseX, mouseY, partialTicks);
+		GlStateManager.disableBlend();
 	}
 
 	public AOTDEventController getEventController()

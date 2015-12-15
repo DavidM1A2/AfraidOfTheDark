@@ -17,13 +17,12 @@ public class AOTDGuiLabel extends AOTDGuiTextComponent
 	// Draw the text given the width and height as bounds
 	public void draw()
 	{
-		super.draw();
 		if (this.isVisible())
 		{
-			GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+			super.draw();
 			GL11.glPushMatrix();
 			GL11.glScaled(this.getScaleX(), this.getScaleY(), 1.0);
-			this.getFont().drawString(this.getX(), this.getY(), this.getText(), 0.3f, 0.3f, this.getColor());
+			this.getFont().drawString(this.getX(), this.getY(), this.getText(), 0.3f, 0.3f);
 			GL11.glPopMatrix();
 		}
 	}

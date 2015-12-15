@@ -9,7 +9,6 @@ public abstract class AOTDGuiTextComponent extends AOTDGuiContainer
 {
 	private TrueTypeFont font;
 	private String text = "";
-	private int color = 0;
 
 	public AOTDGuiTextComponent(int x, int y, int width, int height, TrueTypeFont font)
 	{
@@ -35,15 +34,5 @@ public abstract class AOTDGuiTextComponent extends AOTDGuiContainer
 	public String getText()
 	{
 		return this.text;
-	}
-
-	public void setColor(int color)
-	{
-		this.color = color;
-	}
-
-	public int getColor()
-	{
-		return this.color;
 	}
 }

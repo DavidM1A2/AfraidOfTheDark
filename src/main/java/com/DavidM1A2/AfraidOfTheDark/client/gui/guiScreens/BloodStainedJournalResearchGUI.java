@@ -5,8 +5,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens;
 
-import org.lwjgl.opengl.GL11;
-
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
@@ -19,11 +17,8 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiSpriteShee
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.Point3D;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
@@ -52,8 +47,8 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 		this.guiOffsetX = ClientData.currentBloodStainedJournalX;
 		this.guiOffsetY = ClientData.currentBloodStainedJournalY;
 
-		this.researchTreeBase = new AOTDGuiPanel(xPosScroll, yPosScroll, backgroundWidth, backgroundHeight);
-		this.researchTree = new AOTDGuiPanel(-this.guiOffsetX, -this.guiOffsetY, backgroundWidth, backgroundHeight);
+		this.researchTreeBase = new AOTDGuiPanel(xPosScroll, yPosScroll, backgroundWidth, backgroundHeight, true);
+		this.researchTree = new AOTDGuiPanel(-this.guiOffsetX, -this.guiOffsetY, backgroundWidth, backgroundHeight, false);
 		this.getContentPane().add(researchTreeBase);
 
 		this.scrollBackground = new AOTDGuiImage(0, 0, backgroundWidth, backgroundHeight, 1024, 1024, "textures/gui/bloodStainedJournalResearchBackdrop.png");
@@ -69,33 +64,35 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 			@Override
 			public void actionPerformed(AOTDGuiComponent component, AOTDActionListener.ActionType actionType)
 			{
-				if (actionType == ActionType.MousePressed)
+				if (component instanceof AOTDGuiResearchNodeButton)
 				{
-					if (component instanceof AOTDGuiResearchNodeButton)
+					AOTDGuiResearchNodeButton current = (AOTDGuiResearchNodeButton) component;
+					if (current.getParent().getParent().intersects(current))
 					{
-						AOTDGuiResearchNodeButton current = (AOTDGuiResearchNodeButton) component;
-						EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
-						ClientData.currentlySelected = current.getResearch();
-						if (AOTDPlayerData.get(entityPlayer).isResearched(current.getResearch()))
-							entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
-						else if (AOTDPlayerData.get(entityPlayer).isResearched(current.getResearch().getPrevious()))
-							entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_PRE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
-					}
-				}
-				else if (actionType == ActionType.MouseHover)
-				{
-					if (component instanceof AOTDGuiResearchNodeButton)
-					{
-						AOTDGuiResearchNodeButton current = (AOTDGuiResearchNodeButton) component;
-						if (current.isHovered() && AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).isResearched(current.getResearch()))
+						if (actionType == ActionType.MousePressed)
 						{
-							fontRendererObj.drawString(current.getResearch().formattedString(), current.getXScaled() + current.getHeightScaled(), current.getYScaled(), 0xFF3399);
-							fontRendererObj.drawString(EnumChatFormatting.ITALIC + current.getResearch().getTooltip(), current.getXScaled() + current.getHeightScaled() + 2, current.getYScaled() + 10, 0xE62E8A);
+							EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
+							ClientData.currentlySelected = current.getResearch();
+							if (AOTDPlayerData.get(entityPlayer).isResearched(current.getResearch()))
+								entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
+							else if (AOTDPlayerData.get(entityPlayer).isResearched(current.getResearch().getPrevious()))
+								entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_PRE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
 						}
-						else if (current.isHovered() && AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).canResearch(current.getResearch()))
+						else if (actionType == ActionType.MouseHover)
 						{
-							fontRendererObj.drawString("?", current.getXScaled() + current.getHeightScaled(), current.getYScaled(), 0xFF3399);
-							fontRendererObj.drawString(EnumChatFormatting.ITALIC + "Unknown Research", current.getXScaled() + current.getHeightScaled() + 2, current.getYScaled() + 10, 0xE62E8A);
+							if (current.getParent().getParent().intersects(current))
+							{
+								if (current.isHovered() && AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).isResearched(current.getResearch()))
+								{
+									fontRendererObj.drawString(current.getResearch().formattedString(), current.getXScaled() + current.getHeightScaled(), current.getYScaled(), 0xFF3399);
+									fontRendererObj.drawString(EnumChatFormatting.ITALIC + current.getResearch().getTooltip(), current.getXScaled() + current.getHeightScaled() + 2, current.getYScaled() + 10, 0xE62E8A);
+								}
+								else if (current.isHovered() && AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).canResearch(current.getResearch()))
+								{
+									fontRendererObj.drawString("?", current.getXScaled() + current.getHeightScaled(), current.getYScaled(), 0xFF3399);
+									fontRendererObj.drawString(EnumChatFormatting.ITALIC + "Unknown Research", current.getXScaled() + current.getHeightScaled() + 2, current.getYScaled() + 10, 0xE62E8A);
+								}
+							}
 						}
 					}
 				}
@@ -127,27 +124,6 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 			}
 			this.researchTree.add(researchNode);
 		}
-	}
-
-	// To draw the screen we first draw the default GUI background, then the
-	// background images. Then we add buttons and a frame.
-	@Override
-	public void drawScreen(final int i, final int j, final float f)
-	{
-		GlStateManager.enableBlend();
-
-		GL11.glEnable(GL11.GL_SCISSOR_TEST);
-
-		Point3D xyReal = Utility.minecraftToRealScreenCoords(this.backgroundBorder.getXScaled(), this.backgroundBorder.getYScaled());
-		Point3D widthHeightReal = Utility.minecraftToRealScreenCoords(this.backgroundBorder.getWidthScaled(), this.backgroundBorder.getHeightScaled());
-		GL11.glScissor(xyReal.getX(), xyReal.getY(), widthHeightReal.getX(), widthHeightReal.getY());
-
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-		super.drawScreen(i, j, f);
-
-		GL11.glDisable(GL11.GL_SCISSOR_TEST);
-
-		GlStateManager.disableBlend();
 	}
 
 	// When the mouse is dragged, update the GUI accordingly

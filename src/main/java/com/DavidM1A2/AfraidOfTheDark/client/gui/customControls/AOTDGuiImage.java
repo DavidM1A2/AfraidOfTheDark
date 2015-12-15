@@ -5,8 +5,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui.customControls;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.util.ResourceLocation;
@@ -40,14 +38,13 @@ public class AOTDGuiImage extends AOTDGuiContainer
 	{
 		if (this.isVisible())
 		{
-			GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+			super.draw();
 			Minecraft.getMinecraft().getTextureManager().bindTexture(imageTexture);
 			if (textureHeight == -1 || textureWidth == -1)
 				Gui.drawModalRectWithCustomSizedTexture(this.getXScaled(), this.getYScaled(), u, v, this.getWidthScaled(), this.getHeightScaled(), this.getWidthScaled(), this.getHeightScaled());
 			else
 				Gui.drawModalRectWithCustomSizedTexture(this.getXScaled(), this.getYScaled(), u, v, this.getWidthScaled(), this.getHeightScaled(), textureWidth, textureHeight);
 		}
-		this.drawBoundingBox();
 	}
 
 	public void setU(int u)

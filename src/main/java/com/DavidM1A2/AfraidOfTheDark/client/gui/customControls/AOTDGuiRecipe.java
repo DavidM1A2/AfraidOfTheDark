@@ -22,7 +22,7 @@ public class AOTDGuiRecipe extends AOTDGuiPanel
 
 	public AOTDGuiRecipe(int x, int y, int width, int height, ConvertedRecipe recipe)
 	{
-		super(x, y, width, height);
+		super(x, y, width, height, false);
 		CRAFTING_GRID = new AOTDGuiImage(0, 0, width, height, "textures/gui/journalCrafting2.png");
 		this.add(CRAFTING_GRID);
 		itemStackHighlight = new AOTDGuiImage(0, 0, 0, 0, "textures/gui/slotHighlight.png");
@@ -88,7 +88,6 @@ public class AOTDGuiRecipe extends AOTDGuiPanel
 		{
 			if (this.output.getItemStack() != null)
 			{
-				GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 				GL11.glEnable(GL11.GL_BLEND);
 				super.draw();
 				GL11.glDisable(GL11.GL_BLEND);

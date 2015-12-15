@@ -31,6 +31,7 @@ public class AOTDGuiItemStack extends AOTDGuiContainer
 	{
 		if (this.isVisible())
 		{
+			super.draw();
 			RenderHelper.enableGUIStandardItemLighting();
 			GL11.glPushMatrix();
 

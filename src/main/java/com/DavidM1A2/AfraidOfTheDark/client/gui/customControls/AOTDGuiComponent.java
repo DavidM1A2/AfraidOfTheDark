@@ -5,6 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui.customControls;
 
+import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.LinkedList;
 import java.util.List;
@@ -25,6 +26,7 @@ public abstract class AOTDGuiComponent
 	private Rectangle boundingBox = new Rectangle();
 	private Rectangle scaledBoundingBox = new Rectangle();
 	private List<AOTDActionListener> actionListeners = new LinkedList<AOTDActionListener>();
+	private Color color = Color.WHITE;
 
 	public AOTDGuiComponent(int x, int y, int width, int height)
 	{
@@ -33,6 +35,7 @@ public abstract class AOTDGuiComponent
 
 	public void draw()
 	{
+		GL11.glColor4d(this.getColor().getRed() / 255.0, this.getColor().getGreen() / 255.0, this.getColor().getBlue() / 255.0, this.getColor().getAlpha() / 255.0);
 	}
 
 	public void drawBoundingBox()
@@ -56,6 +59,13 @@ public abstract class AOTDGuiComponent
 		{
 			actionListener.actionPerformed(this, actionType);
 		}
+	}
+
+	public boolean intersects(AOTDGuiComponent other)
+	{
+		if (other == null)
+			return false;
+		return this.scaledBoundingBox.intersects(other.scaledBoundingBox);
 	}
 
 	public void setScaleXAndY(double scale)
@@ -177,6 +187,16 @@ public abstract class AOTDGuiComponent
 	public void setHovered(boolean isHovered)
 	{
 		this.isHovered = isHovered;
+	}
+
+	public void setColor(Color color)
+	{
+		this.color = color;
+	}
+
+	public Color getColor()
+	{
+		return this.color;
 	}
 
 	@Override

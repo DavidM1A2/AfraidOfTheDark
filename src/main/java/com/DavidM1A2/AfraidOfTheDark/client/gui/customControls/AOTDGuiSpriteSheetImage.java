@@ -61,33 +61,37 @@ public class AOTDGuiSpriteSheetImage extends AOTDGuiContainer
 	public void draw()
 	{
 		this.update();
-		Minecraft.getMinecraft().getTextureManager().bindTexture(spriteSheet);
-		if (frameInterpolation)
+		if (this.isVisible())
 		{
-			GlStateManager.color(1.0F, 1.0F, 1.0F, percentageToNextFrame);
-			if (this.isVertical)
+			super.draw();
+			Minecraft.getMinecraft().getTextureManager().bindTexture(spriteSheet);
+			if (frameInterpolation)
 			{
-				Gui.drawScaledCustomSizeModalRect(this.getXScaled(), this.getYScaled(), 0, currentFrame * frameHeight, frameWidth, frameHeight, this.getWidthScaled(), this.getHeightScaled(), frameWidth, frameHeight * totalFrames);
-				GlStateManager.color(1.0F, 1.0F, 1.0F, 1 - percentageToNextFrame);
-				Gui.drawScaledCustomSizeModalRect(this.getXScaled(), this.getYScaled(), 0, nextFrame * frameHeight, frameWidth, frameHeight, this.getWidthScaled(), this.getHeightScaled(), frameWidth, frameHeight * totalFrames);
+				GlStateManager.color(1.0F, 1.0F, 1.0F, percentageToNextFrame);
+				if (this.isVertical)
+				{
+					Gui.drawScaledCustomSizeModalRect(this.getXScaled(), this.getYScaled(), 0, currentFrame * frameHeight, frameWidth, frameHeight, this.getWidthScaled(), this.getHeightScaled(), frameWidth, frameHeight * totalFrames);
+					GlStateManager.color(1.0F, 1.0F, 1.0F, 1 - percentageToNextFrame);
+					Gui.drawScaledCustomSizeModalRect(this.getXScaled(), this.getYScaled(), 0, nextFrame * frameHeight, frameWidth, frameHeight, this.getWidthScaled(), this.getHeightScaled(), frameWidth, frameHeight * totalFrames);
+				}
+				else
+				{
+					Gui.drawScaledCustomSizeModalRect(this.getXScaled(), this.getYScaled(), currentFrame * frameWidth, 0, frameWidth, frameHeight, this.getWidthScaled(), this.getHeightScaled(), frameWidth * totalFrames, frameHeight);
+					GlStateManager.color(1.0F, 1.0F, 1.0F, 1 - percentageToNextFrame);
+					Gui.drawScaledCustomSizeModalRect(this.getXScaled(), this.getYScaled(), nextFrame * frameWidth, 0, frameWidth, frameHeight, this.getWidthScaled(), this.getHeightScaled(), frameWidth * totalFrames, frameHeight);
+				}
 			}
 			else
 			{
-				Gui.drawScaledCustomSizeModalRect(this.getXScaled(), this.getYScaled(), currentFrame * frameWidth, 0, frameWidth, frameHeight, this.getWidthScaled(), this.getHeightScaled(), frameWidth * totalFrames, frameHeight);
-				GlStateManager.color(1.0F, 1.0F, 1.0F, 1 - percentageToNextFrame);
-				Gui.drawScaledCustomSizeModalRect(this.getXScaled(), this.getYScaled(), nextFrame * frameWidth, 0, frameWidth, frameHeight, this.getWidthScaled(), this.getHeightScaled(), frameWidth * totalFrames, frameHeight);
-			}
-		}
-		else
-		{
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			if (this.isVertical)
-			{
-				Gui.drawScaledCustomSizeModalRect(this.getXScaled(), this.getYScaled(), 0, currentFrame * frameHeight, frameWidth, frameHeight, this.getWidthScaled(), this.getHeightScaled(), frameWidth, frameHeight * totalFrames);
-			}
-			else
-			{
-				Gui.drawScaledCustomSizeModalRect(this.getXScaled(), this.getYScaled(), currentFrame * frameWidth, 0, frameWidth, frameHeight, this.getWidthScaled(), this.getHeightScaled(), frameWidth * totalFrames, frameHeight);
+				GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+				if (this.isVertical)
+				{
+					Gui.drawScaledCustomSizeModalRect(this.getXScaled(), this.getYScaled(), 0, currentFrame * frameHeight, frameWidth, frameHeight, this.getWidthScaled(), this.getHeightScaled(), frameWidth, frameHeight * totalFrames);
+				}
+				else
+				{
+					Gui.drawScaledCustomSizeModalRect(this.getXScaled(), this.getYScaled(), currentFrame * frameWidth, 0, frameWidth, frameHeight, this.getWidthScaled(), this.getHeightScaled(), frameWidth * totalFrames, frameHeight);
+				}
 			}
 		}
 	}
