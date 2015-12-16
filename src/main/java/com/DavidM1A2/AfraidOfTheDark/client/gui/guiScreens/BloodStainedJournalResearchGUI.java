@@ -53,8 +53,8 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 
 		this.scrollBackground = new AOTDGuiImage(0, 0, backgroundWidth, backgroundHeight, 1024, 1024, "textures/gui/bloodStainedJournalResearchBackdrop.png");
 		this.backgroundBorder = new AOTDGuiImage(0, 0, backgroundWidth, backgroundHeight, "textures/gui/bloodStainedJournalResearchBackground.png");
-		scrollBackground.setU((this.guiOffsetX * 2) + 384);
-		scrollBackground.setV((this.guiOffsetY * 2) + 768);
+		this.scrollBackground.setU((this.guiOffsetX * 2) + 384);
+		this.scrollBackground.setV((this.guiOffsetY * 2) + 768);
 		this.researchTreeBase.add(scrollBackground);
 		this.researchTreeBase.add(researchTree);
 		this.researchTreeBase.add(backgroundBorder);
@@ -100,6 +100,7 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 		};
 
 		int distanceBetweenNodes = 75;
+		AOTDGuiResearchNodeButton[] buttons = new AOTDGuiResearchNodeButton[ResearchTypes.values().length];
 		for (ResearchTypes researchType : ResearchTypes.values())
 		{
 			int xPos = backgroundWidth / 2 - 16 + distanceBetweenNodes * researchType.getPositionX();
@@ -122,8 +123,11 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 						this.researchTree.add(new AOTDGuiSpriteSheetImage(xPos + 9, yPos - 46, 14, 46, new ResourceLocation("afraidofthedark:textures/gui/researchVertical.png"), 500, 20, 60, 180, true, true));
 				}
 			}
-			this.researchTree.add(researchNode);
+			buttons[researchType.ordinal()] = researchNode;
 		}
+
+		for (AOTDGuiResearchNodeButton nodeButton : buttons)
+			this.researchTree.add(nodeButton);
 	}
 
 	// When the mouse is dragged, update the GUI accordingly

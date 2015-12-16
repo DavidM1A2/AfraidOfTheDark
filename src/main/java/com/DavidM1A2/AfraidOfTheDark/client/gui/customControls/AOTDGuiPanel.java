@@ -7,8 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui.customControls;
 
 import org.lwjgl.opengl.GL11;
 
-import com.DavidM1A2.AfraidOfTheDark.common.utility.Point3D;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDGuiUtility;
 
 public class AOTDGuiPanel extends AOTDGuiContainer
 {
@@ -26,9 +25,13 @@ public class AOTDGuiPanel extends AOTDGuiContainer
 		if (scissorEnabled)
 		{
 			GL11.glEnable(GL11.GL_SCISSOR_TEST);
-			Point3D xyReal = Utility.minecraftToRealScreenCoords(this.getXScaled(), this.getYScaled());
-			Point3D widthHeightReal = Utility.minecraftToRealScreenCoords(this.getWidthScaled(), this.getHeightScaled());
-			GL11.glScissor(xyReal.getX(), xyReal.getY(), widthHeightReal.getX(), widthHeightReal.getY());
+
+			int realX = AOTDGuiUtility.mcToRealCoord(this.getXScaled());
+			int realY = AOTDGuiUtility.realToGLScreenCoords(AOTDGuiUtility.mcToRealCoord(this.getYScaled() + this.getWidthScaled()));
+			int realWidth = AOTDGuiUtility.mcToRealCoord(this.getWidthScaled());
+			int realHeight = AOTDGuiUtility.mcToRealCoord(this.getHeightScaled());
+
+			GL11.glScissor(realX, realY, realWidth, realHeight);
 		}
 		super.draw();
 		if (scissorEnabled)

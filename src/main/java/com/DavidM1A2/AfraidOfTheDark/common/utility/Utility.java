@@ -19,7 +19,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -60,31 +59,6 @@ public class Utility
 			LogHelper.error("Error loading AOTD fonts. This will cause your minecraft to crash. Please mention this to the mod developer.");
 			return null;
 		}
-	}
-
-	public static ScaledResolution getScaledResolution()
-	{
-		return new ScaledResolution(Minecraft.getMinecraft(), Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
-	}
-
-	public static Point3D minecraftToRealScreenCoords(int x, int y)
-	{
-		ScaledResolution scaledResolution = Utility.getScaledResolution();
-
-		x = x * scaledResolution.getScaleFactor();
-		y = y * scaledResolution.getScaleFactor();
-
-		return new Point3D(x, y, 1);
-	}
-
-	public static Point3D realToMinecraftScreenCoords(int x, int y)
-	{
-		ScaledResolution scaledResolution = Utility.getScaledResolution();
-
-		x = x / scaledResolution.getScaleFactor();
-		y = y / scaledResolution.getScaleFactor();
-
-		return new Point3D(x, y, 1);
 	}
 
 	public static boolean hasIndex(List<?> list, int index)

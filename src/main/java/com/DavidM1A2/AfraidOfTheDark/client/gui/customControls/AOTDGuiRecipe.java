@@ -5,8 +5,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui.customControls;
 
-import org.lwjgl.opengl.GL11;
-
 import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
 import com.DavidM1A2.AfraidOfTheDark.common.recipe.ConvertedRecipe;
 
@@ -88,9 +86,7 @@ public class AOTDGuiRecipe extends AOTDGuiPanel
 		{
 			if (this.output.getItemStack() != null)
 			{
-				GL11.glEnable(GL11.GL_BLEND);
 				super.draw();
-				GL11.glDisable(GL11.GL_BLEND);
 			}
 		}
 	}

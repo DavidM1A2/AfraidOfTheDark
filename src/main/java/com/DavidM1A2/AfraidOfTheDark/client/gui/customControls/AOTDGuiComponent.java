@@ -14,7 +14,9 @@ import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 
 public abstract class AOTDGuiComponent
@@ -27,6 +29,7 @@ public abstract class AOTDGuiComponent
 	private Rectangle scaledBoundingBox = new Rectangle();
 	private List<AOTDActionListener> actionListeners = new LinkedList<AOTDActionListener>();
 	private Color color = Color.WHITE;
+	private static ScaledResolution scaledResolution = new ScaledResolution(Minecraft.getMinecraft(), Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
 
 	public AOTDGuiComponent(int x, int y, int width, int height)
 	{
@@ -36,11 +39,11 @@ public abstract class AOTDGuiComponent
 	public void draw()
 	{
 		GL11.glColor4d(this.getColor().getRed() / 255.0, this.getColor().getGreen() / 255.0, this.getColor().getBlue() / 255.0, this.getColor().getAlpha() / 255.0);
+		//this.drawBoundingBox();
 	}
 
 	public void drawBoundingBox()
 	{
-		GL11.glColor4d(1.0, 1.0, 1.0, 1.0);
 		Gui.drawRect(this.getXScaled(), this.getYScaled(), this.getXScaled() + this.getWidthScaled(), this.getYScaled() + 1, 0xFFFFFFFF);
 		Gui.drawRect(this.getXScaled(), this.getYScaled(), this.getXScaled() + 1, this.getYScaled() + this.getHeightScaled(), 0xFFFFFFFF);
 		Gui.drawRect(this.getXScaled() + this.getWidthScaled() - 1, this.getYScaled(), this.getXScaled() + this.getWidthScaled(), this.getYScaled() + this.getHeightScaled(), 0xFFFFFFFF);
@@ -202,6 +205,6 @@ public abstract class AOTDGuiComponent
 	@Override
 	public String toString()
 	{
-		return this.getClass().getSimpleName() + " located at x = " + getX() + ", y = " + getY();
+		return this.getClass().getSimpleName() + " located at " + this.boundingBox + " with a scaled resolution of " + this.scaledBoundingBox;
 	}
 }
