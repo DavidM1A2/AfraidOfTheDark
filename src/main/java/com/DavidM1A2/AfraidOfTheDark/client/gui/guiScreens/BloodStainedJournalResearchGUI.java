@@ -59,7 +59,7 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 		this.researchTreeBase.add(researchTree);
 		this.researchTreeBase.add(backgroundBorder);
 
-		AOTDActionListener onPress = new AOTDActionListener()
+		AOTDActionListener nodeListener = new AOTDActionListener()
 		{
 			@Override
 			public void actionPerformed(AOTDGuiComponent component, AOTDActionListener.ActionType actionType)
@@ -94,6 +94,8 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 								}
 							}
 						}
+						else if (actionType == ActionType.MouseEnterBoundingBox)
+							Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:buttonHover", 0.7f, 1.9f);
 					}
 				}
 			}
@@ -106,7 +108,7 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 			int xPos = backgroundWidth / 2 - 16 + distanceBetweenNodes * researchType.getPositionX();
 			int yPos = backgroundHeight - 50 - distanceBetweenNodes * researchType.getPositionY();
 			AOTDGuiResearchNodeButton researchNode = new AOTDGuiResearchNodeButton(xPos, yPos, researchType);
-			researchNode.addActionListener(onPress);
+			researchNode.addActionListener(nodeListener);
 			if (researchNode.getResearch().getPrevious() != null)
 			{
 				if (AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).isResearched(researchNode.getResearch()) || AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).canResearch(researchNode.getResearch()))

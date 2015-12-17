@@ -7,126 +7,93 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens;
 
 import java.util.Random;
 
-import org.lwjgl.opengl.GL11;
-
+import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiClickAndDragable;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.MeteorButton;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiComponent;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiImage;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiPanel;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiMeteorButton;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.MeteorTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.ChatComponentText;
 
 public class TelescopeGUI extends AOTDGuiClickAndDragable
 {
-	private static final int FRAME_HEIGHT = 256;
-	private static final int FRAME_WIDTH = 256;
-
-	private static final int BUTTON_BASE_ID = 0;
-
-	private static final int NUMBER_OF_METEORS = 25;
-
-	// GUI height and width
-	private static int baseWidth = 512;
-	private static int baseHeight = 512;
-
-	private static final ResourceLocation nebula = new ResourceLocation("afraidofthedark:textures/gui/telescopeBackground.png");
-	private static final ResourceLocation telescopeGUI = new ResourceLocation("afraidofthedark:textures/gui/telescopeGUI.png");
-
-	// Current GUI x/y Scrool positions, background positions, and research
-	// positions
-	private static int xPosTelescope;
-	private static int yPosTelescope;
+	private final AOTDGuiPanel telescopeMeteors;
+	private final AOTDGuiImage telescopeImage;
 
 	public TelescopeGUI()
 	{
+		int FRAME_HEIGHT = 256;
+		int FRAME_WIDTH = 256;
 
-	}
-
-	/*
-	 * GUI for the blood stained journal on the initial signing
-	 */
-	@Override
-	public void initGui()
-	{
-		super.initGui();
+		// GUI height and width
+		int baseWidth = 512;
+		int baseHeight = 512;
+		// Current GUI x/y Scrool positions, background positions, and research
+		// positions
+		int xPosTelescope;
+		int yPosTelescope;
 		// Calculate the various positions of GUI elements on the screen
-		TelescopeGUI.baseHeight = (this.height - 256) / 2;
-		TelescopeGUI.baseWidth = (this.width - 256) / 2;
-		TelescopeGUI.xPosTelescope = TelescopeGUI.baseWidth;
-		TelescopeGUI.yPosTelescope = TelescopeGUI.baseHeight;
+		baseHeight = (360 - 256) / 2;
+		baseWidth = (640 - 256) / 2;
+		xPosTelescope = baseWidth;
+		yPosTelescope = baseHeight;
 
-		for (int i = 0; i < TelescopeGUI.NUMBER_OF_METEORS; i++)
+		AOTDGuiPanel telescope = new AOTDGuiPanel(xPosTelescope, yPosTelescope, FRAME_WIDTH, FRAME_HEIGHT, true);
+		AOTDGuiImage telescopeFrame = new AOTDGuiImage(0, 0, FRAME_WIDTH, FRAME_HEIGHT, "textures/gui/telescopeGUI.png");
+		telescopeMeteors = new AOTDGuiPanel(0, 0, FRAME_WIDTH, FRAME_WIDTH, false);
+		telescopeImage = new AOTDGuiImage(0, 0, FRAME_WIDTH, FRAME_HEIGHT, 2160, 3840, "textures/gui/telescopeBackground.png");
+		telescopeImage.setU(this.guiOffsetX + (3840 / 2));
+		telescopeImage.setV(this.guiOffsetY + (2160 / 2));
+
+		int numberOfMeteors = 50 + Minecraft.getMinecraft().thePlayer.getRNG().nextInt(50);
+		for (int i = 0; i < numberOfMeteors; i++)
 		{
+			AOTDGuiMeteorButton nextToAdd = null;
 			if (AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).isResearched(ResearchTypes.AstronomyII))
-			{
-				this.getContentPane().add(new MeteorButton(TelescopeGUI.BUTTON_BASE_ID + i, Minecraft.getMinecraft().theWorld.rand.nextInt(3840 * 2) - 3840, Minecraft.getMinecraft().theWorld.rand.nextInt(2160 * 2) - 2160, 64, 64, MeteorTypes.values()[Minecraft.getMinecraft().theWorld.rand.nextInt(
-						MeteorTypes.values().length)]));
-			}
+				nextToAdd = new AOTDGuiMeteorButton(Minecraft.getMinecraft().theWorld.rand.nextInt(3840 * 2) - 3840, Minecraft.getMinecraft().theWorld.rand.nextInt(2160 * 2) - 2160, 64, 64, MeteorTypes.values()[Minecraft.getMinecraft().theWorld.rand.nextInt(MeteorTypes.values().length)]);
 			else
+				nextToAdd = new AOTDGuiMeteorButton(Minecraft.getMinecraft().theWorld.rand.nextInt(3840 * 2) - 3840, Minecraft.getMinecraft().theWorld.rand.nextInt(2160 * 2) - 2160, 64, 64, MeteorTypes.silver);
+
+			nextToAdd.addActionListener(new AOTDActionListener()
 			{
-				this.getContentPane().add(new MeteorButton(TelescopeGUI.BUTTON_BASE_ID + i, Minecraft.getMinecraft().theWorld.rand.nextInt(3840 * 2) - 3840, Minecraft.getMinecraft().theWorld.rand.nextInt(2160 * 2) - 2160, 64, 64, MeteorTypes.silver));
-			}
+				@Override
+				public void actionPerformed(AOTDGuiComponent component, ActionType actionType)
+				{
+					if (actionType == ActionType.MousePressed)
+					{
+						Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(TelescopeGUI.this.createMeteorMessage(((AOTDGuiMeteorButton) component).getMyType())));
+						Minecraft.getMinecraft().thePlayer.closeScreen();
+					}
+				}
+			});
+			telescopeMeteors.add(nextToAdd);
 		}
+
+		telescope.add(telescopeImage);
+		telescope.add(telescopeMeteors);
+		telescope.add(telescopeFrame);
+		this.getContentPane().add(telescope);
 	}
 
-	// To draw the screen we first draw the default GUI background, then the
-	// background images. Then we add buttons and a frame.
+	// When the mouse is dragged, update the GUI accordingly
 	@Override
-	public void drawScreen(final int i, final int j, final float f)
+	protected void mouseClickMove(final int mouseX, final int mouseY, final int lastButtonClicked, final long timeBetweenClicks)
 	{
-		this.drawDefaultBackground();
+		super.mouseClickMove(mouseX, mouseY, lastButtonClicked, timeBetweenClicks);
 
-		this.mc.renderEngine.bindTexture(TelescopeGUI.nebula);
-		Gui.drawScaledCustomSizeModalRect(TelescopeGUI.xPosTelescope, TelescopeGUI.yPosTelescope, this.guiOffsetX + (3840 / 2), this.guiOffsetY + (2160 / 2), TelescopeGUI.FRAME_WIDTH, TelescopeGUI.FRAME_HEIGHT, TelescopeGUI.FRAME_WIDTH, TelescopeGUI.FRAME_HEIGHT, 3840, 2160);
+		this.telescopeMeteors.setX(-this.guiOffsetX + telescopeMeteors.getParent().getX());
+		this.telescopeMeteors.setY(-this.guiOffsetY + telescopeMeteors.getParent().getY());
 
-		final int disWidth = Minecraft.getMinecraft().displayWidth;
-		final int disHeight = Minecraft.getMinecraft().displayHeight;
-		final int widthScale = Math.round(disWidth / (float) this.width);
-		final int heightScale = Math.round(disHeight / (float) this.height);
+		telescopeImage.setU(this.guiOffsetX + (3840 / 2));
+		telescopeImage.setV(this.guiOffsetY + (2160 / 2));
 
-		GL11.glEnable(GL11.GL_SCISSOR_TEST);
-		GL11.glScissor(disWidth - ((TelescopeGUI.xPosTelescope + TelescopeGUI.FRAME_WIDTH) * widthScale), disHeight - ((TelescopeGUI.yPosTelescope + TelescopeGUI.FRAME_HEIGHT) * heightScale), TelescopeGUI.FRAME_WIDTH * widthScale, TelescopeGUI.FRAME_HEIGHT * heightScale);
-		super.drawScreen(i, j, f);
-		GL11.glDisable(GL11.GL_SCISSOR_TEST);
-
-		this.mc.renderEngine.bindTexture(telescopeGUI);
-		this.drawTexturedModalRect(TelescopeGUI.xPosTelescope, TelescopeGUI.yPosTelescope, 0, 0, TelescopeGUI.FRAME_WIDTH, TelescopeGUI.FRAME_HEIGHT);
 	}
-
-	//	// If you press the sign button one of two things happens
-	//	@Override
-	//	public void actionPerformed(final AOTDGuiButton button)
-	//	{
-	//		final EntityPlayer playerWhoPressed = Minecraft.getMinecraft().thePlayer;
-	//		for (Object object : this.getContentPane().getComponents())
-	//		{
-	//			if (object instanceof MeteorButton)
-	//			{
-	//				final MeteorButton theButton = (MeteorButton) object;
-	//				//if (theButton.getId() == button.getId())
-	//				{
-	//					playerWhoPressed.addChatMessage(new ChatComponentText(this.createMeteorMessage(theButton.getMyType())));
-	//
-	//					playerWhoPressed.closeScreen();
-	//				}
-	//			}
-	//		}
-	//	}
-
-	//	// When the mouse is dragged, update the GUI accordingly
-	//	@Override
-	//	protected void mouseClickMove(final int mouseX, final int mouseY, final int lastButtonClicked, final long timeBetweenClicks)
-	//	{
-	//		super.mouseClickMove(mouseX, mouseY, lastButtonClicked, timeBetweenClicks);
-	//		for (final AOTDGuiButton o : this.getButtonController().getButtons())
-	//		{
-	//			((MeteorButton) o).offset(this.guiOffsetX, this.guiOffsetY);
-	//		}
-	//	}
 
 	@Override
 	protected void checkOutOfBounds()

@@ -11,14 +11,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.util.ResourceLocation;
 
-public class MeteorButton extends AOTDGuiButtonMovable
+public class AOTDGuiMeteorButton extends AOTDGuiButton
 {
 	private final ResourceLocation METEOR_TEXTURE;
 	private final MeteorTypes myType;
 
-	public MeteorButton(final int buttonId, final int x, final int y, final int width, final int height, final MeteorTypes myType)
+	public AOTDGuiMeteorButton(final int x, final int y, final int width, final int height, final MeteorTypes myType)
 	{
-		super(x, y, width, height);
+		super(x, y, width, height, null, "");
 		this.myType = myType;
 
 		if (myType == MeteorTypes.silver)
@@ -37,7 +37,6 @@ public class MeteorButton extends AOTDGuiButtonMovable
 		if (this.isVisible())
 		{
 			super.draw();
-
 			Minecraft.getMinecraft().getTextureManager().bindTexture(this.METEOR_TEXTURE);
 			Gui.drawScaledCustomSizeModalRect(this.getXScaled(), this.getYScaled(), 0, 0, 64, 64, this.getWidthScaled(), this.getHeightScaled(), 64, 64);
 		}

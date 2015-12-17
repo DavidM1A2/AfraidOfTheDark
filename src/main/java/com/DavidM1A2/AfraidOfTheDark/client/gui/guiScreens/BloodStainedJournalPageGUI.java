@@ -60,6 +60,10 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 
 	private AOTDGuiPanel journal;
 
+	private static final TrueTypeFont TITLE_FONT = Utility.createTrueTypeFont("Targa MS Hand", 50f, true);
+	private static final TrueTypeFont PAGE_NUMBER_FONT = Utility.createTrueTypeFont("Targa MS Hand", 32f, false);
+	private static final TrueTypeFont PAGE_TEXT = Utility.createTrueTypeFont("Targa MS Hand", 32f, false);
+
 	private int pageNumber = 0;
 
 	private final List<ConvertedRecipe> researchRecipes = new ArrayList<ConvertedRecipe>();
@@ -86,14 +90,13 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 
 		this.journal.add(new AOTDGuiImage(0, 0, journalWidth, journalHeight, "textures/gui/bloodStainedJournalPage.png"));
 
-		AOTDGuiLabel title = new AOTDGuiLabel(5, 15, Utility.createTrueTypeFont("Targa MS Hand", 50f, true));
+		AOTDGuiLabel title = new AOTDGuiLabel(5, 15, TITLE_FONT);
 		title.setText(titleText);
 		title.setColor(new Color(200, 0, 0));
 		this.journal.add(title);
 
-		TrueTypeFont pageNumberFont = Utility.createTrueTypeFont("Targa MS Hand", 32f, false);
-		this.leftPageNumber = new AOTDGuiLabel(8, this.journalHeight - 40, pageNumberFont);
-		this.rightPageNumber = new AOTDGuiLabel(230, this.journalHeight - 40, pageNumberFont);
+		this.leftPageNumber = new AOTDGuiLabel(8, this.journalHeight - 40, PAGE_NUMBER_FONT);
+		this.rightPageNumber = new AOTDGuiLabel(230, this.journalHeight - 40, PAGE_NUMBER_FONT);
 		this.leftPageNumber.setText(Integer.toString(1));
 		this.rightPageNumber.setText(Integer.toString(2));
 		this.leftPageNumber.setColor(new Color(200, 0, 0));
@@ -101,15 +104,16 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 		this.journal.add(this.leftPageNumber);
 		this.journal.add(this.rightPageNumber);
 
-		TrueTypeFont pageFont = Utility.createTrueTypeFont("Targa MS Hand", 32f, false);
-		this.leftPage = new AOTDGuiTextBox(5, 45, this.journalWidth / 2 - 10, this.journalHeight - 80, pageFont, 24);
-		this.rightPage = new AOTDGuiTextBox(130, 45, this.journalWidth / 2 - 10, this.journalHeight - 80, pageFont, 24);
+		this.leftPage = new AOTDGuiTextBox(5, 45, this.journalWidth / 2 - 10, this.journalHeight - 80, PAGE_TEXT, 24);
+		this.rightPage = new AOTDGuiTextBox(130, 45, this.journalWidth / 2 - 10, this.journalHeight - 80, PAGE_TEXT, 24);
 		this.leftPage.setColor(new Color(200, 0, 0));
 		this.rightPage.setColor(new Color(200, 0, 0));
 		this.journal.add(this.leftPage);
 		this.journal.add(this.rightPage);
 
-		this.bookmarkButton = new AOTDGuiButton(this.journalWidth / 2 - 15, this.journalHeight - 30, 10, 30, null, null);
+		this.bookmarkButton = new AOTDGuiButton(this.journalWidth / 2 - 17, this.journalHeight - 28, 15, 30, null, "afraidofthedark:textures/gui/slotHighlight.png");
+		this.bookmarkButton.setVisible(false);
+		this.bookmarkButton.setColor(new Color(255, 255, 255, 50));
 		this.bookmarkButton.addActionListener(new AOTDActionListener()
 		{
 			@Override
@@ -121,6 +125,10 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 					entityPlayer.closeScreen();
 					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_ID, entityPlayer.worldObj, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ());
 				}
+				else if (actionType == ActionType.MouseEnterBoundingBox)
+					component.setVisible(true);
+				else if (actionType == ActionType.MouseExitBoundingBox)
+					component.setVisible(false);
 			}
 		});
 		this.journal.add(this.bookmarkButton);
@@ -145,10 +153,10 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 			{
 				if (actionType == ActionType.MousePressed)
 					BloodStainedJournalPageGUI.this.advancePage();
-				else if (actionType == ActionType.MouseHover)
-				{
-
-				}
+				else if (actionType == ActionType.MouseEnterBoundingBox)
+					component.setColor(component.getColor().darker());
+				else if (actionType == ActionType.MouseExitBoundingBox)
+					component.setColor(component.getColor().brighter());
 			}
 		});
 		this.backwardButton.addActionListener(new AOTDActionListener()
@@ -158,6 +166,10 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 			{
 				if (actionType == ActionType.MousePressed)
 					BloodStainedJournalPageGUI.this.rewindPage();
+				else if (actionType == ActionType.MouseEnterBoundingBox)
+					component.setColor(component.getColor().darker());
+				else if (actionType == ActionType.MouseExitBoundingBox)
+					component.setColor(component.getColor().brighter());
 			}
 		});
 		this.getContentPane().add(this.forwardButton);

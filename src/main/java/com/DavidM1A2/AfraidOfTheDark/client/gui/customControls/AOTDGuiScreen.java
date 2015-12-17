@@ -7,11 +7,8 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui.customControls;
 
 import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDGuiUtility;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
-import net.minecraftforge.common.MinecraftForge;
 
 public abstract class AOTDGuiScreen extends GuiScreen
 {
@@ -80,24 +77,5 @@ public abstract class AOTDGuiScreen extends GuiScreen
 	public boolean doesGuiPauseGame()
 	{
 		return false;
-	}
-
-	/**
-	 * Causes the screen to lay out its subcomponents again. This is the equivalent of the Java call Container.validate()
-	 */
-	@Override
-	public void setWorldAndResolution(Minecraft mc, int width, int height)
-	{
-		this.mc = mc;
-		this.itemRender = mc.getRenderItem();
-		this.fontRendererObj = mc.fontRendererObj;
-		this.width = width;
-		this.height = height;
-		if (!MinecraftForge.EVENT_BUS.post(new InitGuiEvent.Pre(this, this.buttonList)))
-		{
-			this.buttonList.clear();
-			this.initGui();
-		}
-		MinecraftForge.EVENT_BUS.post(new InitGuiEvent.Post(this, this.buttonList));
 	}
 }

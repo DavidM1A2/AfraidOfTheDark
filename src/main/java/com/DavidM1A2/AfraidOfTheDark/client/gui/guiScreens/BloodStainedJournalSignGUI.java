@@ -9,18 +9,18 @@ import java.io.IOException;
 
 import org.lwjgl.opengl.GL11;
 
+import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiScreen;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
 
-public class BloodStainedJournalSignGUI extends GuiScreen
+public class BloodStainedJournalSignGUI extends AOTDGuiScreen
 {
 	private static final int SIGN_JOURNAL_BUTTON_ID = 0;
 	private GuiTextField signNameHere;
