@@ -3,13 +3,9 @@
  * Mod: Afraid of the Dark 
  * Ideas and Textures: Michael Albertson
  */
-package com.DavidM1A2.AfraidOfTheDark.client.gui.customControls;
+package com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls;
 
 import java.io.IOException;
-
-import org.lwjgl.opengl.GL11;
-
-import net.minecraft.client.Minecraft;
 
 public abstract class AOTDGuiClickAndDragable extends AOTDGuiScreen
 {
@@ -18,18 +14,6 @@ public abstract class AOTDGuiClickAndDragable extends AOTDGuiScreen
 	protected int guiOffsetY = 0;
 	protected int originalXPosition = 0;
 	protected int originalYPosition = 0;
-
-	// If E is typed we close the GUI screen
-	@Override
-	protected void keyTyped(final char character, final int iDontKnowWhatThisDoes) throws IOException
-	{
-		if ((character == 'e') || (character == 'E'))
-		{
-			Minecraft.getMinecraft().thePlayer.closeScreen();
-			GL11.glFlush();
-		}
-		super.keyTyped(character, iDontKnowWhatThisDoes);
-	}
 
 	// When you click the mouse move the background
 	@Override

@@ -7,6 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui.customControls;
 
 import java.awt.Color;
 
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiButton;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 

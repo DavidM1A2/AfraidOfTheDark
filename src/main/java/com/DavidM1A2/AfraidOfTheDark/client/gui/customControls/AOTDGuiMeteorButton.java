@@ -5,6 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui.customControls;
 
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiButton;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.MeteorTypes;
 
 import net.minecraft.client.Minecraft;

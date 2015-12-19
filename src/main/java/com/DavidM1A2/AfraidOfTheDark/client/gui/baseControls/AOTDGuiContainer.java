@@ -3,12 +3,13 @@
  * Mod: Afraid of the Dark
  * Ideas and Textures: Michael Albertson
  */
-package com.DavidM1A2.AfraidOfTheDark.client.gui.customControls;
+package com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener.ActionType;
 
 public abstract class AOTDGuiContainer extends AOTDGuiComponent
 {
@@ -46,9 +47,9 @@ public abstract class AOTDGuiContainer extends AOTDGuiComponent
 		this.setHovered(mouseX >= this.getXScaled() && mouseY >= this.getYScaled() && mouseX < this.getXScaled() + this.getWidthScaled() && mouseY < this.getYScaled() + this.getHeightScaled());
 		if (this.isHovered())
 			this.fireEvent(AOTDActionListener.ActionType.MouseHover);
-		if (this.isHovered() && this.mousePressed)
+		if (this.mousePressed)
 			this.fireEvent(AOTDActionListener.ActionType.MousePressed);
-		if (this.isHovered() && this.mouseReleased)
+		if (this.mouseReleased)
 			this.fireEvent(AOTDActionListener.ActionType.MouseReleased);
 		if (wasHovered && !this.isHovered())
 			this.fireEvent(AOTDActionListener.ActionType.MouseExitBoundingBox);
@@ -86,6 +87,13 @@ public abstract class AOTDGuiContainer extends AOTDGuiComponent
 		this.mouseReleased = true;
 		for (AOTDGuiContainer component : this.subComponents)
 			component.mouseReleased();
+	}
+
+	public void keyPressed()
+	{
+		this.fireEvent(ActionType.KeyTyped);
+		for (AOTDGuiContainer component : this.subComponents)
+			component.keyPressed();
 	}
 
 	@Override

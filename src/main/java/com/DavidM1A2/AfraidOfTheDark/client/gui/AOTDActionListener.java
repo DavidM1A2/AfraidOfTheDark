@@ -5,7 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui;
 
-import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiComponent;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiComponent;
 
 public interface AOTDActionListener
 {
@@ -15,7 +15,8 @@ public interface AOTDActionListener
 		MouseReleased,
 		MouseHover,
 		MouseExitBoundingBox,
-		MouseEnterBoundingBox;
+		MouseEnterBoundingBox,
+		KeyTyped;
 	}
 
 	public abstract void actionPerformed(AOTDGuiComponent component, ActionType actionType);

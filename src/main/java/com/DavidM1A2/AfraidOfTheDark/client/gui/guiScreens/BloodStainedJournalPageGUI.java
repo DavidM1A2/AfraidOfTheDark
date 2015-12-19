@@ -12,20 +12,19 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiButton;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiComponent;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiImage;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiLabel;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiPanel;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiRecipe;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiScreen;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiTextBox;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.TrueTypeFont;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiButton;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiComponent;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiImage;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiLabel;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiRecipe;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiScreen;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiTextBox;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.TrueTypeFont;
 import com.DavidM1A2.AfraidOfTheDark.common.recipe.ConvertedRecipe;
 import com.DavidM1A2.AfraidOfTheDark.common.recipe.RecipeUtility;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
@@ -119,7 +118,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 			@Override
 			public void actionPerformed(AOTDGuiComponent component, AOTDActionListener.ActionType actionType)
 			{
-				if (actionType == ActionType.MousePressed)
+				if (actionType == ActionType.MousePressed && component.isHovered())
 				{
 					EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
 					entityPlayer.closeScreen();
@@ -151,7 +150,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 			@Override
 			public void actionPerformed(AOTDGuiComponent component, AOTDActionListener.ActionType actionType)
 			{
-				if (actionType == ActionType.MousePressed)
+				if (actionType == ActionType.MousePressed && component.isHovered())
 					BloodStainedJournalPageGUI.this.advancePage();
 				else if (actionType == ActionType.MouseEnterBoundingBox)
 					component.setColor(component.getColor().darker());
@@ -164,7 +163,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 			@Override
 			public void actionPerformed(AOTDGuiComponent component, AOTDActionListener.ActionType actionType)
 			{
-				if (actionType == ActionType.MousePressed)
+				if (actionType == ActionType.MousePressed && component.isHovered())
 					BloodStainedJournalPageGUI.this.rewindPage();
 				else if (actionType == ActionType.MouseEnterBoundingBox)
 					component.setColor(component.getColor().darker());
@@ -182,16 +181,6 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 		this.backwardButton.setVisible(this.hasPageBackward());
 
 		Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:pageTurn", 1.0F, 1.0F);
-	}
-
-	// To draw the screen we first draw the default GUI background, then the
-	// background images. Then we add buttons and a frame.
-	@Override
-	public void drawScreen(final int mouseX, final int mouseY, final float partialTicks)
-	{
-		GL11.glEnable(GL11.GL_BLEND);
-		super.drawScreen(mouseX, mouseY, partialTicks);
-		GL11.glDisable(GL11.GL_BLEND);
 	}
 
 	private void advancePage()
@@ -284,7 +273,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 	@Override
 	protected void keyTyped(final char character, final int keyCode) throws IOException
 	{
-		if ((character == 'e') || (character == 'E'))
+		if ((keyCode == INVENTORY_KEYCODE))
 		{
 			EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
 			entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
@@ -306,5 +295,11 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 		{
 			researchRecipes.addAll(RecipeUtility.getRecipesForItem(nextItem));
 		}
+	}
+
+	@Override
+	public boolean inventoryToCloseGuiScreen()
+	{
+		return false;
 	}
 }

@@ -9,97 +9,99 @@ import java.io.IOException;
 
 import org.lwjgl.opengl.GL11;
 
-import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiScreen;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiButton;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiComponent;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiImage;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiScreen;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiTextField;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.TrueTypeFont;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ResourceLocation;
 
 public class BloodStainedJournalSignGUI extends AOTDGuiScreen
 {
-	private static final int SIGN_JOURNAL_BUTTON_ID = 0;
-	private GuiTextField signNameHere;
-	private static final ResourceLocation background = new ResourceLocation("afraidofthedark:textures/gui/bloodStainedJournal.png");
+	private AOTDGuiTextField nameSignField;
+	private static final TrueTypeFont TEXT_FIELD_FONT = Utility.createTrueTypeFont("Targa MS Hand", 45f, false);
 
-	/*
-	 * GUI for the blood stained journal on the initial signing
-	 */
-	@Override
-	public void initGui()
+	public BloodStainedJournalSignGUI()
 	{
-		this.buttonList.clear();
-		this.buttonList.add(new GuiButton(BloodStainedJournalSignGUI.SIGN_JOURNAL_BUTTON_ID, (this.width / 2) - 75, (this.height / 2) - 10, 150, 20, "Sign The Journal"));
-		this.signNameHere = new GuiTextField(2, this.fontRendererObj, (this.width / 2) - 75, (this.height / 2) - 35, 150, 20);
-		this.signNameHere.setFocused(true);
-		this.signNameHere.setMaxStringLength(1000);
-	}
+		AOTDGuiPanel backgroundPanel = new AOTDGuiPanel((640 - 256) / 2, (360 - 256) / 2, 256, 256, false);
 
-	// When someone types a key, update the text field
-	@Override
-	public void keyTyped(final char character, final int i) throws IOException
-	{
-		super.keyTyped(character, i);
-		this.signNameHere.textboxKeyTyped(character, i);
-	}
+		AOTDGuiImage backgroundImage = new AOTDGuiImage(0, 0, 256, 256, "textures/gui/bloodStainedJournal.png");
+		backgroundPanel.add(backgroundImage);
 
-	// GUI does not pause the game
-	@Override
-	public boolean doesGuiPauseGame()
-	{
-		return false;
-	}
+		this.nameSignField = new AOTDGuiTextField(45, 90, 160, 30, TEXT_FIELD_FONT);
+		backgroundPanel.add(this.nameSignField);
 
-	// Draw the screen (background, then buttons, then the textbox).
-	@Override
-	public void drawScreen(final int i, final int j, final float f)
-	{
-		GL11.glColor4f(1, 1, 1, 1);
-		this.mc.renderEngine.bindTexture(background);
-		this.drawTexturedModalRect((this.width - 256) / 2, (this.height - 256) / 2, 0, 0, 256, 256);
-		this.signNameHere.drawTextBox();
-		super.drawScreen(i, j, f);
-	}
-
-	// If you press the sign button one of two things happens
-	@Override
-	public void actionPerformed(final GuiButton button)
-	{
-		final EntityPlayer playerWhoPressed = Minecraft.getMinecraft().thePlayer;
-		switch (button.id)
+		AOTDGuiButton signButton = new AOTDGuiButton(70, 130, 100, 25, null, "afraidofthedark:textures/gui/signButton.png");
+		signButton.addActionListener(new AOTDActionListener()
 		{
-			case 0:
+			@Override
+			public void actionPerformed(AOTDGuiComponent component, ActionType actionType)
 			{
-				if (this.signNameHere.getText().equals(playerWhoPressed.getDisplayName().getUnformattedText()))
+				if (actionType == ActionType.MousePressed)
 				{
-					// If the player signed their own name and has not started
-					// AOTD
-					if (AOTDPlayerData.get(playerWhoPressed).getHasStartedAOTD() == false)
+					if (component.isHovered())
 					{
-						AOTDPlayerData.get(playerWhoPressed).setHasStartedAOTD(true);
-						AOTDPlayerData.get(playerWhoPressed).syncHasStartedAOTD();
+						EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
+						if (BloodStainedJournalSignGUI.this.nameSignField.getText().equals(entityPlayer.getDisplayName().getUnformattedText()))
+						{
+							// If the player signed their own name and has not started
+							// AOTD
+							if (AOTDPlayerData.get(entityPlayer).getHasStartedAOTD() == false)
+							{
+								AOTDPlayerData.get(entityPlayer).setHasStartedAOTD(true);
+								AOTDPlayerData.get(entityPlayer).syncHasStartedAOTD();
 
-						playerWhoPressed.inventory.getStackInSlot(playerWhoPressed.inventory.currentItem).getTagCompound().setString("owner", playerWhoPressed.getDisplayName().getUnformattedText());
-						playerWhoPressed.addChatMessage(new ChatComponentText("What have I done?"));
-						playerWhoPressed.playSound("afraidofthedark:journalSign", 4.0F, 1.0F);
-						AOTDPlayerData.get(playerWhoPressed).unlockResearch(ResearchTypes.AnUnbreakableCovenant, true);
-						AOTDPlayerData.get(playerWhoPressed).unlockResearch(ResearchTypes.Crossbow, true);
-						playerWhoPressed.closeScreen();
-					}
-				}
-				else
-				{
-					if (AOTDPlayerData.get(playerWhoPressed).getHasStartedAOTD() == false)
-					{
-						playerWhoPressed.addChatMessage(new ChatComponentText("*You expect something to happen... but nothing does."));
-						playerWhoPressed.closeScreen();
+								entityPlayer.inventory.getStackInSlot(entityPlayer.inventory.currentItem).getTagCompound().setString("owner", entityPlayer.getDisplayName().getUnformattedText());
+								entityPlayer.addChatMessage(new ChatComponentText("What have I done?"));
+								entityPlayer.playSound("afraidofthedark:journalSign", 4.0F, 1.0F);
+								AOTDPlayerData.get(entityPlayer).unlockResearch(ResearchTypes.AnUnbreakableCovenant, true);
+								AOTDPlayerData.get(entityPlayer).unlockResearch(ResearchTypes.Crossbow, true);
+								entityPlayer.closeScreen();
+							}
+						}
+						else
+						{
+							if (AOTDPlayerData.get(entityPlayer).getHasStartedAOTD() == false)
+							{
+								entityPlayer.addChatMessage(new ChatComponentText("*You expect something to happen... but nothing does."));
+								entityPlayer.closeScreen();
+							}
+						}
 					}
 				}
 			}
+		});
+		backgroundPanel.add(signButton);
+
+		this.getContentPane().add(backgroundPanel);
+	}
+
+	@Override
+	protected void keyTyped(char character, int keyCode) throws IOException
+	{
+		super.keyTyped(character, keyCode);
+		if (!this.nameSignField.isFocused())
+		{
+			if (keyCode == INVENTORY_KEYCODE)
+			{
+				Minecraft.getMinecraft().thePlayer.closeScreen();
+				GL11.glFlush();
+			}
 		}
+	}
+
+	@Override
+	public boolean inventoryToCloseGuiScreen()
+	{
+		return false;
 	}
 }

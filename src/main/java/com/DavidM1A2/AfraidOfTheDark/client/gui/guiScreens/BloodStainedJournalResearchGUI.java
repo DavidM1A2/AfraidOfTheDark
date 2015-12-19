@@ -8,12 +8,12 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens;
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiClickAndDragable;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiComponent;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiImage;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiPanel;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiClickAndDragable;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiComponent;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiImage;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiSpriteSheetImage;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiResearchNodeButton;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiSpriteSheetImage;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
@@ -69,7 +69,7 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 					AOTDGuiResearchNodeButton current = (AOTDGuiResearchNodeButton) component;
 					if (current.getParent().getParent().intersects(current))
 					{
-						if (actionType == ActionType.MousePressed)
+						if (actionType == ActionType.MousePressed && component.isHovered())
 						{
 							EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
 							ClientData.currentlySelected = current.getResearch();
@@ -95,7 +95,8 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 							}
 						}
 						else if (actionType == ActionType.MouseEnterBoundingBox)
-							Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:buttonHover", 0.7f, 1.9f);
+							if (component.isVisible())
+								Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:buttonHover", 0.7f, 1.9f);
 					}
 				}
 			}
@@ -175,5 +176,11 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 		ClientData.currentBloodStainedJournalX = guiOffsetX;
 		ClientData.currentBloodStainedJournalY = guiOffsetY;
 		super.onGuiClosed();
+	}
+
+	@Override
+	public boolean inventoryToCloseGuiScreen()
+	{
+		return true;
 	}
 }

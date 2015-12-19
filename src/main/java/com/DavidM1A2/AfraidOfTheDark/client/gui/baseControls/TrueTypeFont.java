@@ -1,4 +1,4 @@
-package com.DavidM1A2.AfraidOfTheDark.client.gui.customControls;
+package com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls;
 
 import java.awt.Color;
 import java.awt.Font;

@@ -8,10 +8,10 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens;
 import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiClickAndDragable;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiComponent;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiImage;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiPanel;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiClickAndDragable;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiComponent;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiImage;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiMeteorButton;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.MeteorTypes;
@@ -65,7 +65,7 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
 				@Override
 				public void actionPerformed(AOTDGuiComponent component, ActionType actionType)
 				{
-					if (actionType == ActionType.MousePressed)
+					if (actionType == ActionType.MousePressed && component.isHovered())
 					{
 						Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(TelescopeGUI.this.createMeteorMessage(((AOTDGuiMeteorButton) component).getMyType())));
 						Minecraft.getMinecraft().thePlayer.closeScreen();
@@ -131,5 +131,11 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
 		toReturn = toReturn + "\nI should probably write this down and later run calculations in my sextant.";
 
 		return toReturn;
+	}
+
+	@Override
+	public boolean inventoryToCloseGuiScreen()
+	{
+		return true;
 	}
 }

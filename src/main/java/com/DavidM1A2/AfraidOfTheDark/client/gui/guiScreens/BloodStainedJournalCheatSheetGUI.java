@@ -5,11 +5,9 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens;
 
-import java.io.IOException;
-
 import org.lwjgl.opengl.GL11;
 
-import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiScreen;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiScreen;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
@@ -84,13 +82,9 @@ public class BloodStainedJournalCheatSheetGUI extends AOTDGuiScreen
 		}
 	}
 
-	// If E is typed we close the GUI screen
 	@Override
-	protected void keyTyped(final char character, final int keyCode) throws IOException
+	public boolean inventoryToCloseGuiScreen()
 	{
-		if ((character == 'e') || (character == 'E'))
-		{
-			Minecraft.getMinecraft().thePlayer.closeScreen();
-		}
+		return true;
 	}
 }

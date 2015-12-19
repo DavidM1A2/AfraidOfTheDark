@@ -3,10 +3,15 @@
  * Mod: Afraid of the Dark
  * Ideas and Textures: Michael Albertson
  */
-package com.DavidM1A2.AfraidOfTheDark.client.gui.customControls;
+package com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls;
+
+import java.io.IOException;
+
+import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDGuiUtility;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 
@@ -15,6 +20,7 @@ public abstract class AOTDGuiScreen extends GuiScreen
 	private final AOTDEventController eventController;
 	private double guiScale = 1.0f;
 	private final AOTDGuiPanel contentPane;
+	protected final int INVENTORY_KEYCODE = Minecraft.getMinecraft().gameSettings.keyBindInventory.getKeyCode();
 
 	public AOTDGuiScreen()
 	{
@@ -78,4 +84,22 @@ public abstract class AOTDGuiScreen extends GuiScreen
 	{
 		return false;
 	}
+
+	// If E is typed we close the GUI screen
+	@Override
+	protected void keyTyped(final char character, final int keyCode) throws IOException
+	{
+		this.getContentPane().keyPressed();
+		if (this.inventoryToCloseGuiScreen())
+		{
+			if ((keyCode == INVENTORY_KEYCODE))
+			{
+				Minecraft.getMinecraft().thePlayer.closeScreen();
+				GL11.glFlush();
+			}
+		}
+		super.keyTyped(character, keyCode);
+	}
+
+	public abstract boolean inventoryToCloseGuiScreen();
 }

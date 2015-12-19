@@ -13,7 +13,7 @@ import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
 
-import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.TrueTypeFont;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.TrueTypeFont;
 import com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest.VoidChestTeleporter;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;

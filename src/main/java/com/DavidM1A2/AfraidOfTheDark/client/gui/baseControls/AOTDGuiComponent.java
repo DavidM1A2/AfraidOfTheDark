@@ -3,7 +3,7 @@
  * Mod: Afraid of the Dark
  * Ideas and Textures: Michael Albertson
  */
-package com.DavidM1A2.AfraidOfTheDark.client.gui.customControls;
+package com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls;
 
 import java.awt.Color;
 import java.awt.Rectangle;
@@ -14,9 +14,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 
 public abstract class AOTDGuiComponent
@@ -29,7 +27,6 @@ public abstract class AOTDGuiComponent
 	private Rectangle scaledBoundingBox = new Rectangle();
 	private List<AOTDActionListener> actionListeners = new LinkedList<AOTDActionListener>();
 	private Color color = Color.WHITE;
-	private static ScaledResolution scaledResolution = new ScaledResolution(Minecraft.getMinecraft(), Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
 
 	public AOTDGuiComponent(int x, int y, int width, int height)
 	{
