@@ -32,7 +32,6 @@ public class GenerateSprings
 			int y = WorldGenerationUtility.getPlaceToSpawnLowest(world, chunkX, chunkZ, 28, 28);
 
 			AOTDWorldData.get(world).addDungeon(new Point3D(chunkX + 14, AOTDDungeonTypes.Spring.getRadius(), chunkZ + 14), true);
-			AOTDWorldData.get(world).setDirty(true);
 
 			if (ConfigurationHandler.debugMessages)
 			{

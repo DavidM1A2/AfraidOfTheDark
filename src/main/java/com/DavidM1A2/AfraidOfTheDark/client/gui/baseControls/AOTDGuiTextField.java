@@ -19,7 +19,6 @@ import net.minecraft.util.MathHelper;
 public class AOTDGuiTextField extends AOTDGuiTextComponent
 {
 	private final AOTDGuiImage background;
-	private final AOTDGuiImage frame;
 	private final AOTDGuiPanel textContainer;
 	private final AOTDGuiLabel textField;
 	private boolean isFocused = false;
@@ -29,13 +28,11 @@ public class AOTDGuiTextField extends AOTDGuiTextComponent
 		super(x, y, width, height, font);
 		Keyboard.enableRepeatEvents(true);
 		background = new AOTDGuiImage(0, 0, width, height, "textures/gui/textFieldBackground.png");
-		frame = new AOTDGuiImage(0, 0, width, height, "textures/gui/textFieldFrame.png");
 		textContainer = new AOTDGuiPanel(5, 5, width - 10, height - 10, true);
 		textField = new AOTDGuiLabel(0, 0, font);
 		textContainer.add(textField);
 		this.add(background);
 		this.add(textContainer);
-		this.add(frame);
 		this.addActionListener(new AOTDActionListener()
 		{
 			@Override
@@ -173,18 +170,21 @@ public class AOTDGuiTextField extends AOTDGuiTextComponent
 		this.isFocused = isFocused;
 		if (!wasFocused && isFocused)
 		{
-			this.frame.setColor(Color.GRAY);
-			this.background.setColor(Color.GRAY);
+			this.background.setColor(new Color(230, 230, 230));
 			String text = this.getRawText();
 			this.setText(text.concat("_"));
 		}
 		else if (wasFocused && !isFocused)
 		{
-			this.frame.setColor(Color.WHITE);
 			this.background.setColor(Color.WHITE);
 			String text = this.getRawText();
 			this.setText(StringUtils.isEmpty(text) ? "" : text.charAt(text.length() - 1) == '_' ? text.substring(0, text.length() - 1) : text);
 		}
+	}
+
+	public void setTextColor(Color color)
+	{
+		this.textField.setColor(color);
 	}
 
 	public boolean isFocused()

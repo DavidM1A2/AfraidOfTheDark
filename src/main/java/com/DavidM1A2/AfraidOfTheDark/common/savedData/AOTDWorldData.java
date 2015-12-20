@@ -89,6 +89,7 @@ public class AOTDWorldData extends WorldSavedData
 		{
 			this.dungeonsBelowGround.add(location);
 		}
+		this.markDirty();
 	}
 
 	public boolean isValidLocation(Point3D location, boolean isAboveGround)

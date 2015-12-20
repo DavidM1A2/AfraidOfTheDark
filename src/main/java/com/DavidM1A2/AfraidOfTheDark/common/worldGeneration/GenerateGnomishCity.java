@@ -28,20 +28,20 @@ public class GenerateGnomishCity
 	public static boolean generateSurface(World world, Random random, int chunkX, int chunkZ)
 	{
 		int y = 20;
-		chunkX = chunkX - 65;
-		chunkZ = chunkZ - 65;
 
 		if (!AOTDWorldData.get(world).isValidLocation(new Point3D(chunkX, AOTDDungeonTypes.GnomishCity.getRadius(), chunkZ), false))
 		{
 			return false;
 		}
 		AOTDWorldData.get(world).addDungeon(new Point3D(chunkX, AOTDDungeonTypes.GnomishCity.getRadius(), chunkZ), false);
-		AOTDWorldData.get(world).setDirty(true);
 
 		if (ConfigurationHandler.debugMessages)
 		{
-			LogHelper.info("Spawning a gnomish city at x = " + (chunkX + 65) + ", y = " + y + ", z = " + (chunkZ + 65));
+			LogHelper.info("Spawning a gnomish city at x = " + chunkX + ", y = " + y + ", z = " + chunkZ);
 		}
+
+		chunkX = chunkX - 65;
+		chunkZ = chunkZ - 65;
 
 		int stairs2To3 = 4;
 		int stairs1To2;

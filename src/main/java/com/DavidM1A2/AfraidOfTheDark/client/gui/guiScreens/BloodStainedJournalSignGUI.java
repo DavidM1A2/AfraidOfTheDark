@@ -5,6 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens;
 
+import java.awt.Color;
 import java.io.IOException;
 
 import org.lwjgl.opengl.GL11;
@@ -38,9 +39,10 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
 		backgroundPanel.add(backgroundImage);
 
 		this.nameSignField = new AOTDGuiTextField(45, 90, 160, 30, TEXT_FIELD_FONT);
+		this.nameSignField.setTextColor(Color.red);
 		backgroundPanel.add(this.nameSignField);
 
-		AOTDGuiButton signButton = new AOTDGuiButton(70, 130, 100, 25, null, "afraidofthedark:textures/gui/signButton.png");
+		AOTDGuiButton signButton = new AOTDGuiButton(75, 130, 100, 25, null, "afraidofthedark:textures/gui/signButton.png", "afraidofthedark:textures/gui/signButtonHovered.png");
 		signButton.addActionListener(new AOTDActionListener()
 		{
 			@Override
@@ -51,6 +53,7 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
 					if (component.isHovered())
 					{
 						EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
+						entityPlayer.playSound("gui.button.press", 1.0f, 1.0f);
 						if (BloodStainedJournalSignGUI.this.nameSignField.getText().equals(entityPlayer.getDisplayName().getUnformattedText()))
 						{
 							// If the player signed their own name and has not started

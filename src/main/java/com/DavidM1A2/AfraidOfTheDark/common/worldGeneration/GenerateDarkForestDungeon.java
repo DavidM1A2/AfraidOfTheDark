@@ -37,8 +37,7 @@ public class GenerateDarkForestDungeon
 			return false;
 		}
 
-		AOTDWorldData.get(world).addDungeon(new Point3D(chunkX + 11, AOTDDungeonTypes.Crypt.getRadius(), chunkZ + 11), true);
-		AOTDWorldData.get(world).setDirty(true);
+		AOTDWorldData.get(world).addDungeon(new Point3D(chunkX + 11, AOTDDungeonTypes.DarkForest.getRadius(), chunkZ + 11), true);
 
 		if (ConfigurationHandler.debugMessages)
 		{

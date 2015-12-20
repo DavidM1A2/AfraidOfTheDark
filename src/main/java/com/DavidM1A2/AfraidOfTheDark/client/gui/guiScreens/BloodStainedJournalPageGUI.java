@@ -67,11 +67,6 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 
 	private final List<ConvertedRecipe> researchRecipes = new ArrayList<ConvertedRecipe>();
 
-	private int xCornerOfPage = 0;
-	private int yCornerOfPage = 0;
-	private int journalWidth = 0;
-	private int journalHeight = 0;
-
 	public BloodStainedJournalPageGUI(final String textNext, final String titleText, Item[] relatedItemRecipes)
 	{
 		// Setup tile and page text. Then add left and right page text boxes
@@ -79,11 +74,11 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 		this.setupRecipes(relatedItemRecipes);
 		this.COMPLETE_TEXT = textNext.replaceAll(" +", " ");
 
-		this.journalWidth = 256;
-		this.journalHeight = 256;
+		int journalWidth = 256;
+		int journalHeight = 256;
 		// Calculate various variables later used in text box width/height calculation
-		this.xCornerOfPage = (640 - journalWidth) / 2;
-		this.yCornerOfPage = (360 - journalHeight) / 2;
+		int xCornerOfPage = (640 - journalWidth) / 2;
+		int yCornerOfPage = (360 - journalHeight) / 2;
 
 		this.journal = new AOTDGuiPanel(xCornerOfPage, yCornerOfPage, journalWidth, journalHeight, false);
 
@@ -94,8 +89,8 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 		title.setColor(new Color(200, 0, 0));
 		this.journal.add(title);
 
-		this.leftPageNumber = new AOTDGuiLabel(8, this.journalHeight - 40, PAGE_NUMBER_FONT);
-		this.rightPageNumber = new AOTDGuiLabel(230, this.journalHeight - 40, PAGE_NUMBER_FONT);
+		this.leftPageNumber = new AOTDGuiLabel(8, journalHeight - 40, PAGE_NUMBER_FONT);
+		this.rightPageNumber = new AOTDGuiLabel(230, journalHeight - 40, PAGE_NUMBER_FONT);
 		this.leftPageNumber.setText(Integer.toString(1));
 		this.rightPageNumber.setText(Integer.toString(2));
 		this.leftPageNumber.setColor(new Color(200, 0, 0));
@@ -103,14 +98,14 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 		this.journal.add(this.leftPageNumber);
 		this.journal.add(this.rightPageNumber);
 
-		this.leftPage = new AOTDGuiTextBox(5, 45, this.journalWidth / 2 - 10, this.journalHeight - 80, PAGE_TEXT, 24);
-		this.rightPage = new AOTDGuiTextBox(130, 45, this.journalWidth / 2 - 10, this.journalHeight - 80, PAGE_TEXT, 24);
+		this.leftPage = new AOTDGuiTextBox(5, 45, journalWidth / 2 - 10, journalHeight - 80, PAGE_TEXT, 24);
+		this.rightPage = new AOTDGuiTextBox(130, 45, journalWidth / 2 - 10, journalHeight - 80, PAGE_TEXT, 24);
 		this.leftPage.setColor(new Color(200, 0, 0));
 		this.rightPage.setColor(new Color(200, 0, 0));
 		this.journal.add(this.leftPage);
 		this.journal.add(this.rightPage);
 
-		this.bookmarkButton = new AOTDGuiButton(this.journalWidth / 2 - 17, this.journalHeight - 28, 15, 30, null, "afraidofthedark:textures/gui/slotHighlight.png");
+		this.bookmarkButton = new AOTDGuiButton(journalWidth / 2 - 17, journalHeight - 28, 15, 30, null, "afraidofthedark:textures/gui/slotHighlight.png");
 		this.bookmarkButton.setVisible(false);
 		this.bookmarkButton.setColor(new Color(255, 255, 255, 50));
 		this.bookmarkButton.addActionListener(new AOTDActionListener()

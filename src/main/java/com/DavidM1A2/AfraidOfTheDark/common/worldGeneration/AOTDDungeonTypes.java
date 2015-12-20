@@ -8,7 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.worldGeneration;
 public enum AOTDDungeonTypes
 {
 	Crypt(23, "Crypt"),
-	DarkForest(85, "Dark Forest"),
+	DarkForest(80, "Dark Forest"),
 	GnomishCity(100, "Gnomish City"),
 	Spring(20, "Spring"),
 	VoidChest(10, "Void Chest"),

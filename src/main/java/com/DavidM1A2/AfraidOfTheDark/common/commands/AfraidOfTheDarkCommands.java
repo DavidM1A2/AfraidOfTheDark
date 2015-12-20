@@ -31,7 +31,7 @@ public class AfraidOfTheDarkCommands implements ICommand
 
 	public AfraidOfTheDarkCommands()
 	{
-		// Aliases aka command (/AOTDDungeon or /d)
+		// Aliases aka command (/AfraidOfTheDark or /AOTD)
 		this.aliases = new ArrayList();
 		this.aliases.add("AOTD");
 		this.aliases.add("AfraidOfTheDark");
@@ -75,14 +75,22 @@ public class AfraidOfTheDarkCommands implements ICommand
 				output.write("Known dungeons above ground: \n");
 				for (Point3D point3d : AOTDWorldData.get(sender.getEntityWorld()).getDungeonsAboveGround())
 				{
-					output.write(AOTDDungeonTypes.getDungeonFromRadius(point3d.getY()).getName() + " at x = " + point3d.getX() + ", z = " + point3d.getZ() + ".\n");
+					AOTDDungeonTypes dungeon = AOTDDungeonTypes.getDungeonFromRadius(point3d.getY());
+					if (dungeon == null)
+						continue;
+					String toPrint = dungeon.getName() + " at x = " + point3d.getX() + ", z = " + point3d.getZ() + ".\n";
+					output.write(toPrint);
 				}
 				output.write("\n\n");
 
 				output.write("Known dungeons below ground: \n");
 				for (Point3D point3d : AOTDWorldData.get(sender.getEntityWorld()).getDungeonsBelowGround())
 				{
-					output.write(AOTDDungeonTypes.getDungeonFromRadius(point3d.getY()).getName() + " at x = " + point3d.getX() + ", z = " + point3d.getZ() + ".\n");
+					AOTDDungeonTypes dungeon = AOTDDungeonTypes.getDungeonFromRadius(point3d.getY());
+					if (dungeon == null)
+						continue;
+					String toPrint = dungeon.getName() + " at x = " + point3d.getX() + ", z = " + point3d.getZ() + ".\n";
+					output.write(toPrint);
 				}
 
 				sender.addChatMessage(new ChatComponentText("Wrote all known AOTD Dungeons to " + writeDirectory));

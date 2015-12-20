@@ -32,7 +32,6 @@ public class GenerateVoidChest
 			int y = WorldGenerationUtility.getPlaceToSpawnLowest(world, chunkX, chunkZ, 14, 14);
 
 			AOTDWorldData.get(world).addDungeon(new Point3D(chunkX + 7, AOTDDungeonTypes.VoidChest.getRadius(), chunkZ + 7), true);
-			AOTDWorldData.get(world).setDirty(true);
 
 			if (ConfigurationHandler.debugMessages)
 			{

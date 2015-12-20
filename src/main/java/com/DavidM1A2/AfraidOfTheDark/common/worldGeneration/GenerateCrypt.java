@@ -33,7 +33,6 @@ public class GenerateCrypt
 			y = WorldGenerationUtility.getPlaceToSpawnLowest(world, chunkX + 12, chunkZ + 12, 7, 7);
 
 			AOTDWorldData.get(world).addDungeon(new Point3D(chunkX, AOTDDungeonTypes.Crypt.getRadius(), chunkZ), false);
-			AOTDWorldData.get(world).setDirty(true);
 
 			if (ConfigurationHandler.debugMessages)
 			{
