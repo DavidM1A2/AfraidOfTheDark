@@ -22,7 +22,7 @@ public class GenerateCrypt
 {
 	public static boolean generateSurface(World world, Random random, int chunkX, int chunkZ)
 	{
-		if (!AOTDWorldData.get(world).isValidLocation(new Point3D(chunkX, 23, chunkZ), false))
+		if (!AOTDWorldData.get(world).isValidLocation(new Point3D(chunkX, AOTDDungeonTypes.Crypt.getRadius(), chunkZ), false))
 		{
 			return false;
 		}
@@ -32,7 +32,7 @@ public class GenerateCrypt
 		{
 			y = WorldGenerationUtility.getPlaceToSpawnLowest(world, chunkX + 12, chunkZ + 12, 7, 7);
 
-			AOTDWorldData.get(world).addDungeon(new Point3D(chunkX, 23, chunkZ), false);
+			AOTDWorldData.get(world).addDungeon(new Point3D(chunkX, AOTDDungeonTypes.Crypt.getRadius(), chunkZ), false);
 			AOTDWorldData.get(world).setDirty(true);
 
 			if (ConfigurationHandler.debugMessages)

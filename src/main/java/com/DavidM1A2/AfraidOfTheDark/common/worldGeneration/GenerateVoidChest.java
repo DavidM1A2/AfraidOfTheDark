@@ -22,7 +22,7 @@ public class GenerateVoidChest
 {
 	public static boolean generateSurface(World world, Random random, int chunkX, int chunkZ)
 	{
-		if (!AOTDWorldData.get(world).isValidLocation(new Point3D(chunkX + 7, 10, chunkZ + 7), true))
+		if (!AOTDWorldData.get(world).isValidLocation(new Point3D(chunkX + 7, AOTDDungeonTypes.VoidChest.getRadius(), chunkZ + 7), true))
 		{
 			return false;
 		}
@@ -31,7 +31,7 @@ public class GenerateVoidChest
 		{
 			int y = WorldGenerationUtility.getPlaceToSpawnLowest(world, chunkX, chunkZ, 14, 14);
 
-			AOTDWorldData.get(world).addDungeon(new Point3D(chunkX + 7, 10, chunkZ + 7), true);
+			AOTDWorldData.get(world).addDungeon(new Point3D(chunkX + 7, AOTDDungeonTypes.VoidChest.getRadius(), chunkZ + 7), true);
 			AOTDWorldData.get(world).setDirty(true);
 
 			if (ConfigurationHandler.debugMessages)

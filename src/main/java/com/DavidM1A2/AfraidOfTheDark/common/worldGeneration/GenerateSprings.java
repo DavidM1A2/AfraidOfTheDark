@@ -22,7 +22,7 @@ public class GenerateSprings
 {
 	public static boolean generateSurface(World world, Random random, int chunkX, int chunkZ)
 	{
-		if (!AOTDWorldData.get(world).isValidLocation(new Point3D(chunkX + 14, 20, chunkZ + 14), true))
+		if (!AOTDWorldData.get(world).isValidLocation(new Point3D(chunkX + 14, AOTDDungeonTypes.Spring.getRadius(), chunkZ + 14), true))
 		{
 			return false;
 		}
@@ -31,7 +31,7 @@ public class GenerateSprings
 		{
 			int y = WorldGenerationUtility.getPlaceToSpawnLowest(world, chunkX, chunkZ, 28, 28);
 
-			AOTDWorldData.get(world).addDungeon(new Point3D(chunkX + 14, 20, chunkZ + 14), true);
+			AOTDWorldData.get(world).addDungeon(new Point3D(chunkX + 14, AOTDDungeonTypes.Spring.getRadius(), chunkZ + 14), true);
 			AOTDWorldData.get(world).setDirty(true);
 
 			if (ConfigurationHandler.debugMessages)

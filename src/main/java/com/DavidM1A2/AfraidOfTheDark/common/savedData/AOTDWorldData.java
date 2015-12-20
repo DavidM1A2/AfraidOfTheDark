@@ -117,4 +117,14 @@ public class AOTDWorldData extends WorldSavedData
 		}
 		return true;
 	}
+
+	public Set<Point3D> getDungeonsAboveGround()
+	{
+		return this.dungeonsAboveGround;
+	}
+
+	public Set<Point3D> getDungeonsBelowGround()
+	{
+		return this.dungeonsBelowGround;
+	}
 }

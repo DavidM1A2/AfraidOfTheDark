@@ -8,6 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.ResearchAchieved;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
+import com.DavidM1A2.AfraidOfTheDark.common.commands.AfraidOfTheDarkCommands;
 import com.DavidM1A2.AfraidOfTheDark.common.commands.InsanityCheck;
 import com.DavidM1A2.AfraidOfTheDark.common.debug.DebugSpammer;
 import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
@@ -182,6 +183,7 @@ public class AfraidOfTheDark
 		{
 			event.registerServerCommand(new InsanityCheck());
 		}
+		event.registerServerCommand(new AfraidOfTheDarkCommands());
 	}
 
 	/**

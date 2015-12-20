@@ -31,11 +31,11 @@ public class GenerateGnomishCity
 		chunkX = chunkX - 65;
 		chunkZ = chunkZ - 65;
 
-		if (!AOTDWorldData.get(world).isValidLocation(new Point3D(chunkX, 100, chunkZ), false))
+		if (!AOTDWorldData.get(world).isValidLocation(new Point3D(chunkX, AOTDDungeonTypes.GnomishCity.getRadius(), chunkZ), false))
 		{
 			return false;
 		}
-		AOTDWorldData.get(world).addDungeon(new Point3D(chunkX, 100, chunkZ), false);
+		AOTDWorldData.get(world).addDungeon(new Point3D(chunkX, AOTDDungeonTypes.GnomishCity.getRadius(), chunkZ), false);
 		AOTDWorldData.get(world).setDirty(true);
 
 		if (ConfigurationHandler.debugMessages)
