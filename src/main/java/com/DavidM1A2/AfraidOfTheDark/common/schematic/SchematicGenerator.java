@@ -10,6 +10,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Point3D;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.WorldGenerationUtility;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.LootTable;
@@ -65,6 +67,15 @@ public final class SchematicGenerator
 		}
 	};
 
+	private static final Set<Short> lightUpdateBlocks = new HashSet<Short>()
+	{
+		{
+			add((short) Block.getIdFromBlock(Blocks.glowstone));
+			add((short) Block.getIdFromBlock(Blocks.torch));
+			add((short) Block.getIdFromBlock(ModBlocks.glowStalk));
+		}
+	};
+
 	private static final int DIAMOND_BLOCK_ID = Block.getIdFromBlock(Blocks.diamond_block);
 	private static final int AIR_BLOCK_ID = Block.getIdFromBlock(Blocks.air);
 
@@ -107,6 +118,7 @@ public final class SchematicGenerator
 		List<Short> blocksToPlaceLater = new LinkedList<Short>();
 		List<Byte> blocksToPlaceLaterMeta = new LinkedList<Byte>();
 		List<Point3D> laterBlockPositions = new LinkedList<Point3D>();
+		List<Point3D> lightBlockPositions = new LinkedList<Point3D>();
 
 		// A schematic is just a code representation of an MCEdit Schematic
 		for (int y = 0; y < schematic.getHeight(); y++)
@@ -129,7 +141,7 @@ public final class SchematicGenerator
 							WorldGenerationUtility.setBlockStateFast(world, new BlockPos(x + xPosition, y + yPosition, z + zPosition), Blocks.air.getDefaultState(), 3);
 						}
 						// latePlacePriorityBlocks is a hashset that contains a list of blocks that need another block
-						// placed first in order to be placed (Like torches or laddedrs require a block to be hanging off, etc)
+						// placed first in order to be placed (Like torches or ladders require a block to be hanging off, etc)
 						else if (latePlacePriorityBlocks.contains(schematic.getBlocks()[i]))
 						{
 							// 3 Array lists that save each of these block's properties
@@ -142,6 +154,11 @@ public final class SchematicGenerator
 						else
 						{
 							WorldGenerationUtility.setBlockStateFast(world, new BlockPos(x + xPosition, y + yPosition, z + zPosition), Block.getBlockById(nextToPlace).getStateFromMeta(schematic.getData()[i]), 3);
+						}
+
+						if (ConfigurationHandler.enableWorldGenLightUpdates && lightUpdateBlocks.contains(schematic.getBlocks()[i]))
+						{
+							lightBlockPositions.add(new Point3D(x + xPosition, y + yPosition, z + zPosition));
 						}
 					}
 
@@ -173,6 +190,12 @@ public final class SchematicGenerator
 			{
 				WorldGenerationUtility.setBlockStateFast(world, blockPos, blockState, 3);
 			}
+		}
+
+		Iterator<Point3D> blockLocationsToUpdate = lightBlockPositions.iterator();
+		while (blockLocationsToUpdate.hasNext())
+		{
+			world.checkLight(blockLocationsToUpdate.next().toBlockPos());
 		}
 	}
 

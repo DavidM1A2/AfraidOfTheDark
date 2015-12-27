@@ -9,6 +9,7 @@ import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.biomes.BiomeErieForest;
 import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDWorldData;
 
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
@@ -29,6 +30,7 @@ public class AOTDWorldGenerationHandler implements IWorldGenerator
 		{
 			case 0:
 			{
+				AOTDWorldData.register(world);
 				this.generateSurface(world, random, chunkX * 16, chunkZ * 16);
 			}
 		}

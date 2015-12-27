@@ -29,6 +29,8 @@ public class ConfigurationHandler
 	public static float voidChestFrequency = 0.24f;
 	public static float witchHutFrequency = 0.8f;
 	public static boolean debugMessages = false;
+	public static boolean enableAOTDAnimations = true;
+	public static boolean enableWorldGenLightUpdates = false;
 
 	public static void initializataion(final File configFile)
 	{
@@ -69,6 +71,11 @@ public class ConfigurationHandler
 		ConfigurationHandler.witchHutFrequency = ConfigurationHandler.configuration.getFloat("witchHutFrequency", "Dungeon Frequency", 0.8f, 0.0f, 100.0f, "This property is the percentage chance per chunk that a witch hut will spawn.");
 
 		ConfigurationHandler.debugMessages = ConfigurationHandler.configuration.getBoolean("debugMessages", Configuration.CATEGORY_GENERAL, false, "If you wish to receive all possible kinds of spammy debug messages in the console turn this on. Mostly used for developers only.");
+
+		ConfigurationHandler.enableAOTDAnimations = ConfigurationHandler.configuration.getBoolean("enableAOTDEntityAnimations", Configuration.CATEGORY_GENERAL, true,
+				"Disable this to remove all animations from entities in the Afraid of the Dark mod. This may improve performance but mod entities will no longer have animations.");
+
+		ConfigurationHandler.enableWorldGenLightUpdates = ConfigurationHandler.configuration.getBoolean("enableWorldGenLightUpdates", Configuration.CATEGORY_GENERAL, false, "Enabling this will decrease world generation performance but decrease the chance of lighting glitches in AOTD dungeons.");
 
 		if (ConfigurationHandler.configuration.hasChanged())
 		{

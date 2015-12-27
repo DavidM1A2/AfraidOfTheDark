@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
 public class AOTDGuiImage extends AOTDGuiContainer
@@ -47,6 +48,7 @@ public class AOTDGuiImage extends AOTDGuiContainer
 				Gui.drawModalRectWithCustomSizedTexture(this.getXScaled(), this.getYScaled(), u, v, this.getWidthScaled(), this.getHeightScaled(), this.getWidthScaled(), this.getHeightScaled());
 			else
 				Gui.drawModalRectWithCustomSizedTexture(this.getXScaled(), this.getYScaled(), u, v, this.getWidthScaled(), this.getHeightScaled(), textureWidth, textureHeight);
+			GlStateManager.enableBlend();
 		}
 	}
 

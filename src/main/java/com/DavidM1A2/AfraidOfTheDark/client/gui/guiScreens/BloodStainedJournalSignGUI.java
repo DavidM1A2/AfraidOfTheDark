@@ -22,14 +22,13 @@ import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 
 public class BloodStainedJournalSignGUI extends AOTDGuiScreen
 {
 	private AOTDGuiTextField nameSignField;
 	private static final TrueTypeFont TEXT_FIELD_FONT = Utility.createTrueTypeFont("Targa MS Hand", 45f, false);
+	private static final TrueTypeFont SIGN_BUTTON_FONT = Utility.createTrueTypeFont("Targa MS Hand", 45f, false);
 
 	public BloodStainedJournalSignGUI()
 	{
@@ -42,7 +41,9 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
 		this.nameSignField.setTextColor(Color.red);
 		backgroundPanel.add(this.nameSignField);
 
-		AOTDGuiButton signButton = new AOTDGuiButton(75, 130, 100, 25, null, "afraidofthedark:textures/gui/signButton.png", "afraidofthedark:textures/gui/signButtonHovered.png");
+		AOTDGuiButton signButton = new AOTDGuiButton(75, 130, 100, 25, SIGN_BUTTON_FONT, "afraidofthedark:textures/gui/signButton.png", "afraidofthedark:textures/gui/signButtonHovered.png");
+		signButton.setText("Sign");
+		signButton.setTextColor(Color.RED);
 		signButton.addActionListener(new AOTDActionListener()
 		{
 			@Override
@@ -52,7 +53,6 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
 				{
 					if (component.isHovered())
 					{
-						EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
 						entityPlayer.playSound("gui.button.press", 1.0f, 1.0f);
 						if (BloodStainedJournalSignGUI.this.nameSignField.getText().equals(entityPlayer.getDisplayName().getUnformattedText()))
 						{
@@ -96,7 +96,7 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
 		{
 			if (keyCode == INVENTORY_KEYCODE)
 			{
-				Minecraft.getMinecraft().thePlayer.closeScreen();
+				entityPlayer.closeScreen();
 				GL11.glFlush();
 			}
 		}
@@ -106,5 +106,11 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
 	public boolean inventoryToCloseGuiScreen()
 	{
 		return false;
+	}
+
+	@Override
+	public boolean drawGradientBackground()
+	{
+		return true;
 	}
 }

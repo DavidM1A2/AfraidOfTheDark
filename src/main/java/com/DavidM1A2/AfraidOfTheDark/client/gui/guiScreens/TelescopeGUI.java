@@ -51,11 +51,11 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
 		telescopeImage.setU(this.guiOffsetX + (3840 / 2));
 		telescopeImage.setV(this.guiOffsetY + (2160 / 2));
 
-		int numberOfMeteors = 50 + Minecraft.getMinecraft().thePlayer.getRNG().nextInt(50);
+		int numberOfMeteors = 50 + entityPlayer.getRNG().nextInt(50);
 		for (int i = 0; i < numberOfMeteors; i++)
 		{
 			AOTDGuiMeteorButton nextToAdd = null;
-			if (AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).isResearched(ResearchTypes.AstronomyII))
+			if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.AstronomyII))
 				nextToAdd = new AOTDGuiMeteorButton(Minecraft.getMinecraft().theWorld.rand.nextInt(3840 * 2) - 3840, Minecraft.getMinecraft().theWorld.rand.nextInt(2160 * 2) - 2160, 64, 64, MeteorTypes.values()[Minecraft.getMinecraft().theWorld.rand.nextInt(MeteorTypes.values().length)]);
 			else
 				nextToAdd = new AOTDGuiMeteorButton(Minecraft.getMinecraft().theWorld.rand.nextInt(3840 * 2) - 3840, Minecraft.getMinecraft().theWorld.rand.nextInt(2160 * 2) - 2160, 64, 64, MeteorTypes.silver);
@@ -67,8 +67,8 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
 				{
 					if (actionType == ActionType.MousePressed && component.isHovered())
 					{
-						Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(TelescopeGUI.this.createMeteorMessage(((AOTDGuiMeteorButton) component).getMyType())));
-						Minecraft.getMinecraft().thePlayer.closeScreen();
+						entityPlayer.addChatMessage(new ChatComponentText(TelescopeGUI.this.createMeteorMessage(((AOTDGuiMeteorButton) component).getMyType())));
+						entityPlayer.closeScreen();
 					}
 				}
 			});
@@ -135,6 +135,12 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
 
 	@Override
 	public boolean inventoryToCloseGuiScreen()
+	{
+		return true;
+	}
+
+	@Override
+	public boolean drawGradientBackground()
 	{
 		return true;
 	}

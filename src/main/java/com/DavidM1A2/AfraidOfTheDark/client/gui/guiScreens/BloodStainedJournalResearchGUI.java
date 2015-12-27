@@ -18,8 +18,6 @@ import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
@@ -71,7 +69,6 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 					{
 						if (actionType == ActionType.MousePressed && component.isHovered())
 						{
-							EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
 							ClientData.currentlySelected = current.getResearch();
 							if (AOTDPlayerData.get(entityPlayer).isResearched(current.getResearch()))
 								entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
@@ -82,12 +79,12 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 						{
 							if (current.getParent().getParent().intersects(current))
 							{
-								if (current.isHovered() && AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).isResearched(current.getResearch()))
+								if (current.isHovered() && AOTDPlayerData.get(entityPlayer).isResearched(current.getResearch()))
 								{
 									fontRendererObj.drawString(current.getResearch().formattedString(), current.getXScaled() + current.getHeightScaled(), current.getYScaled(), 0xFF3399);
 									fontRendererObj.drawString(EnumChatFormatting.ITALIC + current.getResearch().getTooltip(), current.getXScaled() + current.getHeightScaled() + 2, current.getYScaled() + 10, 0xE62E8A);
 								}
-								else if (current.isHovered() && AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).canResearch(current.getResearch()))
+								else if (current.isHovered() && AOTDPlayerData.get(entityPlayer).canResearch(current.getResearch()))
 								{
 									fontRendererObj.drawString("?", current.getXScaled() + current.getHeightScaled(), current.getYScaled(), 0xFF3399);
 									fontRendererObj.drawString(EnumChatFormatting.ITALIC + "Unknown Research", current.getXScaled() + current.getHeightScaled() + 2, current.getYScaled() + 10, 0xE62E8A);
@@ -96,7 +93,7 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 						}
 						else if (actionType == ActionType.MouseEnterBoundingBox)
 							if (component.isVisible())
-								Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:buttonHover", 0.7f, 1.9f);
+								entityPlayer.playSound("afraidofthedark:buttonHover", 0.7f, 1.9f);
 					}
 				}
 			}
@@ -112,7 +109,7 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 			researchNode.addActionListener(nodeListener);
 			if (researchNode.getResearch().getPrevious() != null)
 			{
-				if (AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).isResearched(researchNode.getResearch()) || AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).canResearch(researchNode.getResearch()))
+				if (AOTDPlayerData.get(entityPlayer).isResearched(researchNode.getResearch()) || AOTDPlayerData.get(entityPlayer).canResearch(researchNode.getResearch()))
 				{
 					ResearchTypes previous = researchNode.getResearch().getPrevious();
 					ResearchTypes current = researchNode.getResearch();
@@ -180,6 +177,12 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 
 	@Override
 	public boolean inventoryToCloseGuiScreen()
+	{
+		return true;
+	}
+
+	@Override
+	public boolean drawGradientBackground()
 	{
 		return true;
 	}

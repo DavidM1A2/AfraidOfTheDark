@@ -16,7 +16,6 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiScreen;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 
 public class BloodStainedJournalCheatSheetGUI extends AOTDGuiScreen
@@ -27,7 +26,7 @@ public class BloodStainedJournalCheatSheetGUI extends AOTDGuiScreen
 		this.getContentPane().add(background);
 		AOTDGuiImage backgroundImage = new AOTDGuiImage(0, 0, 256, 256, "textures/gui/bloodStainedJournalCheatSheet.png");
 		background.add(backgroundImage);
-		AOTDGuiButton confirm = new AOTDGuiButton(30, 120, 80, 30, null, "afraidofthedark:textures/gui/bloodStainedJournalCheatSheetConfirm.png");
+		AOTDGuiButton confirm = new AOTDGuiButton(30, 200, 80, 20, null, "afraidofthedark:textures/gui/bloodStainedJournalCheatSheetConfirm.png");
 		confirm.addActionListener(new AOTDActionListener()
 		{
 			@Override
@@ -39,18 +38,20 @@ public class BloodStainedJournalCheatSheetGUI extends AOTDGuiScreen
 					{
 						for (ResearchTypes type : ResearchTypes.values())
 						{
-							if (!AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).isResearched(type))
+							if (!AOTDPlayerData.get(entityPlayer).isResearched(type))
 							{
-								AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).unlockResearch(type, false);
+								AOTDPlayerData.get(entityPlayer).unlockResearch(type, false);
 							}
 						}
-						Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("All researches unlocked."));
-						Minecraft.getMinecraft().thePlayer.closeScreen();
+						entityPlayer.playSound("gui.button.press", 1.0f, 1.0f);
+						entityPlayer.addChatMessage(new ChatComponentText("All researches unlocked."));
+						entityPlayer.closeScreen();
 					}
 				}
 				else if (actionType == ActionType.MouseEnterBoundingBox)
 				{
 					component.setColor(new Color(230, 230, 230));
+					entityPlayer.playSound("afraidofthedark:buttonHover", 0.7f, 1.9f);
 				}
 				else if (actionType == ActionType.MouseExitBoundingBox)
 				{
@@ -58,7 +59,7 @@ public class BloodStainedJournalCheatSheetGUI extends AOTDGuiScreen
 				}
 			}
 		});
-		AOTDGuiButton deny = new AOTDGuiButton(140, 120, 80, 30, null, "afraidofthedark:textures/gui/bloodStainedJournalCheatSheetDeny.png");
+		AOTDGuiButton deny = new AOTDGuiButton(140, 200, 80, 20, null, "afraidofthedark:textures/gui/bloodStainedJournalCheatSheetDeny.png");
 		deny.addActionListener(new AOTDActionListener()
 		{
 			@Override
@@ -68,12 +69,14 @@ public class BloodStainedJournalCheatSheetGUI extends AOTDGuiScreen
 				{
 					if (component.isHovered())
 					{
-						Minecraft.getMinecraft().thePlayer.closeScreen();
+						entityPlayer.playSound("gui.button.press", 1.0f, 1.0f);
+						entityPlayer.closeScreen();
 					}
 				}
 				else if (actionType == ActionType.MouseEnterBoundingBox)
 				{
 					component.setColor(new Color(230, 230, 230));
+					entityPlayer.playSound("afraidofthedark:buttonHover", 0.7f, 1.9f);
 				}
 				else if (actionType == ActionType.MouseExitBoundingBox)
 				{
@@ -87,6 +90,12 @@ public class BloodStainedJournalCheatSheetGUI extends AOTDGuiScreen
 
 	@Override
 	public boolean inventoryToCloseGuiScreen()
+	{
+		return true;
+	}
+
+	@Override
+	public boolean drawGradientBackground()
 	{
 		return true;
 	}

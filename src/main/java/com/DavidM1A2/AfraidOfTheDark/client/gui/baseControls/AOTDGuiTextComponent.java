@@ -9,6 +9,7 @@ public abstract class AOTDGuiTextComponent extends AOTDGuiContainer
 {
 	private TrueTypeFont font;
 	private String text = "";
+	private TextAlignment textAlignment = TextAlignment.LEFT;
 
 	public AOTDGuiTextComponent(int x, int y, int width, int height, TrueTypeFont font)
 	{
@@ -34,5 +35,15 @@ public abstract class AOTDGuiTextComponent extends AOTDGuiContainer
 	public String getText()
 	{
 		return this.text;
+	}
+
+	public void setTextAlignment(TextAlignment textAlignment)
+	{
+		this.textAlignment = textAlignment;
+	}
+
+	public TextAlignment getTextAlignment()
+	{
+		return this.textAlignment;
 	}
 }

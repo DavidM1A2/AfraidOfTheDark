@@ -12,6 +12,7 @@ import org.lwjgl.opengl.GL11;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDGuiUtility;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 
@@ -21,6 +22,7 @@ public abstract class AOTDGuiScreen extends GuiScreen
 	private double guiScale = 1.0f;
 	private final AOTDGuiPanel contentPane;
 	protected final int INVENTORY_KEYCODE = Minecraft.getMinecraft().gameSettings.keyBindInventory.getKeyCode();
+	protected final EntityPlayerSP entityPlayer = Minecraft.getMinecraft().thePlayer;
 
 	public AOTDGuiScreen()
 	{
@@ -58,6 +60,8 @@ public abstract class AOTDGuiScreen extends GuiScreen
 	public void drawScreen(int mouseX, int mouseY, float partialTicks)
 	{
 		GlStateManager.enableBlend();
+		if (this.drawGradientBackground())
+			this.drawDefaultBackground();
 		this.getContentPane().draw();
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		GlStateManager.disableBlend();
@@ -102,4 +106,6 @@ public abstract class AOTDGuiScreen extends GuiScreen
 	}
 
 	public abstract boolean inventoryToCloseGuiScreen();
+
+	public abstract boolean drawGradientBackground();
 }

@@ -24,7 +24,7 @@ public class AOTDGuiResearchNodeButton extends AOTDGuiButton
 	{
 		super(x, y, 32, 32, null, "afraidofthedark:textures/gui/nodeStandard2.png");
 		this.research = research;
-		this.setVisible(AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).isResearched(this.research) || AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).canResearch(this.research));
+		this.setVisible(AOTDPlayerData.get(entityPlayer).isResearched(this.research) || AOTDPlayerData.get(entityPlayer).canResearch(this.research));
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class AOTDGuiResearchNodeButton extends AOTDGuiButton
 			super.draw();
 
 			// Draw the button differently depending on if the research is researched, not research, or almost researched
-			if (AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).isResearched(this.research))
+			if (AOTDPlayerData.get(entityPlayer).isResearched(this.research))
 			{
 				Minecraft.getMinecraft().getTextureManager().bindTexture(this.research.getIcon());
 				Gui.drawScaledCustomSizeModalRect(this.getXScaled() + 2, this.getYScaled() + 2, 0, 0, 32, 32, this.getWidthScaled(), this.getHeightScaled(), 32, 32);

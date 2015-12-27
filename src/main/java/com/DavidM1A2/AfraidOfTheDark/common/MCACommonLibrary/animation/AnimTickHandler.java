@@ -3,6 +3,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
+import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
 
 import net.minecraft.entity.Entity;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -22,7 +23,8 @@ public class AnimTickHandler
 
 	public void addEntity(IMCAnimatedEntity entity)
 	{
-		activeEntities.add(entity);
+		if (ConfigurationHandler.enableAOTDAnimations)
+			activeEntities.add(entity);
 	}
 
 	//Called when the client ticks. 

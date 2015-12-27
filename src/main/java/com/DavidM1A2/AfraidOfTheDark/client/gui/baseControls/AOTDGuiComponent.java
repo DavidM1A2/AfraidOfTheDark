@@ -14,6 +14,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 
@@ -27,6 +29,7 @@ public abstract class AOTDGuiComponent
 	private Rectangle scaledBoundingBox = new Rectangle();
 	private List<AOTDActionListener> actionListeners = new LinkedList<AOTDActionListener>();
 	private Color color = Color.WHITE;
+	protected final EntityPlayerSP entityPlayer = Minecraft.getMinecraft().thePlayer;
 
 	public AOTDGuiComponent(int x, int y, int width, int height)
 	{

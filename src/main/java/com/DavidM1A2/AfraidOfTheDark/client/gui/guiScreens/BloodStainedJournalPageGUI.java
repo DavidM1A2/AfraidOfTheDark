@@ -29,8 +29,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.recipe.ConvertedRecipe;
 import com.DavidM1A2.AfraidOfTheDark.common.recipe.RecipeUtility;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 
 public class BloodStainedJournalPageGUI extends AOTDGuiScreen
@@ -115,7 +113,6 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 			{
 				if (actionType == ActionType.MousePressed && component.isHovered())
 				{
-					EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
 					entityPlayer.closeScreen();
 					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_ID, entityPlayer.worldObj, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ());
 				}
@@ -175,7 +172,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 		this.forwardButton.setVisible(this.hasPageForward());
 		this.backwardButton.setVisible(this.hasPageBackward());
 
-		Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:pageTurn", 1.0F, 1.0F);
+		entityPlayer.playSound("afraidofthedark:pageTurn", 1.0F, 1.0F);
 	}
 
 	private void advancePage()
@@ -183,7 +180,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 		if (this.hasPageForward())
 		{
 			pageNumber = pageNumber + 2;
-			Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:pageTurn", 1.0F, 1.0F);
+			entityPlayer.playSound("afraidofthedark:pageTurn", 1.0F, 1.0F);
 		}
 		this.leftPageNumber.setText(Integer.toString(this.pageNumber + 1));
 		this.rightPageNumber.setText(Integer.toString(this.pageNumber + 2));
@@ -197,7 +194,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 		if (this.hasPageBackward())
 		{
 			pageNumber = pageNumber - 2;
-			Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:pageTurn", 1.0F, 1.0F);
+			entityPlayer.playSound("afraidofthedark:pageTurn", 1.0F, 1.0F);
 		}
 		this.leftPageNumber.setText(Integer.toString(this.pageNumber + 1));
 		this.rightPageNumber.setText(Integer.toString(this.pageNumber + 2));
@@ -270,7 +267,6 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 	{
 		if ((keyCode == INVENTORY_KEYCODE))
 		{
-			EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
 			entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
 		}
 		else if ((character == 'a') || (character == 'A') || (keyCode == Keyboard.KEY_LEFT))
@@ -296,5 +292,11 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 	public boolean inventoryToCloseGuiScreen()
 	{
 		return false;
+	}
+
+	@Override
+	public boolean drawGradientBackground()
+	{
+		return true;
 	}
 }
