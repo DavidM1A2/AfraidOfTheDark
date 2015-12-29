@@ -1,4 +1,4 @@
-package com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls;
+package com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -20,37 +20,39 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
-import net.minecraft.client.gui.Gui;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.TextAlignment;
+import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
+
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 /**
- * A TrueType font implementation originally for Slick, edited for Bobjob's Engine
- * 
- * @original author James Chambers (Jimmy)
- * @original author Jeremy Adams (elias4444)
- * @original author Kevin Glass (kevglass)
- * @original author Peter Korzuszek (genail)
- * 
- * @new version edited by David Aaron Muhar (bobjob)
- * @new version edited by David_M1A2 for minecraft compatibility
+ * TrueTyper: Open Source TTF implementation for Minecraft. Modified from Slick2D - under BSD Licensing - http://slick.ninjacave.com/license/
+ *
+ * Copyright (c) 2013 - Slick2D
+ *
+ * All rights reserved.
  */
+
 public class TrueTypeFont
 {
+	public final static int ALIGN_LEFT = 0, ALIGN_RIGHT = 1, ALIGN_CENTER = 2;
 	/** Array that holds necessary information about the font characters */
-	private IntObject[] charArray = new IntObject[256];
+	private FloatObject[] charArray = new FloatObject[256];
 
 	/** Map of user defined font characters (Character <-> IntObject) */
 	private Map customChars = new HashMap();
 
 	/** Boolean flag on whether AntiAliasing is enabled or not */
-	private boolean antiAlias;
+	protected boolean antiAlias;
 
 	/** Font's size */
-	private int fontSize = 0;
+	private float fontSize = 0;
 
 	/** Font's height */
-	private int fontHeight = 0;
+	private float fontHeight = 0;
 
 	/** Texture used to cache the font 0-255 characters */
 	private int fontTextureID;
@@ -62,26 +64,26 @@ public class TrueTypeFont
 	private int textureHeight = 1024;
 
 	/** A reference to Java's AWT Font that we create our font texture from */
-	private Font font;
+	protected Font font;
 
 	/** The font metrics for our Java AWT font */
 	private FontMetrics fontMetrics;
 
 	private int correctL = 9, correctR = 8;
 
-	private class IntObject
+	private class FloatObject
 	{
 		/** Character's width */
-		public int width;
+		public float width;
 
 		/** Character's height */
-		public int height;
+		public float height;
 
 		/** Character's stored x position */
-		public int storedX;
+		public float storedX;
 
 		/** Character's stored y position */
-		public int storedY;
+		public float storedY;
 	}
 
 	public TrueTypeFont(Font font, boolean antiAlias, char[] additionalChars)
@@ -91,7 +93,8 @@ public class TrueTypeFont
 		this.antiAlias = antiAlias;
 
 		createSet(additionalChars);
-
+		if (ConfigurationHandler.debugMessages)
+			System.out.println("TrueTypeFont loaded: " + font + " - AntiAlias = " + antiAlias);
 		fontHeight -= 1;
 		if (fontHeight <= 0)
 			fontHeight = 1;
@@ -127,13 +130,13 @@ public class TrueTypeFont
 		}
 		g.setFont(font);
 		fontMetrics = g.getFontMetrics();
-		int charwidth = fontMetrics.charWidth(ch) + 8;
+		float charwidth = fontMetrics.charWidth(ch) + 8;
 
 		if (charwidth <= 0)
 		{
 			charwidth = 7;
 		}
-		int charheight = fontMetrics.getHeight() + 3;
+		float charheight = fontMetrics.getHeight() + 3;
 		if (charheight <= 0)
 		{
 			charheight = fontSize;
@@ -141,7 +144,7 @@ public class TrueTypeFont
 
 		// Create another image holding the character we are creating
 		BufferedImage fontImage;
-		fontImage = new BufferedImage(charwidth, charheight, BufferedImage.TYPE_INT_ARGB);
+		fontImage = new BufferedImage((int) charwidth, (int) charheight, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D gt = (Graphics2D) fontImage.getGraphics();
 		if (antiAlias == true)
 		{
@@ -160,7 +163,7 @@ public class TrueTypeFont
 
 	private void createSet(char[] customCharsArray)
 	{
-		// If there are custom chars then I expand the font texture twice       
+		// If there are custom chars then I expand the font texture twice		
 		if (customCharsArray != null && customCharsArray.length > 0)
 		{
 			textureWidth *= 2;
@@ -179,9 +182,9 @@ public class TrueTypeFont
 			g.setColor(new Color(0, 0, 0, 1));
 			g.fillRect(0, 0, textureWidth, textureHeight);
 
-			int rowHeight = 0;
-			int positionX = 0;
-			int positionY = 0;
+			float rowHeight = 0;
+			float positionX = 0;
+			float positionY = 0;
 
 			int customCharsLength = (customCharsArray != null) ? customCharsArray.length : 0;
 
@@ -193,7 +196,7 @@ public class TrueTypeFont
 
 				BufferedImage fontImage = getFontImage(ch);
 
-				IntObject newIntObject = new IntObject();
+				FloatObject newIntObject = new FloatObject();
 
 				newIntObject.width = fontImage.getWidth();
 				newIntObject.height = fontImage.getHeight();
@@ -219,7 +222,7 @@ public class TrueTypeFont
 				}
 
 				// Draw it here
-				g.drawImage(fontImage, positionX, positionY, null);
+				g.drawImage(fontImage, (int) positionX, (int) positionY, null);
 
 				positionX += newIntObject.width;
 
@@ -251,93 +254,106 @@ public class TrueTypeFont
 	{
 		float DrawWidth = Math.abs(drawX2 - drawX);
 		float DrawHeight = Math.abs(drawY2 - drawY);
-		float TextureSrcX = srcX / textureWidth;
-		float TextureSrcY = srcY / textureHeight;
 		float SrcWidth = srcX2 - srcX;
 		float SrcHeight = srcY2 - srcY;
-		float RenderWidth = SrcWidth / textureWidth;
-		float RenderHeight = SrcHeight / textureHeight;
+		WorldRenderer worldRenderer = Tessellator.getInstance().getWorldRenderer();
 
-		Gui.drawScaledCustomSizeModalRect((int) drawX, (int) drawY, srcX + SrcWidth, srcY + SrcHeight, (int) -SrcWidth, (int) -SrcHeight, (int) DrawWidth, (int) DrawHeight, textureWidth, textureHeight);
+        worldRenderer.addVertexWithUV(drawX, drawY + DrawHeight, 0.0D, (srcX + SrcWidth) / textureWidth, srcY / textureHeight);
+        //GL11.glTexCoord2f(TextureSrcX, TextureSrcY + RenderHeight);
+		//GL11.glVertex2f(drawX, drawY + DrawHeight);
 
-		//		GL11.glTexCoord2f(TextureSrcX, TextureSrcY);
-		//		GL11.glVertex2f(drawX, drawY);
-		//		GL11.glTexCoord2f(TextureSrcX, TextureSrcY + RenderHeight);
-		//		GL11.glVertex2f(drawX, drawY + DrawHeight);
-		//		GL11.glTexCoord2f(TextureSrcX + RenderWidth, TextureSrcY + RenderHeight);
-		//		GL11.glVertex2f(drawX + DrawWidth, drawY + DrawHeight);
-		//		GL11.glTexCoord2f(TextureSrcX + RenderWidth, TextureSrcY);
-		//		GL11.glVertex2f(drawX + DrawWidth, drawY);
+		worldRenderer.addVertexWithUV(drawX + DrawWidth, drawY + DrawHeight, 0.0D, srcX / textureWidth, srcY / textureHeight);
+		//GL11.glTexCoord2f(TextureSrcX + RenderWidth, TextureSrcY + RenderHeight);
+		//GL11.glVertex2f(drawX + DrawWidth, drawY + DrawHeight);
+
+		worldRenderer.addVertexWithUV(drawX + DrawWidth, drawY, 0.0D, srcX / textureWidth, (srcY + SrcHeight) / textureHeight);
+		//GL11.glTexCoord2f(TextureSrcX + RenderWidth, TextureSrcY);
+		//GL11.glVertex2f(drawX + DrawWidth, drawY);
+				
+		worldRenderer.addVertexWithUV(drawX, drawY, 0.0D, (srcX + SrcWidth) / textureWidth, (srcY + SrcHeight) / textureHeight);
+		//GL11.glTexCoord2f(TextureSrcX, TextureSrcY);
+		//GL11.glVertex2f(drawX, drawY);
 	}
 
-	public int getWidth(String whatchars)
+	public float getWidth(String whatchars)
 	{
-		int totalwidth = 0;
-		IntObject intObject = null;
+		float totalwidth = 0;
+		FloatObject floatObject = null;
 		int currentChar = 0;
+		float lastWidth = -10f;
 		for (int i = 0; i < whatchars.length(); i++)
 		{
 			currentChar = whatchars.charAt(i);
 			if (currentChar < 256)
 			{
-				intObject = charArray[currentChar];
+				floatObject = charArray[currentChar];
 			}
 			else
 			{
-				intObject = (IntObject) customChars.get(new Character((char) currentChar));
+				floatObject = (FloatObject) customChars.get(new Character((char) currentChar));
 			}
 
-			if (intObject != null)
-				totalwidth += intObject.width;
+			if (floatObject != null)
+			{
+				totalwidth += floatObject.width / 2;
+				lastWidth = floatObject.width;
+			}
 		}
-		return totalwidth;
+		//System.out.println("Size: "+totalwidth);
+		return this.fontMetrics.stringWidth(whatchars);
+		//return (totalwidth);
 	}
 
-	public int getHeight()
+	public float getHeight()
 	{
 		return fontHeight;
 	}
 
-	public int getHeight(String HeightString)
+	public float getHeight(String HeightString)
 	{
 		return fontHeight;
 	}
 
-	public int getLineHeight()
+	public float getLineHeight()
 	{
 		return fontHeight;
 	}
 
-	public void drawString(float x, float y, String whatchars, float scaleX, float scaleY)
+	public void drawString(float x, float y, String whatchars, float scaleX, float scaleY, float... rgba)
 	{
-		drawString(x, y, whatchars, 0, whatchars.length() - 1, scaleX, scaleY, TextAlignment.LEFT);
+		if (rgba.length == 0)
+			rgba = new float[]
+			{ 1f, 1f, 1f, 1f };
+		drawString(x, y, whatchars, 0, whatchars.length() - 1, scaleX, scaleY, TextAlignment.ALIGN_LEFT, rgba);
 	}
 
-	public void drawString(float x, float y, String whatchars, float scaleX, float scaleY, TextAlignment format)
+	public void drawString(float x, float y, String whatchars, float scaleX, float scaleY, TextAlignment format, float... rgba)
 	{
-		drawString(x, y, whatchars, 0, whatchars.length() - 1, scaleX, scaleY, format);
+		if (rgba.length == 0)
+			rgba = new float[]
+			{ 1f, 1f, 1f, 1f };
+
+		drawString(x, y, whatchars, 0, whatchars.length() - 1, scaleX, scaleY, format, rgba);
 	}
 
-	public void drawString(float x, float y, String whatchars, int startIndex, int endIndex, float scaleX, float scaleY, TextAlignment format)
+	public void drawString(float x, float y, String whatchars, int startIndex, int endIndex, float scaleX, float scaleY, TextAlignment format, float... rgba)
 	{
-		//		GL11.glMatrixMode(GL11.GL_PROJECTION); // Select The Projection Matrix
-		//		GL11.glPushMatrix(); // Store The Projection Matrix
-		//		GL11.glLoadIdentity(); // Reset The Projection Matrix
-		//		GL11.glOrtho(0, Minecraft.getMinecraft().displayWidth, 0, Minecraft.getMinecraft().displayHeight, -1, 1); // Set Up An Ortho Screen
-		//		GL11.glMatrixMode(GL11.GL_MODELVIEW); // Select The Modelview Matrix
-		//		GL11.glPushMatrix(); // Store The Modelview Matrix
-		//		GL11.glLoadIdentity(); // Reset The Modelview Matrix
-
-		IntObject intObject = null;
+		if (rgba.length == 0)
+			rgba = new float[]
+			{ 1f, 1f, 1f, 1f };
+		GL11.glPushMatrix();
+		GL11.glScalef(scaleX, scaleY, 1.0f);
+		
+		FloatObject floatObject = null;
 		int charCurrent;
 
-		int totalwidth = 0;
+		float totalwidth = 0;
 		int i = startIndex, d, c;
 		float startY = 0;
 
 		switch (format)
 		{
-			case RIGHT:
+			case ALIGN_RIGHT:
 			{
 				d = -1;
 				c = correctR;
@@ -350,7 +366,7 @@ public class TrueTypeFont
 				}
 				break;
 			}
-			case CENTER:
+			case ALIGN_CENTER:
 			{
 				for (int l = startIndex; l <= endIndex; l++)
 				{
@@ -359,17 +375,17 @@ public class TrueTypeFont
 						break;
 					if (charCurrent < 256)
 					{
-						intObject = charArray[charCurrent];
+						floatObject = charArray[charCurrent];
 					}
 					else
 					{
-						intObject = (IntObject) customChars.get(new Character((char) charCurrent));
+						floatObject = (FloatObject) customChars.get(new Character((char) charCurrent));
 					}
-					totalwidth += intObject.width - correctL;
+					totalwidth += floatObject.width - correctL;
 				}
 				totalwidth /= -2;
 			}
-			case LEFT:
+			case ALIGN_LEFT:
 			default:
 			{
 				d = 1;
@@ -378,33 +394,35 @@ public class TrueTypeFont
 			}
 
 		}
-
 		GlStateManager.bindTexture(fontTextureID);
-		//GL11.glBindTexture(GL11.GL_TEXTURE_2D, fontTextureID);
-		//GL11.glBegin(GL11.GL_QUADS);
-
+		Tessellator tessellator = Tessellator.getInstance();
+		WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+		worldRenderer.startDrawingQuads();
+		//	GL11.glBegin(GL11.GL_QUADS);
+		if (rgba.length == 4)
+			worldRenderer.setColorRGBA_F(rgba[0], rgba[1], rgba[2], rgba[3]);
 		while (i >= startIndex && i <= endIndex)
 		{
 
 			charCurrent = whatchars.charAt(i);
 			if (charCurrent < 256)
 			{
-				intObject = charArray[charCurrent];
+				floatObject = charArray[charCurrent];
 			}
 			else
 			{
-				intObject = (IntObject) customChars.get(new Character((char) charCurrent));
+				floatObject = (FloatObject) customChars.get(new Character((char) charCurrent));
 			}
 
-			if (intObject != null)
+			if (floatObject != null)
 			{
 				if (d < 0)
-					totalwidth += (intObject.width - c) * d;
+					totalwidth += (floatObject.width - c) * d;
 				if (charCurrent == '\n')
 				{
 					startY -= fontHeight * d;
 					totalwidth = 0;
-					if (format == TextAlignment.CENTER)
+					if (format == TextAlignment.ALIGN_CENTER)
 					{
 						for (int l = i + 1; l <= endIndex; l++)
 						{
@@ -413,13 +431,13 @@ public class TrueTypeFont
 								break;
 							if (charCurrent < 256)
 							{
-								intObject = charArray[charCurrent];
+								floatObject = charArray[charCurrent];
 							}
 							else
 							{
-								intObject = (IntObject) customChars.get(new Character((char) charCurrent));
+								floatObject = (FloatObject) customChars.get(new Character((char) charCurrent));
 							}
-							totalwidth += intObject.width - correctL;
+							totalwidth += floatObject.width - correctL;
 						}
 						totalwidth /= -2;
 					}
@@ -427,21 +445,18 @@ public class TrueTypeFont
 				}
 				else
 				{
-					drawQuad((totalwidth + intObject.width) * scaleX + x, startY * scaleY + y, totalwidth * scaleX + x, (startY + intObject.height) * scaleY + y, intObject.storedX + intObject.width, intObject.storedY + intObject.height, intObject.storedX, intObject.storedY);
+					drawQuad((totalwidth + floatObject.width) + x / scaleX, startY + y / scaleY, totalwidth + x / scaleX, (startY + floatObject.height) + y / scaleY, floatObject.storedX + floatObject.width, floatObject.storedY + floatObject.height, floatObject.storedX, floatObject.storedY);
 					if (d > 0)
-						totalwidth += (intObject.width - c) * d;
+						totalwidth += (floatObject.width - c) * d;
 				}
 				i += d;
 
 			}
 		}
+		tessellator.draw();
+		//	GL11.glEnd();
 
-		//GL11.glEnd();
-
-		//		GL11.glMatrixMode(GL11.GL_PROJECTION); // Select The Projection Matrix
-		//		GL11.glPopMatrix(); // Restore The Old Projection Matrix
-		//		GL11.glMatrixMode(GL11.GL_MODELVIEW); // Select The Modelview Matrix
-		//		GL11.glPopMatrix(); // Restore The Old Projection Matrix
+		GL11.glPopMatrix();
 	}
 
 	public static int loadImage(BufferedImage bufferedImage)
@@ -485,8 +500,14 @@ public class TrueTypeFont
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_CLAMP);
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_CLAMP);
 
-			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
-			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
+			//GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
+			//GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_NEAREST);
+
+			//GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
+			//GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST_MIPMAP_LINEAR);
+			//GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST_MIPMAP_NEAREST);
 
 			GL11.glTexEnvf(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE);
 
@@ -497,15 +518,10 @@ public class TrueTypeFont
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			FMLCommonHandler.instance().exitJava(-1, true);
+			FMLCommonHandler.instance().exitJava(-1, false);
 		}
 
 		return -1;
-	}
-
-	public int getFontSize()
-	{
-		return this.fontSize;
 	}
 
 	public static boolean isSupported(String fontname)
@@ -536,5 +552,11 @@ public class TrueTypeFont
 		scratch.put(0, fontTextureID);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
 		GL11.glDeleteTextures(scratch);
+	}
+	
+	// ADDED HERE
+	public int getFontSize()
+	{
+		return (int) this.fontSize;
 	}
 }

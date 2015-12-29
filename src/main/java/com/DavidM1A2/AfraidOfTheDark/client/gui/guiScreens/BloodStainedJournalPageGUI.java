@@ -24,12 +24,14 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiRecipe;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiScreen;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiTextBox;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.TrueTypeFont;
+import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.FontLoader;
+import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.TrueTypeFont;
 import com.DavidM1A2.AfraidOfTheDark.common.recipe.ConvertedRecipe;
 import com.DavidM1A2.AfraidOfTheDark.common.recipe.RecipeUtility;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
 
 public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 {
@@ -57,9 +59,9 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 
 	private AOTDGuiPanel journal;
 
-	private static final TrueTypeFont TITLE_FONT = Utility.createTrueTypeFont("Targa MS Hand", 50f, true);
-	private static final TrueTypeFont PAGE_NUMBER_FONT = Utility.createTrueTypeFont("Targa MS Hand", 32f, false);
-	private static final TrueTypeFont PAGE_TEXT = Utility.createTrueTypeFont("Targa MS Hand", 32f, false);
+	private static final TrueTypeFont TITLE_FONT = FontLoader.createFont(new ResourceLocation("afraidofthedark:fonts/Targa MS Hand.ttf"), 50f, true);
+	private static final TrueTypeFont PAGE_NUMBER_FONT = FontLoader.createFont(new ResourceLocation("afraidofthedark:fonts/Targa MS Hand.ttf"), 32f, false);
+	private static final TrueTypeFont PAGE_TEXT = FontLoader.createFont(new ResourceLocation("afraidofthedark:fonts/Targa MS Hand.ttf"), 32f, false);
 
 	private int pageNumber = 0;
 
@@ -84,22 +86,22 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 
 		AOTDGuiLabel title = new AOTDGuiLabel(5, 15, TITLE_FONT);
 		title.setText(titleText);
-		title.setColor(new Color(200, 0, 0));
+		title.setTextColor(new Color(200, 0, 0));
 		this.journal.add(title);
 
 		this.leftPageNumber = new AOTDGuiLabel(8, journalHeight - 40, PAGE_NUMBER_FONT);
 		this.rightPageNumber = new AOTDGuiLabel(230, journalHeight - 40, PAGE_NUMBER_FONT);
 		this.leftPageNumber.setText(Integer.toString(1));
 		this.rightPageNumber.setText(Integer.toString(2));
-		this.leftPageNumber.setColor(new Color(200, 0, 0));
-		this.rightPageNumber.setColor(new Color(200, 0, 0));
+		this.leftPageNumber.setTextColor(new Color(200, 0, 0));
+		this.rightPageNumber.setTextColor(new Color(200, 0, 0));
 		this.journal.add(this.leftPageNumber);
 		this.journal.add(this.rightPageNumber);
 
 		this.leftPage = new AOTDGuiTextBox(5, 45, journalWidth / 2 - 10, journalHeight - 80, PAGE_TEXT, 24);
 		this.rightPage = new AOTDGuiTextBox(130, 45, journalWidth / 2 - 10, journalHeight - 80, PAGE_TEXT, 24);
-		this.leftPage.setColor(new Color(200, 0, 0));
-		this.rightPage.setColor(new Color(200, 0, 0));
+		this.leftPage.setTextColor(new Color(200, 0, 0));
+		this.rightPage.setTextColor(new Color(200, 0, 0));
 		this.journal.add(this.leftPage);
 		this.journal.add(this.rightPage);
 

@@ -12,6 +12,7 @@ import org.lwjgl.input.Keyboard;
 
 import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDGuiUtility;
+import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.TrueTypeFont;
 
 import net.minecraft.util.ChatAllowedCharacters;
 import net.minecraft.util.MathHelper;
@@ -123,8 +124,7 @@ public class AOTDGuiTextField extends AOTDGuiTextComponent
 
 	private void updateAmountOfScroll()
 	{
-		// /4 since guiScale auto uses that #
-		int textWidth = this.getFont().getWidth(this.getText()) / 4;
+		float textWidth = this.getFont().getWidth(this.getText()) / (AOTDGuiUtility.getScaledResolution().getScaleFactor() + 1);
 		if (textWidth > this.getWidth())
 		{
 			this.textField.setX((int) (this.textField.getParent().getX() - 0.85 * (textWidth - this.getWidth())));

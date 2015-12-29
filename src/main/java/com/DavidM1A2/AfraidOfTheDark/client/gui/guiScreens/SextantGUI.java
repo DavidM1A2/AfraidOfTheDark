@@ -19,21 +19,23 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiImage;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiScreen;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiTextField;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.TrueTypeFont;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
+import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.FontLoader;
+import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.TrueTypeFont;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SpawnMeteor;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ResourceLocation;
 
 public class SextantGUI extends AOTDGuiScreen
 {
 	private AOTDGuiTextField angle;
 	private AOTDGuiTextField latitude;
 	private AOTDGuiTextField longitude;
-	private static final TrueTypeFont TEXT_FIELD_FONT = Utility.createTrueTypeFont("Targa MS Hand", 50f, false);
+	private static final TrueTypeFont TEXT_FIELD_FONT = FontLoader.createFont(new ResourceLocation("afraidofthedark:fonts/Targa MS Hand.ttf"), 50f, false);
 
 	public SextantGUI()
 	{

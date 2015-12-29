@@ -1,4 +1,4 @@
-package com.DavidM1A2.AfraidOfTheDark.client.TrueTyper;
+package com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont;
 
 import java.util.ArrayList;
 

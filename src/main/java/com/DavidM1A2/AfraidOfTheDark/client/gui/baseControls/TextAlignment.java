@@ -7,7 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls;
 
 public enum TextAlignment
 {
-	LEFT,
-	RIGHT,
-	CENTER;
+	ALIGN_LEFT,
+	ALIGN_RIGHT,
+	ALIGN_CENTER;
 }

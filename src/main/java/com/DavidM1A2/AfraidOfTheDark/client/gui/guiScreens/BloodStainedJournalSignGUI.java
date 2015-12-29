@@ -17,18 +17,20 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiImage;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiScreen;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiTextField;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.TrueTypeFont;
+import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.FontLoader;
+import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.TrueTypeFont;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ResourceLocation;
 
 public class BloodStainedJournalSignGUI extends AOTDGuiScreen
 {
 	private AOTDGuiTextField nameSignField;
-	private static final TrueTypeFont TEXT_FIELD_FONT = Utility.createTrueTypeFont("Targa MS Hand", 45f, false);
-	private static final TrueTypeFont SIGN_BUTTON_FONT = Utility.createTrueTypeFont("Targa MS Hand", 45f, false);
+	private static final TrueTypeFont TEXT_FIELD_FONT = FontLoader.createFont(new ResourceLocation("afraidofthedark:fonts/Targa MS Hand.ttf"), 45f, false);
+	private static final TrueTypeFont SIGN_BUTTON_FONT = FontLoader.createFont(new ResourceLocation("afraidofthedark:fonts/Targa MS Hand.ttf"), 45f, false);
 
 	public BloodStainedJournalSignGUI()
 	{

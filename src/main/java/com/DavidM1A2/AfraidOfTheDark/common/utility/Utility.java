@@ -13,7 +13,6 @@ import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
 
-import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.TrueTypeFont;
 import com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest.VoidChestTeleporter;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
@@ -37,29 +36,29 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class Utility
 {
-	public static TrueTypeFont createTrueTypeFont(String name, float size, boolean antiAliasing)
-	{
-		try
-		{
-			final InputStream fontInputStream = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(Refrence.MOD_ID, "fonts/" + name + ".ttf")).getInputStream();
-			return new TrueTypeFont(Font.createFont(Font.TRUETYPE_FONT, fontInputStream).deriveFont(size), antiAliasing);
-		}
-		catch (final FileNotFoundException e)
-		{
-			LogHelper.error("Error loading AOTD fonts. This will cause your minecraft to crash. Please mention this to the mod developer.");
-			return null;
-		}
-		catch (final IOException e)
-		{
-			LogHelper.error("Error loading AOTD fonts. This will cause your minecraft to crash. Please mention this to the mod developer.");
-			return null;
-		}
-		catch (FontFormatException e)
-		{
-			LogHelper.error("Error loading AOTD fonts. This will cause your minecraft to crash. Please mention this to the mod developer.");
-			return null;
-		}
-	}
+//	public static TrueTypeFont createTrueTypeFont(String name, float size, boolean antiAliasing)
+//	{
+//		try
+//		{
+//			final InputStream fontInputStream = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(Refrence.MOD_ID, "fonts/" + name + ".ttf")).getInputStream();
+//			return new TrueTypeFont(Font.createFont(Font.TRUETYPE_FONT, fontInputStream).deriveFont(size), antiAliasing);
+//		}
+//		catch (final FileNotFoundException e)
+//		{
+//			LogHelper.error("Error loading AOTD fonts. This will cause your minecraft to crash. Please mention this to the mod developer.");
+//			return null;
+//		}
+//		catch (final IOException e)
+//		{
+//			LogHelper.error("Error loading AOTD fonts. This will cause your minecraft to crash. Please mention this to the mod developer.");
+//			return null;
+//		}
+//		catch (FontFormatException e)
+//		{
+//			LogHelper.error("Error loading AOTD fonts. This will cause your minecraft to crash. Please mention this to the mod developer.");
+//			return null;
+//		}
+//	}
 
 	public static boolean hasIndex(List<?> list, int index)
 	{

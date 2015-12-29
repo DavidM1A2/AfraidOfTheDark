@@ -1,4 +1,4 @@
-package com.DavidM1A2.AfraidOfTheDark.client.TrueTyper;
+package com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont;
 
 /**
  * TrueTyper: Open Source TTF implementation for Minecraft. Copyright (C) 2013 - Mr_okushama
