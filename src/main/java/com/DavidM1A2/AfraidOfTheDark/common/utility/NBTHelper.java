@@ -5,11 +5,56 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.utility;
 
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.LinkedList;
+import java.util.List;
+
+import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
+
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.storage.ISaveHandler;
+import net.minecraft.world.storage.SaveHandler;
 
 public class NBTHelper
 {
+	public static List<NBTTagCompound> getOfflinePlayerNBTs()
+	{
+		List<NBTTagCompound> toReturn = new LinkedList<NBTTagCompound>();
+		
+		ISaveHandler iSaveHandler = MinecraftServer.getServer().worldServers[0].getSaveHandler();
+		if (iSaveHandler instanceof SaveHandler)
+		{
+			SaveHandler saveHandler = (SaveHandler) iSaveHandler;
+			File playersDirectory = new File(saveHandler.getWorldDirectory(), "playerdata");
+			for (String username : saveHandler.getAvailablePlayerDat())
+			{
+				File playerData = new File(playersDirectory, username + ".dat");
+
+				if (playerData.exists() && playerData.isFile())
+				{
+					NBTTagCompound playerDataCompound;
+					try
+					{
+						playerDataCompound = CompressedStreamTools.readCompressed(new FileInputStream(playerData));
+						if (playerDataCompound != null)
+							toReturn.add(playerDataCompound);
+					}
+					catch (Exception e)
+					{
+						LogHelper.info("Error reading player data for username " + username);
+					}
+				}
+			}
+		}
+		
+		return toReturn;
+	}
+	
 	public static boolean hasTag(final ItemStack itemStack, final String keyName)
 	{
 		return (itemStack != null) && (itemStack.getTagCompound() != null) && itemStack.getTagCompound().hasKey(keyName);

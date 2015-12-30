@@ -15,6 +15,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.block.material.Material;
@@ -168,34 +169,13 @@ public class BlockVoidChestPortal extends AOTDBlock
 			{
 				MinecraftServer.getServer().getCommandManager().executeCommand(MinecraftServer.getServer(), "/save-all");
 			}
-
-			ISaveHandler iSaveHandler = MinecraftServer.getServer().worldServers[0].getSaveHandler();
-			if (iSaveHandler instanceof SaveHandler)
+			
+			int furthestOutPlayer = 0;
+			for (NBTTagCompound entityPlayerData : NBTHelper.getOfflinePlayerNBTs())
 			{
-				SaveHandler saveHandler = (SaveHandler) iSaveHandler;
-				int furthestOutPlayer = 0;
-				File playersDirectory = new File(saveHandler.getWorldDirectory(), "playerdata");
-				for (String username : saveHandler.getAvailablePlayerDat())
-				{
-					File playerData = new File(playersDirectory, username + ".dat");
-
-					if (playerData.exists() && playerData.isFile())
-					{
-						NBTTagCompound playerDataCompound;
-						try
-						{
-							playerDataCompound = CompressedStreamTools.readCompressed(new FileInputStream(playerData));
-							furthestOutPlayer = Math.max(furthestOutPlayer, AOTDPlayerData.getPlayerLocationVoidChestOffline(playerDataCompound));
-						}
-						catch (Exception e)
-						{
-							LogHelper.info("Error reading player data for username " + username);
-						}
-					}
-				}
-
-				AOTDPlayerData.get(entityPlayer).setPlayerLocationVoidChest(furthestOutPlayer + 1);
+				furthestOutPlayer = Math.max(furthestOutPlayer, AOTDPlayerData.getPlayerLocationVoidChestOffline(entityPlayerData));
 			}
+			AOTDPlayerData.get(entityPlayer).setPlayerLocationVoidChest(furthestOutPlayer + 1);
 		}
 		return AOTDPlayerData.get(entityPlayer).getPlayerLocationVoidChest();
 	}

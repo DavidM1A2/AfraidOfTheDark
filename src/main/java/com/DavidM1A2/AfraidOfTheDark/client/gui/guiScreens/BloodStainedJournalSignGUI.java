@@ -17,6 +17,7 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiImage;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiScreen;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiTextField;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.TextAlignment;
 import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.FontLoader;
 import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.TrueTypeFont;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
@@ -46,6 +47,7 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
 		AOTDGuiButton signButton = new AOTDGuiButton(75, 130, 100, 25, SIGN_BUTTON_FONT, "afraidofthedark:textures/gui/signButton.png", "afraidofthedark:textures/gui/signButtonHovered.png");
 		signButton.setText("Sign");
 		signButton.setTextColor(Color.RED);
+		signButton.setTextAlignment(TextAlignment.ALIGN_CENTER);
 		signButton.addActionListener(new AOTDActionListener()
 		{
 			@Override
