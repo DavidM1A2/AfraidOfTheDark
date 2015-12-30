@@ -19,6 +19,7 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiImage;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiScreen;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiTextField;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.TextAlignment;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.FontLoader;
 import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.TrueTypeFont;
@@ -36,6 +37,7 @@ public class SextantGUI extends AOTDGuiScreen
 	private AOTDGuiTextField latitude;
 	private AOTDGuiTextField longitude;
 	private static final TrueTypeFont TEXT_FIELD_FONT = FontLoader.createFont(new ResourceLocation("afraidofthedark:fonts/Targa MS Hand.ttf"), 50f, false);
+	private static final TrueTypeFont CALCULATE_BUTTON_FONT = FontLoader.createFont(new ResourceLocation("afraidofthedark:fonts/Targa MS Hand.ttf"), 40f, false);
 
 	public SextantGUI()
 	{
@@ -54,7 +56,9 @@ public class SextantGUI extends AOTDGuiScreen
 		background.add(longitude);
 		longitude.setColor(Color.WHITE);
 
-		AOTDGuiButton confirm = new AOTDGuiButton(15, 204, 120, 20, null, "afraidofthedark:textures/gui/signButton.png", "afraidofthedark:textures/gui/signButtonHovered.png");
+		AOTDGuiButton confirm = new AOTDGuiButton(15, 204, 120, 20, CALCULATE_BUTTON_FONT, "afraidofthedark:textures/gui/signButton.png", "afraidofthedark:textures/gui/signButtonHovered.png");
+		confirm.setText("Calculate");
+		confirm.setTextAlignment(TextAlignment.ALIGN_CENTER);
 		confirm.addActionListener(new AOTDActionListener()
 		{
 			@Override

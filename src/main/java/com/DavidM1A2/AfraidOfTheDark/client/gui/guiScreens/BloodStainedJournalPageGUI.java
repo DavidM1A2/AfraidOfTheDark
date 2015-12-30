@@ -147,9 +147,9 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 				if (actionType == ActionType.MousePressed && component.isHovered())
 					BloodStainedJournalPageGUI.this.advancePage();
 				else if (actionType == ActionType.MouseEnterBoundingBox)
-					component.setColor(component.getColor().darker());
+					component.darkenColor(0.1f);
 				else if (actionType == ActionType.MouseExitBoundingBox)
-					component.setColor(component.getColor().brighter());
+					component.brightenColor(0.1f);
 			}
 		});
 		this.backwardButton.addActionListener(new AOTDActionListener()
@@ -160,9 +160,9 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 				if (actionType == ActionType.MousePressed && component.isHovered())
 					BloodStainedJournalPageGUI.this.rewindPage();
 				else if (actionType == ActionType.MouseEnterBoundingBox)
-					component.setColor(component.getColor().darker());
+					component.darkenColor(0.1f);
 				else if (actionType == ActionType.MouseExitBoundingBox)
-					component.setColor(component.getColor().brighter());
+					component.brightenColor(0.1f);
 			}
 		});
 		this.getContentPane().add(this.forwardButton);

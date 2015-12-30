@@ -280,7 +280,6 @@ public class TrueTypeFont
 		float totalwidth = 0;
 		FloatObject floatObject = null;
 		int currentChar = 0;
-		float lastWidth = -10f;
 		for (int i = 0; i < whatchars.length(); i++)
 		{
 			currentChar = whatchars.charAt(i);
@@ -296,7 +295,6 @@ public class TrueTypeFont
 			if (floatObject != null)
 			{
 				totalwidth += floatObject.width / 2;
-				lastWidth = floatObject.width;
 			}
 		}
 		//System.out.println("Size: "+totalwidth);
@@ -341,8 +339,6 @@ public class TrueTypeFont
 		if (rgba.length == 0)
 			rgba = new float[]
 			{ 1f, 1f, 1f, 1f };
-		GL11.glPushMatrix();
-		GL11.glScalef(scaleX, scaleY, 1.0f);
 		
 		FloatObject floatObject = null;
 		int charCurrent;
@@ -445,7 +441,7 @@ public class TrueTypeFont
 				}
 				else
 				{
-					drawQuad((totalwidth + floatObject.width) + x / scaleX, startY + y / scaleY, totalwidth + x / scaleX, (startY + floatObject.height) + y / scaleY, floatObject.storedX + floatObject.width, floatObject.storedY + floatObject.height, floatObject.storedX, floatObject.storedY);
+					drawQuad((totalwidth + floatObject.width) * scaleX + x, startY * scaleY + y, totalwidth * scaleX + x, (startY + floatObject.height) * scaleY + y, floatObject.storedX + floatObject.width, floatObject.storedY + floatObject.height, floatObject.storedX, floatObject.storedY);
 					if (d > 0)
 						totalwidth += (floatObject.width - c) * d;
 				}
@@ -455,8 +451,6 @@ public class TrueTypeFont
 		}
 		tessellator.draw();
 		//	GL11.glEnd();
-
-		GL11.glPopMatrix();
 	}
 
 	public static int loadImage(BufferedImage bufferedImage)

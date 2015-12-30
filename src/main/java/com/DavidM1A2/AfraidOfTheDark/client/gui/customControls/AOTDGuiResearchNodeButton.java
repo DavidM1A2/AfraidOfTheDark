@@ -7,7 +7,10 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui.customControls;
 
 import java.awt.Color;
 
+import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener.ActionType;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiButton;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiComponent;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
@@ -25,6 +28,17 @@ public class AOTDGuiResearchNodeButton extends AOTDGuiButton
 		super(x, y, 32, 32, null, "afraidofthedark:textures/gui/nodeStandard2.png");
 		this.research = research;
 		this.setVisible(AOTDPlayerData.get(entityPlayer).isResearched(this.research) || AOTDPlayerData.get(entityPlayer).canResearch(this.research));
+		this.addActionListener(new AOTDActionListener()
+		{			
+			@Override
+			public void actionPerformed(AOTDGuiComponent component, ActionType actionType) 
+			{
+				if (actionType == ActionType.MouseEnterBoundingBox)
+					component.darkenColor(0.1f);
+				else if (actionType == ActionType.MouseExitBoundingBox)
+					component.brightenColor(0.1f);					
+			}
+		});
 	}
 
 	@Override
@@ -48,15 +62,6 @@ public class AOTDGuiResearchNodeButton extends AOTDGuiButton
 				Gui.drawScaledCustomSizeModalRect(this.getXScaled() + 2, this.getYScaled() + 2, 0, 0, 32, 32, this.getWidthScaled(), this.getHeightScaled(), 32, 32);
 			}
 		}
-	}
-
-	@Override
-	public Color getColor()
-	{
-		if (!this.isHovered())
-			return super.getColor();
-		else
-			return super.getColor().darker();
 	}
 
 	public ResearchTypes getResearch()

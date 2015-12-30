@@ -7,15 +7,21 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls;
 
 import java.awt.Color;
 
+import org.lwjgl.opengl.GL11;
+
 import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDGuiUtility;
+import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.FontHelper;
 import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.TrueTypeFont;
+
+import net.minecraft.world.gen.FlatGeneratorInfo;
 
 public abstract class AOTDGuiTextComponent extends AOTDGuiContainer
 {
 	private TrueTypeFont font;
 	private String text = "";
 	private TextAlignment textAlignment = TextAlignment.ALIGN_LEFT;
-	private Color textColor = Color.WHITE;
+	private float[] textColor = new float[] {1.0f, 1.0f, 1.0f, 1.0f};
+	protected float textScaleConstant = 0.3f;
 
 	public AOTDGuiTextComponent(int x, int y, int width, int height, TrueTypeFont font)
 	{
@@ -30,15 +36,15 @@ public abstract class AOTDGuiTextComponent extends AOTDGuiContainer
 		switch (this.getTextAlignment()) 
 		{
 			case ALIGN_CENTER:
-				x = x + this.getWidthScaled() / 2 - AOTDGuiUtility.realToMcCoord((int) this.getFont().getWidth(this.getText())) / 2;
+				x = x + this.getWidth() / 2 - 7;
 				break;
 			case ALIGN_RIGHT:
-				x = x + this.getWidthScaled();
+				x = x + this.getWidthScaled() - 15;
 				break;
 			default:
 				break;
 		}
-		this.getFont().drawString(x, y, this.getText(), 0.3f, 0.3f, TextAlignment.ALIGN_LEFT, this.textColor.getRed() / 255.0f, this.textColor.getGreen() / 255.0f, this.textColor.getBlue() / 255.0f, this.textColor.getAlpha() / 255.0f);
+		this.getFont().drawString(x, y, this.getText(), (float) (textScaleConstant * this.getScaleX()), (float) (textScaleConstant * this.getScaleY()), this.getTextAlignment(), this.getTextColor()[0], this.getTextColor()[1], this.getTextColor()[2], this.getTextColor()[3]);
 	}
 
 	public TrueTypeFont getFont()
@@ -73,10 +79,18 @@ public abstract class AOTDGuiTextComponent extends AOTDGuiContainer
 	
 	public void setTextColor(Color color)
 	{
+		this.textColor[0] = color.getRed() / 255.0f;
+		this.textColor[1] = color.getGreen() / 255.0f;
+		this.textColor[2] = color.getBlue() / 255.0f;
+		this.textColor[3] = color.getAlpha() / 255.0f;
+	}
+	
+	public void setTextColor(float[] color)
+	{
 		this.textColor = color;
 	}
 	
-	public Color getTextColor()
+	public float[] getTextColor()
 	{
 		return this.textColor;
 	}

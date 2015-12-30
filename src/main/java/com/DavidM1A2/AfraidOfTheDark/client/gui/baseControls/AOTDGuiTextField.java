@@ -14,7 +14,9 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDGuiUtility;
 import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.TrueTypeFont;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatAllowedCharacters;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 
 public class AOTDGuiTextField extends AOTDGuiTextComponent
@@ -124,14 +126,14 @@ public class AOTDGuiTextField extends AOTDGuiTextComponent
 
 	private void updateAmountOfScroll()
 	{
-		float textWidth = this.getFont().getWidth(this.getText()) / (AOTDGuiUtility.getScaledResolution().getScaleFactor() + 1);
-		if (textWidth > this.getWidth())
+		float textWidth = this.getFont().getWidth(this.getRawText()) * this.textScaleConstant * .966f;
+		if (textWidth > this.textContainer.getWidth() - this.textContainer.getXWithoutParentTransform())
 		{
-			this.textField.setX((int) (this.textField.getParent().getX() - 0.85 * (textWidth - this.getWidth())));
+			this.textField.setX((int) (this.textField.getParent().getX() + this.textField.getParent().getWidth() - textWidth - this.textContainer.getXWithoutParentTransform()) - 5);
 		}
 		else
 		{
-			this.textField.setX(this.textField.getParent().getX());
+			this.textField.setX(this.textField.getParent().getX() - 5);
 		}
 	}
 
@@ -155,7 +157,7 @@ public class AOTDGuiTextField extends AOTDGuiTextComponent
 	@Override
 	public String getText()
 	{
-		String text = super.getText();
+		String text = this.getRawText();
 		return text.length() == 0 ? "" : text.charAt(text.length() - 1) == '_' ? text.substring(0, text.length() - 1) : text;
 	}
 

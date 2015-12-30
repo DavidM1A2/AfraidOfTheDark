@@ -47,7 +47,7 @@ public class AOTDGuiImage extends AOTDGuiContainer
 			if (textureHeight == -1 || textureWidth == -1)
 				Gui.drawModalRectWithCustomSizedTexture(this.getXScaled(), this.getYScaled(), u, v, this.getWidthScaled(), this.getHeightScaled(), this.getWidthScaled(), this.getHeightScaled());
 			else
-				Gui.drawModalRectWithCustomSizedTexture(this.getXScaled(), this.getYScaled(), u, v, this.getWidthScaled(), this.getHeightScaled(), textureWidth, textureHeight);
+				Gui.drawScaledCustomSizeModalRect(this.getXScaled(), this.getYScaled(), u, v, this.getWidth(), this.getHeight(), this.getWidthScaled(), this.getHeightScaled(), textureWidth, textureHeight);
 			GlStateManager.enableBlend();
 		}
 	}

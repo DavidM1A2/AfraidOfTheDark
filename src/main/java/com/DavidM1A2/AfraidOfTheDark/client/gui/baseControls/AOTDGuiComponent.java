@@ -18,6 +18,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.MathHelper;
 
 public abstract class AOTDGuiComponent
 {
@@ -28,7 +29,7 @@ public abstract class AOTDGuiComponent
 	private Rectangle boundingBox = new Rectangle();
 	private Rectangle scaledBoundingBox = new Rectangle();
 	private List<AOTDActionListener> actionListeners = new LinkedList<AOTDActionListener>();
-	private Color color = Color.WHITE;
+	private float[] color = new float[] {1.0f, 1.0f, 1.0f, 1.0f};
 	protected final EntityPlayerSP entityPlayer = Minecraft.getMinecraft().thePlayer;
 
 	public AOTDGuiComponent(int x, int y, int width, int height)
@@ -38,7 +39,7 @@ public abstract class AOTDGuiComponent
 
 	public void draw()
 	{
-		GL11.glColor4d(this.getColor().getRed() / 255.0, this.getColor().getGreen() / 255.0, this.getColor().getBlue() / 255.0, this.getColor().getAlpha() / 255.0);
+		GL11.glColor4d(this.getColor()[0], this.getColor()[1], this.getColor()[2], this.getColor()[3]);
 		//this.drawBoundingBox();
 	}
 
@@ -194,12 +195,34 @@ public abstract class AOTDGuiComponent
 
 	public void setColor(Color color)
 	{
+		this.color[0] = color.getRed() / 255.0f;
+		this.color[1] = color.getBlue() / 255.0f;
+		this.color[2] = color.getGreen() / 255.0f;
+		this.color[3] = color.getAlpha() / 255.0f;
+	}
+	
+	public void setColor(float[] color)
+	{
 		this.color = color;
 	}
 
-	public Color getColor()
+	public float[] getColor()
 	{
 		return this.color;
+	}
+	
+	public void brightenColor(float amount)
+	{
+		this.color[0] = MathHelper.clamp_float(this.color[0] + amount, 0, 255f);
+		this.color[1] = MathHelper.clamp_float(this.color[1] + amount, 0, 255f);
+		this.color[2] = MathHelper.clamp_float(this.color[2] + amount, 0, 255f);
+	}
+	
+	public void darkenColor(float amount)
+	{
+		this.color[0] = MathHelper.clamp_float(this.color[0] - amount, 0, 255f);
+		this.color[1] = MathHelper.clamp_float(this.color[1] - amount, 0, 255f);
+		this.color[2] = MathHelper.clamp_float(this.color[2] - amount, 0, 255f);
 	}
 
 	@Override
