@@ -61,4 +61,20 @@ public class AOTDGuiImage extends AOTDGuiContainer
 	{
 		this.v = v;
 	}
+	
+	public int getMaxTextureWidth()
+	{
+		if (textureWidth == -1)
+			return this.getWidth();
+		else 
+			return this.textureWidth;
+	}
+	
+	public int getMaxTextureHeight()
+	{
+		if (textureHeight == -1)
+			return this.getHeight();
+		else 
+			return this.textureHeight;
+	}
 }

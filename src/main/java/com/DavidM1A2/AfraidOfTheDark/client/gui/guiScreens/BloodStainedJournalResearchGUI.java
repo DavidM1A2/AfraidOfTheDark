@@ -35,12 +35,10 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 		int backgroundHeight = 256;
 		int backgroundWidth = 256;
 		// Calculate the various positions of GUI elements on the screen
-		int baseWidth = (640 - backgroundWidth) / 2;
-		int baseHeight = (360 - backgroundHeight) / 2;
-		int xPosScroll = baseWidth;
-		int yPosScroll = baseHeight;
-		int xPosBackground = baseWidth + 20;
-		int yPosBackground = baseHeight + 20;
+		int xPosScroll = (640 - backgroundWidth) / 2;
+		int yPosScroll = (360 - backgroundHeight) / 2;
+		int xPosBackground = xPosScroll + 20;
+		int yPosBackground = yPosScroll + 20;
 
 		this.guiOffsetX = ClientData.currentBloodStainedJournalX;
 		this.guiOffsetY = ClientData.currentBloodStainedJournalY;

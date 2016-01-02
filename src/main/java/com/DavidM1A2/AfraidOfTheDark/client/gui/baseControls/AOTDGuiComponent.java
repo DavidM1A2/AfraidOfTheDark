@@ -203,6 +203,8 @@ public abstract class AOTDGuiComponent
 	
 	public void setColor(float[] color)
 	{
+		if (color.length != 4)
+			return;
 		this.color = color;
 	}
 

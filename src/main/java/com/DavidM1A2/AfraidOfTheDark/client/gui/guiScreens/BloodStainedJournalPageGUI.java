@@ -60,9 +60,9 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 	private AOTDGuiPanel journal;
 
 	private static final TrueTypeFont TITLE_FONT = FontLoader.createFont(new ResourceLocation("afraidofthedark:fonts/Targa MS Hand.ttf"), 50f, true);
-	private static final TrueTypeFont PAGE_NUMBER_FONT = FontLoader.createFont(new ResourceLocation("afraidofthedark:fonts/Targa MS Hand.ttf"), 32f, false);
-	private static final TrueTypeFont PAGE_TEXT = FontLoader.createFont(new ResourceLocation("afraidofthedark:fonts/Targa MS Hand.ttf"), 32f, false);
-
+	private static final TrueTypeFont PAGE_NUMBER_FONT = FontLoader.createFont(new ResourceLocation("afraidofthedark:fonts/Targa MS Hand.ttf"), 32f, true);
+	private static final TrueTypeFont PAGE_TEXT = FontLoader.createFont(new ResourceLocation("afraidofthedark:fonts/Targa MS Hand.ttf"), 32f, true);
+	
 	private int pageNumber = 0;
 
 	private final List<ConvertedRecipe> researchRecipes = new ArrayList<ConvertedRecipe>();

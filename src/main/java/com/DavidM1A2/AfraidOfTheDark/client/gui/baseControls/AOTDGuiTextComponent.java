@@ -87,6 +87,8 @@ public abstract class AOTDGuiTextComponent extends AOTDGuiContainer
 	
 	public void setTextColor(float[] color)
 	{
+		if (color.length != 4)
+			return;
 		this.textColor = color;
 	}
 	

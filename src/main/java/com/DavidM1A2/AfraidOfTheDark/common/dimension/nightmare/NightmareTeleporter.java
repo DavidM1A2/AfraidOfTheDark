@@ -8,6 +8,8 @@ package com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare;
 import java.io.File;
 import java.io.FileInputStream;
 
+import org.apache.commons.lang3.math.Fraction;
+
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
@@ -153,34 +155,14 @@ public class NightmareTeleporter extends Teleporter
 			{
 				MinecraftServer.getServer().getCommandManager().executeCommand(MinecraftServer.getServer(), "/save-all");
 			}
-
-			ISaveHandler iSaveHandler = MinecraftServer.getServer().worldServers[0].getSaveHandler();
-			if (iSaveHandler instanceof SaveHandler)
+			
+			int furthestOutPlayer = 0;
+			for (NBTTagCompound entityPlayerData : NBTHelper.getOfflinePlayerNBTs())
 			{
-				SaveHandler saveHandler = (SaveHandler) iSaveHandler;
-				int furthestOutPlayer = 0;
-				File playersDirectory = new File(saveHandler.getWorldDirectory(), "playerdata");
-				for (String username : saveHandler.getAvailablePlayerDat())
-				{
-					File playerData = new File(playersDirectory, username + ".dat");
+				furthestOutPlayer = Math.max(furthestOutPlayer, AOTDPlayerData.getPlayerLocationNightmareOffline(entityPlayerData));
+			}			
+			AOTDPlayerData.get(entityPlayer).setPlayerLocationNightmare(furthestOutPlayer + 1);
 
-					if (playerData.exists() && playerData.isFile())
-					{
-						NBTTagCompound playerDataCompound;
-						try
-						{
-							playerDataCompound = CompressedStreamTools.readCompressed(new FileInputStream(playerData));
-							furthestOutPlayer = Math.max(furthestOutPlayer, AOTDPlayerData.getPlayerLocationNightmareOffline(playerDataCompound));
-						}
-						catch (Exception e)
-						{
-							LogHelper.info("Error reading player data for username " + username);
-						}
-					}
-				}
-
-				AOTDPlayerData.get(entityPlayer).setPlayerLocationNightmare(furthestOutPlayer + 1);
-			}
 		}
 		return AOTDPlayerData.get(entityPlayer).getPlayerLocationNightmare();
 	}

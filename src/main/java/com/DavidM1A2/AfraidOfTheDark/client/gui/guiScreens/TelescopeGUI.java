@@ -17,9 +17,11 @@ import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.MeteorTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
+import sun.rmi.log.LogHandler;
 
 public class TelescopeGUI extends AOTDGuiClickAndDragable
 {
@@ -31,34 +33,25 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
 		int FRAME_HEIGHT = 256;
 		int FRAME_WIDTH = 256;
 
-		// GUI height and width
-		int baseWidth = 512;
-		int baseHeight = 512;
-		// Current GUI x/y Scrool positions, background positions, and research
-		// positions
-		int xPosTelescope;
-		int yPosTelescope;
 		// Calculate the various positions of GUI elements on the screen
-		baseHeight = (360 - 256) / 2;
-		baseWidth = (640 - 256) / 2;
-		xPosTelescope = baseWidth;
-		yPosTelescope = baseHeight;
+		int xPosTelescope = (360 - 256) / 2;
+		int yPosTelescope = (640 - 256) / 2;
 
 		AOTDGuiPanel telescope = new AOTDGuiPanel(xPosTelescope, yPosTelescope, FRAME_WIDTH, FRAME_HEIGHT, true);
 		AOTDGuiImage telescopeFrame = new AOTDGuiImage(0, 0, FRAME_WIDTH, FRAME_HEIGHT, "textures/gui/telescopeGUI.png");
 		telescopeMeteors = new AOTDGuiPanel(0, 0, FRAME_WIDTH, FRAME_WIDTH, false);
 		telescopeImage = new AOTDGuiImage(0, 0, FRAME_WIDTH, FRAME_HEIGHT, 2160, 3840, "textures/gui/telescopeBackground.png");
-		telescopeImage.setU(this.guiOffsetX + (3840 / 2));
-		telescopeImage.setV(this.guiOffsetY + (2160 / 2));
+		telescopeImage.setU(this.guiOffsetX + (telescopeImage.getMaxTextureWidth() / 2));
+		telescopeImage.setV(this.guiOffsetY + (telescopeImage.getMaxTextureHeight() / 2));
 
-		int numberOfMeteors = 50 + entityPlayer.getRNG().nextInt(50);
+		int numberOfMeteors = 30 + entityPlayer.getRNG().nextInt(50);
 		for (int i = 0; i < numberOfMeteors; i++)
 		{
 			AOTDGuiMeteorButton nextToAdd = null;
 			if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.AstronomyII))
-				nextToAdd = new AOTDGuiMeteorButton(Minecraft.getMinecraft().theWorld.rand.nextInt(3840 * 2) - 3840, Minecraft.getMinecraft().theWorld.rand.nextInt(2160 * 2) - 2160, 64, 64, MeteorTypes.values()[Minecraft.getMinecraft().theWorld.rand.nextInt(MeteorTypes.values().length)]);
+				nextToAdd = new AOTDGuiMeteorButton(Minecraft.getMinecraft().theWorld.rand.nextInt(telescopeImage.getMaxTextureWidth()) - telescopeImage.getMaxTextureWidth() / 2, Minecraft.getMinecraft().theWorld.rand.nextInt(telescopeImage.getMaxTextureHeight()) - telescopeImage.getMaxTextureHeight() / 2, 64, 64, MeteorTypes.values()[Minecraft.getMinecraft().theWorld.rand.nextInt(MeteorTypes.values().length)]);
 			else
-				nextToAdd = new AOTDGuiMeteorButton(Minecraft.getMinecraft().theWorld.rand.nextInt(3840 * 2) - 3840, Minecraft.getMinecraft().theWorld.rand.nextInt(2160 * 2) - 2160, 64, 64, MeteorTypes.silver);
+				nextToAdd = new AOTDGuiMeteorButton(Minecraft.getMinecraft().theWorld.rand.nextInt(telescopeImage.getMaxTextureWidth()) - telescopeImage.getMaxTextureWidth() / 2, Minecraft.getMinecraft().theWorld.rand.nextInt(telescopeImage.getMaxTextureHeight()) - telescopeImage.getMaxTextureHeight() / 2, 64, 64, MeteorTypes.silver);
 
 			nextToAdd.addActionListener(new AOTDActionListener()
 			{
@@ -72,6 +65,7 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
 					}
 				}
 			});
+
 			telescopeMeteors.add(nextToAdd);
 		}
 
@@ -90,29 +84,29 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
 		this.telescopeMeteors.setX(-this.guiOffsetX + telescopeMeteors.getParent().getX());
 		this.telescopeMeteors.setY(-this.guiOffsetY + telescopeMeteors.getParent().getY());
 
-		telescopeImage.setU(this.guiOffsetX + (3840 / 2));
-		telescopeImage.setV(this.guiOffsetY + (2160 / 2));
+		telescopeImage.setU(this.guiOffsetX + (this.telescopeImage.getMaxTextureWidth() / 2));
+		telescopeImage.setV(this.guiOffsetY + (this.telescopeImage.getMaxTextureHeight() / 2));
 
 	}
 
 	@Override
 	protected void checkOutOfBounds()
 	{
-		if (this.guiOffsetX > (3840 / 2))
+		if (this.guiOffsetX > (this.telescopeImage.getMaxTextureWidth() / 2))
 		{
-			this.guiOffsetX = 3840 / 2;
+			this.guiOffsetX = this.telescopeImage.getMaxTextureWidth() / 2;
 		}
-		if (this.guiOffsetX < (-3840 / 2))
+		if (this.guiOffsetX < (-this.telescopeImage.getMaxTextureWidth() / 2))
 		{
-			this.guiOffsetX = -3840 / 2;
+			this.guiOffsetX = -this.telescopeImage.getMaxTextureWidth() / 2;
 		}
-		if (this.guiOffsetY > (2160 / 2))
+		if (this.guiOffsetY > (this.telescopeImage.getMaxTextureHeight() / 2))
 		{
-			this.guiOffsetY = 2160 / 2;
+			this.guiOffsetY = this.telescopeImage.getMaxTextureHeight() / 2;
 		}
-		if (this.guiOffsetY < (-2160 / 2))
+		if (this.guiOffsetY < (-this.telescopeImage.getMaxTextureHeight() / 2))
 		{
-			this.guiOffsetY = -2160 / 2;
+			this.guiOffsetY = -this.telescopeImage.getMaxTextureHeight() / 2;
 		}
 	}
 

@@ -186,7 +186,7 @@ public class AOTDGuiTextField extends AOTDGuiTextComponent
 
 	public void setTextColor(Color color)
 	{
-		this.textField.setColor(color);
+		this.textField.setTextColor(color);
 	}
 
 	public boolean isFocused()

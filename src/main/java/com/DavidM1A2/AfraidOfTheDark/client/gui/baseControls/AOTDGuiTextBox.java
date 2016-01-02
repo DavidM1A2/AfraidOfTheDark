@@ -71,13 +71,11 @@ public class AOTDGuiTextBox extends AOTDGuiTextComponent
 		if (this.isVisible())
 		{
 			super.draw();
-			int x = this.getX();
-			int y = this.getY();
 			GL11.glPushMatrix();
 			GL11.glScaled(this.getScaleX(), this.getScaleY(), 1.0f);
 			for (int i = 0; i < this.textLines.size(); i++)
 			{
-				this.getFont().drawString(x, y + i * (this.getFont().getFontSize() / 3), this.textLines.get(i), this.textScaleConstant, this.textScaleConstant, TextAlignment.ALIGN_LEFT, this.getTextColor()[0], this.getTextColor()[1], this.getTextColor()[2], this.getTextColor()[3]);
+				this.getFont().drawString(this.getX(), this.getY() + i * (this.getFont().getFontSize() / 3), this.textLines.get(i), this.textScaleConstant, this.textScaleConstant, TextAlignment.ALIGN_LEFT, this.getTextColor()[0], this.getTextColor()[1], this.getTextColor()[2], this.getTextColor()[3]);
 			}
 			GL11.glPopMatrix(); 
 		}

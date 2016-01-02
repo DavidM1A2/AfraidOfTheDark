@@ -67,16 +67,6 @@ public abstract class AOTDGuiScreen extends GuiScreen
 		GlStateManager.disableBlend();
 	}
 
-	public AOTDEventController getEventController()
-	{
-		return this.eventController;
-	}
-
-	public double getGuiScale()
-	{
-		return this.guiScale;
-	}
-
 	public AOTDGuiPanel getContentPane()
 	{
 		return this.contentPane;

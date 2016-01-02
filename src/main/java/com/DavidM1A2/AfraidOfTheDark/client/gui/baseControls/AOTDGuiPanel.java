@@ -9,6 +9,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDGuiUtility;
 
+import net.minecraft.client.renderer.GlStateManager;
+
 public class AOTDGuiPanel extends AOTDGuiContainer
 {
 	private final boolean scissorEnabled;
