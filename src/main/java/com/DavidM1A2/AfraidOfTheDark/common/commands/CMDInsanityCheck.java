@@ -19,11 +19,11 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.storage.SaveHandler;
 
-public class InsanityCheck implements ICommand
+public class CMDInsanityCheck implements ICommand
 {
 	private final List aliases;
 
-	public InsanityCheck()
+	public CMDInsanityCheck()
 	{
 		// Aliases aka command (/debug or /d)
 		this.aliases = new ArrayList();

@@ -25,7 +25,7 @@ public class WorldEvents
 	@SubscribeEvent
 	public void onWorldTickEvent(TickEvent.ServerTickEvent event)
 	{
-		if (counter % 300 == 0)
+		if (counter % 400 == 0)
 		{
 			counter = 1;
 			updateInsanity();
