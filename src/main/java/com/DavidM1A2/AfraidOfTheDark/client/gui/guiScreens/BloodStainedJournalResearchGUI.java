@@ -13,6 +13,7 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiComponent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiImage;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiSpriteSheetImage;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.SpriteSheetController;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiResearchNodeButton;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
@@ -28,6 +29,9 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 
 	private AOTDGuiPanel researchTreeBase;
 	private AOTDGuiPanel researchTree;
+
+	private SpriteSheetController nodeConnectorControllerVertical = new SpriteSheetController(500, 20, 60, 180, true, true);
+	private SpriteSheetController nodeConnectorControllerHorizontal = new SpriteSheetController(500, 20, 180, 60, true, false);
 
 	public BloodStainedJournalResearchGUI()
 	{
@@ -112,13 +116,13 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 					ResearchTypes previous = researchNode.getResearch().getPrevious();
 					ResearchTypes current = researchNode.getResearch();
 					if (current.getPositionX() < previous.getPositionX())
-						this.researchTree.add(new AOTDGuiSpriteSheetImage(xPos + 26, yPos + 9, 54, 14, new ResourceLocation("afraidofthedark:textures/gui/researchHorizontal.png"), 500, 20, 180, 60, true, false));
+						this.researchTree.add(new AOTDGuiSpriteSheetImage(xPos + 26, yPos + 9, 54, 14, new ResourceLocation("afraidofthedark:textures/gui/researchHorizontal.png"), this.nodeConnectorControllerHorizontal));
 					else if (current.getPositionX() > previous.getPositionX())
-						this.researchTree.add(new AOTDGuiSpriteSheetImage(xPos - 50, yPos + 9, 54, 14, new ResourceLocation("afraidofthedark:textures/gui/researchHorizontal.png"), 500, 20, 180, 60, true, false));
+						this.researchTree.add(new AOTDGuiSpriteSheetImage(xPos - 50, yPos + 9, 54, 14, new ResourceLocation("afraidofthedark:textures/gui/researchHorizontal.png"), this.nodeConnectorControllerHorizontal));
 					else if (current.getPositionY() > previous.getPositionY())
-						this.researchTree.add(new AOTDGuiSpriteSheetImage(xPos + 9, yPos + 30, 14, 46, new ResourceLocation("afraidofthedark:textures/gui/researchVertical.png"), 500, 20, 60, 180, true, true));
+						this.researchTree.add(new AOTDGuiSpriteSheetImage(xPos + 9, yPos + 30, 14, 46, new ResourceLocation("afraidofthedark:textures/gui/researchVertical.png"), this.nodeConnectorControllerVertical));
 					else if (current.getPositionY() < previous.getPositionY())
-						this.researchTree.add(new AOTDGuiSpriteSheetImage(xPos + 9, yPos - 46, 14, 46, new ResourceLocation("afraidofthedark:textures/gui/researchVertical.png"), 500, 20, 60, 180, true, true));
+						this.researchTree.add(new AOTDGuiSpriteSheetImage(xPos + 9, yPos - 46, 14, 46, new ResourceLocation("afraidofthedark:textures/gui/researchVertical.png"), this.nodeConnectorControllerVertical));
 				}
 			}
 			buttons[researchType.ordinal()] = researchNode;
@@ -126,6 +130,9 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 
 		for (AOTDGuiResearchNodeButton nodeButton : buttons)
 			this.researchTree.add(nodeButton);
+
+		this.addSpriteSheetController(this.nodeConnectorControllerHorizontal);
+		this.addSpriteSheetController(this.nodeConnectorControllerVertical);
 	}
 
 	// When the mouse is dragged, update the GUI accordingly

@@ -38,14 +38,4 @@ public class AnimationHandlerWerewolf extends AnimationHandler
 	{
 		super.stopAnimation(animChannels, name);
 	}
-
-	@Override
-	public void fireAnimationEventClientSide(Channel anim, float prevFrame, float frame)
-	{
-	}
-
-	@Override
-	public void fireAnimationEventServerSide(Channel anim, float prevFrame, float frame)
-	{
-	}
 }

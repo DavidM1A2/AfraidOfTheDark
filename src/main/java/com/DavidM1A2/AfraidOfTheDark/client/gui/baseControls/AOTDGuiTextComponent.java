@@ -7,20 +7,16 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls;
 
 import java.awt.Color;
 
-import org.lwjgl.opengl.GL11;
-
 import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDGuiUtility;
-import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.FontHelper;
 import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.TrueTypeFont;
-
-import net.minecraft.world.gen.FlatGeneratorInfo;
 
 public abstract class AOTDGuiTextComponent extends AOTDGuiContainer
 {
 	private TrueTypeFont font;
 	private String text = "";
 	private TextAlignment textAlignment = TextAlignment.ALIGN_LEFT;
-	private float[] textColor = new float[] {1.0f, 1.0f, 1.0f, 1.0f};
+	private float[] textColor = new float[]
+	{ 1.0f, 1.0f, 1.0f, 1.0f };
 	protected float textScaleConstant = 0.3f;
 
 	public AOTDGuiTextComponent(int x, int y, int width, int height, TrueTypeFont font)
@@ -28,15 +24,15 @@ public abstract class AOTDGuiTextComponent extends AOTDGuiContainer
 		super(x, y, width, height);
 		this.font = font;
 	}
-	
+
 	protected void drawText(float x, float y)
 	{
 		if (this.getFont() == null)
 			return;
-		switch (this.getTextAlignment()) 
+		switch (this.getTextAlignment())
 		{
 			case ALIGN_CENTER:
-				x = x + this.getWidth() / 2 - 7;
+				x = x + this.getWidthScaled() / 2 - 7;
 				break;
 			case ALIGN_RIGHT:
 				x = x + this.getWidthScaled() - 15;
@@ -76,22 +72,19 @@ public abstract class AOTDGuiTextComponent extends AOTDGuiContainer
 	{
 		return this.textAlignment;
 	}
-	
+
 	public void setTextColor(Color color)
 	{
-		this.textColor[0] = color.getRed() / 255.0f;
-		this.textColor[1] = color.getGreen() / 255.0f;
-		this.textColor[2] = color.getBlue() / 255.0f;
-		this.textColor[3] = color.getAlpha() / 255.0f;
+		this.setTextColor(AOTDGuiUtility.convert255To01Color(color));
 	}
-	
+
 	public void setTextColor(float[] color)
 	{
 		if (color.length != 4)
 			return;
 		this.textColor = color;
 	}
-	
+
 	public float[] getTextColor()
 	{
 		return this.textColor;

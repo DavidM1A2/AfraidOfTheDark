@@ -14,9 +14,7 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDGuiUtility;
 import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.TrueTypeFont;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatAllowedCharacters;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 
 public class AOTDGuiTextField extends AOTDGuiTextComponent
@@ -25,6 +23,9 @@ public class AOTDGuiTextField extends AOTDGuiTextComponent
 	private final AOTDGuiPanel textContainer;
 	private final AOTDGuiLabel textField;
 	private boolean isFocused = false;
+	private String ghostText = "";
+	private float[] originalTextColor = new float[]
+	{ 1.0f, 1.0f, 1.0f, 1.0f };
 
 	public AOTDGuiTextField(int x, int y, int width, int height, TrueTypeFont font)
 	{
@@ -96,11 +97,11 @@ public class AOTDGuiTextField extends AOTDGuiTextComponent
 						break;
 					// Left arrow
 					case Keyboard.KEY_LEFT:
-						this.textField.setX(this.textField.getX() - 5);
+						//this.textField.setX(this.textField.getX() - 5);
 						break;
 					// Right arrow
 					case Keyboard.KEY_RIGHT:
-						this.textField.setX(this.textField.getX() + 5);
+						//this.textField.setX(this.textField.getX() + 5);
 						break;
 					default:
 						// Add the character
@@ -128,29 +129,23 @@ public class AOTDGuiTextField extends AOTDGuiTextComponent
 	{
 		float textWidth = this.getFont().getWidth(this.getRawText()) * this.textScaleConstant * .966f;
 		if (textWidth > this.textContainer.getWidth() - this.textContainer.getXWithoutParentTransform())
-		{
 			this.textField.setX((int) (this.textField.getParent().getX() + this.textField.getParent().getWidth() - textWidth - this.textContainer.getXWithoutParentTransform()) - 5);
-		}
 		else
-		{
 			this.textField.setX(this.textField.getParent().getX() - 5);
-		}
 	}
 
 	@Override
 	public void draw()
 	{
 		if (this.isVisible())
-		{
 			super.draw();
-		}
 	}
 
 	@Override
 	public void setText(String text)
 	{
 		super.setText(text);
-		textField.setText(text);
+		this.textField.setText(text);
 		this.updateAmountOfScroll();
 	}
 
@@ -174,13 +169,22 @@ public class AOTDGuiTextField extends AOTDGuiTextComponent
 		{
 			this.background.setColor(new Color(230, 230, 230));
 			String text = this.getRawText();
-			this.setText(text.concat("_"));
+			if (text == this.getGhostText())
+			{
+				this.setText("_");
+				this.textField.setTextColor(this.originalTextColor);
+			}
+			else
+				this.setText(text.concat("_"));
 		}
 		else if (wasFocused && !isFocused)
 		{
 			this.background.setColor(Color.WHITE);
 			String text = this.getRawText();
-			this.setText(StringUtils.isEmpty(text) ? "" : text.charAt(text.length() - 1) == '_' ? text.substring(0, text.length() - 1) : text);
+			if (StringUtils.isEmpty(this.getText()))
+				this.loadGhostText();
+			else
+				this.setText(text.charAt(text.length() - 1) == '_' ? text.substring(0, text.length() - 1) : text);
 		}
 	}
 
@@ -192,5 +196,24 @@ public class AOTDGuiTextField extends AOTDGuiTextComponent
 	public boolean isFocused()
 	{
 		return this.isFocused;
+	}
+
+	public void setGhostText(String ghostText)
+	{
+		this.ghostText = ghostText;
+		if (StringUtils.isEmpty(this.getText()))
+			this.loadGhostText();
+	}
+
+	private void loadGhostText()
+	{
+		this.setText(ghostText);
+		this.originalTextColor = this.textField.getTextColor();
+		this.setTextColor(Color.gray);
+	}
+
+	public String getGhostText()
+	{
+		return this.ghostText;
 	}
 }

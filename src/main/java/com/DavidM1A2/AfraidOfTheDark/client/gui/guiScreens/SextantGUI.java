@@ -24,7 +24,6 @@ import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.FontLoader;
 import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.TrueTypeFont;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SpawnMeteor;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
@@ -36,8 +35,8 @@ public class SextantGUI extends AOTDGuiScreen
 	private AOTDGuiTextField angle;
 	private AOTDGuiTextField latitude;
 	private AOTDGuiTextField longitude;
-	private static final TrueTypeFont TEXT_FIELD_FONT = FontLoader.createFont(new ResourceLocation("afraidofthedark:fonts/Targa MS Hand.ttf"), 50f, false);
-	private static final TrueTypeFont CALCULATE_BUTTON_FONT = FontLoader.createFont(new ResourceLocation("afraidofthedark:fonts/Targa MS Hand.ttf"), 40f, false);
+	private static final TrueTypeFont TEXT_FIELD_FONT = FontLoader.createFont(new ResourceLocation("afraidofthedark:fonts/Targa MS Hand.ttf"), 45f, true);
+	private static final TrueTypeFont CALCULATE_BUTTON_FONT = FontLoader.createFont(new ResourceLocation("afraidofthedark:fonts/Targa MS Hand.ttf"), 40f, true);
 
 	public SextantGUI()
 	{
@@ -49,12 +48,15 @@ public class SextantGUI extends AOTDGuiScreen
 		this.angle = new AOTDGuiTextField(15, 108, 120, 30, TEXT_FIELD_FONT);
 		this.latitude = new AOTDGuiTextField(15, 140, 120, 30, TEXT_FIELD_FONT);
 		this.longitude = new AOTDGuiTextField(15, 172, 120, 30, TEXT_FIELD_FONT);
+		angle.setTextColor(Color.WHITE);
+		angle.setGhostText("Angle");
 		background.add(angle);
-		angle.setColor(Color.WHITE);
+		latitude.setTextColor(Color.WHITE);
+		latitude.setGhostText("Latitude");
 		background.add(latitude);
-		latitude.setColor(Color.WHITE);
+		longitude.setTextColor(Color.WHITE);
+		longitude.setGhostText("Longitude");
 		background.add(longitude);
-		longitude.setColor(Color.WHITE);
 
 		AOTDGuiButton confirm = new AOTDGuiButton(15, 204, 120, 20, CALCULATE_BUTTON_FONT, "afraidofthedark:textures/gui/signButton.png", "afraidofthedark:textures/gui/signButtonHovered.png");
 		confirm.setText("Calculate");

@@ -6,6 +6,8 @@
 package com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls;
 
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
@@ -23,6 +25,7 @@ public abstract class AOTDGuiScreen extends GuiScreen
 	private final AOTDGuiPanel contentPane;
 	protected final int INVENTORY_KEYCODE = Minecraft.getMinecraft().gameSettings.keyBindInventory.getKeyCode();
 	protected final EntityPlayerSP entityPlayer = Minecraft.getMinecraft().thePlayer;
+	private List<SpriteSheetController> spriteSheetControllers = new LinkedList<SpriteSheetController>();
 
 	public AOTDGuiScreen()
 	{
@@ -59,6 +62,8 @@ public abstract class AOTDGuiScreen extends GuiScreen
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks)
 	{
+		for (SpriteSheetController sheetController : this.spriteSheetControllers)
+			sheetController.performUpdate();
 		GlStateManager.enableBlend();
 		if (this.drawGradientBackground())
 			this.drawDefaultBackground();
@@ -93,6 +98,11 @@ public abstract class AOTDGuiScreen extends GuiScreen
 			}
 		}
 		super.keyTyped(character, keyCode);
+	}
+
+	public void addSpriteSheetController(SpriteSheetController sheetController)
+	{
+		this.spriteSheetControllers.add(sheetController);
 	}
 
 	public abstract boolean inventoryToCloseGuiScreen();

@@ -80,16 +80,4 @@ public class AnimTickHandler
 			}
 		}
 	}
-
-	//Called when a new frame is displayed (See fps) 
-	@SubscribeEvent
-	public void onRenderTick(TickEvent.RenderTickEvent event)
-	{
-	}
-
-	//Called when the world ticks
-	@SubscribeEvent
-	public void onWorldTick(TickEvent.WorldTickEvent event)
-	{
-	}
 }

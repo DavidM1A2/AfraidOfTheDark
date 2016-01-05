@@ -5,6 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui;
 
+import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.DataFlavor;
@@ -30,6 +31,12 @@ public class AOTDGuiUtility
 	public static ScaledResolution getScaledResolution()
 	{
 		return AOTDGuiUtility.scaledResolution;
+	}
+
+	public static float[] convert255To01Color(Color color)
+	{
+		return new float[]
+		{ color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, color.getAlpha() / 255.0f };
 	}
 
 	public static int mcToRealCoord(int coord)

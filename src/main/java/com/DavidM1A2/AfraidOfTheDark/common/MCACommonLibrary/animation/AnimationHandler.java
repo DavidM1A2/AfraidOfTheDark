@@ -5,47 +5,33 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.DavidM1A2.AfraidOfTheDark.client.MCAClientLibrary.MCAModelRenderer;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.math.Quaternion;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.math.Vector3f;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
-import net.minecraft.entity.Entity;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class AnimationHandler
 {
-	public static AnimTickHandler animTickHandler;
+	public static AnimTickHandler animTickHandler = new AnimTickHandler();
 	/** Owner of this handler. */
 	private IMCAnimatedEntity animatedEntity;
 	/** List of all the activate animations of this Entity. */
-	public CopyOnWriteArrayList<Channel> animCurrentChannels = new CopyOnWriteArrayList<Channel>();
-
-	/** List of channels to remove (Fixes concurrentModificationException). Added by David_M1A2 */
-	List<Channel> channelsToRemove = new CopyOnWriteArrayList<Channel>();
+	public List<Channel> animCurrentChannels = new ArrayList<Channel>();
 
 	/** Previous time of every active animation. */
 	public HashMap<String, Long> animPrevTime = new HashMap<String, Long>();
 	/** Current frame of every active animation. */
 	public HashMap<String, Float> animCurrentFrame = new HashMap<String, Float>();
-	/**
-	 * Contains the unique names of the events that have been already fired during each animation. It becomes empty at the end of every animation. The
-	 * key is the animation name and the value is the list of already-called events.
-	 */
-	private HashMap<String, ArrayList<String>> animationEvents = new HashMap<String, ArrayList<String>>();
 
 	public AnimationHandler(IMCAnimatedEntity entity)
 	{
-		if (animTickHandler == null)
-		{
-			animTickHandler = new AnimTickHandler();
-		}
 		animTickHandler.addEntity(entity);
-
 		animatedEntity = entity;
 	}
 
@@ -68,10 +54,6 @@ public abstract class AnimationHandler
 			animCurrentChannels.add(selectedChannel);
 			animPrevTime.put(name, System.nanoTime());
 			animCurrentFrame.put(name, startingFrame);
-			if (animationEvents.get(name) == null)
-			{
-				animationEvents.put(name, new ArrayList<String>());
-			}
 		}
 		else
 		{
@@ -92,7 +74,6 @@ public abstract class AnimationHandler
 				animCurrentChannels.remove(indexToRemove);
 				animPrevTime.remove(name);
 				animCurrentFrame.remove(name);
-				animationEvents.get(name).clear();
 			}
 		}
 		else
@@ -105,93 +86,50 @@ public abstract class AnimationHandler
 
 	public void animationsUpdate()
 	{
-		for (Iterator<Channel> it = animCurrentChannels.iterator(); it.hasNext();)
+		Iterator<Channel> it = animCurrentChannels.iterator();
+		while (it.hasNext())
 		{
 			Channel anim = it.next();
+			if (animCurrentFrame == null)
+				LogHelper.info("animCurrentFrame = null");
+			if (anim == null)
+				LogHelper.info("anim = null");
 			float prevFrame = animCurrentFrame.get(anim.name);
 			boolean animStatus = updateAnimation(animatedEntity, anim, animPrevTime, animCurrentFrame);
-			if (animCurrentFrame.get(anim.name) != null)
-			{
-				fireAnimationEvent(anim, prevFrame, animCurrentFrame.get(anim.name));
-			}
+
 			if (!animStatus)
 			{
-				channelsToRemove.add(anim);
-				// it.remove();
-				// animPrevTime.remove(anim.name);
-				// animCurrentFrame.remove(anim.name);
-				// animationEvents.get(anim.name).clear();
+				//channelsToRemove.add(anim);
+				it.remove();
+				animPrevTime.remove(anim.name);
+				animCurrentFrame.remove(anim.name);
 			}
 		}
 
-		/*
-		 * Added this
-		 */
-		for (Channel channel : channelsToRemove)
-		{
-			animCurrentChannels.remove(channel);
-			animPrevTime.remove(channel.name);
-			animCurrentFrame.remove(channel.name);
-			animationEvents.get(channel.name).clear();
-		}
-
-		channelsToRemove.clear();
+		//		/*
+		//		 * Added this
+		//		 */
+		//		for (Channel channel : channelsToRemove)
+		//		{
+		//			animCurrentChannels.remove(channel);
+		//			animPrevTime.remove(channel.name);
+		//			animCurrentFrame.remove(channel.name);
+		//			animationEvents.get(channel.name).clear();
+		//		}
+		//
+		//		channelsToRemove.clear();
 	}
 
 	public boolean isAnimationActive(String name)
 	{
-		boolean animAlreadyUsed = false;
 		for (Channel anim : animatedEntity.getAnimationHandler().animCurrentChannels)
 		{
 			if (anim.name.equals(name))
 			{
-				animAlreadyUsed = true;
-				break;
+				return true;
 			}
 		}
-
-		return animAlreadyUsed;
-	}
-
-	private void fireAnimationEvent(Channel anim, float prevFrame, float frame)
-	{
-		if (isWorldRemote(animatedEntity))
-		{
-			fireAnimationEventClientSide(anim, prevFrame, frame);
-		}
-		else
-		{
-			fireAnimationEventServerSide(anim, prevFrame, frame);
-		}
-	}
-
-	@SideOnly(Side.CLIENT)
-	public abstract void fireAnimationEventClientSide(Channel anim, float prevFrame, float frame);
-
-	public abstract void fireAnimationEventServerSide(Channel anim, float prevFrame, float frame);
-
-	/** Check if the animation event has already been called. */
-	public boolean alreadyCalledEvent(String animName, String eventName)
-	{
-		if (animationEvents.get(animName) == null)
-		{
-			System.out.println("Cannot check for event " + eventName + "! Animation " + animName + "does not exist or is not active.");
-			return true;
-		}
-		return animationEvents.get(animName).contains(eventName);
-	}
-
-	/** Set the animation event as "called", so it won't be fired again. */
-	public void setCalledEvent(String animName, String eventName)
-	{
-		if (animationEvents.get(animName) != null)
-		{
-			animationEvents.get(animName).add(eventName);
-		}
-		else
-		{
-			System.out.println("Cannot set event " + eventName + "! Animation " + animName + "does not exist or is not active.");
-		}
+		return false;
 	}
 
 	/** Update animation values. Return false if the animation should stop. */
@@ -366,10 +304,5 @@ public abstract class AnimationHandler
 				box.resetRotationPoint();
 			}
 		}
-	}
-
-	public static boolean isWorldRemote(IMCAnimatedEntity animatedEntity)
-	{
-		return ((Entity) animatedEntity).worldObj.isRemote;
 	}
 }

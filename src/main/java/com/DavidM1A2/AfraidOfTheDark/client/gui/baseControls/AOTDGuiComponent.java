@@ -13,6 +13,7 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDGuiUtility;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -29,7 +30,8 @@ public abstract class AOTDGuiComponent
 	private Rectangle boundingBox = new Rectangle();
 	private Rectangle scaledBoundingBox = new Rectangle();
 	private List<AOTDActionListener> actionListeners = new LinkedList<AOTDActionListener>();
-	private float[] color = new float[] {1.0f, 1.0f, 1.0f, 1.0f};
+	private float[] color = new float[]
+	{ 1.0f, 1.0f, 1.0f, 1.0f };
 	protected final EntityPlayerSP entityPlayer = Minecraft.getMinecraft().thePlayer;
 
 	public AOTDGuiComponent(int x, int y, int width, int height)
@@ -195,12 +197,9 @@ public abstract class AOTDGuiComponent
 
 	public void setColor(Color color)
 	{
-		this.color[0] = color.getRed() / 255.0f;
-		this.color[1] = color.getBlue() / 255.0f;
-		this.color[2] = color.getGreen() / 255.0f;
-		this.color[3] = color.getAlpha() / 255.0f;
+		this.setColor(AOTDGuiUtility.convert255To01Color(color));
 	}
-	
+
 	public void setColor(float[] color)
 	{
 		if (color.length != 4)
@@ -212,14 +211,14 @@ public abstract class AOTDGuiComponent
 	{
 		return this.color;
 	}
-	
+
 	public void brightenColor(float amount)
 	{
 		this.color[0] = MathHelper.clamp_float(this.color[0] + amount, 0, 255f);
 		this.color[1] = MathHelper.clamp_float(this.color[1] + amount, 0, 255f);
 		this.color[2] = MathHelper.clamp_float(this.color[2] + amount, 0, 255f);
 	}
-	
+
 	public void darkenColor(float amount)
 	{
 		this.color[0] = MathHelper.clamp_float(this.color[0] - amount, 0, 255f);
