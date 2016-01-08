@@ -5,15 +5,12 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.debug;
 
+import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
-import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicGenerator;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.UnsupportedLocationException;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.WorldGenerationUtility;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
 public class ItemWorldGenTest extends AOTDItem
@@ -30,23 +27,7 @@ public class ItemWorldGenTest extends AOTDItem
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer)
 	{
-		//if (!world.isRemote)
-		{
-			int adjustedX = entityPlayer.getPosition().getX() - Constants.AOTDSchematics.treeBranchyType2.getWidth() / 2;
-			int adjustedZ = entityPlayer.getPosition().getZ() - Constants.AOTDSchematics.treeBranchyType2.getHeight() / 2;
-
-			try
-			{
-				int y = WorldGenerationUtility.getPlaceToSpawnLowest(world, adjustedX + Constants.AOTDSchematics.treeBranchyType2.getWidth() / 2 + 2, adjustedZ + Constants.AOTDSchematics.treeBranchyType2.getHeight() / 2 - 7, 5, 5);
-				entityPlayer.addChatMessage(new ChatComponentText("Placed... may take a few seconds to load."));
-				SchematicGenerator.generateSchematic(Constants.AOTDSchematics.treeLargeDonut, world, adjustedX, y - 3, adjustedZ);
-			}
-			catch (UnsupportedLocationException e)
-			{
-				entityPlayer.addChatMessage(new ChatComponentText("Can't place that here"));
-			}
-
-		}
+		entityPlayer.openGui(Refrence.MOD_ID, GuiHandler.SPELL_CRAFTING_ID, world, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ());
 		return super.onItemRightClick(itemStack, world, entityPlayer);
 	}
 }

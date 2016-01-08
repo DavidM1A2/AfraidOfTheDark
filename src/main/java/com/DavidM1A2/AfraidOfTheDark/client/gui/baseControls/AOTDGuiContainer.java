@@ -17,6 +17,7 @@ public abstract class AOTDGuiContainer extends AOTDGuiComponent
 	private AOTDGuiContainer parent = null;
 	private boolean mousePressed = false;
 	private boolean mouseReleased = false;
+	private boolean mouseMove = false;
 
 	public AOTDGuiContainer(int x, int y, int width, int height)
 	{
@@ -51,6 +52,8 @@ public abstract class AOTDGuiContainer extends AOTDGuiComponent
 			this.fireEvent(AOTDActionListener.ActionType.MousePressed);
 		if (this.mouseReleased)
 			this.fireEvent(AOTDActionListener.ActionType.MouseReleased);
+		if (mouseMove)
+			this.fireEvent(AOTDActionListener.ActionType.MouseMove);
 		if (wasHovered && !this.isHovered())
 			this.fireEvent(AOTDActionListener.ActionType.MouseExitBoundingBox);
 		if (!wasHovered && this.isHovered())
@@ -63,16 +66,7 @@ public abstract class AOTDGuiContainer extends AOTDGuiComponent
 
 		this.mousePressed = false;
 		this.mouseReleased = false;
-	}
-
-	public int getXWithoutParentTransform()
-	{
-		return (this.parent == null) ? this.getX() : (this.getX() - this.parent.getX());
-	}
-
-	public int getYWithoutParentTransform()
-	{
-		return (this.parent == null) ? this.getY() : (this.getY() - this.parent.getY());
+		this.mouseMove = false;
 	}
 
 	public void mousePressed()
@@ -89,11 +83,28 @@ public abstract class AOTDGuiContainer extends AOTDGuiComponent
 			component.mouseReleased();
 	}
 
+	public void mouseMove()
+	{
+		this.mouseMove = true;
+		for (AOTDGuiContainer component : this.subComponents)
+			component.mouseMove();
+	}
+
 	public void keyPressed()
 	{
 		this.fireEvent(ActionType.KeyTyped);
 		for (AOTDGuiContainer component : this.subComponents)
 			component.keyPressed();
+	}
+
+	public int getXWithoutParentTransform()
+	{
+		return (this.parent == null) ? this.getX() : (this.getX() - this.parent.getX());
+	}
+
+	public int getYWithoutParentTransform()
+	{
+		return (this.parent == null) ? this.getY() : (this.getY() - this.parent.getY());
 	}
 
 	@Override

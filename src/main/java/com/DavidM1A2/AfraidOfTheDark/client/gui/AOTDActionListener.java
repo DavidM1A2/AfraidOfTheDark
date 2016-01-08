@@ -14,6 +14,7 @@ public interface AOTDActionListener
 		MousePressed,
 		MouseReleased,
 		MouseHover,
+		MouseMove,
 		MouseExitBoundingBox,
 		MouseEnterBoundingBox,
 		KeyTyped;

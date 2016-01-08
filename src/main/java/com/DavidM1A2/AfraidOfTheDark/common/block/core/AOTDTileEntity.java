@@ -19,9 +19,9 @@ public abstract class AOTDTileEntity extends TileEntity implements IUpdatePlayer
 		super();
 		this.blockType = block;
 	}
-	
+
 	@Override
 	public void update()
-	{		
+	{
 	}
 }

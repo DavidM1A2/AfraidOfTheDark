@@ -5,6 +5,8 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls;
 
+import org.lwjgl.input.Mouse;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 
@@ -25,29 +27,23 @@ public class AOTDEventController extends GuiButton
 	public void drawButton(Minecraft mc, int mouseX, int mouseY)
 	{
 		panel.update(mouseX, mouseY);
-	}
-
-	/**
-	 * Fired when the mouse button is released. Equivalent of MouseListener.mouseReleased(MouseEvent e).
-	 */
-	public void mouseReleased(int mouseX, int mouseY)
-	{
-		if (panel.isHovered())
+		while (Mouse.next())
 		{
-			panel.mouseReleased();
+			if (Mouse.getEventButton() == 0)
+			{
+				if (Mouse.getEventButtonState())
+				{
+					panel.mousePressed();
+				}
+				else
+				{
+					panel.mouseReleased();
+				}
+			}
+			else
+			{
+				panel.mouseMove();
+			}
 		}
-	}
-
-	/**
-	 * Returns true if the mouse has been pressed on this control. Equivalent of MouseListener.mousePressed(MouseEvent e).
-	 */
-	@Override
-	public boolean mousePressed(Minecraft mc, int mouseX, int mouseY)
-	{
-		if (panel.isHovered())
-		{
-			panel.mousePressed();
-		}
-		return false;
 	}
 }

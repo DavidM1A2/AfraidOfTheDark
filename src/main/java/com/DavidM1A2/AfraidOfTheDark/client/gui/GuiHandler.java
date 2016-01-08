@@ -8,6 +8,7 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens.BloodStainedJournalPa
 import com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens.BloodStainedJournalResearchGUI;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens.BloodStainedJournalSignGUI;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens.SextantGUI;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens.SpellCraftingGUI;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens.TelescopeGUI;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens.VitaeLanternGUI;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
@@ -26,6 +27,7 @@ public class GuiHandler implements IGuiHandler
 	public static final int SEXTANT_ID = 6;
 	public static final int VITAE_LANTERN_ID = 7;
 	public static final int BLOOD_STAINED_JOURNAL_CHEAT_SHEET = 8;
+	public static final int SPELL_CRAFTING_ID = 9;
 
 	/*
 	 * Create GUIS
@@ -60,6 +62,8 @@ public class GuiHandler implements IGuiHandler
 				return new VitaeLanternGUI();
 			case GuiHandler.BLOOD_STAINED_JOURNAL_CHEAT_SHEET:
 				return new BloodStainedJournalCheatSheetGUI();
+			case GuiHandler.SPELL_CRAFTING_ID:
+				return new SpellCraftingGUI();
 		}
 		return null;
 	}

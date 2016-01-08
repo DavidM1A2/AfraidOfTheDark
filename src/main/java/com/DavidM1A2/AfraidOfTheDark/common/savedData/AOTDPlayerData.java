@@ -16,6 +16,8 @@ import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateHasBeatenEnaria;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateInsanity;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateResearch;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellManager;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTObjectWriter;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -42,6 +44,7 @@ public class AOTDPlayerData implements IExtendedEntityProperties
 	private NBTTagCompound researches = new NBTTagCompound();
 	private boolean hasBeatenEnaria;
 	private int selectedWristCrossbowBolt = 0;
+	private SpellManager spellManager = new SpellManager();
 	private static final String HAS_STARTED_AOTD = "playerStartedAOTD";
 	private final static String PLAYER_INSANITY = "PlayerInsanity";
 	private final static String INVENTORY_SAVER = "inventorySaver";
@@ -51,6 +54,7 @@ public class AOTDPlayerData implements IExtendedEntityProperties
 	private final static String RESEARCH_DATA = "unlockedResearches";
 	private final static String HAS_BEATEN_ENARIA = "hasBeatenEnaria";
 	private final static String SELECTED_WRIST_CROSSBOW_BOLT = "selectedWristCrossbowBolt";
+	private final static String SPELL_MANAGER = "spellManager";
 
 	// CONSTRUCTOR, GETTER, REGISTER ==========================================
 
@@ -91,6 +95,7 @@ public class AOTDPlayerData implements IExtendedEntityProperties
 		nbt.setInteger(PLAYER_LOCATION_VOID_CHEST, this.playerLocationVoidChest);
 		nbt.setBoolean(HAS_BEATEN_ENARIA, this.hasBeatenEnaria);
 		nbt.setInteger(SELECTED_WRIST_CROSSBOW_BOLT, this.selectedWristCrossbowBolt);
+		NBTObjectWriter.writeObjectToNBT(SPELL_MANAGER, this.spellManager, nbt);
 	}
 
 	@Override
@@ -105,6 +110,7 @@ public class AOTDPlayerData implements IExtendedEntityProperties
 		this.setPlayerLocationVoidChest(nbt.getInteger(PLAYER_LOCATION_VOID_CHEST));
 		this.setHasBeatenEnaria(nbt.getBoolean(HAS_BEATEN_ENARIA));
 		this.setSelectedWristCrossbowBolt(nbt.getInteger(SELECTED_WRIST_CROSSBOW_BOLT));
+		this.spellManager = (SpellManager) NBTObjectWriter.readObjectFromNBT(SPELL_MANAGER, nbt);
 	}
 
 	@Override
@@ -290,6 +296,16 @@ public class AOTDPlayerData implements IExtendedEntityProperties
 		{
 			AfraidOfTheDark.getPacketHandler().sendToServer(new SyncSelectedWristCrossbowBolt(this.selectedWristCrossbowBolt));
 		}
+	}
+
+	public SpellManager getSpellManager()
+	{
+		return this.spellManager;
+	}
+
+	public void syncSpellManager()
+	{
+
 	}
 
 	public void syncAll()

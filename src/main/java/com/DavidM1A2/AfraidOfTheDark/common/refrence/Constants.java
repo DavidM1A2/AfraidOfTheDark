@@ -94,7 +94,7 @@ import net.minecraftforge.common.util.EnumHelper;
 
 public final class Constants
 {
-	public static final boolean isDebug = false;
+	public static final boolean isDebug = true;
 
 	public static Map<Class, Integer> entityVitaeResistance = new HashMap<Class, Integer>();
 	public static Map<String, Integer> toolMaterialRepairCosts = new HashMap<String, Integer>();

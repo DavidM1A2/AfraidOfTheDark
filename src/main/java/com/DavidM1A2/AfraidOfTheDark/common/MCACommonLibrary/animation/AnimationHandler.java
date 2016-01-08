@@ -2,8 +2,8 @@ package com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 import com.DavidM1A2.AfraidOfTheDark.client.MCAClientLibrary.MCAModelRenderer;
@@ -86,7 +86,7 @@ public abstract class AnimationHandler
 
 	public void animationsUpdate()
 	{
-		Iterator<Channel> it = animCurrentChannels.iterator();
+		ListIterator<Channel> it = animCurrentChannels.listIterator();
 		while (it.hasNext())
 		{
 			Channel anim = it.next();
@@ -100,9 +100,9 @@ public abstract class AnimationHandler
 			if (!animStatus)
 			{
 				//channelsToRemove.add(anim);
-				it.remove();
 				animPrevTime.remove(anim.name);
 				animCurrentFrame.remove(anim.name);
+				it.remove();
 			}
 		}
 
