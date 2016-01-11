@@ -105,6 +105,11 @@ public abstract class AOTDGuiScreen extends GuiScreen
 		this.spriteSheetControllers.add(sheetController);
 	}
 
+	public AOTDEventController getEventController()
+	{
+		return this.eventController;
+	}
+
 	public abstract boolean inventoryToCloseGuiScreen();
 
 	public abstract boolean drawGradientBackground();

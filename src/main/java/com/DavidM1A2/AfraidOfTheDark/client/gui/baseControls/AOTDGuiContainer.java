@@ -5,96 +5,35 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener.ActionType;
-
-public abstract class AOTDGuiContainer extends AOTDGuiComponent
+public abstract class AOTDGuiContainer extends AOTDGuiComponentWithEvents
 {
-	private final List<AOTDGuiContainer> subComponents = new ArrayList<AOTDGuiContainer>();
+	private final List<AOTDGuiContainer> subComponents = new CopyOnWriteArrayList<AOTDGuiContainer>();
 	private AOTDGuiContainer parent = null;
-	private boolean mousePressed = false;
-	private boolean mouseReleased = false;
-	private boolean mouseMove = false;
 
 	public AOTDGuiContainer(int x, int y, int width, int height)
 	{
 		super(x, y, width, height);
 	}
 
-	@Override
-	public void draw()
+	public void add(AOTDGuiContainer container)
 	{
-		super.draw();
-		for (AOTDGuiContainer component : this.subComponents)
-		{
-			component.draw();
-		}
+		container.setParent(this);
+		container.setX(container.getX() + container.getParent().getX());
+		container.setY(container.getY() + container.getParent().getY());
+		container.setScaleX(container.getParent().getScaleX());
+		container.setScaleY(container.getParent().getScaleY());
+		this.subComponents.add(container);
 	}
 
-	public void add(AOTDGuiContainer component)
+	public void remove(AOTDGuiContainer container)
 	{
-		component.setParent(this);
-		component.setX(component.getX() + component.getParent().getX());
-		component.setY(component.getY() + component.getParent().getY());
-		this.subComponents.add(component);
-	}
-
-	public void update(int mouseX, int mouseY)
-	{
-		boolean wasHovered = this.isHovered();
-		this.setHovered(mouseX >= this.getXScaled() && mouseY >= this.getYScaled() && mouseX < this.getXScaled() + this.getWidthScaled() && mouseY < this.getYScaled() + this.getHeightScaled());
-		if (this.isHovered())
-			this.fireEvent(AOTDActionListener.ActionType.MouseHover);
-		if (this.mousePressed)
-			this.fireEvent(AOTDActionListener.ActionType.MousePressed);
-		if (this.mouseReleased)
-			this.fireEvent(AOTDActionListener.ActionType.MouseReleased);
-		if (mouseMove)
-			this.fireEvent(AOTDActionListener.ActionType.MouseMove);
-		if (wasHovered && !this.isHovered())
-			this.fireEvent(AOTDActionListener.ActionType.MouseExitBoundingBox);
-		if (!wasHovered && this.isHovered())
-			this.fireEvent(AOTDActionListener.ActionType.MouseEnterBoundingBox);
-
-		for (AOTDGuiContainer component : this.subComponents)
-		{
-			component.update(mouseX, mouseY);
-		}
-
-		this.mousePressed = false;
-		this.mouseReleased = false;
-		this.mouseMove = false;
-	}
-
-	public void mousePressed()
-	{
-		this.mousePressed = true;
-		for (AOTDGuiContainer component : this.subComponents)
-			component.mousePressed();
-	}
-
-	public void mouseReleased()
-	{
-		this.mouseReleased = true;
-		for (AOTDGuiContainer component : this.subComponents)
-			component.mouseReleased();
-	}
-
-	public void mouseMove()
-	{
-		this.mouseMove = true;
-		for (AOTDGuiContainer component : this.subComponents)
-			component.mouseMove();
-	}
-
-	public void keyPressed()
-	{
-		this.fireEvent(ActionType.KeyTyped);
-		for (AOTDGuiContainer component : this.subComponents)
-			component.keyPressed();
+		if (!this.subComponents.contains(container))
+			return;
+		this.subComponents.remove(container);
+		container.setParent(null);
 	}
 
 	public int getXWithoutParentTransform()
@@ -108,13 +47,25 @@ public abstract class AOTDGuiContainer extends AOTDGuiComponent
 	}
 
 	@Override
+	public void draw()
+	{
+		super.draw();
+		for (AOTDGuiContainer component : this.subComponents)
+		{
+			component.draw();
+		}
+	}
+
+	@Override
 	public void setX(int x)
 	{
+		// Update all subcomponents using the OLD x value of this component
 		for (AOTDGuiContainer component : this.subComponents)
 		{
 			int xWithoutTransform = component.getXWithoutParentTransform();
 			component.setX(xWithoutTransform + x);
 		}
+		// Set the x of the CURRENT component
 		super.setX(x);
 	}
 
@@ -127,6 +78,46 @@ public abstract class AOTDGuiContainer extends AOTDGuiComponent
 			component.setY(yWithoutTransform + y);
 		}
 		super.setY(y);
+	}
+
+	@Override
+	public void update(int mouseX, int mouseY)
+	{
+		super.update(mouseX, mouseY);
+		for (AOTDGuiContainer container : this.subComponents)
+			container.update(mouseX, mouseY);
+	}
+
+	@Override
+	public void mousePressed()
+	{
+		super.mousePressed();
+		for (AOTDGuiContainer container : this.subComponents)
+			container.mousePressed();
+	}
+
+	@Override
+	public void mouseReleased()
+	{
+		super.mouseReleased();
+		for (AOTDGuiContainer container : this.subComponents)
+			container.mouseReleased();
+	}
+
+	@Override
+	public void mouseMove(int mouseX, int mouseY)
+	{
+		super.mouseMove(mouseX, mouseY);
+		for (AOTDGuiContainer container : this.subComponents)
+			container.mouseMove(mouseX, mouseY);
+	}
+
+	@Override
+	public void keyPressed()
+	{
+		super.keyPressed();
+		for (AOTDGuiContainer container : this.subComponents)
+			container.keyPressed();
 	}
 
 	@Override

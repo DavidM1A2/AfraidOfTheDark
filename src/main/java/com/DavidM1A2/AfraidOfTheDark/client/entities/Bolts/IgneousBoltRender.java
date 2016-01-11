@@ -7,6 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.client.entities.Bolts;
 
 import net.minecraft.client.renderer.entity.RenderManager;
 
+// A bolt renderer, for igneous bolts
 public class IgneousBoltRender extends BoltRender
 {
 	public IgneousBoltRender(final RenderManager renderManager)

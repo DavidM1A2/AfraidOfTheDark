@@ -7,12 +7,9 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls;
 
 import java.awt.Color;
 import java.awt.Rectangle;
-import java.util.LinkedList;
-import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDGuiUtility;
 
 import net.minecraft.client.Minecraft;
@@ -29,7 +26,6 @@ public abstract class AOTDGuiComponent
 	private boolean isVisible = true;
 	private Rectangle boundingBox = new Rectangle();
 	private Rectangle scaledBoundingBox = new Rectangle();
-	private List<AOTDActionListener> actionListeners = new LinkedList<AOTDActionListener>();
 	private float[] color = new float[]
 	{ 1.0f, 1.0f, 1.0f, 1.0f };
 	protected final EntityPlayerSP entityPlayer = Minecraft.getMinecraft().thePlayer;
@@ -54,19 +50,6 @@ public abstract class AOTDGuiComponent
 		GlStateManager.enableBlend();
 	}
 
-	public void addActionListener(AOTDActionListener actionListener)
-	{
-		this.actionListeners.add(actionListener);
-	}
-
-	public void fireEvent(AOTDActionListener.ActionType actionType)
-	{
-		for (AOTDActionListener actionListener : this.actionListeners)
-		{
-			actionListener.actionPerformed(this, actionType);
-		}
-	}
-
 	public boolean intersects(AOTDGuiComponent other)
 	{
 		if (other == null)
@@ -83,16 +66,16 @@ public abstract class AOTDGuiComponent
 	public void setScaleX(double scaleX)
 	{
 		this.scaleX = scaleX;
-		this.updateBounds();
+		this.updateScaledBounds();
 	}
 
 	public void setScaleY(double scaleY)
 	{
 		this.scaleY = scaleY;
-		this.updateBounds();
+		this.updateScaledBounds();
 	}
 
-	private void updateBounds()
+	public void updateScaledBounds()
 	{
 		int xNew = (int) Math.round(this.scaleX * this.boundingBox.x);
 		int yNew = (int) Math.round(this.scaleY * this.boundingBox.y);
@@ -114,7 +97,7 @@ public abstract class AOTDGuiComponent
 	public void setX(int x)
 	{
 		this.boundingBox.x = x;
-		this.updateBounds();
+		this.updateScaledBounds();
 	}
 
 	public int getXScaled()
@@ -130,7 +113,7 @@ public abstract class AOTDGuiComponent
 	public void setY(int y)
 	{
 		this.boundingBox.y = y;
-		this.updateBounds();
+		this.updateScaledBounds();
 	}
 
 	public int getYScaled()
@@ -146,7 +129,7 @@ public abstract class AOTDGuiComponent
 	public void setWidth(int width)
 	{
 		this.boundingBox.width = width;
-		this.updateBounds();
+		this.updateScaledBounds();
 	}
 
 	public int getWidthScaled()
@@ -162,7 +145,7 @@ public abstract class AOTDGuiComponent
 	public void setHeight(int height)
 	{
 		this.boundingBox.height = height;
-		this.updateBounds();
+		this.updateScaledBounds();
 	}
 
 	public int getHeightScaled()

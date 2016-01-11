@@ -21,22 +21,17 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiScreen;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiTextField;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.TextAlignment;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
-import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.FontLoader;
-import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.TrueTypeFont;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SpawnMeteor;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ResourceLocation;
 
 public class SextantGUI extends AOTDGuiScreen
 {
 	private AOTDGuiTextField angle;
 	private AOTDGuiTextField latitude;
 	private AOTDGuiTextField longitude;
-	private static final TrueTypeFont TEXT_FIELD_FONT = FontLoader.createFont(new ResourceLocation("afraidofthedark:fonts/Targa MS Hand.ttf"), 45f, true);
-	private static final TrueTypeFont CALCULATE_BUTTON_FONT = FontLoader.createFont(new ResourceLocation("afraidofthedark:fonts/Targa MS Hand.ttf"), 40f, true);
 
 	public SextantGUI()
 	{
@@ -45,9 +40,9 @@ public class SextantGUI extends AOTDGuiScreen
 		AOTDGuiImage backgroundImage = new AOTDGuiImage(0, 0, 256, 256, "textures/gui/sextant.png");
 		background.add(backgroundImage);
 
-		this.angle = new AOTDGuiTextField(15, 108, 120, 30, TEXT_FIELD_FONT);
-		this.latitude = new AOTDGuiTextField(15, 140, 120, 30, TEXT_FIELD_FONT);
-		this.longitude = new AOTDGuiTextField(15, 172, 120, 30, TEXT_FIELD_FONT);
+		this.angle = new AOTDGuiTextField(15, 108, 120, 30, ClientData.getTargaMSHandFontSized(45f));
+		this.latitude = new AOTDGuiTextField(15, 140, 120, 30, ClientData.getTargaMSHandFontSized(45f));
+		this.longitude = new AOTDGuiTextField(15, 172, 120, 30, ClientData.getTargaMSHandFontSized(45f));
 		angle.setTextColor(Color.WHITE);
 		angle.setGhostText("Angle");
 		background.add(angle);
@@ -58,7 +53,7 @@ public class SextantGUI extends AOTDGuiScreen
 		longitude.setGhostText("Longitude");
 		background.add(longitude);
 
-		AOTDGuiButton confirm = new AOTDGuiButton(15, 204, 120, 20, CALCULATE_BUTTON_FONT, "afraidofthedark:textures/gui/signButton.png", "afraidofthedark:textures/gui/signButtonHovered.png");
+		AOTDGuiButton confirm = new AOTDGuiButton(15, 204, 120, 20, ClientData.getTargaMSHandFontSized(40f), "afraidofthedark:textures/gui/signButton.png", "afraidofthedark:textures/gui/signButtonHovered.png");
 		confirm.setText("Calculate");
 		confirm.setTextAlignment(TextAlignment.ALIGN_CENTER);
 		confirm.addActionListener(new AOTDActionListener()

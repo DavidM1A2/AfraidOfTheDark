@@ -63,6 +63,7 @@ public class AOTDGuiScrollPanel extends AOTDGuiContainer
 
 	public void setMaximumOffset(int maxOffset)
 	{
+		this.lastSliderPosition = -1.0f;
 		this.maximumOffset = maxOffset;
 	}
 

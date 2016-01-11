@@ -7,6 +7,8 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls;
 
 import org.lwjgl.input.Mouse;
 
+import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDGuiUtility;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 
@@ -27,10 +29,13 @@ public class AOTDEventController extends GuiButton
 	public void drawButton(Minecraft mc, int mouseX, int mouseY)
 	{
 		panel.update(mouseX, mouseY);
-		while (Mouse.next())
+	}
+
+	public void mouseInputEvent()
+	{
+		switch (Mouse.getEventButton())
 		{
-			if (Mouse.getEventButton() == 0)
-			{
+			case 0:
 				if (Mouse.getEventButtonState())
 				{
 					panel.mousePressed();
@@ -39,11 +44,9 @@ public class AOTDEventController extends GuiButton
 				{
 					panel.mouseReleased();
 				}
-			}
-			else
-			{
-				panel.mouseMove();
-			}
+				break;
+			case -1:
+				panel.mouseMove(AOTDGuiUtility.getMouseX(), AOTDGuiUtility.getMouseY());
 		}
 	}
 }

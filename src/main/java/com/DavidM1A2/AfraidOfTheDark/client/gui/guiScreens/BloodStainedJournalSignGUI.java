@@ -18,19 +18,15 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiScreen;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiTextField;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.TextAlignment;
-import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.FontLoader;
-import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.TrueTypeFont;
+import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ResourceLocation;
 
 public class BloodStainedJournalSignGUI extends AOTDGuiScreen
 {
 	private AOTDGuiTextField nameSignField;
-	private static final TrueTypeFont TEXT_FIELD_FONT = FontLoader.createFont(new ResourceLocation("afraidofthedark:fonts/Targa MS Hand.ttf"), 45f, true);
-	private static final TrueTypeFont SIGN_BUTTON_FONT = FontLoader.createFont(new ResourceLocation("afraidofthedark:fonts/Targa MS Hand.ttf"), 45f, true);
 
 	public BloodStainedJournalSignGUI()
 	{
@@ -39,11 +35,11 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
 		AOTDGuiImage backgroundImage = new AOTDGuiImage(0, 0, 256, 256, "textures/gui/bloodStainedJournal.png");
 		backgroundPanel.add(backgroundImage);
 
-		this.nameSignField = new AOTDGuiTextField(45, 90, 160, 30, TEXT_FIELD_FONT);
+		this.nameSignField = new AOTDGuiTextField(45, 90, 160, 30, ClientData.getTargaMSHandFontSized(45f));
 		this.nameSignField.setTextColor(Color.red);
 		backgroundPanel.add(this.nameSignField);
 
-		AOTDGuiButton signButton = new AOTDGuiButton(75, 130, 100, 25, SIGN_BUTTON_FONT, "afraidofthedark:textures/gui/signButton.png", "afraidofthedark:textures/gui/signButtonHovered.png");
+		AOTDGuiButton signButton = new AOTDGuiButton(75, 130, 100, 25, ClientData.getTargaMSHandFontSized(45f), "afraidofthedark:textures/gui/signButton.png", "afraidofthedark:textures/gui/signButtonHovered.png");
 		signButton.setText("Sign");
 		signButton.setTextColor(Color.RED);
 		signButton.setTextAlignment(TextAlignment.ALIGN_CENTER);

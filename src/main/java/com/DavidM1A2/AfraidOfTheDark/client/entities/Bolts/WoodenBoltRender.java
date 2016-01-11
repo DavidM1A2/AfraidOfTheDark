@@ -7,6 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.client.entities.Bolts;
 
 import net.minecraft.client.renderer.entity.RenderManager;
 
+//A bolt renderer, for wooden bolts
 public class WoodenBoltRender extends BoltRender
 {
 	public WoodenBoltRender(final RenderManager renderManager)

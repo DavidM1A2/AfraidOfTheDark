@@ -13,6 +13,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.commands.CMDInsanityCheck;
 import com.DavidM1A2.AfraidOfTheDark.common.debug.DebugSpammer;
 import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.handler.FogRenderingEvents;
+import com.DavidM1A2.AfraidOfTheDark.common.handler.GuiEventHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.handler.KeyInputEventHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.handler.PlayerController;
 import com.DavidM1A2.AfraidOfTheDark.common.handler.WorldEvents;
@@ -87,6 +88,8 @@ public class AfraidOfTheDark
 		WorldEvents worldEvents = new WorldEvents();
 		FMLCommonHandler.instance().bus().register(worldEvents);
 		MinecraftForge.EVENT_BUS.register(worldEvents);
+		if (event.getSide() == Side.CLIENT)
+			MinecraftForge.EVENT_BUS.register(new GuiEventHandler());
 		// Initialize debug file to spam chat with variables
 		if (Constants.isDebug)
 		{

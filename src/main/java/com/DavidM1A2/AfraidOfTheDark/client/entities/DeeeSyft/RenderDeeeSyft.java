@@ -17,7 +17,6 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderDeeeSyft extends RenderLiving
 {
-
 	public static final ResourceLocation DEEESYFT_TEXTURE = new ResourceLocation("afraidofthedark:textures/entity/deeeSyft.png");
 	public static ModelDeeeSyft modelDeeeSyft = new ModelDeeeSyft();
 	public static float modelHeight = -0.5F;
