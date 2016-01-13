@@ -3,12 +3,12 @@
  * Mod: Afraid of the Dark
  * Ideas and Textures: Michael Albertson
  */
-package com.DavidM1A2.AfraidOfTheDark.client.entities.Bolts;
+package com.DavidM1A2.AfraidOfTheDark.client.entities.bolts;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityBolt;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntityBolt;
 
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;

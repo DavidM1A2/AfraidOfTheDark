@@ -34,7 +34,7 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 
 	public SpellCraftingGUI()
 	{
-		AOTDGuiPanel tablet = new AOTDGuiPanel((640 - 192) / 2, (360 - 256) / 2, 192, 256, false);
+		AOTDGuiPanel tablet = new AOTDGuiPanel(100, (360 - 256) / 2, 192, 256, false);
 
 		AOTDGuiImage background = new AOTDGuiImage(0, 0, 192, 256, "textures/gui/spellCrafting/tabletBackground.png");
 		tablet.add(background);
@@ -67,6 +67,22 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 		tablet.add(this.spellCost);
 
 		this.getContentPane().add(tablet);
+
+		/*
+		 * 
+		 */
+
+		AOTDGuiPanel effectScroll = new AOTDGuiPanel(340, (360 - 256) / 2, 192, 256, false);
+		AOTDGuiImage backgroundScroll = new AOTDGuiImage(0, 0, 192, 256, "textures/gui/spellCrafting/effectListScroll.png");
+		effectScroll.add(backgroundScroll);
+
+		AOTDGuiScrollBar effectsScrollBar = new AOTDGuiScrollBar(30, 50, 13, 160);
+		effectScroll.add(effectsScrollBar);
+		AOTDGuiScrollPanel effectsPanel = new AOTDGuiScrollPanel(10, 10, 150, 200, true, effectsScrollBar);
+		effectsPanel.setMaximumOffset(100);
+		effectScroll.add(effectsPanel);
+
+		this.getContentPane().add(effectScroll);
 	}
 
 	public void addNewSpellStage()

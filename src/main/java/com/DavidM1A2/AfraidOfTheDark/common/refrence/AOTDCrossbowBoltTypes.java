@@ -5,12 +5,12 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.refrence;
 
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityBolt;
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityIgneousBolt;
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityIronBolt;
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntitySilverBolt;
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityStarMetalBolt;
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.EntityWoodenBolt;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntityBolt;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntityIgneousBolt;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntityIronBolt;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntitySilverBolt;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntityStarMetalBolt;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntityWoodenBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 
 import net.minecraft.entity.player.EntityPlayer;

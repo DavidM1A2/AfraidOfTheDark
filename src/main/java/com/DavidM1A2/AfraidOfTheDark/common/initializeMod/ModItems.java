@@ -7,11 +7,11 @@ package com.DavidM1A2.AfraidOfTheDark.common.initializeMod;
 
 import com.DavidM1A2.AfraidOfTheDark.common.debug.ItemInsanityControl;
 import com.DavidM1A2.AfraidOfTheDark.common.debug.ItemWorldGenTest;
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.ItemIgneousBolt;
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.ItemIronBolt;
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.ItemSilverBolt;
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.ItemStarMetalBolt;
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Bolts.ItemWoodenBolt;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.ItemIgneousBolt;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.ItemIronBolt;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.ItemSilverBolt;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.ItemStarMetalBolt;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.ItemWoodenBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemAstralSilverIngot;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemAstralSilverSword;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemBladeOfExhumation;

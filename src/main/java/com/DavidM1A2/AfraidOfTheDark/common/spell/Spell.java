@@ -6,61 +6,95 @@
 package com.DavidM1A2.AfraidOfTheDark.common.spell;
 
 import java.io.Serializable;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.UUID;
 
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDEntityData;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.deliveryMethod.DeliveryMethod;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.effects.Effect;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.powerSource.PowerSource;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ChatComponentText;
 
 public class Spell implements Serializable
 {
-	private String name = "";
-	private IPowerSource powerSource;
-	private List<SpellStage> spellStages;
+	private final String name;
+	private final PowerSource powerSource;
+	private final Entry<DeliveryMethod, List<Effect>>[] spellStages;
+	private final UUID spellID;
 
-	public Spell(String name, IPowerSource powerSource, List<SpellStage> spellStages)
+	public Spell(String name, PowerSource powerSource, LinkedHashMap<DeliveryMethod, List<Effect>> spellStages, UUID spellID)
 	{
 		this.name = name;
-		this.spellStages = spellStages;
+		this.spellStages = new Entry[spellStages.entrySet().size()];
+		spellStages.entrySet().toArray(this.spellStages);
 		this.powerSource = powerSource;
+		this.powerSource.setParentSpell(this);
+		this.spellID = spellID;
 	}
 
 	public void instantiateSpell(EntityPlayer entityPlayer)
 	{
-		this.powerSource.usePower(entityPlayer, this.getCost());
-		this.spellStages.get(0).fireStage(entityPlayer, this);
+		if (this.isSpellValid() && this.powerSource.canCastMySpell(entityPlayer))
+		{
+			this.powerSource.castSpell(entityPlayer);
+			this.spellStages[0].getKey().fireDeliveryMethod(null, this, 0);
+		}
+		else
+		{
+			entityPlayer.addChatMessage(new ChatComponentText(this.powerSource.getNotEnoughPowerMsg()));
+		}
 	}
 
-	public void spellStageCallback()
+	public void spellStageCallback(DeliveryMethod previous, int spellStageIndex)
 	{
-
+		spellStageIndex = spellStageIndex + 1;
+		this.spellStages[spellStageIndex].getKey().fireDeliveryMethod(previous, this, spellStageIndex);
 	}
 
 	public double getCost()
 	{
 		double cost = 0;
-		for (SpellStage spellStage : this.spellStages)
-			cost = cost + spellStage.getCost();
+		for (Entry<DeliveryMethod, List<Effect>> spellStage : this.spellStages)
+		{
+			cost = cost + spellStage.getKey().getCost();
+			for (Effect effect : spellStage.getValue())
+			{
+				cost = cost + effect.getCost();
+			}
+		}
 		return cost;
 	}
 
-	public boolean canCast(EntityPlayer entityPlayer)
+	private boolean isSpellValid()
 	{
-		if (AOTDEntityData.get(entityPlayer).getVitaeLevel() > this.powerSource.getPowerLevel())
-		{
-			return true;
-		}
-		return false;
-	}
+		boolean isValid = true;
 
-	// Getters/Setters
-	public void setName(String name)
-	{
-		this.name = name;
+		if (this.powerSource == null)
+			isValid = false;
+		if (this.spellStages.length == 0)
+			isValid = false;
+		for (Entry<DeliveryMethod, List<Effect>> spellStage : this.spellStages)
+			if (spellStage.getKey() == null)
+				isValid = false;
+
+		return isValid;
 	}
 
 	public String getName()
 	{
 		return this.name;
+	}
+
+	public UUID getSpellUUID()
+	{
+		return this.spellID;
+	}
+
+	public Entry<DeliveryMethod, List<Effect>> getSpellStage(int index)
+	{
+		return this.spellStages[index];
 	}
 }
