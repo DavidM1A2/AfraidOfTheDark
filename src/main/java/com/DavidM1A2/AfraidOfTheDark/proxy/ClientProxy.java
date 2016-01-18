@@ -14,6 +14,8 @@ import com.DavidM1A2.AfraidOfTheDark.client.entities.bolts.IronBoltRender;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.bolts.SilverBoltRender;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.bolts.StarMetalBoltRender;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.bolts.WoodenBoltRender;
+import com.DavidM1A2.AfraidOfTheDark.client.entities.spell.ModelSpellProjectile;
+import com.DavidM1A2.AfraidOfTheDark.client.entities.spell.RenderSpell;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.tileEntities.TileEntityVoidChestRenderer;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.Keybindings;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityVoidChest;
@@ -28,6 +30,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntityIronBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntitySilverBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntityStarMetalBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntityWoodenBolt;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.projectile.EntitySpellProjectile;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.item.crossbow.ItemCrossbowRender;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
@@ -69,6 +72,7 @@ public class ClientProxy extends CommonProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityWoodenBolt.class, new WoodenBoltRender(current));
 		RenderingRegistry.registerEntityRenderingHandler(EntityIgneousBolt.class, new IgneousBoltRender(current));
 		RenderingRegistry.registerEntityRenderingHandler(EntityStarMetalBolt.class, new StarMetalBoltRender(current));
+		RenderingRegistry.registerEntityRenderingHandler(EntitySpellProjectile.class, new RenderSpell(new ModelSpellProjectile(), "afraidofthedark:textures/entity/spell/projectile.png"));
 		MinecraftForgeClient.registerItemRenderer(ModItems.crossbow, new ItemCrossbowRender());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVoidChest.class, new TileEntityVoidChestRenderer());
 	}

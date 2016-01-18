@@ -16,6 +16,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntityIronBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntitySilverBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntityStarMetalBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntityWoodenBolt;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.projectile.EntitySpellProjectile;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 
 import net.minecraft.entity.EnumCreatureType;
@@ -36,6 +37,7 @@ public class ModEntities
 	public static final int enariaID = 8;
 	public static final int splinterDroneID = 9;
 	public static final int splinterDroneProjectileID = 10;
+	public static final int spellProjectileID = 11;
 
 	public static void intialize()
 	{
@@ -56,6 +58,8 @@ public class ModEntities
 		EntityRegistry.registerModEntity(EntityWoodenBolt.class, "woodenBolt", ModEntities.woodenBoltID, Refrence.MOD_ID, 50, 10, true);
 		EntityRegistry.registerModEntity(EntityIgneousBolt.class, "igneousBolt", ModEntities.igneousBoltID, Refrence.MOD_ID, 50, 10, true);
 		EntityRegistry.registerModEntity(EntityStarMetalBolt.class, "starMetalBolt", ModEntities.starMetalBoltID, Refrence.MOD_ID, 50, 10, true);
+
+		EntityRegistry.registerModEntity(EntitySpellProjectile.class, "spellProjectile", ModEntities.spellProjectileID, Refrence.MOD_ID, 50, 1, true);
 
 		// Allow the werewolf to rarely spawn in all biomes
 		for (int i = 0; i < BiomeGenBase.getBiomeGenArray().length; i++)

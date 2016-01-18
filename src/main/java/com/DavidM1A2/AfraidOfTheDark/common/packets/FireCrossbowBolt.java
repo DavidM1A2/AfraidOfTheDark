@@ -53,6 +53,7 @@ public class FireCrossbowBolt implements IMessage
 				public void run()
 				{
 					World world = entityPlayer.worldObj;
+
 					// Only fire a bolt if the player is in creative or has the right bolt item
 					if (entityPlayer.capabilities.isCreativeMode || entityPlayer.inventory.consumeInventoryItem(msg.boltType.getMyBoltItem()))
 					{

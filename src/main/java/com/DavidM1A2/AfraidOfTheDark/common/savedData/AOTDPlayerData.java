@@ -111,6 +111,8 @@ public class AOTDPlayerData implements IExtendedEntityProperties
 		this.setHasBeatenEnaria(nbt.getBoolean(HAS_BEATEN_ENARIA));
 		this.setSelectedWristCrossbowBolt(nbt.getInteger(SELECTED_WRIST_CROSSBOW_BOLT));
 		this.spellManager = (SpellManager) NBTObjectWriter.readObjectFromNBT(SPELL_MANAGER, nbt);
+		if (this.spellManager == null)
+			this.spellManager = new SpellManager();
 	}
 
 	@Override

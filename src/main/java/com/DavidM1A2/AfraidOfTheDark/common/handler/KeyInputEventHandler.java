@@ -5,6 +5,8 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.handler;
 
+import org.lwjgl.input.Keyboard;
+
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.Keybindings;
@@ -13,6 +15,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.item.ItemCloakOfAgility;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemVitaeLantern;
 import com.DavidM1A2.AfraidOfTheDark.common.item.crossbow.ItemWristCrossbow;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.FireCrossbowBolt;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncKeyPress;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDCrossbowBoltTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
@@ -46,6 +49,15 @@ public class KeyInputEventHandler
 		{
 			this.changeLanternMode();
 		}
+		if (AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).getSpellManager().doesKeyMapToSpell(Keyboard.getEventCharacter()))
+		{
+			this.spellKeyPressed();
+		}
+	}
+
+	private void spellKeyPressed()
+	{
+		AfraidOfTheDark.getPacketHandler().sendToServer(new SyncKeyPress(Keyboard.getEventCharacter(), Keyboard.getEventKey()));
 	}
 
 	private void changeLanternMode()

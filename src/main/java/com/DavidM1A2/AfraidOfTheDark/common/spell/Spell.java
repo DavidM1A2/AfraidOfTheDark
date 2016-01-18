@@ -14,6 +14,7 @@ import java.util.UUID;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.deliveryMethod.DeliveryMethod;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.effects.Effect;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.powerSource.PowerSource;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
@@ -40,7 +41,11 @@ public class Spell implements Serializable
 		if (this.isSpellValid() && this.powerSource.canCastMySpell(entityPlayer))
 		{
 			this.powerSource.castSpell(entityPlayer);
-			this.spellStages[0].getKey().fireDeliveryMethod(null, this, 0);
+			this.spellStages[0].getKey().fireDeliveryMethod(entityPlayer, this, 0);
+		}
+		else if (!this.isSpellValid())
+		{
+			entityPlayer.addChatMessage(new ChatComponentText("Invalid spell. Make sure to have delivery methods and a power source on your spell!"));
 		}
 		else
 		{
@@ -48,9 +53,15 @@ public class Spell implements Serializable
 		}
 	}
 
-	public void spellStageCallback(DeliveryMethod previous, int spellStageIndex)
+	public void spellStageCallback(int spellStageIndex)
 	{
+		DeliveryMethod previous = this.spellStages[spellStageIndex].getKey();
 		spellStageIndex = spellStageIndex + 1;
+		if (this.spellStages.length == spellStageIndex)
+		{
+			LogHelper.info("Spell over");
+			return;
+		}
 		this.spellStages[spellStageIndex].getKey().fireDeliveryMethod(previous, this, spellStageIndex);
 	}
 
@@ -91,10 +102,5 @@ public class Spell implements Serializable
 	public UUID getSpellUUID()
 	{
 		return this.spellID;
-	}
-
-	public Entry<DeliveryMethod, List<Effect>> getSpellStage(int index)
-	{
-		return this.spellStages[index];
 	}
 }

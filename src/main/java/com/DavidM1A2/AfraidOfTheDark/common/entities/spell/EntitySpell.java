@@ -5,14 +5,16 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.entities.spell;
 
+import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTObjectWriter;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
-public abstract class EntitySpell extends Entity
+public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 {
 	private static final String SPELL_SOURCE = "spellSource";
 	private Spell spellSource;
@@ -25,10 +27,14 @@ public abstract class EntitySpell extends Entity
 	}
 
 	@Override
-	public void onUpdate()
+	public void onEntityUpdate()
 	{
-		super.onUpdate();
-		this.updateSpellLogic();
+		super.onEntityUpdate();
+		if (this.ticksExisted >= this.getSpellLifeInTicks())
+		{
+			this.setDead();
+		}
+		this.updateSpellSpecificLogic();
 	}
 
 	@Override
@@ -36,7 +42,7 @@ public abstract class EntitySpell extends Entity
 	{
 	}
 
-	protected abstract void updateSpellLogic();
+	protected abstract void updateSpellSpecificLogic();
 
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound compound)
@@ -52,9 +58,19 @@ public abstract class EntitySpell extends Entity
 		NBTObjectWriter.writeObjectToNBT(SPELL_SOURCE, this.spellSource, compound);
 	}
 
-	public void spellComplete()
+	public void spellStageComplete()
 	{
-		this.spellSource.spellStageCallback(this.spellSource.getSpellStage(this.spellStageIndex).getKey(), this.spellStageIndex);
+		this.spellSource.spellStageCallback(this.spellStageIndex);
+	}
+
+	public void performEffect(BlockPos location)
+	{
+
+	}
+
+	public void performEffect(Entity entity)
+	{
+
 	}
 
 	public void setSpellSource(Spell spell)
@@ -71,4 +87,6 @@ public abstract class EntitySpell extends Entity
 	{
 		this.spellStageIndex = index;
 	}
+
+	public abstract int getSpellLifeInTicks();
 }
