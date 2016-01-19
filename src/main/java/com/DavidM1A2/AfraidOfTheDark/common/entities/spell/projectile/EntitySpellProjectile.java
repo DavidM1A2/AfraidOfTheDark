@@ -13,6 +13,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.EntitySpell;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.AxisAlignedBB;
@@ -34,13 +35,8 @@ public class EntitySpellProjectile extends EntitySpell
 	private int tileY = -1;
 	private int tileZ = -1;
 	private Block insideOf;
-	private boolean inGround;
+	private boolean AIInitial;
 	public EntityLivingBase shootingEntity;
-	private int ticksAlive;
-	private int ticksInAir;
-	public double accelerationX = 0;
-	public double accelerationY = 0;
-	public double accelerationZ = 0;
 
 	public EntitySpellProjectile(World worldIn)
 	{
@@ -48,16 +44,29 @@ public class EntitySpellProjectile extends EntitySpell
 		this.setSize(0.4F, 0.4F);
 	}
 
-	public EntitySpellProjectile(World world, EntityLivingBase shootingEntity, double x, double y, double z, double xVelocity, double yVelocity, double zVelocity, boolean initialDeliveryMethod)
+	public EntitySpellProjectile(World world, EntityLivingBase shootingEntity, double x, double y, double z, double xVelocity, double yVelocity, double zVelocity, boolean AIInitial)
 	{
 		this(world);
 		this.shootingEntity = shootingEntity;
-		this.setLocationAndAngles(x, y, z, shootingEntity.rotationYaw, shootingEntity.rotationPitch);
-		this.setPosition(this.posX, this.posY, this.posZ);
-		double d3 = (double) MathHelper.sqrt_double(xVelocity * xVelocity + yVelocity * yVelocity + zVelocity * zVelocity);
-		this.motionX = xVelocity / d3 * 0.4;
-		this.motionY = yVelocity / d3 * 0.4;
-		this.motionZ = zVelocity / d3 * 0.4;
+		this.AIInitial = AIInitial;
+		
+		if (this.AIInitial)
+		{
+			this.setLocationAndAngles(x, y, z, shootingEntity.rotationYaw, shootingEntity.rotationPitch);
+			this.setPosition(this.posX, this.posY, this.posZ);
+			double d3 = (double) MathHelper.sqrt_double(xVelocity * xVelocity + yVelocity * yVelocity + zVelocity * zVelocity);
+			this.motionX = xVelocity / d3 * 0.4;
+			this.motionY = yVelocity / d3 * 0.4;
+			this.motionZ = zVelocity / d3 * 0.4;
+		}
+		else
+		{
+			this.setLocationAndAngles(x, y, z, shootingEntity.rotationYaw, shootingEntity.rotationPitch);
+			this.setPosition(this.posX, this.posY, this.posZ);
+			this.motionX = 0;
+			this.motionY = 1.0;
+			this.motionZ = 0;
+		}
 	}
 
 	/**
@@ -92,53 +101,41 @@ public class EntitySpellProjectile extends EntitySpell
 		}
 		else
 		{
-			Vec3 vec3 = new Vec3(this.posX, this.posY, this.posZ);
-			Vec3 vec31 = new Vec3(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-			MovingObjectPosition movingobjectposition = this.worldObj.rayTraceBlocks(vec3, vec31);
-			vec3 = new Vec3(this.posX, this.posY, this.posZ);
-			vec31 = new Vec3(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-
-			if (movingobjectposition != null)
+			if (!this.AIInitial)
 			{
-				vec31 = new Vec3(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
-			}
-
-			Entity entity = null;
-			List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
-			double d0 = 0.0D;
-
-			for (int i = 0; i < list.size(); ++i)
-			{
-				Entity entity1 = (Entity) list.get(i);
-
-				if (entity1.canBeCollidedWith() && (!entity1.isEntityEqual(this.shootingEntity) || this.ticksInAir >= 25))
+				if (this.getTicksAlive() == 60)
 				{
-					float f = 0.3F;
-					AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand((double) f, (double) f, (double) f);
-					MovingObjectPosition movingobjectposition1 = axisalignedbb.calculateIntercept(vec3, vec31);
-
-					if (movingobjectposition1 != null)
+					EntityLivingBase closestEntity = null;
+					for (Object entity : this.worldObj.getEntitiesWithinAABB(Entity.class, this.getEntityBoundingBox().expand(30, 30, 30)))
 					{
-						double d1 = vec3.distanceTo(movingobjectposition1.hitVec);
-
-						if (d1 < d0 || d0 == 0.0D)
+						if (entity instanceof EntityLivingBase && !(entity instanceof EntityArmorStand))
 						{
-							entity = entity1;
-							d0 = d1;
+							EntityLivingBase entityLiving = (EntityLivingBase) entity;
+							if (closestEntity == null || this.getDistanceToEntity(entityLiving) < this.getDistanceToEntity(closestEntity))
+							{
+								closestEntity = entityLiving;
+							}
 						}
 					}
-				}
+					
+					if (closestEntity != null)
+					{						
+						double xVelocity = closestEntity.posX - this.posX;
+						double yVelocity = closestEntity.getEntityBoundingBox().minY + (double) (closestEntity.height / 2.0F) - (this.posY + (double) (this.height / 2.0F));
+						double zVelocity = closestEntity.posZ - this.posZ;
+						this.motionX = xVelocity / 20.0f;
+						this.motionY = yVelocity / 20.0f;
+						this.motionZ = zVelocity / 20.0f;
+					}
+					else
+					{
+						this.performEffect(this.getPosition());
+						this.setDead();
+					}
+				} 
 			}
-
-			if (entity != null)
-			{
-				movingobjectposition = new MovingObjectPosition(entity);
-			}
-
-			if (movingobjectposition != null)
-			{
-				this.onImpact(movingobjectposition);
-			}
+			
+			this.performHitDetection();
 
 			if (!this.isDead)
 			{
@@ -146,12 +143,59 @@ public class EntitySpellProjectile extends EntitySpell
 				this.posY += this.motionY;
 				this.posZ += this.motionZ;
 
-				this.motionX += this.accelerationX;
-				this.motionY += this.accelerationY;
-				this.motionZ += this.accelerationZ;
-
 				this.setPosition(this.posX, this.posY, this.posZ);
 			}
+		}
+	}
+	
+	private void performHitDetection()
+	{
+		Vec3 vec3 = new Vec3(this.posX, this.posY, this.posZ);
+		Vec3 vec31 = new Vec3(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+		MovingObjectPosition movingobjectposition = this.worldObj.rayTraceBlocks(vec3, vec31);
+		vec3 = new Vec3(this.posX, this.posY, this.posZ);
+		vec31 = new Vec3(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+
+		if (movingobjectposition != null)
+		{
+			vec31 = new Vec3(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
+		}
+
+		Entity entity = null;
+		List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
+		double d0 = 0.0D;
+
+		for (int i = 0; i < list.size(); ++i)
+		{
+			Entity entity1 = (Entity) list.get(i);
+
+			if (entity1.canBeCollidedWith() && !entity1.isEntityEqual(this.shootingEntity))
+			{
+				float f = 0.3F;
+				AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand((double) f, (double) f, (double) f);
+				MovingObjectPosition movingobjectposition1 = axisalignedbb.calculateIntercept(vec3, vec31);
+
+				if (movingobjectposition1 != null)
+				{
+					double d1 = vec3.distanceTo(movingobjectposition1.hitVec);
+
+					if (d1 < d0 || d0 == 0.0D)
+					{
+						entity = entity1;
+						d0 = d1;
+					}
+				}
+			}
+		}
+
+		if (entity != null)
+		{
+			movingobjectposition = new MovingObjectPosition(entity);
+		}
+
+		if (movingobjectposition != null)
+		{
+			this.onImpact(movingobjectposition);
 		}
 	}
 
@@ -192,7 +236,6 @@ public class EntitySpellProjectile extends EntitySpell
 		tagCompound.setShort("zTile", (short) this.tileZ);
 		ResourceLocation resourcelocation = (ResourceLocation) Block.blockRegistry.getNameForObject(this.insideOf);
 		tagCompound.setString("inTile", resourcelocation == null ? "" : resourcelocation.toString());
-		tagCompound.setByte("inGround", (byte) (this.inGround ? 1 : 0));
 		tagCompound.setTag("direction", this.newDoubleNBTList(new double[]
 		{ this.motionX, this.motionY, this.motionZ }));
 	}
@@ -215,8 +258,6 @@ public class EntitySpellProjectile extends EntitySpell
 		{
 			this.insideOf = Block.getBlockById(tagCompund.getByte("inTile") & 255);
 		}
-
-		this.inGround = tagCompund.getByte("inGround") == 1;
 
 		if (tagCompund.hasKey("direction", 9))
 		{
@@ -253,5 +294,17 @@ public class EntitySpellProjectile extends EntitySpell
 	public int getSpellLifeInTicks()
 	{
 		return 400;
+	}
+
+	@Override
+	public void performEffect(BlockPos location) 
+	{
+		return;
+	}
+
+	@Override
+	public void performEffect(Entity entity) 
+	{
+		
 	}
 }

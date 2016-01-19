@@ -152,13 +152,13 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 		 */
 
 		AOTDGuiPanel effectScroll = new AOTDGuiPanel(340, (360 - 256) / 2, 220, 256, false);
-		AOTDGuiImage backgroundScroll = new AOTDGuiImage(0, 0, 192, 256, "textures/gui/spellCrafting/effectListScroll.png");
+		AOTDGuiImage backgroundScroll = new AOTDGuiImage(0, 0, 200, 256, "textures/gui/spellCrafting/effectListScroll.png");
 		effectScroll.add(backgroundScroll);
 
 		AOTDGuiScrollBar effectsScrollBar = new AOTDGuiScrollBar(200, 50, 13, 160);
 		effectScroll.add(effectsScrollBar);
-		AOTDGuiScrollPanel effectsPanel = new AOTDGuiScrollPanel(10, 10, 150, 200, true, effectsScrollBar);
-		effectsPanel.setMaximumOffset(100);
+		AOTDGuiScrollPanel effectsPanel = new AOTDGuiScrollPanel(40, 50, 120, 175, true, effectsScrollBar);
+		effectsPanel.setMaximumOffset(200);
 		effectScroll.add(effectsPanel);
 
 		this.getContentPane().add(effectScroll);
@@ -173,7 +173,7 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 			public void actionPerformed(AOTDGuiComponent component, ActionType actionType)
 			{
 				if (actionType == ActionType.MousePressed)
-					if (component.isHovered())
+					if (component.isHovered() && component.isVisible())
 						SpellCraftingGUI.this.addNewSpellStage();
 			}
 		});
@@ -183,7 +183,7 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 			public void actionPerformed(AOTDGuiComponent component, ActionType actionType)
 			{
 				if (actionType == ActionType.MousePressed)
-					if (component.isHovered())
+					if (component.isHovered() && component.isVisible())
 						SpellCraftingGUI.this.removeSpellStage();
 			}
 		});

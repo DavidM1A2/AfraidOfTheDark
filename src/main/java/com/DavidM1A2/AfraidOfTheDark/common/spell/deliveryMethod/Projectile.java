@@ -7,8 +7,10 @@ package com.DavidM1A2.AfraidOfTheDark.common.spell.deliveryMethod;
 
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.projectile.EntitySpellProjectile;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
+import com.jcraft.jorbis.Block;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.BlockPos;
 
 public class Projectile extends DeliveryMethod
 {
@@ -19,7 +21,7 @@ public class Projectile extends DeliveryMethod
 	}
 
 	@Override
-	public void fireDeliveryMethod(DeliveryMethod previous, Spell callback, int spellStageIndex)
+	public void fireDeliveryMethod(DeliveryMethod previous, Spell callback, int spellStageIndex, BlockPos previousDeliveryMethodLocation)
 	{
 		if (previous == null)
 		{
@@ -31,7 +33,7 @@ public class Projectile extends DeliveryMethod
 		else if (previous instanceof Projectile)
 		{
 			EntityPlayer spellOwner = callback.getSpellOwner();
-			EntitySpellProjectile projectile = new EntitySpellProjectile(spellOwner.worldObj, spellOwner, spellOwner.posX, spellOwner.posY + 0.8d, spellOwner.posZ, spellOwner.getLookVec().xCoord, spellOwner.getLookVec().yCoord, spellOwner.getLookVec().zCoord, false);
+			EntitySpellProjectile projectile = new EntitySpellProjectile(spellOwner.worldObj, spellOwner, previousDeliveryMethodLocation.getX(), previousDeliveryMethodLocation.getY(), previousDeliveryMethodLocation.getZ(), spellOwner.getLookVec().xCoord, spellOwner.getLookVec().yCoord, spellOwner.getLookVec().zCoord, false);
 			projectile.setSpellSource(callback);
 			projectile.setSpellStageIndex(spellStageIndex);
 		}

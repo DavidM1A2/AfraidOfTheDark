@@ -19,7 +19,9 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 	private static final String SPELL_SOURCE = "spellSource";
 	private Spell spellSource;
 	private static final String SPELL_STAGE_KEY = "spellStageIndex";
+	private static final String SPELL_TICKS_ALIVE = "spellTicksAlive";
 	private int spellStageIndex;
+	private int ticksAlive;
 
 	public EntitySpell(World worldIn)
 	{
@@ -30,7 +32,8 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 	public void onEntityUpdate()
 	{
 		super.onEntityUpdate();
-		if (this.ticksExisted >= this.getSpellLifeInTicks())
+		this.ticksAlive++;
+		if (this.ticksAlive >= this.getSpellLifeInTicks())
 		{
 			this.spellStageComplete();
 			this.setDead();
@@ -50,6 +53,7 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 	{
 		this.spellStageIndex = compound.getInteger(SPELL_STAGE_KEY);
 		this.spellSource = (Spell) NBTObjectWriter.readObjectFromNBT(SPELL_SOURCE, compound);
+		this.ticksAlive = compound.getInteger(SPELL_TICKS_ALIVE);
 	}
 
 	@Override
@@ -57,21 +61,27 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 	{
 		compound.setInteger(SPELL_STAGE_KEY, this.spellStageIndex);
 		NBTObjectWriter.writeObjectToNBT(SPELL_SOURCE, this.spellSource, compound);
+		compound.setInteger(SPELL_TICKS_ALIVE, this.ticksAlive);
 	}
 
 	public void spellStageComplete()
 	{
-		this.spellSource.spellStageCallback(this.spellStageIndex);
+		this.spellSource.spellStageCallback(this.spellStageIndex, this.getPosition());
 	}
+	
+	public abstract void performEffect(BlockPos location);
 
-	public void performEffect(BlockPos location)
+	public abstract void performEffect(Entity entity);
+	
+	@Override
+	public boolean canBeCollidedWith() 
 	{
-
+		return false;
 	}
-
-	public void performEffect(Entity entity)
+	
+	public int getTicksAlive()
 	{
-
+		return this.ticksAlive;
 	}
 
 	public void setSpellSource(Spell spell)

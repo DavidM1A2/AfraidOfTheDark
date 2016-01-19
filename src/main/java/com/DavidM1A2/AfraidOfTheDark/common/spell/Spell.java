@@ -17,6 +17,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.spell.powerSource.PowerSource;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 
 public class Spell implements Serializable
@@ -42,7 +43,7 @@ public class Spell implements Serializable
 		if (this.isSpellValid() && this.powerSource.canCastMySpell(this.spellOwner))
 		{
 			this.powerSource.castSpell(this.spellOwner);
-			this.spellStages[0].getKey().fireDeliveryMethod(null, this, 0);
+			this.spellStages[0].getKey().fireDeliveryMethod(null, this, 0, this.spellOwner.playerLocation);
 		}
 		else if (!this.isSpellValid())
 		{
@@ -54,7 +55,7 @@ public class Spell implements Serializable
 		}
 	}
 
-	public void spellStageCallback(int spellStageIndex)
+	public void spellStageCallback(int spellStageIndex, BlockPos endLocation)
 	{
 		DeliveryMethod previous = this.spellStages[spellStageIndex].getKey();
 		spellStageIndex = spellStageIndex + 1;
@@ -63,7 +64,7 @@ public class Spell implements Serializable
 			LogHelper.info("Spell over");
 			return;
 		}
-		this.spellStages[spellStageIndex].getKey().fireDeliveryMethod(previous, this, spellStageIndex);
+		this.spellStages[spellStageIndex].getKey().fireDeliveryMethod(previous, this, spellStageIndex, endLocation);
 	}
 
 	public double getCost()
