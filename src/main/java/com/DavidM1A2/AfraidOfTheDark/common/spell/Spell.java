@@ -25,6 +25,7 @@ public class Spell implements Serializable
 	private final PowerSource powerSource;
 	private final Entry<DeliveryMethod, List<Effect>>[] spellStages;
 	private final UUID spellID;
+	private transient EntityPlayer spellOwner;
 
 	public Spell(String name, PowerSource powerSource, LinkedHashMap<DeliveryMethod, List<Effect>> spellStages, UUID spellID)
 	{
@@ -36,20 +37,20 @@ public class Spell implements Serializable
 		this.spellID = spellID;
 	}
 
-	public void instantiateSpell(EntityPlayer entityPlayer)
+	public void instantiateSpell()
 	{
-		if (this.isSpellValid() && this.powerSource.canCastMySpell(entityPlayer))
+		if (this.isSpellValid() && this.powerSource.canCastMySpell(this.spellOwner))
 		{
-			this.powerSource.castSpell(entityPlayer);
-			this.spellStages[0].getKey().fireDeliveryMethod(entityPlayer, this, 0);
+			this.powerSource.castSpell(this.spellOwner);
+			this.spellStages[0].getKey().fireDeliveryMethod(null, this, 0);
 		}
 		else if (!this.isSpellValid())
 		{
-			entityPlayer.addChatMessage(new ChatComponentText("Invalid spell. Make sure to have delivery methods and a power source on your spell!"));
+			this.spellOwner.addChatMessage(new ChatComponentText("Invalid spell. Make sure to have delivery methods and a power source on your spell!"));
 		}
 		else
 		{
-			entityPlayer.addChatMessage(new ChatComponentText(this.powerSource.getNotEnoughPowerMsg()));
+			this.spellOwner.addChatMessage(new ChatComponentText(this.powerSource.getNotEnoughPowerMsg()));
 		}
 	}
 
@@ -92,6 +93,16 @@ public class Spell implements Serializable
 				isValid = false;
 
 		return isValid;
+	}
+
+	public void setSpellOwner(EntityPlayer spellOwner)
+	{
+		this.spellOwner = spellOwner;
+	}
+
+	public EntityPlayer getSpellOwner()
+	{
+		return this.spellOwner;
 	}
 
 	public String getName()

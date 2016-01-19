@@ -10,8 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
-
 import net.minecraft.entity.player.EntityPlayer;
 
 public class SpellManager implements Serializable
@@ -39,13 +37,17 @@ public class SpellManager implements Serializable
 		this.keyToSpell.remove(key, spell.getSpellUUID());
 	}
 
+	public void setAllSpellsOwners(EntityPlayer owner)
+	{
+		for (Spell spell : this.spells.values())
+			spell.setSpellOwner(owner);
+	}
+
 	// Called server side to instantiate the spell
-	public void keyPressed(EntityPlayer entityPlayer, int keyCode, char key)
+	public void keyPressed(int keyCode, char key)
 	{
 		if (this.doesKeyMapToSpell(key))
-			this.spells.get(this.keyToSpell.get(key)).instantiateSpell(entityPlayer);
-		else
-			LogHelper.info(entityPlayer.getDisplayNameString() + " sent an invalid spell packet. He is either hacking or this is a bug. (probably the latter)");
+			this.spells.get(this.keyToSpell.get(key)).instantiateSpell();
 	}
 
 	public boolean doesKeyMapToSpell(char key)

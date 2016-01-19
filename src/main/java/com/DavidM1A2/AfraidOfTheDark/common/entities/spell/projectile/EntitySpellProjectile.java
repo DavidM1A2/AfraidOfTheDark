@@ -38,9 +38,9 @@ public class EntitySpellProjectile extends EntitySpell
 	public EntityLivingBase shootingEntity;
 	private int ticksAlive;
 	private int ticksInAir;
-	public double accelerationX;
-	public double accelerationY;
-	public double accelerationZ;
+	public double accelerationX = 0;
+	public double accelerationY = 0;
+	public double accelerationZ = 0;
 
 	public EntitySpellProjectile(World worldIn)
 	{
@@ -48,21 +48,16 @@ public class EntitySpellProjectile extends EntitySpell
 		this.setSize(0.4F, 0.4F);
 	}
 
-	public EntitySpellProjectile(World world, EntityLivingBase shootingEntity)
+	public EntitySpellProjectile(World world, EntityLivingBase shootingEntity, double x, double y, double z, double xVelocity, double yVelocity, double zVelocity, boolean initialDeliveryMethod)
 	{
 		this(world);
-
-		double xVelocity = shootingEntity.getLookVec().xCoord;
-		double yVelocity = shootingEntity.getLookVec().yCoord;
-		double zVelocity = shootingEntity.getLookVec().zCoord;
-
 		this.shootingEntity = shootingEntity;
-		this.setLocationAndAngles(shootingEntity.posX, shootingEntity.posY + 0.8f, shootingEntity.posZ, shootingEntity.rotationYaw, shootingEntity.rotationPitch);
+		this.setLocationAndAngles(x, y, z, shootingEntity.rotationYaw, shootingEntity.rotationPitch);
 		this.setPosition(this.posX, this.posY, this.posZ);
 		double d3 = (double) MathHelper.sqrt_double(xVelocity * xVelocity + yVelocity * yVelocity + zVelocity * zVelocity);
-		this.motionX = xVelocity / d3 * 0.5;
-		this.motionY = yVelocity / d3 * 0.5;
-		this.motionZ = zVelocity / d3 * 0.5;
+		this.motionX = xVelocity / d3 * 0.4;
+		this.motionY = yVelocity / d3 * 0.4;
+		this.motionZ = zVelocity / d3 * 0.4;
 	}
 
 	/**

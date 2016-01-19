@@ -32,6 +32,7 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 		super.onEntityUpdate();
 		if (this.ticksExisted >= this.getSpellLifeInTicks())
 		{
+			this.spellStageComplete();
 			this.setDead();
 		}
 		this.updateSpellSpecificLogic();

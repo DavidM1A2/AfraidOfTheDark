@@ -12,6 +12,7 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDGuiUtility;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiButton;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiComponent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiImage;
@@ -23,6 +24,8 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiScrollPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiTextField;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiSpellStage;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
+
+import net.minecraft.client.Minecraft;
 
 public class SpellCraftingGUI extends AOTDGuiScreen
 {
@@ -38,31 +41,107 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 
 		AOTDGuiImage background = new AOTDGuiImage(0, 0, 192, 256, "textures/gui/spellCrafting/tabletBackground.png");
 		tablet.add(background);
-		spellName = new AOTDGuiTextField(50, 25, 110, 25, ClientData.getTargaMSHandFontSized(35f));
+		spellName = new AOTDGuiTextField(60, 30, 85, 25, ClientData.getTargaMSHandFontSized(35f));
 		spellName.setGhostText("Spell Name");
 		tablet.add(spellName);
-		scrollBar = new AOTDGuiScrollBar(20, 55, 15, 170);
+		scrollBar = new AOTDGuiScrollBar(10, 75, 15, 170);
 		tablet.add(scrollBar);
 
-		AOTDGuiImage spellCraftingSlotBackground = new AOTDGuiImage(40, 55, 120, 170, "textures/gui/spellCrafting/spellSlotBackground.png");
+		AOTDGuiImage spellCraftingSlotBackground = new AOTDGuiImage(30, 55, 120, 170, "textures/gui/spellCrafting/spellSlotBackground.png");
 		tablet.add(spellCraftingSlotBackground);
 
-		this.scrollPanel = new AOTDGuiScrollPanel(40, 55, 120, 170, true, scrollBar);
+		this.scrollPanel = new AOTDGuiScrollPanel(30, 55, 120, 170, true, scrollBar);
 
 		this.addNewSpellStage();
 
 		tablet.add(scrollPanel);
 
-		AOTDGuiButton saveButton = new AOTDGuiButton(165, 105, 20, 20, null, "afraidofthedark:textures/gui/spellCrafting/okay.png");
+		AOTDGuiButton saveButton = new AOTDGuiButton(152, 105, 20, 20, null, "afraidofthedark:textures/gui/spellCrafting/okay.png");
 		tablet.add(saveButton);
-		AOTDGuiButton closeButton = new AOTDGuiButton(165, 130, 20, 20, null, "afraidofthedark:textures/gui/spellCrafting/delete.png");
+		saveButton.addActionListener(new AOTDActionListener()
+		{
+			@Override
+			public void actionPerformed(AOTDGuiComponent component, ActionType actionType)
+			{
+				if (component.isVisible())
+					if (actionType == ActionType.MouseHover)
+					{
+						Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow("Save Spell", AOTDGuiUtility.getMouseX(), AOTDGuiUtility.getMouseY() - 10, 0xFFFFFFFF);
+					}
+					else if (actionType == ActionType.MouseEnterBoundingBox)
+					{
+						component.darkenColor(0.1f);
+						Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:spellCraftingButtonHover", 0.6f, 1.7f);
+					}
+					else if (actionType == ActionType.MouseExitBoundingBox)
+						component.brightenColor(0.1f);
+			}
+		});
+		AOTDGuiButton closeButton = new AOTDGuiButton(152, 130, 20, 20, null, "afraidofthedark:textures/gui/spellCrafting/delete.png");
 		tablet.add(closeButton);
-		AOTDGuiImage powerSource = new AOTDGuiImage(165, 155, 20, 20, "textures/gui/spellCrafting/tabletIconHolder.png");
+		closeButton.addActionListener(new AOTDActionListener()
+		{
+			@Override
+			public void actionPerformed(AOTDGuiComponent component, ActionType actionType)
+			{
+				if (component.isVisible())
+					if (actionType == ActionType.MouseHover)
+					{
+						Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow("Exit without saving Spell", AOTDGuiUtility.getMouseX(), AOTDGuiUtility.getMouseY() - 10, 0xFFFFFFFF);
+					}
+					else if (actionType == ActionType.MouseEnterBoundingBox)
+					{
+						component.darkenColor(0.1f);
+						Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:spellCraftingButtonHover", 0.6f, 1.7f);
+					}
+					else if (actionType == ActionType.MouseExitBoundingBox)
+						component.brightenColor(0.1f);
+			}
+		});
+		AOTDGuiImage powerSource = new AOTDGuiImage(152, 155, 20, 20, "textures/gui/spellCrafting/tabletIconHolder.png");
 		tablet.add(powerSource);
-		AOTDGuiImage helpButton = new AOTDGuiImage(165, 180, 20, 20, "textures/gui/spellCrafting/question.png");
+		powerSource.addActionListener(new AOTDActionListener()
+		{
+			@Override
+			public void actionPerformed(AOTDGuiComponent component, ActionType actionType)
+			{
+				if (component.isVisible())
+					if (actionType == ActionType.MouseHover)
+					{
+						Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow("Spell Power Source", AOTDGuiUtility.getMouseX(), AOTDGuiUtility.getMouseY() - 10, 0xFFFFFFFF);
+					}
+					else if (actionType == ActionType.MouseEnterBoundingBox)
+					{
+						component.darkenColor(0.1f);
+						Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:spellCraftingButtonHover", 0.6f, 1.7f);
+					}
+					else if (actionType == ActionType.MouseExitBoundingBox)
+						component.brightenColor(0.1f);
+			}
+		});
+		AOTDGuiImage helpButton = new AOTDGuiImage(152, 180, 20, 20, "textures/gui/spellCrafting/question.png");
+		helpButton.addActionListener(new AOTDActionListener()
+		{
+			@Override
+			public void actionPerformed(AOTDGuiComponent component, ActionType actionType)
+			{
+				if (component.isVisible())
+					if (actionType == ActionType.MouseHover)
+					{
+						Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow("Help", AOTDGuiUtility.getMouseX(), AOTDGuiUtility.getMouseY() - 10, 0xFFFFFFFF);
+					}
+					else if (actionType == ActionType.MouseEnterBoundingBox)
+					{
+						component.darkenColor(0.1f);
+						Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:spellCraftingButtonHover", 0.6f, 1.7f);
+					}
+					else if (actionType == ActionType.MouseExitBoundingBox)
+						component.brightenColor(0.1f);
+			}
+		});
 		tablet.add(helpButton);
 
-		this.spellCost = new AOTDGuiLabel(10, 225, ClientData.getTargaMSHandFontSized(40));
+		this.spellCost = new AOTDGuiLabel(25, 225, ClientData.getTargaMSHandFontSized(40));
 		spellCost.setText("Spell Cost: 0");
 		tablet.add(this.spellCost);
 
@@ -72,11 +151,11 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 		 * 
 		 */
 
-		AOTDGuiPanel effectScroll = new AOTDGuiPanel(340, (360 - 256) / 2, 192, 256, false);
+		AOTDGuiPanel effectScroll = new AOTDGuiPanel(340, (360 - 256) / 2, 220, 256, false);
 		AOTDGuiImage backgroundScroll = new AOTDGuiImage(0, 0, 192, 256, "textures/gui/spellCrafting/effectListScroll.png");
 		effectScroll.add(backgroundScroll);
 
-		AOTDGuiScrollBar effectsScrollBar = new AOTDGuiScrollBar(30, 50, 13, 160);
+		AOTDGuiScrollBar effectsScrollBar = new AOTDGuiScrollBar(200, 50, 13, 160);
 		effectScroll.add(effectsScrollBar);
 		AOTDGuiScrollPanel effectsPanel = new AOTDGuiScrollPanel(10, 10, 150, 200, true, effectsScrollBar);
 		effectsPanel.setMaximumOffset(100);

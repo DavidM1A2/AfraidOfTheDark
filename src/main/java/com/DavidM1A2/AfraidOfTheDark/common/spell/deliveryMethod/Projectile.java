@@ -21,13 +21,19 @@ public class Projectile extends DeliveryMethod
 	@Override
 	public void fireDeliveryMethod(DeliveryMethod previous, Spell callback, int spellStageIndex)
 	{
-	}
-
-	@Override
-	public void fireDeliveryMethod(EntityPlayer source, Spell callback, int spellStageIndex)
-	{
-		EntitySpellProjectile projectile = new EntitySpellProjectile(source.worldObj, source);
-		projectile.setSpellSource(callback);
-		projectile.setSpellStageIndex(spellStageIndex);
+		if (previous == null)
+		{
+			EntityPlayer spellOwner = callback.getSpellOwner();
+			EntitySpellProjectile projectile = new EntitySpellProjectile(spellOwner.worldObj, spellOwner, spellOwner.posX, spellOwner.posY + 0.8d, spellOwner.posZ, spellOwner.getLookVec().xCoord, spellOwner.getLookVec().yCoord, spellOwner.getLookVec().zCoord, true);
+			projectile.setSpellSource(callback);
+			projectile.setSpellStageIndex(spellStageIndex);
+		}
+		else if (previous instanceof Projectile)
+		{
+			EntityPlayer spellOwner = callback.getSpellOwner();
+			EntitySpellProjectile projectile = new EntitySpellProjectile(spellOwner.worldObj, spellOwner, spellOwner.posX, spellOwner.posY + 0.8d, spellOwner.posZ, spellOwner.getLookVec().xCoord, spellOwner.getLookVec().yCoord, spellOwner.getLookVec().zCoord, false);
+			projectile.setSpellSource(callback);
+			projectile.setSpellStageIndex(spellStageIndex);
+		}
 	}
 }

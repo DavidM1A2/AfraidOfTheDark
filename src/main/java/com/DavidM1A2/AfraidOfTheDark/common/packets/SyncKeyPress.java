@@ -55,7 +55,7 @@ public class SyncKeyPress implements IMessage
 				@Override
 				public void run()
 				{
-					AOTDPlayerData.get(player).getSpellManager().keyPressed(player, msg.characterID, msg.character);
+					AOTDPlayerData.get(player).getSpellManager().keyPressed(msg.characterID, msg.character);
 				}
 			});
 			return null;

@@ -23,7 +23,7 @@ public class AOTDGuiSpellStage extends AOTDGuiPanel
 	{
 		super(x, y, width, height, scissorEnabled);
 
-		AOTDGuiImage background = new AOTDGuiImage(0, 0, width, height - 15, "textures/gui/spellCrafting/tabletSpellModule.png");
+		AOTDGuiImage background = new AOTDGuiImage(0, 0, width, height - 14, "textures/gui/spellCrafting/tabletSpellModule2.png");
 		this.add(background);
 
 		AOTDGuiImage deliveryMethod = new AOTDGuiImage(5, 5, height - 25, height - 25, "textures/gui/spellCrafting/tabletIconHolder.png");
@@ -36,6 +36,13 @@ public class AOTDGuiSpellStage extends AOTDGuiPanel
 			{
 				if (actionType == ActionType.MouseHover)
 					Minecraft.getMinecraft().fontRendererObj.drawString("Delivery Method Slot", AOTDGuiUtility.getMouseX(), AOTDGuiUtility.getMouseY() - 10, 0xFFFFFFFF);
+				else if (actionType == ActionType.MouseEnterBoundingBox)
+				{
+					component.darkenColor(0.1f);
+					Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:spellCraftingButtonHover", 0.6f, 1.7f);
+				}
+				else if (actionType == ActionType.MouseExitBoundingBox)
+					component.brightenColor(0.1f);
 			}
 		});
 		this.add(deliveryMethod);
@@ -47,6 +54,13 @@ public class AOTDGuiSpellStage extends AOTDGuiPanel
 			{
 				if (actionType == ActionType.MouseHover)
 					Minecraft.getMinecraft().fontRendererObj.drawString("Effect Slot", AOTDGuiUtility.getMouseX(), AOTDGuiUtility.getMouseY() - 10, 0xFFFFFFFF);
+				else if (actionType == ActionType.MouseEnterBoundingBox)
+				{
+					component.darkenColor(0.1f);
+					Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:spellCraftingButtonHover", 0.6f, 1.7f);
+				}
+				else if (actionType == ActionType.MouseExitBoundingBox)
+					component.brightenColor(0.1f);
 			}
 		};
 
@@ -69,9 +83,18 @@ public class AOTDGuiSpellStage extends AOTDGuiPanel
 			@Override
 			public void actionPerformed(AOTDGuiComponent component, ActionType actionType)
 			{
-				if (actionType == ActionType.MouseHover)
-					if (component.isVisible())
+				if (component.isVisible())
+					if (actionType == ActionType.MouseHover)
+					{
 						Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow("Add new spell stage", AOTDGuiUtility.getMouseX(), AOTDGuiUtility.getMouseY() - 10, 0xFFFFFFFF);
+					}
+					else if (actionType == ActionType.MouseEnterBoundingBox)
+					{
+						component.darkenColor(0.1f);
+						Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:spellCraftingButtonHover", 0.6f, 1.7f);
+					}
+					else if (actionType == ActionType.MouseExitBoundingBox)
+						component.brightenColor(0.1f);
 			}
 		});
 		this.removeRow = new AOTDGuiButton(15, height - 15, 15, 15, null, "afraidofthedark:textures/gui/spellCrafting/delete.png");
@@ -81,9 +104,18 @@ public class AOTDGuiSpellStage extends AOTDGuiPanel
 			@Override
 			public void actionPerformed(AOTDGuiComponent component, ActionType actionType)
 			{
-				if (actionType == ActionType.MouseHover)
-					if (component.isVisible())
+				if (component.isVisible())
+					if (actionType == ActionType.MouseHover)
+					{
 						Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow("Remove spell stage", AOTDGuiUtility.getMouseX(), AOTDGuiUtility.getMouseY() - 10, 0xFFFFFFFF);
+					}
+					else if (actionType == ActionType.MouseEnterBoundingBox)
+					{
+						component.darkenColor(0.1f);
+						Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:spellCraftingButtonHover", 0.6f, 1.7f);
+					}
+					else if (actionType == ActionType.MouseExitBoundingBox)
+						component.brightenColor(0.1f);
 			}
 		});
 		this.add(this.removeRow);

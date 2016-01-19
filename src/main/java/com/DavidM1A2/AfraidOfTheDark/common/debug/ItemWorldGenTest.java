@@ -6,7 +6,6 @@
 package com.DavidM1A2.AfraidOfTheDark.common.debug;
 
 import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
-import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.projectile.EntitySpellProjectile;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 
@@ -28,13 +27,7 @@ public class ItemWorldGenTest extends AOTDItem
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer)
 	{
-		if (entityPlayer.isSneaking())
-			entityPlayer.openGui(Refrence.MOD_ID, GuiHandler.SPELL_CRAFTING_ID, world, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ());
-		else if (!entityPlayer.worldObj.isRemote)
-		{
-			EntitySpellProjectile entitySpellProjectile = new EntitySpellProjectile(world, entityPlayer);
-			world.spawnEntityInWorld(entitySpellProjectile);
-		}
+		entityPlayer.openGui(Refrence.MOD_ID, GuiHandler.SPELL_CRAFTING_ID, world, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ());
 		return super.onItemRightClick(itemStack, world, entityPlayer);
 	}
 }

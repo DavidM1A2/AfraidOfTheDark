@@ -8,5 +8,6 @@
    "journalSign": {"category": "master","sounds": [{"name": "journalSign","stream": false}]},
    "achievementUnlocked": {"category": "master","sounds": [{"name": "achievementUnlocked","stream": false}]},
    "pageTurn": {"category": "master","sounds": [{"name": "pageTurn","stream": false}]},
-   "buttonHover": {"category": "master","sounds": [{"name": "buttonHover","stream": false}]}
+   "buttonHover": {"category": "master","sounds": [{"name": "buttonHover","stream": false}]},
+   "spellCraftingButtonHover": {"category": "master","sounds": [{"name": "spellCraftingButtonHover","stream": false}]}
 }

@@ -113,6 +113,7 @@ public class AOTDPlayerData implements IExtendedEntityProperties
 		this.spellManager = (SpellManager) NBTObjectWriter.readObjectFromNBT(SPELL_MANAGER, nbt);
 		if (this.spellManager == null)
 			this.spellManager = new SpellManager();
+		this.spellManager.setAllSpellsOwners(this.entityPlayer);
 	}
 
 	@Override
