@@ -11,10 +11,9 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-import com.DavidM1A2.AfraidOfTheDark.common.spell.deliveryMethod.DeliveryMethod;
-import com.DavidM1A2.AfraidOfTheDark.common.spell.effects.Effect;
-import com.DavidM1A2.AfraidOfTheDark.common.spell.powerSource.PowerSource;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.EntitySpell;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
@@ -34,37 +33,17 @@ public class Spell implements Serializable
 		this.spellStages = new Entry[spellStages.entrySet().size()];
 		spellStages.entrySet().toArray(this.spellStages);
 		this.powerSource = powerSource;
-		this.powerSource.setParentSpell(this);
 		this.spellID = spellID;
 	}
 
 	public void instantiateSpell()
 	{
-		if (this.isSpellValid() && this.powerSource.canCastMySpell(this.spellOwner))
-		{
-			this.powerSource.castSpell(this.spellOwner);
-			this.spellStages[0].getKey().fireDeliveryMethod(null, this, 0, this.spellOwner.playerLocation);
-		}
+		if (this.isSpellValid() && this.tryToCastSpell())
+			SpellEntityCreator.createAndSpawn(this.spellOwner.worldObj, null, this, 0);
 		else if (!this.isSpellValid())
-		{
 			this.spellOwner.addChatMessage(new ChatComponentText("Invalid spell. Make sure to have delivery methods and a power source on your spell!"));
-		}
 		else
-		{
-			this.spellOwner.addChatMessage(new ChatComponentText(this.powerSource.getNotEnoughPowerMsg()));
-		}
-	}
-
-	public void spellStageCallback(int spellStageIndex, BlockPos endLocation)
-	{
-		DeliveryMethod previous = this.spellStages[spellStageIndex].getKey();
-		spellStageIndex = spellStageIndex + 1;
-		if (this.spellStages.length == spellStageIndex)
-		{
-			LogHelper.info("Spell over");
-			return;
-		}
-		this.spellStages[spellStageIndex].getKey().fireDeliveryMethod(previous, this, spellStageIndex, endLocation);
+			this.spellOwner.addChatMessage(new ChatComponentText("Not enough power to cast spell"));
 	}
 
 	public double getCost()
@@ -80,6 +59,18 @@ public class Spell implements Serializable
 		}
 		return cost;
 	}
+	
+	private boolean tryToCastSpell()
+	{
+		switch (this.powerSource) 
+		{
+			case Self:
+			{
+				return true;
+			}
+		}
+		return true;
+	}
 
 	private boolean isSpellValid()
 	{
@@ -94,6 +85,16 @@ public class Spell implements Serializable
 				isValid = false;
 
 		return isValid;
+	}
+	
+	public Entry<DeliveryMethod, List<Effect>> getSpellStageByIndex(int index)
+	{
+		return this.spellStages[index];
+	}
+	
+	public boolean hasSpellStage(int index)
+	{
+		return Utility.hasIndex(this.spellStages, index);
 	}
 
 	public void setSpellOwner(EntityPlayer spellOwner)

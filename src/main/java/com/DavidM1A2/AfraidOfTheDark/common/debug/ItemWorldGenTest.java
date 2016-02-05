@@ -27,7 +27,7 @@ public class ItemWorldGenTest extends AOTDItem
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer)
 	{
-		entityPlayer.openGui(Refrence.MOD_ID, GuiHandler.SPELL_CRAFTING_ID, world, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ());
+		entityPlayer.openGui(Refrence.MOD_ID, GuiHandler.SPELL_SELECTION_ID, world, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ());
 		return super.onItemRightClick(itemStack, world, entityPlayer);
 	}
 }

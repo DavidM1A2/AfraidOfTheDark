@@ -36,7 +36,8 @@ public class RenderSpell extends Render
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glTranslatef((float) posX, (float) posY + entity.height / 2, (float) posZ);
 		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		float[] color = entity.getSpellColor();
+		GL11.glColor4f(color[0], color[1], color[2], color[3]);
 		this.bindEntityTexture(entity);
 		this.spellModel.render(entity, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);

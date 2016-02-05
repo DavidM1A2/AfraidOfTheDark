@@ -6,7 +6,10 @@
 package com.DavidM1A2.AfraidOfTheDark.common.entities.spell;
 
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.Effect;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellEntityCreator;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTObjectWriter;
 
 import net.minecraft.entity.Entity;
@@ -19,13 +22,19 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 	private static final String SPELL_SOURCE = "spellSource";
 	private Spell spellSource;
 	private static final String SPELL_STAGE_KEY = "spellStageIndex";
-	private static final String SPELL_TICKS_ALIVE = "spellTicksAlive";
 	private int spellStageIndex;
+	private static final String SPELL_TICKS_ALIVE = "spellTicksAlive";
 	private int ticksAlive;
-
-	public EntitySpell(World worldIn)
+	private static final String SPELL_COLOR = "spellColor";
+	private float[] color = new float[4];
+	
+	public EntitySpell(World world, Spell callback, int spellStageIndex) 
 	{
-		super(worldIn);
+		super(world);
+		color[0] = color[1] = color[2] = color[3] = 1.0f;
+		this.spellSource = callback;
+		this.spellStageIndex = spellStageIndex;
+		this.setSize(this.getSpellEntityWidth(), this.getSpellEntityHeight());
 	}
 
 	@Override
@@ -54,6 +63,10 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 		this.spellStageIndex = compound.getInteger(SPELL_STAGE_KEY);
 		this.spellSource = (Spell) NBTObjectWriter.readObjectFromNBT(SPELL_SOURCE, compound);
 		this.ticksAlive = compound.getInteger(SPELL_TICKS_ALIVE);
+		this.color[0] = compound.getFloat(SPELL_COLOR + "r");
+		this.color[1] = compound.getFloat(SPELL_COLOR + "g");
+		this.color[2] = compound.getFloat(SPELL_COLOR + "b");
+		this.color[3] = compound.getFloat(SPELL_COLOR + "a");
 	}
 
 	@Override
@@ -62,16 +75,40 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 		compound.setInteger(SPELL_STAGE_KEY, this.spellStageIndex);
 		NBTObjectWriter.writeObjectToNBT(SPELL_SOURCE, this.spellSource, compound);
 		compound.setInteger(SPELL_TICKS_ALIVE, this.ticksAlive);
+		compound.setFloat(SPELL_COLOR + "r", this.color[0]);
+		compound.setFloat(SPELL_COLOR + "g", this.color[1]);
+		compound.setFloat(SPELL_COLOR + "b", this.color[2]);
+		compound.setFloat(SPELL_COLOR + "a", this.color[3]);
 	}
 
 	public void spellStageComplete()
 	{
-		this.spellSource.spellStageCallback(this.spellStageIndex, this.getPosition());
+		this.spellStageIndex = this.spellStageIndex + 1;
+		if (!this.spellSource.hasSpellStage(spellStageIndex))
+		{
+			LogHelper.info("Spell over");
+			return;
+		}
+		SpellEntityCreator.createAndSpawn(this.spellSource.getSpellOwner().worldObj, this, this.getSpellSource(), spellStageIndex);
 	}
 	
-	public abstract void performEffect(BlockPos location);
-
-	public abstract void performEffect(Entity entity);
+	public void performEffect(BlockPos location) 
+	{
+		for (Effect effect : this.getSpellSource().getSpellStageByIndex(this.getSpellStageIndex()).getValue())
+		{
+			Effect.performEffect(effect, location, this.worldObj);
+		}
+		return;
+	}
+	
+	public void performEffect(Entity entity) 
+	{
+		for (Effect effect : this.getSpellSource().getSpellStageByIndex(this.getSpellStageIndex()).getValue())
+		{
+			Effect.performEffect(effect, entity);
+		}
+		return;
+	}
 	
 	@Override
 	public boolean canBeCollidedWith() 
@@ -84,20 +121,32 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 		return this.ticksAlive;
 	}
 
-	public void setSpellSource(Spell spell)
-	{
-		this.spellSource = spell;
-	}
-
 	public Spell getSpellSource()
 	{
 		return this.spellSource;
 	}
-
-	public void setSpellStageIndex(int index)
+	
+	public int getSpellStageIndex()
 	{
-		this.spellStageIndex = index;
+		return this.spellStageIndex;
 	}
+	
+	public void setSpellColor(float r, float g, float b, float a)
+	{
+		this.color[0] = r;
+		this.color[1] = g;
+		this.color[2] = b;
+		this.color[3] = a;
+	}
+	
+	public float[] getSpellColor()
+	{
+		return this.color;
+	}
+	
+	public abstract float getSpellEntityWidth();
+	
+	public abstract float getSpellEntityHeight();
 
 	public abstract int getSpellLifeInTicks();
 }

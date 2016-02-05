@@ -9,6 +9,8 @@ import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.EntitySpell;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.Effect;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -26,6 +28,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import scala.collection.generic.BitOperations.Int;
 
 public class EntitySpellProjectile extends EntitySpell
 {
@@ -35,22 +38,16 @@ public class EntitySpellProjectile extends EntitySpell
 	private int tileY = -1;
 	private int tileZ = -1;
 	private Block insideOf;
-	private boolean AIInitial;
+	private boolean useStandardAI;
 	public EntityLivingBase shootingEntity;
 
-	public EntitySpellProjectile(World worldIn)
+	public EntitySpellProjectile(Spell callback, int spellStageIndex, double x, double y, double z, double xVelocity, double yVelocity, double zVelocity, boolean useStandardAI)
 	{
-		super(worldIn);
-		this.setSize(0.4F, 0.4F);
-	}
-
-	public EntitySpellProjectile(World world, EntityLivingBase shootingEntity, double x, double y, double z, double xVelocity, double yVelocity, double zVelocity, boolean AIInitial)
-	{
-		this(world);
-		this.shootingEntity = shootingEntity;
-		this.AIInitial = AIInitial;
+		super(callback.getSpellOwner().worldObj, callback, spellStageIndex);
+		this.shootingEntity = callback.getSpellOwner();
+		this.useStandardAI = useStandardAI;
 		
-		if (this.AIInitial)
+		if (this.useStandardAI)
 		{
 			this.setLocationAndAngles(x, y, z, shootingEntity.rotationYaw, shootingEntity.rotationPitch);
 			this.setPosition(this.posX, this.posY, this.posZ);
@@ -101,7 +98,7 @@ public class EntitySpellProjectile extends EntitySpell
 		}
 		else
 		{
-			if (!this.AIInitial)
+			if (!this.useStandardAI)
 			{
 				if (this.getTicksAlive() == 60)
 				{
@@ -133,10 +130,16 @@ public class EntitySpellProjectile extends EntitySpell
 						this.setDead();
 					}
 				} 
+				else if (this.getTicksAlive() > 60)
+				{
+					this.performHitDetection();
+				}
+			}
+			else
+			{
+				this.performHitDetection();
 			}
 			
-			this.performHitDetection();
-
 			if (!this.isDead)
 			{
 				this.posX += this.motionX;
@@ -215,12 +218,11 @@ public class EntitySpellProjectile extends EntitySpell
 					this.performEffect(movingObjectPosition.entityHit);
 					break;
 				case MISS:
-					this.spellStageComplete();
 					break;
 				default:
-					this.spellStageComplete();
 					break;
 			}
+			this.spellStageComplete();
 			this.setDead();
 		}
 	}
@@ -297,14 +299,14 @@ public class EntitySpellProjectile extends EntitySpell
 	}
 
 	@Override
-	public void performEffect(BlockPos location) 
+	public float getSpellEntityWidth() 
 	{
-		return;
+		return 0.4f;
 	}
 
 	@Override
-	public void performEffect(Entity entity) 
+	public float getSpellEntityHeight() 
 	{
-		
+		return 0.4f;
 	}
 }
