@@ -31,25 +31,21 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntitySilverBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntityStarMetalBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntityWoodenBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.projectile.EntitySpellProjectile;
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
-import com.DavidM1A2.AfraidOfTheDark.common.item.crossbow.ItemCrossbowRender;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 // Just client things go here
-public class ClientProxy extends CommonProxy
-{
+public class ClientProxy extends CommonProxy {
 	// register key bindings go here
 	@Override
-	public void registerKeyBindings()
-	{
+	public void registerKeyBindings() {
 		ClientRegistry.registerKeyBinding(Keybindings.rollWithCloakOfAgility);
 		ClientRegistry.registerKeyBinding(Keybindings.fireWristCrossbow);
 		ClientRegistry.registerKeyBinding(Keybindings.changeLanternMode);
@@ -57,29 +53,116 @@ public class ClientProxy extends CommonProxy
 
 	// register renderers as well
 	@Override
-	public void registerRenderThings()
-	{
-		final RenderManager current = Minecraft.getMinecraft().getRenderManager();
-
-		RenderingRegistry.registerEntityRenderingHandler(EntityWerewolf.class, new RenderWerewolf());
-		RenderingRegistry.registerEntityRenderingHandler(EntityDeeeSyft.class, new RenderDeeeSyft());
-		RenderingRegistry.registerEntityRenderingHandler(EntityEnchantedSkeleton.class, new RenderEnchantedSkeleton());
-		RenderingRegistry.registerEntityRenderingHandler(EntitySplinterDrone.class, new RenderSplinterDrone());
-		RenderingRegistry.registerEntityRenderingHandler(EntitySplinterDroneProjectile.class, new RenderSplinterDroneProjectile());
-		RenderingRegistry.registerEntityRenderingHandler(EntityEnaria.class, new RenderEnaria());
-		RenderingRegistry.registerEntityRenderingHandler(EntityIronBolt.class, new IronBoltRender(current));
-		RenderingRegistry.registerEntityRenderingHandler(EntitySilverBolt.class, new SilverBoltRender(current));
-		RenderingRegistry.registerEntityRenderingHandler(EntityWoodenBolt.class, new WoodenBoltRender(current));
-		RenderingRegistry.registerEntityRenderingHandler(EntityIgneousBolt.class, new IgneousBoltRender(current));
-		RenderingRegistry.registerEntityRenderingHandler(EntityStarMetalBolt.class, new StarMetalBoltRender(current));
-		RenderingRegistry.registerEntityRenderingHandler(EntitySpellProjectile.class, new RenderSpell(new ModelSpellProjectile(), "afraidofthedark:textures/entity/spell/projectile.png"));
-		MinecraftForgeClient.registerItemRenderer(ModItems.crossbow, new ItemCrossbowRender());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVoidChest.class, new TileEntityVoidChestRenderer());
+	public void registerEntityRenders() {
+		// RenderingRegistry.registerEntityRenderingHandler(EntityWerewolf.class,
+		// new RenderWerewolf());
+		RenderingRegistry.registerEntityRenderingHandler(EntityWerewolf.class, new IRenderFactory() {
+			@Override
+			public Render createRenderFor(RenderManager manager) {
+				return new RenderWerewolf<EntityWerewolf>(manager);
+			}
+		});
+		// RenderingRegistry.registerEntityRenderingHandler(EntityDeeeSyft.class,
+		// new RenderDeeeSyft());
+		RenderingRegistry.registerEntityRenderingHandler(EntityDeeeSyft.class, new IRenderFactory() {
+			@Override
+			public Render createRenderFor(RenderManager manager) {
+				return new RenderDeeeSyft<EntityDeeeSyft>(manager);
+			}
+		});
+		// RenderingRegistry.registerEntityRenderingHandler(EntityEnchantedSkeleton.class,
+		// new RenderEnchantedSkeleton());
+		RenderingRegistry.registerEntityRenderingHandler(EntityEnchantedSkeleton.class, new IRenderFactory() {
+			@Override
+			public Render createRenderFor(RenderManager manager) {
+				return new RenderEnchantedSkeleton<EntityEnchantedSkeleton>(manager);
+			}
+		});
+		// RenderingRegistry.registerEntityRenderingHandler(EntitySplinterDrone.class,
+		// new RenderSplinterDrone());
+		RenderingRegistry.registerEntityRenderingHandler(EntitySplinterDrone.class, new IRenderFactory() {
+			@Override
+			public Render createRenderFor(RenderManager manager) {
+				return new RenderSplinterDrone<EntitySplinterDrone>(manager);
+			}
+		});
+		// RenderingRegistry.registerEntityRenderingHandler(EntitySplinterDroneProjectile.class,
+		// new RenderSplinterDroneProjectile());
+		RenderingRegistry.registerEntityRenderingHandler(EntitySplinterDroneProjectile.class, new IRenderFactory() {
+			@Override
+			public Render createRenderFor(RenderManager manager) {
+				return new RenderSplinterDroneProjectile<EntitySplinterDroneProjectile>(manager);
+			}
+		});
+		// RenderingRegistry.registerEntityRenderingHandler(EntityEnaria.class,
+		// new RenderEnaria());
+		RenderingRegistry.registerEntityRenderingHandler(EntityEnaria.class, new IRenderFactory() {
+			@Override
+			public Render createRenderFor(RenderManager manager) {
+				return new RenderEnaria<EntityEnaria>(manager);
+			}
+		});
+		// RenderingRegistry.registerEntityRenderingHandler(EntityIronBolt.class,
+		// new IronBoltRender(current));
+		RenderingRegistry.registerEntityRenderingHandler(EntityIronBolt.class, new IRenderFactory() {
+			@Override
+			public Render createRenderFor(RenderManager manager) {
+				return new IronBoltRender<EntityIronBolt>(manager);
+			}
+		});
+		// RenderingRegistry.registerEntityRenderingHandler(EntitySilverBolt.class,
+		// new SilverBoltRender(current));
+		RenderingRegistry.registerEntityRenderingHandler(EntitySilverBolt.class, new IRenderFactory() {
+			@Override
+			public Render createRenderFor(RenderManager manager) {
+				return new SilverBoltRender<EntitySilverBolt>(manager);
+			}
+		});
+		// RenderingRegistry.registerEntityRenderingHandler(EntityWoodenBolt.class,
+		// new WoodenBoltRender(current));
+		RenderingRegistry.registerEntityRenderingHandler(EntityWoodenBolt.class, new IRenderFactory() {
+			@Override
+			public Render createRenderFor(RenderManager manager) {
+				return new WoodenBoltRender<EntityWoodenBolt>(manager);
+			}
+		});
+		// RenderingRegistry.registerEntityRenderingHandler(EntityIgneousBolt.class,
+		// new IgneousBoltRender(current));
+		RenderingRegistry.registerEntityRenderingHandler(EntityIgneousBolt.class, new IRenderFactory() {
+			@Override
+			public Render createRenderFor(RenderManager manager) {
+				return new IgneousBoltRender<EntityIgneousBolt>(manager);
+			}
+		});
+		// RenderingRegistry.registerEntityRenderingHandler(EntityStarMetalBolt.class,
+		// new StarMetalBoltRender(current));
+		RenderingRegistry.registerEntityRenderingHandler(EntityStarMetalBolt.class, new IRenderFactory() {
+			@Override
+			public Render createRenderFor(RenderManager manager) {
+				return new StarMetalBoltRender<EntityStarMetalBolt>(manager);
+			}
+		});
+		// RenderingRegistry.registerEntityRenderingHandler(EntitySpellProjectile.class,
+		// new RenderSpell(new ModelSpellProjectile(),
+		// "afraidofthedark:textures/entity/spell/projectile.png"));
+		RenderingRegistry.registerEntityRenderingHandler(EntitySpellProjectile.class, new IRenderFactory() {
+			@Override
+			public Render createRenderFor(RenderManager manager) {
+				return new RenderSpell<EntitySpellProjectile>(manager, new ModelSpellProjectile(),
+						"afraidofthedark:textures/entity/spell/projectile.png");
+			}
+		});
 	}
 
 	@Override
-	public void registerMiscelaneous()
-	{
+	public void registerMiscRenders() {
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVoidChest.class, new TileEntityVoidChestRenderer());
+		// MinecraftForgeClient.registerItemRenderer(ModItems.crossbow, new
+		// ItemCrossbowRender());
+	}
+
+	@Override
+	public void registerMiscelaneous() {
 		Constants.entityVitaeResistance.put(EntityPlayerSP.class, 100);
 		Constants.entityVitaeResistance.put(EntityOtherPlayerMP.class, 100);
 	}

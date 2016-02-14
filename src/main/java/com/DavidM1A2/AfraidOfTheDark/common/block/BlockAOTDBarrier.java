@@ -17,21 +17,19 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockAOTDBarrier extends AOTDBlock
-{
-	public BlockAOTDBarrier()
-	{
+public class BlockAOTDBarrier extends AOTDBlock {
+	public BlockAOTDBarrier() {
 		super(Material.barrier);
 		this.setBlockUnbreakable();
 		this.setResistance(6000001.0F);
 		this.disableStats();
 		this.translucent = true;
 		this.setUnlocalizedName("aOTDBarrier");
+		this.setCreativeTab(null);
 	}
 
 	@Override
-	protected boolean displayInCreative()
-	{
+	protected boolean displayInCreative() {
 		return false;
 	}
 
@@ -39,14 +37,14 @@ public class BlockAOTDBarrier extends AOTDBlock
 	 * The type of render function that is called for this block
 	 */
 	@Override
-	public int getRenderType()
-	{
+	public int getRenderType() {
 		return -1;
 	}
 
 	/**
-	 * Called when the block is destroyed by an explosion. Useful for allowing the block to take into account tile entities, state, etc. when
-	 * exploded, before it is removed.
+	 * Called when the block is destroyed by an explosion. Useful for allowing
+	 * the block to take into account tile entities, state, etc. when exploded,
+	 * before it is removed.
 	 *
 	 * @param world
 	 *            The current world
@@ -56,26 +54,22 @@ public class BlockAOTDBarrier extends AOTDBlock
 	 *            The explosion instance affecting the block
 	 */
 	@Override
-	public void onBlockExploded(World world, BlockPos pos, Explosion explosion)
-	{
+	public void onBlockExploded(World world, BlockPos pos, Explosion explosion) {
 		return;
 	}
 
 	@Override
-	public boolean canEntityDestroy(IBlockAccess world, BlockPos blockPos, Entity entity)
-	{
+	public boolean canEntityDestroy(IBlockAccess world, BlockPos blockPos, Entity entity) {
 		return false;
 	}
 
 	@Override
-	public boolean canDropFromExplosion(Explosion explosion)
-	{
+	public boolean canDropFromExplosion(Explosion explosion) {
 		return false;
 	}
 
 	@Override
-	public boolean isOpaqueCube()
-	{
+	public boolean isOpaqueCube() {
 		return false;
 	}
 
@@ -84,8 +78,7 @@ public class BlockAOTDBarrier extends AOTDBlock
 	 */
 	@SideOnly(Side.CLIENT)
 	@Override
-	public float getAmbientOcclusionLightValue()
-	{
+	public float getAmbientOcclusionLightValue() {
 		return 1.0F;
 	}
 
@@ -93,12 +86,12 @@ public class BlockAOTDBarrier extends AOTDBlock
 	 * Spawns this Block's drops into the World as EntityItems.
 	 * 
 	 * @param chance
-	 *            The chance that each Item is actually spawned (1.0 = always, 0.0 = never)
+	 *            The chance that each Item is actually spawned (1.0 = always,
+	 *            0.0 = never)
 	 * @param fortune
 	 *            The player's fortune level
 	 */
 	@Override
-	public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune)
-	{
+	public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
 	}
 }

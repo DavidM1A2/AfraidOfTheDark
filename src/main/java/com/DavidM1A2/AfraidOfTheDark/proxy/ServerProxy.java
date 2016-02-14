@@ -4,30 +4,30 @@
 package com.DavidM1A2.AfraidOfTheDark.proxy;
 
 // Any server side-only things we want to do
-public class ServerProxy extends CommonProxy
-{
+public class ServerProxy extends CommonProxy {
 	@Override
-	public void registerKeyBindings()
-	{
+	public void registerKeyBindings() {
 		// NOOP
 	}
 
 	// Here we register packets and a channel
 	@Override
-	public void registerChannel()
-	{
+	public void registerChannel() {
 		super.registerChannel();
 	}
 
 	@Override
-	public void registerRenderThings()
-	{
-		// NOOP
+	public void registerMiscelaneous() {
+		// Not used
 	}
 
 	@Override
-	public void registerMiscelaneous()
-	{
+	public void registerEntityRenders() {
+		// Not used
+	}
+
+	@Override
+	public void registerMiscRenders() {
 		// Not used
 	}
 }

@@ -23,12 +23,10 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.chunk.IChunkProvider;
 
-public class NightmareChunkProvider implements IChunkProvider
-{
+public class NightmareChunkProvider implements IChunkProvider {
 	private final World worldObj;
 
-	public NightmareChunkProvider(World world)
-	{
+	public NightmareChunkProvider(World world) {
 		worldObj = world;
 	}
 
@@ -36,14 +34,12 @@ public class NightmareChunkProvider implements IChunkProvider
 	 * Checks to see if a chunk exists at x, y
 	 */
 	@Override
-	public boolean chunkExists(int x, int z)
-	{
+	public boolean chunkExists(int x, int z) {
 		return true;
 	}
 
 	@Override
-	public Chunk provideChunk(int x, int z)
-	{
+	public Chunk provideChunk(int x, int z) {
 		ChunkPrimer chunkprimer = new ChunkPrimer();
 		IBlockState iblockstate = Blocks.air.getDefaultState();
 
@@ -51,8 +47,7 @@ public class NightmareChunkProvider implements IChunkProvider
 
 		byte[] biome = chunk.getBiomeArray();
 
-		for (int i = 0; i < biome.length; i++)
-		{
+		for (int i = 0; i < biome.length; i++) {
 			biome[i] = (byte) ModBiomes.nightmare.biomeID;
 		}
 
@@ -62,79 +57,68 @@ public class NightmareChunkProvider implements IChunkProvider
 	}
 
 	@Override
-	public Chunk provideChunk(BlockPos blockPos)
-	{
+	public Chunk provideChunk(BlockPos blockPos) {
 		return this.provideChunk(blockPos.getX() >> 4, blockPos.getZ() >> 4);
 	}
 
 	@Override
-	public void populate(IChunkProvider iChunkProvider, int x, int z)
-	{
+	public void populate(IChunkProvider iChunkProvider, int x, int z) {
 		// Every 62 chunks in the x direction (992 blocks)
-		if (x * 16 % Constants.NightmareWorld.BLOCKS_BETWEEN_ISLANDS == 0 && z == 0 && x != 0)
-		{
-			MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("A player has entered his/her nightmare realm for the first time. Expect a server freeze for the next 5 or so seconds."));
+		if (x * 16 % Constants.NightmareWorld.BLOCKS_BETWEEN_ISLANDS == 0 && z == 0 && x != 0) {
+			MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText(
+					"A player has entered his/her nightmare realm for the first time. Expect a server freeze for the next 5 or so seconds."));
 
-			SchematicGenerator.generateSchematicWithLoot(Constants.AOTDSchematics.nightmareIsland, this.worldObj, x * 16, 0, z * 16, Constants.nightmareIslandLootTable);
+			SchematicGenerator.generateSchematicWithLoot(Constants.AOTDSchematics.nightmareIsland, this.worldObj,
+					x * 16, 0, z * 16, Constants.nightmareIslandLootTable);
 		}
 	}
 
 	@Override
-	public boolean func_177460_a(IChunkProvider p_177460_1_, Chunk p_177460_2_, int p_177460_3_, int p_177460_4_)
-	{
+	public boolean func_177460_a(IChunkProvider p_177460_1_, Chunk p_177460_2_, int p_177460_3_, int p_177460_4_) {
 		return false;
 	}
 
 	@Override
-	public boolean saveChunks(boolean p_73151_1_, IProgressUpdate p_73151_2_)
-	{
+	public boolean saveChunks(boolean p_73151_1_, IProgressUpdate p_73151_2_) {
 		return true;
 	}
 
 	@Override
-	public boolean unloadQueuedChunks()
-	{
+	public boolean unloadQueuedChunks() {
 		return false;
 	}
 
 	@Override
-	public boolean canSave()
-	{
+	public boolean canSave() {
 		return true;
 	}
 
 	@Override
-	public String makeString()
-	{
+	public String makeString() {
 		return "NightmareWorld";
 	}
 
 	@Override
-	public List func_177458_a(EnumCreatureType enumCreatureType, BlockPos blockPos)
-	{
+	public List getPossibleCreatures(EnumCreatureType enumCreatureType, BlockPos blockPos) {
 		return this.worldObj.getBiomeGenForCoords(blockPos).getSpawnableList(enumCreatureType);
 	}
 
 	@Override
-	public BlockPos getStrongholdGen(World world, String structureType, BlockPos blockPos)
-	{
+	public BlockPos getStrongholdGen(World world, String structureType, BlockPos blockPos) {
 		// Gen structures
 		return null;
 	}
 
 	@Override
-	public int getLoadedChunkCount()
-	{
+	public int getLoadedChunkCount() {
 		return 0;
 	}
 
 	@Override
-	public void recreateStructures(Chunk chunk, int x, int z)
-	{
+	public void recreateStructures(Chunk chunk, int x, int z) {
 	}
 
 	@Override
-	public void saveExtraData()
-	{
+	public void saveExtraData() {
 	}
 }

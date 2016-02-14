@@ -9,27 +9,22 @@ import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.EntityEnaria;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderEnaria extends RenderLiving
-{
-
-	public static final ResourceLocation ENARIA_TEXTURE = new ResourceLocation("afraidofthedark:textures/entity/enaria.png");
+public class RenderEnaria<T extends EntityEnaria> extends RenderLiving<T> {
+	public static final ResourceLocation ENARIA_TEXTURE = new ResourceLocation(
+			"afraidofthedark:textures/entity/enaria.png");
 	public static ModelEnaria modelEnaria = new ModelEnaria();
 	public static float modelHeight = 2.8F;
 
-	public RenderEnaria()
-	{
-		super(Minecraft.getMinecraft().getRenderManager(), modelEnaria, 1F);
+	public RenderEnaria(RenderManager renderManager) {
+		super(renderManager, modelEnaria, 1F);
 	}
 
 	@Override
-	public void doRender(Entity _entity, double posX, double posY, double posZ, float var8, float var9)
-	{
+	public void doRender(T _entity, double posX, double posY, double posZ, float var8, float var9) {
 		EntityEnaria entity = (EntityEnaria) _entity;
 
 		GL11.glPushMatrix();
@@ -40,16 +35,14 @@ public class RenderEnaria extends RenderLiving
 	}
 
 	@Override
-	protected void preRenderCallback(EntityLivingBase entityliving, float f)
-	{
+	protected void preRenderCallback(T entityliving, float f) {
 		GL11.glRotatef(180F, 0, 1F, 0F);
 		GL11.glRotatef(180F, 0, 0, 1F);
 		GL11.glTranslatef(0, modelHeight, 0);
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(Entity var1)
-	{
+	protected ResourceLocation getEntityTexture(T var1) {
 		return ENARIA_TEXTURE;
 	}
 }

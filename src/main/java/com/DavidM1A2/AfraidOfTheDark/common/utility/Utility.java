@@ -27,107 +27,105 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-public class Utility
-{
-	public static boolean hasIndex(List<?> list, int index)
-	{
+public class Utility {
+	public static boolean hasIndex(List<?> list, int index) {
 		return index >= 0 && index < list.size();
 	}
 
-	public static <T> boolean hasIndex(T[] array, int index)
-	{
+	public static <T> boolean hasIndex(T[] array, int index) {
 		return index >= 0 && index < array.length;
 	}
 
-	public static InputStream getInputStreamFromPath(String path)
-	{
+	public static InputStream getInputStreamFromPath(String path) {
 		InputStream inputStream = Utility.class.getClassLoader().getResourceAsStream(path);
-		if (inputStream == null)
-		{
-			inputStream = Utility.class.getClassLoader().getResourceAsStream("assets/afraidofthedark/researchNotes/None.txt");
+		if (inputStream == null) {
+			inputStream = Utility.class.getClassLoader()
+					.getResourceAsStream("assets/afraidofthedark/researchNotes/None.txt");
 		}
 		return inputStream;
 	}
 
-	public static void sendPlayerToVoidChest(EntityPlayerMP entityPlayer, int location)
-	{
-		Utility.sendPlayerToDimension(entityPlayer, Constants.VoidChestWorld.VOID_CHEST_WORLD_ID, false, VoidChestTeleporter.class);
-		entityPlayer.playerNetServerHandler.setPlayerLocation(location * Constants.VoidChestWorld.BLOCKS_BETWEEN_ISLANDS + 24.5, 104, 3, 0, 0);
+	public static void sendPlayerToVoidChest(EntityPlayerMP entityPlayer, int location) {
+		Utility.sendPlayerToDimension(entityPlayer, Constants.VoidChestWorld.VOID_CHEST_WORLD_ID, false,
+				VoidChestTeleporter.class);
+		entityPlayer.playerNetServerHandler
+				.setPlayerLocation(location * Constants.VoidChestWorld.BLOCKS_BETWEEN_ISLANDS + 24.5, 104, 3, 0, 0);
 	}
 
 	/*
 	 * See EntityPlayerMP.travelToDimension
 	 */
-	public static void sendPlayerToDimension(EntityPlayerMP entityPlayer, int dimensionId, boolean spawnPortal, Class<? extends Teleporter> teleporter)
-	{
+	public static void sendPlayerToDimension(EntityPlayerMP entityPlayer, int dimensionId, boolean spawnPortal,
+			Class<? extends Teleporter> teleporter) {
 		ServerConfigurationManager serverConfigurationManager = entityPlayer.mcServer.getConfigurationManager();
 		int j = entityPlayer.dimension;
-		WorldServer worldserver = serverConfigurationManager.getServerInstance().worldServerForDimension(entityPlayer.dimension);
+		WorldServer worldserver = serverConfigurationManager.getServerInstance()
+				.worldServerForDimension(entityPlayer.dimension);
 		entityPlayer.dimension = dimensionId;
-		WorldServer worldserver1 = serverConfigurationManager.getServerInstance().worldServerForDimension(entityPlayer.dimension);
-		entityPlayer.playerNetServerHandler.sendPacket(new S07PacketRespawn(entityPlayer.dimension, worldserver1.getDifficulty(), worldserver1.getWorldInfo().getTerrainType(), entityPlayer.theItemInWorldManager.getGameType()));
+		WorldServer worldserver1 = serverConfigurationManager.getServerInstance()
+				.worldServerForDimension(entityPlayer.dimension);
+		entityPlayer.playerNetServerHandler.sendPacket(new S07PacketRespawn(entityPlayer.dimension,
+				worldserver1.getDifficulty(), worldserver1.getWorldInfo().getTerrainType(),
+				entityPlayer.theItemInWorldManager.getGameType()));
 		worldserver.removePlayerEntityDangerously(entityPlayer);
 		entityPlayer.isDead = false;
 
-		if (!spawnPortal)
-		{
-			try
-			{
-				serverConfigurationManager.transferEntityToWorld(entityPlayer, j, worldserver, worldserver1, teleporter.getDeclaredConstructor(WorldServer.class, int.class, int.class).newInstance(worldserver1, j, dimensionId));
-			}
-			catch (Exception e)
-			{
+		if (!spawnPortal) {
+			try {
+				serverConfigurationManager.transferEntityToWorld(entityPlayer, j, worldserver, worldserver1,
+						teleporter.getDeclaredConstructor(WorldServer.class, int.class, int.class)
+								.newInstance(worldserver1, j, dimensionId));
+			} catch (Exception e) {
 				LogHelper.info("Error gererating portal at line 219 utility");
 			}
-		}
-		else
-		{
-			serverConfigurationManager.transferEntityToWorld(entityPlayer, j, worldserver, worldserver1, worldserver1.getDefaultTeleporter());
+		} else {
+			serverConfigurationManager.transferEntityToWorld(entityPlayer, j, worldserver, worldserver1,
+					worldserver1.getDefaultTeleporter());
 		}
 
-		serverConfigurationManager.func_72375_a(entityPlayer, worldserver);
-		entityPlayer.playerNetServerHandler.setPlayerLocation(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, entityPlayer.rotationYaw, entityPlayer.rotationPitch);
+		serverConfigurationManager.preparePlayer(entityPlayer, worldserver);
+		entityPlayer.playerNetServerHandler.setPlayerLocation(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ,
+				entityPlayer.rotationYaw, entityPlayer.rotationPitch);
 		entityPlayer.theItemInWorldManager.setWorld(worldserver1);
 		serverConfigurationManager.updateTimeAndWeatherForPlayer(entityPlayer, worldserver1);
 		serverConfigurationManager.syncPlayerInventory(entityPlayer);
 		Iterator iterator = entityPlayer.getActivePotionEffects().iterator();
 
-		while (iterator.hasNext())
-		{
+		while (iterator.hasNext()) {
 			PotionEffect potioneffect = (PotionEffect) iterator.next();
-			entityPlayer.playerNetServerHandler.sendPacket(new S1DPacketEntityEffect(entityPlayer.getEntityId(), potioneffect));
+			entityPlayer.playerNetServerHandler
+					.sendPacket(new S1DPacketEntityEffect(entityPlayer.getEntityId(), potioneffect));
 		}
 
 		FMLCommonHandler.instance().firePlayerChangedDimensionEvent(entityPlayer, j, dimensionId);
 	}
 
-	public static void createExplosionWithoutBlockDamageServer(World world, Entity entity, double x, double y, double z, int strength, boolean isFlaming, boolean isSmoking)
-	{
+	public static void createExplosionWithoutBlockDamageServer(World world, Entity entity, double x, double y, double z,
+			int strength, boolean isFlaming, boolean isSmoking) {
 		Explosion explosion = new Explosion(world, entity, x, y, z, strength, isFlaming, isSmoking);
 		if (net.minecraftforge.event.ForgeEventFactory.onExplosionStart(world, explosion))
 			return;
 		explosion.doExplosionB(false);
 
-		if (!isSmoking)
-		{
+		if (!isSmoking) {
 			explosion.func_180342_d();
 		}
 
 		Iterator iterator = world.playerEntities.iterator();
 
-		while (iterator.hasNext())
-		{
+		while (iterator.hasNext()) {
 			EntityPlayer entityplayer = (EntityPlayer) iterator.next();
 
-			if (entityplayer.getDistanceSq(x, y, z) < 4096.0D)
-			{
-				((EntityPlayerMP) entityplayer).playerNetServerHandler.sendPacket(new S27PacketExplosion(x, y, z, strength, explosion.func_180343_e(), (Vec3) explosion.func_77277_b().get(entityplayer)));
+			if (entityplayer.getDistanceSq(x, y, z) < 4096.0D) {
+				((EntityPlayerMP) entityplayer).playerNetServerHandler
+						.sendPacket(new S27PacketExplosion(x, y, z, strength, explosion.getAffectedBlockPositions(),
+								(Vec3) explosion.getPlayerKnockbackMap().get(entityplayer)));
 			}
 		}
 	}
 
-	public static void createExplosionWithoutBlockDamageClient(World world, Entity entity, double x, double y, double z, int strength, boolean isFlaming, boolean isSmoking)
-	{
+	public static void createExplosionWithoutBlockDamageClient(World world, Entity entity, double x, double y, double z,
+			int strength, boolean isFlaming, boolean isSmoking) {
 		Explosion explosion = new Explosion(world, entity, x, y, z, strength, isFlaming, isSmoking);
 		if (net.minecraftforge.event.ForgeEventFactory.onExplosionStart(world, explosion))
 			return;

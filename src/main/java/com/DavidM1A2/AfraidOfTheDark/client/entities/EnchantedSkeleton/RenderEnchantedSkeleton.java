@@ -9,26 +9,22 @@ import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.common.entities.EnchantedSkeleton.EntityEnchantedSkeleton;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderEnchantedSkeleton extends RenderLiving
-{
-	public static final ResourceLocation ENCHANTED_SKELETON_TEXTURE = new ResourceLocation("afraidofthedark:textures/entity/enchantedSkeleton.png");
+public class RenderEnchantedSkeleton<T extends EntityEnchantedSkeleton> extends RenderLiving<T> {
+	public static final ResourceLocation ENCHANTED_SKELETON_TEXTURE = new ResourceLocation(
+			"afraidofthedark:textures/entity/enchantedSkeleton.png");
 	public static ModelEnchantedSkeleton modelEnchantedSkeleton = new ModelEnchantedSkeleton();
 	public static float modelHeight = 2.9F;
 
-	public RenderEnchantedSkeleton()
-	{
-		super(Minecraft.getMinecraft().getRenderManager(), modelEnchantedSkeleton, 1.0F);
+	public RenderEnchantedSkeleton(RenderManager renderManager) {
+		super(renderManager, modelEnchantedSkeleton, 1.0F);
 	}
 
 	@Override
-	public void doRender(Entity _entity, double posX, double posY, double posZ, float var8, float var9)
-	{
+	public void doRender(T _entity, double posX, double posY, double posZ, float var8, float var9) {
 		EntityEnchantedSkeleton entity = (EntityEnchantedSkeleton) _entity;
 
 		GL11.glPushMatrix();
@@ -39,16 +35,14 @@ public class RenderEnchantedSkeleton extends RenderLiving
 	}
 
 	@Override
-	protected void preRenderCallback(EntityLivingBase entityliving, float f)
-	{
+	protected void preRenderCallback(T entityliving, float f) {
 		GL11.glRotatef(180F, 0, 1F, 0F);
 		GL11.glRotatef(180F, 0, 0, 1F);
 		GL11.glTranslatef(0, modelHeight, 0);
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(Entity var1)
-	{
+	protected ResourceLocation getEntityTexture(T var1) {
 		return ENCHANTED_SKELETON_TEXTURE;
 	}
 }

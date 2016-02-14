@@ -16,9 +16,9 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-public class ResearchAchieved extends Gui
-{
-	private static final ResourceLocation achievementBg = new ResourceLocation("textures/gui/achievement/achievement_background.png");
+public class ResearchAchieved extends Gui {
+	private static final ResourceLocation achievementBg = new ResourceLocation(
+			"textures/gui/achievement/achievement_background.png");
 	private final Minecraft mc;
 	private int width;
 	private int height;
@@ -33,21 +33,17 @@ public class ResearchAchieved extends Gui
 	private ItemStack nextIcon;
 	private Thread previousResearchDisplayed;
 
-	public ResearchAchieved(final Minecraft mc)
-	{
+	public ResearchAchieved(final Minecraft mc) {
 		super();
 		this.mc = mc;
 		this.renderItem = mc.getRenderItem();
 		this.previousResearchDisplayed = new Thread();
 	}
 
-	public void displayResearch(final ResearchTypes research, final ItemStack icon, final boolean queue)
-	{
+	public void displayResearch(final ResearchTypes research, final ItemStack icon, final boolean queue) {
 		this.achievementTitle = "New Research!";
-		if (queue)
-		{
-			if (research != null)
-			{
+		if (queue) {
+			if (research != null) {
 				this.achievementDescription = research.formattedString();
 				this.notificationTime = Minecraft.getSystemTime();
 				this.theType = research;
@@ -56,40 +52,31 @@ public class ResearchAchieved extends Gui
 				this.nextIcon = null;
 				this.nextType = null;
 			}
-		}
-		else if (!this.previousResearchDisplayed.isAlive())
-		{
+		} else if (!this.previousResearchDisplayed.isAlive()) {
 			this.achievementDescription = research.formattedString();
 			this.notificationTime = Minecraft.getSystemTime();
 			this.theType = research;
 			this.permanentNotification = false;
 			this.icon = icon;
-			this.previousResearchDisplayed = new Thread()
-			{
+			this.previousResearchDisplayed = new Thread() {
 				@Override
-				public void run()
-				{
-					try
-					{
+				public void run() {
+					try {
 						Thread.sleep(4000);
-						ResearchAchieved.this.displayResearch(ResearchAchieved.this.nextType, ResearchAchieved.this.nextIcon, true);
-					}
-					catch (final InterruptedException e)
-					{
+						ResearchAchieved.this.displayResearch(ResearchAchieved.this.nextType,
+								ResearchAchieved.this.nextIcon, true);
+					} catch (final InterruptedException e) {
 					}
 				}
 			};
 			this.previousResearchDisplayed.start();
-		}
-		else
-		{
+		} else {
 			this.nextIcon = icon;
 			this.nextType = research;
 		}
 	}
 
-	private void updateResearchAchievedWindowScale()
-	{
+	private void updateResearchAchievedWindowScale() {
 		GlStateManager.viewport(0, 0, this.mc.displayWidth, this.mc.displayHeight);
 		GlStateManager.matrixMode(5889);
 		GlStateManager.loadIdentity();
@@ -97,7 +84,7 @@ public class ResearchAchieved extends Gui
 		GlStateManager.loadIdentity();
 		this.width = this.mc.displayWidth;
 		this.height = this.mc.displayHeight;
-		final ScaledResolution scaledresolution = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
+		final ScaledResolution scaledresolution = new ScaledResolution(this.mc);
 		this.width = scaledresolution.getScaledWidth();
 		this.height = scaledresolution.getScaledHeight();
 		GlStateManager.clear(256);
@@ -109,22 +96,16 @@ public class ResearchAchieved extends Gui
 		GlStateManager.translate(0.0F, 0.0F, -2000.0F);
 	}
 
-	public void updateResearchAchievedWindow()
-	{
-		if ((this.theType != null) && (this.notificationTime != 0L) && (Minecraft.getMinecraft().thePlayer != null))
-		{
+	public void updateResearchAchievedWindow() {
+		if ((this.theType != null) && (this.notificationTime != 0L) && (Minecraft.getMinecraft().thePlayer != null)) {
 			double d0 = (Minecraft.getSystemTime() - this.notificationTime) / 3000.0D;
 
-			if (!this.permanentNotification)
-			{
-				if ((d0 < 0.0D) || (d0 > 1.0D))
-				{
+			if (!this.permanentNotification) {
+				if ((d0 < 0.0D) || (d0 > 1.0D)) {
 					this.notificationTime = 0L;
 					return;
 				}
-			}
-			else if (d0 > 0.5D)
-			{
+			} else if (d0 > 0.5D) {
 				d0 = 0.5D;
 			}
 
@@ -133,16 +114,14 @@ public class ResearchAchieved extends Gui
 			GlStateManager.depthMask(false);
 			double d1 = d0 * 2.0D;
 
-			if (d1 > 1.0D)
-			{
+			if (d1 > 1.0D) {
 				d1 = 2.0D - d1;
 			}
 
 			d1 *= 4.0D;
 			d1 = 1.0D - d1;
 
-			if (d1 < 0.0D)
-			{
+			if (d1 < 0.0D) {
 				d1 = 0.0D;
 			}
 
@@ -156,12 +135,9 @@ public class ResearchAchieved extends Gui
 			GlStateManager.disableLighting();
 			this.drawTexturedModalRect(i, j, 96, 202, 160, 32);
 
-			if (this.permanentNotification)
-			{
+			if (this.permanentNotification) {
 				this.mc.fontRendererObj.drawSplitString(this.achievementDescription, i + 30, j + 7, 120, -1);
-			}
-			else
-			{
+			} else {
 				this.mc.fontRendererObj.drawString(this.achievementTitle, i + 30, j + 7, -256);
 				this.mc.fontRendererObj.drawString(this.achievementDescription, i + 30, j + 18, -1);
 			}
@@ -178,8 +154,7 @@ public class ResearchAchieved extends Gui
 		}
 	}
 
-	public void clearAchievements()
-	{
+	public void clearAchievements() {
 		this.theType = null;
 		this.notificationTime = 0L;
 	}

@@ -5,13 +5,13 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.entities.bolts;
 
+import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntityIronBolt;
+
 import net.minecraft.client.renderer.entity.RenderManager;
 
 // Setup the IronBolt renderer
-public class IronBoltRender extends BoltRender
-{
-	public IronBoltRender(final RenderManager renderManager)
-	{
+public class IronBoltRender<T extends EntityIronBolt> extends BoltRender<T> {
+	public IronBoltRender(final RenderManager renderManager) {
 		super(renderManager, "afraidofthedark:textures/entity/ironBolt.png");
 	}
 }

@@ -19,73 +19,62 @@ import org.lwjgl.input.Mouse;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 
-public class AOTDGuiUtility
-{
-	private static ScaledResolution scaledResolution = new ScaledResolution(Minecraft.getMinecraft(), Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
+public class AOTDGuiUtility {
+	private static ScaledResolution scaledResolution = new ScaledResolution(Minecraft.getMinecraft());
 
-	public static void updateScaledResolution()
-	{
-		AOTDGuiUtility.scaledResolution = new ScaledResolution(Minecraft.getMinecraft(), Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
+	public static void updateScaledResolution() {
+		AOTDGuiUtility.scaledResolution = new ScaledResolution(Minecraft.getMinecraft());
 	}
 
-	public static ScaledResolution getScaledResolution()
-	{
+	public static ScaledResolution getScaledResolution() {
 		return AOTDGuiUtility.scaledResolution;
 	}
 
-	public static float[] convert255To01Color(Color color)
-	{
-		return new float[]
-		{ color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, color.getAlpha() / 255.0f };
+	public static float[] convert255To01Color(Color color) {
+		return new float[] { color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f,
+				color.getAlpha() / 255.0f };
 	}
 
-	public static int mcToRealCoord(int coord)
-	{
+	public static int mcToRealCoord(int coord) {
 		return coord * scaledResolution.getScaleFactor();
 	}
 
-	public static int realToMcCoord(int coord)
-	{
+	public static int realToMcCoord(int coord) {
 		return coord / scaledResolution.getScaleFactor();
 	}
 
-	public static int realToGLScreenCoords(int coord)
-	{
+	public static int realToGLScreenCoords(int coord) {
 		return Minecraft.getMinecraft().displayHeight - coord;
 	}
 
-	public static int getMouseX()
-	{
-		return Mouse.getX() * AOTDGuiUtility.getScaledResolution().getScaledWidth() / Minecraft.getMinecraft().displayWidth;
+	public static int getMouseX() {
+		return Mouse.getX() * AOTDGuiUtility.getScaledResolution().getScaledWidth()
+				/ Minecraft.getMinecraft().displayWidth;
 	}
 
-	public static int getMouseY()
-	{
-		return AOTDGuiUtility.getScaledResolution().getScaledHeight() - Mouse.getY() * AOTDGuiUtility.getScaledResolution().getScaledHeight() / Minecraft.getMinecraft().displayHeight - 1;
+	public static int getMouseY() {
+		return AOTDGuiUtility.getScaledResolution().getScaledHeight() - Mouse.getY()
+				* AOTDGuiUtility.getScaledResolution().getScaledHeight() / Minecraft.getMinecraft().displayHeight - 1;
 	}
 
 	/**
-	 * Returns true if either windows ctrl key is down or if either mac meta key is down
+	 * Returns true if either windows ctrl key is down or if either mac meta key
+	 * is down
 	 */
-	public static boolean isCtrlKeyDown()
-	{
-		return Minecraft.isRunningOnMac ? Keyboard.isKeyDown(219) || Keyboard.isKeyDown(220) : Keyboard.isKeyDown(29) || Keyboard.isKeyDown(157);
+	public static boolean isCtrlKeyDown() {
+		return Minecraft.isRunningOnMac ? Keyboard.isKeyDown(219) || Keyboard.isKeyDown(220)
+				: Keyboard.isKeyDown(29) || Keyboard.isKeyDown(157);
 	}
 
 	/**
 	 * Stores the given string in the system clipboard
 	 */
-	public static void setClipboardString(String copyText)
-	{
-		if (!StringUtils.isEmpty(copyText))
-		{
-			try
-			{
+	public static void setClipboardString(String copyText) {
+		if (!StringUtils.isEmpty(copyText)) {
+			try {
 				StringSelection stringselection = new StringSelection(copyText);
 				Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringselection, (ClipboardOwner) null);
-			}
-			catch (Exception exception)
-			{
+			} catch (Exception exception) {
 			}
 		}
 	}
@@ -93,19 +82,14 @@ public class AOTDGuiUtility
 	/**
 	 * Returns a string stored in the system clipboard.
 	 */
-	public static String getClipboardString()
-	{
-		try
-		{
+	public static String getClipboardString() {
+		try {
 			Transferable transferable = Toolkit.getDefaultToolkit().getSystemClipboard().getContents((Object) null);
 
-			if (transferable != null && transferable.isDataFlavorSupported(DataFlavor.stringFlavor))
-			{
+			if (transferable != null && transferable.isDataFlavorSupported(DataFlavor.stringFlavor)) {
 				return (String) transferable.getTransferData(DataFlavor.stringFlavor);
 			}
-		}
-		catch (Exception exception)
-		{
+		} catch (Exception exception) {
 		}
 
 		return "";

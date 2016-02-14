@@ -11,39 +11,37 @@ import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
 
-import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAITarget;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class CustomWerewolfTargetLocator extends EntityAITarget
-{
+public class CustomWerewolfTargetLocator extends EntityAITarget {
 	protected final Class targetClass;
 	private final int targetChance;
 	/** Instance of EntityAINearestAttackableTargetSorter. */
 	protected final CustomWerewolfTargetLocator.Sorter theCustomWerewolfTargetLocatorSorter;
 	/**
-	 * This filter is applied to the Entity search. Only matching entities will be targetted. (null -> no restrictions)
+	 * This filter is applied to the Entity search. Only matching entities will
+	 * be targetted. (null -> no restrictions)
 	 */
 	protected Predicate targetEntitySelector;
 	protected EntityLivingBase targetEntity;
 
-	public CustomWerewolfTargetLocator(final EntityCreature entityCreature, final Class target, final int targetChance, final boolean shouldCheckSight)
-	{
+	public CustomWerewolfTargetLocator(final EntityCreature entityCreature, final Class target, final int targetChance,
+			final boolean shouldCheckSight) {
 		this(entityCreature, target, targetChance, shouldCheckSight, false);
 	}
 
-	public CustomWerewolfTargetLocator(final EntityCreature entityCreature, final Class target, final int targetChance, final boolean shouldCheckSight, final boolean nearbyOnly)
-	{
+	public CustomWerewolfTargetLocator(final EntityCreature entityCreature, final Class target, final int targetChance,
+			final boolean shouldCheckSight, final boolean nearbyOnly) {
 		this(entityCreature, target, targetChance, shouldCheckSight, nearbyOnly, (Predicate) null);
 	}
 
-	public CustomWerewolfTargetLocator(final EntityCreature entityCreature, final Class target, final int targetChance, final boolean shouldCheckSight, final boolean nearbyOnly, final Predicate targetSelector)
-	{
+	public CustomWerewolfTargetLocator(final EntityCreature entityCreature, final Class target, final int targetChance,
+			final boolean shouldCheckSight, final boolean nearbyOnly, final Predicate targetSelector) {
 		// Call the superclass's constructor.
 		super(entityCreature, shouldCheckSight, nearbyOnly);
 		// Set the target, targetChance, sorter, and mutex bits (defines ai
@@ -53,42 +51,32 @@ public class CustomWerewolfTargetLocator extends EntityAITarget
 		this.theCustomWerewolfTargetLocatorSorter = new CustomWerewolfTargetLocator.Sorter(entityCreature);
 		this.setMutexBits(1);
 		// To select a target we run custom code (check HasStartedAOTD)
-		this.targetEntitySelector = new Predicate()
-		{
+		this.targetEntitySelector = new Predicate() {
 			/**
 			 * Return whether the specified entity is applicable to this filter.
 			 */
-			public boolean isEntityApplicable(final EntityLivingBase entity)
-			{
-				if ((targetSelector != null) && !targetSelector.apply(entity))
-				{
+			public boolean isEntityApplicable(final EntityLivingBase entity) {
+				if ((targetSelector != null) && !targetSelector.apply(entity)) {
 					return false;
-				}
-				else
-				{
-					if (entity instanceof EntityPlayer)
-					{
+				} else {
+					if (entity instanceof EntityPlayer) {
 						double d0 = CustomWerewolfTargetLocator.this.getTargetDistance();
 
-						if (entity.isSneaking())
-						{
+						if (entity.isSneaking()) {
 							d0 *= 0.800000011920929D;
 						}
 
-						if (entity.isInvisible())
-						{
+						if (entity.isInvisible()) {
 							float f = ((EntityPlayer) entity).getArmorVisibility();
 
-							if (f < 0.1F)
-							{
+							if (f < 0.1F) {
 								f = 0.1F;
 							}
 
 							d0 *= 0.7F * f;
 						}
 
-						if (entity.getDistanceToEntity(CustomWerewolfTargetLocator.this.taskOwner) > d0)
-						{
+						if (entity.getDistanceToEntity(CustomWerewolfTargetLocator.this.taskOwner) > d0) {
 							return false;
 						}
 					}
@@ -98,8 +86,7 @@ public class CustomWerewolfTargetLocator extends EntityAITarget
 			}
 
 			@Override
-			public boolean apply(final Object input)
-			{
+			public boolean apply(final Object input) {
 				return this.isEntityApplicable((EntityLivingBase) input);
 			}
 		};
@@ -109,35 +96,29 @@ public class CustomWerewolfTargetLocator extends EntityAITarget
 	 * Returns whether the EntityAIBase should begin execution.
 	 */
 	@Override
-	public boolean shouldExecute()
-	{
-		if ((this.targetChance > 0) && (this.taskOwner.getRNG().nextInt(this.targetChance) != 0))
-		{
+	public boolean shouldExecute() {
+		if ((this.targetChance > 0) && (this.taskOwner.getRNG().nextInt(this.targetChance) != 0)) {
 			return false;
-		}
-		else
-		{
+		} else {
 			final double d0 = this.getTargetDistance();
-			final List list = this.taskOwner.worldObj.getEntitiesWithinAABB(this.targetClass, this.taskOwner.getEntityBoundingBox().expand(d0, 4.0D, d0), Predicates.and(this.targetEntitySelector, IEntitySelector.NOT_SPECTATING));
+			final List list = this.taskOwner.worldObj.getEntitiesWithinAABB(this.targetClass,
+					this.taskOwner.getEntityBoundingBox().expand(d0, 4.0D, d0), this.targetEntitySelector);
 			Collections.sort(list, this.theCustomWerewolfTargetLocatorSorter);
 
-			if (list.isEmpty())
-			{
+			if (list.isEmpty()) {
 				return false;
-			}
-			else
-			{
+			} else {
 				/*
-				 * Here we added some extra code to check if the target is a person who has started AOTD and we ignore all other players
+				 * Here we added some extra code to check if the target is a
+				 * person who has started AOTD and we ignore all other players
 				 */
-				for (int i = 0; i < list.size(); i++)
-				{
-					if (list.get(i) instanceof EntityPlayer)
-					{
-						if (AOTDPlayerData.get((EntityPlayer) list.get(i)).getHasStartedAOTD() || ((EntityWerewolf) this.taskOwner).canAttackAnyone())
-						{
+				for (int i = 0; i < list.size(); i++) {
+					if (list.get(i) instanceof EntityPlayer) {
+						if (AOTDPlayerData.get((EntityPlayer) list.get(i)).getHasStartedAOTD()
+								|| ((EntityWerewolf) this.taskOwner).canAttackAnyone()) {
 							/*
-							 * The first entity in the list that has started AOTD is the target
+							 * The first entity in the list that has started
+							 * AOTD is the target
 							 */
 							this.targetEntity = (EntityLivingBase) list.get(i);
 							return true;
@@ -153,31 +134,26 @@ public class CustomWerewolfTargetLocator extends EntityAITarget
 	 * Execute a one shot task or start executing a continuous task
 	 */
 	@Override
-	public void startExecuting()
-	{
+	public void startExecuting() {
 		this.taskOwner.setAttackTarget(this.targetEntity);
 		super.startExecuting();
 	}
 
-	public static class Sorter implements Comparator
-	{
+	public static class Sorter implements Comparator {
 		private final Entity theEntity;
 
-		public Sorter(final Entity p_i1662_1_)
-		{
+		public Sorter(final Entity p_i1662_1_) {
 			this.theEntity = p_i1662_1_;
 		}
 
-		public int compare(final Entity p_compare_1_, final Entity p_compare_2_)
-		{
+		public int compare(final Entity p_compare_1_, final Entity p_compare_2_) {
 			final double d0 = this.theEntity.getDistanceSqToEntity(p_compare_1_);
 			final double d1 = this.theEntity.getDistanceSqToEntity(p_compare_2_);
 			return d0 < d1 ? -1 : (d0 > d1 ? 1 : 0);
 		}
 
 		@Override
-		public int compare(final Object p_compare_1_, final Object p_compare_2_)
-		{
+		public int compare(final Object p_compare_1_, final Object p_compare_2_) {
 			return this.compare((Entity) p_compare_1_, (Entity) p_compare_2_);
 		}
 	}

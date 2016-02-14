@@ -4,27 +4,23 @@ import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.common.entities.SplinterDrone.EntitySplinterDrone;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderSplinterDrone extends RenderLiving
-{
+public class RenderSplinterDrone<T extends EntitySplinterDrone> extends RenderLiving<T> {
 
-	public static final ResourceLocation SPLINTER_DRONE_TEXTURE = new ResourceLocation("afraidofthedark:textures/entity/splinterDrone.png");
+	public static final ResourceLocation SPLINTER_DRONE_TEXTURE = new ResourceLocation(
+			"afraidofthedark:textures/entity/splinterDrone.png");
 	public static ModelSplinterDrone modelSplinterDrone = new ModelSplinterDrone();
 	public static float modelHeight = 3.1F;
 
-	public RenderSplinterDrone()
-	{
-		super(Minecraft.getMinecraft().getRenderManager(), modelSplinterDrone, 1F);
+	public RenderSplinterDrone(RenderManager renderManager) {
+		super(renderManager, modelSplinterDrone, 1F);
 	}
 
 	@Override
-	public void doRender(Entity _entity, double posX, double posY, double posZ, float var8, float var9)
-	{
+	public void doRender(T _entity, double posX, double posY, double posZ, float var8, float var9) {
 		EntitySplinterDrone entity = (EntitySplinterDrone) _entity;
 
 		GL11.glPushMatrix();
@@ -35,16 +31,14 @@ public class RenderSplinterDrone extends RenderLiving
 	}
 
 	@Override
-	protected void preRenderCallback(EntityLivingBase entityliving, float f)
-	{
+	protected void preRenderCallback(T entityliving, float f) {
 		GL11.glRotatef(180F, 0, 1F, 0F);
 		GL11.glRotatef(180F, 0, 0, 1F);
 		GL11.glTranslatef(0, modelHeight, 0);
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(Entity var1)
-	{
+	protected ResourceLocation getEntityTexture(T var1) {
 		return SPLINTER_DRONE_TEXTURE;
 	}
 }

@@ -23,8 +23,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
-{
+public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity {
 	protected AnimationHandler animHandler = new AnimationHandlerDeeeSyft(this);
 	private int flightCeiling = 85;
 	private static final int PASSIVE_VITAE_GEN_IN_TICKS = 160;
@@ -32,8 +31,7 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 	private static final String FLIGHT_CEILING = "flightCeiling";
 	private int timeUntilNormalAI = 0;
 
-	public EntityDeeeSyft(World par1World)
-	{
+	public EntityDeeeSyft(World par1World) {
 		super(par1World);
 		this.setSize(2.5f, 3.5f);
 		this.experienceValue = 5;
@@ -44,8 +42,7 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 	}
 
 	@Override
-	public AnimationHandler getAnimationHandler()
-	{
+	public AnimationHandler getAnimationHandler() {
 		return animHandler;
 	}
 
@@ -53,22 +50,19 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 	 * Gets called every tick from main Entity class
 	 */
 	@Override
-	public void onEntityUpdate()
-	{
-		if (!this.worldObj.isRemote)
-		{
-			if (ticksExisted % PASSIVE_VITAE_GEN_IN_TICKS == 0)
-			{
-				if (AOTDEntityData.get(this).getVitaeLevel() < 100)
-				{
+	public void onEntityUpdate() {
+		if (!this.worldObj.isRemote) {
+			if (ticksExisted % PASSIVE_VITAE_GEN_IN_TICKS == 0) {
+				if (AOTDEntityData.get(this).getVitaeLevel() < 100) {
 					int newVitae = AOTDEntityData.get(this).getVitaeLevel() + this.rand.nextInt(3);
-					if (AOTDEntityData.get(this).setVitaeLevel(newVitae))
-					{
-						this.worldObj.createExplosion(this, this.getPosition().getX(), this.getPosition().getY(), this.getPosition().getZ(), 2, this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"));
+					if (AOTDEntityData.get(this).setVitaeLevel(newVitae)) {
+						this.worldObj.createExplosion(this, this.getPosition().getX(), this.getPosition().getY(),
+								this.getPosition().getZ(), 2, this.worldObj.getGameRules().getBoolean("mobGriefing"));
 						this.onKillCommand();
 					}
 					AOTDEntityData.get(this).syncVitaeLevel();
-					this.setFlightCeiling(85 + (int) ((double) AOTDEntityData.get(this).getVitaeLevel() / (double) Constants.entityVitaeResistance.get(EntityDeeeSyft.class) * 150.0D));
+					this.setFlightCeiling(85 + (int) ((double) AOTDEntityData.get(this).getVitaeLevel()
+							/ (double) Constants.entityVitaeResistance.get(EntityDeeeSyft.class) * 150.0D));
 				}
 			}
 		}
@@ -80,19 +74,17 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 	 * Called when the entity is attacked.
 	 */
 	@Override
-	public boolean attackEntityFrom(DamageSource source, float amount)
-	{
+	public boolean attackEntityFrom(DamageSource source, float amount) {
 		this.getEntityData().setInteger(TICKS_UNTIL_NORMAL_AI, 100);
-		if (!this.getAnimationHandler().isAnimationActive("jiggle"))
-		{
+		if (!this.getAnimationHandler().isAnimationActive("jiggle")) {
 			this.getAnimationHandler().activateAnimation("jiggle", 0);
 		}
-		if (!this.isDead)
-		{
-			if (source == DamageSource.inFire || source == DamageSource.onFire || source == DamageSource.lava || source.isExplosion())
-			{
+		if (!this.isDead) {
+			if (source == DamageSource.inFire || source == DamageSource.onFire || source == DamageSource.lava
+					|| source.isExplosion()) {
 				this.setDead();
-				this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 7.0F, this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"));
+				this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 7.0F,
+						this.worldObj.getGameRules().getBoolean("mobGriefing"));
 			}
 		}
 		return super.attackEntityFrom(source, amount);
@@ -100,19 +92,15 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 
 	// Apply entity attributes
 	@Override
-	protected void applyEntityAttributes()
-	{
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.maxHealth) == null)
-		{
+		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.maxHealth) == null) {
 			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(20.0D);
 		}
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.knockbackResistance) == null)
-		{
+		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.knockbackResistance) == null) {
 			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.0D);
 		}
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed) == null)
-		{
+		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed) == null) {
 			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.5D);
 		}
 	}
@@ -121,8 +109,7 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 	 * (abstract) Protected helper method to write subclass entity data to NBT.
 	 */
 	@Override
-	public void writeEntityToNBT(NBTTagCompound tagCompound)
-	{
+	public void writeEntityToNBT(NBTTagCompound tagCompound) {
 		super.writeEntityToNBT(tagCompound);
 		tagCompound.setInteger(TICKS_UNTIL_NORMAL_AI, this.timeUntilNormalAI);
 		tagCompound.setInteger(FLIGHT_CEILING, this.flightCeiling);
@@ -132,24 +119,20 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
 	@Override
-	public void readEntityFromNBT(NBTTagCompound tagCompound)
-	{
+	public void readEntityFromNBT(NBTTagCompound tagCompound) {
 		super.readEntityFromNBT(tagCompound);
 		this.timeUntilNormalAI = tagCompound.getInteger(TICKS_UNTIL_NORMAL_AI);
 		this.flightCeiling = tagCompound.getInteger(FLIGHT_CEILING);
 	}
 
-	public void setFlightCeiling(int ceiling)
-	{
+	public void setFlightCeiling(int ceiling) {
 		this.flightCeiling = ceiling;
 	}
 
-	private class AILookAround extends EntityAIBase
-	{
+	private class AILookAround extends EntityAIBase {
 		private EntityDeeeSyft instance = EntityDeeeSyft.this;
 
-		public AILookAround()
-		{
+		public AILookAround() {
 			this.setMutexBits(2);
 		}
 
@@ -157,8 +140,7 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 		 * Returns whether the EntityAIBase should begin execution.
 		 */
 		@Override
-		public boolean shouldExecute()
-		{
+		public boolean shouldExecute() {
 			return true;
 		}
 
@@ -166,33 +148,28 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 		 * Updates the task
 		 */
 		@Override
-		public void updateTask()
-		{
-			if (this.instance.getAttackTarget() == null)
-			{
-				this.instance.renderYawOffset = this.instance.rotationYaw = -((float) Math.atan2(this.instance.motionX, this.instance.motionZ)) * 180.0F / (float) Math.PI;
-			}
-			else
-			{
+		public void updateTask() {
+			if (this.instance.getAttackTarget() == null) {
+				this.instance.renderYawOffset = this.instance.rotationYaw = -((float) Math.atan2(this.instance.motionX,
+						this.instance.motionZ)) * 180.0F / (float) Math.PI;
+			} else {
 				EntityLivingBase entitylivingbase = this.instance.getAttackTarget();
 				double d0 = 64.0D;
 
-				if (entitylivingbase.getDistanceSqToEntity(this.instance) < d0 * d0)
-				{
+				if (entitylivingbase.getDistanceSqToEntity(this.instance) < d0 * d0) {
 					double d1 = entitylivingbase.posX - this.instance.posX;
 					double d2 = entitylivingbase.posZ - this.instance.posZ;
-					this.instance.renderYawOffset = this.instance.rotationYaw = -((float) Math.atan2(d1, d2)) * 180.0F / (float) Math.PI;
+					this.instance.renderYawOffset = this.instance.rotationYaw = -((float) Math.atan2(d1, d2)) * 180.0F
+							/ (float) Math.PI;
 				}
 			}
 		}
 	}
 
-	private class AIRandomFly extends EntityAIBase
-	{
+	private class AIRandomFly extends EntityAIBase {
 		private EntityDeeeSyft instance = EntityDeeeSyft.this;
 
-		public AIRandomFly()
-		{
+		public AIRandomFly() {
 			this.setMutexBits(1);
 		}
 
@@ -200,19 +177,15 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 		 * Returns whether the EntityAIBase should begin execution.
 		 */
 		@Override
-		public boolean shouldExecute()
-		{
+		public boolean shouldExecute() {
 			EntityMoveHelper entitymovehelper = this.instance.getMoveHelper();
 
-			if (!entitymovehelper.isUpdating())
-			{
+			if (!entitymovehelper.isUpdating()) {
 				return true;
-			}
-			else
-			{
-				double d0 = entitymovehelper.func_179917_d() - this.instance.posX;
-				double d1 = entitymovehelper.func_179919_e() - this.instance.posY;
-				double d2 = entitymovehelper.func_179918_f() - this.instance.posZ;
+			} else {
+				double d0 = entitymovehelper.getX() - this.instance.posX;
+				double d1 = entitymovehelper.getY() - this.instance.posY;
+				double d2 = entitymovehelper.getZ() - this.instance.posZ;
 				double d3 = d0 * d0 + d1 * d1 + d2 * d2;
 				return d3 < 1.0D || d3 > 3600.0D;
 			}
@@ -222,8 +195,7 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 		 * Returns whether an in-progress EntityAIBase should continue executing
 		 */
 		@Override
-		public boolean continueExecuting()
-		{
+		public boolean continueExecuting() {
 			return false;
 		}
 
@@ -231,79 +203,66 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 		 * Execute a one shot task or start executing a continuous task
 		 */
 		@Override
-		public void startExecuting()
-		{
+		public void startExecuting() {
 			Random random = this.instance.getRNG();
 			double d0 = this.instance.posX + (random.nextFloat() * 2.0F - 1.0F) * 16.0F;
 
 			double d1;
-			if (this.instance.timeUntilNormalAI == 0)
-			{
-				d1 = MathHelper.clamp_double(this.instance.posY + (random.nextFloat() * 2.0F - 1.0F) * 16.0D, 0.0D, flightCeiling);
-			}
-			else
-			{
+			if (this.instance.timeUntilNormalAI == 0) {
+				d1 = MathHelper.clamp_double(this.instance.posY + (random.nextFloat() * 2.0F - 1.0F) * 16.0D, 0.0D,
+						flightCeiling);
+			} else {
 				this.instance.timeUntilNormalAI = this.instance.timeUntilNormalAI - 1;
 				d1 = this.instance.posY - 10;
 			}
 
 			double d2 = this.instance.posZ + (random.nextFloat() * 2.0F - 1.0F) * 16.0F;
-			this.instance.getMoveHelper().setMoveTo(d0, d1, d2, EntityDeeeSyft.this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed).getBaseValue());
+			this.instance.getMoveHelper().setMoveTo(d0, d1, d2, EntityDeeeSyft.this.getAttributeMap()
+					.getAttributeInstance(SharedMonsterAttributes.movementSpeed).getBaseValue());
 		}
 	}
 
-	private class DeeeSyftMoveHelper extends EntityMoveHelper
-	{
+	private class DeeeSyftMoveHelper extends EntityMoveHelper {
 		private EntityDeeeSyft instance = EntityDeeeSyft.this;
 		private int temp;
 
-		public DeeeSyftMoveHelper()
-		{
+		public DeeeSyftMoveHelper() {
 			super(EntityDeeeSyft.this);
 		}
 
 		@Override
-		public void onUpdateMoveHelper()
-		{
-			if (this.update)
-			{
+		public void onUpdateMoveHelper() {
+			if (this.update) {
 				double d0 = this.posX - this.instance.posX;
 				double d1 = this.posY - this.instance.posY;
 				double d2 = this.posZ - this.instance.posZ;
 				double d3 = d0 * d0 + d1 * d1 + d2 * d2;
 
-				if (this.temp-- <= 0)
-				{
+				if (this.temp-- <= 0) {
 					this.temp += this.instance.getRNG().nextInt(5) + 2;
 					d3 = MathHelper.sqrt_double(d3);
 
-					if (this.func_179926_b(this.posX, this.posY, this.posZ, d3))
-					{
+					if (this.func_179926_b(this.posX, this.posY, this.posZ, d3)) {
 						this.instance.motionX += d0 / d3 * 0.1D;
 						this.instance.motionY += d1 / d3 * 0.1D;
 						this.instance.motionZ += d2 / d3 * 0.1D;
-					}
-					else
-					{
+					} else {
 						this.update = false;
 					}
 				}
 			}
 		}
 
-		private boolean func_179926_b(double p_179926_1_, double p_179926_3_, double p_179926_5_, double p_179926_7_)
-		{
+		private boolean func_179926_b(double p_179926_1_, double p_179926_3_, double p_179926_5_, double p_179926_7_) {
 			double d4 = (p_179926_1_ - this.instance.posX) / p_179926_7_;
 			double d5 = (p_179926_3_ - this.instance.posY) / p_179926_7_;
 			double d6 = (p_179926_5_ - this.instance.posZ) / p_179926_7_;
 			AxisAlignedBB axisalignedbb = this.instance.getEntityBoundingBox();
 
-			for (int i = 1; i < p_179926_7_; ++i)
-			{
+			for (int i = 1; i < p_179926_7_; ++i) {
 				axisalignedbb = axisalignedbb.offset(d4, d5, d6);
 
-				if (!this.instance.worldObj.getCollidingBoundingBoxes(this.instance, axisalignedbb).isEmpty())
-				{
+				if (!this.instance.worldObj.getCollidingBoundingBoxes(this.instance, axisalignedbb).isEmpty()) {
 					return false;
 				}
 			}

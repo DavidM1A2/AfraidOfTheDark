@@ -27,28 +27,25 @@ import org.lwjgl.util.vector.Matrix4f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 
-public class FontHelper
-{
+public class FontHelper {
 
 	private static String formatEscape = "\u00A7";
 
-	public static void drawString(String s, float x, float y, TrueTypeFont font, float scaleX, float scaleY, float... rgba)
-	{
+	public static void drawString(String s, float x, float y, TrueTypeFont font, float scaleX, float scaleY,
+			float... rgba) {
 		drawString(s, x, y, font, scaleX, scaleY, 0, rgba);
 
 	}
 
-	public static void drawString(String s, float x, float y, TrueTypeFont font, float scaleX, float scaleY, float rotationZ, float... rgba)
-	{
+	public static void drawString(String s, float x, float y, TrueTypeFont font, float scaleX, float scaleY,
+			float rotationZ, float... rgba) {
 		Minecraft mc = Minecraft.getMinecraft();
-		ScaledResolution sr = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
-		if (mc.gameSettings.hideGUI)
-		{
+		ScaledResolution sr = new ScaledResolution(mc);
+		if (mc.gameSettings.hideGUI) {
 			return;
 		}
 		int amt = 1;
-		if (sr.getScaleFactor() == 1)
-		{
+		if (sr.getScaleFactor() == 1) {
 			amt = 2;
 		}
 
@@ -65,25 +62,20 @@ public class FontHelper
 		GL11.glTranslatef(-tranx, -trany, 0);
 
 		GL11.glEnable(GL11.GL_BLEND);
-		if (s.contains(formatEscape))
-		{
+		if (s.contains(formatEscape)) {
 			String[] pars = s.split(formatEscape);
 			float totalOffset = 0;
-			for (int i = 0; i < pars.length; i++)
-			{
+			for (int i = 0; i < pars.length; i++) {
 				String par = pars[i];
 				float[] c = rgba;
-				if (i > 0)
-				{
+				if (i > 0) {
 					c = Formatter.getFormatted(par.charAt(0));
 					par = par.substring(1, par.length());
 				}
 				font.drawString((x * sr.getScaleFactor() + totalOffset), y, par, scaleX / amt, scaleY / amt, c);
 				totalOffset += font.getWidth(par);
 			}
-		}
-		else
-		{
+		} else {
 			font.drawString((x * sr.getScaleFactor()), y, s, scaleX / amt, scaleY / amt, rgba);
 		}
 		GL11.glPopMatrix();
@@ -91,14 +83,13 @@ public class FontHelper
 		FontHelper.set3DMode();
 	}
 
-	private static void set2DMode(FloatBuffer matrixData)
-	{
+	private static void set2DMode(FloatBuffer matrixData) {
 		Minecraft mc = Minecraft.getMinecraft();
-		ScaledResolution sr = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
+		ScaledResolution sr = new ScaledResolution(mc);
 		mc.entityRenderer.setupOverlayRendering();
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glPushMatrix();
-		//GL11.glLoadMatrix(matrixData);
+		// GL11.glLoadMatrix(matrixData);
 
 		GL11.glLoadIdentity();
 		GL11.glOrtho(0, mc.displayWidth, 0, mc.displayHeight, -1, 1);
@@ -112,8 +103,7 @@ public class FontHelper
 
 	}
 
-	private static void set3DMode()
-	{
+	private static void set3DMode() {
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		GL11.glPopMatrix();
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
