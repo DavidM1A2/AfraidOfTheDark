@@ -5,6 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark;
 
+import com.DavidM1A2.AfraidOfTheDark.client.entities.spell.ModelSpellProjectile;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.ResearchAchieved;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
@@ -27,6 +28,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModOreDictionaryCompatability;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModRecipes;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModSpells;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.PacketHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
@@ -107,6 +109,8 @@ public class AfraidOfTheDark {
 		ModDimensions.intialize();
 		// Initialize mod biomes
 		ModBiomes.initialize();
+		// Register mod spells
+		ModSpells.initialize();
 		// Initialize the ORE-Dictionary compatability
 		ModOreDictionaryCompatability.initialize();
 		// Initialize GUI handler

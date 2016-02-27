@@ -32,6 +32,8 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntityStarMetalBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntityWoodenBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.projectile.EntitySpellProjectile;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellRegistry;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.deliveryMethods.IDeliveryMethod;
 
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -145,13 +147,22 @@ public class ClientProxy extends CommonProxy {
 		// RenderingRegistry.registerEntityRenderingHandler(EntitySpellProjectile.class,
 		// new RenderSpell(new ModelSpellProjectile(),
 		// "afraidofthedark:textures/entity/spell/projectile.png"));
-		RenderingRegistry.registerEntityRenderingHandler(EntitySpellProjectile.class, new IRenderFactory() {
-			@Override
-			public Render createRenderFor(RenderManager manager) {
-				return new RenderSpell<EntitySpellProjectile>(manager, new ModelSpellProjectile(),
-						"afraidofthedark:textures/entity/spell/projectile.png");
-			}
-		});
+		for (final IDeliveryMethod deliveryMethod : SpellRegistry.getRegisteredDeliveryMethods())
+		{
+			RenderingRegistry.registerEntityRenderingHandler(deliveryMethod.getDeliveryEntity(), new IRenderFactory() {
+				@Override
+				public Render createRenderFor(RenderManager manager) {
+					return deliveryMethod.getDeliveryRenderer(manager);
+				}
+			});
+		}
+//		RenderingRegistry.registerEntityRenderingHandler(EntitySpellProjectile.class, new IRenderFactory() {
+//			@Override
+//			public Render createRenderFor(RenderManager manager) {
+//				return new RenderSpell<EntitySpellProjectile>(manager, new ModelSpellProjectile(),
+//						"afraidofthedark:textures/entity/spell/projectile.png");
+//			}
+//		});
 	}
 
 	@Override

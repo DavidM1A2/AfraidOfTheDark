@@ -12,6 +12,9 @@ import java.util.Map.Entry;
 import java.util.UUID;
 
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.EntitySpell;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.deliveryMethods.IDeliveryMethod;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.effects.IEffect;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.powerSources.IPowerSource;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
@@ -22,12 +25,12 @@ import net.minecraft.util.ChatComponentText;
 public class Spell implements Serializable
 {
 	private final String name;
-	private final PowerSource powerSource;
-	private final Entry<DeliveryMethod, List<Effect>>[] spellStages;
+	private final IPowerSource powerSource;
+	private final Entry<IDeliveryMethod, List<IEffect>>[] spellStages;
 	private final UUID spellID;
 	private transient EntityPlayer spellOwner;
 
-	public Spell(String name, PowerSource powerSource, LinkedHashMap<DeliveryMethod, List<Effect>> spellStages, UUID spellID)
+	public Spell(String name, IPowerSource powerSource, LinkedHashMap<IDeliveryMethod, List<IEffect>> spellStages, UUID spellID)
 	{
 		this.name = name;
 		this.spellStages = new Entry[spellStages.entrySet().size()];
@@ -38,38 +41,26 @@ public class Spell implements Serializable
 
 	public void instantiateSpell()
 	{
-		if (this.isSpellValid() && this.tryToCastSpell())
-			SpellEntityCreator.createAndSpawn(this.spellOwner.worldObj, null, this, 0);
+		if (this.isSpellValid() && this.powerSource.attemptToCast(this))
+			this.getSpellOwner().worldObj.spawnEntityInWorld(this.spellStages[0].getKey().createSpellEntity(this));
 		else if (!this.isSpellValid())
 			this.spellOwner.addChatMessage(new ChatComponentText("Invalid spell. Make sure to have delivery methods and a power source on your spell!"));
 		else
-			this.spellOwner.addChatMessage(new ChatComponentText("Not enough power to cast spell"));
+			this.spellOwner.addChatMessage(new ChatComponentText(this.powerSource.notEnoughEnergyMsg()));
 	}
 
 	public double getCost()
 	{
 		double cost = 0;
-		for (Entry<DeliveryMethod, List<Effect>> spellStage : this.spellStages)
+		for (Entry<IDeliveryMethod, List<IEffect>> spellStage : this.spellStages)
 		{
 			cost = cost + spellStage.getKey().getCost();
-			for (Effect effect : spellStage.getValue())
+			for (IEffect effect : spellStage.getValue())
 			{
 				cost = cost + effect.getCost();
 			}
 		}
 		return cost;
-	}
-	
-	private boolean tryToCastSpell()
-	{
-		switch (this.powerSource) 
-		{
-			case Self:
-			{
-				return true;
-			}
-		}
-		return true;
 	}
 
 	private boolean isSpellValid()
@@ -80,15 +71,17 @@ public class Spell implements Serializable
 			isValid = false;
 		if (this.spellStages.length == 0)
 			isValid = false;
-		for (Entry<DeliveryMethod, List<Effect>> spellStage : this.spellStages)
+		for (Entry<IDeliveryMethod, List<IEffect>> spellStage : this.spellStages)
 			if (spellStage.getKey() == null)
 				isValid = false;
 
 		return isValid;
 	}
 	
-	public Entry<DeliveryMethod, List<Effect>> getSpellStageByIndex(int index)
+	public Entry<IDeliveryMethod, List<IEffect>> getSpellStageByIndex(int index)
 	{
+		if (!hasSpellStage(index))
+			return null;
 		return this.spellStages[index];
 	}
 	

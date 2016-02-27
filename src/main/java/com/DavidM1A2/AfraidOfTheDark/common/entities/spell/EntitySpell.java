@@ -6,9 +6,8 @@
 package com.DavidM1A2.AfraidOfTheDark.common.entities.spell;
 
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
-import com.DavidM1A2.AfraidOfTheDark.common.spell.Effect;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
-import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellEntityCreator;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.effects.IEffect;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTObjectWriter;
 
@@ -18,7 +17,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
-{
+{ 
 	private static final String SPELL_SOURCE = "spellSource";
 	private Spell spellSource;
 	private static final String SPELL_STAGE_KEY = "spellStageIndex";
@@ -47,7 +46,8 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 			this.spellStageComplete();
 			this.setDead();
 		}
-		this.updateSpellSpecificLogic();
+		else
+			this.updateSpellSpecificLogic();
 	}
 
 	@Override
@@ -89,23 +89,23 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 			LogHelper.info("Spell over");
 			return;
 		}
-		SpellEntityCreator.createAndSpawn(this.spellSource.getSpellOwner().worldObj, this, this.getSpellSource(), spellStageIndex);
+		this.worldObj.spawnEntityInWorld(this.getSpellSource().getSpellStageByIndex(this.spellStageIndex).getKey().createSpellEntity(this, spellStageIndex));
 	}
 	
 	public void performEffect(BlockPos location) 
 	{
-		for (Effect effect : this.getSpellSource().getSpellStageByIndex(this.getSpellStageIndex()).getValue())
+		for (IEffect effect : this.getSpellSource().getSpellStageByIndex(this.getSpellStageIndex()).getValue())
 		{
-			Effect.performEffect(effect, location, this.worldObj);
+			effect.performEffect(location, this.worldObj);
 		}
 		return;
 	}
 	
 	public void performEffect(Entity entity) 
 	{
-		for (Effect effect : this.getSpellSource().getSpellStageByIndex(this.getSpellStageIndex()).getValue())
+		for (IEffect effect : this.getSpellSource().getSpellStageByIndex(this.getSpellStageIndex()).getValue())
 		{
-			Effect.performEffect(effect, entity);
+			effect.performEffect(entity);
 		}
 		return;
 	}
