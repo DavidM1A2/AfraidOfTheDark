@@ -22,7 +22,7 @@ public class AOTDGuiScrollBar extends AOTDGuiContainer
 	public AOTDGuiScrollBar(int x, int y, int width, int height)
 	{
 		super(x, y, width, height);
-		scrollBarBackground = new AOTDGuiImage(0, 0, width, height, "textures/gui/spellCrafting/scrollBar.png");
+		scrollBarBackground = new AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/spellCrafting/scrollBar.png");
 		this.add(scrollBarBackground);
 		scrollBarHandle = new AOTDGuiButton(0, 0, width, height / 10, null, "afraidofthedark:textures/gui/spellCrafting/scrollBarHandle.png");
 		this.add(scrollBarHandle);

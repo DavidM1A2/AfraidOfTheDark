@@ -23,7 +23,7 @@ public class AOTDGuiImage extends AOTDGuiContainer
 	public AOTDGuiImage(int x, int y, int width, int height, int textureHeight, int textureWidth, String imageTexture)
 	{
 		super(x, y, width, height);
-		this.imageTexture = new ResourceLocation("afraidofthedark:" + imageTexture);
+		this.imageTexture = new ResourceLocation(imageTexture);
 		this.textureHeight = textureHeight;
 		this.textureWidth = textureWidth;
 	}
@@ -31,7 +31,7 @@ public class AOTDGuiImage extends AOTDGuiContainer
 	public AOTDGuiImage(int x, int y, int width, int height, String imageTexture)
 	{
 		super(x, y, width, height);
-		this.imageTexture = new ResourceLocation("afraidofthedark:" + imageTexture);
+		this.imageTexture = new ResourceLocation(imageTexture);
 		this.textureHeight = -1;
 		this.textureWidth = -1;
 	}
@@ -61,20 +61,20 @@ public class AOTDGuiImage extends AOTDGuiContainer
 	{
 		this.v = v;
 	}
-	
+
 	public int getMaxTextureWidth()
 	{
 		if (textureWidth == -1)
 			return this.getWidth();
-		else 
+		else
 			return this.textureWidth;
 	}
-	
+
 	public int getMaxTextureHeight()
 	{
 		if (textureHeight == -1)
 			return this.getHeight();
-		else 
+		else
 			return this.textureHeight;
 	}
 }

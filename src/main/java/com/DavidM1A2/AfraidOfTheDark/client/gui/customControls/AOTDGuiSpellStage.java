@@ -23,10 +23,10 @@ public class AOTDGuiSpellStage extends AOTDGuiPanel
 	{
 		super(x, y, width, height, scissorEnabled);
 
-		AOTDGuiImage background = new AOTDGuiImage(0, 0, width, height - 14, "textures/gui/spellCrafting/tabletSpellModule2.png");
+		AOTDGuiImage background = new AOTDGuiImage(0, 0, width, height - 14, "afraidofthedark:textures/gui/spellCrafting/tabletSpellModule2.png");
 		this.add(background);
 
-		AOTDGuiImage deliveryMethod = new AOTDGuiImage(5, 5, height - 25, height - 25, "textures/gui/spellCrafting/tabletIconHolder.png");
+		AOTDGuiImage deliveryMethod = new AOTDGuiImage(5, 5, height - 25, height - 25, "afraidofthedark:textures/gui/spellCrafting/tabletIconHolder.png");
 		deliveryMethod.setColor(new float[]
 		{ 0.8f, 0.8f, 1.0f, 1.0f });
 		deliveryMethod.addActionListener(new AOTDActionListener()
@@ -64,13 +64,13 @@ public class AOTDGuiSpellStage extends AOTDGuiPanel
 			}
 		};
 
-		AOTDGuiImage effect1 = new AOTDGuiImage(25, 5, height - 25, height - 25, "textures/gui/spellCrafting/tabletIconHolder.png");
+		AOTDGuiImage effect1 = new AOTDGuiImage(25, 5, height - 25, height - 25, "afraidofthedark:textures/gui/spellCrafting/tabletIconHolder.png");
 		effect1.addActionListener(effectHover);
-		AOTDGuiImage effect2 = new AOTDGuiImage(45, 5, height - 25, height - 25, "textures/gui/spellCrafting/tabletIconHolder.png");
+		AOTDGuiImage effect2 = new AOTDGuiImage(45, 5, height - 25, height - 25, "afraidofthedark:textures/gui/spellCrafting/tabletIconHolder.png");
 		effect2.addActionListener(effectHover);
-		AOTDGuiImage effect3 = new AOTDGuiImage(65, 5, height - 25, height - 25, "textures/gui/spellCrafting/tabletIconHolder.png");
+		AOTDGuiImage effect3 = new AOTDGuiImage(65, 5, height - 25, height - 25, "afraidofthedark:textures/gui/spellCrafting/tabletIconHolder.png");
 		effect3.addActionListener(effectHover);
-		AOTDGuiImage effect4 = new AOTDGuiImage(85, 5, height - 25, height - 25, "textures/gui/spellCrafting/tabletIconHolder.png");
+		AOTDGuiImage effect4 = new AOTDGuiImage(85, 5, height - 25, height - 25, "afraidofthedark:textures/gui/spellCrafting/tabletIconHolder.png");
 		effect4.addActionListener(effectHover);
 		this.add(effect1);
 		this.add(effect2);

@@ -76,7 +76,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 
 		this.journal = new AOTDGuiPanel(xCornerOfPage, yCornerOfPage, journalWidth, journalHeight, false);
 
-		this.journal.add(new AOTDGuiImage(0, 0, journalWidth, journalHeight, "textures/gui/bloodStainedJournalPage.png"));
+		this.journal.add(new AOTDGuiImage(0, 0, journalWidth, journalHeight, "afraidofthedark:textures/gui/bloodStainedJournalPage.png"));
 
 		AOTDGuiLabel title = new AOTDGuiLabel(5, 15, ClientData.getTargaMSHandFontSized(50f));
 		title.setText(titleText);

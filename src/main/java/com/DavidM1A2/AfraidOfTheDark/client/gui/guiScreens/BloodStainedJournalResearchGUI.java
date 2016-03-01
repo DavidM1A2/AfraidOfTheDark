@@ -51,8 +51,8 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 		this.researchTree = new AOTDGuiPanel(-this.guiOffsetX, -this.guiOffsetY, backgroundWidth, backgroundHeight, false);
 		this.getContentPane().add(researchTreeBase);
 
-		this.scrollBackground = new AOTDGuiImage(0, 0, backgroundWidth, backgroundHeight, 1024, 1024, "textures/gui/bloodStainedJournalResearchBackdrop.png");
-		this.backgroundBorder = new AOTDGuiImage(0, 0, backgroundWidth, backgroundHeight, "textures/gui/bloodStainedJournalResearchBackground.png");
+		this.scrollBackground = new AOTDGuiImage(0, 0, backgroundWidth, backgroundHeight, 1024, 1024, "afraidofthedark:textures/gui/bloodStainedJournalResearchBackdrop.png");
+		this.backgroundBorder = new AOTDGuiImage(0, 0, backgroundWidth, backgroundHeight, "afraidofthedark:textures/gui/bloodStainedJournalResearchBackground.png");
 		this.scrollBackground.setU((this.guiOffsetX * 2) + 384);
 		this.scrollBackground.setV((this.guiOffsetY * 2) + 768);
 		this.researchTreeBase.add(scrollBackground);

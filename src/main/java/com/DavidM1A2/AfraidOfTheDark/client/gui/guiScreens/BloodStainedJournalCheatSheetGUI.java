@@ -24,7 +24,7 @@ public class BloodStainedJournalCheatSheetGUI extends AOTDGuiScreen
 	{
 		AOTDGuiPanel background = new AOTDGuiPanel((640 - 256) / 2, (360 - 256) / 2, 256, 256, false);
 		this.getContentPane().add(background);
-		AOTDGuiImage backgroundImage = new AOTDGuiImage(0, 0, 256, 256, "textures/gui/bloodStainedJournalCheatSheet.png");
+		AOTDGuiImage backgroundImage = new AOTDGuiImage(0, 0, 256, 256, "afraidofthedark:textures/gui/bloodStainedJournalCheatSheet.png");
 		background.add(backgroundImage);
 		AOTDGuiButton confirm = new AOTDGuiButton(30, 200, 80, 20, null, "afraidofthedark:textures/gui/bloodStainedJournalCheatSheetConfirm.png");
 		confirm.addActionListener(new AOTDActionListener()

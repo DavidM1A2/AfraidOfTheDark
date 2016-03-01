@@ -31,7 +31,7 @@ public class AOTDGuiTextField extends AOTDGuiTextComponent
 	{
 		super(x, y, width, height, font);
 		Keyboard.enableRepeatEvents(true);
-		background = new AOTDGuiImage(0, 0, width, height, "textures/gui/textFieldBackground.png");
+		background = new AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/textFieldBackground.png");
 		textContainer = new AOTDGuiPanel(5, 5, width - 10, height - 10, true);
 		textField = new AOTDGuiLabel(0, 0, font);
 		textContainer.add(textField);

@@ -39,7 +39,7 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 	{
 		AOTDGuiPanel tablet = new AOTDGuiPanel(100, (360 - 256) / 2, 192, 256, false);
 
-		AOTDGuiImage background = new AOTDGuiImage(0, 0, 192, 256, "textures/gui/spellCrafting/tabletBackground.png");
+		AOTDGuiImage background = new AOTDGuiImage(0, 0, 192, 256, "afraidofthedark:textures/gui/spellCrafting/tabletBackground.png");
 		tablet.add(background);
 		spellName = new AOTDGuiTextField(60, 30, 85, 25, ClientData.getTargaMSHandFontSized(35f));
 		spellName.setGhostText("Spell Name");
@@ -47,7 +47,7 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 		scrollBar = new AOTDGuiScrollBar(10, 75, 15, 170);
 		tablet.add(scrollBar);
 
-		AOTDGuiImage spellCraftingSlotBackground = new AOTDGuiImage(30, 55, 120, 170, "textures/gui/spellCrafting/spellSlotBackground.png");
+		AOTDGuiImage spellCraftingSlotBackground = new AOTDGuiImage(30, 55, 120, 170, "afraidofthedark:textures/gui/spellCrafting/spellSlotBackground.png");
 		tablet.add(spellCraftingSlotBackground);
 
 		this.scrollPanel = new AOTDGuiScrollPanel(30, 55, 120, 170, true, scrollBar);
@@ -98,7 +98,7 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 						component.brightenColor(0.1f);
 			}
 		});
-		AOTDGuiImage powerSource = new AOTDGuiImage(152, 155, 20, 20, "textures/gui/spellCrafting/tabletIconHolder.png");
+		AOTDGuiImage powerSource = new AOTDGuiImage(152, 155, 20, 20, "afraidofthedark:textures/gui/spellCrafting/tabletIconHolder.png");
 		tablet.add(powerSource);
 		powerSource.addActionListener(new AOTDActionListener()
 		{
@@ -119,7 +119,7 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 						component.brightenColor(0.1f);
 			}
 		});
-		AOTDGuiImage helpButton = new AOTDGuiImage(152, 180, 20, 20, "textures/gui/spellCrafting/question.png");
+		AOTDGuiImage helpButton = new AOTDGuiImage(152, 180, 20, 20, "afraidofthedark:textures/gui/spellCrafting/question.png");
 		helpButton.addActionListener(new AOTDActionListener()
 		{
 			@Override
@@ -152,7 +152,7 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 		 */
 
 		AOTDGuiPanel effectScroll = new AOTDGuiPanel(340, (360 - 256) / 2, 220, 256, false);
-		AOTDGuiImage backgroundScroll = new AOTDGuiImage(0, 0, 200, 256, "textures/gui/spellCrafting/effectListScroll.png");
+		AOTDGuiImage backgroundScroll = new AOTDGuiImage(0, 0, 200, 256, "afraidofthedark:textures/gui/spellCrafting/effectListScroll.png");
 		effectScroll.add(backgroundScroll);
 
 		AOTDGuiScrollBar effectsScrollBar = new AOTDGuiScrollBar(200, 50, 13, 160);

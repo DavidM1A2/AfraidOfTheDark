@@ -21,9 +21,9 @@ public class AOTDGuiRecipe extends AOTDGuiPanel
 	public AOTDGuiRecipe(int x, int y, int width, int height, ConvertedRecipe recipe)
 	{
 		super(x, y, width, height, false);
-		CRAFTING_GRID = new AOTDGuiImage(0, 0, width, height, "textures/gui/journalCrafting2.png");
+		CRAFTING_GRID = new AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/journalCrafting2.png");
 		this.add(CRAFTING_GRID);
-		itemStackHighlight = new AOTDGuiImage(0, 0, 0, 0, "textures/gui/slotHighlight.png");
+		itemStackHighlight = new AOTDGuiImage(0, 0, 0, 0, "afraidofthedark:textures/gui/slotHighlight.png");
 		itemStackHighlight.setVisible(false);
 		itemStackHighlight.addActionListener(new AOTDActionListener()
 		{

@@ -37,7 +37,7 @@ public class SextantGUI extends AOTDGuiScreen
 	{
 		AOTDGuiPanel background = new AOTDGuiPanel((640 - 256) / 2, (360 - 256) / 2, 256, 256, false);
 
-		AOTDGuiImage backgroundImage = new AOTDGuiImage(0, 0, 256, 256, "textures/gui/sextant.png");
+		AOTDGuiImage backgroundImage = new AOTDGuiImage(0, 0, 256, 256, "afraidofthedark:textures/gui/sextant.png");
 		background.add(backgroundImage);
 
 		this.angle = new AOTDGuiTextField(15, 108, 120, 30, ClientData.getTargaMSHandFontSized(45f));

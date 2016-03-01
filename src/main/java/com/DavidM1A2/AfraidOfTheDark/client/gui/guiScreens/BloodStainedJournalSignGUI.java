@@ -32,7 +32,7 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
 	{
 		AOTDGuiPanel backgroundPanel = new AOTDGuiPanel((640 - 256) / 2, (360 - 256) / 2, 256, 256, false);
 
-		AOTDGuiImage backgroundImage = new AOTDGuiImage(0, 0, 256, 256, "textures/gui/bloodStainedJournal.png");
+		AOTDGuiImage backgroundImage = new AOTDGuiImage(0, 0, 256, 256, "afraidofthedark:textures/gui/bloodStainedJournal.png");
 		backgroundPanel.add(backgroundImage);
 
 		this.nameSignField = new AOTDGuiTextField(45, 90, 160, 30, ClientData.getTargaMSHandFontSized(45f));
