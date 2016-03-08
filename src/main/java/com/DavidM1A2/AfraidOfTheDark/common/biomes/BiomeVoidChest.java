@@ -5,11 +5,17 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.biomes;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.biome.BiomeGenBase;
 
 public class BiomeVoidChest extends BiomeGenBase
 {
+	private List<SpawnListEntry> spawnableCreatures = new ArrayList<BiomeGenBase.SpawnListEntry>();
+
 	public BiomeVoidChest(int biomeID)
 	{
 		super(biomeID);
@@ -24,10 +30,15 @@ public class BiomeVoidChest extends BiomeGenBase
 		this.waterColorMultiplier = 0x000000;
 		this.theBiomeDecorator.treesPerChunk = 0;
 		this.topBlock = Blocks.dirt.getDefaultState();
-		this.spawnableCaveCreatureList.clear();
-		this.spawnableCreatureList.clear();
-		this.spawnableMonsterList.clear();
-		this.spawnableWaterCreatureList.clear();
 		this.setDisableRain();
+	}
+
+	/**
+	 * No longer allowing other mods to add stupid creatures to our realm
+	 */
+	@Override
+	public List<SpawnListEntry> getSpawnableList(EnumCreatureType creatureType)
+	{
+		return spawnableCreatures;
 	}
 }

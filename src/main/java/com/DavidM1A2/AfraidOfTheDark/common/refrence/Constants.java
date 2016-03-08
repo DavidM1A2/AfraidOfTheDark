@@ -92,8 +92,9 @@ import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.EnumHelper;
 
-public final class Constants {
-	public static final boolean isDebug = true;
+public final class Constants
+{
+	public static final boolean isDebug = false;
 
 	public static Map<Class, Integer> entityVitaeResistance = new HashMap<Class, Integer>();
 	public static Map<String, Integer> toolMaterialRepairCosts = new HashMap<String, Integer>();
@@ -101,28 +102,18 @@ public final class Constants {
 	public static LootTable cryptLootTable = new LootTable(new LootTableEntry(new CryptChestLoot(), null, 1));
 	public static LootTable darkForestLootTable = new LootTable(new LootTableEntry(new DarkForestChestLoot(), null, 6));
 	public static LootTable witchHutLootTable = new LootTable(new LootTableEntry(new WitchHutLoot(), null, 1));
-	public static LootTable nightmareIslandLootTable = new LootTable(new LootTableEntry[] {
-			new LootTableEntry(new FoodLoot(), Items.cooked_beef, 5 + MathHelper.floor_double(Math.random() * 5)),
-			new LootTableEntry(new InsanityResearchLoot(), Items.feather, 20),
-			new LootTableEntry(new PotionLoot(), Items.sugar, 5), new LootTableEntry(new RandomBlockLoot(), null, 12),
-			new LootTableEntry(new ValueableLoot(), Items.diamond, 5),
-			new LootTableEntry(new WeaponryLoot(), Items.blaze_rod, 4),
-			new LootTableEntry(new Vitae1Part1Loot(), Items.emerald, 20),
-			new LootTableEntry(new Vitae1Part2Loot(), Items.iron_ingot, 20),
-			new LootTableEntry(new Vitae1Part3Loot(), Items.gold_ingot, 20),
-			new LootTableEntry(new Vitae1Part4Loot(), Items.netherbrick, 20),
-			new LootTableEntry(new Vitae1Part5Loot(), Items.coal, 20),
-			new LootTableEntry(new Astronomy2Part1(), Items.gold_nugget, 20),
-			new LootTableEntry(new Astronomy2Part2(), Items.glowstone_dust, 20),
-			new LootTableEntry(new Astronomy2Part3(), Items.nether_wart, 20),
-			new LootTableEntry(new Astronomy2Part4(), Items.rabbit_hide, 20), });
+	public static LootTable nightmareIslandLootTable = new LootTable(new LootTableEntry[]
+	{ new LootTableEntry(new FoodLoot(), Items.cooked_beef, 5 + MathHelper.floor_double(Math.random() * 5)), new LootTableEntry(new InsanityResearchLoot(), Items.feather, 20), new LootTableEntry(new PotionLoot(), Items.sugar, 5), new LootTableEntry(new RandomBlockLoot(), null, 12),
+			new LootTableEntry(new ValueableLoot(), Items.diamond, 5), new LootTableEntry(new WeaponryLoot(), Items.blaze_rod, 4), new LootTableEntry(new Vitae1Part1Loot(), Items.emerald, 20), new LootTableEntry(new Vitae1Part2Loot(), Items.iron_ingot, 20), new LootTableEntry(new Vitae1Part3Loot(),
+					Items.gold_ingot, 20), new LootTableEntry(new Vitae1Part4Loot(), Items.netherbrick, 20), new LootTableEntry(new Vitae1Part5Loot(), Items.coal, 20), new LootTableEntry(new Astronomy2Part1(), Items.gold_nugget, 20), new LootTableEntry(new Astronomy2Part2(), Items.glowstone_dust,
+							20), new LootTableEntry(new Astronomy2Part3(), Items.nether_wart, 20), new LootTableEntry(new Astronomy2Part4(), Items.rabbit_hide, 20), });
 	public static LootTable voidChestTable = new LootTable(new LootTableEntry(new VoidChestLoot(), null, 3));
-	public static LootTable gnomishCityLootTable = new LootTable(new LootTableEntry(new GnomishCityLoot(), null, 1, 4),
-			new LootTableEntry(new GnomishCityRareLoot(), Items.diamond, 1, 4));
+	public static LootTable gnomishCityLootTable = new LootTable(new LootTableEntry(new GnomishCityLoot(), null, 1, 4), new LootTableEntry(new GnomishCityRareLoot(), Items.diamond, 1, 4));
 
 	public static final ScheduledExecutorService TIMER_FOR_DELAYS = Executors.newSingleThreadScheduledExecutor();
 
-	static {
+	static
+	{
 		entityVitaeResistance.put(EntityPlayer.class, 100);
 		entityVitaeResistance.put(EntityPlayerMP.class, 100);
 		entityVitaeResistance.put(EntityBat.class, 5);
@@ -179,34 +170,38 @@ public final class Constants {
 		toolMaterialRepairCosts.put("starMetal", 4);
 	}
 
-	public static final class AOTDToolMaterials {
+	public static final class AOTDToolMaterials
+	{
 		public static final ToolMaterial astralSilver = EnumHelper.addToolMaterial("silverTool", 2, 250, 1, 3.0F, 20);
 		public static final ToolMaterial igneousTool = EnumHelper.addToolMaterial("igneousTool", 3, 600, 1, 5, 15);
 		public static final ToolMaterial starMetalTool = EnumHelper.addToolMaterial("starMetalTool", 3, 600, 1, 4, 15);
-		public static final ToolMaterial bladeOfExhumation = EnumHelper.addToolMaterial("bladeOfExhumation", 0, 150, 0,
-				0, 0);
+		public static final ToolMaterial bladeOfExhumation = EnumHelper.addToolMaterial("bladeOfExhumation", 0, 150, 0, 0, 0);
 	}
 
-	public static final class AOTDArmorMaterials {
-		public static final ArmorMaterial igneous = EnumHelper.addArmorMaterial("igneous", "texture", 100,
-				new int[] { 3, 8, 6, 3 }, 20);
-		public static final ArmorMaterial starMetal = EnumHelper.addArmorMaterial("starMetal", "texture", 100,
-				new int[] { 3, 8, 6, 3 }, 20);
+	public static final class AOTDArmorMaterials
+	{
+		public static final ArmorMaterial igneous = EnumHelper.addArmorMaterial("igneous", "texture", 100, new int[]
+		{ 3, 8, 6, 3 }, 20);
+		public static final ArmorMaterial starMetal = EnumHelper.addArmorMaterial("starMetal", "texture", 100, new int[]
+		{ 3, 8, 6, 3 }, 20);
 	}
 
-	public static final class NightmareWorld {
+	public static final class NightmareWorld
+	{
 		public static final String NIGHTMARE_WORLD_NAME = "nightmare";
 		public static final int NIGHTMARE_WORLD_ID = 67;
 		public static final int BLOCKS_BETWEEN_ISLANDS = 992;
 	}
 
-	public static final class VoidChestWorld {
+	public static final class VoidChestWorld
+	{
 		public static final String VOID_CHEST_WORLD_NAME = "voidChest";
 		public static final int VOID_CHEST_WORLD_ID = 68;
 		public static final int BLOCKS_BETWEEN_ISLANDS = 992;
 	}
 
-	public static final class AOTDSchematics {
+	public static final class AOTDSchematics
+	{
 		public static final Schematic treeSmall;
 		public static final Schematic treeBranchyType1;
 		public static final Schematic treeBranchyType2;
@@ -241,7 +236,8 @@ public final class Constants {
 		public static final Schematic stairwell;
 		public static final Schematic enariaLair;
 
-		static {
+		static
+		{
 			treeSmall = SchematicLoader.load("darkForest/TreeSmall.schematic");
 			treeBranchyType1 = SchematicLoader.load("darkForest/TreeBranchyType1.schematic");
 			treeBranchyType2 = SchematicLoader.load("darkForest/TreeBranchyType2.schematic");
@@ -273,67 +269,37 @@ public final class Constants {
 			tunnelNS = SchematicLoader.load("gnomishCity/TunnelNS.schematic");
 			roomStairUp = SchematicLoader.load("gnomishCity/RoomStairUp.schematic");
 			roomStairDown = SchematicLoader.load("gnomishCity/RoomStairDown.schematic");
-			rooms = new ArrayList<Schematic>() {
+			rooms = new ArrayList<Schematic>()
+			{
 				{
-					add(SchematicBlockReplacer.replaceBlocks(SchematicLoader.load("gnomishCity/RoomCave.schematic"),
-							(short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37,
-							(short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35,
-							(short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41,
-							(short) Block.getIdFromBlock(ModBlocks.eldritchObsidian)));
-					add(SchematicBlockReplacer.replaceBlocks(SchematicLoader.load("gnomishCity/RoomFarm.schematic"),
-							(short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37,
-							(short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35,
-							(short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41,
-							(short) Block.getIdFromBlock(ModBlocks.eldritchObsidian)));
-					add(SchematicBlockReplacer.replaceBlocks(SchematicLoader.load("gnomishCity/RoomHotel.schematic"),
-							(short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37,
-							(short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35,
-							(short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41,
-							(short) Block.getIdFromBlock(ModBlocks.eldritchObsidian)));
-					add(SchematicBlockReplacer.replaceBlocks(
-							SchematicLoader.load("gnomishCity/RoomMeetingHall.schematic"), (short) -36,
-							(short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37,
-							(short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35,
-							(short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41,
-							(short) Block.getIdFromBlock(ModBlocks.eldritchObsidian)));
-					add(SchematicBlockReplacer.replaceBlocks(SchematicLoader.load("gnomishCity/RoomMushroom.schematic"),
-							(short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37,
-							(short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35,
-							(short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41,
-							(short) Block.getIdFromBlock(ModBlocks.eldritchObsidian)));
-					add(SchematicBlockReplacer.replaceBlocks(SchematicLoader.load("gnomishCity/RoomRuin.schematic"),
-							(short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37,
-							(short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35,
-							(short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41,
-							(short) Block.getIdFromBlock(ModBlocks.eldritchObsidian)));
-					add(SchematicBlockReplacer.replaceBlocks(SchematicLoader.load("gnomishCity/RoomTanks.schematic"),
-							(short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37,
-							(short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35,
-							(short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41,
-							(short) Block.getIdFromBlock(ModBlocks.eldritchObsidian)));
+					add(SchematicBlockReplacer.replaceBlocks(SchematicLoader.load("gnomishCity/RoomCave.schematic"), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block
+							.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block.getIdFromBlock(ModBlocks.eldritchObsidian)));
+					add(SchematicBlockReplacer.replaceBlocks(SchematicLoader.load("gnomishCity/RoomFarm.schematic"), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block
+							.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block.getIdFromBlock(ModBlocks.eldritchObsidian)));
+					add(SchematicBlockReplacer.replaceBlocks(SchematicLoader.load("gnomishCity/RoomHotel.schematic"), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block
+							.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block.getIdFromBlock(ModBlocks.eldritchObsidian)));
+					add(SchematicBlockReplacer.replaceBlocks(SchematicLoader.load("gnomishCity/RoomMeetingHall.schematic"), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block
+							.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block.getIdFromBlock(ModBlocks.eldritchObsidian)));
+					add(SchematicBlockReplacer.replaceBlocks(SchematicLoader.load("gnomishCity/RoomMushroom.schematic"), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block
+							.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block.getIdFromBlock(ModBlocks.eldritchObsidian)));
+					add(SchematicBlockReplacer.replaceBlocks(SchematicLoader.load("gnomishCity/RoomRuin.schematic"), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block
+							.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block.getIdFromBlock(ModBlocks.eldritchObsidian)));
+					add(SchematicBlockReplacer.replaceBlocks(SchematicLoader.load("gnomishCity/RoomTanks.schematic"), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block
+							.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block.getIdFromBlock(ModBlocks.eldritchObsidian)));
 				}
 			};
 			stairwell = SchematicLoader.load("gnomishCity/Stairwell.schematic");
 			enariaLair = SchematicLoader.load("gnomishCity/EnariaLair.schematic");
 
-			SchematicBlockReplacer.replaceBlocks(treeSmall, Blocks.log, ModBlocks.gravewood, Blocks.leaves,
-					ModBlocks.gravewoodLeaves);
-			SchematicBlockReplacer.replaceBlocks(treeBranchyType1, Blocks.log, ModBlocks.gravewood, Blocks.leaves,
-					ModBlocks.gravewoodLeaves);
-			SchematicBlockReplacer.replaceBlocks(treeBranchyType2, Blocks.log, ModBlocks.gravewood, Blocks.leaves,
-					ModBlocks.gravewoodLeaves);
-			SchematicBlockReplacer.replaceBlocks(treeLargeCircle, Blocks.log, ModBlocks.gravewood, Blocks.leaves,
-					ModBlocks.gravewoodLeaves);
-			SchematicBlockReplacer.replaceBlocks(treeLargeDonut, Blocks.log, ModBlocks.gravewood, Blocks.leaves,
-					ModBlocks.gravewoodLeaves);
-			SchematicBlockReplacer.replaceBlocks(bedHouse, Blocks.lapis_block, ModBlocks.darkForest, Blocks.gold_block,
-					Blocks.flower_pot, Blocks.iron_block, Blocks.cobblestone_wall, Blocks.gold_ore,
-					Blocks.dark_oak_stairs, Blocks.bedrock, Blocks.spruce_stairs);
+			SchematicBlockReplacer.replaceBlocks(treeSmall, Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
+			SchematicBlockReplacer.replaceBlocks(treeBranchyType1, Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
+			SchematicBlockReplacer.replaceBlocks(treeBranchyType2, Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
+			SchematicBlockReplacer.replaceBlocks(treeLargeCircle, Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
+			SchematicBlockReplacer.replaceBlocks(treeLargeDonut, Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
+			SchematicBlockReplacer.replaceBlocks(bedHouse, Blocks.lapis_block, ModBlocks.darkForest, Blocks.gold_block, Blocks.flower_pot, Blocks.iron_block, Blocks.cobblestone_wall, Blocks.gold_ore, Blocks.dark_oak_stairs, Blocks.bedrock, Blocks.spruce_stairs);
 
-			SchematicBlockReplacer.replaceBlocks(crypt, Blocks.gold_block, ModBlocks.gravewoodStairs, Blocks.gold_ore,
-					ModBlocks.gravewoodPlanks);
-			SchematicBlockReplacer.replaceBlocks(spring, Blocks.gold_ore, ModBlocks.gravewoodLeaves, Blocks.gold_block,
-					ModBlocks.spring);
+			SchematicBlockReplacer.replaceBlocks(crypt, Blocks.gold_block, ModBlocks.gravewoodStairs, Blocks.gold_ore, ModBlocks.gravewoodPlanks);
+			SchematicBlockReplacer.replaceBlocks(spring, Blocks.gold_ore, ModBlocks.gravewoodLeaves, Blocks.gold_block, ModBlocks.spring);
 
 			// SchematicBlockReplacer.replaceBlocks(nightmareIsland, ((short)
 			// -56), (short) Block.getIdFromBlock(ModBlocks.gravewoodLeaves),
@@ -361,55 +327,34 @@ public final class Constants {
 			// (short) -42,
 			// (short) Block.getIdFromBlock(ModBlocks.voidChestPortal));
 
-			SchematicBlockReplacer.replaceBlocks(tunnelEW, (short) -36,
-					(short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37,
-					(short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35,
-					(short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41,
-					(short) Block.getIdFromBlock(ModBlocks.eldritchObsidian));
-			SchematicBlockReplacer.replaceBlocks(tunnelNS, (short) -36,
-					(short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37,
-					(short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35,
-					(short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41,
-					(short) Block.getIdFromBlock(ModBlocks.eldritchObsidian));
-			SchematicBlockReplacer.replaceBlocks(roomStairUp, (short) -36,
-					(short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37,
-					(short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35,
-					(short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41,
-					(short) Block.getIdFromBlock(ModBlocks.eldritchObsidian));
-			SchematicBlockReplacer.replaceBlocks(roomStairDown, (short) -36,
-					(short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37,
-					(short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35,
-					(short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41,
-					(short) Block.getIdFromBlock(ModBlocks.eldritchObsidian));
-			SchematicBlockReplacer.replaceBlocks(stairwell, (short) -36,
-					(short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37,
-					(short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35,
-					(short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41,
-					(short) Block.getIdFromBlock(ModBlocks.eldritchObsidian));
-			SchematicBlockReplacer.replaceBlocks(enariaLair, (short) -36,
-					(short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37,
-					(short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35,
-					(short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41,
-					(short) Block.getIdFromBlock(ModBlocks.eldritchObsidian), (short) -40,
-					(short) Block.getIdFromBlock(ModBlocks.amorphousEldritchMetal), (short) -39,
-					(short) Block.getIdFromBlock(ModBlocks.eldritchStone), (short) -48,
-					(short) Block.getIdFromBlock(ModBlocks.meteor), (short) -47,
-					(short) Block.getIdFromBlock(ModBlocks.starMetalOre), (short) -46,
-					(short) Block.getIdFromBlock(ModBlocks.igneousBlock), (short) -55,
-					(short) Block.getIdFromBlock(ModBlocks.gravewood));
+			SchematicBlockReplacer.replaceBlocks(tunnelEW, (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block
+					.getIdFromBlock(ModBlocks.eldritchObsidian));
+			SchematicBlockReplacer.replaceBlocks(tunnelNS, (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block
+					.getIdFromBlock(ModBlocks.eldritchObsidian));
+			SchematicBlockReplacer.replaceBlocks(roomStairUp, (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block
+					.getIdFromBlock(ModBlocks.eldritchObsidian));
+			SchematicBlockReplacer.replaceBlocks(roomStairDown, (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block
+					.getIdFromBlock(ModBlocks.eldritchObsidian));
+			SchematicBlockReplacer.replaceBlocks(stairwell, (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block
+					.getIdFromBlock(ModBlocks.eldritchObsidian));
+			SchematicBlockReplacer.replaceBlocks(enariaLair, (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41, (short) Block
+					.getIdFromBlock(ModBlocks.eldritchObsidian), (short) -40, (short) Block.getIdFromBlock(ModBlocks.amorphousEldritchMetal), (short) -39, (short) Block.getIdFromBlock(ModBlocks.eldritchStone), (short) -48, (short) Block.getIdFromBlock(ModBlocks.meteor), (short) -47, (short) Block
+							.getIdFromBlock(ModBlocks.starMetalOre), (short) -46, (short) Block.getIdFromBlock(ModBlocks.igneousBlock), (short) -55, (short) Block.getIdFromBlock(ModBlocks.gravewood));
 
-			if (ConfigurationHandler.debugMessages) {
-				LogHelper.info("Nightmare island is using this much ram: "
-						+ RamUsageEstimator.humanReadableUnits(RamUsageEstimator.sizeOfAll(nightmareIsland)));
+			if (ConfigurationHandler.debugMessages)
+			{
+				LogHelper.info("Nightmare island is using this much ram: " + RamUsageEstimator.humanReadableUnits(RamUsageEstimator.sizeOfAll(nightmareIsland)));
 			}
 		}
 	}
 
 	// The creative tab
-	public static final CreativeTabs AFRAID_OF_THE_DARK = new CreativeTabs(Refrence.MOD_ID.toLowerCase()) {
+	public static final CreativeTabs AFRAID_OF_THE_DARK = new CreativeTabs(Refrence.MOD_ID.toLowerCase())
+	{
 		// Icon of the tab is the journal
 		@Override
-		public Item getTabIconItem() {
+		public Item getTabIconItem()
+		{
 			return ModItems.journal;
 		}
 	};
