@@ -7,7 +7,6 @@ package com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDimensions;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
@@ -59,7 +58,7 @@ public class NightmareTeleporter extends Teleporter
 					entityPlayer.inventory.clear();
 					entityPlayer.inventoryContainer.detectAndSendChanges();
 
-					int locationX = this.validatePlayerLocationNightmare(AOTDPlayerData.get(entityPlayer).getPlayerLocationNightmare(), entityPlayer) * Constants.BLOCKS_BETWEEN_ISLANDS + 20;
+					int locationX = this.validatePlayerLocationNightmare(AOTDPlayerData.get(entityPlayer).getPlayerLocationNightmare(), entityPlayer) * AOTDDimensions.getBlocksBetweenIslands() + 20;
 
 					((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(locationX, 74, 40, 0, 0);
 

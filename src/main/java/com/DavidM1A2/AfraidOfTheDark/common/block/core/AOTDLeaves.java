@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDTreeTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 import com.google.common.base.Predicate;
 
@@ -56,7 +55,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 	public AOTDLeaves()
 	{
 		super();
-		this.setCreativeTab(Constants.AFRAID_OF_THE_DARK);
+		this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(AOTDLeaves.VARIANT, AOTDTreeTypes.GRAVEWOOD).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(true)).withProperty(BlockLeaves.DECAYABLE, Boolean.valueOf(true)));
 		this.setTickRandomly(true);
 	}
@@ -107,7 +106,8 @@ public abstract class AOTDLeaves extends BlockLeaves
 	}
 
 	/**
-	 * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
+	 * returns a list of blocks with the same ID, but different meta (eg: wood
+	 * returns 4 blocks)
 	 */
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -158,8 +158,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 	@Override
 	protected BlockState createBlockState()
 	{
-		return new BlockState(this, new IProperty[]
-		{ AOTDLeaves.VARIANT, BlockLeaves.CHECK_DECAY, BlockLeaves.DECAYABLE });
+		return new BlockState(this, new IProperty[] { AOTDLeaves.VARIANT, BlockLeaves.CHECK_DECAY, BlockLeaves.DECAYABLE });
 	}
 
 	/**

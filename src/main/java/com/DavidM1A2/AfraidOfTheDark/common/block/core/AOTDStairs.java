@@ -5,7 +5,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.block.core;
 
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 
 import net.minecraft.block.BlockStairs;
@@ -17,7 +16,7 @@ public abstract class AOTDStairs extends BlockStairs
 	{
 		super(modelState);
 		this.setUnlocalizedName("FORGOT TO SET");
-		this.setCreativeTab(Constants.AFRAID_OF_THE_DARK);
+		this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
 		this.useNeighborBrightness = true;
 	}
 

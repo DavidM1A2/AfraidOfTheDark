@@ -5,7 +5,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.item.core;
 
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 
 import net.minecraft.item.Item;
@@ -19,7 +18,7 @@ public abstract class AOTDItem extends Item
 		super();
 		if (this.displayInCreative())
 		{
-			this.setCreativeTab(Constants.AFRAID_OF_THE_DARK);
+			this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
 		}
 	}
 

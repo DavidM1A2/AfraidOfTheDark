@@ -5,7 +5,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.item.core;
 
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 
 import net.minecraft.item.ItemStack;
@@ -16,10 +15,11 @@ public abstract class AOTDSword extends ItemSword
 	public AOTDSword(final ToolMaterial material)
 	{
 		super(material);
-		this.setCreativeTab(Constants.AFRAID_OF_THE_DARK);
+		this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
 	}
 
-	// Set the item name in the game (not the visual name but the reference name)
+	// Set the item name in the game (not the visual name but the reference
+	// name)
 	@Override
 	public String getUnlocalizedName()
 	{

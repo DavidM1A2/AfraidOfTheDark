@@ -8,8 +8,8 @@ package com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest;
 import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBiomes;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDimensions;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDSchematics;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicGenerator;
 
 import net.minecraft.block.state.IBlockState;
@@ -70,7 +70,7 @@ public class VoidChestChunkProvider implements IChunkProvider
 	public void populate(IChunkProvider iChunkProvider, int x, int z)
 	{
 		// Every 62 chunks in the x direction (992 blocks)
-		if (x * 16 % Constants.BLOCKS_BETWEEN_ISLANDS == 0 && z == 0)
+		if (x * 16 % AOTDDimensions.getBlocksBetweenIslands() == 0 && z == 0)
 		{
 			x = x * 16;
 			for (int i = 0; i < 49; i++)

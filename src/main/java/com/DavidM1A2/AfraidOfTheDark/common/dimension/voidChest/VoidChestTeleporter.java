@@ -7,7 +7,6 @@ package com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockVoidChestPortal;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDimensions;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
@@ -62,7 +61,7 @@ public class VoidChestTeleporter extends Teleporter
 							{
 								AOTDPlayerData.get(entityPlayer).setPlayerLocationOverworld(new int[] { i, j + 1, k });
 
-								int locationX = this.validatePlayerLocationVoidChest(AOTDPlayerData.get(entityPlayer).getPlayerLocationVoidChest(), entityPlayer) * Constants.BLOCKS_BETWEEN_ISLANDS + 25;
+								int locationX = this.validatePlayerLocationVoidChest(AOTDPlayerData.get(entityPlayer).getPlayerLocationVoidChest(), entityPlayer) * AOTDDimensions.getBlocksBetweenIslands() + 25;
 
 								((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(locationX, 104, 3, 0, 0);
 
@@ -81,7 +80,7 @@ public class VoidChestTeleporter extends Teleporter
 					AOTDPlayerData.get(entityPlayer).setPlayerLocationOverworld(new int[] { 0, 255, 0 });
 				}
 
-				int locationX = this.validatePlayerLocationVoidChest(AOTDPlayerData.get(entityPlayer).getPlayerLocationVoidChest(), entityPlayer) * Constants.BLOCKS_BETWEEN_ISLANDS + 25;
+				int locationX = this.validatePlayerLocationVoidChest(AOTDPlayerData.get(entityPlayer).getPlayerLocationVoidChest(), entityPlayer) * AOTDDimensions.getBlocksBetweenIslands() + 25;
 
 				((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(locationX, 104, 3, 0, 0);
 

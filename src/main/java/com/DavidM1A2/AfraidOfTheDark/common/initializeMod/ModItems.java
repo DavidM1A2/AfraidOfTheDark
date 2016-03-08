@@ -44,7 +44,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls.ItemResearchScr
 import com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls.ItemResearchScrollVitae1;
 import com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls.ItemResearchScrollWristCrossbow;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDArmorMaterials;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 
 import net.minecraft.client.Minecraft;
@@ -108,7 +107,7 @@ public class ModItems
 
 	static
 	{
-		if (Constants.isDebug)
+		if (Refrence.isDebug)
 		{
 			insanityControl = new ItemInsanityControl();
 			worldGenTest = new ItemWorldGenTest();
@@ -118,7 +117,7 @@ public class ModItems
 	public static void initialize(final Side side)
 	{
 		// Register items
-		if (Constants.isDebug)
+		if (Refrence.isDebug)
 		{
 			GameRegistry.registerItem(ModItems.insanityControl, "insanityControl");
 			GameRegistry.registerItem(ModItems.worldGenTest, "worldGenTest");
@@ -174,7 +173,7 @@ public class ModItems
 		{
 			final ItemModelMesher itemModelMesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
 
-			if (Constants.isDebug)
+			if (Refrence.isDebug)
 			{
 				itemModelMesher.register(ModItems.insanityControl, 0, new ModelResourceLocation(Refrence.MOD_ID + ":insanityControl", "inventory"));
 				itemModelMesher.register(ModItems.worldGenTest, 0, new ModelResourceLocation(Refrence.MOD_ID + ":worldGenTest", "inventory"));

@@ -8,7 +8,6 @@ package com.DavidM1A2.AfraidOfTheDark.common.block.core;
 import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDTreeTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 
 import net.minecraft.block.BlockBush;
@@ -32,7 +31,7 @@ public abstract class AOTDSapling extends BlockBush implements IGrowable
 		this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE_PROP, AOTDTreeTypes.GRAVEWOOD).withProperty(STAGE_PROP, Integer.valueOf(0)));
 		float f = 0.4F;
 		this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 2.0F, 0.5F + f);
-		this.setCreativeTab(Constants.AFRAID_OF_THE_DARK);
+		this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
 		this.setStepSound(soundTypeGrass);
 	}
 
@@ -109,8 +108,7 @@ public abstract class AOTDSapling extends BlockBush implements IGrowable
 	@Override
 	protected BlockState createBlockState()
 	{
-		return new BlockState(this, new IProperty[]
-		{ TYPE_PROP, STAGE_PROP });
+		return new BlockState(this, new IProperty[] { TYPE_PROP, STAGE_PROP });
 	}
 
 	@Override

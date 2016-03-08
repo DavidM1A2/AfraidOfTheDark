@@ -7,7 +7,6 @@ package com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBiomes;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDimensions;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.BlockPos;
@@ -188,7 +187,7 @@ public class NightmareWorldProvider extends WorldProvider
 	@Override
 	public boolean canCoordinateBeSpawn(int x, int z)
 	{
-		if (x % Constants.BLOCKS_BETWEEN_ISLANDS == 0 && z == 0)
+		if (x % AOTDDimensions.getBlocksBetweenIslands() == 0 && z == 0)
 		{
 			return true;
 		}

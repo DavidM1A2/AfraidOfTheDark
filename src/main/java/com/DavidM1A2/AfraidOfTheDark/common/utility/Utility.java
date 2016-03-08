@@ -11,7 +11,6 @@ import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest.VoidChestTeleporter;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDimensions;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -53,7 +52,7 @@ public class Utility
 	public static void sendPlayerToVoidChest(EntityPlayerMP entityPlayer, int location)
 	{
 		Utility.sendPlayerToDimension(entityPlayer, AOTDDimensions.VoidChest.getWorldID(), false, VoidChestTeleporter.class);
-		entityPlayer.playerNetServerHandler.setPlayerLocation(location * Constants.BLOCKS_BETWEEN_ISLANDS + 24.5, 104, 3, 0, 0);
+		entityPlayer.playerNetServerHandler.setPlayerLocation(location * AOTDDimensions.getBlocksBetweenIslands() + 24.5, 104, 3, 0, 0);
 	}
 
 	/*

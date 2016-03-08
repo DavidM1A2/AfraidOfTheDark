@@ -5,7 +5,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark;
 
-import com.DavidM1A2.AfraidOfTheDark.client.entities.spell.ModelSpellProjectile;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.ResearchAchieved;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
@@ -30,7 +29,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModRecipes;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModSpells;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.PacketHandler;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.proxy.IProxy;
@@ -51,7 +49,8 @@ import net.minecraftforge.fml.relauncher.Side;
  * Main class run when the mod is started up
  */
 @Mod(modid = Refrence.MOD_ID, name = Refrence.MOD_NAME, version = Refrence.VERSION, guiFactory = Refrence.GUI_FACTORY_CLASS)
-public class AfraidOfTheDark {
+public class AfraidOfTheDark
+{
 	/**
 	 * Singleton design pattern used here
 	 */
@@ -75,7 +74,8 @@ public class AfraidOfTheDark {
 	 *            class names for what each line does)
 	 */
 	@Mod.EventHandler
-	public void preInitialization(final FMLPreInitializationEvent event) {
+	public void preInitialization(final FMLPreInitializationEvent event)
+	{
 		// Initialize configuration
 		ConfigurationHandler.initializataion(event.getSuggestedConfigurationFile());
 		FMLCommonHandler.instance().bus().register(new ConfigurationHandler());
@@ -92,7 +92,8 @@ public class AfraidOfTheDark {
 		if (event.getSide() == Side.CLIENT)
 			MinecraftForge.EVENT_BUS.register(new GuiEventHandler());
 		// Initialize debug file to spam chat with variables
-		if (Constants.isDebug) {
+		if (Refrence.isDebug)
+		{
 			MinecraftForge.EVENT_BUS.register(new DebugSpammer());
 		}
 		// Initialize mod blocks
@@ -126,7 +127,8 @@ public class AfraidOfTheDark {
 		// Initialize renderers
 		AfraidOfTheDark.proxy.registerEntityRenders();
 
-		if (ConfigurationHandler.debugMessages) {
+		if (ConfigurationHandler.debugMessages)
+		{
 			LogHelper.info("Pre-Initialization Complete");
 		}
 	}
@@ -136,7 +138,8 @@ public class AfraidOfTheDark {
 	 *            Initialization event is responsible for renders and recipes
 	 */
 	@Mod.EventHandler
-	public void initialization(final FMLInitializationEvent event) {
+	public void initialization(final FMLInitializationEvent event)
+	{
 		// Initialize Recipes
 		ModRecipes.initialize();
 		// Initialize mod item renderers
@@ -145,11 +148,13 @@ public class AfraidOfTheDark {
 		ModBlocks.initializeRenderers(event.getSide());
 		AfraidOfTheDark.proxy.registerMiscRenders();
 		// Initialize key input handler on client side only
-		if (event.getSide() == Side.CLIENT) {
+		if (event.getSide() == Side.CLIENT)
+		{
 			FMLCommonHandler.instance().bus().register(new KeyInputEventHandler());
 		}
 
-		if (ConfigurationHandler.debugMessages) {
+		if (ConfigurationHandler.debugMessages)
+		{
 			LogHelper.info("Initialization Complete");
 		}
 	}
@@ -159,12 +164,15 @@ public class AfraidOfTheDark {
 	 *            Register the research achieved overlay on the client side only
 	 */
 	@Mod.EventHandler
-	public void postInitialization(final FMLPostInitializationEvent event) {
-		if (event.getSide() == Side.CLIENT) {
+	public void postInitialization(final FMLPostInitializationEvent event)
+	{
+		if (event.getSide() == Side.CLIENT)
+		{
 			ClientData.researchAchievedOverlay = new ResearchAchieved(Minecraft.getMinecraft());
 		}
 
-		if (ConfigurationHandler.debugMessages) {
+		if (ConfigurationHandler.debugMessages)
+		{
 			LogHelper.info("Post-Initialization Complete");
 		}
 	}
@@ -174,9 +182,11 @@ public class AfraidOfTheDark {
 	 *            Register commands when the server starts
 	 */
 	@Mod.EventHandler
-	public void serverStartingEvent(final FMLServerStartingEvent event) {
+	public void serverStartingEvent(final FMLServerStartingEvent event)
+	{
 		// Register any player commands
-		if (Constants.isDebug) {
+		if (Refrence.isDebug)
+		{
 			event.registerServerCommand(new CMDInsanityCheck());
 		}
 		event.registerServerCommand(new AfraidOfTheDarkCommands());
@@ -185,7 +195,8 @@ public class AfraidOfTheDark {
 	/**
 	 * @return SimpleNetworkWrapper instance
 	 */
-	public static PacketHandler getPacketHandler() {
+	public static PacketHandler getPacketHandler()
+	{
 		return AfraidOfTheDark.packetHandler;
 	}
 }

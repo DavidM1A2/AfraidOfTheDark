@@ -15,9 +15,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.EntityEnaria;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.EnchantedSkeleton.EntityEnchantedSkeleton;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.SplinterDrone.EntitySplinterDrone;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.monster.EntityBlaze;
@@ -51,13 +49,9 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.Item;
 
 public final class Constants
 {
-	public static final boolean isDebug = false;
-
-	public static final int BLOCKS_BETWEEN_ISLANDS = 992;
 
 	public static Map<Class, Integer> entityVitaeResistance = new HashMap<Class, Integer>();
 	public static Map<String, Integer> toolMaterialRepairCosts = new HashMap<String, Integer>();
@@ -121,15 +115,4 @@ public final class Constants
 		toolMaterialRepairCosts.put("igneous", 4);
 		toolMaterialRepairCosts.put("starMetal", 4);
 	}
-
-	// The creative tab
-	public static final CreativeTabs AFRAID_OF_THE_DARK = new CreativeTabs(Refrence.MOD_ID.toLowerCase())
-	{
-		// Icon of the tab is the journal
-		@Override
-		public Item getTabIconItem()
-		{
-			return ModItems.journal;
-		}
-	};
 }

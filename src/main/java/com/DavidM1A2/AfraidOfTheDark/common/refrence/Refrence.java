@@ -5,6 +5,11 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.refrence;
 
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
+
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+
 // Refrences for static final variables
 public class Refrence
 {
@@ -20,4 +25,18 @@ public class Refrence
 	public static final String GUI_FACTORY_CLASS = "com.DavidM1A2.AfraidOfTheDark.client.gui.GuiFactory";
 	// Network channel name is the same as the ID
 	public static final String NETWORK_CHANNEL_NAME = Refrence.MOD_ID;
+
+	// The creative tab
+	public static final CreativeTabs AFRAID_OF_THE_DARK = new CreativeTabs(Refrence.MOD_ID.toLowerCase())
+	{
+		// Icon of the tab is the journal
+		@Override
+		public Item getTabIconItem()
+		{
+			return ModItems.journal;
+		}
+	};
+
+	// Limit the user's commands and items when not in debug
+	public static final boolean isDebug = false;
 }

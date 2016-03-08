@@ -10,7 +10,6 @@ import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDTreeTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 
 import net.minecraft.block.Block;
@@ -37,7 +36,7 @@ public abstract class AOTDSlab extends BlockSlab
 	{
 		super(material);
 		this.setUnlocalizedName("NAME NOT SET");
-		this.setCreativeTab(Constants.AFRAID_OF_THE_DARK);
+		this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
 		this.setHardness(2.0F);
 		this.setResistance(5.0F);
 		this.setStepSound(Block.soundTypeWood);
@@ -89,7 +88,8 @@ public abstract class AOTDSlab extends BlockSlab
 	}
 
 	/**
-	 * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
+	 * returns a list of blocks with the same ID, but different meta (eg: wood
+	 * returns 4 blocks)
 	 */
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -145,9 +145,7 @@ public abstract class AOTDSlab extends BlockSlab
 	@Override
 	protected BlockState createBlockState()
 	{
-		return this.isDouble() ? new BlockState(this, new IProperty[]
-		{ AOTDSlab.VARIANT_PROP }) : new BlockState(this, new IProperty[]
-		{ BlockSlab.HALF, AOTDSlab.VARIANT_PROP });
+		return this.isDouble() ? new BlockState(this, new IProperty[] { AOTDSlab.VARIANT_PROP }) : new BlockState(this, new IProperty[] { BlockSlab.HALF, AOTDSlab.VARIANT_PROP });
 	}
 
 	/**

@@ -8,7 +8,6 @@ package com.DavidM1A2.AfraidOfTheDark.common.block;
 import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDTreeTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 import com.google.common.base.Predicate;
 
@@ -47,13 +46,14 @@ public class BlockGravewood extends BlockLog
 	public BlockGravewood()
 	{
 		super();
-		this.setCreativeTab(Constants.AFRAID_OF_THE_DARK);
+		this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
 		this.setStepSound(Block.soundTypeWood);
 		this.setUnlocalizedName("gravewood");
 	}
 
 	/**
-	 * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
+	 * returns a list of blocks with the same ID, but different meta (eg: wood
+	 * returns 4 blocks)
 	 */
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -116,8 +116,7 @@ public class BlockGravewood extends BlockLog
 	@Override
 	protected BlockState createBlockState()
 	{
-		return new BlockState(this, new IProperty[]
-		{ BlockGravewood.VARIANT, BlockLog.LOG_AXIS });
+		return new BlockState(this, new IProperty[] { BlockGravewood.VARIANT, BlockLog.LOG_AXIS });
 	}
 
 	// Can these woods stack?
