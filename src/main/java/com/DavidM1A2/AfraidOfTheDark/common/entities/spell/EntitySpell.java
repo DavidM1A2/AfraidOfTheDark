@@ -17,7 +17,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
-{ 
+{
 	private static final String SPELL_SOURCE = "spellSource";
 	private Spell spellSource;
 	private static final String SPELL_STAGE_KEY = "spellStageIndex";
@@ -26,8 +26,8 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 	private int ticksAlive;
 	private static final String SPELL_COLOR = "spellColor";
 	private float[] color = new float[4];
-	
-	public EntitySpell(World world, Spell callback, int spellStageIndex) 
+
+	public EntitySpell(World world, Spell callback, int spellStageIndex)
 	{
 		super(world);
 		color[0] = color[1] = color[2] = color[3] = 1.0f;
@@ -86,13 +86,13 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 		this.spellStageIndex = this.spellStageIndex + 1;
 		if (!this.spellSource.hasSpellStage(spellStageIndex))
 		{
-			LogHelper.info("Spell over");
+			LogHelper.info("Entity spell: Spell over");
 			return;
 		}
 		this.worldObj.spawnEntityInWorld(this.getSpellSource().getSpellStageByIndex(this.spellStageIndex).getKey().createSpellEntity(this, spellStageIndex));
 	}
-	
-	public void performEffect(BlockPos location) 
+
+	public void performEffect(BlockPos location)
 	{
 		for (IEffect effect : this.getSpellSource().getSpellStageByIndex(this.getSpellStageIndex()).getValue())
 		{
@@ -100,8 +100,8 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 		}
 		return;
 	}
-	
-	public void performEffect(Entity entity) 
+
+	public void performEffect(Entity entity)
 	{
 		for (IEffect effect : this.getSpellSource().getSpellStageByIndex(this.getSpellStageIndex()).getValue())
 		{
@@ -109,13 +109,13 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 		}
 		return;
 	}
-	
+
 	@Override
-	public boolean canBeCollidedWith() 
+	public boolean canBeCollidedWith()
 	{
 		return false;
 	}
-	
+
 	public int getTicksAlive()
 	{
 		return this.ticksAlive;
@@ -125,12 +125,12 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 	{
 		return this.spellSource;
 	}
-	
+
 	public int getSpellStageIndex()
 	{
 		return this.spellStageIndex;
 	}
-	
+
 	public void setSpellColor(float r, float g, float b, float a)
 	{
 		this.color[0] = r;
@@ -138,14 +138,14 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 		this.color[2] = b;
 		this.color[3] = a;
 	}
-	
+
 	public float[] getSpellColor()
 	{
 		return this.color;
 	}
-	
+
 	public abstract float getSpellEntityWidth();
-	
+
 	public abstract float getSpellEntityHeight();
 
 	public abstract int getSpellLifeInTicks();

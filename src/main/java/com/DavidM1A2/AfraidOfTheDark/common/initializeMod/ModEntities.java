@@ -18,9 +18,11 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntityStarMetalBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntityWoodenBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.projectile.EntitySpellProjectile;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 
 public class ModEntities
@@ -48,10 +50,19 @@ public class ModEntities
 		EntityRegistry.registerModEntity(EntityEnaria.class, "enaria", ModEntities.enariaID, Refrence.MOD_ID, 50, 1, true);
 		EntityRegistry.registerModEntity(EntitySplinterDrone.class, "splinterDrone", ModEntities.splinterDroneID, Refrence.MOD_ID, 50, 1, true);
 		EntityRegistry.registerModEntity(EntitySplinterDroneProjectile.class, "splinterDroneProjectile", ModEntities.splinterDroneProjectileID, Refrence.MOD_ID, 50, 1, true);
-		EntityRegistry.registerEgg(EntityWerewolf.class, 0x3B170B, 0x181907);
-		EntityRegistry.registerEgg(EntitySplinterDrone.class, 0xcc6600, 0x63300);
-		EntityRegistry.registerEgg(EntityEnchantedSkeleton.class, 0x996600, 0xe69900);
-		EntityRegistry.registerEgg(EntityDeeeSyft.class, 0x0086b3, 0x00bfff);
+
+		try
+		{
+			EntityRegistry.registerEgg(EntityWerewolf.class, 0x3B170B, 0x181907);
+			EntityRegistry.registerEgg(EntitySplinterDrone.class, 0xcc6600, 0x63300);
+			EntityRegistry.registerEgg(EntityEnchantedSkeleton.class, 0x996600, 0xe69900);
+			EntityRegistry.registerEgg(EntityDeeeSyft.class, 0x0086b3, 0x00bfff);
+		}
+		catch (NoSuchMethodError error)
+		{
+			LogHelper.fatal("You need to update your version of minecraft forge!!\nMinimum Required is 1.8-11.14.3.1468, but use the recommended version!");
+			FMLCommonHandler.instance().exitJava(1, true);
+		}
 
 		EntityRegistry.registerModEntity(EntityIronBolt.class, "ironBolt", ModEntities.ironBoltID, Refrence.MOD_ID, 50, 10, true);
 		EntityRegistry.registerModEntity(EntitySilverBolt.class, "silverBolt", ModEntities.silverBoltID, Refrence.MOD_ID, 50, 10, true);

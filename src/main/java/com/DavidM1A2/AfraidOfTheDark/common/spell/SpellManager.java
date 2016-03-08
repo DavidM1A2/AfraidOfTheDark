@@ -11,8 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
-
 import net.minecraft.entity.player.EntityPlayer;
 
 public class SpellManager implements Serializable
@@ -29,7 +27,7 @@ public class SpellManager implements Serializable
 	{
 		this.spells.remove(spell.getSpellUUID());
 	}
-	
+
 	public Collection<Spell> getSpellList()
 	{
 		return spells.values();

@@ -45,6 +45,8 @@ public class FogRenderingEvents
 
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
+	// see private void setupFog(int p_78468_1_, float partialTicks) in
+	// EntityRenderer
 	public void renderEventFogDensity(final FogDensity fogDensity)
 	{
 		float f1;

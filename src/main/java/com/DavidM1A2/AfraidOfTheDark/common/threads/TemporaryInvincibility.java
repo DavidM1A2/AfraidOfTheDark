@@ -16,12 +16,12 @@ public class TemporaryInvincibility implements Runnable
 	{
 		this.INVINCIBILITY_TIME = invincibilityTime;
 		this.ENTITY_PLAYER = entityPlayer;
-		this.ENTITY_PLAYER.capabilities.disableDamage = true;
 	}
 
 	@Override
 	public void run()
 	{
+		this.ENTITY_PLAYER.capabilities.disableDamage = true;
 		try
 		{
 			Thread.sleep(INVINCIBILITY_TIME);
