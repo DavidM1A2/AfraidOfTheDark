@@ -5,7 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.refrence;
 
-public enum MeteorTypes
+public enum AOTDMeteorTypes
 {
 	silver(0),
 	starMetal(1),
@@ -13,7 +13,7 @@ public enum MeteorTypes
 
 	private final int index;
 
-	private MeteorTypes(final int index)
+	private AOTDMeteorTypes(final int index)
 	{
 		this.index = index;
 	}
@@ -23,9 +23,9 @@ public enum MeteorTypes
 		return this.index;
 	}
 
-	public static MeteorTypes typeFromIndex(final int index)
+	public static AOTDMeteorTypes typeFromIndex(final int index)
 	{
-		for (final MeteorTypes type : MeteorTypes.values())
+		for (final AOTDMeteorTypes type : AOTDMeteorTypes.values())
 		{
 			if (type.index == index)
 			{

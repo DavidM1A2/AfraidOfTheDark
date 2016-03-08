@@ -14,6 +14,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.EntityEnaria;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemFlaskOfSouls;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDimensions;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDEntityData;
@@ -46,7 +47,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class PlayerController
 {
-	// When the player dies, he is cloned. We move over extended properties such as hasStartedAOTD, insanity, and research
+	// When the player dies, he is cloned. We move over extended properties such
+	// as hasStartedAOTD, insanity, and research
 	@SubscribeEvent
 	public void onClonePlayer(final PlayerEvent.Clone event)
 	{
@@ -57,7 +59,7 @@ public class PlayerController
 		AOTDPlayerData.get(event.entityPlayer).loadNBTData(nbt);
 		AOTDEntityData.get(event.entityPlayer).loadNBTData(nbt);
 
-		if (event.original.dimension == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
+		if (event.original.dimension == AOTDDimensions.Nightmare.getWorldID())
 		{
 			Constants.TIMER_FOR_DELAYS.schedule(new Runnable()
 			{
@@ -68,7 +70,7 @@ public class PlayerController
 				}
 			}, 900, TimeUnit.MILLISECONDS);
 		}
-		else if (event.original.dimension == Constants.VoidChestWorld.VOID_CHEST_WORLD_ID)
+		else if (event.original.dimension == AOTDDimensions.VoidChest.getWorldID())
 		{
 			Constants.TIMER_FOR_DELAYS.schedule(new Runnable()
 			{
@@ -129,7 +131,7 @@ public class PlayerController
 				}
 				if (AOTDPlayerData.get(event.entityPlayer).isResearched(ResearchTypes.Nightmares))
 				{
-					Utility.sendPlayerToDimension((EntityPlayerMP) event.entityPlayer, Constants.NightmareWorld.NIGHTMARE_WORLD_ID, false, NightmareTeleporter.class);
+					Utility.sendPlayerToDimension((EntityPlayerMP) event.entityPlayer, AOTDDimensions.Nightmare.getWorldID(), false, NightmareTeleporter.class);
 				}
 			}
 		}

@@ -6,7 +6,7 @@
 package com.DavidM1A2.AfraidOfTheDark.client.gui.customControls;
 
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiButton;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.MeteorTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDMeteorTypes;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -15,16 +15,16 @@ import net.minecraft.util.ResourceLocation;
 public class AOTDGuiMeteorButton extends AOTDGuiButton
 {
 	private final ResourceLocation METEOR_TEXTURE;
-	private final MeteorTypes myType;
+	private final AOTDMeteorTypes myType;
 
-	public AOTDGuiMeteorButton(final int x, final int y, final int width, final int height, final MeteorTypes myType)
+	public AOTDGuiMeteorButton(final int x, final int y, final int width, final int height, final AOTDMeteorTypes myType)
 	{
 		super(x, y, width, height, null, "");
 		this.myType = myType;
 
-		if (myType == MeteorTypes.silver)
+		if (myType == AOTDMeteorTypes.silver)
 			this.METEOR_TEXTURE = new ResourceLocation("afraidofthedark:textures/gui/astralSilverMeteor.png");
-		else if (myType == MeteorTypes.starMetal)
+		else if (myType == AOTDMeteorTypes.starMetal)
 			this.METEOR_TEXTURE = new ResourceLocation("afraidofthedark:textures/gui/starMetalMeteor.png");
 		else
 			this.METEOR_TEXTURE = new ResourceLocation("afraidofthedark:textures/gui/sunstoneMeteor.png");
@@ -43,7 +43,7 @@ public class AOTDGuiMeteorButton extends AOTDGuiButton
 		}
 	}
 
-	public MeteorTypes getMyType()
+	public AOTDMeteorTypes getMyType()
 	{
 		return this.myType;
 	}

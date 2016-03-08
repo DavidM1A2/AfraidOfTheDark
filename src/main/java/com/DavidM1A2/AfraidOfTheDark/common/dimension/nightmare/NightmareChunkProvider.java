@@ -8,6 +8,8 @@ package com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare;
 import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBiomes;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDLootTables;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDSchematics;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicGenerator;
 
@@ -71,11 +73,11 @@ public class NightmareChunkProvider implements IChunkProvider
 	public void populate(IChunkProvider iChunkProvider, int x, int z)
 	{
 		// Every 62 chunks in the x direction (992 blocks)
-		if (x * 16 % Constants.NightmareWorld.BLOCKS_BETWEEN_ISLANDS == 0 && z == 0 && x != 0)
+		if (x * 16 % Constants.BLOCKS_BETWEEN_ISLANDS == 0 && z == 0 && x != 0)
 		{
 			MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("A player has entered his/her nightmare realm for the first time. Expect a server freeze for the next 5 or so seconds."));
 
-			SchematicGenerator.generateSchematicWithLoot(Constants.AOTDSchematics.nightmareIsland, this.worldObj, x * 16, 0, z * 16, Constants.nightmareIslandLootTable);
+			SchematicGenerator.generateSchematicWithLoot(AOTDSchematics.NightmareIsland.getSchematic(), this.worldObj, x * 16, 0, z * 16, AOTDLootTables.NightmareIsland.getLootTable());
 		}
 	}
 

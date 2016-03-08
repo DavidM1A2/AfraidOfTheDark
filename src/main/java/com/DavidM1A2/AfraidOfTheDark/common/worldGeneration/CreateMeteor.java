@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.MeteorTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDMeteorTypes;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
@@ -48,7 +48,7 @@ public class CreateMeteor
 		}
 	};
 
-	public static void create(final World world, final BlockPos location, final int radius, final int height, final boolean hollow, final boolean isSphere, final MeteorTypes type)
+	public static void create(final World world, final BlockPos location, final int radius, final int height, final boolean hollow, final boolean isSphere, final AOTDMeteorTypes type)
 	{
 		int cx = location.getX();
 		int cy = makeSureChunkIsGenerated(world, location);
@@ -75,9 +75,9 @@ public class CreateMeteor
 		CreateMeteor.createCore(world, new BlockPos(cx, cy, cz), MathHelper.ceiling_double_int(radius / 2.5), MathHelper.ceiling_double_int(height / 2.5), hollow, isSphere, type);
 	}
 
-	private static void createCore(World world, BlockPos location, int radius, int height, boolean hollow, boolean isSphere, MeteorTypes type)
+	private static void createCore(World world, BlockPos location, int radius, int height, boolean hollow, boolean isSphere, AOTDMeteorTypes type)
 	{
-		Block toPlace = (type == MeteorTypes.silver) ? ModBlocks.astralSilverOre : (type == MeteorTypes.sunstone) ? ModBlocks.sunstoneOre : ModBlocks.starMetalOre;
+		Block toPlace = (type == AOTDMeteorTypes.silver) ? ModBlocks.astralSilverOre : (type == AOTDMeteorTypes.sunstone) ? ModBlocks.sunstoneOre : ModBlocks.starMetalOre;
 		int cx = location.getX();
 		int cy = location.getY();
 		int cz = location.getZ();

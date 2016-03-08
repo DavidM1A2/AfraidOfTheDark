@@ -11,7 +11,8 @@ import java.util.List;
 import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDLootTables;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDSchematics;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDWorldData;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicGenerator;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
@@ -70,7 +71,7 @@ public class GenerateGnomishCity
 		List<Integer> rooms = new LinkedList<Integer>();
 
 		// Make sure every room is added at least once
-		for (int i = 0; i < Constants.AOTDSchematics.rooms.size(); i++)
+		for (int i = 0; i < AOTDSchematics.getGnomishCityRooms().size(); i++)
 		{
 			rooms.add(i);
 			rooms.add(i);
@@ -92,47 +93,47 @@ public class GenerateGnomishCity
 					{
 						if (k == 0)
 						{
-							SchematicGenerator.generateSchematicWithLoot(Constants.AOTDSchematics.roomStairUp, world, chunkX + i * 50, y + k * 15, chunkZ + j * 50, Constants.gnomishCityLootTable);
+							SchematicGenerator.generateSchematicWithLoot(AOTDSchematics.RoomStairUp.getSchematic(), world, chunkX + i * 50, y + k * 15, chunkZ + j * 50, AOTDLootTables.NightmareIsland.getLootTable());
 						}
 						else
 						{
-							SchematicGenerator.generateSchematicWithLoot(Constants.AOTDSchematics.roomStairDown, world, chunkX + i * 50, y + k * 15, chunkZ + j * 50, Constants.gnomishCityLootTable);
+							SchematicGenerator.generateSchematicWithLoot(AOTDSchematics.RoomStairDown.getSchematic(), world, chunkX + i * 50, y + k * 15, chunkZ + j * 50, AOTDLootTables.NightmareIsland.getLootTable());
 						}
 					}
 					else if (currentRoom == stairs1To2 && k == 0)
 					{
-						SchematicGenerator.generateSchematicWithLoot(Constants.AOTDSchematics.roomStairDown, world, chunkX + i * 50, y + k * 15, chunkZ + j * 50, Constants.gnomishCityLootTable);
+						SchematicGenerator.generateSchematicWithLoot(AOTDSchematics.RoomStairDown.getSchematic(), world, chunkX + i * 50, y + k * 15, chunkZ + j * 50, AOTDLootTables.NightmareIsland.getLootTable());
 
 						// Create enaria's lair
-						SchematicGenerator.generateSchematic(Constants.AOTDSchematics.enariaLair, world, chunkX + i * 50 - 14, y + k * 15 - 15, chunkZ + j * 50 - 73);
+						SchematicGenerator.generateSchematic(AOTDSchematics.EnariaLair.getSchematic(), world, chunkX + i * 50 - 14, y + k * 15 - 15, chunkZ + j * 50 - 73);
 					}
 					else if (currentRoom == stairs3To4 && k == 1)
 					{
-						SchematicGenerator.generateSchematicWithLoot(Constants.AOTDSchematics.roomStairUp, world, chunkX + i * 50, y + k * 15, chunkZ + j * 50, Constants.gnomishCityLootTable);
+						SchematicGenerator.generateSchematicWithLoot(AOTDSchematics.RoomStairUp.getSchematic(), world, chunkX + i * 50, y + k * 15, chunkZ + j * 50, AOTDLootTables.NightmareIsland.getLootTable());
 
-						SchematicGenerator.generateSchematic(Constants.AOTDSchematics.stairwell, world, chunkX + i * 50 + 13, y + k * 15 + 15, chunkZ + j * 50 + 13);
-						SchematicGenerator.generateSchematic(Constants.AOTDSchematics.stairwell, world, chunkX + i * 50 + 13, y + k * 15 + 31, chunkZ + j * 50 + 13);
+						SchematicGenerator.generateSchematic(AOTDSchematics.Stairwell.getSchematic(), world, chunkX + i * 50 + 13, y + k * 15 + 15, chunkZ + j * 50 + 13);
+						SchematicGenerator.generateSchematic(AOTDSchematics.Stairwell.getSchematic(), world, chunkX + i * 50 + 13, y + k * 15 + 31, chunkZ + j * 50 + 13);
 
 						GenerateGnomishCity.fixStairs(world, chunkX + i * 50 + 13, y + k * 15 + 47, chunkZ + j * 50 + 13);
 					}
 					else
 					{
-						SchematicGenerator.generateSchematicWithLoot(Constants.AOTDSchematics.rooms.get(rooms.get(0)), world, chunkX + i * 50, y + k * 15, chunkZ + j * 50, Constants.gnomishCityLootTable);
+						SchematicGenerator.generateSchematicWithLoot(AOTDSchematics.getGnomishCityRooms().get(rooms.get(0)), world, chunkX + i * 50, y + k * 15, chunkZ + j * 50, AOTDLootTables.NightmareIsland.getLootTable());
 						rooms.remove(0);
 					}
 				}
 			}
 		}
 
-		//Create tunnels
+		// Create tunnels
 		for (int k = 0; k < 2; k++)
 		{
 			for (int i = 0; i < 3; i++)
 			{
 				for (int j = 0; j < 2; j++)
 				{
-					SchematicGenerator.generateSchematic(Constants.AOTDSchematics.tunnelEW, world, chunkX + i * 50 + 13, y + k * 15 + 7, chunkZ + j * 50 + 32);
-					SchematicGenerator.generateSchematic(Constants.AOTDSchematics.tunnelNS, world, chunkX + j * 50 + 32, y + k * 15 + 7, chunkZ + i * 50 + 13);
+					SchematicGenerator.generateSchematic(AOTDSchematics.TunnelEW.getSchematic(), world, chunkX + i * 50 + 13, y + k * 15 + 7, chunkZ + j * 50 + 32);
+					SchematicGenerator.generateSchematic(AOTDSchematics.TunnelNS.getSchematic(), world, chunkX + j * 50 + 32, y + k * 15 + 7, chunkZ + i * 50 + 13);
 				}
 			}
 		}

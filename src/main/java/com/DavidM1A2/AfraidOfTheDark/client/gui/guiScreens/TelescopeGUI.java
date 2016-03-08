@@ -14,7 +14,7 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiImage;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiMeteorButton;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.MeteorTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDMeteorTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
@@ -48,10 +48,10 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
 			AOTDGuiMeteorButton nextToAdd = null;
 			if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.AstronomyII))
 				nextToAdd = new AOTDGuiMeteorButton(Minecraft.getMinecraft().theWorld.rand.nextInt(telescopeImage.getMaxTextureWidth()) - telescopeImage.getMaxTextureWidth() / 2, Minecraft.getMinecraft().theWorld.rand.nextInt(telescopeImage.getMaxTextureHeight()) - telescopeImage
-						.getMaxTextureHeight() / 2, 64, 64, MeteorTypes.values()[Minecraft.getMinecraft().theWorld.rand.nextInt(MeteorTypes.values().length)]);
+						.getMaxTextureHeight() / 2, 64, 64, AOTDMeteorTypes.values()[Minecraft.getMinecraft().theWorld.rand.nextInt(AOTDMeteorTypes.values().length)]);
 			else
 				nextToAdd = new AOTDGuiMeteorButton(Minecraft.getMinecraft().theWorld.rand.nextInt(telescopeImage.getMaxTextureWidth()) - telescopeImage.getMaxTextureWidth() / 2, Minecraft.getMinecraft().theWorld.rand.nextInt(telescopeImage.getMaxTextureHeight()) - telescopeImage
-						.getMaxTextureHeight() / 2, 64, 64, MeteorTypes.silver);
+						.getMaxTextureHeight() / 2, 64, 64, AOTDMeteorTypes.silver);
 
 			nextToAdd.addActionListener(new AOTDActionListener()
 			{
@@ -110,7 +110,7 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
 		}
 	}
 
-	private String createMeteorMessage(final MeteorTypes type)
+	private String createMeteorMessage(final AOTDMeteorTypes type)
 	{
 		String toReturn = "";
 		final Random random = Minecraft.getMinecraft().theWorld.rand;

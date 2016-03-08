@@ -8,7 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.ICanTakeSilverDamage;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDSword;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDamageSources;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDToolMaterials;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
@@ -22,7 +22,7 @@ public class ItemAstralSilverSword extends AOTDSword
 {
 	public ItemAstralSilverSword()
 	{
-		super(Constants.AOTDToolMaterials.astralSilver);
+		super(AOTDToolMaterials.AstralSilver.getToolMaterial());
 		this.setUnlocalizedName("astralSilverSword");
 	}
 

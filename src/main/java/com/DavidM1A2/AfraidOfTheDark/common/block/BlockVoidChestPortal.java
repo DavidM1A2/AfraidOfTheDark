@@ -5,16 +5,13 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.block;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDBlock;
 import com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest.VoidChestTeleporter;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDimensions;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
@@ -24,7 +21,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
-import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.AxisAlignedBB;
@@ -34,8 +30,6 @@ import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraft.world.storage.ISaveHandler;
-import net.minecraft.world.storage.SaveHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -60,8 +54,9 @@ public class BlockVoidChestPortal extends AOTDBlock
 	}
 
 	/**
-	 * Called when the block is destroyed by an explosion. Useful for allowing the block to take into account tile entities, state, etc. when
-	 * exploded, before it is removed.
+	 * Called when the block is destroyed by an explosion. Useful for allowing
+	 * the block to take into account tile entities, state, etc. when exploded,
+	 * before it is removed.
 	 *
 	 * @param world
 	 *            The current world
@@ -83,7 +78,8 @@ public class BlockVoidChestPortal extends AOTDBlock
 	}
 
 	/**
-	 * Determines if this block is can be destroyed by the specified entities normal behavior.
+	 * Determines if this block is can be destroyed by the specified entities
+	 * normal behavior.
 	 *
 	 * @param world
 	 *            The current world
@@ -116,7 +112,7 @@ public class BlockVoidChestPortal extends AOTDBlock
 			if (entity instanceof EntityPlayerMP)
 			{
 				EntityPlayerMP entityPlayer = (EntityPlayerMP) entity;
-				if (world.provider.getDimensionId() == Constants.VoidChestWorld.VOID_CHEST_WORLD_ID)
+				if (world.provider.getDimensionId() == AOTDDimensions.VoidChest.getWorldID())
 				{
 					if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.VoidChest))
 					{
@@ -169,7 +165,7 @@ public class BlockVoidChestPortal extends AOTDBlock
 			{
 				MinecraftServer.getServer().getCommandManager().executeCommand(MinecraftServer.getServer(), "/save-all");
 			}
-			
+
 			int furthestOutPlayer = 0;
 			for (NBTTagCompound entityPlayerData : NBTHelper.getOfflinePlayerNBTs())
 			{

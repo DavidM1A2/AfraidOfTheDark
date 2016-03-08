@@ -8,6 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest;
 import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBiomes;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDSchematics;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicGenerator;
 
@@ -21,10 +22,12 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.chunk.IChunkProvider;
 
-public class VoidChestChunkProvider implements IChunkProvider {
+public class VoidChestChunkProvider implements IChunkProvider
+{
 	private final World worldObj;
 
-	public VoidChestChunkProvider(World world) {
+	public VoidChestChunkProvider(World world)
+	{
 		worldObj = world;
 	}
 
@@ -32,12 +35,14 @@ public class VoidChestChunkProvider implements IChunkProvider {
 	 * Checks to see if a chunk exists at x, y
 	 */
 	@Override
-	public boolean chunkExists(int x, int z) {
+	public boolean chunkExists(int x, int z)
+	{
 		return true;
 	}
 
 	@Override
-	public Chunk provideChunk(int x, int z) {
+	public Chunk provideChunk(int x, int z)
+	{
 		ChunkPrimer chunkprimer = new ChunkPrimer();
 		IBlockState iblockstate = Blocks.air.getDefaultState();
 
@@ -45,7 +50,8 @@ public class VoidChestChunkProvider implements IChunkProvider {
 
 		byte[] biome = chunk.getBiomeArray();
 
-		for (int i = 0; i < biome.length; i++) {
+		for (int i = 0; i < biome.length; i++)
+		{
 			biome[i] = (byte) ModBiomes.voidChest.biomeID;
 		}
 
@@ -55,17 +61,22 @@ public class VoidChestChunkProvider implements IChunkProvider {
 	}
 
 	@Override
-	public Chunk provideChunk(BlockPos blockPos) {
+	public Chunk provideChunk(BlockPos blockPos)
+	{
 		return this.provideChunk(blockPos.getX() >> 4, blockPos.getZ() >> 4);
 	}
 
 	@Override
-	public void populate(IChunkProvider iChunkProvider, int x, int z) {
+	public void populate(IChunkProvider iChunkProvider, int x, int z)
+	{
 		// Every 62 chunks in the x direction (992 blocks)
-		if (x * 16 % Constants.NightmareWorld.BLOCKS_BETWEEN_ISLANDS == 0 && z == 0) {
+		if (x * 16 % Constants.BLOCKS_BETWEEN_ISLANDS == 0 && z == 0)
+		{
 			x = x * 16;
-			for (int i = 0; i < 49; i++) {
-				for (int j = 0; j < 49; j++) {
+			for (int i = 0; i < 49; i++)
+			{
+				for (int j = 0; j < 49; j++)
+				{
 					worldObj.setBlockState(new BlockPos(x + i, 100, z + j), Blocks.barrier.getDefaultState());
 					worldObj.setBlockState(new BlockPos(x + i, 100 + 48, z + j), Blocks.barrier.getDefaultState());
 					worldObj.setBlockState(new BlockPos(x + 0, 100 + i, z + j), Blocks.barrier.getDefaultState());
@@ -75,57 +86,66 @@ public class VoidChestChunkProvider implements IChunkProvider {
 				}
 			}
 
-			SchematicGenerator.generateSchematic(Constants.AOTDSchematics.voidChestPortal, this.worldObj, x + 20, 100,
-					z - 2);
+			SchematicGenerator.generateSchematic(AOTDSchematics.VoidChestPortal.getSchematic(), this.worldObj, x + 20, 100, z - 2);
 		}
 	}
 
 	@Override
-	public boolean func_177460_a(IChunkProvider p_177460_1_, Chunk p_177460_2_, int p_177460_3_, int p_177460_4_) {
+	public boolean func_177460_a(IChunkProvider p_177460_1_, Chunk p_177460_2_, int p_177460_3_, int p_177460_4_)
+	{
 		return false;
 	}
 
 	@Override
-	public boolean saveChunks(boolean p_73151_1_, IProgressUpdate p_73151_2_) {
+	public boolean saveChunks(boolean p_73151_1_, IProgressUpdate p_73151_2_)
+	{
 		return true;
 	}
 
 	@Override
-	public boolean unloadQueuedChunks() {
+	public boolean unloadQueuedChunks()
+	{
 		return false;
 	}
 
 	@Override
-	public boolean canSave() {
+	public boolean canSave()
+	{
 		return true;
 	}
 
 	@Override
-	public String makeString() {
+	public String makeString()
+	{
 		return "VoidChestWorld";
 	}
 
 	@Override
-	public List getPossibleCreatures(EnumCreatureType enumCreatureType, BlockPos blockPos) {
+	public List getPossibleCreatures(EnumCreatureType enumCreatureType, BlockPos blockPos)
+	{
 		return this.worldObj.getBiomeGenForCoords(blockPos).getSpawnableList(enumCreatureType);
 	}
 
 	@Override
-	public BlockPos getStrongholdGen(World world, String structureType, BlockPos blockPos) {
+	public BlockPos getStrongholdGen(World world, String structureType, BlockPos blockPos)
+	{
 		// Gen structures
 		return null;
 	}
 
 	@Override
-	public int getLoadedChunkCount() {
+	public int getLoadedChunkCount()
+	{
 		return 0;
 	}
 
 	@Override
-	public void recreateStructures(Chunk chunk, int x, int z) {
+	public void recreateStructures(Chunk chunk, int x, int z)
+	{
 	}
 
 	@Override
-	public void saveExtraData() {
+	public void saveExtraData()
+	{
 	}
 }

@@ -8,7 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.handler;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDimensions;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import net.minecraft.block.material.Material;
@@ -34,7 +34,8 @@ public class FogRenderingEvents
 		{
 			final float insanity = (float) AOTDPlayerData.get((EntityPlayer) event.entity).getPlayerInsanity();
 
-			// If the player is insane, set the fog equal to 1.001^(.5*insanity) - .9989
+			// If the player is insane, set the fog equal to 1.001^(.5*insanity)
+			// - .9989
 			if (insanity >= 0.1)
 			{
 				event.red = MathHelper.clamp_float(event.red + (insanity / 100.0F), 0.0F, 1.0F);
@@ -49,10 +50,10 @@ public class FogRenderingEvents
 		float f1;
 		float farPlaneDistance = Minecraft.getMinecraft().gameSettings.renderDistanceChunks * 16.0F;
 		int someUnknownInt = 0;
-		if (Minecraft.getMinecraft().theWorld.provider.getDimensionId() == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
+		if (Minecraft.getMinecraft().theWorld.provider.getDimensionId() == AOTDDimensions.Nightmare.getWorldID())
 		{
 			GlStateManager.setFog(2048);
-			//GlStateManager.setFogDensity(0.1F);
+			// GlStateManager.setFogDensity(0.1F);
 			fogDensity.density = 0.1f;
 		}
 		else if (Minecraft.getMinecraft().thePlayer.isPotionActive(Potion.blindness))
@@ -83,11 +84,11 @@ public class FogRenderingEvents
 				GL11.glFogi(34138, 34139);
 			}
 		}
-		//		else if (this.cloudFog)
-		//		{
-		//			GlStateManager.setFog(2048);
-		//			GlStateManager.setFogDensity(0.1F);
-		//		}
+		// else if (this.cloudFog)
+		// {
+		// GlStateManager.setFog(2048);
+		// GlStateManager.setFogDensity(0.1F);
+		// }
 		else if (fogDensity.block.getMaterial() == Material.water)
 		{
 			GlStateManager.setFog(2048);

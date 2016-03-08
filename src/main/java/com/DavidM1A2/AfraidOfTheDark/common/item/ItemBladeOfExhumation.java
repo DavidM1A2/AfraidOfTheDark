@@ -7,7 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 
 import com.DavidM1A2.AfraidOfTheDark.common.entities.EnchantedSkeleton.EntityEnchantedSkeleton;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDSword;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDToolMaterials;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
@@ -21,12 +21,13 @@ public class ItemBladeOfExhumation extends AOTDSword
 {
 	public ItemBladeOfExhumation()
 	{
-		super(Constants.AOTDToolMaterials.bladeOfExhumation);
+		super(AOTDToolMaterials.BladeOfExhumation.getToolMaterial());
 		this.setUnlocalizedName("bladeOfExhumation");
 	}
 
 	/**
-	 * Called when the player Left Clicks (attacks) an entity. Processed before damage is done, if return value is true further processing is canceled
+	 * Called when the player Left Clicks (attacks) an entity. Processed before
+	 * damage is done, if return value is true further processing is canceled
 	 * and the entity is not attacked.
 	 *
 	 * @param stack
@@ -59,7 +60,8 @@ public class ItemBladeOfExhumation extends AOTDSword
 	}
 
 	/**
-	 * Current implementations of this method in child classes do not use the entry argument beside ev. They just raise the damage on the stack.
+	 * Current implementations of this method in child classes do not use the
+	 * entry argument beside ev. They just raise the damage on the stack.
 	 * 
 	 * @param target
 	 *            The Entity being hit

@@ -8,7 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.worldGeneration;
 import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDSchematics;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDWorldData;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicGenerator;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
@@ -38,7 +38,7 @@ public class GenerateSprings
 				LogHelper.info("Spawning a spring at x = " + chunkX + ", y = " + y + ", z = " + chunkZ);
 			}
 
-			SchematicGenerator.generateSchematic(Constants.AOTDSchematics.spring, world, chunkX, y - 2, chunkZ);
+			SchematicGenerator.generateSchematic(AOTDSchematics.Spring.getSchematic(), world, chunkX, y - 2, chunkZ);
 
 			return true;
 		}

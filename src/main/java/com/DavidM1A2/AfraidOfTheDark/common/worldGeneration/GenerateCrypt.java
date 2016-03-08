@@ -8,7 +8,8 @@ package com.DavidM1A2.AfraidOfTheDark.common.worldGeneration;
 import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDLootTables;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDSchematics;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDWorldData;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicGenerator;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
@@ -39,7 +40,7 @@ public class GenerateCrypt
 				LogHelper.info("Spawning a crypt at x = " + (chunkX + 12) + ", y = " + (y - 17) + ", z = " + (chunkZ + 12));
 			}
 
-			SchematicGenerator.generateSchematicWithLoot(Constants.AOTDSchematics.crypt, world, chunkX + 12, y - 17, chunkZ + 12, Constants.cryptLootTable);
+			SchematicGenerator.generateSchematicWithLoot(AOTDSchematics.Crypt.getSchematic(), world, chunkX + 12, y - 17, chunkZ + 12, AOTDLootTables.Crypt.getLootTable());
 
 			return true;
 		}

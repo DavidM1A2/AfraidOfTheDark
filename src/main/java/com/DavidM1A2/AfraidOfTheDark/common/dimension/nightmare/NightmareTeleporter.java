@@ -5,12 +5,8 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare;
 
-import java.io.File;
-import java.io.FileInputStream;
-
-import org.apache.commons.lang3.math.Fraction;
-
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDimensions;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
@@ -22,7 +18,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
@@ -30,8 +25,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
-import net.minecraft.world.storage.ISaveHandler;
-import net.minecraft.world.storage.SaveHandler;
 
 public class NightmareTeleporter extends Teleporter
 {
@@ -50,7 +43,7 @@ public class NightmareTeleporter extends Teleporter
 	@Override
 	public void placeInPortal(Entity entity, float entityYaw)
 	{
-		if (dimensionNew == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
+		if (dimensionNew == AOTDDimensions.Nightmare.getWorldID())
 		{
 			entity.motionX = entity.motionY = entity.motionZ = 0.0D;
 
@@ -62,12 +55,11 @@ public class NightmareTeleporter extends Teleporter
 					NBTTagList inventory = new NBTTagList();
 					entityPlayer.inventory.writeToNBT(inventory);
 					AOTDPlayerData.get(entityPlayer).setPlayerInventory(inventory);
-					AOTDPlayerData.get(entityPlayer).setPlayerLocationOverworld(new int[]
-					{ entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY() + 1, entityPlayer.getPosition().getZ() });
+					AOTDPlayerData.get(entityPlayer).setPlayerLocationOverworld(new int[] { entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY() + 1, entityPlayer.getPosition().getZ() });
 					entityPlayer.inventory.clear();
 					entityPlayer.inventoryContainer.detectAndSendChanges();
 
-					int locationX = this.validatePlayerLocationNightmare(AOTDPlayerData.get(entityPlayer).getPlayerLocationNightmare(), entityPlayer) * Constants.NightmareWorld.BLOCKS_BETWEEN_ISLANDS + 20;
+					int locationX = this.validatePlayerLocationNightmare(AOTDPlayerData.get(entityPlayer).getPlayerLocationNightmare(), entityPlayer) * Constants.BLOCKS_BETWEEN_ISLANDS + 20;
 
 					((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(locationX, 74, 40, 0, 0);
 
@@ -78,7 +70,7 @@ public class NightmareTeleporter extends Teleporter
 				}
 			}
 		}
-		else if (dimensionOld == Constants.NightmareWorld.NIGHTMARE_WORLD_ID)
+		else if (dimensionOld == AOTDDimensions.Nightmare.getWorldID())
 		{
 			entity.motionX = entity.motionY = entity.motionZ = 0.0D;
 
@@ -108,7 +100,7 @@ public class NightmareTeleporter extends Teleporter
 		NBTHelper.setString(toReturn, "title", "Insanity's Heights");
 		NBTHelper.setString(toReturn, "author", "Foul Ole Ron");
 		NBTHelper.setBoolean(toReturn, "resolved", true);
-		//NBTTagList pages = toReturn.getTagCompound().getTagList("pages", 8);
+		// NBTTagList pages = toReturn.getTagCompound().getTagList("pages", 8);
 
 		toReturn.getTagCompound().setTag("pages", createPages());
 		return toReturn;
@@ -155,12 +147,12 @@ public class NightmareTeleporter extends Teleporter
 			{
 				MinecraftServer.getServer().getCommandManager().executeCommand(MinecraftServer.getServer(), "/save-all");
 			}
-			
+
 			int furthestOutPlayer = 0;
 			for (NBTTagCompound entityPlayerData : NBTHelper.getOfflinePlayerNBTs())
 			{
 				furthestOutPlayer = Math.max(furthestOutPlayer, AOTDPlayerData.getPlayerLocationNightmareOffline(entityPlayerData));
-			}			
+			}
 			AOTDPlayerData.get(entityPlayer).setPlayerLocationNightmare(furthestOutPlayer + 1);
 
 		}

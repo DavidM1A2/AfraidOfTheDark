@@ -8,7 +8,8 @@ package com.DavidM1A2.AfraidOfTheDark.common.worldGeneration;
 import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDLootTables;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDSchematics;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDWorldData;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicGenerator;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
@@ -38,7 +39,7 @@ public class GenerateVoidChest
 				LogHelper.info("Spawning a void chest at x = " + chunkX + ", y = " + y + ", z = " + chunkZ);
 			}
 
-			SchematicGenerator.generateSchematicWithLoot(Constants.AOTDSchematics.voidChest, world, chunkX, y - 6, chunkZ, Constants.voidChestTable);
+			SchematicGenerator.generateSchematicWithLoot(AOTDSchematics.VoidChest.getSchematic(), world, chunkX, y - 6, chunkZ, AOTDLootTables.VoidChest.getLootTable());
 
 			return true;
 		}

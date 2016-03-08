@@ -5,10 +5,8 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest;
 
-import java.io.File;
-import java.io.FileInputStream;
-
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockVoidChestPortal;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDimensions;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
@@ -19,7 +17,6 @@ import net.minecraft.block.BlockAir;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
@@ -28,8 +25,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraft.world.storage.ISaveHandler;
-import net.minecraft.world.storage.SaveHandler;
 
 public class VoidChestTeleporter extends Teleporter
 {
@@ -49,7 +44,7 @@ public class VoidChestTeleporter extends Teleporter
 	@Override
 	public void placeInPortal(Entity entity, float entityYaw)
 	{
-		if (dimensionNew == Constants.VoidChestWorld.VOID_CHEST_WORLD_ID)
+		if (dimensionNew == AOTDDimensions.VoidChest.getWorldID())
 		{
 			entity.motionX = entity.motionY = entity.motionZ = 0.0D;
 
@@ -65,10 +60,9 @@ public class VoidChestTeleporter extends Teleporter
 						{
 							if (isValidSpawnLocation(entityPlayer.worldObj, new BlockPos(i, j, k)))
 							{
-								AOTDPlayerData.get(entityPlayer).setPlayerLocationOverworld(new int[]
-								{ i, j + 1, k });
+								AOTDPlayerData.get(entityPlayer).setPlayerLocationOverworld(new int[] { i, j + 1, k });
 
-								int locationX = this.validatePlayerLocationVoidChest(AOTDPlayerData.get(entityPlayer).getPlayerLocationVoidChest(), entityPlayer) * Constants.VoidChestWorld.BLOCKS_BETWEEN_ISLANDS + 25;
+								int locationX = this.validatePlayerLocationVoidChest(AOTDPlayerData.get(entityPlayer).getPlayerLocationVoidChest(), entityPlayer) * Constants.BLOCKS_BETWEEN_ISLANDS + 25;
 
 								((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(locationX, 104, 3, 0, 0);
 
@@ -80,22 +74,20 @@ public class VoidChestTeleporter extends Teleporter
 
 				if (!entityPlayer.worldObj.isRemote)
 				{
-					AOTDPlayerData.get(entityPlayer).setPlayerLocationOverworld(new int[]
-					{ 0, WorldGenerationUtility.getFirstNonAirBlock(MinecraftServer.getServer().worldServerForDimension(0), 0, 0), 0 });
+					AOTDPlayerData.get(entityPlayer).setPlayerLocationOverworld(new int[] { 0, WorldGenerationUtility.getFirstNonAirBlock(MinecraftServer.getServer().worldServerForDimension(0), 0, 0), 0 });
 				}
 				else
 				{
-					AOTDPlayerData.get(entityPlayer).setPlayerLocationOverworld(new int[]
-					{ 0, 255, 0 });
+					AOTDPlayerData.get(entityPlayer).setPlayerLocationOverworld(new int[] { 0, 255, 0 });
 				}
 
-				int locationX = this.validatePlayerLocationVoidChest(AOTDPlayerData.get(entityPlayer).getPlayerLocationVoidChest(), entityPlayer) * Constants.VoidChestWorld.BLOCKS_BETWEEN_ISLANDS + 25;
+				int locationX = this.validatePlayerLocationVoidChest(AOTDPlayerData.get(entityPlayer).getPlayerLocationVoidChest(), entityPlayer) * Constants.BLOCKS_BETWEEN_ISLANDS + 25;
 
 				((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(locationX, 104, 3, 0, 0);
 
 			}
 		}
-		else if (dimensionOld == Constants.VoidChestWorld.VOID_CHEST_WORLD_ID)
+		else if (dimensionOld == AOTDDimensions.VoidChest.getWorldID())
 		{
 			entity.motionX = entity.motionY = entity.motionZ = 0.0D;
 

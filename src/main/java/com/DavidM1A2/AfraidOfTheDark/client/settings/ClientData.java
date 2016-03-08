@@ -11,7 +11,7 @@ import java.util.Map;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.ResearchAchieved;
 import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.FontLoader;
 import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.TrueTypeFont;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.MeteorTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDMeteorTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 
 import net.minecraft.util.ResourceLocation;
@@ -24,7 +24,7 @@ public final class ClientData
 
 	public static int[] selectedMeteor = new int[]
 	{ -1, -1, -1 };
-	public static MeteorTypes watchedMeteorType = null;
+	public static AOTDMeteorTypes watchedMeteorType = null;
 
 	public static ResearchAchieved researchAchievedOverlay;
 

@@ -7,7 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
 import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.MeteorTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDMeteorTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
@@ -79,13 +79,13 @@ public class SpawnMeteor implements IMessage
 						LogHelper.info("Player has requested to place a meteor at " + msg.thePosition.toString());
 					}
 
-					MeteorTypes typeToSpawn = MeteorTypes.typeFromIndex(msg.index);
+					AOTDMeteorTypes typeToSpawn = AOTDMeteorTypes.typeFromIndex(msg.index);
 
 					if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.AstronomyII))
 					{
 						CreateMeteor.create(entityPlayer.worldObj, msg.thePosition, msg.radius, msg.height, false, true, typeToSpawn);
 					}
-					else if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.AstronomyI.getPrevious()) && typeToSpawn == MeteorTypes.silver)
+					else if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.AstronomyI.getPrevious()) && typeToSpawn == AOTDMeteorTypes.silver)
 					{
 						CreateMeteor.create(entityPlayer.worldObj, msg.thePosition, msg.radius, msg.height, false, true, typeToSpawn);
 					}

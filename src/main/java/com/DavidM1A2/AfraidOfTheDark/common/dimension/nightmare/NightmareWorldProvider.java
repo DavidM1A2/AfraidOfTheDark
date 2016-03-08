@@ -6,6 +6,7 @@
 package com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBiomes;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDimensions;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 
 import net.minecraft.entity.Entity;
@@ -24,7 +25,7 @@ public class NightmareWorldProvider extends WorldProvider
 	@Override
 	public void registerWorldChunkManager()
 	{
-		this.dimensionId = Constants.NightmareWorld.NIGHTMARE_WORLD_ID;
+		this.dimensionId = AOTDDimensions.Nightmare.getWorldID();
 		this.worldChunkMgr = new WorldChunkManager(ModBiomes.nightmare.biomeID, WorldType.CUSTOMIZED, "");
 		this.hasNoSky = false;
 
@@ -35,7 +36,8 @@ public class NightmareWorldProvider extends WorldProvider
 	}
 
 	/**
-	 * Returns the sub-folder of the world folder that this WorldProvider saves to. EXA: DIM1, DIM-1
+	 * Returns the sub-folder of the world folder that this WorldProvider saves
+	 * to. EXA: DIM1, DIM-1
 	 * 
 	 * @return The sub-folder name to save this world's chunks to.
 	 */
@@ -53,8 +55,10 @@ public class NightmareWorldProvider extends WorldProvider
 	}
 
 	/**
-	 * Returns a double value representing the Y value relative to the top of the map at which void fog is at its maximum. The default factor of
-	 * 0.03125 relative to 256, for example, means the void fog will be at its maximum at (256*0.03125), or 8.
+	 * Returns a double value representing the Y value relative to the top of
+	 * the map at which void fog is at its maximum. The default factor of
+	 * 0.03125 relative to 256, for example, means the void fog will be at its
+	 * maximum at (256*0.03125), or 8.
 	 */
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -70,7 +74,8 @@ public class NightmareWorldProvider extends WorldProvider
 	}
 
 	/**
-	 * The current sun brightness factor for this dimension. 0.0f means no light at all, and 1.0f means maximum sunlight. This will be used for the
+	 * The current sun brightness factor for this dimension. 0.0f means no light
+	 * at all, and 1.0f means maximum sunlight. This will be used for the
 	 * "calculateSkylightSubtracted" which is for Sky light value calculation.
 	 *
 	 * @return The current brightness factor
@@ -103,7 +108,7 @@ public class NightmareWorldProvider extends WorldProvider
 	@Override
 	public String getDimensionName()
 	{
-		return Constants.NightmareWorld.NIGHTMARE_WORLD_NAME;
+		return AOTDDimensions.Nightmare.getWorldName();
 	}
 
 	/**
@@ -161,7 +166,8 @@ public class NightmareWorldProvider extends WorldProvider
 	}
 
 	/**
-	 * Determines the dimension the player will be respawned in, typically this brings them back to the overworld.
+	 * Determines the dimension the player will be respawned in, typically this
+	 * brings them back to the overworld.
 	 *
 	 * @param player
 	 *            The player that is respawning
@@ -182,7 +188,7 @@ public class NightmareWorldProvider extends WorldProvider
 	@Override
 	public boolean canCoordinateBeSpawn(int x, int z)
 	{
-		if (x % Constants.NightmareWorld.BLOCKS_BETWEEN_ISLANDS == 0 && z == 0)
+		if (x % Constants.BLOCKS_BETWEEN_ISLANDS == 0 && z == 0)
 		{
 			return true;
 		}
@@ -193,8 +199,7 @@ public class NightmareWorldProvider extends WorldProvider
 	@SideOnly(Side.CLIENT)
 	public float[] calcSunriseSunsetColors(float par1, float par2)
 	{
-		return new float[]
-		{ 0, 0, 0, 0 };
+		return new float[] { 0, 0, 0, 0 };
 	}
 
 	@Override

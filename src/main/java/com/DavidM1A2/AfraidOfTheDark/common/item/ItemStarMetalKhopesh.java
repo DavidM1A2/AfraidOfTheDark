@@ -10,6 +10,7 @@ import java.util.List;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.ICanTakeSilverDamage;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDChargableSword;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDamageSources;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDToolMaterials;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
@@ -35,14 +36,16 @@ public class ItemStarMetalKhopesh extends AOTDChargableSword
 
 	public ItemStarMetalKhopesh()
 	{
-		super(Constants.AOTDToolMaterials.starMetalTool, "starMetalKhopesh");
+		super(AOTDToolMaterials.StarMetal.getToolMaterial(), "starMetalKhopesh");
 	}
 
 	/**
-	 * allows items to add custom lines of information to the mouseover description
+	 * allows items to add custom lines of information to the mouseover
+	 * description
 	 *
 	 * @param tooltip
-	 *            All lines to display in the Item's tooltip. This is a List of Strings.
+	 *            All lines to display in the Item's tooltip. This is a List of
+	 *            Strings.
 	 * @param advanced
 	 *            Whether the setting "Advanced tooltips" is enabled
 	 */
@@ -111,7 +114,7 @@ public class ItemStarMetalKhopesh extends AOTDChargableSword
 
 				int sharpnessDamage = EnchantmentHelper.getEnchantmentLevel(Enchantment.sharpness.effectId, itemStack);
 
-				entity.attackEntityFrom(DamageSource.causePlayerDamage(entityPlayer), Constants.AOTDToolMaterials.starMetalTool.getDamageVsEntity() + 4.0F + sharpnessDamage * 1.5F);
+				entity.attackEntityFrom(DamageSource.causePlayerDamage(entityPlayer), AOTDToolMaterials.StarMetal.getToolMaterial().getDamageVsEntity() + 4.0F + sharpnessDamage * 1.5F);
 				entity.addVelocity(-motionX * knockbackStrength * 0.6000000238418579D / hypotenuse, 0.1D, -motionZ * knockbackStrength * 0.6000000238418579D / hypotenuse);
 			}
 		}
