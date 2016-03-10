@@ -5,8 +5,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -42,7 +40,7 @@ public class AOTDGuiImage extends AOTDGuiContainer
 		if (this.isVisible())
 		{
 			super.draw();
-			GL11.glEnable(GL11.GL_BLEND);
+			GlStateManager.enableBlend();
 			Minecraft.getMinecraft().getTextureManager().bindTexture(imageTexture);
 			if (textureHeight == -1 || textureWidth == -1)
 				Gui.drawModalRectWithCustomSizedTexture(this.getXScaled(), this.getYScaled(), u, v, this.getWidthScaled(), this.getHeightScaled(), this.getWidthScaled(), this.getHeightScaled());

@@ -24,7 +24,7 @@ public class SpellSelectionGUI extends AOTDGuiScreen
 	private AOTDGuiScrollPanel scrollPanel;
 	private List<AOTDGuiSpell> spells = new ArrayList<AOTDGuiSpell>();
 
-	//Temp
+	// Temp
 	List<IEffect> effects = new LinkedList<IEffect>()
 	{
 		{
@@ -37,7 +37,7 @@ public class SpellSelectionGUI extends AOTDGuiScreen
 			put(SpellRegistry.getDeliveryMethod("projectile"), effects);
 		}
 	};
-	Spell temp = new Spell("Hello World", SpellRegistry.getPowerSource("projectile"), stages, UUID.randomUUID());
+	Spell temp = new Spell("Hello World, GGGGGGGGGGG", SpellRegistry.getPowerSource("projectile"), stages, UUID.randomUUID());
 
 	public SpellSelectionGUI()
 	{

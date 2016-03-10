@@ -24,6 +24,8 @@ public class AOTDGuiPanel extends AOTDGuiContainer
 	{
 		if (scissorEnabled)
 		{
+			// GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
+
 			GL11.glEnable(GL11.GL_SCISSOR_TEST);
 
 			int realX = AOTDGuiUtility.mcToRealCoord(this.getXScaled());
@@ -39,6 +41,8 @@ public class AOTDGuiPanel extends AOTDGuiContainer
 		if (scissorEnabled)
 		{
 			GL11.glDisable(GL11.GL_SCISSOR_TEST);
+
+			// GL11.glPopAttrib();
 		}
 	}
 }
