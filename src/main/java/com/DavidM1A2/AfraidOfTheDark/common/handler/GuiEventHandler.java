@@ -5,7 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.handler;
 
-import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiScreen;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens.AOTDGuiScreen;
 
 import net.minecraftforge.client.event.GuiScreenEvent.MouseInputEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -17,7 +17,7 @@ public class GuiEventHandler
 	{
 		if (event.gui instanceof AOTDGuiScreen)
 		{
-			((AOTDGuiScreen) event.gui).getEventController().mouseInputEvent();
+			((AOTDGuiScreen) event.gui).mouseInputEvent();
 		}
 	}
 }

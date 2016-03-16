@@ -6,6 +6,7 @@
 package com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls;
 
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.Rectangle;
 
 import org.lwjgl.opengl.GL11;
@@ -14,6 +15,7 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDGuiUtility;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.MathHelper;
@@ -28,7 +30,9 @@ public abstract class AOTDGuiComponent
 	private Rectangle scaledBoundingBox = new Rectangle();
 	private float[] color = new float[]
 	{ 1.0f, 1.0f, 1.0f, 1.0f };
-	protected final EntityPlayerSP entityPlayer = Minecraft.getMinecraft().thePlayer;
+	protected final static EntityPlayerSP entityPlayer = Minecraft.getMinecraft().thePlayer;
+	protected final FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
+	private String hoverText = "";
 
 	public AOTDGuiComponent(int x, int y, int width, int height)
 	{
@@ -39,6 +43,14 @@ public abstract class AOTDGuiComponent
 	{
 		GL11.glColor4d(this.getColor()[0], this.getColor()[1], this.getColor()[2], this.getColor()[3]);
 		//this.drawBoundingBox();
+	}
+
+	public void drawOverlay()
+	{
+		if (isHovered && !hoverText.equals(""))
+		{
+			fontRenderer.drawStringWithShadow(hoverText, AOTDGuiUtility.getMouseX() + 5, AOTDGuiUtility.getMouseY(), 0xFFFFFFFF);
+		}
 	}
 
 	public void drawBoundingBox()
@@ -55,6 +67,13 @@ public abstract class AOTDGuiComponent
 		if (other == null)
 			return false;
 		return this.scaledBoundingBox.intersects(other.scaledBoundingBox);
+	}
+
+	public boolean intersects(Point other)
+	{
+		if (other == null)
+			return false;
+		return this.scaledBoundingBox.contains(other);
 	}
 
 	public void setScaleXAndY(double scale)
@@ -207,6 +226,16 @@ public abstract class AOTDGuiComponent
 		this.color[0] = MathHelper.clamp_float(this.color[0] - amount, 0, 255f);
 		this.color[1] = MathHelper.clamp_float(this.color[1] - amount, 0, 255f);
 		this.color[2] = MathHelper.clamp_float(this.color[2] - amount, 0, 255f);
+	}
+
+	public String getHoverText()
+	{
+		return this.hoverText;
+	}
+
+	public void setHoverText(String hoverText)
+	{
+		this.hoverText = hoverText;
 	}
 
 	@Override

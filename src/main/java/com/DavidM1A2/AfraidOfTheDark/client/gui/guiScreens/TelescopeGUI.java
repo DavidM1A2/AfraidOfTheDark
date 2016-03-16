@@ -7,12 +7,11 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens;
 
 import java.util.Random;
 
-import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiClickAndDragable;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiComponent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiImage;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiMeteorButton;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDMeteorTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
@@ -53,17 +52,26 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
 				nextToAdd = new AOTDGuiMeteorButton(Minecraft.getMinecraft().theWorld.rand.nextInt(telescopeImage.getMaxTextureWidth()) - telescopeImage.getMaxTextureWidth() / 2, Minecraft.getMinecraft().theWorld.rand.nextInt(telescopeImage.getMaxTextureHeight()) - telescopeImage
 						.getMaxTextureHeight() / 2, 64, 64, AOTDMeteorTypes.silver);
 
-			nextToAdd.addActionListener(new AOTDActionListener()
+			nextToAdd.addMouseListener(new AOTDMouseListener()
 			{
 				@Override
-				public void actionPerformed(AOTDGuiComponent component, ActionType actionType)
+				public void mouseClicked(AOTDMouseEvent event)
 				{
-					if (actionType == ActionType.MousePressed && component.isHovered())
+					if (event.getSource().isHovered())
 					{
-						entityPlayer.addChatMessage(new ChatComponentText(TelescopeGUI.this.createMeteorMessage(((AOTDGuiMeteorButton) component).getMyType())));
+						entityPlayer.addChatMessage(new ChatComponentText(TelescopeGUI.this.createMeteorMessage(((AOTDGuiMeteorButton) event.getSource()).getMyType())));
 						entityPlayer.closeScreen();
 					}
 				}
+
+				@Override
+				public void mousePressed(AOTDMouseEvent event) {}
+				@Override
+				public void mouseReleased(AOTDMouseEvent event) {}
+				@Override
+				public void mouseEntered(AOTDMouseEvent event) {}
+				@Override
+				public void mouseExited(AOTDMouseEvent event) {}
 			});
 
 			telescopeMeteors.add(nextToAdd);

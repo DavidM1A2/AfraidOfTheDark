@@ -19,6 +19,24 @@ public class NBTObjectWriter
 {
 	public static void writeObjectToNBT(String key, Object object, NBTTagCompound compound)
 	{
+		byte[] value = objectToByteArray(object);
+
+		if (value == null)
+		{
+			return;
+		}
+
+		if (!compound.hasKey("StoredObjects"))
+		{
+			compound.setTag("StoredObjects", new NBTTagCompound());
+		}
+
+		NBTTagCompound objects = compound.getCompoundTag("StoredObjects");
+		objects.setByteArray(key, value);
+	}
+
+	public static byte[] objectToByteArray(Object object)
+	{
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		ObjectOutput objectOutput = null;
 		byte[] value = null;
@@ -56,19 +74,7 @@ public class NBTObjectWriter
 				}
 			}
 		}
-
-		if (value == null)
-		{
-			return;
-		}
-
-		if (!compound.hasKey("StoredObjects"))
-		{
-			compound.setTag("StoredObjects", new NBTTagCompound());
-		}
-
-		NBTTagCompound objects = compound.getCompoundTag("StoredObjects");
-		objects.setByteArray(key, value);
+		return value;
 	}
 
 	public static Object readObjectFromNBT(String key, NBTTagCompound compound)
@@ -85,9 +91,12 @@ public class NBTObjectWriter
 			return null;
 		}
 
-		byte[] object = objects.getByteArray(key);
+		return byteArrayToObject(objects.getByteArray(key));
+	}
 
-		ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(object);
+	public static Object byteArrayToObject(byte[] bytes)
+	{
+		ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
 		ObjectInput objectInput = null;
 		Object toReturn = null;
 
@@ -126,7 +135,6 @@ public class NBTObjectWriter
 				}
 			}
 		}
-
 		return toReturn;
 	}
 }

@@ -12,14 +12,14 @@ import java.util.Random;
 import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiButton;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiComponent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiImage;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiScreen;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiTextField;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.TextAlignment;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SpawnMeteor;
 
@@ -56,30 +56,41 @@ public class SextantGUI extends AOTDGuiScreen
 		AOTDGuiButton confirm = new AOTDGuiButton(15, 204, 120, 20, ClientData.getTargaMSHandFontSized(40f), "afraidofthedark:textures/gui/signButton.png", "afraidofthedark:textures/gui/signButtonHovered.png");
 		confirm.setText("Calculate");
 		confirm.setTextAlignment(TextAlignment.ALIGN_CENTER);
-		confirm.addActionListener(new AOTDActionListener()
+		confirm.addMouseListener(new AOTDMouseListener()
 		{
 			@Override
-			public void actionPerformed(AOTDGuiComponent component, ActionType actionType)
+			public void mouseClicked(AOTDMouseEvent event)
 			{
-				if (actionType == actionType.MousePressed)
-					if (component.isHovered())
-						try
+				if (event.getSource().isHovered())
+					try
+					{
+						if ((Integer.parseInt(SextantGUI.this.angle.getText()) == ClientData.selectedMeteor[0]) && (Integer.parseInt(SextantGUI.this.latitude.getText()) == ClientData.selectedMeteor[1]) && (Integer.parseInt(SextantGUI.this.longitude.getText()) == ClientData.selectedMeteor[2]))
 						{
-							if ((Integer.parseInt(SextantGUI.this.angle.getText()) == ClientData.selectedMeteor[0]) && (Integer.parseInt(SextantGUI.this.latitude.getText()) == ClientData.selectedMeteor[1]) && (Integer.parseInt(SextantGUI.this.longitude.getText()) == ClientData.selectedMeteor[2]))
-							{
-								SextantGUI.this.tellServerToCreateMeteor(entityPlayer);
-								entityPlayer.closeScreen();
-							}
-							else if (SextantGUI.this.angle.getText().isEmpty() || SextantGUI.this.latitude.getText().isEmpty() || SextantGUI.this.longitude.getText().isEmpty())
-								entityPlayer.addChatMessage(new ChatComponentText("I forgot to fill out one of the fields."));
-							else
-								entityPlayer.addChatMessage(new ChatComponentText("The calculation was not sucessful.\nMaybe I entered incorrect numbers or should find another meteor to track."));
+							SextantGUI.this.tellServerToCreateMeteor(entityPlayer);
+							entityPlayer.closeScreen();
 						}
-						catch (final Exception e)
-						{
+						else if (SextantGUI.this.angle.getText().isEmpty() || SextantGUI.this.latitude.getText().isEmpty() || SextantGUI.this.longitude.getText().isEmpty())
+							entityPlayer.addChatMessage(new ChatComponentText("I forgot to fill out one of the fields."));
+						else
 							entityPlayer.addChatMessage(new ChatComponentText("The calculation was not sucessful.\nMaybe I entered incorrect numbers or should find another meteor to track."));
-						}
+					}
+					catch (final Exception e)
+					{
+						entityPlayer.addChatMessage(new ChatComponentText("The calculation was not sucessful.\nMaybe I entered incorrect numbers or should find another meteor to track."));
+					}
 			}
+
+			@Override
+			public void mousePressed(AOTDMouseEvent event) {}
+
+			@Override
+			public void mouseReleased(AOTDMouseEvent event) {}
+
+			@Override
+			public void mouseEntered(AOTDMouseEvent event) {}
+
+			@Override
+			public void mouseExited(AOTDMouseEvent event) {}
 		});
 		background.add(confirm);
 

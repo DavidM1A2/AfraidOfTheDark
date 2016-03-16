@@ -5,8 +5,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls;
 
-import org.lwjgl.opengl.GL11;
-
 import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDGuiUtility;
 
 public class AOTDGuiScrollPanel extends AOTDGuiContainer
@@ -30,14 +28,12 @@ public class AOTDGuiScrollPanel extends AOTDGuiContainer
 	{
 		if (scissorEnabled)
 		{
-			GL11.glEnable(GL11.GL_SCISSOR_TEST);
-
 			int realX = AOTDGuiUtility.mcToRealCoord(this.getXScaled());
 			int realY = AOTDGuiUtility.realToGLScreenCoords(AOTDGuiUtility.mcToRealCoord((int) (ORIGINAL_Y_POS * this.getScaleY() + this.getHeightScaled())));
 			int realWidth = AOTDGuiUtility.mcToRealCoord(this.getWidthScaled());
 			int realHeight = AOTDGuiUtility.mcToRealCoord(this.getHeightScaled());
 
-			GL11.glScissor(realX, realY, realWidth, realHeight);
+			AOTDGuiUtility.beginGLScissor(realX, realY, realWidth, realHeight);
 		}
 
 		if (lastSliderPosition != this.scrollSource.getSliderValue())
@@ -50,7 +46,7 @@ public class AOTDGuiScrollPanel extends AOTDGuiContainer
 
 		if (scissorEnabled)
 		{
-			GL11.glDisable(GL11.GL_SCISSOR_TEST);
+			AOTDGuiUtility.endGLScissor();
 		}
 	}
 

@@ -8,6 +8,9 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDKeyEvent;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
+
 public abstract class AOTDGuiContainer extends AOTDGuiComponentWithEvents
 {
 	private final List<AOTDGuiContainer> subComponents = new CopyOnWriteArrayList<AOTDGuiContainer>();
@@ -51,9 +54,15 @@ public abstract class AOTDGuiContainer extends AOTDGuiComponentWithEvents
 	{
 		super.draw();
 		for (AOTDGuiContainer component : this.subComponents)
-		{
 			component.draw();
-		}
+	}
+
+	@Override
+	public void drawOverlay()
+	{
+		super.drawOverlay();
+		for (AOTDGuiContainer component : this.subComponents)
+			component.drawOverlay();
 	}
 
 	@Override
@@ -81,43 +90,19 @@ public abstract class AOTDGuiContainer extends AOTDGuiComponentWithEvents
 	}
 
 	@Override
-	public void update(int mouseX, int mouseY)
+	public void processMouseInput(AOTDMouseEvent event)
 	{
-		super.update(mouseX, mouseY);
+		super.processMouseInput(event);
 		for (AOTDGuiContainer container : this.subComponents)
-			container.update(mouseX, mouseY);
+			container.processMouseInput(event);
 	}
 
 	@Override
-	public void mousePressed()
+	public void processKeyInput(AOTDKeyEvent event)
 	{
-		super.mousePressed();
+		super.processKeyInput(event);
 		for (AOTDGuiContainer container : this.subComponents)
-			container.mousePressed();
-	}
-
-	@Override
-	public void mouseReleased()
-	{
-		super.mouseReleased();
-		for (AOTDGuiContainer container : this.subComponents)
-			container.mouseReleased();
-	}
-
-	@Override
-	public void mouseMove(int mouseX, int mouseY)
-	{
-		super.mouseMove(mouseX, mouseY);
-		for (AOTDGuiContainer container : this.subComponents)
-			container.mouseMove(mouseX, mouseY);
-	}
-
-	@Override
-	public void keyPressed()
-	{
-		super.keyPressed();
-		for (AOTDGuiContainer container : this.subComponents)
-			container.keyPressed();
+			container.processKeyInput(event);
 	}
 
 	@Override

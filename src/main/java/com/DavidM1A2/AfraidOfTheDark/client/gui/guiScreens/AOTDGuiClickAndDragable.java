@@ -3,7 +3,7 @@
  * Mod: Afraid of the Dark 
  * Ideas and Textures: Michael Albertson
  */
-package com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls;
+package com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens;
 
 import java.io.IOException;
 

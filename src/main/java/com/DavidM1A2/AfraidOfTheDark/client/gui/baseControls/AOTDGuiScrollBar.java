@@ -5,8 +5,10 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls;
 
-import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDGuiUtility;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseMoveListener;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
 
 import net.minecraft.util.MathHelper;
 
@@ -27,35 +29,45 @@ public class AOTDGuiScrollBar extends AOTDGuiContainer
 		scrollBarHandle = new AOTDGuiButton(0, 0, width, height / 10, null, "afraidofthedark:textures/gui/spellCrafting/scrollBarHandle.png");
 		this.add(scrollBarHandle);
 
-		this.scrollBarHandle.addActionListener(new AOTDActionListener()
+		this.scrollBarHandle.addMouseListener(new AOTDMouseListener()
 		{
 			@Override
-			public void actionPerformed(AOTDGuiComponent component, ActionType actionType)
+			public void mouseClicked(AOTDMouseEvent event)
 			{
-				if (actionType == ActionType.MousePressed)
+				if (event.getSource().isHovered())
 				{
-					if (component.isHovered())
-					{
-						mouseBeingHeld = true;
-						originalMousePressLocation = AOTDGuiUtility.getMouseY();
-						originalHandlePosition = handleLocation;
-					}
-				}
-				else if (actionType == ActionType.MouseReleased)
-				{
-					mouseBeingHeld = false;
-				}
-				else if (actionType == ActionType.MouseMove)
-				{
-					if (mouseBeingHeld)
-					{
-						int newY = (AOTDGuiUtility.getMouseY() - originalMousePressLocation) + (int) (AOTDGuiScrollBar.this.getY() + originalHandlePosition * AOTDGuiScrollBar.this.getHeight());
-						newY = MathHelper.clamp_int(newY, AOTDGuiScrollBar.this.getY(), AOTDGuiScrollBar.this.getY() + AOTDGuiScrollBar.this.getHeight() - scrollBarHandle.getHeight());
-						scrollBarHandle.setY(newY);
-						handleLocation = (scrollBarHandle.getY() - AOTDGuiScrollBar.this.getY()) / ((float) (AOTDGuiScrollBar.this.getHeight() - scrollBarHandle.getHeight()));
-					}
+					mouseBeingHeld = true;
+					originalMousePressLocation = event.getMouseY();
+					originalHandlePosition = handleLocation;
 				}
 			}
+			@Override
+			public void mousePressed(AOTDMouseEvent event) {}
+			@Override
+			public void mouseReleased(AOTDMouseEvent event)
+			{
+				mouseBeingHeld = false;				
+			}
+			@Override
+			public void mouseEntered(AOTDMouseEvent event) {}
+			@Override
+			public void mouseExited(AOTDMouseEvent event) {}
+		});
+		this.scrollBarHandle.addMouseMoveListener(new AOTDMouseMoveListener()
+		{			
+			@Override
+			public void mouseMoved(AOTDMouseEvent event)
+			{
+				if (mouseBeingHeld)
+				{
+					int newY = (event.getMouseY() - originalMousePressLocation) + (int) (AOTDGuiScrollBar.this.getY() + originalHandlePosition * AOTDGuiScrollBar.this.getHeight());
+					newY = MathHelper.clamp_int(newY, AOTDGuiScrollBar.this.getY(), AOTDGuiScrollBar.this.getY() + AOTDGuiScrollBar.this.getHeight() - scrollBarHandle.getHeight());
+					scrollBarHandle.setY(newY);
+					handleLocation = (scrollBarHandle.getY() - AOTDGuiScrollBar.this.getY()) / ((float) (AOTDGuiScrollBar.this.getHeight() - scrollBarHandle.getHeight()));
+				}			
+			}			
+			@Override
+			public void mouseDragged(AOTDMouseEvent event) {}
 		});
 	}
 

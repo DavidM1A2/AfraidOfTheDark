@@ -89,12 +89,12 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 			LogHelper.info("Entity spell: Spell over");
 			return;
 		}
-		this.worldObj.spawnEntityInWorld(this.getSpellSource().getSpellStageByIndex(this.spellStageIndex).getKey().createSpellEntity(this, spellStageIndex));
+		this.worldObj.spawnEntityInWorld(this.getSpellSource().getSpellStageByIndex(this.spellStageIndex).getDeliveryMethod().createSpellEntity(this, spellStageIndex));
 	}
 
 	public void performEffect(BlockPos location)
 	{
-		for (IEffect effect : this.getSpellSource().getSpellStageByIndex(this.getSpellStageIndex()).getValue())
+		for (IEffect effect : this.getSpellSource().getSpellStageByIndex(this.getSpellStageIndex()).getEffects())
 		{
 			effect.performEffect(location, this.worldObj);
 		}
@@ -103,7 +103,7 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 
 	public void performEffect(Entity entity)
 	{
-		for (IEffect effect : this.getSpellSource().getSpellStageByIndex(this.getSpellStageIndex()).getValue())
+		for (IEffect effect : this.getSpellSource().getSpellStageByIndex(this.getSpellStageIndex()).getEffects())
 		{
 			effect.performEffect(entity);
 		}

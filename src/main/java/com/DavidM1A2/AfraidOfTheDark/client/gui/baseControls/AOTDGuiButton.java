@@ -5,8 +5,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls;
 
-import java.awt.Color;
-
 import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.TrueTypeFont;
 
 import net.minecraft.client.Minecraft;
@@ -16,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class AOTDGuiButton extends AOTDGuiTextComponent
 {
-	private ResourceLocation icon; 
+	private ResourceLocation icon;
 	private ResourceLocation iconHovered;
 
 	public AOTDGuiButton(int x, int y, int width, int height, TrueTypeFont font, String icon)

@@ -6,20 +6,18 @@
 package com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiClickAndDragable;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiComponent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiImage;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiSpriteSheetImage;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.SpriteSheetController;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiResearchNodeButton;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
 public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
@@ -59,17 +57,39 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 		this.researchTreeBase.add(researchTree);
 		this.researchTreeBase.add(backgroundBorder);
 
-		AOTDActionListener nodeListener = new AOTDActionListener()
+		AOTDMouseListener nodeListener = new AOTDMouseListener()
 		{
 			@Override
-			public void actionPerformed(AOTDGuiComponent component, AOTDActionListener.ActionType actionType)
+			public void mouseReleased(AOTDMouseEvent event)
 			{
-				if (component instanceof AOTDGuiResearchNodeButton)
+			}
+
+			@Override
+			public void mousePressed(AOTDMouseEvent event)
+			{
+			}
+
+			@Override
+			public void mouseExited(AOTDMouseEvent event)
+			{
+			}
+
+			@Override
+			public void mouseEntered(AOTDMouseEvent event)
+			{
+				if (event.getSource().isVisible())
+					entityPlayer.playSound("afraidofthedark:buttonHover", 0.7f, 1.9f);
+			}
+
+			@Override
+			public void mouseClicked(AOTDMouseEvent event)
+			{
+				if (event.getSource() instanceof AOTDGuiResearchNodeButton)
 				{
-					AOTDGuiResearchNodeButton current = (AOTDGuiResearchNodeButton) component;
+					AOTDGuiResearchNodeButton current = (AOTDGuiResearchNodeButton) event.getSource();
 					if (current.getParent().getParent().intersects(current))
 					{
-						if (actionType == ActionType.MousePressed && component.isHovered())
+						if (current.isHovered())
 						{
 							ClientData.currentlySelected = current.getResearch();
 							if (AOTDPlayerData.get(entityPlayer).isResearched(current.getResearch()))
@@ -77,25 +97,6 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 							else if (AOTDPlayerData.get(entityPlayer).isResearched(current.getResearch().getPrevious()))
 								entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_PRE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
 						}
-						else if (actionType == ActionType.MouseHover)
-						{
-							if (current.getParent().getParent().intersects(current))
-							{
-								if (current.isHovered() && AOTDPlayerData.get(entityPlayer).isResearched(current.getResearch()))
-								{
-									fontRendererObj.drawString(current.getResearch().formattedString(), current.getXScaled() + current.getHeightScaled(), current.getYScaled(), 0xFF3399);
-									fontRendererObj.drawString(EnumChatFormatting.ITALIC + current.getResearch().getTooltip(), current.getXScaled() + current.getHeightScaled() + 2, current.getYScaled() + 10, 0xE62E8A);
-								}
-								else if (current.isHovered() && AOTDPlayerData.get(entityPlayer).canResearch(current.getResearch()))
-								{
-									fontRendererObj.drawString("?", current.getXScaled() + current.getHeightScaled(), current.getYScaled(), 0xFF3399);
-									fontRendererObj.drawString(EnumChatFormatting.ITALIC + "Unknown Research", current.getXScaled() + current.getHeightScaled() + 2, current.getYScaled() + 10, 0xE62E8A);
-								}
-							}
-						}
-						else if (actionType == ActionType.MouseEnterBoundingBox)
-							if (component.isVisible())
-								entityPlayer.playSound("afraidofthedark:buttonHover", 0.7f, 1.9f);
 					}
 				}
 			}
@@ -108,7 +109,7 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 			int xPos = backgroundWidth / 2 - 16 + distanceBetweenNodes * researchType.getPositionX();
 			int yPos = backgroundHeight - 50 - distanceBetweenNodes * researchType.getPositionY();
 			AOTDGuiResearchNodeButton researchNode = new AOTDGuiResearchNodeButton(xPos, yPos, researchType);
-			researchNode.addActionListener(nodeListener);
+			researchNode.addMouseListener(nodeListener);
 			if (researchNode.getResearch().getPrevious() != null)
 			{
 				if (AOTDPlayerData.get(entityPlayer).isResearched(researchNode.getResearch()) || AOTDPlayerData.get(entityPlayer).canResearch(researchNode.getResearch()))

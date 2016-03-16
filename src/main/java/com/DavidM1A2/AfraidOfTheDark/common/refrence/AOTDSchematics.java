@@ -46,7 +46,7 @@ public enum AOTDSchematics
 	TunnelEW("gnomishCity/TunnelEW.schematic"),
 	TunnelNS("gnomishCity/TunnelNS.schematic"),
 	RoomStairUp("gnomishCity/RoomStairUp.schematic"),
-	RoomStairDown("gnomischCity/RoomStairDown.schematic"),
+	RoomStairDown("gnomishCity/RoomStairDown.schematic"),
 	RoomCave("gnomishCity/RoomCave.schematic"),
 	RoomFarm("gnomishCity/RoomFarm.schematic"),
 	RoomHotel("gnomishCity/RoomHotel.schematic"),
@@ -55,7 +55,7 @@ public enum AOTDSchematics
 	RoomRuin("gnomishCity/RoomRuin.schematic"),
 	RoomTanks("gnomishCity/RoomTanks.schematic"),
 	Stairwell("gnomishCity/Stairwell.schematic"),
-	EnariaLair("gnomishCity/EnariaLiar.schematic");
+	EnariaLair("gnomishCity/EnariaLair.schematic");
 
 	private static List<Schematic> rooms = new ArrayList<Schematic>();
 	private Schematic schematic;

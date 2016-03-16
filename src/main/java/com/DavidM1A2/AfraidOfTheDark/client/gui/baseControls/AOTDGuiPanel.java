@@ -5,8 +5,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls;
 
-import org.lwjgl.opengl.GL11;
-
 import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDGuiUtility;
 
 public class AOTDGuiPanel extends AOTDGuiContainer
@@ -24,25 +22,19 @@ public class AOTDGuiPanel extends AOTDGuiContainer
 	{
 		if (scissorEnabled)
 		{
-			// GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
-
-			GL11.glEnable(GL11.GL_SCISSOR_TEST);
-
 			int realX = AOTDGuiUtility.mcToRealCoord(this.getXScaled());
 			int realY = AOTDGuiUtility.realToGLScreenCoords(AOTDGuiUtility.mcToRealCoord(this.getYScaled() + this.getHeightScaled()));
 			int realWidth = AOTDGuiUtility.mcToRealCoord(this.getWidthScaled());
 			int realHeight = AOTDGuiUtility.mcToRealCoord(this.getHeightScaled());
 
-			GL11.glScissor(realX, realY, realWidth, realHeight);
+			AOTDGuiUtility.beginGLScissor(realX, realY, realWidth, realHeight);
 		}
 
 		super.draw();
 
 		if (scissorEnabled)
 		{
-			GL11.glDisable(GL11.GL_SCISSOR_TEST);
-
-			// GL11.glPopAttrib();
+			AOTDGuiUtility.endGLScissor();
 		}
 	}
 }

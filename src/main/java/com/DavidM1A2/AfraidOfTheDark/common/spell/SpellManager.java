@@ -16,7 +16,7 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class SpellManager implements Serializable
 {
-	private BiMap<Character, UUID> keyToSpell = HashBiMap.<Character, UUID> create();
+	private BiMap<Character, UUID> keyToSpellUUID = HashBiMap.<Character, UUID> create();
 	private BiMap<UUID, Spell> spells = HashBiMap.<UUID, Spell> create();
 
 	public void addSpell(Spell spell)
@@ -34,14 +34,16 @@ public class SpellManager implements Serializable
 		return spells.values();
 	}
 
-	public void addKeybindingToSpell(char key, Spell spell)
+	public void setKeybindingToSpell(Character key, Spell spell)
 	{
-		this.keyToSpell.put(key, spell.getSpellUUID());
+		if (key == null)
+			return;
+		this.keyToSpellUUID.forcePut(key, spell.getSpellUUID());
 	}
 
 	public void removeKeybindingToSpell(char key, Spell spell)
 	{
-		this.keyToSpell.remove(key, spell.getSpellUUID());
+		this.keyToSpellUUID.remove(key, spell.getSpellUUID());
 	}
 
 	public void setAllSpellsOwners(EntityPlayer owner)
@@ -54,12 +56,12 @@ public class SpellManager implements Serializable
 	public void keyPressed(int keyCode, char key)
 	{
 		if (this.doesKeyMapToSpell(key))
-			this.spells.get(this.keyToSpell.get(key)).instantiateSpell();
+			this.spells.get(this.keyToSpellUUID.get(key)).instantiateSpell();
 	}
 
 	public boolean doesKeyMapToSpell(char key)
 	{
-		return this.keyToSpell.containsKey(key) && this.spells.containsKey(this.keyToSpell.get(key));
+		return this.keyToSpellUUID.containsKey(key) && this.spells.containsKey(this.keyToSpellUUID.get(key));
 	}
 
 	public Character keyFromSpell(Spell spell)
@@ -67,7 +69,7 @@ public class SpellManager implements Serializable
 		UUID current = spells.inverse().get(spell);
 		if (current != null)
 		{
-			Character key = keyToSpell.inverse().get(current);
+			Character key = keyToSpellUUID.inverse().get(current);
 			if (key != null)
 			{
 				return key;

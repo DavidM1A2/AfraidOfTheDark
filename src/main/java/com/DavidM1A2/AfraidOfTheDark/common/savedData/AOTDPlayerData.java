@@ -11,6 +11,7 @@ import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncAOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncSelectedWristCrossbowBolt;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncSpellManager;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateAOTDStatus;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateHasBeatenEnaria;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateInsanity;
@@ -306,9 +307,21 @@ public class AOTDPlayerData implements IExtendedEntityProperties
 		return this.spellManager;
 	}
 
+	public void setSpellManager(SpellManager spellManager)
+	{
+		this.spellManager = spellManager;
+	}
+
 	public void syncSpellManager()
 	{
-
+		if (!this.isServerSide())
+		{
+			AfraidOfTheDark.getPacketHandler().sendToServer(new SyncSpellManager(this.spellManager));
+		}
+		else
+		{
+			AfraidOfTheDark.getPacketHandler().sendTo(new SyncSpellManager(this.spellManager), (EntityPlayerMP) this.entityPlayer);
+		}
 	}
 
 	public void syncAll()

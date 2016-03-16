@@ -16,11 +16,17 @@ import net.minecraft.item.ItemStack;
 public class AOTDGuiItemStack extends AOTDGuiContainer
 {
 	private ItemStack itemStack;
+	private AOTDGuiImage highlight;
 
-	public AOTDGuiItemStack(int x, int y, int width, int height, ItemStack itemStack)
+	public AOTDGuiItemStack(int x, int y, int width, int height, ItemStack itemStack, boolean backgroundHighlight)
 	{
 		super(x, y, width, height);
 		this.itemStack = itemStack;
+		if (backgroundHighlight)
+		{
+			highlight = new AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/slotHighlight.png");
+			this.add(highlight);
+		}
 	}
 
 	/**
@@ -53,6 +59,19 @@ public class AOTDGuiItemStack extends AOTDGuiContainer
 			GL11.glPopMatrix();
 			RenderHelper.disableStandardItemLighting();
 		}
+	}
+
+	@Override
+	public void drawOverlay()
+	{
+		if (this.isVisible())
+			if (itemStack != null && highlight != null && this.isHovered())
+			{
+				highlight.setVisible(true);
+				fontRenderer.drawStringWithShadow(itemStack.getDisplayName() + " x" + itemStack.stackSize, this.getXScaled(), this.getYScaled() - 5, 0xFFFFFFFF);
+			}
+			else
+				highlight.setVisible(false);
 	}
 
 	public void setItemStack(ItemStack itemStack)

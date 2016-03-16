@@ -5,63 +5,125 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.awt.Point;
 
-import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener.ActionType;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDEventMulticaster;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDKeyListener;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseMoveListener;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDKeyEvent;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent.MouseEventType;
 
 public class AOTDGuiComponentWithEvents extends AOTDGuiComponent
 {
-	private List<AOTDActionListener> actionListeners = new LinkedList<AOTDActionListener>();
+	private AOTDKeyListener keyListener;
+	private AOTDMouseListener mouseListener;
+	private AOTDMouseMoveListener mouseMoveListener;
 
 	public AOTDGuiComponentWithEvents(int x, int y, int width, int height)
 	{
 		super(x, y, width, height);
-	}
-
-	public void update(int mouseX, int mouseY)
-	{
-		if (this.isHovered())
-			this.fireEvent(AOTDActionListener.ActionType.MouseHover);
-	}
-
-	public void mousePressed()
-	{
-		this.fireEvent(AOTDActionListener.ActionType.MousePressed);
-	}
-
-	public void mouseReleased()
-	{
-		this.fireEvent(AOTDActionListener.ActionType.MouseReleased);
-	}
-
-	public void mouseMove(int mouseX, int mouseY)
-	{
-		boolean wasHovered = this.isHovered();
-		this.setHovered(mouseX >= this.getXScaled() && mouseY >= this.getYScaled() && mouseX < this.getXScaled() + this.getWidthScaled() && mouseY < this.getYScaled() + this.getHeightScaled());
-		this.fireEvent(AOTDActionListener.ActionType.MouseMove);
-		if (wasHovered && !this.isHovered())
-			this.fireEvent(AOTDActionListener.ActionType.MouseExitBoundingBox);
-		if (!wasHovered && this.isHovered())
-			this.fireEvent(AOTDActionListener.ActionType.MouseEnterBoundingBox);
-	}
-
-	public void keyPressed()
-	{
-		this.fireEvent(ActionType.KeyTyped);
-	}
-
-	public void fireEvent(AOTDActionListener.ActionType actionType)
-	{
-		for (AOTDActionListener actionListener : this.actionListeners)
+		this.addMouseMoveListener(new AOTDMouseMoveListener()
 		{
-			actionListener.actionPerformed(this, actionType);
+			@Override
+			public void mouseMoved(AOTDMouseEvent event)
+			{
+				AOTDGuiComponentWithEvents component = event.getSource();
+				boolean wasHovered = component.isHovered();
+				component.setHovered(component.intersects(new Point(event.getMouseX(), event.getMouseY())));
+				if (component.isHovered() && !wasHovered)
+					component.processMouseInput(new AOTDMouseEvent(component, event.getMouseX(), event.getMouseY(), MouseEventType.Enter));
+				if (!component.isHovered() && wasHovered)
+					component.processMouseInput(new AOTDMouseEvent(component, event.getMouseX(), event.getMouseY(), MouseEventType.Exit));
+			}
+
+			@Override
+			public void mouseDragged(AOTDMouseEvent event)
+			{
+			}
+		});
+	}
+
+	public void processMouseInput(AOTDMouseEvent event)
+	{
+		if (event.isConsumed())
+			return;
+		if (event.getEventType() == MouseEventType.Enter || event.getEventType() == MouseEventType.Exit)
+			event.consume();
+		event.setSource(this);
+		if (mouseMoveListener != null && (event.getEventType() == MouseEventType.Move || event.getEventType() == MouseEventType.Drag))
+			switch (event.getEventType())
+			{
+				case Move:
+					mouseMoveListener.mouseMoved(event);
+					break;
+				case Drag:
+					mouseMoveListener.mouseDragged(event);
+					break;
+				default:
+					return;
+			}
+		if (mouseListener != null)
+			switch (event.getEventType())
+			{
+				case Click:
+					mouseListener.mouseClicked(event);
+					break;
+				case Enter:
+					mouseListener.mouseEntered(event);
+					break;
+				case Exit:
+					mouseListener.mouseExited(event);
+					break;
+				case Press:
+					mouseListener.mousePressed(event);
+					break;
+				case Release:
+					mouseListener.mouseReleased(event);
+					break;
+				default:
+					return;
+			}
+	}
+
+	public void processKeyInput(AOTDKeyEvent event)
+	{
+		event.setSource(this);
+		if (keyListener == null)
+			return;
+		switch (event.getEventType())
+		{
+			case Type:
+				keyListener.keyTyped(event);
+				break;
+			case Press:
+				keyListener.keyPressed(event);
+				break;
+			case Release:
+				keyListener.keyReleased(event);
+				break;
 		}
 	}
 
-	public void addActionListener(AOTDActionListener actionListener)
+	public void addKeyListener(AOTDKeyListener keyListener)
 	{
-		this.actionListeners.add(actionListener);
+		if (keyListener == null)
+			return;
+		this.keyListener = AOTDEventMulticaster.combineKeyListeners(this.keyListener, keyListener);
+	}
+
+	public void addMouseListener(AOTDMouseListener mouseListener)
+	{
+		if (mouseListener == null)
+			return;
+		this.mouseListener = AOTDEventMulticaster.combineMouseListeners(this.mouseListener, mouseListener);
+	}
+
+	public void addMouseMoveListener(AOTDMouseMoveListener mouseMoveListener)
+	{
+		if (mouseMoveListener == null)
+			return;
+		this.mouseMoveListener = AOTDEventMulticaster.combineMouseMoveListeners(this.mouseMoveListener, mouseMoveListener);
 	}
 }

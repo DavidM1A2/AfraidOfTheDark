@@ -11,18 +11,18 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDGuiUtility;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiButton;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiComponent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiImage;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiLabel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiScreen;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiScrollBar;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiScrollPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiTextField;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiSpellStage;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 
 import net.minecraft.client.Minecraft;
@@ -57,86 +57,102 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 		tablet.add(scrollPanel);
 
 		AOTDGuiButton saveButton = new AOTDGuiButton(152, 105, 20, 20, null, "afraidofthedark:textures/gui/spellCrafting/okay.png");
+		saveButton.setHoverText("Save Spell");
+		saveButton.addMouseListener(new AOTDMouseListener()
+		{
+			@Override
+			public void mouseClicked(AOTDMouseEvent event) {}
+			@Override
+			public void mousePressed(AOTDMouseEvent event) {}
+			@Override
+			public void mouseReleased(AOTDMouseEvent event) {}
+
+			@Override
+			public void mouseEntered(AOTDMouseEvent event)
+			{
+				event.getSource().darkenColor(0.1f);
+				Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:spellCraftingButtonHover", 0.6f, 1.7f);
+			}
+
+			@Override
+			public void mouseExited(AOTDMouseEvent event)
+			{
+				event.getSource().brightenColor(0.1f);
+			}
+		});
 		tablet.add(saveButton);
-		saveButton.addActionListener(new AOTDActionListener()
-		{
-			@Override
-			public void actionPerformed(AOTDGuiComponent component, ActionType actionType)
-			{
-				if (component.isVisible())
-					if (actionType == ActionType.MouseHover)
-					{
-						Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow("Save Spell", AOTDGuiUtility.getMouseX(), AOTDGuiUtility.getMouseY() - 10, 0xFFFFFFFF);
-					}
-					else if (actionType == ActionType.MouseEnterBoundingBox)
-					{
-						component.darkenColor(0.1f);
-						Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:spellCraftingButtonHover", 0.6f, 1.7f);
-					}
-					else if (actionType == ActionType.MouseExitBoundingBox)
-						component.brightenColor(0.1f);
-			}
-		});
 		AOTDGuiButton closeButton = new AOTDGuiButton(152, 130, 20, 20, null, "afraidofthedark:textures/gui/spellCrafting/delete.png");
+		closeButton.setHoverText("Exit without saving spell");
+		closeButton.addMouseListener(new AOTDMouseListener()
+		{
+			@Override
+			public void mouseClicked(AOTDMouseEvent event) {}
+			@Override
+			public void mousePressed(AOTDMouseEvent event) {}
+			@Override
+			public void mouseReleased(AOTDMouseEvent event) {}
+
+			@Override
+			public void mouseEntered(AOTDMouseEvent event)
+			{
+				event.getSource().darkenColor(0.1f);
+				Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:spellCraftingButtonHover", 0.6f, 1.7f);
+			}
+
+			@Override
+			public void mouseExited(AOTDMouseEvent event)
+			{
+				event.getSource().brightenColor(0.1f);
+			}
+		});
 		tablet.add(closeButton);
-		closeButton.addActionListener(new AOTDActionListener()
-		{
-			@Override
-			public void actionPerformed(AOTDGuiComponent component, ActionType actionType)
-			{
-				if (component.isVisible())
-					if (actionType == ActionType.MouseHover)
-					{
-						Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow("Exit without saving Spell", AOTDGuiUtility.getMouseX(), AOTDGuiUtility.getMouseY() - 10, 0xFFFFFFFF);
-					}
-					else if (actionType == ActionType.MouseEnterBoundingBox)
-					{
-						component.darkenColor(0.1f);
-						Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:spellCraftingButtonHover", 0.6f, 1.7f);
-					}
-					else if (actionType == ActionType.MouseExitBoundingBox)
-						component.brightenColor(0.1f);
-			}
-		});
 		AOTDGuiImage powerSource = new AOTDGuiImage(152, 155, 20, 20, "afraidofthedark:textures/gui/spellCrafting/tabletIconHolder.png");
-		tablet.add(powerSource);
-		powerSource.addActionListener(new AOTDActionListener()
+		powerSource.setHoverText("Spell Power Source");
+		powerSource.addMouseListener(new AOTDMouseListener()
 		{
 			@Override
-			public void actionPerformed(AOTDGuiComponent component, ActionType actionType)
+			public void mouseClicked(AOTDMouseEvent event) {}
+			@Override
+			public void mousePressed(AOTDMouseEvent event) {}
+			@Override
+			public void mouseReleased(AOTDMouseEvent event) {}
+
+			@Override
+			public void mouseEntered(AOTDMouseEvent event)
 			{
-				if (component.isVisible())
-					if (actionType == ActionType.MouseHover)
-					{
-						Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow("Spell Power Source", AOTDGuiUtility.getMouseX(), AOTDGuiUtility.getMouseY() - 10, 0xFFFFFFFF);
-					}
-					else if (actionType == ActionType.MouseEnterBoundingBox)
-					{
-						component.darkenColor(0.1f);
-						Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:spellCraftingButtonHover", 0.6f, 1.7f);
-					}
-					else if (actionType == ActionType.MouseExitBoundingBox)
-						component.brightenColor(0.1f);
+				event.getSource().darkenColor(0.1f);
+				Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:spellCraftingButtonHover", 0.6f, 1.7f);
+			}
+
+			@Override
+			public void mouseExited(AOTDMouseEvent event)
+			{
+				event.getSource().brightenColor(0.1f);
 			}
 		});
+		tablet.add(powerSource);
 		AOTDGuiImage helpButton = new AOTDGuiImage(152, 180, 20, 20, "afraidofthedark:textures/gui/spellCrafting/question.png");
-		helpButton.addActionListener(new AOTDActionListener()
+		helpButton.setHoverText("Help");
+		helpButton.addMouseListener(new AOTDMouseListener()
 		{
 			@Override
-			public void actionPerformed(AOTDGuiComponent component, ActionType actionType)
+			public void mouseClicked(AOTDMouseEvent event) {}
+			@Override
+			public void mousePressed(AOTDMouseEvent event) {}
+			@Override
+			public void mouseReleased(AOTDMouseEvent event) {}
+
+			@Override
+			public void mouseEntered(AOTDMouseEvent event)
 			{
-				if (component.isVisible())
-					if (actionType == ActionType.MouseHover)
-					{
-						Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow("Help", AOTDGuiUtility.getMouseX(), AOTDGuiUtility.getMouseY() - 10, 0xFFFFFFFF);
-					}
-					else if (actionType == ActionType.MouseEnterBoundingBox)
-					{
-						component.darkenColor(0.1f);
-						Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:spellCraftingButtonHover", 0.6f, 1.7f);
-					}
-					else if (actionType == ActionType.MouseExitBoundingBox)
-						component.brightenColor(0.1f);
+				event.getSource().darkenColor(0.1f);
+				Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:spellCraftingButtonHover", 0.6f, 1.7f);
+			}
+
+			@Override
+			public void mouseExited(AOTDMouseEvent event)
+			{
+				event.getSource().brightenColor(0.1f);
 			}
 		});
 		tablet.add(helpButton);
@@ -167,25 +183,41 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 	public void addNewSpellStage()
 	{
 		final AOTDGuiSpellStage nextSpellStage = new AOTDGuiSpellStage(5, (5 + this.spellStages.size() * 35), 110, 45, false);
-		nextSpellStage.addActionListenerToNewRow(new AOTDActionListener()
+		nextSpellStage.addMouseListenerToNewRow(new AOTDMouseListener()
 		{
 			@Override
-			public void actionPerformed(AOTDGuiComponent component, ActionType actionType)
+			public void mouseClicked(AOTDMouseEvent event)
 			{
-				if (actionType == ActionType.MousePressed)
-					if (component.isHovered() && component.isVisible())
-						SpellCraftingGUI.this.addNewSpellStage();
+				if (event.getSource().isHovered() && event.getSource().isVisible())
+					SpellCraftingGUI.this.addNewSpellStage();
 			}
+
+			@Override
+			public void mousePressed(AOTDMouseEvent event) {}
+			@Override
+			public void mouseReleased(AOTDMouseEvent event) {}
+			@Override
+			public void mouseEntered(AOTDMouseEvent event) {}
+			@Override
+			public void mouseExited(AOTDMouseEvent event) {}
 		});
-		nextSpellStage.addActionListenerToRemoveRow(new AOTDActionListener()
+		nextSpellStage.addMouseListenerToRemoveRow(new AOTDMouseListener()
 		{
 			@Override
-			public void actionPerformed(AOTDGuiComponent component, ActionType actionType)
+			public void mouseClicked(AOTDMouseEvent event)
 			{
-				if (actionType == ActionType.MousePressed)
-					if (component.isHovered() && component.isVisible())
-						SpellCraftingGUI.this.removeSpellStage();
+				if (event.getSource().isHovered() && event.getSource().isVisible())
+					SpellCraftingGUI.this.removeSpellStage();
 			}
+
+			@Override
+			public void mousePressed(AOTDMouseEvent event) {}
+			@Override
+			public void mouseReleased(AOTDMouseEvent event) {}
+			@Override
+			public void mouseEntered(AOTDMouseEvent event) {}
+			@Override
+			public void mouseExited(AOTDMouseEvent event) {}
 		});
 		this.scrollPanel.add(nextSpellStage);
 		this.spellStages.add(nextSpellStage);

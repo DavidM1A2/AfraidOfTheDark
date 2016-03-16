@@ -15,6 +15,9 @@ import java.awt.datatransfer.Transferable;
 import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
+
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -22,6 +25,8 @@ import net.minecraft.client.gui.ScaledResolution;
 public class AOTDGuiUtility
 {
 	private static ScaledResolution scaledResolution = new ScaledResolution(Minecraft.getMinecraft());
+	private static boolean scissorWasEnabled = false;
+	private static int numberOfActiveScissors = 0;
 
 	public static void updateScaledResolution()
 	{
@@ -35,7 +40,8 @@ public class AOTDGuiUtility
 
 	public static float[] convert255To01Color(Color color)
 	{
-		return new float[] { color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, color.getAlpha() / 255.0f };
+		return new float[]
+		{ color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, color.getAlpha() / 255.0f };
 	}
 
 	public static int mcToRealCoord(int coord)
@@ -64,8 +70,7 @@ public class AOTDGuiUtility
 	}
 
 	/**
-	 * Returns true if either windows ctrl key is down or if either mac meta key
-	 * is down
+	 * Returns true if either windows ctrl key is down or if either mac meta key is down
 	 */
 	public static boolean isCtrlKeyDown()
 	{
@@ -109,5 +114,33 @@ public class AOTDGuiUtility
 		}
 
 		return "";
+	}
+
+	public static void beginGLScissor(int x, int y, int width, int height)
+	{
+		if (numberOfActiveScissors == 0)
+			scissorWasEnabled = GL11.glIsEnabled(GL11.GL_SCISSOR_TEST);
+		GL11.glPushAttrib(GL11.GL_SCISSOR_BIT);
+		GL11.glEnable(GL11.GL_SCISSOR_TEST);
+		GL11.glScissor(x, y, width, height);
+		numberOfActiveScissors = numberOfActiveScissors + 1;
+	}
+
+	public static void endGLScissor()
+	{
+		if (numberOfActiveScissors == 0)
+		{
+			LogHelper.info("Tried to end a scissor that was not even started...");
+			return;
+		}
+		if (numberOfActiveScissors == 0 && !scissorWasEnabled)
+		{
+			GL11.glDisable(GL11.GL_SCISSOR_TEST);
+			GL11.glPopAttrib();
+		}
+		else
+		{
+			GL11.glPopAttrib();
+		}
 	}
 }

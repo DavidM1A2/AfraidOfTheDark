@@ -14,7 +14,6 @@ import java.util.List;
 import org.lwjgl.input.Keyboard;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiButton;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiComponent;
@@ -22,8 +21,9 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiImage;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiLabel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiRecipe;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiScreen;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiTextBox;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.recipe.ConvertedRecipe;
 import com.DavidM1A2.AfraidOfTheDark.common.recipe.RecipeUtility;
@@ -102,20 +102,33 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 		this.bookmarkButton = new AOTDGuiButton(journalWidth / 2 - 17, journalHeight - 28, 15, 30, null, "afraidofthedark:textures/gui/slotHighlight.png");
 		this.bookmarkButton.setVisible(false);
 		this.bookmarkButton.setColor(new Color(255, 255, 255, 50));
-		this.bookmarkButton.addActionListener(new AOTDActionListener()
+		this.bookmarkButton.addMouseListener(new AOTDMouseListener()
 		{
 			@Override
-			public void actionPerformed(AOTDGuiComponent component, AOTDActionListener.ActionType actionType)
+			public void mouseClicked(AOTDMouseEvent event)
 			{
-				if (actionType == ActionType.MousePressed && component.isHovered())
+				if (event.getSource().isHovered())
 				{
 					entityPlayer.closeScreen();
 					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_ID, entityPlayer.worldObj, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ());
 				}
-				else if (actionType == ActionType.MouseEnterBoundingBox)
-					component.setVisible(true);
-				else if (actionType == ActionType.MouseExitBoundingBox)
-					component.setVisible(false);
+			}
+
+			@Override
+			public void mousePressed(AOTDMouseEvent event) {}
+			@Override
+			public void mouseReleased(AOTDMouseEvent event) {}
+
+			@Override
+			public void mouseEntered(AOTDMouseEvent event)
+			{
+				event.getSource().setVisible(true);
+			}
+
+			@Override
+			public void mouseExited(AOTDMouseEvent event)
+			{
+				event.getSource().setVisible(false);
 			}
 		});
 		this.journal.add(this.bookmarkButton);
@@ -133,30 +146,58 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 
 		this.forwardButton = new AOTDGuiButton(this.getContentPane().getWidth() - 64, this.getContentPane().getHeight() - 64, 64, 64, null, "afraidofthedark:textures/gui/buttons/forwardButton.png");
 		this.backwardButton = new AOTDGuiButton(0, this.getContentPane().getHeight() - 64, 64, 64, null, "afraidofthedark:textures/gui/buttons/backwardButton.png");
-		this.forwardButton.addActionListener(new AOTDActionListener()
+		this.forwardButton.addMouseListener(new AOTDMouseListener()
 		{
 			@Override
-			public void actionPerformed(AOTDGuiComponent component, AOTDActionListener.ActionType actionType)
+			public void mouseClicked(AOTDMouseEvent event)
 			{
-				if (actionType == ActionType.MousePressed && component.isHovered())
+				if (event.getSource().isHovered())
+				{
 					BloodStainedJournalPageGUI.this.advancePage();
-				else if (actionType == ActionType.MouseEnterBoundingBox)
-					component.darkenColor(0.1f);
-				else if (actionType == ActionType.MouseExitBoundingBox)
-					component.brightenColor(0.1f);
+				}
+			}
+
+			@Override
+			public void mousePressed(AOTDMouseEvent event) {}
+			@Override
+			public void mouseReleased(AOTDMouseEvent event) {}
+
+			@Override
+			public void mouseEntered(AOTDMouseEvent event)
+			{
+				event.getSource().darkenColor(0.1f);
+			}
+
+			@Override
+			public void mouseExited(AOTDMouseEvent event)
+			{
+				event.getSource().brightenColor(0.1f);
 			}
 		});
-		this.backwardButton.addActionListener(new AOTDActionListener()
+		this.backwardButton.addMouseListener(new AOTDMouseListener()
 		{
 			@Override
-			public void actionPerformed(AOTDGuiComponent component, AOTDActionListener.ActionType actionType)
+			public void mouseClicked(AOTDMouseEvent event)
 			{
-				if (actionType == ActionType.MousePressed && component.isHovered())
+				if (event.getSource().isHovered())
 					BloodStainedJournalPageGUI.this.rewindPage();
-				else if (actionType == ActionType.MouseEnterBoundingBox)
-					component.darkenColor(0.1f);
-				else if (actionType == ActionType.MouseExitBoundingBox)
-					component.brightenColor(0.1f);
+			}
+
+			@Override
+			public void mousePressed(AOTDMouseEvent event) {}
+			@Override
+			public void mouseReleased(AOTDMouseEvent event) {}
+
+			@Override
+			public void mouseEntered(AOTDMouseEvent event)
+			{
+				event.getSource().darkenColor(0.1f);
+			}
+
+			@Override
+			public void mouseExited(AOTDMouseEvent event)
+			{
+				event.getSource().brightenColor(0.1f);
 			}
 		});
 		this.getContentPane().add(this.forwardButton);

@@ -5,13 +5,13 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls;
 
-import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.FontLoader;
 import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.TrueTypeFont;
-
-import net.minecraft.util.ResourceLocation;
 
 public class AOTDGuiLabel extends AOTDGuiTextComponent
 {
+	private int maxStrLength = Integer.MAX_VALUE;
+	private String actualStringToDraw;
+
 	public AOTDGuiLabel(final int x, final int y, TrueTypeFont font)
 	{
 		super(x, y, 0, 0, font);
@@ -25,5 +25,10 @@ public class AOTDGuiLabel extends AOTDGuiTextComponent
 			super.draw();
 			this.drawText(this.getXScaled(), this.getYScaled());
 		}
+	}
+
+	public void setMaxStringLength(int strLen)
+	{
+		maxStrLength = strLen;
 	}
 }

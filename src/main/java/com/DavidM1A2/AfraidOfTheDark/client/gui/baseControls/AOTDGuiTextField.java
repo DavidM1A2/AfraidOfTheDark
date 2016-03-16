@@ -10,8 +10,11 @@ import java.awt.Color;
 import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.input.Keyboard;
 
-import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDGuiUtility;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDKeyListener;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDKeyEvent;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.TrueTypeFont;
 
 import net.minecraft.util.ChatAllowedCharacters;
@@ -37,26 +40,55 @@ public class AOTDGuiTextField extends AOTDGuiTextComponent
 		textContainer.add(textField);
 		this.add(background);
 		this.add(textContainer);
-		this.addActionListener(new AOTDActionListener()
+		this.addMouseListener(new AOTDMouseListener()
 		{
 			@Override
-			public void actionPerformed(AOTDGuiComponent component, ActionType actionType)
+			public void mouseReleased(AOTDMouseEvent event)
 			{
-				if (component == AOTDGuiTextField.this)
-				{
-					AOTDGuiTextField current = AOTDGuiTextField.this;
-					if (actionType == ActionType.MousePressed)
-					{
-						if (current.isHovered())
-							current.setFocused(true);
-						else
-							current.setFocused(false);
-					}
-					else if (actionType == ActionType.KeyTyped)
-					{
-						current.keyTyped(Keyboard.getEventCharacter(), Keyboard.getEventKey());
-					}
-				}
+			}
+
+			@Override
+			public void mousePressed(AOTDMouseEvent event)
+			{
+			}
+
+			@Override
+			public void mouseExited(AOTDMouseEvent event)
+			{
+			}
+
+			@Override
+			public void mouseEntered(AOTDMouseEvent event)
+			{
+			}
+
+			@Override
+			public void mouseClicked(AOTDMouseEvent event)
+			{
+				AOTDGuiTextField current = (AOTDGuiTextField) event.getSource();
+				if (current.isHovered())
+					current.setFocused(true);
+				else
+					current.setFocused(false);
+			}
+		});
+		this.addKeyListener(new AOTDKeyListener()
+		{
+			@Override
+			public void keyTyped(AOTDKeyEvent event)
+			{
+				AOTDGuiTextField current = (AOTDGuiTextField) event.getSource();
+				current.keyTyped(event.getKey(), event.getKeyCode());
+			}
+
+			@Override
+			public void keyReleased(AOTDKeyEvent event)
+			{
+			}
+
+			@Override
+			public void keyPressed(AOTDKeyEvent event)
+			{
 			}
 		});
 	}
@@ -138,7 +170,9 @@ public class AOTDGuiTextField extends AOTDGuiTextComponent
 	public void draw()
 	{
 		if (this.isVisible())
+		{
 			super.draw();
+		}
 	}
 
 	@Override

@@ -6,7 +6,6 @@ import net.minecraft.world.World;
 
 public class Explosion implements IEffect
 {
-
 	@Override
 	public int getCost()
 	{
@@ -24,5 +23,4 @@ public class Explosion implements IEffect
 	{
 		entity.worldObj.createExplosion(entity, entity.posX, entity.posY, entity.posZ, 3.0f, true);
 	}
-
 }

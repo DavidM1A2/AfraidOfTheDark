@@ -7,12 +7,12 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens;
 
 import java.awt.Color;
 
-import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDActionListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiButton;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiComponent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiImage;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiScreen;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
@@ -27,61 +27,73 @@ public class BloodStainedJournalCheatSheetGUI extends AOTDGuiScreen
 		AOTDGuiImage backgroundImage = new AOTDGuiImage(0, 0, 256, 256, "afraidofthedark:textures/gui/bloodStainedJournalCheatSheet.png");
 		background.add(backgroundImage);
 		AOTDGuiButton confirm = new AOTDGuiButton(30, 200, 80, 20, null, "afraidofthedark:textures/gui/bloodStainedJournalCheatSheetConfirm.png");
-		confirm.addActionListener(new AOTDActionListener()
+		confirm.addMouseListener(new AOTDMouseListener()
 		{
 			@Override
-			public void actionPerformed(AOTDGuiComponent component, ActionType actionType)
+			public void mouseClicked(AOTDMouseEvent event)
 			{
-				if (actionType == ActionType.MousePressed)
+				if (event.getSource().isHovered())
 				{
-					if (component.isHovered())
+					for (ResearchTypes type : ResearchTypes.values())
 					{
-						for (ResearchTypes type : ResearchTypes.values())
+						if (!AOTDPlayerData.get(entityPlayer).isResearched(type))
 						{
-							if (!AOTDPlayerData.get(entityPlayer).isResearched(type))
-							{
-								AOTDPlayerData.get(entityPlayer).unlockResearch(type, false);
-							}
+							AOTDPlayerData.get(entityPlayer).unlockResearch(type, false);
 						}
-						entityPlayer.playSound("gui.button.press", 1.0f, 1.0f);
-						entityPlayer.addChatMessage(new ChatComponentText("All researches unlocked."));
-						entityPlayer.closeScreen();
 					}
+					entityPlayer.playSound("gui.button.press", 1.0f, 1.0f);
+					entityPlayer.addChatMessage(new ChatComponentText("All researches unlocked."));
+					entityPlayer.closeScreen();
 				}
-				else if (actionType == ActionType.MouseEnterBoundingBox)
-				{
-					component.setColor(new Color(230, 230, 230));
-					entityPlayer.playSound("afraidofthedark:buttonHover", 0.7f, 1.9f);
-				}
-				else if (actionType == ActionType.MouseExitBoundingBox)
-				{
-					component.setColor(Color.WHITE);
-				}
+			}
+
+			@Override
+			public void mousePressed(AOTDMouseEvent event) {}
+			@Override
+			public void mouseReleased(AOTDMouseEvent event) {}
+
+			@Override
+			public void mouseEntered(AOTDMouseEvent event)
+			{
+				event.getSource().setColor(new Color(230, 230, 230));
+				entityPlayer.playSound("afraidofthedark:buttonHover", 0.7f, 1.9f);
+			}
+
+			@Override
+			public void mouseExited(AOTDMouseEvent event)
+			{
+				event.getSource().setColor(Color.WHITE);
 			}
 		});
 		AOTDGuiButton deny = new AOTDGuiButton(140, 200, 80, 20, null, "afraidofthedark:textures/gui/bloodStainedJournalCheatSheetDeny.png");
-		deny.addActionListener(new AOTDActionListener()
+		deny.addMouseListener(new AOTDMouseListener()
 		{
 			@Override
-			public void actionPerformed(AOTDGuiComponent component, ActionType actionType)
+			public void mouseClicked(AOTDMouseEvent event)
 			{
-				if (actionType == ActionType.MousePressed)
+				if (event.getSource().isHovered())
 				{
-					if (component.isHovered())
-					{
-						entityPlayer.playSound("gui.button.press", 1.0f, 1.0f);
-						entityPlayer.closeScreen();
-					}
+					entityPlayer.playSound("gui.button.press", 1.0f, 1.0f);
+					entityPlayer.closeScreen();
 				}
-				else if (actionType == ActionType.MouseEnterBoundingBox)
-				{
-					component.setColor(new Color(230, 230, 230));
-					entityPlayer.playSound("afraidofthedark:buttonHover", 0.7f, 1.9f);
-				}
-				else if (actionType == ActionType.MouseExitBoundingBox)
-				{
-					component.setColor(Color.WHITE);
-				}
+			}
+
+			@Override
+			public void mousePressed(AOTDMouseEvent event) {}
+			@Override
+			public void mouseReleased(AOTDMouseEvent event) {}
+
+			@Override
+			public void mouseEntered(AOTDMouseEvent event)
+			{
+				event.getSource().setColor(new Color(230, 230, 230));
+				entityPlayer.playSound("afraidofthedark:buttonHover", 0.7f, 1.9f);
+			}
+
+			@Override
+			public void mouseExited(AOTDMouseEvent event)
+			{
+				event.getSource().setColor(Color.WHITE);
 			}
 		});
 		background.add(confirm);
