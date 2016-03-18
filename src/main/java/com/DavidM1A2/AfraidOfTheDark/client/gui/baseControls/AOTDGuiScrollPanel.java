@@ -40,6 +40,17 @@ public class AOTDGuiScrollPanel extends AOTDGuiContainer
 		{
 			lastSliderPosition = this.scrollSource.getSliderValue();
 			super.setY(ORIGINAL_Y_POS + (int) (maximumOffset * lastSliderPosition));
+			for (AOTDGuiContainer container : this.getChildren())
+			{
+				if (!this.intersects(container))
+				{
+					container.setVisible(false);
+				}
+				else
+				{
+					container.setVisible(true);
+				}
+			}
 		}
 
 		super.draw();

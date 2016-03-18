@@ -1,17 +1,14 @@
 package com.DavidM1A2.AfraidOfTheDark.common.spell.deliveryMethods;
 
-import com.DavidM1A2.AfraidOfTheDark.client.entities.spell.ModelSpellProjectile;
-import com.DavidM1A2.AfraidOfTheDark.client.entities.spell.RenderSpell;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.EntitySpell;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.projectile.EntitySpellProjectile;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
 
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 
-public class Projectile implements IDeliveryMethod
+public class Projectile extends DeliveryMethod
 {
-
 	@Override
 	public double getCost()
 	{
@@ -33,14 +30,15 @@ public class Projectile implements IDeliveryMethod
 	}
 
 	@Override
-	public <T extends EntitySpell> RenderSpell<T> getDeliveryRenderer(RenderManager renderManager)
+	public void writeToNBT(NBTTagCompound compound)
 	{
-		return new RenderSpell<T>(renderManager, new ModelSpellProjectile(), "afraidofthedark:textures/entity/spell/projectile.png");
+		super.writeToNBT(compound);
+		compound.setInteger("id", DeliveryMethods.Projectile.getID());
 	}
 
 	@Override
-	public Class<? extends EntitySpell> getDeliveryEntity()
+	public void readFromNBT(NBTTagCompound compound)
 	{
-		return EntitySpellProjectile.class;
+
 	}
 }

@@ -8,12 +8,13 @@ package com.DavidM1A2.AfraidOfTheDark.common.packets;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellManager;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTObjectWriter;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
@@ -34,18 +35,17 @@ public class SyncSpellManager implements IMessage
 	@Override
 	public void fromBytes(final ByteBuf buf)
 	{
-		int numberOfBytes = buf.readInt();
-		byte[] spellManagerBytes = new byte[numberOfBytes];
-		buf.readBytes(spellManagerBytes);
-		this.spellManager = (SpellManager) NBTObjectWriter.byteArrayToObject(spellManagerBytes);
+		NBTTagCompound spellManagerData = ByteBufUtils.readTag(buf);
+		this.spellManager = new SpellManager();
+		this.spellManager.readFromNBT(spellManagerData);
 	}
 
 	@Override
 	public void toBytes(final ByteBuf buf)
 	{
-		byte[] spellManagerBytes = NBTObjectWriter.objectToByteArray(this.spellManager);
-		buf.writeInt(spellManagerBytes.length);
-		buf.writeBytes(spellManagerBytes);
+		NBTTagCompound spellManagerData = new NBTTagCompound();
+		this.spellManager.writeToNBT(spellManagerData);
+		ByteBufUtils.writeTag(buf, spellManagerData);
 	}
 
 	public static class Handler extends MessageHandler.Bidirectional<SyncSpellManager>

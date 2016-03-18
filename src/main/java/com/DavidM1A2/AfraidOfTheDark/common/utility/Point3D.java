@@ -5,15 +5,19 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.utility;
 
-import java.io.Serializable;
-
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 
-public class Point3D implements Serializable
+public class Point3D
 {
-	private final int x;
-	private final int y;
-	private final int z;
+	private int x;
+	private int y;
+	private int z;
+
+	public Point3D(NBTTagCompound compound)
+	{
+		this.readFromNBT(compound);
+	}
 
 	public Point3D(int x, int y, int z)
 	{
@@ -40,5 +44,19 @@ public class Point3D implements Serializable
 	public int getZ()
 	{
 		return this.z;
+	}
+
+	public void writeToNBT(NBTTagCompound compound)
+	{
+		compound.setInteger("x", this.x);
+		compound.setInteger("y", this.y);
+		compound.setInteger("z", this.z);
+	}
+
+	public void readFromNBT(NBTTagCompound compound)
+	{
+		this.x = compound.getInteger("x");
+		this.y = compound.getInteger("y");
+		this.z = compound.getInteger("z");
 	}
 }

@@ -18,7 +18,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateInsanity;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateResearch;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellManager;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTObjectWriter;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -96,7 +95,7 @@ public class AOTDPlayerData implements IExtendedEntityProperties
 		nbt.setInteger(PLAYER_LOCATION_VOID_CHEST, this.playerLocationVoidChest);
 		nbt.setBoolean(HAS_BEATEN_ENARIA, this.hasBeatenEnaria);
 		nbt.setInteger(SELECTED_WRIST_CROSSBOW_BOLT, this.selectedWristCrossbowBolt);
-		NBTObjectWriter.writeObjectToNBT(SPELL_MANAGER, this.spellManager, nbt);
+		this.spellManager.writeToNBT(nbt);//NBTObjectWriter.writeObjectToNBT(SPELL_MANAGER, this.spellManager, nbt);
 	}
 
 	@Override
@@ -111,9 +110,8 @@ public class AOTDPlayerData implements IExtendedEntityProperties
 		this.setPlayerLocationVoidChest(nbt.getInteger(PLAYER_LOCATION_VOID_CHEST));
 		this.setHasBeatenEnaria(nbt.getBoolean(HAS_BEATEN_ENARIA));
 		this.setSelectedWristCrossbowBolt(nbt.getInteger(SELECTED_WRIST_CROSSBOW_BOLT));
-		this.spellManager = (SpellManager) NBTObjectWriter.readObjectFromNBT(SPELL_MANAGER, nbt);
-		if (this.spellManager == null)
-			this.spellManager = new SpellManager();
+		this.spellManager = new SpellManager();//NBTObjectWriter.<SpellManager> readObjectFromNBT(SPELL_MANAGER, nbt);
+		this.spellManager.readFromNBT(nbt);
 		this.spellManager.setAllSpellsOwners(this.entityPlayer);
 	}
 

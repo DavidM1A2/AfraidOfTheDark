@@ -9,7 +9,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.effects.IEffect;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTObjectWriter;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
@@ -61,7 +60,7 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 	protected void readEntityFromNBT(NBTTagCompound compound)
 	{
 		this.spellStageIndex = compound.getInteger(SPELL_STAGE_KEY);
-		this.spellSource = (Spell) NBTObjectWriter.readObjectFromNBT(SPELL_SOURCE, compound);
+		this.spellSource = new Spell(compound.getCompoundTag(SPELL_SOURCE));
 		this.ticksAlive = compound.getInteger(SPELL_TICKS_ALIVE);
 		this.color[0] = compound.getFloat(SPELL_COLOR + "r");
 		this.color[1] = compound.getFloat(SPELL_COLOR + "g");
@@ -73,7 +72,9 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 	protected void writeEntityToNBT(NBTTagCompound compound)
 	{
 		compound.setInteger(SPELL_STAGE_KEY, this.spellStageIndex);
-		NBTObjectWriter.writeObjectToNBT(SPELL_SOURCE, this.spellSource, compound);
+		NBTTagCompound spellData = new NBTTagCompound();
+		this.spellSource.writeToNBT(compound);
+		compound.setTag(SPELL_SOURCE, spellData);
 		compound.setInteger(SPELL_TICKS_ALIVE, this.ticksAlive);
 		compound.setFloat(SPELL_COLOR + "r", this.color[0]);
 		compound.setFloat(SPELL_COLOR + "g", this.color[1]);

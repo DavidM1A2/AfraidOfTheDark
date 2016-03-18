@@ -1,14 +1,12 @@
 package com.DavidM1A2.AfraidOfTheDark.common.spell.deliveryMethods;
 
-import java.io.Serializable;
-
-import com.DavidM1A2.AfraidOfTheDark.client.entities.spell.RenderSpell;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.EntitySpell;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.ISpellComponent;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
 
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.nbt.NBTTagCompound;
 
-public interface IDeliveryMethod extends Serializable
+public interface IDeliveryMethod extends ISpellComponent
 {
 	/**
 	 * 
@@ -36,15 +34,15 @@ public interface IDeliveryMethod extends Serializable
 
 	/**
 	 * 
-	 * @param renderManager
-	 *            The render manager given to us in proxy
-	 * @return The spell renderer for this specific delivery method
+	 * @param compound
+	 *            The compound to write the current power source's data to
 	 */
-	public abstract <T extends EntitySpell> RenderSpell<T> getDeliveryRenderer(RenderManager renderManager);
+	public abstract void writeToNBT(NBTTagCompound compound);
 
 	/**
 	 * 
-	 * @return The class representing the entity for this delivery method
+	 * @param compound
+	 *            The compound to read the current power source's data from
 	 */
-	public abstract Class<? extends EntitySpell> getDeliveryEntity();
+	public abstract void readFromNBT(NBTTagCompound compound);
 }

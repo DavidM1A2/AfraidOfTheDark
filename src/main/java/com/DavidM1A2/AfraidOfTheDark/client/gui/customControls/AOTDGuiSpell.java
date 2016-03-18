@@ -28,13 +28,14 @@ public class AOTDGuiSpell extends AOTDGuiPanel
 		AOTDGuiImage background = new AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/spellCrafting/spellBackground.png");
 		this.add(background);
 
-		AOTDGuiPanel spellNameContainer = new AOTDGuiPanel(5, 2, width - 15, 15, true);
+		AOTDGuiPanel spellNameContainer = new AOTDGuiPanel(5, 2, width - 15, 15, false);
 		this.add(spellNameContainer);
 
 		AOTDGuiLabel spellName = new AOTDGuiLabel(0, 0, ClientData.getTargaMSHandFontSized(30f));
 		spellName.setText(source.getName());
 		spellName.setTextColor(new float[]
 		{ 0.96f, 0.24f, 0.78f, 1.0f });
+		spellName.setMaxStringLength(18);
 		spellNameContainer.setHoverText(source.getName());
 		spellNameContainer.add(spellName);
 

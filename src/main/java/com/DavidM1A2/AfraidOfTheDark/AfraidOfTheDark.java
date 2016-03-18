@@ -27,7 +27,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModOreDictionaryCompatability;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModRecipes;
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModSpells;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.PacketHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
@@ -70,8 +69,7 @@ public class AfraidOfTheDark
 
 	/**
 	 * @param event
-	 *            Pre-init used to register events and various other things (see
-	 *            class names for what each line does)
+	 *            Pre-init used to register events and various other things (see class names for what each line does)
 	 */
 	@Mod.EventHandler
 	public void preInitialization(final FMLPreInitializationEvent event)
@@ -110,8 +108,6 @@ public class AfraidOfTheDark
 		ModDimensions.intialize();
 		// Initialize mod biomes
 		ModBiomes.initialize();
-		// Register mod spells
-		ModSpells.initialize();
 		// Initialize the ORE-Dictionary compatability
 		ModOreDictionaryCompatability.initialize();
 		// Initialize GUI handler

@@ -16,6 +16,7 @@ public class SpellSelectionGUI extends AOTDGuiScreen
 	private AOTDGuiScrollBar scrollBar;
 	private AOTDGuiScrollPanel scrollPanel;
 	private List<AOTDGuiSpell> spells = new ArrayList<AOTDGuiSpell>();
+	private static final int distanceBetweenEntries = 45;
 
 	public SpellSelectionGUI()
 	{
@@ -26,8 +27,8 @@ public class SpellSelectionGUI extends AOTDGuiScreen
 
 		scrollBar = new AOTDGuiScrollBar(160, 30, 15, 200);
 
-		scrollPanel = new AOTDGuiScrollPanel(25, 35, 100, 200, true, scrollBar);
-		this.scrollPanel.setMaximumOffset(200);
+		scrollPanel = new AOTDGuiScrollPanel(25, 35, 100, 187, true, scrollBar);
+		this.scrollPanel.setMaximumOffset(0);
 		background.add(scrollPanel);
 		background.add(scrollBar);
 
@@ -41,8 +42,17 @@ public class SpellSelectionGUI extends AOTDGuiScreen
 
 	private void addSpellContainer(Spell spell)
 	{
-		AOTDGuiSpell guiSpell = new AOTDGuiSpell(0, 0, 100, 40, false, spell);
+		AOTDGuiSpell guiSpell = new AOTDGuiSpell(0, this.spells.size() * distanceBetweenEntries, 100, 40, false, spell);
+		this.spells.add(guiSpell);
+		if (this.spells.size() > 4)
+			this.scrollPanel.setMaximumOffset((this.spells.size() - 4) * distanceBetweenEntries);
 		this.scrollPanel.add(guiSpell);
+	}
+
+	@Override
+	public void onGuiClosed()
+	{
+		AOTDPlayerData.get(entityPlayer).syncSpellManager();
 	}
 
 	@Override

@@ -5,23 +5,29 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.spell;
 
-import java.io.Serializable;
 import java.util.UUID;
 
 import com.DavidM1A2.AfraidOfTheDark.common.spell.effects.IEffect;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.powerSources.IPowerSource;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.SpellUtility;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 
-public class Spell implements Serializable
+public class Spell
 {
-	private final String name;
-	private final IPowerSource powerSource;
-	private final SpellStage[] spellStages;
-	private final UUID spellID;
-	private transient EntityPlayer spellOwner;
+	private String name;
+	private IPowerSource powerSource;
+	private SpellStage[] spellStages;
+	private UUID spellID;
+	private EntityPlayer spellOwner;
+
+	public Spell(NBTTagCompound spellData)
+	{
+		this.readFromNBT(spellData);
+	}
 
 	public Spell(String name, IPowerSource powerSource, SpellStage[] spellStages, UUID spellID)
 	{
@@ -29,6 +35,40 @@ public class Spell implements Serializable
 		this.spellStages = spellStages;
 		this.powerSource = powerSource;
 		this.spellID = spellID;
+	}
+
+	public void writeToNBT(NBTTagCompound spellCompound)
+	{
+		spellCompound.setString("spellName", this.name);
+		NBTTagCompound powerSource = new NBTTagCompound();
+		this.powerSource.writeToNBT(powerSource);
+		spellCompound.setTag("spellPowerSource", powerSource);
+		spellCompound.setInteger("numberOfSpellStages", this.spellStages.length);
+		for (int i = 0; i < spellStages.length; i++)
+		{
+			NBTTagCompound spellStage = new NBTTagCompound();
+			spellStages[i].writeToNBT(spellStage);
+			spellCompound.setTag("spellStage " + i, spellStage);
+		}
+		spellCompound.setLong("UUIDMost", this.getSpellUUID().getMostSignificantBits());
+		spellCompound.setLong("UUIDLeast", this.getSpellUUID().getLeastSignificantBits());
+	}
+
+	public void readFromNBT(NBTTagCompound spellCompound)
+	{
+		this.name = spellCompound.getString("spellName");
+		NBTTagCompound powerSourceData = spellCompound.getCompoundTag("spellPowerSource");
+		this.powerSource = (IPowerSource) SpellUtility.createSpellComponentFromNBT(powerSourceData);
+		int numberOfSpellStages = spellCompound.getInteger("numberOfSpellStages");
+		this.spellStages = new SpellStage[numberOfSpellStages];
+		for (int i = 0; i < numberOfSpellStages; i++)
+		{
+			NBTTagCompound spellStageData = spellCompound.getCompoundTag("spellStage " + i);
+			spellStages[i] = new SpellStage(spellStageData);
+		}
+		Long mostSignificantBits = spellCompound.getLong("UUIDMost");
+		Long leastSignificantBits = spellCompound.getLong("UUIDLeast");
+		this.spellID = new UUID(mostSignificantBits, leastSignificantBits);
 	}
 
 	public void instantiateSpell()

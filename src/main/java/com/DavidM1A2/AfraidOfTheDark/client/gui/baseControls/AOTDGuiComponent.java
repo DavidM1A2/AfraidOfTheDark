@@ -47,7 +47,7 @@ public abstract class AOTDGuiComponent
 
 	public void drawOverlay()
 	{
-		if (isHovered && !hoverText.equals(""))
+		if (isVisible && isHovered && !hoverText.equals(""))
 		{
 			fontRenderer.drawStringWithShadow(hoverText, AOTDGuiUtility.getMouseX() + 5, AOTDGuiUtility.getMouseY(), 0xFFFFFFFF);
 		}

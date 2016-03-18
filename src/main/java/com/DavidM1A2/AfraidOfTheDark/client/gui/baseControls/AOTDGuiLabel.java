@@ -10,7 +10,7 @@ import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.TrueTypeFont;
 public class AOTDGuiLabel extends AOTDGuiTextComponent
 {
 	private int maxStrLength = Integer.MAX_VALUE;
-	private String actualStringToDraw;
+	private String actualStringToDraw = "";
 
 	public AOTDGuiLabel(final int x, final int y, TrueTypeFont font)
 	{
@@ -27,8 +27,28 @@ public class AOTDGuiLabel extends AOTDGuiTextComponent
 		}
 	}
 
+	@Override
+	public String getText()
+	{
+		return this.actualStringToDraw;
+	}
+
+	@Override
+	public void setText(String text)
+	{
+		super.setText(text);
+		if (super.getText().length() > maxStrLength)
+			this.actualStringToDraw = super.getText().substring(0, maxStrLength);
+		else
+			this.actualStringToDraw = super.getText();
+	}
+
 	public void setMaxStringLength(int strLen)
 	{
 		maxStrLength = strLen;
+		if (super.getText().length() > strLen)
+			this.actualStringToDraw = super.getText().substring(0, strLen);
+		else
+			this.actualStringToDraw = super.getText();
 	}
 }

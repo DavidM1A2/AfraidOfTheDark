@@ -1,11 +1,14 @@
 package com.DavidM1A2.AfraidOfTheDark.common.spell.effects;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
-public class Explosion implements IEffect
+public class Explosion extends Effect
 {
+	public static final int id = 1;
+
 	@Override
 	public int getCost()
 	{
@@ -22,5 +25,19 @@ public class Explosion implements IEffect
 	public void performEffect(Entity entity)
 	{
 		entity.worldObj.createExplosion(entity, entity.posX, entity.posY, entity.posZ, 3.0f, true);
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound compound)
+	{
+		super.writeToNBT(compound);
+		compound.setInteger("id", Effects.Explosion.getID());
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound compound)
+	{
+		// TODO Auto-generated method stub
+
 	}
 }

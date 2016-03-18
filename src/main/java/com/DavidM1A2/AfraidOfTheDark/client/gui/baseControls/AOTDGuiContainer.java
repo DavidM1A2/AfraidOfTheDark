@@ -39,6 +39,11 @@ public abstract class AOTDGuiContainer extends AOTDGuiComponentWithEvents
 		container.setParent(null);
 	}
 
+	public List<AOTDGuiContainer> getChildren()
+	{
+		return this.subComponents;
+	}
+
 	public int getXWithoutParentTransform()
 	{
 		return (this.parent == null) ? this.getX() : (this.getX() - this.parent.getX());

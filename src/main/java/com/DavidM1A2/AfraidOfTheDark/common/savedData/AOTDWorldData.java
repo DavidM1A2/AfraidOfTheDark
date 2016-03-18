@@ -6,9 +6,9 @@
 package com.DavidM1A2.AfraidOfTheDark.common.savedData;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
-import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTObjectWriter;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Point3D;
 
 import net.minecraft.nbt.NBTTagCompound;
@@ -20,8 +20,8 @@ public class AOTDWorldData extends WorldSavedData
 	private static final String IDENTIFIER = "AOTDWorldData";
 
 	// PROPERTIES =============================================================
-	private Set<Point3D> dungeonsAboveGround = new HashSet<Point3D>();
-	private Set<Point3D> dungeonsBelowGround = new HashSet<Point3D>();
+	private HashSet<Point3D> dungeonsAboveGround = new HashSet<Point3D>();
+	private HashSet<Point3D> dungeonsBelowGround = new HashSet<Point3D>();
 
 	// CONSTRUCTOR, GETTER, REGISTER ==========================================
 
@@ -56,25 +56,49 @@ public class AOTDWorldData extends WorldSavedData
 	// LOAD, SAVE =============================================================
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt)
+	public void writeToNBT(NBTTagCompound nbt)
 	{
-		this.dungeonsAboveGround = (Set<Point3D>) NBTObjectWriter.readObjectFromNBT("AOTDDungeonsAboveGround", nbt);
-		if (this.dungeonsAboveGround == null)
+		nbt.setInteger("numberDungeonsAbove", this.dungeonsAboveGround.size());
+		nbt.setInteger("numberDungeonsBelow", this.dungeonsBelowGround.size());
+		Iterator<Point3D> iterator = this.dungeonsAboveGround.iterator();
+		int index = 0;
+		while (iterator.hasNext())
 		{
-			this.dungeonsAboveGround = new HashSet<Point3D>();
+			Point3D current = iterator.next();
+			NBTTagCompound pointData = new NBTTagCompound();
+			current.writeToNBT(pointData);
+			nbt.setTag("pointA " + index, pointData);
+			index = index + 1;
 		}
-		this.dungeonsBelowGround = (Set<Point3D>) NBTObjectWriter.readObjectFromNBT("AOTDDungeonsBelowGround", nbt);
-		if (this.dungeonsBelowGround == null)
+		iterator = this.dungeonsBelowGround.iterator();
+		index = 0;
+		while (iterator.hasNext())
 		{
-			this.dungeonsBelowGround = new HashSet<Point3D>();
+			Point3D current = iterator.next();
+			NBTTagCompound pointData = new NBTTagCompound();
+			current.writeToNBT(pointData);
+			nbt.setTag("pointB " + index, pointData);
+			index = index + 1;
 		}
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt)
+	public void readFromNBT(NBTTagCompound nbt)
 	{
-		NBTObjectWriter.writeObjectToNBT("AOTDDungeonsAboveGround", this.dungeonsAboveGround, nbt);
-		NBTObjectWriter.writeObjectToNBT("AOTDDungeonsBelowGround", this.dungeonsBelowGround, nbt);
+		this.dungeonsAboveGround = new HashSet<Point3D>();
+		this.dungeonsBelowGround = new HashSet<Point3D>();
+		for (int i = 0; i < nbt.getInteger("numberDungeonsAbove"); i++)
+		{
+			NBTTagCompound pointData = nbt.getCompoundTag("pointA " + i);
+			Point3D point = new Point3D(pointData);
+			this.dungeonsAboveGround.add(point);
+		}
+		for (int i = 0; i < nbt.getInteger("numberDungeonsBelow"); i++)
+		{
+			NBTTagCompound pointData = nbt.getCompoundTag("pointB " + i);
+			Point3D point = new Point3D(pointData);
+			this.dungeonsBelowGround.add(point);
+		}
 	}
 
 	// GETTER, SETTER, SYNCER =================================================
