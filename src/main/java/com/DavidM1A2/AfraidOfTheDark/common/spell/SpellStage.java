@@ -44,13 +44,21 @@ public class SpellStage implements Serializable
 	public void writeToNBT(NBTTagCompound compound)
 	{
 		NBTTagCompound deliveryMethodData = new NBTTagCompound();
-		this.deliveryMethod.writeToNBT(deliveryMethodData);
+		if (this.deliveryMethod != null)
+		{
+			this.deliveryMethod.writeToNBT(deliveryMethodData);
+			deliveryMethodData.setBoolean("null", false);
+		}
+		else
+			deliveryMethodData.setBoolean("null", true);
+
 		compound.setTag("deliveryMethod", deliveryMethodData);
 		compound.setInteger("numberOfEffects", effects.size());
 		for (int i = 0; i < this.effects.size(); i++)
 		{
 			NBTTagCompound effectData = new NBTTagCompound();
 			this.effects.get(i).writeToNBT(effectData);
+			effectData.setBoolean("null", false);
 			compound.setTag("effect " + i, effectData);
 		}
 	}

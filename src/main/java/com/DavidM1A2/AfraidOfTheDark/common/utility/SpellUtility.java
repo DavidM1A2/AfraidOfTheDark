@@ -22,6 +22,8 @@ public class SpellUtility
 {
 	public static ISpellComponent createSpellComponentFromNBT(NBTTagCompound compound)
 	{
+		if (compound.getBoolean("null"))
+			return null;
 		String type = compound.getString("type");
 		if (type.equals("deliveryMethod"))
 			return createDeliveryMethodFromNBT(compound);

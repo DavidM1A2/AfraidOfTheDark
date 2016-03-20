@@ -5,44 +5,59 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.spell;
 
+import java.io.Serializable;
+import java.util.Map;
 import java.util.UUID;
 
 import com.DavidM1A2.AfraidOfTheDark.common.spell.effects.IEffect;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.powerSources.IPowerSource;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.SpellUtility;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.Side;
 
-public class Spell
+public class Spell implements Serializable
 {
 	private String name;
 	private IPowerSource powerSource;
 	private SpellStage[] spellStages;
 	private UUID spellID;
-	private EntityPlayer spellOwner;
+	private UUID spellOwner;
 
 	public Spell(NBTTagCompound spellData)
 	{
 		this.readFromNBT(spellData);
 	}
 
-	public Spell(String name, IPowerSource powerSource, SpellStage[] spellStages, UUID spellID)
+	public Spell(EntityPlayer owner, String name, IPowerSource powerSource, SpellStage[] spellStages, UUID spellID)
 	{
 		this.name = name;
 		this.spellStages = spellStages;
 		this.powerSource = powerSource;
 		this.spellID = spellID;
+		this.spellOwner = owner.getPersistentID();
 	}
 
 	public void writeToNBT(NBTTagCompound spellCompound)
 	{
 		spellCompound.setString("spellName", this.name);
-		NBTTagCompound powerSource = new NBTTagCompound();
-		this.powerSource.writeToNBT(powerSource);
-		spellCompound.setTag("spellPowerSource", powerSource);
+		NBTTagCompound powerSourceData = new NBTTagCompound();
+		if (this.powerSource != null)
+		{
+			this.powerSource.writeToNBT(powerSourceData);
+			powerSourceData.setBoolean("null", false);
+		}
+		else
+			powerSourceData.setBoolean("null", true);
+		spellCompound.setTag("spellPowerSource", powerSourceData);
 		spellCompound.setInteger("numberOfSpellStages", this.spellStages.length);
 		for (int i = 0; i < spellStages.length; i++)
 		{
@@ -52,6 +67,8 @@ public class Spell
 		}
 		spellCompound.setLong("UUIDMost", this.getSpellUUID().getMostSignificantBits());
 		spellCompound.setLong("UUIDLeast", this.getSpellUUID().getLeastSignificantBits());
+		spellCompound.setLong("UUIDMostPlayer", this.getSpellOwner().getMostSignificantBits());
+		spellCompound.setLong("UUIDLeastPlayer", this.getSpellOwner().getLeastSignificantBits());
 	}
 
 	public void readFromNBT(NBTTagCompound spellCompound)
@@ -69,16 +86,25 @@ public class Spell
 		Long mostSignificantBits = spellCompound.getLong("UUIDMost");
 		Long leastSignificantBits = spellCompound.getLong("UUIDLeast");
 		this.spellID = new UUID(mostSignificantBits, leastSignificantBits);
+		Long mostSignificantBitsPlayer = spellCompound.getLong("UUIDMostPlayer");
+		Long leastSignificantBitsPlayer = spellCompound.getLong("UUIDLeastPlayer");
+		this.spellOwner = new UUID(mostSignificantBitsPlayer, leastSignificantBitsPlayer);
 	}
 
 	public void instantiateSpell()
 	{
-		if (this.isSpellValid() && this.powerSource.attemptToCast(this))
-			this.getSpellOwner().worldObj.spawnEntityInWorld(this.spellStages[0].getDeliveryMethod().createSpellEntity(this));
-		else if (!this.isSpellValid())
-			this.spellOwner.addChatMessage(new ChatComponentText("Invalid spell. Make sure to have delivery methods and a power source on your spell!"));
+		EntityPlayer entityPlayer = this.attemptToGetPlayer();
+		if (entityPlayer != null)
+		{
+			if (this.isSpellValid() && this.powerSource.attemptToCast(this))
+				entityPlayer.worldObj.spawnEntityInWorld(this.spellStages[0].getDeliveryMethod().createSpellEntity(this));
+			else if (!this.isSpellValid())
+				entityPlayer.addChatMessage(new ChatComponentText("Invalid spell. Make sure to have delivery methods and a power source on your spell!"));
+			else
+				entityPlayer.addChatMessage(new ChatComponentText(this.powerSource.notEnoughEnergyMsg()));
+		}
 		else
-			this.spellOwner.addChatMessage(new ChatComponentText(this.powerSource.notEnoughEnergyMsg()));
+			LogHelper.info("Attempted to instantiate a spell on an offline player...");
 	}
 
 	public double getCost()
@@ -124,12 +150,33 @@ public class Spell
 
 	public void setSpellOwner(EntityPlayer spellOwner)
 	{
-		this.spellOwner = spellOwner;
+		this.spellOwner = spellOwner.getPersistentID();
 	}
 
-	public EntityPlayer getSpellOwner()
+	public UUID getSpellOwner()
 	{
 		return this.spellOwner;
+	}
+
+	public EntityPlayer attemptToGetPlayer()
+	{
+		if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
+		{
+			Map<UUID, EntityPlayerMP> players = MinecraftServer.getServer().getConfigurationManager().uuidToPlayerMap;
+			if (players.containsKey(this.spellOwner))
+				return players.get(this.spellOwner);
+			else
+				return null;
+		}
+		else
+		{
+			return Minecraft.getMinecraft().thePlayer;
+		}
+	}
+
+	public void setName(String name)
+	{
+		this.name = name;
 	}
 
 	public String getName()
@@ -140,5 +187,22 @@ public class Spell
 	public UUID getSpellUUID()
 	{
 		return this.spellID;
+	}
+
+	public IPowerSource getPowerSource()
+	{
+		return this.powerSource;
+	}
+
+	@Override
+	public String toString()
+	{
+		String toReturn = "";
+
+		toReturn = toReturn + "--------- Spell Printout: ---------\nName: " + this.getName() + "\n";
+		toReturn = toReturn + "Power Source: " + this.getPowerSource() + "\n";
+		toReturn = toReturn + "Spell has " + this.spellStages.length + " spell stages.";
+
+		return toReturn;
 	}
 }

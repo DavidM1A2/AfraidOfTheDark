@@ -23,6 +23,12 @@ public interface IPowerSource extends ISpellComponent
 
 	/**
 	 * 
+	 * @return The power source enum constant representing this power source class
+	 */
+	public abstract PowerSources getPowerSourceType();
+
+	/**
+	 * 
 	 * @param compound
 	 *            The compound to write the current power source's data to
 	 */

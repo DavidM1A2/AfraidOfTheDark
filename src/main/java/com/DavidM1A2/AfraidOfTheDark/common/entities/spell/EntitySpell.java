@@ -8,7 +8,6 @@ package com.DavidM1A2.AfraidOfTheDark.common.entities.spell;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.effects.IEffect;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
@@ -26,13 +25,18 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 	private static final String SPELL_COLOR = "spellColor";
 	private float[] color = new float[4];
 
-	public EntitySpell(World world, Spell callback, int spellStageIndex)
+	public EntitySpell(World world)
 	{
 		super(world);
+		this.setSize(this.getSpellEntityWidth(), this.getSpellEntityHeight());
 		color[0] = color[1] = color[2] = color[3] = 1.0f;
+	}
+
+	public EntitySpell(World world, Spell callback, int spellStageIndex)
+	{
+		this(world);
 		this.spellSource = callback;
 		this.spellStageIndex = spellStageIndex;
-		this.setSize(this.getSpellEntityWidth(), this.getSpellEntityHeight());
 	}
 
 	@Override
@@ -42,7 +46,11 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 		this.ticksAlive++;
 		if (this.ticksAlive >= this.getSpellLifeInTicks())
 		{
-			this.spellStageComplete();
+			if (!worldObj.isRemote)
+			{
+				this.performEffect(this.getPosition());
+				this.spellStageComplete();
+			}
 			this.setDead();
 		}
 		else
@@ -73,7 +81,7 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 	{
 		compound.setInteger(SPELL_STAGE_KEY, this.spellStageIndex);
 		NBTTagCompound spellData = new NBTTagCompound();
-		this.spellSource.writeToNBT(compound);
+		this.spellSource.writeToNBT(spellData);
 		compound.setTag(SPELL_SOURCE, spellData);
 		compound.setInteger(SPELL_TICKS_ALIVE, this.ticksAlive);
 		compound.setFloat(SPELL_COLOR + "r", this.color[0]);
@@ -87,7 +95,6 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 		this.spellStageIndex = this.spellStageIndex + 1;
 		if (!this.spellSource.hasSpellStage(spellStageIndex))
 		{
-			LogHelper.info("Entity spell: Spell over");
 			return;
 		}
 		this.worldObj.spawnEntityInWorld(this.getSpellSource().getSpellStageByIndex(this.spellStageIndex).getDeliveryMethod().createSpellEntity(this, spellStageIndex));
@@ -143,6 +150,12 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 	public float[] getSpellColor()
 	{
 		return this.color;
+	}
+
+	@Override
+	public boolean isImmuneToExplosions()
+	{
+		return true;
 	}
 
 	public abstract float getSpellEntityWidth();

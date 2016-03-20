@@ -5,6 +5,8 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls;
 
+import java.awt.Rectangle;
+
 import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDGuiUtility;
 
 public class AOTDGuiScrollPanel extends AOTDGuiContainer
@@ -40,16 +42,13 @@ public class AOTDGuiScrollPanel extends AOTDGuiContainer
 		{
 			lastSliderPosition = this.scrollSource.getSliderValue();
 			super.setY(ORIGINAL_Y_POS + (int) (maximumOffset * lastSliderPosition));
+			Rectangle realBoundingBox = new Rectangle(this.getXScaled(), ORIGINAL_Y_POS, this.getWidthScaled(), this.getHeightScaled());
 			for (AOTDGuiContainer container : this.getChildren())
 			{
-				if (!this.intersects(container))
-				{
-					container.setVisible(false);
-				}
-				else
-				{
+				if (container.intersects(realBoundingBox))
 					container.setVisible(true);
-				}
+				else
+					container.setVisible(false);
 			}
 		}
 

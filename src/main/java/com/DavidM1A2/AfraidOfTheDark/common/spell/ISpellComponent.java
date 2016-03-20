@@ -5,7 +5,9 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.spell;
 
-public interface ISpellComponent
+import java.io.Serializable;
+
+public interface ISpellComponent extends Serializable
 {
 
 }

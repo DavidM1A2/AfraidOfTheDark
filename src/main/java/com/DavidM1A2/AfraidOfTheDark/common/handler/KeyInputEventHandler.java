@@ -49,7 +49,7 @@ public class KeyInputEventHandler
 		{
 			this.changeLanternMode();
 		}
-		if (AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).getSpellManager().doesKeyMapToSpell(Keyboard.getEventCharacter()))
+		if (Keyboard.getEventKeyState() && AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).getSpellManager().doesKeyMapToSpell(Keyboard.getKeyName(Keyboard.getEventKey())))
 		{
 			this.spellKeyPressed();
 		}

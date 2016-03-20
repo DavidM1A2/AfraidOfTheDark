@@ -1,8 +1,11 @@
 package com.DavidM1A2.AfraidOfTheDark.common.spell.deliveryMethods;
 
+import org.apache.commons.lang3.SerializationUtils;
+
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.EntitySpell;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.projectile.EntitySpellProjectile;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -18,15 +21,22 @@ public class Projectile extends DeliveryMethod
 	@Override
 	public EntitySpell createSpellEntity(EntitySpell previous, int spellStageIndex)
 	{
-		EntityPlayer spellOwner = previous.getSpellSource().getSpellOwner();
-		return new EntitySpellProjectile(previous.getSpellSource(), spellStageIndex, previous.posX, previous.posY, previous.posZ, previous.getLookVec().xCoord, previous.getLookVec().yCoord, previous.getLookVec().zCoord, false);
+		Spell spellSource = previous.getSpellSource();
+		return new EntitySpellProjectile(previous.getSpellSource(), spellStageIndex, previous.posX, previous.posY, previous.posZ, 0, 0, 0, false);
 	}
 
 	@Override
 	public EntitySpell createSpellEntity(Spell callback)
 	{
-		EntityPlayer spellOwner = callback.getSpellOwner();
-		return new EntitySpellProjectile(callback, 0, spellOwner.posX, spellOwner.posY + 0.8d, spellOwner.posZ, spellOwner.getLookVec().xCoord, spellOwner.getLookVec().yCoord, spellOwner.getLookVec().zCoord, true);
+		EntityPlayer spellOwner = callback.attemptToGetPlayer();
+		Spell callbackClone = SerializationUtils.<Spell> clone(callback);
+		if (spellOwner != null)
+			return new EntitySpellProjectile(callbackClone, 0, spellOwner.posX, spellOwner.posY + 0.8d, spellOwner.posZ, spellOwner.getLookVec().xCoord, spellOwner.getLookVec().yCoord, spellOwner.getLookVec().zCoord, true);
+		else
+		{
+			LogHelper.info("Attempted to create a spell on a player that is offline...");
+			return null;
+		}
 	}
 
 	@Override

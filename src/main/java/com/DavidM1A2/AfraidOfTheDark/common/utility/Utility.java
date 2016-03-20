@@ -133,4 +133,14 @@ public class Utility
 			return;
 		explosion.doExplosionB(true);
 	}
+
+	public static int keyCodeFromChar(Character character)
+	{
+		return Character.digit(character, Character.MAX_RADIX);
+	}
+
+	public static Character charFromKeyCode(int keyCode)
+	{
+		return Character.forDigit(keyCode, Character.MAX_RADIX);
+	}
 }

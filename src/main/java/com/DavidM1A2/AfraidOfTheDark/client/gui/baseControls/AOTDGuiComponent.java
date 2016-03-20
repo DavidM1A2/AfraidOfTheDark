@@ -76,6 +76,13 @@ public abstract class AOTDGuiComponent
 		return this.scaledBoundingBox.contains(other);
 	}
 
+	public boolean intersects(Rectangle other)
+	{
+		if (other == null)
+			return false;
+		return this.scaledBoundingBox.intersects(other);
+	}
+
 	public void setScaleXAndY(double scale)
 	{
 		this.setScaleX(scale);

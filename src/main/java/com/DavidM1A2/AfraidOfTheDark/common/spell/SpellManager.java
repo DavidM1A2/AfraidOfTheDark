@@ -10,15 +10,16 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import org.lwjgl.input.Keyboard;
+
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class SpellManager
 {
-	private BiMap<Character, UUID> keyToSpellUUID = HashBiMap.<Character, UUID> create();
+	private BiMap<String, UUID> keyToSpellUUID = HashBiMap.<String, UUID> create();
 	private BiMap<UUID, Spell> spells = HashBiMap.<UUID, Spell> create();
 
 	public void writeToNBT(NBTTagCompound compound)
@@ -26,15 +27,15 @@ public class SpellManager
 		NBTTagCompound spellManager = new NBTTagCompound();
 
 		// Encode Char to UUID bimap
-		Iterator<Entry<Character, UUID>> keyToSpellUUIDIterator = keyToSpellUUID.entrySet().iterator();
+		Iterator<Entry<String, UUID>> keyToSpellUUIDIterator = keyToSpellUUID.entrySet().iterator();
 		spellManager.setInteger("numberKeyToSpellUUIDMappings", keyToSpellUUID.entrySet().size());
 		int index = 0;
 		while (keyToSpellUUIDIterator.hasNext())
 		{
-			Entry<Character, UUID> entry = keyToSpellUUIDIterator.next();
-			Character character = entry.getKey();
+			Entry<String, UUID> entry = keyToSpellUUIDIterator.next();
+			String character = entry.getKey();
 			UUID uuid = entry.getValue();
-			spellManager.setInteger("Character" + index, Character.getNumericValue(character));
+			spellManager.setString("Character" + index, character);
 			spellManager.setLong("UUIDMost" + index, uuid.getMostSignificantBits());
 			spellManager.setLong("UUIDLeast" + index, uuid.getLeastSignificantBits());
 			index = index + 1;
@@ -67,7 +68,7 @@ public class SpellManager
 		this.keyToSpellUUID.clear();
 		for (int i = 0; i < spellManager.getInteger("numberKeyToSpellUUIDMappings"); i++)
 		{
-			Character character = Character.forDigit(spellManager.getInteger("Character" + i), Character.MAX_RADIX);
+			String character = spellManager.getString("Character" + i);
 			Long mostSignificant = spellManager.getLong("UUIDMost" + i);
 			Long leastSignificant = spellManager.getLong("UUIDLeast" + i);
 			UUID uuid = new UUID(mostSignificant, leastSignificant);
@@ -101,42 +102,33 @@ public class SpellManager
 		return spells.values();
 	}
 
-	public void setKeybindingToSpell(Character key, Spell spell)
+	public void setKeybindingToSpell(String key, Spell spell)
 	{
-		if (key == null)
-			return;
 		this.keyToSpellUUID.forcePut(key, spell.getSpellUUID());
-	}
-
-	public void removeKeybindingToSpell(char key, Spell spell)
-	{
-		this.keyToSpellUUID.remove(key, spell.getSpellUUID());
-	}
-
-	public void setAllSpellsOwners(EntityPlayer owner)
-	{
-		for (Spell spell : this.spells.values())
-			spell.setSpellOwner(owner);
 	}
 
 	// Called server side to instantiate the spell
 	public void keyPressed(int keyCode, char key)
 	{
-		if (this.doesKeyMapToSpell(key))
-			this.spells.get(this.keyToSpellUUID.get(key)).instantiateSpell();
+		String keyName = Keyboard.getKeyName(keyCode);
+		if (keyName != null)
+		{
+			if (this.doesKeyMapToSpell(keyName))
+				this.spells.get(this.keyToSpellUUID.get(keyName)).instantiateSpell();
+		}
 	}
 
-	public boolean doesKeyMapToSpell(char key)
+	public boolean doesKeyMapToSpell(String key)
 	{
 		return this.keyToSpellUUID.containsKey(key) && this.spells.containsKey(this.keyToSpellUUID.get(key));
 	}
 
-	public Character keyFromSpell(Spell spell)
+	public String keyFromSpell(Spell spell)
 	{
 		UUID current = spells.inverse().get(spell);
 		if (current != null)
 		{
-			Character key = keyToSpellUUID.inverse().get(current);
+			String key = keyToSpellUUID.inverse().get(current);
 			if (key != null)
 			{
 				return key;

@@ -24,7 +24,7 @@ public class Explosion extends Effect
 	@Override
 	public void performEffect(Entity entity)
 	{
-		entity.worldObj.createExplosion(entity, entity.posX, entity.posY, entity.posZ, 3.0f, true);
+		entity.worldObj.createExplosion(null, entity.posX, entity.posY, entity.posZ, 3.0f, true);
 	}
 
 	@Override

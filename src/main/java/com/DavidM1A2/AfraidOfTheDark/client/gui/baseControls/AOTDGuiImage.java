@@ -12,7 +12,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class AOTDGuiImage extends AOTDGuiContainer
 {
-	private final ResourceLocation imageTexture;
+	private ResourceLocation imageTexture;
 	private int u = 0;
 	private int v = 0;
 	private final int textureWidth;
@@ -74,5 +74,10 @@ public class AOTDGuiImage extends AOTDGuiContainer
 			return this.getHeight();
 		else
 			return this.textureHeight;
+	}
+
+	public void setImageTexture(String resourceLocation)
+	{
+		this.imageTexture = new ResourceLocation(resourceLocation);
 	}
 }

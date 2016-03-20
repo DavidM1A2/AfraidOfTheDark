@@ -11,21 +11,25 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDGuiUtility;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiButton;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiComponent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiImage;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiLabel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiScrollBar;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiScrollPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiTextField;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiPowerSource;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiSpellStage;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
+import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.ChatComponentText;
 
 public class SpellCraftingGUI extends AOTDGuiScreen
 {
@@ -34,15 +38,18 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 	private AOTDGuiScrollPanel scrollPanel;
 	private List<AOTDGuiSpellStage> spellStages = new ArrayList<AOTDGuiSpellStage>();
 	private AOTDGuiLabel spellCost;
+	private Spell spell;
 
 	public SpellCraftingGUI()
 	{
+		this.spell = ClientData.spellToBeEdited;
 		AOTDGuiPanel tablet = new AOTDGuiPanel(100, (360 - 256) / 2, 192, 256, false);
 
 		AOTDGuiImage background = new AOTDGuiImage(0, 0, 192, 256, "afraidofthedark:textures/gui/spellCrafting/tabletBackground.png");
 		tablet.add(background);
 		spellName = new AOTDGuiTextField(60, 30, 85, 25, ClientData.getTargaMSHandFontSized(35f));
 		spellName.setGhostText("Spell Name");
+		spellName.setText(spell.getName());
 		tablet.add(spellName);
 		scrollBar = new AOTDGuiScrollBar(10, 75, 15, 170);
 		tablet.add(scrollBar);
@@ -61,11 +68,25 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 		saveButton.addMouseListener(new AOTDMouseListener()
 		{
 			@Override
-			public void mouseClicked(AOTDMouseEvent event) {}
+			public void mouseClicked(AOTDMouseEvent event)
+			{
+			}
+
 			@Override
-			public void mousePressed(AOTDMouseEvent event) {}
+			public void mousePressed(AOTDMouseEvent event)
+			{
+				if (event.getSource().isHovered())
+				{
+					spell.setName(spellName.getText());
+					AOTDPlayerData.get(entityPlayer).syncSpellManager();
+					entityPlayer.addChatMessage(new ChatComponentText("Spell " + spell.getName() + " successfully saved."));
+				}
+			}
+
 			@Override
-			public void mouseReleased(AOTDMouseEvent event) {}
+			public void mouseReleased(AOTDMouseEvent event)
+			{
+			}
 
 			@Override
 			public void mouseEntered(AOTDMouseEvent event)
@@ -82,15 +103,25 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 		});
 		tablet.add(saveButton);
 		AOTDGuiButton closeButton = new AOTDGuiButton(152, 130, 20, 20, null, "afraidofthedark:textures/gui/spellCrafting/delete.png");
-		closeButton.setHoverText("Exit without saving spell");
+		closeButton.setHoverText("Exit without saving");
 		closeButton.addMouseListener(new AOTDMouseListener()
 		{
 			@Override
-			public void mouseClicked(AOTDMouseEvent event) {}
+			public void mouseClicked(AOTDMouseEvent event)
+			{
+			}
+
 			@Override
-			public void mousePressed(AOTDMouseEvent event) {}
+			public void mousePressed(AOTDMouseEvent event)
+			{
+				if (event.getSource().isHovered())
+					entityPlayer.openGui(Refrence.MOD_ID, GuiHandler.SPELL_SELECTION_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
+			}
+
 			@Override
-			public void mouseReleased(AOTDMouseEvent event) {}
+			public void mouseReleased(AOTDMouseEvent event)
+			{
+			}
 
 			@Override
 			public void mouseEntered(AOTDMouseEvent event)
@@ -106,16 +137,24 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 			}
 		});
 		tablet.add(closeButton);
-		AOTDGuiImage powerSource = new AOTDGuiImage(152, 155, 20, 20, "afraidofthedark:textures/gui/spellCrafting/tabletIconHolder.png");
+		AOTDGuiPowerSource powerSource = new AOTDGuiPowerSource(152, 155, 20, 20, spell.getPowerSource().getPowerSourceType());
 		powerSource.setHoverText("Spell Power Source");
 		powerSource.addMouseListener(new AOTDMouseListener()
 		{
 			@Override
-			public void mouseClicked(AOTDMouseEvent event) {}
+			public void mouseClicked(AOTDMouseEvent event)
+			{
+			}
+
 			@Override
-			public void mousePressed(AOTDMouseEvent event) {}
+			public void mousePressed(AOTDMouseEvent event)
+			{
+			}
+
 			@Override
-			public void mouseReleased(AOTDMouseEvent event) {}
+			public void mouseReleased(AOTDMouseEvent event)
+			{
+			}
 
 			@Override
 			public void mouseEntered(AOTDMouseEvent event)
@@ -136,11 +175,19 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 		helpButton.addMouseListener(new AOTDMouseListener()
 		{
 			@Override
-			public void mouseClicked(AOTDMouseEvent event) {}
+			public void mouseClicked(AOTDMouseEvent event)
+			{
+			}
+
 			@Override
-			public void mousePressed(AOTDMouseEvent event) {}
+			public void mousePressed(AOTDMouseEvent event)
+			{
+			}
+
 			@Override
-			public void mouseReleased(AOTDMouseEvent event) {}
+			public void mouseReleased(AOTDMouseEvent event)
+			{
+			}
 
 			@Override
 			public void mouseEntered(AOTDMouseEvent event)
@@ -193,13 +240,24 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 			}
 
 			@Override
-			public void mousePressed(AOTDMouseEvent event) {}
+			public void mousePressed(AOTDMouseEvent event)
+			{
+			}
+
 			@Override
-			public void mouseReleased(AOTDMouseEvent event) {}
+			public void mouseReleased(AOTDMouseEvent event)
+			{
+			}
+
 			@Override
-			public void mouseEntered(AOTDMouseEvent event) {}
+			public void mouseEntered(AOTDMouseEvent event)
+			{
+			}
+
 			@Override
-			public void mouseExited(AOTDMouseEvent event) {}
+			public void mouseExited(AOTDMouseEvent event)
+			{
+			}
 		});
 		nextSpellStage.addMouseListenerToRemoveRow(new AOTDMouseListener()
 		{
@@ -211,13 +269,24 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 			}
 
 			@Override
-			public void mousePressed(AOTDMouseEvent event) {}
+			public void mousePressed(AOTDMouseEvent event)
+			{
+			}
+
 			@Override
-			public void mouseReleased(AOTDMouseEvent event) {}
+			public void mouseReleased(AOTDMouseEvent event)
+			{
+			}
+
 			@Override
-			public void mouseEntered(AOTDMouseEvent event) {}
+			public void mouseEntered(AOTDMouseEvent event)
+			{
+			}
+
 			@Override
-			public void mouseExited(AOTDMouseEvent event) {}
+			public void mouseExited(AOTDMouseEvent event)
+			{
+			}
 		});
 		this.scrollPanel.add(nextSpellStage);
 		this.spellStages.add(nextSpellStage);

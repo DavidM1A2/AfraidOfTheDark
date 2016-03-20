@@ -6,8 +6,6 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class Self extends PowerSource
 {
-	public static final int id = 1;
-
 	@Override
 	public boolean attemptToCast(Spell toCast)
 	{
@@ -32,5 +30,11 @@ public class Self extends PowerSource
 	{
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public PowerSources getPowerSourceType()
+	{
+		return PowerSources.Self;
 	}
 }

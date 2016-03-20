@@ -8,8 +8,11 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiScrollBar;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiScrollPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiSpell;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 public class SpellSelectionGUI extends AOTDGuiScreen
 {
@@ -42,11 +45,62 @@ public class SpellSelectionGUI extends AOTDGuiScreen
 
 	private void addSpellContainer(Spell spell)
 	{
-		AOTDGuiSpell guiSpell = new AOTDGuiSpell(0, this.spells.size() * distanceBetweenEntries, 100, 40, false, spell);
+		final AOTDGuiSpell guiSpell = new AOTDGuiSpell(0, this.spells.size() * distanceBetweenEntries, 100, 40, false, spell);
+		guiSpell.getDeleteButton().addMouseListener(new AOTDMouseListener()
+		{
+			@Override
+			public void mouseReleased(AOTDMouseEvent event)
+			{
+			}
+
+			@Override
+			public void mousePressed(AOTDMouseEvent event)
+			{
+				if (event.getSource().isHovered())
+				{
+					SpellSelectionGUI.this.removeSpellContainer(guiSpell);
+				}
+			}
+
+			@Override
+			public void mouseExited(AOTDMouseEvent event)
+			{
+			}
+
+			@Override
+			public void mouseEntered(AOTDMouseEvent event)
+			{
+			}
+
+			@Override
+			public void mouseClicked(AOTDMouseEvent event)
+			{
+			}
+		});
 		this.spells.add(guiSpell);
 		if (this.spells.size() > 4)
 			this.scrollPanel.setMaximumOffset((this.spells.size() - 4) * distanceBetweenEntries);
 		this.scrollPanel.add(guiSpell);
+	}
+
+	public void removeSpellContainer(AOTDGuiSpell spell)
+	{
+		int index = spells.indexOf(spell);
+		if (index == -1)
+			LogHelper.info("Attempted to delete spell at index -1, wtf?");
+		else
+		{
+			spells.remove(index);
+			scrollPanel.remove(spell);
+			AOTDPlayerData.get(entityPlayer).getSpellManager().removeSpell(spell.getSpell());
+			for (int i = index; i < spells.size(); i++)
+			{
+				AOTDGuiSpell current = spells.get(i);
+				current.setY(current.getY() - distanceBetweenEntries);
+			}
+			if (spells.size() > 4)
+				scrollPanel.setMaximumOffset((this.spells.size() - 4) * distanceBetweenEntries);
+		}
 	}
 
 	@Override
