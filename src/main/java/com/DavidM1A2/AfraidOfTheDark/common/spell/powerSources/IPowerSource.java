@@ -25,7 +25,8 @@ public interface IPowerSource extends ISpellComponent
 	 * 
 	 * @return The power source enum constant representing this power source class
 	 */
-	public abstract PowerSources getPowerSourceType();
+	@Override
+	public abstract PowerSources getType();
 
 	/**
 	 * 

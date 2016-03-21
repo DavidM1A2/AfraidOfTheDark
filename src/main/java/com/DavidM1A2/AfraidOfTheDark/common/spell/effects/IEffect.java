@@ -28,4 +28,11 @@ public interface IEffect extends ISpellComponent
 	 *            The compound to read the current power source's data from
 	 */
 	public abstract void readFromNBT(NBTTagCompound compound);
+
+	/**
+	 * 
+	 * @return The ieffect enum constant representing this effect class
+	 */
+	@Override
+	public abstract Effects getType();
 }

@@ -33,7 +33,7 @@ public class Self extends PowerSource
 	}
 
 	@Override
-	public PowerSources getPowerSourceType()
+	public PowerSources getType()
 	{
 		return PowerSources.Self;
 	}

@@ -5,14 +5,15 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui.customControls;
 
-import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDGuiUtility;
+import java.util.List;
+
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiButton;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiComponent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiImage;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseMoveListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellStage;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.effects.IEffect;
 
 import net.minecraft.client.Minecraft;
 
@@ -21,55 +22,70 @@ public class AOTDGuiSpellStage extends AOTDGuiPanel
 	private AOTDGuiButton addNewRow;
 	private AOTDGuiButton removeRow;
 
-	public AOTDGuiSpellStage(int x, int y, int width, int height, boolean scissorEnabled)
+	public AOTDGuiSpellStage(int x, int y, int width, int height, boolean scissorEnabled, SpellStage spellStage)
 	{
 		super(x, y, width, height, scissorEnabled);
 
 		AOTDGuiImage background = new AOTDGuiImage(0, 0, width, height - 14, "afraidofthedark:textures/gui/spellCrafting/tabletSpellModule2.png");
 		this.add(background);
 
-		AOTDGuiImage deliveryMethod = new AOTDGuiImage(5, 5, height - 25, height - 25, "afraidofthedark:textures/gui/spellCrafting/tabletIconHolder.png");
+		AOTDGuiSpellComponent deliveryMethod = new AOTDGuiSpellComponent(5, 5, height - 25, height - 25, spellStage.getDeliveryMethod() != null ? spellStage.getDeliveryMethod().getType() : null);
 		deliveryMethod.setColor(new float[]
 		{ 0.8f, 0.8f, 1.0f, 1.0f });
-		deliveryMethod.setHoverText("Delivery Method Slot");
+		deliveryMethod.setHoverText("Delivery Method Slot (" + deliveryMethod.getTypeNameFormatted() + ")");
 		deliveryMethod.addMouseListener(new AOTDMouseListener()
-		{			
+		{
 			@Override
-			public void mouseReleased(AOTDMouseEvent event) {}			
+			public void mouseReleased(AOTDMouseEvent event)
+			{
+			}
+
 			@Override
-			public void mousePressed(AOTDMouseEvent event) {}
-			
+			public void mousePressed(AOTDMouseEvent event)
+			{
+			}
+
 			@Override
 			public void mouseExited(AOTDMouseEvent event)
 			{
 				event.getSource().brightenColor(0.1f);
 			}
-			
+
 			@Override
 			public void mouseEntered(AOTDMouseEvent event)
 			{
 				event.getSource().darkenColor(0.1f);
 				Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:spellCraftingButtonHover", 0.6f, 1.7f);
 			}
-			
+
 			@Override
-			public void mouseClicked(AOTDMouseEvent event) {}
+			public void mouseClicked(AOTDMouseEvent event)
+			{
+			}
 		});
 		this.add(deliveryMethod);
 
 		AOTDMouseListener effectHover = new AOTDMouseListener()
 		{
 			@Override
-			public void mouseClicked(AOTDMouseEvent event) {}
+			public void mouseClicked(AOTDMouseEvent event)
+			{
+			}
+
 			@Override
-			public void mousePressed(AOTDMouseEvent event) {}
+			public void mousePressed(AOTDMouseEvent event)
+			{
+			}
+
 			@Override
-			public void mouseReleased(AOTDMouseEvent event) {}
+			public void mouseReleased(AOTDMouseEvent event)
+			{
+			}
 
 			@Override
 			public void mouseEntered(AOTDMouseEvent event)
 			{
-				event.getSource().darkenColor(0.1f);				
+				event.getSource().darkenColor(0.1f);
 				Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:spellCraftingButtonHover", 0.6f, 1.7f);
 			}
 
@@ -80,18 +96,20 @@ public class AOTDGuiSpellStage extends AOTDGuiPanel
 			}
 		};
 
-		AOTDGuiImage effect1 = new AOTDGuiImage(25, 5, height - 25, height - 25, "afraidofthedark:textures/gui/spellCrafting/tabletIconHolder.png");
+		List<IEffect> effects = spellStage.getEffects();
+
+		AOTDGuiSpellComponent effect1 = new AOTDGuiSpellComponent(25, 5, height - 25, height - 25, effects.size() > 0 ? effects.get(0).getType() : null);
 		effect1.addMouseListener(effectHover);
-		effect1.setHoverText("Effect Slot");
-		AOTDGuiImage effect2 = new AOTDGuiImage(45, 5, height - 25, height - 25, "afraidofthedark:textures/gui/spellCrafting/tabletIconHolder.png");
+		effect1.setHoverText("Effect Slot (" + effect1.getTypeNameFormatted() + ")");
+		AOTDGuiSpellComponent effect2 = new AOTDGuiSpellComponent(45, 5, height - 25, height - 25, effects.size() > 1 ? effects.get(1).getType() : null);
 		effect2.addMouseListener(effectHover);
-		effect2.setHoverText("Effect Slot");
-		AOTDGuiImage effect3 = new AOTDGuiImage(65, 5, height - 25, height - 25, "afraidofthedark:textures/gui/spellCrafting/tabletIconHolder.png");
+		effect2.setHoverText("Effect Slot (" + effect2.getTypeNameFormatted() + ")");
+		AOTDGuiSpellComponent effect3 = new AOTDGuiSpellComponent(65, 5, height - 25, height - 25, effects.size() > 2 ? effects.get(2).getType() : null);
 		effect3.addMouseListener(effectHover);
-		effect3.setHoverText("Effect Slot");
-		AOTDGuiImage effect4 = new AOTDGuiImage(85, 5, height - 25, height - 25, "afraidofthedark:textures/gui/spellCrafting/tabletIconHolder.png");
+		effect3.setHoverText("Effect Slot (" + effect3.getTypeNameFormatted() + ")");
+		AOTDGuiSpellComponent effect4 = new AOTDGuiSpellComponent(85, 5, height - 25, height - 25, effects.size() > 3 ? effects.get(3).getType() : null);
 		effect4.addMouseListener(effectHover);
-		effect4.setHoverText("Effect Slot");
+		effect4.setHoverText("Effect Slot (" + effect4.getTypeNameFormatted() + ")");
 		this.add(effect1);
 		this.add(effect2);
 		this.add(effect3);

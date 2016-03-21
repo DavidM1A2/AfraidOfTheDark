@@ -51,4 +51,10 @@ public class Projectile extends DeliveryMethod
 	{
 
 	}
+
+	@Override
+	public DeliveryMethods getType()
+	{
+		return DeliveryMethods.Projectile;
+	}
 }

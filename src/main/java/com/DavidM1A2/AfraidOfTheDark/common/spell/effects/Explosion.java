@@ -40,4 +40,10 @@ public class Explosion extends Effect
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public Effects getType()
+	{
+		return Effects.Explosion;
+	}
 }

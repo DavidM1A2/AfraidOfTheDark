@@ -2,6 +2,7 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiImage;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
@@ -12,7 +13,11 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellStage;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.effects.IEffect;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
+
+import net.minecraft.client.Minecraft;
 
 public class SpellSelectionGUI extends AOTDGuiScreen
 {
@@ -39,6 +44,47 @@ public class SpellSelectionGUI extends AOTDGuiScreen
 		{
 			this.addSpellContainer(spell);
 		}
+
+		AOTDGuiImage newSpell = new AOTDGuiImage(62, 218, 25, 25, "afraidofthedark:textures/gui/spellCrafting/createSpell.png");
+		newSpell.setHoverText("Create a new spell");
+		newSpell.addMouseListener(new AOTDMouseListener()
+		{
+			@Override
+			public void mouseReleased(AOTDMouseEvent event)
+			{
+			}
+
+			@Override
+			public void mousePressed(AOTDMouseEvent event)
+			{
+				if (event.getSource().isHovered())
+				{
+					Spell newSpell = new Spell(entityPlayer, "", null, new SpellStage[]
+					{ new SpellStage(null, new ArrayList<IEffect>()) }, UUID.randomUUID());
+					AOTDPlayerData.get(entityPlayer).getSpellManager().addSpell(newSpell);
+					SpellSelectionGUI.this.addSpellContainer(newSpell);
+				}
+			}
+
+			@Override
+			public void mouseEntered(AOTDMouseEvent event)
+			{
+				event.getSource().darkenColor(0.1f);
+				Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:spellCraftingButtonHover", 0.6f, 1.7f);
+			}
+
+			@Override
+			public void mouseExited(AOTDMouseEvent event)
+			{
+				event.getSource().brightenColor(0.1f);
+			}
+
+			@Override
+			public void mouseClicked(AOTDMouseEvent event)
+			{
+			}
+		});
+		background.add(newSpell);
 
 		this.getContentPane().add(background);
 	}

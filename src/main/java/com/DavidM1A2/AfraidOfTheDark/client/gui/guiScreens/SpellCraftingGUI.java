@@ -19,7 +19,7 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiScrollBar;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiScrollPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiTextField;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiPowerSource;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiSpellComponent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiSpellStage;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
@@ -27,6 +27,8 @@ import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellStage;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.effects.IEffect;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
@@ -59,7 +61,8 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 
 		this.scrollPanel = new AOTDGuiScrollPanel(30, 55, 120, 170, true, scrollBar);
 
-		this.addNewSpellStage();
+		for (SpellStage spellStage : spell.getSpellStages())
+			this.addNewSpellStage(spellStage);
 
 		tablet.add(scrollPanel);
 
@@ -137,8 +140,8 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 			}
 		});
 		tablet.add(closeButton);
-		AOTDGuiPowerSource powerSource = new AOTDGuiPowerSource(152, 155, 20, 20, spell.getPowerSource().getPowerSourceType());
-		powerSource.setHoverText("Spell Power Source");
+		AOTDGuiSpellComponent powerSource = new AOTDGuiSpellComponent(152, 155, 20, 20, spell.getPowerSource() != null ? spell.getPowerSource().getType() : null);
+		powerSource.setHoverText("Spell Power Source (" + powerSource.getTypeNameFormatted() + ")");
 		powerSource.addMouseListener(new AOTDMouseListener()
 		{
 			@Override
@@ -227,16 +230,16 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 		this.getContentPane().add(effectScroll);
 	}
 
-	public void addNewSpellStage()
+	public void addNewSpellStage(SpellStage spellStage)
 	{
-		final AOTDGuiSpellStage nextSpellStage = new AOTDGuiSpellStage(5, (5 + this.spellStages.size() * 35), 110, 45, false);
+		final AOTDGuiSpellStage nextSpellStage = new AOTDGuiSpellStage(5, (5 + this.spellStages.size() * 35), 110, 45, false, spellStage);
 		nextSpellStage.addMouseListenerToNewRow(new AOTDMouseListener()
 		{
 			@Override
 			public void mouseClicked(AOTDMouseEvent event)
 			{
 				if (event.getSource().isHovered() && event.getSource().isVisible())
-					SpellCraftingGUI.this.addNewSpellStage();
+					SpellCraftingGUI.this.addNewSpellStage(new SpellStage(null, new ArrayList<IEffect>()));
 			}
 
 			@Override

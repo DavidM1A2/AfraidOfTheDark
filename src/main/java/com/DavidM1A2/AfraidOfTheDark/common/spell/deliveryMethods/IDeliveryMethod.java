@@ -45,4 +45,11 @@ public interface IDeliveryMethod extends ISpellComponent
 	 *            The compound to read the current power source's data from
 	 */
 	public abstract void readFromNBT(NBTTagCompound compound);
+
+	/**
+	 * 
+	 * @return The delivery method enum constant representing this delivery method class
+	 */
+	@Override
+	public abstract DeliveryMethods getType();
 }

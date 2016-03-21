@@ -5,7 +5,9 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.spell.powerSources;
 
-public enum PowerSources
+import com.DavidM1A2.AfraidOfTheDark.common.spell.ISpellComponentEnum;
+
+public enum PowerSources implements ISpellComponentEnum
 {
 	Self(1, "afraidofthedark:textures/gui/spellCrafting/powerSources/self.png");
 
@@ -26,5 +28,11 @@ public enum PowerSources
 	public String getIcon()
 	{
 		return this.textureLocation;
+	}
+
+	@Override
+	public String getName()
+	{
+		return this.toString();
 	}
 }

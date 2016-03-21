@@ -9,5 +9,9 @@ import java.io.Serializable;
 
 public interface ISpellComponent extends Serializable
 {
-
+	/**
+	 * 
+	 * @return The enum constant representing this class
+	 */
+	public abstract ISpellComponentEnum getType();
 }

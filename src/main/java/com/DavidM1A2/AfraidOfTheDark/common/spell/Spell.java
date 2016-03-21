@@ -194,6 +194,11 @@ public class Spell implements Serializable
 		return this.powerSource;
 	}
 
+	public SpellStage[] getSpellStages()
+	{
+		return this.spellStages;
+	}
+
 	@Override
 	public String toString()
 	{
