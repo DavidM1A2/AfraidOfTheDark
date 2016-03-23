@@ -6,23 +6,18 @@
 package com.DavidM1A2.AfraidOfTheDark.common.spell;
 
 import java.io.Serializable;
-import java.util.Map;
 import java.util.UUID;
 
+import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.effects.IEffect;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.powerSources.IPowerSource;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.SpellUtility;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.relauncher.Side;
 
 public class Spell implements Serializable
 {
@@ -93,7 +88,7 @@ public class Spell implements Serializable
 
 	public void instantiateSpell()
 	{
-		EntityPlayer entityPlayer = this.attemptToGetPlayer();
+		EntityPlayer entityPlayer = AfraidOfTheDark.proxy.getSpellOwner(this);
 		if (entityPlayer != null)
 		{
 			if (this.isSpellValid() && this.powerSource.attemptToCast(this))
@@ -156,22 +151,6 @@ public class Spell implements Serializable
 	public UUID getSpellOwner()
 	{
 		return this.spellOwner;
-	}
-
-	public EntityPlayer attemptToGetPlayer()
-	{
-		if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
-		{
-			Map<UUID, EntityPlayerMP> players = MinecraftServer.getServer().getConfigurationManager().uuidToPlayerMap;
-			if (players.containsKey(this.spellOwner))
-				return players.get(this.spellOwner);
-			else
-				return null;
-		}
-		else
-		{
-			return Minecraft.getMinecraft().thePlayer;
-		}
 	}
 
 	public void setName(String name)

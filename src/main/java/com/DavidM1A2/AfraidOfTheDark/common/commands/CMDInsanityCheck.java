@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDEntityData;
 
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
@@ -59,7 +58,7 @@ public class CMDInsanityCheck implements ICommand
 		final EntityPlayer sender = (EntityPlayer) iCommandSender.getCommandSenderEntity();
 		iCommandSender.addChatMessage(new ChatComponentText("Your current insanity is: " + sender.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerInsanity() + "%"));
 		iCommandSender.addChatMessage(new ChatComponentText("Your current has started AOTD status is: " + sender.getCapability(ModCapabilities.PLAYER_DATA, null).getHasStartedAOTD()));
-		iCommandSender.addChatMessage(new ChatComponentText("Current Vitae level is: " + AOTDEntityData.get(sender).getVitaeLevel()));
+		iCommandSender.addChatMessage(new ChatComponentText("Current Vitae level is: " + sender.getCapability(ModCapabilities.ENTITY_DATA, null).getVitaeLevel()));
 		iCommandSender.addChatMessage(new ChatComponentText("Current dimension is: " + sender.dimension));
 		if (!sender.worldObj.isRemote)
 		{

@@ -7,7 +7,6 @@ package com.DavidM1A2.AfraidOfTheDark.common.debug;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDEntityData;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -45,8 +44,8 @@ public class ItemInsanityControl extends AOTDItem
 			}
 			else if (entityPlayer.isSneaking() && entityPlayer.onGround)
 			{
-				int newVitae = AOTDEntityData.get(entityPlayer).getVitaeLevel() + 5;
-				if (AOTDEntityData.get(entityPlayer).setVitaeLevel(newVitae))
+				int newVitae = entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).getVitaeLevel() + 5;
+				if (entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).setVitaeLevel(newVitae))
 				{
 					if (!entityPlayer.capabilities.isCreativeMode)
 					{
@@ -54,13 +53,13 @@ public class ItemInsanityControl extends AOTDItem
 						entityPlayer.onKillCommand();
 					}
 				}
-				AOTDEntityData.get(entityPlayer).syncVitaeLevel();
-				LogHelper.info("Vitae Level = " + AOTDEntityData.get(entityPlayer).getVitaeLevel());
+				entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).syncVitaeLevel();
+				LogHelper.info("Vitae Level = " + entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).getVitaeLevel());
 			}
 			else
 			{
-				int newVitae = AOTDEntityData.get(entityPlayer).getVitaeLevel() - 5;
-				if (AOTDEntityData.get(entityPlayer).setVitaeLevel(newVitae))
+				int newVitae = entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).getVitaeLevel() - 5;
+				if (entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).setVitaeLevel(newVitae))
 				{
 					if (!entityPlayer.capabilities.isCreativeMode)
 					{
@@ -68,8 +67,8 @@ public class ItemInsanityControl extends AOTDItem
 						entityPlayer.onKillCommand();
 					}
 				}
-				AOTDEntityData.get(entityPlayer).syncVitaeLevel();
-				LogHelper.info("Vitae Level = " + AOTDEntityData.get(entityPlayer).getVitaeLevel());
+				entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).syncVitaeLevel();
+				LogHelper.info("Vitae Level = " + entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).getVitaeLevel());
 			}
 			entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).syncPlayerInsanity();
 		}

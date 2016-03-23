@@ -6,8 +6,8 @@
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
 import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDEntityData;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import io.netty.buffer.ByteBuf;
@@ -63,7 +63,7 @@ public class UpdateVitae implements IMessage
 					Entity toUpdate = entityPlayer.worldObj.getEntityByID(msg.entityIDToUpdate);
 					if (toUpdate != null)
 					{
-						AOTDEntityData.get(toUpdate).setVitaeLevel(msg.vitaeLevel);
+						toUpdate.getCapability(ModCapabilities.ENTITY_DATA, null).setVitaeLevel(msg.vitaeLevel);
 					}
 				}
 			});
@@ -82,7 +82,7 @@ public class UpdateVitae implements IMessage
 					{
 						LogHelper.info("Update Vitae Status: " + msg.vitaeLevel + " on entity " + entityPlayer.worldObj.getEntityByID(msg.entityIDToUpdate).getName());
 					}
-					AOTDEntityData.get(entityPlayer.worldObj.getEntityByID(msg.entityIDToUpdate)).setVitaeLevel(msg.vitaeLevel);
+					(entityPlayer.worldObj.getEntityByID(msg.entityIDToUpdate)).getCapability(ModCapabilities.ENTITY_DATA, null).setVitaeLevel(msg.vitaeLevel);
 				}
 			});
 			return null;

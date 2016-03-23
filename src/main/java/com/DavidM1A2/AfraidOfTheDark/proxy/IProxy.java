@@ -5,8 +5,13 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.proxy;
 
+import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
+
+import net.minecraft.entity.player.EntityPlayer;
+
 // Interface containing methods for the proxy
-public interface IProxy {
+public interface IProxy
+{
 	public abstract void registerKeyBindings();
 
 	public abstract void registerEntityRenders();
@@ -16,4 +21,6 @@ public interface IProxy {
 	public abstract void registerChannel();
 
 	public abstract void registerMiscelaneous();
+
+	public abstract EntityPlayer getSpellOwner(Spell spell);
 }

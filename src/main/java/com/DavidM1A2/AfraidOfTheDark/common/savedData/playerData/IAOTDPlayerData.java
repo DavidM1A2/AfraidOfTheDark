@@ -1,4 +1,4 @@
-package com.DavidM1A2.AfraidOfTheDark.common.savedData;
+package com.DavidM1A2.AfraidOfTheDark.common.savedData.playerData;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;

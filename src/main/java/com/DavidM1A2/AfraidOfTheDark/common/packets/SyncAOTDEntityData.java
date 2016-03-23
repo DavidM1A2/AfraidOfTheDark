@@ -6,8 +6,9 @@
 
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDEntityData;
+import com.DavidM1A2.AfraidOfTheDark.common.savedData.entityData.IAOTDEntityData;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -26,10 +27,9 @@ public class SyncAOTDEntityData implements IMessage
 	{
 	}
 
-	public SyncAOTDEntityData(AOTDEntityData entityData)
+	public SyncAOTDEntityData(IAOTDEntityData entityData)
 	{
-		this.data = new NBTTagCompound();
-		entityData.saveNBTData(this.data);
+		this.data = (NBTTagCompound) ModCapabilities.ENTITY_DATA.getStorage().writeNBT(ModCapabilities.ENTITY_DATA, entityData, null);
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class SyncAOTDEntityData implements IMessage
 				@Override
 				public void run()
 				{
-					AOTDEntityData.get(player).loadNBTData(msg.data);
+					ModCapabilities.ENTITY_DATA.getStorage().readNBT(ModCapabilities.ENTITY_DATA, player.getCapability(ModCapabilities.ENTITY_DATA, null), null, msg.data);
 				}
 			});
 			return null;
@@ -68,7 +68,7 @@ public class SyncAOTDEntityData implements IMessage
 				@Override
 				public void run()
 				{
-					AOTDEntityData.get(player).syncAll();
+					player.getCapability(ModCapabilities.ENTITY_DATA, null).syncAll();
 				}
 			});
 			return null;

@@ -18,8 +18,8 @@ import com.DavidM1A2.AfraidOfTheDark.common.item.ItemFlaskOfSouls;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDimensions;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDEntityData;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
+import com.DavidM1A2.AfraidOfTheDark.common.savedData.entityData.AOTDEntityData;
+import com.DavidM1A2.AfraidOfTheDark.common.savedData.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
@@ -36,7 +36,6 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
@@ -59,12 +58,11 @@ public class PlayerController
 		{
 			NBTTagCompound nbt = new NBTTagCompound();
 			NBTTagCompound playerData = (NBTTagCompound) ModCapabilities.PLAYER_DATA.getStorage().writeNBT(ModCapabilities.PLAYER_DATA, event.original.getCapability(ModCapabilities.PLAYER_DATA, null), null);
-			// AOTDPlayerDataOld.get(event.original).saveNBTData(nbt);
-			AOTDEntityData.get(event.original).saveNBTData(nbt);
+			NBTTagCompound entityPlayerData = (NBTTagCompound) ModCapabilities.ENTITY_DATA.getStorage().writeNBT(ModCapabilities.ENTITY_DATA, event.original.getCapability(ModCapabilities.ENTITY_DATA, null), null);
 
 			// AOTDPlayerDataOld.get(event.entityPlayer).loadNBTData(nbt);
 			ModCapabilities.PLAYER_DATA.getStorage().readNBT(ModCapabilities.PLAYER_DATA, event.entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null), null, playerData);
-			AOTDEntityData.get(event.entityPlayer).loadNBTData(nbt);
+			ModCapabilities.ENTITY_DATA.getStorage().readNBT(ModCapabilities.ENTITY_DATA, event.entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null), null, entityPlayerData);
 
 			if (event.original.dimension == AOTDDimensions.Nightmare.getWorldID())
 			{
@@ -101,7 +99,7 @@ public class PlayerController
 			 * Sync player research, insanity, and AOTDStart status
 			 */
 			((EntityPlayer) event.entity).getCapability(ModCapabilities.PLAYER_DATA, null).requestSyncAll();
-			AOTDEntityData.get((EntityPlayer) event.entity).requestSyncAll();
+			((EntityPlayer) event.entity).getCapability(ModCapabilities.ENTITY_DATA, null).requestSyncAll();
 		}
 		else if (event.entity instanceof EntityEnaria)
 		{
@@ -113,27 +111,13 @@ public class PlayerController
 	}
 
 	@SubscribeEvent
-	public void onEntityConstructing(final EntityConstructing event)
-	{
-		if (event.entity instanceof EntityLivingBase && !(event.entity instanceof EntityArmorStand))
-		{
-			AOTDEntityData.register(event.entity);
-		}
-	}
-
-	@SubscribeEvent
 	public void onAttachCapabilitiesEntity(AttachCapabilitiesEvent.Entity event)
 	{
-		// if (event.getEntity() instanceof EntityLivingBase &&
-		// !(event.getEntity() instanceof EntityArmorStand))
-		// event.addCapability(new
-		// ResourceLocation("afraidofthedark:entityData"), null);
+		if (event.getEntity() instanceof EntityLivingBase && !(event.getEntity() instanceof EntityArmorStand))
+			event.addCapability(new ResourceLocation("afraidofthedark:entityData"), new AOTDEntityData(event.getEntity()));
 
 		if (event.getEntity() instanceof EntityPlayer)
 			event.addCapability(new ResourceLocation("afraidofthedark:playerData"), new AOTDPlayerData((EntityPlayer) event.getEntity()));
-
-		// CapabilityManager.INSTANCE.regist
-		// CapabilityItemHandler
 	}
 
 	@SubscribeEvent

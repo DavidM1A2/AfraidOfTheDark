@@ -1,4 +1,4 @@
-package com.DavidM1A2.AfraidOfTheDark.common.savedData;
+package com.DavidM1A2.AfraidOfTheDark.common.savedData.playerData;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
@@ -22,9 +22,9 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 
-public class AOTDPlayerData implements ICapabilityProvider, IAOTDPlayerData
+public class AOTDPlayerData implements ICapabilitySerializable<NBTTagCompound>, IAOTDPlayerData
 {
 	private final EntityPlayer entityPlayer;
 
@@ -61,6 +61,18 @@ public class AOTDPlayerData implements ICapabilityProvider, IAOTDPlayerData
 			return (T) this;
 		}
 		return null;
+	}
+
+	@Override
+	public NBTTagCompound serializeNBT()
+	{
+		return (NBTTagCompound) ModCapabilities.PLAYER_DATA.getStorage().writeNBT(ModCapabilities.PLAYER_DATA, this, null);
+	}
+
+	@Override
+	public void deserializeNBT(NBTTagCompound compound)
+	{
+		ModCapabilities.PLAYER_DATA.getStorage().readNBT(ModCapabilities.PLAYER_DATA, this, null, compound);
 	}
 
 	private boolean isServerSide()

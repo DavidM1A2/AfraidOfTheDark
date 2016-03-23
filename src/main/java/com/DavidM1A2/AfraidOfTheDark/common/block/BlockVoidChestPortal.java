@@ -12,7 +12,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest.VoidChestTelepor
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDimensions;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
+import com.DavidM1A2.AfraidOfTheDark.common.savedData.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 

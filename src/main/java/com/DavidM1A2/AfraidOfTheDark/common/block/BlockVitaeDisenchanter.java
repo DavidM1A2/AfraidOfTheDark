@@ -13,7 +13,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDBlock;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDEntityData;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -75,7 +74,8 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 	@Override
 	protected BlockState createBlockState()
 	{
-		return new BlockState(this, new IProperty[] { BlockVitaeDisenchanter.VARIANT });
+		return new BlockState(this, new IProperty[]
+		{ BlockVitaeDisenchanter.VARIANT });
 	}
 
 	@Override
@@ -186,10 +186,10 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 
 				vitaeCost = vitaeCost * 3;
 
-				if (AOTDEntityData.get(entityPlayer).getVitaeLevel() >= vitaeCost)
+				if (entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).getVitaeLevel() >= vitaeCost)
 				{
-					int newVitae = AOTDEntityData.get(entityPlayer).getVitaeLevel() - vitaeCost;
-					if (AOTDEntityData.get(entityPlayer).setVitaeLevel(newVitae))
+					int newVitae = entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).getVitaeLevel() - vitaeCost;
+					if (entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).setVitaeLevel(newVitae))
 					{
 						if (!entityPlayer.capabilities.isCreativeMode)
 						{
@@ -197,7 +197,7 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 							entityPlayer.onKillCommand();
 						}
 					}
-					AOTDEntityData.get(entityPlayer).syncVitaeLevel();
+					entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).syncVitaeLevel();
 					return true;
 				}
 				else
@@ -331,10 +331,10 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 
 					vitaeCost = vitaeCost * vitaeMultiplier;
 
-					if (AOTDEntityData.get(entityPlayer).getVitaeLevel() >= vitaeCost)
+					if (entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).getVitaeLevel() >= vitaeCost)
 					{
-						int newVitae = AOTDEntityData.get(entityPlayer).getVitaeLevel() - vitaeCost;
-						if (AOTDEntityData.get(entityPlayer).setVitaeLevel(newVitae))
+						int newVitae = entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).getVitaeLevel() - vitaeCost;
+						if (entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).setVitaeLevel(newVitae))
 						{
 							if (!entityPlayer.capabilities.isCreativeMode)
 							{
@@ -342,7 +342,7 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 								entityPlayer.onKillCommand();
 							}
 						}
-						AOTDEntityData.get(entityPlayer).syncVitaeLevel();
+						entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).syncVitaeLevel();
 						return true;
 					}
 					else

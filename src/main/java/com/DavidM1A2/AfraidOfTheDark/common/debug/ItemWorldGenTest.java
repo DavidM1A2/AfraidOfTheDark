@@ -34,8 +34,7 @@ public class ItemWorldGenTest extends AOTDItem
 	}
 
 	/**
-	 * Called whenever this item is equipped and the right mouse button is
-	 * pressed. Args: itemStack, world, entityPlayer
+	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
 	 */
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer)
@@ -54,7 +53,8 @@ public class ItemWorldGenTest extends AOTDItem
 			effects4.add(new Explosion());
 			List<IEffect> effects5 = new LinkedList<IEffect>();
 			effects5.add(new Explosion());
-			SpellStage[] stages = new SpellStage[] { new SpellStage(new Projectile(), effects), new SpellStage(new Projectile(), effects2), new SpellStage(new Projectile(), effects3), new SpellStage(new Projectile(), effects4), new SpellStage(new Projectile(), effects5) };
+			SpellStage[] stages = new SpellStage[]
+			{ new SpellStage(new Projectile(), effects), new SpellStage(new Projectile(), effects2), new SpellStage(new Projectile(), effects3), new SpellStage(new Projectile(), effects4), new SpellStage(new Projectile(), effects5) };
 			if (entityPlayer.worldObj.isRemote)
 			{
 				Spell temp = new Spell(entityPlayer, "GG " + Double.toString(Math.random()).substring(0, 5), new Self(), stages, UUID.randomUUID());

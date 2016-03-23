@@ -3,11 +3,11 @@
  * Mod: Afraid of the Dark
  * Ideas and Textures: Michael Albertson
  */
-
-package com.DavidM1A2.AfraidOfTheDark.common.savedData;
+package com.DavidM1A2.AfraidOfTheDark.common.savedData.entityData;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncAOTDEntityData;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncAOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateVitae;
@@ -18,64 +18,20 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.World;
-import net.minecraftforge.common.IExtendedEntityProperties;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 
-public class AOTDEntityData implements IExtendedEntityProperties
+public class AOTDEntityData implements ICapabilitySerializable<NBTTagCompound>, IAOTDEntityData
 {
-	// PROPERTIES =============================================================
-
 	private final Entity entity;
 
 	private int vitae = 0;
-	private final static String VITAE_LEVEL = "vitaeLevel";
-
-	// CONSTRUCTOR, GETTER, REGISTER ==========================================
 
 	public AOTDEntityData(Entity entity)
 	{
 		this.entity = entity;
-	}
-
-	private static String getIdentifier()
-	{
-		return "AOTDEntityData";
-	}
-
-	public static AOTDEntityData get(Entity entity)
-	{
-		return (AOTDEntityData) entity.getExtendedProperties(AOTDEntityData.getIdentifier());
-	}
-
-	public static void register(Entity entity)
-	{
-		if (entity.getExtendedProperties(AOTDEntityData.getIdentifier()) == null)
-		{
-			entity.registerExtendedProperties(AOTDEntityData.getIdentifier(), new AOTDEntityData(entity));
-		}
-	}
-
-	// LOAD, SAVE =============================================================
-
-	@Override
-	public void saveNBTData(NBTTagCompound nbt)
-	{
-		nbt.setInteger(VITAE_LEVEL, vitae);
-	}
-
-	@Override
-	public void loadNBTData(NBTTagCompound nbt)
-	{
-		if (nbt.hasKey(VITAE_LEVEL))
-		{
-			this.setVitaeLevel(nbt.getInteger(VITAE_LEVEL));
-		}
-	}
-
-	@Override
-	public void init(Entity entity, World world)
-	{
 	}
 
 	public boolean isServerSide()
@@ -83,7 +39,33 @@ public class AOTDEntityData implements IExtendedEntityProperties
 		return this.entity != null && this.entity.worldObj != null && !this.entity.worldObj.isRemote;
 	}
 
-	// GETTER, SETTER, SYNCER =================================================
+	@Override
+	public boolean hasCapability(Capability<?> capability, EnumFacing facing)
+	{
+		return ModCapabilities.ENTITY_DATA != null && capability == ModCapabilities.ENTITY_DATA;
+	}
+
+	@Override
+	public <T> T getCapability(Capability<T> capability, EnumFacing facing)
+	{
+		if (ModCapabilities.ENTITY_DATA != null && capability == ModCapabilities.ENTITY_DATA)
+		{
+			return (T) this;
+		}
+		return null;
+	}
+
+	@Override
+	public NBTTagCompound serializeNBT()
+	{
+		return (NBTTagCompound) ModCapabilities.ENTITY_DATA.getStorage().writeNBT(ModCapabilities.ENTITY_DATA, this, null);
+	}
+
+	@Override
+	public void deserializeNBT(NBTTagCompound compound)
+	{
+		ModCapabilities.ENTITY_DATA.getStorage().readNBT(ModCapabilities.ENTITY_DATA, this, null, compound);
+	}
 
 	public int getVitaeLevel()
 	{

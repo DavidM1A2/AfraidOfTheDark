@@ -59,7 +59,8 @@ public class SpellSelectionGUI extends AOTDGuiScreen
 			{
 				if (event.getSource().isHovered())
 				{
-					Spell newSpell = new Spell(entityPlayer, "", null, new SpellStage[] { new SpellStage(null, new ArrayList<IEffect>()) }, UUID.randomUUID());
+					Spell newSpell = new Spell(entityPlayer, "", null, new SpellStage[]
+					{ new SpellStage(null, new ArrayList<IEffect>()) }, UUID.randomUUID());
 					entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getSpellManager().addSpell(newSpell);
 					SpellSelectionGUI.this.addSpellContainer(newSpell);
 				}

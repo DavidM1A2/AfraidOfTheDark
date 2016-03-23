@@ -8,7 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockVoidChestPortal;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDimensions;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
+import com.DavidM1A2.AfraidOfTheDark.common.savedData.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.WorldGenerationUtility;

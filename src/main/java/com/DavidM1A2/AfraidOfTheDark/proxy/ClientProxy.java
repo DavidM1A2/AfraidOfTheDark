@@ -29,12 +29,15 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntitySilverBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntityStarMetalBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntityWoodenBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.deliveryMethods.DeliveryMethods;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -199,5 +202,11 @@ public class ClientProxy extends CommonProxy
 	{
 		Constants.entityVitaeResistance.put(EntityPlayerSP.class, 100);
 		Constants.entityVitaeResistance.put(EntityOtherPlayerMP.class, 100);
+	}
+
+	@Override
+	public EntityPlayer getSpellOwner(Spell spell)
+	{
+		return Minecraft.getMinecraft().thePlayer;
 	}
 }

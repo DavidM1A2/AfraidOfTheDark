@@ -7,6 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.entities.spell.projectile;
 
 import java.util.List;
 
+import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.EntitySpell;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
@@ -48,8 +49,8 @@ public class EntitySpellProjectile extends EntitySpell
 
 	public EntitySpellProjectile(Spell callback, int spellStageIndex, double x, double y, double z, double xVelocity, double yVelocity, double zVelocity, boolean useStandardAI)
 	{
-		super(callback.attemptToGetPlayer().worldObj, callback, spellStageIndex);
-		this.shootingEntity = callback.attemptToGetPlayer();
+		super(AfraidOfTheDark.proxy.getSpellOwner(callback).worldObj, callback, spellStageIndex);
+		this.shootingEntity = AfraidOfTheDark.proxy.getSpellOwner(callback);
 		this.useStandardAI = useStandardAI;
 
 		if (this.useStandardAI)

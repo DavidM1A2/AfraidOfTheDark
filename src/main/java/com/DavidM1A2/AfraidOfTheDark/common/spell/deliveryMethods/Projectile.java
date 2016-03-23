@@ -2,6 +2,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.spell.deliveryMethods;
 
 import org.apache.commons.lang3.SerializationUtils;
 
+import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.EntitySpell;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.projectile.EntitySpellProjectile;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
@@ -28,7 +29,7 @@ public class Projectile extends DeliveryMethod
 	@Override
 	public EntitySpell createSpellEntity(Spell callback)
 	{
-		EntityPlayer spellOwner = callback.attemptToGetPlayer();
+		EntityPlayer spellOwner = AfraidOfTheDark.proxy.getSpellOwner(callback);
 		Spell callbackClone = SerializationUtils.<Spell> clone(callback);
 		if (spellOwner != null)
 			return new EntitySpellProjectile(callbackClone, 0, spellOwner.posX, spellOwner.posY + 0.8d, spellOwner.posZ, spellOwner.getLookVec().xCoord, spellOwner.getLookVec().yCoord, spellOwner.getLookVec().zCoord, true);

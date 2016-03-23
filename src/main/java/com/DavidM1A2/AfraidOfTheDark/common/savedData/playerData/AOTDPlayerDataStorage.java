@@ -1,4 +1,4 @@
-package com.DavidM1A2.AfraidOfTheDark.common.savedData;
+package com.DavidM1A2.AfraidOfTheDark.common.savedData.playerData;
 
 import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellManager;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;

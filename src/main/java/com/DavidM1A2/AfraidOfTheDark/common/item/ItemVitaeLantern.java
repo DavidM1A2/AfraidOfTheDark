@@ -15,7 +15,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDEntityData;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 import net.minecraft.entity.Entity;
@@ -85,23 +84,22 @@ public class ItemVitaeLantern extends AOTDItem
 	}
 
 	/**
-	 * Returns true if the item can be used on the given entity, e.g. shears on
-	 * sheep.
+	 * Returns true if the item can be used on the given entity, e.g. shears on sheep.
 	 */
 	@Override
 	public boolean itemInteractionForEntity(ItemStack itemStack, EntityPlayer entityPlayer, EntityLivingBase entityLivingBase)
 	{
 		if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.VitaeLanternI))
 		{
-			if (AOTDEntityData.get(entityLivingBase).getVitaeLevel() > 5 && !(entityLivingBase instanceof EntityPlayer))
+			if (entityLivingBase.getCapability(ModCapabilities.ENTITY_DATA, null).getVitaeLevel() > 5 && !(entityLivingBase instanceof EntityPlayer))
 			{
-				int newVitae = AOTDEntityData.get(entityLivingBase).getVitaeLevel() - 5;
-				if (AOTDEntityData.get(entityLivingBase).setVitaeLevel(newVitae))
+				int newVitae = entityLivingBase.getCapability(ModCapabilities.ENTITY_DATA, null).getVitaeLevel() - 5;
+				if (entityLivingBase.getCapability(ModCapabilities.ENTITY_DATA, null).setVitaeLevel(newVitae))
 				{
 					entityLivingBase.worldObj.createExplosion(entityLivingBase, entityLivingBase.getPosition().getX(), entityLivingBase.getPosition().getY(), entityLivingBase.getPosition().getZ(), 2, true).doExplosionB(true);
 					entityLivingBase.onKillCommand();
 				}
-				AOTDEntityData.get(entityLivingBase).syncVitaeLevel();
+				entityLivingBase.getCapability(ModCapabilities.ENTITY_DATA, null).syncVitaeLevel();
 
 				// Itemstack here is wrong?
 				addVitae(entityPlayer.getCurrentEquippedItem(), 5);
@@ -112,8 +110,7 @@ public class ItemVitaeLantern extends AOTDItem
 	}
 
 	/**
-	 * Called when the player Left Clicks (attacks) an entity. Processed before
-	 * damage is done, if return value is true further processing is canceled
+	 * Called when the player Left Clicks (attacks) an entity. Processed before damage is done, if return value is true further processing is canceled
 	 * and the entity is not attacked.
 	 *
 	 * @param stack
@@ -148,8 +145,8 @@ public class ItemVitaeLantern extends AOTDItem
 						int vitaeToTransfer = entityPlayer.worldObj.rand.nextInt(5) + 1;
 						this.addVitae(itemStack, -vitaeToTransfer);
 
-						int newVitae = AOTDEntityData.get(entityPlayer).getVitaeLevel() + vitaeToTransfer;
-						if (AOTDEntityData.get(entityPlayer).setVitaeLevel(newVitae))
+						int newVitae = entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).getVitaeLevel() + vitaeToTransfer;
+						if (entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).setVitaeLevel(newVitae))
 						{
 							if (!entityPlayer.capabilities.isCreativeMode)
 							{
@@ -157,15 +154,15 @@ public class ItemVitaeLantern extends AOTDItem
 								entityPlayer.onKillCommand();
 							}
 						}
-						AOTDEntityData.get(entityPlayer).syncVitaeLevel();
+						entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).syncVitaeLevel();
 					}
 					else if (NBTHelper.getInt(itemStack, STORED_VITAE) > 0)
 					{
 						int vitaeToTransfer = NBTHelper.getInt(itemStack, STORED_VITAE);
 						this.addVitae(itemStack, -vitaeToTransfer);
 
-						int newVitae = AOTDEntityData.get(entityPlayer).getVitaeLevel() + vitaeToTransfer;
-						if (AOTDEntityData.get(entityPlayer).setVitaeLevel(newVitae))
+						int newVitae = entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).getVitaeLevel() + vitaeToTransfer;
+						if (entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).setVitaeLevel(newVitae))
 						{
 							if (!entityPlayer.capabilities.isCreativeMode)
 							{
@@ -173,7 +170,7 @@ public class ItemVitaeLantern extends AOTDItem
 								entityPlayer.onKillCommand();
 							}
 						}
-						AOTDEntityData.get(entityPlayer).syncVitaeLevel();
+						entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).syncVitaeLevel();
 					}
 				}
 			}
@@ -187,9 +184,8 @@ public class ItemVitaeLantern extends AOTDItem
 	}
 
 	/**
-	 * Called when a player drops the item into the world, returning false from
-	 * this will prevent the item from being removed from the players inventory
-	 * and spawning in the world
+	 * Called when a player drops the item into the world, returning false from this will prevent the item from being removed from the players
+	 * inventory and spawning in the world
 	 *
 	 * @param player
 	 *            The player that dropped the item
@@ -204,8 +200,7 @@ public class ItemVitaeLantern extends AOTDItem
 	}
 
 	/**
-	 * Called each tick as long the item is on a player inventory. Uses by maps
-	 * to check if is on a player hand and update it's contents.
+	 * Called each tick as long the item is on a player inventory. Uses by maps to check if is on a player hand and update it's contents.
 	 */
 	@Override
 	public void onUpdate(ItemStack itemStack, World world, Entity entity, int itemSlot, boolean isSelected)
@@ -230,7 +225,7 @@ public class ItemVitaeLantern extends AOTDItem
 
 	private void approachEqualibrium(ItemStack itemStack, EntityPlayer entityPlayer, int equalibrium)
 	{
-		int currentVitae = AOTDEntityData.get(entityPlayer).getVitaeLevel();
+		int currentVitae = entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).getVitaeLevel();
 
 		if (equalibrium != currentVitae)
 		{
@@ -241,7 +236,7 @@ public class ItemVitaeLantern extends AOTDItem
 					if (!entityPlayer.worldObj.isRemote)
 					{
 						int newVitae = currentVitae - (currentVitae - equalibrium);
-						if (AOTDEntityData.get(entityPlayer).setVitaeLevel(newVitae))
+						if (entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).setVitaeLevel(newVitae))
 						{
 							if (!entityPlayer.capabilities.isCreativeMode)
 							{
@@ -249,7 +244,7 @@ public class ItemVitaeLantern extends AOTDItem
 								entityPlayer.onKillCommand();
 							}
 						}
-						AOTDEntityData.get(entityPlayer).syncVitaeLevel();
+						entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).syncVitaeLevel();
 					}
 				}
 			}
@@ -260,7 +255,7 @@ public class ItemVitaeLantern extends AOTDItem
 					if (!entityPlayer.worldObj.isRemote)
 					{
 						int newVitae = currentVitae + (currentVitae > equalibrium ? -5 : 5);
-						if (AOTDEntityData.get(entityPlayer).setVitaeLevel(newVitae))
+						if (entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).setVitaeLevel(newVitae))
 						{
 							if (!entityPlayer.capabilities.isCreativeMode)
 							{
@@ -268,7 +263,7 @@ public class ItemVitaeLantern extends AOTDItem
 								entityPlayer.onKillCommand();
 							}
 						}
-						AOTDEntityData.get(entityPlayer).syncVitaeLevel();
+						entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).syncVitaeLevel();
 					}
 				}
 			}
@@ -321,8 +316,7 @@ public class ItemVitaeLantern extends AOTDItem
 	}
 
 	/**
-	 * Converts the given ItemStack damage value into a metadata value to be
-	 * placed in the world when this Item is placed as a Block (mostly used with
+	 * Converts the given ItemStack damage value into a metadata value to be placed in the world when this Item is placed as a Block (mostly used with
 	 * ItemBlocks).
 	 */
 	@Override
@@ -333,9 +327,8 @@ public class ItemVitaeLantern extends AOTDItem
 	}
 
 	/**
-	 * Determines if the durability bar should be rendered for this item.
-	 * Defaults to vanilla stack.isDamaged behavior. But modders can use this
-	 * for any data they wish.
+	 * Determines if the durability bar should be rendered for this item. Defaults to vanilla stack.isDamaged behavior. But modders can use this for
+	 * any data they wish.
 	 *
 	 * @param stack
 	 *            The current Item Stack
