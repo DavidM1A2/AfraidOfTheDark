@@ -5,8 +5,8 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
@@ -55,7 +55,7 @@ public class SyncKeyPress implements IMessage
 				@Override
 				public void run()
 				{
-					AOTDPlayerData.get(player).getSpellManager().keyPressed(msg.characterID, msg.character);
+					player.getCapability(ModCapabilities.PLAYER_DATA, null).getSpellManager().keyPressed(msg.characterID, msg.character);
 				}
 			});
 			return null;

@@ -7,9 +7,9 @@ package com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls;
 
 import java.util.List;
 
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -30,26 +30,27 @@ public abstract class ItemResearchScroll extends AOTDItem
 	}
 
 	/**
-	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
+	 * Called whenever this item is equipped and the right mouse button is
+	 * pressed. Args: itemStack, world, entityPlayer
 	 */
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer)
 	{
 		if (!world.isRemote)
 		{
-			if (AOTDPlayerData.get(entityPlayer).canResearch(this.myType))
+			if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(this.myType))
 			{
 				if (itemStack.getMetadata() == 0)
 				{
 					itemStack.stackSize = itemStack.stackSize - 1;
-					AOTDPlayerData.get(entityPlayer).unlockResearch(this.myType, true);
+					entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(this.myType, true);
 				}
 				else
 				{
 					entityPlayer.addChatMessage(new ChatComponentText("This research scroll is not complete yet."));
 				}
 			}
-			else if (!AOTDPlayerData.get(entityPlayer).isResearched(this.myType))
+			else if (!entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(this.myType))
 			{
 				entityPlayer.addChatMessage(new ChatComponentText("I don't understand the material refrenced in this research scroll."));
 			}
@@ -59,10 +60,12 @@ public abstract class ItemResearchScroll extends AOTDItem
 	}
 
 	/**
-	 * allows items to add custom lines of information to the mouseover description
+	 * allows items to add custom lines of information to the mouseover
+	 * description
 	 * 
 	 * @param tooltip
-	 *            All lines to display in the Item's tooltip. This is a List of Strings.
+	 *            All lines to display in the Item's tooltip. This is a List of
+	 *            Strings.
 	 * @param advanced
 	 *            Whether the setting "Advanced tooltips" is enabled
 	 */

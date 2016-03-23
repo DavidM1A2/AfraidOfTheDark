@@ -8,8 +8,8 @@ package com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.ICanTakeSilverDamage;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -184,14 +184,14 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 				{
 					EntityPlayer entityPlayer = (EntityPlayer) object;
 
-					AOTDPlayerData.get(entityPlayer).setHasBeatenEnaria(true);
-					AOTDPlayerData.get(entityPlayer).syncHasBeatenEnaria();
+					entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setHasBeatenEnaria(true);
+					entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).syncHasBeatenEnaria();
 
 					if (!worldObj.isRemote)
 					{
-						if (AOTDPlayerData.get(entityPlayer).canResearch(ResearchTypes.Enaria))
+						if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(ResearchTypes.Enaria))
 						{
-							AOTDPlayerData.get(entityPlayer).unlockResearch(ResearchTypes.Enaria, true);
+							entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(ResearchTypes.Enaria, true);
 						}
 					}
 				}

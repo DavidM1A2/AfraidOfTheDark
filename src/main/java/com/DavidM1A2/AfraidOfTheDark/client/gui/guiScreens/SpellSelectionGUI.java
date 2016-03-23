@@ -11,7 +11,7 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiScrollPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiSpell;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellStage;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.effects.IEffect;
@@ -40,7 +40,7 @@ public class SpellSelectionGUI extends AOTDGuiScreen
 		background.add(scrollPanel);
 		background.add(scrollBar);
 
-		for (Spell spell : AOTDPlayerData.get(this.entityPlayer).getSpellManager().getSpellList())
+		for (Spell spell : this.entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getSpellManager().getSpellList())
 		{
 			this.addSpellContainer(spell);
 		}
@@ -59,9 +59,8 @@ public class SpellSelectionGUI extends AOTDGuiScreen
 			{
 				if (event.getSource().isHovered())
 				{
-					Spell newSpell = new Spell(entityPlayer, "", null, new SpellStage[]
-					{ new SpellStage(null, new ArrayList<IEffect>()) }, UUID.randomUUID());
-					AOTDPlayerData.get(entityPlayer).getSpellManager().addSpell(newSpell);
+					Spell newSpell = new Spell(entityPlayer, "", null, new SpellStage[] { new SpellStage(null, new ArrayList<IEffect>()) }, UUID.randomUUID());
+					entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getSpellManager().addSpell(newSpell);
 					SpellSelectionGUI.this.addSpellContainer(newSpell);
 				}
 			}
@@ -138,7 +137,7 @@ public class SpellSelectionGUI extends AOTDGuiScreen
 		{
 			spells.remove(index);
 			scrollPanel.remove(spell);
-			AOTDPlayerData.get(entityPlayer).getSpellManager().removeSpell(spell.getSpell());
+			entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getSpellManager().removeSpell(spell.getSpell());
 			for (int i = index; i < spells.size(); i++)
 			{
 				AOTDGuiSpell current = spells.get(i);
@@ -152,7 +151,7 @@ public class SpellSelectionGUI extends AOTDGuiScreen
 	@Override
 	public void onGuiClosed()
 	{
-		AOTDPlayerData.get(entityPlayer).syncSpellManager();
+		entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).syncSpellManager();
 	}
 
 	@Override

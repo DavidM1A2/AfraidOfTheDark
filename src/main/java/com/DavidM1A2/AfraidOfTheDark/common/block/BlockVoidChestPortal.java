@@ -9,6 +9,7 @@ import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDBlock;
 import com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest.VoidChestTeleporter;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDimensions;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
@@ -114,21 +115,21 @@ public class BlockVoidChestPortal extends AOTDBlock
 				EntityPlayerMP entityPlayer = (EntityPlayerMP) entity;
 				if (world.provider.getDimensionId() == AOTDDimensions.VoidChest.getWorldID())
 				{
-					if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.VoidChest))
+					if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.VoidChest))
 					{
 						Utility.sendPlayerToDimension(entityPlayer, 0, false, VoidChestTeleporter.class);
 					}
 				}
 				else if (world.provider.getDimensionId() == 0)
 				{
-					if (AOTDPlayerData.get(entityPlayer).canResearch(ResearchTypes.VoidChest))
+					if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(ResearchTypes.VoidChest))
 					{
-						AOTDPlayerData.get(entityPlayer).unlockResearch(ResearchTypes.VoidChest, true);
-						AOTDPlayerData.get(entityPlayer).unlockResearch(ResearchTypes.EldritchDecoration, true);
+						entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(ResearchTypes.VoidChest, true);
+						entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(ResearchTypes.EldritchDecoration, true);
 					}
-					if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.VoidChest))
+					if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.VoidChest))
 					{
-						Utility.sendPlayerToVoidChest(entityPlayer, this.validatePlayerLocationVoidChest(AOTDPlayerData.get(entityPlayer).getPlayerLocationVoidChest(), entityPlayer));
+						Utility.sendPlayerToVoidChest(entityPlayer, this.validatePlayerLocationVoidChest(entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerLocationVoidChest(), entityPlayer));
 					}
 					else
 					{
@@ -171,8 +172,8 @@ public class BlockVoidChestPortal extends AOTDBlock
 			{
 				furthestOutPlayer = Math.max(furthestOutPlayer, AOTDPlayerData.getPlayerLocationVoidChestOffline(entityPlayerData));
 			}
-			AOTDPlayerData.get(entityPlayer).setPlayerLocationVoidChest(furthestOutPlayer + 1);
+			entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setPlayerLocationVoidChest(furthestOutPlayer + 1);
 		}
-		return AOTDPlayerData.get(entityPlayer).getPlayerLocationVoidChest();
+		return entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerLocationVoidChest();
 	}
 }

@@ -5,8 +5,8 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellManager;
 
 import io.netty.buffer.ByteBuf;
@@ -58,7 +58,7 @@ public class SyncSpellManager implements IMessage
 				@Override
 				public void run()
 				{
-					AOTDPlayerData.get(player).setSpellManager(msg.spellManager);
+					player.getCapability(ModCapabilities.PLAYER_DATA, null).setSpellManager(msg.spellManager);
 				}
 			});
 			return null;
@@ -72,7 +72,7 @@ public class SyncSpellManager implements IMessage
 				@Override
 				public void run()
 				{
-					AOTDPlayerData.get(player).setSpellManager(msg.spellManager);
+					player.getCapability(ModCapabilities.PLAYER_DATA, null).setSpellManager(msg.spellManager);
 				}
 			});
 			return null;

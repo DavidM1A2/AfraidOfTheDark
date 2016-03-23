@@ -8,8 +8,8 @@ package com.DavidM1A2.AfraidOfTheDark.common.handler;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDimensions;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -32,7 +32,7 @@ public class FogRenderingEvents
 	{
 		if (event.entity instanceof EntityPlayer)
 		{
-			final float insanity = (float) AOTDPlayerData.get((EntityPlayer) event.entity).getPlayerInsanity();
+			final float insanity = (float) ((EntityPlayer) event.entity).getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerInsanity();
 
 			// If the player is insane, set the fog equal to 1.001^(.5*insanity)
 			// - .9989

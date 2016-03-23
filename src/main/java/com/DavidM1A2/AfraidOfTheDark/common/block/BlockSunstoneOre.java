@@ -8,9 +8,9 @@ package com.DavidM1A2.AfraidOfTheDark.common.block;
 import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDBlock;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -47,9 +47,9 @@ public class BlockSunstoneOre extends AOTDBlock
 	@Override
 	public void harvestBlock(World world, EntityPlayer entityPlayer, BlockPos blockPos, IBlockState iBlockState, TileEntity tileEntity)
 	{
-		if (AOTDPlayerData.get(entityPlayer).canResearch(ResearchTypes.Igneous))
+		if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(ResearchTypes.Igneous))
 		{
-			AOTDPlayerData.get(entityPlayer).unlockResearch(ResearchTypes.Igneous, true);
+			entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(ResearchTypes.Igneous, true);
 		}
 		super.harvestBlock(world, entityPlayer, blockPos, iBlockState, tileEntity);
 	}

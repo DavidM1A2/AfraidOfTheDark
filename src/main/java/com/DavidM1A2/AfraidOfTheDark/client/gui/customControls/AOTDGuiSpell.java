@@ -12,8 +12,8 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDKeyEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellManager;
 
@@ -21,7 +21,7 @@ public class AOTDGuiSpell extends AOTDGuiPanel
 {
 	private Spell mySpell;
 	private boolean waitingOnKeyInput = false;
-	private static SpellManager spellManager = AOTDPlayerData.get(entityPlayer).getSpellManager();
+	private static SpellManager spellManager = entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getSpellManager();
 	private AOTDGuiButton keyBind;
 	private AOTDGuiButton delete;
 
@@ -39,8 +39,7 @@ public class AOTDGuiSpell extends AOTDGuiPanel
 
 		AOTDGuiLabel spellName = new AOTDGuiLabel(0, 0, ClientData.getTargaMSHandFontSized(30f));
 		spellName.setText(source.getName());
-		spellName.setTextColor(new float[]
-		{ 0.96f, 0.24f, 0.78f, 1.0f });
+		spellName.setTextColor(new float[] { 0.96f, 0.24f, 0.78f, 1.0f });
 		spellName.setMaxStringLength(18);
 		spellNameContainer.setHoverText(source.getName());
 		spellNameContainer.add(spellName);

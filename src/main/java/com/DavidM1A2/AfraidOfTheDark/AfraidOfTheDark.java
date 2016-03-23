@@ -19,6 +19,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.handler.PlayerController;
 import com.DavidM1A2.AfraidOfTheDark.common.handler.WorldEvents;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBiomes;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModDimensions;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModEntities;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModFurnaceRecipies;
@@ -69,13 +70,15 @@ public class AfraidOfTheDark
 
 	/**
 	 * @param event
-	 *            Pre-init used to register events and various other things (see class names for what each line does)
+	 *            Pre-init used to register events and various other things (see
+	 *            class names for what each line does)
 	 */
 	@Mod.EventHandler
 	public void preInitialization(final FMLPreInitializationEvent event)
 	{
 		// Initialize configuration
 		ConfigurationHandler.initializataion(event.getSuggestedConfigurationFile());
+		ModCapabilities.initialize();
 		FMLCommonHandler.instance().bus().register(new ConfigurationHandler());
 		// Initialize any player events
 		final PlayerController controller = new PlayerController();

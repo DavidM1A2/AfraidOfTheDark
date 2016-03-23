@@ -15,8 +15,8 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiResearchNo
 import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import net.minecraft.util.ResourceLocation;
 
@@ -92,9 +92,9 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 						if (current.isHovered())
 						{
 							ClientData.currentlySelected = current.getResearch();
-							if (AOTDPlayerData.get(entityPlayer).isResearched(current.getResearch()))
+							if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(current.getResearch()))
 								entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
-							else if (AOTDPlayerData.get(entityPlayer).isResearched(current.getResearch().getPrevious()))
+							else if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(current.getResearch().getPrevious()))
 								entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_PRE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
 						}
 					}
@@ -112,7 +112,7 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 			researchNode.addMouseListener(nodeListener);
 			if (researchNode.getResearch().getPrevious() != null)
 			{
-				if (AOTDPlayerData.get(entityPlayer).isResearched(researchNode.getResearch()) || AOTDPlayerData.get(entityPlayer).canResearch(researchNode.getResearch()))
+				if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(researchNode.getResearch()) || entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(researchNode.getResearch()))
 				{
 					ResearchTypes previous = researchNode.getResearch().getPrevious();
 					ResearchTypes current = researchNode.getResearch();
@@ -171,7 +171,8 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 	}
 
 	/**
-	 * Called when the screen is unloaded. Used to disable keyboard repeat events
+	 * Called when the screen is unloaded. Used to disable keyboard repeat
+	 * events
 	 */
 	@Override
 	public void onGuiClosed()

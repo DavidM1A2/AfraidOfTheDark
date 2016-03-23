@@ -5,7 +5,7 @@ import java.util.UUID;
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDTileEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.EntityEnaria;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -46,7 +46,7 @@ public class TileEntityEnariaSpawner extends AOTDTileEntity
 							if (object instanceof EntityPlayer)
 							{
 								EntityPlayer entityPlayer = (EntityPlayer) object;
-								if (!AOTDPlayerData.get(entityPlayer).getHasBeatenEnaria())
+								if (!entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getHasBeatenEnaria())
 								{
 									this.summonEnaria();
 									return;

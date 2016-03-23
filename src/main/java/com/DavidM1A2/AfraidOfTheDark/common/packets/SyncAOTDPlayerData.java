@@ -6,8 +6,9 @@
 
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
+import com.DavidM1A2.AfraidOfTheDark.common.savedData.IAOTDPlayerData;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -26,10 +27,9 @@ public class SyncAOTDPlayerData implements IMessage
 	{
 	}
 
-	public SyncAOTDPlayerData(AOTDPlayerData playerData)
+	public SyncAOTDPlayerData(IAOTDPlayerData playerData)
 	{
-		this.data = new NBTTagCompound();
-		playerData.saveNBTData(this.data);
+		this.data = (NBTTagCompound) ModCapabilities.PLAYER_DATA.getStorage().writeNBT(ModCapabilities.PLAYER_DATA, playerData, null);
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class SyncAOTDPlayerData implements IMessage
 				@Override
 				public void run()
 				{
-					AOTDPlayerData.get(player).loadNBTData(msg.data);
+					ModCapabilities.PLAYER_DATA.getStorage().readNBT(ModCapabilities.PLAYER_DATA, player.getCapability(ModCapabilities.PLAYER_DATA, null), null, msg.data);
 				}
 			});
 			return null;
@@ -68,7 +68,7 @@ public class SyncAOTDPlayerData implements IMessage
 				@Override
 				public void run()
 				{
-					AOTDPlayerData.get(player).syncAll();
+					player.getCapability(ModCapabilities.PLAYER_DATA, null).syncAll();
 				}
 			});
 			return null;

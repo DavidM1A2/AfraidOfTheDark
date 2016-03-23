@@ -6,11 +6,11 @@
 package com.DavidM1A2.AfraidOfTheDark.common.item;
 
 import com.DavidM1A2.AfraidOfTheDark.common.entities.ICanTakeSilverDamage;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDSword;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDamageSources;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDToolMaterials;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -30,11 +30,11 @@ public class ItemAstralSilverSword extends AOTDSword
 	@Override
 	public boolean onLeftClickEntity(final ItemStack stack, final EntityPlayer player, final Entity entity)
 	{
-		if (AOTDPlayerData.get(player).isResearched(ResearchTypes.AstralSilver))
+		if (player.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.AstralSilver))
 		{
 			if (entity instanceof ICanTakeSilverDamage)
 			{
-				if (AOTDPlayerData.get(player).getHasStartedAOTD())
+				if (player.getCapability(ModCapabilities.PLAYER_DATA, null).getHasStartedAOTD())
 				{
 					entity.attackEntityFrom(AOTDDamageSources.causeSilverDamage(player), 12.0F);
 				}

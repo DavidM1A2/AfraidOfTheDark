@@ -3,10 +3,10 @@ package com.DavidM1A2.AfraidOfTheDark.common.entities.SplinterDrone;
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncAnimation;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -118,12 +118,12 @@ public class EntitySplinterDrone extends EntityFlying implements IMCAnimatedEnti
 
 				if (!worldObj.isRemote)
 				{
-					if (AOTDPlayerData.get(entityPlayer).canResearch(ResearchTypes.GnomishCity))
+					if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(ResearchTypes.GnomishCity))
 					{
-						AOTDPlayerData.get(entityPlayer).unlockResearch(ResearchTypes.GnomishCity, true);
-						if (AOTDPlayerData.get(entityPlayer).getHasBeatenEnaria())
+						entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(ResearchTypes.GnomishCity, true);
+						if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getHasBeatenEnaria())
 						{
-							AOTDPlayerData.get(entityPlayer).unlockResearch(ResearchTypes.Enaria, true);
+							entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(ResearchTypes.Enaria, true);
 						}
 					}
 				}

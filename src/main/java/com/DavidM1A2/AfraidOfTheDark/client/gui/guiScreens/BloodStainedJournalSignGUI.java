@@ -19,8 +19,8 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.TextAlignment;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import net.minecraft.util.ChatComponentText;
 
@@ -55,22 +55,22 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
 					{
 						// If the player signed their own name and has not started
 						// AOTD
-						if (AOTDPlayerData.get(entityPlayer).getHasStartedAOTD() == false)
+						if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getHasStartedAOTD() == false)
 						{
-							AOTDPlayerData.get(entityPlayer).setHasStartedAOTD(true);
-							AOTDPlayerData.get(entityPlayer).syncHasStartedAOTD();
+							entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setHasStartedAOTD(true);
+							entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).syncHasStartedAOTD();
 
 							entityPlayer.inventory.getStackInSlot(entityPlayer.inventory.currentItem).getTagCompound().setString("owner", entityPlayer.getDisplayName().getUnformattedText());
 							entityPlayer.addChatMessage(new ChatComponentText("What have I done?"));
 							entityPlayer.playSound("afraidofthedark:journalSign", 4.0F, 1.0F);
-							AOTDPlayerData.get(entityPlayer).unlockResearch(ResearchTypes.AnUnbreakableCovenant, true);
-							AOTDPlayerData.get(entityPlayer).unlockResearch(ResearchTypes.Crossbow, true);
+							entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(ResearchTypes.AnUnbreakableCovenant, true);
+							entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(ResearchTypes.Crossbow, true);
 							entityPlayer.closeScreen();
 						}
 					}
 					else
 					{
-						if (AOTDPlayerData.get(entityPlayer).getHasStartedAOTD() == false)
+						if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getHasStartedAOTD() == false)
 						{
 							entityPlayer.addChatMessage(new ChatComponentText("*You expect something to happen... but nothing does."));
 							entityPlayer.closeScreen();

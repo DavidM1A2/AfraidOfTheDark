@@ -6,10 +6,10 @@
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
 import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDMeteorTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.CreateMeteor;
 
@@ -81,11 +81,11 @@ public class SpawnMeteor implements IMessage
 
 					AOTDMeteorTypes typeToSpawn = AOTDMeteorTypes.typeFromIndex(msg.index);
 
-					if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.AstronomyII))
+					if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.AstronomyII))
 					{
 						CreateMeteor.create(entityPlayer.worldObj, msg.thePosition, msg.radius, msg.height, false, true, typeToSpawn);
 					}
-					else if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.AstronomyI.getPrevious()) && typeToSpawn == AOTDMeteorTypes.silver)
+					else if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.AstronomyI.getPrevious()) && typeToSpawn == AOTDMeteorTypes.silver)
 					{
 						CreateMeteor.create(entityPlayer.worldObj, msg.thePosition, msg.radius, msg.height, false, true, typeToSpawn);
 					}

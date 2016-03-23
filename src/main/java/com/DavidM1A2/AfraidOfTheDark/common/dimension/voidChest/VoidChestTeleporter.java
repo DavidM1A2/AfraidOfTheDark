@@ -6,6 +6,7 @@
 package com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockVoidChestPortal;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDimensions;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
@@ -59,9 +60,9 @@ public class VoidChestTeleporter extends Teleporter
 						{
 							if (isValidSpawnLocation(entityPlayer.worldObj, new BlockPos(i, j, k)))
 							{
-								AOTDPlayerData.get(entityPlayer).setPlayerLocationOverworld(new int[] { i, j + 1, k });
+								entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setPlayerLocationOverworld(new int[] { i, j + 1, k });
 
-								int locationX = this.validatePlayerLocationVoidChest(AOTDPlayerData.get(entityPlayer).getPlayerLocationVoidChest(), entityPlayer) * AOTDDimensions.getBlocksBetweenIslands() + 25;
+								int locationX = this.validatePlayerLocationVoidChest(entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerLocationVoidChest(), entityPlayer) * AOTDDimensions.getBlocksBetweenIslands() + 25;
 
 								((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(locationX, 104, 3, 0, 0);
 
@@ -73,14 +74,14 @@ public class VoidChestTeleporter extends Teleporter
 
 				if (!entityPlayer.worldObj.isRemote)
 				{
-					AOTDPlayerData.get(entityPlayer).setPlayerLocationOverworld(new int[] { 0, WorldGenerationUtility.getFirstNonAirBlock(MinecraftServer.getServer().worldServerForDimension(0), 0, 0), 0 });
+					entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setPlayerLocationOverworld(new int[] { 0, WorldGenerationUtility.getFirstNonAirBlock(MinecraftServer.getServer().worldServerForDimension(0), 0, 0), 0 });
 				}
 				else
 				{
-					AOTDPlayerData.get(entityPlayer).setPlayerLocationOverworld(new int[] { 0, 255, 0 });
+					entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setPlayerLocationOverworld(new int[] { 0, 255, 0 });
 				}
 
-				int locationX = this.validatePlayerLocationVoidChest(AOTDPlayerData.get(entityPlayer).getPlayerLocationVoidChest(), entityPlayer) * AOTDDimensions.getBlocksBetweenIslands() + 25;
+				int locationX = this.validatePlayerLocationVoidChest(entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerLocationVoidChest(), entityPlayer) * AOTDDimensions.getBlocksBetweenIslands() + 25;
 
 				((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(locationX, 104, 3, 0, 0);
 
@@ -93,7 +94,7 @@ public class VoidChestTeleporter extends Teleporter
 			if (entity instanceof EntityPlayer)
 			{
 				EntityPlayer entityPlayer = (EntityPlayer) entity;
-				BlockPos playerPostionOld = this.intArrToBlockPos(AOTDPlayerData.get(entityPlayer).getPlayerLocationOverworld(), entityPlayer);
+				BlockPos playerPostionOld = this.intArrToBlockPos(entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerLocationOverworld(), entityPlayer);
 
 				if (playerPostionOld.getX() == 0 && playerPostionOld.getZ() == 0)
 				{
@@ -145,8 +146,8 @@ public class VoidChestTeleporter extends Teleporter
 			{
 				furthestOutPlayer = Math.max(furthestOutPlayer, AOTDPlayerData.getPlayerLocationVoidChestOffline(entityPlayerData));
 			}
-			AOTDPlayerData.get(entityPlayer).setPlayerLocationVoidChest(furthestOutPlayer + 1);
+			entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setPlayerLocationVoidChest(furthestOutPlayer + 1);
 		}
-		return AOTDPlayerData.get(entityPlayer).getPlayerLocationVoidChest();
+		return entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerLocationVoidChest();
 	}
 }

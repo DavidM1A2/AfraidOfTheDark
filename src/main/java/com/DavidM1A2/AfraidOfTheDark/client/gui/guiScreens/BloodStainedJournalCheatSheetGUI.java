@@ -8,13 +8,12 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens;
 import java.awt.Color;
 
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiButton;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiComponent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiImage;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import net.minecraft.util.ChatComponentText;
 
@@ -36,9 +35,9 @@ public class BloodStainedJournalCheatSheetGUI extends AOTDGuiScreen
 				{
 					for (ResearchTypes type : ResearchTypes.values())
 					{
-						if (!AOTDPlayerData.get(entityPlayer).isResearched(type))
+						if (!entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(type))
 						{
-							AOTDPlayerData.get(entityPlayer).unlockResearch(type, false);
+							entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(type, false);
 						}
 					}
 					entityPlayer.playSound("gui.button.press", 1.0f, 1.0f);
@@ -48,9 +47,14 @@ public class BloodStainedJournalCheatSheetGUI extends AOTDGuiScreen
 			}
 
 			@Override
-			public void mousePressed(AOTDMouseEvent event) {}
+			public void mousePressed(AOTDMouseEvent event)
+			{
+			}
+
 			@Override
-			public void mouseReleased(AOTDMouseEvent event) {}
+			public void mouseReleased(AOTDMouseEvent event)
+			{
+			}
 
 			@Override
 			public void mouseEntered(AOTDMouseEvent event)
@@ -79,9 +83,14 @@ public class BloodStainedJournalCheatSheetGUI extends AOTDGuiScreen
 			}
 
 			@Override
-			public void mousePressed(AOTDMouseEvent event) {}
+			public void mousePressed(AOTDMouseEvent event)
+			{
+			}
+
 			@Override
-			public void mouseReleased(AOTDMouseEvent event) {}
+			public void mouseReleased(AOTDMouseEvent event)
+			{
+			}
 
 			@Override
 			public void mouseEntered(AOTDMouseEvent event)

@@ -8,9 +8,9 @@ package com.DavidM1A2.AfraidOfTheDark.common.item.armor;
 import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -30,7 +30,7 @@ public class IgneousArmor extends AOTDArmor
 	}
 
 	@Override
-	//This is pretty self explanatory
+	// This is pretty self explanatory
 	public String getArmorTexture(final ItemStack armor, final Entity entity, final int slot, final String type)
 	{
 		if (armor.getItem() == ModItems.igneousLeggings)
@@ -51,9 +51,7 @@ public class IgneousArmor extends AOTDArmor
 	}
 
 	/*
-	 * ArmorProperties(0, .24, 200);
-	 * 0 = priority
-	 * .24 = %age of damage reduced
+	 * ArmorProperties(0, .24, 200); 0 = priority .24 = %age of damage reduced
 	 * 200 is the max damage reduced
 	 */
 	@Override
@@ -64,7 +62,7 @@ public class IgneousArmor extends AOTDArmor
 		{
 			final EntityPlayer entityPlayer = (EntityPlayer) entity;
 
-			if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.Igneous))
+			if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.Igneous))
 			{
 				if (this.isWearingFullArmor(entityPlayer))
 				{
@@ -110,7 +108,7 @@ public class IgneousArmor extends AOTDArmor
 	@Override
 	public int getArmorDisplay(final EntityPlayer entityPlayer, final ItemStack itemStack, final int slot)
 	{
-		if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.Igneous))
+		if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.Igneous))
 		{
 			return this.getReductionBasedOffOfSlot(slot);
 		}

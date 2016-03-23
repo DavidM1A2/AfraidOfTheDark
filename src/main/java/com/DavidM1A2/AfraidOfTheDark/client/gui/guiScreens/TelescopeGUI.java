@@ -13,9 +13,9 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiMeteorButt
 import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDMeteorTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
@@ -45,12 +45,12 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
 		for (int i = 0; i < numberOfMeteors; i++)
 		{
 			AOTDGuiMeteorButton nextToAdd = null;
-			if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.AstronomyII))
-				nextToAdd = new AOTDGuiMeteorButton(Minecraft.getMinecraft().theWorld.rand.nextInt(telescopeImage.getMaxTextureWidth()) - telescopeImage.getMaxTextureWidth() / 2, Minecraft.getMinecraft().theWorld.rand.nextInt(telescopeImage.getMaxTextureHeight()) - telescopeImage
-						.getMaxTextureHeight() / 2, 64, 64, AOTDMeteorTypes.values()[Minecraft.getMinecraft().theWorld.rand.nextInt(AOTDMeteorTypes.values().length)]);
+			if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.AstronomyII))
+				nextToAdd = new AOTDGuiMeteorButton(Minecraft.getMinecraft().theWorld.rand.nextInt(telescopeImage.getMaxTextureWidth()) - telescopeImage.getMaxTextureWidth() / 2,
+						Minecraft.getMinecraft().theWorld.rand.nextInt(telescopeImage.getMaxTextureHeight()) - telescopeImage.getMaxTextureHeight() / 2, 64, 64, AOTDMeteorTypes.values()[Minecraft.getMinecraft().theWorld.rand.nextInt(AOTDMeteorTypes.values().length)]);
 			else
-				nextToAdd = new AOTDGuiMeteorButton(Minecraft.getMinecraft().theWorld.rand.nextInt(telescopeImage.getMaxTextureWidth()) - telescopeImage.getMaxTextureWidth() / 2, Minecraft.getMinecraft().theWorld.rand.nextInt(telescopeImage.getMaxTextureHeight()) - telescopeImage
-						.getMaxTextureHeight() / 2, 64, 64, AOTDMeteorTypes.silver);
+				nextToAdd = new AOTDGuiMeteorButton(Minecraft.getMinecraft().theWorld.rand.nextInt(telescopeImage.getMaxTextureWidth()) - telescopeImage.getMaxTextureWidth() / 2,
+						Minecraft.getMinecraft().theWorld.rand.nextInt(telescopeImage.getMaxTextureHeight()) - telescopeImage.getMaxTextureHeight() / 2, 64, 64, AOTDMeteorTypes.silver);
 
 			nextToAdd.addMouseListener(new AOTDMouseListener()
 			{
@@ -65,13 +65,24 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
 				}
 
 				@Override
-				public void mousePressed(AOTDMouseEvent event) {}
+				public void mousePressed(AOTDMouseEvent event)
+				{
+				}
+
 				@Override
-				public void mouseReleased(AOTDMouseEvent event) {}
+				public void mouseReleased(AOTDMouseEvent event)
+				{
+				}
+
 				@Override
-				public void mouseEntered(AOTDMouseEvent event) {}
+				public void mouseEntered(AOTDMouseEvent event)
+				{
+				}
+
 				@Override
-				public void mouseExited(AOTDMouseEvent event) {}
+				public void mouseExited(AOTDMouseEvent event)
+				{
+				}
 			});
 
 			telescopeMeteors.add(nextToAdd);

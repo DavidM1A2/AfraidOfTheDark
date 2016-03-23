@@ -11,6 +11,7 @@ import java.util.List;
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDTileEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncVoidChest;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDimensions;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
@@ -201,7 +202,7 @@ public class TileEntityVoidChest extends AOTDTileEntity
 			if (this.owner.equals(""))
 			{
 				this.owner = entityPlayer.getDisplayName().getUnformattedText();
-				this.locationToGoTo = this.validatePlayerLocationVoidChest(AOTDPlayerData.get(entityPlayer).getPlayerLocationVoidChest(), entityPlayer);
+				this.locationToGoTo = this.validatePlayerLocationVoidChest(entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerLocationVoidChest(), entityPlayer);
 				entityPlayer.addChatMessage(new ChatComponentText("The owner of this chest has been set to " + entityPlayer.getDisplayName().getUnformattedText() + "."));
 			}
 			else if (entityPlayer.getDisplayName().getUnformattedText().equals(owner))
@@ -275,8 +276,8 @@ public class TileEntityVoidChest extends AOTDTileEntity
 			{
 				furthestOutPlayer = Math.max(furthestOutPlayer, AOTDPlayerData.getPlayerLocationVoidChestOffline(entityPlayerData));
 			}
-			AOTDPlayerData.get(entityPlayer).setPlayerLocationVoidChest(furthestOutPlayer + 1);
+			entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setPlayerLocationVoidChest(furthestOutPlayer + 1);
 		}
-		return AOTDPlayerData.get(entityPlayer).getPlayerLocationVoidChest();
+		return entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerLocationVoidChest();
 	}
 }

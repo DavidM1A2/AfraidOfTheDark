@@ -5,7 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.handler;
 
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDWorldData;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -47,25 +47,31 @@ public class WorldEvents
 		for (final Object player : MinecraftServer.getServer().getConfigurationManager().playerEntityList)
 		{
 			final EntityPlayer entityPlayer = (EntityPlayer) player;
-			//			if (AOTDPlayerData.get(entityPlayer).getHasStartedAOTD())
-			//			{
-			//				if (entityPlayer.worldObj.getBiomeGenForCoords(new BlockPos((int) entityPlayer.posX, 0, (int) entityPlayer.posZ)) == ModBiomes.erieForest)
-			//				{
-			//					final double amount = .01 + ((.09) * (new Random().nextDouble()));
-			//					double newInsanity = AOTDPlayerData.get(entityPlayer).getPlayerInsanity() + amount;
-			//					AOTDPlayerData.get(entityPlayer).setPlayerInsanity(newInsanity);
-			//					AOTDPlayerData.get(entityPlayer).syncPlayerInsanity();
-			//				}
-			//				else
-			//				{
-			//					final double amount = .01 + ((.02) * (new Random().nextDouble()));
-			//					double newInsanity = AOTDPlayerData.get(entityPlayer).getPlayerInsanity() - amount;
-			//					AOTDPlayerData.get(entityPlayer).setPlayerInsanity(newInsanity);
-			//					AOTDPlayerData.get(entityPlayer).syncPlayerInsanity();
-			//				}
-			//			}
-			AOTDPlayerData.get(entityPlayer).setPlayerInsanity(0);
-			AOTDPlayerData.get(entityPlayer).syncPlayerInsanity();
+			// if (AOTDPlayerData.get(entityPlayer).getHasStartedAOTD())
+			// {
+			// if (entityPlayer.worldObj.getBiomeGenForCoords(new BlockPos((int)
+			// entityPlayer.posX, 0, (int) entityPlayer.posZ)) ==
+			// ModBiomes.erieForest)
+			// {
+			// final double amount = .01 + ((.09) * (new
+			// Random().nextDouble()));
+			// double newInsanity =
+			// AOTDPlayerData.get(entityPlayer).getPlayerInsanity() + amount;
+			// AOTDPlayerData.get(entityPlayer).setPlayerInsanity(newInsanity);
+			// AOTDPlayerData.get(entityPlayer).syncPlayerInsanity();
+			// }
+			// else
+			// {
+			// final double amount = .01 + ((.02) * (new
+			// Random().nextDouble()));
+			// double newInsanity =
+			// AOTDPlayerData.get(entityPlayer).getPlayerInsanity() - amount;
+			// AOTDPlayerData.get(entityPlayer).setPlayerInsanity(newInsanity);
+			// AOTDPlayerData.get(entityPlayer).syncPlayerInsanity();
+			// }
+			// }
+			entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setPlayerInsanity(0);
+			entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).syncPlayerInsanity();
 		}
 	}
 }

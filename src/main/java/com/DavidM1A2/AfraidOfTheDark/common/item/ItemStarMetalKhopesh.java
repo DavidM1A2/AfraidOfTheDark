@@ -8,12 +8,12 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.entities.ICanTakeSilverDamage;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDChargableSword;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDamageSources;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDToolMaterials;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.threads.PlayerSpinning;
 
 import net.minecraft.enchantment.Enchantment;
@@ -53,7 +53,7 @@ public class ItemStarMetalKhopesh extends AOTDChargableSword
 	@SideOnly(Side.CLIENT)
 	public void addInformation(final ItemStack stack, final EntityPlayer entityPlayer, final List tooltip, final boolean advanced)
 	{
-		if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.StarMetal))
+		if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.StarMetal))
 		{
 			tooltip.add("Magical items will never break.");
 			tooltip.add("Right click to use an AOE knockback and");
@@ -69,11 +69,11 @@ public class ItemStarMetalKhopesh extends AOTDChargableSword
 	@Override
 	public boolean onLeftClickEntity(final ItemStack stack, final EntityPlayer player, final Entity entity)
 	{
-		if (AOTDPlayerData.get(player).isResearched(ResearchTypes.StarMetal))
+		if (player.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.StarMetal))
 		{
 			if (entity instanceof ICanTakeSilverDamage)
 			{
-				if (AOTDPlayerData.get(player).getHasStartedAOTD())
+				if (player.getCapability(ModCapabilities.PLAYER_DATA, null).getHasStartedAOTD())
 				{
 					entity.attackEntityFrom(AOTDDamageSources.causeSilverDamage(player), 10F);
 				}

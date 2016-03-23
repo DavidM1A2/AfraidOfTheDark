@@ -9,10 +9,10 @@ import java.util.Set;
 
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import io.netty.buffer.ByteBuf;
@@ -62,18 +62,18 @@ public class UpdateResearch implements IMessage
 				@Override
 				public void run()
 				{
-					Set<String> keysOriginal = AOTDPlayerData.get(entityPlayer).getResearches().getKeySet();
+					Set<String> keysOriginal = entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getResearches().getKeySet();
 					for (Object key : msg.research.getKeySet())
 					{
 						String keyString = (String) key;
-						if (!AOTDPlayerData.get(entityPlayer).getResearches().getBoolean(keyString) && msg.research.getBoolean(keyString))
+						if (!entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getResearches().getBoolean(keyString) && msg.research.getBoolean(keyString))
 						{
 							entityPlayer.playSound("afraidofthedark:achievementUnlocked", 1.0f, 1.0f);
 							ClientData.researchAchievedOverlay.displayResearch(ResearchTypes.valueOf(keyString.substring("unlockedResearches".length())), new ItemStack(ModItems.journal, 1), false);
 						}
 					}
 
-					AOTDPlayerData.get(entityPlayer).setReseraches(msg.research);
+					entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setReseraches(msg.research);
 					if (ConfigurationHandler.debugMessages)
 					{
 						LogHelper.info("Update research packet received, " + msg.research.toString());
@@ -91,7 +91,7 @@ public class UpdateResearch implements IMessage
 				@Override
 				public void run()
 				{
-					AOTDPlayerData.get(entityPlayer).setReseraches(msg.research);
+					entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setReseraches(msg.research);
 				}
 			});
 			return null;

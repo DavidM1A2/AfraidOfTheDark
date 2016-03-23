@@ -5,8 +5,8 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
@@ -46,14 +46,14 @@ public class UpdateAOTDStatus implements IMessage
 		@Override
 		public IMessage handleClientMessage(EntityPlayer player, UpdateAOTDStatus msg, MessageContext ctx)
 		{
-			AOTDPlayerData.get(player).setHasStartedAOTD(msg.started);
+			player.getCapability(ModCapabilities.PLAYER_DATA, null).setHasStartedAOTD(msg.started);
 			return null;
 		}
 
 		@Override
 		public IMessage handleServerMessage(EntityPlayer player, UpdateAOTDStatus msg, MessageContext ctx)
 		{
-			AOTDPlayerData.get(player).setHasStartedAOTD(msg.started);
+			player.getCapability(ModCapabilities.PLAYER_DATA, null).setHasStartedAOTD(msg.started);
 			return null;
 		}
 	}

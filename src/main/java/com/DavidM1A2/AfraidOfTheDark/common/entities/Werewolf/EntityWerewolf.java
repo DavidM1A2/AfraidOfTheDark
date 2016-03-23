@@ -9,10 +9,10 @@ import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.ICanTakeSilverDamage;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncAnimation;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -97,13 +97,13 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity, ICan
 
 				if (!worldObj.isRemote)
 				{
-					if (AOTDPlayerData.get(entityPlayer).canResearch(ResearchTypes.SlayingOfTheWolves))
+					if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(ResearchTypes.SlayingOfTheWolves))
 					{
-						AOTDPlayerData.get(entityPlayer).unlockResearch(ResearchTypes.SlayingOfTheWolves, true);
+						entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(ResearchTypes.SlayingOfTheWolves, true);
 					}
 				}
 
-				if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.SlayingOfTheWolves) && entityPlayer.inventory.consumeInventoryItem(Items.glass_bottle))
+				if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.SlayingOfTheWolves) && entityPlayer.inventory.consumeInventoryItem(Items.glass_bottle))
 				{
 					this.dropItem(ModItems.werewolfBlood, 1);
 				}
@@ -221,9 +221,9 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity, ICan
 
 			if (entityPlayer.getHealth() != 0)
 			{
-				if (AOTDPlayerData.get(entityPlayer).canResearch(ResearchTypes.WerewolfExamination))
+				if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(ResearchTypes.WerewolfExamination))
 				{
-					AOTDPlayerData.get(entityPlayer).unlockResearch(ResearchTypes.WerewolfExamination, true);
+					entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(ResearchTypes.WerewolfExamination, true);
 				}
 			}
 		}

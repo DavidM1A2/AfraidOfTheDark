@@ -6,8 +6,8 @@
 
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
@@ -45,7 +45,7 @@ public class UpdateHasBeatenEnaria implements IMessage
 		@Override
 		public IMessage handleClientMessage(EntityPlayer player, UpdateHasBeatenEnaria msg, MessageContext ctx)
 		{
-			AOTDPlayerData.get(player).setHasBeatenEnaria(msg.hasBeatenEnaria);
+			player.getCapability(ModCapabilities.PLAYER_DATA, null).setHasBeatenEnaria(msg.hasBeatenEnaria);
 			return null;
 		}
 	}

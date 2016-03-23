@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItemWithCooldownPerItem;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncFlaskOfSouls;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 import net.minecraft.block.BlockLiquid;
@@ -33,12 +33,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemFlaskOfSouls extends AOTDItemWithCooldownPerItem {
+public class ItemFlaskOfSouls extends AOTDItemWithCooldownPerItem
+{
 	public static Map<String, Integer> flaskKillRequirements = new HashMap<String, Integer>();
 	public static final String FLASK_TYPE = "flaskType";
 	public static final String KILLS = "flaskKills";
 
-	static {
+	static
+	{
 		flaskKillRequirements.put("EntityBat", 32);
 		flaskKillRequirements.put("EntityChicken", 32);
 		flaskKillRequirements.put("EntityCow", 32);
@@ -73,35 +75,43 @@ public class ItemFlaskOfSouls extends AOTDItemWithCooldownPerItem {
 		flaskKillRequirements.put("EntityEnchantedSkeleton", 32);
 	}
 
-	public ItemFlaskOfSouls() {
+	public ItemFlaskOfSouls()
+	{
 		super();
 		this.setUnlocalizedName("flaskOfSouls");
 		this.setMaxStackSize(1);
 	}
 
 	@Override
-	public boolean onItemUse(final ItemStack itemStack, final EntityPlayer entityPlayer, final World world,
-			final BlockPos pos, final EnumFacing side, final float hitX, final float hitY, final float hitZ) {
+	public boolean onItemUse(final ItemStack itemStack, final EntityPlayer entityPlayer, final World world, final BlockPos pos, final EnumFacing side, final float hitX, final float hitY, final float hitZ)
+	{
 		final int blockX = pos.getX();
 		final int blockY = pos.getY();
 		final int blockZ = pos.getZ();
 		// When we use the item, we check the block that was clicked on and
 		// spawn an entity on that block
-		if (world.isRemote) {
+		if (world.isRemote)
+		{
 			return true;
-		} else {
-			if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.PhylacteryOfSouls)) {
+		}
+		else
+		{
+			if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.PhylacteryOfSouls))
+			{
 				double y = 0.0D;
 
-				if (world.getBlockState(pos).getBlock().isFullCube()) {
+				if (world.getBlockState(pos).getBlock().isFullCube())
+				{
 					y = 1.0D;
 				}
 
-				if (this.spawnEntity(world, blockX + 0.5D, blockY + y, blockZ + 0.5D, itemStack,
-						entityPlayer) == null) {
+				if (this.spawnEntity(world, blockX + 0.5D, blockY + y, blockZ + 0.5D, itemStack, entityPlayer) == null)
+				{
 					entityPlayer.addChatMessage(new ChatComponentText("Flask is incomplete or on cooldown."));
 				}
-			} else {
+			}
+			else
+			{
 				entityPlayer.addChatMessage(new ChatComponentText("I'm not sure how to operate this."));
 			}
 
@@ -114,35 +124,46 @@ public class ItemFlaskOfSouls extends AOTDItemWithCooldownPerItem {
 	 * pressed. Args: itemStack, world, entityPlayer
 	 */
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer) {
-		if (world.isRemote) {
+	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer)
+	{
+		if (world.isRemote)
+		{
 			return itemStack;
-		} else {
-			if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.PhylacteryOfSouls)) {
-				final MovingObjectPosition movingObjectPosition = this.getMovingObjectPositionFromPlayer(world,
-						entityPlayer, true);
+		}
+		else
+		{
+			if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.PhylacteryOfSouls))
+			{
+				final MovingObjectPosition movingObjectPosition = this.getMovingObjectPositionFromPlayer(world, entityPlayer, true);
 
-				if (movingObjectPosition == null) {
+				if (movingObjectPosition == null)
+				{
 					return itemStack;
-				} else {
-					if (movingObjectPosition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+				}
+				else
+				{
+					if (movingObjectPosition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
+					{
 						final BlockPos thisPos = entityPlayer.getPosition();
 
-						if (!world.canMineBlockBody(entityPlayer, thisPos)) {
+						if (!world.canMineBlockBody(entityPlayer, thisPos))
+						{
 							return itemStack;
 						}
 
-						if (world.getBlockState(thisPos) instanceof BlockLiquid) {
-							if (this.spawnEntity(world, thisPos.getX(), thisPos.getY(), thisPos.getZ(), itemStack,
-									entityPlayer) == null) {
-								entityPlayer
-										.addChatMessage(new ChatComponentText("Flask is incomplete or on cooldown."));
+						if (world.getBlockState(thisPos) instanceof BlockLiquid)
+						{
+							if (this.spawnEntity(world, thisPos.getX(), thisPos.getY(), thisPos.getZ(), itemStack, entityPlayer) == null)
+							{
+								entityPlayer.addChatMessage(new ChatComponentText("Flask is incomplete or on cooldown."));
 							}
 						}
 					}
 					return itemStack;
 				}
-			} else {
+			}
+			else
+			{
 				entityPlayer.addChatMessage(new ChatComponentText("I'm not sure how to operate this."));
 				return itemStack;
 			}
@@ -150,36 +171,43 @@ public class ItemFlaskOfSouls extends AOTDItemWithCooldownPerItem {
 	}
 
 	// To spawn the entity we get it's name and spawn one with a random rotation
-	private Entity spawnEntity(final World world, final double x, final double y, final double z, ItemStack itemStack,
-			EntityPlayer entityPlayer) {
+	private Entity spawnEntity(final World world, final double x, final double y, final double z, ItemStack itemStack, EntityPlayer entityPlayer)
+	{
 		EntityLiving entityToSpawn = null;
-		if (!world.isRemote) {
-			if (ItemFlaskOfSouls.flaskKillRequirements.containsKey(NBTHelper.getString(itemStack, FLASK_TYPE))) {
-				if (itemStack.getItemDamage() == 1) {
-					if (!this.isOnCooldown(itemStack)) {
+		if (!world.isRemote)
+		{
+			if (ItemFlaskOfSouls.flaskKillRequirements.containsKey(NBTHelper.getString(itemStack, FLASK_TYPE)))
+			{
+				if (itemStack.getItemDamage() == 1)
+				{
+					if (!this.isOnCooldown(itemStack))
+					{
 						String entityToSpawnName = NBTHelper.getString(itemStack, FLASK_TYPE);
-						String aotdEntity = Refrence.MOD_ID + "." + entityToSpawnName.substring(6, 7).toLowerCase()
-								+ entityToSpawnName.substring(7);
-						if (EntityList.stringToClassMapping.containsKey(entityToSpawnName)) {
+						String aotdEntity = Refrence.MOD_ID + "." + entityToSpawnName.substring(6, 7).toLowerCase() + entityToSpawnName.substring(7);
+						if (EntityList.stringToClassMapping.containsKey(entityToSpawnName))
+						{
 							entityToSpawn = (EntityLiving) EntityList.createEntityByName(entityToSpawnName, world);
-						} else if (EntityList.stringToClassMapping.containsKey(aotdEntity)) {
+						}
+						else if (EntityList.stringToClassMapping.containsKey(aotdEntity))
+						{
 							entityToSpawn = (EntityLiving) EntityList.createEntityByName(aotdEntity, world);
-						} else if (EntityList.stringToClassMapping.containsKey(entityToSpawnName.substring(6))) {
-							entityToSpawn = (EntityLiving) EntityList.createEntityByName(entityToSpawnName.substring(6),
-									world);
-						} else {
-							entityPlayer.addChatMessage(new ChatComponentText(
-									"The entity: " + entityToSpawnName + " is not supported by flasks at this time."));
+						}
+						else if (EntityList.stringToClassMapping.containsKey(entityToSpawnName.substring(6)))
+						{
+							entityToSpawn = (EntityLiving) EntityList.createEntityByName(entityToSpawnName.substring(6), world);
+						}
+						else
+						{
+							entityPlayer.addChatMessage(new ChatComponentText("The entity: " + entityToSpawnName + " is not supported by flasks at this time."));
 						}
 
-						if (entityToSpawn != null) {
-							entityToSpawn.setLocationAndAngles(x, y, z,
-									MathHelper.wrapAngleTo180_float(world.rand.nextFloat() * 360), 0.0F);
+						if (entityToSpawn != null)
+						{
+							entityToSpawn.setLocationAndAngles(x, y, z, MathHelper.wrapAngleTo180_float(world.rand.nextFloat() * 360), 0.0F);
 							world.spawnEntityInWorld(entityToSpawn);
 							entityToSpawn.playLivingSound();
 							this.setOnCooldown(itemStack);
-							AfraidOfTheDark.getPacketHandler().sendTo(new SyncFlaskOfSouls(System.currentTimeMillis()),
-									(EntityPlayerMP) entityPlayer);
+							AfraidOfTheDark.getPacketHandler().sendTo(new SyncFlaskOfSouls(System.currentTimeMillis()), (EntityPlayerMP) entityPlayer);
 						}
 					}
 				}
@@ -201,18 +229,24 @@ public class ItemFlaskOfSouls extends AOTDItemWithCooldownPerItem {
 	 */
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List tooltip, boolean advanced) {
-		if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.PhylacteryOfSouls)) {
-			if (NBTHelper.getString(itemStack, FLASK_TYPE).equals("")) {
+	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List tooltip, boolean advanced)
+	{
+		if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.PhylacteryOfSouls))
+		{
+			if (NBTHelper.getString(itemStack, FLASK_TYPE).equals(""))
+			{
 				tooltip.add("Flask unbound.");
 				tooltip.add("Hold this in your hotbar while");
 				tooltip.add("killing a mob to bind this flask.");
-			} else {
-				tooltip.add("Entity bound to: " + NBTHelper.getString(itemStack, FLASK_TYPE).substring(6));
-				tooltip.add("Entity kills: " + NBTHelper.getInt(itemStack, KILLS) + "/"
-						+ ItemFlaskOfSouls.flaskKillRequirements.get(NBTHelper.getString(itemStack, FLASK_TYPE)));
 			}
-		} else {
+			else
+			{
+				tooltip.add("Entity bound to: " + NBTHelper.getString(itemStack, FLASK_TYPE).substring(6));
+				tooltip.add("Entity kills: " + NBTHelper.getInt(itemStack, KILLS) + "/" + ItemFlaskOfSouls.flaskKillRequirements.get(NBTHelper.getString(itemStack, FLASK_TYPE)));
+			}
+		}
+		else
+		{
 			tooltip.add("I'm not sure how to use this.");
 		}
 	}
@@ -225,36 +259,50 @@ public class ItemFlaskOfSouls extends AOTDItemWithCooldownPerItem {
 	 *            The current ItemStack
 	 * @return 1.0 for 100% 0 for 0%
 	 */
-	public double getDurabilityForDisplay(ItemStack itemStack) {
-		if (itemStack.getItemDamage() == 0) {
-			if (NBTHelper.getString(itemStack, FLASK_TYPE).equals("")) {
+	public double getDurabilityForDisplay(ItemStack itemStack)
+	{
+		if (itemStack.getItemDamage() == 0)
+		{
+			if (NBTHelper.getString(itemStack, FLASK_TYPE).equals(""))
+			{
 				return 1;
-			} else {
-				return 1 - (double) NBTHelper.getInt(itemStack, KILLS) / (double) ItemFlaskOfSouls.flaskKillRequirements
-						.get(NBTHelper.getString(itemStack, FLASK_TYPE));
+			}
+			else
+			{
+				return 1 - (double) NBTHelper.getInt(itemStack, KILLS) / (double) ItemFlaskOfSouls.flaskKillRequirements.get(NBTHelper.getString(itemStack, FLASK_TYPE));
 			}
 		}
 		return super.getDurabilityForDisplay(itemStack);
 	}
 
 	@Override
-	public int getItemCooldownInTicks(ItemStack itemStack) {
+	public int getItemCooldownInTicks(ItemStack itemStack)
+	{
 		String type = NBTHelper.getString(itemStack, FLASK_TYPE);
-		if (ItemFlaskOfSouls.flaskKillRequirements.containsKey(type)) {
-			if (ItemFlaskOfSouls.flaskKillRequirements.get(type) == 32) {
+		if (ItemFlaskOfSouls.flaskKillRequirements.containsKey(type))
+		{
+			if (ItemFlaskOfSouls.flaskKillRequirements.get(type) == 32)
+			{
 				return 160;
-			} else if (ItemFlaskOfSouls.flaskKillRequirements.get(type) == 16) {
+			}
+			else if (ItemFlaskOfSouls.flaskKillRequirements.get(type) == 16)
+			{
 				return 600;
-			} else {
+			}
+			else
+			{
 				return 1200;
 			}
-		} else {
+		}
+		else
+		{
 			return 160;
 		}
 	}
 
 	@Override
-	public int getItemCooldownInTicks() {
+	public int getItemCooldownInTicks()
+	{
 		return 160;
 	}
 }

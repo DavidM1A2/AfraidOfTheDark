@@ -6,9 +6,9 @@
 package com.DavidM1A2.AfraidOfTheDark.common.entities.bolts;
 
 import com.DavidM1A2.AfraidOfTheDark.common.entities.ICanTakeSilverDamage;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDamageSources;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -61,7 +61,7 @@ public class EntityIgneousBolt extends EntityBolt
 		{
 			if ((this.myDamageSource != null) && (this.myDamageSource instanceof EntityPlayer))
 			{
-				if (AOTDPlayerData.get((EntityPlayer) this.myDamageSource).getHasStartedAOTD())
+				if (((EntityPlayer) this.myDamageSource).getCapability(ModCapabilities.PLAYER_DATA, null).getHasStartedAOTD())
 				{
 					entityHit.attackEntityFrom(AOTDDamageSources.causeSilverDamage(this.myDamageSource), this.getDamage() * 2.0F);
 				}

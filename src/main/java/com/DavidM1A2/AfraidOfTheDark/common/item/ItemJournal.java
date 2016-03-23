@@ -9,8 +9,8 @@ import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 import net.minecraft.creativetab.CreativeTabs;
@@ -41,8 +41,9 @@ public class ItemJournal extends AOTDItem
 			// If the journal has no owner
 			if (NBTHelper.getString(itemStack, "owner").equals(""))
 			{
-				// If the player has started AOTD, set the NBT tag and open the journal
-				if (AOTDPlayerData.get(entityPlayer).getHasStartedAOTD())
+				// If the player has started AOTD, set the NBT tag and open the
+				// journal
+				if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getHasStartedAOTD())
 				{
 					NBTHelper.setString(itemStack, "owner", entityPlayer.getDisplayName().getUnformattedText());
 					if (world.isRemote)
@@ -80,7 +81,7 @@ public class ItemJournal extends AOTDItem
 		{
 			if (entityPlayer.capabilities.isCreativeMode)
 			{
-				if (AOTDPlayerData.get(entityPlayer).getHasStartedAOTD())
+				if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getHasStartedAOTD())
 				{
 					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_CHEAT_SHEET, world, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
 				}
@@ -104,7 +105,8 @@ public class ItemJournal extends AOTDItem
 	}
 
 	/**
-	 * returns a list of items with the same ID, but different meta (eg: dye returns 16 items)
+	 * returns a list of items with the same ID, but different meta (eg: dye
+	 * returns 16 items)
 	 * 
 	 * @param subItems
 	 *            The List of sub-items. This is a List of ItemStacks.

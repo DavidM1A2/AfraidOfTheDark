@@ -10,10 +10,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDBlock;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDEntityData;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -83,7 +83,7 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 	{
 		if (!world.isRemote)
 		{
-			if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.VitaeDisenchanter))
+			if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.VitaeDisenchanter))
 			{
 				if (entityPlayer.inventory.getCurrentItem() == null)
 				{
@@ -167,7 +167,7 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 
 	private boolean readyToConvertBook(EntityPlayer entityPlayer)
 	{
-		if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.VitaeDisenchanter))
+		if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.VitaeDisenchanter))
 		{
 			ItemStack itemStack = entityPlayer.getCurrentEquippedItem();
 			if (itemStack != null && itemStack.getItem() instanceof ItemEnchantedBook)
@@ -281,7 +281,7 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 
 	private boolean readyToDisenchant(EntityPlayer entityPlayer)
 	{
-		if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.VitaeDisenchanter))
+		if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.VitaeDisenchanter))
 		{
 			if (entityPlayer.inventory.getCurrentItem().isItemEnchanted())
 			{

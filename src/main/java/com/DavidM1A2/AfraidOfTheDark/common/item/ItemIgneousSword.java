@@ -8,11 +8,11 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.entities.ICanTakeSilverDamage;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDChargableSword;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDamageSources;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDToolMaterials;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -36,7 +36,7 @@ public class ItemIgneousSword extends AOTDChargableSword
 	@Override
 	public boolean onLeftClickEntity(final ItemStack stack, final EntityPlayer player, final Entity entity)
 	{
-		if (AOTDPlayerData.get(player).isResearched(ResearchTypes.Igneous))
+		if (player.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.Igneous))
 		{
 			if (entity != null)
 			{
@@ -62,7 +62,7 @@ public class ItemIgneousSword extends AOTDChargableSword
 	@SideOnly(Side.CLIENT)
 	public void addInformation(final ItemStack itemStack, final EntityPlayer entityPlayer, final List tooltip, final boolean p_77624_4_)
 	{
-		if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.Igneous))
+		if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.Igneous))
 		{
 			tooltip.add("Magical items will never break.");
 			tooltip.add("Right click to use an AOE fire strike");

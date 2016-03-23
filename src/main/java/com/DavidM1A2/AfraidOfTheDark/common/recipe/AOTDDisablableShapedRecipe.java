@@ -7,8 +7,8 @@ package com.DavidM1A2.AfraidOfTheDark.common.recipe;
 
 import java.lang.reflect.Field;
 
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 import com.google.common.base.Throwables;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -46,7 +46,7 @@ public class AOTDDisablableShapedRecipe extends ShapedOreRecipe
 		EntityPlayer entityPlayer = findPlayer(inventoryCrafting);
 		if (entityPlayer != null)
 		{
-			if (!AOTDPlayerData.get(entityPlayer).isResearched(preRequisite))
+			if (!entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(preRequisite))
 			{
 				if (matches)
 				{

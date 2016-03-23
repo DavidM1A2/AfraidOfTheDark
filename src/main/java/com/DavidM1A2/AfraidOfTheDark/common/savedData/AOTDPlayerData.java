@@ -1,13 +1,8 @@
-/*
- * Author: David Slovikosky
- * Mod: Afraid of the Dark
- * Ideas and Textures: Michael Albertson
- */
-
 package com.DavidM1A2.AfraidOfTheDark.common.savedData;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncAOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncSelectedWristCrossbowBolt;
@@ -19,20 +14,18 @@ import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateResearch;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellManager;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.World;
-import net.minecraftforge.common.IExtendedEntityProperties;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
-public class AOTDPlayerData implements IExtendedEntityProperties
+public class AOTDPlayerData implements ICapabilityProvider, IAOTDPlayerData
 {
-	// PROPERTIES =============================================================
-
 	private final EntityPlayer entityPlayer;
 
 	private boolean hasStartedAOTD = false;
@@ -45,86 +38,35 @@ public class AOTDPlayerData implements IExtendedEntityProperties
 	private boolean hasBeatenEnaria;
 	private int selectedWristCrossbowBolt = 0;
 	private SpellManager spellManager = new SpellManager();
-	private static final String HAS_STARTED_AOTD = "playerStartedAOTD";
-	private final static String PLAYER_INSANITY = "PlayerInsanity";
-	private final static String INVENTORY_SAVER = "inventorySaver";
-	private final static String PLAYER_LOCATION_OVERWORLD = "playerLocationOverworld";
-	private final static String PLAYER_LOCATION_NIGHTMARE = "playerLocationNightmare";
 	private final static String PLAYER_LOCATION_VOID_CHEST = "playerLocationVoidChest";
+	private final static String PLAYER_LOCATION_NIGHTMARE = "playerLocationNightmare";
 	private final static String RESEARCH_DATA = "unlockedResearches";
-	private final static String HAS_BEATEN_ENARIA = "hasBeatenEnaria";
-	private final static String SELECTED_WRIST_CROSSBOW_BOLT = "selectedWristCrossbowBolt";
-	private final static String SPELL_MANAGER = "spellManager";
-
-	// CONSTRUCTOR, GETTER, REGISTER ==========================================
 
 	public AOTDPlayerData(EntityPlayer entityPlayer)
 	{
 		this.entityPlayer = entityPlayer;
 	}
 
-	private static String getIdentifier()
+	@Override
+	public boolean hasCapability(Capability<?> capability, EnumFacing facing)
 	{
-		return "AOTDPlayerData";
+		return ModCapabilities.PLAYER_DATA != null && capability == ModCapabilities.PLAYER_DATA;
 	}
 
-	public static AOTDPlayerData get(EntityPlayer entityPlayer)
+	@Override
+	public <T> T getCapability(Capability<T> capability, EnumFacing facing)
 	{
-		return (AOTDPlayerData) entityPlayer.getExtendedProperties(AOTDPlayerData.getIdentifier());
-	}
-
-	public static void register(EntityPlayer entityPlayer)
-	{
-		if (entityPlayer.getExtendedProperties(AOTDPlayerData.getIdentifier()) == null)
+		if (ModCapabilities.PLAYER_DATA != null && capability == ModCapabilities.PLAYER_DATA)
 		{
-			entityPlayer.registerExtendedProperties(AOTDPlayerData.getIdentifier(), new AOTDPlayerData(entityPlayer));
+			return (T) this;
 		}
+		return null;
 	}
 
-	// LOAD, SAVE =============================================================
-
-	@Override
-	public void saveNBTData(NBTTagCompound nbt)
+	private boolean isServerSide()
 	{
-		nbt.setBoolean(HAS_STARTED_AOTD, this.getHasStartedAOTD());
-		nbt.setDouble(PLAYER_INSANITY, this.getPlayerInsanity());
-		nbt.setTag(INVENTORY_SAVER, inventoryList);
-		nbt.setIntArray(PLAYER_LOCATION_OVERWORLD, playerLocationOverworld);
-		nbt.setInteger(PLAYER_LOCATION_NIGHTMARE, playerLocationNightmare);
-		nbt.setTag(RESEARCH_DATA, researches);
-		nbt.setInteger(PLAYER_LOCATION_VOID_CHEST, this.playerLocationVoidChest);
-		nbt.setBoolean(HAS_BEATEN_ENARIA, this.hasBeatenEnaria);
-		nbt.setInteger(SELECTED_WRIST_CROSSBOW_BOLT, this.selectedWristCrossbowBolt);
-		this.spellManager.writeToNBT(nbt);//NBTObjectWriter.writeObjectToNBT(SPELL_MANAGER, this.spellManager, nbt);
+		return entityPlayer instanceof EntityPlayerMP;
 	}
-
-	@Override
-	public void loadNBTData(NBTTagCompound nbt)
-	{
-		this.setHasStartedAOTD(nbt.getBoolean(HAS_STARTED_AOTD));
-		this.setPlayerInsanity(nbt.getDouble(PLAYER_INSANITY));
-		this.setPlayerInventory(nbt.getTagList(INVENTORY_SAVER, 10));
-		this.setPlayerLocationOverworld(nbt.getIntArray(PLAYER_LOCATION_OVERWORLD));
-		this.setPlayerLocationNightmare(nbt.getInteger(PLAYER_LOCATION_NIGHTMARE));
-		this.setReseraches((NBTTagCompound) nbt.getTag(RESEARCH_DATA));
-		this.setPlayerLocationVoidChest(nbt.getInteger(PLAYER_LOCATION_VOID_CHEST));
-		this.setHasBeatenEnaria(nbt.getBoolean(HAS_BEATEN_ENARIA));
-		this.setSelectedWristCrossbowBolt(nbt.getInteger(SELECTED_WRIST_CROSSBOW_BOLT));
-		this.spellManager = new SpellManager();//NBTObjectWriter.<SpellManager> readObjectFromNBT(SPELL_MANAGER, nbt);
-		this.spellManager.readFromNBT(nbt);
-	}
-
-	@Override
-	public void init(Entity entity, World world)
-	{
-	}
-
-	public boolean isServerSide()
-	{
-		return this.entityPlayer instanceof EntityPlayerMP;
-	}
-
-	// GETTER, SETTER, SYNCER =================================================
 
 	public boolean getHasStartedAOTD()
 	{
@@ -237,7 +179,7 @@ public class AOTDPlayerData implements IExtendedEntityProperties
 
 	public boolean canResearch(ResearchTypes research)
 	{
-		return AOTDPlayerData.get(entityPlayer).getHasStartedAOTD() && !this.isResearched(research) && (research.getPrevious() != null ? this.isResearched(research.getPrevious()) : true);
+		return this.getHasStartedAOTD() && !this.isResearched(research) && (research.getPrevious() != null ? this.isResearched(research.getPrevious()) : true);
 	}
 
 	public void unlockResearch(ResearchTypes research, boolean firstTimeResearched)

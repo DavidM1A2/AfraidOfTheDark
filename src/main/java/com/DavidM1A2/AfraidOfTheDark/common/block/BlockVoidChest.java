@@ -7,8 +7,8 @@ package com.DavidM1A2.AfraidOfTheDark.common.block;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDBlockTileEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityVoidChest;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -78,7 +78,7 @@ public class BlockVoidChest extends AOTDBlockTileEntity
 		if (world.getTileEntity(blockPos) instanceof TileEntityVoidChest)
 		{
 			TileEntityVoidChest entityVoidChest = (TileEntityVoidChest) world.getTileEntity(blockPos);
-			if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.VoidChest))
+			if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.VoidChest))
 			{
 				entityVoidChest.interact(entityPlayer);
 			}
@@ -121,8 +121,7 @@ public class BlockVoidChest extends AOTDBlockTileEntity
 	@Override
 	protected BlockState createBlockState()
 	{
-		return new BlockState(this, new IProperty[]
-		{ FACING_PROP });
+		return new BlockState(this, new IProperty[] { FACING_PROP });
 	}
 
 	@Override

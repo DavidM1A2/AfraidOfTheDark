@@ -5,9 +5,9 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.debug;
 
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDEntityData;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,52 +26,52 @@ public class ItemInsanityControl extends AOTDItem
 
 	// When rightclicking + holding shift, decrease insanity, else increase it
 	@Override
-	public ItemStack onItemRightClick(final ItemStack itemStack, final World world, final EntityPlayer myPlayer)
+	public ItemStack onItemRightClick(final ItemStack itemStack, final World world, final EntityPlayer entityPlayer)
 	{
 		if (!world.isRemote)
 		{
-			if (myPlayer.isSneaking() && !myPlayer.onGround)
+			if (entityPlayer.isSneaking() && !entityPlayer.onGround)
 			{
-				double newInsanity = AOTDPlayerData.get(myPlayer).getPlayerInsanity() - 5;
-				AOTDPlayerData.get(myPlayer).setPlayerInsanity(newInsanity);
-				LogHelper.info("Insanity Level = " + AOTDPlayerData.get(myPlayer).getPlayerInsanity());
+				double newInsanity = entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerInsanity() - 5;
+				entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setPlayerInsanity(newInsanity);
+				LogHelper.info("Insanity Level = " + entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerInsanity());
 			}
-			else if (!myPlayer.isSneaking() && !myPlayer.onGround)
+			else if (!entityPlayer.isSneaking() && !entityPlayer.onGround)
 			{
-				double newInsanity = AOTDPlayerData.get(myPlayer).getPlayerInsanity() + 5;
+				double newInsanity = entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerInsanity() + 5;
 				MathHelper.clamp_double(newInsanity, 0, 100);
-				AOTDPlayerData.get(myPlayer).setPlayerInsanity(newInsanity);
-				LogHelper.info("Insanity Level = " + AOTDPlayerData.get(myPlayer).getPlayerInsanity());
+				entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setPlayerInsanity(newInsanity);
+				LogHelper.info("Insanity Level = " + entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerInsanity());
 			}
-			else if (myPlayer.isSneaking() && myPlayer.onGround)
+			else if (entityPlayer.isSneaking() && entityPlayer.onGround)
 			{
-				int newVitae = AOTDEntityData.get(myPlayer).getVitaeLevel() + 5;
-				if (AOTDEntityData.get(myPlayer).setVitaeLevel(newVitae))
+				int newVitae = AOTDEntityData.get(entityPlayer).getVitaeLevel() + 5;
+				if (AOTDEntityData.get(entityPlayer).setVitaeLevel(newVitae))
 				{
-					if (!myPlayer.capabilities.isCreativeMode)
+					if (!entityPlayer.capabilities.isCreativeMode)
 					{
-						myPlayer.worldObj.createExplosion(myPlayer, myPlayer.getPosition().getX(), myPlayer.getPosition().getY(), myPlayer.getPosition().getZ(), 2, true).doExplosionB(true);
-						myPlayer.onKillCommand();
+						entityPlayer.worldObj.createExplosion(entityPlayer, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ(), 2, true).doExplosionB(true);
+						entityPlayer.onKillCommand();
 					}
 				}
-				AOTDEntityData.get(myPlayer).syncVitaeLevel();
-				LogHelper.info("Vitae Level = " + AOTDEntityData.get(myPlayer).getVitaeLevel());
+				AOTDEntityData.get(entityPlayer).syncVitaeLevel();
+				LogHelper.info("Vitae Level = " + AOTDEntityData.get(entityPlayer).getVitaeLevel());
 			}
 			else
 			{
-				int newVitae = AOTDEntityData.get(myPlayer).getVitaeLevel() - 5;
-				if (AOTDEntityData.get(myPlayer).setVitaeLevel(newVitae))
+				int newVitae = AOTDEntityData.get(entityPlayer).getVitaeLevel() - 5;
+				if (AOTDEntityData.get(entityPlayer).setVitaeLevel(newVitae))
 				{
-					if (!myPlayer.capabilities.isCreativeMode)
+					if (!entityPlayer.capabilities.isCreativeMode)
 					{
-						myPlayer.worldObj.createExplosion(myPlayer, myPlayer.getPosition().getX(), myPlayer.getPosition().getY(), myPlayer.getPosition().getZ(), 2, true).doExplosionB(true);
-						myPlayer.onKillCommand();
+						entityPlayer.worldObj.createExplosion(entityPlayer, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ(), 2, true).doExplosionB(true);
+						entityPlayer.onKillCommand();
 					}
 				}
-				AOTDEntityData.get(myPlayer).syncVitaeLevel();
-				LogHelper.info("Vitae Level = " + AOTDEntityData.get(myPlayer).getVitaeLevel());
+				AOTDEntityData.get(entityPlayer).syncVitaeLevel();
+				LogHelper.info("Vitae Level = " + AOTDEntityData.get(entityPlayer).getVitaeLevel());
 			}
-			AOTDPlayerData.get(myPlayer).syncPlayerInsanity();
+			entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).syncPlayerInsanity();
 		}
 		return itemStack;
 	}

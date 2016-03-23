@@ -8,9 +8,9 @@ package com.DavidM1A2.AfraidOfTheDark.common.item.armor;
 import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -33,7 +33,7 @@ public class StarMetalArmor extends AOTDArmor
 	}
 
 	@Override
-	//This is pretty self explanatory
+	// This is pretty self explanatory
 	public String getArmorTexture(final ItemStack armor, final Entity entity, final int slot, final String type)
 	{
 		if (armor.getItem() == ModItems.starMetalLeggings)
@@ -59,7 +59,7 @@ public class StarMetalArmor extends AOTDArmor
 	@Override
 	public void onArmorTick(final World world, final EntityPlayer entityPlayer, final ItemStack itemStack)
 	{
-		if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.StarMetal))
+		if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.StarMetal))
 		{
 			if (!entityPlayer.isPotionActive(Potion.absorption))
 			{
@@ -69,9 +69,7 @@ public class StarMetalArmor extends AOTDArmor
 	}
 
 	/*
-	 * ArmorProperties(0, .24, 200);
-	 * 0 = priority
-	 * .24 = %age of damage reduced
+	 * ArmorProperties(0, .24, 200); 0 = priority .24 = %age of damage reduced
 	 * 200 is the max damage reduced
 	 */
 	@Override
@@ -88,7 +86,7 @@ public class StarMetalArmor extends AOTDArmor
 		if (entityLivingBase instanceof EntityPlayer)
 		{
 			EntityPlayer entityPlayer = (EntityPlayer) entityLivingBase;
-			if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.StarMetal))
+			if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.StarMetal))
 			{
 				if (source instanceof EntityDamageSource)
 				{
@@ -109,7 +107,7 @@ public class StarMetalArmor extends AOTDArmor
 	@Override
 	public int getArmorDisplay(final EntityPlayer entityPlayer, final ItemStack itemStack, final int slot)
 	{
-		if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.StarMetal))
+		if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.StarMetal))
 		{
 			return this.getReductionBasedOffOfSlot(slot);
 		}

@@ -10,6 +10,7 @@ import org.lwjgl.input.Keyboard;
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.Keybindings;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemCloakOfAgility;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemVitaeLantern;
@@ -19,7 +20,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncKeyPress;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDCrossbowBoltTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 import net.minecraft.client.Minecraft;
@@ -49,7 +49,7 @@ public class KeyInputEventHandler
 		{
 			this.changeLanternMode();
 		}
-		if (Keyboard.getEventKeyState() && AOTDPlayerData.get(Minecraft.getMinecraft().thePlayer).getSpellManager().doesKeyMapToSpell(Keyboard.getKeyName(Keyboard.getEventKey())))
+		if (Keyboard.getEventKeyState() && Minecraft.getMinecraft().thePlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getSpellManager().doesKeyMapToSpell(Keyboard.getKeyName(Keyboard.getEventKey())))
 		{
 			this.spellKeyPressed();
 		}
@@ -64,7 +64,7 @@ public class KeyInputEventHandler
 	{
 		EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
 
-		if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.VitaeLanternI))
+		if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.VitaeLanternI))
 		{
 			boolean hasLantern = false;
 			for (ItemStack itemStack : entityPlayer.inventory.mainInventory)
@@ -96,10 +96,10 @@ public class KeyInputEventHandler
 	private void fireWristCrossbow()
 	{
 		EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
-		AOTDCrossbowBoltTypes currentlySelected = AOTDCrossbowBoltTypes.getTypeFromID(AOTDPlayerData.get(entityPlayer).getSelectedWristCrossbowBolt());
+		AOTDCrossbowBoltTypes currentlySelected = AOTDCrossbowBoltTypes.getTypeFromID(entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getSelectedWristCrossbowBolt());
 		if (!entityPlayer.isSneaking())
 		{
-			if (entityPlayer.inventory.hasItem(ModItems.wristCrossbow) && AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.WristCrossbow))
+			if (entityPlayer.inventory.hasItem(ModItems.wristCrossbow) && entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.WristCrossbow))
 			{
 				for (ItemStack itemStack : entityPlayer.inventory.mainInventory)
 				{
@@ -129,7 +129,7 @@ public class KeyInputEventHandler
 					}
 				}
 			}
-			else if (!AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.WristCrossbow))
+			else if (!entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.WristCrossbow))
 			{
 				entityPlayer.addChatMessage(new ChatComponentText("I don't understand how this works."));
 			}
@@ -140,8 +140,8 @@ public class KeyInputEventHandler
 		}
 		else
 		{
-			AOTDPlayerData.get(entityPlayer).setSelectedWristCrossbowBolt(AOTDCrossbowBoltTypes.getIDFromType(currentlySelected.next()));
-			AOTDPlayerData.get(entityPlayer).syncSelectedWristCrossbowBolt();
+			entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setSelectedWristCrossbowBolt(AOTDCrossbowBoltTypes.getIDFromType(currentlySelected.next()));
+			entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).syncSelectedWristCrossbowBolt();
 			entityPlayer.addChatMessage(new ChatComponentText("Crossbow will now fire " + currentlySelected.next().formattedString() + "bolts."));
 		}
 	}
@@ -150,7 +150,7 @@ public class KeyInputEventHandler
 	{
 		EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
 		boolean willRoll = false;
-		if (entityPlayer.inventory.hasItem(ModItems.cloakOfAgility) && entityPlayer.onGround && AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.CloakOfAgility))
+		if (entityPlayer.inventory.hasItem(ModItems.cloakOfAgility) && entityPlayer.onGround && entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.CloakOfAgility))
 		{
 			for (ItemStack itemStack : entityPlayer.inventory.mainInventory)
 			{
@@ -182,7 +182,7 @@ public class KeyInputEventHandler
 				entityPlayer.addChatMessage(new ChatComponentText("I'm too tired to roll again."));
 			}
 		}
-		else if (!AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.CloakOfAgility))
+		else if (!entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.CloakOfAgility))
 		{
 			entityPlayer.addChatMessage(new ChatComponentText("I don't understand how this works."));
 		}

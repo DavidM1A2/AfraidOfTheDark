@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.entities.EnchantedSkeleton.EntityEnchantedSkeleton;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,8 +34,9 @@ public class ItemEnchantedSkeletonBone extends AOTDItem
 	}
 
 	/**
-	 * Called by the default implemetation of EntityItem's onUpdate method, allowing for cleaner control over the update of the item without having to
-	 * write a subclass.
+	 * Called by the default implemetation of EntityItem's onUpdate method,
+	 * allowing for cleaner control over the update of the item without having
+	 * to write a subclass.
 	 *
 	 * @param entityItem
 	 *            The entity Item
@@ -84,9 +85,9 @@ public class ItemEnchantedSkeletonBone extends AOTDItem
 							if (object instanceof EntityPlayer)
 							{
 								EntityPlayer entityPlayer = (EntityPlayer) object;
-								if (AOTDPlayerData.get(entityPlayer).canResearch(ResearchTypes.EnchantedSkeleton))
+								if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(ResearchTypes.EnchantedSkeleton))
 								{
-									AOTDPlayerData.get(entityPlayer).unlockResearch(ResearchTypes.EnchantedSkeleton, true);
+									entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(ResearchTypes.EnchantedSkeleton, true);
 								}
 							}
 						}

@@ -5,6 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare;
 
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDimensions;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
@@ -53,12 +54,12 @@ public class NightmareTeleporter extends Teleporter
 					EntityPlayer entityPlayer = (EntityPlayer) entity;
 					NBTTagList inventory = new NBTTagList();
 					entityPlayer.inventory.writeToNBT(inventory);
-					AOTDPlayerData.get(entityPlayer).setPlayerInventory(inventory);
-					AOTDPlayerData.get(entityPlayer).setPlayerLocationOverworld(new int[] { entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY() + 1, entityPlayer.getPosition().getZ() });
+					entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setPlayerInventory(inventory);
+					entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setPlayerLocationOverworld(new int[] { entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY() + 1, entityPlayer.getPosition().getZ() });
 					entityPlayer.inventory.clear();
 					entityPlayer.inventoryContainer.detectAndSendChanges();
 
-					int locationX = this.validatePlayerLocationNightmare(AOTDPlayerData.get(entityPlayer).getPlayerLocationNightmare(), entityPlayer) * AOTDDimensions.getBlocksBetweenIslands() + 20;
+					int locationX = this.validatePlayerLocationNightmare(entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerLocationNightmare(), entityPlayer) * AOTDDimensions.getBlocksBetweenIslands() + 20;
 
 					((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(locationX, 74, 40, 0, 0);
 
@@ -77,7 +78,7 @@ public class NightmareTeleporter extends Teleporter
 			{
 				EntityPlayer entityPlayer = (EntityPlayer) entity;
 
-				BlockPos playerPostionOld = this.intArrToBlockPos(AOTDPlayerData.get(entityPlayer).getPlayerLocationOverworld(), entityPlayer);
+				BlockPos playerPostionOld = this.intArrToBlockPos(entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerLocationOverworld(), entityPlayer);
 
 				entityPlayer.setPosition(playerPostionOld.getX(), playerPostionOld.getY(), playerPostionOld.getZ());
 				entity.motionX = 0.0D;
@@ -87,8 +88,8 @@ public class NightmareTeleporter extends Teleporter
 				entityPlayer.inventory.clear();
 				entityPlayer.inventoryContainer.detectAndSendChanges();
 
-				entityPlayer.inventory.readFromNBT(AOTDPlayerData.get(entityPlayer).getPlayerInventory());
-				AOTDPlayerData.get(entityPlayer).setPlayerInventory(new NBTTagList());
+				entityPlayer.inventory.readFromNBT(entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerInventory());
+				entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setPlayerInventory(new NBTTagList());
 			}
 		}
 	}
@@ -152,9 +153,9 @@ public class NightmareTeleporter extends Teleporter
 			{
 				furthestOutPlayer = Math.max(furthestOutPlayer, AOTDPlayerData.getPlayerLocationNightmareOffline(entityPlayerData));
 			}
-			AOTDPlayerData.get(entityPlayer).setPlayerLocationNightmare(furthestOutPlayer + 1);
+			entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setPlayerLocationNightmare(furthestOutPlayer + 1);
 
 		}
-		return AOTDPlayerData.get(entityPlayer).getPlayerLocationNightmare();
+		return entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerLocationNightmare();
 	}
 }

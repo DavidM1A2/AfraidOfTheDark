@@ -12,6 +12,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare.NightmareTelepor
 import com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest.VoidChestTeleporter;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.EntityEnaria;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemFlaskOfSouls;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDimensions;
@@ -32,7 +33,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -52,34 +55,39 @@ public class PlayerController
 	@SubscribeEvent
 	public void onClonePlayer(final PlayerEvent.Clone event)
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
-		AOTDPlayerData.get(event.original).saveNBTData(nbt);
-		AOTDEntityData.get(event.original).saveNBTData(nbt);
-
-		AOTDPlayerData.get(event.entityPlayer).loadNBTData(nbt);
-		AOTDEntityData.get(event.entityPlayer).loadNBTData(nbt);
-
-		if (event.original.dimension == AOTDDimensions.Nightmare.getWorldID())
+		if (event.wasDeath)
 		{
-			Constants.TIMER_FOR_DELAYS.schedule(new Runnable()
+			NBTTagCompound nbt = new NBTTagCompound();
+			NBTTagCompound playerData = (NBTTagCompound) ModCapabilities.PLAYER_DATA.getStorage().writeNBT(ModCapabilities.PLAYER_DATA, event.original.getCapability(ModCapabilities.PLAYER_DATA, null), null);
+			// AOTDPlayerDataOld.get(event.original).saveNBTData(nbt);
+			AOTDEntityData.get(event.original).saveNBTData(nbt);
+
+			// AOTDPlayerDataOld.get(event.entityPlayer).loadNBTData(nbt);
+			ModCapabilities.PLAYER_DATA.getStorage().readNBT(ModCapabilities.PLAYER_DATA, event.entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null), null, playerData);
+			AOTDEntityData.get(event.entityPlayer).loadNBTData(nbt);
+
+			if (event.original.dimension == AOTDDimensions.Nightmare.getWorldID())
 			{
-				@Override
-				public void run()
+				Constants.TIMER_FOR_DELAYS.schedule(new Runnable()
 				{
-					Utility.sendPlayerToDimension((EntityPlayerMP) event.entityPlayer, 0, false, NightmareTeleporter.class);
-				}
-			}, 900, TimeUnit.MILLISECONDS);
-		}
-		else if (event.original.dimension == AOTDDimensions.VoidChest.getWorldID())
-		{
-			Constants.TIMER_FOR_DELAYS.schedule(new Runnable()
+					@Override
+					public void run()
+					{
+						Utility.sendPlayerToDimension((EntityPlayerMP) event.entityPlayer, 0, false, NightmareTeleporter.class);
+					}
+				}, 900, TimeUnit.MILLISECONDS);
+			}
+			else if (event.original.dimension == AOTDDimensions.VoidChest.getWorldID())
 			{
-				@Override
-				public void run()
+				Constants.TIMER_FOR_DELAYS.schedule(new Runnable()
 				{
-					Utility.sendPlayerToDimension((EntityPlayerMP) event.entityPlayer, 0, false, VoidChestTeleporter.class);
-				}
-			}, 900, TimeUnit.MILLISECONDS);
+					@Override
+					public void run()
+					{
+						Utility.sendPlayerToDimension((EntityPlayerMP) event.entityPlayer, 0, false, VoidChestTeleporter.class);
+					}
+				}, 900, TimeUnit.MILLISECONDS);
+			}
 		}
 	}
 
@@ -92,7 +100,7 @@ public class PlayerController
 			/*
 			 * Sync player research, insanity, and AOTDStart status
 			 */
-			AOTDPlayerData.get((EntityPlayer) event.entity).requestSyncAll();
+			((EntityPlayer) event.entity).getCapability(ModCapabilities.PLAYER_DATA, null).requestSyncAll();
 			AOTDEntityData.get((EntityPlayer) event.entity).requestSyncAll();
 		}
 		else if (event.entity instanceof EntityEnaria)
@@ -107,15 +115,25 @@ public class PlayerController
 	@SubscribeEvent
 	public void onEntityConstructing(final EntityConstructing event)
 	{
-		if (event.entity instanceof EntityPlayer)
-		{
-			AOTDPlayerData.register((EntityPlayer) event.entity);
-		}
-
 		if (event.entity instanceof EntityLivingBase && !(event.entity instanceof EntityArmorStand))
 		{
 			AOTDEntityData.register(event.entity);
 		}
+	}
+
+	@SubscribeEvent
+	public void onAttachCapabilitiesEntity(AttachCapabilitiesEvent.Entity event)
+	{
+		// if (event.getEntity() instanceof EntityLivingBase &&
+		// !(event.getEntity() instanceof EntityArmorStand))
+		// event.addCapability(new
+		// ResourceLocation("afraidofthedark:entityData"), null);
+
+		if (event.getEntity() instanceof EntityPlayer)
+			event.addCapability(new ResourceLocation("afraidofthedark:playerData"), new AOTDPlayerData((EntityPlayer) event.getEntity()));
+
+		// CapabilityManager.INSTANCE.regist
+		// CapabilityItemHandler
 	}
 
 	@SubscribeEvent
@@ -125,11 +143,11 @@ public class PlayerController
 		{
 			if (event.entityPlayer.getActivePotionEffect(ModPotionEffects.sleepingPotion) != null)
 			{
-				if (AOTDPlayerData.get(event.entityPlayer).canResearch(ResearchTypes.Nightmares))
+				if (event.entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(ResearchTypes.Nightmares))
 				{
-					AOTDPlayerData.get(event.entityPlayer).unlockResearch(ResearchTypes.Nightmares, true);
+					event.entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(ResearchTypes.Nightmares, true);
 				}
-				if (AOTDPlayerData.get(event.entityPlayer).isResearched(ResearchTypes.Nightmares))
+				if (event.entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.Nightmares))
 				{
 					Utility.sendPlayerToDimension((EntityPlayerMP) event.entityPlayer, AOTDDimensions.Nightmare.getWorldID(), false, NightmareTeleporter.class);
 				}
@@ -175,9 +193,9 @@ public class PlayerController
 					Integer enchantment = ((NBTTagCompound) enchantments.get(i)).getInteger("id");
 					if (enchantment == Enchantment.fireProtection.effectId || enchantment == Enchantment.blastProtection.effectId || enchantment == Enchantment.projectileProtection.effectId || enchantment == Enchantment.smite.effectId || enchantment == Enchantment.baneOfArthropods.effectId)
 					{
-						if (AOTDPlayerData.get(event.entityPlayer).canResearch(ResearchTypes.VitaeDisenchanter))
+						if (event.entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(ResearchTypes.VitaeDisenchanter))
 						{
-							AOTDPlayerData.get(event.entityPlayer).unlockResearch(ResearchTypes.VitaeDisenchanter, true);
+							event.entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(ResearchTypes.VitaeDisenchanter, true);
 						}
 					}
 				}
@@ -192,9 +210,9 @@ public class PlayerController
 		{
 			if (!event.player.worldObj.isRemote)
 			{
-				if (AOTDPlayerData.get(event.player).canResearch(ResearchTypes.PhylacteryOfSouls))
+				if (event.player.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(ResearchTypes.PhylacteryOfSouls))
 				{
-					AOTDPlayerData.get(event.player).unlockResearch(ResearchTypes.PhylacteryOfSouls, true);
+					event.player.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(ResearchTypes.PhylacteryOfSouls, true);
 				}
 			}
 		}
@@ -215,7 +233,7 @@ public class PlayerController
 						ItemStack itemStack = entityPlayer.inventory.mainInventory[i];
 						if (itemStack.getItem() instanceof ItemFlaskOfSouls)
 						{
-							if (AOTDPlayerData.get(entityPlayer).isResearched(ResearchTypes.PhylacteryOfSouls))
+							if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.PhylacteryOfSouls))
 							{
 								if (NBTHelper.getString(itemStack, ItemFlaskOfSouls.FLASK_TYPE).equals(""))
 								{

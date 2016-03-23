@@ -5,13 +5,10 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.utility;
 
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.LinkedList;
 import java.util.List;
-
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
@@ -25,7 +22,7 @@ public class NBTHelper
 	public static List<NBTTagCompound> getOfflinePlayerNBTs()
 	{
 		List<NBTTagCompound> toReturn = new LinkedList<NBTTagCompound>();
-		
+
 		ISaveHandler iSaveHandler = MinecraftServer.getServer().worldServers[0].getSaveHandler();
 		if (iSaveHandler instanceof SaveHandler)
 		{
@@ -51,10 +48,10 @@ public class NBTHelper
 				}
 			}
 		}
-		
+
 		return toReturn;
 	}
-	
+
 	public static boolean hasTag(final ItemStack itemStack, final String keyName)
 	{
 		return (itemStack != null) && (itemStack.getTagCompound() != null) && itemStack.getTagCompound().hasKey(keyName);
@@ -72,7 +69,8 @@ public class NBTHelper
 	 * Initializes the NBT Tag Compound for the given ItemStack if it is null
 	 *
 	 * @param itemStack
-	 *            The ItemStack for which its NBT Tag Compound is being checked for initialization
+	 *            The ItemStack for which its NBT Tag Compound is being checked
+	 *            for initialization
 	 */
 	private static void initNBTTagCompound(final ItemStack itemStack)
 	{

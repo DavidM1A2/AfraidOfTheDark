@@ -8,11 +8,11 @@ package com.DavidM1A2.AfraidOfTheDark.common.entities.EnchantedSkeleton;
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemBladeOfExhumation;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncAnimation;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -90,7 +90,7 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 		if (damageSource.getSourceOfDamage() instanceof EntityPlayer)
 		{
 			EntityPlayer killer = (EntityPlayer) damageSource.getSourceOfDamage();
-			if (AOTDPlayerData.get(killer).isResearched(ResearchTypes.BladeOfExhumation))
+			if (killer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.BladeOfExhumation))
 			{
 				if (killer.getCurrentEquippedItem() != null)
 				{
@@ -100,11 +100,11 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 					}
 				}
 			}
-			else if (AOTDPlayerData.get(killer).canResearch(ResearchTypes.BladeOfExhumation))
+			else if (killer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(ResearchTypes.BladeOfExhumation))
 			{
 				if (!killer.worldObj.isRemote)
 				{
-					AOTDPlayerData.get(killer).unlockResearch(ResearchTypes.BladeOfExhumation, true);
+					killer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(ResearchTypes.BladeOfExhumation, true);
 				}
 				if (killer.getCurrentEquippedItem() != null)
 				{

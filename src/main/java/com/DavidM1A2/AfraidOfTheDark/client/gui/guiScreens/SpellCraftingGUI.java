@@ -24,8 +24,8 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiSpellStage
 import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellStage;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.effects.IEffect;
@@ -81,7 +81,7 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 				if (event.getSource().isHovered())
 				{
 					spell.setName(spellName.getText());
-					AOTDPlayerData.get(entityPlayer).syncSpellManager();
+					entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).syncSpellManager();
 					entityPlayer.addChatMessage(new ChatComponentText("Spell " + spell.getName() + " successfully saved."));
 				}
 			}
