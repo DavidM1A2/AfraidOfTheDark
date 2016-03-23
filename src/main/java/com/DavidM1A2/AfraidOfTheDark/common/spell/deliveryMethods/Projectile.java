@@ -5,6 +5,7 @@ import org.apache.commons.lang3.SerializationUtils;
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.EntitySpell;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.projectile.EntitySpellProjectile;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.projectile.EntitySpellProjectileDive;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
@@ -23,7 +24,7 @@ public class Projectile extends DeliveryMethod
 	public EntitySpell createSpellEntity(EntitySpell previous, int spellStageIndex)
 	{
 		Spell spellSource = previous.getSpellSource();
-		return new EntitySpellProjectile(previous.getSpellSource(), spellStageIndex, previous.posX, previous.posY, previous.posZ, 0, 0, 0, false);
+		return new EntitySpellProjectileDive(previous.getSpellSource(), spellStageIndex, previous.posX, previous.posY, previous.posZ, 0, 0, 0);
 	}
 
 	@Override
@@ -31,8 +32,11 @@ public class Projectile extends DeliveryMethod
 	{
 		EntityPlayer spellOwner = AfraidOfTheDark.proxy.getSpellOwner(callback);
 		Spell callbackClone = SerializationUtils.<Spell> clone(callback);
+
 		if (spellOwner != null)
-			return new EntitySpellProjectile(callbackClone, 0, spellOwner.posX, spellOwner.posY + 0.8d, spellOwner.posZ, spellOwner.getLookVec().xCoord, spellOwner.getLookVec().yCoord, spellOwner.getLookVec().zCoord, true);
+		{
+			return new EntitySpellProjectile(callbackClone, 0, spellOwner.posX, spellOwner.posY + 0.8d, spellOwner.posZ, spellOwner.getLookVec().xCoord, spellOwner.getLookVec().yCoord, spellOwner.getLookVec().zCoord);
+		}
 		else
 		{
 			LogHelper.info("Attempted to create a spell on a player that is offline...");

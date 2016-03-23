@@ -89,7 +89,7 @@ public class Spell implements Serializable
 	public void instantiateSpell()
 	{
 		EntityPlayer entityPlayer = AfraidOfTheDark.proxy.getSpellOwner(this);
-		if (entityPlayer != null)
+		if (entityPlayer != null && !entityPlayer.worldObj.isRemote)
 		{
 			if (this.isSpellValid() && this.powerSource.attemptToCast(this))
 				entityPlayer.worldObj.spawnEntityInWorld(this.spellStages[0].getDeliveryMethod().createSpellEntity(this));

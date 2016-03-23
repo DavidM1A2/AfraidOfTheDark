@@ -46,11 +46,8 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 		this.ticksAlive++;
 		if (this.ticksAlive >= this.getSpellLifeInTicks())
 		{
-			if (!worldObj.isRemote)
-			{
-				this.performEffect(this.getPosition());
-				this.spellStageComplete();
-			}
+			this.performEffect(this.getPosition());
+			this.spellStageComplete();
 			this.setDead();
 		}
 		else
@@ -93,28 +90,33 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 	public void spellStageComplete()
 	{
 		this.spellStageIndex = this.spellStageIndex + 1;
-		if (!this.spellSource.hasSpellStage(spellStageIndex))
+		if (!this.worldObj.isRemote)
 		{
-			return;
+			if (!this.spellSource.hasSpellStage(spellStageIndex))
+			{
+				return;
+			}
+			this.worldObj.spawnEntityInWorld(this.getSpellSource().getSpellStageByIndex(this.spellStageIndex).getDeliveryMethod().createSpellEntity(this, spellStageIndex));
 		}
-		this.worldObj.spawnEntityInWorld(this.getSpellSource().getSpellStageByIndex(this.spellStageIndex).getDeliveryMethod().createSpellEntity(this, spellStageIndex));
 	}
 
 	public void performEffect(BlockPos location)
 	{
-		for (IEffect effect : this.getSpellSource().getSpellStageByIndex(this.getSpellStageIndex()).getEffects())
-		{
-			effect.performEffect(location, this.worldObj);
-		}
+		if (!this.worldObj.isRemote)
+			for (IEffect effect : this.getSpellSource().getSpellStageByIndex(this.getSpellStageIndex()).getEffects())
+			{
+				effect.performEffect(location, this.worldObj);
+			}
 		return;
 	}
 
 	public void performEffect(Entity entity)
 	{
-		for (IEffect effect : this.getSpellSource().getSpellStageByIndex(this.getSpellStageIndex()).getEffects())
-		{
-			effect.performEffect(entity);
-		}
+		if (!this.worldObj.isRemote)
+			for (IEffect effect : this.getSpellSource().getSpellStageByIndex(this.getSpellStageIndex()).getEffects())
+			{
+				effect.performEffect(entity);
+			}
 		return;
 	}
 
