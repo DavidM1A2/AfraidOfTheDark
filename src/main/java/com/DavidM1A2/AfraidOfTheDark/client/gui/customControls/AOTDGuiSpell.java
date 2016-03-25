@@ -11,6 +11,7 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDKeyListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDKeyEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens.SpellSelectionGUI;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
@@ -24,10 +25,13 @@ public class AOTDGuiSpell extends AOTDGuiPanel
 	private static SpellManager spellManager = entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getSpellManager();
 	private AOTDGuiButton keyBind;
 	private AOTDGuiButton delete;
+	private SpellSelectionGUI callback;
 
-	public AOTDGuiSpell(int x, int y, int width, int height, boolean scissorEnabled, final Spell source)
+	public AOTDGuiSpell(int x, int y, int width, int height, boolean scissorEnabled, final Spell source, SpellSelectionGUI callback)
 	{
 		super(x, y, width, height, scissorEnabled);
+
+		this.callback = callback;
 
 		mySpell = source;
 
@@ -39,7 +43,8 @@ public class AOTDGuiSpell extends AOTDGuiPanel
 
 		AOTDGuiLabel spellName = new AOTDGuiLabel(0, 0, ClientData.getTargaMSHandFontSized(30f));
 		spellName.setText(source.getName());
-		spellName.setTextColor(new float[] { 0.96f, 0.24f, 0.78f, 1.0f });
+		spellName.setTextColor(new float[]
+		{ 0.96f, 0.24f, 0.78f, 1.0f });
 		spellName.setMaxStringLength(18);
 		spellNameContainer.setHoverText(source.getName());
 		spellNameContainer.add(spellName);
@@ -169,6 +174,7 @@ public class AOTDGuiSpell extends AOTDGuiPanel
 					AOTDGuiSpell.this.keyBind.setHoverText("Spell currently bound to: " + (spellManager.keyFromSpell(mySpell) == null ? "None" : spellManager.keyFromSpell(mySpell)));
 					waitingOnKeyInput = false;
 					AOTDGuiSpell.this.keyBind.brightenColor(0.3f);
+					AOTDGuiSpell.this.callback.update(AOTDGuiSpell.this);
 				}
 			}
 
@@ -187,6 +193,11 @@ public class AOTDGuiSpell extends AOTDGuiPanel
 	public AOTDGuiButton getDeleteButton()
 	{
 		return this.delete;
+	}
+
+	public AOTDGuiButton getKeyBindButton()
+	{
+		return this.keyBind;
 	}
 
 	public Spell getSpell()

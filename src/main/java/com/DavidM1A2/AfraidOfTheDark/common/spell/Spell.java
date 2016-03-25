@@ -168,9 +168,19 @@ public class Spell implements Serializable
 		return this.spellID;
 	}
 
+	public void setPowerSource(IPowerSource powerSource)
+	{
+		this.powerSource = powerSource;
+	}
+
 	public IPowerSource getPowerSource()
 	{
 		return this.powerSource;
+	}
+
+	public void setSpellStages(SpellStage[] spellStages)
+	{
+		this.spellStages = spellStages;
 	}
 
 	public SpellStage[] getSpellStages()

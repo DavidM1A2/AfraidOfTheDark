@@ -36,7 +36,7 @@ public class EntitySpellProjectileDive extends EntitySpellProjectile
 	{
 		super.updateSpellSpecificLogic();
 
-		if (this.getTicksAlive() == 40 && !worldObj.isRemote)
+		if (this.getTicksAlive() == 20 && !worldObj.isRemote)
 		{
 			EntityLivingBase closestEntity = null;
 			for (Object entity : this.worldObj.getEntitiesWithinAABB(Entity.class, this.getEntityBoundingBox().expand(RANGE, RANGE, RANGE)))

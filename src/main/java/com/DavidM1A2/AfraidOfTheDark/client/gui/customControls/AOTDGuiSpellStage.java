@@ -5,6 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui.customControls;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiButton;
@@ -12,7 +13,12 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiImage;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens.SpellCraftingGUI;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.ISpellComponentEnum;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellStage;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.deliveryMethods.DeliveryMethods;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.deliveryMethods.IDeliveryMethod;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.effects.Effects;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.effects.IEffect;
 
 import net.minecraft.client.Minecraft;
@@ -21,23 +27,46 @@ public class AOTDGuiSpellStage extends AOTDGuiPanel
 {
 	private AOTDGuiButton addNewRow;
 	private AOTDGuiButton removeRow;
+	private AOTDGuiSpellDeliveryMethod deliveryMethod;
+	private AOTDGuiSpellEffect effect1;
+	private AOTDGuiSpellEffect effect2;
+	private AOTDGuiSpellEffect effect3;
+	private AOTDGuiSpellEffect effect4;
+	private SpellCraftingGUI parent;
 
-	public AOTDGuiSpellStage(int x, int y, int width, int height, boolean scissorEnabled, SpellStage spellStage)
+	public AOTDGuiSpellStage(int x, int y, int width, int height, boolean scissorEnabled, SpellStage spellStage, SpellCraftingGUI parent)
 	{
 		super(x, y, width, height, scissorEnabled);
+
+		this.parent = parent;
 
 		AOTDGuiImage background = new AOTDGuiImage(0, 0, width, height - 14, "afraidofthedark:textures/gui/spellCrafting/tabletSpellModule2.png");
 		this.add(background);
 
-		AOTDGuiSpellComponent deliveryMethod = new AOTDGuiSpellComponent(5, 5, height - 25, height - 25, spellStage.getDeliveryMethod() != null ? spellStage.getDeliveryMethod().getType() : null);
-		deliveryMethod.setColor(new float[]
+		this.deliveryMethod = new AOTDGuiSpellDeliveryMethod(5, 5, height - 25, height - 25, spellStage.getDeliveryMethod() != null ? spellStage.getDeliveryMethod().getType() : null);
+		this.deliveryMethod.setColor(new float[]
 		{ 0.8f, 0.8f, 1.0f, 1.0f });
-		deliveryMethod.setHoverText("Delivery Method Slot (" + deliveryMethod.getTypeNameFormatted() + ")");
-		deliveryMethod.addMouseListener(new AOTDMouseListener()
+		this.deliveryMethod.updateHoverText();
+		this.deliveryMethod.addMouseListener(new AOTDMouseListener()
 		{
 			@Override
 			public void mouseReleased(AOTDMouseEvent event)
 			{
+				if (event.getSource().isHovered())
+				{
+					ISpellComponentEnum selectedComponent = AOTDGuiSpellStage.this.parent.getSelectedComponent();
+					if (selectedComponent instanceof DeliveryMethods)
+					{
+						deliveryMethod.setType((DeliveryMethods) selectedComponent);
+						deliveryMethod.updateHoverText();
+						AOTDGuiSpellStage.this.parent.setSelectedComponent(null);
+					}
+					else if (selectedComponent == null)
+					{
+						deliveryMethod.setType(null);
+						deliveryMethod.updateHoverText();
+					}
+				}
 			}
 
 			@Override
@@ -65,6 +94,49 @@ public class AOTDGuiSpellStage extends AOTDGuiPanel
 		});
 		this.add(deliveryMethod);
 
+		AOTDMouseListener onEffectClick = new AOTDMouseListener()
+		{
+			@Override
+			public void mouseReleased(AOTDMouseEvent event)
+			{
+				if (event.getSource().isHovered())
+				{
+					ISpellComponentEnum selectedComponent = AOTDGuiSpellStage.this.parent.getSelectedComponent();
+					AOTDGuiSpellEffect effect = ((AOTDGuiSpellEffect) event.getSource());
+					if (selectedComponent instanceof Effects)
+					{
+						effect.setType((Effects) selectedComponent);
+						effect.updateHoverText();
+						AOTDGuiSpellStage.this.parent.setSelectedComponent(null);
+					}
+					else if (selectedComponent == null)
+					{
+						effect.setType(null);
+						effect.updateHoverText();
+					}
+				}
+			}
+
+			@Override
+			public void mousePressed(AOTDMouseEvent event)
+			{
+			}
+
+			@Override
+			public void mouseExited(AOTDMouseEvent event)
+			{
+			}
+
+			@Override
+			public void mouseEntered(AOTDMouseEvent event)
+			{
+			}
+
+			@Override
+			public void mouseClicked(AOTDMouseEvent event)
+			{
+			}
+		};
 		AOTDMouseListener effectHover = new AOTDMouseListener()
 		{
 			@Override
@@ -98,22 +170,26 @@ public class AOTDGuiSpellStage extends AOTDGuiPanel
 
 		List<IEffect> effects = spellStage.getEffects();
 
-		AOTDGuiSpellComponent effect1 = new AOTDGuiSpellComponent(25, 5, height - 25, height - 25, effects.size() > 0 ? effects.get(0).getType() : null);
-		effect1.addMouseListener(effectHover);
-		effect1.setHoverText("Effect Slot (" + effect1.getTypeNameFormatted() + ")");
-		AOTDGuiSpellComponent effect2 = new AOTDGuiSpellComponent(45, 5, height - 25, height - 25, effects.size() > 1 ? effects.get(1).getType() : null);
-		effect2.addMouseListener(effectHover);
-		effect2.setHoverText("Effect Slot (" + effect2.getTypeNameFormatted() + ")");
-		AOTDGuiSpellComponent effect3 = new AOTDGuiSpellComponent(65, 5, height - 25, height - 25, effects.size() > 2 ? effects.get(2).getType() : null);
-		effect3.addMouseListener(effectHover);
-		effect3.setHoverText("Effect Slot (" + effect3.getTypeNameFormatted() + ")");
-		AOTDGuiSpellComponent effect4 = new AOTDGuiSpellComponent(85, 5, height - 25, height - 25, effects.size() > 3 ? effects.get(3).getType() : null);
-		effect4.addMouseListener(effectHover);
-		effect4.setHoverText("Effect Slot (" + effect4.getTypeNameFormatted() + ")");
-		this.add(effect1);
-		this.add(effect2);
-		this.add(effect3);
-		this.add(effect4);
+		this.effect1 = new AOTDGuiSpellEffect(25, 5, height - 25, height - 25, effects.size() > 0 ? effects.get(0).getType() : null);
+		this.effect1.addMouseListener(effectHover);
+		this.effect1.addMouseListener(onEffectClick);
+		this.effect1.updateHoverText();
+		this.effect2 = new AOTDGuiSpellEffect(45, 5, height - 25, height - 25, effects.size() > 1 ? effects.get(1).getType() : null);
+		this.effect2.addMouseListener(effectHover);
+		this.effect2.addMouseListener(onEffectClick);
+		this.effect2.updateHoverText();
+		this.effect3 = new AOTDGuiSpellEffect(65, 5, height - 25, height - 25, effects.size() > 2 ? effects.get(2).getType() : null);
+		this.effect3.addMouseListener(effectHover);
+		this.effect3.addMouseListener(onEffectClick);
+		this.effect3.updateHoverText();
+		this.effect4 = new AOTDGuiSpellEffect(85, 5, height - 25, height - 25, effects.size() > 3 ? effects.get(3).getType() : null);
+		this.effect4.addMouseListener(effectHover);
+		this.effect4.addMouseListener(onEffectClick);
+		this.effect4.updateHoverText();
+		this.add(this.effect1);
+		this.add(this.effect2);
+		this.add(this.effect3);
+		this.add(this.effect4);
 
 		this.addNewRow = new AOTDGuiButton(0, height - 15, 15, 15, null, "afraidofthedark:textures/gui/spellCrafting/add.png");
 		this.addNewRow.setHoverText("Add new spell stage");
@@ -153,5 +229,32 @@ public class AOTDGuiSpellStage extends AOTDGuiPanel
 	public void addMouseListenerToRemoveRow(AOTDMouseListener mouseListener)
 	{
 		this.removeRow.addMouseListener(mouseListener);
+	}
+
+	public SpellStage toSpellStage()
+	{
+		DeliveryMethods deliveryMethodEnum = this.deliveryMethod.getType();
+		IDeliveryMethod deliveryToReturn = deliveryMethodEnum == null ? null : deliveryMethodEnum.newInstance();
+
+		Effects effectEnum = this.effect1.getType();
+		IEffect effect1ToReturn = effectEnum == null ? null : effectEnum.newInstance();
+		effectEnum = this.effect2.getType();
+		IEffect effect2ToReturn = effectEnum == null ? null : effectEnum.newInstance();
+		effectEnum = this.effect3.getType();
+		IEffect effect3ToReturn = effectEnum == null ? null : effectEnum.newInstance();
+		effectEnum = this.effect4.getType();
+		IEffect effect4ToReturn = effectEnum == null ? null : effectEnum.newInstance();
+		List<IEffect> effectsToReturn = new ArrayList<IEffect>();
+		if (effect1ToReturn != null)
+			effectsToReturn.add(effect1ToReturn);
+		if (effect2ToReturn != null)
+			effectsToReturn.add(effect2ToReturn);
+		if (effect3ToReturn != null)
+			effectsToReturn.add(effect3ToReturn);
+		if (effect4ToReturn != null)
+			effectsToReturn.add(effect4ToReturn);
+
+		SpellStage toReturn = new SpellStage(deliveryToReturn, effectsToReturn);
+		return toReturn;
 	}
 }

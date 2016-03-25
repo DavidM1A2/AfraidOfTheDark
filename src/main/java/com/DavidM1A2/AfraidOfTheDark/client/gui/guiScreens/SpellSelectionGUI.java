@@ -91,7 +91,7 @@ public class SpellSelectionGUI extends AOTDGuiScreen
 
 	private void addSpellContainer(Spell spell)
 	{
-		final AOTDGuiSpell guiSpell = new AOTDGuiSpell(0, this.spells.size() * distanceBetweenEntries, 100, 40, false, spell);
+		final AOTDGuiSpell guiSpell = new AOTDGuiSpell(0, this.spells.size() * distanceBetweenEntries, 100, 40, false, spell, this);
 		guiSpell.getDeleteButton().addMouseListener(new AOTDMouseListener()
 		{
 			@Override
@@ -146,6 +146,20 @@ public class SpellSelectionGUI extends AOTDGuiScreen
 			}
 			if (spells.size() > 4)
 				scrollPanel.setMaximumOffset((this.spells.size() - 4) * distanceBetweenEntries);
+		}
+	}
+
+	public void update(AOTDGuiSpell changed)
+	{
+		for (AOTDGuiSpell spell : this.spells)
+		{
+			if (spell != changed)
+			{
+				if (spell.getKeyBindButton().getHoverText().equals(changed.getKeyBindButton().getHoverText()))
+				{
+					spell.getKeyBindButton().setHoverText("Spell currently bound to: None");
+				}
+			}
 		}
 	}
 

@@ -12,4 +12,6 @@ public interface ISpellComponentEnum
 	public String getIcon();
 
 	public String getName();
+
+	public <T extends ISpellComponent> T newInstance();
 }

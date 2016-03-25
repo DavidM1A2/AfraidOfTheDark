@@ -9,30 +9,21 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiImage;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.ISpellComponentEnum;
 
-public class AOTDGuiSpellComponent extends AOTDGuiPanel
+public abstract class AOTDGuiSpellComponent extends AOTDGuiPanel
 {
-	private AOTDGuiImage background;
-	private AOTDGuiImage icon;
-	private ISpellComponentEnum myType;
+	protected AOTDGuiImage background;
+	protected AOTDGuiImage icon;
 
-	public AOTDGuiSpellComponent(int x, int y, int width, int height, ISpellComponentEnum spellComponent)
+	public AOTDGuiSpellComponent(int x, int y, int width, int height)
 	{
 		super(x, y, width, height, false);
-		this.myType = spellComponent;
-
 		this.background = new AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/spellCrafting/tabletIconHolder.png");
+
 		this.add(background);
 
-		if (spellComponent == null)
-		{
-			this.icon = new AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/spellCrafting/powerSources/none.png");
-			this.icon.setVisible(false);
-		}
-		else
-		{
-			this.icon = new AOTDGuiImage(0, 0, width, height, spellComponent.getIcon());
-			this.icon.setVisible(true);
-		}
+		this.icon = new AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/spellCrafting/powerSources/none.png");
+		this.icon.setVisible(false);
+
 		this.add(this.icon);
 	}
 
@@ -63,13 +54,9 @@ public class AOTDGuiSpellComponent extends AOTDGuiPanel
 		this.icon.darkenColor(amount);
 	}
 
-	public ISpellComponentEnum getType()
-	{
-		return this.myType;
-	}
+	public abstract ISpellComponentEnum getType();
 
-	public String getTypeNameFormatted()
-	{
-		return this.myType != null ? this.myType.getName() : "Empty";
-	}
+	public abstract String getTypeNameFormatted();
+
+	public abstract void updateHoverText();
 }
