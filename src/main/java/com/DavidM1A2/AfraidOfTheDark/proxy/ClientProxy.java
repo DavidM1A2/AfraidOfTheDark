@@ -164,7 +164,7 @@ public class ClientProxy extends CommonProxy
 				}
 			});
 
-		// Add extra projectile 
+		// Add extra projectile
 		RenderingRegistry.registerEntityRenderingHandler(EntitySpellProjectileDive.class, new IRenderFactory()
 		{
 			@Override
@@ -193,12 +193,16 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public EntityPlayer getSpellOwner(Spell spell)
 	{
-		// Because minecraft is wierd, server side will return the client side instance of entity player on SSP
+		// Because minecraft is wierd, server side will return the client side
+		// instance of entity player on SSP
 		if (!Minecraft.getMinecraft().isSingleplayer())
 			return Minecraft.getMinecraft().thePlayer;
 		else
 		{
 			Map<UUID, EntityPlayerMP> players = MinecraftServer.getServer().getConfigurationManager().uuidToPlayerMap;
+			if (players.size() == 1)
+				return MinecraftServer.getServer().getConfigurationManager().playerEntityList.get(0);
+
 			if (players.containsKey(spell.getSpellOwner()))
 				return players.get(spell.getSpellOwner());
 			else
