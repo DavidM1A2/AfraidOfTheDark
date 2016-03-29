@@ -13,5 +13,6 @@ public abstract class Effect implements IEffect
 	public void writeToNBT(NBTTagCompound compound)
 	{
 		compound.setString("type", "effect");
+		compound.setInteger("id", this.getType().getID());
 	}
 }

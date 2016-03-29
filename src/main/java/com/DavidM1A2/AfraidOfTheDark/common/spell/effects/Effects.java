@@ -10,7 +10,9 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 public enum Effects implements ISpellComponentEnum
 {
-	Explosion(1, Explosion.class, "afraidofthedark:textures/gui/spellCrafting/effects/explosion.png");
+	Explosion(1, Explosion.class, "afraidofthedark:textures/gui/spellCrafting/effects/explosion.png"),
+	Grow(2, Grow.class, "afraidofthedark:textures/gui/spellCrafting/effects/grow.png"),
+	Heal(3, Heal.class, "afraidofthedark:textures/gui/spellCrafting/effects/heal.png");
 
 	private int id;
 	private String iconTexture;

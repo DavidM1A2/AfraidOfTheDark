@@ -1,11 +1,17 @@
+/*
+ * Author: David Slovikosky
+ * Mod: Afraid of the Dark
+ * Ideas and Textures: Michael Albertson
+ */
 package com.DavidM1A2.AfraidOfTheDark.common.spell.effects;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
-public class Explosion extends Effect
+public class Heal extends Effect
 {
 	@Override
 	public int getCost()
@@ -16,23 +22,26 @@ public class Explosion extends Effect
 	@Override
 	public void performEffect(BlockPos location, World world)
 	{
-		world.createExplosion(null, location.getX(), location.getY(), location.getZ(), 3.0f, true);
+		return;
 	}
 
 	@Override
 	public void performEffect(Entity entity)
 	{
-		entity.worldObj.createExplosion(null, entity.posX, entity.posY, entity.posZ, 3.0f, true);
+		if (entity instanceof EntityLivingBase)
+			((EntityLivingBase) entity).heal(8);
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound compound)
 	{
+
 	}
 
 	@Override
 	public Effects getType()
 	{
-		return Effects.Explosion;
+		return Effects.Heal;
 	}
+
 }

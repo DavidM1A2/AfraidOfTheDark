@@ -8,13 +8,10 @@ package com.DavidM1A2.AfraidOfTheDark.common.utility;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.ISpellComponent;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.deliveryMethods.DeliveryMethod;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.deliveryMethods.DeliveryMethods;
-import com.DavidM1A2.AfraidOfTheDark.common.spell.deliveryMethods.Projectile;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.effects.Effect;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.effects.Effects;
-import com.DavidM1A2.AfraidOfTheDark.common.spell.effects.Explosion;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.powerSources.PowerSource;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.powerSources.PowerSources;
-import com.DavidM1A2.AfraidOfTheDark.common.spell.powerSources.Self;
 
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -41,11 +38,15 @@ public class SpellUtility
 
 		int id = compound.getInteger("id");
 
-		if (id == DeliveryMethods.Projectile.getID())
-			deliveryMethod = new Projectile();
-
-		if (deliveryMethod != null)
-			deliveryMethod.readFromNBT(compound);
+		for (DeliveryMethods enumDeliveryMethod : DeliveryMethods.values())
+		{
+			if (id == enumDeliveryMethod.getID())
+			{
+				deliveryMethod = enumDeliveryMethod.newInstance();
+				deliveryMethod.readFromNBT(compound);
+				break;
+			}
+		}
 
 		return deliveryMethod;
 
@@ -57,11 +58,15 @@ public class SpellUtility
 
 		int id = compound.getInteger("id");
 
-		if (id == Effects.Explosion.getID())
-			effect = new Explosion();
-
-		if (effect != null)
-			effect.readFromNBT(compound);
+		for (Effects enumEffect : Effects.values())
+		{
+			if (id == enumEffect.getID())
+			{
+				effect = enumEffect.newInstance();
+				effect.readFromNBT(compound);
+				break;
+			}
+		}
 
 		return effect;
 	}
@@ -72,11 +77,15 @@ public class SpellUtility
 
 		int id = compound.getInteger("id");
 
-		if (id == PowerSources.Self.getID())
-			powerSource = new Self();
-
-		if (powerSource != null)
-			powerSource.readFromNBT(compound);
+		for (PowerSources enumPowerSource : PowerSources.values())
+		{
+			if (id == enumPowerSource.getID())
+			{
+				powerSource = enumPowerSource.newInstance();
+				powerSource.readFromNBT(compound);
+				break;
+			}
+		}
 
 		return powerSource;
 	}
