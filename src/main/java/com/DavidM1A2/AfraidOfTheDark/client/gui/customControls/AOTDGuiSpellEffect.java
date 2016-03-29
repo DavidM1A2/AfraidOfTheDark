@@ -18,11 +18,7 @@ public class AOTDGuiSpellEffect extends AOTDGuiSpellComponent
 
 		this.background.setImageTexture("afraidofthedark:textures/gui/spellCrafting/effectHolder.png");
 
-		if (effect != null)
-		{
-			this.icon.setImageTexture(effect.getIcon());
-			this.icon.setVisible(true);
-		}
+		this.setType(effect);
 	}
 
 	@Override
@@ -44,10 +40,12 @@ public class AOTDGuiSpellEffect extends AOTDGuiSpellComponent
 		{
 			this.icon.setImageTexture(type.getIcon());
 			this.icon.setVisible(true);
+			this.background.setColor(effect.getAffinity().getRed(), effect.getAffinity().getGreen(), effect.getAffinity().getBlue(), 1.0f);
 		}
 		else
 		{
 			this.icon.setVisible(false);
+			this.background.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		}
 	}
 

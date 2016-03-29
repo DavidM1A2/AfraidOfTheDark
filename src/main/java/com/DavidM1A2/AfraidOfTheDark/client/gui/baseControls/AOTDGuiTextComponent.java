@@ -7,7 +7,6 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls;
 
 import java.awt.Color;
 
-import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDGuiUtility;
 import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.TrueTypeFont;
 
 public abstract class AOTDGuiTextComponent extends AOTDGuiContainer
@@ -15,8 +14,7 @@ public abstract class AOTDGuiTextComponent extends AOTDGuiContainer
 	private TrueTypeFont font;
 	private String text = "";
 	private TextAlignment textAlignment = TextAlignment.ALIGN_LEFT;
-	private float[] textColor = new float[]
-	{ 1.0f, 1.0f, 1.0f, 1.0f };
+	private float[] textColor = new float[] { 1.0f, 1.0f, 1.0f, 1.0f };
 	protected float textScaleConstant = 0.3f;
 
 	public AOTDGuiTextComponent(int x, int y, int width, int height, TrueTypeFont font)
@@ -75,7 +73,7 @@ public abstract class AOTDGuiTextComponent extends AOTDGuiContainer
 
 	public void setTextColor(Color color)
 	{
-		this.setTextColor(AOTDGuiUtility.convert255To01Color(color));
+		this.setTextColor(new float[] { color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f });
 	}
 
 	public void setTextColor(float[] color)

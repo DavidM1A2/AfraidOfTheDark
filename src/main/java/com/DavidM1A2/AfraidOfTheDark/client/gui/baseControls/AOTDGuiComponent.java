@@ -28,8 +28,7 @@ public abstract class AOTDGuiComponent
 	private boolean isVisible = true;
 	private Rectangle boundingBox = new Rectangle();
 	private Rectangle scaledBoundingBox = new Rectangle();
-	private float[] color = new float[]
-	{ 1.0f, 1.0f, 1.0f, 1.0f };
+	private float[] color = new float[] { 1.0f, 1.0f, 1.0f, 1.0f };
 	protected final static EntityPlayerSP entityPlayer = Minecraft.getMinecraft().thePlayer;
 	protected final FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
 	private String hoverText = "";
@@ -42,7 +41,7 @@ public abstract class AOTDGuiComponent
 	public void draw()
 	{
 		GL11.glColor4d(this.getColor()[0], this.getColor()[1], this.getColor()[2], this.getColor()[3]);
-		//this.drawBoundingBox();
+		// this.drawBoundingBox();
 	}
 
 	public void drawOverlay()
@@ -206,14 +205,12 @@ public abstract class AOTDGuiComponent
 
 	public void setColor(Color color)
 	{
-		this.setColor(AOTDGuiUtility.convert255To01Color(color));
+		this.setColor(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
 	}
 
-	public void setColor(float[] color)
+	public void setColor(float r, float g, float b, float a)
 	{
-		if (color.length != 4)
-			return;
-		this.color = color;
+		this.color = new float[] { r, g, b, a };
 	}
 
 	public float[] getColor()
@@ -223,16 +220,16 @@ public abstract class AOTDGuiComponent
 
 	public void brightenColor(float amount)
 	{
-		this.color[0] = MathHelper.clamp_float(this.color[0] + amount, 0, 255f);
-		this.color[1] = MathHelper.clamp_float(this.color[1] + amount, 0, 255f);
-		this.color[2] = MathHelper.clamp_float(this.color[2] + amount, 0, 255f);
+		this.color[0] = MathHelper.clamp_float(this.color[0] + amount, 0, 1.0f);
+		this.color[1] = MathHelper.clamp_float(this.color[1] + amount, 0, 1.0f);
+		this.color[2] = MathHelper.clamp_float(this.color[2] + amount, 0, 1.0f);
 	}
 
 	public void darkenColor(float amount)
 	{
-		this.color[0] = MathHelper.clamp_float(this.color[0] - amount, 0, 255f);
-		this.color[1] = MathHelper.clamp_float(this.color[1] - amount, 0, 255f);
-		this.color[2] = MathHelper.clamp_float(this.color[2] - amount, 0, 255f);
+		this.color[0] = MathHelper.clamp_float(this.color[0] - amount, 0, 1.0f);
+		this.color[1] = MathHelper.clamp_float(this.color[1] - amount, 0, 1.0f);
+		this.color[2] = MathHelper.clamp_float(this.color[2] - amount, 0, 1.0f);
 	}
 
 	public String getHoverText()

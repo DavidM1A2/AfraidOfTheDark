@@ -5,24 +5,27 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.spell.effects;
 
+import com.DavidM1A2.AfraidOfTheDark.common.spell.EffectAffinity;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.ISpellComponentEnum;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 public enum Effects implements ISpellComponentEnum
 {
-	Explosion(1, Explosion.class, "afraidofthedark:textures/gui/spellCrafting/effects/explosion.png"),
-	Grow(2, Grow.class, "afraidofthedark:textures/gui/spellCrafting/effects/grow.png"),
-	Heal(3, Heal.class, "afraidofthedark:textures/gui/spellCrafting/effects/heal.png");
+	Explosion(1, Explosion.class, new EffectAffinity(0, .1, 0, 0), "afraidofthedark:textures/gui/spellCrafting/effects/explosion.png"),
+	Grow(2, Grow.class, new EffectAffinity(0, 0, .1, 0), "afraidofthedark:textures/gui/spellCrafting/effects/grow.png"),
+	Heal(3, Heal.class, new EffectAffinity(0, 0, .1, 0), "afraidofthedark:textures/gui/spellCrafting/effects/heal.png");
 
 	private int id;
 	private String iconTexture;
 	private Class<? extends Effect> effectClass;
+	private EffectAffinity effectAffinity;
 
-	private Effects(int id, Class<? extends Effect> effectClass, String iconTexture)
+	private Effects(int id, Class<? extends Effect> effectClass, EffectAffinity effectAffinity, String iconTexture)
 	{
 		this.id = id;
 		this.iconTexture = iconTexture;
 		this.effectClass = effectClass;
+		this.effectAffinity = effectAffinity;
 	}
 
 	public int getID()
@@ -40,6 +43,11 @@ public enum Effects implements ISpellComponentEnum
 	public String getName()
 	{
 		return this.toString();
+	}
+
+	public EffectAffinity getAffinity()
+	{
+		return this.effectAffinity;
 	}
 
 	@Override

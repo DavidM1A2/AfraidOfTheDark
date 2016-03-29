@@ -44,8 +44,6 @@ public class AOTDGuiSpellStage extends AOTDGuiPanel
 		this.add(background);
 
 		this.deliveryMethod = new AOTDGuiSpellDeliveryMethod(5, 5, height - 25, height - 25, spellStage.getDeliveryMethod() != null ? spellStage.getDeliveryMethod().getType() : null);
-		this.deliveryMethod.setColor(new float[]
-		{ 0.8f, 0.8f, 1.0f, 1.0f });
 		this.deliveryMethod.updateHoverText();
 		this.deliveryMethod.addMouseListener(new AOTDMouseListener()
 		{
