@@ -11,9 +11,9 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 public enum Effects implements ISpellComponentEnum
 {
-	Explosion(1, Explosion.class, new EffectAffinity(0, .1, 0, 0), "afraidofthedark:textures/gui/spellCrafting/effects/explosion.png"),
-	Grow(2, Grow.class, new EffectAffinity(0, 0, .1, 0), "afraidofthedark:textures/gui/spellCrafting/effects/grow.png"),
-	Heal(3, Heal.class, new EffectAffinity(0, 0, .1, 0), "afraidofthedark:textures/gui/spellCrafting/effects/heal.png");
+	Explosion(1, Explosion.class, new EffectAffinity(0, .2, .1, .5), "afraidofthedark:textures/gui/spellCrafting/effects/explosion.png"),
+	Grow(2, Grow.class, new EffectAffinity(0, 0, 1, 0), "afraidofthedark:textures/gui/spellCrafting/effects/grow.png"),
+	Heal(3, Heal.class, new EffectAffinity(.3, 0, .5, 0), "afraidofthedark:textures/gui/spellCrafting/effects/heal.png");
 
 	private int id;
 	private String iconTexture;

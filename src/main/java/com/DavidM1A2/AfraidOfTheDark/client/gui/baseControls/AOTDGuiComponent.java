@@ -28,7 +28,8 @@ public abstract class AOTDGuiComponent
 	private boolean isVisible = true;
 	private Rectangle boundingBox = new Rectangle();
 	private Rectangle scaledBoundingBox = new Rectangle();
-	private float[] color = new float[] { 1.0f, 1.0f, 1.0f, 1.0f };
+	private float[] color = new float[]
+	{ 1.0f, 1.0f, 1.0f, 1.0f };
 	protected final static EntityPlayerSP entityPlayer = Minecraft.getMinecraft().thePlayer;
 	protected final FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
 	private String hoverText = "";
@@ -210,7 +211,8 @@ public abstract class AOTDGuiComponent
 
 	public void setColor(float r, float g, float b, float a)
 	{
-		this.color = new float[] { r, g, b, a };
+		this.color = new float[]
+		{ r, g, b, a };
 	}
 
 	public float[] getColor()

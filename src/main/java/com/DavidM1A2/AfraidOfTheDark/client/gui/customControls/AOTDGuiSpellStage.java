@@ -156,7 +156,8 @@ public class AOTDGuiSpellStage extends AOTDGuiPanel
 			public void mouseEntered(AOTDMouseEvent event)
 			{
 				event.getSource().darkenColor(0.1f);
-				Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:spellCraftingButtonHover", 0.6f, 1.7f);
+				if (event.getSource().isVisible())
+					Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:spellCraftingButtonHover", 0.6f, 1.7f);
 			}
 
 			@Override

@@ -6,7 +6,10 @@ public class EffectAffinity
 {
 	public enum Affinities
 	{
-		Sorcery(new Color(204, 0, 153)), Nature(new Color(0, 102, 0)), Chaos(new Color(255, 51, 0)), Earth(new Color(102, 51, 0));
+		Sorcery(new Color(204, 0, 153)),
+		Nature(new Color(0, 102, 0)),
+		Chaos(new Color(255, 51, 0)),
+		Earth(new Color(102, 51, 0));
 
 		private Color color;
 
@@ -26,12 +29,17 @@ public class EffectAffinity
 	private double nature = 0.0D;
 	private double earth = 0.0D;
 
+	private float red;
+	private float green;
+	private float blue;
+
 	public EffectAffinity(double sorcery, double chaos, double nature, double earth)
 	{
 		this.sorcery = sorcery;
 		this.chaos = chaos;
 		this.nature = nature;
 		this.earth = earth;
+		this.forgeColor();
 	}
 
 	public Affinities getDominantAffinity()
@@ -48,36 +56,50 @@ public class EffectAffinity
 		return null;
 	}
 
-	public int getRed()
+	private void forgeColor()
 	{
-		double color = 0;
-		color = color + Affinities.Sorcery.color.getRed() * this.sorcery;
-		color = color + Affinities.Chaos.color.getRed() * this.chaos;
-		color = color + Affinities.Nature.color.getRed() * this.nature;
-		color = color + Affinities.Earth.color.getRed() * this.earth;
-		color = color / 4;
-		return (int) Math.round(color);
+		this.red = 0;
+		this.red = (float) (this.red + Affinities.Sorcery.color.getRed() * this.sorcery);
+		this.red = (float) (this.red + Affinities.Chaos.color.getRed() * this.chaos);
+		this.red = (float) (this.red + Affinities.Nature.color.getRed() * this.nature);
+		this.red = (float) (this.red + Affinities.Earth.color.getRed() * this.earth);
+
+		this.green = 0;
+		this.green = (float) (this.green + Affinities.Sorcery.color.getGreen() * this.sorcery);
+		this.green = (float) (this.green + Affinities.Chaos.color.getGreen() * this.chaos);
+		this.green = (float) (this.green + Affinities.Nature.color.getGreen() * this.nature);
+		this.green = (float) (this.green + Affinities.Earth.color.getGreen() * this.earth);
+
+		this.blue = 0;
+		this.blue = (float) (this.blue + Affinities.Sorcery.color.getBlue() * this.sorcery);
+		this.blue = (float) (this.blue + Affinities.Chaos.color.getBlue() * this.chaos);
+		this.blue = (float) (this.blue + Affinities.Nature.color.getBlue() * this.nature);
+		this.blue = (float) (this.blue + Affinities.Earth.color.getBlue() * this.earth);
+
+		float max = Math.max(red, Math.max(green, blue));
+		float toAdd = 255 - max;
+
+		this.red = this.red + toAdd;
+		this.green = this.green + toAdd;
+		this.blue = this.blue + toAdd;
+
+		this.red = this.red / 255f;
+		this.green = this.green / 255f;
+		this.blue = this.blue / 255f;
 	}
 
-	public int getBlue()
+	public float getRed()
 	{
-		double color = 0;
-		color = color + Affinities.Sorcery.color.getBlue() * this.sorcery;
-		color = color + Affinities.Chaos.color.getBlue() * this.chaos;
-		color = color + Affinities.Nature.color.getBlue() * this.nature;
-		color = color + Affinities.Earth.color.getBlue() * this.earth;
-		color = color / 4;
-		return (int) Math.round(color);
+		return this.red;
 	}
 
-	public int getGreen()
+	public float getGreen()
 	{
-		double color = 0;
-		color = color + Affinities.Sorcery.color.getGreen() * this.sorcery;
-		color = color + Affinities.Chaos.color.getGreen() * this.chaos;
-		color = color + Affinities.Nature.color.getGreen() * this.nature;
-		color = color + Affinities.Earth.color.getGreen() * this.earth;
-		color = color / 4;
-		return (int) Math.round(color);
+		return this.green;
+	}
+
+	public float getBlue()
+	{
+		return this.blue;
 	}
 }

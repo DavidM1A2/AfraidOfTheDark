@@ -17,6 +17,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemFlaskOfSouls;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDimensions;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.entityData.AOTDEntityData;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.playerData.AOTDPlayerData;
@@ -56,7 +57,6 @@ public class PlayerController
 	{
 		if (event.wasDeath)
 		{
-			NBTTagCompound nbt = new NBTTagCompound();
 			NBTTagCompound playerData = (NBTTagCompound) ModCapabilities.PLAYER_DATA.getStorage().writeNBT(ModCapabilities.PLAYER_DATA, event.original.getCapability(ModCapabilities.PLAYER_DATA, null), null);
 			NBTTagCompound entityPlayerData = (NBTTagCompound) ModCapabilities.ENTITY_DATA.getStorage().writeNBT(ModCapabilities.ENTITY_DATA, event.original.getCapability(ModCapabilities.ENTITY_DATA, null), null);
 
@@ -114,10 +114,10 @@ public class PlayerController
 	public void onAttachCapabilitiesEntity(AttachCapabilitiesEvent.Entity event)
 	{
 		if (event.getEntity() instanceof EntityLivingBase && !(event.getEntity() instanceof EntityArmorStand))
-			event.addCapability(new ResourceLocation("afraidofthedark:entityData"), new AOTDEntityData(event.getEntity()));
+			event.addCapability(new ResourceLocation(Reference.MOD_ID + ":entityData"), new AOTDEntityData(event.getEntity()));
 
 		if (event.getEntity() instanceof EntityPlayer)
-			event.addCapability(new ResourceLocation("afraidofthedark:playerData"), new AOTDPlayerData((EntityPlayer) event.getEntity()));
+			event.addCapability(new ResourceLocation(Reference.MOD_ID + ":playerData"), new AOTDPlayerData((EntityPlayer) event.getEntity()));
 	}
 
 	@SubscribeEvent
