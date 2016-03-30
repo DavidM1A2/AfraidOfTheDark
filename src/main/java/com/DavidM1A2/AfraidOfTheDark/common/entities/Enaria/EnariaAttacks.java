@@ -15,7 +15,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.EnchantedSkeleton.EntityEnc
 import com.DavidM1A2.AfraidOfTheDark.common.entities.SplinterDrone.EntitySplinterDrone;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncParticleFX;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDParticleFXTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDParticleFXTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.block.BlockAir;

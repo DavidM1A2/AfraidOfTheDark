@@ -1,4 +1,4 @@
-package com.DavidM1A2.AfraidOfTheDark.common.refrence;
+package com.DavidM1A2.AfraidOfTheDark.common.reference;
 
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.CryptChestLoot;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.DarkForestChestLoot;

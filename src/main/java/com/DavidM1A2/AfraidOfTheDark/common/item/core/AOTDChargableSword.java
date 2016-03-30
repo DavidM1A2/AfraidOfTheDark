@@ -5,7 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.item.core;
 
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -107,7 +107,7 @@ public abstract class AOTDChargableSword extends AOTDSword
 	@SideOnly(Side.CLIENT)
 	public ModelResourceLocation getModel(ItemStack stack, EntityPlayer player, int useRemaining)
 	{
-		return stack.getMetadata() == 1 ? new ModelResourceLocation(Refrence.MOD_ID + ":" + this.itemName + "FullCharge", "inventory") : new ModelResourceLocation(Refrence.MOD_ID + ":" + this.itemName, "inventory");
+		return stack.getMetadata() == 1 ? new ModelResourceLocation(Reference.MOD_ID + ":" + this.itemName + "FullCharge", "inventory") : new ModelResourceLocation(Reference.MOD_ID + ":" + this.itemName, "inventory");
 	}
 
 	/**

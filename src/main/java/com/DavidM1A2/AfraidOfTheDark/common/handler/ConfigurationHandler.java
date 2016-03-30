@@ -7,7 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.handler;
 
 import java.io.File;
 
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
@@ -45,7 +45,7 @@ public class ConfigurationHandler
 	@SubscribeEvent
 	public void onConfigurationChangedEvent(final ConfigChangedEvent.OnConfigChangedEvent event)
 	{
-		if (event.modID.equalsIgnoreCase(Refrence.MOD_ID))
+		if (event.modID.equalsIgnoreCase(Reference.MOD_ID))
 		{
 			// Resync the configuration
 			ConfigurationHandler.loadConfiguration();

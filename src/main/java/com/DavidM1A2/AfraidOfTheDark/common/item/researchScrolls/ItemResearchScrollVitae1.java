@@ -5,7 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls;
 
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 
 public class ItemResearchScrollVitae1 extends ItemResearchScroll
 {

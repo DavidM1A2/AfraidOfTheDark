@@ -7,8 +7,8 @@ package com.DavidM1A2.AfraidOfTheDark.common.block.core;
 
 import java.util.Random;
 
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDTreeTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDTreeTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.IGrowable;
@@ -31,7 +31,7 @@ public abstract class AOTDSapling extends BlockBush implements IGrowable
 		this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE_PROP, AOTDTreeTypes.GRAVEWOOD).withProperty(STAGE_PROP, Integer.valueOf(0)));
 		float f = 0.4F;
 		this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 2.0F, 0.5F + f);
-		this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
+		this.setCreativeTab(Reference.AFRAID_OF_THE_DARK);
 		this.setStepSound(soundTypeGrass);
 	}
 
@@ -114,7 +114,7 @@ public abstract class AOTDSapling extends BlockBush implements IGrowable
 	@Override
 	public String getUnlocalizedName()
 	{
-		return String.format("tile.%s%s", Refrence.MOD_ID.toLowerCase() + ":", this.getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
+		return String.format("tile.%s%s", Reference.MOD_ID.toLowerCase() + ":", this.getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
 		// Format for a block is: tile.modid:blockname.name
 	}
 

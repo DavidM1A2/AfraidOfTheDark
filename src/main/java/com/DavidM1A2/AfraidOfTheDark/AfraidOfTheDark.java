@@ -29,7 +29,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModOreDictionaryCompat
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModRecipes;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.PacketHandler;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.proxy.IProxy;
 
@@ -48,13 +48,13 @@ import net.minecraftforge.fml.relauncher.Side;
 /*
  * Main class run when the mod is started up
  */
-@Mod(modid = Refrence.MOD_ID, name = Refrence.MOD_NAME, version = Refrence.VERSION, guiFactory = Refrence.GUI_FACTORY_CLASS)
+@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.VERSION, guiFactory = Reference.GUI_FACTORY_CLASS)
 public class AfraidOfTheDark
 {
 	/**
 	 * Singleton design pattern used here
 	 */
-	@Mod.Instance(Refrence.MOD_ID)
+	@Mod.Instance(Reference.MOD_ID)
 	public static AfraidOfTheDark instance;
 
 	/**
@@ -65,7 +65,7 @@ public class AfraidOfTheDark
 	/**
 	 * Sided proxy used to distinguish client & server side
 	 */
-	@SidedProxy(clientSide = Refrence.CLIENT_PROXY_CLASS, serverSide = Refrence.SERVER_PROXY_CLASS)
+	@SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.SERVER_PROXY_CLASS)
 	public static IProxy proxy;
 
 	/**
@@ -93,7 +93,7 @@ public class AfraidOfTheDark
 		if (event.getSide() == Side.CLIENT)
 			MinecraftForge.EVENT_BUS.register(new GuiEventHandler());
 		// Initialize debug file to spam chat with variables
-		if (Refrence.isDebug)
+		if (Reference.isDebug)
 		{
 			MinecraftForge.EVENT_BUS.register(new DebugSpammer());
 		}
@@ -184,7 +184,7 @@ public class AfraidOfTheDark
 	public void serverStartingEvent(final FMLServerStartingEvent event)
 	{
 		// Register any player commands
-		if (Refrence.isDebug)
+		if (Reference.isDebug)
 		{
 			event.registerServerCommand(new CMDInsanityCheck());
 		}

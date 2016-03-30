@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDMeteorTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDMeteorTypes;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;

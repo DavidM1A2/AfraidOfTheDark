@@ -8,8 +8,8 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.EnchantedSkeleton.EntityEnchantedSkeleton;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDSword;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDToolMaterials;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDToolMaterials;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;

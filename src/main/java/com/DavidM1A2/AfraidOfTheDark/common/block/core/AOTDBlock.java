@@ -5,7 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.block.core;
 
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -26,7 +26,7 @@ public abstract class AOTDBlock extends Block
 		super(material);
 		if (this.displayInCreative())
 		{
-			this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
+			this.setCreativeTab(Reference.AFRAID_OF_THE_DARK);
 		}
 		this.setUnlocalizedName("FORGOT TO SET");
 	}
@@ -92,7 +92,7 @@ public abstract class AOTDBlock extends Block
 	@Override
 	public String getUnlocalizedName()
 	{
-		return String.format("tile.%s%s", Refrence.MOD_ID.toLowerCase() + ":", this.getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
+		return String.format("tile.%s%s", Reference.MOD_ID.toLowerCase() + ":", this.getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
 		// Format for a block is: tile.modid:blockname.name
 	}
 

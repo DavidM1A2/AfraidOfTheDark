@@ -10,10 +10,10 @@ import java.util.List;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.ICanTakeSilverDamage;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDChargableSword;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDamageSources;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDToolMaterials;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Constants;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDamageSources;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDToolMaterials;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.Constants;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.threads.PlayerSpinning;
 
 import net.minecraft.enchantment.Enchantment;

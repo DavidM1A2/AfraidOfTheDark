@@ -6,7 +6,7 @@
 package com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBiomes;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDimensions;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDimensions;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.BlockPos;

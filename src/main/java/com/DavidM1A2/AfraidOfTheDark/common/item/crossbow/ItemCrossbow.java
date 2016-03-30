@@ -6,7 +6,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.item.crossbow;
 import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDCrossbowBoltTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDCrossbowBoltTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 import net.minecraft.entity.Entity;

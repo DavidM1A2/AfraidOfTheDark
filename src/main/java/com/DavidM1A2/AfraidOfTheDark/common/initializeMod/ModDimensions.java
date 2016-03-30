@@ -7,7 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.initializeMod;
 
 import com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare.NightmareWorldProvider;
 import com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest.VoidChestWorldProvider;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDimensions;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDimensions;
 
 import net.minecraftforge.common.DimensionManager;
 

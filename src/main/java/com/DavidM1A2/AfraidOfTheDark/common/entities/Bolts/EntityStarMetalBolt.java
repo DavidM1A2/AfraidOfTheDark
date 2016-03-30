@@ -8,7 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.entities.bolts;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.ICanTakeSilverDamage;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDamageSources;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDamageSources;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;

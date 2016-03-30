@@ -7,8 +7,8 @@ package com.DavidM1A2.AfraidOfTheDark.common.block;
 
 import java.util.List;
 
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDTreeTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDTreeTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 import com.google.common.base.Predicate;
 
 import net.minecraft.block.Block;
@@ -46,7 +46,7 @@ public class BlockGravewood extends BlockLog
 	public BlockGravewood()
 	{
 		super();
-		this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
+		this.setCreativeTab(Reference.AFRAID_OF_THE_DARK);
 		this.setStepSound(Block.soundTypeWood);
 		this.setUnlocalizedName("gravewood");
 	}
@@ -138,7 +138,7 @@ public class BlockGravewood extends BlockLog
 	@Override
 	public String getUnlocalizedName()
 	{
-		return String.format("tile.%s%s", Refrence.MOD_ID.toLowerCase() + ":", this.getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
+		return String.format("tile.%s%s", Reference.MOD_ID.toLowerCase() + ":", this.getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
 		// tile.modid:blockname.name
 	}
 

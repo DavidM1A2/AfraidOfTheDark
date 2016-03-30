@@ -8,7 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.biomes;
 import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDTreeTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDTreeTypes;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;

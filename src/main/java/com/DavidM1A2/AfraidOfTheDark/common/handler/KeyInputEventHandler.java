@@ -17,9 +17,9 @@ import com.DavidM1A2.AfraidOfTheDark.common.item.ItemVitaeLantern;
 import com.DavidM1A2.AfraidOfTheDark.common.item.crossbow.ItemWristCrossbow;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.FireCrossbowBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncKeyPress;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDCrossbowBoltTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDCrossbowBoltTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 import net.minecraft.client.Minecraft;
@@ -75,7 +75,7 @@ public class KeyInputEventHandler
 					{
 						if (NBTHelper.getBoolean(itemStack, "isActive"))
 						{
-							entityPlayer.openGui(Refrence.MOD_ID, GuiHandler.VITAE_LANTERN_ID, entityPlayer.worldObj, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ());
+							entityPlayer.openGui(Reference.MOD_ID, GuiHandler.VITAE_LANTERN_ID, entityPlayer.worldObj, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ());
 							hasLantern = true;
 							break;
 						}

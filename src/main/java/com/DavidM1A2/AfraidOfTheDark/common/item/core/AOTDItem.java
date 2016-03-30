@@ -5,7 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.item.core;
 
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -18,7 +18,7 @@ public abstract class AOTDItem extends Item
 		super();
 		if (this.displayInCreative())
 		{
-			this.setCreativeTab(Refrence.AFRAID_OF_THE_DARK);
+			this.setCreativeTab(Reference.AFRAID_OF_THE_DARK);
 		}
 	}
 
@@ -26,14 +26,14 @@ public abstract class AOTDItem extends Item
 	@Override
 	public String getUnlocalizedName()
 	{
-		return String.format("item.%s%s", Refrence.MOD_ID.toLowerCase() + ":", this.getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
+		return String.format("item.%s%s", Reference.MOD_ID.toLowerCase() + ":", this.getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
 	}
 
 	// Set a stack of items name?
 	@Override
 	public String getUnlocalizedName(final ItemStack itemStack)
 	{
-		return String.format("item.%s%s", Refrence.MOD_ID.toLowerCase() + ":", this.getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
+		return String.format("item.%s%s", Reference.MOD_ID.toLowerCase() + ":", this.getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
 	}
 
 	protected String getUnwrappedUnlocalizedName(final String unlocalizedName)

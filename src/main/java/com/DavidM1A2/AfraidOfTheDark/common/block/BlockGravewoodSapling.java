@@ -9,7 +9,7 @@ import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDSapling;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDTreeTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDTreeTypes;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;

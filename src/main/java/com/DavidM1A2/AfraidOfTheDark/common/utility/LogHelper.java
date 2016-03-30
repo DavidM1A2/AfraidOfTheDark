@@ -7,7 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.utility;
 
 import org.apache.logging.log4j.Level;
 
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 
 import net.minecraftforge.fml.common.FMLLog;
 
@@ -15,7 +15,7 @@ public class LogHelper
 {
 	public static void log(final Level logLevel, final Object object)
 	{
-		FMLLog.log(Refrence.MOD_NAME, logLevel, String.valueOf(object));
+		FMLLog.log(Reference.MOD_NAME, logLevel, String.valueOf(object));
 	}
 
 	public static void all(final Object object)

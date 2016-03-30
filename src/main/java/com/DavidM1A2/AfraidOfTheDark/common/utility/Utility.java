@@ -10,7 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest.VoidChestTeleporter;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDimensions;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDimensions;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

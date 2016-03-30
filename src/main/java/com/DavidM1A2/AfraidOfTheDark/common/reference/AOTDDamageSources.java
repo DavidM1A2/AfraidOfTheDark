@@ -1,5 +1,5 @@
 
-package com.DavidM1A2.AfraidOfTheDark.common.refrence;
+package com.DavidM1A2.AfraidOfTheDark.common.reference;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.DamageSource;

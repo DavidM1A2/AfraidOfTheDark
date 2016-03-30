@@ -36,7 +36,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntitySpring;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityVoidChest;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemGravewoodLeaves;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemGravewoodSlab;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -47,7 +47,7 @@ import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
-@GameRegistry.ObjectHolder(Refrence.MOD_ID)
+@GameRegistry.ObjectHolder(Reference.MOD_ID)
 public class ModBlocks
 {
 	// Register blocks 
@@ -120,31 +120,31 @@ public class ModBlocks
 		if (side == Side.CLIENT)
 		{
 			final ItemModelMesher itemModelMesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.spring), 0, new ModelResourceLocation(Refrence.MOD_ID + ":spring", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.darkForest), 0, new ModelResourceLocation(Refrence.MOD_ID + ":darkForest", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gravewood), 0, new ModelResourceLocation(Refrence.MOD_ID + ":gravewood", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gravewoodLeaves), 0, new ModelResourceLocation(Refrence.MOD_ID + ":gravewoodLeaves", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gravewoodPlanks), 0, new ModelResourceLocation(Refrence.MOD_ID + ":gravewoodPlanks", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gravewoodStairs), 0, new ModelResourceLocation(Refrence.MOD_ID + ":gravewoodStairs", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gravewoodHalfSlab), 0, new ModelResourceLocation(Refrence.MOD_ID + ":gravewoodHalfSlab", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gravewoodDoubleSlab), 0, new ModelResourceLocation(Refrence.MOD_ID + ":gravewoodDoubleSlab", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.sunstoneOre), 0, new ModelResourceLocation(Refrence.MOD_ID + ":sunstoneOre", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.astralSilverOre), 0, new ModelResourceLocation(Refrence.MOD_ID + ":astralSilverOre", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.meteor), 0, new ModelResourceLocation(Refrence.MOD_ID + ":meteor", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.starMetalOre), 0, new ModelResourceLocation(Refrence.MOD_ID + ":starMetalOre", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.igneousBlock), 0, new ModelResourceLocation(Refrence.MOD_ID + ":igneousBlock", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gravewoodSapling), 0, new ModelResourceLocation(Refrence.MOD_ID + ":gravewoodSapling", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.vitaeDisenchanter), 0, new ModelResourceLocation(Refrence.MOD_ID + ":vitaeDisenchanter", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.voidChest), 0, new ModelResourceLocation(Refrence.MOD_ID + ":voidChest", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.voidChestPortal), 0, new ModelResourceLocation(Refrence.MOD_ID + ":voidChestPortal", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.eldritchObsidian), 0, new ModelResourceLocation(Refrence.MOD_ID + ":eldritchObsidian", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.amorphousEldritchMetal), 0, new ModelResourceLocation(Refrence.MOD_ID + ":amorphousEldritchMetal", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.eldritchStone), 0, new ModelResourceLocation(Refrence.MOD_ID + ":eldritchStone", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.aOTDBarrier), 0, new ModelResourceLocation(Refrence.MOD_ID + ":aOTDBarrier", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gnomishMetalPlate), 0, new ModelResourceLocation(Refrence.MOD_ID + ":gnomishMetalPlate", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gnomishMetalStrut), 0, new ModelResourceLocation(Refrence.MOD_ID + ":gnomishMetalStrut", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.glowStalk), 0, new ModelResourceLocation(Refrence.MOD_ID + ":glowStalk", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.enariaSpawner), 0, new ModelResourceLocation(Refrence.MOD_ID + ":enariaSpawner", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.spring), 0, new ModelResourceLocation(Reference.MOD_ID + ":spring", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.darkForest), 0, new ModelResourceLocation(Reference.MOD_ID + ":darkForest", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gravewood), 0, new ModelResourceLocation(Reference.MOD_ID + ":gravewood", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gravewoodLeaves), 0, new ModelResourceLocation(Reference.MOD_ID + ":gravewoodLeaves", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gravewoodPlanks), 0, new ModelResourceLocation(Reference.MOD_ID + ":gravewoodPlanks", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gravewoodStairs), 0, new ModelResourceLocation(Reference.MOD_ID + ":gravewoodStairs", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gravewoodHalfSlab), 0, new ModelResourceLocation(Reference.MOD_ID + ":gravewoodHalfSlab", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gravewoodDoubleSlab), 0, new ModelResourceLocation(Reference.MOD_ID + ":gravewoodDoubleSlab", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.sunstoneOre), 0, new ModelResourceLocation(Reference.MOD_ID + ":sunstoneOre", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.astralSilverOre), 0, new ModelResourceLocation(Reference.MOD_ID + ":astralSilverOre", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.meteor), 0, new ModelResourceLocation(Reference.MOD_ID + ":meteor", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.starMetalOre), 0, new ModelResourceLocation(Reference.MOD_ID + ":starMetalOre", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.igneousBlock), 0, new ModelResourceLocation(Reference.MOD_ID + ":igneousBlock", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gravewoodSapling), 0, new ModelResourceLocation(Reference.MOD_ID + ":gravewoodSapling", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.vitaeDisenchanter), 0, new ModelResourceLocation(Reference.MOD_ID + ":vitaeDisenchanter", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.voidChest), 0, new ModelResourceLocation(Reference.MOD_ID + ":voidChest", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.voidChestPortal), 0, new ModelResourceLocation(Reference.MOD_ID + ":voidChestPortal", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.eldritchObsidian), 0, new ModelResourceLocation(Reference.MOD_ID + ":eldritchObsidian", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.amorphousEldritchMetal), 0, new ModelResourceLocation(Reference.MOD_ID + ":amorphousEldritchMetal", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.eldritchStone), 0, new ModelResourceLocation(Reference.MOD_ID + ":eldritchStone", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.aOTDBarrier), 0, new ModelResourceLocation(Reference.MOD_ID + ":aOTDBarrier", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gnomishMetalPlate), 0, new ModelResourceLocation(Reference.MOD_ID + ":gnomishMetalPlate", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gnomishMetalStrut), 0, new ModelResourceLocation(Reference.MOD_ID + ":gnomishMetalStrut", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.glowStalk), 0, new ModelResourceLocation(Reference.MOD_ID + ":glowStalk", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.enariaSpawner), 0, new ModelResourceLocation(Reference.MOD_ID + ":enariaSpawner", "inventory"));
 		}
 	}
 }

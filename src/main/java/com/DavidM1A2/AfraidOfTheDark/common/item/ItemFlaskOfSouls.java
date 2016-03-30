@@ -13,8 +13,8 @@ import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItemWithCooldownPerItem;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncFlaskOfSouls;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.Refrence;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 import net.minecraft.block.BlockLiquid;
@@ -183,7 +183,7 @@ public class ItemFlaskOfSouls extends AOTDItemWithCooldownPerItem
 					if (!this.isOnCooldown(itemStack))
 					{
 						String entityToSpawnName = NBTHelper.getString(itemStack, FLASK_TYPE);
-						String aotdEntity = Refrence.MOD_ID + "." + entityToSpawnName.substring(6, 7).toLowerCase() + entityToSpawnName.substring(7);
+						String aotdEntity = Reference.MOD_ID + "." + entityToSpawnName.substring(6, 7).toLowerCase() + entityToSpawnName.substring(7);
 						if (EntityList.stringToClassMapping.containsKey(entityToSpawnName))
 						{
 							entityToSpawn = (EntityLiving) EntityList.createEntityByName(entityToSpawnName, world);

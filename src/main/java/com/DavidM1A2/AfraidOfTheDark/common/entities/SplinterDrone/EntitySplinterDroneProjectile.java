@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDDamageSources;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDamageSources;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;

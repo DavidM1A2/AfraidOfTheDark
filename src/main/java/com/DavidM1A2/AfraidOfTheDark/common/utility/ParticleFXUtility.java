@@ -4,7 +4,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.utility;
 import com.DavidM1A2.AfraidOfTheDark.client.particleFX.AOTDParticleFX;
 import com.DavidM1A2.AfraidOfTheDark.client.particleFX.EnariaBasicAttack;
 import com.DavidM1A2.AfraidOfTheDark.client.particleFX.EnariaTeleport;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDParticleFXTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDParticleFXTypes;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.World;

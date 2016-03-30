@@ -11,8 +11,8 @@ import java.util.Map;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.ResearchAchieved;
 import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.FontLoader;
 import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.TrueTypeFont;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.AOTDMeteorTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDMeteorTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
 
 import net.minecraft.util.ResourceLocation;
