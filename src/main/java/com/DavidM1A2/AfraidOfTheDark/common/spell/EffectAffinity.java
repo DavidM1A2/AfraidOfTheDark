@@ -22,6 +22,11 @@ public class EffectAffinity
 		{
 			return this.color;
 		}
+
+		public String getName()
+		{
+			return this.toString();
+		}
 	}
 
 	private double sorcery = 0.0D;
@@ -101,5 +106,24 @@ public class EffectAffinity
 	public float getBlue()
 	{
 		return this.blue;
+	}
+
+	@Override
+	public String toString()
+	{
+		String toReturn = "";
+
+		if (this.sorcery != 0)
+			toReturn = toReturn + "Sorcery: " + this.sorcery * 100 + "% ";
+		if (this.chaos != 0)
+			toReturn = toReturn + "Chaos: " + this.chaos * 100 + "% ";
+		if (this.nature != 0)
+			toReturn = toReturn + "Nature: " + this.nature * 100 + "% ";
+		if (this.earth != 0)
+			toReturn = toReturn + "Earth: " + this.earth * 100 + "% ";
+		if (toReturn.isEmpty())
+			toReturn = "Neutral";
+
+		return toReturn;
 	}
 }

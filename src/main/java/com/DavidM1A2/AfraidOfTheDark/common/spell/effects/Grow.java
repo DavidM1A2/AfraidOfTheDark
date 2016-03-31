@@ -38,8 +38,12 @@ public class Grow extends Effect
 					{
 						if (igrowable.canUseBonemeal(world, world.rand, location, current))
 						{
-							igrowable.grow(world, world.rand, location, current);
-							return;
+							for (int j = 0; j < 5; j++)
+							{
+								igrowable.grow(world, world.rand, location, current);
+								if (!(world.getBlockState(location).getBlock() instanceof IGrowable))
+									break;
+							}
 						}
 					}
 				}
