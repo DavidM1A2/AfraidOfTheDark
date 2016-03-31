@@ -6,21 +6,25 @@
 package com.DavidM1A2.AfraidOfTheDark.common.spell.powerSources;
 
 import com.DavidM1A2.AfraidOfTheDark.common.spell.ISpellComponentEnum;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 public enum PowerSources implements ISpellComponentEnum
 {
-	Self(1, Self.class, "afraidofthedark:textures/gui/spellCrafting/powerSources/self.png");
+	Self(1, "afraidofthedark:textures/gui/spellCrafting/powerSources/self.png")
+	{
+		@Override
+		public PowerSource newInstance()
+		{
+			return new Self();
+		}
+	};
 
 	private int id;
 	private String textureLocation;
-	private Class<? extends PowerSource> powerSourceClass;
 
-	private PowerSources(int id, Class<? extends PowerSource> powerSourceClass, String textureLocation)
+	private PowerSources(int id, String textureLocation)
 	{
 		this.id = id;
 		this.textureLocation = textureLocation;
-		this.powerSourceClass = powerSourceClass;
 	}
 
 	public int getID()
@@ -40,22 +44,5 @@ public enum PowerSources implements ISpellComponentEnum
 	}
 
 	@Override
-	public PowerSource newInstance()
-	{
-		try
-		{
-			return this.powerSourceClass.newInstance();
-		}
-		catch (InstantiationException e)
-		{
-			LogHelper.error("Failed to create a new instance of a delivery method...");
-			e.printStackTrace();
-		}
-		catch (IllegalAccessException e)
-		{
-			LogHelper.error("Failed to create a new instance of a delivery method...");
-			e.printStackTrace();
-		}
-		return null;
-	}
+	public abstract PowerSource newInstance();
 }
