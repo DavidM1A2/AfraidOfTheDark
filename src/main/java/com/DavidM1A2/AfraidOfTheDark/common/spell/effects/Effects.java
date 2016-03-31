@@ -7,24 +7,42 @@ package com.DavidM1A2.AfraidOfTheDark.common.spell.effects;
 
 import com.DavidM1A2.AfraidOfTheDark.common.spell.EffectAffinity;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.ISpellComponentEnum;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 public enum Effects implements ISpellComponentEnum
 {
-	Explosion(1, Explosion.class, new EffectAffinity(0, .2, .1, .5), "afraidofthedark:textures/gui/spellCrafting/effects/explosion.png"),
-	Grow(2, Grow.class, new EffectAffinity(0, 0, 1, 0), "afraidofthedark:textures/gui/spellCrafting/effects/grow.png"),
-	Heal(3, Heal.class, new EffectAffinity(.3, 0, .5, 0), "afraidofthedark:textures/gui/spellCrafting/effects/heal.png");
+	Explosion(1, new EffectAffinity(0, .2, 0, 0), "afraidofthedark:textures/gui/spellCrafting/effects/explosion.png")
+	{
+		@Override
+		public Effect newInstance()
+		{
+			return new Explosion();
+		}
+	},
+	Grow(2, new EffectAffinity(0, 0, .2, 0), "afraidofthedark:textures/gui/spellCrafting/effects/grow.png")
+	{
+		@Override
+		public Effect newInstance()
+		{
+			return new Grow();
+		}
+	},
+	Heal(3, new EffectAffinity(.1, 0, .1, 0), "afraidofthedark:textures/gui/spellCrafting/effects/heal.png")
+	{
+		@Override
+		public Effect newInstance()
+		{
+			return new Heal();
+		}
+	};
 
 	private int id;
 	private String iconTexture;
-	private Class<? extends Effect> effectClass;
 	private EffectAffinity effectAffinity;
 
-	private Effects(int id, Class<? extends Effect> effectClass, EffectAffinity effectAffinity, String iconTexture)
+	private Effects(int id, EffectAffinity effectAffinity, String iconTexture)
 	{
 		this.id = id;
 		this.iconTexture = iconTexture;
-		this.effectClass = effectClass;
 		this.effectAffinity = effectAffinity;
 	}
 
@@ -51,22 +69,5 @@ public enum Effects implements ISpellComponentEnum
 	}
 
 	@Override
-	public Effect newInstance()
-	{
-		try
-		{
-			return this.effectClass.newInstance();
-		}
-		catch (InstantiationException e)
-		{
-			LogHelper.error("Failed to create a new instance of a effect...");
-			e.printStackTrace();
-		}
-		catch (IllegalAccessException e)
-		{
-			LogHelper.error("Failed to create a new instance of a effect...");
-			e.printStackTrace();
-		}
-		return null;
-	}
+	public abstract Effect newInstance();
 }
