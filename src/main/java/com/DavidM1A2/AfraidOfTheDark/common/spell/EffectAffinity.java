@@ -6,10 +6,10 @@ public class EffectAffinity
 {
 	public enum Affinities
 	{
-		Sorcery(new Color(204, 0, 153)),
-		Nature(new Color(0, 102, 0)),
-		Chaos(new Color(255, 51, 0)),
-		Earth(new Color(102, 51, 0));
+		Sorcery(new Color(70, 0, 255)),
+		Nature(new Color(0, 255, 0)),
+		Chaos(new Color(255, 15, 0)),
+		Earth(new Color(130, 58, 0));
 
 		private Color color;
 
