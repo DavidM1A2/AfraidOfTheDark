@@ -37,11 +37,9 @@ public interface IAOTDPlayerData
 	public void setPlayerLocationOverworld(int[] location);
 	
 	public int getPlayerLocationNightmare();	
-	//public static int getPlayerLocationNightmareOffline(NBTTagCompound nbt);
 	public void setPlayerLocationNightmare(int location);
 
 	public int getPlayerLocationVoidChest();
-	//public static int getPlayerLocationVoidChestOffline(NBTTagCompound nbt);
 	public void setPlayerLocationVoidChest(int location);
 
 	public NBTTagCompound getResearches();
