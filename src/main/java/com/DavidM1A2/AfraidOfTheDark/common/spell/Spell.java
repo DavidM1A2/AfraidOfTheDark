@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.UUID;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
-import com.DavidM1A2.AfraidOfTheDark.common.spell.effects.IEffect;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.powerSources.IPowerSource;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.SpellUtility;
@@ -107,11 +106,7 @@ public class Spell implements Serializable
 		double cost = 0;
 		for (SpellStage spellStage : this.spellStages)
 		{
-			cost = cost + spellStage.getDeliveryMethod().getCost();
-			for (IEffect effect : spellStage.getEffects())
-			{
-				cost = cost + effect.getCost();
-			}
+			cost = cost + spellStage.getCost();
 		}
 		return cost;
 	}

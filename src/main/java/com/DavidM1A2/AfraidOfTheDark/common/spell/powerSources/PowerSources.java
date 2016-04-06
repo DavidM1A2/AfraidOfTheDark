@@ -16,6 +16,14 @@ public enum PowerSources implements ISpellComponentEnum
 		{
 			return new Self();
 		}
+	},
+	VitaeLantern(2, "afraidofthedark:textures/gui/spellCrafting/powerSources/vitaeLantern.png")
+	{
+		@Override
+		public PowerSource newInstance()
+		{
+			return new VitaeLantern();
+		}
 	};
 
 	private int id;

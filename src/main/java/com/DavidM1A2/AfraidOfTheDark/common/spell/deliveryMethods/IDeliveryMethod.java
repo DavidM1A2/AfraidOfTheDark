@@ -16,6 +16,12 @@ public interface IDeliveryMethod extends ISpellComponent
 
 	/**
 	 * 
+	 * @return The multiplier to multiply effect costs by.
+	 */
+	public abstract double getStageMultiplier();
+
+	/**
+	 * 
 	 * @param previous
 	 *            The previous entity spell to this one
 	 * @param spellStageIndex

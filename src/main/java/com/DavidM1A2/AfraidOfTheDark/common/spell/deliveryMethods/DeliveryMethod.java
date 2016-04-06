@@ -13,5 +13,6 @@ public abstract class DeliveryMethod implements IDeliveryMethod
 	public void writeToNBT(NBTTagCompound compound)
 	{
 		compound.setString("type", "deliveryMethod");
+		compound.setInteger("id", this.getType().getID());
 	}
 }

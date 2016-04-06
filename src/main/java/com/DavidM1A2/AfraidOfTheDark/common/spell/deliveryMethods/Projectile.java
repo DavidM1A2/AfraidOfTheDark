@@ -17,7 +17,13 @@ public class Projectile extends DeliveryMethod
 	@Override
 	public double getCost()
 	{
-		return 0;
+		return 5;
+	}
+
+	@Override
+	public double getStageMultiplier()
+	{
+		return 1.1;
 	}
 
 	@Override
@@ -45,16 +51,8 @@ public class Projectile extends DeliveryMethod
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound compound)
-	{
-		super.writeToNBT(compound);
-		compound.setInteger("id", DeliveryMethods.Projectile.getID());
-	}
-
-	@Override
 	public void readFromNBT(NBTTagCompound compound)
 	{
-
 	}
 
 	@Override

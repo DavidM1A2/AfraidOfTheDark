@@ -11,7 +11,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemVitaeLantern;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -59,9 +58,10 @@ public class TileEntitySpring extends AOTDTileEntity
 										ItemStack current = (ItemStack) stack;
 										if (current.getItem() instanceof ItemVitaeLantern)
 										{
-											if (NBTHelper.getInt(current, ItemVitaeLantern.STORED_VITAE) == 0)
+											ItemVitaeLantern lantern = (ItemVitaeLantern) current.getItem();
+											if (lantern.getStoredVitae(current) == 0)
 											{
-												NBTHelper.setInteger(current, ItemVitaeLantern.STORED_VITAE, 10);
+												lantern.addVitae(current, 100);
 											}
 										}
 									}

@@ -10,7 +10,7 @@ public class Explosion extends Effect
 	@Override
 	public int getCost()
 	{
-		return 0;
+		return 10;
 	}
 
 	@Override

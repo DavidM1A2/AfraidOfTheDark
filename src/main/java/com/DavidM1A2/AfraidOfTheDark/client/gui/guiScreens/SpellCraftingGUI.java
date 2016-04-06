@@ -227,7 +227,7 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 		tablet.add(helpButton);
 
 		this.spellCost = new AOTDGuiLabel(25, 225, ClientData.getTargaMSHandFontSized(40));
-		spellCost.setText("Spell Cost: 0");
+		spellCost.setText("Spell Cost: " + this.calculateCost());
 		tablet.add(this.spellCost);
 
 		this.getContentPane().add(tablet);
@@ -447,6 +447,17 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 				GL11.glFlush();
 			}
 		}
+	}
+
+	public double calculateCost()
+	{
+		double cost = 0;
+		for (AOTDGuiSpellStage spellStageGui : this.spellStages)
+		{
+			SpellStage spellStage = spellStageGui.toSpellStage();
+			cost = cost + spellStage.getCost();
+		}
+		return cost;
 	}
 
 	public ISpellComponentEnum getSelectedComponent()

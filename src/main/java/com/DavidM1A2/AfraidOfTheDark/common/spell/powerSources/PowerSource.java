@@ -13,5 +13,6 @@ public abstract class PowerSource implements IPowerSource
 	public void writeToNBT(NBTTagCompound compound)
 	{
 		compound.setString("type", "powerSource");
+		compound.setInteger("id", this.getType().getID());
 	}
 }

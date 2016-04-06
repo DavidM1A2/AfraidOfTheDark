@@ -31,6 +31,22 @@ public class SpellStage implements Serializable
 		this.effects = effects;
 	}
 
+	public double getCost()
+	{
+		if (deliveryMethod == null)
+			return 0;
+		else
+		{
+			double cost = 0;
+			cost = cost + deliveryMethod.getCost();
+			for (IEffect effect : this.effects)
+			{
+				cost = cost + this.deliveryMethod.getStageMultiplier() * effect.getCost();
+			}
+			return cost;
+		}
+	}
+
 	public IDeliveryMethod getDeliveryMethod()
 	{
 		return this.deliveryMethod;

@@ -19,17 +19,8 @@ public class Self extends PowerSource
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound compound)
-	{
-		super.writeToNBT(compound);
-		compound.setInteger("id", PowerSources.Self.getID());
-	}
-
-	@Override
 	public void readFromNBT(NBTTagCompound compound)
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
