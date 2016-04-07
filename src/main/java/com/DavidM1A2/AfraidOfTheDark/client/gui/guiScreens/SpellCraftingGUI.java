@@ -169,6 +169,7 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 						powerSource.setType((PowerSources) getSelectedComponent());
 						powerSource.updateHoverText();
 						SpellCraftingGUI.this.selectedComponent = null;
+						event.getSource().darkenColor(0.1f);
 					}
 					else if (getSelectedComponent() == null)
 					{

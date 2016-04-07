@@ -58,6 +58,7 @@ public class AOTDGuiSpellStage extends AOTDGuiPanel
 						deliveryMethod.setType((DeliveryMethods) selectedComponent);
 						deliveryMethod.updateHoverText();
 						AOTDGuiSpellStage.this.parent.setSelectedComponent(null);
+						event.getSource().darkenColor(0.1f);
 					}
 					else if (selectedComponent == null)
 					{
@@ -106,6 +107,7 @@ public class AOTDGuiSpellStage extends AOTDGuiPanel
 						effect.setType((Effects) selectedComponent);
 						effect.updateHoverText();
 						AOTDGuiSpellStage.this.parent.setSelectedComponent(null);
+						event.getSource().darkenColor(0.1f);
 					}
 					else if (selectedComponent == null)
 					{
