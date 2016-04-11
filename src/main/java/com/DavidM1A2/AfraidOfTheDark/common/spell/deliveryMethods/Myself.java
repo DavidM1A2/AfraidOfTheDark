@@ -6,7 +6,6 @@ import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.EntitySpell;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.myself.EntityMyself;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.projectile.EntitySpellProjectile;
-import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.projectile.EntitySpellProjectileDive;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
@@ -14,32 +13,31 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class Projectile extends DeliveryMethod
+public class Myself extends DeliveryMethod
 {
 	@Override
 	public double getCost()
 	{
-		return 5;
+		return 0;
 	}
 
 	@Override
 	public double getStageMultiplier()
 	{
-		return 1.1;
+		return 0;
 	}
 
 	@Override
 	public EntitySpell createSpellEntity(EntitySpell previous, int spellStageIndex)
 	{
-		Spell spellSource = previous.getSpellSource();
-		if (previous instanceof EntitySpellProjectile)
+		if (previous instanceof EntityMyself)
 		{
-			return new EntitySpellProjectileDive(previous.getSpellSource(), null, spellStageIndex, previous.posX, previous.posY, previous.posZ, 0, 0, 0);
+			return new EntityMyself(previous.worldObj, previous.getSpellSource(), spellStageIndex, ((EntityMyself) previous).getTarget());
 		}
-		else if (previous instanceof EntityMyself)
+		else if (previous instanceof EntitySpellProjectile)
 		{
-			EntityLivingBase target = ((EntityMyself) previous).getTarget();
-			return new EntitySpellProjectile(spellSource, target, spellStageIndex, target.posX, target.posY + target.getEyeHeight(), target.posZ, target.getLookVec().xCoord, target.getLookVec().yCoord, target.getLookVec().zCoord);
+			EntityLivingBase targetHit = ((EntitySpellProjectile) previous).getTargetHit();
+			return new EntityMyself(previous.worldObj, previous.getSpellSource(), spellStageIndex, targetHit);
 		}
 		else
 		{
@@ -56,7 +54,7 @@ public class Projectile extends DeliveryMethod
 
 		if (spellOwner != null)
 		{
-			return new EntitySpellProjectile(callbackClone, spellOwner, 0, spellOwner.posX, spellOwner.posY + 0.8d, spellOwner.posZ, spellOwner.getLookVec().xCoord, spellOwner.getLookVec().yCoord, spellOwner.getLookVec().zCoord);
+			return new EntityMyself(spellOwner.worldObj, callbackClone, 0, spellOwner);
 		}
 		else
 		{
@@ -73,6 +71,7 @@ public class Projectile extends DeliveryMethod
 	@Override
 	public DeliveryMethods getType()
 	{
-		return DeliveryMethods.Projectile;
+		return DeliveryMethods.Myself;
 	}
+
 }

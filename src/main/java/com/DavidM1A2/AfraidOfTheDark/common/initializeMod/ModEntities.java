@@ -16,6 +16,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntityIronBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntitySilverBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntityStarMetalBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntityWoodenBolt;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.myself.EntityMyself;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.projectile.EntitySpellProjectile;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.projectile.EntitySpellProjectileDive;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
@@ -42,6 +43,7 @@ public class ModEntities
 	public static final int splinterDroneProjectileID = 10;
 	public static final int spellProjectileID = 11;
 	public static final int spellProjectileDiveID = 12;
+	public static final int spellMyselfID = 13;
 
 	public static void intialize()
 	{
@@ -74,6 +76,7 @@ public class ModEntities
 
 		EntityRegistry.registerModEntity(EntitySpellProjectile.class, "spellProjectile", ModEntities.spellProjectileID, Reference.MOD_ID, 50, 1, true);
 		EntityRegistry.registerModEntity(EntitySpellProjectileDive.class, "spellProjectileDive", ModEntities.spellProjectileDiveID, Reference.MOD_ID, 50, 1, true);
+		EntityRegistry.registerModEntity(EntityMyself.class, "spellMyself", ModEntities.spellMyselfID, Reference.MOD_ID, 0, 1, false);
 
 		// Allow the werewolf to rarely spawn in all biomes
 		for (int i = 0; i < BiomeGenBase.getBiomeGenArray().length; i++)

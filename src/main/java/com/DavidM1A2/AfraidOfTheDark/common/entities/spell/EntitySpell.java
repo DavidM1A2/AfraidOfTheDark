@@ -46,7 +46,6 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 		this.ticksAlive++;
 		if (this.ticksAlive >= this.getSpellLifeInTicks())
 		{
-			this.performEffect(this.getPosition());
 			this.spellStageComplete();
 			this.setDead();
 		}
@@ -98,6 +97,12 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 			}
 			this.worldObj.spawnEntityInWorld(this.getSpellSource().getSpellStageByIndex(this.spellStageIndex).getDeliveryMethod().createSpellEntity(this, spellStageIndex));
 		}
+	}
+
+	public void terminateSpell()
+	{
+		this.spellStageIndex = Integer.MAX_VALUE - 1;
+		this.spellStageComplete();
 	}
 
 	public void performEffect(BlockPos location)

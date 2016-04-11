@@ -23,6 +23,14 @@ public enum DeliveryMethods implements ISpellComponentEnum
 		{
 			return new Projectile();
 		}
+	},
+	Myself(2, null, null, "afraidofthedark:textures/gui/spellCrafting/deliveryMethods/myself.png", null)
+	{
+		@Override
+		public DeliveryMethod newInstance()
+		{
+			return new Myself();
+		}
 	};
 
 	private int id;

@@ -38,18 +38,20 @@ public class EntitySpellProjectile extends EntitySpell
 	private Block insideOf;
 	protected float velocity = 1.0f;
 	public EntityLivingBase shootingEntity;
+	private EntityLivingBase targetHit = null;
 
 	public EntitySpellProjectile(World world)
 	{
 		super(world);
 	}
 
-	public EntitySpellProjectile(Spell callback, int spellStageIndex, double x, double y, double z, double xVelocity, double yVelocity, double zVelocity)
+	public EntitySpellProjectile(Spell callback, EntityLivingBase shootingEntity, int spellStageIndex, double x, double y, double z, double xVelocity, double yVelocity, double zVelocity)
 	{
 		super(AfraidOfTheDark.proxy.getSpellOwner(callback).worldObj, callback, spellStageIndex);
-		this.shootingEntity = AfraidOfTheDark.proxy.getSpellOwner(callback);
+		this.shootingEntity = shootingEntity;
 
-		this.setLocationAndAngles(x, y, z, shootingEntity.rotationYaw, shootingEntity.rotationPitch);
+		if (shootingEntity != null)
+			this.setLocationAndAngles(x, y, z, shootingEntity.rotationYaw, shootingEntity.rotationPitch);
 		this.setPosition(this.posX, this.posY, this.posZ);
 		double d3 = (double) MathHelper.sqrt_double(xVelocity * xVelocity + yVelocity * yVelocity + zVelocity * zVelocity);
 		this.motionX = xVelocity / d3 * velocity;
@@ -58,8 +60,9 @@ public class EntitySpellProjectile extends EntitySpell
 	}
 
 	/**
-	 * Checks if the entity is in range to render by using the past in distance and comparing it to its average edge length * 64 *
-	 * renderDistanceWeight Args: distance
+	 * Checks if the entity is in range to render by using the past in distance
+	 * and comparing it to its average edge length * 64 * renderDistanceWeight
+	 * Args: distance
 	 */
 	@SideOnly(Side.CLIENT)
 	@Override
@@ -166,6 +169,8 @@ public class EntitySpellProjectile extends EntitySpell
 				this.performEffect(new BlockPos(movingObjectPosition.hitVec));
 				break;
 			case ENTITY:
+				if (movingObjectPosition.entityHit instanceof EntityLivingBase)
+					this.targetHit = (EntityLivingBase) movingObjectPosition.entityHit;
 				this.performEffect(movingObjectPosition.entityHit);
 				break;
 			case MISS:
@@ -188,8 +193,7 @@ public class EntitySpellProjectile extends EntitySpell
 		tagCompound.setShort("zTile", (short) this.tileZ);
 		ResourceLocation resourcelocation = (ResourceLocation) Block.blockRegistry.getNameForObject(this.insideOf);
 		tagCompound.setString("inTile", resourcelocation == null ? "" : resourcelocation.toString());
-		tagCompound.setTag("direction", this.newDoubleNBTList(new double[]
-		{ this.motionX, this.motionY, this.motionZ }));
+		tagCompound.setTag("direction", this.newDoubleNBTList(new double[] { this.motionX, this.motionY, this.motionZ }));
 	}
 
 	/**
@@ -225,7 +229,8 @@ public class EntitySpellProjectile extends EntitySpell
 	}
 
 	/**
-	 * Returns true if other Entities should be prevented from moving through this Entity.
+	 * Returns true if other Entities should be prevented from moving through
+	 * this Entity.
 	 */
 	@Override
 	public boolean canBeCollidedWith()
@@ -258,5 +263,10 @@ public class EntitySpellProjectile extends EntitySpell
 	public float getSpellEntityHeight()
 	{
 		return 0.4f;
+	}
+
+	public EntityLivingBase getTargetHit()
+	{
+		return this.targetHit;
 	}
 }
