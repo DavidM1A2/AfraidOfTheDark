@@ -52,7 +52,8 @@ public class EntitySpellProjectile extends EntitySpell
 
 		if (shootingEntity != null)
 			this.setLocationAndAngles(x, y, z, shootingEntity.rotationYaw, shootingEntity.rotationPitch);
-		this.setPosition(this.posX, this.posY, this.posZ);
+		else
+			this.setPosition(x, y, z);
 		double d3 = (double) MathHelper.sqrt_double(xVelocity * xVelocity + yVelocity * yVelocity + zVelocity * zVelocity);
 		this.motionX = xVelocity / d3 * velocity;
 		this.motionY = yVelocity / d3 * velocity;
@@ -83,27 +84,20 @@ public class EntitySpellProjectile extends EntitySpell
 	protected void updateSpellSpecificLogic()
 	{
 		if (worldObj.isRemote)
+		{
 			if (!animHandler.isAnimationActive("Idle"))
 				animHandler.activateAnimation("Idle", 0);
-
-		// Fly! be free!
-		if (this.shootingEntity != null && !this.worldObj.isBlockLoaded(new BlockPos(this)))
-		{
-			this.setDead();
 		}
 		else
+			this.performHitDetection();
+
+		if (!this.isDead)
 		{
-			if (!worldObj.isRemote)
-				this.performHitDetection();
+			this.posX += this.motionX;
+			this.posY += this.motionY;
+			this.posZ += this.motionZ;
 
-			if (!this.isDead)
-			{
-				this.posX += this.motionX;
-				this.posY += this.motionY;
-				this.posZ += this.motionZ;
-
-				this.setPosition(this.posX, this.posY, this.posZ);
-			}
+			this.setPosition(this.posX, this.posY, this.posZ);
 		}
 	}
 

@@ -34,7 +34,7 @@ public class Projectile extends DeliveryMethod
 		Spell spellSource = previous.getSpellSource();
 		if (previous instanceof EntitySpellProjectile)
 		{
-			return new EntitySpellProjectileDive(previous.getSpellSource(), null, spellStageIndex, previous.posX, previous.posY, previous.posZ, 0, 0, 0);
+			return new EntitySpellProjectileDive(previous.getSpellSource(), null, spellStageIndex, previous.posX, previous.posY, previous.posZ);
 		}
 		else if (previous instanceof EntityMyself)
 		{

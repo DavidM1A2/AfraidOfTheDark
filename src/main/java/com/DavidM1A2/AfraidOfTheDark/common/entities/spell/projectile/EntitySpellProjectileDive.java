@@ -22,9 +22,9 @@ public class EntitySpellProjectileDive extends EntitySpellProjectile
 		super(world);
 	}
 
-	public EntitySpellProjectileDive(Spell callback, EntityLivingBase shootingEntity, int spellStageIndex, double x, double y, double z, double xVelocity, double yVelocity, double zVelocity)
+	public EntitySpellProjectileDive(Spell callback, EntityLivingBase shootingEntity, int spellStageIndex, double x, double y, double z)
 	{
-		super(callback, shootingEntity, spellStageIndex, x, y, z, xVelocity, yVelocity, zVelocity);
+		super(callback, shootingEntity, spellStageIndex, x, y, z, 0, 0, 0);
 
 		this.motionX = 0;
 		this.motionY = velocity;
