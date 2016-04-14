@@ -7,44 +7,44 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.EntitySpell;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.AOE.EntityAOE;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.myself.EntityMyself;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.projectile.EntitySpellProjectile;
-import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.projectile.EntitySpellProjectileDive;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.Point3D;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class Projectile extends DeliveryMethod
+public class AOE extends DeliveryMethod
 {
 	@Override
 	public double getCost()
 	{
-		return 5;
+		return 15;
 	}
 
 	@Override
 	public double getStageMultiplier()
 	{
-		return 1.1;
+		return 5;
 	}
 
 	@Override
 	public EntitySpell createSpellEntity(EntitySpell previous, int spellStageIndex)
 	{
 		Spell spellSource = previous.getSpellSource();
-		if (previous instanceof EntitySpellProjectile)
+		if (previous instanceof EntityAOE)
 		{
-			return new EntitySpellProjectileDive(previous.getSpellSource(), null, spellStageIndex, previous.posX, previous.posY, previous.posZ);
+			return new EntityAOE(previous.worldObj, spellSource, spellStageIndex, ((EntityAOE) previous).getSize() + 5.0, new Point3D(previous));
+		}
+		else if (previous instanceof EntitySpellProjectile)
+		{
+			return new EntityAOE(previous.worldObj, spellSource, spellStageIndex, 5.0, new Point3D(previous));
 		}
 		else if (previous instanceof EntityMyself)
 		{
 			EntityLivingBase target = ((EntityMyself) previous).getTarget();
-			return new EntitySpellProjectile(spellSource, target, spellStageIndex, target.posX, target.posY + target.getEyeHeight(), target.posZ, target.getLookVec().xCoord, target.getLookVec().yCoord, target.getLookVec().zCoord);
-		}
-		else if (previous instanceof EntityAOE)
-		{
-			return new EntitySpellProjectile(spellSource, null, spellStageIndex, previous.posX, previous.posY, previous.posZ, previous.worldObj.rand.nextDouble() - 0.5, previous.worldObj.rand.nextDouble() - 0.5, previous.worldObj.rand.nextDouble() - 0.5);
+			return new EntityAOE(previous.worldObj, spellSource, spellStageIndex, 10.0, new Point3D(target));
 		}
 		else
 		{
@@ -61,7 +61,7 @@ public class Projectile extends DeliveryMethod
 
 		if (spellOwner != null)
 		{
-			return new EntitySpellProjectile(callbackClone, spellOwner, 0, spellOwner.posX, spellOwner.posY + 0.8d, spellOwner.posZ, spellOwner.getLookVec().xCoord, spellOwner.getLookVec().yCoord, spellOwner.getLookVec().zCoord);
+			return new EntityAOE(spellOwner.worldObj, callbackClone, 0, 5, new Point3D(spellOwner));
 		}
 		else
 		{
@@ -78,6 +78,6 @@ public class Projectile extends DeliveryMethod
 	@Override
 	public DeliveryMethods getType()
 	{
-		return DeliveryMethods.Projectile;
+		return DeliveryMethods.AOE;
 	}
 }

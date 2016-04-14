@@ -8,6 +8,8 @@ package com.DavidM1A2.AfraidOfTheDark.common.spell.deliveryMethods;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.spell.ModelSpellProjectile;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.spell.RenderSpell;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.EntitySpell;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.AOE.EntityAOE;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.myself.EntityMyself;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.projectile.EntitySpellProjectile;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.ISpellComponentEnum;
 
@@ -24,12 +26,20 @@ public enum DeliveryMethods implements ISpellComponentEnum
 			return new Projectile();
 		}
 	},
-	Myself(2, null, null, "afraidofthedark:textures/gui/spellCrafting/deliveryMethods/myself.png", null)
+	Myself(2, EntityMyself.class, null, "afraidofthedark:textures/gui/spellCrafting/deliveryMethods/myself.png", null)
 	{
 		@Override
 		public DeliveryMethod newInstance()
 		{
 			return new Myself();
+		}
+	},
+	AOE(3, EntityAOE.class, null, "afraidofthedark:textures/gui/spellCrafting/deliveryMethods/AOE.png", null)
+	{
+		@Override
+		public DeliveryMethod newInstance()
+		{
+			return new AOE();
 		}
 	};
 

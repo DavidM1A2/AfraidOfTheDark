@@ -1,9 +1,12 @@
 package com.DavidM1A2.AfraidOfTheDark.common.spell.deliveryMethods;
 
+import java.util.List;
+
 import org.apache.commons.lang3.SerializationUtils;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.EntitySpell;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.AOE.EntityAOE;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.myself.EntityMyself;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.projectile.EntitySpellProjectile;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
@@ -38,6 +41,11 @@ public class Myself extends DeliveryMethod
 		{
 			EntityLivingBase targetHit = ((EntitySpellProjectile) previous).getTargetHit();
 			return new EntityMyself(previous.worldObj, previous.getSpellSource(), spellStageIndex, targetHit);
+		}
+		else if (previous instanceof EntityAOE)
+		{
+			List<EntityLivingBase> affectedEntities = ((EntityAOE) previous).getAffectedEntities();
+			return new EntityMyself(previous.worldObj, previous.getSpellSource(), spellStageIndex, affectedEntities.size() > 0 ? affectedEntities.get(0) : null);
 		}
 		else
 		{

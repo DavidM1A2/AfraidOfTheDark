@@ -5,6 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.utility;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 
@@ -24,6 +25,13 @@ public class Point3D
 		this.x = x;
 		this.y = y;
 		this.z = z;
+	}
+
+	public Point3D(Entity target)
+	{
+		this.x = target.getPosition().getX();
+		this.y = target.getPosition().getY();
+		this.z = target.getPosition().getZ();
 	}
 
 	public BlockPos toBlockPos()

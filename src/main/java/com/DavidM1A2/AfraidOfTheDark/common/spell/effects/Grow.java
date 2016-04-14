@@ -55,6 +55,7 @@ public class Grow extends Effect
 	@Override
 	public void performEffect(Entity entity)
 	{
+		entity.motionY = entity.motionY + 0.1;
 		return;
 	}
 
