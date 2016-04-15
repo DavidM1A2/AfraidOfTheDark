@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.EntitySpell;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.powerSources.IPowerSource;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.SpellUtility;
@@ -91,7 +92,8 @@ public class Spell implements Serializable
 		if (entityPlayer != null && !entityPlayer.worldObj.isRemote)
 		{
 			if (this.isSpellValid() && this.powerSource.attemptToCast(this))
-				entityPlayer.worldObj.spawnEntityInWorld(this.spellStages[0].getDeliveryMethod().createSpellEntity(this));
+				for (EntitySpell entitySpell : this.spellStages[0].getDeliveryMethod().createSpellEntity(this))
+					entityPlayer.worldObj.spawnEntityInWorld(entitySpell);
 			else if (!this.isSpellValid())
 				entityPlayer.addChatMessage(new ChatComponentText("Invalid spell. Make sure to have delivery methods and a power source on your spell!"));
 			else

@@ -95,7 +95,8 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 			{
 				return;
 			}
-			this.worldObj.spawnEntityInWorld(this.getSpellSource().getSpellStageByIndex(this.spellStageIndex).getDeliveryMethod().createSpellEntity(this, spellStageIndex));
+			for (EntitySpell entitySpell : this.getSpellSource().getSpellStageByIndex(this.spellStageIndex).getDeliveryMethod().createSpellEntity(this, spellStageIndex))
+				this.worldObj.spawnEntityInWorld(entitySpell);
 		}
 	}
 

@@ -26,17 +26,17 @@ public interface IDeliveryMethod extends ISpellComponent
 	 *            The previous entity spell to this one
 	 * @param spellStageIndex
 	 *            The current index into the spell's array of stages
-	 * @return An entity spell ready to be instantiated into the mc world
+	 * @return An entity spell list ready to be instantiated into the mc world
 	 */
-	public abstract EntitySpell createSpellEntity(EntitySpell previous, int spellStageIndex);
+	public abstract EntitySpell[] createSpellEntity(EntitySpell previous, int spellStageIndex);
 
 	/**
 	 * 
 	 * @param callback
 	 *            The spell that's calling the projectile to be made. This means this projectile is the first delivery method
-	 * @return An entity spell ready to be instantiated into the mc world
+	 * @return An entity spell list ready to be instantiated into the mc world
 	 */
-	public abstract EntitySpell createSpellEntity(Spell callback);
+	public abstract EntitySpell[] createSpellEntity(Spell callback);
 
 	/**
 	 * 

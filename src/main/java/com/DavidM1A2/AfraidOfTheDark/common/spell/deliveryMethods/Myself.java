@@ -31,21 +31,29 @@ public class Myself extends DeliveryMethod
 	}
 
 	@Override
-	public EntitySpell createSpellEntity(EntitySpell previous, int spellStageIndex)
+	public EntitySpell[] createSpellEntity(EntitySpell previous, int spellStageIndex)
 	{
 		if (previous instanceof EntityMyself)
 		{
-			return new EntityMyself(previous.worldObj, previous.getSpellSource(), spellStageIndex, ((EntityMyself) previous).getTarget());
+			return new EntitySpell[]
+			{ new EntityMyself(previous.worldObj, previous.getSpellSource(), spellStageIndex, ((EntityMyself) previous).getTarget()) };
 		}
 		else if (previous instanceof EntitySpellProjectile)
 		{
 			EntityLivingBase targetHit = ((EntitySpellProjectile) previous).getTargetHit();
-			return new EntityMyself(previous.worldObj, previous.getSpellSource(), spellStageIndex, targetHit);
+			return new EntitySpell[]
+			{ new EntityMyself(previous.worldObj, previous.getSpellSource(), spellStageIndex, targetHit) };
 		}
 		else if (previous instanceof EntityAOE)
 		{
 			List<EntityLivingBase> affectedEntities = ((EntityAOE) previous).getAffectedEntities();
-			return new EntityMyself(previous.worldObj, previous.getSpellSource(), spellStageIndex, affectedEntities.size() > 0 ? affectedEntities.get(0) : null);
+			EntitySpell[] toReturn = new EntitySpell[affectedEntities.size()];
+			for (int i = 0; i < affectedEntities.size(); i++)
+				toReturn[i] = new EntityMyself(previous.worldObj, previous.getSpellSource(), spellStageIndex, affectedEntities.get(i));
+			if (toReturn.length == 0)
+				toReturn = new EntitySpell[]
+				{ new EntityMyself(previous.worldObj, previous.getSpellSource(), spellStageIndex, null) };
+			return toReturn;
 		}
 		else
 		{
@@ -55,14 +63,15 @@ public class Myself extends DeliveryMethod
 	}
 
 	@Override
-	public EntitySpell createSpellEntity(Spell callback)
+	public EntitySpell[] createSpellEntity(Spell callback)
 	{
 		EntityPlayer spellOwner = AfraidOfTheDark.proxy.getSpellOwner(callback);
 		Spell callbackClone = SerializationUtils.<Spell> clone(callback);
 
 		if (spellOwner != null)
 		{
-			return new EntityMyself(spellOwner.worldObj, callbackClone, 0, spellOwner);
+			return new EntitySpell[]
+			{ new EntityMyself(spellOwner.worldObj, callbackClone, 0, spellOwner) };
 		}
 		else
 		{

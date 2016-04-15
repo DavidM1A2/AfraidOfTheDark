@@ -30,21 +30,27 @@ public class Projectile extends DeliveryMethod
 	}
 
 	@Override
-	public EntitySpell createSpellEntity(EntitySpell previous, int spellStageIndex)
+	public EntitySpell[] createSpellEntity(EntitySpell previous, int spellStageIndex)
 	{
 		Spell spellSource = previous.getSpellSource();
 		if (previous instanceof EntitySpellProjectile)
 		{
-			return new EntitySpellProjectileDive(previous.getSpellSource(), null, spellStageIndex, previous.posX, previous.posY, previous.posZ);
+			return new EntitySpell[]
+			{ new EntitySpellProjectileDive(previous.getSpellSource(), null, spellStageIndex, previous.posX, previous.posY, previous.posZ) };
 		}
 		else if (previous instanceof EntityMyself)
 		{
 			EntityLivingBase target = ((EntityMyself) previous).getTarget();
-			return new EntitySpellProjectile(spellSource, target, spellStageIndex, target.posX, target.posY + target.getEyeHeight(), target.posZ, target.getLookVec().xCoord, target.getLookVec().yCoord, target.getLookVec().zCoord);
+			return new EntitySpell[]
+			{ new EntitySpellProjectile(spellSource, target, spellStageIndex, target.posX, target.posY + target.getEyeHeight(), target.posZ, target.getLookVec().xCoord, target.getLookVec().yCoord, target.getLookVec().zCoord) };
 		}
 		else if (previous instanceof EntityAOE)
 		{
-			return new EntitySpellProjectile(spellSource, null, spellStageIndex, previous.posX, previous.posY, previous.posZ, previous.worldObj.rand.nextDouble() - 0.5, previous.worldObj.rand.nextDouble() - 0.5, previous.worldObj.rand.nextDouble() - 0.5);
+			int numSpells = 5;
+			EntitySpell[] spells = new EntitySpell[numSpells];
+			for (int i = 0; i < numSpells; i++)
+				spells[i] = new EntitySpellProjectile(spellSource, null, spellStageIndex, previous.posX, previous.posY, previous.posZ, previous.worldObj.rand.nextDouble() - 0.5, previous.worldObj.rand.nextDouble() - 0.5, previous.worldObj.rand.nextDouble() - 0.5);
+			return spells;
 		}
 		else
 		{
@@ -54,14 +60,15 @@ public class Projectile extends DeliveryMethod
 	}
 
 	@Override
-	public EntitySpell createSpellEntity(Spell callback)
+	public EntitySpell[] createSpellEntity(Spell callback)
 	{
 		EntityPlayer spellOwner = AfraidOfTheDark.proxy.getSpellOwner(callback);
 		Spell callbackClone = SerializationUtils.<Spell> clone(callback);
 
 		if (spellOwner != null)
 		{
-			return new EntitySpellProjectile(callbackClone, spellOwner, 0, spellOwner.posX, spellOwner.posY + 0.8d, spellOwner.posZ, spellOwner.getLookVec().xCoord, spellOwner.getLookVec().yCoord, spellOwner.getLookVec().zCoord);
+			return new EntitySpell[]
+			{ new EntitySpellProjectile(callbackClone, spellOwner, 0, spellOwner.posX, spellOwner.posY + 0.8d, spellOwner.posZ, spellOwner.getLookVec().xCoord, spellOwner.getLookVec().yCoord, spellOwner.getLookVec().zCoord) };
 		}
 		else
 		{

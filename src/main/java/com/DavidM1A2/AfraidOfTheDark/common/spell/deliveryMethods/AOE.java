@@ -30,21 +30,24 @@ public class AOE extends DeliveryMethod
 	}
 
 	@Override
-	public EntitySpell createSpellEntity(EntitySpell previous, int spellStageIndex)
+	public EntitySpell[] createSpellEntity(EntitySpell previous, int spellStageIndex)
 	{
 		Spell spellSource = previous.getSpellSource();
 		if (previous instanceof EntityAOE)
 		{
-			return new EntityAOE(previous.worldObj, spellSource, spellStageIndex, ((EntityAOE) previous).getSize() + 5.0, new Point3D(previous));
+			return new EntitySpell[]
+			{ new EntityAOE(previous.worldObj, spellSource, spellStageIndex, ((EntityAOE) previous).getSize() + 5.0, new Point3D(previous)) };
 		}
 		else if (previous instanceof EntitySpellProjectile)
 		{
-			return new EntityAOE(previous.worldObj, spellSource, spellStageIndex, 5.0, new Point3D(previous));
+			return new EntitySpell[]
+			{ new EntityAOE(previous.worldObj, spellSource, spellStageIndex, 5.0, new Point3D(previous)) };
 		}
 		else if (previous instanceof EntityMyself)
 		{
 			EntityLivingBase target = ((EntityMyself) previous).getTarget();
-			return new EntityAOE(previous.worldObj, spellSource, spellStageIndex, 10.0, new Point3D(target));
+			return new EntitySpell[]
+			{ new EntityAOE(previous.worldObj, spellSource, spellStageIndex, 10.0, new Point3D(target)) };
 		}
 		else
 		{
@@ -54,14 +57,15 @@ public class AOE extends DeliveryMethod
 	}
 
 	@Override
-	public EntitySpell createSpellEntity(Spell callback)
+	public EntitySpell[] createSpellEntity(Spell callback)
 	{
 		EntityPlayer spellOwner = AfraidOfTheDark.proxy.getSpellOwner(callback);
 		Spell callbackClone = SerializationUtils.<Spell> clone(callback);
 
 		if (spellOwner != null)
 		{
-			return new EntityAOE(spellOwner.worldObj, callbackClone, 0, 5, new Point3D(spellOwner));
+			return new EntitySpell[]
+			{ new EntityAOE(spellOwner.worldObj, callbackClone, 0, 5, new Point3D(spellOwner)) };
 		}
 		else
 		{
