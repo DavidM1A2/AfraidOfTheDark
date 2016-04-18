@@ -8,19 +8,15 @@ package com.DavidM1A2.AfraidOfTheDark.common.handler;
 import org.lwjgl.input.Keyboard;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.Keybindings;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemCloakOfAgility;
-import com.DavidM1A2.AfraidOfTheDark.common.item.ItemVitaeLantern;
 import com.DavidM1A2.AfraidOfTheDark.common.item.crossbow.ItemWristCrossbow;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.FireCrossbowBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncKeyPress;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDCrossbowBoltTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -45,10 +41,6 @@ public class KeyInputEventHandler
 		{
 			this.fireWristCrossbow();
 		}
-		if (Keybindings.changeLanternMode.isPressed())
-		{
-			this.changeLanternMode();
-		}
 		if (Keyboard.getEventKeyState() && Minecraft.getMinecraft().thePlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getSpellManager().doesKeyMapToSpell(Keyboard.getKeyName(Keyboard.getEventKey())))
 		{
 			this.spellKeyPressed();
@@ -58,39 +50,6 @@ public class KeyInputEventHandler
 	private void spellKeyPressed()
 	{
 		AfraidOfTheDark.getPacketHandler().sendToServer(new SyncKeyPress(Keyboard.getEventCharacter(), Keyboard.getEventKey()));
-	}
-
-	private void changeLanternMode()
-	{
-		EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
-
-		if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.VitaeLanternI))
-		{
-			boolean hasLantern = false;
-			for (ItemStack itemStack : entityPlayer.inventory.mainInventory)
-			{
-				if (itemStack != null)
-				{
-					if (itemStack.getItem() instanceof ItemVitaeLantern)
-					{
-						if (NBTHelper.getBoolean(itemStack, "isActive"))
-						{
-							entityPlayer.openGui(Reference.MOD_ID, GuiHandler.VITAE_LANTERN_ID, entityPlayer.worldObj, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ());
-							hasLantern = true;
-							break;
-						}
-					}
-				}
-			}
-			if (!hasLantern)
-			{
-				entityPlayer.addChatMessage(new ChatComponentText("I'll need an active vitae lantern in my inventory to use this."));
-			}
-		}
-		else
-		{
-			entityPlayer.addChatMessage(new ChatComponentText("I don't know what this could be useful for."));
-		}
 	}
 
 	private void fireWristCrossbow()

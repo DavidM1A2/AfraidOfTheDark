@@ -21,8 +21,9 @@ import net.minecraft.util.AxisAlignedBB;
 public class TileEntitySpring extends AOTDTileEntity
 {
 	private int ticksExisted = 0;
-	private static final int TICKS_INBETWEEN_CHECKS = 60;
+	private static final int TICKS_INBETWEEN_CHECKS = 120;
 	private static final int CHECK_RANGE = 3;
+	private static final int MAX_VITAE_FROM_LANTERN = 100;
 
 	public TileEntitySpring()
 	{
@@ -59,9 +60,13 @@ public class TileEntitySpring extends AOTDTileEntity
 										if (current.getItem() instanceof ItemVitaeLantern)
 										{
 											ItemVitaeLantern lantern = (ItemVitaeLantern) current.getItem();
-											if (lantern.getStoredVitae(current) == 0)
+											int vitaeToAdd = MAX_VITAE_FROM_LANTERN - lantern.getStoredVitae(current);
+											vitaeToAdd = (int) (vitaeToAdd * 0.1);
+											if (vitaeToAdd <= 0)
+												vitaeToAdd = 1;
+											if (vitaeToAdd + lantern.getStoredVitae(current) < MAX_VITAE_FROM_LANTERN)
 											{
-												lantern.addVitae(current, 100);
+												lantern.addVitae(current, vitaeToAdd);
 											}
 										}
 									}

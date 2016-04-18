@@ -6,11 +6,10 @@
 package com.DavidM1A2.AfraidOfTheDark.common.spell.powerSources;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
-import com.DavidM1A2.AfraidOfTheDark.common.item.ItemVitaeLantern;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.VitaeUtils;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class VitaeLantern extends PowerSource
@@ -20,40 +19,7 @@ public class VitaeLantern extends PowerSource
 	{
 		double cost = toCast.getCost();
 		EntityPlayer entityPlayer = AfraidOfTheDark.proxy.getSpellOwner(toCast);
-		double totalLanternVitae = 0;
-		for (int i = 0; i < entityPlayer.inventory.mainInventory.length; i++)
-		{
-			ItemStack current = entityPlayer.inventory.mainInventory[i];
-			if (current != null && current.getItem() instanceof ItemVitaeLantern)
-			{
-				ItemVitaeLantern lantern = (ItemVitaeLantern) current.getItem();
-				totalLanternVitae = totalLanternVitae + lantern.getStoredVitae(current);
-			}
-		}
-
-		if (totalLanternVitae >= cost)
-		{
-			for (int i = 0; i < entityPlayer.inventory.mainInventory.length; i++)
-			{
-				ItemStack current = entityPlayer.inventory.mainInventory[i];
-				if (current != null && current.getItem() instanceof ItemVitaeLantern)
-				{
-					ItemVitaeLantern lantern = (ItemVitaeLantern) current.getItem();
-					if (cost - lantern.getStoredVitae(current) > 0)
-					{
-						cost = cost - lantern.getStoredVitae(current);
-						lantern.addVitae(current, -lantern.getStoredVitae(current));
-					}
-					else
-					{
-						lantern.addVitae(current, (int) -cost);
-						return true;
-					}
-				}
-			}
-		}
-
-		return false;
+		return VitaeUtils.consumeVitaeFromLanterns(entityPlayer, cost);
 	}
 
 	@Override

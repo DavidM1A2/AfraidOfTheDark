@@ -11,7 +11,6 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens.SextantGUI;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens.SpellCraftingGUI;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens.SpellSelectionGUI;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens.TelescopeGUI;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens.VitaeLanternGUI;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,7 +25,6 @@ public class GuiHandler implements IGuiHandler
 	public static final int BLOOD_STAINED_JOURNAL_PAGE_PRE_ID = 4;
 	public static final int TELESCOPE_ID = 5;
 	public static final int SEXTANT_ID = 6;
-	public static final int VITAE_LANTERN_ID = 7;
 	public static final int BLOOD_STAINED_JOURNAL_CHEAT_SHEET = 8;
 	public static final int SPELL_CRAFTING_ID = 9;
 	public static final int SPELL_SELECTION_ID = 10;
@@ -60,8 +58,6 @@ public class GuiHandler implements IGuiHandler
 				return new BloodStainedJournalPageGUI(ClientData.currentlySelected.getResearchDescription(), ClientData.currentlySelected.formattedString(), ClientData.currentlySelected.researchRecipes());
 			case GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_PRE_ID:
 				return new BloodStainedJournalPageGUI(ClientData.currentlySelected.getPreResearchDescription(), "???", ClientData.currentlySelected.preResearchRecipes());
-			case GuiHandler.VITAE_LANTERN_ID:
-				return new VitaeLanternGUI();
 			case GuiHandler.BLOOD_STAINED_JOURNAL_CHEAT_SHEET:
 				return new BloodStainedJournalCheatSheetGUI();
 			case GuiHandler.SPELL_CRAFTING_ID:

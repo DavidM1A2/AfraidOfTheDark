@@ -13,6 +13,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDBlock;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.VitaeUtils;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -186,32 +187,15 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 
 				vitaeCost = vitaeCost * 3;
 
-				if (entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).getVitaeLevel() >= vitaeCost)
+				if (VitaeUtils.consumeVitaeFromLanterns(entityPlayer, vitaeCost))
 				{
-					int newVitae = entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).getVitaeLevel() - vitaeCost;
-					if (entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).setVitaeLevel(newVitae))
-					{
-						if (!entityPlayer.capabilities.isCreativeMode)
-						{
-							entityPlayer.worldObj.createExplosion(entityPlayer, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ(), 2, true).doExplosionB(true);
-							entityPlayer.onKillCommand();
-						}
-					}
-					entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).syncVitaeLevel();
 					return true;
 				}
 				else
 				{
 					if (!entityPlayer.worldObj.isRemote)
 					{
-						if (vitaeCost > Constants.entityVitaeResistance.get(EntityPlayer.class))
-						{
-							entityPlayer.addChatMessage(new ChatComponentText("I'm not powerful enough to perform this action."));
-						}
-						else
-						{
-							entityPlayer.addChatMessage(new ChatComponentText("I don't have enough vitae to perform this action."));
-						}
+						entityPlayer.addChatMessage(new ChatComponentText("I don't have enough vitae in my lanterns to perform this action."));
 					}
 				}
 			}
@@ -224,6 +208,7 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 			}
 		}
 		else
+
 		{
 			if (!entityPlayer.worldObj.isRemote)
 			{
@@ -329,34 +314,17 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 						}
 					}
 
-					vitaeCost = vitaeCost * vitaeMultiplier;
+					vitaeCost = vitaeCost * vitaeMultiplier * 2;
 
-					if (entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).getVitaeLevel() >= vitaeCost)
+					if (VitaeUtils.consumeVitaeFromLanterns(entityPlayer, vitaeCost))
 					{
-						int newVitae = entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).getVitaeLevel() - vitaeCost;
-						if (entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).setVitaeLevel(newVitae))
-						{
-							if (!entityPlayer.capabilities.isCreativeMode)
-							{
-								entityPlayer.worldObj.createExplosion(entityPlayer, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ(), 2, true).doExplosionB(true);
-								entityPlayer.onKillCommand();
-							}
-						}
-						entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).syncVitaeLevel();
 						return true;
 					}
 					else
 					{
 						if (!entityPlayer.worldObj.isRemote)
 						{
-							if (vitaeCost > Constants.entityVitaeResistance.get(EntityPlayer.class))
-							{
-								entityPlayer.addChatMessage(new ChatComponentText("I'm not powerful enough to perform this action."));
-							}
-							else
-							{
-								entityPlayer.addChatMessage(new ChatComponentText("I don't have enough vitae to perform this action."));
-							}
+							entityPlayer.addChatMessage(new ChatComponentText("I don't have enough vitae in my lanterns to perform this action."));
 						}
 					}
 				}

@@ -14,9 +14,7 @@ public class Keybindings
 	public static final String CATEGORY = "keys.afraidofthedark.category";
 	public static final String ROLL_CLOAK_OF_AGILITY = "keys.afraidofthedark.rollWithCloakOfAgility";
 	public static final String FIRE_WRIST_CROSSBOW = "keys.afraidofthedark.fireWristCrossbow";
-	public static final String CHANGE_LANTERN_MODE = "keys.afraidofthedark.changeLanternMode";
 
 	public static KeyBinding rollWithCloakOfAgility = new KeyBinding(ROLL_CLOAK_OF_AGILITY, Keyboard.KEY_G, CATEGORY);
 	public static KeyBinding fireWristCrossbow = new KeyBinding(FIRE_WRIST_CROSSBOW, Keyboard.KEY_F, CATEGORY);
-	public static KeyBinding changeLanternMode = new KeyBinding(CHANGE_LANTERN_MODE, Keyboard.KEY_R, CATEGORY);
 }
