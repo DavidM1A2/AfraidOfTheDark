@@ -122,17 +122,14 @@ public abstract class AOTDChargableSword extends AOTDSword
 	@Override
 	public ItemStack onItemRightClick(final ItemStack itemStack, final World world, final EntityPlayer entityPlayer)
 	{
-		if (!world.isRemote)
+		if (NBTHelper.getInt(itemStack, "charge") >= 100)
 		{
-			if (NBTHelper.getInt(itemStack, "charge") >= 100)
-			{
-				NBTHelper.setInteger(itemStack, "charge", 0);
-				this.performChargeAttack(itemStack, world, entityPlayer);
-			}
-			else
-			{
-				entityPlayer.addChatMessage(new ChatComponentText("I'll need more energy to perform the ability."));
-			}
+			NBTHelper.setInteger(itemStack, "charge", 0);
+			this.performChargeAttack(itemStack, world, entityPlayer);
+		}
+		else
+		{
+			entityPlayer.addChatMessage(new ChatComponentText("I'll need more energy to perform the ability."));
 		}
 
 		return itemStack;

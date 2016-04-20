@@ -8,6 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.entities.spell;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.effects.IEffect;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
@@ -109,20 +110,26 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 	public void performEffect(BlockPos location)
 	{
 		if (!this.worldObj.isRemote)
-			for (IEffect effect : this.getSpellSource().getSpellStageByIndex(this.getSpellStageIndex()).getEffects())
-			{
-				effect.performEffect(location, this.worldObj);
-			}
+			if (this.getSpellSource() != null)
+				for (IEffect effect : this.getSpellSource().getSpellStageByIndex(this.getSpellStageIndex()).getEffects())
+				{
+					effect.performEffect(location, this.worldObj);
+				}
+			else
+				LogHelper.error("Attempted to execute a spell that does not exist.");
 		return;
 	}
 
 	public void performEffect(Entity entity)
 	{
 		if (!this.worldObj.isRemote)
-			for (IEffect effect : this.getSpellSource().getSpellStageByIndex(this.getSpellStageIndex()).getEffects())
-			{
-				effect.performEffect(entity);
-			}
+			if (this.getSpellSource() != null)
+				for (IEffect effect : this.getSpellSource().getSpellStageByIndex(this.getSpellStageIndex()).getEffects())
+				{
+					effect.performEffect(entity);
+				}
+			else
+				LogHelper.error("Attempted to execute a spell that does not exist.");
 		return;
 	}
 
