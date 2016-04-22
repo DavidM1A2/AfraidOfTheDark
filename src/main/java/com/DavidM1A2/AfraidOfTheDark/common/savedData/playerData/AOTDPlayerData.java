@@ -94,11 +94,11 @@ public class AOTDPlayerData implements ICapabilitySerializable<NBTTagCompound>, 
 	{
 		if (this.isServerSide())
 		{
-			AfraidOfTheDark.getPacketHandler().sendTo(new UpdateAOTDStatus(this.getHasStartedAOTD()), (EntityPlayerMP) entityPlayer);
+			AfraidOfTheDark.instance.getPacketHandler().sendTo(new UpdateAOTDStatus(this.getHasStartedAOTD()), (EntityPlayerMP) entityPlayer);
 		}
 		else
 		{
-			AfraidOfTheDark.getPacketHandler().sendToServer(new UpdateAOTDStatus(this.getHasStartedAOTD()));
+			AfraidOfTheDark.instance.getPacketHandler().sendToServer(new UpdateAOTDStatus(this.getHasStartedAOTD()));
 		}
 	}
 
@@ -116,7 +116,7 @@ public class AOTDPlayerData implements ICapabilitySerializable<NBTTagCompound>, 
 	{
 		if (this.isServerSide())
 		{
-			AfraidOfTheDark.getPacketHandler().sendTo(new UpdateInsanity(this.getPlayerInsanity()), (EntityPlayerMP) entityPlayer);
+			AfraidOfTheDark.instance.getPacketHandler().sendTo(new UpdateInsanity(this.getPlayerInsanity()), (EntityPlayerMP) entityPlayer);
 		}
 		else
 		{
@@ -209,11 +209,11 @@ public class AOTDPlayerData implements ICapabilitySerializable<NBTTagCompound>, 
 	{
 		if (this.isServerSide())
 		{
-			AfraidOfTheDark.getPacketHandler().sendTo(new UpdateResearch(this.researches), (EntityPlayerMP) entityPlayer);
+			AfraidOfTheDark.instance.getPacketHandler().sendTo(new UpdateResearch(this.researches), (EntityPlayerMP) entityPlayer);
 		}
 		else
 		{
-			AfraidOfTheDark.getPacketHandler().sendToServer(new UpdateResearch(this.researches));
+			AfraidOfTheDark.instance.getPacketHandler().sendToServer(new UpdateResearch(this.researches));
 		}
 	}
 
@@ -231,7 +231,7 @@ public class AOTDPlayerData implements ICapabilitySerializable<NBTTagCompound>, 
 	{
 		if (this.isServerSide())
 		{
-			AfraidOfTheDark.getPacketHandler().sendTo(new UpdateHasBeatenEnaria(this.hasBeatenEnaria), (EntityPlayerMP) this.entityPlayer);
+			AfraidOfTheDark.instance.getPacketHandler().sendTo(new UpdateHasBeatenEnaria(this.hasBeatenEnaria), (EntityPlayerMP) this.entityPlayer);
 		}
 	}
 
@@ -249,7 +249,7 @@ public class AOTDPlayerData implements ICapabilitySerializable<NBTTagCompound>, 
 	{
 		if (!this.isServerSide())
 		{
-			AfraidOfTheDark.getPacketHandler().sendToServer(new SyncSelectedWristCrossbowBolt(this.selectedWristCrossbowBolt));
+			AfraidOfTheDark.instance.getPacketHandler().sendToServer(new SyncSelectedWristCrossbowBolt(this.selectedWristCrossbowBolt));
 		}
 	}
 
@@ -267,11 +267,11 @@ public class AOTDPlayerData implements ICapabilitySerializable<NBTTagCompound>, 
 	{
 		if (!this.isServerSide())
 		{
-			AfraidOfTheDark.getPacketHandler().sendToServer(new SyncSpellManager(this.spellManager));
+			AfraidOfTheDark.instance.getPacketHandler().sendToServer(new SyncSpellManager(this.spellManager));
 		}
 		else
 		{
-			AfraidOfTheDark.getPacketHandler().sendTo(new SyncSpellManager(this.spellManager), (EntityPlayerMP) this.entityPlayer);
+			AfraidOfTheDark.instance.getPacketHandler().sendTo(new SyncSpellManager(this.spellManager), (EntityPlayerMP) this.entityPlayer);
 		}
 	}
 
@@ -279,7 +279,7 @@ public class AOTDPlayerData implements ICapabilitySerializable<NBTTagCompound>, 
 	{
 		if (this.isServerSide())
 		{
-			AfraidOfTheDark.getPacketHandler().sendTo(new SyncAOTDPlayerData(this), (EntityPlayerMP) this.entityPlayer);
+			AfraidOfTheDark.instance.getPacketHandler().sendTo(new SyncAOTDPlayerData(this), (EntityPlayerMP) this.entityPlayer);
 		}
 	}
 
@@ -287,7 +287,7 @@ public class AOTDPlayerData implements ICapabilitySerializable<NBTTagCompound>, 
 	{
 		if (!this.isServerSide())
 		{
-			AfraidOfTheDark.getPacketHandler().sendToServer(new SyncAOTDPlayerData());
+			AfraidOfTheDark.instance.getPacketHandler().sendToServer(new SyncAOTDPlayerData());
 		}
 	}
 }

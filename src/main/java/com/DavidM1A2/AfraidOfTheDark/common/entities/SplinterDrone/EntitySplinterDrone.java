@@ -58,7 +58,7 @@ public class EntitySplinterDrone extends EntityFlying implements IMCAnimatedEnti
 			if (!this.worldObj.isRemote)
 			{
 				this.animHandler.activateAnimation("Activate", 0);
-				AfraidOfTheDark.getPacketHandler().sendToAllAround(new SyncAnimation("Activate", this.getEntityId()), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 50));
+				AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncAnimation("Activate", this.getEntityId()), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 50));
 				this.hasPlayedStartAnimation = true;
 			}
 		}

@@ -5,6 +5,9 @@
  */
 package com.DavidM1A2.AfraidOfTheDark;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+
 import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.ResearchAchieved;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
@@ -33,6 +36,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.proxy.IProxy;
 
+import io.netty.util.concurrent.DefaultThreadFactory;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -58,9 +62,14 @@ public class AfraidOfTheDark
 	public static AfraidOfTheDark instance;
 
 	/**
+	 * Executor used in calling delayed code
+	 */
+	private final ScheduledExecutorService delayedExecutor = Executors.newSingleThreadScheduledExecutor(new DefaultThreadFactory("AfraidOfTheDark"));
+
+	/**
 	 * Channel for sending and receiving packets
 	 */
-	private static PacketHandler packetHandler = new PacketHandler("AOTD Packets");
+	private final PacketHandler packetHandler = new PacketHandler("AOTD Packets");
 
 	/**
 	 * Sided proxy used to distinguish client & server side
@@ -194,8 +203,16 @@ public class AfraidOfTheDark
 	/**
 	 * @return SimpleNetworkWrapper instance
 	 */
-	public static PacketHandler getPacketHandler()
+	public PacketHandler getPacketHandler()
 	{
-		return AfraidOfTheDark.packetHandler;
+		return this.packetHandler;
+	}
+
+	/**
+	 * @return ScheduledExecutor instance
+	 */
+	public ScheduledExecutorService getDelayedExecutor()
+	{
+		return this.delayedExecutor;
 	}
 }

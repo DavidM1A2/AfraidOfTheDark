@@ -1,4 +1,4 @@
-package com.DavidM1A2.AfraidOfTheDark.common.refrence.sizeof;
+package com.DavidM1A2.AfraidOfTheDark.common.utility.sizeof;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

@@ -76,7 +76,7 @@ public class EntityAIAttackSplinterDrone extends EntityAIBase
 				if (this.splinterDrone.getAttackTarget() != null)
 				{
 					animationHandler.activateAnimation("Charge", 0);
-					AfraidOfTheDark.getPacketHandler().sendToAllAround(new SyncAnimation("Charge", this.splinterDrone.getEntityId()), new TargetPoint(this.splinterDrone.dimension, this.splinterDrone.posX, this.splinterDrone.posY, this.splinterDrone.posZ, 50));
+					AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncAnimation("Charge", this.splinterDrone.getEntityId()), new TargetPoint(this.splinterDrone.dimension, this.splinterDrone.posX, this.splinterDrone.posY, this.splinterDrone.posZ, 50));
 				}
 			}
 

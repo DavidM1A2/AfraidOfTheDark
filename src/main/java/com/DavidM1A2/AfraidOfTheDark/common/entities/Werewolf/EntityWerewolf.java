@@ -210,7 +210,7 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity, ICan
 		if (!animHandler.isAnimationActive("Bite"))
 		{
 			animHandler.activateAnimation("Bite", 0);
-			AfraidOfTheDark.getPacketHandler().sendToAllAround(new SyncAnimation("Bite", this.getEntityId()), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 15));
+			AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncAnimation("Bite", this.getEntityId()), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 15));
 		}
 
 		boolean x = super.attackEntityAsMob(entity);

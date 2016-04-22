@@ -207,7 +207,7 @@ public class ItemFlaskOfSouls extends AOTDItemWithCooldownPerItem
 							world.spawnEntityInWorld(entityToSpawn);
 							entityToSpawn.playLivingSound();
 							this.setOnCooldown(itemStack);
-							AfraidOfTheDark.getPacketHandler().sendTo(new SyncFlaskOfSouls(System.currentTimeMillis()), (EntityPlayerMP) entityPlayer);
+							AfraidOfTheDark.instance.getPacketHandler().sendTo(new SyncFlaskOfSouls(System.currentTimeMillis()), (EntityPlayerMP) entityPlayer);
 						}
 					}
 				}

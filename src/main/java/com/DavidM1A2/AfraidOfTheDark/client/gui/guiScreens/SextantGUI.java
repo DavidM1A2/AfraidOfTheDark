@@ -13,7 +13,6 @@ import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiButton;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiComponent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiImage;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiTextField;
@@ -81,16 +80,24 @@ public class SextantGUI extends AOTDGuiScreen
 			}
 
 			@Override
-			public void mousePressed(AOTDMouseEvent event) {}
+			public void mousePressed(AOTDMouseEvent event)
+			{
+			}
 
 			@Override
-			public void mouseReleased(AOTDMouseEvent event) {}
+			public void mouseReleased(AOTDMouseEvent event)
+			{
+			}
 
 			@Override
-			public void mouseEntered(AOTDMouseEvent event) {}
+			public void mouseEntered(AOTDMouseEvent event)
+			{
+			}
 
 			@Override
-			public void mouseExited(AOTDMouseEvent event) {}
+			public void mouseExited(AOTDMouseEvent event)
+			{
+			}
 		});
 		background.add(confirm);
 
@@ -119,10 +126,9 @@ public class SextantGUI extends AOTDGuiScreen
 		final int zLocOfDrop = (int) entityPlayer.posZ + (((random.nextDouble() >= .5) ? -1 : 1) * (entityPlayer.worldObj.rand.nextInt(500) + 15));
 
 		final BlockPos location = new BlockPos(xLocOfDrop, 255, zLocOfDrop);
-		AfraidOfTheDark.getPacketHandler().sendToServer(new SpawnMeteor(location, 3, 3, ClientData.watchedMeteorType.getIndex()));
+		AfraidOfTheDark.instance.getPacketHandler().sendToServer(new SpawnMeteor(location, 3, 3, ClientData.watchedMeteorType.getIndex()));
 		entityPlayer.addChatMessage(new ChatComponentText("Based off of this information the meteor fell at " + xLocOfDrop + ", " + zLocOfDrop));
-		ClientData.selectedMeteor = new int[]
-		{ -1, -1, -1 };
+		ClientData.selectedMeteor = new int[] { -1, -1, -1 };
 		ClientData.watchedMeteorType = null;
 	}
 

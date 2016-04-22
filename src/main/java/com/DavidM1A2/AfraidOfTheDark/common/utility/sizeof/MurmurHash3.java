@@ -1,4 +1,4 @@
-package com.DavidM1A2.AfraidOfTheDark.common.refrence.sizeof;
+package com.DavidM1A2.AfraidOfTheDark.common.utility.sizeof;
 
 /**
  * Hash routines for primitive types. The implementation is based on the finalization step from Austin Appleby's <code>MurmurHash3</code>.

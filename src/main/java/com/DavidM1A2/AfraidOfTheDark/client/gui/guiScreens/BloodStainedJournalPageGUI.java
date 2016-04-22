@@ -25,9 +25,9 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiTextBox;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
-import com.DavidM1A2.AfraidOfTheDark.common.recipe.ConvertedRecipe;
-import com.DavidM1A2.AfraidOfTheDark.common.recipe.RecipeUtility;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.recipe.ConvertedRecipe;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.recipe.RecipeUtility;
 
 import net.minecraft.item.Item;
 

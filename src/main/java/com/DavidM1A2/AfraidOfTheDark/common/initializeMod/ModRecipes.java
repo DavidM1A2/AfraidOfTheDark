@@ -5,9 +5,9 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.initializeMod;
 
-import com.DavidM1A2.AfraidOfTheDark.common.recipe.AOTDDisablableShapedRecipe;
-import com.DavidM1A2.AfraidOfTheDark.common.recipe.AOTDDisablableShapelessRecipe;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.recipe.AOTDDisablableShapedRecipe;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.recipe.AOTDDisablableShapelessRecipe;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;

@@ -232,7 +232,7 @@ public class TileEntityVoidChest extends AOTDTileEntity
 					}
 				}
 				this.openChest(entityPlayer);
-				AfraidOfTheDark.getPacketHandler().sendToAllAround(new SyncVoidChest(this.pos.getX(), this.pos.getY(), this.pos.getZ(), entityPlayer.getEntityId()), new TargetPoint(this.worldObj.provider.getDimensionId(), this.pos.getX(), this.pos.getY(), this.pos.getZ(), 30));
+				AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncVoidChest(this.pos.getX(), this.pos.getY(), this.pos.getZ(), entityPlayer.getEntityId()), new TargetPoint(this.worldObj.provider.getDimensionId(), this.pos.getX(), this.pos.getY(), this.pos.getZ(), 30));
 			}
 			else if (friends.contains(entityPlayer.getDisplayName().getUnformattedText()))
 			{
@@ -246,7 +246,7 @@ public class TileEntityVoidChest extends AOTDTileEntity
 					}
 				}
 				this.openChest(entityPlayer);
-				AfraidOfTheDark.getPacketHandler().sendToAllAround(new SyncVoidChest(this.pos.getX(), this.pos.getY(), this.pos.getZ(), entityPlayer.getEntityId()), new TargetPoint(this.worldObj.provider.getDimensionId(), this.pos.getX(), this.pos.getY(), this.pos.getZ(), 30));
+				AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncVoidChest(this.pos.getX(), this.pos.getY(), this.pos.getZ(), entityPlayer.getEntityId()), new TargetPoint(this.worldObj.provider.getDimensionId(), this.pos.getX(), this.pos.getY(), this.pos.getZ(), 30));
 			}
 			else
 			{

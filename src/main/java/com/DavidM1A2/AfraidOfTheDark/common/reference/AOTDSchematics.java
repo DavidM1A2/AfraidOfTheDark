@@ -5,11 +5,11 @@ import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
-import com.DavidM1A2.AfraidOfTheDark.common.refrence.sizeof.RamUsageEstimator;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.Schematic;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicBlockReplacer;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicLoader;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.sizeof.RamUsageEstimator;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;

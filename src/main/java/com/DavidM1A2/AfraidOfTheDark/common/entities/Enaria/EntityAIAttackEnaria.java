@@ -74,7 +74,7 @@ public class EntityAIAttackEnaria extends EntityAIBase
 			if (!this.enaria.getAnimationHandler().isAnimationActive("spell"))
 			{
 				this.enaria.getAnimationHandler().activateAnimation("spell", 0);
-				AfraidOfTheDark.getPacketHandler().sendToAllAround(new SyncAnimation("spell", this.enaria.getEntityId()), new TargetPoint(this.enaria.dimension, this.enaria.posX, this.enaria.posY, this.enaria.posZ, 100));
+				AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncAnimation("spell", this.enaria.getEntityId()), new TargetPoint(this.enaria.dimension, this.enaria.posX, this.enaria.posY, this.enaria.posZ, 100));
 			}
 		}
 		else if (this.attackTime % 40 == 0)
@@ -86,7 +86,7 @@ public class EntityAIAttackEnaria extends EntityAIBase
 				if (!this.enaria.getAnimationHandler().isAnimationActive("spell") && !this.enaria.getAnimationHandler().isAnimationActive("autoattack"))
 				{
 					this.enaria.getAnimationHandler().activateAnimation("autoattack", 0);
-					AfraidOfTheDark.getPacketHandler().sendToAllAround(new SyncAnimation("autoattack", this.enaria.getEntityId()), new TargetPoint(this.enaria.dimension, this.enaria.posX, this.enaria.posY, this.enaria.posZ, 100));
+					AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncAnimation("autoattack", this.enaria.getEntityId()), new TargetPoint(this.enaria.dimension, this.enaria.posX, this.enaria.posY, this.enaria.posZ, 100));
 				}
 			}
 		}

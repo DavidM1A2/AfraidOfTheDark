@@ -8,9 +8,9 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItemWithCooldownStatic;
-import com.DavidM1A2.AfraidOfTheDark.common.reference.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.UnitConverterUtility;
 
@@ -44,7 +44,7 @@ public class ItemStarMetalStaff extends AOTDItemWithCooldownStatic
 				if (!entityPlayer.capabilities.isCreativeMode)
 				{
 					entityPlayer.capabilities.disableDamage = true;
-					Constants.TIMER_FOR_DELAYS.schedule(new Runnable()
+					AfraidOfTheDark.instance.getDelayedExecutor().schedule(new Runnable()
 					{
 						@Override
 						public void run()
@@ -86,7 +86,8 @@ public class ItemStarMetalStaff extends AOTDItemWithCooldownStatic
 	 * @param player
 	 *            The Player using the item
 	 * @param count
-	 *            The amount of time in tick the item has been used for continuously
+	 *            The amount of time in tick the item has been used for
+	 *            continuously
 	 */
 	@Override
 	public void onUsingTick(final ItemStack stack, final EntityPlayer entityPlayer, int count)
@@ -111,10 +112,12 @@ public class ItemStarMetalStaff extends AOTDItemWithCooldownStatic
 	}
 
 	/**
-	 * Called when the player stops using an Item (stops holding the right mouse button).
+	 * Called when the player stops using an Item (stops holding the right mouse
+	 * button).
 	 *
 	 * @param timeLeft
-	 *            The amount of ticks left before the using would have been complete
+	 *            The amount of ticks left before the using would have been
+	 *            complete
 	 */
 	@Override
 	public void onPlayerStoppedUsing(final ItemStack stack, final World worldIn, final EntityPlayer entityPlayer, final int timeLeft)
@@ -158,10 +161,12 @@ public class ItemStarMetalStaff extends AOTDItemWithCooldownStatic
 	}
 
 	/**
-	 * allows items to add custom lines of information to the mouseover description
+	 * allows items to add custom lines of information to the mouseover
+	 * description
 	 *
 	 * @param tooltip
-	 *            All lines to display in the Item's tooltip. This is a List of Strings.
+	 *            All lines to display in the Item's tooltip. This is a List of
+	 *            Strings.
 	 * @param advanced
 	 *            Whether the setting "Advanced tooltips" is enabled
 	 */

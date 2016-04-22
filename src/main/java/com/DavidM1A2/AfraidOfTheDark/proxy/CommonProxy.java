@@ -30,21 +30,21 @@ public abstract class CommonProxy implements IProxy
 	@Override
 	public void registerChannel()
 	{
-		AfraidOfTheDark.getPacketHandler().registerBidiPacket(UpdateResearch.class, new UpdateResearch.Handler());
-		AfraidOfTheDark.getPacketHandler().registerBidiPacket(UpdateAOTDStatus.class, new UpdateAOTDStatus.Handler());
-		AfraidOfTheDark.getPacketHandler().registerPacket(UpdateInsanity.class, new UpdateInsanity.Handler(), Side.CLIENT);
-		AfraidOfTheDark.getPacketHandler().registerPacket(SpawnMeteor.class, new SpawnMeteor.Handler(), Side.SERVER);
-		AfraidOfTheDark.getPacketHandler().registerBidiPacket(UpdateVitae.class, new UpdateVitae.Handler());
-		AfraidOfTheDark.getPacketHandler().registerPacket(FireCrossbowBolt.class, new FireCrossbowBolt.Handler(), Side.SERVER);
-		AfraidOfTheDark.getPacketHandler().registerPacket(SyncAnimation.class, new SyncAnimation.Handler(), Side.CLIENT);
-		AfraidOfTheDark.getPacketHandler().registerPacket(SyncVoidChest.class, new SyncVoidChest.Handler(), Side.CLIENT);
-		AfraidOfTheDark.getPacketHandler().registerPacket(SyncFlaskOfSouls.class, new SyncFlaskOfSouls.Handler(), Side.CLIENT);
-		AfraidOfTheDark.getPacketHandler().registerPacket(SyncParticleFX.class, new SyncParticleFX.Handler(), Side.CLIENT);
-		AfraidOfTheDark.getPacketHandler().registerBidiPacket(SyncAOTDPlayerData.class, new SyncAOTDPlayerData.Handler());
-		AfraidOfTheDark.getPacketHandler().registerBidiPacket(SyncAOTDEntityData.class, new SyncAOTDEntityData.Handler());
-		AfraidOfTheDark.getPacketHandler().registerPacket(UpdateHasBeatenEnaria.class, new UpdateHasBeatenEnaria.Handler(), Side.CLIENT);
-		AfraidOfTheDark.getPacketHandler().registerPacket(SyncSelectedWristCrossbowBolt.class, new SyncSelectedWristCrossbowBolt.Handler(), Side.SERVER);
-		AfraidOfTheDark.getPacketHandler().registerPacket(SyncKeyPress.class, new SyncKeyPress.Handler(), Side.SERVER);
-		AfraidOfTheDark.getPacketHandler().registerBidiPacket(SyncSpellManager.class, new SyncSpellManager.Handler());
+		AfraidOfTheDark.instance.getPacketHandler().registerBidiPacket(UpdateResearch.class, new UpdateResearch.Handler());
+		AfraidOfTheDark.instance.getPacketHandler().registerBidiPacket(UpdateAOTDStatus.class, new UpdateAOTDStatus.Handler());
+		AfraidOfTheDark.instance.getPacketHandler().registerPacket(UpdateInsanity.class, new UpdateInsanity.Handler(), Side.CLIENT);
+		AfraidOfTheDark.instance.getPacketHandler().registerPacket(SpawnMeteor.class, new SpawnMeteor.Handler(), Side.SERVER);
+		AfraidOfTheDark.instance.getPacketHandler().registerBidiPacket(UpdateVitae.class, new UpdateVitae.Handler());
+		AfraidOfTheDark.instance.getPacketHandler().registerPacket(FireCrossbowBolt.class, new FireCrossbowBolt.Handler(), Side.SERVER);
+		AfraidOfTheDark.instance.getPacketHandler().registerPacket(SyncAnimation.class, new SyncAnimation.Handler(), Side.CLIENT);
+		AfraidOfTheDark.instance.getPacketHandler().registerPacket(SyncVoidChest.class, new SyncVoidChest.Handler(), Side.CLIENT);
+		AfraidOfTheDark.instance.getPacketHandler().registerPacket(SyncFlaskOfSouls.class, new SyncFlaskOfSouls.Handler(), Side.CLIENT);
+		AfraidOfTheDark.instance.getPacketHandler().registerPacket(SyncParticleFX.class, new SyncParticleFX.Handler(), Side.CLIENT);
+		AfraidOfTheDark.instance.getPacketHandler().registerBidiPacket(SyncAOTDPlayerData.class, new SyncAOTDPlayerData.Handler());
+		AfraidOfTheDark.instance.getPacketHandler().registerBidiPacket(SyncAOTDEntityData.class, new SyncAOTDEntityData.Handler());
+		AfraidOfTheDark.instance.getPacketHandler().registerPacket(UpdateHasBeatenEnaria.class, new UpdateHasBeatenEnaria.Handler(), Side.CLIENT);
+		AfraidOfTheDark.instance.getPacketHandler().registerPacket(SyncSelectedWristCrossbowBolt.class, new SyncSelectedWristCrossbowBolt.Handler(), Side.SERVER);
+		AfraidOfTheDark.instance.getPacketHandler().registerPacket(SyncKeyPress.class, new SyncKeyPress.Handler(), Side.SERVER);
+		AfraidOfTheDark.instance.getPacketHandler().registerBidiPacket(SyncSpellManager.class, new SyncSpellManager.Handler());
 	}
 }

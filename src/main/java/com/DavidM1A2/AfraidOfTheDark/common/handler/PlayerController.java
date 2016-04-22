@@ -7,6 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.handler;
 
 import java.util.concurrent.TimeUnit;
 
+import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare.NightmareTeleporter;
 import com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest.VoidChestTeleporter;
@@ -16,7 +17,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemFlaskOfSouls;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDimensions;
-import com.DavidM1A2.AfraidOfTheDark.common.reference.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.entityData.AOTDEntityData;
@@ -66,7 +66,7 @@ public class PlayerController
 
 			if (event.original.dimension == AOTDDimensions.Nightmare.getWorldID())
 			{
-				Constants.TIMER_FOR_DELAYS.schedule(new Runnable()
+				AfraidOfTheDark.instance.getDelayedExecutor().schedule(new Runnable()
 				{
 					@Override
 					public void run()
@@ -77,7 +77,7 @@ public class PlayerController
 			}
 			else if (event.original.dimension == AOTDDimensions.VoidChest.getWorldID())
 			{
-				Constants.TIMER_FOR_DELAYS.schedule(new Runnable()
+				AfraidOfTheDark.instance.getDelayedExecutor().schedule(new Runnable()
 				{
 					@Override
 					public void run()

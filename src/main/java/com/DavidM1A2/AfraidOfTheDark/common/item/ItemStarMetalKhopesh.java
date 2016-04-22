@@ -8,12 +8,12 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.ICanTakeSilverDamage;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDChargableSword;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDamageSources;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDToolMaterials;
-import com.DavidM1A2.AfraidOfTheDark.common.reference.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 
 import net.minecraft.enchantment.Enchantment;
@@ -39,10 +39,12 @@ public class ItemStarMetalKhopesh extends AOTDChargableSword
 	}
 
 	/**
-	 * allows items to add custom lines of information to the mouseover description
+	 * allows items to add custom lines of information to the mouseover
+	 * description
 	 *
 	 * @param tooltip
-	 *            All lines to display in the Item's tooltip. This is a List of Strings.
+	 *            All lines to display in the Item's tooltip. This is a List of
+	 *            Strings.
 	 * @param advanced
 	 *            Whether the setting "Advanced tooltips" is enabled
 	 */
@@ -120,7 +122,7 @@ public class ItemStarMetalKhopesh extends AOTDChargableSword
 		final int TIME_BETWEEN_ROTATIONS = 20;
 		for (int i = 0; i < 360 / DEGREES_PER_ROTATION; i++)
 		{
-			Constants.TIMER_FOR_DELAYS.schedule(new Runnable()
+			AfraidOfTheDark.instance.getDelayedExecutor().schedule(new Runnable()
 			{
 				@Override
 				public void run()

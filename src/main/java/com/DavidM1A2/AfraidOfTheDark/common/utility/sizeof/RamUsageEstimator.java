@@ -1,4 +1,4 @@
-package com.DavidM1A2.AfraidOfTheDark.common.refrence.sizeof;
+package com.DavidM1A2.AfraidOfTheDark.common.utility.sizeof;
 
 /**
  * Licensed to the Apache Software Foundation (ASF) under one or more

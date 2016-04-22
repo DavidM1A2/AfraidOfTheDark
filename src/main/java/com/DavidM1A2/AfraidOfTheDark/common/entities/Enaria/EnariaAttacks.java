@@ -55,8 +55,7 @@ public class EnariaAttacks
 		this.enaria = enaria;
 		this.random = random;
 
-		possibleEffects = new PotionEffect[]
-		{
+		possibleEffects = new PotionEffect[] {
 				// Slowness
 				new PotionEffect(Potion.moveSlowdown.getId(), 300, 0, false, true),
 				// Mining fatigue
@@ -100,7 +99,7 @@ public class EnariaAttacks
 
 			if (!entityPlayer.worldObj.isRemote)
 			{
-				AfraidOfTheDark.getPacketHandler().sendToAllAround(new SyncParticleFX(AOTDParticleFXTypes.EnariaBasicAttack, x, y, z), new TargetPoint(entityPlayer.dimension, x, y, z, 40));
+				AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncParticleFX(AOTDParticleFXTypes.EnariaBasicAttack, x, y, z), new TargetPoint(entityPlayer.dimension, x, y, z, 40));
 			}
 		}
 	}
@@ -111,8 +110,8 @@ public class EnariaAttacks
 		{
 			for (int i = 0; i < NUMBER_OF_PARTICLES_PER_TELEPORT; i++)
 			{
-				AfraidOfTheDark.getPacketHandler().sendToAllAround(new SyncParticleFX(AOTDParticleFXTypes.EnariaTeleport, this.enaria.getPosition().getX() + Math.random(), this.enaria.getPosition().getY() + .7 + Math.random(), this.enaria.getPosition().getZ() + Math.random()), new TargetPoint(
-						this.enaria.dimension, this.enaria.getPosition().getX() + Math.random(), this.enaria.getPosition().getY() + .7 + Math.random(), this.enaria.getPosition().getZ() + Math.random(), 40));
+				AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncParticleFX(AOTDParticleFXTypes.EnariaTeleport, this.enaria.getPosition().getX() + Math.random(), this.enaria.getPosition().getY() + .7 + Math.random(), this.enaria.getPosition().getZ() + Math.random()),
+						new TargetPoint(this.enaria.dimension, this.enaria.getPosition().getX() + Math.random(), this.enaria.getPosition().getY() + .7 + Math.random(), this.enaria.getPosition().getZ() + Math.random(), 40));
 			}
 
 			List entityList = this.enaria.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.enaria.getEntityBoundingBox().expand(TELEPORT_PLAYER_RANGE, TELEPORT_PLAYER_RANGE, TELEPORT_PLAYER_RANGE));

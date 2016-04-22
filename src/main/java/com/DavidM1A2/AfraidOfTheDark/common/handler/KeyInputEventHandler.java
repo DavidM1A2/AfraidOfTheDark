@@ -49,7 +49,7 @@ public class KeyInputEventHandler
 
 	private void spellKeyPressed()
 	{
-		AfraidOfTheDark.getPacketHandler().sendToServer(new SyncKeyPress(Keyboard.getEventCharacter(), Keyboard.getEventKey()));
+		AfraidOfTheDark.instance.getPacketHandler().sendToServer(new SyncKeyPress(Keyboard.getEventCharacter(), Keyboard.getEventKey()));
 	}
 
 	private void fireWristCrossbow()
@@ -71,7 +71,7 @@ public class KeyInputEventHandler
 							{
 								if (entityPlayer.inventory.hasItem(currentlySelected.getMyBoltItem()) || entityPlayer.capabilities.isCreativeMode)
 								{
-									AfraidOfTheDark.getPacketHandler().sendToServer(new FireCrossbowBolt(currentlySelected));
+									AfraidOfTheDark.instance.getPacketHandler().sendToServer(new FireCrossbowBolt(currentlySelected));
 									current.setOnCooldown();
 									break;
 								}

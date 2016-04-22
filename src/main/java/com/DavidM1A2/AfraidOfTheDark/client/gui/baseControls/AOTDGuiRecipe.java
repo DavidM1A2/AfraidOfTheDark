@@ -5,7 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls;
 
-import com.DavidM1A2.AfraidOfTheDark.common.recipe.ConvertedRecipe;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.recipe.ConvertedRecipe;
 
 public class AOTDGuiRecipe extends AOTDGuiPanel
 {

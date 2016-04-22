@@ -94,11 +94,11 @@ public class AOTDEntityData implements ICapabilitySerializable<NBTTagCompound>, 
 	{
 		if (this.isServerSide())
 		{
-			AfraidOfTheDark.getPacketHandler().sendToAll(new UpdateVitae(this.getVitaeLevel(), entity.getEntityId()));
+			AfraidOfTheDark.instance.getPacketHandler().sendToAll(new UpdateVitae(this.getVitaeLevel(), entity.getEntityId()));
 		}
 		else
 		{
-			AfraidOfTheDark.getPacketHandler().sendToServer(new UpdateVitae(this.getVitaeLevel(), entity.getEntityId()));
+			AfraidOfTheDark.instance.getPacketHandler().sendToServer(new UpdateVitae(this.getVitaeLevel(), entity.getEntityId()));
 		}
 	}
 
@@ -108,7 +108,7 @@ public class AOTDEntityData implements ICapabilitySerializable<NBTTagCompound>, 
 		{
 			if (entity instanceof EntityPlayer)
 			{
-				AfraidOfTheDark.getPacketHandler().sendTo(new SyncAOTDEntityData(this), (EntityPlayerMP) this.entity);
+				AfraidOfTheDark.instance.getPacketHandler().sendTo(new SyncAOTDEntityData(this), (EntityPlayerMP) this.entity);
 			}
 		}
 	}
@@ -117,7 +117,7 @@ public class AOTDEntityData implements ICapabilitySerializable<NBTTagCompound>, 
 	{
 		if (!this.isServerSide())
 		{
-			AfraidOfTheDark.getPacketHandler().sendToServer(new SyncAOTDPlayerData());
+			AfraidOfTheDark.instance.getPacketHandler().sendToServer(new SyncAOTDPlayerData());
 		}
 	}
 }
