@@ -13,6 +13,8 @@ import net.minecraft.world.World;
 
 public class Heal extends Effect
 {
+	private int healAmount = 8;
+
 	@Override
 	public int getCost()
 	{
@@ -29,13 +31,30 @@ public class Heal extends Effect
 	public void performEffect(Entity entity)
 	{
 		if (entity instanceof EntityLivingBase)
-			((EntityLivingBase) entity).heal(8);
+			((EntityLivingBase) entity).heal(this.healAmount);
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound compound)
 	{
+		this.setHealAmount(compound.getInteger("healAmount"));
+	}
 
+	@Override
+	public void writeToNBT(NBTTagCompound compound)
+	{
+		super.writeToNBT(compound);
+		compound.setInteger("healAmount", this.getHealAmount());
+	}
+
+	public void setHealAmount(int healAmount)
+	{
+		this.healAmount = healAmount;
+	}
+
+	public int getHealAmount()
+	{
+		return this.healAmount;
 	}
 
 	@Override

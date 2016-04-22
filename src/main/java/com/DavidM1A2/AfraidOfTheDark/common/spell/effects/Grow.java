@@ -24,39 +24,34 @@ public class Grow extends Effect
 	@Override
 	public void performEffect(BlockPos location, World world)
 	{
-		location = location.offset(EnumFacing.DOWN);
-		for (int i = 0; i < 3; i++)
-		{
-			IBlockState current = world.getBlockState(location);
-			if (current.getBlock() instanceof IGrowable)
-			{
-				IGrowable igrowable = (IGrowable) current.getBlock();
-
-				if (igrowable.canGrow(world, location, current, world.isRemote))
-				{
-					if (!world.isRemote)
-					{
-						if (igrowable.canUseBonemeal(world, world.rand, location, current))
-						{
-							for (int j = 0; j < 5; j++)
-							{
-								igrowable.grow(world, world.rand, location, current);
-								if (!(world.getBlockState(location).getBlock() instanceof IGrowable))
-									break;
-							}
-						}
-					}
-				}
-			}
-			location = location.offset(EnumFacing.UP);
-		}
+		bonemealLocation(world, location, 5);
+		for (EnumFacing facing : EnumFacing.VALUES)
+			bonemealLocation(world, location.offset(facing), 5);
 	}
 
 	@Override
 	public void performEffect(Entity entity)
 	{
+		if (entity.motionY > .2)
+			return;
 		entity.motionY = entity.motionY + 0.1;
 		return;
+	}
+
+	private boolean bonemealLocation(World world, BlockPos location, int numberOfBonemeals)
+	{
+		IBlockState current = world.getBlockState(location);
+		if (current.getBlock() instanceof IGrowable)
+		{
+			IGrowable igrowable = (IGrowable) current.getBlock();
+			if (!world.isRemote)
+				for (int j = 0; j < numberOfBonemeals; j++)
+					if (igrowable.canGrow(world, location, current, world.isRemote))
+						igrowable.grow(world, world.rand, location, current);
+			return true;
+		}
+		return false;
+
 	}
 
 	@Override
