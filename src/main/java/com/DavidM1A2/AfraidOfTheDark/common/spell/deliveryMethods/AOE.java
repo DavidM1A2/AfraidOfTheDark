@@ -9,11 +9,11 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.myself.EntityMyself;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.projectile.EntitySpellProjectile;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.Point3D;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 
 public class AOE extends DeliveryMethod
 {
@@ -36,18 +36,18 @@ public class AOE extends DeliveryMethod
 		if (previous instanceof EntityAOE)
 		{
 			return new EntitySpell[]
-			{ new EntityAOE(previous.worldObj, spellSource, spellStageIndex, ((EntityAOE) previous).getSize() + 5.0, new Point3D(previous)) };
+			{ new EntityAOE(previous.worldObj, spellSource, spellStageIndex, ((EntityAOE) previous).getSize() + 5.0, new BlockPos(previous)) };
 		}
 		else if (previous instanceof EntitySpellProjectile)
 		{
 			return new EntitySpell[]
-			{ new EntityAOE(previous.worldObj, spellSource, spellStageIndex, 5.0, new Point3D(previous)) };
+			{ new EntityAOE(previous.worldObj, spellSource, spellStageIndex, 5.0, new BlockPos(previous)) };
 		}
 		else if (previous instanceof EntityMyself)
 		{
 			EntityLivingBase target = ((EntityMyself) previous).getTarget();
 			return new EntitySpell[]
-			{ new EntityAOE(previous.worldObj, spellSource, spellStageIndex, 10.0, new Point3D(target)) };
+			{ new EntityAOE(previous.worldObj, spellSource, spellStageIndex, 10.0, new BlockPos(target)) };
 		}
 		else
 		{
@@ -65,7 +65,7 @@ public class AOE extends DeliveryMethod
 		if (spellOwner != null)
 		{
 			return new EntitySpell[]
-			{ new EntityAOE(spellOwner.worldObj, callbackClone, 0, 5, new Point3D(spellOwner)) };
+			{ new EntityAOE(spellOwner.worldObj, callbackClone, 0, 5, new BlockPos(spellOwner)) };
 		}
 		else
 		{

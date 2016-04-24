@@ -6,12 +6,12 @@ import java.util.List;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.EntitySpell;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.Point3D;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class EntityAOE extends EntitySpell
@@ -24,7 +24,7 @@ public class EntityAOE extends EntitySpell
 		super(world);
 	}
 
-	public EntityAOE(World world, Spell callback, int spellStageIndex, double size, Point3D location)
+	public EntityAOE(World world, Spell callback, int spellStageIndex, double size, BlockPos location)
 	{
 		super(world, callback, spellStageIndex);
 		this.size = size;
@@ -44,15 +44,17 @@ public class EntityAOE extends EntitySpell
 					this.performEffect(entityLivingBase);
 				}
 			}
-			// If not enough entties (5) are affected, perform the affect in
+			// If not enough entities (5) are affected, perform the affect in
 			// random locations around the AOE.
-			for (int i = 0; i < 5 - this.affectedEntities.size(); i++)
+			this.performEffect(this.getPosition());
+			for (int i = this.size > 5 ? 5 : 3; i < ((int) Math.round(this.size)); i = i + 5)
 			{
-				double x = this.posX - this.size + this.rand.nextDouble() * this.size * 2;
-				double y = this.posY - this.size + this.rand.nextDouble() * this.size * 2;
-				double z = this.posZ - this.size + this.rand.nextDouble() * this.size * 2;
-
-				this.performEffect(new BlockPos(x, y, z));
+				for (EnumFacing facing : EnumFacing.VALUES)
+				{
+					this.performEffect(this.getPosition().offset(facing, i));
+					if (facing != EnumFacing.DOWN && facing != EnumFacing.UP)
+						this.performEffect(this.getPosition().offset(facing, i).offset(facing.rotateY(), i));
+				}
 			}
 			this.spellStageComplete();
 			this.setDead();

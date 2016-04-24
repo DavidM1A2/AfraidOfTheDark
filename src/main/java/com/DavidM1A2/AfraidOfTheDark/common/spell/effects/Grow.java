@@ -10,7 +10,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class Grow extends Effect
@@ -24,9 +23,10 @@ public class Grow extends Effect
 	@Override
 	public void performEffect(BlockPos location, World world)
 	{
-		bonemealLocation(world, location, 5);
-		for (EnumFacing facing : EnumFacing.VALUES)
-			bonemealLocation(world, location.offset(facing), 5);
+		for (int x = -2; x < 3; x++)
+			for (int y = -2; y < 1; y++)
+				for (int z = -2; z < 3; z++)
+					growLocation(world, location.add(x, y, z));
 	}
 
 	@Override
@@ -38,16 +38,15 @@ public class Grow extends Effect
 		return;
 	}
 
-	private boolean bonemealLocation(World world, BlockPos location, int numberOfBonemeals)
+	private boolean growLocation(World world, BlockPos location)
 	{
 		IBlockState current = world.getBlockState(location);
 		if (current.getBlock() instanceof IGrowable)
 		{
 			IGrowable igrowable = (IGrowable) current.getBlock();
 			if (!world.isRemote)
-				for (int j = 0; j < numberOfBonemeals; j++)
-					if (igrowable.canGrow(world, location, current, world.isRemote))
-						igrowable.grow(world, world.rand, location, current);
+				if (igrowable.canGrow(world, location, current, world.isRemote))
+					igrowable.grow(world, world.rand, location, current);
 			return true;
 		}
 		return false;

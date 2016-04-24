@@ -33,6 +33,14 @@ public enum Effects implements ISpellComponentEnum
 		{
 			return new Heal();
 		}
+	},
+	Burn(4, new EffectAffinity(.2, .3, 0, .1), "afraidofthedark:textures/gui/spellCrafting/effects/burn.png")
+	{
+		@Override
+		public Effect newInstance()
+		{
+			return new Burn();
+		}
 	};
 
 	private int id;
