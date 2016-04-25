@@ -57,6 +57,14 @@ public enum Effects implements ISpellComponentEnum
 		{
 			return new Freeze();
 		}
+	},
+	EnderPocket(7, new EffectAffinity(.1, 0, 0, 0), "enderPocket.png")
+	{
+		@Override
+		public Effect newInstance()
+		{
+			return new EnderPocket();
+		}
 	};
 
 	private int id;
@@ -84,7 +92,14 @@ public enum Effects implements ISpellComponentEnum
 	@Override
 	public String getName()
 	{
-		return this.toString();
+		String toReturn = "";
+
+		for (final String string : this.toString().split("(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])"))
+		{
+			toReturn = toReturn + string + " ";
+		}
+
+		return toReturn;
 	}
 
 	public EffectAffinity getAffinity()

@@ -32,7 +32,7 @@ public class Freeze extends Effect
 	{
 		if (entity instanceof EntityLivingBase)
 		{
-			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(), 20, 3, false, false));
+			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(), 40, 3, false, false));
 		}
 		VitaeUtils.vitaeReleasedFX(entity.worldObj, entity.getPosition(), 1, 5);
 		double radius = entity.getEntityBoundingBox().maxX - entity.getEntityBoundingBox().minX;
@@ -74,5 +74,4 @@ public class Freeze extends Effect
 	{
 		return Effects.Freeze;
 	}
-
 }
