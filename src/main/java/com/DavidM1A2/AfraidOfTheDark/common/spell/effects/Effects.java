@@ -49,6 +49,14 @@ public enum Effects implements ISpellComponentEnum
 		{
 			return new Dig();
 		}
+	},
+	Freeze(6, new EffectAffinity(.4, 0, 0, 0), "freeze.png")
+	{
+		@Override
+		public Effect newInstance()
+		{
+			return new Freeze();
+		}
 	};
 
 	private int id;
