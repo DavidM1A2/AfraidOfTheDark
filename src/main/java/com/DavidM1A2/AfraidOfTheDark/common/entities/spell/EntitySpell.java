@@ -107,13 +107,13 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 		this.spellStageComplete();
 	}
 
-	public void performEffect(BlockPos location)
+	public void performEffect(BlockPos location, double radius)
 	{
 		if (!this.worldObj.isRemote)
 			if (this.getSpellSource() != null)
 				for (IEffect effect : this.getSpellSource().getSpellStageByIndex(this.getSpellStageIndex()).getEffects())
 				{
-					effect.performEffect(location, this.worldObj);
+					effect.performEffect(location, this.worldObj, radius);
 				}
 			else
 				LogHelper.error("Attempted to execute a spell that does not exist.");

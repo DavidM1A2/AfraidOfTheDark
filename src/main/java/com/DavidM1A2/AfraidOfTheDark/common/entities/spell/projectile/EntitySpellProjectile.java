@@ -13,6 +13,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.EntitySpell;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockAir;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -160,7 +161,10 @@ public class EntitySpellProjectile extends EntitySpell
 		switch (movingObjectPosition.typeOfHit)
 		{
 			case BLOCK:
-				this.performEffect(new BlockPos(movingObjectPosition.hitVec));
+				BlockPos hit = new BlockPos(movingObjectPosition.hitVec);
+				if (this.worldObj.getBlockState(hit).getBlock() instanceof BlockAir)
+					hit = hit.offset(movingObjectPosition.sideHit.getOpposite());
+				this.performEffect(hit, 1);
 				break;
 			case ENTITY:
 				if (movingObjectPosition.entityHit instanceof EntityLivingBase)

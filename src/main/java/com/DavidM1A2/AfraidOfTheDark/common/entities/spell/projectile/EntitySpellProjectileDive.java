@@ -64,7 +64,7 @@ public class EntitySpellProjectileDive extends EntitySpellProjectile
 			}
 			else
 			{
-				this.performEffect(this.getPosition());
+				this.performEffect(this.getPosition(), 1);
 				this.spellStageComplete();
 				this.setDead();
 			}

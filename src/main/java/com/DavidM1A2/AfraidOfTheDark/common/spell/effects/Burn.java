@@ -5,6 +5,8 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.spell.effects;
 
+import com.DavidM1A2.AfraidOfTheDark.common.utility.VitaeUtils;
+
 import net.minecraft.block.BlockAir;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
@@ -19,23 +21,28 @@ public class Burn extends Effect
 	@Override
 	public int getCost()
 	{
-		return 0;
+		return 5;
 	}
 
 	@Override
-	public void performEffect(BlockPos location, World world)
+	public void performEffect(BlockPos location, World world, double radius)
 	{
-		for (int x = -2; x < 3; x++)
-			for (int y = -2; y < 1; y++)
-				for (int z = -2; z < 3; z++)
+		int blockRadius = (int) Math.floor(radius);
+		for (int x = -blockRadius; x < blockRadius + 1; x++)
+			for (int y = -1; y < 2; y++)
+				for (int z = -blockRadius; z < blockRadius + 1; z++)
 					if (world.getBlockState(location.add(x, y, z)).getBlock() instanceof BlockAir)
+					{
 						world.setBlockState(location.add(x, y, z), Blocks.fire.getDefaultState());
+						VitaeUtils.vitaeReleasedFX(world, location.add(x, y, z), 1, 1);
+					}
 	}
 
 	@Override
 	public void performEffect(Entity entity)
 	{
 		entity.setFire(burnTimeSeconds);
+		VitaeUtils.vitaeReleasedFX(entity.worldObj, entity.getPosition(), 1, 5);
 	}
 
 	@Override

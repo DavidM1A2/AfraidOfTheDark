@@ -11,7 +11,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class EntityAOE extends EntitySpell
@@ -44,18 +43,7 @@ public class EntityAOE extends EntitySpell
 					this.performEffect(entityLivingBase);
 				}
 			}
-			// If not enough entities (5) are affected, perform the affect in
-			// random locations around the AOE.
-			this.performEffect(this.getPosition());
-			for (int i = this.size > 5 ? 5 : 3; i < ((int) Math.round(this.size)); i = i + 5)
-			{
-				for (EnumFacing facing : EnumFacing.VALUES)
-				{
-					this.performEffect(this.getPosition().offset(facing, i));
-					if (facing != EnumFacing.DOWN && facing != EnumFacing.UP)
-						this.performEffect(this.getPosition().offset(facing, i).offset(facing.rotateY(), i));
-				}
-			}
+			this.performEffect(this.getPosition(), this.size);
 			this.spellStageComplete();
 			this.setDead();
 		}

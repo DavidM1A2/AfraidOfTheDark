@@ -5,6 +5,8 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.spell.effects;
 
+import com.DavidM1A2.AfraidOfTheDark.common.utility.VitaeUtils;
+
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -17,25 +19,26 @@ public class Grow extends Effect
 	@Override
 	public int getCost()
 	{
-		return 0;
+		return 7;
 	}
 
 	@Override
-	public void performEffect(BlockPos location, World world)
+	public void performEffect(BlockPos location, World world, double radius)
 	{
-		for (int x = -2; x < 3; x++)
+		int blockRadius = (int) Math.floor(radius);
+		if (blockRadius < 0)
+			blockRadius = 0;
+		for (int x = -blockRadius; x < blockRadius + 1; x++)
 			for (int y = -2; y < 1; y++)
-				for (int z = -2; z < 3; z++)
+				for (int z = -blockRadius; z < blockRadius + 1; z++)
 					growLocation(world, location.add(x, y, z));
 	}
 
 	@Override
 	public void performEffect(Entity entity)
 	{
-		if (entity.motionY > .2)
-			return;
-		entity.motionY = entity.motionY + 0.1;
-		return;
+		if (entity.motionY < .2)
+			entity.motionY = entity.motionY + 0.4;
 	}
 
 	private boolean growLocation(World world, BlockPos location)
@@ -46,7 +49,10 @@ public class Grow extends Effect
 			IGrowable igrowable = (IGrowable) current.getBlock();
 			if (!world.isRemote)
 				if (igrowable.canGrow(world, location, current, world.isRemote))
+				{
 					igrowable.grow(world, world.rand, location, current);
+					VitaeUtils.vitaeReleasedFX(world, location, .4, 2);
+				}
 			return true;
 		}
 		return false;

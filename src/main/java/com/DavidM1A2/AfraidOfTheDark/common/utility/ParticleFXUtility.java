@@ -4,6 +4,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.utility;
 import com.DavidM1A2.AfraidOfTheDark.client.particleFX.AOTDParticleFX;
 import com.DavidM1A2.AfraidOfTheDark.client.particleFX.EnariaBasicAttack;
 import com.DavidM1A2.AfraidOfTheDark.client.particleFX.EnariaTeleport;
+import com.DavidM1A2.AfraidOfTheDark.client.particleFX.VitaeReleased;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDParticleFXTypes;
 
 import net.minecraft.client.Minecraft;
@@ -24,6 +25,9 @@ public class ParticleFXUtility
 					break;
 				case EnariaTeleport:
 					particleFX = new EnariaTeleport(world, x, y, z, 0, 0, 0);
+					break;
+				case VitaeReleased:
+					particleFX = new VitaeReleased(world, x, y, z, 0, 0, 0);
 					break;
 				default:
 					break;

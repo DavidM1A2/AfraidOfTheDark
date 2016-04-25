@@ -11,7 +11,7 @@ public interface IEffect extends ISpellComponent
 {
 	public abstract int getCost();
 
-	public abstract void performEffect(BlockPos location, World world);
+	public abstract void performEffect(BlockPos location, World world, double radius);
 
 	public abstract void performEffect(Entity entity);
 

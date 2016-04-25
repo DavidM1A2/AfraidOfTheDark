@@ -10,7 +10,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.spell.ISpellComponentEnum;
 
 public enum Effects implements ISpellComponentEnum
 {
-	Explosion(1, new EffectAffinity(0, .2, 0, 0), "afraidofthedark:textures/gui/spellCrafting/effects/explosion.png")
+	Explosion(1, new EffectAffinity(0, .2, 0, 0), "explosion.png")
 	{
 		@Override
 		public Effect newInstance()
@@ -18,7 +18,7 @@ public enum Effects implements ISpellComponentEnum
 			return new Explosion();
 		}
 	},
-	Grow(2, new EffectAffinity(0, 0, .2, 0), "afraidofthedark:textures/gui/spellCrafting/effects/grow.png")
+	Grow(2, new EffectAffinity(0, 0, .2, 0), "grow.png")
 	{
 		@Override
 		public Effect newInstance()
@@ -26,7 +26,7 @@ public enum Effects implements ISpellComponentEnum
 			return new Grow();
 		}
 	},
-	Heal(3, new EffectAffinity(.1, 0, .1, 0), "afraidofthedark:textures/gui/spellCrafting/effects/heal.png")
+	Heal(3, new EffectAffinity(.1, 0, .1, 0), "heal.png")
 	{
 		@Override
 		public Effect newInstance()
@@ -34,12 +34,20 @@ public enum Effects implements ISpellComponentEnum
 			return new Heal();
 		}
 	},
-	Burn(4, new EffectAffinity(.2, .3, 0, .1), "afraidofthedark:textures/gui/spellCrafting/effects/burn.png")
+	Burn(4, new EffectAffinity(.2, .3, 0, .1), "burn.png")
 	{
 		@Override
 		public Effect newInstance()
 		{
 			return new Burn();
+		}
+	},
+	Dig(5, new EffectAffinity(.1, 0, 0, .3), "dig.png")
+	{
+		@Override
+		public Effect newInstance()
+		{
+			return new Dig();
 		}
 	};
 
@@ -50,7 +58,7 @@ public enum Effects implements ISpellComponentEnum
 	private Effects(int id, EffectAffinity effectAffinity, String iconTexture)
 	{
 		this.id = id;
-		this.iconTexture = iconTexture;
+		this.iconTexture = "afraidofthedark:textures/gui/spellCrafting/effects/" + iconTexture;
 		this.effectAffinity = effectAffinity;
 	}
 

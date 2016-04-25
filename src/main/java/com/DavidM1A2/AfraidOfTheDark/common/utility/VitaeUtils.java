@@ -6,12 +6,24 @@
 package com.DavidM1A2.AfraidOfTheDark.common.utility;
 
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemVitaeLantern;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDParticleFXTypes;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.World;
 
 public class VitaeUtils
 {
+	public static void vitaeReleasedFX(World world, BlockPos location, double radius, int numberOfParticles)
+	{
+		for (int i = 0; i < numberOfParticles; i++)
+		{
+			BlockPos particleLocation = location.add((world.rand.nextDouble() - 0.5) * radius * 2, (world.rand.nextDouble() - 0.5) * radius * 2, (world.rand.nextDouble() - 0.5) * radius * 2);
+			ParticleFXUtility.generateParticles(world, particleLocation.getX() + world.rand.nextDouble(), particleLocation.getY() + world.rand.nextDouble(), particleLocation.getZ() + world.rand.nextDouble(), AOTDParticleFXTypes.VitaeReleased);
+		}
+	}
+
 	public static double getVitaeSumOfAllLanterns(EntityPlayer entityPlayer)
 	{
 		double totalLanternVitae = 0;

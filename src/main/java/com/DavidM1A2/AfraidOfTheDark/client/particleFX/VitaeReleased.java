@@ -1,32 +1,23 @@
-/*
- * Author: David Slovikosky
- * Mod: Afraid of the Dark
- * Ideas and Textures: Michael Albertson
- */
-
 package com.DavidM1A2.AfraidOfTheDark.client.particleFX;
 
 import net.minecraft.world.World;
 
-public class EnariaBasicAttack extends AOTDParticleFX
+public class VitaeReleased extends AOTDParticleFX
 {
-	public EnariaBasicAttack(World world, double lastTickPosX, double lastTickPosY, double lastTickPosZ, double motionX, double motionY, double motionZ)
+	public VitaeReleased(World world, double lastTickPosX, double lastTickPosY, double lastTickPosZ, double motionX, double motionY, double motionZ)
 	{
 		super(world, lastTickPosX, lastTickPosY, lastTickPosZ, motionX, motionY, motionZ);
-		this.motionX = 0;
-		this.motionY = 0;
-		this.motionZ = 0;
+		this.motionX = (this.rand.nextDouble() - 0.5) / 100D;
+		this.motionY = (this.rand.nextDouble() - 0.5) / 100D;
+		this.motionZ = (this.rand.nextDouble() - 0.5) / 100D;
 	}
 
 	@Override
 	public int getTextureIndex()
 	{
-		return 1;
+		return 2;
 	}
 
-	/**
-	 * Called to update the entity's position/logic.
-	 */
 	@Override
 	public void onUpdate()
 	{
@@ -39,9 +30,10 @@ public class EnariaBasicAttack extends AOTDParticleFX
 			this.setDead();
 		}
 
-		this.motionY = this.motionY - 0.005f;
 		this.moveEntity(this.motionX, this.motionY, this.motionZ);
-		this.motionY = this.motionY * 0.9800000190734863D;
+		this.motionX *= 0.9800000190734863D;
+		this.motionY *= 0.9800000190734863D;
+		this.motionZ *= 0.9800000190734863D;
 
 		if (this.onGround)
 		{
