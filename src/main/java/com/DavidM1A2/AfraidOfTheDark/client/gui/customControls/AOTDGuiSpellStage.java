@@ -13,7 +13,6 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiImage;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens.SpellCraftingGUI;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.ISpellComponentEnum;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellStage;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.deliveryMethods.DeliveryMethods;
@@ -32,9 +31,9 @@ public class AOTDGuiSpellStage extends AOTDGuiPanel
 	private AOTDGuiSpellEffect effect2;
 	private AOTDGuiSpellEffect effect3;
 	private AOTDGuiSpellEffect effect4;
-	private SpellCraftingGUI parent;
+	private AOTDGuiSpellTablet parent;
 
-	public AOTDGuiSpellStage(int x, int y, int width, int height, boolean scissorEnabled, SpellStage spellStage, SpellCraftingGUI parent)
+	public AOTDGuiSpellStage(int x, int y, int width, int height, boolean scissorEnabled, SpellStage spellStage, AOTDGuiSpellTablet parent)
 	{
 		super(x, y, width, height, scissorEnabled);
 

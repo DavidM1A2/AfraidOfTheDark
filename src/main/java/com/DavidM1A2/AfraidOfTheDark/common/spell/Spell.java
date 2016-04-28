@@ -95,7 +95,7 @@ public class Spell implements Serializable
 				for (EntitySpell entitySpell : this.spellStages[0].getDeliveryMethod().createSpellEntity(this))
 					entityPlayer.worldObj.spawnEntityInWorld(entitySpell);
 			else if (!this.isSpellValid())
-				entityPlayer.addChatMessage(new ChatComponentText("Invalid spell. Make sure to have delivery methods and a power source on your spell!"));
+				entityPlayer.addChatMessage(new ChatComponentText("Invalid spell. Make sure to have delivery methods on each spell stage and a power source!"));
 			else
 				entityPlayer.addChatMessage(new ChatComponentText(this.powerSource.notEnoughEnergyMsg()));
 		}

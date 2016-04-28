@@ -9,7 +9,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.spell.ISpellComponentEnum;
 
 public enum PowerSources implements ISpellComponentEnum
 {
-	Self(1, "afraidofthedark:textures/gui/spellCrafting/powerSources/self.png")
+	Self(1, "self.png")
 	{
 		@Override
 		public PowerSource newInstance()
@@ -17,7 +17,7 @@ public enum PowerSources implements ISpellComponentEnum
 			return new Self();
 		}
 	},
-	VitaeLantern(2, "afraidofthedark:textures/gui/spellCrafting/powerSources/vitaeLantern.png")
+	VitaeLantern(2, "vitaeLantern.png")
 	{
 		@Override
 		public PowerSource newInstance()
@@ -25,12 +25,20 @@ public enum PowerSources implements ISpellComponentEnum
 			return new VitaeLantern();
 		}
 	},
-	Creative(3, "afraidofthedark:textures/gui/spellCrafting/powerSources/creative.png")
+	Creative(3, "creative.png")
 	{
 		@Override
 		public PowerSource newInstance()
 		{
 			return new Creative();
+		}
+	},
+	Experience(4, "experience.png")
+	{
+		@Override
+		public PowerSource newInstance()
+		{
+			return new Experience();
 		}
 	};
 
@@ -40,7 +48,7 @@ public enum PowerSources implements ISpellComponentEnum
 	private PowerSources(int id, String textureLocation)
 	{
 		this.id = id;
-		this.textureLocation = textureLocation;
+		this.textureLocation = "afraidofthedark:textures/gui/spellCrafting/powerSources/" + textureLocation;
 	}
 
 	public int getID()
