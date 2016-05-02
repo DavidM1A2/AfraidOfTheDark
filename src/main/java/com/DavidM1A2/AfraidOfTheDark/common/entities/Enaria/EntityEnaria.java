@@ -59,7 +59,7 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 
 		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
 
-		enariaAttacks = new EnariaAttacks(this, this.rand);
+		this.enariaAttacks = new EnariaAttacks(this, this.rand);
 	}
 
 	@Override

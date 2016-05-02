@@ -129,7 +129,8 @@ public abstract class AOTDChargableSword extends AOTDSword
 		}
 		else
 		{
-			entityPlayer.addChatMessage(new ChatComponentText("I'll need more energy to perform the ability."));
+			if (!world.isRemote)
+				entityPlayer.addChatMessage(new ChatComponentText("I'll need more energy to perform the ability."));
 		}
 
 		return itemStack;

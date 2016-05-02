@@ -19,26 +19,10 @@ public class VitaeReleased extends AOTDParticleFX
 	}
 
 	@Override
-	public void onUpdate()
+	public void updateMotionXYZ()
 	{
-		this.prevPosX = this.posX;
-		this.prevPosY = this.posY;
-		this.prevPosZ = this.posZ;
-
-		if (this.particleAge++ >= this.particleMaxAge)
-		{
-			this.setDead();
-		}
-
-		this.moveEntity(this.motionX, this.motionY, this.motionZ);
 		this.motionX *= 0.9800000190734863D;
 		this.motionY *= 0.9800000190734863D;
 		this.motionZ *= 0.9800000190734863D;
-
-		if (this.onGround)
-		{
-			this.motionX *= 0.699999988079071D;
-			this.motionZ *= 0.699999988079071D;
-		}
 	}
 }

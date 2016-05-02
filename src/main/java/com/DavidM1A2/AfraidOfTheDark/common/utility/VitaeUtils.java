@@ -20,7 +20,7 @@ public class VitaeUtils
 		for (int i = 0; i < numberOfParticles; i++)
 		{
 			BlockPos particleLocation = location.add((world.rand.nextDouble() - 0.5) * radius * 2, (world.rand.nextDouble() - 0.5) * radius * 2, (world.rand.nextDouble() - 0.5) * radius * 2);
-			ParticleFXUtility.generateParticles(world, particleLocation.getX() + world.rand.nextDouble(), particleLocation.getY() + world.rand.nextDouble(), particleLocation.getZ() + world.rand.nextDouble(), AOTDParticleFXTypes.VitaeReleased);
+			AOTDParticleFXTypes.VitaeReleased.instantiate(world, particleLocation.getX() + world.rand.nextDouble(), particleLocation.getY() + world.rand.nextDouble(), particleLocation.getZ() + world.rand.nextDouble(), 0, 0, 0);
 		}
 	}
 

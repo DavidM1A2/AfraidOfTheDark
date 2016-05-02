@@ -24,29 +24,10 @@ public class EnariaBasicAttack extends AOTDParticleFX
 		return 1;
 	}
 
-	/**
-	 * Called to update the entity's position/logic.
-	 */
 	@Override
-	public void onUpdate()
+	public void updateMotionXYZ()
 	{
-		this.prevPosX = this.posX;
-		this.prevPosY = this.posY;
-		this.prevPosZ = this.posZ;
-
-		if (this.particleAge++ >= this.particleMaxAge)
-		{
-			this.setDead();
-		}
-
 		this.motionY = this.motionY - 0.005f;
-		this.moveEntity(this.motionX, this.motionY, this.motionZ);
 		this.motionY = this.motionY * 0.9800000190734863D;
-
-		if (this.onGround)
-		{
-			this.motionX *= 0.699999988079071D;
-			this.motionZ *= 0.699999988079071D;
-		}
 	}
 }

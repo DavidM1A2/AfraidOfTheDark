@@ -45,7 +45,7 @@ public class SpellSelectionGUI extends AOTDGuiScreen
 			this.addSpellContainer(spell);
 		}
 
-		AOTDGuiImage newSpell = new AOTDGuiImage(62, 218, 25, 25, "afraidofthedark:textures/gui/spellCrafting/createSpell.png");
+		AOTDGuiImage newSpell = new AOTDGuiImage(33, 222, 84, 22, "afraidofthedark:textures/gui/spellCrafting/createSpell.png");
 		newSpell.setHoverText("Create a new spell");
 		newSpell.addMouseListener(new AOTDMouseListener()
 		{

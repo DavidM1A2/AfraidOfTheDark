@@ -8,7 +8,6 @@ package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
 import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDParticleFXTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.ParticleFXUtility;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -68,7 +67,7 @@ public class SyncParticleFX implements IMessage
 				@Override
 				public void run()
 				{
-					ParticleFXUtility.generateParticles(entityPlayer.worldObj, msg.x, msg.y, msg.z, msg.particle);
+					msg.particle.instantiate(entityPlayer.worldObj, msg.x, msg.y, msg.z, 0, 0, 0);
 				}
 			});
 

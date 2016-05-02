@@ -1,6 +1,8 @@
 package com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation;
 
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
@@ -13,15 +15,14 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 
 public class AnimTickHandler
 {
-	private CopyOnWriteArrayList<IMCAnimatedEntity> activeEntities = new CopyOnWriteArrayList<IMCAnimatedEntity>();
-	private CopyOnWriteArrayList<IMCAnimatedEntity> removableEntities = new CopyOnWriteArrayList<IMCAnimatedEntity>();
+	private List<IMCAnimatedEntity> activeEntities = new ArrayList<IMCAnimatedEntity>();
 
 	public AnimTickHandler()
 	{
 		FMLCommonHandler.instance().bus().register(this);
 	}
 
-	public void addEntity(IMCAnimatedEntity entity)
+	public synchronized void addEntity(IMCAnimatedEntity entity)
 	{
 		if (ConfigurationHandler.enableAOTDAnimations)
 			activeEntities.add(entity);
@@ -35,21 +36,16 @@ public class AnimTickHandler
 		{
 			if (event.phase == Phase.START)
 			{
-				for (IMCAnimatedEntity entity : activeEntities)
+				Iterator<IMCAnimatedEntity> entities = this.activeEntities.iterator();
+				while (entities.hasNext())
 				{
+					IMCAnimatedEntity entity = entities.next();
+
 					entity.getAnimationHandler().animationsUpdate();
 
 					if (((Entity) entity).isDead)
-					{
-						removableEntities.add(entity);
-					}
+						entities.remove();
 				}
-
-				for (IMCAnimatedEntity entity : removableEntities)
-				{
-					activeEntities.remove(entity);
-				}
-				removableEntities.clear();
 			}
 		}
 	}
@@ -62,21 +58,16 @@ public class AnimTickHandler
 		{
 			if (event.phase == Phase.START)
 			{
-				for (IMCAnimatedEntity entity : activeEntities)
+				Iterator<IMCAnimatedEntity> entities = this.activeEntities.iterator();
+				while (entities.hasNext())
 				{
+					IMCAnimatedEntity entity = entities.next();
+
 					entity.getAnimationHandler().animationsUpdate();
 
 					if (((Entity) entity).isDead)
-					{
-						removableEntities.add(entity);
-					}
+						entities.remove();
 				}
-
-				for (IMCAnimatedEntity entity : removableEntities)
-				{
-					activeEntities.remove(entity);
-				}
-				removableEntities.clear();
 			}
 		}
 	}

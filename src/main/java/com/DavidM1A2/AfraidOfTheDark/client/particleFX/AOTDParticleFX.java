@@ -44,4 +44,30 @@ public abstract class AOTDParticleFX extends EntityFX
 		// Begin drawing remaining particles
 		worldRenderer.begin(7, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
 	}
+
+	@Override
+	public void onUpdate()
+	{
+		super.onUpdate();
+
+		this.prevPosX = this.posX;
+		this.prevPosY = this.posY;
+		this.prevPosZ = this.posZ;
+
+		if (this.particleAge++ >= this.particleMaxAge)
+		{
+			this.setDead();
+		}
+
+		this.updateMotionXYZ();
+		this.moveEntity(this.motionX, this.motionY, this.motionZ);
+
+		if (this.onGround)
+		{
+			this.motionX *= 0.699999988079071D;
+			this.motionZ *= 0.699999988079071D;
+		}
+	}
+
+	public abstract void updateMotionXYZ();
 }

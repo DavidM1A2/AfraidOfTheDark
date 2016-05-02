@@ -19,7 +19,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDParticleFXTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.block.BlockAir;
-import net.minecraft.block.BlockTorch;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
@@ -55,7 +54,8 @@ public class EnariaAttacks
 		this.enaria = enaria;
 		this.random = random;
 
-		possibleEffects = new PotionEffect[] {
+		possibleEffects = new PotionEffect[]
+		{
 				// Slowness
 				new PotionEffect(Potion.moveSlowdown.getId(), 300, 0, false, true),
 				// Mining fatigue
@@ -185,6 +185,11 @@ public class EnariaAttacks
 				this.attackSummonSplinterDrones();
 				break;
 		}
+		TargetPoint particleCenter = new TargetPoint(enaria.dimension, enaria.posX, enaria.posY + 1, enaria.posZ, 40);
+		for (int i = 0; i < 50; i++)
+		{
+			AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncParticleFX(AOTDParticleFXTypes.EnariaSplash, enaria.posX, enaria.posY + 1, enaria.posZ), particleCenter);
+		}
 	}
 
 	private void attackDarkness()
@@ -214,7 +219,7 @@ public class EnariaAttacks
 				for (int k = this.enaria.getPosition().getZ() - 5; k < this.enaria.getPosition().getZ() + 5; k++)
 				{
 					BlockPos current = new BlockPos(i, j, k);
-					if (this.enaria.worldObj.getBlockState(current).getBlock() instanceof BlockTorch)
+					if (this.enaria.worldObj.getBlockState(current).getBlock().getLightValue() > 0)
 					{
 						this.enaria.worldObj.setBlockToAir(current);
 					}
@@ -261,7 +266,7 @@ public class EnariaAttacks
 						werewolf.setPosition(current.getX(), current.getY(), current.getZ());
 						werewolf.setCanAttackAnyone(true);
 						this.enaria.worldObj.spawnEntityInWorld(werewolf);
-
+						AOTDParticleFXTypes.EnariaBasicAttack.instantiate(enaria.worldObj, current.getX(), current.getY(), current.getZ(), 0, 0, 0);
 						numberOfWWsSpawned = numberOfWWsSpawned + 1;
 					}
 				}
