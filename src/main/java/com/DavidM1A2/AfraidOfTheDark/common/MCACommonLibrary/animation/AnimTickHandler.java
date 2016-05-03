@@ -1,64 +1,58 @@
 package com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation;
 
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
 
+import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.entity.Entity;
+import net.minecraftforge.client.event.GuiOpenEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+import net.minecraftforge.fml.relauncher.Side;
 
 public class AnimTickHandler
 {
-	private List<IMCAnimatedEntity> activeEntities = new ArrayList<IMCAnimatedEntity>();
+	private List<IMCAnimatedEntity> activeEntitiesClient = new LinkedList<IMCAnimatedEntity>();
 
 	public AnimTickHandler()
 	{
-		FMLCommonHandler.instance().bus().register(this);
+		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
+			MinecraftForge.EVENT_BUS.register(this);
 	}
 
-	public synchronized void addEntity(IMCAnimatedEntity entity)
+	public void addEntity(IMCAnimatedEntity entity)
 	{
 		if (ConfigurationHandler.enableAOTDAnimations)
-			activeEntities.add(entity);
+			synchronized (this.activeEntitiesClient)
+			{
+				if (!this.activeEntitiesClient.contains(entity))
+					activeEntitiesClient.add(entity);
+			}
+	}
+
+	@SubscribeEvent
+	public void onClientDisconnected(GuiOpenEvent event)
+	{
+		if (event.gui instanceof GuiMainMenu)
+			this.activeEntitiesClient.clear();
 	}
 
 	//Called when the client ticks. 
 	@SubscribeEvent
 	public void onClientTick(TickEvent.ClientTickEvent event)
 	{
-		if (!activeEntities.isEmpty())
+		if (!activeEntitiesClient.isEmpty())
 		{
 			if (event.phase == Phase.START)
 			{
-				Iterator<IMCAnimatedEntity> entities = this.activeEntities.iterator();
-				while (entities.hasNext())
-				{
-					IMCAnimatedEntity entity = entities.next();
-
-					entity.getAnimationHandler().animationsUpdate();
-
-					if (((Entity) entity).isDead)
-						entities.remove();
-				}
-			}
-		}
-	}
-
-	//Called when the server ticks. Usually 20 ticks a second. 
-	@SubscribeEvent
-	public void onServerTick(TickEvent.ServerTickEvent event)
-	{
-		if (!activeEntities.isEmpty())
-		{
-			if (event.phase == Phase.START)
-			{
-				Iterator<IMCAnimatedEntity> entities = this.activeEntities.iterator();
+				Iterator<IMCAnimatedEntity> entities = this.activeEntitiesClient.iterator();
 				while (entities.hasNext())
 				{
 					IMCAnimatedEntity entity = entities.next();

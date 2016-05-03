@@ -211,13 +211,11 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 	@Override
 	public void moveEntityWithHeading(float strafe, float forward)
 	{
-		if (this.motionX > 0.05 || this.motionZ > 0.05 || this.motionX < -0.05 || this.motionZ < -0.05)
-		{
-			if (!this.animHandler.isAnimationActive("spell") && !animHandler.isAnimationActive("autoattack") && !animHandler.isAnimationActive("armthrow") && !animHandler.isAnimationActive("walk"))
-			{
-				animHandler.activateAnimation("walk", 0);
-			}
-		}
+		if (this.worldObj.isRemote)
+			if (this.motionX > 0.05 || this.motionZ > 0.05 || this.motionX < -0.05 || this.motionZ < -0.05)
+				if (!this.animHandler.isAnimationActive("spell") && !animHandler.isAnimationActive("autoattack") && !animHandler.isAnimationActive("armthrow") && !animHandler.isAnimationActive("walk"))
+					animHandler.activateAnimation("walk", 0);
+
 		super.moveEntityWithHeading(strafe, forward);
 	}
 

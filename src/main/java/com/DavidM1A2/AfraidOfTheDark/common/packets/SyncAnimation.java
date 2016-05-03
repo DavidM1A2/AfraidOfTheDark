@@ -21,17 +21,20 @@ public class SyncAnimation implements IMessage
 {
 	private String animationName = "";
 	private int entityIDToUpdate = 0;
+	private String[] higherPriorityAnims;
 
 	public SyncAnimation()
 	{
 		this.animationName = "";
 		this.entityIDToUpdate = 0;
+		this.higherPriorityAnims = new String[0];
 	}
 
-	public SyncAnimation(String animationName, int entityIDToUpdate)
+	public SyncAnimation(String animationName, int entityIDToUpdate, String... higherPriorityAnims)
 	{
 		this.animationName = animationName;
 		this.entityIDToUpdate = entityIDToUpdate;
+		this.higherPriorityAnims = higherPriorityAnims;
 	}
 
 	@Override
@@ -39,6 +42,9 @@ public class SyncAnimation implements IMessage
 	{
 		this.animationName = ByteBufUtils.readUTF8String(buf);
 		this.entityIDToUpdate = buf.readInt();
+		this.higherPriorityAnims = new String[buf.readInt()];
+		for (int i = 0; i < this.higherPriorityAnims.length; i++)
+			this.higherPriorityAnims[i] = ByteBufUtils.readUTF8String(buf);
 	}
 
 	@Override
@@ -46,6 +52,9 @@ public class SyncAnimation implements IMessage
 	{
 		ByteBufUtils.writeUTF8String(buf, this.animationName);
 		buf.writeInt(this.entityIDToUpdate);
+		buf.writeInt(this.higherPriorityAnims.length);
+		for (int i = 0; i < this.higherPriorityAnims.length; i++)
+			ByteBufUtils.writeUTF8String(buf, this.higherPriorityAnims[i]);
 	}
 
 	// when we receive a packet we set HasStartedAOTD
@@ -64,7 +73,11 @@ public class SyncAnimation implements IMessage
 					{
 						if (toUpdate instanceof IMCAnimatedEntity)
 						{
-							((IMCAnimatedEntity) toUpdate).getAnimationHandler().activateAnimation(msg.animationName, 0);
+							IMCAnimatedEntity animatedEntity = ((IMCAnimatedEntity) toUpdate);
+							for (String string : msg.higherPriorityAnims)
+								if (animatedEntity.getAnimationHandler().isAnimationActive(string))
+									return;
+							animatedEntity.getAnimationHandler().activateAnimation(msg.animationName, 0);
 						}
 					}
 					else

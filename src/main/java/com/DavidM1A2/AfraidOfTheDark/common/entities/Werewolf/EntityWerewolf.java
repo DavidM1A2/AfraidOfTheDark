@@ -117,13 +117,11 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity, ICan
 	@Override
 	public void moveEntityWithHeading(float strafe, float forward)
 	{
-		if (this.motionX > 0.05 || this.motionZ > 0.05 || this.motionX < -0.05 || this.motionZ < -0.05)
-		{
-			if (!animHandler.isAnimationActive("Bite") && !animHandler.isAnimationActive("Run"))
-			{
-				animHandler.activateAnimation("Run", 0);
-			}
-		}
+		if (this.worldObj.isRemote)
+			if (this.motionX > 0.05 || this.motionZ > 0.05 || this.motionX < -0.05 || this.motionZ < -0.05)
+				if (!animHandler.isAnimationActive("Bite") && !animHandler.isAnimationActive("Run"))
+					animHandler.activateAnimation("Run", 0);
+
 		super.moveEntityWithHeading(strafe, forward);
 	}
 
@@ -207,11 +205,7 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity, ICan
 	@Override
 	public boolean attackEntityAsMob(final Entity entity)
 	{
-		if (!animHandler.isAnimationActive("Bite"))
-		{
-			animHandler.activateAnimation("Bite", 0);
-			AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncAnimation("Bite", this.getEntityId()), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 15));
-		}
+		AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncAnimation("Bite", this.getEntityId(), "Bite"), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 15));
 
 		boolean x = super.attackEntityAsMob(entity);
 

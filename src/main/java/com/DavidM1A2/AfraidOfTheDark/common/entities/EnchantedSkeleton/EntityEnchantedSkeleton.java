@@ -72,7 +72,6 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 		{
 			if (!hasPlayedStartAnimation)
 			{
-				this.animHandler.activateAnimation("Spawn", 0);
 				AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncAnimation("Spawn", this.getEntityId()), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 50));
 				this.hasPlayedStartAnimation = true;
 			}
@@ -141,22 +140,24 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 	@Override
 	public void moveEntityWithHeading(float strafe, float forward)
 	{
-		if (animHandler.isAnimationActive("Spawn"))
+		if (this.worldObj.isRemote)
 		{
-			return;
-		}
-		if (this.motionX > 0.05 || this.motionZ > 0.05 || this.motionX < -0.05 || this.motionZ < -0.05)
-		{
-			if (!animHandler.isAnimationActive("Attack") && !animHandler.isAnimationActive("Walk"))
+			if (!animHandler.isAnimationActive("Spawn") && !animHandler.isAnimationActive("Attack"))
 			{
-				animHandler.activateAnimation("Walk", 0);
-			}
-		}
-		else
-		{
-			if (!animHandler.isAnimationActive("Attack") && !animHandler.isAnimationActive("Idle"))
-			{
-				animHandler.activateAnimation("Idle", 0);
+				if (this.motionX > 0.05 || this.motionZ > 0.05 || this.motionX < -0.05 || this.motionZ < -0.05)
+				{
+					if (!animHandler.isAnimationActive("Walk"))
+					{
+						animHandler.activateAnimation("Walk", 0);
+					}
+				}
+				else
+				{
+					if (!animHandler.isAnimationActive("Idle"))
+					{
+						animHandler.activateAnimation("Idle", 0);
+					}
+				}
 			}
 		}
 		super.moveEntityWithHeading(strafe, forward);
@@ -243,12 +244,7 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 			((EntityPlayer) entity).addPotionEffect(new PotionEffect(2, 80, 0, false, true));
 			((EntityPlayer) entity).addPotionEffect(new PotionEffect(18, 80, 0, false, true));
 		}
-
-		if (!animHandler.isAnimationActive("Attack") && !animHandler.isAnimationActive("Spawn"))
-		{
-			animHandler.activateAnimation("Attack", 0);
-			AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncAnimation("Attack", this.getEntityId()), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 15));
-		}
+		AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncAnimation("Attack", this.getEntityId(), "Attack", "Spawn"), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 15));
 
 		return super.attackEntityAsMob(entity);
 	}

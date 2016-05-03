@@ -26,7 +26,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 // See EntityFireball.class
-public class EntitySplinterDroneProjectile extends Entity implements IMCAnimatedEntity {
+public class EntitySplinterDroneProjectile extends Entity implements IMCAnimatedEntity
+{
 	private int tileX = -1;
 	private int tileY = -1;
 	private int tileZ = -1;
@@ -41,72 +42,78 @@ public class EntitySplinterDroneProjectile extends Entity implements IMCAnimated
 
 	protected AnimationHandler animHandler = new AnimationHandlerSplinterDroneProjectile(this);
 
-	public EntitySplinterDroneProjectile(World par1World) {
+	public EntitySplinterDroneProjectile(World par1World)
+	{
 		super(par1World);
 		this.setSize(0.4F, 0.4F);
 	}
 
-	public EntitySplinterDroneProjectile(World world, EntityLivingBase shootingEntity, double xVelocity,
-			double yVelocity, double zVelocity) {
+	public EntitySplinterDroneProjectile(World world, EntityLivingBase shootingEntity, double xVelocity, double yVelocity, double zVelocity)
+	{
 		super(world);
 		this.shootingEntity = shootingEntity;
 		this.setSize(0.4F, 0.4F);
-		this.setLocationAndAngles(shootingEntity.posX, shootingEntity.posY, shootingEntity.posZ,
-				shootingEntity.rotationYaw, shootingEntity.rotationPitch);
+		this.setLocationAndAngles(shootingEntity.posX, shootingEntity.posY, shootingEntity.posZ, shootingEntity.rotationYaw, shootingEntity.rotationPitch);
 		this.setPosition(this.posX, this.posY, this.posZ);
 		this.motionX = this.motionY = this.motionZ = 0.0D;
 		xVelocity = xVelocity + this.rand.nextGaussian() * 0.4D;
 		yVelocity = yVelocity + this.rand.nextGaussian() * 0.4D;
 		zVelocity = zVelocity + this.rand.nextGaussian() * 0.4D;
-		double d3 = (double) MathHelper
-				.sqrt_double(xVelocity * xVelocity + yVelocity * yVelocity + zVelocity * zVelocity);
+		double d3 = (double) MathHelper.sqrt_double(xVelocity * xVelocity + yVelocity * yVelocity + zVelocity * zVelocity);
 		this.accelerationX = xVelocity / d3 * 0.1D;
 		this.accelerationY = yVelocity / d3 * 0.1D;
 		this.accelerationZ = zVelocity / d3 * 0.1D;
 	}
 
 	@Override
-	protected void entityInit() {
+	protected void entityInit()
+	{
 	}
 
 	/**
-	 * Checks if the entity is in range to render by using the past in distance
-	 * and comparing it to its average edge length * 64 * renderDistanceWeight
-	 * Args: distance
+	 * Checks if the entity is in range to render by using the past in distance and comparing it to its average edge length * 64 *
+	 * renderDistanceWeight Args: distance
 	 */
 	@SideOnly(Side.CLIENT)
 	@Override
-	public boolean isInRangeToRenderDist(double distance) {
+	public boolean isInRangeToRenderDist(double distance)
+	{
 		double d1 = this.getEntityBoundingBox().getAverageEdgeLength() * 4.0D;
 		d1 *= 64.0D;
 		return distance < d1 * d1;
 	}
 
 	@Override
-	public AnimationHandler getAnimationHandler() {
+	public AnimationHandler getAnimationHandler()
+	{
 		return animHandler;
 	}
 
 	/**
 	 * Called to update the entity's position/logic.
 	 */
-	public void onUpdate() {
-		if (!this.animHandler.isAnimationActive("Sping")) {
-			this.animHandler.activateAnimation("Sping", 0);
-		}
+	public void onUpdate()
+	{
+		if (this.worldObj.isRemote)
+			if (!this.animHandler.isAnimationActive("Sping"))
+				this.animHandler.activateAnimation("Sping", 0);
 
-		if (!this.worldObj.isRemote && (this.shootingEntity != null && this.shootingEntity.isDead
-				|| !this.worldObj.isBlockLoaded(new BlockPos(this)))) {
+		if (!this.worldObj.isRemote && (this.shootingEntity != null && this.shootingEntity.isDead || !this.worldObj.isBlockLoaded(new BlockPos(this))))
+		{
 			this.setDead();
-		} else {
+		}
+		else
+		{
 			super.onUpdate();
 
-			if (this.inGround) {
-				if (this.worldObj.getBlockState(new BlockPos(this.tileX, this.tileY, this.tileZ))
-						.getBlock() == this.insideOf) {
+			if (this.inGround)
+			{
+				if (this.worldObj.getBlockState(new BlockPos(this.tileX, this.tileY, this.tileZ)).getBlock() == this.insideOf)
+				{
 					this.ticksAlive = this.ticksAlive + 1;
 
-					if (this.ticksAlive == 600) {
+					if (this.ticksAlive == 600)
+					{
 						this.setDead();
 					}
 
@@ -119,11 +126,14 @@ public class EntitySplinterDroneProjectile extends Entity implements IMCAnimated
 				this.motionZ *= (double) (this.rand.nextFloat() * 0.2F);
 				this.ticksAlive = 0;
 				this.ticksInAir = 0;
-			} else {
+			}
+			else
+			{
 				this.ticksInAir = this.ticksInAir + 1;
 			}
 
-			if (this.ticksInAir > 600 && !worldObj.isRemote) {
+			if (this.ticksInAir > 600 && !worldObj.isRemote)
+			{
 				this.setDead();
 			}
 
@@ -133,30 +143,31 @@ public class EntitySplinterDroneProjectile extends Entity implements IMCAnimated
 			vec3 = new Vec3(this.posX, this.posY, this.posZ);
 			vec31 = new Vec3(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
 
-			if (movingobjectposition != null) {
-				vec31 = new Vec3(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord,
-						movingobjectposition.hitVec.zCoord);
+			if (movingobjectposition != null)
+			{
+				vec31 = new Vec3(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
 			}
 
 			Entity entity = null;
-			List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox()
-					.addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
+			List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
 			double d0 = 0.0D;
 
-			for (int i = 0; i < list.size(); ++i) {
+			for (int i = 0; i < list.size(); ++i)
+			{
 				Entity entity1 = (Entity) list.get(i);
 
-				if (entity1.canBeCollidedWith()
-						&& (!entity1.isEntityEqual(this.shootingEntity) || this.ticksInAir >= 25)) {
+				if (entity1.canBeCollidedWith() && (!entity1.isEntityEqual(this.shootingEntity) || this.ticksInAir >= 25))
+				{
 					float f = 0.3F;
-					AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand((double) f, (double) f,
-							(double) f);
+					AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand((double) f, (double) f, (double) f);
 					MovingObjectPosition movingobjectposition1 = axisalignedbb.calculateIntercept(vec3, vec31);
 
-					if (movingobjectposition1 != null) {
+					if (movingobjectposition1 != null)
+					{
 						double d1 = vec3.distanceTo(movingobjectposition1.hitVec);
 
-						if (d1 < d0 || d0 == 0.0D) {
+						if (d1 < d0 || d0 == 0.0D)
+						{
 							entity = entity1;
 							d0 = d1;
 						}
@@ -164,11 +175,13 @@ public class EntitySplinterDroneProjectile extends Entity implements IMCAnimated
 				}
 			}
 
-			if (entity != null) {
+			if (entity != null)
+			{
 				movingobjectposition = new MovingObjectPosition(entity);
 			}
 
-			if (movingobjectposition != null) {
+			if (movingobjectposition != null)
+			{
 				this.onImpact(movingobjectposition);
 			}
 
@@ -178,19 +191,22 @@ public class EntitySplinterDroneProjectile extends Entity implements IMCAnimated
 			float f1 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
 			this.rotationYaw = (float) (Math.atan2(this.motionZ, this.motionX) * 180.0D / Math.PI) + 90.0F;
 
-			for (this.rotationPitch = (float) (Math.atan2((double) f1, this.motionY) * 180.0D / Math.PI)
-					- 90.0F; this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F) {
+			for (this.rotationPitch = (float) (Math.atan2((double) f1, this.motionY) * 180.0D / Math.PI) - 90.0F; this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
+			{
 			}
 
-			while (this.rotationPitch - this.prevRotationPitch >= 180.0F) {
+			while (this.rotationPitch - this.prevRotationPitch >= 180.0F)
+			{
 				this.prevRotationPitch += 360.0F;
 			}
 
-			while (this.rotationYaw - this.prevRotationYaw < -180.0F) {
+			while (this.rotationYaw - this.prevRotationYaw < -180.0F)
+			{
 				this.prevRotationYaw -= 360.0F;
 			}
 
-			while (this.rotationYaw - this.prevRotationYaw >= 180.0F) {
+			while (this.rotationYaw - this.prevRotationYaw >= 180.0F)
+			{
 				this.prevRotationYaw += 360.0F;
 			}
 
@@ -212,14 +228,18 @@ public class EntitySplinterDroneProjectile extends Entity implements IMCAnimated
 	/**
 	 * Called when this EntityFireball hits a block or entity.
 	 */
-	public void onImpact(MovingObjectPosition movingObjectPosition) {
-		if (!this.worldObj.isRemote) {
-			if (movingObjectPosition.entityHit != null) {
-				if (movingObjectPosition.entityHit
-						.attackEntityFrom(AOTDDamageSources.causePlasmaBallDamage(this, this.shootingEntity), 1.0F)) {
+	public void onImpact(MovingObjectPosition movingObjectPosition)
+	{
+		if (!this.worldObj.isRemote)
+		{
+			if (movingObjectPosition.entityHit != null)
+			{
+				if (movingObjectPosition.entityHit.attackEntityFrom(AOTDDamageSources.causePlasmaBallDamage(this, this.shootingEntity), 1.0F))
+				{
 					this.applyEnchantments(this.shootingEntity, movingObjectPosition.entityHit);
 
-					if (movingObjectPosition.entityHit instanceof EntityPlayer) {
+					if (movingObjectPosition.entityHit instanceof EntityPlayer)
+					{
 						EntityPlayer entityPlayer = (EntityPlayer) movingObjectPosition.entityHit;
 						entityPlayer.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 60, 2, false, false));
 					}
@@ -231,64 +251,73 @@ public class EntitySplinterDroneProjectile extends Entity implements IMCAnimated
 	}
 
 	/**
-	 * Return the motion factor for this projectile. The factor is multiplied by
-	 * the original motion.
+	 * Return the motion factor for this projectile. The factor is multiplied by the original motion.
 	 */
-	protected float getMotionFactor() {
+	protected float getMotionFactor()
+	{
 		return 0.95F;
 	}
 
 	/**
 	 * (abstract) Protected helper method to write subclass entity data to NBT.
 	 */
-	public void writeEntityToNBT(NBTTagCompound tagCompound) {
+	public void writeEntityToNBT(NBTTagCompound tagCompound)
+	{
 		tagCompound.setShort("xTile", (short) this.tileX);
 		tagCompound.setShort("yTile", (short) this.tileY);
 		tagCompound.setShort("zTile", (short) this.tileZ);
 		ResourceLocation resourcelocation = (ResourceLocation) Block.blockRegistry.getNameForObject(this.insideOf);
 		tagCompound.setString("inTile", resourcelocation == null ? "" : resourcelocation.toString());
 		tagCompound.setByte("inGround", (byte) (this.inGround ? 1 : 0));
-		tagCompound.setTag("direction",
-				this.newDoubleNBTList(new double[] { this.motionX, this.motionY, this.motionZ }));
+		tagCompound.setTag("direction", this.newDoubleNBTList(new double[]
+		{ this.motionX, this.motionY, this.motionZ }));
 	}
 
 	/**
 	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
-	public void readEntityFromNBT(NBTTagCompound tagCompund) {
+	public void readEntityFromNBT(NBTTagCompound tagCompund)
+	{
 		this.tileX = tagCompund.getShort("xTile");
 		this.tileY = tagCompund.getShort("yTile");
 		this.tileZ = tagCompund.getShort("zTile");
 
-		if (tagCompund.hasKey("inTile", 8)) {
+		if (tagCompund.hasKey("inTile", 8))
+		{
 			this.insideOf = Block.getBlockFromName(tagCompund.getString("inTile"));
-		} else {
+		}
+		else
+		{
 			this.insideOf = Block.getBlockById(tagCompund.getByte("inTile") & 255);
 		}
 
 		this.inGround = tagCompund.getByte("inGround") == 1;
 
-		if (tagCompund.hasKey("direction", 9)) {
+		if (tagCompund.hasKey("direction", 9))
+		{
 			NBTTagList nbttaglist = tagCompund.getTagList("direction", 6);
 			this.motionX = nbttaglist.getDoubleAt(0);
 			this.motionY = nbttaglist.getDoubleAt(1);
 			this.motionZ = nbttaglist.getDoubleAt(2);
-		} else {
+		}
+		else
+		{
 			this.setDead();
 		}
 	}
 
 	/**
-	 * Returns true if other Entities should be prevented from moving through
-	 * this Entity.
+	 * Returns true if other Entities should be prevented from moving through this Entity.
 	 */
 	@Override
-	public boolean canBeCollidedWith() {
+	public boolean canBeCollidedWith()
+	{
 		return true;
 	}
 
 	@Override
-	public float getCollisionBorderSize() {
+	public float getCollisionBorderSize()
+	{
 		return 1.0F;
 	}
 
@@ -296,7 +325,8 @@ public class EntitySplinterDroneProjectile extends Entity implements IMCAnimated
 	 * Called when the entity is attacked.
 	 */
 	@Override
-	public boolean attackEntityFrom(DamageSource source, float amount) {
+	public boolean attackEntityFrom(DamageSource source, float amount)
+	{
 		return false;
 	}
 
@@ -304,13 +334,15 @@ public class EntitySplinterDroneProjectile extends Entity implements IMCAnimated
 	 * Gets how bright this entity is.
 	 */
 	@Override
-	public float getBrightness(float brightness) {
+	public float getBrightness(float brightness)
+	{
 		return 1.0F;
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public int getBrightnessForRender(float brightness) {
+	public int getBrightnessForRender(float brightness)
+	{
 		return 15728880;
 	}
 }

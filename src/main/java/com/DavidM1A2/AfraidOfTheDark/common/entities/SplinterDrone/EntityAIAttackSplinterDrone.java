@@ -2,7 +2,6 @@
 package com.DavidM1A2.AfraidOfTheDark.common.entities.SplinterDrone;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
-import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncAnimation;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -70,30 +69,22 @@ public class EntityAIAttackSplinterDrone extends EntityAIBase
 
 		if (!this.splinterDrone.worldObj.isRemote)
 		{
-			AnimationHandler animationHandler = this.splinterDrone.getAnimationHandler();
-			if (!animationHandler.isAnimationActive("Activate") && !animationHandler.isAnimationActive("Charge"))
+			if (this.splinterDrone.getAttackTarget() != null)
 			{
-				if (this.splinterDrone.getAttackTarget() != null)
-				{
-					animationHandler.activateAnimation("Charge", 0);
-					AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncAnimation("Charge", this.splinterDrone.getEntityId()), new TargetPoint(this.splinterDrone.dimension, this.splinterDrone.posX, this.splinterDrone.posY, this.splinterDrone.posZ, 50));
-				}
+				AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncAnimation("Charge", this.splinterDrone.getEntityId(), "Activate", "Charge"), new TargetPoint(this.splinterDrone.dimension, this.splinterDrone.posX, this.splinterDrone.posY, this.splinterDrone.posZ, 50));
 			}
 
 			if (this.attackTime <= 0)
 			{
-				if (!animationHandler.isAnimationActive("Activate"))
-				{
-					float force = MathHelper.sqrt_float(MathHelper.sqrt_double(this.splinterDrone.getDistanceSqToEntity(this.target))) * 0.5F;
-					double xVelocity = this.target.posX - this.splinterDrone.posX;
-					double yVelocity = this.target.getEntityBoundingBox().minY + (double) (target.height / 2.0F) - (this.splinterDrone.posY + (double) (this.splinterDrone.height / 2.0F));
-					double zVelocity = this.target.posZ - this.splinterDrone.posZ;
+				float force = MathHelper.sqrt_float(MathHelper.sqrt_double(this.splinterDrone.getDistanceSqToEntity(this.target))) * 0.5F;
+				double xVelocity = this.target.posX - this.splinterDrone.posX;
+				double yVelocity = this.target.getEntityBoundingBox().minY + (double) (target.height / 2.0F) - (this.splinterDrone.posY + (double) (this.splinterDrone.height / 2.0F));
+				double zVelocity = this.target.posZ - this.splinterDrone.posZ;
 
-					this.splinterDrone.worldObj.playAuxSFXAtEntity(null, 1009, new BlockPos((int) this.splinterDrone.posX, (int) this.splinterDrone.posY, (int) this.splinterDrone.posZ), 0);
-					EntitySplinterDroneProjectile attack = new EntitySplinterDroneProjectile(this.splinterDrone.worldObj, this.splinterDrone, xVelocity, yVelocity, zVelocity);
-					attack.posY = this.splinterDrone.posY + (double) (this.splinterDrone.height / 2.0F) + 0.5D;
-					this.splinterDrone.worldObj.spawnEntityInWorld(attack);
-				}
+				this.splinterDrone.worldObj.playAuxSFXAtEntity(null, 1009, new BlockPos((int) this.splinterDrone.posX, (int) this.splinterDrone.posY, (int) this.splinterDrone.posZ), 0);
+				EntitySplinterDroneProjectile attack = new EntitySplinterDroneProjectile(this.splinterDrone.worldObj, this.splinterDrone, xVelocity, yVelocity, zVelocity);
+				attack.posY = this.splinterDrone.posY + (double) (this.splinterDrone.height / 2.0F) + 0.5D;
+				this.splinterDrone.worldObj.spawnEntityInWorld(attack);
 				this.attackTime = TIME_BETWEEN_ATTACKS;
 			}
 			else

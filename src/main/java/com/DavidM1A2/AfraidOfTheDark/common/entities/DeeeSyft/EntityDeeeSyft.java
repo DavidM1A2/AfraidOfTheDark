@@ -83,10 +83,11 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 	public boolean attackEntityFrom(DamageSource source, float amount)
 	{
 		this.getEntityData().setInteger(TICKS_UNTIL_NORMAL_AI, 100);
-		if (!this.getAnimationHandler().isAnimationActive("jiggle"))
-		{
-			this.getAnimationHandler().activateAnimation("jiggle", 0);
-		}
+		if (this.worldObj.isRemote)
+			if (!this.getAnimationHandler().isAnimationActive("jiggle"))
+			{
+				this.getAnimationHandler().activateAnimation("jiggle", 0);
+			}
 		if (!this.isDead)
 		{
 			if (source == DamageSource.inFire || source == DamageSource.onFire || source == DamageSource.lava || source.isExplosion())
