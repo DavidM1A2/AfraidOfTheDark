@@ -5,13 +5,13 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare;
 
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.ghastly.EntityGhastlyEnaria;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDimensions;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.playerData.AOTDPlayerData;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.WorldGenerationUtility;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.Point3D;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -49,13 +49,13 @@ public class NightmareTeleporter extends Teleporter
 
 			if (entity instanceof EntityPlayer)
 			{
+				final EntityPlayer entityPlayer = (EntityPlayer) entity;
 				if (!entity.worldObj.isRemote)
 				{
-					EntityPlayer entityPlayer = (EntityPlayer) entity;
 					NBTTagList inventory = new NBTTagList();
 					entityPlayer.inventory.writeToNBT(inventory);
 					entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setPlayerInventory(inventory);
-					entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setPlayerLocationOverworld(new int[] { entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY() + 1, entityPlayer.getPosition().getZ() });
+					entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setPlayerLocationPreTeleport(new Point3D(entityPlayer), this.dimensionOld);
 					entityPlayer.inventory.clear();
 					entityPlayer.inventoryContainer.detectAndSendChanges();
 
@@ -67,6 +67,8 @@ public class NightmareTeleporter extends Teleporter
 					entityPlayer.getFoodStats().setFoodLevel(20);
 					entityPlayer.inventory.addItemStackToInventory(getNamedJournal(entityPlayer));
 					entityPlayer.inventory.addItemStackToInventory(getHintBook(entityPlayer));
+
+					this.summonEnaria(entityPlayer);
 				}
 			}
 		}
@@ -78,7 +80,7 @@ public class NightmareTeleporter extends Teleporter
 			{
 				EntityPlayer entityPlayer = (EntityPlayer) entity;
 
-				BlockPos playerPostionOld = this.intArrToBlockPos(entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerLocationOverworld(), entityPlayer);
+				BlockPos playerPostionOld = entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerLocationPreTeleport().toBlockPos();
 
 				entityPlayer.setPosition(playerPostionOld.getX(), playerPostionOld.getY(), playerPostionOld.getZ());
 				entity.motionX = 0.0D;
@@ -92,6 +94,18 @@ public class NightmareTeleporter extends Teleporter
 				entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setPlayerInventory(new NBTTagList());
 			}
 		}
+	}
+
+	private void summonEnaria(EntityPlayer entityPlayer)
+	{
+		final EntityGhastlyEnaria enaria = new EntityGhastlyEnaria(this.worldServerInstance);
+		enaria.forceSpawn = true;
+		if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getHasBeatenEnaria())
+			enaria.setBenign(false);
+		else
+			enaria.setBenign(true);
+		enaria.setPosition(entityPlayer.posX + 117.5, entityPlayer.posY + 4, entityPlayer.posZ + 28.5);
+		NightmareTeleporter.this.worldServerInstance.spawnEntityInWorld(enaria);
 	}
 
 	private ItemStack getHintBook(EntityPlayer entityPlayer)
@@ -122,21 +136,6 @@ public class NightmareTeleporter extends Teleporter
 		pages.appendTag(new NBTTagString("from me. They always stay quiet when I am near. I know they are keeping secrets from me! What has it told you? What has the monolith told you to make you stop talking to me? Answer me Enaria! Where have you gone? Have you left me?"));
 		pages.appendTag(new NBTTagString("You said we would be together forever!"));
 		return pages;
-	}
-
-	private BlockPos intArrToBlockPos(int[] location, EntityPlayer entityPlayer)
-	{
-		if (location.length == 0)
-		{
-			return new BlockPos(0, WorldGenerationUtility.getFirstNonAirBlock(entityPlayer.worldObj, 0, 0) + 2, 0);
-		}
-
-		if (location[1] == 0)
-		{
-			location[1] = WorldGenerationUtility.getFirstNonAirBlock(entityPlayer.worldObj, 0, 0) + 2;
-			LogHelper.error("Player data incorrectly saved. Defaulting to 0, 0. Please report this to the mod author.");
-		}
-		return new BlockPos(location[0], location[1], location[2]);
 	}
 
 	private int validatePlayerLocationNightmare(int locationX, EntityPlayer entityPlayer)

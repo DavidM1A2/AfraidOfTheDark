@@ -63,8 +63,13 @@ public class Point3D
 
 	public void readFromNBT(NBTTagCompound compound)
 	{
-		this.x = compound.getInteger("x");
-		this.y = compound.getInteger("y");
-		this.z = compound.getInteger("z");
+		if (compound == null)
+			this.x = this.y = this.z = 0;
+		else
+		{
+			this.x = compound.getInteger("x");
+			this.y = compound.getInteger("y");
+			this.z = compound.getInteger("z");
+		}
 	}
 }

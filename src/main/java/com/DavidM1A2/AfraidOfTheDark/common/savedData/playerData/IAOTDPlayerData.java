@@ -12,6 +12,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateInsanity;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateResearch;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellManager;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.Point3D;
 
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -33,8 +34,9 @@ public interface IAOTDPlayerData
 	public void setPlayerInventory(NBTTagList inventory);
 	// Auto synced
 	
-	public int[] getPlayerLocationOverworld();
-	public void setPlayerLocationOverworld(int[] location);
+	public Point3D getPlayerLocationPreTeleport();
+	public int getPlayerDimensionPreTeleport();
+	public void setPlayerLocationPreTeleport(Point3D location, int dimensionID);
 	
 	public int getPlayerLocationNightmare();	
 	public void setPlayerLocationNightmare(int location);

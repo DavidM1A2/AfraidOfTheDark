@@ -3,7 +3,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.reference;
 
 import com.DavidM1A2.AfraidOfTheDark.client.particleFX.AOTDParticleFX;
 import com.DavidM1A2.AfraidOfTheDark.client.particleFX.EnariaBasicAttack;
-import com.DavidM1A2.AfraidOfTheDark.client.particleFX.EnariaSpash;
+import com.DavidM1A2.AfraidOfTheDark.client.particleFX.EnariaSplash;
 import com.DavidM1A2.AfraidOfTheDark.client.particleFX.EnariaTeleport;
 import com.DavidM1A2.AfraidOfTheDark.client.particleFX.VitaeReleased;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
@@ -34,7 +34,7 @@ public enum AOTDParticleFXTypes
 		@Override
 		protected AOTDParticleFX newInstance(World world, double x, double y, double z, double motionX, double motionY, double motionZ)
 		{
-			return new EnariaSpash(world, x, y, z, motionX, motionY, motionZ);
+			return new EnariaSplash(world, x, y, z, motionX, motionY, motionZ);
 		}
 	},
 	VitaeReleased

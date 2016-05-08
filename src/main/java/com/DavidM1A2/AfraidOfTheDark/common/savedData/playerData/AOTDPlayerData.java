@@ -13,6 +13,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateInsanity;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateResearch;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellManager;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.Point3D;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -31,7 +32,8 @@ public class AOTDPlayerData implements ICapabilitySerializable<NBTTagCompound>, 
 	private boolean hasStartedAOTD = false;
 	private double playerInsanity;
 	private NBTTagList inventoryList = new NBTTagList();
-	private int[] playerLocationOverworld = new int[3];
+	private Point3D playerLocationPreTeleport = new Point3D(0, 200, 0);
+	private int playerDimensionPreTeleport;
 	private int playerLocationNightmare;
 	private int playerLocationVoidChest;
 	private NBTTagCompound researches = new NBTTagCompound();
@@ -134,14 +136,23 @@ public class AOTDPlayerData implements ICapabilitySerializable<NBTTagCompound>, 
 		this.inventoryList = inventory;
 	}
 
-	public int[] getPlayerLocationOverworld()
+	@Override
+	public Point3D getPlayerLocationPreTeleport()
 	{
-		return this.playerLocationOverworld;
+		return this.playerLocationPreTeleport;
 	}
 
-	public void setPlayerLocationOverworld(int[] location)
+	@Override
+	public int getPlayerDimensionPreTeleport()
 	{
-		this.playerLocationOverworld = location;
+		return this.playerDimensionPreTeleport;
+	}
+
+	@Override
+	public void setPlayerLocationPreTeleport(Point3D location, int dimensionID)
+	{
+		this.playerDimensionPreTeleport = dimensionID;
+		this.playerLocationPreTeleport = location;
 	}
 
 	public int getPlayerLocationNightmare()

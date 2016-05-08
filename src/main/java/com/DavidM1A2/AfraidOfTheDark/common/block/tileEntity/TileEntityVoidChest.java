@@ -16,7 +16,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncVoidChest;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDimensions;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -106,8 +105,7 @@ public class TileEntityVoidChest extends AOTDTileEntity
 		int i = this.pos.getX();
 		int j = this.pos.getY();
 		int k = this.pos.getZ();
-		this.ticksSinceSync = this.ticksSinceSync + 1;
-		;
+		this.ticksSinceSync = this.ticksSinceSync + 1;;
 		float f;
 
 		if (ticksSinceSync % 20 == 0)
@@ -170,16 +168,17 @@ public class TileEntityVoidChest extends AOTDTileEntity
 
 				this.worldObj.playSoundEffect(d2, j + 0.5D, d0, "random.chestclosed", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
 
-				if (this.worldObj.provider.getDimensionId() != AOTDDimensions.VoidChest.getWorldID())
+				int currentDim = this.worldObj.provider.getDimensionId();
+				if (currentDim != AOTDDimensions.VoidChest.getWorldID() && currentDim != AOTDDimensions.Nightmare.getWorldID() && currentDim != 1)
 				{
-					for (Object object : this.worldObj.getEntitiesWithinAABB(EntityPlayerMP.class, new AxisAlignedBB(this.pos, this.pos.add(.625D, .625D, .625D)).expand(2.0D, 2.0D, 2.0D)))
-					{
-						EntityPlayerMP entityPlayerMP = (EntityPlayerMP) object;
+					for (EntityPlayerMP entityPlayerMP : this.worldObj.getEntitiesWithinAABB(EntityPlayerMP.class, new AxisAlignedBB(this.pos, this.pos.add(.625D, .625D, .625D)).expand(2.0D, 2.0D, 2.0D)))
 						if (entityPlayerMP == entityPlayerToSend)
-						{
-							Utility.sendPlayerToVoidChest(entityPlayerMP, this.locationToGoTo);
-						}
-					}
+							AOTDDimensions.VoidChest.toDimension(entityPlayerMP);
+				}
+				else
+				{
+					if (!worldObj.isRemote)
+						entityPlayerToSend.addChatMessage(new ChatComponentText("The void chest refuses to work in this dimension."));
 				}
 			}
 

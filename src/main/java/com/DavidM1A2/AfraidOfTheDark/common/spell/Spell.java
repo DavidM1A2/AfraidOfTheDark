@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.EntitySpell;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDimensions;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.powerSources.IPowerSource;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.SpellUtility;
@@ -91,13 +92,18 @@ public class Spell implements Serializable
 		EntityPlayer entityPlayer = AfraidOfTheDark.proxy.getSpellOwner(this);
 		if (entityPlayer != null && !entityPlayer.worldObj.isRemote)
 		{
-			if (this.isSpellValid() && this.powerSource.attemptToCast(this))
-				for (EntitySpell entitySpell : this.spellStages[0].getDeliveryMethod().createSpellEntity(this))
-					entityPlayer.worldObj.spawnEntityInWorld(entitySpell);
-			else if (!this.isSpellValid())
-				entityPlayer.addChatMessage(new ChatComponentText("Invalid spell. Make sure to have delivery methods on each spell stage and a power source!"));
+			if (entityPlayer.dimension != AOTDDimensions.Nightmare.getWorldID())
+			{
+				if (this.isSpellValid() && this.powerSource.attemptToCast(this))
+					for (EntitySpell entitySpell : this.spellStages[0].getDeliveryMethod().createSpellEntity(this))
+						entityPlayer.worldObj.spawnEntityInWorld(entitySpell);
+				else if (!this.isSpellValid())
+					entityPlayer.addChatMessage(new ChatComponentText("Invalid spell. Make sure to have delivery methods on each spell stage and a power source!"));
+				else
+					entityPlayer.addChatMessage(new ChatComponentText(this.powerSource.notEnoughEnergyMsg()));
+			}
 			else
-				entityPlayer.addChatMessage(new ChatComponentText(this.powerSource.notEnoughEnergyMsg()));
+				entityPlayer.addChatMessage(new ChatComponentText("My mind is too clouded to cast spells here"));
 		}
 		else
 			LogHelper.info("Attempted to instantiate a spell on an offline player...");

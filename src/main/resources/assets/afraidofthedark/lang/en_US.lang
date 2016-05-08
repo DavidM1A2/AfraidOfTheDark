@@ -88,5 +88,17 @@ entity.AfraidOfTheDark.werewolf.name=Werewolf
 entity.AfraidOfTheDark.deeeSyft.name=Deee Syft
 entity.AfraidOfTheDark.enchantedSkeleton.name=Enchanted Skeleton
 entity.AfraidOfTheDark.enaria.name=Enaria
+entity.AfraidOfTheDark.ghastlyEnaria.name=Ghastly Enaria
 entity.AfraidOfTheDark.splinterDrone.name=Splinter Drone
 entity.AfraidOfTheDark.splinterDroneProjectile.name=Splinter Drone Projectile
+
+entity.AfraidOfTheDark.ironBolt.name=Iron Bolt
+entity.AfraidOfTheDark.silverBolt.name=Silver Bolt
+entity.AfraidOfTheDark.woodenBolt.name=Wooden Bolt
+entity.AfraidOfTheDark.igneousBolt.name=Igneous Bolt
+entity.AfraidOfTheDark.starMetalBolt.name=Star Metal Bolt
+
+entity.AfraidOfTheDark.spellProjectile.name=Projectile
+entity.AfraidOfTheDark.spellProjectileDive.name=Projectile
+entity.AfraidOfTheDark.spellMyself.name=Self
+entity.AfraidOfTheDark.spellAOE.name=AOE

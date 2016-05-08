@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import com.DavidM1A2.AfraidOfTheDark.client.entities.DeeeSyft.RenderDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.Enaria.RenderEnaria;
+import com.DavidM1A2.AfraidOfTheDark.client.entities.Enaria.RenderGhastlyEnaria;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.EnchantedSkeleton.RenderEnchantedSkeleton;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.SplinterDrone.RenderSplinterDrone;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.SplinterDrone.RenderSplinterDroneProjectile;
@@ -24,6 +25,7 @@ import com.DavidM1A2.AfraidOfTheDark.client.settings.Keybindings;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityVoidChest;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.EntityEnaria;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.ghastly.EntityGhastlyEnaria;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.EnchantedSkeleton.EntityEnchantedSkeleton;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.SplinterDrone.EntitySplinterDrone;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.SplinterDrone.EntitySplinterDroneProjectile;
@@ -111,6 +113,14 @@ public class ClientProxy extends CommonProxy
 			public Render createRenderFor(RenderManager manager)
 			{
 				return new RenderEnaria<EntityEnaria>(manager);
+			}
+		});
+		RenderingRegistry.registerEntityRenderingHandler(EntityGhastlyEnaria.class, new IRenderFactory()
+		{
+			@Override
+			public Render createRenderFor(RenderManager manager)
+			{
+				return new RenderGhastlyEnaria<EntityGhastlyEnaria>(manager);
 			}
 		});
 		RenderingRegistry.registerEntityRenderingHandler(EntityIronBolt.class, new IRenderFactory()

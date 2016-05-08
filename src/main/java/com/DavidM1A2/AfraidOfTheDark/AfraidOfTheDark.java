@@ -79,8 +79,7 @@ public class AfraidOfTheDark
 
 	/**
 	 * @param event
-	 *            Pre-init used to register events and various other things (see
-	 *            class names for what each line does)
+	 *            Pre-init used to register events and various other things (see class names for what each line does)
 	 */
 	@Mod.EventHandler
 	public void preInitialization(final FMLPreInitializationEvent event)

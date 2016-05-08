@@ -2,6 +2,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.savedData.playerData;
 
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellManager;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.Point3D;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -61,14 +62,19 @@ public class AOTDDefaultPlayerData implements IAOTDPlayerData
 	}
 
 	@Override
-	public int[] getPlayerLocationOverworld()
+	public Point3D getPlayerLocationPreTeleport()
 	{
-
 		return null;
 	}
 
 	@Override
-	public void setPlayerLocationOverworld(int[] location)
+	public int getPlayerDimensionPreTeleport()
+	{
+		return 0;
+	}
+
+	@Override
+	public void setPlayerLocationPreTeleport(Point3D location, int dimensionID)
 	{
 
 	}

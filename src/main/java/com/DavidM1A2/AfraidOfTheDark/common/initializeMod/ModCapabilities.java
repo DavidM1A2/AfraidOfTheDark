@@ -7,6 +7,8 @@ import com.DavidM1A2.AfraidOfTheDark.common.savedData.playerData.AOTDDefaultPlay
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.playerData.AOTDPlayerDataStorage;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.playerData.IAOTDPlayerData;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -22,5 +24,15 @@ public class ModCapabilities
 	{
 		CapabilityManager.INSTANCE.<IAOTDPlayerData> register(IAOTDPlayerData.class, new AOTDPlayerDataStorage(), AOTDDefaultPlayerData.class);
 		CapabilityManager.INSTANCE.<IAOTDEntityData> register(IAOTDEntityData.class, new AOTDEntityDataStorage(), AOTDDefaultEntityData.class);
+	}
+
+	public static IAOTDPlayerData getPlayerData(EntityPlayer entityPlayer)
+	{
+		return entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null);
+	}
+
+	public static IAOTDEntityData getEntityData(Entity entity)
+	{
+		return entity.getCapability(ModCapabilities.ENTITY_DATA, null);
 	}
 }

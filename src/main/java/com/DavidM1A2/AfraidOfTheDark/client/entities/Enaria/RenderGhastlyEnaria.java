@@ -7,19 +7,19 @@ package com.DavidM1A2.AfraidOfTheDark.client.entities.Enaria;
 
 import org.lwjgl.opengl.GL11;
 
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.EntityEnaria;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.ghastly.EntityGhastlyEnaria;
 
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderEnaria<T extends EntityEnaria> extends RenderLiving<T>
+public class RenderGhastlyEnaria<T extends EntityGhastlyEnaria> extends RenderLiving<T>
 {
 	public static final ResourceLocation ENARIA_TEXTURE = new ResourceLocation("afraidofthedark:textures/entity/enaria.png");
-	public static ModelEnaria modelEnaria = new ModelEnaria();
+	public static ModelGhastlyEnaria modelEnaria = new ModelGhastlyEnaria();
 	public static float modelHeight = 2.8F;
 
-	public RenderEnaria(RenderManager renderManager)
+	public RenderGhastlyEnaria(RenderManager renderManager)
 	{
 		super(renderManager, modelEnaria, 1F);
 	}
@@ -27,11 +27,15 @@ public class RenderEnaria<T extends EntityEnaria> extends RenderLiving<T>
 	@Override
 	public void doRender(T _entity, double posX, double posY, double posZ, float var8, float var9)
 	{
-		EntityEnaria entity = (EntityEnaria) _entity;
+		EntityGhastlyEnaria entity = (EntityGhastlyEnaria) _entity;
 
 		GL11.glPushMatrix();
 		GL11.glDisable(GL11.GL_CULL_FACE);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glColor4f(1.0f, 1.0f, 1.0f, 0.3f);
 		super.doRender(_entity, posX, posY, posZ, var8, var9);
+		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glPopMatrix();
 	}

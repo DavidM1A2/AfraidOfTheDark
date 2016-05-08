@@ -9,20 +9,19 @@ import java.util.concurrent.TimeUnit;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
-import com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare.NightmareTeleporter;
-import com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest.VoidChestTeleporter;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.EntityEnaria;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemFlaskOfSouls;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.PlaySoundAtPlayer;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDimensions;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDPlayerFollowSounds;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.entityData.AOTDEntityData;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityLivingBase;
@@ -55,37 +54,23 @@ public class PlayerController
 	@SubscribeEvent
 	public void onClonePlayer(final PlayerEvent.Clone event)
 	{
-		if (event.wasDeath)
+		NBTTagCompound playerData = (NBTTagCompound) ModCapabilities.PLAYER_DATA.getStorage().writeNBT(ModCapabilities.PLAYER_DATA, event.original.getCapability(ModCapabilities.PLAYER_DATA, null), null);
+		NBTTagCompound entityPlayerData = (NBTTagCompound) ModCapabilities.ENTITY_DATA.getStorage().writeNBT(ModCapabilities.ENTITY_DATA, event.original.getCapability(ModCapabilities.ENTITY_DATA, null), null);
+
+		ModCapabilities.PLAYER_DATA.getStorage().readNBT(ModCapabilities.PLAYER_DATA, event.entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null), null, playerData);
+		ModCapabilities.ENTITY_DATA.getStorage().readNBT(ModCapabilities.ENTITY_DATA, event.entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null), null, entityPlayerData);
+
+		if (event.original.dimension == AOTDDimensions.Nightmare.getWorldID() || event.original.dimension == AOTDDimensions.VoidChest.getWorldID())
 		{
-			NBTTagCompound playerData = (NBTTagCompound) ModCapabilities.PLAYER_DATA.getStorage().writeNBT(ModCapabilities.PLAYER_DATA, event.original.getCapability(ModCapabilities.PLAYER_DATA, null), null);
-			NBTTagCompound entityPlayerData = (NBTTagCompound) ModCapabilities.ENTITY_DATA.getStorage().writeNBT(ModCapabilities.ENTITY_DATA, event.original.getCapability(ModCapabilities.ENTITY_DATA, null), null);
-
-			// AOTDPlayerDataOld.get(event.entityPlayer).loadNBTData(nbt);
-			ModCapabilities.PLAYER_DATA.getStorage().readNBT(ModCapabilities.PLAYER_DATA, event.entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null), null, playerData);
-			ModCapabilities.ENTITY_DATA.getStorage().readNBT(ModCapabilities.ENTITY_DATA, event.entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null), null, entityPlayerData);
-
-			if (event.original.dimension == AOTDDimensions.Nightmare.getWorldID())
+			final AOTDDimensions dimension = event.original.dimension == AOTDDimensions.Nightmare.getWorldID() ? AOTDDimensions.Nightmare : AOTDDimensions.VoidChest;
+			AfraidOfTheDark.instance.getDelayedExecutor().schedule(new Runnable()
 			{
-				AfraidOfTheDark.instance.getDelayedExecutor().schedule(new Runnable()
+				@Override
+				public void run()
 				{
-					@Override
-					public void run()
-					{
-						Utility.sendPlayerToDimension((EntityPlayerMP) event.entityPlayer, 0, false, NightmareTeleporter.class);
-					}
-				}, 900, TimeUnit.MILLISECONDS);
-			}
-			else if (event.original.dimension == AOTDDimensions.VoidChest.getWorldID())
-			{
-				AfraidOfTheDark.instance.getDelayedExecutor().schedule(new Runnable()
-				{
-					@Override
-					public void run()
-					{
-						Utility.sendPlayerToDimension((EntityPlayerMP) event.entityPlayer, 0, false, VoidChestTeleporter.class);
-					}
-				}, 900, TimeUnit.MILLISECONDS);
-			}
+					dimension.fromDimensionTo(event.original.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerDimensionPreTeleport(), (EntityPlayerMP) event.entityPlayer);
+				}
+			}, 1, TimeUnit.SECONDS);
 		}
 	}
 
@@ -95,11 +80,19 @@ public class PlayerController
 		// When the player joins the world
 		if (event.entity instanceof EntityPlayer)
 		{
+			EntityPlayer entityPlayer = (EntityPlayer) event.entity;
 			/*
 			 * Sync player research, insanity, and AOTDStart status
 			 */
-			((EntityPlayer) event.entity).getCapability(ModCapabilities.PLAYER_DATA, null).requestSyncAll();
-			((EntityPlayer) event.entity).getCapability(ModCapabilities.ENTITY_DATA, null).requestSyncAll();
+			entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).requestSyncAll();
+			entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).requestSyncAll();
+
+			if (!event.entity.worldObj.isRemote)
+				if (entityPlayer.dimension == AOTDDimensions.Nightmare.getWorldID())
+				{
+					AfraidOfTheDark.instance.getPacketHandler().sendTo(new PlaySoundAtPlayer(60, AOTDPlayerFollowSounds.ErieEcho), (EntityPlayerMP) entityPlayer);
+					AfraidOfTheDark.instance.getPacketHandler().sendTo(new PlaySoundAtPlayer(entityPlayer.worldObj.rand.nextInt(10 * 20) + 10 * 20, AOTDPlayerFollowSounds.BellsRinging), (EntityPlayerMP) entityPlayer);
+				}
 		}
 		else if (event.entity instanceof EntityEnaria)
 		{
@@ -125,6 +118,7 @@ public class PlayerController
 	{
 		if (!event.entityPlayer.worldObj.isRemote)
 		{
+			EntityPlayerMP entityPlayer = (EntityPlayerMP) event.entityPlayer;
 			if (event.entityPlayer.getActivePotionEffect(ModPotionEffects.sleepingPotion) != null)
 			{
 				if (event.entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(ResearchTypes.Nightmares))
@@ -133,7 +127,7 @@ public class PlayerController
 				}
 				if (event.entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.Nightmares))
 				{
-					Utility.sendPlayerToDimension((EntityPlayerMP) event.entityPlayer, AOTDDimensions.Nightmare.getWorldID(), false, NightmareTeleporter.class);
+					AOTDDimensions.Nightmare.toDimension(entityPlayer);
 				}
 			}
 		}

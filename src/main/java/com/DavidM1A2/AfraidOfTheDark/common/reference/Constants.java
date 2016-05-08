@@ -10,6 +10,7 @@ import java.util.Map;
 
 import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.EntityEnaria;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.ghastly.EntityGhastlyEnaria;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.EnchantedSkeleton.EntityEnchantedSkeleton;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.SplinterDrone.EntitySplinterDrone;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
@@ -94,6 +95,7 @@ public final class Constants
 		entityVitaeResistance.put(EntityEnchantedSkeleton.class, 100);
 		entityVitaeResistance.put(EntitySplinterDrone.class, 100);
 		entityVitaeResistance.put(EntityEnaria.class, Integer.MAX_VALUE);
+		entityVitaeResistance.put(EntityGhastlyEnaria.class, Integer.MAX_VALUE);
 
 		toolMaterialRepairCosts.put("EMERALD", 4);
 		toolMaterialRepairCosts.put("GOLD", 5);

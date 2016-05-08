@@ -7,9 +7,9 @@ package com.DavidM1A2.AfraidOfTheDark.client.particleFX;
 
 import net.minecraft.world.World;
 
-public class EnariaSpash extends AOTDParticleFX
+public class EnariaSplash extends AOTDParticleFX
 {
-	public EnariaSpash(World world, double lastTickPosX, double lastTickPosY, double lastTickPosZ, double motionX, double motionY, double motionZ)
+	public EnariaSplash(World world, double lastTickPosX, double lastTickPosY, double lastTickPosZ, double motionX, double motionY, double motionZ)
 	{
 		super(world, lastTickPosX, lastTickPosY, lastTickPosZ, motionX, motionY, motionZ);
 		this.particleScale = 3.0f;

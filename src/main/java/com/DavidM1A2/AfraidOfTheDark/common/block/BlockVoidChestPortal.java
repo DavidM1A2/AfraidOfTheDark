@@ -8,22 +8,15 @@ package com.DavidM1A2.AfraidOfTheDark.common.block;
 import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDBlock;
-import com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest.VoidChestTeleporter;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDimensions;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.savedData.playerData.AOTDPlayerData;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
@@ -55,9 +48,8 @@ public class BlockVoidChestPortal extends AOTDBlock
 	}
 
 	/**
-	 * Called when the block is destroyed by an explosion. Useful for allowing
-	 * the block to take into account tile entities, state, etc. when exploded,
-	 * before it is removed.
+	 * Called when the block is destroyed by an explosion. Useful for allowing the block to take into account tile entities, state, etc. when
+	 * exploded, before it is removed.
 	 *
 	 * @param world
 	 *            The current world
@@ -79,8 +71,7 @@ public class BlockVoidChestPortal extends AOTDBlock
 	}
 
 	/**
-	 * Determines if this block is can be destroyed by the specified entities
-	 * normal behavior.
+	 * Determines if this block is can be destroyed by the specified entities normal behavior.
 	 *
 	 * @param world
 	 *            The current world
@@ -117,10 +108,10 @@ public class BlockVoidChestPortal extends AOTDBlock
 				{
 					if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.VoidChest))
 					{
-						Utility.sendPlayerToDimension(entityPlayer, 0, false, VoidChestTeleporter.class);
+						AOTDDimensions.VoidChest.fromDimensionTo(entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerDimensionPreTeleport(), entityPlayer);
 					}
 				}
-				else if (world.provider.getDimensionId() == 0)
+				else
 				{
 					if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(ResearchTypes.VoidChest))
 					{
@@ -129,7 +120,7 @@ public class BlockVoidChestPortal extends AOTDBlock
 					}
 					if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.VoidChest))
 					{
-						Utility.sendPlayerToVoidChest(entityPlayer, this.validatePlayerLocationVoidChest(entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerLocationVoidChest(), entityPlayer));
+						AOTDDimensions.VoidChest.toDimension(entityPlayer);
 					}
 					else
 					{
@@ -156,24 +147,5 @@ public class BlockVoidChestPortal extends AOTDBlock
 	public Item getItem(World worldIn, BlockPos pos)
 	{
 		return null;
-	}
-
-	private int validatePlayerLocationVoidChest(int locationX, EntityPlayer entityPlayer)
-	{
-		if (locationX == 0)
-		{
-			if (!entityPlayer.worldObj.isRemote)
-			{
-				MinecraftServer.getServer().getCommandManager().executeCommand(MinecraftServer.getServer(), "/save-all");
-			}
-
-			int furthestOutPlayer = 0;
-			for (NBTTagCompound entityPlayerData : NBTHelper.getOfflinePlayerNBTs())
-			{
-				furthestOutPlayer = Math.max(furthestOutPlayer, AOTDPlayerData.getPlayerLocationVoidChestOffline(entityPlayerData));
-			}
-			entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setPlayerLocationVoidChest(furthestOutPlayer + 1);
-		}
-		return entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerLocationVoidChest();
 	}
 }

@@ -9,9 +9,8 @@ import com.DavidM1A2.AfraidOfTheDark.common.block.BlockVoidChestPortal;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDimensions;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.playerData.AOTDPlayerData;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.WorldGenerationUtility;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.Point3D;
 
 import net.minecraft.block.BlockAir;
 import net.minecraft.entity.Entity;
@@ -46,45 +45,39 @@ public class VoidChestTeleporter extends Teleporter
 	{
 		if (dimensionNew == AOTDDimensions.VoidChest.getWorldID())
 		{
+			// Reset motion
 			entity.motionX = entity.motionY = entity.motionZ = 0.0D;
 
 			if (entity instanceof EntityPlayer)
 			{
 				EntityPlayer entityPlayer = (EntityPlayer) entity;
-
-				for (int i = MathHelper.ceiling_double_int(entityPlayer.posX) - DISTANCE_TO_SEARCH_FOR_SPAWN_FOR / 2; i < MathHelper.ceiling_double_int(entityPlayer.posX) + DISTANCE_TO_SEARCH_FOR_SPAWN_FOR; i++)
+				double x = entityPlayer.posX;
+				double y = entityPlayer.posY;
+				double z = entityPlayer.posZ;
+				// Nether divide coords by 8
+				if (this.dimensionOld == -1)
 				{
-					for (int j = MathHelper.ceiling_double_int(entityPlayer.posY) - DISTANCE_TO_SEARCH_FOR_SPAWN_FOR / 2; j < MathHelper.ceiling_double_int(entityPlayer.posY) + DISTANCE_TO_SEARCH_FOR_SPAWN_FOR; j++)
-					{
-						for (int k = MathHelper.ceiling_double_int(entityPlayer.posZ) - DISTANCE_TO_SEARCH_FOR_SPAWN_FOR / 2; k < MathHelper.ceiling_double_int(entityPlayer.posZ) + DISTANCE_TO_SEARCH_FOR_SPAWN_FOR; k++)
-						{
-							if (isValidSpawnLocation(entityPlayer.worldObj, new BlockPos(i, j, k)))
+					x = x / 8;
+					z = z / 8;
+				}
+
+				// Find a good place to place the player once returning
+				for (int i = MathHelper.ceiling_double_int(x) - DISTANCE_TO_SEARCH_FOR_SPAWN_FOR / 2; i < MathHelper.ceiling_double_int(x) + DISTANCE_TO_SEARCH_FOR_SPAWN_FOR; i++)
+					for (int j = MathHelper.ceiling_double_int(y) - DISTANCE_TO_SEARCH_FOR_SPAWN_FOR / 2; j < MathHelper.ceiling_double_int(y) + DISTANCE_TO_SEARCH_FOR_SPAWN_FOR; j++)
+						for (int k = MathHelper.ceiling_double_int(z) - DISTANCE_TO_SEARCH_FOR_SPAWN_FOR / 2; k < MathHelper.ceiling_double_int(z) + DISTANCE_TO_SEARCH_FOR_SPAWN_FOR; k++)
+							if (isValidSpawnLocation(MinecraftServer.getServer().worldServerForDimension(this.dimensionOld), new BlockPos(i, j, k)))
 							{
-								entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setPlayerLocationOverworld(new int[] { i, j + 1, k });
-
-								int locationX = this.validatePlayerLocationVoidChest(entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerLocationVoidChest(), entityPlayer) * AOTDDimensions.getBlocksBetweenIslands() + 25;
-
-								((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(locationX, 104, 3, 0, 0);
-
+								entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setPlayerLocationPreTeleport(new Point3D(i, j + 1, k), this.dimensionOld);
+								int locationX = this.getValidatePlayerLocationVoidChest(entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerLocationVoidChest(), entityPlayer) * AOTDDimensions.getBlocksBetweenIslands();
+								((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(locationX + 25, 104, 3, 0, 0);
 								return;
 							}
-						}
-					}
-				}
 
-				if (!entityPlayer.worldObj.isRemote)
-				{
-					entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setPlayerLocationOverworld(new int[] { 0, WorldGenerationUtility.getFirstNonAirBlock(MinecraftServer.getServer().worldServerForDimension(0), 0, 0), 0 });
-				}
-				else
-				{
-					entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setPlayerLocationOverworld(new int[] { 0, 255, 0 });
-				}
-
-				int locationX = this.validatePlayerLocationVoidChest(entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerLocationVoidChest(), entityPlayer) * AOTDDimensions.getBlocksBetweenIslands() + 25;
-
-				((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(locationX, 104, 3, 0, 0);
-
+				// We didn't find a good spot. Error.
+				entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setPlayerLocationPreTeleport(new Point3D(0, 255, 0), this.dimensionOld);
+				entityPlayer.addChatMessage(new ChatComponentText("An error occoured when saving your location in your previous dimension. When you return you will be placed at 0, 255, 0"));
+				int locationX = this.getValidatePlayerLocationVoidChest(entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerLocationVoidChest(), entityPlayer) * AOTDDimensions.getBlocksBetweenIslands();
+				((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(locationX + 24.5, 104, 3, 0, 0);
 			}
 		}
 		else if (dimensionOld == AOTDDimensions.VoidChest.getWorldID())
@@ -94,13 +87,10 @@ public class VoidChestTeleporter extends Teleporter
 			if (entity instanceof EntityPlayer)
 			{
 				EntityPlayer entityPlayer = (EntityPlayer) entity;
-				BlockPos playerPostionOld = this.intArrToBlockPos(entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerLocationOverworld(), entityPlayer);
-
-				if (playerPostionOld.getX() == 0 && playerPostionOld.getZ() == 0)
-				{
-					entityPlayer.addChatMessage(new ChatComponentText("There were no air blocks surrounding the portal you passed through. Defaulting to 0, 0"));
-				}
-				entityPlayer.setPosition(playerPostionOld.getX() + 0.5, playerPostionOld.getY() + 1, playerPostionOld.getZ() + 0.5);
+				BlockPos playerPostionOld = entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerLocationPreTeleport().toBlockPos();
+				if (playerPostionOld.getY() == 255)
+					entityPlayer.addChatMessage(new ChatComponentText("There were no air blocks surrounding the portal you originally passed through. Defaulting to 0, 255, 0"));
+				((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(playerPostionOld.getX() + 0.5, playerPostionOld.getY() + 1, playerPostionOld.getZ() + 0.5, 0, 0);
 			}
 		}
 	}
@@ -108,31 +98,12 @@ public class VoidChestTeleporter extends Teleporter
 	private boolean isValidSpawnLocation(World world, BlockPos blockPos)
 	{
 		if (!(world.getBlockState(blockPos).getBlock() instanceof BlockAir) && !(world.getBlockState(blockPos).getBlock() instanceof BlockVoidChestPortal))
-		{
 			if (world.getBlockState(blockPos.add(0, 1, 0)).getBlock() instanceof BlockAir && world.getBlockState(blockPos.add(0, 2, 0)).getBlock() instanceof BlockAir)
-			{
 				return true;
-			}
-		}
 		return false;
 	}
 
-	private BlockPos intArrToBlockPos(int[] location, EntityPlayer entityPlayer)
-	{
-		if (location.length == 0)
-		{
-			return new BlockPos(0, WorldGenerationUtility.getFirstNonAirBlock(entityPlayer.worldObj, 0, 0) + 2, 0);
-		}
-
-		if (location[1] == 0)
-		{
-			location[1] = WorldGenerationUtility.getFirstNonAirBlock(entityPlayer.worldObj, 0, 0) + 2;
-			LogHelper.error("Player data incorrectly saved. Defaulting to 0, 0. Please report this to the mod author.");
-		}
-		return new BlockPos(location[0], location[1], location[2]);
-	}
-
-	private int validatePlayerLocationVoidChest(int locationX, EntityPlayer entityPlayer)
+	private int getValidatePlayerLocationVoidChest(int locationX, EntityPlayer entityPlayer)
 	{
 		if (locationX == 0)
 		{
