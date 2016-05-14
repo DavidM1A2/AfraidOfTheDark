@@ -5,8 +5,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.handler;
 
-import java.util.concurrent.TimeUnit;
-
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
@@ -44,6 +42,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -59,18 +58,22 @@ public class PlayerController
 
 		ModCapabilities.PLAYER_DATA.getStorage().readNBT(ModCapabilities.PLAYER_DATA, event.entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null), null, playerData);
 		ModCapabilities.ENTITY_DATA.getStorage().readNBT(ModCapabilities.ENTITY_DATA, event.entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null), null, entityPlayerData);
+	}
 
-		if (event.original.dimension == AOTDDimensions.Nightmare.getWorldID() || event.original.dimension == AOTDDimensions.VoidChest.getWorldID())
+	@SubscribeEvent
+	public void onPlayerRespawnEvent(PlayerRespawnEvent event)
+	{
+		if (!event.player.worldObj.isRemote)
 		{
-			final AOTDDimensions dimension = event.original.dimension == AOTDDimensions.Nightmare.getWorldID() ? AOTDDimensions.Nightmare : AOTDDimensions.VoidChest;
-			AfraidOfTheDark.instance.getDelayedExecutor().schedule(new Runnable()
+			if (event.player.dimension == AOTDDimensions.Nightmare.getWorldID())
 			{
-				@Override
-				public void run()
-				{
-					dimension.fromDimensionTo(event.original.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerDimensionPreTeleport(), (EntityPlayerMP) event.entityPlayer);
-				}
-			}, 1, TimeUnit.SECONDS);
+				AOTDDimensions.Nightmare.fromDimensionTo(event.player.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerDimensionPreTeleport(), (EntityPlayerMP) event.player);
+			}
+			else if (event.player.dimension == AOTDDimensions.VoidChest.getWorldID())
+			{
+				int locationX = event.player.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerLocationVoidChest() * AOTDDimensions.getBlocksBetweenIslands();
+				((EntityPlayerMP) event.player).playerNetServerHandler.setPlayerLocation(locationX + 24.5, 104, 3, 0, 0);
+			}
 		}
 	}
 

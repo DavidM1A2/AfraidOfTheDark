@@ -12,6 +12,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.block.BlockDarkForest;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockEldritchObsidian;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockEldritchStone;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockEnariaSpawner;
+import com.DavidM1A2.AfraidOfTheDark.common.block.BlockEnariasAltar;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGlowStalk;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGnomishMetalPlate;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGnomishMetalStrut;
@@ -44,6 +45,8 @@ import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -76,6 +79,7 @@ public class ModBlocks
 	public static final BlockGnomishMetalStrut gnomishMetalStrut = new BlockGnomishMetalStrut();
 	public static final BlockGlowStalk glowStalk = new BlockGlowStalk();
 	public static final BlockEnariaSpawner enariaSpawner = new BlockEnariaSpawner(Material.rock);
+	public static final BlockEnariasAltar enariasAltar = new BlockEnariasAltar();
 
 	public static void initialize()
 	{
@@ -113,12 +117,15 @@ public class ModBlocks
 		GameRegistry.registerBlock(ModBlocks.glowStalk, "glowStalk");
 		GameRegistry.registerBlock(ModBlocks.enariaSpawner, "enariaSpawner");
 		GameRegistry.registerTileEntity(TileEntityEnariaSpawner.class, "tileEntityEnariaSpawner");
+		GameRegistry.registerBlock(ModBlocks.enariasAltar, "enariasAltar");
 	}
 
 	public static void initializeRenderers(final Side side)
 	{
 		if (side == Side.CLIENT)
 		{
+			OBJLoader.instance.addDomain(Reference.MOD_ID);
+
 			final ItemModelMesher itemModelMesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
 			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.spring), 0, new ModelResourceLocation(Reference.MOD_ID + ":spring", "inventory"));
 			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.darkForest), 0, new ModelResourceLocation(Reference.MOD_ID + ":darkForest", "inventory"));
@@ -145,6 +152,8 @@ public class ModBlocks
 			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gnomishMetalStrut), 0, new ModelResourceLocation(Reference.MOD_ID + ":gnomishMetalStrut", "inventory"));
 			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.glowStalk), 0, new ModelResourceLocation(Reference.MOD_ID + ":glowStalk", "inventory"));
 			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.enariaSpawner), 0, new ModelResourceLocation(Reference.MOD_ID + ":enariaSpawner", "inventory"));
+			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.enariasAltar), 0, new ModelResourceLocation(Reference.MOD_ID + ":enariasAltar", "inventory"));
+			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(ModBlocks.enariasAltar), 0, new ModelResourceLocation(Reference.MOD_ID + ":enariasAltar", "inventory"));
 		}
 	}
 }

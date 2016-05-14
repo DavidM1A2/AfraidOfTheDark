@@ -11,6 +11,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.ResearchAchieved;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
+import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimTickHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.commands.AfraidOfTheDarkCommands;
 import com.DavidM1A2.AfraidOfTheDark.common.commands.CMDInsanityCheck;
 import com.DavidM1A2.AfraidOfTheDark.common.debug.DebugSpammer;
@@ -99,12 +100,14 @@ public class AfraidOfTheDark
 		FMLCommonHandler.instance().bus().register(worldEvents);
 		MinecraftForge.EVENT_BUS.register(worldEvents);
 		if (event.getSide() == Side.CLIENT)
+		{
 			MinecraftForge.EVENT_BUS.register(new GuiEventHandler());
+			// Register the animation handler
+			MinecraftForge.EVENT_BUS.register(AnimTickHandler.getInstance());
+		}
 		// Initialize debug file to spam chat with variables
 		if (Reference.isDebug)
-		{
 			MinecraftForge.EVENT_BUS.register(new DebugSpammer());
-		}
 		// Initialize mod blocks
 		ModBlocks.initialize();
 		// Initialize mod items

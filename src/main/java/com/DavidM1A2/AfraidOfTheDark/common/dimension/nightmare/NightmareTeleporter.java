@@ -5,7 +5,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare;
 
-import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.ghastly.EntityGhastlyEnaria;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDimensions;
@@ -67,8 +66,6 @@ public class NightmareTeleporter extends Teleporter
 					entityPlayer.getFoodStats().setFoodLevel(20);
 					entityPlayer.inventory.addItemStackToInventory(getNamedJournal(entityPlayer));
 					entityPlayer.inventory.addItemStackToInventory(getHintBook(entityPlayer));
-
-					this.summonEnaria(entityPlayer);
 				}
 			}
 		}
@@ -94,18 +91,6 @@ public class NightmareTeleporter extends Teleporter
 				entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setPlayerInventory(new NBTTagList());
 			}
 		}
-	}
-
-	private void summonEnaria(EntityPlayer entityPlayer)
-	{
-		final EntityGhastlyEnaria enaria = new EntityGhastlyEnaria(this.worldServerInstance);
-		enaria.forceSpawn = true;
-		if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getHasBeatenEnaria())
-			enaria.setBenign(false);
-		else
-			enaria.setBenign(true);
-		enaria.setPosition(entityPlayer.posX + 117.5, entityPlayer.posY + 4, entityPlayer.posZ + 28.5);
-		NightmareTeleporter.this.worldServerInstance.spawnEntityInWorld(enaria);
 	}
 
 	private ItemStack getHintBook(EntityPlayer entityPlayer)

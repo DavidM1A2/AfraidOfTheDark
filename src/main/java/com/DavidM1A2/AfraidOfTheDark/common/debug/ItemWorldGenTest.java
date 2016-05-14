@@ -5,9 +5,10 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.debug;
 
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.ghastly.EntityGhastlyEnaria;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.Point3D;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
+import com.google.common.base.Predicate;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -38,16 +39,15 @@ public class ItemWorldGenTest extends AOTDItem
 		LogHelper.info(entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getHasBeatenEnaria());
 		*/
 
-		/*
 		if (!entityPlayer.isSneaking())
 		{
 			EntityGhastlyEnaria enaria = new EntityGhastlyEnaria(world);
-			enaria.setBenign(false);
+			enaria.setBenign(true);
 			enaria.setPosition(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ);
 			if (!world.isRemote)
 				world.spawnEntityInWorld(enaria);
 		}
-		
+
 		if (entityPlayer.isSneaking())
 			for (EntityGhastlyEnaria entity : world.getEntities(EntityGhastlyEnaria.class, new Predicate<EntityGhastlyEnaria>()
 			{
@@ -61,10 +61,11 @@ public class ItemWorldGenTest extends AOTDItem
 				LogHelper.info("killed" + entity);
 				entity.onKillCommand();
 				entity.setDead();
-			}*/
+			}
 
+		/*
 		entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setPlayerLocationPreTeleport(new Point3D(0, 100, 0), 0);
-
+		*/
 		return super.onItemRightClick(itemStack, world, entityPlayer);
 	}
 }

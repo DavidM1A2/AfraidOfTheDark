@@ -58,23 +58,10 @@ public class GhastlyEnariaPlayerChase extends EntityAIBase
 		else
 		{
 			if (!this.enaria.isBenign())
-			{
 				this.enaria.getMoveHelper().setMoveTo(this.target.posX, this.target.posY, this.target.posZ, this.enaria.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue());
-			}
-
-			/*
-			double d1 = target.posX - this.enaria.posX;
-			double d2 = target.posZ - this.enaria.posZ;
-			this.enaria.renderYawOffset = this.enaria.rotationYaw = -((float) MathHelper.atan2(d1, d2)) * 180.0F / (float) Math.PI;
-			*/
-
-			if (!this.enaria.worldObj.isRemote)
-			{
-				if (this.target.canEntityBeSeen(this.enaria))
-				{
-					this.target.addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(), 60, 4, false, false));
-				}
-			}
+			this.enaria.faceEntity(this.target, 360f, 360f);
+			if (this.target.canEntityBeSeen(this.enaria))
+				this.target.addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(), 60, 4, false, false));
 		}
 	}
 }

@@ -5,7 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity;
 
-import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDTileEntity;
+import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDTickingTileEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
@@ -18,7 +18,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntitySpring extends AOTDTileEntity
+public class TileEntitySpring extends AOTDTickingTileEntity
 {
 	private int ticksExisted = 0;
 	private static final int TICKS_INBETWEEN_CHECKS = 120;

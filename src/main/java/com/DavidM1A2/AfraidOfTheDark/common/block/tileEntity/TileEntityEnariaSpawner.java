@@ -2,7 +2,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity;
 
 import java.util.UUID;
 
-import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDTileEntity;
+import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDTickingTileEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.EntityEnaria;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
@@ -14,7 +14,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.EnumDifficulty;
 
-public class TileEntityEnariaSpawner extends AOTDTileEntity
+public class TileEntityEnariaSpawner extends AOTDTickingTileEntity
 {
 	private int ticksExisted = 0;
 	private UUID enariaEntityID = null;

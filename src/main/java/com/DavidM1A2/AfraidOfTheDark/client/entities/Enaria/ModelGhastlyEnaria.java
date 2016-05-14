@@ -5,6 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.entities.Enaria;
 
+import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.ghastly.EntityGhastlyEnaria;
 
 import net.minecraft.entity.Entity;
@@ -16,7 +17,7 @@ public class ModelGhastlyEnaria extends ModelEnaria
 	{
 		EntityGhastlyEnaria entity = (EntityGhastlyEnaria) par1Entity;
 
-		//AnimationHandler.performAnimationInModel(parts, entity);
+		AnimationHandler.performAnimationInModel(parts, entity);
 
 		//Render every non-child part
 		body.render(par7);

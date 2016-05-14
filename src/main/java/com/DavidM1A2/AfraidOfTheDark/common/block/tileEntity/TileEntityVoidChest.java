@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
-import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDTileEntity;
+import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDTickingTileEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncVoidChest;
@@ -31,7 +31,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
-public class TileEntityVoidChest extends AOTDTileEntity
+public class TileEntityVoidChest extends AOTDTickingTileEntity
 {
 	/** The current angle of the lid (between 0 and 1) */
 	public float lidAngle;

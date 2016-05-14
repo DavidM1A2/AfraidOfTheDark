@@ -4,6 +4,8 @@ import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDBlockTileEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityEnariaSpawner;
+import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityGhastlyEnariaSpawner;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDimensions;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
@@ -11,7 +13,7 @@ import net.minecraft.world.World;
 
 public class BlockEnariaSpawner extends AOTDBlockTileEntity
 {
-	public BlockEnariaSpawner(Material material) 
+	public BlockEnariaSpawner(Material material)
 	{
 		super(material);
 		this.setUnlocalizedName("enariaSpawner");
@@ -21,17 +23,19 @@ public class BlockEnariaSpawner extends AOTDBlockTileEntity
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta) 
+	public TileEntity createNewTileEntity(World world, int meta)
 	{
+		if (world.provider.getDimensionId() == AOTDDimensions.Nightmare.getWorldID())
+			return new TileEntityGhastlyEnariaSpawner();
 		return new TileEntityEnariaSpawner();
 	}
 
 	@Override
-	protected boolean displayInCreative() 
+	protected boolean displayInCreative()
 	{
 		return false;
 	}
-	
+
 	/**
 	 * Returns the quantity of items to drop on block destruction.
 	 */

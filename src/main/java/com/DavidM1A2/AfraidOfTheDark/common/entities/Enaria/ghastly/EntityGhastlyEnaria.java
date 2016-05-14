@@ -5,7 +5,8 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.ghastly;
 
-import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
+import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
+import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
 
 import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -16,9 +17,9 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 
-public class EntityGhastlyEnaria extends EntityFlying //implements IMCAnimatedEntity
+public class EntityGhastlyEnaria extends EntityFlying implements IMCAnimatedEntity
 {
-	//protected AnimationHandler animHandler = new AnimationHandlerGhastlyEnaria(this);
+	protected AnimationHandler animHandler = new AnimationHandlerGhastlyEnaria(this);
 
 	private static final double MOVE_SPEED = 0.02D;
 	private static final double AGRO_RANGE = 300.0D;
@@ -26,6 +27,7 @@ public class EntityGhastlyEnaria extends EntityFlying //implements IMCAnimatedEn
 	private static final double MAX_HEALTH = 9001.0D;
 	private static final double ATTACK_DAMAGE = 900.0D;
 	private static final double KNOCKBACK_RESISTANCE = 1.0D;
+	private static final double PLAYER_CHECK_FREQUENCY = 10;
 	private boolean benign;
 
 	public EntityGhastlyEnaria(World worldIn)
@@ -34,23 +36,31 @@ public class EntityGhastlyEnaria extends EntityFlying //implements IMCAnimatedEn
 		this.setSize(0.8F, 1.8F);
 		this.setCustomNameTag("Ghastly Enaria");
 		this.noClip = true;
+		this.rotationYaw = this.rotationYawHead = this.rand.nextFloat() * 360;
+		this.isImmuneToFire = true;
 
 		this.moveHelper = new GhastlyEnariaMoveHelper(this);
 		this.tasks.addTask(1, new GhastlyEnariaPlayerChase(this));
-		//this.tasks.addTask(2, new EntityAIWatchClosest(this, EntityPlayer.class, 500, 1));
 	}
 
 	@Override
 	public void onEntityUpdate()
 	{
-		LogHelper.info(this.rotationYaw);
-		//if (this.isBenign())
-		//{
-		//}
-		//			if (!worldObj.isRemote)
-		//			{
-		//				//AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncAnimation("dance", this.getEntityId(), "dance"), this, 500);
-		//			}
+		super.onEntityUpdate();
+		if (this.worldObj.isRemote)
+		{
+			if (!this.getAnimationHandler().isAnimationActive("dance"))
+				this.getAnimationHandler().activateAnimation("dance", 0);
+		}
+		else
+		{
+			//			if (this.ticksExisted % PLAYER_CHECK_FREQUENCY == 0)
+			//			{
+			//				EntityPlayer entityPlayer = this.worldObj.getClosestPlayerToEntity(this, 3);
+			//				if (entityPlayer != null)
+			//					AOTDDimensions.Nightmare.fromDimensionTo(entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerDimensionPreTeleport(), ((EntityPlayerMP) entityPlayer));
+			//			}
+		}
 	}
 
 	// Apply entity attributes
@@ -127,11 +137,9 @@ public class EntityGhastlyEnaria extends EntityFlying //implements IMCAnimatedEn
 		this.benign = benign;
 	}
 
-	/*
 	@Override
 	public AnimationHandler getAnimationHandler()
 	{
 		return this.animHandler;
 	}
-	*/
 }

@@ -10,21 +10,18 @@ import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.entity.Entity;
 import net.minecraftforge.client.event.GuiOpenEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
-import net.minecraftforge.fml.relauncher.Side;
 
 public class AnimTickHandler
 {
 	private List<IMCAnimatedEntity> activeEntitiesClient = new LinkedList<IMCAnimatedEntity>();
+	private static AnimTickHandler instance = new AnimTickHandler();
 
-	public AnimTickHandler()
+	public static AnimTickHandler getInstance()
 	{
-		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
-			MinecraftForge.EVENT_BUS.register(this);
+		return AnimTickHandler.instance;
 	}
 
 	public void addEntity(IMCAnimatedEntity entity)

@@ -29,9 +29,12 @@ public class GhastlyEnariaMoveHelper extends EntityMoveHelper
 			double d2 = this.posZ - this.enaria.posZ;
 			double d3 = MathHelper.sqrt_double(d0 * d0 + d1 * d1 + d2 * d2);
 
-			this.enaria.motionX += d0 / d3 * this.speed;
-			this.enaria.motionY += d1 / d3 * this.speed;
-			this.enaria.motionZ += d2 / d3 * this.speed;
+			if (d3 != 0)
+			{
+				this.enaria.motionX += d0 / d3 * this.speed;
+				this.enaria.motionY += d1 / d3 * this.speed;
+				this.enaria.motionZ += d2 / d3 * this.speed;
+			}
 		}
 	}
 }

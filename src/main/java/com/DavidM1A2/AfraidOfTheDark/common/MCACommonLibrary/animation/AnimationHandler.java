@@ -18,7 +18,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class AnimationHandler
 {
-	public static AnimTickHandler animTickHandler = new AnimTickHandler();
 	/** Owner of this handler. */
 	private IMCAnimatedEntity animatedEntity;
 	/** List of all the activate animations of this Entity. */
@@ -31,7 +30,7 @@ public abstract class AnimationHandler
 
 	public AnimationHandler(IMCAnimatedEntity entity)
 	{
-		animTickHandler.addEntity(entity);
+		AnimTickHandler.getInstance().addEntity(entity);
 		animatedEntity = entity;
 	}
 
