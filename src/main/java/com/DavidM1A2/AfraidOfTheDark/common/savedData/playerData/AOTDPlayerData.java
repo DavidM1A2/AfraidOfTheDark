@@ -8,7 +8,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncAOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncSelectedWristCrossbowBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncSpellManager;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateAOTDStatus;
-import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateHasBeatenEnaria;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateInsanity;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateResearch;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
@@ -37,7 +36,6 @@ public class AOTDPlayerData implements ICapabilitySerializable<NBTTagCompound>, 
 	private int playerLocationNightmare;
 	private int playerLocationVoidChest;
 	private NBTTagCompound researches = new NBTTagCompound();
-	private boolean hasBeatenEnaria;
 	private int selectedWristCrossbowBolt = 0;
 	private SpellManager spellManager = new SpellManager();
 	private final static String PLAYER_LOCATION_VOID_CHEST = "playerLocationVoidChest";
@@ -225,24 +223,6 @@ public class AOTDPlayerData implements ICapabilitySerializable<NBTTagCompound>, 
 		else
 		{
 			AfraidOfTheDark.instance.getPacketHandler().sendToServer(new UpdateResearch(this.researches));
-		}
-	}
-
-	public boolean getHasBeatenEnaria()
-	{
-		return this.hasBeatenEnaria;
-	}
-
-	public void setHasBeatenEnaria(boolean hasBeatenEnaria)
-	{
-		this.hasBeatenEnaria = hasBeatenEnaria;
-	}
-
-	public void syncHasBeatenEnaria()
-	{
-		if (this.isServerSide())
-		{
-			AfraidOfTheDark.instance.getPacketHandler().sendTo(new UpdateHasBeatenEnaria(this.hasBeatenEnaria), (EntityPlayerMP) this.entityPlayer);
 		}
 	}
 

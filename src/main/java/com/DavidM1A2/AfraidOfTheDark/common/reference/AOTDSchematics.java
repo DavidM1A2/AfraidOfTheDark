@@ -11,7 +11,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicLoader;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.sizeof.RamUsageEstimator;
 
-import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 
 public enum AOTDSchematics
@@ -62,20 +61,6 @@ public enum AOTDSchematics
 
 	static
 	{
-		SchematicBlockReplacer.replaceBlocks(RoomCave.getSchematic(), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41,
-				(short) Block.getIdFromBlock(ModBlocks.eldritchObsidian));
-		SchematicBlockReplacer.replaceBlocks(RoomFarm.getSchematic(), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41,
-				(short) Block.getIdFromBlock(ModBlocks.eldritchObsidian));
-		SchematicBlockReplacer.replaceBlocks(RoomHotel.getSchematic(), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41,
-				(short) Block.getIdFromBlock(ModBlocks.eldritchObsidian));
-		SchematicBlockReplacer.replaceBlocks(RoomMeetingHall.getSchematic(), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41,
-				(short) Block.getIdFromBlock(ModBlocks.eldritchObsidian));
-		SchematicBlockReplacer.replaceBlocks(RoomRuin.getSchematic(), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41,
-				(short) Block.getIdFromBlock(ModBlocks.eldritchObsidian));
-		SchematicBlockReplacer.replaceBlocks(RoomTanks.getSchematic(), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41,
-				(short) Block.getIdFromBlock(ModBlocks.eldritchObsidian));
-		SchematicBlockReplacer.replaceBlocks(RoomMushroom.getSchematic(), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41,
-				(short) Block.getIdFromBlock(ModBlocks.eldritchObsidian));
 		rooms.add(RoomCave.getSchematic());
 		rooms.add(RoomFarm.getSchematic());
 		rooms.add(RoomHotel.getSchematic());
@@ -94,21 +79,9 @@ public enum AOTDSchematics
 		SchematicBlockReplacer.replaceBlocks(Crypt.getSchematic(), Blocks.gold_block, ModBlocks.gravewoodStairs, Blocks.gold_ore, ModBlocks.gravewoodPlanks);
 		SchematicBlockReplacer.replaceBlocks(Spring.getSchematic(), Blocks.gold_ore, ModBlocks.gravewoodLeaves, Blocks.gold_block, ModBlocks.spring);
 
-		SchematicBlockReplacer.replaceBlocks(VoidChestPortal.getSchematic(), Blocks.lapis_block, ModBlocks.eldritchStone);
+		SchematicBlockReplacer.replaceBlocks(NightmareIsland.getSchematic(), Blocks.sponge, ModBlocks.enariaSpawner);
 
-		SchematicBlockReplacer.replaceBlocks(TunnelEW.getSchematic(), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41,
-				(short) Block.getIdFromBlock(ModBlocks.eldritchObsidian));
-		SchematicBlockReplacer.replaceBlocks(TunnelNS.getSchematic(), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41,
-				(short) Block.getIdFromBlock(ModBlocks.eldritchObsidian));
-		SchematicBlockReplacer.replaceBlocks(RoomStairUp.getSchematic(), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41,
-				(short) Block.getIdFromBlock(ModBlocks.eldritchObsidian));
-		SchematicBlockReplacer.replaceBlocks(RoomStairDown.getSchematic(), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41,
-				(short) Block.getIdFromBlock(ModBlocks.eldritchObsidian));
-		SchematicBlockReplacer.replaceBlocks(Stairwell.getSchematic(), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41,
-				(short) Block.getIdFromBlock(ModBlocks.eldritchObsidian));
-		SchematicBlockReplacer.replaceBlocks(EnariaLair.getSchematic(), (short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut), (short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate), (short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk), (short) -41,
-				(short) Block.getIdFromBlock(ModBlocks.eldritchObsidian), (short) -40, (short) Block.getIdFromBlock(ModBlocks.amorphousEldritchMetal), (short) -39, (short) Block.getIdFromBlock(ModBlocks.eldritchStone), (short) -48, (short) Block.getIdFromBlock(ModBlocks.meteor), (short) -47,
-				(short) Block.getIdFromBlock(ModBlocks.starMetalOre), (short) -46, (short) Block.getIdFromBlock(ModBlocks.igneousBlock), (short) -55, (short) Block.getIdFromBlock(ModBlocks.gravewood));
+		SchematicBlockReplacer.replaceBlocks(VoidChestPortal.getSchematic(), Blocks.lapis_block, ModBlocks.eldritchStone);
 
 		if (ConfigurationHandler.debugMessages)
 		{

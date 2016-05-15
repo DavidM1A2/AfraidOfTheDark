@@ -6,6 +6,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDTickingTileEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.EntityEnaria;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,7 +17,6 @@ import net.minecraft.world.EnumDifficulty;
 
 public class TileEntityEnariaSpawner extends AOTDTickingTileEntity
 {
-	private int ticksExisted = 0;
 	private UUID enariaEntityID = null;
 	private static final int TICKS_INBETWEEN_CHECKS = 40;
 	private AxisAlignedBB playerCheckRegion = null;
@@ -29,9 +29,10 @@ public class TileEntityEnariaSpawner extends AOTDTickingTileEntity
 	@Override
 	public void update()
 	{
+		super.update();
 		if (!worldObj.isRemote)
 		{
-			if (ticksExisted % TICKS_INBETWEEN_CHECKS == 0)
+			if (this.ticksExisted % TICKS_INBETWEEN_CHECKS == 0)
 			{
 				if (worldObj.getDifficulty() != EnumDifficulty.PEACEFUL)
 				{
@@ -46,7 +47,7 @@ public class TileEntityEnariaSpawner extends AOTDTickingTileEntity
 							if (object instanceof EntityPlayer)
 							{
 								EntityPlayer entityPlayer = (EntityPlayer) object;
-								if (!entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getHasBeatenEnaria())
+								if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(ResearchTypes.Enaria))
 								{
 									this.summonEnaria();
 									return;
@@ -65,7 +66,6 @@ public class TileEntityEnariaSpawner extends AOTDTickingTileEntity
 					}
 				}
 			}
-			ticksExisted = ticksExisted + 1;
 		}
 	}
 

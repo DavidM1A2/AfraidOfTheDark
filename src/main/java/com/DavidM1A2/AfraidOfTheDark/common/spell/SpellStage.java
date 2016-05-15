@@ -9,9 +9,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.DavidM1A2.AfraidOfTheDark.common.spell.deliveryMethods.DeliveryMethod;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.deliveryMethods.IDeliveryMethod;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.effects.Effect;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.effects.IEffect;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.SpellUtility;
 
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -61,10 +62,7 @@ public class SpellStage implements Serializable
 	{
 		NBTTagCompound deliveryMethodData = new NBTTagCompound();
 		if (this.deliveryMethod != null)
-		{
 			this.deliveryMethod.writeToNBT(deliveryMethodData);
-			deliveryMethodData.setBoolean("null", false);
-		}
 		else
 			deliveryMethodData.setBoolean("null", true);
 
@@ -74,7 +72,6 @@ public class SpellStage implements Serializable
 		{
 			NBTTagCompound effectData = new NBTTagCompound();
 			this.effects.get(i).writeToNBT(effectData);
-			effectData.setBoolean("null", false);
 			compound.setTag("effect " + i, effectData);
 		}
 	}
@@ -82,13 +79,13 @@ public class SpellStage implements Serializable
 	public void readFromNBT(NBTTagCompound compound)
 	{
 		NBTTagCompound deliveryMethodData = compound.getCompoundTag("deliveryMethod");
-		this.deliveryMethod = (IDeliveryMethod) SpellUtility.createSpellComponentFromNBT(deliveryMethodData);
+		this.deliveryMethod = DeliveryMethod.create(deliveryMethodData);
 		int numberOfEffects = compound.getInteger("numberOfEffects");
 		this.effects = new ArrayList<IEffect>();
 		for (int i = 0; i < numberOfEffects; i++)
 		{
 			NBTTagCompound effectData = compound.getCompoundTag("effect " + i);
-			this.effects.add((IEffect) SpellUtility.createSpellComponentFromNBT(effectData));
+			this.effects.add(Effect.create(effectData));
 		}
 	}
 }

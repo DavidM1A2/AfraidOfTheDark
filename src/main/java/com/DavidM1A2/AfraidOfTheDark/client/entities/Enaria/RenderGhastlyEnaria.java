@@ -21,7 +21,7 @@ public class RenderGhastlyEnaria<T extends EntityGhastlyEnaria> extends RenderLi
 
 	public RenderGhastlyEnaria(RenderManager renderManager)
 	{
-		super(renderManager, modelEnaria, 1F);
+		super(renderManager, modelEnaria, 0F);
 	}
 
 	@Override

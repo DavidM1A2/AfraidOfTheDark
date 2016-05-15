@@ -88,46 +88,15 @@ public class SchematicBlockReplacer
 
 	public static Schematic replaceBlocks(Schematic schematic, Block... blocks)
 	{
-		if (blocks.length % 2 != 0)
-		{
-			return schematic;
-		}
-
-		for (int i = 0; i < schematic.getBlocks().length; i++)
-		{
-			Block nextToPlace = Block.getBlockById(schematic.getBlocks()[i]);
-
-			for (int j = 0; j < blocks.length; j = j + 2)
+		if (blocks.length % 2 == 0)
+			for (int i = 0; i < schematic.getBlocks().length; i++)
 			{
-				if (nextToPlace == blocks[j])
-				{
-					schematic.setBlock(blocks[j + 1], i);
-				}
+				Block nextToPlace = Block.getBlockById(schematic.getBlocks()[i]);
+
+				for (int j = 0; j < blocks.length; j = j + 2)
+					if (nextToPlace == blocks[j])
+						schematic.setBlock(blocks[j + 1], i);
 			}
-		}
-
-		return schematic;
-	}
-
-	public static Schematic replaceBlocks(Schematic schematic, Short... blocks)
-	{
-		if (blocks.length % 2 != 0)
-		{
-			return schematic;
-		}
-
-		for (int i = 0; i < schematic.getBlocks().length; i++)
-		{
-			Short nextToPlace = schematic.getBlocks()[i];
-
-			for (int j = 0; j < blocks.length; j = j + 2)
-			{
-				if (nextToPlace == blocks[j])
-				{
-					schematic.setBlock(blocks[j + 1], i);
-				}
-			}
-		}
 
 		return schematic;
 	}
@@ -139,14 +108,9 @@ public class SchematicBlockReplacer
 			Short nextToPlace = schematic.getBlocks()[i];
 
 			if (SchematicBlockReplacer.knownProblemIds.containsKey(nextToPlace))
-			{
 				schematic.setBlock(SchematicBlockReplacer.knownProblemIds.get(nextToPlace), i);
-			}
-
 			if (SchematicBlockReplacer.knownModProblemIds.containsKey(nextToPlace))
-			{
 				schematic.setBlock(SchematicBlockReplacer.knownModProblemIds.get(nextToPlace), i);
-			}
 		}
 	}
 }

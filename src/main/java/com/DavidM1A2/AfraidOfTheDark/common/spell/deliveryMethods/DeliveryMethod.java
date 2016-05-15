@@ -14,5 +14,25 @@ public abstract class DeliveryMethod implements IDeliveryMethod
 	{
 		compound.setString("type", "deliveryMethod");
 		compound.setInteger("id", this.getType().getID());
+		compound.setBoolean("null", false);
+	}
+
+	public static DeliveryMethod create(NBTTagCompound compound)
+	{
+		if (!compound.getBoolean("null"))
+		{
+			if (compound.getString("type").equals("deliveryMethod"))
+			{
+				int id = compound.getInteger("id");
+				for (DeliveryMethods deliveryMethod : DeliveryMethods.values())
+					if (deliveryMethod.getID() == id)
+					{
+						DeliveryMethod toReturn = deliveryMethod.newInstance();
+						toReturn.readFromNBT(compound);
+						return toReturn;
+					}
+			}
+		}
+		return null;
 	}
 }

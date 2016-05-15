@@ -65,7 +65,7 @@ public class Schematic
 
 	public void setBlock(Block block, int index)
 	{
-		blocks[index] = Short.parseShort(Integer.toString(Block.getIdFromBlock(block)));
+		blocks[index] = new Integer(Block.getIdFromBlock(block)).shortValue();
 	}
 
 	public void setBlock(Short block, int index)

@@ -33,6 +33,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.block.BlockVoidChest;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockVoidChestPortal;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityDarkForest;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityEnariaSpawner;
+import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityGhastlyEnariaSpawner;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntitySpring;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityVoidChest;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemGravewoodLeaves;
@@ -117,6 +118,7 @@ public class ModBlocks
 		GameRegistry.registerBlock(ModBlocks.glowStalk, "glowStalk");
 		GameRegistry.registerBlock(ModBlocks.enariaSpawner, "enariaSpawner");
 		GameRegistry.registerTileEntity(TileEntityEnariaSpawner.class, "tileEntityEnariaSpawner");
+		GameRegistry.registerTileEntity(TileEntityGhastlyEnariaSpawner.class, "tileEntityGhastlyEnariaSpawner");
 		GameRegistry.registerBlock(ModBlocks.enariasAltar, "enariasAltar");
 	}
 

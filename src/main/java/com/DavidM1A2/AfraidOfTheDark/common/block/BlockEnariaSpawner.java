@@ -27,7 +27,8 @@ public class BlockEnariaSpawner extends AOTDBlockTileEntity
 	{
 		if (world.provider.getDimensionId() == AOTDDimensions.Nightmare.getWorldID())
 			return new TileEntityGhastlyEnariaSpawner();
-		return new TileEntityEnariaSpawner();
+		else
+			return new TileEntityEnariaSpawner();
 	}
 
 	@Override

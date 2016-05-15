@@ -81,11 +81,7 @@ public final class SchematicGenerator
 
 	public static void generateSchematic(Schematic schematic, World world, int xPosition, int yPosition, int zPosition)
 	{
-		if (schematic == null)
-		{
-			return;
-		}
-		else
+		if (schematic != null)
 		{
 			SchematicGenerator.generateBlocks(schematic, world, xPosition, yPosition, zPosition);
 
@@ -97,11 +93,7 @@ public final class SchematicGenerator
 
 	public static void generateSchematicWithLoot(Schematic schematic, World world, int xPosition, int yPosition, int zPosition, LootTable lootTable)
 	{
-		if (schematic == null)
-		{
-			return;
-		}
-		else
+		if (schematic != null)
 		{
 			SchematicGenerator.generateBlocks(schematic, world, xPosition, yPosition, zPosition);
 

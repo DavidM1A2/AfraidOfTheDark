@@ -92,12 +92,9 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 		this.spellStageIndex = this.spellStageIndex + 1;
 		if (!this.worldObj.isRemote)
 		{
-			if (!this.spellSource.hasSpellStage(spellStageIndex))
-			{
-				return;
-			}
-			for (EntitySpell entitySpell : this.getSpellSource().getSpellStageByIndex(this.spellStageIndex).getDeliveryMethod().createSpellEntity(this, spellStageIndex))
-				this.worldObj.spawnEntityInWorld(entitySpell);
+			if (this.spellSource.hasSpellStage(spellStageIndex))
+				for (EntitySpell entitySpell : this.getSpellSource().getSpellStageByIndex(this.spellStageIndex).getDeliveryMethod().createSpellEntity(this, spellStageIndex))
+					this.worldObj.spawnEntityInWorld(entitySpell);
 		}
 	}
 

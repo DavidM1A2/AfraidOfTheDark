@@ -120,10 +120,6 @@ public class EntitySplinterDrone extends EntityFlying implements IMCAnimatedEnti
 					if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(ResearchTypes.GnomishCity))
 					{
 						entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(ResearchTypes.GnomishCity, true);
-						if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getHasBeatenEnaria())
-						{
-							entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(ResearchTypes.Enaria, true);
-						}
 					}
 				}
 			}

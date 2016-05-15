@@ -5,16 +5,17 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity;
 
-import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDTileEntity;
+import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDTickingTileEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.ghastly.EntityGhastlyEnaria;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDimensions;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityGhastlyEnariaSpawner extends AOTDTileEntity
+public class TileEntityGhastlyEnariaSpawner extends AOTDTickingTileEntity
 {
 	public TileEntityGhastlyEnariaSpawner()
 	{
@@ -31,20 +32,26 @@ public class TileEntityGhastlyEnariaSpawner extends AOTDTileEntity
 	}
 
 	@Override
-	public void onLoad()
+	public void update()
 	{
-		super.onLoad();
-		for (EntityGhastlyEnaria enaria : this.worldObj.getEntitiesWithinAABB(EntityGhastlyEnaria.class, new AxisAlignedBB(this.getPos(), this.getPos().add(1, 1, 1)).expand(AOTDDimensions.getBlocksBetweenIslands() / 2, AOTDDimensions.getBlocksBetweenIslands() / 2, AOTDDimensions
-				.getBlocksBetweenIslands() / 2)))
-			enaria.setDead();
-		EntityGhastlyEnaria enariaSpawn = new EntityGhastlyEnaria(this.worldObj);
-		EntityPlayer closest = this.worldObj.getClosestPlayer(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ(), AOTDDimensions.getBlocksBetweenIslands() / 2);
-		if (closest == null)
-			enariaSpawn.setBenign(true);
-		else
-			enariaSpawn.setBenign(!closest.getCapability(ModCapabilities.PLAYER_DATA, null).getHasBeatenEnaria());
-		enariaSpawn.forceSpawn = true;
-		enariaSpawn.setPosition(this.getPos().getX() + 0.5, this.getPos().getY() + 10, this.getPos().getZ() + 0.5);
-		this.worldObj.spawnEntityInWorld(enariaSpawn);
+		super.update();
+		if (this.ticksExisted == 1)
+		{
+			if (!this.worldObj.isRemote)
+			{
+				for (EntityGhastlyEnaria enaria : this.worldObj.getEntitiesWithinAABB(EntityGhastlyEnaria.class, new AxisAlignedBB(this.getPos(), this.getPos().add(1, 1, 1)).expand(AOTDDimensions.getBlocksBetweenIslands() / 2, AOTDDimensions.getBlocksBetweenIslands() / 2, AOTDDimensions
+						.getBlocksBetweenIslands() / 2)))
+					enaria.setDead();
+				EntityGhastlyEnaria enariaSpawn = new EntityGhastlyEnaria(this.worldObj);
+				EntityPlayer closest = this.worldObj.getClosestPlayer(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ(), AOTDDimensions.getBlocksBetweenIslands() / 2);
+				if (closest == null)
+					enariaSpawn.setBenign(true);
+				else
+					enariaSpawn.setBenign(!closest.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.Enaria));
+				enariaSpawn.forceSpawn = true;
+				enariaSpawn.setPositionAndRotation(this.getPos().getX() + 0.5, this.getPos().getY() + 10.2, this.getPos().getZ() + 0.5, this.worldObj.rand.nextFloat(), 0);
+				this.worldObj.spawnEntityInWorld(enariaSpawn);
+			}
+		}
 	}
 }

@@ -7,7 +7,9 @@ package com.DavidM1A2.AfraidOfTheDark.common.block;
 
 import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDBlock;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 import com.google.common.collect.Lists;
 
 import net.minecraft.block.material.Material;
@@ -15,6 +17,7 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -33,8 +36,8 @@ public class BlockEnariasAltar extends AOTDBlock
 		super(Material.portal);
 		this.setUnlocalizedName("enariasAltar");
 		this.setLightLevel(1.0f);
-		this.setHardness(Float.MAX_VALUE);
 		this.setResistance(Float.MAX_VALUE);
+		this.setBlockUnbreakable();
 	}
 
 	@Override
@@ -47,7 +50,14 @@ public class BlockEnariasAltar extends AOTDBlock
 	@Override
 	public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState state, EntityPlayer entityPlayer, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
-		entityPlayer.openGui(Reference.MOD_ID, GuiHandler.SPELL_SELECTION_ID, world, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getX(), entityPlayer.getPosition().getZ());
+		if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.Enaria))
+			entityPlayer.openGui(Reference.MOD_ID, GuiHandler.SPELL_SELECTION_ID, world, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getX(), entityPlayer.getPosition().getZ());
+		else
+		{
+			if (!world.isRemote)
+				entityPlayer.addChatMessage(new ChatComponentText("The block whispers to me... what does it mean?"));
+		}
+
 		return true;
 	}
 

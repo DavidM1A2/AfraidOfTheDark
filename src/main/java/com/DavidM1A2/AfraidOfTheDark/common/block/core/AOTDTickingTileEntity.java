@@ -10,8 +10,16 @@ import net.minecraft.util.ITickable;
 
 public abstract class AOTDTickingTileEntity extends AOTDTileEntity implements ITickable
 {
+	protected long ticksExisted = 0;
+
 	public AOTDTickingTileEntity(Block block)
 	{
 		super(block);
+	}
+
+	@Override
+	public void update()
+	{
+		this.ticksExisted = this.ticksExisted + 1;
 	}
 }

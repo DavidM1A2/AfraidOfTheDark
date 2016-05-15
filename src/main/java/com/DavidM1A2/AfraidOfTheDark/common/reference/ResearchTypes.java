@@ -158,41 +158,25 @@ public enum ResearchTypes
 
 	public Item[] researchRecipes()
 	{
-		Item[] toReturn = new Item[this.researchRecipes.length];
-
-		for (int i = 0; i < this.researchRecipes.length; i++)
-		{
-			Object object = this.researchRecipes[i];
-			if (object instanceof Item)
-			{
-				toReturn[i] = (Item) object;
-			}
-			else
-			{
-				toReturn[i] = Item.getItemFromBlock((Block) object);
-			}
-		}
-
-		return toReturn;
+		return this.itemArrayFromObjectArray(this.researchRecipes);
 	}
 
 	public Item[] preResearchRecipes()
 	{
+		return this.itemArrayFromObjectArray(this.researchRecipesPre);
+	}
+
+	private Item[] itemArrayFromObjectArray(Object[] items)
+	{
 		Item[] toReturn = new Item[this.researchRecipesPre.length];
-
-		for (int i = 0; i < this.researchRecipesPre.length; i++)
+		for (int i = 0; i < items.length; i++)
 		{
-			Object object = this.researchRecipesPre[i];
+			Object object = items[i];
 			if (object instanceof Item)
-			{
 				toReturn[i] = (Item) object;
-			}
 			else
-			{
 				toReturn[i] = Item.getItemFromBlock((Block) object);
-			}
 		}
-
 		return toReturn;
 	}
 

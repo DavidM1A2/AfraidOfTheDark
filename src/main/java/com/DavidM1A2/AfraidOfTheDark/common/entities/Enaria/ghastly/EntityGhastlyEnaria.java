@@ -7,9 +7,13 @@ package com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.ghastly;
 
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDimensions;
 
 import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
@@ -49,17 +53,18 @@ public class EntityGhastlyEnaria extends EntityFlying implements IMCAnimatedEnti
 		super.onEntityUpdate();
 		if (this.worldObj.isRemote)
 		{
-			if (!this.getAnimationHandler().isAnimationActive("dance"))
-				this.getAnimationHandler().activateAnimation("dance", 0);
+			if (this.isBenign())
+				if (!this.getAnimationHandler().isAnimationActive("dance"))
+					this.getAnimationHandler().activateAnimation("dance", 0);
 		}
 		else
 		{
-			//			if (this.ticksExisted % PLAYER_CHECK_FREQUENCY == 0)
-			//			{
-			//				EntityPlayer entityPlayer = this.worldObj.getClosestPlayerToEntity(this, 3);
-			//				if (entityPlayer != null)
-			//					AOTDDimensions.Nightmare.fromDimensionTo(entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerDimensionPreTeleport(), ((EntityPlayerMP) entityPlayer));
-			//			}
+			if (this.ticksExisted % PLAYER_CHECK_FREQUENCY == 0)
+			{
+				EntityPlayer entityPlayer = this.worldObj.getClosestPlayerToEntity(this, 3);
+				if (entityPlayer != null)
+					AOTDDimensions.Nightmare.fromDimensionTo(entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerDimensionPreTeleport(), ((EntityPlayerMP) entityPlayer));
+			}
 		}
 	}
 

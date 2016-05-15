@@ -40,8 +40,6 @@ public class TileEntityVoidChest extends AOTDTickingTileEntity
 
 	private boolean shouldBeOpen = false;
 
-	/** Server sync counter (once per 20 ticks) */
-	private int ticksSinceSync;
 	private int cachedChestType;
 
 	private String owner = "";
@@ -102,19 +100,15 @@ public class TileEntityVoidChest extends AOTDTickingTileEntity
 	@Override
 	public void update()
 	{
+		super.update();
 		int i = this.pos.getX();
 		int j = this.pos.getY();
 		int k = this.pos.getZ();
-		this.ticksSinceSync = this.ticksSinceSync + 1;;
 		float f;
 
-		if (ticksSinceSync % 20 == 0)
-		{
+		if (this.ticksExisted % 20 == 0)
 			if ((System.currentTimeMillis() - this.lastInteraction) > 3000)
-			{
 				this.shouldBeOpen = false;
-			}
-		}
 
 		this.prevLidAngle = this.lidAngle;
 		f = 0.1F;

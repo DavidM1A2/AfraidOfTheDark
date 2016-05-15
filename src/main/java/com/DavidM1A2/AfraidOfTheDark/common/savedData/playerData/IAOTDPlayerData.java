@@ -7,7 +7,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncAOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncSelectedWristCrossbowBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncSpellManager;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateAOTDStatus;
-import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateHasBeatenEnaria;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateInsanity;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateResearch;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
@@ -50,10 +49,6 @@ public interface IAOTDPlayerData
 	public boolean canResearch(ResearchTypes research);
 	public void unlockResearch(ResearchTypes research, boolean firstTimeResearched);
 	public void syncResearches();
-
-	public boolean getHasBeatenEnaria();
-	public void setHasBeatenEnaria(boolean hasBeatenEnaria);
-	public void syncHasBeatenEnaria();
 
 	public void setSelectedWristCrossbowBolt(int selectedWristCrossbowBolt);
 	public int getSelectedWristCrossbowBolt();

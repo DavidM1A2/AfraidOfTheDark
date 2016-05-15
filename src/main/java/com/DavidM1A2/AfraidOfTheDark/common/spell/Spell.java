@@ -12,8 +12,8 @@ import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.EntitySpell;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDimensions;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.powerSources.IPowerSource;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.powerSources.PowerSource;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.SpellUtility;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -47,10 +47,7 @@ public class Spell implements Serializable
 		spellCompound.setString("spellName", this.name);
 		NBTTagCompound powerSourceData = new NBTTagCompound();
 		if (this.powerSource != null)
-		{
 			this.powerSource.writeToNBT(powerSourceData);
-			powerSourceData.setBoolean("null", false);
-		}
 		else
 			powerSourceData.setBoolean("null", true);
 		spellCompound.setTag("spellPowerSource", powerSourceData);
@@ -71,7 +68,7 @@ public class Spell implements Serializable
 	{
 		this.name = spellCompound.getString("spellName");
 		NBTTagCompound powerSourceData = spellCompound.getCompoundTag("spellPowerSource");
-		this.powerSource = (IPowerSource) SpellUtility.createSpellComponentFromNBT(powerSourceData);
+		this.powerSource = PowerSource.create(powerSourceData);
 		int numberOfSpellStages = spellCompound.getInteger("numberOfSpellStages");
 		this.spellStages = new SpellStage[numberOfSpellStages];
 		for (int i = 0; i < numberOfSpellStages; i++)

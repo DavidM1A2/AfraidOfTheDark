@@ -65,17 +65,14 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 	@Override
 	public void onLivingUpdate()
 	{
-		if (this.ticksExisted == 1)
+		if (!this.worldObj.isRemote)
 		{
-			if (!this.getEntityData().getBoolean(IS_VALID))
-			{
-				this.onKillCommand();
-			}
+			if (this.ticksExisted == 1)
+				if (!this.getEntityData().getBoolean(IS_VALID))
+					this.setDead();
 		}
-		if (this.worldObj.isRemote)
-		{
+		else
 			BossStatus.setBossStatus(this, true);
-		}
 		super.onLivingUpdate();
 	}
 
@@ -125,7 +122,18 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 
 		if (damageSource instanceof EntityDamageSource)
 		{
-			if (((EntityDamageSource) damageSource).damageType.equals("silverDamage"))
+			Entity source = ((EntityDamageSource) damageSource).getEntity();
+			if (source instanceof EntityPlayer)
+			{
+				EntityPlayer entityPlayer = (EntityPlayer) source;
+				if (!entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.Enaria.getPrevious()))
+				{
+					if (!entityPlayer.worldObj.isRemote)
+						entityPlayer.addChatMessage(new ChatComponentText("I can't understand who I'm fighting...."));
+					return false;
+				}
+			}
+			if (damageSource.damageType.equals("silverDamage"))
 			{
 				if (timeBetweenHits < 1000)
 				{
@@ -180,13 +188,8 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 		{
 			if (cause.getEntity() instanceof EntityPlayer)
 			{
-				for (Object object : this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().expand(RESEARCH_UNLOCK_RANGE, RESEARCH_UNLOCK_RANGE, RESEARCH_UNLOCK_RANGE)))
+				for (EntityPlayer entityPlayer : this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().expand(RESEARCH_UNLOCK_RANGE, RESEARCH_UNLOCK_RANGE, RESEARCH_UNLOCK_RANGE)))
 				{
-					EntityPlayer entityPlayer = (EntityPlayer) object;
-
-					entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setHasBeatenEnaria(true);
-					entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).syncHasBeatenEnaria();
-
 					if (!worldObj.isRemote)
 					{
 						if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(ResearchTypes.Enaria))
