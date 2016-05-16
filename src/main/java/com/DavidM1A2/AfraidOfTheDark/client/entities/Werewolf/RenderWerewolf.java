@@ -13,19 +13,21 @@ import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderWerewolf<T extends EntityWerewolf> extends RenderLiving<T> {
+public class RenderWerewolf<T extends EntityWerewolf> extends RenderLiving<T>
+{
 
-	public static final ResourceLocation WEREWOLF_TEXTURE = new ResourceLocation(
-			"afraidofthedark:textures/entity/werewolf.png");
+	public static final ResourceLocation WEREWOLF_TEXTURE = new ResourceLocation("afraidofthedark:textures/entity/werewolf.png");
 	public static ModelWerewolf modelWerewolf = new ModelWerewolf();
 	public static float modelHeight = 2.5F;
 
-	public RenderWerewolf(RenderManager renderManager) {
-		super(renderManager, modelWerewolf, 1.0F);
+	public RenderWerewolf(RenderManager renderManager)
+	{
+		super(renderManager, modelWerewolf, 0.6F);
 	}
 
 	@Override
-	public void doRender(T _entity, double posX, double posY, double posZ, float var8, float var9) {
+	public void doRender(T _entity, double posX, double posY, double posZ, float var8, float var9)
+	{
 		EntityWerewolf entity = (EntityWerewolf) _entity;
 
 		GL11.glPushMatrix();
@@ -36,14 +38,16 @@ public class RenderWerewolf<T extends EntityWerewolf> extends RenderLiving<T> {
 	}
 
 	@Override
-	protected void preRenderCallback(T entityliving, float f) {
+	protected void preRenderCallback(T entityliving, float f)
+	{
 		GL11.glRotatef(180F, 0, 1F, 0F);
 		GL11.glRotatef(180F, 0, 0, 1F);
 		GL11.glTranslatef(0, modelHeight, 0);
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(T var1) {
+	protected ResourceLocation getEntityTexture(T var1)
+	{
 		return WEREWOLF_TEXTURE;
 	}
 }

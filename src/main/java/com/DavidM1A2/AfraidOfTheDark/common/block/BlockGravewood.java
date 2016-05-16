@@ -26,16 +26,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class BlockGravewood extends BlockLog
 {
 	// Different log variants
-	public static final PropertyEnum VARIANT = PropertyEnum.create("variant", AOTDTreeTypes.class, new Predicate()
+	public static final PropertyEnum VARIANT = PropertyEnum.create("variant", AOTDTreeTypes.class, new Predicate<AOTDTreeTypes>()
 	{
 		@Override
-		public boolean apply(final Object input)
+		public boolean apply(final AOTDTreeTypes type)
 		{
-			final AOTDTreeTypes type = (AOTDTreeTypes) input;
 			if (type == AOTDTreeTypes.GRAVEWOOD)
-			{
 				return true;
-			}
 			return false;
 		}
 	});
@@ -52,8 +49,7 @@ public class BlockGravewood extends BlockLog
 	}
 
 	/**
-	 * returns a list of blocks with the same ID, but different meta (eg: wood
-	 * returns 4 blocks)
+	 * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
 	 */
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -95,18 +91,21 @@ public class BlockGravewood extends BlockLog
 	public int getMetaFromState(final IBlockState state)
 	{
 		final byte b0 = 0;
-		int i = b0 | ((AOTDTreeTypes) state.getValue(BlockGravewood.VARIANT)).getMetadata();
+		int i = b0 | state.<AOTDTreeTypes> getValue(BlockGravewood.VARIANT).getMetadata();
 
-		switch (BlockGravewood.SwitchEnumAxis.switchAxis[((BlockLog.EnumAxis) state.getValue(BlockLog.LOG_AXIS)).ordinal()])
+		switch (state.<BlockLog.EnumAxis> getValue(LOG_AXIS))
 		{
-			case 1:
+			case X:
 				i |= 4;
 				break;
-			case 2:
+			case Z:
 				i |= 8;
 				break;
-			case 3:
+			case NONE:
 				i |= 12;
+				break;
+			default:
+				break;
 		}
 
 		return i;
@@ -116,14 +115,15 @@ public class BlockGravewood extends BlockLog
 	@Override
 	protected BlockState createBlockState()
 	{
-		return new BlockState(this, new IProperty[] { BlockGravewood.VARIANT, BlockLog.LOG_AXIS });
+		return new BlockState(this, new IProperty[]
+		{ BlockGravewood.VARIANT, BlockLog.LOG_AXIS });
 	}
 
 	// Can these woods stack?
 	@Override
 	protected ItemStack createStackedBlock(final IBlockState state)
 	{
-		return new ItemStack(Item.getItemFromBlock(this), 1, ((AOTDTreeTypes) state.getValue(BlockGravewood.VARIANT)).getMetadata());
+		return new ItemStack(Item.getItemFromBlock(this), 1, state.<AOTDTreeTypes> getValue(BlockGravewood.VARIANT).getMetadata());
 	}
 
 	/**
@@ -132,7 +132,7 @@ public class BlockGravewood extends BlockLog
 	@Override
 	public int damageDropped(final IBlockState state)
 	{
-		return ((AOTDTreeTypes) state.getValue(BlockGravewood.VARIANT)).getMetadata();
+		return state.<AOTDTreeTypes> getValue(BlockGravewood.VARIANT).getMetadata();
 	}
 
 	@Override
@@ -145,38 +145,5 @@ public class BlockGravewood extends BlockLog
 	protected String getUnwrappedUnlocalizedName(final String unlocalizedName)
 	{
 		return unlocalizedName.substring(unlocalizedName.indexOf(".") + 1);
-	}
-
-	// Axis on which to place the log (side ways? top bottom?)
-	private static final class SwitchEnumAxis
-	{
-		static final int[] switchAxis = new int[BlockLog.EnumAxis.values().length];
-
-		static
-		{
-			try
-			{
-				SwitchEnumAxis.switchAxis[BlockLog.EnumAxis.X.ordinal()] = 1;
-			}
-			catch (final NoSuchFieldError var3)
-			{
-			}
-
-			try
-			{
-				SwitchEnumAxis.switchAxis[BlockLog.EnumAxis.Z.ordinal()] = 2;
-			}
-			catch (final NoSuchFieldError var2)
-			{
-			}
-
-			try
-			{
-				SwitchEnumAxis.switchAxis[BlockLog.EnumAxis.NONE.ordinal()] = 3;
-			}
-			catch (final NoSuchFieldError var1)
-			{
-			}
-		}
 	}
 }

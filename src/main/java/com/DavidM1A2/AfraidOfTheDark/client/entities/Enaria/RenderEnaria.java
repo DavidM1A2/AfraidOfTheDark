@@ -21,7 +21,7 @@ public class RenderEnaria<T extends EntityEnaria> extends RenderLiving<T>
 
 	public RenderEnaria(RenderManager renderManager)
 	{
-		super(renderManager, modelEnaria, 1F);
+		super(renderManager, modelEnaria, 0.3F);
 	}
 
 	@Override

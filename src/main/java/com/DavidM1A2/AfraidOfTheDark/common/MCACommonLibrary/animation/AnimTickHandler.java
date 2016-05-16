@@ -1,8 +1,9 @@
 package com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation;
 
-import java.util.Iterator;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
@@ -16,7 +17,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 
 public class AnimTickHandler
 {
-	private List<IMCAnimatedEntity> activeEntitiesClient = new LinkedList<IMCAnimatedEntity>();
+	private List<IMCAnimatedEntity> activeEntitiesClient = Collections.synchronizedList(new LinkedList<IMCAnimatedEntity>());
 	private static AnimTickHandler instance = new AnimTickHandler();
 
 	public static AnimTickHandler getInstance()
@@ -24,14 +25,11 @@ public class AnimTickHandler
 		return AnimTickHandler.instance;
 	}
 
-	public void addEntity(IMCAnimatedEntity entity)
+	public synchronized void addEntity(IMCAnimatedEntity entity)
 	{
 		if (ConfigurationHandler.enableAOTDAnimations)
-			synchronized (this.activeEntitiesClient)
-			{
-				if (!this.activeEntitiesClient.contains(entity))
-					activeEntitiesClient.add(entity);
-			}
+			if (!this.activeEntitiesClient.contains(entity))
+				activeEntitiesClient.add(entity);
 	}
 
 	@SubscribeEvent
@@ -49,15 +47,15 @@ public class AnimTickHandler
 		{
 			if (event.phase == Phase.START)
 			{
-				Iterator<IMCAnimatedEntity> entities = this.activeEntitiesClient.iterator();
-				while (entities.hasNext())
+				synchronized (this.activeEntitiesClient)
 				{
-					IMCAnimatedEntity entity = entities.next();
-
-					entity.getAnimationHandler().animationsUpdate();
-
-					if (((Entity) entity).isDead)
-						entities.remove();
+					for (ListIterator<IMCAnimatedEntity> entities = this.activeEntitiesClient.listIterator(); entities.hasNext();)
+					{
+						IMCAnimatedEntity entity = entities.next();
+						entity.getAnimationHandler().animationsUpdate();
+						if (((Entity) entity).isDead)
+							entities.remove();
+					}
 				}
 			}
 		}

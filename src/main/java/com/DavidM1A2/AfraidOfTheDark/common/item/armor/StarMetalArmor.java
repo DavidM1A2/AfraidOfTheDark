@@ -11,21 +11,24 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class StarMetalArmor extends AOTDArmor
 {
+	private static final String LAST_PROC = "lastProc";
+	private static final int PROC_CD_MILLIS = 60000; // 60000 millis aka 60s
+
 	public StarMetalArmor(final ArmorMaterial armorMaterial, final int renderIndex, final int type)
 	{
 		super(armorMaterial, renderIndex, type);
@@ -60,11 +63,24 @@ public class StarMetalArmor extends AOTDArmor
 	public void onArmorTick(final World world, final EntityPlayer entityPlayer, final ItemStack itemStack)
 	{
 		if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.StarMetal))
+			this.procEffect(entityPlayer, itemStack);
+	}
+
+	private boolean readyToProc(ItemStack itemStack)
+	{
+		return System.currentTimeMillis() > (NBTHelper.getLong(itemStack, LAST_PROC) + PROC_CD_MILLIS);
+	}
+
+	private void procEffect(EntityPlayer entityPlayer, ItemStack itemStack)
+	{
+		if (this.readyToProc(itemStack))
 		{
-			if (!entityPlayer.isPotionActive(Potion.absorption))
+			int numPiecesArmorWorn = this.getNumberOfWornPieces(entityPlayer);
+			if (numPiecesArmorWorn * 4f >= entityPlayer.getAbsorptionAmount())
 			{
-				entityPlayer.addPotionEffect(new PotionEffect(Potion.absorption.id, 1200, this.getNumberOfWornPieces(entityPlayer) - 1, false, false));
+				entityPlayer.setAbsorptionAmount(MathHelper.clamp_float(entityPlayer.getAbsorptionAmount() + 4.0f, 0, this.getNumberOfWornPieces(entityPlayer) * 4f));
 			}
+			NBTHelper.setLong(itemStack, LAST_PROC, System.currentTimeMillis());
 		}
 	}
 
@@ -132,12 +148,8 @@ public class StarMetalArmor extends AOTDArmor
 	{
 		int number = 0;
 		for (final ItemStack element : entityPlayer.inventory.armorInventory)
-		{
 			if ((element != null) && (element.getItem() instanceof StarMetalArmor))
-			{
 				number = number + 1;
-			}
-		}
 		return number;
 	}
 }

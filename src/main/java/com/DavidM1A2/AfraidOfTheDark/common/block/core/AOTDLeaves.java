@@ -5,13 +5,13 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.block.core;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDTreeTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 import com.google.common.base.Predicate;
+import com.google.common.collect.Lists;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
@@ -37,16 +37,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public abstract class AOTDLeaves extends BlockLeaves
 {
 	// Leaves have a few variants
-	public static final PropertyEnum VARIANT = PropertyEnum.create("variant", AOTDTreeTypes.class, new Predicate()
+	public static final PropertyEnum VARIANT = PropertyEnum.create("variant", AOTDTreeTypes.class, new Predicate<AOTDTreeTypes>()
 	{
 		@Override
-		public boolean apply(final Object input)
+		public boolean apply(final AOTDTreeTypes type)
 		{
-			final AOTDTreeTypes type = (AOTDTreeTypes) input;
 			if (type == AOTDTreeTypes.GRAVEWOOD)
-			{
 				return true;
-			}
 			return false;
 		}
 	});
@@ -64,7 +61,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 	@Override
 	public List<ItemStack> onSheared(final ItemStack item, final IBlockAccess world, final BlockPos pos, final int fortune)
 	{
-		return new ArrayList<ItemStack>();
+		return Lists.newArrayList(new ItemStack(this, 1, world.getBlockState(pos).<AOTDTreeTypes> getValue(VARIANT).getMetadata()));
 	}
 
 	// Always use fancy graphics because reasons (They look way better!)
@@ -106,8 +103,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 	}
 
 	/**
-	 * returns a list of blocks with the same ID, but different meta (eg: wood
-	 * returns 4 blocks)
+	 * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
 	 */
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -120,7 +116,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 	@Override
 	protected ItemStack createStackedBlock(final IBlockState state)
 	{
-		return new ItemStack(Item.getItemFromBlock(this), 1, ((AOTDTreeTypes) state.getValue(AOTDLeaves.VARIANT)).getMetadata());
+		return new ItemStack(Item.getItemFromBlock(this), 1, state.<AOTDTreeTypes> getValue(AOTDLeaves.VARIANT).getMetadata());
 	}
 
 	/**
@@ -158,7 +154,8 @@ public abstract class AOTDLeaves extends BlockLeaves
 	@Override
 	protected BlockState createBlockState()
 	{
-		return new BlockState(this, new IProperty[] { AOTDLeaves.VARIANT, BlockLeaves.CHECK_DECAY, BlockLeaves.DECAYABLE });
+		return new BlockState(this, new IProperty[]
+		{ AOTDLeaves.VARIANT, BlockLeaves.CHECK_DECAY, BlockLeaves.DECAYABLE });
 	}
 
 	/**
@@ -167,7 +164,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 	@Override
 	public int damageDropped(final IBlockState state)
 	{
-		return ((AOTDTreeTypes) state.getValue(AOTDLeaves.VARIANT)).getMetadata();
+		return state.<AOTDTreeTypes> getValue(AOTDLeaves.VARIANT).getMetadata();
 	}
 
 	// When the player harvests the block, what happens?
@@ -175,14 +172,9 @@ public abstract class AOTDLeaves extends BlockLeaves
 	public void harvestBlock(final World worldIn, final EntityPlayer playerIn, final BlockPos pos, final IBlockState state, final TileEntity te)
 	{
 		if (!worldIn.isRemote && (playerIn.getCurrentEquippedItem() != null) && (playerIn.getCurrentEquippedItem().getItem() == Items.shears))
-		{
 			playerIn.triggerAchievement(StatList.mineBlockStatArray[Block.getIdFromBlock(this)]);
-			Block.spawnAsEntity(worldIn, pos, new ItemStack(Item.getItemFromBlock(this), 1, ((AOTDTreeTypes) state.getValue(AOTDLeaves.VARIANT)).getMetadata()));
-		}
 		else
-		{
 			super.harvestBlock(worldIn, playerIn, pos, state, te);
-		}
 	}
 
 	/**
