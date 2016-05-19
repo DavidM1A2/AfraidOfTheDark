@@ -47,12 +47,12 @@ public class Grow extends Effect
 		if (current.getBlock() instanceof IGrowable)
 		{
 			IGrowable igrowable = (IGrowable) current.getBlock();
-			if (!world.isRemote)
-				if (igrowable.canGrow(world, location, current, world.isRemote))
-				{
-					igrowable.grow(world, world.rand, location, current);
-					VitaeUtils.vitaeReleasedFX(world, location, .4, 2);
-				}
+			if (!world.isRemote && igrowable.canGrow(world, location, current, world.isRemote))
+			{
+				igrowable.grow(world, world.rand, location, current);
+				VitaeUtils.vitaeReleasedFX(world, location, .4, 2);
+			}
+
 			return true;
 		}
 		return false;

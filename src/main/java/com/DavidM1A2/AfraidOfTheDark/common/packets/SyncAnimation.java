@@ -17,31 +17,30 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-public class SyncAnimation implements IMessage
+public class SyncAnimation extends AbstractEntitySync
 {
 	private String animationName = "";
-	private int entityIDToUpdate = 0;
 	private String[] higherPriorityAnims;
 
 	public SyncAnimation()
 	{
+		super();
 		this.animationName = "";
-		this.entityIDToUpdate = 0;
 		this.higherPriorityAnims = new String[0];
 	}
 
-	public SyncAnimation(String animationName, int entityIDToUpdate, String... higherPriorityAnims)
+	public SyncAnimation(String animationName, Entity entityToUpdate, String... higherPriorityAnims)
 	{
+		super(entityToUpdate);
 		this.animationName = animationName;
-		this.entityIDToUpdate = entityIDToUpdate;
 		this.higherPriorityAnims = higherPriorityAnims;
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf)
 	{
+		super.fromBytes(buf);
 		this.animationName = ByteBufUtils.readUTF8String(buf);
-		this.entityIDToUpdate = buf.readInt();
 		this.higherPriorityAnims = new String[buf.readInt()];
 		for (int i = 0; i < this.higherPriorityAnims.length; i++)
 			this.higherPriorityAnims[i] = ByteBufUtils.readUTF8String(buf);
@@ -50,8 +49,8 @@ public class SyncAnimation implements IMessage
 	@Override
 	public void toBytes(ByteBuf buf)
 	{
+		super.toBytes(buf);
 		ByteBufUtils.writeUTF8String(buf, this.animationName);
-		buf.writeInt(this.entityIDToUpdate);
 		buf.writeInt(this.higherPriorityAnims.length);
 		for (int i = 0; i < this.higherPriorityAnims.length; i++)
 			ByteBufUtils.writeUTF8String(buf, this.higherPriorityAnims[i]);

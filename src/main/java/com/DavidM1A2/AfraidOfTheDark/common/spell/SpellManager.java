@@ -10,8 +10,6 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-import org.lwjgl.input.Keyboard;
-
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
@@ -108,14 +106,11 @@ public class SpellManager
 	}
 
 	// Called server side to instantiate the spell
-	public void keyPressed(int keyCode, char key)
+	public void keyPressed(String keyName)
 	{
-		String keyName = Keyboard.getKeyName(keyCode);
 		if (keyName != null)
-		{
 			if (this.doesKeyMapToSpell(keyName))
 				this.spells.get(this.keyToSpellUUID.get(keyName)).instantiateSpell();
-		}
 	}
 
 	public boolean doesKeyMapToSpell(String key)
@@ -125,15 +120,9 @@ public class SpellManager
 
 	public String keyFromSpell(Spell spell)
 	{
-		UUID current = spells.inverse().get(spell);
-		if (current != null)
-		{
-			String key = keyToSpellUUID.inverse().get(current);
-			if (key != null)
-			{
-				return key;
-			}
-		}
+		String key = keyToSpellUUID.inverse().get(spell.getSpellUUID());
+		if (key != null)
+			return key;
 		return null;
 	}
 }

@@ -22,7 +22,6 @@ public class AOTDGuiSpell extends AOTDGuiPanel
 {
 	private Spell mySpell;
 	private boolean waitingOnKeyInput = false;
-	private static SpellManager spellManager = entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getSpellManager();
 	private AOTDGuiButton keyBind;
 	private AOTDGuiButton delete;
 	private SpellSelectionGUI callback;
@@ -123,6 +122,7 @@ public class AOTDGuiSpell extends AOTDGuiPanel
 
 		this.keyBind = new AOTDGuiButton(66, 22, 22, 13, null, "afraidofthedark:textures/gui/spellCrafting/spellBackgroundKeyBind.png");
 		this.keyBind.addMouseListener(highlightEffect);
+		SpellManager spellManager = entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getSpellManager();
 		this.keyBind.setHoverText("Spell currently bound to: " + (spellManager.keyFromSpell(mySpell) == null ? "None" : spellManager.keyFromSpell(mySpell)));
 		this.keyBind.addMouseListener(new AOTDMouseListener()
 		{
@@ -170,6 +170,7 @@ public class AOTDGuiSpell extends AOTDGuiPanel
 			{
 				if (waitingOnKeyInput)
 				{
+					SpellManager spellManager = entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getSpellManager();
 					spellManager.setKeybindingToSpell(Keyboard.getKeyName(event.getKeyCode()), mySpell);
 					AOTDGuiSpell.this.keyBind.setHoverText("Spell currently bound to: " + (spellManager.keyFromSpell(mySpell) == null ? "None" : spellManager.keyFromSpell(mySpell)));
 					waitingOnKeyInput = false;

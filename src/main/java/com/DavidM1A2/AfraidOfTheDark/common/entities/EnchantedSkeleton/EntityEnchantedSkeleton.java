@@ -72,7 +72,7 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 		{
 			if (!hasPlayedStartAnimation)
 			{
-				AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncAnimation("Spawn", this.getEntityId()), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 50));
+				AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncAnimation("Spawn", this), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 50));
 				this.hasPlayedStartAnimation = true;
 			}
 		}
@@ -244,7 +244,7 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 			((EntityPlayer) entity).addPotionEffect(new PotionEffect(2, 80, 0, false, true));
 			((EntityPlayer) entity).addPotionEffect(new PotionEffect(18, 80, 0, false, true));
 		}
-		AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncAnimation("Attack", this.getEntityId(), "Attack", "Spawn"), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 15));
+		AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncAnimation("Attack", this, "Attack", "Spawn"), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 15));
 
 		return super.attackEntityAsMob(entity);
 	}

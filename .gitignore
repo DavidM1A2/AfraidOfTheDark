@@ -18,3 +18,5 @@ Minecraft
 /MinecraftModelFiles/
 /JsonGenerator1.0/
 *.launch
+CopyFiles.cmd
+Build.cmd

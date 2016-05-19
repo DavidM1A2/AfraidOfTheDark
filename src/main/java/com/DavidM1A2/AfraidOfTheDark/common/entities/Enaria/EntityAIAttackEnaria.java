@@ -71,7 +71,7 @@ public class EntityAIAttackEnaria extends EntityAIBase
 			this.attackTime = this.enaria.worldObj.rand.nextInt(100) + 140;
 			this.enaria.getEnariaAttacks().performRandomAttack();
 			this.enaria.clearActivePotions();
-			AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncAnimation("spell", this.enaria.getEntityId(), "spell"), new TargetPoint(this.enaria.dimension, this.enaria.posX, this.enaria.posY, this.enaria.posZ, 100));
+			AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncAnimation("spell", this.enaria, "spell"), new TargetPoint(this.enaria.dimension, this.enaria.posX, this.enaria.posY, this.enaria.posZ, 100));
 		}
 		else if (this.attackTime % 40 == 0)
 		{
@@ -79,7 +79,7 @@ public class EntityAIAttackEnaria extends EntityAIBase
 			if (!this.enaria.isPotionActive(Potion.invisibility.getId()))
 			{
 				this.enaria.getEnariaAttacks().performBasicAttack();
-				AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncAnimation("autoattack", this.enaria.getEntityId(), "spell", "autoattack"), new TargetPoint(this.enaria.dimension, this.enaria.posX, this.enaria.posY, this.enaria.posZ, 100));
+				AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncAnimation("autoattack", this.enaria, "spell", "autoattack"), new TargetPoint(this.enaria.dimension, this.enaria.posX, this.enaria.posY, this.enaria.posZ, 100));
 			}
 		}
 		else

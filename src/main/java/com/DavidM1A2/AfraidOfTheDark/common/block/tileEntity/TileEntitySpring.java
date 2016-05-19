@@ -63,9 +63,10 @@ public class TileEntitySpring extends AOTDTickingTileEntity
 											vitaeToAdd = (int) (vitaeToAdd * 0.1);
 											if (vitaeToAdd <= 0)
 												vitaeToAdd = 1;
-											if (vitaeToAdd + lantern.getStoredVitae(current) < MAX_VITAE_FROM_LANTERN)
+											if (vitaeToAdd + lantern.getStoredVitae(current) <= MAX_VITAE_FROM_LANTERN)
 											{
 												lantern.addVitae(current, vitaeToAdd);
+												break;
 											}
 										}
 									}

@@ -168,7 +168,7 @@ public enum ResearchTypes
 
 	private Item[] itemArrayFromObjectArray(Object[] items)
 	{
-		Item[] toReturn = new Item[this.researchRecipesPre.length];
+		Item[] toReturn = new Item[items.length];
 		for (int i = 0; i < items.length; i++)
 		{
 			Object object = items[i];

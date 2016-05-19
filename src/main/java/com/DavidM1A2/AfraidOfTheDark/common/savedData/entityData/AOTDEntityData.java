@@ -94,11 +94,11 @@ public class AOTDEntityData implements ICapabilitySerializable<NBTTagCompound>, 
 	{
 		if (this.isServerSide())
 		{
-			AfraidOfTheDark.instance.getPacketHandler().sendToAll(new UpdateVitae(this.getVitaeLevel(), entity.getEntityId()));
+			AfraidOfTheDark.instance.getPacketHandler().sendToAll(new UpdateVitae(this.getVitaeLevel(), entity));
 		}
 		else
 		{
-			AfraidOfTheDark.instance.getPacketHandler().sendToServer(new UpdateVitae(this.getVitaeLevel(), entity.getEntityId()));
+			AfraidOfTheDark.instance.getPacketHandler().sendToServer(new UpdateVitae(this.getVitaeLevel(), entity));
 		}
 	}
 

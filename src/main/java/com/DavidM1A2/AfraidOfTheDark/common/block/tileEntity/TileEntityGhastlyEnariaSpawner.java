@@ -43,11 +43,6 @@ public class TileEntityGhastlyEnariaSpawner extends AOTDTickingTileEntity
 						.getBlocksBetweenIslands() / 2)))
 					enaria.setDead();
 				EntityGhastlyEnaria enariaSpawn = new EntityGhastlyEnaria(this.worldObj);
-				EntityPlayer closest = this.worldObj.getClosestPlayer(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ(), AOTDDimensions.getBlocksBetweenIslands() / 2);
-				if (closest == null)
-					enariaSpawn.setBenign(true);
-				else
-					enariaSpawn.setBenign(!closest.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.Enaria));
 				enariaSpawn.forceSpawn = true;
 				enariaSpawn.setPositionAndRotation(this.getPos().getX() + 0.5, this.getPos().getY() + 10.2, this.getPos().getZ() + 0.5, this.worldObj.rand.nextFloat(), 0);
 				this.worldObj.spawnEntityInWorld(enariaSpawn);

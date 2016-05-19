@@ -63,13 +63,12 @@ public class UpdateResearch implements IMessage
 				public void run()
 				{
 					Set<String> keysOriginal = entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getResearches().getKeySet();
-					for (Object key : msg.research.getKeySet())
+					for (String key : msg.research.getKeySet())
 					{
-						String keyString = (String) key;
-						if (!entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getResearches().getBoolean(keyString) && msg.research.getBoolean(keyString))
+						if (!entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getResearches().getBoolean(key) && msg.research.getBoolean(key))
 						{
 							entityPlayer.playSound("afraidofthedark:achievementUnlocked", 1.0f, 1.0f);
-							ClientData.researchAchievedOverlay.displayResearch(ResearchTypes.valueOf(keyString.substring("unlockedResearches".length())), new ItemStack(ModItems.journal, 1), false);
+							ClientData.researchAchievedOverlay.displayResearch(ResearchTypes.valueOf(key.substring("unlockedResearches".length())), new ItemStack(ModItems.journal, 1), false);
 						}
 					}
 

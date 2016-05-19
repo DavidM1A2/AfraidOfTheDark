@@ -27,7 +27,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class StarMetalArmor extends AOTDArmor
 {
 	private static final String LAST_PROC = "lastProc";
-	private static final int PROC_CD_MILLIS = 60000; // 60000 millis aka 60s
+	private static final int PROC_CD_MILLIS = 120000; // 60000 millis aka 120s
 
 	public StarMetalArmor(final ArmorMaterial armorMaterial, final int renderIndex, final int type)
 	{

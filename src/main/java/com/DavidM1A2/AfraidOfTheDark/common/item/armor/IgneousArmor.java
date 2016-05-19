@@ -18,6 +18,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
+import net.minecraft.util.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -57,7 +58,8 @@ public class IgneousArmor extends AOTDArmor
 	@Override
 	public ArmorProperties getProperties(final EntityLivingBase entity, final ItemStack armor, final DamageSource source, final double damage, final int slot)
 	{
-
+		// Remove the ability of thorns to damage armor
+		armor.setItemDamage(0);
 		if (entity instanceof EntityPlayer)
 		{
 			final EntityPlayer entityPlayer = (EntityPlayer) entity;
@@ -69,6 +71,12 @@ public class IgneousArmor extends AOTDArmor
 					if (source.getEntity() != null)
 					{
 						source.getEntity().setFire(5);
+
+						double knockbackStrength = 1.0;
+						double motionX = entityPlayer.getPosition().getX() - source.getEntity().getPosition().getX();
+						double motionZ = entityPlayer.getPosition().getZ() - source.getEntity().getPosition().getZ();
+						double hypotenuse = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
+						source.getEntity().addVelocity(-motionX * knockbackStrength * 0.6000000238418579D / hypotenuse, 0.1D, -motionZ * knockbackStrength * 0.6000000238418579D / hypotenuse);
 					}
 					if (entity.isBurning())
 					{
@@ -97,9 +105,6 @@ public class IgneousArmor extends AOTDArmor
 				return new ArmorProperties(0, this.damageReduceAmount / 50D, armor.getMaxDamage());
 			}
 		}
-
-		// Remove the ability of thorns to damage armor
-		armor.setItemDamage(0);
 
 		// Default armor calculation
 		return new ArmorProperties(0, this.damageReduceAmount / 25D, armor.getMaxDamage());

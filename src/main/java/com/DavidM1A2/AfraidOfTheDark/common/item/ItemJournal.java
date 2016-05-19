@@ -47,34 +47,32 @@ public class ItemJournal extends AOTDItem
 				{
 					NBTHelper.setString(itemStack, "owner", entityPlayer.getDisplayName().getUnformattedText());
 					if (world.isRemote)
-					{
 						entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_ID, world, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
-					}
 				}
 				else
 				{
 					// else open the signup page
 					if (world.isRemote)
-					{
 						entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_SIGN_ID, world, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
-					}
 				}
 			}
 			// If the owner is the current entityPlayer then open the journal
 			else if (NBTHelper.getString(itemStack, "owner").equals(entityPlayer.getDisplayName().getUnformattedText()))
 			{
 				if (world.isRemote)
-				{
-					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_ID, world, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
-				}
+					if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getHasStartedAOTD())
+						entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_ID, world, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
+					else
+					{
+						entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_SIGN_ID, world, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
+						NBTHelper.setString(itemStack, "owner", "");
+					}
 			}
 			// Else this is someone else's journal so you cannot comprehend it
 			else
 			{
-				if (world.isRemote)
-				{
+				if (!world.isRemote)
 					entityPlayer.addChatMessage(new ChatComponentText("I cannot comprehend this..."));
-				}
 			}
 		}
 		else if (itemStack.getItemDamage() == 1)
@@ -105,8 +103,7 @@ public class ItemJournal extends AOTDItem
 	}
 
 	/**
-	 * returns a list of items with the same ID, but different meta (eg: dye
-	 * returns 16 items)
+	 * returns a list of items with the same ID, but different meta (eg: dye returns 16 items)
 	 * 
 	 * @param subItems
 	 *            The List of sub-items. This is a List of ItemStacks.

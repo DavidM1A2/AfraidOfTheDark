@@ -10,11 +10,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.EnchantedSkeleton.EntityEnchantedSkeleton;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.SplinterDrone.EntitySplinterDrone;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
-import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncParticleFX;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDParticleFXTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
@@ -22,6 +20,7 @@ import net.minecraft.block.BlockAir;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.BlockPos;
@@ -29,7 +28,6 @@ import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.WorldServer;
-import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
 public class EnariaAttacks
 {
@@ -98,9 +96,7 @@ public class EnariaAttacks
 			int z = (int) Math.round(this.enaria.posZ + (entityPlayer.posZ - this.enaria.posZ) * i / NUMBER_OF_PARTICLES_PER_ATTACK);
 
 			if (!entityPlayer.worldObj.isRemote)
-			{
-				AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncParticleFX(AOTDParticleFXTypes.EnariaBasicAttack, x, y, z), new TargetPoint(entityPlayer.dimension, x, y, z, 40));
-			}
+				AOTDParticleFXTypes.EnariaBasicAttack.instantiateServer(entityPlayer.worldObj, x, y, z, 40);
 		}
 	}
 
@@ -109,23 +105,14 @@ public class EnariaAttacks
 		if (!this.enaria.worldObj.isRemote)
 		{
 			for (int i = 0; i < NUMBER_OF_PARTICLES_PER_TELEPORT; i++)
+				AOTDParticleFXTypes.EnariaTeleport.instantiateServer(this.enaria.worldObj, this.enaria.getPosition().getX() + Math.random(), this.enaria.getPosition().getY() + .7 + Math.random(), this.enaria.getPosition().getZ() + Math.random(), 40);
+
+			List<EntityPlayer> entityPlayers = this.enaria.worldObj.<EntityPlayer> getEntitiesWithinAABB(EntityPlayer.class, this.enaria.getEntityBoundingBox().expand(TELEPORT_PLAYER_RANGE, TELEPORT_PLAYER_RANGE, TELEPORT_PLAYER_RANGE));
+			for (EntityPlayer entityPlayer : entityPlayers)
 			{
-				AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncParticleFX(AOTDParticleFXTypes.EnariaTeleport, this.enaria.getPosition().getX() + Math.random(), this.enaria.getPosition().getY() + .7 + Math.random(), this.enaria.getPosition().getZ() + Math.random()),
-						new TargetPoint(this.enaria.dimension, this.enaria.getPosition().getX() + Math.random(), this.enaria.getPosition().getY() + .7 + Math.random(), this.enaria.getPosition().getZ() + Math.random(), 40));
-			}
-
-			List entityList = this.enaria.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.enaria.getEntityBoundingBox().expand(TELEPORT_PLAYER_RANGE, TELEPORT_PLAYER_RANGE, TELEPORT_PLAYER_RANGE));
-			for (Object entityObject : entityList)
-			{
-				if (entityObject instanceof EntityPlayer)
-				{
-					EntityPlayer entityPlayer = (EntityPlayer) entityObject;
-
-					this.enaria.addPotionEffect(new PotionEffect(Potion.invisibility.getId(), 60, 0, false, false));
-					this.teleportWithShockwave(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ);
-
-					return;
-				}
+				this.enaria.addPotionEffect(new PotionEffect(Potion.invisibility.getId(), 60, 0, false, false));
+				this.teleportWithShockwave(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ);
+				return;
 			}
 		}
 	}
@@ -185,11 +172,8 @@ public class EnariaAttacks
 				this.attackSummonSplinterDrones();
 				break;
 		}
-		TargetPoint particleCenter = new TargetPoint(enaria.dimension, enaria.posX, enaria.posY + 1, enaria.posZ, 40);
 		for (int i = 0; i < 50; i++)
-		{
-			AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncParticleFX(AOTDParticleFXTypes.EnariaSplash, enaria.posX, enaria.posY + 1, enaria.posZ), particleCenter);
-		}
+			AOTDParticleFXTypes.EnariaSplash.instantiateServer(this.enaria.worldObj, enaria.posX, enaria.posY + 1, enaria.posZ, 40);
 	}
 
 	private void attackDarkness()
@@ -240,7 +224,13 @@ public class EnariaAttacks
 
 					if (!entityPlayer.capabilities.isCreativeMode)
 					{
-						Collections.shuffle(Arrays.asList(entityPlayer.inventory.mainInventory));
+						int toSwapPos = entityPlayer.getRNG().nextInt(36);
+						int currentItemPos = entityPlayer.inventory.currentItem;
+						ItemStack current = entityPlayer.inventory.mainInventory[currentItemPos];
+						ItemStack randomlyChosen = entityPlayer.inventory.mainInventory[toSwapPos];
+						entityPlayer.inventory.mainInventory[toSwapPos] = current;
+						entityPlayer.inventory.mainInventory[currentItemPos] = randomlyChosen;
+						entityPlayer.inventoryContainer.detectAndSendChanges();
 					}
 				}
 			}
@@ -266,7 +256,7 @@ public class EnariaAttacks
 						werewolf.setPosition(current.getX(), current.getY(), current.getZ());
 						werewolf.setCanAttackAnyone(true);
 						this.enaria.worldObj.spawnEntityInWorld(werewolf);
-						AOTDParticleFXTypes.EnariaBasicAttack.instantiate(enaria.worldObj, current.getX(), current.getY(), current.getZ(), 0, 0, 0);
+						AOTDParticleFXTypes.EnariaBasicAttack.instantiateServer(this.enaria.worldObj, current.getX(), current.getY(), current.getZ(), 100);
 						numberOfWWsSpawned = numberOfWWsSpawned + 1;
 					}
 				}

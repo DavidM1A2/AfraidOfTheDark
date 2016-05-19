@@ -18,35 +18,34 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-public class UpdateVitae implements IMessage
+public class UpdateVitae extends AbstractEntitySync
 {
 	private int vitaeLevel = 0;
-	private int entityIDToUpdate = 0;
 
 	public UpdateVitae()
 	{
+		super();
 		this.vitaeLevel = 0;
-		this.entityIDToUpdate = 0;
 	}
 
-	public UpdateVitae(int vitaeLevel, int entityIDToUpdate)
+	public UpdateVitae(int vitaeLevel, Entity entityToUpdate)
 	{
+		super(entityToUpdate);
 		this.vitaeLevel = vitaeLevel;
-		this.entityIDToUpdate = entityIDToUpdate;
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf)
 	{
+		super.fromBytes(buf);
 		this.vitaeLevel = buf.readInt();
-		this.entityIDToUpdate = buf.readInt();
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf)
 	{
+		super.toBytes(buf);
 		buf.writeInt(this.vitaeLevel);
-		buf.writeInt(this.entityIDToUpdate);
 	}
 
 	// when we receive a packet we set HasStartedAOTD

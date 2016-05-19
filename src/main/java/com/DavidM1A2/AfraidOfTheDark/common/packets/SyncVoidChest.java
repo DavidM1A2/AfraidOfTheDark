@@ -18,45 +18,44 @@ import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-public class SyncVoidChest implements IMessage
+public class SyncVoidChest extends AbstractEntitySync
 {
 	private int x = 0;
 	private int y = 0;
 	private int z = 0;
-	private int entityIDToUpdate = 0;
 
 	public SyncVoidChest()
 	{
+		super();
 		this.x = 0;
 		this.y = 0;
 		this.z = 0;
-		this.entityIDToUpdate = 0;
 	}
 
-	public SyncVoidChest(int x, int y, int z, int entityIDToUpdate)
+	public SyncVoidChest(int x, int y, int z, Entity entityToUpdate)
 	{
+		super(entityToUpdate);
 		this.x = x;
 		this.y = y;
 		this.z = z;
-		this.entityIDToUpdate = entityIDToUpdate;
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf)
 	{
+		super.fromBytes(buf);
 		this.x = buf.readInt();
 		this.y = buf.readInt();
 		this.z = buf.readInt();
-		this.entityIDToUpdate = buf.readInt();
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf)
 	{
+		super.toBytes(buf);
 		buf.writeInt(x);
 		buf.writeInt(y);
 		buf.writeInt(z);
-		buf.writeInt(this.entityIDToUpdate);
 	}
 
 	// when we receive a packet we set HasStartedAOTD

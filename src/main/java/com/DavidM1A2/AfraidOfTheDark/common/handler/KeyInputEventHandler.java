@@ -49,7 +49,7 @@ public class KeyInputEventHandler
 
 	private void spellKeyPressed()
 	{
-		AfraidOfTheDark.instance.getPacketHandler().sendToServer(new SyncKeyPress(Keyboard.getEventCharacter(), Keyboard.getEventKey()));
+		AfraidOfTheDark.instance.getPacketHandler().sendToServer(new SyncKeyPress(Keyboard.getKeyName(Keyboard.getEventKey())));
 	}
 
 	private void fireWristCrossbow()
