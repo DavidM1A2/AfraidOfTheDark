@@ -3,7 +3,7 @@
  * Mod: Afraid of the Dark
  * Ideas and Textures: Michael Albertson
  */
-package com.DavidM1A2.AfraidOfTheDark.common.worldGeneration;
+package com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.generatables;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -11,22 +11,26 @@ import java.util.List;
 import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBiomes;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDLootTables;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDSchematics;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDWorldData;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicGenerator;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Point3D;
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.AOTDDungeonTypes;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
 
-public class GenerateGnomishCity
+public class GenerateGnomishCity implements AOTDGeneratable
 {
-	public static boolean generateSurface(World world, Random random, int chunkX, int chunkZ)
+	@Override
+	public boolean generate(World world, Random random, int chunkX, int chunkZ)
 	{
 		int y = 20;
 
@@ -114,7 +118,7 @@ public class GenerateGnomishCity
 						SchematicGenerator.generateSchematic(AOTDSchematics.Stairwell.getSchematic(), world, chunkX + i * 50 + 13, y + k * 15 + 15, chunkZ + j * 50 + 13);
 						SchematicGenerator.generateSchematic(AOTDSchematics.Stairwell.getSchematic(), world, chunkX + i * 50 + 13, y + k * 15 + 31, chunkZ + j * 50 + 13);
 
-						GenerateGnomishCity.fixStairs(world, chunkX + i * 50 + 13, y + k * 15 + 47, chunkZ + j * 50 + 13);
+						this.fixStairs(world, chunkX + i * 50 + 13, y + k * 15 + 47, chunkZ + j * 50 + 13);
 					}
 					else
 					{
@@ -141,7 +145,21 @@ public class GenerateGnomishCity
 		return true;
 	}
 
-	private static void fixStairs(World world, int x, int y, int z)
+	@Override
+	public double getGenerationChance(int biomeID)
+	{
+		if (biomeID == BiomeGenBase.plains.biomeID)
+			return ConfigurationHandler.gnomishCityFrequency * 0.375 * ConfigurationHandler.dungeonFrequencyMultiplier;
+		else if (biomeID == ModBiomes.erieForest.biomeID)
+			return ConfigurationHandler.gnomishCityFrequency * ConfigurationHandler.dungeonFrequencyMultiplier;
+		else if (biomeID == BiomeGenBase.savanna.biomeID)
+			return ConfigurationHandler.gnomishCityFrequency * 0.5 * ConfigurationHandler.dungeonFrequencyMultiplier;
+		else if (biomeID == BiomeGenBase.icePlains.biomeID || biomeID == BiomeGenBase.iceMountains.biomeID)
+			return ConfigurationHandler.gnomishCityFrequency * 0.5 * ConfigurationHandler.dungeonFrequencyMultiplier;
+		return 0;
+	}
+
+	private void fixStairs(World world, int x, int y, int z)
 	{
 		while (y > 5)
 		{
@@ -157,7 +175,7 @@ public class GenerateGnomishCity
 
 			if (levelValidToRemove)
 			{
-				GenerateGnomishCity.clearLevel(world, x, y, z);
+				this.clearLevel(world, x, y, z);
 			}
 			else
 			{
@@ -168,7 +186,7 @@ public class GenerateGnomishCity
 		}
 	}
 
-	private static void clearLevel(World world, int x, int y, int z)
+	private void clearLevel(World world, int x, int y, int z)
 	{
 		for (int i = 0; i < 7; i++)
 		{

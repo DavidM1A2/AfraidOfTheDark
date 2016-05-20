@@ -3,11 +3,12 @@
  * Mod: Afraid of the Dark
  * Ideas and Textures: Michael Albertson
  */
-package com.DavidM1A2.AfraidOfTheDark.common.worldGeneration;
+package com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.generatables;
 
 import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBiomes;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDLootTables;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDSchematics;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDWorldData;
@@ -16,12 +17,15 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Point3D;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.UnsupportedLocationException;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.WorldGenerationUtility;
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.AOTDDungeonTypes;
 
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
 
-public class GenerateDarkForestDungeon
+public class GenerateDarkForestDungeon implements AOTDGeneratable
 {
-	public static boolean generateSurface(World world, Random random, int chunkX, int chunkZ)
+	@Override
+	public boolean generate(World world, Random random, int chunkX, int chunkZ)
 	{
 		if (!AOTDWorldData.get(world).isValidLocation(new Point3D(chunkX + 11, AOTDDungeonTypes.DarkForest.getRadius(), chunkZ + 11), true))
 		{
@@ -49,7 +53,7 @@ public class GenerateDarkForestDungeon
 		{
 			try
 			{
-				GenerateDarkForestDungeon.generateSurroundingObject(world, random, chunkX, chunkZ);
+				this.generateSurroundingObject(world, random, chunkX, chunkZ);
 			}
 			catch (UnsupportedLocationException e)
 			{
@@ -58,7 +62,7 @@ public class GenerateDarkForestDungeon
 
 		try
 		{
-			GenerateDarkForestDungeon.generateBedHouse(world, random, chunkX, y, chunkZ);
+			this.generateBedHouse(world, random, chunkX, y, chunkZ);
 		}
 		catch (UnsupportedLocationException e)
 		{
@@ -68,7 +72,7 @@ public class GenerateDarkForestDungeon
 		{
 			try
 			{
-				GenerateDarkForestDungeon.generateSurroundingTree(world, random, chunkX, chunkZ);
+				this.generateSurroundingTree(world, random, chunkX, chunkZ);
 			}
 			catch (UnsupportedLocationException e)
 			{
@@ -78,7 +82,19 @@ public class GenerateDarkForestDungeon
 		return true;
 	}
 
-	private static void generateSurroundingTree(World world, Random random, int chunkX, int chunkZ) throws UnsupportedLocationException
+	@Override
+	public double getGenerationChance(int biomeID)
+	{
+		if (biomeID == BiomeGenBase.plains.biomeID)
+			return ConfigurationHandler.darkForestFrequency * 0.3 * ConfigurationHandler.dungeonFrequencyMultiplier;
+		else if (biomeID == ModBiomes.erieForest.biomeID)
+			return ConfigurationHandler.darkForestFrequency * ConfigurationHandler.dungeonFrequencyMultiplier;
+		else if (biomeID == BiomeGenBase.savanna.biomeID)
+			return ConfigurationHandler.darkForestFrequency * 0.6 * ConfigurationHandler.dungeonFrequencyMultiplier;
+		return 0;
+	}
+
+	private void generateSurroundingTree(World world, Random random, int chunkX, int chunkZ) throws UnsupportedLocationException
 	{
 		int placeX = 0;
 		int placeZ = 0;
@@ -152,7 +168,7 @@ public class GenerateDarkForestDungeon
 		}
 	}
 
-	private static void generateSurroundingObject(World world, Random random, int chunkX, int chunkZ) throws UnsupportedLocationException
+	private void generateSurroundingObject(World world, Random random, int chunkX, int chunkZ) throws UnsupportedLocationException
 	{
 		int placeX = 0;
 		int placeZ = 0;
@@ -225,12 +241,12 @@ public class GenerateDarkForestDungeon
 		}
 	}
 
-	private static void generateBedHouse(World world, Random random, int chunkX, int y, int chunkZ) throws UnsupportedLocationException
+	private void generateBedHouse(World world, Random random, int chunkX, int y, int chunkZ) throws UnsupportedLocationException
 	{
 		SchematicGenerator.generateSchematicWithLoot(AOTDSchematics.BedHouse.getSchematic(), world, chunkX - 2, y, chunkZ - 2, AOTDLootTables.DarkForest.getLootTable());
 	}
 
-	private static int randInt(Random random, int min, int max)
+	private int randInt(Random random, int min, int max)
 	{
 		if (min > max)
 		{

@@ -20,6 +20,47 @@ public class SpellManager
 	private BiMap<String, UUID> keyToSpellUUID = HashBiMap.<String, UUID> create();
 	private BiMap<UUID, Spell> spells = HashBiMap.<UUID, Spell> create();
 
+	public void addSpell(Spell spell)
+	{
+		this.spells.put(spell.getSpellUUID(), spell);
+	}
+
+	public void removeSpell(Spell spell)
+	{
+		this.spells.remove(spell.getSpellUUID());
+	}
+
+	public Collection<Spell> getSpellList()
+	{
+		return spells.values();
+	}
+
+	public void setKeybindingToSpell(String key, Spell spell)
+	{
+		this.keyToSpellUUID.forcePut(key, spell.getSpellUUID());
+	}
+
+	// Called server side to instantiate the spell
+	public void keyPressed(String keyName)
+	{
+		if (keyName != null)
+			if (this.doesKeyMapToSpell(keyName))
+				this.spells.get(this.keyToSpellUUID.get(keyName)).instantiateSpell();
+	}
+
+	public boolean doesKeyMapToSpell(String key)
+	{
+		return this.keyToSpellUUID.containsKey(key) && this.spells.containsKey(this.keyToSpellUUID.get(key));
+	}
+
+	public String keyFromSpell(Spell spell)
+	{
+		String key = keyToSpellUUID.inverse().get(spell.getSpellUUID());
+		if (key != null)
+			return key;
+		return null;
+	}
+
 	public void writeToNBT(NBTTagCompound compound)
 	{
 		NBTTagCompound spellManager = new NBTTagCompound();
@@ -83,46 +124,5 @@ public class SpellManager
 			Spell spell = new Spell(spellNBT);
 			this.spells.put(uuid, spell);
 		}
-	}
-
-	public void addSpell(Spell spell)
-	{
-		this.spells.put(spell.getSpellUUID(), spell);
-	}
-
-	public void removeSpell(Spell spell)
-	{
-		this.spells.remove(spell.getSpellUUID());
-	}
-
-	public Collection<Spell> getSpellList()
-	{
-		return spells.values();
-	}
-
-	public void setKeybindingToSpell(String key, Spell spell)
-	{
-		this.keyToSpellUUID.forcePut(key, spell.getSpellUUID());
-	}
-
-	// Called server side to instantiate the spell
-	public void keyPressed(String keyName)
-	{
-		if (keyName != null)
-			if (this.doesKeyMapToSpell(keyName))
-				this.spells.get(this.keyToSpellUUID.get(keyName)).instantiateSpell();
-	}
-
-	public boolean doesKeyMapToSpell(String key)
-	{
-		return this.keyToSpellUUID.containsKey(key) && this.spells.containsKey(this.keyToSpellUUID.get(key));
-	}
-
-	public String keyFromSpell(Spell spell)
-	{
-		String key = keyToSpellUUID.inverse().get(spell.getSpellUUID());
-		if (key != null)
-			return key;
-		return null;
 	}
 }

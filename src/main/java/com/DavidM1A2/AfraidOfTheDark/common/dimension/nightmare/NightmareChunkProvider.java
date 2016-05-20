@@ -78,6 +78,9 @@ public class NightmareChunkProvider implements IChunkProvider
 			MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText("A player has entered his/her nightmare realm for the first time. Expect a server freeze for the next 5 or so seconds."));
 
 			SchematicGenerator.generateSchematicWithLoot(AOTDSchematics.NightmareIsland.getSchematic(), this.worldObj, x * 16, 0, z * 16, AOTDLootTables.NightmareIsland.getLootTable());
+
+			// REMOVE
+			//SchematicGenerator.generateSchematic(AOTDSchematics.EnariasAltar.getSchematic(), this.worldObj, x * 16 + 67, 40, z * 16 + 179);
 		}
 	}
 

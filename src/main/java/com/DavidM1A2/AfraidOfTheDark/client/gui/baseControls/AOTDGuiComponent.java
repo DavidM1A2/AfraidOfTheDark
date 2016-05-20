@@ -30,7 +30,7 @@ public abstract class AOTDGuiComponent
 	private Rectangle scaledBoundingBox = new Rectangle();
 	private float[] color = new float[]
 	{ 1.0f, 1.0f, 1.0f, 1.0f };
-	protected final static EntityPlayerSP entityPlayer = Minecraft.getMinecraft().thePlayer;
+	protected final EntityPlayerSP entityPlayer = Minecraft.getMinecraft().thePlayer;
 	protected final FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
 	private String hoverText = "";
 

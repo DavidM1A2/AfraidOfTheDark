@@ -3,11 +3,12 @@
  * Mod: Afraid of the Dark
  * Ideas and Textures: Michael Albertson
  */
-package com.DavidM1A2.AfraidOfTheDark.common.worldGeneration;
+package com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.generatables;
 
 import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBiomes;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDLootTables;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDSchematics;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDWorldData;
@@ -16,12 +17,14 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Point3D;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.UnsupportedLocationException;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.WorldGenerationUtility;
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.AOTDDungeonTypes;
 
 import net.minecraft.world.World;
 
-public class GenerateCrypt
+public class GenerateCrypt implements AOTDGeneratable
 {
-	public static boolean generateSurface(World world, Random random, int chunkX, int chunkZ)
+	@Override
+	public boolean generate(World world, Random random, int chunkX, int chunkZ)
 	{
 		if (!AOTDWorldData.get(world).isValidLocation(new Point3D(chunkX, AOTDDungeonTypes.Crypt.getRadius(), chunkZ), false))
 		{
@@ -48,5 +51,13 @@ public class GenerateCrypt
 		{
 			return false;
 		}
+	}
+
+	@Override
+	public double getGenerationChance(int biomeID)
+	{
+		if (biomeID == ModBiomes.erieForest.biomeID)
+			return ConfigurationHandler.cryptFrequency * ConfigurationHandler.dungeonFrequencyMultiplier;
+		return 0;
 	}
 }

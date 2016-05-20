@@ -5,8 +5,10 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.utility;
 
+import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemVitaeLantern;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDParticleFXTypes;
+import com.DavidM1A2.AfraidOfTheDark.proxy.ClientProxy;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -20,7 +22,7 @@ public class VitaeUtils
 		for (int i = 0; i < numberOfParticles; i++)
 		{
 			BlockPos particleLocation = location.add((world.rand.nextDouble() - 0.5) * radius * 2, (world.rand.nextDouble() - 0.5) * radius * 2, (world.rand.nextDouble() - 0.5) * radius * 2);
-			if (world.isRemote)
+			if (world.isRemote || AfraidOfTheDark.proxy instanceof ClientProxy)
 				AOTDParticleFXTypes.VitaeReleased.instantiateClient(world, particleLocation.getX() + world.rand.nextDouble(), particleLocation.getY() + world.rand.nextDouble(), particleLocation.getZ() + world.rand.nextDouble(), 0, 0, 0);
 			else
 				AOTDParticleFXTypes.VitaeReleased.instantiateServer(world, particleLocation.getX() + world.rand.nextDouble(), particleLocation.getY() + world.rand.nextDouble(), particleLocation.getZ() + world.rand.nextDouble(), 150);

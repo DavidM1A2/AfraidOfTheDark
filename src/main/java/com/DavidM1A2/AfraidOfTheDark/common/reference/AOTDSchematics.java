@@ -37,6 +37,8 @@ public enum AOTDSchematics
 
 	NightmareIsland("NightmareIsland.schematic"),
 
+	EnariasAltar("EnariasAltar.schematic"),
+
 	WitchHut("WitchHut.schematic"),
 
 	VoidChestPortal("VoidChestPortal.schematic"),
