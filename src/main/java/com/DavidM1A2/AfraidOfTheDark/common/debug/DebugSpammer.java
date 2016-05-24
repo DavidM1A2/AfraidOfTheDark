@@ -17,7 +17,6 @@ public class DebugSpammer
 		if (e.entityLiving instanceof EntityPlayer)
 		{
 			final EntityPlayer entityPlayer = (EntityPlayer) e.entityLiving;
-			//LogHelper.info(entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getSpellManager());
 		}
 	}
 }

@@ -12,6 +12,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.ItemIronBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.ItemSilverBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.ItemStarMetalBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.ItemWoodenBolt;
+import com.DavidM1A2.AfraidOfTheDark.common.item.ItemArtwork;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemAstralSilverIngot;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemAstralSilverSword;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemBladeOfExhumation;
@@ -44,6 +45,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls.ItemResearchScr
 import com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls.ItemResearchScrollVitae1;
 import com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls.ItemResearchScrollWristCrossbow;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDArmorMaterials;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDArt;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 
 import net.minecraft.client.Minecraft;
@@ -97,6 +99,7 @@ public class ModItems
 	public static final ItemFlaskOfSouls flaskOfSouls = new ItemFlaskOfSouls();
 	public static final ItemWerewolfBlood werewolfBlood = new ItemWerewolfBlood();
 	public static final ItemGnomishMetalIngot gnomishMetalIngot = new ItemGnomishMetalIngot();
+	public static final ItemArtwork artwork = new ItemArtwork();
 
 	// Register scrolls last
 	public static final ItemResearchScrollCloakOfAgility researchScrollCloakOfAgility = new ItemResearchScrollCloakOfAgility();
@@ -165,6 +168,7 @@ public class ModItems
 		GameRegistry.registerItem(ModItems.flaskOfSouls, "flaskOfSouls");
 		GameRegistry.registerItem(ModItems.werewolfBlood, "werewolfBlood");
 		GameRegistry.registerItem(ModItems.gnomishMetalIngot, "gnomishMetalIngot");
+		GameRegistry.registerItem(ModItems.artwork, "artwork");
 	}
 
 	public static void initializeRenderers(final Side side)
@@ -249,6 +253,8 @@ public class ModItems
 			ModelBakery.addVariantName(ModItems.flaskOfSouls, Reference.MOD_ID + ":flaskOfSouls", Reference.MOD_ID + ":flaskOfSoulsCharged");
 			itemModelMesher.register(ModItems.werewolfBlood, 0, new ModelResourceLocation(Reference.MOD_ID + ":werewolfBlood", "inventory"));
 			itemModelMesher.register(ModItems.gnomishMetalIngot, 0, new ModelResourceLocation(Reference.MOD_ID + ":gnomishMetalIngot", "inventory"));
+			for (int i = 0; i < AOTDArt.values().length; i++)
+				itemModelMesher.register(ModItems.artwork, i, new ModelResourceLocation(Reference.MOD_ID + ":artwork", "inventory"));
 		}
 	}
 }

@@ -117,6 +117,11 @@ public class VoidChestTeleporter extends Teleporter
 			{
 				furthestOutPlayer = Math.max(furthestOutPlayer, AOTDPlayerData.getPlayerLocationVoidChestOffline(entityPlayerData));
 			}
+			for (EntityPlayer entityPlayerOther : MinecraftServer.getServer().getConfigurationManager().playerEntityList)
+			{
+				if (!entityPlayer.isEntityEqual(entityPlayerOther))
+					furthestOutPlayer = Math.max(furthestOutPlayer, entityPlayerOther.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerLocationVoidChest());
+			}
 			entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setPlayerLocationVoidChest(furthestOutPlayer + 1);
 		}
 		return entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerLocationVoidChest();

@@ -9,6 +9,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.EntityEnaria;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.ghastly.EntityGhastlyEnaria;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.EnchantedSkeleton.EntityEnchantedSkeleton;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.EntityAOTDPainting.EntityArtwork;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.SplinterDrone.EntitySplinterDrone;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.SplinterDrone.EntitySplinterDroneProjectile;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
@@ -48,6 +49,7 @@ public class ModEntities
 	public static final int spellMyselfID = 13;
 	public static final int spellAOEID = 14;
 	public static final int ghastlyEnariaID = 15;
+	public static final int artworkID = 16;
 
 	public static void intialize()
 	{
@@ -59,6 +61,8 @@ public class ModEntities
 		EntityRegistry.registerModEntity(EntitySplinterDrone.class, "splinterDrone", ModEntities.splinterDroneID, Reference.MOD_ID, 50, 1, true);
 		EntityRegistry.registerModEntity(EntitySplinterDroneProjectile.class, "splinterDroneProjectile", ModEntities.splinterDroneProjectileID, Reference.MOD_ID, 50, 1, true);
 		EntityRegistry.registerModEntity(EntityGhastlyEnaria.class, "ghastlyEnaria", ModEntities.ghastlyEnariaID, Reference.MOD_ID, 500, 1, true);
+
+		EntityRegistry.registerModEntity(EntityArtwork.class, "artwork", ModEntities.artworkID, Reference.MOD_ID, 160, Integer.MAX_VALUE, false);
 
 		try
 		{

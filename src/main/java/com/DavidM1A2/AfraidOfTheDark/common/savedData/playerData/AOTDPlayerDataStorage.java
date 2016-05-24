@@ -21,6 +21,7 @@ public class AOTDPlayerDataStorage implements IStorage<IAOTDPlayerData>
 	private final static String PLAYER_LOCATION_VOID_CHEST = "playerLocationVoidChest";
 	private final static String RESEARCH_DATA = "unlockedResearches";
 	private final static String SELECTED_WRIST_CROSSBOW_BOLT = "selectedWristCrossbowBolt";
+	private final static String HAS_ENARIAS_ALTAR = "hasEnariasAltar";
 
 	@Override
 	public NBTBase writeNBT(Capability<IAOTDPlayerData> capability, IAOTDPlayerData instance, EnumFacing side)
@@ -38,6 +39,7 @@ public class AOTDPlayerDataStorage implements IStorage<IAOTDPlayerData>
 		compound.setInteger(PLAYER_LOCATION_VOID_CHEST, instance.getPlayerLocationVoidChest());
 		compound.setInteger(SELECTED_WRIST_CROSSBOW_BOLT, instance.getSelectedWristCrossbowBolt());
 		instance.getSpellManager().writeToNBT(compound);
+		compound.setBoolean(HAS_ENARIAS_ALTAR, instance.hasEnariasAltar());
 		return compound;
 	}
 
@@ -58,6 +60,7 @@ public class AOTDPlayerDataStorage implements IStorage<IAOTDPlayerData>
 			SpellManager spellManager = new SpellManager();
 			spellManager.readFromNBT(compound);
 			instance.setSpellManager(spellManager);
+			instance.setHasEnariasAltar(compound.getBoolean(HAS_ENARIAS_ALTAR));
 		}
 		else
 		{

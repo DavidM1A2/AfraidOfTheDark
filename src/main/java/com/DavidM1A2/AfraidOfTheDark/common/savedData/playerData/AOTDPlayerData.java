@@ -5,6 +5,7 @@ import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncAOTDPlayerData;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncHasEnariasAltar;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncSelectedWristCrossbowBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncSpellManager;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.UpdateAOTDStatus;
@@ -33,11 +34,12 @@ public class AOTDPlayerData implements ICapabilitySerializable<NBTTagCompound>, 
 	private NBTTagList inventoryList = new NBTTagList();
 	private Point3D playerLocationPreTeleport = new Point3D(0, 200, 0);
 	private int playerDimensionPreTeleport;
-	private int playerLocationNightmare;
-	private int playerLocationVoidChest;
+	private int playerLocationNightmare = 0;
+	private int playerLocationVoidChest = 0;
 	private NBTTagCompound researches = new NBTTagCompound();
 	private int selectedWristCrossbowBolt = 0;
 	private SpellManager spellManager = new SpellManager();
+	private boolean hasEnariasAltar = false;
 	private final static String PLAYER_LOCATION_VOID_CHEST = "playerLocationVoidChest";
 	private final static String PLAYER_LOCATION_NIGHTMARE = "playerLocationNightmare";
 	private final static String RESEARCH_DATA = "unlockedResearches";
@@ -252,6 +254,27 @@ public class AOTDPlayerData implements ICapabilitySerializable<NBTTagCompound>, 
 	public void setSpellManager(SpellManager spellManager)
 	{
 		this.spellManager = spellManager;
+	}
+
+	@Override
+	public boolean hasEnariasAltar()
+	{
+		return this.hasEnariasAltar;
+	}
+
+	@Override
+	public void setHasEnariasAltar(boolean enariasAltarGenerated)
+	{
+		this.hasEnariasAltar = enariasAltarGenerated;
+	}
+
+	@Override
+	public void syncHasEnariasAltar()
+	{
+		if (this.isServerSide())
+		{
+			AfraidOfTheDark.instance.getPacketHandler().sendTo(new SyncHasEnariasAltar(this.hasEnariasAltar), (EntityPlayerMP) entityPlayer);
+		}
 	}
 
 	public void syncSpellManager()

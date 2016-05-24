@@ -8,6 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDimensions;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.playerData.AOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Point3D;
@@ -66,6 +67,13 @@ public class NightmareTeleporter extends Teleporter
 					entityPlayer.getFoodStats().setFoodLevel(20);
 					entityPlayer.inventory.addItemStackToInventory(getNamedJournal(entityPlayer));
 					entityPlayer.inventory.addItemStackToInventory(getHintBook(entityPlayer));
+
+					// Check if we need to generate enarias Altar
+					if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.Enaria) && !entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).hasEnariasAltar())
+					{
+						//entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setHasEnariasAltar(true);
+						//SchematicGenerator.generateSchematic(AOTDSchematics.EnariasAltar.getSchematic(), MinecraftServer.getServer().worldServerForDimension(dimensionNew), (locationX - 20) + 67, 40, 179);
+					}
 				}
 			}
 		}
@@ -136,6 +144,11 @@ public class NightmareTeleporter extends Teleporter
 			for (NBTTagCompound entityPlayerData : NBTHelper.getOfflinePlayerNBTs())
 			{
 				furthestOutPlayer = Math.max(furthestOutPlayer, AOTDPlayerData.getPlayerLocationNightmareOffline(entityPlayerData));
+			}
+			for (EntityPlayer entityPlayerOther : MinecraftServer.getServer().getConfigurationManager().playerEntityList)
+			{
+				if (!entityPlayer.isEntityEqual(entityPlayerOther))
+					furthestOutPlayer = Math.max(furthestOutPlayer, entityPlayerOther.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerLocationNightmare());
 			}
 			entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setPlayerLocationNightmare(furthestOutPlayer + 1);
 

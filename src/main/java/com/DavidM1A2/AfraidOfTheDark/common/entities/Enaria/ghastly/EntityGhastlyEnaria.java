@@ -10,7 +10,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.Animation
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDimensions;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -56,7 +55,6 @@ public class EntityGhastlyEnaria extends EntityFlying implements IMCAnimatedEnti
 		if (this.ticksExisted == 1)
 		{
 			EntityPlayer closest = this.worldObj.getClosestPlayer(this.posX, this.posY, this.posZ, AOTDDimensions.getBlocksBetweenIslands() / 2);
-			LogHelper.info(closest);
 			if (closest == null)
 				this.setBenign(true);
 			else
@@ -72,7 +70,7 @@ public class EntityGhastlyEnaria extends EntityFlying implements IMCAnimatedEnti
 			if (this.ticksExisted % PLAYER_CHECK_FREQUENCY == 0)
 			{
 				EntityPlayer entityPlayer = this.worldObj.getClosestPlayerToEntity(this, 3);
-				if (entityPlayer != null)
+				if (entityPlayer != null && !entityPlayer.isDead)
 					AOTDDimensions.Nightmare.fromDimensionTo(entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerDimensionPreTeleport(), ((EntityPlayerMP) entityPlayer));
 			}
 	}

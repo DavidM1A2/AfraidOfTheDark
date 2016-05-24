@@ -5,11 +5,17 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.handler;
 
+import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.ghastly.EntityGhastlyEnaria;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDimensions;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDWorldData;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ClassInheritanceMultiMap;
+import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -17,6 +23,30 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 public class WorldEvents
 {
 	private int counter = 1;
+
+	// When a "Ghastly Enaria" is unloaded kill her, and then respawn her next to the closest player if there is a closest player
+	@SubscribeEvent
+	public void onChunkUnloadEvent(ChunkEvent.Unload event)
+	{
+		if (event.world.provider.getDimensionId() == AOTDDimensions.Nightmare.getWorldID())
+			if (!event.world.isRemote)
+				for (ClassInheritanceMultiMap<Entity> entityMap : event.getChunk().getEntityLists())
+					for (Entity entity : entityMap)
+						if (entity instanceof EntityGhastlyEnaria)
+						{
+							EntityPlayer entityPlayer = event.world.getClosestPlayer(event.getChunk().xPosition * 16, 100, event.getChunk().zPosition * 16, AOTDDimensions.getBlocksBetweenIslands() / 2);
+							entity.onKillCommand();
+							if (entityPlayer != null)
+							{
+								int posX = entityPlayer.getPosition().getX() + (entityPlayer.getRNG().nextInt(50) - 25) + (entityPlayer.getRNG().nextBoolean() ? 25 : -25);
+								int posZ = entityPlayer.getPosition().getZ() + (entityPlayer.getRNG().nextInt(50) - 25) + (entityPlayer.getRNG().nextBoolean() ? 25 : -25);
+								EntityGhastlyEnaria newEnaria = new EntityGhastlyEnaria(event.world);
+								newEnaria.setBenign(!entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.Enaria));
+								newEnaria.setPosition(posX, entityPlayer.posY, posZ);
+								event.world.spawnEntityInWorld(newEnaria);
+							}
+						}
+	}
 
 	@SubscribeEvent
 	public void onWorldTickEvent(TickEvent.ServerTickEvent event)

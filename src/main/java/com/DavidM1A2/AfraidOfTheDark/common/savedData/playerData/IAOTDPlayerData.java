@@ -57,6 +57,10 @@ public interface IAOTDPlayerData
 	public SpellManager getSpellManager();
 	public void setSpellManager(SpellManager spellManager);
 	public void syncSpellManager();
+	
+	public boolean hasEnariasAltar();
+	public void setHasEnariasAltar(boolean enariasAltarGenerated);
+	public void syncHasEnariasAltar();
 
 	public void syncAll();
 	public void requestSyncAll();

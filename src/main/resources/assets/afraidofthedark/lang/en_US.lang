@@ -44,6 +44,7 @@ item.afraidofthedark:bladeOfExhumation.name=Blade of Exhumation
 item.afraidofthedark:flaskOfSouls.name=Flask of Souls
 item.afraidofthedark:werewolfBlood.name=Werewolf Blood
 item.afraidofthedark:gnomishMetalIngot.name=Gnomish Metal Ingot
+item.afraidofthedark:artwork.name=Artwork
 
 # Blocks
 tile.afraidofthedark:silverOre.name=Silver Ore
@@ -92,6 +93,8 @@ entity.AfraidOfTheDark.enaria.name=Enaria
 entity.AfraidOfTheDark.ghastlyEnaria.name=Ghastly Enaria
 entity.AfraidOfTheDark.splinterDrone.name=Splinter Drone
 entity.AfraidOfTheDark.splinterDroneProjectile.name=Splinter Drone Projectile
+
+entity.AfraidOfTheDark.artwork.name=Artwork
 
 entity.AfraidOfTheDark.ironBolt.name=Iron Bolt
 entity.AfraidOfTheDark.silverBolt.name=Silver Bolt
