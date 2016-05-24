@@ -5,6 +5,8 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.entities.EntityAOTDPainting;
 
+import org.apache.commons.lang3.Validate;
+
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDArt;
 
@@ -16,6 +18,7 @@ import net.minecraft.entity.EntityHanging;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
@@ -50,6 +53,11 @@ public class EntityArtwork extends EntityHanging implements IEntityAdditionalSpa
 	public int getHeightPixels()
 	{
 		return this.art.getHeightPixels();
+	}
+
+	public int blocksToTakeUp()
+	{
+		return this.art.getBlockScale();
 	}
 
 	public AOTDArt getArt()
@@ -136,8 +144,8 @@ public class EntityArtwork extends EntityHanging implements IEntityAdditionalSpa
 		}
 		else
 		{
-			int i = Math.max(1, this.getWidthPixels() / 16);
-			int j = Math.max(1, this.getHeightPixels() / 16);
+			int i = Math.max(1, this.blocksToTakeUp());
+			int j = Math.max(1, this.blocksToTakeUp());
 			BlockPos blockpos = this.hangingPosition.offset(this.facingDirection.getOpposite());
 			EnumFacing enumfacing = this.facingDirection.rotateYCCW();
 
@@ -168,5 +176,67 @@ public class EntityArtwork extends EntityHanging implements IEntityAdditionalSpa
 
 			return true;
 		}
+	}
+
+	/**
+	 * Updates facing and bounding box based on it
+	 */
+	@Override
+	protected void updateFacingWithBoundingBox(EnumFacing facingDirectionIn)
+	{
+		Validate.notNull(facingDirectionIn);
+		Validate.isTrue(facingDirectionIn.getAxis().isHorizontal());
+		this.facingDirection = facingDirectionIn;
+		this.prevRotationYaw = this.rotationYaw = (float) (this.facingDirection.getHorizontalIndex() * 90);
+		this.updateBoundingBox();
+	}
+
+	/**
+	 * Updates the entity bounding box based on current facing
+	 */
+	private void updateBoundingBox()
+	{
+		if (this.facingDirection != null)
+		{
+			double d0 = (double) this.hangingPosition.getX() + 0.5D;
+			double d1 = (double) this.hangingPosition.getY() + 0.5D;
+			double d2 = (double) this.hangingPosition.getZ() + 0.5D;
+			double d3 = 0.46875D;
+			double d4 = this.someFunc(this.getWidthPixels());
+			double d5 = this.someFunc(this.getHeightPixels());
+			d0 = d0 - (double) this.facingDirection.getFrontOffsetX() * 0.46875D;
+			d2 = d2 - (double) this.facingDirection.getFrontOffsetZ() * 0.46875D;
+			d1 = d1 + d5;
+			EnumFacing enumfacing = this.facingDirection.rotateYCCW();
+			d0 = d0 + d4 * (double) enumfacing.getFrontOffsetX();
+			d2 = d2 + d4 * (double) enumfacing.getFrontOffsetZ();
+			this.posX = d0;
+			this.posY = d1;
+			this.posZ = d2;
+			double d6 = (double) this.getWidthPixels();
+			double d7 = (double) this.getHeightPixels();
+			double d8 = (double) this.getWidthPixels();
+
+			if (this.facingDirection.getAxis() == EnumFacing.Axis.Z)
+			{
+				d8 = 1.0D;
+			}
+			else
+			{
+				d6 = 1.0D;
+			}
+
+			// ???
+
+			d6 = d6 / (this.getWidthPixels() / this.blocksToTakeUp() * 2D);
+			d7 = d7 / (this.getHeightPixels() / this.blocksToTakeUp() * 2D);
+			d8 = d8 / (this.getWidthPixels() / this.blocksToTakeUp() * 2D);
+			this.setEntityBoundingBox(new AxisAlignedBB(d0 - d6, d1 - d7, d2 - d8, d0 + d6, d1 + d7, d2 + d8));
+		}
+	}
+
+	private double someFunc(int size)
+	{
+		return size % 32 == 0 ? 0.5D : 0.0D;
 	}
 }

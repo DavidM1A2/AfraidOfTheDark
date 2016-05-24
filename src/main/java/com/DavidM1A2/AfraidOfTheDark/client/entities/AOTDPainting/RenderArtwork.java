@@ -35,6 +35,46 @@ public class RenderArtwork extends Render<EntityArtwork>
 	{
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, z);
+		EnumFacing facing = entity.getHorizontalFacing();
+		float transX = entity.getWidthPixels() / 32 - entity.blocksToTakeUp() / 2;
+		float transY = entity.getWidthPixels() / 32 - entity.blocksToTakeUp() / 2;
+		float transZ = entity.getWidthPixels() / 32 - entity.blocksToTakeUp() / 2;
+		if (facing == EnumFacing.WEST)
+		{
+			transZ = -transZ;
+			transX = 0;
+			if (transY % 2 != 0)
+				transY = transY - 0.5f;
+			if (transZ % 2 != 0)
+				transZ = transZ + 0.5f;
+		}
+		else if (facing == EnumFacing.EAST)
+		{
+			transX = 0;
+			if (transY % 2 != 0)
+				transY = transY - 0.5f;
+			if (transZ % 2 != 0)
+				transZ = transZ - 0.5f;
+		}
+		else if (facing == EnumFacing.NORTH)
+		{
+			transZ = 0;
+			if (transX % 2 != 0)
+				transX = transX - 0.5f;
+			if (transY % 2 != 0)
+				transY = transY - 0.5f;
+		}
+		else if (facing == EnumFacing.SOUTH)
+		{
+			transX = -transX;
+			transZ = 0;
+			if (transX % 2 != 0)
+				transX = transX + 0.5f;
+			if (transY % 2 != 0)
+				transY = transY - 0.5f;
+		}
+
+		GlStateManager.translate(transX, transY, transZ);
 		GlStateManager.rotate(180.0F - entityYaw, 0.0F, 1.0F, 0.0F);
 		GlStateManager.enableRescaleNormal();
 		this.bindEntityTexture(entity);
@@ -76,10 +116,10 @@ public class RenderArtwork extends Render<EntityArtwork>
 		{
 			for (int j = 0; j < height / 16; ++j)
 			{
-				float f15 = f + (float) ((i + 1) * 16);
-				float f16 = f + (float) (i * 16);
-				float f17 = f1 + (float) ((j + 1) * 16);
-				float f18 = f1 + (float) (j * 16);
+				float f15 = f + (float) ((i + 1) * painting.blocksToTakeUp());
+				float f16 = f + (float) (i * painting.blocksToTakeUp());
+				float f17 = f1 + (float) ((j + 1) * painting.blocksToTakeUp());
+				float f18 = f1 + (float) (j * painting.blocksToTakeUp());
 				this.setLightmap(painting, (f15 + f16) / 2.0F, (f17 + f18) / 2.0F);
 				float f19 = (float) (textureU + width - i * 16) / 256.0F;
 				float f20 = (float) (textureU + width - (i + 1) * 16) / 256.0F;
