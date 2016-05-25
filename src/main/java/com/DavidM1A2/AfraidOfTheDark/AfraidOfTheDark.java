@@ -153,9 +153,9 @@ public class AfraidOfTheDark
 		// Initialize Recipes
 		ModRecipes.initialize();
 		// Initialize mod item renderers
-		ModItems.initializeRenderers(event.getSide());
+		AfraidOfTheDark.proxy.registerItemRenders();
 		// Initialize block renderers
-		ModBlocks.initializeRenderers(event.getSide());
+		AfraidOfTheDark.proxy.registerBlockRenders();
 		AfraidOfTheDark.proxy.registerMiscRenders();
 		// Initialize key input handler on client side only
 		if (event.getSide() == Side.CLIENT)

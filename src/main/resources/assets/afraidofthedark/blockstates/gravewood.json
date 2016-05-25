@@ -1,9 +1,9 @@
 {
 	"variants": {
-		"axis=y,variant=gravewood":    { "model": "afraidofthedark:gravewood" },
-        "axis=z,variant=gravewood":    { "model": "afraidofthedark:gravewood_side" },
-        "axis=x,variant=gravewood":    { "model": "afraidofthedark:gravewood_side", "y": 90 },
-        "axis=none,variant=gravewood": { "model": "afraidofthedark:gravewood" },
-		"inventory":                   { "model": "afraidofthedark:gravewood" }
+		"axis=y":    { "model": "afraidofthedark:gravewood" },
+        "axis=z":    { "model": "afraidofthedark:gravewood_side" },
+        "axis=x":    { "model": "afraidofthedark:gravewood_side", "y": 90 },
+        "axis=none": { "model": "afraidofthedark:gravewood" },
+		"inventory": { "model": "afraidofthedark:gravewood" }
 	}
 }

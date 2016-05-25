@@ -20,9 +20,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockAmorphousEldritchMetal extends AOTDBlock
 {
-	public BlockAmorphousEldritchMetal(final Material material)
+	public BlockAmorphousEldritchMetal()
 	{
-		super(material);
+		super(Material.portal);
 		this.setUnlocalizedName("amorphousEldritchMetal");
 		this.setHardness(10.0F);
 		this.setResistance(50.0F);

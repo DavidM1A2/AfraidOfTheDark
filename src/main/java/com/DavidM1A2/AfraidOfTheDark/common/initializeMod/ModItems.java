@@ -45,13 +45,8 @@ import com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls.ItemResearchScr
 import com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls.ItemResearchScrollVitae1;
 import com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls.ItemResearchScrollWristCrossbow;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDArmorMaterials;
-import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDArt;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemModelMesher;
-import net.minecraft.client.resources.model.ModelBakery;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -171,90 +166,5 @@ public class ModItems
 		GameRegistry.registerItem(ModItems.artwork, "artwork");
 	}
 
-	public static void initializeRenderers(final Side side)
-	{
-		if (side == Side.CLIENT)
-		{
-			final ItemModelMesher itemModelMesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
-
-			if (Reference.isDebug)
-			{
-				itemModelMesher.register(ModItems.insanityControl, 0, new ModelResourceLocation(Reference.MOD_ID + ":insanityControl", "inventory"));
-				itemModelMesher.register(ModItems.worldGenTest, 0, new ModelResourceLocation(Reference.MOD_ID + ":worldGenTest", "inventory"));
-			}
-
-			itemModelMesher.register(ModItems.journal, 0, new ModelResourceLocation(Reference.MOD_ID + ":journal", "inventory"));
-			itemModelMesher.register(ModItems.journal, 1, new ModelResourceLocation(Reference.MOD_ID + ":journal", "inventory"));
-			itemModelMesher.register(ModItems.astralSilverSword, 0, new ModelResourceLocation(Reference.MOD_ID + ":astralSilverSword", "inventory"));
-			itemModelMesher.register(ModItems.igneousSword, 0, new ModelResourceLocation(Reference.MOD_ID + ":igneousSword", "inventory"));
-			itemModelMesher.register(ModItems.igneousSword, 1, new ModelResourceLocation(Reference.MOD_ID + ":igneousSwordFullCharge", "inventory"));
-			ModelBakery.registerItemVariants(ModItems.igneousSword, new ModelResourceLocation(Reference.MOD_ID + ":igneousSword", "inventory"), new ModelResourceLocation(Reference.MOD_ID + ":igneousSwordFullCharge", "inventory"));
-			itemModelMesher.register(ModItems.astralSilverIngot, 0, new ModelResourceLocation(Reference.MOD_ID + ":astralSilverIngot", "inventory"));
-			itemModelMesher.register(ModItems.crossbow, 0, new ModelResourceLocation(Reference.MOD_ID + ":crossbowUnloaded", "inventory"));
-			itemModelMesher.register(ModItems.crossbow, 1, new ModelResourceLocation(Reference.MOD_ID + ":crossbowQuarter", "inventory"));
-			itemModelMesher.register(ModItems.crossbow, 2, new ModelResourceLocation(Reference.MOD_ID + ":crossbowHalf", "inventory"));
-			itemModelMesher.register(ModItems.crossbow, 3, new ModelResourceLocation(Reference.MOD_ID + ":crossbowLoaded", "inventory"));
-			ModelBakery.registerItemVariants(ModItems.crossbow, new ModelResourceLocation(Reference.MOD_ID + ":crossbowUnloaded", "inventory"), new ModelResourceLocation(Reference.MOD_ID + ":crossbowQuarter", "inventory"), new ModelResourceLocation(Reference.MOD_ID + ":crossbowHalf", "inventory"),
-					new ModelResourceLocation(Reference.MOD_ID + ":crossbowLoaded", "inventory"));
-
-			itemModelMesher.register(ModItems.wristCrossbow, 0, new ModelResourceLocation(Reference.MOD_ID + ":wristCrossbow", "inventory"));
-			itemModelMesher.register(ModItems.woodenBolt, 0, new ModelResourceLocation(Reference.MOD_ID + ":woodenBolt", "inventory"));
-			itemModelMesher.register(ModItems.ironBolt, 0, new ModelResourceLocation(Reference.MOD_ID + ":ironBolt", "inventory"));
-			itemModelMesher.register(ModItems.silverBolt, 0, new ModelResourceLocation(Reference.MOD_ID + ":silverBolt", "inventory"));
-			itemModelMesher.register(ModItems.igneousBolt, 0, new ModelResourceLocation(Reference.MOD_ID + ":igneousBolt", "inventory"));
-			itemModelMesher.register(ModItems.starMetalBolt, 0, new ModelResourceLocation(Reference.MOD_ID + ":starMetalBolt", "inventory"));
-			itemModelMesher.register(ModItems.igneousHelmet, 0, new ModelResourceLocation(Reference.MOD_ID + ":igneousHelmet", "inventory"));
-			itemModelMesher.register(ModItems.igneousChestplate, 0, new ModelResourceLocation(Reference.MOD_ID + ":igneousChestplate", "inventory"));
-			itemModelMesher.register(ModItems.igneousLeggings, 0, new ModelResourceLocation(Reference.MOD_ID + ":igneousLeggings", "inventory"));
-			itemModelMesher.register(ModItems.igneousBoots, 0, new ModelResourceLocation(Reference.MOD_ID + ":igneousBoots", "inventory"));
-			itemModelMesher.register(ModItems.igneousGem, 0, new ModelResourceLocation(Reference.MOD_ID + ":igneousGem", "inventory"));
-			itemModelMesher.register(ModItems.starMetalHelmet, 0, new ModelResourceLocation(Reference.MOD_ID + ":starMetalHelmet", "inventory"));
-			itemModelMesher.register(ModItems.starMetalChestplate, 0, new ModelResourceLocation(Reference.MOD_ID + ":starMetalChestplate", "inventory"));
-			itemModelMesher.register(ModItems.starMetalLeggings, 0, new ModelResourceLocation(Reference.MOD_ID + ":starMetalLeggings", "inventory"));
-			itemModelMesher.register(ModItems.starMetalBoots, 0, new ModelResourceLocation(Reference.MOD_ID + ":starMetalBoots", "inventory"));
-			itemModelMesher.register(ModItems.telescope, 0, new ModelResourceLocation(Reference.MOD_ID + ":telescope", "inventory"));
-			itemModelMesher.register(ModItems.sextant, 0, new ModelResourceLocation(Reference.MOD_ID + ":sextant", "inventory"));
-			itemModelMesher.register(ModItems.sunstoneFragment, 0, new ModelResourceLocation(Reference.MOD_ID + ":sunstoneFragment", "inventory"));
-			itemModelMesher.register(ModItems.starMetalFragment, 0, new ModelResourceLocation(Reference.MOD_ID + ":starMetalFragment", "inventory"));
-			itemModelMesher.register(ModItems.starMetalStaff, 0, new ModelResourceLocation(Reference.MOD_ID + ":starMetalStaff", "inventory"));
-			itemModelMesher.register(ModItems.vitaeLantern, 0, new ModelResourceLocation(Reference.MOD_ID + ":vitaeLanternEmpty", "inventory"));
-			itemModelMesher.register(ModItems.vitaeLantern, 1, new ModelResourceLocation(Reference.MOD_ID + ":vitaeLanternLow", "inventory"));
-			itemModelMesher.register(ModItems.vitaeLantern, 2, new ModelResourceLocation(Reference.MOD_ID + ":vitaeLanternHalf", "inventory"));
-			itemModelMesher.register(ModItems.vitaeLantern, 3, new ModelResourceLocation(Reference.MOD_ID + ":vitaeLanternThreeQuarters", "inventory"));
-			itemModelMesher.register(ModItems.vitaeLantern, 4, new ModelResourceLocation(Reference.MOD_ID + ":vitaeLanternFull", "inventory"));
-			ModelBakery.registerItemVariants(ModItems.vitaeLantern, new ModelResourceLocation(Reference.MOD_ID + ":vitaeLanternEmpty", "inventory"), new ModelResourceLocation(Reference.MOD_ID + ":vitaeLanternLow", "inventory"), new ModelResourceLocation(Reference.MOD_ID + ":vitaeLanternHalf",
-					"inventory"), new ModelResourceLocation(Reference.MOD_ID + ":vitaeLanternThreeQuarters", "inventory"), new ModelResourceLocation(Reference.MOD_ID + ":vitaeLanternFull", "inventory"));
-			itemModelMesher.register(ModItems.starMetalKhopesh, 0, new ModelResourceLocation(Reference.MOD_ID + ":starMetalKhopesh", "inventory"));
-			itemModelMesher.register(ModItems.starMetalKhopesh, 1, new ModelResourceLocation(Reference.MOD_ID + ":starMetalKhopeshFullCharge", "inventory"));
-			ModelBakery.registerItemVariants(ModItems.starMetalKhopesh, new ModelResourceLocation(Reference.MOD_ID + ":starMetalKhopesh", "inventory"), new ModelResourceLocation(Reference.MOD_ID + ":starMetalKhopeshFullCharge", "inventory"));
-			itemModelMesher.register(ModItems.cloakOfAgility, 0, new ModelResourceLocation(Reference.MOD_ID + ":cloakOfAgility", "inventory"));
-			itemModelMesher.register(ModItems.researchScrollCloakOfAgility, 0, new ModelResourceLocation(Reference.MOD_ID + ":researchScrollCloakOfAgility", "inventory"));
-			itemModelMesher.register(ModItems.researchScrollAstronomy2, 0, new ModelResourceLocation(Reference.MOD_ID + ":researchScrollAstronomy2", "inventory"));
-			itemModelMesher.register(ModItems.researchScrollAstronomy2, 1, new ModelResourceLocation(Reference.MOD_ID + ":researchScrollAstronomy2", "inventory"));
-			itemModelMesher.register(ModItems.researchScrollAstronomy2, 2, new ModelResourceLocation(Reference.MOD_ID + ":researchScrollAstronomy2", "inventory"));
-			itemModelMesher.register(ModItems.researchScrollAstronomy2, 3, new ModelResourceLocation(Reference.MOD_ID + ":researchScrollAstronomy2", "inventory"));
-			itemModelMesher.register(ModItems.researchScrollAstronomy2, 4, new ModelResourceLocation(Reference.MOD_ID + ":researchScrollAstronomy2", "inventory"));
-			itemModelMesher.register(ModItems.researchScrollVitae1, 0, new ModelResourceLocation(Reference.MOD_ID + ":researchScrollVitae1", "inventory"));
-			itemModelMesher.register(ModItems.researchScrollVitae1, 1, new ModelResourceLocation(Reference.MOD_ID + ":researchScrollVitae1", "inventory"));
-			itemModelMesher.register(ModItems.researchScrollVitae1, 2, new ModelResourceLocation(Reference.MOD_ID + ":researchScrollVitae1", "inventory"));
-			itemModelMesher.register(ModItems.researchScrollVitae1, 3, new ModelResourceLocation(Reference.MOD_ID + ":researchScrollVitae1", "inventory"));
-			itemModelMesher.register(ModItems.researchScrollVitae1, 4, new ModelResourceLocation(Reference.MOD_ID + ":researchScrollVitae1", "inventory"));
-			itemModelMesher.register(ModItems.researchScrollVitae1, 5, new ModelResourceLocation(Reference.MOD_ID + ":researchScrollVitae1", "inventory"));
-			itemModelMesher.register(ModItems.researchScrollWristCrossbow, 0, new ModelResourceLocation(Reference.MOD_ID + ":researchScrollWristCrossbow", "inventory"));
-			itemModelMesher.register(ModItems.starMetalPlate, 0, new ModelResourceLocation(Reference.MOD_ID + ":starMetalPlate", "inventory"));
-			itemModelMesher.register(ModItems.enchantedSkeletonBone, 0, new ModelResourceLocation(Reference.MOD_ID + ":enchantedSkeletonBone", "inventory"));
-			itemModelMesher.register(ModItems.sleepingPotion, 0, new ModelResourceLocation(Reference.MOD_ID + ":sleepingPotion", "inventory"));
-			itemModelMesher.register(ModItems.researchScrollInsanity, 0, new ModelResourceLocation(Reference.MOD_ID + ":researchScrollInsanity", "inventory"));
-			itemModelMesher.register(ModItems.eldritchMetalIngot, 0, new ModelResourceLocation(Reference.MOD_ID + ":eldritchMetalIngot", "inventory"));
-			itemModelMesher.register(ModItems.starMetalIngot, 0, new ModelResourceLocation(Reference.MOD_ID + ":starMetalIngot", "inventory"));
-			itemModelMesher.register(ModItems.bladeOfExhumation, 0, new ModelResourceLocation(Reference.MOD_ID + ":bladeOfExhumation", "inventory"));
-			itemModelMesher.register(ModItems.flaskOfSouls, 0, new ModelResourceLocation(Reference.MOD_ID + ":flaskOfSouls", "inventory"));
-			itemModelMesher.register(ModItems.flaskOfSouls, 1, new ModelResourceLocation(Reference.MOD_ID + ":flaskOfSoulsCharged", "inventory"));
-			ModelBakery.registerItemVariants(ModItems.flaskOfSouls, new ModelResourceLocation(Reference.MOD_ID + ":flaskOfSouls", "inventory"), new ModelResourceLocation(Reference.MOD_ID + ":flaskOfSoulsCharged", "inventory"));
-			itemModelMesher.register(ModItems.werewolfBlood, 0, new ModelResourceLocation(Reference.MOD_ID + ":werewolfBlood", "inventory"));
-			itemModelMesher.register(ModItems.gnomishMetalIngot, 0, new ModelResourceLocation(Reference.MOD_ID + ":gnomishMetalIngot", "inventory"));
-			for (int i = 0; i < AOTDArt.values().length; i++)
-				itemModelMesher.register(ModItems.artwork, i, new ModelResourceLocation(Reference.MOD_ID + ":artwork", "inventory"));
-		}
-	}
+	// Register renderers in proxy!
 }

@@ -5,8 +5,8 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.utility;
 
-import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewood;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockVoidChestPortal;
+import com.DavidM1A2.AfraidOfTheDark.common.block.gravewood.BlockGravewood;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;

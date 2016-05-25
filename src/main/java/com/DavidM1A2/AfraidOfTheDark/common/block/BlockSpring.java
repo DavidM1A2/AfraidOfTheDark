@@ -16,9 +16,9 @@ import net.minecraft.world.World;
 
 public class BlockSpring extends AOTDBlockTileEntity
 {
-	public BlockSpring(Material material)
+	public BlockSpring()
 	{
-		super(material);
+		super(Material.rock);
 		this.setUnlocalizedName("spring");
 		this.setHardness(10.0F);
 		this.setResistance(50.0F);

@@ -16,9 +16,9 @@ import net.minecraft.world.World;
 
 public class BlockDarkForest extends AOTDBlockTileEntity
 {
-	public BlockDarkForest(Material material)
+	public BlockDarkForest()
 	{
-		super(material);
+		super(Material.rock);
 		this.setUnlocalizedName("darkForest");
 		this.setHardness(10.0F);
 		this.setResistance(50.0F);

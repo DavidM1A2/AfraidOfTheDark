@@ -3,17 +3,16 @@
  * Mod: Afraid of the Dark
  * Ideas and Textures: Michael Albertson
  */
-package com.DavidM1A2.AfraidOfTheDark.common.block;
+package com.DavidM1A2.AfraidOfTheDark.common.block.gravewood;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDStairs;
-
-import net.minecraft.block.state.IBlockState;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 
 public class BlockGravewoodStairs extends AOTDStairs
 {
-	public BlockGravewoodStairs(final IBlockState modelState)
+	public BlockGravewoodStairs()
 	{
-		super(modelState);
+		super(ModBlocks.gravewoodPlanks.getDefaultState());
 		this.setUnlocalizedName("gravewoodStairs");
 	}
 }

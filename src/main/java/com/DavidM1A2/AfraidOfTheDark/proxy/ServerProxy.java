@@ -55,4 +55,16 @@ public class ServerProxy extends CommonProxy
 		else
 			return null;
 	}
+
+	@Override
+	public void registerItemRenders()
+	{
+		// Not used
+	}
+
+	@Override
+	public void registerBlockRenders()
+	{
+		// Not used		
+	}
 }

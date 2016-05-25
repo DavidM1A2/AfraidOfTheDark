@@ -3,59 +3,31 @@
  * Mod: Afraid of the Dark
  * Ideas and Textures: Michael Albertson
  */
-package com.DavidM1A2.AfraidOfTheDark.common.block;
+package com.DavidM1A2.AfraidOfTheDark.common.block.core;
 
-import java.util.List;
-
-import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDTreeTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
-import com.google.common.base.Predicate;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockGravewood extends BlockLog
+public abstract class AOTDLog extends BlockLog
 {
-	// Different log variants
-	public static final PropertyEnum VARIANT = PropertyEnum.create("variant", AOTDTreeTypes.class, new Predicate<AOTDTreeTypes>()
-	{
-		@Override
-		public boolean apply(final AOTDTreeTypes type)
-		{
-			if (type == AOTDTreeTypes.GRAVEWOOD)
-				return true;
-			return false;
-		}
-	});
-
-	/*
-	 * Define a gravewood block
-	 */
-	public BlockGravewood()
+	public AOTDLog()
 	{
 		super();
-		this.setCreativeTab(Reference.AFRAID_OF_THE_DARK);
-		this.setStepSound(Block.soundTypeWood);
-		this.setUnlocalizedName("gravewood");
+		if (this.displayInCreative())
+		{
+			this.setCreativeTab(Reference.AFRAID_OF_THE_DARK);
+		}
 	}
 
-	/**
-	 * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
-	 */
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(final Item itemIn, final CreativeTabs tab, final List list)
+	protected boolean displayInCreative()
 	{
-		list.add(new ItemStack(itemIn, 1, AOTDTreeTypes.GRAVEWOOD.getMetadata()));
+		return true;
 	}
 
 	/**
@@ -91,7 +63,7 @@ public class BlockGravewood extends BlockLog
 	public int getMetaFromState(final IBlockState state)
 	{
 		final byte b0 = 0;
-		int i = b0 | state.<AOTDTreeTypes> getValue(BlockGravewood.VARIANT).getMetadata();
+		int i = b0;// | state.<AOTDTreeTypes> getValue(BlockGravewood.VARIANT).getMetadata();
 
 		switch (state.<BlockLog.EnumAxis> getValue(LOG_AXIS))
 		{
@@ -116,15 +88,26 @@ public class BlockGravewood extends BlockLog
 	protected BlockState createBlockState()
 	{
 		return new BlockState(this, new IProperty[]
-		{ BlockGravewood.VARIANT, BlockLog.LOG_AXIS });
+		{ BlockLog.LOG_AXIS });
 	}
 
 	// Can these woods stack?
 	@Override
 	protected ItemStack createStackedBlock(final IBlockState state)
 	{
-		return new ItemStack(Item.getItemFromBlock(this), 1, state.<AOTDTreeTypes> getValue(BlockGravewood.VARIANT).getMetadata());
+		return new ItemStack(Item.getItemFromBlock(this), 1, 0);//state.<AOTDTreeTypes> getValue(BlockGravewood.VARIANT).getMetadata());
 	}
+
+	/**
+	 * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
+	 */
+	/*
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void getSubBlocks(final Item itemIn, final CreativeTabs tab, final List list)
+	{
+		list.add(new ItemStack(itemIn, 1, AOTDTreeTypes.GRAVEWOOD.getMetadata()));
+	}*/
 
 	/**
 	 * Get the damage value that this Block should drop
@@ -132,7 +115,7 @@ public class BlockGravewood extends BlockLog
 	@Override
 	public int damageDropped(final IBlockState state)
 	{
-		return state.<AOTDTreeTypes> getValue(BlockGravewood.VARIANT).getMetadata();
+		return 0;//state.<AOTDTreeTypes> getValue(BlockGravewood.VARIANT).getMetadata();
 	}
 
 	@Override

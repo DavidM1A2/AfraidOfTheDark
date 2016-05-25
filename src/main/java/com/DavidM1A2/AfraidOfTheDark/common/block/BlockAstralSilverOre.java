@@ -18,9 +18,9 @@ import net.minecraft.world.World;
 
 public class BlockAstralSilverOre extends AOTDBlock
 {
-	public BlockAstralSilverOre(final Material material)
+	public BlockAstralSilverOre()
 	{
-		super(material);
+		super(Material.rock);
 		this.setUnlocalizedName("astralSilverOre");
 		this.setHardness(10.0F);
 		this.setResistance(50.0F);

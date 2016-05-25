@@ -16,13 +16,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.block.BlockEnariasAltar;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGlowStalk;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGnomishMetalPlate;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGnomishMetalStrut;
-import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewood;
-import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewoodDoubleSlab;
-import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewoodHalfSlab;
-import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewoodLeaves;
-import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewoodPlanks;
-import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewoodSapling;
-import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewoodStairs;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockIgneous;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockMeteor;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockSpring;
@@ -31,6 +24,14 @@ import com.DavidM1A2.AfraidOfTheDark.common.block.BlockSunstoneOre;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockVitaeDisenchanter;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockVoidChest;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockVoidChestPortal;
+import com.DavidM1A2.AfraidOfTheDark.common.block.gravewood.BlockGravewood;
+import com.DavidM1A2.AfraidOfTheDark.common.block.gravewood.BlockGravewoodDoubleSlab;
+import com.DavidM1A2.AfraidOfTheDark.common.block.gravewood.BlockGravewoodHalfSlab;
+import com.DavidM1A2.AfraidOfTheDark.common.block.gravewood.BlockGravewoodLeaves;
+import com.DavidM1A2.AfraidOfTheDark.common.block.gravewood.BlockGravewoodPlanks;
+import com.DavidM1A2.AfraidOfTheDark.common.block.gravewood.BlockGravewoodSapling;
+import com.DavidM1A2.AfraidOfTheDark.common.block.gravewood.BlockGravewoodStairs;
+import com.DavidM1A2.AfraidOfTheDark.common.block.mangrove.BlockMangrove;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityDarkForest;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityEnariaSpawner;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityGhastlyEnariaSpawner;
@@ -40,16 +41,8 @@ import com.DavidM1A2.AfraidOfTheDark.common.item.ItemGravewoodLeaves;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemGravewoodSlab;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 
-import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemModelMesher;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
 
 @GameRegistry.ObjectHolder(Reference.MOD_ID)
 public class ModBlocks
@@ -58,28 +51,29 @@ public class ModBlocks
 	public static final BlockGravewoodLeaves gravewoodLeaves = new BlockGravewoodLeaves();
 	public static final BlockGravewood gravewood = new BlockGravewood();
 	public static final BlockGravewoodPlanks gravewoodPlanks = new BlockGravewoodPlanks();
-	public static final BlockGravewoodStairs gravewoodStairs = new BlockGravewoodStairs(ModBlocks.gravewoodPlanks.getDefaultState());
-	public static final BlockGravewoodHalfSlab gravewoodHalfSlab = new BlockGravewoodHalfSlab(Material.wood);
-	public static final BlockGravewoodDoubleSlab gravewoodDoubleSlab = new BlockGravewoodDoubleSlab(Material.wood);
-	public static final BlockSunstoneOre sunstoneOre = new BlockSunstoneOre(Material.rock);
-	public static final BlockAstralSilverOre astralSilverOre = new BlockAstralSilverOre(Material.rock);
-	public static final BlockMeteor meteor = new BlockMeteor(Material.rock);
-	public static final BlockStarMetalOre starMetalOre = new BlockStarMetalOre(Material.rock);
+	public static final BlockGravewoodStairs gravewoodStairs = new BlockGravewoodStairs();
+	public static final BlockGravewoodHalfSlab gravewoodHalfSlab = new BlockGravewoodHalfSlab();
+	public static final BlockGravewoodDoubleSlab gravewoodDoubleSlab = new BlockGravewoodDoubleSlab();
+	public static final BlockMangrove mangrove = new BlockMangrove();
+	public static final BlockSunstoneOre sunstoneOre = new BlockSunstoneOre();
+	public static final BlockAstralSilverOre astralSilverOre = new BlockAstralSilverOre();
+	public static final BlockMeteor meteor = new BlockMeteor();
+	public static final BlockStarMetalOre starMetalOre = new BlockStarMetalOre();
 	public static final BlockIgneous igneousBlock = new BlockIgneous();
-	public static final BlockSpring spring = new BlockSpring(Material.rock);
-	public static final BlockDarkForest darkForest = new BlockDarkForest(Material.rock);
+	public static final BlockSpring spring = new BlockSpring();
+	public static final BlockDarkForest darkForest = new BlockDarkForest();
 	public static final BlockGravewoodSapling gravewoodSapling = new BlockGravewoodSapling();
 	public static final BlockVitaeDisenchanter vitaeDisenchanter = new BlockVitaeDisenchanter();
 	public static final BlockVoidChest voidChest = new BlockVoidChest();
 	public static final BlockVoidChestPortal voidChestPortal = new BlockVoidChestPortal();
-	public static final BlockEldritchObsidian eldritchObsidian = new BlockEldritchObsidian(Material.rock);
-	public static final BlockAmorphousEldritchMetal amorphousEldritchMetal = new BlockAmorphousEldritchMetal(Material.portal);
-	public static final BlockEldritchStone eldritchStone = new BlockEldritchStone(Material.rock);
+	public static final BlockEldritchObsidian eldritchObsidian = new BlockEldritchObsidian();
+	public static final BlockAmorphousEldritchMetal amorphousEldritchMetal = new BlockAmorphousEldritchMetal();
+	public static final BlockEldritchStone eldritchStone = new BlockEldritchStone();
 	public static final BlockAOTDBarrier aOTDBarrier = new BlockAOTDBarrier();
 	public static final BlockGnomishMetalPlate gnomishMetalPlate = new BlockGnomishMetalPlate();
 	public static final BlockGnomishMetalStrut gnomishMetalStrut = new BlockGnomishMetalStrut();
 	public static final BlockGlowStalk glowStalk = new BlockGlowStalk();
-	public static final BlockEnariaSpawner enariaSpawner = new BlockEnariaSpawner(Material.rock);
+	public static final BlockEnariaSpawner enariaSpawner = new BlockEnariaSpawner();
 	public static final BlockEnariasAltar enariasAltar = new BlockEnariasAltar();
 
 	public static void initialize()
@@ -99,6 +93,7 @@ public class ModBlocks
 		Blocks.fire.setFireInfo(ModBlocks.gravewoodHalfSlab, 5, 5);
 		GameRegistry.registerBlock(ModBlocks.gravewoodDoubleSlab, ItemGravewoodSlab.class, "gravewoodDoubleSlab", ModBlocks.gravewoodHalfSlab, ModBlocks.gravewoodDoubleSlab, true);
 		Blocks.fire.setFireInfo(ModBlocks.gravewoodDoubleSlab, 5, 5);
+		GameRegistry.registerBlock(ModBlocks.mangrove, "mangrove");
 		GameRegistry.registerBlock(ModBlocks.sunstoneOre, "sunstoneOre");
 		GameRegistry.registerBlock(ModBlocks.astralSilverOre, "astralSilverOre");
 		GameRegistry.registerBlock(ModBlocks.meteor, "meteor");
@@ -120,42 +115,5 @@ public class ModBlocks
 		GameRegistry.registerTileEntity(TileEntityEnariaSpawner.class, "tileEntityEnariaSpawner");
 		GameRegistry.registerTileEntity(TileEntityGhastlyEnariaSpawner.class, "tileEntityGhastlyEnariaSpawner");
 		GameRegistry.registerBlock(ModBlocks.enariasAltar, "enariasAltar");
-	}
-
-	public static void initializeRenderers(final Side side)
-	{
-		if (side == Side.CLIENT)
-		{
-			OBJLoader.instance.addDomain(Reference.MOD_ID);
-
-			final ItemModelMesher itemModelMesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.spring), 0, new ModelResourceLocation(Reference.MOD_ID + ":spring", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.darkForest), 0, new ModelResourceLocation(Reference.MOD_ID + ":darkForest", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gravewood), 0, new ModelResourceLocation(Reference.MOD_ID + ":gravewood", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gravewoodLeaves), 0, new ModelResourceLocation(Reference.MOD_ID + ":gravewoodLeaves", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gravewoodPlanks), 0, new ModelResourceLocation(Reference.MOD_ID + ":gravewoodPlanks", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gravewoodStairs), 0, new ModelResourceLocation(Reference.MOD_ID + ":gravewoodStairs", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gravewoodHalfSlab), 0, new ModelResourceLocation(Reference.MOD_ID + ":gravewoodHalfSlab", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gravewoodDoubleSlab), 0, new ModelResourceLocation(Reference.MOD_ID + ":gravewoodDoubleSlab", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.sunstoneOre), 0, new ModelResourceLocation(Reference.MOD_ID + ":sunstoneOre", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.astralSilverOre), 0, new ModelResourceLocation(Reference.MOD_ID + ":astralSilverOre", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.meteor), 0, new ModelResourceLocation(Reference.MOD_ID + ":meteor", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.starMetalOre), 0, new ModelResourceLocation(Reference.MOD_ID + ":starMetalOre", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.igneousBlock), 0, new ModelResourceLocation(Reference.MOD_ID + ":igneousBlock", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gravewoodSapling), 0, new ModelResourceLocation(Reference.MOD_ID + ":gravewoodSapling", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.vitaeDisenchanter), 0, new ModelResourceLocation(Reference.MOD_ID + ":vitaeDisenchanter", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.voidChest), 0, new ModelResourceLocation(Reference.MOD_ID + ":voidChest", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.voidChestPortal), 0, new ModelResourceLocation(Reference.MOD_ID + ":voidChestPortal", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.eldritchObsidian), 0, new ModelResourceLocation(Reference.MOD_ID + ":eldritchObsidian", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.amorphousEldritchMetal), 0, new ModelResourceLocation(Reference.MOD_ID + ":amorphousEldritchMetal", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.eldritchStone), 0, new ModelResourceLocation(Reference.MOD_ID + ":eldritchStone", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.aOTDBarrier), 0, new ModelResourceLocation(Reference.MOD_ID + ":aOTDBarrier", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gnomishMetalPlate), 0, new ModelResourceLocation(Reference.MOD_ID + ":gnomishMetalPlate", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gnomishMetalStrut), 0, new ModelResourceLocation(Reference.MOD_ID + ":gnomishMetalStrut", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.glowStalk), 0, new ModelResourceLocation(Reference.MOD_ID + ":glowStalk", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.enariaSpawner), 0, new ModelResourceLocation(Reference.MOD_ID + ":enariaSpawner", "inventory"));
-			itemModelMesher.register(Item.getItemFromBlock(ModBlocks.enariasAltar), 0, new ModelResourceLocation(Reference.MOD_ID + ":enariasAltar", "inventory"));
-			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(ModBlocks.enariasAltar), 0, new ModelResourceLocation(Reference.MOD_ID + ":enariasAltar", "inventory"));
-		}
 	}
 }

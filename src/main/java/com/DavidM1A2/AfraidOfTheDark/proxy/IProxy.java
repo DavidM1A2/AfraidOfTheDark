@@ -23,4 +23,8 @@ public interface IProxy
 	public abstract void registerMiscelaneous();
 
 	public abstract EntityPlayer getSpellOwner(Spell spell);
+
+	public abstract void registerItemRenders();
+
+	public abstract void registerBlockRenders();
 }

@@ -11,9 +11,9 @@ import net.minecraft.block.material.Material;
 
 public class BlockEldritchStone extends AOTDBlock
 {
-	public BlockEldritchStone(final Material material)
+	public BlockEldritchStone()
 	{
-		super(material);
+		super(Material.rock);
 		this.setUnlocalizedName("eldritchStone");
 		this.setHardness(5.0F);
 		this.setHarvestLevel("pickaxe", 1);

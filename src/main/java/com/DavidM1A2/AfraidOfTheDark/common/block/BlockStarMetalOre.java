@@ -22,9 +22,9 @@ import net.minecraft.world.World;
 
 public class BlockStarMetalOre extends AOTDBlock
 {
-	public BlockStarMetalOre(final Material material)
+	public BlockStarMetalOre()
 	{
-		super(material);
+		super(Material.rock);
 		this.setUnlocalizedName("starMetalOre");
 		this.setLightLevel(0.4f);
 		this.setHardness(10.0F);

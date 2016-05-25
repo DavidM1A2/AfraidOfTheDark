@@ -6,6 +6,9 @@
 package com.DavidM1A2.AfraidOfTheDark.common.reference;
 
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public enum AOTDArt
 {
@@ -13,13 +16,17 @@ public enum AOTDArt
 	Victorian2("Victorian2.png", 256, 256, 12);
 
 	private final ResourceLocation texture;
+
 	private final int width;
 	private final int height;
 	private final int blockScale;
 
 	private AOTDArt(String texture, int width, int height, int blockScale)
 	{
-		this.texture = new ResourceLocation("afraidofthedark:textures/painting/" + texture);
+		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
+			this.texture = new ResourceLocation("afraidofthedark:textures/painting/" + texture);
+		else
+			this.texture = null;
 		this.width = width;
 		this.height = height;
 		this.blockScale = blockScale;
@@ -40,6 +47,7 @@ public enum AOTDArt
 		return this.blockScale;
 	}
 
+	@SideOnly(Side.CLIENT)
 	public ResourceLocation getTexture()
 	{
 		return this.texture;

@@ -13,9 +13,9 @@ import net.minecraft.world.World;
 
 public class BlockEnariaSpawner extends AOTDBlockTileEntity
 {
-	public BlockEnariaSpawner(Material material)
+	public BlockEnariaSpawner()
 	{
-		super(material);
+		super(Material.rock);
 		this.setUnlocalizedName("enariaSpawner");
 		this.setHardness(10.0F);
 		this.setResistance(50.0F);

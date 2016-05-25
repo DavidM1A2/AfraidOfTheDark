@@ -22,9 +22,9 @@ import net.minecraft.world.World;
 
 public class BlockSunstoneOre extends AOTDBlock
 {
-	public BlockSunstoneOre(final Material material)
+	public BlockSunstoneOre()
 	{
-		super(material);
+		super(Material.rock);
 		this.setUnlocalizedName("sunstoneOre");
 		this.setLightLevel(1.0f);
 		this.setHardness(10.0F);

@@ -5,8 +5,8 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.item;
 
-import com.DavidM1A2.AfraidOfTheDark.common.block.BlockGravewoodLeaves;
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDLeaves;
+import com.DavidM1A2.AfraidOfTheDark.common.block.gravewood.BlockGravewoodLeaves;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
