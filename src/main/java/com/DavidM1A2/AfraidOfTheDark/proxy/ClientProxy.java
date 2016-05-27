@@ -322,6 +322,7 @@ public class ClientProxy extends CommonProxy
 		itemModelMesher.register(ModItems.gnomishMetalIngot, 0, new ModelResourceLocation(Reference.MOD_ID + ":gnomishMetalIngot", "inventory"));
 		for (int i = 0; i < AOTDArt.values().length; i++)
 			itemModelMesher.register(ModItems.artwork, i, new ModelResourceLocation(Reference.MOD_ID + ":artwork", "inventory"));
+		itemModelMesher.register(ModItems.schematicGenerator, 0, new ModelResourceLocation(Reference.MOD_ID + ":schematicGenerator", "inventory"));
 	}
 
 	@Override

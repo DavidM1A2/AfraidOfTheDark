@@ -5,8 +5,12 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.item.core;
 
+import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncItemWithCooldown;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 
@@ -19,12 +23,6 @@ public abstract class AOTDItemWithCooldownPerItem extends AOTDItem implements IH
 	{
 		super();
 		this.setMaxStackSize(1);
-	}
-
-	@Override
-	public boolean showDurabilityBar(ItemStack itemStack)
-	{
-		return true;
 	}
 
 	/**
@@ -40,9 +38,11 @@ public abstract class AOTDItemWithCooldownPerItem extends AOTDItem implements IH
 		return Math.max(0, 1 - (System.currentTimeMillis() - this.serverClientTimeDifference - NBTHelper.getLong(itemStack, LAST_COOLDOWN)) / (this.getItemCooldownInTicks(itemStack) * 50.0));
 	}
 
-	public void setOnCooldown(ItemStack itemStack)
+	public void setOnCooldown(ItemStack itemStack, EntityPlayer entityPlayer)
 	{
 		NBTHelper.setLong(itemStack, LAST_COOLDOWN, System.currentTimeMillis());
+		if (!entityPlayer.worldObj.isRemote)
+			AfraidOfTheDark.instance.getPacketHandler().sendTo(new SyncItemWithCooldown(System.currentTimeMillis(), this), (EntityPlayerMP) entityPlayer);
 	}
 
 	public void setServerClientDifference(long difference)
@@ -57,11 +57,17 @@ public abstract class AOTDItemWithCooldownPerItem extends AOTDItem implements IH
 
 	public int cooldownRemaining(ItemStack itemStack)
 	{
-		return MathHelper.ceiling_double_int(System.currentTimeMillis() - NBTHelper.getLong(itemStack, LAST_COOLDOWN)) / 1000 + 1;
+		return MathHelper.ceiling_double_int(this.getItemCooldownInTicks() / 20 - ((System.currentTimeMillis() - NBTHelper.getLong(itemStack, LAST_COOLDOWN)) / 1000));
 	}
 
 	@Override
 	public boolean isDamageable()
+	{
+		return true;
+	}
+
+	@Override
+	public boolean showDurabilityBar(ItemStack itemStack)
 	{
 		return true;
 	}

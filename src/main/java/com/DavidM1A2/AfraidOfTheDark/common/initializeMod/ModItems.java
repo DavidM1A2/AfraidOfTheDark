@@ -24,6 +24,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.item.ItemGnomishMetalIngot;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemIgneousGem;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemIgneousSword;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemJournal;
+import com.DavidM1A2.AfraidOfTheDark.common.item.ItemSchematicGenerator;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemSextant;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemSleepingPotion;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemStarMetalFragment;
@@ -95,6 +96,7 @@ public class ModItems
 	public static final ItemWerewolfBlood werewolfBlood = new ItemWerewolfBlood();
 	public static final ItemGnomishMetalIngot gnomishMetalIngot = new ItemGnomishMetalIngot();
 	public static final ItemArtwork artwork = new ItemArtwork();
+	public static final ItemSchematicGenerator schematicGenerator = new ItemSchematicGenerator();
 
 	// Register scrolls last
 	public static final ItemResearchScrollCloakOfAgility researchScrollCloakOfAgility = new ItemResearchScrollCloakOfAgility();
@@ -164,6 +166,7 @@ public class ModItems
 		GameRegistry.registerItem(ModItems.werewolfBlood, "werewolfBlood");
 		GameRegistry.registerItem(ModItems.gnomishMetalIngot, "gnomishMetalIngot");
 		GameRegistry.registerItem(ModItems.artwork, "artwork");
+		GameRegistry.registerItem(ModItems.schematicGenerator, "schematicGenerator");
 	}
 
 	// Register renderers in proxy!

@@ -17,7 +17,9 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.UnitConverterUtility;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -39,7 +41,7 @@ public class ItemStarMetalStaff extends AOTDItemWithCooldownStatic
 	{
 		if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.StarMetal))
 		{
-			if (!this.isOnCooldown())
+			if (!this.isOnCooldown(itemStack))
 			{
 				if (!entityPlayer.capabilities.isCreativeMode)
 				{
@@ -54,25 +56,21 @@ public class ItemStarMetalStaff extends AOTDItemWithCooldownStatic
 					}, UnitConverterUtility.ticksToMilliseconds(MAX_TROLL_POLE_TIME_IN_TICKS), TimeUnit.MILLISECONDS);
 				}
 				entityPlayer.addVelocity(0, .5, 0);
-				entityPlayer.setItemInUse(itemStack, ItemStarMetalStaff.MAX_TROLL_POLE_TIME_IN_TICKS);
+				this.setOnCooldown(itemStack, entityPlayer);
+				if (!world.isRemote)
+					entityPlayer.setItemInUse(itemStack, ItemStarMetalStaff.MAX_TROLL_POLE_TIME_IN_TICKS);
 			}
 			else
 			{
-				if (world.isRemote)
-				{
+				if (!world.isRemote)
 					if (entityPlayer.getItemInUse() != itemStack)
-					{
-						entityPlayer.addChatMessage(new ChatComponentText("Cooldown remaining: " + this.cooldownRemaining() + " second" + (this.cooldownRemaining() - 1 == 0.0 ? "." : "s.")));
-					}
-				}
+						entityPlayer.addChatMessage(new ChatComponentText("Cooldown remaining: " + this.cooldownRemaining(itemStack) + " second" + (this.cooldownRemaining(itemStack) - 1 == 0.0 ? "." : "s.")));
 			}
 		}
 		else
 		{
-			if (world.isRemote)
-			{
+			if (!world.isRemote)
 				entityPlayer.addChatMessage(new ChatComponentText("I'm not sure what this is used for."));
-			}
 		}
 
 		return super.onItemRightClick(itemStack, world, entityPlayer);
@@ -86,46 +84,34 @@ public class ItemStarMetalStaff extends AOTDItemWithCooldownStatic
 	 * @param player
 	 *            The Player using the item
 	 * @param count
-	 *            The amount of time in tick the item has been used for
-	 *            continuously
+	 *            The amount of time in tick the item has been used for continuously
 	 */
 	@Override
 	public void onUsingTick(final ItemStack stack, final EntityPlayer entityPlayer, int count)
 	{
-		count = ItemStarMetalStaff.MAX_TROLL_POLE_TIME_IN_TICKS - count;
-		if (count == 1)
+		if (!entityPlayer.worldObj.isRemote)
 		{
-			this.setOnCooldown();
-			entityPlayer.fallDistance = 0.0f;
-		}
-		else if (count >= 3)
-		{
-			if (entityPlayer.worldObj.isRemote)
-			{
-				entityPlayer.setVelocity(0, 0, 0);
-			}
-		}
-		if (count == (ItemStarMetalStaff.MAX_TROLL_POLE_TIME_IN_TICKS - 1))
-		{
-			entityPlayer.stopUsingItem();
+			count = ItemStarMetalStaff.MAX_TROLL_POLE_TIME_IN_TICKS - count;
+			if (count == 1)
+				entityPlayer.fallDistance = 0.0f;
+			if (count >= 3)
+				((EntityPlayerMP) entityPlayer).playerNetServerHandler.sendPacket(new S12PacketEntityVelocity(entityPlayer.getEntityId(), 0, 0, 0));
+			if (count == (ItemStarMetalStaff.MAX_TROLL_POLE_TIME_IN_TICKS - 1))
+				entityPlayer.stopUsingItem();
 		}
 	}
 
 	/**
-	 * Called when the player stops using an Item (stops holding the right mouse
-	 * button).
+	 * Called when the player stops using an Item (stops holding the right mouse button).
 	 *
 	 * @param timeLeft
-	 *            The amount of ticks left before the using would have been
-	 *            complete
+	 *            The amount of ticks left before the using would have been complete
 	 */
 	@Override
 	public void onPlayerStoppedUsing(final ItemStack stack, final World worldIn, final EntityPlayer entityPlayer, final int timeLeft)
 	{
 		if (!entityPlayer.capabilities.isCreativeMode)
-		{
 			entityPlayer.capabilities.disableDamage = false;
-		}
 		if (timeLeft < 5)
 		{
 			List entityList = worldIn.getEntitiesWithinAABBExcludingEntity(entityPlayer, entityPlayer.getEntityBoundingBox().expand(10, 10, 10));
@@ -161,12 +147,10 @@ public class ItemStarMetalStaff extends AOTDItemWithCooldownStatic
 	}
 
 	/**
-	 * allows items to add custom lines of information to the mouseover
-	 * description
+	 * allows items to add custom lines of information to the mouseover description
 	 *
 	 * @param tooltip
-	 *            All lines to display in the Item's tooltip. This is a List of
-	 *            Strings.
+	 *            All lines to display in the Item's tooltip. This is a List of Strings.
 	 * @param advanced
 	 *            Whether the setting "Advanced tooltips" is enabled
 	 */

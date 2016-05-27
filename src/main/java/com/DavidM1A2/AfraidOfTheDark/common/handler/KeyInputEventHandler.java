@@ -67,22 +67,24 @@ public class KeyInputEventHandler
 						if (itemStack.getItem() instanceof ItemWristCrossbow)
 						{
 							ItemWristCrossbow current = (ItemWristCrossbow) itemStack.getItem();
-							if (!current.isOnCooldown())
+							if (!current.isOnCooldown(itemStack))
 							{
 								if (entityPlayer.inventory.hasItem(currentlySelected.getMyBoltItem()) || entityPlayer.capabilities.isCreativeMode)
 								{
 									AfraidOfTheDark.instance.getPacketHandler().sendToServer(new FireCrossbowBolt(currentlySelected));
-									current.setOnCooldown();
+									current.setOnCooldown(itemStack, entityPlayer);
 									break;
 								}
 								else
 								{
 									entityPlayer.addChatMessage(new ChatComponentText("I'll need at least one " + currentlySelected.formattedString() + "bolt in my inventory to shoot."));
+									break;
 								}
 							}
 							else
 							{
 								entityPlayer.addChatMessage(new ChatComponentText("Crossbow still reloading..."));
+								break;
 							}
 						}
 					}
@@ -118,10 +120,10 @@ public class KeyInputEventHandler
 					if (itemStack.getItem() instanceof ItemCloakOfAgility)
 					{
 						ItemCloakOfAgility current = (ItemCloakOfAgility) itemStack.getItem();
-						if (!current.isOnCooldown())
+						if (!current.isOnCooldown(itemStack))
 						{
 							willRoll = true;
-							current.setOnCooldown();
+							current.setOnCooldown(itemStack, entityPlayer);
 							break;
 						}
 					}

@@ -45,6 +45,7 @@ item.afraidofthedark:flaskOfSouls.name=Flask of Souls
 item.afraidofthedark:werewolfBlood.name=Werewolf Blood
 item.afraidofthedark:gnomishMetalIngot.name=Gnomish Metal Ingot
 item.afraidofthedark:artwork.name=Artwork
+item.afraidofthedark:schematicGenerator.name=Schematic Generator
 
 # Blocks
 tile.afraidofthedark:silverOre.name=Silver Ore

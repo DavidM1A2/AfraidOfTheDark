@@ -9,10 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItemWithCooldownPerItem;
-import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncFlaskOfSouls;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
@@ -22,7 +20,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
@@ -120,8 +117,7 @@ public class ItemFlaskOfSouls extends AOTDItemWithCooldownPerItem
 	}
 
 	/**
-	 * Called whenever this item is equipped and the right mouse button is
-	 * pressed. Args: itemStack, world, entityPlayer
+	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
 	 */
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer)
@@ -206,8 +202,7 @@ public class ItemFlaskOfSouls extends AOTDItemWithCooldownPerItem
 							entityToSpawn.setLocationAndAngles(x, y, z, MathHelper.wrapAngleTo180_float(world.rand.nextFloat() * 360), 0.0F);
 							world.spawnEntityInWorld(entityToSpawn);
 							entityToSpawn.playLivingSound();
-							this.setOnCooldown(itemStack);
-							AfraidOfTheDark.instance.getPacketHandler().sendTo(new SyncFlaskOfSouls(System.currentTimeMillis()), (EntityPlayerMP) entityPlayer);
+							this.setOnCooldown(itemStack, entityPlayer);
 						}
 					}
 				}
@@ -218,12 +213,10 @@ public class ItemFlaskOfSouls extends AOTDItemWithCooldownPerItem
 	}
 
 	/**
-	 * allows items to add custom lines of information to the mouseover
-	 * description
+	 * allows items to add custom lines of information to the mouseover description
 	 * 
 	 * @param tooltip
-	 *            All lines to display in the Item's tooltip. This is a List of
-	 *            Strings.
+	 *            All lines to display in the Item's tooltip. This is a List of Strings.
 	 * @param advanced
 	 *            Whether the setting "Advanced tooltips" is enabled
 	 */

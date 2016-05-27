@@ -10,7 +10,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.packets.SpawnMeteor;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncAOTDEntityData;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncAOTDPlayerData;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncAnimation;
-import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncFlaskOfSouls;
+import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncItemWithCooldown;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncHasEnariasAltar;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncKeyPress;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncParticleFX;
@@ -39,7 +39,7 @@ public abstract class CommonProxy implements IProxy
 		AfraidOfTheDark.instance.getPacketHandler().registerPacket(FireCrossbowBolt.class, new FireCrossbowBolt.Handler(), Side.SERVER);
 		AfraidOfTheDark.instance.getPacketHandler().registerPacket(SyncAnimation.class, new SyncAnimation.Handler(), Side.CLIENT);
 		AfraidOfTheDark.instance.getPacketHandler().registerPacket(SyncVoidChest.class, new SyncVoidChest.Handler(), Side.CLIENT);
-		AfraidOfTheDark.instance.getPacketHandler().registerPacket(SyncFlaskOfSouls.class, new SyncFlaskOfSouls.Handler(), Side.CLIENT);
+		AfraidOfTheDark.instance.getPacketHandler().registerPacket(SyncItemWithCooldown.class, new SyncItemWithCooldown.Handler(), Side.CLIENT);
 		AfraidOfTheDark.instance.getPacketHandler().registerPacket(SyncParticleFX.class, new SyncParticleFX.Handler(), Side.CLIENT);
 		AfraidOfTheDark.instance.getPacketHandler().registerBidiPacket(SyncAOTDPlayerData.class, new SyncAOTDPlayerData.Handler());
 		AfraidOfTheDark.instance.getPacketHandler().registerBidiPacket(SyncAOTDEntityData.class, new SyncAOTDEntityData.Handler());

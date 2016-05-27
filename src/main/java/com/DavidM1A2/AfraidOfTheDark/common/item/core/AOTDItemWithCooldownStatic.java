@@ -5,16 +5,14 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.item.core;
 
-import net.minecraft.entity.Entity;
+import java.util.LinkedList;
+import java.util.List;
+
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
-import net.minecraft.world.World;
 
-public abstract class AOTDItemWithCooldownStatic extends AOTDItem implements IHasCooldown
+public abstract class AOTDItemWithCooldownStatic extends AOTDItemWithCooldownPerItem
 {
-	protected double cooldown = 0;
-	private long lastUpdate = -1;
-
 	public AOTDItemWithCooldownStatic()
 	{
 		super();
@@ -22,61 +20,19 @@ public abstract class AOTDItemWithCooldownStatic extends AOTDItem implements IHa
 	}
 
 	@Override
-	public boolean showDurabilityBar(ItemStack itemStack)
+	public void setOnCooldown(ItemStack itemStack, EntityPlayer entityPlayer)
 	{
-		return true;
+		for (ItemStack similarItemStack : this.getAllSimilarItems(entityPlayer, itemStack))
+			super.setOnCooldown(similarItemStack, entityPlayer);
 	}
 
-	/**
-	 * Queries the percentage of the 'Durability' bar that should be drawn.
-	 *
-	 * @param stack
-	 *            The current ItemStack
-	 * @return 1.0 for 100% 0 for 0%
-	 */
-	@Override
-	public double getDurabilityForDisplay(ItemStack stack)
+	private List<ItemStack> getAllSimilarItems(EntityPlayer entityPlayer, ItemStack itemStackOriginal)
 	{
-		return cooldown / this.getItemCooldownInTicks();
-	}
-
-	public void setOnCooldown()
-	{
-		if (cooldown == 0)
-		{
-			cooldown = this.getItemCooldownInTicks();
-		}
-	}
-
-	public boolean isOnCooldown()
-	{
-		return cooldown != 0;
-	}
-
-	public int cooldownRemaining()
-	{
-		return MathHelper.ceiling_double_int(cooldown) / 20 + 1;
-	}
-
-	/**
-	 * Called each tick as long the item is on a player inventory. Uses by maps to check if is on a player hand and update it's contents.
-	 */
-	@Override
-	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
-	{
-		if (cooldown > 0)
-		{
-			if (lastUpdate + 50 <= System.currentTimeMillis())
-			{
-				lastUpdate = System.currentTimeMillis();
-				cooldown = cooldown - 1;
-			}
-		}
-	}
-
-	@Override
-	public boolean isDamageable()
-	{
-		return true;
+		List<ItemStack> similarItems = new LinkedList<ItemStack>();
+		if (itemStackOriginal != null)
+			for (ItemStack itemStack : entityPlayer.inventory.mainInventory)
+				if (itemStack != null && itemStack.getItem().equals(itemStackOriginal.getItem()))
+					similarItems.add(itemStack);
+		return similarItems;
 	}
 }
