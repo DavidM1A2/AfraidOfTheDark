@@ -9,10 +9,9 @@ import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItemLeaves;
 
 import net.minecraft.block.Block;
 
-// Leaves must have an item attached to allow for colored leaves to be held
-public class ItemGravewoodLeaves extends AOTDItemLeaves
+public class ItemMangroveLeaves extends AOTDItemLeaves
 {
-	public ItemGravewoodLeaves(final Block block)
+	public ItemMangroveLeaves(final Block block)
 	{
 		super(block);
 	}

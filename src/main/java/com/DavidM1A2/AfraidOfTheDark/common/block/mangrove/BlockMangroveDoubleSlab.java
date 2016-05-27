@@ -3,7 +3,7 @@
  * Mod: Afraid of the Dark
  * Ideas and Textures: Michael Albertson
  */
-package com.DavidM1A2.AfraidOfTheDark.common.block.gravewood;
+package com.DavidM1A2.AfraidOfTheDark.common.block.mangrove;
 
 import java.util.Random;
 
@@ -16,30 +16,29 @@ import net.minecraft.item.Item;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
-// Double half slab
-public class BlockGravewoodHalfSlab extends AOTDSlab
+public class BlockMangroveDoubleSlab extends AOTDSlab
 {
-	public BlockGravewoodHalfSlab()
+	public BlockMangroveDoubleSlab()
 	{
 		super(Material.wood);
-		this.setUnlocalizedName("gravewoodHalfSlab");
+		this.setUnlocalizedName("mangroveDoubleSlab");
 	}
 
 	@Override
 	public boolean isDouble()
 	{
-		return false;
+		return true;
 	}
 
 	@Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune)
 	{
-		return Item.getItemFromBlock(ModBlocks.gravewoodHalfSlab);
+		return Item.getItemFromBlock(ModBlocks.mangroveHalfSlab);
 	}
 
 	@Override
 	public Item getItem(World worldIn, BlockPos pos)
 	{
-		return Item.getItemFromBlock(ModBlocks.gravewoodHalfSlab);
+		return Item.getItemFromBlock(ModBlocks.mangroveHalfSlab);
 	}
 }

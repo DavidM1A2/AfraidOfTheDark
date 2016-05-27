@@ -8,10 +8,10 @@ package com.DavidM1A2.AfraidOfTheDark.common.biomes;
 import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
-import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDTreeTypes;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;
+import net.minecraft.block.BlockLog;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -20,8 +20,8 @@ import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 
 public class WorldGenGravewoodTrees extends WorldGenAbstractTree
 {
-	private IBlockState leavesMeta = ModBlocks.gravewoodLeaves.getStateFromMeta(AOTDTreeTypes.GRAVEWOOD.getMetadata());
-	private IBlockState woodMeta = ModBlocks.gravewood.getStateFromMeta(AOTDTreeTypes.GRAVEWOOD.getMetadata());
+	private IBlockState leavesMeta = ModBlocks.gravewoodLeaves.getDefaultState();
+	private IBlockState woodMeta = ModBlocks.gravewood.getDefaultState().withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.Y);
 
 	public WorldGenGravewoodTrees(final boolean notify)
 	{

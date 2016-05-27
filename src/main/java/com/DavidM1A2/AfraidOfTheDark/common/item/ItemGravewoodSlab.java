@@ -7,12 +7,12 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.gravewood.BlockGravewoodDoubleSlab;
 import com.DavidM1A2.AfraidOfTheDark.common.block.gravewood.BlockGravewoodHalfSlab;
+import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItemSlab;
 
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemSlab;
 
 // Item version of the slab
-public class ItemGravewoodSlab extends ItemSlab
+public class ItemGravewoodSlab extends AOTDItemSlab
 {
 	public ItemGravewoodSlab(final Block block, final BlockGravewoodHalfSlab blockSlabHalf, final BlockGravewoodDoubleSlab blockSlabDouble, final Boolean stacked)
 	{

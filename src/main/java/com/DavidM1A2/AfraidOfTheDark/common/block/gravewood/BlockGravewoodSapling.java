@@ -9,9 +9,9 @@ import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDSapling;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
-import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDTreeTypes;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLog;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
@@ -56,7 +56,7 @@ public class BlockGravewoodSapling extends AOTDSapling
 
 						if (block.isAir(world, blockpos1) || block.isLeaves(world, blockpos1))
 						{
-							world.setBlockState(blockpos1, ModBlocks.gravewoodLeaves.getStateFromMeta(AOTDTreeTypes.GRAVEWOOD.getMetadata()));
+							world.setBlockState(blockpos1, ModBlocks.gravewoodLeaves.getDefaultState());
 						}
 					}
 				}
@@ -70,7 +70,7 @@ public class BlockGravewoodSapling extends AOTDSapling
 
 			if (block2.isAir(world, upN) || block2.isLeaves(world, upN))
 			{
-				world.setBlockState(blockPos.offset(EnumFacing.UP, i2), ModBlocks.gravewood.getStateFromMeta(AOTDTreeTypes.GRAVEWOOD.getMetadata()));
+				world.setBlockState(blockPos.offset(EnumFacing.UP, i2), ModBlocks.gravewood.getDefaultState().withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.Y));
 			}
 		}
 	}

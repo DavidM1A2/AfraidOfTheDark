@@ -7,13 +7,11 @@ package com.DavidM1A2.AfraidOfTheDark.common.block.core;
 
 import java.util.Random;
 
-import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDTreeTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
@@ -23,12 +21,11 @@ import net.minecraft.world.World;
 
 public abstract class AOTDSapling extends BlockBush implements IGrowable
 {
-	public static final PropertyEnum TYPE_PROP = PropertyEnum.create("type", AOTDTreeTypes.class);
 	public static final PropertyInteger STAGE_PROP = PropertyInteger.create("stage", 0, 1);
 
 	public AOTDSapling()
 	{
-		this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE_PROP, AOTDTreeTypes.GRAVEWOOD).withProperty(STAGE_PROP, Integer.valueOf(0)));
+		this.setDefaultState(this.blockState.getBaseState().withProperty(STAGE_PROP, Integer.valueOf(0)));
 		float f = 0.4F;
 		this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 2.0F, 0.5F + f);
 		this.setCreativeTab(Reference.AFRAID_OF_THE_DARK);
@@ -69,7 +66,7 @@ public abstract class AOTDSapling extends BlockBush implements IGrowable
 	@Override
 	public int damageDropped(IBlockState state)
 	{
-		return ((AOTDTreeTypes) state.getValue(TYPE_PROP)).getMetadata();
+		return 0;
 	}
 
 	@Override
@@ -90,7 +87,7 @@ public abstract class AOTDSapling extends BlockBush implements IGrowable
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
-		return this.getDefaultState().withProperty(TYPE_PROP, AOTDTreeTypes.getTypeFromMeta(meta & 7)).withProperty(STAGE_PROP, Integer.valueOf((meta & 8) >> 3));
+		return this.getDefaultState().withProperty(STAGE_PROP, Integer.valueOf((meta & 8) >> 3));
 	}
 
 	/**
@@ -100,7 +97,7 @@ public abstract class AOTDSapling extends BlockBush implements IGrowable
 	public int getMetaFromState(IBlockState state)
 	{
 		byte b0 = 0;
-		int i = b0 | ((AOTDTreeTypes) state.getValue(TYPE_PROP)).getMetadata();
+		int i = b0;
 		i |= ((Integer) state.getValue(STAGE_PROP)).intValue() << 3;
 		return i;
 	}
@@ -108,7 +105,8 @@ public abstract class AOTDSapling extends BlockBush implements IGrowable
 	@Override
 	protected BlockState createBlockState()
 	{
-		return new BlockState(this, new IProperty[] { TYPE_PROP, STAGE_PROP });
+		return new BlockState(this, new IProperty[]
+		{ STAGE_PROP });
 	}
 
 	@Override

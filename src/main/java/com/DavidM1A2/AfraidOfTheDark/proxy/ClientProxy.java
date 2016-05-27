@@ -332,19 +332,28 @@ public class ClientProxy extends CommonProxy
 		final ItemModelMesher itemModelMesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
 		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.spring), 0, new ModelResourceLocation(Reference.MOD_ID + ":spring", "inventory"));
 		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.darkForest), 0, new ModelResourceLocation(Reference.MOD_ID + ":darkForest", "inventory"));
+
 		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gravewood), 0, new ModelResourceLocation(Reference.MOD_ID + ":gravewood", "inventory"));
 		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gravewoodLeaves), 0, new ModelResourceLocation(Reference.MOD_ID + ":gravewoodLeaves", "inventory"));
 		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gravewoodPlanks), 0, new ModelResourceLocation(Reference.MOD_ID + ":gravewoodPlanks", "inventory"));
 		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gravewoodStairs), 0, new ModelResourceLocation(Reference.MOD_ID + ":gravewoodStairs", "inventory"));
 		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gravewoodHalfSlab), 0, new ModelResourceLocation(Reference.MOD_ID + ":gravewoodHalfSlab", "inventory"));
 		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gravewoodDoubleSlab), 0, new ModelResourceLocation(Reference.MOD_ID + ":gravewoodDoubleSlab", "inventory"));
+		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gravewoodSapling), 0, new ModelResourceLocation(Reference.MOD_ID + ":gravewoodSapling", "inventory"));
+
 		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.mangrove), 0, new ModelResourceLocation(Reference.MOD_ID + ":mangrove", "inventory"));
+		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.mangroveLeaves), 0, new ModelResourceLocation(Reference.MOD_ID + ":mangroveLeaves", "inventory"));
+		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.mangrovePlanks), 0, new ModelResourceLocation(Reference.MOD_ID + ":mangrovePlanks", "inventory"));
+		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.mangroveStairs), 0, new ModelResourceLocation(Reference.MOD_ID + ":mangroveStairs", "inventory"));
+		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.mangroveHalfSlab), 0, new ModelResourceLocation(Reference.MOD_ID + ":mangroveHalfSlab", "inventory"));
+		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.mangroveDoubleSlab), 0, new ModelResourceLocation(Reference.MOD_ID + ":mangroveDoubleSlab", "inventory"));
+		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.mangroveSapling), 0, new ModelResourceLocation(Reference.MOD_ID + ":mangroveSapling", "inventory"));
+
 		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.sunstoneOre), 0, new ModelResourceLocation(Reference.MOD_ID + ":sunstoneOre", "inventory"));
 		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.astralSilverOre), 0, new ModelResourceLocation(Reference.MOD_ID + ":astralSilverOre", "inventory"));
 		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.meteor), 0, new ModelResourceLocation(Reference.MOD_ID + ":meteor", "inventory"));
 		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.starMetalOre), 0, new ModelResourceLocation(Reference.MOD_ID + ":starMetalOre", "inventory"));
 		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.igneousBlock), 0, new ModelResourceLocation(Reference.MOD_ID + ":igneousBlock", "inventory"));
-		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gravewoodSapling), 0, new ModelResourceLocation(Reference.MOD_ID + ":gravewoodSapling", "inventory"));
 		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.vitaeDisenchanter), 0, new ModelResourceLocation(Reference.MOD_ID + ":vitaeDisenchanter", "inventory"));
 		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.voidChest), 0, new ModelResourceLocation(Reference.MOD_ID + ":voidChest", "inventory"));
 		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.voidChestPortal), 0, new ModelResourceLocation(Reference.MOD_ID + ":voidChestPortal", "inventory"));

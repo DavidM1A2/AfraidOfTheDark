@@ -32,6 +32,12 @@ import com.DavidM1A2.AfraidOfTheDark.common.block.gravewood.BlockGravewoodPlanks
 import com.DavidM1A2.AfraidOfTheDark.common.block.gravewood.BlockGravewoodSapling;
 import com.DavidM1A2.AfraidOfTheDark.common.block.gravewood.BlockGravewoodStairs;
 import com.DavidM1A2.AfraidOfTheDark.common.block.mangrove.BlockMangrove;
+import com.DavidM1A2.AfraidOfTheDark.common.block.mangrove.BlockMangroveDoubleSlab;
+import com.DavidM1A2.AfraidOfTheDark.common.block.mangrove.BlockMangroveHalfSlab;
+import com.DavidM1A2.AfraidOfTheDark.common.block.mangrove.BlockMangroveLeaves;
+import com.DavidM1A2.AfraidOfTheDark.common.block.mangrove.BlockMangrovePlanks;
+import com.DavidM1A2.AfraidOfTheDark.common.block.mangrove.BlockMangroveSapling;
+import com.DavidM1A2.AfraidOfTheDark.common.block.mangrove.BlockMangroveStairs;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityDarkForest;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityEnariaSpawner;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityGhastlyEnariaSpawner;
@@ -39,6 +45,8 @@ import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntitySpring;
 import com.DavidM1A2.AfraidOfTheDark.common.block.tileEntity.TileEntityVoidChest;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemGravewoodLeaves;
 import com.DavidM1A2.AfraidOfTheDark.common.item.ItemGravewoodSlab;
+import com.DavidM1A2.AfraidOfTheDark.common.item.ItemMangroveLeaves;
+import com.DavidM1A2.AfraidOfTheDark.common.item.ItemMangroveSlab;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 
 import net.minecraft.init.Blocks;
@@ -48,13 +56,22 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class ModBlocks
 {
 	// Register blocks 
-	public static final BlockGravewoodLeaves gravewoodLeaves = new BlockGravewoodLeaves();
 	public static final BlockGravewood gravewood = new BlockGravewood();
 	public static final BlockGravewoodPlanks gravewoodPlanks = new BlockGravewoodPlanks();
 	public static final BlockGravewoodStairs gravewoodStairs = new BlockGravewoodStairs();
 	public static final BlockGravewoodHalfSlab gravewoodHalfSlab = new BlockGravewoodHalfSlab();
 	public static final BlockGravewoodDoubleSlab gravewoodDoubleSlab = new BlockGravewoodDoubleSlab();
+	public static final BlockGravewoodSapling gravewoodSapling = new BlockGravewoodSapling();
+	public static final BlockGravewoodLeaves gravewoodLeaves = new BlockGravewoodLeaves();
+
 	public static final BlockMangrove mangrove = new BlockMangrove();
+	public static final BlockMangrovePlanks mangrovePlanks = new BlockMangrovePlanks();
+	public static final BlockMangroveStairs mangroveStairs = new BlockMangroveStairs();
+	public static final BlockMangroveHalfSlab mangroveHalfSlab = new BlockMangroveHalfSlab();
+	public static final BlockMangroveDoubleSlab mangroveDoubleSlab = new BlockMangroveDoubleSlab();
+	public static final BlockMangroveSapling mangroveSapling = new BlockMangroveSapling();
+	public static final BlockMangroveLeaves mangroveLeaves = new BlockMangroveLeaves();
+
 	public static final BlockSunstoneOre sunstoneOre = new BlockSunstoneOre();
 	public static final BlockAstralSilverOre astralSilverOre = new BlockAstralSilverOre();
 	public static final BlockMeteor meteor = new BlockMeteor();
@@ -62,7 +79,6 @@ public class ModBlocks
 	public static final BlockIgneous igneousBlock = new BlockIgneous();
 	public static final BlockSpring spring = new BlockSpring();
 	public static final BlockDarkForest darkForest = new BlockDarkForest();
-	public static final BlockGravewoodSapling gravewoodSapling = new BlockGravewoodSapling();
 	public static final BlockVitaeDisenchanter vitaeDisenchanter = new BlockVitaeDisenchanter();
 	public static final BlockVoidChest voidChest = new BlockVoidChest();
 	public static final BlockVoidChestPortal voidChestPortal = new BlockVoidChestPortal();
@@ -83,7 +99,7 @@ public class ModBlocks
 		GameRegistry.registerTileEntity(TileEntitySpring.class, "tileEntitySpring");
 		GameRegistry.registerBlock(ModBlocks.darkForest, "darkForest");
 		GameRegistry.registerTileEntity(TileEntityDarkForest.class, "tileEntityDarkForest");
-		GameRegistry.registerBlock(ModBlocks.gravewoodLeaves, ItemGravewoodLeaves.class, "gravewoodLeaves");
+
 		GameRegistry.registerBlock(ModBlocks.gravewood, "gravewood");
 		GameRegistry.registerBlock(ModBlocks.gravewoodPlanks, "gravewoodPlanks");
 		Blocks.fire.setFireInfo(ModBlocks.gravewoodPlanks, 5, 5);
@@ -93,13 +109,29 @@ public class ModBlocks
 		Blocks.fire.setFireInfo(ModBlocks.gravewoodHalfSlab, 5, 5);
 		GameRegistry.registerBlock(ModBlocks.gravewoodDoubleSlab, ItemGravewoodSlab.class, "gravewoodDoubleSlab", ModBlocks.gravewoodHalfSlab, ModBlocks.gravewoodDoubleSlab, true);
 		Blocks.fire.setFireInfo(ModBlocks.gravewoodDoubleSlab, 5, 5);
+		GameRegistry.registerBlock(ModBlocks.gravewoodSapling, "gravewoodSapling");
+		GameRegistry.registerBlock(ModBlocks.gravewoodLeaves, ItemGravewoodLeaves.class, "gravewoodLeaves");
+
 		GameRegistry.registerBlock(ModBlocks.mangrove, "mangrove");
+		Blocks.fire.setFireInfo(ModBlocks.mangrove, 5, 3);
+		GameRegistry.registerBlock(ModBlocks.mangrovePlanks, "mangrovePlanks");
+		Blocks.fire.setFireInfo(ModBlocks.mangrovePlanks, 5, 5);
+		GameRegistry.registerBlock(ModBlocks.mangroveStairs, "mangroveStairs");
+		Blocks.fire.setFireInfo(ModBlocks.mangroveStairs, 5, 5);
+		GameRegistry.registerBlock(ModBlocks.mangroveHalfSlab, ItemMangroveSlab.class, "mangroveHalfSlab", ModBlocks.mangroveHalfSlab, ModBlocks.mangroveDoubleSlab, false);
+		Blocks.fire.setFireInfo(ModBlocks.mangroveHalfSlab, 5, 5);
+		GameRegistry.registerBlock(ModBlocks.mangroveDoubleSlab, ItemMangroveSlab.class, "mangroveDoubleSlab", ModBlocks.mangroveHalfSlab, ModBlocks.mangroveDoubleSlab, true);
+		Blocks.fire.setFireInfo(ModBlocks.mangroveDoubleSlab, 5, 5);
+		GameRegistry.registerBlock(ModBlocks.mangroveSapling, "mangroveSapling");
+		Blocks.fire.setFireInfo(ModBlocks.mangroveSapling, 5, 5);
+		GameRegistry.registerBlock(ModBlocks.mangroveLeaves, ItemMangroveLeaves.class, "mangroveLeaves");
+		Blocks.fire.setFireInfo(ModBlocks.mangroveLeaves, 5, 5);
+
 		GameRegistry.registerBlock(ModBlocks.sunstoneOre, "sunstoneOre");
 		GameRegistry.registerBlock(ModBlocks.astralSilverOre, "astralSilverOre");
 		GameRegistry.registerBlock(ModBlocks.meteor, "meteor");
 		GameRegistry.registerBlock(ModBlocks.starMetalOre, "starMetalOre");
 		GameRegistry.registerBlock(ModBlocks.igneousBlock, "igneousBlock");
-		GameRegistry.registerBlock(ModBlocks.gravewoodSapling, "gravewoodSapling");
 		GameRegistry.registerBlock(ModBlocks.vitaeDisenchanter, "vitaeDisenchanter");
 		GameRegistry.registerBlock(ModBlocks.voidChest, "voidChest");
 		GameRegistry.registerTileEntity(TileEntityVoidChest.class, "tileEntityVoidChest");

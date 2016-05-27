@@ -5,21 +5,16 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.block.core;
 
-import java.util.List;
 import java.util.Random;
 
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
-import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDTreeTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
@@ -29,14 +24,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class AOTDSlab extends BlockSlab
 {
-	// Different variants of slabs
-	public static final PropertyEnum VARIANT_PROP = PropertyEnum.create("variant", AOTDTreeTypes.class);
-
 	public AOTDSlab(final Material material)
 	{
 		super(material);
 		this.setUnlocalizedName("NAME NOT SET");
-		this.setCreativeTab(Reference.AFRAID_OF_THE_DARK);
+		if (this.displayInCreative() && !this.isDouble())
+			this.setCreativeTab(Reference.AFRAID_OF_THE_DARK);
 		this.setHardness(2.0F);
 		this.setResistance(5.0F);
 		this.setStepSound(Block.soundTypeWood);
@@ -49,8 +42,11 @@ public abstract class AOTDSlab extends BlockSlab
 			iblockstate = iblockstate.withProperty(BlockSlab.HALF, BlockSlab.EnumBlockHalf.BOTTOM);
 		}
 		this.useNeighborBrightness = !this.isDouble();
+	}
 
-		this.setDefaultState(iblockstate.withProperty(AOTDSlab.VARIANT_PROP, AOTDTreeTypes.GRAVEWOOD));
+	protected boolean displayInCreative()
+	{
+		return true;
 	}
 
 	/**
@@ -60,53 +56,12 @@ public abstract class AOTDSlab extends BlockSlab
 	 *            the level of the Fortune enchantment on the player's tool
 	 */
 	@Override
-	public Item getItemDropped(final IBlockState state, final Random rand, final int fortune)
-	{
-		return Item.getItemFromBlock(ModBlocks.gravewoodHalfSlab);
-	}
+	public abstract Item getItemDropped(final IBlockState state, final Random rand, final int fortune);
 
 	// What item does this block drop?
 	@Override
 	@SideOnly(Side.CLIENT)
-	public Item getItem(final World worldIn, final BlockPos pos)
-	{
-		return Item.getItemFromBlock(ModBlocks.gravewoodHalfSlab);
-	}
-
-	// What property is this slab?
-	@Override
-	public IProperty getVariantProperty()
-	{
-		return AOTDSlab.VARIANT_PROP;
-	}
-
-	// Get type from item
-	@Override
-	public Object getVariant(final ItemStack itemStack)
-	{
-		return AOTDTreeTypes.getTypeFromMeta(itemStack.getMetadata() & 7);
-	}
-
-	/**
-	 * returns a list of blocks with the same ID, but different meta (eg: wood
-	 * returns 4 blocks)
-	 */
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(final Item itemIn, final CreativeTabs tab, final List list)
-	{
-		if (itemIn != Item.getItemFromBlock(ModBlocks.gravewoodDoubleSlab))
-		{
-			final AOTDTreeTypes[] aenumtype = AOTDTreeTypes.values();
-			final int i = aenumtype.length;
-
-			for (int j = 0; j < i; ++j)
-			{
-				final AOTDTreeTypes enumtype = aenumtype[j];
-				list.add(new ItemStack(itemIn, 1, enumtype.getMetadata()));
-			}
-		}
-	}
+	public abstract Item getItem(final World worldIn, final BlockPos pos);
 
 	/**
 	 * Convert the given metadata into a BlockState for this Block
@@ -114,7 +69,7 @@ public abstract class AOTDSlab extends BlockSlab
 	@Override
 	public IBlockState getStateFromMeta(final int meta)
 	{
-		IBlockState iblockstate = this.getDefaultState().withProperty(AOTDSlab.VARIANT_PROP, AOTDTreeTypes.GRAVEWOOD);
+		IBlockState iblockstate = this.getDefaultState();
 
 		if (!this.isDouble())
 		{
@@ -131,7 +86,7 @@ public abstract class AOTDSlab extends BlockSlab
 	public int getMetaFromState(final IBlockState state)
 	{
 		final byte b0 = 0;
-		int i = b0 | ((AOTDTreeTypes) state.getValue(AOTDSlab.VARIANT_PROP)).getMetadata();
+		int i = b0;
 
 		if (!this.isDouble() && (state.getValue(BlockSlab.HALF) == BlockSlab.EnumBlockHalf.TOP))
 		{
@@ -145,7 +100,9 @@ public abstract class AOTDSlab extends BlockSlab
 	@Override
 	protected BlockState createBlockState()
 	{
-		return this.isDouble() ? new BlockState(this, new IProperty[] { AOTDSlab.VARIANT_PROP }) : new BlockState(this, new IProperty[] { BlockSlab.HALF, AOTDSlab.VARIANT_PROP });
+		return this.isDouble() ? new BlockState(this, new IProperty[]
+		{}) : new BlockState(this, new IProperty[]
+		{ BlockSlab.HALF });
 	}
 
 	/**
@@ -154,7 +111,19 @@ public abstract class AOTDSlab extends BlockSlab
 	@Override
 	public int damageDropped(final IBlockState state)
 	{
-		return ((AOTDTreeTypes) state.getValue(AOTDSlab.VARIANT_PROP)).getMetadata();
+		return 0;
+	}
+
+	@Override
+	public IProperty<?> getVariantProperty()
+	{
+		return null;
+	}
+
+	@Override
+	public Object getVariant(ItemStack stack)
+	{
+		return null;
 	}
 
 	/**

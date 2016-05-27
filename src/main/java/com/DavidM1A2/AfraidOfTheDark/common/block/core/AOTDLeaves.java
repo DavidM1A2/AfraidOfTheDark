@@ -8,16 +8,13 @@ package com.DavidM1A2.AfraidOfTheDark.common.block.core;
 import java.util.List;
 import java.util.Random;
 
-import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDTreeTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
-import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockPlanks.EnumType;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -36,24 +33,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class AOTDLeaves extends BlockLeaves
 {
-	// Leaves have a few variants
-	public static final PropertyEnum VARIANT = PropertyEnum.create("variant", AOTDTreeTypes.class, new Predicate<AOTDTreeTypes>()
-	{
-		@Override
-		public boolean apply(final AOTDTreeTypes type)
-		{
-			if (type == AOTDTreeTypes.GRAVEWOOD)
-				return true;
-			return false;
-		}
-	});
-
 	// Default is gravewood and decayable
 	public AOTDLeaves()
 	{
 		super();
 		this.setCreativeTab(Reference.AFRAID_OF_THE_DARK);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(AOTDLeaves.VARIANT, AOTDTreeTypes.GRAVEWOOD).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(true)).withProperty(BlockLeaves.DECAYABLE, Boolean.valueOf(true)));
+		this.setDefaultState(this.blockState.getBaseState().withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(true)).withProperty(BlockLeaves.DECAYABLE, Boolean.valueOf(true)));
 		this.setTickRandomly(true);
 	}
 
@@ -61,7 +46,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 	@Override
 	public List<ItemStack> onSheared(final ItemStack item, final IBlockAccess world, final BlockPos pos, final int fortune)
 	{
-		return Lists.newArrayList(new ItemStack(this, 1, world.getBlockState(pos).<AOTDTreeTypes> getValue(VARIANT).getMetadata()));
+		return Lists.newArrayList(new ItemStack(this, 1, 0));
 	}
 
 	// Always use fancy graphics because reasons (They look way better!)
@@ -79,7 +64,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 		return ColorizerFoliage.getFoliageColor(0.5D, 1.0D);
 	}
 
-	// Leaf render color
+	// Leaf render color in item form
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getRenderColor(final IBlockState state)
@@ -87,7 +72,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 		return ColorizerFoliage.getFoliageColorPine();
 	}
 
-	// What color to multiply these leaves by
+	// What color to multiply these leaves by in block form
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int colorMultiplier(final IBlockAccess worldIn, final BlockPos pos, final int renderPass)
@@ -109,14 +94,14 @@ public abstract class AOTDLeaves extends BlockLeaves
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(final Item itemIn, final CreativeTabs tab, final List list)
 	{
-		list.add(new ItemStack(itemIn, 1, AOTDTreeTypes.GRAVEWOOD.getMetadata()));
+		list.add(new ItemStack(itemIn, 1, 0));
 	}
 
 	// Can these leaf types stack?
 	@Override
 	protected ItemStack createStackedBlock(final IBlockState state)
 	{
-		return new ItemStack(Item.getItemFromBlock(this), 1, state.<AOTDTreeTypes> getValue(AOTDLeaves.VARIANT).getMetadata());
+		return new ItemStack(Item.getItemFromBlock(this), 1, 0);
 	}
 
 	/**
@@ -125,7 +110,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 	@Override
 	public IBlockState getStateFromMeta(final int meta)
 	{
-		return this.getDefaultState().withProperty(AOTDLeaves.VARIANT, AOTDTreeTypes.getTypeFromMeta(meta)).withProperty(BlockLeaves.DECAYABLE, Boolean.valueOf((meta & 4) == 0)).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf((meta & 8) > 0));
+		return this.getDefaultState().withProperty(BlockLeaves.DECAYABLE, Boolean.valueOf((meta & 4) == 0)).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf((meta & 8) > 0));
 	}
 
 	/**
@@ -135,7 +120,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 	public int getMetaFromState(final IBlockState state)
 	{
 		final byte b0 = 0;
-		int i = b0 | ((AOTDTreeTypes) state.getValue(AOTDLeaves.VARIANT)).getMetadata();
+		int i = b0;
 
 		if (!((Boolean) state.getValue(BlockLeaves.DECAYABLE)).booleanValue())
 		{
@@ -155,7 +140,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 	protected BlockState createBlockState()
 	{
 		return new BlockState(this, new IProperty[]
-		{ AOTDLeaves.VARIANT, BlockLeaves.CHECK_DECAY, BlockLeaves.DECAYABLE });
+		{ BlockLeaves.CHECK_DECAY, BlockLeaves.DECAYABLE });
 	}
 
 	/**
@@ -164,7 +149,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 	@Override
 	public int damageDropped(final IBlockState state)
 	{
-		return state.<AOTDTreeTypes> getValue(AOTDLeaves.VARIANT).getMetadata();
+		return 0;
 	}
 
 	// When the player harvests the block, what happens?

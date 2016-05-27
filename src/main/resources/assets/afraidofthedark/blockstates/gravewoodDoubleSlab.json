@@ -1,7 +1,6 @@
 {
     "variants": {
-        "normal,variant=gravewood": { "model": "afraidofthedark:gravewoodPlanks" },
-		"variant=gravewood":        { "model": "afraidofthedark:gravewoodPlanks" },
+        "normal": { "model": "afraidofthedark:gravewoodPlanks" },
 		"inventory":                { "model": "afraidofthedark:gravewoodPlanks" }
     }
 }
