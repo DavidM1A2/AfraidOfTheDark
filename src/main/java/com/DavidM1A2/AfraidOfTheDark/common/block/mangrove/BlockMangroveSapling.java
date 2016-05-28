@@ -83,7 +83,25 @@ public class BlockMangroveSapling extends AOTDSapling
 			}
 		}
 
-		return blockPos.offset(EnumFacing.UP, heightBeforeTrunk);
+		// Now generate a somewhat straight trunk
+		int trunkHeight = random.nextInt(2) + 4;
+		BlockPos current = blockPos.offset(EnumFacing.UP, heightBeforeTrunk);
+		EnumFacing leanDirection = EnumFacing.getHorizontal(random.nextInt(4));
+		boolean begunToLean = false;
+
+		for (int i = 0; i < trunkHeight; i++)
+		{
+			if (!begunToLean)
+				begunToLean = random.nextDouble() < 0.25;
+
+			this.setBlockIfPossible(world, current, logUp);
+			if (begunToLean)
+				this.setBlockIfPossible(world, current.offset(leanDirection), logUp);
+
+			current = current.up();
+		}
+
+		return blockPos.offset(EnumFacing.UP, heightBeforeTrunk + trunkHeight);
 	}
 
 	private void generateBranches(World world, BlockPos topOfTree, IBlockState iBlockState, Random random)
@@ -127,7 +145,7 @@ public class BlockMangroveSapling extends AOTDSapling
 	private void setBlockIfPossible(World world, BlockPos location, IBlockState blockState)
 	{
 		IBlockState current = world.getBlockState(location);
-		if (current.getBlock().isAir(world, location) || current.getBlock().isLeaves(world, location))
+		if (current.getBlock().isAir(world, location) || current.getBlock().isLeaves(world, location) || current.getBlock() == Blocks.water)
 		{
 			world.setBlockState(location, blockState);
 		}
