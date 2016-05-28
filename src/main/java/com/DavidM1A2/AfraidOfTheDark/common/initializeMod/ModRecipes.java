@@ -38,12 +38,18 @@ public class ModRecipes
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.crossbow), "abb", "bcd", "bdc", 'a', new ItemStack(Items.bow), 'b', new ItemStack(Items.iron_ingot), 'c', new ItemStack(Blocks.planks, 1), 'd', new ItemStack(Items.string)));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.wristCrossbow), "aba", "aca", "aba", 'a', new ItemStack(Items.leather), 'b', new ItemStack(Items.string), 'c', new ItemStack(ModItems.crossbow, 1, 0)));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.wristCrossbow), "aba", "aca", "aba", 'a', new ItemStack(Items.leather), 'b', new ItemStack(Items.string), 'c', new ItemStack(ModItems.crossbow, 1, 3)));
+
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModBlocks.gravewoodPlanks, 4), new ItemStack(ModBlocks.gravewood, 1, 0)));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.gravewoodStairs, 4), "aab", "abb", "bbb", 'b', new ItemStack(ModBlocks.gravewoodPlanks, 1, 0)));
-
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.gravewoodHalfSlab, 6), "   ", "bbb", "   ", 'b', new ItemStack(ModBlocks.gravewoodPlanks, 1, 0)));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.gravewoodHalfSlab, 6), "bbb", "   ", "   ", 'b', new ItemStack(ModBlocks.gravewoodPlanks, 1, 0)));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.gravewoodHalfSlab, 6), "   ", "   ", "bbb", 'b', new ItemStack(ModBlocks.gravewoodPlanks, 1, 0)));
+
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModBlocks.mangrovePlanks, 4), new ItemStack(ModBlocks.mangrove, 1, 0)));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.mangroveStairs, 4), "aab", "abb", "bbb", 'b', new ItemStack(ModBlocks.mangrovePlanks, 1, 0)));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.mangroveHalfSlab, 6), "   ", "bbb", "   ", 'b', new ItemStack(ModBlocks.mangrovePlanks, 1, 0)));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.mangroveHalfSlab, 6), "bbb", "   ", "   ", 'b', new ItemStack(ModBlocks.mangrovePlanks, 1, 0)));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.mangroveHalfSlab, 6), "   ", "   ", "bbb", 'b', new ItemStack(ModBlocks.mangrovePlanks, 1, 0)));
 
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.igneousHelmet, 1), ResearchTypes.Igneous, "aaa", "a a", 'a', ModItems.igneousGem));
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.igneousChestplate, 1), ResearchTypes.Igneous, "a a", "aaa", "aaa", 'a', ModItems.igneousGem));
