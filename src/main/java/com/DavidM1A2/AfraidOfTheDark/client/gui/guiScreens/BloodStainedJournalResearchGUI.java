@@ -51,8 +51,8 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 
 		this.scrollBackground = new AOTDGuiImage(0, 0, backgroundWidth, backgroundHeight, 1024, 1024, "afraidofthedark:textures/gui/bloodStainedJournalResearchBackdrop.png");
 		this.backgroundBorder = new AOTDGuiImage(0, 0, backgroundWidth, backgroundHeight, "afraidofthedark:textures/gui/bloodStainedJournalResearchBackground.png");
-		this.scrollBackground.setU((this.guiOffsetX * 2) + 384);
-		this.scrollBackground.setV((this.guiOffsetY * 2) + 768);
+		this.scrollBackground.setU(this.guiOffsetX + 384);
+		this.scrollBackground.setV(this.guiOffsetY + 768);
 		this.researchTreeBase.add(scrollBackground);
 		this.researchTreeBase.add(researchTree);
 		this.researchTreeBase.add(backgroundBorder);
@@ -145,34 +145,33 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 		this.researchTree.setX(-this.guiOffsetX + researchTree.getParent().getX());
 		this.researchTree.setY(-this.guiOffsetY + researchTree.getParent().getY());
 
-		scrollBackground.setU((this.guiOffsetX * 2) + 384);
-		scrollBackground.setV((this.guiOffsetY * 2) + 768);
+		scrollBackground.setU(this.guiOffsetX + 384);
+		scrollBackground.setV(this.guiOffsetY + 768);
 	}
 
 	@Override
 	protected void checkOutOfBounds()
 	{
-		if (this.guiOffsetX > 200)
+		if (this.guiOffsetX > 400)
 		{
-			this.guiOffsetX = 200;
+			this.guiOffsetX = 400;
 		}
-		if (this.guiOffsetX < -200)
+		if (this.guiOffsetX < -400)
 		{
-			this.guiOffsetX = -200;
+			this.guiOffsetX = -400;
 		}
 		if (this.guiOffsetY > 0)
 		{
 			this.guiOffsetY = 0;
 		}
-		if (this.guiOffsetY < -380)
+		if (this.guiOffsetY < -760)
 		{
-			this.guiOffsetY = -380;
+			this.guiOffsetY = -760;
 		}
 	}
 
 	/**
-	 * Called when the screen is unloaded. Used to disable keyboard repeat
-	 * events
+	 * Called when the screen is unloaded. Used to disable keyboard repeat events
 	 */
 	@Override
 	public void onGuiClosed()

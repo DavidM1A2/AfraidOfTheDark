@@ -63,8 +63,7 @@ public class AOTDGuiUtility
 	}
 
 	/**
-	 * Returns true if either windows ctrl key is down or if either mac meta key
-	 * is down
+	 * Returns true if either windows ctrl key is down or if either mac meta key is down
 	 */
 	public static boolean isCtrlKeyDown()
 	{
@@ -127,14 +126,11 @@ public class AOTDGuiUtility
 			LogHelper.info("Tried to end a scissor that was not even started...");
 			return;
 		}
-		if (numberOfActiveScissors == 0 && !scissorWasEnabled)
+		else if (numberOfActiveScissors == 1 && !scissorWasEnabled)
 		{
 			GL11.glDisable(GL11.GL_SCISSOR_TEST);
-			GL11.glPopAttrib();
 		}
-		else
-		{
-			GL11.glPopAttrib();
-		}
+		GL11.glPopAttrib();
+		AOTDGuiUtility.numberOfActiveScissors--;
 	}
 }

@@ -101,7 +101,10 @@ public enum ResearchTypes
 	GnomishCity(AstronomyII, 0, 7, new Object[]
 	{ ModBlocks.gnomishMetalPlate, ModBlocks.gnomishMetalStrut, ModItems.gnomishMetalIngot }, new Object[]
 	{}),
-	Enaria(GnomishCity, 1, 7, new Object[]
+	Enaria(GnomishCity, 0, 8, new Object[]
+	{}, new Object[]
+	{}),
+	EnariasSecret(Enaria, 0, 9, new Object[]
 	{}, new Object[]
 	{});
 
