@@ -16,7 +16,6 @@ import org.lwjgl.input.Keyboard;
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.GuiHandler;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiButton;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiComponent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiImage;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiLabel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
@@ -24,6 +23,7 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiRecipe;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiTextBox;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent.MouseButtonClicked;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.recipe.ConvertedRecipe;
@@ -107,7 +107,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 			@Override
 			public void mouseClicked(AOTDMouseEvent event)
 			{
-				if (event.getSource().isHovered())
+				if (event.getSource().isHovered() && event.getClickedButton() == MouseButtonClicked.Left)
 				{
 					entityPlayer.closeScreen();
 					entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_ID, entityPlayer.worldObj, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ());
@@ -115,9 +115,14 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 			}
 
 			@Override
-			public void mousePressed(AOTDMouseEvent event) {}
+			public void mousePressed(AOTDMouseEvent event)
+			{
+			}
+
 			@Override
-			public void mouseReleased(AOTDMouseEvent event) {}
+			public void mouseReleased(AOTDMouseEvent event)
+			{
+			}
 
 			@Override
 			public void mouseEntered(AOTDMouseEvent event)
@@ -151,16 +156,21 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 			@Override
 			public void mouseClicked(AOTDMouseEvent event)
 			{
-				if (event.getSource().isHovered())
+				if (event.getSource().isHovered() && event.getClickedButton() == MouseButtonClicked.Left)
 				{
 					BloodStainedJournalPageGUI.this.advancePage();
 				}
 			}
 
 			@Override
-			public void mousePressed(AOTDMouseEvent event) {}
+			public void mousePressed(AOTDMouseEvent event)
+			{
+			}
+
 			@Override
-			public void mouseReleased(AOTDMouseEvent event) {}
+			public void mouseReleased(AOTDMouseEvent event)
+			{
+			}
 
 			@Override
 			public void mouseEntered(AOTDMouseEvent event)
@@ -179,14 +189,19 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 			@Override
 			public void mouseClicked(AOTDMouseEvent event)
 			{
-				if (event.getSource().isHovered())
+				if (event.getSource().isHovered() && event.getClickedButton() == MouseButtonClicked.Left)
 					BloodStainedJournalPageGUI.this.rewindPage();
 			}
 
 			@Override
-			public void mousePressed(AOTDMouseEvent event) {}
+			public void mousePressed(AOTDMouseEvent event)
+			{
+			}
+
 			@Override
-			public void mouseReleased(AOTDMouseEvent event) {}
+			public void mouseReleased(AOTDMouseEvent event)
+			{
+			}
 
 			@Override
 			public void mouseEntered(AOTDMouseEvent event)

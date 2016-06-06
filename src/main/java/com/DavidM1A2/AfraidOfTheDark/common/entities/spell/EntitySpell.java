@@ -110,7 +110,8 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 			if (this.getSpellSource() != null)
 				for (IEffect effect : this.getSpellSource().getSpellStageByIndex(this.getSpellStageIndex()).getEffects())
 				{
-					effect.performEffect(location, this.worldObj, radius);
+					if (effect != null)
+						effect.performEffect(location, this.worldObj, radius);
 				}
 			else
 				LogHelper.error("Attempted to execute a spell that does not exist.");
@@ -123,7 +124,8 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 			if (this.getSpellSource() != null)
 				for (IEffect effect : this.getSpellSource().getSpellStageByIndex(this.getSpellStageIndex()).getEffects())
 				{
-					effect.performEffect(entity);
+					if (effect != null)
+						effect.performEffect(entity);
 				}
 			else
 				LogHelper.error("Attempted to execute a spell that does not exist.");

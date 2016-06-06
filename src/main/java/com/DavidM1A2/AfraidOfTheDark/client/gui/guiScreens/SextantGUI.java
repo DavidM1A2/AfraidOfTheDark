@@ -19,6 +19,7 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiTextField;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.TextAlignment;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent.MouseButtonClicked;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SpawnMeteor;
 
@@ -60,7 +61,7 @@ public class SextantGUI extends AOTDGuiScreen
 			@Override
 			public void mouseClicked(AOTDMouseEvent event)
 			{
-				if (event.getSource().isHovered())
+				if (event.getSource().isHovered() && event.getClickedButton() == MouseButtonClicked.Left)
 					try
 					{
 						if ((Integer.parseInt(SextantGUI.this.angle.getText()) == ClientData.selectedMeteor[0]) && (Integer.parseInt(SextantGUI.this.latitude.getText()) == ClientData.selectedMeteor[1]) && (Integer.parseInt(SextantGUI.this.longitude.getText()) == ClientData.selectedMeteor[2]))
@@ -128,7 +129,8 @@ public class SextantGUI extends AOTDGuiScreen
 		final BlockPos location = new BlockPos(xLocOfDrop, 255, zLocOfDrop);
 		AfraidOfTheDark.instance.getPacketHandler().sendToServer(new SpawnMeteor(location, 3, 3, ClientData.watchedMeteorType.getIndex()));
 		entityPlayer.addChatMessage(new ChatComponentText("Based off of this information the meteor fell at " + xLocOfDrop + ", " + zLocOfDrop));
-		ClientData.selectedMeteor = new int[] { -1, -1, -1 };
+		ClientData.selectedMeteor = new int[]
+		{ -1, -1, -1 };
 		ClientData.watchedMeteorType = null;
 	}
 

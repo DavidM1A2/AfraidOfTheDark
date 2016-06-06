@@ -20,17 +20,26 @@ public class AOTDMouseEvent extends AOTDEvent
 		Drag;
 	}
 
+	public enum MouseButtonClicked
+	{
+		Left,
+		Right,
+		Other;
+	}
+
 	private int mouseX;
 	private int mouseY;
 	private MouseEventType eventType;
+	private MouseButtonClicked buttonClicked;
 	private boolean isConsumed = false;
 
-	public AOTDMouseEvent(AOTDGuiComponentWithEvents source, int mouseX, int mouseY, MouseEventType eventType)
+	public AOTDMouseEvent(AOTDGuiComponentWithEvents source, int mouseX, int mouseY, MouseButtonClicked buttonClicked, MouseEventType eventType)
 	{
 		super(source);
 		this.mouseX = mouseX;
 		this.mouseY = mouseY;
 		this.eventType = eventType;
+		this.buttonClicked = buttonClicked;
 	}
 
 	public int getMouseX()
@@ -46,5 +55,10 @@ public class AOTDMouseEvent extends AOTDEvent
 	public MouseEventType getEventType()
 	{
 		return this.eventType;
+	}
+
+	public MouseButtonClicked getClickedButton()
+	{
+		return this.buttonClicked;
 	}
 }

@@ -17,19 +17,20 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiScrollBar;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiScrollPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiTextField;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDKeyListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDKeyEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent.MouseButtonClicked;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens.SpellCraftingGUI;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.ISpellComponentEnum;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellStage;
-import com.DavidM1A2.AfraidOfTheDark.common.spell.effects.IEffect;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.powerSources.PowerSources;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.ChatComponentText;
 
 public class AOTDGuiSpellTablet extends AOTDGuiContainer
 {
@@ -40,22 +41,40 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 	private List<AOTDGuiSpellStage> spellStages = new ArrayList<AOTDGuiSpellStage>();
 	private AOTDGuiSpellPowerSource powerSource;
 	private AOTDGuiLabel spellCost;
-	private ISpellComponentEnum selectedComponent;
+	private SpellCraftingGUI parent;
 
-	public AOTDGuiSpellTablet(int x, int y, int width, int height, Spell spell)
+	public AOTDGuiSpellTablet(int x, int y, int width, int height, Spell spell, SpellCraftingGUI parent)
 	{
 		super(x, y, width, height);
 
 		this.spell = spell;
 
+		this.parent = parent;
+
 		AOTDGuiPanel tablet = new AOTDGuiPanel(0, 0, 192, 256, false);
 
 		AOTDGuiImage background = new AOTDGuiImage(0, 0, 192, 256, "afraidofthedark:textures/gui/spellCrafting/tabletBackground.png");
 		tablet.add(background);
-		spellName = new AOTDGuiTextField(60, 30, 85, 25, ClientData.getTargaMSHandFontSized(35f));
-		spellName.setGhostText("Spell Name");
-		spellName.setText(spell.getName());
-		tablet.add(spellName);
+		this.spellName = new AOTDGuiTextField(60, 30, 85, 25, ClientData.getTargaMSHandFontSized(35f));
+		this.spellName.addKeyListener(new AOTDKeyListener()
+		{
+			@Override
+			public void keyTyped(AOTDKeyEvent event)
+			{
+				AOTDGuiSpellTablet.this.spell.setName(((AOTDGuiTextField) event.getSource()).getText());
+			}
+
+			@Override
+			public void keyReleased(AOTDKeyEvent event)
+			{
+			}
+
+			@Override
+			public void keyPressed(AOTDKeyEvent event)
+			{
+			}
+		});
+		tablet.add(this.spellName);
 		scrollBar = new AOTDGuiScrollBar(10, 75, 15, 170);
 		tablet.add(scrollBar);
 
@@ -63,9 +82,6 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 		tablet.add(spellCraftingSlotBackground);
 
 		this.scrollPanel = new AOTDGuiScrollPanel(30, 55, 120, 170, true, scrollBar);
-
-		for (SpellStage spellStage : spell.getSpellStages())
-			this.addNewSpellStage(spellStage);
 
 		tablet.add(scrollPanel);
 
@@ -81,8 +97,8 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 			@Override
 			public void mousePressed(AOTDMouseEvent event)
 			{
-				if (event.getSource().isHovered())
-					AOTDGuiSpellTablet.this.saveSpell();
+				if (event.getSource().isHovered() && event.getClickedButton() == MouseButtonClicked.Left)
+					AOTDGuiSpellTablet.this.parent.saveSpell();
 			}
 
 			@Override
@@ -116,7 +132,7 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 			@Override
 			public void mousePressed(AOTDMouseEvent event)
 			{
-				if (event.getSource().isHovered())
+				if (event.getSource().isHovered() && event.getClickedButton() == MouseButtonClicked.Left)
 					entityPlayer.openGui(Reference.MOD_ID, GuiHandler.SPELL_SELECTION_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
 			}
 
@@ -140,7 +156,6 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 		});
 		tablet.add(closeButton);
 		this.powerSource = new AOTDGuiSpellPowerSource(152, 155, 20, 20, spell.getPowerSource() != null ? spell.getPowerSource().getType() : null);
-		this.powerSource.updateHoverText();
 		this.powerSource.addMouseListener(new AOTDMouseListener()
 		{
 			@Override
@@ -156,20 +171,18 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 			@Override
 			public void mouseReleased(AOTDMouseEvent event)
 			{
-				if (event.getSource().isHovered())
+				if (event.getSource().isHovered() && event.getClickedButton() == MouseButtonClicked.Left)
 				{
-					if (getSelectedComponent() instanceof PowerSources)
+					ISpellComponentEnum currentlySelected = AOTDGuiSpellComponent.getSelectedComponent();
+					if (currentlySelected instanceof PowerSources)
 					{
-						powerSource.setType((PowerSources) getSelectedComponent());
-						powerSource.updateHoverText();
-						AOTDGuiSpellTablet.this.selectedComponent = null;
 						event.getSource().darkenColor(0.1f);
+						AOTDGuiSpellTablet.this.spell.setPowerSource(((PowerSources) currentlySelected).newInstance());
+						AOTDGuiSpellComponent.setSelectedComponent(null);
 					}
-					else if (getSelectedComponent() == null)
-					{
-						powerSource.setType(null);
-						powerSource.updateHoverText();
-					}
+					else if (currentlySelected == null)
+						AOTDGuiSpellTablet.this.spell.setPowerSource(null);
+					AOTDGuiSpellTablet.this.refresh();
 				}
 			}
 
@@ -222,8 +235,9 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 		tablet.add(helpButton);
 
 		this.spellCost = new AOTDGuiLabel(25, 225, ClientData.getTargaMSHandFontSized(40));
-		spellCost.setText("Spell Cost: " + this.calculateCost());
 		tablet.add(this.spellCost);
+
+		this.refresh();
 
 		this.add(tablet);
 	}
@@ -236,8 +250,11 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 			@Override
 			public void mouseClicked(AOTDMouseEvent event)
 			{
-				if (event.getSource().isHovered() && event.getSource().isVisible())
-					AOTDGuiSpellTablet.this.addNewSpellStage(new SpellStage(null, new ArrayList<IEffect>()));
+				if (event.getSource().isHovered() && event.getSource().isVisible() && event.getClickedButton() == MouseButtonClicked.Left)
+				{
+					AOTDGuiSpellTablet.this.spell.getSpellStages().add(new SpellStage());
+					AOTDGuiSpellTablet.this.refresh();
+				}
 			}
 
 			@Override
@@ -265,8 +282,11 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 			@Override
 			public void mouseClicked(AOTDMouseEvent event)
 			{
-				if (event.getSource().isHovered() && event.getSource().isVisible())
-					AOTDGuiSpellTablet.this.removeSpellStage();
+				if (event.getSource().isHovered() && event.getSource().isVisible() && event.getClickedButton() == MouseButtonClicked.Left)
+				{
+					AOTDGuiSpellTablet.this.spell.getSpellStages().remove(AOTDGuiSpellTablet.this.spell.getSpellStages().size() - 1);
+					AOTDGuiSpellTablet.this.refresh();
+				}
 			}
 
 			@Override
@@ -301,7 +321,6 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 				this.spellStages.get(i).hidePlus();
 			}
 		}
-		this.updateScrollOffset();
 	}
 
 	public void removeSpellStage()
@@ -318,6 +337,25 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 			if (this.spellStages.size() != 1)
 				secondToLastStage.showMinus();
 		}
+	}
+
+	public void refresh()
+	{
+		if (this.spellCost != null)
+			this.spellCost.setText("Spell Cost: " + Math.round(this.spell.getCost() * 100.0) / 100.0);
+		if (this.powerSource != null)
+		{
+			this.powerSource.setType(this.spell.getPowerSource() != null ? this.spell.getPowerSource().getType() : null);
+			this.powerSource.updateHoverText();
+		}
+		spellName.setGhostText("Spell Name");
+		spellName.setText(spell.getName());
+		while (!this.spellStages.isEmpty())
+			this.removeSpellStage();
+		for (SpellStage spellStage : spell.getSpellStages())
+			this.addNewSpellStage(spellStage);
+		for (AOTDGuiSpellStage spellStage : this.spellStages)
+			spellStage.refresh();
 		this.updateScrollOffset();
 	}
 
@@ -326,48 +364,37 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 		scrollPanel.setMaximumOffset(this.spellStages.size() > 4 ? (this.spellStages.size() - 4) * 35 : 0);
 	}
 
-	private void saveSpell()
-	{
-		// Set the spell name
-		spell.setName(spellName.getText());
+	//	private void saveSpell()
+	//	{
+	//		// Set the spell name
+	//		spell.setName(spellName.getText());
+	//
+	//		// Set the spell stages
+	//		SpellStage[] spellStages = new SpellStage[this.spellStages.size()];
+	//		for (int i = 0; i < this.spellStages.size(); i++)
+	//		{
+	//			spellStages[i] = this.spellStages.get(i).toSpellStage();
+	//		}
+	//		spell.setSpellStages(spellStages);
+	//
+	//		// Set the power source
+	//		PowerSources powerSourceEnum = this.powerSource.getType();
+	//		spell.setPowerSource(powerSourceEnum == null ? null : powerSourceEnum.newInstance());
+	//
+	//		// Sync and state that the spell was saved
+	//		parent.saveSpell();
+	//	}
 
-		// Set the spell stages
-		SpellStage[] spellStages = new SpellStage[this.spellStages.size()];
-		for (int i = 0; i < this.spellStages.size(); i++)
-		{
-			spellStages[i] = this.spellStages.get(i).toSpellStage();
-		}
-		spell.setSpellStages(spellStages);
-
-		// Set the power source
-		PowerSources powerSourceEnum = this.powerSource.getType();
-		spell.setPowerSource(powerSourceEnum == null ? null : powerSourceEnum.newInstance());
-
-		// Sync and state that the spell was saved
-		entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).syncSpellManager();
-		entityPlayer.addChatMessage(new ChatComponentText("Spell " + spell.getName() + " successfully saved."));
-	}
-
-	public double calculateCost()
-	{
-		double cost = 0;
-		for (AOTDGuiSpellStage spellStageGui : this.spellStages)
-		{
-			SpellStage spellStage = spellStageGui.toSpellStage();
-			cost = cost + spellStage.getCost();
-		}
-		return cost;
-	}
-
-	public ISpellComponentEnum getSelectedComponent()
-	{
-		return this.selectedComponent;
-	}
-
-	public void setSelectedComponent(ISpellComponentEnum selectedComponent)
-	{
-		this.selectedComponent = selectedComponent;
-	}
+	//	public double calculateCost()
+	//	{
+	//		double cost = 0;
+	//		for (AOTDGuiSpellStage spellStageGui : this.spellStages)
+	//		{
+	//			SpellStage spellStage = spellStageGui.toSpellStage();
+	//			cost = cost + spellStage.getCost();
+	//		}
+	//		return cost;
+	//	}
 
 	public boolean closeGuiOnInventory()
 	{

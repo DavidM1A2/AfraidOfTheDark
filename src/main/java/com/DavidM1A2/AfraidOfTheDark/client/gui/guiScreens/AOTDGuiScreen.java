@@ -18,7 +18,9 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.SpriteSheetControll
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDKeyEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDKeyEvent.KeyEventType;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent.MouseButtonClicked;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent.MouseEventType;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -115,29 +117,38 @@ public abstract class AOTDGuiScreen extends GuiScreen
 
 	public void mouseInputEvent()
 	{
+		LogHelper.info(Mouse.getEventButton());
 		switch (Mouse.getEventButton())
 		{
 			case 0:
-				if (Mouse.getEventButtonState())
-				{
-					leftMouseButtonDown = true;
-					contentPane.processMouseInput(new AOTDMouseEvent(contentPane, AOTDGuiUtility.getMouseX(), AOTDGuiUtility.getMouseY(), MouseEventType.Click));
-				}
-				else
-				{
-					contentPane.processMouseInput(new AOTDMouseEvent(contentPane, AOTDGuiUtility.getMouseX(), AOTDGuiUtility.getMouseY(), MouseEventType.Release));
-					if (leftMouseButtonDown)
-					{
-						leftMouseButtonDown = false;
-						contentPane.processMouseInput(new AOTDMouseEvent(contentPane, AOTDGuiUtility.getMouseX(), AOTDGuiUtility.getMouseY(), MouseEventType.Press));
-					}
-				}
+				this.processMouseClick(MouseButtonClicked.Left);
+				break;
+			case 1:
+				this.processMouseClick(MouseButtonClicked.Right);
 				break;
 			case -1:
-				contentPane.processMouseInput(new AOTDMouseEvent(contentPane, AOTDGuiUtility.getMouseX(), AOTDGuiUtility.getMouseY(), MouseEventType.Move));
+				contentPane.processMouseInput(new AOTDMouseEvent(contentPane, AOTDGuiUtility.getMouseX(), AOTDGuiUtility.getMouseY(), MouseButtonClicked.Other, MouseEventType.Move));
 				if (leftMouseButtonDown)
-					contentPane.processMouseInput(new AOTDMouseEvent(contentPane, AOTDGuiUtility.getMouseX(), AOTDGuiUtility.getMouseY(), MouseEventType.Drag));
+					contentPane.processMouseInput(new AOTDMouseEvent(contentPane, AOTDGuiUtility.getMouseX(), AOTDGuiUtility.getMouseY(), MouseButtonClicked.Other, MouseEventType.Drag));
 				break;
+		}
+	}
+
+	private void processMouseClick(MouseButtonClicked clickedButton)
+	{
+		if (Mouse.getEventButtonState())
+		{
+			leftMouseButtonDown = true;
+			contentPane.processMouseInput(new AOTDMouseEvent(contentPane, AOTDGuiUtility.getMouseX(), AOTDGuiUtility.getMouseY(), clickedButton, MouseEventType.Click));
+		}
+		else
+		{
+			contentPane.processMouseInput(new AOTDMouseEvent(contentPane, AOTDGuiUtility.getMouseX(), AOTDGuiUtility.getMouseY(), clickedButton, MouseEventType.Release));
+			if (leftMouseButtonDown)
+			{
+				leftMouseButtonDown = false;
+				contentPane.processMouseInput(new AOTDMouseEvent(contentPane, AOTDGuiUtility.getMouseX(), AOTDGuiUtility.getMouseY(), clickedButton, MouseEventType.Press));
+			}
 		}
 	}
 

@@ -6,6 +6,8 @@
 package com.DavidM1A2.AfraidOfTheDark.common.spell;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
@@ -19,12 +21,13 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.MathHelper;
 
 public class Spell implements Serializable
 {
 	private String name;
 	private IPowerSource powerSource;
-	private SpellStage[] spellStages;
+	private List<SpellStage> spellStages = new ArrayList<SpellStage>();
 	private UUID spellID;
 	private UUID spellOwner;
 
@@ -33,10 +36,9 @@ public class Spell implements Serializable
 		this.readFromNBT(spellData);
 	}
 
-	public Spell(EntityPlayer owner, String name, IPowerSource powerSource, SpellStage[] spellStages, UUID spellID)
+	public Spell(EntityPlayer owner, String name, IPowerSource powerSource, UUID spellID)
 	{
 		this.name = name;
-		this.spellStages = spellStages;
 		this.powerSource = powerSource;
 		this.spellID = spellID;
 		this.spellOwner = owner.getPersistentID();
@@ -51,11 +53,11 @@ public class Spell implements Serializable
 		else
 			powerSourceData.setBoolean("null", true);
 		spellCompound.setTag("spellPowerSource", powerSourceData);
-		spellCompound.setInteger("numberOfSpellStages", this.spellStages.length);
-		for (int i = 0; i < spellStages.length; i++)
+		spellCompound.setInteger("numberOfSpellStages", this.spellStages.size());
+		for (int i = 0; i < spellStages.size(); i++)
 		{
 			NBTTagCompound spellStage = new NBTTagCompound();
-			spellStages[i].writeToNBT(spellStage);
+			spellStages.get(i).writeToNBT(spellStage);
 			spellCompound.setTag("spellStage " + i, spellStage);
 		}
 		spellCompound.setLong("UUIDMost", this.getSpellUUID().getMostSignificantBits());
@@ -70,11 +72,10 @@ public class Spell implements Serializable
 		NBTTagCompound powerSourceData = spellCompound.getCompoundTag("spellPowerSource");
 		this.powerSource = PowerSource.create(powerSourceData);
 		int numberOfSpellStages = spellCompound.getInteger("numberOfSpellStages");
-		this.spellStages = new SpellStage[numberOfSpellStages];
 		for (int i = 0; i < numberOfSpellStages; i++)
 		{
 			NBTTagCompound spellStageData = spellCompound.getCompoundTag("spellStage " + i);
-			spellStages[i] = new SpellStage(spellStageData);
+			spellStages.add(new SpellStage(spellStageData));
 		}
 		Long mostSignificantBits = spellCompound.getLong("UUIDMost");
 		Long leastSignificantBits = spellCompound.getLong("UUIDLeast");
@@ -92,7 +93,7 @@ public class Spell implements Serializable
 			if (entityPlayer.dimension != AOTDDimensions.Nightmare.getWorldID())
 			{
 				if (this.isSpellValid() && this.powerSource.attemptToCast(this))
-					for (EntitySpell entitySpell : this.spellStages[0].getDeliveryMethod().createSpellEntity(this))
+					for (EntitySpell entitySpell : this.spellStages.get(0).getDeliveryMethod().createSpellEntity(this))
 						entityPlayer.worldObj.spawnEntityInWorld(entitySpell);
 				else if (!this.isSpellValid())
 					entityPlayer.addChatMessage(new ChatComponentText("Invalid spell. Make sure to have delivery methods on each spell stage and a power source!"));
@@ -109,9 +110,12 @@ public class Spell implements Serializable
 	public double getCost()
 	{
 		double cost = 0;
+		double currentCostMultiplier = 1.0;
 		for (SpellStage spellStage : this.spellStages)
 		{
-			cost = cost + spellStage.getCost();
+			cost = currentCostMultiplier * (cost + spellStage.getCost());
+			double newCostMultiplier = currentCostMultiplier * (spellStage.getDeliveryMethod() != null ? spellStage.getDeliveryMethod().getStageMultiplier() : 1.0D);
+			currentCostMultiplier = MathHelper.clamp_double(newCostMultiplier, 1.0, Double.MAX_VALUE);
 		}
 		return cost;
 	}
@@ -122,7 +126,7 @@ public class Spell implements Serializable
 
 		if (this.powerSource == null)
 			isValid = false;
-		if (this.spellStages.length == 0)
+		if (this.spellStages.size() == 0)
 			isValid = false;
 		for (SpellStage spellStage : this.spellStages)
 			if (spellStage.getDeliveryMethod() == null)
@@ -135,7 +139,7 @@ public class Spell implements Serializable
 	{
 		if (!hasSpellStage(index))
 			return null;
-		return this.spellStages[index];
+		return this.spellStages.get(index);
 	}
 
 	public boolean hasSpellStage(int index)
@@ -178,12 +182,7 @@ public class Spell implements Serializable
 		return this.powerSource;
 	}
 
-	public void setSpellStages(SpellStage[] spellStages)
-	{
-		this.spellStages = spellStages;
-	}
-
-	public SpellStage[] getSpellStages()
+	public List<SpellStage> getSpellStages()
 	{
 		return this.spellStages;
 	}
@@ -195,7 +194,7 @@ public class Spell implements Serializable
 
 		toReturn = toReturn + "--------- Spell Printout: ---------\nName: " + this.getName() + "\n";
 		toReturn = toReturn + "Power Source: " + this.getPowerSource() + "\n";
-		toReturn = toReturn + "Spell has " + this.spellStages.length + " spell stages.";
+		toReturn = toReturn + "Spell has " + this.spellStages.size() + " spell stages.";
 
 		return toReturn;
 	}

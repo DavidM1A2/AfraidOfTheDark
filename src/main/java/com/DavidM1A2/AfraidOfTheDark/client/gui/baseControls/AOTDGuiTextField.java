@@ -15,6 +15,7 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDKeyListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDKeyEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent.MouseButtonClicked;
 import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.TrueTypeFont;
 
 import net.minecraft.util.ChatAllowedCharacters;
@@ -65,11 +66,14 @@ public class AOTDGuiTextField extends AOTDGuiTextComponent
 			@Override
 			public void mouseClicked(AOTDMouseEvent event)
 			{
-				AOTDGuiTextField current = (AOTDGuiTextField) event.getSource();
-				if (current.isHovered())
-					current.setFocused(true);
-				else
-					current.setFocused(false);
+				if (event.getClickedButton() == MouseButtonClicked.Left)
+				{
+					AOTDGuiTextField current = (AOTDGuiTextField) event.getSource();
+					if (current.isHovered())
+						current.setFocused(true);
+					else
+						current.setFocused(false);
+				}
 			}
 		});
 		this.addKeyListener(new AOTDKeyListener()

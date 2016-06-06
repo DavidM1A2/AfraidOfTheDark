@@ -14,6 +14,7 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.SpriteSheetControll
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiResearchNodeButton;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent.MouseButtonClicked;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
@@ -84,7 +85,7 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 			@Override
 			public void mouseClicked(AOTDMouseEvent event)
 			{
-				if (event.getSource() instanceof AOTDGuiResearchNodeButton)
+				if (event.getSource() instanceof AOTDGuiResearchNodeButton && event.getClickedButton() == MouseButtonClicked.Left)
 				{
 					AOTDGuiResearchNodeButton current = (AOTDGuiResearchNodeButton) event.getSource();
 					if (current.getParent().getParent().intersects(current))

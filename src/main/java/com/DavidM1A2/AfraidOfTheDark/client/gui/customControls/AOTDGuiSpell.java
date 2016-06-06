@@ -11,6 +11,7 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDKeyListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDKeyEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent.MouseButtonClicked;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens.SpellSelectionGUI;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
@@ -94,7 +95,7 @@ public class AOTDGuiSpell extends AOTDGuiPanel
 			public void mousePressed(AOTDMouseEvent event)
 			{
 				ClientData.spellToBeEdited = source;
-				if (event.getSource().isHovered())
+				if (event.getSource().isHovered() && event.getClickedButton() == MouseButtonClicked.Left)
 					entityPlayer.openGui(Reference.MOD_ID, GuiHandler.SPELL_CRAFTING_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
 			}
 
@@ -134,7 +135,7 @@ public class AOTDGuiSpell extends AOTDGuiPanel
 			@Override
 			public void mousePressed(AOTDMouseEvent event)
 			{
-				if (event.getSource().isHovered() && AOTDGuiSpell.this.isVisible() && !waitingOnKeyInput)
+				if (event.getSource().isHovered() && AOTDGuiSpell.this.isVisible() && !waitingOnKeyInput && event.getClickedButton() == MouseButtonClicked.Left)
 				{
 					waitingOnKeyInput = true;
 					event.getSource().darkenColor(0.3f);

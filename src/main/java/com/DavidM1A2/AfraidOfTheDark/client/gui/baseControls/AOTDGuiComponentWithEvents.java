@@ -13,6 +13,7 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener
 import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseMoveListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDKeyEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent.MouseButtonClicked;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent.MouseEventType;
 
 public class AOTDGuiComponentWithEvents extends AOTDGuiComponent
@@ -33,9 +34,9 @@ public class AOTDGuiComponentWithEvents extends AOTDGuiComponent
 				boolean wasHovered = component.isHovered();
 				component.setHovered(component.intersects(new Point(event.getMouseX(), event.getMouseY())));
 				if (component.isHovered() && !wasHovered)
-					component.processMouseInput(new AOTDMouseEvent(component, event.getMouseX(), event.getMouseY(), MouseEventType.Enter));
+					component.processMouseInput(new AOTDMouseEvent(component, event.getMouseX(), event.getMouseY(), MouseButtonClicked.Other, MouseEventType.Enter));
 				if (!component.isHovered() && wasHovered)
-					component.processMouseInput(new AOTDMouseEvent(component, event.getMouseX(), event.getMouseY(), MouseEventType.Exit));
+					component.processMouseInput(new AOTDMouseEvent(component, event.getMouseX(), event.getMouseY(), MouseButtonClicked.Other, MouseEventType.Exit));
 			}
 
 			@Override

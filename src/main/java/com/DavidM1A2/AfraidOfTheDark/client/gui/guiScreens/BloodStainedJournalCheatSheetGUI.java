@@ -12,6 +12,7 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiImage;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent.MouseButtonClicked;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 
@@ -31,7 +32,7 @@ public class BloodStainedJournalCheatSheetGUI extends AOTDGuiScreen
 			@Override
 			public void mouseClicked(AOTDMouseEvent event)
 			{
-				if (event.getSource().isHovered())
+				if (event.getSource().isHovered() && event.getClickedButton() == MouseButtonClicked.Left)
 				{
 					for (ResearchTypes type : ResearchTypes.values())
 					{
@@ -75,7 +76,7 @@ public class BloodStainedJournalCheatSheetGUI extends AOTDGuiScreen
 			@Override
 			public void mouseClicked(AOTDMouseEvent event)
 			{
-				if (event.getSource().isHovered())
+				if (event.getSource().isHovered() && event.getClickedButton() == MouseButtonClicked.Left)
 				{
 					entityPlayer.playSound("gui.button.press", 1.0f, 1.0f);
 					entityPlayer.closeScreen();

@@ -11,10 +11,9 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiScrollPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.customControls.AOTDGuiSpell;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent.MouseButtonClicked;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
-import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellStage;
-import com.DavidM1A2.AfraidOfTheDark.common.spell.effects.IEffect;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import net.minecraft.client.Minecraft;
@@ -57,10 +56,9 @@ public class SpellSelectionGUI extends AOTDGuiScreen
 			@Override
 			public void mousePressed(AOTDMouseEvent event)
 			{
-				if (event.getSource().isHovered())
+				if (event.getSource().isHovered() && event.getClickedButton() == MouseButtonClicked.Left)
 				{
-					Spell newSpell = new Spell(entityPlayer, "", null, new SpellStage[]
-					{ new SpellStage(null, new ArrayList<IEffect>()) }, UUID.randomUUID());
+					Spell newSpell = new Spell(entityPlayer, "", null, UUID.randomUUID());
 					entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getSpellManager().addSpell(newSpell);
 					SpellSelectionGUI.this.addSpellContainer(newSpell);
 				}
@@ -102,7 +100,7 @@ public class SpellSelectionGUI extends AOTDGuiScreen
 			@Override
 			public void mousePressed(AOTDMouseEvent event)
 			{
-				if (event.getSource().isHovered())
+				if (event.getSource().isHovered() && event.getClickedButton() == MouseButtonClicked.Left)
 				{
 					SpellSelectionGUI.this.removeSpellContainer(guiSpell);
 				}

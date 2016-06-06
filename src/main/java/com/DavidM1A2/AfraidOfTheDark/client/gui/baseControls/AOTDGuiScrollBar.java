@@ -5,10 +5,10 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls;
 
-import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDGuiUtility;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseMoveListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent.MouseButtonClicked;
 
 import net.minecraft.util.MathHelper;
 
@@ -34,27 +34,38 @@ public class AOTDGuiScrollBar extends AOTDGuiContainer
 			@Override
 			public void mouseClicked(AOTDMouseEvent event)
 			{
-				if (event.getSource().isHovered())
+				if (event.getSource().isHovered() && event.getClickedButton() == MouseButtonClicked.Left)
 				{
 					mouseBeingHeld = true;
 					originalMousePressLocation = event.getMouseY();
 					originalHandlePosition = handleLocation;
 				}
 			}
+
 			@Override
-			public void mousePressed(AOTDMouseEvent event) {}
+			public void mousePressed(AOTDMouseEvent event)
+			{
+			}
+
 			@Override
 			public void mouseReleased(AOTDMouseEvent event)
 			{
-				mouseBeingHeld = false;				
+				if (event.getClickedButton() == MouseButtonClicked.Left)
+					mouseBeingHeld = false;
 			}
+
 			@Override
-			public void mouseEntered(AOTDMouseEvent event) {}
+			public void mouseEntered(AOTDMouseEvent event)
+			{
+			}
+
 			@Override
-			public void mouseExited(AOTDMouseEvent event) {}
+			public void mouseExited(AOTDMouseEvent event)
+			{
+			}
 		});
 		this.scrollBarHandle.addMouseMoveListener(new AOTDMouseMoveListener()
-		{			
+		{
 			@Override
 			public void mouseMoved(AOTDMouseEvent event)
 			{
@@ -64,10 +75,13 @@ public class AOTDGuiScrollBar extends AOTDGuiContainer
 					newY = MathHelper.clamp_int(newY, AOTDGuiScrollBar.this.getY(), AOTDGuiScrollBar.this.getY() + AOTDGuiScrollBar.this.getHeight() - scrollBarHandle.getHeight());
 					scrollBarHandle.setY(newY);
 					handleLocation = (scrollBarHandle.getY() - AOTDGuiScrollBar.this.getY()) / ((float) (AOTDGuiScrollBar.this.getHeight() - scrollBarHandle.getHeight()));
-				}			
-			}			
+				}
+			}
+
 			@Override
-			public void mouseDragged(AOTDMouseEvent event) {}
+			public void mouseDragged(AOTDMouseEvent event)
+			{
+			}
 		});
 	}
 

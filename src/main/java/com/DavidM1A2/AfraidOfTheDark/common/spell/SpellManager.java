@@ -25,6 +25,12 @@ public class SpellManager
 		this.spells.put(spell.getSpellUUID(), spell);
 	}
 
+	public void updateSpell(Spell spell)
+	{
+		this.spells.remove(spell.getSpellUUID());
+		this.spells.put(spell.getSpellUUID(), spell);
+	}
+
 	public void removeSpell(Spell spell)
 	{
 		this.spells.remove(spell.getSpellUUID());

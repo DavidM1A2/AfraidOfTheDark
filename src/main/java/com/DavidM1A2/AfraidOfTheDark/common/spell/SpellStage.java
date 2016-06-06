@@ -6,8 +6,6 @@
 package com.DavidM1A2.AfraidOfTheDark.common.spell;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.spell.deliveryMethods.DeliveryMethod;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.deliveryMethods.IDeliveryMethod;
@@ -18,18 +16,16 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class SpellStage implements Serializable
 {
-	private IDeliveryMethod deliveryMethod;
-	private List<IEffect> effects;
+	private IDeliveryMethod deliveryMethod = null;
+	private IEffect[] effects = new IEffect[4];
 
 	public SpellStage(NBTTagCompound spellStageData)
 	{
 		this.readFromNBT(spellStageData);
 	}
 
-	public SpellStage(IDeliveryMethod deliveryMethod, List<IEffect> effects)
+	public SpellStage()
 	{
-		this.deliveryMethod = deliveryMethod;
-		this.effects = effects;
 	}
 
 	public double getCost()
@@ -42,7 +38,8 @@ public class SpellStage implements Serializable
 			cost = cost + deliveryMethod.getCost();
 			for (IEffect effect : this.effects)
 			{
-				cost = cost + this.deliveryMethod.getStageMultiplier() * effect.getCost();
+				if (effect != null)
+					cost = cost + this.deliveryMethod.getStageMultiplier() * effect.getCost();
 			}
 			return cost;
 		}
@@ -53,7 +50,12 @@ public class SpellStage implements Serializable
 		return this.deliveryMethod;
 	}
 
-	public List<IEffect> getEffects()
+	public void setDeliveryMethod(IDeliveryMethod deliveryMethod)
+	{
+		this.deliveryMethod = deliveryMethod;
+	}
+
+	public IEffect[] getEffects()
 	{
 		return this.effects;
 	}
@@ -67,11 +69,11 @@ public class SpellStage implements Serializable
 			deliveryMethodData.setBoolean("null", true);
 
 		compound.setTag("deliveryMethod", deliveryMethodData);
-		compound.setInteger("numberOfEffects", effects.size());
-		for (int i = 0; i < this.effects.size(); i++)
+		for (int i = 0; i < this.effects.length; i++)
 		{
 			NBTTagCompound effectData = new NBTTagCompound();
-			this.effects.get(i).writeToNBT(effectData);
+			if (this.effects[i] != null)
+				this.effects[i].writeToNBT(effectData);
 			compound.setTag("effect " + i, effectData);
 		}
 	}
@@ -80,12 +82,10 @@ public class SpellStage implements Serializable
 	{
 		NBTTagCompound deliveryMethodData = compound.getCompoundTag("deliveryMethod");
 		this.deliveryMethod = DeliveryMethod.create(deliveryMethodData);
-		int numberOfEffects = compound.getInteger("numberOfEffects");
-		this.effects = new ArrayList<IEffect>();
-		for (int i = 0; i < numberOfEffects; i++)
+		for (int i = 0; i < this.effects.length; i++)
 		{
 			NBTTagCompound effectData = compound.getCompoundTag("effect " + i);
-			this.effects.add(Effect.create(effectData));
+			this.effects[i] = Effect.create(effectData);
 		}
 	}
 }
