@@ -23,6 +23,6 @@ public class AOTDGuiSpellPowerSource extends AOTDGuiSpellComponent<PowerSources>
 	@Override
 	public void updateHoverText()
 	{
-		this.setHoverText("Power Source (" + this.getTypeNameFormatted() + ")");
+		this.setHoverText("Power Source (" + this.getTypeNameFormatted() + ")\n" + (this.type == null ? "0" : this.type.getCostDescription()));
 	}
 }

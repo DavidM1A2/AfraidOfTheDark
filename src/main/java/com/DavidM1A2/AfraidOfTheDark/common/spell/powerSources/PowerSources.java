@@ -16,6 +16,12 @@ public enum PowerSources implements ISpellComponentEnum
 		{
 			return new Self();
 		}
+
+		@Override
+		public String getCostDescription()
+		{
+			return "1 player vitae per unit cost";
+		}
 	},
 	VitaeLantern(2, "vitaeLantern.png")
 	{
@@ -23,6 +29,12 @@ public enum PowerSources implements ISpellComponentEnum
 		public PowerSource newInstance()
 		{
 			return new VitaeLantern();
+		}
+
+		@Override
+		public String getCostDescription()
+		{
+			return "1 vitae lantern vitae per unit cost";
 		}
 	},
 	Creative(3, "creative.png")
@@ -32,6 +44,12 @@ public enum PowerSources implements ISpellComponentEnum
 		{
 			return new Creative();
 		}
+
+		@Override
+		public String getCostDescription()
+		{
+			return "Infinite";
+		}
 	},
 	Experience(4, "experience.png")
 	{
@@ -39,6 +57,12 @@ public enum PowerSources implements ISpellComponentEnum
 		public PowerSource newInstance()
 		{
 			return new Experience();
+		}
+
+		@Override
+		public String getCostDescription()
+		{
+			return ".5 XP levels per unit cost";
 		}
 	};
 
@@ -69,6 +93,8 @@ public enum PowerSources implements ISpellComponentEnum
 
 	@Override
 	public abstract PowerSource newInstance();
+
+	public abstract String getCostDescription();
 
 	@Override
 	public String getNameFormatted()

@@ -7,7 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 
 import java.util.List;
 
-import com.DavidM1A2.AfraidOfTheDark.common.entities.EntityAOTDPainting.EntityArtwork;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.EntityArtwork.EntityArtwork;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDArt;
 
@@ -24,6 +24,7 @@ public class ItemArtwork extends AOTDItem
 	public ItemArtwork()
 	{
 		super();
+		this.setHasSubtypes(true);
 		this.setUnlocalizedName("artwork");
 	}
 

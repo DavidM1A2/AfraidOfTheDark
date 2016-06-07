@@ -23,14 +23,14 @@ public class Explosion extends Effect
 		if (radius < 0)
 			radius = 0;
 		world.createExplosion(null, location.getX(), location.getY(), location.getZ(), (float) radius, true);
-		VitaeUtils.vitaeReleasedFX(world, location, radius, 20);
+		VitaeUtils.vitaeReleasedFX(world, location, radius, 5);
 	}
 
 	@Override
 	public void performEffect(Entity entity)
 	{
 		entity.worldObj.createExplosion(null, entity.posX, entity.posY, entity.posZ, 3.0f, true);
-		VitaeUtils.vitaeReleasedFX(entity.worldObj, entity.getPosition(), 3, 20);
+		VitaeUtils.vitaeReleasedFX(entity.worldObj, entity.getPosition(), 3, 5);
 	}
 
 	public void setExplosionSize(float explosionSize)

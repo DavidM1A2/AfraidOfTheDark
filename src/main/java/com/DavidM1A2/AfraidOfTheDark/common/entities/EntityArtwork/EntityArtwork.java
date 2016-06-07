@@ -3,7 +3,7 @@
  * Mod: Afraid of the Dark
  * Ideas and Textures: Michael Albertson
  */
-package com.DavidM1A2.AfraidOfTheDark.common.entities.EntityAOTDPainting;
+package com.DavidM1A2.AfraidOfTheDark.common.entities.EntityArtwork;
 
 import org.apache.commons.lang3.Validate;
 
@@ -57,7 +57,7 @@ public class EntityArtwork extends EntityHanging implements IEntityAdditionalSpa
 
 	public int blocksToTakeUp()
 	{
-		return this.art.getBlockScale();
+		return 16;//this.art.getBlockScale();
 	}
 
 	public AOTDArt getArt()
@@ -77,7 +77,7 @@ public class EntityArtwork extends EntityHanging implements IEntityAdditionalSpa
 				if (((EntityPlayer) brokenEntity).capabilities.isCreativeMode)
 					return;
 
-			this.entityDropItem(new ItemStack(ModItems.artwork), 0.0F);
+			this.entityDropItem(new ItemStack(ModItems.artwork, 1, this.getArt().ordinal()), 0.0F);
 		}
 	}
 

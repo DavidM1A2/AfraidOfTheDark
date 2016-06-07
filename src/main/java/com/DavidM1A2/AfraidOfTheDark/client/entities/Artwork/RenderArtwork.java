@@ -3,9 +3,9 @@
  * Mod: Afraid of the Dark
  * Ideas and Textures: Michael Albertson
  */
-package com.DavidM1A2.AfraidOfTheDark.client.entities.AOTDPainting;
+package com.DavidM1A2.AfraidOfTheDark.client.entities.Artwork;
 
-import com.DavidM1A2.AfraidOfTheDark.common.entities.EntityAOTDPainting.EntityArtwork;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.EntityArtwork.EntityArtwork;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -36,41 +36,43 @@ public class RenderArtwork extends Render<EntityArtwork>
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, z);
 		EnumFacing facing = entity.getHorizontalFacing();
-		float transX = entity.getWidthPixels() / 32 - entity.blocksToTakeUp() / 2;
-		float transY = entity.getWidthPixels() / 32 - entity.blocksToTakeUp() / 2;
-		float transZ = entity.getWidthPixels() / 32 - entity.blocksToTakeUp() / 2;
+		int var = entity.blocksToTakeUp() % 2 == 0 ? entity.blocksToTakeUp() : entity.blocksToTakeUp() + 1;
+		var = var / 2 + 8 - entity.blocksToTakeUp();
+		float transX = var;
+		float transY = var;
+		float transZ = var;
 		if (facing == EnumFacing.WEST)
 		{
 			transZ = -transZ;
 			transX = 0;
-			if (transY % 2 != 0)
+			if (entity.blocksToTakeUp() % 2 != 0)
 				transY = transY - 0.5f;
-			if (transZ % 2 != 0)
+			if (entity.blocksToTakeUp() % 2 != 0)
 				transZ = transZ + 0.5f;
 		}
 		else if (facing == EnumFacing.EAST)
 		{
 			transX = 0;
-			if (transY % 2 != 0)
+			if (entity.blocksToTakeUp() % 2 != 0)
 				transY = transY - 0.5f;
-			if (transZ % 2 != 0)
+			if (entity.blocksToTakeUp() % 2 != 0)
 				transZ = transZ - 0.5f;
 		}
 		else if (facing == EnumFacing.NORTH)
 		{
 			transZ = 0;
-			if (transX % 2 != 0)
+			if (entity.blocksToTakeUp() % 2 != 0)
 				transX = transX - 0.5f;
-			if (transY % 2 != 0)
+			if (entity.blocksToTakeUp() % 2 != 0)
 				transY = transY - 0.5f;
 		}
 		else if (facing == EnumFacing.SOUTH)
 		{
 			transX = -transX;
 			transZ = 0;
-			if (transX % 2 != 0)
+			if (entity.blocksToTakeUp() % 2 != 0)
 				transX = transX + 0.5f;
-			if (transY % 2 != 0)
+			if (entity.blocksToTakeUp() % 2 != 0)
 				transY = transY - 0.5f;
 		}
 
@@ -83,7 +85,6 @@ public class RenderArtwork extends Render<EntityArtwork>
 		this.renderPainting(entity, entity.getWidthPixels(), entity.getHeightPixels(), 0, 0);
 		GlStateManager.disableRescaleNormal();
 		GlStateManager.popMatrix();
-		super.doRender(entity, x, y, z, entityYaw, partialTicks);
 	}
 
 	/**

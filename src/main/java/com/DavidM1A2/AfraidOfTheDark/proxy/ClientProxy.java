@@ -6,7 +6,7 @@ package com.DavidM1A2.AfraidOfTheDark.proxy;
 import java.util.Map;
 import java.util.UUID;
 
-import com.DavidM1A2.AfraidOfTheDark.client.entities.AOTDPainting.RenderArtwork;
+import com.DavidM1A2.AfraidOfTheDark.client.entities.Artwork.RenderArtwork;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.DeeeSyft.RenderDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.Enaria.RenderEnaria;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.Enaria.RenderGhastlyEnaria;
@@ -28,7 +28,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.EntityEnaria;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.ghastly.EntityGhastlyEnaria;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.EnchantedSkeleton.EntityEnchantedSkeleton;
-import com.DavidM1A2.AfraidOfTheDark.common.entities.EntityAOTDPainting.EntityArtwork;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.EntityArtwork.EntityArtwork;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.SplinterDrone.EntitySplinterDrone;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.SplinterDrone.EntitySplinterDroneProjectile;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Werewolf.EntityWerewolf;
