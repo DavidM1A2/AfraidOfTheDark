@@ -69,4 +69,20 @@ public enum PowerSources implements ISpellComponentEnum
 
 	@Override
 	public abstract PowerSource newInstance();
+
+	@Override
+	public String getNameFormatted()
+	{
+		String toReturn = "";
+
+		for (final String string : this.getName().split("(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])"))
+		{
+			toReturn = toReturn + string + " ";
+		}
+
+		if (toReturn.charAt(toReturn.length() - 1) == ' ')
+			toReturn = toReturn.substring(0, toReturn.length() - 1);
+
+		return toReturn;
+	}
 }

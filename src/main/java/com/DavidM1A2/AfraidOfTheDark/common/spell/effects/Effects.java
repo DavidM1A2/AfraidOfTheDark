@@ -92,14 +92,7 @@ public enum Effects implements ISpellComponentEnum
 	@Override
 	public String getName()
 	{
-		String toReturn = "";
-
-		for (final String string : this.toString().split("(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])"))
-		{
-			toReturn = toReturn + string + " ";
-		}
-
-		return toReturn;
+		return this.toString();
 	}
 
 	public EffectAffinity getAffinity()
@@ -109,4 +102,20 @@ public enum Effects implements ISpellComponentEnum
 
 	@Override
 	public abstract Effect newInstance();
+
+	@Override
+	public String getNameFormatted()
+	{
+		String toReturn = "";
+
+		for (final String string : this.getName().split("(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])"))
+		{
+			toReturn = toReturn + string + " ";
+		}
+
+		if (toReturn.charAt(toReturn.length() - 1) == ' ')
+			toReturn = toReturn.substring(0, toReturn.length() - 1);
+
+		return toReturn;
+	}
 }

@@ -176,14 +176,15 @@ public class ClientProxy extends CommonProxy
 			}
 		});
 		for (final DeliveryMethods deliveryMethod : DeliveryMethods.values())
-			RenderingRegistry.registerEntityRenderingHandler(deliveryMethod.getDeliveryEntity(), new IRenderFactory()
-			{
-				@Override
-				public Render createRenderFor(RenderManager manager)
+			if (deliveryMethod.getDeliveryEntity() != null)
+				RenderingRegistry.registerEntityRenderingHandler(deliveryMethod.getDeliveryEntity(), new IRenderFactory()
 				{
-					return deliveryMethod.getDeliveryRenderer(manager);
-				}
-			});
+					@Override
+					public Render createRenderFor(RenderManager manager)
+					{
+						return deliveryMethod.getDeliveryRenderer(manager);
+					}
+				});
 
 		// Add extra projectile
 		RenderingRegistry.registerEntityRenderingHandler(EntitySpellProjectileDive.class, new IRenderFactory()

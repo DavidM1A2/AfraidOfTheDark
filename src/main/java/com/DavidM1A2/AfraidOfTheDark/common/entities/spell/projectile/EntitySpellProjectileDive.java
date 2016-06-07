@@ -32,7 +32,7 @@ public class EntitySpellProjectileDive extends EntitySpellProjectile
 	}
 
 	@Override
-	protected void updateSpellSpecificLogic()
+	public void updateSpellSpecificLogic()
 	{
 		super.updateSpellSpecificLogic();
 

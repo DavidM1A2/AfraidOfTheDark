@@ -31,7 +31,7 @@ public class EntityAOE extends EntitySpell
 	}
 
 	@Override
-	protected void updateSpellSpecificLogic()
+	public void updateSpellSpecificLogic()
 	{
 		if (this.getTicksAlive() == 1)
 		{

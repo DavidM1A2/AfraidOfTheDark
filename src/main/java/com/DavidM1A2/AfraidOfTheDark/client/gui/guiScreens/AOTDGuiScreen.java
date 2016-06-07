@@ -20,7 +20,6 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDKeyEvent.KeyEventType
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent.MouseButtonClicked;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent.MouseEventType;
-import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -117,7 +116,6 @@ public abstract class AOTDGuiScreen extends GuiScreen
 
 	public void mouseInputEvent()
 	{
-		LogHelper.info(Mouse.getEventButton());
 		switch (Mouse.getEventButton())
 		{
 			case 0:

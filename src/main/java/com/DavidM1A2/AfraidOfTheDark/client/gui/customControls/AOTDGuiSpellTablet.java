@@ -212,6 +212,11 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 			@Override
 			public void mousePressed(AOTDMouseEvent event)
 			{
+				if (event.getSource().isHovered() && event.getSource().isVisible())
+				{
+					AOTDGuiSpellTablet.this.parent.showHelpScreen();
+					event.consume();
+				}
 			}
 
 			@Override
@@ -363,38 +368,6 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 	{
 		scrollPanel.setMaximumOffset(this.spellStages.size() > 4 ? (this.spellStages.size() - 4) * 35 : 0);
 	}
-
-	//	private void saveSpell()
-	//	{
-	//		// Set the spell name
-	//		spell.setName(spellName.getText());
-	//
-	//		// Set the spell stages
-	//		SpellStage[] spellStages = new SpellStage[this.spellStages.size()];
-	//		for (int i = 0; i < this.spellStages.size(); i++)
-	//		{
-	//			spellStages[i] = this.spellStages.get(i).toSpellStage();
-	//		}
-	//		spell.setSpellStages(spellStages);
-	//
-	//		// Set the power source
-	//		PowerSources powerSourceEnum = this.powerSource.getType();
-	//		spell.setPowerSource(powerSourceEnum == null ? null : powerSourceEnum.newInstance());
-	//
-	//		// Sync and state that the spell was saved
-	//		parent.saveSpell();
-	//	}
-
-	//	public double calculateCost()
-	//	{
-	//		double cost = 0;
-	//		for (AOTDGuiSpellStage spellStageGui : this.spellStages)
-	//		{
-	//			SpellStage spellStage = spellStageGui.toSpellStage();
-	//			cost = cost + spellStage.getCost();
-	//		}
-	//		return cost;
-	//	}
 
 	public boolean closeGuiOnInventory()
 	{

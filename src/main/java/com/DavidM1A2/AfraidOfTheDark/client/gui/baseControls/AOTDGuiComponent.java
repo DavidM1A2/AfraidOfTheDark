@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
 
+import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDGuiUtility;
@@ -32,7 +33,7 @@ public abstract class AOTDGuiComponent
 	{ 1.0f, 1.0f, 1.0f, 1.0f };
 	protected final EntityPlayerSP entityPlayer = Minecraft.getMinecraft().thePlayer;
 	protected final FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
-	private String hoverText = "";
+	private String[] hoverText = new String[0];
 
 	public AOTDGuiComponent(int x, int y, int width, int height)
 	{
@@ -47,10 +48,21 @@ public abstract class AOTDGuiComponent
 
 	public void drawOverlay()
 	{
-		if (isVisible && isHovered && !hoverText.equals(""))
-		{
-			fontRenderer.drawStringWithShadow(hoverText, AOTDGuiUtility.getMouseX() + 5, AOTDGuiUtility.getMouseY(), 0xFFFFFFFF);
-		}
+		if (isVisible && isHovered)
+			if (this.hoverText.length != 0)
+			{
+				int maxLength = 0;
+				for (String hoverString : this.hoverText)
+					if (fontRenderer.getStringWidth(hoverString) > maxLength)
+						maxLength = fontRenderer.getStringWidth(hoverString);
+				Gui.drawRect(AOTDGuiUtility.getMouseX() + 2, AOTDGuiUtility.getMouseY() - 2, AOTDGuiUtility.getMouseX() + maxLength + 7, AOTDGuiUtility.getMouseY() + fontRenderer.FONT_HEIGHT * this.hoverText.length, 0xB3200017);
+				for (int i = 0; i < this.hoverText.length; i++)
+				{
+					String hoverString = this.hoverText[i];
+					if (hoverString != "")
+						fontRenderer.drawStringWithShadow(hoverString, AOTDGuiUtility.getMouseX() + 5, AOTDGuiUtility.getMouseY() + i * fontRenderer.FONT_HEIGHT, 0xFFFFFFFF);
+				}
+			}
 	}
 
 	public void drawBoundingBox()
@@ -236,12 +248,12 @@ public abstract class AOTDGuiComponent
 
 	public String getHoverText()
 	{
-		return this.hoverText;
+		return StringUtils.join(this.hoverText, "\n");
 	}
 
 	public void setHoverText(String hoverText)
 	{
-		this.hoverText = hoverText;
+		this.hoverText = StringUtils.split(hoverText, "\n");
 	}
 
 	@Override

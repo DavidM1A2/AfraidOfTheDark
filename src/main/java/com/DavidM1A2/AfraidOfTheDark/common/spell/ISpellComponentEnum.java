@@ -14,4 +14,10 @@ public interface ISpellComponentEnum
 	public String getName();
 
 	public <T extends ISpellComponent> T newInstance();
+
+	/**
+	 * 
+	 * @return The name of the spell component but formatted
+	 */
+	public String getNameFormatted();
 }

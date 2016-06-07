@@ -41,6 +41,14 @@ public enum DeliveryMethods implements ISpellComponentEnum
 		{
 			return new AOE();
 		}
+	},
+	ExtraEffects(4, null, null, "afraidofthedark:textures/gui/spellCrafting/deliveryMethods/extraEffects.png", null)
+	{
+		@Override
+		public DeliveryMethod newInstance()
+		{
+			return new ExtraEffects();
+		}
 	};
 
 	private int id;
@@ -87,4 +95,20 @@ public enum DeliveryMethods implements ISpellComponentEnum
 
 	@Override
 	public abstract DeliveryMethod newInstance();
+
+	@Override
+	public String getNameFormatted()
+	{
+		String toReturn = "";
+
+		for (final String string : this.getName().split("(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])"))
+		{
+			toReturn = toReturn + string + " ";
+		}
+
+		if (toReturn.charAt(toReturn.length() - 1) == ' ')
+			toReturn = toReturn.substring(0, toReturn.length() - 1);
+
+		return toReturn;
+	}
 }

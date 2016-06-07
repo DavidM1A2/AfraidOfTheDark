@@ -50,6 +50,7 @@ public class ModEntities
 	public static final int spellAOEID = 14;
 	public static final int ghastlyEnariaID = 15;
 	public static final int artworkID = 16;
+	public static final int spellExtraEffectsID = 17;
 
 	public static void intialize()
 	{

@@ -28,7 +28,7 @@ public class AOTDGuiSpellEffect extends AOTDGuiSpellComponent<Effects>
 	@Override
 	public void updateHoverText()
 	{
-		this.setHoverText("Effect (" + this.getTypeNameFormatted() + ")");
+		this.setHoverText("Effect (" + this.getTypeNameFormatted() + ")\nAffinity: " + (type == null ? "None" : ("\n" + this.type.getAffinity().toString())));
 	}
 
 	@Override

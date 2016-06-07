@@ -88,7 +88,7 @@ public abstract class AOTDGuiSpellComponent<T extends ISpellComponentEnum> exten
 
 	public String getTypeNameFormatted()
 	{
-		return this.type != null ? this.type.getName() : "None";
+		return this.type != null ? this.type.getNameFormatted() : "None";
 	}
 
 	public abstract void updateHoverText();

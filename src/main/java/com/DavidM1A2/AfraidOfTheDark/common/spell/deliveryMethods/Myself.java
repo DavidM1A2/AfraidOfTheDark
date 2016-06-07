@@ -35,12 +35,14 @@ public class Myself extends DeliveryMethod
 	{
 		if (previous instanceof EntityMyself)
 		{
-			return new EntitySpell[] { new EntityMyself(previous.worldObj, previous.getSpellSource(), spellStageIndex, ((EntityMyself) previous).getTarget()) };
+			return new EntitySpell[]
+			{ new EntityMyself(previous.worldObj, previous.getSpellSource(), spellStageIndex, ((EntityMyself) previous).getTarget()) };
 		}
 		else if (previous instanceof EntitySpellProjectile)
 		{
 			EntityLivingBase targetHit = ((EntitySpellProjectile) previous).getTargetHit();
-			return new EntitySpell[] { new EntityMyself(previous.worldObj, previous.getSpellSource(), spellStageIndex, targetHit) };
+			return new EntitySpell[]
+			{ new EntityMyself(previous.worldObj, previous.getSpellSource(), spellStageIndex, targetHit) };
 		}
 		else if (previous instanceof EntityAOE)
 		{
@@ -49,12 +51,13 @@ public class Myself extends DeliveryMethod
 			for (int i = 0; i < affectedEntities.size(); i++)
 				toReturn[i] = new EntityMyself(previous.worldObj, previous.getSpellSource(), spellStageIndex, affectedEntities.get(i));
 			if (toReturn.length == 0)
-				toReturn = new EntitySpell[] { new EntityMyself(previous.worldObj, previous.getSpellSource(), spellStageIndex, null) };
+				toReturn = new EntitySpell[]
+				{ new EntityMyself(previous.worldObj, previous.getSpellSource(), spellStageIndex, null) };
 			return toReturn;
 		}
 		else
 		{
-			LogHelper.error("Previous spell entity was " + previous + ", and no case to handle it was found in " + this.getType().getName());
+			LogHelper.error("Previous spell entity was " + previous + ", and no case to handle it was found in " + this.getType().getNameFormatted());
 			return null;
 		}
 	}
@@ -67,7 +70,8 @@ public class Myself extends DeliveryMethod
 
 		if (spellOwner != null)
 		{
-			return new EntitySpell[] { new EntityMyself(spellOwner.worldObj, callbackClone, 0, spellOwner) };
+			return new EntitySpell[]
+			{ new EntityMyself(spellOwner.worldObj, callbackClone, 0, spellOwner) };
 		}
 		else
 		{

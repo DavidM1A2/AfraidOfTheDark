@@ -7,6 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.entities.spell;
 
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.deliveryMethods.DeliveryMethods;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.effects.IEffect;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
@@ -59,7 +60,7 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 	{
 	}
 
-	protected abstract void updateSpellSpecificLogic();
+	public abstract void updateSpellSpecificLogic();
 
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound compound)
@@ -92,6 +93,10 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 		this.spellStageIndex = this.spellStageIndex + 1;
 		if (!this.worldObj.isRemote)
 		{
+			// Skip over all the "extra effects" since they're not actually delivery methods
+			while (this.spellSource.hasSpellStage(spellStageIndex) && this.spellSource.getSpellStageByIndex(spellStageIndex).getDeliveryMethod().getType() == DeliveryMethods.ExtraEffects)
+				this.spellStageIndex = this.spellStageIndex + 1;
+			// Instantiate the next delivery method if it has one
 			if (this.spellSource.hasSpellStage(spellStageIndex))
 				for (EntitySpell entitySpell : this.getSpellSource().getSpellStageByIndex(this.spellStageIndex).getDeliveryMethod().createSpellEntity(this, spellStageIndex))
 					this.worldObj.spawnEntityInWorld(entitySpell);
@@ -108,11 +113,18 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 	{
 		if (!this.worldObj.isRemote)
 			if (this.getSpellSource() != null)
-				for (IEffect effect : this.getSpellSource().getSpellStageByIndex(this.getSpellStageIndex()).getEffects())
+			{
+				int currentIndex = this.getSpellStageIndex();
+				do
 				{
-					if (effect != null)
-						effect.performEffect(location, this.worldObj, radius);
+					for (IEffect effect : this.getSpellSource().getSpellStageByIndex(currentIndex).getEffects())
+						if (effect != null)
+							effect.performEffect(location, this.worldObj, radius);
+
+					currentIndex = currentIndex + 1;
 				}
+				while (this.getSpellSource().hasSpellStage(currentIndex) && this.getSpellSource().getSpellStageByIndex(currentIndex).getDeliveryMethod().getType() == DeliveryMethods.ExtraEffects);
+			}
 			else
 				LogHelper.error("Attempted to execute a spell that does not exist.");
 		return;
@@ -122,11 +134,18 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 	{
 		if (!this.worldObj.isRemote)
 			if (this.getSpellSource() != null)
-				for (IEffect effect : this.getSpellSource().getSpellStageByIndex(this.getSpellStageIndex()).getEffects())
+			{
+				int currentIndex = this.getSpellStageIndex();
+				do
 				{
-					if (effect != null)
-						effect.performEffect(entity);
+					for (IEffect effect : this.getSpellSource().getSpellStageByIndex(this.getSpellStageIndex()).getEffects())
+						if (effect != null)
+							effect.performEffect(entity);
+
+					currentIndex = currentIndex + 1;
 				}
+				while (this.getSpellSource().hasSpellStage(currentIndex) && this.getSpellSource().getSpellStageByIndex(currentIndex).getDeliveryMethod().getType() == DeliveryMethods.ExtraEffects);
+			}
 			else
 				LogHelper.error("Attempted to execute a spell that does not exist.");
 		return;

@@ -39,7 +39,7 @@ public class EntityMyself extends EntitySpell
 	}
 
 	@Override
-	protected void updateSpellSpecificLogic()
+	public void updateSpellSpecificLogic()
 	{
 		if (this.getTicksAlive() == 1 && entityLivingBase != null)
 		{

@@ -108,21 +108,44 @@ public class EffectAffinity
 		return this.blue;
 	}
 
+	public double getSorcery()
+	{
+		return sorcery;
+	}
+
+	public double getChaos()
+	{
+		return chaos;
+	}
+
+	public double getNature()
+	{
+		return nature;
+	}
+
+	public double getEarth()
+	{
+		return earth;
+	}
+
 	@Override
 	public String toString()
 	{
 		String toReturn = "";
 
 		if (this.sorcery != 0)
-			toReturn = toReturn + "Sorcery: " + this.sorcery * 100 + "% ";
+			toReturn = toReturn + "Sorcery: " + this.sorcery * 100 + "%\n";
 		if (this.chaos != 0)
-			toReturn = toReturn + "Chaos: " + this.chaos * 100 + "% ";
+			toReturn = toReturn + "Chaos: " + this.chaos * 100 + "%\n";
 		if (this.nature != 0)
-			toReturn = toReturn + "Nature: " + this.nature * 100 + "% ";
+			toReturn = toReturn + "Nature: " + this.nature * 100 + "%\n";
 		if (this.earth != 0)
-			toReturn = toReturn + "Earth: " + this.earth * 100 + "% ";
+			toReturn = toReturn + "Earth: " + this.earth * 100 + "%\n";
 		if (toReturn.isEmpty())
 			toReturn = "Neutral";
+
+		while (toReturn.charAt(toReturn.length() - 1) == '\n')
+			toReturn = toReturn.substring(0, toReturn.length() - 1);
 
 		return toReturn;
 	}

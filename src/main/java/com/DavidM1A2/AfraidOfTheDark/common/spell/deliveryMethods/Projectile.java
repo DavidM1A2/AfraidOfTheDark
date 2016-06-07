@@ -54,7 +54,7 @@ public class Projectile extends DeliveryMethod
 		}
 		else
 		{
-			LogHelper.error("Previous spell entity was " + previous + ", and no case to handle it was found in " + this.getType().getName());
+			LogHelper.error("Previous spell entity was " + previous + ", and no case to handle it was found in " + this.getType().getNameFormatted());
 			return null;
 		}
 	}

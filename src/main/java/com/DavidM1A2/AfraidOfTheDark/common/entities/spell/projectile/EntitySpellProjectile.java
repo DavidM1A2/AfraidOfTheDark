@@ -62,9 +62,8 @@ public class EntitySpellProjectile extends EntitySpell
 	}
 
 	/**
-	 * Checks if the entity is in range to render by using the past in distance
-	 * and comparing it to its average edge length * 64 * renderDistanceWeight
-	 * Args: distance
+	 * Checks if the entity is in range to render by using the past in distance and comparing it to its average edge length * 64 *
+	 * renderDistanceWeight Args: distance
 	 */
 	@SideOnly(Side.CLIENT)
 	@Override
@@ -82,7 +81,7 @@ public class EntitySpellProjectile extends EntitySpell
 	}
 
 	@Override
-	protected void updateSpellSpecificLogic()
+	public void updateSpellSpecificLogic()
 	{
 		if (worldObj.isRemote)
 		{
@@ -191,7 +190,8 @@ public class EntitySpellProjectile extends EntitySpell
 		tagCompound.setShort("zTile", (short) this.tileZ);
 		ResourceLocation resourcelocation = (ResourceLocation) Block.blockRegistry.getNameForObject(this.insideOf);
 		tagCompound.setString("inTile", resourcelocation == null ? "" : resourcelocation.toString());
-		tagCompound.setTag("direction", this.newDoubleNBTList(new double[] { this.motionX, this.motionY, this.motionZ }));
+		tagCompound.setTag("direction", this.newDoubleNBTList(new double[]
+		{ this.motionX, this.motionY, this.motionZ }));
 	}
 
 	/**
@@ -227,8 +227,7 @@ public class EntitySpellProjectile extends EntitySpell
 	}
 
 	/**
-	 * Returns true if other Entities should be prevented from moving through
-	 * this Entity.
+	 * Returns true if other Entities should be prevented from moving through this Entity.
 	 */
 	@Override
 	public boolean canBeCollidedWith()

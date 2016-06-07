@@ -78,38 +78,65 @@ public class AOTDGuiSpellScroll extends AOTDGuiContainer
 				}
 			}
 		};
+
 		int numEntries = 0;
+
+		// Add the power source heading, then move down a row (add 5 icons)
+		AOTDGuiImage powerSourceHeading = new AOTDGuiImage(5 + 24 * (numEntries % 5), 5 + 24 * (numEntries / 5), 80, 20, "afraidofthedark:textures/gui/spellcrafting/powerSources.png");
+		effectsPanel.add(powerSourceHeading);
+		numEntries = numEntries + 5;
+
+		// Add each power source icon
 		for (PowerSources powerSource : PowerSources.values())
 		{
 			final AOTDGuiSpellPowerSource source = new AOTDGuiSpellPowerSource(5 + 24 * (numEntries % 5), 5 + 24 * (numEntries / 5), 20, 20, powerSource, true);
 			effectsPanel.add(source);
 			source.addMouseListener(onClick);
-			source.setHoverText("Power Source (" + powerSource.getName() + ")");
+			source.updateHoverText();
 			numEntries = numEntries + 1;
 		}
+		// Ensure that we're on the next row now
 		while (numEntries % 5 != 0)
 			numEntries++;
+
+		// Add the effect heading, then move down a row (add 5 icons)
+		AOTDGuiImage effectHeading = new AOTDGuiImage(5 + 24 * (numEntries % 5), 5 + 24 * (numEntries / 5), 80, 20, "afraidofthedark:textures/gui/spellcrafting/effects.png");
+		effectsPanel.add(effectHeading);
+		numEntries = numEntries + 5;
+
+		// Add each effect icon
 		for (Effects effect : Effects.values())
 		{
 			AOTDGuiSpellEffect source = new AOTDGuiSpellEffect(5 + 24 * (numEntries % 5), 5 + 24 * (numEntries / 5), 20, 20, effect, true);
 			effectsPanel.add(source);
 			source.addMouseListener(onClick);
-			source.setHoverText("Effect (" + effect.getName() + ")");
+			source.updateHoverText();
 			numEntries = numEntries + 1;
 		}
+		// Ensure that we're on the next row now
 		while (numEntries % 5 != 0)
 			numEntries++;
+
+		// Add the delivery method heading, then move down a row (add 5 icons)
+		AOTDGuiImage deliveryMethodHeading = new AOTDGuiImage(5 + 24 * (numEntries % 5), 5 + 24 * (numEntries / 5), 80, 20, "afraidofthedark:textures/gui/spellcrafting/deliveryMethods.png");
+		effectsPanel.add(deliveryMethodHeading);
+		numEntries = numEntries + 5;
+
+		// Add each delivery method icon
 		for (DeliveryMethods deliveryMethod : DeliveryMethods.values())
 		{
 			AOTDGuiSpellDeliveryMethod source = new AOTDGuiSpellDeliveryMethod(5 + 24 * (numEntries % 5), 5 + 24 * (numEntries / 5), 20, 20, deliveryMethod, true);
 			effectsPanel.add(source);
 			source.addMouseListener(onClick);
-			source.setHoverText("Delivery Method (" + deliveryMethod.getName() + ")");
+			source.updateHoverText();
 			numEntries = numEntries + 1;
 		}
-		int offset = numEntries % 5 - 5;
+
+		// Update the offset accordingly
+		int offset = numEntries / 6 - 5;
+		LogHelper.info(offset);
 		offset = offset > 0 ? offset : 0;
-		effectsPanel.setMaximumOffset(offset);
+		effectsPanel.setMaximumOffset(offset * 30);
 		effectScroll.add(effectsPanel);
 
 		this.add(effectScroll);
@@ -122,9 +149,8 @@ public class AOTDGuiSpellScroll extends AOTDGuiContainer
 			@Override
 			public void mouseMoved(AOTDMouseEvent event)
 			{
-				LogHelper.info("X = " + event.getMouseX() + ", Y = " + event.getMouseY());
-				event.getSource().setX(event.getMouseX());
-				event.getSource().setY(event.getMouseY());// + event.getSource().getHeightScaled() / 2);
+				event.getSource().setX((int) (event.getMouseX() / AOTDGuiSpellScroll.this.getScaleX()) - event.getSource().getWidthScaled() / 2);
+				event.getSource().setY((int) (event.getMouseY() / AOTDGuiSpellScroll.this.getScaleY()) - event.getSource().getHeightScaled() / 2);
 			}
 
 			@Override
