@@ -65,6 +65,14 @@ public enum Effects implements ISpellComponentEnum
 		{
 			return new EnderPocket();
 		}
+	},
+	Teleport(8, new EffectAffinity(.1, .1, .1, .1), "teleport.png")
+	{
+		@Override
+		public Effect newInstance()
+		{
+			return new Teleport();
+		}
 	};
 
 	private int id;

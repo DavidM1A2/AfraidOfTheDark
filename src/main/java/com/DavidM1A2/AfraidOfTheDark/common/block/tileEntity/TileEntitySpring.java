@@ -21,7 +21,7 @@ import net.minecraft.util.AxisAlignedBB;
 public class TileEntitySpring extends AOTDTickingTileEntity
 {
 	private static final int TICKS_INBETWEEN_CHECKS = 120;
-	private static final int CHECK_RANGE = 3;
+	private static final int CHECK_RANGE = 5;
 	private static final int MAX_VITAE_FROM_LANTERN = 100;
 
 	public TileEntitySpring()

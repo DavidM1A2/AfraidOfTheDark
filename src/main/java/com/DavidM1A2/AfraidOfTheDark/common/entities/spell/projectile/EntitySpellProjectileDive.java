@@ -5,7 +5,9 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.entities.spell.projectile;
 
+import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellHitInfo;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -64,7 +66,7 @@ public class EntitySpellProjectileDive extends EntitySpellProjectile
 			}
 			else
 			{
-				this.performEffect(this.getPosition(), 1);
+				this.performEffect(new SpellHitInfo(AfraidOfTheDark.proxy.getSpellOwner(this.getSpellSource()), this.getPosition(), this.worldObj, 1));
 				this.spellStageComplete();
 				this.setDead();
 			}

@@ -1,12 +1,12 @@
 package com.DavidM1A2.AfraidOfTheDark.common.spell.effects;
 
+import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellHitInfo;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.VitaeUtils;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.WorldGenerationUtility;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
@@ -21,24 +21,25 @@ public class Dig extends Effect
 	}
 
 	@Override
-	public void performEffect(BlockPos location, World world, double radius)
+	public void performEffect(SpellHitInfo hitInfo)
 	{
-		int blockRadius = (int) Math.floor(radius) / 2;
-		if (blockRadius < 0)
-			blockRadius = 0;
-		for (int x = -blockRadius; x < blockRadius + 1; x++)
-			for (int y = -blockRadius; y < blockRadius + 1; y++)
-				for (int z = -blockRadius; z < blockRadius + 1; z++)
-					if (world.getTileEntity(location.add(x, y, z)) == null)
-						this.destroyBlock(world, location.add(x, y, z), true);
-		VitaeUtils.vitaeReleasedFX(world, location, radius, (int) (radius * 5));
-	}
-
-	@Override
-	public void performEffect(Entity entity)
-	{
-		if (entity.worldObj.destroyBlock(entity.getPosition().down(), true))
-			VitaeUtils.vitaeReleasedFX(entity.worldObj, entity.getPosition().down(), .2, 1);
+		if (hitInfo.getEntityHit() == null)
+		{
+			int blockRadius = (int) Math.floor(hitInfo.getRadius()) / 2;
+			if (blockRadius < 0)
+				blockRadius = 0;
+			for (int x = -blockRadius; x < blockRadius + 1; x++)
+				for (int y = -blockRadius; y < blockRadius + 1; y++)
+					for (int z = -blockRadius; z < blockRadius + 1; z++)
+						if (hitInfo.getWorld().getTileEntity(hitInfo.getLocation().add(x, y, z)) == null)
+							this.destroyBlock(hitInfo.getWorld(), hitInfo.getLocation().add(x, y, z), true);
+			VitaeUtils.vitaeReleasedFX(hitInfo.getWorld(), hitInfo.getLocation(), hitInfo.getRadius(), (int) (hitInfo.getRadius() * 5));
+		}
+		else
+		{
+			if (hitInfo.getEntityHit().worldObj.destroyBlock(hitInfo.getLocation().down(), true))
+				VitaeUtils.vitaeReleasedFX(hitInfo.getWorld(), hitInfo.getLocation().down(), .2, 1);
+		}
 	}
 
 	/**

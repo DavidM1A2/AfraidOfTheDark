@@ -62,7 +62,7 @@ public class ItemStarMetalStaff extends AOTDItemWithCooldownStatic
 			}
 			else
 			{
-				if (!world.isRemote)
+				if (world.isRemote)
 					if (entityPlayer.getItemInUse() != itemStack)
 						entityPlayer.addChatMessage(new ChatComponentText("Cooldown remaining: " + this.cooldownRemaining(itemStack) + " second" + (this.cooldownRemaining(itemStack) - 1 == 0.0 ? "." : "s.")));
 			}

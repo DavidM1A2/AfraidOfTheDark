@@ -1,11 +1,9 @@
 package com.DavidM1A2.AfraidOfTheDark.common.spell.effects;
 
+import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellHitInfo;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.VitaeUtils;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
-import net.minecraft.world.World;
 
 public class Explosion extends Effect
 {
@@ -18,19 +16,21 @@ public class Explosion extends Effect
 	}
 
 	@Override
-	public void performEffect(BlockPos location, World world, double radius)
+	public void performEffect(SpellHitInfo hitInfo)
 	{
-		if (radius < 0)
-			radius = 0;
-		world.createExplosion(null, location.getX(), location.getY(), location.getZ(), (float) radius, true);
-		VitaeUtils.vitaeReleasedFX(world, location, radius, 5);
-	}
-
-	@Override
-	public void performEffect(Entity entity)
-	{
-		entity.worldObj.createExplosion(null, entity.posX, entity.posY, entity.posZ, 3.0f, true);
-		VitaeUtils.vitaeReleasedFX(entity.worldObj, entity.getPosition(), 3, 5);
+		if (hitInfo.getEntityHit() == null)
+		{
+			int radius = hitInfo.getRadius();
+			if (radius < 0)
+				radius = 0;
+			hitInfo.getWorld().createExplosion(null, hitInfo.getLocation().getX(), hitInfo.getLocation().getY(), hitInfo.getLocation().getZ(), (float) radius, true);
+			VitaeUtils.vitaeReleasedFX(hitInfo.getWorld(), hitInfo.getLocation(), radius, 5);
+		}
+		else
+		{
+			hitInfo.getEntityHit().worldObj.createExplosion(null, hitInfo.getLocation().getX(), hitInfo.getLocation().getY(), hitInfo.getLocation().getZ(), 3.0f, true);
+			VitaeUtils.vitaeReleasedFX(hitInfo.getWorld(), hitInfo.getLocation(), 3, 5);
+		}
 	}
 
 	public void setExplosionSize(float explosionSize)

@@ -1,5 +1,6 @@
 package com.DavidM1A2.AfraidOfTheDark.common.spell.effects;
 
+import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellHitInfo;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.VitaeUtils;
 
 import net.minecraft.block.Block;
@@ -22,23 +23,23 @@ public class Freeze extends Effect
 	}
 
 	@Override
-	public void performEffect(BlockPos location, World world, double radius)
+	public void performEffect(SpellHitInfo hitInfo)
 	{
-		this.encaseLocationInIce(world, location, radius);
-	}
-
-	@Override
-	public void performEffect(Entity entity)
-	{
-		if (entity instanceof EntityLivingBase)
+		if (hitInfo.getEntityHit() == null)
+			this.encaseLocationInIce(hitInfo.getWorld(), hitInfo.getLocation(), hitInfo.getRadius());
+		else
 		{
-			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(), 40, 3, false, false));
+			if (hitInfo.getEntityHit() instanceof EntityLivingBase)
+			{
+				((EntityLivingBase) hitInfo.getEntityHit()).addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(), 40, 3, false, false));
+			}
+			VitaeUtils.vitaeReleasedFX(hitInfo.getWorld(), hitInfo.getLocation(), 1, 5);
+			Entity entity = hitInfo.getEntityHit();
+			double radius = entity.getEntityBoundingBox().maxX - entity.getEntityBoundingBox().minX;
+			radius = Math.max(radius, entity.getEntityBoundingBox().maxY - entity.getEntityBoundingBox().minY);
+			radius = Math.max(radius, entity.getEntityBoundingBox().maxZ - entity.getEntityBoundingBox().minZ);
+			this.encaseLocationInIce(hitInfo.getWorld(), hitInfo.getLocation(), radius + 1);
 		}
-		VitaeUtils.vitaeReleasedFX(entity.worldObj, entity.getPosition(), 1, 5);
-		double radius = entity.getEntityBoundingBox().maxX - entity.getEntityBoundingBox().minX;
-		radius = Math.max(radius, entity.getEntityBoundingBox().maxY - entity.getEntityBoundingBox().minY);
-		radius = Math.max(radius, entity.getEntityBoundingBox().maxZ - entity.getEntityBoundingBox().minZ);
-		this.encaseLocationInIce(entity.worldObj, entity.getPosition(), radius + 1);
 	}
 
 	private void encaseLocationInIce(World world, BlockPos location, double radius)

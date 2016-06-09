@@ -5,15 +5,13 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.spell.effects;
 
+import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellHitInfo;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.VitaeUtils;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.world.World;
 
 public class Heal extends Effect
 {
@@ -26,28 +24,29 @@ public class Heal extends Effect
 	}
 
 	@Override
-	public void performEffect(BlockPos location, World world, double radius)
+	public void performEffect(SpellHitInfo hitInfo)
 	{
-		int blockRadius = (int) Math.floor(radius);
-		if (blockRadius < 0)
-			blockRadius = 0;
-		for (EntityLivingBase entityLivingBase : world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(location.add(-blockRadius, -blockRadius, -blockRadius), location.add(blockRadius, blockRadius, blockRadius))))
+		if (hitInfo.getEntityHit() == null)
 		{
-			if (!(entityLivingBase instanceof EntityArmorStand))
+			int blockRadius = (int) Math.floor(hitInfo.getRadius());
+			if (blockRadius < 0)
+				blockRadius = 0;
+			for (EntityLivingBase entityLivingBase : hitInfo.getWorld().getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(hitInfo.getLocation().add(-blockRadius, -blockRadius, -blockRadius), hitInfo.getLocation().add(blockRadius, blockRadius, blockRadius))))
 			{
-				entityLivingBase.heal(this.healAmount);
-				VitaeUtils.vitaeReleasedFX(world, entityLivingBase.getPosition(), 1, 5);
+				if (!(entityLivingBase instanceof EntityArmorStand))
+				{
+					entityLivingBase.heal(this.healAmount);
+					VitaeUtils.vitaeReleasedFX(hitInfo.getWorld(), entityLivingBase.getPosition(), 1, 5);
+				}
 			}
 		}
-	}
-
-	@Override
-	public void performEffect(Entity entity)
-	{
-		if (entity instanceof EntityLivingBase && !(entity instanceof EntityArmorStand))
+		else
 		{
-			((EntityLivingBase) entity).heal(this.healAmount);
-			VitaeUtils.vitaeReleasedFX(entity.worldObj, entity.getPosition(), 1, 5);
+			if (hitInfo.getEntityHit() instanceof EntityLivingBase && !(hitInfo.getEntityHit() instanceof EntityArmorStand))
+			{
+				((EntityLivingBase) hitInfo.getEntityHit()).heal(this.healAmount);
+				VitaeUtils.vitaeReleasedFX(hitInfo.getWorld(), hitInfo.getLocation(), 1, 5);
+			}
 		}
 	}
 

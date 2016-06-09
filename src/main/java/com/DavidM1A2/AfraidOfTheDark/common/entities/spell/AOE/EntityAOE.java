@@ -3,9 +3,11 @@ package com.DavidM1A2.AfraidOfTheDark.common.entities.spell.AOE;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.EntitySpell;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellHitInfo;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityArmorStand;
@@ -40,10 +42,10 @@ public class EntityAOE extends EntitySpell
 			{
 				if (!(entityLivingBase instanceof EntityArmorStand))
 				{
-					this.performEffect(entityLivingBase);
+					this.performEffect(new SpellHitInfo(AfraidOfTheDark.proxy.getSpellOwner(this.getSpellSource()), entityLivingBase));
 				}
 			}
-			this.performEffect(this.getPosition(), this.size);
+			this.performEffect(new SpellHitInfo(AfraidOfTheDark.proxy.getSpellOwner(this.getSpellSource()), this.getPosition(), this.worldObj, (int) this.size));
 			this.spellStageComplete();
 			this.setDead();
 		}

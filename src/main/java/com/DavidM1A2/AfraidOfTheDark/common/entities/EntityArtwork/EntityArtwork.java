@@ -57,7 +57,7 @@ public class EntityArtwork extends EntityHanging implements IEntityAdditionalSpa
 
 	public int blocksToTakeUp()
 	{
-		return 16;//this.art.getBlockScale();
+		return this.art.getBlockScale();
 	}
 
 	public AOTDArt getArt()

@@ -1,8 +1,10 @@
 package com.DavidM1A2.AfraidOfTheDark.common.entities.spell.myself;
 
+import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.EntitySpell;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellHitInfo;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
@@ -43,7 +45,7 @@ public class EntityMyself extends EntitySpell
 	{
 		if (this.getTicksAlive() == 1 && entityLivingBase != null)
 		{
-			this.performEffect(entityLivingBase);
+			this.performEffect(new SpellHitInfo(AfraidOfTheDark.proxy.getSpellOwner(this.getSpellSource()), entityLivingBase));
 			this.spellStageComplete();
 			this.setDead();
 		}

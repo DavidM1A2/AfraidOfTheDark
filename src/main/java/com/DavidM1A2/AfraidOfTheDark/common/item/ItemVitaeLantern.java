@@ -7,12 +7,14 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 
 import java.util.List;
 
+import com.DavidM1A2.AfraidOfTheDark.common.entities.DeeeSyft.EntityDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
@@ -28,6 +30,29 @@ public class ItemVitaeLantern extends AOTDItem
 		super();
 		this.setUnlocalizedName("vitaeLantern");
 		this.setMaxStackSize(1);
+	}
+
+	/**
+	 * Returns true if the item can be used on the given entity, e.g. shears on sheep.
+	 */
+	@Override
+	public boolean itemInteractionForEntity(ItemStack itemStack, EntityPlayer entityPlayer, EntityLivingBase entityLivingBase)
+	{
+		if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.VitaeLanternI))
+		{
+			int entityVitae = entityLivingBase.getCapability(ModCapabilities.ENTITY_DATA, null).getVitaeLevel();
+			if (entityVitae > 5 && !(entityLivingBase instanceof EntityPlayer))
+			{
+				entityLivingBase.getCapability(ModCapabilities.ENTITY_DATA, null).setVitaeLevel(entityVitae - 5);
+				// Itemstack here is wrong? wtf?
+				this.addVitae(entityPlayer.getCurrentEquippedItem(), 5);
+
+				if (entityLivingBase instanceof EntityDeeeSyft && entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(ResearchTypes.DeeeSyft))
+					entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(ResearchTypes.DeeeSyft, true);
+			}
+		}
+
+		return super.itemInteractionForEntity(itemStack, entityPlayer, entityLivingBase);
 	}
 
 	public int getStoredVitae(ItemStack itemStack)

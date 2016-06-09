@@ -7,13 +7,13 @@ package com.DavidM1A2.AfraidOfTheDark.common.entities.spell;
 
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.IMCAnimatedEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellHitInfo;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.deliveryMethods.DeliveryMethods;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.effects.IEffect;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
@@ -109,7 +109,7 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 		this.spellStageComplete();
 	}
 
-	public void performEffect(BlockPos location, double radius)
+	public void performEffect(SpellHitInfo hitInfo)
 	{
 		if (!this.worldObj.isRemote)
 			if (this.getSpellSource() != null)
@@ -119,28 +119,7 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 				{
 					for (IEffect effect : this.getSpellSource().getSpellStageByIndex(currentIndex).getEffects())
 						if (effect != null)
-							effect.performEffect(location, this.worldObj, radius);
-
-					currentIndex = currentIndex + 1;
-				}
-				while (this.getSpellSource().hasSpellStage(currentIndex) && this.getSpellSource().getSpellStageByIndex(currentIndex).getDeliveryMethod().getType() == DeliveryMethods.ExtraEffects);
-			}
-			else
-				LogHelper.error("Attempted to execute a spell that does not exist.");
-		return;
-	}
-
-	public void performEffect(Entity entity)
-	{
-		if (!this.worldObj.isRemote)
-			if (this.getSpellSource() != null)
-			{
-				int currentIndex = this.getSpellStageIndex();
-				do
-				{
-					for (IEffect effect : this.getSpellSource().getSpellStageByIndex(this.getSpellStageIndex()).getEffects())
-						if (effect != null)
-							effect.performEffect(entity);
+							effect.performEffect(hitInfo);
 
 					currentIndex = currentIndex + 1;
 				}

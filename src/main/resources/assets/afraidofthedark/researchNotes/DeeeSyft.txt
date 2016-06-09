@@ -1,4 +1,5 @@
 The flying squidies are called DeeeSyft. They appear to be hollow and filled with a mixture of vitae and hydrogen.
 This being the case, I should avoid setting them on fire for obvious reasons. They appear to siphon vitae from the
 atmosphere and store it in their ventral chambers. I could use my lantern to harvest vitae from them in great supply
-(right click with a lantern in hand.)
+(right click with a lantern in hand.) It also appears that vitae makes Deee Syfts more buoyant leading to a higher
+flight ceiling. This could be useful in determining how much vitae a Deee Syft has.

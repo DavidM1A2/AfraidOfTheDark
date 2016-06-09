@@ -11,6 +11,7 @@ import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
 import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.AnimationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.EntitySpell;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
+import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellHitInfo;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
@@ -163,12 +164,12 @@ public class EntitySpellProjectile extends EntitySpell
 				BlockPos hit = new BlockPos(movingObjectPosition.hitVec);
 				if (this.worldObj.getBlockState(hit).getBlock() instanceof BlockAir)
 					hit = hit.offset(movingObjectPosition.sideHit.getOpposite());
-				this.performEffect(hit, 1);
+				this.performEffect(new SpellHitInfo(AfraidOfTheDark.proxy.getSpellOwner(this.getSpellSource()), hit, this.worldObj, 1));
 				break;
 			case ENTITY:
 				if (movingObjectPosition.entityHit instanceof EntityLivingBase)
 					this.targetHit = (EntityLivingBase) movingObjectPosition.entityHit;
-				this.performEffect(movingObjectPosition.entityHit);
+				this.performEffect(new SpellHitInfo(AfraidOfTheDark.proxy.getSpellOwner(this.getSpellSource()), movingObjectPosition.entityHit));
 				break;
 			case MISS:
 				break;
