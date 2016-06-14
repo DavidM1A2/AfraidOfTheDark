@@ -49,11 +49,6 @@ public class SpellSelectionGUI extends AOTDGuiScreen
 		newSpell.addMouseListener(new AOTDMouseListener()
 		{
 			@Override
-			public void mouseReleased(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
 			public void mousePressed(AOTDMouseEvent event)
 			{
 				if (event.getSource().isHovered() && event.getClickedButton() == MouseButtonClicked.Left)
@@ -76,11 +71,6 @@ public class SpellSelectionGUI extends AOTDGuiScreen
 			{
 				event.getSource().brightenColor(0.1f);
 			}
-
-			@Override
-			public void mouseClicked(AOTDMouseEvent event)
-			{
-			}
 		});
 		background.add(newSpell);
 
@@ -93,32 +83,12 @@ public class SpellSelectionGUI extends AOTDGuiScreen
 		guiSpell.getDeleteButton().addMouseListener(new AOTDMouseListener()
 		{
 			@Override
-			public void mouseReleased(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
 			public void mousePressed(AOTDMouseEvent event)
 			{
 				if (event.getSource().isHovered() && event.getClickedButton() == MouseButtonClicked.Left)
 				{
 					SpellSelectionGUI.this.removeSpellContainer(guiSpell);
 				}
-			}
-
-			@Override
-			public void mouseExited(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseEntered(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseClicked(AOTDMouseEvent event)
-			{
 			}
 		});
 		this.spells.add(guiSpell);

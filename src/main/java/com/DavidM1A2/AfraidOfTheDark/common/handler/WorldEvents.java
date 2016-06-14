@@ -10,6 +10,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDimensions;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.savedData.AOTDWorldData;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -30,22 +31,32 @@ public class WorldEvents
 	{
 		if (event.world.provider.getDimensionId() == AOTDDimensions.Nightmare.getWorldID())
 			if (!event.world.isRemote)
+			{
+				EntityGhastlyEnaria newEnaria = null;
 				for (ClassInheritanceMultiMap<Entity> entityMap : event.getChunk().getEntityLists())
+				{
 					for (Entity entity : entityMap)
+					{
 						if (entity instanceof EntityGhastlyEnaria)
 						{
 							EntityPlayer entityPlayer = event.world.getClosestPlayer(event.getChunk().xPosition * 16, 100, event.getChunk().zPosition * 16, AOTDDimensions.getBlocksBetweenIslands() / 2);
 							entity.onKillCommand();
-							if (entityPlayer != null)
+							if (entityPlayer != null && !entityPlayer.isDead)
 							{
-								int posX = entityPlayer.getPosition().getX() + (entityPlayer.getRNG().nextInt(50) - 25) + (entityPlayer.getRNG().nextBoolean() ? 25 : -25);
-								int posZ = entityPlayer.getPosition().getZ() + (entityPlayer.getRNG().nextInt(50) - 25) + (entityPlayer.getRNG().nextBoolean() ? 25 : -25);
-								EntityGhastlyEnaria newEnaria = new EntityGhastlyEnaria(event.world);
+								int offsetX = entityPlayer.getRNG().nextBoolean() ? Utility.randInt(-50, -25) : Utility.randInt(25, 50);
+								int offsetZ = entityPlayer.getRNG().nextBoolean() ? Utility.randInt(-50, -25) : Utility.randInt(25, 50);
+								int posX = entityPlayer.getPosition().getX() + offsetX;
+								int posZ = entityPlayer.getPosition().getZ() + offsetZ;
+								newEnaria = new EntityGhastlyEnaria(event.world);
 								newEnaria.setBenign(!entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.Enaria));
 								newEnaria.setPosition(posX, entityPlayer.posY, posZ);
-								event.world.spawnEntityInWorld(newEnaria);
 							}
 						}
+					}
+				}
+				if (newEnaria != null)
+					event.world.spawnEntityInWorld(newEnaria);
+			}
 	}
 
 	@SubscribeEvent

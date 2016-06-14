@@ -64,26 +64,6 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
 						entityPlayer.closeScreen();
 					}
 				}
-
-				@Override
-				public void mousePressed(AOTDMouseEvent event)
-				{
-				}
-
-				@Override
-				public void mouseReleased(AOTDMouseEvent event)
-				{
-				}
-
-				@Override
-				public void mouseEntered(AOTDMouseEvent event)
-				{
-				}
-
-				@Override
-				public void mouseExited(AOTDMouseEvent event)
-				{
-				}
 			});
 
 			telescopeMeteors.add(nextToAdd);

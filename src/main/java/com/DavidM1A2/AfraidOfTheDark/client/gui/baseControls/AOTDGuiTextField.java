@@ -44,26 +44,6 @@ public class AOTDGuiTextField extends AOTDGuiTextComponent
 		this.addMouseListener(new AOTDMouseListener()
 		{
 			@Override
-			public void mouseReleased(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mousePressed(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseExited(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseEntered(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
 			public void mouseClicked(AOTDMouseEvent event)
 			{
 				if (event.getClickedButton() == MouseButtonClicked.Left)
@@ -83,16 +63,6 @@ public class AOTDGuiTextField extends AOTDGuiTextComponent
 			{
 				AOTDGuiTextField current = (AOTDGuiTextField) event.getSource();
 				current.keyTyped(event.getKey(), event.getKeyCode());
-			}
-
-			@Override
-			public void keyReleased(AOTDKeyEvent event)
-			{
-			}
-
-			@Override
-			public void keyPressed(AOTDKeyEvent event)
-			{
 			}
 		});
 	}

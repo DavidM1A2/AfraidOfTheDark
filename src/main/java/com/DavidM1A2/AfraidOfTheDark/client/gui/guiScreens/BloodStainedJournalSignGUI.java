@@ -78,26 +78,6 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
 					}
 				}
 			}
-
-			@Override
-			public void mousePressed(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseReleased(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseEntered(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseExited(AOTDMouseEvent event)
-			{
-			}
 		});
 		backgroundPanel.add(signButton);
 

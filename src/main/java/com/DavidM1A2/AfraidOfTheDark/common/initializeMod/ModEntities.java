@@ -22,6 +22,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.AOE.EntityAOE;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.myself.EntityMyself;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.projectile.EntitySpellProjectile;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.projectile.EntitySpellProjectileDive;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDimensions;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
@@ -92,11 +93,11 @@ public class ModEntities
 		// Allow the werewolf to rarely spawn in all biomes
 		for (int i = 0; i < BiomeGenBase.getBiomeGenArray().length; i++)
 		{
-			if (BiomeGenBase.getBiomeGenArray()[i] != null)
-			{
-				EntityRegistry.addSpawn(EntityWerewolf.class, 2, 1, 1, EnumCreatureType.MONSTER, BiomeGenBase.getBiomeGenArray()[i]);
-			}
+			BiomeGenBase biome = BiomeGenBase.getBiomeGenArray()[i];
+			if (biome != null && biome.biomeID != AOTDDimensions.Nightmare.getWorldID())
+				EntityRegistry.addSpawn(EntityWerewolf.class, 2, 1, 1, EnumCreatureType.MONSTER, biome);
 		}
+
 		// Higher chance to spawn in erie biomes
 		EntityRegistry.addSpawn(EntityWerewolf.class, 30, 2, 2, EnumCreatureType.MONSTER, ModBiomes.erieForest);
 		EntityRegistry.addSpawn(EntityDeeeSyft.class, 4, 1, 3, EnumCreatureType.MONSTER, ModBiomes.erieForest);

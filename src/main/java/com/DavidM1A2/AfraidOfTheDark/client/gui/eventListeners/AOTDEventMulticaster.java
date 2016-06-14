@@ -8,7 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDKeyEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
 
-public class AOTDEventMulticaster implements AOTDKeyListener, AOTDMouseListener, AOTDMouseMoveListener
+public class AOTDEventMulticaster implements IAOTDKeyListener, IAOTDMouseListener, IAOTDMouseMoveListener
 {
 	private AOTDEventListener listener1;
 	private AOTDEventListener listener2;
@@ -22,86 +22,86 @@ public class AOTDEventMulticaster implements AOTDKeyListener, AOTDMouseListener,
 	@Override
 	public void mouseDragged(AOTDMouseEvent event)
 	{
-		((AOTDMouseMoveListener) listener1).mouseDragged(event);
-		((AOTDMouseMoveListener) listener2).mouseDragged(event);
+		((IAOTDMouseMoveListener) listener1).mouseDragged(event);
+		((IAOTDMouseMoveListener) listener2).mouseDragged(event);
 	}
 
 	@Override
 	public void mouseMoved(AOTDMouseEvent event)
 	{
-		((AOTDMouseMoveListener) listener1).mouseMoved(event);
-		((AOTDMouseMoveListener) listener2).mouseMoved(event);
+		((IAOTDMouseMoveListener) listener1).mouseMoved(event);
+		((IAOTDMouseMoveListener) listener2).mouseMoved(event);
 	}
 
 	@Override
 	public void mouseClicked(AOTDMouseEvent event)
 	{
-		((AOTDMouseListener) listener1).mouseClicked(event);
-		((AOTDMouseListener) listener2).mouseClicked(event);
+		((IAOTDMouseListener) listener1).mouseClicked(event);
+		((IAOTDMouseListener) listener2).mouseClicked(event);
 	}
 
 	@Override
 	public void mousePressed(AOTDMouseEvent event)
 	{
-		((AOTDMouseListener) listener1).mousePressed(event);
-		((AOTDMouseListener) listener2).mousePressed(event);
+		((IAOTDMouseListener) listener1).mousePressed(event);
+		((IAOTDMouseListener) listener2).mousePressed(event);
 	}
 
 	@Override
 	public void mouseReleased(AOTDMouseEvent event)
 	{
-		((AOTDMouseListener) listener1).mouseReleased(event);
-		((AOTDMouseListener) listener2).mouseReleased(event);
+		((IAOTDMouseListener) listener1).mouseReleased(event);
+		((IAOTDMouseListener) listener2).mouseReleased(event);
 	}
 
 	@Override
 	public void mouseEntered(AOTDMouseEvent event)
 	{
-		((AOTDMouseListener) listener1).mouseEntered(event);
-		((AOTDMouseListener) listener2).mouseEntered(event);
+		((IAOTDMouseListener) listener1).mouseEntered(event);
+		((IAOTDMouseListener) listener2).mouseEntered(event);
 	}
 
 	@Override
 	public void mouseExited(AOTDMouseEvent event)
 	{
-		((AOTDMouseListener) listener1).mouseExited(event);
-		((AOTDMouseListener) listener2).mouseExited(event);
+		((IAOTDMouseListener) listener1).mouseExited(event);
+		((IAOTDMouseListener) listener2).mouseExited(event);
 	}
 
 	@Override
 	public void keyTyped(AOTDKeyEvent event)
 	{
-		((AOTDKeyListener) listener1).keyTyped(event);
-		((AOTDKeyListener) listener2).keyTyped(event);
+		((IAOTDKeyListener) listener1).keyTyped(event);
+		((IAOTDKeyListener) listener2).keyTyped(event);
 	}
 
 	@Override
 	public void keyPressed(AOTDKeyEvent event)
 	{
-		((AOTDKeyListener) listener1).keyPressed(event);
-		((AOTDKeyListener) listener2).keyPressed(event);
+		((IAOTDKeyListener) listener1).keyPressed(event);
+		((IAOTDKeyListener) listener2).keyPressed(event);
 	}
 
 	@Override
 	public void keyReleased(AOTDKeyEvent event)
 	{
-		((AOTDKeyListener) listener1).keyReleased(event);
-		((AOTDKeyListener) listener2).keyReleased(event);
+		((IAOTDKeyListener) listener1).keyReleased(event);
+		((IAOTDKeyListener) listener2).keyReleased(event);
 	}
 
-	public static AOTDKeyListener combineKeyListeners(AOTDKeyListener first, AOTDKeyListener second)
+	public static IAOTDKeyListener combineKeyListeners(IAOTDKeyListener first, IAOTDKeyListener second)
 	{
-		return (AOTDKeyListener) combine(first, second);
+		return (IAOTDKeyListener) combine(first, second);
 	}
 
-	public static AOTDMouseListener combineMouseListeners(AOTDMouseListener first, AOTDMouseListener second)
+	public static IAOTDMouseListener combineMouseListeners(IAOTDMouseListener first, IAOTDMouseListener second)
 	{
-		return (AOTDMouseListener) combine(first, second);
+		return (IAOTDMouseListener) combine(first, second);
 	}
 
-	public static AOTDMouseMoveListener combineMouseMoveListeners(AOTDMouseMoveListener first, AOTDMouseMoveListener second)
+	public static IAOTDMouseMoveListener combineMouseMoveListeners(IAOTDMouseMoveListener first, IAOTDMouseMoveListener second)
 	{
-		return (AOTDMouseMoveListener) combine(first, second);
+		return (IAOTDMouseMoveListener) combine(first, second);
 	}
 
 	private static AOTDEventListener combine(AOTDEventListener first, AOTDEventListener second)

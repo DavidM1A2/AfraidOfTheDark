@@ -52,16 +52,6 @@ public class AOTDGuiSpell extends AOTDGuiPanel
 		AOTDMouseListener highlightEffect = new AOTDMouseListener()
 		{
 			@Override
-			public void mouseReleased(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mousePressed(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
 			public void mouseExited(AOTDMouseEvent event)
 			{
 				event.getSource().brightenColor(0.1f);
@@ -74,11 +64,6 @@ public class AOTDGuiSpell extends AOTDGuiPanel
 				if (AOTDGuiSpell.this.isVisible())
 					entityPlayer.playSound("afraidofthedark:buttonHover", 0.7f, 1.9f);
 			}
-
-			@Override
-			public void mouseClicked(AOTDMouseEvent event)
-			{
-			}
 		};
 
 		AOTDGuiButton edit = new AOTDGuiButton(11, 22, 22, 13, null, "afraidofthedark:textures/gui/spellCrafting/spellBackgroundEdit.png");
@@ -87,31 +72,11 @@ public class AOTDGuiSpell extends AOTDGuiPanel
 		edit.addMouseListener(new AOTDMouseListener()
 		{
 			@Override
-			public void mouseReleased(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
 			public void mousePressed(AOTDMouseEvent event)
 			{
 				ClientData.spellToBeEdited = source;
 				if (event.getSource().isHovered() && event.getClickedButton() == MouseButtonClicked.Left)
 					entityPlayer.openGui(Reference.MOD_ID, GuiHandler.SPELL_CRAFTING_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
-			}
-
-			@Override
-			public void mouseExited(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseEntered(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseClicked(AOTDMouseEvent event)
-			{
 			}
 		});
 		this.add(edit);
@@ -128,11 +93,6 @@ public class AOTDGuiSpell extends AOTDGuiPanel
 		this.keyBind.addMouseListener(new AOTDMouseListener()
 		{
 			@Override
-			public void mouseReleased(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
 			public void mousePressed(AOTDMouseEvent event)
 			{
 				if (event.getSource().isHovered() && AOTDGuiSpell.this.isVisible() && !waitingOnKeyInput && event.getClickedButton() == MouseButtonClicked.Left)
@@ -145,21 +105,6 @@ public class AOTDGuiSpell extends AOTDGuiPanel
 					waitingOnKeyInput = false;
 					event.getSource().brightenColor(0.3f);
 				}
-			}
-
-			@Override
-			public void mouseExited(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseEntered(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseClicked(AOTDMouseEvent event)
-			{
 			}
 		});
 		this.add(this.keyBind);
@@ -178,16 +123,6 @@ public class AOTDGuiSpell extends AOTDGuiPanel
 					AOTDGuiSpell.this.keyBind.brightenColor(0.3f);
 					AOTDGuiSpell.this.callback.update(AOTDGuiSpell.this);
 				}
-			}
-
-			@Override
-			public void keyReleased(AOTDKeyEvent event)
-			{
-			}
-
-			@Override
-			public void keyPressed(AOTDKeyEvent event)
-			{
 			}
 		});
 	}

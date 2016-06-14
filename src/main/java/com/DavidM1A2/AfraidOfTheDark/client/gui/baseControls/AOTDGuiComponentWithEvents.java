@@ -8,9 +8,10 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls;
 import java.awt.Point;
 
 import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDEventMulticaster;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDKeyListener;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseMoveListener;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.IAOTDKeyListener;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.IAOTDMouseListener;
+import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.IAOTDMouseMoveListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDKeyEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent.MouseButtonClicked;
@@ -18,9 +19,9 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent.MouseEvent
 
 public class AOTDGuiComponentWithEvents extends AOTDGuiComponent
 {
-	private AOTDKeyListener keyListener;
-	private AOTDMouseListener mouseListener;
-	private AOTDMouseMoveListener mouseMoveListener;
+	private IAOTDKeyListener keyListener;
+	private IAOTDMouseListener mouseListener;
+	private IAOTDMouseMoveListener mouseMoveListener;
 
 	public AOTDGuiComponentWithEvents(int x, int y, int width, int height)
 	{
@@ -37,11 +38,6 @@ public class AOTDGuiComponentWithEvents extends AOTDGuiComponent
 					component.processMouseInput(new AOTDMouseEvent(component, event.getMouseX(), event.getMouseY(), MouseButtonClicked.Other, MouseEventType.Enter));
 				if (!component.isHovered() && wasHovered)
 					component.processMouseInput(new AOTDMouseEvent(component, event.getMouseX(), event.getMouseY(), MouseButtonClicked.Other, MouseEventType.Exit));
-			}
-
-			@Override
-			public void mouseDragged(AOTDMouseEvent event)
-			{
 			}
 		});
 	}
@@ -107,21 +103,21 @@ public class AOTDGuiComponentWithEvents extends AOTDGuiComponent
 		}
 	}
 
-	public void addKeyListener(AOTDKeyListener keyListener)
+	public void addKeyListener(IAOTDKeyListener keyListener)
 	{
 		if (keyListener == null)
 			return;
 		this.keyListener = AOTDEventMulticaster.combineKeyListeners(this.keyListener, keyListener);
 	}
 
-	public void addMouseListener(AOTDMouseListener mouseListener)
+	public void addMouseListener(IAOTDMouseListener mouseListener)
 	{
 		if (mouseListener == null)
 			return;
 		this.mouseListener = AOTDEventMulticaster.combineMouseListeners(this.mouseListener, mouseListener);
 	}
 
-	public void addMouseMoveListener(AOTDMouseMoveListener mouseMoveListener)
+	public void addMouseMoveListener(IAOTDMouseMoveListener mouseMoveListener)
 	{
 		if (mouseMoveListener == null)
 			return;

@@ -48,16 +48,6 @@ public class BloodStainedJournalCheatSheetGUI extends AOTDGuiScreen
 			}
 
 			@Override
-			public void mousePressed(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseReleased(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
 			public void mouseEntered(AOTDMouseEvent event)
 			{
 				event.getSource().setColor(new Color(230, 230, 230));
@@ -81,16 +71,6 @@ public class BloodStainedJournalCheatSheetGUI extends AOTDGuiScreen
 					entityPlayer.playSound("gui.button.press", 1.0f, 1.0f);
 					entityPlayer.closeScreen();
 				}
-			}
-
-			@Override
-			public void mousePressed(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseReleased(AOTDMouseEvent event)
-			{
 			}
 
 			@Override

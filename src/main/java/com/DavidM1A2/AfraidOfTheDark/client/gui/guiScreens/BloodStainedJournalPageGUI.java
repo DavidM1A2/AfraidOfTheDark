@@ -115,16 +115,6 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 			}
 
 			@Override
-			public void mousePressed(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseReleased(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
 			public void mouseEntered(AOTDMouseEvent event)
 			{
 				event.getSource().setVisible(true);
@@ -163,16 +153,6 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 			}
 
 			@Override
-			public void mousePressed(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseReleased(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
 			public void mouseEntered(AOTDMouseEvent event)
 			{
 				event.getSource().darkenColor(0.1f);
@@ -191,16 +171,6 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 			{
 				if (event.getSource().isHovered() && event.getClickedButton() == MouseButtonClicked.Left)
 					BloodStainedJournalPageGUI.this.rewindPage();
-			}
-
-			@Override
-			public void mousePressed(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseReleased(AOTDMouseEvent event)
-			{
 			}
 
 			@Override

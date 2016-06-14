@@ -7,15 +7,30 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners;
 
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
 
-public interface AOTDMouseListener extends AOTDEventListener
+public abstract class AOTDMouseListener implements IAOTDMouseListener
 {
-	public void mouseClicked(AOTDMouseEvent event);
+	@Override
+	public void mouseClicked(AOTDMouseEvent event)
+	{
+	}
 
-	public void mousePressed(AOTDMouseEvent event);
+	@Override
+	public void mousePressed(AOTDMouseEvent event)
+	{
+	}
 
-	public void mouseReleased(AOTDMouseEvent event);
+	@Override
+	public void mouseReleased(AOTDMouseEvent event)
+	{
+	}
 
-	public void mouseEntered(AOTDMouseEvent event);
+	@Override
+	public void mouseEntered(AOTDMouseEvent event)
+	{
+	}
 
-	public void mouseExited(AOTDMouseEvent event);
+	@Override
+	public void mouseExited(AOTDMouseEvent event)
+	{
+	}
 }

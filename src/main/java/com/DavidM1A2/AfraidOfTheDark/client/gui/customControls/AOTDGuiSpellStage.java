@@ -64,11 +64,6 @@ public class AOTDGuiSpellStage extends AOTDGuiPanel
 			}
 
 			@Override
-			public void mousePressed(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
 			public void mouseExited(AOTDMouseEvent event)
 			{
 				event.getSource().brightenColor(0.1f);
@@ -79,11 +74,6 @@ public class AOTDGuiSpellStage extends AOTDGuiPanel
 			{
 				event.getSource().darkenColor(0.1f);
 				Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:spellCraftingButtonHover", 0.6f, 1.7f);
-			}
-
-			@Override
-			public void mouseClicked(AOTDMouseEvent event)
-			{
 			}
 		});
 		this.add(deliveryMethod);
@@ -108,44 +98,9 @@ public class AOTDGuiSpellStage extends AOTDGuiPanel
 					AOTDGuiSpellStage.this.parent.refresh();
 				}
 			}
-
-			@Override
-			public void mousePressed(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseExited(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseEntered(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseClicked(AOTDMouseEvent event)
-			{
-			}
 		};
 		AOTDMouseListener effectHover = new AOTDMouseListener()
 		{
-			@Override
-			public void mouseClicked(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mousePressed(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseReleased(AOTDMouseEvent event)
-			{
-			}
-
 			@Override
 			public void mouseEntered(AOTDMouseEvent event)
 			{
@@ -230,11 +185,5 @@ public class AOTDGuiSpellStage extends AOTDGuiPanel
 		this.effect2.setType(effects[1] != null ? effects[1].getType() : null);
 		this.effect3.setType(effects[2] != null ? effects[2].getType() : null);
 		this.effect4.setType(effects[3] != null ? effects[3].getType() : null);
-
-		this.deliveryMethod.updateHoverText();
-		this.effect1.updateHoverText();
-		this.effect2.updateHoverText();
-		this.effect3.updateHoverText();
-		this.effect4.updateHoverText();
 	}
 }

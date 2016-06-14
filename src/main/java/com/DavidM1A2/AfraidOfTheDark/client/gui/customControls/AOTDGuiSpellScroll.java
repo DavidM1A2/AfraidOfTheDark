@@ -46,16 +46,6 @@ public class AOTDGuiSpellScroll extends AOTDGuiContainer
 		AOTDMouseListener onClick = new AOTDMouseListener()
 		{
 			@Override
-			public void mouseReleased(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mousePressed(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
 			public void mouseEntered(AOTDMouseEvent event)
 			{
 				event.getSource().darkenColor(0.1f);
@@ -82,7 +72,7 @@ public class AOTDGuiSpellScroll extends AOTDGuiContainer
 		int numEntries = 0;
 
 		// Add the power source heading, then move down a row (add 5 icons)
-		AOTDGuiImage powerSourceHeading = new AOTDGuiImage(5 + 24 * (numEntries % 5), 5 + 24 * (numEntries / 5), 80, 20, "afraidofthedark:textures/gui/spellcrafting/powerSources.png");
+		AOTDGuiImage powerSourceHeading = new AOTDGuiImage(5 + 24 * (numEntries % 5), 5 + 24 * (numEntries / 5), 80, 20, "afraidofthedark:textures/gui/spellCrafting/powerSources.png");
 		effectsPanel.add(powerSourceHeading);
 		numEntries = numEntries + 5;
 
@@ -92,7 +82,6 @@ public class AOTDGuiSpellScroll extends AOTDGuiContainer
 			final AOTDGuiSpellPowerSource source = new AOTDGuiSpellPowerSource(5 + 24 * (numEntries % 5), 5 + 24 * (numEntries / 5), 20, 20, powerSource, true);
 			effectsPanel.add(source);
 			source.addMouseListener(onClick);
-			source.updateHoverText();
 			numEntries = numEntries + 1;
 		}
 		// Ensure that we're on the next row now
@@ -100,7 +89,7 @@ public class AOTDGuiSpellScroll extends AOTDGuiContainer
 			numEntries++;
 
 		// Add the effect heading, then move down a row (add 5 icons)
-		AOTDGuiImage effectHeading = new AOTDGuiImage(5 + 24 * (numEntries % 5), 5 + 24 * (numEntries / 5), 80, 20, "afraidofthedark:textures/gui/spellcrafting/effects.png");
+		AOTDGuiImage effectHeading = new AOTDGuiImage(5 + 24 * (numEntries % 5), 5 + 24 * (numEntries / 5), 80, 20, "afraidofthedark:textures/gui/spellCrafting/effects.png");
 		effectsPanel.add(effectHeading);
 		numEntries = numEntries + 5;
 
@@ -118,7 +107,7 @@ public class AOTDGuiSpellScroll extends AOTDGuiContainer
 			numEntries++;
 
 		// Add the delivery method heading, then move down a row (add 5 icons)
-		AOTDGuiImage deliveryMethodHeading = new AOTDGuiImage(5 + 24 * (numEntries % 5), 5 + 24 * (numEntries / 5), 80, 20, "afraidofthedark:textures/gui/spellcrafting/deliveryMethods.png");
+		AOTDGuiImage deliveryMethodHeading = new AOTDGuiImage(5 + 24 * (numEntries % 5), 5 + 24 * (numEntries / 5), 80, 20, "afraidofthedark:textures/gui/spellCrafting/deliveryMethods.png");
 		effectsPanel.add(deliveryMethodHeading);
 		numEntries = numEntries + 5;
 
@@ -152,19 +141,9 @@ public class AOTDGuiSpellScroll extends AOTDGuiContainer
 				event.getSource().setX((int) (event.getMouseX() / AOTDGuiSpellScroll.this.getScaleX()) - event.getSource().getWidthScaled() / 2);
 				event.getSource().setY((int) (event.getMouseY() / AOTDGuiSpellScroll.this.getScaleY()) - event.getSource().getHeightScaled() / 2);
 			}
-
-			@Override
-			public void mouseDragged(AOTDMouseEvent event)
-			{
-			}
 		});
 		this.hoveredIcon.addMouseListener(new AOTDMouseListener()
 		{
-			@Override
-			public void mouseReleased(AOTDMouseEvent event)
-			{
-			}
-
 			@Override
 			public void mousePressed(AOTDMouseEvent event)
 			{
@@ -173,21 +152,6 @@ public class AOTDGuiSpellScroll extends AOTDGuiContainer
 
 				ISpellComponentEnum currentlySelected = AOTDGuiSpellComponent.getSelectedComponent();
 				((AOTDGuiImage) event.getSource()).setImageTexture(currentlySelected == null ? "afraidofthedark:textures/gui/spellCrafting/blank.png" : currentlySelected.getIcon());
-			}
-
-			@Override
-			public void mouseExited(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseEntered(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseClicked(AOTDMouseEvent event)
-			{
 			}
 		});
 		this.add(this.hoveredIcon);

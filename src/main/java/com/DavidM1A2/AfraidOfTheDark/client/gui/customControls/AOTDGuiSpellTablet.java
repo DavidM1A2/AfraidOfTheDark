@@ -63,16 +63,6 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 			{
 				AOTDGuiSpellTablet.this.spell.setName(((AOTDGuiTextField) event.getSource()).getText());
 			}
-
-			@Override
-			public void keyReleased(AOTDKeyEvent event)
-			{
-			}
-
-			@Override
-			public void keyPressed(AOTDKeyEvent event)
-			{
-			}
 		});
 		tablet.add(this.spellName);
 		scrollBar = new AOTDGuiScrollBar(10, 75, 15, 170);
@@ -90,20 +80,10 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 		saveButton.addMouseListener(new AOTDMouseListener()
 		{
 			@Override
-			public void mouseClicked(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
 			public void mousePressed(AOTDMouseEvent event)
 			{
 				if (event.getSource().isHovered() && event.getClickedButton() == MouseButtonClicked.Left)
 					AOTDGuiSpellTablet.this.parent.saveSpell();
-			}
-
-			@Override
-			public void mouseReleased(AOTDMouseEvent event)
-			{
 			}
 
 			@Override
@@ -125,20 +105,10 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 		closeButton.addMouseListener(new AOTDMouseListener()
 		{
 			@Override
-			public void mouseClicked(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
 			public void mousePressed(AOTDMouseEvent event)
 			{
 				if (event.getSource().isHovered() && event.getClickedButton() == MouseButtonClicked.Left)
 					entityPlayer.openGui(Reference.MOD_ID, GuiHandler.SPELL_SELECTION_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
-			}
-
-			@Override
-			public void mouseReleased(AOTDMouseEvent event)
-			{
 			}
 
 			@Override
@@ -158,16 +128,6 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 		this.powerSource = new AOTDGuiSpellPowerSource(152, 155, 20, 20, spell.getPowerSource() != null ? spell.getPowerSource().getType() : null);
 		this.powerSource.addMouseListener(new AOTDMouseListener()
 		{
-			@Override
-			public void mouseClicked(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mousePressed(AOTDMouseEvent event)
-			{
-			}
-
 			@Override
 			public void mouseReleased(AOTDMouseEvent event)
 			{
@@ -205,11 +165,6 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 		helpButton.addMouseListener(new AOTDMouseListener()
 		{
 			@Override
-			public void mouseClicked(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
 			public void mousePressed(AOTDMouseEvent event)
 			{
 				if (event.getSource().isHovered() && event.getSource().isVisible())
@@ -217,11 +172,6 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 					AOTDGuiSpellTablet.this.parent.showHelpScreen();
 					event.consume();
 				}
-			}
-
-			@Override
-			public void mouseReleased(AOTDMouseEvent event)
-			{
 			}
 
 			@Override
@@ -261,26 +211,6 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 					AOTDGuiSpellTablet.this.refresh();
 				}
 			}
-
-			@Override
-			public void mousePressed(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseReleased(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseEntered(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseExited(AOTDMouseEvent event)
-			{
-			}
 		});
 		nextSpellStage.addMouseListenerToRemoveRow(new AOTDMouseListener()
 		{
@@ -292,26 +222,6 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 					AOTDGuiSpellTablet.this.spell.getSpellStages().remove(AOTDGuiSpellTablet.this.spell.getSpellStages().size() - 1);
 					AOTDGuiSpellTablet.this.refresh();
 				}
-			}
-
-			@Override
-			public void mousePressed(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseReleased(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseEntered(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseExited(AOTDMouseEvent event)
-			{
 			}
 		});
 		this.scrollPanel.add(nextSpellStage);
@@ -349,10 +259,8 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 		if (this.spellCost != null)
 			this.spellCost.setText("Spell Cost: " + Math.round(this.spell.getCost() * 100.0) / 100.0);
 		if (this.powerSource != null)
-		{
 			this.powerSource.setType(this.spell.getPowerSource() != null ? this.spell.getPowerSource().getType() : null);
-			this.powerSource.updateHoverText();
-		}
+
 		spellName.setGhostText("Spell Name");
 		spellName.setText(spell.getName());
 		while (!this.spellStages.isEmpty())

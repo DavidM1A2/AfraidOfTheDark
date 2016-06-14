@@ -63,6 +63,7 @@ public abstract class AOTDGuiSpellComponent<T extends ISpellComponentEnum> exten
 			this.icon.setImageTexture(source.getIcon());
 			this.icon.setVisible(true);
 		}
+		this.updateHoverText();
 	}
 
 	public T getType()

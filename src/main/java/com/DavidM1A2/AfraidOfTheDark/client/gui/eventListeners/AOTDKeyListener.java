@@ -7,11 +7,20 @@ package com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners;
 
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDKeyEvent;
 
-public interface AOTDKeyListener extends AOTDEventListener
+public abstract class AOTDKeyListener implements IAOTDKeyListener
 {
-	public void keyTyped(AOTDKeyEvent event);
+	@Override
+	public void keyTyped(AOTDKeyEvent event)
+	{
+	}
 
-	public void keyPressed(AOTDKeyEvent event);
+	@Override
+	public void keyPressed(AOTDKeyEvent event)
+	{
+	}
 
-	public void keyReleased(AOTDKeyEvent event);
+	@Override
+	public void keyReleased(AOTDKeyEvent event)
+	{
+	}
 }

@@ -32,16 +32,6 @@ public class AOTDGuiResearchNodeButton extends AOTDGuiButton
 		this.addMouseListener(new AOTDMouseListener()
 		{
 			@Override
-			public void mouseReleased(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mousePressed(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
 			public void mouseExited(AOTDMouseEvent event)
 			{
 				event.getSource().brightenColor(0.1f);
@@ -51,11 +41,6 @@ public class AOTDGuiResearchNodeButton extends AOTDGuiButton
 			public void mouseEntered(AOTDMouseEvent event)
 			{
 				event.getSource().darkenColor(0.1f);
-			}
-
-			@Override
-			public void mouseClicked(AOTDMouseEvent event)
-			{
 			}
 		});
 	}

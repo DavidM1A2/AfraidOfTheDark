@@ -8,6 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.utility;
 import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,6 +20,19 @@ import net.minecraft.world.World;
 
 public class Utility
 {
+	private static final Random random = new Random();
+
+	public static int randInt(int min, int max)
+	{
+		if (min > max)
+		{
+			int temp = max;
+			max = min;
+			min = temp;
+		}
+		return Utility.random.nextInt((max - min) + 1) + min;
+	}
+
 	public static boolean hasIndex(List<?> list, int index)
 	{
 		return index >= 0 && index < list.size();

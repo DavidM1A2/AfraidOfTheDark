@@ -43,25 +43,10 @@ public class AOTDGuiScrollBar extends AOTDGuiContainer
 			}
 
 			@Override
-			public void mousePressed(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
 			public void mouseReleased(AOTDMouseEvent event)
 			{
 				if (event.getClickedButton() == MouseButtonClicked.Left)
 					mouseBeingHeld = false;
-			}
-
-			@Override
-			public void mouseEntered(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseExited(AOTDMouseEvent event)
-			{
 			}
 		});
 		this.scrollBarHandle.addMouseMoveListener(new AOTDMouseMoveListener()
@@ -76,11 +61,6 @@ public class AOTDGuiScrollBar extends AOTDGuiContainer
 					scrollBarHandle.setY(newY);
 					handleLocation = (scrollBarHandle.getY() - AOTDGuiScrollBar.this.getY()) / ((float) (AOTDGuiScrollBar.this.getHeight() - scrollBarHandle.getHeight()));
 				}
-			}
-
-			@Override
-			public void mouseDragged(AOTDMouseEvent event)
-			{
 			}
 		});
 	}

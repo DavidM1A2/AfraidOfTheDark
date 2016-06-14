@@ -39,6 +39,17 @@ public class BiomeVoidChest extends BiomeGenBase
 	@Override
 	public List<SpawnListEntry> getSpawnableList(EnumCreatureType creatureType)
 	{
+		if (!spawnableCreatures.isEmpty())
+			this.spawnableCreatures.clear();
 		return spawnableCreatures;
+	}
+
+	/**
+	 * returns the chance a creature has to spawn.
+	 */
+	@Override
+	public float getSpawningChance()
+	{
+		return 0.0F;
 	}
 }

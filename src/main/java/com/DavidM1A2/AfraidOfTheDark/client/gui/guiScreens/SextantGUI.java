@@ -79,26 +79,6 @@ public class SextantGUI extends AOTDGuiScreen
 						entityPlayer.addChatMessage(new ChatComponentText("The calculation was not sucessful.\nMaybe I entered incorrect numbers or should find another meteor to track."));
 					}
 			}
-
-			@Override
-			public void mousePressed(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseReleased(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseEntered(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseExited(AOTDMouseEvent event)
-			{
-			}
 		});
 		background.add(confirm);
 

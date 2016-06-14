@@ -61,21 +61,6 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 		AOTDMouseListener nodeListener = new AOTDMouseListener()
 		{
 			@Override
-			public void mouseReleased(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mousePressed(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
-			public void mouseExited(AOTDMouseEvent event)
-			{
-			}
-
-			@Override
 			public void mouseEntered(AOTDMouseEvent event)
 			{
 				if (event.getSource().isVisible())

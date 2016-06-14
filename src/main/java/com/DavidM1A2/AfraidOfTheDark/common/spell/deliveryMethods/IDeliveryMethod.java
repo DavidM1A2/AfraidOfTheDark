@@ -4,8 +4,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.EntitySpell;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.ISpellComponent;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
 
-import net.minecraft.nbt.NBTTagCompound;
-
 public interface IDeliveryMethod extends ISpellComponent
 {
 	/**
@@ -37,20 +35,6 @@ public interface IDeliveryMethod extends ISpellComponent
 	 * @return An entity spell list ready to be instantiated into the mc world
 	 */
 	public abstract EntitySpell[] createSpellEntity(Spell callback);
-
-	/**
-	 * 
-	 * @param compound
-	 *            The compound to write the current power source's data to
-	 */
-	public abstract void writeToNBT(NBTTagCompound compound);
-
-	/**
-	 * 
-	 * @param compound
-	 *            The compound to read the current power source's data from
-	 */
-	public abstract void readFromNBT(NBTTagCompound compound);
 
 	/**
 	 * 

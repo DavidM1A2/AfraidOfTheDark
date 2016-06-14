@@ -5,8 +5,9 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.biomes;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import com.google.common.collect.Lists;
 
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
@@ -14,7 +15,7 @@ import net.minecraft.world.biome.BiomeGenBase;
 
 public class BiomeNightmare extends BiomeGenBase
 {
-	private List<SpawnListEntry> spawnableCreatures = new ArrayList<BiomeGenBase.SpawnListEntry>();
+	private List<BiomeGenBase.SpawnListEntry> spawnableCreatures = Lists.<BiomeGenBase.SpawnListEntry> newArrayList();
 
 	public BiomeNightmare(int biomeID)
 	{
@@ -39,6 +40,17 @@ public class BiomeNightmare extends BiomeGenBase
 	@Override
 	public List<SpawnListEntry> getSpawnableList(EnumCreatureType creatureType)
 	{
+		if (!spawnableCreatures.isEmpty())
+			this.spawnableCreatures.clear();
 		return spawnableCreatures;
+	}
+
+	/**
+	 * returns the chance a creature has to spawn.
+	 */
+	@Override
+	public float getSpawningChance()
+	{
+		return 0.0F;
 	}
 }
