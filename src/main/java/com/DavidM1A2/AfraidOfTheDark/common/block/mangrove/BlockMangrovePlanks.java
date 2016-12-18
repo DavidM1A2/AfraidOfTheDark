@@ -7,16 +7,17 @@ package com.DavidM1A2.AfraidOfTheDark.common.block.mangrove;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDBlock;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 
 public class BlockMangrovePlanks extends AOTDBlock
 {
 	public BlockMangrovePlanks()
 	{
-		super(Material.wood);
+		super(Material.WOOD);
 		this.setUnlocalizedName("mangrovePlanks");
-		this.setStepSound(Block.soundTypeWood);
+		this.setRegistryName("mangrovePlanks");
+		this.setSoundType(SoundType.WOOD);
 		this.blockHardness = 2.0F;
 		this.blockResistance = 1.0F;
 	}

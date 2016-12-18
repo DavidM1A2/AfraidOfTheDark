@@ -14,13 +14,13 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -137,15 +137,15 @@ public class EntitySplinterDroneProjectile extends Entity implements IMCAnimated
 				this.setDead();
 			}
 
-			Vec3 vec3 = new Vec3(this.posX, this.posY, this.posZ);
-			Vec3 vec31 = new Vec3(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-			MovingObjectPosition movingobjectposition = this.worldObj.rayTraceBlocks(vec3, vec31);
-			vec3 = new Vec3(this.posX, this.posY, this.posZ);
-			vec31 = new Vec3(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+			Vec3d vec3 = new Vec3d(this.posX, this.posY, this.posZ);
+			Vec3d vec31 = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+			RayTraceResult rayTraceResult = this.worldObj.rayTraceBlocks(vec3, vec31);
+			vec3 = new Vec3d(this.posX, this.posY, this.posZ);
+			vec31 = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
 
-			if (movingobjectposition != null)
+			if (rayTraceResult != null)
 			{
-				vec31 = new Vec3(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
+				vec31 = new Vec3d(rayTraceResult.hitVec.xCoord, rayTraceResult.hitVec.yCoord, rayTraceResult.hitVec.zCoord);
 			}
 
 			Entity entity = null;
@@ -160,11 +160,11 @@ public class EntitySplinterDroneProjectile extends Entity implements IMCAnimated
 				{
 					float f = 0.3F;
 					AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand((double) f, (double) f, (double) f);
-					MovingObjectPosition movingobjectposition1 = axisalignedbb.calculateIntercept(vec3, vec31);
+					RayTraceResult rayTraceResult1 = axisalignedbb.calculateIntercept(vec3, vec31);
 
-					if (movingobjectposition1 != null)
+					if (rayTraceResult1 != null)
 					{
-						double d1 = vec3.distanceTo(movingobjectposition1.hitVec);
+						double d1 = vec3.distanceTo(rayTraceResult1.hitVec);
 
 						if (d1 < d0 || d0 == 0.0D)
 						{
@@ -177,12 +177,12 @@ public class EntitySplinterDroneProjectile extends Entity implements IMCAnimated
 
 			if (entity != null)
 			{
-				movingobjectposition = new MovingObjectPosition(entity);
+				rayTraceResult = new RayTraceResult(entity);
 			}
 
-			if (movingobjectposition != null)
+			if (rayTraceResult != null)
 			{
-				this.onImpact(movingobjectposition);
+				this.onImpact(rayTraceResult);
 			}
 
 			this.posX += this.motionX;
@@ -228,20 +228,20 @@ public class EntitySplinterDroneProjectile extends Entity implements IMCAnimated
 	/**
 	 * Called when this EntityFireball hits a block or entity.
 	 */
-	public void onImpact(MovingObjectPosition movingObjectPosition)
+	public void onImpact(RayTraceResult rayTraceResult)
 	{
 		if (!this.worldObj.isRemote)
 		{
-			if (movingObjectPosition.entityHit != null)
+			if (rayTraceResult.entityHit != null)
 			{
-				if (movingObjectPosition.entityHit.attackEntityFrom(AOTDDamageSources.causePlasmaBallDamage(this, this.shootingEntity), 1.0F))
+				if (rayTraceResult.entityHit.attackEntityFrom(AOTDDamageSources.causePlasmaBallDamage(this, this.shootingEntity), 1.0F))
 				{
-					this.applyEnchantments(this.shootingEntity, movingObjectPosition.entityHit);
+					this.applyEnchantments(this.shootingEntity, rayTraceResult.entityHit);
 
-					if (movingObjectPosition.entityHit instanceof EntityPlayer)
+					if (rayTraceResult.entityHit instanceof EntityPlayer)
 					{
-						EntityPlayer entityPlayer = (EntityPlayer) movingObjectPosition.entityHit;
-						entityPlayer.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 60, 2, false, false));
+						EntityPlayer entityPlayer = (EntityPlayer) rayTraceResult.entityHit;
+						entityPlayer.addPotionEffect(new PotionEffect(Potion.getPotionById(2), 60, 2, false, false));
 					}
 				}
 			}
@@ -266,7 +266,7 @@ public class EntitySplinterDroneProjectile extends Entity implements IMCAnimated
 		tagCompound.setShort("xTile", (short) this.tileX);
 		tagCompound.setShort("yTile", (short) this.tileY);
 		tagCompound.setShort("zTile", (short) this.tileZ);
-		ResourceLocation resourcelocation = (ResourceLocation) Block.blockRegistry.getNameForObject(this.insideOf);
+		ResourceLocation resourcelocation = (ResourceLocation) Block.REGISTRY.getNameForObject(this.insideOf);
 		tagCompound.setString("inTile", resourcelocation == null ? "" : resourcelocation.toString());
 		tagCompound.setByte("inGround", (byte) (this.inGround ? 1 : 0));
 		tagCompound.setTag("direction", this.newDoubleNBTList(new double[]

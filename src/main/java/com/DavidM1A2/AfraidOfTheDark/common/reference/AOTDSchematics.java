@@ -71,19 +71,19 @@ public enum AOTDSchematics
 		rooms.add(RoomRuin.getSchematic());
 		rooms.add(RoomTanks.getSchematic());
 
-		SchematicBlockReplacer.replaceBlocks(TreeSmall.getSchematic(), Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
-		SchematicBlockReplacer.replaceBlocks(TreeBranchyType1.getSchematic(), Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
-		SchematicBlockReplacer.replaceBlocks(TreeBranchyType2.getSchematic(), Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
-		SchematicBlockReplacer.replaceBlocks(TreeLargeCircle.getSchematic(), Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
-		SchematicBlockReplacer.replaceBlocks(TreeLargeDonut.getSchematic(), Blocks.log, ModBlocks.gravewood, Blocks.leaves, ModBlocks.gravewoodLeaves);
-		SchematicBlockReplacer.replaceBlocks(BedHouse.getSchematic(), Blocks.lapis_block, ModBlocks.darkForest, Blocks.gold_block, Blocks.flower_pot, Blocks.iron_block, Blocks.cobblestone_wall, Blocks.gold_ore, Blocks.dark_oak_stairs, Blocks.bedrock, Blocks.spruce_stairs);
+		SchematicBlockReplacer.replaceBlocks(TreeSmall.getSchematic(), Blocks.LOG, ModBlocks.gravewood, Blocks.LEAVES, ModBlocks.gravewoodLeaves);
+		SchematicBlockReplacer.replaceBlocks(TreeBranchyType1.getSchematic(), Blocks.LOG, ModBlocks.gravewood, Blocks.LEAVES, ModBlocks.gravewoodLeaves);
+		SchematicBlockReplacer.replaceBlocks(TreeBranchyType2.getSchematic(), Blocks.LOG, ModBlocks.gravewood, Blocks.LEAVES, ModBlocks.gravewoodLeaves);
+		SchematicBlockReplacer.replaceBlocks(TreeLargeCircle.getSchematic(), Blocks.LOG, ModBlocks.gravewood, Blocks.LEAVES, ModBlocks.gravewoodLeaves);
+		SchematicBlockReplacer.replaceBlocks(TreeLargeDonut.getSchematic(), Blocks.LOG, ModBlocks.gravewood, Blocks.LEAVES, ModBlocks.gravewoodLeaves);
+		SchematicBlockReplacer.replaceBlocks(BedHouse.getSchematic(), Blocks.LAPIS_BLOCK, ModBlocks.darkForest, Blocks.GOLD_BLOCK, Blocks.FLOWER_POT, Blocks.IRON_BLOCK, Blocks.COBBLESTONE_WALL, Blocks.GOLD_ORE, Blocks.DARK_OAK_STAIRS, Blocks.BEDROCK, Blocks.SPRUCE_STAIRS);
 
-		SchematicBlockReplacer.replaceBlocks(Crypt.getSchematic(), Blocks.gold_block, ModBlocks.gravewoodStairs, Blocks.gold_ore, ModBlocks.gravewoodPlanks);
-		SchematicBlockReplacer.replaceBlocks(Spring.getSchematic(), Blocks.gold_ore, ModBlocks.gravewoodLeaves, Blocks.gold_block, ModBlocks.spring);
+		SchematicBlockReplacer.replaceBlocks(Crypt.getSchematic(), Blocks.GOLD_BLOCK, ModBlocks.gravewoodStairs, Blocks.GOLD_ORE, ModBlocks.gravewoodPlanks);
+		SchematicBlockReplacer.replaceBlocks(Spring.getSchematic(), Blocks.GOLD_ORE, ModBlocks.gravewoodLeaves, Blocks.GOLD_BLOCK, ModBlocks.spring);
 
-		SchematicBlockReplacer.replaceBlocks(NightmareIsland.getSchematic(), Blocks.sponge, ModBlocks.enariaSpawner);
+		SchematicBlockReplacer.replaceBlocks(NightmareIsland.getSchematic(), Blocks.SPONGE, ModBlocks.enariaSpawner);
 
-		SchematicBlockReplacer.replaceBlocks(VoidChestPortal.getSchematic(), Blocks.lapis_block, ModBlocks.eldritchStone);
+		SchematicBlockReplacer.replaceBlocks(VoidChestPortal.getSchematic(), Blocks.LAPIS_BLOCK, ModBlocks.eldritchStone);
 
 		if (ConfigurationHandler.debugMessages)
 		{

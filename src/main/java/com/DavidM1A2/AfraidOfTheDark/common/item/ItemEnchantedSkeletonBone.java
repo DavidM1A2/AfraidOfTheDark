@@ -17,6 +17,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
@@ -34,9 +35,8 @@ public class ItemEnchantedSkeletonBone extends AOTDItem
 	}
 
 	/**
-	 * Called by the default implemetation of EntityItem's onUpdate method,
-	 * allowing for cleaner control over the update of the item without having
-	 * to write a subclass.
+	 * Called by the default implemetation of EntityItem's onUpdate method, allowing for cleaner control over the update of the item without having to
+	 * write a subclass.
 	 *
 	 * @param entityItem
 	 *            The entity Item
@@ -56,12 +56,12 @@ public class ItemEnchantedSkeletonBone extends AOTDItem
 				for (Object object : surroundingEntities)
 				{
 					EntityItem current = (EntityItem) object;
-					ItemStack currentStack = current.getDataWatcher().getWatchableObjectItemStack(10);
+					ItemStack currentStack = current.getEntityItem();
 					if (currentStack.getItem() instanceof ItemEnchantedSkeletonBone)
 					{
 						if (current.onGround)
 						{
-							numberOfBones = numberOfBones + currentStack.stackSize;
+							numberOfBones = numberOfBones + currentStack.func_190916_E();
 							surroundingBones.add(current);
 						}
 					}
@@ -77,7 +77,7 @@ public class ItemEnchantedSkeletonBone extends AOTDItem
 					{
 						EntityEnchantedSkeleton skeleton = new EntityEnchantedSkeleton(world);
 						skeleton.setLocationAndAngles(entityItem.posX, entityItem.posY + 0.01, entityItem.posZ, entityItem.rotationYaw, 0.0F);
-						skeleton.addPotionEffect(new PotionEffect(14, 2));
+						skeleton.addPotionEffect(new PotionEffect(Potion.getPotionById(14), 2));
 						world.spawnEntityInWorld(skeleton);
 
 						for (Object object : world.getEntitiesWithinAABB(EntityPlayer.class, entityItem.getEntityBoundingBox().expand(RESEARCH_UNLOCK_RADIUS, RESEARCH_UNLOCK_RADIUS, RESEARCH_UNLOCK_RADIUS)))

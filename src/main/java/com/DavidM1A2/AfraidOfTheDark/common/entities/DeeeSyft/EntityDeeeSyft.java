@@ -18,9 +18,9 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityMoveHelper;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
@@ -104,17 +104,17 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 	protected void applyEntityAttributes()
 	{
 		super.applyEntityAttributes();
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.maxHealth) == null)
+		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(20.0D);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
 		}
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.knockbackResistance) == null)
+		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.KNOCKBACK_RESISTANCE) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.0D);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0.0D);
 		}
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed) == null)
+		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.5D);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.5D);
 		}
 	}
 
@@ -249,7 +249,7 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 			}
 
 			double d2 = this.instance.posZ + (random.nextFloat() * 2.0F - 1.0F) * 16.0F;
-			this.instance.getMoveHelper().setMoveTo(d0, d1, d2, EntityDeeeSyft.this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed).getBaseValue());
+			this.instance.getMoveHelper().setMoveTo(d0, d1, d2, EntityDeeeSyft.this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED).getBaseValue());
 		}
 	}
 
@@ -266,7 +266,7 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 		@Override
 		public void onUpdateMoveHelper()
 		{
-			if (this.update)
+			if (this.isUpdating())
 			{
 				double d0 = this.posX - this.instance.posX;
 				double d1 = this.posY - this.instance.posY;
@@ -278,7 +278,7 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 					this.temp += this.instance.getRNG().nextInt(5) + 2;
 					d3 = MathHelper.sqrt_double(d3);
 
-					if (this.func_179926_b(this.posX, this.posY, this.posZ, d3))
+					if (this.isNotColliding(this.posX, this.posY, this.posZ, d3))
 					{
 						this.instance.motionX += d0 / d3 * 0.1D;
 						this.instance.motionY += d1 / d3 * 0.1D;
@@ -286,24 +286,24 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 					}
 					else
 					{
-						this.update = false;
+						this.action = EntityMoveHelper.Action.WAIT;
 					}
 				}
 			}
 		}
 
-		private boolean func_179926_b(double p_179926_1_, double p_179926_3_, double p_179926_5_, double p_179926_7_)
+		private boolean isNotColliding(double x, double y, double z, double p_179926_7_)
 		{
-			double d4 = (p_179926_1_ - this.instance.posX) / p_179926_7_;
-			double d5 = (p_179926_3_ - this.instance.posY) / p_179926_7_;
-			double d6 = (p_179926_5_ - this.instance.posZ) / p_179926_7_;
+			double d4 = (x - this.instance.posX) / p_179926_7_;
+			double d5 = (y - this.instance.posY) / p_179926_7_;
+			double d6 = (z - this.instance.posZ) / p_179926_7_;
 			AxisAlignedBB axisalignedbb = this.instance.getEntityBoundingBox();
 
 			for (int i = 1; i < p_179926_7_; ++i)
 			{
 				axisalignedbb = axisalignedbb.offset(d4, d5, d6);
 
-				if (!this.instance.worldObj.getCollidingBoundingBoxes(this.instance, axisalignedbb).isEmpty())
+				if (!this.instance.worldObj.getCollisionBoxes(this.instance, axisalignedbb).isEmpty())
 				{
 					return false;
 				}

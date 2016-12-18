@@ -6,8 +6,8 @@
 package com.DavidM1A2.AfraidOfTheDark.common.entities.SplinterDrone;
 
 import net.minecraft.entity.ai.EntityMoveHelper;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.MathHelper;
 
 public class EntitySplinterDroneMoveHelper extends EntityMoveHelper
 {
@@ -23,7 +23,7 @@ public class EntitySplinterDroneMoveHelper extends EntityMoveHelper
 	@Override
 	public void onUpdateMoveHelper()
 	{
-		if (this.update && this.splinterDrone.getAttackTarget() == null)
+		if (this.isUpdating() && this.splinterDrone.getAttackTarget() == null)
 		{
 			double x = this.posX - this.splinterDrone.posX;
 			double y = this.posY - this.splinterDrone.posY;
@@ -43,7 +43,7 @@ public class EntitySplinterDroneMoveHelper extends EntityMoveHelper
 				}
 				else
 				{
-					this.update = false;
+					this.action = Action.WAIT;
 				}
 			}
 		}
@@ -60,7 +60,7 @@ public class EntitySplinterDroneMoveHelper extends EntityMoveHelper
 		{
 			axisalignedbb = axisalignedbb.offset(x, y, z);
 
-			if (!this.splinterDrone.worldObj.getCollidingBoundingBoxes(this.splinterDrone, axisalignedbb).isEmpty())
+			if (!this.splinterDrone.worldObj.getCollisionBoxes(this.splinterDrone, axisalignedbb).isEmpty())
 			{
 				return false;
 			}

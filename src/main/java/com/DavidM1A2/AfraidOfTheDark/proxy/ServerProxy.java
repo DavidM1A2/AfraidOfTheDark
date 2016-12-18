@@ -3,14 +3,10 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.proxy;
 
-import java.util.Map;
-import java.util.UUID;
-
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 // Any server side-only things we want to do
 public class ServerProxy extends CommonProxy
@@ -49,11 +45,7 @@ public class ServerProxy extends CommonProxy
 	@Override
 	public EntityPlayer getSpellOwner(Spell spell)
 	{
-		Map<UUID, EntityPlayerMP> players = MinecraftServer.getServer().getConfigurationManager().uuidToPlayerMap;
-		if (players.containsKey(spell.getSpellOwner()))
-			return players.get(spell.getSpellOwner());
-		else
-			return null;
+		return FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(spell.getSpellOwner());
 	}
 
 	@Override

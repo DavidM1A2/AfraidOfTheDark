@@ -19,13 +19,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -104,15 +104,15 @@ public class EntitySpellProjectile extends EntitySpell
 
 	private void performHitDetection()
 	{
-		Vec3 vec3 = new Vec3(this.posX, this.posY, this.posZ);
-		Vec3 vec31 = new Vec3(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-		MovingObjectPosition movingobjectposition = this.worldObj.rayTraceBlocks(vec3, vec31);
-		vec3 = new Vec3(this.posX, this.posY, this.posZ);
-		vec31 = new Vec3(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+		Vec3d vec3 = new Vec3d(this.posX, this.posY, this.posZ);
+		Vec3d vec31 = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+		RayTraceResult rayTraceResult = this.worldObj.rayTraceBlocks(vec3, vec31);
+		vec3 = new Vec3d(this.posX, this.posY, this.posZ);
+		vec31 = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
 
-		if (movingobjectposition != null)
+		if (rayTraceResult != null)
 		{
-			vec31 = new Vec3(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
+			vec31 = new Vec3d(rayTraceResult.hitVec.xCoord, rayTraceResult.hitVec.yCoord, rayTraceResult.hitVec.zCoord);
 		}
 
 		Entity entity = null;
@@ -127,11 +127,11 @@ public class EntitySpellProjectile extends EntitySpell
 			{
 				float f = 0.3F;
 				AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand((double) f, (double) f, (double) f);
-				MovingObjectPosition movingobjectposition1 = axisalignedbb.calculateIntercept(vec3, vec31);
+				RayTraceResult rayTraceResult1 = axisalignedbb.calculateIntercept(vec3, vec31);
 
-				if (movingobjectposition1 != null)
+				if (rayTraceResult1 != null)
 				{
-					double d1 = vec3.distanceTo(movingobjectposition1.hitVec);
+					double d1 = vec3.distanceTo(rayTraceResult1.hitVec);
 
 					if (d1 < d0 || d0 == 0.0D)
 					{
@@ -144,32 +144,32 @@ public class EntitySpellProjectile extends EntitySpell
 
 		if (entity != null)
 		{
-			movingobjectposition = new MovingObjectPosition(entity);
+			rayTraceResult = new RayTraceResult(entity);
 		}
 
-		if (movingobjectposition != null)
+		if (rayTraceResult != null)
 		{
-			this.onImpact(movingobjectposition);
+			this.onImpact(rayTraceResult);
 		}
 	}
 
 	/**
 	 * Called when this EntityFireball hits a block or entity.
 	 */
-	public void onImpact(MovingObjectPosition movingObjectPosition)
+	public void onImpact(RayTraceResult rayTraceResult)
 	{
-		switch (movingObjectPosition.typeOfHit)
+		switch (rayTraceResult.typeOfHit)
 		{
 			case BLOCK:
-				BlockPos hit = new BlockPos(movingObjectPosition.hitVec);
+				BlockPos hit = new BlockPos(rayTraceResult.hitVec);
 				if (this.worldObj.getBlockState(hit).getBlock() instanceof BlockAir)
-					hit = hit.offset(movingObjectPosition.sideHit.getOpposite());
+					hit = hit.offset(rayTraceResult.sideHit.getOpposite());
 				this.performEffect(new SpellHitInfo(AfraidOfTheDark.proxy.getSpellOwner(this.getSpellSource()), hit, this.worldObj, 1));
 				break;
 			case ENTITY:
-				if (movingObjectPosition.entityHit instanceof EntityLivingBase)
-					this.targetHit = (EntityLivingBase) movingObjectPosition.entityHit;
-				this.performEffect(new SpellHitInfo(AfraidOfTheDark.proxy.getSpellOwner(this.getSpellSource()), movingObjectPosition.entityHit));
+				if (rayTraceResult.entityHit instanceof EntityLivingBase)
+					this.targetHit = (EntityLivingBase) rayTraceResult.entityHit;
+				this.performEffect(new SpellHitInfo(AfraidOfTheDark.proxy.getSpellOwner(this.getSpellSource()), rayTraceResult.entityHit));
 				break;
 			case MISS:
 				break;
@@ -189,7 +189,7 @@ public class EntitySpellProjectile extends EntitySpell
 		tagCompound.setShort("xTile", (short) this.tileX);
 		tagCompound.setShort("yTile", (short) this.tileY);
 		tagCompound.setShort("zTile", (short) this.tileZ);
-		ResourceLocation resourcelocation = (ResourceLocation) Block.blockRegistry.getNameForObject(this.insideOf);
+		ResourceLocation resourcelocation = (ResourceLocation) Block.REGISTRY.getNameForObject(this.insideOf);
 		tagCompound.setString("inTile", resourcelocation == null ? "" : resourcelocation.toString());
 		tagCompound.setTag("direction", this.newDoubleNBTList(new double[]
 		{ this.motionX, this.motionY, this.motionZ }));

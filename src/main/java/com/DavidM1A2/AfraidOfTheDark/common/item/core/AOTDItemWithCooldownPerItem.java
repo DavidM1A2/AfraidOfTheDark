@@ -12,7 +12,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.MathHelper;
 
 public abstract class AOTDItemWithCooldownPerItem extends AOTDItem implements IHasCooldown
 {

@@ -13,7 +13,8 @@ import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
-import net.minecraft.util.BlockPos;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 // Double gravewood slab
@@ -21,8 +22,9 @@ public class BlockGravewoodDoubleSlab extends AOTDSlab
 {
 	public BlockGravewoodDoubleSlab()
 	{
-		super(Material.wood);
+		super(Material.WOOD);
 		this.setUnlocalizedName("gravewoodDoubleSlab");
+		this.setRegistryName("gravewoodDoubleSlab");
 	}
 
 	@Override
@@ -38,8 +40,8 @@ public class BlockGravewoodDoubleSlab extends AOTDSlab
 	}
 
 	@Override
-	public Item getItem(World worldIn, BlockPos pos)
+	public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state)
 	{
-		return Item.getItemFromBlock(ModBlocks.gravewoodHalfSlab);
+		return new ItemStack(ModBlocks.gravewoodHalfSlab, 1, 0);
 	}
 }

@@ -7,15 +7,16 @@ package com.DavidM1A2.AfraidOfTheDark.common.item.armor;
 
 import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.ISpecialArmor;
 
 public abstract class AOTDArmor extends ItemArmor implements ISpecialArmor
 {
-	public AOTDArmor(final ArmorMaterial armorMaterial, final int renderIndex, final int type)
+	public AOTDArmor(final ArmorMaterial armorMaterial, final int renderIndex, final EntityEquipmentSlot equipmentSlot)
 	{
-		super(armorMaterial, renderIndex, type);
+		super(armorMaterial, renderIndex, equipmentSlot);
 		this.setCreativeTab(Reference.AFRAID_OF_THE_DARK);
 	}
 

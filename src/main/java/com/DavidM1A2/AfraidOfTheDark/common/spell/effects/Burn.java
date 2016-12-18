@@ -33,7 +33,7 @@ public class Burn extends Effect
 					for (int z = -blockRadius; z < blockRadius + 1; z++)
 						if (hitInfo.getWorld().getBlockState(hitInfo.getLocation().add(x, y, z)).getBlock() instanceof BlockAir)
 						{
-							hitInfo.getWorld().setBlockState(hitInfo.getLocation().add(x, y, z), Blocks.fire.getDefaultState());
+							hitInfo.getWorld().setBlockState(hitInfo.getLocation().add(x, y, z), Blocks.FIRE.getDefaultState());
 							VitaeUtils.vitaeReleasedFX(hitInfo.getWorld(), hitInfo.getLocation().add(x, y, z), 1, 1);
 						}
 		}

@@ -16,7 +16,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAISwimming;
@@ -25,9 +24,12 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
@@ -55,7 +57,6 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity, ICan
 
 		// Add various AI tasks
 		this.tasks.addTask(1, new EntityAISwimming(this));
-		this.tasks.addTask(4, new EntityAIAttackOnCollide(this, 1.0D, false));
 		this.tasks.addTask(7, this.myWanderer);
 		this.tasks.addTask(8, this.myWatchClosest);
 		this.tasks.addTask(8, new EntityAILookIdle(this));
@@ -103,9 +104,16 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity, ICan
 					}
 				}
 
-				if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.SlayingOfTheWolves) && entityPlayer.inventory.consumeInventoryItem(Items.glass_bottle))
+				if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.SlayingOfTheWolves))
 				{
-					this.dropItem(ModItems.werewolfBlood, 1);
+					for (ItemStack itemStack : entityPlayer.inventory.mainInventory)
+						if (itemStack != null)
+							if (itemStack.getItem() == Items.GLASS_BOTTLE)
+							{
+								itemStack.func_190920_e(itemStack.func_190916_E() - 1);
+								this.dropItem(ModItems.werewolfBlood, 1);
+								break;
+							}
 				}
 			}
 		}
@@ -129,49 +137,42 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity, ICan
 	@Override
 	protected void applyEntityAttributes()
 	{
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.maxHealth) == null)
+		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(40.0D);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(40.0D);
 		}
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange) == null)
+		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.FOLLOW_RANGE) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.followRange).setBaseValue(EntityWerewolf.followRange);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(EntityWerewolf.followRange);
 		}
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.knockbackResistance) == null)
+		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.KNOCKBACK_RESISTANCE) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.5D);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0.5D);
 		}
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed) == null)
+		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(EntityWerewolf.moveSpeed);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(EntityWerewolf.moveSpeed);
 		}
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.attackDamage) == null)
+		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(20.0D);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(20.0D);
 		}
-	}
-
-	// Get werewolf sound
-	@Override
-	protected String getLivingSound()
-	{
-		return this.myTargetLocator.targetEntity == null ? "afraidofthedark:werewolfIdle" : "afraidofthedark:werewolfAgro";
 	}
 
 	/**
 	 * Returns the sound this mob makes on death.
 	 */
-	protected String getDeathSound()
+	protected SoundEvent getDeathSound()
 	{
-		return "afraidofthedark:werewolfDeath";
+		return new SoundEvent(new ResourceLocation("afraidofthedark:werewolfDeath"));
 	}
 
 	/**
 	 * Returns the sound this mob makes when it is hurt.
 	 */
-	protected String getHurtSound()
+	protected SoundEvent getHurtSound()
 	{
-		return "afraidofthedark:werewolfHurt";
+		return new SoundEvent(new ResourceLocation("afraidofthedark:werewolfHurt"));
 	}
 
 	// Get werewolf's volume

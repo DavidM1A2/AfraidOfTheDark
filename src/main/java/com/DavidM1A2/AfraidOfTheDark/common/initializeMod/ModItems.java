@@ -48,6 +48,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.item.researchScrolls.ItemResearchScr
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDArmorMaterials;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -69,14 +70,14 @@ public class ModItems
 	public static final ItemSilverBolt silverBolt = new ItemSilverBolt();
 	public static final ItemIgneousBolt igneousBolt = new ItemIgneousBolt();
 	public static final ItemStarMetalBolt starMetalBolt = new ItemStarMetalBolt();
-	public static final IgneousArmor igneousHelmet = new IgneousArmor(AOTDArmorMaterials.Igneous.getArmorMaterial(), 5, 0);
-	public static final IgneousArmor igneousChestplate = new IgneousArmor(AOTDArmorMaterials.Igneous.getArmorMaterial(), 5, 1);
-	public static final IgneousArmor igneousLeggings = new IgneousArmor(AOTDArmorMaterials.Igneous.getArmorMaterial(), 5, 2);
-	public static final IgneousArmor igneousBoots = new IgneousArmor(AOTDArmorMaterials.Igneous.getArmorMaterial(), 5, 3);
-	public static final StarMetalArmor starMetalHelmet = new StarMetalArmor(AOTDArmorMaterials.StarMetal.getArmorMaterial(), 5, 0);
-	public static final StarMetalArmor starMetalChestplate = new StarMetalArmor(AOTDArmorMaterials.StarMetal.getArmorMaterial(), 5, 1);
-	public static final StarMetalArmor starMetalLeggings = new StarMetalArmor(AOTDArmorMaterials.StarMetal.getArmorMaterial(), 5, 2);
-	public static final StarMetalArmor starMetalBoots = new StarMetalArmor(AOTDArmorMaterials.StarMetal.getArmorMaterial(), 5, 3);
+	public static final IgneousArmor igneousHelmet = new IgneousArmor(AOTDArmorMaterials.Igneous.getArmorMaterial(), 0, EntityEquipmentSlot.HEAD);
+	public static final IgneousArmor igneousChestplate = new IgneousArmor(AOTDArmorMaterials.Igneous.getArmorMaterial(), 1, EntityEquipmentSlot.CHEST);
+	public static final IgneousArmor igneousLeggings = new IgneousArmor(AOTDArmorMaterials.Igneous.getArmorMaterial(), 2, EntityEquipmentSlot.LEGS);
+	public static final IgneousArmor igneousBoots = new IgneousArmor(AOTDArmorMaterials.Igneous.getArmorMaterial(), 3, EntityEquipmentSlot.FEET);
+	public static final StarMetalArmor starMetalHelmet = new StarMetalArmor(AOTDArmorMaterials.StarMetal.getArmorMaterial(), 0, EntityEquipmentSlot.HEAD);
+	public static final StarMetalArmor starMetalChestplate = new StarMetalArmor(AOTDArmorMaterials.StarMetal.getArmorMaterial(), 1, EntityEquipmentSlot.CHEST);
+	public static final StarMetalArmor starMetalLeggings = new StarMetalArmor(AOTDArmorMaterials.StarMetal.getArmorMaterial(), 2, EntityEquipmentSlot.LEGS);
+	public static final StarMetalArmor starMetalBoots = new StarMetalArmor(AOTDArmorMaterials.StarMetal.getArmorMaterial(), 3, EntityEquipmentSlot.FEET);
 	public static final ItemIgneousGem igneousGem = new ItemIgneousGem();
 	public static final ItemTelescope telescope = new ItemTelescope();
 	public static final ItemSextant sextant = new ItemSextant();
@@ -119,54 +120,54 @@ public class ModItems
 		// Register items
 		if (Reference.isDebug)
 		{
-			GameRegistry.registerItem(ModItems.insanityControl, "insanityControl");
-			GameRegistry.registerItem(ModItems.worldGenTest, "worldGenTest");
+			GameRegistry.register(ModItems.insanityControl);
+			GameRegistry.register(ModItems.worldGenTest);
 		}
 
-		GameRegistry.registerItem(ModItems.journal, "journal");
-		GameRegistry.registerItem(ModItems.astralSilverSword, "astralSilverSword");
-		GameRegistry.registerItem(ModItems.igneousSword, "igneousSword");
-		GameRegistry.registerItem(ModItems.astralSilverIngot, "astralSilverIngot");
-		GameRegistry.registerItem(ModItems.crossbow, "crossbow");
-		GameRegistry.registerItem(ModItems.wristCrossbow, "wristCrossbow");
-		GameRegistry.registerItem(ModItems.woodenBolt, "woodenBolt");
-		GameRegistry.registerItem(ModItems.ironBolt, "ironBolt");
-		GameRegistry.registerItem(ModItems.silverBolt, "silverBolt");
-		GameRegistry.registerItem(ModItems.igneousBolt, "igneousBolt");
-		GameRegistry.registerItem(ModItems.starMetalBolt, "starMetalBolt");
-		GameRegistry.registerItem(ModItems.igneousHelmet, "igneousHelmet");
-		GameRegistry.registerItem(ModItems.igneousChestplate, "igneousChestplate");
-		GameRegistry.registerItem(ModItems.igneousLeggings, "igneousLeggings");
-		GameRegistry.registerItem(ModItems.igneousBoots, "igneousBoots");
-		GameRegistry.registerItem(ModItems.igneousGem, "igneousGem");
-		GameRegistry.registerItem(ModItems.starMetalHelmet, "starMetalHelmet");
-		GameRegistry.registerItem(ModItems.starMetalChestplate, "starMetalChestplate");
-		GameRegistry.registerItem(ModItems.starMetalLeggings, "starMetalLeggings");
-		GameRegistry.registerItem(ModItems.starMetalBoots, "starMetalBoots");
-		GameRegistry.registerItem(ModItems.telescope, "telescope");
-		GameRegistry.registerItem(ModItems.sextant, "sextant");
-		GameRegistry.registerItem(ModItems.sunstoneFragment, "sunstoneFragment");
-		GameRegistry.registerItem(ModItems.starMetalFragment, "starMetalFragment");
-		GameRegistry.registerItem(ModItems.starMetalStaff, "starMetalStaff");
-		GameRegistry.registerItem(ModItems.vitaeLantern, "vitaeLantern");
-		GameRegistry.registerItem(ModItems.starMetalKhopesh, "starMetalKhopesh");
-		GameRegistry.registerItem(ModItems.cloakOfAgility, "cloakOfAgility");
-		GameRegistry.registerItem(ModItems.starMetalPlate, "starMetalPlate");
-		GameRegistry.registerItem(ModItems.enchantedSkeletonBone, "enchantedSkeletonBone");
-		GameRegistry.registerItem(ModItems.sleepingPotion, "sleepingPotion");
-		GameRegistry.registerItem(ModItems.researchScrollCloakOfAgility, "researchScrollCloakOfAgility");
-		GameRegistry.registerItem(ModItems.researchScrollAstronomy2, "researchScrollAstronomy2");
-		GameRegistry.registerItem(ModItems.researchScrollVitae1, "researchScrollVitae1");
-		GameRegistry.registerItem(ModItems.researchScrollWristCrossbow, "researchScrollWristCrossbow");
-		GameRegistry.registerItem(ModItems.researchScrollInsanity, "researchScrollInsanity");
-		GameRegistry.registerItem(ModItems.eldritchMetalIngot, "eldritchMetalIngot");
-		GameRegistry.registerItem(ModItems.starMetalIngot, "starMetalIngot");
-		GameRegistry.registerItem(ModItems.bladeOfExhumation, "bladeOfExhumation");
-		GameRegistry.registerItem(ModItems.flaskOfSouls, "flaskOfSouls");
-		GameRegistry.registerItem(ModItems.werewolfBlood, "werewolfBlood");
-		GameRegistry.registerItem(ModItems.gnomishMetalIngot, "gnomishMetalIngot");
-		GameRegistry.registerItem(ModItems.artwork, "artwork");
-		GameRegistry.registerItem(ModItems.schematicGenerator, "schematicGenerator");
+		GameRegistry.register(ModItems.journal);
+		GameRegistry.register(ModItems.astralSilverSword);
+		GameRegistry.register(ModItems.igneousSword);
+		GameRegistry.register(ModItems.astralSilverIngot);
+		GameRegistry.register(ModItems.crossbow);
+		GameRegistry.register(ModItems.wristCrossbow);
+		GameRegistry.register(ModItems.woodenBolt);
+		GameRegistry.register(ModItems.ironBolt);
+		GameRegistry.register(ModItems.silverBolt);
+		GameRegistry.register(ModItems.igneousBolt);
+		GameRegistry.register(ModItems.starMetalBolt);
+		GameRegistry.register(ModItems.igneousHelmet);
+		GameRegistry.register(ModItems.igneousChestplate);
+		GameRegistry.register(ModItems.igneousLeggings);
+		GameRegistry.register(ModItems.igneousBoots);
+		GameRegistry.register(ModItems.igneousGem);
+		GameRegistry.register(ModItems.starMetalHelmet);
+		GameRegistry.register(ModItems.starMetalChestplate);
+		GameRegistry.register(ModItems.starMetalLeggings);
+		GameRegistry.register(ModItems.starMetalBoots);
+		GameRegistry.register(ModItems.telescope);
+		GameRegistry.register(ModItems.sextant);
+		GameRegistry.register(ModItems.sunstoneFragment);
+		GameRegistry.register(ModItems.starMetalFragment);
+		GameRegistry.register(ModItems.starMetalStaff);
+		GameRegistry.register(ModItems.vitaeLantern);
+		GameRegistry.register(ModItems.starMetalKhopesh);
+		GameRegistry.register(ModItems.cloakOfAgility);
+		GameRegistry.register(ModItems.starMetalPlate);
+		GameRegistry.register(ModItems.enchantedSkeletonBone);
+		GameRegistry.register(ModItems.sleepingPotion);
+		GameRegistry.register(ModItems.researchScrollCloakOfAgility);
+		GameRegistry.register(ModItems.researchScrollAstronomy2);
+		GameRegistry.register(ModItems.researchScrollVitae1);
+		GameRegistry.register(ModItems.researchScrollWristCrossbow);
+		GameRegistry.register(ModItems.researchScrollInsanity);
+		GameRegistry.register(ModItems.eldritchMetalIngot);
+		GameRegistry.register(ModItems.starMetalIngot);
+		GameRegistry.register(ModItems.bladeOfExhumation);
+		GameRegistry.register(ModItems.flaskOfSouls);
+		GameRegistry.register(ModItems.werewolfBlood);
+		GameRegistry.register(ModItems.gnomishMetalIngot);
+		GameRegistry.register(ModItems.artwork);
+		GameRegistry.register(ModItems.schematicGenerator);
 	}
 
 	// Register renderers in proxy!

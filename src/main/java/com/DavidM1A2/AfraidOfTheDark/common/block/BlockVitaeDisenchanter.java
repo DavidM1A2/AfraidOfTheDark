@@ -18,7 +18,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.VitaeUtils;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
@@ -26,6 +26,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBook;
 import net.minecraft.item.ItemEnchantedBook;
@@ -34,9 +35,10 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 public class BlockVitaeDisenchanter extends AOTDBlock
@@ -45,8 +47,9 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 
 	public BlockVitaeDisenchanter()
 	{
-		super(Material.rock);
+		super(Material.ROCK);
 		this.setUnlocalizedName("vitaeDisenchanter");
+		this.setRegistryName("vitaeDisenchanter");
 		this.setHardness(10.0F);
 		this.setResistance(50.0F);
 		this.setHarvestLevel("pickaxe", 2);
@@ -73,14 +76,14 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 
 	// Default block states
 	@Override
-	protected BlockState createBlockState()
+	protected BlockStateContainer createBlockState()
 	{
-		return new BlockState(this, new IProperty[]
+		return new BlockStateContainer(this, new IProperty[]
 		{ BlockVitaeDisenchanter.VARIANT });
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState iBlockState, EntityPlayer entityPlayer, EnumFacing side, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState iBlockState, EntityPlayer entityPlayer, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
 		if (!world.isRemote)
 		{
@@ -110,7 +113,7 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 			}
 			else
 			{
-				entityPlayer.addChatMessage(new ChatComponentText("I can't understand this block"));
+				entityPlayer.addChatMessage(new TextComponentString("I can't understand this block"));
 			}
 		}
 
@@ -119,7 +122,7 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 
 	private void convertBook(EntityPlayer entityPlayer)
 	{
-		ItemStack itemstack = entityPlayer.getCurrentEquippedItem();
+		ItemStack itemstack = entityPlayer.getHeldItemMainhand();
 		NBTTagList enchantments = ((ItemEnchantedBook) itemstack.getItem()).getEnchantments(itemstack);
 		int numberOfXPBottlesToAdd = 0;
 
@@ -141,28 +144,28 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 		{
 			if (entityPlayer.inventory.getFirstEmptyStack() < 0)
 			{
-				EntityItem entity = new EntityItem(entityPlayer.worldObj, entityPlayer.posX, entityPlayer.posY + 1, entityPlayer.posZ, new ItemStack(Items.experience_bottle, 64));
+				EntityItem entity = new EntityItem(entityPlayer.worldObj, entityPlayer.posX, entityPlayer.posY + 1, entityPlayer.posZ, new ItemStack(Items.EXPERIENCE_BOTTLE, 64));
 				entityPlayer.worldObj.spawnEntityInWorld(entity);
 			}
 			else
 			{
-				entityPlayer.inventory.addItemStackToInventory(new ItemStack(Items.experience_bottle, 64));
+				entityPlayer.inventory.addItemStackToInventory(new ItemStack(Items.EXPERIENCE_BOTTLE, 64));
 			}
 		}
 		if (extraBottlesToSpawn > 0)
 		{
 			if (entityPlayer.inventory.getFirstEmptyStack() < 0)
 			{
-				EntityItem entity = new EntityItem(entityPlayer.worldObj, entityPlayer.posX, entityPlayer.posY + 1, entityPlayer.posZ, new ItemStack(Items.experience_bottle, extraBottlesToSpawn));
+				EntityItem entity = new EntityItem(entityPlayer.worldObj, entityPlayer.posX, entityPlayer.posY + 1, entityPlayer.posZ, new ItemStack(Items.EXPERIENCE_BOTTLE, extraBottlesToSpawn));
 				entityPlayer.worldObj.spawnEntityInWorld(entity);
 			}
 			else
 			{
-				entityPlayer.inventory.addItemStackToInventory(new ItemStack(Items.experience_bottle, extraBottlesToSpawn));
+				entityPlayer.inventory.addItemStackToInventory(new ItemStack(Items.EXPERIENCE_BOTTLE, extraBottlesToSpawn));
 			}
 		}
 
-		entityPlayer.setCurrentItemOrArmor(0, new ItemStack(Items.book, 1));
+		entityPlayer.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.BOOK, 1));
 		entityPlayer.inventoryContainer.detectAndSendChanges();
 	}
 
@@ -170,8 +173,8 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 	{
 		if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.VitaeDisenchanter))
 		{
-			ItemStack itemStack = entityPlayer.getCurrentEquippedItem();
-			if (itemStack != null && itemStack.getItem() instanceof ItemEnchantedBook)
+			ItemStack itemStack = entityPlayer.getHeldItemMainhand();
+			if (itemStack.getItem() instanceof ItemEnchantedBook)
 			{
 				NBTTagList enchantments = ((ItemEnchantedBook) itemStack.getItem()).getEnchantments(itemStack);
 				int vitaeCost = 0;
@@ -195,7 +198,7 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 				{
 					if (!entityPlayer.worldObj.isRemote)
 					{
-						entityPlayer.addChatMessage(new ChatComponentText("I don't have enough vitae in my lanterns to perform this action."));
+						entityPlayer.addChatMessage(new TextComponentString("I don't have enough vitae in my lanterns to perform this action."));
 					}
 				}
 			}
@@ -203,7 +206,7 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 			{
 				if (!entityPlayer.worldObj.isRemote)
 				{
-					entityPlayer.addChatMessage(new ChatComponentText("I'll need to right click this with an enchanted book."));
+					entityPlayer.addChatMessage(new TextComponentString("I'll need to right click this with an enchanted book."));
 				}
 			}
 		}
@@ -212,7 +215,7 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 		{
 			if (!entityPlayer.worldObj.isRemote)
 			{
-				entityPlayer.addChatMessage(new ChatComponentText("I don't understand how to use this."));
+				entityPlayer.addChatMessage(new TextComponentString("I don't understand how to use this."));
 			}
 		}
 		return false;
@@ -220,32 +223,32 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 
 	private void disenchantItem(EntityPlayer entityPlayer)
 	{
-		ItemStack itemstack = entityPlayer.getCurrentEquippedItem();
-		NBTTagList enchantments = entityPlayer.getHeldItem().getEnchantmentTagList();
+		ItemStack itemstack = entityPlayer.getHeldItemMainhand();
+		NBTTagList enchantments = itemstack.getEnchantmentTagList();
 		for (int i = 0; i < enchantments.tagCount(); i++)
 		{
 			if (enchantments.get(i) instanceof NBTTagCompound)
 			{
 				NBTTagCompound enchantment = (NBTTagCompound) enchantments.get(i);
 
-				for (int j = 0; j < entityPlayer.inventory.mainInventory.length; j++)
+				for (int j = 0; j < entityPlayer.inventory.mainInventory.size(); j++)
 				{
-					ItemStack book = entityPlayer.inventory.mainInventory[j];
+					ItemStack book = entityPlayer.inventory.mainInventory.get(j);
 					if (book != null && book.getItem() instanceof ItemBook)
 					{
-						if (book.stackSize == 1)
+						if (book.func_190916_E() == 1)
 						{
 							entityPlayer.inventory.setInventorySlotContents(j, null);
 						}
 						else
 						{
-							book.stackSize = book.stackSize - 1;
+							book.func_190920_e(book.func_190916_E() - 1);
 						}
 						break;
 					}
 				}
 
-				ItemStack newBook = Items.enchanted_book.getEnchantedItemStack(new EnchantmentData(Enchantment.getEnchantmentById(enchantment.getInteger("id")), enchantment.getInteger("lvl")));
+				ItemStack newBook = Items.ENCHANTED_BOOK.getEnchantedItemStack(new EnchantmentData(Enchantment.getEnchantmentByID(enchantment.getInteger("id")), enchantment.getInteger("lvl")));
 
 				if (entityPlayer.inventory.getFirstEmptyStack() < 0)
 				{
@@ -259,7 +262,7 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 			}
 		}
 
-		EnchantmentHelper.setEnchantments(new HashMap<Integer, Integer>(), entityPlayer.getHeldItem());
+		EnchantmentHelper.setEnchantments(new HashMap<Enchantment, Integer>(), entityPlayer.getHeldItemMainhand());
 
 		entityPlayer.inventoryContainer.detectAndSendChanges();
 	}
@@ -279,7 +282,7 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 				{
 					if (books != null && books.getItem() instanceof ItemBook && !books.isItemEnchanted())
 					{
-						numberOfBooksInInventory = numberOfBooksInInventory + books.stackSize;
+						numberOfBooksInInventory = numberOfBooksInInventory + books.func_190916_E();
 						validBooks.add(books);
 					}
 				}
@@ -324,7 +327,7 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 					{
 						if (!entityPlayer.worldObj.isRemote)
 						{
-							entityPlayer.addChatMessage(new ChatComponentText("I don't have enough vitae in my lanterns to perform this action."));
+							entityPlayer.addChatMessage(new TextComponentString("I don't have enough vitae in my lanterns to perform this action."));
 						}
 					}
 				}
@@ -332,7 +335,7 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 				{
 					if (!entityPlayer.worldObj.isRemote)
 					{
-						entityPlayer.addChatMessage(new ChatComponentText("I don't have enough books to move the enchantments on to."));
+						entityPlayer.addChatMessage(new TextComponentString("I don't have enough books to move the enchantments on to."));
 					}
 				}
 			}
@@ -340,7 +343,7 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 			{
 				if (!entityPlayer.worldObj.isRemote)
 				{
-					entityPlayer.addChatMessage(new ChatComponentText("This item is not enchanted."));
+					entityPlayer.addChatMessage(new TextComponentString("This item is not enchanted."));
 				}
 			}
 		}
@@ -348,7 +351,7 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 		{
 			if (!entityPlayer.worldObj.isRemote)
 			{
-				entityPlayer.addChatMessage(new ChatComponentText("I don't understand how to use this."));
+				entityPlayer.addChatMessage(new TextComponentString("I don't understand how to use this."));
 			}
 		}
 

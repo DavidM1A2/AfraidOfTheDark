@@ -10,12 +10,12 @@ import java.util.Random;
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDSapling;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockLog;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockGravewoodSapling extends AOTDSapling
@@ -24,12 +24,13 @@ public class BlockGravewoodSapling extends AOTDSapling
 	{
 		super();
 		this.setUnlocalizedName("gravewoodSapling");
+		this.setRegistryName("gravewoodSapling");
 	}
 
 	@Override
 	public void causeTreeToGrow(World world, BlockPos blockPos, IBlockState iBlockState, Random random)
 	{
-		world.setBlockState(blockPos, Blocks.air.getDefaultState());
+		world.setBlockState(blockPos, Blocks.AIR.getDefaultState());
 
 		int i = random.nextInt(3) + 5;
 		int i2;
@@ -52,9 +53,7 @@ public class BlockGravewoodSapling extends AOTDSapling
 					if ((Math.abs(j1) != l) || (Math.abs(l1) != l) || ((random.nextInt(2) != 0) && (k != 0)))
 					{
 						final BlockPos blockpos1 = new BlockPos(i1, i2, k1);
-						final Block block = world.getBlockState(blockpos1).getBlock();
-
-						if (block.isAir(world, blockpos1) || block.isLeaves(world, blockpos1))
+						if (world.getBlockState(blockpos1).getMaterial() == Material.AIR || world.getBlockState(blockpos1).getMaterial() == Material.LEAVES)
 						{
 							world.setBlockState(blockpos1, ModBlocks.gravewoodLeaves.getDefaultState());
 						}
@@ -66,9 +65,7 @@ public class BlockGravewoodSapling extends AOTDSapling
 		for (i2 = 0; i2 < i; ++i2)
 		{
 			final BlockPos upN = blockPos.offset(EnumFacing.UP, i2);
-			final Block block2 = world.getBlockState(upN).getBlock();
-
-			if (block2.isAir(world, upN) || block2.isLeaves(world, upN))
+			if (world.getBlockState(upN).getMaterial() == Material.AIR || world.getBlockState(upN).getMaterial() == Material.LEAVES)
 			{
 				world.setBlockState(blockPos.offset(EnumFacing.UP, i2), ModBlocks.gravewood.getDefaultState().withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.Y));
 			}

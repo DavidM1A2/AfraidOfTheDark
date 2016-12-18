@@ -82,7 +82,7 @@ public class EntityMyself extends EntitySpell
 	}
 
 	@Override
-	public boolean canAttackWithItem()
+	public boolean canBeAttackedWithItem()
 	{
 		return false;
 	}

@@ -9,9 +9,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDLeaves;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class AOTDItemLeaves extends ItemBlock
 {
@@ -31,12 +28,5 @@ public class AOTDItemLeaves extends ItemBlock
 	public int getMetadata(final int damage)
 	{
 		return damage | 4;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int getColorFromItemStack(final ItemStack stack, final int renderPass)
-	{
-		return this.leaves.getRenderColor(this.leaves.getStateFromMeta(stack.getMetadata()));
 	}
 }

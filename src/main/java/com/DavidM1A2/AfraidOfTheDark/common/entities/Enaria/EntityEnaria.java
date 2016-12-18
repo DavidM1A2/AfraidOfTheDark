@@ -10,24 +10,25 @@ import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.Animation
 import com.DavidM1A2.AfraidOfTheDark.common.entities.ICanTakeSilverDamage;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
+import com.mojang.realmsclient.gui.ChatFormatting;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.boss.BossStatus;
-import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.BossInfo;
+import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
 
-public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossDisplayData, ICanTakeSilverDamage
+public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, ICanTakeSilverDamage
 {
 	protected AnimationHandler animHandler = new AnimationHandlerEnaria(this);
 
@@ -42,6 +43,8 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 	public static final String LAST_HIT = "lastHit";
 	private static final int MAX_DAMAGE_IN_1_HIT = 10;
 	private final EnariaAttacks enariaAttacks;
+
+	private final BossInfoServer bossInfo = (BossInfoServer) (new BossInfoServer(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.PROGRESS)).setDarkenSky(true);
 
 	public EntityEnaria(World world)
 	{
@@ -63,16 +66,21 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 	}
 
 	@Override
+	public boolean isNonBoss()
+	{
+		return false;
+	}
+
+	@Override
 	public void onLivingUpdate()
 	{
 		if (!this.worldObj.isRemote)
 		{
+			this.bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
 			if (this.ticksExisted == 1)
 				if (!this.getEntityData().getBoolean(IS_VALID))
 					this.setDead();
 		}
-		else
-			BossStatus.setBossStatus(this, true);
 		super.onLivingUpdate();
 	}
 
@@ -80,26 +88,47 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 	@Override
 	protected void applyEntityAttributes()
 	{
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.maxHealth) == null)
+		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(EntityEnaria.MAX_HEALTH);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(EntityEnaria.MAX_HEALTH);
 		}
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange) == null)
+		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.FOLLOW_RANGE) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.followRange).setBaseValue(EntityEnaria.FOLLOW_RANGE);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(EntityEnaria.FOLLOW_RANGE);
 		}
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.knockbackResistance) == null)
+		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.KNOCKBACK_RESISTANCE) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(EntityEnaria.KNOCKBACK_RESISTANCE);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(EntityEnaria.KNOCKBACK_RESISTANCE);
 		}
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed) == null)
+		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(EntityEnaria.MOVE_SPEED);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(EntityEnaria.MOVE_SPEED);
 		}
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.attackDamage) == null)
+		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(EntityEnaria.ATTACK_DAMAGE);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(EntityEnaria.ATTACK_DAMAGE);
 		}
+	}
+
+	/**
+	 * Add the given player to the list of players tracking this entity. For instance, a player may track a boss in order to view its associated boss
+	 * bar.
+	 */
+	@Override
+	public void addTrackingPlayer(EntityPlayerMP player)
+	{
+		super.addTrackingPlayer(player);
+		this.bossInfo.addPlayer(player);
+	}
+
+	/**
+	 * Removes the given player from the list of players tracking this entity. See {@link Entity#addTrackingPlayer} for more information on tracking.
+	 */
+	@Override
+	public void removeTrackingPlayer(EntityPlayerMP player)
+	{
+		super.removeTrackingPlayer(player);
+		this.bossInfo.removePlayer(player);
 	}
 
 	// Only take damage from silver weapons
@@ -129,7 +158,7 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 				if (!entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.Enaria.getPrevious()))
 				{
 					if (!entityPlayer.worldObj.isRemote)
-						entityPlayer.addChatMessage(new ChatComponentText("I can't understand who I'm fighting...."));
+						entityPlayer.addChatMessage(new TextComponentString("I can't understand who I'm fighting...."));
 					return false;
 				}
 			}
@@ -203,9 +232,15 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 	}
 
 	@Override
-	public IChatComponent getDisplayName()
+	public String getCustomNameTag()
 	{
-		return new ChatComponentText(EnumChatFormatting.RED + "" + EnumChatFormatting.BOLD + super.getDisplayName().getUnformattedTextForChat());
+		return ChatFormatting.RED + "" + ChatFormatting.BOLD + super.getDisplayName().getUnformattedComponentText();
+	}
+
+	@Override
+	public ITextComponent getDisplayName()
+	{
+		return new TextComponentString(ChatFormatting.RED + "" + ChatFormatting.BOLD + super.getDisplayName().getUnformattedComponentText());
 	}
 
 	/**
@@ -222,13 +257,10 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, IBossD
 		super.moveEntityWithHeading(strafe, forward);
 	}
 
-	/**
-	 * Called when a player mounts an entity. e.g. mounts a pig, mounts a boat.
-	 */
 	@Override
-	public void mountEntity(Entity entity)
+	protected boolean canBeRidden(Entity entityIn)
 	{
-		this.ridingEntity = null;
+		return false;
 	}
 
 	/**

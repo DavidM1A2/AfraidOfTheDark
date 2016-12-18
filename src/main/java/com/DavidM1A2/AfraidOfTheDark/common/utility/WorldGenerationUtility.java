@@ -18,7 +18,7 @@ import net.minecraft.block.BlockSnow;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.chunk.Chunk;
@@ -40,7 +40,7 @@ public class WorldGenerationUtility
 			}
 			else if (current instanceof BlockVoidChestPortal)
 			{
-				world.setBlockState(new BlockPos(x, y, z), Blocks.stone.getDefaultState());
+				world.setBlockState(new BlockPos(x, y, z), Blocks.STONE.getDefaultState());
 				return y;
 			}
 			y = y - 1;
@@ -90,7 +90,7 @@ public class WorldGenerationUtility
 				{
 					return temp;
 				}
-				else if (world.getBlockState(new BlockPos(x, temp, z)) == Blocks.dirt.getDefaultState().withProperty(BlockDirt.VARIANT, DirtType.PODZOL))
+				else if (world.getBlockState(new BlockPos(x, temp, z)) == Blocks.DIRT.getDefaultState().withProperty(BlockDirt.VARIANT, DirtType.PODZOL))
 				{
 					return temp;
 				}
@@ -162,7 +162,7 @@ public class WorldGenerationUtility
 
 			if (extendedblockstorage == null)
 			{
-				if (newBlock == Blocks.air)
+				if (newBlock == Blocks.AIR)
 				{
 					return null;
 				}
@@ -190,7 +190,7 @@ public class WorldGenerationUtility
 					parChunk.getWorld().removeTileEntity(parBlockPos);
 			}
 
-			if (extendedblockstorage.getBlockByExtId(chunkX, chunkY & 15, chunkZ) != newBlock)
+			if (extendedblockstorage.get(chunkX, chunkY & 15, chunkZ) != newBlock)
 			{
 				return null;
 			}

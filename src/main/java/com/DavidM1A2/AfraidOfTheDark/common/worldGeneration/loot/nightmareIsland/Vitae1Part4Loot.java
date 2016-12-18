@@ -11,18 +11,19 @@ import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.IChestGenerator;
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.RandomItem;
 
-import net.minecraft.util.WeightedRandomChestContent;
+import net.minecraft.item.ItemStack;
 
 public class Vitae1Part4Loot implements IChestGenerator
 {
 	@Override
-	public List<WeightedRandomChestContent> getPossibleItems(Random random)
+	public List<RandomItem> getPossibleItems(Random random)
 	{
-		ArrayList<WeightedRandomChestContent> toReturn = new ArrayList<WeightedRandomChestContent>();
+		ArrayList<RandomItem> toReturn = new ArrayList<RandomItem>();
 
 		//                                          Item, meta, min, max, chance
-		toReturn.add(new WeightedRandomChestContent(ModItems.researchScrollVitae1, 4, 1, 1, 100));
+		toReturn.add(new RandomItem(new ItemStack(ModItems.researchScrollVitae1, 1, 3), 100));
 
 		return toReturn;
 	}

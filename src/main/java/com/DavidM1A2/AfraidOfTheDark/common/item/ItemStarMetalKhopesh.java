@@ -24,7 +24,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -39,12 +39,10 @@ public class ItemStarMetalKhopesh extends AOTDChargableSword
 	}
 
 	/**
-	 * allows items to add custom lines of information to the mouseover
-	 * description
+	 * allows items to add custom lines of information to the mouseover description
 	 *
 	 * @param tooltip
-	 *            All lines to display in the Item's tooltip. This is a List of
-	 *            Strings.
+	 *            All lines to display in the Item's tooltip. This is a List of Strings.
 	 * @param advanced
 	 *            Whether the setting "Advanced tooltips" is enabled
 	 */
@@ -101,7 +99,7 @@ public class ItemStarMetalKhopesh extends AOTDChargableSword
 			if (entityObject instanceof EntityPlayer || entityObject instanceof EntityLiving)
 			{
 				EntityLivingBase entity = (EntityLivingBase) entityObject;
-				double knockbackStrength = EnchantmentHelper.getEnchantmentLevel(Enchantment.knockback.effectId, itemStack) + 2;
+				double knockbackStrength = EnchantmentHelper.getEnchantmentLevel(Enchantment.getEnchantmentByID(19), itemStack) + 2;
 
 				double motionX = entityPlayer.getPosition().getX() - entity.getPosition().getX();
 				double motionZ = entityPlayer.getPosition().getZ() - entity.getPosition().getZ();
@@ -111,7 +109,7 @@ public class ItemStarMetalKhopesh extends AOTDChargableSword
 
 				double hypotenuse = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
 
-				int sharpnessDamage = EnchantmentHelper.getEnchantmentLevel(Enchantment.sharpness.effectId, itemStack);
+				int sharpnessDamage = EnchantmentHelper.getEnchantmentLevel(Enchantment.getEnchantmentByID(16), itemStack);
 
 				entity.attackEntityFrom(DamageSource.causePlayerDamage(entityPlayer), AOTDToolMaterials.StarMetal.getToolMaterial().getDamageVsEntity() + 4.0F + sharpnessDamage * 1.5F);
 				entity.addVelocity(-motionX * knockbackStrength * 0.6000000238418579D / hypotenuse, 0.1D, -motionZ * knockbackStrength * 0.6000000238418579D / hypotenuse);

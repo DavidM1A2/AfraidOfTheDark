@@ -8,17 +8,17 @@ package com.DavidM1A2.AfraidOfTheDark.common.reference;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 // Refrences for static final variables
 public class Reference
 {
 	// The ID of the mod
-	public static final String MOD_ID = "AfraidOfTheDark";
+	public static final String MOD_ID = "afraidofthedark";
 	// The mod name
 	public static final String MOD_NAME = "Afraid of the Dark";
 	// The minecraft version number and version
-	public static final String VERSION = "1.8.9-1.1.4";
+	public static final String VERSION = "1.11-1.0";
 	// Refrences to the proxies
 	public static final String SERVER_PROXY_CLASS = "com.DavidM1A2.AfraidOfTheDark.proxy.ServerProxy";
 	public static final String CLIENT_PROXY_CLASS = "com.DavidM1A2.AfraidOfTheDark.proxy.ClientProxy";
@@ -31,9 +31,9 @@ public class Reference
 	{
 		// Icon of the tab is the journal
 		@Override
-		public Item getTabIconItem()
+		public ItemStack getTabIconItem()
 		{
-			return ModItems.journal;
+			return new ItemStack(ModItems.journal);
 		}
 	};
 

@@ -25,8 +25,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public final class SchematicGenerator
@@ -34,50 +34,50 @@ public final class SchematicGenerator
 	private static final Set<Short> latePlacePriorityBlocks = new HashSet<Short>()
 	{
 		{
-			add((short) Block.getIdFromBlock(Blocks.rail));
-			add((short) Block.getIdFromBlock(Blocks.reeds));
-			add((short) Block.getIdFromBlock(Blocks.powered_comparator));
-			add((short) Block.getIdFromBlock(Blocks.powered_repeater));
-			add((short) Block.getIdFromBlock(Blocks.sapling));
-			add((short) Block.getIdFromBlock(Blocks.detector_rail));
-			add((short) Block.getIdFromBlock(Blocks.redstone_torch));
-			add((short) Block.getIdFromBlock(Blocks.vine));
-			add((short) Block.getIdFromBlock(Blocks.standing_sign));
-			add((short) Block.getIdFromBlock(Blocks.wall_sign));
-			add((short) Block.getIdFromBlock(Blocks.redstone_wire));
-			add((short) Block.getIdFromBlock(Blocks.torch));
-			add((short) Block.getIdFromBlock(Blocks.wooden_button));
-			add((short) Block.getIdFromBlock(Blocks.stone_button));
-			add((short) Block.getIdFromBlock(Blocks.wooden_pressure_plate));
-			add((short) Block.getIdFromBlock(Blocks.stone_pressure_plate));
-			add((short) Block.getIdFromBlock(Blocks.light_weighted_pressure_plate));
-			add((short) Block.getIdFromBlock(Blocks.heavy_weighted_pressure_plate));
-			add((short) Block.getIdFromBlock(Blocks.deadbush));
-			add((short) Block.getIdFromBlock(Blocks.bed));
-			add((short) Block.getIdFromBlock(Blocks.trapdoor));
-			add((short) Block.getIdFromBlock(Blocks.carpet));
-			add((short) Block.getIdFromBlock(Blocks.iron_door));
-			add((short) Block.getIdFromBlock(Blocks.ladder));
-			add((short) Block.getIdFromBlock(Blocks.dark_oak_door));
-			add((short) Block.getIdFromBlock(Blocks.birch_door));
-			add((short) Block.getIdFromBlock(Blocks.oak_door));
-			add((short) Block.getIdFromBlock(Blocks.acacia_door));
-			add((short) Block.getIdFromBlock(Blocks.spruce_door));
-			add((short) Block.getIdFromBlock(Blocks.double_plant));
+			add((short) Block.getIdFromBlock(Blocks.RAIL));
+			add((short) Block.getIdFromBlock(Blocks.REEDS));
+			add((short) Block.getIdFromBlock(Blocks.POWERED_COMPARATOR));
+			add((short) Block.getIdFromBlock(Blocks.POWERED_REPEATER));
+			add((short) Block.getIdFromBlock(Blocks.SAPLING));
+			add((short) Block.getIdFromBlock(Blocks.DETECTOR_RAIL));
+			add((short) Block.getIdFromBlock(Blocks.REDSTONE_TORCH));
+			add((short) Block.getIdFromBlock(Blocks.VINE));
+			add((short) Block.getIdFromBlock(Blocks.STANDING_SIGN));
+			add((short) Block.getIdFromBlock(Blocks.WALL_SIGN));
+			add((short) Block.getIdFromBlock(Blocks.REDSTONE_WIRE));
+			add((short) Block.getIdFromBlock(Blocks.TORCH));
+			add((short) Block.getIdFromBlock(Blocks.WOODEN_BUTTON));
+			add((short) Block.getIdFromBlock(Blocks.STONE_BUTTON));
+			add((short) Block.getIdFromBlock(Blocks.WOODEN_PRESSURE_PLATE));
+			add((short) Block.getIdFromBlock(Blocks.STONE_PRESSURE_PLATE));
+			add((short) Block.getIdFromBlock(Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE));
+			add((short) Block.getIdFromBlock(Blocks.HEAVY_WEIGHTED_PRESSURE_PLATE));
+			add((short) Block.getIdFromBlock(Blocks.DEADBUSH));
+			add((short) Block.getIdFromBlock(Blocks.BED));
+			add((short) Block.getIdFromBlock(Blocks.TRAPDOOR));
+			add((short) Block.getIdFromBlock(Blocks.CARPET));
+			add((short) Block.getIdFromBlock(Blocks.IRON_DOOR));
+			add((short) Block.getIdFromBlock(Blocks.LADDER));
+			add((short) Block.getIdFromBlock(Blocks.DARK_OAK_DOOR));
+			add((short) Block.getIdFromBlock(Blocks.BIRCH_DOOR));
+			add((short) Block.getIdFromBlock(Blocks.OAK_DOOR));
+			add((short) Block.getIdFromBlock(Blocks.ACACIA_DOOR));
+			add((short) Block.getIdFromBlock(Blocks.SPRUCE_DOOR));
+			add((short) Block.getIdFromBlock(Blocks.DOUBLE_PLANT));
 		}
 	};
 
 	private static final Set<Short> lightUpdateBlocks = new HashSet<Short>()
 	{
 		{
-			add((short) Block.getIdFromBlock(Blocks.glowstone));
-			add((short) Block.getIdFromBlock(Blocks.torch));
+			add((short) Block.getIdFromBlock(Blocks.GLOWSTONE));
+			add((short) Block.getIdFromBlock(Blocks.TORCH));
 			add((short) Block.getIdFromBlock(ModBlocks.glowStalk));
 		}
 	};
 
-	private static final int DIAMOND_BLOCK_ID = Block.getIdFromBlock(Blocks.diamond_block);
-	private static final int AIR_BLOCK_ID = Block.getIdFromBlock(Blocks.air);
+	private static final int DIAMOND_BLOCK_ID = Block.getIdFromBlock(Blocks.DIAMOND_BLOCK);
+	private static final int AIR_BLOCK_ID = Block.getIdFromBlock(Blocks.AIR);
 
 	public static void generateSchematic(Schematic schematic, World world, int xPosition, int yPosition, int zPosition)
 	{
@@ -130,7 +130,7 @@ public final class SchematicGenerator
 						// structure generation.
 						if (nextToPlace == SchematicGenerator.DIAMOND_BLOCK_ID)
 						{
-							WorldGenerationUtility.setBlockStateFast(world, new BlockPos(x + xPosition, y + yPosition, z + zPosition), Blocks.air.getDefaultState(), 3);
+							WorldGenerationUtility.setBlockStateFast(world, new BlockPos(x + xPosition, y + yPosition, z + zPosition), Blocks.AIR.getDefaultState(), 3);
 						}
 						// latePlacePriorityBlocks is a hashset that contains a list of blocks that need another block
 						// placed first in order to be placed (Like torches or ladders require a block to be hanging off, etc)
@@ -198,7 +198,7 @@ public final class SchematicGenerator
 			for (int j = 0; j < schematic.getTileentities().tagCount(); j++)
 			{
 				NBTTagCompound tileEntityCompound = schematic.getTileentities().getCompoundTagAt(j);
-				TileEntity tileEntity = TileEntity.createAndLoadEntity(tileEntityCompound);
+				TileEntity tileEntity = TileEntity.create(world, tileEntityCompound);
 
 				if (tileEntity != null)
 				{
@@ -221,7 +221,7 @@ public final class SchematicGenerator
 			for (int j = 0; j < schematic.getTileentities().tagCount(); j++)
 			{
 				NBTTagCompound tileEntityCompound = schematic.getTileentities().getCompoundTagAt(j);
-				TileEntity tileEntity = TileEntity.createAndLoadEntity(tileEntityCompound);
+				TileEntity tileEntity = TileEntity.create(world, tileEntityCompound);
 
 				if (tileEntity != null)
 				{

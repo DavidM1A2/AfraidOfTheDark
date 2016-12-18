@@ -33,7 +33,7 @@ public enum ResearchTypes
 	{ ModItems.crossbow, ModItems.woodenBolt, ModItems.ironBolt }, new Object[]
 	{}),
 	EnchantedSkeleton(AnUnbreakableCovenant, -1, 0, new Object[]
-	{ Items.dye }, new Object[]
+	{ Items.DYE }, new Object[]
 	{}),
 	BladeOfExhumation(EnchantedSkeleton, -2, 0, new Object[]
 	{ ModItems.bladeOfExhumation }, new Object[]

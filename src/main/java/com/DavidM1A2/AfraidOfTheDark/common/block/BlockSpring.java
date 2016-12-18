@@ -18,8 +18,9 @@ public class BlockSpring extends AOTDBlockTileEntity
 {
 	public BlockSpring()
 	{
-		super(Material.rock);
+		super(Material.ROCK);
 		this.setUnlocalizedName("spring");
+		this.setRegistryName("spring");
 		this.setHardness(10.0F);
 		this.setResistance(50.0F);
 		this.setHarvestLevel("pickaxe", 3);

@@ -9,7 +9,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class Dig extends Effect
@@ -50,20 +50,20 @@ public class Dig extends Effect
 		IBlockState iblockstate = world.getBlockState(pos);
 		Block block = iblockstate.getBlock();
 
-		if (block.getMaterial() == Material.air)
+		if (iblockstate.getMaterial() == Material.AIR)
 		{
 			return false;
 		}
 		else
 		{
-			world.playAuxSFX(2001, pos, Block.getStateId(iblockstate));
+			world.playBroadcastSound(2001, pos, Block.getStateId(iblockstate));
 
 			if (dropBlock)
 			{
 				block.dropBlockAsItem(world, pos, iblockstate, 0);
 			}
 
-			return WorldGenerationUtility.setBlockStateFast(world, pos, Blocks.air.getDefaultState(), 3);
+			return WorldGenerationUtility.setBlockStateFast(world, pos, Blocks.AIR.getDefaultState(), 3);
 		}
 	}
 

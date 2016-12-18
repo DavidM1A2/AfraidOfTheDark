@@ -23,7 +23,7 @@ public class EnderPocket extends Effect
 		{
 			if (hitInfo.getWorld().getTileEntity(hitInfo.getLocation()) == null)
 			{
-				hitInfo.getWorld().setBlockState(hitInfo.getLocation().up(), Blocks.ender_chest.getDefaultState());
+				hitInfo.getWorld().setBlockState(hitInfo.getLocation().up(), Blocks.ENDER_CHEST.getDefaultState());
 				VitaeUtils.vitaeReleasedFX(hitInfo.getWorld(), hitInfo.getLocation().up(), 1, 10);
 			}
 		}

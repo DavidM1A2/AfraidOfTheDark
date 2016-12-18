@@ -12,11 +12,11 @@ import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.math.AxisAlignedBB;
 
 public class TileEntityDarkForest extends AOTDTickingTileEntity
 {
@@ -36,7 +36,7 @@ public class TileEntityDarkForest extends AOTDTickingTileEntity
 		{
 			if (this.ticksExisted % TICKS_INBETWEEN_CHECKS == 0)
 			{
-				for (Object object : this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.fromBounds(this.pos.getX(), this.pos.getY(), this.pos.getZ(), this.pos.getX() + 1, this.pos.getY() + 1, this.pos.getZ() + 1).expand(CHECK_RANGE, CHECK_RANGE, CHECK_RANGE)))
+				for (Object object : this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.pos.getX(), this.pos.getY(), this.pos.getZ(), this.pos.getX() + 1, this.pos.getY() + 1, this.pos.getZ() + 1).expand(CHECK_RANGE, CHECK_RANGE, CHECK_RANGE)))
 				{
 					if (object instanceof EntityPlayer)
 					{
@@ -48,25 +48,23 @@ public class TileEntityDarkForest extends AOTDTickingTileEntity
 
 						if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.DarkForest))
 						{
-							entityPlayer.addPotionEffect(new PotionEffect(30, 120, 0, true, false));
-							if (entityPlayer.inventory.hasItem(Items.potionitem))
+							entityPlayer.addPotionEffect(new PotionEffect(Potion.getPotionById(30), 120, 0, true, false));
+							for (int i = 0; i < entityPlayer.inventory.mainInventory.size(); i++)
 							{
-								for (int i = 0; i < entityPlayer.inventory.mainInventory.length; i++)
+								ItemStack itemStack = entityPlayer.inventory.getStackInSlot(i);
+								if (itemStack != null)
 								{
-									ItemStack itemStack = entityPlayer.inventory.mainInventory[i];
-									if (itemStack != null)
+									if (itemStack.getItem() instanceof ItemPotion)
 									{
-										if (itemStack.getItem() instanceof ItemPotion)
+										if (itemStack.getMetadata() == 0)
 										{
-											if (itemStack.getMetadata() == 0)
+											if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(ResearchTypes.SleepingPotion))
 											{
-												if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(ResearchTypes.SleepingPotion))
-												{
-													entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(ResearchTypes.SleepingPotion, true);
-												}
-
-												entityPlayer.inventory.setInventorySlotContents(i, new ItemStack(ModItems.sleepingPotion, itemStack.stackSize));
+												entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(ResearchTypes.SleepingPotion, true);
 											}
+
+											// func_190916_E = stackSize
+											entityPlayer.inventory.setInventorySlotContents(i, new ItemStack(ModItems.sleepingPotion, itemStack.func_190916_E()));
 										}
 									}
 								}

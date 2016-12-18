@@ -7,7 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.utility;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 
 public class Point3D
 {

@@ -35,7 +35,7 @@ public class AnimTickHandler
 	@SubscribeEvent
 	public void onClientDisconnected(GuiOpenEvent event)
 	{
-		if (event.gui instanceof GuiMainMenu)
+		if (event.getGui() instanceof GuiMainMenu)
 			this.activeEntitiesClient.clear();
 	}
 

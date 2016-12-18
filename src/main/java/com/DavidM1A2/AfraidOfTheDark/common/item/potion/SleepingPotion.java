@@ -9,9 +9,9 @@ import net.minecraft.util.ResourceLocation;
 
 public class SleepingPotion extends AOTDPotion
 {
-	public SleepingPotion(int id, ResourceLocation resourceLocation, boolean isBad, int color)
+	public SleepingPotion(ResourceLocation resourceLocation, boolean isBad, int color)
 	{
-		super(id, resourceLocation, isBad, color);
+		super(resourceLocation, isBad, color);
 		this.setPotionName("Drowsyness");
 	}
 }

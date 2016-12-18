@@ -13,8 +13,9 @@ public class BlockGlowStalk extends AOTDBlock
 {
 	public BlockGlowStalk()
 	{
-		super(Material.ground);
+		super(Material.GROUND);
 		this.setUnlocalizedName("glowStalk");
+		this.setRegistryName("glowStalk");
 		this.setLightLevel(1.0f);
 		this.setHardness(1.0F);
 		this.setResistance(4.0F);

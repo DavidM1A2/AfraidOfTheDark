@@ -10,16 +10,14 @@ import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.Animation
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDimensions;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
+import com.mojang.realmsclient.gui.ChatFormatting;
 
 import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 
 public class EntityGhastlyEnaria extends EntityFlying implements IMCAnimatedEntity
@@ -54,7 +52,7 @@ public class EntityGhastlyEnaria extends EntityFlying implements IMCAnimatedEnti
 		super.onEntityUpdate();
 		if (this.ticksExisted == 1)
 		{
-			EntityPlayer closest = this.worldObj.getClosestPlayer(this.posX, this.posY, this.posZ, AOTDDimensions.getBlocksBetweenIslands() / 2);
+			EntityPlayer closest = this.worldObj.getClosestPlayer(this.posX, this.posY, this.posZ, AOTDDimensions.getBlocksBetweenIslands() / 2, false);
 			if (closest == null)
 				this.setBenign(true);
 			else
@@ -79,25 +77,25 @@ public class EntityGhastlyEnaria extends EntityFlying implements IMCAnimatedEnti
 	@Override
 	protected void applyEntityAttributes()
 	{
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.maxHealth) == null)
+		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(EntityGhastlyEnaria.MAX_HEALTH);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(EntityGhastlyEnaria.MAX_HEALTH);
 		}
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange) == null)
+		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.FOLLOW_RANGE) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.followRange).setBaseValue(EntityGhastlyEnaria.FOLLOW_RANGE);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(EntityGhastlyEnaria.FOLLOW_RANGE);
 		}
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.knockbackResistance) == null)
+		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.KNOCKBACK_RESISTANCE) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(EntityGhastlyEnaria.KNOCKBACK_RESISTANCE);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(EntityGhastlyEnaria.KNOCKBACK_RESISTANCE);
 		}
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed) == null)
+		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(EntityGhastlyEnaria.MOVE_SPEED);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(EntityGhastlyEnaria.MOVE_SPEED);
 		}
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.attackDamage) == null)
+		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(EntityGhastlyEnaria.ATTACK_DAMAGE);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(EntityGhastlyEnaria.ATTACK_DAMAGE);
 		}
 	}
 
@@ -111,9 +109,9 @@ public class EntityGhastlyEnaria extends EntityFlying implements IMCAnimatedEnti
 	}
 
 	@Override
-	public IChatComponent getDisplayName()
+	public String getCustomNameTag()
 	{
-		return new ChatComponentText(EnumChatFormatting.RED + "" + EnumChatFormatting.BOLD + super.getDisplayName().getUnformattedTextForChat());
+		return ChatFormatting.RED + "" + ChatFormatting.BOLD + super.getDisplayName().getUnformattedComponentText();
 	}
 
 	@Override

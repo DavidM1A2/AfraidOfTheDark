@@ -19,7 +19,7 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent.MouseButto
 import com.DavidM1A2.AfraidOfTheDark.client.trueTypeFont.TrueTypeFont;
 
 import net.minecraft.util.ChatAllowedCharacters;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.MathHelper;
 
 public class AOTDGuiTextField extends AOTDGuiTextComponent
 {

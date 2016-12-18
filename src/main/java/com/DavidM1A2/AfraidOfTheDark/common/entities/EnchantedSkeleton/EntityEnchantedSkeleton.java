@@ -17,7 +17,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -27,12 +26,15 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
@@ -57,7 +59,6 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 
 		// Add various AI tasks
 		this.tasks.addTask(1, new EntityAISwimming(this));
-		this.tasks.addTask(4, new EntityAIAttackOnCollide(this, 1.0D, false));
 		this.tasks.addTask(7, new EntityAIWander(this, EntityEnchantedSkeleton.MOVE_SPEED));
 		this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, (float) EntityEnchantedSkeleton.AGRO_RANGE));
 		this.tasks.addTask(8, new EntityAILookIdle(this));
@@ -91,9 +92,9 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 			EntityPlayer killer = (EntityPlayer) damageSource.getSourceOfDamage();
 			if (killer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.BladeOfExhumation))
 			{
-				if (killer.getCurrentEquippedItem() != null)
+				if (killer.getHeldItemMainhand() != null)
 				{
-					if (killer.getCurrentEquippedItem().getItem() instanceof ItemBladeOfExhumation)
+					if (killer.getHeldItemMainhand().getItem() instanceof ItemBladeOfExhumation)
 					{
 						this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY + 1, this.posZ, new ItemStack(ModItems.enchantedSkeletonBone, 1, 0)));
 					}
@@ -105,9 +106,9 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 				{
 					killer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(ResearchTypes.BladeOfExhumation, true);
 				}
-				if (killer.getCurrentEquippedItem() != null)
+				if (killer.getHeldItemMainhand() != null)
 				{
-					if (killer.getCurrentEquippedItem().getItem() instanceof ItemBladeOfExhumation)
+					if (killer.getHeldItemMainhand().getItem() instanceof ItemBladeOfExhumation)
 					{
 						this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY + 1, this.posZ, new ItemStack(ModItems.enchantedSkeletonBone, 1, 0)));
 					}
@@ -167,25 +168,25 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 	@Override
 	protected void applyEntityAttributes()
 	{
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.maxHealth) == null)
+		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(EntityEnchantedSkeleton.MAX_HEALTH);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(EntityEnchantedSkeleton.MAX_HEALTH);
 		}
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.followRange) == null)
+		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.FOLLOW_RANGE) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.followRange).setBaseValue(EntityEnchantedSkeleton.FOLLOW_RANGE);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(EntityEnchantedSkeleton.FOLLOW_RANGE);
 		}
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.knockbackResistance) == null)
+		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.KNOCKBACK_RESISTANCE) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(EntityEnchantedSkeleton.KNOCKBACK_RESISTANCE);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(EntityEnchantedSkeleton.KNOCKBACK_RESISTANCE);
 		}
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed) == null)
+		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(EntityEnchantedSkeleton.MOVE_SPEED);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(EntityEnchantedSkeleton.MOVE_SPEED);
 		}
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.attackDamage) == null)
+		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE) == null)
 		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(EntityEnchantedSkeleton.ATTACK_DAMAGE);
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(EntityEnchantedSkeleton.ATTACK_DAMAGE);
 		}
 	}
 
@@ -204,36 +205,27 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 	}
 
 	/**
-	 * Returns the sound this mob makes while it's alive.
-	 */
-	@Override
-	protected String getLivingSound()
-	{
-		return "mob.skeleton.say";
-	}
-
-	/**
 	 * Returns the sound this mob makes when it is hurt.
 	 */
 	@Override
-	protected String getHurtSound()
+	protected SoundEvent getHurtSound()
 	{
-		return "mob.skeleton.hurt";
+		return SoundEvents.ENTITY_SKELETON_HURT;
 	}
 
 	/**
 	 * Returns the sound this mob makes on death.
 	 */
 	@Override
-	protected String getDeathSound()
+	protected SoundEvent getDeathSound()
 	{
-		return "mob.skeleton.death";
+		return SoundEvents.ENTITY_SKELETON_DEATH;
 	}
 
 	@Override
 	protected void playStepSound(BlockPos p_180429_1_, Block p_180429_2_)
 	{
-		this.playSound("mob.skeleton.step", 0.15F, 1.0F);
+		this.playSound(SoundEvents.ENTITY_SKELETON_STEP, 0.15F, 1.0F);
 	}
 
 	@Override
@@ -241,8 +233,8 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 	{
 		if (entity instanceof EntityPlayer)
 		{
-			((EntityPlayer) entity).addPotionEffect(new PotionEffect(2, 80, 0, false, true));
-			((EntityPlayer) entity).addPotionEffect(new PotionEffect(18, 80, 0, false, true));
+			((EntityPlayer) entity).addPotionEffect(new PotionEffect(Potion.getPotionById(2), 80, 0, false, true));
+			((EntityPlayer) entity).addPotionEffect(new PotionEffect(Potion.getPotionById(18), 80, 0, false, true));
 		}
 		AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncAnimation("Attack", this, "Attack", "Spawn"), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 15));
 

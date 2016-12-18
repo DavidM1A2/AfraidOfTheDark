@@ -13,7 +13,10 @@ import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 public class ItemSextant extends AOTDItem
@@ -27,8 +30,9 @@ public class ItemSextant extends AOTDItem
 	}
 
 	@Override
-	public ItemStack onItemRightClick(final ItemStack itemStack, final World world, final EntityPlayer entityPlayer)
+	public ActionResult<ItemStack> onItemRightClick(final World world, final EntityPlayer entityPlayer, EnumHand hand)
 	{
+		ItemStack itemStack = entityPlayer.getHeldItem(hand);
 		if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getHasStartedAOTD() && entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.AstronomyI.getPrevious()))
 		{
 			entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.SEXTANT_ID, world, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ());
@@ -37,9 +41,9 @@ public class ItemSextant extends AOTDItem
 		{
 			if (world.isRemote)
 			{
-				entityPlayer.addChatComponentMessage(new ChatComponentText("I can't understand what this thing does."));
+				entityPlayer.addChatMessage(new TextComponentString("I can't understand what this thing does."));
 			}
 		}
-		return itemStack;
+		return ActionResult.<ItemStack> newResult(EnumActionResult.SUCCESS, itemStack);
 	}
 }

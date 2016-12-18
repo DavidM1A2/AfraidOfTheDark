@@ -11,7 +11,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.VitaeUtils;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class Grow extends Effect

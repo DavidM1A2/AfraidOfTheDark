@@ -8,7 +8,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot;
 import java.util.Random;
 
 import net.minecraft.item.Item;
-import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class LootTableEntry
 {
@@ -48,7 +48,7 @@ public class LootTableEntry
 	{
 		if (random == null)
 		{
-			random = new Random(MinecraftServer.getServer().worldServerForDimension(0).getSeed());
+			random = new Random(FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(0).getSeed());
 		}
 		return random.nextInt((numberOfItemsToGenerateMax - numberOfItemsToGenerateMin) + 1) + numberOfItemsToGenerateMin;
 	}

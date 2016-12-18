@@ -25,7 +25,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
@@ -259,22 +259,22 @@ public class TrueTypeFont
 		float DrawHeight = Math.abs(drawY2 - drawY);
 		float SrcWidth = srcX2 - srcX;
 		float SrcHeight = srcY2 - srcY;
-		WorldRenderer worldRenderer = Tessellator.getInstance().getWorldRenderer();
+		VertexBuffer vertexBuffer = Tessellator.getInstance().getBuffer();
 
-		worldRenderer.pos(drawX, drawY + DrawHeight, 0.0D).tex((srcX + SrcWidth) / textureWidth, srcY / textureHeight).endVertex();
+		vertexBuffer.pos(drawX, drawY + DrawHeight, 0.0D).tex((srcX + SrcWidth) / textureWidth, srcY / textureHeight).endVertex();
 		// GL11.glTexCoord2f(TextureSrcX, TextureSrcY + RenderHeight);
 		// GL11.glVertex2f(drawX, drawY + DrawHeight);
 
-		worldRenderer.pos(drawX + DrawWidth, drawY + DrawHeight, 0.0D).tex(srcX / textureWidth, srcY / textureHeight).endVertex();
+		vertexBuffer.pos(drawX + DrawWidth, drawY + DrawHeight, 0.0D).tex(srcX / textureWidth, srcY / textureHeight).endVertex();
 		// GL11.glTexCoord2f(TextureSrcX + RenderWidth, TextureSrcY +
 		// RenderHeight);
 		// GL11.glVertex2f(drawX + DrawWidth, drawY + DrawHeight);
 
-		worldRenderer.pos(drawX + DrawWidth, drawY, 0.0D).tex(srcX / textureWidth, (srcY + SrcHeight) / textureHeight).endVertex();
+		vertexBuffer.pos(drawX + DrawWidth, drawY, 0.0D).tex(srcX / textureWidth, (srcY + SrcHeight) / textureHeight).endVertex();
 		// GL11.glTexCoord2f(TextureSrcX + RenderWidth, TextureSrcY);
 		// GL11.glVertex2f(drawX + DrawWidth, drawY);
 
-		worldRenderer.pos(drawX, drawY, 0.0D).tex((srcX + SrcWidth) / textureWidth, (srcY + SrcHeight) / textureHeight).endVertex();
+		vertexBuffer.pos(drawX, drawY, 0.0D).tex((srcX + SrcWidth) / textureWidth, (srcY + SrcHeight) / textureHeight).endVertex();
 		// GL11.glTexCoord2f(TextureSrcX, TextureSrcY);
 		// GL11.glVertex2f(drawX, drawY);
 	}
@@ -396,8 +396,8 @@ public class TrueTypeFont
 		}
 		GlStateManager.bindTexture(fontTextureID);
 		Tessellator tessellator = Tessellator.getInstance();
-		WorldRenderer worldRenderer = tessellator.getWorldRenderer();
-		worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+		VertexBuffer vertexBuffer = tessellator.getBuffer();
+		vertexBuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
 		// GL11.glBegin(GL11.GL_QUADS);
 		if (rgba.length == 4)
 		{

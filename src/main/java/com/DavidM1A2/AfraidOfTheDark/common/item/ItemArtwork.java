@@ -15,8 +15,11 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class ItemArtwork extends AOTDItem
@@ -29,7 +32,7 @@ public class ItemArtwork extends AOTDItem
 	}
 
 	@Override
-	public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> subItems)
+	public void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> subItems)
 	{
 		for (int i = 0; i < AOTDArt.values().length; i++)
 			subItems.add(new ItemStack(item, 1, i));
@@ -39,34 +42,30 @@ public class ItemArtwork extends AOTDItem
 	 * Called when a Block is right-clicked with this Item
 	 */
 	@Override
-	public boolean onItemUse(ItemStack itemStack, EntityPlayer entityPlayer, World world, BlockPos blockPos, EnumFacing side, float hitX, float hitY, float hitZ)
+	public EnumActionResult onItemUse(EntityPlayer entityPlayer, World world, BlockPos blockPos, EnumHand hand, EnumFacing side, float facing, float hitX, float hitZ)
 	{
-		if (side == EnumFacing.DOWN)
-			return false;
-		else if (side == EnumFacing.UP)
-			return false;
-		else
+		ItemStack itemStack = entityPlayer.getHeldItem(hand);
+
+		if (side != EnumFacing.DOWN && side != EnumFacing.UP && entityPlayer.canPlayerEdit(blockPos, side, itemStack))
 		{
 			BlockPos offsetted = blockPos.offset(side);
-			if (!entityPlayer.canPlayerEdit(offsetted, side, itemStack))
-				return false;
-			else
+			AOTDArt artwork = artFromItemstack(itemStack);
+			if (artwork != null)
 			{
-				AOTDArt artwork = artFromItemstack(itemStack);
-				if (artwork == null)
-					return false;
-
 				EntityArtwork painting = new EntityArtwork(world, offsetted, side, artwork);
 				if (painting.onValidSurface())
 				{
-					if (!world.isRemote)
+					if (!entityPlayer.worldObj.isRemote)
+					{
+						painting.playPlaceSound();
 						world.spawnEntityInWorld(painting);
-
-					itemStack.stackSize--;
+					}
+					itemStack.func_190917_f(-1);
+					return EnumActionResult.SUCCESS;
 				}
-				return true;
 			}
 		}
+		return EnumActionResult.FAIL;
 	}
 
 	@Override

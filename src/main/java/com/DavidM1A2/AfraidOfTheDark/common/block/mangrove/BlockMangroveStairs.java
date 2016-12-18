@@ -14,5 +14,6 @@ public class BlockMangroveStairs extends AOTDStairs
 	{
 		super(ModBlocks.mangrovePlanks.getDefaultState());
 		this.setUnlocalizedName("mangroveStairs");
+		this.setRegistryName("mangroveStairs");
 	}
 }

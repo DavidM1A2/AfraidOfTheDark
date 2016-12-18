@@ -13,10 +13,10 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
+import com.mojang.realmsclient.gui.ChatFormatting;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
 public class AOTDGuiResearchNodeButton extends AOTDGuiButton
@@ -79,12 +79,12 @@ public class AOTDGuiResearchNodeButton extends AOTDGuiButton
 			if (this.isHovered() && entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(this.getResearch()))
 			{
 				fontRenderer.drawString(this.getResearch().formattedString(), AOTDGuiUtility.getMouseX() + 5, AOTDGuiUtility.getMouseY(), 0xFF3399);
-				fontRenderer.drawString(EnumChatFormatting.ITALIC + this.getResearch().getTooltip(), AOTDGuiUtility.getMouseX() + 7, AOTDGuiUtility.getMouseY() + 10, 0xE62E8A);
+				fontRenderer.drawString(ChatFormatting.ITALIC + this.getResearch().getTooltip(), AOTDGuiUtility.getMouseX() + 7, AOTDGuiUtility.getMouseY() + 10, 0xE62E8A);
 			}
 			else if (this.isHovered() && entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(this.getResearch()))
 			{
 				fontRenderer.drawString("?", AOTDGuiUtility.getMouseX() + 5, AOTDGuiUtility.getMouseY(), 0xFF3399);
-				fontRenderer.drawString(EnumChatFormatting.ITALIC + "Unknown Research", AOTDGuiUtility.getMouseX() + 7, AOTDGuiUtility.getMouseY() + 10, 0xE62E8A);
+				fontRenderer.drawString(ChatFormatting.ITALIC + "Unknown Research", AOTDGuiUtility.getMouseX() + 7, AOTDGuiUtility.getMouseY() + 10, 0xE62E8A);
 			}
 		}
 	}

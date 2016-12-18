@@ -13,28 +13,28 @@ import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexBuffer;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.renderer.vertex.VertexFormatElement;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.IRenderHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class NightmareSkyRenderer extends IRenderHandler {
+public class NightmareSkyRenderer extends IRenderHandler
+{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void render(float partialTicks, WorldClient world, Minecraft mc) {
+	public void render(float partialTicks, WorldClient world, Minecraft mc)
+	{
 		int strangeVariableInt = 2;
 		boolean someBooleanField = true;
 		VertexFormat vertexFormat = new VertexFormat();
-		vertexFormat.addElement(new VertexFormatElement(0, VertexFormatElement.EnumType.FLOAT,
-				VertexFormatElement.EnumUsage.POSITION, 3));
+		vertexFormat.addElement(new VertexFormatElement(0, VertexFormatElement.EnumType.FLOAT, VertexFormatElement.EnumUsage.POSITION, 3));
 		VertexBuffer someVertexBuffer = new VertexBuffer(vertexFormat);
 		VertexBuffer someVertexBuffer2 = new VertexBuffer(vertexFormat);
 		VertexBuffer someVertexBuffer3 = new VertexBuffer(vertexFormat);
@@ -43,12 +43,13 @@ public class NightmareSkyRenderer extends IRenderHandler {
 		int glSkyList2 = starGLCallList + 2;
 
 		GlStateManager.disableTexture2D();
-		Vec3 vec3 = world.getSkyColor(mc.getRenderViewEntity(), partialTicks);
+		Vec3d vec3 = world.getSkyColor(mc.getRenderViewEntity(), partialTicks);
 		float f1 = (float) vec3.xCoord;
 		float f2 = (float) vec3.yCoord;
 		float f3 = (float) vec3.zCoord;
 
-		if (strangeVariableInt != 2) {
+		if (strangeVariableInt != 2)
+		{
 			float f4 = (f1 * 30.0F + f2 * 59.0F + f3 * 11.0F) / 100.0F;
 			float f5 = (f1 * 30.0F + f2 * 70.0F) / 100.0F;
 			float f6 = (f1 * 30.0F + f3 * 70.0F) / 100.0F;
@@ -59,19 +60,22 @@ public class NightmareSkyRenderer extends IRenderHandler {
 
 		GlStateManager.color(f1, f2, f3);
 		Tessellator tessellator = Tessellator.getInstance();
-		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+		net.minecraft.client.renderer.VertexBuffer worldrenderer = tessellator.getBuffer();
 		GlStateManager.depthMask(false);
 		GlStateManager.enableFog();
 		GlStateManager.color(f1, f2, f3);
 
-		if (someBooleanField) {
+		if (someBooleanField)
+		{
 			someVertexBuffer.bindBuffer();
 			GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
 			GL11.glVertexPointer(3, GL11.GL_FLOAT, 12, 0L);
 			someVertexBuffer.drawArrays(7);
 			someVertexBuffer.unbindBuffer();
 			GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
-		} else {
+		}
+		else
+		{
 			GlStateManager.callList(glSkyList);
 		}
 
@@ -87,20 +91,21 @@ public class NightmareSkyRenderer extends IRenderHandler {
 		float f10;
 		float f11;
 
-		if (afloat != null) {
+		if (afloat != null)
+		{
 			GlStateManager.disableTexture2D();
 			GlStateManager.shadeModel(7425);
 			GlStateManager.pushMatrix();
 			GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
-			GlStateManager.rotate(MathHelper.sin(world.getCelestialAngleRadians(partialTicks)) < 0.0F ? 180.0F : 0.0F,
-					0.0F, 0.0F, 1.0F);
+			GlStateManager.rotate(MathHelper.sin(world.getCelestialAngleRadians(partialTicks)) < 0.0F ? 180.0F : 0.0F, 0.0F, 0.0F, 1.0F);
 			GlStateManager.rotate(90.0F, 0.0F, 0.0F, 1.0F);
 			f7 = afloat[0];
 			f8 = afloat[1];
 			f9 = afloat[2];
 			float f12;
 
-			if (strangeVariableInt != 2) {
+			if (strangeVariableInt != 2)
+			{
 				f10 = (f7 * 30.0F + f8 * 59.0F + f9 * 11.0F) / 100.0F;
 				f11 = (f7 * 30.0F + f8 * 70.0F) / 100.0F;
 				f12 = (f7 * 30.0F + f9 * 70.0F) / 100.0F;
@@ -114,12 +119,12 @@ public class NightmareSkyRenderer extends IRenderHandler {
 			boolean flag = true;
 			worldrenderer.color(afloat[0], afloat[1], afloat[2], 0.0F);
 
-			for (int j = 0; j <= 16; ++j) {
+			for (int j = 0; j <= 16; ++j)
+			{
 				f12 = j * (float) Math.PI * 2.0F / 16.0F;
 				float f13 = MathHelper.sin(f12);
 				float f14 = MathHelper.cos(f12);
-				worldrenderer.pos(f13 * 120.0F, f14 * 120.0F, -f14 * 40.0F * afloat[3])
-						.color(afloat[0], afloat[1], afloat[2], 0.0F).endVertex();
+				worldrenderer.pos(f13 * 120.0F, f14 * 120.0F, -f14 * 40.0F * afloat[3]).color(afloat[0], afloat[1], afloat[2], 0.0F).endVertex();
 			}
 
 			tessellator.draw();
@@ -163,17 +168,21 @@ public class NightmareSkyRenderer extends IRenderHandler {
 		GlStateManager.disableTexture2D();
 		float f19 = world.getStarBrightness(partialTicks) * f7;
 
-		if (f19 > 0.0F) {
+		if (f19 > 0.0F)
+		{
 			GlStateManager.color(f19, f19, f19, f19);
 
-			if (someBooleanField) {
+			if (someBooleanField)
+			{
 				someVertexBuffer2.bindBuffer();
 				GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
 				GL11.glVertexPointer(3, GL11.GL_FLOAT, 12, 0L);
 				someVertexBuffer2.drawArrays(7);
 				someVertexBuffer2.unbindBuffer();
 				GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
-			} else {
+			}
+			else
+			{
 				GlStateManager.callList(starGLCallList);
 			}
 		}
@@ -187,18 +196,22 @@ public class NightmareSkyRenderer extends IRenderHandler {
 		GlStateManager.color(0.0F, 0.0F, 0.0F);
 		double d0 = mc.thePlayer.getPositionEyes(partialTicks).yCoord - world.getHorizon();
 
-		if (d0 < 0.0D) {
+		if (d0 < 0.0D)
+		{
 			GlStateManager.pushMatrix();
 			GlStateManager.translate(0.0F, 12.0F, 0.0F);
 
-			if (someBooleanField) {
+			if (someBooleanField)
+			{
 				someVertexBuffer3.bindBuffer();
 				GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
 				GL11.glVertexPointer(3, GL11.GL_FLOAT, 12, 0L);
 				someVertexBuffer3.drawArrays(7);
 				someVertexBuffer3.unbindBuffer();
 				GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
-			} else {
+			}
+			else
+			{
 				GlStateManager.callList(glSkyList2);
 			}
 
@@ -230,9 +243,12 @@ public class NightmareSkyRenderer extends IRenderHandler {
 			tessellator.draw();
 		}
 
-		if (world.provider.isSkyColored()) {
+		if (world.provider.isSkyColored())
+		{
 			GlStateManager.color(f1 * 0.2F + 0.04F, f2 * 0.2F + 0.04F, f3 * 0.6F + 0.1F);
-		} else {
+		}
+		else
+		{
 			GlStateManager.color(f1, f2, f3);
 		}
 

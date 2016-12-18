@@ -12,19 +12,19 @@ import java.util.Random;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 
 import net.minecraft.init.Items;
-import net.minecraft.util.WeightedRandomChestContent;
+import net.minecraft.item.ItemStack;
 
 public class WitchHutLoot implements IChestGenerator
 {
 	@Override
-	public List<WeightedRandomChestContent> getPossibleItems(Random random)
+	public List<RandomItem> getPossibleItems(Random random)
 	{
-		ArrayList<WeightedRandomChestContent> toReturn = new ArrayList<WeightedRandomChestContent>();
+		ArrayList<RandomItem> toReturn = new ArrayList<RandomItem>();
 
 		//                                          Item, meta, min, max, chance
-		toReturn.add(new WeightedRandomChestContent(Items.potionitem, random.nextInt(20) + 5, 1, 1, 8));
+		toReturn.add(new RandomItem(new ItemStack(Items.POTIONITEM, 1, random.nextInt(20) + 5), 8));
 
-		toReturn.add(new WeightedRandomChestContent(ModItems.researchScrollWristCrossbow, 0, 1, 1, 1));
+		toReturn.add(new RandomItem(ModItems.researchScrollWristCrossbow, 1));
 
 		return toReturn;
 	}

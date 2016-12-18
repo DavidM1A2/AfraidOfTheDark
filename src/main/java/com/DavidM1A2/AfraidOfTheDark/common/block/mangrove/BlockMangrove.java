@@ -7,7 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.block.mangrove;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDLog;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 
 public class BlockMangrove extends AOTDLog
 {
@@ -17,7 +17,8 @@ public class BlockMangrove extends AOTDLog
 	public BlockMangrove()
 	{
 		super();
-		this.setStepSound(Block.soundTypeWood);
+		this.setSoundType(SoundType.WOOD);
 		this.setUnlocalizedName("mangrove");
+		this.setRegistryName("mangrove");
 	}
 }

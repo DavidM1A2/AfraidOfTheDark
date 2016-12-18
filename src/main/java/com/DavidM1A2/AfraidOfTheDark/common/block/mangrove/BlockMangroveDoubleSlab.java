@@ -13,15 +13,17 @@ import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
-import net.minecraft.util.BlockPos;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockMangroveDoubleSlab extends AOTDSlab
 {
 	public BlockMangroveDoubleSlab()
 	{
-		super(Material.wood);
+		super(Material.WOOD);
 		this.setUnlocalizedName("mangroveDoubleSlab");
+		this.setRegistryName("mangroveDoubleSlab");
 	}
 
 	@Override
@@ -37,8 +39,8 @@ public class BlockMangroveDoubleSlab extends AOTDSlab
 	}
 
 	@Override
-	public Item getItem(World worldIn, BlockPos pos)
+	public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state)
 	{
-		return Item.getItemFromBlock(ModBlocks.mangroveHalfSlab);
+		return new ItemStack(ModBlocks.mangroveHalfSlab, 1, 0);
 	}
 }

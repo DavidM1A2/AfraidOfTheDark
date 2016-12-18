@@ -14,10 +14,10 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ClassInheritanceMultiMap;
 import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -29,8 +29,8 @@ public class WorldEvents
 	@SubscribeEvent
 	public void onChunkUnloadEvent(ChunkEvent.Unload event)
 	{
-		if (event.world.provider.getDimensionId() == AOTDDimensions.Nightmare.getWorldID())
-			if (!event.world.isRemote)
+		if (event.getWorld().provider.getDimension() == AOTDDimensions.Nightmare.getWorldID())
+			if (!event.getWorld().isRemote)
 			{
 				EntityGhastlyEnaria newEnaria = null;
 				for (ClassInheritanceMultiMap<Entity> entityMap : event.getChunk().getEntityLists())
@@ -39,7 +39,7 @@ public class WorldEvents
 					{
 						if (entity instanceof EntityGhastlyEnaria)
 						{
-							EntityPlayer entityPlayer = event.world.getClosestPlayer(event.getChunk().xPosition * 16, 100, event.getChunk().zPosition * 16, AOTDDimensions.getBlocksBetweenIslands() / 2);
+							EntityPlayer entityPlayer = event.getWorld().getClosestPlayer(event.getChunk().xPosition * 16, 100, event.getChunk().zPosition * 16, AOTDDimensions.getBlocksBetweenIslands() / 2, false);
 							entity.onKillCommand();
 							if (entityPlayer != null && !entityPlayer.isDead)
 							{
@@ -47,7 +47,7 @@ public class WorldEvents
 								int offsetZ = entityPlayer.getRNG().nextBoolean() ? Utility.randInt(-50, -25) : Utility.randInt(25, 50);
 								int posX = entityPlayer.getPosition().getX() + offsetX;
 								int posZ = entityPlayer.getPosition().getZ() + offsetZ;
-								newEnaria = new EntityGhastlyEnaria(event.world);
+								newEnaria = new EntityGhastlyEnaria(event.getWorld());
 								newEnaria.setBenign(!entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.Enaria));
 								newEnaria.setPosition(posX, entityPlayer.posY, posZ);
 							}
@@ -55,7 +55,7 @@ public class WorldEvents
 					}
 				}
 				if (newEnaria != null)
-					event.world.spawnEntityInWorld(newEnaria);
+					event.getWorld().spawnEntityInWorld(newEnaria);
 			}
 	}
 
@@ -76,18 +76,17 @@ public class WorldEvents
 	@SubscribeEvent
 	public void onWorldLoadEvent(WorldEvent.Load event)
 	{
-		if (!event.world.isRemote)
+		if (!event.getWorld().isRemote)
 		{
-			AOTDWorldData.register(event.world);
+			AOTDWorldData.register(event.getWorld());
 		}
 	}
 
 	private void updateInsanity()
 	{
 		// Loop through
-		for (final Object player : MinecraftServer.getServer().getConfigurationManager().playerEntityList)
+		for (final EntityPlayer entityPlayer : FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerList())
 		{
-			final EntityPlayer entityPlayer = (EntityPlayer) player;
 			// if (AOTDPlayerData.get(entityPlayer).getHasStartedAOTD())
 			// {
 			// if (entityPlayer.worldObj.getBiomeGenForCoords(new BlockPos((int)

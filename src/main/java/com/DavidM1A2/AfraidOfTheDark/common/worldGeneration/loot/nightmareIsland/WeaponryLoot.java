@@ -10,42 +10,42 @@ import java.util.List;
 import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.IChestGenerator;
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.RandomItem;
 
 import net.minecraft.init.Items;
-import net.minecraft.util.WeightedRandomChestContent;
 
 public class WeaponryLoot implements IChestGenerator
 {
 	@Override
-	public List<WeightedRandomChestContent> getPossibleItems(Random random)
+	public List<RandomItem> getPossibleItems(Random random)
 	{
-		ArrayList<WeightedRandomChestContent> toReturn = new ArrayList<WeightedRandomChestContent>();
+		ArrayList<RandomItem> toReturn = new ArrayList<RandomItem>();
 
 		//                                          Item, meta, min, max, chance
-		toReturn.add(new WeightedRandomChestContent(Items.iron_sword, 0, 1, 1, 10));
-		toReturn.add(new WeightedRandomChestContent(Items.golden_sword, 0, 1, 1, 10));
-		toReturn.add(new WeightedRandomChestContent(Items.diamond_sword, 0, 1, 1, 10));
-		toReturn.add(new WeightedRandomChestContent(Items.stone_sword, 0, 1, 1, 10));
+		toReturn.add(new RandomItem(Items.IRON_SWORD, 10));
+		toReturn.add(new RandomItem(Items.GOLDEN_SWORD, 10));
+		toReturn.add(new RandomItem(Items.DIAMOND_SWORD, 10));
+		toReturn.add(new RandomItem(Items.STONE_SWORD, 10));
 
-		toReturn.add(new WeightedRandomChestContent(Items.diamond_helmet, 0, 1, 1, 10));
-		toReturn.add(new WeightedRandomChestContent(Items.diamond_chestplate, 0, 1, 1, 10));
-		toReturn.add(new WeightedRandomChestContent(Items.diamond_leggings, 0, 1, 1, 10));
-		toReturn.add(new WeightedRandomChestContent(Items.diamond_boots, 0, 1, 1, 10));
+		toReturn.add(new RandomItem(Items.DIAMOND_HELMET, 10));
+		toReturn.add(new RandomItem(Items.DIAMOND_CHESTPLATE, 10));
+		toReturn.add(new RandomItem(Items.DIAMOND_LEGGINGS, 10));
+		toReturn.add(new RandomItem(Items.DIAMOND_BOOTS, 10));
 
-		toReturn.add(new WeightedRandomChestContent(Items.golden_helmet, 0, 1, 1, 10));
-		toReturn.add(new WeightedRandomChestContent(Items.golden_chestplate, 0, 1, 1, 10));
-		toReturn.add(new WeightedRandomChestContent(Items.golden_leggings, 0, 1, 1, 10));
-		toReturn.add(new WeightedRandomChestContent(Items.golden_boots, 0, 1, 1, 10));
+		toReturn.add(new RandomItem(Items.GOLDEN_HELMET, 10));
+		toReturn.add(new RandomItem(Items.GOLDEN_CHESTPLATE, 10));
+		toReturn.add(new RandomItem(Items.GOLDEN_LEGGINGS, 10));
+		toReturn.add(new RandomItem(Items.GOLDEN_BOOTS, 10));
 
-		toReturn.add(new WeightedRandomChestContent(Items.iron_helmet, 0, 1, 1, 10));
-		toReturn.add(new WeightedRandomChestContent(Items.iron_chestplate, 0, 1, 1, 10));
-		toReturn.add(new WeightedRandomChestContent(Items.iron_leggings, 0, 1, 1, 10));
-		toReturn.add(new WeightedRandomChestContent(Items.iron_boots, 0, 1, 1, 10));
+		toReturn.add(new RandomItem(Items.IRON_HELMET, 10));
+		toReturn.add(new RandomItem(Items.IRON_CHESTPLATE, 10));
+		toReturn.add(new RandomItem(Items.IRON_LEGGINGS, 10));
+		toReturn.add(new RandomItem(Items.IRON_BOOTS, 10));
 
-		toReturn.add(new WeightedRandomChestContent(Items.leather_helmet, 0, 1, 1, 10));
-		toReturn.add(new WeightedRandomChestContent(Items.leather_chestplate, 0, 1, 1, 10));
-		toReturn.add(new WeightedRandomChestContent(Items.leather_boots, 0, 1, 1, 10));
-		toReturn.add(new WeightedRandomChestContent(Items.leather_leggings, 0, 1, 1, 10));
+		toReturn.add(new RandomItem(Items.LEATHER_HELMET, 10));
+		toReturn.add(new RandomItem(Items.LEATHER_CHESTPLATE, 10));
+		toReturn.add(new RandomItem(Items.LEATHER_BOOTS, 10));
+		toReturn.add(new RandomItem(Items.LEATHER_LEGGINGS, 10));
 
 		return toReturn;
 	}

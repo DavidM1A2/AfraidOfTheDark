@@ -14,7 +14,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class Teleport extends Effect
@@ -49,7 +49,7 @@ public class Teleport extends Effect
 		if (!world.isRemote)
 		{
 			VitaeUtils.vitaeReleasedFX(world, toTeleport.getPosition(), 1, 10);
-			((EntityPlayerMP) toTeleport).playerNetServerHandler.setPlayerLocation(locationTo.getX(), locationTo.getY(), locationTo.getZ(), toTeleport.rotationYaw, toTeleport.rotationPitch);
+			((EntityPlayerMP) toTeleport).connection.setPlayerLocation(locationTo.getX(), locationTo.getY(), locationTo.getZ(), toTeleport.rotationYaw, toTeleport.rotationPitch);
 			VitaeUtils.vitaeReleasedFX(world, locationTo, 1, 10);
 		}
 	}

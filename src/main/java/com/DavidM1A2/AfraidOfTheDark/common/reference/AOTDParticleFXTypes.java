@@ -78,7 +78,7 @@ public enum AOTDParticleFXTypes
 	@SideOnly(Side.SERVER)
 	public void instantiateServer(World world, double x, double y, double z, int range)
 	{
-		AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncParticleFX(this, x, y, z), world.provider.getDimensionId(), x, y, z, range);
+		AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncParticleFX(this, x, y, z), world.provider.getDimension(), x, y, z, range);
 	}
 
 	@SideOnly(Side.CLIENT)

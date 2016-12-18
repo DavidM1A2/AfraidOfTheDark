@@ -23,9 +23,9 @@ import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.AOTDDungeonTypes;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockLeaves;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.Biome;
 
 public class GenerateGnomishCity implements AOTDGeneratable
 {
@@ -148,13 +148,16 @@ public class GenerateGnomishCity implements AOTDGeneratable
 	@Override
 	public double getGenerationChance(int biomeID)
 	{
-		if (biomeID == BiomeGenBase.plains.biomeID)
+		// Plains
+		if (biomeID == 2)
 			return ConfigurationHandler.gnomishCityFrequency * 0.375 * ConfigurationHandler.dungeonFrequencyMultiplier;
-		else if (biomeID == ModBiomes.erieForest.biomeID)
+		else if (biomeID == Biome.getIdForBiome(ModBiomes.erieForest))
 			return ConfigurationHandler.gnomishCityFrequency * ConfigurationHandler.dungeonFrequencyMultiplier;
-		else if (biomeID == BiomeGenBase.savanna.biomeID)
+		// Savanah
+		else if (biomeID == 35)
 			return ConfigurationHandler.gnomishCityFrequency * 0.5 * ConfigurationHandler.dungeonFrequencyMultiplier;
-		else if (biomeID == BiomeGenBase.icePlains.biomeID || biomeID == BiomeGenBase.iceMountains.biomeID)
+		// Ice flats or Ice hills
+		else if (biomeID == 12 || biomeID == 13)
 			return ConfigurationHandler.gnomishCityFrequency * 0.5 * ConfigurationHandler.dungeonFrequencyMultiplier;
 		return 0;
 	}

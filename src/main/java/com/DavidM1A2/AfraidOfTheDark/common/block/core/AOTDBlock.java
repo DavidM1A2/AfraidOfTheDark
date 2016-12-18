@@ -10,8 +10,10 @@ import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -39,13 +41,14 @@ public abstract class AOTDBlock extends Block
 	// Default material is rock (stone)
 	public AOTDBlock()
 	{
-		this(Material.rock);
+		this(Material.ROCK);
 	}
 
 	@Override
-	protected BlockState createBlockState()
+	protected BlockStateContainer createBlockState()
 	{
-		return new BlockState(this, new IProperty[] {});
+		return new BlockStateContainer(this, new IProperty[]
+		{});
 	}
 
 	// the block will render in the SOLID layer. See
@@ -53,9 +56,9 @@ public abstract class AOTDBlock extends Block
 	// for more information.
 	@Override
 	@SideOnly(Side.CLIENT)
-	public EnumWorldBlockLayer getBlockLayer()
+	public BlockRenderLayer getBlockLayer()
 	{
-		return EnumWorldBlockLayer.SOLID;
+		return BlockRenderLayer.SOLID;
 	}
 
 	// used by the renderer to control lighting and visibility of other blocks.
@@ -63,7 +66,7 @@ public abstract class AOTDBlock extends Block
 	// space
 	// not strictly required because the default (super method) is true
 	@Override
-	public boolean isOpaqueCube()
+	public boolean isOpaqueCube(IBlockState state)
 	{
 		return true;
 	}
@@ -75,7 +78,7 @@ public abstract class AOTDBlock extends Block
 	// set to true because this block occupies the entire 1x1x1 space
 	// not strictly required because the default (super method) is true
 	@Override
-	public boolean isFullCube()
+	public boolean isFullCube(IBlockState state)
 	{
 		return true;
 	}
@@ -84,9 +87,9 @@ public abstract class AOTDBlock extends Block
 	// mbe01_block_simple_model.json)
 	// not strictly required because the default (super method) is 3.
 	@Override
-	public int getRenderType()
+	public EnumBlockRenderType getRenderType(IBlockState state)
 	{
-		return 3;
+		return EnumBlockRenderType.MODEL;
 	}
 
 	@Override

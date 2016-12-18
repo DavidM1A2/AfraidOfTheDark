@@ -13,7 +13,6 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -65,14 +64,14 @@ public class SyncSpellManager implements IMessage
 		}
 
 		@Override
-		public IMessage handleServerMessage(final EntityPlayer player, final SyncSpellManager msg, MessageContext ctx)
+		public IMessage handleServerMessage(final EntityPlayer entityPlayer, final SyncSpellManager msg, MessageContext ctx)
 		{
-			MinecraftServer.getServer().addScheduledTask(new Runnable()
+			entityPlayer.worldObj.getMinecraftServer().addScheduledTask(new Runnable()
 			{
 				@Override
 				public void run()
 				{
-					player.getCapability(ModCapabilities.PLAYER_DATA, null).setSpellManager(msg.spellManager);
+					entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setSpellManager(msg.spellManager);
 				}
 			});
 			return null;

@@ -76,7 +76,7 @@ public class EntityAIAttackEnaria extends EntityAIBase
 		else if (this.attackTime % 40 == 0)
 		{
 			this.attackTime = this.attackTime - 1;
-			if (!this.enaria.isPotionActive(Potion.invisibility.getId()))
+			if (!this.enaria.isPotionActive(Potion.getPotionById(14)))
 			{
 				this.enaria.getEnariaAttacks().performBasicAttack();
 				AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncAnimation("autoattack", this.enaria, "spell", "autoattack"), new TargetPoint(this.enaria.dimension, this.enaria.posX, this.enaria.posY, this.enaria.posZ, 100));

@@ -11,18 +11,17 @@ import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.IChestGenerator;
-
-import net.minecraft.util.WeightedRandomChestContent;
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.RandomItem;
 
 public class InsanityResearchLoot implements IChestGenerator
 {
 	@Override
-	public List<WeightedRandomChestContent> getPossibleItems(Random random)
+	public List<RandomItem> getPossibleItems(Random random)
 	{
-		ArrayList<WeightedRandomChestContent> toReturn = new ArrayList<WeightedRandomChestContent>();
+		ArrayList<RandomItem> toReturn = new ArrayList<RandomItem>();
 
 		//                                          Item, meta, min, max, chance
-		toReturn.add(new WeightedRandomChestContent(ModItems.researchScrollInsanity, 0, 64, 64, 100));
+		toReturn.add(new RandomItem(ModItems.researchScrollInsanity, 100));
 
 		return toReturn;
 	}

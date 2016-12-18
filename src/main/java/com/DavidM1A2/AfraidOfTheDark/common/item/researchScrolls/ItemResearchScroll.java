@@ -13,7 +13,10 @@ import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -30,42 +33,41 @@ public abstract class ItemResearchScroll extends AOTDItem
 	}
 
 	/**
-	 * Called whenever this item is equipped and the right mouse button is
-	 * pressed. Args: itemStack, world, entityPlayer
+	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
 	 */
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer)
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer entityPlayer, EnumHand hand)
 	{
+		ItemStack itemStack = entityPlayer.getHeldItem(hand);
 		if (!world.isRemote)
 		{
 			if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(this.myType))
 			{
 				if (itemStack.getMetadata() == 0)
 				{
-					itemStack.stackSize = itemStack.stackSize - 1;
+					// Reduce stack size by 1
+					itemStack.func_190917_f(-1);
 					entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(this.myType, true);
 				}
 				else
 				{
-					entityPlayer.addChatMessage(new ChatComponentText("This research scroll is not complete yet."));
+					entityPlayer.addChatMessage(new TextComponentString("This research scroll is not complete yet."));
 				}
 			}
 			else if (!entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(this.myType))
 			{
-				entityPlayer.addChatMessage(new ChatComponentText("I don't understand the material refrenced in this research scroll."));
+				entityPlayer.addChatMessage(new TextComponentString("I don't understand the material refrenced in this research scroll."));
 			}
 		}
 
-		return super.onItemRightClick(itemStack, world, entityPlayer);
+		return ActionResult.<ItemStack> newResult(EnumActionResult.SUCCESS, itemStack);
 	}
 
 	/**
-	 * allows items to add custom lines of information to the mouseover
-	 * description
+	 * allows items to add custom lines of information to the mouseover description
 	 * 
 	 * @param tooltip
-	 *            All lines to display in the Item's tooltip. This is a List of
-	 *            Strings.
+	 *            All lines to display in the Item's tooltip. This is a List of Strings.
 	 * @param advanced
 	 *            Whether the setting "Advanced tooltips" is enabled
 	 */

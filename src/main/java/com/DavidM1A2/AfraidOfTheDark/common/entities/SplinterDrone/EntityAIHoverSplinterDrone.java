@@ -11,13 +11,15 @@ import net.minecraft.block.BlockAir;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityMoveHelper;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 
-public class EntityAIHoverSplinterDrone extends EntityAIBase {
+public class EntityAIHoverSplinterDrone extends EntityAIBase
+{
 	private final EntitySplinterDrone splinterDrone;
 
-	public EntityAIHoverSplinterDrone(EntitySplinterDrone splinterDrone) {
+	public EntityAIHoverSplinterDrone(EntitySplinterDrone splinterDrone)
+	{
 		this.setMutexBits(1);
 		this.splinterDrone = splinterDrone;
 	}
@@ -26,11 +28,14 @@ public class EntityAIHoverSplinterDrone extends EntityAIBase {
 	 * Returns whether the EntityAIBase should begin execution.
 	 */
 	@Override
-	public boolean shouldExecute() {
+	public boolean shouldExecute()
+	{
 		EntityMoveHelper entitymovehelper = this.splinterDrone.getMoveHelper();
 
-		if (!entitymovehelper.isUpdating()) {
-			if (this.splinterDrone.getAttackTarget() == null) {
+		if (!entitymovehelper.isUpdating())
+		{
+			if (this.splinterDrone.getAttackTarget() == null)
+			{
 				return true;
 			}
 		}
@@ -46,7 +51,8 @@ public class EntityAIHoverSplinterDrone extends EntityAIBase {
 	 * Returns whether an in-progress EntityAIBase should continue executing
 	 */
 	@Override
-	public boolean continueExecuting() {
+	public boolean continueExecuting()
+	{
 		return false;
 	}
 
@@ -54,7 +60,8 @@ public class EntityAIHoverSplinterDrone extends EntityAIBase {
 	 * Execute a one shot task or start executing a continuous task
 	 */
 	@Override
-	public void startExecuting() {
+	public void startExecuting()
+	{
 		Random random = this.splinterDrone.getRNG();
 
 		double xToGoTo = this.splinterDrone.posX + (random.nextFloat() * 2.0F - 1.0F) * 16.0F;
@@ -63,13 +70,15 @@ public class EntityAIHoverSplinterDrone extends EntityAIBase {
 
 		double yToGoTo = getHeightToMoveTo(xToGoTo, zToGoTo);
 
-		this.splinterDrone.getMoveHelper().setMoveTo(xToGoTo, yToGoTo, zToGoTo,
-				this.splinterDrone.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue());
+		this.splinterDrone.getMoveHelper().setMoveTo(xToGoTo, yToGoTo, zToGoTo, this.splinterDrone.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue());
 	}
 
-	private double getHeightToMoveTo(double x, double z) {
-		for (int y = MathHelper.floor_double(splinterDrone.posY); y > 0; y--) {
-			if (!(this.splinterDrone.worldObj.getBlockState(new BlockPos(x, y, z)).getBlock() instanceof BlockAir)) {
+	private double getHeightToMoveTo(double x, double z)
+	{
+		for (int y = MathHelper.floor_double(splinterDrone.posY); y > 0; y--)
+		{
+			if (!(this.splinterDrone.worldObj.getBlockState(new BlockPos(x, y, z)).getBlock() instanceof BlockAir))
+			{
 				return MathHelper.clamp_double(y + 3, 0.0D, 255D);
 			}
 		}

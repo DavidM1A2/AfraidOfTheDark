@@ -30,6 +30,8 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.recipe.ConvertedRecipe;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.recipe.RecipeUtility;
 
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 
 public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 {
@@ -194,7 +196,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 		this.forwardButton.setVisible(this.hasPageForward());
 		this.backwardButton.setVisible(this.hasPageBackward());
 
-		entityPlayer.playSound("afraidofthedark:pageTurn", 1.0F, 1.0F);
+		entityPlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:pageTurn")), 1.0F, 1.0F);
 	}
 
 	private void advancePage()
@@ -202,7 +204,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 		if (this.hasPageForward())
 		{
 			pageNumber = pageNumber + 2;
-			entityPlayer.playSound("afraidofthedark:pageTurn", 1.0F, 1.0F);
+			entityPlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:pageTurn")), 1.0F, 1.0F);
 		}
 		this.leftPageNumber.setText(Integer.toString(this.pageNumber + 1));
 		this.rightPageNumber.setText(Integer.toString(this.pageNumber + 2));
@@ -216,7 +218,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 		if (this.hasPageBackward())
 		{
 			pageNumber = pageNumber - 2;
-			entityPlayer.playSound("afraidofthedark:pageTurn", 1.0F, 1.0F);
+			entityPlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:pageTurn")), 1.0F, 1.0F);
 		}
 		this.leftPageNumber.setText(Integer.toString(this.pageNumber + 1));
 		this.rightPageNumber.setText(Integer.toString(this.pageNumber + 2));

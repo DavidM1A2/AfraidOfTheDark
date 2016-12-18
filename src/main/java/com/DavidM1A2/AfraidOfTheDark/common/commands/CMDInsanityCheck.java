@@ -14,8 +14,8 @@ import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.storage.SaveHandler;
 
 public class CMDInsanityCheck implements ICommand
@@ -53,21 +53,21 @@ public class CMDInsanityCheck implements ICommand
 
 	// What to do when the command happens
 	@Override
-	public void processCommand(final ICommandSender iCommandSender, final String[] p_71515_2_)
+	public void execute(MinecraftServer server, ICommandSender sender, String[] args)
 	{
-		final EntityPlayer sender = (EntityPlayer) iCommandSender.getCommandSenderEntity();
-		iCommandSender.addChatMessage(new ChatComponentText("Your current insanity is: " + sender.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerInsanity() + "%"));
-		iCommandSender.addChatMessage(new ChatComponentText("Your current has started AOTD status is: " + sender.getCapability(ModCapabilities.PLAYER_DATA, null).getHasStartedAOTD()));
-		iCommandSender.addChatMessage(new ChatComponentText("Current Vitae level is: " + sender.getCapability(ModCapabilities.ENTITY_DATA, null).getVitaeLevel()));
-		iCommandSender.addChatMessage(new ChatComponentText("Current dimension is: " + sender.dimension));
-		if (!sender.worldObj.isRemote)
+		final EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
+		sender.addChatMessage(new TextComponentString("Your current insanity is: " + player.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerInsanity() + "%"));
+		sender.addChatMessage(new TextComponentString("Your current has started AOTD status is: " + player.getCapability(ModCapabilities.PLAYER_DATA, null).getHasStartedAOTD()));
+		sender.addChatMessage(new TextComponentString("Current Vitae level is: " + player.getCapability(ModCapabilities.ENTITY_DATA, null).getVitaeLevel()));
+		sender.addChatMessage(new TextComponentString("Current dimension is: " + player.dimension));
+		if (!sender.getEntityWorld().isRemote)
 		{
-			iCommandSender.addChatMessage(new ChatComponentText("Number of registered players: " + ((SaveHandler) MinecraftServer.getServer().worldServers[0].getSaveHandler()).getAvailablePlayerDat().length));
+			sender.addChatMessage(new TextComponentString("Number of registered players: " + ((SaveHandler) server.worldServers[0].getSaveHandler()).getAvailablePlayerDat().length));
 		}
 	}
 
 	@Override
-	public boolean canCommandSenderUseCommand(final ICommandSender p_71519_1_)
+	public boolean checkPermission(MinecraftServer server, ICommandSender sender)
 	{
 		return true;
 	}
@@ -80,7 +80,7 @@ public class CMDInsanityCheck implements ICommand
 	}
 
 	@Override
-	public List addTabCompletionOptions(final ICommandSender sender, final String[] args, final BlockPos pos)
+	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
 	{
 		return null;
 	}

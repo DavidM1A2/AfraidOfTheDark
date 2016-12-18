@@ -15,8 +15,9 @@ public class BlockEnariaSpawner extends AOTDBlockTileEntity
 {
 	public BlockEnariaSpawner()
 	{
-		super(Material.rock);
+		super(Material.ROCK);
 		this.setUnlocalizedName("enariaSpawner");
+		this.setRegistryName("enariaSpawner");
 		this.setHardness(10.0F);
 		this.setResistance(50.0F);
 		this.setHarvestLevel("pickaxe", 3);
@@ -25,7 +26,7 @@ public class BlockEnariaSpawner extends AOTDBlockTileEntity
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta)
 	{
-		if (world.provider.getDimensionId() == AOTDDimensions.Nightmare.getWorldID())
+		if (world.provider.getDimension() == AOTDDimensions.Nightmare.getWorldID())
 			return new TileEntityGhastlyEnariaSpawner();
 		else
 			return new TileEntityEnariaSpawner();

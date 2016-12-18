@@ -10,38 +10,38 @@ import java.util.List;
 import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.IChestGenerator;
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.RandomItem;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.util.WeightedRandomChestContent;
 
 public class RandomBlockLoot implements IChestGenerator
 {
 	@Override
-	public List<WeightedRandomChestContent> getPossibleItems(Random random)
+	public List<RandomItem> getPossibleItems(Random random)
 	{
-		ArrayList<WeightedRandomChestContent> toReturn = new ArrayList<WeightedRandomChestContent>();
+		ArrayList<RandomItem> toReturn = new ArrayList<RandomItem>();
 
 		//                                          Item, meta, min, max, chance
-		toReturn.add(new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.stone), 0, 1, 15, 10));
-		toReturn.add(new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.gravel), 0, 1, 15, 10));
-		toReturn.add(new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.stonebrick), 0, 1, 15, 10));
-		toReturn.add(new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.dirt), 0, 1, 15, 10));
-		toReturn.add(new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.grass), 0, 1, 15, 10));
-		toReturn.add(new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.cobblestone), 0, 1, 15, 10));
-		toReturn.add(new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.planks), 0, 1, 15, 10));
-		toReturn.add(new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.log), 0, 1, 15, 10));
-		toReturn.add(new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.leaves), 0, 1, 15, 10));
-		toReturn.add(new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.sand), 0, 1, 15, 10));
-		toReturn.add(new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.sandstone), 0, 1, 15, 10));
-		toReturn.add(new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.glass), 0, 1, 15, 10));
-		toReturn.add(new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.glass_pane), 0, 1, 15, 10));
-		toReturn.add(new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.stone_slab), 0, 1, 15, 10));
-		toReturn.add(new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.snow), 0, 1, 15, 10));
-		toReturn.add(new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.quartz_block), 0, 1, 15, 10));
-		toReturn.add(new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.hardened_clay), 0, 1, 15, 10));
-		toReturn.add(new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.coal_block), 0, 1, 15, 10));
-		toReturn.add(new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.red_sandstone), 0, 1, 15, 10));
+		toReturn.add(new RandomItem(Item.getItemFromBlock(Blocks.STONE), 10));
+		toReturn.add(new RandomItem(Item.getItemFromBlock(Blocks.GRAVEL), 10));
+		toReturn.add(new RandomItem(Item.getItemFromBlock(Blocks.STONEBRICK), 10));
+		toReturn.add(new RandomItem(Item.getItemFromBlock(Blocks.DIRT), 10));
+		toReturn.add(new RandomItem(Item.getItemFromBlock(Blocks.GRASS), 10));
+		toReturn.add(new RandomItem(Item.getItemFromBlock(Blocks.COBBLESTONE), 10));
+		toReturn.add(new RandomItem(Item.getItemFromBlock(Blocks.PLANKS), 10));
+		toReturn.add(new RandomItem(Item.getItemFromBlock(Blocks.LOG), 10));
+		toReturn.add(new RandomItem(Item.getItemFromBlock(Blocks.LEAVES), 10));
+		toReturn.add(new RandomItem(Item.getItemFromBlock(Blocks.SAND), 10));
+		toReturn.add(new RandomItem(Item.getItemFromBlock(Blocks.SANDSTONE), 10));
+		toReturn.add(new RandomItem(Item.getItemFromBlock(Blocks.GLASS), 10));
+		toReturn.add(new RandomItem(Item.getItemFromBlock(Blocks.GLASS_PANE), 10));
+		toReturn.add(new RandomItem(Item.getItemFromBlock(Blocks.STONE_SLAB), 10));
+		toReturn.add(new RandomItem(Item.getItemFromBlock(Blocks.SNOW), 10));
+		toReturn.add(new RandomItem(Item.getItemFromBlock(Blocks.QUARTZ_BLOCK), 10));
+		toReturn.add(new RandomItem(Item.getItemFromBlock(Blocks.HARDENED_CLAY), 10));
+		toReturn.add(new RandomItem(Item.getItemFromBlock(Blocks.COAL_BLOCK), 10));
+		toReturn.add(new RandomItem(Item.getItemFromBlock(Blocks.RED_SANDSTONE), 10));
 
 		return toReturn;
 	}

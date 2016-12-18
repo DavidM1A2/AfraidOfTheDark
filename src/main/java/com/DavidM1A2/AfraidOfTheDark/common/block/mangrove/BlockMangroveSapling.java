@@ -12,10 +12,11 @@ import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockLog.EnumAxis;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockMangroveSapling extends AOTDSapling
@@ -26,12 +27,13 @@ public class BlockMangroveSapling extends AOTDSapling
 	{
 		super();
 		this.setUnlocalizedName("mangroveSapling");
+		this.setRegistryName("mangroveSapling");
 	}
 
 	@Override
 	public void causeTreeToGrow(World world, BlockPos blockPos, IBlockState iBlockState, Random random)
 	{
-		world.setBlockState(blockPos, Blocks.air.getDefaultState());
+		world.setBlockState(blockPos, Blocks.AIR.getDefaultState());
 
 		BlockPos topOfTrunk = this.generateTrunk(world, blockPos, iBlockState, random);
 
@@ -145,7 +147,7 @@ public class BlockMangroveSapling extends AOTDSapling
 	private void setBlockIfPossible(World world, BlockPos location, IBlockState blockState)
 	{
 		IBlockState current = world.getBlockState(location);
-		if (current.getBlock().isAir(world, location) || current.getBlock().isLeaves(world, location) || current.getBlock() == Blocks.water)
+		if (current.getMaterial() == Material.AIR || current.getMaterial() == Material.LEAVES || current.getMaterial() == Material.WATER)
 		{
 			world.setBlockState(location, blockState);
 		}

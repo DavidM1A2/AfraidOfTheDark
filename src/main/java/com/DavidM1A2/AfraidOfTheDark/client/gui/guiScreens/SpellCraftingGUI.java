@@ -22,7 +22,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellStage;
 
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.text.TextComponentString;
 
 public class SpellCraftingGUI extends AOTDGuiScreen
 {
@@ -86,7 +86,7 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 	{
 		entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getSpellManager().updateSpell(this.spell);
 		entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).syncSpellManager();
-		entityPlayer.addChatMessage(new ChatComponentText("Spell " + spell.getName() + " successfully saved."));
+		entityPlayer.addChatMessage(new TextComponentString("Spell " + spell.getName() + " successfully saved."));
 	}
 
 	@Override

@@ -10,25 +10,27 @@ import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.renderer.vertex.VertexBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IRenderHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class VoidChestSkyRenderer extends IRenderHandler {
-	private static final ResourceLocation[] VOID_CHEST = new ResourceLocation[] {
-			new ResourceLocation("afraidofthedark:textures/skybox/voidChestTop.png"),
-			new ResourceLocation("afraidofthedark:textures/skybox/voidChestBottom.png"),
-			new ResourceLocation("afraidofthedark:textures/skybox/voidChestSide1.png"),
-			new ResourceLocation("afraidofthedark:textures/skybox/voidChestSide2.png"),
-			new ResourceLocation("afraidofthedark:textures/skybox/voidChestSide3.png"),
+public class VoidChestSkyRenderer extends IRenderHandler
+{
+	private static final ResourceLocation[] VOID_CHEST = new ResourceLocation[]
+	{       new ResourceLocation("afraidofthedark:textures/skybox/voidChestTop.png"), 
+			new ResourceLocation("afraidofthedark:textures/skybox/voidChestBottom.png"), 
+			new ResourceLocation("afraidofthedark:textures/skybox/voidChestSide1.png"), 
+			new ResourceLocation("afraidofthedark:textures/skybox/voidChestSide2.png"), 
+			new ResourceLocation("afraidofthedark:textures/skybox/voidChestSide3.png"), 
 			new ResourceLocation("afraidofthedark:textures/skybox/voidChestSide4.png") };
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void render(float partialTicks, WorldClient world, Minecraft mc) {
+	public void render(float partialTicks, WorldClient world, Minecraft mc)
+	{
 		GlStateManager.disableFog();
 		GlStateManager.disableAlpha();
 		GlStateManager.enableBlend();
@@ -36,30 +38,42 @@ public class VoidChestSkyRenderer extends IRenderHandler {
 		RenderHelper.disableStandardItemLighting();
 		GlStateManager.depthMask(false);
 		Tessellator tessellator = Tessellator.getInstance();
-		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+		net.minecraft.client.renderer.VertexBuffer worldrenderer = tessellator.getBuffer();
 
-		for (int i = 0; i < 6; ++i) {
+		for (int i = 0; i < 6; ++i)
+		{
 			GlStateManager.pushMatrix();
 
-			if (i == 1) {
+			if (i == 1)
+			{
 				// Correct
 				Minecraft.getMinecraft().renderEngine.bindTexture(VOID_CHEST[3]);
 				GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
-			} else if (i == 2) {
+			}
+			else if (i == 2)
+			{
 				Minecraft.getMinecraft().renderEngine.bindTexture(VOID_CHEST[5]);
 				GlStateManager.rotate(-90.0F, 1.0F, 0.0F, 0.0F);
-			} else if (i == 3) {
+			}
+			else if (i == 3)
+			{
 				// Correct
 				Minecraft.getMinecraft().renderEngine.bindTexture(VOID_CHEST[0]);
 				GlStateManager.rotate(180.0F, 1.0F, 0.0F, 0.0F);
-			} else if (i == 4) {
+			}
+			else if (i == 4)
+			{
 				// Correct
 				Minecraft.getMinecraft().renderEngine.bindTexture(VOID_CHEST[4]);
 				GlStateManager.rotate(90.0F, 0.0F, 0.0F, 1.0F);
-			} else if (i == 5) {
+			}
+			else if (i == 5)
+			{
 				Minecraft.getMinecraft().renderEngine.bindTexture(VOID_CHEST[2]);
 				GlStateManager.rotate(-90.0F, 0.0F, 0.0F, 1.0F);
-			} else {
+			}
+			else
+			{
 				// Correct
 				Minecraft.getMinecraft().renderEngine.bindTexture(VOID_CHEST[1]);
 			}

@@ -20,6 +20,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.WorldGenerationUtility;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.AOTDDungeonTypes;
 
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 
 public class GenerateCrypt implements AOTDGeneratable
 {
@@ -56,7 +57,7 @@ public class GenerateCrypt implements AOTDGeneratable
 	@Override
 	public double getGenerationChance(int biomeID)
 	{
-		if (biomeID == ModBiomes.erieForest.biomeID)
+		if (biomeID == Biome.getIdForBiome(ModBiomes.erieForest))
 			return ConfigurationHandler.cryptFrequency * ConfigurationHandler.dungeonFrequencyMultiplier;
 		return 0;
 	}

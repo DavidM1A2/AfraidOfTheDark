@@ -21,7 +21,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 
@@ -211,7 +213,7 @@ public class AOTDPlayerData implements ICapabilitySerializable<NBTTagCompound>, 
 		if (!this.isServerSide() && firstTimeResearched)
 		{
 			ClientData.researchAchievedOverlay.displayResearch(research, new ItemStack(ModItems.journal, 1), false);
-			entityPlayer.playSound("afraidofthedark:achievementUnlocked", 1.0f, 1.0f);
+			entityPlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:achievementUnlocked")), 1.0f, 1.0f);
 		}
 		this.syncResearches();
 	}

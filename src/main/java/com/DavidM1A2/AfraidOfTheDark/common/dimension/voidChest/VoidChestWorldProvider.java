@@ -9,23 +9,20 @@ import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBiomes;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDimensions;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
-import net.minecraft.world.WorldType;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.biome.WorldChunkManager;
-import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.biome.BiomeProviderSingle;
+import net.minecraft.world.chunk.IChunkGenerator;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class VoidChestWorldProvider extends WorldProvider
 {
 	@Override
-	public void registerWorldChunkManager()
+	public void createBiomeProvider()
 	{
-		this.dimensionId = AOTDDimensions.VoidChest.getWorldID();
-		this.worldChunkMgr = new WorldChunkManager(ModBiomes.voidChest.biomeID, WorldType.CUSTOMIZED, "");
+		this.biomeProvider = new BiomeProviderSingle(ModBiomes.voidChest);
 		this.hasNoSky = false;
 
 		if (this.worldObj.isRemote)
@@ -35,8 +32,7 @@ public class VoidChestWorldProvider extends WorldProvider
 	}
 
 	/**
-	 * Returns the sub-folder of the world folder that this WorldProvider saves
-	 * to. EXA: DIM1, DIM-1
+	 * Returns the sub-folder of the world folder that this WorldProvider saves to. EXA: DIM1, DIM-1
 	 * 
 	 * @return The sub-folder name to save this world's chunks to.
 	 */
@@ -48,16 +44,20 @@ public class VoidChestWorldProvider extends WorldProvider
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public Vec3 getSkyColor(Entity cameraEntity, float partialTicks)
+	public Vec3d getSkyColor(Entity cameraEntity, float partialTicks)
 	{
 		return super.getSkyColor(cameraEntity, partialTicks);
 	}
 
+	@Override
+	public DimensionType getDimensionType()
+	{
+		return DimensionType.getById(AOTDDimensions.VoidChest.getWorldID());
+	}
+
 	/**
-	 * Returns a double value representing the Y value relative to the top of
-	 * the map at which void fog is at its maximum. The default factor of
-	 * 0.03125 relative to 256, for example, means the void fog will be at its
-	 * maximum at (256*0.03125), or 8.
+	 * Returns a double value representing the Y value relative to the top of the map at which void fog is at its maximum. The default factor of
+	 * 0.03125 relative to 256, for example, means the void fog will be at its maximum at (256*0.03125), or 8.
 	 */
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -73,8 +73,7 @@ public class VoidChestWorldProvider extends WorldProvider
 	}
 
 	/**
-	 * The current sun brightness factor for this dimension. 0.0f means no light
-	 * at all, and 1.0f means maximum sunlight. This will be used for the
+	 * The current sun brightness factor for this dimension. 0.0f means no light at all, and 1.0f means maximum sunlight. This will be used for the
 	 * "calculateSkylightSubtracted" which is for Sky light value calculation.
 	 *
 	 * @return The current brightness factor
@@ -86,9 +85,9 @@ public class VoidChestWorldProvider extends WorldProvider
 	}
 
 	@Override
-	public IChunkProvider createChunkGenerator()
+	public IChunkGenerator createChunkGenerator()
 	{
-		return new VoidChestChunkProvider(this.worldObj);
+		return new VoidChestChunkGenerator(this.worldObj);
 	}
 
 	@Override
@@ -102,12 +101,6 @@ public class VoidChestWorldProvider extends WorldProvider
 	public boolean doesXZShowFog(int par1, int par2)
 	{
 		return false;
-	}
-
-	@Override
-	public String getDimensionName()
-	{
-		return AOTDDimensions.VoidChest.getWorldName();
 	}
 
 	/**
@@ -164,26 +157,6 @@ public class VoidChestWorldProvider extends WorldProvider
 		return false;
 	}
 
-	/**
-	 * Determines the dimension the player will be respawned in, typically this
-	 * brings them back to the overworld.
-	 *
-	 * @param player
-	 *            The player that is respawning
-	 * @return The dimension to respawn the player in
-	 */
-	@Override
-	public int getRespawnDimension(net.minecraft.entity.player.EntityPlayerMP player)
-	{
-		return this.dimensionId;
-	}
-
-	@Override
-	public BiomeGenBase getBiomeGenForCoords(BlockPos pos)
-	{
-		return ModBiomes.voidChest;
-	}
-
 	@Override
 	public boolean canCoordinateBeSpawn(int x, int z)
 	{
@@ -209,16 +182,10 @@ public class VoidChestWorldProvider extends WorldProvider
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public Vec3 getFogColor(float par1, float par2)
+	public Vec3d getFogColor(float par1, float par2)
 	{
 		return super.getFogColor(par1, par2);
 		// RGB
 		// return new Vec3(0.65f, 0f, 0f);
-	}
-
-	@Override
-	public String getInternalNameSuffix()
-	{
-		return "";
 	}
 }

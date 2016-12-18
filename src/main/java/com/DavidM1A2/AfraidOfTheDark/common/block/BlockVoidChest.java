@@ -13,51 +13,65 @@ import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockVoidChest extends AOTDBlockTileEntity
 {
 	public static final PropertyDirection FACING_PROP = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+	protected static final AxisAlignedBB AABB = new AxisAlignedBB(0.0625D, 0.0D, 0.0625D, 0.9375D, 0.875D, 0.9375D);
 
 	public BlockVoidChest()
 	{
-		super(Material.rock);
+		super(Material.ROCK);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING_PROP, EnumFacing.NORTH));
-		this.setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
 		this.setUnlocalizedName("voidChest");
+		this.setRegistryName("voidChest");
 		this.setHardness(4.0F);
 		this.setResistance(50.0F);
 		this.setHarvestLevel("pickaxe", 2);
 	}
 
 	@Override
-	public boolean isOpaqueCube()
+	public boolean isOpaqueCube(IBlockState state)
 	{
 		return false;
 	}
 
 	@Override
-	public boolean isFullCube()
+	public boolean isFullCube(IBlockState state)
 	{
 		return false;
 	}
 
-	/**
-	 * The type of render function that is called for this block
-	 */
 	@Override
-	public int getRenderType()
+	public boolean func_190946_v(IBlockState p_190946_1_)
 	{
-		return 22;
+		return true;
+	}
+
+	@Override
+	public EnumBlockRenderType getRenderType(IBlockState state)
+	{
+		return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
+	}
+
+	@Override
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+	{
+		return AABB;
 	}
 
 	@Override
@@ -73,7 +87,7 @@ public class BlockVoidChest extends AOTDBlockTileEntity
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState state, EntityPlayer entityPlayer, EnumFacing side, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState state, EntityPlayer entityPlayer, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
 		if (world.getTileEntity(blockPos) instanceof TileEntityVoidChest)
 		{
@@ -86,7 +100,7 @@ public class BlockVoidChest extends AOTDBlockTileEntity
 			{
 				if (!world.isRemote)
 				{
-					entityPlayer.addChatMessage(new ChatComponentText("I'm not sure how to open this chest."));
+					entityPlayer.addChatMessage(new TextComponentString("I'm not sure how to open this chest."));
 				}
 			}
 		}
@@ -119,9 +133,10 @@ public class BlockVoidChest extends AOTDBlockTileEntity
 	}
 
 	@Override
-	protected BlockState createBlockState()
+	protected BlockStateContainer createBlockState()
 	{
-		return new BlockState(this, new IProperty[] { FACING_PROP });
+		return new BlockStateContainer(this, new IProperty[]
+		{ FACING_PROP });
 	}
 
 	@Override

@@ -56,7 +56,7 @@ public class AOTDWorldData extends WorldSavedData
 	// LOAD, SAVE =============================================================
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt)
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt)
 	{
 		nbt.setInteger("numberDungeonsAbove", this.dungeonsAboveGround.size());
 		nbt.setInteger("numberDungeonsBelow", this.dungeonsBelowGround.size());
@@ -80,6 +80,7 @@ public class AOTDWorldData extends WorldSavedData
 			nbt.setTag("pointB " + index, pointData);
 			index = index + 1;
 		}
+		return nbt;
 	}
 
 	@Override

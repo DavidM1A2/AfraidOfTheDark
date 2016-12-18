@@ -96,12 +96,12 @@ public class EntitySplinterDrone extends EntityFlying implements IMCAnimatedEnti
 	protected void applyEntityAttributes()
 	{
 		super.applyEntityAttributes();
-		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.attackDamage);
-		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(EntitySplinterDrone.MAX_HEALTH);
-		this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(EntitySplinterDrone.FOLLOW_RANGE);
-		this.getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(EntitySplinterDrone.KNOCKBACK_RESISTANCE);
-		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(EntitySplinterDrone.MOVE_SPEED);
-		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(EntitySplinterDrone.ATTACK_DAMAGE);
+		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
+		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(EntitySplinterDrone.MAX_HEALTH);
+		this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(EntitySplinterDrone.FOLLOW_RANGE);
+		this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(EntitySplinterDrone.KNOCKBACK_RESISTANCE);
+		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(EntitySplinterDrone.MOVE_SPEED);
+		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(EntitySplinterDrone.ATTACK_DAMAGE);
 	}
 
 	@Override

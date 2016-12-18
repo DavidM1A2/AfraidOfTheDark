@@ -15,24 +15,25 @@ import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class IgneousArmor extends AOTDArmor
 {
-	public IgneousArmor(final ArmorMaterial armorMaterial, final int renderIndex, final int type)
+	public IgneousArmor(final ArmorMaterial armorMaterial, final int renderIndex, final EntityEquipmentSlot equipmentSlot)
 	{
-		super(armorMaterial, renderIndex, type);
-		this.setUnlocalizedName((type == 0) ? "igneousHelmet" : (type == 1) ? "igneousChestplate" : (type == 2) ? "igneousLeggings" : "igneousBoots");
+		super(armorMaterial, renderIndex, equipmentSlot);
+		this.setUnlocalizedName((equipmentSlot == EntityEquipmentSlot.HEAD) ? "igneousHelmet" : (equipmentSlot == EntityEquipmentSlot.CHEST) ? "igneousChestplate" : (equipmentSlot == EntityEquipmentSlot.LEGS) ? "igneousLeggings" : "igneousBoots");
 	}
 
 	@Override
 	// This is pretty self explanatory
-	public String getArmorTexture(final ItemStack armor, final Entity entity, final int slot, final String type)
+	public String getArmorTexture(final ItemStack armor, final Entity entity, final EntityEquipmentSlot equipmentSlot, final String type)
 	{
 		if (armor.getItem() == ModItems.igneousLeggings)
 		{
@@ -131,10 +132,10 @@ public class IgneousArmor extends AOTDArmor
 
 	private boolean isWearingFullArmor(final EntityPlayer entityPlayer)
 	{
-		if ((entityPlayer.inventory.armorInventory[0] != null) && (entityPlayer.inventory.armorInventory[1] != null) && (entityPlayer.inventory.armorInventory[2] != null) && (entityPlayer.inventory.armorInventory[3] != null))
+		if ((entityPlayer.inventory.armorInventory.get(0) != null) && (entityPlayer.inventory.armorInventory.get(1) != null) && (entityPlayer.inventory.armorInventory.get(2) != null) && (entityPlayer.inventory.armorInventory.get(3) != null))
 		{
-			return ((entityPlayer.inventory.armorInventory[0].getItem() instanceof IgneousArmor) && (entityPlayer.inventory.armorInventory[1].getItem() instanceof IgneousArmor) && (entityPlayer.inventory.armorInventory[2].getItem() instanceof IgneousArmor)
-					&& (entityPlayer.inventory.armorInventory[3].getItem() instanceof IgneousArmor));
+			return ((entityPlayer.inventory.armorInventory.get(0).getItem() instanceof IgneousArmor) && (entityPlayer.inventory.armorInventory.get(1).getItem() instanceof IgneousArmor) && (entityPlayer.inventory.armorInventory.get(2).getItem() instanceof IgneousArmor)
+					&& (entityPlayer.inventory.armorInventory.get(3).getItem() instanceof IgneousArmor));
 		}
 		return false;
 	}

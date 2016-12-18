@@ -17,6 +17,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
 
 public class ItemVitaeLantern extends AOTDItem
 {
@@ -36,7 +37,7 @@ public class ItemVitaeLantern extends AOTDItem
 	 * Returns true if the item can be used on the given entity, e.g. shears on sheep.
 	 */
 	@Override
-	public boolean itemInteractionForEntity(ItemStack itemStack, EntityPlayer entityPlayer, EntityLivingBase entityLivingBase)
+	public boolean itemInteractionForEntity(ItemStack itemStack, EntityPlayer entityPlayer, EntityLivingBase entityLivingBase, EnumHand hand)
 	{
 		if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.VitaeLanternI))
 		{
@@ -44,15 +45,15 @@ public class ItemVitaeLantern extends AOTDItem
 			if (entityVitae > 5 && !(entityLivingBase instanceof EntityPlayer))
 			{
 				entityLivingBase.getCapability(ModCapabilities.ENTITY_DATA, null).setVitaeLevel(entityVitae - 5);
-				// Itemstack here is wrong? wtf?
-				this.addVitae(entityPlayer.getCurrentEquippedItem(), 5);
+				// Itemstack here is wrong? 
+				this.addVitae(entityPlayer.getActiveItemStack(), 5);
 
 				if (entityLivingBase instanceof EntityDeeeSyft && entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(ResearchTypes.DeeeSyft))
 					entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(ResearchTypes.DeeeSyft, true);
 			}
 		}
 
-		return super.itemInteractionForEntity(itemStack, entityPlayer, entityLivingBase);
+		return super.itemInteractionForEntity(itemStack, entityPlayer, entityLivingBase, hand);
 	}
 
 	public int getStoredVitae(ItemStack itemStack)
