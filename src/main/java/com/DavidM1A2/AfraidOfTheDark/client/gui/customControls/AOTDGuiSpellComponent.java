@@ -30,13 +30,13 @@ public abstract class AOTDGuiSpellComponent<T extends ISpellComponentEnum> exten
 
 		this.showHighlightOnSelected = showHighlightOnSelected;
 
-		this.background = new AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/spellCrafting/tabletIconHolder.png");
+		this.background = new AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/spell_crafting/tablet_icon_holder.png");
 		this.add(background);
 
-		this.icon = new AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/spellCrafting/blank.png");
+		this.icon = new AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/spell_crafting/blank.png");
 		this.setType(type);
 
-		this.highlight = new AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/spellCrafting/highlight.png");
+		this.highlight = new AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/spell_crafting/highlight.png");
 		this.highlight.setVisible(this.showHighlightOnSelected);
 		this.add(this.highlight);
 

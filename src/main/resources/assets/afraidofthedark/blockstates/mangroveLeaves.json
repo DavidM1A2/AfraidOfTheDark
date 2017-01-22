@@ -1,9 +1,0 @@
-{
-	"variants": {
-		"check_decay=false,decayable=true":    { "model": "afraidofthedark:mangroveLeaves" },		
-		"check_decay=false,decayable=false":    { "model": "afraidofthedark:mangroveLeaves" },
-		"check_decay=true,decayable=true":    { "model": "afraidofthedark:mangroveLeaves" },
-		"check_decay=true,decayable=false":    { "model": "afraidofthedark:mangroveLeaves" },
-		"inventory":    { "model": "afraidofthedark:mangroveLeaves" }
-	}
-}

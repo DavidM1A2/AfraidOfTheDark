@@ -19,6 +19,7 @@ public class BiomeVoidChest extends Biome
 	public BiomeVoidChest(int biomeID)
 	{
 		super(new Biome.BiomeProperties("VoidChest").setWaterColor(5470985).setBaseHeight(0.125F).setHeightVariation(0.05F).setRainDisabled());
+		this.setRegistryName("voidChest");
 		this.flowers.clear();
 		this.spawnableCreatureList.clear();
 		this.theBiomeDecorator.treesPerChunk = 0;

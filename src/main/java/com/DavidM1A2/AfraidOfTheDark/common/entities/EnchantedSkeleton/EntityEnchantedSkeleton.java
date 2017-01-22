@@ -17,6 +17,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -56,9 +57,14 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 		super(world);
 		this.setSize(0.8F, 2.0F);
 		this.experienceValue = 4;
+	}
 
+	@Override
+	protected void initEntityAI()
+	{
 		// Add various AI tasks
 		this.tasks.addTask(1, new EntityAISwimming(this));
+		this.tasks.addTask(2, new EntityAIAttackMelee(this, 1.0D, false));
 		this.tasks.addTask(7, new EntityAIWander(this, EntityEnchantedSkeleton.MOVE_SPEED));
 		this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, (float) EntityEnchantedSkeleton.AGRO_RANGE));
 		this.tasks.addTask(8, new EntityAILookIdle(this));
@@ -168,26 +174,12 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 	@Override
 	protected void applyEntityAttributes()
 	{
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH) == null)
-		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(EntityEnchantedSkeleton.MAX_HEALTH);
-		}
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.FOLLOW_RANGE) == null)
-		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(EntityEnchantedSkeleton.FOLLOW_RANGE);
-		}
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.KNOCKBACK_RESISTANCE) == null)
-		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(EntityEnchantedSkeleton.KNOCKBACK_RESISTANCE);
-		}
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED) == null)
-		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(EntityEnchantedSkeleton.MOVE_SPEED);
-		}
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE) == null)
-		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(EntityEnchantedSkeleton.ATTACK_DAMAGE);
-		}
+		super.applyEntityAttributes();
+		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(EntityEnchantedSkeleton.MAX_HEALTH);
+		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(EntityEnchantedSkeleton.FOLLOW_RANGE);
+		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(EntityEnchantedSkeleton.KNOCKBACK_RESISTANCE);
+		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(EntityEnchantedSkeleton.MOVE_SPEED);
+		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(EntityEnchantedSkeleton.ATTACK_DAMAGE);
 	}
 
 	@Override

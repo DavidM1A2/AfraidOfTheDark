@@ -22,7 +22,8 @@ public class ItemWorldGenTest extends AOTDItem
 	public ItemWorldGenTest()
 	{
 		super();
-		this.setUnlocalizedName("worldGenTest");
+		this.setUnlocalizedName("world_gen_test");
+		this.setRegistryName("world_gen_test");
 	}
 
 	/**
@@ -76,6 +77,6 @@ public class ItemWorldGenTest extends AOTDItem
 		Pass: The call succeeded, but more calls can be made farther down the call stack.
 		Fail: Basically what return false used to be. The call has failed to do what was intended and should stop here.
 		*/
-		return ActionResult.<ItemStack> newResult(EnumActionResult.SUCCESS, itemStack);
+		return ActionResult.<ItemStack>newResult(EnumActionResult.SUCCESS, itemStack);
 	}
 }

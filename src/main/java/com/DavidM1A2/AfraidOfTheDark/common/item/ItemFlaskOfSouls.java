@@ -78,7 +78,8 @@ public class ItemFlaskOfSouls extends AOTDItemWithCooldownPerItem
 	public ItemFlaskOfSouls()
 	{
 		super();
-		this.setUnlocalizedName("flaskOfSouls");
+		this.setUnlocalizedName("flask_of_souls");
+		this.setRegistryName("flask_of_souls");
 		this.setMaxStackSize(1);
 	}
 
@@ -149,7 +150,7 @@ public class ItemFlaskOfSouls extends AOTDItemWithCooldownPerItem
 				entityPlayer.addChatMessage(new TextComponentString("I'm not sure how to operate this."));
 			}
 		}
-		return ActionResult.<ItemStack> newResult(EnumActionResult.SUCCESS, itemStack);
+		return ActionResult.<ItemStack>newResult(EnumActionResult.SUCCESS, itemStack);
 	}
 
 	// To spawn the entity we get it's name and spawn one with a random rotation

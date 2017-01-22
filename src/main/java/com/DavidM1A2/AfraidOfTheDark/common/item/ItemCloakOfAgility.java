@@ -26,7 +26,8 @@ public class ItemCloakOfAgility extends AOTDItemWithCooldownStatic
 	public ItemCloakOfAgility()
 	{
 		super();
-		this.setUnlocalizedName("cloakOfAgility");
+		this.setUnlocalizedName("cloak_of_agility");
+		this.setRegistryName("cloak_of_agility");
 	}
 
 	@Override

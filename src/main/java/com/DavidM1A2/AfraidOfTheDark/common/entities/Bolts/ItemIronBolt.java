@@ -13,6 +13,7 @@ public class ItemIronBolt extends AOTDItem
 	public ItemIronBolt()
 	{
 		super();
-		this.setUnlocalizedName("ironBolt");
+		this.setUnlocalizedName("iron_bolt");
+		this.setRegistryName("iron_bolt");
 	}
 }

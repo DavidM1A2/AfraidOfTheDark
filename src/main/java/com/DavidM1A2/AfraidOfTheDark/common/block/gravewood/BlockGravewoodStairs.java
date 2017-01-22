@@ -13,7 +13,7 @@ public class BlockGravewoodStairs extends AOTDStairs
 	public BlockGravewoodStairs()
 	{
 		super(ModBlocks.gravewoodPlanks.getDefaultState());
-		this.setUnlocalizedName("gravewoodStairs");
-		this.setRegistryName("gravewoodStairs");
+		this.setUnlocalizedName("gravewood_stairs");
+		this.setRegistryName("gravewood_stairs");
 	}
 }

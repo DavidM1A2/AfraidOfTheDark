@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 
 public abstract class AOTDParticleFX extends Particle
 {
-	private static final ResourceLocation customParticleTextures = new ResourceLocation("afraidofthedark:textures/particles/AOTDParticles.png");
+	private static final ResourceLocation customParticleTextures = new ResourceLocation("afraidofthedark:textures/particles/aotd_particles.png");
 	private static final ResourceLocation defaultParticleTextures = new ResourceLocation("textures/particle/particles.png");
 
 	public AOTDParticleFX(World world, double lastTickPosX, double lastTickPosY, double lastTickPosZ, double motionX, double motionY, double motionZ)

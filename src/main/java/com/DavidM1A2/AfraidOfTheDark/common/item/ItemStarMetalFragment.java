@@ -12,6 +12,7 @@ public class ItemStarMetalFragment extends AOTDItem
 	public ItemStarMetalFragment()
 	{
 		super();
-		this.setUnlocalizedName("starMetalFragment");
+		this.setUnlocalizedName("star_metal_fragment");
+		this.setRegistryName("star_metal_fragment");
 	}
 }

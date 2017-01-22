@@ -1,9 +1,0 @@
-{
-	"variants": {
-		"inventory": { "model": "AfraidOfTheDark:voidChest" },
-		"facing=west": { "model": "AfraidOfTheDark:voidChest" },
-		"facing=south": { "model": "AfraidOfTheDark:voidChest" },
-		"facing=north": { "model": "AfraidOfTheDark:voidChest" },
-		"facing=east": { "model": "AfraidOfTheDark:voidChest" }
-	}
-}

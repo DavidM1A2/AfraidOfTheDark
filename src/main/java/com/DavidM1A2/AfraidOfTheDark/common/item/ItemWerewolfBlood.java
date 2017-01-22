@@ -12,6 +12,7 @@ public class ItemWerewolfBlood extends AOTDItem
 	public ItemWerewolfBlood()
 	{
 		super();
-		this.setUnlocalizedName("werewolfBlood");
+		this.setUnlocalizedName("werewolf_blood");
+		this.setRegistryName("werewolf_blood");
 	}
 }

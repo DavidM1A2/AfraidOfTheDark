@@ -23,7 +23,8 @@ public class ItemInsanityControl extends AOTDItem
 	public ItemInsanityControl()
 	{
 		super();
-		this.setUnlocalizedName("insanityControl");
+		this.setUnlocalizedName("insanity_control");
+		this.setRegistryName("insanity_control");
 	}
 
 	// When rightclicking + holding shift, decrease insanity, else increase it
@@ -82,6 +83,6 @@ public class ItemInsanityControl extends AOTDItem
 		    Pass: The call succeeded, but more calls can be made farther down the call stack.
 		    Fail: Basically what return false used to be. The call has failed to do what was intended and should stop here.
 		*/
-		return ActionResult.<ItemStack> newResult(EnumActionResult.SUCCESS, itemStack);
+		return ActionResult.<ItemStack>newResult(EnumActionResult.SUCCESS, itemStack);
 	}
 }

@@ -25,6 +25,7 @@ public class ItemTelescope extends AOTDItem
 	{
 		super();
 		this.setUnlocalizedName("telescope");
+		this.setRegistryName("telescope");
 		this.setMaxStackSize(1);
 	}
 

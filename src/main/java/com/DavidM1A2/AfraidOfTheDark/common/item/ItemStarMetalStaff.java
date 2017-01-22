@@ -36,7 +36,8 @@ public class ItemStarMetalStaff extends AOTDItemWithCooldownStatic
 	public ItemStarMetalStaff()
 	{
 		super();
-		this.setUnlocalizedName("starMetalStaff");
+		this.setUnlocalizedName("star_metal_staff");
+		this.setRegistryName("star_metal_staff");
 	}
 
 	@Override
@@ -77,7 +78,7 @@ public class ItemStarMetalStaff extends AOTDItemWithCooldownStatic
 				entityPlayer.addChatMessage(new TextComponentString("I'm not sure what this is used for."));
 		}
 
-		return ActionResult.<ItemStack> newResult(EnumActionResult.SUCCESS, itemStack);
+		return ActionResult.<ItemStack>newResult(EnumActionResult.SUCCESS, itemStack);
 	}
 
 	/**

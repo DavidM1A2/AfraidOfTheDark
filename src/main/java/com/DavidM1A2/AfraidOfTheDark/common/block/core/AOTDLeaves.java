@@ -41,6 +41,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 		this.setCreativeTab(Reference.AFRAID_OF_THE_DARK);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(true)).withProperty(BlockLeaves.DECAYABLE, Boolean.valueOf(true)));
 		this.setTickRandomly(true);
+		this.leavesFancy = false;
 	}
 
 	// When the leaves are sheared
@@ -48,13 +49,6 @@ public abstract class AOTDLeaves extends BlockLeaves
 	public List<ItemStack> onSheared(final ItemStack item, final IBlockAccess world, final BlockPos pos, final int fortune)
 	{
 		return Lists.newArrayList(new ItemStack(this, 1, 0));
-	}
-
-	// Always use fancy graphics because reasons (They look way better!)
-	@SideOnly(Side.CLIENT)
-	public void setGraphicsLevel()
-	{
-		super.setGraphicsLevel(true);
 	}
 
 	// Interface implements it so we need to, but it's unused

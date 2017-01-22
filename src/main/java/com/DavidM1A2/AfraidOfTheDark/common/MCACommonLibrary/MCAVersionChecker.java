@@ -4,7 +4,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
 
 public class MCAVersionChecker
 {
-	public static final int VersionID = 2;
+	public static final int VersionID = 5;
 
 	/** Checks for the right version of the library. Should be called by each model class. */
 	public static void checkForLibraryVersion(Class modelClass, int modelVersion)

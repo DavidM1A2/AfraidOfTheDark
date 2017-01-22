@@ -23,8 +23,8 @@ public class BlockGravewoodDoubleSlab extends AOTDSlab
 	public BlockGravewoodDoubleSlab()
 	{
 		super(Material.WOOD);
-		this.setUnlocalizedName("gravewoodDoubleSlab");
-		this.setRegistryName("gravewoodDoubleSlab");
+		this.setUnlocalizedName("gravewood_upper_slab");
+		this.setRegistryName("gravewood_upper_slab");
 	}
 
 	@Override

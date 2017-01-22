@@ -33,7 +33,7 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 
 	public SpellCraftingGUI()
 	{
-		this.spell = SerializationUtils.<Spell> clone(ClientData.spellToBeEdited);
+		this.spell = SerializationUtils.<Spell>clone(ClientData.spellToBeEdited);
 
 		// Minimum 1 spell stage
 		if (this.spell.getSpellStages().size() == 0)
@@ -45,7 +45,7 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 		this.scroll = new AOTDGuiSpellScroll(340, (360 - 256) / 2, 220, 256, this.spell, this);
 		this.getContentPane().add(scroll);
 
-		this.helpScreen = new AOTDGuiImage(0, 0, 640, 360, "afraidofthedark:textures/gui/spellCrafting/helpScreen.png");
+		this.helpScreen = new AOTDGuiImage(0, 0, 640, 360, "afraidofthedark:textures/gui/spell_crafting/help_screen.png");
 		this.helpScreen.addKeyListener(new AOTDKeyListener()
 		{
 			@Override

@@ -11,15 +11,18 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class ItemIgneousGem extends AOTDItem {
-	public ItemIgneousGem() {
+public class ItemIgneousGem extends AOTDItem
+{
+	public ItemIgneousGem()
+	{
 		super();
-		this.setUnlocalizedName("igneousGem");
+		this.setUnlocalizedName("igneous_gem");
+		this.setRegistryName("igneous_gem");
 	}
 
 	@Override
-	public void onUpdate(final ItemStack itemstack, final World world, final Entity entity, final int i,
-			final boolean flag) {
+	public void onUpdate(final ItemStack itemstack, final World world, final Entity entity, final int i, final boolean flag)
+	{
 		entity.setFire(3);
 	}
 }

@@ -59,4 +59,10 @@ public class ServerProxy extends CommonProxy
 	{
 		// Not used		
 	}
+
+	@Override
+	public void preInit()
+	{
+		// Unused
+	}
 }

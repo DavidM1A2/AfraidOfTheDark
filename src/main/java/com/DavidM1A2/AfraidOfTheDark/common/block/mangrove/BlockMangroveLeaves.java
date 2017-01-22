@@ -21,8 +21,8 @@ public class BlockMangroveLeaves extends AOTDLeaves
 	public BlockMangroveLeaves()
 	{
 		super();
-		this.setUnlocalizedName("mangroveLeaves");
-		this.setRegistryName("mangroveLeaves");
+		this.setUnlocalizedName("mangrove_leaves");
+		this.setRegistryName("mangrove_leaves");
 	}
 
 	@Override

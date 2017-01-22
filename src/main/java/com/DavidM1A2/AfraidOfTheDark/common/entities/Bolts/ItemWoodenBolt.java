@@ -13,6 +13,7 @@ public class ItemWoodenBolt extends AOTDItem
 	public ItemWoodenBolt()
 	{
 		super();
-		this.setUnlocalizedName("woodenBolt");
+		this.setUnlocalizedName("wooden_bolt");
+		this.setRegistryName("wooden_bolt");
 	}
 }

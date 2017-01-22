@@ -26,8 +26,8 @@ public class BlockStarMetalOre extends AOTDBlock
 	public BlockStarMetalOre()
 	{
 		super(Material.ROCK);
-		this.setUnlocalizedName("starMetalOre");
-		this.setRegistryName("starMetalOre");
+		this.setUnlocalizedName("star_metal_ore");
+		this.setRegistryName("star_metal_ore");
 		this.setLightLevel(0.4f);
 		this.setHardness(10.0F);
 		this.setResistance(50.0F);

@@ -21,6 +21,7 @@ public class BiomeErieForest extends Biome
 	{
 		// This sets the features of the erie biome
 		super(new Biome.BiomeProperties("Erie Forest").setWaterColor(0x000099).setBaseHeight(0.125f).setHeightVariation(0.05f));
+		this.setRegistryName("erieForest");
 		this.fillerBlock = Blocks.STONE.getDefaultState();
 		// this.theBiomeDecorator
 		this.flowers.clear();

@@ -13,6 +13,7 @@ public class ItemStarMetalBolt extends AOTDItem
 	public ItemStarMetalBolt()
 	{
 		super();
-		this.setUnlocalizedName("starMetalBolt");
+		this.setUnlocalizedName("star_metal_bolt");
+		this.setRegistryName("star_metal_bolt");
 	}
 }

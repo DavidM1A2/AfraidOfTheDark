@@ -48,8 +48,9 @@ public class FogRenderingEvents
 		if (Minecraft.getMinecraft().theWorld.provider.getDimension() == AOTDDimensions.Nightmare.getWorldID())
 		{
 			fogDensity.setDensity(0.1f);
+			fogDensity.setCanceled(true);
 		}
 		else
-			fogDensity.setCanceled(true);
+			fogDensity.setCanceled(false);
 	}
 }

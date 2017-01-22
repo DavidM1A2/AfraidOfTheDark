@@ -14,8 +14,8 @@ public class BlockGnomishMetalStrut extends AOTDBlock
 	public BlockGnomishMetalStrut()
 	{
 		super(Material.ROCK);
-		this.setUnlocalizedName("gnomishMetalStrut");
-		this.setRegistryName("gnomishMetalStrut");
+		this.setUnlocalizedName("gnomish_metal_strut");
+		this.setRegistryName("gnomish_metal_strut");
 		this.setHardness(2.0F);
 		this.setResistance(10.0F);
 		this.setHarvestLevel("pickaxe", 2);

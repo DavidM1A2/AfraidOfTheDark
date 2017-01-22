@@ -14,5 +14,6 @@ public class ItemMangroveLeaves extends AOTDItemLeaves
 	public ItemMangroveLeaves(final Block block)
 	{
 		super(block);
+		this.setRegistryName("mangrove_leaves");
 	}
 }

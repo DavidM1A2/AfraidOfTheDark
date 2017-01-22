@@ -35,8 +35,8 @@ public class BlockVoidChestPortal extends AOTDBlock
 	public BlockVoidChestPortal()
 	{
 		super(Material.ROCK);
-		this.setUnlocalizedName("voidChestPortal");
-		this.setRegistryName("voidChestPortal");
+		this.setUnlocalizedName("void_chest_portal");
+		this.setRegistryName("void_chest_portal");
 		this.setLightLevel(1.0f);
 		this.setBlockUnbreakable();
 		this.setResistance(6000000.0F);

@@ -16,8 +16,8 @@ public class BlockGravewoodPlanks extends AOTDBlock
 	{
 		// Simply silver ore
 		super(Material.WOOD);
-		this.setUnlocalizedName("gravewoodPlanks");
-		this.setRegistryName("gravewoodPlanks");
+		this.setUnlocalizedName("gravewood_planks");
+		this.setRegistryName("gravewood_planks");
 		this.setSoundType(SoundType.WOOD);
 		this.blockHardness = 2.0F;
 		this.blockResistance = 1.0F;

@@ -16,8 +16,8 @@ public class BlockEnariaSpawner extends AOTDBlockTileEntity
 	public BlockEnariaSpawner()
 	{
 		super(Material.ROCK);
-		this.setUnlocalizedName("enariaSpawner");
-		this.setRegistryName("enariaSpawner");
+		this.setUnlocalizedName("enaria_spawner");
+		this.setRegistryName("enaria_spawner");
 		this.setHardness(10.0F);
 		this.setResistance(50.0F);
 		this.setHarvestLevel("pickaxe", 3);

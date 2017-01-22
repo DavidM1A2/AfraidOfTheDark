@@ -12,7 +12,8 @@ public class ItemResearchScrollAstronomy2 extends ItemResearchScroll
 	public ItemResearchScrollAstronomy2()
 	{
 		super();
-		this.setUnlocalizedName("researchScrollAstronomy2");
+		this.setUnlocalizedName("research_scroll_astronomy2");
+		this.setRegistryName("research_scroll_astronomy2");
 	}
 
 	@Override

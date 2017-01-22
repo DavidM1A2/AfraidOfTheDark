@@ -12,6 +12,7 @@ public class ItemStarMetalIngot extends AOTDItem
 	public ItemStarMetalIngot()
 	{
 		super();
-		this.setUnlocalizedName("starMetalIngot");
+		this.setUnlocalizedName("star_metal_ingot");
+		this.setRegistryName("star_metal_ingot");
 	}
 }

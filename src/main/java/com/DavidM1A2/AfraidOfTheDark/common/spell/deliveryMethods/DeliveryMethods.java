@@ -18,7 +18,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 
 public enum DeliveryMethods implements ISpellComponentEnum
 {
-	Projectile(1, EntitySpellProjectile.class, new ModelSpellProjectile(), "afraidofthedark:textures/gui/spellCrafting/deliveryMethods/projectile.png", "afraidofthedark:textures/entity/spell/projectile.png")
+	Projectile(1, EntitySpellProjectile.class, new ModelSpellProjectile(), "afraidofthedark:textures/gui/spell_crafting/delivery_methods/projectile.png", "afraidofthedark:textures/entity/spell/projectile.png")
 	{
 		@Override
 		public DeliveryMethod newInstance()
@@ -26,7 +26,7 @@ public enum DeliveryMethods implements ISpellComponentEnum
 			return new Projectile();
 		}
 	},
-	Myself(2, EntityMyself.class, null, "afraidofthedark:textures/gui/spellCrafting/deliveryMethods/myself.png", null)
+	Myself(2, EntityMyself.class, null, "afraidofthedark:textures/gui/spell_crafting/delivery_methods/myself.png", null)
 	{
 		@Override
 		public DeliveryMethod newInstance()
@@ -34,7 +34,7 @@ public enum DeliveryMethods implements ISpellComponentEnum
 			return new Myself();
 		}
 	},
-	AOE(3, EntityAOE.class, null, "afraidofthedark:textures/gui/spellCrafting/deliveryMethods/AOE.png", null)
+	AOE(3, EntityAOE.class, null, "afraidofthedark:textures/gui/spell_crafting/delivery_methods/aoe.png", null)
 	{
 		@Override
 		public DeliveryMethod newInstance()
@@ -42,7 +42,7 @@ public enum DeliveryMethods implements ISpellComponentEnum
 			return new AOE();
 		}
 	},
-	ExtraEffects(4, null, null, "afraidofthedark:textures/gui/spellCrafting/deliveryMethods/extraEffects.png", null)
+	ExtraEffects(4, null, null, "afraidofthedark:textures/gui/spell_crafting/delivery_methods/extra_effects.png", null)
 	{
 		@Override
 		public DeliveryMethod newInstance()

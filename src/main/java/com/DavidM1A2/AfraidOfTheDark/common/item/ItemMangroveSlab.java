@@ -16,5 +16,9 @@ public class ItemMangroveSlab extends AOTDItemSlab
 	public ItemMangroveSlab(final Block block, final BlockMangroveHalfSlab blockSlabHalf, final BlockMangroveDoubleSlab blockSlabDouble, final Boolean stacked)
 	{
 		super(block, blockSlabHalf, blockSlabDouble);
+		if (!stacked)
+			this.setRegistryName("mangrove_half_slab");
+		else
+			this.setRegistryName("mangrove_upper_slab");
 	}
 }

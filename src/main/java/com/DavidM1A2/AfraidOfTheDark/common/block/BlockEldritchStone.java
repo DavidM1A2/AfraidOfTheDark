@@ -14,8 +14,8 @@ public class BlockEldritchStone extends AOTDBlock
 	public BlockEldritchStone()
 	{
 		super(Material.ROCK);
-		this.setUnlocalizedName("eldritchStone");
-		this.setRegistryName("eldritchStone");
+		this.setUnlocalizedName("eldritch_stone");
+		this.setRegistryName("eldritch_stone");
 		this.setHardness(5.0F);
 		this.setHarvestLevel("pickaxe", 1);
 	}

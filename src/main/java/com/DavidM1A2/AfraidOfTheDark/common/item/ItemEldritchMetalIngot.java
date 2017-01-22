@@ -13,7 +13,8 @@ public class ItemEldritchMetalIngot extends AOTDItem
 	public ItemEldritchMetalIngot()
 	{
 		super();
-		this.setUnlocalizedName("eldritchMetalIngot");
+		this.setUnlocalizedName("eldritch_metal_ingot");
+		this.setRegistryName("eldritch_metal_ingot");
 		this.maxStackSize = 64;
 	}
 }

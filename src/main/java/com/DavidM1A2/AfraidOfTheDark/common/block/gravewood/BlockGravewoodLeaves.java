@@ -21,8 +21,8 @@ public class BlockGravewoodLeaves extends AOTDLeaves
 	public BlockGravewoodLeaves()
 	{
 		super();
-		this.setUnlocalizedName("gravewoodLeaves");
-		this.setRegistryName("gravewoodLeaves");
+		this.setUnlocalizedName("gravewood_leaves");
+		this.setRegistryName("gravewood_leaves");
 	}
 
 	@Override

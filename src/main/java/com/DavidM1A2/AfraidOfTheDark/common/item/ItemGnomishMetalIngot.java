@@ -12,6 +12,7 @@ public class ItemGnomishMetalIngot extends AOTDItem
 	public ItemGnomishMetalIngot()
 	{
 		super();
-		this.setUnlocalizedName("gnomishMetalIngot");
+		this.setUnlocalizedName("gnomish_metal_ingot");
+		this.setRegistryName("gnomish_metal_ingot");
 	}
 }

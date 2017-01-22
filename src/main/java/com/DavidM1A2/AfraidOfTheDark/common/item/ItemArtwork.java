@@ -29,6 +29,7 @@ public class ItemArtwork extends AOTDItem
 		super();
 		this.setHasSubtypes(true);
 		this.setUnlocalizedName("artwork");
+		this.setRegistryName("artwork");
 	}
 
 	@Override

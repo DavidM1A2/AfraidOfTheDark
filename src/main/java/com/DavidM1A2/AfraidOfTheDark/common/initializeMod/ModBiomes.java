@@ -15,6 +15,7 @@ import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.common.BiomeManager.BiomeEntry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ModBiomes
 {
@@ -26,10 +27,13 @@ public class ModBiomes
 	public static void initialize()
 	{
 		// Register it and add it
+		GameRegistry.register(erieForest);
+		GameRegistry.register(nightmare);
+		GameRegistry.register(voidChest);
+		BiomeManager.addBiome(BiomeManager.BiomeType.COOL, new BiomeEntry(ModBiomes.erieForest, ConfigurationHandler.erieBiomeFrequency));
+		BiomeManager.addBiome(BiomeManager.BiomeType.WARM, new BiomeEntry(ModBiomes.erieForest, ConfigurationHandler.erieBiomeFrequency));
 		BiomeDictionary.addTypes(ModBiomes.erieForest, Type.FOREST, Type.CONIFEROUS, Type.PLAINS);
 		BiomeDictionary.addTypes(ModBiomes.nightmare);
 		BiomeDictionary.addTypes(ModBiomes.voidChest);
-		BiomeManager.addBiome(BiomeManager.BiomeType.COOL, new BiomeEntry(ModBiomes.erieForest, ConfigurationHandler.erieBiomeFrequency));
-		BiomeManager.addBiome(BiomeManager.BiomeType.WARM, new BiomeEntry(ModBiomes.erieForest, ConfigurationHandler.erieBiomeFrequency));
 	}
 }

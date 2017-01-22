@@ -5,14 +5,13 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModSounds;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDCrossbowBoltTypes;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -60,7 +59,7 @@ public class FireCrossbowBolt implements IMessage
 					if (entityPlayer.capabilities.isCreativeMode || entityPlayer.inventory.clearMatchingItems(msg.boltType.getMyBoltItem(), -1, 1, null) == 1)
 					{
 						world.spawnEntityInWorld(msg.boltType.createBolt(world, entityPlayer));
-						world.playSound(entityPlayer, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, new SoundEvent(new ResourceLocation("afraidofthedark:crossbowFire")), SoundCategory.MASTER, 0.5F, ((world.rand.nextFloat() * 0.4F) + 0.8F));
+						world.playSound(entityPlayer, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, ModSounds.crossbowFire, SoundCategory.MASTER, 0.5F, ((world.rand.nextFloat() * 0.4F) + 0.8F));
 					}
 				}
 			});

@@ -12,6 +12,7 @@ public class ItemStarMetalPlate extends AOTDItem
 	public ItemStarMetalPlate()
 	{
 		super();
-		this.setUnlocalizedName("starMetalPlate");
+		this.setUnlocalizedName("star_metal_plate");
+		this.setRegistryName("star_metal_plate");
 	}
 }

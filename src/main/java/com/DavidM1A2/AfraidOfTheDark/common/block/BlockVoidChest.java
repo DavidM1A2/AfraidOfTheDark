@@ -37,8 +37,8 @@ public class BlockVoidChest extends AOTDBlockTileEntity
 	{
 		super(Material.ROCK);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING_PROP, EnumFacing.NORTH));
-		this.setUnlocalizedName("voidChest");
-		this.setRegistryName("voidChest");
+		this.setUnlocalizedName("void_chest");
+		this.setRegistryName("void_chest");
 		this.setHardness(4.0F);
 		this.setResistance(50.0F);
 		this.setHarvestLevel("pickaxe", 2);

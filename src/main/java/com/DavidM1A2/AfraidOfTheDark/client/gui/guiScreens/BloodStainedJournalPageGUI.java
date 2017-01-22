@@ -25,13 +25,12 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent.MouseButtonClicked;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModSounds;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.recipe.ConvertedRecipe;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.recipe.RecipeUtility;
 
 import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
 
 public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 {
@@ -78,7 +77,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 
 		this.journal = new AOTDGuiPanel(xCornerOfPage, yCornerOfPage, journalWidth, journalHeight, false);
 
-		this.journal.add(new AOTDGuiImage(0, 0, journalWidth, journalHeight, "afraidofthedark:textures/gui/bloodStainedJournalPage.png"));
+		this.journal.add(new AOTDGuiImage(0, 0, journalWidth, journalHeight, "afraidofthedark:textures/gui/blood_stained_journal_page.png"));
 
 		AOTDGuiLabel title = new AOTDGuiLabel(5, 15, ClientData.getTargaMSHandFontSized(50f));
 		title.setText(titleText);
@@ -101,7 +100,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 		this.journal.add(this.leftPage);
 		this.journal.add(this.rightPage);
 
-		this.bookmarkButton = new AOTDGuiButton(journalWidth / 2 - 17, journalHeight - 28, 15, 30, null, "afraidofthedark:textures/gui/slotHighlight.png");
+		this.bookmarkButton = new AOTDGuiButton(journalWidth / 2 - 17, journalHeight - 28, 15, 30, null, "afraidofthedark:textures/gui/slot_highlight.png");
 		this.bookmarkButton.setVisible(false);
 		this.bookmarkButton.setColor(new Color(255, 255, 255, 50));
 		this.bookmarkButton.addMouseListener(new AOTDMouseListener()
@@ -141,8 +140,8 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 
 		this.getContentPane().add(this.journal);
 
-		this.forwardButton = new AOTDGuiButton(this.getContentPane().getWidth() - 64, this.getContentPane().getHeight() - 64, 64, 64, null, "afraidofthedark:textures/gui/buttons/forwardButton.png");
-		this.backwardButton = new AOTDGuiButton(0, this.getContentPane().getHeight() - 64, 64, 64, null, "afraidofthedark:textures/gui/buttons/backwardButton.png");
+		this.forwardButton = new AOTDGuiButton(this.getContentPane().getWidth() - 64, this.getContentPane().getHeight() - 64, 64, 64, null, "afraidofthedark:textures/gui/buttons/forward_button.png");
+		this.backwardButton = new AOTDGuiButton(0, this.getContentPane().getHeight() - 64, 64, 64, null, "afraidofthedark:textures/gui/buttons/backward_button.png");
 		this.forwardButton.addMouseListener(new AOTDMouseListener()
 		{
 			@Override
@@ -196,7 +195,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 		this.forwardButton.setVisible(this.hasPageForward());
 		this.backwardButton.setVisible(this.hasPageBackward());
 
-		entityPlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:pageTurn")), 1.0F, 1.0F);
+		entityPlayer.playSound(ModSounds.pageTurn, 1.0F, 1.0F);
 	}
 
 	private void advancePage()
@@ -204,7 +203,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 		if (this.hasPageForward())
 		{
 			pageNumber = pageNumber + 2;
-			entityPlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:pageTurn")), 1.0F, 1.0F);
+			entityPlayer.playSound(ModSounds.pageTurn, 1.0F, 1.0F);
 		}
 		this.leftPageNumber.setText(Integer.toString(this.pageNumber + 1));
 		this.rightPageNumber.setText(Integer.toString(this.pageNumber + 2));
@@ -218,7 +217,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 		if (this.hasPageBackward())
 		{
 			pageNumber = pageNumber - 2;
-			entityPlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:pageTurn")), 1.0F, 1.0F);
+			entityPlayer.playSound(ModSounds.pageTurn, 1.0F, 1.0F);
 		}
 		this.leftPageNumber.setText(Integer.toString(this.pageNumber + 1));
 		this.rightPageNumber.setText(Integer.toString(this.pageNumber + 2));

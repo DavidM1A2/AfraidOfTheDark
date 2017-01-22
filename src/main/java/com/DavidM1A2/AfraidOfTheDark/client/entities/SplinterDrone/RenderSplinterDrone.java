@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 public class RenderSplinterDrone<T extends EntitySplinterDrone> extends RenderLiving<T>
 {
 
-	public static final ResourceLocation SPLINTER_DRONE_TEXTURE = new ResourceLocation("afraidofthedark:textures/entity/splinterDrone.png");
+	public static final ResourceLocation SPLINTER_DRONE_TEXTURE = new ResourceLocation("afraidofthedark:textures/entity/splinter_drone.png");
 	public static ModelSplinterDrone modelSplinterDrone = new ModelSplinterDrone();
 	public static float modelHeight = 3.1F;
 

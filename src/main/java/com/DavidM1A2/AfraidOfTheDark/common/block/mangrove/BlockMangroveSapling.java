@@ -26,8 +26,8 @@ public class BlockMangroveSapling extends AOTDSapling
 	public BlockMangroveSapling()
 	{
 		super();
-		this.setUnlocalizedName("mangroveSapling");
-		this.setRegistryName("mangroveSapling");
+		this.setUnlocalizedName("mangrove_sapling");
+		this.setRegistryName("mangrove_sapling");
 	}
 
 	@Override

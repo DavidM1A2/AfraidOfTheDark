@@ -1,7 +1,0 @@
-{
-    "variants": {
-        "half=bottom": { "model": "afraidofthedark:mangroveHalfSlab" },
-        "half=top":    { "model": "afraidofthedark:mangroveUpperSlab" },
-        "inventory":   { "model": "afraidofthedark:mangroveHalfSlab" }
-    }
-}

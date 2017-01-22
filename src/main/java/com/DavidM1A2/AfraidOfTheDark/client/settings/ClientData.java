@@ -37,7 +37,7 @@ public final class ClientData
 	public static TrueTypeFont getTargaMSHandFontSized(float fontSize)
 	{
 		if (!ClientData.fontMap.containsKey(fontSize))
-			ClientData.fontMap.put(fontSize, FontLoader.createFont(new ResourceLocation("afraidofthedark:fonts/Targa MS Hand.ttf"), fontSize, true));
+			ClientData.fontMap.put(fontSize, FontLoader.createFont(new ResourceLocation("afraidofthedark:fonts/targa_ms_hand.ttf"), fontSize, true));
 		return ClientData.fontMap.get(fontSize);
 	}
 }

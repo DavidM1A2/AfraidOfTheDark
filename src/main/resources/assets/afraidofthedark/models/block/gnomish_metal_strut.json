@@ -1,0 +1,6 @@
+{
+	"parent": "block/cube_all",
+	"textures": {
+		"all": "afraidofthedark:blocks/gnomish_metal_strut"
+	}
+}

@@ -22,8 +22,8 @@ public class BlockMangroveDoubleSlab extends AOTDSlab
 	public BlockMangroveDoubleSlab()
 	{
 		super(Material.WOOD);
-		this.setUnlocalizedName("mangroveDoubleSlab");
-		this.setRegistryName("mangroveDoubleSlab");
+		this.setUnlocalizedName("mangrove_upper_slab");
+		this.setRegistryName("mangrove_upper_slab");
 	}
 
 	@Override

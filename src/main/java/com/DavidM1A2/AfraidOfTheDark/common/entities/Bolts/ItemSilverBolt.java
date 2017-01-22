@@ -13,6 +13,7 @@ public class ItemSilverBolt extends AOTDItem
 	public ItemSilverBolt()
 	{
 		super();
-		this.setUnlocalizedName("silverBolt");
+		this.setUnlocalizedName("silver_bolt");
+		this.setRegistryName("silver_bolt");
 	}
 }

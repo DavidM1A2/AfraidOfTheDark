@@ -12,7 +12,8 @@ public class ItemResearchScrollCloakOfAgility extends ItemResearchScroll
 	public ItemResearchScrollCloakOfAgility()
 	{
 		super();
-		this.setUnlocalizedName("researchScrollCloakOfAgility");
+		this.setUnlocalizedName("research_scroll_cloak_of_agility");
+		this.setRegistryName("research_scroll_cloak_of_agility");
 	}
 
 	@Override

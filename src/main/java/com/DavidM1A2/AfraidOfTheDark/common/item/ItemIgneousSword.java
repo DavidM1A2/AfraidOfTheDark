@@ -31,7 +31,8 @@ public class ItemIgneousSword extends AOTDChargableSword
 
 	public ItemIgneousSword()
 	{
-		super(AOTDToolMaterials.Igneous.getToolMaterial(), "igneousSword");
+		super(AOTDToolMaterials.Igneous.getToolMaterial(), "igneous_sword");
+		this.setRegistryName("igneous_sword");
 	}
 
 	@Override

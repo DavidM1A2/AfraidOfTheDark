@@ -27,8 +27,8 @@ public class BlockAOTDBarrier extends AOTDBlock
 		this.setResistance(6000001.0F);
 		this.disableStats();
 		this.translucent = true;
-		this.setUnlocalizedName("aOTDBarrier");
-		this.setRegistryName("aOTDBarrier");
+		this.setUnlocalizedName("aotd_barrier");
+		this.setRegistryName("aotd_barrier");
 		this.setCreativeTab(null);
 	}
 
