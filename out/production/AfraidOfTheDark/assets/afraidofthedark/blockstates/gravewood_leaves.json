@@ -1,0 +1,9 @@
+{
+	"variants": {
+        "check_decay=false,decayable=true":    { "model": "afraidofthedark:gravewood_leaves" },		
+		"check_decay=false,decayable=false":    { "model": "afraidofthedark:gravewood_leaves" },
+		"check_decay=true,decayable=true":    { "model": "afraidofthedark:gravewood_leaves" },
+		"check_decay=true,decayable=false":    { "model": "afraidofthedark:gravewood_leaves" },
+		"inventory":    { "model": "afraidofthedark:gravewood_leaves" }
+	}
+}

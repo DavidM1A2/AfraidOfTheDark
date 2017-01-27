@@ -12,10 +12,12 @@ import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -23,6 +25,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class AOTDSlab extends BlockSlab
 {
+	public static final PropertyEnum<AOTDSlab.Variant> VARIANT = PropertyEnum.<AOTDSlab.Variant>create("variant", AOTDSlab.Variant.class);
+
 	public AOTDSlab(final Material material)
 	{
 		super(material);
@@ -37,6 +41,8 @@ public abstract class AOTDSlab extends BlockSlab
 		{
 			iblockstate = iblockstate.withProperty(BlockSlab.HALF, BlockSlab.EnumBlockHalf.BOTTOM);
 		}
+
+		this.setDefaultState(iblockstate.withProperty(VARIANT, AOTDSlab.Variant.DEFAULT));
 		this.useNeighborBrightness = !this.isDouble();
 	}
 
@@ -65,7 +71,7 @@ public abstract class AOTDSlab extends BlockSlab
 	@Override
 	public IBlockState getStateFromMeta(final int meta)
 	{
-		IBlockState iblockstate = this.getDefaultState();
+		IBlockState iblockstate = this.getDefaultState().withProperty(VARIANT, AOTDSlab.Variant.DEFAULT);
 
 		if (!this.isDouble())
 		{
@@ -81,8 +87,7 @@ public abstract class AOTDSlab extends BlockSlab
 	@Override
 	public int getMetaFromState(final IBlockState state)
 	{
-		final byte b0 = 0;
-		int i = b0;
+		int i = 0;
 
 		if (!this.isDouble() && (state.getValue(BlockSlab.HALF) == BlockSlab.EnumBlockHalf.TOP))
 		{
@@ -97,8 +102,8 @@ public abstract class AOTDSlab extends BlockSlab
 	protected BlockStateContainer createBlockState()
 	{
 		return this.isDouble() ? new BlockStateContainer(this, new IProperty[]
-		{}) : new BlockStateContainer(this, new IProperty[]
-		{ BlockSlab.HALF });
+		{ VARIANT }) : new BlockStateContainer(this, new IProperty[]
+		{ BlockSlab.HALF, VARIANT });
 	}
 
 	/**
@@ -113,13 +118,13 @@ public abstract class AOTDSlab extends BlockSlab
 	@Override
 	public IProperty<?> getVariantProperty()
 	{
-		return null;
+		return VARIANT;
 	}
 
 	@Override
 	public Comparable<?> getTypeForItem(ItemStack stack)
 	{
-		return null;
+		return AOTDSlab.Variant.DEFAULT;
 	}
 
 	/**
@@ -142,5 +147,16 @@ public abstract class AOTDSlab extends BlockSlab
 	protected String getUnwrappedUnlocalizedName(final String unlocalizedName)
 	{
 		return unlocalizedName.substring(unlocalizedName.indexOf(".") + 1);
+	}
+
+	public enum Variant implements IStringSerializable
+	{
+		DEFAULT;
+
+		@Override
+		public String getName()
+		{
+			return "default";
+		}
 	}
 }

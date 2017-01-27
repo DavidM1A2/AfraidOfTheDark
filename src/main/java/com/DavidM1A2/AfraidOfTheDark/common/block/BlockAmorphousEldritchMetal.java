@@ -7,6 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.block;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDBlock;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockRenderLayer;
@@ -31,10 +32,15 @@ public class BlockAmorphousEldritchMetal extends AOTDBlock
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
 	{
-		return null;
+		return Block.NULL_AABB;
 	}
+
+	//	@Override
+	//	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+	//	{
+	//	}
 
 	@Override
 	public boolean isOpaqueCube(IBlockState blockState)

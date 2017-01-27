@@ -88,8 +88,7 @@ public class EntityArtwork extends EntityHanging implements IEntityAdditionalSpa
 	@Override
 	public void setLocationAndAngles(double x, double y, double z, float yaw, float pitch)
 	{
-		BlockPos blockpos = this.hangingPosition.add(x - this.posX, y - this.posY, z - this.posZ);
-		this.setPosition((double) blockpos.getX(), (double) blockpos.getY(), (double) blockpos.getZ());
+		this.setPosition(x, y, z);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -239,7 +238,7 @@ public class EntityArtwork extends EntityHanging implements IEntityAdditionalSpa
 
 	private double someFunc(int size)
 	{
-		return size % 32 == 0 ? 0.5D : 0.0D;
+		return size % (this.getWidthPixels() / this.blocksToTakeUp() * 2D) == 0 ? 0.5D : 0.0D;
 	}
 
 	@Override

@@ -35,9 +35,7 @@ public class LootTable
 				if (itemStack != null && lootTableEntry.getItemToRepalce() == itemStack.getItem())
 				{
 					chest.clear();
-					//					chest.fill
-					//					WeightedRandomChestContent.generateChestContents(world.rand, lootTableEntry.getLoot().getPossibleItems(world.rand), chest, world.rand.nextInt(MathHelper.ceiling_double_int(lootTableEntry.numberOfItemsToGenerate() * 0.5)) + MathHelper.ceiling_double_int(lootTableEntry
-					//							.numberOfItemsToGenerate() * 0.8));
+					chest.setLootTable(lootTableEntry.getLoot(), chest.getWorld().rand.nextLong());
 					return;
 				}
 			}
@@ -46,7 +44,7 @@ public class LootTable
 		if (nullEntry != null)
 		{
 			chest.clear();
-			//WeightedRandomChestContent.generateChestContents(world.rand, nullEntry.getLoot().getPossibleItems(world.rand), chest, world.rand.nextInt(MathHelper.ceiling_double_int(nullEntry.numberOfItemsToGenerate() * 0.5)) + MathHelper.ceiling_double_int(nullEntry.numberOfItemsToGenerate() * 0.8));
+			chest.setLootTable(nullEntry.getLoot(), chest.getWorld().rand.nextLong());
 		}
 	}
 }

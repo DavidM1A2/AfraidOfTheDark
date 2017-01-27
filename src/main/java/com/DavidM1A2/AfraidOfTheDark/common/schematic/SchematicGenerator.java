@@ -26,6 +26,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -121,9 +122,10 @@ public final class SchematicGenerator
 				{
 					// This is the next block in the schematic file we will place stored as a short
 
-					//Block nextToPlace = Block.getBlockById(schematic.getBlocks()[i]);
 					int nextToPlace = schematic.getBlocks()[i];
 
+					// The correct way to place the schematic, commented while schematics are updated to 1.11
+					/*
 					if (nextToPlace != SchematicGenerator.AIR_BLOCK_ID)
 					{
 						// Diamond blocks represent air blocks in my schematic system. This allows for easy underground
@@ -153,6 +155,10 @@ public final class SchematicGenerator
 							lightBlockPositions.add(new Point3D(x + xPosition, y + yPosition, z + zPosition));
 						}
 					}
+					*/
+
+					world.setBlockState(new BlockPos(x + xPosition, y + yPosition, z + zPosition), Block.getBlockById(nextToPlace).getStateFromMeta(schematic.getData()[i]));
+					//WorldGenerationUtility.setBlockStateFast(world, new BlockPos(x + xPosition, y + yPosition, z + zPosition), Block.getBlockById(nextToPlace).getStateFromMeta(schematic.getData()[i]), 3);
 
 					i = i + 1;
 				}
@@ -236,11 +242,8 @@ public final class SchematicGenerator
 					if (tileEntity instanceof TileEntityChest)
 					{
 						TileEntityChest tileEntityChest = (TileEntityChest) world.getTileEntity(tileEntityLocation);
-
-						if (tileEntityChest != null)
-						{
-							lootTable.generate(tileEntityChest);
-						}
+						//tileEntityChest.setLootTable(lootTable, world.rand.nextLong());
+						lootTable.generate(tileEntityChest);
 					}
 				}
 			}

@@ -14,6 +14,8 @@ import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
+import net.minecraft.block.BlockMobSpawner;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -31,14 +33,43 @@ public class SchematicLoader
 			short height = nbtdata.getShort("Height");
 			short length = nbtdata.getShort("Length");
 
-			byte[] blocks = nbtdata.getByteArray("Blocks");
-
+			byte[] blocksByte = nbtdata.getByteArray("Blocks");
+			short[] blocks = new short[blocksByte.length];
 			byte[] data = nbtdata.getByteArray("Data");
+			byte[] addBlocks = new byte[0];
 
-			NBTTagList tileentities = nbtdata.getTagList("TileEntities", 10);
+			// see https://github.com/sk89q/WorldEdit/blob/master/worldedit-core/src/main/java/com/sk89q/worldedit/schematic/MCEditSchematicFormat.java
+			// line 125. We save the 4 high level bits of the block into the AddBlocks array, so re-combine the byte & addBlocks array here into a
+			// short array.
+
+			// AddBlocks are the highest 4 bits in a block ID
+			if (nbtdata.hasKey("AddBlocks"))
+				addBlocks = nbtdata.getByteArray("AddBlocks");
+
+			for (int index = 0; index < blocksByte.length; index++)
+			{
+				// No AddBlocks index
+				if ((index >> 1) >= addBlocks.length)
+				{
+					blocks[index] = (short) (blocksByte[index] & 0xFF);
+				}
+				else
+				{
+					if ((index & 1) == 0)
+					{
+						blocks[index] = (short) (((addBlocks[index >> 1] & 0x0F) << 8) + (blocksByte[index] & 0xFF));
+					}
+					else
+					{
+						blocks[index] = (short) (((addBlocks[index >> 1] & 0xF0) << 4) + (blocksByte[index] & 0xFF));
+					}
+				}
+			}
+
+			NBTTagList tileEntities = nbtdata.getTagList("TileEntities", 10);
 			NBTTagList entities = nbtdata.getTagList("Entities", 10);
 
-			Schematic toReturn = new Schematic(tileentities, width, height, length, byteArrayToShortArray(blocks), data, entities);
+			Schematic toReturn = new Schematic(tileEntities, width, height, length,blocks, data, entities);
 
 			SchematicBlockReplacer.fixKnownSchematicErrors(toReturn);
 

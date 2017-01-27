@@ -378,7 +378,6 @@ public class ClientProxy extends CommonProxy
 		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.eldritchObsidian), 0, new ModelResourceLocation(Reference.MOD_ID + ":eldritch_obsidian", "inventory"));
 		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.amorphousEldritchMetal), 0, new ModelResourceLocation(Reference.MOD_ID + ":amorphous_eldritch_metal", "inventory"));
 		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.eldritchStone), 0, new ModelResourceLocation(Reference.MOD_ID + ":eldritch_stone", "inventory"));
-		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.aOTDBarrier), 0, new ModelResourceLocation(Reference.MOD_ID + ":aotd_barrier", "inventory"));
 		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gnomishMetalPlate), 0, new ModelResourceLocation(Reference.MOD_ID + ":gnomish_metal_plate", "inventory"));
 		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gnomishMetalStrut), 0, new ModelResourceLocation(Reference.MOD_ID + ":gnomish_metal_strut", "inventory"));
 		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.glowStalk), 0, new ModelResourceLocation(Reference.MOD_ID + ":glow_stalk", "inventory"));

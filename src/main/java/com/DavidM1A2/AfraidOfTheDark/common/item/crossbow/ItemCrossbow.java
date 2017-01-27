@@ -5,6 +5,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.item.crossbow;
 
 import java.util.List;
 
+import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntityBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModSounds;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDCrossbowBoltTypes;
@@ -187,8 +188,14 @@ public class ItemCrossbow extends AOTDItem
 	// When we fire, set the pull level of the bow to 0
 	public void fireBolt(final EntityPlayer entityPlayer, final World world, final ItemStack itemStack)
 	{
-		world.playSound(entityPlayer, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, ModSounds.crossbowFire, SoundCategory.MASTER, 0.5F, ((world.rand.nextFloat() * 0.4F) + 0.8F));
-		world.spawnEntityInWorld(AOTDCrossbowBoltTypes.getTypeFromID(NBTHelper.getInt(itemStack, "mode")).createBolt(world, entityPlayer));
+		world.playSound(null, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, ModSounds.crossbowFire, SoundCategory.MASTER, 0.5F, ((world.rand.nextFloat() * 0.4F) + 0.8F));
+		EntityBolt bolt = AOTDCrossbowBoltTypes.getTypeFromID(NBTHelper.getInt(itemStack, "mode")).createBolt(world, entityPlayer);
+		// Push the bolt slightly forward so it does not collide with the player
+		bolt.setHeadingFromThrower(entityPlayer, entityPlayer.rotationPitch, entityPlayer.rotationYaw, 0f, 3f, 0f);
+		bolt.posX = bolt.posX + bolt.motionX;
+		bolt.posY = bolt.posY + bolt.motionY;
+		bolt.posZ = bolt.posZ + bolt.motionZ;
+		world.spawnEntityInWorld(bolt);
 	}
 
 	// A message under the bow will tell us what type of arrows the bow will fire
