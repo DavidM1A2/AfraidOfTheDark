@@ -16,6 +16,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.WorldGenerationUtility;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.LootTable;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockChorusFlower;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -92,14 +93,15 @@ public final class SchematicGenerator
 
 	public static void generateSchematicWithLoot(Schematic schematic, World world, int xPosition, int yPosition, int zPosition, LootTable lootTable)
 	{
-		if (schematic != null)
+		SchematicGenerator.generateSchematic(schematic, world, xPosition, yPosition, zPosition);
+		/*if (schematic != null)
 		{
 			SchematicGenerator.generateBlocks(schematic, world, xPosition, yPosition, zPosition);
 
 			SchematicGenerator.loadTileEntitiesWithLoot(schematic, world, xPosition, yPosition, zPosition, lootTable);
 
 			SchematicGenerator.loadEntities(schematic, world, xPosition, yPosition, zPosition);
-		}
+		}*/
 	}
 
 	private static void generateBlocks(Schematic schematic, World world, int xPosition, int yPosition, int zPosition)

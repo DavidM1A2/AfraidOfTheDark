@@ -59,30 +59,30 @@ public class ModEntities
 	{
 		// register entities
 		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "werewolf"), EntityWerewolf.class, "werewolf", ModEntities.wereWolfID, Reference.MOD_ID, 50, 1, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "deeeSyft"), EntityDeeeSyft.class, "deeeSyft", ModEntities.deeeSyft, Reference.MOD_ID, 50, 1, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "enchantedSkeleton"), EntityEnchantedSkeleton.class, "enchantedSkeleton", ModEntities.enchantedSkeletonID, Reference.MOD_ID, 50, 1, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "deee_syft"), EntityDeeeSyft.class, "deee_syft", ModEntities.deeeSyft, Reference.MOD_ID, 50, 1, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "enchanted_skeleton"), EntityEnchantedSkeleton.class, "enchanted_skeleton", ModEntities.enchantedSkeletonID, Reference.MOD_ID, 50, 1, true);
 		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "enaria"), EntityEnaria.class, "enaria", ModEntities.enariaID, Reference.MOD_ID, 50, 1, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "splinterDrone"), EntitySplinterDrone.class, "splinterDrone", ModEntities.splinterDroneID, Reference.MOD_ID, 50, 1, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "splinterDroneProjectile"), EntitySplinterDroneProjectile.class, "splinterDroneProjectile", ModEntities.splinterDroneProjectileID, Reference.MOD_ID, 50, 1, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "ghastlyEnaria"), EntityGhastlyEnaria.class, "ghastlyEnaria", ModEntities.ghastlyEnariaID, Reference.MOD_ID, 500, 1, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "splinter_drone"), EntitySplinterDrone.class, "splinter_drone", ModEntities.splinterDroneID, Reference.MOD_ID, 50, 1, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "splinter_drone_projectile"), EntitySplinterDroneProjectile.class, "splinter_drone_projectile", ModEntities.splinterDroneProjectileID, Reference.MOD_ID, 50, 1, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "ghastly_enaria"), EntityGhastlyEnaria.class, "ghastly_enaria", ModEntities.ghastlyEnariaID, Reference.MOD_ID, 500, 1, true);
 
 		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "artwork"), EntityArtwork.class, "artwork", ModEntities.artworkID, Reference.MOD_ID, 160, Integer.MAX_VALUE, false);
 
 		EntityRegistry.registerEgg(new ResourceLocation(Reference.MOD_ID, "werewolf"), 0x3B170B, 0x181907);
-		EntityRegistry.registerEgg(new ResourceLocation(Reference.MOD_ID, "splinterDrone"), 0xcc6600, 0x63300);
-		EntityRegistry.registerEgg(new ResourceLocation(Reference.MOD_ID, "enchantedSkeleton"), 0x996600, 0xe69900);
-		EntityRegistry.registerEgg(new ResourceLocation(Reference.MOD_ID, "deeeSyft"), 0x0086b3, 0x00bfff);
+		EntityRegistry.registerEgg(new ResourceLocation(Reference.MOD_ID, "splinter_drone"), 0xcc6600, 0x63300);
+		EntityRegistry.registerEgg(new ResourceLocation(Reference.MOD_ID, "enchanted_skeleton"), 0x996600, 0xe69900);
+		EntityRegistry.registerEgg(new ResourceLocation(Reference.MOD_ID, "deee_syft"), 0x0086b3, 0x00bfff);
 
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "ironBolt"), EntityIronBolt.class, "ironBolt", ModEntities.ironBoltID, Reference.MOD_ID, 50, 10, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "silverBolt"), EntitySilverBolt.class, "silverBolt", ModEntities.silverBoltID, Reference.MOD_ID, 50, 10, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "woodenBolt"), EntityWoodenBolt.class, "woodenBolt", ModEntities.woodenBoltID, Reference.MOD_ID, 50, 10, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "igneousBolt"), EntityIgneousBolt.class, "igneousBolt", ModEntities.igneousBoltID, Reference.MOD_ID, 50, 10, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "starMetalBolt"), EntityStarMetalBolt.class, "starMetalBolt", ModEntities.starMetalBoltID, Reference.MOD_ID, 50, 10, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "iron_bolt"), EntityIronBolt.class, "iron_bolt", ModEntities.ironBoltID, Reference.MOD_ID, 50, 10, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "silver_bolt"), EntitySilverBolt.class, "silver_bolt", ModEntities.silverBoltID, Reference.MOD_ID, 50, 10, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "wooden_bolt"), EntityWoodenBolt.class, "wooden_bolt", ModEntities.woodenBoltID, Reference.MOD_ID, 50, 10, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "igneous_bolt"), EntityIgneousBolt.class, "igneous_bolt", ModEntities.igneousBoltID, Reference.MOD_ID, 50, 10, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "star_metal_bolt"), EntityStarMetalBolt.class, "star_metal_bolt", ModEntities.starMetalBoltID, Reference.MOD_ID, 50, 10, true);
 
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "spellProjectile"), EntitySpellProjectile.class, "spellProjectile", ModEntities.spellProjectileID, Reference.MOD_ID, 50, 1, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "spellProjectileDive"), EntitySpellProjectileDive.class, "spellProjectileDive", ModEntities.spellProjectileDiveID, Reference.MOD_ID, 50, 1, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "spellMyself"), EntityMyself.class, "spellMyself", ModEntities.spellMyselfID, Reference.MOD_ID, 0, 1, false);
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "spellAOE"), EntityAOE.class, "spellAOE", ModEntities.spellAOEID, Reference.MOD_ID, 0, 1, false);
+		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "spell_projectile"), EntitySpellProjectile.class, "spell_projectile", ModEntities.spellProjectileID, Reference.MOD_ID, 50, 1, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "spell_projectile_dive"), EntitySpellProjectileDive.class, "spell_projectile_dive", ModEntities.spellProjectileDiveID, Reference.MOD_ID, 50, 1, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "spell_myself"), EntityMyself.class, "spell_myself", ModEntities.spellMyselfID, Reference.MOD_ID, 0, 1, false);
+		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "spell_AOE"), EntityAOE.class, "spell_AOE", ModEntities.spellAOEID, Reference.MOD_ID, 0, 1, false);
 
 		// Allow the werewolf to rarely spawn in all biomes
 		for (BiomeType type : BiomeType.values())
