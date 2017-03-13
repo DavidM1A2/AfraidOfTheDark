@@ -7,15 +7,20 @@ package com.DavidM1A2.AfraidOfTheDark.common.debug;
 
 import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.ghastly.EntityGhastlyEnaria;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDSchematics;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.google.common.base.Predicate;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ItemWorldGenTest extends AOTDItem
 {
@@ -35,6 +40,16 @@ public class ItemWorldGenTest extends AOTDItem
 		ItemStack itemStack = entityPlayer.getHeldItemMainhand();
 		//entityPlayer.openGui(Reference.MOD_ID, GuiHandler.SPELL_SELECTION_ID, world, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ());
 
+		System.out.println(world.isRemote);
+
+		Map<Short, Block> test = new HashMap<Short, Block>();
+		for (short block : AOTDSchematics.WitchHut.getSchematic().getBlocks())
+			if (!test.containsKey(block))
+				test.put(block, Block.getBlockById(block));
+
+		for (Map.Entry<Short, Block> entry : test.entrySet())
+			System.out.println(entry.getKey() + ", " + entry.getValue());
+
 		/*TargetPoint particleCenter = new TargetPoint(entityPlayer.dimension, entityPlayer.posX, entityPlayer.posY + 1, entityPlayer.posZ, 40);
 		if (!world.isRemote)
 			for (int i = 0; i < 50; i++)
@@ -42,7 +57,6 @@ public class ItemWorldGenTest extends AOTDItem
 				AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncParticleFX(AOTDParticleFXTypes.EnariaSplash, entityPlayer.posX, entityPlayer.posY + 1, entityPlayer.posZ), particleCenter);
 			}
 		LogHelper.info(entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getHasBeatenEnaria());
-		*/
 
 		if (!entityPlayer.isSneaking())
 		{
@@ -67,6 +81,7 @@ public class ItemWorldGenTest extends AOTDItem
 				entity.onKillCommand();
 				entity.setDead();
 			}
+		*/
 
 		/*
 		entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setPlayerLocationPreTeleport(new Point3D(0, 100, 0), 0);

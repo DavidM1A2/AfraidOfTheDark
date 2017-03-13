@@ -71,7 +71,7 @@ public class SchematicLoader
 
 			Schematic toReturn = new Schematic(tileEntities, width, height, length,blocks, data, entities);
 
-			SchematicBlockReplacer.fixKnownSchematicErrors(toReturn);
+			//SchematicBlockReplacer.fixKnownSchematicErrors(toReturn);
 
 			if (ConfigurationHandler.debugMessages)
 			{

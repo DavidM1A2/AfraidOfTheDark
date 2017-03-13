@@ -56,19 +56,13 @@ public class BlockVoidChestPortal extends AOTDBlock
 	 *            The current world
 	 * @param pos
 	 *            Block position in world
-	 * @param Explosion
+	 * @param explosion
 	 *            The explosion instance affecting the block
 	 */
 	@Override
 	public void onBlockExploded(World world, BlockPos pos, Explosion explosion)
 	{
 		return;
-	}
-
-	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
-	{
-		return null;
 	}
 
 	/**
@@ -120,19 +114,5 @@ public class BlockVoidChestPortal extends AOTDBlock
 				}
 			}
 		}
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public BlockRenderLayer getBlockLayer()
-	{
-		return BlockRenderLayer.TRANSLUCENT;
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state)
-	{
-		return null;
 	}
 }
