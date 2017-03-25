@@ -40,15 +40,18 @@ public class ItemWorldGenTest extends AOTDItem
 		ItemStack itemStack = entityPlayer.getHeldItemMainhand();
 		//entityPlayer.openGui(Reference.MOD_ID, GuiHandler.SPELL_SELECTION_ID, world, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ());
 
-		System.out.println(world.isRemote);
+		if (world.isRemote)
+		{
 
-		Map<Short, Block> test = new HashMap<Short, Block>();
-		for (short block : AOTDSchematics.WitchHut.getSchematic().getBlocks())
-			if (!test.containsKey(block))
-				test.put(block, Block.getBlockById(block));
+			Map<Short, Block> test = new HashMap<Short, Block>();
+			for (short block : AOTDSchematics.WitchHut.getSchematic().getBlocks())
+				if (!test.containsKey(block))
+					test.put(block, Block.getBlockById(block));
 
-		for (Map.Entry<Short, Block> entry : test.entrySet())
-			System.out.println(entry.getKey() + ", " + entry.getValue());
+			for (Map.Entry<Short, Block> entry : test.entrySet())
+				System.out.println(entry.getKey() + ", " + entry.getValue());
+
+		}
 
 		/*TargetPoint particleCenter = new TargetPoint(entityPlayer.dimension, entityPlayer.posX, entityPlayer.posY + 1, entityPlayer.posZ, 40);
 		if (!world.isRemote)
@@ -64,7 +67,7 @@ public class ItemWorldGenTest extends AOTDItem
 			enaria.setBenign(true);
 			enaria.setPosition(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ);
 			if (!world.isRemote)
-				world.spawnEntityInWorld(enaria);
+				world.spawnEntity(enaria);
 		}
 
 		if (entityPlayer.isSneaking())

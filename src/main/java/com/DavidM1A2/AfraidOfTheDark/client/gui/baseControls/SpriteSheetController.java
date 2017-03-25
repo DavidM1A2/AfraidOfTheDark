@@ -48,7 +48,7 @@ public class SpriteSheetController
 				nextFrame = 0;
 			}
 		}
-		this.percentageTowardsNextFrame = MathHelper.clamp_float(1 - ((float) (System.currentTimeMillis() - lastFrameTime) / frameDelayInMillis), 0.0f, 1.0f);
+		this.percentageTowardsNextFrame = MathHelper.clamp(1 - ((float) (System.currentTimeMillis() - lastFrameTime) / frameDelayInMillis), 0.0f, 1.0f);
 	}
 
 	public boolean frameInterpolate()

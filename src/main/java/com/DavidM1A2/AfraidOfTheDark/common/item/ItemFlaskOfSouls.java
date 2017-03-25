@@ -105,12 +105,12 @@ public class ItemFlaskOfSouls extends AOTDItemWithCooldownPerItem
 
 				if (this.spawnEntity(world, blockX + 0.5D, blockY + y, blockZ + 0.5D, itemStack, entityPlayer) == null)
 				{
-					entityPlayer.addChatMessage(new TextComponentString("Flask is incomplete or on cooldown."));
+					entityPlayer.sendMessage(new TextComponentString("Flask is incomplete or on cooldown."));
 				}
 			}
 			else
 			{
-				entityPlayer.addChatMessage(new TextComponentString("I'm not sure how to operate this."));
+				entityPlayer.sendMessage(new TextComponentString("I'm not sure how to operate this."));
 			}
 		}
 		return EnumActionResult.SUCCESS;
@@ -138,7 +138,7 @@ public class ItemFlaskOfSouls extends AOTDItemWithCooldownPerItem
 							{
 								if (this.spawnEntity(world, thisPos.getX(), thisPos.getY(), thisPos.getZ(), itemStack, entityPlayer) == null)
 								{
-									entityPlayer.addChatMessage(new TextComponentString("Flask is incomplete or on cooldown."));
+									entityPlayer.sendMessage(new TextComponentString("Flask is incomplete or on cooldown."));
 								}
 							}
 						}
@@ -147,7 +147,7 @@ public class ItemFlaskOfSouls extends AOTDItemWithCooldownPerItem
 			}
 			else
 			{
-				entityPlayer.addChatMessage(new TextComponentString("I'm not sure how to operate this."));
+				entityPlayer.sendMessage(new TextComponentString("I'm not sure how to operate this."));
 			}
 		}
 		return ActionResult.<ItemStack>newResult(EnumActionResult.SUCCESS, itemStack);
@@ -183,13 +183,13 @@ public class ItemFlaskOfSouls extends AOTDItemWithCooldownPerItem
 						if (entityToSpawn != null)
 						{
 							//entityToSpawn.setLocationAndAngles(x, y, z, MathHelper.wrapAngleTo180_float(world.rand.nextFloat() * 360), 0.0F);
-							world.spawnEntityInWorld(entityToSpawn);
+							world.spawnEntity(entityToSpawn);
 							entityToSpawn.playLivingSound();
 							this.setOnCooldown(itemStack, entityPlayer);
 						}
 						else
 						{
-							entityPlayer.addChatMessage(new TextComponentString("The entity: " + entityToSpawnName + " is not supported by flasks at this time."));
+							entityPlayer.sendMessage(new TextComponentString("The entity: " + entityToSpawnName + " is not supported by flasks at this time."));
 						}
 					}
 				}

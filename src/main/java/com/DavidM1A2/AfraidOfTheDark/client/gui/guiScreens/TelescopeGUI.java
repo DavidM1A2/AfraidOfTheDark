@@ -47,10 +47,10 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
 		{
 			AOTDGuiMeteorButton nextToAdd = null;
 			if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.AstronomyII))
-				nextToAdd = new AOTDGuiMeteorButton(Minecraft.getMinecraft().theWorld.rand.nextInt(telescopeImage.getMaxTextureWidth()) - telescopeImage.getMaxTextureWidth() / 2, Minecraft.getMinecraft().theWorld.rand.nextInt(telescopeImage.getMaxTextureHeight()) - telescopeImage
-						.getMaxTextureHeight() / 2, 64, 64, AOTDMeteorTypes.values()[Minecraft.getMinecraft().theWorld.rand.nextInt(AOTDMeteorTypes.values().length)]);
+				nextToAdd = new AOTDGuiMeteorButton(Minecraft.getMinecraft().world.rand.nextInt(telescopeImage.getMaxTextureWidth()) - telescopeImage.getMaxTextureWidth() / 2, Minecraft.getMinecraft().world.rand.nextInt(telescopeImage.getMaxTextureHeight()) - telescopeImage
+						.getMaxTextureHeight() / 2, 64, 64, AOTDMeteorTypes.values()[Minecraft.getMinecraft().world.rand.nextInt(AOTDMeteorTypes.values().length)]);
 			else
-				nextToAdd = new AOTDGuiMeteorButton(Minecraft.getMinecraft().theWorld.rand.nextInt(telescopeImage.getMaxTextureWidth()) - telescopeImage.getMaxTextureWidth() / 2, Minecraft.getMinecraft().theWorld.rand.nextInt(telescopeImage.getMaxTextureHeight()) - telescopeImage
+				nextToAdd = new AOTDGuiMeteorButton(Minecraft.getMinecraft().world.rand.nextInt(telescopeImage.getMaxTextureWidth()) - telescopeImage.getMaxTextureWidth() / 2, Minecraft.getMinecraft().world.rand.nextInt(telescopeImage.getMaxTextureHeight()) - telescopeImage
 						.getMaxTextureHeight() / 2, 64, 64, AOTDMeteorTypes.silver);
 
 			nextToAdd.addMouseListener(new AOTDMouseListener()
@@ -60,7 +60,7 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
 				{
 					if (event.getSource().isHovered() && event.getClickedButton() == MouseButtonClicked.Left)
 					{
-						entityPlayer.addChatMessage(new TextComponentString(TelescopeGUI.this.createMeteorMessage(((AOTDGuiMeteorButton) event.getSource()).getMyType())));
+						entityPlayer.sendChatMessage(TelescopeGUI.this.createMeteorMessage(((AOTDGuiMeteorButton) event.getSource()).getMyType()));
 						entityPlayer.closeScreen();
 					}
 				}
@@ -113,7 +113,7 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
 	private String createMeteorMessage(final AOTDMeteorTypes type)
 	{
 		String toReturn = "";
-		final Random random = Minecraft.getMinecraft().theWorld.rand;
+		final Random random = Minecraft.getMinecraft().world.rand;
 
 		ClientData.selectedMeteor[0] = random.nextInt(45) + 5;
 		ClientData.selectedMeteor[1] = random.nextInt(50) + 5;

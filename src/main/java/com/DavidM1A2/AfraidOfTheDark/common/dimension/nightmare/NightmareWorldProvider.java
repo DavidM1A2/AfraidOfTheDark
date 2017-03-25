@@ -17,19 +17,19 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class NightmareWorldProvider extends WorldProvider
 {
-	@Override
-	public void createBiomeProvider()
-	{
-		this.biomeProvider = new BiomeProviderSingle(ModBiomes.nightmare);
-		this.hasNoSky = false;
+    @Override
+    protected void init()
+    {
+        this.biomeProvider = new BiomeProviderSingle(ModBiomes.nightmare);
+        this.hasNoSky = false;
 
-		if (this.worldObj.isRemote)
-		{
-			this.setSkyRenderer(new NightmareSkyRenderer());
-		}
-	}
+        if (this.world.isRemote)
+        {
+            this.setSkyRenderer(new NightmareSkyRenderer());
+        }
+    }
 
-	/**
+    /**
 	 * Returns the sub-folder of the world folder that this WorldProvider saves to. EXA: DIM1, DIM-1
 	 * 
 	 * @return The sub-folder name to save this world's chunks to.
@@ -72,7 +72,7 @@ public class NightmareWorldProvider extends WorldProvider
 	@Override
 	public IChunkGenerator createChunkGenerator()
 	{
-		return new NightmareChunkGenerator(this.worldObj);
+		return new NightmareChunkGenerator(this.world);
 	}
 
 	@Override

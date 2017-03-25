@@ -58,7 +58,7 @@ public class UpdateVitae extends AbstractEntitySync
 				@Override
 				public void run()
 				{
-					Entity toUpdate = entityPlayer.worldObj.getEntityByID(msg.entityIDToUpdate);
+					Entity toUpdate = entityPlayer.world.getEntityByID(msg.entityIDToUpdate);
 					if (toUpdate != null)
 					{
 						toUpdate.getCapability(ModCapabilities.ENTITY_DATA, null).setVitaeLevel(msg.vitaeLevel);
@@ -71,16 +71,16 @@ public class UpdateVitae extends AbstractEntitySync
 		@Override
 		public IMessage handleServerMessage(final EntityPlayer entityPlayer, final UpdateVitae msg, MessageContext ctx)
 		{
-			entityPlayer.worldObj.getMinecraftServer().addScheduledTask(new Runnable()
+			entityPlayer.world.getMinecraftServer().addScheduledTask(new Runnable()
 			{
 				@Override
 				public void run()
 				{
 					if (ConfigurationHandler.debugMessages)
 					{
-						LogHelper.info("Update Vitae Status: " + msg.vitaeLevel + " on entity " + entityPlayer.worldObj.getEntityByID(msg.entityIDToUpdate).getName());
+						LogHelper.info("Update Vitae Status: " + msg.vitaeLevel + " on entity " + entityPlayer.world.getEntityByID(msg.entityIDToUpdate).getName());
 					}
-					(entityPlayer.worldObj.getEntityByID(msg.entityIDToUpdate)).getCapability(ModCapabilities.ENTITY_DATA, null).setVitaeLevel(msg.vitaeLevel);
+					(entityPlayer.world.getEntityByID(msg.entityIDToUpdate)).getCapability(ModCapabilities.ENTITY_DATA, null).setVitaeLevel(msg.vitaeLevel);
 				}
 			});
 			return null;

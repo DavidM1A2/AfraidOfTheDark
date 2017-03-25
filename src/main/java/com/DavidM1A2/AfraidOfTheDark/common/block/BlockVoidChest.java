@@ -27,6 +27,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockVoidChest extends AOTDBlockTileEntity
 {
@@ -56,8 +58,8 @@ public class BlockVoidChest extends AOTDBlockTileEntity
 		return false;
 	}
 
-	@Override
-	public boolean func_190946_v(IBlockState p_190946_1_)
+	@SideOnly(Side.CLIENT)
+	public boolean hasCustomBreakingProgress(IBlockState state)
 	{
 		return true;
 	}
@@ -74,10 +76,14 @@ public class BlockVoidChest extends AOTDBlockTileEntity
 		return AABB;
 	}
 
+	/**
+	 * Called by ItemBlocks just before a block is actually set in the world, to allow for adjustments to the
+	 * IBlockstate
+	 */
 	@Override
-	public IBlockState onBlockPlaced(World world, BlockPos blockPos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
+	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
 	{
-		return this.getDefaultState().withProperty(FACING_PROP, placer.getHorizontalFacing().getOpposite());
+		return this.getDefaultState().withProperty(FACING_PROP, placer.getHorizontalFacing());
 	}
 
 	@Override
@@ -100,7 +106,7 @@ public class BlockVoidChest extends AOTDBlockTileEntity
 			{
 				if (!world.isRemote)
 				{
-					entityPlayer.addChatMessage(new TextComponentString("I'm not sure how to open this chest."));
+					entityPlayer.sendMessage(new TextComponentString("I'm not sure how to open this chest."));
 				}
 			}
 		}

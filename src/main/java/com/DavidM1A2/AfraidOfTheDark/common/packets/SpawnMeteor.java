@@ -78,7 +78,7 @@ public class SpawnMeteor implements IMessage
 		@Override
 		public IMessage handleServerMessage(final EntityPlayer entityPlayer, final SpawnMeteor msg, MessageContext ctx)
 		{
-			entityPlayer.worldObj.getMinecraftServer().addScheduledTask(new Runnable()
+			entityPlayer.world.getMinecraftServer().addScheduledTask(new Runnable()
 			{
 				@Override
 				public void run()
@@ -92,11 +92,11 @@ public class SpawnMeteor implements IMessage
 
 					if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.AstronomyII))
 					{
-						SpawnMeteor.create(entityPlayer.worldObj, msg.thePosition, msg.radius, msg.height, false, true, typeToSpawn);
+						SpawnMeteor.create(entityPlayer.world, msg.thePosition, msg.radius, msg.height, false, true, typeToSpawn);
 					}
 					else if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.AstronomyI.getPrevious()) && typeToSpawn == AOTDMeteorTypes.silver)
 					{
-						SpawnMeteor.create(entityPlayer.worldObj, msg.thePosition, msg.radius, msg.height, false, true, typeToSpawn);
+						SpawnMeteor.create(entityPlayer.world, msg.thePosition, msg.radius, msg.height, false, true, typeToSpawn);
 					}
 				}
 			});
@@ -157,7 +157,7 @@ public class SpawnMeteor implements IMessage
 			}
 		}
 
-		SpawnMeteor.createCore(world, new BlockPos(cx, cy, cz), MathHelper.ceiling_double_int(radius / 2.5), MathHelper.ceiling_double_int(height / 2.5), hollow, isSphere, type);
+		SpawnMeteor.createCore(world, new BlockPos(cx, cy, cz), MathHelper.ceil(radius / 2.5), MathHelper.ceil(height / 2.5), hollow, isSphere, type);
 	}
 
 	private static void createCore(World world, BlockPos location, int radius, int height, boolean hollow, boolean isSphere, AOTDMeteorTypes type)
@@ -188,7 +188,7 @@ public class SpawnMeteor implements IMessage
 
 	private static int makeSureChunkIsGenerated(World world, BlockPos location)
 	{
-		if (!world.getChunkProvider().func_191062_e(location.getX(), location.getZ()))
+		if (!world.getChunkProvider().isChunkGeneratedAt(location.getX(), location.getZ()))
 		{
 			world.getChunkProvider().provideChunk(location.getX(), location.getZ());
 		}

@@ -80,7 +80,7 @@ public class StarMetalArmor extends AOTDArmor
 			int numPiecesArmorWorn = this.getNumberOfWornPieces(entityPlayer);
 			if (numPiecesArmorWorn * 4f >= entityPlayer.getAbsorptionAmount())
 			{
-				entityPlayer.setAbsorptionAmount(MathHelper.clamp_float(entityPlayer.getAbsorptionAmount() + 4.0f, 0, this.getNumberOfWornPieces(entityPlayer) * 4f));
+				entityPlayer.setAbsorptionAmount(MathHelper.clamp(entityPlayer.getAbsorptionAmount() + 4.0f, 0, this.getNumberOfWornPieces(entityPlayer) * 4f));
 			}
 			NBTHelper.setLong(itemStack, LAST_PROC, System.currentTimeMillis());
 		}
@@ -96,7 +96,7 @@ public class StarMetalArmor extends AOTDArmor
 		// Remove the ability of thorns to damage armor
 		itemStack.setItemDamage(0);
 
-		if ((source == DamageSource.drown) || (source == DamageSource.fall) || (source == DamageSource.inWall) || (source == DamageSource.outOfWorld) || (source == DamageSource.starve) || (source == DamageSource.lava))
+		if ((source == DamageSource.DROWN) || (source == DamageSource.FALL) || (source == DamageSource.IN_WALL) || (source == DamageSource.OUT_OF_WORLD) || (source == DamageSource.STARVE) || (source == DamageSource.LAVA))
 		{
 			return new ArmorProperties(0, .25, 0);
 		}

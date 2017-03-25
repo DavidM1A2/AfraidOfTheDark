@@ -60,9 +60,9 @@ public abstract class AOTDParticleFX extends Particle
 		}
 
 		this.updateMotionXYZ();
-		this.moveEntity(this.motionX, this.motionY, this.motionZ);
+		this.move(this.motionX, this.motionY, this.motionZ);
 
-		if (this.isCollided)
+		if (this.onGround)
 		{
 			this.motionX *= 0.699999988079071D;
 			this.motionZ *= 0.699999988079071D;

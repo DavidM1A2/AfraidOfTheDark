@@ -191,7 +191,7 @@ public final class PacketHandler
 	 */
 	public void sendToAllAround(IMessage message, Entity entity, double range)
 	{
-		this.sendToAllAround(message, entity.worldObj.provider.getDimension(), entity.posX, entity.posY, entity.posZ, range);
+		this.sendToAllAround(message, entity.world.provider.getDimension(), entity.posX, entity.posY, entity.posZ, range);
 	}
 
 	/**

@@ -46,7 +46,7 @@ public class BloodStainedJournalCheatSheetGUI extends AOTDGuiScreen
 						}
 					}
 					entityPlayer.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f);
-					entityPlayer.addChatMessage(new TextComponentString("All researches unlocked."));
+					entityPlayer.sendMessage(new TextComponentString("All researches unlocked."));
 					entityPlayer.closeScreen();
 				}
 			}

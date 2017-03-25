@@ -27,7 +27,7 @@ public abstract class PlayerFollowingSound extends MovingSound
 	public void update()
 	{
 		if (this.entityPlayer == null)
-			this.entityPlayer = Minecraft.getMinecraft().thePlayer;
+			this.entityPlayer = Minecraft.getMinecraft().player;
 		this.xPosF = (float) this.entityPlayer.posX;
 		this.yPosF = (float) this.entityPlayer.posY;
 		this.zPosF = (float) this.entityPlayer.posZ;

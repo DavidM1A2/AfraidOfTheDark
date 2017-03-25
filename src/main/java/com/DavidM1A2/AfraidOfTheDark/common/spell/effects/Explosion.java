@@ -28,7 +28,7 @@ public class Explosion extends Effect
 		}
 		else
 		{
-			hitInfo.getEntityHit().worldObj.createExplosion(null, hitInfo.getLocation().getX(), hitInfo.getLocation().getY(), hitInfo.getLocation().getZ(), 3.0f, true);
+			hitInfo.getEntityHit().world.createExplosion(null, hitInfo.getLocation().getX(), hitInfo.getLocation().getY(), hitInfo.getLocation().getZ(), 3.0f, true);
 			VitaeUtils.vitaeReleasedFX(hitInfo.getWorld(), hitInfo.getLocation(), 3, 5);
 		}
 	}

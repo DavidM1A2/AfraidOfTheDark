@@ -31,7 +31,7 @@ public class EntityAIFollowTarget extends EntityAIBase
 	@Override
 	public boolean shouldExecute()
 	{
-		List list = this.entity.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.entity.getEntityBoundingBox().expand(TRACK_RANGE, TRACK_RANGE, TRACK_RANGE));
+		List list = this.entity.world.getEntitiesWithinAABB(EntityPlayer.class, this.entity.getEntityBoundingBox().expand(TRACK_RANGE, TRACK_RANGE, TRACK_RANGE));
 		EntityPlayer entityPlayer = null;
 		double minDistance = Double.MAX_VALUE;
 		Iterator iterator = list.iterator();

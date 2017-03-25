@@ -29,11 +29,11 @@ public class TileEntityEnariaSpawner extends AOTDTickingTileEntity
 	public void update()
 	{
 		super.update();
-		if (!worldObj.isRemote)
+		if (!world.isRemote)
 		{
 			if (this.ticksExisted % TICKS_INBETWEEN_CHECKS == 0)
 			{
-				if (worldObj.getDifficulty() != EnumDifficulty.PEACEFUL)
+				if (world.getDifficulty() != EnumDifficulty.PEACEFUL)
 				{
 					if (enariaEntityID == null)
 					{
@@ -41,7 +41,7 @@ public class TileEntityEnariaSpawner extends AOTDTickingTileEntity
 						{
 							playerCheckRegion = new AxisAlignedBB(this.pos.getX() - 11, this.pos.getY() - 2, this.pos.getZ() - 2, this.pos.getX() + 11, this.pos.getY() + 11, this.pos.getZ() + 20);
 						}
-						for (Object object : this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, playerCheckRegion))
+						for (Object object : this.world.getEntitiesWithinAABB(EntityPlayer.class, playerCheckRegion))
 						{
 							if (object instanceof EntityPlayer)
 							{
@@ -56,7 +56,7 @@ public class TileEntityEnariaSpawner extends AOTDTickingTileEntity
 					}
 					else
 					{
-						Entity entity = this.worldObj.getMinecraftServer().getEntityFromUuid(enariaEntityID);
+						Entity entity = this.world.getMinecraftServer().getEntityFromUuid(enariaEntityID);
 
 						if (entity == null)
 						{
@@ -70,10 +70,10 @@ public class TileEntityEnariaSpawner extends AOTDTickingTileEntity
 
 	private void summonEnaria()
 	{
-		EntityEnaria enaria = new EntityEnaria(this.worldObj);
+		EntityEnaria enaria = new EntityEnaria(this.world);
 		enaria.getEntityData().setBoolean(EntityEnaria.IS_VALID, true);
 		enaria.setPosition(this.pos.getX() + 0.5, this.pos.getY() + 7, this.pos.getZ() + 0.5);
-		this.worldObj.spawnEntityInWorld(enaria);
+		this.world.spawnEntity(enaria);
 		this.enariaEntityID = enaria.getPersistentID();
 	}
 

@@ -62,7 +62,7 @@ public class PlayerController
 	@SubscribeEvent
 	public void onPlayerRespawnEvent(PlayerRespawnEvent event)
 	{
-		if (!event.player.worldObj.isRemote)
+		if (!event.player.world.isRemote)
 		{
 			if (event.player.dimension == AOTDDimensions.Nightmare.getWorldID())
 			{
@@ -89,11 +89,11 @@ public class PlayerController
 			entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).requestSyncAll();
 			entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).requestSyncAll();
 
-			if (!event.getEntity().worldObj.isRemote)
+			if (!event.getEntity().world.isRemote)
 				if (entityPlayer.dimension == AOTDDimensions.Nightmare.getWorldID())
 				{
 					AfraidOfTheDark.instance.getPacketHandler().sendTo(new PlaySoundAtPlayer(60, AOTDPlayerFollowSounds.ErieEcho), (EntityPlayerMP) entityPlayer);
-					AfraidOfTheDark.instance.getPacketHandler().sendTo(new PlaySoundAtPlayer(entityPlayer.worldObj.rand.nextInt(10 * 20) + 10 * 20, AOTDPlayerFollowSounds.BellsRinging), (EntityPlayerMP) entityPlayer);
+					AfraidOfTheDark.instance.getPacketHandler().sendTo(new PlaySoundAtPlayer(((EntityPlayerMP) entityPlayer).world.rand.nextInt(10 * 20) + 10 * 20, AOTDPlayerFollowSounds.BellsRinging), (EntityPlayerMP) entityPlayer);
 				}
 		}
 		else if (event.getEntity() instanceof EntityEnaria)
@@ -118,7 +118,7 @@ public class PlayerController
 	@SubscribeEvent
 	public void onPlayerSleepInBedEvent(PlayerSleepInBedEvent event)
 	{
-		if (!event.getEntityPlayer().worldObj.isRemote)
+		if (!event.getEntityPlayer().world.isRemote)
 		{
 			EntityPlayerMP entityPlayer = (EntityPlayerMP) event.getEntityPlayer();
 			if (event.getEntityPlayer().getActivePotionEffect(ModPotionEffects.sleepingPotion) != null)
@@ -189,7 +189,7 @@ public class PlayerController
 	{
 		if (event.crafting.getItem() instanceof ItemFlaskOfSouls)
 		{
-			if (!event.player.worldObj.isRemote)
+			if (!event.player.world.isRemote)
 			{
 				if (event.player.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(ResearchTypes.PhylacteryOfSouls))
 				{
@@ -242,9 +242,9 @@ public class PlayerController
 							}
 							else
 							{
-								if (!entityPlayer.worldObj.isRemote)
+								if (!entityPlayer.world.isRemote)
 								{
-									entityPlayer.addChatMessage(new TextComponentString("This flask is trying to interact with the kill I just got but something's wrong."));
+									entityPlayer.sendMessage(new TextComponentString("This flask is trying to interact with the kill I just got but something's wrong."));
 								}
 								break;
 							}

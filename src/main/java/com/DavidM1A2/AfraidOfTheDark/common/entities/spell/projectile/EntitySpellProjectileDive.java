@@ -38,10 +38,10 @@ public class EntitySpellProjectileDive extends EntitySpellProjectile
 	{
 		super.updateSpellSpecificLogic();
 
-		if (this.getTicksAlive() == 20 && !worldObj.isRemote)
+		if (this.getTicksAlive() == 20 && !world.isRemote)
 		{
 			EntityLivingBase closestEntity = null;
-			for (Object entity : this.worldObj.getEntitiesWithinAABB(Entity.class, this.getEntityBoundingBox().expand(RANGE, RANGE, RANGE)))
+			for (Object entity : this.world.getEntitiesWithinAABB(Entity.class, this.getEntityBoundingBox().expand(RANGE, RANGE, RANGE)))
 			{
 				if (entity instanceof EntityLivingBase && !(entity instanceof EntityArmorStand))
 				{
@@ -66,7 +66,7 @@ public class EntitySpellProjectileDive extends EntitySpellProjectile
 			}
 			else
 			{
-				this.performEffect(new SpellHitInfo(AfraidOfTheDark.proxy.getSpellOwner(this.getSpellSource()), this.getPosition(), this.worldObj, 1));
+				this.performEffect(new SpellHitInfo(AfraidOfTheDark.proxy.getSpellOwner(this.getSpellSource()), this.getPosition(), this.world, 1));
 				this.spellStageComplete();
 				this.setDead();
 			}

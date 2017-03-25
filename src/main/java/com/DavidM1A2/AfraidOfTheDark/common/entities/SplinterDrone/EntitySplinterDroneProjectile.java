@@ -59,7 +59,7 @@ public class EntitySplinterDroneProjectile extends Entity implements IMCAnimated
 		xVelocity = xVelocity + this.rand.nextGaussian() * 0.4D;
 		yVelocity = yVelocity + this.rand.nextGaussian() * 0.4D;
 		zVelocity = zVelocity + this.rand.nextGaussian() * 0.4D;
-		double d3 = (double) MathHelper.sqrt_double(xVelocity * xVelocity + yVelocity * yVelocity + zVelocity * zVelocity);
+		double d3 = (double) MathHelper.sqrt(xVelocity * xVelocity + yVelocity * yVelocity + zVelocity * zVelocity);
 		this.accelerationX = xVelocity / d3 * 0.1D;
 		this.accelerationY = yVelocity / d3 * 0.1D;
 		this.accelerationZ = zVelocity / d3 * 0.1D;
@@ -94,11 +94,11 @@ public class EntitySplinterDroneProjectile extends Entity implements IMCAnimated
 	 */
 	public void onUpdate()
 	{
-		if (this.worldObj.isRemote)
+		if (this.world.isRemote)
 			if (!this.animHandler.isAnimationActive("Sping"))
 				this.animHandler.activateAnimation("Sping", 0);
 
-		if (!this.worldObj.isRemote && (this.shootingEntity != null && this.shootingEntity.isDead || !this.worldObj.isBlockLoaded(new BlockPos(this))))
+		if (!this.world.isRemote && (this.shootingEntity != null && this.shootingEntity.isDead || !this.world.isBlockLoaded(new BlockPos(this))))
 		{
 			this.setDead();
 		}
@@ -108,7 +108,7 @@ public class EntitySplinterDroneProjectile extends Entity implements IMCAnimated
 
 			if (this.inGround)
 			{
-				if (this.worldObj.getBlockState(new BlockPos(this.tileX, this.tileY, this.tileZ)).getBlock() == this.insideOf)
+				if (this.world.getBlockState(new BlockPos(this.tileX, this.tileY, this.tileZ)).getBlock() == this.insideOf)
 				{
 					this.ticksAlive = this.ticksAlive + 1;
 
@@ -132,14 +132,14 @@ public class EntitySplinterDroneProjectile extends Entity implements IMCAnimated
 				this.ticksInAir = this.ticksInAir + 1;
 			}
 
-			if (this.ticksInAir > 600 && !worldObj.isRemote)
+			if (this.ticksInAir > 600 && !world.isRemote)
 			{
 				this.setDead();
 			}
 
 			Vec3d vec3 = new Vec3d(this.posX, this.posY, this.posZ);
 			Vec3d vec31 = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-			RayTraceResult rayTraceResult = this.worldObj.rayTraceBlocks(vec3, vec31);
+			RayTraceResult rayTraceResult = this.world.rayTraceBlocks(vec3, vec31);
 			vec3 = new Vec3d(this.posX, this.posY, this.posZ);
 			vec31 = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
 
@@ -149,7 +149,7 @@ public class EntitySplinterDroneProjectile extends Entity implements IMCAnimated
 			}
 
 			Entity entity = null;
-			List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
+			List list = this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
 			double d0 = 0.0D;
 
 			for (int i = 0; i < list.size(); ++i)
@@ -188,7 +188,7 @@ public class EntitySplinterDroneProjectile extends Entity implements IMCAnimated
 			this.posX += this.motionX;
 			this.posY += this.motionY;
 			this.posZ += this.motionZ;
-			float f1 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
+			float f1 = MathHelper.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
 			this.rotationYaw = (float) (Math.atan2(this.motionZ, this.motionX) * 180.0D / Math.PI) + 90.0F;
 
 			for (this.rotationPitch = (float) (Math.atan2((double) f1, this.motionY) * 180.0D / Math.PI) - 90.0F; this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
@@ -230,7 +230,7 @@ public class EntitySplinterDroneProjectile extends Entity implements IMCAnimated
 	 */
 	public void onImpact(RayTraceResult rayTraceResult)
 	{
-		if (!this.worldObj.isRemote)
+		if (!this.world.isRemote)
 		{
 			if (rayTraceResult.entityHit != null)
 			{

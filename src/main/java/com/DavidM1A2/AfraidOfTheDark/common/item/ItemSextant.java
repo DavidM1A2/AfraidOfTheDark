@@ -42,7 +42,7 @@ public class ItemSextant extends AOTDItem
 		{
 			if (world.isRemote)
 			{
-				entityPlayer.addChatMessage(new TextComponentString("I can't understand what this thing does."));
+				entityPlayer.sendMessage(new TextComponentString("I can't understand what this thing does."));
 			}
 		}
 		return ActionResult.<ItemStack> newResult(EnumActionResult.SUCCESS, itemStack);

@@ -103,7 +103,7 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity, ICan
 			{
 				EntityPlayer entityPlayer = (EntityPlayer) cause.getEntity();
 
-				if (!worldObj.isRemote)
+				if (!world.isRemote)
 				{
 					if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(ResearchTypes.SlayingOfTheWolves))
 					{
@@ -117,7 +117,7 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity, ICan
 						if (itemStack != null)
 							if (itemStack.getItem() == Items.GLASS_BOTTLE)
 							{
-								itemStack.func_190920_e(itemStack.func_190916_E() - 1);
+								itemStack.setCount(itemStack.getCount() - 1);
 								this.dropItem(ModItems.werewolfBlood, 1);
 								break;
 							}
@@ -132,7 +132,7 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity, ICan
 	@Override
 	public void moveEntityWithHeading(float strafe, float forward)
 	{
-		if (this.worldObj.isRemote)
+		if (this.world.isRemote)
 			if (this.motionX > 0.05 || this.motionZ > 0.05 || this.motionX < -0.05 || this.motionZ < -0.05)
 				if (!animHandler.isAnimationActive("Bite") && !animHandler.isAnimationActive("Run"))
 					animHandler.activateAnimation("Run", 0);
@@ -207,7 +207,7 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity, ICan
 				return super.attackEntityFrom(damageSource, damage);
 			}
 		}
-		return super.attackEntityFrom(DamageSource.generic, 1);
+		return super.attackEntityFrom(DamageSource.GENERIC, 1);
 	}
 
 	@Override

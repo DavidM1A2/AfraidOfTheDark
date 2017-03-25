@@ -42,14 +42,14 @@ public class AOTDWorldData extends WorldSavedData
 
 	public static AOTDWorldData get(World world)
 	{
-		return (AOTDWorldData) world.loadItemData(AOTDWorldData.class, getIdentifier());
+		return (AOTDWorldData) world.loadData(AOTDWorldData.class, getIdentifier());
 	}
 
 	public static void register(World world)
 	{
-		if (world.loadItemData(AOTDWorldData.class, getIdentifier()) == null)
+		if (world.loadData(AOTDWorldData.class, getIdentifier()) == null)
 		{
-			world.setItemData(getIdentifier(), new AOTDWorldData());
+			world.setData(getIdentifier(), new AOTDWorldData());
 		}
 	}
 

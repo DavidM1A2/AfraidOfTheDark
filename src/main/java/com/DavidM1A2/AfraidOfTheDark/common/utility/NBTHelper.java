@@ -23,7 +23,7 @@ public class NBTHelper
 	{
 		List<NBTTagCompound> toReturn = new LinkedList<NBTTagCompound>();
 
-		ISaveHandler iSaveHandler = FMLCommonHandler.instance().getMinecraftServerInstance().worldServers[0].getSaveHandler();
+		ISaveHandler iSaveHandler = FMLCommonHandler.instance().getMinecraftServerInstance().worlds[0].getSaveHandler();
 		if (iSaveHandler instanceof SaveHandler)
 		{
 			SaveHandler saveHandler = (SaveHandler) iSaveHandler;

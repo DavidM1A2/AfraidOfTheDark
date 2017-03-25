@@ -80,9 +80,9 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 						{
 							ClientData.currentlySelected = current.getResearch();
 							if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(current.getResearch()))
-								entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
+								entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID, entityPlayer.world, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
 							else if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(current.getResearch().getPrevious()))
-								entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_PRE_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
+								entityPlayer.openGui(AfraidOfTheDark.instance, GuiHandler.BLOOD_STAINED_JOURNAL_PAGE_PRE_ID, entityPlayer.world, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
 						}
 					}
 				}

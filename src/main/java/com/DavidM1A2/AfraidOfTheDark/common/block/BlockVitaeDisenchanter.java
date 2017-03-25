@@ -113,7 +113,7 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 			}
 			else
 			{
-				entityPlayer.addChatMessage(new TextComponentString("I can't understand this block"));
+				entityPlayer.sendMessage(new TextComponentString("I can't understand this block"));
 			}
 		}
 
@@ -144,8 +144,8 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 		{
 			if (entityPlayer.inventory.getFirstEmptyStack() < 0)
 			{
-				EntityItem entity = new EntityItem(entityPlayer.worldObj, entityPlayer.posX, entityPlayer.posY + 1, entityPlayer.posZ, new ItemStack(Items.EXPERIENCE_BOTTLE, 64));
-				entityPlayer.worldObj.spawnEntityInWorld(entity);
+				EntityItem entity = new EntityItem(entityPlayer.world, entityPlayer.posX, entityPlayer.posY + 1, entityPlayer.posZ, new ItemStack(Items.EXPERIENCE_BOTTLE, 64));
+				entityPlayer.world.spawnEntity(entity);
 			}
 			else
 			{
@@ -156,8 +156,8 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 		{
 			if (entityPlayer.inventory.getFirstEmptyStack() < 0)
 			{
-				EntityItem entity = new EntityItem(entityPlayer.worldObj, entityPlayer.posX, entityPlayer.posY + 1, entityPlayer.posZ, new ItemStack(Items.EXPERIENCE_BOTTLE, extraBottlesToSpawn));
-				entityPlayer.worldObj.spawnEntityInWorld(entity);
+				EntityItem entity = new EntityItem(entityPlayer.world, entityPlayer.posX, entityPlayer.posY + 1, entityPlayer.posZ, new ItemStack(Items.EXPERIENCE_BOTTLE, extraBottlesToSpawn));
+				entityPlayer.world.spawnEntity(entity);
 			}
 			else
 			{
@@ -196,26 +196,26 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 				}
 				else
 				{
-					if (!entityPlayer.worldObj.isRemote)
+					if (!entityPlayer.world.isRemote)
 					{
-						entityPlayer.addChatMessage(new TextComponentString("I don't have enough vitae in my lanterns to perform this action."));
+						entityPlayer.sendMessage(new TextComponentString("I don't have enough vitae in my lanterns to perform this action."));
 					}
 				}
 			}
 			else
 			{
-				if (!entityPlayer.worldObj.isRemote)
+				if (!entityPlayer.world.isRemote)
 				{
-					entityPlayer.addChatMessage(new TextComponentString("I'll need to right click this with an enchanted book."));
+					entityPlayer.sendMessage(new TextComponentString("I'll need to right click this with an enchanted book."));
 				}
 			}
 		}
 		else
 
 		{
-			if (!entityPlayer.worldObj.isRemote)
+			if (!entityPlayer.world.isRemote)
 			{
-				entityPlayer.addChatMessage(new TextComponentString("I don't understand how to use this."));
+				entityPlayer.sendMessage(new TextComponentString("I don't understand how to use this."));
 			}
 		}
 		return false;
@@ -236,14 +236,7 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 					ItemStack book = entityPlayer.inventory.mainInventory.get(j);
 					if (book != null && book.getItem() instanceof ItemBook)
 					{
-						if (book.func_190916_E() == 1)
-						{
-							entityPlayer.inventory.setInventorySlotContents(j, null);
-						}
-						else
-						{
-							book.func_190920_e(book.func_190916_E() - 1);
-						}
+						book.setCount(book.getCount() - 1);
 						break;
 					}
 				}
@@ -252,8 +245,8 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 
 				if (entityPlayer.inventory.getFirstEmptyStack() < 0)
 				{
-					EntityItem entity = new EntityItem(entityPlayer.worldObj, entityPlayer.posX, entityPlayer.posY + 1, entityPlayer.posZ, newBook);
-					entityPlayer.worldObj.spawnEntityInWorld(entity);
+					EntityItem entity = new EntityItem(entityPlayer.world, entityPlayer.posX, entityPlayer.posY + 1, entityPlayer.posZ, newBook);
+					entityPlayer.world.spawnEntity(entity);
 				}
 				else
 				{
@@ -282,7 +275,7 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 				{
 					if (books != null && books.getItem() instanceof ItemBook && !books.isItemEnchanted())
 					{
-						numberOfBooksInInventory = numberOfBooksInInventory + books.func_190916_E();
+						numberOfBooksInInventory = numberOfBooksInInventory + books.getCount();
 						validBooks.add(books);
 					}
 				}
@@ -325,33 +318,33 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 					}
 					else
 					{
-						if (!entityPlayer.worldObj.isRemote)
+						if (!entityPlayer.world.isRemote)
 						{
-							entityPlayer.addChatMessage(new TextComponentString("I don't have enough vitae in my lanterns to perform this action."));
+							entityPlayer.sendMessage(new TextComponentString("I don't have enough vitae in my lanterns to perform this action."));
 						}
 					}
 				}
 				else
 				{
-					if (!entityPlayer.worldObj.isRemote)
+					if (!entityPlayer.world.isRemote)
 					{
-						entityPlayer.addChatMessage(new TextComponentString("I don't have enough books to move the enchantments on to."));
+						entityPlayer.sendMessage(new TextComponentString("I don't have enough books to move the enchantments on to."));
 					}
 				}
 			}
 			else
 			{
-				if (!entityPlayer.worldObj.isRemote)
+				if (!entityPlayer.world.isRemote)
 				{
-					entityPlayer.addChatMessage(new TextComponentString("This item is not enchanted."));
+					entityPlayer.sendMessage(new TextComponentString("This item is not enchanted."));
 				}
 			}
 		}
 		else
 		{
-			if (!entityPlayer.worldObj.isRemote)
+			if (!entityPlayer.world.isRemote)
 			{
-				entityPlayer.addChatMessage(new TextComponentString("I don't understand how to use this."));
+				entityPlayer.sendMessage(new TextComponentString("I don't understand how to use this."));
 			}
 		}
 

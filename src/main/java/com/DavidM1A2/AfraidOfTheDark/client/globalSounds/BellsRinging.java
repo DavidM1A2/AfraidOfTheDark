@@ -28,6 +28,6 @@ public class BellsRinging extends PlayerFollowingSound
 	@Override
 	public int getRepeatDelay()
 	{
-		return this.entityPlayer.worldObj.rand.nextInt(50 * 20) + 50 * 20;
+		return this.entityPlayer.world.rand.nextInt(50 * 20) + 50 * 20;
 	}
 }

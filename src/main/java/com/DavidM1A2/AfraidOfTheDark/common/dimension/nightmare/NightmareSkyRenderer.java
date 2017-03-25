@@ -194,7 +194,7 @@ public class NightmareSkyRenderer extends IRenderHandler
 		GlStateManager.popMatrix();
 		GlStateManager.disableTexture2D();
 		GlStateManager.color(0.0F, 0.0F, 0.0F);
-		double d0 = mc.thePlayer.getPositionEyes(partialTicks).yCoord - world.getHorizon();
+		double d0 = mc.player.getPositionEyes(partialTicks).yCoord - world.getHorizon();
 
 		if (d0 < 0.0D)
 		{

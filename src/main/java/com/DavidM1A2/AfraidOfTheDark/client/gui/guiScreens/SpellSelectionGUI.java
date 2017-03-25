@@ -64,7 +64,7 @@ public class SpellSelectionGUI extends AOTDGuiScreen
 			public void mouseEntered(AOTDMouseEvent event)
 			{
 				event.getSource().darkenColor(0.1f);
-				Minecraft.getMinecraft().thePlayer.playSound(ModSounds.spellCraftingButtonHover, 0.6f, 1.7f);
+				Minecraft.getMinecraft().player.playSound(ModSounds.spellCraftingButtonHover, 0.6f, 1.7f);
 			}
 
 			@Override

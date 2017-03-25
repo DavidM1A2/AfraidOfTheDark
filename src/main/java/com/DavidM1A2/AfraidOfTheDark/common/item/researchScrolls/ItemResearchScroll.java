@@ -46,17 +46,17 @@ public abstract class ItemResearchScroll extends AOTDItem
 				if (itemStack.getMetadata() == 0)
 				{
 					// Reduce stack size by 1
-					itemStack.func_190917_f(-1);
+					itemStack.shrink(1);
 					entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(this.myType, true);
 				}
 				else
 				{
-					entityPlayer.addChatMessage(new TextComponentString("This research scroll is not complete yet."));
+					entityPlayer.sendMessage(new TextComponentString("This research scroll is not complete yet."));
 				}
 			}
 			else if (!entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(this.myType))
 			{
-				entityPlayer.addChatMessage(new TextComponentString("I don't understand the material refrenced in this research scroll."));
+				entityPlayer.sendMessage(new TextComponentString("I don't understand the material refrenced in this research scroll."));
 			}
 		}
 

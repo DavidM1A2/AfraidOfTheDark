@@ -33,7 +33,7 @@ public class EntitySplinterDroneMoveHelper extends EntityMoveHelper
 			if (this.temp-- <= 0)
 			{
 				this.temp = this.temp + this.splinterDrone.getRNG().nextInt(5) + 2;
-				vector = MathHelper.sqrt_double(vector);
+				vector = MathHelper.sqrt(vector);
 
 				if (this.canMoveHere(this.posX, this.posY, this.posZ, vector))
 				{
@@ -60,7 +60,7 @@ public class EntitySplinterDroneMoveHelper extends EntityMoveHelper
 		{
 			axisalignedbb = axisalignedbb.offset(x, y, z);
 
-			if (!this.splinterDrone.worldObj.getCollisionBoxes(this.splinterDrone, axisalignedbb).isEmpty())
+			if (!this.splinterDrone.world.getCollisionBoxes(this.splinterDrone, axisalignedbb).isEmpty())
 			{
 				return false;
 			}

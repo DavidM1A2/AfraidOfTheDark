@@ -56,12 +56,12 @@ public class ItemArtwork extends AOTDItem
 				EntityArtwork painting = new EntityArtwork(world, offsetted, side, artwork);
 				if (painting.onValidSurface())
 				{
-					if (!entityPlayer.worldObj.isRemote)
+					if (!entityPlayer.world.isRemote)
 					{
 						painting.playPlaceSound();
-						world.spawnEntityInWorld(painting);
+						world.spawnEntity(painting);
 					}
-					itemStack.func_190917_f(-1);
+					itemStack.shrink(1);
 					return EnumActionResult.SUCCESS;
 				}
 			}

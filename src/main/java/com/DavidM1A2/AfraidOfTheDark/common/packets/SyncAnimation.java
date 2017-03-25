@@ -67,7 +67,7 @@ public class SyncAnimation extends AbstractEntitySync
 				@Override
 				public void run()
 				{
-					Entity toUpdate = entityPlayer.worldObj.getEntityByID(msg.entityIDToUpdate);
+					Entity toUpdate = entityPlayer.world.getEntityByID(msg.entityIDToUpdate);
 					if (toUpdate != null)
 					{
 						if (toUpdate instanceof IMCAnimatedEntity)

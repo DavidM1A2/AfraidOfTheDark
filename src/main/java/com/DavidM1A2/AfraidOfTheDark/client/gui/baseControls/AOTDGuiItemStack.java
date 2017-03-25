@@ -71,7 +71,7 @@ public class AOTDGuiItemStack extends AOTDGuiContainer
 			{
 				highlight.setVisible(true);
 				// func_190916_E() = itemStack.stackSize?
-				fontRenderer.drawStringWithShadow(itemStack.getDisplayName() + " x" + itemStack.func_190916_E(), this.getXScaled(), this.getYScaled() - 5, 0xFFFFFFFF);
+				fontRenderer.drawStringWithShadow(itemStack.getDisplayName() + " x" + itemStack.getCount(), this.getXScaled(), this.getYScaled() - 5, 0xFFFFFFFF);
 			}
 			else
 				highlight.setVisible(false);

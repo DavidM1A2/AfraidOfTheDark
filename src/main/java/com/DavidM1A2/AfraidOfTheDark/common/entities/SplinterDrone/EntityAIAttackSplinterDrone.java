@@ -66,7 +66,7 @@ public class EntityAIAttackSplinterDrone extends EntityAIBase
 	{
 		this.splinterDrone.getLookHelper().setLookPositionWithEntity(this.target, 30.0F, 30.0F);
 
-		if (!this.splinterDrone.worldObj.isRemote)
+		if (!this.splinterDrone.world.isRemote)
 		{
 			if (this.splinterDrone.getAttackTarget() != null)
 			{
@@ -75,15 +75,15 @@ public class EntityAIAttackSplinterDrone extends EntityAIBase
 
 			if (this.attackTime <= 0)
 			{
-				float force = MathHelper.sqrt_float(MathHelper.sqrt_double(this.splinterDrone.getDistanceSqToEntity(this.target))) * 0.5F;
+				float force = MathHelper.sqrt(MathHelper.sqrt(this.splinterDrone.getDistanceSqToEntity(this.target))) * 0.5F;
 				double xVelocity = this.target.posX - this.splinterDrone.posX;
 				double yVelocity = this.target.getEntityBoundingBox().minY + (double) (target.height / 2.0F) - (this.splinterDrone.posY + (double) (this.splinterDrone.height / 2.0F));
 				double zVelocity = this.target.posZ - this.splinterDrone.posZ;
 
-				//this.splinterDrone.worldObj.playSound.playAuxSFXAtEntity(null, 1009, new BlockPos((int) this.splinterDrone.posX, (int) this.splinterDrone.posY, (int) this.splinterDrone.posZ), 0);
-				EntitySplinterDroneProjectile attack = new EntitySplinterDroneProjectile(this.splinterDrone.worldObj, this.splinterDrone, xVelocity, yVelocity, zVelocity);
+				//this.splinterDrone.world.playSound.playAuxSFXAtEntity(null, 1009, new BlockPos((int) this.splinterDrone.posX, (int) this.splinterDrone.posY, (int) this.splinterDrone.posZ), 0);
+				EntitySplinterDroneProjectile attack = new EntitySplinterDroneProjectile(this.splinterDrone.world, this.splinterDrone, xVelocity, yVelocity, zVelocity);
 				attack.posY = this.splinterDrone.posY + (double) (this.splinterDrone.height / 2.0F) + 0.5D;
-				this.splinterDrone.worldObj.spawnEntityInWorld(attack);
+				this.splinterDrone.world.spawnEntity(attack);
 				this.attackTime = TIME_BETWEEN_ATTACKS;
 			}
 			else

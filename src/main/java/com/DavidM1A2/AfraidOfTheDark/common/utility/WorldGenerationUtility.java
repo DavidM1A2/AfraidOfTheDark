@@ -167,7 +167,7 @@ public class WorldGenerationUtility
 					return null;
 				}
 
-				extendedblockstorage = parChunk.getBlockStorageArray()[chunkY >> 4] = new ExtendedBlockStorage(chunkY >> 4 << 4, !parChunk.getWorld().provider.getHasNoSky());
+				extendedblockstorage = parChunk.getBlockStorageArray()[chunkY >> 4] = new ExtendedBlockStorage(chunkY >> 4 << 4, !parChunk.getWorld().provider.hasNoSky());
 				//                isHigherThanCurrentHeight = chunkY >= currentHeight;
 			}
 

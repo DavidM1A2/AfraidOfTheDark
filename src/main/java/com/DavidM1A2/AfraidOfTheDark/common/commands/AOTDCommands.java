@@ -42,19 +42,19 @@ public class AOTDCommands extends CommandBase
 	}
 
 	@Override
-	public String getCommandName()
+	public String getName()
 	{
 		return "printDungeons";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender)
+	public String getUsage(ICommandSender sender)
 	{
 		return "/AOTD OR /AfraidOfTheDark";
 	}
 
 	@Override
-	public List getCommandAliases()
+	public List getAliases()
 	{
 		return this.aliases;
 	}
@@ -73,8 +73,7 @@ public class AOTDCommands extends CommandBase
 	}
 
 	@Override
-	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
-	{
+	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
 		if (args.length == 0)
 			return this.getListOfStringsMatchingLastWord(args, "AOTD", "AfraidOfTheDark");
 		if (args.length == 1)
@@ -95,13 +94,13 @@ public class AOTDCommands extends CommandBase
 	@Override
 	public boolean checkPermission(MinecraftServer server, ICommandSender sender)
 	{
-		return sender.canCommandSenderUseCommand(this.getRequiredPermissionLevel(), this.getCommandName());
+		return sender.canUseCommand(this.getRequiredPermissionLevel(), this.getName());
 	}
 
 	@Override
 	public int compareTo(ICommand object)
 	{
-		return this.getCommandName().compareTo(((ICommand) object).getCommandName());
+		return this.getName().compareTo(((ICommand) object).getName());
 	}
 
 	//
@@ -113,7 +112,7 @@ public class AOTDCommands extends CommandBase
 		boolean validSender = false;
 		if (sender.getCommandSenderEntity() instanceof EntityPlayer)
 		{
-			if (((EntityPlayer) sender).canCommandSenderUseCommand(2, "") || sender.getEntityWorld().getMinecraftServer().isSinglePlayer())
+			if (((EntityPlayer) sender).canUseCommand(2, "") || sender.getEntityWorld().getMinecraftServer().isSinglePlayer())
 			{
 				validSender = true;
 			}
@@ -125,7 +124,7 @@ public class AOTDCommands extends CommandBase
 
 		if (!validSender)
 		{
-			sender.addChatMessage(new TextComponentString(ChatFormatting.RED + "You do not have permission to use this command"));
+			sender.sendMessage(new TextComponentString(ChatFormatting.RED + "You do not have permission to use this command"));
 			return;
 		}
 
@@ -156,7 +155,7 @@ public class AOTDCommands extends CommandBase
 				output.write(toPrint);
 			}
 
-			sender.addChatMessage(new TextComponentString("Wrote all known AOTD Dungeons in this world to\n" + writeDirectory));
+			sender.sendMessage(new TextComponentString("Wrote all known AOTD Dungeons in this world to\n" + writeDirectory));
 
 			output.close();
 		}
@@ -167,8 +166,8 @@ public class AOTDCommands extends CommandBase
 
 	private void printHelp(ICommandSender sender)
 	{
-		sender.addChatMessage(new TextComponentString("/AOTD and /AfraidOfTheDark both work for all commands:"));
-		sender.addChatMessage(new TextComponentString("/AOTD help - Lists all AOTD Commands"));
-		sender.addChatMessage(new TextComponentString("/AOTD printDungeons - Prints all known AOTD dungeons to the .minecraft folder. Only works if opped"));
+		sender.sendMessage(new TextComponentString("/AOTD and /AfraidOfTheDark both work for all commands:"));
+		sender.sendMessage(new TextComponentString("/AOTD help - Lists all AOTD Commands"));
+		sender.sendMessage(new TextComponentString("/AOTD printDungeons - Prints all known AOTD dungeons to the .minecraft folder. Only works if opped"));
 	}
 }

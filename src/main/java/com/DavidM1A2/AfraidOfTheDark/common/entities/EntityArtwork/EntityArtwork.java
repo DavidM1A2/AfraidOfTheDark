@@ -72,7 +72,7 @@ public class EntityArtwork extends EntityHanging implements IEntityAdditionalSpa
 	@Override
 	public void onBroken(Entity brokenEntity)
 	{
-		if (this.worldObj.getGameRules().getBoolean("doEntityDrops"))
+		if (this.world.getGameRules().getBoolean("doEntityDrops"))
 		{
 			if (brokenEntity instanceof EntityPlayer)
 				if (((EntityPlayer) brokenEntity).capabilities.isCreativeMode)
@@ -138,7 +138,7 @@ public class EntityArtwork extends EntityHanging implements IEntityAdditionalSpa
 	@Override
 	public boolean onValidSurface()
 	{
-		if (!this.worldObj.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty())
+		if (!this.world.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty())
 		{
 			return false;
 		}
@@ -154,9 +154,9 @@ public class EntityArtwork extends EntityHanging implements IEntityAdditionalSpa
 				for (int l = -j / 2 + 1; l < j / 2 + 1; ++l)
 				{
 					BlockPos blockpos1 = blockpos.offset(enumfacing, k).up(l);
-					IBlockState block = this.worldObj.getBlockState(blockpos1);
+					IBlockState block = this.world.getBlockState(blockpos1);
 
-					if (block.isSideSolid(this.worldObj, blockpos1, this.facingDirection))
+					if (block.isSideSolid(this.world, blockpos1, this.facingDirection))
 						continue;
 
 					if (!block.getMaterial().isSolid() && !BlockRedstoneDiode.isDiode(block))
@@ -166,7 +166,7 @@ public class EntityArtwork extends EntityHanging implements IEntityAdditionalSpa
 				}
 			}
 
-			for (Entity entity : this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox()))
+			for (Entity entity : this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox()))
 			{
 				if (entity instanceof EntityHanging)
 				{

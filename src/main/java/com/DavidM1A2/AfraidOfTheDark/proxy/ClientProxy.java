@@ -234,12 +234,12 @@ public class ClientProxy extends CommonProxy
 		// Because minecraft is wierd, server side will return the client side
 		// instance of entity player on SSP
 		if (!Minecraft.getMinecraft().isSingleplayer())
-			return Minecraft.getMinecraft().thePlayer;
+			return Minecraft.getMinecraft().player;
 		else
 		{
 			PlayerList list = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList();
-			if (list.getPlayerList().size() == 1)
-				return list.getPlayerList().get(0);
+			if (list.getPlayers().size() == 1)
+				return list.getPlayers().get(0);
 			else
 				return list.getPlayerByUUID(spell.getSpellOwner());
 		}

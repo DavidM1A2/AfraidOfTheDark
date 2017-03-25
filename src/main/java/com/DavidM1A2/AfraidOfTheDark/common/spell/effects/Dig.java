@@ -37,7 +37,7 @@ public class Dig extends Effect
 		}
 		else
 		{
-			if (hitInfo.getEntityHit().worldObj.destroyBlock(hitInfo.getLocation().down(), true))
+			if (hitInfo.getEntityHit().world.destroyBlock(hitInfo.getLocation().down(), true))
 				VitaeUtils.vitaeReleasedFX(hitInfo.getWorld(), hitInfo.getLocation().down(), .2, 1);
 		}
 	}

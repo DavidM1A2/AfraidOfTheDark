@@ -27,7 +27,7 @@ public class TileEntityVoidChestRenderer extends TileEntitySpecialRenderer
 			TileEntityVoidChest tileEntityVoidChest = (TileEntityVoidChest) tileEntity;
 
 			int j;
-			if (!tileEntity.hasWorldObj())
+			if (!tileEntity.hasWorld())
 			{
 				j = 0;
 			}

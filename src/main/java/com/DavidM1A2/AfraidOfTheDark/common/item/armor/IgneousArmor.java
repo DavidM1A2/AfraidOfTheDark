@@ -77,7 +77,7 @@ public class IgneousArmor extends AOTDArmor
 						double knockbackStrength = 1.0;
 						double motionX = entityPlayer.getPosition().getX() - source.getEntity().getPosition().getX();
 						double motionZ = entityPlayer.getPosition().getZ() - source.getEntity().getPosition().getZ();
-						double hypotenuse = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
+						double hypotenuse = MathHelper.sqrt(motionX * motionX + motionZ * motionZ);
 						source.getEntity().addVelocity(-motionX * knockbackStrength * 0.6000000238418579D / hypotenuse, 0.1D, -motionZ * knockbackStrength * 0.6000000238418579D / hypotenuse);
 					}
 					if (entity.isBurning())
@@ -86,11 +86,11 @@ public class IgneousArmor extends AOTDArmor
 					}
 				}
 
-				if ((source == DamageSource.onFire) || (source == DamageSource.inFire))
+				if ((source == DamageSource.ON_FIRE) || (source == DamageSource.IN_FIRE))
 				{
 					return new ArmorProperties(0, .25, 25);
 				}
-				else if ((source == DamageSource.drown) || (source == DamageSource.fall) || (source == DamageSource.inWall) || (source == DamageSource.outOfWorld) || (source == DamageSource.starve))
+				else if ((source == DamageSource.DROWN) || (source == DamageSource.FALL) || (source == DamageSource.IN_WALL) || (source == DamageSource.OUT_OF_WORLD) || (source == DamageSource.STARVE))
 				{
 					return new ArmorProperties(0, .25, 0);
 				}

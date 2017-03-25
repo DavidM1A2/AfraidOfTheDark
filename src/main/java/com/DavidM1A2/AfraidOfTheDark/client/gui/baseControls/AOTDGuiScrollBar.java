@@ -57,7 +57,7 @@ public class AOTDGuiScrollBar extends AOTDGuiContainer
 				if (mouseBeingHeld)
 				{
 					int newY = (event.getMouseY() - originalMousePressLocation) + (int) (AOTDGuiScrollBar.this.getY() + originalHandlePosition * AOTDGuiScrollBar.this.getHeight());
-					newY = MathHelper.clamp_int(newY, AOTDGuiScrollBar.this.getY(), AOTDGuiScrollBar.this.getY() + AOTDGuiScrollBar.this.getHeight() - scrollBarHandle.getHeight());
+					newY = MathHelper.clamp(newY, AOTDGuiScrollBar.this.getY(), AOTDGuiScrollBar.this.getY() + AOTDGuiScrollBar.this.getHeight() - scrollBarHandle.getHeight());
 					scrollBarHandle.setY(newY);
 					handleLocation = (scrollBarHandle.getY() - AOTDGuiScrollBar.this.getY()) / ((float) (AOTDGuiScrollBar.this.getHeight() - scrollBarHandle.getHeight()));
 				}

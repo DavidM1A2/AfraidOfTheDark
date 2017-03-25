@@ -26,9 +26,6 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 public class AOTDDisablableShapelessRecipe extends ShapelessOreRecipe
 {
 	private final ResearchTypes preRequisite;
-	private static Field eventHandlerField;
-	private static Field containerPlayerPlayerField;
-	private static Field slotCraftingPlayerField;
 
 	public AOTDDisablableShapelessRecipe(ItemStack result, ResearchTypes preRequisite, Object... recipe)
 	{
@@ -43,16 +40,16 @@ public class AOTDDisablableShapelessRecipe extends ShapelessOreRecipe
 	public boolean matches(InventoryCrafting inventoryCrafting, World world)
 	{
 		boolean matches = super.matches(inventoryCrafting, world);
-		EntityPlayer entityPlayer = findPlayer(inventoryCrafting);
+		EntityPlayer entityPlayer = RecipeUtility.getRecipeCrafter(inventoryCrafting);
 		if (entityPlayer != null)
 		{
 			if (!entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(preRequisite))
 			{
 				if (matches)
 				{
-					if (!entityPlayer.worldObj.isRemote)
+					if (!entityPlayer.world.isRemote)
 					{
-						entityPlayer.addChatMessage(new TextComponentString("I'll need to do some more research before I can craft this."));
+						entityPlayer.sendMessage(new TextComponentString("I'll need to do some more research before I can craft this."));
 					}
 				}
 				return false;
@@ -60,45 +57,5 @@ public class AOTDDisablableShapelessRecipe extends ShapelessOreRecipe
 		}
 
 		return matches;
-	}
-
-	static
-	{
-		try
-		{
-			eventHandlerField = ReflectionHelper.findField(InventoryCrafting.class, "eventHandler");
-			containerPlayerPlayerField = ReflectionHelper.findField(ContainerPlayer.class, "thePlayer");
-			slotCraftingPlayerField = ReflectionHelper.findField(SlotCrafting.class, "thePlayer");
-		}
-		catch (Exception e)
-		{
-			eventHandlerField = ReflectionHelper.findField(InventoryCrafting.class, "field_70465_c");
-			containerPlayerPlayerField = ReflectionHelper.findField(ContainerPlayer.class, "field_82862_h");
-			slotCraftingPlayerField = ReflectionHelper.findField(SlotCrafting.class, "field_75238_b");
-		}
-	}
-
-	private static EntityPlayer findPlayer(InventoryCrafting inv)
-	{
-		try
-		{
-			Container container = (Container) eventHandlerField.get(inv);
-			if (container instanceof ContainerPlayer)
-			{
-				return (EntityPlayer) containerPlayerPlayerField.get(container);
-			}
-			else if (container instanceof ContainerWorkbench)
-			{
-				return (EntityPlayer) slotCraftingPlayerField.get(container.getSlot(0));
-			}
-			else
-			{
-				return null;
-			}
-		}
-		catch (Exception e)
-		{
-			throw Throwables.propagate(e);
-		}
 	}
 }

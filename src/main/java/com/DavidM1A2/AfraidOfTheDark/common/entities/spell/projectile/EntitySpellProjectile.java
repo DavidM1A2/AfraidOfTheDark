@@ -49,14 +49,14 @@ public class EntitySpellProjectile extends EntitySpell
 
 	public EntitySpellProjectile(Spell callback, EntityLivingBase shootingEntity, int spellStageIndex, double x, double y, double z, double xVelocity, double yVelocity, double zVelocity)
 	{
-		super(AfraidOfTheDark.proxy.getSpellOwner(callback).worldObj, callback, spellStageIndex);
+		super(AfraidOfTheDark.proxy.getSpellOwner(callback).world, callback, spellStageIndex);
 		this.shootingEntity = shootingEntity;
 
 		if (shootingEntity != null)
 			this.setLocationAndAngles(x, y, z, shootingEntity.rotationYaw, shootingEntity.rotationPitch);
 		else
 			this.setPosition(x, y, z);
-		double d3 = (double) MathHelper.sqrt_double(xVelocity * xVelocity + yVelocity * yVelocity + zVelocity * zVelocity);
+		double d3 = (double) MathHelper.sqrt(xVelocity * xVelocity + yVelocity * yVelocity + zVelocity * zVelocity);
 		this.motionX = xVelocity / d3 * velocity;
 		this.motionY = yVelocity / d3 * velocity;
 		this.motionZ = zVelocity / d3 * velocity;
@@ -84,7 +84,7 @@ public class EntitySpellProjectile extends EntitySpell
 	@Override
 	public void updateSpellSpecificLogic()
 	{
-		if (worldObj.isRemote)
+		if (world.isRemote)
 		{
 			if (!animHandler.isAnimationActive("Idle"))
 				animHandler.activateAnimation("Idle", 0);
@@ -106,7 +106,7 @@ public class EntitySpellProjectile extends EntitySpell
 	{
 		Vec3d vec3 = new Vec3d(this.posX, this.posY, this.posZ);
 		Vec3d vec31 = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-		RayTraceResult rayTraceResult = this.worldObj.rayTraceBlocks(vec3, vec31);
+		RayTraceResult rayTraceResult = this.world.rayTraceBlocks(vec3, vec31);
 		vec3 = new Vec3d(this.posX, this.posY, this.posZ);
 		vec31 = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
 
@@ -116,7 +116,7 @@ public class EntitySpellProjectile extends EntitySpell
 		}
 
 		Entity entity = null;
-		List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
+		List list = this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
 		double d0 = 0.0D;
 
 		for (int i = 0; i < list.size(); ++i)
@@ -162,9 +162,9 @@ public class EntitySpellProjectile extends EntitySpell
 		{
 			case BLOCK:
 				BlockPos hit = new BlockPos(rayTraceResult.hitVec);
-				if (this.worldObj.getBlockState(hit).getBlock() instanceof BlockAir)
+				if (this.world.getBlockState(hit).getBlock() instanceof BlockAir)
 					hit = hit.offset(rayTraceResult.sideHit.getOpposite());
-				this.performEffect(new SpellHitInfo(AfraidOfTheDark.proxy.getSpellOwner(this.getSpellSource()), hit, this.worldObj, 1));
+				this.performEffect(new SpellHitInfo(AfraidOfTheDark.proxy.getSpellOwner(this.getSpellSource()), hit, this.world, 1));
 				break;
 			case ENTITY:
 				if (rayTraceResult.entityHit instanceof EntityLivingBase)

@@ -69,13 +69,13 @@ public class ItemStarMetalStaff extends AOTDItemWithCooldownStatic
 			{
 				if (world.isRemote)
 					if (entityPlayer.getActiveItemStack() != itemStack)
-						entityPlayer.addChatMessage(new TextComponentString("Cooldown remaining: " + this.cooldownRemaining(itemStack) + " second" + (this.cooldownRemaining(itemStack) - 1 == 0.0 ? "." : "s.")));
+						entityPlayer.sendMessage(new TextComponentString("Cooldown remaining: " + this.cooldownRemaining(itemStack) + " second" + (this.cooldownRemaining(itemStack) - 1 == 0.0 ? "." : "s.")));
 			}
 		}
 		else
 		{
 			if (!world.isRemote)
-				entityPlayer.addChatMessage(new TextComponentString("I'm not sure what this is used for."));
+				entityPlayer.sendMessage(new TextComponentString("I'm not sure what this is used for."));
 		}
 
 		return ActionResult.<ItemStack>newResult(EnumActionResult.SUCCESS, itemStack);
@@ -86,7 +86,7 @@ public class ItemStarMetalStaff extends AOTDItemWithCooldownStatic
 	 * 
 	 * @param stack
 	 *            The Item being used
-	 * @param player
+	 * @param entityLivingBase
 	 *            The Player using the item
 	 * @param count
 	 *            The amount of time in tick the item has been used for continuously
@@ -97,7 +97,7 @@ public class ItemStarMetalStaff extends AOTDItemWithCooldownStatic
 		if (entityLivingBase instanceof EntityPlayer)
 		{
 			EntityPlayer entityPlayer = (EntityPlayer) entityLivingBase;
-			if (!entityPlayer.worldObj.isRemote)
+			if (!entityPlayer.world.isRemote)
 			{
 				count = ItemStarMetalStaff.MAX_TROLL_POLE_TIME_IN_TICKS - count;
 				if (count == 1)
@@ -138,7 +138,7 @@ public class ItemStarMetalStaff extends AOTDItemWithCooldownStatic
 						double motionX = entityPlayer.getPosition().getX() - entity.getPosition().getX();
 						double motionZ = entityPlayer.getPosition().getZ() - entity.getPosition().getZ();
 
-						double hypotenuse = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
+						double hypotenuse = MathHelper.sqrt(motionX * motionX + motionZ * motionZ);
 
 						entity.addVelocity(-motionX * knockbackStrength * 0.6000000238418579D / hypotenuse, 0.1D, -motionZ * knockbackStrength * 0.6000000238418579D / hypotenuse);
 					}

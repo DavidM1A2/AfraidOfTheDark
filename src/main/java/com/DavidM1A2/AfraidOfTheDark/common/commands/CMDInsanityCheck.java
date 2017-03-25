@@ -18,6 +18,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.storage.SaveHandler;
 
+import javax.annotation.Nullable;
+
 public class CMDInsanityCheck implements ICommand
 {
 	private final List aliases;
@@ -32,21 +34,21 @@ public class CMDInsanityCheck implements ICommand
 
 	// This is the name of the command
 	@Override
-	public String getCommandName()
+	public String getName()
 	{
 		return "debug";
 	}
 
 	// How do i use the command?
 	@Override
-	public String getCommandUsage(final ICommandSender iCommandSender)
+	public String getUsage(final ICommandSender iCommandSender)
 	{
 		return "debug";
 	}
 
 	// Aliases of the command
 	@Override
-	public List getCommandAliases()
+	public List getAliases()
 	{
 		return this.aliases;
 	}
@@ -56,13 +58,13 @@ public class CMDInsanityCheck implements ICommand
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args)
 	{
 		final EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
-		sender.addChatMessage(new TextComponentString("Your current insanity is: " + player.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerInsanity() + "%"));
-		sender.addChatMessage(new TextComponentString("Your current has started AOTD status is: " + player.getCapability(ModCapabilities.PLAYER_DATA, null).getHasStartedAOTD()));
-		sender.addChatMessage(new TextComponentString("Current Vitae level is: " + player.getCapability(ModCapabilities.ENTITY_DATA, null).getVitaeLevel()));
-		sender.addChatMessage(new TextComponentString("Current dimension is: " + player.dimension));
+		sender.sendMessage(new TextComponentString("Your current insanity is: " + player.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerInsanity() + "%"));
+		sender.sendMessage(new TextComponentString("Your current has started AOTD status is: " + player.getCapability(ModCapabilities.PLAYER_DATA, null).getHasStartedAOTD()));
+		sender.sendMessage(new TextComponentString("Current Vitae level is: " + player.getCapability(ModCapabilities.ENTITY_DATA, null).getVitaeLevel()));
+		sender.sendMessage(new TextComponentString("Current dimension is: " + player.dimension));
 		if (!sender.getEntityWorld().isRemote)
 		{
-			sender.addChatMessage(new TextComponentString("Number of registered players: " + ((SaveHandler) server.worldServers[0].getSaveHandler()).getAvailablePlayerDat().length));
+			sender.sendMessage(new TextComponentString("Number of registered players: " + ((SaveHandler) server.worlds[0].getSaveHandler()).getAvailablePlayerDat().length));
 		}
 	}
 
@@ -80,7 +82,7 @@ public class CMDInsanityCheck implements ICommand
 	}
 
 	@Override
-	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
+	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos)
 	{
 		return null;
 	}
@@ -88,6 +90,6 @@ public class CMDInsanityCheck implements ICommand
 	@Override
 	public int compareTo(ICommand object)
 	{
-		return this.getCommandName().compareTo(((ICommand) object).getCommandName());
+		return this.getName().compareTo(((ICommand) object).getName());
 	}
 }

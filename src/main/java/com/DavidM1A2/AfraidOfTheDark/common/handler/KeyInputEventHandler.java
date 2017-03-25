@@ -42,7 +42,7 @@ public class KeyInputEventHandler
 		{
 			this.fireWristCrossbow();
 		}
-		if (Keyboard.getEventKeyState() && Minecraft.getMinecraft().thePlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getSpellManager().doesKeyMapToSpell(Keyboard.getKeyName(Keyboard.getEventKey())))
+		if (Keyboard.getEventKeyState() && Minecraft.getMinecraft().player.getCapability(ModCapabilities.PLAYER_DATA, null).getSpellManager().doesKeyMapToSpell(Keyboard.getKeyName(Keyboard.getEventKey())))
 		{
 			this.spellKeyPressed();
 		}
@@ -55,7 +55,7 @@ public class KeyInputEventHandler
 
 	private void fireWristCrossbow()
 	{
-		EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
+		EntityPlayer entityPlayer = Minecraft.getMinecraft().player;
 		AOTDCrossbowBoltTypes currentlySelected = AOTDCrossbowBoltTypes.getTypeFromID(entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getSelectedWristCrossbowBolt());
 		if (!entityPlayer.isSneaking())
 		{
@@ -78,13 +78,13 @@ public class KeyInputEventHandler
 								}
 								else
 								{
-									entityPlayer.addChatMessage(new TextComponentString("I'll need at least one " + currentlySelected.formattedString() + "bolt in my inventory to shoot."));
+									entityPlayer.sendMessage(new TextComponentString("I'll need at least one " + currentlySelected.formattedString() + "bolt in my inventory to shoot."));
 									break;
 								}
 							}
 							else
 							{
-								entityPlayer.addChatMessage(new TextComponentString("Crossbow still reloading..."));
+								entityPlayer.sendMessage(new TextComponentString("Crossbow still reloading..."));
 								break;
 							}
 						}
@@ -93,24 +93,24 @@ public class KeyInputEventHandler
 			}
 			else if (!entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.WristCrossbow))
 			{
-				entityPlayer.addChatMessage(new TextComponentString("I don't understand how this works."));
+				entityPlayer.sendMessage(new TextComponentString("I don't understand how this works."));
 			}
 			else if (!Utility.hasItem(entityPlayer, ModItems.wristCrossbow))
 			{
-				entityPlayer.addChatMessage(new TextComponentString("I'll need a Wrist Crossbow in my inventory to use this."));
+				entityPlayer.sendMessage(new TextComponentString("I'll need a Wrist Crossbow in my inventory to use this."));
 			}
 		}
 		else
 		{
 			entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setSelectedWristCrossbowBolt(AOTDCrossbowBoltTypes.getIDFromType(currentlySelected.next()));
 			entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).syncSelectedWristCrossbowBolt();
-			entityPlayer.addChatMessage(new TextComponentString("Crossbow will now fire " + currentlySelected.next().formattedString() + "bolts."));
+			entityPlayer.sendMessage(new TextComponentString("Crossbow will now fire " + currentlySelected.next().formattedString() + "bolts."));
 		}
 	}
 
 	private void rollWithCloakOfAgility()
 	{
-		EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
+		EntityPlayer entityPlayer = Minecraft.getMinecraft().player;
 		boolean willRoll = false;
 		if (Utility.hasItem(entityPlayer, ModItems.cloakOfAgility) && entityPlayer.onGround && entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.CloakOfAgility))
 		{
@@ -141,20 +141,20 @@ public class KeyInputEventHandler
 			}
 			else
 			{
-				entityPlayer.addChatMessage(new TextComponentString("I'm too tired to roll again."));
+				entityPlayer.sendMessage(new TextComponentString("I'm too tired to roll again."));
 			}
 		}
 		else if (!entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.CloakOfAgility))
 		{
-			entityPlayer.addChatMessage(new TextComponentString("I don't understand how this works."));
+			entityPlayer.sendMessage(new TextComponentString("I don't understand how this works."));
 		}
 		else if (!Utility.hasItem(entityPlayer, ModItems.cloakOfAgility))
 		{
-			entityPlayer.addChatMessage(new TextComponentString("I'll need a Cloak of Agility in my inventory to use this."));
+			entityPlayer.sendMessage(new TextComponentString("I'll need a Cloak of Agility in my inventory to use this."));
 		}
 		else if (!entityPlayer.onGround)
 		{
-			entityPlayer.addChatMessage(new TextComponentString("I need to be on the ground to roll."));
+			entityPlayer.sendMessage(new TextComponentString("I need to be on the ground to roll."));
 		}
 	}
 }

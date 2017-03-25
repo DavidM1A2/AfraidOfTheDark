@@ -45,7 +45,7 @@ public class SyncKeyPress implements IMessage
 		@Override
 		public IMessage handleServerMessage(final EntityPlayer entityPlayer, final SyncKeyPress msg, MessageContext ctx)
 		{
-			entityPlayer.worldObj.getMinecraftServer().addScheduledTask(new Runnable()
+			entityPlayer.world.getMinecraftServer().addScheduledTask(new Runnable()
 			{
 				@Override
 				public void run()

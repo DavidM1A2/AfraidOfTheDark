@@ -22,7 +22,7 @@ public class SpellHitInfo
 
 	public SpellHitInfo(EntityPlayer spellCaster, Entity entityHit)
 	{
-		this(spellCaster, entityHit.getPosition(), entityHit.worldObj, -1);
+		this(spellCaster, entityHit.getPosition(), entityHit.world, -1);
 		Validate.notNull(entityHit);
 		this.entityHit = entityHit;
 	}

@@ -91,7 +91,7 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 			public void mouseEntered(AOTDMouseEvent event)
 			{
 				event.getSource().darkenColor(0.1f);
-				Minecraft.getMinecraft().thePlayer.playSound(ModSounds.spellCraftingButtonHover, 0.6f, 1.7f);
+				Minecraft.getMinecraft().player.playSound(ModSounds.spellCraftingButtonHover, 0.6f, 1.7f);
 			}
 
 			@Override
@@ -109,14 +109,14 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 			public void mousePressed(AOTDMouseEvent event)
 			{
 				if (event.getSource().isHovered() && event.getClickedButton() == MouseButtonClicked.Left)
-					entityPlayer.openGui(Reference.MOD_ID, GuiHandler.SPELL_SELECTION_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
+					entityPlayer.openGui(Reference.MOD_ID, GuiHandler.SPELL_SELECTION_ID, entityPlayer.world, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
 			}
 
 			@Override
 			public void mouseEntered(AOTDMouseEvent event)
 			{
 				event.getSource().darkenColor(0.1f);
-				Minecraft.getMinecraft().thePlayer.playSound(ModSounds.spellCraftingButtonHover, 0.6f, 1.7f);
+				Minecraft.getMinecraft().player.playSound(ModSounds.spellCraftingButtonHover, 0.6f, 1.7f);
 			}
 
 			@Override
@@ -151,7 +151,7 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 			public void mouseEntered(AOTDMouseEvent event)
 			{
 				event.getSource().darkenColor(0.1f);
-				Minecraft.getMinecraft().thePlayer.playSound(ModSounds.spellCraftingButtonHover, 0.6f, 1.7f);
+				Minecraft.getMinecraft().player.playSound(ModSounds.spellCraftingButtonHover, 0.6f, 1.7f);
 			}
 
 			@Override
@@ -179,7 +179,7 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 			public void mouseEntered(AOTDMouseEvent event)
 			{
 				event.getSource().darkenColor(0.1f);
-				Minecraft.getMinecraft().thePlayer.playSound(ModSounds.spellCraftingButtonHover, 0.6f, 1.7f);
+				Minecraft.getMinecraft().player.playSound(ModSounds.spellCraftingButtonHover, 0.6f, 1.7f);
 			}
 
 			@Override

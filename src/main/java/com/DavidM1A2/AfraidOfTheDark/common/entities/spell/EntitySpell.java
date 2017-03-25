@@ -91,7 +91,7 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 	public void spellStageComplete()
 	{
 		this.spellStageIndex = this.spellStageIndex + 1;
-		if (!this.worldObj.isRemote)
+		if (!this.world.isRemote)
 		{
 			// Skip over all the "extra effects" since they're not actually delivery methods
 			while (this.spellSource.hasSpellStage(spellStageIndex) && this.spellSource.getSpellStageByIndex(spellStageIndex).getDeliveryMethod().getType() == DeliveryMethods.ExtraEffects)
@@ -99,7 +99,7 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 			// Instantiate the next delivery method if it has one
 			if (this.spellSource.hasSpellStage(spellStageIndex))
 				for (EntitySpell entitySpell : this.getSpellSource().getSpellStageByIndex(this.spellStageIndex).getDeliveryMethod().createSpellEntity(this, spellStageIndex))
-					this.worldObj.spawnEntityInWorld(entitySpell);
+					this.world.spawnEntity(entitySpell);
 		}
 	}
 
@@ -111,7 +111,7 @@ public abstract class EntitySpell extends Entity implements IMCAnimatedEntity
 
 	public void performEffect(SpellHitInfo hitInfo)
 	{
-		if (!this.worldObj.isRemote)
+		if (!this.world.isRemote)
 			if (this.getSpellSource() != null)
 			{
 				int currentIndex = this.getSpellStageIndex();

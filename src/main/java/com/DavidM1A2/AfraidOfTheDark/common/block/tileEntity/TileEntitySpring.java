@@ -33,11 +33,11 @@ public class TileEntitySpring extends AOTDTickingTileEntity
 	public void update()
 	{
 		super.update();
-		if (!this.worldObj.isRemote)
+		if (!this.world.isRemote)
 		{
 			if (this.ticksExisted % TICKS_INBETWEEN_CHECKS == 0)
 			{
-				for (Object object : this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.pos.getX(), this.pos.getY(), this.pos.getZ(), this.pos.getX() + 1, this.pos.getY() + 1, this.pos.getZ() + 1).expand(CHECK_RANGE, CHECK_RANGE, CHECK_RANGE)))
+				for (Object object : this.world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.pos.getX(), this.pos.getY(), this.pos.getZ(), this.pos.getX() + 1, this.pos.getY() + 1, this.pos.getZ() + 1).expand(CHECK_RANGE, CHECK_RANGE, CHECK_RANGE)))
 				{
 					if (object instanceof EntityPlayer)
 					{
