@@ -12,6 +12,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDimensions;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 
+import net.minecraft.block.BlockWeb;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -34,7 +35,7 @@ public class BlockVoidChestPortal extends AOTDBlock
 
 	public BlockVoidChestPortal()
 	{
-		super(Material.ROCK);
+		super(Material.WEB);
 		this.setUnlocalizedName("void_chest_portal");
 		this.setRegistryName("void_chest_portal");
 		this.setLightLevel(1.0f);
@@ -47,6 +48,8 @@ public class BlockVoidChestPortal extends AOTDBlock
 	{
 		return false;
 	}
+
+
 
 	/**
 	 * Called when the block is destroyed by an explosion. Useful for allowing the block to take into account tile entities, state, etc. when
@@ -72,6 +75,12 @@ public class BlockVoidChestPortal extends AOTDBlock
 	public int quantityDropped(Random random)
 	{
 		return 0;
+	}
+
+	@Override
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+	{
+		return NULL_AABB;
 	}
 
 	/**

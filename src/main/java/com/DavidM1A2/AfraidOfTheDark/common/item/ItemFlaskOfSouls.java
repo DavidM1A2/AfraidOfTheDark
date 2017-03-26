@@ -27,6 +27,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
@@ -182,7 +183,7 @@ public class ItemFlaskOfSouls extends AOTDItemWithCooldownPerItem
 
 						if (entityToSpawn != null)
 						{
-							//entityToSpawn.setLocationAndAngles(x, y, z, MathHelper.wrapAngleTo180_float(world.rand.nextFloat() * 360), 0.0F);
+							entityToSpawn.setLocationAndAngles(x, y, z, MathHelper.floor(world.rand.nextFloat() * 360), 0.0F);
 							world.spawnEntity(entityToSpawn);
 							entityToSpawn.playLivingSound();
 							this.setOnCooldown(itemStack, entityPlayer);

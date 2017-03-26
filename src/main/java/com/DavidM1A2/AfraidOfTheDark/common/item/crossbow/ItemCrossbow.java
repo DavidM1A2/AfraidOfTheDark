@@ -203,6 +203,7 @@ public class ItemCrossbow extends AOTDItem
 	public void addInformation(final ItemStack itemStack, final EntityPlayer entityPlayer, final List list, final boolean bool)
 	{
 		list.add("Shift & Right click to change crossbow bolt type.");
+		list.add("Left click to fire, hold right click to load.");
 		list.add("Bow will fire: " + AOTDCrossbowBoltTypes.getTypeFromID(NBTHelper.getInt(itemStack, "mode")) + " bolts.");
 	}
 

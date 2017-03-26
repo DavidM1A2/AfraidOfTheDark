@@ -5,6 +5,8 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.handler;
 
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModSounds;
+import net.minecraft.util.SoundCategory;
 import org.lwjgl.input.Keyboard;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
@@ -74,6 +76,7 @@ public class KeyInputEventHandler
 								{
 									AfraidOfTheDark.instance.getPacketHandler().sendToServer(new FireCrossbowBolt(currentlySelected));
 									current.setOnCooldown(itemStack, entityPlayer);
+									entityPlayer.world.playSound(entityPlayer, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, ModSounds.crossbowFire, SoundCategory.MASTER, 0.5F, ((entityPlayer.world.rand.nextFloat() * 0.4F) + 0.8F));
 									break;
 								}
 								else

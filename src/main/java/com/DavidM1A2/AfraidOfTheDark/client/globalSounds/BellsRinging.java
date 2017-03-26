@@ -5,6 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.globalSounds;
 
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModSounds;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDimensions;
 
 import net.minecraft.util.ResourceLocation;
@@ -13,7 +14,7 @@ public class BellsRinging extends PlayerFollowingSound
 {
 	public BellsRinging()
 	{
-		super(new ResourceLocation("afraidofthedark:bells"));
+		super(ModSounds.bells);
 		this.repeat = true;
 	}
 

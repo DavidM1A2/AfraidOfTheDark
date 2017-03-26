@@ -9,6 +9,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDTickingTileEntity;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -48,7 +49,7 @@ public class TileEntityDarkForest extends AOTDTickingTileEntity
 
 						if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.DarkForest))
 						{
-							entityPlayer.addPotionEffect(new PotionEffect(Potion.getPotionById(30), 120, 0, true, false));
+							entityPlayer.addPotionEffect(new PotionEffect(ModPotionEffects.sleepingPotion, 120, 0, true, false));
 							for (int i = 0; i < entityPlayer.inventory.mainInventory.size(); i++)
 							{
 								ItemStack itemStack = entityPlayer.inventory.getStackInSlot(i);
@@ -63,7 +64,6 @@ public class TileEntityDarkForest extends AOTDTickingTileEntity
 												entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(ResearchTypes.SleepingPotion, true);
 											}
 
-											// func_190916_E = stackSize
 											entityPlayer.inventory.setInventorySlotContents(i, new ItemStack(ModItems.sleepingPotion, itemStack.getCount()));
 										}
 									}

@@ -86,7 +86,7 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 	{
 		entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getSpellManager().updateSpell(this.spell);
 		entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).syncSpellManager();
-		entityPlayer.sendChatMessage("Spell " + spell.getName() + " successfully saved.");
+		entityPlayer.sendMessage(new TextComponentString("Spell " + spell.getName() + " successfully saved."));
 	}
 
 	@Override

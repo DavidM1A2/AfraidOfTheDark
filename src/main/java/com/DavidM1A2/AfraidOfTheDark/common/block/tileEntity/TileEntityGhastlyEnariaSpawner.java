@@ -25,7 +25,7 @@ public class TileEntityGhastlyEnariaSpawner extends AOTDTickingTileEntity
 	public void update()
 	{
 		super.update();
-		if (this.ticksExisted == 20)
+		if (this.ticksExisted % 100 == 0)
 		{
 			if (!this.world.isRemote)
 			{

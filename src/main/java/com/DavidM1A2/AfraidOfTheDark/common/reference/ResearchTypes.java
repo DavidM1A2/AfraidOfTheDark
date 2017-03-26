@@ -134,6 +134,7 @@ public enum ResearchTypes
 			}
 			catch (IOException e)
 			{
+				LogHelper.info("Couldnt find texture for research: " + this.camelToUnderscore());
 				this.icon = new ResourceLocation("afraidofthedark:textures/gui/research_icons/none.png");
 			}
 

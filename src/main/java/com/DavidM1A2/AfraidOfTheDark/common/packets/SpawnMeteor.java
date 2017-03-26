@@ -148,7 +148,7 @@ public class SpawnMeteor implements IMessage
 					if (dist < radius * radius && !(hollow && dist < (radius - 1) * (radius - 1)))
 					{
 						IBlockState current = world.getBlockState(new BlockPos(x, y, z));
-						if (replaceableBlocks.contains(current) || current.getMaterial() == Material.WATER || current.getMaterial() == Material.LAVA)
+						if (replaceableBlocks.contains(current.getBlock()) || current.getMaterial() == Material.WATER || current.getMaterial() == Material.LAVA)
 						{
 							world.setBlockState(new BlockPos(x, y, z), ModBlocks.meteor.getDefaultState());
 						}
@@ -176,7 +176,7 @@ public class SpawnMeteor implements IMessage
 					if (dist < radius * radius && !(hollow && dist < (radius - 1) * (radius - 1)))
 					{
 						IBlockState current = world.getBlockState(new BlockPos(x, y, z));
-						if (replaceableBlocks.contains(current) || current.getMaterial() == Material.WATER || current.getMaterial() == Material.LAVA)
+						if (replaceableBlocks.contains(current.getBlock()) || current.getMaterial() == Material.WATER || current.getMaterial() == Material.LAVA)
 						{
 							world.setBlockState(new BlockPos(x, y, z), toPlace.getDefaultState());
 						}

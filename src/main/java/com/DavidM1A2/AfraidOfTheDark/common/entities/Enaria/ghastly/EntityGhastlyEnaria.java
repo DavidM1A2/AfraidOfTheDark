@@ -18,6 +18,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 
 public class EntityGhastlyEnaria extends EntityFlying implements IMCAnimatedEntity
@@ -37,7 +38,7 @@ public class EntityGhastlyEnaria extends EntityFlying implements IMCAnimatedEnti
 	{
 		super(worldIn);
 		this.setSize(0.8F, 1.8F);
-		this.setCustomNameTag("Ghastly Enaria");
+		this.setCustomNameTag(ChatFormatting.RED + "" + ChatFormatting.BOLD + "Ghastly Enaria");
 		this.noClip = true;
 		this.rotationYaw = this.rotationYawHead = this.rand.nextFloat() * 360;
 		this.isImmuneToFire = true;
@@ -77,26 +78,13 @@ public class EntityGhastlyEnaria extends EntityFlying implements IMCAnimatedEnti
 	@Override
 	protected void applyEntityAttributes()
 	{
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH) == null)
-		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(EntityGhastlyEnaria.MAX_HEALTH);
-		}
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.FOLLOW_RANGE) == null)
-		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(EntityGhastlyEnaria.FOLLOW_RANGE);
-		}
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.KNOCKBACK_RESISTANCE) == null)
-		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(EntityGhastlyEnaria.KNOCKBACK_RESISTANCE);
-		}
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED) == null)
-		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(EntityGhastlyEnaria.MOVE_SPEED);
-		}
-		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE) == null)
-		{
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(EntityGhastlyEnaria.ATTACK_DAMAGE);
-		}
+		super.applyEntityAttributes();
+		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
+		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(EntityGhastlyEnaria.MAX_HEALTH);
+		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(EntityGhastlyEnaria.FOLLOW_RANGE);
+		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(EntityGhastlyEnaria.KNOCKBACK_RESISTANCE);
+		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(EntityGhastlyEnaria.MOVE_SPEED);
+		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(EntityGhastlyEnaria.ATTACK_DAMAGE);
 	}
 
 	// Only take damage from silver weapons
@@ -106,12 +94,6 @@ public class EntityGhastlyEnaria extends EntityFlying implements IMCAnimatedEnti
 		if (damageSource == DamageSource.OUT_OF_WORLD)
 			return super.attackEntityFrom(damageSource, damage);
 		return false;
-	}
-
-	@Override
-	public String getCustomNameTag()
-	{
-		return ChatFormatting.RED + "" + ChatFormatting.BOLD + super.getDisplayName().getUnformattedComponentText();
 	}
 
 	@Override
