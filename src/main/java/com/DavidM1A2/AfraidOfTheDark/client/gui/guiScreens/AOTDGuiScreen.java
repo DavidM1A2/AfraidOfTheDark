@@ -34,7 +34,7 @@ public abstract class AOTDGuiScreen extends GuiScreen
 	protected final int INVENTORY_KEYCODE = Minecraft.getMinecraft().gameSettings.keyBindInventory.getKeyCode();
 	protected final EntityPlayerSP entityPlayer = Minecraft.getMinecraft().player;
 	private List<SpriteSheetController> spriteSheetControllers = new LinkedList<SpriteSheetController>();
-	protected final FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
+	protected final FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
 	private boolean leftMouseButtonDown = false;
 
 	public AOTDGuiScreen()

@@ -32,7 +32,7 @@ public abstract class AOTDGuiComponent
 	private float[] color = new float[]
 	{ 1.0f, 1.0f, 1.0f, 1.0f };
 	protected final EntityPlayerSP entityPlayer = Minecraft.getMinecraft().player;
-	protected final FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
+	protected final FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
 	private String[] hoverText = new String[0];
 
 	public AOTDGuiComponent(int x, int y, int width, int height)

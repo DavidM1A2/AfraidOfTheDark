@@ -7,8 +7,8 @@ package com.DavidM1A2.AfraidOfTheDark.client.particleFX;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
@@ -28,21 +28,21 @@ public abstract class AOTDParticleFX extends Particle
 	public abstract int getTextureIndex();
 
 	@Override
-	public void renderParticle(VertexBuffer worldRenderer, Entity entity, float partialTicks, float float2, float float3, float float4, float float5, float float6)
+	public void renderParticle(BufferBuilder bufferBuilder, Entity entity, float partialTicks, float float2, float float3, float float4, float float5, float float6)
 	{
 		// Draw whatever we have currently loaded into memory
 		Tessellator.getInstance().draw();
 		Minecraft.getMinecraft().renderEngine.bindTexture(customParticleTextures);
 		// Begin drawing our custom particle
-		worldRenderer.begin(7, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
+		bufferBuilder.begin(7, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
 
-		super.renderParticle(worldRenderer, entity, partialTicks, float2, float3, float4, float5, float6);
+		super.renderParticle(bufferBuilder, entity, partialTicks, float2, float3, float4, float5, float6);
 
 		// Draw our custom particle
 		Tessellator.getInstance().draw();
 		Minecraft.getMinecraft().renderEngine.bindTexture(defaultParticleTextures);
 		// Begin drawing remaining particles
-		worldRenderer.begin(7, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
+		bufferBuilder.begin(7, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
 	}
 
 	@Override

@@ -52,7 +52,7 @@ public class AOTDGuiItemStack extends AOTDGuiContainer
 			{
 				font = itemStack.getItem().getFontRenderer(itemStack);
 				if (font == null)
-					font = Minecraft.getMinecraft().fontRendererObj;
+					font = Minecraft.getMinecraft().fontRenderer;
 				renderItem.renderItemAndEffectIntoGUI(itemStack, this.getXScaled(), this.getYScaled());
 				renderItem.renderItemOverlayIntoGUI(font, itemStack, this.getXScaled(), this.getYScaled(), null);
 				renderItem.zLevel = 0.0F;
