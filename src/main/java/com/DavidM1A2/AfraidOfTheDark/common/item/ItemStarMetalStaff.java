@@ -163,7 +163,7 @@ public class ItemStarMetalStaff extends AOTDItemWithCooldownStatic
 	 */
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(final ItemStack stack, final EntityPlayer entityPlayer, final List tooltip, final boolean advanced)
+	public void addInformation(final ItemStack stack, final EntityPlayer entityPlayer, final List<String> tooltip, final boolean advanced)
 	{
 		if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.StarMetal))
 		{

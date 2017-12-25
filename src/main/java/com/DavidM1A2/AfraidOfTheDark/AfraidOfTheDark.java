@@ -30,7 +30,6 @@ import com.DavidM1A2.AfraidOfTheDark.proxy.IProxy;
 import io.netty.util.concurrent.DefaultThreadFactory;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -121,7 +120,7 @@ public class AfraidOfTheDark
 		// Initialize the mod channel
 		AfraidOfTheDark.proxy.registerChannel();
 		// Initialize font renderers
-		AfraidOfTheDark.proxy.registerMiscelaneous();
+		AfraidOfTheDark.proxy.registerMiscellaneous();
 		// Setup Potion effects
 		ModPotionEffects.initialize();
 		// Initialize renderers

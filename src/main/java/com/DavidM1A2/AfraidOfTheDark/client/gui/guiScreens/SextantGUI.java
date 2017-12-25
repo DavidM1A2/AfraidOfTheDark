@@ -9,6 +9,9 @@ import java.awt.Color;
 import java.io.IOException;
 import java.util.Random;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.item.Item;
+import net.minecraft.potion.Potion;
 import org.lwjgl.opengl.GL11;
 
 import com.DavidM1A2.AfraidOfTheDark.AfraidOfTheDark;
@@ -68,8 +71,7 @@ public class SextantGUI extends AOTDGuiScreen
 						{
 							SextantGUI.this.tellServerToCreateMeteor(entityPlayer);
 							entityPlayer.closeScreen();
-						}
-						else if (SextantGUI.this.angle.getText().isEmpty() || SextantGUI.this.latitude.getText().isEmpty() || SextantGUI.this.longitude.getText().isEmpty())
+						} else if (SextantGUI.this.angle.getText().isEmpty() || SextantGUI.this.latitude.getText().isEmpty() || SextantGUI.this.longitude.getText().isEmpty())
 							entityPlayer.sendMessage(new TextComponentString("I forgot to fill out one of the fields."));
 						else
 							entityPlayer.sendMessage(new TextComponentString("The calculation was not sucessful.\nMaybe I entered incorrect numbers or should find another meteor to track."));
@@ -110,7 +112,7 @@ public class SextantGUI extends AOTDGuiScreen
 		AfraidOfTheDark.instance.getPacketHandler().sendToServer(new SpawnMeteor(location, 3, 3, ClientData.watchedMeteorType.getIndex()));
 		entityPlayer.sendMessage(new TextComponentString("Based off of this information the meteor fell at " + xLocOfDrop + ", " + zLocOfDrop));
 		ClientData.selectedMeteor = new int[]
-		{ -1, -1, -1 };
+				{-1, -1, -1};
 		ClientData.watchedMeteorType = null;
 	}
 

@@ -20,7 +20,7 @@ public interface IProxy
 
 	public abstract void registerChannel();
 
-	public abstract void registerMiscelaneous();
+	public abstract void registerMiscellaneous();
 
 	public abstract EntityPlayer getSpellOwner(Spell spell);
 

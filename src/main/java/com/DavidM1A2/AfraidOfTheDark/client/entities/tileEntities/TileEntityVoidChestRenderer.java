@@ -13,19 +13,15 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-public class TileEntityVoidChestRenderer extends TileEntitySpecialRenderer
+public class TileEntityVoidChestRenderer extends TileEntitySpecialRenderer<TileEntityVoidChest>
 {
 	private static final ResourceLocation VOID_CHEST_TEXTURE = new ResourceLocation("afraidofthedark:textures/blocks/void_chest/void_chest.png");
 	private ModelChest simpleChest = new ModelChest();
 	private int ticksExpired = 0;
 
 	@Override
-	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float lidPosition, int damage)
+	public void renderTileEntityAt(TileEntityVoidChest tileEntity, double x, double y, double z, float lidPosition, int damage)
 	{
-		if (tileEntity instanceof TileEntityVoidChest)
-		{
-			TileEntityVoidChest tileEntityVoidChest = (TileEntityVoidChest) tileEntity;
-
 			int j;
 			if (!tileEntity.hasWorld())
 			{
@@ -83,7 +79,7 @@ public class TileEntityVoidChestRenderer extends TileEntitySpecialRenderer
 
 			GlStateManager.rotate(short1, 0.0F, 1.0F, 0.0F);
 			GlStateManager.translate(-0.5F, -0.5F, -0.5F);
-			float f1 = tileEntityVoidChest.prevLidAngle + (tileEntityVoidChest.lidAngle - tileEntityVoidChest.prevLidAngle) * lidPosition;
+			float f1 = tileEntity.prevLidAngle + (tileEntity.lidAngle - tileEntity.prevLidAngle) * lidPosition;
 			float f2;
 
 			f1 = 1.0F - f1;
@@ -100,6 +96,5 @@ public class TileEntityVoidChestRenderer extends TileEntitySpecialRenderer
 				GlStateManager.popMatrix();
 				GlStateManager.matrixMode(5888);
 			}
-		}
 	}
 }

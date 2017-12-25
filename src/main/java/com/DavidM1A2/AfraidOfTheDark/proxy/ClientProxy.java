@@ -34,6 +34,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntityIronBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntitySilverBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntityStarMetalBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntityWoodenBolt;
+import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.EntitySpell;
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.projectile.EntitySpellProjectileDive;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
@@ -65,6 +66,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.biome.BiomeColorHelper;
+import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -87,98 +89,98 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void registerEntityRenders()
 	{
-		RenderingRegistry.registerEntityRenderingHandler(EntityWerewolf.class, new IRenderFactory()
+		RenderingRegistry.registerEntityRenderingHandler(EntityWerewolf.class, new IRenderFactory<EntityWerewolf>()
 		{
 			@Override
-			public Render createRenderFor(RenderManager manager)
+			public Render<EntityWerewolf> createRenderFor(RenderManager manager)
 			{
 				return new RenderWerewolf<EntityWerewolf>(manager);
 			}
 		});
-		RenderingRegistry.registerEntityRenderingHandler(EntityDeeeSyft.class, new IRenderFactory()
+		RenderingRegistry.registerEntityRenderingHandler(EntityDeeeSyft.class, new IRenderFactory<EntityDeeeSyft>()
 		{
 			@Override
-			public Render createRenderFor(RenderManager manager)
+			public Render<EntityDeeeSyft> createRenderFor(RenderManager manager)
 			{
 				return new RenderDeeeSyft<EntityDeeeSyft>(manager);
 			}
 		});
-		RenderingRegistry.registerEntityRenderingHandler(EntityEnchantedSkeleton.class, new IRenderFactory()
+		RenderingRegistry.registerEntityRenderingHandler(EntityEnchantedSkeleton.class, new IRenderFactory<EntityEnchantedSkeleton>()
 		{
 			@Override
-			public Render createRenderFor(RenderManager manager)
+			public Render<EntityEnchantedSkeleton> createRenderFor(RenderManager manager)
 			{
 				return new RenderEnchantedSkeleton<EntityEnchantedSkeleton>(manager);
 			}
 		});
-		RenderingRegistry.registerEntityRenderingHandler(EntitySplinterDrone.class, new IRenderFactory()
+		RenderingRegistry.registerEntityRenderingHandler(EntitySplinterDrone.class, new IRenderFactory<EntitySplinterDrone>()
 		{
 			@Override
-			public Render createRenderFor(RenderManager manager)
+			public Render<EntitySplinterDrone> createRenderFor(RenderManager manager)
 			{
 				return new RenderSplinterDrone<EntitySplinterDrone>(manager);
 			}
 		});
-		RenderingRegistry.registerEntityRenderingHandler(EntitySplinterDroneProjectile.class, new IRenderFactory()
+		RenderingRegistry.registerEntityRenderingHandler(EntitySplinterDroneProjectile.class, new IRenderFactory<EntitySplinterDroneProjectile>()
 		{
 			@Override
-			public Render createRenderFor(RenderManager manager)
+			public Render<EntitySplinterDroneProjectile> createRenderFor(RenderManager manager)
 			{
 				return new RenderSplinterDroneProjectile<EntitySplinterDroneProjectile>(manager);
 			}
 		});
-		RenderingRegistry.registerEntityRenderingHandler(EntityEnaria.class, new IRenderFactory()
+		RenderingRegistry.registerEntityRenderingHandler(EntityEnaria.class, new IRenderFactory<EntityEnaria>()
 		{
 			@Override
-			public Render createRenderFor(RenderManager manager)
+			public Render<EntityEnaria> createRenderFor(RenderManager manager)
 			{
 				return new RenderEnaria<EntityEnaria>(manager);
 			}
 		});
-		RenderingRegistry.registerEntityRenderingHandler(EntityGhastlyEnaria.class, new IRenderFactory()
+		RenderingRegistry.registerEntityRenderingHandler(EntityGhastlyEnaria.class, new IRenderFactory<EntityGhastlyEnaria>()
 		{
 			@Override
-			public Render createRenderFor(RenderManager manager)
+			public Render<EntityGhastlyEnaria> createRenderFor(RenderManager manager)
 			{
 				return new RenderGhastlyEnaria<EntityGhastlyEnaria>(manager);
 			}
 		});
-		RenderingRegistry.registerEntityRenderingHandler(EntityIronBolt.class, new IRenderFactory()
+		RenderingRegistry.registerEntityRenderingHandler(EntityIronBolt.class, new IRenderFactory<EntityIronBolt>()
 		{
 			@Override
-			public Render createRenderFor(RenderManager manager)
+			public Render<EntityIronBolt> createRenderFor(RenderManager manager)
 			{
 				return new IronBoltRender<EntityIronBolt>(manager);
 			}
 		});
-		RenderingRegistry.registerEntityRenderingHandler(EntitySilverBolt.class, new IRenderFactory()
+		RenderingRegistry.registerEntityRenderingHandler(EntitySilverBolt.class, new IRenderFactory<EntitySilverBolt>()
 		{
 			@Override
-			public Render createRenderFor(RenderManager manager)
+			public Render<EntitySilverBolt> createRenderFor(RenderManager manager)
 			{
 				return new SilverBoltRender<EntitySilverBolt>(manager);
 			}
 		});
-		RenderingRegistry.registerEntityRenderingHandler(EntityWoodenBolt.class, new IRenderFactory()
+		RenderingRegistry.registerEntityRenderingHandler(EntityWoodenBolt.class, new IRenderFactory<EntityWoodenBolt>()
 		{
 			@Override
-			public Render createRenderFor(RenderManager manager)
+			public Render<EntityWoodenBolt> createRenderFor(RenderManager manager)
 			{
 				return new WoodenBoltRender<EntityWoodenBolt>(manager);
 			}
 		});
-		RenderingRegistry.registerEntityRenderingHandler(EntityIgneousBolt.class, new IRenderFactory()
+		RenderingRegistry.registerEntityRenderingHandler(EntityIgneousBolt.class, new IRenderFactory<EntityIgneousBolt>()
 		{
 			@Override
-			public Render createRenderFor(RenderManager manager)
+			public Render<EntityIgneousBolt> createRenderFor(RenderManager manager)
 			{
 				return new IgneousBoltRender<EntityIgneousBolt>(manager);
 			}
 		});
-		RenderingRegistry.registerEntityRenderingHandler(EntityStarMetalBolt.class, new IRenderFactory()
+		RenderingRegistry.registerEntityRenderingHandler(EntityStarMetalBolt.class, new IRenderFactory<EntityStarMetalBolt>()
 		{
 			@Override
-			public Render createRenderFor(RenderManager manager)
+			public Render<EntityStarMetalBolt> createRenderFor(RenderManager manager)
 			{
 				return new StarMetalBoltRender<EntityStarMetalBolt>(manager);
 			}
@@ -195,18 +197,18 @@ public class ClientProxy extends CommonProxy
 				});
 
 		// Add extra projectile
-		RenderingRegistry.registerEntityRenderingHandler(EntitySpellProjectileDive.class, new IRenderFactory()
+		RenderingRegistry.registerEntityRenderingHandler(EntitySpellProjectileDive.class, new IRenderFactory<EntitySpellProjectileDive>()
 		{
 			@Override
-			public Render createRenderFor(RenderManager manager)
+			public Render<EntitySpellProjectileDive> createRenderFor(RenderManager manager)
 			{
-				return new RenderSpell(manager, new ModelSpellProjectile(), "afraidofthedark:textures/entity/spell/projectile.png");
+				return new RenderSpell<EntitySpellProjectileDive> (manager, new ModelSpellProjectile(), "afraidofthedark:textures/entity/spell/projectile.png");
 			}
 		});
-		RenderingRegistry.registerEntityRenderingHandler(EntityArtwork.class, new IRenderFactory()
+		RenderingRegistry.registerEntityRenderingHandler(EntityArtwork.class, new IRenderFactory<EntityArtwork>()
 		{
 			@Override
-			public Render createRenderFor(RenderManager manager)
+			public Render<EntityArtwork> createRenderFor(RenderManager manager)
 			{
 				return new RenderArtwork(manager);
 			}
@@ -216,13 +218,11 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void registerMiscRenders()
 	{
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVoidChest.class, new TileEntityVoidChestRenderer());
-		// MinecraftForgeClient.registerItemRenderer(ModItems.crossbow, new
-		// ItemCrossbowRender());
+		ClientRegistry.bindTileEntitySpecialRenderer (TileEntityVoidChest.class, new TileEntityVoidChestRenderer());
 	}
 
 	@Override
-	public void registerMiscelaneous()
+	public void registerMiscellaneous()
 	{
 		Constants.entityVitaeResistance.put(EntityPlayerSP.class, 100);
 		Constants.entityVitaeResistance.put(EntityOtherPlayerMP.class, 100);
@@ -298,7 +298,7 @@ public class ClientProxy extends CommonProxy
 		ModelBakery.registerItemVariants(ModItems.vitaeLantern, new ModelResourceLocation(Reference.MOD_ID + ":vitae_lantern_empty", "inventory"), new ModelResourceLocation(Reference.MOD_ID + ":vitae_lantern_low", "inventory"), new ModelResourceLocation(Reference.MOD_ID + ":vitae_lantern_half",
 				"inventory"), new ModelResourceLocation(Reference.MOD_ID + ":vitae_lantern_three_quarters", "inventory"), new ModelResourceLocation(Reference.MOD_ID + ":vitae_lantern_full", "inventory"));
 		itemModelMesher.register(ModItems.starMetalKhopesh, 0, new ModelResourceLocation(Reference.MOD_ID + ":star_metal_khopesh", "inventory"));
-		itemModelMesher.register(ModItems.starMetalKhopesh, 1, new ModelResourceLocation(Reference.MOD_ID + ":star_metal_khopeshFullCharge", "inventory"));
+		itemModelMesher.register(ModItems.starMetalKhopesh, 1, new ModelResourceLocation(Reference.MOD_ID + ":star_metal_khopesh_full_charge", "inventory"));
 		ModelBakery.registerItemVariants(ModItems.starMetalKhopesh, new ModelResourceLocation(Reference.MOD_ID + ":star_metal_khopesh", "inventory"), new ModelResourceLocation(Reference.MOD_ID + ":star_metal_khopesh_full_charge", "inventory"));
 		itemModelMesher.register(ModItems.cloakOfAgility, 0, new ModelResourceLocation(Reference.MOD_ID + ":cloak_of_agility", "inventory"));
 		itemModelMesher.register(ModItems.researchScrollCloakOfAgility, 0, new ModelResourceLocation(Reference.MOD_ID + ":research_scroll_cloak_of_agility", "inventory"));

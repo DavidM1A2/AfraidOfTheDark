@@ -14,6 +14,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDChargableSword;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDamageSources;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDToolMaterials;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.Constants;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 
 import net.minecraft.enchantment.Enchantment;
@@ -49,7 +50,7 @@ public class ItemStarMetalKhopesh extends AOTDChargableSword
 	 */
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(final ItemStack stack, final EntityPlayer entityPlayer, final List tooltip, final boolean advanced)
+	public void addInformation(final ItemStack stack, final EntityPlayer entityPlayer, final List<String> tooltip, final boolean advanced)
 	{
 		if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.StarMetal))
 		{
