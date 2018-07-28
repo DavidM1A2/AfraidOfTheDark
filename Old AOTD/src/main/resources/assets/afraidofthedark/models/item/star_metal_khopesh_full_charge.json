@@ -1,6 +1,0 @@
-{
-	"parent": "item/handheld",
-	"textures": {
-		"layer0": "afraidofthedark:items/star_metal_khopesh_full_charge"
-	}
-}

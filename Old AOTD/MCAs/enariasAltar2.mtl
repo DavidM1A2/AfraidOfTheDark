@@ -1,9 +1,0 @@
-# Blender MTL File: 'enariasAltar.blend'
-# Material Count: 5
-
-newmtl mainMat
-Ka 0.000000 0.000000 0.000000
-Kd 0.022657 0.000000 0.800000
-Ks 0.500000 0.500000 0.500000
-d 1.000000
-map_Kd minecraft:blocks/redstone_block
