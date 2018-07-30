@@ -1,10 +1,10 @@
-package com.DavidM1A2.AfraidOfTheDark.client.gui;
+package com.DavidM1A2.afraidofthedark.client.gui;
 
 import java.util.Collections;
 import java.util.Set;
 
-import com.DavidM1A2.AfraidOfTheDark.common.constants.ConfigurationHandler;
-import com.DavidM1A2.AfraidOfTheDark.common.constants.Constants;
+import com.DavidM1A2.afraidofthedark.common.constants.Constants;
+import com.DavidM1A2.afraidofthedark.common.handler.ConfigurationHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.client.IModGuiFactory;
