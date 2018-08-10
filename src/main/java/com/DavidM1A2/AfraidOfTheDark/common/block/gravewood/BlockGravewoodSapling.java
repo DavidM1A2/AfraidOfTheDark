@@ -2,6 +2,7 @@ package com.DavidM1A2.afraidofthedark.common.block.gravewood;
 
 import com.DavidM1A2.afraidofthedark.common.block.core.AOTDSapling;
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
+import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockOldLeaf;
 import net.minecraft.block.BlockOldLog;
@@ -44,10 +45,12 @@ public class BlockGravewoodSapling extends AOTDSapling
 	@Override
 	public void causeTreeToGrow(World world, BlockPos pos, IBlockState state, Random random)
 	{
+		// Make sure we have room for a tree
 		if (!TerrainGen.saplingGrowTree(world, random, pos))
 			return;
 
-		WorldGenerator treeGenerator = new WorldGenTrees(true);
+		// Create a tree generator based on the gavewood log and leaf types
+		WorldGenerator treeGenerator = new WorldGenTrees(true, 6, ModBlocks.GRAVEWOOD.getDefaultState(), ModBlocks.GRAVEWOOD_LEAVES.getDefaultState().withProperty(BlockLeaves.CHECK_DECAY, false), true);
 
 		// Remove the sapling block
 		world.setBlockState(pos, Blocks.AIR.getDefaultState(), 4);

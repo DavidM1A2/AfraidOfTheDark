@@ -28,7 +28,7 @@ public class Constants
 	public static final CreativeTabs AOTD_CREATIVE_TAB = new CreativeTabs(Constants.MOD_ID)
 	{
 		// Icon for the mod is just the sapling for now
-		private final ItemStack icon = new ItemStack(ModBlocks.GRAVEWOOD, 1);
+		private final ItemStack icon = new ItemStack(ModBlocks.GRAVEWOOD, 1, 0);
 
 		/**
 		 * Getter for the mod creative tab icon

@@ -8,4 +8,12 @@ package com.DavidM1A2.afraidofthedark.proxy;
  */
 public class ServerProxy extends CommonProxy
 {
+	/**
+	 * Called to initialize leaf block renderers. This simply ensures the colors of the leaves are correctly applied. Server does not register any renderers
+	 */
+	@Override
+	public void initializeLeafRenderers()
+	{
+		// Not used
+	}
 }

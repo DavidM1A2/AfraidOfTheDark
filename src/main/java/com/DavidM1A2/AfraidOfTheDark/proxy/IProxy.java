@@ -10,4 +10,8 @@ package com.DavidM1A2.afraidofthedark.proxy;
  */
 public interface IProxy
 {
+	/**
+	 * Called to initialize leaf block renderers. This simply ensures the colors of the leaves are correctly applied
+	 */
+	void initializeLeafRenderers();
 }

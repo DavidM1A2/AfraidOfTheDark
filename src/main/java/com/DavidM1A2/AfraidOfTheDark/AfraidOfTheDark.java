@@ -59,6 +59,8 @@ public class AfraidOfTheDark
 	@Mod.EventHandler
 	public void initialization(FMLInitializationEvent event)
 	{
+		// Initialize leaf renderers (client side only)
+		proxy.initializeLeafRenderers();
 	}
 
 	/**
