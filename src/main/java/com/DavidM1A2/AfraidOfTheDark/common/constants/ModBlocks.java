@@ -17,6 +17,7 @@ public class ModBlocks
 	public static final Block GRAVEWOOD_LEAVES = new BlockGravewoodLeaves();
 	public static final Block GRAVEWOOD_HALF_SLAB = new BlockGravewoodHalfSlab();
 	public static final Block GRAVEWOOD_DOUBLE_SLAB = new BlockGravewoodDoubleSlab();
+	public static final Block GRAVEWOOD_STAIRS = new BlockGravewoodStairs();
 
 	// An array containing a list of blocks that AOTD adds
 	public static Block[] BLOCK_LIST = new Block[]
@@ -26,6 +27,7 @@ public class ModBlocks
 		GRAVEWOOD_SAPLING,
 		GRAVEWOOD_LEAVES,
 		GRAVEWOOD_HALF_SLAB,
-		GRAVEWOOD_DOUBLE_SLAB
+		GRAVEWOOD_DOUBLE_SLAB,
+		GRAVEWOOD_STAIRS
 	};
 }

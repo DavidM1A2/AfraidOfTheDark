@@ -14,4 +14,14 @@ public interface IProxy
 	 * Called to initialize leaf block renderers. This simply ensures the colors of the leaves are correctly applied
 	 */
 	void initializeLeafRenderers();
+
+	/**
+	 * Called to initialize any mod blocks into the ore dictionary
+	 */
+	void initializeOreDictionary();
+
+	/**
+	 * Called to initialize any mod smelting recipes
+	 */
+	void initializeSmeltingRecipes();
 }

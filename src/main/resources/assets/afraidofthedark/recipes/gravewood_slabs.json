@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG"
+  ],
+  "key": {
+    "G": {
+      "item": "afraidofthedark:gravewood_planks"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:gravewood_half_slab",
+    "data": 0,
+    "count": 6
+  }
+}

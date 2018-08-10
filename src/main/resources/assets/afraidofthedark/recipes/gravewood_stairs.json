@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "  G",
+    " GG",
+    "GGG"
+  ],
+  "key": {
+    "G": {
+      "item": "afraidofthedark:gravewood_planks"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:gravewood_stairs",
+    "count": 4
+  }
+}

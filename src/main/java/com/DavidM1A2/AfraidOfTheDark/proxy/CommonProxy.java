@@ -3,9 +3,37 @@
  */
 package com.DavidM1A2.afraidofthedark.proxy;
 
+import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.OreDictionary;
+
 /**
  * Common proxy that is instantiated on both sides (CLIENT and SERVER)
  */
 public abstract class CommonProxy implements IProxy
 {
+	/**
+	 * Called to initialize any mod blocks into the ore dictionary. Happens on server and client
+	 */
+	public void initializeOreDictionary()
+	{
+		OreDictionary.registerOre("logWood", ModBlocks.GRAVEWOOD);
+		OreDictionary.registerOre("slabWood", ModBlocks.GRAVEWOOD_HALF_SLAB);
+		OreDictionary.registerOre("slabWood", ModBlocks.GRAVEWOOD_DOUBLE_SLAB);
+		OreDictionary.registerOre("treeLeaves", ModBlocks.GRAVEWOOD_LEAVES);
+		OreDictionary.registerOre("plankWood", ModBlocks.GRAVEWOOD_PLANKS);
+		OreDictionary.registerOre("treeSapling", ModBlocks.GRAVEWOOD_SAPLING);
+		OreDictionary.registerOre("stairWood", ModBlocks.GRAVEWOOD_STAIRS);
+	}
+
+	/**
+	 * Called to initialize any mod smelting recipes
+	 */
+	public void initializeSmeltingRecipes()
+	{
+		GameRegistry.addSmelting(new ItemStack(ModBlocks.GRAVEWOOD), new ItemStack(Items.COAL, 1, 1), 0.15f);
+	}
 }

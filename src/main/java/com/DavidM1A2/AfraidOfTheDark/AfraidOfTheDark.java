@@ -61,6 +61,10 @@ public class AfraidOfTheDark
 	{
 		// Initialize leaf renderers (client side only)
 		proxy.initializeLeafRenderers();
+		// Initialize any ore-dictionary entries
+		proxy.initializeOreDictionary();
+		// Initialize smelting recipes
+		proxy.initializeSmeltingRecipes();
 	}
 
 	/**

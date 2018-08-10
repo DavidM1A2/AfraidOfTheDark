@@ -28,7 +28,7 @@ public class BlockGravewoodDoubleSlab extends AOTDSlab
 	}
 
 	/**
-	 * @return The opposite is a double slab since this one is a half slab
+	 * @return The opposite is a half slab since this one is a double slab
 	 */
 	@Override
 	public BlockSlab getOpposite()
