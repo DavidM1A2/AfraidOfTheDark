@@ -10,13 +10,4 @@ package com.DavidM1A2.afraidofthedark.proxy;
  */
 public interface IProxy
 {
-	/**
-	 * Called to register any item renderers, only happens client side
-	 */
-	void registerItemRenders();
-
-	/**
-	 * Called to register any block renderers, only happens client side
-	 */
-	void registerBlockRenders();
 }

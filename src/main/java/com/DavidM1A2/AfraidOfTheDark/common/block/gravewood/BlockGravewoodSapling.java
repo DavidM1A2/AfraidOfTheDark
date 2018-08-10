@@ -8,10 +8,15 @@ import net.minecraft.block.BlockOldLog;
 import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.*;
+import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.event.terraingen.TerrainGen;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.RecipeSorter;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import java.util.Random;
 
@@ -25,9 +30,7 @@ public class BlockGravewoodSapling extends AOTDSapling
 	 */
 	public BlockGravewoodSapling()
 	{
-		super();
-		this.setUnlocalizedName(Constants.MOD_ID + ":gravewood_sapling");
-		this.setRegistryName(Constants.MOD_ID + ":gravewood_sapling");
+		super("gravewood_sapling");
 	}
 
 	/**

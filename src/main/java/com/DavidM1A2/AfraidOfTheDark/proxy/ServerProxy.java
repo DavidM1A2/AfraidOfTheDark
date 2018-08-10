@@ -8,21 +8,4 @@ package com.DavidM1A2.afraidofthedark.proxy;
  */
 public class ServerProxy extends CommonProxy
 {
-	/**
-	 * Called to register any item renderers, ignored here
-	 */
-	@Override
-	public void registerItemRenders()
-	{
-		// Not used
-	}
-
-	/**
-	 * Called to register any block renderers, ignored here
-	 */
-	@Override
-	public void registerBlockRenders()
-	{
-		// Not used		
-	}
 }

@@ -5,7 +5,6 @@
  */
 package com.DavidM1A2.afraidofthedark.common.constants;
 
-import com.DavidM1A2.afraidofthedark.common.reference.ModBlocks;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 
@@ -29,7 +28,7 @@ public class Constants
 	public static final CreativeTabs AOTD_CREATIVE_TAB = new CreativeTabs(Constants.MOD_ID)
 	{
 		// Icon for the mod is just the sapling for now
-		private final ItemStack icon = new ItemStack(ModBlocks.GRAVEWOOD_SAPLING);
+		private final ItemStack icon = new ItemStack(ModBlocks.GRAVEWOOD, 1);
 
 		/**
 		 * Getter for the mod creative tab icon

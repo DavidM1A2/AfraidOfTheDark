@@ -59,10 +59,6 @@ public class AfraidOfTheDark
 	@Mod.EventHandler
 	public void initialization(FMLInitializationEvent event)
 	{
-		// Initialize mod item renderers
-		AfraidOfTheDark.proxy.registerItemRenders();
-		// Initialize block renderers
-		AfraidOfTheDark.proxy.registerBlockRenders();
 	}
 
 	/**

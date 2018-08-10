@@ -31,10 +31,14 @@ public abstract class AOTDSapling extends BlockBush implements IGrowable
 
 	/**
 	 * Constructor sets up default sapling properties
+	 *
+	 * @param baseName The name of the block to register
 	 */
-	public AOTDSapling()
+	public AOTDSapling(String baseName)
 	{
 		super();
+		this.setUnlocalizedName(Constants.MOD_ID + ":" + baseName);
+		this.setRegistryName(Constants.MOD_ID + ":" + baseName);
 		this.setHardness(0.0f);
 		this.setResistance(0.0f);
 		this.setSoundType(SoundType.PLANT);

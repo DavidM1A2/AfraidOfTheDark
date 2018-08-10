@@ -1,0 +1,9 @@
+{
+	"variants": {
+		"axis=y":    { "model": "afraidofthedark:mangrove" },
+        "axis=z":    { "model": "afraidofthedark:mangrove", "x": 90 },
+        "axis=x":    { "model": "afraidofthedark:mangrove", "x": 90, "y": 90 },
+        "axis=none": { "model": "afraidofthedark:mangrove_side" },
+		"inventory": { "model": "afraidofthedark:mangrove" }
+	}
+}

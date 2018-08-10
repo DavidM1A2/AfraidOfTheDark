@@ -1,0 +1,20 @@
+# Blender MTL File: 'enarias_altar.blend'
+# Material Count: 3
+
+newmtl mainMat
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+d 1.000000
+map_Kd afraidofthedark:models/enarias_altar
+
+newmtl mainMat_EnariasAltarSide
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+d 1.000000
+map_Kd afraidofthedark:models/enarias_altar
+
+newmtl mainMat_enariasAltar
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+d 1.000000
+map_Kd afraidofthedark:models/enarias_altar

@@ -1,6 +1,7 @@
 package com.DavidM1A2.afraidofthedark.common.handler;
 
-import com.DavidM1A2.afraidofthedark.common.reference.ModBlocks;
+import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.event.RegistryEvent;
@@ -22,6 +23,8 @@ public class ItemRegister
 	{
 		IForgeRegistry<Item> registry = event.getRegistry();
 
-		registry.register(new ItemBlock(ModBlocks.GRAVEWOOD_SAPLING).setRegistryName(ModBlocks.GRAVEWOOD_SAPLING.getRegistryName()));
+		// For each block in our block list we register an item so that we can hold the block
+		for (Block block : ModBlocks.BLOCK_LIST)
+			registry.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
 	}
 }
