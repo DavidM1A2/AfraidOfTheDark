@@ -1,9 +1,6 @@
 package com.DavidM1A2.afraidofthedark.common.constants;
 
-import com.DavidM1A2.afraidofthedark.common.block.gravewood.BlockGravewood;
-import com.DavidM1A2.afraidofthedark.common.block.gravewood.BlockGravewoodLeaves;
-import com.DavidM1A2.afraidofthedark.common.block.gravewood.BlockGravewoodPlanks;
-import com.DavidM1A2.afraidofthedark.common.block.gravewood.BlockGravewoodSapling;
+import com.DavidM1A2.afraidofthedark.common.block.gravewood.*;
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.init.Items;
@@ -18,6 +15,8 @@ public class ModBlocks
 	public static final Block GRAVEWOOD_PLANKS = new BlockGravewoodPlanks();
 	public static final Block GRAVEWOOD_SAPLING = new BlockGravewoodSapling();
 	public static final Block GRAVEWOOD_LEAVES = new BlockGravewoodLeaves();
+	public static final Block GRAVEWOOD_HALF_SLAB = new BlockGravewoodHalfSlab();
+	public static final Block GRAVEWOOD_DOUBLE_SLAB = new BlockGravewoodDoubleSlab();
 
 	// An array containing a list of blocks that AOTD adds
 	public static Block[] BLOCK_LIST = new Block[]
@@ -25,6 +24,8 @@ public class ModBlocks
 		GRAVEWOOD,
 		GRAVEWOOD_PLANKS,
 		GRAVEWOOD_SAPLING,
-		GRAVEWOOD_LEAVES
+		GRAVEWOOD_LEAVES,
+		GRAVEWOOD_HALF_SLAB,
+		GRAVEWOOD_DOUBLE_SLAB
 	};
 }

@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * A base class for any leaves added by the AOTD mod
  */
-public class AOTDLeaves extends BlockLeaves
+public abstract class AOTDLeaves extends BlockLeaves
 {
 	private BitField checkDecayField = new BitField(0x1);
 	private BitField decayableField = new BitField(0x2);

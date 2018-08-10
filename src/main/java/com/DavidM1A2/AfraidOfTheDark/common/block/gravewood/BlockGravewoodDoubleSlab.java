@@ -1,0 +1,38 @@
+package com.DavidM1A2.afraidofthedark.common.block.gravewood;
+
+import com.DavidM1A2.afraidofthedark.common.block.core.AOTDSlab;
+import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;
+import net.minecraft.block.BlockSlab;
+import net.minecraft.block.material.Material;
+
+/**
+ * Class representing a gravewood double slab
+ */
+public class BlockGravewoodDoubleSlab extends AOTDSlab
+{
+	/**
+	 * Constructor sets the name and material
+	 */
+	public BlockGravewoodDoubleSlab()
+	{
+		super("gravewood_double_slab", Material.WOOD);
+	}
+
+	/**
+	 * @return It's a double slab
+	 */
+	@Override
+	public boolean isDouble()
+	{
+		return true;
+	}
+
+	/**
+	 * @return The opposite is a double slab since this one is a half slab
+	 */
+	@Override
+	public BlockSlab getOpposite()
+	{
+		return (BlockSlab) ModBlocks.GRAVEWOOD_HALF_SLAB;
+	}
+}
