@@ -1,6 +1,7 @@
 package com.DavidM1A2.afraidofthedark;
 
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
+import com.DavidM1A2.afraidofthedark.common.handler.BiomeRegister;
 import com.DavidM1A2.afraidofthedark.common.handler.BlockRegister;
 import com.DavidM1A2.afraidofthedark.common.handler.ConfigurationHandler;
 import com.DavidM1A2.afraidofthedark.common.handler.ItemRegister;
@@ -49,6 +50,8 @@ public class AfraidOfTheDark
 		MinecraftForge.EVENT_BUS.register(new BlockRegister());
 		// Register our item handler used to add all of our items to the game
 		MinecraftForge.EVENT_BUS.register(new ItemRegister());
+		// Register our biome handler used to add all of our mod buiomes to the game
+		MinecraftForge.EVENT_BUS.register(new BiomeRegister());
 	}
 
 	/**
