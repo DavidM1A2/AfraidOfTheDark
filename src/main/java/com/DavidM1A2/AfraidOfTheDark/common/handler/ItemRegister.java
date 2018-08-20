@@ -2,10 +2,14 @@ package com.DavidM1A2.afraidofthedark.common.handler;
 
 import com.DavidM1A2.afraidofthedark.common.block.core.AOTDSlab;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;
+import com.DavidM1A2.afraidofthedark.common.constants.ModItems;
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemSlab;
+import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -25,6 +29,12 @@ public class ItemRegister
 	{
 		IForgeRegistry<Item> registry = event.getRegistry();
 
+		// Register each item in our item list
+		for (Item item : ModItems.ITEM_LIST)
+		{
+			registry.register(item);
+		}
+
 		// For each block in our block list we register an item so that we can hold the block
 		for (Block block : ModBlocks.BLOCK_LIST)
 		{
@@ -36,5 +46,18 @@ public class ItemRegister
 			else
 				registry.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
 		}
+	}
+
+	/**
+	 * Called by forge to register any of our item renderers
+	 *
+	 * @param event The event that signifies that ModelLoader is ready to receive item
+	 */
+	@SubscribeEvent
+	public void registerItemRenderers(ModelRegistryEvent event)
+	{
+		// Register models for all items in our mod
+		for (Item item : ModItems.ITEM_LIST)
+			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
 	}
 }

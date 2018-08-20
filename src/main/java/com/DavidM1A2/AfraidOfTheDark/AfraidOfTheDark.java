@@ -1,5 +1,6 @@
 package com.DavidM1A2.afraidofthedark;
 
+import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiHandler;
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import com.DavidM1A2.afraidofthedark.common.handler.BiomeRegister;
 import com.DavidM1A2.afraidofthedark.common.handler.BlockRegister;
@@ -13,6 +14,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 /*
  * Main class run when the mod is started up
@@ -50,8 +52,10 @@ public class AfraidOfTheDark
 		MinecraftForge.EVENT_BUS.register(new BlockRegister());
 		// Register our item handler used to add all of our items to the game
 		MinecraftForge.EVENT_BUS.register(new ItemRegister());
-		// Register our biome handler used to add all of our mod buiomes to the game
+		// Register our biome handler used to add all of our mod biomes to the game
 		MinecraftForge.EVENT_BUS.register(new BiomeRegister());
+		// Register our GUI handler that lets us open UIs for specific players
+		NetworkRegistry.INSTANCE.registerGuiHandler(this, new AOTDGuiHandler());
 	}
 
 	/**

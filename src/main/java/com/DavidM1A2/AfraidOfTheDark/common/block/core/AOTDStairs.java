@@ -7,7 +7,7 @@ import net.minecraft.block.state.IBlockState;
 /**
  * Base class for AOTD stair blocks
  */
-public class AOTDStairs extends BlockStairs
+public abstract class AOTDStairs extends BlockStairs
 {
 	/**
 	 * Constructor takes in a name and model state that this block uses to get texture from
