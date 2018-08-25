@@ -2,18 +2,13 @@ package com.DavidM1A2.afraidofthedark.common.biomes;
 
 import com.DavidM1A2.afraidofthedark.common.biomes.extras.AOTDWorldGenBigTree;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;
-import com.google.common.collect.Lists;
-import com.sun.javafx.UnmodifiableArrayList;
-import javafx.scene.paint.Color;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockFlower;
 import net.minecraft.block.BlockLog;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
-import net.minecraft.world.gen.feature.WorldGenFlowers;
 import net.minecraft.world.gen.feature.WorldGenTrees;
 
+import java.awt.*;
 import java.util.Random;
 
 /**
@@ -56,7 +51,7 @@ public class BiomeErieForest extends Biome
 	public int getModdedBiomeGrassColor(int original)
 	{
 		// hash code converts from color object to 32-bit integer, then get rid of the alpha parameter
-		return Color.rgb(83, 56, 6).hashCode() >> 8;
+		return new Color(83, 56, 6).hashCode();
 	}
 
 	/**
