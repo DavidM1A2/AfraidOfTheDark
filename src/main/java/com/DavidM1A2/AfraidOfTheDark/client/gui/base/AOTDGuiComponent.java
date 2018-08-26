@@ -1,13 +1,12 @@
-package com.DavidM1A2.afraidofthedark.client.gui.standardControls;
+package com.DavidM1A2.afraidofthedark.client.gui.base;
 
-import com.DavidM1A2.AfraidOfTheDark.client.gui.AOTDGuiUtility;
+import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiUtility;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.util.math.MathHelper;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Color;
 import org.lwjgl.util.Point;
@@ -63,13 +62,13 @@ public abstract class AOTDGuiComponent
 		// Tint the color before continuing with other draw calls
 		GL11.glColor4d(tint.getRed(), tint.getGreen(), tint.getBlue(), tint.getAlpha());
 		// Draw the bounding box for debug purposes
-		// this.drawBoundingBox();
+		this.drawBoundingBox();
 	}
 
 	/**
 	 * Draws the hover text that appears when we mouse over the control
 	 */
-	public void drawHoverText()
+	public void drawOverlay()
 	{
 		// Make sure the control is visible and hovered
 		if (this.isVisible && this.isHovered)
@@ -103,15 +102,11 @@ public abstract class AOTDGuiComponent
 	 */
 	public void drawBoundingBox()
 	{
-		/*
-
-		Gui.drawRect(this.getXScaled(), this.getYScaled(), this.getXScaled() + this.getWidthScaled(), this.getYScaled() + 1, 0xFFFFFFFF);
-		Gui.drawRect(this.getXScaled(), this.getYScaled(), this.getXScaled() + 1, this.getYScaled() + this.getHeightScaled(), 0xFFFFFFFF);
-		Gui.drawRect(this.getXScaled() + this.getWidthScaled() - 1, this.getYScaled(), this.getXScaled() + this.getWidthScaled(), this.getYScaled() + this.getHeightScaled(), 0xFFFFFFFF);
-		Gui.drawRect(this.getXScaled(), this.getYScaled() + this.getHeightScaled() - 1, this.getXScaled() + this.getWidthScaled(), this.getYScaled() + this.getHeightScaled(), 0xFFFFFFFF);
-		GlStateManager.enableBlend();
-
-		 */
+		int whiteColor = new Color(255, 255, 255, 255).hashCode();
+		Gui.drawRect(this.getXScaled(), this.getYScaled(), this.getXScaled() + this.getWidthScaled(), this.getYScaled() + 1, whiteColor);
+		Gui.drawRect(this.getXScaled(), this.getYScaled(), this.getXScaled() + 1, this.getYScaled() + this.getHeightScaled(), whiteColor);
+		Gui.drawRect(this.getXScaled() + this.getWidthScaled() - 1, this.getYScaled(), this.getXScaled() + this.getWidthScaled(), this.getYScaled() + this.getHeightScaled(), whiteColor);
+		Gui.drawRect(this.getXScaled(), this.getYScaled() + this.getHeightScaled() - 1, this.getXScaled() + this.getWidthScaled(), this.getYScaled() + this.getHeightScaled(), whiteColor);
 	}
 
 	/**

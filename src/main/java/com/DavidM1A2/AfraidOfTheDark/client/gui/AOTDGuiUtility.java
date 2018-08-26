@@ -1,4 +1,4 @@
-package com.DavidM1A2.AfraidOfTheDark.client.gui;
+package com.DavidM1A2.afraidofthedark.client.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;

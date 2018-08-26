@@ -1,5 +1,7 @@
 package com.DavidM1A2.afraidofthedark.common.item;
 
+import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
+import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiHandler;
 import com.DavidM1A2.afraidofthedark.common.item.core.AOTDItem;
 import com.DavidM1A2.afraidofthedark.common.utility.NBTHelper;
 import net.minecraft.client.Minecraft;
@@ -7,6 +9,7 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerProfileCache;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -54,7 +57,8 @@ public class ItemJournal extends AOTDItem
 		// If the journal does not have an owner yet...
 		if (!NBTHelper.hasTag(heldItemStack, OWNER_TAG))
 		{
-
+			if (worldIn.isRemote)
+				playerIn.openGui(AfraidOfTheDark.INSTANCE, AOTDGuiHandler.BLOOD_STAINED_JOURNAL_SIGN_ID, worldIn, playerIn.getPosition().getX(), playerIn.getPosition().getY(), playerIn.getPosition().getZ());
 		}
 		// If the journal does have an owner, check if that owner is us
 		else if (playerIn.getDisplayName().getUnformattedText().equals(NBTHelper.getString(heldItemStack, OWNER_TAG)))

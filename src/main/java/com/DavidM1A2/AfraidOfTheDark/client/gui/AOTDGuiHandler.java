@@ -1,5 +1,6 @@
 package com.DavidM1A2.afraidofthedark.client.gui;
 
+import com.DavidM1A2.afraidofthedark.client.gui.guiScreens.BloodStainedJournalSignGUI;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
@@ -62,6 +63,8 @@ public class AOTDGuiHandler implements IGuiHandler
 	{
 		switch (ID)
 		{
+			case BLOOD_STAINED_JOURNAL_SIGN_ID:
+				return new BloodStainedJournalSignGUI();
 			default:
 				return null;
 		}
