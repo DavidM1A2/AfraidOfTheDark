@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import org.apache.logging.log4j.Logger;
 
 /*
  * Main class run when the mod is started up
@@ -34,6 +35,9 @@ public class AfraidOfTheDark
 	@SidedProxy(clientSide = Constants.CLIENT_PROXY_CLASS, serverSide = Constants.SERVER_PROXY_CLASS)
 	public static IProxy proxy;
 
+	// Logger used to log any debug messages relating to AOtD
+	private Logger aotdLog;
+
 	/**
 	 * Called with the forge pre-initialization event
 	 *
@@ -42,6 +46,8 @@ public class AfraidOfTheDark
 	@Mod.EventHandler
 	public void preInitialization(FMLPreInitializationEvent event)
 	{
+		// Grab a reference to the AOTD logger to debug with
+		this.aotdLog = event.getModLog();
 		// We begin by loading our "afraidofthedark.cfg" file which enables us to change mod settings
 		ConfigurationHandler configurationHandler = ConfigurationHandler.getInstance();
 		// We initialize the configuration handler from the suggested file
@@ -94,5 +100,13 @@ public class AfraidOfTheDark
 	public void serverStartingEvent(FMLServerStartingEvent event)
 	{
 
+	}
+
+	/**
+	 * @return Returns the AOTD logger to be used whenever logging any debug messages
+	 */
+	public Logger getLogger()
+	{
+		return aotdLog;
 	}
 }

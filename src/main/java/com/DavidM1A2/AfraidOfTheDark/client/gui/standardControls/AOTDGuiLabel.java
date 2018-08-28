@@ -1,5 +1,6 @@
 package com.DavidM1A2.afraidofthedark.client.gui.standardControls;
 
+import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiContainer;
 import com.DavidM1A2.afraidofthedark.client.gui.base.TextAlignment;
 import com.DavidM1A2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont;
@@ -11,14 +12,10 @@ import org.lwjgl.util.Color;
  */
 public class AOTDGuiLabel extends AOTDGuiContainer
 {
-	// The maximum string length
-	private int maxStrLength = Integer.MAX_VALUE;
-	// The raw text we are supposed to draw
-	private String originalText = "";
 	// The text to draw
 	private String text = StringUtils.EMPTY;
 	// The font to draw the text with
-	private TrueTypeFont font;
+	private final TrueTypeFont font;
 	// The color to draw the text with
 	private Color textColor = new Color(255, 255, 255, 255);
 	// Text alignment
@@ -33,11 +30,10 @@ public class AOTDGuiLabel extends AOTDGuiContainer
 	 * @param y The Y coordinate of the label
 	 * @param font The font to use to draw the label
 	 */
-	public AOTDGuiLabel(int x, int y, TrueTypeFont font)
+	public AOTDGuiLabel(int x, int y, int width, int height, TrueTypeFont font)
 	{
-		super(x, y, 0, 0);
+		super(x, y, width, height);
 		this.font = font;
-		this.setHeight(Math.toIntExact(Math.round(font.getHeight() * this.drawingScale)));
 	}
 
 	/**
@@ -54,6 +50,15 @@ public class AOTDGuiLabel extends AOTDGuiContainer
 			// If we don't have a font, we can't draw anything
 			if (this.font != null)
 			{
+				// Test if the text will fit into our label
+				float width = (float) (this.font.getWidth(this.text) * this.drawingScale * this.getScaleX());
+				float height = (float) (this.font.getHeight() * this.drawingScale * this.getScaleY());
+				// If the width or height are invalid show an error
+				if (width > this.getWidthScaled())
+					AfraidOfTheDark.INSTANCE.getLogger().info("Attempting to set a label's text that isn't wide enough to hold its contents! -- " + this.text);
+				if (height > this.getHeightScaled())
+					AfraidOfTheDark.INSTANCE.getLogger().info("Attempting to create a label that isn't tall enough to hold its contents! -- " + this.text);
+
 				// Draw the string at (x, y) with the correct color and scale
 				this.font.drawString(
 						(float) this.getXScaled(),
@@ -73,52 +78,7 @@ public class AOTDGuiLabel extends AOTDGuiContainer
 	public void setText(String text)
 	{
 		// Set the internal text of the label
-		this.originalText = text;
-		// If the internal text is too long, set the actual string to draw's length to be shorter
-		if (this.originalText.length() > maxStrLength)
-			// Shorten the internal string to a shorter representation
-			this.text = this.originalText.substring(0, maxStrLength);
-		else
-			// Just use the internal representation as the text
-			this.text = this.originalText;
-		this.setWidth(Math.toIntExact(Math.round(this.font.getWidth(this.text) * this.drawingScale)));
-	}
-
-	/**
-	 * @return Gets the text that this label represents
-	 */
-	public String getText()
-	{
-		return this.originalText;
-	}
-
-	/**
-	 * Sets the maximum string length that a label can contain
-	 *
-	 * @param maxStrLength The max length of the string
-	 */
-	/*
-	public void setMaxStringLength(int maxStrLength)
-	{
-		// Update the max string length
-		this.maxStrLength = maxStrLength;
-		// If the internal text is too long, set the actual string to draw's length to be shorter
-		if (this.originalText.length() > maxStrLength)
-			// Shorten the internal string to a shorter representation
-			this.textRenderer.setText(this.originalText.substring(0, maxStrLength));
-		else
-			// Just use the internal representation as the text
-			this.textRenderer.setText(this.originalText);
-		this.setWidth(Math.toIntExact(Math.round(this.textRenderer.getFont().getWidth(this.textRenderer.getText()) * this.textRenderer.getDrawingScale())));
-	}
-	*/
-
-	/**
-	 * @param font Sets the font to be used while drawing the text
-	 */
-	public void setFont(TrueTypeFont font)
-	{
-		this.font = font;
+		this.text = text;
 	}
 
 	/**
