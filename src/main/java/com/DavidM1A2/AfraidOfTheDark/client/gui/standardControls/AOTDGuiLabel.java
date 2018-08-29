@@ -4,6 +4,9 @@ import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiContainer;
 import com.DavidM1A2.afraidofthedark.client.gui.base.TextAlignment;
 import com.DavidM1A2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.GlStateManager;
 import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.util.Color;
 
@@ -59,15 +62,18 @@ public class AOTDGuiLabel extends AOTDGuiContainer
 				if (height > this.getHeightScaled())
 					AfraidOfTheDark.INSTANCE.getLogger().info("Attempting to create a label that isn't tall enough to hold its contents! -- " + this.text);
 
+				float xCoord = this.getXScaled().floatValue() + (this.textAlignment == TextAlignment.ALIGN_LEFT ? 0 : this.textAlignment == TextAlignment.ALIGN_CENTER ? this.getWidthScaled() / 2f : this.getWidthScaled());
+				float yCoord = this.getYScaled().floatValue();
+
 				// Draw the string at (x, y) with the correct color and scale
 				this.font.drawString(
-						(float) this.getXScaled(),
-						(float) this.getYScaled(),
-						this.text,
-						this.getScaleX().floatValue() * drawingScale,
-						this.getScaleY().floatValue() * drawingScale,
-						textAlignment,
-						this.textColor.getRed() / 255f, this.textColor.getGreen() / 255f, this.textColor.getBlue() / 255f, this.textColor.getAlpha() / 255f);
+					xCoord - this.font.getFontSize() * 0.15f,
+					yCoord,
+					this.text,
+					this.getScaleX().floatValue() * this.drawingScale,
+					this.getScaleY().floatValue() * this.drawingScale,
+					textAlignment,
+					this.textColor.getRed() / 255f, this.textColor.getGreen() / 255f, this.textColor.getBlue() / 255f, this.textColor.getAlpha() / 255f);
 			}
 		}
 	}

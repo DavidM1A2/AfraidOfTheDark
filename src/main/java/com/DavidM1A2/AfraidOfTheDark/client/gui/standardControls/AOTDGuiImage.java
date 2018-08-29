@@ -12,13 +12,13 @@ import net.minecraft.util.ResourceLocation;
 public class AOTDGuiImage extends AOTDGuiContainer
 {
 	// The resource location that contains the texture to draw
-	private final ResourceLocation imageTexture;
+	private ResourceLocation imageTexture;
 	// The U and V representing the starting top left position inside the image to begin drawing from
 	private int u = 0;
 	private int v = 0;
 	// The image texture's width and height
-	private final int textureWidth;
-	private final int textureHeight;
+	private int textureWidth;
+	private int textureHeight;
 
 	/**
 	 * Constructor initializes the bounding box and the image texture
@@ -34,9 +34,7 @@ public class AOTDGuiImage extends AOTDGuiContainer
 	public AOTDGuiImage(Integer x, Integer y, Integer width, Integer height, Integer textureWidth, Integer textureHeight, String imageTexture)
 	{
 		super(x, y, width, height);
-		this.imageTexture = new ResourceLocation(imageTexture);
-		this.textureWidth = textureWidth;
-		this.textureHeight = textureHeight;
+		this.setImageTexture(imageTexture, textureWidth, textureHeight);
 	}
 
 	/**
@@ -51,9 +49,7 @@ public class AOTDGuiImage extends AOTDGuiContainer
 	public AOTDGuiImage(int x, int y, int width, int height, String imageTexture)
 	{
 		super(x, y, width, height);
-		this.imageTexture = new ResourceLocation(imageTexture);
-		this.textureHeight = -1;
-		this.textureWidth = -1;
+		this.setImageTexture(imageTexture);
 	}
 
 	/**
@@ -77,6 +73,28 @@ public class AOTDGuiImage extends AOTDGuiContainer
 				Gui.drawScaledCustomSizeModalRect(this.getXScaled(), this.getYScaled(), this.u, this.v, this.getWidth(), this.getHeight(), this.getWidthScaled(), this.getHeightScaled(), this.textureWidth, this.textureHeight);
 			GlStateManager.popMatrix();
 		}
+	}
+
+	public void setImageTexture(String imageTexture)
+	{
+		this.setImageTexture(imageTexture, -1, -1);
+	}
+
+	public void setImageTexture(ResourceLocation imageTexture)
+	{
+		this.setImageTexture(imageTexture, -1, -1);
+	}
+
+	public void setImageTexture(String imageTexture, Integer textureWidth, Integer textureHeight)
+	{
+		this.setImageTexture(new ResourceLocation(imageTexture), textureWidth, textureHeight);
+	}
+
+	public void setImageTexture(ResourceLocation imageTexture, Integer textureWidth, Integer textureHeight)
+	{
+		this.imageTexture = imageTexture;
+		this.textureWidth = textureWidth;
+		this.textureHeight = textureHeight;
 	}
 
 	/**

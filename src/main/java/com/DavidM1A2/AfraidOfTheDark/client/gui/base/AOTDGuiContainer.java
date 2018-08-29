@@ -17,9 +17,9 @@ public abstract class AOTDGuiContainer extends AOTDGuiComponentWithEvents
 	/**
 	 * Constructor initializes the bounding box
 	 *
-	 * @param x      The X location of the top left corner
-	 * @param y      The Y location of the top left corner
-	 * @param width  The width of the component
+	 * @param x The X location of the top left corner
+	 * @param y The Y location of the top left corner
+	 * @param width The width of the component
 	 * @param height The height of the component
 	 */
 	public AOTDGuiContainer(Integer x, Integer y, Integer width, Integer height)

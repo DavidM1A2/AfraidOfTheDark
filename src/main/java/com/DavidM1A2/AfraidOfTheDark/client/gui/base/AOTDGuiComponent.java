@@ -62,7 +62,7 @@ public abstract class AOTDGuiComponent
 		// Tint the color before continuing with other draw calls
 		GL11.glColor4d(tint.getRed(), tint.getGreen(), tint.getBlue(), tint.getAlpha());
 		// Draw the bounding box for debug purposes
-		this.drawBoundingBox();
+		//this.drawBoundingBox();
 	}
 
 	/**
@@ -219,7 +219,7 @@ public abstract class AOTDGuiComponent
 	/**
 	 * @return Getter for the scaled bounding box's top corner's X value
 	 */
-	public int getXScaled()
+	public Integer getXScaled()
 	{
 		return this.scaledBoundingBox.getX();
 	}
@@ -246,7 +246,7 @@ public abstract class AOTDGuiComponent
 	/**
 	 * @return Getter for the scaled bounding box's top corner's Y value
 	 */
-	public int getYScaled()
+	public Integer getYScaled()
 	{
 		return this.scaledBoundingBox.getY();
 	}
