@@ -1,11 +1,17 @@
 package com.DavidM1A2.afraidofthedark.client.gui.fontLibrary;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
-import java.awt.GraphicsEnvironment;
-import java.awt.RenderingHints;
+import com.DavidM1A2.afraidofthedark.client.gui.base.TextAlignment;
+import com.DavidM1A2.afraidofthedark.common.handler.ConfigurationHandler;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.glu.GLU;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
@@ -15,18 +21,6 @@ import java.nio.ByteOrder;
 import java.nio.IntBuffer;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.DavidM1A2.afraidofthedark.client.gui.base.TextAlignment;
-import com.DavidM1A2.afraidofthedark.common.handler.ConfigurationHandler;
-import net.minecraft.client.renderer.BufferBuilder;
-import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.glu.GLU;
-
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 
 /**
  * TrueTyper: Open Source TTF implementation for Minecraft. Modified from Slick2D - under BSD Licensing - http://slick.ninjacave.com/license/
@@ -124,7 +118,7 @@ public class TrueTypeFont
 		// Create a temporary image to extract the character's size
 		BufferedImage tempfontImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = (Graphics2D) tempfontImage.getGraphics();
-		if (antiAlias == true)
+		if (antiAlias)
 		{
 			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		}
@@ -146,7 +140,7 @@ public class TrueTypeFont
 		BufferedImage fontImage;
 		fontImage = new BufferedImage((int) charwidth, (int) charheight, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D gt = (Graphics2D) fontImage.getGraphics();
-		if (antiAlias == true)
+		if (antiAlias)
 		{
 			gt.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		}
@@ -471,11 +465,11 @@ public class TrueTypeFont
 			DataBuffer db = bufferedImage.getData().getDataBuffer();
 			if (db instanceof DataBufferInt)
 			{
-				int intI[] = ((DataBufferInt) (bufferedImage.getData().getDataBuffer())).getData();
-				byte newI[] = new byte[intI.length * 4];
+				int[] intI = ((DataBufferInt) (bufferedImage.getData().getDataBuffer())).getData();
+				byte[] newI = new byte[intI.length * 4];
 				for (int i = 0; i < intI.length; i++)
 				{
-					byte b[] = intToByteArray(intI[i]);
+					byte[] b = intToByteArray(intI[i]);
 					int newIndex = i * 4;
 
 					newI[newIndex] = b[1];
@@ -531,7 +525,7 @@ public class TrueTypeFont
 
 	public static boolean isSupported(String fontname)
 	{
-		Font font[] = getFonts();
+		Font[] font = getFonts();
 		for (int i = font.length - 1; i >= 0; i--)
 		{
 			if (font[i].getName().equalsIgnoreCase(fontname))

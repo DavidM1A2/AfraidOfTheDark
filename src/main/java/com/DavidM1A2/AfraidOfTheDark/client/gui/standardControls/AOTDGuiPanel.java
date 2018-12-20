@@ -15,8 +15,8 @@ public class AOTDGuiPanel extends AOTDGuiContainer
 	/**
 	 * Constructor initializes the bounding box and if scissors are enabled or not
 	 *
-	 * @param x      The X location of the top left corner
-	 * @param y      The Y location of the top left corner
+	 * @param x The X location of the top left corner
+	 * @param y The Y location of the top left corner
 	 * @param width  The width of the component
 	 * @param height The height of the component
 	 * @param scissorEnabled If scissors are enabled when drawing this panel

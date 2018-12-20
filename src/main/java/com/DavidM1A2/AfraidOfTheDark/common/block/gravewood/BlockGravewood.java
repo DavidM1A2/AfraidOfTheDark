@@ -1,7 +1,6 @@
 package com.DavidM1A2.afraidofthedark.common.block.gravewood;
 
 import com.DavidM1A2.afraidofthedark.common.block.core.AOTDLog;
-import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 
 /**
  * Class representing a gravewood log block

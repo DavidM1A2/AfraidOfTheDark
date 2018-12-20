@@ -2,7 +2,6 @@ package com.DavidM1A2.afraidofthedark.common.block.gravewood;
 
 import com.DavidM1A2.afraidofthedark.common.block.core.AOTDStairs;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;
-import net.minecraft.block.state.IBlockState;
 
 /**
  * Gravewood stair block

@@ -17,21 +17,17 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import org.apache.logging.log4j.Logger;
 
-/*
+/**
  * Main class run when the mod is started up
  */
 @Mod(modid = Constants.MOD_ID, name = Constants.MOD_NAME, version = Constants.MOD_VERSION, guiFactory = Constants.GUI_FACTORY_CLASS, acceptedMinecraftVersions = Constants.MC_VERSION)
 public class AfraidOfTheDark
 {
-	/**
-	 * Singleton design pattern used here
-	 */
+	// Singleton design pattern used here
 	@Mod.Instance(Constants.MOD_ID)
 	public static AfraidOfTheDark INSTANCE;
 
-	/**
-	 * Sided proxy initialized distinguish client & server side
-	 */
+	// Sided proxy initialized distinguish client & server side
 	@SidedProxy(clientSide = Constants.CLIENT_PROXY_CLASS, serverSide = Constants.SERVER_PROXY_CLASS)
 	public static IProxy proxy;
 

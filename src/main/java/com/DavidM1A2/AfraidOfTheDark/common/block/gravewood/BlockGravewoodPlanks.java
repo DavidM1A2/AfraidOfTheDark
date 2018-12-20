@@ -5,6 +5,9 @@ import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 
+/**
+ * Class representing gravewood planks
+ */
 public class BlockGravewoodPlanks extends AOTDBlock
 {
 	/**

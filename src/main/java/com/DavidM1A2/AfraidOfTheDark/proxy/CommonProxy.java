@@ -6,7 +6,6 @@ package com.DavidM1A2.afraidofthedark.proxy;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 

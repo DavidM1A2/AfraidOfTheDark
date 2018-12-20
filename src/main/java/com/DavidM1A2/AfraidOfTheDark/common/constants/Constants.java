@@ -8,7 +8,9 @@ package com.DavidM1A2.afraidofthedark.common.constants;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 
-// Refrences for static final variables
+/**
+  * Refrences for static final variables
+  */
 public class Constants
 {
 	// The ID of the mod
@@ -41,4 +43,8 @@ public class Constants
 
 	// Limit the user's commands and items when not in debug
 	public static final boolean isDebug = true;
+
+	// The base size of all GUIs
+	public static final int GUI_WIDTH = 640;
+	public static final int GUI_HEIGHT = 360;
 }

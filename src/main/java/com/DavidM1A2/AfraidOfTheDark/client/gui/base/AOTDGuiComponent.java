@@ -62,7 +62,7 @@ public abstract class AOTDGuiComponent
 		// Tint the color before continuing with other draw calls
 		GL11.glColor4d(tint.getRed(), tint.getGreen(), tint.getBlue(), tint.getAlpha());
 		// Draw the bounding box for debug purposes
-		//this.drawBoundingBox();
+		this.drawBoundingBox();
 	}
 
 	/**

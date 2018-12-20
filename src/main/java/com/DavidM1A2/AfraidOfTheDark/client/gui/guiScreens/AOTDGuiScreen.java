@@ -5,6 +5,7 @@ import com.DavidM1A2.afraidofthedark.client.gui.base.SpriteSheetController;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDKeyEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiPanel;
+import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
@@ -34,7 +35,7 @@ public abstract class AOTDGuiScreen extends GuiScreen
 	public AOTDGuiScreen()
 	{
 		super();
-		contentPane = new AOTDGuiPanel(0, 0, 640, 360, false);
+		contentPane = new AOTDGuiPanel(0, 0, Constants.GUI_WIDTH, Constants.GUI_HEIGHT, false);
 	}
 
 	/**
@@ -50,8 +51,8 @@ public abstract class AOTDGuiScreen extends GuiScreen
 		this.buttonList.clear();
 
 		// Compute the correct X and Y gui scale that we should use
-		double guiScaleX = this.width / 640D;
-		double guiScaleY = this.height / 360D;
+		double guiScaleX = this.width / (double) Constants.GUI_WIDTH;
+		double guiScaleY = this.height / (double) Constants.GUI_HEIGHT;
 		// Set the gui screen's gui scale
 		double guiScale = Math.min(guiScaleX, guiScaleY);
 		// Set the content pane's gui scale
@@ -61,12 +62,14 @@ public abstract class AOTDGuiScreen extends GuiScreen
 		if (guiScaleX < guiScaleY)
 		{
 			this.contentPane.setX(0);
-			this.contentPane.setY((this.height - this.contentPane.getHeightScaled()) / 2);
+			// We must multiply by 1 / guiScale so that our Y position is centered and not scaled since 1 / guiScale * guiScale = 1
+			this.contentPane.setY(Math.toIntExact(Math.round((this.height - this.contentPane.getHeightScaled()) / 2f * (1 / guiScale))));
 		}
 		// If our Y scale is less than our X scale we pin the Y coordinate to the top of the screen and set the X to center the GUI panel
 		else
 		{
-			this.contentPane.setX((this.width - this.contentPane.getWidthScaled()) / 2);
+			// We must multiply by 1 / guiScale so that our X position is centered and not scaled since 1 / guiScale * guiScale = 1
+			this.contentPane.setX(Math.toIntExact(Math.round((this.width - this.contentPane.getWidthScaled()) / 2f * (1 / guiScale))));
 			this.contentPane.setY(0);
 		}
 	}
@@ -98,6 +101,9 @@ public abstract class AOTDGuiScreen extends GuiScreen
 		GlStateManager.disableBlend();
 	}
 
+	/**
+	 * @return True if the screen should have a gradient background, false otherwise
+	 */
 	public abstract boolean drawGradientBackground();
 
 	/**
@@ -144,6 +150,9 @@ public abstract class AOTDGuiScreen extends GuiScreen
 		super.keyTyped(character, keyCode);
 	}
 
+	/**
+	 * @return True if the inventory key closes the screen, false otherwise
+	 */
 	public abstract boolean inventoryToCloseGuiScreen();
 
 	/**

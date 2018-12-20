@@ -8,6 +8,9 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+/**
+ * Base class for all AOTD log blocks
+ */
 public abstract class AOTDLog extends BlockLog
 {
 	/**

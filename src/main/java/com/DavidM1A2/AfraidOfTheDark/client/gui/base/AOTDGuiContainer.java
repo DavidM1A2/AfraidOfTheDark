@@ -7,6 +7,9 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Base class for all GUI containers. Containers are gui components that are made up of other components inside
+ */
 public abstract class AOTDGuiContainer extends AOTDGuiComponentWithEvents
 {
 	// A list of sub-components found inside this container

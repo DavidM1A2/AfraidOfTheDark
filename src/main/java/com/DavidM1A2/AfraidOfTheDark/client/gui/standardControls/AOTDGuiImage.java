@@ -75,21 +75,45 @@ public class AOTDGuiImage extends AOTDGuiContainer
 		}
 	}
 
+	/**
+	 * Sets the image texture to a given image without any width or height constraints
+	 *
+	 * @param imageTexture The texture to draw
+	 */
 	public void setImageTexture(String imageTexture)
 	{
 		this.setImageTexture(imageTexture, -1, -1);
 	}
 
+	/**
+	 * Sets the image texture to a given image without any width or height constraints
+	 *
+	 * @param imageTexture The texture to draw
+	 */
 	public void setImageTexture(ResourceLocation imageTexture)
 	{
 		this.setImageTexture(imageTexture, -1, -1);
 	}
 
+	/**
+	 * Sets the image texture to a given image with a width and height constraint
+	 *
+	 * @param imageTexture The texture to draw
+	 * @param textureWidth The width of the image
+	 * @param textureHeight The height of the image
+	 */
 	public void setImageTexture(String imageTexture, Integer textureWidth, Integer textureHeight)
 	{
 		this.setImageTexture(new ResourceLocation(imageTexture), textureWidth, textureHeight);
 	}
 
+	/**
+	 * Sets the image texture to a given image with a width and height constraint
+	 *
+	 * @param imageTexture The texture to draw
+	 * @param textureWidth The width of the image
+	 * @param textureHeight The height of the image
+	 */
 	public void setImageTexture(ResourceLocation imageTexture, Integer textureWidth, Integer textureHeight)
 	{
 		this.imageTexture = imageTexture;

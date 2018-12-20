@@ -4,9 +4,6 @@ import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiContainer;
 import com.DavidM1A2.afraidofthedark.client.gui.base.TextAlignment;
 import com.DavidM1A2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.GlStateManager;
 import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.util.Color;
 
@@ -31,6 +28,8 @@ public class AOTDGuiLabel extends AOTDGuiContainer
 	 *
 	 * @param x The X coordinate of the label
 	 * @param y The Y coordinate of the label
+	 * @param width The width of the label
+	 * @param height The height of the label
 	 * @param font The font to use to draw the label
 	 */
 	public AOTDGuiLabel(int x, int y, int width, int height, TrueTypeFont font)
