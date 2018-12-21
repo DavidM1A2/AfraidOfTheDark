@@ -1,9 +1,12 @@
 package com.DavidM1A2.afraidofthedark.client.gui.standardControls;
 
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
+import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiUtility;
 import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiContainer;
 import com.DavidM1A2.afraidofthedark.client.gui.base.TextAlignment;
 import com.DavidM1A2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont;
+import com.DavidM1A2.afraidofthedark.common.constants.Constants;
+import net.minecraft.client.gui.Gui;
 import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.util.Color;
 
@@ -20,8 +23,6 @@ public class AOTDGuiLabel extends AOTDGuiContainer
 	private Color textColor = new Color(255, 255, 255, 255);
 	// Text alignment
 	private TextAlignment textAlignment = TextAlignment.ALIGN_LEFT;
-	// We draw at a lower scale because otherwise we get blurry text
-	private float drawingScale = 0.25f;
 
 	/**
 	 * Constructor takes an x and y position as well as a font
@@ -53,24 +54,26 @@ public class AOTDGuiLabel extends AOTDGuiContainer
 			if (this.font != null)
 			{
 				// Test if the text will fit into our label
-				float width = (float) (this.font.getWidth(this.text) * this.drawingScale * this.getScaleX());
-				float height = (float) (this.font.getHeight() * this.drawingScale * this.getScaleY());
+				float width = (float) (this.font.getWidth(this.text) * Constants.TEXT_SCALE_FACTOR * this.getScaleX());
+				float height = (float) (this.font.getHeight() * Constants.TEXT_SCALE_FACTOR * this.getScaleY());
 				// If the width or height are invalid show an error
+				/*
 				if (width > this.getWidthScaled())
 					AfraidOfTheDark.INSTANCE.getLogger().info("Attempting to set a label's text that isn't wide enough to hold its contents! -- " + this.text);
 				if (height > this.getHeightScaled())
 					AfraidOfTheDark.INSTANCE.getLogger().info("Attempting to create a label that isn't tall enough to hold its contents! -- " + this.text);
+				*/
 
 				float xCoord = this.getXScaled().floatValue() + (this.textAlignment == TextAlignment.ALIGN_LEFT ? 0 : this.textAlignment == TextAlignment.ALIGN_CENTER ? this.getWidthScaled() / 2f : this.getWidthScaled());
 				float yCoord = this.getYScaled().floatValue();
 
 				// Draw the string at (x, y) with the correct color and scale
 				this.font.drawString(
-					xCoord - this.font.getFontSize() * 0.15f,
+					xCoord - this.font.getFontSize() * 0.15f * AOTDGuiUtility.getInstance().getScaledResolution().getScaleFactor() / 3,
 					yCoord,
 					this.text,
-					this.getScaleX().floatValue() * this.drawingScale,
-					this.getScaleY().floatValue() * this.drawingScale,
+					this.getScaleX().floatValue() * Constants.TEXT_SCALE_FACTOR,
+					this.getScaleY().floatValue() * Constants.TEXT_SCALE_FACTOR,
 					textAlignment,
 					this.textColor.getRed() / 255f, this.textColor.getGreen() / 255f, this.textColor.getBlue() / 255f, this.textColor.getAlpha() / 255f);
 			}
@@ -84,6 +87,14 @@ public class AOTDGuiLabel extends AOTDGuiContainer
 	{
 		// Set the internal text of the label
 		this.text = text;
+	}
+
+	/**
+	 * @return The text of this label
+	 */
+	public String getText()
+	{
+		return this.text;
 	}
 
 	/**
@@ -124,21 +135,5 @@ public class AOTDGuiLabel extends AOTDGuiContainer
 	public TextAlignment getTextAlignment()
 	{
 		return this.textAlignment;
-	}
-
-	/**
-	 * @param drawingScale Sets the scale to draw the text at
-	 */
-	public void setDrawingScale(float drawingScale)
-	{
-		this.drawingScale = drawingScale;
-	}
-
-	/**
-	 * @return Gets the text drawing scale
-	 */
-	public float getDrawingScale()
-	{
-		return this.drawingScale;
 	}
 }

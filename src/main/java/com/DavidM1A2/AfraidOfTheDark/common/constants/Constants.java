@@ -47,4 +47,7 @@ public class Constants
 	// The base size of all GUIs
 	public static final int GUI_WIDTH = 640;
 	public static final int GUI_HEIGHT = 360;
+
+	// All text will be rendered with this scale factor to avoid blurry text
+	public static final float TEXT_SCALE_FACTOR = 0.25f;
 }

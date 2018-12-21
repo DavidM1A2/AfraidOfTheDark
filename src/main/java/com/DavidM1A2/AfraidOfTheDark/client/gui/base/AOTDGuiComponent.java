@@ -62,7 +62,7 @@ public abstract class AOTDGuiComponent
 		// Tint the color before continuing with other draw calls
 		GL11.glColor4d(tint.getRed(), tint.getGreen(), tint.getBlue(), tint.getAlpha());
 		// Draw the bounding box for debug purposes
-		this.drawBoundingBox();
+		//this.drawBoundingBox();
 	}
 
 	/**
@@ -72,7 +72,7 @@ public abstract class AOTDGuiComponent
 	{
 		// Make sure the control is visible and hovered
 		if (this.isVisible && this.isHovered)
-		{
+			{
 			// Find the longest string in the hover texts array
 			Optional<Integer> maxHoverTextLengthOpt = Arrays.stream(this.hoverTexts).map(fontRenderer::getStringWidth).max(Integer::compareTo);
 			// If it exists, draw the text
@@ -176,7 +176,6 @@ public abstract class AOTDGuiComponent
 	{
 		return this.scaleX;
 	}
-
 
 	/**
 	 * Setter for Y scale, also updates the scaled bounding box

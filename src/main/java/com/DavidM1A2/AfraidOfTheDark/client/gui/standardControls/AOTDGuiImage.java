@@ -60,7 +60,6 @@ public class AOTDGuiImage extends AOTDGuiContainer
 	{
 		if (this.isVisible())
 		{
-			super.draw();
 			GlStateManager.pushMatrix();
 			// Enable alpha blending
 			GlStateManager.enableBlend();
@@ -72,6 +71,8 @@ public class AOTDGuiImage extends AOTDGuiContainer
 			else
 				Gui.drawScaledCustomSizeModalRect(this.getXScaled(), this.getYScaled(), this.u, this.v, this.getWidth(), this.getHeight(), this.getWidthScaled(), this.getHeightScaled(), this.textureWidth, this.textureHeight);
 			GlStateManager.popMatrix();
+			// Draw the any children
+			super.draw();
 		}
 	}
 
