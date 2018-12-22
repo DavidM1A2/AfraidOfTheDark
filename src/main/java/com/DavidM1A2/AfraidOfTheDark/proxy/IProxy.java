@@ -24,4 +24,9 @@ public interface IProxy
 	 * Called to initialize any mod smelting recipes
 	 */
 	void initializeSmeltingRecipes();
+
+	/**
+	 * Called to register all packets used by AOTD
+	 */
+	void registerPackets();
 }

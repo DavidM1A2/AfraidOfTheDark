@@ -3,7 +3,11 @@
  */
 package com.DavidM1A2.afraidofthedark.proxy;
 
+import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;
+import com.DavidM1A2.afraidofthedark.common.packets.capabilityPackets.SyncAOTDPlayerBasics;
+import com.DavidM1A2.afraidofthedark.common.packets.capabilityPackets.SyncStartedAOTD;
+import com.DavidM1A2.afraidofthedark.common.packets.packetHandler.PacketHandler;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -17,6 +21,7 @@ public abstract class CommonProxy implements IProxy
 	/**
 	 * Called to initialize any mod blocks into the ore dictionary. Happens on server and client
 	 */
+	@Override
 	public void initializeOreDictionary()
 	{
 		OreDictionary.registerOre("logWood", ModBlocks.GRAVEWOOD);
@@ -31,8 +36,21 @@ public abstract class CommonProxy implements IProxy
 	/**
 	 * Called to initialize any mod smelting recipes
 	 */
+	@Override
 	public void initializeSmeltingRecipes()
 	{
 		GameRegistry.addSmelting(new ItemStack(ModBlocks.GRAVEWOOD), new ItemStack(Items.COAL, 1, 1), 0.15f);
+	}
+
+	/**
+	 * Registers any packets used by AOTD
+	 */
+	@Override
+	public void registerPackets()
+	{
+		PacketHandler packetHandler = AfraidOfTheDark.INSTANCE.getPacketHandler();
+
+		packetHandler.registerBidiPacket(SyncStartedAOTD.class, new SyncStartedAOTD.Handler());
+		packetHandler.registerBidiPacket(SyncAOTDPlayerBasics.class, new SyncAOTDPlayerBasics.Handler());
 	}
 }

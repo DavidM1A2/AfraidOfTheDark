@@ -2,10 +2,8 @@ package com.DavidM1A2.afraidofthedark;
 
 import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiHandler;
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
-import com.DavidM1A2.afraidofthedark.common.handler.BiomeRegister;
-import com.DavidM1A2.afraidofthedark.common.handler.BlockRegister;
-import com.DavidM1A2.afraidofthedark.common.handler.ConfigurationHandler;
-import com.DavidM1A2.afraidofthedark.common.handler.ItemRegister;
+import com.DavidM1A2.afraidofthedark.common.handler.*;
+import com.DavidM1A2.afraidofthedark.common.packets.packetHandler.PacketHandler;
 import com.DavidM1A2.afraidofthedark.proxy.IProxy;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -31,8 +29,11 @@ public class AfraidOfTheDark
 	@SidedProxy(clientSide = Constants.CLIENT_PROXY_CLASS, serverSide = Constants.SERVER_PROXY_CLASS)
 	public static IProxy proxy;
 
-	// Logger used to log any debug messages relating to AOtD
+	// Logger used to log any debug messages relating to AOTD
 	private Logger aotdLog;
+
+	// Packet handler used to send and receive AOTD packets
+	private final PacketHandler packetHandler = new PacketHandler(Constants.MOD_ID);
 
 	/**
 	 * Called with the forge pre-initialization event
@@ -56,8 +57,16 @@ public class AfraidOfTheDark
 		MinecraftForge.EVENT_BUS.register(new ItemRegister());
 		// Register our biome handler used to add all of our mod biomes to the game
 		MinecraftForge.EVENT_BUS.register(new BiomeRegister());
+		// Register our sound handler used to add all of our mod sounds to the game
+		MinecraftForge.EVENT_BUS.register(new SoundRegister());
+		// Register all of our mod's capabilities
+		CapabilityHandler.initialize();
+		// Forward any capability events to our capability handler
+		MinecraftForge.EVENT_BUS.register(new CapabilityHandler());
 		// Register our GUI handler that lets us open UIs for specific players
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new AOTDGuiHandler());
+		// Register all AOTD packets
+		proxy.registerPackets();
 	}
 
 	/**
@@ -104,5 +113,13 @@ public class AfraidOfTheDark
 	public Logger getLogger()
 	{
 		return aotdLog;
+	}
+
+	/**
+	 * @return The AOTD packet handler to send and receive packets
+	 */
+	public PacketHandler getPacketHandler()
+	{
+		return this.packetHandler;
 	}
 }

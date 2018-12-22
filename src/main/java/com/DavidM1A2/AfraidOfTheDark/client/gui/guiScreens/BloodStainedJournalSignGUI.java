@@ -1,15 +1,24 @@
 package com.DavidM1A2.afraidofthedark.client.gui.guiScreens;
 
 import com.DavidM1A2.afraidofthedark.client.gui.base.TextAlignment;
+import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDKeyListener;
 import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDMouseListener;
+import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDKeyEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiButton;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiImage;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiPanel;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiTextField;
 import com.DavidM1A2.afraidofthedark.client.settings.ClientData;
+import com.DavidM1A2.afraidofthedark.common.capabilities.player.basics.IAOTDPlayerBasics;
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
+import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
+import com.DavidM1A2.afraidofthedark.common.constants.ModSounds;
+import com.DavidM1A2.afraidofthedark.common.item.ItemJournal;
+import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.TextComponentString;
 import org.lwjgl.util.Color;
 
 /**
@@ -53,7 +62,6 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
 				30,
 				ClientData.getInstance().getTargaMSHandFontSized(45f));
 		this.nameSignField.setTextColor(new Color(255, 0, 0));
-		this.nameSignField.setGhostText("-");
 		backgroundPanel.add(this.nameSignField);
 
 		// Add the sign button
@@ -70,6 +78,7 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
 		signButton.setText("Sign");
 		signButton.setTextColor(new Color(255, 0, 0));
 		signButton.setTextAlignment(TextAlignment.ALIGN_CENTER);
+		// When we click the sign button either start the mod or tell the user they messed up
 		signButton.addMouseListener(new AOTDMouseListener()
 		{
 			@Override
@@ -78,16 +87,65 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
 				if (event.getSource().isHovered() && event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
 				{
 					entityPlayer.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f);
+					IAOTDPlayerBasics playerBasics = entityPlayer.getCapability(ModCapabilities.PLAYER_BASICS, null);
+					if (BloodStainedJournalSignGUI.this.nameSignField.getText().equals(entityPlayer.getDisplayName().getUnformattedText()))
+					{
+						// if the name is correct start the mod
+						if (!playerBasics.getStartedAOTD())
+						{
+							// We now started the mod
+
+							// Set that we started the mod and perform a client -> server sync
+							playerBasics.setStartedAOTD(true);
+							playerBasics.syncStartedAOTD(entityPlayer);
+
+							// Set the journal to have a new owner name
+							ItemStack mainHand = entityPlayer.getHeldItemMainhand();
+							ItemStack offHand = entityPlayer.getHeldItemOffhand();
+							// We must check both off hand and main hand since the journal could be in either hand
+							if (mainHand.getItem() instanceof ItemJournal)
+								((ItemJournal) mainHand.getItem()).setOwner(mainHand, entityPlayer.getDisplayName().getUnformattedText());
+							else if (offHand.getItem() instanceof ItemJournal)
+								((ItemJournal) offHand.getItem()).setOwner(offHand, entityPlayer.getDisplayName().getUnformattedText());
+
+							// Play the sign animation and chat message
+							entityPlayer.playSound(ModSounds.JOURNAL_SIGN, 4.0F, 1.0F);
+							entityPlayer.sendMessage(new TextComponentString(ChatFormatting.RED + "What have I done?"));
+
+						}
+					}
+					else
+					{
+						// Test if the user has not yet started AOTD
+						if (!playerBasics.getStartedAOTD())
+						{
+							// If he has not started then print out a message that the name was wrong
+							entityPlayer.sendMessage(new TextComponentString("*You expect something to happen... but nothing does. Perhaps the name you signed was incorrect?"));
+							entityPlayer.closeScreen();
+						}
+					}
+					entityPlayer.closeScreen();
 				}
 				event.consume();
 			}
-		});
-		signButton.addMouseListener(new AOTDMouseListener()
-		{
+
 			@Override
 			public void mouseEntered(AOTDMouseEvent event)
 			{
-				//entityPlayer.playSound(ModSounds.buttonHover, 0.1f, 0.8f);
+				entityPlayer.playSound(ModSounds.BUTTON_HOVER, 0.1f, 0.8f);
+			}
+		});
+		// When we type a character play a type sound
+		this.nameSignField.addKeyListener(new AOTDKeyListener()
+		{
+			@Override
+			public void keyTyped(AOTDKeyEvent event)
+			{
+				if (BloodStainedJournalSignGUI.this.nameSignField.isFocused())
+				{
+					entityPlayer.playSound(ModSounds.KEY_TYPED, 0.4f, 0.8f);
+					event.consume();
+				}
 			}
 		});
 		backgroundPanel.add(signButton);

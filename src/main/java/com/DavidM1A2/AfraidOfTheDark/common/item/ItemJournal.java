@@ -2,6 +2,7 @@ package com.DavidM1A2.afraidofthedark.common.item;
 
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiHandler;
+import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
 import com.DavidM1A2.afraidofthedark.common.item.core.AOTDItem;
 import com.DavidM1A2.afraidofthedark.common.utility.NBTHelper;
 import net.minecraft.client.util.ITooltipFlag;
@@ -14,6 +15,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -54,13 +56,38 @@ public class ItemJournal extends AOTDItem
 		// If the journal does not have an owner yet...
 		if (!NBTHelper.hasTag(heldItemStack, OWNER_TAG))
 		{
-			if (worldIn.isRemote)
-				playerIn.openGui(AfraidOfTheDark.INSTANCE, AOTDGuiHandler.BLOOD_STAINED_JOURNAL_SIGN_ID, worldIn, playerIn.getPosition().getX(), playerIn.getPosition().getY(), playerIn.getPosition().getZ());
+			// If the player has started AOTD, set the NBT tag and open the journal
+			if (playerIn.getCapability(ModCapabilities.PLAYER_BASICS, null).getStartedAOTD())
+			{
+				// Set the owner tag to the player's username
+				this.setOwner(heldItemStack, playerIn.getDisplayName().getUnformattedText());
+				// Show the jounral UI
+				if (worldIn.isRemote)
+					playerIn.openGui(AfraidOfTheDark.INSTANCE, AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID, worldIn, (int) playerIn.posX, (int) playerIn.posY, (int) playerIn.posZ);
+			}
+			// If the player has not started AOTD show the sign UI
+			else
+			{
+				if (worldIn.isRemote)
+					playerIn.openGui(AfraidOfTheDark.INSTANCE, AOTDGuiHandler.BLOOD_STAINED_JOURNAL_SIGN_ID, worldIn, playerIn.getPosition().getX(), playerIn.getPosition().getY(), playerIn.getPosition().getZ());
+			}
 		}
 		// If the journal does have an owner, check if that owner is us
 		else if (playerIn.getDisplayName().getUnformattedText().equals(NBTHelper.getString(heldItemStack, OWNER_TAG)))
 		{
-
+			// If the player has started AOTD show the jounral UI
+			if (playerIn.getCapability(ModCapabilities.PLAYER_BASICS, null).getStartedAOTD())
+			{
+				if (worldIn.isRemote)
+					playerIn.openGui(AfraidOfTheDark.INSTANCE, AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID, worldIn, (int) playerIn.posX, (int) playerIn.posY, (int) playerIn.posZ);
+			}
+			// If the player has not started AOTD show the sign UI and clear the owner
+			else
+			{
+				if (worldIn.isRemote)
+					playerIn.openGui(AfraidOfTheDark.INSTANCE, AOTDGuiHandler.BLOOD_STAINED_JOURNAL_SIGN_ID, worldIn, (int) playerIn.posX, (int) playerIn.posY, (int) playerIn.posZ);
+				this.setOwner(heldItemStack, null);
+			}
 		}
 		// If the owner is someone else, just tell that player that they cannot understand the journal
 		else
@@ -72,6 +99,20 @@ public class ItemJournal extends AOTDItem
 
 		// Return success because the journal processed the right click successfully
 		return ActionResult.newResult(EnumActionResult.SUCCESS, heldItemStack);
+	}
+
+	/**
+	 * Sets the owner of the journal
+	 *
+	 * @param itemStack The itemstack to modify
+	 * @param owner The new journal owner
+	 */
+	public void setOwner(ItemStack itemStack, String owner)
+	{
+		if (owner == null)
+			NBTHelper.removeTag(itemStack, OWNER_TAG);
+		else
+			NBTHelper.setString(itemStack, OWNER_TAG, owner);
 	}
 
 	/**

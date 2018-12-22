@@ -21,6 +21,19 @@ public class NBTHelper
 	}
 
 	/**
+	 * Removes a tag off of a given itemstack
+	 *
+	 * @param itemStack The item stack to remove from
+	 * @param keyName The key to remove
+	 * @return
+	 */
+	public static void removeTag(ItemStack itemStack, String keyName)
+	{
+		if (NBTHelper.hasTag(itemStack, keyName))
+			itemStack.getTagCompound().removeTag(keyName);
+	}
+
+	/**
 	 * Initializes the NBT Tag Compound for the given ItemStack if it is null
 	 *
 	 * @param itemStack The ItemStack for which its NBT Tag Compound is being checked for initialization
