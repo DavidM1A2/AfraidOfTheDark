@@ -21,12 +21,21 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
  */
 public class CapabilityHandler
 {
+	// Store a flag that ensures if we create multiple capability handlers we only initialize once
+	private static boolean wasInitialized = false;
+
 	/**
-	 * Called to initialize all of our mod capabilities into the capability manager
+	 * Called to initialize all of our mod capabilities into the capability manager if it was not already initialized
 	 */
-	public static void initialize()
+	public CapabilityHandler()
 	{
-		CapabilityManager.INSTANCE.register(IAOTDPlayerBasics.class, new AOTDPlayerBasicsStorage(), AOTDPlayerBasicsImpl::new);
+		// If the capability manager was not initialized initialize it
+		if (!CapabilityHandler.wasInitialized)
+		{
+			CapabilityManager.INSTANCE.register(IAOTDPlayerBasics.class, new AOTDPlayerBasicsStorage(), AOTDPlayerBasicsImpl::new);
+
+			CapabilityHandler.wasInitialized = true;
+		}
 	}
 
 	/**

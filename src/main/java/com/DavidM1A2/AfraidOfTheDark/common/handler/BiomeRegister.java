@@ -1,5 +1,6 @@
 package com.DavidM1A2.afraidofthedark.common.handler;
 
+import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBiomes;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
@@ -23,9 +24,12 @@ public class BiomeRegister
 		// Register the forest biome to our event
 		event.getRegistry().register(ModBiomes.ERIE_FOREST);
 
+		// Grab our configuration
+		ConfigurationHandler configurationHandler = AfraidOfTheDark.INSTANCE.getConfigurationHandler();
+
 		// Make sure the erie biome can generate in warm and cool biomes
-		BiomeManager.addBiome(BiomeManager.BiomeType.COOL, new BiomeManager.BiomeEntry(ModBiomes.ERIE_FOREST, ConfigurationHandler.getInstance().getErieBiomeFrequency()));
-		BiomeManager.addBiome(BiomeManager.BiomeType.WARM, new BiomeManager.BiomeEntry(ModBiomes.ERIE_FOREST, ConfigurationHandler.getInstance().getErieBiomeFrequency()));
+		BiomeManager.addBiome(BiomeManager.BiomeType.COOL, new BiomeManager.BiomeEntry(ModBiomes.ERIE_FOREST, configurationHandler.getErieBiomeFrequency()));
+		BiomeManager.addBiome(BiomeManager.BiomeType.WARM, new BiomeManager.BiomeEntry(ModBiomes.ERIE_FOREST, configurationHandler.getErieBiomeFrequency()));
 		// Make sure the erie forest is registered as being compatible with forests, coniferous, and plains types
 		BiomeDictionary.addTypes(ModBiomes.ERIE_FOREST, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.CONIFEROUS, BiomeDictionary.Type.PLAINS);
 	}

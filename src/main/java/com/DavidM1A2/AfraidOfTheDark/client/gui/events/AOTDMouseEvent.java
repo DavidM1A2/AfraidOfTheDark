@@ -18,7 +18,7 @@ public class AOTDMouseEvent extends AOTDEvent
 		Enter,
 		Exit,
 		Move,
-		Drag;
+		Drag
 	}
 
 	/**
@@ -28,7 +28,7 @@ public class AOTDMouseEvent extends AOTDEvent
 	{
 		Left,
 		Right,
-		Other;
+		Other
 	}
 
 	// The mouse's X position when the event was fired

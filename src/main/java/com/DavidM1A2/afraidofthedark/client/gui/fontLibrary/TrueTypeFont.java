@@ -1,5 +1,6 @@
 package com.DavidM1A2.afraidofthedark.client.gui.fontLibrary;
 
+import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.client.gui.base.TextAlignment;
 import com.DavidM1A2.afraidofthedark.common.handler.ConfigurationHandler;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -87,7 +88,7 @@ public class TrueTypeFont
 		this.antiAlias = antiAlias;
 
 		createSet(additionalChars);
-		if (ConfigurationHandler.getInstance().showDebugMessages())
+		if (AfraidOfTheDark.INSTANCE.getConfigurationHandler().showDebugMessages())
 			System.out.println("TrueTypeFont loaded: " + font + " - AntiAlias = " + antiAlias);
 		fontHeight -= 1;
 		if (fontHeight <= 0)
@@ -487,7 +488,7 @@ public class TrueTypeFont
 			byteBuffer.flip();
 
 			int internalFormat = GL11.GL_RGBA8, format = GL11.GL_RGBA;
-			IntBuffer textureId = BufferUtils.createIntBuffer(1);;
+			IntBuffer textureId = BufferUtils.createIntBuffer(1);
 			GL11.glGenTextures(textureId);
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureId.get(0));
 

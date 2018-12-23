@@ -17,9 +17,6 @@ import java.util.List;
  */
 public class ConfigurationHandler
 {
-	// Singleton design pattern for this class since we only have 1 configuration
-	private static final ConfigurationHandler INSTANCE = new ConfigurationHandler();
-
 	// A reference to the configuration which is read from the file
 	private Configuration configuration;
 
@@ -54,16 +51,12 @@ public class ConfigurationHandler
 	 *
 	 * @param configurationFile The .cfg file to initialize from
 	 */
-	public void initFromConfigurationFile(File configurationFile)
+	public ConfigurationHandler(File configurationFile)
 	{
-		// Make sure the configuration is null, then initialize it
-		if (this.configuration == null)
-		{
-			// Create the configuration object from the given file
-			this.configuration = new Configuration(configurationFile);
-			// Refresh the configuration
-			this.refreshConfiguration();
-		}
+		// Create the configuration object from the given file
+		this.configuration = new Configuration(configurationFile);
+		// Refresh the configuration
+		this.refreshConfiguration();
 	}
 
 	/**
@@ -137,14 +130,6 @@ public class ConfigurationHandler
 	public String getDisplayTitle()
 	{
 		return GuiConfig.getAbridgedConfigPath(this.configuration.toString());
-	}
-
-	/**
-	 * @return The one instance of the configuration handler
-	 */
-	public static ConfigurationHandler getInstance()
-	{
-		return INSTANCE;
 	}
 
 	///

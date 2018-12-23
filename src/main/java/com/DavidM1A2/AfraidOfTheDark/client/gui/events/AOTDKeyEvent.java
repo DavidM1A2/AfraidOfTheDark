@@ -14,7 +14,7 @@ public class AOTDKeyEvent extends AOTDEvent
 	{
 		Type,
 		Press,
-		Release;
+		Release
 	}
 
 	// The key that was pressed to trigger the event

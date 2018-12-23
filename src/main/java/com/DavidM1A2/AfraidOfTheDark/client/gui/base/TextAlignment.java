@@ -7,5 +7,5 @@ public enum TextAlignment
 {
 	ALIGN_LEFT,
 	ALIGN_RIGHT,
-	ALIGN_CENTER;
+	ALIGN_CENTER
 }

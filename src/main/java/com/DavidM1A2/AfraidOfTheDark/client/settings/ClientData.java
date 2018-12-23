@@ -2,7 +2,6 @@ package com.DavidM1A2.afraidofthedark.client.settings;
 
 import com.DavidM1A2.afraidofthedark.client.gui.fontLibrary.FontLoader;
 import com.DavidM1A2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.HashMap;

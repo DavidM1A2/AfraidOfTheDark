@@ -2,7 +2,6 @@ package com.DavidM1A2.afraidofthedark.common.capabilities.player.basics;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
 import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;

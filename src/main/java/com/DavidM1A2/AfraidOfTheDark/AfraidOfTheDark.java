@@ -30,10 +30,13 @@ public class AfraidOfTheDark
 	public static IProxy proxy;
 
 	// Logger used to log any debug messages relating to AOTD
-	private Logger aotdLog;
+	private Logger logger;
 
 	// Packet handler used to send and receive AOTD packets
 	private final PacketHandler packetHandler = new PacketHandler(Constants.MOD_ID);
+
+	// Configuration handler used to read and update the afraidofthedark.cfg file
+	private ConfigurationHandler configurationHandler;
 
 	/**
 	 * Called with the forge pre-initialization event
@@ -44,11 +47,9 @@ public class AfraidOfTheDark
 	public void preInitialization(FMLPreInitializationEvent event)
 	{
 		// Grab a reference to the AOTD logger to debug with
-		this.aotdLog = event.getModLog();
-		// We begin by loading our "afraidofthedark.cfg" file which enables us to change mod settings
-		ConfigurationHandler configurationHandler = ConfigurationHandler.getInstance();
+		this.logger = event.getModLog();
 		// We initialize the configuration handler from the suggested file
-		configurationHandler.initFromConfigurationFile(event.getSuggestedConfigurationFile());
+		this.configurationHandler = new ConfigurationHandler(event.getSuggestedConfigurationFile());
 		// If any changes in the config are detected, we trigger an event that we listen to here
 		MinecraftForge.EVENT_BUS.register(configurationHandler);
 		// Register our block handler used to add all of our blocks to the game
@@ -59,8 +60,6 @@ public class AfraidOfTheDark
 		MinecraftForge.EVENT_BUS.register(new BiomeRegister());
 		// Register our sound handler used to add all of our mod sounds to the game
 		MinecraftForge.EVENT_BUS.register(new SoundRegister());
-		// Register all of our mod's capabilities
-		CapabilityHandler.initialize();
 		// Forward any capability events to our capability handler
 		MinecraftForge.EVENT_BUS.register(new CapabilityHandler());
 		// Register our GUI handler that lets us open UIs for specific players
@@ -108,11 +107,11 @@ public class AfraidOfTheDark
 	}
 
 	/**
-	 * @return Returns the AOTD logger to be used whenever logging any debug messages
+	 * @return The AOTD logger to be used whenever logging any debug messages
 	 */
 	public Logger getLogger()
 	{
-		return aotdLog;
+		return logger;
 	}
 
 	/**
@@ -121,5 +120,13 @@ public class AfraidOfTheDark
 	public PacketHandler getPacketHandler()
 	{
 		return this.packetHandler;
+	}
+
+	/**
+	 * @return The AOTD configuration handler used to manage the afraidofthedark.cfg file
+	 */
+	public ConfigurationHandler getConfigurationHandler()
+	{
+		return this.configurationHandler;
 	}
 }

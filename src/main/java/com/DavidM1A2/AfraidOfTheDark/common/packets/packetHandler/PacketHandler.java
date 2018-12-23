@@ -86,7 +86,7 @@ public final class PacketHandler
 			throw new IllegalStateException("Too many packets registered for channel " + this.channelid);
 
 		this.wrapper.registerMessage(messageHandler, packetClass, this.nextPacketID, target);
-		if (ConfigurationHandler.getInstance().showDebugMessages())
+		if (AfraidOfTheDark.INSTANCE.getConfigurationHandler().showDebugMessages())
 		{
 			AfraidOfTheDark.INSTANCE.getLogger().info(String.format("Registered packet class %s with handler class %s for the channel %s. Send direction: to %s. The discriminator is %s.", packetClass.getSimpleName(), messageHandler.getClass().getSimpleName(), this.channelid, target.name().toLowerCase(), this.nextPacketID));
 		}
@@ -112,7 +112,7 @@ public final class PacketHandler
 
 		this.wrapper.registerMessage(messageHandler, packetClass, this.nextPacketID, Side.CLIENT);
 		this.wrapper.registerMessage(messageHandler, packetClass, this.nextPacketID, Side.SERVER);
-		if (ConfigurationHandler.getInstance().showDebugMessages())
+		if (AfraidOfTheDark.INSTANCE.getConfigurationHandler().showDebugMessages())
 		{
 			AfraidOfTheDark.INSTANCE.getLogger().info(String.format("Registered bidirectional packet class %s with handler class %s for the channel %s. The discriminator is %s.", packetClass.getSimpleName(), messageHandler.getClass().getSimpleName(), this.channelid, this.nextPacketID));
 		}

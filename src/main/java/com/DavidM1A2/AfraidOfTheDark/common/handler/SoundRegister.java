@@ -1,8 +1,6 @@
 package com.DavidM1A2.afraidofthedark.common.handler;
 
-import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSounds;
-import net.minecraft.block.Block;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;

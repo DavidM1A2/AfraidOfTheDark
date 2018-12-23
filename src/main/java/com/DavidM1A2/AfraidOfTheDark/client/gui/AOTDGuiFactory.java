@@ -1,5 +1,6 @@
 package com.DavidM1A2.afraidofthedark.client.gui;
 
+import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import com.DavidM1A2.afraidofthedark.common.handler.ConfigurationHandler;
 import net.minecraft.client.Minecraft;
@@ -42,7 +43,7 @@ public class AOTDGuiFactory implements IModGuiFactory
 	@Override
 	public GuiScreen createConfigGui(GuiScreen parentScreen)
 	{
-		ConfigurationHandler configurationHandler = ConfigurationHandler.getInstance();
+		ConfigurationHandler configurationHandler = AfraidOfTheDark.INSTANCE.getConfigurationHandler();
 		return new GuiConfig(parentScreen, configurationHandler.getInGameConfigurableOptions(), Constants.MOD_ID, true, true, configurationHandler.getDisplayTitle());
 	}
 
