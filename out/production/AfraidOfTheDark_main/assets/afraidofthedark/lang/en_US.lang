@@ -1,0 +1,118 @@
+# Items
+item.afraidofthedark:insanity_control.name=Insanity Control Debug
+item.afraidofthedark:world_gen_test.name=World Generation Tester
+
+item.afraidofthedark:journal.name=Blood Stained Journal
+item.afraidofthedark:astral_silver_sword.name=Astral Silver Sword
+item.afraidofthedark:igneous_sword.name=Igneous Sword
+item.afraidofthedark:astral_silver_ingot.name=Astral Silver Ingot
+item.afraidofthedark:crossbow.name=Crossbow
+item.afraidofthedark:wrist_crossbow.name=Wrist Crossbow
+item.afraidofthedark:wooden_bolt.name=Wooden Bolt
+item.afraidofthedark:iron_bolt.name=Iron Bolt
+item.afraidofthedark:silver_bolt.name=Silver Bolt
+item.afraidofthedark:igneous_bolt.name=Igneous Bolt
+item.afraidofthedark:star_metal_bolt.name=Star Metal Bolt
+item.afraidofthedark:igneous_helmet.name=Igneous Helmet
+item.afraidofthedark:igneous_chestplate.name=Igneous Chestplate
+item.afraidofthedark:igneous_leggings.name=Igneous Leggings
+item.afraidofthedark:igneous_boots.name=Igneous Boots
+item.afraidofthedark:igneous_gem.name=Igneous Gem
+item.afraidofthedark:telescope.name=Telescope
+item.afraidofthedark:sextant.name=Sextant
+item.afraidofthedark:sunstone_fragment.name=Sunstone Fragment
+item.afraidofthedark:star_metal_fragment.name=Star Metal Fragment
+item.afraidofthedark:star_metal_helmet.name=Star Metal Helmet
+item.afraidofthedark:star_metal_chestplate.name=Star Metal Chestplate
+item.afraidofthedark:star_metal_leggings.name=Star Metal Leggings
+item.afraidofthedark:star_metal_boots.name=Star Metal Boots
+item.afraidofthedark:star_metal_staff.name=Star Metal Staff
+item.afraidofthedark:star_metal_khopesh.name=Star Metal Khopesh
+item.afraidofthedark:vitae_lantern.name=Vitae Lantern
+item.afraidofthedark:cloak_of_agility.name=Cloak of Agility
+item.afraidofthedark:research_scroll_cloak_of_agility.name=Research Cloak of Agility
+item.afraidofthedark:research_scroll_astronomy2.name=Research Astronomy 2
+item.afraidofthedark:research_scroll_vitae1.name=Research Vitae 1
+item.afraidofthedark:research_scroll_wrist_crossbow.name=Research Wrist Crossbow
+item.afraidofthedark:research_scroll_insanity.name=Research Insanity
+item.afraidofthedark:star_metal_plate.name=Star Metal Plate
+item.afraidofthedark:enchanted_skeleton_bone.name=Enchanted Skeleton Bone
+item.afraidofthedark:sleeping_potion.name=Sleeping Potion
+item.afraidofthedark:eldritch_metal_ingot.name=Eldritch Metal Ingot
+item.afraidofthedark:star_metal_ingot.name=Star Metal Ingot
+item.afraidofthedark:blade_of_exhumation.name=Blade of Exhumation
+item.afraidofthedark:flask_of_souls.name=Flask of Souls
+item.afraidofthedark:werewolf_blood.name=Werewolf Blood
+item.afraidofthedark:gnomish_metal_ingot.name=Gnomish Metal Ingot
+item.afraidofthedark:artwork.name=Artwork
+item.afraidofthedark:schematic_generator.name=Schematic Generator
+
+# Blocks
+tile.afraidofthedark:silver_ore.name=Silver Ore
+tile.afraidofthedark:darkness.name=Darkness
+tile.afraidofthedark:gravewood.name=Gravewood
+tile.afraidofthedark:gravewood_planks.name=Gravewood Planks
+tile.afraidofthedark:gravewood_stairs.name=Gravewood Stairs
+tile.afraidofthedark:gravewood_half_slab.name=Gravewood Slab
+tile.afraidofthedark:gravewood_upper_slab.name=Gravewood Double Slab
+tile.afraidofthedark:gravewood_leaves.name=Gravewood Leaves
+tile.afraidofthedark:gravewood_sapling.name=Gravewood Sapling
+tile.afraidofthedark:mangrove.name=Mangrove
+tile.afraidofthedark:mangrove_planks.name=Mangrove Planks
+tile.afraidofthedark:mangrove_stairs.name=Mangrove Stairs
+tile.afraidofthedark:mangrove_half_slab.name=Mangrove Slab
+tile.afraidofthedark:mangrove_upper_slab.name=Mangrove Double Slab
+tile.afraidofthedark:mangrove_leaves.name=Mangrove Leaves
+tile.afraidofthedark:mangrove_sapling.name=Mangrove Sapling
+tile.afraidofthedark:sunstone_ore.name=Sunstone Ore
+tile.afraidofthedark:astral_silver_ore.name=Astral Silver Ore
+tile.afraidofthedark:meteor.name=Meteor
+tile.afraidofthedark:star_metal_ore.name=Star Metal Ore
+tile.afraidofthedark:igneous_block.name=Igneous Block
+tile.afraidofthedark:spring.name=Spring
+tile.afraidofthedark:dark_forest.name=Dark Forest
+tile.afraidofthedark:vitae_disenchanter.name=Vitae Disenchanter
+tile.afraidofthedark:void_chest.name=Void Chest
+tile.afraidofthedark:void_chest_portal.name=Void Chest Portal
+tile.afraidofthedark:eldritch_obsidian.name=Eldritch Obsidian
+tile.afraidofthedark:amorphous_eldritch_metal.name=Amorphous Eldritch Metal
+tile.afraidofthedark:eldritch_stone.name=Eldritch Stone
+tile.afraidofthedark:aotd_barrier.name=Witherproof Barrier
+tile.afraidofthedark:gnomish_metal_plate.name=Gnomish Metal Plate
+tile.afraidofthedark:gnomish_metal_strut.name=Gnomish Metal Strut
+tile.afraidofthedark:glow_stalk.name=Glow Stalk
+tile.afraidofthedark:enaria_spawner.name=Enaria Spawner
+tile.afraidofthedark:enarias_altar.name=Enaria's Altar
+
+# Potion
+
+# Creative Tabs
+itemGroup.afraidofthedark=Afraid of the Dark
+
+# Keys
+keys.afraidofthedark.category=Afraid of the Dark
+keys.afraidofthedark.rollWithCloakOfAgility=Roll with Cloak of Agility
+keys.afraidofthedark.fireWristCrossbow=Fire Wrist Crossbow
+keys.afraidofthedark.changeLanternMode=Change Lantern Mode
+
+# Mobs
+entity.werewolf.name=Werewolf
+entity.deee_syft.name=Deee Syft
+entity.enchanted_skeleton.name=Enchanted Skeleton
+entity.enaria.name=Enaria
+entity.ghastly_enaria.name=Ghastly Enaria
+entity.splinter_drone.name=Splinter Drone
+entity.splinter_drone_projectile.name=Splinter Drone Projectile
+
+entity.artwork.name=Artwork
+
+entity.ironBolt.name=Iron Bolt
+entity.silverBolt.name=Silver Bolt
+entity.woodenBolt.name=Wooden Bolt
+entity.igneousBolt.name=Igneous Bolt
+entity.starMetalBolt.name=Star Metal Bolt
+
+entity.spellProjectile.name=Projectile
+entity.spellProjectileDive.name=Projectile
+entity.spellMyself.name=Self
+entity.spellAOE.name=AOE

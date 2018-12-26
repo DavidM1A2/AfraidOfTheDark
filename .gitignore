@@ -1,22 +1,23 @@
-# eclipse
-bin
-*.launch
-.settings
-.metadata
+/bin/
+/.gradle/
+/.idea/
+/.settings/
+/build/
+/gradle/
+/eclipse/
+/schematics/
+/out/
 .classpath
 .project
-
-# idea
-out
-*.ipr
-*.iws
-*.iml
-.idea
-
-# gradle
-build
-.gradle
-
-# other
-eclipse
-run
+AfraidOfTheDark.iml
+AfraidOfTheDark.ipr
+AfraidOfTheDark.iws
+build.gradle
+gradlew
+gradlew.bat
+Minecraft
+/MinecraftModelFiles/
+/JsonGenerator1.0/
+*.launch
+CopyFiles.cmd
+Build.cmd

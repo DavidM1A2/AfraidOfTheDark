@@ -1,0 +1,142 @@
+{
+    "crossbow_fire": {
+        "category": "player",
+        "sounds": [
+            {
+                "name": "afraidofthedark:crossbow_fire",
+                "stream": false
+            }
+        ],
+        "subtitle": ""
+    },
+    "crossbow_load": {
+        "category": "player",
+        "sounds": [
+            {
+                "name": "afraidofthedark:crossbow_load",
+                "stream": false
+            }
+        ],
+        "subtitle": ""
+    },
+    "werewolf_idle": {
+        "category": "player",
+        "sounds": [
+            {
+                "name": "afraidofthedark:werewolf_idle",
+                "stream": false
+            }
+        ],
+        "subtitle": ""
+    },
+    "werewolf_agro": {
+        "category": "player",
+        "sounds": [
+            {
+                "name": "afraidofthedark:werewolf_agro",
+                "stream": false
+            }
+        ],
+        "subtitle": ""
+    },
+    "werewolf_death": {
+        "category": "player",
+        "sounds": [
+            {
+                "name": "afraidofthedark:werewolf_death",
+                "stream": false
+            }
+        ],
+        "subtitle": ""
+    },
+    "werewolf_hurt": {
+        "category": "player",
+        "sounds": [
+            {
+                "name": "afraidofthedark:werewolf_hurt",
+                "stream": false
+            }
+        ],
+        "subtitle": ""
+    },
+    "journal_sign": {
+        "category": "player",
+        "sounds": [
+            {
+                "name": "afraidofthedark:journal_sign",
+                "stream": false
+            }
+        ],
+        "subtitle": ""
+    },
+    "achievement_unlocked": {
+        "category": "player",
+        "sounds": [
+            {
+                "name": "afraidofthedark:achievement_unlocked",
+                "stream": false
+            }
+        ],
+        "subtitle": ""
+    },
+    "page_turn": {
+        "category": "player",
+        "sounds": [
+            {
+                "name": "afraidofthedark:page_turn",
+                "stream": false
+            }
+        ],
+        "subtitle": ""
+    },
+    "button_hover": {
+        "category": "player",
+        "sounds": [
+            {
+                "name": "afraidofthedark:button_hover",
+                "stream": false
+            }
+        ],
+        "subtitle": ""
+    },
+    "spell_crafting_button_hover": {
+        "category": "player",
+        "sounds": [
+            {
+                "name": "afraidofthedark:spell_crafting_button_hover",
+                "stream": false
+            }
+        ],
+        "subtitle": ""
+    },
+    "bells": {
+        "category": "player",
+        "sounds": [
+            {
+                "name": "afraidofthedark:bells",
+                "stream": false
+            }
+        ],
+        "subtitle": ""
+    },
+    "erie_echos": {
+        "category": "player",
+        "sounds": [
+            {
+                "name": "afraidofthedark:erie_echos",
+                "stream": false
+            }
+        ],
+        "subtitle": ""
+    },
+    "key_typed": {
+        "category": "player",
+        "sounds": [
+            {
+                "name": "afraidofthedark:key_typed",
+                "stream": false
+            }
+        ],
+        "subtitle": ""
+    }
+}
