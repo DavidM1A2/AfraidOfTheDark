@@ -61,9 +61,9 @@ public class VoidChestTeleporter extends Teleporter
 				}
 
 				// Find a good place to place the player once returning
-				for (int i = MathHelper.ceil(x) - DISTANCE_TO_SEARCH_FOR_SPAWN_FOR / 2; i < MathHelper.ceil(x) + DISTANCE_TO_SEARCH_FOR_SPAWN_FOR; i++)
-					for (int j = MathHelper.ceil(y) - DISTANCE_TO_SEARCH_FOR_SPAWN_FOR / 2; j < MathHelper.ceil(y) + DISTANCE_TO_SEARCH_FOR_SPAWN_FOR; j++)
-						for (int k = MathHelper.ceil(z) - DISTANCE_TO_SEARCH_FOR_SPAWN_FOR / 2; k < MathHelper.ceil(z) + DISTANCE_TO_SEARCH_FOR_SPAWN_FOR; k++)
+				for (int i = MathHelper.ceiling_double_int(x) - DISTANCE_TO_SEARCH_FOR_SPAWN_FOR / 2; i < MathHelper.ceiling_double_int(x) + DISTANCE_TO_SEARCH_FOR_SPAWN_FOR; i++)
+					for (int j = MathHelper.ceiling_double_int(y) - DISTANCE_TO_SEARCH_FOR_SPAWN_FOR / 2; j < MathHelper.ceiling_double_int(y) + DISTANCE_TO_SEARCH_FOR_SPAWN_FOR; j++)
+						for (int k = MathHelper.ceiling_double_int(z) - DISTANCE_TO_SEARCH_FOR_SPAWN_FOR / 2; k < MathHelper.ceiling_double_int(z) + DISTANCE_TO_SEARCH_FOR_SPAWN_FOR; k++)
 							if (isValidSpawnLocation(this.worldServerInstance.getMinecraftServer().worldServerForDimension(this.dimensionOld), new BlockPos(i, j, k)))
 							{
 								entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setPlayerLocationPreTeleport(new Point3D(i, j + 1, k), this.dimensionOld);
@@ -74,7 +74,7 @@ public class VoidChestTeleporter extends Teleporter
 
 				// We didn't find a good spot. Error.
 				entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setPlayerLocationPreTeleport(new Point3D(0, 255, 0), this.dimensionOld);
-				entityPlayer.sendMessage(new TextComponentString("An error occoured when saving your location in your previous dimension. When you return you will be placed at 0, 255, 0"));
+				entityPlayer.addChatMessage(new TextComponentString("An error occoured when saving your location in your previous dimension. When you return you will be placed at 0, 255, 0"));
 				int locationX = this.getValidatePlayerLocationVoidChest(entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerLocationVoidChest(), entityPlayer) * AOTDDimensions.getBlocksBetweenIslands();
 				((EntityPlayerMP) entityPlayer).connection.setPlayerLocation(locationX + 24.5, 104, 3, 0, 0);
 			}
@@ -88,7 +88,7 @@ public class VoidChestTeleporter extends Teleporter
 				EntityPlayer entityPlayer = (EntityPlayer) entity;
 				BlockPos playerPostionOld = entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerLocationPreTeleport().toBlockPos();
 				if (playerPostionOld.getY() == 255)
-					entityPlayer.sendMessage(new TextComponentString("There were no air blocks surrounding the portal you originally passed through. Defaulting to 0, 255, 0"));
+					entityPlayer.addChatMessage(new TextComponentString("There were no air blocks surrounding the portal you originally passed through. Defaulting to 0, 255, 0"));
 				((EntityPlayerMP) entityPlayer).connection.setPlayerLocation(playerPostionOld.getX() + 0.5, playerPostionOld.getY() + 1, playerPostionOld.getZ() + 0.5, 0, 0);
 			}
 		}
@@ -106,9 +106,9 @@ public class VoidChestTeleporter extends Teleporter
 	{
 		if (locationX == 0)
 		{
-			if (!entityPlayer.world.isRemote)
+			if (!entityPlayer.worldObj.isRemote)
 			{
-				entityPlayer.world.getMinecraftServer().getCommandManager().executeCommand(entityPlayer.world.getMinecraftServer(), "/save-all");
+				entityPlayer.worldObj.getMinecraftServer().getCommandManager().executeCommand(entityPlayer.worldObj.getMinecraftServer(), "/save-all");
 			}
 
 			int furthestOutPlayer = 0;
@@ -116,7 +116,7 @@ public class VoidChestTeleporter extends Teleporter
 			{
 				furthestOutPlayer = Math.max(furthestOutPlayer, AOTDPlayerData.getPlayerLocationVoidChestOffline(entityPlayerData));
 			}
-			for (EntityPlayer entityPlayerOther : entityPlayer.world.getMinecraftServer().getPlayerList().getPlayers())
+			for (EntityPlayer entityPlayerOther : entityPlayer.worldObj.getMinecraftServer().getPlayerList().getPlayerList())
 			{
 				if (!entityPlayer.isEntityEqual(entityPlayerOther))
 					furthestOutPlayer = Math.max(furthestOutPlayer, entityPlayerOther.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerLocationVoidChest());

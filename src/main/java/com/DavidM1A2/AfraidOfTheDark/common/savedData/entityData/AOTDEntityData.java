@@ -36,7 +36,7 @@ public class AOTDEntityData implements ICapabilitySerializable<NBTTagCompound>, 
 
 	public boolean isServerSide()
 	{
-		return this.entity != null && this.entity.world != null && !this.entity.world.isRemote;
+		return this.entity != null && this.entity.worldObj != null && !this.entity.worldObj.isRemote;
 	}
 
 	@Override
@@ -78,7 +78,7 @@ public class AOTDEntityData implements ICapabilitySerializable<NBTTagCompound>, 
 		if (Constants.entityVitaeResistance.containsKey(entity.getClass()))
 		{
 			boom = vitaeLevel > Constants.entityVitaeResistance.get(entity.getClass());
-			this.vitae = MathHelper.clamp(vitaeLevel, 0, Integer.MAX_VALUE);
+			this.vitae = MathHelper.clamp_int(vitaeLevel, 0, Integer.MAX_VALUE);
 		}
 		else
 		{

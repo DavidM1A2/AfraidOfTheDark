@@ -121,7 +121,7 @@ public class AOTDGuiTextField extends AOTDGuiTextComponent
 
 	private void removeChars(int number)
 	{
-		number = MathHelper.clamp(number, 0, this.getText().length());
+		number = MathHelper.clamp_int(number, 0, this.getText().length());
 		this.setText(this.getText().substring(0, this.getText().length() - number).concat("_"));
 	}
 

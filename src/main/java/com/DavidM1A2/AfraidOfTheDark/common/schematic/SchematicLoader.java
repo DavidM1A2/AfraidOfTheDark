@@ -7,19 +7,18 @@ package com.DavidM1A2.AfraidOfTheDark.common.schematic;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockMobSpawner;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import org.apache.commons.lang3.ArrayUtils;
 
 public class SchematicLoader
 {
@@ -30,12 +29,10 @@ public class SchematicLoader
 			InputStream schematicInputStream = Utility.getInputStreamFromPath("assets/afraidofthedark/schematics/" + schemname);
 			NBTTagCompound nbtdata = CompressedStreamTools.readCompressed(schematicInputStream);
 			schematicInputStream.close();
-			// Read the length, width, and height
 			short width = nbtdata.getShort("Width");
 			short height = nbtdata.getShort("Height");
 			short length = nbtdata.getShort("Length");
 
-			// Read the blocks and metadata
 			byte[] blocksByte = nbtdata.getByteArray("Blocks");
 			short[] blocks = new short[blocksByte.length];
 			byte[] data = nbtdata.getByteArray("Data");
@@ -69,30 +66,17 @@ public class SchematicLoader
 				}
 			}
 
-			// Read the entities and tile entities
 			NBTTagList tileEntities = nbtdata.getTagList("TileEntities", 10);
 			NBTTagList entities = nbtdata.getTagList("Entities", 10);
 
-			// Create the schematic object
 			Schematic toReturn = new Schematic(tileEntities, width, height, length,blocks, data, entities);
 
-			// If we have an IDMap, we need to remap certain IDs in the schematic to the respective
-            // IDs in the current MC instance
-			if (nbtdata.hasKey("IDMap"))
-            {
-                NBTTagList replacements = nbtdata.getTagList("IDMap", 10);
-                Map<Integer, Block> idToReal = new HashMap<Integer, Block>();
-                for (int i = 0; i < replacements.tagCount(); i++)
-                {
-                    NBTTagCompound x = replacements.getCompoundTagAt(i);
-                    String blockName = x.getString("K");
-                    Integer blockID = x.getInteger("V");
-                    idToReal.put(blockID, Block.getBlockFromName(blockName));
-                }
-                for (int j = 0; j < toReturn.getBlocks().length; j++)
-                    if (idToReal.containsKey((int) toReturn.getBlocks()[j]))
-                        toReturn.setBlock(idToReal.get((int) toReturn.getBlocks()[j]), j);
-            }
+			//SchematicBlockReplacer.fixKnownSchematicErrors(toReturn);
+
+			if (ConfigurationHandler.debugMessages)
+			{
+				SchematicLoader.printIncorrectIds(toReturn.getBlocks(), schemname);
+			}
 
 			return toReturn;
 		}
@@ -100,6 +84,40 @@ public class SchematicLoader
 		{
 			System.out.println("I can't load schematic: " + schemname + ", because " + e.toString() + "\nMessage: " + e.getMessage());
 			return null;
+		}
+	}
+
+	private static short[] byteArrayToShortArray(byte[] byteArray)
+	{
+		short[] toReturn = new short[byteArray.length];
+
+		for (int i = 0; i < byteArray.length; i++)
+		{
+			toReturn[i] = byteArray[i];
+		}
+
+		return toReturn;
+	}
+
+	private static void printIncorrectIds(short[] blocks, String schematicName)
+	{
+		List<Short> incorrectIds = new ArrayList<Short>();
+		int[] numberOfIncorrect = new int[20000];
+		for (short b : blocks)
+		{
+			if (b < 0 && !incorrectIds.contains(b))
+			{
+				incorrectIds.add(b);
+				numberOfIncorrect[Math.abs(b)] = 1;
+			}
+			else if (b < 0)
+			{
+				numberOfIncorrect[Math.abs(b)] = numberOfIncorrect[Math.abs(b)] + 1;
+			}
+		}
+		for (short b : incorrectIds)
+		{
+			LogHelper.info(numberOfIncorrect[Math.abs(b)] + " incorrect ids of the id " + b + " found in the schematic " + schematicName + ".");
 		}
 	}
 }

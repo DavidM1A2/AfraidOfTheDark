@@ -63,7 +63,7 @@ public class AOTDItemSlab extends ItemBlock
 	{
 		ItemStack itemstack = stack.getHeldItem(pos);
 
-		if (!itemstack.isEmpty() && stack.canPlayerEdit(worldIn.offset(hand), hand, itemstack))
+		if (!itemstack.func_190926_b() && stack.canPlayerEdit(worldIn.offset(hand), hand, itemstack))
 		{
 			Comparable<?> comparable = this.singleSlab.getTypeForItem(itemstack);
 			IBlockState iblockstate = playerIn.getBlockState(worldIn);
@@ -83,7 +83,7 @@ public class AOTDItemSlab extends ItemBlock
 					{
 						SoundType soundtype = this.doubleSlab.getSoundType(iblockstate1, playerIn, worldIn, stack);
 						playerIn.playSound(stack, worldIn, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
-						itemstack.shrink(1);
+						itemstack.func_190918_g(1);
 					}
 
 					return EnumActionResult.SUCCESS;
@@ -119,7 +119,7 @@ public class AOTDItemSlab extends ItemBlock
 
 		pos = pos.offset(side);
 		IBlockState iblockstate1 = worldIn.getBlockState(pos);
-		return iblockstate1.getBlock() == this.singleSlab && comparable == iblockstate1.getValue(iproperty) || super.canPlaceBlockOnSide(worldIn, blockpos, side, player, stack);
+		return iblockstate1.getBlock() == this.singleSlab && comparable == iblockstate1.getValue(iproperty) ? true : super.canPlaceBlockOnSide(worldIn, blockpos, side, player, stack);
 	}
 
 	private boolean tryPlace(EntityPlayer player, ItemStack stack, World worldIn, BlockPos pos, Object itemSlabType)
@@ -139,7 +139,7 @@ public class AOTDItemSlab extends ItemBlock
 				{
 					SoundType soundtype = this.doubleSlab.getSoundType(iblockstate1, worldIn, pos, player);
 					worldIn.playSound(player, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
-					stack.shrink(1);
+					stack.func_190918_g(1);
 				}
 
 				return true;

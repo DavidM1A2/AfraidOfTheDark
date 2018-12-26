@@ -69,12 +69,12 @@ public class SyncVoidChest extends AbstractEntitySync
 				@Override
 				public void run()
 				{
-					Entity toUpdate = entityPlayer.world.getEntityByID(msg.entityIDToUpdate);
+					Entity toUpdate = entityPlayer.worldObj.getEntityByID(msg.entityIDToUpdate);
 					if (toUpdate != null && toUpdate instanceof EntityPlayer)
 					{
-						if (toUpdate.world.getTileEntity(new BlockPos(msg.x, msg.y, msg.z)) != null)
+						if (toUpdate.worldObj.getTileEntity(new BlockPos(msg.x, msg.y, msg.z)) != null)
 						{
-							TileEntity tileEntity = toUpdate.world.getTileEntity(new BlockPos(msg.x, msg.y, msg.z));
+							TileEntity tileEntity = toUpdate.worldObj.getTileEntity(new BlockPos(msg.x, msg.y, msg.z));
 							if (tileEntity instanceof TileEntityVoidChest)
 							{
 								((TileEntityVoidChest) tileEntity).openChest((EntityPlayer) toUpdate);

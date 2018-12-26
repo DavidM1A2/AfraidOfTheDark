@@ -72,9 +72,9 @@ public class ItemSleepingPotion extends AOTDItem
 
 			if (!entityPlayer.capabilities.isCreativeMode)
 			{
-				itemStack.shrink(1);
+				itemStack.func_190917_f(-1);
 
-				if (itemStack.getCount() <= 0)
+				if (itemStack.func_190916_E() <= 0)
 				{
 					return new ItemStack(Items.GLASS_BOTTLE);
 				}

@@ -56,7 +56,7 @@ abstract class AbstractMessageHandler<T extends IMessage> implements IMessageHan
 	@SideOnly(Side.CLIENT)
 	private IMessage runHandleClient(T message, MessageContext ctx)
 	{
-		return this.handleClientMessage(ctx.side.isClient() ? Minecraft.getMinecraft().player : ctx.getServerHandler().playerEntity, message, ctx);
+		return this.handleClientMessage(ctx.side.isClient() ? Minecraft.getMinecraft().thePlayer : ctx.getServerHandler().playerEntity, message, ctx);
 	}
 
 	/**

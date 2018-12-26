@@ -77,7 +77,7 @@ public class AOTDGuiSpell extends AOTDGuiPanel
 			{
 				ClientData.spellToBeEdited = source;
 				if (event.getSource().isHovered() && event.getClickedButton() == MouseButtonClicked.Left)
-					entityPlayer.openGui(Reference.MOD_ID, GuiHandler.SPELL_CRAFTING_ID, entityPlayer.world, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
+					entityPlayer.openGui(Reference.MOD_ID, GuiHandler.SPELL_CRAFTING_ID, entityPlayer.worldObj, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
 			}
 		});
 		this.add(edit);

@@ -77,7 +77,7 @@ public class ItemJournal extends AOTDItem
 			else
 			{
 				if (!world.isRemote)
-					entityPlayer.sendMessage(new TextComponentString("I cannot comprehend this..."));
+					entityPlayer.addChatMessage(new TextComponentString("I cannot comprehend this..."));
 			}
 		}
 		else if (itemStack.getItemDamage() == 1)
@@ -92,7 +92,7 @@ public class ItemJournal extends AOTDItem
 				{
 					if (!world.isRemote)
 					{
-						entityPlayer.sendMessage(new TextComponentString("You will need to sign a standard journal first."));
+						entityPlayer.addChatMessage(new TextComponentString("You will need to sign a standard journal first."));
 					}
 				}
 			}
@@ -100,7 +100,7 @@ public class ItemJournal extends AOTDItem
 			{
 				if (!world.isRemote)
 				{
-					entityPlayer.sendMessage(new TextComponentString("You must be in creative mode to use the cheat sheet."));
+					entityPlayer.addChatMessage(new TextComponentString("You must be in creative mode to use the cheat sheet."));
 				}
 			}
 		}

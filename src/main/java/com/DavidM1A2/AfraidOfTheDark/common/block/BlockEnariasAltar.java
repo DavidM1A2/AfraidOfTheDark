@@ -45,14 +45,14 @@ public class BlockEnariasAltar extends AOTDBlock
 		else
 		{
 			if (!world.isRemote)
-				entityPlayer.sendMessage(new TextComponentString("The block whispers to me... what does it mean?"));
+				entityPlayer.addChatMessage(new TextComponentString("The block whispers to me... what does it mean?"));
 		}
 
 		return true;
 	}
 
 	@Override
-	public boolean isFullyOpaque(IBlockState state)
+	public boolean isVisuallyOpaque(IBlockState state)
 	{
 		return false;
 	}

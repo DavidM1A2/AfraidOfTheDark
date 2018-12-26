@@ -68,7 +68,7 @@ public class EntityAIAttackEnaria extends EntityAIBase
 
 		if (this.attackTime <= 0)
 		{
-			this.attackTime = this.enaria.world.rand.nextInt(100) + 140;
+			this.attackTime = this.enaria.worldObj.rand.nextInt(100) + 140;
 			this.enaria.getEnariaAttacks().performRandomAttack();
 			this.enaria.clearActivePotions();
 			AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncAnimation("spell", this.enaria, "spell"), new TargetPoint(this.enaria.dimension, this.enaria.posX, this.enaria.posY, this.enaria.posZ, 100));

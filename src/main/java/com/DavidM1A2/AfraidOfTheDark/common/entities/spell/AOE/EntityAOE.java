@@ -37,7 +37,7 @@ public class EntityAOE extends EntitySpell
 	{
 		if (this.getTicksAlive() == 1)
 		{
-			this.affectedEntities = this.world.getEntitiesWithinAABB(EntityLivingBase.class, this.getEntityBoundingBox().expand(this.size, this.size, this.size));
+			this.affectedEntities = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, this.getEntityBoundingBox().expand(this.size, this.size, this.size));
 			for (EntityLivingBase entityLivingBase : this.affectedEntities)
 			{
 				if (!(entityLivingBase instanceof EntityArmorStand))
@@ -45,7 +45,7 @@ public class EntityAOE extends EntitySpell
 					this.performEffect(new SpellHitInfo(AfraidOfTheDark.proxy.getSpellOwner(this.getSpellSource()), entityLivingBase));
 				}
 			}
-			this.performEffect(new SpellHitInfo(AfraidOfTheDark.proxy.getSpellOwner(this.getSpellSource()), this.getPosition(), this.world, (int) this.size));
+			this.performEffect(new SpellHitInfo(AfraidOfTheDark.proxy.getSpellOwner(this.getSpellSource()), this.getPosition(), this.worldObj, (int) this.size));
 			this.spellStageComplete();
 			this.setDead();
 		}

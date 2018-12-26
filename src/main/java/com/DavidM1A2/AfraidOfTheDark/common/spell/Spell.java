@@ -88,20 +88,20 @@ public class Spell implements Serializable
 	public void instantiateSpell()
 	{
 		EntityPlayer entityPlayer = AfraidOfTheDark.proxy.getSpellOwner(this);
-		if (entityPlayer != null && !entityPlayer.world.isRemote)
+		if (entityPlayer != null && !entityPlayer.worldObj.isRemote)
 		{
 			if (entityPlayer.dimension != AOTDDimensions.Nightmare.getWorldID())
 			{
 				if (this.isSpellValid() && this.powerSource.attemptToCast(this))
 					for (EntitySpell entitySpell : this.spellStages.get(0).getDeliveryMethod().createSpellEntity(this))
-						entityPlayer.world.spawnEntity(entitySpell);
+						entityPlayer.worldObj.spawnEntityInWorld(entitySpell);
 				else if (!this.isSpellValid())
-					entityPlayer.sendMessage(new TextComponentString("Invalid spell. Make sure to have delivery methods on each spell stage and a power source!"));
+					entityPlayer.addChatMessage(new TextComponentString("Invalid spell. Make sure to have delivery methods on each spell stage and a power source!"));
 				else
-					entityPlayer.sendMessage(new TextComponentString(this.powerSource.notEnoughEnergyMsg()));
+					entityPlayer.addChatMessage(new TextComponentString(this.powerSource.notEnoughEnergyMsg()));
 			}
 			else
-				entityPlayer.sendMessage(new TextComponentString("My mind is too clouded to cast spells here"));
+				entityPlayer.addChatMessage(new TextComponentString("My mind is too clouded to cast spells here"));
 		}
 		else
 			LogHelper.info("Attempted to instantiate a spell on an offline player...");
@@ -115,7 +115,7 @@ public class Spell implements Serializable
 		{
 			cost = currentCostMultiplier * (cost + spellStage.getCost());
 			double newCostMultiplier = currentCostMultiplier * (spellStage.getDeliveryMethod() != null ? spellStage.getDeliveryMethod().getStageMultiplier() : 1.0D);
-			currentCostMultiplier = MathHelper.clamp(newCostMultiplier, 1.0, Double.MAX_VALUE);
+			currentCostMultiplier = MathHelper.clamp_double(newCostMultiplier, 1.0, Double.MAX_VALUE);
 		}
 		return cost;
 	}

@@ -27,9 +27,9 @@ public class TileEntityGhastlyEnariaSpawner extends AOTDTickingTileEntity
 		super.update();
 		if (this.ticksExisted == 20)
 		{
-			if (!this.world.isRemote)
+			if (!this.worldObj.isRemote)
 			{
-				List<EntityGhastlyEnaria> entities = this.world.<EntityGhastlyEnaria> getEntitiesWithinAABB(EntityGhastlyEnaria.class, new AxisAlignedBB(this.getPos(), this.getPos().up()).expand(AOTDDimensions.getBlocksBetweenIslands() / 2, AOTDDimensions.getBlocksBetweenIslands() / 2,
+				List<EntityGhastlyEnaria> entities = this.worldObj.<EntityGhastlyEnaria> getEntitiesWithinAABB(EntityGhastlyEnaria.class, new AxisAlignedBB(this.getPos(), this.getPos().up()).expand(AOTDDimensions.getBlocksBetweenIslands() / 2, AOTDDimensions.getBlocksBetweenIslands() / 2,
 						AOTDDimensions.getBlocksBetweenIslands() / 2));
 
 				boolean oneAlive = false;
@@ -39,10 +39,10 @@ public class TileEntityGhastlyEnariaSpawner extends AOTDTickingTileEntity
 
 				if (!oneAlive)
 				{
-					EntityGhastlyEnaria enariaSpawn = new EntityGhastlyEnaria(this.world);
+					EntityGhastlyEnaria enariaSpawn = new EntityGhastlyEnaria(this.worldObj);
 					enariaSpawn.forceSpawn = true;
-					enariaSpawn.setPositionAndRotation(this.getPos().getX() + 0.5, this.getPos().getY() + 10.2, this.getPos().getZ() + 0.5, this.world.rand.nextFloat(), 0);
-					this.world.spawnEntity(enariaSpawn);
+					enariaSpawn.setPositionAndRotation(this.getPos().getX() + 0.5, this.getPos().getY() + 10.2, this.getPos().getZ() + 0.5, this.worldObj.rand.nextFloat(), 0);
+					this.worldObj.spawnEntityInWorld(enariaSpawn);
 				}
 			}
 		}

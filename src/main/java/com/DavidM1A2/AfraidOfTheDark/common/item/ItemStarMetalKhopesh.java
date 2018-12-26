@@ -108,7 +108,7 @@ public class ItemStarMetalKhopesh extends AOTDChargableSword
 				motionX = motionX >= 0 ? 1 : -1;
 				motionZ = motionZ >= 0 ? 1 : -1;
 
-				double hypotenuse = MathHelper.sqrt(motionX * motionX + motionZ * motionZ);
+				double hypotenuse = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
 
 				int sharpnessDamage = EnchantmentHelper.getEnchantmentLevel(Enchantment.getEnchantmentByID(16), itemStack);
 

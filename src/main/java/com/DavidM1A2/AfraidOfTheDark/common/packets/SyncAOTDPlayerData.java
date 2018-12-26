@@ -62,7 +62,7 @@ public class SyncAOTDPlayerData implements IMessage
 		@Override
 		public IMessage handleServerMessage(final EntityPlayer entityPlayer, SyncAOTDPlayerData msg, MessageContext ctx)
 		{
-			entityPlayer.world.getMinecraftServer().addScheduledTask(new Runnable()
+			entityPlayer.worldObj.getMinecraftServer().addScheduledTask(new Runnable()
 			{
 				@Override
 				public void run()

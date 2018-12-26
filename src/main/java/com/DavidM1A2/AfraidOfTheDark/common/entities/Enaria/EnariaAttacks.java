@@ -78,7 +78,7 @@ public class EnariaAttacks
 
 	public void performBasicAttack()
 	{
-		for (Object object : this.enaria.world.getEntitiesWithinAABB(EntityPlayer.class, this.enaria.getEntityBoundingBox().expand(BASIC_RANGE, BASIC_RANGE, BASIC_RANGE)))
+		for (Object object : this.enaria.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.enaria.getEntityBoundingBox().expand(BASIC_RANGE, BASIC_RANGE, BASIC_RANGE)))
 		{
 			if (object instanceof EntityPlayer)
 			{
@@ -97,19 +97,19 @@ public class EnariaAttacks
 			int y = 1 + (int) Math.round(this.enaria.posY + (entityPlayer.posY - this.enaria.posY) * i / NUMBER_OF_PARTICLES_PER_ATTACK);
 			int z = (int) Math.round(this.enaria.posZ + (entityPlayer.posZ - this.enaria.posZ) * i / NUMBER_OF_PARTICLES_PER_ATTACK);
 
-			if (!entityPlayer.world.isRemote)
-				AOTDParticleFXTypes.EnariaBasicAttack.instantiateServer(entityPlayer.world, x, y, z, 40);
+			if (!entityPlayer.worldObj.isRemote)
+				AOTDParticleFXTypes.EnariaBasicAttack.instantiateServer(entityPlayer.worldObj, x, y, z, 40);
 		}
 	}
 
 	public void randomTeleport()
 	{
-		if (!this.enaria.world.isRemote)
+		if (!this.enaria.worldObj.isRemote)
 		{
 			for (int i = 0; i < NUMBER_OF_PARTICLES_PER_TELEPORT; i++)
-				AOTDParticleFXTypes.EnariaTeleport.instantiateServer(this.enaria.world, this.enaria.getPosition().getX() + Math.random(), this.enaria.getPosition().getY() + .7 + Math.random(), this.enaria.getPosition().getZ() + Math.random(), 40);
+				AOTDParticleFXTypes.EnariaTeleport.instantiateServer(this.enaria.worldObj, this.enaria.getPosition().getX() + Math.random(), this.enaria.getPosition().getY() + .7 + Math.random(), this.enaria.getPosition().getZ() + Math.random(), 40);
 
-			List<EntityPlayer> entityPlayers = this.enaria.world.<EntityPlayer> getEntitiesWithinAABB(EntityPlayer.class, this.enaria.getEntityBoundingBox().expand(TELEPORT_PLAYER_RANGE, TELEPORT_PLAYER_RANGE, TELEPORT_PLAYER_RANGE));
+			List<EntityPlayer> entityPlayers = this.enaria.worldObj.<EntityPlayer> getEntitiesWithinAABB(EntityPlayer.class, this.enaria.getEntityBoundingBox().expand(TELEPORT_PLAYER_RANGE, TELEPORT_PLAYER_RANGE, TELEPORT_PLAYER_RANGE));
 			for (EntityPlayer entityPlayer : entityPlayers)
 			{
 				this.enaria.addPotionEffect(new PotionEffect(Potion.getPotionById(14), 60, 0, false, false));
@@ -124,7 +124,7 @@ public class EnariaAttacks
 		this.enaria.setPosition(x, y, z);
 		this.enaria.addPotionEffect(new PotionEffect(Potion.getPotionById(14), 40, 0, false, false));
 
-		List entityList = this.enaria.world.getEntitiesWithinAABB(EntityPlayer.class, this.enaria.getEntityBoundingBox().expand(MAX_KNOCKBACK_RANGE, MAX_KNOCKBACK_RANGE, MAX_KNOCKBACK_RANGE));
+		List entityList = this.enaria.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.enaria.getEntityBoundingBox().expand(MAX_KNOCKBACK_RANGE, MAX_KNOCKBACK_RANGE, MAX_KNOCKBACK_RANGE));
 		for (Object entityObject : entityList)
 		{
 			if (entityObject instanceof EntityPlayer)
@@ -134,7 +134,7 @@ public class EnariaAttacks
 				double motionX = this.enaria.getPosition().getX() - entityPlayer.getPosition().getX();
 				double motionZ = this.enaria.getPosition().getZ() - entityPlayer.getPosition().getZ();
 
-				double hypotenuse = MathHelper.sqrt(motionX * motionX + motionZ * motionZ);
+				double hypotenuse = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
 
 				entityPlayer.addVelocity(-motionX * KNOCKBACK_POWER * 0.6000000238418579D / hypotenuse, 0.1D, -motionZ * KNOCKBACK_POWER * 0.6000000238418579D / hypotenuse);
 				entityPlayer.velocityChanged = true;
@@ -175,18 +175,18 @@ public class EnariaAttacks
 				break;
 		}
 		for (int i = 0; i < 50; i++)
-			AOTDParticleFXTypes.EnariaSplash.instantiateServer(this.enaria.world, enaria.posX, enaria.posY + 1, enaria.posZ, 40);
+			AOTDParticleFXTypes.EnariaSplash.instantiateServer(this.enaria.worldObj, enaria.posX, enaria.posY + 1, enaria.posZ, 40);
 	}
 
 	private void attackDarkness()
 	{
-		for (Object object : this.enaria.world.getEntitiesWithinAABB(EntityPlayer.class, this.enaria.getEntityBoundingBox().expand(DARKNESS_RANGE, DARKNESS_RANGE, DARKNESS_RANGE)))
+		for (Object object : this.enaria.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.enaria.getEntityBoundingBox().expand(DARKNESS_RANGE, DARKNESS_RANGE, DARKNESS_RANGE)))
 		{
 			if (object instanceof EntityPlayer)
 			{
 				EntityPlayer entityPlayer = (EntityPlayer) object;
 
-				this.enaria.world.playSound(entityPlayer, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, SoundEvents.ENTITY_WITHER_HURT, SoundCategory.HOSTILE, 1.0f, 0.5f);
+				this.enaria.worldObj.playSound(entityPlayer, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, SoundEvents.ENTITY_WITHER_HURT, SoundCategory.HOSTILE, 1.0f, 0.5f);
 
 				// remove night vision
 				if (entityPlayer.isPotionActive(Potion.getPotionById(16)))
@@ -205,9 +205,9 @@ public class EnariaAttacks
 				for (int k = this.enaria.getPosition().getZ() - 5; k < this.enaria.getPosition().getZ() + 5; k++)
 				{
 					BlockPos current = new BlockPos(i, j, k);
-					if (this.enaria.world.getBlockState(current).getLightValue(this.enaria.world, current) > 0)
+					if (this.enaria.worldObj.getBlockState(current).getLightValue(this.enaria.worldObj, current) > 0)
 					{
-						this.enaria.world.setBlockToAir(current);
+						this.enaria.worldObj.setBlockToAir(current);
 					}
 				}
 			}
@@ -216,9 +216,9 @@ public class EnariaAttacks
 
 	public void attackShuffleInventory()
 	{
-		if (!this.enaria.world.isRemote)
+		if (!this.enaria.worldObj.isRemote)
 		{
-			for (Object object : this.enaria.world.getEntitiesWithinAABB(EntityPlayer.class, this.enaria.getEntityBoundingBox().expand(SHUFFLE_INVENTORY_RANGE, SHUFFLE_INVENTORY_RANGE, SHUFFLE_INVENTORY_RANGE)))
+			for (Object object : this.enaria.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.enaria.getEntityBoundingBox().expand(SHUFFLE_INVENTORY_RANGE, SHUFFLE_INVENTORY_RANGE, SHUFFLE_INVENTORY_RANGE)))
 			{
 				if (object instanceof EntityPlayer)
 				{
@@ -241,7 +241,7 @@ public class EnariaAttacks
 
 	public void attackSummonWerewolves()
 	{
-		if (!this.enaria.world.isRemote)
+		if (!this.enaria.worldObj.isRemote)
 		{
 			int numberOfWWsSpawned = 0;
 			int maxWWsSpawned = this.random.nextInt(3) + 2;
@@ -251,14 +251,14 @@ public class EnariaAttacks
 				if (numberOfWWsSpawned < maxWWsSpawned)
 				{
 					BlockPos current = this.enaria.getPosition().offset(facing);
-					IBlockState block = this.enaria.world.getBlockState(current);
+					IBlockState block = this.enaria.worldObj.getBlockState(current);
 					if (block.getBlock() instanceof BlockAir)
 					{
-						EntityWerewolf werewolf = new EntityWerewolf(this.enaria.world);
+						EntityWerewolf werewolf = new EntityWerewolf(this.enaria.worldObj);
 						werewolf.setPosition(current.getX(), current.getY(), current.getZ());
 						werewolf.setCanAttackAnyone(true);
-						this.enaria.world.spawnEntity(werewolf);
-						AOTDParticleFXTypes.EnariaBasicAttack.instantiateServer(this.enaria.world, current.getX(), current.getY(), current.getZ(), 100);
+						this.enaria.worldObj.spawnEntityInWorld(werewolf);
+						AOTDParticleFXTypes.EnariaBasicAttack.instantiateServer(this.enaria.worldObj, current.getX(), current.getY(), current.getZ(), 100);
 						numberOfWWsSpawned = numberOfWWsSpawned + 1;
 					}
 				}
@@ -273,7 +273,7 @@ public class EnariaAttacks
 
 	public void attackSummonSplinterDrones()
 	{
-		if (!this.enaria.world.isRemote)
+		if (!this.enaria.worldObj.isRemote)
 		{
 			int numberOfSplintersSpawned = 0;
 			int maxSplintersSpawned = this.random.nextInt(2) + 1;
@@ -284,12 +284,12 @@ public class EnariaAttacks
 				{
 					System.out.println(numberOfSplintersSpawned + "    :    " + maxSplintersSpawned);
 					BlockPos current = this.enaria.getPosition().offset(facing).up();
-					IBlockState block = this.enaria.world.getBlockState(current);
+					IBlockState block = this.enaria.worldObj.getBlockState(current);
 					if (block.getBlock() instanceof BlockAir)
 					{
-						EntitySplinterDrone splinterDrone = new EntitySplinterDrone(this.enaria.world);
+						EntitySplinterDrone splinterDrone = new EntitySplinterDrone(this.enaria.worldObj);
 						splinterDrone.setPosition(current.getX(), current.getY(), current.getZ());
-						this.enaria.world.spawnEntity(splinterDrone);
+						this.enaria.worldObj.spawnEntityInWorld(splinterDrone);
 
 						numberOfSplintersSpawned = numberOfSplintersSpawned + 1;
 					}
@@ -305,7 +305,7 @@ public class EnariaAttacks
 
 	public void attackSummonEnchantedSkeletons()
 	{
-		if (!this.enaria.world.isRemote)
+		if (!this.enaria.worldObj.isRemote)
 		{
 			int numberOfSkeletonsSpawned = 0;
 			int maxSkeletonsSpawned = this.random.nextInt(6) + 4;
@@ -315,15 +315,15 @@ public class EnariaAttacks
 				if (numberOfSkeletonsSpawned < maxSkeletonsSpawned)
 				{
 					BlockPos current = this.enaria.getPosition().offset(facing).up();
-					IBlockState block = this.enaria.world.getBlockState(current);
+					IBlockState block = this.enaria.worldObj.getBlockState(current);
 					if (block.getBlock() instanceof BlockAir)
 					{
-						EntityEnchantedSkeleton enchantedSkeleton = new EntityEnchantedSkeleton(this.enaria.world);
+						EntityEnchantedSkeleton enchantedSkeleton = new EntityEnchantedSkeleton(this.enaria.worldObj);
 						enchantedSkeleton.setPosition(current.getX(), current.getY(), current.getZ());
-						this.enaria.world.spawnEntity(enchantedSkeleton);
-						EntityEnchantedSkeleton enchantedSkeleton2 = new EntityEnchantedSkeleton(this.enaria.world);
+						this.enaria.worldObj.spawnEntityInWorld(enchantedSkeleton);
+						EntityEnchantedSkeleton enchantedSkeleton2 = new EntityEnchantedSkeleton(this.enaria.worldObj);
 						enchantedSkeleton2.setPosition(current.getX(), current.getY(), current.getZ());
-						this.enaria.world.spawnEntity(enchantedSkeleton2);
+						this.enaria.worldObj.spawnEntityInWorld(enchantedSkeleton2);
 
 						numberOfSkeletonsSpawned = numberOfSkeletonsSpawned + 2;
 					}
@@ -339,9 +339,9 @@ public class EnariaAttacks
 
 	public void attackAOEPotion()
 	{
-		if (!this.enaria.world.isRemote)
+		if (!this.enaria.worldObj.isRemote)
 		{
-			for (Object object : this.enaria.world.getEntitiesWithinAABB(EntityPlayer.class, this.enaria.getEntityBoundingBox().expand(POTION_POISON_RANGE, POTION_POISON_RANGE, POTION_POISON_RANGE)))
+			for (Object object : this.enaria.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.enaria.getEntityBoundingBox().expand(POTION_POISON_RANGE, POTION_POISON_RANGE, POTION_POISON_RANGE)))
 			{
 				if (object instanceof EntityPlayer)
 				{
@@ -363,7 +363,7 @@ public class EnariaAttacks
 
 	private void teleportToPlayer()
 	{
-		List entityList = this.enaria.world.getEntitiesWithinAABB(EntityPlayer.class, this.enaria.getEntityBoundingBox().expand(TELEPORT_PLAYER_RANGE, TELEPORT_PLAYER_RANGE, TELEPORT_PLAYER_RANGE));
+		List entityList = this.enaria.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.enaria.getEntityBoundingBox().expand(TELEPORT_PLAYER_RANGE, TELEPORT_PLAYER_RANGE, TELEPORT_PLAYER_RANGE));
 		for (Object entityObject : entityList)
 		{
 			if (entityObject instanceof EntityPlayer)
@@ -381,13 +381,13 @@ public class EnariaAttacks
 				entityPlayer.addPotionEffect(new PotionEffect(Potion.getPotionById(15), 30, 0, false, false));
 
 				// Server side
-				if (this.enaria.world instanceof WorldServer)
+				if (this.enaria.worldObj instanceof WorldServer)
 				{
-					Utility.createExplosionWithoutBlockDamageServer(this.enaria.world, entityPlayer, this.enaria.posX, this.enaria.posY, this.enaria.posZ, 7, false, true);
+					Utility.createExplosionWithoutBlockDamageServer(this.enaria.worldObj, entityPlayer, this.enaria.posX, this.enaria.posY, this.enaria.posZ, 7, false, true);
 				}
 				else
 				{
-					Utility.createExplosionWithoutBlockDamageClient(this.enaria.world, entityPlayer, this.enaria.posX, this.enaria.posY, this.enaria.posZ, 7, false, true);
+					Utility.createExplosionWithoutBlockDamageClient(this.enaria.worldObj, entityPlayer, this.enaria.posX, this.enaria.posY, this.enaria.posZ, 7, false, true);
 				}
 
 				return;

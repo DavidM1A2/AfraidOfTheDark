@@ -55,7 +55,7 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 	@Override
 	public void onEntityUpdate()
 	{
-		if (!this.world.isRemote)
+		if (!this.worldObj.isRemote)
 		{
 			if (ticksExisted % PASSIVE_VITAE_GEN_IN_TICKS == 0)
 			{
@@ -64,7 +64,7 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 					int newVitae = this.getCapability(ModCapabilities.ENTITY_DATA, null).getVitaeLevel() + this.rand.nextInt(3);
 					if (this.getCapability(ModCapabilities.ENTITY_DATA, null).setVitaeLevel(newVitae))
 					{
-						this.world.createExplosion(this, this.getPosition().getX(), this.getPosition().getY(), this.getPosition().getZ(), 2, this.world.getGameRules().getBoolean("mobGriefing"));
+						this.worldObj.createExplosion(this, this.getPosition().getX(), this.getPosition().getY(), this.getPosition().getZ(), 2, this.worldObj.getGameRules().getBoolean("mobGriefing"));
 						this.onKillCommand();
 					}
 					this.getCapability(ModCapabilities.ENTITY_DATA, null).syncVitaeLevel();
@@ -83,17 +83,17 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 	public boolean attackEntityFrom(DamageSource source, float amount)
 	{
 		this.getEntityData().setInteger(TICKS_UNTIL_NORMAL_AI, 100);
-		if (this.world.isRemote)
+		if (this.worldObj.isRemote)
 			if (!this.getAnimationHandler().isAnimationActive("jiggle"))
 			{
 				this.getAnimationHandler().activateAnimation("jiggle", 0);
 			}
 		if (!this.isDead)
 		{
-			if (source == DamageSource.IN_FIRE || source == DamageSource.ON_FIRE || source == DamageSource.LAVA || source.isExplosion())
+			if (source == DamageSource.inFire || source == DamageSource.onFire || source == DamageSource.lava || source.isExplosion())
 			{
 				this.setDead();
-				this.world.createExplosion(this, this.posX, this.posY, this.posZ, 7.0F, this.world.getGameRules().getBoolean("mobGriefing"));
+				this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 7.0F, this.worldObj.getGameRules().getBoolean("mobGriefing"));
 			}
 		}
 		return super.attackEntityFrom(source, amount);
@@ -240,7 +240,7 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 			double d1;
 			if (this.instance.timeUntilNormalAI == 0)
 			{
-				d1 = MathHelper.clamp(this.instance.posY + (random.nextFloat() * 2.0F - 1.0F) * 16.0D, 0.0D, flightCeiling);
+				d1 = MathHelper.clamp_double(this.instance.posY + (random.nextFloat() * 2.0F - 1.0F) * 16.0D, 0.0D, flightCeiling);
 			}
 			else
 			{
@@ -276,7 +276,7 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 				if (this.temp-- <= 0)
 				{
 					this.temp += this.instance.getRNG().nextInt(5) + 2;
-					d3 = MathHelper.sqrt(d3);
+					d3 = MathHelper.sqrt_double(d3);
 
 					if (this.isNotColliding(this.posX, this.posY, this.posZ, d3))
 					{
@@ -303,7 +303,7 @@ public class EntityDeeeSyft extends EntityFlying implements IMCAnimatedEntity
 			{
 				axisalignedbb = axisalignedbb.offset(d4, d5, d6);
 
-				if (!this.instance.world.getCollisionBoxes(this.instance, axisalignedbb).isEmpty())
+				if (!this.instance.worldObj.getCollisionBoxes(this.instance, axisalignedbb).isEmpty())
 				{
 					return false;
 				}

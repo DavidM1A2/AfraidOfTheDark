@@ -8,7 +8,6 @@ package com.DavidM1A2.AfraidOfTheDark.common.block.core;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 
 import net.minecraft.block.BlockLog;
-import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -92,6 +91,13 @@ public abstract class AOTDLog extends BlockLog
 		{ BlockLog.LOG_AXIS });
 	}
 
+	// Can these woods stack?
+	@Override
+	protected ItemStack createStackedBlock(final IBlockState state)
+	{
+		return new ItemStack(Item.getItemFromBlock(this), 1, 0);//state.<AOTDTreeTypes> getValue(BlockGravewood.VARIANT).getMetadata());
+	}
+
 	/**
 	 * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
 	 */
@@ -110,12 +116,6 @@ public abstract class AOTDLog extends BlockLog
 	public int damageDropped(final IBlockState state)
 	{
 		return 0;//state.<AOTDTreeTypes> getValue(BlockGravewood.VARIANT).getMetadata();
-	}
-
-	@Override
-	protected ItemStack getSilkTouchDrop(IBlockState state)
-	{
-		return new ItemStack(Item.getItemFromBlock(this), 1, 0);
 	}
 
 	@Override

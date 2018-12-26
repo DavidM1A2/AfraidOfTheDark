@@ -52,22 +52,22 @@ public class EntityGhastlyEnaria extends EntityFlying implements IMCAnimatedEnti
 		super.onEntityUpdate();
 		if (this.ticksExisted == 1)
 		{
-			EntityPlayer closest = this.world.getClosestPlayer(this.posX, this.posY, this.posZ, AOTDDimensions.getBlocksBetweenIslands() / 2, false);
+			EntityPlayer closest = this.worldObj.getClosestPlayer(this.posX, this.posY, this.posZ, AOTDDimensions.getBlocksBetweenIslands() / 2, false);
 			if (closest == null)
 				this.setBenign(true);
 			else
 				this.setBenign(!closest.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.Enaria));
 		}
 
-		if (this.world.isRemote)
+		if (this.worldObj.isRemote)
 			if (this.isBenign())
 				if (!this.getAnimationHandler().isAnimationActive("dance"))
 					this.getAnimationHandler().activateAnimation("dance", 0);
 
-		if (!this.world.isRemote)
+		if (!this.worldObj.isRemote)
 			if (this.ticksExisted % PLAYER_CHECK_FREQUENCY == 0)
 			{
-				EntityPlayer entityPlayer = this.world.getClosestPlayerToEntity(this, 3);
+				EntityPlayer entityPlayer = this.worldObj.getClosestPlayerToEntity(this, 3);
 				if (entityPlayer != null && !entityPlayer.isDead)
 					AOTDDimensions.Nightmare.fromDimensionTo(entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerDimensionPreTeleport(), ((EntityPlayerMP) entityPlayer));
 			}
@@ -103,7 +103,7 @@ public class EntityGhastlyEnaria extends EntityFlying implements IMCAnimatedEnti
 	@Override
 	public boolean attackEntityFrom(final DamageSource damageSource, float damage)
 	{
-		if (damageSource == DamageSource.OUT_OF_WORLD)
+		if (damageSource == DamageSource.outOfWorld)
 			return super.attackEntityFrom(damageSource, damage);
 		return false;
 	}

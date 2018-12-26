@@ -31,7 +31,7 @@ public class FogRenderingEvents
 			// - .9989
 			if (insanity >= 0.1)
 			{
-				event.setRed(MathHelper.clamp(event.getRed() + (insanity / 100.0F), 0.0F, 1.0F));
+				event.setRed(MathHelper.clamp_float(event.getRed() + (insanity / 100.0F), 0.0F, 1.0F));
 			}
 		}
 	}
@@ -45,7 +45,7 @@ public class FogRenderingEvents
 		float f1;
 		float farPlaneDistance = Minecraft.getMinecraft().gameSettings.renderDistanceChunks * 16.0F;
 		int someUnknownInt = 0;
-		if (Minecraft.getMinecraft().world.provider.getDimension() == AOTDDimensions.Nightmare.getWorldID())
+		if (Minecraft.getMinecraft().theWorld.provider.getDimension() == AOTDDimensions.Nightmare.getWorldID())
 		{
 			fogDensity.setDensity(0.1f);
 			fogDensity.setCanceled(true);

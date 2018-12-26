@@ -6,7 +6,6 @@
 /gradle/
 /eclipse/
 /schematics/
-/out/
 .classpath
 .project
 AfraidOfTheDark.iml

@@ -27,11 +27,11 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class NightmareChunkGenerator implements IChunkGenerator
 {
-	private final World world;
+	private final World worldObj;
 
 	public NightmareChunkGenerator(World world)
 	{
-		this.world = world;
+		worldObj = world;
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class NightmareChunkGenerator implements IChunkGenerator
 		ChunkPrimer chunkprimer = new ChunkPrimer();
 		IBlockState iblockstate = Blocks.AIR.getDefaultState();
 
-		Chunk chunk = new Chunk(this.world, chunkprimer, x, z);
+		Chunk chunk = new Chunk(this.worldObj, chunkprimer, x, z);
 
 		byte[] biome = chunk.getBiomeArray();
 
@@ -66,16 +66,16 @@ public class NightmareChunkGenerator implements IChunkGenerator
 		// Every 62 chunks in the x direction (992 blocks)
 		if (x * 16 % AOTDDimensions.getBlocksBetweenIslands() == 0 && z == 0 && x != 0)
 		{
-			FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().sendMessage(new TextComponentString("A player has entered his/her nightmare realm for the first time. Expect a server freeze for the next 5 or so seconds."));
+			FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().sendChatMsg(new TextComponentString("A player has entered his/her nightmare realm for the first time. Expect a server freeze for the next 5 or so seconds."));
 
-			SchematicGenerator.generateSchematicWithLoot(AOTDSchematics.NightmareIsland.getSchematic(), this.world, x * 16, 0, z * 16, AOTDLootTables.NightmareIsland.getLootTable());
+			SchematicGenerator.generateSchematicWithLoot(AOTDSchematics.NightmareIsland.getSchematic(), this.worldObj, x * 16, 0, z * 16, AOTDLootTables.NightmareIsland.getLootTable());
 		}
 	}
 
 	@Override
 	public List<Biome.SpawnListEntry> getPossibleCreatures(EnumCreatureType enumCreatureType, BlockPos blockPos)
 	{
-		return this.world.getBiome(blockPos).getSpawnableList(enumCreatureType);
+		return this.worldObj.getBiome(blockPos).getSpawnableList(enumCreatureType);
 	}
 
 	@Override

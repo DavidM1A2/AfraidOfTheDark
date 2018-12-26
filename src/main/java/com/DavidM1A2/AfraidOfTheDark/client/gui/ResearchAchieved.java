@@ -111,7 +111,7 @@ public class ResearchAchieved extends Gui
 
 	public void updateResearchAchievedWindow()
 	{
-		if ((this.theType != null) && (this.notificationTime != 0L) && (Minecraft.getMinecraft().player != null))
+		if ((this.theType != null) && (this.notificationTime != 0L) && (Minecraft.getMinecraft().thePlayer != null))
 		{
 			double d0 = (Minecraft.getSystemTime() - this.notificationTime) / 3000.0D;
 

@@ -70,13 +70,13 @@ public class SextantGUI extends AOTDGuiScreen
 							entityPlayer.closeScreen();
 						}
 						else if (SextantGUI.this.angle.getText().isEmpty() || SextantGUI.this.latitude.getText().isEmpty() || SextantGUI.this.longitude.getText().isEmpty())
-							entityPlayer.sendMessage(new TextComponentString("I forgot to fill out one of the fields."));
+							entityPlayer.addChatMessage(new TextComponentString("I forgot to fill out one of the fields."));
 						else
-							entityPlayer.sendMessage(new TextComponentString("The calculation was not sucessful.\nMaybe I entered incorrect numbers or should find another meteor to track."));
+							entityPlayer.addChatMessage(new TextComponentString("The calculation was not sucessful.\nMaybe I entered incorrect numbers or should find another meteor to track."));
 					}
 					catch (final Exception e)
 					{
-						entityPlayer.sendMessage(new TextComponentString("The calculation was not sucessful.\nMaybe I entered incorrect numbers or should find another meteor to track."));
+						entityPlayer.addChatMessage(new TextComponentString("The calculation was not sucessful.\nMaybe I entered incorrect numbers or should find another meteor to track."));
 					}
 			}
 		});
@@ -102,13 +102,13 @@ public class SextantGUI extends AOTDGuiScreen
 
 	private void tellServerToCreateMeteor(final EntityPlayer entityPlayer)
 	{
-		final Random random = entityPlayer.world.rand;
-		final int xLocOfDrop = (int) entityPlayer.posX + (((random.nextDouble() >= .5) ? -1 : 1) * (entityPlayer.world.rand.nextInt(500) + 15));
-		final int zLocOfDrop = (int) entityPlayer.posZ + (((random.nextDouble() >= .5) ? -1 : 1) * (entityPlayer.world.rand.nextInt(500) + 15));
+		final Random random = entityPlayer.worldObj.rand;
+		final int xLocOfDrop = (int) entityPlayer.posX + (((random.nextDouble() >= .5) ? -1 : 1) * (entityPlayer.worldObj.rand.nextInt(500) + 15));
+		final int zLocOfDrop = (int) entityPlayer.posZ + (((random.nextDouble() >= .5) ? -1 : 1) * (entityPlayer.worldObj.rand.nextInt(500) + 15));
 
 		final BlockPos location = new BlockPos(xLocOfDrop, 255, zLocOfDrop);
 		AfraidOfTheDark.instance.getPacketHandler().sendToServer(new SpawnMeteor(location, 3, 3, ClientData.watchedMeteorType.getIndex()));
-		entityPlayer.sendMessage(new TextComponentString("Based off of this information the meteor fell at " + xLocOfDrop + ", " + zLocOfDrop));
+		entityPlayer.addChatMessage(new TextComponentString("Based off of this information the meteor fell at " + xLocOfDrop + ", " + zLocOfDrop));
 		ClientData.selectedMeteor = new int[]
 		{ -1, -1, -1 };
 		ClientData.watchedMeteorType = null;

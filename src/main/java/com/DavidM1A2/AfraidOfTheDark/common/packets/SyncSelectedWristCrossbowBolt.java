@@ -45,7 +45,7 @@ public class SyncSelectedWristCrossbowBolt implements IMessage
 		@Override
 		public IMessage handleServerMessage(final EntityPlayer entityPlayer, final SyncSelectedWristCrossbowBolt msg, MessageContext ctx)
 		{
-			entityPlayer.world.getMinecraftServer().addScheduledTask(new Runnable()
+			entityPlayer.worldObj.getMinecraftServer().addScheduledTask(new Runnable()
 			{
 				@Override
 				public void run()

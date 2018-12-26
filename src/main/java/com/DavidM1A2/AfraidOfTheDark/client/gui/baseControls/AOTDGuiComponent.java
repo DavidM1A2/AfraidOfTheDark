@@ -31,7 +31,7 @@ public abstract class AOTDGuiComponent
 	private Rectangle scaledBoundingBox = new Rectangle();
 	private float[] color = new float[]
 	{ 1.0f, 1.0f, 1.0f, 1.0f };
-	protected final EntityPlayerSP entityPlayer = Minecraft.getMinecraft().player;
+	protected final EntityPlayerSP entityPlayer = Minecraft.getMinecraft().thePlayer;
 	protected final FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
 	private String[] hoverText = new String[0];
 
@@ -234,16 +234,16 @@ public abstract class AOTDGuiComponent
 
 	public void brightenColor(float amount)
 	{
-		this.color[0] = MathHelper.clamp(this.color[0] + amount, 0, 1.0f);
-		this.color[1] = MathHelper.clamp(this.color[1] + amount, 0, 1.0f);
-		this.color[2] = MathHelper.clamp(this.color[2] + amount, 0, 1.0f);
+		this.color[0] = MathHelper.clamp_float(this.color[0] + amount, 0, 1.0f);
+		this.color[1] = MathHelper.clamp_float(this.color[1] + amount, 0, 1.0f);
+		this.color[2] = MathHelper.clamp_float(this.color[2] + amount, 0, 1.0f);
 	}
 
 	public void darkenColor(float amount)
 	{
-		this.color[0] = MathHelper.clamp(this.color[0] - amount, 0, 1.0f);
-		this.color[1] = MathHelper.clamp(this.color[1] - amount, 0, 1.0f);
-		this.color[2] = MathHelper.clamp(this.color[2] - amount, 0, 1.0f);
+		this.color[0] = MathHelper.clamp_float(this.color[0] - amount, 0, 1.0f);
+		this.color[1] = MathHelper.clamp_float(this.color[1] - amount, 0, 1.0f);
+		this.color[2] = MathHelper.clamp_float(this.color[2] - amount, 0, 1.0f);
 	}
 
 	public String getHoverText()

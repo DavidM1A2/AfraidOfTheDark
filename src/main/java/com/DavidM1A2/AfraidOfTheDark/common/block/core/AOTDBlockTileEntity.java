@@ -57,7 +57,7 @@ public abstract class AOTDBlockTileEntity extends AOTDBlock implements ITileEnti
 			int i = EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, stack);
 			Item item = this.getItemDropped(state, worldIn.rand, i);
 
-			if (item == Items.AIR)
+			if (item == Items.field_190931_a)
 			{
 				return;
 			}

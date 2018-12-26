@@ -55,7 +55,7 @@ public abstract class EntityBolt extends EntityThrowable
 	{
 		final Entity entityHit = rayTraceResult.entityHit;
 
-		if (!this.world.isRemote)
+		if (!this.worldObj.isRemote)
 		{
 			if (entityHit != null)
 			{

@@ -18,8 +18,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-import java.util.Set;
-
 public abstract class AOTDChargableSword extends AOTDSword
 {
 	private final String itemName;
@@ -28,7 +26,6 @@ public abstract class AOTDChargableSword extends AOTDSword
 	{
 		super(material);
 		this.itemName = itemName;
-		this.maxStackSize = 1;
 		this.setUnlocalizedName(itemName);
 	}
 
@@ -60,7 +57,7 @@ public abstract class AOTDChargableSword extends AOTDSword
 	/**
 	 * Queries the percentage of the 'Durability' bar that should be drawn.
 	 *
-	 * @param itemStack
+	 * @param stack
 	 *            The current ItemStack
 	 * @return 1.0 for 100% 0 for 0%
 	 */
@@ -85,7 +82,7 @@ public abstract class AOTDChargableSword extends AOTDSword
 	/**
 	 * This used to be 'display damage' but its really just 'aux' data in the ItemStack, usually shares the same variable as damage.
 	 * 
-	 * @param itemStack
+	 * @param stack
 	 * @return
 	 */
 	@Override
@@ -115,10 +112,19 @@ public abstract class AOTDChargableSword extends AOTDSword
 		else
 		{
 			if (!world.isRemote)
-				entityPlayer.sendMessage(new TextComponentString("I'll need more energy to perform the ability."));
+				entityPlayer.addChatMessage(new TextComponentString("I'll need more energy to perform the ability."));
 		}
 
 		return ActionResult.<ItemStack> newResult(EnumActionResult.SUCCESS, itemStack);
+	}
+
+	/**
+	 * Does not check isDamagable and check if it cannot be stacked
+	 */
+	@Override
+	public boolean isItemTool(ItemStack stack)
+	{
+		return this.getItemStackLimit(stack) == 1;
 	}
 
 	public abstract int percentChargePerAttack();

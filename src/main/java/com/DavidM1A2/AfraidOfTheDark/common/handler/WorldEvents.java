@@ -55,7 +55,7 @@ public class WorldEvents
 					}
 				}
 				if (newEnaria != null)
-					event.getWorld().spawnEntity(newEnaria);
+					event.getWorld().spawnEntityInWorld(newEnaria);
 			}
 	}
 
@@ -85,11 +85,11 @@ public class WorldEvents
 	private void updateInsanity()
 	{
 		// Loop through
-		for (final EntityPlayer entityPlayer : FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers())
+		for (final EntityPlayer entityPlayer : FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerList())
 		{
 			// if (AOTDPlayerData.get(entityPlayer).getHasStartedAOTD())
 			// {
-			// if (entityPlayer.world.getBiomeGenForCoords(new BlockPos((int)
+			// if (entityPlayer.worldObj.getBiomeGenForCoords(new BlockPos((int)
 			// entityPlayer.posX, 0, (int) entityPlayer.posZ)) ==
 			// ModBiomes.erieForest)
 			// {

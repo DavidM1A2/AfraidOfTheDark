@@ -74,7 +74,7 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, ICanTa
 	@Override
 	public void onLivingUpdate()
 	{
-		if (!this.world.isRemote)
+		if (!this.worldObj.isRemote)
 		{
 			this.bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
 			if (this.ticksExisted == 1)
@@ -157,8 +157,8 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, ICanTa
 				EntityPlayer entityPlayer = (EntityPlayer) source;
 				if (!entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.Enaria.getPrevious()))
 				{
-					if (!entityPlayer.world.isRemote)
-						entityPlayer.sendMessage(new TextComponentString("I can't understand who I'm fighting...."));
+					if (!entityPlayer.worldObj.isRemote)
+						entityPlayer.addChatMessage(new TextComponentString("I can't understand who I'm fighting...."));
 					return false;
 				}
 			}
@@ -205,7 +205,7 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, ICanTa
 			}
 		}
 
-		return super.attackEntityFrom(DamageSource.GENERIC, 1);
+		return super.attackEntityFrom(DamageSource.generic, 1);
 	}
 
 	@Override
@@ -217,9 +217,9 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, ICanTa
 		{
 			if (cause.getEntity() instanceof EntityPlayer)
 			{
-				for (EntityPlayer entityPlayer : this.world.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().expand(RESEARCH_UNLOCK_RANGE, RESEARCH_UNLOCK_RANGE, RESEARCH_UNLOCK_RANGE)))
+				for (EntityPlayer entityPlayer : this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().expand(RESEARCH_UNLOCK_RANGE, RESEARCH_UNLOCK_RANGE, RESEARCH_UNLOCK_RANGE)))
 				{
-					if (!world.isRemote)
+					if (!worldObj.isRemote)
 					{
 						if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(ResearchTypes.Enaria))
 						{
@@ -249,7 +249,7 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, ICanTa
 	@Override
 	public void moveEntityWithHeading(float strafe, float forward)
 	{
-		if (this.world.isRemote)
+		if (this.worldObj.isRemote)
 			if (this.motionX > 0.05 || this.motionZ > 0.05 || this.motionX < -0.05 || this.motionZ < -0.05)
 				if (!this.animHandler.isAnimationActive("spell") && !animHandler.isAnimationActive("autoattack") && !animHandler.isAnimationActive("armthrow") && !animHandler.isAnimationActive("walk"))
 					animHandler.activateAnimation("walk", 0);

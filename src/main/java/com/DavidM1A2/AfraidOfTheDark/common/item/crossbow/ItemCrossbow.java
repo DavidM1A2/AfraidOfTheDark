@@ -59,14 +59,14 @@ public class ItemCrossbow extends AOTDItem
 	@Override
 	public boolean onEntitySwing(final EntityLivingBase entityLiving, final ItemStack itemStack)
 	{
-		if (!entityLiving.world.isRemote)
+		if (!entityLiving.worldObj.isRemote)
 		{
 			if (entityLiving instanceof EntityPlayer)
 			{
 				if (itemStack.getItemDamage() == 3)
 				{
 					itemStack.setItemDamage(0);
-					this.fireBolt((EntityPlayer) entityLiving, entityLiving.world, itemStack);
+					this.fireBolt((EntityPlayer) entityLiving, entityLiving.worldObj, itemStack);
 				}
 			}
 		}
@@ -105,7 +105,7 @@ public class ItemCrossbow extends AOTDItem
 						if (world.isRemote)
 						{
 							// Else we print out that the player needs bolts to fire
-							entityPlayer.sendMessage(new TextComponentString("I'll need at least one " + AOTDCrossbowBoltTypes.getTypeFromID(NBTHelper.getInt(itemStack, "mode")).formattedString() + "bolt in my inventory to shoot."));
+							entityPlayer.addChatMessage(new TextComponentString("I'll need at least one " + AOTDCrossbowBoltTypes.getTypeFromID(NBTHelper.getInt(itemStack, "mode")).formattedString() + "bolt in my inventory to shoot."));
 						}
 					}
 				}
@@ -120,7 +120,7 @@ public class ItemCrossbow extends AOTDItem
 		if (entity instanceof EntityPlayer)
 		{
 			EntityPlayer entityPlayer = (EntityPlayer) entity;
-			if (!entityPlayer.world.isRemote)
+			if (!entityPlayer.worldObj.isRemote)
 			{
 				count = this.getMaxItemUseDuration(itemStack) - count;
 				// On using we play a sound
@@ -178,9 +178,9 @@ public class ItemCrossbow extends AOTDItem
 		if (itemStack.getItemDamage() != 3)
 		{
 			NBTHelper.setInteger(itemStack, "mode", AOTDCrossbowBoltTypes.getIDFromType(AOTDCrossbowBoltTypes.getTypeFromID(NBTHelper.getInt(itemStack, "mode")).next()));
-			if (entityPlayer.world.isRemote)
+			if (entityPlayer.worldObj.isRemote)
 			{
-				entityPlayer.sendMessage(new TextComponentString("Crossbow will fire: " + AOTDCrossbowBoltTypes.getTypeFromID(NBTHelper.getInt(itemStack, "mode")).formattedString() + "bolts."));
+				entityPlayer.addChatMessage(new TextComponentString("Crossbow will fire: " + AOTDCrossbowBoltTypes.getTypeFromID(NBTHelper.getInt(itemStack, "mode")).formattedString() + "bolts."));
 			}
 		}
 	}
@@ -195,7 +195,7 @@ public class ItemCrossbow extends AOTDItem
 		bolt.posX = bolt.posX + bolt.motionX;
 		bolt.posY = bolt.posY + bolt.motionY;
 		bolt.posZ = bolt.posZ + bolt.motionZ;
-		world.spawnEntity(bolt);
+		world.spawnEntityInWorld(bolt);
 	}
 
 	// A message under the bow will tell us what type of arrows the bow will fire

@@ -36,23 +36,23 @@ public class Myself extends DeliveryMethod
 		if (previous instanceof EntityMyself)
 		{
 			return new EntitySpell[]
-			{ new EntityMyself(previous.world, previous.getSpellSource(), spellStageIndex, ((EntityMyself) previous).getTarget()) };
+			{ new EntityMyself(previous.worldObj, previous.getSpellSource(), spellStageIndex, ((EntityMyself) previous).getTarget()) };
 		}
 		else if (previous instanceof EntitySpellProjectile)
 		{
 			EntityLivingBase targetHit = ((EntitySpellProjectile) previous).getTargetHit();
 			return new EntitySpell[]
-			{ new EntityMyself(previous.world, previous.getSpellSource(), spellStageIndex, targetHit) };
+			{ new EntityMyself(previous.worldObj, previous.getSpellSource(), spellStageIndex, targetHit) };
 		}
 		else if (previous instanceof EntityAOE)
 		{
 			List<EntityLivingBase> affectedEntities = ((EntityAOE) previous).getAffectedEntities();
 			EntitySpell[] toReturn = new EntitySpell[affectedEntities.size()];
 			for (int i = 0; i < affectedEntities.size(); i++)
-				toReturn[i] = new EntityMyself(previous.world, previous.getSpellSource(), spellStageIndex, affectedEntities.get(i));
+				toReturn[i] = new EntityMyself(previous.worldObj, previous.getSpellSource(), spellStageIndex, affectedEntities.get(i));
 			if (toReturn.length == 0)
 				toReturn = new EntitySpell[]
-				{ new EntityMyself(previous.world, previous.getSpellSource(), spellStageIndex, null) };
+				{ new EntityMyself(previous.worldObj, previous.getSpellSource(), spellStageIndex, null) };
 			return toReturn;
 		}
 		else
@@ -71,7 +71,7 @@ public class Myself extends DeliveryMethod
 		if (spellOwner != null)
 		{
 			return new EntitySpell[]
-			{ new EntityMyself(spellOwner.world, callbackClone, 0, spellOwner) };
+			{ new EntityMyself(spellOwner.worldObj, callbackClone, 0, spellOwner) };
 		}
 		else
 		{

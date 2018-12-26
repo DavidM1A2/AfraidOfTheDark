@@ -88,7 +88,7 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 	@Override
 	public void onEntityUpdate()
 	{
-		if (!this.world.isRemote)
+		if (!this.worldObj.isRemote)
 		{
 			if (!hasPlayedStartAnimation)
 			{
@@ -118,13 +118,13 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 				{
 					if (killer.getHeldItemMainhand().getItem() instanceof ItemBladeOfExhumation)
 					{
-						this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY + 1, this.posZ, new ItemStack(ModItems.enchantedSkeletonBone, 1, 0)));
+						this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY + 1, this.posZ, new ItemStack(ModItems.enchantedSkeletonBone, 1, 0)));
 					}
 				}
 			}
 			else if (killer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(ResearchTypes.BladeOfExhumation))
 			{
-				if (!killer.world.isRemote)
+				if (!killer.worldObj.isRemote)
 				{
 					killer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(ResearchTypes.BladeOfExhumation, true);
 				}
@@ -132,7 +132,7 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 				{
 					if (killer.getHeldItemMainhand().getItem() instanceof ItemBladeOfExhumation)
 					{
-						this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY + 1, this.posZ, new ItemStack(ModItems.enchantedSkeletonBone, 1, 0)));
+						this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY + 1, this.posZ, new ItemStack(ModItems.enchantedSkeletonBone, 1, 0)));
 					}
 				}
 			}
@@ -163,7 +163,7 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 	@Override
 	public void moveEntityWithHeading(float strafe, float forward)
 	{
-		if (this.world.isRemote)
+		if (this.worldObj.isRemote)
 		{
 			if (!animHandler.isAnimationActive("Spawn") && !animHandler.isAnimationActive("Attack"))
 			{

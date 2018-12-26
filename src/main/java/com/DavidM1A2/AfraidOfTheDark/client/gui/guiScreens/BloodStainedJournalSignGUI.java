@@ -65,7 +65,7 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
 							entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).syncHasStartedAOTD();
 
 							entityPlayer.inventory.getStackInSlot(entityPlayer.inventory.currentItem).getTagCompound().setString("owner", entityPlayer.getDisplayName().getUnformattedText());
-							entityPlayer.sendMessage(new TextComponentString("What have I done?"));
+							entityPlayer.addChatMessage(new TextComponentString("What have I done?"));
 							entityPlayer.playSound(ModSounds.journalSign, 4.0F, 1.0F);
 							entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(ResearchTypes.AnUnbreakableCovenant, true);
 							entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(ResearchTypes.Crossbow, true);
@@ -76,7 +76,7 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
 					{
 						if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getHasStartedAOTD() == false)
 						{
-							entityPlayer.sendMessage(new TextComponentString("*You expect something to happen... but nothing does. Perhaps the name you signed was incorrect?"));
+							entityPlayer.addChatMessage(new TextComponentString("*You expect something to happen... but nothing does. Perhaps the name you signed was incorrect?"));
 							entityPlayer.closeScreen();
 						}
 					}

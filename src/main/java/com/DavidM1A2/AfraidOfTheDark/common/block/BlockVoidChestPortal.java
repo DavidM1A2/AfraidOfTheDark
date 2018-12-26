@@ -107,7 +107,7 @@ public class BlockVoidChestPortal extends AOTDBlock
 					{
 						if (System.currentTimeMillis() - this.lastTimeEntered > BlockVoidChestPortal.TIME_INBETWEEN_MESSAGES)
 						{
-							entityPlayer.sendMessage(new TextComponentString("This mysterious block could become more useful later. I should write down the location of this place."));
+							entityPlayer.addChatMessage(new TextComponentString("This mysterious block could become more useful later. I should write down the location of this place."));
 							this.lastTimeEntered = System.currentTimeMillis();
 						}
 					}

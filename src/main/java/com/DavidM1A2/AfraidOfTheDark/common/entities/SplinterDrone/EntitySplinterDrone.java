@@ -55,13 +55,13 @@ public class EntitySplinterDrone extends EntityFlying implements IMCAnimatedEnti
 	{
 		if (!hasPlayedStartAnimation)
 		{
-			if (!this.world.isRemote)
+			if (!this.worldObj.isRemote)
 			{
 				AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncAnimation("Activate", this), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 50));
 				this.hasPlayedStartAnimation = true;
 			}
 		}
-		if (this.world.isRemote)
+		if (this.worldObj.isRemote)
 		{
 			if (!animHandler.isAnimationActive("Activate") && !animHandler.isAnimationActive("Charge") && !animHandler.isAnimationActive("Idle"))
 			{
@@ -79,7 +79,7 @@ public class EntitySplinterDrone extends EntityFlying implements IMCAnimatedEnti
 	{
 		super.onUpdate();
 
-		if (!this.world.isRemote && this.world.getDifficulty() == EnumDifficulty.PEACEFUL)
+		if (!this.worldObj.isRemote && this.worldObj.getDifficulty() == EnumDifficulty.PEACEFUL)
 		{
 			this.setDead();
 		}
@@ -115,7 +115,7 @@ public class EntitySplinterDrone extends EntityFlying implements IMCAnimatedEnti
 			{
 				EntityPlayer entityPlayer = (EntityPlayer) cause.getEntity();
 
-				if (!world.isRemote)
+				if (!worldObj.isRemote)
 				{
 					if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(ResearchTypes.GnomishCity))
 					{

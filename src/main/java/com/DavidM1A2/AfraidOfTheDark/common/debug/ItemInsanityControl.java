@@ -43,7 +43,7 @@ public class ItemInsanityControl extends AOTDItem
 			else if (!entityPlayer.isSneaking() && !entityPlayer.onGround)
 			{
 				double newInsanity = entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerInsanity() + 5;
-				MathHelper.clamp(newInsanity, 0, 100);
+				MathHelper.clamp_double(newInsanity, 0, 100);
 				entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setPlayerInsanity(newInsanity);
 				LogHelper.info("Insanity Level = " + entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerInsanity());
 			}
@@ -54,7 +54,7 @@ public class ItemInsanityControl extends AOTDItem
 				{
 					if (!entityPlayer.capabilities.isCreativeMode)
 					{
-						entityPlayer.world.createExplosion(entityPlayer, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ(), 2, true).doExplosionB(true);
+						entityPlayer.worldObj.createExplosion(entityPlayer, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ(), 2, true).doExplosionB(true);
 						entityPlayer.onKillCommand();
 					}
 				}
@@ -68,7 +68,7 @@ public class ItemInsanityControl extends AOTDItem
 				{
 					if (!entityPlayer.capabilities.isCreativeMode)
 					{
-						entityPlayer.world.createExplosion(entityPlayer, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ(), 2, true).doExplosionB(true);
+						entityPlayer.worldObj.createExplosion(entityPlayer, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ(), 2, true).doExplosionB(true);
 						entityPlayer.onKillCommand();
 					}
 				}

@@ -49,7 +49,7 @@ public class GhastlyEnariaPlayerChase extends EntityAIBase
 	public void startExecuting()
 	{
 		if (this.target == null)
-			this.target = enaria.world.getClosestPlayerToEntity(this.enaria, 500);
+			this.target = enaria.worldObj.getClosestPlayerToEntity(this.enaria, 500);
 
 		if (this.target == null || target.isDead)
 		{

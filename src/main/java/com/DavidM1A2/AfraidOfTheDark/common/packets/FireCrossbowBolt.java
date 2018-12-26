@@ -49,12 +49,12 @@ public class FireCrossbowBolt implements IMessage
 		@Override
 		public IMessage handleServerMessage(final EntityPlayer entityPlayer, final FireCrossbowBolt msg, final MessageContext ctx)
 		{
-			entityPlayer.world.getMinecraftServer().addScheduledTask(new Runnable()
+			entityPlayer.worldObj.getMinecraftServer().addScheduledTask(new Runnable()
 			{
 				@Override
 				public void run()
 				{
-					World world = entityPlayer.world;
+					World world = entityPlayer.worldObj;
 
 					// Only fire a bolt if the player is in creative or has the right bolt item
 					if (entityPlayer.capabilities.isCreativeMode || entityPlayer.inventory.clearMatchingItems(msg.boltType.getMyBoltItem(), -1, 1, null) == 1)
@@ -65,7 +65,7 @@ public class FireCrossbowBolt implements IMessage
 						bolt.posX = bolt.posX + bolt.motionX;
 						bolt.posY = bolt.posY + bolt.motionY;
 						bolt.posZ = bolt.posZ + bolt.motionZ;
-						world.spawnEntity(bolt);
+						world.spawnEntityInWorld(bolt);
 						world.playSound(entityPlayer, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, ModSounds.crossbowFire, SoundCategory.MASTER, 0.5F, ((world.rand.nextFloat() * 0.4F) + 0.8F));
 					}
 				}

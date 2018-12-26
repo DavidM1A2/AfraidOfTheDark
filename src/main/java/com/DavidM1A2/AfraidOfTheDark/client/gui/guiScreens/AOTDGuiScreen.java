@@ -32,7 +32,7 @@ public abstract class AOTDGuiScreen extends GuiScreen
 	private double guiScale = 1.0f;
 	private final AOTDGuiPanel contentPane;
 	protected final int INVENTORY_KEYCODE = Minecraft.getMinecraft().gameSettings.keyBindInventory.getKeyCode();
-	protected final EntityPlayerSP entityPlayer = Minecraft.getMinecraft().player;
+	protected final EntityPlayerSP entityPlayer = Minecraft.getMinecraft().thePlayer;
 	private List<SpriteSheetController> spriteSheetControllers = new LinkedList<SpriteSheetController>();
 	protected final FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
 	private boolean leftMouseButtonDown = false;
@@ -102,7 +102,7 @@ public abstract class AOTDGuiScreen extends GuiScreen
 		{
 			if ((keyCode == INVENTORY_KEYCODE))
 			{
-				Minecraft.getMinecraft().player.closeScreen();
+				Minecraft.getMinecraft().thePlayer.closeScreen();
 				GL11.glFlush();
 			}
 		}

@@ -24,11 +24,11 @@ import net.minecraft.world.chunk.IChunkGenerator;
 
 public class VoidChestChunkGenerator implements IChunkGenerator
 {
-	private final World world;
+	private final World worldObj;
 
 	public VoidChestChunkGenerator(World world)
 	{
-		this.world = world;
+		worldObj = world;
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class VoidChestChunkGenerator implements IChunkGenerator
 		ChunkPrimer chunkprimer = new ChunkPrimer();
 		IBlockState iblockstate = Blocks.AIR.getDefaultState();
 
-		Chunk chunk = new Chunk(this.world, chunkprimer, x, z);
+		Chunk chunk = new Chunk(this.worldObj, chunkprimer, x, z);
 
 		byte[] biome = chunk.getBiomeArray();
 
@@ -68,23 +68,23 @@ public class VoidChestChunkGenerator implements IChunkGenerator
 			{
 				for (int j = 0; j < 49; j++)
 				{
-					world.setBlockState(new BlockPos(x + i, 100, z + j), Blocks.BARRIER.getDefaultState());
-					world.setBlockState(new BlockPos(x + i, 100 + 48, z + j), Blocks.BARRIER.getDefaultState());
-					world.setBlockState(new BlockPos(x + 0, 100 + i, z + j), Blocks.BARRIER.getDefaultState());
-					world.setBlockState(new BlockPos(x + i, 100 + j, z + 0), Blocks.BARRIER.getDefaultState());
-					world.setBlockState(new BlockPos(x + 48, 100 + i, z + j), Blocks.BARRIER.getDefaultState());
-					world.setBlockState(new BlockPos(x + i, 100 + j, z + 48), Blocks.BARRIER.getDefaultState());
+					worldObj.setBlockState(new BlockPos(x + i, 100, z + j), Blocks.BARRIER.getDefaultState());
+					worldObj.setBlockState(new BlockPos(x + i, 100 + 48, z + j), Blocks.BARRIER.getDefaultState());
+					worldObj.setBlockState(new BlockPos(x + 0, 100 + i, z + j), Blocks.BARRIER.getDefaultState());
+					worldObj.setBlockState(new BlockPos(x + i, 100 + j, z + 0), Blocks.BARRIER.getDefaultState());
+					worldObj.setBlockState(new BlockPos(x + 48, 100 + i, z + j), Blocks.BARRIER.getDefaultState());
+					worldObj.setBlockState(new BlockPos(x + i, 100 + j, z + 48), Blocks.BARRIER.getDefaultState());
 				}
 			}
 
-			SchematicGenerator.generateSchematic(AOTDSchematics.VoidChestPortal.getSchematic(), this.world, x + 20, 100, z - 2);
+			SchematicGenerator.generateSchematic(AOTDSchematics.VoidChestPortal.getSchematic(), this.worldObj, x + 20, 100, z - 2);
 		}
 	}
 
 	@Override
 	public List getPossibleCreatures(EnumCreatureType enumCreatureType, BlockPos blockPos)
 	{
-		return this.world.getBiome(blockPos).getSpawnableList(enumCreatureType);
+		return this.worldObj.getBiome(blockPos).getSpawnableList(enumCreatureType);
 	}
 
 	@Override

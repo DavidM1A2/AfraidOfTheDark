@@ -36,18 +36,18 @@ public class AOE extends DeliveryMethod
 		if (previous instanceof EntityAOE)
 		{
 			return new EntitySpell[]
-			{ new EntityAOE(previous.world, spellSource, spellStageIndex, ((EntityAOE) previous).getSize() + 5.0, new BlockPos(previous)) };
+			{ new EntityAOE(previous.worldObj, spellSource, spellStageIndex, ((EntityAOE) previous).getSize() + 5.0, new BlockPos(previous)) };
 		}
 		else if (previous instanceof EntitySpellProjectile)
 		{
 			return new EntitySpell[]
-			{ new EntityAOE(previous.world, spellSource, spellStageIndex, 5.0, new BlockPos(previous)) };
+			{ new EntityAOE(previous.worldObj, spellSource, spellStageIndex, 5.0, new BlockPos(previous)) };
 		}
 		else if (previous instanceof EntityMyself)
 		{
 			EntityLivingBase target = ((EntityMyself) previous).getTarget();
 			return new EntitySpell[]
-			{ new EntityAOE(previous.world, spellSource, spellStageIndex, 10.0, new BlockPos(target)) };
+			{ new EntityAOE(previous.worldObj, spellSource, spellStageIndex, 10.0, new BlockPos(target)) };
 		}
 		else
 		{
@@ -65,7 +65,7 @@ public class AOE extends DeliveryMethod
 		if (spellOwner != null)
 		{
 			return new EntitySpell[]
-			{ new EntityAOE(spellOwner.world, callbackClone, 0, 5, new BlockPos(spellOwner)) };
+			{ new EntityAOE(spellOwner.worldObj, callbackClone, 0, 5, new BlockPos(spellOwner)) };
 		}
 		else
 		{

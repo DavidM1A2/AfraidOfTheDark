@@ -48,9 +48,9 @@ public class ItemEnchantedSkeletonBone extends AOTDItem
 	{
 		if (entityItem.ticksExisted % UPDATE_TIME_IN_TICKS == 0)
 		{
-			if (!entityItem.world.isRemote)
+			if (!entityItem.worldObj.isRemote)
 			{
-				List surroundingEntities = entityItem.world.getEntitiesWithinAABB(EntityItem.class, entityItem.getEntityBoundingBox().expand(COMBINE_RADIUS, COMBINE_RADIUS, COMBINE_RADIUS));
+				List surroundingEntities = entityItem.worldObj.getEntitiesWithinAABB(EntityItem.class, entityItem.getEntityBoundingBox().expand(COMBINE_RADIUS, COMBINE_RADIUS, COMBINE_RADIUS));
 
 				int numberOfBones = 0;
 				List<EntityItem> surroundingBones = new ArrayList<EntityItem>();
@@ -62,7 +62,7 @@ public class ItemEnchantedSkeletonBone extends AOTDItem
 					{
 						if (current.onGround)
 						{
-							numberOfBones = numberOfBones + currentStack.getCount();
+							numberOfBones = numberOfBones + currentStack.func_190916_E();
 							surroundingBones.add(current);
 						}
 					}
@@ -73,13 +73,13 @@ public class ItemEnchantedSkeletonBone extends AOTDItem
 					int numberOfSkeletonsToSpawn = numberOfBones / BONES_PER_SKELETON;
 					int bonesRemaining = numberOfBones % BONES_PER_SKELETON;
 
-					World world = entityItem.world;
+					World world = entityItem.worldObj;
 					for (int i = 0; i < numberOfSkeletonsToSpawn; i++)
 					{
 						EntityEnchantedSkeleton skeleton = new EntityEnchantedSkeleton(world);
 						skeleton.setLocationAndAngles(entityItem.posX, entityItem.posY + 0.01, entityItem.posZ, entityItem.rotationYaw, 0.0F);
 						skeleton.addPotionEffect(new PotionEffect(Potion.getPotionById(14), 2));
-						world.spawnEntity(skeleton);
+						world.spawnEntityInWorld(skeleton);
 
 						for (Object object : world.getEntitiesWithinAABB(EntityPlayer.class, entityItem.getEntityBoundingBox().expand(RESEARCH_UNLOCK_RADIUS, RESEARCH_UNLOCK_RADIUS, RESEARCH_UNLOCK_RADIUS)))
 						{
@@ -97,7 +97,7 @@ public class ItemEnchantedSkeletonBone extends AOTDItem
 					if (bonesRemaining > 0)
 					{
 						EntityItem leftOver = new EntityItem(world, entityItem.posX, entityItem.posY, entityItem.posZ, new ItemStack(ModItems.enchantedSkeletonBone, bonesRemaining));
-						world.spawnEntity(leftOver);
+						world.spawnEntityInWorld(leftOver);
 					}
 
 					for (EntityItem items : surroundingBones)

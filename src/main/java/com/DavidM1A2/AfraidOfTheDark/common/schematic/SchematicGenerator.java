@@ -17,6 +17,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.WorldGenerationUtility;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.LootTable;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockChorusFlower;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -159,6 +160,8 @@ public final class SchematicGenerator
 			}
 		}
 
+		/*
+
 		Iterator<Short> iteratorBlock = blocksToPlaceLater.iterator();
 		Iterator<Byte> iteratorMeta = blocksToPlaceLaterMeta.iterator();
 		Iterator<Point3D> iteratorLocation = laterBlockPositions.iterator();
@@ -189,15 +192,17 @@ public final class SchematicGenerator
 		{
 			world.checkLight(blockLocationsToUpdate.next().toBlockPos());
 		}
+
+		*/
 	}
 
 	private static void loadTileEntities(Schematic schematic, World world, int xPosition, int yPosition, int zPosition)
 	{
-		if (schematic.getTileEntities() != null)
+		if (schematic.getTileentities() != null)
 		{
-			for (int j = 0; j < schematic.getTileEntities().tagCount(); j++)
+			for (int j = 0; j < schematic.getTileentities().tagCount(); j++)
 			{
-				NBTTagCompound tileEntityCompound = schematic.getTileEntities().getCompoundTagAt(j);
+				NBTTagCompound tileEntityCompound = schematic.getTileentities().getCompoundTagAt(j);
 				TileEntity tileEntity = TileEntity.create(world, tileEntityCompound);
 
 				if (tileEntity != null)
@@ -216,11 +221,11 @@ public final class SchematicGenerator
 
 	private static void loadTileEntitiesWithLoot(Schematic schematic, World world, int xPosition, int yPosition, int zPosition, LootTable lootTable)
 	{
-		if (schematic.getTileEntities() != null)
+		if (schematic.getTileentities() != null)
 		{
-			for (int j = 0; j < schematic.getTileEntities().tagCount(); j++)
+			for (int j = 0; j < schematic.getTileentities().tagCount(); j++)
 			{
-				NBTTagCompound tileEntityCompound = schematic.getTileEntities().getCompoundTagAt(j);
+				NBTTagCompound tileEntityCompound = schematic.getTileentities().getCompoundTagAt(j);
 				TileEntity tileEntity = TileEntity.create(world, tileEntityCompound);
 
 				if (tileEntity != null)
@@ -255,7 +260,7 @@ public final class SchematicGenerator
 				if (entity != null)
 				{
 					entity.setPosition(entity.posX + xPosition, entity.posY + yPosition, entity.posZ + zPosition);
-					world.spawnEntity(entity);
+					world.spawnEntityInWorld(entity);
 				}
 			}
 		}

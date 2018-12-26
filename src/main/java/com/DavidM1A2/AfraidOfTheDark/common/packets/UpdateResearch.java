@@ -85,7 +85,7 @@ public class UpdateResearch implements IMessage
 		@Override
 		public IMessage handleServerMessage(final EntityPlayer entityPlayer, final UpdateResearch msg, MessageContext ctx)
 		{
-			entityPlayer.world.getMinecraftServer().addScheduledTask(new Runnable()
+			entityPlayer.worldObj.getMinecraftServer().addScheduledTask(new Runnable()
 			{
 				@Override
 				public void run()

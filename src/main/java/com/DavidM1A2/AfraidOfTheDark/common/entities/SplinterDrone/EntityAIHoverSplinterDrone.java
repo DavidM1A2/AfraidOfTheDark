@@ -75,11 +75,11 @@ public class EntityAIHoverSplinterDrone extends EntityAIBase
 
 	private double getHeightToMoveTo(double x, double z)
 	{
-		for (int y = MathHelper.floor(splinterDrone.posY); y > 0; y--)
+		for (int y = MathHelper.floor_double(splinterDrone.posY); y > 0; y--)
 		{
-			if (!(this.splinterDrone.world.getBlockState(new BlockPos(x, y, z)).getBlock() instanceof BlockAir))
+			if (!(this.splinterDrone.worldObj.getBlockState(new BlockPos(x, y, z)).getBlock() instanceof BlockAir))
 			{
-				return MathHelper.clamp(y + 3, 0.0D, 255D);
+				return MathHelper.clamp_double(y + 3, 0.0D, 255D);
 			}
 		}
 		return splinterDrone.posY;

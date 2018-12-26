@@ -20,12 +20,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class VoidChestWorldProvider extends WorldProvider
 {
 	@Override
-	protected void init()
+	public void createBiomeProvider()
 	{
 		this.biomeProvider = new BiomeProviderSingle(ModBiomes.voidChest);
 		this.hasNoSky = false;
 
-		if (this.world.isRemote)
+		if (this.worldObj.isRemote)
 		{
 			this.setSkyRenderer(new VoidChestSkyRenderer());
 		}
@@ -87,7 +87,7 @@ public class VoidChestWorldProvider extends WorldProvider
 	@Override
 	public IChunkGenerator createChunkGenerator()
 	{
-		return new VoidChestChunkGenerator(this.world);
+		return new VoidChestChunkGenerator(this.worldObj);
 	}
 
 	@Override

@@ -39,7 +39,7 @@ public class ItemTelescope extends AOTDItem
 			{
 				if (entityPlayer.getPosition().getY() <= 128)
 				{
-					entityPlayer.sendMessage(new TextComponentString("I can't see anything through these thick clouds. Maybe I could move to a higher elevation."));
+					entityPlayer.addChatMessage(new TextComponentString("I can't see anything through these thick clouds. Maybe I could move to a higher elevation."));
 				}
 				else
 				{
@@ -53,7 +53,7 @@ public class ItemTelescope extends AOTDItem
 			}
 			else
 			{
-				entityPlayer.sendMessage(new TextComponentString("I can't understand what this thing does."));
+				entityPlayer.addChatMessage(new TextComponentString("I can't understand what this thing does."));
 			}
 		}
 

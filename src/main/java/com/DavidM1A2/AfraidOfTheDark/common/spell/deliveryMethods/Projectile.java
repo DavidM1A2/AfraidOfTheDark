@@ -49,7 +49,7 @@ public class Projectile extends DeliveryMethod
 			int numSpells = 5;
 			EntitySpell[] spells = new EntitySpell[numSpells];
 			for (int i = 0; i < numSpells; i++)
-				spells[i] = new EntitySpellProjectile(spellSource, null, spellStageIndex, previous.posX, previous.posY, previous.posZ, previous.world.rand.nextDouble() - 0.5, previous.world.rand.nextDouble() - 0.5, previous.world.rand.nextDouble() - 0.5);
+				spells[i] = new EntitySpellProjectile(spellSource, null, spellStageIndex, previous.posX, previous.posY, previous.posZ, previous.worldObj.rand.nextDouble() - 0.5, previous.worldObj.rand.nextDouble() - 0.5, previous.worldObj.rand.nextDouble() - 0.5);
 			return spells;
 		}
 		else

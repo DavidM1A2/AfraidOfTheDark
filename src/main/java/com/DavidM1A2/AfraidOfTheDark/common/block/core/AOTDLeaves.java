@@ -68,6 +68,13 @@ public abstract class AOTDLeaves extends BlockLeaves
 		list.add(new ItemStack(itemIn, 1, 0));
 	}
 
+	// Can these leaf types stack?
+	@Override
+	protected ItemStack createStackedBlock(final IBlockState state)
+	{
+		return new ItemStack(Item.getItemFromBlock(this), 1, 0);
+	}
+
 	/**
 	 * Convert the given metadata into a BlockState for this Block
 	 */

@@ -66,7 +66,7 @@ public class SyncSpellManager implements IMessage
 		@Override
 		public IMessage handleServerMessage(final EntityPlayer entityPlayer, final SyncSpellManager msg, MessageContext ctx)
 		{
-			entityPlayer.world.getMinecraftServer().addScheduledTask(new Runnable()
+			entityPlayer.worldObj.getMinecraftServer().addScheduledTask(new Runnable()
 			{
 				@Override
 				public void run()

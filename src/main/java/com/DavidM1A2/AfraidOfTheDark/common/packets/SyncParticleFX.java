@@ -67,7 +67,7 @@ public class SyncParticleFX implements IMessage
 				@Override
 				public void run()
 				{
-					msg.particle.instantiateClient(entityPlayer.world, msg.x, msg.y, msg.z, 0, 0, 0);
+					msg.particle.instantiateClient(entityPlayer.worldObj, msg.x, msg.y, msg.z, 0, 0, 0);
 				}
 			});
 

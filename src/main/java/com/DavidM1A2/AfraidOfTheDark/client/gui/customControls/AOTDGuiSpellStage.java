@@ -74,7 +74,7 @@ public class AOTDGuiSpellStage extends AOTDGuiPanel
 			public void mouseEntered(AOTDMouseEvent event)
 			{
 				event.getSource().darkenColor(0.1f);
-				Minecraft.getMinecraft().player.playSound(ModSounds.spellCraftingButtonHover, 0.6f, 1.7f);
+				Minecraft.getMinecraft().thePlayer.playSound(ModSounds.spellCraftingButtonHover, 0.6f, 1.7f);
 			}
 		});
 		this.add(deliveryMethod);
@@ -107,7 +107,7 @@ public class AOTDGuiSpellStage extends AOTDGuiPanel
 			{
 				event.getSource().darkenColor(0.1f);
 				if (event.getSource().isVisible())
-					Minecraft.getMinecraft().player.playSound(ModSounds.spellCraftingButtonHover, 0.6f, 1.7f);
+					Minecraft.getMinecraft().thePlayer.playSound(ModSounds.spellCraftingButtonHover, 0.6f, 1.7f);
 			}
 
 			@Override

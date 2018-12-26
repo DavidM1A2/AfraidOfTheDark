@@ -112,7 +112,7 @@ public class AOTDPlayerData implements ICapabilitySerializable<NBTTagCompound>, 
 
 	public void setPlayerInsanity(double insanity)
 	{
-		this.playerInsanity = MathHelper.clamp(insanity, 0, 100);
+		this.playerInsanity = MathHelper.clamp_double(insanity, 0, 100);
 	}
 
 	public void syncPlayerInsanity()

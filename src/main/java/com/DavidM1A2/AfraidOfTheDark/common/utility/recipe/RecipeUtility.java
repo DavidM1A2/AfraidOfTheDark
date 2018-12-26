@@ -9,66 +9,18 @@ import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.google.common.base.Throwables;
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public class RecipeUtility
 {
-	private static Field eventHandlerField;
-	private static Field containerPlayerPlayerField;
-	private static Field slotCraftingPlayerField;
-
-	static
-	{
-		try
-		{
-			eventHandlerField = ReflectionHelper.findField(InventoryCrafting.class, "eventHandler");
-			containerPlayerPlayerField = ReflectionHelper.findField(ContainerPlayer.class, "player");
-			slotCraftingPlayerField = ReflectionHelper.findField(SlotCrafting.class, "player");
-		}
-		catch (Exception e)
-		{
-			eventHandlerField = ReflectionHelper.findField(InventoryCrafting.class, "field_70465_c");
-			containerPlayerPlayerField = ReflectionHelper.findField(ContainerPlayer.class, "field_82862_h");
-			slotCraftingPlayerField = ReflectionHelper.findField(SlotCrafting.class, "field_75238_b");
-		}
-	}
-
-	public static EntityPlayer getRecipeCrafter(InventoryCrafting inv)
-	{
-		try
-		{
-			Container container = (Container) eventHandlerField.get(inv);
-			if (container instanceof ContainerPlayer)
-			{
-				return (EntityPlayer) containerPlayerPlayerField.get(container);
-			}
-			else if (container instanceof ContainerWorkbench)
-			{
-				return (EntityPlayer) slotCraftingPlayerField.get(container.getSlot(0));
-			}
-			else
-			{
-				return null;
-			}
-		}
-		catch (Exception e)
-		{
-			throw Throwables.propagate(e);
-		}
-	}
-
 	public static List<ConvertedRecipe> getRecipesForItem(Item item)
 	{
 		List<ConvertedRecipe> convertedRecipes = new LinkedList<ConvertedRecipe>();

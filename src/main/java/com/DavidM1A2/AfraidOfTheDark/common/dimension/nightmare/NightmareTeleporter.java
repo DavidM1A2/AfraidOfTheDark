@@ -48,7 +48,7 @@ public class NightmareTeleporter extends Teleporter
 			if (entity instanceof EntityPlayer)
 			{
 				final EntityPlayer entityPlayer = (EntityPlayer) entity;
-				if (!entity.world.isRemote)
+				if (!entity.worldObj.isRemote)
 				{
 					NBTTagList inventory = new NBTTagList();
 					entityPlayer.inventory.writeToNBT(inventory);
@@ -135,9 +135,9 @@ public class NightmareTeleporter extends Teleporter
 	{
 		if (locationX == 0)
 		{
-			if (!entityPlayer.world.isRemote)
+			if (!entityPlayer.worldObj.isRemote)
 			{
-				entityPlayer.world.getMinecraftServer().getCommandManager().executeCommand(entityPlayer.world.getMinecraftServer(), "/save-all");
+				entityPlayer.worldObj.getMinecraftServer().getCommandManager().executeCommand(entityPlayer.worldObj.getMinecraftServer(), "/save-all");
 			}
 
 			int furthestOutPlayer = 0;
@@ -145,7 +145,7 @@ public class NightmareTeleporter extends Teleporter
 			{
 				furthestOutPlayer = Math.max(furthestOutPlayer, AOTDPlayerData.getPlayerLocationNightmareOffline(entityPlayerData));
 			}
-			for (EntityPlayer entityPlayerOther : entityPlayer.world.getMinecraftServer().getPlayerList().getPlayers())
+			for (EntityPlayer entityPlayerOther : entityPlayer.worldObj.getMinecraftServer().getPlayerList().getPlayerList())
 			{
 				if (!entityPlayer.isEntityEqual(entityPlayerOther))
 					furthestOutPlayer = Math.max(furthestOutPlayer, entityPlayerOther.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerLocationNightmare());

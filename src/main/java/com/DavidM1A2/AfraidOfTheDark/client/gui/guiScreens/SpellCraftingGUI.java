@@ -86,7 +86,7 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 	{
 		entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getSpellManager().updateSpell(this.spell);
 		entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).syncSpellManager();
-		entityPlayer.sendChatMessage("Spell " + spell.getName() + " successfully saved.");
+		entityPlayer.addChatMessage(new TextComponentString("Spell " + spell.getName() + " successfully saved."));
 	}
 
 	@Override
@@ -98,7 +98,7 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 			if (keyCode == INVENTORY_KEYCODE)
 			{
 				AOTDGuiSpellComponent.setSelectedComponent(null);
-				entityPlayer.openGui(Reference.MOD_ID, GuiHandler.SPELL_SELECTION_ID, entityPlayer.world, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ());
+				entityPlayer.openGui(Reference.MOD_ID, GuiHandler.SPELL_SELECTION_ID, entityPlayer.worldObj, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ());
 			}
 		}
 	}

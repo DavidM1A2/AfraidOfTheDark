@@ -30,7 +30,7 @@ public abstract class AOTDItemWithCooldownPerItem extends AOTDItem implements IH
 	/**
 	 * Queries the percentage of the 'Durability' bar that should be drawn.
 	 *
-	 * @param itemStack
+	 * @param stack
 	 *            The current ItemStack
 	 * @return 1.0 for 100% 0 for 0%
 	 */
@@ -43,7 +43,7 @@ public abstract class AOTDItemWithCooldownPerItem extends AOTDItem implements IH
 	public void setOnCooldown(ItemStack itemStack, EntityPlayer entityPlayer)
 	{
 		NBTHelper.setLong(itemStack, LAST_COOLDOWN, System.currentTimeMillis());
-		if (!entityPlayer.world.isRemote)
+		if (!entityPlayer.worldObj.isRemote)
 			AfraidOfTheDark.instance.getPacketHandler().sendTo(new SyncItemWithCooldown(System.currentTimeMillis(), this), (EntityPlayerMP) entityPlayer);
 	}
 
@@ -59,7 +59,7 @@ public abstract class AOTDItemWithCooldownPerItem extends AOTDItem implements IH
 
 	public int cooldownRemaining(ItemStack itemStack)
 	{
-		return MathHelper.ceil(this.getItemCooldownInTicks() / 20 - ((System.currentTimeMillis() - NBTHelper.getLong(itemStack, LAST_COOLDOWN)) / 1000));
+		return MathHelper.ceiling_double_int(this.getItemCooldownInTicks() / 20 - ((System.currentTimeMillis() - NBTHelper.getLong(itemStack, LAST_COOLDOWN)) / 1000));
 	}
 
 	@Override
