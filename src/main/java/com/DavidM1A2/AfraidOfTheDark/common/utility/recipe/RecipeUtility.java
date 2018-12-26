@@ -79,7 +79,7 @@ public class RecipeUtility
 			{
 				IRecipe currentRecipe = (IRecipe) recipe;
 				// Does this recipe apply to one of our items?
-				if (currentRecipe.getRecipeOutput().getItem() == item)
+				if (currentRecipe.getRecipeOutput() != null && currentRecipe.getRecipeOutput().getItem() == item)
 				{
 					// We know at this point that the recipe is for our item
 					ConvertedRecipe cleanedRecipe = RecipeUtility.getConvertedRecipeFromIRecipe(currentRecipe);

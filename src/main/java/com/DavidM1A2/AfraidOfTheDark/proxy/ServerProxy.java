@@ -25,7 +25,7 @@ public class ServerProxy extends CommonProxy
 	}
 
 	@Override
-	public void registerMiscellaneous()
+	public void registerMiscelaneous()
 	{
 		// Not used
 	}

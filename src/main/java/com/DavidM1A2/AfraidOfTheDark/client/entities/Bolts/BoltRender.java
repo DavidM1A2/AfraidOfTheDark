@@ -21,7 +21,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 // Mostly arrow source code but with an entity bolt
 @SideOnly(Side.CLIENT)
-public abstract class BoltRender<T extends EntityBolt> extends Render<T> {
+public class BoltRender<T extends EntityBolt> extends Render<T> {
 	// The texture the bolt will use to render itself
 	private final ResourceLocation BOLT_TEXTURE;
 
@@ -38,17 +38,17 @@ public abstract class BoltRender<T extends EntityBolt> extends Render<T> {
 	 * void func_76986_a(T entity, double d, double d1, double d2, float f,
 	 * float f1). But JAD is pre 1.5 so doesn't do that.
 	 */
-	public void doRender(final T entity, final double x, final double y, final double z,
+	public void doRender(final T p_76986_1_, final double p_76986_2_, final double p_76986_4_, final double p_76986_6_,
 			final float p_76986_8_, final float p_76986_9_) {
-		this.bindEntityTexture(entity);
+		this.bindEntityTexture(p_76986_1_);
 		GL11.glPushMatrix();
-		GL11.glTranslatef((float) x, (float) y, (float) z);
+		GL11.glTranslatef((float) p_76986_2_, (float) p_76986_4_, (float) p_76986_6_);
 		GL11.glRotatef(
-				(entity.prevRotationYaw + ((entity.rotationYaw - entity.prevRotationYaw) * p_76986_9_))
+				(p_76986_1_.prevRotationYaw + ((p_76986_1_.rotationYaw - p_76986_1_.prevRotationYaw) * p_76986_9_))
 						- 90.0F,
 				0.0F, 1.0F, 0.0F);
 		GL11.glRotatef(
-				entity.prevRotationPitch + ((entity.rotationPitch - entity.prevRotationPitch) * p_76986_9_),
+				p_76986_1_.prevRotationPitch + ((p_76986_1_.rotationPitch - p_76986_1_.prevRotationPitch) * p_76986_9_),
 				0.0F, 0.0F, 1.0F);
 		final Tessellator tessellator = Tessellator.getInstance();
 		final VertexBuffer vertexBuffer = tessellator.getBuffer();
