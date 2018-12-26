@@ -8,21 +8,14 @@ package com.DavidM1A2.AfraidOfTheDark.common.handler;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDimensions;
 
-import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogDensity;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GLContext;
 
 public class FogRenderingEvents
 {
@@ -49,10 +42,15 @@ public class FogRenderingEvents
 	// EntityRenderer
 	public void renderEventFogDensity(final FogDensity fogDensity)
 	{
+		float f1;
+		float farPlaneDistance = Minecraft.getMinecraft().gameSettings.renderDistanceChunks * 16.0F;
+		int someUnknownInt = 0;
 		if (Minecraft.getMinecraft().world.provider.getDimension() == AOTDDimensions.Nightmare.getWorldID())
 		{
 			fogDensity.setDensity(0.1f);
 			fogDensity.setCanceled(true);
 		}
+		else
+			fogDensity.setCanceled(false);
 	}
 }
