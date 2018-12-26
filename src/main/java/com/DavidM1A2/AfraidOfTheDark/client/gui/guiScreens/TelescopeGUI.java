@@ -60,7 +60,7 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
 				{
 					if (event.getSource().isHovered() && event.getClickedButton() == MouseButtonClicked.Left)
 					{
-						entityPlayer.sendMessage(new TextComponentString(TelescopeGUI.this.createMeteorMessage(((AOTDGuiMeteorButton) event.getSource()).getMyType())));
+						entityPlayer.sendChatMessage(TelescopeGUI.this.createMeteorMessage(((AOTDGuiMeteorButton) event.getSource()).getMyType()));
 						entityPlayer.closeScreen();
 					}
 				}

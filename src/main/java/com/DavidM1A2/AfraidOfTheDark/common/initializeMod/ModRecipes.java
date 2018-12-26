@@ -14,7 +14,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.RecipeSorter;
@@ -24,15 +23,6 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public class ModRecipes
 {
-	private static final ItemStack WATER_BOTTLE;
-
-	static
-	{
-		NBTTagCompound compound = new NBTTagCompound();
-		compound.setInteger("Id", 10);
-		WATER_BOTTLE = new ItemStack(Items.POTIONITEM, 1, 0, compound);
-	}
-
 	// Add recipes
 	public static void initialize()
 	{
@@ -109,7 +99,7 @@ public class ModRecipes
 		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(ModItems.bladeOfExhumation, 1), ResearchTypes.BladeOfExhumation, Items.DIAMOND, new ItemStack(ModItems.bladeOfExhumation, 1, OreDictionary.WILDCARD_VALUE)));
 
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.flaskOfSouls, 1), ResearchTypes.SlayingOfTheWolves, "ada", "bcb", "aba", 'a', ModItems.werewolfBlood, 'b', Blocks.GLASS, 'c', Blocks.DIAMOND_BLOCK, 'd', Items.LEATHER));
-		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(ModItems.flaskOfSouls, 1), ResearchTypes.PhylacteryOfSouls, new ItemStack(ModItems.flaskOfSouls, 1, 1), WATER_BOTTLE.copy()));
+		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(ModItems.flaskOfSouls, 1), ResearchTypes.PhylacteryOfSouls, new ItemStack(ModItems.flaskOfSouls, 1, 1), new ItemStack(Items.POTIONITEM, 1, 0)));
 
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModBlocks.gnomishMetalPlate, 3), ResearchTypes.GnomishCity, " a ", "bbb", " a ", 'a', ModItems.gnomishMetalIngot, 'b', Blocks.STONE));
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModBlocks.gnomishMetalStrut, 3), ResearchTypes.GnomishCity, " b ", "aba", " b ", 'a', ModItems.gnomishMetalIngot, 'b', Blocks.STONE));

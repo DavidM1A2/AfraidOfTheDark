@@ -16,10 +16,10 @@ public abstract class PlayerFollowingSound extends MovingSound
 {
 	protected EntityPlayer entityPlayer;
 
-	protected PlayerFollowingSound(SoundEvent sound)
+	protected PlayerFollowingSound(ResourceLocation sound)
 	{
 		// SoundEvent.registerSound?
-		super(sound, SoundCategory.PLAYERS);
+		super(new SoundEvent(sound), SoundCategory.PLAYERS);
 		this.attenuationType = AttenuationType.NONE;
 	}
 

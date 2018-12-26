@@ -349,7 +349,7 @@ public class ClientProxy extends CommonProxy
 
 		final ItemModelMesher itemModelMesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
 		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.spring), 0, new ModelResourceLocation(Reference.MOD_ID + ":spring", "inventory"));
-		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.darkForest), 0, new ModelResourceLocation(Reference.MOD_ID + ":dark_forest", "inventory"));
+		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.darkForest), 0, new ModelResourceLocation(Reference.MOD_ID + ":darkForest", "inventory"));
 
 		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gravewood), 0, new ModelResourceLocation(Reference.MOD_ID + ":gravewood", "inventory"));
 		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.gravewoodLeaves), 0, new ModelResourceLocation(Reference.MOD_ID + ":gravewood_leaves", "inventory"));

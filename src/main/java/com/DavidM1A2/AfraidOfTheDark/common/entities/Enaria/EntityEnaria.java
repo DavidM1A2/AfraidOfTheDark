@@ -88,12 +88,26 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity, ICanTa
 	@Override
 	protected void applyEntityAttributes()
 	{
-		super.applyEntityAttributes();
-		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(EntityEnaria.MAX_HEALTH);
-		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(EntityEnaria.FOLLOW_RANGE);
-		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(EntityEnaria.KNOCKBACK_RESISTANCE);
-		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(EntityEnaria.MOVE_SPEED);
-		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(EntityEnaria.ATTACK_DAMAGE);
+		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH) == null)
+		{
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(EntityEnaria.MAX_HEALTH);
+		}
+		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.FOLLOW_RANGE) == null)
+		{
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(EntityEnaria.FOLLOW_RANGE);
+		}
+		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.KNOCKBACK_RESISTANCE) == null)
+		{
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(EntityEnaria.KNOCKBACK_RESISTANCE);
+		}
+		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED) == null)
+		{
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(EntityEnaria.MOVE_SPEED);
+		}
+		if (this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE) == null)
+		{
+			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(EntityEnaria.ATTACK_DAMAGE);
+		}
 	}
 
 	/**

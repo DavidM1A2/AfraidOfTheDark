@@ -5,7 +5,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.globalSounds;
 
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModSounds;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDimensions;
 
 import net.minecraft.util.ResourceLocation;
@@ -14,7 +13,7 @@ public class ErieEcho extends PlayerFollowingSound
 {
 	public ErieEcho()
 	{
-		super(ModSounds.erieEchos);
+		super(new ResourceLocation("afraidofthedark:erieEchos"));
 	}
 
 	@Override

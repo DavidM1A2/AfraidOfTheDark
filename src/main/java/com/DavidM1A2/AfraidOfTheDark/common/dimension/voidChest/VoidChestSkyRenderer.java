@@ -20,12 +20,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class VoidChestSkyRenderer extends IRenderHandler
 {
 	private static final ResourceLocation[] VOID_CHEST = new ResourceLocation[]
-	{       new ResourceLocation("afraidofthedark:textures/skybox/void_chest_top.png"),
-			new ResourceLocation("afraidofthedark:textures/skybox/void_chest_bottom.png"),
-			new ResourceLocation("afraidofthedark:textures/skybox/void_chest_side_1.png"),
-			new ResourceLocation("afraidofthedark:textures/skybox/void_chest_side_2.png"),
-			new ResourceLocation("afraidofthedark:textures/skybox/void_chest_side_3.png"),
-			new ResourceLocation("afraidofthedark:textures/skybox/void_chest_side_4.png") };
+	{       new ResourceLocation("afraidofthedark:textures/skybox/voidChestTop.png"), 
+			new ResourceLocation("afraidofthedark:textures/skybox/voidChestBottom.png"), 
+			new ResourceLocation("afraidofthedark:textures/skybox/voidChestSide1.png"), 
+			new ResourceLocation("afraidofthedark:textures/skybox/voidChestSide2.png"), 
+			new ResourceLocation("afraidofthedark:textures/skybox/voidChestSide3.png"), 
+			new ResourceLocation("afraidofthedark:textures/skybox/voidChestSide4.png") };
 
 	@Override
 	@SideOnly(Side.CLIENT)
