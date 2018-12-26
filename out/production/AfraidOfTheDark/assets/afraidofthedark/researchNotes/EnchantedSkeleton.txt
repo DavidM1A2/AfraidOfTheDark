@@ -1,6 +1,0 @@
-I just witnessed a pile of bones become animated. 
-While enchanted skeletons do not do a lot of damage and appear simple to kill,
-they recombine after being killed and re-animate like zombies. 
-I should try to contain the enchanted bones separately to keep them from combining. As far as I
-can tell, the bones are not useful for anything except bonemeal. I have also collected
-all the other dye recipes here for reference.

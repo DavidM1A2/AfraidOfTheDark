@@ -1,9 +1,0 @@
-{
-	"variants": {
-		"axis=y":    { "model": "afraidofthedark:gravewood" },
-        "axis=z":    { "model": "afraidofthedark:gravewood", "x": 90 },
-        "axis=x":    { "model": "afraidofthedark:gravewood", "x": 90, "y": 90 },
-        "axis=none": { "model": "afraidofthedark:gravewood_side" },
-		"inventory": { "model": "afraidofthedark:gravewood" }
-	}
-}

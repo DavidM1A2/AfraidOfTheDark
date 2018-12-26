@@ -5,7 +5,6 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.packets;
 
-import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntityBolt;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModSounds;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDCrossbowBoltTypes;
@@ -59,13 +58,7 @@ public class FireCrossbowBolt implements IMessage
 					// Only fire a bolt if the player is in creative or has the right bolt item
 					if (entityPlayer.capabilities.isCreativeMode || entityPlayer.inventory.clearMatchingItems(msg.boltType.getMyBoltItem(), -1, 1, null) == 1)
 					{
-						EntityBolt bolt = msg.boltType.createBolt(world, entityPlayer);
-						// Push the bolt slightly forward so it does not collide with the player
-						bolt.setHeadingFromThrower(entityPlayer, entityPlayer.rotationPitch, entityPlayer.rotationYaw, 0f, 3f, 0f);
-						bolt.posX = bolt.posX + bolt.motionX;
-						bolt.posY = bolt.posY + bolt.motionY;
-						bolt.posZ = bolt.posZ + bolt.motionZ;
-						world.spawnEntityInWorld(bolt);
+						world.spawnEntityInWorld(msg.boltType.createBolt(world, entityPlayer));
 						world.playSound(entityPlayer, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, ModSounds.crossbowFire, SoundCategory.MASTER, 0.5F, ((world.rand.nextFloat() * 0.4F) + 0.8F));
 					}
 				}

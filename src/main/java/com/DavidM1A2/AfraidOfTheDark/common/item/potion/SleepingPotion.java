@@ -12,6 +12,6 @@ public class SleepingPotion extends AOTDPotion
 	public SleepingPotion(ResourceLocation resourceLocation, boolean isBad, int color)
 	{
 		super(resourceLocation, isBad, color);
-		this.setPotionName("Drowsiness");
+		this.setPotionName("drowsyness");
 	}
 }

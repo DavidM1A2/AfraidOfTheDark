@@ -26,7 +26,6 @@ public class ModSounds
 	public static final SoundEvent spellCraftingButtonHover = create("spell_crafting_button_hover");
 	public static final SoundEvent bells = create("bells");
 	public static final SoundEvent erieEchos = create("erie_echos");
-	public static final SoundEvent keyTyped = create("key_typed");
 
 	public static void initialize()
 	{
@@ -43,7 +42,6 @@ public class ModSounds
 		GameRegistry.register(spellCraftingButtonHover);
 		GameRegistry.register(bells);
 		GameRegistry.register(erieEchos);
-		GameRegistry.register(keyTyped);
 	}
 
 	private static SoundEvent create(String name)

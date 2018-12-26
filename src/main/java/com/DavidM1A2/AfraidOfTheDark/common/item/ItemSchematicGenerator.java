@@ -8,7 +8,6 @@ package com.DavidM1A2.AfraidOfTheDark.common.item;
 import java.util.List;
 
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
-import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDLootTables;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDSchematics;
 import com.DavidM1A2.AfraidOfTheDark.common.schematic.SchematicGenerator;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
@@ -60,7 +59,7 @@ public class ItemSchematicGenerator extends AOTDItem
 			}
 			else
 			{
-				SchematicGenerator.generateSchematicWithLoot(this.getCurrentSchematic(itemStack).getSchematic(), world, entityPlayer.getPosition().getX() + 1, entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ() + 1, AOTDLootTables.Crypt.getLootTable());
+				SchematicGenerator.generateSchematic(this.getCurrentSchematic(itemStack).getSchematic(), world, entityPlayer.getPosition().getX() + 1, entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ() + 1);
 			}
 		else
 		{

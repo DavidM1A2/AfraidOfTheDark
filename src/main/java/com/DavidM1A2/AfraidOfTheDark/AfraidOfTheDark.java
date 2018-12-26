@@ -21,7 +21,18 @@ import com.DavidM1A2.AfraidOfTheDark.common.handler.GuiEventHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.handler.KeyInputEventHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.handler.PlayerController;
 import com.DavidM1A2.AfraidOfTheDark.common.handler.WorldEvents;
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.*;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBiomes;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModDimensions;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModEntities;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModFurnaceRecipies;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModGeneration;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModOreDictionaryCompatability;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModRecipes;
+import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModSounds;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.PacketHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
@@ -78,16 +89,16 @@ public class AfraidOfTheDark
 		// Initialize configuration
 		ConfigurationHandler.initializataion(event.getSuggestedConfigurationFile());
 		ModCapabilities.initialize();
-		MinecraftForge.EVENT_BUS.register(new ConfigurationHandler());
+		FMLCommonHandler.instance().bus().register(new ConfigurationHandler());
 		// Initialize any player events
 		final PlayerController controller = new PlayerController();
 		MinecraftForge.EVENT_BUS.register(controller);
 		MinecraftForge.EVENT_BUS.register(new FogRenderingEvents());
 		MinecraftForge.TERRAIN_GEN_BUS.register(controller);
-		MinecraftForge.EVENT_BUS.register(controller);
+		FMLCommonHandler.instance().bus().register(controller);
 		// Initialize any world events
 		WorldEvents worldEvents = new WorldEvents();
-		MinecraftForge.EVENT_BUS.register(worldEvents);
+		FMLCommonHandler.instance().bus().register(worldEvents);
 		MinecraftForge.EVENT_BUS.register(worldEvents);
 		if (event.getSide() == Side.CLIENT)
 		{
@@ -153,7 +164,7 @@ public class AfraidOfTheDark
 		// Initialize key input handler on client side only
 		if (event.getSide() == Side.CLIENT)
 		{
-			MinecraftForge.EVENT_BUS.register(new KeyInputEventHandler());
+			FMLCommonHandler.instance().bus().register(new KeyInputEventHandler());
 		}
 
 		if (ConfigurationHandler.debugMessages)

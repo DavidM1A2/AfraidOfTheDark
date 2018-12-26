@@ -21,6 +21,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemWristCrossbow extends AOTDItemWithCooldownStatic
 {
+	protected static double cooldown = 0;
+
 	public ItemWristCrossbow()
 	{
 		// 1 bow per itemstack

@@ -1,12 +1,12 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "afraidofthedark:items/star_metal_helmet"
+        "layer0": "items/barrier"
     },
     "display": {
         "thirdperson": {
             "rotation": [ -90, 0, 0 ],
-            "translation": [ 0, 1, -2.25 ],
+            "translation": [ 0, 1, -3 ],
             "scale": [ 0.55, 0.55, 0.55 ]
         },
         "firstperson": {

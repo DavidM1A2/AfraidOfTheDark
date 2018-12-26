@@ -31,7 +31,7 @@ public enum AOTDSchematics
 	PropPumpkin2("darkForest/PropPumpkin2.schematic"),
 	PropStump("darkForest/PropStump.schematic"),
 
-	Crypt("crypt_new.schematic"),
+	Crypt("Crypt.schematic"),
 
 	Spring("Spring.schematic"),
 

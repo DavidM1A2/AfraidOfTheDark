@@ -15,9 +15,7 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiImage;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiTextField;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.TextAlignment;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDKeyListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
-import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDKeyEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent.MouseButtonClicked;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
@@ -76,28 +74,11 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
 					{
 						if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getHasStartedAOTD() == false)
 						{
-							entityPlayer.addChatMessage(new TextComponentString("*You expect something to happen... but nothing does. Perhaps the name you signed was incorrect?"));
+							entityPlayer.addChatMessage(new TextComponentString("*You expect something to happen... but nothing does."));
 							entityPlayer.closeScreen();
 						}
 					}
 				}
-			}
-		});
-		signButton.addMouseListener(new AOTDMouseListener()
-		{
-			@Override
-			public void mouseEntered(AOTDMouseEvent event)
-			{
-				entityPlayer.playSound(ModSounds.buttonHover, 0.1f, 0.8f);
-			}
-		});
-		this.nameSignField.addKeyListener(new AOTDKeyListener()
-		{
-			@Override
-			public void keyTyped(AOTDKeyEvent event)
-			{
-				if (BloodStainedJournalSignGUI.this.nameSignField.isFocused())
-					entityPlayer.playSound(ModSounds.keyTyped, 0.4f, 0.8f);
 			}
 		});
 		backgroundPanel.add(signButton);

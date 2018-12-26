@@ -7,8 +7,6 @@ package com.DavidM1A2.AfraidOfTheDark.common.initializeMod;
 
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.AOTDWorldGenerationHandler;
 
-import net.minecraft.world.storage.loot.LootTable;
-import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ModGeneration

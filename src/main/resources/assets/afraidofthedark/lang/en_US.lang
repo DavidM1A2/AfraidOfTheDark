@@ -84,8 +84,6 @@ tile.afraidofthedark:glow_stalk.name=Glow Stalk
 tile.afraidofthedark:enaria_spawner.name=Enaria Spawner
 tile.afraidofthedark:enarias_altar.name=Enaria's Altar
 
-# Potion
-
 # Creative Tabs
 itemGroup.afraidofthedark=Afraid of the Dark
 

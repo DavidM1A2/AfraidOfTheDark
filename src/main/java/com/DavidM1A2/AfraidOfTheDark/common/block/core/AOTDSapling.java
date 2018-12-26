@@ -11,7 +11,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.IGrowable;
-import net.minecraft.block.SoundType;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
@@ -28,9 +27,6 @@ public abstract class AOTDSapling extends BlockBush implements IGrowable
 
 	public AOTDSapling()
 	{
-		super();
-		this.setHardness(0.0F);
-		this.setSoundType(SoundType.PLANT);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(STAGE_PROP, Integer.valueOf(0)));
 		this.setCreativeTab(Reference.AFRAID_OF_THE_DARK);
 	}

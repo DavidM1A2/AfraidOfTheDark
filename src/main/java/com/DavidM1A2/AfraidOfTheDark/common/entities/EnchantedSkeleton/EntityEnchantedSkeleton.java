@@ -14,7 +14,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.item.ItemBladeOfExhumation;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncAnimation;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 
-import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -74,18 +73,6 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 	}
 
 	@Override
-	public void onUpdate()
-	{
-		super.onUpdate();
-	}
-
-	@Override
-	public void onLivingUpdate()
-	{
-		super.onLivingUpdate();
-	}
-
-	@Override
 	public void onEntityUpdate()
 	{
 		if (!this.worldObj.isRemote)
@@ -93,9 +80,6 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 			if (!hasPlayedStartAnimation)
 			{
 				AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncAnimation("Spawn", this), new TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 50));
-				// Slowness and weakness
-				this.addPotionEffect(new PotionEffect(Potion.getPotionById(18), 60, 100));
-				this.addPotionEffect(new PotionEffect(Potion.getPotionById(2), 60, 100));
 				this.hasPlayedStartAnimation = true;
 			}
 		}

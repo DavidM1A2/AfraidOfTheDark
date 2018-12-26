@@ -12,8 +12,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public enum AOTDArt
 {
-	Victorian1("victorian_1.png", 256, 256, 12),
-	Victorian2("victorian_2.png", 256, 256, 12);
+	Victorian1("Victorian1.png", 256, 256, 12),
+	Victorian2("Victorian2.png", 256, 256, 12);
 
 	private final ResourceLocation texture;
 

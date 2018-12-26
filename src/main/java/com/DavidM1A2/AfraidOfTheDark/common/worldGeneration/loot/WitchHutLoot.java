@@ -13,7 +13,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
 
 public class WitchHutLoot implements IChestGenerator
 {
@@ -26,6 +25,7 @@ public class WitchHutLoot implements IChestGenerator
 		toReturn.add(new RandomItem(new ItemStack(Items.POTIONITEM, 1, random.nextInt(20) + 5), 8));
 
 		toReturn.add(new RandomItem(ModItems.researchScrollWristCrossbow, 1));
+
 		return toReturn;
 	}
 }

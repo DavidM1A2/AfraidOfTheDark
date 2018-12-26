@@ -5,6 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.initializeMod;
 
+import com.DavidM1A2.AfraidOfTheDark.common.block.BlockAOTDBarrier;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockAmorphousEldritchMetal;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockAstralSilverOre;
 import com.DavidM1A2.AfraidOfTheDark.common.block.BlockDarkForest;
@@ -64,7 +65,9 @@ public class ModBlocks
 	public static final BlockGravewoodStairs gravewoodStairs = new BlockGravewoodStairs();
 	public static final Item gravewoodStairsItem = new ItemBlock(gravewoodStairs).setRegistryName("gravewood_stairs");
 	public static final BlockGravewoodHalfSlab gravewoodHalfSlab = new BlockGravewoodHalfSlab();
+	public static final Item gravewoodHalfSlabItem = new ItemBlock(gravewoodHalfSlab).setRegistryName("gravewood_half_slab");
 	public static final BlockGravewoodDoubleSlab gravewoodDoubleSlab = new BlockGravewoodDoubleSlab();
+	public static final Item gravewoodDoubleSlabItem = new ItemBlock(gravewoodDoubleSlab).setRegistryName("gravewood_upper_slab");
 	public static final BlockGravewoodSapling gravewoodSapling = new BlockGravewoodSapling();
 	public static final Item gravewoodSaplingItem = new ItemBlock(gravewoodSapling).setRegistryName("gravewood_sapling");
 	public static final BlockGravewoodLeaves gravewoodLeaves = new BlockGravewoodLeaves();
@@ -111,6 +114,8 @@ public class ModBlocks
 	public static final Item amorphousEldritchMetalItem = new ItemBlock(amorphousEldritchMetal).setRegistryName("amorphous_eldritch_metal");
 	public static final BlockEldritchStone eldritchStone = new BlockEldritchStone();
 	public static final Item eldritchStoneItem = new ItemBlock(eldritchStone).setRegistryName("eldritch_stone");
+	public static final BlockAOTDBarrier aOTDBarrier = new BlockAOTDBarrier();
+	public static final Item aOTDBarrierItem = new ItemBlock(aOTDBarrier).setRegistryName("aotd_barrier");
 	public static final BlockGnomishMetalPlate gnomishMetalPlate = new BlockGnomishMetalPlate();
 	public static final Item gnomishMetalPlateItem = new ItemBlock(gnomishMetalPlate).setRegistryName("gnomish_metal_plate");
 	public static final BlockGnomishMetalStrut gnomishMetalStrut = new BlockGnomishMetalStrut();
@@ -136,44 +141,39 @@ public class ModBlocks
 		GameRegistry.register(ModBlocks.gravewoodItem);
 		GameRegistry.register(ModBlocks.gravewoodPlanks);
 		GameRegistry.register(ModBlocks.gravewoodPlanksItem);
+		Blocks.FIRE.setFireInfo(ModBlocks.gravewoodPlanks, 5, 5);
 		GameRegistry.register(ModBlocks.gravewoodStairs);
 		GameRegistry.register(ModBlocks.gravewoodStairsItem);
-		GameRegistry.register(ModBlocks.gravewoodHalfSlab);
-		GameRegistry.register(ModBlocks.gravewoodDoubleSlab);
+		Blocks.FIRE.setFireInfo(ModBlocks.gravewoodStairs, 5, 5);
 		GameRegistry.register(new ItemGravewoodSlab(ModBlocks.gravewoodHalfSlab, ModBlocks.gravewoodHalfSlab, ModBlocks.gravewoodDoubleSlab, false));
+		Blocks.FIRE.setFireInfo(ModBlocks.gravewoodHalfSlab, 5, 5);
 		GameRegistry.register(new ItemGravewoodSlab(ModBlocks.gravewoodDoubleSlab, ModBlocks.gravewoodHalfSlab, ModBlocks.gravewoodDoubleSlab, true));
+		Blocks.FIRE.setFireInfo(ModBlocks.gravewoodDoubleSlab, 5, 5);
 		GameRegistry.register(ModBlocks.gravewoodSapling);
 		GameRegistry.register(ModBlocks.gravewoodSaplingItem);
+		Blocks.FIRE.setFireInfo(ModBlocks.gravewoodSapling, 5, 5);
 		GameRegistry.register(ModBlocks.gravewoodLeaves);
 		GameRegistry.register(new ItemGravewoodLeaves(ModBlocks.gravewoodLeaves));
-
-		Blocks.FIRE.setFireInfo(ModBlocks.gravewoodPlanks, 5, 5);
-		Blocks.FIRE.setFireInfo(ModBlocks.gravewoodStairs, 5, 5);
-		Blocks.FIRE.setFireInfo(ModBlocks.gravewoodHalfSlab, 5, 5);
-		Blocks.FIRE.setFireInfo(ModBlocks.gravewoodSapling, 5, 5);
-		Blocks.FIRE.setFireInfo(ModBlocks.gravewoodDoubleSlab, 5, 5);
+		Blocks.FIRE.setFireInfo(ModBlocks.gravewoodLeaves, 5, 5);
 
 		GameRegistry.register(ModBlocks.mangrove);
 		GameRegistry.register(ModBlocks.mangroveItem);
+		Blocks.FIRE.setFireInfo(ModBlocks.mangrove, 5, 3);
 		GameRegistry.register(ModBlocks.mangrovePlanks);
 		GameRegistry.register(ModBlocks.mangrovePlanksItem);
+		Blocks.FIRE.setFireInfo(ModBlocks.mangrovePlanks, 5, 5);
 		GameRegistry.register(ModBlocks.mangroveStairs);
 		GameRegistry.register(ModBlocks.mangroveStairsItem);
-		GameRegistry.register(ModBlocks.mangroveHalfSlab);
-		GameRegistry.register(ModBlocks.mangroveDoubleSlab);
+		Blocks.FIRE.setFireInfo(ModBlocks.mangroveStairs, 5, 5);
 		GameRegistry.register(new ItemMangroveSlab(ModBlocks.mangroveHalfSlab, ModBlocks.mangroveHalfSlab, ModBlocks.mangroveDoubleSlab, false));
+		Blocks.FIRE.setFireInfo(ModBlocks.mangroveHalfSlab, 5, 5);
 		GameRegistry.register(new ItemMangroveSlab(ModBlocks.mangroveDoubleSlab, ModBlocks.mangroveHalfSlab, ModBlocks.mangroveDoubleSlab, true));
+		Blocks.FIRE.setFireInfo(ModBlocks.mangroveDoubleSlab, 5, 5);
 		GameRegistry.register(ModBlocks.mangroveSapling);
 		GameRegistry.register(ModBlocks.mangroveSaplingItem);
+		Blocks.FIRE.setFireInfo(ModBlocks.mangroveSapling, 5, 5);
 		GameRegistry.register(ModBlocks.mangroveLeaves);
 		GameRegistry.register(new ItemMangroveLeaves(ModBlocks.mangroveLeaves));
-
-		Blocks.FIRE.setFireInfo(ModBlocks.mangrove, 5, 3);
-		Blocks.FIRE.setFireInfo(ModBlocks.mangrovePlanks, 5, 5);
-		Blocks.FIRE.setFireInfo(ModBlocks.mangroveStairs, 5, 5);
-		Blocks.FIRE.setFireInfo(ModBlocks.mangroveHalfSlab, 5, 5);
-		Blocks.FIRE.setFireInfo(ModBlocks.mangroveDoubleSlab, 5, 5);
-		Blocks.FIRE.setFireInfo(ModBlocks.mangroveSapling, 5, 5);
 		Blocks.FIRE.setFireInfo(ModBlocks.mangroveLeaves, 5, 5);
 
 		GameRegistry.register(ModBlocks.sunstoneOre);
@@ -199,6 +199,8 @@ public class ModBlocks
 		GameRegistry.register(ModBlocks.amorphousEldritchMetalItem);
 		GameRegistry.register(ModBlocks.eldritchStone);
 		GameRegistry.register(ModBlocks.eldritchStoneItem);
+		GameRegistry.register(ModBlocks.aOTDBarrier);
+		GameRegistry.register(ModBlocks.aOTDBarrierItem);
 		GameRegistry.register(ModBlocks.gnomishMetalPlate);
 		GameRegistry.register(ModBlocks.gnomishMetalPlateItem);
 		GameRegistry.register(ModBlocks.gnomishMetalStrut);
