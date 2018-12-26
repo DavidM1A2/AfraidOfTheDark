@@ -9,16 +9,15 @@ import com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare.NightmareWorldPr
 import com.DavidM1A2.AfraidOfTheDark.common.dimension.voidChest.VoidChestWorldProvider;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDimensions;
 
-import net.minecraft.world.DimensionType;
 import net.minecraftforge.common.DimensionManager;
 
 public class ModDimensions
 {
 	public static void intialize()
 	{
-		DimensionType.register("Nightmare", "", AOTDDimensions.Nightmare.getWorldID(), NightmareWorldProvider.class, false);
-		DimensionManager.registerDimension(AOTDDimensions.Nightmare.getWorldID(), DimensionType.getById(AOTDDimensions.Nightmare.getWorldID()));
-		DimensionType.register("Void Chest", "", AOTDDimensions.VoidChest.getWorldID(), VoidChestWorldProvider.class, false);
-		DimensionManager.registerDimension(AOTDDimensions.VoidChest.getWorldID(), DimensionType.getById(AOTDDimensions.VoidChest.getWorldID()));
+		DimensionManager.registerProviderType(AOTDDimensions.Nightmare.getWorldID(), NightmareWorldProvider.class, false);
+		DimensionManager.registerDimension(AOTDDimensions.Nightmare.getWorldID(), AOTDDimensions.Nightmare.getWorldID());
+		DimensionManager.registerProviderType(AOTDDimensions.VoidChest.getWorldID(), VoidChestWorldProvider.class, false);
+		DimensionManager.registerDimension(AOTDDimensions.VoidChest.getWorldID(), AOTDDimensions.VoidChest.getWorldID());
 	}
 }

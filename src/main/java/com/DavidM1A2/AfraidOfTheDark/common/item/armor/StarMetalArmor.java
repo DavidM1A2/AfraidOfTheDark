@@ -16,11 +16,10 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -30,15 +29,15 @@ public class StarMetalArmor extends AOTDArmor
 	private static final String LAST_PROC = "lastProc";
 	private static final int PROC_CD_MILLIS = 120000; // 60000 millis aka 120s
 
-	public StarMetalArmor(final ArmorMaterial armorMaterial, final int renderIndex, final EntityEquipmentSlot equipmentSlot)
+	public StarMetalArmor(final ArmorMaterial armorMaterial, final int renderIndex, final int type)
 	{
-		super(armorMaterial, renderIndex, equipmentSlot);
-		this.setUnlocalizedName((equipmentSlot == EntityEquipmentSlot.HEAD) ? "starMetalHelmet" : (equipmentSlot == EntityEquipmentSlot.CHEST) ? "starMetalChestplate" : (equipmentSlot == EntityEquipmentSlot.LEGS) ? "starMetalLeggings" : "starMetalBoots");
+		super(armorMaterial, renderIndex, type);
+		this.setUnlocalizedName((type == 0) ? "starMetalHelmet" : (type == 1) ? "starMetalChestplate" : (type == 2) ? "starMetalLeggings" : "starMetalBoots");
 	}
 
 	@Override
 	// This is pretty self explanatory
-	public String getArmorTexture(final ItemStack armor, final Entity entity, final EntityEquipmentSlot equipmentSlot, final String type)
+	public String getArmorTexture(final ItemStack armor, final Entity entity, final int slot, final String type)
 	{
 		if (armor.getItem() == ModItems.starMetalLeggings)
 		{

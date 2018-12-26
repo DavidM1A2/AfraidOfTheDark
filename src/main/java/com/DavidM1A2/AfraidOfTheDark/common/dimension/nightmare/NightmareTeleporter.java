@@ -20,7 +20,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
 
@@ -59,7 +60,7 @@ public class NightmareTeleporter extends Teleporter
 
 					int locationX = this.validatePlayerLocationNightmare(entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerLocationNightmare(), entityPlayer) * AOTDDimensions.getBlocksBetweenIslands() + 20;
 
-					((EntityPlayerMP) entityPlayer).connection.setPlayerLocation(locationX, 74, 40, 0, 0);
+					((EntityPlayerMP) entityPlayer).playerNetServerHandler.setPlayerLocation(locationX, 74, 40, 0, 0);
 
 					entityPlayer.setHealth(20.0F);
 					entityPlayer.getFoodStats().setFoodLevel(20);
@@ -103,7 +104,7 @@ public class NightmareTeleporter extends Teleporter
 
 	private ItemStack getHintBook(EntityPlayer entityPlayer)
 	{
-		ItemStack toReturn = new ItemStack(Items.WRITTEN_BOOK, 1, 0);
+		ItemStack toReturn = new ItemStack(Items.written_book, 1, 0);
 		NBTHelper.setString(toReturn, "title", "Insanity's Heights");
 		NBTHelper.setString(toReturn, "author", "Foul Ole Ron");
 		NBTHelper.setBoolean(toReturn, "resolved", true);
@@ -137,7 +138,7 @@ public class NightmareTeleporter extends Teleporter
 		{
 			if (!entityPlayer.worldObj.isRemote)
 			{
-				entityPlayer.worldObj.getMinecraftServer().getCommandManager().executeCommand(entityPlayer.worldObj.getMinecraftServer(), "/save-all");
+				MinecraftServer.getServer().getCommandManager().executeCommand(MinecraftServer.getServer(), "/save-all");
 			}
 
 			int furthestOutPlayer = 0;
@@ -145,7 +146,7 @@ public class NightmareTeleporter extends Teleporter
 			{
 				furthestOutPlayer = Math.max(furthestOutPlayer, AOTDPlayerData.getPlayerLocationNightmareOffline(entityPlayerData));
 			}
-			for (EntityPlayer entityPlayerOther : entityPlayer.worldObj.getMinecraftServer().getPlayerList().getPlayerList())
+			for (EntityPlayer entityPlayerOther : MinecraftServer.getServer().getConfigurationManager().playerEntityList)
 			{
 				if (!entityPlayer.isEntityEqual(entityPlayerOther))
 					furthestOutPlayer = Math.max(furthestOutPlayer, entityPlayerOther.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerLocationNightmare());

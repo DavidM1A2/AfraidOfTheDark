@@ -12,30 +12,28 @@ import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockAstralSilverOre extends AOTDBlock
 {
 	public BlockAstralSilverOre()
 	{
-		super(Material.ROCK);
+		super(Material.rock);
 		this.setUnlocalizedName("astralSilverOre");
-		this.setRegistryName("astralSilverOre");
 		this.setHardness(10.0F);
 		this.setResistance(50.0F);
 		this.setHarvestLevel("pickaxe", 2);
 	}
 
 	@Override
-	public void harvestBlock(World world, EntityPlayer entityPlayer, BlockPos blockPos, IBlockState iBlockState, TileEntity tileEntity, ItemStack stack)
+	public void harvestBlock(World world, EntityPlayer entityPlayer, BlockPos blockPos, IBlockState iBlockState, TileEntity tileEntity)
 	{
 		if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(ResearchTypes.AstralSilver))
 		{
 			entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(ResearchTypes.AstralSilver, true);
 		}
-		super.harvestBlock(world, entityPlayer, blockPos, iBlockState, tileEntity, stack);
+		super.harvestBlock(world, entityPlayer, blockPos, iBlockState, tileEntity);
 	}
 }

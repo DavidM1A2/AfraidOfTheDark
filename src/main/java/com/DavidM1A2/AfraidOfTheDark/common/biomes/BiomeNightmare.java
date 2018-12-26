@@ -11,19 +11,27 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeGenBase;
 
-public class BiomeNightmare extends Biome
+public class BiomeNightmare extends BiomeGenBase
 {
-	private List<Biome.SpawnListEntry> spawnableCreatures = Lists.<Biome.SpawnListEntry> newArrayList();
+	private List<BiomeGenBase.SpawnListEntry> spawnableCreatures = Lists.<BiomeGenBase.SpawnListEntry> newArrayList();
 
 	public BiomeNightmare(int biomeID)
 	{
-		super(new Biome.BiomeProperties("Nightmare").setWaterColor(0xFF0000).setBaseHeight(0.125F).setHeightVariation(0.05F).setRainfall(1.0f));
+		super(biomeID);
+
+		this.biomeName = "Nightmare";
+		this.color = 0xFF0000;
+		this.enableRain = true;
+		this.setFillerBlockMetadata(5159473);
 		this.flowers.clear();
+		this.setHeight(new BiomeGenBase.Height(0.125F, 0.05F));
 		this.spawnableCreatureList.clear();
+		this.waterColorMultiplier = 0xFF0000;
 		this.theBiomeDecorator.treesPerChunk = 0;
-		this.topBlock = Blocks.DIRT.getDefaultState();
+		this.topBlock = Blocks.dirt.getDefaultState();
+		this.rainfall = 1.0F;
 	}
 
 	/**

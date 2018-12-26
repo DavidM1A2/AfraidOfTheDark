@@ -11,17 +11,16 @@ import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDArt;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockRedstoneDiode;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityHanging;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
@@ -94,7 +93,7 @@ public class EntityArtwork extends EntityHanging implements IEntityAdditionalSpa
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void setPositionAndRotationDirect(double x, double y, double z, float yaw, float pitch, int posRotationIncrements, boolean p_180426_10_)
+	public void setPositionAndRotation2(double x, double y, double z, float yaw, float pitch, int posRotationIncrements, boolean p_180426_10_)
 	{
 		BlockPos blockpos = this.hangingPosition.add(x - this.posX, y - this.posY, z - this.posZ);
 		this.setPosition((double) blockpos.getX(), (double) blockpos.getY(), (double) blockpos.getZ());
@@ -139,7 +138,7 @@ public class EntityArtwork extends EntityHanging implements IEntityAdditionalSpa
 	@Override
 	public boolean onValidSurface()
 	{
-		if (!this.worldObj.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty())
+		if (!this.worldObj.getCollidingBoundingBoxes(this, this.getEntityBoundingBox()).isEmpty())
 		{
 			return false;
 		}
@@ -155,12 +154,12 @@ public class EntityArtwork extends EntityHanging implements IEntityAdditionalSpa
 				for (int l = -j / 2 + 1; l < j / 2 + 1; ++l)
 				{
 					BlockPos blockpos1 = blockpos.offset(enumfacing, k).up(l);
-					IBlockState block = this.worldObj.getBlockState(blockpos1);
+					Block block = this.worldObj.getBlockState(blockpos1).getBlock();
 
 					if (block.isSideSolid(this.worldObj, blockpos1, this.facingDirection))
 						continue;
 
-					if (!block.getMaterial().isSolid() && !BlockRedstoneDiode.isDiode(block))
+					if (!block.getMaterial().isSolid() && !BlockRedstoneDiode.isRedstoneRepeaterBlockID(block))
 					{
 						return false;
 					}
@@ -195,8 +194,7 @@ public class EntityArtwork extends EntityHanging implements IEntityAdditionalSpa
 	/**
 	 * Updates the entity bounding box based on current facing
 	 */
-	@Override
-	protected void updateBoundingBox()
+	private void updateBoundingBox()
 	{
 		if (this.facingDirection != null)
 		{
@@ -240,11 +238,5 @@ public class EntityArtwork extends EntityHanging implements IEntityAdditionalSpa
 	private double someFunc(int size)
 	{
 		return size % 32 == 0 ? 0.5D : 0.0D;
-	}
-
-	@Override
-	public void playPlaceSound()
-	{
-		this.playSound(SoundEvents.ENTITY_PAINTING_PLACE, 0.15f, 1.0f);
 	}
 }

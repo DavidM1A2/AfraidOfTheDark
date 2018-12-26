@@ -10,6 +10,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.Me
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -43,14 +44,14 @@ public class SyncKeyPress implements IMessage
 	public static class Handler extends MessageHandler.Server<SyncKeyPress>
 	{
 		@Override
-		public IMessage handleServerMessage(final EntityPlayer entityPlayer, final SyncKeyPress msg, MessageContext ctx)
+		public IMessage handleServerMessage(final EntityPlayer player, final SyncKeyPress msg, MessageContext ctx)
 		{
-			entityPlayer.worldObj.getMinecraftServer().addScheduledTask(new Runnable()
+			MinecraftServer.getServer().addScheduledTask(new Runnable()
 			{
 				@Override
 				public void run()
 				{
-					entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getSpellManager().keyPressed(msg.characterName);
+					player.getCapability(ModCapabilities.PLAYER_DATA, null).getSpellManager().keyPressed(msg.characterName);
 				}
 			});
 			return null;

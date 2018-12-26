@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.RenderItem;
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
 
 public class AOTDGuiItemStack extends AOTDGuiContainer
@@ -68,8 +68,7 @@ public class AOTDGuiItemStack extends AOTDGuiContainer
 			if (itemStack != null && highlight != null && this.isHovered())
 			{
 				highlight.setVisible(true);
-				// func_190916_E() = itemStack.stackSize?
-				fontRenderer.drawStringWithShadow(itemStack.getDisplayName() + " x" + itemStack.func_190916_E(), this.getXScaled(), this.getYScaled() - 5, 0xFFFFFFFF);
+				fontRenderer.drawStringWithShadow(itemStack.getDisplayName() + " x" + itemStack.stackSize, this.getXScaled(), this.getYScaled() - 5, 0xFFFFFFFF);
 			}
 			else
 				highlight.setVisible(false);

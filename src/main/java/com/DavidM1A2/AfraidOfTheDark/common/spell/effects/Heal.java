@@ -11,7 +11,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.VitaeUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.AxisAlignedBB;
 
 public class Heal extends Effect
 {

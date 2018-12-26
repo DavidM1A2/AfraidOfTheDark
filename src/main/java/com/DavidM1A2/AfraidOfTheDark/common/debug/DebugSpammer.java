@@ -14,9 +14,9 @@ public class DebugSpammer
 	@SubscribeEvent
 	public void debug(final LivingUpdateEvent e)
 	{
-		if (e.getEntityLiving() instanceof EntityPlayer)
+		if (e.entityLiving instanceof EntityPlayer)
 		{
-			final EntityPlayer entityPlayer = (EntityPlayer) e.getEntityLiving();
+			final EntityPlayer entityPlayer = (EntityPlayer) e.entityLiving;
 		}
 	}
 }

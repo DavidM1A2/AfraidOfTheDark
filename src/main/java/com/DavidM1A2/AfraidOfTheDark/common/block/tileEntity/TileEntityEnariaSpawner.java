@@ -11,7 +11,8 @@ import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.EnumDifficulty;
 
 public class TileEntityEnariaSpawner extends AOTDTickingTileEntity
@@ -39,7 +40,7 @@ public class TileEntityEnariaSpawner extends AOTDTickingTileEntity
 					{
 						if (playerCheckRegion == null)
 						{
-							playerCheckRegion = new AxisAlignedBB(this.pos.getX() - 11, this.pos.getY() - 2, this.pos.getZ() - 2, this.pos.getX() + 11, this.pos.getY() + 11, this.pos.getZ() + 20);
+							playerCheckRegion = AxisAlignedBB.fromBounds(this.pos.getX() - 11, this.pos.getY() - 2, this.pos.getZ() - 2, this.pos.getX() + 11, this.pos.getY() + 11, this.pos.getZ() + 20);
 						}
 						for (Object object : this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, playerCheckRegion))
 						{
@@ -56,7 +57,7 @@ public class TileEntityEnariaSpawner extends AOTDTickingTileEntity
 					}
 					else
 					{
-						Entity entity = this.worldObj.getMinecraftServer().getEntityFromUuid(enariaEntityID);
+						Entity entity = MinecraftServer.getServer().getEntityFromUuid(enariaEntityID);
 
 						if (entity == null)
 						{
@@ -78,7 +79,7 @@ public class TileEntityEnariaSpawner extends AOTDTickingTileEntity
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound)
+	public void writeToNBT(NBTTagCompound compound)
 	{
 		if (this.enariaEntityID != null)
 		{
@@ -86,7 +87,6 @@ public class TileEntityEnariaSpawner extends AOTDTickingTileEntity
 			compound.setLong("enariaEntityIDLeast", this.enariaEntityID.getLeastSignificantBits());
 		}
 		super.writeToNBT(compound);
-		return compound;
 	}
 
 	@Override

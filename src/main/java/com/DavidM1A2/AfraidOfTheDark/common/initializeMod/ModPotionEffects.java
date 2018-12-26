@@ -15,7 +15,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class ModPotionEffects
 {
-	public static SleepingPotion sleepingPotion = new SleepingPotion(new ResourceLocation("afraidofthedark:textures/potionEffect/sleeping.png"), false, 0x000000);
+	public static SleepingPotion sleepingPotion = new SleepingPotion(30, new ResourceLocation("afraidofthedark:textures/potionEffect/sleeping.png"), false, 0x000000);
 
 	// Add recipes
 	public static void initialize()

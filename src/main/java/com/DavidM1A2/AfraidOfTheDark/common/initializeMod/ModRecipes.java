@@ -32,12 +32,12 @@ public class ModRecipes
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.astralSilverSword, 1), ResearchTypes.AstralSilver, "s", "s", "a", 's', ModItems.astralSilverIngot, 'a', "stickWood"));
 		// This can be: "stickWood" or new ItemStack(Items.stick))
 
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.ironBolt, 6), new ItemStack(Items.IRON_INGOT), new ItemStack(Items.IRON_INGOT)));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.ironBolt, 6), new ItemStack(Items.iron_ingot), new ItemStack(Items.iron_ingot)));
 		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(ModItems.silverBolt, 6), ResearchTypes.AstralSilver, new ItemStack(ModItems.astralSilverIngot, 1), new ItemStack(ModItems.astralSilverIngot, 1)));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.woodenBolt, 6), "stickWood", "stickWood"));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.crossbow), "abb", "bcd", "bdc", 'a', new ItemStack(Items.BOW), 'b', new ItemStack(Items.IRON_INGOT), 'c', new ItemStack(Blocks.PLANKS, 1), 'd', new ItemStack(Items.STRING)));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.wristCrossbow), "aba", "aca", "aba", 'a', new ItemStack(Items.LEATHER), 'b', new ItemStack(Items.STRING), 'c', new ItemStack(ModItems.crossbow, 1, 0)));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.wristCrossbow), "aba", "aca", "aba", 'a', new ItemStack(Items.LEATHER), 'b', new ItemStack(Items.STRING), 'c', new ItemStack(ModItems.crossbow, 1, 3)));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.crossbow), "abb", "bcd", "bdc", 'a', new ItemStack(Items.bow), 'b', new ItemStack(Items.iron_ingot), 'c', new ItemStack(Blocks.planks, 1), 'd', new ItemStack(Items.string)));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.wristCrossbow), "aba", "aca", "aba", 'a', new ItemStack(Items.leather), 'b', new ItemStack(Items.string), 'c', new ItemStack(ModItems.crossbow, 1, 0)));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.wristCrossbow), "aba", "aca", "aba", 'a', new ItemStack(Items.leather), 'b', new ItemStack(Items.string), 'c', new ItemStack(ModItems.crossbow, 1, 3)));
 
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModBlocks.gravewoodPlanks, 4), new ItemStack(ModBlocks.gravewood, 1, 0)));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.gravewoodStairs, 4), "aab", "abb", "bbb", 'b', new ItemStack(ModBlocks.gravewoodPlanks, 1, 0)));
@@ -57,56 +57,56 @@ public class ModRecipes
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.igneousBoots, 1), ResearchTypes.Igneous, "a a", "a a", 'a', ModItems.igneousGem));
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModBlocks.igneousBlock, 1), ResearchTypes.Igneous, "aaa", "aaa", "aaa", 'a', ModItems.igneousGem));
 		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(ModItems.igneousGem, 9), ResearchTypes.Igneous, new ItemStack(ModBlocks.igneousBlock, 1)));
-		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.igneousGem, 1), ResearchTypes.Igneous, "aba", "bab", "aba", 'a', Items.DIAMOND, 'b', ModItems.sunstoneFragment));
-		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.igneousSword, 1), ResearchTypes.Igneous, "b", "b", "a", 'a', Items.IRON_INGOT, 'b', ModItems.igneousGem));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.igneousGem, 1), ResearchTypes.Igneous, "aba", "bab", "aba", 'a', Items.diamond, 'b', ModItems.sunstoneFragment));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.igneousSword, 1), ResearchTypes.Igneous, "b", "b", "a", 'a', Items.iron_ingot, 'b', ModItems.igneousGem));
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.igneousBolt, 1), ResearchTypes.Igneous, "a", "a", 'a', ModItems.sunstoneFragment));
 
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.starMetalHelmet, 1), ResearchTypes.StarMetal, "aaa", "a a", 'a', ModItems.starMetalPlate));
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.starMetalChestplate, 1), ResearchTypes.StarMetal, "a a", "aaa", "aaa", 'a', ModItems.starMetalPlate));
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.starMetalLeggings, 1), ResearchTypes.StarMetal, "aaa", "a a", "a a", 'a', ModItems.starMetalPlate));
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.starMetalBoots, 1), ResearchTypes.StarMetal, "a a", "a a", 'a', ModItems.starMetalPlate));
-		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.starMetalPlate, 1), ResearchTypes.StarMetal, "aaa", "aba", "aaa", 'a', ModItems.starMetalIngot, 'b', Items.IRON_INGOT));
-		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.starMetalPlate, 1), ResearchTypes.StarMetal, "aaa", "aba", "aaa", 'a', ModItems.starMetalIngot, 'b', Items.GOLD_INGOT));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.starMetalPlate, 1), ResearchTypes.StarMetal, "aaa", "aba", "aaa", 'a', ModItems.starMetalIngot, 'b', Items.iron_ingot));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.starMetalPlate, 1), ResearchTypes.StarMetal, "aaa", "aba", "aaa", 'a', ModItems.starMetalIngot, 'b', Items.gold_ingot));
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.starMetalBolt, 6), ResearchTypes.StarMetal, "a", "a", 'a', ModItems.starMetalIngot));
 		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.starMetalStaff, 1), ResearchTypes.StarMetal, "a", "a", "a", 'a', ModItems.starMetalPlate));
-		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.starMetalKhopesh, 1), ResearchTypes.StarMetal, " a ", "a  ", " ab", 'a', ModItems.starMetalPlate, 'b', Items.IRON_INGOT));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.starMetalKhopesh, 1), ResearchTypes.StarMetal, " a ", "a  ", " ab", 'a', ModItems.starMetalPlate, 'b', Items.iron_ingot));
 
-		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.cloakOfAgility, 1), ResearchTypes.CloakOfAgility, "aba", "cdc", "aba", 'a', Items.LEATHER, 'b', Items.FEATHER, 'c', Items.STRING, 'd', Items.GOLD_INGOT));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.cloakOfAgility, 1), ResearchTypes.CloakOfAgility, "aba", "cdc", "aba", 'a', Items.leather, 'b', Items.feather, 'c', Items.string, 'd', Items.gold_ingot));
 
-		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.telescope), ResearchTypes.AstronomyI.getPrevious(), "ab ", "bcb", " ba", 'a', new ItemStack(Blocks.GLASS, 1, 0), 'b', Items.IRON_INGOT, 'c', Items.DIAMOND));
-		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.sextant), ResearchTypes.AstronomyI, " ab", "cac", " c ", 'a', "stickWood", 'b', new ItemStack(Blocks.GLASS, 1, 0), 'c', Items.IRON_INGOT));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.telescope), ResearchTypes.AstronomyI.getPrevious(), "ab ", "bcb", " ba", 'a', new ItemStack(Blocks.glass, 1, 0), 'b', Items.iron_ingot, 'c', Items.diamond));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.sextant), ResearchTypes.AstronomyI, " ab", "cac", " c ", 'a', "stickWood", 'b', new ItemStack(Blocks.glass, 1, 0), 'c', Items.iron_ingot));
 
-		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.vitaeLantern), ResearchTypes.VitaeI, "aba", "cdc", "aaa", 'a', Items.IRON_INGOT, 'b', new ItemStack(Blocks.IRON_BLOCK, 1, 0), 'c', new ItemStack(Blocks.GLASS, 1, 0), 'd', Items.DIAMOND));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.vitaeLantern), ResearchTypes.VitaeI, "aba", "cdc", "aaa", 'a', Items.iron_ingot, 'b', new ItemStack(Blocks.iron_block, 1, 0), 'c', new ItemStack(Blocks.glass, 1, 0), 'd', Items.diamond));
 
-		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModBlocks.vitaeDisenchanter), ResearchTypes.VitaeDisenchanter, "aba", "bcb", "aba", 'a', new ItemStack(ModBlocks.gravewood, 1, 0), 'b', new ItemStack(Blocks.IRON_BLOCK, 1, 0), 'c', new ItemStack(Blocks.DIAMOND_BLOCK, 1,
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModBlocks.vitaeDisenchanter), ResearchTypes.VitaeDisenchanter, "aba", "bcb", "aba", 'a', new ItemStack(ModBlocks.gravewood, 1, 0), 'b', new ItemStack(Blocks.iron_block, 1, 0), 'c', new ItemStack(Blocks.diamond_block, 1,
 				0)));
 
-		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModBlocks.voidChest), ResearchTypes.VoidChest, "aba", "bcb", "aba", 'a', new ItemStack(Blocks.OBSIDIAN, 1, 0), 'b', new ItemStack(Blocks.COAL_BLOCK, 1, 0), 'c', new ItemStack(Blocks.ENDER_CHEST, 1, 0)));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModBlocks.voidChest), ResearchTypes.VoidChest, "aba", "bcb", "aba", 'a', new ItemStack(Blocks.obsidian, 1, 0), 'b', new ItemStack(Blocks.coal_block, 1, 0), 'c', new ItemStack(Blocks.ender_chest, 1, 0)));
 
-		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(Items.DYE, 5, EnumDyeColor.WHITE.getDyeDamage()), ResearchTypes.EnchantedSkeleton, new ItemStack(ModItems.enchantedSkeletonBone)));
+		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(Items.dye, 5, EnumDyeColor.WHITE.getDyeDamage()), ResearchTypes.EnchantedSkeleton, new ItemStack(ModItems.enchantedSkeletonBone)));
 
 		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(ModItems.researchScrollVitae1, 1, 0), ResearchTypes.VitaeI.getPrevious(), new ItemStack(ModItems.researchScrollVitae1, 1, 1), new ItemStack(ModItems.researchScrollVitae1, 1, 2), new ItemStack(
 				ModItems.researchScrollVitae1, 1, 3), new ItemStack(ModItems.researchScrollVitae1, 1, 4), new ItemStack(ModItems.researchScrollVitae1, 1, 5)));
 		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(ModItems.researchScrollAstronomy2, 1, 0), ResearchTypes.AstronomyII.getPrevious(), new ItemStack(ModItems.researchScrollAstronomy2, 1, 1), new ItemStack(ModItems.researchScrollAstronomy2, 1, 2), new ItemStack(
 				ModItems.researchScrollAstronomy2, 1, 3), new ItemStack(ModItems.researchScrollAstronomy2, 1, 4)));
 
-		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.eldritchMetalIngot, 8), ResearchTypes.EldritchDecoration, "aaa", "aba", "aaa", 'a', Items.IRON_INGOT, 'b', Items.ENDER_PEARL));
-		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModBlocks.amorphousEldritchMetal, 8), ResearchTypes.EldritchDecoration, "aaa", "aba", "aaa", 'a', Blocks.GLASS, 'b', ModItems.eldritchMetalIngot));
-		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModBlocks.eldritchStone, 8), ResearchTypes.EldritchDecoration, "aaa", "aba", "aaa", 'a', Blocks.STONE, 'b', ModItems.eldritchMetalIngot));
-		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModBlocks.eldritchObsidian, 8), ResearchTypes.EldritchDecoration, "aaa", "aba", "aaa", 'a', Blocks.OBSIDIAN, 'b', ModItems.eldritchMetalIngot));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.eldritchMetalIngot, 8), ResearchTypes.EldritchDecoration, "aaa", "aba", "aaa", 'a', Items.iron_ingot, 'b', Items.ender_pearl));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModBlocks.amorphousEldritchMetal, 8), ResearchTypes.EldritchDecoration, "aaa", "aba", "aaa", 'a', Blocks.glass, 'b', ModItems.eldritchMetalIngot));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModBlocks.eldritchStone, 8), ResearchTypes.EldritchDecoration, "aaa", "aba", "aaa", 'a', Blocks.stone, 'b', ModItems.eldritchMetalIngot));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModBlocks.eldritchObsidian, 8), ResearchTypes.EldritchDecoration, "aaa", "aba", "aaa", 'a', Blocks.obsidian, 'b', ModItems.eldritchMetalIngot));
 
-		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.bladeOfExhumation, 1), ResearchTypes.BladeOfExhumation, "ab ", "ba ", "  b", 'a', Items.DIAMOND, 'b', ModItems.enchantedSkeletonBone));
-		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(ModItems.bladeOfExhumation, 1), ResearchTypes.BladeOfExhumation, Items.DIAMOND, new ItemStack(ModItems.bladeOfExhumation, 1, OreDictionary.WILDCARD_VALUE)));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.bladeOfExhumation, 1), ResearchTypes.BladeOfExhumation, "ab ", "ba ", "  b", 'a', Items.diamond, 'b', ModItems.enchantedSkeletonBone));
+		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(ModItems.bladeOfExhumation, 1), ResearchTypes.BladeOfExhumation, Items.diamond, new ItemStack(ModItems.bladeOfExhumation, 1, OreDictionary.WILDCARD_VALUE)));
 
-		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.flaskOfSouls, 1), ResearchTypes.SlayingOfTheWolves, "ada", "bcb", "aba", 'a', ModItems.werewolfBlood, 'b', Blocks.GLASS, 'c', Blocks.DIAMOND_BLOCK, 'd', Items.LEATHER));
-		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(ModItems.flaskOfSouls, 1), ResearchTypes.PhylacteryOfSouls, new ItemStack(ModItems.flaskOfSouls, 1, 1), new ItemStack(Items.POTIONITEM, 1, 0)));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.flaskOfSouls, 1), ResearchTypes.SlayingOfTheWolves, "ada", "bcb", "aba", 'a', ModItems.werewolfBlood, 'b', Blocks.glass, 'c', Blocks.diamond_block, 'd', Items.leather));
+		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(ModItems.flaskOfSouls, 1), ResearchTypes.PhylacteryOfSouls, new ItemStack(ModItems.flaskOfSouls, 1, 1), new ItemStack(Items.potionitem, 1, 0)));
 
-		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModBlocks.gnomishMetalPlate, 3), ResearchTypes.GnomishCity, " a ", "bbb", " a ", 'a', ModItems.gnomishMetalIngot, 'b', Blocks.STONE));
-		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModBlocks.gnomishMetalStrut, 3), ResearchTypes.GnomishCity, " b ", "aba", " b ", 'a', ModItems.gnomishMetalIngot, 'b', Blocks.STONE));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModBlocks.gnomishMetalPlate, 3), ResearchTypes.GnomishCity, " a ", "bbb", " a ", 'a', ModItems.gnomishMetalIngot, 'b', Blocks.stone));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModBlocks.gnomishMetalStrut, 3), ResearchTypes.GnomishCity, " b ", "aba", " b ", 'a', ModItems.gnomishMetalIngot, 'b', Blocks.stone));
 
-		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(ModItems.gnomishMetalIngot), ResearchTypes.GnomishCity, new ItemStack(Items.IRON_INGOT), new ItemStack(Items.POTIONITEM, 1, 0)));
-		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.gnomishMetalIngot, 8), ResearchTypes.GnomishCity, "aaa", "aba", "aaa", 'a', new ItemStack(Items.IRON_INGOT), 'b', new ItemStack(Items.POTIONITEM, 1, 0)));
-		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(ModItems.gnomishMetalIngot, 9), ResearchTypes.GnomishCity, new ItemStack(Item.getItemFromBlock(Blocks.IRON_BLOCK)), new ItemStack(Items.POTIONITEM, 1, 0)));
-		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.gnomishMetalIngot, 64), ResearchTypes.GnomishCity, "aaa", "aba", "aaa", 'a', new ItemStack(Item.getItemFromBlock(Blocks.IRON_BLOCK)), 'b', new ItemStack(Items.POTIONITEM, 1, 0)));
+		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(ModItems.gnomishMetalIngot), ResearchTypes.GnomishCity, new ItemStack(Items.iron_ingot), new ItemStack(Items.potionitem, 1, 0)));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.gnomishMetalIngot, 8), ResearchTypes.GnomishCity, "aaa", "aba", "aaa", 'a', new ItemStack(Items.iron_ingot), 'b', new ItemStack(Items.potionitem, 1, 0)));
+		GameRegistry.addRecipe(new AOTDDisablableShapelessRecipe(new ItemStack(ModItems.gnomishMetalIngot, 9), ResearchTypes.GnomishCity, new ItemStack(Item.getItemFromBlock(Blocks.iron_block)), new ItemStack(Items.potionitem, 1, 0)));
+		GameRegistry.addRecipe(new AOTDDisablableShapedRecipe(new ItemStack(ModItems.gnomishMetalIngot, 64), ResearchTypes.GnomishCity, "aaa", "aba", "aaa", 'a', new ItemStack(Item.getItemFromBlock(Blocks.iron_block)), 'b', new ItemStack(Items.potionitem, 1, 0)));
 	}
 }

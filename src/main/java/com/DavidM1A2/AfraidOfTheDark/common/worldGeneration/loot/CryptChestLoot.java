@@ -12,16 +12,17 @@ import java.util.Random;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 
 import net.minecraft.init.Items;
+import net.minecraft.util.WeightedRandomChestContent;
 
 public class CryptChestLoot implements IChestGenerator
 {
 	@Override
-	public List<RandomItem> getPossibleItems(Random random)
+	public List<WeightedRandomChestContent> getPossibleItems(Random random)
 	{
-		ArrayList<RandomItem> toReturn = new ArrayList<RandomItem>();
+		ArrayList<WeightedRandomChestContent> toReturn = new ArrayList<WeightedRandomChestContent>();
 
-		RandomItem journal = new RandomItem(ModItems.journal, 1);
-		RandomItem bones = new RandomItem(Items.BONE, 10);
+		WeightedRandomChestContent journal = new WeightedRandomChestContent(ModItems.journal, 0, 1, 1, 1);
+		WeightedRandomChestContent bones = new WeightedRandomChestContent(Items.bone, 0, 5, 15, 10);
 
 		toReturn.add(journal);
 		toReturn.add(bones);

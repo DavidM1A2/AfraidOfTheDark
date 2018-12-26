@@ -24,8 +24,8 @@ import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SpawnMeteor;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
 
 public class SextantGUI extends AOTDGuiScreen
 {
@@ -70,13 +70,13 @@ public class SextantGUI extends AOTDGuiScreen
 							entityPlayer.closeScreen();
 						}
 						else if (SextantGUI.this.angle.getText().isEmpty() || SextantGUI.this.latitude.getText().isEmpty() || SextantGUI.this.longitude.getText().isEmpty())
-							entityPlayer.addChatMessage(new TextComponentString("I forgot to fill out one of the fields."));
+							entityPlayer.addChatMessage(new ChatComponentText("I forgot to fill out one of the fields."));
 						else
-							entityPlayer.addChatMessage(new TextComponentString("The calculation was not sucessful.\nMaybe I entered incorrect numbers or should find another meteor to track."));
+							entityPlayer.addChatMessage(new ChatComponentText("The calculation was not sucessful.\nMaybe I entered incorrect numbers or should find another meteor to track."));
 					}
 					catch (final Exception e)
 					{
-						entityPlayer.addChatMessage(new TextComponentString("The calculation was not sucessful.\nMaybe I entered incorrect numbers or should find another meteor to track."));
+						entityPlayer.addChatMessage(new ChatComponentText("The calculation was not sucessful.\nMaybe I entered incorrect numbers or should find another meteor to track."));
 					}
 			}
 		});
@@ -108,7 +108,7 @@ public class SextantGUI extends AOTDGuiScreen
 
 		final BlockPos location = new BlockPos(xLocOfDrop, 255, zLocOfDrop);
 		AfraidOfTheDark.instance.getPacketHandler().sendToServer(new SpawnMeteor(location, 3, 3, ClientData.watchedMeteorType.getIndex()));
-		entityPlayer.addChatMessage(new TextComponentString("Based off of this information the meteor fell at " + xLocOfDrop + ", " + zLocOfDrop));
+		entityPlayer.addChatMessage(new ChatComponentText("Based off of this information the meteor fell at " + xLocOfDrop + ", " + zLocOfDrop));
 		ClientData.selectedMeteor = new int[]
 		{ -1, -1, -1 };
 		ClientData.watchedMeteorType = null;

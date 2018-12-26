@@ -9,10 +9,11 @@ import java.util.Random;
 
 import net.minecraft.block.BlockDirt;
 import net.minecraft.init.Blocks;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
+import net.minecraft.world.gen.feature.WorldGenBigTree;
 
-public class BiomeErieForest extends Biome
+public class BiomeErieForest extends BiomeGenBase
 {
 	/*
 	 * This will be the erie biome creation class
@@ -20,13 +21,18 @@ public class BiomeErieForest extends Biome
 	public BiomeErieForest(final int biomeID)
 	{
 		// This sets the features of the erie biome
-		super(new Biome.BiomeProperties("Erie Forest").setWaterColor(0x000099).setBaseHeight(0.125f).setHeightVariation(0.05f));
-		this.fillerBlock = Blocks.STONE.getDefaultState();
-		// this.theBiomeDecorator
+		super(biomeID);
+		this.biomeName = "Erie Forest";
+		this.color = 0x000099;
+		this.enableRain = true;
+		this.setFillerBlockMetadata(5159473);
 		this.flowers.clear();
+		this.setHeight(new BiomeGenBase.Height(0.125F, 0.05F));
 		this.spawnableCreatureList.clear();
+		this.waterColorMultiplier = 0x000099;
 		this.theBiomeDecorator.treesPerChunk = 15;
-		this.topBlock = Blocks.DIRT.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.PODZOL);
+		this.worldGeneratorBigTree = new WorldGenBigTree(false);
+		this.topBlock = Blocks.dirt.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.PODZOL);
 	}
 
 	@Override

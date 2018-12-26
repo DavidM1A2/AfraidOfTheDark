@@ -19,10 +19,8 @@ import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.generatables.Generat
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.generatables.GenerateVoidChest;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.generatables.GenerateWitchHut;
 
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.chunk.IChunkGenerator;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.fml.common.IWorldGenerator;
 
@@ -41,9 +39,9 @@ public class AOTDWorldGenerationHandler implements IWorldGenerator
 	};
 
 	@Override
-	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
+	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider)
 	{
-		switch (world.provider.getDimension())
+		switch (world.provider.getDimensionId())
 		{
 			case 0:
 			{
@@ -55,7 +53,7 @@ public class AOTDWorldGenerationHandler implements IWorldGenerator
 
 	private void generateSurface(World world, Random random, int chunkX, int chunkZ)
 	{
-		int currentBiomeID = Biome.getIdForBiome(world.getBiome(new BlockPos(chunkX, 50, chunkZ)));
+		int currentBiomeID = world.getBiomeGenForCoords(new BlockPos(chunkX, 50, chunkZ)).biomeID;
 
 		Collections.shuffle(OVERWORLD, random);
 		double randomNum = random.nextDouble();

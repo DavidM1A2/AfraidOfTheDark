@@ -20,11 +20,11 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -78,7 +78,7 @@ public class SpawnMeteor implements IMessage
 		@Override
 		public IMessage handleServerMessage(final EntityPlayer entityPlayer, final SpawnMeteor msg, MessageContext ctx)
 		{
-			entityPlayer.worldObj.getMinecraftServer().addScheduledTask(new Runnable()
+			MinecraftServer.getServer().addScheduledTask(new Runnable()
 			{
 				@Override
 				public void run()
@@ -113,23 +113,23 @@ public class SpawnMeteor implements IMessage
 			add(ModBlocks.starMetalOre);
 			add(ModBlocks.sunstoneOre);
 			add(ModBlocks.meteor);
-			add(Blocks.DIRT);
-			add(Blocks.GRASS);
-			add(Blocks.LEAVES);
-			add(Blocks.LEAVES2);
-			add(Blocks.SAND);
-			add(Blocks.LOG);
-			add(Blocks.LOG2);
-			add(Blocks.VINE);
-			add(Blocks.DEADBUSH);
-			add(Blocks.DOUBLE_PLANT);
-			add(Blocks.ICE);
-			add(Blocks.AIR);
-			add(Blocks.STONE);
-			add(Blocks.GRAVEL);
-			add(Blocks.SANDSTONE);
-			add(Blocks.SNOW);
-			add(Blocks.SNOW_LAYER);
+			add(Blocks.dirt);
+			add(Blocks.grass);
+			add(Blocks.leaves);
+			add(Blocks.leaves2);
+			add(Blocks.sand);
+			add(Blocks.log);
+			add(Blocks.log2);
+			add(Blocks.vine);
+			add(Blocks.deadbush);
+			add(Blocks.double_plant);
+			add(Blocks.ice);
+			add(Blocks.air);
+			add(Blocks.stone);
+			add(Blocks.gravel);
+			add(Blocks.sandstone);
+			add(Blocks.snow);
+			add(Blocks.snow_layer);
 		}
 	};
 
@@ -147,8 +147,8 @@ public class SpawnMeteor implements IMessage
 					double dist = (cx - x) * (cx - x) + (cz - z) * (cz - z) + (isSphere ? (cy - y) * (cy - y) : 0);
 					if (dist < radius * radius && !(hollow && dist < (radius - 1) * (radius - 1)))
 					{
-						IBlockState current = world.getBlockState(new BlockPos(x, y, z));
-						if (replaceableBlocks.contains(current) || current.getMaterial() == Material.WATER || current.getMaterial() == Material.LAVA)
+						Block current = world.getBlockState(new BlockPos(x, y, z)).getBlock();
+						if (replaceableBlocks.contains(current) || current.getMaterial() == Material.water || current.getMaterial() == Material.lava)
 						{
 							world.setBlockState(new BlockPos(x, y, z), ModBlocks.meteor.getDefaultState());
 						}
@@ -175,8 +175,8 @@ public class SpawnMeteor implements IMessage
 					double dist = (cx - x) * (cx - x) + (cz - z) * (cz - z) + (isSphere ? (cy - y) * (cy - y) : 0);
 					if (dist < radius * radius && !(hollow && dist < (radius - 1) * (radius - 1)))
 					{
-						IBlockState current = world.getBlockState(new BlockPos(x, y, z));
-						if (replaceableBlocks.contains(current) || current.getMaterial() == Material.WATER || current.getMaterial() == Material.LAVA)
+						Block current = world.getBlockState(new BlockPos(x, y, z)).getBlock();
+						if (replaceableBlocks.contains(current) || current.getMaterial() == Material.water || current.getMaterial() == Material.lava)
 						{
 							world.setBlockState(new BlockPos(x, y, z), toPlace.getDefaultState());
 						}
@@ -188,12 +188,12 @@ public class SpawnMeteor implements IMessage
 
 	private static int makeSureChunkIsGenerated(World world, BlockPos location)
 	{
-		if (!world.getChunkProvider().func_191062_e(location.getX(), location.getZ()))
+		if (!world.getChunkProvider().chunkExists(location.getX(), location.getZ()))
 		{
 			world.getChunkProvider().provideChunk(location.getX(), location.getZ());
 		}
 
-		while (world.getBlockState(location).getBlock() instanceof BlockAir || world.getBlockState(location).getMaterial() == Material.WATER)
+		while (world.getBlockState(location).getBlock() instanceof BlockAir || world.getBlockState(location).getBlock().getMaterial() == Material.water)
 		{
 			location = new BlockPos(location.getX(), location.getY() - 1, location.getZ());
 		}

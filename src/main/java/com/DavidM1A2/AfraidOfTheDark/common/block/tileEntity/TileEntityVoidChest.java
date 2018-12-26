@@ -19,17 +19,16 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemNameTag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.MathHelper;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
 public class TileEntityVoidChest extends AOTDTickingTileEntity
@@ -77,7 +76,7 @@ public class TileEntityVoidChest extends AOTDTickingTileEntity
 		super.readFromNBT(compound);
 	}
 
-	public NBTTagCompound writeToNBT(NBTTagCompound compound)
+	public void writeToNBT(NBTTagCompound compound)
 	{
 		compound.setString("owner", this.owner);
 		compound.setInteger("location", this.locationToGoTo);
@@ -96,7 +95,6 @@ public class TileEntityVoidChest extends AOTDTickingTileEntity
 		compound.setTag("friends", friends);
 
 		super.writeToNBT(compound);
-		return compound;
 	}
 
 	@Override
@@ -122,7 +120,7 @@ public class TileEntityVoidChest extends AOTDTickingTileEntity
 			double d1 = i + 0.5D;
 			d2 = k + 0.5D;
 
-			this.worldObj.playSound(d1 + 0.5D, j, d2, SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F, false);
+			this.worldObj.playSoundEffect(d1, j + 0.5D, d2, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
 		}
 
 		if (shouldBeOpen)
@@ -162,9 +160,9 @@ public class TileEntityVoidChest extends AOTDTickingTileEntity
 				d2 = i + 0.5D;
 				double d0 = k + 0.5D;
 
-				this.worldObj.playSound(d2, j + 0.5D, d0, SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F, false);
+				this.worldObj.playSoundEffect(d2, j + 0.5D, d0, "random.chestclosed", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
 
-				int currentDim = this.worldObj.provider.getDimension();
+				int currentDim = this.worldObj.provider.getDimensionId();
 				if (currentDim != AOTDDimensions.VoidChest.getWorldID() && currentDim != AOTDDimensions.Nightmare.getWorldID() && currentDim != 1)
 				{
 					for (EntityPlayerMP entityPlayerMP : this.worldObj.getEntitiesWithinAABB(EntityPlayerMP.class, new AxisAlignedBB(this.pos, this.pos.add(.625D, .625D, .625D)).expand(2.0D, 2.0D, 2.0D)))
@@ -174,7 +172,7 @@ public class TileEntityVoidChest extends AOTDTickingTileEntity
 				else
 				{
 					if (!worldObj.isRemote)
-						entityPlayerToSend.addChatMessage(new TextComponentString("The void chest refuses to work in this dimension."));
+						entityPlayerToSend.addChatMessage(new ChatComponentText("The void chest refuses to work in this dimension."));
 				}
 			}
 
@@ -198,13 +196,13 @@ public class TileEntityVoidChest extends AOTDTickingTileEntity
 			{
 				this.owner = entityPlayer.getDisplayName().getUnformattedText();
 				this.locationToGoTo = this.validatePlayerLocationVoidChest(entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerLocationVoidChest(), entityPlayer);
-				entityPlayer.addChatMessage(new TextComponentString("The owner of this chest has been set to " + entityPlayer.getDisplayName().getUnformattedText() + "."));
+				entityPlayer.addChatMessage(new ChatComponentText("The owner of this chest has been set to " + entityPlayer.getDisplayName().getUnformattedText() + "."));
 			}
 			else if (entityPlayer.getDisplayName().getUnformattedText().equals(owner))
 			{
-				if (entityPlayer.getHeldItemMainhand() != null)
+				if (entityPlayer.getCurrentEquippedItem() != null)
 				{
-					ItemStack itemStack = entityPlayer.getHeldItemMainhand();
+					ItemStack itemStack = entityPlayer.getCurrentEquippedItem();
 					if (itemStack.getItem() instanceof ItemNameTag)
 					{
 						if (!friends.contains(itemStack.getDisplayName()))
@@ -212,7 +210,7 @@ public class TileEntityVoidChest extends AOTDTickingTileEntity
 							friends.add(itemStack.getDisplayName());
 							if (!worldObj.isRemote)
 							{
-								entityPlayer.addChatMessage(new TextComponentString("Player " + itemStack.getDisplayName() + " was added to this chest's friend list."));
+								entityPlayer.addChatMessage(new ChatComponentText("Player " + itemStack.getDisplayName() + " was added to this chest's friend list."));
 							}
 						}
 						else
@@ -220,32 +218,32 @@ public class TileEntityVoidChest extends AOTDTickingTileEntity
 							friends.remove(itemStack.getDisplayName());
 							if (!worldObj.isRemote)
 							{
-								entityPlayer.addChatMessage(new TextComponentString("Player " + itemStack.getDisplayName() + " was removed from this chest's friend list."));
+								entityPlayer.addChatMessage(new ChatComponentText("Player " + itemStack.getDisplayName() + " was removed from this chest's friend list."));
 							}
 						}
 						return;
 					}
 				}
 				this.openChest(entityPlayer);
-				AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncVoidChest(this.pos.getX(), this.pos.getY(), this.pos.getZ(), entityPlayer), new TargetPoint(this.worldObj.provider.getDimension(), this.pos.getX(), this.pos.getY(), this.pos.getZ(), 30));
+				AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncVoidChest(this.pos.getX(), this.pos.getY(), this.pos.getZ(), entityPlayer), new TargetPoint(this.worldObj.provider.getDimensionId(), this.pos.getX(), this.pos.getY(), this.pos.getZ(), 30));
 			}
 			else if (friends.contains(entityPlayer.getDisplayName().getUnformattedText()))
 			{
-				if (entityPlayer.getHeldItemMainhand() != null)
+				if (entityPlayer.getCurrentEquippedItem() != null)
 				{
-					ItemStack itemStack = entityPlayer.getHeldItemMainhand();
+					ItemStack itemStack = entityPlayer.getCurrentEquippedItem();
 					if (itemStack.getItem() instanceof ItemNameTag)
 					{
-						entityPlayer.addChatMessage(new TextComponentString("I can't edit access to this chest"));
+						entityPlayer.addChatMessage(new ChatComponentText("I can't edit access to this chest"));
 						return;
 					}
 				}
 				this.openChest(entityPlayer);
-				AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncVoidChest(this.pos.getX(), this.pos.getY(), this.pos.getZ(), entityPlayer), new TargetPoint(this.worldObj.provider.getDimension(), this.pos.getX(), this.pos.getY(), this.pos.getZ(), 30));
+				AfraidOfTheDark.instance.getPacketHandler().sendToAllAround(new SyncVoidChest(this.pos.getX(), this.pos.getY(), this.pos.getZ(), entityPlayer), new TargetPoint(this.worldObj.provider.getDimensionId(), this.pos.getX(), this.pos.getY(), this.pos.getZ(), 30));
 			}
 			else
 			{
-				entityPlayer.addChatMessage(new TextComponentString("I don't have access to this chest."));
+				entityPlayer.addChatMessage(new ChatComponentText("I don't have access to this chest."));
 			}
 		}
 	}
@@ -263,7 +261,7 @@ public class TileEntityVoidChest extends AOTDTickingTileEntity
 		{
 			if (!entityPlayer.worldObj.isRemote)
 			{
-				entityPlayer.worldObj.getMinecraftServer().getCommandManager().executeCommand(entityPlayer.worldObj.getMinecraftServer(), "/save-all");
+				MinecraftServer.getServer().getCommandManager().executeCommand(MinecraftServer.getServer(), "/save-all");
 			}
 
 			int furthestOutPlayer = 0;

@@ -7,6 +7,8 @@ package com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 
 public class LootTable
@@ -35,9 +37,8 @@ public class LootTable
 				if (itemStack != null && lootTableEntry.getItemToRepalce() == itemStack.getItem())
 				{
 					chest.clear();
-					//					chest.fill
-					//					WeightedRandomChestContent.generateChestContents(world.rand, lootTableEntry.getLoot().getPossibleItems(world.rand), chest, world.rand.nextInt(MathHelper.ceiling_double_int(lootTableEntry.numberOfItemsToGenerate() * 0.5)) + MathHelper.ceiling_double_int(lootTableEntry
-					//							.numberOfItemsToGenerate() * 0.8));
+					WeightedRandomChestContent.generateChestContents(world.rand, lootTableEntry.getLoot().getPossibleItems(world.rand), chest, world.rand.nextInt(MathHelper.ceiling_double_int(lootTableEntry.numberOfItemsToGenerate() * 0.5)) + MathHelper.ceiling_double_int(lootTableEntry
+							.numberOfItemsToGenerate() * 0.8));
 					return;
 				}
 			}
@@ -46,7 +47,7 @@ public class LootTable
 		if (nullEntry != null)
 		{
 			chest.clear();
-			//WeightedRandomChestContent.generateChestContents(world.rand, nullEntry.getLoot().getPossibleItems(world.rand), chest, world.rand.nextInt(MathHelper.ceiling_double_int(nullEntry.numberOfItemsToGenerate() * 0.5)) + MathHelper.ceiling_double_int(nullEntry.numberOfItemsToGenerate() * 0.8));
+			WeightedRandomChestContent.generateChestContents(world.rand, nullEntry.getLoot().getPossibleItems(world.rand), chest, world.rand.nextInt(MathHelper.ceiling_double_int(nullEntry.numberOfItemsToGenerate() * 0.5)) + MathHelper.ceiling_double_int(nullEntry.numberOfItemsToGenerate() * 0.8));
 		}
 	}
 }

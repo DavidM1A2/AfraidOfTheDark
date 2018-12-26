@@ -6,7 +6,8 @@ import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncAnimation;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.MathHelper;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
 public class EntityAIAttackSplinterDrone extends EntityAIBase
@@ -80,7 +81,7 @@ public class EntityAIAttackSplinterDrone extends EntityAIBase
 				double yVelocity = this.target.getEntityBoundingBox().minY + (double) (target.height / 2.0F) - (this.splinterDrone.posY + (double) (this.splinterDrone.height / 2.0F));
 				double zVelocity = this.target.posZ - this.splinterDrone.posZ;
 
-				//this.splinterDrone.worldObj.playSound.playAuxSFXAtEntity(null, 1009, new BlockPos((int) this.splinterDrone.posX, (int) this.splinterDrone.posY, (int) this.splinterDrone.posZ), 0);
+				this.splinterDrone.worldObj.playAuxSFXAtEntity(null, 1009, new BlockPos((int) this.splinterDrone.posX, (int) this.splinterDrone.posY, (int) this.splinterDrone.posZ), 0);
 				EntitySplinterDroneProjectile attack = new EntitySplinterDroneProjectile(this.splinterDrone.worldObj, this.splinterDrone, xVelocity, yVelocity, zVelocity);
 				attack.posY = this.splinterDrone.posY + (double) (this.splinterDrone.height / 2.0F) + 0.5D;
 				this.splinterDrone.worldObj.spawnEntityInWorld(attack);

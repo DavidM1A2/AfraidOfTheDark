@@ -7,7 +7,7 @@ package com.DavidM1A2.AfraidOfTheDark.common.block.gravewood;
 
 import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDLog;
 
-import net.minecraft.block.SoundType;
+import net.minecraft.block.Block;
 
 public class BlockGravewood extends AOTDLog
 {
@@ -17,8 +17,7 @@ public class BlockGravewood extends AOTDLog
 	public BlockGravewood()
 	{
 		super();
-		this.setSoundType(SoundType.WOOD);
+		this.setStepSound(Block.soundTypeWood);
 		this.setUnlocalizedName("gravewood");
-		this.setRegistryName("gravewood");
 	}
 }

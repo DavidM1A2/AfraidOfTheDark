@@ -9,8 +9,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSound;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
 
 public abstract class PlayerFollowingSound extends MovingSound
 {
@@ -18,8 +16,7 @@ public abstract class PlayerFollowingSound extends MovingSound
 
 	protected PlayerFollowingSound(ResourceLocation sound)
 	{
-		// SoundEvent.registerSound?
-		super(new SoundEvent(sound), SoundCategory.PLAYERS);
+		super(sound);
 		this.attenuationType = AttenuationType.NONE;
 	}
 

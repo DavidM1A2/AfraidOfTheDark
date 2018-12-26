@@ -20,7 +20,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
 
 public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 {
@@ -65,7 +64,7 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 			public void mouseEntered(AOTDMouseEvent event)
 			{
 				if (event.getSource().isVisible())
-					entityPlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:buttonHover")), 0.7f, 1.9f);
+					entityPlayer.playSound("afraidofthedark:buttonHover", 0.7f, 1.9f);
 			}
 
 			@Override

@@ -141,7 +141,7 @@ public final class PacketHandler
 	 */
 	public void sendTo(IMessage message, EntityPlayerMP player)
 	{
-		if (player.connection != null)
+		if (player.playerNetServerHandler != null)
 			this.wrapper.sendTo(message, player);
 	}
 
@@ -191,7 +191,7 @@ public final class PacketHandler
 	 */
 	public void sendToAllAround(IMessage message, Entity entity, double range)
 	{
-		this.sendToAllAround(message, entity.worldObj.provider.getDimension(), entity.posX, entity.posY, entity.posZ, range);
+		this.sendToAllAround(message, entity.worldObj.provider.getDimensionId(), entity.posX, entity.posY, entity.posZ, range);
 	}
 
 	/**

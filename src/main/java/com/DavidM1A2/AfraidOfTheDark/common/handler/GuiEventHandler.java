@@ -15,9 +15,9 @@ public class GuiEventHandler
 	@SubscribeEvent
 	public void onMouseInputEvent(MouseInputEvent.Pre event)
 	{
-		if (event.getGui() instanceof AOTDGuiScreen)
+		if (event.gui instanceof AOTDGuiScreen)
 		{
-			((AOTDGuiScreen) event.getGui()).mouseInputEvent();
+			((AOTDGuiScreen) event.gui).mouseInputEvent();
 		}
 	}
 }

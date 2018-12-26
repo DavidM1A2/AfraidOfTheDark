@@ -22,10 +22,7 @@ import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 
-import net.minecraft.init.SoundEvents;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.ChatComponentText;
 
 public class BloodStainedJournalSignGUI extends AOTDGuiScreen
 {
@@ -53,7 +50,7 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
 			{
 				if (event.getSource().isHovered() && event.getClickedButton() == MouseButtonClicked.Left)
 				{
-					entityPlayer.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f);
+					entityPlayer.playSound("gui.button.press", 1.0f, 1.0f);
 					if (BloodStainedJournalSignGUI.this.nameSignField.getText().equals(entityPlayer.getDisplayName().getUnformattedText()))
 					{
 						// If the player signed their own name and has not started
@@ -64,8 +61,8 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
 							entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).syncHasStartedAOTD();
 
 							entityPlayer.inventory.getStackInSlot(entityPlayer.inventory.currentItem).getTagCompound().setString("owner", entityPlayer.getDisplayName().getUnformattedText());
-							entityPlayer.addChatMessage(new TextComponentString("What have I done?"));
-							entityPlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:journalSign")), 4.0F, 1.0F);
+							entityPlayer.addChatMessage(new ChatComponentText("What have I done?"));
+							entityPlayer.playSound("afraidofthedark:journalSign", 4.0F, 1.0F);
 							entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(ResearchTypes.AnUnbreakableCovenant, true);
 							entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(ResearchTypes.Crossbow, true);
 							entityPlayer.closeScreen();
@@ -75,7 +72,7 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
 					{
 						if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getHasStartedAOTD() == false)
 						{
-							entityPlayer.addChatMessage(new TextComponentString("*You expect something to happen... but nothing does."));
+							entityPlayer.addChatMessage(new ChatComponentText("*You expect something to happen... but nothing does."));
 							entityPlayer.closeScreen();
 						}
 					}

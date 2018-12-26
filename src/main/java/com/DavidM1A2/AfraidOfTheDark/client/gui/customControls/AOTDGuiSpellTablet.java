@@ -31,8 +31,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellStage;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.powerSources.PowerSources;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
 
 public class AOTDGuiSpellTablet extends AOTDGuiContainer
 {
@@ -92,7 +90,7 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 			public void mouseEntered(AOTDMouseEvent event)
 			{
 				event.getSource().darkenColor(0.1f);
-				Minecraft.getMinecraft().thePlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:spellCraftingButtonHover")), 0.6f, 1.7f);
+				Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:spellCraftingButtonHover", 0.6f, 1.7f);
 			}
 
 			@Override
@@ -117,7 +115,7 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 			public void mouseEntered(AOTDMouseEvent event)
 			{
 				event.getSource().darkenColor(0.1f);
-				Minecraft.getMinecraft().thePlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:spellCraftingButtonHover")), 0.6f, 1.7f);
+				Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:spellCraftingButtonHover", 0.6f, 1.7f);
 			}
 
 			@Override
@@ -152,7 +150,7 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 			public void mouseEntered(AOTDMouseEvent event)
 			{
 				event.getSource().darkenColor(0.1f);
-				Minecraft.getMinecraft().thePlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:spellCraftingButtonHover")), 0.6f, 1.7f);
+				Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:spellCraftingButtonHover", 0.6f, 1.7f);
 			}
 
 			@Override
@@ -180,7 +178,7 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 			public void mouseEntered(AOTDMouseEvent event)
 			{
 				event.getSource().darkenColor(0.1f);
-				Minecraft.getMinecraft().thePlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:spellCraftingButtonHover")), 0.6f, 1.7f);
+				Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:spellCraftingButtonHover", 0.6f, 1.7f);
 			}
 
 			@Override

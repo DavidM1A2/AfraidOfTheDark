@@ -19,7 +19,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.WorldGenerationUtility;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.AOTDDungeonTypes;
 
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeGenBase;
 
 public class GenerateSprings implements AOTDGeneratable
 {
@@ -55,13 +55,11 @@ public class GenerateSprings implements AOTDGeneratable
 	@Override
 	public double getGenerationChance(int biomeID)
 	{
-		// Plains
-		if (biomeID == 2)
+		if (biomeID == BiomeGenBase.plains.biomeID)
 			return ConfigurationHandler.springFrequency * 0.5 * ConfigurationHandler.dungeonFrequencyMultiplier;
-		else if (biomeID == Biome.getIdForBiome(ModBiomes.erieForest))
+		else if (biomeID == ModBiomes.erieForest.biomeID)
 			return ConfigurationHandler.springFrequency * ConfigurationHandler.dungeonFrequencyMultiplier;
-		// Savanna
-		else if (biomeID == 35)
+		else if (biomeID == BiomeGenBase.savanna.biomeID)
 			return ConfigurationHandler.springFrequency * ConfigurationHandler.dungeonFrequencyMultiplier;
 		return 0;
 	}

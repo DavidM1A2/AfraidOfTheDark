@@ -16,10 +16,7 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent.MouseButto
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 
-import net.minecraft.init.SoundEvents;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.ChatComponentText;
 
 public class BloodStainedJournalCheatSheetGUI extends AOTDGuiScreen
 {
@@ -44,8 +41,8 @@ public class BloodStainedJournalCheatSheetGUI extends AOTDGuiScreen
 							entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(type, false);
 						}
 					}
-					entityPlayer.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f);
-					entityPlayer.addChatMessage(new TextComponentString("All researches unlocked."));
+					entityPlayer.playSound("gui.button.press", 1.0f, 1.0f);
+					entityPlayer.addChatMessage(new ChatComponentText("All researches unlocked."));
 					entityPlayer.closeScreen();
 				}
 			}
@@ -54,7 +51,7 @@ public class BloodStainedJournalCheatSheetGUI extends AOTDGuiScreen
 			public void mouseEntered(AOTDMouseEvent event)
 			{
 				event.getSource().setColor(new Color(230, 230, 230));
-				entityPlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:buttonHover")), 0.7f, 1.9f);
+				entityPlayer.playSound("afraidofthedark:buttonHover", 0.7f, 1.9f);
 			}
 
 			@Override
@@ -71,7 +68,7 @@ public class BloodStainedJournalCheatSheetGUI extends AOTDGuiScreen
 			{
 				if (event.getSource().isHovered() && event.getClickedButton() == MouseButtonClicked.Left)
 				{
-					entityPlayer.playSound(new SoundEvent(new ResourceLocation("gui.button.press")), 1.0f, 1.0f);
+					entityPlayer.playSound("gui.button.press", 1.0f, 1.0f);
 					entityPlayer.closeScreen();
 				}
 			}
@@ -80,7 +77,7 @@ public class BloodStainedJournalCheatSheetGUI extends AOTDGuiScreen
 			public void mouseEntered(AOTDMouseEvent event)
 			{
 				event.getSource().setColor(new Color(230, 230, 230));
-				entityPlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:buttonHover")), 0.7f, 1.9f);
+				entityPlayer.playSound("afraidofthedark:buttonHover", 0.7f, 1.9f);
 			}
 
 			@Override

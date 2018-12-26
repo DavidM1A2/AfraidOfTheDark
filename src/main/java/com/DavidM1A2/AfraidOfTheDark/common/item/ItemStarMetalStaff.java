@@ -19,12 +19,9 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.server.SPacketEntityVelocity;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.network.play.server.S12PacketEntityVelocity;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -40,9 +37,8 @@ public class ItemStarMetalStaff extends AOTDItemWithCooldownStatic
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(final World world, final EntityPlayer entityPlayer, EnumHand hand)
+	public ItemStack onItemRightClick(final ItemStack itemStack, final World world, final EntityPlayer entityPlayer)
 	{
-		ItemStack itemStack = entityPlayer.getHeldItem(hand);
 		if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.StarMetal))
 		{
 			if (!this.isOnCooldown(itemStack))
@@ -62,22 +58,22 @@ public class ItemStarMetalStaff extends AOTDItemWithCooldownStatic
 				entityPlayer.addVelocity(0, .5, 0);
 				this.setOnCooldown(itemStack, entityPlayer);
 				if (!world.isRemote)
-					entityPlayer.setActiveHand(hand);
+					entityPlayer.setItemInUse(itemStack, ItemStarMetalStaff.MAX_TROLL_POLE_TIME_IN_TICKS);
 			}
 			else
 			{
 				if (world.isRemote)
-					if (entityPlayer.getActiveItemStack() != itemStack)
-						entityPlayer.addChatMessage(new TextComponentString("Cooldown remaining: " + this.cooldownRemaining(itemStack) + " second" + (this.cooldownRemaining(itemStack) - 1 == 0.0 ? "." : "s.")));
+					if (entityPlayer.getItemInUse() != itemStack)
+						entityPlayer.addChatMessage(new ChatComponentText("Cooldown remaining: " + this.cooldownRemaining(itemStack) + " second" + (this.cooldownRemaining(itemStack) - 1 == 0.0 ? "." : "s.")));
 			}
 		}
 		else
 		{
 			if (!world.isRemote)
-				entityPlayer.addChatMessage(new TextComponentString("I'm not sure what this is used for."));
+				entityPlayer.addChatMessage(new ChatComponentText("I'm not sure what this is used for."));
 		}
 
-		return ActionResult.<ItemStack> newResult(EnumActionResult.SUCCESS, itemStack);
+		return super.onItemRightClick(itemStack, world, entityPlayer);
 	}
 
 	/**
@@ -91,21 +87,17 @@ public class ItemStarMetalStaff extends AOTDItemWithCooldownStatic
 	 *            The amount of time in tick the item has been used for continuously
 	 */
 	@Override
-	public void onUsingTick(final ItemStack stack, final EntityLivingBase entityLivingBase, int count)
+	public void onUsingTick(final ItemStack stack, final EntityPlayer entityPlayer, int count)
 	{
-		if (entityLivingBase instanceof EntityPlayer)
+		if (!entityPlayer.worldObj.isRemote)
 		{
-			EntityPlayer entityPlayer = (EntityPlayer) entityLivingBase;
-			if (!entityPlayer.worldObj.isRemote)
-			{
-				count = ItemStarMetalStaff.MAX_TROLL_POLE_TIME_IN_TICKS - count;
-				if (count == 1)
-					entityPlayer.fallDistance = 0.0f;
-				if (count >= 3)
-					((EntityPlayerMP) entityPlayer).connection.sendPacket(new SPacketEntityVelocity(entityPlayer.getEntityId(), 0, 0, 0));
-				if (count == (ItemStarMetalStaff.MAX_TROLL_POLE_TIME_IN_TICKS - 1))
-					entityPlayer.resetActiveHand();
-			}
+			count = ItemStarMetalStaff.MAX_TROLL_POLE_TIME_IN_TICKS - count;
+			if (count == 1)
+				entityPlayer.fallDistance = 0.0f;
+			if (count >= 3)
+				((EntityPlayerMP) entityPlayer).playerNetServerHandler.sendPacket(new S12PacketEntityVelocity(entityPlayer.getEntityId(), 0, 0, 0));
+			if (count == (ItemStarMetalStaff.MAX_TROLL_POLE_TIME_IN_TICKS - 1))
+				entityPlayer.stopUsingItem();
 		}
 	}
 
@@ -116,34 +108,36 @@ public class ItemStarMetalStaff extends AOTDItemWithCooldownStatic
 	 *            The amount of ticks left before the using would have been complete
 	 */
 	@Override
-	public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityLivingBase entityLiving, int timeLeft)
+	public void onPlayerStoppedUsing(final ItemStack stack, final World worldIn, final EntityPlayer entityPlayer, final int timeLeft)
 	{
-		if (entityLiving instanceof EntityPlayer)
+		if (!entityPlayer.capabilities.isCreativeMode)
+			entityPlayer.capabilities.disableDamage = false;
+		if (timeLeft < 5)
 		{
-			EntityPlayer entityPlayer = (EntityPlayer) entityLiving;
-			if (!entityPlayer.capabilities.isCreativeMode)
-				entityPlayer.capabilities.disableDamage = false;
-			if (timeLeft < 5)
+			List entityList = worldIn.getEntitiesWithinAABBExcludingEntity(entityPlayer, entityPlayer.getEntityBoundingBox().expand(10, 10, 10));
+			for (Object entityObject : entityList)
 			{
-				List entityList = worldIn.getEntitiesWithinAABBExcludingEntity(entityPlayer, entityPlayer.getEntityBoundingBox().expand(10, 10, 10));
-				for (Object entityObject : entityList)
+				if (entityObject instanceof EntityPlayer || entityObject instanceof EntityLiving)
 				{
-					if (entityObject instanceof EntityPlayer || entityObject instanceof EntityLiving)
-					{
-						EntityLivingBase entity = (EntityLivingBase) entityObject;
+					EntityLivingBase entity = (EntityLivingBase) entityObject;
 
-						double knockbackStrength = 2;
+					double knockbackStrength = 2;
 
-						double motionX = entityPlayer.getPosition().getX() - entity.getPosition().getX();
-						double motionZ = entityPlayer.getPosition().getZ() - entity.getPosition().getZ();
+					double motionX = entityPlayer.getPosition().getX() - entity.getPosition().getX();
+					double motionZ = entityPlayer.getPosition().getZ() - entity.getPosition().getZ();
 
-						double hypotenuse = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
+					double hypotenuse = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
 
-						entity.addVelocity(-motionX * knockbackStrength * 0.6000000238418579D / hypotenuse, 0.1D, -motionZ * knockbackStrength * 0.6000000238418579D / hypotenuse);
-					}
+					entity.addVelocity(-motionX * knockbackStrength * 0.6000000238418579D / hypotenuse, 0.1D, -motionZ * knockbackStrength * 0.6000000238418579D / hypotenuse);
 				}
 			}
 		}
+	}
+
+	@Override
+	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityPlayer playerIn)
+	{
+		return super.onItemUseFinish(stack, worldIn, playerIn);
 	}
 
 	@Override

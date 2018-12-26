@@ -14,6 +14,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
@@ -71,7 +72,7 @@ public class UpdateVitae extends AbstractEntitySync
 		@Override
 		public IMessage handleServerMessage(final EntityPlayer entityPlayer, final UpdateVitae msg, MessageContext ctx)
 		{
-			entityPlayer.worldObj.getMinecraftServer().addScheduledTask(new Runnable()
+			MinecraftServer.getServer().addScheduledTask(new Runnable()
 			{
 				@Override
 				public void run()

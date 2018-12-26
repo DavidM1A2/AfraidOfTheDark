@@ -9,11 +9,12 @@ import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDBlock;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -21,9 +22,8 @@ public class BlockAmorphousEldritchMetal extends AOTDBlock
 {
 	public BlockAmorphousEldritchMetal()
 	{
-		super(Material.PORTAL);
+		super(Material.portal);
 		this.setUnlocalizedName("amorphousEldritchMetal");
-		this.setRegistryName("amorphousEldritchMetal");
 		this.setHardness(10.0F);
 		this.setResistance(50.0F);
 		this.setHarvestLevel("pickaxe", 2);
@@ -31,26 +31,27 @@ public class BlockAmorphousEldritchMetal extends AOTDBlock
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
 	{
 		return null;
 	}
 
 	@Override
-	public boolean isOpaqueCube(IBlockState blockState)
+	public boolean isOpaqueCube()
 	{
 		return false;
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public BlockRenderLayer getBlockLayer()
+	public EnumWorldBlockLayer getBlockLayer()
 	{
-		return BlockRenderLayer.TRANSLUCENT;
+		return EnumWorldBlockLayer.TRANSLUCENT;
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
-	public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)
+	public boolean shouldSideBeRendered(IBlockAccess iBlockAccess, BlockPos blockPos, EnumFacing side)
 	{
 		return true;
 	}

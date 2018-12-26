@@ -19,7 +19,7 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.MathHelper;
 
 public abstract class AOTDGuiComponent
 {

@@ -20,8 +20,8 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.Utility;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.MathHelper;
 
 public class Spell implements Serializable
 {
@@ -96,12 +96,12 @@ public class Spell implements Serializable
 					for (EntitySpell entitySpell : this.spellStages.get(0).getDeliveryMethod().createSpellEntity(this))
 						entityPlayer.worldObj.spawnEntityInWorld(entitySpell);
 				else if (!this.isSpellValid())
-					entityPlayer.addChatMessage(new TextComponentString("Invalid spell. Make sure to have delivery methods on each spell stage and a power source!"));
+					entityPlayer.addChatMessage(new ChatComponentText("Invalid spell. Make sure to have delivery methods on each spell stage and a power source!"));
 				else
-					entityPlayer.addChatMessage(new TextComponentString(this.powerSource.notEnoughEnergyMsg()));
+					entityPlayer.addChatMessage(new ChatComponentText(this.powerSource.notEnoughEnergyMsg()));
 			}
 			else
-				entityPlayer.addChatMessage(new TextComponentString("My mind is too clouded to cast spells here"));
+				entityPlayer.addChatMessage(new ChatComponentText("My mind is too clouded to cast spells here"));
 		}
 		else
 			LogHelper.info("Attempted to instantiate a spell on an offline player...");

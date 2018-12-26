@@ -13,13 +13,13 @@ public enum AOTDDimensions
 		@Override
 		public void toDimension(EntityPlayerMP entityPlayer)
 		{
-			this.teleportPlayer(entityPlayer, this.getWorldID(), new NightmareTeleporter(entityPlayer.getServerWorld(), entityPlayer.dimension, this.getWorldID()));
+			this.teleportPlayer(entityPlayer, this.getWorldID(), new NightmareTeleporter(entityPlayer.getServerForPlayer(), entityPlayer.dimension, this.getWorldID()));
 		}
 
 		@Override
 		public void fromDimensionTo(int dimension, EntityPlayerMP entityPlayer)
 		{
-			this.teleportPlayer(entityPlayer, dimension, new NightmareTeleporter(entityPlayer.getServerWorld(), this.getWorldID(), dimension));
+			this.teleportPlayer(entityPlayer, dimension, new NightmareTeleporter(entityPlayer.getServerForPlayer(), this.getWorldID(), dimension));
 		}
 	},
 	VoidChest("voidChest", 68)
@@ -27,13 +27,13 @@ public enum AOTDDimensions
 		@Override
 		public void toDimension(EntityPlayerMP entityPlayer)
 		{
-			this.teleportPlayer(entityPlayer, this.getWorldID(), new VoidChestTeleporter(entityPlayer.getServerWorld(), entityPlayer.dimension, this.getWorldID()));
+			this.teleportPlayer(entityPlayer, this.getWorldID(), new VoidChestTeleporter(entityPlayer.getServerForPlayer(), entityPlayer.dimension, this.getWorldID()));
 		}
 
 		@Override
 		public void fromDimensionTo(int dimension, EntityPlayerMP entityPlayer)
 		{
-			this.teleportPlayer(entityPlayer, dimension, new VoidChestTeleporter(entityPlayer.getServerWorld(), this.getWorldID(), dimension));
+			this.teleportPlayer(entityPlayer, dimension, new VoidChestTeleporter(entityPlayer.getServerForPlayer(), this.getWorldID(), dimension));
 		}
 	};
 
@@ -63,7 +63,7 @@ public enum AOTDDimensions
 
 	protected void teleportPlayer(EntityPlayerMP entityPlayer, int dimension, Teleporter teleporter)
 	{
-		entityPlayer.mcServer.getPlayerList().transferPlayerToDimension(entityPlayer, dimension, teleporter);
+		entityPlayer.mcServer.getConfigurationManager().transferPlayerToDimension(entityPlayer, dimension, teleporter);
 	}
 
 	public static int getBlocksBetweenIslands()

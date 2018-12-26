@@ -20,7 +20,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.WorldGenerationUtility;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.AOTDDungeonTypes;
 
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeGenBase;
 
 public class GenerateWitchHut implements AOTDGeneratable
 {
@@ -56,10 +56,9 @@ public class GenerateWitchHut implements AOTDGeneratable
 	@Override
 	public double getGenerationChance(int biomeID)
 	{
-		if (biomeID == Biome.getIdForBiome(ModBiomes.erieForest))
+		if (biomeID == ModBiomes.erieForest.biomeID)
 			return ConfigurationHandler.witchHutFrequency * 0.5 * ConfigurationHandler.dungeonFrequencyMultiplier;
-		// Swampland
-		else if (biomeID == 6)
+		else if (biomeID == BiomeGenBase.swampland.biomeID)
 			return ConfigurationHandler.witchHutFrequency * ConfigurationHandler.dungeonFrequencyMultiplier;
 		return 0;
 	}

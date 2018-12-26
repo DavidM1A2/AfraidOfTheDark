@@ -16,18 +16,16 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockStarMetalOre extends AOTDBlock
 {
 	public BlockStarMetalOre()
 	{
-		super(Material.ROCK);
+		super(Material.rock);
 		this.setUnlocalizedName("starMetalOre");
-		this.setRegistryName("starMetalOre");
 		this.setLightLevel(0.4f);
 		this.setHardness(10.0F);
 		this.setResistance(50.0F);
@@ -47,12 +45,12 @@ public class BlockStarMetalOre extends AOTDBlock
 	}
 
 	@Override
-	public void harvestBlock(World world, EntityPlayer entityPlayer, BlockPos blockPos, IBlockState iBlockState, TileEntity tileEntity, ItemStack itemStack)
+	public void harvestBlock(World world, EntityPlayer entityPlayer, BlockPos blockPos, IBlockState iBlockState, TileEntity tileEntity)
 	{
 		if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(ResearchTypes.StarMetal))
 		{
 			entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(ResearchTypes.StarMetal, true);
 		}
-		super.harvestBlock(world, entityPlayer, blockPos, iBlockState, tileEntity, itemStack);
+		super.harvestBlock(world, entityPlayer, blockPos, iBlockState, tileEntity);
 	}
 }

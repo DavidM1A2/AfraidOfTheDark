@@ -8,19 +8,24 @@ package com.DavidM1A2.AfraidOfTheDark.common.dimension.nightmare;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBiomes;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDimensions;
 
-import net.minecraft.world.DimensionType;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.WorldProvider;
-import net.minecraft.world.biome.BiomeProviderSingle;
-import net.minecraft.world.chunk.IChunkGenerator;
+import net.minecraft.world.WorldType;
+import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.WorldChunkManager;
+import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class NightmareWorldProvider extends WorldProvider
 {
 	@Override
-	public void createBiomeProvider()
+	public void registerWorldChunkManager()
 	{
-		this.biomeProvider = new BiomeProviderSingle(ModBiomes.nightmare);
+		this.dimensionId = AOTDDimensions.Nightmare.getWorldID();
+		this.worldChunkMgr = new WorldChunkManager(ModBiomes.nightmare.biomeID, WorldType.CUSTOMIZED, "");
 		this.hasNoSky = false;
 
 		if (this.worldObj.isRemote)
@@ -30,7 +35,8 @@ public class NightmareWorldProvider extends WorldProvider
 	}
 
 	/**
-	 * Returns the sub-folder of the world folder that this WorldProvider saves to. EXA: DIM1, DIM-1
+	 * Returns the sub-folder of the world folder that this WorldProvider saves
+	 * to. EXA: DIM1, DIM-1
 	 * 
 	 * @return The sub-folder name to save this world's chunks to.
 	 */
@@ -40,9 +46,18 @@ public class NightmareWorldProvider extends WorldProvider
 		return "NightmareWorld";
 	}
 
+	@Override
+	@SideOnly(Side.CLIENT)
+	public Vec3 getSkyColor(Entity cameraEntity, float partialTicks)
+	{
+		return super.getSkyColor(cameraEntity, partialTicks);
+	}
+
 	/**
-	 * Returns a double value representing the Y value relative to the top of the map at which void fog is at its maximum. The default factor of
-	 * 0.03125 relative to 256, for example, means the void fog will be at its maximum at (256*0.03125), or 8.
+	 * Returns a double value representing the Y value relative to the top of
+	 * the map at which void fog is at its maximum. The default factor of
+	 * 0.03125 relative to 256, for example, means the void fog will be at its
+	 * maximum at (256*0.03125), or 8.
 	 */
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -58,7 +73,8 @@ public class NightmareWorldProvider extends WorldProvider
 	}
 
 	/**
-	 * The current sun brightness factor for this dimension. 0.0f means no light at all, and 1.0f means maximum sunlight. This will be used for the
+	 * The current sun brightness factor for this dimension. 0.0f means no light
+	 * at all, and 1.0f means maximum sunlight. This will be used for the
 	 * "calculateSkylightSubtracted" which is for Sky light value calculation.
 	 *
 	 * @return The current brightness factor
@@ -70,9 +86,9 @@ public class NightmareWorldProvider extends WorldProvider
 	}
 
 	@Override
-	public IChunkGenerator createChunkGenerator()
+	public IChunkProvider createChunkGenerator()
 	{
-		return new NightmareChunkGenerator(this.worldObj);
+		return new NightmareChunkProvider(this.worldObj);
 	}
 
 	@Override
@@ -89,9 +105,9 @@ public class NightmareWorldProvider extends WorldProvider
 	}
 
 	@Override
-	public DimensionType getDimensionType()
+	public String getDimensionName()
 	{
-		return DimensionType.getById(AOTDDimensions.Nightmare.getWorldID());
+		return AOTDDimensions.Nightmare.getWorldName();
 	}
 
 	/**
@@ -149,7 +165,8 @@ public class NightmareWorldProvider extends WorldProvider
 	}
 
 	/**
-	 * Determines the dimension the player will be respawned in, typically this brings them back to the overworld.
+	 * Determines the dimension the player will be respawned in, typically this
+	 * brings them back to the overworld.
 	 *
 	 * @param player
 	 *            The player that is respawning
@@ -158,7 +175,13 @@ public class NightmareWorldProvider extends WorldProvider
 	@Override
 	public int getRespawnDimension(net.minecraft.entity.player.EntityPlayerMP player)
 	{
-		return player.dimension;
+		return this.dimensionId;
+	}
+
+	@Override
+	public BiomeGenBase getBiomeGenForCoords(BlockPos pos)
+	{
+		return ModBiomes.nightmare;
 	}
 
 	@Override
@@ -175,8 +198,7 @@ public class NightmareWorldProvider extends WorldProvider
 	@SideOnly(Side.CLIENT)
 	public float[] calcSunriseSunsetColors(float par1, float par2)
 	{
-		return new float[]
-		{ 0, 0, 0, 0 };
+		return new float[] { 0, 0, 0, 0 };
 	}
 
 	@Override
@@ -184,4 +206,19 @@ public class NightmareWorldProvider extends WorldProvider
 	{
 		return 0.5f;
 	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public Vec3 getFogColor(float par1, float par2)
+	{
+		// RGB
+		return new Vec3(0.67f, 0f, 0f);
+	}
+
+	@Override
+	public String getInternalNameSuffix()
+	{
+		return "";
+	}
+
 }

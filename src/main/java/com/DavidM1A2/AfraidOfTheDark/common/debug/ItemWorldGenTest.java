@@ -12,9 +12,6 @@ import com.google.common.base.Predicate;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 
 public class ItemWorldGenTest extends AOTDItem
@@ -29,9 +26,8 @@ public class ItemWorldGenTest extends AOTDItem
 	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
 	 */
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer entityPlayer, EnumHand hand)
+	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer)
 	{
-		ItemStack itemStack = entityPlayer.getHeldItemMainhand();
 		//entityPlayer.openGui(Reference.MOD_ID, GuiHandler.SPELL_SELECTION_ID, world, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ());
 
 		/*TargetPoint particleCenter = new TargetPoint(entityPlayer.dimension, entityPlayer.posX, entityPlayer.posY + 1, entityPlayer.posZ, 40);
@@ -70,12 +66,6 @@ public class ItemWorldGenTest extends AOTDItem
 		/*
 		entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setPlayerLocationPreTeleport(new Point3D(0, 100, 0), 0);
 		*/
-
-		/*
-		Success: Basically what return true used to be. The call has succeeded in doing what was needed and should stop here.
-		Pass: The call succeeded, but more calls can be made farther down the call stack.
-		Fail: Basically what return false used to be. The call has failed to do what was intended and should stop here.
-		*/
-		return ActionResult.<ItemStack> newResult(EnumActionResult.SUCCESS, itemStack);
+		return super.onItemRightClick(itemStack, world, entityPlayer);
 	}
 }

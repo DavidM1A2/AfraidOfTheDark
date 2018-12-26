@@ -9,14 +9,15 @@ import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -31,7 +32,10 @@ public abstract class AOTDSlab extends BlockSlab
 			this.setCreativeTab(Reference.AFRAID_OF_THE_DARK);
 		this.setHardness(2.0F);
 		this.setResistance(5.0F);
+		this.setStepSound(Block.soundTypeWood);
+
 		IBlockState iblockstate = this.blockState.getBaseState();
+
 		// Is this a double or single half slab?
 		if (!this.isDouble())
 		{
@@ -57,7 +61,7 @@ public abstract class AOTDSlab extends BlockSlab
 	// What item does this block drop?
 	@Override
 	@SideOnly(Side.CLIENT)
-	public abstract ItemStack getItem(final World worldIn, final BlockPos pos, IBlockState state);
+	public abstract Item getItem(final World worldIn, final BlockPos pos);
 
 	/**
 	 * Convert the given metadata into a BlockState for this Block
@@ -94,10 +98,10 @@ public abstract class AOTDSlab extends BlockSlab
 
 	// Create default block state
 	@Override
-	protected BlockStateContainer createBlockState()
+	protected BlockState createBlockState()
 	{
-		return this.isDouble() ? new BlockStateContainer(this, new IProperty[]
-		{}) : new BlockStateContainer(this, new IProperty[]
+		return this.isDouble() ? new BlockState(this, new IProperty[]
+		{}) : new BlockState(this, new IProperty[]
 		{ BlockSlab.HALF });
 	}
 
@@ -117,7 +121,7 @@ public abstract class AOTDSlab extends BlockSlab
 	}
 
 	@Override
-	public Comparable<?> getTypeForItem(ItemStack stack)
+	public Object getVariant(ItemStack stack)
 	{
 		return null;
 	}

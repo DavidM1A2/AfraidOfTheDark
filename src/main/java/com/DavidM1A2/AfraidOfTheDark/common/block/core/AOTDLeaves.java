@@ -8,15 +8,14 @@ package com.DavidM1A2.AfraidOfTheDark.common.block.core;
 import java.util.List;
 import java.util.Random;
 
-import javax.annotation.Nullable;
-
 import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 import com.google.common.collect.Lists;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockPlanks.EnumType;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,8 +24,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -57,6 +56,30 @@ public abstract class AOTDLeaves extends BlockLeaves
 		super.setGraphicsLevel(true);
 	}
 
+	// Color of the leaves
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getBlockColor()
+	{
+		return ColorizerFoliage.getFoliageColor(0.5D, 1.0D);
+	}
+
+	// Leaf render color in item form
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getRenderColor(final IBlockState state)
+	{
+		return ColorizerFoliage.getFoliageColorPine();
+	}
+
+	// What color to multiply these leaves by in block form
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int colorMultiplier(final IBlockAccess worldIn, final BlockPos pos, final int renderPass)
+	{
+		return ColorizerFoliage.getFoliageColorPine();
+	}
+
 	// Interface implements it so we need to, but it's unused
 	@Override
 	public EnumType getWoodType(final int p_176233_1_)
@@ -69,7 +92,7 @@ public abstract class AOTDLeaves extends BlockLeaves
 	 */
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(final Item itemIn, final CreativeTabs tab, final NonNullList<ItemStack> list)
+	public void getSubBlocks(final Item itemIn, final CreativeTabs tab, final List list)
 	{
 		list.add(new ItemStack(itemIn, 1, 0));
 	}
@@ -114,9 +137,9 @@ public abstract class AOTDLeaves extends BlockLeaves
 
 	// Create default block state
 	@Override
-	protected BlockStateContainer createBlockState()
+	protected BlockState createBlockState()
 	{
-		return new BlockStateContainer(this, new IProperty[]
+		return new BlockState(this, new IProperty[]
 		{ BlockLeaves.CHECK_DECAY, BlockLeaves.DECAYABLE });
 	}
 
@@ -131,16 +154,12 @@ public abstract class AOTDLeaves extends BlockLeaves
 
 	// When the player harvests the block, what happens?
 	@Override
-	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack)
+	public void harvestBlock(final World worldIn, final EntityPlayer playerIn, final BlockPos pos, final IBlockState state, final TileEntity te)
 	{
-		if (!worldIn.isRemote && stack.getItem() == Items.SHEARS)
-		{
-			player.addStat(StatList.getBlockStats(this));
-		}
+		if (!worldIn.isRemote && (playerIn.getCurrentEquippedItem() != null) && (playerIn.getCurrentEquippedItem().getItem() == Items.shears))
+			playerIn.triggerAchievement(StatList.mineBlockStatArray[Block.getIdFromBlock(this)]);
 		else
-		{
-			super.harvestBlock(worldIn, player, pos, state, te, stack);
-		}
+			super.harvestBlock(worldIn, playerIn, pos, state, te);
 	}
 
 	/**

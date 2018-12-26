@@ -10,19 +10,27 @@ import java.util.List;
 
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeGenBase;
 
-public class BiomeVoidChest extends Biome
+public class BiomeVoidChest extends BiomeGenBase
 {
-	private List<Biome.SpawnListEntry> spawnableCreatures = new ArrayList<Biome.SpawnListEntry>();
+	private List<SpawnListEntry> spawnableCreatures = new ArrayList<BiomeGenBase.SpawnListEntry>();
 
 	public BiomeVoidChest(int biomeID)
 	{
-		super(new Biome.BiomeProperties("VoidChest").setWaterColor(5470985).setBaseHeight(0.125F).setHeightVariation(0.05F).setRainDisabled());
+		super(biomeID);
+
+		this.biomeName = "VoidChest";
+		this.setColor(5470985);
+		this.enableRain = true;
+		this.setFillerBlockMetadata(5159473);
 		this.flowers.clear();
+		this.setHeight(new BiomeGenBase.Height(0.125F, 0.05F));
 		this.spawnableCreatureList.clear();
+		this.waterColorMultiplier = 0x000000;
 		this.theBiomeDecorator.treesPerChunk = 0;
-		this.topBlock = Blocks.DIRT.getDefaultState();
+		this.topBlock = Blocks.dirt.getDefaultState();
+		this.setDisableRain();
 	}
 
 	/**

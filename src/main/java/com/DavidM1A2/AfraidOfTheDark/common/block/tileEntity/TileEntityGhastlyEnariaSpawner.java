@@ -12,7 +12,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.ghastly.EntityGhastl
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDimensions;
 
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntityGhastlyEnariaSpawner extends AOTDTickingTileEntity
 {

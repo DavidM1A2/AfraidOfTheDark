@@ -21,14 +21,11 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -83,73 +80,90 @@ public class ItemFlaskOfSouls extends AOTDItemWithCooldownPerItem
 	}
 
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer entityPlayer, World world, BlockPos blockPos, EnumHand hand, EnumFacing side, float facing, float hitX, float hitZ)
+	public boolean onItemUse(final ItemStack itemStack, final EntityPlayer entityPlayer, final World world, final BlockPos pos, final EnumFacing side, final float hitX, final float hitY, final float hitZ)
 	{
-		final int blockX = blockPos.getX();
-		final int blockY = blockPos.getY();
-		final int blockZ = blockPos.getZ();
-		ItemStack itemStack = entityPlayer.getHeldItem(hand);
+		final int blockX = pos.getX();
+		final int blockY = pos.getY();
+		final int blockZ = pos.getZ();
 		// When we use the item, we check the block that was clicked on and
 		// spawn an entity on that block
-		if (!world.isRemote)
+		if (world.isRemote)
+		{
+			return true;
+		}
+		else
 		{
 			if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.PhylacteryOfSouls))
 			{
 				double y = 0.0D;
 
-				if (world.getBlockState(blockPos).isFullCube())
+				if (world.getBlockState(pos).getBlock().isFullCube())
 				{
 					y = 1.0D;
 				}
 
 				if (this.spawnEntity(world, blockX + 0.5D, blockY + y, blockZ + 0.5D, itemStack, entityPlayer) == null)
 				{
-					entityPlayer.addChatMessage(new TextComponentString("Flask is incomplete or on cooldown."));
+					entityPlayer.addChatMessage(new ChatComponentText("Flask is incomplete or on cooldown."));
 				}
 			}
 			else
 			{
-				entityPlayer.addChatMessage(new TextComponentString("I'm not sure how to operate this."));
+				entityPlayer.addChatMessage(new ChatComponentText("I'm not sure how to operate this."));
 			}
+
+			return true;
 		}
-		return EnumActionResult.SUCCESS;
 	}
 
+	/**
+	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
+	 */
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer entityPlayer, EnumHand hand)
+	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer)
 	{
-		ItemStack itemStack = entityPlayer.getHeldItem(hand);
-		if (!world.isRemote)
+		if (world.isRemote)
+		{
+			return itemStack;
+		}
+		else
 		{
 			if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.PhylacteryOfSouls))
 			{
-				final RayTraceResult rayTraceResult = this.rayTrace(world, entityPlayer, true);
+				final MovingObjectPosition movingObjectPosition = this.getMovingObjectPositionFromPlayer(world, entityPlayer, true);
 
-				if (rayTraceResult != null)
+				if (movingObjectPosition == null)
 				{
-					if (rayTraceResult.typeOfHit == RayTraceResult.Type.BLOCK)
+					return itemStack;
+				}
+				else
+				{
+					if (movingObjectPosition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
 					{
 						final BlockPos thisPos = entityPlayer.getPosition();
 
-						if (world.canMineBlockBody(entityPlayer, thisPos))
+						if (!world.canMineBlockBody(entityPlayer, thisPos))
 						{
-							if (world.getBlockState(thisPos) instanceof BlockLiquid)
+							return itemStack;
+						}
+
+						if (world.getBlockState(thisPos) instanceof BlockLiquid)
+						{
+							if (this.spawnEntity(world, thisPos.getX(), thisPos.getY(), thisPos.getZ(), itemStack, entityPlayer) == null)
 							{
-								if (this.spawnEntity(world, thisPos.getX(), thisPos.getY(), thisPos.getZ(), itemStack, entityPlayer) == null)
-								{
-									entityPlayer.addChatMessage(new TextComponentString("Flask is incomplete or on cooldown."));
-								}
+								entityPlayer.addChatMessage(new ChatComponentText("Flask is incomplete or on cooldown."));
 							}
 						}
 					}
+					return itemStack;
 				}
 			}
 			else
 			{
-				entityPlayer.addChatMessage(new TextComponentString("I'm not sure how to operate this."));
+				entityPlayer.addChatMessage(new ChatComponentText("I'm not sure how to operate this."));
+				return itemStack;
 			}
 		}
-		return ActionResult.<ItemStack> newResult(EnumActionResult.SUCCESS, itemStack);
 	}
 
 	// To spawn the entity we get it's name and spawn one with a random rotation
@@ -166,29 +180,29 @@ public class ItemFlaskOfSouls extends AOTDItemWithCooldownPerItem
 					{
 						String entityToSpawnName = NBTHelper.getString(itemStack, FLASK_TYPE);
 						String aotdEntity = Reference.MOD_ID + "." + entityToSpawnName.substring(6, 7).toLowerCase() + entityToSpawnName.substring(7);
-
-						entityToSpawn = (EntityLiving) EntityList.createEntityByIDFromName(new ResourceLocation(entityToSpawnName), world);
-
-						if (entityToSpawn == null)
+						if (EntityList.stringToClassMapping.containsKey(entityToSpawnName))
 						{
-							entityToSpawn = (EntityLiving) EntityList.createEntityByIDFromName(new ResourceLocation(aotdEntity), world);
+							entityToSpawn = (EntityLiving) EntityList.createEntityByName(entityToSpawnName, world);
 						}
-
-						if (entityToSpawn == null)
+						else if (EntityList.stringToClassMapping.containsKey(aotdEntity))
 						{
-							entityToSpawn = (EntityLiving) EntityList.createEntityByIDFromName(new ResourceLocation(entityToSpawnName.substring(6)), world);
+							entityToSpawn = (EntityLiving) EntityList.createEntityByName(aotdEntity, world);
+						}
+						else if (EntityList.stringToClassMapping.containsKey(entityToSpawnName.substring(6)))
+						{
+							entityToSpawn = (EntityLiving) EntityList.createEntityByName(entityToSpawnName.substring(6), world);
+						}
+						else
+						{
+							entityPlayer.addChatMessage(new ChatComponentText("The entity: " + entityToSpawnName + " is not supported by flasks at this time."));
 						}
 
 						if (entityToSpawn != null)
 						{
-							//entityToSpawn.setLocationAndAngles(x, y, z, MathHelper.wrapAngleTo180_float(world.rand.nextFloat() * 360), 0.0F);
+							entityToSpawn.setLocationAndAngles(x, y, z, MathHelper.wrapAngleTo180_float(world.rand.nextFloat() * 360), 0.0F);
 							world.spawnEntityInWorld(entityToSpawn);
 							entityToSpawn.playLivingSound();
 							this.setOnCooldown(itemStack, entityPlayer);
-						}
-						else
-						{
-							entityPlayer.addChatMessage(new TextComponentString("The entity: " + entityToSpawnName + " is not supported by flasks at this time."));
 						}
 					}
 				}

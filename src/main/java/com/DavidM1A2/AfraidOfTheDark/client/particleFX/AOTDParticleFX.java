@@ -6,15 +6,15 @@
 package com.DavidM1A2.AfraidOfTheDark.client.particleFX;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-public abstract class AOTDParticleFX extends Particle
+public abstract class AOTDParticleFX extends EntityFX
 {
 	private static final ResourceLocation customParticleTextures = new ResourceLocation("afraidofthedark:textures/particles/AOTDParticles.png");
 	private static final ResourceLocation defaultParticleTextures = new ResourceLocation("textures/particle/particles.png");
@@ -28,7 +28,7 @@ public abstract class AOTDParticleFX extends Particle
 	public abstract int getTextureIndex();
 
 	@Override
-	public void renderParticle(VertexBuffer worldRenderer, Entity entity, float partialTicks, float float2, float float3, float float4, float float5, float float6)
+	public void renderParticle(WorldRenderer worldRenderer, Entity entity, float partialTicks, float float2, float float3, float float4, float float5, float float6)
 	{
 		// Draw whatever we have currently loaded into memory
 		Tessellator.getInstance().draw();
@@ -56,13 +56,13 @@ public abstract class AOTDParticleFX extends Particle
 
 		if (this.particleAge++ >= this.particleMaxAge)
 		{
-			this.setExpired();
+			this.setDead();
 		}
 
 		this.updateMotionXYZ();
 		this.moveEntity(this.motionX, this.motionY, this.motionZ);
 
-		if (this.isCollided)
+		if (this.onGround)
 		{
 			this.motionX *= 0.699999988079071D;
 			this.motionZ *= 0.699999988079071D;

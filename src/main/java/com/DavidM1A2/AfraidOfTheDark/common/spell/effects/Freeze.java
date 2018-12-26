@@ -11,7 +11,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class Freeze extends Effect
@@ -31,8 +31,7 @@ public class Freeze extends Effect
 		{
 			if (hitInfo.getEntityHit() instanceof EntityLivingBase)
 			{
-				// Slowness
-				((EntityLivingBase) hitInfo.getEntityHit()).addPotionEffect(new PotionEffect(Potion.getPotionById(2), 40, 3, false, false));
+				((EntityLivingBase) hitInfo.getEntityHit()).addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(), 40, 3, false, false));
 			}
 			VitaeUtils.vitaeReleasedFX(hitInfo.getWorld(), hitInfo.getLocation(), 1, 5);
 			Entity entity = hitInfo.getEntityHit();
@@ -58,7 +57,7 @@ public class Freeze extends Effect
 					{
 						if (current instanceof BlockAir)
 						{
-							world.setBlockState(currentLoc, Blocks.ICE.getDefaultState());
+							world.setBlockState(currentLoc, Blocks.ice.getDefaultState());
 							VitaeUtils.vitaeReleasedFX(world, currentLoc, 1, 1);
 						}
 					}

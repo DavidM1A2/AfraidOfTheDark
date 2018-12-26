@@ -3,6 +3,9 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.proxy;
 
+import java.util.Map;
+import java.util.UUID;
+
 import com.DavidM1A2.AfraidOfTheDark.client.entities.Artwork.RenderArtwork;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.DeeeSyft.RenderDeeeSyft;
 import com.DavidM1A2.AfraidOfTheDark.client.entities.Enaria.RenderEnaria;
@@ -47,19 +50,19 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.ItemModelMesher;
-import net.minecraft.client.renderer.block.model.ModelBakery;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.resources.model.ModelBakery;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
-import net.minecraft.server.management.PlayerList;
+import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 
 // Just client things go here
 public class ClientProxy extends CommonProxy
@@ -226,11 +229,14 @@ public class ClientProxy extends CommonProxy
 			return Minecraft.getMinecraft().thePlayer;
 		else
 		{
-			PlayerList list = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList();
-			if (list.getPlayerList().size() == 1)
-				return list.getPlayerList().get(0);
+			Map<UUID, EntityPlayerMP> players = MinecraftServer.getServer().getConfigurationManager().uuidToPlayerMap;
+			if (players.size() == 1)
+				return MinecraftServer.getServer().getConfigurationManager().playerEntityList.get(0);
+
+			if (players.containsKey(spell.getSpellOwner()))
+				return players.get(spell.getSpellOwner());
 			else
-				return list.getPlayerByUUID(spell.getSpellOwner());
+				return null;
 		}
 	}
 
@@ -323,7 +329,7 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void registerBlockRenders()
 	{
-		OBJLoader.INSTANCE.addDomain(Reference.MOD_ID);
+		OBJLoader.instance.addDomain(Reference.MOD_ID);
 
 		final ItemModelMesher itemModelMesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
 		itemModelMesher.register(Item.getItemFromBlock(ModBlocks.spring), 0, new ModelResourceLocation(Reference.MOD_ID + ":spring", "inventory"));

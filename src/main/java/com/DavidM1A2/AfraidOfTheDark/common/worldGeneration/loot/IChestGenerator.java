@@ -8,7 +8,9 @@ package com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.util.WeightedRandomChestContent;
+
 public interface IChestGenerator
 {
-	public List<RandomItem> getPossibleItems(Random random);
+	public List<WeightedRandomChestContent> getPossibleItems(Random random);
 }

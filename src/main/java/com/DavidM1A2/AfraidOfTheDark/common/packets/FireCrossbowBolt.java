@@ -10,9 +10,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDCrossbowBoltTypes;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -49,7 +47,7 @@ public class FireCrossbowBolt implements IMessage
 		@Override
 		public IMessage handleServerMessage(final EntityPlayer entityPlayer, final FireCrossbowBolt msg, final MessageContext ctx)
 		{
-			entityPlayer.worldObj.getMinecraftServer().addScheduledTask(new Runnable()
+			MinecraftServer.getServer().addScheduledTask(new Runnable()
 			{
 				@Override
 				public void run()
@@ -57,10 +55,10 @@ public class FireCrossbowBolt implements IMessage
 					World world = entityPlayer.worldObj;
 
 					// Only fire a bolt if the player is in creative or has the right bolt item
-					if (entityPlayer.capabilities.isCreativeMode || entityPlayer.inventory.clearMatchingItems(msg.boltType.getMyBoltItem(), -1, 1, null) == 1)
+					if (entityPlayer.capabilities.isCreativeMode || entityPlayer.inventory.consumeInventoryItem(msg.boltType.getMyBoltItem()))
 					{
 						world.spawnEntityInWorld(msg.boltType.createBolt(world, entityPlayer));
-						world.playSound(entityPlayer, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, new SoundEvent(new ResourceLocation("afraidofthedark:crossbowFire")), SoundCategory.MASTER, 0.5F, ((world.rand.nextFloat() * 0.4F) + 0.8F));
+						world.playSoundAtEntity(entityPlayer, "afraidofthedark:crossbowFire", 0.5F, ((world.rand.nextFloat() * 0.4F) + 0.8F));
 					}
 				}
 			});

@@ -14,6 +14,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -60,14 +61,14 @@ public class SyncAOTDEntityData implements IMessage
 		}
 
 		@Override
-		public IMessage handleServerMessage(final EntityPlayer entityPlayer, SyncAOTDEntityData msg, MessageContext ctx)
+		public IMessage handleServerMessage(final EntityPlayer player, SyncAOTDEntityData msg, MessageContext ctx)
 		{
-			entityPlayer.worldObj.getMinecraftServer().addScheduledTask(new Runnable()
+			MinecraftServer.getServer().addScheduledTask(new Runnable()
 			{
 				@Override
 				public void run()
 				{
-					entityPlayer.getCapability(ModCapabilities.ENTITY_DATA, null).syncAll();
+					player.getCapability(ModCapabilities.ENTITY_DATA, null).syncAll();
 				}
 			});
 			return null;

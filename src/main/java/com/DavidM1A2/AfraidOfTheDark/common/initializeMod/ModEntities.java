@@ -24,13 +24,11 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.projectile.EntitySpel
 import com.DavidM1A2.AfraidOfTheDark.common.entities.spell.projectile.EntitySpellProjectileDive;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDimensions;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
+import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.biome.Biome;
-import net.minecraftforge.common.BiomeManager;
-import net.minecraftforge.common.BiomeManager.BiomeEntry;
-import net.minecraftforge.common.BiomeManager.BiomeType;
+import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 
 public class ModEntities
@@ -58,37 +56,47 @@ public class ModEntities
 	public static void intialize()
 	{
 		// register entities
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "werewolf"), EntityWerewolf.class, "werewolf", ModEntities.wereWolfID, Reference.MOD_ID, 50, 1, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "deeeSyft"), EntityDeeeSyft.class, "deeeSyft", ModEntities.deeeSyft, Reference.MOD_ID, 50, 1, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "enchantedSkeleton"), EntityEnchantedSkeleton.class, "enchantedSkeleton", ModEntities.enchantedSkeletonID, Reference.MOD_ID, 50, 1, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "enaria"), EntityEnaria.class, "enaria", ModEntities.enariaID, Reference.MOD_ID, 50, 1, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "splinterDrone"), EntitySplinterDrone.class, "splinterDrone", ModEntities.splinterDroneID, Reference.MOD_ID, 50, 1, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "splinterDroneProjectile"), EntitySplinterDroneProjectile.class, "splinterDroneProjectile", ModEntities.splinterDroneProjectileID, Reference.MOD_ID, 50, 1, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "ghastlyEnaria"), EntityGhastlyEnaria.class, "ghastlyEnaria", ModEntities.ghastlyEnariaID, Reference.MOD_ID, 500, 1, true);
+		EntityRegistry.registerModEntity(EntityWerewolf.class, "werewolf", ModEntities.wereWolfID, Reference.MOD_ID, 50, 1, true);
+		EntityRegistry.registerModEntity(EntityDeeeSyft.class, "deeeSyft", ModEntities.deeeSyft, Reference.MOD_ID, 50, 1, true);
+		EntityRegistry.registerModEntity(EntityEnchantedSkeleton.class, "enchantedSkeleton", ModEntities.enchantedSkeletonID, Reference.MOD_ID, 50, 1, true);
+		EntityRegistry.registerModEntity(EntityEnaria.class, "enaria", ModEntities.enariaID, Reference.MOD_ID, 50, 1, true);
+		EntityRegistry.registerModEntity(EntitySplinterDrone.class, "splinterDrone", ModEntities.splinterDroneID, Reference.MOD_ID, 50, 1, true);
+		EntityRegistry.registerModEntity(EntitySplinterDroneProjectile.class, "splinterDroneProjectile", ModEntities.splinterDroneProjectileID, Reference.MOD_ID, 50, 1, true);
+		EntityRegistry.registerModEntity(EntityGhastlyEnaria.class, "ghastlyEnaria", ModEntities.ghastlyEnariaID, Reference.MOD_ID, 500, 1, true);
 
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "artwork"), EntityArtwork.class, "artwork", ModEntities.artworkID, Reference.MOD_ID, 160, Integer.MAX_VALUE, false);
+		EntityRegistry.registerModEntity(EntityArtwork.class, "artwork", ModEntities.artworkID, Reference.MOD_ID, 160, Integer.MAX_VALUE, false);
 
-		EntityRegistry.registerEgg(new ResourceLocation(Reference.MOD_ID, "werewolf"), 0x3B170B, 0x181907);
-		EntityRegistry.registerEgg(new ResourceLocation(Reference.MOD_ID, "splinterDrone"), 0xcc6600, 0x63300);
-		EntityRegistry.registerEgg(new ResourceLocation(Reference.MOD_ID, "enchantedSkeleton"), 0x996600, 0xe69900);
-		EntityRegistry.registerEgg(new ResourceLocation(Reference.MOD_ID, "deeeSyft"), 0x0086b3, 0x00bfff);
+		try
+		{
+			EntityRegistry.registerEgg(EntityWerewolf.class, 0x3B170B, 0x181907);
+			EntityRegistry.registerEgg(EntitySplinterDrone.class, 0xcc6600, 0x63300);
+			EntityRegistry.registerEgg(EntityEnchantedSkeleton.class, 0x996600, 0xe69900);
+			EntityRegistry.registerEgg(EntityDeeeSyft.class, 0x0086b3, 0x00bfff);
+		}
+		catch (NoSuchMethodError error)
+		{
+			LogHelper.fatal("You need to update your version of minecraft forge!!\nMinimum Required is 1.8-11.14.3.1468, but use the recommended version!");
+			FMLCommonHandler.instance().exitJava(1, true);
+		}
 
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "ironBolt"), EntityIronBolt.class, "ironBolt", ModEntities.ironBoltID, Reference.MOD_ID, 50, 10, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "silverBolt"), EntitySilverBolt.class, "silverBolt", ModEntities.silverBoltID, Reference.MOD_ID, 50, 10, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "woodenBolt"), EntityWoodenBolt.class, "woodenBolt", ModEntities.woodenBoltID, Reference.MOD_ID, 50, 10, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "igneousBolt"), EntityIgneousBolt.class, "igneousBolt", ModEntities.igneousBoltID, Reference.MOD_ID, 50, 10, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "starMetalBolt"), EntityStarMetalBolt.class, "starMetalBolt", ModEntities.starMetalBoltID, Reference.MOD_ID, 50, 10, true);
+		EntityRegistry.registerModEntity(EntityIronBolt.class, "ironBolt", ModEntities.ironBoltID, Reference.MOD_ID, 50, 10, true);
+		EntityRegistry.registerModEntity(EntitySilverBolt.class, "silverBolt", ModEntities.silverBoltID, Reference.MOD_ID, 50, 10, true);
+		EntityRegistry.registerModEntity(EntityWoodenBolt.class, "woodenBolt", ModEntities.woodenBoltID, Reference.MOD_ID, 50, 10, true);
+		EntityRegistry.registerModEntity(EntityIgneousBolt.class, "igneousBolt", ModEntities.igneousBoltID, Reference.MOD_ID, 50, 10, true);
+		EntityRegistry.registerModEntity(EntityStarMetalBolt.class, "starMetalBolt", ModEntities.starMetalBoltID, Reference.MOD_ID, 50, 10, true);
 
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "spellProjectile"), EntitySpellProjectile.class, "spellProjectile", ModEntities.spellProjectileID, Reference.MOD_ID, 50, 1, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "spellProjectileDive"), EntitySpellProjectileDive.class, "spellProjectileDive", ModEntities.spellProjectileDiveID, Reference.MOD_ID, 50, 1, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "spellMyself"), EntityMyself.class, "spellMyself", ModEntities.spellMyselfID, Reference.MOD_ID, 0, 1, false);
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "spellAOE"), EntityAOE.class, "spellAOE", ModEntities.spellAOEID, Reference.MOD_ID, 0, 1, false);
+		EntityRegistry.registerModEntity(EntitySpellProjectile.class, "spellProjectile", ModEntities.spellProjectileID, Reference.MOD_ID, 50, 1, true);
+		EntityRegistry.registerModEntity(EntitySpellProjectileDive.class, "spellProjectileDive", ModEntities.spellProjectileDiveID, Reference.MOD_ID, 50, 1, true);
+		EntityRegistry.registerModEntity(EntityMyself.class, "spellMyself", ModEntities.spellMyselfID, Reference.MOD_ID, 0, 1, false);
+		EntityRegistry.registerModEntity(EntityAOE.class, "spellAOE", ModEntities.spellAOEID, Reference.MOD_ID, 0, 1, false);
 
 		// Allow the werewolf to rarely spawn in all biomes
-		for (BiomeType type : BiomeType.values())
-			for (BiomeEntry biome : BiomeManager.getBiomes(type))
-				if (biome != null && Biome.getIdForBiome(biome.biome) != AOTDDimensions.Nightmare.getWorldID())
-					EntityRegistry.addSpawn(EntityWerewolf.class, 2, 1, 1, EnumCreatureType.MONSTER, biome.biome);
+		for (int i = 0; i < BiomeGenBase.getBiomeGenArray().length; i++)
+		{
+			BiomeGenBase biome = BiomeGenBase.getBiomeGenArray()[i];
+			if (biome != null && biome.biomeID != AOTDDimensions.Nightmare.getWorldID())
+				EntityRegistry.addSpawn(EntityWerewolf.class, 2, 1, 1, EnumCreatureType.MONSTER, biome);
+		}
 
 		// Higher chance to spawn in erie biomes
 		EntityRegistry.addSpawn(EntityWerewolf.class, 30, 2, 2, EnumCreatureType.MONSTER, ModBiomes.erieForest);

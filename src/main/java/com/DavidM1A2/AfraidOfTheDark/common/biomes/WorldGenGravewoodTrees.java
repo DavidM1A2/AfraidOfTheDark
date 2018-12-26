@@ -12,10 +12,9 @@ import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;
 import net.minecraft.block.BlockLog;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 
@@ -87,7 +86,7 @@ public class WorldGenGravewoodTrees extends WorldGenAbstractTree
 				final boolean isSoil = block1 instanceof BlockDirt;
 				if (isSoil && (location.getY() < (256 - i - 1)))
 				{
-					block1.onPlantGrow(worldIn.getBlockState(down), worldIn, down, location);
+					block1.onPlantGrow(worldIn, down, location);
 					int i2;
 
 					for (i2 = (location.getY() - 3) + i; i2 <= (location.getY() + i); ++i2)
@@ -106,7 +105,9 @@ public class WorldGenGravewoodTrees extends WorldGenAbstractTree
 								if ((Math.abs(j1) != l) || (Math.abs(l1) != l) || ((random.nextInt(2) != 0) && (k != 0)))
 								{
 									final BlockPos blockpos1 = new BlockPos(i1, i2, k1);
-									if (worldIn.getBlockState(blockpos1).getMaterial() == Material.AIR || worldIn.getBlockState(blockpos1).getMaterial() == Material.LEAVES)
+									final Block block = worldIn.getBlockState(blockpos1).getBlock();
+
+									if (block.isAir(worldIn, blockpos1) || block.isLeaves(worldIn, blockpos1))
 									{
 										this.setBlockAndNotifyAdequately(worldIn, blockpos1, this.leavesMeta);
 									}
@@ -120,7 +121,7 @@ public class WorldGenGravewoodTrees extends WorldGenAbstractTree
 						final BlockPos upN = location.offset(EnumFacing.UP, i2);
 						final Block block2 = worldIn.getBlockState(upN).getBlock();
 
-						if (worldIn.getBlockState(upN).getMaterial() == Material.AIR || worldIn.getBlockState(upN).getMaterial() == Material.LEAVES)
+						if (block2.isAir(worldIn, upN) || block2.isLeaves(worldIn, upN))
 						{
 							this.setBlockAndNotifyAdequately(worldIn, location.offset(EnumFacing.UP, i2), this.woodMeta);
 						}

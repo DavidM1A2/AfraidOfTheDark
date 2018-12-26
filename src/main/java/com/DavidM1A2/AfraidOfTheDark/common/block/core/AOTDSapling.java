@@ -13,28 +13,23 @@ import net.minecraft.block.BlockBush;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public abstract class AOTDSapling extends BlockBush implements IGrowable
 {
 	public static final PropertyInteger STAGE_PROP = PropertyInteger.create("stage", 0, 1);
-	protected static final AxisAlignedBB SAPLING_AABB = new AxisAlignedBB(0.09999999403953552D, 0.0D, 0.09999999403953552D, 0.8999999761581421D, 0.800000011920929D, 0.8999999761581421D);
 
 	public AOTDSapling()
 	{
 		this.setDefaultState(this.blockState.getBaseState().withProperty(STAGE_PROP, Integer.valueOf(0)));
+		float f = 0.4F;
+		this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 2.0F, 0.5F + f);
 		this.setCreativeTab(Reference.AFRAID_OF_THE_DARK);
-	}
-
-	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, net.minecraft.util.math.BlockPos pos)
-	{
-		return SAPLING_AABB;
+		this.setStepSound(soundTypeGrass);
 	}
 
 	@Override
@@ -44,14 +39,14 @@ public abstract class AOTDSapling extends BlockBush implements IGrowable
 		{
 			super.updateTick(world, blockPos, iBlockState, random);
 
-			if (world.getLightFromNeighbors(blockPos.up()) >= 9 && random.nextInt(7) == 0)
+			if (world.getLightFromNeighbors(blockPos.offset(EnumFacing.UP)) >= 9 && random.nextInt(7) == 0)
 			{
-				this.grow(world, blockPos, iBlockState, random);
+				this.updateBlock(world, blockPos, iBlockState, random);
 			}
 		}
 	}
 
-	public void grow(World world, BlockPos blockPos, IBlockState iBlockState, Random random)
+	public void updateBlock(World world, BlockPos blockPos, IBlockState iBlockState, Random random)
 	{
 		if (((Integer) iBlockState.getValue(STAGE_PROP)).intValue() == 0)
 		{
@@ -83,7 +78,7 @@ public abstract class AOTDSapling extends BlockBush implements IGrowable
 	@Override
 	public void grow(World world, Random random, BlockPos blockPos, IBlockState iBlockState)
 	{
-		this.grow(world, blockPos, iBlockState, random);
+		this.updateBlock(world, blockPos, iBlockState, random);
 	}
 
 	/**
@@ -108,9 +103,9 @@ public abstract class AOTDSapling extends BlockBush implements IGrowable
 	}
 
 	@Override
-	protected BlockStateContainer createBlockState()
+	protected BlockState createBlockState()
 	{
-		return new BlockStateContainer(this, new IProperty[]
+		return new BlockState(this, new IProperty[]
 		{ STAGE_PROP });
 	}
 

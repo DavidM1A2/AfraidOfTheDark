@@ -110,7 +110,7 @@ public class EntityAIFollowTarget extends EntityAIBase
 		if (this.timeSinceLastUpdate <= 0)
 		{
 			this.timeSinceLastUpdate = 10;
-			this.entity.getNavigator().tryMoveToEntityLiving(this.target, this.entity.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue());
+			this.entity.getNavigator().tryMoveToEntityLiving(this.target, this.entity.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue());
 		}
 	}
 }

@@ -19,7 +19,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDMeteorTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.ChatComponentText;
 
 public class TelescopeGUI extends AOTDGuiClickAndDragable
 {
@@ -60,7 +60,7 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
 				{
 					if (event.getSource().isHovered() && event.getClickedButton() == MouseButtonClicked.Left)
 					{
-						entityPlayer.addChatMessage(new TextComponentString(TelescopeGUI.this.createMeteorMessage(((AOTDGuiMeteorButton) event.getSource()).getMyType())));
+						entityPlayer.addChatMessage(new ChatComponentText(TelescopeGUI.this.createMeteorMessage(((AOTDGuiMeteorButton) event.getSource()).getMyType())));
 						entityPlayer.closeScreen();
 					}
 				}

@@ -6,7 +6,7 @@
 package com.DavidM1A2.AfraidOfTheDark.common.entities.Enaria.ghastly;
 
 import net.minecraft.entity.ai.EntityMoveHelper;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.MathHelper;
 
 public class GhastlyEnariaMoveHelper extends EntityMoveHelper
 {
@@ -21,9 +21,9 @@ public class GhastlyEnariaMoveHelper extends EntityMoveHelper
 	@Override
 	public void onUpdateMoveHelper()
 	{
-		if (this.isUpdating())
+		if (this.update)
 		{
-			this.action = Action.WAIT;
+			this.update = false;
 			double d0 = this.posX - this.enaria.posX;
 			double d1 = this.posY - this.enaria.posY;
 			double d2 = this.posZ - this.enaria.posZ;

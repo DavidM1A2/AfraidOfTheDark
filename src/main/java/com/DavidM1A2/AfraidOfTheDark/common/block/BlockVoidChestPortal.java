@@ -16,11 +16,11 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.item.Item;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -34,9 +34,8 @@ public class BlockVoidChestPortal extends AOTDBlock
 
 	public BlockVoidChestPortal()
 	{
-		super(Material.ROCK);
+		super(Material.rock);
 		this.setUnlocalizedName("voidChestPortal");
-		this.setRegistryName("voidChestPortal");
 		this.setLightLevel(1.0f);
 		this.setBlockUnbreakable();
 		this.setResistance(6000000.0F);
@@ -66,9 +65,23 @@ public class BlockVoidChestPortal extends AOTDBlock
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
+	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
 	{
 		return null;
+	}
+
+	/**
+	 * Determines if this block is can be destroyed by the specified entities normal behavior.
+	 *
+	 * @param world
+	 *            The current world
+	 * @param pos
+	 *            Block position in world
+	 * @return True to allow the ender dragon to destroy this block
+	 */
+	public boolean canEntityDestroy(IBlockAccess world, BlockPos pos, Entity entity)
+	{
+		return false;
 	}
 
 	/**
@@ -91,7 +104,7 @@ public class BlockVoidChestPortal extends AOTDBlock
 			if (entity instanceof EntityPlayerMP)
 			{
 				EntityPlayerMP entityPlayer = (EntityPlayerMP) entity;
-				if (world.provider.getDimension() == AOTDDimensions.VoidChest.getWorldID())
+				if (world.provider.getDimensionId() == AOTDDimensions.VoidChest.getWorldID())
 				{
 					if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.VoidChest))
 					{
@@ -113,7 +126,7 @@ public class BlockVoidChestPortal extends AOTDBlock
 					{
 						if (System.currentTimeMillis() - this.lastTimeEntered > BlockVoidChestPortal.TIME_INBETWEEN_MESSAGES)
 						{
-							entityPlayer.addChatMessage(new TextComponentString("This mysterious block could become more useful later. I should write down the location of this place."));
+							entityPlayer.addChatMessage(new ChatComponentText("This mysterious block could become more useful later. I should write down the location of this place."));
 							this.lastTimeEntered = System.currentTimeMillis();
 						}
 					}
@@ -124,14 +137,14 @@ public class BlockVoidChestPortal extends AOTDBlock
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public BlockRenderLayer getBlockLayer()
+	public EnumWorldBlockLayer getBlockLayer()
 	{
-		return BlockRenderLayer.TRANSLUCENT;
+		return EnumWorldBlockLayer.TRANSLUCENT;
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state)
+	public Item getItem(World worldIn, BlockPos pos)
 	{
 		return null;
 	}

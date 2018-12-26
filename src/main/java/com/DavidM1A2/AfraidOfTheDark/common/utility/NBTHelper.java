@@ -13,9 +13,9 @@ import java.util.List;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.SaveHandler;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class NBTHelper
 {
@@ -23,7 +23,7 @@ public class NBTHelper
 	{
 		List<NBTTagCompound> toReturn = new LinkedList<NBTTagCompound>();
 
-		ISaveHandler iSaveHandler = FMLCommonHandler.instance().getMinecraftServerInstance().worldServers[0].getSaveHandler();
+		ISaveHandler iSaveHandler = MinecraftServer.getServer().worldServers[0].getSaveHandler();
 		if (iSaveHandler instanceof SaveHandler)
 		{
 			SaveHandler saveHandler = (SaveHandler) iSaveHandler;
@@ -69,7 +69,8 @@ public class NBTHelper
 	 * Initializes the NBT Tag Compound for the given ItemStack if it is null
 	 *
 	 * @param itemStack
-	 *            The ItemStack for which its NBT Tag Compound is being checked for initialization
+	 *            The ItemStack for which its NBT Tag Compound is being checked
+	 *            for initialization
 	 */
 	private static void initNBTTagCompound(final ItemStack itemStack)
 	{

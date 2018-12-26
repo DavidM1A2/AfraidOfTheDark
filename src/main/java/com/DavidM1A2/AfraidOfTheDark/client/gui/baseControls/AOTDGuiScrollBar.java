@@ -10,7 +10,7 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseMoveList
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent.MouseButtonClicked;
 
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.MathHelper;
 
 public class AOTDGuiScrollBar extends AOTDGuiContainer
 {

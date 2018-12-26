@@ -18,7 +18,7 @@ import net.minecraft.inventory.ContainerWorkbench;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -52,7 +52,7 @@ public class AOTDDisablableShapedRecipe extends ShapedOreRecipe
 				{
 					if (!entityPlayer.worldObj.isRemote)
 					{
-						entityPlayer.addChatMessage(new TextComponentString("I'll need to do some more research before I can craft this."));
+						entityPlayer.addChatMessage(new ChatComponentText("I'll need to do some more research before I can craft this."));
 					}
 				}
 				return false;

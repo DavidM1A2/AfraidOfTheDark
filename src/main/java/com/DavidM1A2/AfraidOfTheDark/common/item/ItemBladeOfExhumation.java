@@ -14,7 +14,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 
@@ -27,7 +26,8 @@ public class ItemBladeOfExhumation extends AOTDSword
 	}
 
 	/**
-	 * Called when the player Left Clicks (attacks) an entity. Processed before damage is done, if return value is true further processing is canceled
+	 * Called when the player Left Clicks (attacks) an entity. Processed before
+	 * damage is done, if return value is true further processing is canceled
 	 * and the entity is not attacked.
 	 *
 	 * @param stack
@@ -60,7 +60,8 @@ public class ItemBladeOfExhumation extends AOTDSword
 	}
 
 	/**
-	 * Current implementations of this method in child classes do not use the entry argument beside ev. They just raise the damage on the stack.
+	 * Current implementations of this method in child classes do not use the
+	 * entry argument beside ev. They just raise the damage on the stack.
 	 * 
 	 * @param target
 	 *            The Entity being hit
@@ -69,15 +70,15 @@ public class ItemBladeOfExhumation extends AOTDSword
 	 */
 	public boolean hitEntity(ItemStack itemStack, EntityLivingBase target, EntityLivingBase attacker)
 	{
-		if (itemStack.getItemDamage() == this.getMaxDamage(itemStack) - 1)
+		if (itemStack.getItemDamage() == this.getMaxDamage() - 1)
 		{
 			return false;
 		}
 		else
 		{
-			if (itemStack.getItemDamage() == this.getMaxDamage(itemStack) - 2)
+			if (itemStack.getItemDamage() == this.getMaxDamage() - 2)
 			{
-				attacker.playSound(SoundEvents.BLOCK_METAL_BREAK, 0.8F, 0.8F + attacker.worldObj.rand.nextFloat() * 0.4F);
+				attacker.playSound("random.break", 0.8F, 0.8F + attacker.worldObj.rand.nextFloat() * 0.4F);
 			}
 			return super.hitEntity(itemStack, target, attacker);
 		}

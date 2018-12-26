@@ -20,7 +20,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.WorldGenerationUtility;
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.AOTDDungeonTypes;
 
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeGenBase;
 
 public class GenerateDarkForestDungeon implements AOTDGeneratable
 {
@@ -85,13 +85,11 @@ public class GenerateDarkForestDungeon implements AOTDGeneratable
 	@Override
 	public double getGenerationChance(int biomeID)
 	{
-		// Plains
-		if (biomeID == 1)
+		if (biomeID == BiomeGenBase.plains.biomeID)
 			return ConfigurationHandler.darkForestFrequency * 0.3 * ConfigurationHandler.dungeonFrequencyMultiplier;
-		else if (biomeID == Biome.getIdForBiome(ModBiomes.erieForest))
+		else if (biomeID == ModBiomes.erieForest.biomeID)
 			return ConfigurationHandler.darkForestFrequency * ConfigurationHandler.dungeonFrequencyMultiplier;
-		// Savanah
-		else if (biomeID == 35)
+		else if (biomeID == BiomeGenBase.savanna.biomeID)
 			return ConfigurationHandler.darkForestFrequency * 0.6 * ConfigurationHandler.dungeonFrequencyMultiplier;
 		return 0;
 	}

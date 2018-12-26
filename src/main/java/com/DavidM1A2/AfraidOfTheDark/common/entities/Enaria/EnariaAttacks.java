@@ -20,15 +20,13 @@ import net.minecraft.block.BlockAir;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.WorldServer;
 
 public class EnariaAttacks
@@ -57,23 +55,23 @@ public class EnariaAttacks
 		possibleEffects = new PotionEffect[]
 		{
 				// Slowness
-				new PotionEffect(Potion.getPotionById(2), 300, 0, false, true),
+				new PotionEffect(Potion.moveSlowdown.getId(), 300, 0, false, true),
 				// Mining fatigue
-				new PotionEffect(Potion.getPotionById(4), 300, 1, false, true),
+				new PotionEffect(Potion.digSlowdown.getId(), 300, 1, false, true),
 				// Instant dmg
-				new PotionEffect(Potion.getPotionById(7), 1, 2, false, true),
+				new PotionEffect(Potion.harm.getId(), 1, 2, false, true),
 				// Nausea
-				new PotionEffect(Potion.getPotionById(9), 350, 0, false, true),
+				new PotionEffect(Potion.confusion.getId(), 350, 0, false, true),
 				// Blindness
-				new PotionEffect(Potion.getPotionById(15), 100, 0, false, true),
+				new PotionEffect(Potion.blindness.getId(), 100, 0, false, true),
 				// Hunger
-				new PotionEffect(Potion.getPotionById(17), 100, 10, false, true),
+				new PotionEffect(Potion.hunger.getId(), 100, 10, false, true),
 				// Weakness
-				new PotionEffect(Potion.getPotionById(18), 100, 4, false, true),
+				new PotionEffect(Potion.weakness.getId(), 100, 4, false, true),
 				// Poison
-				new PotionEffect(Potion.getPotionById(19), 100, 3, false, true),
+				new PotionEffect(Potion.poison.getId(), 100, 3, false, true),
 				// Wither
-				new PotionEffect(Potion.getPotionById(20), 100, 2, false, true) };
+				new PotionEffect(Potion.wither.getId(), 100, 2, false, true) };
 	}
 
 	public void performBasicAttack()
@@ -83,7 +81,7 @@ public class EnariaAttacks
 			if (object instanceof EntityPlayer)
 			{
 				EntityPlayer entityPlayer = (EntityPlayer) object;
-				entityPlayer.attackEntityFrom(EntityDamageSource.causeMobDamage(this.enaria), (float) this.enaria.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue());
+				entityPlayer.attackEntityFrom(EntityDamageSource.causeMobDamage(this.enaria), (float) this.enaria.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue());
 				this.performBasicAttackParticleEffectTo(entityPlayer);
 			}
 		}
@@ -112,7 +110,7 @@ public class EnariaAttacks
 			List<EntityPlayer> entityPlayers = this.enaria.worldObj.<EntityPlayer> getEntitiesWithinAABB(EntityPlayer.class, this.enaria.getEntityBoundingBox().expand(TELEPORT_PLAYER_RANGE, TELEPORT_PLAYER_RANGE, TELEPORT_PLAYER_RANGE));
 			for (EntityPlayer entityPlayer : entityPlayers)
 			{
-				this.enaria.addPotionEffect(new PotionEffect(Potion.getPotionById(14), 60, 0, false, false));
+				this.enaria.addPotionEffect(new PotionEffect(Potion.invisibility.getId(), 60, 0, false, false));
 				this.teleportWithShockwave(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ);
 				return;
 			}
@@ -122,7 +120,7 @@ public class EnariaAttacks
 	private void teleportWithShockwave(double x, double y, double z)
 	{
 		this.enaria.setPosition(x, y, z);
-		this.enaria.addPotionEffect(new PotionEffect(Potion.getPotionById(14), 40, 0, false, false));
+		this.enaria.addPotionEffect(new PotionEffect(14, 40, 0, false, false));
 
 		List entityList = this.enaria.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.enaria.getEntityBoundingBox().expand(MAX_KNOCKBACK_RANGE, MAX_KNOCKBACK_RANGE, MAX_KNOCKBACK_RANGE));
 		for (Object entityObject : entityList)
@@ -186,15 +184,15 @@ public class EnariaAttacks
 			{
 				EntityPlayer entityPlayer = (EntityPlayer) object;
 
-				this.enaria.worldObj.playSound(entityPlayer, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, SoundEvents.ENTITY_WITHER_HURT, SoundCategory.HOSTILE, 1.0f, 0.5f);
+				this.enaria.worldObj.playSoundAtEntity(entityPlayer, "mob.wither.hurt", 1.0f, 0.5f);
 
 				// remove night vision
-				if (entityPlayer.isPotionActive(Potion.getPotionById(16)))
+				if (entityPlayer.isPotionActive(Potion.nightVision.getId()))
 				{
-					entityPlayer.removePotionEffect(Potion.getPotionById(16));
+					entityPlayer.removePotionEffect(Potion.nightVision.getId());
 				}
 				// Add blindness
-				entityPlayer.addPotionEffect(new PotionEffect(Potion.getPotionById(15), 260, 0, false, false));
+				entityPlayer.addPotionEffect(new PotionEffect(Potion.blindness.getId(), 260, 0, false, false));
 			}
 		}
 
@@ -205,7 +203,7 @@ public class EnariaAttacks
 				for (int k = this.enaria.getPosition().getZ() - 5; k < this.enaria.getPosition().getZ() + 5; k++)
 				{
 					BlockPos current = new BlockPos(i, j, k);
-					if (this.enaria.worldObj.getBlockState(current).getLightValue(this.enaria.worldObj, current) > 0)
+					if (this.enaria.worldObj.getBlockState(current).getBlock().getLightValue() > 0)
 					{
 						this.enaria.worldObj.setBlockToAir(current);
 					}
@@ -228,10 +226,10 @@ public class EnariaAttacks
 					{
 						int toSwapPos = entityPlayer.getRNG().nextInt(36);
 						int currentItemPos = entityPlayer.inventory.currentItem;
-						ItemStack current = entityPlayer.inventory.mainInventory.get(currentItemPos);
-						ItemStack randomlyChosen = entityPlayer.inventory.mainInventory.get(toSwapPos);
-						entityPlayer.inventory.mainInventory.set(toSwapPos, current);
-						entityPlayer.inventory.mainInventory.set(currentItemPos, randomlyChosen);
+						ItemStack current = entityPlayer.inventory.mainInventory[currentItemPos];
+						ItemStack randomlyChosen = entityPlayer.inventory.mainInventory[toSwapPos];
+						entityPlayer.inventory.mainInventory[toSwapPos] = current;
+						entityPlayer.inventory.mainInventory[currentItemPos] = randomlyChosen;
 						entityPlayer.inventoryContainer.detectAndSendChanges();
 					}
 				}
@@ -374,11 +372,9 @@ public class EnariaAttacks
 
 				this.enaria.setPosition(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ);
 
-				// Resistance
-				this.enaria.addPotionEffect(new PotionEffect(Potion.getPotionById(11), 20, 99, false, false));
+				this.enaria.addPotionEffect(new PotionEffect(Potion.resistance.getId(), 20, 99, false, false));
 
-				// Blidnness
-				entityPlayer.addPotionEffect(new PotionEffect(Potion.getPotionById(15), 30, 0, false, false));
+				entityPlayer.addPotionEffect(new PotionEffect(Potion.blindness.getId(), 30, 0, false, false));
 
 				// Server side
 				if (this.enaria.worldObj instanceof WorldServer)

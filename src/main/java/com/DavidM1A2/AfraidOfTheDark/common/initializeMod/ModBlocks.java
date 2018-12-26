@@ -50,7 +50,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.item.ItemMangroveSlab;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 @GameRegistry.ObjectHolder(Reference.MOD_ID)
@@ -96,58 +95,57 @@ public class ModBlocks
 	public static void initialize()
 	{
 		// Register the items, allow gravewood to burn, and register tileEntities
-		GameRegistry.register(ModBlocks.spring);
-		GameRegistry.register(new ItemBlock(ModBlocks.spring).setRegistryName("spring"));
+		GameRegistry.registerBlock(ModBlocks.spring, "spring");
 		GameRegistry.registerTileEntity(TileEntitySpring.class, "tileEntitySpring");
-		GameRegistry.register(ModBlocks.darkForest);
+		GameRegistry.registerBlock(ModBlocks.darkForest, "darkForest");
 		GameRegistry.registerTileEntity(TileEntityDarkForest.class, "tileEntityDarkForest");
 
-		GameRegistry.register(ModBlocks.gravewood);
-		GameRegistry.register(ModBlocks.gravewoodPlanks);
-		Blocks.FIRE.setFireInfo(ModBlocks.gravewoodPlanks, 5, 5);
-		GameRegistry.register(ModBlocks.gravewoodStairs);
-		Blocks.FIRE.setFireInfo(ModBlocks.gravewoodStairs, 5, 5);
-		GameRegistry.register(new ItemGravewoodSlab(ModBlocks.gravewoodHalfSlab, ModBlocks.gravewoodHalfSlab, ModBlocks.gravewoodDoubleSlab, false).setRegistryName("gravewoodHalfSlab"));
-		Blocks.FIRE.setFireInfo(ModBlocks.gravewoodHalfSlab, 5, 5);
-		GameRegistry.register(new ItemGravewoodSlab(ModBlocks.gravewoodDoubleSlab, ModBlocks.gravewoodHalfSlab, ModBlocks.gravewoodDoubleSlab, true).setRegistryName("gravewoodDoubleSlab"));
-		Blocks.FIRE.setFireInfo(ModBlocks.gravewoodDoubleSlab, 5, 5);
-		GameRegistry.register(ModBlocks.gravewoodSapling);
-		GameRegistry.register(new ItemGravewoodLeaves(ModBlocks.gravewoodLeaves).setRegistryName("gravewoodLeaves"));
+		GameRegistry.registerBlock(ModBlocks.gravewood, "gravewood");
+		GameRegistry.registerBlock(ModBlocks.gravewoodPlanks, "gravewoodPlanks");
+		Blocks.fire.setFireInfo(ModBlocks.gravewoodPlanks, 5, 5);
+		GameRegistry.registerBlock(ModBlocks.gravewoodStairs, "gravewoodStairs");
+		Blocks.fire.setFireInfo(ModBlocks.gravewoodStairs, 5, 5);
+		GameRegistry.registerBlock(ModBlocks.gravewoodHalfSlab, ItemGravewoodSlab.class, "gravewoodHalfSlab", ModBlocks.gravewoodHalfSlab, ModBlocks.gravewoodDoubleSlab, false);
+		Blocks.fire.setFireInfo(ModBlocks.gravewoodHalfSlab, 5, 5);
+		GameRegistry.registerBlock(ModBlocks.gravewoodDoubleSlab, ItemGravewoodSlab.class, "gravewoodDoubleSlab", ModBlocks.gravewoodHalfSlab, ModBlocks.gravewoodDoubleSlab, true);
+		Blocks.fire.setFireInfo(ModBlocks.gravewoodDoubleSlab, 5, 5);
+		GameRegistry.registerBlock(ModBlocks.gravewoodSapling, "gravewoodSapling");
+		GameRegistry.registerBlock(ModBlocks.gravewoodLeaves, ItemGravewoodLeaves.class, "gravewoodLeaves");
 
-		GameRegistry.register(ModBlocks.mangrove);
-		Blocks.FIRE.setFireInfo(ModBlocks.mangrove, 5, 3);
-		GameRegistry.register(ModBlocks.mangrovePlanks);
-		Blocks.FIRE.setFireInfo(ModBlocks.mangrovePlanks, 5, 5);
-		GameRegistry.register(ModBlocks.mangroveStairs);
-		Blocks.FIRE.setFireInfo(ModBlocks.mangroveStairs, 5, 5);
-		GameRegistry.register(new ItemMangroveSlab(ModBlocks.mangroveHalfSlab, ModBlocks.mangroveHalfSlab, ModBlocks.mangroveDoubleSlab, false).setRegistryName("mangroveHalfSlab"));
-		Blocks.FIRE.setFireInfo(ModBlocks.mangroveHalfSlab, 5, 5);
-		GameRegistry.register(new ItemMangroveSlab(ModBlocks.mangroveDoubleSlab, ModBlocks.mangroveHalfSlab, ModBlocks.mangroveDoubleSlab, true).setRegistryName("mangroveDoubleSlab"));
-		Blocks.FIRE.setFireInfo(ModBlocks.mangroveDoubleSlab, 5, 5);
-		GameRegistry.register(ModBlocks.mangroveSapling);
-		Blocks.FIRE.setFireInfo(ModBlocks.mangroveSapling, 5, 5);
-		GameRegistry.register(new ItemMangroveLeaves(ModBlocks.mangroveLeaves).setRegistryName("mangroveLeaves"));
-		Blocks.FIRE.setFireInfo(ModBlocks.mangroveLeaves, 5, 5);
+		GameRegistry.registerBlock(ModBlocks.mangrove, "mangrove");
+		Blocks.fire.setFireInfo(ModBlocks.mangrove, 5, 3);
+		GameRegistry.registerBlock(ModBlocks.mangrovePlanks, "mangrovePlanks");
+		Blocks.fire.setFireInfo(ModBlocks.mangrovePlanks, 5, 5);
+		GameRegistry.registerBlock(ModBlocks.mangroveStairs, "mangroveStairs");
+		Blocks.fire.setFireInfo(ModBlocks.mangroveStairs, 5, 5);
+		GameRegistry.registerBlock(ModBlocks.mangroveHalfSlab, ItemMangroveSlab.class, "mangroveHalfSlab", ModBlocks.mangroveHalfSlab, ModBlocks.mangroveDoubleSlab, false);
+		Blocks.fire.setFireInfo(ModBlocks.mangroveHalfSlab, 5, 5);
+		GameRegistry.registerBlock(ModBlocks.mangroveDoubleSlab, ItemMangroveSlab.class, "mangroveDoubleSlab", ModBlocks.mangroveHalfSlab, ModBlocks.mangroveDoubleSlab, true);
+		Blocks.fire.setFireInfo(ModBlocks.mangroveDoubleSlab, 5, 5);
+		GameRegistry.registerBlock(ModBlocks.mangroveSapling, "mangroveSapling");
+		Blocks.fire.setFireInfo(ModBlocks.mangroveSapling, 5, 5);
+		GameRegistry.registerBlock(ModBlocks.mangroveLeaves, ItemMangroveLeaves.class, "mangroveLeaves");
+		Blocks.fire.setFireInfo(ModBlocks.mangroveLeaves, 5, 5);
 
-		GameRegistry.register(ModBlocks.sunstoneOre);
-		GameRegistry.register(ModBlocks.astralSilverOre);
-		GameRegistry.register(ModBlocks.meteor);
-		GameRegistry.register(ModBlocks.starMetalOre);
-		GameRegistry.register(ModBlocks.igneousBlock);
-		GameRegistry.register(ModBlocks.vitaeDisenchanter);
-		GameRegistry.register(ModBlocks.voidChest);
+		GameRegistry.registerBlock(ModBlocks.sunstoneOre, "sunstoneOre");
+		GameRegistry.registerBlock(ModBlocks.astralSilverOre, "astralSilverOre");
+		GameRegistry.registerBlock(ModBlocks.meteor, "meteor");
+		GameRegistry.registerBlock(ModBlocks.starMetalOre, "starMetalOre");
+		GameRegistry.registerBlock(ModBlocks.igneousBlock, "igneousBlock");
+		GameRegistry.registerBlock(ModBlocks.vitaeDisenchanter, "vitaeDisenchanter");
+		GameRegistry.registerBlock(ModBlocks.voidChest, "voidChest");
 		GameRegistry.registerTileEntity(TileEntityVoidChest.class, "tileEntityVoidChest");
-		GameRegistry.register(ModBlocks.voidChestPortal);
-		GameRegistry.register(ModBlocks.eldritchObsidian);
-		GameRegistry.register(ModBlocks.amorphousEldritchMetal);
-		GameRegistry.register(ModBlocks.eldritchStone);
-		GameRegistry.register(ModBlocks.aOTDBarrier);
-		GameRegistry.register(ModBlocks.gnomishMetalPlate);
-		GameRegistry.register(ModBlocks.gnomishMetalStrut);
-		GameRegistry.register(ModBlocks.glowStalk);
-		GameRegistry.register(ModBlocks.enariaSpawner);
+		GameRegistry.registerBlock(ModBlocks.voidChestPortal, "voidChestPortal");
+		GameRegistry.registerBlock(ModBlocks.eldritchObsidian, "eldritchObsidian");
+		GameRegistry.registerBlock(ModBlocks.amorphousEldritchMetal, "amorphousEldritchMetal");
+		GameRegistry.registerBlock(ModBlocks.eldritchStone, "eldritchStone");
+		GameRegistry.registerBlock(ModBlocks.aOTDBarrier, "aOTDBarrier");
+		GameRegistry.registerBlock(ModBlocks.gnomishMetalPlate, "gnomishMetalPlate");
+		GameRegistry.registerBlock(ModBlocks.gnomishMetalStrut, "gnomishMetalStrut");
+		GameRegistry.registerBlock(ModBlocks.glowStalk, "glowStalk");
+		GameRegistry.registerBlock(ModBlocks.enariaSpawner, "enariaSpawner");
 		GameRegistry.registerTileEntity(TileEntityEnariaSpawner.class, "tileEntityEnariaSpawner");
 		GameRegistry.registerTileEntity(TileEntityGhastlyEnariaSpawner.class, "tileEntityGhastlyEnariaSpawner");
-		GameRegistry.register(ModBlocks.enariasAltar);
+		GameRegistry.registerBlock(ModBlocks.enariasAltar, "enariasAltar");
 	}
 }

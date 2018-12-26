@@ -14,7 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.Item;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 // The bolt is a throwable entity and does Generic damage.
@@ -51,9 +51,9 @@ public abstract class EntityBolt extends EntityThrowable
 
 	// The bolt may drop depending on if the chance to drop is great enough
 	@Override
-	protected void onImpact(final RayTraceResult rayTraceResult)
+	protected void onImpact(final MovingObjectPosition movingObjectPosition)
 	{
-		final Entity entityHit = rayTraceResult.entityHit;
+		final Entity entityHit = movingObjectPosition.entityHit;
 
 		if (!this.worldObj.isRemote)
 		{

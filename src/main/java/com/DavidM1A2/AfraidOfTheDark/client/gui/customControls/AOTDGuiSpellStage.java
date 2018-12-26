@@ -18,8 +18,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.spell.effects.Effects;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.effects.IEffect;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
 
 public class AOTDGuiSpellStage extends AOTDGuiPanel
 {
@@ -75,7 +73,7 @@ public class AOTDGuiSpellStage extends AOTDGuiPanel
 			public void mouseEntered(AOTDMouseEvent event)
 			{
 				event.getSource().darkenColor(0.1f);
-				Minecraft.getMinecraft().thePlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:spellCraftingButtonHover")), 0.6f, 1.7f);
+				Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:spellCraftingButtonHover", 0.6f, 1.7f);
 			}
 		});
 		this.add(deliveryMethod);
@@ -108,7 +106,7 @@ public class AOTDGuiSpellStage extends AOTDGuiPanel
 			{
 				event.getSource().darkenColor(0.1f);
 				if (event.getSource().isVisible())
-					Minecraft.getMinecraft().thePlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:spellCraftingButtonHover")), 0.6f, 1.7f);
+					Minecraft.getMinecraft().thePlayer.playSound("afraidofthedark:spellCraftingButtonHover", 0.6f, 1.7f);
 			}
 
 			@Override

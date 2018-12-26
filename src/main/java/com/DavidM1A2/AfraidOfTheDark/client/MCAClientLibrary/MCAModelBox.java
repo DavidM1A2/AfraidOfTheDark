@@ -4,7 +4,7 @@ import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.model.PositionTextureVertex;
 import net.minecraft.client.model.TexturedQuad;
-import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -80,7 +80,7 @@ public class MCAModelBox extends ModelBox
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void render(VertexBuffer par1Tessellator, float textureX)
+	public void render(WorldRenderer par1Tessellator, float textureX)
 	{
 		for (int i = 0; i < this.MCAquadList.length; ++i)
 		{

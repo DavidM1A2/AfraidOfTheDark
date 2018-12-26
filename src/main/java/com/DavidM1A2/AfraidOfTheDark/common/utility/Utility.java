@@ -13,10 +13,8 @@ import java.util.Random;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.server.SPacketExplosion;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.network.play.server.S27PacketExplosion;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
@@ -45,14 +43,6 @@ public class Utility
 		return index >= 0 && index < array.length;
 	}
 
-	public static final boolean hasItem(EntityPlayer entityPlayer, Item item)
-	{
-		for (ItemStack itemStack : entityPlayer.inventory.mainInventory)
-			if (itemStack.getItem() == item)
-				return true;
-		return false;
-	}
-
 	public static InputStream getInputStreamFromPath(String path)
 	{
 		InputStream inputStream = Utility.class.getClassLoader().getResourceAsStream(path);
@@ -72,7 +62,7 @@ public class Utility
 
 		if (!isSmoking)
 		{
-			explosion.clearAffectedBlockPositions();
+			explosion.func_180342_d();
 		}
 
 		Iterator iterator = world.playerEntities.iterator();
@@ -83,7 +73,7 @@ public class Utility
 
 			if (entityplayer.getDistanceSq(x, y, z) < 4096.0D)
 			{
-				((EntityPlayerMP) entityplayer).connection.sendPacket(new SPacketExplosion(x, y, z, strength, explosion.getAffectedBlockPositions(), (Vec3d) explosion.getPlayerKnockbackMap().get(entityplayer)));
+				((EntityPlayerMP) entityplayer).playerNetServerHandler.sendPacket(new S27PacketExplosion(x, y, z, strength, explosion.getAffectedBlockPositions(), (Vec3) explosion.getPlayerKnockbackMap().get(entityplayer)));
 			}
 		}
 	}

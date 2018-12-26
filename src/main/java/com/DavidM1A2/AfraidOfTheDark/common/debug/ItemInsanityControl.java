@@ -11,10 +11,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class ItemInsanityControl extends AOTDItem
@@ -28,9 +25,8 @@ public class ItemInsanityControl extends AOTDItem
 
 	// When rightclicking + holding shift, decrease insanity, else increase it
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer entityPlayer, EnumHand hand)
+	public ItemStack onItemRightClick(final ItemStack itemStack, final World world, final EntityPlayer entityPlayer)
 	{
-		ItemStack itemStack = entityPlayer.getHeldItemMainhand();
 		if (!world.isRemote)
 		{
 			if (entityPlayer.isSneaking() && !entityPlayer.onGround)
@@ -76,12 +72,6 @@ public class ItemInsanityControl extends AOTDItem
 			}
 			entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).syncPlayerInsanity();
 		}
-
-		/*
-		    Success: Basically what return true used to be. The call has succeeded in doing what was needed and should stop here.
-		    Pass: The call succeeded, but more calls can be made farther down the call stack.
-		    Fail: Basically what return false used to be. The call has failed to do what was intended and should stop here.
-		*/
-		return ActionResult.<ItemStack> newResult(EnumActionResult.SUCCESS, itemStack);
+		return itemStack;
 	}
 }

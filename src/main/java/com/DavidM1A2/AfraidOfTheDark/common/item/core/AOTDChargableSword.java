@@ -5,18 +5,19 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.common.item.core;
 
+import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class AOTDChargableSword extends AOTDSword
 {
@@ -92,6 +93,24 @@ public abstract class AOTDChargableSword extends AOTDSword
 	}
 
 	/**
+	 * Player, Render pass, and item usage sensitive version of getIconIndex.
+	 *
+	 * @param stack
+	 *            The item stack to get the icon for.
+	 * @param player
+	 *            The player holding the item
+	 * @param useRemaining
+	 *            The ticks remaining for the active item.
+	 * @return Null to use default model, or a custom ModelResourceLocation for the stage of use.
+	 */
+	@Override
+	@SideOnly(Side.CLIENT)
+	public ModelResourceLocation getModel(ItemStack stack, EntityPlayer player, int useRemaining)
+	{
+		return stack.getMetadata() == 1 ? new ModelResourceLocation(Reference.MOD_ID + ":" + this.itemName + "FullCharge", "inventory") : new ModelResourceLocation(Reference.MOD_ID + ":" + this.itemName, "inventory");
+	}
+
+	/**
 	 * Can't block with this sword
 	 */
 	@Override
@@ -101,9 +120,8 @@ public abstract class AOTDChargableSword extends AOTDSword
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(final World world, final EntityPlayer entityPlayer, final EnumHand hand)
+	public ItemStack onItemRightClick(final ItemStack itemStack, final World world, final EntityPlayer entityPlayer)
 	{
-		ItemStack itemStack = entityPlayer.inventory.getCurrentItem();
 		if (NBTHelper.getInt(itemStack, "charge") >= 100)
 		{
 			NBTHelper.setInteger(itemStack, "charge", 0);
@@ -112,10 +130,10 @@ public abstract class AOTDChargableSword extends AOTDSword
 		else
 		{
 			if (!world.isRemote)
-				entityPlayer.addChatMessage(new TextComponentString("I'll need more energy to perform the ability."));
+				entityPlayer.addChatMessage(new ChatComponentText("I'll need more energy to perform the ability."));
 		}
 
-		return ActionResult.<ItemStack> newResult(EnumActionResult.SUCCESS, itemStack);
+		return itemStack;
 	}
 
 	/**

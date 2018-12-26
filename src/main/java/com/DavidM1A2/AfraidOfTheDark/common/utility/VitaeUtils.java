@@ -12,7 +12,7 @@ import com.DavidM1A2.AfraidOfTheDark.proxy.ClientProxy;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class VitaeUtils
@@ -32,9 +32,9 @@ public class VitaeUtils
 	public static double getVitaeSumOfAllLanterns(EntityPlayer entityPlayer)
 	{
 		double totalLanternVitae = 0;
-		for (int i = 0; i < entityPlayer.inventory.mainInventory.size(); i++)
+		for (int i = 0; i < entityPlayer.inventory.mainInventory.length; i++)
 		{
-			ItemStack current = entityPlayer.inventory.mainInventory.get(i);
+			ItemStack current = entityPlayer.inventory.mainInventory[i];
 			if (current != null && current.getItem() instanceof ItemVitaeLantern)
 			{
 				ItemVitaeLantern lantern = (ItemVitaeLantern) current.getItem();
@@ -54,9 +54,9 @@ public class VitaeUtils
 		if (!VitaeUtils.canConsumeVitaeFromLanterns(entityPlayer, vitaeAmount))
 			return false;
 
-		for (int i = 0; i < entityPlayer.inventory.mainInventory.size(); i++)
+		for (int i = 0; i < entityPlayer.inventory.mainInventory.length; i++)
 		{
-			ItemStack current = entityPlayer.inventory.mainInventory.get(i);
+			ItemStack current = entityPlayer.inventory.mainInventory[i];
 			if (current != null && current.getItem() instanceof ItemVitaeLantern)
 			{
 				ItemVitaeLantern lantern = (ItemVitaeLantern) current.getItem();

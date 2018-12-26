@@ -13,9 +13,8 @@ public class BlockMeteor extends AOTDBlock
 {
 	public BlockMeteor()
 	{
-		super(Material.ROCK);
+		super(Material.rock);
 		this.setUnlocalizedName("meteor");
-		this.setRegistryName("meteor");
 		this.setHardness(10.0F);
 		this.setResistance(50.0F);
 		this.setHarvestLevel("pickaxe", 2);

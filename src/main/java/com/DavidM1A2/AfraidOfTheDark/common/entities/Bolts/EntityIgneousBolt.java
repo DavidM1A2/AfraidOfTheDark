@@ -13,7 +13,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDamageSources;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public class EntityIgneousBolt extends EntityBolt
@@ -45,9 +45,9 @@ public class EntityIgneousBolt extends EntityBolt
 
 	// Silver bolts have special on hit properties
 	@Override
-	protected void onImpact(final RayTraceResult rayTraceResult)
+	protected void onImpact(final MovingObjectPosition movingObjectPosition)
 	{
-		final Entity entityHit = rayTraceResult.entityHit;
+		final Entity entityHit = movingObjectPosition.entityHit;
 
 		if (entityHit != null)
 		{
@@ -55,7 +55,7 @@ public class EntityIgneousBolt extends EntityBolt
 		}
 		if (!(entityHit instanceof ICanTakeSilverDamage))
 		{
-			super.onImpact(rayTraceResult);
+			super.onImpact(movingObjectPosition);
 		}
 		else
 		{

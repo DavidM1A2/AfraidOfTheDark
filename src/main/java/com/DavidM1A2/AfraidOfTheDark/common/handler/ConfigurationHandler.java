@@ -48,7 +48,7 @@ public class ConfigurationHandler
 	@SubscribeEvent
 	public void onConfigurationChangedEvent(final ConfigChangedEvent.OnConfigChangedEvent event)
 	{
-		if (event.getModID().equalsIgnoreCase(Reference.MOD_ID))
+		if (event.modID.equalsIgnoreCase(Reference.MOD_ID))
 		{
 			// Resync the configuration
 			ConfigurationHandler.loadConfiguration();

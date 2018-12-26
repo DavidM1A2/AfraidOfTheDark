@@ -12,19 +12,20 @@ import java.util.Random;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.util.WeightedRandomChestContent;
 
 public class VoidChestLoot implements IChestGenerator
 {
 	@Override
-	public List<RandomItem> getPossibleItems(Random random)
+	public List<WeightedRandomChestContent> getPossibleItems(Random random)
 	{
-		ArrayList<RandomItem> toReturn = new ArrayList<RandomItem>();
+		ArrayList<WeightedRandomChestContent> toReturn = new ArrayList<WeightedRandomChestContent>();
 
 		//                                          Item, meta, min, max, chance
-		toReturn.add(new RandomItem(Items.ENDER_PEARL, 2));
-		toReturn.add(new RandomItem(Items.ENDER_EYE, 2));
-		toReturn.add(new RandomItem(Item.getItemFromBlock(Blocks.END_STONE), 7));
-		toReturn.add(new RandomItem(Item.getItemFromBlock(Blocks.OBSIDIAN), 7));
+		toReturn.add(new WeightedRandomChestContent(Items.ender_pearl, 0, 1, 1, 2));
+		toReturn.add(new WeightedRandomChestContent(Items.ender_eye, 0, 1, 1, 2));
+		toReturn.add(new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.end_stone), 0, 1, 5, 7));
+		toReturn.add(new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.obsidian), 0, 1, 5, 7));
 
 		return toReturn;
 	}

@@ -10,37 +10,37 @@ import java.util.List;
 import java.util.Random;
 
 import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.IChestGenerator;
-import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.RandomItem;
 
 import net.minecraft.init.Items;
+import net.minecraft.util.WeightedRandomChestContent;
 
 public class RandomItemLoot implements IChestGenerator
 {
 	@Override
-	public List<RandomItem> getPossibleItems(Random random)
+	public List<WeightedRandomChestContent> getPossibleItems(Random random)
 	{
-		ArrayList<RandomItem> toReturn = new ArrayList<RandomItem>();
+		ArrayList<WeightedRandomChestContent> toReturn = new ArrayList<WeightedRandomChestContent>();
 
 		//                                          Item, meta, min, max, chance
-		toReturn.add(new RandomItem(Items.COMPASS, 10));
-		toReturn.add(new RandomItem(Items.PAINTING, 10));
-		toReturn.add(new RandomItem(Items.SIGN, 10));
-		toReturn.add(new RandomItem(Items.SADDLE, 10));
-		toReturn.add(new RandomItem(Items.MINECART, 10));
-		toReturn.add(new RandomItem(Items.SNOWBALL, 10));
-		toReturn.add(new RandomItem(Items.PAPER, 10));
-		toReturn.add(new RandomItem(Items.BOOK, 10));
-		toReturn.add(new RandomItem(Items.BANNER, 10));
-		toReturn.add(new RandomItem(Items.FISHING_ROD, 10));
-		toReturn.add(new RandomItem(Items.DYE, 10));
-		toReturn.add(new RandomItem(Items.MAP, 10));
-		toReturn.add(new RandomItem(Items.REDSTONE, 10));
-		toReturn.add(new RandomItem(Items.SPIDER_EYE, 10));
-		toReturn.add(new RandomItem(Items.WRITABLE_BOOK, 10));
-		toReturn.add(new RandomItem(Items.WRITTEN_BOOK, 10));
-		toReturn.add(new RandomItem(Items.SKULL, 10));
-		toReturn.add(new RandomItem(Items.LEAD, 10));
-		toReturn.add(new RandomItem(Items.DIAMOND_HORSE_ARMOR, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.compass, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.painting, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.sign, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.saddle, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.minecart, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.snowball, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.paper, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.book, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.banner, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.fishing_rod, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.dye, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.map, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.redstone, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.spider_eye, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.writable_book, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.writable_book, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.skull, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.lead, 0, 1, 5, 10));
+		toReturn.add(new WeightedRandomChestContent(Items.diamond_horse_armor, 0, 1, 5, 10));
 
 		return toReturn;
 	}

@@ -16,7 +16,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntitySpring extends AOTDTickingTileEntity
 {
@@ -37,22 +37,12 @@ public class TileEntitySpring extends AOTDTickingTileEntity
 		{
 			if (this.ticksExisted % TICKS_INBETWEEN_CHECKS == 0)
 			{
-				for (Object object : this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.pos.getX(), this.pos.getY(), this.pos.getZ(), this.pos.getX() + 1, this.pos.getY() + 1, this.pos.getZ() + 1).expand(CHECK_RANGE, CHECK_RANGE, CHECK_RANGE)))
+				for (Object object : this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.fromBounds(this.pos.getX(), this.pos.getY(), this.pos.getZ(), this.pos.getX() + 1, this.pos.getY() + 1, this.pos.getZ() + 1).expand(CHECK_RANGE, CHECK_RANGE, CHECK_RANGE)))
 				{
 					if (object instanceof EntityPlayer)
 					{
 						EntityPlayer entityPlayer = (EntityPlayer) object;
-
-						Boolean hasLantern = false;
-
-						for (ItemStack itemStack : entityPlayer.inventory.mainInventory)
-							if (itemStack.getItem() == ModItems.vitaeLantern)
-							{
-								hasLantern = true;
-								break;
-							}
-
-						if (hasLantern)
+						if (entityPlayer.inventory.hasItem(ModItems.vitaeLantern))
 						{
 							if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(ResearchTypes.VitaeLanternI))
 							{
@@ -61,25 +51,28 @@ public class TileEntitySpring extends AOTDTickingTileEntity
 
 							if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.VitaeLanternI))
 							{
-								for (ItemStack current : entityPlayer.inventoryContainer.getInventory())
+								for (Object stack : entityPlayer.inventoryContainer.getInventory())
 								{
-									if (current.getItem() instanceof ItemVitaeLantern)
+									if (stack instanceof ItemStack)
 									{
-										ItemVitaeLantern lantern = (ItemVitaeLantern) current.getItem();
-										int vitaeToAdd = MAX_VITAE_FROM_LANTERN - lantern.getStoredVitae(current);
-										vitaeToAdd = (int) (vitaeToAdd * 0.1);
-										if (vitaeToAdd <= 0)
-											vitaeToAdd = 1;
-										if (vitaeToAdd + lantern.getStoredVitae(current) <= MAX_VITAE_FROM_LANTERN)
+										ItemStack current = (ItemStack) stack;
+										if (current.getItem() instanceof ItemVitaeLantern)
 										{
-											lantern.addVitae(current, vitaeToAdd);
-											break;
+											ItemVitaeLantern lantern = (ItemVitaeLantern) current.getItem();
+											int vitaeToAdd = MAX_VITAE_FROM_LANTERN - lantern.getStoredVitae(current);
+											vitaeToAdd = (int) (vitaeToAdd * 0.1);
+											if (vitaeToAdd <= 0)
+												vitaeToAdd = 1;
+											if (vitaeToAdd + lantern.getStoredVitae(current) <= MAX_VITAE_FROM_LANTERN)
+											{
+												lantern.addVitae(current, vitaeToAdd);
+												break;
+											}
 										}
 									}
 								}
 							}
-							// 10 = regeneration
-							entityPlayer.addPotionEffect(new PotionEffect(Potion.getPotionById(10), 100, 1, true, true));
+							entityPlayer.addPotionEffect(new PotionEffect(Potion.regeneration.id, 100, 1, true, true));
 						}
 					}
 				}

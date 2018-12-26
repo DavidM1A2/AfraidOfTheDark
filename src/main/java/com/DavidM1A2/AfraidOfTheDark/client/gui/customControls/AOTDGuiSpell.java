@@ -19,9 +19,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellManager;
 
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-
 public class AOTDGuiSpell extends AOTDGuiPanel
 {
 	private Spell mySpell;
@@ -65,7 +62,7 @@ public class AOTDGuiSpell extends AOTDGuiPanel
 			{
 				event.getSource().darkenColor(0.1f);
 				if (AOTDGuiSpell.this.isVisible())
-					entityPlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:buttonHover")), 0.7f, 1.9f);
+					entityPlayer.playSound("afraidofthedark:buttonHover", 0.7f, 1.9f);
 			}
 		};
 

@@ -13,9 +13,8 @@ public class BlockGnomishMetalPlate extends AOTDBlock
 {
 	public BlockGnomishMetalPlate()
 	{
-		super(Material.ROCK);
+		super(Material.rock);
 		this.setUnlocalizedName("gnomishMetalPlate");
-		this.setRegistryName("gnomishMetalPlate");
 		this.setHardness(2.0F);
 		this.setResistance(10.0F);
 		this.setHarvestLevel("pickaxe", 2);

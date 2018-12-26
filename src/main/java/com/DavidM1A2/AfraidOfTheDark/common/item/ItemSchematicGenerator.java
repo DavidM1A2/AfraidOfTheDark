@@ -14,10 +14,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
 public class ItemSchematicGenerator extends AOTDItem
@@ -31,9 +28,8 @@ public class ItemSchematicGenerator extends AOTDItem
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer entityPlayer, EnumHand hand)
+	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer)
 	{
-		ItemStack itemStack = entityPlayer.getHeldItem(hand);
 		if (entityPlayer.capabilities.isCreativeMode)
 			if (entityPlayer.isSneaking())
 			{
@@ -54,7 +50,7 @@ public class ItemSchematicGenerator extends AOTDItem
 				}
 				this.setCurrentSchematic(itemStack, AOTDSchematics.values()[currentOrdinal]);
 				if (!world.isRemote)
-					entityPlayer.addChatMessage(new TextComponentString("Currently selected schematic: " + this.getCurrentSchematic(itemStack).toString()));
+					entityPlayer.addChatMessage(new ChatComponentText("Currently selected schematic: " + this.getCurrentSchematic(itemStack).toString()));
 			}
 			else
 			{
@@ -63,10 +59,10 @@ public class ItemSchematicGenerator extends AOTDItem
 		else
 		{
 			if (!world.isRemote)
-				entityPlayer.addChatMessage(new TextComponentString("You must be in creative to use this item"));
+				entityPlayer.addChatMessage(new ChatComponentText("You must be in creative to use this item"));
 		}
 
-		return ActionResult.<ItemStack> newResult(EnumActionResult.SUCCESS, itemStack);
+		return super.onItemRightClick(itemStack, world, entityPlayer);
 	}
 
 	@Override

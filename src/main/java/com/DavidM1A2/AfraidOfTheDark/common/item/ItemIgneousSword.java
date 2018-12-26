@@ -14,7 +14,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDDamageSources;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDToolMaterials;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -41,7 +40,7 @@ public class ItemIgneousSword extends AOTDChargableSword
 		{
 			if (entity != null)
 			{
-				entity.setFire(5 + EnchantmentHelper.getEnchantmentLevel(Enchantment.getEnchantmentByID(20), stack) * 10);
+				entity.setFire(5 + EnchantmentHelper.getEnchantmentLevel(20, stack) * 10);
 
 				if (entity instanceof ICanTakeSilverDamage)
 				{

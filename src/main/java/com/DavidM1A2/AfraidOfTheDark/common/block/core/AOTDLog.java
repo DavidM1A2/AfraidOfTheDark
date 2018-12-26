@@ -9,7 +9,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -85,9 +85,9 @@ public abstract class AOTDLog extends BlockLog
 
 	// Default block states
 	@Override
-	protected BlockStateContainer createBlockState()
+	protected BlockState createBlockState()
 	{
-		return new BlockStateContainer(this, new IProperty[]
+		return new BlockState(this, new IProperty[]
 		{ BlockLog.LOG_AXIS });
 	}
 
