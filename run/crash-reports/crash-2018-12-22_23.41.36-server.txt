@@ -1,0 +1,52 @@
+---- Minecraft Crash Report ----
+// There are four lights!
+
+Time: 12/22/18 11:41 PM
+Description: Exception in server tick loop
+
+java.lang.ClassCastException: net.minecraftforge.event.terraingen.InitNoiseGensEvent$ContextHell cannot be cast to net.minecraftforge.event.terraingen.InitNoiseGensEvent$ContextOverworld
+	at com.DavidM1A2.afraidofthedark.AfraidOfTheDark$1.onX(AfraidOfTheDark.java:72)
+	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler_22__onX_InitNoiseGensEvent.invoke(.dynamic)
+	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler.invoke(ASMEventHandler.java:90)
+	at net.minecraftforge.fml.common.eventhandler.EventBus.post(EventBus.java:182)
+	at net.minecraftforge.event.terraingen.TerrainGen.getModdedNoiseGenerators(TerrainGen.java:41)
+	at net.minecraft.world.gen.ChunkGeneratorHell.<init>(ChunkGeneratorHell.java:86)
+	at net.minecraft.world.WorldProviderHell.createChunkGenerator(WorldProviderHell.java:52)
+	at net.minecraft.world.WorldServer.createChunkProvider(WorldServer.java:890)
+	at net.minecraft.world.WorldServer.<init>(WorldServer.java:124)
+	at net.minecraft.world.WorldServerMulti.<init>(WorldServerMulti.java:18)
+	at net.minecraft.server.integrated.IntegratedServer.loadAllWorlds(IntegratedServer.java:127)
+	at net.minecraft.server.integrated.IntegratedServer.init(IntegratedServer.java:160)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:552)
+	at java.lang.Thread.run(Thread.java:748)
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- System Details --
+Details:
+	Minecraft Version: 1.12.2
+	Operating System: Windows 7 (amd64) version 6.1
+	Java Version: 1.8.0_191, Oracle Corporation
+	Java VM Version: Java HotSpot(TM) 64-Bit Server VM (mixed mode), Oracle Corporation
+	Memory: 872923808 bytes (832 MB) / 1263534080 bytes (1205 MB) up to 3804758016 bytes (3628 MB)
+	JVM Flags: 0 total; 
+	IntCache: cache: 8, tcache: 8, allocated: 20, tallocated: 86
+	FML: MCP 9.42 Powered by Forge 14.23.5.2768 5 mods loaded, 5 mods active
+	States: 'U' = Unloaded 'L' = Loaded 'C' = Constructed 'H' = Pre-initialized 'I' = Initialized 'J' = Post-initialized 'A' = Available 'D' = Disabled 'E' = Errored
+
+	| State   | ID              | Version      | Source                           | Signature |
+	|:------- |:--------------- |:------------ |:-------------------------------- |:--------- |
+	| UCHIJAA | minecraft       | 1.12.2       | minecraft.jar                    | None      |
+	| UCHIJAA | mcp             | 9.42         | minecraft.jar                    | None      |
+	| UCHIJAA | FML             | 8.0.99.99    | forgeSrc-1.12.2-14.23.5.2768.jar | None      |
+	| UCHIJAA | forge           | 14.23.5.2768 | forgeSrc-1.12.2-14.23.5.2768.jar | None      |
+	| UCHIJAA | afraidofthedark | 1.2          | AfraidOfTheDark_main             | None      |
+
+	Loaded coremods (and transformers): 
+	GL info: ~~ERROR~~ RuntimeException: No OpenGL context found in the current thread.
+	Profiler Position: N/A (disabled)
+	Player Count: 0 / 8; []
+	Type: Integrated Server (map_client.txt)
+	Is Modded: Definitely; Client brand changed to 'fml,forge'
