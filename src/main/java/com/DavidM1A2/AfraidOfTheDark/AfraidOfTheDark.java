@@ -4,14 +4,18 @@ import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiHandler;
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import com.DavidM1A2.afraidofthedark.common.handler.*;
 import com.DavidM1A2.afraidofthedark.common.packets.packetHandler.PacketHandler;
+import com.DavidM1A2.afraidofthedark.common.worldGeneration.WorldHeightMapper;
 import com.DavidM1A2.afraidofthedark.proxy.IProxy;
+import net.minecraft.world.gen.NoiseGeneratorPerlin;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.terraingen.InitNoiseGensEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import org.apache.logging.log4j.Logger;
 
@@ -62,6 +66,8 @@ public class AfraidOfTheDark
 		MinecraftForge.EVENT_BUS.register(new SoundRegister());
 		// Forward any capability events to our capability handler
 		MinecraftForge.EVENT_BUS.register(new CapabilityHandler());
+		// Forward any chunk creation events to our world generation height mapper
+		MinecraftForge.EVENT_BUS.register(new WorldHeightMapper());
 		// Register our GUI handler that lets us open UIs for specific players
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new AOTDGuiHandler());
 		// Register all AOTD packets

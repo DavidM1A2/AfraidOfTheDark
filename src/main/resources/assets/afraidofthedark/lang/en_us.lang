@@ -46,6 +46,7 @@ item.afraidofthedark:werewolf_blood.name=Werewolf Blood
 item.afraidofthedark:gnomish_metal_ingot.name=Gnomish Metal Ingot
 item.afraidofthedark:artwork.name=Artwork
 item.afraidofthedark:schematic_generator.name=Schematic Generator
+item.afraidofthedark:debug.name=Debug
 
 # Blocks
 tile.afraidofthedark:silver_ore.name=Silver Ore
