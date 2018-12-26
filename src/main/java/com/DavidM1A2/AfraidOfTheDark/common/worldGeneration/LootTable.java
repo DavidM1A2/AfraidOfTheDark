@@ -20,12 +20,8 @@ public class LootTable
 
 	public void generate(TileEntityChest chest)
 	{
+		World world = chest.getWorld();
 		LootTableEntry nullEntry = null;
-		if (chest == null)
-		{
-			System.err.println("Error, chest is null.");
-			return;
-		}
 		for (LootTableEntry lootTableEntry : lootTableEntries)
 		{
 			for (int i = 0; i < chest.getSizeInventory(); i++)

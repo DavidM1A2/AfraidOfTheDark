@@ -288,7 +288,8 @@ public class WorldGenerationUtility
 
 			if (theIBlockState == null)
 			{
-				if (blockSnapshot != null) parWorld.capturedBlockSnapshots.remove(blockSnapshot);
+				if (blockSnapshot != null)
+					parWorld.capturedBlockSnapshots.remove(blockSnapshot);
 				return false;
 			}
 			else
@@ -298,7 +299,7 @@ public class WorldGenerationUtility
 				//                if (newBlock.getLightOpacity() != block1.getLightOpacity() || newBlock.getLightValue() != block1.getLightValue())
 				//                {
 				//                    parWorld.theProfiler.startSection("checkLight");
-				// parWorld.checkLight(parBlockPos);
+				//                    parWorld.checkLight(parBlockPos);
 				//                    parWorld.theProfiler.endSection();
 				//                }
 

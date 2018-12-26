@@ -60,7 +60,7 @@ public class ItemSchematicGenerator extends AOTDItem
 			}
 			else
 			{
-				SchematicGenerator.generateSchematicWithLoot(this.getCurrentSchematic(itemStack).getSchematic(), world, entityPlayer.getPosition().getX() + 1, entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ() + 1, AOTDLootTables.DarkForest.getLootTable());
+				SchematicGenerator.generateSchematicWithLoot(this.getCurrentSchematic(itemStack).getSchematic(), world, entityPlayer.getPosition().getX() + 1, entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ() + 1, AOTDLootTables.Crypt.getLootTable());
 			}
 		else
 		{

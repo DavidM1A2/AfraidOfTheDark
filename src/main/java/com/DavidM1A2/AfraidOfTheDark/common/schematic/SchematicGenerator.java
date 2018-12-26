@@ -10,7 +10,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Point3D;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.WorldGenerationUtility;
@@ -94,14 +93,15 @@ public final class SchematicGenerator
 
 	public static void generateSchematicWithLoot(Schematic schematic, World world, int xPosition, int yPosition, int zPosition, LootTable lootTable)
 	{
-		if (schematic != null)
+		SchematicGenerator.generateSchematic(schematic, world, xPosition, yPosition, zPosition);
+		/*if (schematic != null)
 		{
 			SchematicGenerator.generateBlocks(schematic, world, xPosition, yPosition, zPosition);
 
 			SchematicGenerator.loadTileEntitiesWithLoot(schematic, world, xPosition, yPosition, zPosition, lootTable);
 
 			SchematicGenerator.loadEntities(schematic, world, xPosition, yPosition, zPosition);
-		}
+		}*/
 	}
 
 	private static void generateBlocks(Schematic schematic, World world, int xPosition, int yPosition, int zPosition)
@@ -124,6 +124,8 @@ public final class SchematicGenerator
 
 					int nextToPlace = schematic.getBlocks()[i];
 
+					// The correct way to place the schematic, commented while schematics are updated to 1.11
+					/*
 					if (nextToPlace != SchematicGenerator.AIR_BLOCK_ID)
 					{
 						// Diamond blocks represent air blocks in my schematic system. This allows for easy underground
@@ -145,8 +147,7 @@ public final class SchematicGenerator
 						// Else, we set the block state
 						else
 						{
-							world.setBlockState(new BlockPos(x + xPosition, y + yPosition, z + zPosition), Block.getBlockById(nextToPlace).getStateFromMeta(schematic.getData()[i]), 3);
-							//WorldGenerationUtility.setBlockStateFast(world, new BlockPos(x + xPosition, y + yPosition, z + zPosition), Block.getBlockById(nextToPlace).getStateFromMeta(schematic.getData()[i]), 3);
+							WorldGenerationUtility.setBlockStateFast(world, new BlockPos(x + xPosition, y + yPosition, z + zPosition), Block.getBlockById(nextToPlace).getStateFromMeta(schematic.getData()[i]), 3);
 						}
 
 						if (ConfigurationHandler.enableWorldGenLightUpdates && lightUpdateBlocks.contains(schematic.getBlocks()[i]))
@@ -154,13 +155,15 @@ public final class SchematicGenerator
 							lightBlockPositions.add(new Point3D(x + xPosition, y + yPosition, z + zPosition));
 						}
 					}
+					*/
+
+					world.setBlockState(new BlockPos(x + xPosition, y + yPosition, z + zPosition), Block.getBlockById(nextToPlace).getStateFromMeta(schematic.getData()[i]));
+					//WorldGenerationUtility.setBlockStateFast(world, new BlockPos(x + xPosition, y + yPosition, z + zPosition), Block.getBlockById(nextToPlace).getStateFromMeta(schematic.getData()[i]), 3);
 
 					i = i + 1;
 				}
 			}
 		}
-
-		/*
 
 		Iterator<Short> iteratorBlock = blocksToPlaceLater.iterator();
 		Iterator<Byte> iteratorMeta = blocksToPlaceLaterMeta.iterator();
@@ -192,8 +195,6 @@ public final class SchematicGenerator
 		{
 			world.checkLight(blockLocationsToUpdate.next().toBlockPos());
 		}
-
-		*/
 	}
 
 	private static void loadTileEntities(Schematic schematic, World world, int xPosition, int yPosition, int zPosition)
@@ -241,6 +242,7 @@ public final class SchematicGenerator
 					if (tileEntity instanceof TileEntityChest)
 					{
 						TileEntityChest tileEntityChest = (TileEntityChest) world.getTileEntity(tileEntityLocation);
+						//tileEntityChest.setLootTable(lootTable, world.rand.nextLong());
 						lootTable.generate(tileEntityChest);
 					}
 				}

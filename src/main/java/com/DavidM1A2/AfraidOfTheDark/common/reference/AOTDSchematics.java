@@ -15,48 +15,48 @@ import net.minecraft.init.Blocks;
 
 public enum AOTDSchematics
 {
-	TreeSmall("dark_forest/tree_small.schematic"),
-	TreeBranchyType1("dark_forest/tree_branchy_type_1.schematic"),
-	TreeBranchyType2("dark_forest/tree_branchy_type_2.schematic"),
-	TreeLargeCircle("dark_forest/tree_large_circle.schematic"),
-	TreeLargeDonut("dark_forest/tree_large_donut.schematic"),
-	BedHouse("dark_forest/bed_house.schematic"),
-	PropBush1("dark_forest/prop_bush_1.schematic"),
-	PropFallenOverLog("dark_forest/prop_fallen_over_log.schematic"),
-	PropFence1("dark_forest/prop_fence_1.schematic"),
-	PropFence2("dark_forest/prop_fence_2.schematic"),
-	PropFountain("dark_forest/prop_fountain.schematic"),
-	PropLog("dark_forest/prop_log.schematic"),
-	PropPumpkin1("dark_forest/prop_pumpkin_1.schematic"),
-	PropPumpkin2("dark_forest/prop_pumpkin_2.schematic"),
-	PropStump("dark_forest/prop_stump.schematic"),
+	TreeSmall("darkForest/TreeSmall.schematic"),
+	TreeBranchyType1("darkForest/TreeBranchyType1.schematic"),
+	TreeBranchyType2("darkForest/TreeBranchyType2.schematic"),
+	TreeLargeCircle("darkForest/TreeLargeCircle.schematic"),
+	TreeLargeDonut("darkForest/TreeLargeDonut.schematic"),
+	BedHouse("darkForest/BedHouse.schematic"),
+	PropBush1("darkForest/PropBush1.schematic"),
+	PropFallenOverLog("darkForest/PropFallenOverLog.schematic"),
+	PropFence1("darkForest/PropFence1.schematic"),
+	PropFence2("darkForest/PropFence2.schematic"),
+	PropFountain("darkForest/PropFountain.schematic"),
+	PropLog("darkForest/PropLog.schematic"),
+	PropPumpkin1("darkForest/PropPumpkin1.schematic"),
+	PropPumpkin2("darkForest/PropPumpkin2.schematic"),
+	PropStump("darkForest/PropStump.schematic"),
 
-	Crypt("crypt.schematic"),
+	Crypt("crypt_new.schematic"),
 
-	Spring("spring.schematic"),
+	Spring("Spring.schematic"),
 
-	NightmareIsland("nightmare_island.schematic"),
+	NightmareIsland("NightmareIsland.schematic"),
 
-	EnariasAltar("enarias_altar.schematic"),
+	EnariasAltar("EnariasAltar.schematic"),
 
-	WitchHut("witch_hut.schematic"),
+	WitchHut("WitchHut.schematic"),
 
-	VoidChestPortal("void_chest_portal.schematic"),
-	VoidChest("void_chest.schematic"),
+	VoidChestPortal("VoidChestPortal.schematic"),
+	VoidChest("VoidChest.schematic"),
 
-	TunnelEW("gnomish_city/tunnel_ew.schematic"),
-	TunnelNS("gnomish_city/tunnel_ns.schematic"),
-	RoomStairUp("gnomish_city/room_stair_up.schematic"),
-	RoomStairDown("gnomish_city/room_stair_down.schematic"),
-	RoomCave("gnomish_city/room_cave.schematic"),
-	RoomFarm("gnomish_city/room_farm.schematic"),
-	RoomHotel("gnomish_city/room_hotel.schematic"),
-	RoomMeetingHall("gnomish_city/room_meeting_hall.schematic"),
-	RoomMushroom("gnomish_city/room_mushroom.schematic"),
-	RoomRuin("gnomish_city/room_ruin.schematic"),
-	RoomTanks("gnomish_city/room_tanks.schematic"),
-	Stairwell("gnomish_city/stairwell.schematic"),
-	EnariaLair("gnomish_city/enaria_lair.schematic");
+	TunnelEW("gnomishCity/TunnelEW.schematic"),
+	TunnelNS("gnomishCity/TunnelNS.schematic"),
+	RoomStairUp("gnomishCity/RoomStairUp.schematic"),
+	RoomStairDown("gnomishCity/RoomStairDown.schematic"),
+	RoomCave("gnomishCity/RoomCave.schematic"),
+	RoomFarm("gnomishCity/RoomFarm.schematic"),
+	RoomHotel("gnomishCity/RoomHotel.schematic"),
+	RoomMeetingHall("gnomishCity/RoomMeetingHall.schematic"),
+	RoomMushroom("gnomishCity/RoomMushroom.schematic"),
+	RoomRuin("gnomishCity/RoomRuin.schematic"),
+	RoomTanks("gnomishCity/RoomTanks.schematic"),
+	Stairwell("gnomishCity/Stairwell.schematic"),
+	EnariaLair("gnomishCity/EnariaLair.schematic");
 
 	private static List<Schematic> rooms = new ArrayList<Schematic>();
 	private Schematic schematic;
