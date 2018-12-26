@@ -10,10 +10,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModBlocks;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.Point3D;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.WorldGenerationUtility;
-import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.LootTable;
+import com.DavidM1A2.AfraidOfTheDark.common.worldGeneration.loot.LootTable;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
@@ -25,6 +26,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
