@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "stage=0": { "model": "afraidofthedark:gravewoodSapling" },
+        "stage=1": { "model": "afraidofthedark:gravewoodSapling" }
+    }
+}

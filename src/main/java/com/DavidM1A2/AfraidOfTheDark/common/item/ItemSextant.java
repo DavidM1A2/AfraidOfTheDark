@@ -26,7 +26,6 @@ public class ItemSextant extends AOTDItem
 	{
 		super();
 		this.setUnlocalizedName("sextant");
-		this.setRegistryName("sextant");
 		this.setMaxStackSize(1);
 	}
 

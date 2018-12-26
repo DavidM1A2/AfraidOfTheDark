@@ -13,11 +13,12 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent.MouseButtonClicked;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModSounds;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 
 public class SpellSelectionGUI extends AOTDGuiScreen
 {
@@ -30,7 +31,7 @@ public class SpellSelectionGUI extends AOTDGuiScreen
 	{
 		AOTDGuiPanel background = new AOTDGuiPanel((640 - 180) / 2, (360 - 256) / 2, 180, 256, false);
 
-		AOTDGuiImage backgroundImage = new AOTDGuiImage(0, 0, 149, 256, "afraidofthedark:textures/gui/spell_crafting/magic_mirror.png");
+		AOTDGuiImage backgroundImage = new AOTDGuiImage(0, 0, 149, 256, "afraidofthedark:textures/gui/spellCrafting/magicMirror.png");
 		background.add(backgroundImage);
 
 		scrollBar = new AOTDGuiScrollBar(160, 30, 15, 200);
@@ -45,7 +46,7 @@ public class SpellSelectionGUI extends AOTDGuiScreen
 			this.addSpellContainer(spell);
 		}
 
-		AOTDGuiImage newSpell = new AOTDGuiImage(33, 222, 84, 22, "afraidofthedark:textures/gui/spell_crafting/create_spell.png");
+		AOTDGuiImage newSpell = new AOTDGuiImage(33, 222, 84, 22, "afraidofthedark:textures/gui/spellCrafting/createSpell.png");
 		newSpell.setHoverText("Create a new spell");
 		newSpell.addMouseListener(new AOTDMouseListener()
 		{
@@ -64,7 +65,7 @@ public class SpellSelectionGUI extends AOTDGuiScreen
 			public void mouseEntered(AOTDMouseEvent event)
 			{
 				event.getSource().darkenColor(0.1f);
-				Minecraft.getMinecraft().thePlayer.playSound(ModSounds.spellCraftingButtonHover, 0.6f, 1.7f);
+				Minecraft.getMinecraft().thePlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:spellCraftingButtonHover")), 0.6f, 1.7f);
 			}
 
 			@Override

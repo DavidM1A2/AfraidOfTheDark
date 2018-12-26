@@ -26,8 +26,7 @@ public class ItemSleepingPotion extends AOTDItem
 	public ItemSleepingPotion()
 	{
 		super();
-		this.setUnlocalizedName("sleeping_potion");
-		this.setRegistryName("sleeping_potion");
+		this.setUnlocalizedName("sleepingPotion");
 	}
 
 	/**
@@ -93,6 +92,6 @@ public class ItemSleepingPotion extends AOTDItem
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer entityPlayer, EnumHand hand)
 	{
 		entityPlayer.setActiveHand(hand);
-		return ActionResult.<ItemStack>newResult(EnumActionResult.SUCCESS, entityPlayer.getHeldItem(hand));
+		return ActionResult.<ItemStack> newResult(EnumActionResult.SUCCESS, entityPlayer.getHeldItem(hand));
 	}
 }

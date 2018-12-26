@@ -33,7 +33,6 @@ public class ItemJournal extends AOTDItem
 	{
 		super();
 		this.setUnlocalizedName("journal");
-		this.setRegistryName("journal");
 		this.setMaxStackSize(1);
 	}
 

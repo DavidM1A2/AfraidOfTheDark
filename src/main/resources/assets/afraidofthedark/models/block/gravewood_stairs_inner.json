@@ -1,8 +1,0 @@
-{
-    "parent": "block/inner_stairs",
-    "textures": {
-        "bottom": "afraidofthedark:blocks/gravewood_planks",
-        "top": "afraidofthedark:blocks/gravewood_planks",
-        "side": "afraidofthedark:blocks/gravewood_planks"
-    }
-}

@@ -28,8 +28,7 @@ public class IgneousArmor extends AOTDArmor
 	public IgneousArmor(final ArmorMaterial armorMaterial, final int renderIndex, final EntityEquipmentSlot equipmentSlot)
 	{
 		super(armorMaterial, renderIndex, equipmentSlot);
-		this.setUnlocalizedName((equipmentSlot == EntityEquipmentSlot.HEAD) ? "igneous_helmet" : (equipmentSlot == EntityEquipmentSlot.CHEST) ? "igneous_chestplate" : (equipmentSlot == EntityEquipmentSlot.LEGS) ? "igneous_leggings" : "igneous_boots");
-		this.setRegistryName((equipmentSlot == EntityEquipmentSlot.HEAD) ? "igneous_helmet" : (equipmentSlot == EntityEquipmentSlot.CHEST) ? "igneous_chestplate" : (equipmentSlot == EntityEquipmentSlot.LEGS) ? "igneous_leggings" : "igneous_boots");
+		this.setUnlocalizedName((equipmentSlot == EntityEquipmentSlot.HEAD) ? "igneousHelmet" : (equipmentSlot == EntityEquipmentSlot.CHEST) ? "igneousChestplate" : (equipmentSlot == EntityEquipmentSlot.LEGS) ? "igneousLeggings" : "igneousBoots");
 	}
 
 	@Override

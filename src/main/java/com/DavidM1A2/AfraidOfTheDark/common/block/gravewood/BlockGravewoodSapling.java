@@ -23,8 +23,8 @@ public class BlockGravewoodSapling extends AOTDSapling
 	public BlockGravewoodSapling()
 	{
 		super();
-		this.setUnlocalizedName("gravewood_sapling");
-		this.setRegistryName("gravewood_sapling");
+		this.setUnlocalizedName("gravewoodSapling");
+		this.setRegistryName("gravewoodSapling");
 	}
 
 	@Override

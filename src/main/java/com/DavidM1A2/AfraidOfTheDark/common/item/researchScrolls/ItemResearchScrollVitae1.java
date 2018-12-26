@@ -12,8 +12,7 @@ public class ItemResearchScrollVitae1 extends ItemResearchScroll
 	public ItemResearchScrollVitae1()
 	{
 		super();
-		this.setUnlocalizedName("research_scroll_vitae1");
-		this.setRegistryName("research_scroll_vitae1");
+		this.setUnlocalizedName("researchScrollVitae1");
 	}
 
 	@Override

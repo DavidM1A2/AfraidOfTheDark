@@ -20,7 +20,7 @@ public class AOTDGuiSpellEffect extends AOTDGuiSpellComponent<Effects>
 	public AOTDGuiSpellEffect(int x, int y, int width, int height, Effects effect, boolean showHighlightOnSelected)
 	{
 		super(x, y, width, height, effect, showHighlightOnSelected);
-		this.background.setImageTexture("afraidofthedark:textures/gui/spell_crafting/effect_holder.png");
+		this.background.setImageTexture("afraidofthedark:textures/gui/spellCrafting/effectHolder.png");
 		if (this.type != null)
 			this.background.setColor(this.type.getAffinity().getRed(), this.type.getAffinity().getGreen(), this.type.getAffinity().getBlue(), 1.0f);
 	}

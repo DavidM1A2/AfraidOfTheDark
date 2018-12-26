@@ -11,13 +11,11 @@ import com.DavidM1A2.AfraidOfTheDark.common.MCACommonLibrary.animation.Animation
 import com.DavidM1A2.AfraidOfTheDark.common.entities.ICanTakeSilverDamage;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModSounds;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.SyncAnimation;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAISwimming;
@@ -44,6 +42,11 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity, ICan
 	private static final double followRange = 32.0D;
 	private boolean attacksAnyone = false;
 
+	// AI wanderer and watcher
+	private EntityAIWander myWanderer = new EntityAIWander(this, EntityWerewolf.moveSpeed * 2);
+	private EntityAIWatchClosest myWatchClosest = new EntityAIWatchClosest(this, EntityPlayer.class, (float) EntityWerewolf.agroRange);
+	private final CustomWerewolfTargetLocator myTargetLocator = new CustomWerewolfTargetLocator(this, EntityPlayer.class, 10, true);
+
 	public EntityWerewolf(final World world)
 	{
 		// Set the model size
@@ -51,25 +54,15 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity, ICan
 		this.setSize(1.8F, 1.6F);
 		this.setCanAttackAnyone(false);
 		this.experienceValue = 10;
-	}
-
-	@Override
-	protected void initEntityAI()
-	{
-		// AI wanderer and watcher
-		EntityAIWander wander = new EntityAIWander(this, EntityWerewolf.moveSpeed * 2);
-		EntityAIWatchClosest watchClosest = new EntityAIWatchClosest(this, EntityPlayer.class, (float) EntityWerewolf.agroRange);
-		CustomWerewolfTargetLocator targetLocator = new CustomWerewolfTargetLocator(this, EntityPlayer.class, 10, true);
 
 		// Add various AI tasks
 		this.tasks.addTask(1, new EntityAISwimming(this));
-		this.tasks.addTask(2, new EntityAIAttackMelee(this, 1.0D, false));
-		this.tasks.addTask(7, wander);
-		this.tasks.addTask(8, watchClosest);
+		this.tasks.addTask(7, this.myWanderer);
+		this.tasks.addTask(8, this.myWatchClosest);
 		this.tasks.addTask(8, new EntityAILookIdle(this));
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
 		// Use custom werewolf target locator
-		this.targetTasks.addTask(2, targetLocator);
+		this.targetTasks.addTask(2, myTargetLocator);
 	}
 
 	@Override
@@ -179,7 +172,7 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity, ICan
 	 */
 	protected SoundEvent getHurtSound()
 	{
-		return ModSounds.werewolfHurt;
+		return new SoundEvent(new ResourceLocation("afraidofthedark:werewolfHurt"));
 	}
 
 	// Get werewolf's volume

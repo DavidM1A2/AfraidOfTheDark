@@ -53,7 +53,7 @@ public class SextantGUI extends AOTDGuiScreen
 		longitude.setGhostText("Longitude");
 		background.add(longitude);
 
-		AOTDGuiButton confirm = new AOTDGuiButton(15, 204, 120, 20, ClientData.getTargaMSHandFontSized(40f), "afraidofthedark:textures/gui/sign_button.png", "afraidofthedark:textures/gui/sign_button_hovered.png");
+		AOTDGuiButton confirm = new AOTDGuiButton(15, 204, 120, 20, ClientData.getTargaMSHandFontSized(40f), "afraidofthedark:textures/gui/signButton.png", "afraidofthedark:textures/gui/signButtonHovered.png");
 		confirm.setText("Calculate");
 		confirm.setTextAlignment(TextAlignment.ALIGN_CENTER);
 		confirm.addMouseListener(new AOTDMouseListener()

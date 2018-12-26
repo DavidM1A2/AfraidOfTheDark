@@ -13,7 +13,6 @@ public class ItemIgneousBolt extends AOTDItem
 	public ItemIgneousBolt()
 	{
 		super();
-		this.setUnlocalizedName("igneous_bolt");
-		this.setRegistryName("igneous_bolt");
+		this.setUnlocalizedName("igneousBolt");
 	}
 }

@@ -36,9 +36,9 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
 		int yPosTelescope = (360 - 256) / 2;
 
 		AOTDGuiPanel telescope = new AOTDGuiPanel(xPosTelescope, yPosTelescope, FRAME_WIDTH, FRAME_HEIGHT, true);
-		AOTDGuiImage telescopeFrame = new AOTDGuiImage(0, 0, FRAME_WIDTH, FRAME_HEIGHT, "afraidofthedark:textures/gui/telescope_gui.png");
+		AOTDGuiImage telescopeFrame = new AOTDGuiImage(0, 0, FRAME_WIDTH, FRAME_HEIGHT, "afraidofthedark:textures/gui/telescopeGUI.png");
 		telescopeMeteors = new AOTDGuiPanel(0, 0, FRAME_WIDTH, FRAME_WIDTH, false);
-		telescopeImage = new AOTDGuiImage(0, 0, FRAME_WIDTH, FRAME_HEIGHT, 2160, 3840, "afraidofthedark:textures/gui/telescope_background.png");
+		telescopeImage = new AOTDGuiImage(0, 0, FRAME_WIDTH, FRAME_HEIGHT, 2160, 3840, "afraidofthedark:textures/gui/telescopeBackground.png");
 		telescopeImage.setU(this.guiOffsetX + (telescopeImage.getMaxTextureWidth() / 2));
 		telescopeImage.setV(this.guiOffsetY + (telescopeImage.getMaxTextureHeight() / 2));
 

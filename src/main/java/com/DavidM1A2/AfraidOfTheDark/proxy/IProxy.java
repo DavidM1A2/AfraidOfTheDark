@@ -27,6 +27,4 @@ public interface IProxy
 	public abstract void registerItemRenders();
 
 	public abstract void registerBlockRenders();
-
-	public abstract void preInit();
 }

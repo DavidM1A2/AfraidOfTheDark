@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "half=bottom": { "model": "afraidofthedark:gravewoodHalfSlab" },
+        "half=top":    { "model": "afraidofthedark:gravewoodUpperSlab" },
+        "inventory":    { "model": "afraidofthedark:gravewoodHalfSlab" }
+    }
+}

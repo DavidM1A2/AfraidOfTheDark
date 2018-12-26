@@ -15,10 +15,12 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent.MouseButto
 import com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens.SpellSelectionGUI;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModSounds;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellManager;
+
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 
 public class AOTDGuiSpell extends AOTDGuiPanel
 {
@@ -36,7 +38,7 @@ public class AOTDGuiSpell extends AOTDGuiPanel
 
 		mySpell = source;
 
-		AOTDGuiImage background = new AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/spell_crafting/spell_background.png");
+		AOTDGuiImage background = new AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/spellCrafting/spellBackground.png");
 		this.add(background);
 
 		AOTDGuiPanel spellNameContainer = new AOTDGuiPanel(5, 2, width - 15, 15, false);
@@ -63,11 +65,11 @@ public class AOTDGuiSpell extends AOTDGuiPanel
 			{
 				event.getSource().darkenColor(0.1f);
 				if (AOTDGuiSpell.this.isVisible())
-					entityPlayer.playSound(ModSounds.buttonHover, 0.7f, 1.9f);
+					entityPlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:buttonHover")), 0.7f, 1.9f);
 			}
 		};
 
-		AOTDGuiButton edit = new AOTDGuiButton(11, 22, 22, 13, null, "afraidofthedark:textures/gui/spell_crafting/spell_background_edit.png");
+		AOTDGuiButton edit = new AOTDGuiButton(11, 22, 22, 13, null, "afraidofthedark:textures/gui/spellCrafting/spellBackgroundEdit.png");
 		edit.addMouseListener(highlightEffect);
 		edit.setHoverText("Edit spell");
 		edit.addMouseListener(new AOTDMouseListener()
@@ -82,12 +84,12 @@ public class AOTDGuiSpell extends AOTDGuiPanel
 		});
 		this.add(edit);
 
-		this.delete = new AOTDGuiButton(38, 22, 22, 13, null, "afraidofthedark:textures/gui/spell_crafting/spell_background_delete.png");
+		this.delete = new AOTDGuiButton(38, 22, 22, 13, null, "afraidofthedark:textures/gui/spellCrafting/spellBackgroundDelete.png");
 		this.delete.addMouseListener(highlightEffect);
 		this.delete.setHoverText("Delete spell. This cannot be undone");
 		this.add(delete);
 
-		this.keyBind = new AOTDGuiButton(66, 22, 22, 13, null, "afraidofthedark:textures/gui/spell_crafting/spell_background_key_bind.png");
+		this.keyBind = new AOTDGuiButton(66, 22, 22, 13, null, "afraidofthedark:textures/gui/spellCrafting/spellBackgroundKeyBind.png");
 		this.keyBind.addMouseListener(highlightEffect);
 		SpellManager spellManager = entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getSpellManager();
 		this.keyBind.setHoverText("Spell currently bound to: " + (spellManager.keyFromSpell(mySpell) == null ? "None" : spellManager.keyFromSpell(mySpell)));

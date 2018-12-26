@@ -48,8 +48,8 @@ public class BlockVitaeDisenchanter extends AOTDBlock
 	public BlockVitaeDisenchanter()
 	{
 		super(Material.ROCK);
-		this.setUnlocalizedName("vitae_disenchanter");
-		this.setRegistryName("vitae_disenchanter");
+		this.setUnlocalizedName("vitaeDisenchanter");
+		this.setRegistryName("vitaeDisenchanter");
 		this.setHardness(10.0F);
 		this.setResistance(50.0F);
 		this.setHarvestLevel("pickaxe", 2);

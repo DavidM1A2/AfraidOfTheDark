@@ -32,7 +32,6 @@ import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModOreDictionaryCompatability;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModRecipes;
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModSounds;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.PacketHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
@@ -137,9 +136,6 @@ public class AfraidOfTheDark
 		ModPotionEffects.initialize();
 		// Initialize renderers
 		AfraidOfTheDark.proxy.registerEntityRenders();
-		// Initialize sounds
-		ModSounds.initialize();
-		proxy.preInit();
 
 		if (ConfigurationHandler.debugMessages)
 		{

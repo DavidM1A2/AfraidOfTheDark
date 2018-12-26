@@ -17,10 +17,10 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent.MouseButtonClicked;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModSounds;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 
 public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 {
@@ -51,8 +51,8 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 		this.researchTree = new AOTDGuiPanel(-this.guiOffsetX, -this.guiOffsetY, backgroundWidth, backgroundHeight, false);
 		this.getContentPane().add(researchTreeBase);
 
-		this.scrollBackground = new AOTDGuiImage(0, 0, backgroundWidth, backgroundHeight, 1024, 1024, "afraidofthedark:textures/gui/blood_stained_journal_research_backdrop.png");
-		this.backgroundBorder = new AOTDGuiImage(0, 0, backgroundWidth, backgroundHeight, "afraidofthedark:textures/gui/blood_stained_journal_research_background.png");
+		this.scrollBackground = new AOTDGuiImage(0, 0, backgroundWidth, backgroundHeight, 1024, 1024, "afraidofthedark:textures/gui/bloodStainedJournalResearchBackdrop.png");
+		this.backgroundBorder = new AOTDGuiImage(0, 0, backgroundWidth, backgroundHeight, "afraidofthedark:textures/gui/bloodStainedJournalResearchBackground.png");
 		this.scrollBackground.setU(this.guiOffsetX + 384);
 		this.scrollBackground.setV(this.guiOffsetY + 768);
 		this.researchTreeBase.add(scrollBackground);
@@ -65,7 +65,7 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 			public void mouseEntered(AOTDMouseEvent event)
 			{
 				if (event.getSource().isVisible())
-					entityPlayer.playSound(ModSounds.buttonHover, 0.7f, 1.9f);
+					entityPlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:buttonHover")), 0.7f, 1.9f);
 			}
 
 			@Override
@@ -104,13 +104,13 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 					ResearchTypes previous = researchNode.getResearch().getPrevious();
 					ResearchTypes current = researchNode.getResearch();
 					if (current.getPositionX() < previous.getPositionX())
-						this.researchTree.add(new AOTDGuiSpriteSheetImage(xPos + 26, yPos + 9, 54, 14, new ResourceLocation("afraidofthedark:textures/gui/research_horizontal.png"), this.nodeConnectorControllerHorizontal));
+						this.researchTree.add(new AOTDGuiSpriteSheetImage(xPos + 26, yPos + 9, 54, 14, new ResourceLocation("afraidofthedark:textures/gui/researchHorizontal.png"), this.nodeConnectorControllerHorizontal));
 					else if (current.getPositionX() > previous.getPositionX())
-						this.researchTree.add(new AOTDGuiSpriteSheetImage(xPos - 50, yPos + 9, 54, 14, new ResourceLocation("afraidofthedark:textures/gui/research_horizontal.png"), this.nodeConnectorControllerHorizontal));
+						this.researchTree.add(new AOTDGuiSpriteSheetImage(xPos - 50, yPos + 9, 54, 14, new ResourceLocation("afraidofthedark:textures/gui/researchHorizontal.png"), this.nodeConnectorControllerHorizontal));
 					else if (current.getPositionY() > previous.getPositionY())
-						this.researchTree.add(new AOTDGuiSpriteSheetImage(xPos + 9, yPos + 30, 14, 46, new ResourceLocation("afraidofthedark:textures/gui/research_vertical.png"), this.nodeConnectorControllerVertical));
+						this.researchTree.add(new AOTDGuiSpriteSheetImage(xPos + 9, yPos + 30, 14, 46, new ResourceLocation("afraidofthedark:textures/gui/researchVertical.png"), this.nodeConnectorControllerVertical));
 					else if (current.getPositionY() < previous.getPositionY())
-						this.researchTree.add(new AOTDGuiSpriteSheetImage(xPos + 9, yPos - 46, 14, 46, new ResourceLocation("afraidofthedark:textures/gui/research_vertical.png"), this.nodeConnectorControllerVertical));
+						this.researchTree.add(new AOTDGuiSpriteSheetImage(xPos + 9, yPos - 46, 14, 46, new ResourceLocation("afraidofthedark:textures/gui/researchVertical.png"), this.nodeConnectorControllerVertical));
 				}
 			}
 			buttons[researchType.ordinal()] = researchNode;

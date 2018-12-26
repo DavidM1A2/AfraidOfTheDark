@@ -11,7 +11,6 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.baseControls.AOTDGuiPanel;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent.MouseButtonClicked;
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModSounds;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.ISpellComponentEnum;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellStage;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.deliveryMethods.DeliveryMethods;
@@ -19,6 +18,8 @@ import com.DavidM1A2.AfraidOfTheDark.common.spell.effects.Effects;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.effects.IEffect;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 
 public class AOTDGuiSpellStage extends AOTDGuiPanel
 {
@@ -40,7 +41,7 @@ public class AOTDGuiSpellStage extends AOTDGuiPanel
 
 		this.spellStage = spellStage;
 
-		AOTDGuiImage background = new AOTDGuiImage(0, 0, width, height - 14, "afraidofthedark:textures/gui/spell_crafting/tablet_spell_module2.png");
+		AOTDGuiImage background = new AOTDGuiImage(0, 0, width, height - 14, "afraidofthedark:textures/gui/spellCrafting/tabletSpellModule2.png");
 		this.add(background);
 
 		this.deliveryMethod = new AOTDGuiSpellDeliveryMethod(5, 5, height - 25, height - 25, null);
@@ -74,7 +75,7 @@ public class AOTDGuiSpellStage extends AOTDGuiPanel
 			public void mouseEntered(AOTDMouseEvent event)
 			{
 				event.getSource().darkenColor(0.1f);
-				Minecraft.getMinecraft().thePlayer.playSound(ModSounds.spellCraftingButtonHover, 0.6f, 1.7f);
+				Minecraft.getMinecraft().thePlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:spellCraftingButtonHover")), 0.6f, 1.7f);
 			}
 		});
 		this.add(deliveryMethod);
@@ -107,7 +108,7 @@ public class AOTDGuiSpellStage extends AOTDGuiPanel
 			{
 				event.getSource().darkenColor(0.1f);
 				if (event.getSource().isVisible())
-					Minecraft.getMinecraft().thePlayer.playSound(ModSounds.spellCraftingButtonHover, 0.6f, 1.7f);
+					Minecraft.getMinecraft().thePlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:spellCraftingButtonHover")), 0.6f, 1.7f);
 			}
 
 			@Override
@@ -138,11 +139,11 @@ public class AOTDGuiSpellStage extends AOTDGuiPanel
 		this.add(this.effect3);
 		this.add(this.effect4);
 
-		this.addNewRow = new AOTDGuiButton(0, height - 15, 15, 15, null, "afraidofthedark:textures/gui/spell_crafting/add.png");
+		this.addNewRow = new AOTDGuiButton(0, height - 15, 15, 15, null, "afraidofthedark:textures/gui/spellCrafting/add.png");
 		this.addNewRow.setHoverText("Add new spell stage");
 		this.addNewRow.addMouseListener(effectHover);
 		this.add(this.addNewRow);
-		this.removeRow = new AOTDGuiButton(15, height - 15, 15, 15, null, "afraidofthedark:textures/gui/spell_crafting/delete.png");
+		this.removeRow = new AOTDGuiButton(15, height - 15, 15, 15, null, "afraidofthedark:textures/gui/spellCrafting/delete.png");
 		this.removeRow.setHoverText("Remove spell stage");
 		this.removeRow.addMouseListener(effectHover);
 		this.add(this.removeRow);

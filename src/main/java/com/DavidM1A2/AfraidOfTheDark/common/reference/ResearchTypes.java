@@ -126,7 +126,7 @@ public enum ResearchTypes
 		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
 		{
 
-			this.icon = new ResourceLocation("afraidofthedark:textures/gui/research_icons/" + this.camelToUnderscore() + ".png");
+			this.icon = new ResourceLocation("afraidofthedark:textures/gui/researchIcons/" + this.toString() + ".png");
 
 			try
 			{
@@ -134,7 +134,7 @@ public enum ResearchTypes
 			}
 			catch (IOException e)
 			{
-				this.icon = new ResourceLocation("afraidofthedark:textures/gui/research_icons/none.png");
+				this.icon = new ResourceLocation("afraidofthedark:textures/gui/researchIcons/None.png");
 			}
 
 			this.researchDescription = this.loadResearchDescription("assets/afraidofthedark/researchNotes/" + this.toString() + ".txt");
@@ -145,18 +145,6 @@ public enum ResearchTypes
 
 			this.toolTip = this.loadReserachTooltip();
 		}
-	}
-
-	private String camelToUnderscore()
-	{
-		String toReturn = "";
-
-		for (final String string : this.toString().split("(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])"))
-		{
-			toReturn = toReturn + string + "_";
-		}
-		toReturn = toReturn.substring(0, toReturn.length() - 1);
-		return toReturn.toLowerCase();
 	}
 
 	public String formattedString()

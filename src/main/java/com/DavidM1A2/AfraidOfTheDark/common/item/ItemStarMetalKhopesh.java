@@ -35,8 +35,7 @@ public class ItemStarMetalKhopesh extends AOTDChargableSword
 
 	public ItemStarMetalKhopesh()
 	{
-		super(AOTDToolMaterials.StarMetal.getToolMaterial(), "star_metal_khopesh");
-		this.setRegistryName("star_metal_khopesh");
+		super(AOTDToolMaterials.StarMetal.getToolMaterial(), "starMetalKhopesh");
 	}
 
 	/**

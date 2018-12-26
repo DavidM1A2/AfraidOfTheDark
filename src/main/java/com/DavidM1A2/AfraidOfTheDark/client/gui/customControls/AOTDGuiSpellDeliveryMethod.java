@@ -17,7 +17,7 @@ public class AOTDGuiSpellDeliveryMethod extends AOTDGuiSpellComponent<DeliveryMe
 	public AOTDGuiSpellDeliveryMethod(int x, int y, int width, int height, DeliveryMethods deliveryMethod, boolean showHighlightOnSelected)
 	{
 		super(x, y, width, height, deliveryMethod, showHighlightOnSelected);
-		this.background.setImageTexture("afraidofthedark:textures/gui/spell_crafting/delivery_method_holder.png");
+		this.background.setImageTexture("afraidofthedark:textures/gui/spellCrafting/deliveryMethodHolder.png");
 	}
 
 	@Override

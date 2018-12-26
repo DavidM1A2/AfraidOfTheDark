@@ -26,8 +26,7 @@ public class ItemSchematicGenerator extends AOTDItem
 	public ItemSchematicGenerator()
 	{
 		super();
-		this.setUnlocalizedName("schematic_generator");
-		this.setRegistryName("schematic_generator");
+		this.setUnlocalizedName("schematicGenerator");
 		this.setMaxStackSize(1);
 	}
 
@@ -67,7 +66,7 @@ public class ItemSchematicGenerator extends AOTDItem
 				entityPlayer.addChatMessage(new TextComponentString("You must be in creative to use this item"));
 		}
 
-		return ActionResult.<ItemStack>newResult(EnumActionResult.SUCCESS, itemStack);
+		return ActionResult.<ItemStack> newResult(EnumActionResult.SUCCESS, itemStack);
 	}
 
 	@Override

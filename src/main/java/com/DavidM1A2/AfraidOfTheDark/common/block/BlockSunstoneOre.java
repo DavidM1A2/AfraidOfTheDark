@@ -26,8 +26,8 @@ public class BlockSunstoneOre extends AOTDBlock
 	public BlockSunstoneOre()
 	{
 		super(Material.ROCK);
-		this.setUnlocalizedName("sunstone_ore");
-		this.setRegistryName("sunstone_ore");
+		this.setUnlocalizedName("sunstoneOre");
+		this.setRegistryName("sunstoneOre");
 		this.setLightLevel(1.0f);
 		this.setHardness(10.0F);
 		this.setResistance(50.0F);

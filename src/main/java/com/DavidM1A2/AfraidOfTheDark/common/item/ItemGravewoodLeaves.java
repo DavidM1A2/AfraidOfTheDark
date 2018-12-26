@@ -15,6 +15,5 @@ public class ItemGravewoodLeaves extends AOTDItemLeaves
 	public ItemGravewoodLeaves(final Block block)
 	{
 		super(block);
-		this.setRegistryName("gravewood_leaves");
 	}
 }

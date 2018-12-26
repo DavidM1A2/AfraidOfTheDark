@@ -58,7 +58,7 @@ public enum Effects implements ISpellComponentEnum
 			return new Freeze();
 		}
 	},
-	EnderPocket(7, new EffectAffinity(.1, 0, 0, 0), "ender_pocket.png")
+	EnderPocket(7, new EffectAffinity(.1, 0, 0, 0), "enderPocket.png")
 	{
 		@Override
 		public Effect newInstance()
@@ -82,7 +82,7 @@ public enum Effects implements ISpellComponentEnum
 	private Effects(int id, EffectAffinity effectAffinity, String iconTexture)
 	{
 		this.id = id;
-		this.iconTexture = "afraidofthedark:textures/gui/spell_crafting/effects/" + iconTexture;
+		this.iconTexture = "afraidofthedark:textures/gui/spellCrafting/effects/" + iconTexture;
 		this.effectAffinity = effectAffinity;
 	}
 

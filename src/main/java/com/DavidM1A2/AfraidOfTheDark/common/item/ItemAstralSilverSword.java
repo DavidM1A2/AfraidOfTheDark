@@ -23,8 +23,7 @@ public class ItemAstralSilverSword extends AOTDSword
 	public ItemAstralSilverSword()
 	{
 		super(AOTDToolMaterials.AstralSilver.getToolMaterial());
-		this.setUnlocalizedName("astral_silver_sword");
-		this.setRegistryName("astral_silver_sword");
+		this.setUnlocalizedName("astralSilverSword");
 	}
 
 	// When left clicking attack from silver weapon damage

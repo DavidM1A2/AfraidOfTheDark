@@ -29,8 +29,7 @@ public class ItemVitaeLantern extends AOTDItem
 	public ItemVitaeLantern()
 	{
 		super();
-		this.setUnlocalizedName("vitae_lantern");
-		this.setRegistryName("vitae_lantern");
+		this.setUnlocalizedName("vitaeLantern");
 		this.setMaxStackSize(1);
 	}
 

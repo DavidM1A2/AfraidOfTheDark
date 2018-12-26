@@ -14,8 +14,8 @@ public class BlockEldritchObsidian extends AOTDBlock
 	public BlockEldritchObsidian()
 	{
 		super(Material.ROCK);
-		this.setUnlocalizedName("eldritch_obsidian");
-		this.setRegistryName("eldritch_obsidian");
+		this.setUnlocalizedName("eldritchObsidian");
+		this.setRegistryName("eldritchObsidian");
 		this.setHardness(10.0F);
 		this.setResistance(50.0F);
 		this.setHarvestLevel("pickaxe", 3);

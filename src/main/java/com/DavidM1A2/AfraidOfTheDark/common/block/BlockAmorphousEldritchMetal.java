@@ -22,8 +22,8 @@ public class BlockAmorphousEldritchMetal extends AOTDBlock
 	public BlockAmorphousEldritchMetal()
 	{
 		super(Material.PORTAL);
-		this.setUnlocalizedName("amorphous_eldritch_metal");
-		this.setRegistryName("amorphous_eldritch_metal");
+		this.setUnlocalizedName("amorphousEldritchMetal");
+		this.setRegistryName("amorphousEldritchMetal");
 		this.setHardness(10.0F);
 		this.setResistance(50.0F);
 		this.setHarvestLevel("pickaxe", 2);

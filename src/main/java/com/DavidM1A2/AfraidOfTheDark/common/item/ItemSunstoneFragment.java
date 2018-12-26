@@ -12,7 +12,6 @@ public class ItemSunstoneFragment extends AOTDItem
 	public ItemSunstoneFragment()
 	{
 		super();
-		this.setUnlocalizedName("sunstone_fragment");
-		this.setRegistryName("sunstone_fragment");
+		this.setUnlocalizedName("sunstoneFragment");
 	}
 }

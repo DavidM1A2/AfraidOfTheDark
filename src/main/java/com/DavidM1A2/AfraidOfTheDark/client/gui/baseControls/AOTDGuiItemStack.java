@@ -24,7 +24,7 @@ public class AOTDGuiItemStack extends AOTDGuiContainer
 		this.itemStack = itemStack;
 		if (backgroundHighlight)
 		{
-			highlight = new AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/slot_highlight.png");
+			highlight = new AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/slotHighlight.png");
 			this.add(highlight);
 		}
 	}
@@ -49,14 +49,12 @@ public class AOTDGuiItemStack extends AOTDGuiContainer
 			renderItem.zLevel = 100.0F;
 			FontRenderer font = null;
 			if (itemStack != null)
-			{
 				font = itemStack.getItem().getFontRenderer(itemStack);
-				if (font == null)
-					font = Minecraft.getMinecraft().fontRendererObj;
-				renderItem.renderItemAndEffectIntoGUI(itemStack, this.getXScaled(), this.getYScaled());
-				renderItem.renderItemOverlayIntoGUI(font, itemStack, this.getXScaled(), this.getYScaled(), null);
-				renderItem.zLevel = 0.0F;
-			}
+			if (font == null)
+				font = Minecraft.getMinecraft().fontRendererObj;
+			renderItem.renderItemAndEffectIntoGUI(itemStack, this.getXScaled(), this.getYScaled());
+			renderItem.renderItemOverlayIntoGUI(font, itemStack, this.getXScaled(), this.getYScaled(), null);
+			renderItem.zLevel = 0.0F;
 
 			GL11.glPopMatrix();
 			RenderHelper.disableStandardItemLighting();

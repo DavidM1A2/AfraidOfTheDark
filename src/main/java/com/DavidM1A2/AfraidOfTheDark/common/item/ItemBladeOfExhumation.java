@@ -23,8 +23,7 @@ public class ItemBladeOfExhumation extends AOTDSword
 	public ItemBladeOfExhumation()
 	{
 		super(AOTDToolMaterials.BladeOfExhumation.getToolMaterial());
-		this.setUnlocalizedName("blade_of_exhumation");
-		this.setRegistryName("blade_of_exhumation");
+		this.setUnlocalizedName("bladeOfExhumation");
 	}
 
 	/**

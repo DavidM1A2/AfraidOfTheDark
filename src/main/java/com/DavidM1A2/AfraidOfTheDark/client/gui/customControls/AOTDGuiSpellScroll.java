@@ -15,7 +15,6 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseMoveList
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent.MouseButtonClicked;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens.SpellCraftingGUI;
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModSounds;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.ISpellComponentEnum;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.deliveryMethods.DeliveryMethods;
@@ -24,6 +23,8 @@ import com.DavidM1A2.AfraidOfTheDark.common.spell.powerSources.PowerSources;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 
 public class AOTDGuiSpellScroll extends AOTDGuiContainer
 {
@@ -38,7 +39,7 @@ public class AOTDGuiSpellScroll extends AOTDGuiContainer
 		this.parent = parent;
 
 		AOTDGuiPanel effectScroll = new AOTDGuiPanel(0, 0, 220, 256, false);
-		AOTDGuiImage backgroundScroll = new AOTDGuiImage(0, 0, 200, 256, "afraidofthedark:textures/gui/spell_crafting/effect_list_scroll.png");
+		AOTDGuiImage backgroundScroll = new AOTDGuiImage(0, 0, 200, 256, "afraidofthedark:textures/gui/spellCrafting/effectListScroll.png");
 		effectScroll.add(backgroundScroll);
 
 		AOTDGuiScrollBar effectsScrollBar = new AOTDGuiScrollBar(200, 50, 13, 160);
@@ -50,7 +51,7 @@ public class AOTDGuiSpellScroll extends AOTDGuiContainer
 			public void mouseEntered(AOTDMouseEvent event)
 			{
 				event.getSource().darkenColor(0.1f);
-				Minecraft.getMinecraft().thePlayer.playSound(ModSounds.spellCraftingButtonHover, 0.6f, 1.7f);
+				Minecraft.getMinecraft().thePlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:spellCraftingButtonHover")), 0.6f, 1.7f);
 			}
 
 			@Override
@@ -73,7 +74,7 @@ public class AOTDGuiSpellScroll extends AOTDGuiContainer
 		int numEntries = 0;
 
 		// Add the power source heading, then move down a row (add 5 icons)
-		AOTDGuiImage powerSourceHeading = new AOTDGuiImage(5 + 24 * (numEntries % 5), 5 + 24 * (numEntries / 5), 80, 20, "afraidofthedark:textures/gui/spell_crafting/power_sources.png");
+		AOTDGuiImage powerSourceHeading = new AOTDGuiImage(5 + 24 * (numEntries % 5), 5 + 24 * (numEntries / 5), 80, 20, "afraidofthedark:textures/gui/spellCrafting/powerSources.png");
 		effectsPanel.add(powerSourceHeading);
 		numEntries = numEntries + 5;
 
@@ -90,7 +91,7 @@ public class AOTDGuiSpellScroll extends AOTDGuiContainer
 			numEntries++;
 
 		// Add the effect heading, then move down a row (add 5 icons)
-		AOTDGuiImage effectHeading = new AOTDGuiImage(5 + 24 * (numEntries % 5), 5 + 24 * (numEntries / 5), 80, 20, "afraidofthedark:textures/gui/spell_crafting/effects.png");
+		AOTDGuiImage effectHeading = new AOTDGuiImage(5 + 24 * (numEntries % 5), 5 + 24 * (numEntries / 5), 80, 20, "afraidofthedark:textures/gui/spellCrafting/effects.png");
 		effectsPanel.add(effectHeading);
 		numEntries = numEntries + 5;
 
@@ -108,7 +109,7 @@ public class AOTDGuiSpellScroll extends AOTDGuiContainer
 			numEntries++;
 
 		// Add the delivery method heading, then move down a row (add 5 icons)
-		AOTDGuiImage deliveryMethodHeading = new AOTDGuiImage(5 + 24 * (numEntries % 5), 5 + 24 * (numEntries / 5), 80, 20, "afraidofthedark:textures/gui/spell_crafting/delivery_methods.png");
+		AOTDGuiImage deliveryMethodHeading = new AOTDGuiImage(5 + 24 * (numEntries % 5), 5 + 24 * (numEntries / 5), 80, 20, "afraidofthedark:textures/gui/spellCrafting/deliveryMethods.png");
 		effectsPanel.add(deliveryMethodHeading);
 		numEntries = numEntries + 5;
 
@@ -133,7 +134,7 @@ public class AOTDGuiSpellScroll extends AOTDGuiContainer
 
 		// Add the hover icon
 
-		this.hoveredIcon = new AOTDGuiImage(0, 0, 20, 20, "afraidofthedark:textures/gui/spell_crafting/blank.png");
+		this.hoveredIcon = new AOTDGuiImage(0, 0, 20, 20, "afraidofthedark:textures/gui/spellCrafting/blank.png");
 		this.hoveredIcon.addMouseMoveListener(new AOTDMouseMoveListener()
 		{
 			@Override
@@ -152,7 +153,7 @@ public class AOTDGuiSpellScroll extends AOTDGuiContainer
 					AOTDGuiSpellComponent.setSelectedComponent(null);
 
 				ISpellComponentEnum currentlySelected = AOTDGuiSpellComponent.getSelectedComponent();
-				((AOTDGuiImage) event.getSource()).setImageTexture(currentlySelected == null ? "afraidofthedark:textures/gui/spell_crafting/blank.png" : currentlySelected.getIcon());
+				((AOTDGuiImage) event.getSource()).setImageTexture(currentlySelected == null ? "afraidofthedark:textures/gui/spellCrafting/blank.png" : currentlySelected.getIcon());
 			}
 		});
 		this.add(this.hoveredIcon);

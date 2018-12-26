@@ -12,8 +12,7 @@ public class ItemResearchScrollWristCrossbow extends ItemResearchScroll
 	public ItemResearchScrollWristCrossbow()
 	{
 		super();
-		this.setUnlocalizedName("research_scroll_wrist_crossbow");
-		this.setRegistryName("research_scroll_wrist_crossbow");
+		this.setUnlocalizedName("researchScrollWristCrossbow");
 	}
 
 	@Override

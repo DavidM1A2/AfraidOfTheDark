@@ -10,10 +10,8 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntityWoodenBolt;
 import net.minecraft.client.renderer.entity.RenderManager;
 
 //A bolt renderer, for wooden bolts
-public class WoodenBoltRender<T extends EntityWoodenBolt> extends BoltRender<T>
-{
-	public WoodenBoltRender(final RenderManager renderManager)
-	{
-		super(renderManager, "afraidofthedark:textures/entity/wooden_bolt.png");
+public class WoodenBoltRender<T extends EntityWoodenBolt> extends BoltRender<T> {
+	public WoodenBoltRender(final RenderManager renderManager) {
+		super(renderManager, "afraidofthedark:textures/entity/woodenBolt.png");
 	}
 }

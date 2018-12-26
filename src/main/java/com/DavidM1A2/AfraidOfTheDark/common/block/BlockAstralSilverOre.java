@@ -22,8 +22,8 @@ public class BlockAstralSilverOre extends AOTDBlock
 	public BlockAstralSilverOre()
 	{
 		super(Material.ROCK);
-		this.setUnlocalizedName("astral_silver_ore");
-		this.setRegistryName("astral_silver_ore");
+		this.setUnlocalizedName("astralSilverOre");
+		this.setRegistryName("astralSilverOre");
 		this.setHardness(10.0F);
 		this.setResistance(50.0F);
 		this.setHarvestLevel("pickaxe", 2);

@@ -23,11 +23,11 @@ public class AOTDGuiMeteorButton extends AOTDGuiButton
 		this.myType = myType;
 
 		if (myType == AOTDMeteorTypes.silver)
-			this.METEOR_TEXTURE = new ResourceLocation("afraidofthedark:textures/gui/astral_silver_meteor.png");
+			this.METEOR_TEXTURE = new ResourceLocation("afraidofthedark:textures/gui/astralSilverMeteor.png");
 		else if (myType == AOTDMeteorTypes.starMetal)
-			this.METEOR_TEXTURE = new ResourceLocation("afraidofthedark:textures/gui/star_metal_meteor.png");
+			this.METEOR_TEXTURE = new ResourceLocation("afraidofthedark:textures/gui/starMetalMeteor.png");
 		else
-			this.METEOR_TEXTURE = new ResourceLocation("afraidofthedark:textures/gui/sunstone_meteor.png");
+			this.METEOR_TEXTURE = new ResourceLocation("afraidofthedark:textures/gui/sunstoneMeteor.png");
 	}
 
 	// Draw button draws the button using OpenGL

@@ -17,7 +17,7 @@ public class AOTDGuiSpellPowerSource extends AOTDGuiSpellComponent<PowerSources>
 	public AOTDGuiSpellPowerSource(int x, int y, int width, int height, PowerSources powerSource, boolean showHighlightOnSelected)
 	{
 		super(x, y, width, height, powerSource, showHighlightOnSelected);
-		this.background.setImageTexture("afraidofthedark:textures/gui/spell_crafting/power_source_holder.png");
+		this.background.setImageTexture("afraidofthedark:textures/gui/spellCrafting/powerSourceHolder.png");
 	}
 
 	@Override

@@ -22,11 +22,11 @@ import net.minecraft.util.ResourceLocation;
 public class AOTDGuiResearchNodeButton extends AOTDGuiButton
 {
 	private final ResearchTypes research;
-	private static final ResourceLocation UNKNOWN_RESEARCH = new ResourceLocation("afraidofthedark:textures/gui/research_icons/question_mark.png");
+	private static final ResourceLocation UNKNOWN_RESEARCH = new ResourceLocation("afraidofthedark:textures/gui/researchIcons/QuestionMark.png");
 
 	public AOTDGuiResearchNodeButton(int x, int y, ResearchTypes research)
 	{
-		super(x, y, 32, 32, null, "afraidofthedark:textures/gui/node_standard2.png");
+		super(x, y, 32, 32, null, "afraidofthedark:textures/gui/nodeStandard2.png");
 		this.research = research;
 		this.setVisible(entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(this.research) || entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(this.research));
 		this.addMouseListener(new AOTDMouseListener()

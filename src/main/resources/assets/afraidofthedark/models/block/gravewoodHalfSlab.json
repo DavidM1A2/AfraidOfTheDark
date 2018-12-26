@@ -1,0 +1,8 @@
+{
+    "parent": "block/half_slab",
+    "textures": {
+        "bottom": "afraidofthedark:blocks/gravewoodPlanks",
+        "top": "afraidofthedark:blocks/gravewoodPlanks",
+        "side": "afraidofthedark:blocks/gravewoodPlanks"
+    }
+}

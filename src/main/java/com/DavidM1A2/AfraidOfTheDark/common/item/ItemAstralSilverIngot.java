@@ -13,8 +13,7 @@ public class ItemAstralSilverIngot extends AOTDItem
 	public ItemAstralSilverIngot()
 	{
 		super();
-		this.setUnlocalizedName("astral_silver_ingot");
-		this.setRegistryName("astral_silver_ingot");
+		this.setUnlocalizedName("astralSilverIngot");
 		this.maxStackSize = 64;
 	}
 }

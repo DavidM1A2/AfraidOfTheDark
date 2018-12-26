@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "normal": { "model": "afraidofthedark:mangrovePlanks" },
+		"inventory":                { "model": "afraidofthedark:mangrovePlanks" }
+    }
+}

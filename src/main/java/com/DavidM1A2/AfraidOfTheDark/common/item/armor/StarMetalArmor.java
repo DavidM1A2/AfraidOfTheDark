@@ -33,8 +33,7 @@ public class StarMetalArmor extends AOTDArmor
 	public StarMetalArmor(final ArmorMaterial armorMaterial, final int renderIndex, final EntityEquipmentSlot equipmentSlot)
 	{
 		super(armorMaterial, renderIndex, equipmentSlot);
-		this.setUnlocalizedName((equipmentSlot == EntityEquipmentSlot.HEAD) ? "star_metal_helmet" : (equipmentSlot == EntityEquipmentSlot.CHEST) ? "star_metal_chestplate" : (equipmentSlot == EntityEquipmentSlot.LEGS) ? "star_metal_leggings" : "star_metal_boots");
-		this.setRegistryName((equipmentSlot == EntityEquipmentSlot.HEAD) ? "star_metal_helmet" : (equipmentSlot == EntityEquipmentSlot.CHEST) ? "star_metal_chestplate" : (equipmentSlot == EntityEquipmentSlot.LEGS) ? "star_metal_leggings" : "star_metal_boots");
+		this.setUnlocalizedName((equipmentSlot == EntityEquipmentSlot.HEAD) ? "starMetalHelmet" : (equipmentSlot == EntityEquipmentSlot.CHEST) ? "starMetalChestplate" : (equipmentSlot == EntityEquipmentSlot.LEGS) ? "starMetalLeggings" : "starMetalBoots");
 	}
 
 	@Override
@@ -43,11 +42,11 @@ public class StarMetalArmor extends AOTDArmor
 	{
 		if (armor.getItem() == ModItems.starMetalLeggings)
 		{
-			return "afraidofthedark:textures/armor/star_metal_2.png";
+			return "afraidofthedark:textures/armor/starMetal_2.png";
 		}
 		else
 		{
-			return "afraidofthedark:textures/armor/star_metal_1.png";
+			return "afraidofthedark:textures/armor/starMetal_1.png";
 		}
 	}
 

@@ -12,8 +12,7 @@ public class ItemResearchScrollInsanity extends ItemResearchScroll
 	public ItemResearchScrollInsanity()
 	{
 		super();
-		this.setUnlocalizedName("research_scroll_insanity");
-		this.setRegistryName("research_scroll_insanity");
+		this.setUnlocalizedName("researchScrollInsanity");
 	}
 
 	@Override

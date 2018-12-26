@@ -5,7 +5,6 @@ package com.DavidM1A2.AfraidOfTheDark.common.item.crossbow;
 
 import java.util.List;
 
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModSounds;
 import com.DavidM1A2.AfraidOfTheDark.common.item.core.AOTDItem;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDCrossbowBoltTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.NBTHelper;
@@ -18,7 +17,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -35,7 +36,6 @@ public class ItemCrossbow extends AOTDItem
 		// 1 bow per itemstack
 		super();
 		this.setUnlocalizedName("crossbow");
-		this.setRegistryName("crossbow");
 		this.setMaxStackSize(1);
 	}
 
@@ -89,14 +89,14 @@ public class ItemCrossbow extends AOTDItem
 				// If we are in creative, begin cocking he bow
 				if (entityPlayer.capabilities.isCreativeMode)
 				{
-					entityPlayer.playSound(ModSounds.crossbowLoad, 0.9F, ((world.rand.nextFloat() * 0.8F) + 1.2F));
+					entityPlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:crossbowLoad")), 0.9F, ((world.rand.nextFloat() * 0.8F) + 1.2F));
 					entityPlayer.setActiveHand(EnumHand.MAIN_HAND);
 				}
 				else
 				{
 					if (Utility.hasItem(entityPlayer, AOTDCrossbowBoltTypes.getTypeFromID(NBTHelper.getInt(itemStack, "mode")).getMyBoltItem()))
 					{
-						entityPlayer.playSound(ModSounds.crossbowLoad, 0.9F, ((world.rand.nextFloat() * 0.8F) + 1.2F));
+						entityPlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:crossbowLoad")), 0.9F, ((world.rand.nextFloat() * 0.8F) + 1.2F));
 						entityPlayer.setActiveHand(EnumHand.MAIN_HAND);
 					}
 					else
@@ -110,7 +110,7 @@ public class ItemCrossbow extends AOTDItem
 				}
 			}
 		}
-		return ActionResult.<ItemStack>newResult(EnumActionResult.SUCCESS, itemStack);
+		return ActionResult.<ItemStack> newResult(EnumActionResult.SUCCESS, itemStack);
 	}
 
 	@Override
@@ -187,7 +187,7 @@ public class ItemCrossbow extends AOTDItem
 	// When we fire, set the pull level of the bow to 0
 	public void fireBolt(final EntityPlayer entityPlayer, final World world, final ItemStack itemStack)
 	{
-		world.playSound(entityPlayer, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, ModSounds.crossbowFire, SoundCategory.MASTER, 0.5F, ((world.rand.nextFloat() * 0.4F) + 0.8F));
+		world.playSound(entityPlayer, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, new SoundEvent(new ResourceLocation("afraidofthedark:crossbowFire")), SoundCategory.MASTER, 0.5F, ((world.rand.nextFloat() * 0.4F) + 0.8F));
 		world.spawnEntityInWorld(AOTDCrossbowBoltTypes.getTypeFromID(NBTHelper.getInt(itemStack, "mode")).createBolt(world, entityPlayer));
 	}
 

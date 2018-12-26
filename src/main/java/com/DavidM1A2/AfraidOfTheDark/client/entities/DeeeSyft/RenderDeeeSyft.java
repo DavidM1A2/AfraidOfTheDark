@@ -13,21 +13,19 @@ import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderDeeeSyft<T extends EntityDeeeSyft> extends RenderLiving<T>
-{
+public class RenderDeeeSyft<T extends EntityDeeeSyft> extends RenderLiving<T> {
 
-	public static final ResourceLocation DEEESYFT_TEXTURE = new ResourceLocation("afraidofthedark:textures/entity/deee_syft.png");
+	public static final ResourceLocation DEEESYFT_TEXTURE = new ResourceLocation(
+			"afraidofthedark:textures/entity/deeeSyft.png");
 	public static ModelDeeeSyft modelDeeeSyft = new ModelDeeeSyft();
 	public static float modelHeight = -0.5F;
 
-	public RenderDeeeSyft(RenderManager renderManager)
-	{
+	public RenderDeeeSyft(RenderManager renderManager) {
 		super(renderManager, modelDeeeSyft, 1F);
 	}
 
 	@Override
-	public void doRender(T _entity, double x, double y, double z, float entityYaw, float partialTicks)
-	{
+	public void doRender(T _entity, double x, double y, double z, float entityYaw, float partialTicks) {
 		EntityDeeeSyft entity = (EntityDeeeSyft) _entity;
 
 		GL11.glPushMatrix();
@@ -38,16 +36,14 @@ public class RenderDeeeSyft<T extends EntityDeeeSyft> extends RenderLiving<T>
 	}
 
 	@Override
-	protected void preRenderCallback(T entityliving, float f)
-	{
+	protected void preRenderCallback(T entityliving, float f) {
 		GL11.glRotatef(180F, 0, 1F, 0F);
 		GL11.glRotatef(180F, 0, 0, 1F);
 		GL11.glTranslatef(-1, modelHeight, -1);
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(T var1)
-	{
+	protected ResourceLocation getEntityTexture(T var1) {
 		return DEEESYFT_TEXTURE;
 	}
 }

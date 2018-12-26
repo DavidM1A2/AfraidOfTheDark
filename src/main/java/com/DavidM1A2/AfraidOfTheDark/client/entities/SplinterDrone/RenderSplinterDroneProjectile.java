@@ -8,20 +8,18 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderSplinterDroneProjectile<T extends EntitySplinterDroneProjectile> extends Render<T>
-{
-	public static final ResourceLocation SPLINTER_DRONE_PROJECTILE_TEXTURE = new ResourceLocation("afraidofthedark:textures/entity/splinter_drone_projectile.png");
+public class RenderSplinterDroneProjectile<T extends EntitySplinterDroneProjectile> extends Render<T> {
+	public static final ResourceLocation SPLINTER_DRONE_PROJECTILE_TEXTURE = new ResourceLocation(
+			"afraidofthedark:textures/entity/splinterDroneProjectile.png");
 	public static ModelSplinterDroneProjectile modelSplinterDroneProjectile;
 
-	public RenderSplinterDroneProjectile(RenderManager renderManager)
-	{
+	public RenderSplinterDroneProjectile(RenderManager renderManager) {
 		super(renderManager);
 		this.modelSplinterDroneProjectile = new ModelSplinterDroneProjectile();
 	}
 
 	@Override
-	public void doRender(T _entity, double posX, double posY, double posZ, float var8, float var9)
-	{
+	public void doRender(T _entity, double posX, double posY, double posZ, float var8, float var9) {
 		EntitySplinterDroneProjectile entity = (EntitySplinterDroneProjectile) _entity;
 
 		GL11.glPushMatrix();
@@ -34,8 +32,7 @@ public class RenderSplinterDroneProjectile<T extends EntitySplinterDroneProjecti
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(T var1)
-	{
+	protected ResourceLocation getEntityTexture(T var1) {
 		return SPLINTER_DRONE_PROJECTILE_TEXTURE;
 	}
 }

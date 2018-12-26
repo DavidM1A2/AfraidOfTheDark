@@ -38,5 +38,5 @@ public class Reference
 	};
 
 	// Limit the user's commands and items when not in debug
-	public static final boolean isDebug = true;
+	public static final boolean isDebug = false;
 }

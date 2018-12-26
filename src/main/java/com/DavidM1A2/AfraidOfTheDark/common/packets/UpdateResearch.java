@@ -11,7 +11,6 @@ import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
 import com.DavidM1A2.AfraidOfTheDark.common.handler.ConfigurationHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModItems;
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModSounds;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.MessageHandler;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
@@ -21,6 +20,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -67,7 +68,7 @@ public class UpdateResearch implements IMessage
 					{
 						if (!entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getResearches().getBoolean(key) && msg.research.getBoolean(key))
 						{
-							entityPlayer.playSound(ModSounds.achievementUnlocked, 1.0f, 1.0f);
+							entityPlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:achievementUnlocked")), 1.0f, 1.0f);
 							ClientData.researchAchievedOverlay.displayResearch(ResearchTypes.valueOf(key.substring("unlockedResearches".length())), new ItemStack(ModItems.journal, 1), false);
 						}
 					}

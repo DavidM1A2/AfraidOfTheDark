@@ -24,7 +24,6 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent.MouseButtonClicked;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.guiScreens.SpellCraftingGUI;
 import com.DavidM1A2.AfraidOfTheDark.client.settings.ClientData;
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModSounds;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.ISpellComponentEnum;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.Spell;
@@ -32,6 +31,8 @@ import com.DavidM1A2.AfraidOfTheDark.common.spell.SpellStage;
 import com.DavidM1A2.AfraidOfTheDark.common.spell.powerSources.PowerSources;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 
 public class AOTDGuiSpellTablet extends AOTDGuiContainer
 {
@@ -54,7 +55,7 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 
 		AOTDGuiPanel tablet = new AOTDGuiPanel(0, 0, 192, 256, false);
 
-		AOTDGuiImage background = new AOTDGuiImage(0, 0, 192, 256, "afraidofthedark:textures/gui/spell_crafting/tablet_background.png");
+		AOTDGuiImage background = new AOTDGuiImage(0, 0, 192, 256, "afraidofthedark:textures/gui/spellCrafting/tabletBackground.png");
 		tablet.add(background);
 		this.spellName = new AOTDGuiTextField(60, 30, 85, 25, ClientData.getTargaMSHandFontSized(35f));
 		this.spellName.addKeyListener(new AOTDKeyListener()
@@ -69,14 +70,14 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 		scrollBar = new AOTDGuiScrollBar(10, 75, 15, 170);
 		tablet.add(scrollBar);
 
-		AOTDGuiImage spellCraftingSlotBackground = new AOTDGuiImage(30, 55, 120, 170, "afraidofthedark:textures/gui/spell_crafting/spell_slot_background.png");
+		AOTDGuiImage spellCraftingSlotBackground = new AOTDGuiImage(30, 55, 120, 170, "afraidofthedark:textures/gui/spellCrafting/spellSlotBackground.png");
 		tablet.add(spellCraftingSlotBackground);
 
 		this.scrollPanel = new AOTDGuiScrollPanel(30, 55, 120, 170, true, scrollBar);
 
 		tablet.add(scrollPanel);
 
-		AOTDGuiButton saveButton = new AOTDGuiButton(152, 105, 20, 20, null, "afraidofthedark:textures/gui/spell_crafting/okay.png");
+		AOTDGuiButton saveButton = new AOTDGuiButton(152, 105, 20, 20, null, "afraidofthedark:textures/gui/spellCrafting/okay.png");
 		saveButton.setHoverText("Save Spell");
 		saveButton.addMouseListener(new AOTDMouseListener()
 		{
@@ -91,7 +92,7 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 			public void mouseEntered(AOTDMouseEvent event)
 			{
 				event.getSource().darkenColor(0.1f);
-				Minecraft.getMinecraft().thePlayer.playSound(ModSounds.spellCraftingButtonHover, 0.6f, 1.7f);
+				Minecraft.getMinecraft().thePlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:spellCraftingButtonHover")), 0.6f, 1.7f);
 			}
 
 			@Override
@@ -101,7 +102,7 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 			}
 		});
 		tablet.add(saveButton);
-		AOTDGuiButton closeButton = new AOTDGuiButton(152, 130, 20, 20, null, "afraidofthedark:textures/gui/spell_crafting/delete.png");
+		AOTDGuiButton closeButton = new AOTDGuiButton(152, 130, 20, 20, null, "afraidofthedark:textures/gui/spellCrafting/delete.png");
 		closeButton.setHoverText("Exit without saving");
 		closeButton.addMouseListener(new AOTDMouseListener()
 		{
@@ -116,7 +117,7 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 			public void mouseEntered(AOTDMouseEvent event)
 			{
 				event.getSource().darkenColor(0.1f);
-				Minecraft.getMinecraft().thePlayer.playSound(ModSounds.spellCraftingButtonHover, 0.6f, 1.7f);
+				Minecraft.getMinecraft().thePlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:spellCraftingButtonHover")), 0.6f, 1.7f);
 			}
 
 			@Override
@@ -151,7 +152,7 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 			public void mouseEntered(AOTDMouseEvent event)
 			{
 				event.getSource().darkenColor(0.1f);
-				Minecraft.getMinecraft().thePlayer.playSound(ModSounds.spellCraftingButtonHover, 0.6f, 1.7f);
+				Minecraft.getMinecraft().thePlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:spellCraftingButtonHover")), 0.6f, 1.7f);
 			}
 
 			@Override
@@ -161,7 +162,7 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 			}
 		});
 		tablet.add(powerSource);
-		AOTDGuiImage helpButton = new AOTDGuiImage(152, 180, 20, 20, "afraidofthedark:textures/gui/spell_crafting/question.png");
+		AOTDGuiImage helpButton = new AOTDGuiImage(152, 180, 20, 20, "afraidofthedark:textures/gui/spellCrafting/question.png");
 		helpButton.setHoverText("Help");
 		helpButton.addMouseListener(new AOTDMouseListener()
 		{
@@ -179,7 +180,7 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 			public void mouseEntered(AOTDMouseEvent event)
 			{
 				event.getSource().darkenColor(0.1f);
-				Minecraft.getMinecraft().thePlayer.playSound(ModSounds.spellCraftingButtonHover, 0.6f, 1.7f);
+				Minecraft.getMinecraft().thePlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:spellCraftingButtonHover")), 0.6f, 1.7f);
 			}
 
 			@Override

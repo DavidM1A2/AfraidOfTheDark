@@ -14,7 +14,6 @@ import com.DavidM1A2.AfraidOfTheDark.client.gui.eventListeners.AOTDMouseListener
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.AfraidOfTheDark.client.gui.events.AOTDMouseEvent.MouseButtonClicked;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
-import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModSounds;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
 
 import net.minecraft.init.SoundEvents;
@@ -28,9 +27,9 @@ public class BloodStainedJournalCheatSheetGUI extends AOTDGuiScreen
 	{
 		AOTDGuiPanel background = new AOTDGuiPanel((640 - 256) / 2, (360 - 256) / 2, 256, 256, false);
 		this.getContentPane().add(background);
-		AOTDGuiImage backgroundImage = new AOTDGuiImage(0, 0, 256, 256, "afraidofthedark:textures/gui/blood_stained_journal_cheat_sheet.png");
+		AOTDGuiImage backgroundImage = new AOTDGuiImage(0, 0, 256, 256, "afraidofthedark:textures/gui/bloodStainedJournalCheatSheet.png");
 		background.add(backgroundImage);
-		AOTDGuiButton confirm = new AOTDGuiButton(30, 200, 80, 20, null, "afraidofthedark:textures/gui/blood_stained_journal_cheat_sheet_confirm.png");
+		AOTDGuiButton confirm = new AOTDGuiButton(30, 200, 80, 20, null, "afraidofthedark:textures/gui/bloodStainedJournalCheatSheetConfirm.png");
 		confirm.addMouseListener(new AOTDMouseListener()
 		{
 			@Override
@@ -55,7 +54,7 @@ public class BloodStainedJournalCheatSheetGUI extends AOTDGuiScreen
 			public void mouseEntered(AOTDMouseEvent event)
 			{
 				event.getSource().setColor(new Color(230, 230, 230));
-				entityPlayer.playSound(ModSounds.buttonHover, 0.7f, 1.9f);
+				entityPlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:buttonHover")), 0.7f, 1.9f);
 			}
 
 			@Override
@@ -64,7 +63,7 @@ public class BloodStainedJournalCheatSheetGUI extends AOTDGuiScreen
 				event.getSource().setColor(Color.WHITE);
 			}
 		});
-		AOTDGuiButton deny = new AOTDGuiButton(140, 200, 80, 20, null, "afraidofthedark:textures/gui/blood_stained_journal_cheat_sheet_deny.png");
+		AOTDGuiButton deny = new AOTDGuiButton(140, 200, 80, 20, null, "afraidofthedark:textures/gui/bloodStainedJournalCheatSheetDeny.png");
 		deny.addMouseListener(new AOTDMouseListener()
 		{
 			@Override
@@ -81,7 +80,7 @@ public class BloodStainedJournalCheatSheetGUI extends AOTDGuiScreen
 			public void mouseEntered(AOTDMouseEvent event)
 			{
 				event.getSource().setColor(new Color(230, 230, 230));
-				entityPlayer.playSound(ModSounds.buttonHover, 0.7f, 1.9f);
+				entityPlayer.playSound(new SoundEvent(new ResourceLocation("afraidofthedark:buttonHover")), 0.7f, 1.9f);
 			}
 
 			@Override

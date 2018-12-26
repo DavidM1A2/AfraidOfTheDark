@@ -15,8 +15,8 @@ public class BlockMangrovePlanks extends AOTDBlock
 	public BlockMangrovePlanks()
 	{
 		super(Material.WOOD);
-		this.setUnlocalizedName("mangrove_planks");
-		this.setRegistryName("mangrove_planks");
+		this.setUnlocalizedName("mangrovePlanks");
+		this.setRegistryName("mangrovePlanks");
 		this.setSoundType(SoundType.WOOD);
 		this.blockHardness = 2.0F;
 		this.blockResistance = 1.0F;

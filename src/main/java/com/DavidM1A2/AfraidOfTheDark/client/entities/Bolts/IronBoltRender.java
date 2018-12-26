@@ -10,10 +10,8 @@ import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntityIronBolt;
 import net.minecraft.client.renderer.entity.RenderManager;
 
 // Setup the IronBolt renderer
-public class IronBoltRender<T extends EntityIronBolt> extends BoltRender<T>
-{
-	public IronBoltRender(final RenderManager renderManager)
-	{
-		super(renderManager, "afraidofthedark:textures/entity/iron_bolt.png");
+public class IronBoltRender<T extends EntityIronBolt> extends BoltRender<T> {
+	public IronBoltRender(final RenderManager renderManager) {
+		super(renderManager, "afraidofthedark:textures/entity/ironBolt.png");
 	}
 }

@@ -23,7 +23,7 @@ public enum PowerSources implements ISpellComponentEnum
 			return "1 player vitae per unit cost";
 		}
 	},
-	VitaeLantern(2, "vitae_lantern.png")
+	VitaeLantern(2, "vitaeLantern.png")
 	{
 		@Override
 		public PowerSource newInstance()
@@ -72,7 +72,7 @@ public enum PowerSources implements ISpellComponentEnum
 	private PowerSources(int id, String textureLocation)
 	{
 		this.id = id;
-		this.textureLocation = "afraidofthedark:textures/gui/spell_crafting/power_sources/" + textureLocation;
+		this.textureLocation = "afraidofthedark:textures/gui/spellCrafting/powerSources/" + textureLocation;
 	}
 
 	public int getID()

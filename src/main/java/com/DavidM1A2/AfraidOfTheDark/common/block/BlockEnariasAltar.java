@@ -10,26 +10,43 @@ import com.DavidM1A2.AfraidOfTheDark.common.block.core.AOTDBlock;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModCapabilities;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.ResearchTypes;
+import com.google.common.collect.Lists;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.obj.OBJModel;
+import net.minecraftforge.common.property.ExtendedBlockState;
+import net.minecraftforge.common.property.IExtendedBlockState;
+import net.minecraftforge.common.property.IUnlistedProperty;
 
 public class BlockEnariasAltar extends AOTDBlock
 {
+	private ExtendedBlockState state = new ExtendedBlockState(this, new IProperty[0], new IUnlistedProperty[]
+	{ OBJModel.OBJProperty.INSTANCE });
+
 	public BlockEnariasAltar()
 	{
 		super(Material.PORTAL);
-		this.setUnlocalizedName("enarias_altar");
-		this.setRegistryName("enarias_altar");
+		this.setUnlocalizedName("enariasAltar");
+		this.setRegistryName("enariasAltar");
 		this.setLightLevel(1.0f);
 		this.setResistance(Float.MAX_VALUE);
 		this.setBlockUnbreakable();
+	}
+
+	@Override
+	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos)
+	{
+		OBJModel.OBJState state2 = new OBJModel.OBJState(Lists.newArrayList(OBJModel.Group.ALL), true);
+		return ((IExtendedBlockState) this.state.getBaseState()).withProperty(OBJModel.OBJProperty.INSTANCE, state2);
 	}
 
 	@Override

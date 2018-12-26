@@ -20,7 +20,6 @@ public class BiomeNightmare extends Biome
 	public BiomeNightmare(int biomeID)
 	{
 		super(new Biome.BiomeProperties("Nightmare").setWaterColor(0xFF0000).setBaseHeight(0.125F).setHeightVariation(0.05F).setRainfall(1.0f));
-		this.setRegistryName("nightmare");
 		this.flowers.clear();
 		this.spawnableCreatureList.clear();
 		this.theBiomeDecorator.treesPerChunk = 0;

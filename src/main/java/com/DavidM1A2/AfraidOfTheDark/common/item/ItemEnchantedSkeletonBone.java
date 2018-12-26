@@ -31,8 +31,7 @@ public class ItemEnchantedSkeletonBone extends AOTDItem
 	public ItemEnchantedSkeletonBone()
 	{
 		super();
-		this.setUnlocalizedName("enchanted_skeleton_bone");
-		this.setRegistryName("enchanted_skeleton_bone");
+		this.setUnlocalizedName("enchantedSkeletonBone");
 	}
 
 	/**

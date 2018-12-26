@@ -16,7 +16,7 @@ public class AOTDGuiRecipe extends AOTDGuiPanel
 	public AOTDGuiRecipe(int x, int y, int width, int height, ConvertedRecipe recipe)
 	{
 		super(x, y, width, height, false);
-		CRAFTING_GRID = new AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/journal_crafting2.png");
+		CRAFTING_GRID = new AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/journalCrafting2.png");
 		this.add(CRAFTING_GRID);
 
 		guiItemStacks = new AOTDGuiItemStack[9];

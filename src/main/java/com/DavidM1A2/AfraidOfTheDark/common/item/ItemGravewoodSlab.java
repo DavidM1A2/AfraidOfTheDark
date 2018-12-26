@@ -17,9 +17,5 @@ public class ItemGravewoodSlab extends AOTDItemSlab
 	public ItemGravewoodSlab(final Block block, final BlockGravewoodHalfSlab blockSlabHalf, final BlockGravewoodDoubleSlab blockSlabDouble, final Boolean stacked)
 	{
 		super(block, blockSlabHalf, blockSlabDouble);
-		if (!stacked)
-			this.setRegistryName("gravewood_half_slab");
-		else
-			this.setRegistryName("gravewood_upper_slab");
 	}
 }
