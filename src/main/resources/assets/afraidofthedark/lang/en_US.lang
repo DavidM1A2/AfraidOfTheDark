@@ -97,12 +97,12 @@ keys.afraidofthedark.changeLanternMode=Change Lantern Mode
 
 # Mobs
 entity.werewolf.name=Werewolf
-entity.deee_syft.name=Deee Syft
-entity.enchanted_skeleton.name=Enchanted Skeleton
+entity.deeeSyft.name=Deee Syft
+entity.enchantedSkeleton.name=Enchanted Skeleton
 entity.enaria.name=Enaria
-entity.ghastly_enaria.name=Ghastly Enaria
-entity.splinter_drone.name=Splinter Drone
-entity.splinter_drone_projectile.name=Splinter Drone Projectile
+entity.ghastlyEnaria.name=Ghastly Enaria
+entity.splinterDrone.name=Splinter Drone
+entity.splinterDroneProjectile.name=Splinter Drone Projectile
 
 entity.artwork.name=Artwork
 

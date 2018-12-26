@@ -67,23 +67,23 @@ public class SchematicBlockReplacer
 	private static final Map<Short, Short> knownModProblemIds = new HashMap<Short, Short>()
 	{
 		{
-			put((short) 223, (short) Block.getIdFromBlock(ModBlocks.enariasAltar));
-			put((short) 222, (short) Block.getIdFromBlock(ModBlocks.enariaSpawner));
-			put((short) 221, (short) Block.getIdFromBlock(ModBlocks.glowStalk));
-			put((short) 220, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut));
-			put((short) 219, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate));
-			put((short) 217, (short) Block.getIdFromBlock(ModBlocks.eldritchStone));
-			put((short) 216, (short) Block.getIdFromBlock(ModBlocks.amorphousEldritchMetal));
-			put((short) 215, (short) Block.getIdFromBlock(ModBlocks.eldritchObsidian));
-			put((short) 214, (short) Block.getIdFromBlock(ModBlocks.voidChestPortal));
-			put((short) 210, (short) Block.getIdFromBlock(ModBlocks.igneousBlock));
-			put((short) 209, (short) Block.getIdFromBlock(ModBlocks.starMetalOre));
-			put((short) 208, (short) Block.getIdFromBlock(ModBlocks.meteor));
-			put((short) 204, (short) Block.getIdFromBlock(ModBlocks.gravewoodHalfSlab));
-			put((short) 203, (short) Block.getIdFromBlock(ModBlocks.gravewoodStairs));
-			put((short) 202, (short) Block.getIdFromBlock(ModBlocks.gravewoodPlanks));
-			put((short) 201, (short) Block.getIdFromBlock(ModBlocks.gravewood));
-			put((short) 200, (short) Block.getIdFromBlock(ModBlocks.gravewoodLeaves));
+			put((short) -33, (short) Block.getIdFromBlock(ModBlocks.enariasAltar));
+			put((short) -34, (short) Block.getIdFromBlock(ModBlocks.enariaSpawner));
+			put((short) -35, (short) Block.getIdFromBlock(ModBlocks.glowStalk));
+			put((short) -36, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalStrut));
+			put((short) -37, (short) Block.getIdFromBlock(ModBlocks.gnomishMetalPlate));
+			put((short) -39, (short) Block.getIdFromBlock(ModBlocks.eldritchStone));
+			put((short) -40, (short) Block.getIdFromBlock(ModBlocks.amorphousEldritchMetal));
+			put((short) -41, (short) Block.getIdFromBlock(ModBlocks.eldritchObsidian));
+			put((short) -42, (short) Block.getIdFromBlock(ModBlocks.voidChestPortal));
+			put((short) -46, (short) Block.getIdFromBlock(ModBlocks.igneousBlock));
+			put((short) -47, (short) Block.getIdFromBlock(ModBlocks.starMetalOre));
+			put((short) -48, (short) Block.getIdFromBlock(ModBlocks.meteor));
+			put((short) -52, (short) Block.getIdFromBlock(ModBlocks.gravewoodHalfSlab));
+			put((short) -53, (short) Block.getIdFromBlock(ModBlocks.gravewoodStairs));
+			put((short) -54, (short) Block.getIdFromBlock(ModBlocks.gravewoodPlanks));
+			put((short) -55, (short) Block.getIdFromBlock(ModBlocks.gravewood));
+			put((short) -56, (short) Block.getIdFromBlock(ModBlocks.gravewoodLeaves));
 		}
 	};
 
