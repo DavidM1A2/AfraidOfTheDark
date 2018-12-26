@@ -5,13 +5,13 @@
  */
 package com.DavidM1A2.AfraidOfTheDark.client.entities.bolts;
 
-import net.minecraft.client.renderer.BufferBuilder;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import com.DavidM1A2.AfraidOfTheDark.common.entities.bolts.EntityBolt;
 
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -51,7 +51,7 @@ public abstract class BoltRender<T extends EntityBolt> extends Render<T> {
 				entity.prevRotationPitch + ((entity.rotationPitch - entity.prevRotationPitch) * p_76986_9_),
 				0.0F, 0.0F, 1.0F);
 		final Tessellator tessellator = Tessellator.getInstance();
-		final BufferBuilder bufferBuilder = tessellator.getBuffer();
+		final VertexBuffer vertexBuffer = tessellator.getBuffer();
 		final byte b0 = 0;
 		final float f2 = 0.0F;
 		final float f3 = 0.5F;
@@ -68,43 +68,43 @@ public abstract class BoltRender<T extends EntityBolt> extends Render<T> {
 		GL11.glScalef(f10, f10, f10);
 		GL11.glTranslatef(-4.0F, 0.0F, 0.0F);
 		GL11.glNormal3f(f10, 0.0F, 0.0F);
-		// bufferBuilder.startDrawingQuads();
-		// bufferBuilder.addVertexWithUV(-7.0D, -2.0D, -2.0D, f6, f8);
-		// bufferBuilder.addVertexWithUV(-7.0D, -2.0D, 2.0D, f7, f8);
-		// bufferBuilder.addVertexWithUV(-7.0D, 2.0D, 2.0D, f7, f9);
-		// bufferBuilder.addVertexWithUV(-7.0D, 2.0D, -2.0D, f6, f9);
-		bufferBuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
-		bufferBuilder.pos(-7.0D, -2.0D, -2.0D).tex(f6, f8).endVertex();
-		bufferBuilder.pos(-7.0D, -2.0D, 2.0D).tex(f7, f8).endVertex();
-		bufferBuilder.pos(-7.0D, 2.0D, 2.0D).tex(f7, f9).endVertex();
-		bufferBuilder.pos(-7.0D, 2.0D, -2.0D).tex(f6, f9).endVertex();
+		// vertexBuffer.startDrawingQuads();
+		// vertexBuffer.addVertexWithUV(-7.0D, -2.0D, -2.0D, f6, f8);
+		// vertexBuffer.addVertexWithUV(-7.0D, -2.0D, 2.0D, f7, f8);
+		// vertexBuffer.addVertexWithUV(-7.0D, 2.0D, 2.0D, f7, f9);
+		// vertexBuffer.addVertexWithUV(-7.0D, 2.0D, -2.0D, f6, f9);
+		vertexBuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
+		vertexBuffer.pos(-7.0D, -2.0D, -2.0D).tex(f6, f8).endVertex();
+		vertexBuffer.pos(-7.0D, -2.0D, 2.0D).tex(f7, f8).endVertex();
+		vertexBuffer.pos(-7.0D, 2.0D, 2.0D).tex(f7, f9).endVertex();
+		vertexBuffer.pos(-7.0D, 2.0D, -2.0D).tex(f6, f9).endVertex();
 		tessellator.draw();
 		GL11.glNormal3f(-f10, 0.0F, 0.0F);
-		// bufferBuilder.startDrawingQuads();
-		// bufferBuilder.addVertexWithUV(-7.0D, 2.0D, -2.0D, f6, f8);
-		// bufferBuilder.addVertexWithUV(-7.0D, 2.0D, 2.0D, f7, f8);
-		// bufferBuilder.addVertexWithUV(-7.0D, -2.0D, 2.0D, f7, f9);
-		// bufferBuilder.addVertexWithUV(-7.0D, -2.0D, -2.0D, f6, f9);
-		bufferBuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
-		bufferBuilder.pos(-7.0D, 2.0D, -2.0D).tex(f6, f8).endVertex();
-		bufferBuilder.pos(-7.0D, 2.0D, 2.0D).tex(f7, f8).endVertex();
-		bufferBuilder.pos(-7.0D, -2.0D, 2.0D).tex(f7, f9).endVertex();
-		bufferBuilder.pos(-7.0D, -2.0D, -2.0D).tex(f6, f9).endVertex();
+		// vertexBuffer.startDrawingQuads();
+		// vertexBuffer.addVertexWithUV(-7.0D, 2.0D, -2.0D, f6, f8);
+		// vertexBuffer.addVertexWithUV(-7.0D, 2.0D, 2.0D, f7, f8);
+		// vertexBuffer.addVertexWithUV(-7.0D, -2.0D, 2.0D, f7, f9);
+		// vertexBuffer.addVertexWithUV(-7.0D, -2.0D, -2.0D, f6, f9);
+		vertexBuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
+		vertexBuffer.pos(-7.0D, 2.0D, -2.0D).tex(f6, f8).endVertex();
+		vertexBuffer.pos(-7.0D, 2.0D, 2.0D).tex(f7, f8).endVertex();
+		vertexBuffer.pos(-7.0D, -2.0D, 2.0D).tex(f7, f9).endVertex();
+		vertexBuffer.pos(-7.0D, -2.0D, -2.0D).tex(f6, f9).endVertex();
 		tessellator.draw();
 
 		for (int i = 0; i < 4; ++i) {
 			GL11.glRotatef(90.0F, 1.0F, 0.0F, 0.0F);
 			GL11.glNormal3f(0.0F, 0.0F, f10);
-			// bufferBuilder.startDrawingQuads();
-			// bufferBuilder.addVertexWithUV(-8.0D, -2.0D, 0.0D, f2, f4);
-			// bufferBuilder.addVertexWithUV(8.0D, -2.0D, 0.0D, f3, f4);
-			// bufferBuilder.addVertexWithUV(8.0D, 2.0D, 0.0D, f3, f5);
-			// bufferBuilder.addVertexWithUV(-8.0D, 2.0D, 0.0D, f2, f5);
-			bufferBuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
-			bufferBuilder.pos(-8.0D, -2.0D, 0.0D).tex(f2, f4).endVertex();
-			bufferBuilder.pos(8.0D, -2.0D, 0.0D).tex(f3, f4).endVertex();
-			bufferBuilder.pos(8.0D, 2.0D, 0.0D).tex(f3, f5).endVertex();
-			bufferBuilder.pos(-8.0D, 2.0D, 0.0D).tex(f2, f5).endVertex();
+			// vertexBuffer.startDrawingQuads();
+			// vertexBuffer.addVertexWithUV(-8.0D, -2.0D, 0.0D, f2, f4);
+			// vertexBuffer.addVertexWithUV(8.0D, -2.0D, 0.0D, f3, f4);
+			// vertexBuffer.addVertexWithUV(8.0D, 2.0D, 0.0D, f3, f5);
+			// vertexBuffer.addVertexWithUV(-8.0D, 2.0D, 0.0D, f2, f5);
+			vertexBuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
+			vertexBuffer.pos(-8.0D, -2.0D, 0.0D).tex(f2, f4).endVertex();
+			vertexBuffer.pos(8.0D, -2.0D, 0.0D).tex(f3, f4).endVertex();
+			vertexBuffer.pos(8.0D, 2.0D, 0.0D).tex(f3, f5).endVertex();
+			vertexBuffer.pos(-8.0D, 2.0D, 0.0D).tex(f2, f5).endVertex();
 			tessellator.draw();
 		}
 

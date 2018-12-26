@@ -158,12 +158,12 @@ public class ResearchAchieved extends Gui
 
 			if (this.permanentNotification)
 			{
-				this.mc.fontRenderer.drawSplitString(this.achievementDescription, i + 30, j + 7, 120, -1);
+				this.mc.fontRendererObj.drawSplitString(this.achievementDescription, i + 30, j + 7, 120, -1);
 			}
 			else
 			{
-				this.mc.fontRenderer.drawString(this.achievementTitle, i + 30, j + 7, -256);
-				this.mc.fontRenderer.drawString(this.achievementDescription, i + 30, j + 18, -1);
+				this.mc.fontRendererObj.drawString(this.achievementTitle, i + 30, j + 7, -256);
+				this.mc.fontRendererObj.drawString(this.achievementDescription, i + 30, j + 18, -1);
 			}
 
 			RenderHelper.enableGUIStandardItemLighting();
