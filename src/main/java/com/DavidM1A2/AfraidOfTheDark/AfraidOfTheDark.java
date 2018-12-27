@@ -5,6 +5,7 @@
  */
 package com.DavidM1A2.AfraidOfTheDark;
 
+import java.io.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -33,12 +34,17 @@ import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModOreDictionaryCompat
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModPotionEffects;
 import com.DavidM1A2.AfraidOfTheDark.common.initializeMod.ModRecipes;
 import com.DavidM1A2.AfraidOfTheDark.common.packets.minersBasicMessageHandler.PacketHandler;
+import com.DavidM1A2.AfraidOfTheDark.common.reference.AOTDSchematics;
 import com.DavidM1A2.AfraidOfTheDark.common.reference.Reference;
+import com.DavidM1A2.AfraidOfTheDark.common.schematic.Schematic;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.proxy.IProxy;
 
 import io.netty.util.concurrent.DefaultThreadFactory;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.init.Blocks;
+import net.minecraft.nbt.*;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -49,6 +55,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
+import org.apache.commons.lang3.ArrayUtils;
 
 /*
  * Main class run when the mod is started up
@@ -141,6 +148,52 @@ public class AfraidOfTheDark
 		{
 			LogHelper.info("Pre-Initialization Complete");
 		}
+
+		// Hack used to update schematics from 1.8.9 to 1.12
+		/*
+		for (AOTDSchematics schematics : AOTDSchematics.values())
+		{
+			Schematic schematic = schematics.getSchematic();
+			try
+			{
+				OutputStream schemOutStream = new FileOutputStream(new File("./schem/" + schematics.name() + ".schematic"));
+				NBTTagCompound nbtOut = new NBTTagCompound();
+
+				nbtOut.setShort("Width", schematic.getWidth());
+				nbtOut.setShort("Height", schematic.getHeight());
+				nbtOut.setShort("Length", schematic.getLength());
+				nbtOut.setTag("TileEntities", schematic.getTileentities());
+				nbtOut.setTag("Entities", schematic.getEntities());
+
+				int[] dataArr = new int[schematic.getData().length];
+				byte[] rawData = schematic.getData();
+				for (int i = 0; i < rawData.length; i++)
+				{
+					dataArr[i] = rawData[i];
+				}
+				NBTTagIntArray data = new NBTTagIntArray(dataArr);
+				nbtOut.setTag("Data", data);
+
+				short[] rawBlocks = schematic.getBlocks();
+				NBTTagList blocks = new NBTTagList();
+				for (short rawBlock : rawBlocks)
+					blocks.appendTag(new NBTTagString(Block.getBlockById(rawBlock).getRegistryName()));
+				nbtOut.setTag("Blocks", blocks);
+
+				CompressedStreamTools.writeCompressed(nbtOut, schemOutStream);
+				schemOutStream.close();
+			}
+			catch (FileNotFoundException e)
+			{
+				e.printStackTrace();
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		System.exit(0);
+		*/
 	}
 
 	/**
