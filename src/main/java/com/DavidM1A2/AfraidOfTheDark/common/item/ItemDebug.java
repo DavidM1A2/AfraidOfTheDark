@@ -1,16 +1,12 @@
 package com.DavidM1A2.afraidofthedark.common.item;
 
-import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
-import com.DavidM1A2.afraidofthedark.common.capabilities.world.OverworldHeightSavedData;
+import com.DavidM1A2.afraidofthedark.common.constants.ModSchematics;
 import com.DavidM1A2.afraidofthedark.common.item.core.AOTDItem;
-import com.DavidM1A2.afraidofthedark.common.worldGeneration.WorldHeightMapper;
+import com.DavidM1A2.afraidofthedark.common.schematic.SchematicGenerator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 /**
@@ -37,6 +33,7 @@ public class ItemDebug extends AOTDItem
 	{
 		if (!worldIn.isRemote)
 		{
+			/*
 			OverworldHeightSavedData x = OverworldHeightSavedData.get(worldIn);
 			if (x != null)
 			{
@@ -51,6 +48,8 @@ public class ItemDebug extends AOTDItem
 					playerIn.sendMessage(new TextComponentString("Height unknown..."));
 				}
 			}
+			*/
+			SchematicGenerator.generateSchematic(ModSchematics.CRYPT, worldIn, playerIn.getPosition().add(3, 0, 3));
 		}
 
 		return super.onItemRightClick(worldIn, playerIn, handIn);

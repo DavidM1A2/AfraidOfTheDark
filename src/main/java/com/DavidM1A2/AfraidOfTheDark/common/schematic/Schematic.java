@@ -1,5 +1,6 @@
 package com.DavidM1A2.afraidofthedark.common.schematic;
 
+import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagList;
 
 /**
@@ -16,9 +17,9 @@ public class Schematic
 	// The length of the schematic
 	private final short length;
 	// The block IDs inside the schematic
-	private final short[] blocks;
+	private final Block[] blocks;
 	// The raw byte data for each block
-	private final byte[] data;
+	private final int[] data;
 	// A list of entities inside the schematic
 	private final NBTTagList entities;
 
@@ -33,7 +34,7 @@ public class Schematic
 	 * @param data The block data of each block inside the schematic
 	 * @param entities The entities inside the schematic
 	 */
-	public Schematic(NBTTagList tileEntities, short width, short height, short length, short[] blocks, byte[] data, NBTTagList entities)
+	public Schematic(NBTTagList tileEntities, short width, short height, short length, Block[] blocks, int[] data, NBTTagList entities)
 	{
 		this.tileEntities = tileEntities;
 		this.width = width;
@@ -68,12 +69,12 @@ public class Schematic
 		return length;
 	}
 
-	public short[] getBlocks()
+	public Block[] getBlocks()
 	{
 		return blocks;
 	}
 
-	public byte[] getData()
+	public int[] getData()
 	{
 		return data;
 	}
