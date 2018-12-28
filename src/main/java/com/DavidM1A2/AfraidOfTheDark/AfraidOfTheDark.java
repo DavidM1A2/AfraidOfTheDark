@@ -40,6 +40,7 @@ import com.DavidM1A2.AfraidOfTheDark.common.schematic.Schematic;
 import com.DavidM1A2.AfraidOfTheDark.common.utility.LogHelper;
 import com.DavidM1A2.AfraidOfTheDark.proxy.IProxy;
 
+import com.google.common.base.CaseFormat;
 import io.netty.util.concurrent.DefaultThreadFactory;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -150,13 +151,12 @@ public class AfraidOfTheDark
 		}
 
 		// Hack used to update schematics from 1.8.9 to 1.12
-		/*
 		for (AOTDSchematics schematics : AOTDSchematics.values())
 		{
 			Schematic schematic = schematics.getSchematic();
 			try
 			{
-				OutputStream schemOutStream = new FileOutputStream(new File("./schem/" + schematics.name() + ".schematic"));
+				OutputStream schemOutStream = new FileOutputStream(new File("./schem/" + CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, schematics.name()) + ".schematic"));
 				NBTTagCompound nbtOut = new NBTTagCompound();
 
 				nbtOut.setShort("Width", schematic.getWidth());
@@ -177,7 +177,11 @@ public class AfraidOfTheDark
 				short[] rawBlocks = schematic.getBlocks();
 				NBTTagList blocks = new NBTTagList();
 				for (short rawBlock : rawBlocks)
-					blocks.appendTag(new NBTTagString(Block.getBlockById(rawBlock).getRegistryName()));
+				{
+					String registryName = Block.getBlockById(rawBlock).getRegistryName();
+					registryName = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, registryName);
+					blocks.appendTag(new NBTTagString(registryName));
+				}
 				nbtOut.setTag("Blocks", blocks);
 
 				CompressedStreamTools.writeCompressed(nbtOut, schemOutStream);
@@ -193,7 +197,6 @@ public class AfraidOfTheDark
 			}
 		}
 		System.exit(0);
-		*/
 	}
 
 	/**
