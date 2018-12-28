@@ -11,6 +11,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 /**
@@ -86,28 +87,70 @@ public class SchematicGenerator
 	 */
 	private static void generateBlocks(Schematic schematic, World world, BlockPos blockPos, ChunkPos chunkPos)
 	{
-		// Iterate over all 3 axis of the schematic
-		for (int y = blockPos.getY(); y < blockPos.getY() + schematic.getHeight(); y++)
-		{
-			int tmpY = (y - blockPos.getY()) * schematic.getLength() * schematic.getWidth();
-			for (int z = blockPos.getZ(); z < blockPos.getZ() + schematic.getLength(); z++)
-			{
-				int tmpZ = (z - blockPos.getZ()) * schematic.getWidth();
-				for (int x = blockPos.getX(); x < blockPos.getX() + schematic.getWidth(); x++)
-				{
-					int index = tmpY + tmpZ + (x - blockPos.getX());
-					Block nextToPlace = schematic.getBlocks()[index];
+		// Store the schematic variables up here so we don't have lots of superfluous method calls. Method calls are slow
+		// if they happen over and over again, instead cache our variable values and then do simply math which is much
+		// faster!
+		int posX = blockPos.getX();
+		int posY = blockPos.getY();
+		int posZ = blockPos.getZ();
+		Block[] blocks = schematic.getBlocks();
+		int[] data = schematic.getData();
+		short width = schematic.getWidth();
+		short height = schematic.getHeight();
+		short length = schematic.getLength();
 
+		// Compute the starting x, y, and z positions as well as the ending x, y, and z positions. We use this information
+		// to only generate one chunk at a time if requested.
+		int startY = posY;
+		int endY = posY + height;
+		int startZ = posZ;
+		int endZ = posZ + length;
+		int startX = posX;
+		int endX = posX + width;
+
+		// If we should only generate a single chunk update our start and end X/Z to respect that
+		if (chunkPos != null)
+		{
+			startZ = MathHelper.clamp(startZ, chunkPos.getZStart(), chunkPos.getZEnd() + 1);
+			endZ = MathHelper.clamp(endZ, chunkPos.getZStart(), chunkPos.getZEnd() + 1);
+
+			startX = MathHelper.clamp(startX, chunkPos.getXStart(), chunkPos.getXEnd() + 1);
+			endX = MathHelper.clamp(endX, chunkPos.getXStart(), chunkPos.getXEnd() + 1);
+		}
+
+		// Iterate over the Y axis first since that's the format that schematics use
+		for (int y = startY; y < endY; y++)
+		{
+			// Get the y index which we can use to index into the blocks array
+			int indexY = (y - posY) * length * width;
+			// Iterate over the Z axis second
+			for (int z = startZ; z < endZ; z++)
+			{
+				// Get the z index which we can use to index into the blocks array
+				int indexZ = (z - posZ) * width;
+				// Iterate over the X axis last
+				for (int x = startX; x < endX; x++)
+				{
+					// Get the x index which we can use to index into the blocks array
+					int indexX = x - posX;
+					// Compute the index into our blocks array
+					int index = indexY + indexZ + indexX;
+					// Grab the reference to the next block to place
+					Block nextToPlace = blocks[index];
+
+					// If the block in the schematic is air then ignore it
 					if (nextToPlace != Blocks.AIR)
 					{
 						// Diamond blocks represent air blocks in my schematic system. This allows for easy underground structure generation.
 						if (nextToPlace == Blocks.DIAMOND_BLOCK)
 						{
+							// Set the block to air
 							world.setBlockToAir(new BlockPos(x, y, z));
 						}
 						else
 						{
-							world.setBlockState(new BlockPos(x, y, z), nextToPlace.getStateFromMeta(schematic.getData()[index]));
+							// Otherwise set the block based on state from the data array
+							world.setBlockState(new BlockPos(x, y, z), nextToPlace.getStateFromMeta(data[index]));
 						}
 					}
 				}

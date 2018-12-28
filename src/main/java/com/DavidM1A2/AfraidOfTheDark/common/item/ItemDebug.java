@@ -1,5 +1,6 @@
 package com.DavidM1A2.afraidofthedark.common.item;
 
+import com.DavidM1A2.afraidofthedark.common.constants.ModLootTables;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSchematics;
 import com.DavidM1A2.afraidofthedark.common.item.core.AOTDItem;
 import com.DavidM1A2.afraidofthedark.common.schematic.SchematicGenerator;
@@ -7,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 
 /**
@@ -49,7 +51,36 @@ public class ItemDebug extends AOTDItem
 				}
 			}
 			*/
-			SchematicGenerator.generateSchematic(ModSchematics.CRYPT, worldIn, playerIn.getPosition().add(3, 0, 3));
+
+			/*
+			SchematicGenerator.generateSchematic(
+					ModSchematics.CRYPT,
+					worldIn,
+					playerIn.getPosition().add(3, 0, 3),
+					new ChunkPos(playerIn.chunkCoordX + 1, playerIn.chunkCoordZ + 1),
+					ModLootTables.CRYPT);
+
+			SchematicGenerator.generateSchematic(
+					ModSchematics.CRYPT,
+					worldIn,
+					playerIn.getPosition().add(3, 0, 3),
+					new ChunkPos(playerIn.chunkCoordX + 2, playerIn.chunkCoordZ + 1),
+					ModLootTables.CRYPT);
+
+			SchematicGenerator.generateSchematic(
+					ModSchematics.CRYPT,
+					worldIn,
+					playerIn.getPosition().add(3, 0, 3),
+					new ChunkPos(playerIn.chunkCoordX + 2, playerIn.chunkCoordZ + 2),
+					ModLootTables.CRYPT);
+
+			SchematicGenerator.generateSchematic(
+					ModSchematics.CRYPT,
+					worldIn,
+					playerIn.getPosition().add(3, 0, 3),
+					new ChunkPos(playerIn.chunkCoordX + 1, playerIn.chunkCoordZ + 2),
+					ModLootTables.CRYPT);
+			*/
 		}
 
 		return super.onItemRightClick(worldIn, playerIn, handIn);
