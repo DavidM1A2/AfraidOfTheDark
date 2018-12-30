@@ -1,15 +1,16 @@
 package com.DavidM1A2.afraidofthedark.common.worldGeneration;
 
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
-import com.DavidM1A2.afraidofthedark.common.capabilities.world.OverworldHeightSavedData;
+import com.DavidM1A2.afraidofthedark.common.capabilities.world.IHeightmap;
+import com.DavidM1A2.afraidofthedark.common.capabilities.world.OverworldHeightmap;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.ChunkGeneratorOverworld;
 import net.minecraft.world.gen.ChunkProviderServer;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
@@ -18,11 +19,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class WorldHeightMapper
 {
 	/**
-	 * Called whenever a chunk is generated and needs population, we update our terrain generation here
+	 * Called whenever a chunk is generated and needs population, we update our terrain height map here
 	 *
 	 * @param event The event containing the chunk and world
 	 */
-	@SubscribeEvent()
+	@SubscribeEvent(priority = EventPriority.HIGH)
 	public void onChunkPopulated(PopulateChunkEvent.Pre event)
 	{
 		// Get a reference to the world
@@ -64,7 +65,7 @@ public class WorldHeightMapper
 				ChunkPrimer chunkPrimer = new ChunkPrimer();
 
 				// Grab data for the world object
-				OverworldHeightSavedData heightmap = OverworldHeightSavedData.get(worldServer);
+				IHeightmap heightmap = OverworldHeightmap.get(worldServer);
 
 				// This should not happen, but in case it does throw an error
 				if (heightmap == null)

@@ -1,4 +1,4 @@
-package com.DavidM1A2.afraidofthedark.common.schematic;
+package com.DavidM1A2.afraidofthedark.common.worldGeneration.schematic;
 
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagList;

@@ -1,4 +1,4 @@
-package com.DavidM1A2.afraidofthedark.common.schematic;
+package com.DavidM1A2.afraidofthedark.common.worldGeneration.schematic;
 
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import net.minecraft.block.Block;
@@ -9,7 +9,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
 import org.codehaus.plexus.util.ExceptionUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 

@@ -5,7 +5,6 @@ import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import javafx.util.Pair;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldSavedData;
@@ -18,10 +17,10 @@ import java.util.Map;
 /**
  * Class used to store the overworld's heightmap
  */
-public class OverworldHeightSavedData extends WorldSavedData
+public class OverworldHeightmap extends WorldSavedData implements IHeightmap
 {
 	// The ID of the AOTD overworld heightmap
-	private static final String IDENTIFIER = Constants.MOD_ID + "_OverworldHeightmap";
+	private static final String IDENTIFIER = Constants.MOD_ID + "_overworld_heightmap";
 
 	// The actual heightmap that we are saving
 	private Map<Point2i, Pair<Integer, Integer>> posToHeight = new HashMap<>();
@@ -29,7 +28,7 @@ public class OverworldHeightSavedData extends WorldSavedData
 	/**
 	 * Constructor just calls super with our ID
 	 */
-	public OverworldHeightSavedData()
+	public OverworldHeightmap()
 	{
 		this(IDENTIFIER);
 	}
@@ -39,7 +38,7 @@ public class OverworldHeightSavedData extends WorldSavedData
 	 *
 	 * @param identifier The ID to use for this data
 	 */
-	public OverworldHeightSavedData(String identifier)
+	public OverworldHeightmap(String identifier)
 	{
 		super(identifier);
 	}
@@ -50,7 +49,7 @@ public class OverworldHeightSavedData extends WorldSavedData
 	 * @param world The world to get data for
 	 * @return The data for that world or null if it is not present
 	 */
-	public static OverworldHeightSavedData get(World world)
+	public static OverworldHeightmap get(World world)
 	{
 		// If we are on client side or the world is not the overworld return 0
 		if (world.isRemote || world.provider.getDimension() != 0)
@@ -59,18 +58,18 @@ public class OverworldHeightSavedData extends WorldSavedData
 		// Grab the storage object for this world
 		MapStorage storage = world.getPerWorldStorage();
 		// Get the saved heightmap data for this world
-		OverworldHeightSavedData heightSavedData = (OverworldHeightSavedData) storage.getOrLoadData(OverworldHeightSavedData.class, IDENTIFIER);
+		OverworldHeightmap heightmap = (OverworldHeightmap) storage.getOrLoadData(OverworldHeightmap.class, IDENTIFIER);
 
 		// If it does not exist, instantiate new heightmap data and store it into the storage object
-		if (heightSavedData == null)
+		if (heightmap == null)
 		{
-			heightSavedData = new OverworldHeightSavedData();
-			storage.setData(IDENTIFIER, heightSavedData);
-			heightSavedData.markDirty();
+			heightmap = new OverworldHeightmap();
+			storage.setData(IDENTIFIER, heightmap);
+			heightmap.markDirty();
 		}
 
 		// Return the data
-		return heightSavedData;
+		return heightmap;
 	}
 
 	/**
@@ -129,6 +128,7 @@ public class OverworldHeightSavedData extends WorldSavedData
 	 * @param chunkPos The chunk to test
 	 * @return True if we know the height of this position, false otherwise
 	 */
+	@Override
 	public boolean heightKnown(ChunkPos chunkPos)
 	{
 		return this.posToHeight.containsKey(new Point2i(chunkPos.x, chunkPos.z));
@@ -141,6 +141,7 @@ public class OverworldHeightSavedData extends WorldSavedData
 	 * @param low The lowest height of that chunk
 	 * @param high The highest height of that chunk
 	 */
+	@Override
 	public void setHeight(ChunkPos chunkPos, int low, int high)
 	{
 		this.posToHeight.put(new Point2i(chunkPos.x, chunkPos.z), new Pair<>(low, high));
@@ -153,6 +154,7 @@ public class OverworldHeightSavedData extends WorldSavedData
 	 * @param chunkPos The position of the chunk
 	 * @return The low height of that position
 	 */
+	@Override
 	public int getLowestHeight(ChunkPos chunkPos)
 	{
 		return this.posToHeight.get(new Point2i(chunkPos.x, chunkPos.z)).getKey();
@@ -164,6 +166,7 @@ public class OverworldHeightSavedData extends WorldSavedData
 	 * @param chunkPos The position of the chunk
 	 * @return The high height of that position
 	 */
+	@Override
 	public int getHighestHeight(ChunkPos chunkPos)
 	{
 		return this.posToHeight.get(new Point2i(chunkPos.x, chunkPos.z)).getValue();

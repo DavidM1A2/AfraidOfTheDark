@@ -1,14 +1,10 @@
 package com.DavidM1A2.afraidofthedark.common.item;
 
-import com.DavidM1A2.afraidofthedark.common.constants.ModLootTables;
-import com.DavidM1A2.afraidofthedark.common.constants.ModSchematics;
 import com.DavidM1A2.afraidofthedark.common.item.core.AOTDItem;
-import com.DavidM1A2.afraidofthedark.common.schematic.SchematicGenerator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 
 /**
@@ -36,7 +32,7 @@ public class ItemDebug extends AOTDItem
 		if (!worldIn.isRemote)
 		{
 			/*
-			OverworldHeightSavedData x = OverworldHeightSavedData.get(worldIn);
+			OverworldHeightmap x = OverworldHeightmap.get(worldIn);
 			if (x != null)
 			{
 				BlockPos position = playerIn.getPosition();

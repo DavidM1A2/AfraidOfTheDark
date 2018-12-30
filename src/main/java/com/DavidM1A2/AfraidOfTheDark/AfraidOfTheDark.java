@@ -4,21 +4,19 @@ import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiHandler;
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import com.DavidM1A2.afraidofthedark.common.handler.*;
 import com.DavidM1A2.afraidofthedark.common.packets.packetHandler.PacketHandler;
-import com.DavidM1A2.afraidofthedark.common.schematic.SchematicLoader;
+import com.DavidM1A2.afraidofthedark.common.worldGeneration.AOTDWorldGenerator;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.WorldHeightMapper;
+import com.DavidM1A2.afraidofthedark.common.worldGeneration.WorldStructurePlanner;
 import com.DavidM1A2.afraidofthedark.proxy.IProxy;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.gen.NoiseGeneratorPerlin;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.terraingen.InitNoiseGensEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.Logger;
 
 /**
@@ -66,10 +64,16 @@ public class AfraidOfTheDark
 		MinecraftForge.EVENT_BUS.register(new BiomeRegister());
 		// Register our sound handler used to add all of our mod sounds to the game
 		MinecraftForge.EVENT_BUS.register(new SoundRegister());
+		// Register our structure handler used to add all of our mod structures to the game
+		MinecraftForge.EVENT_BUS.register(new StructureRegister());
 		// Forward any capability events to our capability handler
 		MinecraftForge.EVENT_BUS.register(new CapabilityHandler());
 		// Forward any chunk creation events to our world generation height mapper
 		MinecraftForge.EVENT_BUS.register(new WorldHeightMapper());
+		// Forward any chunk creation events to our world structure planner
+		MinecraftForge.EVENT_BUS.register(new WorldStructurePlanner());
+		// Register our AOTD world generator
+		GameRegistry.registerWorldGenerator(new AOTDWorldGenerator(), configurationHandler.getWorldGenPriority());
 		// Register our GUI handler that lets us open UIs for specific players
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new AOTDGuiHandler());
 		// Register all AOTD packets
@@ -100,7 +104,6 @@ public class AfraidOfTheDark
 	@Mod.EventHandler
 	public void postInitialization(FMLPostInitializationEvent event)
 	{
-
 	}
 
 	/**
@@ -111,7 +114,6 @@ public class AfraidOfTheDark
 	@Mod.EventHandler
 	public void serverStartingEvent(FMLServerStartingEvent event)
 	{
-
 	}
 
 	/**

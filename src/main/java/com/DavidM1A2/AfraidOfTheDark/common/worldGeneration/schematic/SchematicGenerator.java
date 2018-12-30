@@ -1,4 +1,4 @@
-package com.DavidM1A2.afraidofthedark.common.schematic;
+package com.DavidM1A2.afraidofthedark.common.worldGeneration.schematic;
 
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.LootTable;
 import net.minecraft.block.Block;

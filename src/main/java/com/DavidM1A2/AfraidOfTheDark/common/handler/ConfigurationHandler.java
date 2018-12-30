@@ -38,6 +38,7 @@ public class ConfigurationHandler
 	private boolean debugMessages = false;
 	private boolean enableAOTDAnimations = true;
 	private boolean enableWorldGenLightUpdates = false;
+	private int worldGenPriority = 0;
 
 	///
 	/// Two categories of properties
@@ -103,6 +104,8 @@ public class ConfigurationHandler
 		this.enableAOTDAnimations = this.configuration.getBoolean("Entity Animations Enabled", Configuration.CATEGORY_GENERAL, true, "Disable this to remove all animations from entities in the Afraid of the Dark mod. This may improve performance but mod entities will no longer have animations.");
 
 		this.enableWorldGenLightUpdates = this.configuration.getBoolean("World Generation Lighting Updates", Configuration.CATEGORY_GENERAL, false, "Enabling this will decrease world generation performance but decrease the chance of lighting glitches in AOTD dungeons.");
+
+		this.worldGenPriority = this.configuration.getInt("World Generation Priority", Configuration.CATEGORY_GENERAL, 0, -1000, 1000, "Sets the priority for afraid of the dark world generation. Higher numbers result in world generation running after other mods.");
 
 		// If we changed the configuration at all, save it
 		if (this.configuration.hasChanged())
@@ -204,5 +207,10 @@ public class ConfigurationHandler
 	public boolean enableWorldGenLightUpdates()
 	{
 		return this.enableWorldGenLightUpdates;
+	}
+
+	public int getWorldGenPriority()
+	{
+		return this.worldGenPriority;
 	}
 }
