@@ -67,7 +67,7 @@ public class WorldHeightMapper
 				ChunkGeneratorOverworld chunkGenerator = (ChunkGeneratorOverworld) chunkProvider.chunkGenerator;
 
 				// Allocate one chunk primer to predict chunks
-				ChunkPrimer chunkPrimer = new ChunkPrimer();
+				// ChunkPrimer chunkPrimer = new ChunkPrimer();
 
 				// Grab data for the world object
 				IHeightmap heightmap = OverworldHeightmap.get(worldServer);

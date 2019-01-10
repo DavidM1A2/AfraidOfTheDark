@@ -80,39 +80,29 @@ public class WorldStructurePlanner
 				{
 					// Compute a list of possible positionings of this structure
 					List<BlockPos> positions = new LinkedList<>();
-					BlockPos basePos;
 
-					int remainingWidth = structure.getXWidth();
-					while(remainingWidth > 0)
-					{
-						// Iterate with the top of the structure intersecting this chunk
-						basePos = chunk0Corner.add(15 - (structure.getXWidth() - remainingWidth), 0, 0);
-						positions.add(basePos);
-						positions.add(basePos.add(-world.rand.nextInt(MathHelper.clamp(remainingWidth, 0, 16)), 0, world.rand.nextInt(16)));
+					// Here we use a heuristic to test if a structure will fit inside of a chunk, we only test if we place the corners of the chunk
+					// inside the chunkpos instead of all possible positionings of the structure over the chunk
 
-						// Iterate with the bottom of the structure intersecting this chunk
-						basePos = chunk0Corner.add(15 - (structure.getXWidth() - remainingWidth), 0, 15 + structure.getZLength());
-						positions.add(basePos);
-						positions.add(basePos.add(-world.rand.nextInt(MathHelper.clamp(remainingWidth, 0, 16)), 0, -world.rand.nextInt(16)));
+					// Position the structure in the top right of the chunk
+					BlockPos topRight = chunk0Corner.add(15, 0, 15);
+					positions.add(topRight);
+					positions.add(topRight.add(-world.rand.nextInt(16), 0, -world.rand.nextInt(16)));
 
-						remainingWidth = remainingWidth - 16;
-					}
+					// Position the structure in the top left of the chunk
+					BlockPos topLeft = chunk0Corner.add(0 - structure.getXWidth(), 0, 15);
+					positions.add(topLeft);
+					positions.add(topLeft.add(world.rand.nextInt(16), 0, -world.rand.nextInt(16)));
 
-					int remainingHeight = structure.getZLength();
-					while (remainingHeight > 0)
-					{
-						// Iterate with the left of the structure intersecting this chunk
-						basePos = chunk0Corner.add(15, 0, 15 - (structure.getZLength() - remainingHeight));
-						positions.add(basePos);
-						positions.add(basePos.add(-world.rand.nextInt(16), 0, -world.rand.nextInt(MathHelper.clamp(remainingHeight, 0, 16))));
+					// Position the structure in the bottom left of the chunk
+					BlockPos bottomLeft = chunk0Corner.add(0 - structure.getXWidth(), 0, 0 - structure.getZLength());
+					positions.add(bottomLeft);
+					positions.add(bottomLeft.add(world.rand.nextInt(16), 0, world.rand.nextInt(16)));
 
-						// Iterate with the right of the structure intersecting this chunk
-						basePos = chunk0Corner.add(0 - structure.getZLength(), 0, 15 - (structure.getZLength() - remainingHeight));
-						positions.add(basePos);
-						positions.add(basePos.add(world.rand.nextInt(16), 0, -world.rand.nextInt(MathHelper.clamp(remainingHeight, 0, 16))));
-
-						remainingHeight = remainingHeight - 16;
-					}
+					// Position the structure in the bottom right of the chunk
+					BlockPos bottomRight = chunk0Corner.add(15, 0, 0 - structure.getZLength());
+					positions.add(bottomRight);
+					positions.add(bottomRight.add(-world.rand.nextInt(16), 0, world.rand.nextInt(16)));
 
 					// Each even index contains one extreme corner positioning, and each odd index contains a randomized permutation of that
 					// positioning which we would actually generate at
@@ -124,12 +114,46 @@ public class WorldStructurePlanner
 						// and if the structure would fit based on the heightmap
 						if (structurePlan.structureFitsAt(structure, possiblePos) && structure.canGenerateAt(possiblePos, heightmap))
 						{
+							// Grab the randomized position to generate the structure at
+							BlockPos posToGenerate = positions.get(i + 1);
+
 							// Place the structure into our structure plan
-							structurePlan.placeStructureAt(structure, positions.get(i + 1));
+							structurePlan.placeStructureAt(structure, posToGenerate);
+
+							// Generate any chunks that this structure will generate in that are already generated
+							this.generateExistingChunks(structure, world, posToGenerate);
+
 							// We planned a structure for this chunk so return out
 							return;
 						}
 					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * When we plan a structure it may overlap existing chunks so we need to generate the structure in those chunks
+	 *
+	 * @param structure The structure to generate
+	 * @param world The world to generate in
+	 * @param posToGenerate The position to generate at
+	 */
+	private void generateExistingChunks(Structure structure, World world, BlockPos posToGenerate)
+	{
+		// Compute the bottom left and top right chunk position
+		ChunkPos bottomLeftCorner = new ChunkPos(posToGenerate);
+		ChunkPos topRightCorner = new ChunkPos(posToGenerate.add(structure.getXWidth(), 0, structure.getZLength()));
+
+		// Iterate over all chunks in the region and test if the world has a given chunk or not yet
+		for (int chunkX = bottomLeftCorner.x; chunkX <= topRightCorner.x; chunkX++)
+		{
+			for (int chunkZ = bottomLeftCorner.z; chunkZ <= topRightCorner.z; chunkZ++)
+			{
+				// If the chunk is generated at the coordinates then generate the structure at that position
+				if (world.isChunkGeneratedAt(chunkX, chunkZ))
+				{
+					structure.generate(world, posToGenerate, new ChunkPos(chunkX, chunkZ));
 				}
 			}
 		}
