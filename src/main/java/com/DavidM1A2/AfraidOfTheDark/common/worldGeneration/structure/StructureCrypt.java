@@ -35,12 +35,15 @@ public class StructureCrypt extends AOTDStructure
 	@Override
 	public boolean canGenerateAt(BlockPos blockPos, IHeightmap heightmap)
 	{
+		// Grab the chunk positions of the two corners of the crypt structure
 		ChunkPos bottomLeftCorner = new ChunkPos(blockPos);
 		ChunkPos topRightCorner = new ChunkPos(blockPos.add(this.getXWidth(), 0, this.getZLength()));
 
-		int minHeight = heightmap.getLowestHeight(bottomLeftCorner);
-		int maxHeight = heightmap.getHighestHeight(bottomLeftCorner);
+		// Compute the minimum and maximum height over all the chunks that the crypt will cross over
+		int minHeight = Integer.MAX_VALUE;
+		int maxHeight = Integer.MIN_VALUE;
 
+		// For each chunk inside the structure test the height
 		for (int chunkX = bottomLeftCorner.x; chunkX <= topRightCorner.x; chunkX++)
 		{
 			for (int chunkZ = bottomLeftCorner.z; chunkZ <= topRightCorner.z; chunkZ++)
@@ -51,7 +54,7 @@ public class StructureCrypt extends AOTDStructure
 			}
 		}
 
-		// If there's less than 10 blocks between the top and bottom block it's a valid place for a crypt
+		// If there's less than 3 blocks between the top and bottom block it's a valid place for a crypt because it's 'flat' enough
 		return (maxHeight - minHeight) < 3;
 	}
 

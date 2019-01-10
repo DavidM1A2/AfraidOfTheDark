@@ -46,7 +46,7 @@ public class AOTDWorldGenerator implements IWorldGenerator
 				// If we want to show debug messages print a message that we're generating a piece of a structure
 				if (AfraidOfTheDark.INSTANCE.getConfigurationHandler().showDebugMessages())
 					AfraidOfTheDark.INSTANCE.getLogger().info("Structure " + structure.getRegistryName().toString() + " generated at " + origin.toString());
-				// Generate the structure 
+				// Generate the structure
 				structure.generate(world, origin, chunkPos);
 			}
 		}

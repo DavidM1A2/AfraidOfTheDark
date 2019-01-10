@@ -3,9 +3,12 @@ package com.DavidM1A2.afraidofthedark.common.worldGeneration;
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.IHeightmap;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.OverworldHeightmap;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.ChunkGeneratorOverworld;
 import net.minecraft.world.gen.ChunkProviderServer;
@@ -52,6 +55,8 @@ public class WorldHeightMapper
 			// Cast the world to a world server
 			WorldServer worldServer = (WorldServer) world;
 
+			//Biome[] biomeName = worldServer.getBiomeProvider().getBiomes(null, 100000, 100000, 1, 1);
+
 			// Grab a reference to the chunk provider
 			ChunkProviderServer chunkProvider = worldServer.getChunkProvider();
 
@@ -87,15 +92,17 @@ public class WorldHeightMapper
 						if (!heightmap.heightKnown(chunkPos))
 						{
 							// Let our world generator set the blocks inside the chunk. This is much faster than actually generating the chunk!
-							chunkGenerator.setBlocksInChunk(x, z, chunkPrimer);
+							//chunkGenerator.setBlocksInChunk(x, z, chunkPrimer);
+							Chunk chunk = chunkGenerator.generateChunk(x, z);
+							//chunkGenerator.replaceBiomeBlocks(x, z, chunkPrimer, world.getBiomeProvider().getBiomes(null, x * 16, z * 16, 16, 16));
 							// Now use this chunk information to predict height values of chunks that have not yet been generated
 							// Instead of heightmapping the entire chunk we only do 4 points to get an idea if the chunk is flat or not. This
 							// Lets us make fairly accurate predictions if the chunk is flat or not. We pick the 4 corners of the chunk
 							// Use z-1 because there's a bug with findGroundBlockIdx
-							int corner1Height = chunkPrimer.findGroundBlockIdx(0, 0); // Can't use -1? -1 is broken
-							int corner2Height = chunkPrimer.findGroundBlockIdx(15, 0); // Can't use -1? -1 is broken
-							int corner3Height = chunkPrimer.findGroundBlockIdx(0, 14);
-							int corner4Height = chunkPrimer.findGroundBlockIdx(15, 14);
+							int corner1Height = chunk.getHeightValue(0, 0);//chunkPrimer.findGroundBlockIdx(0, 0); // Can't use -1? -1 is broken
+							int corner2Height = chunk.getHeightValue(15, 0);//chunkPrimer.findGroundBlockIdx(15, 0); // Can't use -1? -1 is broken
+							int corner3Height = chunk.getHeightValue(0, 15);//chunkPrimer.findGroundBlockIdx(0, 14);
+							int corner4Height = chunk.getHeightValue(15, 15);//chunkPrimer.findGroundBlockIdx(15, 14);
 							// Find the min and max of the 4 values
 							int minHeight = Math.min(Math.min(corner1Height, corner2Height), Math.min(corner3Height, corner4Height));
 							int maxHeight = Math.max(Math.max(corner1Height, corner2Height), Math.max(corner3Height, corner4Height));

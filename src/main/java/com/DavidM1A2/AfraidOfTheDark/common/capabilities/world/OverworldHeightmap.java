@@ -25,6 +25,9 @@ public class OverworldHeightmap extends WorldSavedData implements IHeightmap
 	// The actual heightmap that we are saving
 	private Map<Point2i, Pair<Integer, Integer>> posToHeight = new HashMap<>();
 
+	// Pair of default Low/High values if the height is invalid
+	private static final Pair<Integer, Integer> INVALID = new Pair<>(Integer.MIN_VALUE, Integer.MAX_VALUE);
+
 	/**
 	 * Constructor just calls super with our ID
 	 */
@@ -157,7 +160,7 @@ public class OverworldHeightmap extends WorldSavedData implements IHeightmap
 	@Override
 	public int getLowestHeight(ChunkPos chunkPos)
 	{
-		return this.posToHeight.get(new Point2i(chunkPos.x, chunkPos.z)).getKey();
+		return this.posToHeight.getOrDefault(new Point2i(chunkPos.x, chunkPos.z), INVALID).getKey();
 	}
 
 	/**
@@ -169,6 +172,6 @@ public class OverworldHeightmap extends WorldSavedData implements IHeightmap
 	@Override
 	public int getHighestHeight(ChunkPos chunkPos)
 	{
-		return this.posToHeight.get(new Point2i(chunkPos.x, chunkPos.z)).getValue();
+		return this.posToHeight.getOrDefault(new Point2i(chunkPos.x, chunkPos.z), INVALID).getValue();
 	}
 }

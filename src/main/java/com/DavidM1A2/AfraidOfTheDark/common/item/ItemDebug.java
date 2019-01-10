@@ -1,11 +1,19 @@
 package com.DavidM1A2.afraidofthedark.common.item;
 
+import com.DavidM1A2.afraidofthedark.common.capabilities.world.OverworldHeightmap;
+import com.DavidM1A2.afraidofthedark.common.capabilities.world.StructurePlan;
 import com.DavidM1A2.afraidofthedark.common.item.core.AOTDItem;
+import com.DavidM1A2.afraidofthedark.common.worldGeneration.WorldStructurePlanner;
+import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.Structure;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import net.minecraft.world.storage.WorldSavedData;
 
 /**
  * Item that allows for modding debug, does nothing else
@@ -31,22 +39,40 @@ public class ItemDebug extends AOTDItem
 	{
 		if (!worldIn.isRemote)
 		{
-			/*
 			OverworldHeightmap x = OverworldHeightmap.get(worldIn);
+			StructurePlan y = StructurePlan.get(worldIn);
+			BlockPos position = playerIn.getPosition();
+			ChunkPos chunkPos = new ChunkPos(position.getX() >> 4, position.getZ() >> 4);
 			if (x != null)
 			{
-				BlockPos position = playerIn.getPosition();
-				if (x.heightKnown(new ChunkPos(position.getX() >> 4, position.getZ() >> 4)))
+				if (x.heightKnown(chunkPos))
 				{
-					playerIn.sendMessage(new TextComponentString("Low height is: " + x.getLowestHeight(new ChunkPos(position.getX() >> 4, position.getZ() >> 4))));
-					playerIn.sendMessage(new TextComponentString("High height is: " + x.getHighestHeight(new ChunkPos(position.getX() >> 4, position.getZ() >> 4))));
+					playerIn.sendMessage(new TextComponentString("Low height is: " + x.getLowestHeight(chunkPos)));
+					playerIn.sendMessage(new TextComponentString("High height is: " + x.getHighestHeight(chunkPos)));
 				}
 				else
 				{
 					playerIn.sendMessage(new TextComponentString("Height unknown..."));
 				}
 			}
-			*/
+
+			if (y != null)
+			{
+				Structure structureAt = y.getStructureAt(chunkPos);
+				if (structureAt != null)
+				{
+					playerIn.sendMessage(new TextComponentString("Structure at position is " + structureAt.getRegistryName()));
+
+					if (playerIn.isSneaking())
+					{
+						structureAt.generate(worldIn, y.getStructureOrigin(chunkPos), chunkPos);
+					}
+				}
+				else
+				{
+					playerIn.sendMessage(new TextComponentString("No structure at position"));
+				}
+			}
 
 			/*
 			SchematicGenerator.generateSchematic(
