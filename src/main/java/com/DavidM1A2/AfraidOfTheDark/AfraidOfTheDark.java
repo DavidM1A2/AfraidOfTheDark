@@ -2,7 +2,6 @@ package com.DavidM1A2.afraidofthedark;
 
 import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiHandler;
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
-import com.DavidM1A2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimTickHandler;
 import com.DavidM1A2.afraidofthedark.common.handler.*;
 import com.DavidM1A2.afraidofthedark.common.packets.packetHandler.PacketHandler;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.AOTDWorldGenerator;
@@ -18,7 +17,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.Logger;
 
 /**
@@ -84,9 +82,6 @@ public class AfraidOfTheDark
 		proxy.registerPackets();
 		// Initialize entity renderers (client side only)
 		proxy.initializeEntityRenderers();
-		// Register our tick handler to assist in animation handling on client side only
-		if (event.getSide() == Side.CLIENT)
-			MinecraftForge.EVENT_BUS.register(AnimTickHandler.getInstance());
 	}
 
 	/**

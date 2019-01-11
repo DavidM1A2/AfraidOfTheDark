@@ -30,7 +30,7 @@ public abstract class AnimationHandler
 
 	public AnimationHandler(IMCAnimatedEntity entity)
 	{
-		AnimTickHandler.getInstance().addEntity(entity);
+		//AfraidOfTheDark.INSTANCE.getAnimationHandler().addEntity(entity);
 		animatedEntity = entity;
 	}
 

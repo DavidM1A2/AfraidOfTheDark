@@ -141,6 +141,18 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 	}
 
 	/**
+	 * Update animations for this entity when update is called
+	 */
+	@Override
+	public void onUpdate()
+	{
+		super.onUpdate();
+		// Animations only update client side
+		if (world.isRemote)
+			this.animHandler.animationsUpdate();
+	}
+
+	/**
 	 * Called when the mob's health reaches 0.
 	 *
 	 * @param damageSource The damage source that killed the skeleton
