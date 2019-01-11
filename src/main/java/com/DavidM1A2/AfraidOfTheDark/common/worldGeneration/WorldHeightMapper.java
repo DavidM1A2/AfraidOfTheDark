@@ -55,8 +55,6 @@ public class WorldHeightMapper
 			// Cast the world to a world server
 			WorldServer worldServer = (WorldServer) world;
 
-			//Biome[] biomeName = worldServer.getBiomeProvider().getBiomes(null, 100000, 100000, 1, 1);
-
 			// Grab a reference to the chunk provider
 			ChunkProviderServer chunkProvider = worldServer.getChunkProvider();
 

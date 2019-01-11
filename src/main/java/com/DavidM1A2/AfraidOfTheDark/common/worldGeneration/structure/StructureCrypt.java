@@ -1,5 +1,6 @@
 package com.DavidM1A2.afraidofthedark.common.worldGeneration.structure;
 
+import com.DavidM1A2.afraidofthedark.common.biomes.BiomeErieForest;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.IHeightmap;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.OverworldHeightmap;
 import com.DavidM1A2.afraidofthedark.common.constants.ModLootTables;
@@ -9,6 +10,9 @@ import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.AOTDS
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeOcean;
+import net.minecraft.world.biome.BiomeProvider;
 
 import javax.vecmath.Point2i;
 
@@ -30,10 +34,11 @@ public class StructureCrypt extends AOTDStructure
 	 *
 	 * @param blockPos The position that the structure would begin at
 	 * @param heightmap The heightmap to use in deciding if the structure will fit at the position
+	 * @param biomeProvider The provider used to generate the world, use biomeProvider.getBiomes() to get what biomes exist at a position
 	 * @return true if the structure fits at the position, false otherwise
 	 */
 	@Override
-	public boolean canGenerateAt(BlockPos blockPos, IHeightmap heightmap)
+	public double computeChanceToGenerateAt(BlockPos blockPos, IHeightmap heightmap, BiomeProvider biomeProvider)
 	{
 		// Grab the chunk positions of the two corners of the crypt structure
 		ChunkPos bottomLeftCorner = new ChunkPos(blockPos);
@@ -43,19 +48,48 @@ public class StructureCrypt extends AOTDStructure
 		int minHeight = Integer.MAX_VALUE;
 		int maxHeight = Integer.MIN_VALUE;
 
-		// For each chunk inside the structure test the height
+		// An array of biomes to be used to sample biomes at a given point
+		Biome[] biomeSampling = new Biome[1];
+
+		// Counters for the number of erie forest chunks
+		int numErieForestChunks = 0;
+		int numOtherChunks = 0;
+
+		// For each chunk inside the structure test the height and biome
 		for (int chunkX = bottomLeftCorner.x; chunkX <= topRightCorner.x; chunkX++)
 		{
 			for (int chunkZ = bottomLeftCorner.z; chunkZ <= topRightCorner.z; chunkZ++)
 			{
 				ChunkPos chunkPos = new ChunkPos(chunkX, chunkZ);
+				// Grab the biome in the middle of the current chunk
+				biomeSampling = biomeProvider.getBiomes(biomeSampling, chunkX * 16 + 8, chunkZ * 16 + 8, 1, 1);
+				Biome chunkBiome = biomeSampling[0];
+				// No oceans allowed
+				if (chunkBiome instanceof BiomeOcean)
+					return 0;
+				// If the biome is an erie forest then increment erie forest
+				else if (chunkBiome instanceof BiomeErieForest)
+					numErieForestChunks++;
+				// It's a different biome
+				else
+					numOtherChunks++;
+
+				// Compute min and max height
 				minHeight = Math.min(minHeight, heightmap.getLowestHeight(chunkPos));
 				maxHeight = Math.max(maxHeight, heightmap.getHighestHeight(chunkPos));
 			}
 		}
 
-		// If there's less than 3 blocks between the top and bottom block it's a valid place for a crypt because it's 'flat' enough
-		return (maxHeight - minHeight) < 3;
+		// If there's more than 5 blocks between the top and bottom block it's an invalid place for a crypt because it's not 'flat' enough
+		if ((maxHeight - minHeight) > 5)
+			return 0;
+
+		// Compute how many chunks are erie forest and how many are other biomes
+		double percentErie = (double) numErieForestChunks / (numErieForestChunks + numOtherChunks);
+		double percentOther = 1.0 - percentErie;
+
+		// 30% chance to spawn in other biomes, 80% chance to spawn in erie forests
+		return percentErie * 0.8 + percentOther * 0.3;
 	}
 
 	/**

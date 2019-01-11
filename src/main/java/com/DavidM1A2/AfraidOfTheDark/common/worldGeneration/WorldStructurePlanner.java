@@ -6,8 +6,8 @@ import com.DavidM1A2.afraidofthedark.common.capabilities.world.StructurePlan;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.Structure;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeProvider;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -73,6 +73,9 @@ public class WorldStructurePlanner
 				// Grab the heightmap for the world
 				IHeightmap heightmap = OverworldHeightmap.get(world);
 
+				// Grab the biome provider for the world which we use to test which biomes exist where
+				BiomeProvider biomeProvider = world.getBiomeProvider();
+
 				// Compute a random position for this structure with the bottom left corner in this chunk
 				BlockPos chunk0Corner = chunkPos.getBlock(0, 63, 0);
 				// Try placing each different structure at each possible permutation around with this chunk at the edge of the structure
@@ -90,17 +93,17 @@ public class WorldStructurePlanner
 					positions.add(topRight.add(-world.rand.nextInt(16), 0, -world.rand.nextInt(16)));
 
 					// Position the structure in the top left of the chunk
-					BlockPos topLeft = chunk0Corner.add(0 - structure.getXWidth(), 0, 15);
+					BlockPos topLeft = chunk0Corner.add(0 - structure.getXWidth() + 1, 0, 15);
 					positions.add(topLeft);
 					positions.add(topLeft.add(world.rand.nextInt(16), 0, -world.rand.nextInt(16)));
 
 					// Position the structure in the bottom left of the chunk
-					BlockPos bottomLeft = chunk0Corner.add(0 - structure.getXWidth(), 0, 0 - structure.getZLength());
+					BlockPos bottomLeft = chunk0Corner.add(0 - structure.getXWidth() + 1, 0, 0 - structure.getZLength() + 1);
 					positions.add(bottomLeft);
 					positions.add(bottomLeft.add(world.rand.nextInt(16), 0, world.rand.nextInt(16)));
 
 					// Position the structure in the bottom right of the chunk
-					BlockPos bottomRight = chunk0Corner.add(15, 0, 0 - structure.getZLength());
+					BlockPos bottomRight = chunk0Corner.add(15, 0, 0 - structure.getZLength() + 1);
 					positions.add(bottomRight);
 					positions.add(bottomRight.add(-world.rand.nextInt(16), 0, world.rand.nextInt(16)));
 
@@ -112,19 +115,25 @@ public class WorldStructurePlanner
 
 						// Test if the structure fits into the structure map at the position (meaning no other structures would overlap this new structure)
 						// and if the structure would fit based on the heightmap
-						if (structurePlan.structureFitsAt(structure, possiblePos) && structure.canGenerateAt(possiblePos, heightmap))
+						if (structurePlan.structureFitsAt(structure, possiblePos))
 						{
-							// Grab the randomized position to generate the structure at
-							BlockPos posToGenerate = positions.get(i + 1);
+							// Compute the chance that the structure could spawn here
+							double percentChance = structure.computeChanceToGenerateAt(possiblePos, heightmap, biomeProvider);
+							// If our random dice roll succeeds place the structure
+							if (world.rand.nextDouble() < percentChance)
+							{
+								// Grab the randomized position to generate the structure at
+								BlockPos posToGenerate = positions.get(i + 1);
 
-							// Place the structure into our structure plan
-							structurePlan.placeStructureAt(structure, posToGenerate);
+								// Place the structure into our structure plan
+								structurePlan.placeStructureAt(structure, posToGenerate);
 
-							// Generate any chunks that this structure will generate in that are already generated
-							this.generateExistingChunks(structure, world, posToGenerate);
+								// Generate any chunks that this structure will generate in that are already generated
+								this.generateExistingChunks(structure, world, posToGenerate);
 
-							// We planned a structure for this chunk so return out
-							return;
+								// We planned a structure for this chunk so return out
+								return;
+							}
 						}
 					}
 				}

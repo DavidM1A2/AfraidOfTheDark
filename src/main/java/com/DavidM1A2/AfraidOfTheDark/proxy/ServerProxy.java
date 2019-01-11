@@ -16,4 +16,13 @@ public class ServerProxy extends CommonProxy
 	{
 		// Not used
 	}
+
+	/**
+	 * Called to initialize entity renderers
+	 */
+	@Override
+	public void initializeEntityRenderers()
+	{
+		// Not used
+	}
 }

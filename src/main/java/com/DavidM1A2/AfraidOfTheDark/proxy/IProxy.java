@@ -16,6 +16,11 @@ public interface IProxy
 	void initializeLeafRenderers();
 
 	/**
+	 * Called to initialize entity renderers
+	 */
+	void initializeEntityRenderers();
+
+	/**
 	 * Called to initialize any mod blocks into the ore dictionary
 	 */
 	void initializeOreDictionary();
