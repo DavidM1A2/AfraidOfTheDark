@@ -9,10 +9,12 @@ import com.DavidM1A2.afraidofthedark.common.research.base.Research;
 public class ModResearches
 {
 	public static final Research AN_UNBREAKABLE_COVENANT = new AOTDResearch("an_unbreakable_covenant", null);
+	public static final Research ENCHANTED_SKELETON = new AOTDResearch("enchanted_skeleton", AN_UNBREAKABLE_COVENANT);
 
 	// An array containing a list of researches that AOTD adds
 	public static Research[] RESEARCH_LIST = new Research[]
 	{
-		AN_UNBREAKABLE_COVENANT
+		AN_UNBREAKABLE_COVENANT,
+		ENCHANTED_SKELETON
 	};
 }

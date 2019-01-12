@@ -6,7 +6,7 @@ import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
  * Utility class for mouse listeners with default implementations of all methods. This can be used to reduce the clutter when adding action listeners by
  * reducing the number of empty interface implementations
  */
-public abstract class AOTDMouseListener implements IAOTDMouseListener
+public class AOTDMouseListener implements IAOTDMouseListener
 {
 	/**
 	 * Called when a mouse button is pressed and released

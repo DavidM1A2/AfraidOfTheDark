@@ -25,15 +25,23 @@ import java.util.Map;
 public class SyncResearch implements IMessage
 {
 	private Map<Research, Boolean> researchToUnlocked;
+	private boolean notifyNewResearch;
 
 	public SyncResearch()
 	{
 		this.researchToUnlocked = new HashMap<>();
+		this.notifyNewResearch = false;
 	}
 
 	public SyncResearch(Map<Research, Boolean> researchToUnlocked)
 	{
+		this(researchToUnlocked, false);
+	}
+
+	public SyncResearch(Map<Research, Boolean> researchToUnlocked, Boolean notifyNewResearch)
+	{
 		this.researchToUnlocked = researchToUnlocked;
+		this.notifyNewResearch = notifyNewResearch;
 	}
 
 	/**
@@ -44,6 +52,8 @@ public class SyncResearch implements IMessage
 	@Override
 	public void fromBytes(ByteBuf buf)
 	{
+		// Read the notify flag first
+		this.notifyNewResearch = buf.readBoolean();
 		// Read the compound from the buffer
 		NBTTagCompound data = ByteBufUtils.readTag(buf);
 		// For each research read our compound to test if it is researched or not
@@ -59,6 +69,8 @@ public class SyncResearch implements IMessage
 	@Override
 	public void toBytes(ByteBuf buf)
 	{
+		// Write the notify flag first
+		buf.writeBoolean(this.notifyNewResearch);
 		// Create a compound to write to
 		NBTTagCompound data = new NBTTagCompound();
 		// For each research write a boolean if that research is researched
@@ -93,7 +105,7 @@ public class SyncResearch implements IMessage
 				{
 					// If the research was not researched and it now is researched show the popup
 					boolean wasResearched = playerResearch.isResearched(research);
-					boolean showPopup = researched && !wasResearched;
+					boolean showPopup = researched && !wasResearched && msg.notifyNewResearch;
 					// Set the research
 					if (showPopup)
 						playerResearch.setResearchAndAlert(research, researched, Minecraft.getMinecraft().player);

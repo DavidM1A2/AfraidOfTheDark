@@ -88,8 +88,8 @@ public class StructureCrypt extends AOTDStructure
 		double percentErie = (double) numErieForestChunks / (numErieForestChunks + numOtherChunks);
 		double percentOther = 1.0 - percentErie;
 
-		// 30% chance to spawn in other biomes, 80% chance to spawn in erie forests
-		return percentErie * 0.8 + percentOther * 0.3;
+		// 10% chance to spawn in other biomes, 80% chance to spawn in erie forests
+		return percentErie * 0.8 + percentOther * 0.1;
 	}
 
 	/**

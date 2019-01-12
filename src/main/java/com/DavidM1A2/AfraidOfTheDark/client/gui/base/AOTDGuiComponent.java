@@ -5,6 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.math.MathHelper;
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.opengl.GL11;
@@ -60,7 +61,7 @@ public abstract class AOTDGuiComponent
 	public void draw()
 	{
 		// Tint the color before continuing with other draw calls
-		GL11.glColor4d(tint.getRed(), tint.getGreen(), tint.getBlue(), tint.getAlpha());
+		GlStateManager.color(tint.getRed() / 255f, tint.getGreen() / 255f, tint.getBlue() / 255f, tint.getAlpha() / 255f);
 		// Draw the bounding box for debug purposes
 		//this.drawBoundingBox();
 	}

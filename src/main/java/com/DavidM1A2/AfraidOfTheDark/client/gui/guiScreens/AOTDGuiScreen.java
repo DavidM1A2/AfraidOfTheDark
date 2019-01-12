@@ -169,8 +169,10 @@ public abstract class AOTDGuiScreen extends GuiScreen
 	 * Called whenever mouse input should be handled
 	 */
 	@Override
-	public void handleMouseInput()
+	public void handleMouseInput() throws IOException
 	{
+		// Ensure to call super so default MC functions are called
+		super.handleMouseInput();
 		// Figure out what mouse button was pressed
 		switch (Mouse.getEventButton())
 		{

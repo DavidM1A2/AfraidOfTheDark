@@ -2,6 +2,7 @@ package com.DavidM1A2.afraidofthedark.client.settings;
 
 import com.DavidM1A2.afraidofthedark.client.gui.fontLibrary.FontLoader;
 import com.DavidM1A2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont;
+import com.DavidM1A2.afraidofthedark.common.research.base.Research;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.HashMap;
@@ -18,6 +19,9 @@ public class ClientData
 	// A mapping of font size -> font object used to render text
 	private Map<Float, TrueTypeFont> fontMap = new HashMap<>();
 
+	// A field that will keep track of which research is currently selected
+	private Research lastSelectedResearch = null;
+
 	/**
 	 * Getter for TargaMSHand font based on a font size. If the object is not yet cached, create it
 	 *
@@ -32,6 +36,24 @@ public class ClientData
 			this.fontMap.put(fontSize, FontLoader.createFont(new ResourceLocation("afraidofthedark:fonts/targa_ms_hand.ttf"), fontSize, true));
 		// Get the font from the map
 		return this.fontMap.get(fontSize);
+	}
+
+	/**
+	 * Sets the last selected research on the ResearchGUI
+	 *
+	 * @param research The selected research
+	 */
+	public void setLastSelectedResearch(Research research)
+	{
+		this.lastSelectedResearch = research;
+	}
+
+	/**
+	 * @return The last selected research on the ResearchGUI
+	 */
+	public Research getLastSelectedResearch()
+	{
+		return lastSelectedResearch;
 	}
 
 	/**

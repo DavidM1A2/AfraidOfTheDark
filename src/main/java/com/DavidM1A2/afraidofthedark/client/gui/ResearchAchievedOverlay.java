@@ -86,7 +86,7 @@ public class ResearchAchievedOverlay extends Gui
 			// The research to display
 			Research research = toDisplay.pop();
 			// The new research description
-			this.researchDescription = I18n.format("research." + research.getRegistryName().getResourcePath());
+			this.researchDescription = research.getLocalizedName();
 			// Update the notification time to be the current system time
 			this.notificationTime = Minecraft.getSystemTime();
 		}

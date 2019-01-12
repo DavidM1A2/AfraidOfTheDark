@@ -51,7 +51,7 @@ public class AOTDPlayerResearchImpl implements IAOTDPlayerResearch
 	@Override
 	public boolean isResearched(Research research)
 	{
-		return this.researchToUnlocked.get(research);
+		return this.researchToUnlocked.getOrDefault(research, false);
 	}
 
 	/**
@@ -105,14 +105,15 @@ public class AOTDPlayerResearchImpl implements IAOTDPlayerResearch
 	 * Syncronizes research between server and client
 	 *
 	 * @param entityPlayer The player to sync research to
+	 * @param notify True if the player should be notified of any new researches, false otherwise
 	 */
 	@Override
-	public void sync(EntityPlayer entityPlayer)
+	public void sync(EntityPlayer entityPlayer, boolean notify)
 	{
 		// Send packets based on server side or client side
 		if (this.isServerSide(entityPlayer))
-			AfraidOfTheDark.INSTANCE.getPacketHandler().sendTo(new SyncResearch(this.researchToUnlocked), (EntityPlayerMP) entityPlayer);
+			AfraidOfTheDark.INSTANCE.getPacketHandler().sendTo(new SyncResearch(this.researchToUnlocked, notify), (EntityPlayerMP) entityPlayer);
 		else
-			AfraidOfTheDark.INSTANCE.getPacketHandler().sendToServer(new SyncResearch(this.researchToUnlocked));
+			AfraidOfTheDark.INSTANCE.getPacketHandler().sendToServer(new SyncResearch(this.researchToUnlocked, notify));
 	}
 }

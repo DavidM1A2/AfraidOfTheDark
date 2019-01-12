@@ -45,6 +45,7 @@ public interface IAOTDPlayerResearch
 	 * Syncronizes research between server and client
 	 *
 	 * @param entityPlayer The player to sync research to
+	 * @param notify True if the player should be notified of any new researches, false otherwise
 	 */
-	void sync(EntityPlayer entityPlayer);
+	void sync(EntityPlayer entityPlayer, boolean notify);
 }

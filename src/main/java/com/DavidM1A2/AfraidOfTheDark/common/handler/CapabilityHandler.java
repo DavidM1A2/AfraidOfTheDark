@@ -76,7 +76,7 @@ public class CapabilityHandler
 			if (!event.getWorld().isRemote)
 			{
 				entityPlayer.getCapability(ModCapabilities.PLAYER_BASICS, null).syncAll(entityPlayer);
-				entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null).sync(entityPlayer);
+				entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null).sync(entityPlayer, false);
 			}
 		}
 	}
