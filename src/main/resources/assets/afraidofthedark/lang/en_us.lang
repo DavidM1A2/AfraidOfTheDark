@@ -117,3 +117,6 @@ entity.spellProjectile.name=Projectile
 entity.spellProjectileDive.name=Projectile
 entity.spellMyself.name=Self
 entity.spellAOE.name=AOE
+
+# Researches
+research.an_unbreakable_covenant=An Unbreakable Covenant

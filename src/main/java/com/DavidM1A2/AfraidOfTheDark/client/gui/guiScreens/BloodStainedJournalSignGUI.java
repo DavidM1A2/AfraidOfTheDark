@@ -11,8 +11,10 @@ import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiPanel;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiTextField;
 import com.DavidM1A2.afraidofthedark.client.settings.ClientData;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.basics.IAOTDPlayerBasics;
+import com.DavidM1A2.afraidofthedark.common.capabilities.player.research.IAOTDPlayerResearch;
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
+import com.DavidM1A2.afraidofthedark.common.constants.ModResearches;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSounds;
 import com.DavidM1A2.afraidofthedark.common.item.ItemJournal;
 import com.mojang.realmsclient.gui.ChatFormatting;
@@ -88,6 +90,7 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
 				{
 					entityPlayer.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f);
 					IAOTDPlayerBasics playerBasics = entityPlayer.getCapability(ModCapabilities.PLAYER_BASICS, null);
+					IAOTDPlayerResearch playerResearch = entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null);
 					if (BloodStainedJournalSignGUI.this.nameSignField.getText().equals(entityPlayer.getDisplayName().getUnformattedText()))
 					{
 						// if the name is correct start the mod
@@ -98,6 +101,8 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
 							// Set that we started the mod and perform a client -> server sync
 							playerBasics.setStartedAOTD(true);
 							playerBasics.syncStartedAOTD(entityPlayer);
+							playerResearch.setResearchAndAlert(ModResearches.AN_UNBREAKABLE_COVENANT, true, entityPlayer);
+							playerResearch.sync(entityPlayer);
 
 							// Set the journal to have a new owner name
 							ItemStack mainHand = entityPlayer.getHeldItemMainhand();

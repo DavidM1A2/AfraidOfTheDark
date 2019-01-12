@@ -7,6 +7,7 @@ import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;
 import com.DavidM1A2.afraidofthedark.common.packets.animationPackets.SyncAnimation;
 import com.DavidM1A2.afraidofthedark.common.packets.capabilityPackets.SyncAOTDPlayerBasics;
+import com.DavidM1A2.afraidofthedark.common.packets.capabilityPackets.SyncResearch;
 import com.DavidM1A2.afraidofthedark.common.packets.capabilityPackets.SyncStartedAOTD;
 import com.DavidM1A2.afraidofthedark.common.packets.packetHandler.PacketHandler;
 import net.minecraft.init.Items;
@@ -54,6 +55,8 @@ public abstract class CommonProxy implements IProxy
 
 		packetHandler.registerBidiPacket(SyncStartedAOTD.class, new SyncStartedAOTD.Handler());
 		packetHandler.registerBidiPacket(SyncAOTDPlayerBasics.class, new SyncAOTDPlayerBasics.Handler());
+
+		packetHandler.registerBidiPacket(SyncResearch.class, new SyncResearch.Handler());
 
 		packetHandler.registerPacket(SyncAnimation.class, new SyncAnimation.Handler(), Side.CLIENT);
 	}

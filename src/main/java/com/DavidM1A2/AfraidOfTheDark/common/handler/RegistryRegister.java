@@ -2,6 +2,8 @@ package com.DavidM1A2.afraidofthedark.common.handler;
 
 
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
+import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
+import com.DavidM1A2.afraidofthedark.common.research.base.Research;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.Structure;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
@@ -26,9 +28,15 @@ public class RegistryRegister
 	public static void registryRegister(RegistryEvent.NewRegistry event)
 	{
 		// Create a new registry for structures with the name 'afraidofthedark:structures'
-		new RegistryBuilder<Structure>()
+		ModRegistries.STRUCTURE = new RegistryBuilder<Structure>()
 				.setType(Structure.class)
 				.setName(new ResourceLocation(Constants.MOD_ID, "structures"))
+				.create();
+
+		// Create a new registry for research with the name 'afraidofthedark:research'
+		ModRegistries.RESEARCH = new RegistryBuilder<Research>()
+				.setType(Research.class)
+				.setName(new ResourceLocation(Constants.MOD_ID, "research"))
 				.create();
 	}
 }

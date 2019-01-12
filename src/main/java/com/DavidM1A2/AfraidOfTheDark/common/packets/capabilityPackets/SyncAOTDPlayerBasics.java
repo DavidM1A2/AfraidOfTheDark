@@ -77,7 +77,7 @@ public class SyncAOTDPlayerBasics implements IMessage
 			Minecraft.getMinecraft().addScheduledTask(() ->
 			{
 				// Grab the current player's capabilities
-				IAOTDPlayerBasics playerBasics = player.getCapability(ModCapabilities.PLAYER_BASICS, null);
+				IAOTDPlayerBasics playerBasics = Minecraft.getMinecraft().player.getCapability(ModCapabilities.PLAYER_BASICS, null);
 				// Read the new capabilities into the player's data
 				ModCapabilities.PLAYER_BASICS.getStorage().readNBT(ModCapabilities.PLAYER_BASICS, playerBasics, null, msg.data);
 			});

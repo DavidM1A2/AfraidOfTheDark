@@ -96,7 +96,7 @@ public class ItemEnchnatedSkeletonBone extends AOTDItem
 					/*
 					if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(ResearchTypes.EnchantedSkeleton))
 					{
-						entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(ResearchTypes.EnchantedSkeleton, true);
+						entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setResearch(ResearchTypes.EnchantedSkeleton, true);
 					}
 					*/
 				});

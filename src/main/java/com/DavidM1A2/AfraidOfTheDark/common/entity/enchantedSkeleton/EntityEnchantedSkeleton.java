@@ -183,7 +183,7 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 			{
 				if (!killer.world.isRemote)
 				{
-					killer.getCapability(ModCapabilities.PLAYER_DATA, null).unlockResearch(ResearchTypes.BladeOfExhumation, true);
+					killer.getCapability(ModCapabilities.PLAYER_DATA, null).setResearch(ResearchTypes.BladeOfExhumation, true);
 				}
 				if (killer.getHeldItemMainhand() != null)
 				{

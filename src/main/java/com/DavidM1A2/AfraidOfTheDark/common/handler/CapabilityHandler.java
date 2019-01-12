@@ -4,24 +4,21 @@ import com.DavidM1A2.afraidofthedark.common.capabilities.player.basics.AOTDPlaye
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.basics.AOTDPlayerBasicsProvider;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.basics.AOTDPlayerBasicsStorage;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.basics.IAOTDPlayerBasics;
+import com.DavidM1A2.afraidofthedark.common.capabilities.player.research.AOTDPlayerResearchImpl;
+import com.DavidM1A2.afraidofthedark.common.capabilities.player.research.AOTDPlayerResearchProvider;
+import com.DavidM1A2.afraidofthedark.common.capabilities.player.research.AOTDPlayerResearchStorage;
+import com.DavidM1A2.afraidofthedark.common.capabilities.player.research.IAOTDPlayerResearch;
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.chunk.ChunkPrimer;
-import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.gen.ChunkGeneratorOverworld;
-import net.minecraft.world.gen.ChunkProviderServer;
-import net.minecraft.world.gen.NoiseGeneratorPerlin;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.terraingen.InitNoiseGensEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.lwjgl.Sys;
 
 /**
  * Class used to register all of our mod capabilities
@@ -40,6 +37,7 @@ public class CapabilityHandler
 		if (!CapabilityHandler.wasInitialized)
 		{
 			CapabilityManager.INSTANCE.register(IAOTDPlayerBasics.class, new AOTDPlayerBasicsStorage(), AOTDPlayerBasicsImpl::new);
+			CapabilityManager.INSTANCE.register(IAOTDPlayerResearch.class, new AOTDPlayerResearchStorage(), AOTDPlayerResearchImpl::new);
 
 			CapabilityHandler.wasInitialized = true;
 		}
@@ -55,7 +53,10 @@ public class CapabilityHandler
 	{
 		// If the entity is a player then add the player basics capability
 		if (event.getObject() instanceof EntityPlayer)
+		{
 			event.addCapability(new ResourceLocation(Constants.MOD_ID + ":playerBasics"), new AOTDPlayerBasicsProvider());
+			event.addCapability(new ResourceLocation(Constants.MOD_ID + ":playerResearch"), new AOTDPlayerResearchProvider());
+		}
 	}
 
 	/**
@@ -72,9 +73,10 @@ public class CapabilityHandler
 			EntityPlayer entityPlayer = (EntityPlayer) event.getEntity();
 
 			// The server will have correct data, the client needs new data
-			if (event.getWorld().isRemote)
+			if (!event.getWorld().isRemote)
 			{
 				entityPlayer.getCapability(ModCapabilities.PLAYER_BASICS, null).syncAll(entityPlayer);
+				entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null).sync(entityPlayer);
 			}
 		}
 	}
@@ -91,10 +93,15 @@ public class CapabilityHandler
 		IAOTDPlayerBasics originalPlayerBasics = event.getOriginal().getCapability(ModCapabilities.PLAYER_BASICS, null);
 		IAOTDPlayerBasics newPlayerBasics = event.getEntityPlayer().getCapability(ModCapabilities.PLAYER_BASICS, null);
 
+		IAOTDPlayerResearch originalPlayerResearch = event.getOriginal().getCapability(ModCapabilities.PLAYER_RESEARCH, null);
+		IAOTDPlayerResearch newPlayerResearch = event.getOriginal().getCapability(ModCapabilities.PLAYER_RESEARCH, null);
+
 		// Grab the NBT compound off of the original capabilities
 		NBTTagCompound originalPlayerBasicsNBT = (NBTTagCompound) ModCapabilities.PLAYER_BASICS.getStorage().writeNBT(ModCapabilities.PLAYER_BASICS, originalPlayerBasics, null);
+		NBTTagCompound originalPlayerResearchNBT = (NBTTagCompound) ModCapabilities.PLAYER_RESEARCH.getStorage().writeNBT(ModCapabilities.PLAYER_RESEARCH, originalPlayerResearch, null);
 
 		// Copy the NBT compound onto the new capabilities
 		ModCapabilities.PLAYER_BASICS.getStorage().readNBT(ModCapabilities.PLAYER_BASICS, newPlayerBasics, null, originalPlayerBasicsNBT);
+		ModCapabilities.PLAYER_RESEARCH.getStorage().readNBT(ModCapabilities.PLAYER_RESEARCH, newPlayerResearch, null, originalPlayerResearchNBT);
 	}
 }

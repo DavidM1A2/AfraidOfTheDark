@@ -42,6 +42,9 @@ public class AfraidOfTheDark
 	// Configuration handler used to read and update the afraidofthedark.cfg file
 	private ConfigurationHandler configurationHandler;
 
+	// Research overlay handler used to show when a player unlocks a research
+	private ResearchOverlayHandler researchOverlayHandler = new ResearchOverlayHandler();
+
 	/**
 	 * Called with the forge pre-initialization event
 	 *
@@ -68,6 +71,10 @@ public class AfraidOfTheDark
 		MinecraftForge.EVENT_BUS.register(new SoundRegister());
 		// Register our structure handler used to add all of our mod structures to the game
 		MinecraftForge.EVENT_BUS.register(new StructureRegister());
+		// Register our research handler used to add all of our mod researches to the game
+		MinecraftForge.EVENT_BUS.register(new ResearchRegister());
+		// Register our research overlay display to draw on the screen
+		MinecraftForge.EVENT_BUS.register(this.researchOverlayHandler);
 		// Forward any capability events to our capability handler
 		MinecraftForge.EVENT_BUS.register(new CapabilityHandler());
 		// Forward any chunk creation events to our world generation height mapper
@@ -142,5 +149,13 @@ public class AfraidOfTheDark
 	public ConfigurationHandler getConfigurationHandler()
 	{
 		return this.configurationHandler;
+	}
+
+	/**
+	 * @return The research overlay handler used to display researches
+	 */
+	public ResearchOverlayHandler getResearchOverlayHandler()
+	{
+		return researchOverlayHandler;
 	}
 }

@@ -3,6 +3,7 @@ package com.DavidM1A2.afraidofthedark.common.worldGeneration;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.IHeightmap;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.OverworldHeightmap;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.StructurePlan;
+import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.Structure;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -42,7 +43,7 @@ public class WorldStructurePlanner
 
 		// If we do not know of our structure list yet grab the list from the registry
 		if (REGISTERED_STRUCTURES == null)
-			REGISTERED_STRUCTURES = new ArrayList<>(GameRegistry.findRegistry(Structure.class).getValuesCollection());
+			REGISTERED_STRUCTURES = new ArrayList<>(ModRegistries.STRUCTURE.getValuesCollection());
 
 		// Generate the structure plan for the chunk
 		this.planStructuresInChunk(world, chunkX, chunkZ);
