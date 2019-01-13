@@ -2,7 +2,6 @@ package com.DavidM1A2.afraidofthedark.client.gui.fontLibrary;
 
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.client.gui.base.TextAlignment;
-import com.DavidM1A2.afraidofthedark.common.handler.ConfigurationHandler;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -395,7 +394,7 @@ public class TrueTypeFont
 		// GL11.glBegin(GL11.GL_QUADS);
 		if (rgba.length == 4)
 		{
-			GL11.glColor4f(rgba[0], rgba[1], rgba[2], rgba[3]);
+			GlStateManager.color(rgba[0], rgba[1], rgba[2], rgba[3]);
 		}
 		while (i >= startIndex && i <= endIndex)
 		{

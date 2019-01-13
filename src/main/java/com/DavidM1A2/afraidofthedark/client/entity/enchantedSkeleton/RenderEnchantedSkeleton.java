@@ -6,11 +6,10 @@
 package com.DavidM1A2.afraidofthedark.client.entity.enchantedSkeleton;
 
 import com.DavidM1A2.afraidofthedark.common.entity.enchantedSkeleton.EntityEnchantedSkeleton;
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 /**
  * Renderer class for the enchanted skeleton entity

@@ -1,6 +1,5 @@
 package com.DavidM1A2.afraidofthedark.common.worldGeneration;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityChest;

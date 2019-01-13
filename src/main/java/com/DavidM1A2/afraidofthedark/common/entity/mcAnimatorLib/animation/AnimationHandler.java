@@ -1,12 +1,5 @@
 package com.DavidM1A2.afraidofthedark.common.entity.mcAnimatorLib.animation;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-
-
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.client.entity.mcAnimatorLib.MCAModelRenderer;
 import com.DavidM1A2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedEntity;
@@ -15,6 +8,8 @@ import com.DavidM1A2.afraidofthedark.common.entity.mcAnimatorLib.math.Vector3f;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.*;
 
 public abstract class AnimationHandler
 {

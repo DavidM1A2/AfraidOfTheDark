@@ -1,15 +1,12 @@
 package com.DavidM1A2.afraidofthedark.common.capabilities.player.research;
 
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
-import com.DavidM1A2.afraidofthedark.common.capabilities.player.basics.AOTDPlayerBasicsImpl;
 import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSounds;
 import com.DavidM1A2.afraidofthedark.common.packets.capabilityPackets.SyncResearch;
 import com.DavidM1A2.afraidofthedark.common.research.base.Research;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import java.util.HashMap;
 import java.util.Map;

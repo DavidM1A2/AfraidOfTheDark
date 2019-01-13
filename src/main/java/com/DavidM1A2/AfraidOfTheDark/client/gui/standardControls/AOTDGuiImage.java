@@ -63,6 +63,8 @@ public class AOTDGuiImage extends AOTDGuiContainer
 			GlStateManager.pushMatrix();
 			// Enable alpha blending
 			GlStateManager.enableBlend();
+			// Set the color
+			GlStateManager.color(this.getColor().getRed() / 255f, this.getColor().getGreen() / 255f, this.getColor().getBlue() / 255f, this.getColor().getAlpha() / 255f);
 			// Bind the texture to render
 			Minecraft.getMinecraft().getTextureManager().bindTexture(this.imageTexture);
 			// If the texture width and height are both -1, then we assume the image's size is this control's size
@@ -71,6 +73,7 @@ public class AOTDGuiImage extends AOTDGuiContainer
 			else
 				Gui.drawScaledCustomSizeModalRect(this.getXScaled(), this.getYScaled(), this.u, this.v, this.getWidth(), this.getHeight(), this.getWidthScaled(), this.getHeightScaled(), this.textureWidth, this.textureHeight);
 			GlStateManager.popMatrix();
+
 			// Draw the any children
 			super.draw();
 		}

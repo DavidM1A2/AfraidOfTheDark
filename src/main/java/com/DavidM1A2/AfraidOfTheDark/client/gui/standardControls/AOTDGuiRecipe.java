@@ -1,8 +1,6 @@
 package com.DavidM1A2.afraidofthedark.client.gui.standardControls;
 
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 
 /**
  * Advanced control that displays an entire crafting recipe

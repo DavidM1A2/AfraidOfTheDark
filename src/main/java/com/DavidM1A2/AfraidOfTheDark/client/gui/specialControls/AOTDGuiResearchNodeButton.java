@@ -3,7 +3,6 @@ package com.DavidM1A2.afraidofthedark.client.gui.specialControls;
 import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiUtility;
 import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
-import com.DavidM1A2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiButton;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.research.IAOTDPlayerResearch;
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
@@ -11,7 +10,6 @@ import com.DavidM1A2.afraidofthedark.common.research.base.Research;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 

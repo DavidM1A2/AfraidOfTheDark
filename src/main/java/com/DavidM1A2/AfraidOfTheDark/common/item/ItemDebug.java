@@ -1,25 +1,17 @@
 package com.DavidM1A2.afraidofthedark.common.item;
 
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
-import com.DavidM1A2.afraidofthedark.common.capabilities.world.OverworldHeightmap;
-import com.DavidM1A2.afraidofthedark.common.capabilities.world.StructurePlan;
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
 import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
 import com.DavidM1A2.afraidofthedark.common.constants.ModResearches;
 import com.DavidM1A2.afraidofthedark.common.item.core.AOTDItem;
 import com.DavidM1A2.afraidofthedark.common.research.base.Research;
-import com.DavidM1A2.afraidofthedark.common.worldGeneration.WorldStructurePlanner;
-import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.Structure;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import net.minecraft.world.storage.WorldSavedData;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
  * Item that allows for modding debug, does nothing else

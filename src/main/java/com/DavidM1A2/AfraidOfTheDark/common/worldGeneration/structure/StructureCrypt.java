@@ -14,8 +14,6 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeOcean;
 import net.minecraft.world.biome.BiomeProvider;
 
-import javax.vecmath.Point2i;
-
 /**
  * Crypt structure class
  */

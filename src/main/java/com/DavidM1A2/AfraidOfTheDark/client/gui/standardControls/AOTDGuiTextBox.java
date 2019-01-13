@@ -4,7 +4,6 @@ import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiContainer;
 import com.DavidM1A2.afraidofthedark.client.gui.base.TextAlignment;
 import com.DavidM1A2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont;
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.math.MathHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.util.Color;

@@ -46,8 +46,6 @@ public class AOTDGuiLabel extends AOTDGuiContainer
 		// If the label is visible, draw it
 		if (this.isVisible())
 		{
-			super.draw();
-
 			// If we don't have a font, we can't draw anything
 			if (this.font != null)
 			{
@@ -75,6 +73,7 @@ public class AOTDGuiLabel extends AOTDGuiContainer
 					textAlignment,
 					this.textColor.getRed() / 255f, this.textColor.getGreen() / 255f, this.textColor.getBlue() / 255f, this.textColor.getAlpha() / 255f);
 			}
+			super.draw();
 		}
 	}
 

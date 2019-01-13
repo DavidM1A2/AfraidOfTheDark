@@ -38,6 +38,7 @@ public class AOTDGuiButton extends AOTDGuiContainer
 
 		// Create a background image for the button
 		this.background = new AOTDGuiImage(0, 0, width, height, icon);
+		this.background.setColor(new Color(255, 255, 255));
 		this.add(background);
 
 		// Create a label to cover the button
@@ -71,8 +72,8 @@ public class AOTDGuiButton extends AOTDGuiContainer
 	{
 		if (this.isVisible() && this.icon != null)
 		{
-			this.background.setImageTexture(this.isHovered() && this.iconHovered != null ? this.iconHovered : this.icon);
 			super.draw();
+			this.background.setImageTexture(this.isHovered() && this.iconHovered != null ? this.iconHovered : this.icon);
 		}
 	}
 

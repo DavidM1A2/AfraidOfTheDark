@@ -1,6 +1,5 @@
 package com.DavidM1A2.afraidofthedark.common.capabilities.player.research;
 
-import com.DavidM1A2.afraidofthedark.common.capabilities.player.basics.IAOTDPlayerBasics;
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.util.EnumFacing;

@@ -1,6 +1,5 @@
 package com.DavidM1A2.afraidofthedark.common.item;
 
-import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
 import com.DavidM1A2.afraidofthedark.common.constants.ModItems;
 import com.DavidM1A2.afraidofthedark.common.entity.enchantedSkeleton.EntityEnchantedSkeleton;
 import com.DavidM1A2.afraidofthedark.common.item.core.AOTDItem;

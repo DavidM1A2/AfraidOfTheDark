@@ -12,7 +12,6 @@ package com.DavidM1A2.afraidofthedark.common.packets.packetHandler;
  */
 
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
-import com.DavidM1A2.afraidofthedark.common.handler.ConfigurationHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
