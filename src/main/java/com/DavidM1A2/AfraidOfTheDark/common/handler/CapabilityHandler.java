@@ -94,7 +94,7 @@ public class CapabilityHandler
 		IAOTDPlayerBasics newPlayerBasics = event.getEntityPlayer().getCapability(ModCapabilities.PLAYER_BASICS, null);
 
 		IAOTDPlayerResearch originalPlayerResearch = event.getOriginal().getCapability(ModCapabilities.PLAYER_RESEARCH, null);
-		IAOTDPlayerResearch newPlayerResearch = event.getOriginal().getCapability(ModCapabilities.PLAYER_RESEARCH, null);
+		IAOTDPlayerResearch newPlayerResearch = event.getEntityPlayer().getCapability(ModCapabilities.PLAYER_RESEARCH, null);
 
 		// Grab the NBT compound off of the original capabilities
 		NBTTagCompound originalPlayerBasicsNBT = (NBTTagCompound) ModCapabilities.PLAYER_BASICS.getStorage().writeNBT(ModCapabilities.PLAYER_BASICS, originalPlayerBasics, null);

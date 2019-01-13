@@ -1,5 +1,6 @@
 package com.DavidM1A2.afraidofthedark.client.gui.guiScreens;
 
+import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiScreen;
 import com.DavidM1A2.afraidofthedark.client.gui.base.TextAlignment;
 import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDKeyListener;
 import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDMouseListener;

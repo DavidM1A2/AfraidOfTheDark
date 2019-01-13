@@ -1,4 +1,4 @@
-package com.DavidM1A2.afraidofthedark.client.gui.guiScreens;
+package com.DavidM1A2.afraidofthedark.client.gui.base;
 
 import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiUtility;
 import com.DavidM1A2.afraidofthedark.client.gui.base.SpriteSheetController;

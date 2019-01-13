@@ -2,6 +2,7 @@ package com.DavidM1A2.afraidofthedark.client.gui.guiScreens;
 
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiHandler;
+import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiClickAndDragable;
 import com.DavidM1A2.afraidofthedark.client.gui.base.SpriteSheetController;
 import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
@@ -13,10 +14,8 @@ import com.DavidM1A2.afraidofthedark.client.settings.ClientData;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.research.IAOTDPlayerResearch;
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
 import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
-import com.DavidM1A2.afraidofthedark.common.constants.ModResearches;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSounds;
 import com.DavidM1A2.afraidofthedark.common.research.base.Research;
-import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 
