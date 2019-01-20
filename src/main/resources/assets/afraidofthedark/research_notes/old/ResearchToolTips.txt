@@ -1,5 +1,3 @@
-EnchantedSkeleton:great prank material
-BladeOfExhumation:recycling your enemies
 Crossbow:werewolf hunter
 WristCrossbow:the night hunter
 WerewolfExamination:by your skin on their teeth

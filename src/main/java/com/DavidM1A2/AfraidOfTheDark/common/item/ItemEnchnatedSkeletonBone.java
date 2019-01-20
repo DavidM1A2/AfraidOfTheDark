@@ -1,6 +1,9 @@
 package com.DavidM1A2.afraidofthedark.common.item;
 
+import com.DavidM1A2.afraidofthedark.common.capabilities.player.research.IAOTDPlayerResearch;
+import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
 import com.DavidM1A2.afraidofthedark.common.constants.ModItems;
+import com.DavidM1A2.afraidofthedark.common.constants.ModResearches;
 import com.DavidM1A2.afraidofthedark.common.entity.enchantedSkeleton.EntityEnchantedSkeleton;
 import com.DavidM1A2.afraidofthedark.common.item.core.AOTDItem;
 import com.google.common.collect.Lists;
@@ -92,12 +95,12 @@ public class ItemEnchnatedSkeletonBone extends AOTDItem
 				// Give all players in range of the summoned skeletons a research if possible
 				world.getEntitiesWithinAABB(EntityPlayer.class, entityItem.getEntityBoundingBox().expand(RESEARCH_UNLOCK_RADIUS, RESEARCH_UNLOCK_RADIUS, RESEARCH_UNLOCK_RADIUS)).forEach(entityPlayer ->
 				{
-					/*
-					if (entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(ResearchTypes.EnchantedSkeleton))
+					IAOTDPlayerResearch playerResearch = entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null);
+					if (playerResearch.canResearch(ModResearches.ENCHANTED_SKELETON))
 					{
-						entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setResearch(ResearchTypes.EnchantedSkeleton, true);
+						playerResearch.setResearch(ModResearches.ENCHANTED_SKELETON, true);
+						playerResearch.sync(entityPlayer, true);
 					}
-					*/
 				});
 
 				// If bones remain create a new entity item with that many bones left

@@ -1,0 +1,10 @@
+{
+  "x": -2,
+  "y": 0,
+  "tooltip": "recycling your enemies",
+  "recipes": [ "afraidofthedark:blade_of_exhumation" ],
+  "preRecipes": [  ],
+  "icon": "afraidofthedark:textures/gui/research_icons/blade_of_exhumation.png",
+  "pre": "I have just witnessed an enchanted skeleton reform from a pile of bones. I should kill it again to see if it stays dead... undead... or whatever.",
+  "researched": "I have devised a sword specifically for fighting enchanted skeletons. When they die normally, they drop three bones and seeing as they require 4 bones to reform, I have to fight them over and over. For example, if I were to kill one hundred enchanted skeletons, seventy-five would reform. If I killed seventy-five of them, fifty-six would reform and so on. This blade ensures a one-shot kill on enchanted skeletons and makes them drop 4 bones, meaning I can easily use it to grind enchanting levels until the sword runs out of charge. The sword can be crafted with a single diamond to recharge it. The sword contains enough energy for one hundred fifty uses and after that, it becomes inert until recharged."
+}

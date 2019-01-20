@@ -7,19 +7,25 @@ package com.DavidM1A2.afraidofthedark.common.entity.enchantedSkeleton;
 
 
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
+import com.DavidM1A2.afraidofthedark.common.capabilities.player.research.IAOTDPlayerResearch;
+import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
 import com.DavidM1A2.afraidofthedark.common.constants.ModItems;
+import com.DavidM1A2.afraidofthedark.common.constants.ModResearches;
 import com.DavidM1A2.afraidofthedark.common.entity.enchantedSkeleton.animation.AnimationHandlerEnchantedSkeleton;
 import com.DavidM1A2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedEntity;
 import com.DavidM1A2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler;
+import com.DavidM1A2.afraidofthedark.common.item.ItemBladeOfExhumation;
 import com.DavidM1A2.afraidofthedark.common.packets.animationPackets.SyncAnimation;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -77,7 +83,7 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 		// If the entity can swim and it's in water it must do that otherwise it will skin
 		this.tasks.addTask(1, new EntityAISwimming(this));
 		// If it's not swimming, test if we can engage in combat, if so do that
-		this.tasks.addTask(2, new EntityAIAttackMelee(this, MOVE_SPEED, false));
+		this.tasks.addTask(2, new EntityAIAttackMelee(this, MOVE_SPEED / 4, false));
 		// If the entity isn't attacking then try to walk around
 		this.tasks.addTask(3, new EntityAIWander(this, MOVE_SPEED / 4));
 		// If the entity isn't wandering then try to watch whatever entity is nearby
@@ -163,37 +169,31 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 		// Call super
 		super.onDeath(damageSource);
 
-		// Test if a player killed the skeleton
-		if (damageSource.getTrueSource() instanceof EntityPlayer)
+		// Server side processing only
+		if (!this.world.isRemote)
 		{
-			EntityPlayer killer = (EntityPlayer) damageSource.getTrueSource();
+			// Test if a player killed the skeleton
+			if (damageSource.getTrueSource() instanceof EntityPlayer)
+			{
+				// Grab a reference to the player
+				EntityPlayer killer = (EntityPlayer) damageSource.getTrueSource();
 
-			/*
-			if (killer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.BladeOfExhumation))
-			{
-				if (killer.getHeldItemMainhand() != null)
+				// Grab the player's research
+				IAOTDPlayerResearch playerResearch = killer.getCapability(ModCapabilities.PLAYER_RESEARCH, null);
+
+				// If the player can research the blade of exhumation research give him the research
+				if (playerResearch.canResearch(ModResearches.BLADE_OF_EXHUMATION))
 				{
+					// Unlock the research for the player
+					playerResearch.setResearch(ModResearches.BLADE_OF_EXHUMATION, true);
+					playerResearch.sync(killer, true);
+				}
+
+				// If the blade of exhumation research is researched and the player is using a blade of exhumation drop one extra enchanted skeleton bone
+				if (playerResearch.isResearched(ModResearches.BLADE_OF_EXHUMATION))
 					if (killer.getHeldItemMainhand().getItem() instanceof ItemBladeOfExhumation)
-					{
-						this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY + 1, this.posZ, new ItemStack(ModItems.enchantedSkeletonBone, 1, 0)));
-					}
-				}
+						this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY + 1, this.posZ, new ItemStack(ModItems.ENCHANTED_SKELETON_BONE, 1, 0)));
 			}
-			else if (killer.getCapability(ModCapabilities.PLAYER_DATA, null).canResearch(ResearchTypes.BladeOfExhumation))
-			{
-				if (!killer.world.isRemote)
-				{
-					killer.getCapability(ModCapabilities.PLAYER_DATA, null).setResearch(ResearchTypes.BladeOfExhumation, true);
-				}
-				if (killer.getHeldItemMainhand() != null)
-				{
-					if (killer.getHeldItemMainhand().getItem() instanceof ItemBladeOfExhumation)
-					{
-						this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY + 1, this.posZ, new ItemStack(ModItems.enchantedSkeletonBone, 1, 0)));
-					}
-				}
-			}
-			*/
 		}
 	}
 

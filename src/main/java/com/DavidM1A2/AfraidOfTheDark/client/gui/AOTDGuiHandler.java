@@ -5,6 +5,7 @@ import com.DavidM1A2.afraidofthedark.client.gui.guiScreens.BloodStainedJournalRe
 import com.DavidM1A2.afraidofthedark.client.gui.guiScreens.BloodStainedJournalSignGUI;
 import com.DavidM1A2.afraidofthedark.client.settings.ClientData;
 import com.DavidM1A2.afraidofthedark.common.research.base.Research;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
@@ -74,7 +75,7 @@ public class AOTDGuiHandler implements IGuiHandler
 			case BLOOD_STAINED_JOURNAL_ID:
 				return new BloodStainedJournalResearchGUI();
 			case BLOOD_STAINED_JOURNAL_PAGE_ID:
-				return new BloodStainedJournalPageGUI(lastSelectedResearch.getResearchedText(), lastSelectedResearch.getName(), lastSelectedResearch.getResearchedRecipes());
+				return new BloodStainedJournalPageGUI(lastSelectedResearch.getResearchedText(), lastSelectedResearch.getLocalizedName(), lastSelectedResearch.getResearchedRecipes());
 			case BLOOD_STAINED_JOURNAL_PAGE_PRE_ID:
 				return new BloodStainedJournalPageGUI(lastSelectedResearch.getPreResearchedText(), "???", lastSelectedResearch.getPreResearchedRecipes());
 			default:
