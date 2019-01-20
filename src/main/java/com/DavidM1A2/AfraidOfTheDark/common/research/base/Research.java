@@ -1,6 +1,8 @@
 package com.DavidM1A2.afraidofthedark.common.research.base;
 
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
+import com.DavidM1A2.afraidofthedark.common.constants.Constants;
+import com.DavidM1A2.afraidofthedark.common.utility.ResourceUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -62,8 +64,9 @@ public abstract class Research extends IForgeRegistryEntry.Impl<Research>
 		// Initialize the pre-req field
 		this.preRequisite = preRequisite;
 		// Open an input stream to our data resource JSON file
-		try (InputStream inputStream = Minecraft.getMinecraft().getResourceManager().getResource(data).getInputStream();
-			 BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream)))
+		try (InputStream inputStream = ResourceUtil.getInputStream(data);
+			 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+			 BufferedReader reader = new BufferedReader(inputStreamReader))
 		{
 			// Read the file as JSON
 			JsonObject jsonObject = JsonUtils.fromJson(DESERIALIZER, reader, JsonObject.class);

@@ -1,15 +1,19 @@
 package com.DavidM1A2.afraidofthedark.common.item;
 
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
+import com.DavidM1A2.afraidofthedark.common.capabilities.world.StructurePlan;
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
 import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
 import com.DavidM1A2.afraidofthedark.common.constants.ModResearches;
 import com.DavidM1A2.afraidofthedark.common.item.core.AOTDItem;
 import com.DavidM1A2.afraidofthedark.common.research.base.Research;
+import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.Structure;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
@@ -38,10 +42,26 @@ public class ItemDebug extends AOTDItem
 		for (Research research : ModRegistries.RESEARCH)
 			playerIn.sendMessage(new TextComponentString(research.getRegistryName().toString() + " -> " + playerIn.getCapability(ModCapabilities.PLAYER_RESEARCH, null).isResearched(research)));
 
-		if (worldIn.isRemote)
-			AfraidOfTheDark.INSTANCE.getResearchOverlayHandler().displayResearch(ModResearches.AN_UNBREAKABLE_COVENANT);
 		if (!worldIn.isRemote)
 		{
+			StructurePlan y = StructurePlan.get(worldIn);
+			BlockPos position = playerIn.getPosition();
+			ChunkPos chunkPos = new ChunkPos(position);
+
+			if (y != null)
+			{
+				Structure structureAt = y.getStructureAt(chunkPos);
+				if (structureAt != null)
+				{
+					playerIn.sendMessage(new TextComponentString("Structure is " + structureAt.getRegistryName()));
+					playerIn.sendMessage(new TextComponentString("Origin pos is " + y.getStructureOrigin(chunkPos)));
+				}
+				else
+				{
+					playerIn.sendMessage(new TextComponentString("No structure at position"));
+				}
+			}
+
 			/*
 			OverworldHeightmap x = OverworldHeightmap.get(worldIn);
 			StructurePlan y = StructurePlan.get(worldIn);

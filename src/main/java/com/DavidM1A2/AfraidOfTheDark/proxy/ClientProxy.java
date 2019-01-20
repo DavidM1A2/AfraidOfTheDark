@@ -7,6 +7,7 @@ import com.DavidM1A2.afraidofthedark.client.entity.enchantedSkeleton.RenderEncha
 import com.DavidM1A2.afraidofthedark.common.block.core.AOTDLeaves;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;
 import com.DavidM1A2.afraidofthedark.common.entity.enchantedSkeleton.EntityEnchantedSkeleton;
+import com.DavidM1A2.afraidofthedark.common.handler.ResearchOverlayHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -24,6 +25,9 @@ import java.util.Arrays;
  */
 public class ClientProxy extends CommonProxy
 {
+	// Research overlay handler used to show when a player unlocks a research
+	private final ResearchOverlayHandler RESEARCH_OVERLAY_HANDLER = new ResearchOverlayHandler();
+
 	/**
 	 * Called to initialize leaf block renderers. This simply ensures the colors of the leaves are correctly applied
 	 */
@@ -66,5 +70,14 @@ public class ClientProxy extends CommonProxy
 	{
 		// Register all of our renderers
 		RenderingRegistry.registerEntityRenderingHandler(EntityEnchantedSkeleton.class, RenderEnchantedSkeleton::new);
+	}
+
+	/**
+	 * @return The research overlay handler client side
+	 */
+	@Override
+	public ResearchOverlayHandler getResearchOverlay()
+	{
+		return RESEARCH_OVERLAY_HANDLER;
 	}
 }

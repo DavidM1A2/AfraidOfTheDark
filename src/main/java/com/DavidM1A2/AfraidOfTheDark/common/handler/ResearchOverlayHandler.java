@@ -14,7 +14,7 @@ public class ResearchOverlayHandler
 {
 	// The overlay to show researches with
 	@SideOnly(Side.CLIENT)
-	private static final ResearchAchievedOverlay RESEARCH_ACHIEVED_OVERLAY = new ResearchAchievedOverlay();
+	private final ResearchAchievedOverlay RESEARCH_ACHIEVED_OVERLAY = new ResearchAchievedOverlay();
 
 	/**
 	 * Called every tick client side to draw the overlay

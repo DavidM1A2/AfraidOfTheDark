@@ -21,10 +21,7 @@ public class MessageHandler
 	public static abstract class Client<T extends IMessage> extends AbstractMessageHandler<T>
 	{
 		@Override
-		public final IMessage handleServerMessage(EntityPlayer player, T message, MessageContext ctx)
-		{
-			return null;
-		}
+		public final void handleServerMessage(EntityPlayer player, T message, MessageContext ctx) {}
 	}
 
 	/**
@@ -37,10 +34,7 @@ public class MessageHandler
 	public static abstract class Server<T extends IMessage> extends AbstractMessageHandler<T>
 	{
 		@Override
-		public final IMessage handleClientMessage(EntityPlayer player, T message, MessageContext ctx)
-		{
-			return null;
-		}
+		public final void handleClientMessage(EntityPlayer player, T message, MessageContext ctx) {}
 	}
 
 	/**

@@ -89,19 +89,24 @@ public class CapabilityHandler
 	@SubscribeEvent
 	public void onClonePlayer(final PlayerEvent.Clone event)
 	{
-		// Grab new and original player capabilities
-		IAOTDPlayerBasics originalPlayerBasics = event.getOriginal().getCapability(ModCapabilities.PLAYER_BASICS, null);
-		IAOTDPlayerBasics newPlayerBasics = event.getEntityPlayer().getCapability(ModCapabilities.PLAYER_BASICS, null);
+		// The player only loses capabilities upon death
+		if (event.isWasDeath())
+		{
+			// Grab new and original player capabilities
+			IAOTDPlayerBasics originalPlayerBasics = event.getOriginal().getCapability(ModCapabilities.PLAYER_BASICS, null);
+			IAOTDPlayerBasics newPlayerBasics = event.getEntityPlayer().getCapability(ModCapabilities.PLAYER_BASICS, null);
 
-		IAOTDPlayerResearch originalPlayerResearch = event.getOriginal().getCapability(ModCapabilities.PLAYER_RESEARCH, null);
-		IAOTDPlayerResearch newPlayerResearch = event.getEntityPlayer().getCapability(ModCapabilities.PLAYER_RESEARCH, null);
+			IAOTDPlayerResearch originalPlayerResearch = event.getOriginal().getCapability(ModCapabilities.PLAYER_RESEARCH, null);
+			IAOTDPlayerResearch newPlayerResearch = event.getEntityPlayer().getCapability(ModCapabilities.PLAYER_RESEARCH, null);
 
-		// Grab the NBT compound off of the original capabilities
-		NBTTagCompound originalPlayerBasicsNBT = (NBTTagCompound) ModCapabilities.PLAYER_BASICS.getStorage().writeNBT(ModCapabilities.PLAYER_BASICS, originalPlayerBasics, null);
-		NBTTagCompound originalPlayerResearchNBT = (NBTTagCompound) ModCapabilities.PLAYER_RESEARCH.getStorage().writeNBT(ModCapabilities.PLAYER_RESEARCH, originalPlayerResearch, null);
+			// Grab the NBT compound off of the original capabilities
+			NBTTagCompound originalPlayerBasicsNBT = (NBTTagCompound) ModCapabilities.PLAYER_BASICS.getStorage().writeNBT(ModCapabilities.PLAYER_BASICS, originalPlayerBasics, null);
+			NBTTagCompound originalPlayerResearchNBT = (NBTTagCompound) ModCapabilities.PLAYER_RESEARCH.getStorage().writeNBT(ModCapabilities.PLAYER_RESEARCH, originalPlayerResearch, null);
 
-		// Copy the NBT compound onto the new capabilities
-		ModCapabilities.PLAYER_BASICS.getStorage().readNBT(ModCapabilities.PLAYER_BASICS, newPlayerBasics, null, originalPlayerBasicsNBT);
-		ModCapabilities.PLAYER_RESEARCH.getStorage().readNBT(ModCapabilities.PLAYER_RESEARCH, newPlayerResearch, null, originalPlayerResearchNBT);
+			// Copy the NBT compound onto the new capabilities
+			ModCapabilities.PLAYER_BASICS.getStorage().readNBT(ModCapabilities.PLAYER_BASICS, newPlayerBasics, null, originalPlayerBasicsNBT);
+			ModCapabilities.PLAYER_RESEARCH.getStorage().readNBT(ModCapabilities.PLAYER_RESEARCH, newPlayerResearch, null, originalPlayerResearchNBT);
+		}
+
 	}
 }

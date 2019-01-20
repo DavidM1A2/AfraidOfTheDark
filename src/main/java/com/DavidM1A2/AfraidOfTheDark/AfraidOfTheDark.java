@@ -8,6 +8,8 @@ import com.DavidM1A2.afraidofthedark.common.worldGeneration.AOTDWorldGenerator;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.WorldHeightMapper;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.WorldStructurePlanner;
 import com.DavidM1A2.afraidofthedark.proxy.IProxy;
+import net.minecraft.client.Minecraft;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -17,6 +19,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.logging.log4j.Logger;
 
 /**
@@ -42,8 +46,8 @@ public class AfraidOfTheDark
 	// Configuration handler used to read and update the afraidofthedark.cfg file
 	private ConfigurationHandler configurationHandler;
 
-	// Research overlay handler used to show when a player unlocks a research
-	private ResearchOverlayHandler researchOverlayHandler = new ResearchOverlayHandler();
+	// World generator used to generate structures in the world
+	private final AOTDWorldGenerator worldGenerator = new AOTDWorldGenerator();
 
 	/**
 	 * Called with the forge pre-initialization event
@@ -73,16 +77,19 @@ public class AfraidOfTheDark
 		MinecraftForge.EVENT_BUS.register(new StructureRegister());
 		// Register our research handler used to add all of our mod researches to the game
 		MinecraftForge.EVENT_BUS.register(new ResearchRegister());
-		// Register our research overlay display to draw on the screen
-		MinecraftForge.EVENT_BUS.register(this.researchOverlayHandler);
+		// Register our research overlay display to draw on the screen, only need to do this client side
+		if (event.getSide() == Side.CLIENT)
+			MinecraftForge.EVENT_BUS.register(proxy.getResearchOverlay());
 		// Forward any capability events to our capability handler
 		MinecraftForge.EVENT_BUS.register(new CapabilityHandler());
 		// Forward any chunk creation events to our world generation height mapper
 		MinecraftForge.EVENT_BUS.register(new WorldHeightMapper());
-		// Forward any chunk creation events to our world structure planner
+		// Forward any chunk creation events to our world structure planner. Use our world RNG to create a seed
 		MinecraftForge.EVENT_BUS.register(new WorldStructurePlanner());
 		// Register our AOTD world generator
-		GameRegistry.registerWorldGenerator(new AOTDWorldGenerator(), configurationHandler.getWorldGenPriority());
+		GameRegistry.registerWorldGenerator(worldGenerator, configurationHandler.getWorldGenPriority());
+		// We also need to register our world gen server tick handler
+		MinecraftForge.EVENT_BUS.register(worldGenerator);
 		// Register our GUI handler that lets us open UIs for specific players
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new AOTDGuiHandler());
 		// Register all AOTD packets
@@ -152,10 +159,10 @@ public class AfraidOfTheDark
 	}
 
 	/**
-	 * @return The research overlay handler used to display researches
+	 * @return The world generator used to generate AOTD structures
 	 */
-	public ResearchOverlayHandler getResearchOverlayHandler()
+	public AOTDWorldGenerator getWorldGenerator()
 	{
-		return researchOverlayHandler;
+		return worldGenerator;
 	}
 }

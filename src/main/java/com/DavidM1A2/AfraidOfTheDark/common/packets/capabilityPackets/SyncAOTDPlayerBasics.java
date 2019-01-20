@@ -69,19 +69,14 @@ public class SyncAOTDPlayerBasics implements IMessage
 		 * @param player the player reference (the player who received the packet)
 		 * @param msg the message received
 		 * @param ctx the message context object. This contains additional information about the packet.
-		 * @return null (no response)
 		 */
 		@Override
-		public IMessage handleClientMessage(EntityPlayer player, SyncAOTDPlayerBasics msg, MessageContext ctx)
+		public void handleClientMessage(EntityPlayer player, SyncAOTDPlayerBasics msg, MessageContext ctx)
 		{
-			Minecraft.getMinecraft().addScheduledTask(() ->
-			{
-				// Grab the current player's capabilities
-				IAOTDPlayerBasics playerBasics = Minecraft.getMinecraft().player.getCapability(ModCapabilities.PLAYER_BASICS, null);
-				// Read the new capabilities into the player's data
-				ModCapabilities.PLAYER_BASICS.getStorage().readNBT(ModCapabilities.PLAYER_BASICS, playerBasics, null, msg.data);
-			});
-			return null;
+			// Grab the current player's capabilities
+			IAOTDPlayerBasics playerBasics = Minecraft.getMinecraft().player.getCapability(ModCapabilities.PLAYER_BASICS, null);
+			// Read the new capabilities into the player's data
+			ModCapabilities.PLAYER_BASICS.getStorage().readNBT(ModCapabilities.PLAYER_BASICS, playerBasics, null, msg.data);
 		}
 
 		/**
@@ -90,15 +85,12 @@ public class SyncAOTDPlayerBasics implements IMessage
 		 * @param player the player reference (the player who sent the packet)
 		 * @param msg the message received
 		 * @param ctx the message context object. This contains additional information about the packet.
-		 * @return null (no response)
 		 */
 		@Override
-		public IMessage handleServerMessage(EntityPlayer player, SyncAOTDPlayerBasics msg, MessageContext ctx)
+		public void handleServerMessage(EntityPlayer player, SyncAOTDPlayerBasics msg, MessageContext ctx)
 		{
 			// Send the player his/her current capabilities in a packet as requested
-			player.world.getMinecraftServer().addScheduledTask(() ->
-					player.getCapability(ModCapabilities.PLAYER_BASICS, null).syncAll(player));
-			return null;
+			player.world.getMinecraftServer().addScheduledTask(() -> player.getCapability(ModCapabilities.PLAYER_BASICS, null).syncAll(player));
 		}
 	}
 }

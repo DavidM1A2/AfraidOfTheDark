@@ -1,7 +1,9 @@
 package com.DavidM1A2.afraidofthedark.common.packets.packetHandler;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -28,10 +30,9 @@ abstract class AbstractMessageHandler<T extends IMessage> implements IMessageHan
 	 *            the message received
 	 * @param ctx
 	 *            the message context object. This contains additional information about the packet.
-	 * @return can return a reply to the received packet. If no reply should be sent, just return <code>null</code>.
 	 */
 	@SideOnly(Side.CLIENT)
-	public abstract IMessage handleClientMessage(final EntityPlayer player, final T msg, final MessageContext ctx);
+	public abstract void handleClientMessage(final EntityPlayer player, final T msg, final MessageContext ctx);
 
 	/**
 	 * Handles a packet on server side. Note that this occurs after decoding has completed.
@@ -42,21 +43,31 @@ abstract class AbstractMessageHandler<T extends IMessage> implements IMessageHan
 	 *            the message received
 	 * @param ctx
 	 *            the message context object. This contains additional information about the packet.
-	 * @return can return a reply to the received packet. If no reply should be sent, just return <code>null</code>.
 	 */
-	public abstract IMessage handleServerMessage(final EntityPlayer player, final T msg, final MessageContext ctx);
+	public abstract void handleServerMessage(final EntityPlayer player, final T msg, final MessageContext ctx);
 
 	/**
 	 * Runs the handleClientSide method for the given message. Used to avoid crashes due to @SideOnly on Minecraft.class
 	 *
 	 * @param message
 	 *            the message
-	 * @return the reply
 	 */
 	@SideOnly(Side.CLIENT)
-	private IMessage runHandleClient(T message, MessageContext ctx)
+	private void runHandleClient(T message, MessageContext ctx)
 	{
-		return this.handleClientMessage(ctx.side.isClient() ? Minecraft.getMinecraft().player : ctx.getServerHandler().player, message, ctx);
+		Minecraft.getMinecraft().addScheduledTask(() -> this.handleClientMessage(ctx.side.isClient() ? Minecraft.getMinecraft().player : ctx.getServerHandler().player, message, ctx));
+	}
+
+	/**
+	 * Runs the handleServerSide method for the given message.
+	 *
+	 * @param message
+	 *            the message
+	 */
+	private void runHandleServer(T message, MessageContext ctx)
+	{
+		EntityPlayerMP player = ctx.getServerHandler().player;
+		player.world.getMinecraftServer().addScheduledTask(() -> this.handleServerMessage(player, message, ctx));
 	}
 
 	/**
@@ -72,11 +83,12 @@ abstract class AbstractMessageHandler<T extends IMessage> implements IMessageHan
 	{
 		if (ctx.side.isClient())
 		{
-			return this.runHandleClient(message, ctx);
+			this.runHandleClient(message, ctx);
 		}
 		else
 		{
-			return this.handleServerMessage(ctx.getServerHandler().player, message, ctx);
+			this.runHandleServer(message, ctx);
 		}
+		return null;
 	}
 }

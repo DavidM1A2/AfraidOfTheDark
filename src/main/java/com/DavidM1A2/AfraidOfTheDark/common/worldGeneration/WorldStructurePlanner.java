@@ -1,5 +1,6 @@
 package com.DavidM1A2.afraidofthedark.common.worldGeneration;
 
+import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.IHeightmap;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.OverworldHeightmap;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.StructurePlan;
@@ -13,10 +14,7 @@ import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Class used to map out the entire world structures used for structure generation
@@ -76,42 +74,46 @@ public class WorldStructurePlanner
 				// Grab the biome provider for the world which we use to test which biomes exist where
 				BiomeProvider biomeProvider = world.getBiomeProvider();
 
-				// Compute a random position for this structure with the bottom left corner in this chunk
+				// Compute the 0,0 block pos for this structure
 				BlockPos chunk0Corner = chunkPos.getBlock(0, 63, 0);
+
+				// Compute the 4 possible positions of this structure with 4 extra slots for randomized versions of that position
+				BlockPos[] positions = new BlockPos[8];
+
+				// Grab a reference to the random object
+				Random random = world.rand;
+
 				// Try placing each different structure at each possible permutation around with this chunk at the edge of the structure
 				for (Structure structure : REGISTERED_STRUCTURES)
 				{
-					// Compute a list of possible positionings of this structure
-					List<BlockPos> positions = new LinkedList<>();
-
 					// Here we use a heuristic to test if a structure will fit inside of a chunk, we only test if we place the corners of the chunk
 					// inside the chunkpos instead of all possible positionings of the structure over the chunk
 
 					// Position the structure in the top right of the chunk
 					BlockPos topRight = chunk0Corner.add(15, 0, 15);
-					positions.add(topRight);
-					positions.add(topRight.add(-world.rand.nextInt(16), 0, -world.rand.nextInt(16)));
+					positions[0] = topRight;
+					positions[1] = topRight.add(-random.nextInt(16), 0, -random.nextInt(16));
 
 					// Position the structure in the top left of the chunk
 					BlockPos topLeft = chunk0Corner.add(0 - structure.getXWidth() + 1, 0, 15);
-					positions.add(topLeft);
-					positions.add(topLeft.add(world.rand.nextInt(16), 0, -world.rand.nextInt(16)));
+					positions[2] = topLeft;
+					positions[3] = topLeft.add(random.nextInt(16), 0, -random.nextInt(16));
 
 					// Position the structure in the bottom left of the chunk
 					BlockPos bottomLeft = chunk0Corner.add(0 - structure.getXWidth() + 1, 0, 0 - structure.getZLength() + 1);
-					positions.add(bottomLeft);
-					positions.add(bottomLeft.add(world.rand.nextInt(16), 0, world.rand.nextInt(16)));
+					positions[4] = bottomLeft;
+					positions[5] = bottomLeft.add(random.nextInt(16), 0, random.nextInt(16));
 
 					// Position the structure in the bottom right of the chunk
 					BlockPos bottomRight = chunk0Corner.add(15, 0, 0 - structure.getZLength() + 1);
-					positions.add(bottomRight);
-					positions.add(bottomRight.add(-world.rand.nextInt(16), 0, world.rand.nextInt(16)));
+					positions[6] = bottomRight;
+					positions[7] = bottomRight.add(-random.nextInt(16), 0, random.nextInt(16));
 
 					// Each even index contains one extreme corner positioning, and each odd index contains a randomized permutation of that
 					// positioning which we would actually generate at
-					for (int i = 0; i < positions.size(); i = i + 2)
+					for (int i = 0; i < positions.length; i = i + 2)
 					{
-						BlockPos possiblePos = positions.get(i);
+						BlockPos possiblePos = positions[i];
 
 						// Test if the structure fits into the structure map at the position (meaning no other structures would overlap this new structure)
 						// and if the structure would fit based on the heightmap
@@ -120,10 +122,10 @@ public class WorldStructurePlanner
 							// Compute the chance that the structure could spawn here
 							double percentChance = structure.computeChanceToGenerateAt(possiblePos, heightmap, biomeProvider);
 							// If our random dice roll succeeds place the structure
-							if (world.rand.nextDouble() < percentChance)
+							if (random.nextDouble() < percentChance)
 							{
 								// Grab the randomized position to generate the structure at
-								BlockPos posToGenerate = positions.get(i + 1);
+								BlockPos posToGenerate = positions[i + 1];
 
 								// Place the structure into our structure plan
 								structurePlan.placeStructureAt(structure, posToGenerate);
@@ -150,6 +152,9 @@ public class WorldStructurePlanner
 	 */
 	private void generateExistingChunks(Structure structure, World world, BlockPos posToGenerate)
 	{
+		// Store a reference to the world generator
+		AOTDWorldGenerator worldGenerator = AfraidOfTheDark.INSTANCE.getWorldGenerator();
+
 		// Compute the bottom left and top right chunk position
 		ChunkPos bottomLeftCorner = new ChunkPos(posToGenerate);
 		ChunkPos topRightCorner = new ChunkPos(posToGenerate.add(structure.getXWidth(), 0, structure.getZLength()));
@@ -162,7 +167,7 @@ public class WorldStructurePlanner
 				// If the chunk is generated at the coordinates then generate the structure at that position
 				if (world.isChunkGeneratedAt(chunkX, chunkZ))
 				{
-					structure.generate(world, posToGenerate, new ChunkPos(chunkX, chunkZ));
+					worldGenerator.addChunkToRegenerate(new ChunkPos(chunkX, chunkZ));
 				}
 			}
 		}

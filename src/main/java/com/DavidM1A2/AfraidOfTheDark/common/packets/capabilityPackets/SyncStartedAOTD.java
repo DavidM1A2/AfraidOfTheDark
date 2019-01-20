@@ -67,14 +67,11 @@ public class SyncStartedAOTD implements IMessage
 		 * @param player the player reference (the player who received the packet)
 		 * @param msg the message received
 		 * @param ctx the message context object. This contains additional information about the packet.
-		 * @return null (no response)
 		 */
 		@Override
-		public IMessage handleClientMessage(EntityPlayer player, SyncStartedAOTD msg, MessageContext ctx)
+		public void handleClientMessage(EntityPlayer player, SyncStartedAOTD msg, MessageContext ctx)
 		{
-			Minecraft.getMinecraft().addScheduledTask(() ->
-					player.getCapability(ModCapabilities.PLAYER_BASICS, null).setStartedAOTD(msg.startedAOTD));
-			return null;
+			Minecraft.getMinecraft().addScheduledTask(() -> player.getCapability(ModCapabilities.PLAYER_BASICS, null).setStartedAOTD(msg.startedAOTD));
 		}
 
 		/**
@@ -83,14 +80,11 @@ public class SyncStartedAOTD implements IMessage
 		 * @param player the player reference (the player who sent the packet)
 		 * @param msg the message received
 		 * @param ctx the message context object. This contains additional information about the packet.
-		 * @return null (no response)
 		 */
 		@Override
-		public IMessage handleServerMessage(EntityPlayer player, SyncStartedAOTD msg, MessageContext ctx)
+		public void handleServerMessage(EntityPlayer player, SyncStartedAOTD msg, MessageContext ctx)
 		{
-			player.world.getMinecraftServer().addScheduledTask(() ->
-					player.getCapability(ModCapabilities.PLAYER_BASICS, null).setStartedAOTD(msg.startedAOTD));
-			return null;
+			player.world.getMinecraftServer().addScheduledTask(() -> player.getCapability(ModCapabilities.PLAYER_BASICS, null).setStartedAOTD(msg.startedAOTD));
 		}
 	}
 }

@@ -1,6 +1,7 @@
 package com.DavidM1A2.afraidofthedark.common.worldGeneration.schematic;
 
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
+import com.DavidM1A2.afraidofthedark.common.utility.ResourceUtil;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompressedStreamTools;
@@ -9,6 +10,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
 import org.codehaus.plexus.util.ExceptionUtils;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -28,7 +30,7 @@ public class SchematicLoader
 		try
 		{
 			// Grab an input stream to the schematic file
-			InputStream inputStream = Minecraft.getMinecraft().getResourceManager().getResource(location).getInputStream();
+			InputStream inputStream = ResourceUtil.getInputStream(location);
 			// Read the NBT data from the file
 			NBTTagCompound nbtData = CompressedStreamTools.readCompressed(inputStream);
 			// Close the input stream

@@ -88,30 +88,24 @@ public class SyncResearch implements IMessage
 		 * @param player the player reference (the player who received the packet)
 		 * @param msg the message received
 		 * @param ctx the message context object. This contains additional information about the packet.
-		 * @return null (no response)
 		 */
 		@Override
-		public IMessage handleClientMessage(EntityPlayer player, SyncResearch msg, MessageContext ctx)
+		public void handleClientMessage(EntityPlayer player, SyncResearch msg, MessageContext ctx)
 		{
-			Minecraft.getMinecraft().addScheduledTask(() ->
+			// Grab the player's current research, we must use Minecraft.getMinecraft().player because the player passed to use might be null
+			IAOTDPlayerResearch playerResearch = player.getCapability(ModCapabilities.PLAYER_RESEARCH, null);
+			// Iterate over the new research
+			msg.researchToUnlocked.forEach((research, researched) ->
 			{
-				// Grab the player's current research, we must use Minecraft.getMinecraft().player because the player passed to use might be null
-				IAOTDPlayerResearch playerResearch = Minecraft.getMinecraft().player.getCapability(ModCapabilities.PLAYER_RESEARCH, null);
-				AfraidOfTheDark.INSTANCE.getLogger().info("CLIENT: " + msg.researchToUnlocked.toString());
-				// Iterate over the new research
-				msg.researchToUnlocked.forEach((research, researched) ->
-				{
-					// If the research was not researched and it now is researched show the popup
-					boolean wasResearched = playerResearch.isResearched(research);
-					boolean showPopup = researched && !wasResearched && msg.notifyNewResearch;
-					// Set the research
-					if (showPopup)
-						playerResearch.setResearchAndAlert(research, researched, Minecraft.getMinecraft().player);
-					else
-						playerResearch.setResearch(research, researched);
-				});
+				// If the research was not researched and it now is researched show the popup
+				boolean wasResearched = playerResearch.isResearched(research);
+				boolean showPopup = researched && !wasResearched && msg.notifyNewResearch;
+				// Set the research
+				if (showPopup)
+					playerResearch.setResearchAndAlert(research, researched, player);
+				else
+					playerResearch.setResearch(research, researched);
 			});
-			return null;
 		}
 
 		/**
@@ -120,20 +114,14 @@ public class SyncResearch implements IMessage
 		 * @param player the player reference (the player who sent the packet)
 		 * @param msg the message received
 		 * @param ctx the message context object. This contains additional information about the packet.
-		 * @return null (no response)
 		 */
 		@Override
-		public IMessage handleServerMessage(EntityPlayer player, SyncResearch msg, MessageContext ctx)
+		public void handleServerMessage(EntityPlayer player, SyncResearch msg, MessageContext ctx)
 		{
-			player.world.getMinecraftServer().addScheduledTask(() ->
-			{
-				AfraidOfTheDark.INSTANCE.getLogger().info("SERVER: " + msg.researchToUnlocked.toString());
-				// Grab the player's current research
-				IAOTDPlayerResearch playerResearch = player.getCapability(ModCapabilities.PLAYER_RESEARCH, null);
-				// Update each research, don't show popups server side
-				msg.researchToUnlocked.forEach((playerResearch::setResearch));
-			});
-			return null;
+			// Grab the player's current research
+			IAOTDPlayerResearch playerResearch = player.getCapability(ModCapabilities.PLAYER_RESEARCH, null);
+			// Update each research, don't show popups server side
+			msg.researchToUnlocked.forEach((playerResearch::setResearch));
 		}
 	}
 }

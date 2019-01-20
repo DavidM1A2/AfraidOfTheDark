@@ -13,6 +13,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeOcean;
 import net.minecraft.world.biome.BiomeProvider;
+import net.minecraft.world.biome.BiomeRiver;
 
 /**
  * Crypt structure class
@@ -63,7 +64,7 @@ public class StructureCrypt extends AOTDStructure
 				biomeSampling = biomeProvider.getBiomes(biomeSampling, chunkX * 16 + 8, chunkZ * 16 + 8, 1, 1);
 				Biome chunkBiome = biomeSampling[0];
 				// No oceans allowed
-				if (chunkBiome instanceof BiomeOcean)
+				if (chunkBiome instanceof BiomeOcean || chunkBiome instanceof BiomeRiver)
 					return 0;
 				// If the biome is an erie forest then increment erie forest
 				else if (chunkBiome instanceof BiomeErieForest)

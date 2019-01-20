@@ -3,6 +3,8 @@
  */
 package com.DavidM1A2.afraidofthedark.proxy;
 
+import com.DavidM1A2.afraidofthedark.common.handler.ResearchOverlayHandler;
+
 /**
  * Proxy that is only instantiated on the SERVER
  */
@@ -24,5 +26,14 @@ public class ServerProxy extends CommonProxy
 	public void initializeEntityRenderers()
 	{
 		// Not used
+	}
+
+	/**
+	 * @return The research overlay does not exist server side
+	 */
+	@Override
+	public ResearchOverlayHandler getResearchOverlay()
+	{
+		return null;
 	}
 }

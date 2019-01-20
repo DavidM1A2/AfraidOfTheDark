@@ -91,26 +91,21 @@ public class SyncAnimation extends EntitySyncBase
 		 * @param player the player reference (the player who received the packet)
 		 * @param msg the message received
 		 * @param ctx the message context object. This contains additional information about the packet.
-		 * @return null, no response
 		 */
 		@Override
-		public IMessage handleClientMessage(EntityPlayer player, SyncAnimation msg, MessageContext ctx)
+		public void handleClientMessage(EntityPlayer player, SyncAnimation msg, MessageContext ctx)
 		{
-			Minecraft.getMinecraft().addScheduledTask(() ->
+			// Grab the entity in the world by ID that the server wanted us to update
+			Entity entity = player.world.getEntityByID(msg.entityID);
+			// Ensure the entity is non-null and a MC animated entity
+			if (entity instanceof IMCAnimatedEntity)
 			{
-				// Grab the entity in the world by ID that the server wanted us to update
-				Entity entity = player.world.getEntityByID(msg.entityID);
-				// Ensure the entity is non-null and a MC animated entity
-				if (entity instanceof IMCAnimatedEntity)
-				{
-					// Grab the animation handler
-					AnimationHandler animationHandler = ((IMCAnimatedEntity) entity).getAnimationHandler();
-					// Ensure no higher priority animations are active, and if so activate the animation
-					if (Arrays.stream(msg.higherPriorityAnims).noneMatch(animationHandler::isAnimationActive))
-						animationHandler.activateAnimation(msg.animationName, 0);
-				}
-			});
-			return null;
+				// Grab the animation handler
+				AnimationHandler animationHandler = ((IMCAnimatedEntity) entity).getAnimationHandler();
+				// Ensure no higher priority animations are active, and if so activate the animation
+				if (Arrays.stream(msg.higherPriorityAnims).noneMatch(animationHandler::isAnimationActive))
+					animationHandler.activateAnimation(msg.animationName, 0);
+			}
 		}
 	}
 }

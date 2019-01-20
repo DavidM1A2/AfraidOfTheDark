@@ -94,7 +94,7 @@ public class AOTDPlayerResearchImpl implements IAOTDPlayerResearch
 		{
 			// Play the achievement sound and display the research
 			entityPlayer.playSound(ModSounds.ACHIEVEMENT_UNLOCKED, 1.0f, 1.0f);
-			AfraidOfTheDark.INSTANCE.getResearchOverlayHandler().displayResearch(research);
+			AfraidOfTheDark.proxy.getResearchOverlay().displayResearch(research);
 		}
 	}
 
