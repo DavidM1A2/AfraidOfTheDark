@@ -1,6 +1,7 @@
 package com.DavidM1A2.afraidofthedark.client.gui.standardControls;
 
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.Ingredient;
 
 /**
  * Advanced control that displays an entire crafting recipe
@@ -89,7 +90,12 @@ public class AOTDGuiRecipe extends AOTDGuiPanel
 
 		// Update each gui stack with the new ingredient
 		for (int i = 0; i < recipe.getIngredients().size(); i++)
-			this.guiItemStacks[i].setItemStack(recipe.getIngredients().get(i).getMatchingStacks()[0]);
+		{
+			Ingredient ingredient = recipe.getIngredients().get(i);
+			// If the ingredient is empty just show an empty slot
+			if (ingredient != Ingredient.EMPTY)
+				this.guiItemStacks[i].setItemStack(ingredient.getMatchingStacks()[0]);
+		}
 
 		// Update the output itemstack
 		this.output.setItemStack(recipe.getRecipeOutput());

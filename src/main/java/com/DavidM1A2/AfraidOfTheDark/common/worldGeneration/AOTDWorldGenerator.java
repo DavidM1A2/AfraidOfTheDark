@@ -13,6 +13,7 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -73,7 +74,6 @@ public class AOTDWorldGenerator implements IWorldGenerator
 			// Test if we have a chunk to generate
 			if (!this.chunksThatNeedGeneration.isEmpty())
 			{
-				System.out.println(this.chunksThatNeedGeneration.size());
 				// Grab the chunk to generate
 				ChunkPos chunkToGenerate = this.chunksThatNeedGeneration.remove();
 				// Grab the world to generate which is the overworld (world 0)

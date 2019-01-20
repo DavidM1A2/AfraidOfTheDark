@@ -313,7 +313,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 			this.leftPage.setText(this.textOnEachPage.get(pageNumber));
 			this.topLeftRecipe.setRecipe(null);
 			this.bottomLeftRecipe.setRecipe(null);
-			adjustedIndexForRecipe = adjustedIndexForRecipe + 1;
+			adjustedIndexForRecipe = adjustedIndexForRecipe + 2;
 		}
 		// If we don't have any more text then clear the left page of text and show any recipes if we have them
 		else
