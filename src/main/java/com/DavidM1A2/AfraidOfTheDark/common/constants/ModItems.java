@@ -2,7 +2,7 @@ package com.DavidM1A2.afraidofthedark.common.constants;
 
 import com.DavidM1A2.afraidofthedark.common.item.ItemBladeOfExhumation;
 import com.DavidM1A2.afraidofthedark.common.item.ItemDebug;
-import com.DavidM1A2.afraidofthedark.common.item.ItemEnchnatedSkeletonBone;
+import com.DavidM1A2.afraidofthedark.common.item.ItemEnchantedSkeletonBone;
 import com.DavidM1A2.afraidofthedark.common.item.ItemJournal;
 import net.minecraft.item.Item;
 
@@ -12,7 +12,7 @@ import net.minecraft.item.Item;
 public class ModItems
 {
 	public static final Item JOURNAL = new ItemJournal();
-	public static final Item ENCHANTED_SKELETON_BONE = new ItemEnchnatedSkeletonBone();
+	public static final Item ENCHANTED_SKELETON_BONE = new ItemEnchantedSkeletonBone();
 	public static final Item BLADE_OF_EXHUMATION = new ItemBladeOfExhumation();
 
 	public static final Item DEBUG = new ItemDebug();

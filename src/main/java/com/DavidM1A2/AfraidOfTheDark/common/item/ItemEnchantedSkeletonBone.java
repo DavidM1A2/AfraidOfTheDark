@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * Class representing the enchanted skeleton bone item
  */
-public class ItemEnchnatedSkeletonBone extends AOTDItem
+public class ItemEnchantedSkeletonBone extends AOTDItem
 {
 	// The number of bones required to combine into a skeleton
 	private static final int BONES_PER_SKELETON = 4;
@@ -29,12 +29,12 @@ public class ItemEnchnatedSkeletonBone extends AOTDItem
 	// The amount of ticks between updates
 	private static final int UPDATE_TIME_IN_TICKS = 120;
 	// The radius at which players receive research when the skeleton spawns
-	private static final int RESEARCH_UNLOCK_RADIUS = 10;
+	private static final int RESEARCH_UNLOCK_RADIUS = 7;
 
 	/**
 	 * Constructor sets up item properties
 	 */
-	public ItemEnchnatedSkeletonBone()
+	public ItemEnchantedSkeletonBone()
 	{
 		super("enchanted_skeleton_bone");
 	}
@@ -62,7 +62,7 @@ public class ItemEnchnatedSkeletonBone extends AOTDItem
 			for (EntityItem otherItem : surroundingItems)
 			{
 				// Test if the item has bones and is on the ground
-				if (otherItem.getItem().getItem() instanceof ItemEnchnatedSkeletonBone && otherItem.onGround)
+				if (otherItem.getItem().getItem() instanceof ItemEnchantedSkeletonBone && otherItem.onGround)
 				{
 					// Add the stack
 					surroundingBones.add(otherItem);
@@ -93,7 +93,7 @@ public class ItemEnchnatedSkeletonBone extends AOTDItem
 				}
 
 				// Give all players in range of the summoned skeletons a research if possible
-				world.getEntitiesWithinAABB(EntityPlayer.class, entityItem.getEntityBoundingBox().expand(RESEARCH_UNLOCK_RADIUS, RESEARCH_UNLOCK_RADIUS, RESEARCH_UNLOCK_RADIUS)).forEach(entityPlayer ->
+				world.getEntitiesWithinAABB(EntityPlayer.class, entityItem.getEntityBoundingBox().grow(RESEARCH_UNLOCK_RADIUS)).forEach(entityPlayer ->
 				{
 					IAOTDPlayerResearch playerResearch = entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null);
 					if (playerResearch.canResearch(ModResearches.ENCHANTED_SKELETON))
