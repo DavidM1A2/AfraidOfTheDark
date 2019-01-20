@@ -60,7 +60,7 @@ public class FontLoader
 		try
 		{
 			font = Font.createFont(type, Minecraft.getMinecraft().getResourceManager().getResource(res).getInputStream());
-			font = font.deriveFont(defSize);
+			font = font.deriveFont(defSize).deriveFont(Font.BOLD);
 			out = new TrueTypeFont(font, antialias);
 		}
 		catch (Exception e)

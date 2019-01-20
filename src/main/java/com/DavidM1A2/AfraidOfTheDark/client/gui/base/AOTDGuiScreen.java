@@ -22,10 +22,15 @@ import java.util.List;
  */
 public abstract class AOTDGuiScreen extends GuiScreen
 {
+	// The panel that contains all the content on the screen
 	private final AOTDGuiPanel contentPane;
+	// A convenience player reference
 	protected final EntityPlayerSP entityPlayer = Minecraft.getMinecraft().player;
+	// The key the user current has set to 'inventory'
+	protected final int INVENTORY_KEYCODE = Minecraft.getMinecraft().gameSettings.keyBindInventory.getKeyCode();
+	// A list of sprite sheet controllers that are used to control sprite sheets
 	private List<SpriteSheetController> spriteSheetControllers = new LinkedList<>();
-	protected final FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
+	// Flag telling us if the left mouse button is down or not
 	private boolean leftMouseButtonDown = false;
 
 	/**

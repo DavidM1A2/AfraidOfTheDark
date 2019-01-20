@@ -77,16 +77,43 @@ public class AOTDGuiButton extends AOTDGuiContainer
 		}
 	}
 
+	/**
+	 * Sets the text of the button
+	 *
+	 * @param text The text to draw over the button
+	 */
 	public void setText(String text)
 	{
 		this.label.setText(text);
 	}
 
+	/**
+	 * Sets the color of the background image
+	 *
+	 * @param tint The color that this component should be
+	 */
+	@Override
+	public void setColor(Color tint)
+	{
+		super.setColor(tint);
+		this.background.setColor(tint);
+	}
+
+	/**
+	 * Sets the color of the text
+	 *
+	 * @param textColor The text color
+	 */
 	public void setTextColor(Color textColor)
 	{
 		this.label.setTextColor(textColor);
 	}
 
+	/**
+	 * Sets the text alignment for this button
+	 *
+	 * @param textAlignment The button's text alignment
+	 */
 	public void setTextAlignment(TextAlignment textAlignment)
 	{
 		this.label.setTextAlignment(textAlignment);

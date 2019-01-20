@@ -32,6 +32,8 @@ public abstract class Research extends IForgeRegistryEntry.Impl<Research>
 	// The research that this research requires before it can be researched
 	private Research preRequisite;
 
+	// The name of the research
+	private String name;
 	// The tooltip that is displayed when the research is hovered
 	private String tooltip;
 	// The pre-researched text that is displayed on the page when the research is not researched yet
@@ -75,6 +77,7 @@ public abstract class Research extends IForgeRegistryEntry.Impl<Research>
 				// Parse all the fields of the JSON object using the JSONUtils class
 				this.xPosition = JsonUtils.getInt(jsonObject, "x");
 				this.yPosition = JsonUtils.getInt(jsonObject, "y");
+				this.name = JsonUtils.getString(jsonObject, "name");
 				this.tooltip = JsonUtils.getString(jsonObject, "tooltip");
 				for (JsonElement recipe : JsonUtils.getJsonArray(jsonObject, "recipes"))
 					this.researchedRecipes.add(JsonUtils.getItem(recipe, ""));
@@ -107,6 +110,11 @@ public abstract class Research extends IForgeRegistryEntry.Impl<Research>
 	public Research getPreRequisite()
 	{
 		return preRequisite;
+	}
+
+	public String getName()
+	{
+		return name;
 	}
 
 	public String getTooltip()

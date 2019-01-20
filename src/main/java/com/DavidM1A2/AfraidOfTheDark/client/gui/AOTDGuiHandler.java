@@ -1,7 +1,10 @@
 package com.DavidM1A2.afraidofthedark.client.gui;
 
+import com.DavidM1A2.afraidofthedark.client.gui.guiScreens.BloodStainedJournalPageGUI;
 import com.DavidM1A2.afraidofthedark.client.gui.guiScreens.BloodStainedJournalResearchGUI;
 import com.DavidM1A2.afraidofthedark.client.gui.guiScreens.BloodStainedJournalSignGUI;
+import com.DavidM1A2.afraidofthedark.client.settings.ClientData;
+import com.DavidM1A2.afraidofthedark.common.research.base.Research;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
@@ -62,12 +65,18 @@ public class AOTDGuiHandler implements IGuiHandler
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
 	{
+		// Grab the last selected research used in the page UI
+		Research lastSelectedResearch = ClientData.getInstance().getLastSelectedResearch();
 		switch (ID)
 		{
 			case BLOOD_STAINED_JOURNAL_SIGN_ID:
 				return new BloodStainedJournalSignGUI();
 			case BLOOD_STAINED_JOURNAL_ID:
 				return new BloodStainedJournalResearchGUI();
+			case BLOOD_STAINED_JOURNAL_PAGE_ID:
+				return new BloodStainedJournalPageGUI(lastSelectedResearch.getResearchedText(), lastSelectedResearch.getName(), lastSelectedResearch.getResearchedRecipes());
+			case BLOOD_STAINED_JOURNAL_PAGE_PRE_ID:
+				return new BloodStainedJournalPageGUI(lastSelectedResearch.getPreResearchedText(), "???", lastSelectedResearch.getPreResearchedRecipes());
 			default:
 				return null;
 		}

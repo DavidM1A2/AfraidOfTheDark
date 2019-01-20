@@ -55,7 +55,7 @@ public class AOTDGuiTextBox extends AOTDGuiContainer
 			for (int i = 0; i < this.textLines.size(); i++)
 				this.font.drawString(
 					this.getXScaled().floatValue(),
-					this.getYScaled().floatValue() + i * this.font.getFontSize() * Constants.TEXT_SCALE_FACTOR * this.getScaleY().floatValue(),
+					this.getYScaled().floatValue() + i * this.font.getHeight() * Constants.TEXT_SCALE_FACTOR * this.getScaleY().floatValue(),
 					this.textLines.get(i),
 					this.getScaleX().floatValue() * Constants.TEXT_SCALE_FACTOR,
 					this.getScaleY().floatValue() * Constants.TEXT_SCALE_FACTOR,
@@ -98,14 +98,15 @@ public class AOTDGuiTextBox extends AOTDGuiContainer
 				currentLineText = word;
 			}
 			// Else append to the current line
+			else if (StringUtils.isEmpty(currentLineText))
+				currentLineText = word;
 			else
-			{
 				currentLineText = currentLineText + " " + word;
-			}
 		}
+		this.textLines.add(currentLineText);
 
 		// Compute the maximum number of lines that fit vertically inside the text box
-		int maxLines = MathHelper.floor(this.getHeight() / this.font.getHeight() * Constants.TEXT_SCALE_FACTOR);
+		int maxLines = MathHelper.floor(this.getHeight() / (this.font.getHeight() * Constants.TEXT_SCALE_FACTOR));
 		// If the number of lines we have is less than or equal to the max we're OK
 		if (textLines.size() <= maxLines)
 		{
@@ -135,5 +136,23 @@ public class AOTDGuiTextBox extends AOTDGuiContainer
 	public String getOverflowText()
 	{
 		return this.overflowText;
+	}
+
+	/**
+	 * Sets the color of the text
+	 *
+	 * @param textColor The new color of the text
+	 */
+	public void setTextColor(Color textColor)
+	{
+		this.textColor = textColor;
+	}
+
+	/**
+	 * @return The color of the text
+	 */
+	public Color getTextColor()
+	{
+		return textColor;
 	}
 }

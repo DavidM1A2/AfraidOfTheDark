@@ -389,9 +389,10 @@ public abstract class AOTDGuiComponent
 	public void brightenColor(int amount)
 	{
 		// RGB must be betweeen 0 - 255
-		this.tint.setRed(MathHelper.clamp(this.tint.getRed() + amount, 0, 255));
-		this.tint.setGreen(MathHelper.clamp(this.tint.getGreen() + amount, 0, 255));
-		this.tint.setBlue(MathHelper.clamp(this.tint.getBlue() + amount, 0, 255));
+		// RGB must be betweeen 0 - 255
+		this.setColor(new Color(MathHelper.clamp(this.tint.getRed() + amount, 0, 255),
+				MathHelper.clamp(this.tint.getGreen() + amount, 0, 255),
+				MathHelper.clamp(this.tint.getBlue() + amount, 0, 255)));
 	}
 
 	/**
@@ -402,9 +403,9 @@ public abstract class AOTDGuiComponent
 	public void darkenColor(int amount)
 	{
 		// RGB must be betweeen 0 - 255
-		this.tint.setRed(MathHelper.clamp(this.tint.getRed() - amount, 0, 255));
-		this.tint.setGreen(MathHelper.clamp(this.tint.getGreen() - amount, 0, 255));
-		this.tint.setBlue(MathHelper.clamp(this.tint.getBlue() - amount, 0, 255));
+		this.setColor(new Color(MathHelper.clamp(this.tint.getRed() - amount, 0, 255),
+				MathHelper.clamp(this.tint.getGreen() - amount, 0, 255),
+				MathHelper.clamp(this.tint.getBlue() - amount, 0, 255)));
 	}
 
 	/**
