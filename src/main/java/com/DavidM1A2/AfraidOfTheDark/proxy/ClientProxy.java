@@ -3,9 +3,12 @@
  */
 package com.DavidM1A2.afraidofthedark.proxy;
 
+import com.DavidM1A2.afraidofthedark.client.entity.bolt.RenderWoodenBolt;
 import com.DavidM1A2.afraidofthedark.client.entity.enchantedSkeleton.RenderEnchantedSkeleton;
 import com.DavidM1A2.afraidofthedark.common.block.core.AOTDLeaves;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;
+import com.DavidM1A2.afraidofthedark.common.constants.ModEntities;
+import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityWoodenBolt;
 import com.DavidM1A2.afraidofthedark.common.entity.enchantedSkeleton.EntityEnchantedSkeleton;
 import com.DavidM1A2.afraidofthedark.common.handler.ResearchOverlayHandler;
 import net.minecraft.block.Block;
@@ -16,9 +19,13 @@ import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.biome.BiomeColorHelper;
+import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.registry.EntityEntry;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Arrays;
+import java.util.Map;
 
 /**
  * Proxy that is only to be instantiated on the CLIENT side
@@ -69,7 +76,8 @@ public class ClientProxy extends CommonProxy
 	public void initializeEntityRenderers()
 	{
 		// Register all of our renderers
-		RenderingRegistry.registerEntityRenderingHandler(EntityEnchantedSkeleton.class, RenderEnchantedSkeleton::new);
+		for (Pair<EntityEntry, IRenderFactory> renderingEntry : ModEntities.ENTITY_RENDERERS)
+			RenderingRegistry.registerEntityRenderingHandler(renderingEntry.getKey().getEntityClass(), renderingEntry.getValue());
 	}
 
 	/**

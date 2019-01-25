@@ -23,9 +23,6 @@ public class EntityRegister
 		IForgeRegistry<EntityEntry> registry = event.getRegistry();
 
 		// Register all of our mod entities
-		for (EntityEntry entityEntry : ModEntities.ENTITY_LIST)
-		{
-			registry.register(entityEntry);
-		}
+		registry.registerAll(ModEntities.ENTITY_LIST);
 	}
 }

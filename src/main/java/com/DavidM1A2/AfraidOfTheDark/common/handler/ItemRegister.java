@@ -1,9 +1,13 @@
 package com.DavidM1A2.afraidofthedark.common.handler;
 
 import com.DavidM1A2.afraidofthedark.common.block.core.AOTDSlab;
+import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;
 import com.DavidM1A2.afraidofthedark.common.constants.ModItems;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemModelMesher;
+import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -30,10 +34,7 @@ public class ItemRegister
 		IForgeRegistry<Item> registry = event.getRegistry();
 
 		// Register each item in our item list
-		for (Item item : ModItems.ITEM_LIST)
-		{
-			registry.register(item);
-		}
+		registry.registerAll(ModItems.ITEM_LIST);
 
 		// For each block in our block list we register an item so that we can hold the block
 		for (Block block : ModBlocks.BLOCK_LIST)
@@ -59,5 +60,11 @@ public class ItemRegister
 		// Register models for all items in our mod
 		for (Item item : ModItems.ITEM_LIST)
 			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
+
+		// Crossbows will have different textures for metadata states 0 to 3
+		ModelLoader.setCustomModelResourceLocation(ModItems.CROSSBOW, 0, new ModelResourceLocation(Constants.MOD_ID + ":crossbow_unloaded", "inventory"));
+		ModelLoader.setCustomModelResourceLocation(ModItems.CROSSBOW, 1, new ModelResourceLocation(Constants.MOD_ID + ":crossbow_quarter", "inventory"));
+		ModelLoader.setCustomModelResourceLocation(ModItems.CROSSBOW, 2, new ModelResourceLocation(Constants.MOD_ID + ":crossbow_half", "inventory"));
+		ModelLoader.setCustomModelResourceLocation(ModItems.CROSSBOW, 3, new ModelResourceLocation(Constants.MOD_ID + ":crossbow_loaded", "inventory"));
 	}
 }

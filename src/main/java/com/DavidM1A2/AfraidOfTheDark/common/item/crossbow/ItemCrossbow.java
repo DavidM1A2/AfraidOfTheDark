@@ -1,0 +1,322 @@
+package com.DavidM1A2.afraidofthedark.common.item.crossbow;
+
+import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
+import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
+import com.DavidM1A2.afraidofthedark.common.constants.ModItems;
+import com.DavidM1A2.afraidofthedark.common.constants.ModSounds;
+import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityBolt;
+import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityIronBolt;
+import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityWoodenBolt;
+import com.DavidM1A2.afraidofthedark.common.item.core.AOTDItem;
+import com.DavidM1A2.afraidofthedark.common.research.base.Research;
+import com.DavidM1A2.afraidofthedark.common.utility.AOTDBoltHelper;
+import com.DavidM1A2.afraidofthedark.common.utility.NBTHelper;
+import com.google.common.base.Enums;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Iterators;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.EnumHelper;
+import org.apache.commons.lang3.tuple.Triple;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.function.Function;
+import java.util.function.Supplier;
+
+/**
+ * Class representing the crossbow item
+ */
+public class ItemCrossbow extends AOTDItem
+{
+	// Store the reload time of the crossbow in ticks
+	private static final int RELOAD_TIME = 50;
+
+	// Strings used as keys by NBT
+	private static final String NBT_BOLT_TYPE = "bolt_type";
+
+	/**
+	 * Constructor just sets the item name and ensures it can't stack
+	 */
+	public ItemCrossbow()
+	{
+		super("crossbow");
+		this.setMaxStackSize(1);
+	}
+
+	/**
+	 * Called every tick, we test if the bow is not selected and ensure it is either in damage state 0 or 3 based on if it is charged or not
+	 *
+	 * @param stack The itemstack to update
+	 * @param worldIn The world the item is in
+	 * @param entityIn The entity holding the item
+	 * @param itemSlot The slot the item is in
+	 * @param isSelected If the item is selected
+	 */
+	@Override
+	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+	{
+		// If the itemstack is in state 1 or 2 then reset it to 0
+		if (!worldIn.isRemote && !isSelected)
+			if (stack.getItemDamage() == 1 || stack.getItemDamage() == 2)
+				stack.setItemDamage(0);
+	}
+
+	/**
+	 * Called when you right click with an item
+	 *
+	 * @param worldIn The world the click happens in
+	 * @param playerIn The player that right clicks
+	 * @param handIn The hand that the player is using
+	 * @return The result of the click
+	 */
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+	{
+		// Grab the itemstack that is held
+		ItemStack itemStack = playerIn.getHeldItem(handIn);
+
+		// Server side processing only
+		if (!worldIn.isRemote)
+		{
+			// If the player is sneaking then select the next bolt type for this crossbow
+			if (playerIn.isSneaking())
+				this.selectNextBoltType(itemStack, playerIn);
+			else
+			{
+				// If the player is not sneaking and the bow has no charge begin charging
+				if (itemStack.getItemDamage() == 0)
+				{
+					// If we are in creative, no ammo is required or if we have ammo begin charging he bow
+					if (playerIn.capabilities.isCreativeMode || playerIn.inventory.hasItemStack(new ItemStack(this.getCurrentBoltType(itemStack).getItem())))
+					{
+						// Play the load sound
+						worldIn.playSound(null, playerIn.getPosition(), ModSounds.CROSSBOW_LOAD, SoundCategory.PLAYERS, 0.9F, worldIn.rand.nextFloat() * 0.8F + 1.2F);
+						// Set the player's hand to active
+						playerIn.setActiveHand(handIn);
+					}
+					// Else we print out that the player needs bolts to fire
+					else
+					{
+						playerIn.sendMessage(new TextComponentString("I'll need at least one " + this.getCurrentBoltType(itemStack).getName().toLowerCase() + " bolt in my inventory to shoot."));
+					}
+				}
+			}
+		}
+
+		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStack);
+	}
+
+	/**
+	 * Called when the player is using an item
+	 *
+	 * @param stack The stack being used
+	 * @param entity The entity that is using the item, should be a player
+	 * @param count The count of the current using tick
+	 */
+	@Override
+	public void onUsingTick(ItemStack stack, EntityLivingBase entity, int count)
+	{
+		// Server side processing only
+		if (!entity.world.isRemote)
+		{
+			// Only the player can charge the bow
+			if (entity instanceof EntityPlayer)
+			{
+				EntityPlayer entityPlayer = (EntityPlayer) entity;
+				count = this.getMaxItemUseDuration(stack) - count + 1;
+				AfraidOfTheDark.INSTANCE.getLogger().info("Log count -> " + count);
+				// On using we play a sound
+				if (count == 1)
+					stack.setItemDamage(1);
+				else if (count == RELOAD_TIME / 4)
+					stack.setItemDamage(1);
+				else if (count == RELOAD_TIME / 4 * 2)
+					stack.setItemDamage(2);
+				else if (count == RELOAD_TIME / 4 * 3)
+					stack.setItemDamage(2);
+				else if (count == RELOAD_TIME)
+					if (entityPlayer.capabilities.isCreativeMode || entityPlayer.inventory.clearMatchingItems(this.getCurrentBoltType(stack).getItem(), -1, 1, null) == 1)
+						// Bow is loaded at damage = 3
+						stack.setItemDamage(3);
+			}
+		}
+	}
+
+	/**
+	 * Called when the player left clicks with an item
+	 *
+	 * @param entityLiving The entity that is swinging
+	 * @param stack The item being swung
+	 * @return True to cancel the swing, false otherwise
+	 */
+	@Override
+	public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack)
+	{
+		// Only fire server side and from players
+		if (!entityLiving.world.isRemote && entityLiving instanceof EntityPlayer && this.bowIsCharged(stack))
+		{
+			// Reset the charge state and fire
+			stack.setItemDamage(0);
+			this.fireBolt((EntityPlayer) entityLiving, entityLiving.world, stack);
+		}
+		return super.onEntitySwing(entityLiving, stack);
+	}
+
+	/**
+	 * Fires a bolt from the crossbow into the world
+	 *
+	 * @param entityPlayer The player shooting the bow
+	 * @param world The world the bow is being shot in
+	 * @param itemStack The bow item stack
+	 */
+	private void fireBolt(EntityPlayer entityPlayer, World world, ItemStack itemStack)
+	{
+		// Play a fire sound effect
+		world.playSound(null, entityPlayer.getPosition(), ModSounds.CROSSBOW_FIRE, SoundCategory.PLAYERS, 0.5f, world.rand.nextFloat() * 0.4f + 0.8f);
+		// Instantiate bolt!
+		EntityBolt bolt = this.getCurrentBoltType(itemStack).createEntity(world, entityPlayer);
+		// Push the bolt slightly forward so it does not collide with the player
+		bolt.shoot(entityPlayer, entityPlayer.rotationPitch, entityPlayer.rotationYaw, 0f, 3f, 0f);
+		bolt.posX = bolt.posX + bolt.motionX;
+		bolt.posY = bolt.posY + bolt.motionY;
+		bolt.posZ = bolt.posZ + bolt.motionZ;
+		world.spawnEntity(bolt);
+	}
+
+	/**
+	 * The metadata of the item is just it's damage value in our case
+	 *
+	 * @param damage The damage of the crossbow which represents its charge state
+	 * @return The metadata value of the item
+	 */
+	@Override
+	public int getMetadata(int damage)
+	{
+		return damage;
+	}
+
+	/**
+	 * Called when the player stops using the crossbow meaning they are no longer pulling it back
+	 *
+	 * @param stack The stack that is being processed
+	 * @param worldIn The world the item is in
+	 * @param entityLiving The entity using the item
+	 * @param timeLeft The time left before the bow can no longer be used
+	 */
+	@Override
+	public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityLivingBase entityLiving, int timeLeft)
+	{
+		// If the bow is not charged, then
+		if (stack.getItemDamage() != 3)
+			stack.setItemDamage(0);
+	}
+
+	/**
+	 * Selects the next bolt type to be fired in a circular order
+	 *
+	 * @param itemStack The itemstack to update bolt type on
+	 */
+	private void selectNextBoltType(ItemStack itemStack, EntityPlayer entityPlayer)
+	{
+		// First test if the itemstack is not fully charged
+		if (!this.bowIsCharged(itemStack))
+		{
+			// Grab the current bolt type
+			int currentBoltType = this.getCurrentBoltTypeIndex(itemStack);
+			// The research pre-requisite for the bolt type
+			Research preRequisite;
+			do
+			{
+				// Increment bolt type until we find one that is valid for the player holding the bow
+				currentBoltType++;
+				if (currentBoltType >= AOTDBoltHelper.values().length)
+					currentBoltType = 0;
+				preRequisite = AOTDBoltHelper.values()[currentBoltType].getPreRequisite();
+			}
+			// Loop while there is an unmet pre-requisite
+			while(preRequisite != null && !entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null).isResearched(preRequisite));
+			NBTHelper.setInteger(itemStack, NBT_BOLT_TYPE, currentBoltType);
+
+			// Tell the user that they have a new bolt loaded
+			if (!entityPlayer.world.isRemote)
+				entityPlayer.sendMessage(new TextComponentString("Bow will now fire " + this.getCurrentBoltType(itemStack).getName().toLowerCase() + " bolts."));
+		}
+	}
+
+	/**
+	 * True if the bow is charged and ready to fire
+	 *
+	 * @param itemStack The itemstack to test
+	 * @return True if the bow is ready to fire, false otherwise
+	 */
+	private boolean bowIsCharged(ItemStack itemStack)
+	{
+		return itemStack.getItemDamage() == 3;
+	}
+
+	/**
+	 * Returns the current bolt type selected for a given itemstack
+	 *
+	 * @param itemStack The bolt type selected
+	 * @return The bolt type tripe represented by this bow
+	 */
+	private AOTDBoltHelper getCurrentBoltType(ItemStack itemStack)
+	{
+		return AOTDBoltHelper.values()[this.getCurrentBoltTypeIndex(itemStack)];
+	}
+
+	/**
+	 * Returns the current bolt type index from the NBT data of the itemstack
+	 *
+	 * @param itemStack The itemstack to get the current bolt type index from
+	 * @return The index of the bolt type into AOTDBoltHelper.values()
+	 */
+	private int getCurrentBoltTypeIndex(ItemStack itemStack)
+	{
+		if (!NBTHelper.hasTag(itemStack, NBT_BOLT_TYPE))
+			NBTHelper.setInteger(itemStack, NBT_BOLT_TYPE, 0);
+		return NBTHelper.getInteger(itemStack, NBT_BOLT_TYPE);
+	}
+
+	/**
+	 * Adds a tooltop to the crossbow
+	 *
+	 * @param stack The item stack to tooltip
+	 * @param worldIn The world the item is in
+	 * @param tooltip The tooltip to add to
+	 * @param flagIn True if show advanced info is on, false otherwise
+	 */
+	@Override
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
+	{
+		tooltip.add("Shift & Right click to change crossbow bolt type.");
+		tooltip.add("Bow will fire: " + this.getCurrentBoltType(stack).getName() + " bolts.");
+	}
+
+	/**
+	 * Returns the amount of time the item can be in use
+	 *
+	 * @param stack The itemstack in question
+	\	 * @return An integer representing the reload time of the bow
+	 */
+	@Override
+	public int getMaxItemUseDuration(ItemStack stack)
+	{
+		return RELOAD_TIME;
+	}
+}
