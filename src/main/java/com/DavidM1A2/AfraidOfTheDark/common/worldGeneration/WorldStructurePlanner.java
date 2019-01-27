@@ -65,8 +65,11 @@ public class WorldStructurePlanner
 			// If a structure does not yet exist at the position
 			if (!structurePlan.structureExistsAt(chunkPos))
 			{
+				// Grab a reference to the random object
+				Random random = world.rand;
+
 				// Access the structures in random order
-				Collections.shuffle(REGISTERED_STRUCTURES);
+				Collections.shuffle(REGISTERED_STRUCTURES, random);
 
 				// Grab the heightmap for the world
 				IHeightmap heightmap = OverworldHeightmap.get(world);
@@ -79,9 +82,6 @@ public class WorldStructurePlanner
 
 				// Compute the 4 possible positions of this structure with 4 extra slots for randomized versions of that position
 				BlockPos[] positions = new BlockPos[8];
-
-				// Grab a reference to the random object
-				Random random = world.rand;
 
 				// Try placing each different structure at each possible permutation around with this chunk at the edge of the structure
 				for (Structure structure : REGISTERED_STRUCTURES)

@@ -33,6 +33,11 @@ public interface IProxy
 	void initializeSmeltingRecipes();
 
 	/**
+	 * Called to register any key bindings
+	 */
+	void registerKeyBindings();
+
+	/**
 	 * Called to register all packets used by AOTD
 	 */
 	void registerPackets();

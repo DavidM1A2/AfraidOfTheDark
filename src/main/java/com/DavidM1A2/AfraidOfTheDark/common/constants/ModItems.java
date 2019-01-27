@@ -1,10 +1,8 @@
 package com.DavidM1A2.afraidofthedark.common.constants;
 
-import com.DavidM1A2.afraidofthedark.common.item.ItemBladeOfExhumation;
-import com.DavidM1A2.afraidofthedark.common.item.ItemDebug;
-import com.DavidM1A2.afraidofthedark.common.item.ItemEnchantedSkeletonBone;
-import com.DavidM1A2.afraidofthedark.common.item.ItemJournal;
+import com.DavidM1A2.afraidofthedark.common.item.*;
 import com.DavidM1A2.afraidofthedark.common.item.crossbow.ItemCrossbow;
+import com.DavidM1A2.afraidofthedark.common.item.crossbow.ItemWristCrossbow;
 import com.DavidM1A2.afraidofthedark.common.item.crossbow.bolts.*;
 import net.minecraft.item.Item;
 
@@ -17,6 +15,8 @@ public class ModItems
 	public static final Item ENCHANTED_SKELETON_BONE = new ItemEnchantedSkeletonBone();
 	public static final Item BLADE_OF_EXHUMATION = new ItemBladeOfExhumation();
 	public static final Item CROSSBOW = new ItemCrossbow();
+	public static final Item WRIST_CROSSBOW = new ItemWristCrossbow();
+	public static final Item RESEARCH_SCROLL = new ItemResearchScroll();
 
 	public static final Item WOODEN_BOLT = new ItemWoodenBolt();
 	public static final Item IRON_BOLT = new ItemIronBolt();
@@ -33,6 +33,8 @@ public class ModItems
 		ENCHANTED_SKELETON_BONE,
 		BLADE_OF_EXHUMATION,
 		CROSSBOW,
+		WRIST_CROSSBOW,
+		RESEARCH_SCROLL,
 		WOODEN_BOLT,
 		IRON_BOLT,
 		SILVER_BOLT,

@@ -1,4 +1,4 @@
-Crossbow:werewolf hunter
+Crossbow:
 WristCrossbow:the night hunter
 WerewolfExamination:by your skin on their teeth
 AstronomyI:not astrology

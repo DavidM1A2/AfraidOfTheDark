@@ -121,19 +121,14 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 		// Distance between research icon nodes is 75px
 		int distanceBetweenNodes = 75;
 
-		// Iterate over all researches
+		// Iterate over all researches, first add each of the connector arrows
 		for (Research research : ModRegistries.RESEARCH.getValuesCollection())
 		{
 			// Compute the button's X and Y position
 			int xPos = backgroundWidth / 2 - 16 + distanceBetweenNodes * research.getXPosition();
 			int yPos = backgroundHeight - 50 - distanceBetweenNodes * research.getZPosition();
 
-			// Create the research button
-			AOTDGuiResearchNodeButton researchNode = new AOTDGuiResearchNodeButton(xPos, yPos, research);
-			// Add our pre-build listener to this node
-			researchNode.addMouseListener(nodeListener);
-
-			// If the research has a prerequisite add an arrow from the prerequisite to the current node
+			// If the research has a prerequisite add an arrow from the prerequisite to the current node first
 			if (research.getPreRequisite() != null)
 			{
 				// Only add the arrows if we know if the
@@ -154,6 +149,19 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 				}
 			}
 
+		}
+
+		// Now that we have all arrows added add each research node on top to ensure correct z-layer order
+		for (Research research : ModRegistries.RESEARCH.getValuesCollection())
+		{
+			// Compute the button's X and Y position
+			int xPos = backgroundWidth / 2 - 16 + distanceBetweenNodes * research.getXPosition();
+			int yPos = backgroundHeight - 50 - distanceBetweenNodes * research.getZPosition();
+
+			// Create the research button
+			AOTDGuiResearchNodeButton researchNode = new AOTDGuiResearchNodeButton(xPos, yPos, research);
+			// Add our pre-build listener to this node
+			researchNode.addMouseListener(nodeListener);
 			// Add the node to our tree
 			this.researchTree.add(researchNode);
 		}

@@ -139,7 +139,6 @@ public class ItemCrossbow extends AOTDItem
 			{
 				EntityPlayer entityPlayer = (EntityPlayer) entity;
 				count = this.getMaxItemUseDuration(stack) - count + 1;
-				AfraidOfTheDark.INSTANCE.getLogger().info("Log count -> " + count);
 				// On using we play a sound
 				if (count == 1)
 					stack.setItemDamage(1);

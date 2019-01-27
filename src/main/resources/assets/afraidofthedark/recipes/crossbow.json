@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BII",
+    "IPS",
+    "ISP"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:bow"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "P": {
+      "item": "minecraft:planks",
+      "data": 0
+    },
+    "S": {
+      "item": "minecraft:string"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:crossbow",
+    "count": 1
+  }
+}

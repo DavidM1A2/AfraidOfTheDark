@@ -22,9 +22,6 @@ public class ResearchRegister
 		IForgeRegistry<Research> registry = event.getRegistry();
 
 		// Register each research in our research list
-		for (Research research : ModResearches.RESEARCH_LIST)
-		{
-			registry.register(research);
-		}
+		registry.registerAll(ModResearches.RESEARCH_LIST);
 	}
 }

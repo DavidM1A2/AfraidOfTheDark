@@ -30,11 +30,7 @@ item.afraidofthedark:star_metal_staff.name=Star Metal Staff
 item.afraidofthedark:star_metal_khopesh.name=Star Metal Khopesh
 item.afraidofthedark:vitae_lantern.name=Vitae Lantern
 item.afraidofthedark:cloak_of_agility.name=Cloak of Agility
-item.afraidofthedark:research_scroll_cloak_of_agility.name=Research Cloak of Agility
-item.afraidofthedark:research_scroll_astronomy2.name=Research Astronomy 2
-item.afraidofthedark:research_scroll_vitae1.name=Research Vitae 1
-item.afraidofthedark:research_scroll_wrist_crossbow.name=Research Wrist Crossbow
-item.afraidofthedark:research_scroll_insanity.name=Research Insanity
+item.afraidofthedark:research_scroll.name=Research Scroll
 item.afraidofthedark:star_metal_plate.name=Star Metal Plate
 item.afraidofthedark:enchanted_skeleton_bone.name=Enchanted Skeleton Bone
 item.afraidofthedark:sleeping_potion.name=Sleeping Potion
@@ -92,9 +88,8 @@ itemGroup.afraidofthedark=Afraid of the Dark
 
 # Keys
 keys.afraidofthedark.category=Afraid of the Dark
-keys.afraidofthedark.rollWithCloakOfAgility=Roll with Cloak of Agility
-keys.afraidofthedark.fireWristCrossbow=Fire Wrist Crossbow
-keys.afraidofthedark.changeLanternMode=Change Lantern Mode
+keys.afraidofthedark.roll_with_cloak=Roll with Cloak of Agility
+keys.afraidofthedark.fire_wrist_crossbow=Fire Wrist Crossbow
 
 # Mobs
 entity.werewolf.name=Werewolf
@@ -122,3 +117,5 @@ entity.spellAOE.name=AOE
 research.an_unbreakable_covenant=An Unbreakable Covenant
 research.enchanted_skeleton=Enchanted Skeleton
 research.blade_of_exhumation=Blade of Exhumation
+research.crossbow=Crossbow
+research.wrist_crossbow=Wrist Crossbow

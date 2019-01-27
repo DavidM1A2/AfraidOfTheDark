@@ -233,11 +233,17 @@
               ]
             }
           ],
-          "weight": 15
+          "weight": 13
         },
         {
           "type": "item",
-          "name": "afraidofthedark:research_scroll_wrist_crossbow",
+          "name": "afraidofthedark:research_scroll",
+          "functions": [
+            {
+              "function": "set_nbt",
+              "tag": "{\"research_id\":\"afraidofthedark:wrist_crossbow\"}"
+            }
+          ],
           "weight": 1
         }
       ]

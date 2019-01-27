@@ -4,7 +4,7 @@
   "tooltip": "",
   "recipes": [  ],
   "preRecipes": [  ],
-  "icon": "",
+  "icon": "afraidofthedark:textures/gui/research_icons/",
   "pre": "",
   "researched": ""
 }

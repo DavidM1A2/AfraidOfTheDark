@@ -5,6 +5,7 @@ package com.DavidM1A2.afraidofthedark.proxy;
 
 import com.DavidM1A2.afraidofthedark.client.entity.bolt.RenderWoodenBolt;
 import com.DavidM1A2.afraidofthedark.client.entity.enchantedSkeleton.RenderEnchantedSkeleton;
+import com.DavidM1A2.afraidofthedark.client.keybindings.ModKeybindings;
 import com.DavidM1A2.afraidofthedark.common.block.core.AOTDLeaves;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;
 import com.DavidM1A2.afraidofthedark.common.constants.ModEntities;
@@ -19,6 +20,7 @@ import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.biome.BiomeColorHelper;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.registry.EntityEntry;
@@ -78,6 +80,16 @@ public class ClientProxy extends CommonProxy
 		// Register all of our renderers
 		for (Pair<EntityEntry, IRenderFactory> renderingEntry : ModEntities.ENTITY_RENDERERS)
 			RenderingRegistry.registerEntityRenderingHandler(renderingEntry.getKey().getEntityClass(), renderingEntry.getValue());
+	}
+
+	/**
+	 * Called to register any key bindings
+	 */
+	@Override
+	public void registerKeyBindings()
+	{
+		ClientRegistry.registerKeyBinding(ModKeybindings.FIRE_WRIST_CROSSBOW);
+		ClientRegistry.registerKeyBinding(ModKeybindings.ROLL_WITH_CLOAK_OF_AGILITY);
 	}
 
 	/**

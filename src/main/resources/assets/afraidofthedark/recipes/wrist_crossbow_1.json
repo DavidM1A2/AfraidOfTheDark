@@ -1,0 +1,25 @@
+{
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    "lsl",
+    "lcl",
+    "lsl"
+  ],
+  "key": {
+    "l": {
+      "item": "minecraft:leather"
+    },
+    "s": {
+      "item": "minecraft:string"
+    },
+    "c": {
+      "item": "afraidofthedark:crossbow",
+      "data": 0
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:wrist_crossbow",
+    "count": 1
+  },
+  "required_research": "wrist_crossbow"
+}

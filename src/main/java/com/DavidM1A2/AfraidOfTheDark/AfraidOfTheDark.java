@@ -1,6 +1,7 @@
 package com.DavidM1A2.afraidofthedark;
 
 import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiHandler;
+import com.DavidM1A2.afraidofthedark.client.keybindings.KeyInputEventHandler;
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import com.DavidM1A2.afraidofthedark.common.handler.*;
 import com.DavidM1A2.afraidofthedark.common.packets.packetHandler.PacketHandler;
@@ -96,6 +97,8 @@ public class AfraidOfTheDark
 		proxy.registerPackets();
 		// Initialize entity renderers (client side only)
 		proxy.initializeEntityRenderers();
+		// Register game key bindings
+		proxy.registerKeyBindings();
 	}
 
 	/**
@@ -112,6 +115,9 @@ public class AfraidOfTheDark
 		proxy.initializeOreDictionary();
 		// Initialize smelting recipes
 		proxy.initializeSmeltingRecipes();
+		// Register our key input event handler client side
+		if (event.getSide() == Side.CLIENT)
+			MinecraftForge.EVENT_BUS.register(new KeyInputEventHandler());
 	}
 
 	/**

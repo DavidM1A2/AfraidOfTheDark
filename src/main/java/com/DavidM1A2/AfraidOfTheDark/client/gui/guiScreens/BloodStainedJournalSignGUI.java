@@ -103,6 +103,7 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
 							playerBasics.setStartedAOTD(true);
 							playerBasics.syncStartedAOTD(entityPlayer);
 							playerResearch.setResearchAndAlert(ModResearches.AN_UNBREAKABLE_COVENANT, true, entityPlayer);
+							playerResearch.setResearchAndAlert(ModResearches.CROSSBOW, true, entityPlayer);
 							playerResearch.sync(entityPlayer, false);
 
 							// Set the journal to have a new owner name
@@ -117,7 +118,6 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
 							// Play the sign animation and chat message
 							entityPlayer.playSound(ModSounds.JOURNAL_SIGN, 4.0F, 1.0F);
 							entityPlayer.sendMessage(new TextComponentString(ChatFormatting.RED + "What have I done?"));
-
 						}
 					}
 					else

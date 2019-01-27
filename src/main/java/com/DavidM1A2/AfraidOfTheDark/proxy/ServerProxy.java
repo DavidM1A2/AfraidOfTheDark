@@ -29,6 +29,15 @@ public class ServerProxy extends CommonProxy
 	}
 
 	/**
+	 * Called to register any key bindings, there's none server side
+	 */
+	@Override
+	public void registerKeyBindings()
+	{
+		// Not used
+	}
+
+	/**
 	 * @return The research overlay does not exist server side
 	 */
 	@Override
