@@ -17,6 +17,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.biome.BiomeColorHelper;
@@ -88,8 +89,8 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void registerKeyBindings()
 	{
-		ClientRegistry.registerKeyBinding(ModKeybindings.FIRE_WRIST_CROSSBOW);
-		ClientRegistry.registerKeyBinding(ModKeybindings.ROLL_WITH_CLOAK_OF_AGILITY);
+		for (KeyBinding keyBinding : ModKeybindings.KEY_BINDING_LIST)
+			ClientRegistry.registerKeyBinding(keyBinding);
 	}
 
 	/**

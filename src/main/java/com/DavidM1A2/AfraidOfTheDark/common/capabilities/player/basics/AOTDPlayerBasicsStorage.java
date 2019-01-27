@@ -13,7 +13,8 @@ import javax.annotation.Nullable;
  */
 public class AOTDPlayerBasicsStorage implements Capability.IStorage<IAOTDPlayerBasics>
 {
-	private final static String STARTED_AOTD = "playerStartedAOTD";
+	private static final String STARTED_AOTD = "playerStartedAOTD";
+	private static final String WRIST_CROSSBOW_BOLT_INDEX = "wristCrossbowBoltIndex";
 
 	/**
 	 * Called to write a capability to an NBT compound
@@ -31,6 +32,7 @@ public class AOTDPlayerBasicsStorage implements Capability.IStorage<IAOTDPlayerB
 		NBTTagCompound compound = new NBTTagCompound();
 
 		compound.setBoolean(STARTED_AOTD, instance.getStartedAOTD());
+		compound.setInteger(WRIST_CROSSBOW_BOLT_INDEX, instance.getSelectedWristCrossbowBoltIndex());
 
 		return compound;
 	}
@@ -53,6 +55,7 @@ public class AOTDPlayerBasicsStorage implements Capability.IStorage<IAOTDPlayerB
 			NBTTagCompound compound = (NBTTagCompound) nbt;
 
 			instance.setStartedAOTD(compound.getBoolean(STARTED_AOTD));
+			instance.setSelectedWristCrossbowBoltIndex(compound.getInteger(WRIST_CROSSBOW_BOLT_INDEX));
 		}
 		// There's an error, this should not be possible
 		else

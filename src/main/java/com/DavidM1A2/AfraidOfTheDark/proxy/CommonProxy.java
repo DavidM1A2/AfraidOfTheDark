@@ -5,6 +5,7 @@ package com.DavidM1A2.afraidofthedark.proxy;
 
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;
+import com.DavidM1A2.afraidofthedark.common.packets.capabilityPackets.SyncSelectedWristCrossbowBolt;
 import com.DavidM1A2.afraidofthedark.common.packets.otherPackets.FireWristCrossbow;
 import com.DavidM1A2.afraidofthedark.common.packets.otherPackets.SyncItemWithCooldown;
 import com.DavidM1A2.afraidofthedark.common.packets.animationPackets.SyncAnimation;
@@ -56,6 +57,7 @@ public abstract class CommonProxy implements IProxy
 		PacketHandler packetHandler = AfraidOfTheDark.INSTANCE.getPacketHandler();
 
 		packetHandler.registerBidiPacket(SyncStartedAOTD.class, new SyncStartedAOTD.Handler());
+		packetHandler.registerPacket(SyncSelectedWristCrossbowBolt.class, new SyncSelectedWristCrossbowBolt.Handler(), Side.SERVER);
 		packetHandler.registerBidiPacket(SyncAOTDPlayerBasics.class, new SyncAOTDPlayerBasics.Handler());
 		packetHandler.registerBidiPacket(SyncResearch.class, new SyncResearch.Handler());
 

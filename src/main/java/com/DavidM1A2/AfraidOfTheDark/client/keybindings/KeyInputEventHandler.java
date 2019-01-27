@@ -1,6 +1,7 @@
 package com.DavidM1A2.afraidofthedark.client.keybindings;
 
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
+import com.DavidM1A2.afraidofthedark.common.capabilities.player.basics.IAOTDPlayerBasics;
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
 import com.DavidM1A2.afraidofthedark.common.constants.ModItems;
 import com.DavidM1A2.afraidofthedark.common.constants.ModResearches;
@@ -39,15 +40,19 @@ public class KeyInputEventHandler
 		// Grab a player reference
 		EntityPlayer entityPlayer = Minecraft.getMinecraft().player;
 		// Grab the player's bolt of choice
-		AOTDBoltHelper boltType = AOTDBoltHelper.IRON;
+		IAOTDPlayerBasics playerBasics = entityPlayer.getCapability(ModCapabilities.PLAYER_BASICS, null);
 		// If the player is sneaking change the mode
 		if (entityPlayer.isSneaking())
 		{
-			/*
-			entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).setSelectedWristCrossbowBolt(AOTDCrossbowBoltTypes.getIDFromType(currentlySelected.next()));
-			entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).syncSelectedWristCrossbowBolt();
-			entityPlayer.sendMessage(new TextComponentString("Crossbow will now fire " + currentlySelected.next().formattedString() + "bolts."));
-			*/
+			// Advance the current index
+			int nextIndex = playerBasics.getSelectedWristCrossbowBoltIndex() + 1;
+			// If the index is greater than the max possible reset it to 0
+			nextIndex = nextIndex >= AOTDBoltHelper.values().length ? 0 : nextIndex;
+			// Set the selected index and sync the index
+			playerBasics.setSelectedWristCrossbowBoltIndex(nextIndex);
+			playerBasics.syncSelectedWristCrossbowBoltIndex(entityPlayer);
+			// Tell the player what type of bolt will be fired now
+			entityPlayer.sendMessage(new TextComponentString("Wrist crossbow will now fire " + AOTDBoltHelper.values()[nextIndex].getName().toLowerCase() + " bolts."));
 		}
 		// Fire a bolt
 		else
@@ -58,6 +63,8 @@ public class KeyInputEventHandler
 				// Test if the player has a wrist crossbow to shoot with
 				if (entityPlayer.inventory.hasItemStack(new ItemStack(ModItems.WRIST_CROSSBOW, 1, 0)))
 				{
+					// Grab the currently selected bolt type
+					AOTDBoltHelper boltType = AOTDBoltHelper.values()[playerBasics.getSelectedWristCrossbowBoltIndex()];
 					// Ensure the player has a bolt of the right type in his/her inventory or is in creative mode
 					if (entityPlayer.inventory.hasItemStack(new ItemStack(boltType.getItem(), 1, 0)) || entityPlayer.isCreative())
 					{

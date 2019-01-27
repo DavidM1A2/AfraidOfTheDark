@@ -17,4 +17,11 @@ public class ModKeybindings
 	// Public keybinding variables used to access the key states
 	public static final KeyBinding ROLL_WITH_CLOAK_OF_AGILITY = new KeyBinding(ROLL_CLOAK_OF_AGILITY_NAME, Keyboard.KEY_G, CATEGORY);
 	public static final KeyBinding FIRE_WRIST_CROSSBOW = new KeyBinding(FIRE_WRIST_CROSSBOW_NAME, Keyboard.KEY_F, CATEGORY);
+
+	// A list of mod keybindings
+	public static final KeyBinding[] KEY_BINDING_LIST = new KeyBinding[]
+	{
+		ROLL_WITH_CLOAK_OF_AGILITY,
+		FIRE_WRIST_CROSSBOW
+	};
 }

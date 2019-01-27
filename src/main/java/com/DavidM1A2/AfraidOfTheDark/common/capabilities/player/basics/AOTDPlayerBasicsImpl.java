@@ -2,6 +2,7 @@ package com.DavidM1A2.afraidofthedark.common.capabilities.player.basics;
 
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.packets.capabilityPackets.SyncAOTDPlayerBasics;
+import com.DavidM1A2.afraidofthedark.common.packets.capabilityPackets.SyncSelectedWristCrossbowBolt;
 import com.DavidM1A2.afraidofthedark.common.packets.capabilityPackets.SyncStartedAOTD;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -13,6 +14,8 @@ public class AOTDPlayerBasicsImpl implements IAOTDPlayerBasics
 {
 	// Flag telling us if the user has started the mod or not
 	private boolean startedAOTD;
+	// Integer telling us what bolt the wrist crossbow is currently set to fire
+	private int selectedWristCrossbowBoltIndex;
 
 	/**
 	 * Constructor initializes default values
@@ -20,6 +23,7 @@ public class AOTDPlayerBasicsImpl implements IAOTDPlayerBasics
 	public AOTDPlayerBasicsImpl()
 	{
 		this.startedAOTD = false;
+		this.selectedWristCrossbowBoltIndex = 0;
 	}
 
 	/**
@@ -65,6 +69,38 @@ public class AOTDPlayerBasicsImpl implements IAOTDPlayerBasics
 			AfraidOfTheDark.INSTANCE.getPacketHandler().sendTo(new SyncStartedAOTD(this.startedAOTD), (EntityPlayerMP) entityPlayer);
 		else
 			AfraidOfTheDark.INSTANCE.getPacketHandler().sendToServer(new SyncStartedAOTD(this.startedAOTD));
+	}
+
+	/**
+	 * Sets the selected wrist crossbow bolt index, should be between 0 and AOTDBoltHelper.ordinal().length - 1
+	 *
+	 * @param index The index to select
+	 */
+	public void setSelectedWristCrossbowBoltIndex(int index)
+	{
+		this.selectedWristCrossbowBoltIndex = index;
+	}
+
+	/**
+	 * Gets the selected wrist crossbow bolt index
+	 *
+	 * @return The selected wrist crossbow index
+	 */
+	public int getSelectedWristCrossbowBoltIndex()
+	{
+		return this.selectedWristCrossbowBoltIndex;
+	}
+
+	/**
+	 * Syncs the newly selected crossbow bolt to the server
+	 *
+	 * @param entityPlayer The player to sync for
+	 */
+	public void syncSelectedWristCrossbowBoltIndex(EntityPlayer entityPlayer)
+	{
+		// Can only send this client -> server side
+		if (!this.isServerSide(entityPlayer))
+			AfraidOfTheDark.INSTANCE.getPacketHandler().sendToServer(new SyncSelectedWristCrossbowBolt(this.selectedWristCrossbowBoltIndex));
 	}
 
 	/**
