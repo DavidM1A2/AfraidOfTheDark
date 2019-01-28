@@ -3,12 +3,14 @@
  */
 package com.DavidM1A2.afraidofthedark.proxy;
 
+import com.DavidM1A2.afraidofthedark.client.entity.bolt.RenderIronBolt;
 import com.DavidM1A2.afraidofthedark.client.entity.bolt.RenderWoodenBolt;
 import com.DavidM1A2.afraidofthedark.client.entity.enchantedSkeleton.RenderEnchantedSkeleton;
 import com.DavidM1A2.afraidofthedark.client.keybindings.ModKeybindings;
 import com.DavidM1A2.afraidofthedark.common.block.core.AOTDLeaves;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;
 import com.DavidM1A2.afraidofthedark.common.constants.ModEntities;
+import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityIronBolt;
 import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityWoodenBolt;
 import com.DavidM1A2.afraidofthedark.common.entity.enchantedSkeleton.EntityEnchantedSkeleton;
 import com.DavidM1A2.afraidofthedark.common.handler.ResearchOverlayHandler;
@@ -79,8 +81,9 @@ public class ClientProxy extends CommonProxy
 	public void initializeEntityRenderers()
 	{
 		// Register all of our renderers
-		for (Pair<EntityEntry, IRenderFactory> renderingEntry : ModEntities.ENTITY_RENDERERS)
-			RenderingRegistry.registerEntityRenderingHandler(renderingEntry.getKey().getEntityClass(), renderingEntry.getValue());
+		RenderingRegistry.registerEntityRenderingHandler(EntityEnchantedSkeleton.class, RenderEnchantedSkeleton::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityWoodenBolt.class, RenderWoodenBolt::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityIronBolt.class, RenderIronBolt::new);
 	}
 
 	/**

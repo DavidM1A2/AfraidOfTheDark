@@ -1,21 +1,11 @@
 package com.DavidM1A2.afraidofthedark.common.constants;
 
-import com.DavidM1A2.afraidofthedark.client.entity.bolt.RenderIronBolt;
-import com.DavidM1A2.afraidofthedark.client.entity.bolt.RenderWoodenBolt;
-import com.DavidM1A2.afraidofthedark.client.entity.enchantedSkeleton.RenderEnchantedSkeleton;
 import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityIronBolt;
 import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityWoodenBolt;
 import com.DavidM1A2.afraidofthedark.common.entity.enchantedSkeleton.EntityEnchantedSkeleton;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
-import org.apache.commons.lang3.tuple.Pair;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * A static class containing all of our entity references for us
@@ -72,12 +62,4 @@ public class ModEntities
 		WOODEN_BOLT,
 		IRON_BOLT
 	};
-
-	// A mapping of EntityEntry to entity renderer
-	public static List<Pair<EntityEntry, IRenderFactory>> ENTITY_RENDERERS = new ArrayList<Pair<EntityEntry, IRenderFactory>>()
-	{{
-		add(Pair.of(ENCHANTED_SKELETON, RenderEnchantedSkeleton::new));
-		add(Pair.of(WOODEN_BOLT, RenderWoodenBolt::new));
-		add(Pair.of(IRON_BOLT, RenderIronBolt::new));
-	}};
 }

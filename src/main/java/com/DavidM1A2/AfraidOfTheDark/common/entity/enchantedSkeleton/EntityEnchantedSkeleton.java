@@ -100,6 +100,33 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 	}
 
 	/**
+	 * Sets entity attributes such as max health and movespeed
+	 */
+	@Override
+	protected void applyEntityAttributes()
+	{
+		super.applyEntityAttributes();
+		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(EntityEnchantedSkeleton.MAX_HEALTH);
+		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(EntityEnchantedSkeleton.FOLLOW_RANGE);
+		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(EntityEnchantedSkeleton.KNOCKBACK_RESISTANCE);
+		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(EntityEnchantedSkeleton.MOVE_SPEED);
+		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(EntityEnchantedSkeleton.ATTACK_DAMAGE);
+	}
+
+	/**
+	 * Update animations for this entity when update is called
+	 */
+	@Override
+	public void onUpdate()
+	{
+		super.onUpdate();
+
+		// Animations only update client side
+		if (world.isRemote)
+			this.animHandler.animationsUpdate();
+	}
+
+	/**
 	 * Called every game tick for the entity
 	 */
 	@Override
@@ -144,18 +171,6 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 				}
 			}
 		}
-	}
-
-	/**
-	 * Update animations for this entity when update is called
-	 */
-	@Override
-	public void onUpdate()
-	{
-		super.onUpdate();
-		// Animations only update client side
-		if (world.isRemote)
-			this.animHandler.animationsUpdate();
 	}
 
 	/**
@@ -228,20 +243,6 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
 	public AnimationHandler getAnimationHandler()
 	{
 		return animHandler;
-	}
-
-	/**
-	 * Sets entity attributes such as max health and movespeed
-	 */
-	@Override
-	protected void applyEntityAttributes()
-	{
-		super.applyEntityAttributes();
-		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(EntityEnchantedSkeleton.MAX_HEALTH);
-		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(EntityEnchantedSkeleton.FOLLOW_RANGE);
-		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(EntityEnchantedSkeleton.KNOCKBACK_RESISTANCE);
-		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(EntityEnchantedSkeleton.MOVE_SPEED);
-		this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(EntityEnchantedSkeleton.ATTACK_DAMAGE);
 	}
 
 	/**

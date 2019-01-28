@@ -73,8 +73,8 @@ public class StructureWitchHut extends AOTDStructure
 		if ((maxHeight - minHeight) > 3)
 			return 0;
 
-		// 100% chance to generate in any chunks this fits in
-		return 1.0;
+		// 30% chance to generate in any chunks this fits in
+		return 0.3;
 	}
 
 	/**
