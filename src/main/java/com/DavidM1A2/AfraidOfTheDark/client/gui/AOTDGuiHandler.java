@@ -3,6 +3,7 @@ package com.DavidM1A2.afraidofthedark.client.gui;
 import com.DavidM1A2.afraidofthedark.client.gui.guiScreens.BloodStainedJournalPageGUI;
 import com.DavidM1A2.afraidofthedark.client.gui.guiScreens.BloodStainedJournalResearchGUI;
 import com.DavidM1A2.afraidofthedark.client.gui.guiScreens.BloodStainedJournalSignGUI;
+import com.DavidM1A2.afraidofthedark.client.gui.guiScreens.TelescopeGUI;
 import com.DavidM1A2.afraidofthedark.client.settings.ClientData;
 import com.DavidM1A2.afraidofthedark.common.research.base.Research;
 import net.minecraft.client.resources.I18n;
@@ -78,6 +79,8 @@ public class AOTDGuiHandler implements IGuiHandler
 				return new BloodStainedJournalPageGUI(lastSelectedResearch.getResearchedText(), lastSelectedResearch.getLocalizedName(), lastSelectedResearch.getResearchedRecipes());
 			case BLOOD_STAINED_JOURNAL_PAGE_PRE_ID:
 				return new BloodStainedJournalPageGUI(lastSelectedResearch.getPreResearchedText(), "???", lastSelectedResearch.getPreResearchedRecipes());
+			case TELESCOPE_ID:
+				return new TelescopeGUI();
 			default:
 				return null;
 		}

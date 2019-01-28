@@ -42,31 +42,36 @@ public class ItemTelescope extends AOTDItem
 		ItemStack itemStack = playerIn.getHeldItem(handIn);
 		// Grab the player's research
 		IAOTDPlayerResearch playerResearch = playerIn.getCapability(ModCapabilities.PLAYER_RESEARCH, null);
-		// First process server side only
-		if (!worldIn.isRemote)
-			// Test if the player can research astronomy 1
-			if (playerResearch.canResearch(ModResearches.ASTRONOMY_1))
+		// The player must be above y=128 to see the stars
+		if (playerIn.getPosition().getY() > 128)
+		{
+			// First process server side only
+			if (!worldIn.isRemote)
 			{
-				// The player must be above y=128 to see the clouds
-				if (playerIn.getPosition().getY() <= 128)
-					playerIn.sendMessage(new TextComponentString("I can't see anything through these thick clouds. Maybe I could move to a higher elevation."));
-				else
+				// Test if the player can research astronomy 1
+				if (playerResearch.canResearch(ModResearches.ASTRONOMY_1))
 				{
 					playerResearch.setResearch(ModResearches.ASTRONOMY_1, true);
 					playerResearch.sync(playerIn, true);
+				} else
+				{
+					playerIn.sendMessage(new TextComponentString("I can't understand what this thing does."));
 				}
 			}
+			// If we're on client side test if we have the proper research, if so show the GUI
 			else
 			{
-				playerIn.sendMessage(new TextComponentString("I can't understand what this thing does."));
+				// Catch both cases where the research is finished and when the server sent us an unlock packet but we don't have it yet so we
+				// check if we 'can research' it
+				if (playerResearch.isResearched(ModResearches.ASTRONOMY_1) || playerResearch.canResearch(ModResearches.ASTRONOMY_1))
+					playerIn.openGui(AfraidOfTheDark.INSTANCE, AOTDGuiHandler.TELESCOPE_ID, worldIn, playerIn.getPosition().getX(), playerIn.getPosition().getY(), playerIn.getPosition().getZ());
 			}
-		// If we're on client side test if we have the proper research, if so show the GUI
+		}
 		else
 		{
-			// Catch both cases where the research is finished and when the server sent us an unlock packet but we don't have it yet so we
-			// check if we 'can research' it
-			if (playerResearch.isResearched(ModResearches.ASTRONOMY_1) || playerResearch.canResearch(ModResearches.ASTRONOMY_1))
-				playerIn.openGui(AfraidOfTheDark.INSTANCE, AOTDGuiHandler.TELESCOPE_ID, worldIn, playerIn.getPosition().getX(), playerIn.getPosition().getY(), playerIn.getPosition().getZ());
+			// Try and only send chat messages server side
+			if (!worldIn.isRemote)
+				playerIn.sendMessage(new TextComponentString("I can't see anything through these thick clouds. Maybe I could move to a higher elevation."));
 		}
 
 		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStack);

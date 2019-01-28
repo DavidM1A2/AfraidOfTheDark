@@ -7,7 +7,7 @@ import com.DavidM1A2.afraidofthedark.common.constants.ModItems;
 import com.DavidM1A2.afraidofthedark.common.constants.ModResearches;
 import com.DavidM1A2.afraidofthedark.common.item.crossbow.ItemWristCrossbow;
 import com.DavidM1A2.afraidofthedark.common.packets.otherPackets.FireWristCrossbow;
-import com.DavidM1A2.afraidofthedark.common.utility.AOTDBoltHelper;
+import com.DavidM1A2.afraidofthedark.common.utility.AOTDBoltType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -47,12 +47,12 @@ public class KeyInputEventHandler
 			// Advance the current index
 			int nextIndex = playerBasics.getSelectedWristCrossbowBoltIndex() + 1;
 			// If the index is greater than the max possible reset it to 0
-			nextIndex = nextIndex >= AOTDBoltHelper.values().length ? 0 : nextIndex;
+			nextIndex = nextIndex >= AOTDBoltType.values().length ? 0 : nextIndex;
 			// Set the selected index and sync the index
 			playerBasics.setSelectedWristCrossbowBoltIndex(nextIndex);
 			playerBasics.syncSelectedWristCrossbowBoltIndex(entityPlayer);
 			// Tell the player what type of bolt will be fired now
-			entityPlayer.sendMessage(new TextComponentString("Wrist crossbow will now fire " + AOTDBoltHelper.values()[nextIndex].getName().toLowerCase() + " bolts."));
+			entityPlayer.sendMessage(new TextComponentString("Wrist crossbow will now fire " + AOTDBoltType.values()[nextIndex].getName().toLowerCase() + " bolts."));
 		}
 		// Fire a bolt
 		else
@@ -64,7 +64,7 @@ public class KeyInputEventHandler
 				if (entityPlayer.inventory.hasItemStack(new ItemStack(ModItems.WRIST_CROSSBOW, 1, 0)))
 				{
 					// Grab the currently selected bolt type
-					AOTDBoltHelper boltType = AOTDBoltHelper.values()[playerBasics.getSelectedWristCrossbowBoltIndex()];
+					AOTDBoltType boltType = AOTDBoltType.values()[playerBasics.getSelectedWristCrossbowBoltIndex()];
 					// Ensure the player has a bolt of the right type in his/her inventory or is in creative mode
 					if (entityPlayer.inventory.hasItemStack(new ItemStack(boltType.getItem(), 1, 0)) || entityPlayer.isCreative())
 					{

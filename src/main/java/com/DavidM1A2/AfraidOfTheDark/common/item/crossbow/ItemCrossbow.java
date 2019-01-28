@@ -1,42 +1,26 @@
 package com.DavidM1A2.afraidofthedark.common.item.crossbow;
 
-import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
-import com.DavidM1A2.afraidofthedark.common.constants.ModItems;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSounds;
 import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityBolt;
-import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityIronBolt;
-import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityWoodenBolt;
 import com.DavidM1A2.afraidofthedark.common.item.core.AOTDItem;
 import com.DavidM1A2.afraidofthedark.common.research.base.Research;
-import com.DavidM1A2.afraidofthedark.common.utility.AOTDBoltHelper;
+import com.DavidM1A2.afraidofthedark.common.utility.AOTDBoltType;
 import com.DavidM1A2.afraidofthedark.common.utility.NBTHelper;
-import com.google.common.base.Enums;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Iterators;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.EnumHelper;
-import org.apache.commons.lang3.tuple.Triple;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 /**
  * Class representing the crossbow item
@@ -243,9 +227,9 @@ public class ItemCrossbow extends AOTDItem
 			{
 				// Increment bolt type until we find one that is valid for the player holding the bow
 				currentBoltType++;
-				if (currentBoltType >= AOTDBoltHelper.values().length)
+				if (currentBoltType >= AOTDBoltType.values().length)
 					currentBoltType = 0;
-				preRequisite = AOTDBoltHelper.values()[currentBoltType].getPreRequisite();
+				preRequisite = AOTDBoltType.values()[currentBoltType].getPreRequisite();
 			}
 			// Loop while there is an unmet pre-requisite
 			while(preRequisite != null && !entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null).isResearched(preRequisite));
@@ -274,16 +258,16 @@ public class ItemCrossbow extends AOTDItem
 	 * @param itemStack The bolt type selected
 	 * @return The bolt type tripe represented by this bow
 	 */
-	private AOTDBoltHelper getCurrentBoltType(ItemStack itemStack)
+	private AOTDBoltType getCurrentBoltType(ItemStack itemStack)
 	{
-		return AOTDBoltHelper.values()[this.getCurrentBoltTypeIndex(itemStack)];
+		return AOTDBoltType.values()[this.getCurrentBoltTypeIndex(itemStack)];
 	}
 
 	/**
 	 * Returns the current bolt type index from the NBT data of the itemstack
 	 *
 	 * @param itemStack The itemstack to get the current bolt type index from
-	 * @return The index of the bolt type into AOTDBoltHelper.values()
+	 * @return The index of the bolt type into AOTDBoltType.values()
 	 */
 	private int getCurrentBoltTypeIndex(ItemStack itemStack)
 	{

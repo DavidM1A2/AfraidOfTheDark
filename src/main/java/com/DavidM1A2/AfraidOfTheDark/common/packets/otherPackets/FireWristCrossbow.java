@@ -3,7 +3,7 @@ package com.DavidM1A2.afraidofthedark.common.packets.otherPackets;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSounds;
 import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityBolt;
 import com.DavidM1A2.afraidofthedark.common.packets.packetHandler.MessageHandler;
-import com.DavidM1A2.afraidofthedark.common.utility.AOTDBoltHelper;
+import com.DavidM1A2.afraidofthedark.common.utility.AOTDBoltType;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.SoundCategory;
@@ -17,14 +17,14 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 public class FireWristCrossbow implements IMessage
 {
 	// The bolt to fire
-	private AOTDBoltHelper selectedBolt;
+	private AOTDBoltType selectedBolt;
 
 	/**
 	 * Default constructor is required but not used
 	 */
 	public FireWristCrossbow()
 	{
-		this.selectedBolt = AOTDBoltHelper.WOODEN;
+		this.selectedBolt = AOTDBoltType.WOODEN;
 	}
 
 	/**
@@ -32,7 +32,7 @@ public class FireWristCrossbow implements IMessage
 	 *
 	 * @param selectedBolt The bolt to fire
 	 */
-	public FireWristCrossbow(AOTDBoltHelper selectedBolt)
+	public FireWristCrossbow(AOTDBoltType selectedBolt)
 	{
 		this.selectedBolt = selectedBolt;
 	}
@@ -45,7 +45,7 @@ public class FireWristCrossbow implements IMessage
 	@Override
 	public void fromBytes(ByteBuf buf)
 	{
-		this.selectedBolt = AOTDBoltHelper.values()[buf.readInt()];
+		this.selectedBolt = AOTDBoltType.values()[buf.readInt()];
 	}
 
 	/**

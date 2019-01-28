@@ -14,7 +14,7 @@ import java.util.function.BiFunction;
 /**
  * Utility class that contains a list of bolt type definitions
  */
-public enum AOTDBoltHelper
+public enum AOTDBoltType
 {
 	WOODEN("Wooden", ModItems.WOODEN_BOLT, EntityWoodenBolt::new, null),
 	IRON("Iron", ModItems.IRON_BOLT, EntityIronBolt::new, null);/*
@@ -39,7 +39,7 @@ public enum AOTDBoltHelper
 	 * @param entityFactory The factory to make entity bolts from a world object
 	 * @param preRequisite The pre-requisite research that needs to be researched for this to be used
 	 */
-	AOTDBoltHelper(String name, Item item, BiFunction<World, EntityPlayer, EntityBolt> entityFactory, Research preRequisite)
+	AOTDBoltType(String name, Item item, BiFunction<World, EntityPlayer, EntityBolt> entityFactory, Research preRequisite)
 	{
 		this.name = name;
 		this.item = item;

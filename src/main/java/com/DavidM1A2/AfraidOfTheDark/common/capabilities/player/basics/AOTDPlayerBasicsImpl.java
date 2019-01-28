@@ -72,7 +72,7 @@ public class AOTDPlayerBasicsImpl implements IAOTDPlayerBasics
 	}
 
 	/**
-	 * Sets the selected wrist crossbow bolt index, should be between 0 and AOTDBoltHelper.ordinal().length - 1
+	 * Sets the selected wrist crossbow bolt index, should be between 0 and AOTDBoltType.ordinal().length - 1
 	 *
 	 * @param index The index to select
 	 */

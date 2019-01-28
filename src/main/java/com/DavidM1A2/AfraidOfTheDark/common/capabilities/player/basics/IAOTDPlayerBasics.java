@@ -1,6 +1,5 @@
 package com.DavidM1A2.afraidofthedark.common.capabilities.player.basics;
 
-import com.DavidM1A2.afraidofthedark.common.utility.AOTDBoltHelper;
 import net.minecraft.entity.player.EntityPlayer;
 
 /**
@@ -28,7 +27,7 @@ public interface IAOTDPlayerBasics
 	void syncStartedAOTD(EntityPlayer entityPlayer);
 
 	/**
-	 * Sets the selected wrist crossbow bolt index, should be between 0 and AOTDBoltHelper.ordinal().length - 1
+	 * Sets the selected wrist crossbow bolt index, should be between 0 and AOTDBoltType.ordinal().length - 1
 	 *
 	 * @param index The index to select
 	 */
