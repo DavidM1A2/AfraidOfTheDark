@@ -1,0 +1,25 @@
+{
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    " sg",
+    "isi",
+    " i "
+  ],
+  "key": {
+    "s": {
+      "type": "forge:ore_dict",
+      "ore": "stickWood"
+    },
+    "g": {
+      "item": "minecraft:glass"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:sextant",
+    "count": 1
+  },
+  "required_research": "astronomy_1"
+}

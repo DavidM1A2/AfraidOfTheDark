@@ -1,0 +1,24 @@
+{
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    "gi ",
+    "idi",
+    " ig"
+  ],
+  "key": {
+    "g": {
+      "item": "minecraft:glass"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    },
+    "d": {
+      "item": "minecraft:diamond"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:telescope",
+    "count": 1
+  },
+  "required_research": "werewolf_examination"
+}

@@ -17,6 +17,8 @@ public class ModItems
 	public static final Item CROSSBOW = new ItemCrossbow();
 	public static final Item WRIST_CROSSBOW = new ItemWristCrossbow();
 	public static final Item RESEARCH_SCROLL = new ItemResearchScroll();
+	public static final Item TELESCOPE = new ItemTelescope();
+	public static final Item SEXTANT = new ItemSextant();
 
 	public static final Item WOODEN_BOLT = new ItemWoodenBolt();
 	public static final Item IRON_BOLT = new ItemIronBolt();
@@ -35,6 +37,8 @@ public class ModItems
 		CROSSBOW,
 		WRIST_CROSSBOW,
 		RESEARCH_SCROLL,
+		TELESCOPE,
+		SEXTANT,
 		WOODEN_BOLT,
 		IRON_BOLT,
 		SILVER_BOLT,
