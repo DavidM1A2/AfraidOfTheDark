@@ -201,7 +201,8 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 			// If the thing that was attacked was a player test if that player was killed or not
 			EntityPlayer entityPlayer = (EntityPlayer) entityIn;
 			IAOTDPlayerResearch playerResearch = entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null);
-			if (entityPlayer.getHealth() != 0)
+			// Don't check 'isDead' because that only gets updated next tick, instead check if HP > 0 for alive
+			if (entityPlayer.getHealth() > 0)
 				// The player was not killed by the attack unlock the werewolf research if possible
 				if (playerResearch.canResearch(ModResearches.WEREWOLF_EXAMINATION))
 				{
