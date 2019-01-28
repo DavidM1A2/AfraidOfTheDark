@@ -1,38 +1,34 @@
-/*
- * Author: David Slovikosky
- * Mod: Afraid of the Dark
- * Ideas and Textures: Michael Albertson
- */
-package com.DavidM1A2.afraidofthedark.client.entity.enchantedSkeleton;
+package com.DavidM1A2.afraidofthedark.client.entity.werewolf;
 
 import com.DavidM1A2.afraidofthedark.common.entity.enchantedSkeleton.EntityEnchantedSkeleton;
+import com.DavidM1A2.afraidofthedark.common.entity.werewolf.EntityWerewolf;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 /**
- * Renderer class for the enchanted skeleton entity
+ * Renderer class for the werewolf entity
  */
-public class RenderEnchantedSkeleton extends RenderLiving<EntityEnchantedSkeleton>
+public class RenderWerewolf extends RenderLiving<EntityWerewolf>
 {
 	// The texture used by the model
-	private static final ResourceLocation ENCHANTED_SKELETON_TEXTURE = new ResourceLocation("afraidofthedark:textures/entity/enchanted_skeleton.png");
-	// The skeleton model
-	private static final ModelEnchantedSkeleton ENCHANTED_SKELETON_MODEL = new ModelEnchantedSkeleton();
-	// The height of the skeleton model
-	private static final float MODEL_HEIGHT = 2.9f;
+	private static final ResourceLocation WEREWOLF_TEXTURE = new ResourceLocation("afraidofthedark:textures/entity/werewolf.png");
+	// The werewolf model
+	private static final ModelWerewolf WEREWOLF_MODEL = new ModelWerewolf();
+	// The height of the werewolf model
+	private static final float MODEL_HEIGHT = 2.5F;
 	// The size of the shadow of the model
-	private static final float MODEL_SHADOW_SIZE = 0.5f;
+	private static final float MODEL_SHADOW_SIZE = 0.6F;
 
 	/**
 	 * Constructor just initializes the render living renderer
 	 *
 	 * @param renderManager The render manager to pass down
 	 */
-	public RenderEnchantedSkeleton(RenderManager renderManager)
+	public RenderWerewolf(RenderManager renderManager)
 	{
-		super(renderManager, ENCHANTED_SKELETON_MODEL, MODEL_SHADOW_SIZE);
+		super(renderManager, WEREWOLF_MODEL, MODEL_SHADOW_SIZE);
 	}
 
 	/**
@@ -46,9 +42,8 @@ public class RenderEnchantedSkeleton extends RenderLiving<EntityEnchantedSkeleto
 	 * @param partialTicks The partial ticks that have gone by since the last frame
 	 */
 	@Override
-	public void doRender(EntityEnchantedSkeleton entity, double posX, double posY, double posZ, float entityYaw, float partialTicks)
+	public void doRender(EntityWerewolf entity, double posX, double posY, double posZ, float entityYaw, float partialTicks)
 	{
-		// Disable culling and render the model
 		GL11.glPushMatrix();
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		super.doRender(entity, posX, posY, posZ, entityYaw, partialTicks);
@@ -63,7 +58,7 @@ public class RenderEnchantedSkeleton extends RenderLiving<EntityEnchantedSkeleto
 	 * @param partialTickTime The partial ticks that have gone by since the last frame
 	 */
 	@Override
-	protected void preRenderCallback(EntityEnchantedSkeleton entityliving, float partialTickTime)
+	protected void preRenderCallback(EntityWerewolf entityliving, float partialTickTime)
 	{
 		GL11.glRotatef(180F, 0, 1F, 0F);
 		GL11.glRotatef(180F, 0, 0, 1F);
@@ -77,8 +72,8 @@ public class RenderEnchantedSkeleton extends RenderLiving<EntityEnchantedSkeleto
 	 * @return The texture to use for this entity
 	 */
 	@Override
-	protected ResourceLocation getEntityTexture(EntityEnchantedSkeleton entity)
+	protected ResourceLocation getEntityTexture(EntityWerewolf entity)
 	{
-		return ENCHANTED_SKELETON_TEXTURE;
+		return WEREWOLF_TEXTURE;
 	}
 }

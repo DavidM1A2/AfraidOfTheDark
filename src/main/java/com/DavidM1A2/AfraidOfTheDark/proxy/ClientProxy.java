@@ -6,6 +6,7 @@ package com.DavidM1A2.afraidofthedark.proxy;
 import com.DavidM1A2.afraidofthedark.client.entity.bolt.RenderIronBolt;
 import com.DavidM1A2.afraidofthedark.client.entity.bolt.RenderWoodenBolt;
 import com.DavidM1A2.afraidofthedark.client.entity.enchantedSkeleton.RenderEnchantedSkeleton;
+import com.DavidM1A2.afraidofthedark.client.entity.werewolf.RenderWerewolf;
 import com.DavidM1A2.afraidofthedark.client.keybindings.ModKeybindings;
 import com.DavidM1A2.afraidofthedark.common.block.core.AOTDLeaves;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;
@@ -13,6 +14,7 @@ import com.DavidM1A2.afraidofthedark.common.constants.ModEntities;
 import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityIronBolt;
 import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityWoodenBolt;
 import com.DavidM1A2.afraidofthedark.common.entity.enchantedSkeleton.EntityEnchantedSkeleton;
+import com.DavidM1A2.afraidofthedark.common.entity.werewolf.EntityWerewolf;
 import com.DavidM1A2.afraidofthedark.common.handler.ResearchOverlayHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -82,6 +84,7 @@ public class ClientProxy extends CommonProxy
 	{
 		// Register all of our renderers
 		RenderingRegistry.registerEntityRenderingHandler(EntityEnchantedSkeleton.class, RenderEnchantedSkeleton::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityWerewolf.class, RenderWerewolf::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityWoodenBolt.class, RenderWoodenBolt::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityIronBolt.class, RenderIronBolt::new);
 	}

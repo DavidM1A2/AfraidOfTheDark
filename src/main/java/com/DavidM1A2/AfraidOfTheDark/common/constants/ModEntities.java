@@ -3,6 +3,7 @@ package com.DavidM1A2.afraidofthedark.common.constants;
 import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityIronBolt;
 import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityWoodenBolt;
 import com.DavidM1A2.afraidofthedark.common.entity.enchantedSkeleton.EntityEnchantedSkeleton;
+import com.DavidM1A2.afraidofthedark.common.entity.werewolf.EntityWerewolf;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
@@ -40,6 +41,13 @@ public class ModEntities
 			.name("enchanted_skeleton")
 			.tracker(50, 1, true)
 			.build();
+	public static final EntityEntry WEREWOLF = EntityEntryBuilder.create()
+			.egg(0x3B170B, 0x181907)
+			.entity(EntityWerewolf.class)
+			.id(new ResourceLocation(Constants.MOD_ID, "werewolf"), WEREWOLF_ID)
+			.name("werewolf")
+			.tracker(50, 1, true)
+			.build();
 
 	// 5 bolt entities
 	public static final EntityEntry WOODEN_BOLT = EntityEntryBuilder.create()
@@ -59,6 +67,7 @@ public class ModEntities
 	public static EntityEntry[] ENTITY_LIST = new EntityEntry[]
 	{
 		ENCHANTED_SKELETON,
+		WEREWOLF,
 		WOODEN_BOLT,
 		IRON_BOLT
 	};

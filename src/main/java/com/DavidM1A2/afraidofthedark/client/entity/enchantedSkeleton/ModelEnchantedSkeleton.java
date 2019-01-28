@@ -31,7 +31,7 @@ public class ModelEnchantedSkeleton extends ModelBase
 	/**
 	 * Constructor initializes the model
 	 */
-	public ModelEnchantedSkeleton()
+	ModelEnchantedSkeleton()
 	{
 		// Auto-generated from the MCAnimator software
 
@@ -115,10 +115,10 @@ public class ModelEnchantedSkeleton extends ModelBase
 	@Override
 	public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale)
 	{
-		// Case the entity to a skeleton model
+		// Cast the entity to a skeleton model
 		EntityEnchantedSkeleton entity = (EntityEnchantedSkeleton) entityIn;
 
-		// Animate the model (moves all pieces from time t to
+		// Animate the model (moves all pieces from time t to t+1)
 		AnimationHandler.performAnimationInModel(parts, entity);
 
 		// Render the model

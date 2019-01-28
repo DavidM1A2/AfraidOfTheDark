@@ -1,18 +1,15 @@
 package com.DavidM1A2.afraidofthedark.common.entity.werewolf;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
-import com.google.common.base.Predicate;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAITarget;
 import net.minecraft.entity.player.EntityPlayer;
 
-import javax.annotation.Nullable;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.function.Predicate;
 
 /**
  * Target location for werewolves, this will ignore players that have not started AOTD based on a flag
@@ -28,7 +25,14 @@ public class CustomWerewolfTargetLocator extends EntityAITarget
 	// The entity that is currently targeted by the werewolf
 	private EntityLivingBase targetEntity;
 
-	public CustomWerewolfTargetLocator(EntityCreature entityCreature, int targetChance, boolean shouldCheckSight)
+	/**
+	 * Constructor sets up fields with a creature to locate targets for, a target chance, and a flag telling it if sight is important
+	 *
+	 * @param entityCreature The werewolf entity locate targets for
+	 * @param targetChance The chance that the werewolf targets, higher numbers mean less frequent targeting
+	 * @param shouldCheckSight True if the werewolf needs LOS to attack, false otherwise
+	 */
+	CustomWerewolfTargetLocator(EntityCreature entityCreature, int targetChance, boolean shouldCheckSight)
 	{
 		// Call the superclass's constructor.
 		super(entityCreature, shouldCheckSight, false);
@@ -38,7 +42,25 @@ public class CustomWerewolfTargetLocator extends EntityAITarget
 		// Required for a target locator, not sure what it does exactly
 		this.setMutexBits(1);
 		// Create a target predicate which tells us if an entity is valid or not for selection
-		this.targetEntitySelector = entityPlayer -> true;
+		this.targetEntitySelector = entityPlayer ->
+		{
+			// Grab the range at which the werewolf can follow targets
+			double followRange = CustomWerewolfTargetLocator.this.getTargetDistance();
+			// If the player is sneaking reduce the follow range
+			if (entityPlayer.isSneaking()) followRange = followRange * 0.8;
+			// Of the player is invis reduce the follow range based on if the player has armor or not
+			if (entityPlayer.isInvisible())
+			{
+				float visibility = entityPlayer.getArmorVisibility();
+				if (visibility < 0.1) visibility = 0.1f;
+				followRange = followRange * visibility * 0.7f;
+			}
+			// If the player is to far to follow dont do anything
+			if (entityPlayer.getDistance(CustomWerewolfTargetLocator.this.taskOwner) > followRange)
+				return false;
+			// Test if the player is suitable to be targeted
+			return CustomWerewolfTargetLocator.this.isSuitableTarget(entityPlayer, false);
+		};
 	}
 
 	/**
@@ -57,7 +79,7 @@ public class CustomWerewolfTargetLocator extends EntityAITarget
 			// Grab the follow range of the locator
 			double followRange = this.getTargetDistance();
 			// Grab a list of nearby players
-			List<EntityPlayer> nearbyPlayers = this.taskOwner.world.getEntitiesWithinAABB(EntityPlayer.class, this.taskOwner.getEntityBoundingBox().expand(followRange, 4.0D, followRange), this.targetEntitySelector);
+			List<EntityPlayer> nearbyPlayers = this.taskOwner.world.getEntitiesWithinAABB(EntityPlayer.class, this.taskOwner.getEntityBoundingBox().grow(followRange, 4.0D, followRange), this.targetEntitySelector::test);
 			// Sort the list using our player comparator
 			nearbyPlayers.sort(this.sorter);
 			// Iterate over all players nearby and pick a valid target

@@ -1,24 +1,26 @@
 package com.DavidM1A2.afraidofthedark.common.entity.werewolf;
 
+import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.research.IAOTDPlayerResearch;
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
-import com.DavidM1A2.afraidofthedark.common.constants.ModItems;
 import com.DavidM1A2.afraidofthedark.common.constants.ModResearches;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSounds;
 import com.DavidM1A2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedEntity;
 import com.DavidM1A2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler;
 import com.DavidM1A2.afraidofthedark.common.entity.werewolf.animation.AnimationHandlerWerewolf;
+import com.DavidM1A2.afraidofthedark.common.packets.animationPackets.SyncAnimation;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 
 /**
  * Class representing a werewolf entity
@@ -74,7 +76,7 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 		// For our target tasks we first test if we were hurt, and if so target what hurt us
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
 		// Then introduce our custom werewolf target locator
-		this.targetTasks.addTask(2, new CustomWerewolfTargetLocator(this, 10, true));
+		this.targetTasks.addTask(2, new CustomWerewolfTargetLocator(this, 2, false));
 	}
 
 	/**
@@ -162,8 +164,83 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 	}
 
 	/**
+	 * Called when the entity is attacked from a damage source
+	 *
+	 * @param damageSource The damage source used
+	 * @param damage The damage inflicted
+	 * @return True if the attack went through, false otherwise
+	 */
+	@Override
+	public boolean attackEntityFrom(DamageSource damageSource, float damage)
+	{
+		// If the damage was 'silver_damage' then we can apply it, otherwise we just do 1 'generic' damage
+		if (damageSource.damageType.equals("silver_damage"))
+			return super.attackEntityFrom(damageSource, damage);
+		return super.attackEntityFrom(DamageSource.GENERIC, 1);
+	}
+
+	/**
+	 * Called when this mob attacks an entity
+	 *
+	 * @param entityIn The entity that was attacked
+	 * @return True to let the interaction go through, false otherwise
+	 */
+	@Override
+	public boolean attackEntityAsMob(Entity entityIn)
+	{
+		// Perform the attack first, then process the aftermath
+		boolean attackResult = super.attackEntityAsMob(entityIn);
+
+		// Server side processing only
+		if (!world.isRemote)
+		{
+			// Show all players within 50 blocks the bite animation
+			AfraidOfTheDark.INSTANCE.getPacketHandler().sendToAllAround(new SyncAnimation("Bite", this, "Bite"),
+					new NetworkRegistry.TargetPoint(this.dimension, this.posX, this.posY, this.posZ, 50));
+
+			// If the thing that was attacked was a player test if that player was killed or not
+			EntityPlayer entityPlayer = (EntityPlayer) entityIn;
+			IAOTDPlayerResearch playerResearch = entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null);
+			if (entityPlayer.getHealth() != 0)
+				// The player was not killed by the attack unlock the werewolf research if possible
+				if (playerResearch.canResearch(ModResearches.WEREWOLF_EXAMINATION))
+				{
+					playerResearch.setResearch(ModResearches.WEREWOLF_EXAMINATION, true);
+					playerResearch.sync(entityPlayer, true);
+				}
+		}
+
+		return attackResult;
+	}
+
+	/**
+	 * Reads this entity from an NBT compound
+	 *
+	 * @param nbtTagCompound The compound to read from
+	 */
+	@Override
+	public void readEntityFromNBT(NBTTagCompound nbtTagCompound)
+	{
+		this.attacksAnyone = nbtTagCompound.getBoolean(NBT_CAN_ATTACK_ANYONE);
+		super.readEntityFromNBT(nbtTagCompound);
+	}
+
+	/**
+	 * Writes this entity to an NBT compound
+	 *
+	 * @param nbtTagCompound The compound to write to
+	 */
+	@Override
+	public void writeEntityToNBT(NBTTagCompound nbtTagCompound)
+	{
+		nbtTagCompound.setBoolean(NBT_CAN_ATTACK_ANYONE, attacksAnyone);
+		super.writeEntityToNBT(nbtTagCompound);
+	}
+
+	/**
 	 * @return the sound this mob makes on death.
 	 */
+	@Override
 	protected SoundEvent getDeathSound()
 	{
 		return ModSounds.WEREWOLF_DEATH;
@@ -172,7 +249,8 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 	/**
 	 * @return the sound this mob makes when it is hurt.
 	 */
-	protected SoundEvent getHurtSound()
+	@Override
+	protected SoundEvent getHurtSound(DamageSource damageSourceIn)
 	{
 		return ModSounds.WEREWOLF_HURT;
 	}
@@ -205,42 +283,29 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 	}
 
 	/**
-	 * Called when the entity is attacked from a damage source
-	 *
-	 * @param damageSource The damage source used
-	 * @param damage The damage inflicted
-	 * @return True if the attack went through, false otherwise
+	 * @return The eye height of the werewolf that it uses to look around
 	 */
 	@Override
-	public boolean attackEntityFrom(DamageSource damageSource, float damage)
+	public float getEyeHeight()
 	{
-		// If the damage was 'silver_damage' then we can apply it, otherwise we just do 1 'generic' damage
-		if (damageSource.damageType.equals("silver_damage"))
-			return super.attackEntityFrom(damageSource, damage);
-		return super.attackEntityFrom(DamageSource.GENERIC, 1);
+		return 1.3f;
 	}
 
 	/**
-	 * Reads this entity from an NBT compound
+	 * Sets the flag telling us if the werewolf can attack anyone or just AOTD players
 	 *
-	 * @param nbtTagCompound The compound to read from
+	 * @param attacksAnyone THe flag
 	 */
-	@Override
-	public void readEntityFromNBT(NBTTagCompound nbtTagCompound)
+	public void setCanAttackAnyone(boolean attacksAnyone)
 	{
-		this.attacksAnyone = nbtTagCompound.getBoolean(NBT_CAN_ATTACK_ANYONE);
-		super.readEntityFromNBT(nbtTagCompound);
+		this.attacksAnyone = attacksAnyone;
 	}
 
 	/**
-	 * Writes this entity to an NBT compound
-	 *
-	 * @param nbtTagCompound The compound to write to
+	 * @return True if the werewolf can attack anyone or false if it can just attack AOTD players
 	 */
-	@Override
-	public void writeEntityToNBT(NBTTagCompound nbtTagCompound)
+	public boolean canAttackAnyone()
 	{
-		nbtTagCompound.setBoolean(NBT_CAN_ATTACK_ANYONE, attacksAnyone);
-		super.writeEntityToNBT(nbtTagCompound);
+		return this.attacksAnyone;
 	}
 }
