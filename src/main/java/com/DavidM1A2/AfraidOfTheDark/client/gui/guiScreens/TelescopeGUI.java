@@ -6,13 +6,16 @@ import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.specialControls.AOTDGuiMeteorButton;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiImage;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiPanel;
+import com.DavidM1A2.afraidofthedark.common.capabilities.player.research.IAOTDPlayerResearch;
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
-import com.DavidM1A2.afraidofthedark.common.constants.ModResearches;
-import com.DavidM1A2.afraidofthedark.common.utility.AOTDMeteorType;
+import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
+import com.DavidM1A2.afraidofthedark.common.registry.meteor.MeteorEntry;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentString;
 
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 /**
  * Gui screen that represents the telescope GUI
@@ -49,10 +52,7 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
 
 		// Create a random number of meteors to generate, let's go with 30-80
 		int numberOfMeteors = 30 + entityPlayer.getRNG().nextInt(50);
-		// Test if the player has researched astronomy 2
-		boolean hasAstronomy2 = false;//entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH).isResearched(ModResearches.ASTRONOMY_2);
-		// Grab a random object to place meteors
-		Random random = entityPlayer.getRNG();
+
 		AOTDMouseListener meteorClickListener = new AOTDMouseListener()
 		{
 			@Override
@@ -60,11 +60,19 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
 			{
 				if (event.getSource().isHovered() && event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
 				{
-					entityPlayer.sendMessage(new TextComponentString("Meteor type -> " + ((AOTDGuiMeteorButton) event.getSource()).getMeteorType().getName()));
+					entityPlayer.sendMessage(new TextComponentString("Meteor type -> " + ((AOTDGuiMeteorButton) event.getSource()).getMeteorType().getLocalizedName()));
 					entityPlayer.closeScreen();
 				}
 			}
 		};
+
+		// Grab the player's research
+		IAOTDPlayerResearch playerResearch = entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null);
+		// Grab a list of possible meteors
+		List<MeteorEntry> possibleMeteors = ModRegistries.METEORS.getValuesCollection().stream().filter(meteorEntry -> playerResearch.isResearched(meteorEntry.getPreRequisite())).collect(Collectors.toList());
+
+		// Grab a random object to place meteors
+		Random random = entityPlayer.getRNG();
 		// Create one button for each meteor
 		for (int i = 0; i < numberOfMeteors; i++)
 		{
@@ -74,7 +82,7 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
 				random.nextInt(this.telescopeImage.getMaxTextureHeight()) - this.telescopeImage.getMaxTextureHeight() / 2,
 				64,
 				64,
-				hasAstronomy2 ? AOTDMeteorType.values()[random.nextInt(AOTDMeteorType.values().length)] : AOTDMeteorType.ASTRAL_SILVER
+				possibleMeteors.get(random.nextInt(possibleMeteors.size()))
 			);
 			// Add a listener
 			meteorButton.addMouseListener(meteorClickListener);

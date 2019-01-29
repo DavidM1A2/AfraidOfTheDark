@@ -1,6 +1,7 @@
 package com.DavidM1A2.afraidofthedark.common.constants;
 
 import com.DavidM1A2.afraidofthedark.common.registry.bolt.BoltEntry;
+import com.DavidM1A2.afraidofthedark.common.registry.meteor.MeteorEntry;
 import com.DavidM1A2.afraidofthedark.common.registry.research.Research;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.Structure;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -15,4 +16,5 @@ public class ModRegistries
 	public static IForgeRegistry<Structure> STRUCTURE;
 	public static IForgeRegistry<Research> RESEARCH;
 	public static IForgeRegistry<BoltEntry> BOLTS;
+	public static IForgeRegistry<MeteorEntry> METEORS;
 }

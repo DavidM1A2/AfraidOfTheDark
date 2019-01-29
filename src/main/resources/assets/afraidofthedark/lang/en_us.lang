@@ -125,3 +125,8 @@ research.astronomy_1=Astronomy 1
 # Bolt entries
 bolt_entry.wooden=Wooden
 bolt_entry.iron=Iron
+
+# Meteor entries
+meteor_entry.astral_silver=Astral Silver
+meteor_entry.star_metal=Star Metal
+meteor_entry.igneous=Igneous

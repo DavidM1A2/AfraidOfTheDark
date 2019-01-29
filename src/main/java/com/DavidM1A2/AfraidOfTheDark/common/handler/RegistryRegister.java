@@ -4,6 +4,7 @@ package com.DavidM1A2.afraidofthedark.common.handler;
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
 import com.DavidM1A2.afraidofthedark.common.registry.bolt.BoltEntry;
+import com.DavidM1A2.afraidofthedark.common.registry.meteor.MeteorEntry;
 import com.DavidM1A2.afraidofthedark.common.registry.research.Research;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.Structure;
 import net.minecraft.util.ResourceLocation;
@@ -40,10 +41,16 @@ public class RegistryRegister
 				.setName(new ResourceLocation(Constants.MOD_ID, "research"))
 				.create();
 
-		// Create a new registry for the research with the name 'afraidofthedark:bolts'
+		// Create a new registry for the different bolt types with the name 'afraidofthedark:bolts'
 		ModRegistries.BOLTS = new RegistryBuilder<BoltEntry>()
 				.setType(BoltEntry.class)
 				.setName(new ResourceLocation(Constants.MOD_ID, "bolts"))
+				.create();
+
+		// Create a new registry for the different meteor types with the name 'afraidofthedark:meteors'
+		ModRegistries.METEORS = new RegistryBuilder<MeteorEntry>()
+				.setType(MeteorEntry.class)
+				.setName(new ResourceLocation(Constants.MOD_ID, "meteors"))
 				.create();
 	}
 }
