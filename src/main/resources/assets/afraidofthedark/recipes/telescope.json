@@ -20,5 +20,5 @@
     "item": "afraidofthedark:telescope",
     "count": 1
   },
-  "required_research": "werewolf_examination"
+  "required_research": "afraidofthedark:werewolf_examination"
 }
