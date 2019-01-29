@@ -1,6 +1,6 @@
 package com.DavidM1A2.afraidofthedark.common.capabilities.player.research;
 
-import com.DavidM1A2.afraidofthedark.common.research.base.Research;
+import com.DavidM1A2.afraidofthedark.common.registry.research.Research;
 import net.minecraft.entity.player.EntityPlayer;
 
 /**

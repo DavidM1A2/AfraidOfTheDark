@@ -1,7 +1,7 @@
 package com.DavidM1A2.afraidofthedark.common.handler;
 
 import com.DavidM1A2.afraidofthedark.client.gui.ResearchAchievedOverlay;
-import com.DavidM1A2.afraidofthedark.common.research.base.Research;
+import com.DavidM1A2.afraidofthedark.common.registry.research.Research;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;

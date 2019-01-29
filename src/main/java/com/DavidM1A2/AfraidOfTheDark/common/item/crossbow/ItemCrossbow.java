@@ -1,12 +1,16 @@
 package com.DavidM1A2.afraidofthedark.common.item.crossbow;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
+import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSounds;
 import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityBolt;
 import com.DavidM1A2.afraidofthedark.common.item.core.AOTDItem;
-import com.DavidM1A2.afraidofthedark.common.research.base.Research;
-import com.DavidM1A2.afraidofthedark.common.utility.AOTDBoltType;
+import com.DavidM1A2.afraidofthedark.common.registry.bolt.BoltEntry;
+import com.DavidM1A2.afraidofthedark.common.registry.research.Research;
+import com.DavidM1A2.afraidofthedark.common.utility.BoltOrderHelper;
 import com.DavidM1A2.afraidofthedark.common.utility.NBTHelper;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Iterators;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -86,7 +90,7 @@ public class ItemCrossbow extends AOTDItem
 				if (itemStack.getItemDamage() == 0)
 				{
 					// If we are in creative, no ammo is required or if we have ammo begin charging he bow
-					if (playerIn.capabilities.isCreativeMode || playerIn.inventory.hasItemStack(new ItemStack(this.getCurrentBoltType(itemStack).getItem())))
+					if (playerIn.capabilities.isCreativeMode || playerIn.inventory.hasItemStack(new ItemStack(this.getCurrentBoltType(itemStack).getBoltItem())))
 					{
 						// Play the load sound
 						worldIn.playSound(null, playerIn.getPosition(), ModSounds.CROSSBOW_LOAD, SoundCategory.PLAYERS, 0.9F, worldIn.rand.nextFloat() * 0.8F + 1.2F);
@@ -96,7 +100,7 @@ public class ItemCrossbow extends AOTDItem
 					// Else we print out that the player needs bolts to fire
 					else
 					{
-						playerIn.sendMessage(new TextComponentString("I'll need at least one " + this.getCurrentBoltType(itemStack).getName().toLowerCase() + " bolt in my inventory to shoot."));
+						playerIn.sendMessage(new TextComponentString("I'll need at least one " + this.getCurrentBoltType(itemStack).getLocalizedName().toLowerCase() + " bolt in my inventory to shoot."));
 					}
 				}
 			}
@@ -133,7 +137,7 @@ public class ItemCrossbow extends AOTDItem
 				else if (count == RELOAD_TIME / 4 * 3)
 					stack.setItemDamage(2);
 				else if (count == RELOAD_TIME)
-					if (entityPlayer.capabilities.isCreativeMode || entityPlayer.inventory.clearMatchingItems(this.getCurrentBoltType(stack).getItem(), -1, 1, null) == 1)
+					if (entityPlayer.capabilities.isCreativeMode || entityPlayer.inventory.clearMatchingItems(this.getCurrentBoltType(stack).getBoltItem(), -1, 1, null) == 1)
 						// Bow is loaded at damage = 3
 						stack.setItemDamage(3);
 			}
@@ -172,7 +176,7 @@ public class ItemCrossbow extends AOTDItem
 		// Play a fire sound effect
 		world.playSound(null, entityPlayer.getPosition(), ModSounds.CROSSBOW_FIRE, SoundCategory.PLAYERS, 0.5f, world.rand.nextFloat() * 0.4f + 0.8f);
 		// Instantiate bolt!
-		EntityBolt bolt = this.getCurrentBoltType(itemStack).createEntity(world, entityPlayer);
+		EntityBolt bolt = this.getCurrentBoltType(itemStack).getBoltEntityFactory().apply(world, entityPlayer);
 		// Push the bolt slightly forward so it does not collide with the player
 		bolt.shoot(entityPlayer, entityPlayer.rotationPitch, entityPlayer.rotationYaw, 0f, 3f, 0f);
 		bolt.posX = bolt.posX + bolt.motionX;
@@ -219,25 +223,16 @@ public class ItemCrossbow extends AOTDItem
 		// First test if the itemstack is not fully charged
 		if (!this.bowIsCharged(itemStack))
 		{
-			// Grab the current bolt type
-			int currentBoltType = this.getCurrentBoltTypeIndex(itemStack);
-			// The research pre-requisite for the bolt type
-			Research preRequisite;
-			do
-			{
-				// Increment bolt type until we find one that is valid for the player holding the bow
-				currentBoltType++;
-				if (currentBoltType >= AOTDBoltType.values().length)
-					currentBoltType = 0;
-				preRequisite = AOTDBoltType.values()[currentBoltType].getPreRequisite();
-			}
-			// Loop while there is an unmet pre-requisite
-			while(preRequisite != null && !entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null).isResearched(preRequisite));
-			NBTHelper.setInteger(itemStack, NBT_BOLT_TYPE, currentBoltType);
+			// Grab the current bolt type index
+			int currentBoltTypeIndex = this.getCurrentBoltTypeIndex(itemStack);
+			// Compute the next bolt index
+			currentBoltTypeIndex = BoltOrderHelper.getNextBoltIndex(entityPlayer, currentBoltTypeIndex);
+			// Set the next bolt index
+			NBTHelper.setInteger(itemStack, NBT_BOLT_TYPE, currentBoltTypeIndex);
 
 			// Tell the user that they have a new bolt loaded
 			if (!entityPlayer.world.isRemote)
-				entityPlayer.sendMessage(new TextComponentString("Bow will now fire " + this.getCurrentBoltType(itemStack).getName().toLowerCase() + " bolts."));
+				entityPlayer.sendMessage(new TextComponentString("Bow will now fire " + this.getCurrentBoltType(itemStack).getLocalizedName().toLowerCase() + " bolts."));
 		}
 	}
 
@@ -258,9 +253,9 @@ public class ItemCrossbow extends AOTDItem
 	 * @param itemStack The bolt type selected
 	 * @return The bolt type tripe represented by this bow
 	 */
-	private AOTDBoltType getCurrentBoltType(ItemStack itemStack)
+	private BoltEntry getCurrentBoltType(ItemStack itemStack)
 	{
-		return AOTDBoltType.values()[this.getCurrentBoltTypeIndex(itemStack)];
+		return BoltOrderHelper.getBoltAt(this.getCurrentBoltTypeIndex(itemStack));
 	}
 
 	/**
@@ -288,7 +283,7 @@ public class ItemCrossbow extends AOTDItem
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
 	{
 		tooltip.add("Shift & Right click to change crossbow bolt type.");
-		tooltip.add("Bow will fire: " + this.getCurrentBoltType(stack).getName() + " bolts.");
+		tooltip.add("Bow will fire: " + this.getCurrentBoltType(stack).getLocalizedName() + " bolts.");
 	}
 
 	/**

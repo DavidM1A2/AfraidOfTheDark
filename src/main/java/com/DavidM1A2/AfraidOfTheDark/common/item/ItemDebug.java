@@ -1,12 +1,10 @@
 package com.DavidM1A2.afraidofthedark.common.item;
 
-import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.StructurePlan;
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
 import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
-import com.DavidM1A2.afraidofthedark.common.constants.ModResearches;
 import com.DavidM1A2.afraidofthedark.common.item.core.AOTDItem;
-import com.DavidM1A2.afraidofthedark.common.research.base.Research;
+import com.DavidM1A2.afraidofthedark.common.registry.research.Research;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.Structure;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

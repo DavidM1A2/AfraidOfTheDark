@@ -1,7 +1,7 @@
 package com.DavidM1A2.afraidofthedark.common.constants;
 
-import com.DavidM1A2.afraidofthedark.common.research.base.AOTDResearch;
-import com.DavidM1A2.afraidofthedark.common.research.base.Research;
+import com.DavidM1A2.afraidofthedark.common.registry.research.AOTDResearch;
+import com.DavidM1A2.afraidofthedark.common.registry.research.Research;
 
 /**
  * A static class containing all of our research references for us

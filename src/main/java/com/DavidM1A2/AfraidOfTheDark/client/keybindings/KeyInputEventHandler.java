@@ -4,10 +4,14 @@ import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.basics.IAOTDPlayerBasics;
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
 import com.DavidM1A2.afraidofthedark.common.constants.ModItems;
+import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
 import com.DavidM1A2.afraidofthedark.common.constants.ModResearches;
 import com.DavidM1A2.afraidofthedark.common.item.crossbow.ItemWristCrossbow;
 import com.DavidM1A2.afraidofthedark.common.packets.otherPackets.FireWristCrossbow;
-import com.DavidM1A2.afraidofthedark.common.utility.AOTDBoltType;
+import com.DavidM1A2.afraidofthedark.common.registry.bolt.AOTDBoltEntry;
+import com.DavidM1A2.afraidofthedark.common.registry.bolt.BoltEntry;
+import com.DavidM1A2.afraidofthedark.common.utility.BoltOrderHelper;
+import com.google.common.collect.Iterators;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -45,14 +49,14 @@ public class KeyInputEventHandler
 		if (entityPlayer.isSneaking())
 		{
 			// Advance the current index
-			int nextIndex = playerBasics.getSelectedWristCrossbowBoltIndex() + 1;
-			// If the index is greater than the max possible reset it to 0
-			nextIndex = nextIndex >= AOTDBoltType.values().length ? 0 : nextIndex;
+			int currentBoltIndex = playerBasics.getSelectedWristCrossbowBoltIndex();
+			// Compute the next bolt index
+			currentBoltIndex = BoltOrderHelper.getNextBoltIndex(entityPlayer, currentBoltIndex);
 			// Set the selected index and sync the index
-			playerBasics.setSelectedWristCrossbowBoltIndex(nextIndex);
+			playerBasics.setSelectedWristCrossbowBoltIndex(currentBoltIndex);
 			playerBasics.syncSelectedWristCrossbowBoltIndex(entityPlayer);
 			// Tell the player what type of bolt will be fired now
-			entityPlayer.sendMessage(new TextComponentString("Wrist crossbow will now fire " + AOTDBoltType.values()[nextIndex].getName().toLowerCase() + " bolts."));
+			entityPlayer.sendMessage(new TextComponentString("Wrist crossbow will now fire " + BoltOrderHelper.getBoltAt(currentBoltIndex).getLocalizedName().toLowerCase() + " bolts."));
 		}
 		// Fire a bolt
 		else
@@ -64,9 +68,9 @@ public class KeyInputEventHandler
 				if (entityPlayer.inventory.hasItemStack(new ItemStack(ModItems.WRIST_CROSSBOW, 1, 0)))
 				{
 					// Grab the currently selected bolt type
-					AOTDBoltType boltType = AOTDBoltType.values()[playerBasics.getSelectedWristCrossbowBoltIndex()];
+					BoltEntry boltType = BoltOrderHelper.getBoltAt(playerBasics.getSelectedWristCrossbowBoltIndex());
 					// Ensure the player has a bolt of the right type in his/her inventory or is in creative mode
-					if (entityPlayer.inventory.hasItemStack(new ItemStack(boltType.getItem(), 1, 0)) || entityPlayer.isCreative())
+					if (entityPlayer.inventory.hasItemStack(new ItemStack(boltType.getBoltItem(), 1, 0)) || entityPlayer.isCreative())
 					{
 						// Find the wrist crossbow item in the player's inventory
 						for (ItemStack itemStack : entityPlayer.inventory.mainInventory)
@@ -93,7 +97,7 @@ public class KeyInputEventHandler
 					}
 					else
 					{
-						entityPlayer.sendMessage(new TextComponentString("I'll need a " + boltType.getName().toLowerCase() + " bolt in my inventory to shoot."));
+						entityPlayer.sendMessage(new TextComponentString("I'll need a " + boltType.getLocalizedName().toLowerCase() + " bolt in my inventory to shoot."));
 					}
 				}
 				else

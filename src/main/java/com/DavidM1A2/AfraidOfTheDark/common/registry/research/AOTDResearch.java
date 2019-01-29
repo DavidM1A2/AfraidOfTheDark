@@ -1,4 +1,4 @@
-package com.DavidM1A2.afraidofthedark.common.research.base;
+package com.DavidM1A2.afraidofthedark.common.registry.research;
 
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import net.minecraft.util.ResourceLocation;

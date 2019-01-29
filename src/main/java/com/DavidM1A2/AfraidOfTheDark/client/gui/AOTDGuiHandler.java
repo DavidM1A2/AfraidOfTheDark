@@ -5,8 +5,7 @@ import com.DavidM1A2.afraidofthedark.client.gui.guiScreens.BloodStainedJournalRe
 import com.DavidM1A2.afraidofthedark.client.gui.guiScreens.BloodStainedJournalSignGUI;
 import com.DavidM1A2.afraidofthedark.client.gui.guiScreens.TelescopeGUI;
 import com.DavidM1A2.afraidofthedark.client.settings.ClientData;
-import com.DavidM1A2.afraidofthedark.common.research.base.Research;
-import net.minecraft.client.resources.I18n;
+import com.DavidM1A2.afraidofthedark.common.registry.research.Research;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;

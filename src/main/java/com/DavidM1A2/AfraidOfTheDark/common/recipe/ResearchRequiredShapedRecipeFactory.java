@@ -1,8 +1,7 @@
 package com.DavidM1A2.afraidofthedark.common.recipe;
 
-import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
-import com.DavidM1A2.afraidofthedark.common.research.base.Research;
+import com.DavidM1A2.afraidofthedark.common.registry.research.Research;
 import com.google.gson.JsonObject;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.JsonUtils;

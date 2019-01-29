@@ -1,7 +1,7 @@
 package com.DavidM1A2.afraidofthedark.client.gui;
 
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
-import com.DavidM1A2.afraidofthedark.common.research.base.Research;
+import com.DavidM1A2.afraidofthedark.common.registry.research.Research;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;

@@ -1,13 +1,11 @@
-package com.DavidM1A2.afraidofthedark.common.research.base;
+package com.DavidM1A2.afraidofthedark.common.registry.research;
 
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
-import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import com.DavidM1A2.afraidofthedark.common.utility.ResourceUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.Item;
 import net.minecraft.util.JsonUtils;

@@ -78,6 +78,8 @@ public class AfraidOfTheDark
 		MinecraftForge.EVENT_BUS.register(new StructureRegister());
 		// Register our research handler used to add all of our mod researches to the game
 		MinecraftForge.EVENT_BUS.register(new ResearchRegister());
+		// Register our bolt entry handler used to add all of our mod bolt entries to the game
+		MinecraftForge.EVENT_BUS.register(new BoltEntryRegister());
 		// Register our research overlay display to draw on the screen, only need to do this client side
 		if (event.getSide() == Side.CLIENT)
 			MinecraftForge.EVENT_BUS.register(proxy.getResearchOverlay());

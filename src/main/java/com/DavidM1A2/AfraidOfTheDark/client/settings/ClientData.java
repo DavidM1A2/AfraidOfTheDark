@@ -2,7 +2,7 @@ package com.DavidM1A2.afraidofthedark.client.settings;
 
 import com.DavidM1A2.afraidofthedark.client.gui.fontLibrary.FontLoader;
 import com.DavidM1A2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont;
-import com.DavidM1A2.afraidofthedark.common.research.base.Research;
+import com.DavidM1A2.afraidofthedark.common.registry.research.Research;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.HashMap;

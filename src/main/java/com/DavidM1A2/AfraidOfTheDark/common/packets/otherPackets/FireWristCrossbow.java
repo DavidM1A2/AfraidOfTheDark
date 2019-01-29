@@ -1,13 +1,17 @@
 package com.DavidM1A2.afraidofthedark.common.packets.otherPackets;
 
+import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSounds;
 import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityBolt;
 import com.DavidM1A2.afraidofthedark.common.packets.packetHandler.MessageHandler;
-import com.DavidM1A2.afraidofthedark.common.utility.AOTDBoltType;
+import com.DavidM1A2.afraidofthedark.common.registry.bolt.BoltEntry;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufUtil;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
@@ -17,14 +21,14 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 public class FireWristCrossbow implements IMessage
 {
 	// The bolt to fire
-	private AOTDBoltType selectedBolt;
+	private BoltEntry selectedBolt;
 
 	/**
 	 * Default constructor is required but not used
 	 */
 	public FireWristCrossbow()
 	{
-		this.selectedBolt = AOTDBoltType.WOODEN;
+		this.selectedBolt = null;
 	}
 
 	/**
@@ -32,7 +36,7 @@ public class FireWristCrossbow implements IMessage
 	 *
 	 * @param selectedBolt The bolt to fire
 	 */
-	public FireWristCrossbow(AOTDBoltType selectedBolt)
+	public FireWristCrossbow(BoltEntry selectedBolt)
 	{
 		this.selectedBolt = selectedBolt;
 	}
@@ -45,7 +49,7 @@ public class FireWristCrossbow implements IMessage
 	@Override
 	public void fromBytes(ByteBuf buf)
 	{
-		this.selectedBolt = AOTDBoltType.values()[buf.readInt()];
+		this.selectedBolt = ModRegistries.BOLTS.getValue(new ResourceLocation(ByteBufUtils.readUTF8String(buf)));
 	}
 
 	/**
@@ -56,7 +60,7 @@ public class FireWristCrossbow implements IMessage
 	@Override
 	public void toBytes(ByteBuf buf)
 	{
-		buf.writeInt(this.selectedBolt.ordinal());
+		ByteBufUtils.writeUTF8String(buf, this.selectedBolt.getRegistryName().toString());
 	}
 
 	/**
@@ -75,13 +79,13 @@ public class FireWristCrossbow implements IMessage
 		public void handleServerMessage(EntityPlayer entityPlayer, FireWristCrossbow msg, MessageContext ctx)
 		{
 			// Only fire a bolt if the player is in creative or has the right bolt item
-			if (entityPlayer.capabilities.isCreativeMode || entityPlayer.inventory.clearMatchingItems(msg.selectedBolt.getItem(), -1, 1, null) == 1)
+			if (entityPlayer.capabilities.isCreativeMode || entityPlayer.inventory.clearMatchingItems(msg.selectedBolt.getBoltItem(), -1, 1, null) == 1)
 			{
 				World world = entityPlayer.world;
 				// Play a fire sound effect
 				world.playSound(null, entityPlayer.getPosition(), ModSounds.CROSSBOW_FIRE, SoundCategory.PLAYERS, 0.5f, world.rand.nextFloat() * 0.4f + 0.8f);
 				// Instantiate bolt!
-				EntityBolt bolt = msg.selectedBolt.createEntity(world, entityPlayer);
+				EntityBolt bolt = msg.selectedBolt.getBoltEntityFactory().apply(world, entityPlayer);
 				// Push the bolt slightly forward so it does not collide with the player
 				bolt.shoot(entityPlayer, entityPlayer.rotationPitch, entityPlayer.rotationYaw, 0f, 3f, 0f);
 				bolt.posX = bolt.posX + bolt.motionX;

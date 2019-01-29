@@ -3,7 +3,8 @@ package com.DavidM1A2.afraidofthedark.common.handler;
 
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
-import com.DavidM1A2.afraidofthedark.common.research.base.Research;
+import com.DavidM1A2.afraidofthedark.common.registry.bolt.BoltEntry;
+import com.DavidM1A2.afraidofthedark.common.registry.research.Research;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.Structure;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
@@ -37,6 +38,12 @@ public class RegistryRegister
 		ModRegistries.RESEARCH = new RegistryBuilder<Research>()
 				.setType(Research.class)
 				.setName(new ResourceLocation(Constants.MOD_ID, "research"))
+				.create();
+
+		// Create a new registry for the research with the name 'afraidofthedark:bolts'
+		ModRegistries.BOLTS = new RegistryBuilder<BoltEntry>()
+				.setType(BoltEntry.class)
+				.setName(new ResourceLocation(Constants.MOD_ID, "bolts"))
 				.create();
 	}
 }

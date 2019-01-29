@@ -121,3 +121,7 @@ research.crossbow=Crossbow
 research.wrist_crossbow=Wrist Crossbow
 research.werewolf_examination=Werewolf Examination
 research.astronomy_1=Astronomy 1
+
+# Bolt entries
+bolt_entry.wooden=Wooden
+bolt_entry.iron=Iron
