@@ -12,6 +12,7 @@ import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiPanel;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiSpriteSheetImage;
 import com.DavidM1A2.afraidofthedark.client.settings.ClientData;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.research.IAOTDPlayerResearch;
+import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
 import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSounds;
@@ -52,8 +53,8 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 		int backgroundWidth = 256;
 
 		// Calculate the various positions of GUI elements on the screen
-		int xPosScroll = (640 - backgroundWidth) / 2;
-		int yPosScroll = (360 - backgroundHeight) / 2;
+		int xPosScroll = (Constants.GUI_WIDTH - backgroundWidth) / 2;
+		int yPosScroll = (Constants.GUI_HEIGHT - backgroundHeight) / 2;
 
 		// Recall our previous GUI offsets from the last time we had the GUI open, this helps remember where we left off in the UI
 		this.guiOffsetX = lastGuiOffsetX;

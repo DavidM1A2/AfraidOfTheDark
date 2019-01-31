@@ -7,11 +7,13 @@ import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;
 import com.DavidM1A2.afraidofthedark.common.packets.capabilityPackets.SyncSelectedWristCrossbowBolt;
 import com.DavidM1A2.afraidofthedark.common.packets.otherPackets.FireWristCrossbow;
+import com.DavidM1A2.afraidofthedark.common.packets.otherPackets.ProcessSextantInput;
 import com.DavidM1A2.afraidofthedark.common.packets.otherPackets.SyncItemWithCooldown;
 import com.DavidM1A2.afraidofthedark.common.packets.animationPackets.SyncAnimation;
 import com.DavidM1A2.afraidofthedark.common.packets.capabilityPackets.SyncAOTDPlayerBasics;
 import com.DavidM1A2.afraidofthedark.common.packets.capabilityPackets.SyncResearch;
 import com.DavidM1A2.afraidofthedark.common.packets.capabilityPackets.SyncStartedAOTD;
+import com.DavidM1A2.afraidofthedark.common.packets.otherPackets.UpdateWatchedMeteor;
 import com.DavidM1A2.afraidofthedark.common.packets.packetHandler.PacketHandler;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -60,10 +62,13 @@ public abstract class CommonProxy implements IProxy
 		packetHandler.registerPacket(SyncSelectedWristCrossbowBolt.class, new SyncSelectedWristCrossbowBolt.Handler(), Side.SERVER);
 		packetHandler.registerBidiPacket(SyncAOTDPlayerBasics.class, new SyncAOTDPlayerBasics.Handler());
 		packetHandler.registerBidiPacket(SyncResearch.class, new SyncResearch.Handler());
+		packetHandler.registerBidiPacket(UpdateWatchedMeteor.class, new UpdateWatchedMeteor.Handler());
 
 		packetHandler.registerPacket(SyncAnimation.class, new SyncAnimation.Handler(), Side.CLIENT);
 		packetHandler.registerPacket(SyncItemWithCooldown.class, new SyncItemWithCooldown.Handler(), Side.CLIENT);
 
 		packetHandler.registerPacket(FireWristCrossbow.class, new FireWristCrossbow.Handler(), Side.SERVER);
+		packetHandler.registerPacket(ProcessSextantInput.class, new ProcessSextantInput.Handler(), Side.SERVER);
+		packetHandler.registerPacket(ProcessSextantInput.class, new ProcessSextantInput.Handler(), Side.SERVER);
 	}
 }

@@ -2,6 +2,10 @@ package com.DavidM1A2.afraidofthedark.client.gui.specialControls;
 
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiButton;
 import com.DavidM1A2.afraidofthedark.common.registry.meteor.MeteorEntry;
+import net.minecraft.client.Minecraft;
+import org.lwjgl.util.Color;
+
+import java.util.Random;
 
 /**
  * Special UI control that represents a meteor button which is a meteor in the sky
@@ -10,6 +14,8 @@ public class AOTDGuiMeteorButton extends AOTDGuiButton
 {
 	// The type that this meteor button represents
 	private final MeteorEntry meteorType;
+	// RNG used to pick opacity randomly
+	private static final Random RANDOM = new Random();
 
 	/**
 	 * Constructor initializes fields and what meteor it represents
@@ -24,6 +30,8 @@ public class AOTDGuiMeteorButton extends AOTDGuiButton
 	{
 		super(x, y, width, height, null, meteorType.getIcon().toString());
 		this.meteorType = meteorType;
+		// Give the meteor a random opacity
+		this.setColor(new Color(255, 255, 255, RANDOM.nextInt(256)));
 	}
 
 	/**

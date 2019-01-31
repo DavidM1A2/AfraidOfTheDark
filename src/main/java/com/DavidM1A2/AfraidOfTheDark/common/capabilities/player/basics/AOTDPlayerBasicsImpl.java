@@ -4,6 +4,8 @@ import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.packets.capabilityPackets.SyncAOTDPlayerBasics;
 import com.DavidM1A2.afraidofthedark.common.packets.capabilityPackets.SyncSelectedWristCrossbowBolt;
 import com.DavidM1A2.afraidofthedark.common.packets.capabilityPackets.SyncStartedAOTD;
+import com.DavidM1A2.afraidofthedark.common.packets.otherPackets.UpdateWatchedMeteor;
+import com.DavidM1A2.afraidofthedark.common.registry.meteor.MeteorEntry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 
@@ -16,6 +18,12 @@ public class AOTDPlayerBasicsImpl implements IAOTDPlayerBasics
 	private boolean startedAOTD;
 	// Integer telling us what bolt the wrist crossbow is currently set to fire
 	private int selectedWristCrossbowBoltIndex;
+	// The meteor the player is currently observing (was last clicked in telescope)
+	private MeteorEntry watchedMeteor;
+	// The 3 properties of the watched meteor
+	private int watchedMeteorDropAngle;
+	private int watchedMeteorLatitude;
+	private int watchedMeteorLongitude;
 
 	/**
 	 * Constructor initializes default values
@@ -24,6 +32,10 @@ public class AOTDPlayerBasicsImpl implements IAOTDPlayerBasics
 	{
 		this.startedAOTD = false;
 		this.selectedWristCrossbowBoltIndex = 0;
+		this.watchedMeteor = null;
+		this.watchedMeteorDropAngle = -1;
+		this.watchedMeteorLatitude = -1;
+		this.watchedMeteorLongitude = -1;
 	}
 
 	/**
@@ -101,6 +113,74 @@ public class AOTDPlayerBasicsImpl implements IAOTDPlayerBasics
 		// Can only send this client -> server side
 		if (!this.isServerSide(entityPlayer))
 			AfraidOfTheDark.INSTANCE.getPacketHandler().sendToServer(new SyncSelectedWristCrossbowBolt(this.selectedWristCrossbowBoltIndex));
+	}
+
+	/**
+	 * Sets the meteor that the player is currently watching. All 3 int values
+	 * are simply fabricated but used later in the sextant to compute
+	 * actual minecraft coordinates.
+	 *
+	 * @param meteorEntry The meteor that the player is watching
+	 * @param dropAngle The angle the meteor dropped in at
+	 * @param latitude The latitude the meteor dropped in at
+	 * @param longitude The longitude the meteor dropped in at
+	 */
+	@Override
+	public void setWatchedMeteor(MeteorEntry meteorEntry, int dropAngle, int latitude, int longitude)
+	{
+		this.watchedMeteor = meteorEntry;
+		this.watchedMeteorDropAngle = dropAngle;
+		this.watchedMeteorLatitude = latitude;
+		this.watchedMeteorLongitude = longitude;
+	}
+
+	/**
+	 * @return The meteor that the player is watching or null if not present
+	 */
+	@Override
+	public MeteorEntry getWatchedMeteor()
+	{
+		return this.watchedMeteor;
+	}
+
+	/**
+	 * @return The angle the meteor dropped in at or -1 if not present
+	 */
+	@Override
+	public int getWatchedMeteorDropAngle()
+	{
+		return this.watchedMeteorDropAngle;
+	}
+
+	/**
+	 * @return The latitude the meteor dropped at or -1 if not present
+	 */
+	@Override
+	public int getWatchedMeteorLatitude()
+	{
+		return this.watchedMeteorLatitude;
+	}
+
+	/**
+	 * @return The longitude the meteor dropped at or -1 if not present
+	 */
+	@Override
+	public int getWatchedMeteorLongitude()
+	{
+		return this.watchedMeteorLongitude;
+	}
+
+	/**
+	 * Syncs all the watched meteor data
+	 *
+	 * @param entityPlayer The player that the data is being synced for
+	 */
+	@Override
+	public void syncWatchedMeteor(EntityPlayer entityPlayer)
+	{
+		// If we're on server side send the client the meteor data
+		if (this.isServerSide(entityPlayer))
+			AfraidOfTheDark.INSTANCE.getPacketHandler().sendTo(new UpdateWatchedMeteor(this.watchedMeteor, this.watchedMeteorDropAngle, this.watchedMeteorLatitude, this.watchedMeteorLongitude), (EntityPlayerMP) entityPlayer);
 	}
 
 	/**

@@ -37,11 +37,17 @@ public class ItemDebug extends AOTDItem
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
 	{
+		/*
 		for (Research research : ModRegistries.RESEARCH)
 			playerIn.sendMessage(new TextComponentString(research.getRegistryName().toString() + " -> " + playerIn.getCapability(ModCapabilities.PLAYER_RESEARCH, null).isResearched(research)));
-
+*/
+		playerIn.sendMessage(new TextComponentString("" + playerIn.getCapability(ModCapabilities.PLAYER_BASICS, null).getWatchedMeteorDropAngle()));
+		playerIn.sendMessage(new TextComponentString("" + playerIn.getCapability(ModCapabilities.PLAYER_BASICS, null).getWatchedMeteorLatitude()));
+		playerIn.sendMessage(new TextComponentString("" + playerIn.getCapability(ModCapabilities.PLAYER_BASICS, null).getWatchedMeteorLongitude()));
 		if (!worldIn.isRemote)
 		{
+
+			/*
 			StructurePlan y = StructurePlan.get(worldIn);
 			BlockPos position = playerIn.getPosition();
 			ChunkPos chunkPos = new ChunkPos(position);
@@ -58,7 +64,7 @@ public class ItemDebug extends AOTDItem
 				{
 					playerIn.sendMessage(new TextComponentString("No structure at position"));
 				}
-			}
+			}*/
 
 			/*
 			OverworldHeightmap x = OverworldHeightmap.get(worldIn);

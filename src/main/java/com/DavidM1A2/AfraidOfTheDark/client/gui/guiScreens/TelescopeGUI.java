@@ -1,5 +1,6 @@
 package com.DavidM1A2.afraidofthedark.client.gui.guiScreens;
 
+import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiClickAndDragable;
 import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
@@ -7,8 +8,10 @@ import com.DavidM1A2.afraidofthedark.client.gui.specialControls.AOTDGuiMeteorBut
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiImage;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiPanel;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.research.IAOTDPlayerResearch;
+import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
 import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
+import com.DavidM1A2.afraidofthedark.common.packets.otherPackets.UpdateWatchedMeteor;
 import com.DavidM1A2.afraidofthedark.common.registry.meteor.MeteorEntry;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentString;
@@ -36,8 +39,8 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
 		final int GUI_SIZE = 256;
 
 		// Calculate the various positions of GUI elements on the screen
-		int xPosTelescope = (640 - GUI_SIZE) / 2;
-		int yPosTelescope = (360 - GUI_SIZE) / 2;
+		int xPosTelescope = (Constants.GUI_WIDTH - GUI_SIZE) / 2;
+		int yPosTelescope = (Constants.GUI_HEIGHT - GUI_SIZE) / 2;
 
 		// Create a panel that will hold all the UI contents
 		AOTDGuiPanel telescope = new AOTDGuiPanel(xPosTelescope, yPosTelescope, GUI_SIZE, GUI_SIZE, true);
@@ -53,6 +56,7 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
 		// Create a random number of meteors to generate, let's go with 30-80
 		int numberOfMeteors = 30 + entityPlayer.getRNG().nextInt(50);
 
+		// Click listener that gets called when we click a meteor button
 		AOTDMouseListener meteorClickListener = new AOTDMouseListener()
 		{
 			@Override
@@ -60,7 +64,8 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
 			{
 				if (event.getSource().isHovered() && event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
 				{
-					entityPlayer.sendMessage(new TextComponentString("Meteor type -> " + ((AOTDGuiMeteorButton) event.getSource()).getMeteorType().getLocalizedName()));
+					// Tell the server we're watching a new meteor. It will update our capability NBT data for us
+					AfraidOfTheDark.INSTANCE.getPacketHandler().sendToServer(new UpdateWatchedMeteor(((AOTDGuiMeteorButton) event.getSource()).getMeteorType()));
 					entityPlayer.closeScreen();
 				}
 			}

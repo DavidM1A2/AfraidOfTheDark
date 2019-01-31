@@ -1,9 +1,6 @@
 package com.DavidM1A2.afraidofthedark.client.gui;
 
-import com.DavidM1A2.afraidofthedark.client.gui.guiScreens.BloodStainedJournalPageGUI;
-import com.DavidM1A2.afraidofthedark.client.gui.guiScreens.BloodStainedJournalResearchGUI;
-import com.DavidM1A2.afraidofthedark.client.gui.guiScreens.BloodStainedJournalSignGUI;
-import com.DavidM1A2.afraidofthedark.client.gui.guiScreens.TelescopeGUI;
+import com.DavidM1A2.afraidofthedark.client.gui.guiScreens.*;
 import com.DavidM1A2.afraidofthedark.client.settings.ClientData;
 import com.DavidM1A2.afraidofthedark.common.registry.research.Research;
 import net.minecraft.entity.player.EntityPlayer;
@@ -80,6 +77,8 @@ public class AOTDGuiHandler implements IGuiHandler
 				return new BloodStainedJournalPageGUI(lastSelectedResearch.getPreResearchedText(), "???", lastSelectedResearch.getPreResearchedRecipes());
 			case TELESCOPE_ID:
 				return new TelescopeGUI();
+			case SEXTANT_ID:
+				return new SextantGUI();
 			default:
 				return null;
 		}
