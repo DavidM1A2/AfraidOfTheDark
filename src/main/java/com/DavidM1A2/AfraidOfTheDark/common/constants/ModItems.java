@@ -19,6 +19,8 @@ public class ModItems
 	public static final Item RESEARCH_SCROLL = new ItemResearchScroll();
 	public static final Item TELESCOPE = new ItemTelescope();
 	public static final Item SEXTANT = new ItemSextant();
+	public static final Item ASTRAL_SILVER_INGOT = new ItemAstralSilverIngot();
+	public static final Item ASTRAL_SILVER_SWORD = new ItemAstralSilverSword();
 
 	public static final Item WOODEN_BOLT = new ItemWoodenBolt();
 	public static final Item IRON_BOLT = new ItemIronBolt();
@@ -39,6 +41,8 @@ public class ModItems
 		RESEARCH_SCROLL,
 		TELESCOPE,
 		SEXTANT,
+		ASTRAL_SILVER_INGOT,
+		ASTRAL_SILVER_SWORD,
 		WOODEN_BOLT,
 		IRON_BOLT,
 		SILVER_BOLT,

@@ -18,9 +18,9 @@ import org.codehaus.plexus.util.ExceptionUtils;
 import java.lang.reflect.Field;
 
 /**
- * Class representing a recipe that requires a research before it can be crafted
+ * Base class representing a recipe that requires a research before it can be crafted
  */
-public class ResearchRequiredRecipe extends IForgeRegistryEntry.Impl<IRecipe> implements IRecipe
+public abstract class ResearchRequiredRecipeBase<T extends IRecipe> extends IForgeRegistryEntry.Impl<IRecipe> implements IRecipe
 {
 	// 3 reflection fields used in determining which players are actually crafting a given recipe
 	private static Field eventHandlerField;
@@ -29,8 +29,8 @@ public class ResearchRequiredRecipe extends IForgeRegistryEntry.Impl<IRecipe> im
 
 	// The pre-requisite research to this recipe
 	private final Research preRequisite;
-	// The base shaped ore recipe to be automatically created using existing minecraft code
-	private final IRecipe baseRecipe;
+	// The base shapeless ore recipe to be automatically created using existing minecraft code
+	final T baseRecipe;
 
 	static
 	{
@@ -56,7 +56,7 @@ public class ResearchRequiredRecipe extends IForgeRegistryEntry.Impl<IRecipe> im
 	 * @param baseRecipe The base recipe to start with
 	 * @param preRequisite The pre-requisite research to be required to craft this recipe
 	 */
-	public ResearchRequiredRecipe(IRecipe baseRecipe, Research preRequisite)
+	public ResearchRequiredRecipeBase(T baseRecipe, Research preRequisite)
 	{
 		this.preRequisite = preRequisite;
 		this.baseRecipe = baseRecipe;
@@ -69,13 +69,14 @@ public class ResearchRequiredRecipe extends IForgeRegistryEntry.Impl<IRecipe> im
 	 * @param worldIn The current world the object is being crafted in
 	 * @return True if the crafting recipe matches, false if it does not
 	 */
+	@Override
 	public boolean matches(InventoryCrafting inv, World worldIn)
 	{
 		// Compute if the recipe matches first
 		boolean matches = this.baseRecipe.matches(inv, worldIn);
 
 		// Grab the player who did the crafting
-		EntityPlayer craftingPlayer = ResearchRequiredRecipe.findPlayer(inv);
+		EntityPlayer craftingPlayer = ResearchRequiredRecipeBase.findPlayer(inv);
 		// Ensure the player is non-null
 		if (craftingPlayer != null)
 		{
@@ -132,6 +133,7 @@ public class ResearchRequiredRecipe extends IForgeRegistryEntry.Impl<IRecipe> im
 	 * @param inv The inventory crafting to work with
 	 * @return The item that is returned when the recipe is correct
 	 */
+	@Override
 	public ItemStack getCraftingResult(InventoryCrafting inv)
 	{
 		return this.baseRecipe.getCraftingResult(inv);
@@ -144,6 +146,7 @@ public class ResearchRequiredRecipe extends IForgeRegistryEntry.Impl<IRecipe> im
 	 * @param height The height of the crafting rid
 	 * @return True if the recipe fits in the grid, false otherwise
 	 */
+	@Override
 	public boolean canFit(int width, int height)
 	{
 		return this.baseRecipe.canFit(width, height);
@@ -152,6 +155,7 @@ public class ResearchRequiredRecipe extends IForgeRegistryEntry.Impl<IRecipe> im
 	/**
 	 * @return The output of the recipe
 	 */
+	@Override
 	public ItemStack getRecipeOutput()
 	{
 		return this.baseRecipe.getRecipeOutput();
@@ -163,6 +167,7 @@ public class ResearchRequiredRecipe extends IForgeRegistryEntry.Impl<IRecipe> im
 	 * @param inv The inventory to start with
 	 * @return A list of items to return to the player after the items are consumed from the crafting grid
 	 */
+	@Override
 	public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv)
 	{
 		return this.baseRecipe.getRemainingItems(inv);
@@ -171,6 +176,7 @@ public class ResearchRequiredRecipe extends IForgeRegistryEntry.Impl<IRecipe> im
 	/**
 	 * @return The ingredients required for the recipe
 	 */
+	@Override
 	public NonNullList<Ingredient> getIngredients()
 	{
 		return this.baseRecipe.getIngredients();
@@ -179,6 +185,7 @@ public class ResearchRequiredRecipe extends IForgeRegistryEntry.Impl<IRecipe> im
 	/**
 	 * @return True if the recipe is dynamic, false otherwise
 	 */
+	@Override
 	public boolean isDynamic()
 	{
 		return this.baseRecipe.isDynamic();
@@ -187,6 +194,7 @@ public class ResearchRequiredRecipe extends IForgeRegistryEntry.Impl<IRecipe> im
 	/**
 	 * @return The group the recipe belongs to
 	 */
+	@Override
 	public String getGroup()
 	{
 		return this.baseRecipe.getGroup();

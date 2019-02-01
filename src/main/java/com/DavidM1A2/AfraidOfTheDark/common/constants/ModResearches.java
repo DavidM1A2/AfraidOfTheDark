@@ -15,6 +15,7 @@ public class ModResearches
 	public static final Research WRIST_CROSSBOW = new AOTDResearch("wrist_crossbow", CROSSBOW);
 	public static final Research WEREWOLF_EXAMINATION = new AOTDResearch("werewolf_examination", AN_UNBREAKABLE_COVENANT);
 	public static final Research ASTRONOMY_1 = new AOTDResearch("astronomy_1", WEREWOLF_EXAMINATION);
+	public static final Research ASTRAL_SILVER = new AOTDResearch("astral_silver", ASTRONOMY_1);
 
 	// An array containing a list of researches that AOTD adds
 	public static Research[] RESEARCH_LIST = new Research[]
@@ -25,6 +26,7 @@ public class ModResearches
 		CROSSBOW,
 		WRIST_CROSSBOW,
 		WEREWOLF_EXAMINATION,
-		ASTRONOMY_1
+		ASTRONOMY_1,
+		ASTRAL_SILVER
 	};
 }

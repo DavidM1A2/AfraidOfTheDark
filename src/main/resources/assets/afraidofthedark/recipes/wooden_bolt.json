@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "result": {
+    "item": "afraidofthedark:wooden_bolt",
+    "count": 6
+  },
+  "ingredients": [
+    {
+      "type": "forge:ore_dict",
+      "ore": "plankWood"
+    },
+    {
+      "type": "forge:ore_dict",
+      "ore": "plankWood"
+    }
+  ]
+}

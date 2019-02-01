@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "a",
+    "a",
+    "s"
+  ],
+  "key": {
+    "a": {
+      "item": "afraidofthedark:astral_silver_ingot"
+    },
+    "s": {
+      "type": "forge:ore_dict",
+      "ore": "stickWood"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:astral_silver_sword",
+    "count": 1
+  }
+}

@@ -32,6 +32,6 @@ public class ResearchRequiredShapedRecipeFactory implements IRecipeFactory
 		Research preRequisite = ModRegistries.RESEARCH.getValue(new ResourceLocation(JsonUtils.getString(json, "required_research")));
 
 		// Return the research required shaped recipe
-		return new ResearchRequiredRecipe(baseRecipe, preRequisite);
+		return new ResearchRequiredShapedRecipe(baseRecipe, preRequisite);
 	}
 }

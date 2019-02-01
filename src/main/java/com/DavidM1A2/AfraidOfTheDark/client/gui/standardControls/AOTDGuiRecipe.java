@@ -2,6 +2,8 @@ package com.DavidM1A2.afraidofthedark.client.gui.standardControls;
 
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraftforge.common.crafting.IShapedRecipe;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 /**
  * Advanced control that displays an entire crafting recipe
@@ -89,12 +91,35 @@ public class AOTDGuiRecipe extends AOTDGuiPanel
 			this.guiItemStacks[i].setItemStack(null);
 
 		// Update each gui stack with the new ingredient
-		for (int i = 0; i < recipe.getIngredients().size(); i++)
+		// Shaped recipes are rendered differently than shapeless
+		if (recipe instanceof IShapedRecipe)
 		{
-			Ingredient ingredient = recipe.getIngredients().get(i);
-			// If the ingredient is empty just show an empty slot
-			if (ingredient != Ingredient.EMPTY)
-				this.guiItemStacks[i].setItemStack(ingredient.getMatchingStacks()[0]);
+			// Shaped recipe has width and height
+			IShapedRecipe shapedRecipe = (IShapedRecipe) recipe;
+			int width = shapedRecipe.getRecipeWidth();
+			int height = shapedRecipe.getRecipeHeight();
+			// Iterate over the width and height and set the stack in each slot
+			for (int i = 0; i < width; i++)
+				for (int j = 0; j < height; j++)
+				{
+					// Grab the ingredient in that slot
+					Ingredient ingredient = recipe.getIngredients().get(i + j * width);
+					// If the ingredient is non-empty show it
+					if (ingredient != Ingredient.EMPTY)
+						this.guiItemStacks[i + j * 3].setItemStack(ingredient.getMatchingStacks()[0]);
+				}
+		}
+		else
+		{
+			// Shapeless recipes have no shape so just go from the beginning to the end and render each ingredient
+			for (int i = 0; i < recipe.getIngredients().size(); i++)
+			{
+				// Grab the ingredient in that slot
+				Ingredient ingredient = recipe.getIngredients().get(i);
+				// If the ingredient is non-empty show it
+				if (ingredient != Ingredient.EMPTY)
+					this.guiItemStacks[i].setItemStack(ingredient.getMatchingStacks()[0]);
+			}
 		}
 
 		// Update the output itemstack

@@ -91,6 +91,8 @@ public class AfraidOfTheDark
 		MinecraftForge.EVENT_BUS.register(new WorldHeightMapper());
 		// Forward any chunk creation events to our world structure planner. Use our world RNG to create a seed
 		MinecraftForge.EVENT_BUS.register(new WorldStructurePlanner());
+		// Register mod furnace fuels
+		MinecraftForge.EVENT_BUS.register(new FurnaceFuelRegister());
 		// Register our AOTD world generator
 		GameRegistry.registerWorldGenerator(worldGenerator, configurationHandler.getWorldGenPriority());
 		// We also need to register our world gen server tick handler
@@ -119,6 +121,8 @@ public class AfraidOfTheDark
 		proxy.initializeOreDictionary();
 		// Initialize smelting recipes
 		proxy.initializeSmeltingRecipes();
+		// Initialize furnace recipes
+		FurnaceRecipeRegister.initialize();
 		// Register our key input event handler client side
 		if (event.getSide() == Side.CLIENT)
 			MinecraftForge.EVENT_BUS.register(new KeyInputEventHandler());

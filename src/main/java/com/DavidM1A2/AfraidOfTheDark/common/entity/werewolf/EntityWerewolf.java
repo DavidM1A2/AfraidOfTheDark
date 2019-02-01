@@ -3,6 +3,7 @@ package com.DavidM1A2.afraidofthedark.common.entity.werewolf;
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.research.IAOTDPlayerResearch;
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
+import com.DavidM1A2.afraidofthedark.common.constants.ModDamageSources;
 import com.DavidM1A2.afraidofthedark.common.constants.ModResearches;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSounds;
 import com.DavidM1A2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedEntity;
@@ -34,7 +35,7 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 	private static final double MOVE_SPEED = .43D;
 	private static final double AGRO_RANGE = 16.0D;
 	private static final double FOLLOW_RANGE = 32.0D;
-	private static final double MAX_HEALTH = 40.0D;
+	private static final double MAX_HEALTH = 20.0D;
 	private static final double KNOCKBACK_RESISTANCE = 0.5D;
 	private static final double ATTACK_DAMAGE = 20.0D;
 
@@ -174,7 +175,7 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 	public boolean attackEntityFrom(DamageSource damageSource, float damage)
 	{
 		// If the damage was 'silver_damage' then we can apply it, otherwise we just do 1 'generic' damage
-		if (damageSource.damageType.equals("silver_damage"))
+		if (damageSource.damageType.equals(ModDamageSources.SILVER_DAMAGE))
 			return super.attackEntityFrom(damageSource, damage);
 		return super.attackEntityFrom(DamageSource.GENERIC, 1);
 	}
