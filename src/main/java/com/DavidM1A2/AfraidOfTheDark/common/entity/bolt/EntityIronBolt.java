@@ -1,11 +1,13 @@
 package com.DavidM1A2.afraidofthedark.common.entity.bolt;
 
+import com.DavidM1A2.afraidofthedark.common.constants.ModDamageSources;
 import com.DavidM1A2.afraidofthedark.common.constants.ModItems;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 /**
- * Class representing a iron bolt entity shot by crossbows
+ * Class representing an iron bolt entity shot by crossbows
  */
 public class EntityIronBolt extends EntityBolt
 {
@@ -53,5 +55,6 @@ public class EntityIronBolt extends EntityBolt
 		this.setDrop(ModItems.IRON_BOLT);
 		this.setChanceToDropHitEntity(.4);
 		this.setChanceToDropHitGround(.8);
+		this.setDamageSourceProducer(DamageSource::causePlayerDamage);
 	}
 }

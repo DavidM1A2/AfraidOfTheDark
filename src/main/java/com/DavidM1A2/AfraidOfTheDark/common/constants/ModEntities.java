@@ -1,6 +1,7 @@
 package com.DavidM1A2.afraidofthedark.common.constants;
 
 import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityIronBolt;
+import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntitySilverBolt;
 import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityWoodenBolt;
 import com.DavidM1A2.afraidofthedark.common.entity.enchantedSkeleton.EntityEnchantedSkeleton;
 import com.DavidM1A2.afraidofthedark.common.entity.werewolf.EntityWerewolf;
@@ -62,6 +63,12 @@ public class ModEntities
 			.name("iron_bolt")
 			.tracker(50, 1, true)
 			.build();
+	public static final EntityEntry SILVER_BOLT = EntityEntryBuilder.create()
+			.entity(EntitySilverBolt.class)
+			.id(new ResourceLocation(Constants.MOD_ID, "silver_bolt"), SILVER_BOLT_ID)
+			.name("silver_bolt")
+			.tracker(50, 1, true)
+			.build();
 
 	// An array containing a list of entities that AOTD adds
 	public static EntityEntry[] ENTITY_LIST = new EntityEntry[]
@@ -69,6 +76,7 @@ public class ModEntities
 		ENCHANTED_SKELETON,
 		WEREWOLF,
 		WOODEN_BOLT,
-		IRON_BOLT
+		IRON_BOLT,
+		SILVER_BOLT
 	};
 }

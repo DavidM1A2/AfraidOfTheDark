@@ -7,11 +7,11 @@
   "ingredients": [
     {
       "type": "forge:ore_dict",
-      "ore": "plankWood"
+      "ore": "stickWood"
     },
     {
       "type": "forge:ore_dict",
-      "ore": "plankWood"
+      "ore": "stickWood"
     }
   ]
 }

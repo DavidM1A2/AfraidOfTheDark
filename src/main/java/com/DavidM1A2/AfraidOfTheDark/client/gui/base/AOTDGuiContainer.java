@@ -213,6 +213,15 @@ public abstract class AOTDGuiContainer extends AOTDGuiComponentWithEvents
 		this.subComponents.forEach(subContainer -> subContainer.setScaleY(scaleY));
 	}
 
+	@Override
+	public void setVisible(boolean isVisible)
+	{
+		// Set our visibility
+		super.setVisible(isVisible);
+		// Sets our sub-components visibility
+		this.subComponents.forEach(subContainer -> subContainer.setVisible(isVisible));
+	}
+
 	/**
 	 * @param parent Sets the parent transform that this container uses as a base
 	 */

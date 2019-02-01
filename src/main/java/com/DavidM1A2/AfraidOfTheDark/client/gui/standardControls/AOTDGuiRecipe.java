@@ -87,8 +87,8 @@ public class AOTDGuiRecipe extends AOTDGuiPanel
 		this.setVisible(true);
 
 		// Set all the output stacks to null for now
-		for (int i = 0; i < this.guiItemStacks.length; i++)
-			this.guiItemStacks[i].setItemStack(null);
+		for (AOTDGuiItemStack guiItemStack : this.guiItemStacks)
+			guiItemStack.setItemStack(null);
 
 		// Update each gui stack with the new ingredient
 		// Shaped recipes are rendered differently than shapeless

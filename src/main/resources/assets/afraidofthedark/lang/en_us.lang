@@ -126,6 +126,7 @@ research.astral_silver=Astral Silver
 # Bolt entries
 bolt_entry.wooden=Wooden
 bolt_entry.iron=Iron
+bolt_entry.astral_silver=Silver
 
 # Meteor entries
 meteor_entry.astral_silver=Astral Silver

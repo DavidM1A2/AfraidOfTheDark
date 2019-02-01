@@ -19,7 +19,7 @@ public class AOTDGuiItemStack extends AOTDGuiContainer
 	private AOTDGuiImage highlight;
 
 	/**
-	 *
+	 * Control that shows an itemstack in the GUI
 	 *
 	 * @param x The X location of the top left corner
 	 * @param y The Y location of the top left corner
@@ -36,6 +36,8 @@ public class AOTDGuiItemStack extends AOTDGuiContainer
 		if (backgroundHighlight)
 		{
 			highlight = new AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/slot_highlight.png");
+			// Start the highlight off
+			highlight.setVisible(false);
 			this.add(highlight);
 		}
 	}
@@ -49,6 +51,16 @@ public class AOTDGuiItemStack extends AOTDGuiContainer
 		// Ensure the control is visible
 		if (this.isVisible())
 		{
+			// Test if we need to toggle the visibility of the highlit background
+			if (this.highlight != null)
+			{
+				// Show the highlit background if hovered and hide it if not
+				if (this.isHovered() && this.itemStack != null)
+					highlight.setVisible(true);
+				else
+					this.highlight.setVisible(false);
+			}
+
 			super.draw();
 
 			// Enable item lighting
@@ -93,20 +105,12 @@ public class AOTDGuiItemStack extends AOTDGuiContainer
 	@Override
 	public void drawOverlay()
 	{
-		// Ensure the control is visible
-		if (this.isVisible())
-		{
+		// Ensure the control is visible and we have an overlay to draw
+		if (this.isVisible() && highlight != null)
 			// Ensure the stack is hovered and the interior items are not null
-			if (itemStack != null && highlight != null && this.isHovered())
-			{
-				// Show the highlit background
-				highlight.setVisible(true);
+			if (this.isHovered() && itemStack != null)
 				// Show the item name and count
 				fontRenderer.drawStringWithShadow(itemStack.getDisplayName() + " x" + itemStack.getCount(), this.getXScaled(), this.getYScaled() - 5, 0xFFFFFFFF);
-			}
-			else
-				highlight.setVisible(false);
-		}
 	}
 
 	/**

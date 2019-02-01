@@ -1,21 +1,26 @@
 package com.DavidM1A2.afraidofthedark.common.entity.bolt;
 
+import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
+import com.DavidM1A2.afraidofthedark.common.constants.ModDamageSources;
 import com.DavidM1A2.afraidofthedark.common.constants.ModItems;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 /**
- * Class representing a wooden bolt entity shot by crossbows
+ * Class representing a silver bolt entity shot by crossbows
  */
-public class EntityWoodenBolt extends EntityBolt
+public class EntitySilverBolt extends EntityBolt
 {
 	/**
 	 * Creates the entity in the world with a shooter source
 	 *
 	 * @param worldIn The world to create the bolt in
 	 */
-	public EntityWoodenBolt(World worldIn)
+	public EntitySilverBolt(World worldIn)
 	{
 		super(worldIn);
 	}
@@ -28,7 +33,7 @@ public class EntityWoodenBolt extends EntityBolt
 	 * @param y The y position of the bolt
 	 * @param z The z position of the bolt
 	 */
-	public EntityWoodenBolt(World worldIn, double x, double y, double z)
+	public EntitySilverBolt(World worldIn, double x, double y, double z)
 	{
 		super(worldIn, x, y, z);
 	}
@@ -39,7 +44,7 @@ public class EntityWoodenBolt extends EntityBolt
 	 * @param worldIn The world to create the bolt in
 	 * @param throwerIn The shooter of the bolt
 	 */
-	public EntityWoodenBolt(World worldIn, EntityLivingBase throwerIn)
+	public EntitySilverBolt(World worldIn, EntityLivingBase throwerIn)
 	{
 		super(worldIn, throwerIn);
 	}
@@ -50,10 +55,10 @@ public class EntityWoodenBolt extends EntityBolt
 	@Override
 	void setupProperties()
 	{
-		this.setDamage(6);
-		this.setDrop(ModItems.WOODEN_BOLT);
-		this.setChanceToDropHitEntity(0.4);
-		this.setChanceToDropHitGround(0.8);
-		this.setDamageSourceProducer(DamageSource::causePlayerDamage);
+		this.setDamage(16);
+		this.setDrop(ModItems.SILVER_BOLT);
+		this.setChanceToDropHitEntity(.4);
+		this.setChanceToDropHitGround(.8);
+		this.setDamageSourceProducer(ModDamageSources::getSilverDamage);
 	}
 }

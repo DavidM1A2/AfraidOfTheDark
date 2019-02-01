@@ -7,8 +7,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.Item;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+
+import java.util.function.Function;
 
 /**
  * Class representing a bolt entity shot by crossbows
@@ -23,6 +26,8 @@ public abstract class EntityBolt extends EntityThrowable
 	private double chanceToDropHitEntity = 0.4;
 	// The chance that the bolt will drop its item after hitting the ground
 	private double chanceToDropHitGround = 0.8;
+	// The factory used to compute what type of damage to inflict
+	private Function<EntityPlayer, DamageSource> damageSourceProducer;
 
 	/**
 	 * Creates the entity in the world with a shooter source
@@ -83,7 +88,7 @@ public abstract class EntityBolt extends EntityThrowable
 			{
 				// Test if the shooter of the bolt is a player
 				if (this.thrower instanceof EntityPlayer)
-					entityHit.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) this.thrower), this.getDamage());
+					entityHit.attackEntityFrom(this.getDamageSourceProducer().apply((EntityPlayer) thrower), this.getDamage());
 				// If the random chance succeeds, drop the bolt item
 				if (Math.random() < this.getChanceToDropHitEntity())
 					entityHit.dropItem(this.getDrop(), 1);
@@ -141,5 +146,15 @@ public abstract class EntityBolt extends EntityThrowable
 	double getChanceToDropHitGround()
 	{
 		return chanceToDropHitGround;
+	}
+
+	public void setDamageSourceProducer(Function<EntityPlayer, DamageSource> damageSourceProducer)
+	{
+		this.damageSourceProducer = damageSourceProducer;
+	}
+
+	public Function<EntityPlayer, DamageSource> getDamageSourceProducer()
+	{
+		return damageSourceProducer;
 	}
 }

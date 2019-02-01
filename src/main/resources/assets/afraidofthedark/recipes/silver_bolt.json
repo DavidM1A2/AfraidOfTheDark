@@ -1,0 +1,16 @@
+{
+  "type": "afraidofthedark:research_required_shapeless_recipe",
+  "result": {
+    "item": "afraidofthedark:silver_bolt",
+    "count": 6
+  },
+  "ingredients": [
+    {
+      "item": "afraidofthedark:astral_silver_ingot"
+    },
+    {
+      "item": "afraidofthedark:astral_silver_ingot"
+    }
+  ],
+  "required_research": "afraidofthedark:astral_silver"
+}

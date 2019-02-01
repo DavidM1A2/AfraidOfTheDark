@@ -42,37 +42,38 @@ public class ItemTelescope extends AOTDItem
 		ItemStack itemStack = playerIn.getHeldItem(handIn);
 		// Grab the player's research
 		IAOTDPlayerResearch playerResearch = playerIn.getCapability(ModCapabilities.PLAYER_RESEARCH, null);
-		// The player must be above y=128 to see the stars
-		if (playerIn.getPosition().getY() > 128)
+		// Test if the player is high enough to use the telescope
+		boolean highEnough = playerIn.getPosition().getY() > 128;
+
+		// Start with server side processing
+		if (!worldIn.isRemote)
 		{
-			// First process server side only
-			if (!worldIn.isRemote)
+			// If the player can research the research research it
+			if (playerResearch.canResearch(ModResearches.ASTRONOMY_1) && highEnough)
 			{
-				// Test if the player can research astronomy 1
-				if (playerResearch.canResearch(ModResearches.ASTRONOMY_1))
-				{
-					playerResearch.setResearch(ModResearches.ASTRONOMY_1, true);
-					playerResearch.sync(playerIn, true);
-				} else
-				{
-					playerIn.sendMessage(new TextComponentString("I can't understand what this thing does."));
-				}
+				playerResearch.setResearch(ModResearches.ASTRONOMY_1, true);
+				playerResearch.sync(playerIn, true);
 			}
-			// If we're on client side test if we have the proper research, if so show the GUI
+
+			// If the research is researched then test if the player is high enough
+			if (playerResearch.isResearched(ModResearches.ASTRONOMY_1))
+			{
+				// Tell the player that they need to be higher to see through the clouds
+				if (!highEnough)
+					playerIn.sendMessage(new TextComponentString("I can't see anything through these thick clouds. Maybe I could move to a higher elevation."));
+			}
 			else
 			{
-				// Catch both cases where the research is finished and when the server sent us an unlock packet but we don't have it yet so we
-				// check if we 'can research' it
-				if (playerResearch.isResearched(ModResearches.ASTRONOMY_1) || playerResearch.canResearch(ModResearches.ASTRONOMY_1))
-					playerIn.openGui(AfraidOfTheDark.INSTANCE, AOTDGuiHandler.TELESCOPE_ID, worldIn, playerIn.getPosition().getX(), playerIn.getPosition().getY(), playerIn.getPosition().getZ());
+				playerIn.sendMessage(new TextComponentString("I can't understand what this thing does."));
 			}
 		}
-		else
-		{
-			// Try and only send chat messages server side
-			if (!worldIn.isRemote)
-				playerIn.sendMessage(new TextComponentString("I can't see anything through these thick clouds. Maybe I could move to a higher elevation."));
-		}
+
+		// If we're on client side and have the proper research and the player is above y=128 to see the stars, show the GUI
+		// Don't print anything out client side since the server side takes care of that for us
+		if (worldIn.isRemote && highEnough)
+			if (playerResearch.isResearched(ModResearches.ASTRONOMY_1) || playerResearch.canResearch(ModResearches.ASTRONOMY_1))
+				playerIn.openGui(AfraidOfTheDark.INSTANCE, AOTDGuiHandler.TELESCOPE_ID, worldIn, playerIn.getPosition().getX(), playerIn.getPosition().getY(), playerIn.getPosition().getZ());
+
 
 		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStack);
 	}

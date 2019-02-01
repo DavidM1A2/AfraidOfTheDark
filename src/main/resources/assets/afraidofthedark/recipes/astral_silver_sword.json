@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "afraidofthedark:research_required_shaped_recipe",
   "pattern": [
     "a",
     "a",
@@ -17,5 +17,6 @@
   "result": {
     "item": "afraidofthedark:astral_silver_sword",
     "count": 1
-  }
+  },
+  "required_recipe": "afraidofthedark:astral_silver"
 }
