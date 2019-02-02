@@ -76,23 +76,28 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
 		// Grab a list of possible meteors
 		List<MeteorEntry> possibleMeteors = ModRegistries.METEORS.getValuesCollection().stream().filter(meteorEntry -> playerResearch.isResearched(meteorEntry.getPreRequisite())).collect(Collectors.toList());
 
-		// Grab a random object to place meteors
-		Random random = entityPlayer.getRNG();
-		// Create one button for each meteor
-		for (int i = 0; i < numberOfMeteors; i++)
+		// If we somehow open the GUI without having any known meteors don't show any. This can happen if the telescope is right
+		// clicked and the packet to update research from the server hasn't arrived yet
+		if (!possibleMeteors.isEmpty())
 		{
-			// Create the meteor button based on if astronomy 2 is researched or not
-			AOTDGuiMeteorButton meteorButton = new AOTDGuiMeteorButton(
-				random.nextInt(this.telescopeImage.getMaxTextureWidth()) - this.telescopeImage.getMaxTextureWidth() / 2,
-				random.nextInt(this.telescopeImage.getMaxTextureHeight()) - this.telescopeImage.getMaxTextureHeight() / 2,
-				64,
-				64,
-				possibleMeteors.get(random.nextInt(possibleMeteors.size()))
-			);
-			// Add a listener
-			meteorButton.addMouseListener(meteorClickListener);
-			// Add the button
-			this.telescopeMeteorsBase.add(meteorButton);
+			// Grab a random object to place meteors
+			Random random = entityPlayer.getRNG();
+			// Create one button for each meteor
+			for (int i = 0; i < numberOfMeteors; i++)
+			{
+				// Create the meteor button based on if astronomy 2 is researched or not
+				AOTDGuiMeteorButton meteorButton = new AOTDGuiMeteorButton(
+						random.nextInt(this.telescopeImage.getMaxTextureWidth()) - this.telescopeImage.getMaxTextureWidth() / 2,
+						random.nextInt(this.telescopeImage.getMaxTextureHeight()) - this.telescopeImage.getMaxTextureHeight() / 2,
+						64,
+						64,
+						possibleMeteors.get(random.nextInt(possibleMeteors.size()))
+				);
+				// Add a listener
+				meteorButton.addMouseListener(meteorClickListener);
+				// Add the button
+				this.telescopeMeteorsBase.add(meteorButton);
+			}
 		}
 
 		// Add all the panels to the content pane
