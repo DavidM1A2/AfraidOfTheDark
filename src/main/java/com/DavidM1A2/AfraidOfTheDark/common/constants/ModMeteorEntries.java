@@ -9,7 +9,7 @@ import net.minecraft.util.ResourceLocation;
  */
 public class ModMeteorEntries
 {
-	public static final MeteorEntry ASTRAL_SILVER = new AOTDMeteorEntry("astral_silver", new ResourceLocation(Constants.MOD_ID, "textures/gui/astral_silver_meteor.png"), 3, 4, null, ModResearches.ASTRONOMY_1);
+	public static final MeteorEntry ASTRAL_SILVER = new AOTDMeteorEntry("astral_silver", new ResourceLocation(Constants.MOD_ID, "textures/gui/astral_silver_meteor.png"), 2, 4, 0.75, ModBlocks.ASTRAL_SILVER_ORE, ModResearches.ASTRONOMY_1);
 
 	public static final MeteorEntry[] METEOR_ENTRY_LIST = new MeteorEntry[]
 	{
