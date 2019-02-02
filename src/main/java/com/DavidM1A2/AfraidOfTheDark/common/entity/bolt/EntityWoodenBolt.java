@@ -50,7 +50,7 @@ public class EntityWoodenBolt extends EntityBolt
 	@Override
 	void setupProperties()
 	{
-		this.setDamage(6);
+		this.setDamage(4);
 		this.setDrop(ModItems.WOODEN_BOLT);
 		this.setChanceToDropHitEntity(0.4);
 		this.setChanceToDropHitGround(0.8);

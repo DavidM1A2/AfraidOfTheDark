@@ -22,6 +22,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 
+import javax.annotation.Nullable;
+
 /**
  * Class representing a werewolf entity
  */
@@ -252,6 +254,16 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 	protected SoundEvent getHurtSound(DamageSource damageSourceIn)
 	{
 		return ModSounds.WEREWOLF_HURT;
+	}
+
+	@Nullable
+	@Override
+	protected SoundEvent getAmbientSound()
+	{
+		if (this.getAttackTarget() == null)
+			return ModSounds.WEREWOLF_IDLE;
+		else
+			return ModSounds.WEREWOLF_AGRO;
 	}
 
 	/**

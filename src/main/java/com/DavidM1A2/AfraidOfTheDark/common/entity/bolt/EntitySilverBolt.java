@@ -55,7 +55,7 @@ public class EntitySilverBolt extends EntityBolt
 	@Override
 	void setupProperties()
 	{
-		this.setDamage(16);
+		this.setDamage(8);
 		this.setDrop(ModItems.SILVER_BOLT);
 		this.setChanceToDropHitEntity(.4);
 		this.setChanceToDropHitGround(.8);

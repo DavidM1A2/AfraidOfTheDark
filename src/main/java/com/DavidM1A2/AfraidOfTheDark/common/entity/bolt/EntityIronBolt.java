@@ -51,7 +51,7 @@ public class EntityIronBolt extends EntityBolt
 	@Override
 	void setupProperties()
 	{
-		this.setDamage(14);
+		this.setDamage(6);
 		this.setDrop(ModItems.IRON_BOLT);
 		this.setChanceToDropHitEntity(.4);
 		this.setChanceToDropHitGround(.8);
