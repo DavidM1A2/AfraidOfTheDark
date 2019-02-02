@@ -93,6 +93,8 @@ public class AfraidOfTheDark
 		MinecraftForge.EVENT_BUS.register(new WorldStructurePlanner());
 		// Register mod furnace fuels
 		MinecraftForge.EVENT_BUS.register(new FurnaceFuelRegister());
+		// Register our flask of souls handler
+		MinecraftForge.EVENT_BUS.register(new FlaskOfSoulsHandler());
 		// Register our AOTD world generator
 		GameRegistry.registerWorldGenerator(worldGenerator, configurationHandler.getWorldGenPriority());
 		// We also need to register our world gen server tick handler

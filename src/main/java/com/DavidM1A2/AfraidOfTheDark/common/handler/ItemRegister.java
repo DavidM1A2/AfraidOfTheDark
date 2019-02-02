@@ -66,5 +66,9 @@ public class ItemRegister
 		ModelLoader.setCustomModelResourceLocation(ModItems.CROSSBOW, 1, new ModelResourceLocation(Constants.MOD_ID + ":crossbow_quarter", "inventory"));
 		ModelLoader.setCustomModelResourceLocation(ModItems.CROSSBOW, 2, new ModelResourceLocation(Constants.MOD_ID + ":crossbow_half", "inventory"));
 		ModelLoader.setCustomModelResourceLocation(ModItems.CROSSBOW, 3, new ModelResourceLocation(Constants.MOD_ID + ":crossbow_loaded", "inventory"));
+
+		// The flask of souls has two different states, charged and not charged
+		ModelLoader.setCustomModelResourceLocation(ModItems.FLASK_OF_SOULS, 0, new ModelResourceLocation(Constants.MOD_ID + ":flask_of_souls", "inventory"));
+		ModelLoader.setCustomModelResourceLocation(ModItems.FLASK_OF_SOULS, 1, new ModelResourceLocation(Constants.MOD_ID + ":flask_of_souls_charged", "inventory"));
 	}
 }

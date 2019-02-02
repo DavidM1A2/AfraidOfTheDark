@@ -2,10 +2,7 @@ package com.DavidM1A2.afraidofthedark.common.entity.werewolf;
 
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.research.IAOTDPlayerResearch;
-import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
-import com.DavidM1A2.afraidofthedark.common.constants.ModDamageSources;
-import com.DavidM1A2.afraidofthedark.common.constants.ModResearches;
-import com.DavidM1A2.afraidofthedark.common.constants.ModSounds;
+import com.DavidM1A2.afraidofthedark.common.constants.*;
 import com.DavidM1A2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedEntity;
 import com.DavidM1A2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler;
 import com.DavidM1A2.afraidofthedark.common.entity.werewolf.animation.AnimationHandlerWerewolf;
@@ -15,6 +12,8 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
@@ -145,7 +144,6 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 					EntityPlayer killer = (EntityPlayer) cause.getTrueSource();
 
 					IAOTDPlayerResearch playerResearch = killer.getCapability(ModCapabilities.PLAYER_RESEARCH, null);
-					/*
 					// If the player can research the slaying of the wolves achievement do so
 					if (playerResearch.canResearch(ModResearches.SLAYING_OF_THE_WOLVES))
 					{
@@ -155,10 +153,9 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 
 					// If the player has the slaying of the wolves achievement then test if the player has glass bottles to fill with werewolf blood
 					if (playerResearch.isResearched(ModResearches.SLAYING_OF_THE_WOLVES))
-						// If we can clear a glass bottle do so and add 1 werewolf blood
-						if (killer.inventory.clearMatchingItems(Items.GLASS_BOTTLE, 0, 1, null) == 1)
+						// If the player is in creative mode or we can clear a glass bottle do so and add 1 werewolf blood
+						if (killer.isCreative() || killer.inventory.clearMatchingItems(Items.GLASS_BOTTLE, 0, 1, null) == 1)
 							killer.inventory.addItemStackToInventory(new ItemStack(ModItems.WEREWOLF_BLOOD, 1));
-					*/
 				}
 			}
 		}

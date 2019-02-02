@@ -1,0 +1,27 @@
+{
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    "blb",
+    "gdg",
+    "bgb"
+  ],
+  "key": {
+    "b": {
+      "item": "afraidofthedark:werewolf_blood"
+    },
+    "l": {
+      "item": "minecraft:leather"
+    },
+    "g": {
+      "item": "minecraft:glass"
+    },
+    "d": {
+      "item": "minecraft:diamond"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:flask_of_souls",
+    "count": 1
+  },
+  "required_research": "afraidofthedark:slaying_of_the_wolves"
+}

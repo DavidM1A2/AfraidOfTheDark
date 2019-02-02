@@ -21,6 +21,8 @@ public class ModItems
 	public static final Item SEXTANT = new ItemSextant();
 	public static final Item ASTRAL_SILVER_INGOT = new ItemAstralSilverIngot();
 	public static final Item ASTRAL_SILVER_SWORD = new ItemAstralSilverSword();
+	public static final Item WEREWOLF_BLOOD = new ItemWerewolfBlood();
+	public static final Item FLASK_OF_SOULS = new ItemFlaskOfSouls();
 
 	public static final Item WOODEN_BOLT = new ItemWoodenBolt();
 	public static final Item IRON_BOLT = new ItemIronBolt();
@@ -43,6 +45,8 @@ public class ModItems
 		SEXTANT,
 		ASTRAL_SILVER_INGOT,
 		ASTRAL_SILVER_SWORD,
+		WEREWOLF_BLOOD,
+		FLASK_OF_SOULS,
 		WOODEN_BOLT,
 		IRON_BOLT,
 		SILVER_BOLT,

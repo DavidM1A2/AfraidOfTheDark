@@ -1,0 +1,10 @@
+{
+  "x": -1,
+  "y": 3,
+  "tooltip": "Warwick OP",
+  "recipes": [  ],
+  "preRecipes": [  ],
+  "icon": "afraidofthedark:textures/gui/research_icons/slaying_of_the_wolves.png",
+  "pre": "Now that I have access to weapons which can actually hurt werewolves, I should endeavor to kill one using an astral silver sword.",
+  "researched": "Now that I have managed to kill a werewolf, I should endeavor to collect its blood. The blood of a creature this powerful must have some magical properties which merit studying in greater depth. If I have empty glass bottles with me at the time that I slay a werewolf, I can gather a portion of its blood."
+}
