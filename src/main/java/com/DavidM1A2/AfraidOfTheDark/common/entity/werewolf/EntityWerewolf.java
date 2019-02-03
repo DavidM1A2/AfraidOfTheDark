@@ -256,6 +256,9 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
 		return ModSounds.WEREWOLF_HURT;
 	}
 
+	/**
+	 * @return The ambient sound of the werewolf, if the werewolf is attacking it is the agro sound otherwise it's the idle sound
+	 */
 	@Nullable
 	@Override
 	protected SoundEvent getAmbientSound()

@@ -18,6 +18,7 @@ public class ModResearches
 	public static final Research ASTRAL_SILVER = new AOTDResearch("astral_silver", ASTRONOMY_1);
 	public static final Research SLAYING_OF_THE_WOLVES = new AOTDResearch("slaying_of_the_wolves", ASTRAL_SILVER);
 	public static final Research PHYLACTERY_OF_SOULS = new AOTDResearch("phylactery_of_souls", SLAYING_OF_THE_WOLVES);
+	public static final Research CLOAK_OF_AGILITY = new AOTDResearch("cloak_of_agility", WEREWOLF_EXAMINATION);
 
 	// An array containing a list of researches that AOTD adds
 	public static Research[] RESEARCH_LIST = new Research[]
@@ -31,6 +32,7 @@ public class ModResearches
 		ASTRONOMY_1,
 		ASTRAL_SILVER,
 		SLAYING_OF_THE_WOLVES,
-		PHYLACTERY_OF_SOULS
+		PHYLACTERY_OF_SOULS,
+		CLOAK_OF_AGILITY
 	};
 }

@@ -1,0 +1,27 @@
+{
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    "lfl",
+    "sgs",
+    "lfl"
+  ],
+  "key": {
+    "f": {
+      "item": "minecraft:feather"
+    },
+    "l": {
+      "item": "minecraft:leather"
+    },
+    "s": {
+      "item": "minecraft:string"
+    },
+    "g": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:cloak_of_agility",
+    "count": 1
+  },
+  "required_research": "afraidofthedark:cloak_of_agility"
+}

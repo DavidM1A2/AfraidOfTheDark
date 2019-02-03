@@ -1,0 +1,10 @@
+{
+  "x": -1,
+  "y": 1,
+  "tooltip": "kiting fo' dayz",
+  "recipes": [ "afraidofthedark:cloak_of_agility" ],
+  "preRecipes": [  ],
+  "icon": "afraidofthedark:textures/gui/research_icons/cloak_of_agility.png",
+  "pre": "WIP",
+  "researched": "I have discovered old notes which describe how to make a cloak of agility. Adding this fantastic cape to my wardrobe will allow me to dash and roll around like a demonic hedgehog on bad acid. The cloak of agility's utter fabulousness should allow me to dash every few seconds to dodge whatever attacks come my way."
+}
