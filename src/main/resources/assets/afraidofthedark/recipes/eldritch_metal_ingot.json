@@ -1,0 +1,21 @@
+{
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    "iii",
+    "iei",
+    "iii"
+  ],
+  "key": {
+    "i": {
+      "item": "minecraft:iron_ingot"
+    },
+    "e": {
+      "item": "minecraft:ender_pearl"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:eldritch_metal_ingot",
+    "count": 8
+  },
+  "required_research": "afraidofthedark:slaying_of_the_wolves"
+}

@@ -1,0 +1,21 @@
+{
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    "ooo",
+    "oeo",
+    "ooo"
+  ],
+  "key": {
+    "o": {
+      "item": "minecraft:obsidian"
+    },
+    "e": {
+      "item": "afraidofthedark:eldritch_metal_ingot"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:eldritch_obsidian",
+    "count": 8
+  },
+  "required_research": "afraidofthedark:slaying_of_the_wolves"
+}

@@ -1,7 +1,6 @@
 package com.DavidM1A2.afraidofthedark.common.constants;
 
-import com.DavidM1A2.afraidofthedark.common.block.BlockAstralSilverOre;
-import com.DavidM1A2.afraidofthedark.common.block.BlockMeteor;
+import com.DavidM1A2.afraidofthedark.common.block.*;
 import com.DavidM1A2.afraidofthedark.common.block.gravewood.*;
 import net.minecraft.block.Block;
 
@@ -20,6 +19,10 @@ public class ModBlocks
 
 	public static final Block METEOR = new BlockMeteor();
 	public static final Block ASTRAL_SILVER_ORE = new BlockAstralSilverOre();
+	public static final Block ELDRITCH_STONE = new BlockEldritchStone();
+	public static final Block ELDRITCH_OBSIDIAN = new BlockEldritchObsidian();
+	public static final Block AMORPHOUS_ELDRITCH_METAL = new BlockAmorphousEldritchMetal();
+	public static final Block VOID_CHEST = new BlockVoidChest();
 
 	// An array containing a list of blocks that AOTD adds
 	public static Block[] BLOCK_LIST = new Block[]
@@ -32,6 +35,10 @@ public class ModBlocks
 		GRAVEWOOD_DOUBLE_SLAB,
 		GRAVEWOOD_STAIRS,
 		METEOR,
-		ASTRAL_SILVER_ORE
+		ASTRAL_SILVER_ORE,
+		ELDRITCH_STONE,
+		ELDRITCH_OBSIDIAN,
+		AMORPHOUS_ELDRITCH_METAL,
+		VOID_CHEST
 	};
 }

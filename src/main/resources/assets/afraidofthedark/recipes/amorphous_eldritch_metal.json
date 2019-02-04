@@ -1,0 +1,21 @@
+{
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    "ggg",
+    "geg",
+    "ggg"
+  ],
+  "key": {
+    "g": {
+      "item": "minecraft:glass"
+    },
+    "e": {
+      "item": "afraidofthedark:eldritch_metal_ingot"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:amorphous_eldritch_metal",
+    "count": 8
+  },
+  "required_research": "afraidofthedark:slaying_of_the_wolves"
+}

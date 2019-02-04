@@ -24,6 +24,7 @@ public class ModItems
 	public static final Item WEREWOLF_BLOOD = new ItemWerewolfBlood();
 	public static final Item FLASK_OF_SOULS = new ItemFlaskOfSouls();
 	public static final Item CLOAK_OF_AGILITY = new ItemCloakOfAgility();
+	public static final Item ELDRITCH_METAL_INGOT = new ItemEldritchMetalIngot();
 
 	public static final Item WOODEN_BOLT = new ItemWoodenBolt();
 	public static final Item IRON_BOLT = new ItemIronBolt();
@@ -49,6 +50,7 @@ public class ModItems
 		WEREWOLF_BLOOD,
 		FLASK_OF_SOULS,
 		CLOAK_OF_AGILITY,
+		ELDRITCH_METAL_INGOT,
 		WOODEN_BOLT,
 		IRON_BOLT,
 		SILVER_BOLT,

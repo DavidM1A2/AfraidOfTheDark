@@ -1,0 +1,22 @@
+{
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    "sss",
+    "ses",
+    "sss"
+  ],
+  "key": {
+    "s": {
+      "item": "minecraft:stone",
+      "data": 0
+    },
+    "e": {
+      "item": "afraidofthedark:eldritch_metal_ingot"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:eldritch_stone",
+    "count": 8
+  },
+  "required_research": "afraidofthedark:slaying_of_the_wolves"
+}
