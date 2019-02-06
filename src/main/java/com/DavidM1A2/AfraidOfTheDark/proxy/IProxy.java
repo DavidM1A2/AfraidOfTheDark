@@ -23,6 +23,11 @@ public interface IProxy
 	void initializeEntityRenderers();
 
 	/**
+	 * Called to initialize tile entity renderers
+	 */
+	void initializeTileEntityRenderers();
+
+	/**
 	 * Called to initialize any mod blocks into the ore dictionary
 	 */
 	void initializeOreDictionary();

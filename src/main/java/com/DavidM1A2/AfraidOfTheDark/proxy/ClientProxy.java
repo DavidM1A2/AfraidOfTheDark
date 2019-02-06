@@ -9,6 +9,7 @@ import com.DavidM1A2.afraidofthedark.client.entity.bolt.RenderWoodenBolt;
 import com.DavidM1A2.afraidofthedark.client.entity.enchantedSkeleton.RenderEnchantedSkeleton;
 import com.DavidM1A2.afraidofthedark.client.entity.werewolf.RenderWerewolf;
 import com.DavidM1A2.afraidofthedark.client.keybindings.ModKeybindings;
+import com.DavidM1A2.afraidofthedark.client.tileEntity.voidChest.TileEntityVoidChestRenderer;
 import com.DavidM1A2.afraidofthedark.common.block.core.AOTDLeaves;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;
 import com.DavidM1A2.afraidofthedark.common.constants.ModEntities;
@@ -18,6 +19,7 @@ import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityWoodenBolt;
 import com.DavidM1A2.afraidofthedark.common.entity.enchantedSkeleton.EntityEnchantedSkeleton;
 import com.DavidM1A2.afraidofthedark.common.entity.werewolf.EntityWerewolf;
 import com.DavidM1A2.afraidofthedark.common.handler.ResearchOverlayHandler;
+import com.DavidM1A2.afraidofthedark.common.tileEntity.TileEntityVoidChest;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -90,6 +92,16 @@ public class ClientProxy extends CommonProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityWoodenBolt.class, RenderWoodenBolt::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityIronBolt.class, RenderIronBolt::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntitySilverBolt.class, RenderSilverBolt::new);
+	}
+
+	/**
+	 * Called to initialize tile entity renderers
+	 */
+	@Override
+	public void initializeTileEntityRenderers()
+	{
+		// Tell MC to render our void chest tile entity with the special renderer
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVoidChest.class, new TileEntityVoidChestRenderer());
 	}
 
 	/**

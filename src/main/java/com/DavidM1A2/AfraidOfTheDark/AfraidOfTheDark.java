@@ -105,6 +105,8 @@ public class AfraidOfTheDark
 		proxy.registerPackets();
 		// Initialize entity renderers (client side only)
 		proxy.initializeEntityRenderers();
+		// Initialize tile entity renderers (also client side)
+		proxy.initializeTileEntityRenderers();
 		// Register game key bindings
 		proxy.registerKeyBindings();
 	}

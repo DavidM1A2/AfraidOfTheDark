@@ -43,7 +43,7 @@ public class BlockVoidChest extends AOTDBlockTileEntity
 	{
 		super("void_chest", Material.ROCK);
 		// Default chests face north
-		this.setDefaultState(this.getDefaultState().withProperty(FACING_PROPERTY, EnumFacing.NORTH));
+		this.setDefaultState(this.getBlockState().getBaseState().withProperty(FACING_PROPERTY, EnumFacing.NORTH));
 		// Set the block's hardness, blast resistance, and harvest level
 		this.setHardness(4.0F);
 		this.setResistance(50.0F);
@@ -214,7 +214,7 @@ public class BlockVoidChest extends AOTDBlockTileEntity
 	 * @return The block state properties that make this block work
 	 */
 	@Override
-	public BlockStateContainer getBlockState()
+	protected BlockStateContainer createBlockState()
 	{
 		return new BlockStateContainer(this, FACING_PROPERTY);
 	}

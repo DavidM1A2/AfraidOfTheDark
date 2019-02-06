@@ -2,7 +2,12 @@ package com.DavidM1A2.afraidofthedark.common.constants;
 
 import com.DavidM1A2.afraidofthedark.common.block.*;
 import com.DavidM1A2.afraidofthedark.common.block.gravewood.*;
+import com.DavidM1A2.afraidofthedark.common.tileEntity.TileEntityVoidChest;
 import net.minecraft.block.Block;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.tuple.Pair;
 
 /**
  * A static class containing all of our block references for us
@@ -25,7 +30,7 @@ public class ModBlocks
 	public static final Block VOID_CHEST = new BlockVoidChest();
 
 	// An array containing a list of blocks that AOTD adds
-	public static Block[] BLOCK_LIST = new Block[]
+	public static final Block[] BLOCK_LIST = new Block[]
 	{
 		GRAVEWOOD,
 		GRAVEWOOD_PLANKS,
@@ -41,4 +46,8 @@ public class ModBlocks
 		AMORPHOUS_ELDRITCH_METAL,
 		VOID_CHEST
 	};
+
+	public static final Pair<Class<? extends TileEntity>, ResourceLocation>[] TILE_ENTITY_LIST = ArrayUtils.toArray(
+		Pair.of(TileEntityVoidChest.class, new ResourceLocation(Constants.MOD_ID, "tile_entity_void_chest"))
+	);
 }

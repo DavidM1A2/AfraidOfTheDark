@@ -1,14 +1,20 @@
 package com.DavidM1A2.afraidofthedark.common.handler;
 
+import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;
+import com.DavidM1A2.afraidofthedark.common.tileEntity.TileEntityVoidChest;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
+import org.apache.commons.lang3.tuple.Pair;
 
 /**
  * Class that receives the register block event and registers all of our blocks
@@ -26,6 +32,10 @@ public class BlockRegister
 		IForgeRegistry<Block> registry = event.getRegistry();
 		// Register all blocks in our mod
 		registry.registerAll(ModBlocks.BLOCK_LIST);
+
+		// Register any special tile entities
+		for (Pair<Class<? extends TileEntity>, ResourceLocation> tileEntityEntry : ModBlocks.TILE_ENTITY_LIST)
+			GameRegistry.registerTileEntity(tileEntityEntry.getKey(), tileEntityEntry.getValue());
 	}
 
 	/**

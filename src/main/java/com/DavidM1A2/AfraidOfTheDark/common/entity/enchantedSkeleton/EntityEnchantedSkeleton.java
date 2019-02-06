@@ -17,6 +17,7 @@ import com.DavidM1A2.afraidofthedark.common.entity.mcAnimatorLib.animation.Anima
 import com.DavidM1A2.afraidofthedark.common.item.ItemBladeOfExhumation;
 import com.DavidM1A2.afraidofthedark.common.packets.animationPackets.SyncAnimation;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;

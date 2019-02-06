@@ -29,6 +29,15 @@ public class ServerProxy extends CommonProxy
 	}
 
 	/**
+	 * Called to initialize tile entity renderers
+	 */
+	@Override
+	public void initializeTileEntityRenderers()
+	{
+		// Not used
+	}
+
+	/**
 	 * Called to register any key bindings, there's none server side
 	 */
 	@Override
