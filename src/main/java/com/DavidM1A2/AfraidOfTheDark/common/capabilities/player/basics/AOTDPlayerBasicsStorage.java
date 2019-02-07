@@ -17,6 +17,7 @@ import javax.annotation.Nullable;
  */
 public class AOTDPlayerBasicsStorage implements Capability.IStorage<IAOTDPlayerBasics>
 {
+	// Constant IDs used in NBT
 	private static final String STARTED_AOTD = "playerStartedAOTD";
 	private static final String WRIST_CROSSBOW_BOLT_INDEX = "wristCrossbowBoltIndex";
 	private static final String WATCHED_METEOR = "watchedMeteor";

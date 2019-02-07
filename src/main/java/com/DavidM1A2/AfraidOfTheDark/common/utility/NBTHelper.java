@@ -1,13 +1,73 @@
 package com.DavidM1A2.afraidofthedark.common.utility;
 
+import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
+import com.google.common.collect.Lists;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.WorldServer;
+import net.minecraft.world.storage.ISaveHandler;
+import org.codehaus.plexus.util.ExceptionUtils;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Class that lets us work with itemstack NBT more easily
  */
 public class NBTHelper
 {
+	/**
+	 * Returns a list of all saved player nbts, if the flag is set then player data is saved to disk before being read
+	 *
+	 * @param minecraftServer The minecraft server to get the NBTs from
+	 * @param saveFirst True if the existing online player data should be written to disk first, false otherwise
+	 * @return A list of player NBTTagCompounds containing all players both offline and online
+	 */
+	public static List<NBTTagCompound> getAllSavedPlayerNBTs(MinecraftServer minecraftServer, boolean saveFirst)
+	{
+		// Write all player data to disk if the flag is set
+		if (saveFirst)
+			minecraftServer.getPlayerList().saveAllPlayerData();
+
+		// A list of player NBTs to return
+		List<NBTTagCompound> toReturn = Lists.newArrayList();
+
+		// All worlds share a single save handler so we can just use the overworld's save handler to grab all player data even players in other dimensions
+		ISaveHandler saveHandler = minecraftServer.worlds[0].getSaveHandler();
+		// Grab the playerdata directory that stores all player's NBT data
+		File playerDataDirectory = new File(saveHandler.getWorldDirectory(), "playerdata");
+		// Iterate over each player's UUID file
+		for (String playerUUID : saveHandler.getPlayerNBTManager().getAvailablePlayerDat())
+		{
+			// Create a file pointed at that player's data
+			File playerData = new File(playerDataDirectory, playerUUID + ".dat");
+			// If the player data exists, is a file, and can be read read the file
+			if (playerData.exists() && playerData.isFile() && playerData.canRead())
+			{
+				// Open a file input stream to the file
+				try (FileInputStream playerDataFileInputStream = new FileInputStream(playerData))
+				{
+					// Read the player data into NBT
+					NBTTagCompound playerDataCompound = CompressedStreamTools.readCompressed(playerDataFileInputStream);
+					// Store the data compound to return
+					toReturn.add(playerDataCompound);
+				}
+				// If something goes wrong log an error
+				catch (IOException e)
+				{
+					AfraidOfTheDark.INSTANCE.getLogger().error("Could not read player data for file " + playerData.getAbsolutePath() + ", exception was:\n" + ExceptionUtils.getStackTrace(e));
+				}
+			}
+		}
+
+		return toReturn;
+	}
+
 	/**
 	 * Tests if a given itemstack has the required key name
 	 *

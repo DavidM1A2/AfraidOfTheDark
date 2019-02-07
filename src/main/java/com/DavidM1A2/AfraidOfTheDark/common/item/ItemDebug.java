@@ -5,6 +5,7 @@ import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
 import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
 import com.DavidM1A2.afraidofthedark.common.item.core.AOTDItem;
 import com.DavidM1A2.afraidofthedark.common.registry.research.Research;
+import com.DavidM1A2.afraidofthedark.common.utility.NBTHelper;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.Structure;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -41,11 +42,14 @@ public class ItemDebug extends AOTDItem
 		for (Research research : ModRegistries.RESEARCH)
 			playerIn.sendMessage(new TextComponentString(research.getRegistryName().toString() + " -> " + playerIn.getCapability(ModCapabilities.PLAYER_RESEARCH, null).isResearched(research)));
 */
+		/*
 		playerIn.sendMessage(new TextComponentString("" + playerIn.getCapability(ModCapabilities.PLAYER_BASICS, null).getWatchedMeteorDropAngle()));
 		playerIn.sendMessage(new TextComponentString("" + playerIn.getCapability(ModCapabilities.PLAYER_BASICS, null).getWatchedMeteorLatitude()));
 		playerIn.sendMessage(new TextComponentString("" + playerIn.getCapability(ModCapabilities.PLAYER_BASICS, null).getWatchedMeteorLongitude()));
+		*/
 		if (!worldIn.isRemote)
 		{
+			NBTHelper.getAllSavedPlayerNBTs(worldIn.getMinecraftServer(), true);
 
 			/*
 			StructurePlan y = StructurePlan.get(worldIn);

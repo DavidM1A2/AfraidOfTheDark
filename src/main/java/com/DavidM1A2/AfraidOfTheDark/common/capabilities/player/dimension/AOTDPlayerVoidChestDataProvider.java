@@ -1,5 +1,6 @@
-package com.DavidM1A2.afraidofthedark.common.capabilities.player.basics;
+package com.DavidM1A2.afraidofthedark.common.capabilities.player.dimension;
 
+import com.DavidM1A2.afraidofthedark.common.capabilities.player.basics.IAOTDPlayerBasics;
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.util.EnumFacing;
@@ -12,22 +13,22 @@ import javax.annotation.Nullable;
 /**
  * Class responsible for providing a capability to a player
  */
-public class AOTDPlayerBasicsProvider implements ICapabilitySerializable<NBTBase>
+public class AOTDPlayerVoidChestDataProvider implements ICapabilitySerializable<NBTBase>
 {
-	// The instance of the player basics capability
-	private IAOTDPlayerBasics instance = ModCapabilities.PLAYER_BASICS.getDefaultInstance();
+	// The instance of the player void chest data capability
+	private IAOTDPlayerVoidChestData instance = ModCapabilities.PLAYER_VOID_CHEST_DATA.getDefaultInstance();
 
 	/**
-	 * Tests if the given capability is the player basics capability
+	 * Tests if the given capability is the player void chest data capability
 	 *
 	 * @param capability The capability to test
 	 * @param facing ignored
-	 * @return True if the capability is a player basics capability, false otherwise
+	 * @return True if the capability is a player void chest data capability, false otherwise
 	 */
 	@Override
 	public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing)
 	{
-		return capability == ModCapabilities.PLAYER_BASICS;
+		return capability == ModCapabilities.PLAYER_VOID_CHEST_DATA;
 	}
 
 	/**
@@ -42,7 +43,7 @@ public class AOTDPlayerBasicsProvider implements ICapabilitySerializable<NBTBase
 	@Override
 	public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing)
 	{
-		return capability == ModCapabilities.PLAYER_BASICS ? ModCapabilities.PLAYER_BASICS.cast(this.instance) : null;
+		return capability == ModCapabilities.PLAYER_VOID_CHEST_DATA ? ModCapabilities.PLAYER_VOID_CHEST_DATA.cast(this.instance) : null;
 	}
 
 	/**
@@ -53,7 +54,7 @@ public class AOTDPlayerBasicsProvider implements ICapabilitySerializable<NBTBase
 	@Override
 	public NBTBase serializeNBT()
 	{
-		return ModCapabilities.PLAYER_BASICS.getStorage().writeNBT(ModCapabilities.PLAYER_BASICS, this.instance, null);
+		return ModCapabilities.PLAYER_VOID_CHEST_DATA.getStorage().writeNBT(ModCapabilities.PLAYER_VOID_CHEST_DATA, this.instance, null);
 	}
 
 	/**
@@ -64,6 +65,6 @@ public class AOTDPlayerBasicsProvider implements ICapabilitySerializable<NBTBase
 	@Override
 	public void deserializeNBT(NBTBase nbt)
 	{
-		ModCapabilities.PLAYER_BASICS.getStorage().readNBT(ModCapabilities.PLAYER_BASICS, this.instance, null, nbt);
+		ModCapabilities.PLAYER_VOID_CHEST_DATA.getStorage().readNBT(ModCapabilities.PLAYER_VOID_CHEST_DATA, this.instance, null, nbt);
 	}
 }
