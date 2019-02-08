@@ -5,11 +5,14 @@ import com.DavidM1A2.afraidofthedark.common.capabilities.player.dimension.IAOTDP
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.VoidChestData;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
+import com.DavidM1A2.afraidofthedark.common.constants.ModDimensions;
+import com.DavidM1A2.afraidofthedark.common.dimension.voidChest.VoidChestUtility;
 import com.DavidM1A2.afraidofthedark.common.packets.otherPackets.SyncVoidChest;
 import com.DavidM1A2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity;
 import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemNameTag;
 import net.minecraft.item.ItemStack;
@@ -127,9 +130,13 @@ public class TileEntityVoidChest extends AOTDTickingTileEntity
 					{
 						// Temp, send the player to the void chest here if they are close enough to it
 						if (Math.sqrt(this.playerToSend.getDistanceSq(this.getPos())) < DISTANCE_TO_SEND_PLAYER)
-							// TODO: SEND PLAYER TO VOID CHEST
 							if (!this.world.isRemote)
-								playerToSend.sendMessage(new TextComponentString("Sending you to the void chest!!!"));
+							{
+								// If the player we're sending is the owner send them to their home dimension, otherwise send them to their friend's dimension
+								if (!this.playerToSend.getGameProfile().getId().equals(this.owner))
+									this.playerToSend.getCapability(ModCapabilities.PLAYER_VOID_CHEST_DATA, null).setFriendsIndex(this.indexToGoTo);
+								this.playerToSend.changeDimension(ModDimensions.VOID_CHEST.getId(), ModDimensions.NOOP_TELEPORTER);
+							}
 					}
 					else
 					{
@@ -155,7 +162,7 @@ public class TileEntityVoidChest extends AOTDTickingTileEntity
 			if (this.owner == null)
 			{
 				this.owner = entityPlayer.getGameProfile().getId();
-				this.indexToGoTo = this.getOrAssignPlayerPositionalIndex(world.getMinecraftServer(), entityPlayer);
+				this.indexToGoTo = VoidChestUtility.getOrAssignPlayerPositionalIndex(world.getMinecraftServer(), entityPlayer);
 				entityPlayer.sendMessage(new TextComponentString("You owner of this chest has been set to " + entityPlayer.getDisplayName().getUnformattedText()));
 			}
 			// If the chest has an owner test if we're the owner
@@ -238,28 +245,6 @@ public class TileEntityVoidChest extends AOTDTickingTileEntity
 	{
 		GameProfile gameProfileForUsername = this.world.getMinecraftServer().getPlayerProfileCache().getGameProfileForUsername(playerName);
 		return gameProfileForUsername == null ? null : gameProfileForUsername.getId();
-	}
-
-	/**
-	 * Called to get a player's void chest positional index. If none is present one will be computed first.
-	 *
-	 * @param minecraftServer The minecraft server used in computing the player's positional index
-	 * @param entityPlayer The player to get the index for
-	 * @return The position in the void chest that this player owns
-	 */
-	private int getOrAssignPlayerPositionalIndex(MinecraftServer minecraftServer, EntityPlayer entityPlayer)
-	{
-		IAOTDPlayerVoidChestData playerVoidChestData = entityPlayer.getCapability(ModCapabilities.PLAYER_VOID_CHEST_DATA, null);
-		// -1 means unassigned, we need to compute the index first
-		if (playerVoidChestData.getPositionalIndex() == -1)
-		{
-			// TODO: FILL IN VOID CHEST DIMENSION ID!!!!
-			// Compute this new player's index
-			int playersNewPositionalIndex = VoidChestData.get(minecraftServer.getWorld(0)).addAndReturnNewVisitor();
-			// Set that new index
-			playerVoidChestData.setPositionalIndex(playersNewPositionalIndex);
-		}
-		return playerVoidChestData.getPositionalIndex();
 	}
 
 	/**

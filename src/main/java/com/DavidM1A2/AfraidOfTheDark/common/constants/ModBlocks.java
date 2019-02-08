@@ -28,6 +28,7 @@ public class ModBlocks
 	public static final Block ELDRITCH_OBSIDIAN = new BlockEldritchObsidian();
 	public static final Block AMORPHOUS_ELDRITCH_METAL = new BlockAmorphousEldritchMetal();
 	public static final Block VOID_CHEST = new BlockVoidChest();
+	public static final Block VOID_CHEST_PORTAL = new BlockVoidChestPortal();
 
 	// An array containing a list of blocks that AOTD adds
 	public static final Block[] BLOCK_LIST = new Block[]
@@ -44,9 +45,11 @@ public class ModBlocks
 		ELDRITCH_STONE,
 		ELDRITCH_OBSIDIAN,
 		AMORPHOUS_ELDRITCH_METAL,
-		VOID_CHEST
+		VOID_CHEST,
+		VOID_CHEST_PORTAL
 	};
 
+	// A list of tile entities to register
 	public static final Pair<Class<? extends TileEntity>, ResourceLocation>[] TILE_ENTITY_LIST = ArrayUtils.toArray(
 		Pair.of(TileEntityVoidChest.class, new ResourceLocation(Constants.MOD_ID, "tile_entity_void_chest"))
 	);

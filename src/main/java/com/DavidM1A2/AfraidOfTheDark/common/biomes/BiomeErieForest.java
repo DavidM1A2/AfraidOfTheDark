@@ -1,9 +1,12 @@
 package com.DavidM1A2.afraidofthedark.common.biomes;
 
+import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.biomes.extras.AOTDWorldGenBigTree;
+import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;
 import net.minecraft.block.BlockLog;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraft.world.gen.feature.WorldGenTrees;
@@ -27,8 +30,8 @@ public class BiomeErieForest extends Biome
 				.setBaseHeight(0.125f)
 				.setHeightVariation(0.05f));
 		this.decorator.grassPerChunk = 10;
-		// Set the biome's registry name to erieForest
-		this.setRegistryName("erieForest");
+		// Set the biome's registry name to erie forest
+		this.setRegistryName(new ResourceLocation(Constants.MOD_ID, "erie_forest"));
 		// Use stone as the underground filler block
 		this.fillerBlock = Blocks.STONE.getDefaultState();
 		// We will have no flowers in this biome

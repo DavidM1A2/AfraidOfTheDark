@@ -1,6 +1,7 @@
 package com.DavidM1A2.afraidofthedark.common.capabilities.world;
 
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
+import com.DavidM1A2.afraidofthedark.common.constants.ModDimensions;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.MapStorage;
@@ -49,8 +50,7 @@ public class VoidChestData extends WorldSavedData
 	public static VoidChestData get(World world)
 	{
 		// If we are on client side or the world is not the void chest dimension return 0
-		// TODO: FILL IN VOID CHEST DIMENSION ID!!!!
-		if (world.isRemote || world.provider.getDimension() != 0)
+		if (world.isRemote || world.provider.getDimension() != ModDimensions.VOID_CHEST.getId())
 			return null;
 
 		// Grab the storage object for this world

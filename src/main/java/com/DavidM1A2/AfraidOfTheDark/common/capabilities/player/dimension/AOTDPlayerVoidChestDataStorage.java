@@ -16,6 +16,7 @@ public class AOTDPlayerVoidChestDataStorage implements Capability.IStorage<IAOTD
 {
 	// Constant IDs used in NBT
 	private static final String POSITIONAL_INDEX = "positionalIndex";
+	private static final String FRIENDS_INDEX = "friendsIndex";
 	private static final String PRE_TELEPORT_POSITION = "preTeleportPosition";
 	private static final String PRE_TELEPORT_DIMENSION_ID = "preTeleportDimensionID";
 
@@ -35,7 +36,9 @@ public class AOTDPlayerVoidChestDataStorage implements Capability.IStorage<IAOTD
 		NBTTagCompound compound = new NBTTagCompound();
 
 		compound.setInteger(POSITIONAL_INDEX, instance.getPositionalIndex());
-		compound.setTag(PRE_TELEPORT_POSITION, NBTUtil.createPosTag(instance.getPreTeleportPosition()));
+		compound.setInteger(FRIENDS_INDEX, instance.getFriendsIndex());
+		if (instance.getPreTeleportPosition() != null)
+			compound.setTag(PRE_TELEPORT_POSITION, NBTUtil.createPosTag(instance.getPreTeleportPosition()));
 		compound.setInteger(PRE_TELEPORT_DIMENSION_ID, instance.getPreTeleportDimensionID());
 
 		return compound;
@@ -59,7 +62,11 @@ public class AOTDPlayerVoidChestDataStorage implements Capability.IStorage<IAOTD
 			NBTTagCompound compound = (NBTTagCompound) nbt;
 
 			instance.setPositionalIndex(compound.getInteger(POSITIONAL_INDEX));
-			instance.setPreTeleportPosition(NBTUtil.getPosFromTag((NBTTagCompound) compound.getTag(PRE_TELEPORT_POSITION)));
+			instance.setFriendsIndex(compound.getInteger(FRIENDS_INDEX));
+			if (compound.hasKey(PRE_TELEPORT_POSITION))
+				instance.setPreTeleportPosition(NBTUtil.getPosFromTag((NBTTagCompound) compound.getTag(PRE_TELEPORT_POSITION)));
+			else
+				instance.setPreTeleportPosition(null);
 			instance.setPreTeleportDimensionID(compound.getInteger(PRE_TELEPORT_DIMENSION_ID));
 		}
 		// There's an error, this should not be possible

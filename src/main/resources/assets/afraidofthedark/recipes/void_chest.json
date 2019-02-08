@@ -1,0 +1,24 @@
+{
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    "oco",
+    "cec",
+    "oco"
+  ],
+  "key": {
+    "o": {
+      "item": "minecraft:obsidian"
+    },
+    "c": {
+      "item": "minecraft:coal_block"
+    },
+    "e": {
+      "item": "minecraft:ender_chest"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:void_chest",
+    "count": 1
+  },
+  "required_research": "afraidofthedark:void_chest"
+}

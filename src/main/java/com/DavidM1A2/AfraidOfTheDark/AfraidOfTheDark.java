@@ -9,8 +9,6 @@ import com.DavidM1A2.afraidofthedark.common.worldGeneration.AOTDWorldGenerator;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.WorldHeightMapper;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.WorldStructurePlanner;
 import com.DavidM1A2.afraidofthedark.proxy.IProxy;
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -21,7 +19,6 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.logging.log4j.Logger;
 
 /**
@@ -82,6 +79,10 @@ public class AfraidOfTheDark
 		MinecraftForge.EVENT_BUS.register(new BoltEntryRegister());
 		// Register our meteor entry handler used to add all of our mod meteor entries to the game
 		MinecraftForge.EVENT_BUS.register(new MeteorEntryRegister());
+		// Register our mod dimensions
+		DimensionRegister.initialize();
+		// Register our dimension teleportation handlers
+		MinecraftForge.EVENT_BUS.register(new TeleportHandler());
 		// Register our research overlay display to draw on the screen, only need to do this client side
 		if (event.getSide() == Side.CLIENT)
 			MinecraftForge.EVENT_BUS.register(proxy.getResearchOverlay());

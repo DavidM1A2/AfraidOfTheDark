@@ -22,7 +22,7 @@ public class BiomeRegister
 	public void registerBiomes(RegistryEvent.Register<Biome> event)
 	{
 		// Register the forest biome to our event
-		event.getRegistry().register(ModBiomes.ERIE_FOREST);
+		event.getRegistry().registerAll(ModBiomes.BIOME_LIST);
 
 		// Grab our configuration
 		ConfigurationHandler configurationHandler = AfraidOfTheDark.INSTANCE.getConfigurationHandler();
@@ -32,5 +32,7 @@ public class BiomeRegister
 		BiomeManager.addBiome(BiomeManager.BiomeType.WARM, new BiomeManager.BiomeEntry(ModBiomes.ERIE_FOREST, configurationHandler.getErieBiomeFrequency()));
 		// Make sure the erie forest is registered as being compatible with forests, coniferous, and plains types
 		BiomeDictionary.addTypes(ModBiomes.ERIE_FOREST, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.CONIFEROUS, BiomeDictionary.Type.PLAINS);
+		// The void chest biome is just a void type
+		BiomeDictionary.addTypes(ModBiomes.VOID_CHEST, BiomeDictionary.Type.VOID);
 	}
 }

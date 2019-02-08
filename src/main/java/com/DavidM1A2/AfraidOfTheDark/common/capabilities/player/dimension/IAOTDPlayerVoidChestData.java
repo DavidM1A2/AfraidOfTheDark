@@ -45,4 +45,16 @@ public interface IAOTDPlayerVoidChestData
 	 * @param dimensionID The dimension ID
 	 */
 	void setPreTeleportDimensionID(int dimensionID);
+
+	/**
+	 * @return The index of the friend's void chest position that the player was going to, or -1 if the player is going to their own index
+	 */
+	int getFriendsIndex();
+
+	/**
+	 * Sets the index of the friend's void chest position that the player was going to, or -1 if the player is going to their own index
+	 *
+	 * @param locationIndex The friend's location index to go to, or -1 if the player is going to their own position
+	 */
+	void setFriendsIndex(int locationIndex);
 }

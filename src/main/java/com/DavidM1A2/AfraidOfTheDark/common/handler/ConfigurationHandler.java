@@ -24,9 +24,6 @@ public class ConfigurationHandler
 	/// A list of configurable properties
 	///
 
-	private int biomeErieID = 68;
-	private int biomeVoidChestID = 69;
-	private int biomeNightmareID = 70;
 	private int erieBiomeFrequency = 10;
 	private float dungeonFrequencyMultiplier = 1.0f;
 	private float cryptFrequency = 0.5f;
@@ -39,13 +36,14 @@ public class ConfigurationHandler
 	private boolean enableAOTDAnimations = true;
 	private boolean enableWorldGenLightUpdates = false;
 	private int worldGenPriority = 0;
+	private int blocksBetweenIslands = 992;
 
 	///
-	/// Two categories of properties
+	/// Three categories of properties
 	///
 
-	private static final String CATEGORY_BIOME_IDS = "biome_ids";
 	private static final String CATEGORY_DUNGEON_FREQUENCY = "dungeon_frequency";
+	private static final String CATEGORY_WORLD_GENERATION = "world_generation";
 
 	/**
 	 * Initializes this configuration handler from a .cfg file
@@ -82,13 +80,10 @@ public class ConfigurationHandler
 	private void refreshConfiguration()
 	{
 		// Add headers to our configuration
-		this.configuration.addCustomCategoryComment(CATEGORY_BIOME_IDS, "Here you can configure Afraid of the Dark biome IDs");
 		this.configuration.addCustomCategoryComment(CATEGORY_DUNGEON_FREQUENCY, "Here you can set how frequently certain dungeons appear.");
+		this.configuration.addCustomCategoryComment(CATEGORY_WORLD_GENERATION, "Here you can set world generation properties.");
 
 		// Pull all configuration elements from the file
-		this.biomeErieID = this.configuration.getInt("Erie Biome ID", CATEGORY_BIOME_IDS, 68, 5, 255, "The Biome ID for the erie forest. Use this to make this mod compatable with other biome mods.");
-		this.biomeNightmareID = this.configuration.getInt("Nightmare Biome ID", CATEGORY_BIOME_IDS, 69, 5, 255, "The Biome ID for the nightmare. Use this to make this mod compatable with other biome mods.");
-		this.biomeVoidChestID = this.configuration.getInt("Void Chest Biome ID", CATEGORY_BIOME_IDS, 70, 5, 255, "The Biome ID for the Void Chest. Use this to make this mod compatable with other biome mods.");
 		this.erieBiomeFrequency = this.configuration.getInt("Erie Biome Frequency", Configuration.CATEGORY_GENERAL, 10, 0, 1000, "Increase this value to increase the number of Erie Biomes. 10 is the default MC forest value.");
 		this.dungeonFrequencyMultiplier = this.configuration.getFloat("Dungeon Frequency Multiplier", CATEGORY_DUNGEON_FREQUENCY, 1.0f, 0.0f, 1000.0f, "The dungeon frequency multiplier increases or decreases dungeon rarity across ALL Afraid of the Dark dungeons. (ex. 2.0 would result in double the dungeons and 0.5 in half)");
 
@@ -103,15 +98,13 @@ public class ConfigurationHandler
 
 		this.enableAOTDAnimations = this.configuration.getBoolean("Entity Animations Enabled", Configuration.CATEGORY_GENERAL, true, "Disable this to remove all animations from entities in the Afraid of the Dark mod. This may improve performance but mod entities will no longer have animations.");
 
-		this.enableWorldGenLightUpdates = this.configuration.getBoolean("World Generation Lighting Updates", Configuration.CATEGORY_GENERAL, false, "Enabling this will decrease world generation performance but decrease the chance of lighting glitches in AOTD dungeons.");
-
-		this.worldGenPriority = this.configuration.getInt("World Generation Priority", Configuration.CATEGORY_GENERAL, 0, -1000, 1000, "Sets the priority for afraid of the dark world generation. Higher numbers result in world generation running after other mods.");
+		this.enableWorldGenLightUpdates = this.configuration.getBoolean("World Generation Lighting Updates", CATEGORY_WORLD_GENERATION, false, "Enabling this will decrease world generation performance but decrease the chance of lighting glitches in AOTD dungeons.");
+		this.worldGenPriority = this.configuration.getInt("World Generation Priority", CATEGORY_WORLD_GENERATION, 0, -1000, 1000, "Sets the priority for afraid of the dark world generation. Higher numbers result in world generation running after other mods.");
+		this.blocksBetweenIslands = this.configuration.getInt("Blocks Between Islands", CATEGORY_WORLD_GENERATION, 992, 100, 100000, "Sets the number of blocks that are between nightmare and void chest islands. All players are technically in the same world, so this ensure they never see each other. This must be a multiple of 16!");
 
 		// If we changed the configuration at all, save it
 		if (this.configuration.hasChanged())
-		{
 			this.configuration.save();
-		}
 	}
 
 	/**
@@ -122,7 +115,6 @@ public class ConfigurationHandler
 		return new ArrayList<IConfigElement>()
 		{{
 			this.addAll(new ConfigElement(ConfigurationHandler.this.configuration.getCategory(Configuration.CATEGORY_GENERAL)).getChildElements());
-			this.addAll(new ConfigElement(ConfigurationHandler.this.configuration.getCategory(CATEGORY_BIOME_IDS)).getChildElements());
 			this.addAll(new ConfigElement(ConfigurationHandler.this.configuration.getCategory(CATEGORY_DUNGEON_FREQUENCY)).getChildElements());
 		}};
 	}
@@ -138,21 +130,6 @@ public class ConfigurationHandler
 	///
 	/// Getters for each configuration property
 	///
-
-	public int getBiomeErieID()
-	{
-		return this.biomeErieID;
-	}
-
-	public int getBiomeVoidChestID()
-	{
-		return this.biomeVoidChestID;
-	}
-
-	public int getBiomeNightmareID()
-	{
-		return this.biomeNightmareID;
-	}
 
 	public int getErieBiomeFrequency()
 	{
@@ -212,5 +189,10 @@ public class ConfigurationHandler
 	public int getWorldGenPriority()
 	{
 		return this.worldGenPriority;
+	}
+
+	public int getBlocksBetweenIslands()
+	{
+		return blocksBetweenIslands;
 	}
 }
