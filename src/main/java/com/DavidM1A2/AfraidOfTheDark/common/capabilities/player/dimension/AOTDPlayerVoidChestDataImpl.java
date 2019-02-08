@@ -11,6 +11,10 @@ public class AOTDPlayerVoidChestDataImpl implements IAOTDPlayerVoidChestData
 	// Int telling us what index in the void chest dimension this player owns. Initialize to -1 so that
 	// We can test if the player has a position so far or not
 	private int positionIndex = -1;
+	// Int telling us what index in the void chest dimension the player's friend is at. This will get set prior
+	// to teleportation by a void chest so that the player knows where to go. -1 means the player is going
+	// to their own index and not a friends
+	private int friendsIndex = -1;
 	// The position of the player before teleporting to the void chest
 	private BlockPos preTeleportPosition;
 	// The dimension id of the player before teleporting to the void chest
@@ -74,5 +78,25 @@ public class AOTDPlayerVoidChestDataImpl implements IAOTDPlayerVoidChestData
 	public void setPreTeleportDimensionID(int dimensionID)
 	{
 		this.preTeleportDimensionID = dimensionID;
+	}
+
+	/**
+	 * @return The index of the friend's void chest position that the player was going to, or -1 if the player is going to their own index
+	 */
+	@Override
+	public int getFriendsIndex()
+	{
+		return this.friendsIndex;
+	}
+
+	/**
+	 * Sets the index of the friend's void chest position that the player was going to, or -1 if the player is going to their own index
+	 *
+	 * @param locationIndex The friend's location index to go to, or -1 if the player is going to their own position
+	 */
+	@Override
+	public void setFriendsIndex(int locationIndex)
+	{
+		this.friendsIndex = locationIndex;
 	}
 }
