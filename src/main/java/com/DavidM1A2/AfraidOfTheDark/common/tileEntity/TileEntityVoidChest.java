@@ -22,7 +22,9 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagLong;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.util.Constants;
 
@@ -40,8 +42,8 @@ public class TileEntityVoidChest extends AOTDTickingTileEntity
 	private static final String NBT_FRIENDS = "friends";
 
 	// Chest constants
-	private static final int MILLIS_TO_CLOSE_CHEST = 3000;
-	private static final double PULL_FORCE = 0.05;
+	private static final int MILLIS_TO_CLOSE_CHEST = 2000;
+	private static final double PULL_FORCE = 1;
 	private static final float OPEN_CLOSE_SPEED = 0.1f;
 	private static final double DISTANCE_TO_SEND_PLAYER = 2;
 
@@ -82,7 +84,7 @@ public class TileEntityVoidChest extends AOTDTickingTileEntity
 		int z = this.pos.getZ();
 
 		// Check every 20 ticks if it's time to close the chest or not
-		if (this.ticksExisted % 20 == 0)
+		if (this.ticksExisted % 10 == 0)
 			if ((System.currentTimeMillis() - this.lastInteraction) > MILLIS_TO_CLOSE_CHEST)
 				this.shouldBeOpen = false;
 
@@ -96,13 +98,12 @@ public class TileEntityVoidChest extends AOTDTickingTileEntity
 		// If the chest should be open make it suck in the current player that opened the chest
 		if (this.shouldBeOpen && this.playerToSend != null)
 		{
-			double xVelocity = this.pos.getX() + 0.5 - this.playerToSend.posX;
-			double yVelocity = this.pos.getY() + 0.5 - this.playerToSend.posY;
-			double zVelocity = this.pos.getZ() + 0.5 - this.playerToSend.posZ;
-			xVelocity = MathHelper.clamp(xVelocity, -PULL_FORCE, PULL_FORCE);
-			yVelocity = MathHelper.clamp(yVelocity, -PULL_FORCE, PULL_FORCE);
-			zVelocity = MathHelper.clamp(zVelocity, -PULL_FORCE, PULL_FORCE);
-			playerToSend.addVelocity(xVelocity, yVelocity, zVelocity);
+			// Compute a vector pointing to the chest and then pull that player in that direction
+			Vec3d velocity = new Vec3d(this.pos).addVector(0.5, 0.5, 0.5).subtract(this.playerToSend.posX, this.playerToSend.posY, this.playerToSend.posZ).normalize();
+			double distanceSqToPlayer = this.playerToSend.getDistanceSq(this.pos);
+			// Inverse square law, force decreases as player gets more distant
+			Vec3d adjustedVelocity = velocity.scale(MathHelper.clamp(PULL_FORCE * 1 / distanceSqToPlayer, 0.01, 0.25));
+			playerToSend.addVelocity(adjustedVelocity.x, adjustedVelocity.y, adjustedVelocity.z);
 		}
 
 		// Update the lid's angle if it's in transition from open to closed or closed to open

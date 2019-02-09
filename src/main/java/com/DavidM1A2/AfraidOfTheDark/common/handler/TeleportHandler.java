@@ -182,7 +182,7 @@ public class TeleportHandler
 			// Grab the player's pre-teleport position
 			BlockPos preTeleportPosition = entityPlayer.getCapability(ModCapabilities.PLAYER_VOID_CHEST_DATA, null).getPreTeleportPosition();
 			// Reset the player's position
-			((EntityPlayerMP) entityPlayer).connection.setPlayerLocation(preTeleportPosition.getX() + 0.5, preTeleportPosition.getY() + 0.5, preTeleportPosition.getZ() + 0.5, 0, 0);
+			((EntityPlayerMP) entityPlayer).connection.setPlayerLocation(preTeleportPosition.getX() + 0.5, preTeleportPosition.getY() + 1.5, preTeleportPosition.getZ() + 0.5, 0, 0);
 		}
 	}
 }
