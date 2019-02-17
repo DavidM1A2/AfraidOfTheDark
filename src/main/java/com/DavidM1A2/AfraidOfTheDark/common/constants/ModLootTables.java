@@ -4,6 +4,7 @@ import com.DavidM1A2.afraidofthedark.common.worldGeneration.LootTable;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 
+import java.util.Collections;
 import java.util.HashMap;
 
 /**
@@ -11,12 +12,7 @@ import java.util.HashMap;
  */
 public class ModLootTables
 {
-	public static final LootTable CRYPT = new LootTable(new HashMap<Item, ResourceLocation>()
-	{{
-		put(null, new ResourceLocation(Constants.MOD_ID, "crypt"));
-	}});
-	public static final LootTable WITCH_HUT = new LootTable(new HashMap<Item, ResourceLocation>()
-	{{
-		put(null, new ResourceLocation(Constants.MOD_ID, "witch_hut"));
-	}});
+	public static final LootTable CRYPT = new LootTable(Collections.singletonMap(null, new ResourceLocation(Constants.MOD_ID, "crypt")));
+	public static final LootTable WITCH_HUT = new LootTable(Collections.singletonMap(null, new ResourceLocation(Constants.MOD_ID, "witch_hut")));
+	public static final LootTable VOID_CHEST = new LootTable(Collections.singletonMap(null, new ResourceLocation(Constants.MOD_ID, "void_chest")));
 }

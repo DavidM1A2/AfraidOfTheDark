@@ -12,4 +12,5 @@ public class ModSchematics
 	public static final Schematic CRYPT = SchematicLoader.load(new ResourceLocation(Constants.MOD_ID , "schematics/crypt.schematic"));
 	public static final Schematic WITCH_HUT = SchematicLoader.load(new ResourceLocation(Constants.MOD_ID, "schematics/witch_hut.schematic"));
 	public static final Schematic VOID_CHEST_PORTAL = SchematicLoader.load(new ResourceLocation(Constants.MOD_ID, "schematics/void_chest_portal.schematic"));
+	public static final Schematic VOID_CHEST = SchematicLoader.load(new ResourceLocation(Constants.MOD_ID, "schematics/void_chest.schematic"));
 }

@@ -3,14 +3,13 @@ package com.DavidM1A2.afraidofthedark.common.worldGeneration.structure;
 import com.DavidM1A2.afraidofthedark.common.biomes.BiomeErieForest;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.IHeightmap;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.OverworldHeightmap;
-import com.DavidM1A2.afraidofthedark.common.constants.ModBiomes;
 import com.DavidM1A2.afraidofthedark.common.constants.ModLootTables;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSchematics;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.AOTDStructure;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.IChunkProcessor;
+import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.LowestHeightChunkProcessor;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
 import net.minecraft.init.Biomes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -20,91 +19,75 @@ import net.minecraft.world.biome.BiomeOcean;
 import net.minecraft.world.biome.BiomeProvider;
 import net.minecraft.world.biome.BiomeRiver;
 
-import java.util.List;
 import java.util.Set;
 
 /**
- * Crypt structure class
+ * Void chest structure class
  */
-public class StructureCrypt extends AOTDStructure
+public class StructureVoidChest extends AOTDStructure
 {
-    // A set of incompatible biomes
-    private final Set<Biome> INCOMPATIBLE_BIOMES = ImmutableSet.of(
-            Biomes.OCEAN,
-            Biomes.DEEP_OCEAN,
+    // A set of compatible biomes
+    private final Set<Biome> COMPATIBLE_BIOMES = ImmutableSet.of(
+            Biomes.COLD_BEACH,
+            Biomes.COLD_TAIGA,
+            Biomes.COLD_TAIGA_HILLS,
+            Biomes.MUTATED_TAIGA_COLD,
             Biomes.FROZEN_OCEAN,
-            Biomes.BEACH,
             Biomes.FROZEN_RIVER,
-            Biomes.RIVER,
-            Biomes.SKY,
-            Biomes.VOID,
-            Biomes.STONE_BEACH
+            Biomes.ICE_PLAINS,
+            Biomes.ICE_MOUNTAINS,
+            Biomes.MUTATED_ICE_FLATS
     );
 
     /**
-     * Constructor just initializes the name
+     * Structure constructor just sets the registry name
      */
-    public StructureCrypt()
+    public StructureVoidChest()
     {
-        super("crypt");
+        super("void_chest");
     }
 
     /**
      * Tests if this structure is valid for the given position
      *
-     * @param blockPos      The position that the structure would begin at
-     * @param heightmap     The heightmap to use in deciding if the structure will fit at the position
+     * @param blockPos The position that the structure would begin at
+     * @param heightmap The heightmap to use in deciding if the structure will fit at the position
      * @param biomeProvider The provider used to generate the world, use biomeProvider.getBiomes() to get what biomes exist at a position
-     * @return true if the structure fits at the position, false otherwise
+     * @return A value between 0 and 1 which is the chance between 0% and 100% that a structure could spawn at the given position
      */
     @Override
     public double computeChanceToGenerateAt(BlockPos blockPos, IHeightmap heightmap, BiomeProvider biomeProvider)
     {
         return this.processInteriorChunks(new IChunkProcessor<Double>()
         {
-            // Compute the minimum and maximum height over all the chunks that the crypt will cross over
+            // Compute the minimum and maximum height over all the chunks that the void chest will cross over
             int minHeight = Integer.MAX_VALUE;
             int maxHeight = Integer.MIN_VALUE;
-
-            // Counters for the number of erie forest chunks
-            int numErieForestChunks = 0;
-            int numOtherChunks = 0;
 
             @Override
             public boolean processChunk(int chunkX, int chunkZ)
             {
                 Set<Biome> biomes = approximateBiomesInChunk(biomeProvider, chunkX, chunkZ);
-                // Filter incompatible biomes
-                if (biomes.stream().anyMatch(INCOMPATIBLE_BIOMES::contains))
+                // Void Chests cannot spawn in oceans or rivers
+                if (biomes.stream().noneMatch(COMPATIBLE_BIOMES::contains))
                     return false;
-                // If the biome is an erie forest then increment erie forest
-                else if (biomes.contains(ModBiomes.ERIE_FOREST))
-                    numErieForestChunks++;
-                // It's a different biome
-                else
-                    numOtherChunks++;
 
                 // Compute min and max height
                 ChunkPos chunkPos = new ChunkPos(chunkX, chunkZ);
                 minHeight = Math.min(minHeight, heightmap.getLowestHeight(chunkPos));
                 maxHeight = Math.max(maxHeight, heightmap.getHighestHeight(chunkPos));
-
                 return true;
             }
 
             @Override
             public Double getResult()
             {
-                // If there's more than 5 blocks between the top and bottom block it's an invalid place for a crypt because it's not 'flat' enough
-                if ((maxHeight - minHeight) > 5)
+                // If there's more than 8 blocks between the top and bottom block it's an invalid place for a void chest because it's not 'flat' enough
+                if ((maxHeight - minHeight) > 8)
                     return this.getDefaultResult();
 
-                // Compute how many chunks are erie forest and how many are other biomes
-                double percentErie = (double) numErieForestChunks / (numErieForestChunks + numOtherChunks);
-                double percentOther = 1.0 - percentErie;
-
-                // 10% chance to spawn in other biomes, 80% chance to spawn in erie forests
-                return percentErie * 0.8 + percentOther * 0.1;
+                // 0.75% chance to generate in any chunks this fits in
+                return 0.0075;
             }
 
             @Override
@@ -118,7 +101,7 @@ public class StructureCrypt extends AOTDStructure
     /**
      * Generates the structure at a position with an optional argument of chunk position
      *
-     * @param world    The world to generate the structure in
+     * @param world The world to generate the structure in
      * @param blockPos The position to generate the structure at
      * @param chunkPos Optional chunk position of a chunk to generate in. If supplied all blocks generated must be in this chunk only!
      */
@@ -130,17 +113,11 @@ public class StructureCrypt extends AOTDStructure
         // Make sure the heightmap is not null
         if (heightmap != null)
         {
-            // Compute the center block of the schematic
-            BlockPos centerBlock = blockPos.add(this.getXWidth() / 2, 0, this.getZLength() / 2);
-            // Convert that block to the chunk it is in
-            ChunkPos centerChunk = new ChunkPos(centerBlock);
-            // Compute the ground height at the center
-            int groundHeight = heightmap.getLowestHeight(centerChunk);
-
-            // Set the schematic height to be underground + 5 blocks
-            BlockPos schematicPos = new BlockPos(blockPos.getX(), groundHeight - ModSchematics.CRYPT.getHeight() + 3, blockPos.getZ());
-            // This structure is simple, it is just the crypt schematic
-            SchematicGenerator.generateSchematic(ModSchematics.CRYPT, world, schematicPos, chunkPos, ModLootTables.CRYPT);
+            int minGroundHeight = this.processInteriorChunks(new LowestHeightChunkProcessor(heightmap), blockPos);
+            // Set the schematic at the lowest point in the chunk
+            BlockPos schematicPos = new BlockPos(blockPos.getX(), minGroundHeight - 7, blockPos.getZ());
+            // This structure is simple, it is just the void chest schematic
+            SchematicGenerator.generateSchematic(ModSchematics.VOID_CHEST, world, schematicPos, chunkPos, ModLootTables.VOID_CHEST);
         }
     }
 
@@ -150,8 +127,7 @@ public class StructureCrypt extends AOTDStructure
     @Override
     public int getXWidth()
     {
-        // For this structure the width is just the width of the crypt
-        return ModSchematics.CRYPT.getWidth();
+        return ModSchematics.VOID_CHEST.getWidth();
     }
 
     /**
@@ -160,7 +136,6 @@ public class StructureCrypt extends AOTDStructure
     @Override
     public int getZLength()
     {
-        // For this structure the length is just the length of the crypt
-        return ModSchematics.CRYPT.getLength();
+        return ModSchematics.VOID_CHEST.getLength();
     }
 }

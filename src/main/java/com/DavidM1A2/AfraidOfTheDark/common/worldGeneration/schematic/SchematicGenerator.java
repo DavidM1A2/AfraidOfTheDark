@@ -146,12 +146,12 @@ public class SchematicGenerator
 						if (nextToPlace == Blocks.DIAMOND_BLOCK)
 						{
 							// Set the block to air
-							world.setBlockToAir(new BlockPos(x, y, z));
+							world.setBlockState(new BlockPos(x, y, z), Blocks.AIR.getDefaultState(), 2);
 						}
 						else
 						{
 							// Otherwise set the block based on state from the data array
-							world.setBlockState(new BlockPos(x, y, z), nextToPlace.getStateFromMeta(data[index]));
+							world.setBlockState(new BlockPos(x, y, z), nextToPlace.getStateFromMeta(data[index]), 2);
 						}
 					}
 				}

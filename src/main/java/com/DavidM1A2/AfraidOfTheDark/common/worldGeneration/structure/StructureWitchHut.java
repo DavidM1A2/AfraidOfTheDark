@@ -3,10 +3,13 @@ package com.DavidM1A2.afraidofthedark.common.worldGeneration.structure;
 import com.DavidM1A2.afraidofthedark.common.biomes.BiomeErieForest;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.IHeightmap;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.OverworldHeightmap;
+import com.DavidM1A2.afraidofthedark.common.constants.ModBiomes;
 import com.DavidM1A2.afraidofthedark.common.constants.ModLootTables;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSchematics;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.AOTDStructure;
+import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.IChunkProcessor;
+import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.LowestHeightChunkProcessor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
@@ -14,6 +17,8 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeOcean;
 import net.minecraft.world.biome.BiomeProvider;
 import net.minecraft.world.biome.BiomeRiver;
+
+import java.util.Set;
 
 /**
  * Witch hut structure class
@@ -39,42 +44,44 @@ public class StructureWitchHut extends AOTDStructure
 	@Override
 	public double computeChanceToGenerateAt(BlockPos blockPos, IHeightmap heightmap, BiomeProvider biomeProvider)
 	{
-		// Grab the chunk positions of the two corners of the witch hut structure
-		ChunkPos bottomLeftCorner = new ChunkPos(blockPos);
-		ChunkPos topRightCorner = new ChunkPos(blockPos.add(this.getXWidth(), 0, this.getZLength()));
-
-		// Compute the minimum and maximum height over all the chunks that the crypt will cross over
-		int minHeight = Integer.MAX_VALUE;
-		int maxHeight = Integer.MIN_VALUE;
-
-		// An array of biomes to be used to sample biomes at a given point
-		Biome[] biomeSampling = new Biome[1];
-
-		// For each chunk inside the structure test the height and biome
-		for (int chunkX = bottomLeftCorner.x; chunkX <= topRightCorner.x; chunkX++)
+		return this.processInteriorChunks(new IChunkProcessor<Double>()
 		{
-			for (int chunkZ = bottomLeftCorner.z; chunkZ <= topRightCorner.z; chunkZ++)
+			// Compute the minimum and maximum height over all the chunks that the witch hut will cross over
+			int minHeight = Integer.MAX_VALUE;
+			int maxHeight = Integer.MIN_VALUE;
+
+			@Override
+			public boolean processChunk(int chunkX, int chunkZ)
 			{
-				ChunkPos chunkPos = new ChunkPos(chunkX, chunkZ);
-				// Grab the biome in the middle of the current chunk
-				biomeSampling = biomeProvider.getBiomes(biomeSampling, chunkX * 16 + 8, chunkZ * 16 + 8, 1, 1);
-				Biome chunkBiome = biomeSampling[0];
-				// No oceans allowed
-				if (!(chunkBiome instanceof BiomeErieForest))
-					return 0;
+				Set<Biome> biomes = approximateBiomesInChunk(biomeProvider, chunkX, chunkZ);
+				// Witch huts can only spawn in erie forests
+				if (!biomes.contains(ModBiomes.ERIE_FOREST) || biomes.size() > 1)
+					return false;
 
 				// Compute min and max height
+				ChunkPos chunkPos = new ChunkPos(chunkX, chunkZ);
 				minHeight = Math.min(minHeight, heightmap.getLowestHeight(chunkPos));
 				maxHeight = Math.max(maxHeight, heightmap.getHighestHeight(chunkPos));
+				return true;
 			}
-		}
 
-		// If there's more than 3 blocks between the top and bottom block it's an invalid place for a crypt because it's not 'flat' enough
-		if ((maxHeight - minHeight) > 3)
-			return 0;
+			@Override
+			public Double getResult()
+			{
+				// If there's more than 3 blocks between the top and bottom block it's an invalid place for a witch hut because it's not 'flat' enough
+				if ((maxHeight - minHeight) > 3)
+					return this.getDefaultResult();
 
-		// 30% chance to generate in any chunks this fits in
-		return 0.3;
+				// 30% chance to generate in any chunks this fits in
+				return 0.3;
+			}
+
+			@Override
+			public Double getDefaultResult()
+			{
+				return 0D;
+			}
+		}, blockPos);
 	}
 
 	/**
@@ -92,23 +99,7 @@ public class StructureWitchHut extends AOTDStructure
 		// Make sure the heightmap is not null
 		if (heightmap != null)
 		{
-			// Grab the chunk positions of the two corners of the crypt structure
-			ChunkPos bottomLeftCorner = new ChunkPos(blockPos);
-			ChunkPos topRightCorner = new ChunkPos(blockPos.add(this.getXWidth(), 0, this.getZLength()));
-
-			int minGroundHeight = Integer.MAX_VALUE;
-
-			// For each chunk inside the structure test the height to find the min
-			for (int chunkX = bottomLeftCorner.x; chunkX <= topRightCorner.x; chunkX++)
-			{
-				for (int chunkZ = bottomLeftCorner.z; chunkZ <= topRightCorner.z; chunkZ++)
-				{
-					// Compute the ground height in the chunk
-					int groundHeight = heightmap.getLowestHeight(new ChunkPos(chunkX, chunkZ));
-					minGroundHeight = Math.min(minGroundHeight, groundHeight);
-				}
-			}
-
+			int minGroundHeight = this.processInteriorChunks(new LowestHeightChunkProcessor(heightmap), blockPos);
 			// Set the schematic at the lowest point in the chunk
 			BlockPos schematicPos = new BlockPos(blockPos.getX(), minGroundHeight - 1, blockPos.getZ());
 			// This structure is simple, it is just the witch hut schematic
