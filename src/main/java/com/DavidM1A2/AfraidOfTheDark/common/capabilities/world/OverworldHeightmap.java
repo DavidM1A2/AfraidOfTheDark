@@ -23,7 +23,7 @@ public class OverworldHeightmap extends WorldSavedData implements IHeightmap
 	private static final String IDENTIFIER = Constants.MOD_ID + "_overworld_heightmap";
 
 	// The actual heightmap that we are saving
-	private Map<Point2i, Pair<Integer, Integer>> posToHeight = new HashMap<>();
+	private Map<ChunkPos, Pair<Integer, Integer>> posToHeight = new HashMap<>();
 
 	// Pair of default Low/High values if the height is invalid
 	private static final Pair<Integer, Integer> INVALID = new Pair<>(Integer.MIN_VALUE, Integer.MAX_VALUE);
@@ -87,20 +87,20 @@ public class OverworldHeightmap extends WorldSavedData implements IHeightmap
 		for (String positionKey : nbt.getKeySet())
 		{
 			// Parse the position by splitting on space
-			String[] positionXY = positionKey.split(" ");
+			String[] positionXZ = positionKey.split(" ");
 			// Ensure there are 2 elements which should be X and Y
-			if (positionXY.length == 2)
+			if (positionXZ.length == 2)
 			{
 				// Parse the X coordinate from string to integer
-				int x = NumberUtils.toInt(positionXY[0], Integer.MAX_VALUE);
+				int x = NumberUtils.toInt(positionXZ[0], Integer.MAX_VALUE);
 				// Parse the Y coordinate from string to integer
-				int y = NumberUtils.toInt(positionXY[1], Integer.MAX_VALUE);
+				int z = NumberUtils.toInt(positionXZ[1], Integer.MAX_VALUE);
 				// Ensure both X and Y are valid
-				if (x != Integer.MAX_VALUE && y != Integer.MAX_VALUE)
+				if (x != Integer.MAX_VALUE && z != Integer.MAX_VALUE)
 				{
 					int[] lowAndHigh = nbt.getIntArray(positionKey);
 					// Insert the position -> height
-					posToHeight.put(new Point2i(x, y), new Pair<>(lowAndHigh[0], lowAndHigh[1]));
+					posToHeight.put(new ChunkPos(x, z), new Pair<>(lowAndHigh[0], lowAndHigh[1]));
 				}
 			}
 			// We have an invalid tag, throw an error
@@ -121,7 +121,7 @@ public class OverworldHeightmap extends WorldSavedData implements IHeightmap
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt)
 	{
 		// For each position add the tag "XCoord YCoord" -> low height, high height
-		posToHeight.forEach((position, height) -> nbt.setIntArray(position.x + " " + position.y, new int[] { height.getKey(), height.getValue() }));
+		this.posToHeight.forEach((position, height) -> nbt.setIntArray(position.x + " " + position.z, new int[] { height.getKey(), height.getValue() }));
 		return nbt;
 	}
 
@@ -134,7 +134,7 @@ public class OverworldHeightmap extends WorldSavedData implements IHeightmap
 	@Override
 	public boolean heightKnown(ChunkPos chunkPos)
 	{
-		return this.posToHeight.containsKey(new Point2i(chunkPos.x, chunkPos.z));
+		return this.posToHeight.containsKey(chunkPos);
 	}
 
 	/**
@@ -147,7 +147,7 @@ public class OverworldHeightmap extends WorldSavedData implements IHeightmap
 	@Override
 	public void setHeight(ChunkPos chunkPos, int low, int high)
 	{
-		this.posToHeight.put(new Point2i(chunkPos.x, chunkPos.z), new Pair<>(low, high));
+		this.posToHeight.put(chunkPos, new Pair<>(low, high));
 		this.markDirty();
 	}
 
@@ -160,7 +160,7 @@ public class OverworldHeightmap extends WorldSavedData implements IHeightmap
 	@Override
 	public int getLowestHeight(ChunkPos chunkPos)
 	{
-		return this.posToHeight.getOrDefault(new Point2i(chunkPos.x, chunkPos.z), INVALID).getKey();
+		return this.posToHeight.getOrDefault(chunkPos, INVALID).getKey();
 	}
 
 	/**
@@ -172,6 +172,6 @@ public class OverworldHeightmap extends WorldSavedData implements IHeightmap
 	@Override
 	public int getHighestHeight(ChunkPos chunkPos)
 	{
-		return this.posToHeight.getOrDefault(new Point2i(chunkPos.x, chunkPos.z), INVALID).getValue();
+		return this.posToHeight.getOrDefault(chunkPos, INVALID).getValue();
 	}
 }

@@ -30,9 +30,9 @@ public class StructurePlan extends WorldSavedData
 	private static final IForgeRegistry<Structure> STRUCTURE_REGISTRY = GameRegistry.findRegistry(Structure.class);
 
 	// The actual structure plan map that we are saving
-	private Map<Point2i, String> chunkToStructureID = new HashMap<>();
+	private Map<ChunkPos, String> chunkToStructureID = new HashMap<>();
 	// A map of chunk to position that the structure at that position is originated at
-	private Map<Point2i, BlockPos> chunkToOrigin = new HashMap<>();
+	private Map<ChunkPos, BlockPos> chunkToOrigin = new HashMap<>();
 
 	/**
 	 * Constructor just calls super with our ID
@@ -121,7 +121,7 @@ public class StructurePlan extends WorldSavedData
 						if (xOrigin != Integer.MAX_VALUE && yOrigin != Integer.MAX_VALUE && zOrigin != Integer.MAX_VALUE)
 						{
 							// Turn x,y into position
-							Point2i position = new Point2i(x, y);
+							ChunkPos position = new ChunkPos(x, y);
 							// Insert the position -> structure ID
 							chunkToStructureID.put(position, idXYZ[0]);
 							// Insert the position -> BlockPos(xOrigin, yOrigin, zOrigin)
@@ -149,12 +149,12 @@ public class StructurePlan extends WorldSavedData
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt)
 	{
-		// For each position add the tag "XCoord YCoord" -> structureID xOrigin yOrigin zOrigin
+		// For each position add the tag "XCoord ZCoord" -> structureID xOrigin yOrigin zOrigin
 		chunkToStructureID.forEach((position, structureID) ->
 		{
 			BlockPos blockPos = chunkToOrigin.get(position);
 			String value = structureID + " " + blockPos.getX() + " " + blockPos.getY() + " " + blockPos.getZ();
-			nbt.setString(position.x + " " + position.y, value);
+			nbt.setString(position.x + " " + position.z, value);
 		});
 
 		return nbt;
@@ -169,7 +169,7 @@ public class StructurePlan extends WorldSavedData
 	public Structure getStructureAt(ChunkPos chunkPos)
 	{
 		// Grab the structure ID at the given position
-		String structureID = this.chunkToStructureID.getOrDefault(new Point2i(chunkPos.x, chunkPos.z), null);
+		String structureID = this.chunkToStructureID.getOrDefault(chunkPos, null);
 
 		// If the ID is non-null, return the structure, otherwise return null
 		if (structureID != null)
@@ -185,7 +185,7 @@ public class StructurePlan extends WorldSavedData
 	 */
 	public BlockPos getStructureOrigin(ChunkPos chunkPos)
 	{
-		return this.chunkToOrigin.getOrDefault(new Point2i(chunkPos.x, chunkPos.z), null);
+		return this.chunkToOrigin.getOrDefault(chunkPos, null);
 	}
 
 	/**
@@ -196,7 +196,7 @@ public class StructurePlan extends WorldSavedData
 	 */
 	public boolean structureExistsAt(ChunkPos chunkPos)
 	{
-		return this.chunkToStructureID.containsKey(new Point2i(chunkPos.x, chunkPos.z));
+		return this.chunkToStructureID.containsKey(chunkPos);
 	}
 
 	/**
@@ -216,7 +216,7 @@ public class StructurePlan extends WorldSavedData
 		for (int chunkX = bottomLeftCorner.x; chunkX <= topRightCorner.x; chunkX++)
 			for (int chunkZ = bottomLeftCorner.z; chunkZ <= topRightCorner.z; chunkZ++)
 				// If any chunk is already planned then return false
-				if (this.chunkToStructureID.containsKey(new Point2i(chunkX, chunkZ)))
+				if (this.chunkToStructureID.containsKey(new ChunkPos(chunkX, chunkZ)))
 					return false;
 
 		return true;
@@ -242,7 +242,7 @@ public class StructurePlan extends WorldSavedData
 		{
 			for (int chunkZ = bottomLeftCorner.z; chunkZ <= topRightCorner.z; chunkZ++)
 			{
-				Point2i position = new Point2i(chunkX, chunkZ);
+				ChunkPos position = new ChunkPos(chunkX, chunkZ);
 				this.chunkToStructureID.put(position, structureName);
 				this.chunkToOrigin.put(position, blockPos);
 			}

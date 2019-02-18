@@ -161,15 +161,9 @@ public class WorldStructurePlanner
 
 		// Iterate over all chunks in the region and test if the world has a given chunk or not yet
 		for (int chunkX = bottomLeftCorner.x; chunkX <= topRightCorner.x; chunkX++)
-		{
 			for (int chunkZ = bottomLeftCorner.z; chunkZ <= topRightCorner.z; chunkZ++)
-			{
 				// If the chunk is generated at the coordinates then generate the structure at that position
 				if (world.isChunkGeneratedAt(chunkX, chunkZ))
-				{
 					worldGenerator.addChunkToRegenerate(new ChunkPos(chunkX, chunkZ));
-				}
-			}
-		}
 	}
 }

@@ -52,6 +52,14 @@ public abstract class AOTDStructure extends Structure
         return chunkProcessor.getResult();
     }
 
+    /**
+     * Approximates the biomes in a chunk by testing the 4 corners and the center
+     *
+     * @param biomeProvider The biome provider
+     * @param chunkX The chunk's X coordinate
+     * @param chunkZ The chunk's Z coordinate
+     * @return A set of biomes found at the 4 corners and center of the chunk
+     */
     protected Set<Biome> approximateBiomesInChunk(BiomeProvider biomeProvider, int chunkX, int chunkZ)
     {
         Biome[] temp = new Biome[1];
