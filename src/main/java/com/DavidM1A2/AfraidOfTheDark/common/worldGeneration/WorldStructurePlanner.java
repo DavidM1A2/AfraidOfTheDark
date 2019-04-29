@@ -2,6 +2,7 @@ package com.DavidM1A2.afraidofthedark.common.worldGeneration;
 
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.IHeightmap;
+import com.DavidM1A2.afraidofthedark.common.capabilities.world.IStructurePlan;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.OverworldHeightmap;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.StructurePlan;
 import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
@@ -14,7 +15,10 @@ import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Class used to map out the entire world structures used for structure generation
@@ -59,7 +63,7 @@ public class WorldStructurePlanner
 		if (!world.isRemote && world.provider.getDimension() == 0)
 		{
 			// Grab the structure plan for the world
-			StructurePlan structurePlan = StructurePlan.get(world);
+			IStructurePlan structurePlan = StructurePlan.get(world);
 
 			ChunkPos chunkPos = new ChunkPos(chunkX, chunkZ);
 			// If a structure does not yet exist at the position
@@ -128,7 +132,7 @@ public class WorldStructurePlanner
 								BlockPos posToGenerate = positions[i + 1];
 
 								// Place the structure into our structure plan
-								structurePlan.placeStructureAt(structure, posToGenerate);
+								structurePlan.placeStructureAt(structure, posToGenerate, null);
 
 								// Generate any chunks that this structure will generate in that are already generated
 								this.generateExistingChunks(structure, world, posToGenerate);

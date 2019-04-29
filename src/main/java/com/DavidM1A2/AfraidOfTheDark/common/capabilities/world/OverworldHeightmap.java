@@ -10,7 +10,6 @@ import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldSavedData;
 import org.apache.commons.lang3.math.NumberUtils;
 
-import javax.vecmath.Point2i;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,7 +51,7 @@ public class OverworldHeightmap extends WorldSavedData implements IHeightmap
 	 * @param world The world to get data for
 	 * @return The data for that world or null if it is not present
 	 */
-	public static OverworldHeightmap get(World world)
+	public static IHeightmap get(World world)
 	{
 		// If we are on client side or the world is not the overworld return 0
 		if (world.isRemote || world.provider.getDimension() != 0)

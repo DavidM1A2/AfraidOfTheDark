@@ -1,23 +1,21 @@
 package com.DavidM1A2.afraidofthedark.common.worldGeneration;
 
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
+import com.DavidM1A2.afraidofthedark.common.capabilities.world.IStructurePlan;
+import com.DavidM1A2.afraidofthedark.common.capabilities.world.PlacedStructure;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.StructurePlan;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.Structure;
-import net.minecraft.server.MinecraftServer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
-import net.minecraft.world.gen.structure.MapGenStructureIO;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.oredict.OreDictionary;
 
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -94,7 +92,7 @@ public class AOTDWorldGenerator implements IWorldGenerator
 	private void generate(World world, ChunkPos chunkPos)
 	{
 		// Get the structure plan for the world
-		StructurePlan structurePlan = StructurePlan.get(world);
+		IStructurePlan structurePlan = StructurePlan.get(world);
 		// Make sure that our plan is valid
 		if (structurePlan != null)
 		{
@@ -102,13 +100,15 @@ public class AOTDWorldGenerator implements IWorldGenerator
 			if (structurePlan.structureExistsAt(chunkPos))
 			{
 				// The structure exists, grab it and the origin
-				Structure structure = structurePlan.getStructureAt(chunkPos);
-				BlockPos origin = structurePlan.getStructureOrigin(chunkPos);
+				PlacedStructure placedStructure = structurePlan.getPlacedStructureAt(chunkPos);
+				Structure structure = placedStructure.getStructure();
+				BlockPos position = placedStructure.getPosition();
+				NBTTagCompound data = placedStructure.getData();
 				// If we want to show debug messages print a message that we're generating a piece of a structure
 				if (AfraidOfTheDark.INSTANCE.getConfigurationHandler().showDebugMessages())
-					AfraidOfTheDark.INSTANCE.getLogger().info("Structure " + structure.getRegistryName().toString() + " generated at " + origin.toString());
+					AfraidOfTheDark.INSTANCE.getLogger().info("Structure " + structure.getRegistryName().toString() + " generated at " + position.toString());
 				// Generate the structure
-				structure.generate(world, origin, chunkPos);
+				structure.generate(world, position, chunkPos, data);
 			}
 		}
 	}
