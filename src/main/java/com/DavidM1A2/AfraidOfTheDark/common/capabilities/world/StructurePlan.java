@@ -15,7 +15,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Class used to store a world's structure plan
@@ -155,6 +157,17 @@ public class StructurePlan extends WorldSavedData implements IStructurePlan
     public PlacedStructure getPlacedStructureAt(ChunkPos chunkPos)
     {
         return this.chunkToStructure.getOrDefault(chunkPos, null);
+    }
+
+    /**
+     * Returns an copy of the list of structures present in the world.
+     *
+     * @return A copy of the structures in the structure plan
+     */
+    @Override
+    public List<PlacedStructure> getPlacedStructures()
+    {
+        return this.chunkToStructure.values().stream().distinct().collect(Collectors.toList());
     }
 
     /**

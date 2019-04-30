@@ -2,7 +2,7 @@ package com.DavidM1A2.afraidofthedark;
 
 import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiHandler;
 import com.DavidM1A2.afraidofthedark.client.keybindings.KeyInputEventHandler;
-import com.DavidM1A2.afraidofthedark.common.command.AOTDHelpCommand;
+import com.DavidM1A2.afraidofthedark.common.command.AOTDCommands;
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import com.DavidM1A2.afraidofthedark.common.handler.*;
 import com.DavidM1A2.afraidofthedark.common.packets.packetHandler.PacketHandler;
@@ -153,7 +153,7 @@ public class AfraidOfTheDark
 	public void serverStartingEvent(FMLServerStartingEvent event)
 	{
 		// Register mod commands
-		event.registerServerCommand(new AOTDHelpCommand());
+		event.registerServerCommand(new AOTDCommands());
 	}
 
 	/**

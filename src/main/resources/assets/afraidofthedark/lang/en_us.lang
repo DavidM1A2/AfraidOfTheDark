@@ -137,3 +137,8 @@ bolt_entry.astral_silver=Silver
 meteor_entry.astral_silver=Astral Silver
 meteor_entry.star_metal=Star Metal
 meteor_entry.igneous=Igneous
+
+# Structure entries
+structure.afraidofthedark:crypt=Crypt
+structure.afraidofthedark:witch_hut=Witch Hut
+structure.afraidofthedark:void_chest=Void Chest

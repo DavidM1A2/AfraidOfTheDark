@@ -1,6 +1,5 @@
 package com.DavidM1A2.afraidofthedark.common.worldGeneration.structure;
 
-import com.DavidM1A2.afraidofthedark.common.biomes.BiomeErieForest;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.IHeightmap;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.OverworldHeightmap;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBiomes;
@@ -10,13 +9,12 @@ import com.DavidM1A2.afraidofthedark.common.worldGeneration.schematic.SchematicG
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.AOTDStructure;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.IChunkProcessor;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.LowestHeightChunkProcessor;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeOcean;
 import net.minecraft.world.biome.BiomeProvider;
-import net.minecraft.world.biome.BiomeRiver;
 
 import java.util.Set;
 
@@ -86,13 +84,13 @@ public class StructureWitchHut extends AOTDStructure
 
 	/**
 	 * Generates the structure at a position with an optional argument of chunk position
-	 *
-	 * @param world The world to generate the structure in
+	 *  @param world The world to generate the structure in
 	 * @param blockPos The position to generate the structure at
-	 * @param chunkPos Optional chunk position of a chunk to generate in. If supplied all blocks generated must be in this chunk only!
-	 */
+     * @param chunkPos Optional chunk position of a chunk to generate in. If supplied all blocks generated must be in this chunk only!
+     * @param data ignored
+     */
 	@Override
-	public void generate(World world, BlockPos blockPos, ChunkPos chunkPos)
+	public void generate(World world, BlockPos blockPos, ChunkPos chunkPos, NBTTagCompound data)
 	{
 		// Grab the world's heightmap
 		IHeightmap heightmap = OverworldHeightmap.get(world);

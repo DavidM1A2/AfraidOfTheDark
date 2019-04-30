@@ -5,6 +5,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 
+import java.util.List;
+
 /**
  * Structure plan interface used to plan AOTD structures
  */
@@ -17,6 +19,13 @@ public interface IStructurePlan
      * @return A structure if it exists, or null if no structure exists here
      */
     PlacedStructure getPlacedStructureAt(ChunkPos chunkPos);
+
+    /**
+     * Returns an copy of the list of structures present in the world.
+     *
+     * @return A copy of the structures in the structure plan
+     */
+    List<PlacedStructure> getPlacedStructures();
 
     /**
      * Returns true if a structure exists at the given chunk pos or false if it does not
