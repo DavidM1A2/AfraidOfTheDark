@@ -1,10 +1,12 @@
 package com.DavidM1A2.afraidofthedark.common.item;
 
+import com.DavidM1A2.afraidofthedark.common.constants.ModStructures;
 import com.DavidM1A2.afraidofthedark.common.item.core.AOTDItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 /**
@@ -12,34 +14,35 @@ import net.minecraft.world.World;
  */
 public class ItemDebug extends AOTDItem
 {
-	/**
-	 * Constructor sets up item properties
-	 */
-	public ItemDebug()
-	{
-		super("debug");
-		this.setMaxStackSize(1);
-	}
+    /**
+     * Constructor sets up item properties
+     */
+    public ItemDebug()
+    {
+        super("debug");
+        this.setMaxStackSize(1);
+    }
 
-	///
-	/// Code below here is not documented due to its temporary nature used for testing
-	///
+    ///
+    /// Code below here is not documented due to its temporary nature used for testing
+    ///
 
 
-	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
-	{
+    @Override
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+    {
 		/*
 		for (Research research : ModRegistries.RESEARCH)
 			playerIn.sendMessage(new TextComponentString(research.getRegistryName().toString() + " -> " + playerIn.getCapability(ModCapabilities.PLAYER_RESEARCH, null).isResearched(research)));
-*/
+        */
 		/*
 		playerIn.sendMessage(new TextComponentString("" + playerIn.getCapability(ModCapabilities.PLAYER_BASICS, null).getWatchedMeteorDropAngle()));
 		playerIn.sendMessage(new TextComponentString("" + playerIn.getCapability(ModCapabilities.PLAYER_BASICS, null).getWatchedMeteorLatitude()));
 		playerIn.sendMessage(new TextComponentString("" + playerIn.getCapability(ModCapabilities.PLAYER_BASICS, null).getWatchedMeteorLongitude()));
 		*/
-		if (!worldIn.isRemote)
-		{
+        if (!worldIn.isRemote)
+        {
+            playerIn.sendMessage(new TextComponentString(ModStructures.DARK_FOREST.getXWidth() + ", " + ModStructures.DARK_FOREST.getZLength()));
 			/*
 			SchematicGenerator.generateSchematic(
 					ModSchematics.BED_HOUSE,
@@ -150,8 +153,8 @@ public class ItemDebug extends AOTDItem
 					new ChunkPos(playerIn.chunkCoordX + 1, playerIn.chunkCoordZ + 2),
 					ModLootTables.CRYPT);
 			*/
-		}
+        }
 
-		return super.onItemRightClick(worldIn, playerIn, handIn);
-	}
+        return super.onItemRightClick(worldIn, playerIn, handIn);
+    }
 }

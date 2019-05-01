@@ -52,7 +52,7 @@ public class ItemEnchantedSkeletonBone extends AOTDItem
 		if (!entityItem.world.isRemote && entityItem.ticksExisted % UPDATE_TIME_IN_TICKS == 0)
 		{
 			// Get a list of items on the ground around this one
-			List<EntityItem> surroundingItems = entityItem.world.getEntitiesWithinAABB(EntityItem.class, entityItem.getEntityBoundingBox().expand(COMBINE_RADIUS, COMBINE_RADIUS, COMBINE_RADIUS));
+			List<EntityItem> surroundingItems = entityItem.world.getEntitiesWithinAABB(EntityItem.class, entityItem.getEntityBoundingBox().grow(COMBINE_RADIUS));
 
 			// Keep a count of the number of bones on the ground
 			int numberOfBones = 0;

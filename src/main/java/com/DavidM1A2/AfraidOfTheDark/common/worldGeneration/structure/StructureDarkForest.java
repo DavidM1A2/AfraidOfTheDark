@@ -2,6 +2,8 @@ package com.DavidM1A2.afraidofthedark.common.worldGeneration.structure;
 
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.IHeightmap;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBiomes;
+import com.DavidM1A2.afraidofthedark.common.constants.ModSchematics;
+import com.DavidM1A2.afraidofthedark.common.worldGeneration.schematic.Schematic;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.AOTDStructure;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.init.Biomes;
@@ -12,6 +14,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeProvider;
 
+import java.util.Arrays;
 import java.util.Set;
 
 /**
@@ -20,7 +23,7 @@ import java.util.Set;
 public class StructureDarkForest extends AOTDStructure
 {
     // A set of compatible biomes
-    private final Set<Biome> COMPATIBLE_BIOMES = ImmutableSet.of(
+    private static final Set<Biome> COMPATIBLE_BIOMES = ImmutableSet.of(
             Biomes.SAVANNA,
             Biomes.MUTATED_SAVANNA,
             Biomes.PLAINS,
@@ -28,12 +31,23 @@ public class StructureDarkForest extends AOTDStructure
             ModBiomes.ERIE_FOREST
     );
 
+    // The width of the dark forest dungeon
+    private int width;
+    // The height of the dark forest dungeon
+    private int height;
+
     /**
      * Structure constructor just sets the registry name
      */
     public StructureDarkForest()
     {
         super("dark_forest");
+        int widestTree = Arrays.stream(ModSchematics.DARK_FOREST_TREES).map(Schematic::getWidth).max(Short::compareTo).get();
+        int longestTree = Arrays.stream(ModSchematics.DARK_FOREST_TREES).map(Schematic::getLength).max(Short::compareTo).get();
+        // Width is width(BED_HOUSE) + 2*width(BIGGEST_TREE)
+        this.width = ModSchematics.BED_HOUSE.getWidth() + 2 * widestTree;
+        // Height is length(BED_HOUSE) + 2*length(BIGGEST_TREE)
+        this.height = ModSchematics.BED_HOUSE.getLength() + 2 * longestTree;
     }
 
     /**
@@ -47,6 +61,7 @@ public class StructureDarkForest extends AOTDStructure
     @Override
     public double computeChanceToGenerateAt(BlockPos blockPos, IHeightmap heightmap, BiomeProvider biomeProvider)
     {
+
         return 0;
     }
 
@@ -59,12 +74,12 @@ public class StructureDarkForest extends AOTDStructure
     @Override
     public int getXWidth()
     {
-        return 0;
+        return this.width;
     }
 
     @Override
     public int getZLength()
     {
-        return 0;
+        return this.height;
     }
 }

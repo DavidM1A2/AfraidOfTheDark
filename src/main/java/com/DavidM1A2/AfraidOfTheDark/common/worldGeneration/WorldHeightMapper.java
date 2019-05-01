@@ -3,7 +3,10 @@ package com.DavidM1A2.afraidofthedark.common.worldGeneration;
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.IHeightmap;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.OverworldHeightmap;
+import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
+import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.Structure;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
@@ -18,6 +21,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
  */
 public class WorldHeightMapper
 {
+	// The range at which we predict chunk height values
+	private int chunkPredictionRange = -1;
+
 	/**
 	 * Called whenever a chunk is generated and needs population, we update our terrain height map here
 	 *
@@ -32,8 +38,31 @@ public class WorldHeightMapper
 		int chunkX = event.getChunkX();
 		int chunkZ = event.getChunkZ();
 
+		// Initialize the chunk prediction range once based on the largest structure size
+		if (chunkPredictionRange == -1)
+		{
+			// Go over each structure and find the largest
+			for (Structure structure : ModRegistries.STRUCTURE)
+			{
+				// Compute the maximum number of blocks a structure can cover, add 15 to adjust for if the structure is placed in the corner of a chunk
+				int maxXBlocksCovered = structure.getXWidth() + 15;
+				int maxZBlocksCovered = structure.getZLength() + 15;
+				// The max blocks covered is the max of x blocks and max of z blocks
+				int maxBlocksCovered = Math.max(maxXBlocksCovered, maxZBlocksCovered);
+				// To compute the number of chunks covered divide by 16 blocks per chunk ceiled
+				int maxChunksCovered = MathHelper.ceil(maxBlocksCovered / 16.0);
+				// The new prediction range is the max of the old range and the current structure size
+				chunkPredictionRange = Math.max(chunkPredictionRange, maxChunksCovered);
+			}
+
+			if (AfraidOfTheDark.INSTANCE.getConfigurationHandler().showDebugMessages())
+			{
+				AfraidOfTheDark.INSTANCE.getLogger().debug("Chunk heightmap prediction range set to " + chunkPredictionRange);
+			}
+		}
+
 		// Generate the height map for the chunk
-		this.heightMapChunk(world, chunkX, chunkZ, 3);
+		this.heightMapChunk(world, chunkX, chunkZ, chunkPredictionRange);
 	}
 
 	/**
