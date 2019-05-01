@@ -1,0 +1,10 @@
+{
+  "x": -1,
+  "y": 4,
+  "tooltip": "they drank the kool-aid",
+  "recipes": [  ],
+  "preRecipes": [  ],
+  "icon": "afraidofthedark:textures/gui/research_icons/sleeping_potion.png",
+  "pre": "I've recently visited an abandoned house in a forest. It looks like it was previously inhabited by some cult or other. Where did they go? They left plenty of white clothes behind along with other strange items. I've heard before that some cult leaders will poison their followers by contaminating their drinking water somehow and thus turning a cult into a mass suicide cult. Maybe I could test the water springs around the dark forest house. Either way, I should bring a filled water bottle there to see what happens.",
+  "researched": "This was most unexpected. Simply having a water bottle in the dark forest house will turn it into a sleeping potion of some kind. When drunk, it makes the consumer drowsy and more willing to sleep in a bed. I want to take a nap."
+}

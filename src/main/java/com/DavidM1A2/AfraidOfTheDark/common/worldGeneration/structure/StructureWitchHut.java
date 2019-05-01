@@ -7,8 +7,9 @@ import com.DavidM1A2.afraidofthedark.common.constants.ModLootTables;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSchematics;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.AOTDStructure;
-import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.IChunkProcessor;
-import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.LowestHeightChunkProcessor;
+import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.iterator.InteriorChunkIterator;
+import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.processor.IChunkProcessor;
+import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.processor.LowestHeightChunkProcessor;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -42,22 +43,21 @@ public class StructureWitchHut extends AOTDStructure
 	@Override
 	public double computeChanceToGenerateAt(BlockPos blockPos, IHeightmap heightmap, BiomeProvider biomeProvider)
 	{
-		return this.processInteriorChunks(new IChunkProcessor<Double>()
+		return this.processChunks(new IChunkProcessor<Double>()
 		{
 			// Compute the minimum and maximum height over all the chunks that the witch hut will cross over
 			int minHeight = Integer.MAX_VALUE;
 			int maxHeight = Integer.MIN_VALUE;
 
 			@Override
-			public boolean processChunk(int chunkX, int chunkZ)
+			public boolean processChunk(ChunkPos chunkPos)
 			{
-				Set<Biome> biomes = approximateBiomesInChunk(biomeProvider, chunkX, chunkZ);
+				Set<Biome> biomes = approximateBiomesInChunk(biomeProvider, chunkPos.x, chunkPos.z);
 				// Witch huts can only spawn in erie forests
 				if (!biomes.contains(ModBiomes.ERIE_FOREST) || biomes.size() > 1)
 					return false;
 
 				// Compute min and max height
-				ChunkPos chunkPos = new ChunkPos(chunkX, chunkZ);
 				minHeight = Math.min(minHeight, heightmap.getLowestHeight(chunkPos));
 				maxHeight = Math.max(maxHeight, heightmap.getHighestHeight(chunkPos));
 				return true;
@@ -79,7 +79,7 @@ public class StructureWitchHut extends AOTDStructure
 			{
 				return 0D;
 			}
-		}, blockPos);
+		}, new InteriorChunkIterator(this, blockPos));
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class StructureWitchHut extends AOTDStructure
 		// Make sure the heightmap is not null
 		if (heightmap != null)
 		{
-			int minGroundHeight = this.processInteriorChunks(new LowestHeightChunkProcessor(heightmap), blockPos);
+			int minGroundHeight = this.processChunks(new LowestHeightChunkProcessor(heightmap), new InteriorChunkIterator(this, blockPos));
 			// Set the schematic at the lowest point in the chunk
 			BlockPos schematicPos = new BlockPos(blockPos.getX(), minGroundHeight - 1, blockPos.getZ());
 			// This structure is simple, it is just the witch hut schematic

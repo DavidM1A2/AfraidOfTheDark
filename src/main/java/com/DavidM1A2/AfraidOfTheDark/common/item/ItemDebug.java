@@ -1,19 +1,10 @@
 package com.DavidM1A2.afraidofthedark.common.item;
 
-import com.DavidM1A2.afraidofthedark.common.capabilities.world.StructurePlan;
-import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
-import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
 import com.DavidM1A2.afraidofthedark.common.item.core.AOTDItem;
-import com.DavidM1A2.afraidofthedark.common.registry.research.Research;
-import com.DavidM1A2.afraidofthedark.common.utility.NBTHelper;
-import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.Structure;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 /**
@@ -49,7 +40,30 @@ public class ItemDebug extends AOTDItem
 		*/
 		if (!worldIn.isRemote)
 		{
+			/*
+			SchematicGenerator.generateSchematic(
+					ModSchematics.BED_HOUSE,
+					worldIn,
+					playerIn.getPosition().add(3, 0, 3),
+					null,
+					ModLootTables.DARK_FOREST);
+
+			 */
+
+			/*
+			// 60x60
+			playerIn.sendMessage(new TextComponentString("TREES: "));
+			for (Schematic schematic : ModSchematics.DARK_FOREST_TREES)
+				playerIn.sendMessage(new TextComponentString(schematic.getWidth() + ", " + schematic.getLength()));
+
+			// 17x17
+			playerIn.sendMessage(new TextComponentString("PROPS: "));
+			for (Schematic schematic : ModSchematics.DARK_FOREST_PROPS)
+				playerIn.sendMessage(new TextComponentString(schematic.getWidth() + ", " + schematic.getLength()));
+			 */
+			/*
 			NBTHelper.getAllSavedPlayerNBTs(worldIn.getMinecraftServer(), true);
+			 */
 
 			/*
 			StructurePlan y = StructurePlan.get(worldIn);

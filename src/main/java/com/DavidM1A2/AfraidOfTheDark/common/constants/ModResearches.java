@@ -21,6 +21,8 @@ public class ModResearches
 	public static final Research CLOAK_OF_AGILITY = new AOTDResearch("cloak_of_agility", WEREWOLF_EXAMINATION);
 	public static final Research VOID_CHEST = new AOTDResearch("void_chest", ASTRAL_SILVER);
 	public static final Research ELDRITCH_DECORATION = new AOTDResearch("eldritch_decoration", VOID_CHEST);
+	public static final Research DARK_FOREST = new AOTDResearch("dark_forest", ASTRAL_SILVER);
+	public static final Research SLEEPING_POTION = new AOTDResearch("sleeping_potion", DARK_FOREST);
 
 	// An array containing a list of researches that AOTD adds
 	public static Research[] RESEARCH_LIST = new Research[]
@@ -37,6 +39,8 @@ public class ModResearches
 		PHYLACTERY_OF_SOULS,
 		CLOAK_OF_AGILITY,
 		VOID_CHEST,
-		ELDRITCH_DECORATION
+		ELDRITCH_DECORATION,
+		DARK_FOREST,
+		SLEEPING_POTION
 	};
 }

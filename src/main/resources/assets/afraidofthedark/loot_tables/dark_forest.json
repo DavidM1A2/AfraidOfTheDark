@@ -72,7 +72,13 @@
         },
         {
           "type": "item",
-          "name": "afraidofthedark:research_scroll_cloak_of_agility",
+          "name": "afraidofthedark:research_scroll",
+		  "functions": [
+			{
+              "function": "set_nbt",
+              "tag":"{\"research_id\":\"afraidofthedark:cloak_of_agility\"}"
+			}
+		  ],
           "weight": 1
         }
       ]

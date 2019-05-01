@@ -7,7 +7,8 @@ import com.DavidM1A2.afraidofthedark.common.constants.ModLootTables;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSchematics;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.AOTDStructure;
-import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.IChunkProcessor;
+import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.iterator.InteriorChunkIterator;
+import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.processor.IChunkProcessor;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.init.Biomes;
 import net.minecraft.nbt.NBTTagCompound;
@@ -56,7 +57,7 @@ public class StructureCrypt extends AOTDStructure
     @Override
     public double computeChanceToGenerateAt(BlockPos blockPos, IHeightmap heightmap, BiomeProvider biomeProvider)
     {
-        return this.processInteriorChunks(new IChunkProcessor<Double>()
+        return this.processChunks(new IChunkProcessor<Double>()
         {
             // Compute the minimum and maximum height over all the chunks that the crypt will cross over
             int minHeight = Integer.MAX_VALUE;
@@ -67,9 +68,9 @@ public class StructureCrypt extends AOTDStructure
             int numOtherChunks = 0;
 
             @Override
-            public boolean processChunk(int chunkX, int chunkZ)
+            public boolean processChunk(ChunkPos chunkPos)
             {
-                Set<Biome> biomes = approximateBiomesInChunk(biomeProvider, chunkX, chunkZ);
+                Set<Biome> biomes = approximateBiomesInChunk(biomeProvider, chunkPos.x, chunkPos.z);
                 // Filter incompatible biomes
                 if (biomes.stream().anyMatch(INCOMPATIBLE_BIOMES::contains))
                     return false;
@@ -81,7 +82,6 @@ public class StructureCrypt extends AOTDStructure
                     numOtherChunks++;
 
                 // Compute min and max height
-                ChunkPos chunkPos = new ChunkPos(chunkX, chunkZ);
                 minHeight = Math.min(minHeight, heightmap.getLowestHeight(chunkPos));
                 maxHeight = Math.max(maxHeight, heightmap.getHighestHeight(chunkPos));
 
@@ -108,7 +108,7 @@ public class StructureCrypt extends AOTDStructure
             {
                 return 0D;
             }
-        }, blockPos);
+        }, new InteriorChunkIterator(this, blockPos));
     }
 
     /**

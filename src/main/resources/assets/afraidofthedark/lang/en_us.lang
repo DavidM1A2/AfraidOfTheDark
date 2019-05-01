@@ -127,6 +127,8 @@ research.phylactery_of_souls=Phylactery of Souls
 research.cloak_of_agility=Cloak of Agility
 research.void_chest=Void Chest
 research.eldritch_decoration=Eldritch Decoration
+research.dark_forest=Dark Forest
+research.sleeping_potion=Sleeping Potion
 
 # Bolt entries
 bolt_entry.wooden=Wooden
@@ -139,6 +141,6 @@ meteor_entry.star_metal=Star Metal
 meteor_entry.igneous=Igneous
 
 # Structure entries
-structure.afraidofthedark:crypt=Crypt
-structure.afraidofthedark:witch_hut=Witch Hut
-structure.afraidofthedark:void_chest=Void Chest
+afraidofthedark:crypt=Crypt
+afraidofthedark:witch_hut=Witch Hut
+afraidofthedark:void_chest=Void Chest

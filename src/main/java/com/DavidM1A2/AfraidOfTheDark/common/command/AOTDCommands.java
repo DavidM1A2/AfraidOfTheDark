@@ -82,9 +82,8 @@ public class AOTDCommands extends CommandBase
             // Third token should be a structure id
         else if (args.length == 3)
         {
-            // Valid structure ids, remove the 'structure.' prefix since it's confusing
-            int structurePrefixLength = "structure.".length();
-            String[] structureNames = ModRegistries.STRUCTURE.getValuesCollection().stream().map(structure -> structure.getRegistryName().toString().substring(structurePrefixLength)).toArray(String[]::new);
+            // Valid structure ids
+            String[] structureNames = ModRegistries.STRUCTURE.getValuesCollection().stream().map(structure -> structure.getRegistryName().toString()).toArray(String[]::new);
             return getListOfStringsMatchingLastWord(args, structureNames);
         }
         else
@@ -152,10 +151,9 @@ public class AOTDCommands extends CommandBase
     private void printStructureTypes(ICommandSender sender)
     {
         sender.sendMessage(new TextComponentString("Registered dungeon types:"));
-        int structurePrefixLength = "structure.".length();
         // Iterate over structures and print each one out
         for (Structure structure : ModRegistries.STRUCTURE)
-            sender.sendMessage(new TextComponentString(structure.getRegistryName().toString().substring(structurePrefixLength)));
+            sender.sendMessage(new TextComponentString(structure.getRegistryName().toString()));
     }
 
     /**
@@ -182,19 +180,17 @@ public class AOTDCommands extends CommandBase
      */
     private void printSpecificStructures(ICommandSender sender, MinecraftServer server, String structureName)
     {
-        String structureRegistryName = "structure." + structureName;
         // If the structure is invalid tell the user that
-        if (ModRegistries.STRUCTURE.containsKey(new ResourceLocation(structureRegistryName)))
+        if (ModRegistries.STRUCTURE.containsKey(new ResourceLocation(structureName)))
         {
             // Otherwise we list the dungeons of that type
-            int structurePrefixLength = "structure.".length();
             World overworld = server.getWorld(0);
-            sender.sendMessage(new TextComponentString("Overworld dungeons of type [" + I18n.format(structureRegistryName) + "]:"));
+            sender.sendMessage(new TextComponentString("Overworld dungeons of type [" + I18n.format(structureName) + "]:"));
             IStructurePlan structurePlan = StructurePlan.get(overworld);
             // Go over all placed structures and only print them if they have the right name
             filterSortAndPrint(
                     structurePlan.getPlacedStructures(),
-                    placedStructure -> placedStructure.getStructure().getRegistryName().toString().substring(structurePrefixLength).equalsIgnoreCase(structureName),
+                    placedStructure -> placedStructure.getStructure().getRegistryName().toString().equalsIgnoreCase(structureName),
                     sender);
         }
         else

@@ -3,14 +3,12 @@ package com.DavidM1A2.afraidofthedark.common.worldGeneration.schematic;
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.utility.ResourceUtil;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
 import org.codehaus.plexus.util.ExceptionUtils;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -52,7 +50,13 @@ public class SchematicLoader
 			// Convert all of our string blocks in the format of 'modid:registryname' to block pointer
 			Block[] blocks = new Block[stringBlocks.tagCount()];
 			for (int i = 0; i < blocks.length; i++)
+			{
 				blocks[i] = Block.getBlockFromName(stringBlocks.getStringTagAt(i));
+				if (blocks[i] == null)
+				{
+					AfraidOfTheDark.INSTANCE.getLogger().error("Invalid schematic block found: " + stringBlocks.getStringTagAt(i));
+				}
+			}
 
 			// Return the schematic
 			return new Schematic(tileEntities, width, height, length, blocks, data, entities);

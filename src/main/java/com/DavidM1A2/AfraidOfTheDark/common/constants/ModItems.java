@@ -25,6 +25,7 @@ public class ModItems
 	public static final Item FLASK_OF_SOULS = new ItemFlaskOfSouls();
 	public static final Item CLOAK_OF_AGILITY = new ItemCloakOfAgility();
 	public static final Item ELDRITCH_METAL_INGOT = new ItemEldritchMetalIngot();
+	public static final Item SLEEPING_POTION = new ItemSleepingPotion();
 
 	public static final Item WOODEN_BOLT = new ItemWoodenBolt();
 	public static final Item IRON_BOLT = new ItemIronBolt();
@@ -56,6 +57,7 @@ public class ModItems
 		SILVER_BOLT,
 		IGNEOUS_BOLT,
 		STAR_METAL_BOLT,
-		DEBUG
+		DEBUG,
+		SLEEPING_POTION
 	};
 }

@@ -132,7 +132,7 @@ public class WorldStructurePlanner
 								BlockPos posToGenerate = positions[i + 1];
 
 								// Place the structure into our structure plan
-								structurePlan.placeStructureAt(structure, posToGenerate, null);
+								structurePlan.placeStructureAt(structure, posToGenerate, structure.generateStructureData());
 
 								// Generate any chunks that this structure will generate in that are already generated
 								this.generateExistingChunks(structure, world, posToGenerate);

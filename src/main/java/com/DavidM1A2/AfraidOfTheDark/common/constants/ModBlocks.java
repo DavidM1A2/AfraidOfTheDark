@@ -2,6 +2,7 @@ package com.DavidM1A2.afraidofthedark.common.constants;
 
 import com.DavidM1A2.afraidofthedark.common.block.*;
 import com.DavidM1A2.afraidofthedark.common.block.gravewood.*;
+import com.DavidM1A2.afraidofthedark.common.tileEntity.TileEntityDarkForest;
 import com.DavidM1A2.afraidofthedark.common.tileEntity.TileEntityVoidChest;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
@@ -29,6 +30,7 @@ public class ModBlocks
 	public static final Block AMORPHOUS_ELDRITCH_METAL = new BlockAmorphousEldritchMetal();
 	public static final Block VOID_CHEST = new BlockVoidChest();
 	public static final Block VOID_CHEST_PORTAL = new BlockVoidChestPortal();
+	public static final Block DARK_FOREST = new BlockDarkForest();
 
 	// An array containing a list of blocks that AOTD adds
 	public static final Block[] BLOCK_LIST = new Block[]
@@ -46,11 +48,13 @@ public class ModBlocks
 		ELDRITCH_OBSIDIAN,
 		AMORPHOUS_ELDRITCH_METAL,
 		VOID_CHEST,
-		VOID_CHEST_PORTAL
+		VOID_CHEST_PORTAL,
+		DARK_FOREST
 	};
 
 	// A list of tile entities to register
 	public static final Pair<Class<? extends TileEntity>, ResourceLocation>[] TILE_ENTITY_LIST = ArrayUtils.toArray(
-		Pair.of(TileEntityVoidChest.class, new ResourceLocation(Constants.MOD_ID, "tile_entity_void_chest"))
+		Pair.of(TileEntityVoidChest.class, new ResourceLocation(Constants.MOD_ID, "tile_entity_void_chest")),
+		Pair.of(TileEntityDarkForest.class, new ResourceLocation(Constants.MOD_ID, "tile_entity_dark_forest"))
 	);
 }

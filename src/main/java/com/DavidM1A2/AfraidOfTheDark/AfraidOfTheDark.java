@@ -66,6 +66,8 @@ public class AfraidOfTheDark
 		MinecraftForge.EVENT_BUS.register(new BlockRegister());
 		// Register our item handler used to add all of our items to the game
 		MinecraftForge.EVENT_BUS.register(new ItemRegister());
+		// Register our potion handler used to add all of our potions to the game
+		MinecraftForge.EVENT_BUS.register(new PotionRegister());
 		// Register our entity handler used to add all of our entities to the game
 		MinecraftForge.EVENT_BUS.register(new EntityRegister());
 		// Register our biome handler used to add all of our mod biomes to the game
