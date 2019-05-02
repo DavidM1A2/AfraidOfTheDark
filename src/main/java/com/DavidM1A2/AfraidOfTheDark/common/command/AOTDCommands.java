@@ -1,5 +1,6 @@
 package com.DavidM1A2.afraidofthedark.common.command;
 
+import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.IStructurePlan;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.PlacedStructure;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.StructurePlan;
@@ -13,6 +14,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
@@ -76,11 +78,11 @@ public class AOTDCommands extends CommandBase
             // Next token should be 'help' or 'dungeon'
         else if (args.length == 1)
             return getListOfStringsMatchingLastWord(args, "help", "dungeon");
-            // Next token should be 'list' or 'types'
-        else if (args.length == 2)
-            return getListOfStringsMatchingLastWord(args, "list", "types");
-            // Third token should be a structure id
-        else if (args.length == 3)
+            // Next token should be 'list' or 'types' after 'dungeon'
+        else if (args.length == 2 && args[0].equalsIgnoreCase("dungeon"))
+            return getListOfStringsMatchingLastWord(args, "list", "types", "info", "regenerate");
+            // Third token should be a structure id after 'dungeon list'
+        else if (args.length == 3 && args[0].equalsIgnoreCase("dungeon") && args[1].equalsIgnoreCase("list"))
         {
             // Valid structure ids
             String[] structureNames = ModRegistries.STRUCTURE.getValuesCollection().stream().map(structure -> structure.getRegistryName().toString()).toArray(String[]::new);
@@ -106,6 +108,12 @@ public class AOTDCommands extends CommandBase
             // /aotd dungeon
         else if (args.length == 1 && args[0].equalsIgnoreCase("dungeon"))
             printDungeonHelp(sender);
+            // /aotd dungeon info
+        else if (args.length == 2 && args[0].equalsIgnoreCase("dungeon") && args[1].equalsIgnoreCase("info"))
+            printDungeonInfo(sender);
+            // /aotd dungeon regenerate
+        else if (args.length == 2 && args[0].equalsIgnoreCase("dungeon") && args[1].equalsIgnoreCase("regenerate"))
+            regenerateDungeonChunk(sender);
             // /aotd dungeon types
         else if (args.length == 2 && args[0].equalsIgnoreCase("dungeon") && args[1].equalsIgnoreCase("types"))
             printStructureTypes(sender);
@@ -141,6 +149,8 @@ public class AOTDCommands extends CommandBase
         sender.sendMessage(new TextComponentString("/AOTD dungeon types - Lists all dungeon types present possible"));
         sender.sendMessage(new TextComponentString("/AOTD dungeon list - Lists all dungeons present in the world"));
         sender.sendMessage(new TextComponentString("/AOTD dungeon list <type> - Lists all dungeons of a type present in the world. See /AOTD dungeon types"));
+        sender.sendMessage(new TextComponentString("/AOTD dungeon info - Gets dungeon information in the player's current chunk"));
+        sender.sendMessage(new TextComponentString("/AOTD dungeon regenerate - Regenerates a dungeon in the player's current chunk"));
     }
 
     /**
@@ -154,6 +164,79 @@ public class AOTDCommands extends CommandBase
         // Iterate over structures and print each one out
         for (Structure structure : ModRegistries.STRUCTURE)
             sender.sendMessage(new TextComponentString(structure.getRegistryName().toString()));
+    }
+
+    /**
+     * Prints any dungeon information in the player's chunk
+     *
+     * @param sender The player to test dungeon chunk info around
+     */
+    private void printDungeonInfo(ICommandSender sender)
+    {
+        // This command only works in the overworld
+        if (sender.getEntityWorld().provider.getDimension() == 0)
+        {
+            // Grab the chunk the player is in
+            ChunkPos chunkPos = new ChunkPos(sender.getPosition());
+            // Grab the structure plan
+            IStructurePlan structurePlan = StructurePlan.get(sender.getEntityWorld());
+            // If the structure exists print info about the structure, otherwise show no structures exist
+            if (structurePlan.structureExistsAt(chunkPos))
+            {
+                // Grab the structure at the position
+                PlacedStructure placedStructure = structurePlan.getPlacedStructureAt(chunkPos);
+                // Send the structure info and if debug is enabled send debug info too
+                sender.sendMessage(new TextComponentString(
+                        "Structure " +
+                                I18n.format(placedStructure.getStructure().getRegistryName().toString()) +
+                                " with corner at [" +
+                                placedStructure.getPosition().getX() + ", " + placedStructure.getPosition().getY() + ", " + placedStructure.getPosition().getZ()
+                                + "]"));
+                if (AfraidOfTheDark.INSTANCE.getConfigurationHandler().showDebugMessages())
+                    sender.sendMessage(new TextComponentString("Extra NBT debug info: " + placedStructure.getData().toString()));
+            }
+            else
+            {
+                sender.sendMessage(new TextComponentString("No structures in your chunk"));
+            }
+        }
+        else
+        {
+            sender.sendMessage(new TextComponentString("Must be in the overworld to get a chunk's structure info"));
+        }
+    }
+
+    /**
+     * Regenerates a chunk of the structure that the player is in
+     *
+     * @param sender The player whose chunk to regenerate the structure in
+     */
+    private void regenerateDungeonChunk(ICommandSender sender)
+    {
+        // This command only works in the overworld
+        if (sender.getEntityWorld().provider.getDimension() == 0)
+        {
+            // Grab the chunk the player is in
+            ChunkPos chunkPos = new ChunkPos(sender.getPosition());
+            // Grab the structure plan
+            IStructurePlan structurePlan = StructurePlan.get(sender.getEntityWorld());
+            // If the structure exists print info about the structure, otherwise show no structures exist
+            if (structurePlan.structureExistsAt(chunkPos))
+            {
+                // Grab the structure at the position
+                PlacedStructure placedStructure = structurePlan.getPlacedStructureAt(chunkPos);
+                // Generate the structure in the player's chunk
+                placedStructure.getStructure().generate(sender.getEntityWorld(), placedStructure.getPosition(), chunkPos, placedStructure.getData());
+            }
+            else
+            {
+                sender.sendMessage(new TextComponentString("No structures in your chunk to regenerate"));
+            }
+        }
+        else
+        {
+            sender.sendMessage(new TextComponentString("Must be in the overworld to regenerate a chunk's structure"));
+        }
     }
 
     /**
@@ -203,8 +286,8 @@ public class AOTDCommands extends CommandBase
      * Utility function, prints a list of structures that match a given predicate by distance from the player
      *
      * @param original The list to sort
-     * @param filter The filter to apply to the list
-     * @param sender The sender to send messages to and sort by
+     * @param filter   The filter to apply to the list
+     * @param sender   The sender to send messages to and sort by
      */
     private void filterSortAndPrint(List<PlacedStructure> original, Predicate<PlacedStructure> filter, ICommandSender sender)
     {
@@ -219,7 +302,7 @@ public class AOTDCommands extends CommandBase
      * Prints a structure by sending a message to the player
      *
      * @param placedStructure The structure to print
-     * @param sender The player to send the message to
+     * @param sender          The player to send the message to
      */
     private void printStructure(PlacedStructure placedStructure, ICommandSender sender)
     {

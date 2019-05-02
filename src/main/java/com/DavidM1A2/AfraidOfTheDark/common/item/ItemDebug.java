@@ -6,7 +6,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 /**
@@ -42,16 +41,7 @@ public class ItemDebug extends AOTDItem
 		*/
         if (!worldIn.isRemote)
         {
-            playerIn.sendMessage(new TextComponentString(ModStructures.DARK_FOREST.getXWidth() + ", " + ModStructures.DARK_FOREST.getZLength()));
-			/*
-			SchematicGenerator.generateSchematic(
-					ModSchematics.BED_HOUSE,
-					worldIn,
-					playerIn.getPosition().add(3, 0, 3),
-					null,
-					ModLootTables.DARK_FOREST);
-
-			 */
+            ModStructures.DARK_FOREST.generate(worldIn, playerIn.getPosition().add(2, 0, 2), null, ModStructures.DARK_FOREST.generateStructureData());
 
 			/*
 			// 60x60
