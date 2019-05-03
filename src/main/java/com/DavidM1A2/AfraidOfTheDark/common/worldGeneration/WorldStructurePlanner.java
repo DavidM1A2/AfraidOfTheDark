@@ -27,6 +27,8 @@ public class WorldStructurePlanner
 {
 	// Create a random permutation of the structures to test, the first that passes the test will be generated
 	private List<Structure> REGISTERED_STRUCTURES = null;
+	// Create a random object from the world seed
+	private Random RANDOM = null;
 
 	/**
 	 * Called whenever a chunk is generated and needs population, we update our terrain generation here
@@ -45,6 +47,10 @@ public class WorldStructurePlanner
 		// If we do not know of our structure list yet grab the list from the registry
 		if (REGISTERED_STRUCTURES == null)
 			REGISTERED_STRUCTURES = new ArrayList<>(ModRegistries.STRUCTURE.getValuesCollection());
+
+		// If we don't have a random yet init it
+		if (RANDOM == null)
+			RANDOM = new Random(world.getSeed());
 
 		// Generate the structure plan for the chunk
 		this.planStructuresInChunk(world, chunkX, chunkZ);
@@ -69,11 +75,8 @@ public class WorldStructurePlanner
 			// If a structure does not yet exist at the position
 			if (!structurePlan.structureExistsAt(chunkPos))
 			{
-				// Grab a reference to the random object
-				Random random = world.rand;
-
 				// Access the structures in random order
-				Collections.shuffle(REGISTERED_STRUCTURES, random);
+				Collections.shuffle(REGISTERED_STRUCTURES, RANDOM);
 
 				// Grab the heightmap for the world
 				IHeightmap heightmap = OverworldHeightmap.get(world);
@@ -96,22 +99,22 @@ public class WorldStructurePlanner
 					// Position the structure in the top right of the chunk
 					BlockPos topRight = chunk0Corner.add(15, 0, 15);
 					positions[0] = topRight;
-					positions[1] = topRight.add(-random.nextInt(16), 0, -random.nextInt(16));
+					positions[1] = topRight.add(-RANDOM.nextInt(16), 0, -RANDOM.nextInt(16));
 
 					// Position the structure in the top left of the chunk
 					BlockPos topLeft = chunk0Corner.add(0 - structure.getXWidth() + 1, 0, 15);
 					positions[2] = topLeft;
-					positions[3] = topLeft.add(random.nextInt(16), 0, -random.nextInt(16));
+					positions[3] = topLeft.add(RANDOM.nextInt(16), 0, -RANDOM.nextInt(16));
 
 					// Position the structure in the bottom left of the chunk
 					BlockPos bottomLeft = chunk0Corner.add(0 - structure.getXWidth() + 1, 0, 0 - structure.getZLength() + 1);
 					positions[4] = bottomLeft;
-					positions[5] = bottomLeft.add(random.nextInt(16), 0, random.nextInt(16));
+					positions[5] = bottomLeft.add(RANDOM.nextInt(16), 0, RANDOM.nextInt(16));
 
 					// Position the structure in the bottom right of the chunk
 					BlockPos bottomRight = chunk0Corner.add(15, 0, 0 - structure.getZLength() + 1);
 					positions[6] = bottomRight;
-					positions[7] = bottomRight.add(-random.nextInt(16), 0, random.nextInt(16));
+					positions[7] = bottomRight.add(-RANDOM.nextInt(16), 0, RANDOM.nextInt(16));
 
 					// Each even index contains one extreme corner positioning, and each odd index contains a randomized permutation of that
 					// positioning which we would actually generate at
@@ -126,13 +129,13 @@ public class WorldStructurePlanner
 							// Compute the chance that the structure could spawn here
 							double percentChance = structure.computeChanceToGenerateAt(possiblePos, heightmap, biomeProvider);
 							// If our random dice roll succeeds place the structure
-							if (random.nextDouble() < percentChance)
+							if (RANDOM.nextDouble() < percentChance)
 							{
 								// Grab the randomized position to generate the structure at
 								BlockPos posToGenerate = positions[i + 1];
 
 								// Place the structure into our structure plan
-								structurePlan.placeStructureAt(structure, posToGenerate, structure.generateStructureData());
+								structurePlan.placeStructure(structure, structure.generateStructureData(world, posToGenerate, biomeProvider));
 
 								// Generate any chunks that this structure will generate in that are already generated
 								this.generateExistingChunks(structure, world, posToGenerate);

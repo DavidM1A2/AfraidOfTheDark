@@ -1,10 +1,17 @@
 package com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base;
 
+import com.DavidM1A2.afraidofthedark.common.capabilities.world.OverworldHeightmap;
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.iterator.IChunkIterator;
+import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.iterator.InteriorChunkIterator;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.processor.IChunkProcessor;
+import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.processor.LowestHeightChunkProcessor;
 import com.google.common.collect.ImmutableSet;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTUtil;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeProvider;
 
@@ -62,5 +69,28 @@ public abstract class AOTDStructure extends Structure
                 biomeProvider.getBiomes(temp, chunkX * 16 + 0, chunkZ * 16 + 15, 1, 1)[0],
                 biomeProvider.getBiomes(temp, chunkX * 16 + 15, chunkZ * 16 + 15, 1, 1)[0]
         );
+    }
+
+    /**
+     * Called to generate a random permutation of the structure. Set the structure's position
+     *
+     * @param world The world to generate the structure's data for
+     * @param blockPos The position's x and z coordinates to generate the structure at
+     * @param biomeProvider ignored
+     * @return The NBTTagCompound containing any data needed for generation. Sent in Structure::generate
+     */
+    @Override
+    public NBTTagCompound generateStructureData(World world, BlockPos blockPos, BiomeProvider biomeProvider)
+    {
+        NBTTagCompound compound = new NBTTagCompound();
+
+        // By default set the position to be on ground level
+        int yPos = this.processChunks(new LowestHeightChunkProcessor(OverworldHeightmap.get(world)), new InteriorChunkIterator(this, blockPos));
+        // Update the y coordinate
+        blockPos = new BlockPos(blockPos.getX(), yPos, blockPos.getZ());
+        // Set the pos tag
+        compound.setTag(NBT_POSITION, NBTUtil.createPosTag(blockPos));
+
+        return compound;
     }
 }

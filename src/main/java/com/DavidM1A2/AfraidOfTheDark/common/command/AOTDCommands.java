@@ -185,12 +185,14 @@ public class AOTDCommands extends CommandBase
             {
                 // Grab the structure at the position
                 PlacedStructure placedStructure = structurePlan.getPlacedStructureAt(chunkPos);
+                // Grab structure position
+                BlockPos blockPos = placedStructure.getStructure().getPosition(placedStructure.getData());
                 // Send the structure info and if debug is enabled send debug info too
                 sender.sendMessage(new TextComponentString(
                         "Structure " +
                                 I18n.format(placedStructure.getStructure().getRegistryName().toString()) +
                                 " with corner at [" +
-                                placedStructure.getPosition().getX() + ", " + placedStructure.getPosition().getY() + ", " + placedStructure.getPosition().getZ()
+                                blockPos.getX() + ", " + blockPos.getY() + ", " + blockPos.getZ()
                                 + "]"));
                 if (AfraidOfTheDark.INSTANCE.getConfigurationHandler().showDebugMessages())
                     sender.sendMessage(new TextComponentString("Extra NBT debug info: " + placedStructure.getData().toString()));
@@ -226,7 +228,7 @@ public class AOTDCommands extends CommandBase
                 // Grab the structure at the position
                 PlacedStructure placedStructure = structurePlan.getPlacedStructureAt(chunkPos);
                 // Generate the structure in the player's chunk
-                placedStructure.getStructure().generate(sender.getEntityWorld(), placedStructure.getPosition(), chunkPos, placedStructure.getData());
+                placedStructure.getStructure().generate(sender.getEntityWorld(), chunkPos, placedStructure.getData());
             }
             else
             {
@@ -294,7 +296,7 @@ public class AOTDCommands extends CommandBase
         // Filter the list, sort it by distance to player, and print it out
         original.stream()
                 .filter(filter)
-                .sorted(Comparator.<PlacedStructure>comparingDouble(s -> s.getPosition().distanceSq(sender.getPosition())).reversed())
+                .sorted(Comparator.<PlacedStructure>comparingDouble(s -> s.getStructure().getPosition(s.getData()).distanceSq(sender.getPosition())).reversed())
                 .forEach(placedStructure -> this.printStructure(placedStructure, sender));
     }
 
@@ -306,11 +308,11 @@ public class AOTDCommands extends CommandBase
      */
     private void printStructure(PlacedStructure placedStructure, ICommandSender sender)
     {
-        BlockPos position = placedStructure.getPosition();
+        BlockPos position = placedStructure.getStructure().getPosition(placedStructure.getData());
         // Send the message in the format: <dungeon_type> at [<x>, <y>, <z>] ~ <number> blocks away
         sender.sendMessage(new TextComponentString(
                 I18n.format(placedStructure.getStructure().getRegistryName().toString()) +
                         " at [" + position.getX() + ", " + position.getY() + ", " + position.getZ() + "] ~ " +
-                        MathHelper.ceil(Math.sqrt(sender.getPosition().distanceSq(placedStructure.getPosition()))) + " blocks away"));
+                        MathHelper.ceil(Math.sqrt(sender.getPosition().distanceSq(placedStructure.getStructure().getPosition(placedStructure.getData())))) + " blocks away"));
     }
 }

@@ -1,12 +1,10 @@
 package com.DavidM1A2.afraidofthedark.common.worldGeneration;
 
-import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.IStructurePlan;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.PlacedStructure;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.StructurePlan;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.Structure;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -102,13 +100,9 @@ public class AOTDWorldGenerator implements IWorldGenerator
 				// The structure exists, grab it and the origin
 				PlacedStructure placedStructure = structurePlan.getPlacedStructureAt(chunkPos);
 				Structure structure = placedStructure.getStructure();
-				BlockPos position = placedStructure.getPosition();
 				NBTTagCompound data = placedStructure.getData();
-				// If we want to show debug messages print a message that we're generating a piece of a structure
-				if (AfraidOfTheDark.INSTANCE.getConfigurationHandler().showDebugMessages())
-					AfraidOfTheDark.INSTANCE.getLogger().info("Structure " + structure.getRegistryName().toString() + " generated at " + position.toString());
 				// Generate the structure
-				structure.generate(world, position, chunkPos, data);
+				structure.generate(world, chunkPos, data);
 			}
 		}
 	}

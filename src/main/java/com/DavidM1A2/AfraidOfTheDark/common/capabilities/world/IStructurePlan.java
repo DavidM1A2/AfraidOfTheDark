@@ -45,11 +45,10 @@ public interface IStructurePlan
     boolean structureFitsAt(Structure structure, BlockPos blockPos);
 
     /**
-     * Called to place a given structure at a block position. This will overwrite any existing structures in the area
+     * Called to place a given structure with data. This will overwrite any existing structures in the area
      *
      * @param structure The structure to place
-     * @param blockPos  The position to place the structure at
-     * @param data Any additional data the structure requires
+     * @param data Any additional data the structure requires like position
      */
-    void placeStructureAt(Structure structure, BlockPos blockPos, NBTTagCompound data);
+    void placeStructure(Structure structure, NBTTagCompound data);
 }

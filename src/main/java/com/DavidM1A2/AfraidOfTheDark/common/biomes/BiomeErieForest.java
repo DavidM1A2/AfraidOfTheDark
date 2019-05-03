@@ -1,6 +1,5 @@
 package com.DavidM1A2.afraidofthedark.common.biomes;
 
-import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.biomes.extras.AOTDWorldGenBigTree;
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;

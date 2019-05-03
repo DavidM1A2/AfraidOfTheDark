@@ -210,18 +210,20 @@ public class StructurePlan extends WorldSavedData implements IStructurePlan
      * Called to place a given structure at a block position. This will overwrite any existing structures in the area
      *
      * @param structure The structure to place
-     * @param blockPos  The position to place the structure at
      * @param data Any additional data the structure requires
      */
     @Override
-    public void placeStructureAt(Structure structure, BlockPos blockPos, NBTTagCompound data)
+    public void placeStructure(Structure structure, NBTTagCompound data)
     {
+        // Extract the blockpos from the structure's data
+        BlockPos blockPos = structure.getPosition(data);
+
         // Compute the bottom left and top right chunk position
         ChunkPos bottomLeftCorner = new ChunkPos(blockPos);
         ChunkPos topRightCorner = new ChunkPos(blockPos.add(structure.getXWidth(), 0, structure.getZLength()));
 
         // The structure entry to be placed down
-        PlacedStructure placedStructure = new PlacedStructure(structure, blockPos, data);
+        PlacedStructure placedStructure = new PlacedStructure(structure, data);
 
         // Iterate over all chunks in the region, and update their structure names
         for (int chunkX = bottomLeftCorner.x; chunkX <= topRightCorner.x; chunkX++)

@@ -12,6 +12,7 @@ import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.proce
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.init.Biomes;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
@@ -99,24 +100,39 @@ public class StructureVoidChest extends AOTDStructure
     /**
      * Generates the structure at a position with an optional argument of chunk position
      *  @param world The world to generate the structure in
-     * @param blockPos The position to generate the structure at
      * @param chunkPos Optional chunk position of a chunk to generate in. If supplied all blocks generated must be in this chunk only!
-     * @param data ignored
+     * @param data NBT containing the void chest's position
      */
     @Override
-    public void generate(World world, BlockPos blockPos, ChunkPos chunkPos, NBTTagCompound data)
+    public void generate(World world, ChunkPos chunkPos, NBTTagCompound data)
     {
-        // Grab the world's heightmap
-        IHeightmap heightmap = OverworldHeightmap.get(world);
-        // Make sure the heightmap is not null
-        if (heightmap != null)
-        {
-            int minGroundHeight = this.processChunks(new LowestHeightChunkProcessor(heightmap), new InteriorChunkIterator(this, blockPos));
-            // Set the schematic at the lowest point in the chunk
-            BlockPos schematicPos = new BlockPos(blockPos.getX(), minGroundHeight - 7, blockPos.getZ());
-            // This structure is simple, it is just the void chest schematic
-            SchematicGenerator.generateSchematic(ModSchematics.VOID_CHEST, world, schematicPos, chunkPos, ModLootTables.VOID_CHEST);
-        }
+        // Get the void chest's position from the NBT data
+        BlockPos blockPos = this.getPosition(data);
+        // This structure is simple, it is just the void chest schematic
+        SchematicGenerator.generateSchematic(ModSchematics.VOID_CHEST, world, blockPos, chunkPos, ModLootTables.VOID_CHEST);
+    }
+
+    /**
+     * Called to generate a random permutation of the structure. Set the structure's position
+     *
+     * @param world The world to generate the structure's data for
+     * @param blockPos The position's x and z coordinates to generate the structure at
+     * @param biomeProvider ignored
+     * @return The NBTTagCompound containing any data needed for generation. Sent in Structure::generate
+     */
+    @Override
+    public NBTTagCompound generateStructureData(World world, BlockPos blockPos, BiomeProvider biomeProvider)
+    {
+        NBTTagCompound compound = new NBTTagCompound();
+
+        // Find the lowest y value containing a block
+        int groundLevel = this.processChunks(new LowestHeightChunkProcessor(OverworldHeightmap.get(world)), new InteriorChunkIterator(this, blockPos));
+        // Set the schematic's position to the lowest point in the chunk
+        blockPos = new BlockPos(blockPos.getX(), groundLevel - 7, blockPos.getZ());
+        // Update the NBT
+        compound.setTag(NBT_POSITION, NBTUtil.createPosTag(blockPos));
+
+        return compound;
     }
 
     /**

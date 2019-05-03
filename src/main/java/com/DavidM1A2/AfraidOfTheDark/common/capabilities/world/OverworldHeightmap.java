@@ -55,7 +55,7 @@ public class OverworldHeightmap extends WorldSavedData implements IHeightmap
 	{
 		// If we are on client side or the world is not the overworld return 0
 		if (world.isRemote || world.provider.getDimension() != 0)
-			return null;
+			throw new UnsupportedOperationException("Attempted to get the heightmap client side or for a non-overworld world!");
 
 		// Grab the storage object for this world
 		MapStorage storage = world.getPerWorldStorage();

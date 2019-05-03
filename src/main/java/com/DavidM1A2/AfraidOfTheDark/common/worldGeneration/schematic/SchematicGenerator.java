@@ -13,7 +13,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
 
 /**
  * Class used to generate schematics
@@ -119,6 +118,9 @@ public class SchematicGenerator
 			endX = MathHelper.clamp(endX, chunkPos.getXStart(), chunkPos.getXEnd() + 1);
 		}
 
+		// Fixes cascading world gen with leaves/fences
+		int setBlockFlags = 2 | 16;
+
 		// Iterate over the Y axis first since that's the format that schematics use
 		for (int y = startY; y < endY; y++)
 		{
@@ -146,12 +148,12 @@ public class SchematicGenerator
 						if (nextToPlace == Blocks.DIAMOND_BLOCK)
 						{
 							// Set the block to air
-							world.setBlockState(new BlockPos(x, y, z), Blocks.AIR.getDefaultState(), 2);
+							world.setBlockState(new BlockPos(x, y, z), Blocks.AIR.getDefaultState(), setBlockFlags);
 						}
 						else
 						{
 							// Otherwise set the block based on state from the data array
-							world.setBlockState(new BlockPos(x, y, z), nextToPlace.getStateFromMeta(data[index]), 2);
+							world.setBlockState(new BlockPos(x, y, z), nextToPlace.getStateFromMeta(data[index]), setBlockFlags);
 						}
 					}
 				}

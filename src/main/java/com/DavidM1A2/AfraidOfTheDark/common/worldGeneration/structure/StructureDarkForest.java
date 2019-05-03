@@ -16,6 +16,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.init.Biomes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -44,11 +45,21 @@ public class StructureDarkForest extends AOTDStructure
             ModBiomes.ERIE_FOREST
     );
 
+    // A set of invalid prop biomes
+    private final Set<Biome> INCOMPATIBLE_BIOMES = ImmutableSet.of(
+            Biomes.OCEAN,
+            Biomes.DEEP_OCEAN,
+            Biomes.FROZEN_OCEAN,
+            Biomes.FROZEN_RIVER,
+            Biomes.RIVER,
+            Biomes.SKY,
+            Biomes.VOID
+    );
+
     // NBT tag keys
     private static final String NBT_TREES = "trees";
     private static final String NBT_PROPS = "props";
-    private static final String NBT_X_POS = "x";
-    private static final String NBT_Z_POS = "z";
+    private static final String NBT_HOUSE_POSITION = "house";
     private static final String NBT_SCHEMATIC_ID = "schematic_id";
 
     // The width of the dark forest dungeon
@@ -79,8 +90,8 @@ public class StructureDarkForest extends AOTDStructure
     /**
      * Tests if this structure is valid for the given position
      *
-     * @param blockPos The position that the structure would begin at
-     * @param heightmap The heightmap to use in deciding if the structure will fit at the position
+     * @param blockPos      The position that the structure would begin at
+     * @param heightmap     The heightmap to use in deciding if the structure will fit at the position
      * @param biomeProvider The provider used to generate the world, use biomeProvider.getBiomes() to get what biomes exist at a position
      * @return A value between 0 and 1 which is the chance between 0% and 100% that a structure could spawn at the given position
      */
@@ -127,7 +138,8 @@ public class StructureDarkForest extends AOTDStructure
             {
                 return false;
             }
-        }, () -> {
+        }, () ->
+        {
             // Go over all chunks that the bed house would cover and check them
             List<ChunkPos> houseChunks = Lists.newArrayList();
             for (int chunkX = houseCorner1ChunkPos.x; chunkX <= houseCorner1ChunkPos.x; chunkX++)
@@ -146,17 +158,14 @@ public class StructureDarkForest extends AOTDStructure
 
     /**
      * Generates the structure at a position with an optional argument of chunk position
-     *  @param world The world to generate the structure in
-     * @param blockPos The position to generate the structure at
+     *
+     * @param world    The world to generate the structure in
      * @param chunkPos Optional chunk position of a chunk to generate in. If supplied all blocks generated must be in this chunk only!
-     * @param data Data containing info about structure placement like tree locations and prop positions
+     * @param data     Data containing info about structure placement like tree locations and prop positions
      */
     @Override
-    public void generate(World world, BlockPos blockPos, ChunkPos chunkPos, NBTTagCompound data)
+    public void generate(World world, ChunkPos chunkPos, NBTTagCompound data)
     {
-        // Grab the world heightmap
-        IHeightmap heightmap = OverworldHeightmap.get(world);
-
         // Create props first since they're least important and can be overridden
         NBTTagList props = data.getTagList(NBT_PROPS, Constants.NBT.TAG_COMPOUND);
         for (int i = 0; i < props.tagCount(); i++)
@@ -166,15 +175,9 @@ public class StructureDarkForest extends AOTDStructure
             int schematicId = schematicNBT.getInteger(NBT_SCHEMATIC_ID);
             // Grab the schematic to generate
             Schematic schematic = ModSchematics.DARK_FOREST_PROPS[schematicId];
-            // Grab the x and z offsets
-            int xPosOffset = schematicNBT.getInteger(NBT_X_POS);
-            int zPosOffset = schematicNBT.getInteger(NBT_Z_POS);
-            // Compute the x,z position the schematic should be at
-            BlockPos schematicPos = new BlockPos(blockPos.getX() + xPosOffset, 0, blockPos.getZ() + zPosOffset);
-            // Get the low height in the center chunk of the schematic and place the schematic there.
-            int yPos = heightmap.getLowestHeight(new ChunkPos(schematicPos.add(schematic.getWidth() / 2, 0, schematic.getLength() / 2)));
-            // Update the Y value
-            schematicPos = schematicPos.offset(EnumFacing.UP, yPos);
+            // Grab the schematic position
+            BlockPos schematicPos = NBTUtil.getPosFromTag(schematicNBT.getCompoundTag(NBT_POSITION));
+            // Generate the schematic
             SchematicGenerator.generateSchematic(schematic, world, schematicPos, chunkPos);
         }
 
@@ -187,43 +190,14 @@ public class StructureDarkForest extends AOTDStructure
             int schematicId = schematicNBT.getInteger(NBT_SCHEMATIC_ID);
             // Grab the schematic to generate
             Schematic schematic = ModSchematics.DARK_FOREST_TREES[schematicId];
-            // Grab the x and z offsets
-            int xPosOffset = schematicNBT.getInteger(NBT_X_POS);
-            int zPosOffset = schematicNBT.getInteger(NBT_Z_POS);
-            // Compute the x,z position the schematic should be at
-            BlockPos schematicPos = new BlockPos(blockPos.getX() + xPosOffset, 0, blockPos.getZ() + zPosOffset);
-            // Get the low height in the center chunk of the schematic and place the schematic there.
-            int yPos = heightmap.getLowestHeight(new ChunkPos(schematicPos.add(schematic.getWidth() / 2, 0, schematic.getLength() / 2)));
-            // Adjust the y position down 5 so trees go under ground
-            yPos = yPos - 5;
-            // Update the Y value
-            schematicPos = schematicPos.offset(EnumFacing.UP, yPos);
+            // Grab the schematic position
+            BlockPos schematicPos = NBTUtil.getPosFromTag(schematicNBT.getCompoundTag(NBT_POSITION));
+            // Generate the schematic
             SchematicGenerator.generateSchematic(schematic, world, schematicPos, chunkPos);
         }
 
         // Generate the bed house in the center last
-
-        // Compute the two chunk position corners of the house
-        BlockPos houseCorner1BlockPos = blockPos.add(this.getXWidth() / 2 - this.bedHouseWidth / 2, 0, this.getZLength() / 2 - this.bedHouseLength / 2);
-        BlockPos houseCorner2BlockPos = houseCorner1BlockPos.add(this.bedHouseWidth, 0, this.bedHouseLength);
-
-        // Find the lowest y value of the chunks covered by the bed house
-        ChunkPos houseCorner1ChunkPos = new ChunkPos(houseCorner1BlockPos);
-        ChunkPos houseCorner2ChunkPos = new ChunkPos(houseCorner2BlockPos);
-
-        Integer minGroundHeight = this.processChunks(new LowestHeightChunkProcessor(heightmap), () ->
-        {
-            // Go over all chunks that the bed house is covering
-            List<ChunkPos> houseChunks = Lists.newArrayList();
-            for (int chunkX = houseCorner1ChunkPos.x; chunkX <= houseCorner1ChunkPos.x; chunkX++)
-                for (int chunkZ = houseCorner2ChunkPos.z; chunkZ <= houseCorner2ChunkPos.z; chunkZ++)
-                    houseChunks.add(new ChunkPos(chunkX, chunkZ));
-            return houseChunks;
-        });
-
-        // Get the house position
-        BlockPos housePos = new BlockPos(houseCorner1BlockPos.getX(), minGroundHeight, houseCorner1BlockPos.getZ());
-        // Generate the schematic
+        BlockPos housePos = NBTUtil.getPosFromTag(data.getCompoundTag(NBT_HOUSE_POSITION));
         SchematicGenerator.generateSchematic(ModSchematics.BED_HOUSE, world, housePos, chunkPos, ModLootTables.DARK_FOREST);
     }
 
@@ -231,17 +205,14 @@ public class StructureDarkForest extends AOTDStructure
     /**
      * Store the prop and tree data into the NBT compound
      *
-     * @return The tree and prop positions used in generation
+     * @param world         The world to generate the structure's data for
+     * @param blockPos      The position's x and z coordinates to generate the structure at
+     * @param biomeProvider The biome provider used to generate props on dry land only
+     * @return The tree and prop positions used in generation and structure position
      */
     @Override
-    public NBTTagCompound generateStructureData()
+    public NBTTagCompound generateStructureData(World world, BlockPos blockPos, BiomeProvider biomeProvider)
     {
-        NBTTagCompound compound = super.generateStructureData();
-
-        // Add two tag lists, one for trees, and one for props
-        NBTTagList trees = new NBTTagList();
-        NBTTagList props = new NBTTagList();
-
         /*
         Dark forest layout:
            ________________________________
@@ -256,8 +227,9 @@ public class StructureDarkForest extends AOTDStructure
           |            b gutter            |
           |________________________________|
                         width
-
          */
+
+        // Compute the rectangles of each gutter -> x,y and width,height
 
         // One rectangle for each gutter
         Rectangle leftGutter = new Rectangle(0, 0, (this.getXWidth() - this.bedHouseWidth) / 2, this.getZLength());
@@ -268,6 +240,66 @@ public class StructureDarkForest extends AOTDStructure
         List<Rectangle> gutters = ImmutableList.of(leftGutter, rightGutter, bottomGutter, topGutter);
         List<EnumFacing> bedHouseSides = ImmutableList.of(EnumFacing.EAST, EnumFacing.WEST, EnumFacing.NORTH, EnumFacing.SOUTH);
 
+        // Add random props, trees, and the bed house into the data
+        IHeightmap heightmap = OverworldHeightmap.get(world);
+        NBTTagCompound data = new NBTTagCompound();
+        addRandomProps(data, heightmap, blockPos, biomeProvider, gutters);
+        addRandomTrees(data, heightmap, blockPos, gutters, bedHouseSides);
+        setBedHousePosition(data, heightmap, blockPos);
+        // Finally set the position of the structure to be at the same level as the house
+        int houseY = NBTUtil.getPosFromTag(data.getCompoundTag(NBT_HOUSE_POSITION)).getY();
+        data.setTag(NBT_POSITION, NBTUtil.createPosTag(new BlockPos(blockPos.getX(), houseY, blockPos.getZ())));
+
+        return data;
+    }
+
+    /**
+     * Sets the bed house NBT data
+     *
+     * @param data      The data to set forest be house position into
+     * @param heightmap A heightmap to use to compute position
+     * @param blockPos  The position the dark forest was placed at
+     */
+    private void setBedHousePosition(NBTTagCompound data, IHeightmap heightmap, BlockPos blockPos)
+    {
+        // Compute the house's y level so that it sits flat
+        // Compute the two chunk position corners of the house
+        BlockPos houseCorner1BlockPos = blockPos.add(this.getXWidth() / 2 - this.bedHouseWidth / 2, 0, this.getZLength() / 2 - this.bedHouseLength / 2);
+        BlockPos houseCorner2BlockPos = houseCorner1BlockPos.add(this.bedHouseWidth, 0, this.bedHouseLength);
+
+        // Find the lowest y value of the chunks covered by the bed house
+        ChunkPos houseCorner1ChunkPos = new ChunkPos(houseCorner1BlockPos);
+        ChunkPos houseCorner2ChunkPos = new ChunkPos(houseCorner2BlockPos);
+
+        Integer minGroundHeight = this.processChunks(new LowestHeightChunkProcessor(heightmap), () ->
+        {
+            // Go over all chunks that the bed house is covering
+            List<ChunkPos> houseChunks = Lists.newArrayList();
+            for (int chunkX = houseCorner1ChunkPos.x; chunkX <= houseCorner2ChunkPos.x; chunkX++)
+                for (int chunkZ = houseCorner1ChunkPos.z; chunkZ <= houseCorner2ChunkPos.z; chunkZ++)
+                    houseChunks.add(new ChunkPos(chunkX, chunkZ));
+            return houseChunks;
+        });
+
+        // Get the house position and set it in the data nbt
+        BlockPos housePos = new BlockPos(houseCorner1BlockPos.getX(), minGroundHeight, houseCorner1BlockPos.getZ());
+
+        // Store the house's position into the NBT
+        data.setTag(NBT_HOUSE_POSITION, NBTUtil.createPosTag(housePos));
+    }
+
+    /**
+     * Adds between 25 - 100 random props in the world. These are small objects like stumps, logs, saplings, etc
+     *
+     * @param data          The data to add the props to
+     * @param heightmap     The heightmap of the world to create props in
+     * @param blockPos      The position to generate the structure at
+     * @param biomeProvider The biome provider used to get information about the biomes a prop will be placed in
+     * @param gutters       The gutters around the bed house to generate in
+     */
+    private void addRandomProps(NBTTagCompound data, IHeightmap heightmap, BlockPos blockPos, BiomeProvider biomeProvider, List<Rectangle> gutters)
+    {
+        NBTTagList props = new NBTTagList();
         // The number of props to generate
         int NUMBER_OF_PROPS = RandomUtils.nextInt(25, 100);
         for (int i = 0; i < NUMBER_OF_PROPS; i++)
@@ -278,19 +310,60 @@ public class StructureDarkForest extends AOTDStructure
             Schematic schematic = ModSchematics.DARK_FOREST_PROPS[schematicId];
             // Get a random gutter to place it in
             Rectangle gutter = gutters.get(RandomUtils.nextInt(0, gutters.size()));
-            // Compute the X and Z offsets on the base position of the forest
-            BlockPos randomPropPosition = getRandomPropPosition(schematic, gutter);
-            int xOffset = randomPropPosition.getX();
-            int zOffset = randomPropPosition.getZ();
+
+            // Compute the x,z position the schematic should be at
+            BlockPos schematicPosNoY = getRandomPropPosition(schematic, blockPos, gutter);
+            ChunkPos chunkPos = new ChunkPos(schematicPosNoY);
+            // Figure out if this position is valid (no water under props)
+            Set<Biome> biomes = this.approximateBiomesInChunk(biomeProvider, chunkPos.x, chunkPos.z);
+            if (INCOMPATIBLE_BIOMES.stream().anyMatch(biomes::contains))
+                continue;
+
+            // Get the low height in the center chunk of the schematic and place the schematic there.
+            int yPos = heightmap.getLowestHeight(new ChunkPos(schematicPosNoY.add(schematic.getWidth() / 2, 0, schematic.getLength() / 2)));
+            // Update the Y value
+            BlockPos schematicPos = new BlockPos(schematicPosNoY.getX(), yPos, schematicPosNoY.getZ());
 
             // Create the prop tag and append it
             NBTTagCompound prop = new NBTTagCompound();
             prop.setInteger(NBT_SCHEMATIC_ID, schematicId);
-            prop.setInteger(NBT_X_POS, xOffset);
-            prop.setInteger(NBT_Z_POS, zOffset);
+            prop.setTag(NBT_POSITION, NBTUtil.createPosTag(schematicPos));
             props.appendTag(prop);
         }
+        data.setTag(NBT_PROPS, props);
+    }
 
+    /**
+     * Gets a random prop position for a schematic and a gutter
+     *
+     * @param prop     The prop schematic to generate
+     * @param blockPos The base position of the schematic
+     * @param gutter   The gutter to put the prop in
+     * @return The position that this prop will be placed at in the world
+     */
+    private BlockPos getRandomPropPosition(Schematic prop, BlockPos blockPos, Rectangle gutter)
+    {
+        // Ensure the schematic fits perfectly into the gutter without going outside
+        int xMin = gutter.x;
+        int xMax = gutter.x + gutter.width - prop.getWidth();
+        int zMin = gutter.y;
+        int zMax = gutter.y + gutter.height - prop.getLength();
+        // Return a position in the valid range
+        return new BlockPos(blockPos.getX() + RandomUtils.nextInt(xMin, xMax), 0, blockPos.getZ() + RandomUtils.nextInt(zMin, zMax));
+    }
+
+    /**
+     * Adds between 10 - 20 random trees in the world around the bed house
+     *
+     * @param data          The data to add the props to
+     * @param heightmap     The heightmap of the world to create trees in
+     * @param blockPos      The position to generate the structure at
+     * @param gutters       The gutters around the bed house to generate in
+     * @param bedHouseSides A parallel list to gutters with the sides that the bed house is at for each gutter
+     */
+    private void addRandomTrees(NBTTagCompound data, IHeightmap heightmap, BlockPos blockPos, List<Rectangle> gutters, List<EnumFacing> bedHouseSides)
+    {
+        NBTTagList trees = new NBTTagList();
         // The number of trees to generate
         int NUMBER_OF_TREES = RandomUtils.nextInt(10, 20);
         for (int i = 0; i < NUMBER_OF_TREES; i++)
@@ -303,54 +376,37 @@ public class StructureDarkForest extends AOTDStructure
             int gutterIndex = RandomUtils.nextInt(0, gutters.size());
             Rectangle gutter = gutters.get(gutterIndex);
             EnumFacing bedHouseSide = bedHouseSides.get(gutterIndex);
-            // Compute the X and Z offsets on the base position of the forest
-            BlockPos randomTreePosition = getRandomTreePosition(schematic, gutter, bedHouseSide);
-            int xOffset = randomTreePosition.getX();
-            int zOffset = randomTreePosition.getZ();
+            // Compute the x,z position the schematic should be at
+            BlockPos schematicPosNoY = getRandomTreePosition(schematic, blockPos, gutter, bedHouseSide);
+            // Get the low height in the center chunk of the schematic and place the schematic there.
+            int yPos = heightmap.getLowestHeight(new ChunkPos(schematicPosNoY.add(schematic.getWidth() / 2, 0, schematic.getLength() / 2)));
+            // Trees need to have roots underground so move them down by 5
+            yPos = yPos - 5;
+            // Update the Y value
+            BlockPos schematicPos = new BlockPos(schematicPosNoY.getX(), yPos, schematicPosNoY.getZ());
 
             // Create the tree tag and append it
             NBTTagCompound tree = new NBTTagCompound();
             tree.setInteger(NBT_SCHEMATIC_ID, schematicId);
-            tree.setInteger(NBT_X_POS, xOffset);
-            tree.setInteger(NBT_Z_POS, zOffset);
+            tree.setTag(NBT_POSITION, NBTUtil.createPosTag(schematicPos));
             trees.appendTag(tree);
         }
 
         // Set the trees and prop's lists
-        compound.setTag(NBT_TREES, trees);
-        compound.setTag(NBT_PROPS, props);
-
-        return compound;
-    }
-
-    /**
-     * Gets a random prop position for a schematic and a gutter
-     *
-     * @param prop The prop schematic to generate
-     * @param gutter The gutter to put the prop in
-     * @return The position that this prop will be placed at relative to 0,0 of the schematic
-     */
-    private BlockPos getRandomPropPosition(Schematic prop, Rectangle gutter)
-    {
-        // Ensure the schematic fits perfectly into the gutter without going outside
-        int xMin = gutter.x;
-        int xMax = gutter.x + gutter.width - prop.getWidth();
-        int zMin = gutter.y;
-        int zMax = gutter.y + gutter.height - prop.getLength();
-        // Return a position in the valid range
-        return new BlockPos(RandomUtils.nextInt(xMin, xMax), 0, RandomUtils.nextInt(zMin, zMax));
+        data.setTag(NBT_TREES, trees);
     }
 
     /**
      * Gets a random tree position for a schematic and a gutter
      *
-     * @param tree The tree to generate
-     * @param gutter The gutter to place the tree trunk in
+     * @param tree         The tree to generate
+     * @param blockPos     The position the structure will be at
+     * @param gutter       The gutter to place the tree trunk in
      * @param bedHouseSide The side that the bed house is on relative to the gutter. This is necessary since trees are allowed to
      *                     overlap with the house since the leaves may go over top
-     * @return The position that this tree will be placed at relative to 0,0 of the schematic
+     * @return The position that this tree will be placed at
      */
-    private BlockPos getRandomTreePosition(Schematic tree, Rectangle gutter, EnumFacing bedHouseSide)
+    private BlockPos getRandomTreePosition(Schematic tree, BlockPos blockPos, Rectangle gutter, EnumFacing bedHouseSide)
     {
         int xMin;
         int xMax;
@@ -392,7 +448,7 @@ public class StructureDarkForest extends AOTDStructure
         zMax = zMax - tree.getLength() / 2;
 
         // Return a random valid position
-        return new BlockPos(RandomUtils.nextInt(xMin, xMax), 0, RandomUtils.nextInt(zMin, zMax));
+        return new BlockPos(blockPos.getX() + RandomUtils.nextInt(xMin, xMax), 0, blockPos.getZ() + RandomUtils.nextInt(zMin, zMax));
     }
 
     /**
