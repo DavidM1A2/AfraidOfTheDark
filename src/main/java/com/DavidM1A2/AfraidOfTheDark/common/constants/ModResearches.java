@@ -23,6 +23,10 @@ public class ModResearches
 	public static final Research ELDRITCH_DECORATION = new AOTDResearch("eldritch_decoration", VOID_CHEST);
 	public static final Research DARK_FOREST = new AOTDResearch("dark_forest", ASTRAL_SILVER);
 	public static final Research SLEEPING_POTION = new AOTDResearch("sleeping_potion", DARK_FOREST);
+	public static final Research NIGHTMARE = new AOTDResearch("nightmare", DARK_FOREST);
+	public static final Research INSANITY = new AOTDResearch("insanity", NIGHTMARE);
+	public static final Research VITAE_1 = new AOTDResearch("vitae_1", NIGHTMARE);
+	public static final Research ASTRONOMY_2 = new AOTDResearch("astronomy_2", NIGHTMARE);
 
 	// An array containing a list of researches that AOTD adds
 	public static Research[] RESEARCH_LIST = new Research[]
@@ -41,6 +45,10 @@ public class ModResearches
 		VOID_CHEST,
 		ELDRITCH_DECORATION,
 		DARK_FOREST,
-		SLEEPING_POTION
+		SLEEPING_POTION,
+		NIGHTMARE,
+		INSANITY,
+		VITAE_1,
+		ASTRONOMY_2
 	};
 }

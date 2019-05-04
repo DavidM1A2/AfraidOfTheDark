@@ -1,13 +1,10 @@
-package com.DavidM1A2.afraidofthedark.common.handler;
+package com.DavidM1A2.afraidofthedark.common.event.register;
 
 import com.DavidM1A2.afraidofthedark.common.block.core.AOTDSlab;
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;
 import com.DavidM1A2.afraidofthedark.common.constants.ModItems;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemModelMesher;
-import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;

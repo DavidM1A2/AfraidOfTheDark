@@ -1,4 +1,4 @@
-package com.DavidM1A2.afraidofthedark.common.handler;
+package com.DavidM1A2.afraidofthedark.common.event;
 
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import net.minecraftforge.common.config.ConfigElement;

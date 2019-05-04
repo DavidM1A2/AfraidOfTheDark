@@ -3,7 +3,7 @@
  */
 package com.DavidM1A2.afraidofthedark.proxy;
 
-import com.DavidM1A2.afraidofthedark.common.handler.ResearchOverlayHandler;
+import com.DavidM1A2.afraidofthedark.common.event.ResearchOverlayHandler;
 
 /**
  * Proxy that is only instantiated on the SERVER

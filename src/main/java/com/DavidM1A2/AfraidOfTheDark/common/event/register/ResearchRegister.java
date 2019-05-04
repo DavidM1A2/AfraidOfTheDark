@@ -1,4 +1,4 @@
-package com.DavidM1A2.afraidofthedark.common.handler;
+package com.DavidM1A2.afraidofthedark.common.event.register;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModResearches;
 import com.DavidM1A2.afraidofthedark.common.registry.research.Research;

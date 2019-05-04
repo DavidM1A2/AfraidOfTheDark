@@ -4,7 +4,8 @@ import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiHandler;
 import com.DavidM1A2.afraidofthedark.client.keybindings.KeyInputEventHandler;
 import com.DavidM1A2.afraidofthedark.common.command.AOTDCommands;
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
-import com.DavidM1A2.afraidofthedark.common.handler.*;
+import com.DavidM1A2.afraidofthedark.common.event.*;
+import com.DavidM1A2.afraidofthedark.common.event.register.*;
 import com.DavidM1A2.afraidofthedark.common.packets.packetHandler.PacketHandler;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.AOTDWorldGenerator;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.WorldHeightMapper;
@@ -99,6 +100,8 @@ public class AfraidOfTheDark
 		MinecraftForge.EVENT_BUS.register(new FurnaceFuelRegister());
 		// Register our flask of souls handler
 		MinecraftForge.EVENT_BUS.register(new FlaskOfSoulsHandler());
+		// Register our nightmare handler
+		MinecraftForge.EVENT_BUS.register(new NightmareHandler());
 		// Register our AOTD world generator
 		GameRegistry.registerWorldGenerator(worldGenerator, configurationHandler.getWorldGenPriority());
 		// We also need to register our world gen server tick handler

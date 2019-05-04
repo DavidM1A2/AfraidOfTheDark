@@ -1,4 +1,4 @@
-package com.DavidM1A2.afraidofthedark.common.handler;
+package com.DavidM1A2.afraidofthedark.common.event;
 
 import com.DavidM1A2.afraidofthedark.client.gui.ResearchAchievedOverlay;
 import com.DavidM1A2.afraidofthedark.common.registry.research.Research;

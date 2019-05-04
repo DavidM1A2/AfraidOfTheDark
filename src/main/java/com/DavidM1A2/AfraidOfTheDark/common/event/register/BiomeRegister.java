@@ -1,7 +1,8 @@
-package com.DavidM1A2.afraidofthedark.common.handler;
+package com.DavidM1A2.afraidofthedark.common.event.register;
 
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBiomes;
+import com.DavidM1A2.afraidofthedark.common.event.ConfigurationHandler;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeManager;

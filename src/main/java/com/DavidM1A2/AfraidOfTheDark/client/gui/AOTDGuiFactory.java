@@ -2,7 +2,7 @@ package com.DavidM1A2.afraidofthedark.client.gui;
 
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
-import com.DavidM1A2.afraidofthedark.common.handler.ConfigurationHandler;
+import com.DavidM1A2.afraidofthedark.common.event.ConfigurationHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.client.IModGuiFactory;

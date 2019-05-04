@@ -1,9 +1,7 @@
-package com.DavidM1A2.afraidofthedark.common.handler;
+package com.DavidM1A2.afraidofthedark.common.event.register;
 
-import com.DavidM1A2.afraidofthedark.common.constants.ModSchematics;
 import com.DavidM1A2.afraidofthedark.common.constants.ModStructures;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.Structure;
-import net.minecraft.command.CommandLocate;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;

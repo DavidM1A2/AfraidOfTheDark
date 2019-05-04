@@ -1,4 +1,4 @@
-package com.DavidM1A2.afraidofthedark.common.handler;
+package com.DavidM1A2.afraidofthedark.common.event.register;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModBoltEntries;
 import com.DavidM1A2.afraidofthedark.common.registry.bolt.BoltEntry;

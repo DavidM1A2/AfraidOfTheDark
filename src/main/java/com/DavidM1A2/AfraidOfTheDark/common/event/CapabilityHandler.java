@@ -1,4 +1,4 @@
-package com.DavidM1A2.afraidofthedark.common.handler;
+package com.DavidM1A2.afraidofthedark.common.event;
 
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.basics.AOTDPlayerBasicsImpl;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.basics.AOTDPlayerBasicsProvider;

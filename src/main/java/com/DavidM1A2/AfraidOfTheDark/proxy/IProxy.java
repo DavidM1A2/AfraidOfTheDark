@@ -5,7 +5,7 @@
  */
 package com.DavidM1A2.afraidofthedark.proxy;
 
-import com.DavidM1A2.afraidofthedark.common.handler.ResearchOverlayHandler;
+import com.DavidM1A2.afraidofthedark.common.event.ResearchOverlayHandler;
 
 /**
  * Interface containing methods for the proxy. This proxy will be instantiated differently on the server and client

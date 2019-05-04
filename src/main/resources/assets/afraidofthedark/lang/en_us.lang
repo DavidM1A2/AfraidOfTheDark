@@ -129,6 +129,10 @@ research.void_chest=Void Chest
 research.eldritch_decoration=Eldritch Decoration
 research.dark_forest=Dark Forest
 research.sleeping_potion=Sleeping Potion
+research.nightmare=Nightmare
+research.insanity=Insanity
+research.vitae_1=Vitae 1
+research.astronomy_2=Astronomy 2
 
 # Bolt entries
 bolt_entry.wooden=Wooden

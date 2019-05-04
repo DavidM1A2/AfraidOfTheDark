@@ -12,13 +12,12 @@ import com.DavidM1A2.afraidofthedark.client.keybindings.ModKeybindings;
 import com.DavidM1A2.afraidofthedark.client.tileEntity.voidChest.TileEntityVoidChestRenderer;
 import com.DavidM1A2.afraidofthedark.common.block.core.AOTDLeaves;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;
-import com.DavidM1A2.afraidofthedark.common.constants.ModEntities;
 import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityIronBolt;
 import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntitySilverBolt;
 import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityWoodenBolt;
 import com.DavidM1A2.afraidofthedark.common.entity.enchantedSkeleton.EntityEnchantedSkeleton;
 import com.DavidM1A2.afraidofthedark.common.entity.werewolf.EntityWerewolf;
-import com.DavidM1A2.afraidofthedark.common.handler.ResearchOverlayHandler;
+import com.DavidM1A2.afraidofthedark.common.event.ResearchOverlayHandler;
 import com.DavidM1A2.afraidofthedark.common.tileEntity.TileEntityVoidChest;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -30,13 +29,9 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.biome.BiomeColorHelper;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import net.minecraftforge.fml.common.registry.EntityEntry;
-import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Arrays;
-import java.util.Map;
 
 /**
  * Proxy that is only to be instantiated on the CLIENT side
