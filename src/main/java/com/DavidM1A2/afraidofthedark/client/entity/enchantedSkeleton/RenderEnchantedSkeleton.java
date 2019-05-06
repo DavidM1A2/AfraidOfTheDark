@@ -6,6 +6,7 @@
 package com.DavidM1A2.afraidofthedark.client.entity.enchantedSkeleton;
 
 import com.DavidM1A2.afraidofthedark.common.entity.enchantedSkeleton.EntityEnchantedSkeleton;
+import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
@@ -19,7 +20,7 @@ public class RenderEnchantedSkeleton extends RenderLiving<EntityEnchantedSkeleto
 	// The texture used by the model
 	private static final ResourceLocation ENCHANTED_SKELETON_TEXTURE = new ResourceLocation("afraidofthedark:textures/entity/enchanted_skeleton.png");
 	// The skeleton model
-	private static final ModelEnchantedSkeleton ENCHANTED_SKELETON_MODEL = new ModelEnchantedSkeleton();
+	private static final ModelBase ENCHANTED_SKELETON_MODEL = new ModelEnchantedSkeleton();
 	// The height of the skeleton model
 	private static final float MODEL_HEIGHT = 2.9f;
 	// The size of the shadow of the model
