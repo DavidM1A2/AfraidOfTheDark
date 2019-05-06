@@ -14,7 +14,7 @@
             {
               "function": "set_count",
               "count": {
-                "min": 1,
+                "min": 5,
                 "max": 15
               }
             }
@@ -28,7 +28,7 @@
             {
               "function": "set_count",
               "count": {
-                "min": 1,
+                "min": 5,
                 "max": 15
               }
             }
@@ -42,7 +42,7 @@
             {
               "function": "set_count",
               "count": {
-                "min": 1,
+                "min": 5,
                 "max": 20
               }
             }
@@ -56,7 +56,7 @@
             {
               "function": "set_count",
               "count": {
-                "min": 1,
+                "min": 5,
                 "max": 5
               }
             }
@@ -70,7 +70,7 @@
             {
               "function": "set_count",
               "count": {
-                "min": 1,
+                "min": 5,
                 "max": 10
               }
             }
@@ -84,7 +84,7 @@
             {
               "function": "set_count",
               "count": {
-                "min": 1,
+                "min": 5,
                 "max": 20
               }
             }
@@ -98,7 +98,7 @@
             {
               "function": "set_count",
               "count": {
-                "min": 1,
+                "min": 5,
                 "max": 20
               }
             }
@@ -112,7 +112,7 @@
             {
               "function": "set_count",
               "count": {
-                "min": 1,
+                "min": 5,
                 "max": 25
               }
             }
