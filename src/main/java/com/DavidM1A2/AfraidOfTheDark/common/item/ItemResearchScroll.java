@@ -25,7 +25,10 @@ import java.util.List;
  */
 public class ItemResearchScroll extends AOTDItem
 {
+	// NBT string constants
 	private static final String NBT_RESEARCH_ID = "research_id";
+	private static final String NBT_PART_NUMBER = "part_number";
+	private static final String NBT_NUMBER_PARTS = "number_parts";
 
 	/**
 	 * Constructor sets up item name
@@ -80,7 +83,7 @@ public class ItemResearchScroll extends AOTDItem
 				if (playerResearch.canResearch(scrollResearch))
 				{
 					// Test if the scroll is ready
-					if (itemStack.getItemDamage() == 0)
+					if (!this.isPart(itemStack))
 					{
 						// Shrink the itemstack to consume the scroll
 						itemStack.shrink(1);
@@ -124,10 +127,10 @@ public class ItemResearchScroll extends AOTDItem
 		Research scrollResearch = this.getScrollResearch(stack);
 		if (scrollResearch != null)
 		{
-			if (stack.getMetadata() == 0)
-				tooltip.add(scrollResearch.getLocalizedName());
+			if (this.isPart(stack))
+				tooltip.add("Scroll part " + this.getPartNumber(stack) + "/" + this.getNumberParts(stack) + " of the research " + scrollResearch.getLocalizedName() + ".");
 			else
-				tooltip.add("Scroll part " + stack.getMetadata() + " of the research " + scrollResearch.getLocalizedName() + ".");
+				tooltip.add(scrollResearch.getLocalizedName());
 		}
 		else
 			tooltip.add("Scroll is corrupt.");
@@ -142,6 +145,39 @@ public class ItemResearchScroll extends AOTDItem
 	public void setScrollResearch(ItemStack itemStack, Research research)
 	{
 		NBTHelper.setString(itemStack, NBT_RESEARCH_ID, research.getRegistryName().toString());
+	}
+
+	/**
+	 * Returns true if this scroll is a part of a full scroll, false otherwise
+	 *
+	 * @param itemStack The scroll itemstack
+	 * @return True if the itemstack has the number parts and part number tags, false otherwise
+	 */
+	public boolean isPart(ItemStack itemStack)
+	{
+		return NBTHelper.hasTag(itemStack, NBT_NUMBER_PARTS) && NBTHelper.hasTag(itemStack, NBT_PART_NUMBER);
+	}
+
+	/**
+	 * Returns the number of total parts required to complete this research scroll
+	 *
+	 * @param itemStack The research scroll
+	 * @return The number of total parts required to combine the scroll
+	 */
+	public Integer getNumberParts(ItemStack itemStack)
+	{
+		return NBTHelper.getInteger(itemStack, NBT_NUMBER_PARTS);
+	}
+
+	/**
+	 * Returns the part number of this scroll
+	 *
+	 * @param itemStack The itemstack to get part number for
+	 * @return The part number of this scroll, should be in the range [1 ... getNumberParts()]
+	 */
+	public Integer getPartNumber(ItemStack itemStack)
+	{
+		return NBTHelper.getInteger(itemStack, NBT_PART_NUMBER);
 	}
 
 	/**

@@ -75,6 +75,8 @@ public class AfraidOfTheDark
 		MinecraftForge.EVENT_BUS.register(new BiomeRegister());
 		// Register our sound handler used to add all of our mod sounds to the game
 		MinecraftForge.EVENT_BUS.register(new SoundRegister());
+		// Register our recipe handler used to add all of our mod recipe shapes to the game
+		MinecraftForge.EVENT_BUS.register(new RecipeRegister());
 		// Register our structure handler used to add all of our mod structures to the game
 		MinecraftForge.EVENT_BUS.register(new StructureRegister());
 		// Register our research handler used to add all of our mod researches to the game
