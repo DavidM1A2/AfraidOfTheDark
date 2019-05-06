@@ -3,7 +3,6 @@ package com.DavidM1A2.afraidofthedark.common.constants;
 import com.DavidM1A2.afraidofthedark.common.dimension.NoopTeleporter;
 import com.DavidM1A2.afraidofthedark.common.dimension.voidChest.VoidChestWorldProvider;
 import net.minecraft.world.DimensionType;
-import net.minecraft.world.Teleporter;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.util.ITeleporter;
 import org.apache.commons.lang3.StringUtils;

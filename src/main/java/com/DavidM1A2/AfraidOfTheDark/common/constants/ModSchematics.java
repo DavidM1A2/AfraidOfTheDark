@@ -36,4 +36,6 @@ public class ModSchematics
     public static final Schematic PROP_PUMPKIN_2 = SchematicLoader.load(new ResourceLocation(Constants.MOD_ID, "schematics/dark_forest/prop_pumpkin_2.schematic"));
     public static final Schematic PROP_STUMP = SchematicLoader.load(new ResourceLocation(Constants.MOD_ID, "schematics/dark_forest/prop_stump.schematic"));
     public static final Schematic[] DARK_FOREST_PROPS = {PROP_BUSH_1, PROP_FALLEN_OVER_LOG, PROP_FENCE_1, PROP_FENCE_2, PROP_FOUNTAIN, PROP_LOG, PROP_PUMPKIN_1, PROP_PUMPKIN_2, PROP_STUMP};
+
+    public static final Schematic NIGHTMARE_ISLAND = SchematicLoader.load(new ResourceLocation(Constants.MOD_ID, "schematics/nightmare_island.schematic"));
 }

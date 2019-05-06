@@ -152,8 +152,8 @@ public class StructureDarkForest extends AOTDStructure
         if (!houseValid)
             return 0;
         else
-            // If the house is valid we're good to go, the chance to gen will be 10%
-            return 0.1;
+            // If the house is valid we're good to go, the chance to gen will be .5%
+            return 0.005;
     }
 
     /**

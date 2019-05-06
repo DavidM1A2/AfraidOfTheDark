@@ -46,7 +46,10 @@ public class WorldStructurePlanner
 
 		// If we do not know of our structure list yet grab the list from the registry
 		if (REGISTERED_STRUCTURES == null)
+		{
+			// Remove structures that don't generate naturally
 			REGISTERED_STRUCTURES = new ArrayList<>(ModRegistries.STRUCTURE.getValuesCollection());
+		}
 
 		// If we don't have a random yet init it
 		if (RANDOM == null)

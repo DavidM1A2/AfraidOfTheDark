@@ -41,7 +41,7 @@ public class ItemDebug extends AOTDItem
 		*/
         if (!worldIn.isRemote)
         {
-            ModStructures.DARK_FOREST.generate(worldIn,null, ModStructures.DARK_FOREST.generateStructureData(worldIn, playerIn.getPosition().add(2, 0, 2), worldIn.provider.getBiomeProvider()));
+            ModStructures.NIGHTMARE_ISLAND.generate(worldIn,null, ModStructures.NIGHTMARE_ISLAND.generateStructureData(worldIn, playerIn.getPosition().add(2, 0, 2), worldIn.provider.getBiomeProvider()));
 
 			/*
 			// 60x60

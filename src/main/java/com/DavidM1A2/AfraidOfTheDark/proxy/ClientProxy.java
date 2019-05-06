@@ -6,6 +6,7 @@ package com.DavidM1A2.afraidofthedark.proxy;
 import com.DavidM1A2.afraidofthedark.client.entity.bolt.RenderIronBolt;
 import com.DavidM1A2.afraidofthedark.client.entity.bolt.RenderSilverBolt;
 import com.DavidM1A2.afraidofthedark.client.entity.bolt.RenderWoodenBolt;
+import com.DavidM1A2.afraidofthedark.client.entity.enaria.RenderGhastlyEnaria;
 import com.DavidM1A2.afraidofthedark.client.entity.enchantedSkeleton.RenderEnchantedSkeleton;
 import com.DavidM1A2.afraidofthedark.client.entity.werewolf.RenderWerewolf;
 import com.DavidM1A2.afraidofthedark.client.keybindings.ModKeybindings;
@@ -15,6 +16,7 @@ import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;
 import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityIronBolt;
 import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntitySilverBolt;
 import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityWoodenBolt;
+import com.DavidM1A2.afraidofthedark.common.entity.enaria.EntityGhastlyEnaria;
 import com.DavidM1A2.afraidofthedark.common.entity.enchantedSkeleton.EntityEnchantedSkeleton;
 import com.DavidM1A2.afraidofthedark.common.entity.werewolf.EntityWerewolf;
 import com.DavidM1A2.afraidofthedark.common.event.ResearchOverlayHandler;
@@ -84,6 +86,7 @@ public class ClientProxy extends CommonProxy
 		// Register all of our renderers
 		RenderingRegistry.registerEntityRenderingHandler(EntityEnchantedSkeleton.class, RenderEnchantedSkeleton::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityWerewolf.class, RenderWerewolf::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityGhastlyEnaria.class, RenderGhastlyEnaria::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityWoodenBolt.class, RenderWoodenBolt::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityIronBolt.class, RenderIronBolt::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntitySilverBolt.class, RenderSilverBolt::new);
