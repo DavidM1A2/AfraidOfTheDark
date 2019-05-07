@@ -8,5 +8,5 @@ import com.DavidM1A2.afraidofthedark.common.entity.mcAnimatorLib.animation.Anima
  */
 public interface IMCAnimatedEntity
 {
-	AnimationHandler getAnimationHandler();
+    AnimationHandler getAnimationHandler();
 }

@@ -11,16 +11,16 @@ import java.util.Map;
  */
 public class KeyFrame
 {
-	public Map<String, Quaternion> modelRenderersRotations = new HashMap<>();
-	public Map<String, Vector3f> modelRenderersTranslations = new HashMap<>();
+    public Map<String, Quaternion> modelRenderersRotations = new HashMap<>();
+    public Map<String, Vector3f> modelRenderersTranslations = new HashMap<>();
 
-	public boolean useBoxInRotations(String boxName)
-	{
-		return modelRenderersRotations.get(boxName) != null;
-	}
+    public boolean useBoxInRotations(String boxName)
+    {
+        return modelRenderersRotations.get(boxName) != null;
+    }
 
-	public boolean useBoxInTranslations(String boxName)
-	{
-		return modelRenderersTranslations.get(boxName) != null;
-	}
+    public boolean useBoxInTranslations(String boxName)
+    {
+        return modelRenderersTranslations.get(boxName) != null;
+    }
 }
