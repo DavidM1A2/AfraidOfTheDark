@@ -1,6 +1,10 @@
 {
-    "variants": {
-        "variant=default": { "model": "afraidofthedark:gravewood_planks" },
-		"inventory":       { "model": "afraidofthedark:gravewood_planks" }
+  "variants": {
+    "variant=default": {
+      "model": "afraidofthedark:gravewood_planks"
+    },
+    "inventory": {
+      "model": "afraidofthedark:gravewood_planks"
     }
+  }
 }

@@ -8,13 +8,13 @@ import net.minecraft.block.material.Material;
  */
 public class BlockEldritchStone extends AOTDBlock
 {
-	/**
-	 * Constructor initializes block properties
-	 */
-	public BlockEldritchStone()
-	{
-		super("eldritch_stone", Material.ROCK);
-		this.setHardness(5.0F);
-		this.setHarvestLevel("pickaxe", 1);
-	}
+    /**
+     * Constructor initializes block properties
+     */
+    public BlockEldritchStone()
+    {
+        super("eldritch_stone", Material.ROCK);
+        this.setHardness(5.0F);
+        this.setHarvestLevel("pickaxe", 1);
+    }
 }

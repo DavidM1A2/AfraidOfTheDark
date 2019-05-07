@@ -168,9 +168,9 @@ public class NightmareWorldProvider extends WorldProvider
     /**
      * The map will always spin here
      *
-     * @param entity The entity with the map
-     * @param x The chunk x
-     * @param z The chunk z
+     * @param entity   The entity with the map
+     * @param x        The chunk x
+     * @param z        The chunk z
      * @param rotation the regular rotation of the marker
      * @return True to 'spin' the cursor
      */
@@ -209,14 +209,14 @@ public class NightmareWorldProvider extends WorldProvider
      * Sunset doesn't exist, return all 0s
      *
      * @param celestialAngle The angle of the sky
-     * @param partialTicks The ticks since last
+     * @param partialTicks   The ticks since last
      * @return All 0s
      */
     @Nullable
     @Override
     public float[] calcSunriseSunsetColors(float celestialAngle, float partialTicks)
     {
-        return new float[] {0, 0, 0, 0};
+        return new float[]{0, 0, 0, 0};
     }
 
     /**
@@ -234,7 +234,7 @@ public class NightmareWorldProvider extends WorldProvider
     /**
      * Keep the sky locked at 0.5 (technically, 'noon')
      *
-     * @param worldTime The current time of the world
+     * @param worldTime    The current time of the world
      * @param partialTicks The ticks since the last tick
      * @return The celestial sky angle
      */

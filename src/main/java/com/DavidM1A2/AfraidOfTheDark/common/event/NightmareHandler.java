@@ -99,7 +99,9 @@ public class NightmareHandler
                 EntityPlayerMP entityPlayer = (EntityPlayerMP) event.getEntity();
                 // Process the pre-teleport server side, if it returns true then we cancel the TP
                 if (this.processPreTeleport(entityPlayer, fromDimension, toDimension))
+                {
                     event.setCanceled(true);
+                }
             }
         }
     }
@@ -119,7 +121,9 @@ public class NightmareHandler
         {
             // We can't go from nightmare to nightmare
             if (dimensionFrom == ModDimensions.NIGHTMARE.getId())
+            {
                 return true;
+            }
 
             // Any other dimension is valid. We can go from any dimension other than the nightmare to the nightmare
             // We need to store off player position data pre-teleport
@@ -128,7 +132,9 @@ public class NightmareHandler
             // new portal block. This ensure you don't get stuck in a teleport loop
             // First just test the player's current position, if it's invalid search in a +/- 6 block radius in all directions for a valid position
             if (IslandUtility.isValidSpawnLocation(entityPlayer.world, entityPlayer.getPosition()))
+            {
                 playerNightmareData.setPreTeleportPosition(entityPlayer.getPosition());
+            }
             else
             {
                 BlockPos preTeleportPosition = IslandUtility.findValidSpawnLocation(entityPlayer.world, entityPlayer.getPosition(), VALID_SPAWN_SEARCH_DISTANCE);

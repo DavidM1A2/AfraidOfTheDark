@@ -1,7 +1,7 @@
 {
-	"parent": "block/cube_column",
-	"textures": {
-		"end": "afraidofthedark:blocks/gravewood_1",
-		"side": "afraidofthedark:blocks/gravewood"
-	}
+  "parent": "block/cube_column",
+  "textures": {
+    "end": "afraidofthedark:blocks/gravewood_1",
+    "side": "afraidofthedark:blocks/gravewood"
+  }
 }

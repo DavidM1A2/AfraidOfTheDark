@@ -3,16 +3,16 @@
     {
       "name": "main",
       "rolls": 24,
-      "entries": [        
+      "entries": [
         {
           "type": "item",
           "name": "afraidofthedark:research_scroll",
-		  "functions": [
-			{
+          "functions": [
+            {
               "function": "set_nbt",
-              "tag":"{\"research_id\":\"afraidofthedark:insanity\"}"
-			}
-		  ],
+              "tag": "{\"research_id\":\"afraidofthedark:insanity\"}"
+            }
+          ],
           "weight": 10
         }
       ]

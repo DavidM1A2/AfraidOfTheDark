@@ -12,19 +12,19 @@ import net.minecraftforge.common.capabilities.CapabilityInject;
  */
 public class ModCapabilities
 {
-	// Capability that all players get which allows them to have AOTD basics
-	@CapabilityInject(IAOTDPlayerBasics.class)
-	public static final Capability<IAOTDPlayerBasics> PLAYER_BASICS = null;
+    // Capability that all players get which allows them to have AOTD basics
+    @CapabilityInject(IAOTDPlayerBasics.class)
+    public static final Capability<IAOTDPlayerBasics> PLAYER_BASICS = null;
 
-	// Capability that all players get which allows them to have research
-	@CapabilityInject(IAOTDPlayerResearch.class)
-	public static final Capability<IAOTDPlayerResearch> PLAYER_RESEARCH = null;
+    // Capability that all players get which allows them to have research
+    @CapabilityInject(IAOTDPlayerResearch.class)
+    public static final Capability<IAOTDPlayerResearch> PLAYER_RESEARCH = null;
 
-	// Capability that all players get which allows them to go to and from the void chest dimension
-	@CapabilityInject(IAOTDPlayerVoidChestData.class)
-	public static final Capability<IAOTDPlayerVoidChestData> PLAYER_VOID_CHEST_DATA = null;
+    // Capability that all players get which allows them to go to and from the void chest dimension
+    @CapabilityInject(IAOTDPlayerVoidChestData.class)
+    public static final Capability<IAOTDPlayerVoidChestData> PLAYER_VOID_CHEST_DATA = null;
 
-	// Capability that all players get which allows them to go to and from the nightmare dimension
-	@CapabilityInject(IAOTDPlayerNightmareData.class)
-	public static final Capability<IAOTDPlayerNightmareData> PLAYER_NIGHTMARE_DATA = null;
+    // Capability that all players get which allows them to go to and from the nightmare dimension
+    @CapabilityInject(IAOTDPlayerNightmareData.class)
+    public static final Capability<IAOTDPlayerNightmareData> PLAYER_NIGHTMARE_DATA = null;
 }

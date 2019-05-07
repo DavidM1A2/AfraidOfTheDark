@@ -30,7 +30,7 @@ public class PlacedStructure implements INBTSerializable<NBTTagCompound>
      * Constructor needs to know structure and position of this placed structure
      *
      * @param structure The structure that was placed
-     * @param data The additional data this structure requires to be generated
+     * @param data      The additional data this structure requires to be generated
      */
     PlacedStructure(Structure structure, NBTTagCompound data)
     {

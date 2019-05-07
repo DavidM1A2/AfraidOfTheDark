@@ -68,9 +68,9 @@ public class ItemSleepingPotion extends AOTDItem
     /**
      * Upon right clicking begin drinking the potion
      *
-     * @param worldIn The world the player is in
+     * @param worldIn  The world the player is in
      * @param playerIn The player drinking the potion
-     * @param handIn The hand the player is using to hold the potion
+     * @param handIn   The hand the player is using to hold the potion
      * @return SUCCESS since the potion drinking began
      */
     @Override
@@ -83,8 +83,8 @@ public class ItemSleepingPotion extends AOTDItem
     /**
      * Called when the item is finished being drunk
      *
-     * @param stack The itemstack being drunk
-     * @param worldIn The world that the player is in
+     * @param stack        The itemstack being drunk
+     * @param worldIn      The world that the player is in
      * @param entityLiving The entity that drunk the potion
      * @return The itemstack that this item became
      */
@@ -105,7 +105,9 @@ public class ItemSleepingPotion extends AOTDItem
                     stack.shrink(1);
                     // If the stack is empty return a glass bottle, otherwise add a glass bottle to the player's inventory
                     if (stack.isEmpty())
+                    {
                         return new ItemStack(Items.GLASS_BOTTLE);
+                    }
                     entityPlayer.inventory.addItemStackToInventory(new ItemStack(Items.GLASS_BOTTLE));
                 }
             }

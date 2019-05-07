@@ -2,8 +2,8 @@
   "x": -1,
   "y": 5,
   "tooltip": "The Colour of Magic",
-  "recipes": [  ],
-  "preRecipes": [  ],
+  "recipes": [],
+  "preRecipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/vitae_1.png",
   "pre": "I need to search my nightmare more.",
   "researched": "I have discovered a mystical substance which I have named vitae. Vitae is an energy that can exist inside or outside of creatures. It can be tapped to power various functions, although I don't know of any. Every creature has a quantity of vitae inside of them. If that level were to go too high, the energy would run rampant and expend itself on random effects, some of them deadly. Vitae appears to be able to also exist inside of non-organic objects."

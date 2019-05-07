@@ -11,17 +11,17 @@ import net.minecraftforge.registries.IForgeRegistry;
  */
 public class ResearchRegister
 {
-	/**
-	 * Called by forge to register any of our researches
-	 *
-	 * @param event The event to register to
-	 */
-	@SubscribeEvent
-	public void registerResearch(RegistryEvent.Register<Research> event)
-	{
-		IForgeRegistry<Research> registry = event.getRegistry();
+    /**
+     * Called by forge to register any of our researches
+     *
+     * @param event The event to register to
+     */
+    @SubscribeEvent
+    public void registerResearch(RegistryEvent.Register<Research> event)
+    {
+        IForgeRegistry<Research> registry = event.getRegistry();
 
-		// Register each research in our research list
-		registry.registerAll(ModResearches.RESEARCH_LIST);
-	}
+        // Register each research in our research list
+        registry.registerAll(ModResearches.RESEARCH_LIST);
+    }
 }

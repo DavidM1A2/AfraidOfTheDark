@@ -1,21 +1,21 @@
 {
-    "pools": [
+  "pools": [
+    {
+      "name": "main",
+      "rolls": 24,
+      "entries": [
         {
-            "name": "main",
-			"rolls": 24,
-            "entries": [
-				{
-				  "type": "item",
-				  "name": "afraidofthedark:research_scroll",
-				  "functions": [
-					{
-					  "function": "set_nbt",
-					  "tag":"{\"research_id\":\"afraidofthedark:vitae_1\",\"part_number\":3,\"number_parts\":5}"
-					}
-				  ],
-				  "weight": 10
-				}
-            ]
+          "type": "item",
+          "name": "afraidofthedark:research_scroll",
+          "functions": [
+            {
+              "function": "set_nbt",
+              "tag": "{\"research_id\":\"afraidofthedark:vitae_1\",\"part_number\":3,\"number_parts\":5}"
+            }
+          ],
+          "weight": 10
         }
-    ]
+      ]
+    }
+  ]
 }

@@ -53,7 +53,7 @@ public class BlockDarkForest extends AOTDBlockTileEntity
      * Creates a tile entity that monitors for nearby players
      *
      * @param worldIn The world the block is in
-     * @param meta The block's metadata value
+     * @param meta    The block's metadata value
      * @return The dark forest tile entity instance
      */
     @Override

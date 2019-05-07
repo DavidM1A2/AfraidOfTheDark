@@ -7,11 +7,11 @@ import com.DavidM1A2.afraidofthedark.common.item.core.AOTDItem;
  */
 public class ItemStarMetalBolt extends AOTDItem
 {
-	/**
-	 * Constructor sets up the item's name
-	 */
-	public ItemStarMetalBolt()
-	{
-		super("star_metal_bolt");
-	}
+    /**
+     * Constructor sets up the item's name
+     */
+    public ItemStarMetalBolt()
+    {
+        super("star_metal_bolt");
+    }
 }

@@ -10,13 +10,13 @@ import net.minecraft.util.ResourceLocation;
  */
 public class RenderIronBolt extends RenderBolt<EntityIronBolt>
 {
-	/**
-	 * Constructor takes a render manager
-	 *
-	 * @param renderManager The manager given to us by Minecraft
-	 */
-	public RenderIronBolt(RenderManager renderManager)
-	{
-		super(renderManager, new ResourceLocation(Constants.MOD_ID, "textures/entity/iron_bolt.png"));
-	}
+    /**
+     * Constructor takes a render manager
+     *
+     * @param renderManager The manager given to us by Minecraft
+     */
+    public RenderIronBolt(RenderManager renderManager)
+    {
+        super(renderManager, new ResourceLocation(Constants.MOD_ID, "textures/entity/iron_bolt.png"));
+    }
 }

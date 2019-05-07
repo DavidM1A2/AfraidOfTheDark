@@ -19,9 +19,6 @@ import net.minecraft.world.World;
  */
 public class EntityGhastlyEnaria extends EntityFlying implements IMCAnimatedEntity
 {
-    // The animation handler used to manage animations
-    private final AnimationHandler animHandler = new AnimationHandlerGhastlyEnaria(this);
-
     // Constants defining enaria parameters
     private static final double MOVE_SPEED = 0.02D;
     private static final double FOLLOW_RANGE = 300.0D;
@@ -30,10 +27,10 @@ public class EntityGhastlyEnaria extends EntityFlying implements IMCAnimatedEnti
     private static final double KNOCKBACK_RESISTANCE = 1.0D;
     private static final double PLAYER_DISTANCE_CHECK_FREQUENCY = 10;
     private static final double PLAYER_BENIGN_CHECK_FREQUENCY = 200;
-
     // Constant for benign NBT field
     private static final String NBT_BENIGN = "benign";
-
+    // The animation handler used to manage animations
+    private final AnimationHandler animHandler = new AnimationHandlerGhastlyEnaria(this);
     // Flag telling us if this enaria is benign or not, defaults to true. This will change her AI
     private boolean benign = true;
 
@@ -92,7 +89,9 @@ public class EntityGhastlyEnaria extends EntityFlying implements IMCAnimatedEnti
 
         // Animations only update client side
         if (world.isRemote)
+        {
             this.animHandler.animationsUpdate();
+        }
     }
 
     /**
@@ -119,9 +118,15 @@ public class EntityGhastlyEnaria extends EntityFlying implements IMCAnimatedEnti
 
         // If dance is not active play the animation client side
         if (this.world.isRemote)
+        {
             if (this.isBenign())
+            {
                 if (!this.getAnimationHandler().isAnimationActive("dance"))
+                {
                     this.getAnimationHandler().activateAnimation("dance", 0);
+                }
+            }
+        }
 
         // If a player gets within 3 blocks of enaria send them back to the overworld
         if (!this.world.isRemote)
@@ -144,14 +149,16 @@ public class EntityGhastlyEnaria extends EntityFlying implements IMCAnimatedEnti
      * Enaria can't be damaged unless the source is falling out of the world
      *
      * @param damageSource The damage source that hurt enaria
-     * @param damage The amount of damage done
+     * @param damage       The amount of damage done
      * @return True to let the attack go through, false otherwise
      */
     @Override
     public boolean attackEntityFrom(final DamageSource damageSource, float damage)
     {
         if (damageSource == DamageSource.OUT_OF_WORLD)
+        {
             return super.attackEntityFrom(damageSource, damage);
+        }
         return false;
     }
 
@@ -189,16 +196,6 @@ public class EntityGhastlyEnaria extends EntityFlying implements IMCAnimatedEnti
     }
 
     /**
-     * Sets the benign flag, if true enaria will dance, if false she will chase
-     *
-     * @param benign The benign boolean flag
-     */
-    public void setBenign(boolean benign)
-    {
-        this.benign = benign;
-    }
-
-    /**
      * Gets the benign flag, if true enaria will dance, if false she will chase
      *
      * @return The benign boolean flag
@@ -206,6 +203,16 @@ public class EntityGhastlyEnaria extends EntityFlying implements IMCAnimatedEnti
     public boolean isBenign()
     {
         return this.benign;
+    }
+
+    /**
+     * Sets the benign flag, if true enaria will dance, if false she will chase
+     *
+     * @param benign The benign boolean flag
+     */
+    public void setBenign(boolean benign)
+    {
+        this.benign = benign;
     }
 
     /**

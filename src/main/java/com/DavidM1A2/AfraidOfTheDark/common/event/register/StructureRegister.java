@@ -11,17 +11,17 @@ import net.minecraftforge.registries.IForgeRegistry;
  */
 public class StructureRegister
 {
-	/**
-	 * Called to register all of our mod's structures into the game
-	 *
-	 * @param event The event with which we register structures into the game with
-	 */
-	@SubscribeEvent
-	public void registerStructures(RegistryEvent.Register<Structure> event)
-	{
-		// Grab our structure registry
-		IForgeRegistry<Structure> structureRegistry = event.getRegistry();
-		// Add all mod structures
-		structureRegistry.registerAll(ModStructures.STRUCTURE_LIST);
-	}
+    /**
+     * Called to register all of our mod's structures into the game
+     *
+     * @param event The event with which we register structures into the game with
+     */
+    @SubscribeEvent
+    public void registerStructures(RegistryEvent.Register<Structure> event)
+    {
+        // Grab our structure registry
+        IForgeRegistry<Structure> structureRegistry = event.getRegistry();
+        // Add all mod structures
+        structureRegistry.registerAll(ModStructures.STRUCTURE_LIST);
+    }
 }

@@ -21,12 +21,10 @@ public class IslandVisitorData extends WorldSavedData
 
     // The NBT key for the unique visitors value
     private static final String NBT_UNIQUE_VISITORS = "unique_visitors";
-
-    // The current number of unique dimension visitors
-    private AtomicInteger uniqueVisitors = new AtomicInteger(-1);
-
     // The ID of the AOTD nightmare data
     private static final String IDENTIFIER = Constants.MOD_ID + "_island_visitor_data";
+    // The current number of unique dimension visitors
+    private AtomicInteger uniqueVisitors = new AtomicInteger(-1);
 
     /**
      * Constructor just calls super with our ID
@@ -56,7 +54,9 @@ public class IslandVisitorData extends WorldSavedData
     {
         // If we are on client side or the world is not supported return null
         if (world.isRemote || !VALID_DIMENSIONS.contains(world.provider.getDimension()))
+        {
             return null;
+        }
 
         // Grab the storage object for this world
         MapStorage storage = world.getPerWorldStorage();

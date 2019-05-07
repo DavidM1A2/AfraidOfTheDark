@@ -1,5 +1,7 @@
 {
-	"variants": {
-		"normal": { "model": "afraidofthedark:enaria_spawner" }
-	}
+  "variants": {
+    "normal": {
+      "model": "afraidofthedark:enaria_spawner"
+    }
+  }
 }

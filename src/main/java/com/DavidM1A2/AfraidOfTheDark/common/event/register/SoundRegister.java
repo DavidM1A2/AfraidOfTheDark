@@ -11,16 +11,16 @@ import net.minecraftforge.registries.IForgeRegistry;
  */
 public class SoundRegister
 {
-	/**
-	 * Called by forge to register any of our sounds
-	 *
-	 * @param event The event to register to
-	 */
-	@SubscribeEvent
-	public void registerSounds(RegistryEvent.Register<SoundEvent> event)
-	{
-		IForgeRegistry<SoundEvent> registry = event.getRegistry();
-		// Register all sounds in our mod
-		registry.registerAll(ModSounds.SOUND_LIST);
-	}
+    /**
+     * Called by forge to register any of our sounds
+     *
+     * @param event The event to register to
+     */
+    @SubscribeEvent
+    public void registerSounds(RegistryEvent.Register<SoundEvent> event)
+    {
+        IForgeRegistry<SoundEvent> registry = event.getRegistry();
+        // Register all sounds in our mod
+        registry.registerAll(ModSounds.SOUND_LIST);
+    }
 }

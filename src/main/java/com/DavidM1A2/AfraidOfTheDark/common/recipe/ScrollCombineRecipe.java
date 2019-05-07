@@ -49,7 +49,9 @@ public class ScrollCombineRecipe extends IForgeRegistryEntry.Impl<IRecipe> imple
         {
             ItemStack itemStack = inv.getStackInSlot(i);
             if (!itemStack.isEmpty())
+            {
                 stacks.add(itemStack);
+            }
         }
 
         // Make sure we have at least one itemstack
@@ -85,11 +87,8 @@ public class ScrollCombineRecipe extends IForgeRegistryEntry.Impl<IRecipe> imple
                     if (partNumbersPresent.size() == stacks.size())
                     {
                         // Ensure we have part numbers 1 through n
-                        if (partNumbersPresent.containsAll(IntStream.range(1, numberParts + 1).boxed().collect(Collectors.toList())))
-                        {
-                            // It's valid!
-                            return true;
-                        }
+                        // It's valid!
+                        return partNumbersPresent.containsAll(IntStream.range(1, numberParts + 1).boxed().collect(Collectors.toList()));
                     }
                 }
             }
@@ -113,7 +112,9 @@ public class ScrollCombineRecipe extends IForgeRegistryEntry.Impl<IRecipe> imple
         {
             ItemStack itemStack = inv.getStackInSlot(i);
             if (!itemStack.isEmpty())
+            {
                 stacks.add(itemStack);
+            }
         }
 
         // We know the stacks are valid from matches()

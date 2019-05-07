@@ -19,62 +19,68 @@ import net.minecraft.world.World;
  */
 public class ItemTelescope extends AOTDItem
 {
-	/**
-	 * Constructor sets up item properties
-	 */
-	public ItemTelescope()
-	{
-		super("telescope");
-	}
+    /**
+     * Constructor sets up item properties
+     */
+    public ItemTelescope()
+    {
+        super("telescope");
+    }
 
-	/**
-	 * Called when the player right clicks with the telescope
-	 *
-	 * @param worldIn The world that the telescope was right clicked in
-	 * @param playerIn The player that right clicked the telescope
-	 * @param handIn The hand the telescope is in
-	 * @return The result of the right click
-	 */
-	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
-	{
-		// Grab the itemstack the player is holding
-		ItemStack itemStack = playerIn.getHeldItem(handIn);
-		// Grab the player's research
-		IAOTDPlayerResearch playerResearch = playerIn.getCapability(ModCapabilities.PLAYER_RESEARCH, null);
-		// Test if the player is high enough to use the telescope
-		boolean highEnough = playerIn.getPosition().getY() > 128;
+    /**
+     * Called when the player right clicks with the telescope
+     *
+     * @param worldIn  The world that the telescope was right clicked in
+     * @param playerIn The player that right clicked the telescope
+     * @param handIn   The hand the telescope is in
+     * @return The result of the right click
+     */
+    @Override
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+    {
+        // Grab the itemstack the player is holding
+        ItemStack itemStack = playerIn.getHeldItem(handIn);
+        // Grab the player's research
+        IAOTDPlayerResearch playerResearch = playerIn.getCapability(ModCapabilities.PLAYER_RESEARCH, null);
+        // Test if the player is high enough to use the telescope
+        boolean highEnough = playerIn.getPosition().getY() > 128;
 
-		// Start with server side processing
-		if (!worldIn.isRemote)
-		{
-			// If the player can research the research research it
-			if (playerResearch.canResearch(ModResearches.ASTRONOMY_1) && highEnough)
-			{
-				playerResearch.setResearch(ModResearches.ASTRONOMY_1, true);
-				playerResearch.sync(playerIn, true);
-			}
+        // Start with server side processing
+        if (!worldIn.isRemote)
+        {
+            // If the player can research the research research it
+            if (playerResearch.canResearch(ModResearches.ASTRONOMY_1) && highEnough)
+            {
+                playerResearch.setResearch(ModResearches.ASTRONOMY_1, true);
+                playerResearch.sync(playerIn, true);
+            }
 
-			// If the research is researched then test if the player is high enough
-			if (playerResearch.isResearched(ModResearches.ASTRONOMY_1))
-			{
-				// Tell the player that they need to be higher to see through the clouds
-				if (!highEnough)
-					playerIn.sendMessage(new TextComponentString("I can't see anything through these thick clouds. Maybe I could move to a higher elevation."));
-			}
-			else
-			{
-				playerIn.sendMessage(new TextComponentString("I can't understand what this thing does."));
-			}
-		}
+            // If the research is researched then test if the player is high enough
+            if (playerResearch.isResearched(ModResearches.ASTRONOMY_1))
+            {
+                // Tell the player that they need to be higher to see through the clouds
+                if (!highEnough)
+                {
+                    playerIn.sendMessage(new TextComponentString("I can't see anything through these thick clouds. Maybe I could move to a higher elevation."));
+                }
+            }
+            else
+            {
+                playerIn.sendMessage(new TextComponentString("I can't understand what this thing does."));
+            }
+        }
 
-		// If we're on client side and have the proper research and the player is above y=128 to see the stars, show the GUI
-		// Don't print anything out client side since the server side takes care of that for us
-		if (worldIn.isRemote && highEnough)
-			if (playerResearch.isResearched(ModResearches.ASTRONOMY_1) || playerResearch.canResearch(ModResearches.ASTRONOMY_1))
-				playerIn.openGui(AfraidOfTheDark.INSTANCE, AOTDGuiHandler.TELESCOPE_ID, worldIn, playerIn.getPosition().getX(), playerIn.getPosition().getY(), playerIn.getPosition().getZ());
+        // If we're on client side and have the proper research and the player is above y=128 to see the stars, show the GUI
+        // Don't print anything out client side since the server side takes care of that for us
+        if (worldIn.isRemote && highEnough)
+        {
+            if (playerResearch.isResearched(ModResearches.ASTRONOMY_1) || playerResearch.canResearch(ModResearches.ASTRONOMY_1))
+            {
+                playerIn.openGui(AfraidOfTheDark.INSTANCE, AOTDGuiHandler.TELESCOPE_ID, worldIn, playerIn.getPosition().getX(), playerIn.getPosition().getY(), playerIn.getPosition().getZ());
+            }
+        }
 
 
-		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStack);
-	}
+        return ActionResult.newResult(EnumActionResult.SUCCESS, itemStack);
+    }
 }

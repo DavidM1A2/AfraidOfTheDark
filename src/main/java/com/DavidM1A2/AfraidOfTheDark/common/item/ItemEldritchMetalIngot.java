@@ -7,11 +7,11 @@ import com.DavidM1A2.afraidofthedark.common.item.core.AOTDItem;
  */
 public class ItemEldritchMetalIngot extends AOTDItem
 {
-	/**
-	 * Constructor initializes the item's name
-	 */
-	public ItemEldritchMetalIngot()
-	{
-		super("eldritch_metal_ingot");
-	}
+    /**
+     * Constructor initializes the item's name
+     */
+    public ItemEldritchMetalIngot()
+    {
+        super("eldritch_metal_ingot");
+    }
 }

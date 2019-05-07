@@ -16,43 +16,42 @@ import java.util.Set;
  */
 public class AOTDGuiFactory implements IModGuiFactory
 {
-	/**
-	 * Initialize does nothing
-	 *
-	 * @param minecraft ignored
-	 */
-	@Override
-	public void initialize(final Minecraft minecraft)
-	{
-	}
+    /**
+     * Initialize does nothing
+     *
+     * @param minecraft ignored
+     */
+    @Override
+    public void initialize(final Minecraft minecraft)
+    {
+    }
 
-	/**
-	 * @return True because we want our mod to be configurable in the settings
-	 */
-	@Override
-	public boolean hasConfigGui()
-	{
-		return true;
-	}
+    /**
+     * @return True because we want our mod to be configurable in the settings
+     */
+    @Override
+    public boolean hasConfigGui()
+    {
+        return true;
+    }
 
-	/**
-	 * @param parentScreen The parent GUI screen that this one will live inside of
-	 *
-	 * @return A GUI screen that lets us edit our mod options
-	 */
-	@Override
-	public GuiScreen createConfigGui(GuiScreen parentScreen)
-	{
-		ConfigurationHandler configurationHandler = AfraidOfTheDark.INSTANCE.getConfigurationHandler();
-		return new GuiConfig(parentScreen, configurationHandler.getInGameConfigurableOptions(), Constants.MOD_ID, true, true, configurationHandler.getDisplayTitle());
-	}
+    /**
+     * @param parentScreen The parent GUI screen that this one will live inside of
+     * @return A GUI screen that lets us edit our mod options
+     */
+    @Override
+    public GuiScreen createConfigGui(GuiScreen parentScreen)
+    {
+        ConfigurationHandler configurationHandler = AfraidOfTheDark.INSTANCE.getConfigurationHandler();
+        return new GuiConfig(parentScreen, configurationHandler.getInGameConfigurableOptions(), Constants.MOD_ID, true, true, configurationHandler.getDisplayTitle());
+    }
 
-	/**
-	 * @return An empty set for now, not useful for our mod
-	 */
-	@Override
-	public Set<RuntimeOptionCategoryElement> runtimeGuiCategories()
-	{
-		return Collections.emptySet();
-	}
+    /**
+     * @return An empty set for now, not useful for our mod
+     */
+    @Override
+    public Set<RuntimeOptionCategoryElement> runtimeGuiCategories()
+    {
+        return Collections.emptySet();
+    }
 }

@@ -10,13 +10,13 @@ import net.minecraft.util.ResourceLocation;
  */
 public class RenderWoodenBolt extends RenderBolt<EntityWoodenBolt>
 {
-	/**
-	 * Constructor takes a render manager
-	 *
-	 * @param renderManager The manager given to us by Minecraft
-	 */
-	public RenderWoodenBolt(RenderManager renderManager)
-	{
-		super(renderManager, new ResourceLocation(Constants.MOD_ID, "textures/entity/wooden_bolt.png"));
-	}
+    /**
+     * Constructor takes a render manager
+     *
+     * @param renderManager The manager given to us by Minecraft
+     */
+    public RenderWoodenBolt(RenderManager renderManager)
+    {
+        super(renderManager, new ResourceLocation(Constants.MOD_ID, "textures/entity/wooden_bolt.png"));
+    }
 }

@@ -22,101 +22,101 @@ import java.util.List;
  */
 public class ItemEnchantedSkeletonBone extends AOTDItem
 {
-	// The number of bones required to combine into a skeleton
-	private static final int BONES_PER_SKELETON = 4;
-	// The distance bones can be apart to combine into a skeleton
-	private static final int COMBINE_RADIUS = 4;
-	// The amount of ticks between updates
-	private static final int UPDATE_TIME_IN_TICKS = 120;
-	// The radius at which players receive research when the skeleton spawns
-	private static final int RESEARCH_UNLOCK_RADIUS = 7;
+    // The number of bones required to combine into a skeleton
+    private static final int BONES_PER_SKELETON = 4;
+    // The distance bones can be apart to combine into a skeleton
+    private static final int COMBINE_RADIUS = 4;
+    // The amount of ticks between updates
+    private static final int UPDATE_TIME_IN_TICKS = 120;
+    // The radius at which players receive research when the skeleton spawns
+    private static final int RESEARCH_UNLOCK_RADIUS = 7;
 
-	/**
-	 * Constructor sets up item properties
-	 */
-	public ItemEnchantedSkeletonBone()
-	{
-		super("enchanted_skeleton_bone");
-	}
+    /**
+     * Constructor sets up item properties
+     */
+    public ItemEnchantedSkeletonBone()
+    {
+        super("enchanted_skeleton_bone");
+    }
 
-	/**
-	 * Called when this item is on the ground as an entity, if enough bones are together they will combine into a new skeleton
-	 *
-	 * @param entityItem The item on the ground
-	 * @return True to skip further processing or false otherwise
-	 */
-	@Override
-	public boolean onEntityItemUpdate(EntityItem entityItem)
-	{
-		// To avoid server performance loss only check every "UPDATE TIME IN TICKS" ticks and ensure we're on server side
-		if (!entityItem.world.isRemote && entityItem.ticksExisted % UPDATE_TIME_IN_TICKS == 0)
-		{
-			// Get a list of items on the ground around this one
-			List<EntityItem> surroundingItems = entityItem.world.getEntitiesWithinAABB(EntityItem.class, entityItem.getEntityBoundingBox().grow(COMBINE_RADIUS));
+    /**
+     * Called when this item is on the ground as an entity, if enough bones are together they will combine into a new skeleton
+     *
+     * @param entityItem The item on the ground
+     * @return True to skip further processing or false otherwise
+     */
+    @Override
+    public boolean onEntityItemUpdate(EntityItem entityItem)
+    {
+        // To avoid server performance loss only check every "UPDATE TIME IN TICKS" ticks and ensure we're on server side
+        if (!entityItem.world.isRemote && entityItem.ticksExisted % UPDATE_TIME_IN_TICKS == 0)
+        {
+            // Get a list of items on the ground around this one
+            List<EntityItem> surroundingItems = entityItem.world.getEntitiesWithinAABB(EntityItem.class, entityItem.getEntityBoundingBox().grow(COMBINE_RADIUS));
 
-			// Keep a count of the number of bones on the ground
-			int numberOfBones = 0;
-			// Keep a list of surrounding bone item stacks
-			List<EntityItem> surroundingBones = Lists.newLinkedList();
-			// Iterate over surrounding item stacks to find ones that also have bones
-			for (EntityItem otherItem : surroundingItems)
-			{
-				// Test if the item has bones and is on the ground
-				if (otherItem.getItem().getItem() instanceof ItemEnchantedSkeletonBone && otherItem.onGround)
-				{
-					// Add the stack
-					surroundingBones.add(otherItem);
-					// Increment our bone count
-					numberOfBones = numberOfBones + otherItem.getItem().getCount();
-				}
-			}
+            // Keep a count of the number of bones on the ground
+            int numberOfBones = 0;
+            // Keep a list of surrounding bone item stacks
+            List<EntityItem> surroundingBones = Lists.newLinkedList();
+            // Iterate over surrounding item stacks to find ones that also have bones
+            for (EntityItem otherItem : surroundingItems)
+            {
+                // Test if the item has bones and is on the ground
+                if (otherItem.getItem().getItem() instanceof ItemEnchantedSkeletonBone && otherItem.onGround)
+                {
+                    // Add the stack
+                    surroundingBones.add(otherItem);
+                    // Increment our bone count
+                    numberOfBones = numberOfBones + otherItem.getItem().getCount();
+                }
+            }
 
-			// Test if we have enough bones to spawn a skeleton
-			if (numberOfBones >= BONES_PER_SKELETON)
-			{
-				// Compute the number of skeletons to spawn and the number of bones that will remain after
-				int numberOfSkeletonsToSpawn = numberOfBones / BONES_PER_SKELETON;
-				int bonesRemaining = numberOfBones % BONES_PER_SKELETON;
+            // Test if we have enough bones to spawn a skeleton
+            if (numberOfBones >= BONES_PER_SKELETON)
+            {
+                // Compute the number of skeletons to spawn and the number of bones that will remain after
+                int numberOfSkeletonsToSpawn = numberOfBones / BONES_PER_SKELETON;
+                int bonesRemaining = numberOfBones % BONES_PER_SKELETON;
 
-				World world = entityItem.world;
-				// Iterate over the number of skeletons to spawn
-				for (int i = 0; i < numberOfSkeletonsToSpawn; i++)
-				{
-					// Create the skeleton
-					EntityEnchantedSkeleton skeleton = new EntityEnchantedSkeleton(world);
-					// Spawn the skeleton at the position of the itemstack
-					skeleton.setLocationAndAngles(entityItem.posX, entityItem.posY + 0.01, entityItem.posZ, entityItem.rotationYaw, 0.0F);
-					// Give the skeleton 2 ticks of invisibility to ensure players can't see them without their spawning animation
-					skeleton.addPotionEffect(new PotionEffect(Potion.getPotionById(14), 2));
-					// Spawn the skeleton
-					world.spawnEntity(skeleton);
-				}
+                World world = entityItem.world;
+                // Iterate over the number of skeletons to spawn
+                for (int i = 0; i < numberOfSkeletonsToSpawn; i++)
+                {
+                    // Create the skeleton
+                    EntityEnchantedSkeleton skeleton = new EntityEnchantedSkeleton(world);
+                    // Spawn the skeleton at the position of the itemstack
+                    skeleton.setLocationAndAngles(entityItem.posX, entityItem.posY + 0.01, entityItem.posZ, entityItem.rotationYaw, 0.0F);
+                    // Give the skeleton 2 ticks of invisibility to ensure players can't see them without their spawning animation
+                    skeleton.addPotionEffect(new PotionEffect(Potion.getPotionById(14), 2));
+                    // Spawn the skeleton
+                    world.spawnEntity(skeleton);
+                }
 
-				// Give all players in range of the summoned skeletons a research if possible
-				world.getEntitiesWithinAABB(EntityPlayer.class, entityItem.getEntityBoundingBox().grow(RESEARCH_UNLOCK_RADIUS)).forEach(entityPlayer ->
-				{
-					IAOTDPlayerResearch playerResearch = entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null);
-					if (playerResearch.canResearch(ModResearches.ENCHANTED_SKELETON))
-					{
-						playerResearch.setResearch(ModResearches.ENCHANTED_SKELETON, true);
-						playerResearch.sync(entityPlayer, true);
-					}
-				});
+                // Give all players in range of the summoned skeletons a research if possible
+                world.getEntitiesWithinAABB(EntityPlayer.class, entityItem.getEntityBoundingBox().grow(RESEARCH_UNLOCK_RADIUS)).forEach(entityPlayer ->
+                {
+                    IAOTDPlayerResearch playerResearch = entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null);
+                    if (playerResearch.canResearch(ModResearches.ENCHANTED_SKELETON))
+                    {
+                        playerResearch.setResearch(ModResearches.ENCHANTED_SKELETON, true);
+                        playerResearch.sync(entityPlayer, true);
+                    }
+                });
 
-				// If bones remain create a new entity item with that many bones left
-				if (bonesRemaining > 0)
-				{
-					// Create the left over item stack and spawn it in
-					EntityItem leftOver = new EntityItem(world, entityItem.posX, entityItem.posY, entityItem.posZ, new ItemStack(ModItems.ENCHANTED_SKELETON_BONE, bonesRemaining));
-					world.spawnEntity(leftOver);
-				}
+                // If bones remain create a new entity item with that many bones left
+                if (bonesRemaining > 0)
+                {
+                    // Create the left over item stack and spawn it in
+                    EntityItem leftOver = new EntityItem(world, entityItem.posX, entityItem.posY, entityItem.posZ, new ItemStack(ModItems.ENCHANTED_SKELETON_BONE, bonesRemaining));
+                    world.spawnEntity(leftOver);
+                }
 
-				// Remove the bone item stacks
-				surroundingBones.forEach(Entity::setDead);
-			}
-		}
+                // Remove the bone item stacks
+                surroundingBones.forEach(Entity::setDead);
+            }
+        }
 
-		// Allow further processing
-		return super.onEntityItemUpdate(entityItem);
-	}
+        // Allow further processing
+        return super.onEntityItemUpdate(entityItem);
+    }
 }

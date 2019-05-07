@@ -1,6 +1,10 @@
 {
-    "variants": {
-        "variant=default": { "model": "afraidofthedark:mangrove_planks" },
-		"inventory":                { "model": "afraidofthedark:mangrove_planks" }
+  "variants": {
+    "variant=default": {
+      "model": "afraidofthedark:mangrove_planks"
+    },
+    "inventory": {
+      "model": "afraidofthedark:mangrove_planks"
     }
+  }
 }

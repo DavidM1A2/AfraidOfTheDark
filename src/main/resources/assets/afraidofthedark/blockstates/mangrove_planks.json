@@ -1,5 +1,7 @@
 {
-	"variants": {
-		"normal": { "model": "afraidofthedark:mangrove_planks" }
-	}
+  "variants": {
+    "normal": {
+      "model": "afraidofthedark:mangrove_planks"
+    }
+  }
 }

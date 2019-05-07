@@ -1,6 +1,6 @@
 {
-	"parent": "item/generated",
-	"textures": {
-		"layer0": "afraidofthedark:items/vitae_lantern_empty"
-	}
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "afraidofthedark:items/vitae_lantern_empty"
+  }
 }

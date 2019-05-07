@@ -2,8 +2,12 @@
   "x": 1,
   "y": 0,
   "tooltip": "werewolf hunter",
-  "recipes": [ "afraidofthedark:crossbow", "afraidofthedark:wooden_bolt", "afraidofthedark:iron_bolt" ],
-  "preRecipes": [  ],
+  "recipes": [
+    "afraidofthedark:crossbow",
+    "afraidofthedark:wooden_bolt",
+    "afraidofthedark:iron_bolt"
+  ],
+  "preRecipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/crossbow.png",
   "pre": "",
   "researched": "The journal I have recently discovered appears to contain the instructions to construct a crossbow as well as several types of bolts. I am certain more uses for this crossbow will unveil themselves in the future."

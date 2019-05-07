@@ -1,7 +1,13 @@
 {
-	"variants": {
-		"variant=false": { "model": "afraidofthedark:vitae_disenchanter_false" },
-		"variant=true": { "model": "afraidofthedark:vitae_disenchanter_true" },
-		"inventory":  { "model": "afraidofthedark:vitae_disenchanter" }
-	}
+  "variants": {
+    "variant=false": {
+      "model": "afraidofthedark:vitae_disenchanter_false"
+    },
+    "variant=true": {
+      "model": "afraidofthedark:vitae_disenchanter_true"
+    },
+    "inventory": {
+      "model": "afraidofthedark:vitae_disenchanter"
+    }
+  }
 }

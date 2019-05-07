@@ -2,8 +2,8 @@
   "x": 0,
   "y": 5,
   "tooltip": "I see Them every night",
-  "recipes": [  ],
-  "preRecipes": [  ],
+  "recipes": [],
+  "preRecipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/nightmare.png",
   "pre": "The house inside of the dark forest makes my eyelids heavy with sleep. This drowsyness makes me able to sleep at any time. I wonder what my dreams would be like if I slept while under these effects?",
   "researched": "I woke up in my own dreams on an island floating nowhere. Red fogs and mists swirled around me. This place is insanity itself. I can almost feel my thoughts degrading from the oppressive atmosphere. Although I wish for nothing else but to leave, I know that I must stay and search for whatever treasure I may find here."

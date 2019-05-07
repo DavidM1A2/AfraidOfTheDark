@@ -11,7 +11,7 @@ public class ModPotions
     public static final Potion SLEEPING_POTION = new PotionSleeping();
 
     public static final Potion[] POTION_LIST = new Potion[]
-    {
-        SLEEPING_POTION
-    };
+            {
+                    SLEEPING_POTION
+            };
 }

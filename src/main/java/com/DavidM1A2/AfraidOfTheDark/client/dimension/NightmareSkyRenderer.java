@@ -15,8 +15,8 @@ public class NightmareSkyRenderer extends IRenderHandler
      * Called to render the sky
      *
      * @param partialTicks The number of partial ticks since the last tick
-     * @param world The world to render in
-     * @param mc The minecraft instance
+     * @param world        The world to render in
+     * @param mc           The minecraft instance
      */
     @Override
     @SideOnly(Side.CLIENT)

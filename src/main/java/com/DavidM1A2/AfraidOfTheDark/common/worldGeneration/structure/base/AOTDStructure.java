@@ -46,7 +46,9 @@ public abstract class AOTDStructure extends Structure
         for (ChunkPos chunkPos : chunkIterator.getChunks())
             // If process chunk returns false then return the default result
             if (!chunkProcessor.processChunk(chunkPos))
+            {
                 return chunkProcessor.getDefaultResult();
+            }
         // All chunks were processed so return the actual result
         return chunkProcessor.getResult();
     }
@@ -74,8 +76,8 @@ public abstract class AOTDStructure extends Structure
     /**
      * Called to generate a random permutation of the structure. Set the structure's position
      *
-     * @param world The world to generate the structure's data for
-     * @param blockPos The position's x and z coordinates to generate the structure at
+     * @param world         The world to generate the structure's data for
+     * @param blockPos      The position's x and z coordinates to generate the structure at
      * @param biomeProvider ignored
      * @return The NBTTagCompound containing any data needed for generation. Sent in Structure::generate
      */

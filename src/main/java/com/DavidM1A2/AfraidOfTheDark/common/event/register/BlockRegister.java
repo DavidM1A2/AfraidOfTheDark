@@ -19,33 +19,33 @@ import org.apache.commons.lang3.tuple.Pair;
  */
 public class BlockRegister
 {
-	/**
-	 * Called by forge to register any of our blocks
-	 *
-	 * @param event The event to register to
-	 */
-	@SubscribeEvent
-	public void registerBlocks(RegistryEvent.Register<Block> event)
-	{
-		IForgeRegistry<Block> registry = event.getRegistry();
-		// Register all blocks in our mod
-		registry.registerAll(ModBlocks.BLOCK_LIST);
+    /**
+     * Called by forge to register any of our blocks
+     *
+     * @param event The event to register to
+     */
+    @SubscribeEvent
+    public void registerBlocks(RegistryEvent.Register<Block> event)
+    {
+        IForgeRegistry<Block> registry = event.getRegistry();
+        // Register all blocks in our mod
+        registry.registerAll(ModBlocks.BLOCK_LIST);
 
-		// Register any special tile entities
-		for (Pair<Class<? extends TileEntity>, ResourceLocation> tileEntityEntry : ModBlocks.TILE_ENTITY_LIST)
-			GameRegistry.registerTileEntity(tileEntityEntry.getKey(), tileEntityEntry.getValue());
-	}
+        // Register any special tile entities
+        for (Pair<Class<? extends TileEntity>, ResourceLocation> tileEntityEntry : ModBlocks.TILE_ENTITY_LIST)
+            GameRegistry.registerTileEntity(tileEntityEntry.getKey(), tileEntityEntry.getValue());
+    }
 
-	/**
-	 * Called by forge to register any of our block renderers
-	 *
-	 * @param event The event that signifies that ModelLoader is ready to receive blocks
-	 */
-	@SubscribeEvent
-	public void registerBlockRenderers(ModelRegistryEvent event)
-	{
-		// Register models for all blocks in our mod
-		for (Block block : ModBlocks.BLOCK_LIST)
-			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, new ModelResourceLocation(block.getRegistryName(), "inventory"));
-	}
+    /**
+     * Called by forge to register any of our block renderers
+     *
+     * @param event The event that signifies that ModelLoader is ready to receive blocks
+     */
+    @SubscribeEvent
+    public void registerBlockRenderers(ModelRegistryEvent event)
+    {
+        // Register models for all blocks in our mod
+        for (Block block : ModBlocks.BLOCK_LIST)
+            ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, new ModelResourceLocation(block.getRegistryName(), "inventory"));
+    }
 }

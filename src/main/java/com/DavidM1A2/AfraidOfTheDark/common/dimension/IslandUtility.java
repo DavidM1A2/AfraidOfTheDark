@@ -51,7 +51,9 @@ public class IslandUtility
             for (int y = yCenter - searchDistance / 2; y < yCenter + searchDistance / 2; y++)
                 for (int z = zCenter - searchDistance / 2; z < zCenter + searchDistance / 2; z++)
                     if (IslandUtility.isValidSpawnLocation(world, new BlockPos(x, y, z)))
+                    {
                         return new BlockPos(x, y, z);
+                    }
         return null;
     }
 
@@ -68,8 +70,10 @@ public class IslandUtility
         Material bottomBlockMaterial = bottomBlock.getMaterial();
         // If the material is solid and blocks movement it's valid
         if (bottomBlockMaterial.isSolid() && bottomBlockMaterial.blocksMovement())
-            // Ensure the two blocks above are air
+        // Ensure the two blocks above are air
+        {
             return world.getBlockState(blockPos.up()).getBlock() instanceof BlockAir && world.getBlockState(blockPos.up(2)).getBlock() instanceof BlockAir;
+        }
         return false;
     }
 }

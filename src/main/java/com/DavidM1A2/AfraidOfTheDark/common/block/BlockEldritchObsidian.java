@@ -8,14 +8,14 @@ import net.minecraft.block.material.Material;
  */
 public class BlockEldritchObsidian extends AOTDBlock
 {
-	/**
-	 * Constructor initializes the block
-	 */
-	public BlockEldritchObsidian()
-	{
-		super("eldritch_obsidian", Material.ROCK);
-		this.setHardness(10.0F);
-		this.setResistance(50.0F);
-		this.setHarvestLevel("pickaxe", 3);
-	}
+    /**
+     * Constructor initializes the block
+     */
+    public BlockEldritchObsidian()
+    {
+        super("eldritch_obsidian", Material.ROCK);
+        this.setHardness(10.0F);
+        this.setResistance(50.0F);
+        this.setHarvestLevel("pickaxe", 3);
+    }
 }

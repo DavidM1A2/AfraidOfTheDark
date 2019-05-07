@@ -44,7 +44,11 @@ public class StructureDarkForest extends AOTDStructure
             Biomes.MUTATED_PLAINS,
             ModBiomes.ERIE_FOREST
     );
-
+    // NBT tag keys
+    private static final String NBT_TREES = "trees";
+    private static final String NBT_PROPS = "props";
+    private static final String NBT_HOUSE_POSITION = "house";
+    private static final String NBT_SCHEMATIC_ID = "schematic_id";
     // A set of invalid prop biomes
     private final Set<Biome> INCOMPATIBLE_BIOMES = ImmutableSet.of(
             Biomes.OCEAN,
@@ -55,13 +59,6 @@ public class StructureDarkForest extends AOTDStructure
             Biomes.SKY,
             Biomes.VOID
     );
-
-    // NBT tag keys
-    private static final String NBT_TREES = "trees";
-    private static final String NBT_PROPS = "props";
-    private static final String NBT_HOUSE_POSITION = "house";
-    private static final String NBT_SCHEMATIC_ID = "schematic_id";
-
     // The width of the dark forest dungeon
     private int width;
     // The bed house width
@@ -123,7 +120,9 @@ public class StructureDarkForest extends AOTDStructure
                     return true;
                 }
                 else
+                {
                     return false;
+                }
             }
 
             @Override
@@ -150,10 +149,14 @@ public class StructureDarkForest extends AOTDStructure
 
         // If the house isn't valid don't place a dark forest here
         if (!houseValid)
+        {
             return 0;
+        }
         else
-            // If the house is valid we're good to go, the chance to gen will be .5%
+        // If the house is valid we're good to go, the chance to gen will be .5%
+        {
             return 0.005;
+        }
     }
 
     /**
@@ -317,7 +320,9 @@ public class StructureDarkForest extends AOTDStructure
             // Figure out if this position is valid (no water under props)
             Set<Biome> biomes = this.approximateBiomesInChunk(biomeProvider, chunkPos.x, chunkPos.z);
             if (INCOMPATIBLE_BIOMES.stream().anyMatch(biomes::contains))
+            {
                 continue;
+            }
 
             // Get the low height in the center chunk of the schematic and place the schematic there.
             int yPos = heightmap.getLowestHeight(new ChunkPos(schematicPosNoY.add(schematic.getWidth() / 2, 0, schematic.getLength() / 2)));

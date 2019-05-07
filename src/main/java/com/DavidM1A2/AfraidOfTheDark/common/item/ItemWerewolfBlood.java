@@ -7,11 +7,11 @@ import com.DavidM1A2.afraidofthedark.common.item.core.AOTDItem;
  */
 public class ItemWerewolfBlood extends AOTDItem
 {
-	/**
-	 * Constructor sets the item name
-	 */
-	public ItemWerewolfBlood()
-	{
-		super("werewolf_blood");
-	}
+    /**
+     * Constructor sets the item name
+     */
+    public ItemWerewolfBlood()
+    {
+        super("werewolf_blood");
+    }
 }

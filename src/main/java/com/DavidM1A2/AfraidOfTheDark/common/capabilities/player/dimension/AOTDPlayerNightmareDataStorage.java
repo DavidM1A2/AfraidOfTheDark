@@ -25,8 +25,8 @@ public class AOTDPlayerNightmareDataStorage implements Capability.IStorage<IAOTD
      * Called to write a capability to an NBT compound
      *
      * @param capability The capability that is being written
-     * @param instance The instance to of the capability to write
-     * @param side ignored
+     * @param instance   The instance to of the capability to write
+     * @param side       ignored
      * @return An NBTTagCompound that contains all info about the capability
      */
     @Nullable
@@ -38,9 +38,13 @@ public class AOTDPlayerNightmareDataStorage implements Capability.IStorage<IAOTD
 
         compound.setInteger(NBT_POSITIONAL_INDEX, instance.getPositionalIndex());
         if (instance.getPreTeleportPlayerInventory() != null)
+        {
             compound.setTag(NBT_PRE_TELEPORT_INVENTORY, instance.getPreTeleportPlayerInventory());
+        }
         if (instance.getPreTeleportPosition() != null)
+        {
             compound.setTag(NBT_PRE_TELEPORT_POSITION, NBTUtil.createPosTag(instance.getPreTeleportPosition()));
+        }
         compound.setInteger(NBT_PRE_TELEPORT_DIMENSION_ID, instance.getPreTeleportDimensionID());
 
         return compound;
@@ -50,9 +54,9 @@ public class AOTDPlayerNightmareDataStorage implements Capability.IStorage<IAOTD
      * Called to read the NBTTagCompound into a capability
      *
      * @param capability The capability that is being read
-     * @param instance The instance to of the capability to read
-     * @param side ignored
-     * @param nbt An NBTTagCompound that contains all info about the capability
+     * @param instance   The instance to of the capability to read
+     * @param side       ignored
+     * @param nbt        An NBTTagCompound that contains all info about the capability
      */
     @Override
     public void readNBT(Capability<IAOTDPlayerNightmareData> capability, IAOTDPlayerNightmareData instance, EnumFacing side, NBTBase nbt)
@@ -65,13 +69,21 @@ public class AOTDPlayerNightmareDataStorage implements Capability.IStorage<IAOTD
 
             instance.setPositionalIndex(compound.getInteger(NBT_POSITIONAL_INDEX));
             if (compound.hasKey(NBT_PRE_TELEPORT_INVENTORY))
+            {
                 instance.setPreTeleportPlayerInventory(compound.getTagList(NBT_PRE_TELEPORT_INVENTORY, Constants.NBT.TAG_COMPOUND));
+            }
             else
+            {
                 instance.setPreTeleportPlayerInventory(null);
+            }
             if (compound.hasKey(NBT_PRE_TELEPORT_POSITION))
+            {
                 instance.setPreTeleportPosition(NBTUtil.getPosFromTag((NBTTagCompound) compound.getTag(NBT_PRE_TELEPORT_POSITION)));
+            }
             else
+            {
                 instance.setPreTeleportPosition(null);
+            }
             instance.setPreTeleportDimensionID(compound.getInteger(NBT_PRE_TELEPORT_DIMENSION_ID));
         }
         // There's an error, this should not be possible

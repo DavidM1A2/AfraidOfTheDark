@@ -19,41 +19,45 @@ import net.minecraft.world.World;
  */
 public class ItemSextant extends AOTDItem
 {
-	/**
-	 * Constructor sets up item properties
-	 */
-	public ItemSextant()
-	{
-		super("sextant");
-	}
+    /**
+     * Constructor sets up item properties
+     */
+    public ItemSextant()
+    {
+        super("sextant");
+    }
 
-	/**
-	 * Called when the player right clicks with the sextant
-	 *
-	 * @param worldIn The world that the sextant was right clicked in
-	 * @param playerIn The player that right clicked the sextant
-	 * @param handIn The hand the telescope is in
-	 * @return The result of the right click
-	 */
-	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
-	{
-		ItemStack itemStack = playerIn.getHeldItem(handIn);
-		IAOTDPlayerResearch playerResearch = playerIn.getCapability(ModCapabilities.PLAYER_RESEARCH, null);
-		// If the player has astronomy 1 open the GUI client side
-		if (playerResearch.isResearched(ModResearches.ASTRONOMY_1))
-		{
-			// Only open GUIs client side
-			if (worldIn.isRemote)
-				playerIn.openGui(AfraidOfTheDark.INSTANCE, AOTDGuiHandler.SEXTANT_ID, worldIn, playerIn.getPosition().getX(), playerIn.getPosition().getY(), playerIn.getPosition().getZ());
-		}
-		// If the player does not have the research send him a chat message from the server
-		else
-		{
-			if (!worldIn.isRemote)
-				playerIn.sendMessage(new TextComponentString("I can't understand what this thing does."));
-		}
+    /**
+     * Called when the player right clicks with the sextant
+     *
+     * @param worldIn  The world that the sextant was right clicked in
+     * @param playerIn The player that right clicked the sextant
+     * @param handIn   The hand the telescope is in
+     * @return The result of the right click
+     */
+    @Override
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+    {
+        ItemStack itemStack = playerIn.getHeldItem(handIn);
+        IAOTDPlayerResearch playerResearch = playerIn.getCapability(ModCapabilities.PLAYER_RESEARCH, null);
+        // If the player has astronomy 1 open the GUI client side
+        if (playerResearch.isResearched(ModResearches.ASTRONOMY_1))
+        {
+            // Only open GUIs client side
+            if (worldIn.isRemote)
+            {
+                playerIn.openGui(AfraidOfTheDark.INSTANCE, AOTDGuiHandler.SEXTANT_ID, worldIn, playerIn.getPosition().getX(), playerIn.getPosition().getY(), playerIn.getPosition().getZ());
+            }
+        }
+        // If the player does not have the research send him a chat message from the server
+        else
+        {
+            if (!worldIn.isRemote)
+            {
+                playerIn.sendMessage(new TextComponentString("I can't understand what this thing does."));
+            }
+        }
 
-		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStack);
-	}
+        return ActionResult.newResult(EnumActionResult.SUCCESS, itemStack);
+    }
 }

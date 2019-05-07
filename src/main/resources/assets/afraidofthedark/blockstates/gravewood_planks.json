@@ -1,5 +1,7 @@
 {
-	"variants": {
-		"normal": { "model": "afraidofthedark:gravewood_planks" }
-	}
+  "variants": {
+    "normal": {
+      "model": "afraidofthedark:gravewood_planks"
+    }
+  }
 }

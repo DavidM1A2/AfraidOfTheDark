@@ -74,13 +74,19 @@ public class StructureCrypt extends AOTDStructure
                 Set<Biome> biomes = approximateBiomesInChunk(biomeProvider, chunkPos.x, chunkPos.z);
                 // Filter incompatible biomes
                 if (biomes.stream().anyMatch(INCOMPATIBLE_BIOMES::contains))
+                {
                     return false;
+                }
                 // If the biome is an erie forest then increment erie forest
                 else if (biomes.contains(ModBiomes.ERIE_FOREST))
+                {
                     numErieForestChunks++;
+                }
                 // It's a different biome
                 else
+                {
                     numOtherChunks++;
+                }
 
                 // Compute min and max height
                 minHeight = Math.min(minHeight, heightmap.getLowestHeight(chunkPos));
@@ -94,7 +100,9 @@ public class StructureCrypt extends AOTDStructure
             {
                 // If there's more than 5 blocks between the top and bottom block it's an invalid place for a crypt because it's not 'flat' enough
                 if ((maxHeight - minHeight) > 5)
+                {
                     return this.getDefaultResult();
+                }
 
                 // Compute how many chunks are erie forest and how many are other biomes
                 double percentErie = (double) numErieForestChunks / (numErieForestChunks + numOtherChunks);
@@ -114,9 +122,10 @@ public class StructureCrypt extends AOTDStructure
 
     /**
      * Generates the structure at a position with an optional argument of chunk position
-     *  @param world    The world to generate the structure in
+     *
+     * @param world    The world to generate the structure in
      * @param chunkPos Optional chunk position of a chunk to generate in. If supplied all blocks generated must be in this chunk only!
-     * @param data Data containing structure position
+     * @param data     Data containing structure position
      */
     @Override
     public void generate(World world, ChunkPos chunkPos, NBTTagCompound data)
@@ -130,8 +139,8 @@ public class StructureCrypt extends AOTDStructure
     /**
      * Called to generate a random permutation of the structure. Set the structure's position
      *
-     * @param world The world to generate the structure's data for
-     * @param blockPos The position's x and z coordinates to generate the structure at
+     * @param world         The world to generate the structure's data for
+     * @param blockPos      The position's x and z coordinates to generate the structure at
      * @param biomeProvider ignored
      * @return The NBTTagCompound containing any data needed for generation. Sent in Structure::generate
      */

@@ -11,18 +11,18 @@ import net.minecraftforge.registries.IForgeRegistry;
  */
 public class EntityRegister
 {
-	/**
-	 * Called by forge to register any of our entities
-	 *
-	 * @param event The event to register to
-	 */
-	@SubscribeEvent
-	public void registerEntities(RegistryEvent.Register<EntityEntry> event)
-	{
-		// Grab the registry for entities
-		IForgeRegistry<EntityEntry> registry = event.getRegistry();
+    /**
+     * Called by forge to register any of our entities
+     *
+     * @param event The event to register to
+     */
+    @SubscribeEvent
+    public void registerEntities(RegistryEvent.Register<EntityEntry> event)
+    {
+        // Grab the registry for entities
+        IForgeRegistry<EntityEntry> registry = event.getRegistry();
 
-		// Register all of our mod entities
-		registry.registerAll(ModEntities.ENTITY_LIST);
-	}
+        // Register all of our mod entities
+        registry.registerAll(ModEntities.ENTITY_LIST);
+    }
 }

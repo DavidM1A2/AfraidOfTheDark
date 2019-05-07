@@ -9,9 +9,9 @@ import net.minecraftforge.common.util.ITeleporter;
  */
 public class ModDimensions
 {
-	// Teleporter class used by all dimension teleportation, this does nothing
-	public static final ITeleporter NOOP_TELEPORTER = new NoopTeleporter();
+    // Teleporter class used by all dimension teleportation, this does nothing
+    public static final ITeleporter NOOP_TELEPORTER = new NoopTeleporter();
 
-	public static DimensionType VOID_CHEST;
-	public static DimensionType NIGHTMARE;
+    public static DimensionType VOID_CHEST;
+    public static DimensionType NIGHTMARE;
 }

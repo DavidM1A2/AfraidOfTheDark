@@ -20,12 +20,12 @@ public class AOTDPotion extends Potion
     /**
      * Constructor sets item properties
      *
-     * @param name The name of the potion for the players to see
+     * @param name         The name of the potion for the players to see
      * @param registryName The name of the potion in the game registry
-     * @param indexX The X index of the position on the texture sheet
-     * @param indexY The Y index of the position on the texture sheet
-     * @param isBad True if the potion is 'bad', false otherwise
-     * @param color The color of the potion
+     * @param indexX       The X index of the position on the texture sheet
+     * @param indexY       The Y index of the position on the texture sheet
+     * @param isBad        True if the potion is 'bad', false otherwise
+     * @param color        The color of the potion
      */
     public AOTDPotion(String name, String registryName, int indexX, int indexY, boolean isBad, Color color)
     {
@@ -51,7 +51,7 @@ public class AOTDPotion extends Potion
     /**
      * True if the duration is greater than 0
      *
-     * @param duration The duration left on the drink
+     * @param duration  The duration left on the drink
      * @param amplifier The potion amplifier
      * @return True if the potion is ready, false otherwise
      */

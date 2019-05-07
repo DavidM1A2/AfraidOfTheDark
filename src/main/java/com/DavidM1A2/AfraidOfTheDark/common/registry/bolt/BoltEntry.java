@@ -15,52 +15,52 @@ import java.util.function.BiFunction;
  */
 public abstract class BoltEntry extends IForgeRegistryEntry.Impl<BoltEntry>
 {
-	// The item that this bolt type is represented by
-	private final Item boltItem;
-	// The entity factory that creates this bolt once shot
-	private final BiFunction<World, EntityPlayer, EntityBolt> boltEntityFactory;
-	// The pre-requisite research that needs to be researched for this to be used
-	private final Research preRequisite;
+    // The item that this bolt type is represented by
+    private final Item boltItem;
+    // The entity factory that creates this bolt once shot
+    private final BiFunction<World, EntityPlayer, EntityBolt> boltEntityFactory;
+    // The pre-requisite research that needs to be researched for this to be used
+    private final Research preRequisite;
 
-	/**
-	 * The constructor sets the class fields
-	 *
-	 * @param boltItem The item that this bolt entry represents
-	 * @param boltEntityFactory The entity factory that creates this bolt once shot
-	 * @param preRequisite The research that is required to use this bolt
-	 */
-	public BoltEntry(Item boltItem, BiFunction<World, EntityPlayer, EntityBolt> boltEntityFactory, Research preRequisite)
-	{
-		// Initialize all fields
-		this.boltItem = boltItem;
-		this.boltEntityFactory = boltEntityFactory;
-		this.preRequisite = preRequisite;
-	}
+    /**
+     * The constructor sets the class fields
+     *
+     * @param boltItem          The item that this bolt entry represents
+     * @param boltEntityFactory The entity factory that creates this bolt once shot
+     * @param preRequisite      The research that is required to use this bolt
+     */
+    public BoltEntry(Item boltItem, BiFunction<World, EntityPlayer, EntityBolt> boltEntityFactory, Research preRequisite)
+    {
+        // Initialize all fields
+        this.boltItem = boltItem;
+        this.boltEntityFactory = boltEntityFactory;
+        this.preRequisite = preRequisite;
+    }
 
-	/**
-	 * @return The localized name of the bolt entry
-	 */
-	public String getLocalizedName()
-	{
-		return I18n.format("bolt_entry." + this.getRegistryName().getResourcePath());
-	}
+    /**
+     * @return The localized name of the bolt entry
+     */
+    public String getLocalizedName()
+    {
+        return I18n.format("bolt_entry." + this.getRegistryName().getResourcePath());
+    }
 
-	///
-	/// Getters for all fields
-	///
+    ///
+    /// Getters for all fields
+    ///
 
-	public Item getBoltItem()
-	{
-		return this.boltItem;
-	}
+    public Item getBoltItem()
+    {
+        return this.boltItem;
+    }
 
-	public BiFunction<World, EntityPlayer, EntityBolt> getBoltEntityFactory()
-	{
-		return this.boltEntityFactory;
-	}
+    public BiFunction<World, EntityPlayer, EntityBolt> getBoltEntityFactory()
+    {
+        return this.boltEntityFactory;
+    }
 
-	public Research getPreRequisite()
-	{
-		return this.preRequisite;
-	}
+    public Research getPreRequisite()
+    {
+        return this.preRequisite;
+    }
 }

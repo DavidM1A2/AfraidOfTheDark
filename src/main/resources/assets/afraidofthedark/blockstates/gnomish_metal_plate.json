@@ -1,5 +1,7 @@
 {
-	"variants": {
-		"normal": { "model": "afraidofthedark:gnomish_metal_plate" }
-	}
+  "variants": {
+    "normal": {
+      "model": "afraidofthedark:gnomish_metal_plate"
+    }
+  }
 }

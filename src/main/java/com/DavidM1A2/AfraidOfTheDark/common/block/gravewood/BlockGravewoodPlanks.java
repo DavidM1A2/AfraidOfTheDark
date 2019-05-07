@@ -10,14 +10,14 @@ import net.minecraft.block.material.Material;
  */
 public class BlockGravewoodPlanks extends AOTDBlock
 {
-	/**
-	 * Constructor for gravewood planks sets the planks properties
-	 */
-	public BlockGravewoodPlanks()
-	{
-		super("gravewood_planks", Material.WOOD);
-		this.setHardness(2.0f);
-		this.setSoundType(SoundType.WOOD);
-		this.setCreativeTab(Constants.AOTD_CREATIVE_TAB);
-	}
+    /**
+     * Constructor for gravewood planks sets the planks properties
+     */
+    public BlockGravewoodPlanks()
+    {
+        super("gravewood_planks", Material.WOOD);
+        this.setHardness(2.0f);
+        this.setSoundType(SoundType.WOOD);
+        this.setCreativeTab(Constants.AOTD_CREATIVE_TAB);
+    }
 }

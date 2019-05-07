@@ -42,9 +42,13 @@ public class ItemDebug extends AOTDItem
         if (!worldIn.isRemote)
         {
             if (playerIn.dimension == 0)
+            {
                 playerIn.changeDimension(ModDimensions.NIGHTMARE.getId(), ModDimensions.NOOP_TELEPORTER);
+            }
             else
+            {
                 playerIn.changeDimension(0, ModDimensions.NOOP_TELEPORTER);
+            }
 			/*
 			// 60x60
 			playerIn.sendMessage(new TextComponentString("TREES: "));

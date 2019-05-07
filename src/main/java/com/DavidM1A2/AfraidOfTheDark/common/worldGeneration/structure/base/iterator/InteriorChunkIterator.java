@@ -21,7 +21,7 @@ public class InteriorChunkIterator implements IChunkIterator
      * Constructor just sets structure and basepos fields
      *
      * @param structure The structure to get interior chunks for
-     * @param basePos The base position the structure is at
+     * @param basePos   The base position the structure is at
      */
     public InteriorChunkIterator(Structure structure, BlockPos basePos)
     {

@@ -13,78 +13,78 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
  */
 public class SyncStartedAOTD implements IMessage
 {
-	// Flag that is true or false depending on if we started the mod or not
-	private boolean startedAOTD;
+    // Flag that is true or false depending on if we started the mod or not
+    private boolean startedAOTD;
 
-	/**
-	 * Required default constructor that is not used
-	 */
-	public SyncStartedAOTD()
-	{
-		this.startedAOTD = false;
-	}
+    /**
+     * Required default constructor that is not used
+     */
+    public SyncStartedAOTD()
+    {
+        this.startedAOTD = false;
+    }
 
-	/**
-	 * Constructor that initializes the field
-	 *
-	 * @param startedAOTD True if the user has started AOTD, false otherwise
-	 */
-	public SyncStartedAOTD(boolean startedAOTD)
-	{
-		this.startedAOTD = startedAOTD;
-	}
+    /**
+     * Constructor that initializes the field
+     *
+     * @param startedAOTD True if the user has started AOTD, false otherwise
+     */
+    public SyncStartedAOTD(boolean startedAOTD)
+    {
+        this.startedAOTD = startedAOTD;
+    }
 
-	/**
-	 * Converts the byte buf into the boolean data
-	 *
-	 * @param buf The buffer to read
-	 */
-	@Override
-	public void fromBytes(ByteBuf buf)
-	{
-		this.startedAOTD = buf.readBoolean();
-	}
+    /**
+     * Converts the byte buf into the boolean data
+     *
+     * @param buf The buffer to read
+     */
+    @Override
+    public void fromBytes(ByteBuf buf)
+    {
+        this.startedAOTD = buf.readBoolean();
+    }
 
-	/**
-	 * Converts the boolean into a byte buf
-	 *
-	 * @param buf The buffer to write to
-	 */
-	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeBoolean(this.startedAOTD);
-	}
+    /**
+     * Converts the boolean into a byte buf
+     *
+     * @param buf The buffer to write to
+     */
+    @Override
+    public void toBytes(ByteBuf buf)
+    {
+        buf.writeBoolean(this.startedAOTD);
+    }
 
-	/**
-	 * Handler to perform actions upon getting a packet
-	 */
-	public static class Handler extends MessageHandler.Bidirectional<SyncStartedAOTD>
-	{
-		/**
-		 * Handles the packet on client side
-		 *
-		 * @param player the player reference (the player who received the packet)
-		 * @param msg the message received
-		 * @param ctx the message context object. This contains additional information about the packet.
-		 */
-		@Override
-		public void handleClientMessage(EntityPlayer player, SyncStartedAOTD msg, MessageContext ctx)
-		{
-			Minecraft.getMinecraft().addScheduledTask(() -> player.getCapability(ModCapabilities.PLAYER_BASICS, null).setStartedAOTD(msg.startedAOTD));
-		}
+    /**
+     * Handler to perform actions upon getting a packet
+     */
+    public static class Handler extends MessageHandler.Bidirectional<SyncStartedAOTD>
+    {
+        /**
+         * Handles the packet on client side
+         *
+         * @param player the player reference (the player who received the packet)
+         * @param msg    the message received
+         * @param ctx    the message context object. This contains additional information about the packet.
+         */
+        @Override
+        public void handleClientMessage(EntityPlayer player, SyncStartedAOTD msg, MessageContext ctx)
+        {
+            Minecraft.getMinecraft().addScheduledTask(() -> player.getCapability(ModCapabilities.PLAYER_BASICS, null).setStartedAOTD(msg.startedAOTD));
+        }
 
-		/**
-		 * Handles the packet on server side
-		 *
-		 * @param player the player reference (the player who sent the packet)
-		 * @param msg the message received
-		 * @param ctx the message context object. This contains additional information about the packet.
-		 */
-		@Override
-		public void handleServerMessage(EntityPlayer player, SyncStartedAOTD msg, MessageContext ctx)
-		{
-			player.world.getMinecraftServer().addScheduledTask(() -> player.getCapability(ModCapabilities.PLAYER_BASICS, null).setStartedAOTD(msg.startedAOTD));
-		}
-	}
+        /**
+         * Handles the packet on server side
+         *
+         * @param player the player reference (the player who sent the packet)
+         * @param msg    the message received
+         * @param ctx    the message context object. This contains additional information about the packet.
+         */
+        @Override
+        public void handleServerMessage(EntityPlayer player, SyncStartedAOTD msg, MessageContext ctx)
+        {
+            player.world.getMinecraftServer().addScheduledTask(() -> player.getCapability(ModCapabilities.PLAYER_BASICS, null).setStartedAOTD(msg.startedAOTD));
+        }
+    }
 }

@@ -1,32 +1,32 @@
 {
-    "pools": [
+  "pools": [
+    {
+      "name": "main",
+      "rolls": {
+        "min": 1,
+        "max": 5
+      },
+      "entries": [
         {
-            "name": "main",
-            "rolls": {
+          "type": "item",
+          "name": "minecraft:bone",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
                 "min": 1,
-                "max": 5
-            },
-            "entries": [
-                {
-                    "type": "item",
-                    "name": "minecraft:bone",
-                    "functions": [
-                        {
-                            "function": "set_count",
-                            "count": {
-                                "min": 1,
-                                "max": 15
-                            }
-                        }
-                    ],
-                    "weight": 10
-                },
-                {
-                  "type": "item",
-                  "name": "afraidofthedark:journal",
-                  "weight": 1
-                }
-            ]
+                "max": 15
+              }
+            }
+          ],
+          "weight": 10
+        },
+        {
+          "type": "item",
+          "name": "afraidofthedark:journal",
+          "weight": 1
         }
-    ]
+      ]
+    }
+  ]
 }

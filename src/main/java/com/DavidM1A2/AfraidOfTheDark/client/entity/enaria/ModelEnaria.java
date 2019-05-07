@@ -87,13 +87,13 @@ public class ModelEnaria extends ModelBase
     /**
      * Called every game tick to render the enaria model
      *
-     * @param entityIn The entity to render, this must be an enaria entity
-     * @param limbSwing ignored, used only by default MC
+     * @param entityIn        The entity to render, this must be an enaria entity
+     * @param limbSwing       ignored, used only by default MC
      * @param limbSwingAmount ignored, used only by default MC
-     * @param ageInTicks ignored, used only by default MC
-     * @param netHeadYaw ignored, used only by default MC
-     * @param headPitch ignored, used only by default MC
-     * @param scale The scale to render the model at
+     * @param ageInTicks      ignored, used only by default MC
+     * @param netHeadYaw      ignored, used only by default MC
+     * @param headPitch       ignored, used only by default MC
+     * @param scale           The scale to render the model at
      */
     @Override
     public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale)

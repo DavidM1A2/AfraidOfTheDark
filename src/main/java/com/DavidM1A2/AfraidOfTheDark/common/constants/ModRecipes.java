@@ -13,7 +13,7 @@ public class ModRecipes
 
     // A list of mod recipes
     public static final IRecipe[] MOD_RECIPES = new IRecipe[]
-    {
-        SCROLL_COMBINE_RECIPE
-    };
+            {
+                    SCROLL_COMBINE_RECIPE
+            };
 }

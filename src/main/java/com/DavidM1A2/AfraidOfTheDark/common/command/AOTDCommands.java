@@ -74,14 +74,20 @@ public class AOTDCommands extends CommandBase
     {
         // Commands can start with /aotd, /AOTD, or /afraidofthedark
         if (args.length == 0)
+        {
             return getListOfStringsMatchingLastWord(args, "aotd", "AOTD", "afraidofthedark");
-            // Next token should be 'help' or 'dungeon'
+        }
+        // Next token should be 'help' or 'dungeon'
         else if (args.length == 1)
+        {
             return getListOfStringsMatchingLastWord(args, "help", "dungeon");
-            // Next token should be 'list' or 'types' after 'dungeon'
+        }
+        // Next token should be 'list' or 'types' after 'dungeon'
         else if (args.length == 2 && args[0].equalsIgnoreCase("dungeon"))
+        {
             return getListOfStringsMatchingLastWord(args, "list", "types", "info", "regenerate");
-            // Third token should be a structure id after 'dungeon list'
+        }
+        // Third token should be a structure id after 'dungeon list'
         else if (args.length == 3 && args[0].equalsIgnoreCase("dungeon") && args[1].equalsIgnoreCase("list"))
         {
             // Valid structure ids
@@ -89,7 +95,9 @@ public class AOTDCommands extends CommandBase
             return getListOfStringsMatchingLastWord(args, structureNames);
         }
         else
+        {
             return Collections.emptyList();
+        }
     }
 
     /**
@@ -104,25 +112,39 @@ public class AOTDCommands extends CommandBase
     {
         // / or /aotd help
         if (args.length == 0 || (args.length == 1 && args[0].equalsIgnoreCase("help")))
+        {
             printHelp(sender);
-            // /aotd dungeon
+        }
+        // /aotd dungeon
         else if (args.length == 1 && args[0].equalsIgnoreCase("dungeon"))
+        {
             printDungeonHelp(sender);
-            // /aotd dungeon info
+        }
+        // /aotd dungeon info
         else if (args.length == 2 && args[0].equalsIgnoreCase("dungeon") && args[1].equalsIgnoreCase("info"))
+        {
             printDungeonInfo(sender);
-            // /aotd dungeon regenerate
+        }
+        // /aotd dungeon regenerate
         else if (args.length == 2 && args[0].equalsIgnoreCase("dungeon") && args[1].equalsIgnoreCase("regenerate"))
+        {
             regenerateDungeonChunk(sender);
-            // /aotd dungeon types
+        }
+        // /aotd dungeon types
         else if (args.length == 2 && args[0].equalsIgnoreCase("dungeon") && args[1].equalsIgnoreCase("types"))
+        {
             printStructureTypes(sender);
-            // /aotd dungeon list
+        }
+        // /aotd dungeon list
         else if (args.length == 2 && args[0].equalsIgnoreCase("dungeon") && args[1].equalsIgnoreCase("list"))
+        {
             printAllStructures(sender, server);
-            // /aotd dungeon list <type>
+        }
+        // /aotd dungeon list <type>
         else if (args.length == 3 && args[0].equalsIgnoreCase("dungeon") && args[1].equalsIgnoreCase("list"))
+        {
             printSpecificStructures(sender, server, args[2]);
+        }
     }
 
     /**
@@ -195,7 +217,9 @@ public class AOTDCommands extends CommandBase
                                 blockPos.getX() + ", " + blockPos.getY() + ", " + blockPos.getZ()
                                 + "]"));
                 if (AfraidOfTheDark.INSTANCE.getConfigurationHandler().showDebugMessages())
+                {
                     sender.sendMessage(new TextComponentString("Extra NBT debug info: " + placedStructure.getData().toString()));
+                }
             }
             else
             {

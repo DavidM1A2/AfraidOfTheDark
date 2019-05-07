@@ -21,7 +21,7 @@ public class AOTDPlayerNightmareDataProvider implements ICapabilitySerializable<
      * Tests if the given capability is the player nightmare data capability
      *
      * @param capability The capability to test
-     * @param facing ignored
+     * @param facing     ignored
      * @return True if the capability is a player nightmare data capability, false otherwise
      */
     @Override
@@ -34,8 +34,8 @@ public class AOTDPlayerNightmareDataProvider implements ICapabilitySerializable<
      * Getter for a capability
      *
      * @param capability The capability to get
-     * @param facing ignored
-     * @param <T> The type of capability
+     * @param facing     ignored
+     * @param <T>        The type of capability
      * @return The capability or null if it was the wrong type
      */
     @Nullable

@@ -12,25 +12,25 @@ import java.util.Random;
  */
 public class BlockGravewoodLeaves extends AOTDLeaves
 {
-	/**
-	 * Constructor just sets the name of the block
-	 */
-	public BlockGravewoodLeaves()
-	{
-		super("gravewood_leaves");
-	}
+    /**
+     * Constructor just sets the name of the block
+     */
+    public BlockGravewoodLeaves()
+    {
+        super("gravewood_leaves");
+    }
 
-	/**
-	 * We override the item dropped to be a gravewood sapling
-	 *
-	 * @param state The block state of the broken leaf block
-	 * @param rand A random object which is ignored
-	 * @param fortune The fortune level that the leaf block was mined with
-	 * @return A gravewood sapling
-	 */
-	@Override
-	public Item getItemDropped(IBlockState state, Random rand, int fortune)
-	{
-		return Item.getItemFromBlock(ModBlocks.GRAVEWOOD_SAPLING);
-	}
+    /**
+     * We override the item dropped to be a gravewood sapling
+     *
+     * @param state   The block state of the broken leaf block
+     * @param rand    A random object which is ignored
+     * @param fortune The fortune level that the leaf block was mined with
+     * @return A gravewood sapling
+     */
+    @Override
+    public Item getItemDropped(IBlockState state, Random rand, int fortune)
+    {
+        return Item.getItemFromBlock(ModBlocks.GRAVEWOOD_SAPLING);
+    }
 }

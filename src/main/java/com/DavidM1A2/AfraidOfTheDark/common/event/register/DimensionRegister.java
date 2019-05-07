@@ -12,15 +12,15 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class DimensionRegister
 {
-	/**
-	 * Registers all AOTD dimensions
-	 */
-	public static void initialize()
-	{
-		// The reason we can't do this in a loop is because the getNextFreeDimId() doesn't return a new value until after registerDimension is called, so we must call these lines in this order
-		ModDimensions.VOID_CHEST = DimensionType.register("Void Chest", StringUtils.EMPTY, DimensionManager.getNextFreeDimId(), VoidChestWorldProvider.class, false);
-		DimensionManager.registerDimension(ModDimensions.VOID_CHEST.getId(), ModDimensions.VOID_CHEST);
+    /**
+     * Registers all AOTD dimensions
+     */
+    public static void initialize()
+    {
+        // The reason we can't do this in a loop is because the getNextFreeDimId() doesn't return a new value until after registerDimension is called, so we must call these lines in this order
+        ModDimensions.VOID_CHEST = DimensionType.register("Void Chest", StringUtils.EMPTY, DimensionManager.getNextFreeDimId(), VoidChestWorldProvider.class, false);
+        DimensionManager.registerDimension(ModDimensions.VOID_CHEST.getId(), ModDimensions.VOID_CHEST);
         ModDimensions.NIGHTMARE = DimensionType.register("Nightmare", StringUtils.EMPTY, DimensionManager.getNextFreeDimId(), NightmareWorldProvider.class, false);
-		DimensionManager.registerDimension(ModDimensions.NIGHTMARE.getId(), ModDimensions.NIGHTMARE);
-	}
+        DimensionManager.registerDimension(ModDimensions.NIGHTMARE.getId(), ModDimensions.NIGHTMARE);
+    }
 }

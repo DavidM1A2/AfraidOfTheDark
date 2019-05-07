@@ -1,5 +1,7 @@
 {
-	"variants": {
-		"normal": { "model": "afraidofthedark:glow_stalk" }
-	}
+  "variants": {
+    "normal": {
+      "model": "afraidofthedark:glow_stalk"
+    }
+  }
 }

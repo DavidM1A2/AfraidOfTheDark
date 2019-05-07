@@ -2,8 +2,11 @@
   "x": 0,
   "y": 3,
   "tooltip": "silver of the moon",
-  "recipes": [ "afraidofthedark:astral_silver_sword", "afraidofthedark:silver_bolt" ],
-  "preRecipes": [  ],
+  "recipes": [
+    "afraidofthedark:astral_silver_sword",
+    "afraidofthedark:silver_bolt"
+  ],
+  "preRecipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/astral_silver.png",
   "pre": "I have noticed a meteor in my telescope. I should track one down with my telescope and sextant.",
   "researched": "I have finished tracking down a meteor. Its composition is a material similar to elemental silver. It can be made into a sword, which seems to be about as effective as an iron sword. Its main characteristic is that it deals massive damage to werewolves. It can also be made into crossbow bolts, which share the sword's ability to harm werewolves where nothing else seems to work."

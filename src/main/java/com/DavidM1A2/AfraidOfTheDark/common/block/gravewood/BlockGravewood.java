@@ -7,11 +7,11 @@ import com.DavidM1A2.afraidofthedark.common.block.core.AOTDLog;
  */
 public class BlockGravewood extends AOTDLog
 {
-	/**
-	 * Constructor just sets the registry and unlocalized name
-	 */
-	public BlockGravewood()
-	{
-		super("gravewood");
-	}
+    /**
+     * Constructor just sets the registry and unlocalized name
+     */
+    public BlockGravewood()
+    {
+        super("gravewood");
+    }
 }

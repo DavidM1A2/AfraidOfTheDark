@@ -1,5 +1,7 @@
 {
-	"variants": {
-		"normal": { "model": "afraidofthedark:sunstone_ore" }
-	}
+  "variants": {
+    "normal": {
+      "model": "afraidofthedark:sunstone_ore"
+    }
+  }
 }

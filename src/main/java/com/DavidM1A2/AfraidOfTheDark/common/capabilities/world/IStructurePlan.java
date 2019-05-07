@@ -39,7 +39,7 @@ public interface IStructurePlan
      * Tests if a given structure would fit if it was placed at a given position
      *
      * @param structure The structure to place
-     * @param blockPos The position to place the structure
+     * @param blockPos  The position to place the structure
      * @return True if the structure would fit without overlapping another structure, or false otherwise
      */
     boolean structureFitsAt(Structure structure, BlockPos blockPos);
@@ -48,7 +48,7 @@ public interface IStructurePlan
      * Called to place a given structure with data. This will overwrite any existing structures in the area
      *
      * @param structure The structure to place
-     * @param data Any additional data the structure requires like position
+     * @param data      Any additional data the structure requires like position
      */
     void placeStructure(Structure structure, NBTTagCompound data);
 }

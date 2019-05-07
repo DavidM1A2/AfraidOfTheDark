@@ -13,54 +13,56 @@ import java.util.Map;
  */
 public class ClientData
 {
-	// The single client data instance
-	private static final ClientData INSTANCE = new ClientData();
+    // The single client data instance
+    private static final ClientData INSTANCE = new ClientData();
 
-	// A mapping of font size -> font object used to render text
-	private Map<Float, TrueTypeFont> fontMap = new HashMap<>();
+    // A mapping of font size -> font object used to render text
+    private Map<Float, TrueTypeFont> fontMap = new HashMap<>();
 
-	// A field that will keep track of which research is currently selected
-	private Research lastSelectedResearch = null;
+    // A field that will keep track of which research is currently selected
+    private Research lastSelectedResearch = null;
 
-	/**
-	 * Getter for TargaMSHand font based on a font size. If the object is not yet cached, create it
-	 *
-	 * @param fontSize The size of the font to get
-	 * @return The font object to get
-	 */
-	public TrueTypeFont getTargaMSHandFontSized(float fontSize)
-	{
-		// If the font map does not contain the size, create that font size and store it
-		if (!this.fontMap.containsKey(fontSize))
-			// Put the font size with the newly loaded font
-			this.fontMap.put(fontSize, FontLoader.createFont(new ResourceLocation("afraidofthedark:fonts/targa_ms_hand.ttf"), fontSize, true));
-		// Get the font from the map
-		return this.fontMap.get(fontSize);
-	}
+    /**
+     * @return The single instance of the client data object
+     */
+    public static ClientData getInstance()
+    {
+        return INSTANCE;
+    }
 
-	/**
-	 * Sets the last selected research on the ResearchGUI
-	 *
-	 * @param research The selected research
-	 */
-	public void setLastSelectedResearch(Research research)
-	{
-		this.lastSelectedResearch = research;
-	}
+    /**
+     * Getter for TargaMSHand font based on a font size. If the object is not yet cached, create it
+     *
+     * @param fontSize The size of the font to get
+     * @return The font object to get
+     */
+    public TrueTypeFont getTargaMSHandFontSized(float fontSize)
+    {
+        // If the font map does not contain the size, create that font size and store it
+        if (!this.fontMap.containsKey(fontSize))
+        // Put the font size with the newly loaded font
+        {
+            this.fontMap.put(fontSize, FontLoader.createFont(new ResourceLocation("afraidofthedark:fonts/targa_ms_hand.ttf"), fontSize, true));
+        }
+        // Get the font from the map
+        return this.fontMap.get(fontSize);
+    }
 
-	/**
-	 * @return The last selected research on the ResearchGUI
-	 */
-	public Research getLastSelectedResearch()
-	{
-		return lastSelectedResearch;
-	}
+    /**
+     * @return The last selected research on the ResearchGUI
+     */
+    public Research getLastSelectedResearch()
+    {
+        return lastSelectedResearch;
+    }
 
-	/**
-	 * @return The single instance of the client data object
-	 */
-	public static ClientData getInstance()
-	{
-		return INSTANCE;
-	}
+    /**
+     * Sets the last selected research on the ResearchGUI
+     *
+     * @param research The selected research
+     */
+    public void setLastSelectedResearch(Research research)
+    {
+        this.lastSelectedResearch = research;
+    }
 }

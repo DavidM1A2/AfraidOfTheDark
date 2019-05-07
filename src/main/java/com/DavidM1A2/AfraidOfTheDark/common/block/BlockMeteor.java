@@ -8,14 +8,14 @@ import net.minecraft.block.material.Material;
  */
 public class BlockMeteor extends AOTDBlock
 {
-	/**
-	 * Constructor initializes the block's properties
-	 */
-	public BlockMeteor()
-	{
-		super("meteor", Material.ROCK);
-		this.setHardness(10.0f);
-		this.setResistance(50.0f);
-		this.setHarvestLevel("pickaxe", 2);
-	}
+    /**
+     * Constructor initializes the block's properties
+     */
+    public BlockMeteor()
+    {
+        super("meteor", Material.ROCK);
+        this.setHardness(10.0f);
+        this.setResistance(50.0f);
+        this.setHarvestLevel("pickaxe", 2);
+    }
 }

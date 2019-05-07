@@ -31,17 +31,21 @@ public class VoidChestHandler
         // Server side processing only
         if (!event.player.world.isRemote)
         {
-			if (event.player.dimension == ModDimensions.VOID_CHEST.getId())
+            if (event.player.dimension == ModDimensions.VOID_CHEST.getId())
             {
                 IAOTDPlayerVoidChestData playerVoidChestData = event.player.getCapability(ModCapabilities.PLAYER_VOID_CHEST_DATA, null);
                 // If the player was traveling to a friend's void chest grab that index, otherwise grab our own index
                 int indexToGoTo;
                 // If the friend's index is -1 then we go to our position, otherwise go to the friends position and wipe out the friends index variable
                 if (playerVoidChestData.getFriendsIndex() == -1)
-                    // Get or compute the player's index to go to based on who the furthest out player is
+                // Get or compute the player's index to go to based on who the furthest out player is
+                {
                     indexToGoTo = IslandUtility.getOrAssignPlayerPositionalIndex(event.player.getServer().getWorld(ModDimensions.VOID_CHEST.getId()), playerVoidChestData);
+                }
                 else
+                {
                     indexToGoTo = playerVoidChestData.getFriendsIndex();
+                }
                 // Compute the player's X position based on the index
                 int playerXBase = indexToGoTo * AfraidOfTheDark.INSTANCE.getConfigurationHandler().getBlocksBetweenIslands();
                 ((EntityPlayerMP) event.player).connection.setPlayerLocation(playerXBase + 24.5, 104, 3, 0, 0);
@@ -69,7 +73,9 @@ public class VoidChestHandler
                 EntityPlayerMP entityPlayer = (EntityPlayerMP) event.getEntity();
                 // Process the pre-teleport server side, if it returns true then we cancel the TP
                 if (this.processPreTeleport(entityPlayer, fromDimension, toDimension))
+                {
                     event.setCanceled(true);
+                }
             }
         }
     }
@@ -89,7 +95,9 @@ public class VoidChestHandler
         {
             // We can't go from void chest to void chest
             if (dimensionFrom == ModDimensions.VOID_CHEST.getId())
+            {
                 return true;
+            }
 
             // Any other dimension is valid. We can go from any dimension other than the void_chest to the void_chest
             // We need to store off player position data pre-teleport
@@ -98,7 +106,9 @@ public class VoidChestHandler
             // new portal block. This ensure you don't get stuck in a teleport loop
             // First just test the player's current position, if it's invalid search in a +/- 6 block radius in all directions for a valid position
             if (IslandUtility.isValidSpawnLocation(entityPlayer.world, entityPlayer.getPosition()))
+            {
                 playerVoidChestData.setPreTeleportPosition(entityPlayer.getPosition());
+            }
             else
             {
                 BlockPos preTeleportPosition = IslandUtility.findValidSpawnLocation(entityPlayer.world, entityPlayer.getPosition(), VALID_SPAWN_SEARCH_DISTANCE);
@@ -158,10 +168,14 @@ public class VoidChestHandler
             int indexToGoTo;
             // If the friend's index is -1 then we go to our position, otherwise go to the friends position
             if (playerVoidChestData.getFriendsIndex() == -1)
-                // Get or compute the player's index to go to based on who the furthest out player is
+            // Get or compute the player's index to go to based on who the furthest out player is
+            {
                 indexToGoTo = IslandUtility.getOrAssignPlayerPositionalIndex(entityPlayer.getServer().getWorld(ModDimensions.VOID_CHEST.getId()), playerVoidChestData);
+            }
             else
+            {
                 indexToGoTo = playerVoidChestData.getFriendsIndex();
+            }
             // Compute the player's X position based on the index
             int playerXBase = indexToGoTo * AfraidOfTheDark.INSTANCE.getConfigurationHandler().getBlocksBetweenIslands();
             // Set the player's position and rotation for some reason we have to use the connection object to send a packet instead of just using entityplayer#setPosition

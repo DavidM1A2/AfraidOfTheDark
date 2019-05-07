@@ -8,25 +8,25 @@ import net.minecraft.util.ITickable;
  */
 public abstract class AOTDTickingTileEntity extends AOTDTileEntity implements ITickable
 {
-	// The number of ticks the tile entity has existed
-	protected long ticksExisted = 0;
+    // The number of ticks the tile entity has existed
+    protected long ticksExisted = 0;
 
-	/**
-	 * Constructor initializes the tile entity fields
-	 *
-	 * @param block The block that this tile entity is for
-	 */
-	public AOTDTickingTileEntity(Block block)
-	{
-		super(block);
-	}
+    /**
+     * Constructor initializes the tile entity fields
+     *
+     * @param block The block that this tile entity is for
+     */
+    public AOTDTickingTileEntity(Block block)
+    {
+        super(block);
+    }
 
-	/**
-	 * Called every tick to update the tile entity's state
-	 */
-	@Override
-	public void update()
-	{
-		this.ticksExisted = this.ticksExisted + 1;
-	}
+    /**
+     * Called every tick to update the tile entity's state
+     */
+    @Override
+    public void update()
+    {
+        this.ticksExisted = this.ticksExisted + 1;
+    }
 }

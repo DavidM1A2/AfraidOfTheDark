@@ -62,7 +62,9 @@ public class StructurePlan extends WorldSavedData implements IStructurePlan
     {
         // If we are on client side or the world is not the overworld return 0
         if (world.isRemote)
+        {
             return null;
+        }
 
         // Grab the storage object for this world
         MapStorage storage = world.getPerWorldStorage();
@@ -201,7 +203,9 @@ public class StructurePlan extends WorldSavedData implements IStructurePlan
             for (int chunkZ = bottomLeftCorner.z; chunkZ <= topRightCorner.z; chunkZ++)
                 // If any chunk is already planned then return false
                 if (this.chunkToStructure.containsKey(new ChunkPos(chunkX, chunkZ)))
+                {
                     return false;
+                }
 
         return true;
     }
@@ -210,7 +214,7 @@ public class StructurePlan extends WorldSavedData implements IStructurePlan
      * Called to place a given structure at a block position. This will overwrite any existing structures in the area
      *
      * @param structure The structure to place
-     * @param data Any additional data the structure requires
+     * @param data      Any additional data the structure requires
      */
     @Override
     public void placeStructure(Structure structure, NBTTagCompound data)

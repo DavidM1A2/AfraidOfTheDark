@@ -2,8 +2,8 @@
   "x": 0,
   "y": 6,
   "tooltip": "OP incoming",
-  "recipes": [  ],
-  "preRecipes": [  ],
+  "recipes": [],
+  "preRecipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/astronomy_2.png",
   "pre": "I can sense great power in my dreams. I know there is important information hidden here. I should continue searching until I find it.",
   "researched": "I have found what I was searching for in my dreams. I now know how to track two new types of meteors using my telescope."

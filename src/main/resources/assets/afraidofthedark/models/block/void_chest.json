@@ -1,12 +1,12 @@
 {
-    "parent": "block/cube",
-    "textures": {
-        "up": "afraidofthedark:blocks/void_chest/void_chest_top",
-        "down": "afraidofthedark:blocks/void_chest/void_chest_bottom",
-        "north": "afraidofthedark:blocks/void_chest/void_chest_front",
-        "south": "afraidofthedark:blocks/void_chest/void_chest_side",
-        "east": "afraidofthedark:blocks/void_chest/void_chest_side",
-        "west": "afraidofthedark:blocks/void_chest/void_chest_side",
-		"particle": "afraidofthedark:blocks/void_chest/void_chest_top"
-	}
+  "parent": "block/cube",
+  "textures": {
+    "up": "afraidofthedark:blocks/void_chest/void_chest_top",
+    "down": "afraidofthedark:blocks/void_chest/void_chest_bottom",
+    "north": "afraidofthedark:blocks/void_chest/void_chest_front",
+    "south": "afraidofthedark:blocks/void_chest/void_chest_side",
+    "east": "afraidofthedark:blocks/void_chest/void_chest_side",
+    "west": "afraidofthedark:blocks/void_chest/void_chest_side",
+    "particle": "afraidofthedark:blocks/void_chest/void_chest_top"
+  }
 }

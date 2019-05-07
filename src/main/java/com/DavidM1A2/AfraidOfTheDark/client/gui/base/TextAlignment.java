@@ -5,7 +5,7 @@ package com.DavidM1A2.afraidofthedark.client.gui.base;
  */
 public enum TextAlignment
 {
-	ALIGN_LEFT,
-	ALIGN_RIGHT,
-	ALIGN_CENTER
+    ALIGN_LEFT,
+    ALIGN_RIGHT,
+    ALIGN_CENTER
 }

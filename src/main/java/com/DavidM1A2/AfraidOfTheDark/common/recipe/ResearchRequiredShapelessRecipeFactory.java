@@ -15,23 +15,23 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
  */
 public class ResearchRequiredShapelessRecipeFactory implements IRecipeFactory
 {
-	/**
-	 * Parses the recipe from JSON
-	 *
-	 * @param context The JSON context to parse with
-	 * @param json The actual JSON to parse
-	 * @return The IRecipe representing this recipe
-	 */
-	@Override
-	public IRecipe parse(JsonContext context, JsonObject json)
-	{
-		// This recipe is based on the shapeless ore recipe, so start with parsing that
-		ShapelessOreRecipe baseRecipe = ShapelessOreRecipe.factory(context, json);
+    /**
+     * Parses the recipe from JSON
+     *
+     * @param context The JSON context to parse with
+     * @param json    The actual JSON to parse
+     * @return The IRecipe representing this recipe
+     */
+    @Override
+    public IRecipe parse(JsonContext context, JsonObject json)
+    {
+        // This recipe is based on the shapeless ore recipe, so start with parsing that
+        ShapelessOreRecipe baseRecipe = ShapelessOreRecipe.factory(context, json);
 
-		// Grab the pre-requisite recipe which is based on our research registry
-		Research preRequisite = ModRegistries.RESEARCH.getValue(new ResourceLocation(JsonUtils.getString(json, "required_research")));
+        // Grab the pre-requisite recipe which is based on our research registry
+        Research preRequisite = ModRegistries.RESEARCH.getValue(new ResourceLocation(JsonUtils.getString(json, "required_research")));
 
-		// Return the research required shaped recipe
-		return new ResearchRequiredShapelessRecipe(baseRecipe, preRequisite);
-	}
+        // Return the research required shaped recipe
+        return new ResearchRequiredShapelessRecipe(baseRecipe, preRequisite);
+    }
 }

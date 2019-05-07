@@ -34,7 +34,7 @@ public class AnimationHandlerGhastlyEnaria extends AnimationHandler
     /**
      * Begins playing a specific animation given a name and starting frame
      *
-     * @param name The animation to play
+     * @param name          The animation to play
      * @param startingFrame The frame to begin playing at
      */
     @Override

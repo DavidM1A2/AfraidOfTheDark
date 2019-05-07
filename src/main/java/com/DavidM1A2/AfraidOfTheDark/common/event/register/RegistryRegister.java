@@ -20,37 +20,37 @@ import net.minecraftforge.registries.RegistryBuilder;
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID)
 public class RegistryRegister
 {
-	/**
-	 * Called to add any custom new registries to the game. This must be static in order for the event
-	 * bus subscriber annotation to fire and add our custom registry
-	 *
-	 * @param event The event specifying we can now add new registries into the game
-	 */
-	@SubscribeEvent
-	public static void registryRegister(RegistryEvent.NewRegistry event)
-	{
-		// Create a new registry for structures with the name 'afraidofthedark:structures'
-		ModRegistries.STRUCTURE = new RegistryBuilder<Structure>()
-				.setType(Structure.class)
-				.setName(new ResourceLocation(Constants.MOD_ID, "structures"))
-				.create();
+    /**
+     * Called to add any custom new registries to the game. This must be static in order for the event
+     * bus subscriber annotation to fire and add our custom registry
+     *
+     * @param event The event specifying we can now add new registries into the game
+     */
+    @SubscribeEvent
+    public static void registryRegister(RegistryEvent.NewRegistry event)
+    {
+        // Create a new registry for structures with the name 'afraidofthedark:structures'
+        ModRegistries.STRUCTURE = new RegistryBuilder<Structure>()
+                .setType(Structure.class)
+                .setName(new ResourceLocation(Constants.MOD_ID, "structures"))
+                .create();
 
-		// Create a new registry for research with the name 'afraidofthedark:research'
-		ModRegistries.RESEARCH = new RegistryBuilder<Research>()
-				.setType(Research.class)
-				.setName(new ResourceLocation(Constants.MOD_ID, "research"))
-				.create();
+        // Create a new registry for research with the name 'afraidofthedark:research'
+        ModRegistries.RESEARCH = new RegistryBuilder<Research>()
+                .setType(Research.class)
+                .setName(new ResourceLocation(Constants.MOD_ID, "research"))
+                .create();
 
-		// Create a new registry for the different bolt types with the name 'afraidofthedark:bolts'
-		ModRegistries.BOLTS = new RegistryBuilder<BoltEntry>()
-				.setType(BoltEntry.class)
-				.setName(new ResourceLocation(Constants.MOD_ID, "bolts"))
-				.create();
+        // Create a new registry for the different bolt types with the name 'afraidofthedark:bolts'
+        ModRegistries.BOLTS = new RegistryBuilder<BoltEntry>()
+                .setType(BoltEntry.class)
+                .setName(new ResourceLocation(Constants.MOD_ID, "bolts"))
+                .create();
 
-		// Create a new registry for the different meteor types with the name 'afraidofthedark:meteors'
-		ModRegistries.METEORS = new RegistryBuilder<MeteorEntry>()
-				.setType(MeteorEntry.class)
-				.setName(new ResourceLocation(Constants.MOD_ID, "meteors"))
-				.create();
-	}
+        // Create a new registry for the different meteor types with the name 'afraidofthedark:meteors'
+        ModRegistries.METEORS = new RegistryBuilder<MeteorEntry>()
+                .setType(MeteorEntry.class)
+                .setName(new ResourceLocation(Constants.MOD_ID, "meteors"))
+                .create();
+    }
 }

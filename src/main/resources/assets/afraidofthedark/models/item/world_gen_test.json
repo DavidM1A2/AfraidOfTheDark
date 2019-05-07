@@ -1,6 +1,6 @@
 {
-	"parent": "item/generated",
-	"textures": {
-		"layer0": "afraidofthedark:items/world_gen_test"
-	}
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "afraidofthedark:items/world_gen_test"
+  }
 }

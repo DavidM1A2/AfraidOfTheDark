@@ -43,11 +43,17 @@ public class BlockEnariaSpawner extends AOTDBlockTileEntity
         int dimensionId = worldIn.provider.getDimension();
         // In the overworld we spawn a regular enaria, in the nightmare we spawn a ghastly enaria
         if (dimensionId == 0)
+        {
             return null;
+        }
         else if (dimensionId == ModDimensions.NIGHTMARE.getId())
+        {
             return new TileEntityGhastlyEnariaSpawner();
+        }
         else
+        {
             return null;
+        }
     }
 
     /**

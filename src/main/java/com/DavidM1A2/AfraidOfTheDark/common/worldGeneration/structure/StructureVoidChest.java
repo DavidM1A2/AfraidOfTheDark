@@ -50,8 +50,8 @@ public class StructureVoidChest extends AOTDStructure
     /**
      * Tests if this structure is valid for the given position
      *
-     * @param blockPos The position that the structure would begin at
-     * @param heightmap The heightmap to use in deciding if the structure will fit at the position
+     * @param blockPos      The position that the structure would begin at
+     * @param heightmap     The heightmap to use in deciding if the structure will fit at the position
      * @param biomeProvider The provider used to generate the world, use biomeProvider.getBiomes() to get what biomes exist at a position
      * @return A value between 0 and 1 which is the chance between 0% and 100% that a structure could spawn at the given position
      */
@@ -70,7 +70,9 @@ public class StructureVoidChest extends AOTDStructure
                 Set<Biome> biomes = approximateBiomesInChunk(biomeProvider, chunkPos.x, chunkPos.z);
                 // Void Chests only spawn in snowy biomes
                 if (biomes.stream().noneMatch(COMPATIBLE_BIOMES::contains))
+                {
                     return false;
+                }
 
                 // Compute min and max height
                 minHeight = Math.min(minHeight, heightmap.getLowestHeight(chunkPos));
@@ -83,7 +85,9 @@ public class StructureVoidChest extends AOTDStructure
             {
                 // If there's more than 8 blocks between the top and bottom block it's an invalid place for a void chest because it's not 'flat' enough
                 if ((maxHeight - minHeight) > 8)
+                {
                     return this.getDefaultResult();
+                }
 
                 // 5% chance to generate in any chunks this fits in
                 return 0.05;
@@ -99,9 +103,10 @@ public class StructureVoidChest extends AOTDStructure
 
     /**
      * Generates the structure at a position with an optional argument of chunk position
-     *  @param world The world to generate the structure in
+     *
+     * @param world    The world to generate the structure in
      * @param chunkPos Optional chunk position of a chunk to generate in. If supplied all blocks generated must be in this chunk only!
-     * @param data NBT containing the void chest's position
+     * @param data     NBT containing the void chest's position
      */
     @Override
     public void generate(World world, ChunkPos chunkPos, NBTTagCompound data)
@@ -115,8 +120,8 @@ public class StructureVoidChest extends AOTDStructure
     /**
      * Called to generate a random permutation of the structure. Set the structure's position
      *
-     * @param world The world to generate the structure's data for
-     * @param blockPos The position's x and z coordinates to generate the structure at
+     * @param world         The world to generate the structure's data for
+     * @param blockPos      The position's x and z coordinates to generate the structure at
      * @param biomeProvider ignored
      * @return The NBTTagCompound containing any data needed for generation. Sent in Structure::generate
      */

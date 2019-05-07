@@ -1,5 +1,7 @@
 {
-	"variants": {
-		"normal": { "model": "afraidofthedark:spring" }
-	}
+  "variants": {
+    "normal": {
+      "model": "afraidofthedark:spring"
+    }
+  }
 }

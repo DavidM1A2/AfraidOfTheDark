@@ -12,9 +12,9 @@ import net.minecraftforge.registries.IForgeRegistry;
  */
 public class ModRegistries
 {
-	// Fields that are unchanged and basically final (just not initialized here) representing the registries we are adding. Initialized from RegistryRegister
-	public static IForgeRegistry<Structure> STRUCTURE;
-	public static IForgeRegistry<Research> RESEARCH;
-	public static IForgeRegistry<BoltEntry> BOLTS;
-	public static IForgeRegistry<MeteorEntry> METEORS;
+    // Fields that are unchanged and basically final (just not initialized here) representing the registries we are adding. Initialized from RegistryRegister
+    public static IForgeRegistry<Structure> STRUCTURE;
+    public static IForgeRegistry<Research> RESEARCH;
+    public static IForgeRegistry<BoltEntry> BOLTS;
+    public static IForgeRegistry<MeteorEntry> METEORS;
 }

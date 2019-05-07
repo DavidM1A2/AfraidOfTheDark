@@ -1,7 +1,13 @@
 {
-    "variants": {
-        "half=bottom,variant=default": { "model": "afraidofthedark:gravewood_half_slab" },
-        "half=top,variant=default":    { "model": "afraidofthedark:gravewood_double_slab" },
-        "inventory":    { "model": "afraidofthedark:gravewood_half_slab" }
+  "variants": {
+    "half=bottom,variant=default": {
+      "model": "afraidofthedark:gravewood_half_slab"
+    },
+    "half=top,variant=default": {
+      "model": "afraidofthedark:gravewood_double_slab"
+    },
+    "inventory": {
+      "model": "afraidofthedark:gravewood_half_slab"
     }
+  }
 }

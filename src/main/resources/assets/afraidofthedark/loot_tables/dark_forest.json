@@ -32,7 +32,7 @@
           "functions": [
             {
               "function": "set_nbt",
-              "tag":"{display:{color:16777215}}"
+              "tag": "{display:{color:16777215}}"
             }
           ],
           "weight": 4
@@ -43,7 +43,7 @@
           "functions": [
             {
               "function": "set_nbt",
-              "tag":"{display:{color:16777215}}"
+              "tag": "{display:{color:16777215}}"
             }
           ],
           "weight": 4
@@ -54,7 +54,7 @@
           "functions": [
             {
               "function": "set_nbt",
-              "tag":"{display:{color:16777215}}"
+              "tag": "{display:{color:16777215}}"
             }
           ],
           "weight": 4
@@ -65,7 +65,7 @@
           "functions": [
             {
               "function": "set_nbt",
-              "tag":"{display:{color:16777215}}"
+              "tag": "{display:{color:16777215}}"
             }
           ],
           "weight": 4
@@ -73,12 +73,12 @@
         {
           "type": "item",
           "name": "afraidofthedark:research_scroll",
-		  "functions": [
-			{
+          "functions": [
+            {
               "function": "set_nbt",
-              "tag":"{\"research_id\":\"afraidofthedark:cloak_of_agility\"}"
-			}
-		  ],
+              "tag": "{\"research_id\":\"afraidofthedark:cloak_of_agility\"}"
+            }
+          ],
           "weight": 1
         }
       ]

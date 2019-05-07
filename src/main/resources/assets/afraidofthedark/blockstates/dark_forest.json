@@ -1,5 +1,7 @@
 {
-	"variants": {
-		"normal": { "model": "afraidofthedark:dark_forest" }
-	}
+  "variants": {
+    "normal": {
+      "model": "afraidofthedark:dark_forest"
+    }
+  }
 }

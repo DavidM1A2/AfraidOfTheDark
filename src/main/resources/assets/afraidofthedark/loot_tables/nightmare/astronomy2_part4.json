@@ -3,16 +3,16 @@
     {
       "name": "main",
       "rolls": 24,
-      "entries": [        
+      "entries": [
         {
           "type": "item",
           "name": "afraidofthedark:research_scroll",
-		  "functions": [
-			{
+          "functions": [
+            {
               "function": "set_nbt",
-              "tag":"{\"research_id\":\"afraidofthedark:astronomy_2\",\"part_number\":4,\"number_parts\":4}"
-			}
-		  ],
+              "tag": "{\"research_id\":\"afraidofthedark:astronomy_2\",\"part_number\":4,\"number_parts\":4}"
+            }
+          ],
           "weight": 10
         }
       ]

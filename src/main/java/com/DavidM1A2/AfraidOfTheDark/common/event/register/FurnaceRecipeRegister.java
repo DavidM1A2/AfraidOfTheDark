@@ -10,12 +10,12 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
  */
 public class FurnaceRecipeRegister
 {
-	/**
-	 * Furnace recipes don't initialize through Json, instead you do that with code which we just trigger in the constructor
-	 */
-	public static void initialize()
-	{
-		// Register smelting recipe for astral silver ore -> ingot
-		GameRegistry.addSmelting(ModBlocks.ASTRAL_SILVER_ORE, new ItemStack(ModItems.ASTRAL_SILVER_INGOT), 0.4f);
-	}
+    /**
+     * Furnace recipes don't initialize through Json, instead you do that with code which we just trigger in the constructor
+     */
+    public static void initialize()
+    {
+        // Register smelting recipe for astral silver ore -> ingot
+        GameRegistry.addSmelting(ModBlocks.ASTRAL_SILVER_ORE, new ItemStack(ModItems.ASTRAL_SILVER_INGOT), 0.4f);
+    }
 }

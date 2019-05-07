@@ -39,8 +39,8 @@ public class NightmareChunkGenerator implements IChunkGenerator
      * True if structures should be generated in the nightmare, false otherwise
      *
      * @param chunkIn The chunk to test
-     * @param x The x position to test
-     * @param z The z position to test
+     * @param x       The x position to test
+     * @param z       The z position to test
      * @return False, we generate our structures manually
      */
     @Override
@@ -116,7 +116,7 @@ public class NightmareChunkGenerator implements IChunkGenerator
      * Get possible creatures at a position from the biome
      *
      * @param creatureType The creature type to add
-     * @param pos The position to add it at
+     * @param pos          The position to add it at
      * @return An empty list, this will be a nightmare biome which will return empty list
      */
     @Override
@@ -128,9 +128,9 @@ public class NightmareChunkGenerator implements IChunkGenerator
     /**
      * No nearest structure, this is only used by vanilla
      *
-     * @param worldIn the world reference
-     * @param structureName The structure name
-     * @param position The position of the player
+     * @param worldIn        the world reference
+     * @param structureName  The structure name
+     * @param position       The position of the player
      * @param findUnexplored If unexplored structures should be returned
      * @return null, no nearest structures
      */
@@ -145,8 +145,8 @@ public class NightmareChunkGenerator implements IChunkGenerator
      * Regenerates structures at a position, this gets ignored
      *
      * @param chunk The chunk to recreate in
-     * @param x The chunk x
-     * @param z The chunk z
+     * @param x     The chunk x
+     * @param z     The chunk z
      */
     @Override
     public void recreateStructures(Chunk chunk, int x, int z)
@@ -156,9 +156,9 @@ public class NightmareChunkGenerator implements IChunkGenerator
     /**
      * Tests if a given position is inside a structure, returns false for the nightmare
      *
-     * @param worldIn The world to test with
+     * @param worldIn       The world to test with
      * @param structureName The structure to test
-     * @param pos The position to test
+     * @param pos           The position to test
      * @return False, it's not possible to be in a structure here
      */
     @Override

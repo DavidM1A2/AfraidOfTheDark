@@ -44,7 +44,9 @@ public class BiomeNightmare extends Biome
     public List<SpawnListEntry> getSpawnableList(EnumCreatureType creatureType)
     {
         if (!spawnableCreatures.isEmpty())
+        {
             this.spawnableCreatures.clear();
+        }
         return spawnableCreatures;
     }
 

@@ -8,27 +8,33 @@ import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDKeyEvent;
  */
 public abstract class AOTDKeyListener implements IAOTDKeyListener
 {
-	/**
-	 * Called when a key is typed (pressed and released)
-	 *
-	 * @param event The event containing information about the key press
-	 */
-	@Override
-	public void keyTyped(AOTDKeyEvent event) {}
+    /**
+     * Called when a key is typed (pressed and released)
+     *
+     * @param event The event containing information about the key press
+     */
+    @Override
+    public void keyTyped(AOTDKeyEvent event)
+    {
+    }
 
-	/**
-	 * Called when a key is pressed down
-	 *
-	 * @param event The event containing information about the key press
-	 */
-	@Override
-	public void keyPressed(AOTDKeyEvent event) {}
+    /**
+     * Called when a key is pressed down
+     *
+     * @param event The event containing information about the key press
+     */
+    @Override
+    public void keyPressed(AOTDKeyEvent event)
+    {
+    }
 
-	/**
-	 * Called when a key is released
-	 *
-	 * @param event The event containing information about the key release
-	 */
-	@Override
-	public void keyReleased(AOTDKeyEvent event) {}
+    /**
+     * Called when a key is released
+     *
+     * @param event The event containing information about the key release
+     */
+    @Override
+    public void keyReleased(AOTDKeyEvent event)
+    {
+    }
 }

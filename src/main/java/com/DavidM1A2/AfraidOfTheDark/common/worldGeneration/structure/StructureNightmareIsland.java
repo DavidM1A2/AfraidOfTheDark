@@ -28,8 +28,8 @@ public class StructureNightmareIsland extends AOTDStructure
     /**
      * Tests if this structure is valid for the given position
      *
-     * @param blockPos The position that the structure would begin at
-     * @param heightmap The heightmap to use in deciding if the structure will fit at the position
+     * @param blockPos      The position that the structure would begin at
+     * @param heightmap     The heightmap to use in deciding if the structure will fit at the position
      * @param biomeProvider The provider used to generate the world, use biomeProvider.getBiomes() to get what biomes exist at a position
      * @return 0, this structure does not generate
      */
@@ -42,9 +42,9 @@ public class StructureNightmareIsland extends AOTDStructure
     /**
      * Generates the structure with an optional argument of chunk position
      *
-     * @param world The world to generate the structure in
+     * @param world    The world to generate the structure in
      * @param chunkPos Optional chunk position of a chunk to generate in. If supplied all blocks generated must be in this chunk only!
-     * @param data Any additional structure data that is needed for generation such as structure position
+     * @param data     Any additional structure data that is needed for generation such as structure position
      */
     @Override
     public void generate(World world, ChunkPos chunkPos, NBTTagCompound data)
@@ -58,8 +58,8 @@ public class StructureNightmareIsland extends AOTDStructure
     /**
      * Called to generate a random permutation of the structure. Set the structure's position
      *
-     * @param world The world to generate the structure's data for
-     * @param blockPos The position's x and z coordinates to generate the structure at
+     * @param world         The world to generate the structure's data for
+     * @param blockPos      The position's x and z coordinates to generate the structure at
      * @param biomeProvider ignored
      * @return The NBTTagCompound containing any data needed for generation. Sent in Structure::generate
      */

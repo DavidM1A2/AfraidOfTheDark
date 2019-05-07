@@ -11,18 +11,18 @@ import net.minecraftforge.registries.IForgeRegistry;
  */
 public class MeteorEntryRegister
 {
-	/**
-	 * Called by forge to register any of our meteor entries
-	 *
-	 * @param event The event to register to
-	 */
-	@SubscribeEvent
-	public void registerMeteorEntries(RegistryEvent.Register<MeteorEntry> event)
-	{
-		// Grab the registry for meteor entries
-		IForgeRegistry<MeteorEntry> registry = event.getRegistry();
+    /**
+     * Called by forge to register any of our meteor entries
+     *
+     * @param event The event to register to
+     */
+    @SubscribeEvent
+    public void registerMeteorEntries(RegistryEvent.Register<MeteorEntry> event)
+    {
+        // Grab the registry for meteor entries
+        IForgeRegistry<MeteorEntry> registry = event.getRegistry();
 
-		// Register all of our mod meteor entries
-		registry.registerAll(ModMeteorEntries.METEOR_ENTRY_LIST);
-	}
+        // Register all of our mod meteor entries
+        registry.registerAll(ModMeteorEntries.METEOR_ENTRY_LIST);
+    }
 }

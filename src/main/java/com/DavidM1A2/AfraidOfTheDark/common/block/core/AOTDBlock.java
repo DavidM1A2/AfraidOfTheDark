@@ -9,26 +9,28 @@ import net.minecraft.block.material.Material;
  */
 public abstract class AOTDBlock extends Block
 {
-	/**
-	 * Constructor requires a material parameter that defines some block properties
-	 *
-	 * @param baseName The name of the block to be used by the game registry
-	 * @param material The material of this block
-	 */
-	public AOTDBlock(String baseName, Material material)
-	{
-		super(material);
-		this.setUnlocalizedName(Constants.MOD_ID + ":" + baseName);
-		this.setRegistryName(Constants.MOD_ID + ":" + baseName);
-		if (this.displayInCreative())
-			this.setCreativeTab(Constants.AOTD_CREATIVE_TAB);
-	}
+    /**
+     * Constructor requires a material parameter that defines some block properties
+     *
+     * @param baseName The name of the block to be used by the game registry
+     * @param material The material of this block
+     */
+    public AOTDBlock(String baseName, Material material)
+    {
+        super(material);
+        this.setUnlocalizedName(Constants.MOD_ID + ":" + baseName);
+        this.setRegistryName(Constants.MOD_ID + ":" + baseName);
+        if (this.displayInCreative())
+        {
+            this.setCreativeTab(Constants.AOTD_CREATIVE_TAB);
+        }
+    }
 
-	/**
-	 * @return True if this block should be displayed in creative mode, false otherwise
-	 */
-	protected boolean displayInCreative()
-	{
-		return true;
-	}
+    /**
+     * @return True if this block should be displayed in creative mode, false otherwise
+     */
+    protected boolean displayInCreative()
+    {
+        return true;
+    }
 }

@@ -8,6 +8,6 @@ import net.minecraftforge.common.util.EnumHelper;
  */
 public class ModToolMaterials
 {
-	public static final Item.ToolMaterial BLADE_OF_EXHUMATION = EnumHelper.addToolMaterial("blade_of_exhumation", 0, 150, 0, 0, 0);
-	public static final Item.ToolMaterial ASTRAL_SILVER = EnumHelper.addToolMaterial("astral_silver", 2, 250, 1, 3.0F, 20);
+    public static final Item.ToolMaterial BLADE_OF_EXHUMATION = EnumHelper.addToolMaterial("blade_of_exhumation", 0, 150, 0, 0, 0);
+    public static final Item.ToolMaterial ASTRAL_SILVER = EnumHelper.addToolMaterial("astral_silver", 2, 250, 1, 3.0F, 20);
 }

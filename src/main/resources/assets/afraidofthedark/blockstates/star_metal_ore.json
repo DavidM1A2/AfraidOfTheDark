@@ -1,5 +1,7 @@
 {
-	"variants": {
-		"normal": { "model": "afraidofthedark:star_metal_ore" }
-	}
+  "variants": {
+    "normal": {
+      "model": "afraidofthedark:star_metal_ore"
+    }
+  }
 }
