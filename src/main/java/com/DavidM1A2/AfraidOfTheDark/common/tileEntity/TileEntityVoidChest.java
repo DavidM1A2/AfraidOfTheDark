@@ -2,17 +2,15 @@ package com.DavidM1A2.afraidofthedark.common.tileEntity;
 
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.dimension.IAOTDPlayerVoidChestData;
-import com.DavidM1A2.afraidofthedark.common.capabilities.world.VoidChestData;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
 import com.DavidM1A2.afraidofthedark.common.constants.ModDimensions;
-import com.DavidM1A2.afraidofthedark.common.dimension.voidChest.VoidChestUtility;
+import com.DavidM1A2.afraidofthedark.common.dimension.IslandUtility;
 import com.DavidM1A2.afraidofthedark.common.packets.otherPackets.SyncVoidChest;
 import com.DavidM1A2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity;
 import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemNameTag;
 import net.minecraft.item.ItemStack;
@@ -20,12 +18,11 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagLong;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 
 import java.util.Set;
@@ -133,9 +130,12 @@ public class TileEntityVoidChest extends AOTDTickingTileEntity
 						if (Math.sqrt(this.playerToSend.getDistanceSq(this.getPos())) < DISTANCE_TO_SEND_PLAYER)
 							if (!this.world.isRemote)
 							{
+								IAOTDPlayerVoidChestData playerVoidChestData = this.playerToSend.getCapability(ModCapabilities.PLAYER_VOID_CHEST_DATA, null);
 								// If the player we're sending is the owner send them to their home dimension, otherwise send them to their friend's dimension
-								if (!this.playerToSend.getGameProfile().getId().equals(this.owner))
-									this.playerToSend.getCapability(ModCapabilities.PLAYER_VOID_CHEST_DATA, null).setFriendsIndex(this.indexToGoTo);
+								if (this.playerToSend.getGameProfile().getId().equals(this.owner))
+									playerVoidChestData.setFriendsIndex(-1);
+								else
+									playerVoidChestData.setFriendsIndex(this.indexToGoTo);
 								this.playerToSend.changeDimension(ModDimensions.VOID_CHEST.getId(), ModDimensions.NOOP_TELEPORTER);
 							}
 					}
@@ -163,7 +163,9 @@ public class TileEntityVoidChest extends AOTDTickingTileEntity
 			if (this.owner == null)
 			{
 				this.owner = entityPlayer.getGameProfile().getId();
-				this.indexToGoTo = VoidChestUtility.getOrAssignPlayerPositionalIndex(world.getMinecraftServer(), entityPlayer);
+				World voidChestWorld = this.world.getMinecraftServer().getWorld(ModDimensions.VOID_CHEST.getId());
+				IAOTDPlayerVoidChestData playerVoidChestData = entityPlayer.getCapability(ModCapabilities.PLAYER_VOID_CHEST_DATA, null);
+				this.indexToGoTo = IslandUtility.getOrAssignPlayerPositionalIndex(voidChestWorld, playerVoidChestData);
 				entityPlayer.sendMessage(new TextComponentString("You owner of this chest has been set to " + entityPlayer.getDisplayName().getUnformattedText()));
 			}
 			// If the chest has an owner test if we're the owner

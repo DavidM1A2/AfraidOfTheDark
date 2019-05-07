@@ -11,7 +11,7 @@ import net.minecraft.item.Item;
  */
 public class ModItems
 {
-	public static final Item JOURNAL = new ItemJournal();
+	public static final ItemJournal JOURNAL = new ItemJournal();
 	public static final Item ENCHANTED_SKELETON_BONE = new ItemEnchantedSkeletonBone();
 	public static final Item BLADE_OF_EXHUMATION = new ItemBladeOfExhumation();
 	public static final Item CROSSBOW = new ItemCrossbow();

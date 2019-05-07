@@ -1,6 +1,7 @@
 package com.DavidM1A2.afraidofthedark.common.constants;
 
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.basics.IAOTDPlayerBasics;
+import com.DavidM1A2.afraidofthedark.common.capabilities.player.dimension.IAOTDPlayerNightmareData;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.dimension.IAOTDPlayerVoidChestData;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.research.IAOTDPlayerResearch;
 import net.minecraftforge.common.capabilities.Capability;
@@ -22,4 +23,8 @@ public class ModCapabilities
 	// Capability that all players get which allows them to go to and from the void chest dimension
 	@CapabilityInject(IAOTDPlayerVoidChestData.class)
 	public static final Capability<IAOTDPlayerVoidChestData> PLAYER_VOID_CHEST_DATA = null;
+
+	// Capability that all players get which allows them to go to and from the nightmare dimension
+	@CapabilityInject(IAOTDPlayerNightmareData.class)
+	public static final Capability<IAOTDPlayerNightmareData> PLAYER_NIGHTMARE_DATA = null;
 }

@@ -36,7 +36,7 @@ public class ConfigurationHandler
 	private boolean enableAOTDAnimations = true;
 	private boolean enableWorldGenLightUpdates = false;
 	private int worldGenPriority = 0;
-	private int blocksBetweenIslands = 992;
+	private int blocksBetweenIslands = 1000;
 
 	///
 	/// Three categories of properties

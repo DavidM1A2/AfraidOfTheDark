@@ -1,6 +1,6 @@
 package com.DavidM1A2.afraidofthedark.common.item;
 
-import com.DavidM1A2.afraidofthedark.common.constants.ModStructures;
+import com.DavidM1A2.afraidofthedark.common.constants.ModDimensions;
 import com.DavidM1A2.afraidofthedark.common.item.core.AOTDItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -41,8 +41,10 @@ public class ItemDebug extends AOTDItem
 		*/
         if (!worldIn.isRemote)
         {
-            ModStructures.NIGHTMARE_ISLAND.generate(worldIn,null, ModStructures.NIGHTMARE_ISLAND.generateStructureData(worldIn, playerIn.getPosition().add(2, 0, 2), worldIn.provider.getBiomeProvider()));
-
+            if (playerIn.dimension == 0)
+                playerIn.changeDimension(ModDimensions.NIGHTMARE.getId(), ModDimensions.NOOP_TELEPORTER);
+            else
+                playerIn.changeDimension(0, ModDimensions.NOOP_TELEPORTER);
 			/*
 			// 60x60
 			playerIn.sendMessage(new TextComponentString("TREES: "));

@@ -1,23 +1,19 @@
 package com.DavidM1A2.afraidofthedark.common.block;
 
-import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.block.core.AOTDBlock;
+import com.DavidM1A2.afraidofthedark.common.capabilities.player.dimension.IAOTDPlayerVoidChestData;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.research.IAOTDPlayerResearch;
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
 import com.DavidM1A2.afraidofthedark.common.constants.ModDimensions;
 import com.DavidM1A2.afraidofthedark.common.constants.ModResearches;
-import com.DavidM1A2.afraidofthedark.common.dimension.NoopTeleporter;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.Teleporter;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -59,13 +55,14 @@ public class BlockVoidChestPortal extends AOTDBlock
 			if (entity instanceof EntityPlayer)
 			{
 				EntityPlayer entityPlayer = (EntityPlayer) entity;
-				// Grab the player's research
+				// Grab the player's research and void chest data
 				IAOTDPlayerResearch playerResearch = entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null);
+				IAOTDPlayerVoidChestData playerVoidChestData = entityPlayer.getCapability(ModCapabilities.PLAYER_VOID_CHEST_DATA, null);
 				// If the player is in the void chest send them to their stored dimension
 				if (world.provider.getDimension() == ModDimensions.VOID_CHEST.getId())
 				{
 					// Send the player to their previously stored dimension
-					entityPlayer.changeDimension(entityPlayer.getCapability(ModCapabilities.PLAYER_VOID_CHEST_DATA, null).getPreTeleportDimensionID(), ModDimensions.NOOP_TELEPORTER);
+					entityPlayer.changeDimension(playerVoidChestData.getPreTeleportDimensionID(), ModDimensions.NOOP_TELEPORTER);
 				}
 				// If it's any other dimension go to the void chest dimension
 				else
@@ -80,7 +77,11 @@ public class BlockVoidChestPortal extends AOTDBlock
 
 					// If the player has the void chest research then move the player
 					if (playerResearch.isResearched(ModResearches.VOID_CHEST))
+					{
+						// Make sure no friends index is set since the portal can only send to the player's dimension
+						playerVoidChestData.setFriendsIndex(-1);
 						entityPlayer.changeDimension(ModDimensions.VOID_CHEST.getId(), ModDimensions.NOOP_TELEPORTER);
+					}
 				}
 			}
 		}

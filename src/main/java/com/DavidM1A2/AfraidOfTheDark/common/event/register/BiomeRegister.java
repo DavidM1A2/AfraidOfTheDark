@@ -33,7 +33,8 @@ public class BiomeRegister
 		BiomeManager.addBiome(BiomeManager.BiomeType.WARM, new BiomeManager.BiomeEntry(ModBiomes.ERIE_FOREST, configurationHandler.getErieBiomeFrequency()));
 		// Make sure the erie forest is registered as being compatible with forests, coniferous, and plains types
 		BiomeDictionary.addTypes(ModBiomes.ERIE_FOREST, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.CONIFEROUS, BiomeDictionary.Type.PLAINS);
-		// The void chest biome is just a void type
+		// VOID_CHEST and NIGHTMARE are set to void types
 		BiomeDictionary.addTypes(ModBiomes.VOID_CHEST, BiomeDictionary.Type.VOID);
+		BiomeDictionary.addTypes(ModBiomes.NIGHTMARE, BiomeDictionary.Type.VOID);
 	}
 }

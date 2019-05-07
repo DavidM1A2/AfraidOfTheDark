@@ -15,10 +15,10 @@ import javax.annotation.Nullable;
 public class AOTDPlayerVoidChestDataStorage implements Capability.IStorage<IAOTDPlayerVoidChestData>
 {
 	// Constant IDs used in NBT
-	private static final String POSITIONAL_INDEX = "positionalIndex";
-	private static final String FRIENDS_INDEX = "friendsIndex";
-	private static final String PRE_TELEPORT_POSITION = "preTeleportPosition";
-	private static final String PRE_TELEPORT_DIMENSION_ID = "preTeleportDimensionID";
+	private static final String NBT_POSITIONAL_INDEX = "positional_index";
+	private static final String NBT_FRIENDS_INDEX = "friends_index";
+	private static final String NBT_PRE_TELEPORT_POSITION = "pre_teleport_position";
+	private static final String NBT_PRE_TELEPORT_DIMENSION_ID = "pre_teleport_dimension_id";
 
 	/**
 	 * Called to write a capability to an NBT compound
@@ -35,11 +35,11 @@ public class AOTDPlayerVoidChestDataStorage implements Capability.IStorage<IAOTD
 		// Create a compound to write
 		NBTTagCompound compound = new NBTTagCompound();
 
-		compound.setInteger(POSITIONAL_INDEX, instance.getPositionalIndex());
-		compound.setInteger(FRIENDS_INDEX, instance.getFriendsIndex());
+		compound.setInteger(NBT_POSITIONAL_INDEX, instance.getPositionalIndex());
+		compound.setInteger(NBT_FRIENDS_INDEX, instance.getFriendsIndex());
 		if (instance.getPreTeleportPosition() != null)
-			compound.setTag(PRE_TELEPORT_POSITION, NBTUtil.createPosTag(instance.getPreTeleportPosition()));
-		compound.setInteger(PRE_TELEPORT_DIMENSION_ID, instance.getPreTeleportDimensionID());
+			compound.setTag(NBT_PRE_TELEPORT_POSITION, NBTUtil.createPosTag(instance.getPreTeleportPosition()));
+		compound.setInteger(NBT_PRE_TELEPORT_DIMENSION_ID, instance.getPreTeleportDimensionID());
 
 		return compound;
 	}
@@ -61,13 +61,13 @@ public class AOTDPlayerVoidChestDataStorage implements Capability.IStorage<IAOTD
 			// The compound to read from
 			NBTTagCompound compound = (NBTTagCompound) nbt;
 
-			instance.setPositionalIndex(compound.getInteger(POSITIONAL_INDEX));
-			instance.setFriendsIndex(compound.getInteger(FRIENDS_INDEX));
-			if (compound.hasKey(PRE_TELEPORT_POSITION))
-				instance.setPreTeleportPosition(NBTUtil.getPosFromTag((NBTTagCompound) compound.getTag(PRE_TELEPORT_POSITION)));
+			instance.setPositionalIndex(compound.getInteger(NBT_POSITIONAL_INDEX));
+			instance.setFriendsIndex(compound.getInteger(NBT_FRIENDS_INDEX));
+			if (compound.hasKey(NBT_PRE_TELEPORT_POSITION))
+				instance.setPreTeleportPosition(NBTUtil.getPosFromTag((NBTTagCompound) compound.getTag(NBT_PRE_TELEPORT_POSITION)));
 			else
 				instance.setPreTeleportPosition(null);
-			instance.setPreTeleportDimensionID(compound.getInteger(PRE_TELEPORT_DIMENSION_ID));
+			instance.setPreTeleportDimensionID(compound.getInteger(NBT_PRE_TELEPORT_DIMENSION_ID));
 		}
 		// There's an error, this should not be possible
 		else

@@ -87,8 +87,6 @@ public class AfraidOfTheDark
 		MinecraftForge.EVENT_BUS.register(new MeteorEntryRegister());
 		// Register our mod dimensions
 		DimensionRegister.initialize();
-		// Register our dimension teleportation handlers
-		MinecraftForge.EVENT_BUS.register(new TeleportHandler());
 		// Register our research overlay display to draw on the screen, only need to do this client side
 		if (event.getSide() == Side.CLIENT)
 			MinecraftForge.EVENT_BUS.register(proxy.getResearchOverlay());
@@ -104,6 +102,8 @@ public class AfraidOfTheDark
 		MinecraftForge.EVENT_BUS.register(new FlaskOfSoulsHandler());
 		// Register our nightmare handler
 		MinecraftForge.EVENT_BUS.register(new NightmareHandler());
+		// Register our void chest handler
+		MinecraftForge.EVENT_BUS.register(new VoidChestHandler());
 		// Register our AOTD world generator
 		GameRegistry.registerWorldGenerator(worldGenerator, configurationHandler.getWorldGenPriority());
 		// We also need to register our world gen server tick handler

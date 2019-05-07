@@ -4,10 +4,7 @@ import com.DavidM1A2.afraidofthedark.common.capabilities.player.basics.AOTDPlaye
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.basics.AOTDPlayerBasicsProvider;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.basics.AOTDPlayerBasicsStorage;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.basics.IAOTDPlayerBasics;
-import com.DavidM1A2.afraidofthedark.common.capabilities.player.dimension.AOTDPlayerVoidChestDataImpl;
-import com.DavidM1A2.afraidofthedark.common.capabilities.player.dimension.AOTDPlayerVoidChestDataProvider;
-import com.DavidM1A2.afraidofthedark.common.capabilities.player.dimension.AOTDPlayerVoidChestDataStorage;
-import com.DavidM1A2.afraidofthedark.common.capabilities.player.dimension.IAOTDPlayerVoidChestData;
+import com.DavidM1A2.afraidofthedark.common.capabilities.player.dimension.*;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.research.AOTDPlayerResearchImpl;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.research.AOTDPlayerResearchProvider;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.research.AOTDPlayerResearchStorage;
@@ -43,6 +40,7 @@ public class CapabilityHandler
 			CapabilityManager.INSTANCE.register(IAOTDPlayerBasics.class, new AOTDPlayerBasicsStorage(), AOTDPlayerBasicsImpl::new);
 			CapabilityManager.INSTANCE.register(IAOTDPlayerResearch.class, new AOTDPlayerResearchStorage(), AOTDPlayerResearchImpl::new);
 			CapabilityManager.INSTANCE.register(IAOTDPlayerVoidChestData.class, new AOTDPlayerVoidChestDataStorage(), AOTDPlayerVoidChestDataImpl::new);
+			CapabilityManager.INSTANCE.register(IAOTDPlayerNightmareData.class, new AOTDPlayerNightmareDataStorage(), AOTDPlayerNightmareImpl::new);
 
 			CapabilityHandler.wasInitialized = true;
 		}
@@ -62,6 +60,7 @@ public class CapabilityHandler
 			event.addCapability(new ResourceLocation(Constants.MOD_ID + ":player_basics"), new AOTDPlayerBasicsProvider());
 			event.addCapability(new ResourceLocation(Constants.MOD_ID + ":player_research"), new AOTDPlayerResearchProvider());
 			event.addCapability(new ResourceLocation(Constants.MOD_ID + ":player_void_chest_data"), new AOTDPlayerVoidChestDataProvider());
+			event.addCapability(new ResourceLocation(Constants.MOD_ID + ":player_nightmare_data"), new AOTDPlayerNightmareDataProvider());
 		}
 	}
 
@@ -84,6 +83,7 @@ public class CapabilityHandler
 				entityPlayer.getCapability(ModCapabilities.PLAYER_BASICS, null).syncAll(entityPlayer);
 				entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null).sync(entityPlayer, false);
 				// Dont sync PLAYER_VOID_CHEST_DATA because it's server side only storage!
+				// Dont sync PLAYER_NIGHTMARE_DATA because it's server side only storage!
 			}
 		}
 	}
@@ -109,15 +109,20 @@ public class CapabilityHandler
 			IAOTDPlayerVoidChestData originalPlayerVoidChestData = event.getOriginal().getCapability(ModCapabilities.PLAYER_VOID_CHEST_DATA, null);
 			IAOTDPlayerVoidChestData newPlayerVoidChestData = event.getEntityPlayer().getCapability(ModCapabilities.PLAYER_VOID_CHEST_DATA, null);
 
+			IAOTDPlayerNightmareData originalPlayerNightmareData = event.getOriginal().getCapability(ModCapabilities.PLAYER_NIGHTMARE_DATA, null);
+			IAOTDPlayerNightmareData newPlayerNightmareData = event.getEntityPlayer().getCapability(ModCapabilities.PLAYER_NIGHTMARE_DATA, null);
+
 			// Grab the NBT compound off of the original capabilities
 			NBTTagCompound originalPlayerBasicsNBT = (NBTTagCompound) ModCapabilities.PLAYER_BASICS.getStorage().writeNBT(ModCapabilities.PLAYER_BASICS, originalPlayerBasics, null);
 			NBTTagCompound originalPlayerResearchNBT = (NBTTagCompound) ModCapabilities.PLAYER_RESEARCH.getStorage().writeNBT(ModCapabilities.PLAYER_RESEARCH, originalPlayerResearch, null);
 			NBTTagCompound originalPlayerVoidChestDataNBT = (NBTTagCompound) ModCapabilities.PLAYER_VOID_CHEST_DATA.getStorage().writeNBT(ModCapabilities.PLAYER_VOID_CHEST_DATA, originalPlayerVoidChestData, null);
+			NBTTagCompound originalPlayerNightmareDataNBT = (NBTTagCompound) ModCapabilities.PLAYER_NIGHTMARE_DATA.getStorage().writeNBT(ModCapabilities.PLAYER_NIGHTMARE_DATA, originalPlayerNightmareData, null);
 
 			// Copy the NBT compound onto the new capabilities
 			ModCapabilities.PLAYER_BASICS.getStorage().readNBT(ModCapabilities.PLAYER_BASICS, newPlayerBasics, null, originalPlayerBasicsNBT);
 			ModCapabilities.PLAYER_RESEARCH.getStorage().readNBT(ModCapabilities.PLAYER_RESEARCH, newPlayerResearch, null, originalPlayerResearchNBT);
 			ModCapabilities.PLAYER_VOID_CHEST_DATA.getStorage().readNBT(ModCapabilities.PLAYER_VOID_CHEST_DATA, newPlayerVoidChestData, null, originalPlayerVoidChestDataNBT);
+			ModCapabilities.PLAYER_NIGHTMARE_DATA.getStorage().readNBT(ModCapabilities.PLAYER_NIGHTMARE_DATA, newPlayerNightmareData, null, originalPlayerNightmareDataNBT);
 		}
 	}
 }

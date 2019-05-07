@@ -1,6 +1,8 @@
 package com.DavidM1A2.afraidofthedark.common.entity.enaria;
 
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
+import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
+import com.DavidM1A2.afraidofthedark.common.constants.ModDimensions;
 import com.DavidM1A2.afraidofthedark.common.entity.enaria.animation.AnimationHandlerGhastlyEnaria;
 import com.DavidM1A2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedEntity;
 import com.DavidM1A2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler;
@@ -123,15 +125,19 @@ public class EntityGhastlyEnaria extends EntityFlying implements IMCAnimatedEnti
 
         // If a player gets within 3 blocks of enaria send them back to the overworld
         if (!this.world.isRemote)
+        {
             if (this.ticksExisted % PLAYER_DISTANCE_CHECK_FREQUENCY == 0)
             {
+                // Grab the clostest player within 3 blocks
                 EntityPlayer entityPlayer = this.world.getClosestPlayerToEntity(this, 3);
-
-                /*
+                // Make sure the player is valid and not dead
                 if (entityPlayer != null && !entityPlayer.isDead)
-                    AOTDDimensions.Nightmare.fromDimensionTo(entityPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).getPlayerDimensionPreTeleport(), ((EntityPlayerMP) entityPlayer));
-                 */
+                {
+                    // Send them back to their original dimension
+                    entityPlayer.changeDimension(entityPlayer.getCapability(ModCapabilities.PLAYER_NIGHTMARE_DATA, null).getPreTeleportDimensionID(), ModDimensions.NOOP_TELEPORTER);
+                }
             }
+        }
     }
 
     /**

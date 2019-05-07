@@ -20,21 +20,21 @@ public class ModLootTables
     public static final LootTable NIGHTMARE_ISLAND = new LootTable(new HashMap<Item, ResourceLocation>()
     {
         {
-            put(Items.COOKED_BEEF, new ResourceLocation("nightmare/random_food"));
-            put(Items.FEATHER, new ResourceLocation("nightmare/insanity_research"));
-            put(Items.SUGAR, new ResourceLocation("nightmare/potions"));
-            put(null, new ResourceLocation("nightmare/random_blocks"));
-            put(Items.DIAMOND, new ResourceLocation("nightmare/valuable"));
-            put(Items.BLAZE_ROD, new ResourceLocation("nightmare/weaponry"));
-            put(Items.EMERALD, new ResourceLocation("nightmare/vitae1_part1"));
-            put(Items.IRON_INGOT, new ResourceLocation("nightmare/vitae1_part2"));
-            put(Items.GOLD_INGOT, new ResourceLocation("nightmare/vitae1_part3"));
-            put(Items.NETHERBRICK, new ResourceLocation("nightmare/vitae1_part4"));
-            put(Items.COAL, new ResourceLocation("nightmare/vitae1_part5"));
-            put(Items.GOLD_NUGGET, new ResourceLocation("nightmare/astronomy2_part1"));
-            put(Items.GLOWSTONE_DUST, new ResourceLocation("nightmare/astronomy2_part2"));
-            put(Items.NETHER_WART, new ResourceLocation("nightmare/astronomy2_part3"));
-            put(Items.RABBIT_HIDE, new ResourceLocation("nightmare/astronomy2_part4"));
+            put(Items.COOKED_BEEF, new ResourceLocation(Constants.MOD_ID, "nightmare/random_food"));
+            put(Items.FEATHER, new ResourceLocation(Constants.MOD_ID, "nightmare/insanity_research"));
+            put(Items.SUGAR, new ResourceLocation(Constants.MOD_ID, "nightmare/potions"));
+            put(null, new ResourceLocation(Constants.MOD_ID, "nightmare/random_blocks"));
+            put(Items.DIAMOND, new ResourceLocation(Constants.MOD_ID, "nightmare/valuable"));
+            put(Items.BLAZE_ROD, new ResourceLocation(Constants.MOD_ID, "nightmare/weaponry"));
+            put(Items.EMERALD, new ResourceLocation(Constants.MOD_ID, "nightmare/vitae1_part1"));
+            put(Items.IRON_INGOT, new ResourceLocation(Constants.MOD_ID, "nightmare/vitae1_part2"));
+            put(Items.GOLD_INGOT, new ResourceLocation(Constants.MOD_ID, "nightmare/vitae1_part3"));
+            put(Items.NETHERBRICK, new ResourceLocation(Constants.MOD_ID, "nightmare/vitae1_part4"));
+            put(Items.COAL, new ResourceLocation(Constants.MOD_ID, "nightmare/vitae1_part5"));
+            put(Items.GOLD_NUGGET, new ResourceLocation(Constants.MOD_ID, "nightmare/astronomy2_part1"));
+            put(Items.GLOWSTONE_DUST, new ResourceLocation(Constants.MOD_ID, "nightmare/astronomy2_part2"));
+            put(Items.NETHER_WART, new ResourceLocation(Constants.MOD_ID, "nightmare/astronomy2_part3"));
+            put(Items.RABBIT_HIDE, new ResourceLocation(Constants.MOD_ID, "nightmare/astronomy2_part4"));
         }
     });
 }

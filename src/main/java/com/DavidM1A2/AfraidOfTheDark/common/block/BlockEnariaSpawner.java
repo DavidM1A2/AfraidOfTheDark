@@ -2,6 +2,7 @@ package com.DavidM1A2.afraidofthedark.common.block;
 
 import com.DavidM1A2.afraidofthedark.common.block.core.AOTDBlockTileEntity;
 import com.DavidM1A2.afraidofthedark.common.constants.ModDimensions;
+import com.DavidM1A2.afraidofthedark.common.tileEntity.TileEntityGhastlyEnariaSpawner;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
@@ -43,8 +44,8 @@ public class BlockEnariaSpawner extends AOTDBlockTileEntity
         // In the overworld we spawn a regular enaria, in the nightmare we spawn a ghastly enaria
         if (dimensionId == 0)
             return null;
-        else if (dimensionId == ModDimensions.VOID_CHEST.getId())
-            return null;
+        else if (dimensionId == ModDimensions.NIGHTMARE.getId())
+            return new TileEntityGhastlyEnariaSpawner();
         else
             return null;
     }

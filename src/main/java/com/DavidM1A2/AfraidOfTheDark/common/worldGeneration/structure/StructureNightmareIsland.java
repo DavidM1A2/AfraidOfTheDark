@@ -6,6 +6,7 @@ import com.DavidM1A2.afraidofthedark.common.constants.ModSchematics;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.AOTDStructure;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
@@ -52,6 +53,25 @@ public class StructureNightmareIsland extends AOTDStructure
         BlockPos blockPos = this.getPosition(data);
         // This structure is simple, it is just the crypt schematic
         SchematicGenerator.generateSchematic(ModSchematics.NIGHTMARE_ISLAND, world, blockPos, chunkPos, ModLootTables.NIGHTMARE_ISLAND);
+    }
+
+    /**
+     * Called to generate a random permutation of the structure. Set the structure's position
+     *
+     * @param world The world to generate the structure's data for
+     * @param blockPos The position's x and z coordinates to generate the structure at
+     * @param biomeProvider ignored
+     * @return The NBTTagCompound containing any data needed for generation. Sent in Structure::generate
+     */
+    @Override
+    public NBTTagCompound generateStructureData(World world, BlockPos blockPos, BiomeProvider biomeProvider)
+    {
+        NBTTagCompound compound = new NBTTagCompound();
+
+        // Set the position to the blockpos
+        compound.setTag(NBT_POSITION, NBTUtil.createPosTag(blockPos));
+
+        return compound;
     }
 
     /**

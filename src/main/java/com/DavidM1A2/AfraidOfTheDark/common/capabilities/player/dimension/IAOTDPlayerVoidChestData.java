@@ -1,14 +1,12 @@
 package com.DavidM1A2.afraidofthedark.common.capabilities.player.dimension;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
-import scala.annotation.meta.param;
 
 /**
  * An interface that is a base for AOTD player void chest data capabilities. This specific capability is only used server side!
  * This means no packets are needed to update the player about state changes and no sync method is present
  */
-public interface IAOTDPlayerVoidChestData
+public interface IAOTDPlayerVoidChestData extends IAOTDIslandData
 {
 	/**
 	 * @return the index corresponding to the player's void chest position in the void chest dimension
