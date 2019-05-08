@@ -8,6 +8,7 @@ import com.DavidM1A2.afraidofthedark.common.dimension.IslandUtility;
 import com.DavidM1A2.afraidofthedark.common.utility.NBTHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
@@ -203,8 +204,12 @@ public class NightmareHandler
             entityPlayer.connection.setPlayerLocation(playerXBase + 21.5, 74, 44.5, 0, 0);
             // Reset the player's stats so that they don't die from low hp in the new dimension
             resetPlayerStats(entityPlayer);
+            // Give the player a research journal
             entityPlayer.inventory.addItemStackToInventory(createNamedJournal(entityPlayer));
+            // Give the player a hint book to find the researches
             entityPlayer.inventory.addItemStackToInventory(createHintBook());
+            // Give the player torches to see
+            entityPlayer.inventory.addItemStackToInventory(new ItemStack(Blocks.TORCH, 64));
         }
 
         // If the player left the nightmare reset their position
