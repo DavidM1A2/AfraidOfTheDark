@@ -229,4 +229,6 @@ aotd.falling_meteor.info.help=§oI should probably write these values down and l
 
 aotd.crafting.missing_research=§oI'll need to do some more research before I can craft this.
 
+aotd.world_gen.saving=§5[Afraid of the Dark] %1$s chunks are still being generated, please wait while these finish generating...
+
 aotd.dont_understand=§oI don't understand how this works.

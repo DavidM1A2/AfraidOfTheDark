@@ -6,10 +6,12 @@ import com.DavidM1A2.afraidofthedark.common.capabilities.world.StructurePlan;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.Structure;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -77,6 +79,33 @@ public class AOTDWorldGenerator implements IWorldGenerator
                 World world = DimensionManager.getWorld(0);
                 // Generate the chunk
                 this.generate(world, chunkToGenerate);
+            }
+        }
+    }
+
+    /**
+     * Called when the world is saved. When this happens finish generating all chunks
+     *
+     * @param event The event which will be ignored for all worlds but the overworld
+     */
+    @SubscribeEvent
+    public void onWorldSave(WorldEvent.Save event)
+    {
+        // Overworld only
+        if (!event.getWorld().isRemote && event.getWorld().provider.getDimension() == 0)
+        {
+            // Perform some finalization if we need to generate some chunks
+            if (!this.chunksThatNeedGeneration.isEmpty())
+            {
+                event.getWorld().getMinecraftServer().sendMessage(new TextComponentTranslation("aotd.world_gen.saving", this.chunksThatNeedGeneration.size()));
+                // Loop while we still need to generate a chunk
+                while (!this.chunksThatNeedGeneration.isEmpty())
+                {
+                    // Grab the chunk to generate
+                    ChunkPos chunkToGenerate = this.chunksThatNeedGeneration.remove();
+                    // Generate the chunk
+                    this.generate(event.getWorld(), chunkToGenerate);
+                }
             }
         }
     }
