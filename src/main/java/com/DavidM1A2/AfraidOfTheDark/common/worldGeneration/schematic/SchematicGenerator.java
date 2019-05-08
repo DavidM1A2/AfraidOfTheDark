@@ -15,6 +15,8 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
+import java.util.UUID;
+
 /**
  * Class used to generate schematics
  */
@@ -231,6 +233,9 @@ public class SchematicGenerator
             // If the entity is valid, continue...
             if (entity != null)
             {
+                // Update the UUID to be random so that it does not conflict with other entities from the same schematic
+                entity.setUniqueId(UUID.randomUUID());
+
                 // Get the X, Y, and Z coordinates of this entity if instantiated inside the world
                 double newX = entity.posX + blockPos.getX();
                 double newY = entity.posY + blockPos.getY();
