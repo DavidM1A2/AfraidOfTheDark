@@ -2,7 +2,9 @@ package com.DavidM1A2.afraidofthedark.common.worldGeneration.schematic;
 
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.LootTable;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.WorldGenFast;
+import com.google.common.collect.ImmutableSet;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.init.Blocks;
@@ -15,6 +17,9 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -22,6 +27,64 @@ import java.util.UUID;
  */
 public class SchematicGenerator
 {
+    // A massive set of blocks that need to "be placed on" another block so we generate them after the solid blocks
+    private static final Set<Block> PHASE_2_BLOCKS = ImmutableSet.<Block>builder()
+            .add(Blocks.SAPLING)
+            .add(Blocks.BED)
+            .add(Blocks.RAIL)
+            .add(Blocks.ACTIVATOR_RAIL)
+            .add(Blocks.DETECTOR_RAIL)
+            .add(Blocks.GOLDEN_RAIL)
+            .add(Blocks.DEADBUSH)
+            .add(Blocks.TALLGRASS)
+            .add(Blocks.YELLOW_FLOWER)
+            .add(Blocks.RED_FLOWER)
+            .add(Blocks.BROWN_MUSHROOM)
+            .add(Blocks.RED_MUSHROOM)
+            .add(Blocks.TORCH)
+            .add(Blocks.FIRE)
+            .add(Blocks.REDSTONE_WIRE)
+            .add(Blocks.WHEAT)
+            .add(Blocks.STANDING_SIGN)
+            .add(Blocks.WALL_SIGN)
+            .add(Blocks.LADDER)
+            .add(Blocks.LEVER)
+            .add(Blocks.STONE_PRESSURE_PLATE)
+            .add(Blocks.IRON_DOOR)
+            .add(Blocks.WOODEN_PRESSURE_PLATE)
+            .add(Blocks.REDSTONE_TORCH)
+            .add(Blocks.UNLIT_REDSTONE_TORCH)
+            .add(Blocks.STONE_BUTTON)
+            .add(Blocks.CACTUS)
+            .add(Blocks.REEDS)
+            .add(Blocks.POWERED_REPEATER)
+            .add(Blocks.UNPOWERED_REPEATER)
+            .add(Blocks.PUMPKIN_STEM)
+            .add(Blocks.MELON_STEM)
+            .add(Blocks.VINE)
+            .add(Blocks.WATERLILY)
+            .add(Blocks.NETHER_WART)
+            .add(Blocks.DRAGON_EGG)
+            .add(Blocks.COCOA)
+            .add(Blocks.TRIPWIRE_HOOK)
+            .add(Blocks.TRIPWIRE)
+            .add(Blocks.CARROTS)
+            .add(Blocks.POTATOES)
+            .add(Blocks.WOODEN_BUTTON)
+            .add(Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE)
+            .add(Blocks.HEAVY_WEIGHTED_PRESSURE_PLATE)
+            .add(Blocks.CARPET)
+            .add(Blocks.DOUBLE_PLANT)
+            .add(Blocks.STANDING_BANNER)
+            .add(Blocks.WALL_BANNER)
+            .add(Blocks.SPRUCE_DOOR)
+            .add(Blocks.BIRCH_DOOR)
+            .add(Blocks.JUNGLE_DOOR)
+            .add(Blocks.ACACIA_DOOR)
+            .add(Blocks.DARK_OAK_DOOR)
+            .add(Blocks.BEETROOTS)
+            .build();
+
     /**
      * Generates a schematic fully in a world at a specific block position without loot
      *
@@ -125,6 +188,14 @@ public class SchematicGenerator
         // Fixes cascading world gen with leaves/fences
         int setBlockFlags = 2 | 16;
 
+        // Keep a list of indices we need to generate in phase 2 of the generation because they rely on other blocks
+        List<Integer> phase2Blocks = new ArrayList<>();
+        List<BlockPos> phase2Positions = new ArrayList<>();
+
+        ///
+        /// Phase 1 is to generate all solid blocks, this should take most of the time
+        ///
+
         // Iterate over the Y axis first since that's the format that schematics use
         for (int y = startY; y < endY; y++)
         {
@@ -148,20 +219,48 @@ public class SchematicGenerator
                     // If the block in the schematic is air then ignore it
                     if (nextToPlace != Blocks.AIR)
                     {
+                        BlockPos position = new BlockPos(x, y, z);
                         // Diamond blocks represent air blocks in my schematic system. This allows for easy underground structure generation.
                         if (nextToPlace == Blocks.DIAMOND_BLOCK)
                         {
                             // Set the block to air
-                            WorldGenFast.setBlockStateFast(world, new BlockPos(x, y, z), Blocks.AIR.getDefaultState(), setBlockFlags);
+                            WorldGenFast.setBlockStateFast(world, position, Blocks.AIR.getDefaultState(), setBlockFlags);
                         }
                         else
                         {
-                            // Otherwise set the block based on state from the data array
-                            WorldGenFast.setBlockStateFast(world, new BlockPos(x, y, z), nextToPlace.getStateFromMeta(data[index]), setBlockFlags);
+                            // If we can generate this block now do so
+                            if (!PHASE_2_BLOCKS.contains(nextToPlace))
+                            {
+                                // Grab the blockstate to place
+                                IBlockState blockState = blocks[index].getStateFromMeta(data[index]);
+                                // Otherwise set the block based on state from the data array
+                                WorldGenFast.setBlockStateFast(world, position, blockState, setBlockFlags);
+                            }
+                            // If not generate it later
+                            else
+                            {
+                                phase2Blocks.add(index);
+                                phase2Positions.add(position);
+                            }
                         }
                     }
                 }
             }
+        }
+
+        ///
+        /// Phase 2 is to generate all non-solid blocks that "hang off" or are "placed on" other blocks
+        ///
+
+        for (int i = 0; i < phase2Blocks.size(); i++)
+        {
+            // Grab our stored off block index and blockpos
+            Integer index = phase2Blocks.get(i);
+            BlockPos position = phase2Positions.get(i);
+            // Grab the block state
+            IBlockState blockState = blocks[index].getStateFromMeta(data[index]);
+            // Set the block
+            WorldGenFast.setBlockStateFast(world, position, blockState, setBlockFlags);
         }
     }
 
