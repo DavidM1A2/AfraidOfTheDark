@@ -1,6 +1,7 @@
 package com.DavidM1A2.afraidofthedark.common.worldGeneration.schematic;
 
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.LootTable;
+import com.DavidM1A2.afraidofthedark.common.worldGeneration.WorldGenFast;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
@@ -74,6 +75,7 @@ public class SchematicGenerator
             generateBlocks(schematic, world, blockPos, chunkPos);
             generateTileEntities(schematic, world, blockPos, chunkPos, lootTable);
             generateEntities(schematic, world, blockPos, chunkPos);
+            computeLight(schematic, world, blockPos, chunkPos);
         }
     }
 
@@ -148,12 +150,12 @@ public class SchematicGenerator
                         if (nextToPlace == Blocks.DIAMOND_BLOCK)
                         {
                             // Set the block to air
-                            world.setBlockState(new BlockPos(x, y, z), Blocks.AIR.getDefaultState(), setBlockFlags);
+                            WorldGenFast.setBlockStateFast(world, new BlockPos(x, y, z), Blocks.AIR.getDefaultState(), setBlockFlags);
                         }
                         else
                         {
                             // Otherwise set the block based on state from the data array
-                            world.setBlockState(new BlockPos(x, y, z), nextToPlace.getStateFromMeta(data[index]), setBlockFlags);
+                            WorldGenFast.setBlockStateFast(world, new BlockPos(x, y, z), nextToPlace.getStateFromMeta(data[index]), setBlockFlags);
                         }
                     }
                 }
@@ -267,5 +269,39 @@ public class SchematicGenerator
     private static boolean isInsideChunk(BlockPos blockPos, ChunkPos chunkPos)
     {
         return blockPos.getX() >= chunkPos.getXStart() && blockPos.getX() <= chunkPos.getXEnd() && blockPos.getZ() >= chunkPos.getZStart() && blockPos.getZ() <= chunkPos.getZEnd();
+    }
+
+    /**
+     * Since we are using a version of set block that ignores light we need to do a final pass over the structure to
+     * re-light it.
+     *
+     * @param schematic The schematic that was generated
+     * @param world     The world that the schematic was generated in
+     * @param blockPos  The position the schematic was generated at
+     * @param chunkPos  The chunk position the schematic was generated at
+     */
+    private static void computeLight(Schematic schematic, World world, BlockPos blockPos, ChunkPos chunkPos)
+    {
+        /*
+        This code doesn't seem correct, not sure how to force a re-light, it might not be possible
+        // If we generated a single chunk light it
+        if (chunkPos != null)
+        {
+            world.getChunkFromChunkCoords(chunkPos.x, chunkPos.z).generateSkylightMap();
+        }
+        // If we generated a bunch of chunks light them all
+        else
+        {
+            ChunkPos corner1 = new ChunkPos(blockPos);
+            ChunkPos corner2 = new ChunkPos(blockPos.add(schematic.getWidth(), 0, schematic.getLength()));
+            for (int chunkX = corner1.x; chunkX <= corner1.x; chunkX++)
+            {
+                for (int chunkZ = corner2.z; chunkZ <= corner2.z; chunkZ++)
+                {
+                    world.getChunkFromChunkCoords(chunkX, chunkZ).generateSkylightMap();
+                }
+            }
+        }
+         */
     }
 }

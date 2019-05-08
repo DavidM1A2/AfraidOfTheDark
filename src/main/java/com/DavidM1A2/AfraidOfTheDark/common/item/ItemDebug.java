@@ -1,7 +1,9 @@
 package com.DavidM1A2.afraidofthedark.common.item;
 
-import com.DavidM1A2.afraidofthedark.common.constants.ModDimensions;
+import com.DavidM1A2.afraidofthedark.common.constants.ModLootTables;
+import com.DavidM1A2.afraidofthedark.common.constants.ModSchematics;
 import com.DavidM1A2.afraidofthedark.common.item.core.AOTDItem;
+import com.DavidM1A2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -41,6 +43,7 @@ public class ItemDebug extends AOTDItem
 		*/
         if (!worldIn.isRemote)
         {
+            /*
             if (playerIn.dimension == 0)
             {
                 playerIn.changeDimension(ModDimensions.NIGHTMARE.getId(), ModDimensions.NOOP_TELEPORTER);
@@ -49,6 +52,9 @@ public class ItemDebug extends AOTDItem
             {
                 playerIn.changeDimension(0, ModDimensions.NOOP_TELEPORTER);
             }
+
+             */
+            SchematicGenerator.generateSchematic(ModSchematics.NIGHTMARE_ISLAND, playerIn.world, playerIn.getPosition(), null, ModLootTables.NIGHTMARE_ISLAND);
 			/*
 			// 60x60
 			playerIn.sendMessage(new TextComponentString("TREES: "));
