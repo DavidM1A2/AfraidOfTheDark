@@ -7,6 +7,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.LinkedList;
@@ -85,7 +86,7 @@ public class ResearchAchievedOverlay extends Gui
             // The research to display
             Research research = toDisplay.pop();
             // The new research description
-            this.researchDescription = research.getLocalizedName();
+            this.researchDescription = I18n.format(research.getUnLocalizedName());
             // Update the notification time to be the current system time
             this.notificationTime = Minecraft.getSystemTime();
         }

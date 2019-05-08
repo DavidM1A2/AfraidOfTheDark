@@ -6,7 +6,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.item.Item;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
@@ -91,11 +90,11 @@ public abstract class Research extends IForgeRegistryEntry.Impl<Research>
     }
 
     /**
-     * @return The localized name of the research
+     * @return The unlocalized name of the research
      */
-    public String getLocalizedName()
+    public String getUnLocalizedName()
     {
-        return I18n.format("research." + this.getRegistryName().getResourcePath());
+        return "research." + this.getRegistryName().getResourcePath();
     }
 
     ///

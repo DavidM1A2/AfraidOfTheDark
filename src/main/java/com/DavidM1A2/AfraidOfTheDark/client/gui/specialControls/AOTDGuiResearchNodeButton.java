@@ -10,6 +10,7 @@ import com.DavidM1A2.afraidofthedark.common.registry.research.Research;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
@@ -103,7 +104,7 @@ public class AOTDGuiResearchNodeButton extends AOTDGuiButton
             // If the research is researched show the name of the research when hovered
             if (playerResearch.isResearched(this.research))
             {
-                fontRenderer.drawString(research.getLocalizedName(), mouseX + 5, mouseY, 0xFF3399);
+                fontRenderer.drawString(I18n.format(research.getUnLocalizedName()), mouseX + 5, mouseY, 0xFF3399);
                 fontRenderer.drawString(ChatFormatting.ITALIC + this.getResearch().getTooltip(), mouseX + 7, mouseY + 10, 0xE62E8A);
             }
             // If the research can be researched show a ? and unknown research when hovered
