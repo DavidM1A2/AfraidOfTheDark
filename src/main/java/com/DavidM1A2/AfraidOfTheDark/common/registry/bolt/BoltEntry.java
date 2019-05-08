@@ -2,7 +2,6 @@ package com.DavidM1A2.afraidofthedark.common.registry.bolt;
 
 import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityBolt;
 import com.DavidM1A2.afraidofthedark.common.registry.research.Research;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
@@ -38,11 +37,11 @@ public abstract class BoltEntry extends IForgeRegistryEntry.Impl<BoltEntry>
     }
 
     /**
-     * @return The localized name of the bolt entry
+     * @return The unlocalized name of the bolt entry
      */
-    public String getLocalizedName()
+    public String getUnLocalizedName()
     {
-        return I18n.format("bolt_entry." + this.getRegistryName().getResourcePath());
+        return "bolt_entry." + this.getRegistryName().getResourcePath();
     }
 
     ///

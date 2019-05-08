@@ -3,7 +3,6 @@ package com.DavidM1A2.afraidofthedark.common.registry.meteor;
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.registry.research.Research;
 import net.minecraft.block.Block;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
@@ -57,11 +56,11 @@ public abstract class MeteorEntry extends IForgeRegistryEntry.Impl<MeteorEntry>
     }
 
     /**
-     * @return The localized name of the meteor entry
+     * @return The unlocalized name of the meteor entry
      */
-    public String getLocalizedName()
+    public String getUnLocalizedName()
     {
-        return I18n.format("meteor_entry." + this.getRegistryName().getResourcePath());
+        return "meteor_entry." + this.getRegistryName().getResourcePath();
     }
 
     ///

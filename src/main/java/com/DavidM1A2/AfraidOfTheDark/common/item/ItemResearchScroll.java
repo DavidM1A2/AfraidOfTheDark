@@ -6,6 +6,7 @@ import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
 import com.DavidM1A2.afraidofthedark.common.item.core.AOTDItem;
 import com.DavidM1A2.afraidofthedark.common.registry.research.Research;
 import com.DavidM1A2.afraidofthedark.common.utility.NBTHelper;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,7 +15,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -96,19 +97,24 @@ public class ItemResearchScroll extends AOTDItem
                     // The scroll is not yet complete
                     else
                     {
-                        playerIn.sendMessage(new TextComponentString("This scroll is not complete yet."));
+                        playerIn.sendMessage(new TextComponentTranslation("aotd.research_scroll.incomplete"));
                     }
                 }
                 // If the player does not yet have the research then state that they need additional research first
                 else if (!playerResearch.isResearched(scrollResearch))
                 {
-                    playerIn.sendMessage(new TextComponentString("I don't understand the material referenced in this research scroll."));
+                    playerIn.sendMessage(new TextComponentTranslation("aotd.research_scroll.cant_understand"));
+                }
+                // If the player does have the research tell them
+                else
+                {
+                    playerIn.sendMessage(new TextComponentTranslation("aotd.research_scroll.already_researched"));
                 }
             }
             // No valid research detected
             else
             {
-                playerIn.sendMessage(new TextComponentString("Scroll is corrupt."));
+                playerIn.sendMessage(new TextComponentTranslation("aotd.research_scroll.corrupt"));
             }
         }
 
@@ -131,11 +137,11 @@ public class ItemResearchScroll extends AOTDItem
         {
             if (this.isPart(stack))
             {
-                tooltip.add("Scroll part " + this.getPartNumber(stack) + "/" + this.getNumberParts(stack) + " of the research " + scrollResearch.getLocalizedName() + ".");
+                tooltip.add("Scroll part " + this.getPartNumber(stack) + "/" + this.getNumberParts(stack) + " of the research " + I18n.format(scrollResearch.getUnLocalizedName()) + ".");
             }
             else
             {
-                tooltip.add(scrollResearch.getLocalizedName());
+                tooltip.add(I18n.format(scrollResearch.getUnLocalizedName()));
             }
         }
         else

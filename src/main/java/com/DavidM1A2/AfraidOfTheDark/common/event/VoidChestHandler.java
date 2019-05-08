@@ -7,7 +7,7 @@ import com.DavidM1A2.afraidofthedark.common.constants.ModDimensions;
 import com.DavidM1A2.afraidofthedark.common.dimension.IslandUtility;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
@@ -115,7 +115,7 @@ public class VoidChestHandler
                 // If we didn't find a valid spot around the player's position then throw an error and reject the teleport
                 if (preTeleportPosition == null)
                 {
-                    entityPlayer.sendMessage(new TextComponentString("An error occoured when computing a re-spawn position upon returning to your dimension later so the teleport can't happen. Try finding a more open place to enter the portal/chest at!"));
+                    entityPlayer.sendMessage(new TextComponentTranslation("aotd.dimension.void_chest.no_spawn"));
                     return true;
                 }
                 else

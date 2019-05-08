@@ -18,10 +18,9 @@ import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
 import com.DavidM1A2.afraidofthedark.common.constants.ModResearches;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSounds;
 import com.DavidM1A2.afraidofthedark.common.item.ItemJournal;
-import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import org.lwjgl.util.Color;
 
 /**
@@ -121,7 +120,7 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
 
                             // Play the sign animation and chat message
                             entityPlayer.playSound(ModSounds.JOURNAL_SIGN, 4.0F, 1.0F);
-                            entityPlayer.sendMessage(new TextComponentString(ChatFormatting.RED + "What have I done?"));
+                            entityPlayer.sendMessage(new TextComponentTranslation("aotd.journal.sign.successful"));
                         }
                     }
                     else
@@ -130,7 +129,7 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
                         if (!playerBasics.getStartedAOTD())
                         {
                             // If he has not started then print out a message that the name was wrong
-                            entityPlayer.sendMessage(new TextComponentString("*You expect something to happen... but nothing does. Perhaps the name you signed was incorrect?"));
+                            entityPlayer.sendMessage(new TextComponentTranslation("aotd.journal.sign.unsuccessful"));
                             entityPlayer.closeScreen();
                         }
                     }

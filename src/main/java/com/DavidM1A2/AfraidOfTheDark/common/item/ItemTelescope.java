@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
 /**
@@ -56,17 +56,17 @@ public class ItemTelescope extends AOTDItem
             }
 
             // If the research is researched then test if the player is high enough
-            if (playerResearch.isResearched(ModResearches.ASTRONOMY_1))
+            if (playerResearch.isResearched(ModResearches.ASTRONOMY_1) || playerResearch.isResearched(ModResearches.ASTRONOMY_1.getPreRequisite()))
             {
                 // Tell the player that they need to be higher to see through the clouds
                 if (!highEnough)
                 {
-                    playerIn.sendMessage(new TextComponentString("I can't see anything through these thick clouds. Maybe I could move to a higher elevation."));
+                    playerIn.sendMessage(new TextComponentTranslation("aotd.telescope.not_high_enough"));
                 }
             }
             else
             {
-                playerIn.sendMessage(new TextComponentString("I can't understand what this thing does."));
+                playerIn.sendMessage(new TextComponentTranslation("aotd.dont_understand"));
             }
         }
 

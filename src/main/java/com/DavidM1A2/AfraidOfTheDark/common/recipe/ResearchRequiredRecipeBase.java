@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.registries.IForgeRegistryEntry;
@@ -116,7 +116,7 @@ public abstract class ResearchRequiredRecipeBase<T extends IRecipe> extends IFor
                 // Before returning false notify the player why the crafting failed if the recipe matched
                 if (matches && !worldIn.isRemote)
                 {
-                    craftingPlayer.sendMessage(new TextComponentString("I'll need to do some more research before I can craft this."));
+                    craftingPlayer.sendMessage(new TextComponentTranslation("aotd.crafting.missing_research"));
                 }
                 return false;
             }

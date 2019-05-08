@@ -21,7 +21,7 @@ import net.minecraft.nbt.NBTTagLong;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 
@@ -159,7 +159,7 @@ public class TileEntityVoidChest extends AOTDTickingTileEntity
                     {
                         if (!this.world.isRemote)
                         {
-                            playerToSend.sendMessage(new TextComponentString("The void chest refuses to work in this dimension."));
+                            playerToSend.sendMessage(new TextComponentTranslation("aotd.void_chest.wrong_dimension"));
                         }
                     }
                 }
@@ -184,7 +184,7 @@ public class TileEntityVoidChest extends AOTDTickingTileEntity
                 World voidChestWorld = this.world.getMinecraftServer().getWorld(ModDimensions.VOID_CHEST.getId());
                 IAOTDPlayerVoidChestData playerVoidChestData = entityPlayer.getCapability(ModCapabilities.PLAYER_VOID_CHEST_DATA, null);
                 this.indexToGoTo = IslandUtility.getOrAssignPlayerPositionalIndex(voidChestWorld, playerVoidChestData);
-                entityPlayer.sendMessage(new TextComponentString("You owner of this chest has been set to " + entityPlayer.getDisplayName().getUnformattedText()));
+                entityPlayer.sendMessage(new TextComponentTranslation("aotd.void_chest.owner_set", entityPlayer.getDisplayName().getUnformattedText()));
             }
             // If the chest has an owner test if we're the owner
             else if (entityPlayer.getGameProfile().getId().equals(this.owner))
@@ -202,18 +202,18 @@ public class TileEntityVoidChest extends AOTDTickingTileEntity
                         if (!this.friends.contains(friendsUUID))
                         {
                             this.friends.add(friendsUUID);
-                            entityPlayer.sendMessage(new TextComponentString("Player " + heldItem.getDisplayName() + " was added to this chest's friend list."));
+                            entityPlayer.sendMessage(new TextComponentTranslation("aotd.void_chest.friend_add", heldItem.getDisplayName()));
                         }
                         // Otherwise remove the friend
                         else
                         {
                             this.friends.remove(friendsUUID);
-                            entityPlayer.sendMessage(new TextComponentString("Player " + heldItem.getDisplayName() + " was removed from this chest's friend list."));
+                            entityPlayer.sendMessage(new TextComponentTranslation("aotd.void_chest.friend_remove", heldItem.getDisplayName()));
                         }
                     }
                     else
                     {
-                        entityPlayer.sendMessage(new TextComponentString("The account " + heldItem.getDisplayName() + " does not exist, are you sure you spelled the name correctly?"));
+                        entityPlayer.sendMessage(new TextComponentTranslation("aotd.void_chest.invalid_account", heldItem.getDisplayName()));
                     }
                 }
                 // The player is not holding a name tag so open the chest
@@ -230,7 +230,7 @@ public class TileEntityVoidChest extends AOTDTickingTileEntity
                 ItemStack heldItem = entityPlayer.getHeldItemMainhand();
                 if (heldItem.getItem() instanceof ItemNameTag)
                 {
-                    entityPlayer.sendMessage(new TextComponentString("I can't edit the access of this chest"));
+                    entityPlayer.sendMessage(new TextComponentTranslation("atod.void_chest.no_edit_access"));
                 }
                 else
                 {
@@ -241,7 +241,7 @@ public class TileEntityVoidChest extends AOTDTickingTileEntity
             // The player does not have chest access so tell them
             else
             {
-                entityPlayer.sendMessage(new TextComponentString("I don't have access to this void chest"));
+                entityPlayer.sendMessage(new TextComponentTranslation("atod.void_chest.no_access"));
             }
         }
     }

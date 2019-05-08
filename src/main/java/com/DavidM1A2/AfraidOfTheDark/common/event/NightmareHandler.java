@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -141,7 +141,7 @@ public class NightmareHandler
                 // If we didn't find a valid spot around the player's position then throw an error and reject the teleport
                 if (preTeleportPosition == null)
                 {
-                    entityPlayer.sendMessage(new TextComponentString("An error occoured when computing a re-spawn position upon returning to your dimension later so the teleport can't happen. Try finding a more open place to enter the portal/chest at!"));
+                    entityPlayer.sendMessage(new TextComponentTranslation("aotd.dimension.nightmare.no_spawn"));
                     return true;
                 }
                 else
@@ -236,7 +236,7 @@ public class NightmareHandler
         entityPlayer.motionZ = 0;
         entityPlayer.setHealth(20);
         entityPlayer.getFoodStats().setFoodLevel(20);
-        entityPlayer.getFoodStats().setFoodSaturationLevel(5);
+        entityPlayer.clearActivePotions();
     }
 
     /**

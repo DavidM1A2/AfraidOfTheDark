@@ -13,7 +13,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -102,7 +102,7 @@ public class ItemJournal extends AOTDItem
             // Send chat messages on server side only
             if (!worldIn.isRemote)
             {
-                playerIn.sendMessage(new TextComponentString("I cannot comprehend this journal..."));
+                playerIn.sendMessage(new TextComponentTranslation("aotd.journal.cant_comprehend"));
             }
         }
 

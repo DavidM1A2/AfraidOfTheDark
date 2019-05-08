@@ -14,7 +14,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 
@@ -63,7 +63,7 @@ public class KeyInputEventHandler
             playerBasics.setSelectedWristCrossbowBoltIndex(currentBoltIndex);
             playerBasics.syncSelectedWristCrossbowBoltIndex(entityPlayer);
             // Tell the player what type of bolt will be fired now
-            entityPlayer.sendMessage(new TextComponentString("Wrist crossbow will now fire " + BoltOrderHelper.getBoltAt(currentBoltIndex).getLocalizedName().toLowerCase() + " bolts."));
+            entityPlayer.sendMessage(new TextComponentTranslation("aotd.wrist_crossbow.bolt_change", new TextComponentTranslation(BoltOrderHelper.getBoltAt(currentBoltIndex).getUnLocalizedName())));
         }
         // Fire a bolt
         else
@@ -100,21 +100,21 @@ public class KeyInputEventHandler
                             }
                         }
                         // No valid wrist crossbow found
-                        entityPlayer.sendMessage(new TextComponentString("Wrist crossbow(s) are reloading..."));
+                        entityPlayer.sendMessage(new TextComponentTranslation("aotd.wrist_crossbow.reloading"));
                     }
                     else
                     {
-                        entityPlayer.sendMessage(new TextComponentString("I'll need a " + boltType.getLocalizedName().toLowerCase() + " bolt in my inventory to shoot."));
+                        entityPlayer.sendMessage(new TextComponentTranslation("aotd.wrist_crossbow.no_bolt", new TextComponentTranslation(boltType.getUnLocalizedName())));
                     }
                 }
                 else
                 {
-                    entityPlayer.sendMessage(new TextComponentString("I'll need a wrist crossbow in my inventory to shoot."));
+                    entityPlayer.sendMessage(new TextComponentTranslation("aotd.wrist_crossbow.no_crossbow"));
                 }
             }
             else
             {
-                entityPlayer.sendMessage(new TextComponentString("I don't understand how this works."));
+                entityPlayer.sendMessage(new TextComponentTranslation("aotd.dont_understand"));
             }
         }
     }
@@ -167,7 +167,7 @@ public class KeyInputEventHandler
                         }
                         else
                         {
-                            entityPlayer.sendMessage(new TextComponentString("I'm too tired to roll again (" + cloakOfAgility.cooldownRemainingInSeconds(itemStack) + "s)."));
+                            entityPlayer.sendMessage(new TextComponentTranslation("aotd.cloak_of_agility.too_tired", cloakOfAgility.cooldownRemainingInSeconds(itemStack)));
                             // If one cloak is on cooldown they all are, return
                             return;
                         }
@@ -176,12 +176,12 @@ public class KeyInputEventHandler
             }
             else
             {
-                entityPlayer.sendMessage(new TextComponentString("I need to be on the ground to roll."));
+                entityPlayer.sendMessage(new TextComponentTranslation("aotd.cloak_of_agility.not_grounded"));
             }
         }
         else
         {
-            entityPlayer.sendMessage(new TextComponentString("I don't understand how this works."));
+            entityPlayer.sendMessage(new TextComponentTranslation("aotd.dont_understand"));
         }
     }
 }

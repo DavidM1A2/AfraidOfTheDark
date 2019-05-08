@@ -12,7 +12,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -156,7 +156,7 @@ public class ProcessSextantInput implements IMessage
                 // Print out a message telling the player where the meteor dropped +/- 8 blocks
                 xLocOfDrop = xLocOfDrop + (random.nextBoolean() ? -1 : 1) * random.nextInt(ACCURACY + 1);
                 zLocOfDrop = zLocOfDrop + (random.nextBoolean() ? -1 : 1) * random.nextInt(ACCURACY + 1);
-                player.sendMessage(new TextComponentString("Based off of this information the meteor fell around " + xLocOfDrop + ", " + zLocOfDrop));
+                player.sendMessage(new TextComponentTranslation("aotd.meteor.location", xLocOfDrop, zLocOfDrop));
 
                 // Clear the player's watched meteors so that the same meteor can't be used twice
                 playerBasics.setWatchedMeteor(null, -1, -1, -1);
@@ -165,7 +165,7 @@ public class ProcessSextantInput implements IMessage
             else
             // The values aren't correct so show an error
             {
-                player.sendMessage(new TextComponentString("The values entered do not make sense. I should try to re-enter the meteor's data or observe a new meteor."));
+                player.sendMessage(new TextComponentTranslation("aotd.meteor.process.invalid_vals"));
             }
         }
 

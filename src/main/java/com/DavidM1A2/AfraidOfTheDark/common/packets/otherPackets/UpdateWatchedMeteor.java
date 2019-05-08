@@ -8,7 +8,7 @@ import com.DavidM1A2.afraidofthedark.common.registry.meteor.MeteorEntry;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -135,11 +135,9 @@ public class UpdateWatchedMeteor implements IMessage
             int latitude = player.getRNG().nextInt(50) + 5;
             int longitude = player.getRNG().nextInt(130) + 5;
             // Tell the player about the meteor estimated values
-            player.sendMessage(new TextComponentString(
-                    "It appears that this is a " + watchedMeteor.getLocalizedName().toLowerCase() + " meteor falling to earth. I have observed some information on it:\n"
-                            + "Drop Angle: " + dropAngle + "°, Latitude: " + latitude + "°, Longitude: " + longitude + "°\n"
-                            + "I should probably write these values down and later calculate the landing position using my sextant."
-            ));
+            player.sendMessage(new TextComponentTranslation("aotd.falling_meteor.info.header", new TextComponentTranslation(watchedMeteor.getUnLocalizedName())));
+            player.sendMessage(new TextComponentTranslation("aotd.falling_meteor.info.data", dropAngle, latitude, longitude));
+            player.sendMessage(new TextComponentTranslation("aotd.falling_meteor.info.help"));
             // Update the player's watched meteor and send them values
             IAOTDPlayerBasics playerBasics = player.getCapability(ModCapabilities.PLAYER_BASICS, null);
             playerBasics.setWatchedMeteor(watchedMeteor, dropAngle, latitude, longitude);

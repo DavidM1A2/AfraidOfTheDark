@@ -6,6 +6,7 @@ import com.DavidM1A2.afraidofthedark.common.item.core.AOTDItem;
 import com.DavidM1A2.afraidofthedark.common.registry.bolt.BoltEntry;
 import com.DavidM1A2.afraidofthedark.common.utility.BoltOrderHelper;
 import com.DavidM1A2.afraidofthedark.common.utility.NBTHelper;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -15,7 +16,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -101,7 +102,7 @@ public class ItemCrossbow extends AOTDItem
                     // Else we print out that the player needs bolts to fire
                     else
                     {
-                        playerIn.sendMessage(new TextComponentString("I'll need at least one " + this.getCurrentBoltType(itemStack).getLocalizedName().toLowerCase() + " bolt in my inventory to shoot."));
+                        playerIn.sendMessage(new TextComponentTranslation("aotd.crossbow.no_bolt", new TextComponentTranslation(this.getCurrentBoltType(itemStack).getUnLocalizedName())));
                     }
                 }
             }
@@ -248,7 +249,7 @@ public class ItemCrossbow extends AOTDItem
             // Tell the user that they have a new bolt loaded
             if (!entityPlayer.world.isRemote)
             {
-                entityPlayer.sendMessage(new TextComponentString("Bow will now fire " + this.getCurrentBoltType(itemStack).getLocalizedName().toLowerCase() + " bolts."));
+                entityPlayer.sendMessage(new TextComponentTranslation("aotd.crossbow.bolt_change", new TextComponentTranslation(this.getCurrentBoltType(itemStack).getUnLocalizedName())));
             }
         }
     }
@@ -302,7 +303,7 @@ public class ItemCrossbow extends AOTDItem
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
         tooltip.add("Shift & Right click to change crossbow bolt type.");
-        tooltip.add("Bow will fire: " + this.getCurrentBoltType(stack).getLocalizedName() + " bolts.");
+        tooltip.add("Bow will fire: " + I18n.format(this.getCurrentBoltType(stack).getUnLocalizedName()) + " bolts.");
     }
 
     /**

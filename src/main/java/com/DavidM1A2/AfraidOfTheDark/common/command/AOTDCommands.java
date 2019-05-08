@@ -8,7 +8,6 @@ import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.Structure;
 import com.google.common.collect.ImmutableList;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
@@ -17,6 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -154,9 +154,9 @@ public class AOTDCommands extends CommandBase
      */
     private void printHelp(ICommandSender sender)
     {
-        sender.sendMessage(new TextComponentString("/AOTD, /aotd, and /afraidofthedark work for all commands:"));
-        sender.sendMessage(new TextComponentString("/AOTD help - Lists all AOTD Commands"));
-        sender.sendMessage(new TextComponentString("/AOTD dungeon - Lists all dungeon Commands"));
+        sender.sendMessage(new TextComponentTranslation("aotd.command.help.header"));
+        sender.sendMessage(new TextComponentTranslation("aotd.command.help.help"));
+        sender.sendMessage(new TextComponentTranslation("aotd.command.help.dungeon"));
     }
 
     /**
@@ -166,13 +166,13 @@ public class AOTDCommands extends CommandBase
      */
     private void printDungeonHelp(ICommandSender sender)
     {
-        sender.sendMessage(new TextComponentString("AOTD dungeon commands:"));
-        sender.sendMessage(new TextComponentString("/AOTD dungeon - Lists all dungeon Commands"));
-        sender.sendMessage(new TextComponentString("/AOTD dungeon types - Lists all dungeon types present possible"));
-        sender.sendMessage(new TextComponentString("/AOTD dungeon list - Lists all dungeons present in the world"));
-        sender.sendMessage(new TextComponentString("/AOTD dungeon list <type> - Lists all dungeons of a type present in the world. See /AOTD dungeon types"));
-        sender.sendMessage(new TextComponentString("/AOTD dungeon info - Gets dungeon information in the player's current chunk"));
-        sender.sendMessage(new TextComponentString("/AOTD dungeon regenerate - Regenerates a dungeon in the player's current chunk"));
+        sender.sendMessage(new TextComponentTranslation("aotd.command.dungeon.help.header"));
+        sender.sendMessage(new TextComponentTranslation("aotd.command.dungeon.help.help"));
+        sender.sendMessage(new TextComponentTranslation("aotd.command.dungeon.help.types"));
+        sender.sendMessage(new TextComponentTranslation("aotd.command.dungeon.help.list"));
+        sender.sendMessage(new TextComponentTranslation("aotd.command.dungeon.help.list_type"));
+        sender.sendMessage(new TextComponentTranslation("aotd.command.dungeon.help.info"));
+        sender.sendMessage(new TextComponentTranslation("aotd.command.dungeon.help.regenerate"));
     }
 
     /**
@@ -182,7 +182,7 @@ public class AOTDCommands extends CommandBase
      */
     private void printStructureTypes(ICommandSender sender)
     {
-        sender.sendMessage(new TextComponentString("Registered dungeon types:"));
+        sender.sendMessage(new TextComponentTranslation("aotd.command.dungeon.types"));
         // Iterate over structures and print each one out
         for (Structure structure : ModRegistries.STRUCTURE)
             sender.sendMessage(new TextComponentString(structure.getRegistryName().toString()));
@@ -210,25 +210,24 @@ public class AOTDCommands extends CommandBase
                 // Grab structure position
                 BlockPos blockPos = placedStructure.getStructure().getPosition(placedStructure.getData());
                 // Send the structure info and if debug is enabled send debug info too
-                sender.sendMessage(new TextComponentString(
-                        "Structure " +
-                                I18n.format(placedStructure.getStructure().getRegistryName().toString()) +
-                                " with corner at [" +
-                                blockPos.getX() + ", " + blockPos.getY() + ", " + blockPos.getZ()
-                                + "]"));
+                sender.sendMessage(new TextComponentTranslation("aotd.command.dungeon.info",
+                        new TextComponentTranslation(placedStructure.getStructure().getRegistryName().toString()),
+                        blockPos.getX(),
+                        blockPos.getY(),
+                        blockPos.getZ()));
                 if (AfraidOfTheDark.INSTANCE.getConfigurationHandler().showDebugMessages())
                 {
-                    sender.sendMessage(new TextComponentString("Extra NBT debug info: " + placedStructure.getData().toString()));
+                    sender.sendMessage(new TextComponentTranslation("aotd.command.dungeon.info.extra_nbt", placedStructure.getData().toString()));
                 }
             }
             else
             {
-                sender.sendMessage(new TextComponentString("No structures in your chunk"));
+                sender.sendMessage(new TextComponentTranslation("aotd.command.dungeon.info.no_structures"));
             }
         }
         else
         {
-            sender.sendMessage(new TextComponentString("Must be in the overworld to get a chunk's structure info"));
+            sender.sendMessage(new TextComponentTranslation("aotd.command.dungeon.info.invalid_world"));
         }
     }
 
@@ -256,12 +255,12 @@ public class AOTDCommands extends CommandBase
             }
             else
             {
-                sender.sendMessage(new TextComponentString("No structures in your chunk to regenerate"));
+                sender.sendMessage(new TextComponentTranslation("aotd.command.dungeon.regenerate.no_structures"));
             }
         }
         else
         {
-            sender.sendMessage(new TextComponentString("Must be in the overworld to regenerate a chunk's structure"));
+            sender.sendMessage(new TextComponentTranslation("aotd.command.dungeon.regenerate.invalid_world"));
         }
     }
 
@@ -274,7 +273,7 @@ public class AOTDCommands extends CommandBase
     private void printAllStructures(ICommandSender sender, MinecraftServer server)
     {
         World overworld = server.getWorld(0);
-        sender.sendMessage(new TextComponentString("All Overworld dungeons:"));
+        sender.sendMessage(new TextComponentTranslation("aotd.command.dungeon.list.header"));
         IStructurePlan structurePlan = StructurePlan.get(overworld);
         // Print all placed structures in the world
         filterSortAndPrint(structurePlan.getPlacedStructures(), s -> true, sender);
@@ -294,7 +293,7 @@ public class AOTDCommands extends CommandBase
         {
             // Otherwise we list the dungeons of that type
             World overworld = server.getWorld(0);
-            sender.sendMessage(new TextComponentString("Overworld dungeons of type [" + I18n.format(structureName) + "]:"));
+            sender.sendMessage(new TextComponentTranslation("aotd.command.dungeon.list_type.header", new TextComponentTranslation(structureName)));
             IStructurePlan structurePlan = StructurePlan.get(overworld);
             // Go over all placed structures and only print them if they have the right name
             filterSortAndPrint(
@@ -304,7 +303,7 @@ public class AOTDCommands extends CommandBase
         }
         else
         {
-            sender.sendMessage(new TextComponentString("Unknown structure type [" + structureName + "]"));
+            sender.sendMessage(new TextComponentTranslation("aotd.command.dungeon.list_type.unknown_type", structureName));
         }
     }
 
@@ -334,9 +333,11 @@ public class AOTDCommands extends CommandBase
     {
         BlockPos position = placedStructure.getStructure().getPosition(placedStructure.getData());
         // Send the message in the format: <dungeon_type> at [<x>, <y>, <z>] ~ <number> blocks away
-        sender.sendMessage(new TextComponentString(
-                I18n.format(placedStructure.getStructure().getRegistryName().toString()) +
-                        " at [" + position.getX() + ", " + position.getY() + ", " + position.getZ() + "] ~ " +
-                        MathHelper.ceil(Math.sqrt(sender.getPosition().distanceSq(placedStructure.getStructure().getPosition(placedStructure.getData())))) + " blocks away"));
+        sender.sendMessage(new TextComponentTranslation("aotd.command.dungeon.list",
+                new TextComponentTranslation(placedStructure.getStructure().getRegistryName().toString()),
+                position.getX(),
+                position.getY(),
+                position.getZ(),
+                MathHelper.ceil(Math.sqrt(sender.getPosition().distanceSq(placedStructure.getStructure().getPosition(placedStructure.getData()))))));
     }
 }

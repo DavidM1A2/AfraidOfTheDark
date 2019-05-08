@@ -13,7 +13,7 @@ import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiTextFiel
 import com.DavidM1A2.afraidofthedark.client.settings.ClientData;
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import com.DavidM1A2.afraidofthedark.common.packets.otherPackets.ProcessSextantInput;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.lwjgl.util.Color;
 
@@ -88,7 +88,7 @@ public class SextantGUI extends AOTDGuiScreen
                     // If any of the fields are empty print a message
                     if (dropAngleText.isEmpty() || latitudeText.isEmpty() || longitudeText.isEmpty())
                     {
-                        entityPlayer.sendMessage(new TextComponentString("I need to fill out all the fields to accurately predict the meteor's landing coordinates."));
+                        entityPlayer.sendMessage(new TextComponentTranslation("aotd.sextant.process.field_empty"));
                     }
                     // Convert the strings to integers and return min_value if it's invalid
                     int dropAngle = NumberUtils.toInt(dropAngleText, Integer.MIN_VALUE);
@@ -102,7 +102,7 @@ public class SextantGUI extends AOTDGuiScreen
                     }
                     else
                     {
-                        entityPlayer.sendMessage(new TextComponentString("The calculation was not successful, the values entered must be integers."));
+                        entityPlayer.sendMessage(new TextComponentTranslation("aotd.sextant.process.invalid_vals"));
                     }
                     entityPlayer.closeScreen();
                 }
