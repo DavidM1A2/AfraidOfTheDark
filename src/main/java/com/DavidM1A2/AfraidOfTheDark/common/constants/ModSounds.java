@@ -22,6 +22,7 @@ public class ModSounds
     public static final SoundEvent BELLS = create("bells");
     public static final SoundEvent ERIE_ECHOS = create("erie_echos");
     public static final SoundEvent KEY_TYPED = create("key_typed");
+
     // An array containing a list of sounds that AOTD adds
     public static final SoundEvent[] SOUND_LIST = new SoundEvent[]
             {

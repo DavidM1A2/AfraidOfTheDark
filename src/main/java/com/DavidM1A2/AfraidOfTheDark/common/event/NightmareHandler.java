@@ -1,11 +1,15 @@
 package com.DavidM1A2.afraidofthedark.common.event;
 
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
+import com.DavidM1A2.afraidofthedark.client.sound.BellsRinging;
+import com.DavidM1A2.afraidofthedark.client.sound.ErieEcho;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.dimension.IAOTDPlayerNightmareData;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.research.IAOTDPlayerResearch;
 import com.DavidM1A2.afraidofthedark.common.constants.*;
 import com.DavidM1A2.afraidofthedark.common.dimension.IslandUtility;
 import com.DavidM1A2.afraidofthedark.common.utility.NBTHelper;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -15,10 +19,13 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Class handling events to send players to and from their nightmare realm
@@ -76,6 +83,37 @@ public class NightmareHandler
                 IAOTDPlayerNightmareData nightmareData = event.player.getCapability(ModCapabilities.PLAYER_NIGHTMARE_DATA, null);
                 // Send the player back to their original dimension
                 event.player.changeDimension(nightmareData.getPreTeleportDimensionID(), ModDimensions.NOOP_TELEPORTER);
+            }
+        }
+    }
+
+    /**
+     * Called when an entity joins a world. Check if a player entered the nightmare and if so play the nightmare
+     * bells and echo. Only do this client side since ISound is a client side only class
+     *
+     * @param event Event containing info about who joined the world
+     */
+    @SubscribeEvent
+    @SideOnly(Side.CLIENT)
+    public void onEntityJoinWorldEvent(EntityJoinWorldEvent event)
+    {
+        // Client side only, even though this must be true since we're using SideOnly
+        if (event.getWorld().isRemote)
+        {
+            // Test if the player is going to the nightmare
+            if (event.getWorld().provider.getDimension() == ModDimensions.NIGHTMARE.getId() && event.getEntity() instanceof EntityPlayer)
+            {
+                // We need one more check to see if the player's dimension id is nightmare. This is a workaround because
+                // when teleporting this callback will get fired twice since the player teleports once for
+                // the teleport, once to be spawned into the world
+                if (event.getEntity().world.provider.getDimension() == ModDimensions.NIGHTMARE.getId())
+                {
+                    // Grab the client's sound handler and play the sound if it is not already playing
+                    SoundHandler soundHandler = Minecraft.getMinecraft().getSoundHandler();
+                    // Play the bell sound after 20 seconds and erie echo after 3
+                    soundHandler.playDelayedSound(new BellsRinging(), 20 * 20);
+                    soundHandler.playDelayedSound(new ErieEcho(), 3 * 20);
+                }
             }
         }
     }
@@ -170,7 +208,7 @@ public class NightmareHandler
     @SubscribeEvent
     public void onPostEntityTravelToDimension(PlayerEvent.PlayerChangedDimensionEvent event)
     {
-        // Server side processing only
+        // Perform all the important logic server side
         if (!event.player.world.isRemote)
         {
             // Get to and from dimension

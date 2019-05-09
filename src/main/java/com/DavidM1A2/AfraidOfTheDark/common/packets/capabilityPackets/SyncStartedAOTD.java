@@ -3,7 +3,6 @@ package com.DavidM1A2.afraidofthedark.common.packets.capabilityPackets;
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
 import com.DavidM1A2.afraidofthedark.common.packets.packetHandler.MessageHandler;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -71,7 +70,7 @@ public class SyncStartedAOTD implements IMessage
         @Override
         public void handleClientMessage(EntityPlayer player, SyncStartedAOTD msg, MessageContext ctx)
         {
-            Minecraft.getMinecraft().addScheduledTask(() -> player.getCapability(ModCapabilities.PLAYER_BASICS, null).setStartedAOTD(msg.startedAOTD));
+            player.getCapability(ModCapabilities.PLAYER_BASICS, null).setStartedAOTD(msg.startedAOTD);
         }
 
         /**
