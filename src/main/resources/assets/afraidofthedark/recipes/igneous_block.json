@@ -1,0 +1,18 @@
+{
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    "iii",
+    "iii",
+    "iii"
+  ],
+  "key": {
+    "i": {
+      "item": "afraidofthedark:igneous_gem"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:igneous_block",
+    "count": 1
+  },
+  "required_research": "afraidofthedark:igneous"
+}

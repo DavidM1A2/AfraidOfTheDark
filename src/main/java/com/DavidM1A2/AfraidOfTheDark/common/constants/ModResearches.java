@@ -27,6 +27,7 @@ public class ModResearches
     public static final Research INSANITY = new AOTDResearch("insanity", NIGHTMARE);
     public static final Research VITAE_1 = new AOTDResearch("vitae_1", NIGHTMARE);
     public static final Research ASTRONOMY_2 = new AOTDResearch("astronomy_2", NIGHTMARE);
+    public static final Research IGNEOUS = new AOTDResearch("igneous", ASTRONOMY_2);
 
     // An array containing a list of researches that AOTD adds
     public static Research[] RESEARCH_LIST = new Research[]
@@ -49,6 +50,7 @@ public class ModResearches
                     NIGHTMARE,
                     INSANITY,
                     VITAE_1,
-                    ASTRONOMY_2
+                    ASTRONOMY_2,
+                    IGNEOUS
             };
 }

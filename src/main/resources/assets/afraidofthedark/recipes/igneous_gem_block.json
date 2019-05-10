@@ -1,0 +1,13 @@
+{
+  "type": "afraidofthedark:research_required_shapeless_recipe",
+  "result": {
+    "item": "afraidofthedark:igneous_gem",
+    "count": 9
+  },
+  "ingredients": [
+    {
+      "item": "afraidofthedark:igneous_block"
+    }
+  ],
+  "required_research": "afraidofthedark:igneous"
+}

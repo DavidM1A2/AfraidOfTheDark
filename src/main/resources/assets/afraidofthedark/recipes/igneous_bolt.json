@@ -1,0 +1,16 @@
+{
+  "type": "afraidofthedark:research_required_shapeless_recipe",
+  "result": {
+    "item": "afraidofthedark:igneous_bolt",
+    "count": 12
+  },
+  "ingredients": [
+    {
+      "item": "afraidofthedark:igneous_gem"
+    },
+    {
+      "item": "afraidofthedark:igneous_gem"
+    }
+  ],
+  "required_research": "afraidofthedark:igneous"
+}

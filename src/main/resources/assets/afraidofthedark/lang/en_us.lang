@@ -133,11 +133,13 @@ research.nightmare=Nightmare
 research.insanity=Insanity
 research.vitae_1=Vitae 1
 research.astronomy_2=Astronomy 2
+research.igneous=Igneous
 
 # Bolt entries
 bolt_entry.wooden=Wooden
 bolt_entry.iron=Iron
 bolt_entry.astral_silver=Silver
+bolt_entry.igneous=Igneous
 
 # Meteor entries
 meteor_entry.astral_silver=Astral Silver
@@ -230,5 +232,7 @@ aotd.falling_meteor.info.help=§oI should probably write these values down and l
 aotd.crafting.missing_research=§oI'll need to do some more research before I can craft this.
 
 aotd.world_gen.saving=§5[Afraid of the Dark] %1$s chunks are still being generated, please wait while these finish generating...
+
+aotd.chargable_sword.not_enough_energy=I'll need more energy to perform the ability.
 
 aotd.dont_understand=§oI don't understand how this works.

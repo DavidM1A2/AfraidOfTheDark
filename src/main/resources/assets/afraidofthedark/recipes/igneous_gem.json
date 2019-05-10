@@ -1,0 +1,21 @@
+{
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    "dsd",
+    "sds",
+    "dsd"
+  ],
+  "key": {
+    "d": {
+      "item": "minecraft:diamond"
+    },
+    "s": {
+      "item": "afraidofthedark:sunstone_fragment"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:igneous_gem",
+    "count": 1
+  },
+  "required_research": "afraidofthedark:igneous"
+}

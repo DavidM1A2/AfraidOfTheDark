@@ -1,22 +1,22 @@
 package com.DavidM1A2.afraidofthedark.client.entity.bolt;
 
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
-import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntitySilverBolt;
+import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityIgneousBolt;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 
 /**
- * Class used to render a silver bolt
+ * Class used to render an igneous bolt
  */
-public class RenderSilverBolt extends RenderBolt<EntitySilverBolt>
+public class RenderIgneousBolt extends RenderBolt<EntityIgneousBolt>
 {
     /**
      * Constructor takes a render manager
      *
      * @param renderManager The manager given to us by Minecraft
      */
-    public RenderSilverBolt(RenderManager renderManager)
+    public RenderIgneousBolt(RenderManager renderManager)
     {
-        super(renderManager, new ResourceLocation(Constants.MOD_ID, "textures/entity/silver_bolt.png"));
+        super(renderManager, new ResourceLocation(Constants.MOD_ID, "textures/entity/igneous_bolt.png"));
     }
 }

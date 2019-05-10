@@ -4,6 +4,7 @@ import com.DavidM1A2.afraidofthedark.common.item.*;
 import com.DavidM1A2.afraidofthedark.common.item.crossbow.ItemCrossbow;
 import com.DavidM1A2.afraidofthedark.common.item.crossbow.ItemWristCrossbow;
 import com.DavidM1A2.afraidofthedark.common.item.crossbow.bolts.*;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 
 /**
@@ -26,6 +27,14 @@ public class ModItems
     public static final Item CLOAK_OF_AGILITY = new ItemCloakOfAgility();
     public static final Item ELDRITCH_METAL_INGOT = new ItemEldritchMetalIngot();
     public static final Item SLEEPING_POTION = new ItemSleepingPotion();
+
+    public static final Item SUNSTONE_FRAGMENT = new ItemSunstoneFragment();
+    public static final Item IGNEOUS_GEM = new ItemIgneousGem();
+    public static final Item IGNEOUS_SWORD = new ItemIgneousSword();
+    public static final Item IGNEOUS_HELMET = new ItemIgneousArmor("igneous_helmet", EntityEquipmentSlot.HEAD);
+    public static final Item IGNEOUS_CHESTPLATE = new ItemIgneousArmor("igneous_chestplate", EntityEquipmentSlot.CHEST);
+    public static final Item IGNEOUS_LEGGINGS = new ItemIgneousArmor("igneous_leggings", EntityEquipmentSlot.LEGS);
+    public static final Item IGNEOUS_BOOTS = new ItemIgneousArmor("igneous_boots", EntityEquipmentSlot.FEET);
 
     public static final Item WOODEN_BOLT = new ItemWoodenBolt();
     public static final Item IRON_BOLT = new ItemIronBolt();
@@ -58,6 +67,13 @@ public class ModItems
                     IGNEOUS_BOLT,
                     STAR_METAL_BOLT,
                     DEBUG,
-                    SLEEPING_POTION
+                    SLEEPING_POTION,
+                    SUNSTONE_FRAGMENT,
+                    IGNEOUS_GEM,
+                    IGNEOUS_SWORD,
+                    IGNEOUS_HELMET,
+                    IGNEOUS_CHESTPLATE,
+                    IGNEOUS_LEGGINGS,
+                    IGNEOUS_BOOTS
             };
 }

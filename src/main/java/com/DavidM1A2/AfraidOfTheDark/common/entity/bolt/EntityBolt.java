@@ -87,7 +87,7 @@ public abstract class EntityBolt extends EntityThrowable
                 // Test if the shooter of the bolt is a player
                 if (this.thrower instanceof EntityPlayer)
                 {
-                    entityHit.attackEntityFrom(this.getDamageSourceProducer().apply((EntityPlayer) thrower), this.getDamage());
+                    entityHit.attackEntityFrom(this.damageSourceProducer.apply((EntityPlayer) thrower), this.getDamage());
                 }
                 // If the random chance succeeds, drop the bolt item
                 if (Math.random() < this.getChanceToDropHitEntity())

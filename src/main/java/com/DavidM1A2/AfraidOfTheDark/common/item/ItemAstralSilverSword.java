@@ -37,7 +37,6 @@ public class ItemAstralSilverSword extends AOTDSword
         if (player.getCapability(ModCapabilities.PLAYER_RESEARCH, null).isResearched(ModResearches.ASTRAL_SILVER))
         {
             entity.attackEntityFrom(ModDamageSources.getSilverDamage(player), this.getAttackDamage());
-            return true;
         }
 
         // Otherwise do standard entity damage

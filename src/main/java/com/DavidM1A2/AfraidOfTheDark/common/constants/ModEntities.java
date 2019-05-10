@@ -1,6 +1,7 @@
 package com.DavidM1A2.afraidofthedark.common.constants;
 
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
+import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityIgneousBolt;
 import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityIronBolt;
 import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntitySilverBolt;
 import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityWoodenBolt;
@@ -77,6 +78,12 @@ public class ModEntities
             .name("silver_bolt")
             .tracker(50, 1, true)
             .build();
+    public static final EntityEntry IGNEOUS_BOLT = EntityEntryBuilder.create()
+            .entity(EntityIgneousBolt.class)
+            .id(new ResourceLocation(Constants.MOD_ID, "igneous_bolt"), IGNEOUS_BOLT_ID)
+            .name("igneous_bolt")
+            .tracker(50, 1, true)
+            .build();
 
     // An array containing a list of entities that AOTD adds
     public static EntityEntry[] ENTITY_LIST = new EntityEntry[]
@@ -86,6 +93,7 @@ public class ModEntities
                     GHASTLY_ENARIA,
                     WOODEN_BOLT,
                     IRON_BOLT,
-                    SILVER_BOLT
+                    SILVER_BOLT,
+                    IGNEOUS_BOLT
             };
 }

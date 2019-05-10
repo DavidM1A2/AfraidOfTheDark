@@ -26,6 +26,9 @@ public class ModBlocks
 
     public static final Block METEOR = new BlockMeteor();
     public static final Block ASTRAL_SILVER_ORE = new BlockAstralSilverOre();
+    public static final Block SUNSTONE_ORE = new BlockSunstoneOre();
+    public static final Block IGNEOUS = new BlockIgneous();
+
     public static final Block ELDRITCH_STONE = new BlockEldritchStone();
     public static final Block ELDRITCH_OBSIDIAN = new BlockEldritchObsidian();
     public static final Block AMORPHOUS_ELDRITCH_METAL = new BlockAmorphousEldritchMetal();
@@ -52,7 +55,9 @@ public class ModBlocks
                     VOID_CHEST,
                     VOID_CHEST_PORTAL,
                     DARK_FOREST,
-                    ENARIA_SPAWNER
+                    ENARIA_SPAWNER,
+                    SUNSTONE_ORE,
+                    IGNEOUS
             };
 
     // A list of tile entities to register

@@ -3,6 +3,7 @@
  */
 package com.DavidM1A2.afraidofthedark.proxy;
 
+import com.DavidM1A2.afraidofthedark.client.entity.bolt.RenderIgneousBolt;
 import com.DavidM1A2.afraidofthedark.client.entity.bolt.RenderIronBolt;
 import com.DavidM1A2.afraidofthedark.client.entity.bolt.RenderSilverBolt;
 import com.DavidM1A2.afraidofthedark.client.entity.bolt.RenderWoodenBolt;
@@ -13,6 +14,7 @@ import com.DavidM1A2.afraidofthedark.client.keybindings.ModKeybindings;
 import com.DavidM1A2.afraidofthedark.client.tileEntity.voidChest.TileEntityVoidChestRenderer;
 import com.DavidM1A2.afraidofthedark.common.block.core.AOTDLeaves;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;
+import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityIgneousBolt;
 import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityIronBolt;
 import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntitySilverBolt;
 import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityWoodenBolt;
@@ -92,6 +94,7 @@ public class ClientProxy extends CommonProxy
         RenderingRegistry.registerEntityRenderingHandler(EntityWoodenBolt.class, RenderWoodenBolt::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityIronBolt.class, RenderIronBolt::new);
         RenderingRegistry.registerEntityRenderingHandler(EntitySilverBolt.class, RenderSilverBolt::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityIgneousBolt.class, RenderIgneousBolt::new);
     }
 
     /**

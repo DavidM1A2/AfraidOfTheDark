@@ -71,5 +71,9 @@ public class ItemRegister
         // The flask of souls has two different states, charged and not charged
         ModelLoader.setCustomModelResourceLocation(ModItems.FLASK_OF_SOULS, 0, new ModelResourceLocation(Constants.MOD_ID + ":flask_of_souls", "inventory"));
         ModelLoader.setCustomModelResourceLocation(ModItems.FLASK_OF_SOULS, 1, new ModelResourceLocation(Constants.MOD_ID + ":flask_of_souls_charged", "inventory"));
+
+        // The igneous sword has two different states, charged and not charged
+        ModelLoader.setCustomModelResourceLocation(ModItems.IGNEOUS_SWORD, 0, new ModelResourceLocation(Constants.MOD_ID + ":igneous_sword", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(ModItems.IGNEOUS_SWORD, 1, new ModelResourceLocation(Constants.MOD_ID + ":igneous_sword_full_charge", "inventory"));
     }
 }
