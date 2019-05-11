@@ -38,6 +38,11 @@ public class ItemAstralSilverSword extends AOTDSword
         {
             entity.attackEntityFrom(ModDamageSources.getSilverDamage(player), this.getAttackDamage());
         }
+        // Can't use the sword if you don't have the research
+        else
+        {
+            return true;
+        }
 
         // Otherwise do standard entity damage
         return super.onLeftClickEntity(stack, player, entity);
