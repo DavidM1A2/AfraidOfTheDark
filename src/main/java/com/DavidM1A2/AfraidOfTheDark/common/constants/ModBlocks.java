@@ -27,6 +27,7 @@ public class ModBlocks
     public static final Block METEOR = new BlockMeteor();
     public static final Block ASTRAL_SILVER_ORE = new BlockAstralSilverOre();
     public static final Block SUNSTONE_ORE = new BlockSunstoneOre();
+    public static final Block STAR_METAL_ORE = new BlockStarMetalOre();
     public static final Block IGNEOUS = new BlockIgneous();
 
     public static final Block ELDRITCH_STONE = new BlockEldritchStone();
@@ -57,6 +58,7 @@ public class ModBlocks
                     DARK_FOREST,
                     ENARIA_SPAWNER,
                     SUNSTONE_ORE,
+                    STAR_METAL_ORE,
                     IGNEOUS
             };
 

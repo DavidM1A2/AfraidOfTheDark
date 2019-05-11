@@ -134,12 +134,14 @@ research.insanity=Insanity
 research.vitae_1=Vitae 1
 research.astronomy_2=Astronomy 2
 research.igneous=Igneous
+research.star_metal=Star Metal
 
 # Bolt entries
 bolt_entry.wooden=Wooden
 bolt_entry.iron=Iron
 bolt_entry.astral_silver=Silver
 bolt_entry.igneous=Igneous
+bolt_entry.star_metal=Star Metal
 
 # Meteor entries
 meteor_entry.astral_silver=Astral Silver
@@ -221,6 +223,8 @@ aotd.telescope.not_high_enough=§oI can't see anything through these thick cloud
 
 aotd.crossbow.no_bolt=§oI'll need a %1$s bolt in my inventory to shoot.
 aotd.crossbow.bolt_change=§oCrossbow will now fire %1$s bolts.
+
+aotd.star_metal_staff.on_cooldown=Star metal staff is on cooldow (%1$ss)!
 
 aotd.meteor.location=§oBased off of this information the meteor fell around %1$s, %2$s.
 aotd.meteor.process.invalid_vals=§oThe values entered do not make sense. I should try to re-enter the meteor's data or observe a new meteor.

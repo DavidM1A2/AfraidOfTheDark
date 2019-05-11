@@ -2,5 +2,41 @@
   "parent": "item/generated",
   "textures": {
     "layer0": "afraidofthedark:items/star_metal_staff"
+  },
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [
+        0,
+        90,
+        -35
+      ],
+      "translation": [
+        0,
+        8.25,
+        1.5
+      ],
+      "scale": [
+        1.5,
+        1.5,
+        1
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        90,
+        90,
+        -35
+      ],
+      "translation": [
+        0,
+        8.25,
+        1.5
+      ],
+      "scale": [
+        1.5,
+        1.5,
+        1
+      ]
+    }
   }
 }

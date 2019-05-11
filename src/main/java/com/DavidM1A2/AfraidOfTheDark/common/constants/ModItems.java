@@ -36,6 +36,16 @@ public class ModItems
     public static final Item IGNEOUS_LEGGINGS = new ItemIgneousArmor("igneous_leggings", EntityEquipmentSlot.LEGS);
     public static final Item IGNEOUS_BOOTS = new ItemIgneousArmor("igneous_boots", EntityEquipmentSlot.FEET);
 
+    public static final Item STAR_METAL_FRAGMENT = new ItemStarMetalFragment();
+    public static final Item STAR_METAL_INGOT = new ItemStarMetalIngot();
+    public static final Item STAR_METAL_PLATE = new ItemStarMetalPlate();
+    public static final Item STAR_METAL_KHOPESH = new ItemStarMetalKhopesh();
+    public static final Item STAR_METAL_STAFF = new ItemStarMetalStaff();
+    public static final Item STAR_METAL_HELMET = new ItemStarMetalArmor("star_metal_helmet", EntityEquipmentSlot.HEAD);
+    public static final Item STAR_METAL_CHESTPLATE = new ItemStarMetalArmor("star_metal_chestplate", EntityEquipmentSlot.CHEST);
+    public static final Item STAR_METAL_LEGGINGS = new ItemStarMetalArmor("star_metal_leggings", EntityEquipmentSlot.LEGS);
+    public static final Item STAR_METAL_BOOTS = new ItemStarMetalArmor("star_metal_boots", EntityEquipmentSlot.FEET);
+
     public static final Item WOODEN_BOLT = new ItemWoodenBolt();
     public static final Item IRON_BOLT = new ItemIronBolt();
     public static final Item SILVER_BOLT = new ItemSilverBolt();
@@ -74,6 +84,15 @@ public class ModItems
                     IGNEOUS_HELMET,
                     IGNEOUS_CHESTPLATE,
                     IGNEOUS_LEGGINGS,
-                    IGNEOUS_BOOTS
+                    IGNEOUS_BOOTS,
+                    STAR_METAL_FRAGMENT,
+                    STAR_METAL_INGOT,
+                    STAR_METAL_PLATE,
+                    STAR_METAL_KHOPESH,
+                    STAR_METAL_STAFF,
+                    STAR_METAL_HELMET,
+                    STAR_METAL_CHESTPLATE,
+                    STAR_METAL_LEGGINGS,
+                    STAR_METAL_BOOTS
             };
 }

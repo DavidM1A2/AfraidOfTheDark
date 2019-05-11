@@ -4,6 +4,7 @@ import com.DavidM1A2.afraidofthedark.common.constants.ModArmorMaterials;
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
 import com.DavidM1A2.afraidofthedark.common.constants.ModResearches;
 import com.DavidM1A2.afraidofthedark.common.item.core.AOTDArmor;
+import com.DavidM1A2.afraidofthedark.common.utility.NBTHelper;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -26,16 +27,18 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Class representing the 4 different pieces of igneous armor
+ * Class representing the 4 different pieces of star metal armor
  */
-public class ItemIgneousArmor extends AOTDArmor implements ISpecialArmor
+public class ItemStarMetalArmor extends AOTDArmor implements ISpecialArmor
 {
-    // How much strength the armor knocks back enemies that attack you
-    private static final double KNOCKBACK_STRENGTH = 0.6;
-    // Damage sources that relate to fire damage
-    private static final Set<DamageSource> FIRE_SOURCES = ImmutableSet.of(DamageSource.IN_FIRE, DamageSource.ON_FIRE);
+    // When this armor piece last proc'd absorption
+    private static final String NBT_LAST_ABSORPTION_PROC = "last_absorption_proc";
+    // Number of milliseconds until the absoroption proc
+    private static final int ABSORPTION_PROC_CD_MILLIS = 120000; // 60000 millis aka 120s
+    // Amount of absorption from each armor piece in hearts
+    private static final int ABSORPTION_PER_PIECE = 4;
     // Damage sources that relate to unblockable damage
-    private static final Set<DamageSource> TRUE_DAMAGE_SOURCES = ImmutableSet.of(DamageSource.DROWN, DamageSource.FALL, DamageSource.IN_WALL, DamageSource.OUT_OF_WORLD, DamageSource.STARVE);
+    private static final Set<DamageSource> TRUE_DAMAGE_SOURCES = ImmutableSet.of(DamageSource.DROWN, DamageSource.FALL, DamageSource.IN_WALL, DamageSource.OUT_OF_WORLD, DamageSource.STARVE, DamageSource.LAVA);
 
     /**
      * Constructor sets up armor item properties
@@ -43,14 +46,14 @@ public class ItemIgneousArmor extends AOTDArmor implements ISpecialArmor
      * @param baseName        The name of the item to be used by the game registry
      * @param equipmentSlotIn The slot that this armor pieces goes on, can be one of 4 options
      */
-    public ItemIgneousArmor(String baseName, EntityEquipmentSlot equipmentSlotIn)
+    public ItemStarMetalArmor(String baseName, EntityEquipmentSlot equipmentSlotIn)
     {
         super(baseName, ModArmorMaterials.IGNEOUS, 3, equipmentSlotIn);
         // Makes the armor invincible
         this.setMaxDamage(0);
-        // Block 80% of the damage up to 20
+        // Block 70% of the damage up to 20
         this.maxDamageBlocked = 20;
-        this.percentOfDamageBlocked = 0.8;
+        this.percentOfDamageBlocked = 0.7;
     }
 
     /**
@@ -66,14 +69,14 @@ public class ItemIgneousArmor extends AOTDArmor implements ISpecialArmor
     @Override
     public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type)
     {
-        // Igneous 1 is for helm, boots, and chest while igneous 2 is for leggings
+        // Star metal 1 is for helm, boots, and chest while Star metal 2 is for leggings
         if (slot == EntityEquipmentSlot.LEGS)
         {
-            return "afraidofthedark:textures/armor/igneous_2.png";
+            return "afraidofthedark:textures/armor/star_metal_2.png";
         }
         else
         {
-            return "afraidofthedark:textures/armor/igneous_1.png";
+            return "afraidofthedark:textures/armor/star_metal_1.png";
         }
     }
 
@@ -90,10 +93,10 @@ public class ItemIgneousArmor extends AOTDArmor implements ISpecialArmor
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
         EntityPlayerSP player = Minecraft.getMinecraft().player;
-        if (player != null && player.getCapability(ModCapabilities.PLAYER_RESEARCH, null).isResearched(ModResearches.IGNEOUS))
+        if (player != null && player.getCapability(ModCapabilities.PLAYER_RESEARCH, null).isResearched(ModResearches.STAR_METAL))
         {
             tooltip.add("Magical armor will never break.");
-            tooltip.add("Knocks back enemies that hit you.");
+            tooltip.add("Gives you two absorption hearts per piece.");
         }
         else
         {
@@ -111,20 +114,38 @@ public class ItemIgneousArmor extends AOTDArmor implements ISpecialArmor
     @Override
     public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack)
     {
-        super.onArmorTick(world, player, itemStack);
-        // If the armor wearer is burning extinguish the fire
-        if (player.isBurning())
+        // Process server side only
+        if (!world.isRemote)
         {
-            // Ensure the player has the right research
-            if (player.getCapability(ModCapabilities.PLAYER_RESEARCH, null).isResearched(ModResearches.IGNEOUS))
+            // Test if the player has the star metal research
+            if (player.getCapability(ModCapabilities.PLAYER_RESEARCH, null).isResearched(ModResearches.STAR_METAL))
             {
-                // If the player is wearing full armor then add armor set bonuses
-                if (this.isWearingFullArmor(player))
+                // If the stack is ready to proc absorption, add 2 absorption hearts
+                if (this.readyToProcAbsorption(itemStack))
                 {
-                    player.extinguish();
+                    // The number of star metal armor pieces worn
+                    long numberStarMetalPiecesWorn = player.inventory.armorInventory.stream().map(ItemStack::getItem).filter(ItemStarMetalArmor.class::isInstance).count();
+                    if (numberStarMetalPiecesWorn * ABSORPTION_PER_PIECE >= player.getAbsorptionAmount())
+                    {
+                        // Add 4 to absorption up to a max for the proc
+                        player.setAbsorptionAmount(MathHelper.clamp(player.getAbsorptionAmount() + ABSORPTION_PER_PIECE, 0, numberStarMetalPiecesWorn * ABSORPTION_PER_PIECE));
+                    }
+                    // Update the last proc time to now
+                    NBTHelper.setLong(itemStack, NBT_LAST_ABSORPTION_PROC, System.currentTimeMillis());
                 }
             }
         }
+    }
+
+    /**
+     * True if the armor is ready to proc absorption, false otherwise
+     *
+     * @param itemStack The itemstack to test
+     * @return True if absorption can be proc'd, false otherwise
+     */
+    private boolean readyToProcAbsorption(ItemStack itemStack)
+    {
+        return !NBTHelper.hasTag(itemStack, NBT_LAST_ABSORPTION_PROC) || System.currentTimeMillis() > NBTHelper.getLong(itemStack, NBT_LAST_ABSORPTION_PROC) + ABSORPTION_PROC_CD_MILLIS;
     }
 
     /**
@@ -188,33 +209,10 @@ public class ItemIgneousArmor extends AOTDArmor implements ISpecialArmor
         {
             EntityPlayer entityPlayer = (EntityPlayer) entity;
             // Ensure the player has the right research
-            if (entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null).isResearched(ModResearches.IGNEOUS))
+            if (entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null).isResearched(ModResearches.STAR_METAL))
             {
-                // If the player is wearing full armor then add armor set bonuses
-                if (this.isWearingFullArmor(entityPlayer))
-                {
-                    Entity damageSourceEntity = source.getTrueSource();
-                    // If the damage source is non-null set them on fire
-                    if (damageSourceEntity != null)
-                    {
-                        damageSourceEntity.setFire(5);
-
-                        // Also knock the damage source entity back
-                        double motionX = entityPlayer.getPosition().getX() - damageSourceEntity.getPosition().getX();
-                        double motionZ = entityPlayer.getPosition().getZ() - damageSourceEntity.getPosition().getZ();
-                        double hypotenuse = MathHelper.sqrt(motionX * motionX + motionZ * motionZ);
-                        // Move the entity away from the player
-                        damageSourceEntity.addVelocity(-motionX * KNOCKBACK_STRENGTH * 0.6D / hypotenuse, 0.1D, -motionZ * KNOCKBACK_STRENGTH * 0.6D / hypotenuse);
-                    }
-                }
-
-                // Blocks all fire damage
-                if (FIRE_SOURCES.contains(source))
-                {
-                    return new ArmorProperties(0, getRatio(slot), Integer.MAX_VALUE);
-                }
-                // Blocks no true damage sources
-                else if (TRUE_DAMAGE_SOURCES.contains(source))
+                // No damage reduction against true sources
+                if (TRUE_DAMAGE_SOURCES.contains(source))
                 {
                     return new ArmorProperties(0, getRatio(slot), 0);
                 }
@@ -224,6 +222,11 @@ public class ItemIgneousArmor extends AOTDArmor implements ISpecialArmor
                 // Armor is useless without research
                 return new ArmorProperties(0, getRatio(slot), 0);
             }
+        }
+        else
+        {
+            // Armor is useless without research
+            return new ArmorProperties(0, getRatio(slot), 0);
         }
 
         // Default armor protection if no special set bonus applies

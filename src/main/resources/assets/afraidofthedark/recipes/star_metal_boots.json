@@ -1,0 +1,17 @@
+{
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    "s s",
+    "s s"
+  ],
+  "key": {
+    "s": {
+      "item": "afraidofthedark:star_metal_plate"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:star_metal_boots",
+    "count": 1
+  },
+  "required_research": "afraidofthedark:star_metal"
+}

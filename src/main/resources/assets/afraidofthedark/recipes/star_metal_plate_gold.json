@@ -1,0 +1,21 @@
+{
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    "sss",
+    "sgs",
+    "sss"
+  ],
+  "key": {
+    "s": {
+      "item": "afraidofthedark:star_metal_ingot"
+    },
+    "g": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:star_metal_plate",
+    "count": 2
+  },
+  "required_research": "afraidofthedark:star_metal"
+}

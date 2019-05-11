@@ -17,5 +17,6 @@ public class FurnaceRecipeRegister
     {
         // Register smelting recipe for astral silver ore -> ingot
         GameRegistry.addSmelting(ModBlocks.ASTRAL_SILVER_ORE, new ItemStack(ModItems.ASTRAL_SILVER_INGOT), 0.4f);
+        GameRegistry.addSmelting(ModItems.STAR_METAL_FRAGMENT, new ItemStack(ModItems.STAR_METAL_INGOT), 0.5f);
     }
 }

@@ -1,10 +1,7 @@
 package com.DavidM1A2.afraidofthedark.common.constants;
 
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
-import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityIgneousBolt;
-import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityIronBolt;
-import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntitySilverBolt;
-import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityWoodenBolt;
+import com.DavidM1A2.afraidofthedark.common.entity.bolt.*;
 import com.DavidM1A2.afraidofthedark.common.entity.enaria.EntityGhastlyEnaria;
 import com.DavidM1A2.afraidofthedark.common.entity.enchantedSkeleton.EntityEnchantedSkeleton;
 import com.DavidM1A2.afraidofthedark.common.entity.werewolf.EntityWerewolf;
@@ -84,6 +81,12 @@ public class ModEntities
             .name("igneous_bolt")
             .tracker(50, 1, true)
             .build();
+    public static final EntityEntry STAR_METAL_BOLT = EntityEntryBuilder.create()
+            .entity(EntityStarMetalBolt.class)
+            .id(new ResourceLocation(Constants.MOD_ID, "star_metal_bolt"), STAR_METAL_BOLT_ID)
+            .name("star_metal_bolt")
+            .tracker(50, 1, true)
+            .build();
 
     // An array containing a list of entities that AOTD adds
     public static EntityEntry[] ENTITY_LIST = new EntityEntry[]
@@ -94,6 +97,7 @@ public class ModEntities
                     WOODEN_BOLT,
                     IRON_BOLT,
                     SILVER_BOLT,
-                    IGNEOUS_BOLT
+                    IGNEOUS_BOLT,
+                    STAR_METAL_BOLT
             };
 }

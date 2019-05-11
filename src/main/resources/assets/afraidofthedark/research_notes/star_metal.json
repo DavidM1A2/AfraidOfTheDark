@@ -1,0 +1,19 @@
+{
+  "x": 1,
+  "y": 6,
+  "tooltip": "troll pole",
+  "recipes": [
+    "afraidofthedark:star_metal_plate",
+    "afraidofthedark:star_metal_khopesh",
+    "afraidofthedark:star_metal_staff",
+    "afraidofthedark:star_metal_bolt",
+    "afraidofthedark:star_metal_boots",
+    "afraidofthedark:star_metal_leggings",
+    "afraidofthedark:star_metal_chestplate",
+    "afraidofthedark:star_metal_helmet"
+  ],
+  "preRecipes": [],
+  "icon": "afraidofthedark:textures/gui/research_icons/star_metal.png",
+  "pre": "I have tracked a new type of meteor. I should find it and see what materials reside within.",
+  "researched": "Upon rummaging around the insides of an asteroid, I have discovered a new material, which I have named starmetal. Starmetal ingots are made by smelting starmetal fragments. If starmetal ingots are combined with iron ingots, they can be made into starmetal plates, which can then be forged into various tools and armor. Starmetal armor provides superior protection to diamond, and gives the user an overshield which will absorb damage before the user. A starmetal khopesh gains energy upon striking an enemy. When it reaches maximum charge, it will begin to shimmer with arcane power. When at maximum charge, it can unleash a devastating area of effect slash by using right click. In addition to the khopesh, a staff can be made out of starmetal. Every so often, the wielder can activate the starmetal staff to jump on top of it, becoming invulnerable for several seconds, dodging everything from arrows to cataclysmic world-annihilating explosions as if you rolled a natural 20 on your dodge check. It should also be noted that star metal crossbow bolts will deal massive damage to werewolves."
+}

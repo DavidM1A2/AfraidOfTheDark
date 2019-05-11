@@ -2,5 +2,41 @@
   "parent": "item/generated",
   "textures": {
     "layer0": "afraidofthedark:items/igneous_sword_full_charge"
+  },
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [
+        270,
+        270,
+        -55
+      ],
+      "translation": [
+        0,
+        8.25,
+        1.5
+      ],
+      "scale": [
+        1.5,
+        1.5,
+        1
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        0,
+        90,
+        -35
+      ],
+      "translation": [
+        0,
+        8.25,
+        1.5
+      ],
+      "scale": [
+        1.5,
+        1.5,
+        1
+      ]
+    }
   }
 }

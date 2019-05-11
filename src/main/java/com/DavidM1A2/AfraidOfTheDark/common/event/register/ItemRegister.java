@@ -75,5 +75,9 @@ public class ItemRegister
         // The igneous sword has two different states, charged and not charged
         ModelLoader.setCustomModelResourceLocation(ModItems.IGNEOUS_SWORD, 0, new ModelResourceLocation(Constants.MOD_ID + ":igneous_sword", "inventory"));
         ModelLoader.setCustomModelResourceLocation(ModItems.IGNEOUS_SWORD, 1, new ModelResourceLocation(Constants.MOD_ID + ":igneous_sword_full_charge", "inventory"));
+
+        // The star metal khopesh has two different states, charged and not charged
+        ModelLoader.setCustomModelResourceLocation(ModItems.STAR_METAL_KHOPESH, 0, new ModelResourceLocation(Constants.MOD_ID + ":star_metal_khopesh", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(ModItems.STAR_METAL_KHOPESH, 1, new ModelResourceLocation(Constants.MOD_ID + ":star_metal_khopesh_full_charge", "inventory"));
     }
 }

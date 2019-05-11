@@ -65,6 +65,11 @@ public class ItemIgneousSword extends AOTDChargeableSword
                 entity.attackEntityFrom(ModDamageSources.getSilverDamage(player), this.getAttackDamage());
             }
         }
+        // Can't use the sword if you don't have the right research
+        else
+        {
+            return true;
+        }
         return super.onLeftClickEntity(stack, player, entity);
     }
 
