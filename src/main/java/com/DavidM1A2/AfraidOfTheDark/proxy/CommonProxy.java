@@ -12,9 +12,6 @@ import com.DavidM1A2.afraidofthedark.common.packets.capabilityPackets.SyncSelect
 import com.DavidM1A2.afraidofthedark.common.packets.capabilityPackets.SyncStartedAOTD;
 import com.DavidM1A2.afraidofthedark.common.packets.otherPackets.*;
 import com.DavidM1A2.afraidofthedark.common.packets.packetHandler.PacketHandler;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -36,15 +33,6 @@ public abstract class CommonProxy implements IProxy
         OreDictionary.registerOre("plankWood", ModBlocks.GRAVEWOOD_PLANKS);
         OreDictionary.registerOre("treeSapling", ModBlocks.GRAVEWOOD_SAPLING);
         OreDictionary.registerOre("stairWood", ModBlocks.GRAVEWOOD_STAIRS);
-    }
-
-    /**
-     * Called to initialize any mod smelting recipes
-     */
-    @Override
-    public void initializeSmeltingRecipes()
-    {
-        GameRegistry.addSmelting(new ItemStack(ModBlocks.GRAVEWOOD), new ItemStack(Items.COAL, 1, 1), 0.15f);
     }
 
     /**

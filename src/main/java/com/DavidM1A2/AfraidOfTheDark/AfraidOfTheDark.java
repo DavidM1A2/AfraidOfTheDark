@@ -102,6 +102,8 @@ public class AfraidOfTheDark
         MinecraftForge.EVENT_BUS.register(new NightmareHandler());
         // Register our void chest handler
         MinecraftForge.EVENT_BUS.register(new VoidChestHandler());
+        // Register our block color handler used to color aotd leaves
+        MinecraftForge.EVENT_BUS.register(new ModColorRegister());
         // Register our AOTD world generator
         GameRegistry.registerWorldGenerator(worldGenerator, configurationHandler.getWorldGenPriority());
         // We also need to register our world gen server tick handler
@@ -126,12 +128,8 @@ public class AfraidOfTheDark
     @Mod.EventHandler
     public void initialization(FMLInitializationEvent event)
     {
-        // Initialize leaf renderers (client side only)
-        proxy.initializeLeafRenderers();
         // Initialize any ore-dictionary entries
         proxy.initializeOreDictionary();
-        // Initialize smelting recipes
-        proxy.initializeSmeltingRecipes();
         // Initialize furnace recipes
         FurnaceRecipeRegister.initialize();
         // Register our key input event handler client side

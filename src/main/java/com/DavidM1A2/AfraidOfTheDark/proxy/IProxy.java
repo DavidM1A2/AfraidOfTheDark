@@ -13,11 +13,6 @@ import com.DavidM1A2.afraidofthedark.common.event.ResearchOverlayHandler;
 public interface IProxy
 {
     /**
-     * Called to initialize leaf block renderers. This simply ensures the colors of the leaves are correctly applied
-     */
-    void initializeLeafRenderers();
-
-    /**
      * Called to initialize entity renderers
      */
     void initializeEntityRenderers();
@@ -31,11 +26,6 @@ public interface IProxy
      * Called to initialize any mod blocks into the ore dictionary
      */
     void initializeOreDictionary();
-
-    /**
-     * Called to initialize any mod smelting recipes
-     */
-    void initializeSmeltingRecipes();
 
     /**
      * Called to register any key bindings

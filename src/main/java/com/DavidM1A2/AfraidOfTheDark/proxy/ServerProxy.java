@@ -11,15 +11,6 @@ import com.DavidM1A2.afraidofthedark.common.event.ResearchOverlayHandler;
 public class ServerProxy extends CommonProxy
 {
     /**
-     * Called to initialize leaf block renderers. This simply ensures the colors of the leaves are correctly applied. Server does not register any renderers
-     */
-    @Override
-    public void initializeLeafRenderers()
-    {
-        // Not used
-    }
-
-    /**
      * Called to initialize entity renderers
      */
     @Override

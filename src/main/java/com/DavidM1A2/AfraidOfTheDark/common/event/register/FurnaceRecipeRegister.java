@@ -2,6 +2,7 @@ package com.DavidM1A2.afraidofthedark.common.event.register;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;
 import com.DavidM1A2.afraidofthedark.common.constants.ModItems;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -17,6 +18,9 @@ public class FurnaceRecipeRegister
     {
         // Register smelting recipe for astral silver ore -> ingot
         GameRegistry.addSmelting(ModBlocks.ASTRAL_SILVER_ORE, new ItemStack(ModItems.ASTRAL_SILVER_INGOT), 0.4f);
+        // Star metal fragment -> star metal ingot
         GameRegistry.addSmelting(ModItems.STAR_METAL_FRAGMENT, new ItemStack(ModItems.STAR_METAL_INGOT), 0.5f);
+        // Gravewood -> goal
+        GameRegistry.addSmelting(new ItemStack(ModBlocks.GRAVEWOOD), new ItemStack(Items.COAL, 1, 1), 0.15f);
     }
 }
