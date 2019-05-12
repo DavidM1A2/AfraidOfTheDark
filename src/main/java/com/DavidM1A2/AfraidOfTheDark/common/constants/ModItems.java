@@ -46,6 +46,8 @@ public class ModItems
     public static final Item STAR_METAL_LEGGINGS = new ItemStarMetalArmor("star_metal_leggings", EntityEquipmentSlot.LEGS);
     public static final Item STAR_METAL_BOOTS = new ItemStarMetalArmor("star_metal_boots", EntityEquipmentSlot.FEET);
 
+    public static final Item GNOMISH_METAL_INGOT = new ItemGnomishMetalIngot();
+
     public static final Item WOODEN_BOLT = new ItemWoodenBolt();
     public static final Item IRON_BOLT = new ItemIronBolt();
     public static final Item SILVER_BOLT = new ItemSilverBolt();
@@ -93,6 +95,7 @@ public class ModItems
                     STAR_METAL_HELMET,
                     STAR_METAL_CHESTPLATE,
                     STAR_METAL_LEGGINGS,
-                    STAR_METAL_BOOTS
+                    STAR_METAL_BOOTS,
+                    GNOMISH_METAL_INGOT
             };
 }

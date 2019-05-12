@@ -1,0 +1,22 @@
+{
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    " s ",
+    "isi",
+    " s "
+  ],
+  "key": {
+    "i": {
+      "item": "afraidofthedark:gnomish_metal_ingot"
+    },
+    "s": {
+      "item": "minecraft:stone",
+      "data": 0
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:gnomish_metal_strut",
+    "count": 3
+  },
+  "required_research": "afraidofthedark:gnomish_city"
+}

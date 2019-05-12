@@ -30,6 +30,9 @@ public class ModBlocks
     public static final Block STAR_METAL_ORE = new BlockStarMetalOre();
     public static final Block IGNEOUS = new BlockIgneous();
 
+    public static final Block GNOMISH_METAL_STRUT = new BlockGnomishMetalStrut();
+    public static final Block GNOMISH_METAL_PLATE = new BlockGnomishMetalPlate();
+
     public static final Block ELDRITCH_STONE = new BlockEldritchStone();
     public static final Block ELDRITCH_OBSIDIAN = new BlockEldritchObsidian();
     public static final Block AMORPHOUS_ELDRITCH_METAL = new BlockAmorphousEldritchMetal();
@@ -59,7 +62,9 @@ public class ModBlocks
                     ENARIA_SPAWNER,
                     SUNSTONE_ORE,
                     STAR_METAL_ORE,
-                    IGNEOUS
+                    IGNEOUS,
+                    GNOMISH_METAL_STRUT,
+                    GNOMISH_METAL_PLATE
             };
 
     // A list of tile entities to register

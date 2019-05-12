@@ -4,6 +4,8 @@ import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.entity.bolt.*;
 import com.DavidM1A2.afraidofthedark.common.entity.enaria.EntityGhastlyEnaria;
 import com.DavidM1A2.afraidofthedark.common.entity.enchantedSkeleton.EntityEnchantedSkeleton;
+import com.DavidM1A2.afraidofthedark.common.entity.splinterDrone.EntitySplinterDrone;
+import com.DavidM1A2.afraidofthedark.common.entity.splinterDrone.EntitySplinterDroneProjectile;
 import com.DavidM1A2.afraidofthedark.common.entity.werewolf.EntityWerewolf;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.EntityEntry;
@@ -55,6 +57,19 @@ public class ModEntities
             .name("ghastly_enaria")
             .tracker(AfraidOfTheDark.INSTANCE.getConfigurationHandler().getBlocksBetweenIslands() / 2, 1, true)
             .build();
+    public static final EntityEntry SPLINTER_DRONE = EntityEntryBuilder.create()
+            .egg(0xcc6600, 0x63300)
+            .entity(EntitySplinterDrone.class)
+            .id(new ResourceLocation(Constants.MOD_ID, "splinter_drone"), SPLINTER_DRONE_ID)
+            .name("splinter_drone")
+            .tracker(50, 1, true)
+            .build();
+    public static final EntityEntry SPLINTER_DRONE_PROJECTILE = EntityEntryBuilder.create()
+            .entity(EntitySplinterDroneProjectile.class)
+            .id(new ResourceLocation(Constants.MOD_ID, "splinter_drone_projectile"), SPLINTER_DRONE_PROJECTILE_ID)
+            .name("splinter_drone_projectile")
+            .tracker(50, 1, true)
+            .build();
 
     // 5 bolt entities
     public static final EntityEntry WOODEN_BOLT = EntityEntryBuilder.create()
@@ -94,6 +109,8 @@ public class ModEntities
                     ENCHANTED_SKELETON,
                     WEREWOLF,
                     GHASTLY_ENARIA,
+                    SPLINTER_DRONE,
+                    SPLINTER_DRONE_PROJECTILE,
                     WOODEN_BOLT,
                     IRON_BOLT,
                     SILVER_BOLT,

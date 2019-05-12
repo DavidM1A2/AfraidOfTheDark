@@ -29,6 +29,7 @@ public class ModResearches
     public static final Research ASTRONOMY_2 = new AOTDResearch("astronomy_2", NIGHTMARE);
     public static final Research IGNEOUS = new AOTDResearch("igneous", ASTRONOMY_2);
     public static final Research STAR_METAL = new AOTDResearch("star_metal", ASTRONOMY_2);
+    public static final Research GNOMISH_CITY = new AOTDResearch("gnomish_city", ASTRONOMY_2);
 
     // An array containing a list of researches that AOTD adds
     public static Research[] RESEARCH_LIST = new Research[]
@@ -53,6 +54,7 @@ public class ModResearches
                     VITAE_1,
                     ASTRONOMY_2,
                     IGNEOUS,
-                    STAR_METAL
+                    STAR_METAL,
+                    GNOMISH_CITY
             };
 }
