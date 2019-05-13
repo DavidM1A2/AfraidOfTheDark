@@ -1,5 +1,6 @@
 package com.DavidM1A2.afraidofthedark.common.worldGeneration.structure;
 
+import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.IHeightmap;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.OverworldHeightmap;
 import com.DavidM1A2.afraidofthedark.common.constants.ModLootTables;
@@ -90,7 +91,7 @@ public class StructureVoidChest extends AOTDStructure
                 }
 
                 // 5% chance to generate in any chunks this fits in
-                return 0.05;
+                return 0.05 * AfraidOfTheDark.INSTANCE.getConfigurationHandler().getVoidChestMultiplier();
             }
 
             @Override

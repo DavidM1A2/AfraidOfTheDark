@@ -28,7 +28,6 @@ public class ItemDebug extends AOTDItem
     /// Code below here is not documented due to its temporary nature used for testing
     ///
 
-
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
     {
@@ -49,12 +48,13 @@ public class ItemDebug extends AOTDItem
                 playerIn.changeDimension(ModDimensions.NIGHTMARE.getId(), ModDimensions.NOOP_TELEPORTER);
             }
             else
-            {
+            {c
                 playerIn.changeDimension(0, ModDimensions.NOOP_TELEPORTER);
             }
 
              */
-            SchematicGenerator.generateSchematic(ModSchematics.NIGHTMARE_ISLAND, playerIn.world, playerIn.getPosition(), null, ModLootTables.NIGHTMARE_ISLAND);
+            // Z
+            SchematicGenerator.generateSchematic(ModSchematics.TUNNEL_EW, playerIn.world, playerIn.getPosition(), null, ModLootTables.GNOMISH_CITY);
 			/*
 			// 60x60
 			playerIn.sendMessage(new TextComponentString("TREES: "));

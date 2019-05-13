@@ -13,6 +13,7 @@ public class ModStructures
     public static final Structure VOID_CHEST = new StructureVoidChest();
     public static final Structure DARK_FOREST = new StructureDarkForest();
     public static final Structure NIGHTMARE_ISLAND = new StructureNightmareIsland();
+    public static final Structure GNOMISH_CITY = new StructureGnomishCity();
 
     public static Structure[] STRUCTURE_LIST = new Structure[]
             {
@@ -20,6 +21,7 @@ public class ModStructures
                     WITCH_HUT,
                     VOID_CHEST,
                     DARK_FOREST,
-                    NIGHTMARE_ISLAND
+                    NIGHTMARE_ISLAND,
+                    GNOMISH_CITY
             };
 }

@@ -1,5 +1,6 @@
 package com.DavidM1A2.afraidofthedark.common.worldGeneration.structure;
 
+import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.IHeightmap;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.OverworldHeightmap;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBiomes;
@@ -153,9 +154,9 @@ public class StructureDarkForest extends AOTDStructure
             return 0;
         }
         else
-        // If the house is valid we're good to go, the chance to gen will be .5%
+        // If the house is valid we're good to go, the chance to gen will be .23%
         {
-            return 0.005;
+            return 0.0023 * AfraidOfTheDark.INSTANCE.getConfigurationHandler().getDarkForestMultiplier();
         }
     }
 

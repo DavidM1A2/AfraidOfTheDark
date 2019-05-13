@@ -37,4 +37,11 @@ public class ModLootTables
             put(Items.RABBIT_HIDE, new ResourceLocation(Constants.MOD_ID, "nightmare/astronomy2_part4"));
         }
     });
+    public static final LootTable GNOMISH_CITY = new LootTable(new HashMap<Item, ResourceLocation>()
+    {
+        {
+            put(null, new ResourceLocation(Constants.MOD_ID, "gnomish_city/standard"));
+            put(Items.DIAMOND, new ResourceLocation(Constants.MOD_ID, "gnomish_city/rare"));
+        }
+    });
 }

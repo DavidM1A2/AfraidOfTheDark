@@ -1,5 +1,6 @@
 package com.DavidM1A2.afraidofthedark.common.worldGeneration.structure;
 
+import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.IHeightmap;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.OverworldHeightmap;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBiomes;
@@ -75,8 +76,8 @@ public class StructureWitchHut extends AOTDStructure
                     return this.getDefaultResult();
                 }
 
-                // 30% chance to generate in any chunks this fits in
-                return 0.3;
+                // 10% chance to generate in any chunks this fits in
+                return 0.1 * AfraidOfTheDark.INSTANCE.getConfigurationHandler().getWitchHutMultiplier();
             }
 
             @Override

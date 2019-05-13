@@ -32,6 +32,7 @@ public class ModBlocks
 
     public static final Block GNOMISH_METAL_STRUT = new BlockGnomishMetalStrut();
     public static final Block GNOMISH_METAL_PLATE = new BlockGnomishMetalPlate();
+    public static final Block GLOW_STALK = new BlockGlowStalk();
 
     public static final Block ELDRITCH_STONE = new BlockEldritchStone();
     public static final Block ELDRITCH_OBSIDIAN = new BlockEldritchObsidian();
@@ -64,7 +65,8 @@ public class ModBlocks
                     STAR_METAL_ORE,
                     IGNEOUS,
                     GNOMISH_METAL_STRUT,
-                    GNOMISH_METAL_PLATE
+                    GNOMISH_METAL_PLATE,
+                    GLOW_STALK
             };
 
     // A list of tile entities to register

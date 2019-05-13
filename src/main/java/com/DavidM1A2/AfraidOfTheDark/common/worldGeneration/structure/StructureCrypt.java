@@ -1,5 +1,6 @@
 package com.DavidM1A2.afraidofthedark.common.worldGeneration.structure;
 
+import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.IHeightmap;
 import com.DavidM1A2.afraidofthedark.common.capabilities.world.OverworldHeightmap;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBiomes;
@@ -108,8 +109,8 @@ public class StructureCrypt extends AOTDStructure
                 double percentErie = (double) numErieForestChunks / (numErieForestChunks + numOtherChunks);
                 double percentOther = 1.0 - percentErie;
 
-                // 1% chance to spawn in other biomes, 8% chance to spawn in erie forests
-                return percentErie * 0.08 + percentOther * 0.01;
+                // 1% chance to spawn in other biomes, 5% chance to spawn in erie forests
+                return (percentErie * 0.05 + percentOther * 0.01) * AfraidOfTheDark.INSTANCE.getConfigurationHandler().getCryptMultiplier();
             }
 
             @Override
