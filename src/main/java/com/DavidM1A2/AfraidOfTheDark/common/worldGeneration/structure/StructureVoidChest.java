@@ -90,8 +90,8 @@ public class StructureVoidChest extends AOTDStructure
                     return this.getDefaultResult();
                 }
 
-                // 5% chance to generate in any chunks this fits in
-                return 0.05 * AfraidOfTheDark.INSTANCE.getConfigurationHandler().getVoidChestMultiplier();
+                // 1% chance to generate in any chunks this fits in
+                return 0.01 * AfraidOfTheDark.INSTANCE.getConfigurationHandler().getVoidChestMultiplier();
             }
 
             @Override

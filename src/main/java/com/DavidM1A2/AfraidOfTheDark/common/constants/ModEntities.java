@@ -2,6 +2,7 @@ package com.DavidM1A2.afraidofthedark.common.constants;
 
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.entity.bolt.*;
+import com.DavidM1A2.afraidofthedark.common.entity.enaria.EntityEnaria;
 import com.DavidM1A2.afraidofthedark.common.entity.enaria.EntityGhastlyEnaria;
 import com.DavidM1A2.afraidofthedark.common.entity.enchantedSkeleton.EntityEnchantedSkeleton;
 import com.DavidM1A2.afraidofthedark.common.entity.splinterDrone.EntitySplinterDrone;
@@ -70,6 +71,12 @@ public class ModEntities
             .name("splinter_drone_projectile")
             .tracker(50, 1, true)
             .build();
+    public static final EntityEntry ENARIA = EntityEntryBuilder.create()
+            .entity(EntityEnaria.class)
+            .id(new ResourceLocation(Constants.MOD_ID, "enaria"), ENARIA_ID)
+            .name("enaria")
+            .tracker(50, 1, true)
+            .build();
 
     // 5 bolt entities
     public static final EntityEntry WOODEN_BOLT = EntityEntryBuilder.create()
@@ -111,6 +118,7 @@ public class ModEntities
                     GHASTLY_ENARIA,
                     SPLINTER_DRONE,
                     SPLINTER_DRONE_PROJECTILE,
+                    ENARIA,
                     WOODEN_BOLT,
                     IRON_BOLT,
                     SILVER_BOLT,

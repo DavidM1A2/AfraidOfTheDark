@@ -136,6 +136,7 @@ research.astronomy_2=Astronomy 2
 research.igneous=Igneous
 research.star_metal=Star Metal
 research.gnomish_city=Gnomish City
+research.enaria=Enaria
 
 # Bolt entries
 bolt_entry.wooden=Wooden
@@ -240,5 +241,7 @@ aotd.crafting.missing_research=§oI'll need to do some more research before I ca
 aotd.world_gen.saving=§5[Afraid of the Dark] %1$s chunks are still being generated, please wait while these finish generating...
 
 aotd.chargable_sword.not_enough_energy=I'll need more energy to perform the ability.
+
+aotd.enaria.dont_understand=I can't understand who I'm fighting...
 
 aotd.dont_understand=§oI don't understand how this works.

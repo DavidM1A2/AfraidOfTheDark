@@ -1,0 +1,10 @@
+{
+  "x": 0,
+  "y": 8,
+  "tooltip": "This doesn't sound too hard!",
+  "recipes": [],
+  "preRecipes": [],
+  "icon": "afraidofthedark:textures/gui/research_icons/enaria.png",
+  "pre": "Enaria is in the lowest level of the Gnomish city. If I can rid the world of her wretched form, perhaps I can also become magically adept myself.",
+  "researched": "Now that I have defeated Enaria, secrets have unveiled themselves about a new power. I have always adored reading about the ancient mages of the past able to detonate mountains with a simple blink. After Enaria's fall, I felt beset by a compelling influential presence. I wonder what it may unveil to me."
+}

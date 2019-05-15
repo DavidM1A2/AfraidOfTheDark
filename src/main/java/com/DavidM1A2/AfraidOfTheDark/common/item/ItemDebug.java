@@ -1,9 +1,6 @@
 package com.DavidM1A2.afraidofthedark.common.item;
 
-import com.DavidM1A2.afraidofthedark.common.constants.ModLootTables;
-import com.DavidM1A2.afraidofthedark.common.constants.ModSchematics;
 import com.DavidM1A2.afraidofthedark.common.item.core.AOTDItem;
-import com.DavidM1A2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -31,6 +28,10 @@ public class ItemDebug extends AOTDItem
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
     {
+        if (worldIn.isRemote)
+        {
+            //Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleEnariaBasicAttack(worldIn, playerIn.posX, playerIn.posY + 2.0, playerIn.posZ));
+        }
 		/*
 		for (Research research : ModRegistries.RESEARCH)
 			playerIn.sendMessage(new TextComponentString(research.getRegistryName().toString() + " -> " + playerIn.getCapability(ModCapabilities.PLAYER_RESEARCH, null).isResearched(research)));
@@ -43,6 +44,11 @@ public class ItemDebug extends AOTDItem
         if (!worldIn.isRemote)
         {
             /*
+            AfraidOfTheDark.INSTANCE.getPacketHandler().sendTo(new SyncParticle(AOTDParticleRegistry.ParticleTypes.ENARIA_TELEPORT_ID,
+                    Lists.newArrayList(new Vec3d(playerIn.posX, playerIn.posY + 2, playerIn.posZ)), Lists.newArrayList(Vec3d.ZERO)), (EntityPlayerMP) playerIn);
+
+             */
+            /*
             if (playerIn.dimension == 0)
             {
                 playerIn.changeDimension(ModDimensions.NIGHTMARE.getId(), ModDimensions.NOOP_TELEPORTER);
@@ -54,7 +60,7 @@ public class ItemDebug extends AOTDItem
 
              */
             // Z
-            SchematicGenerator.generateSchematic(ModSchematics.TUNNEL_EW, playerIn.world, playerIn.getPosition(), null, ModLootTables.GNOMISH_CITY);
+            // SchematicGenerator.generateSchematic(ModSchematics.TUNNEL_EW, playerIn.world, playerIn.getPosition(), null, ModLootTables.GNOMISH_CITY);
 			/*
 			// 60x60
 			playerIn.sendMessage(new TextComponentString("TREES: "));

@@ -52,9 +52,9 @@ public abstract class CommonProxy implements IProxy
         packetHandler.registerPacket(SyncAnimation.class, new SyncAnimation.Handler(), Side.CLIENT);
         packetHandler.registerPacket(SyncItemWithCooldown.class, new SyncItemWithCooldown.Handler(), Side.CLIENT);
         packetHandler.registerPacket(SyncVoidChest.class, new SyncVoidChest.Handler(), Side.CLIENT);
+        packetHandler.registerPacket(SyncParticle.class, new SyncParticle.Handler(), Side.CLIENT);
 
         packetHandler.registerPacket(FireWristCrossbow.class, new FireWristCrossbow.Handler(), Side.SERVER);
-        packetHandler.registerPacket(ProcessSextantInput.class, new ProcessSextantInput.Handler(), Side.SERVER);
         packetHandler.registerPacket(ProcessSextantInput.class, new ProcessSextantInput.Handler(), Side.SERVER);
     }
 }

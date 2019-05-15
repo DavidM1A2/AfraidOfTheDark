@@ -3,6 +3,7 @@ package com.DavidM1A2.afraidofthedark.common.entity.enaria;
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
 import com.DavidM1A2.afraidofthedark.common.constants.ModDimensions;
+import com.DavidM1A2.afraidofthedark.common.constants.ModResearches;
 import com.DavidM1A2.afraidofthedark.common.entity.enaria.animation.AnimationHandlerGhastlyEnaria;
 import com.DavidM1A2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedEntity;
 import com.DavidM1A2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler;
@@ -107,13 +108,12 @@ public class EntityGhastlyEnaria extends EntityFlying implements IMCAnimatedEnti
             int distanceBetweenIslands = AfraidOfTheDark.INSTANCE.getConfigurationHandler().getBlocksBetweenIslands();
             EntityPlayer closestPlayer = this.world.getClosestPlayer(this.posX, this.posY, this.posZ, distanceBetweenIslands / 2, false);
 
-            this.setBenign(true);
-            /*
             if (closestPlayer == null)
                 this.setBenign(true);
             else
-                this.setBenign(!closestPlayer.getCapability(ModCapabilities.PLAYER_DATA, null).isResearched(ResearchTypes.Enaria));
-             */
+            {
+                this.setBenign(!closestPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null).isResearched(ModResearches.ENARIA));
+            }
         }
 
         // If dance is not active play the animation client side

@@ -76,8 +76,8 @@ public class StructureGnomishCity extends AOTDStructure
             @Override
             public Double getResult()
             {
-                // .1% chance to generate in any chunks this fits in
-                return 0.001 * AfraidOfTheDark.INSTANCE.getConfigurationHandler().getGnomishCityFrequency();
+                // .13% chance to generate in any chunks this fits in
+                return 0.0015 * AfraidOfTheDark.INSTANCE.getConfigurationHandler().getGnomishCityFrequency();
             }
 
             @Override

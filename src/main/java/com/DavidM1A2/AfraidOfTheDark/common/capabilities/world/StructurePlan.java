@@ -233,5 +233,8 @@ public class StructurePlan extends WorldSavedData implements IStructurePlan
         for (int chunkX = bottomLeftCorner.x; chunkX <= topRightCorner.x; chunkX++)
             for (int chunkZ = bottomLeftCorner.z; chunkZ <= topRightCorner.z; chunkZ++)
                 this.chunkToStructure.put(new ChunkPos(chunkX, chunkZ), placedStructure);
+
+        // Make sure to write chnages to disk
+        this.markDirty();
     }
 }

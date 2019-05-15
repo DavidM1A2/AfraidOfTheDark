@@ -3,6 +3,7 @@ package com.DavidM1A2.afraidofthedark.common.constants;
 import com.DavidM1A2.afraidofthedark.common.block.*;
 import com.DavidM1A2.afraidofthedark.common.block.gravewood.*;
 import com.DavidM1A2.afraidofthedark.common.tileEntity.TileEntityDarkForest;
+import com.DavidM1A2.afraidofthedark.common.tileEntity.TileEntityEnariaSpawner;
 import com.DavidM1A2.afraidofthedark.common.tileEntity.TileEntityGhastlyEnariaSpawner;
 import com.DavidM1A2.afraidofthedark.common.tileEntity.TileEntityVoidChest;
 import net.minecraft.block.Block;
@@ -73,6 +74,7 @@ public class ModBlocks
     public static final Pair<Class<? extends TileEntity>, ResourceLocation>[] TILE_ENTITY_LIST = ArrayUtils.toArray(
             Pair.of(TileEntityVoidChest.class, new ResourceLocation(Constants.MOD_ID, "tile_entity_void_chest")),
             Pair.of(TileEntityDarkForest.class, new ResourceLocation(Constants.MOD_ID, "tile_entity_dark_forest")),
-            Pair.of(TileEntityGhastlyEnariaSpawner.class, new ResourceLocation(Constants.MOD_ID, "tile_entity_ghastly_enaria_spawner"))
+            Pair.of(TileEntityGhastlyEnariaSpawner.class, new ResourceLocation(Constants.MOD_ID, "tile_entity_ghastly_enaria_spawner")),
+            Pair.of(TileEntityEnariaSpawner.class, new ResourceLocation(Constants.MOD_ID, "tile_entity_enaria_spawner"))
     );
 }
