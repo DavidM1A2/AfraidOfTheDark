@@ -8,6 +8,7 @@ import com.DavidM1A2.afraidofthedark.common.capabilities.player.research.IAOTDPl
 import com.DavidM1A2.afraidofthedark.common.constants.*;
 import com.DavidM1A2.afraidofthedark.common.dimension.IslandUtility;
 import com.DavidM1A2.afraidofthedark.common.utility.NBTHelper;
+import com.DavidM1A2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,6 +20,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
@@ -234,8 +236,9 @@ public class NightmareHandler
         IAOTDPlayerNightmareData playerNightmareData = entityPlayer.getCapability(ModCapabilities.PLAYER_NIGHTMARE_DATA, null);
         if (dimensionTo == ModDimensions.NIGHTMARE.getId())
         {
+            WorldServer nightmareWorld = entityPlayer.getServer().getWorld(ModDimensions.NIGHTMARE.getId());
             // Compute the player's index to go to
-            int indexToGoTo = IslandUtility.getOrAssignPlayerPositionalIndex(entityPlayer.getServer().getWorld(ModDimensions.NIGHTMARE.getId()), playerNightmareData);
+            int indexToGoTo = IslandUtility.getOrAssignPlayerPositionalIndex(nightmareWorld, playerNightmareData);
             // Compute the player's X position based on the index
             int playerXBase = indexToGoTo * AfraidOfTheDark.INSTANCE.getConfigurationHandler().getBlocksBetweenIslands();
             // Set the player's position and rotation for some reason we have to use the connection object to send a packet instead of just using entityplayer#setPosition
@@ -248,6 +251,8 @@ public class NightmareHandler
             entityPlayer.inventory.addItemStackToInventory(createHintBook());
             // Give the player torches to see
             entityPlayer.inventory.addItemStackToInventory(new ItemStack(Blocks.TORCH, 64));
+            // Test if the player needs their spell creation structure generated as an addon to the nightmare island
+            testForEnariasAltar(entityPlayer, nightmareWorld, new BlockPos(playerXBase, 0, 0));
         }
 
         // If the player left the nightmare reset their position
@@ -324,5 +329,27 @@ public class NightmareHandler
         pages.appendTag(new NBTTagString("from me. They always stay quiet when I am near. I know they are keeping secrets from me! What has it told you? What has the monolith told you to make you stop talking to me? Answer me Enaria! Where have you gone? Have you left me?"));
         pages.appendTag(new NBTTagString("You said we would be together forever!"));
         return pages;
+    }
+
+    /**
+     * Tests if we need to generate enaria's altar. Do this if the player has beaten enaria and the altar doesn't
+     * exist yet
+     *
+     * @param entityPlayer   The player that killed enaria and is being checked for
+     * @param nightmareWorld The nightmare world being tested
+     * @param islandPos      The position of this player's island realm
+     */
+    private void testForEnariasAltar(EntityPlayerMP entityPlayer, WorldServer nightmareWorld, BlockPos islandPos)
+    {
+        // Grab the player's research, if he has enaria generate the altar if needed
+        IAOTDPlayerResearch playerResearch = entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null);
+        if (playerResearch.isResearched(ModResearches.ENARIA))
+        {
+            // If enaria's alter does not exist generate the schematic
+            if (nightmareWorld.getBlockState(islandPos.add(101, 74, 233)).getBlock() != ModBlocks.ENARIAS_ALTAR)
+            {
+                SchematicGenerator.generateSchematic(ModSchematics.ENARIAS_ALTAR, nightmareWorld, islandPos.add(67, 40, 179));
+            }
+        }
     }
 }

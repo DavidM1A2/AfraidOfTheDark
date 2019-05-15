@@ -11,6 +11,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemSlab;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -79,5 +80,9 @@ public class ItemRegister
         // The star metal khopesh has two different states, charged and not charged
         ModelLoader.setCustomModelResourceLocation(ModItems.STAR_METAL_KHOPESH, 0, new ModelResourceLocation(Constants.MOD_ID + ":star_metal_khopesh", "inventory"));
         ModelLoader.setCustomModelResourceLocation(ModItems.STAR_METAL_KHOPESH, 1, new ModelResourceLocation(Constants.MOD_ID + ":star_metal_khopesh_full_charge", "inventory"));
+
+        // The altar has a special obj model
+        OBJLoader.INSTANCE.addDomain(Constants.MOD_ID);
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(ModBlocks.ENARIAS_ALTAR), 0, new ModelResourceLocation(Constants.MOD_ID + ":enarias_altar", "inventory"));
     }
 }

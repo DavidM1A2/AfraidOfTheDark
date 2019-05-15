@@ -31,6 +31,7 @@ public class ModResearches
     public static final Research STAR_METAL = new AOTDResearch("star_metal", ASTRONOMY_2);
     public static final Research GNOMISH_CITY = new AOTDResearch("gnomish_city", ASTRONOMY_2);
     public static final Research ENARIA = new AOTDResearch("enaria", GNOMISH_CITY);
+    public static final Research ENARIAS_SECRET = new AOTDResearch("enarias_secret", ENARIA);
 
     // An array containing a list of researches that AOTD adds
     public static Research[] RESEARCH_LIST = new Research[]
@@ -57,6 +58,7 @@ public class ModResearches
                     IGNEOUS,
                     STAR_METAL,
                     GNOMISH_CITY,
-                    ENARIA
+                    ENARIA,
+                    ENARIAS_SECRET
             };
 }

@@ -18,6 +18,7 @@ public class ModSchematics
     public static final Schematic VOID_CHEST_PORTAL = SchematicLoader.load(new ResourceLocation(Constants.MOD_ID, "schematics/void_chest_portal.schematic"));
     public static final Schematic VOID_CHEST = SchematicLoader.load(new ResourceLocation(Constants.MOD_ID, "schematics/void_chest.schematic"));
     public static final Schematic NIGHTMARE_ISLAND = SchematicLoader.load(new ResourceLocation(Constants.MOD_ID, "schematics/nightmare_island.schematic"));
+    public static final Schematic ENARIAS_ALTAR = SchematicLoader.load(new ResourceLocation(Constants.MOD_ID, "schematics/enarias_altar.schematic"));
 
     ///
     /// Dark Forest structure related schematics

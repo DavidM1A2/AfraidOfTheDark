@@ -42,6 +42,7 @@ public class ModBlocks
     public static final Block VOID_CHEST_PORTAL = new BlockVoidChestPortal();
     public static final Block DARK_FOREST = new BlockDarkForest();
     public static final Block ENARIA_SPAWNER = new BlockEnariaSpawner();
+    public static final Block ENARIAS_ALTAR = new BlockEnariasAltar();
 
     // An array containing a list of blocks that AOTD adds
     public static final Block[] BLOCK_LIST = new Block[]
@@ -67,7 +68,8 @@ public class ModBlocks
                     IGNEOUS,
                     GNOMISH_METAL_STRUT,
                     GNOMISH_METAL_PLATE,
-                    GLOW_STALK
+                    GLOW_STALK,
+                    ENARIAS_ALTAR
             };
 
     // A list of tile entities to register
