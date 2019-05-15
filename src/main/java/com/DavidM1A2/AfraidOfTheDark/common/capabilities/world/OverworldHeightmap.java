@@ -2,13 +2,13 @@ package com.DavidM1A2.afraidofthedark.common.capabilities.world;
 
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
-import javafx.util.Pair;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldSavedData;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +21,7 @@ public class OverworldHeightmap extends WorldSavedData implements IHeightmap
     // The ID of the AOTD overworld heightmap
     private static final String IDENTIFIER = Constants.MOD_ID + "_overworld_heightmap";
     // Pair of default Low/High values if the height is invalid
-    private static final Pair<Integer, Integer> INVALID = new Pair<>(Integer.MIN_VALUE, Integer.MAX_VALUE);
+    private static final Pair<Integer, Integer> INVALID = Pair.of(Integer.MIN_VALUE, Integer.MAX_VALUE);
     // The actual heightmap that we are saving
     private Map<ChunkPos, Pair<Integer, Integer>> posToHeight = new HashMap<>();
 
@@ -99,7 +99,7 @@ public class OverworldHeightmap extends WorldSavedData implements IHeightmap
                 {
                     int[] lowAndHigh = nbt.getIntArray(positionKey);
                     // Insert the position -> height
-                    posToHeight.put(new ChunkPos(x, z), new Pair<>(lowAndHigh[0], lowAndHigh[1]));
+                    posToHeight.put(new ChunkPos(x, z), Pair.of(lowAndHigh[0], lowAndHigh[1]));
                 }
             }
             // We have an invalid tag, throw an error
@@ -146,7 +146,7 @@ public class OverworldHeightmap extends WorldSavedData implements IHeightmap
     @Override
     public void setHeight(ChunkPos chunkPos, int low, int high)
     {
-        this.posToHeight.put(chunkPos, new Pair<>(low, high));
+        this.posToHeight.put(chunkPos, Pair.of(low, high));
         this.markDirty();
     }
 

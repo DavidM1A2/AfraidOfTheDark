@@ -7,10 +7,12 @@ import com.DavidM1A2.afraidofthedark.common.capabilities.player.dimension.IAOTDP
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.research.IAOTDPlayerResearch;
 import com.DavidM1A2.afraidofthedark.common.constants.*;
 import com.DavidM1A2.afraidofthedark.common.dimension.IslandUtility;
+import com.DavidM1A2.afraidofthedark.common.entity.enaria.EntityGhastlyEnaria;
 import com.DavidM1A2.afraidofthedark.common.utility.NBTHelper;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundHandler;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -18,16 +20,20 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
+import net.minecraft.util.ClassInheritanceMultiMap;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
+import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.Random;
 
 /**
  * Class handling events to send players to and from their nightmare realm
@@ -64,6 +70,62 @@ public class NightmareHandler
                 if (playerResearch.isResearched(ModResearches.NIGHTMARE))
                 {
                     entityPlayer.changeDimension(ModDimensions.NIGHTMARE.getId(), ModDimensions.NOOP_TELEPORTER);
+                }
+            }
+        }
+    }
+
+    /**
+     * Called when a chunk is unloaded from the world
+     *
+     * @param event The event containing info about the unload
+     */
+    @SubscribeEvent
+    public void onChunkUnloadEvent(ChunkEvent.Unload event)
+    {
+        // Server side processing only
+        if (!event.getWorld().isRemote)
+        {
+            // Test if we're in the nightmare dimension
+            if (event.getWorld().provider.getDimension() == ModDimensions.NIGHTMARE.getId())
+            {
+                // Search through the list of entities in the chunk
+                for (ClassInheritanceMultiMap<Entity> entityMap : event.getChunk().getEntityLists())
+                {
+                    // Go through each entity
+                    for (Entity entity : entityMap)
+                    {
+                        // If an entity is enaria, kill her and respawn her closer to the player if possible
+                        if (entity instanceof EntityGhastlyEnaria)
+                        {
+                            // If the enaria entity is dead the player touched her and went back to the overworld
+                            if (!entity.isDead)
+                            {
+                                // Kill any unloaded enaria entities
+                                entity.setDead();
+                                // Grab the nearby player
+                                EntityPlayer entityPlayer = event.getWorld().getClosestPlayerToEntity(entity, AfraidOfTheDark.INSTANCE.getConfigurationHandler().getBlocksBetweenIslands() / 2);
+                                // If we have a valid nearby player teleport a new enaria to them. If we don't then just die (the player left the nightmare dimension)
+                                if (entityPlayer != null && !entityPlayer.isDead)
+                                {
+                                    // Compute a random offset in +/- 25-50 in x and z
+                                    Random random = entityPlayer.getRNG();
+                                    int offsetX = random.nextBoolean() ? random.nextInt(26) - 50 : random.nextInt(26) + 25;
+                                    int offsetZ = random.nextBoolean() ? random.nextInt(26) - 50 : random.nextInt(26) + 25;
+                                    // Compute enaria's new position
+                                    int posX = entityPlayer.getPosition().getX() + offsetX;
+                                    int posZ = entityPlayer.getPosition().getZ() + offsetZ;
+                                    // Spawn a new enaria
+                                    EntityGhastlyEnaria newEnaria = new EntityGhastlyEnaria(event.getWorld());
+                                    newEnaria.setBenign(!entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null).isResearched(ModResearches.ENARIA));
+                                    newEnaria.setPosition(posX, entityPlayer.posY, posZ);
+                                    event.getWorld().spawnEntity(newEnaria);
+                                    // Return out of here, there will only be 1 enaria following the player
+                                    return;
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

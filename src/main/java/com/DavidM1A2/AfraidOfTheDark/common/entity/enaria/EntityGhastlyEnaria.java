@@ -103,13 +103,21 @@ public class EntityGhastlyEnaria extends EntityFlying implements IMCAnimatedEnti
     {
         super.onEntityUpdate();
         // Check every 10 seconds if enaria should be benign or aggressive
-        if (this.ticksExisted % PLAYER_BENIGN_CHECK_FREQUENCY == 0)
+        // Check == 20 instead of == 0 so the player can spawn and that way we don't accidently check before a player joins
+        // the world
+        if (this.ticksExisted % PLAYER_BENIGN_CHECK_FREQUENCY == 20)
         {
+            // Grab the distance between the nightamre islands
             int distanceBetweenIslands = AfraidOfTheDark.INSTANCE.getConfigurationHandler().getBlocksBetweenIslands();
+            // Grab the closest player
             EntityPlayer closestPlayer = this.world.getClosestPlayer(this.posX, this.posY, this.posZ, distanceBetweenIslands / 2, false);
 
+            // If the closest player is null enaria will be benign
             if (closestPlayer == null)
+            {
                 this.setBenign(true);
+            }
+            // If the closest player has killed enaria don't be benign
             else
             {
                 this.setBenign(!closestPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null).isResearched(ModResearches.ENARIA));
@@ -138,6 +146,8 @@ public class EntityGhastlyEnaria extends EntityFlying implements IMCAnimatedEnti
                 // Make sure the player is valid and not dead
                 if (entityPlayer != null && !entityPlayer.isDead)
                 {
+                    // Kill enaria, she's now unloaded (can't use .setDead()) or we get an index out of bounds exception?
+                    this.onKillCommand();
                     // Send them back to their original dimension
                     entityPlayer.changeDimension(entityPlayer.getCapability(ModCapabilities.PLAYER_NIGHTMARE_DATA, null).getPreTeleportDimensionID(), ModDimensions.NOOP_TELEPORTER);
                 }
@@ -213,6 +223,11 @@ public class EntityGhastlyEnaria extends EntityFlying implements IMCAnimatedEnti
     public void setBenign(boolean benign)
     {
         this.benign = benign;
+        // If we're client side stop playing the dance animation
+        if (this.world.isRemote)
+        {
+            this.animHandler.stopAnimation("dance");
+        }
     }
 
     /**
