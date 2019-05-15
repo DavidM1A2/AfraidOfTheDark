@@ -8,6 +8,7 @@ import com.DavidM1A2.afraidofthedark.common.entity.enchantedSkeleton.EntityEncha
 import com.DavidM1A2.afraidofthedark.common.entity.splinterDrone.EntitySplinterDrone;
 import com.DavidM1A2.afraidofthedark.common.entity.splinterDrone.EntitySplinterDroneProjectile;
 import com.DavidM1A2.afraidofthedark.common.entity.werewolf.EntityWerewolf;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
@@ -51,6 +52,7 @@ public class ModEntities
             .id(new ResourceLocation(Constants.MOD_ID, "werewolf"), WEREWOLF_ID)
             .name("werewolf")
             .tracker(50, 1, true)
+            .spawn(EnumCreatureType.MONSTER, 25, 1, 4, ModBiomes.ERIE_FOREST) // Weight = 100 is for skeletons, use 1/4 of that
             .build();
     public static final EntityEntry GHASTLY_ENARIA = EntityEntryBuilder.create()
             .entity(EntityGhastlyEnaria.class)
