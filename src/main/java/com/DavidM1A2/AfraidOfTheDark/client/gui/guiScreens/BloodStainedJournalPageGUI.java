@@ -87,7 +87,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
         AOTDGuiPanel journalBackground = new AOTDGuiPanel(xCornerOfPage, yCornerOfPage, journalWidth, journalHeight, false);
 
         // Create a page image to be used as the background
-        AOTDGuiImage pageBackgroundImage = new AOTDGuiImage(0, 0, journalWidth, journalHeight, "afraidofthedark:textures/gui/blood_stained_journal_page.png");
+        AOTDGuiImage pageBackgroundImage = new AOTDGuiImage(0, 0, journalWidth, journalHeight, "afraidofthedark:textures/gui/journal_page/background.png");
         journalBackground.add(pageBackgroundImage);
 
         // Create red colors for text
@@ -126,7 +126,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 
         // The bookmark button returns the user to the research screen
         // The bookmark button to go back
-        AOTDGuiButton bookmarkButton = new AOTDGuiButton(journalWidth / 2 - 17, journalHeight - 28, 15, 30, null, "afraidofthedark:textures/gui/slot_highlight.png");
+        AOTDGuiButton bookmarkButton = new AOTDGuiButton(journalWidth / 2 - 17, journalHeight - 28, 15, 30, null, "afraidofthedark:textures/gui/journal_page/slot_highlight.png");
         // Hide the button to start
         bookmarkButton.setVisible(false);
         // Set the color to a see-through white
@@ -172,8 +172,8 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
         this.getContentPane().add(journalBackground);
 
         // Create the forward and backward button to advance and rewind pages
-        this.forwardButton = new AOTDGuiButton(this.getContentPane().getWidth() - 64, this.getContentPane().getHeight() - 64, 64, 64, null, "afraidofthedark:textures/gui/buttons/forward_button.png");
-        this.backwardButton = new AOTDGuiButton(0, this.getContentPane().getHeight() - 64, 64, 64, null, "afraidofthedark:textures/gui/buttons/backward_button.png");
+        this.forwardButton = new AOTDGuiButton(this.getContentPane().getWidth() - 64, this.getContentPane().getHeight() - 64, 64, 64, null, "afraidofthedark:textures/gui/journal_page/forward_button.png");
+        this.backwardButton = new AOTDGuiButton(0, this.getContentPane().getHeight() - 64, 64, 64, null, "afraidofthedark:textures/gui/journal_page/backward_button.png");
         // Upon clicking forward then advance the page, if we hover the button darken the color, if we don't hover the button brighten the color
         this.forwardButton.addMouseListener(new AOTDMouseListener()
         {

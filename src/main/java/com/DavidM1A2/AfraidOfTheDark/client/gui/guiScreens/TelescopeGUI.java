@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 public class TelescopeGUI extends AOTDGuiClickAndDragable
 {
     // The panel that will contain all the meteors on it
-    private final AOTDGuiPanel telescopeMeteorsBase;
+    private final AOTDGuiPanel telescopeMeteors;
     // The image that represents the 'sky'
     private final AOTDGuiImage telescopeImage;
 
@@ -42,18 +42,19 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
         int yPosTelescope = (Constants.GUI_HEIGHT - GUI_SIZE) / 2;
 
         // Create a panel that will hold all the UI contents
-        AOTDGuiPanel telescope = new AOTDGuiPanel(xPosTelescope, yPosTelescope, GUI_SIZE, GUI_SIZE, true);
+        AOTDGuiPanel telescope = new AOTDGuiPanel(xPosTelescope, yPosTelescope, GUI_SIZE, GUI_SIZE, false);
         // Create a frame that will be the edge of the telescope UI
-        AOTDGuiImage telescopeFrame = new AOTDGuiImage(0, 0, GUI_SIZE, GUI_SIZE, "afraidofthedark:textures/gui/telescope_gui.png");
-        // Create the panel to hold all the meteors
-        telescopeMeteorsBase = new AOTDGuiPanel(0, 0, GUI_SIZE, GUI_SIZE, false);
+        AOTDGuiImage telescopeFrame = new AOTDGuiImage(0, 0, GUI_SIZE, GUI_SIZE, "afraidofthedark:textures/gui/telescope/frame.png");
+        // Create the panel to hold all the meteors, the size doesnt matter since it is just a base to hold all of our meteor buttons
+        telescopeMeteors = new AOTDGuiPanel(0, 0, 1, 1, false);
+        // The amount of buffer to apply to the sides for the fade in to make the telescope look realistic
+        final int SIDE_BUFFER = 21;
+        // Create a clipping panel to hold the meteors so they don't clip outside
+        AOTDGuiPanel telescopeMeteorClip = new AOTDGuiPanel(SIDE_BUFFER, SIDE_BUFFER, GUI_SIZE - SIDE_BUFFER * 2, GUI_SIZE - SIDE_BUFFER * 2, true);
         // Initialize the background star sky image and center the image
-        telescopeImage = new AOTDGuiImage(0, 0, GUI_SIZE, GUI_SIZE, 3840, 2160, "afraidofthedark:textures/gui/telescope_background.png");
+        telescopeImage = new AOTDGuiImage(0, 0, GUI_SIZE - SIDE_BUFFER * 2, GUI_SIZE - SIDE_BUFFER * 2, 3840, 2160, "afraidofthedark:textures/gui/telescope/background.png");
         telescopeImage.setU(this.guiOffsetX + (telescopeImage.getMaxTextureWidth() / 2));
         telescopeImage.setV(this.guiOffsetY + (telescopeImage.getMaxTextureHeight() / 2));
-
-        // Create a random number of meteors to generate, let's go with 30-80
-        int numberOfMeteors = 30 + entityPlayer.getRNG().nextInt(50);
 
         // Click listener that gets called when we click a meteor button
         AOTDMouseListener meteorClickListener = new AOTDMouseListener()
@@ -61,11 +62,16 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
             @Override
             public void mouseClicked(AOTDMouseEvent event)
             {
+                // Make sure the button clicked was in fact hovered and the click was LMB
                 if (event.getSource().isHovered() && event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
                 {
-                    // Tell the server we're watching a new meteor. It will update our capability NBT data for us
-                    AfraidOfTheDark.INSTANCE.getPacketHandler().sendToServer(new UpdateWatchedMeteor(((AOTDGuiMeteorButton) event.getSource()).getMeteorType()));
-                    entityPlayer.closeScreen();
+                    // Ensure that the button is visible and not just outside of the visual clip
+                    if (telescopeMeteorClip.intersects(event.getSource()))
+                    {
+                        // Tell the server we're watching a new meteor. It will update our capability NBT data for us
+                        AfraidOfTheDark.INSTANCE.getPacketHandler().sendToServer(new UpdateWatchedMeteor(((AOTDGuiMeteorButton) event.getSource()).getMeteorType()));
+                        entityPlayer.closeScreen();
+                    }
                 }
             }
         };
@@ -81,6 +87,8 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
         {
             // Grab a random object to place meteors
             Random random = entityPlayer.getRNG();
+            // Create a random number of meteors to generate, let's go with 30-80
+            int numberOfMeteors = 30 + random.nextInt(50);
             // Create one button for each meteor
             for (int i = 0; i < numberOfMeteors; i++)
             {
@@ -95,13 +103,14 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
                 // Add a listener
                 meteorButton.addMouseListener(meteorClickListener);
                 // Add the button
-                this.telescopeMeteorsBase.add(meteorButton);
+                this.telescopeMeteors.add(meteorButton);
             }
         }
 
         // Add all the panels to the content pane
-        telescope.add(telescopeImage);
-        telescope.add(telescopeMeteorsBase);
+        telescopeMeteorClip.add(telescopeImage);
+        telescopeMeteorClip.add(telescopeMeteors);
+        telescope.add(telescopeMeteorClip);
         telescope.add(telescopeFrame);
         this.getContentPane().add(telescope);
     }
@@ -121,8 +130,8 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
         super.mouseClickMove(mouseX, mouseY, lastButtonClicked, timeBetweenClicks);
 
         // Move the meteors based on the gui offset
-        this.telescopeMeteorsBase.setX(-this.guiOffsetX + telescopeMeteorsBase.getParent().getX());
-        this.telescopeMeteorsBase.setY(-this.guiOffsetY + telescopeMeteorsBase.getParent().getY());
+        this.telescopeMeteors.setX(-this.guiOffsetX + telescopeMeteors.getParent().getX());
+        this.telescopeMeteors.setY(-this.guiOffsetY + telescopeMeteors.getParent().getY());
 
         // Update the background image's U/V
         telescopeImage.setU(this.guiOffsetX + (this.telescopeImage.getMaxTextureWidth() / 2));

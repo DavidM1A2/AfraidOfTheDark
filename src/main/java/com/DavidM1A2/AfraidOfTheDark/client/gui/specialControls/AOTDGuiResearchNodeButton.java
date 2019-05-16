@@ -37,7 +37,7 @@ public class AOTDGuiResearchNodeButton extends AOTDGuiButton
      */
     public AOTDGuiResearchNodeButton(int x, int y, Research research)
     {
-        super(x, y, 32, 32, null, "afraidofthedark:textures/gui/node_standard2.png");
+        super(x, y, 32, 32, null, "afraidofthedark:textures/gui/journal_tech_tree/research_background.png");
         this.research = research;
 
         // Make the button visible if the research is either researched or can be researched show it

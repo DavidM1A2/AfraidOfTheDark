@@ -41,7 +41,7 @@ public class SextantGUI extends AOTDGuiScreen
         AOTDGuiPanel background = new AOTDGuiPanel((Constants.GUI_WIDTH - GUI_SIZE) / 2, (Constants.GUI_HEIGHT - GUI_SIZE) / 2, 256, 256, false);
 
         // Add an image to the background of the sextant texture
-        AOTDGuiImage backgroundImage = new AOTDGuiImage(0, 0, GUI_SIZE, GUI_SIZE, "afraidofthedark:textures/gui/sextant.png");
+        AOTDGuiImage backgroundImage = new AOTDGuiImage(0, 0, GUI_SIZE, GUI_SIZE, "afraidofthedark:textures/gui/telescope/sextant.png");
         background.add(backgroundImage);
 
         // Grab the font for the text fields

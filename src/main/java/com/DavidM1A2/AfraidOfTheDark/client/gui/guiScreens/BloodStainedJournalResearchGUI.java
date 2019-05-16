@@ -30,15 +30,8 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
     private static int lastGuiOffsetY = 0;
     // The GUI scroll background
     private AOTDGuiImage scrollBackground;
-    // The border around the research
-    private AOTDGuiImage backgroundBorder;
-    // The base panel that contains all researches
-    private AOTDGuiPanel researchTreeBase;
     // The panel that contains all research nodes
     private AOTDGuiPanel researchTree;
-    // Two sprite sheet controllers, one for vertical arrows and one for horizontal arrows
-    private SpriteSheetController nodeConnectorControllerVertical = new SpriteSheetController(500, 20, 60, 180, true, true);
-    private SpriteSheetController nodeConnectorControllerHorizontal = new SpriteSheetController(500, 20, 180, 60, true, false);
 
     /**
      * Constructor initializes the entire GUI
@@ -58,17 +51,19 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
         this.guiOffsetY = lastGuiOffsetY;
 
         // Create the research tree panel that will hold all the research nodes
-        this.researchTreeBase = new AOTDGuiPanel(xPosScroll, yPosScroll, backgroundWidth, backgroundHeight, true);
+        // The base panel that contains all researches
+        AOTDGuiPanel researchTreeBase = new AOTDGuiPanel(xPosScroll, yPosScroll, backgroundWidth, backgroundHeight, true);
         this.researchTree = new AOTDGuiPanel(-this.guiOffsetX, -this.guiOffsetY, backgroundWidth, backgroundHeight, false);
         this.getContentPane().add(researchTreeBase);
 
-        this.scrollBackground = new AOTDGuiImage(0, 0, backgroundWidth, backgroundHeight, 1024, 1024, "afraidofthedark:textures/gui/blood_stained_journal_research_backdrop.png");
-        this.backgroundBorder = new AOTDGuiImage(0, 0, backgroundWidth, backgroundHeight, "afraidofthedark:textures/gui/blood_stained_journal_research_background.png");
+        this.scrollBackground = new AOTDGuiImage(0, 0, backgroundWidth, backgroundHeight, 1024, 1024, "afraidofthedark:textures/gui/journal_tech_tree/background.png");
+        // The border around the research
+        AOTDGuiImage backgroundBorder = new AOTDGuiImage(0, 0, backgroundWidth, backgroundHeight, "afraidofthedark:textures/gui/journal_tech_tree/frame.png");
         this.scrollBackground.setU(this.guiOffsetX + 384);
         this.scrollBackground.setV(this.guiOffsetY + 768);
-        this.researchTreeBase.add(scrollBackground);
-        this.researchTreeBase.add(researchTree);
-        this.researchTreeBase.add(backgroundBorder);
+        researchTreeBase.add(scrollBackground);
+        researchTreeBase.add(researchTree);
+        researchTreeBase.add(backgroundBorder);
 
         // Grab the player's research to be used later...
         IAOTDPlayerResearch playerResearch = entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null);
@@ -126,6 +121,9 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
         int distanceBetweenNodes = 75;
 
         // Iterate over all researches, first add each of the connector arrows
+        // Two sprite sheet controllers, one for vertical arrows and one for horizontal arrows
+        SpriteSheetController nodeConnectorControllerVertical = new SpriteSheetController(500, 20, 60, 180, true, true);
+        SpriteSheetController nodeConnectorControllerHorizontal = new SpriteSheetController(500, 20, 180, 60, true, false);
         for (Research research : ModRegistries.RESEARCH.getValuesCollection())
         {
             // Compute the button's X and Y position
@@ -144,19 +142,19 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
                     // Depending on where the research is in relation to its previous research create an arrow
                     if (research.getXPosition() < previous.getXPosition())
                     {
-                        this.researchTree.add(new AOTDGuiSpriteSheetImage(xPos + 26, yPos + 9, 54, 14, new ResourceLocation("afraidofthedark:textures/gui/research_horizontal.png"), this.nodeConnectorControllerHorizontal));
+                        this.researchTree.add(new AOTDGuiSpriteSheetImage(xPos + 26, yPos + 9, 54, 14, new ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/horizontal_connector.png"), nodeConnectorControllerHorizontal));
                     }
                     else if (research.getXPosition() > previous.getXPosition())
                     {
-                        this.researchTree.add(new AOTDGuiSpriteSheetImage(xPos - 50, yPos + 9, 54, 14, new ResourceLocation("afraidofthedark:textures/gui/research_horizontal.png"), this.nodeConnectorControllerHorizontal));
+                        this.researchTree.add(new AOTDGuiSpriteSheetImage(xPos - 50, yPos + 9, 54, 14, new ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/horizontal_connector.png"), nodeConnectorControllerHorizontal));
                     }
                     else if (research.getZPosition() > previous.getZPosition())
                     {
-                        this.researchTree.add(new AOTDGuiSpriteSheetImage(xPos + 9, yPos + 30, 14, 46, new ResourceLocation("afraidofthedark:textures/gui/research_vertical.png"), this.nodeConnectorControllerVertical));
+                        this.researchTree.add(new AOTDGuiSpriteSheetImage(xPos + 9, yPos + 30, 14, 46, new ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/vertical_connector.png"), nodeConnectorControllerVertical));
                     }
                     else if (research.getZPosition() < previous.getZPosition())
                     {
-                        this.researchTree.add(new AOTDGuiSpriteSheetImage(xPos + 9, yPos - 46, 14, 46, new ResourceLocation("afraidofthedark:textures/gui/research_vertical.png"), this.nodeConnectorControllerVertical));
+                        this.researchTree.add(new AOTDGuiSpriteSheetImage(xPos + 9, yPos - 46, 14, 46, new ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/vertical_connector.png"), nodeConnectorControllerVertical));
                     }
                 }
             }
@@ -179,8 +177,8 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
         }
 
         // Add our sprite sheet controllers
-        this.addSpriteSheetController(this.nodeConnectorControllerHorizontal);
-        this.addSpriteSheetController(this.nodeConnectorControllerVertical);
+        this.addSpriteSheetController(nodeConnectorControllerHorizontal);
+        this.addSpriteSheetController(nodeConnectorControllerVertical);
     }
 
     /**

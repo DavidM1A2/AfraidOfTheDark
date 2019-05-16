@@ -35,7 +35,7 @@ public class AOTDGuiItemStack extends AOTDGuiContainer
         // if we should highlight the background then add a highlit background image
         if (backgroundHighlight)
         {
-            highlight = new AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/slot_highlight.png");
+            highlight = new AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/journal_page/slot_highlight.png");
             // Start the highlight off
             highlight.setVisible(false);
             this.add(highlight);

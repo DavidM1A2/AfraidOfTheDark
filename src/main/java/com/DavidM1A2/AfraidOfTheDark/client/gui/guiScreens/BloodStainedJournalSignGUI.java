@@ -54,7 +54,7 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
                 0,
                 BACKGROUND_IMAGE_SIZE,
                 BACKGROUND_IMAGE_SIZE,
-                "afraidofthedark:textures/gui/blood_stained_journal.png");
+                "afraidofthedark:textures/gui/journal_sign/blood_stained_journal.png");
         backgroundPanel.add(backgroundImage);
 
         this.nameSignField = new AOTDGuiTextField(
@@ -75,8 +75,8 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
                 SIGN_BUTTON_WIDTH,
                 SIGN_BUTTON_HEIGHT,
                 ClientData.getInstance().getTargaMSHandFontSized(55f),
-                "afraidofthedark:textures/gui/sign_button.png",
-                "afraidofthedark:textures/gui/sign_button_hovered.png");
+                "afraidofthedark:textures/gui/journal_sign/sign_button.png",
+                "afraidofthedark:textures/gui/journal_sign/sign_button_hovered.png");
         signButton.setText("Sign");
         signButton.setTextColor(new Color(255, 0, 0));
         signButton.setTextAlignment(TextAlignment.ALIGN_CENTER);

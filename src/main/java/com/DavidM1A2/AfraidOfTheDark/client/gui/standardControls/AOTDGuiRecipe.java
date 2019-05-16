@@ -29,7 +29,7 @@ public class AOTDGuiRecipe extends AOTDGuiPanel
     {
         super(x, y, width, height, false);
         // Setup the crafting grid background image
-        this.craftingGrid = new AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/journal_crafting2.png");
+        this.craftingGrid = new AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/journal_page/crafting_grid.png");
         this.add(this.craftingGrid);
 
         // Create an array of 9 stacks for each of the 9 slots
