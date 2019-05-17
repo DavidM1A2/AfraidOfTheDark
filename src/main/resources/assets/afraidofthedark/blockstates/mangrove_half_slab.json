@@ -4,7 +4,7 @@
       "model": "afraidofthedark:mangrove_half_slab"
     },
     "half=top,variant=default": {
-      "model": "afraidofthedark:mangrove_upper_slab"
+      "model": "afraidofthedark:mangrove_double_slab"
     },
     "inventory": {
       "model": "afraidofthedark:mangrove_half_slab"

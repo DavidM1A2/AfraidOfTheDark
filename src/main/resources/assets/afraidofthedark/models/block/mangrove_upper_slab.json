@@ -1,8 +1,0 @@
-{
-  "parent": "block/upper_slab",
-  "textures": {
-    "bottom": "afraidofthedark:blocks/mangrove_planks",
-    "top": "afraidofthedark:blocks/mangrove_planks",
-    "side": "afraidofthedark:blocks/mangrove_planks"
-  }
-}

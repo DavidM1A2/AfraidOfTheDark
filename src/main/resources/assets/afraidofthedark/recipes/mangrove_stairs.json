@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "  M",
+    " MM",
+    "MMM"
+  ],
+  "key": {
+    "M": {
+      "item": "afraidofthedark:mangrove_planks"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:mangrove_stairs",
+    "count": 4
+  }
+}

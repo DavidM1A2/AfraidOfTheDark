@@ -17,6 +17,7 @@ public class FurnaceFuelRegister
     private static final Map<Block, Integer> ITEM_TO_BURN_TIME = new HashMap<Block, Integer>()
     {{
         put(ModBlocks.GRAVEWOOD_SAPLING, 100);
+        put(ModBlocks.MANGROVE_SAPLING, 100);
     }};
 
     /**

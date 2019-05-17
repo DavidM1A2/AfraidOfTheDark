@@ -2,6 +2,7 @@ package com.DavidM1A2.afraidofthedark.common.constants;
 
 import com.DavidM1A2.afraidofthedark.common.block.*;
 import com.DavidM1A2.afraidofthedark.common.block.gravewood.*;
+import com.DavidM1A2.afraidofthedark.common.block.mangrove.*;
 import com.DavidM1A2.afraidofthedark.common.tileEntity.TileEntityDarkForest;
 import com.DavidM1A2.afraidofthedark.common.tileEntity.TileEntityEnariaSpawner;
 import com.DavidM1A2.afraidofthedark.common.tileEntity.TileEntityGhastlyEnariaSpawner;
@@ -19,11 +20,19 @@ public class ModBlocks
 {
     public static final Block GRAVEWOOD = new BlockGravewood();
     public static final Block GRAVEWOOD_PLANKS = new BlockGravewoodPlanks();
-    public static final Block GRAVEWOOD_SAPLING = new BlockGravewoodSapling();
     public static final Block GRAVEWOOD_LEAVES = new BlockGravewoodLeaves();
     public static final Block GRAVEWOOD_HALF_SLAB = new BlockGravewoodHalfSlab();
     public static final Block GRAVEWOOD_DOUBLE_SLAB = new BlockGravewoodDoubleSlab();
     public static final Block GRAVEWOOD_STAIRS = new BlockGravewoodStairs();
+    public static final Block GRAVEWOOD_SAPLING = new BlockGravewoodSapling();
+
+    public static final Block MANGROVE = new BlockMangrove();
+    public static final Block MANGROVE_PLANKS = new BlockMangrovePlanks();
+    public static final Block MANGROVE_LEAVES = new BlockMangroveLeaves();
+    public static final Block MANGROVE_HALF_SLAB = new BlockMangroveHalfSlab();
+    public static final Block MANGROVE_DOUBLE_SLAB = new BlockMangroveDoubleSlab();
+    public static final Block MANGROVE_STAIRS = new BlockMangroveStairs();
+    public static final Block MANGROVE_SAPLING = new BlockMangroveSapling();
 
     public static final Block METEOR = new BlockMeteor();
     public static final Block ASTRAL_SILVER_ORE = new BlockAstralSilverOre();
@@ -54,6 +63,13 @@ public class ModBlocks
                     GRAVEWOOD_HALF_SLAB,
                     GRAVEWOOD_DOUBLE_SLAB,
                     GRAVEWOOD_STAIRS,
+                    MANGROVE,
+                    MANGROVE_PLANKS,
+                    MANGROVE_SAPLING,
+                    MANGROVE_LEAVES,
+                    MANGROVE_HALF_SLAB,
+                    MANGROVE_DOUBLE_SLAB,
+                    MANGROVE_STAIRS,
                     METEOR,
                     ASTRAL_SILVER_ORE,
                     ELDRITCH_STONE,

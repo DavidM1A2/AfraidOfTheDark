@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "result": {
+    "item": "afraidofthedark:mangrove_planks",
+    "count": 4
+  },
+  "ingredients": [
+    {
+      "item": "afraidofthedark:mangrove"
+    }
+  ]
+}

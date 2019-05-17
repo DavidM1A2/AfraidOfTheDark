@@ -27,12 +27,20 @@ public abstract class CommonProxy implements IProxy
     public void initializeOreDictionary()
     {
         OreDictionary.registerOre("logWood", ModBlocks.GRAVEWOOD);
+        OreDictionary.registerOre("plankWood", ModBlocks.GRAVEWOOD_PLANKS);
+        OreDictionary.registerOre("treeLeaves", ModBlocks.GRAVEWOOD_LEAVES);
         OreDictionary.registerOre("slabWood", ModBlocks.GRAVEWOOD_HALF_SLAB);
         OreDictionary.registerOre("slabWood", ModBlocks.GRAVEWOOD_DOUBLE_SLAB);
-        OreDictionary.registerOre("treeLeaves", ModBlocks.GRAVEWOOD_LEAVES);
-        OreDictionary.registerOre("plankWood", ModBlocks.GRAVEWOOD_PLANKS);
         OreDictionary.registerOre("treeSapling", ModBlocks.GRAVEWOOD_SAPLING);
         OreDictionary.registerOre("stairWood", ModBlocks.GRAVEWOOD_STAIRS);
+
+        OreDictionary.registerOre("logWood", ModBlocks.MANGROVE);
+        OreDictionary.registerOre("plankWood", ModBlocks.MANGROVE_PLANKS);
+        OreDictionary.registerOre("treeLeaves", ModBlocks.MANGROVE_LEAVES);
+        OreDictionary.registerOre("slabWood", ModBlocks.MANGROVE_HALF_SLAB);
+        OreDictionary.registerOre("slabWood", ModBlocks.MANGROVE_DOUBLE_SLAB);
+        OreDictionary.registerOre("treeSapling", ModBlocks.GRAVEWOOD_SAPLING);
+        OreDictionary.registerOre("stairWood", ModBlocks.MANGROVE_STAIRS);
     }
 
     /**
