@@ -164,6 +164,13 @@ public class BlockMangroveSapling extends AOTDSapling
         return currentPos;
     }
 
+    /**
+     * Generates branches and leaves off of the mangrove trunk
+     *
+     * @param world The world to generate branches in
+     * @param topOfTrunk The top of the trunk
+     * @param random The random object to generate with
+     */
     private void generateBranches(World world, BlockPos topOfTrunk, Random random)
     {
         // Create a leaf cluster at the top of the trunk
