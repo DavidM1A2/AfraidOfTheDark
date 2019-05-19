@@ -1,5 +1,6 @@
 package com.DavidM1A2.afraidofthedark.client.gui.fontLibrary;
 
+import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
@@ -21,51 +22,50 @@ import java.awt.*;
  * <p>
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Code was heavily modified to support MC 1.12+
  */
 public class FontLoader
 {
-
-    public static TrueTypeFont loadSystemFont(String name, float defSize, boolean antialias)
+    /**
+     * Creates a font to be used by MC given a resource location, size, and anti-alias flag
+     *
+     * @param resourceLocation The resource location of the .ttf file to read
+     * @param size The size of the font
+     * @param antiAlias Flag enabling or disabling anti-aliasing
+     * @return A true-type font reference to be used in the MC game engine
+     */
+    public static TrueTypeFont createFont(ResourceLocation resourceLocation, float size, boolean antiAlias)
     {
-        return loadSystemFont(name, defSize, antialias, Font.TRUETYPE_FONT);
-
+        return createFont(resourceLocation, size, antiAlias, Font.TRUETYPE_FONT);
     }
 
-    public static TrueTypeFont loadSystemFont(String name, float defSize, boolean antialias, int type)
+    /**
+     * Creates a font to be used by MC given a resource location, size, type, and anti-alias flag
+     *
+     * @param resourceLocation The resource location of the .ttf file to read
+     * @param size The size of the font
+     * @param antiAlias Flag enabling or disabling anti-aliasing
+     * @param type The type of font to read, see Font public static fields for options
+     * @return A true-type font reference to be used in the MC game engine
+     */
+    public static TrueTypeFont createFont(ResourceLocation resourceLocation, float size, boolean antiAlias, int type)
     {
-        Font font;
-        TrueTypeFont out = null;
         try
         {
-            font = new Font(name, type, (int) defSize);
-            font = font.deriveFont(defSize);
-            out = new TrueTypeFont(font, antialias);
-        } catch (Exception e)
-        {
-            e.printStackTrace();
+            // Create a system font first given the type and input stream created by the MC game engine
+            Font font = Font.createFont(type, Minecraft.getMinecraft().getResourceManager().getResource(resourceLocation).getInputStream());
+            // Set the font size and make it bold. Bold fonts tend to look better in this font rendering system
+            font = font.deriveFont(size).deriveFont(Font.BOLD);
+            // Return a new true type font without any additional characters
+            return new TrueTypeFont(font, antiAlias, null);
         }
-        return out;
-    }
-
-    public static TrueTypeFont createFont(ResourceLocation res, float defSize, boolean antialias)
-    {
-        return createFont(res, defSize, antialias, Font.TRUETYPE_FONT);
-    }
-
-    public static TrueTypeFont createFont(ResourceLocation res, float defSize, boolean antialias, int type)
-    {
-        Font font;
-        TrueTypeFont out = null;
-        try
+        // If an error occurs print it and return null
+        catch (Exception e)
         {
-            font = Font.createFont(type, Minecraft.getMinecraft().getResourceManager().getResource(res).getInputStream());
-            font = font.deriveFont(defSize).deriveFont(Font.BOLD);
-            out = new TrueTypeFont(font, antialias);
-        } catch (Exception e)
-        {
-            e.printStackTrace();
+            AfraidOfTheDark.INSTANCE.getLogger().error("Could not create the true type font.", e);
+            return null;
         }
-        return out;
     }
 
 }

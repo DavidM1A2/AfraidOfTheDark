@@ -1,5 +1,6 @@
 package com.DavidM1A2.afraidofthedark.client.gui.fontLibrary;
 
+import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.client.gui.base.TextAlignment;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -18,6 +19,7 @@ import java.awt.image.DataBufferInt;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.IntBuffer;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,8 +29,9 @@ import java.util.Map;
  * Copyright (c) 2013 - Slick2D
  * <p>
  * All rights reserved.
+ *
+ * Heavily modified the implementation for later versions of MC 1.12+
  */
-
 public class TrueTypeFont
 {
     // Flag on whether AntiAliasing is enabled or not
@@ -36,13 +39,13 @@ public class TrueTypeFont
     // A reference to Java's AWT Font that we create our font texture from
     private Font font;
     // Array that holds necessary information about the font characters
-    private FloatObject[] charArray = new FloatObject[256];
+    private CharacterGlyph[] asciiGlyphs = new CharacterGlyph[256];
     // Map of user defined font characters (Character <-> IntObject)
-    private Map<Character, FloatObject> customChars = new HashMap<>();
+    private Map<Character, CharacterGlyph> additionalGlyphs = new HashMap<>();
     // Font's size
-    private float fontSize;
+    private int fontSize;
     // Font's height
-    private float fontHeight = 0;
+    private int fontHeight = 0;
     // Texture used to cache the font 0-255 characters
     private int fontTextureID;
     // Default font texture width
@@ -51,9 +54,9 @@ public class TrueTypeFont
     private int textureHeight = 1024;
     // The font metrics for our Java AWT font
     private FontMetrics fontMetrics;
-    // Correction constants used to squeeze letters together
-    private static final int CORRECT_L = 9;
-    private static final int CORRECT_R = 8;
+    // Correction constants used to render letters closer together
+    private static final int CORRECT_L = 2;
+    private static final int CORRECT_R = 1;
 
     /**
      * Constructor initializes the font glyphs
@@ -66,8 +69,7 @@ public class TrueTypeFont
     {
         // Initialize all fields
         this.font = font;
-        // Add 3 to font size so we have some padding
-        this.fontSize = font.getSize() + 3;
+        this.fontSize = font.getSize();
         this.antiAlias = antiAlias;
         // Render the characters into open GL format
         createSet(additionalChars);
@@ -105,9 +107,11 @@ public class TrueTypeFont
             g.fillRect(0, 0, textureWidth, textureHeight);
 
             // 3 values to use in writing the glyphs to the image
-            float rowHeight = 0;
-            float positionX = 0;
-            float positionY = 0;
+            // The current row's height
+            int rowHeight = 0;
+            // The current glyph pos x and y
+            int positionX = 0;
+            int positionY = 0;
 
             // The number of custom characters to write
             int customCharsLength = (customCharsArray != null) ? customCharsArray.length : 0;
@@ -121,56 +125,59 @@ public class TrueTypeFont
                 // Render the character into an image
                 BufferedImage fontImage = getFontImage(character);
 
-                FloatObject newIntObject = new FloatObject();
+                // Create a new character glyph for this font
+                CharacterGlyph characterGlyph = new CharacterGlyph();
 
-                newIntObject.width = fontImage.getWidth();
-                newIntObject.height = fontImage.getHeight();
+                // Assign the width and height fields
+                characterGlyph.width = fontImage.getWidth();
+                characterGlyph.height = fontImage.getHeight();
 
-                if (positionX + newIntObject.width >= textureWidth)
+                // If the glyph is too big for the texture move down a line
+                if (positionX + characterGlyph.width >= textureWidth)
                 {
+                    // Reset X to the far left
                     positionX = 0;
-                    positionY += rowHeight;
+                    // Move Y down a row
+                    positionY = positionY + rowHeight;
+                    // Reset row height to be 0, the current row has no glyphs
                     rowHeight = 0;
                 }
 
-                newIntObject.storedX = positionX;
-                newIntObject.storedY = positionY;
+                // Assign the glyph position on the texture
+                characterGlyph.storedX = positionX;
+                characterGlyph.storedY = positionY;
 
-                if (newIntObject.height > fontHeight)
-                {
-                    fontHeight = newIntObject.height;
-                }
+                // The font height is the max of the current height and the new glyph's height
+                fontHeight = Math.max(fontHeight, characterGlyph.height);
 
-                if (newIntObject.height > rowHeight)
-                {
-                    rowHeight = newIntObject.height;
-                }
+                // The row height is the ma of the current row height and the new glyph's height
+                rowHeight = Math.max(rowHeight, characterGlyph.height);
 
-                // Draw it here
-                g.drawImage(fontImage, (int) positionX, (int) positionY, null);
+                // Draw the character glyph to the large texture
+                g.drawImage(fontImage, positionX, positionY, null);
 
-                positionX += newIntObject.width;
+                // Move the X position over by the glyph's width
+                positionX = positionX + characterGlyph.width;
 
+                // If we are working with a standard ascii glyph assign it here
                 if (i < 256)
-                { // standard characters
-                    charArray[i] = newIntObject;
+                {
+                    asciiGlyphs[i] = characterGlyph;
                 }
+                // Otherwise store a custom character glyph into the hash map
                 else
-                { // custom characters
-                    customChars.put(character, newIntObject);
+                {
+                    additionalGlyphs.put(character, characterGlyph);
                 }
-
-                fontImage = null;
             }
 
+            // Once we're done writing all of our glyphs onto the 1024x1024 image we load it into open GL for rendering
             fontTextureID = loadImage(imgTemp);
-
-            // .getTexture(font.toString(), imgTemp);
-
-        } catch (Exception e)
+        }
+        // Catch any exceptions and log them
+        catch (Exception e)
         {
-            System.err.println("Failed to create font.");
-            e.printStackTrace();
+            AfraidOfTheDark.INSTANCE.getLogger().error("Failed to create font.", e);
         }
     }
 
@@ -186,7 +193,7 @@ public class TrueTypeFont
         BufferedImage tempFontImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
         // Grab the graphics component
         Graphics2D g = (Graphics2D) tempFontImage.getGraphics();
-        // If antialiasing is enabled do so for the graphics component
+        // If anti-aliasing is enabled do so for the graphics component
         if (antiAlias)
         {
             // Enable anti-aliasing
@@ -197,71 +204,76 @@ public class TrueTypeFont
         // Grab the font metrics and store that off to be used later
         fontMetrics = g.getFontMetrics();
         // Compute the width of the current character (not sure why we add 8?)
-        float charWidth = fontMetrics.charWidth(ch) + 8;
-
+        int charWidth = fontMetrics.charWidth(ch); // + 8?
+        // If our character has no width just use a width of 1 and don't do anything with it
         if (charWidth <= 0)
         {
-            charWidth = 7;
+            charWidth = 1;
         }
-        float charheight = fontMetrics.getHeight() + 3;
-        if (charheight <= 0)
+
+        // Compute the height of the character
+        int charHeight = fontMetrics.getHeight();
+        // If the char's height is invalid just use the font size
+        if (charHeight <= 0)
         {
-            charheight = fontSize;
+            charHeight = fontSize;
         }
 
         // Create another image holding the character we are creating
-        BufferedImage fontImage = new BufferedImage((int) charWidth, (int) charheight, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D gt = (Graphics2D) fontImage.getGraphics();
+        BufferedImage fontImage = new BufferedImage(charWidth, charHeight, BufferedImage.TYPE_INT_ARGB);
+        // Update g to be the final image
+        g = (Graphics2D) fontImage.getGraphics();
+        // Set the anti-alias flag if needed
         if (antiAlias)
         {
-            gt.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         }
-        gt.setFont(font);
+        // Set the font
+        g.setFont(font);
+        // Set the color to white
+        g.setColor(Color.WHITE);
+        // Write the character onto the image
+        g.drawString(String.valueOf(ch), 0, fontMetrics.getAscent());
 
-        gt.setColor(Color.WHITE);
-        int charx = 3;
-        int chary = 1;
-        gt.drawString(String.valueOf(ch), (charx), (chary) + fontMetrics.getAscent());
-
+        // Return the image
         return fontImage;
-
     }
 
+    /**
+     * Converts a buffered image into an open GL ready image to be loaded
+     *
+     * @param bufferedImage The buffered image to load into OpenGL
+     * @return The ID of the texture used to reference this image
+     */
     private static int loadImage(BufferedImage bufferedImage)
     {
         try
         {
-            short width = (short) bufferedImage.getWidth();
-            short height = (short) bufferedImage.getHeight();
-            // textureLoader.bpp = bufferedImage.getColorModel().hasAlpha() ?
-            // (byte)32 : (byte)24;
-            int bpp = (byte) bufferedImage.getColorModel().getPixelSize();
+            // Grab the width and height of the texture
+            int width = bufferedImage.getWidth();
+            int height = bufferedImage.getHeight();
+            // Get the number of bytes per pixel
+            int bytesPerPixel = bufferedImage.getColorModel().getPixelSize();
             ByteBuffer byteBuffer;
+            // Grab the data buffer used by the buffered image
             DataBuffer db = bufferedImage.getData().getDataBuffer();
+            // If it's an int buffer write each int to the data buffer 4 bytes at a time
             if (db instanceof DataBufferInt)
             {
-                int[] intI = ((DataBufferInt) (bufferedImage.getData().getDataBuffer())).getData();
-                byte[] newI = new byte[intI.length * 4];
-                for (int i = 0; i < intI.length; i++)
-                {
-                    byte[] b = intToByteArray(intI[i]);
-                    int newIndex = i * 4;
-
-                    newI[newIndex] = b[1];
-                    newI[newIndex + 1] = b[2];
-                    newI[newIndex + 2] = b[3];
-                    newI[newIndex + 3] = b[0];
-                }
-
-                byteBuffer = ByteBuffer.allocateDirect(width * height * (bpp / 8)).order(ByteOrder.nativeOrder()).put(newI);
+                byteBuffer = ByteBuffer.allocateDirect(width * height * (bytesPerPixel / 8)).order(ByteOrder.nativeOrder());
+                Arrays.stream(((DataBufferInt) (bufferedImage.getData().getDataBuffer())).getData()).forEach(byteBuffer::putInt);
             }
+            // If it's a byte buffer write it directly into the buffer
             else
             {
-                byteBuffer = ByteBuffer.allocateDirect(width * height * (bpp / 8)).order(ByteOrder.nativeOrder()).put(((DataBufferByte) (bufferedImage.getData().getDataBuffer())).getData());
+                byteBuffer = ByteBuffer.allocateDirect(width * height * (bytesPerPixel / 8)).order(ByteOrder.nativeOrder());
+                byteBuffer.put(((DataBufferByte) (bufferedImage.getData().getDataBuffer())).getData());
             }
+            // We need to flip the bytes so they get drawn correctly
             byteBuffer.flip();
 
-            int internalFormat = GL11.GL_RGBA8, format = GL11.GL_RGBA;
+            // Not very familiar with OpenGl here, but create an int buffer and generate the texture from the byte buffer
+
             IntBuffer textureId = BufferUtils.createIntBuffer(1);
             GL11.glGenTextures(textureId);
             GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureId.get(0));
@@ -274,280 +286,289 @@ public class TrueTypeFont
 
             GL11.glTexEnvf(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE);
 
-            GLU.gluBuild2DMipmaps(GL11.GL_TEXTURE_2D, internalFormat, width, height, format, GL11.GL_UNSIGNED_BYTE, byteBuffer);
+            GLU.gluBuild2DMipmaps(GL11.GL_TEXTURE_2D, GL11.GL_RGBA8, width, height, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, byteBuffer);
+            // Return the texture ID
             return textureId.get(0);
-
-        } catch (Exception e)
+        }
+        // Catch any exceptions, log an error, and then shutdown java since we can't continue without fonts
+        catch (Exception e)
         {
-            e.printStackTrace();
+            AfraidOfTheDark.INSTANCE.getLogger().error("Could not allocate an OpenGL texture!", e);
             FMLCommonHandler.instance().exitJava(-1, false);
         }
 
         return -1;
     }
 
-    private static byte[] intToByteArray(int value)
+    /**
+     * Draws a string at a given x,y position with a scale, alignment, and color
+     *
+     * @param x The x position to draw at
+     * @param y The y position to draw at
+     * @param stringToDraw The string to draw
+     * @param scaleX The x scale to draw with
+     * @param scaleY The y scale to draw with
+     * @param textAlignment The alignment to draw the text with
+     * @param rgba The color to use when drawing the string
+     */
+    public void drawString(float x, float y, String stringToDraw, float scaleX, float scaleY, TextAlignment textAlignment, org.lwjgl.util.Color rgba)
     {
-        return new byte[]
-                {(byte) (value >>> 24), (byte) (value >>> 16), (byte) (value >>> 8), (byte) value};
+        drawString(x, y, stringToDraw, 0, stringToDraw.length() - 1, scaleX, scaleY, textAlignment, rgba);
     }
 
-    private void drawQuad(float drawX, float drawY, float drawX2, float drawY2, float srcX, float srcY, float srcX2, float srcY2)
+    /**
+     * Draws a string at a given x,y position with a scale, alignment, and color
+     *
+     * @param x The x position to draw at
+     * @param y The y position to draw at
+     * @param stringToDraw The string to draw
+     * @param startIndex The start index in the string to draw at
+     * @param endIndex The end index in the string to draw at
+     * @param scaleX The x scale to draw with
+     * @param scaleY The y scale to draw with
+     * @param textAlignment The alignment to draw the text with
+     * @param rgba The color to use when drawing the string
+     */
+    public void drawString(float x, float y, String stringToDraw, int startIndex, int endIndex, float scaleX, float scaleY, TextAlignment textAlignment, org.lwjgl.util.Color rgba)
     {
-        float DrawWidth = Math.abs(drawX2 - drawX);
-        float DrawHeight = Math.abs(drawY2 - drawY);
-        float SrcWidth = srcX2 - srcX;
-        float SrcHeight = srcY2 - srcY;
-        BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
+        // The current glyph being drawn
+        CharacterGlyph characterGlyph;
+        // The current character to draw
+        char currentChar;
+        // The total width of the current line being drawn
+        int totalWidth = 0;
+        // The current index being drawn
+        int currentIndex = startIndex;
+        // The alignment flag which is more useful than an enum, -1 = right, 0 = center, 1 = left
+        int alignmentFlag;
+        // The spacing correction value, if we are left aligned or center then this will be CORRECT_L, otherwise CORRECT_R
+        int spacingCorrection;
+        // The z position to begin drawing at
+        int startY = 0;
 
-        bufferBuilder.pos(drawX, drawY + DrawHeight, 0.0D).tex((srcX + SrcWidth) / textureWidth, srcY / textureHeight).endVertex();
-        // GL11.glTexCoord2f(TextureSrcX, TextureSrcY + RenderHeight);
-        // GL11.glVertex2f(drawX, drawY + DrawHeight);
-
-        bufferBuilder.pos(drawX + DrawWidth, drawY + DrawHeight, 0.0D).tex(srcX / textureWidth, srcY / textureHeight).endVertex();
-        // GL11.glTexCoord2f(TextureSrcX + RenderWidth, TextureSrcY +
-        // RenderHeight);
-        // GL11.glVertex2f(drawX + DrawWidth, drawY + DrawHeight);
-
-        bufferBuilder.pos(drawX + DrawWidth, drawY, 0.0D).tex(srcX / textureWidth, (srcY + SrcHeight) / textureHeight).endVertex();
-        // GL11.glTexCoord2f(TextureSrcX + RenderWidth, TextureSrcY);
-        // GL11.glVertex2f(drawX + DrawWidth, drawY);
-
-        bufferBuilder.pos(drawX, drawY, 0.0D).tex((srcX + SrcWidth) / textureWidth, (srcY + SrcHeight) / textureHeight).endVertex();
-        // GL11.glTexCoord2f(TextureSrcX, TextureSrcY);
-        // GL11.glVertex2f(drawX, drawY);
-    }
-
-    public float getWidth(String whatchars)
-    {
-        float totalwidth = 0;
-        FloatObject floatObject = null;
-        int currentChar = 0;
-        for (int i = 0; i < whatchars.length(); i++)
+        // Based on the text alignment start drawing at different positions
+        switch (textAlignment)
         {
-            currentChar = whatchars.charAt(i);
-            if (currentChar < 256)
-            {
-                floatObject = charArray[currentChar];
-            }
-            else
-            {
-                floatObject = (FloatObject) customChars.get((char) currentChar);
-            }
-
-            if (floatObject != null)
-            {
-                totalwidth += floatObject.width / 2;
-            }
-        }
-        // System.out.println("Size: "+totalwidth);
-        return this.fontMetrics.stringWidth(whatchars);
-        // return (totalwidth);
-    }
-
-    public float getHeight()
-    {
-        return fontHeight;
-    }
-
-    public float getHeight(String HeightString)
-    {
-        return fontHeight;
-    }
-
-    public float getLineHeight()
-    {
-        return fontHeight;
-    }
-
-    public void drawString(float x, float y, String whatchars, float scaleX, float scaleY, float... rgba)
-    {
-        if (rgba.length == 0)
-        {
-            rgba = new float[]
-                    {1f, 1f, 1f, 1f};
-        }
-        drawString(x, y, whatchars, 0, whatchars.length() - 1, scaleX, scaleY, TextAlignment.ALIGN_LEFT, rgba);
-    }
-
-    public void drawString(float x, float y, String whatchars, float scaleX, float scaleY, TextAlignment format, float... rgba)
-    {
-        if (rgba.length == 0)
-        {
-            rgba = new float[]
-                    {1f, 1f, 1f, 1f};
-        }
-
-        drawString(x, y, whatchars, 0, whatchars.length() - 1, scaleX, scaleY, format, rgba);
-    }
-
-    public void drawString(float x, float y, String whatchars, int startIndex, int endIndex, float scaleX, float scaleY, TextAlignment format, float... rgba)
-    {
-        if (rgba.length == 0)
-        {
-            rgba = new float[]
-                    {1f, 1f, 1f, 1f};
-        }
-
-        FloatObject floatObject = null;
-        int charCurrent;
-
-        float totalwidth = 0;
-        int i = startIndex, d, c;
-        float startY = 0;
-
-        switch (format)
-        {
+            // Align the text right
             case ALIGN_RIGHT:
             {
-                d = -1;
-                c = CORRECT_R;
+                // Align right is set, so use flag = -1
+                alignmentFlag = -1;
+                // Set spacing correction to right since we are aligned right
+                spacingCorrection = CORRECT_R;
 
-                while (i < endIndex)
+                // Iterate while our current index is smaller than the end index so there are still characters to draw
+                while (currentIndex < endIndex)
                 {
-                    if (whatchars.charAt(i) == '\n')
+                    // For each new line move the start y coordinate down by the font's height
+                    if (stringToDraw.charAt(currentIndex) == '\n')
                     {
-                        startY -= fontHeight;
+                        startY = startY - fontHeight;
                     }
-                    i++;
+                    currentIndex++;
                 }
                 break;
             }
+            // Align the text centered
             case ALIGN_CENTER:
             {
-                for (int l = startIndex; l <= endIndex; l++)
+                // Go over each character in the string
+                for (int i = startIndex; i <= endIndex; i++)
                 {
-                    charCurrent = whatchars.charAt(l);
-                    if (charCurrent == '\n')
+                    // Grab the character
+                    currentChar = stringToDraw.charAt(i);
+                    // If the character is a new line we're done, break and align on this alone
+                    if (currentChar == '\n')
                     {
                         break;
                     }
-                    if (charCurrent < 256)
-                    {
-                        floatObject = charArray[charCurrent];
-                    }
-                    else
-                    {
-                        floatObject = customChars.get((char) charCurrent);
-                    }
-                    totalwidth += floatObject.width - CORRECT_L;
+
+                    // Grab the current glyph, if it's an ascii character grab it from the array, otherwise get it from
+                    // our custom character hash map
+                    characterGlyph = currentChar < 256 ? asciiGlyphs[currentChar] : additionalGlyphs.get(currentChar);
+
+                    // Increase our total width by the glyph's width
+                    totalWidth = totalWidth + (characterGlyph.width - CORRECT_L);
                 }
-                totalwidth /= -2;
+                // Divide the total width by 2 to get the center the current line
+                totalWidth = totalWidth / -2;
             }
+            // Align the text left, also used for align center
             case ALIGN_LEFT:
             default:
             {
-                d = 1;
-                c = CORRECT_L;
+                // Set the alignment flag to be 1 to render l->r
+                alignmentFlag = 1;
+                // Use the left spacing correction
+                spacingCorrection = CORRECT_L;
                 break;
             }
-
         }
+
+        // Bind our custom texture sheet
         GlStateManager.bindTexture(fontTextureID);
+        // Grab the MC tesselator to render with
         Tessellator tessellator = Tessellator.getInstance();
+        // Create a new buffer builder to draw to
         BufferBuilder bufferBuilder = tessellator.getBuffer();
+        // Begin drawing a texture
         bufferBuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
-        // GL11.glBegin(GL11.GL_QUADS);
-        if (rgba.length == 4)
+        // Set the color to be the passed in color
+        GlStateManager.color(rgba.getRed() / 255f, rgba.getGreen() / 255f, rgba.getBlue() / 255f, rgba.getAlpha() / 255f);
+        // Loop while the current index is between the start and end index
+        while (currentIndex >= startIndex && currentIndex <= endIndex)
         {
-            GlStateManager.color(rgba[0], rgba[1], rgba[2], rgba[3]);
-        }
-        while (i >= startIndex && i <= endIndex)
-        {
+            // Grab the current character to draw
+            currentChar = stringToDraw.charAt(currentIndex);
+            // Grab the glyph to draw, it will either be ascii or in the additional glyphs map
+            characterGlyph = currentChar < 256 ? asciiGlyphs[currentChar] : additionalGlyphs.get(currentChar);
 
-            charCurrent = whatchars.charAt(i);
-            if (charCurrent < 256)
+            // If the glyph is valid draw it
+            if (characterGlyph != null)
             {
-                floatObject = charArray[charCurrent];
-            }
-            else
-            {
-                floatObject = customChars.get((char) charCurrent);
-            }
-
-            if (floatObject != null)
-            {
-                if (d < 0)
+                // If the alignment flag is -1 align right is set so we reduce the total width
+                if (alignmentFlag < 0)
                 {
-                    totalwidth += (floatObject.width - c) * d;
+                    totalWidth = totalWidth + (characterGlyph.width - spacingCorrection) * alignmentFlag;
                 }
-                if (charCurrent == '\n')
+                // If the current character is a new line change lines
+                if (currentChar == '\n')
                 {
-                    startY -= fontHeight * d;
-                    totalwidth = 0;
-                    if (format == TextAlignment.ALIGN_CENTER)
+                    // Move in the right direction (up if align right, down otherwise)
+                    startY = startY - (fontHeight * alignmentFlag);
+                    // Reset the width since we're on a new line
+                    totalWidth = 0;
+                    // If the alignment is center we need to compute the width of the next line
+                    if (textAlignment == TextAlignment.ALIGN_CENTER)
                     {
-                        for (int l = i + 1; l <= endIndex; l++)
+                        // Iterate over the next line, compute its width
+                        for (int i = currentIndex + 1; i <= endIndex; i++)
                         {
-                            charCurrent = whatchars.charAt(l);
-                            if (charCurrent == '\n')
+                            // Grab the current character
+                            currentChar = stringToDraw.charAt(i);
+                            // If we've hit a new new line then the line is over
+                            if (currentChar == '\n')
                             {
                                 break;
                             }
-                            if (charCurrent < 256)
-                            {
-                                floatObject = charArray[charCurrent];
-                            }
-                            else
-                            {
-                                floatObject = customChars.get((char) charCurrent);
-                            }
-                            totalwidth += floatObject.width - CORRECT_L;
+
+                            // Set the current glyph to be either an ascii glyph or a custom glyph if it's bigger than 255
+                            characterGlyph = currentChar < 256 ? asciiGlyphs[currentChar] : additionalGlyphs.get(currentChar);
+                            // Increase the width by the glyph width, subtract off the spacing modifier
+                            totalWidth = totalWidth + (characterGlyph.width - CORRECT_L);
                         }
-                        totalwidth /= -2;
+                        // Center the text, so divide by 2
+                        totalWidth = totalWidth / -2;
                     }
-                    // if center get next lines total width/2;
                 }
+                // If the current char is not a new line then we can continue drawing our character
                 else
                 {
-                    drawQuad((totalwidth + floatObject.width) * scaleX + x, startY * scaleY + y, totalwidth * scaleX + x, (startY + floatObject.height) * scaleY + y, floatObject.storedX + floatObject.width, floatObject.storedY + floatObject.height, floatObject.storedX, floatObject.storedY);
-                    if (d > 0)
+                    // Draw a letter
+                    drawQuad((totalWidth + characterGlyph.width) * scaleX + x, startY * scaleY + y, totalWidth * scaleX + x, (startY + characterGlyph.height) * scaleY + y, characterGlyph.storedX + characterGlyph.width, characterGlyph.storedY + characterGlyph.height, characterGlyph.storedX, characterGlyph.storedY);
+                    // If we are aligning left then increase the width of the current line
+                    if (alignmentFlag > 0)
                     {
-                        totalwidth += (floatObject.width - c) * d;
+                        totalWidth = totalWidth + (characterGlyph.width - spacingCorrection) * alignmentFlag;
                     }
                 }
-                i += d;
-
+                // Advance or reduce the current index depending on if we're aligning right or left
+                currentIndex = currentIndex + alignmentFlag;
             }
         }
+        // Finally draw the screen now that all the glyphs are in place
         tessellator.draw();
-        // GL11.glEnd();
     }
 
+    /**
+     * Draws a glyph using a quad on the screen
+     *
+     * @param drawX Tbe x position to draw at
+     * @param drawY The y position to draw at
+     * @param drawX2 The far x position to draw to
+     * @param drawY2 The far y position to draw to
+     * @param srcX The source x position to draw from
+     * @param srcY The source y position to draw from
+     * @param srcX2 The source x position to draw to
+     * @param srcY2 The source y position to draw to
+     */
+    private void drawQuad(float drawX, float drawY, float drawX2, float drawY2, float srcX, float srcY, float srcX2, float srcY2)
+    {
+        // Compute the width and height of the glyph to draw
+        float drawWidth = Math.abs(drawX2 - drawX);
+        float drawHeight = Math.abs(drawY2 - drawY);
+        // Compute the width and height of the glyph on the source
+        float srcWidth = srcX2 - srcX;
+        float srcHeight = srcY2 - srcY;
+        // Grab the tessellator instance and create a buffer builder
+        BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
+
+        // Add the 4 vertices that are used to draw the glyph. These must be done in this order
+        bufferBuilder.pos(drawX, drawY + drawHeight, 0.0D)
+                .tex((srcX + srcWidth) / textureWidth, srcY / textureHeight)
+                .endVertex();
+        bufferBuilder.pos(drawX + drawWidth, drawY + drawHeight, 0.0D)
+                .tex(srcX / textureWidth, srcY / textureHeight)
+                .endVertex();
+        bufferBuilder.pos(drawX + drawWidth, drawY, 0.0D)
+                .tex(srcX / textureWidth, (srcY + srcHeight) / textureHeight)
+                .endVertex();
+        bufferBuilder.pos(drawX, drawY, 0.0D)
+                .tex((srcX + srcWidth) / textureWidth, (srcY + srcHeight) / textureHeight)
+                .endVertex();
+    }
+
+    /**
+     * Gets the width of a given string if it was printed as pixels
+     *
+     * @param string The string to get the width of
+     * @return The width of the string if printed in pixels
+     */
+    public float getWidth(String string)
+    {
+        return this.fontMetrics.stringWidth(string);
+    }
+
+    /**
+     * @return Gets the height of the font
+     */
+    public int getHeight()
+    {
+        return fontHeight;
+    }
+
+    /**
+     * Destroys the font and releases the resources
+     */
     public void destroy()
     {
+        // Create the buffer with the texture id, bind the texture, and delete the texture
         IntBuffer scratch = BufferUtils.createIntBuffer(1);
         scratch.put(0, fontTextureID);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
         GL11.glDeleteTextures(scratch);
     }
 
-    // ADDED HERE
+    /**
+     * @return Gets the font size
+     */
     public int getFontSize()
     {
-        return (int) this.fontSize;
+        return this.fontSize;
     }
 
-    private class FloatObject
+    /**
+     * Utility class for storing glyph positions
+     */
+    private class CharacterGlyph
     {
-        /**
-         * Character's width
-         */
-        public float width;
-
-        /**
-         * Character's height
-         */
-        public float height;
-
-        /**
-         * Character's stored x position
-         */
-        public float storedX;
-
-        /**
-         * Character's stored y position
-         */
-        public float storedY;
+        // Character's width
+        private int width;
+        // Character's height
+        private int height;
+        // Character's stored x position
+        private int storedX;
+        // Character's stored y position
+        private float storedY;
     }
 }

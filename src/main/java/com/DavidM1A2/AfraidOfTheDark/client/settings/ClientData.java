@@ -42,7 +42,8 @@ public class ClientData
         if (!this.fontMap.containsKey(fontSize))
         // Put the font size with the newly loaded font
         {
-            this.fontMap.put(fontSize, FontLoader.createFont(new ResourceLocation("afraidofthedark:fonts/targa_ms_hand.ttf"), fontSize, true));
+            TrueTypeFont font = FontLoader.createFont(new ResourceLocation("afraidofthedark:fonts/targa_ms_hand.ttf"), fontSize, true);
+            this.fontMap.put(fontSize, font);
         }
         // Get the font from the map
         return this.fontMap.get(fontSize);

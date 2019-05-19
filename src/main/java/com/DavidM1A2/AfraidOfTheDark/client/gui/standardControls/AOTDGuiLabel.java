@@ -71,7 +71,7 @@ public class AOTDGuiLabel extends AOTDGuiContainer
                         this.getScaleX().floatValue() * Constants.TEXT_SCALE_FACTOR,
                         this.getScaleY().floatValue() * Constants.TEXT_SCALE_FACTOR,
                         textAlignment,
-                        this.textColor.getRed() / 255f, this.textColor.getGreen() / 255f, this.textColor.getBlue() / 255f, this.textColor.getAlpha() / 255f);
+                        this.textColor);
             }
             super.draw();
         }
