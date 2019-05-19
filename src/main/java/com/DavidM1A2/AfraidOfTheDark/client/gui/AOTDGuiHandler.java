@@ -71,7 +71,9 @@ public class AOTDGuiHandler implements IGuiHandler
             case BLOOD_STAINED_JOURNAL_SIGN_ID:
                 return new BloodStainedJournalSignGUI();
             case BLOOD_STAINED_JOURNAL_ID:
-                return new BloodStainedJournalResearchGUI();
+                return new BloodStainedJournalResearchGUI(false);
+            case BLOOD_STAINED_JOURNAL_CHEAT_SHEET:
+                return new BloodStainedJournalResearchGUI(true);
             case BLOOD_STAINED_JOURNAL_PAGE_ID:
                 return new BloodStainedJournalPageGUI(lastSelectedResearch.getResearchedText(), I18n.format(lastSelectedResearch.getUnLocalizedName()), lastSelectedResearch.getResearchedRecipes());
             case BLOOD_STAINED_JOURNAL_PAGE_PRE_ID:

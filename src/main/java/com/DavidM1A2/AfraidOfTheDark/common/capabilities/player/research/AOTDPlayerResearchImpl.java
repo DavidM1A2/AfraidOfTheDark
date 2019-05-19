@@ -67,7 +67,7 @@ public class AOTDPlayerResearchImpl implements IAOTDPlayerResearch
         }
         else
         {
-            return this.isResearched(preRequisite);
+            return !this.isResearched(research) && this.isResearched(preRequisite);
         }
     }
 

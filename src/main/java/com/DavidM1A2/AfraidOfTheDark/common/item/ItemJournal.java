@@ -25,8 +25,8 @@ import java.util.List;
 public class ItemJournal extends AOTDItem
 {
     // Two constant tag names, one that tells us who the journal owner is, and one that tells us if the journal is a cheatsheet
-    private static final String OWNER_TAG = "owner";
-    private static final String CHEAT_SHEET_TAG = "cheatsheet";
+    private static final String NBT_OWNER = "owner";
+    private static final String NBT_CHEAT_SHEET = "cheatsheet";
 
     /**
      * Constructor sets up item properties
@@ -52,18 +52,24 @@ public class ItemJournal extends AOTDItem
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
     {
         ItemStack heldItemStack = playerIn.getHeldItem(handIn);
+        // Test if the journal is a cheat sheet or not
+        boolean isCheatSheet = NBTHelper.hasTag(heldItemStack, NBT_CHEAT_SHEET) && NBTHelper.getBoolean(heldItemStack, NBT_CHEAT_SHEET);
         // If the journal does not have an owner yet...
-        if (!NBTHelper.hasTag(heldItemStack, OWNER_TAG))
+        if (!NBTHelper.hasTag(heldItemStack, NBT_OWNER))
         {
             // If the player has started AOTD, set the NBT tag and open the journal
             if (playerIn.getCapability(ModCapabilities.PLAYER_BASICS, null).getStartedAOTD())
             {
                 // Set the owner tag to the player's username
                 this.setOwner(heldItemStack, playerIn.getDisplayName().getUnformattedText());
-                // Show the jounral UI
+                // Show the journal UI
                 if (worldIn.isRemote)
                 {
-                    playerIn.openGui(AfraidOfTheDark.INSTANCE, AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID, worldIn, (int) playerIn.posX, (int) playerIn.posY, (int) playerIn.posZ);
+                    playerIn.openGui(AfraidOfTheDark.INSTANCE,
+                            isCheatSheet ?
+                            AOTDGuiHandler.BLOOD_STAINED_JOURNAL_CHEAT_SHEET :
+                            AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID,
+                            worldIn, (int) playerIn.posX, (int) playerIn.posY, (int) playerIn.posZ);
                 }
             }
             // If the player has not started AOTD show the sign UI
@@ -76,14 +82,18 @@ public class ItemJournal extends AOTDItem
             }
         }
         // If the journal does have an owner, check if that owner is us
-        else if (playerIn.getDisplayName().getUnformattedText().equals(NBTHelper.getString(heldItemStack, OWNER_TAG)))
+        else if (playerIn.getDisplayName().getUnformattedText().equals(NBTHelper.getString(heldItemStack, NBT_OWNER)))
         {
             // If the player has started AOTD show the jounral UI
             if (playerIn.getCapability(ModCapabilities.PLAYER_BASICS, null).getStartedAOTD())
             {
                 if (worldIn.isRemote)
                 {
-                    playerIn.openGui(AfraidOfTheDark.INSTANCE, AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID, worldIn, (int) playerIn.posX, (int) playerIn.posY, (int) playerIn.posZ);
+                    playerIn.openGui(AfraidOfTheDark.INSTANCE,
+                            isCheatSheet ?
+                            AOTDGuiHandler.BLOOD_STAINED_JOURNAL_CHEAT_SHEET :
+                            AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID,
+                            worldIn, (int) playerIn.posX, (int) playerIn.posY, (int) playerIn.posZ);
                 }
             }
             // If the player has not started AOTD show the sign UI and clear the owner
@@ -120,11 +130,11 @@ public class ItemJournal extends AOTDItem
     {
         if (owner == null)
         {
-            NBTHelper.removeTag(itemStack, OWNER_TAG);
+            NBTHelper.removeTag(itemStack, NBT_OWNER);
         }
         else
         {
-            NBTHelper.setString(itemStack, OWNER_TAG, owner);
+            NBTHelper.setString(itemStack, NBT_OWNER, owner);
         }
     }
 
@@ -141,7 +151,7 @@ public class ItemJournal extends AOTDItem
         ItemStack standardJournal = new ItemStack(this);
         ItemStack cheatsheetJournal = new ItemStack(this);
         // The cheat sheet journal will have the cheat sheet tag set to true
-        NBTHelper.setBoolean(cheatsheetJournal, CHEAT_SHEET_TAG, true);
+        NBTHelper.setBoolean(cheatsheetJournal, NBT_CHEAT_SHEET, true);
         // Add the two journals to the item list
         items.add(standardJournal);
         items.add(cheatsheetJournal);
@@ -160,9 +170,9 @@ public class ItemJournal extends AOTDItem
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
         // If the stack has an owner tag, show who owns the stack, otherwise show that the journal is not bound
-        if (NBTHelper.hasTag(stack, OWNER_TAG))
+        if (NBTHelper.hasTag(stack, NBT_OWNER))
         {
-            tooltip.add("Item soulbound to " + NBTHelper.getString(stack, OWNER_TAG));
+            tooltip.add("Item soulbound to " + NBTHelper.getString(stack, NBT_OWNER));
         }
         else
         {
@@ -170,9 +180,10 @@ public class ItemJournal extends AOTDItem
         }
 
         // If the journal is a cheat sheet, show that
-        if (NBTHelper.hasTag(stack, CHEAT_SHEET_TAG))
+        if (NBTHelper.hasTag(stack, NBT_CHEAT_SHEET))
         {
             tooltip.add("Cheatsheet");
+            tooltip.add("Click researches to unlock them.");
         }
     }
 }
