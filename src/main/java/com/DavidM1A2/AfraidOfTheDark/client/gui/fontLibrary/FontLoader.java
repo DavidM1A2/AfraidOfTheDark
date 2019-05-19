@@ -39,7 +39,7 @@ public class FontLoader
         {
             font = new Font(name, type, (int) defSize);
             font = font.deriveFont(defSize);
-            out = new TrueTypeFont(font, antialias);
+            out = new TrueTypeFont(font, antialias, null);
         } catch (Exception e)
         {
             e.printStackTrace();
@@ -60,7 +60,7 @@ public class FontLoader
         {
             font = Font.createFont(type, Minecraft.getMinecraft().getResourceManager().getResource(res).getInputStream());
             font = font.deriveFont(defSize).deriveFont(Font.BOLD);
-            out = new TrueTypeFont(font, antialias);
+            out = new TrueTypeFont(font, antialias, null);
         } catch (Exception e)
         {
             e.printStackTrace();

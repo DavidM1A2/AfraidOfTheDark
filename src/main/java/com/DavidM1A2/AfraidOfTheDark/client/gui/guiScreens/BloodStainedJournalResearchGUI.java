@@ -28,7 +28,7 @@ import org.lwjgl.util.Color;
  */
 public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 {
-    // The width and height of the journal reserach tree background texture
+    // The width and height of the journal research tree background texture
     private static final int BACKGROUND_TEXTURE_WIDTH = 1024;
     private static final int BACKGROUND_TEXTURE_HEIGHT = 1024;
     // Set the size of the UI to always be 256x256

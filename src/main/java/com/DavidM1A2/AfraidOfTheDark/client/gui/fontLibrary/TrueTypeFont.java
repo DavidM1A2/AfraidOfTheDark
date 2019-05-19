@@ -1,6 +1,5 @@
 package com.DavidM1A2.afraidofthedark.client.gui.fontLibrary;
 
-import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.client.gui.base.TextAlignment;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -32,74 +31,203 @@ import java.util.Map;
 
 public class TrueTypeFont
 {
-    public final static int ALIGN_LEFT = 0, ALIGN_RIGHT = 1, ALIGN_CENTER = 2;
-    /**
-     * Boolean flag on whether AntiAliasing is enabled or not
-     */
-    protected boolean antiAlias;
-    /**
-     * A reference to Java's AWT Font that we create our font texture from
-     */
-    protected Font font;
-    /**
-     * Array that holds necessary information about the font characters
-     */
+    // Flag on whether AntiAliasing is enabled or not
+    private boolean antiAlias;
+    // A reference to Java's AWT Font that we create our font texture from
+    private Font font;
+    // Array that holds necessary information about the font characters
     private FloatObject[] charArray = new FloatObject[256];
-    /**
-     * Map of user defined font characters (Character <-> IntObject)
-     */
+    // Map of user defined font characters (Character <-> IntObject)
     private Map<Character, FloatObject> customChars = new HashMap<>();
-    /**
-     * Font's size
-     */
-    private float fontSize = 0;
-    /**
-     * Font's height
-     */
+    // Font's size
+    private float fontSize;
+    // Font's height
     private float fontHeight = 0;
-    /**
-     * Texture used to cache the font 0-255 characters
-     */
+    // Texture used to cache the font 0-255 characters
     private int fontTextureID;
-    /**
-     * Default font texture width
-     */
+    // Default font texture width
     private int textureWidth = 1024;
-    /**
-     * Default font texture height
-     */
+    // Default font texture height
     private int textureHeight = 1024;
-    /**
-     * The font metrics for our Java AWT font
-     */
+    // The font metrics for our Java AWT font
     private FontMetrics fontMetrics;
+    // Correction constants used to squeeze letters together
+    private static final int CORRECT_L = 9;
+    private static final int CORRECT_R = 8;
 
-    private int correctL = 9, correctR = 8;
-
-    public TrueTypeFont(Font font, boolean antiAlias, char[] additionalChars)
+    /**
+     * Constructor initializes the font glyphs
+     *
+     * @param font The java font to render
+     * @param antiAlias True if anti-alias is on, false otherwise
+     * @param additionalChars Additional characters to draw
+     */
+    TrueTypeFont(Font font, boolean antiAlias, char[] additionalChars)
     {
+        // Initialize all fields
         this.font = font;
+        // Add 3 to font size so we have some padding
         this.fontSize = font.getSize() + 3;
         this.antiAlias = antiAlias;
-
+        // Render the characters into open GL format
         createSet(additionalChars);
-        if (AfraidOfTheDark.INSTANCE.getConfigurationHandler().showDebugMessages())
-        {
-            System.out.println("TrueTypeFont loaded: " + font + " - AntiAlias = " + antiAlias);
-        }
-        fontHeight -= 1;
-        if (fontHeight <= 0)
-        {
-            fontHeight = 1;
-        }
     }
 
-    public TrueTypeFont(Font font, boolean antiAlias)
+    /**
+     * Initializes the font by rendering each character to an image
+     *
+     * @param customCharsArray The extra non-ascii characters to render
+     */
+    private void createSet(char[] customCharsArray)
     {
-        this(font, antiAlias, null);
+        // If there are custom chars then expand the font texture twice
+        if (customCharsArray != null && customCharsArray.length > 0)
+        {
+            textureWidth = textureWidth * 2;
+        }
+
+        // In any case this should be done in other way. Texture with size
+        // 1024x1024
+        // can maintain only 256 characters with resolution of 64x64. The
+        // texture
+        // size should be calculated dynamically by looking at character sizes.
+
+        try
+        {
+            // Create a temp buffered image to write to
+            BufferedImage imgTemp = new BufferedImage(textureWidth, textureHeight, BufferedImage.TYPE_INT_ARGB);
+            // Grab the graphics object to write to the image
+            Graphics2D g = (Graphics2D) imgTemp.getGraphics();
+
+            // Set the color to black
+            g.setColor(new Color(0, 0, 0, 1));
+            // Fill the rectangle with black
+            g.fillRect(0, 0, textureWidth, textureHeight);
+
+            // 3 values to use in writing the glyphs to the image
+            float rowHeight = 0;
+            float positionX = 0;
+            float positionY = 0;
+
+            // The number of custom characters to write
+            int customCharsLength = (customCharsArray != null) ? customCharsArray.length : 0;
+
+            // Go over all 256 ascii characters and then additional custom characters
+            for (int i = 0; i < 256 + customCharsLength; i++)
+            {
+                // Grab the current character to render
+                char character = (i < 256) ? (char) i : customCharsArray[i - 256];
+
+                // Render the character into an image
+                BufferedImage fontImage = getFontImage(character);
+
+                FloatObject newIntObject = new FloatObject();
+
+                newIntObject.width = fontImage.getWidth();
+                newIntObject.height = fontImage.getHeight();
+
+                if (positionX + newIntObject.width >= textureWidth)
+                {
+                    positionX = 0;
+                    positionY += rowHeight;
+                    rowHeight = 0;
+                }
+
+                newIntObject.storedX = positionX;
+                newIntObject.storedY = positionY;
+
+                if (newIntObject.height > fontHeight)
+                {
+                    fontHeight = newIntObject.height;
+                }
+
+                if (newIntObject.height > rowHeight)
+                {
+                    rowHeight = newIntObject.height;
+                }
+
+                // Draw it here
+                g.drawImage(fontImage, (int) positionX, (int) positionY, null);
+
+                positionX += newIntObject.width;
+
+                if (i < 256)
+                { // standard characters
+                    charArray[i] = newIntObject;
+                }
+                else
+                { // custom characters
+                    customChars.put(character, newIntObject);
+                }
+
+                fontImage = null;
+            }
+
+            fontTextureID = loadImage(imgTemp);
+
+            // .getTexture(font.toString(), imgTemp);
+
+        } catch (Exception e)
+        {
+            System.err.println("Failed to create font.");
+            e.printStackTrace();
+        }
     }
 
-    public static int loadImage(BufferedImage bufferedImage)
+    /**
+     * Converts a character to an image by writing it to an image
+     *
+     * @param ch The character to write
+     * @return The buffered image representing the character
+     */
+    private BufferedImage getFontImage(char ch)
+    {
+        // Create a temporary image to extract the character's size
+        BufferedImage tempFontImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+        // Grab the graphics component
+        Graphics2D g = (Graphics2D) tempFontImage.getGraphics();
+        // If antialiasing is enabled do so for the graphics component
+        if (antiAlias)
+        {
+            // Enable anti-aliasing
+            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        }
+        // Set the graphic's font
+        g.setFont(font);
+        // Grab the font metrics and store that off to be used later
+        fontMetrics = g.getFontMetrics();
+        // Compute the width of the current character (not sure why we add 8?)
+        float charWidth = fontMetrics.charWidth(ch) + 8;
+
+        if (charWidth <= 0)
+        {
+            charWidth = 7;
+        }
+        float charheight = fontMetrics.getHeight() + 3;
+        if (charheight <= 0)
+        {
+            charheight = fontSize;
+        }
+
+        // Create another image holding the character we are creating
+        BufferedImage fontImage = new BufferedImage((int) charWidth, (int) charheight, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D gt = (Graphics2D) fontImage.getGraphics();
+        if (antiAlias)
+        {
+            gt.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        }
+        gt.setFont(font);
+
+        gt.setColor(Color.WHITE);
+        int charx = 3;
+        int chary = 1;
+        gt.drawString(String.valueOf(ch), (charx), (chary) + fontMetrics.getAscent());
+
+        return fontImage;
+
+    }
+
+    private static int loadImage(BufferedImage bufferedImage)
     {
         try
         {
@@ -143,17 +271,6 @@ public class TrueTypeFont
 
             GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
             GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
-            // GL11.glTexParameteri(GL11.GL_TEXTURE_2D,
-            // GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
-            // GL11.glTexParameteri(GL11.GL_TEXTURE_2D,
-            // GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_NEAREST);
-
-            // GL11.glTexParameteri(GL11.GL_TEXTURE_2D,
-            // GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
-            // GL11.glTexParameteri(GL11.GL_TEXTURE_2D,
-            // GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST_MIPMAP_LINEAR);
-            // GL11.glTexParameteri(GL11.GL_TEXTURE_2D,
-            // GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST_MIPMAP_NEAREST);
 
             GL11.glTexEnvf(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE);
 
@@ -169,174 +286,10 @@ public class TrueTypeFont
         return -1;
     }
 
-    public static boolean isSupported(String fontname)
-    {
-        Font[] font = getFonts();
-        for (int i = font.length - 1; i >= 0; i--)
-        {
-            if (font[i].getName().equalsIgnoreCase(fontname))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static Font[] getFonts()
-    {
-        return GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
-    }
-
-    public static byte[] intToByteArray(int value)
+    private static byte[] intToByteArray(int value)
     {
         return new byte[]
                 {(byte) (value >>> 24), (byte) (value >>> 16), (byte) (value >>> 8), (byte) value};
-    }
-
-    public void setCorrection(boolean on)
-    {
-        if (on)
-        {
-            correctL = 2;
-            correctR = 1;
-        }
-        else
-        {
-            correctL = 0;
-            correctR = 0;
-        }
-    }
-
-    private BufferedImage getFontImage(char ch)
-    {
-        // Create a temporary image to extract the character's size
-        BufferedImage tempfontImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g = (Graphics2D) tempfontImage.getGraphics();
-        if (antiAlias)
-        {
-            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        }
-        g.setFont(font);
-        fontMetrics = g.getFontMetrics();
-        float charwidth = fontMetrics.charWidth(ch) + 8;
-
-        if (charwidth <= 0)
-        {
-            charwidth = 7;
-        }
-        float charheight = fontMetrics.getHeight() + 3;
-        if (charheight <= 0)
-        {
-            charheight = fontSize;
-        }
-
-        // Create another image holding the character we are creating
-        BufferedImage fontImage;
-        fontImage = new BufferedImage((int) charwidth, (int) charheight, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D gt = (Graphics2D) fontImage.getGraphics();
-        if (antiAlias)
-        {
-            gt.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        }
-        gt.setFont(font);
-
-        gt.setColor(Color.WHITE);
-        int charx = 3;
-        int chary = 1;
-        gt.drawString(String.valueOf(ch), (charx), (chary) + fontMetrics.getAscent());
-
-        return fontImage;
-
-    }
-
-    private void createSet(char[] customCharsArray)
-    {
-        // If there are custom chars then I expand the font texture twice
-        if (customCharsArray != null && customCharsArray.length > 0)
-        {
-            textureWidth *= 2;
-        }
-
-        // In any case this should be done in other way. Texture with size
-        // 512x512
-        // can maintain only 256 characters with resolution of 32x32. The
-        // texture
-        // size should be calculated dynamicaly by looking at character sizes.
-
-        try
-        {
-
-            BufferedImage imgTemp = new BufferedImage(textureWidth, textureHeight, BufferedImage.TYPE_INT_ARGB);
-            Graphics2D g = (Graphics2D) imgTemp.getGraphics();
-
-            g.setColor(new Color(0, 0, 0, 1));
-            g.fillRect(0, 0, textureWidth, textureHeight);
-
-            float rowHeight = 0;
-            float positionX = 0;
-            float positionY = 0;
-
-            int customCharsLength = (customCharsArray != null) ? customCharsArray.length : 0;
-
-            for (int i = 0; i < 256 + customCharsLength; i++)
-            {
-
-                // get 0-255 characters and then custom characters
-                char ch = (i < 256) ? (char) i : customCharsArray[i - 256];
-
-                BufferedImage fontImage = getFontImage(ch);
-
-                FloatObject newIntObject = new FloatObject();
-
-                newIntObject.width = fontImage.getWidth();
-                newIntObject.height = fontImage.getHeight();
-
-                if (positionX + newIntObject.width >= textureWidth)
-                {
-                    positionX = 0;
-                    positionY += rowHeight;
-                    rowHeight = 0;
-                }
-
-                newIntObject.storedX = positionX;
-                newIntObject.storedY = positionY;
-
-                if (newIntObject.height > fontHeight)
-                {
-                    fontHeight = newIntObject.height;
-                }
-
-                if (newIntObject.height > rowHeight)
-                {
-                    rowHeight = newIntObject.height;
-                }
-
-                // Draw it here
-                g.drawImage(fontImage, (int) positionX, (int) positionY, null);
-
-                positionX += newIntObject.width;
-
-                if (i < 256)
-                { // standard characters
-                    charArray[i] = newIntObject;
-                }
-                else
-                { // custom characters
-                    customChars.put(ch, newIntObject);
-                }
-
-                fontImage = null;
-            }
-
-            fontTextureID = loadImage(imgTemp);
-
-            // .getTexture(font.toString(), imgTemp);
-
-        } catch (Exception e)
-        {
-            System.err.println("Failed to create font.");
-            e.printStackTrace();
-        }
     }
 
     private void drawQuad(float drawX, float drawY, float drawX2, float drawY2, float srcX, float srcY, float srcX2, float srcY2)
@@ -448,7 +401,7 @@ public class TrueTypeFont
             case ALIGN_RIGHT:
             {
                 d = -1;
-                c = correctR;
+                c = CORRECT_R;
 
                 while (i < endIndex)
                 {
@@ -477,7 +430,7 @@ public class TrueTypeFont
                     {
                         floatObject = customChars.get((char) charCurrent);
                     }
-                    totalwidth += floatObject.width - correctL;
+                    totalwidth += floatObject.width - CORRECT_L;
                 }
                 totalwidth /= -2;
             }
@@ -485,7 +438,7 @@ public class TrueTypeFont
             default:
             {
                 d = 1;
-                c = correctL;
+                c = CORRECT_L;
                 break;
             }
 
@@ -539,7 +492,7 @@ public class TrueTypeFont
                             {
                                 floatObject = customChars.get((char) charCurrent);
                             }
-                            totalwidth += floatObject.width - correctL;
+                            totalwidth += floatObject.width - CORRECT_L;
                         }
                         totalwidth /= -2;
                     }
