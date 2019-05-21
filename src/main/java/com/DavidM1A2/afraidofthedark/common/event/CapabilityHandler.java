@@ -9,6 +9,10 @@ import com.DavidM1A2.afraidofthedark.common.capabilities.player.research.AOTDPla
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.research.AOTDPlayerResearchProvider;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.research.AOTDPlayerResearchStorage;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.research.IAOTDPlayerResearch;
+import com.DavidM1A2.afraidofthedark.common.capabilities.player.spell.AOTDPlayerSpellManagerImpl;
+import com.DavidM1A2.afraidofthedark.common.capabilities.player.spell.AOTDPlayerSpellManagerProvider;
+import com.DavidM1A2.afraidofthedark.common.capabilities.player.spell.AOTDPlayerSpellManagerStorage;
+import com.DavidM1A2.afraidofthedark.common.capabilities.player.spell.IAOTDPlayerSpellManager;
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
 import net.minecraft.entity.Entity;
@@ -41,6 +45,7 @@ public class CapabilityHandler
             CapabilityManager.INSTANCE.register(IAOTDPlayerResearch.class, new AOTDPlayerResearchStorage(), AOTDPlayerResearchImpl::new);
             CapabilityManager.INSTANCE.register(IAOTDPlayerVoidChestData.class, new AOTDPlayerVoidChestDataStorage(), AOTDPlayerVoidChestDataImpl::new);
             CapabilityManager.INSTANCE.register(IAOTDPlayerNightmareData.class, new AOTDPlayerNightmareDataStorage(), AOTDPlayerNightmareImpl::new);
+            CapabilityManager.INSTANCE.register(IAOTDPlayerSpellManager.class, new AOTDPlayerSpellManagerStorage(), AOTDPlayerSpellManagerImpl::new);
 
             CapabilityHandler.wasInitialized = true;
         }
@@ -61,6 +66,7 @@ public class CapabilityHandler
             event.addCapability(new ResourceLocation(Constants.MOD_ID + ":player_research"), new AOTDPlayerResearchProvider());
             event.addCapability(new ResourceLocation(Constants.MOD_ID + ":player_void_chest_data"), new AOTDPlayerVoidChestDataProvider());
             event.addCapability(new ResourceLocation(Constants.MOD_ID + ":player_nightmare_data"), new AOTDPlayerNightmareDataProvider());
+            event.addCapability(new ResourceLocation(Constants.MOD_ID + ":player_spell_manager"), new AOTDPlayerSpellManagerProvider());
         }
     }
 
@@ -84,6 +90,7 @@ public class CapabilityHandler
                 entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null).sync(entityPlayer, false);
                 // Dont sync PLAYER_VOID_CHEST_DATA because it's server side only storage!
                 // Dont sync PLAYER_NIGHTMARE_DATA because it's server side only storage!
+                entityPlayer.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null).syncAll(entityPlayer);
             }
         }
     }
@@ -112,17 +119,22 @@ public class CapabilityHandler
             IAOTDPlayerNightmareData originalPlayerNightmareData = event.getOriginal().getCapability(ModCapabilities.PLAYER_NIGHTMARE_DATA, null);
             IAOTDPlayerNightmareData newPlayerNightmareData = event.getEntityPlayer().getCapability(ModCapabilities.PLAYER_NIGHTMARE_DATA, null);
 
+            IAOTDPlayerSpellManager originalPlayerSpellManager = event.getOriginal().getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null);
+            IAOTDPlayerSpellManager newPlayerSpellManager = event.getEntityPlayer().getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null);
+
             // Grab the NBT compound off of the original capabilities
             NBTTagCompound originalPlayerBasicsNBT = (NBTTagCompound) ModCapabilities.PLAYER_BASICS.getStorage().writeNBT(ModCapabilities.PLAYER_BASICS, originalPlayerBasics, null);
             NBTTagCompound originalPlayerResearchNBT = (NBTTagCompound) ModCapabilities.PLAYER_RESEARCH.getStorage().writeNBT(ModCapabilities.PLAYER_RESEARCH, originalPlayerResearch, null);
             NBTTagCompound originalPlayerVoidChestDataNBT = (NBTTagCompound) ModCapabilities.PLAYER_VOID_CHEST_DATA.getStorage().writeNBT(ModCapabilities.PLAYER_VOID_CHEST_DATA, originalPlayerVoidChestData, null);
             NBTTagCompound originalPlayerNightmareDataNBT = (NBTTagCompound) ModCapabilities.PLAYER_NIGHTMARE_DATA.getStorage().writeNBT(ModCapabilities.PLAYER_NIGHTMARE_DATA, originalPlayerNightmareData, null);
+            NBTTagCompound originalPlayerSpellManagerNBT = (NBTTagCompound) ModCapabilities.PLAYER_SPELL_MANAGER.getStorage().writeNBT(ModCapabilities.PLAYER_SPELL_MANAGER, originalPlayerSpellManager, null);
 
             // Copy the NBT compound onto the new capabilities
             ModCapabilities.PLAYER_BASICS.getStorage().readNBT(ModCapabilities.PLAYER_BASICS, newPlayerBasics, null, originalPlayerBasicsNBT);
             ModCapabilities.PLAYER_RESEARCH.getStorage().readNBT(ModCapabilities.PLAYER_RESEARCH, newPlayerResearch, null, originalPlayerResearchNBT);
             ModCapabilities.PLAYER_VOID_CHEST_DATA.getStorage().readNBT(ModCapabilities.PLAYER_VOID_CHEST_DATA, newPlayerVoidChestData, null, originalPlayerVoidChestDataNBT);
             ModCapabilities.PLAYER_NIGHTMARE_DATA.getStorage().readNBT(ModCapabilities.PLAYER_NIGHTMARE_DATA, newPlayerNightmareData, null, originalPlayerNightmareDataNBT);
+            ModCapabilities.PLAYER_SPELL_MANAGER.getStorage().readNBT(ModCapabilities.PLAYER_SPELL_MANAGER, newPlayerSpellManager, null, originalPlayerSpellManagerNBT);
         }
     }
 }

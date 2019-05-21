@@ -15,8 +15,6 @@ import javax.annotation.Nullable;
  */
 public class AOTDPlayerResearchStorage implements Capability.IStorage<IAOTDPlayerResearch>
 {
-    private final static String RESEARCH_DATA = "unlockedResearches";
-
     /**
      * Called to write a capability to an NBT compound
      *

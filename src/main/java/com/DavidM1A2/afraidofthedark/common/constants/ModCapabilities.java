@@ -4,6 +4,7 @@ import com.DavidM1A2.afraidofthedark.common.capabilities.player.basics.IAOTDPlay
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.dimension.IAOTDPlayerNightmareData;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.dimension.IAOTDPlayerVoidChestData;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.research.IAOTDPlayerResearch;
+import com.DavidM1A2.afraidofthedark.common.capabilities.player.spell.IAOTDPlayerSpellManager;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 
@@ -27,4 +28,8 @@ public class ModCapabilities
     // Capability that all players get which allows them to go to and from the nightmare dimension
     @CapabilityInject(IAOTDPlayerNightmareData.class)
     public static final Capability<IAOTDPlayerNightmareData> PLAYER_NIGHTMARE_DATA = null;
+
+    // Capability that all players get which allows them to store spells inside their data
+    @CapabilityInject(IAOTDPlayerSpellManager.class)
+    public static final Capability<IAOTDPlayerSpellManager> PLAYER_SPELL_MANAGER = null;
 }

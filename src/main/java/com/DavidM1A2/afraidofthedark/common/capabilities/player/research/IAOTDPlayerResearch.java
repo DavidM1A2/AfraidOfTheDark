@@ -42,7 +42,7 @@ public interface IAOTDPlayerResearch
     void setResearchAndAlert(Research research, boolean researched, EntityPlayer entityPlayer);
 
     /**
-     * Syncronizes research between server and client
+     * Synchronizes research between server and client
      *
      * @param entityPlayer The player to sync research to
      * @param notify       True if the player should be notified of any new researches, false otherwise
