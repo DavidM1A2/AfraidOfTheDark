@@ -6,6 +6,7 @@ import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
 import com.DavidM1A2.afraidofthedark.common.registry.bolt.BoltEntry;
 import com.DavidM1A2.afraidofthedark.common.registry.meteor.MeteorEntry;
 import com.DavidM1A2.afraidofthedark.common.registry.research.Research;
+import com.DavidM1A2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.Structure;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
@@ -51,6 +52,12 @@ public class RegistryRegister
         ModRegistries.METEORS = new RegistryBuilder<MeteorEntry>()
                 .setType(MeteorEntry.class)
                 .setName(new ResourceLocation(Constants.MOD_ID, "meteors"))
+                .create();
+
+        // Create a new registry for the different spell power sources with the name 'afraidofthedark:spell_power_sources'
+        ModRegistries.SPELL_POWER_SOURCES = new RegistryBuilder<SpellPowerSource>()
+                .setType(SpellPowerSource.class)
+                .setName(new ResourceLocation(Constants.MOD_ID, "spell_power_sources"))
                 .create();
     }
 }

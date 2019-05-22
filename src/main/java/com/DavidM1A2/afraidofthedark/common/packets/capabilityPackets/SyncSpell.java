@@ -77,8 +77,7 @@ public class SyncSpell implements IMessage
             this.keybind = ByteBufUtils.readUTF8String(buf);
         }
         // Finally read in the spell's NBT
-        this.spell = new Spell();
-        this.spell.deserializeNBT(ByteBufUtils.readTag(buf));
+        this.spell = new Spell(ByteBufUtils.readTag(buf));
     }
 
     /**

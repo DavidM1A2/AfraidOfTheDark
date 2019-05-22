@@ -102,8 +102,7 @@ public class AOTDPlayerSpellManagerStorage implements Capability.IStorage<IAOTDP
                 // Grab the compound for the spell
                 NBTTagCompound spellNBT = spellsNBT.getCompoundTagAt(i);
                 // Create a new spell instance, and read in the state from NBT
-                Spell spell = new Spell();
-                spell.deserializeNBT(spellNBT);
+                Spell spell = new Spell(spellNBT);
                 // Add the spell to the list
                 instance.addOrUpdateSpell(spell);
             }
