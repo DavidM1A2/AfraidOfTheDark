@@ -62,5 +62,6 @@ public abstract class CommonProxy implements IProxy
         packetHandler.registerPacket(FireWristCrossbow.class, new FireWristCrossbow.Handler(), Side.SERVER);
         packetHandler.registerPacket(ProcessSextantInput.class, new ProcessSextantInput.Handler(), Side.SERVER);
         packetHandler.registerPacket(SyncSelectedWristCrossbowBolt.class, new SyncSelectedWristCrossbowBolt.Handler(), Side.SERVER);
+        packetHandler.registerPacket(SyncSpellKeyPress.class, new SyncSpellKeyPress.Handler(), Side.SERVER);
     }
 }

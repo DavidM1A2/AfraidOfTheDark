@@ -1,14 +1,18 @@
 package com.DavidM1A2.afraidofthedark.common.spell;
 
-import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
+import com.DavidM1A2.afraidofthedark.common.constants.ModDimensions;
 import com.DavidM1A2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTUtil;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.INBTSerializable;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -21,7 +25,7 @@ public class Spell implements INBTSerializable<NBTTagCompound>
     private static final String NBT_ID = "id";
     private static final String NBT_OWNER_ID = "owner_id";
     private static final String NBT_POWER_SOURCE = "power_source";
-    private static final String NBT_POWER_SOURCE_STATE = "power_source_state";
+    private static final String NBT_SPELL_STAGES = "spell_stages";
 
     // The spell's name, can't be null (empty by default)
     private String name;
@@ -31,20 +35,9 @@ public class Spell implements INBTSerializable<NBTTagCompound>
     private UUID ownerId;
 
     // The source that is powering the spell, can be null
-    private SpellPowerSource spellPowerSource;
-    // The NBT compound used to store the power source's state data
-    private NBTTagCompound spellPowerSourceState;
+    private SpellPowerSource powerSource;
     // The list of spell stages this spell can go through, can have 0 - inf elements
-
-    /**
-     * Constructor that takes in an NBT compound and creates the spell from NBT
-     *
-     * @param spellNBT The NBT containing the spell's information
-     */
-    public Spell(NBTTagCompound spellNBT)
-    {
-        this.deserializeNBT(spellNBT);
-    }
+    private List<SpellStage> spellStages;
 
     /**
      * Constructor that takes the player that created the spell in as a parameter
@@ -60,9 +53,98 @@ public class Spell implements INBTSerializable<NBTTagCompound>
         // Empty spell name is default
         this.name = StringUtils.EMPTY;
         // Null spell power source is default
-        this.spellPowerSource = null;
-        // Null spell power source NBT for spell power source
-        this.spellPowerSourceState = null;
+        this.powerSource = null;
+        // Spell stage list is empty by default
+        this.spellStages = new ArrayList<>();
+    }
+
+    /**
+     * Constructor that takes in an NBT compound and creates the spell from NBT
+     *
+     * @param spellNBT The NBT containing the spell's information
+     */
+    public Spell(NBTTagCompound spellNBT)
+    {
+        this.deserializeNBT(spellNBT);
+    }
+
+    /**
+     * Called to cast the spell, notifies the player if something is wrong so the spell won't cast
+     *
+     * @param entityPlayer The player casting the spell
+     */
+    public void attemptToCast(EntityPlayer entityPlayer)
+    {
+        // Server side processing only
+        if (!entityPlayer.world.isRemote)
+        {
+            // Make sure the player isn't in the nightmare realm
+            if (entityPlayer.dimension != ModDimensions.NIGHTMARE.getId())
+            {
+                // If the spell is valid continue, if not print an error
+                if (this.isValid())
+                {
+                    // Test if the spell can be cast, if not tell the player why
+                    if (this.powerSource.canCast(this))
+                    {
+                        // Consumer the power to cast the spell
+                        this.powerSource.consumePowerToCast(this);
+                        // Tell the first delivery method to fire
+                        // this.spellStages.get(0).getDeliveryMethod()
+                    }
+                    else
+                    {
+                        entityPlayer.sendMessage(new TextComponentTranslation(this.powerSource.getUnlocalizedOutOfPowerMsg()));
+                    }
+                }
+                else
+                {
+                    entityPlayer.sendMessage(new TextComponentTranslation("aotd.spell.invalid"));
+                }
+            }
+            else
+            {
+                entityPlayer.sendMessage(new TextComponentTranslation("aotd.spell.wrong_dimension"));
+            }
+        }
+    }
+
+    /**
+     * Returns true if this spell is valid, false otherwise
+     *
+     * @return True if the power source method is non-null and at least one spell stage is registered
+     */
+    public boolean isValid()
+    {
+        boolean isValid = this.powerSource != null;
+        // Ensure the power source is valid and the spell stages are non-empty
+        if (isValid && !this.spellStages.isEmpty())
+        {
+            // Test to ensure all spell stages are valid
+            return this.spellStages.stream().allMatch(SpellStage::isValid);
+        }
+        return false;
+    }
+
+    /**
+     * Gets the cost of the spell
+     *
+     * @return The cost of the spell including all spell stages
+     */
+    public double getCost()
+    {
+        double cost = 0;
+        // Keep a multiplier that will make each spell stage more and more expensive
+        double costMultiplier = 1.0;
+        // Go over each spell stage and add up costs
+        for (SpellStage spellStage : this.spellStages)
+        {
+            // Increase the cost of the next spell stage by 5%
+            costMultiplier = costMultiplier + 0.05;
+            // Add the cost of the stage times the multiplier
+            cost = cost + spellStage.getCost() * costMultiplier;
+        }
+        return cost;
     }
 
     /**
@@ -75,14 +157,19 @@ public class Spell implements INBTSerializable<NBTTagCompound>
     {
         NBTTagCompound nbt = new NBTTagCompound();
 
+        // Write each field to NBT
         nbt.setString(NBT_NAME, this.name);
         nbt.setTag(NBT_ID, NBTUtil.createUUIDTag(this.id));
         nbt.setTag(NBT_OWNER_ID, NBTUtil.createUUIDTag(this.ownerId));
-        if (this.spellPowerSource != null)
+        // The spell power source can be null, double check that it isn't before writing it and its state
+        if (this.powerSource != null)
         {
-            nbt.setString(NBT_POWER_SOURCE, this.spellPowerSource.getRegistryName().toString());
-            nbt.setTag(NBT_POWER_SOURCE_STATE, this.spellPowerSourceState);
+            nbt.setTag(NBT_POWER_SOURCE, this.powerSource.serializeNBT());
         }
+        // Write each spell stage to NBT
+        NBTTagList spellStagesNBT = new NBTTagList();
+        this.spellStages.forEach(spellStage -> spellStagesNBT.appendTag(spellStage.serializeNBT()));
+        nbt.setTag(NBT_SPELL_STAGES, spellStagesNBT);
 
         return nbt;
     }
@@ -95,13 +182,24 @@ public class Spell implements INBTSerializable<NBTTagCompound>
     @Override
     public void deserializeNBT(NBTTagCompound nbt)
     {
+        // Read each field from NBT
         this.name = nbt.getString(NBT_NAME);
         this.id = NBTUtil.getUUIDFromTag(nbt.getCompoundTag(NBT_ID));
         this.ownerId = NBTUtil.getUUIDFromTag(nbt.getCompoundTag(NBT_OWNER_ID));
+        // The spell power source can be null, double check that it exists before reading it and its state
         if (nbt.hasKey(NBT_POWER_SOURCE))
         {
-            this.spellPowerSource = ModRegistries.SPELL_POWER_SOURCES.getValue(new ResourceLocation(nbt.getString(NBT_POWER_SOURCE)));
-            this.spellPowerSourceState = nbt.getCompoundTag(NBT_POWER_SOURCE_STATE);
+            // Grab the power source NBT and create a power source out of it
+            this.powerSource = SpellPowerSource.createFromNBT(nbt.getCompoundTag(NBT_POWER_SOURCE));
+        }
+        // Read each spell stage from NBT
+        NBTTagList spellStagesNBT = nbt.getTagList(NBT_SPELL_STAGES, Constants.NBT.TAG_COMPOUND);
+        for (int i = 0; i < spellStagesNBT.tagCount(); i++)
+        {
+            // Grab the spell stage NBT, read it into the spell stage, and add it
+            NBTTagCompound spellStageNBT = spellStagesNBT.getCompoundTagAt(i);
+            SpellStage spellStage = new SpellStage(spellStageNBT);
+            this.spellStages.add(spellStage);
         }
     }
 
@@ -149,27 +247,18 @@ public class Spell implements INBTSerializable<NBTTagCompound>
         return this.ownerId;
     }
 
-    public void setSpellPowerSource(SpellPowerSource spellPowerSource)
+    public void setPowerSource(SpellPowerSource powerSource)
     {
-        this.spellPowerSource = spellPowerSource;
-        // Don't forget to update the stored NBT for the new power source!
-        if (spellPowerSource != null)
-        {
-            this.spellPowerSourceState = this.spellPowerSource.generateBaseState();
-        }
-        else
-        {
-            this.spellPowerSourceState = null;
-        }
+        this.powerSource = powerSource;
     }
 
-    public SpellPowerSource getSpellPowerSource()
+    public SpellPowerSource getPowerSource()
     {
-        return spellPowerSource;
+        return powerSource;
     }
 
-    public NBTTagCompound getSpellPowerSourceState()
+    public List<SpellStage> getSpellStages()
     {
-        return spellPowerSourceState;
+        return spellStages;
     }
 }

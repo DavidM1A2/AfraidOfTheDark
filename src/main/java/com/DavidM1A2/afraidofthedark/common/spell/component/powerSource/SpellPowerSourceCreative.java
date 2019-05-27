@@ -1,8 +1,8 @@
 package com.DavidM1A2.afraidofthedark.common.spell.component.powerSource;
 
+import com.DavidM1A2.afraidofthedark.common.constants.ModSpellPowerSources;
 import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import com.DavidM1A2.afraidofthedark.common.spell.component.powerSource.base.AOTDSpellPowerSource;
-import net.minecraft.nbt.NBTTagCompound;
 
 /**
  * Class representing the creative power source
@@ -10,35 +10,53 @@ import net.minecraft.nbt.NBTTagCompound;
 public class SpellPowerSourceCreative extends AOTDSpellPowerSource
 {
     /**
-     * Constructor sets the power source's name
+     * Constructor just calls super
      */
     public SpellPowerSourceCreative()
     {
-        super("creative");
+        super();
     }
 
     /**
-     * Attempts to cast a given spell. Returns true if the power was consumed to cast the spell. Returns false
-     * if not enough power was available to cast the spell
+     * True if the given spell can be cast, false otherwise
      *
-     * @param stateNBT The NBT data associated with this spell power source instance
-     * @param spell the spell to attempt to cast
-     * @return true, since the creative mode power source always works
+     * @param spell The spell to attempt to cast
+     * @return True if the spell can be cast, false otherwise
      */
-    public boolean consumePowerToCast(NBTTagCompound stateNBT, Spell spell)
+    @Override
+    public boolean canCast(Spell spell)
     {
         return true;
     }
 
     /**
+     * Does nothing, creative power sources don't use energy
+     *
+     * @param spell the spell to attempt to cast
+     */
+    public void consumePowerToCast(Spell spell)
+    {
+    }
+
+    /**
      * Computes the message describing why the power source doesn't have enough power
      *
-     * @param stateNBT The NBT data associated with this spell power source instance
      * @return A string describing why the power source doesn't have enough energy
      */
     @Override
-    public String getNotEnoughPowerMessage(NBTTagCompound stateNBT)
+    public String getUnlocalizedOutOfPowerMsg()
     {
-        return "How did you use creative with infinite energy and not cast the spell?";
+        return "aotd.spell.power_source.creative.invalid_msg";
+    }
+
+    /**
+     * Should get the SpellComponentEntry registry's name
+     *
+     * @return The name of the registry entry that this component was built with, used for deserialization
+     */
+    @Override
+    public String getEntryRegistryName()
+    {
+        return ModSpellPowerSources.CREATIVE.getRegistryName().toString();
     }
 }

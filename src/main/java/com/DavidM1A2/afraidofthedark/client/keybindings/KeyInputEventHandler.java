@@ -8,6 +8,7 @@ import com.DavidM1A2.afraidofthedark.common.constants.ModResearches;
 import com.DavidM1A2.afraidofthedark.common.item.ItemCloakOfAgility;
 import com.DavidM1A2.afraidofthedark.common.item.crossbow.ItemWristCrossbow;
 import com.DavidM1A2.afraidofthedark.common.packets.otherPackets.FireWristCrossbow;
+import com.DavidM1A2.afraidofthedark.common.packets.otherPackets.SyncSpellKeyPress;
 import com.DavidM1A2.afraidofthedark.common.registry.bolt.BoltEntry;
 import com.DavidM1A2.afraidofthedark.common.utility.BoltOrderHelper;
 import net.minecraft.client.Minecraft;
@@ -17,6 +18,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
+import org.lwjgl.input.Keyboard;
 
 /**
  * Class that receives all keyboard events and processes them accordingly
@@ -33,6 +35,7 @@ public class KeyInputEventHandler
     @SubscribeEvent
     public void handleKeyInputEvent(InputEvent.KeyInputEvent event)
     {
+        String keyPressedName = Keyboard.getKeyName(Keyboard.getEventKey());
         if (ModKeybindings.FIRE_WRIST_CROSSBOW.isPressed())
         {
             this.fireWristCrossbow();
@@ -40,6 +43,11 @@ public class KeyInputEventHandler
         if (ModKeybindings.ROLL_WITH_CLOAK_OF_AGILITY.isPressed())
         {
             this.rollWithCloakOfAgility();
+        }
+        // If a key was pressed and it is bound to a spell fire the spell
+        if (Keyboard.getEventKeyState() && Minecraft.getMinecraft().player.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null).keybindExists(keyPressedName))
+        {
+            AfraidOfTheDark.INSTANCE.getPacketHandler().sendToServer(new SyncSpellKeyPress(keyPressedName));
         }
     }
 

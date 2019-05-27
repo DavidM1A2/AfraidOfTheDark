@@ -79,6 +79,10 @@ public class AfraidOfTheDark
         MinecraftForge.EVENT_BUS.register(new StructureRegister());
         // Register our spell power source handler to add all of our mod spell power sources to the game
         MinecraftForge.EVENT_BUS.register(new SpellPowerSourceRegister());
+        // Register our spell delivery method handler to add all of our mod spell delivery methods to the game
+        MinecraftForge.EVENT_BUS.register(new SpellDeliveryMethodRegister());
+        // Register our spell effect handler to add all of our mod spell effects to the game
+        MinecraftForge.EVENT_BUS.register(new SpellEffectRegister());
         // Register our research handler used to add all of our mod researches to the game
         MinecraftForge.EVENT_BUS.register(new ResearchRegister());
         // Register our bolt entry handler used to add all of our mod bolt entries to the game

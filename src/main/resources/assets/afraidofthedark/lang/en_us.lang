@@ -245,4 +245,8 @@ aotd.chargable_sword.not_enough_energy=I'll need more energy to perform the abil
 
 aotd.enaria.dont_understand=I can't understand who I'm fighting...
 
+aotd.spell.wrong_dimension=My mind is too clouded to cast spells here.
+aotd.spell.invalid=Invalid spell. Make sure to have delivery methods on each spell stage and a power source!
+aotd.spell.power_source.creative.invalid_msg=How did you use creative with infinite energy and not cast the spell?
+
 aotd.dont_understand=§oI don't understand how this works.

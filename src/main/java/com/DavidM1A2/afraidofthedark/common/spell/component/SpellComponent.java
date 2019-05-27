@@ -1,7 +1,7 @@
 package com.DavidM1A2.afraidofthedark.common.spell.component;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.registries.IForgeRegistryEntry;
+import net.minecraftforge.common.util.INBTSerializable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,8 +10,11 @@ import java.util.List;
 /**
  * Base class for all spell components (power sources, effects, and delivery methods)
  */
-public abstract class SpellComponent<T extends IForgeRegistryEntry<T>> extends IForgeRegistryEntry.Impl<T>
+public abstract class SpellComponent implements INBTSerializable<NBTTagCompound>
 {
+    // Key for NBT representing the id of the type that this component is of
+    protected static final String NBT_TYPE_ID = "type_id";
+
     // A list of editable properties of this component
     private final List<EditableSpellComponentProperty> editableProperties = new ArrayList<>();
 
@@ -34,18 +37,35 @@ public abstract class SpellComponent<T extends IForgeRegistryEntry<T>> extends I
     }
 
     /**
-     * Called to initialize any NBT this spell component might need/can use to store any state
+     * Should get the SpellComponentEntry registry's name, ex. SpellPowerSourceEntry::getRegistryName::toString
      *
-     * @return An NBT compound containing any state this component must save on a per instance basis on each spell in the world
+     * @return The name of the registry entry that this component was built with, used for deserialization
      */
-    public NBTTagCompound generateBaseState()
+    public abstract String getEntryRegistryName();
+
+    /**
+     * Serializes the spell component to NBT, override to add additional fields
+     *
+     * @return An NBT compound containing any required spell component info
+     */
+    @Override
+    public NBTTagCompound serializeNBT()
     {
-        NBTTagCompound state = new NBTTagCompound();
+        NBTTagCompound compound = new NBTTagCompound();
 
-        // Go over each editable property and add the default state of this property to the state. Setting any
-        // property to null ensures the default property is set instead
-        this.editableProperties.forEach(editableProperty -> editableProperty.getPropertySetter().setProperty(null, state));
+        // Store off the type ID used in deserialization
+        compound.setString(NBT_TYPE_ID, this.getEntryRegistryName());
 
-        return state;
+        return compound;
+    }
+
+    /**
+     * Deserializes the state of this spell component from NBT
+     *
+     * @param nbt The NBT to deserialize from
+     */
+    @Override
+    public void deserializeNBT(NBTTagCompound nbt)
+    {
     }
 }

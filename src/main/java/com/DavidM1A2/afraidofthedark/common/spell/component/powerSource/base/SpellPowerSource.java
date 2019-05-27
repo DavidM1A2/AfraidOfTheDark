@@ -1,29 +1,54 @@
 package com.DavidM1A2.afraidofthedark.common.spell.component.powerSource.base;
 
+import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
 import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import com.DavidM1A2.afraidofthedark.common.spell.component.SpellComponent;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 
 /**
  * Base class for all spell power sources
  */
-public abstract class SpellPowerSource extends SpellComponent<SpellPowerSource>
+public abstract class SpellPowerSource extends SpellComponent
 {
     /**
-     * Attempts to cast a given spell. Returns true if the power was consumed to cast the spell. Returns false
-     * if not enough power was available to cast the spell
+     * True if the given spell can be cast, false otherwise
      *
-     * @param stateNBT The NBT data associated with this spell power source instance
-     * @param spell the spell to attempt to cast
-     * @return true if the power was consumed to cast the spell, false otherwise
+     * @param spell The spell to attempt to cast
+     * @return True if the spell can be cast, false otherwise
      */
-    public abstract boolean consumePowerToCast(NBTTagCompound stateNBT, Spell spell);
+    public abstract boolean canCast(Spell spell);
+
+    /**
+     * Consumes power to cast a given spell. canCast must return true first to ensure there is
+     * enough power to cast the spell
+     *
+     * @param spell the spell to attempt to cast
+     */
+    public abstract void consumePowerToCast(Spell spell);
 
     /**
      * Computes the message describing why the power source doesn't have enough power
      *
-     * @param stateNBT The NBT data associated with this spell power source instance
      * @return A string describing why the power source doesn't have enough energy
      */
-    public abstract String getNotEnoughPowerMessage(NBTTagCompound stateNBT);
+    public abstract String getUnlocalizedOutOfPowerMsg();
+
+    /**
+     * Utility function to create a spell power source from NBT
+     *
+     * @param nbt The NBT to get the power source information from
+     * @return The spell power source instance from NBT
+     */
+    public static SpellPowerSource createFromNBT(NBTTagCompound nbt)
+    {
+        // Figure out the type of power source that this NBT represents
+        String powerSourceTypeId = nbt.getString(NBT_TYPE_ID);
+        // Use our registry to create a new instance of this type
+        SpellPowerSource powerSource = ModRegistries.SPELL_POWER_SOURCES.getValue(new ResourceLocation(powerSourceTypeId)).newInstance();
+        // Load in the power source's state from NBT
+        powerSource.deserializeNBT(nbt);
+        // Return the power source
+        return powerSource;
+    }
 }

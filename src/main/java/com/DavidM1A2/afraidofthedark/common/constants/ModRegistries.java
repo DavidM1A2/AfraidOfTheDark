@@ -3,7 +3,9 @@ package com.DavidM1A2.afraidofthedark.common.constants;
 import com.DavidM1A2.afraidofthedark.common.registry.bolt.BoltEntry;
 import com.DavidM1A2.afraidofthedark.common.registry.meteor.MeteorEntry;
 import com.DavidM1A2.afraidofthedark.common.registry.research.Research;
-import com.DavidM1A2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource;
+import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodEntry;
+import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
+import com.DavidM1A2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSourceEntry;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.structure.base.Structure;
 import net.minecraftforge.registries.IForgeRegistry;
 
@@ -18,5 +20,7 @@ public class ModRegistries
     public static IForgeRegistry<Research> RESEARCH;
     public static IForgeRegistry<BoltEntry> BOLTS;
     public static IForgeRegistry<MeteorEntry> METEORS;
-    public static IForgeRegistry<SpellPowerSource> SPELL_POWER_SOURCES;
+    public static IForgeRegistry<SpellPowerSourceEntry> SPELL_POWER_SOURCES;
+    public static IForgeRegistry<SpellDeliveryMethodEntry> SPELL_DELIVERY_METHODS;
+    public static IForgeRegistry<SpellEffectEntry> SPELL_EFFECTS;
 }
