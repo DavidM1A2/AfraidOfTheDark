@@ -36,6 +36,17 @@ public class KeyInputEventHandler
     public void handleKeyInputEvent(InputEvent.KeyInputEvent event)
     {
         String keyPressedName = Keyboard.getKeyName(Keyboard.getEventKey());
+        // If shift is down make the key upper case otherwise make it lower case
+        if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+        {
+            keyPressedName = keyPressedName.toUpperCase();
+        }
+        else
+        {
+            keyPressedName = keyPressedName.toLowerCase();
+        }
+
+        // Process input
         if (ModKeybindings.FIRE_WRIST_CROSSBOW.isPressed())
         {
             this.fireWristCrossbow();

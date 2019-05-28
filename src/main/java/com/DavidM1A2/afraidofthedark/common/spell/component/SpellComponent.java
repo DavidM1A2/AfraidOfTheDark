@@ -37,11 +37,11 @@ public abstract class SpellComponent implements INBTSerializable<NBTTagCompound>
     }
 
     /**
-     * Should get the SpellComponentEntry registry's name, ex. SpellPowerSourceEntry::getRegistryName::toString
+     * Should get the SpellComponentEntry registry's type
      *
-     * @return The name of the registry entry that this component was built with, used for deserialization
+     * @return The registry entry that this component was built with, used for deserialization
      */
-    public abstract String getEntryRegistryName();
+    public abstract SpellComponentEntry<?, ?> getEntryRegistryType();
 
     /**
      * Serializes the spell component to NBT, override to add additional fields
@@ -54,7 +54,7 @@ public abstract class SpellComponent implements INBTSerializable<NBTTagCompound>
         NBTTagCompound compound = new NBTTagCompound();
 
         // Store off the type ID used in deserialization
-        compound.setString(NBT_TYPE_ID, this.getEntryRegistryName());
+        compound.setString(NBT_TYPE_ID, this.getEntryRegistryType().getRegistryName().toString());
 
         return compound;
     }

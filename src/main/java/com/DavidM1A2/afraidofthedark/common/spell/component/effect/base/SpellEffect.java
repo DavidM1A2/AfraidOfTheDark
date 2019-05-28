@@ -3,7 +3,6 @@ package com.DavidM1A2.afraidofthedark.common.spell.component.effect.base;
 import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
 import com.DavidM1A2.afraidofthedark.common.spell.component.SpellComponent;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -24,19 +23,25 @@ public abstract class SpellEffect extends SpellComponent
     /**
      * Performs the effect against a given entity
      *
-     * @param spellCaster The player that fired the spell
      * @param entityHit The entity that the effect should be applied to
      */
-    public abstract void performEffect(EntityPlayer spellCaster, Entity entityHit);
+    public abstract void performEffect(Entity entityHit);
 
     /**
      * Performs the effect at a given position in the world
      *
-     * @param spellCaster The player that fired the spell
      * @param world The world the effect is being fired in
      * @param position The position the effect is being performed at
      */
-    public abstract void performEffect(EntityPlayer spellCaster, World world, BlockPos position);
+    public abstract void performEffect(World world, BlockPos position);
+
+    /**
+     * Should get the SpellEffectEntry registry's type
+     *
+     * @return The registry entry that this component was built with, used for deserialization
+     */
+    @Override
+    public abstract SpellEffectEntry getEntryRegistryType();
 
     /**
      * Utility function to create a spell effect from NBT

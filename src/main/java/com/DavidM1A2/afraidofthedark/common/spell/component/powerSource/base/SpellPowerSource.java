@@ -35,6 +35,14 @@ public abstract class SpellPowerSource extends SpellComponent
     public abstract String getUnlocalizedOutOfPowerMsg();
 
     /**
+     * Should get the SpellPowerSourceEntry registry's type
+     *
+     * @return The registry entry that this power source was built with, used for deserialization
+     */
+    @Override
+    public abstract SpellPowerSourceEntry getEntryRegistryType();
+
+    /**
      * Utility function to create a spell power source from NBT
      *
      * @param nbt The NBT to get the power source information from

@@ -90,7 +90,7 @@ public class Spell implements INBTSerializable<NBTTagCompound>
                         // Consumer the power to cast the spell
                         this.powerSource.consumePowerToCast(this);
                         // Tell the first delivery method to fire
-                        // this.spellStages.get(0).getDeliveryMethod()
+                        this.getStage(0).getDeliveryMethod().executeDeliveryFrom(this, 0, entityPlayer);
                     }
                     else
                     {
@@ -148,6 +148,35 @@ public class Spell implements INBTSerializable<NBTTagCompound>
     }
 
     /**
+     * True if the spell has a given stage, false otherwise
+     *
+     * @param index The index of the stage to get
+     * @return True if the stage exists, false otherwise
+     */
+    public boolean hasStage(int index)
+    {
+        return index >= 0 && index < this.spellStages.size();
+    }
+
+    /**
+     * Gets the spell stage at a given index
+     *
+     * @param index The spell stage index
+     * @return The spell stage at a given index or null if it doesn't exist
+     */
+    public SpellStage getStage(int index)
+    {
+        if (this.hasStage(index))
+        {
+            return this.spellStages.get(index);
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    /**
      * Writes the contents of the object into a new NBT compound
      *
      * @return An NBT compound with all this spell's data
@@ -194,6 +223,7 @@ public class Spell implements INBTSerializable<NBTTagCompound>
         }
         // Read each spell stage from NBT
         NBTTagList spellStagesNBT = nbt.getTagList(NBT_SPELL_STAGES, Constants.NBT.TAG_COMPOUND);
+        this.spellStages = new ArrayList<>();
         for (int i = 0; i < spellStagesNBT.tagCount(); i++)
         {
             // Grab the spell stage NBT, read it into the spell stage, and add it
@@ -227,19 +257,9 @@ public class Spell implements INBTSerializable<NBTTagCompound>
         return this.name;
     }
 
-    public void setId(UUID id)
-    {
-        this.id = id;
-    }
-
     public UUID getId()
     {
         return this.id;
-    }
-
-    public void setOwnerId(UUID ownerId)
-    {
-        this.ownerId = ownerId;
     }
 
     public UUID getOwnerId()

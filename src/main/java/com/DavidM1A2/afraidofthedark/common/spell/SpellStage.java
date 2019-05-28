@@ -96,7 +96,7 @@ public class SpellStage implements INBTSerializable<NBTTagCompound>
         for (int i = 0; i < this.effects.length; i++)
         {
             // Grab the spell effect to write
-            SpellEffect spellEffect = this.effects[MAX_EFFECTS_PER_STAGE];
+            SpellEffect spellEffect = this.effects[i];
             // If the spell effect is not null write it
             if (spellEffect != null)
             {

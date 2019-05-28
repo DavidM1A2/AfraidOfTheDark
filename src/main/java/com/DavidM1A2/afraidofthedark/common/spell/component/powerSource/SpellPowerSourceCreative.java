@@ -3,6 +3,7 @@ package com.DavidM1A2.afraidofthedark.common.spell.component.powerSource;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellPowerSources;
 import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import com.DavidM1A2.afraidofthedark.common.spell.component.powerSource.base.AOTDSpellPowerSource;
+import com.DavidM1A2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSourceEntry;
 
 /**
  * Class representing the creative power source
@@ -50,13 +51,13 @@ public class SpellPowerSourceCreative extends AOTDSpellPowerSource
     }
 
     /**
-     * Should get the SpellComponentEntry registry's name
+     * Should get the SpellPowerSourceEntry registry's type
      *
-     * @return The name of the registry entry that this component was built with, used for deserialization
+     * @return The registry entry that this power source was built with, used for deserialization
      */
     @Override
-    public String getEntryRegistryName()
+    public SpellPowerSourceEntry getEntryRegistryType()
     {
-        return ModSpellPowerSources.CREATIVE.getRegistryName().toString();
+        return ModSpellPowerSources.CREATIVE;
     }
 }

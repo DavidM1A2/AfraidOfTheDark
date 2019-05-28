@@ -1,6 +1,13 @@
 package com.DavidM1A2.afraidofthedark.common.item;
 
+import com.DavidM1A2.afraidofthedark.common.capabilities.player.spell.IAOTDPlayerSpellManager;
+import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
+import com.DavidM1A2.afraidofthedark.common.constants.ModSpellDeliveryMethods;
+import com.DavidM1A2.afraidofthedark.common.constants.ModSpellEffects;
+import com.DavidM1A2.afraidofthedark.common.constants.ModSpellPowerSources;
 import com.DavidM1A2.afraidofthedark.common.item.core.AOTDItem;
+import com.DavidM1A2.afraidofthedark.common.spell.Spell;
+import com.DavidM1A2.afraidofthedark.common.spell.SpellStage;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -43,6 +50,25 @@ public class ItemDebug extends AOTDItem
 		*/
         if (!worldIn.isRemote)
         {
+            IAOTDPlayerSpellManager spellManager = playerIn.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null);
+            if (!spellManager.getSpells().isEmpty())
+            {
+                spellManager.deleteSpell(spellManager.getSpells().iterator().next());
+            }
+            else
+            {
+                Spell spell = new Spell(playerIn);
+                SpellStage spellStage = new SpellStage();
+                spellStage.setDeliveryMethod(ModSpellDeliveryMethods.SELF.newInstance());
+                spellStage.getEffects()[0] = ModSpellEffects.DIG.newInstance();
+                spell.getSpellStages().add(spellStage);
+                spell.setPowerSource(ModSpellPowerSources.CREATIVE.newInstance());
+                spell.setName("Test");
+                spellManager.addOrUpdateSpell(spell);
+                spellManager.keybindSpell("h", spell);
+                spellManager.syncAll(playerIn);
+            }
+
             /*
             AfraidOfTheDark.INSTANCE.getPacketHandler().sendTo(new SyncParticle(AOTDParticleRegistry.ParticleTypes.ENARIA_TELEPORT_ID,
                     Lists.newArrayList(new Vec3d(playerIn.posX, playerIn.posY + 2, playerIn.posZ)), Lists.newArrayList(Vec3d.ZERO)), (EntityPlayerMP) playerIn);
