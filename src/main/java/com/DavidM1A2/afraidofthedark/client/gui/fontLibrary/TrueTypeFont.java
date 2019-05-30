@@ -3,6 +3,7 @@ package com.DavidM1A2.afraidofthedark.client.gui.fontLibrary;
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.client.gui.base.TextAlignment;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -274,19 +275,21 @@ public class TrueTypeFont
 
             // Not very familiar with OpenGl here, but create an int buffer and generate the texture from the byte buffer
 
-            IntBuffer textureId = BufferUtils.createIntBuffer(1);
+            IntBuffer textureId = GLAllocation.createDirectIntBuffer(1);
             GL11.glGenTextures(textureId);
-            GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureId.get(0));
 
-            GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_CLAMP);
-            GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_CLAMP);
+            GlStateManager.bindTexture(textureId.get(0));
 
-            GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
-            GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
+            GlStateManager.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_CLAMP);
+            GlStateManager.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_CLAMP);
 
-            GL11.glTexEnvf(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE);
+            GlStateManager.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
+            GlStateManager.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
+
+            GlStateManager.glTexEnvf(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE);
 
             GLU.gluBuild2DMipmaps(GL11.GL_TEXTURE_2D, GL11.GL_RGBA8, width, height, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, byteBuffer);
+
             // Return the texture ID
             return textureId.get(0);
         }
@@ -465,7 +468,7 @@ public class TrueTypeFont
                 else
                 {
                     // Draw a letter
-                    drawQuad((totalWidth + characterGlyph.width) * scaleX + x, startY * scaleY + y, totalWidth * scaleX + x, (startY + characterGlyph.height) * scaleY + y, characterGlyph.storedX + characterGlyph.width, characterGlyph.storedY + characterGlyph.height, characterGlyph.storedX, characterGlyph.storedY);
+                    drawQuad(totalWidth * scaleX + x, startY * scaleY + y, (totalWidth + characterGlyph.width) * scaleX + x, (startY + characterGlyph.height) * scaleY + y, characterGlyph.storedX + characterGlyph.width, characterGlyph.storedY + characterGlyph.height, characterGlyph.storedX, characterGlyph.storedY);
                     // If we are aligning left then increase the width of the current line
                     if (alignmentFlag > 0)
                     {

@@ -1,6 +1,5 @@
 package com.DavidM1A2.afraidofthedark.client.gui.standardControls;
 
-import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiUtility;
 import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiContainer;
 import com.DavidM1A2.afraidofthedark.client.gui.base.TextAlignment;
 import com.DavidM1A2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont;
@@ -65,7 +64,7 @@ public class AOTDGuiLabel extends AOTDGuiContainer
 
                 // Draw the string at (x, y) with the correct color and scale
                 this.font.drawString(
-                        xCoord - this.font.getFontSize() * 0.15f * AOTDGuiUtility.getInstance().getScaledResolution().getScaleFactor() / 3,
+                        xCoord,
                         yCoord,
                         this.text,
                         this.getScaleX().floatValue() * Constants.TEXT_SCALE_FACTOR,

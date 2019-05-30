@@ -53,7 +53,7 @@ public class AOTDGuiSpell extends AOTDGuiContainer
         AOTDGuiPanel spellNameContainer = new AOTDGuiPanel(10, 3, width - 20, 15, false);
 
         // The label holding the actual spell name
-        AOTDGuiLabel lblSpellName = new AOTDGuiLabel(0, 0, spellNameContainer.getWidth(), spellNameContainer.getHeight(), ClientData.getInstance().getTargaMSHandFontSized(30f));
+        AOTDGuiLabel lblSpellName = new AOTDGuiLabel(0, 0, spellNameContainer.getWidth(), spellNameContainer.getHeight(), ClientData.getInstance().getTargaMSHandFontSized(36f));
         // Set the name label's name and color
         lblSpellName.setText(this.spell.getName());
         lblSpellName.setTextColor(new Color(245, 61, 199));
