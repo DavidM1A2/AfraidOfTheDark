@@ -3,6 +3,7 @@ package com.DavidM1A2.afraidofthedark.common.spell.component.effect;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellEffects;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -41,7 +42,10 @@ public class SpellEffectDig extends AOTDSpellEffect
     {
         // Digs the block under the player
         BlockPos blockPos = entityHit.getPosition().down();
-        entityHit.world.destroyBlock(blockPos, true);
+        if (this.canBlockBeDestroyed(entityHit.world, blockPos))
+        {
+            entityHit.world.destroyBlock(blockPos, true);
+        }
     }
 
     /**
@@ -54,7 +58,23 @@ public class SpellEffectDig extends AOTDSpellEffect
     public void performEffect(World world, BlockPos position)
     {
         // Digs the block at the position
-        world.destroyBlock(position, true);
+        if (this.canBlockBeDestroyed(world, position))
+        {
+            world.destroyBlock(position, true);
+        }
+    }
+
+    /**
+     * Tests if a given block can be broken with a dig spell
+     *
+     * @param world The world the block is in
+     * @param blockPos The pos the block is at
+     * @return True if the block can be destroyed, false otherwise
+     */
+    private boolean canBlockBeDestroyed(World world, BlockPos blockPos)
+    {
+        IBlockState blockState = world.getBlockState(blockPos);
+        return blockState.getBlock().getBlockHardness(blockState, world, blockPos) != -1;
     }
 
     /**

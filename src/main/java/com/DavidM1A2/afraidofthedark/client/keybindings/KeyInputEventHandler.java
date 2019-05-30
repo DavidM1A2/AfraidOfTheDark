@@ -35,17 +35,6 @@ public class KeyInputEventHandler
     @SubscribeEvent
     public void handleKeyInputEvent(InputEvent.KeyInputEvent event)
     {
-        String keyPressedName = Keyboard.getKeyName(Keyboard.getEventKey());
-        // If shift is down make the key upper case otherwise make it lower case
-        if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
-        {
-            keyPressedName = keyPressedName.toUpperCase();
-        }
-        else
-        {
-            keyPressedName = keyPressedName.toLowerCase();
-        }
-
         // Process input
         if (ModKeybindings.FIRE_WRIST_CROSSBOW.isPressed())
         {
@@ -56,9 +45,15 @@ public class KeyInputEventHandler
             this.rollWithCloakOfAgility();
         }
         // If a key was pressed and it is bound to a spell fire the spell
-        if (Keyboard.getEventKeyState() && Minecraft.getMinecraft().player.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null).keybindExists(keyPressedName))
+        if (Keyboard.getEventKeyState() && KeybindingUtils.keybindableKeyDown())
         {
-            AfraidOfTheDark.INSTANCE.getPacketHandler().sendToServer(new SyncSpellKeyPress(keyPressedName));
+            // Grab the currently held bind
+            String keybindingPressed = KeybindingUtils.getCurrentlyHeldKeybind();
+            // If that keybind exists then tell the server to fire the spell
+            if (Minecraft.getMinecraft().player.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null).keybindExists(keybindingPressed))
+            {
+                AfraidOfTheDark.INSTANCE.getPacketHandler().sendToServer(new SyncSpellKeyPress(keybindingPressed));
+            }
         }
     }
 

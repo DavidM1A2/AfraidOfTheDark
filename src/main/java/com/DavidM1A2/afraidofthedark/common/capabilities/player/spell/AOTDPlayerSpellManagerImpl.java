@@ -1,6 +1,7 @@
 package com.DavidM1A2.afraidofthedark.common.capabilities.player.spell;
 
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
+import com.DavidM1A2.afraidofthedark.common.packets.capabilityPackets.SyncClearSpells;
 import com.DavidM1A2.afraidofthedark.common.packets.capabilityPackets.SyncSpell;
 import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import com.google.common.collect.BiMap;
@@ -18,7 +19,8 @@ public class AOTDPlayerSpellManagerImpl implements IAOTDPlayerSpellManager
     // Keep two maps, one of keybind -> spell id and one of spell id -> spell
     // Key -> spell id is a bimap so we can answer queries both ways quickly
     private final BiMap<String, UUID> keybindToSpellId = HashBiMap.create();
-    private final Map<UUID, Spell> spellIdToSpell = new HashMap<>();
+    // Use a linked hash map to keep order of spells
+    private final Map<UUID, Spell> spellIdToSpell = new LinkedHashMap<>();
 
     /**
      * Adds a spell to the list if it doesnt exist, or updates the spell if the ID already exists
@@ -44,6 +46,19 @@ public class AOTDPlayerSpellManagerImpl implements IAOTDPlayerSpellManager
         this.keybindToSpellId.inverse().remove(spell.getId());
     }
 
+    /**
+     * Clears all spells and keybinds stored
+     */
+    @Override
+    public void clearSpells()
+    {
+        this.spellIdToSpell.clear();
+        this.keybindToSpellId.clear();
+    }
+
+    /**
+     * @return An unmodifiable collection of spells that were added
+     */
     @Override
     public Collection<Spell> getSpells()
     {
@@ -68,6 +83,18 @@ public class AOTDPlayerSpellManagerImpl implements IAOTDPlayerSpellManager
         {
             AfraidOfTheDark.INSTANCE.getLogger().error("Cannot bind a spell that isn't registered!");
         }
+    }
+
+    /**
+     * Removes a keybinding to a given spell
+     *
+     * @param spell The spell to unbind
+     */
+    @Override
+    public void unbindSpell(Spell spell)
+    {
+        // Remove the key bound to the spell
+        this.keybindToSpellId.inverse().remove(spell.getId());
     }
 
     /**
@@ -123,6 +150,15 @@ public class AOTDPlayerSpellManagerImpl implements IAOTDPlayerSpellManager
     @Override
     public void syncAll(EntityPlayer entityPlayer)
     {
+        // Clear the existing spells first
+        if (this.isServerSide(entityPlayer))
+        {
+            AfraidOfTheDark.INSTANCE.getPacketHandler().sendTo(new SyncClearSpells(), (EntityPlayerMP) entityPlayer);
+        }
+        else
+        {
+            AfraidOfTheDark.INSTANCE.getPacketHandler().sendToServer(new SyncClearSpells());
+        }
         // Go over each spell and sync them one by one. We do this to avoid a large memory overhead
         // of sending many spells in a single packet
         this.spellIdToSpell.values().forEach(spell -> this.sync(entityPlayer, spell));

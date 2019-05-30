@@ -53,6 +53,7 @@ public abstract class CommonProxy implements IProxy
         packetHandler.registerBidiPacket(SyncResearch.class, new SyncResearch.Handler());
         packetHandler.registerBidiPacket(UpdateWatchedMeteor.class, new UpdateWatchedMeteor.Handler());
         packetHandler.registerBidiPacket(SyncSpell.class, new SyncSpell.Handler());
+        packetHandler.registerBidiPacket(SyncClearSpells.class, new SyncClearSpells.Handler());
 
         packetHandler.registerPacket(SyncAnimation.class, new SyncAnimation.Handler(), Side.CLIENT);
         packetHandler.registerPacket(SyncItemWithCooldown.class, new SyncItemWithCooldown.Handler(), Side.CLIENT);

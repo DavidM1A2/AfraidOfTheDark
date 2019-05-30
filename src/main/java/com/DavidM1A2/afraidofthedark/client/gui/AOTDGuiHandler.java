@@ -24,7 +24,7 @@ public class AOTDGuiHandler implements IGuiHandler
     public static final int SEXTANT_ID = 6;
     public static final int BLOOD_STAINED_JOURNAL_CHEAT_SHEET = 8;
     public static final int SPELL_CRAFTING_ID = 9;
-    public static final int SPELL_SELECTION_ID = 10;
+    public static final int SPELL_LIST_ID = 10;
 
     /**
      * Returns a container from the server side that allows synchronized editing of tile entities like containers (chests). It's not used for
@@ -82,6 +82,8 @@ public class AOTDGuiHandler implements IGuiHandler
                 return new TelescopeGUI();
             case SEXTANT_ID:
                 return new SextantGUI();
+            case SPELL_LIST_ID:
+                return new SpellListGUI();
             default:
                 return null;
         }

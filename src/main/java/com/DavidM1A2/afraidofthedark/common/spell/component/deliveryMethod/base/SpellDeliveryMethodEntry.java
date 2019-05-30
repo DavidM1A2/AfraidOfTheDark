@@ -18,6 +18,6 @@ public class SpellDeliveryMethodEntry extends SpellComponentEntry<SpellDeliveryM
      */
     public SpellDeliveryMethodEntry(ResourceLocation id, Supplier<SpellDeliveryMethod> factory)
     {
-        super(id, factory);
+        super(id, new ResourceLocation(id.getResourceDomain(), "textures/spell/delivery_methods/" + id.getResourcePath()), factory);
     }
 }

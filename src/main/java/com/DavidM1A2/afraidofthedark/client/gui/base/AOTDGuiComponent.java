@@ -59,7 +59,7 @@ public abstract class AOTDGuiComponent
     public void draw()
     {
         // Draw the bounding box for debug purposes
-        //this.drawBoundingBox();
+        // this.drawBoundingBox();
     }
 
     /**
@@ -81,14 +81,14 @@ public abstract class AOTDGuiComponent
                 Integer mouseX = AOTDGuiUtility.getInstance().getMouseXInMCCoord();
                 Integer mouseY = AOTDGuiUtility.getInstance().getMouseYInMCCoord();
                 // Draw a background rectangle
-                Gui.drawRect(mouseX + 2, mouseY - 2, mouseX + maxHoverTextLength + 7, mouseY + fontRenderer.FONT_HEIGHT * this.hoverTexts.length, new Color(32, 0, 23, 179).hashCode());
+                Gui.drawRect(mouseX + 2, mouseY - 2, mouseX + maxHoverTextLength + 7, mouseY + fontRenderer.FONT_HEIGHT * this.hoverTexts.length, new Color(140, 0, 0, 0).hashCode());
                 // For each hover text in the array draw one line at a time
                 for (int i = 0; i < hoverTexts.length; i++)
                 {
                     // Grab the hover text to draw
                     String hoverText = hoverTexts[i];
                     // Draw the string
-                    fontRenderer.drawStringWithShadow(hoverText, mouseX + 5, mouseY + i * fontRenderer.FONT_HEIGHT, new Color(255, 255, 255, 255).hashCode());
+                    fontRenderer.drawStringWithShadow(hoverText, mouseX + 5, mouseY + i * fontRenderer.FONT_HEIGHT, new Color(255, 255, 255).hashCode());
                 }
             }
         }
@@ -425,7 +425,7 @@ public abstract class AOTDGuiComponent
      *
      * @param hoverTexts The new text to show when highlighting the component
      */
-    public void setHoverTexts(String[] hoverTexts)
+    public void setHoverTexts(String... hoverTexts)
     {
         this.hoverTexts = hoverTexts;
     }

@@ -18,6 +18,6 @@ public class SpellPowerSourceEntry extends SpellComponentEntry<SpellPowerSourceE
      */
     public SpellPowerSourceEntry(ResourceLocation id, Supplier<SpellPowerSource> factory)
     {
-        super(id, factory);
+        super(id, new ResourceLocation(id.getResourceDomain(), "textures/spell/power_sources/" + id.getResourcePath()), factory);
     }
 }

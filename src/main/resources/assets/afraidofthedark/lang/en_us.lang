@@ -230,6 +230,8 @@ aotd.crossbow.bolt_change=§oCrossbow will now fire %1$s bolts.
 
 aotd.star_metal_staff.on_cooldown=Star metal staff is on cooldow (%1$ss)!
 
+aotd.enarias_altar.no_research=The block whispers to me... what does it mean?
+
 aotd.meteor.location=§oBased off of this information the meteor fell around %1$s, %2$s.
 aotd.meteor.process.invalid_vals=§oThe values entered do not make sense. I should try to re-enter the meteor's data or observe a new meteor.
 

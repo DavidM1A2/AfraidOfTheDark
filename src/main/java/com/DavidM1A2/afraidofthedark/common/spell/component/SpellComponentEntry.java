@@ -16,16 +16,19 @@ public class SpellComponentEntry <T extends IForgeRegistryEntry<T>, V extends Sp
 {
     // A factory reference that creates instances for us
     private final Supplier<V> factory;
+    // An icon resource location that is the icon in the UI of this component
+    private final ResourceLocation icon;
 
     /**
-     * Constructor sets the entry id and factory
+     * Constructor sets the entry id, icon, and factory
      *
      * @param id The of the entry to register
      * @param factory The factory that creates the spell components
      */
-    public SpellComponentEntry(ResourceLocation id, Supplier<V> factory)
+    public SpellComponentEntry(ResourceLocation id, ResourceLocation icon, Supplier<V> factory)
     {
         this.setRegistryName(id);
+        this.icon = icon;
         this.factory = factory;
     }
 
@@ -37,5 +40,15 @@ public class SpellComponentEntry <T extends IForgeRegistryEntry<T>, V extends Sp
     public V newInstance()
     {
         return this.factory.get();
+    }
+
+    /**
+     * A resource location containing an image file with the icon to be used by the component
+     *
+     * @return The component's icon
+     */
+    public ResourceLocation getIcon()
+    {
+        return icon;
     }
 }

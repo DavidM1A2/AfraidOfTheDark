@@ -4,16 +4,18 @@ import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDKeyEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
 
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Base class for all GUI containers. Containers are gui components that are made up of other components inside
  */
 public abstract class AOTDGuiContainer extends AOTDGuiComponentWithEvents
 {
-    // A list of sub-components found inside this container
-    private final List<AOTDGuiContainer> subComponents = new LinkedList<>();
+    // A list of sub-components found inside this container. Use a CopyOnWriteArrayList so we can modify it while
+    // iterating over it. The CopyOnWriteArrayList is very efficient when iterating, but costly when
+    // adding/removing elements. We iterate mostly, so it's a good choice here
+    private final List<AOTDGuiContainer> subComponents = new CopyOnWriteArrayList<>();
     // The parent of this container
     private AOTDGuiContainer parent = null;
 

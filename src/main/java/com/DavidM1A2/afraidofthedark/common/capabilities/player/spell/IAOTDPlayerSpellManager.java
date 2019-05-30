@@ -25,6 +25,11 @@ public interface IAOTDPlayerSpellManager
     void deleteSpell(Spell spell);
 
     /**
+     * Clears all spells and keybinds stored
+     */
+    void clearSpells();
+
+    /**
      * @return An unmodifiable collection of spells that were added
      */
     Collection<Spell> getSpells();
@@ -36,6 +41,13 @@ public interface IAOTDPlayerSpellManager
      * @param spell The spell to fire when the key is pressed
      */
     void keybindSpell(String key, Spell spell);
+
+    /**
+     * Removes a keybinding to a given spell
+     *
+     * @param spell The spell to unbind
+     */
+    void unbindSpell(Spell spell);
 
     /**
      * Tests if a key is registered as a keybinding
