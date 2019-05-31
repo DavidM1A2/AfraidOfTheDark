@@ -63,7 +63,12 @@ public class AOTDGuiLabel extends AOTDGuiContainer
                 float xCoord = this.getXScaled().floatValue() + (this.textAlignment == TextAlignment.ALIGN_LEFT ? 0 : this.textAlignment == TextAlignment.ALIGN_CENTER ? this.getWidthScaled() / 2f : this.getWidthScaled());
                 float yCoord = this.getYScaled().floatValue();
 
-                // TODO: Center align text on the y-axis
+                // Center align text on the y-axis
+                double spaceLeft = this.getHeight() - this.getFont().getHeight() * Constants.TEXT_SCALE_FACTOR * this.getScaleY();
+                if (spaceLeft > 0)
+                {
+                    yCoord = yCoord + (float) (spaceLeft / 2);
+                }
 
                 // Draw the string at (x, y) with the correct color and scale
                 this.font.drawString(
