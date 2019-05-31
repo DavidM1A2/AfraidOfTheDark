@@ -14,8 +14,12 @@ public class AOTDGuiLabel extends AOTDGuiContainer
 {
     // The font to draw the text with
     private final TrueTypeFont font;
-    // The text to draw
+    // The raw text to draw
     private String text = StringUtils.EMPTY;
+    // The actual text to draw within the bounds of the label
+    private String fitText = StringUtils.EMPTY;
+    // Flag telling the label it needs to update the fit text
+    private boolean needsTextUpdate = true;
     // The color to draw the text with
     private Color textColor = new Color(255, 255, 255, 255);
     // Text alignment
@@ -42,37 +46,67 @@ public class AOTDGuiLabel extends AOTDGuiContainer
     @Override
     public void draw()
     {
+        // If we need a text to size update do that
+        if (this.needsTextUpdate)
+        {
+            this.computeTextForSize();
+            this.needsTextUpdate = false;
+        }
+
         // If the label is visible, draw it
         if (this.isVisible())
         {
             // If we don't have a font, we can't draw anything
             if (this.font != null)
             {
-                // Test if the text will fit into our label
-                float width = (float) (this.font.getWidth(this.text) * Constants.TEXT_SCALE_FACTOR * this.getScaleX());
-                float height = (float) (this.font.getHeight() * Constants.TEXT_SCALE_FACTOR * this.getScaleY());
-                // If the width or height are invalid show an error
-				/*
-				if (width > this.getWidthScaled())
-					AfraidOfTheDark.INSTANCE.getLogger().info("Attempting to set a label's text that isn't wide enough to hold its contents! -- " + this.text);
-				if (height > this.getHeightScaled())
-					AfraidOfTheDark.INSTANCE.getLogger().info("Attempting to create a label that isn't tall enough to hold its contents! -- " + this.text);
-				*/
-
+                // Compute the x and y positions of the text
                 float xCoord = this.getXScaled().floatValue() + (this.textAlignment == TextAlignment.ALIGN_LEFT ? 0 : this.textAlignment == TextAlignment.ALIGN_CENTER ? this.getWidthScaled() / 2f : this.getWidthScaled());
                 float yCoord = this.getYScaled().floatValue();
+
+                // TODO: Center align text on the y-axis
 
                 // Draw the string at (x, y) with the correct color and scale
                 this.font.drawString(
                         xCoord,
                         yCoord,
-                        this.text,
+                        this.fitText,
                         this.getScaleX().floatValue() * Constants.TEXT_SCALE_FACTOR,
                         this.getScaleY().floatValue() * Constants.TEXT_SCALE_FACTOR,
                         textAlignment,
                         this.textColor);
             }
             super.draw();
+        }
+    }
+
+    /**
+     * Updates the text to draw based on the width and height of the label. If the text is too much then cut it off
+     */
+    private void computeTextForSize()
+    {
+        // Can only update text if font is non-null
+        if (this.font != null)
+        {
+            // Test if the text will fit into our label based on height
+            float height = (float) (this.font.getHeight() * Constants.TEXT_SCALE_FACTOR * this.getScaleY());
+            if (height > this.getHeightScaled())
+            {
+                this.fitText = StringUtils.EMPTY;
+            }
+            // If the height is OK shorten the text until it fits into the label
+            else
+            {
+                this.fitText = text;
+                // Grab the current width of the text
+                float width = (float) (this.font.getWidth(this.fitText) * Constants.TEXT_SCALE_FACTOR * this.getScaleX());
+                // If it's too big remove one character at a time until it isn't
+                while (width > this.getWidthScaled() && !this.fitText.isEmpty())
+                {
+                    this.fitText = this.fitText.substring(0, this.fitText.length() - 2);
+                    // Grab the current width of the text
+                    width = (float) (this.font.getWidth(this.fitText) * Constants.TEXT_SCALE_FACTOR * this.getScaleX());
+                }
+            }
         }
     }
 
@@ -91,6 +125,19 @@ public class AOTDGuiLabel extends AOTDGuiContainer
     {
         // Set the internal text of the label
         this.text = text;
+        this.needsTextUpdate = true;
+    }
+
+    /**
+     * When we update this control's width also update the drawn text
+     *
+     * @param width The new component's width
+     */
+    @Override
+    public void setWidth(int width)
+    {
+        super.setWidth(width);
+        this.needsTextUpdate = true;
     }
 
     /**
