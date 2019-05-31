@@ -6,10 +6,7 @@ import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDMouseListener
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDKeyEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.specialControls.AOTDGuiSpell;
-import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiImage;
-import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiPanel;
-import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiScrollBar;
-import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiScrollPanel;
+import com.DavidM1A2.afraidofthedark.client.gui.standardControls.*;
 import com.DavidM1A2.afraidofthedark.client.keybindings.KeybindingUtils;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.spell.IAOTDPlayerSpellManager;
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
@@ -29,7 +26,9 @@ public class SpellListGUI extends AOTDGuiScreen
     private static final int DISTANCE_BETWEEN_SPELLS = 45;
 
     // The scroll panel that holds the spell list
-    private AOTDGuiScrollPanel scrollPanel;
+    private final AOTDGuiScrollPanel scrollPanel;
+    // The button used to create more spells
+    private final AOTDGuiButton btnCreateSpell;
     // A list of spells to be shown
     private List<AOTDGuiSpell> guiSpells = new ArrayList<>();
     // Cache the player's spell manager
@@ -42,8 +41,8 @@ public class SpellListGUI extends AOTDGuiScreen
      */
     public SpellListGUI()
     {
-        // The gui will be 180x256
-        final int GUI_WIDTH = 180;
+        // The gui will be 256x256
+        final int GUI_WIDTH = 256;
         final int GUI_HEIGHT = 256;
 
         // Calculate the x,y base position of the UI
@@ -56,66 +55,31 @@ public class SpellListGUI extends AOTDGuiScreen
         // Constants for scroll bar width and padding
         final int SCROLL_BAR_WIDTH = 15;
         final int SCROLL_BAR_HORIZONTAL_PADDING = 5;
-        final int SCROLL_BAR_VERTICAL_PADDING = 20;
 
         // Create a magic mirror background image
-        AOTDGuiImage mirrorBackgroundImage = new AOTDGuiImage(0, 0, GUI_WIDTH - SCROLL_BAR_WIDTH - SCROLL_BAR_HORIZONTAL_PADDING * 2, GUI_HEIGHT, "afraidofthedark:textures/gui/spell_list/magic_mirror.png");
+        AOTDGuiImage mirrorBackgroundImage = new AOTDGuiImage(0, 0, GUI_WIDTH - SCROLL_BAR_WIDTH - SCROLL_BAR_HORIZONTAL_PADDING * 2, GUI_HEIGHT, "afraidofthedark:textures/gui/spell_list/spell_list_background.png");
         backgroundPanel.add(mirrorBackgroundImage);
 
         // Compute the scroll bar's x and y position
         int scrollBarX = mirrorBackgroundImage.getWidth() + SCROLL_BAR_HORIZONTAL_PADDING;
-        int scrollBarY = SCROLL_BAR_VERTICAL_PADDING;
+        int scrollBarY = 0;
         // Create the scroll bar
         AOTDGuiScrollBar scrollBar = new AOTDGuiScrollBar(
                 scrollBarX,
                 scrollBarY,
                 GUI_WIDTH - mirrorBackgroundImage.getWidth() - SCROLL_BAR_HORIZONTAL_PADDING * 2,
-                GUI_HEIGHT - SCROLL_BAR_VERTICAL_PADDING * 2);
+                GUI_HEIGHT,
+                "afraidofthedark:textures/gui/spell_list/scroll_bar.png",
+                "afraidofthedark:textures/gui/spell_list/scroll_bar_handle.png",
+                "afraidofthedark:textures/gui/spell_list/scroll_bar_handle_hovered.png");
 
         // Create the scroll panel to add spells to, position it centered on the background image
-        scrollPanel = new AOTDGuiScrollPanel(22, 34, 112, 189, true, scrollBar);
+        scrollPanel = new AOTDGuiScrollPanel(28, 8, 175, 238, true, scrollBar);
         // Start with a max offset of 0
         scrollPanel.setMaximumOffset(0);
         // Add the panel the the background and the scroll bar
         backgroundPanel.add(scrollPanel);
         backgroundPanel.add(scrollBar);
-
-        // Add a button to create a new spell, center it under the scrollPanel
-        AOTDGuiImage btnCreateSpell = new AOTDGuiImage(33, 222, 90, 24, "afraidofthedark:textures/gui/spell_list/create_spell.png");
-        btnCreateSpell.setHoverText("Create a new spell");
-        btnCreateSpell.addMouseListener(new AOTDMouseListener()
-        {
-            @Override
-            public void mousePressed(AOTDMouseEvent event)
-            {
-                // When we click the button create a new spell
-                if (event.getSource().isVisible() && event.getSource().isHovered() && event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
-                {
-                    // Create a new spell
-                    Spell spell = new Spell(entityPlayer);
-                    // Add the spell
-                    spellManager.addOrUpdateSpell(spell);
-                    // Add the UI spell
-                    addSpell(spell);
-                }
-            }
-
-            @Override
-            public void mouseEntered(AOTDMouseEvent event)
-            {
-                // Darken the button upon hovering it
-                event.getSource().darkenColor(35);
-                entityPlayer.playSound(ModSounds.SPELL_CRAFTING_BUTTON_HOVER, 0.6f, 1.7f);
-            }
-
-            @Override
-            public void mouseExited(AOTDMouseEvent event)
-            {
-                // Brighten the button when unhovering it
-                event.getSource().brightenColor(35);
-            }
-        });
-        backgroundPanel.add(btnCreateSpell);
 
         // When we press a key test if we are waiting for a keybind, if so set the spell's keybind
         this.getContentPane().addKeyListener(new AOTDKeyListener()
@@ -142,6 +106,35 @@ public class SpellListGUI extends AOTDGuiScreen
             }
         });
 
+        // Add a button to create a new spell, center it under the scrollPanel spell entries
+        btnCreateSpell = new AOTDGuiButton(scrollPanel.getWidth() / 2 - 13, 0, 26, 26, null, "afraidofthedark:textures/gui/spell_list/create_spell.png", "afraidofthedark:textures/gui/spell_list/create_spell_hovered.png");
+        btnCreateSpell.setHoverText("Create a new spell");
+        btnCreateSpell.addMouseListener(new AOTDMouseListener()
+        {
+            @Override
+            public void mousePressed(AOTDMouseEvent event)
+            {
+                // When we click the button create a new spell
+                if (event.getSource().isVisible() && event.getSource().isHovered() && event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
+                {
+                    // Create a new spell
+                    Spell spell = new Spell(entityPlayer);
+                    // Add the spell
+                    spellManager.addOrUpdateSpell(spell);
+                    // Add the UI spell
+                    addSpell(spell);
+                }
+            }
+
+            @Override
+            public void mouseEntered(AOTDMouseEvent event)
+            {
+                // Play the button hover when hovering the add button
+                entityPlayer.playSound(ModSounds.SPELL_CRAFTING_BUTTON_HOVER, 0.6f, 1.7f);
+            }
+        });
+        scrollPanel.add(btnCreateSpell);
+
         // Go over each spell the player has and add a gui spell for it
         spellManager.getSpells().forEach(this::addSpell);
 
@@ -156,7 +149,7 @@ public class SpellListGUI extends AOTDGuiScreen
     private void addSpell(Spell spell)
     {
         // Create a gui spell for this spell
-        AOTDGuiSpell guiSpell = new AOTDGuiSpell(0, this.guiSpells.size() * DISTANCE_BETWEEN_SPELLS, 112, 40, spell);
+        AOTDGuiSpell guiSpell = new AOTDGuiSpell(0, this.guiSpells.size() * DISTANCE_BETWEEN_SPELLS, 175, 40, spell);
         // When delete is pressed remove the GUI spell
         guiSpell.setDeleteCallback(() -> removeSpell(guiSpell));
         // When keybind is pressed update our variable to let us know we're waiting on a keybind, or clear the keybind
@@ -178,6 +171,8 @@ public class SpellListGUI extends AOTDGuiScreen
         this.scrollPanel.add(guiSpell);
         // Add the gui spell to the list of spells for later use
         this.guiSpells.add(guiSpell);
+        // Move our create spell button down
+        this.btnCreateSpell.setY(this.btnCreateSpell.getY() + DISTANCE_BETWEEN_SPELLS);
         // Update our scroll panel offset
         this.refreshScrollPanelOffset();
     }
@@ -203,6 +198,8 @@ public class SpellListGUI extends AOTDGuiScreen
             AOTDGuiSpell guiSpell = this.guiSpells.get(i);
             guiSpell.setY(guiSpell.getY() - DISTANCE_BETWEEN_SPELLS);
         }
+        // Move our create spell button up
+        this.btnCreateSpell.setY(this.btnCreateSpell.getY() - DISTANCE_BETWEEN_SPELLS);
         // Update our scroll panel offset
         this.refreshScrollPanelOffset();
     }

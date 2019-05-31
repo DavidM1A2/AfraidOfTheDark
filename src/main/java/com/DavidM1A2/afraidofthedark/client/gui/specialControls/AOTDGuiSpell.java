@@ -3,6 +3,7 @@ package com.DavidM1A2.afraidofthedark.client.gui.specialControls;
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiHandler;
 import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiContainer;
+import com.DavidM1A2.afraidofthedark.client.gui.base.TextAlignment;
 import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiButton;
@@ -24,8 +25,8 @@ public class AOTDGuiSpell extends AOTDGuiContainer
 {
     // The spell that is being drawn by this GuiSpell
     private final Spell spell;
-    // Reference to the keybind button that allows us to bind keys to spells
-    private final AOTDGuiButton btnKeybind;
+    // Reference to the keybind label that allows us to bind keys to spells
+    private final AOTDGuiLabel lblKeybind;
     // Callback function that we fire when we want a new keybind for this spell
     private Runnable keybindCallback;
     // Callback function that we fire when the delete spell button is pressed
@@ -57,6 +58,7 @@ public class AOTDGuiSpell extends AOTDGuiContainer
         // Set the name label's name and color
         lblSpellName.setText(this.spell.getName());
         lblSpellName.setTextColor(new Color(245, 61, 199));
+        lblSpellName.setTextAlignment(TextAlignment.ALIGN_CENTER);
         // Update the hover text of the container and add the spell label to it
         spellNameContainer.setHoverText(lblSpellName.getText());
         spellNameContainer.add(lblSpellName);
@@ -86,15 +88,8 @@ public class AOTDGuiSpell extends AOTDGuiContainer
             }
         };
 
-        // All 3 buttons have a width of 20
-        final int BUTTON_WIDTHS = 20;
-        // Compute the gap between buttons
-        final int BUTTON_GAP = (width - BUTTON_WIDTHS * 3) / 4;
-        // Compute the x offset on the left of the first button to ensure all 3 buttons are centered
-        final int BUTTON_X_OFFSET = (width - (BUTTON_GAP * 2 + BUTTON_WIDTHS * 3)) / 2;
-
         // Create a button to edit the spell
-        AOTDGuiButton btnEdit = new AOTDGuiButton(BUTTON_X_OFFSET, 22, BUTTON_WIDTHS, 13, null, "afraidofthedark:textures/gui/spell_list/spell_edit.png", "afraidofthedark:textures/gui/spell_list/spell_edit_hovered.png");
+        AOTDGuiButton btnEdit = new AOTDGuiButton(5, 22, 24, 13, null, "afraidofthedark:textures/gui/spell_list/spell_edit.png", "afraidofthedark:textures/gui/spell_list/spell_edit_hovered.png");
         btnEdit.addMouseListener(hoverSound);
         btnEdit.setHoverText("Edit Spell");
         btnEdit.addMouseListener(new AOTDMouseListener()
@@ -112,7 +107,7 @@ public class AOTDGuiSpell extends AOTDGuiContainer
         this.add(btnEdit);
 
         // Create a button to delete a spell
-        AOTDGuiButton btnDelete = new AOTDGuiButton(BUTTON_X_OFFSET + BUTTON_GAP + BUTTON_WIDTHS, 22, BUTTON_WIDTHS, 13, null, "afraidofthedark:textures/gui/spell_list/spell_delete.png", "afraidofthedark:textures/gui/spell_list/spell_delete_hovered.png");
+        AOTDGuiButton btnDelete = new AOTDGuiButton(width - 5 - 24, 22, 24, 13, null, "afraidofthedark:textures/gui/spell_list/spell_delete.png", "afraidofthedark:textures/gui/spell_list/spell_delete_hovered.png");
         btnDelete.addMouseListener(hoverSound);
         btnDelete.addMouseListener(new AOTDMouseListener()
         {
@@ -132,9 +127,10 @@ public class AOTDGuiSpell extends AOTDGuiContainer
         this.add(btnDelete);
 
         // Create a button to keybind this spell
-        btnKeybind = new AOTDGuiButton(BUTTON_X_OFFSET + (BUTTON_GAP + BUTTON_WIDTHS) * 2, 22, BUTTON_WIDTHS, 13, null, "afraidofthedark:textures/gui/spell_list/spell_keybind.png", "afraidofthedark:textures/gui/spell_list/spell_keybind_hovered.png");
-        btnKeybind.addMouseListener(hoverSound);
-        btnKeybind.addMouseListener(new AOTDMouseListener()
+        lblKeybind = new AOTDGuiLabel(37, 20, 100, 13, ClientData.getInstance().getTargaMSHandFontSized(30f));
+        lblKeybind.setTextAlignment(TextAlignment.ALIGN_CENTER);
+        lblKeybind.addMouseListener(hoverSound);
+        lblKeybind.addMouseListener(new AOTDMouseListener()
         {
             @Override
             public void mousePressed(AOTDMouseEvent event)
@@ -143,13 +139,14 @@ public class AOTDGuiSpell extends AOTDGuiContainer
                 {
                     if (keybindCallback != null)
                     {
-                        btnKeybind.setHoverText("Awaiting keypress...");
+                        lblKeybind.setHoverText("Awaiting keypress...");
+                        lblKeybind.setText("Awaiting keypress...");
                         keybindCallback.run();
                     }
                 }
             }
         });
-        this.add(btnKeybind);
+        this.add(lblKeybind);
 
         // Refresh the spell labels
         this.refreshLabels();
@@ -167,11 +164,13 @@ public class AOTDGuiSpell extends AOTDGuiContainer
         // if the keybind is non-null show it, otherwise mention it's unbound
         if (keybindingForSpell != null)
         {
-            btnKeybind.setHoverText("Spell is bound to: " + keybindingForSpell);
+            lblKeybind.setHoverText("Spell is bound to: " + keybindingForSpell);
+            lblKeybind.setText(keybindingForSpell);
         }
         else
         {
-            btnKeybind.setHoverText("Spell is unbound.");
+            lblKeybind.setHoverText("Spell is unbound.");
+            lblKeybind.setText("");
         }
     }
 

@@ -64,7 +64,7 @@ public class AOTDGuiLabel extends AOTDGuiContainer
                 float yCoord = this.getYScaled().floatValue();
 
                 // Center align text on the y-axis
-                double spaceLeft = this.getHeight() - this.getFont().getHeight() * Constants.TEXT_SCALE_FACTOR * this.getScaleY();
+                double spaceLeft = this.getHeight() - this.getFont().getHeight() * Constants.TEXT_SCALE_FACTOR / this.getScaleY();
                 if (spaceLeft > 0)
                 {
                     yCoord = yCoord + (float) (spaceLeft / 2);

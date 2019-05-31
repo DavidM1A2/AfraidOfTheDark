@@ -30,14 +30,47 @@ public class AOTDGuiScrollBar extends AOTDGuiContainer
      */
     public AOTDGuiScrollBar(int x, int y, int width, int height)
     {
+        // Call our other constructor with default textures
+        this(x, y, width, height, "afraidofthedark:textures/gui/scroll_bar.png", "afraidofthedark:textures/gui/scroll_bar_handle.png");
+    }
+
+    /**
+     * Constructor initializes the scroll bar given a position, height, and texture
+     *
+     * @param x The scroll bar's x position
+     * @param y The scroll bar's y position
+     * @param width The scroll bar's width
+     * @param height The scroll bar's height
+     * @param scrollBarTexture The scroll bar background texture
+     * @param handleTexture The scrol bar handle texture
+     */
+    public AOTDGuiScrollBar(int x, int y, int width, int height, String scrollBarTexture, String handleTexture)
+    {
+        this(x, y, width, height, scrollBarTexture, handleTexture, handleTexture);
+    }
+
+    /**
+     * Constructor initializes the scroll bar given a position, height, and texture
+     *
+     * @param x The scroll bar's x position
+     * @param y The scroll bar's y position
+     * @param width The scroll bar's width
+     * @param height The scroll bar's height
+     * @param scrollBarTexture The scroll bar background texture
+     * @param handleTexture The scroll bar handle texture
+     * @param handleHoveredTexture The scroll bar hovered handle texture
+     */
+    public AOTDGuiScrollBar(int x, int y, int width, int height, String scrollBarTexture, String handleTexture, String handleHoveredTexture)
+    {
+
         super(x, y, width, height);
 
         // The background behind the scroll bar handle
-        AOTDGuiImage barBackground = new AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/scroll_bar.png");
+        AOTDGuiImage barBackground = new AOTDGuiImage(0, 0, width, height, scrollBarTexture);
         // Add the background to the control
         this.add(barBackground);
         // Create a handle to grab, let the height be the height of the bar / 10
-        AOTDGuiButton handle = new AOTDGuiButton(0, 0, width, height / 10, null, "afraidofthedark:textures/gui/scroll_bar_handle.png");
+        AOTDGuiButton handle = new AOTDGuiButton(0, 0, width, height / 10, null, handleTexture, handleHoveredTexture);
         // Add the handle
         this.add(handle);
 
@@ -67,20 +100,6 @@ public class AOTDGuiScrollBar extends AOTDGuiContainer
                     // No longer holding the mouse down, the handle isn't held anymore
                     handleHeld = false;
                 }
-            }
-
-            @Override
-            public void mouseEntered(AOTDMouseEvent event)
-            {
-                // Upon hovering the scroll bar handle make it darker
-                event.getSource().darkenColor(30);
-            }
-
-            @Override
-            public void mouseExited(AOTDMouseEvent event)
-            {
-                // Upon unhovering the scroll bar handle make it brighter
-                event.getSource().brightenColor(30);
             }
         });
 
