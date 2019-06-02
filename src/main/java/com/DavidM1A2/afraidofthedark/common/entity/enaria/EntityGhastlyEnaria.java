@@ -141,7 +141,7 @@ public class EntityGhastlyEnaria extends EntityFlying implements IMCAnimatedEnti
         {
             if (this.ticksExisted % PLAYER_DISTANCE_CHECK_FREQUENCY == 0)
             {
-                // Grab the clostest player within 3 blocks
+                // Grab the closest player within 3 blocks
                 EntityPlayer entityPlayer = this.world.getClosestPlayerToEntity(this, 3);
                 // Make sure the player is valid and not dead
                 if (entityPlayer != null && !entityPlayer.isDead)
