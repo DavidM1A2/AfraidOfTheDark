@@ -2,10 +2,7 @@ package com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellDeliveryMethods;
 import com.DavidM1A2.afraidofthedark.common.spell.Spell;
-import com.DavidM1A2.afraidofthedark.common.spell.SpellStage;
-import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod;
-import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodEntry;
-import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffect;
+import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -24,63 +21,45 @@ public class SpellDeliveryMethodSelf extends AOTDSpellDeliveryMethod
     }
 
     /**
-     * Ignored, can't cast self on a position
+     * Called to deliver the effects to the target by whatever means necessary
      *
-     * @param spell The spell reference
-     * @param stageIndex The current spell stage index
-     * @param world The world the delivery method is being executed in
-     * @param position The position the delivery method should execute at
-     * @param direction The direction the delivery method should be executed in, can be null
+     * @param spell The spell that is being delivered
+     * @param spellIndex The current spell stage index
+     * @param source The entity that was the source of the spell
      */
     @Override
-    public void executeDeliveryFrom(Spell spell, int stageIndex, World world, Vec3d position, Vec3d direction)
+    public void deliver(Spell spell, int spellIndex, Entity source)
     {
-        // Perform no effects
-
-        // Execute the next delivery method
-        stageIndex++;
-
-        if (spell.hasStage(stageIndex))
+        // Delivery is as simple as applying effects for the "self" delivery method
+        spell.getStage(spellIndex).forAllValidEffects(spellEffect ->
         {
-            spell.getStage(stageIndex).getDeliveryMethod().executeDeliveryFrom(spell, stageIndex, world, position, direction);
-        }
-        else
+            ISpellDeliveryEffectApplicator effectApplicator = this.getEntryRegistryType().getApplicator(spellEffect.getEntryRegistryType());
+            effectApplicator.applyEffect(spellEffect, source);
+        });
+
+        // Grab the next delivery method
+        SpellDeliveryMethod nextDeliveryMethod = spell.hasStage(spellIndex + 1) ? spell.getStage(spellIndex + 1).getDeliveryMethod() : null;
+        if (nextDeliveryMethod != null)
         {
-            // Spell complete
+            // Perform the transition between the next delivery method and the current delivery method
+            ISpellDeliveryTransitioner spellDeliveryTransitioner = nextDeliveryMethod.getEntryRegistryType().getTransitioner(this.getEntryRegistryType());
+            spellDeliveryTransitioner.transitionThroughEntity(spell, spellIndex, source);
         }
     }
 
     /**
-     * Casts the effects on a given entity
+     * Called to deliver the effects to the target by whatever means necessary
      *
-     * @param spell The spell reference
-     * @param stageIndex The current spell stage index
-     * @param entity The entity the delivery method is being executed from
+     * @param spell The spell that is being delivered
+     * @param spellIndex The current spell stage index
+     * @param world The world the spell was cast in
+     * @param position The position the delivery was cast at
+     * @param direction The direction the delivery should happen at
      */
     @Override
-    public void executeDeliveryFrom(Spell spell, int stageIndex, Entity entity)
+    public void deliver(Spell spell, int spellIndex, World world, Vec3d position, Vec3d direction)
     {
-        // Perform each effect against the entity
-        SpellStage spellStage = spell.getStage(stageIndex);
-        for (SpellEffect effect : spellStage.getEffects())
-        {
-            if (effect != null)
-            {
-                effect.performEffect(entity);
-            }
-        }
-
-        // Execute the next delivery method
-        stageIndex++;
-
-        if (spell.hasStage(stageIndex))
-        {
-            spell.getStage(stageIndex).getDeliveryMethod().executeDeliveryFrom(spell, stageIndex, entity);
-        }
-        else
-        {
-            // Spell complete
-        }
+        // Don't transition or apply effects, self can't be applied to a block
     }
 
     /**

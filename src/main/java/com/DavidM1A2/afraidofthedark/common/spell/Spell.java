@@ -90,7 +90,9 @@ public class Spell implements INBTSerializable<NBTTagCompound>
                         // Consumer the power to cast the spell
                         this.powerSource.consumePowerToCast(this);
                         // Tell the first delivery method to fire
-                        this.getStage(0).getDeliveryMethod().executeDeliveryFrom(this, 0, entityPlayer);
+                        this.getStage(0)
+                                .getDeliveryMethod()
+                                .deliver(this, 0, entityPlayer);
                     }
                     else
                     {

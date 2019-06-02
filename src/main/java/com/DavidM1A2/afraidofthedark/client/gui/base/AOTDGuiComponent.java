@@ -5,7 +5,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.util.math.MathHelper;
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.util.Color;
 import org.lwjgl.util.Point;
@@ -383,33 +382,6 @@ public abstract class AOTDGuiComponent
     public void setColor(Color tint)
     {
         this.tint = tint;
-    }
-
-    /**
-     * Brightens the R, G, and B components of the color by adding a constant
-     *
-     * @param amount The amount to change R, G, and B by
-     */
-    public void brightenColor(int amount)
-    {
-        // RGB must be betweeen 0 - 255
-        // RGB must be betweeen 0 - 255
-        this.setColor(new Color(MathHelper.clamp(this.tint.getRed() + amount, 0, 255),
-                MathHelper.clamp(this.tint.getGreen() + amount, 0, 255),
-                MathHelper.clamp(this.tint.getBlue() + amount, 0, 255)));
-    }
-
-    /**
-     * Darkens the R, G, and B components of the color by subtracting a constant
-     *
-     * @param amount The amount to change R, G, and B by
-     */
-    public void darkenColor(int amount)
-    {
-        // RGB must be betweeen 0 - 255
-        this.setColor(new Color(MathHelper.clamp(this.tint.getRed() - amount, 0, 255),
-                MathHelper.clamp(this.tint.getGreen() - amount, 0, 255),
-                MathHelper.clamp(this.tint.getBlue() - amount, 0, 255)));
     }
 
     /**

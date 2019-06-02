@@ -1,8 +1,6 @@
 package com.DavidM1A2.afraidofthedark.client.gui.specialControls;
 
 import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiUtility;
-import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDMouseListener;
-import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiButton;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.research.IAOTDPlayerResearch;
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
@@ -37,28 +35,12 @@ public class AOTDGuiResearchNodeButton extends AOTDGuiButton
      */
     public AOTDGuiResearchNodeButton(int x, int y, Research research)
     {
-        super(x, y, 32, 32, null, "afraidofthedark:textures/gui/journal_tech_tree/research_background.png");
+        super(x, y, 32, 32, null, "afraidofthedark:textures/gui/journal_tech_tree/research_background.png", "afraidofthedark:textures/gui/journal_tech_tree/research_background_hovered.png");
         this.research = research;
 
         // Make the button visible if the research is either researched or can be researched show it
         this.playerResearch = entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null);
         this.setVisible(playerResearch.isResearched(this.research) || playerResearch.canResearch(this.research));
-
-        // The mouse listener tests when the mouse enters the button, if it does the button is brightened, otherwise it is darkened
-        this.addMouseListener(new AOTDMouseListener()
-        {
-            @Override
-            public void mouseExited(AOTDMouseEvent event)
-            {
-                event.getSource().brightenColor(15);
-            }
-
-            @Override
-            public void mouseEntered(AOTDMouseEvent event)
-            {
-                event.getSource().darkenColor(15);
-            }
-        });
     }
 
     /**

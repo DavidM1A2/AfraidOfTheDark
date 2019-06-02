@@ -3,6 +3,7 @@ package com.DavidM1A2.afraidofthedark.client.settings;
 import com.DavidM1A2.afraidofthedark.client.gui.fontLibrary.FontLoader;
 import com.DavidM1A2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont;
 import com.DavidM1A2.afraidofthedark.common.registry.research.Research;
+import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.HashMap;
@@ -21,6 +22,9 @@ public class ClientData
 
     // A field that will keep track of which research is currently selected
     private Research lastSelectedResearch = null;
+
+    // A field that will keep track of which spell is currently selected
+    private Spell lastSelectedSpell = null;
 
     /**
      * @return The single instance of the client data object
@@ -50,6 +54,16 @@ public class ClientData
     }
 
     /**
+     * Sets the last selected research on the ResearchGUI
+     *
+     * @param research The selected research
+     */
+    public void setLastSelectedResearch(Research research)
+    {
+        this.lastSelectedResearch = research;
+    }
+
+    /**
      * @return The last selected research on the ResearchGUI
      */
     public Research getLastSelectedResearch()
@@ -58,12 +72,20 @@ public class ClientData
     }
 
     /**
-     * Sets the last selected research on the ResearchGUI
+     * Sets the last selected spell on the SpellEditGUI
      *
-     * @param research The selected research
+     * @param lastSelectedSpell The selected spell
      */
-    public void setLastSelectedResearch(Research research)
+    public void setLastSelectedSpell(Spell lastSelectedSpell)
     {
-        this.lastSelectedResearch = research;
+        this.lastSelectedSpell = lastSelectedSpell;
+    }
+
+    /**
+     * @return The last selected spell on the SpellEditGUI
+     */
+    public Spell getLastSelectedSpell()
+    {
+        return lastSelectedSpell;
     }
 }

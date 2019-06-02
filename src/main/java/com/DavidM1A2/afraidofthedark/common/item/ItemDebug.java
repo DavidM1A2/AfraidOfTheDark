@@ -65,7 +65,6 @@ public class ItemDebug extends AOTDItem
                 spell.setPowerSource(ModSpellPowerSources.CREATIVE.newInstance());
                 spell.setName("Test");
                 spellManager.addOrUpdateSpell(spell);
-                spellManager.keybindSpell("h", spell);
                 spellManager.syncAll(playerIn);
             }
 

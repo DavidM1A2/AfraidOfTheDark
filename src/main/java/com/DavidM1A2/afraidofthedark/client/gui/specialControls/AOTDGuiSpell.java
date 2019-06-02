@@ -99,6 +99,8 @@ public class AOTDGuiSpell extends AOTDGuiContainer
             {
                 if (event.getSource().isHovered() && event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
                 {
+                    // Set the edited spell to this one
+                    ClientData.getInstance().setLastSelectedSpell(spell);
                     // Open the spell edit GUI
                     entityPlayer.openGui(AfraidOfTheDark.INSTANCE, AOTDGuiHandler.SPELL_CRAFTING_ID, entityPlayer.world, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
                 }

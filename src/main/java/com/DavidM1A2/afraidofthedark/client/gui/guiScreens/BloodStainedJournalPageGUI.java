@@ -115,7 +115,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
         journalBackground.add(this.rightPageNumber);
 
         // Create two pages, one for the left page text and one for the right page text
-        this.leftPage = new AOTDGuiTextBox(10, 15, journalWidth / 2 - 20, journalHeight - 55, ClientData.getInstance().getTargaMSHandFontSized(32f));
+        this.leftPage = new AOTDGuiTextBox(15, 15, journalWidth / 2 - 20, journalHeight - 55, ClientData.getInstance().getTargaMSHandFontSized(32f));
         this.rightPage = new AOTDGuiTextBox(135, 15, journalWidth / 2 - 20, journalHeight - 55, ClientData.getInstance().getTargaMSHandFontSized(32f));
         // Set the text on both pages to red
         this.leftPage.setTextColor(TEXT_RED);
@@ -172,8 +172,8 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
         this.getContentPane().add(journalBackground);
 
         // Create the forward and backward button to advance and rewind pages
-        this.forwardButton = new AOTDGuiButton(this.getContentPane().getWidth() - 64, this.getContentPane().getHeight() - 64, 64, 64, null, "afraidofthedark:textures/gui/journal_page/forward_button.png");
-        this.backwardButton = new AOTDGuiButton(0, this.getContentPane().getHeight() - 64, 64, 64, null, "afraidofthedark:textures/gui/journal_page/backward_button.png");
+        this.forwardButton = new AOTDGuiButton(this.getContentPane().getWidth() - 64, this.getContentPane().getHeight() - 64, 64, 64, null, "afraidofthedark:textures/gui/journal_page/forward_button.png", "afraidofthedark:textures/gui/journal_page/forward_button_hovered.png");
+        this.backwardButton = new AOTDGuiButton(0, this.getContentPane().getHeight() - 64, 64, 64, null, "afraidofthedark:textures/gui/journal_page/backward_button.png", "afraidofthedark:textures/gui/journal_page/backward_button_hovered.png");
         // Upon clicking forward then advance the page, if we hover the button darken the color, if we don't hover the button brighten the color
         this.forwardButton.addMouseListener(new AOTDMouseListener()
         {
@@ -184,18 +184,6 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
                 {
                     BloodStainedJournalPageGUI.this.advancePage();
                 }
-            }
-
-            @Override
-            public void mouseEntered(AOTDMouseEvent event)
-            {
-                event.getSource().darkenColor(30);
-            }
-
-            @Override
-            public void mouseExited(AOTDMouseEvent event)
-            {
-                event.getSource().brightenColor(30);
             }
         });
         // Upon clicking backward then rewind the page, if we hover the button darken the color, if we don't hover the button brighten the color
@@ -208,18 +196,6 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
                 {
                     BloodStainedJournalPageGUI.this.rewindPage();
                 }
-            }
-
-            @Override
-            public void mouseEntered(AOTDMouseEvent event)
-            {
-                event.getSource().darkenColor(30);
-            }
-
-            @Override
-            public void mouseExited(AOTDMouseEvent event)
-            {
-                event.getSource().brightenColor(30);
             }
         });
         // Add the buttons to the pane

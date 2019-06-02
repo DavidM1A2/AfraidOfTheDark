@@ -15,24 +15,24 @@ import net.minecraft.world.World;
 public abstract class SpellDeliveryMethod extends SpellComponent
 {
     /**
-     * Executes the delivery method from a position and a direction which can be null
+     * Called to deliver the effects to the target by whatever means necessary
      *
-     * @param spell The spell reference
-     * @param stageIndex The current spell stage index
-     * @param world The world the spell is being executed in
-     * @param position The position the delivery method should execute at
-     * @param direction The direction the delivery method should be executed in, can be null
+     * @param spell The spell that is being delivered
+     * @param spellIndex The current spell stage index
+     * @param source The entity that was the source of the spell
      */
-    public abstract void executeDeliveryFrom(Spell spell, int stageIndex, World world, Vec3d position, Vec3d direction);
+    public abstract void deliver(Spell spell, int spellIndex, Entity source);
 
     /**
-     * Executes the delivery method from an entity
+     * Called to deliver the effects to the target by whatever means necessary
      *
-     * @param spell The spell reference
-     * @param stageIndex The current spell stage index
-     * @param entity The entity the delivery method is being executed from
+     * @param spell The spell that is being delivered
+     * @param spellIndex The current spell stage index
+     * @param world The world the spell was cast in
+     * @param position The position the delivery was cast at
+     * @param direction The direction the delivery should happen at
      */
-    public abstract void executeDeliveryFrom(Spell spell, int stageIndex, Entity entity);
+    public abstract void deliver(Spell spell, int spellIndex, World world, Vec3d position, Vec3d direction);
 
     /**
      * Gets the cost of the delivery method
