@@ -1,6 +1,8 @@
 package com.DavidM1A2.afraidofthedark.client.gui.specialControls;
 
 import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiContainer;
+import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDMouseListener;
+import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.*;
 import com.DavidM1A2.afraidofthedark.client.settings.ClientData;
 import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
@@ -10,12 +12,17 @@ import com.DavidM1A2.afraidofthedark.common.spell.component.powerSource.base.Spe
 import net.minecraft.util.math.MathHelper;
 import org.lwjgl.util.Color;
 
+import java.util.function.Consumer;
+
 
 /**
  * Compliment control to the tablet, allows players to click spell components up
  */
 public class AOTDGuiSpellScroll extends AOTDGuiContainer
 {
+    // The callback that will be fired when a spell component is selected
+    private Consumer<AOTDGuiSpellComponentSlot<?, ?>> componentClickCallback;
+
     /**
      * Constructor initializes the bounding box
      *
@@ -54,10 +61,28 @@ public class AOTDGuiSpellScroll extends AOTDGuiContainer
         componentScrollPanel.add(powerSourceHeading);
         currentComponent = currentComponent + COMPONENTS_PER_LINE;
 
+        // Listener to be used by all of our spell components
+        AOTDMouseListener componentClickListener = new AOTDMouseListener()
+        {
+            @Override
+            public void mousePressed(AOTDMouseEvent event)
+            {
+                // If the component is hovered fire the listener
+                if (event.getSource().isHovered() && event.getSource().isVisible() && event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
+                {
+                    if (componentClickCallback != null)
+                    {
+                        componentClickCallback.accept((AOTDGuiSpellComponentSlot<?, ?>) event.getSource());
+                    }
+                }
+            }
+        };
+
         // Go over all power sources and add a slot for each
         for (SpellPowerSourceEntry powerSourceEntry : ModRegistries.SPELL_POWER_SOURCES)
         {
             AOTDGuiSpellPowerSourceSlot powerSource = new AOTDGuiSpellPowerSourceSlot(5 + 24 * (currentComponent % 5), 5 + 24 * (currentComponent / 5), 20, 20, powerSourceEntry);
+            powerSource.addMouseListener(componentClickListener);
             componentScrollPanel.add(powerSource);
             currentComponent = currentComponent + 1;
         }
@@ -76,6 +101,7 @@ public class AOTDGuiSpellScroll extends AOTDGuiContainer
         for (SpellEffectEntry effectEntry : ModRegistries.SPELL_EFFECTS)
         {
             AOTDGuiSpellEffectSlot effect = new AOTDGuiSpellEffectSlot(5 + 24 * (currentComponent % 5), 5 + 24 * (currentComponent / 5), 20, 20, effectEntry);
+            effect.addMouseListener(componentClickListener);
             componentScrollPanel.add(effect);
             currentComponent = currentComponent + 1;
         }
@@ -94,6 +120,7 @@ public class AOTDGuiSpellScroll extends AOTDGuiContainer
         for (SpellDeliveryMethodEntry deliveryMethodEntry : ModRegistries.SPELL_DELIVERY_METHODS)
         {
             AOTDGuiSpellDeliveryMethodSlot deliveryMethod = new AOTDGuiSpellDeliveryMethodSlot(5 + 24 * (currentComponent % 5), 5 + 24 * (currentComponent / 5), 20, 20, deliveryMethodEntry);
+            deliveryMethod.addMouseListener(componentClickListener);
             componentScrollPanel.add(deliveryMethod);
             currentComponent = currentComponent + 1;
         }
@@ -105,5 +132,15 @@ public class AOTDGuiSpellScroll extends AOTDGuiContainer
 
         // Add the scroll to the component
         this.add(scroll);
+    }
+
+    /**
+     * Called when a component is clicked
+     *
+     * @param componentClickCallback The callback that to fire
+     */
+    public void setComponentClickCallback(Consumer<AOTDGuiSpellComponentSlot<?, ?>> componentClickCallback)
+    {
+        this.componentClickCallback = componentClickCallback;
     }
 }

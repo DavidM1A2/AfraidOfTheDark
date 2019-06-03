@@ -3,7 +3,11 @@ package com.DavidM1A2.afraidofthedark.client.gui.guiScreens;
 import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiHandler;
 import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiScreen;
 import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDKeyListener;
+import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDMouseListener;
+import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDMouseMoveListener;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDKeyEvent;
+import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
+import com.DavidM1A2.afraidofthedark.client.gui.specialControls.AOTDGuiSpellComponentSlot;
 import com.DavidM1A2.afraidofthedark.client.gui.specialControls.AOTDGuiSpellScroll;
 import com.DavidM1A2.afraidofthedark.client.gui.specialControls.AOTDGuiSpellTablet;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiImage;
@@ -22,6 +26,8 @@ public class SpellCraftingGUI extends AOTDGuiScreen
     private final Spell spell;
     // The tablet left side of the GUI
     private final AOTDGuiSpellTablet tablet;
+    // The current component slot that is selected on the scroll
+    private AOTDGuiSpellComponentSlot<?, ?> selectedComponent;
 
     /**
      * Constructor creates the spell GUI
@@ -43,9 +49,59 @@ public class SpellCraftingGUI extends AOTDGuiScreen
         this.tablet = new AOTDGuiSpellTablet(100, (Constants.GUI_HEIGHT - 256) / 2, 192, 256, this.spell);
         this.getContentPane().add(tablet);
 
+        // Setup the selected component hover under the mouse cursor using image component
+        AOTDGuiImage selectedCursorIcon = new AOTDGuiImage(0, 0, 20, 20, "afraidofthedark:textures/gui/spell_editor/blank_slot.png");
+        selectedCursorIcon.addMouseMoveListener(new AOTDMouseMoveListener()
+        {
+            @Override
+            public void mouseMoved(AOTDMouseEvent event)
+            {
+                // If we have nothing selected put the component off in the middle of nowhere
+                if (selectedComponent == null)
+                {
+                    selectedCursorIcon.setX(-20);
+                    selectedCursorIcon.setY(-20);
+                }
+                // If we have something selected center the icon on the cursor
+                else
+                {
+                    selectedCursorIcon.setX((int) (event.getMouseX() / tablet.getScaleX()) - selectedCursorIcon.getWidthScaled() / 2);
+                    selectedCursorIcon.setY((int) (event.getMouseY() / tablet.getScaleY()) - selectedCursorIcon.getHeightScaled() / 2);
+                }
+            }
+        });
+        // If we right click clear the selected component
+        this.getContentPane().addMouseListener(new AOTDMouseListener()
+        {
+            @Override
+            public void mousePressed(AOTDMouseEvent event)
+            {
+                if (event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Right && selectedComponent != null)
+                {
+                    selectedComponent.setHighlight(false);
+                    selectedComponent = null;
+                    selectedCursorIcon.setVisible(false);
+                }
+            }
+        });
+
         // Create the right side scroll to hold the current spell components available
         AOTDGuiSpellScroll scroll = new AOTDGuiSpellScroll(340, (Constants.GUI_HEIGHT - 256) / 2, 220, 256);
+        scroll.setComponentClickCallback(spellComponentSlot ->
+        {
+            // If we have a previously selected component deselect it
+            if (selectedComponent != null)
+            {
+                selectedComponent.setHighlight(false);
+            }
+            // Update the selected component, highlight the component
+            selectedComponent = spellComponentSlot;
+            selectedComponent.setHighlight(true);
+            selectedCursorIcon.setImageTexture(selectedComponent.getComponentType().getIcon());
+            selectedCursorIcon.setVisible(true);
+        });
         this.getContentPane().add(scroll);
+        this.getContentPane().add(selectedCursorIcon);
 
         // Create a help overlay that comes up when you press the ? button
         AOTDGuiImage helpOverlay = new AOTDGuiImage(0, 0, Constants.GUI_WIDTH, Constants.GUI_HEIGHT, "afraidofthedark:textures/gui/spell_editor/help_screen.png");
