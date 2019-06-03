@@ -114,25 +114,23 @@ public class ItemStarMetalArmor extends AOTDArmor implements ISpecialArmor
     @Override
     public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack)
     {
-        // Process server side only
-        if (!world.isRemote)
+        // We have to test client and server side since absorption is client side :(
+
+        // Test if the player has the star metal research
+        if (player.getCapability(ModCapabilities.PLAYER_RESEARCH, null).isResearched(ModResearches.STAR_METAL))
         {
-            // Test if the player has the star metal research
-            if (player.getCapability(ModCapabilities.PLAYER_RESEARCH, null).isResearched(ModResearches.STAR_METAL))
+            // If the stack is ready to proc absorption, add 2 absorption hearts
+            if (this.readyToProcAbsorption(itemStack))
             {
-                // If the stack is ready to proc absorption, add 2 absorption hearts
-                if (this.readyToProcAbsorption(itemStack))
+                // The number of star metal armor pieces worn
+                long numberStarMetalPiecesWorn = player.inventory.armorInventory.stream().map(ItemStack::getItem).filter(ItemStarMetalArmor.class::isInstance).count();
+                if (numberStarMetalPiecesWorn * ABSORPTION_PER_PIECE >= player.getAbsorptionAmount())
                 {
-                    // The number of star metal armor pieces worn
-                    long numberStarMetalPiecesWorn = player.inventory.armorInventory.stream().map(ItemStack::getItem).filter(ItemStarMetalArmor.class::isInstance).count();
-                    if (numberStarMetalPiecesWorn * ABSORPTION_PER_PIECE >= player.getAbsorptionAmount())
-                    {
-                        // Add 4 to absorption up to a max for the proc
-                        player.setAbsorptionAmount(MathHelper.clamp(player.getAbsorptionAmount() + ABSORPTION_PER_PIECE, 0, numberStarMetalPiecesWorn * ABSORPTION_PER_PIECE));
-                    }
-                    // Update the last proc time to now
-                    NBTHelper.setLong(itemStack, NBT_LAST_ABSORPTION_PROC, System.currentTimeMillis());
+                    // Add 4 to absorption up to a max for the proc
+                    player.setAbsorptionAmount(MathHelper.clamp(player.getAbsorptionAmount() + ABSORPTION_PER_PIECE, 0, numberStarMetalPiecesWorn * ABSORPTION_PER_PIECE));
                 }
+                // Update the last proc time to now
+                NBTHelper.setLong(itemStack, NBT_LAST_ABSORPTION_PROC, System.currentTimeMillis());
             }
         }
     }
