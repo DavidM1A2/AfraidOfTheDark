@@ -4,6 +4,7 @@ import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiHandler;
 import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiScreen;
 import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDKeyListener;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDKeyEvent;
+import com.DavidM1A2.afraidofthedark.client.gui.specialControls.AOTDGUiSpellScroll;
 import com.DavidM1A2.afraidofthedark.client.gui.specialControls.AOTDGuiSpellTablet;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiImage;
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
@@ -41,6 +42,10 @@ public class SpellCraftingGUI extends AOTDGuiScreen
         // Create the left side tablet to hold the current spell settings
         this.tablet = new AOTDGuiSpellTablet(100, (Constants.GUI_HEIGHT - 256) / 2, 192, 256, this.spell);
         this.getContentPane().add(tablet);
+
+        // Create the right side scroll to hold the current spell components available
+        AOTDGUiSpellScroll scroll = new AOTDGUiSpellScroll(340, (Constants.GUI_HEIGHT - 256) / 2, 220, 256);
+        this.getContentPane().add(scroll);
 
         // Create a help overlay that comes up when you press the ? button
         AOTDGuiImage helpOverlay = new AOTDGuiImage(0, 0, Constants.GUI_WIDTH, Constants.GUI_HEIGHT, "afraidofthedark:textures/gui/spell_editor/help_screen.png");
