@@ -14,7 +14,7 @@ import org.lwjgl.util.Color;
 /**
  * Compliment control to the tablet, allows players to click spell components up
  */
-public class AOTDGUiSpellScroll extends AOTDGuiContainer
+public class AOTDGuiSpellScroll extends AOTDGuiContainer
 {
     /**
      * Constructor initializes the bounding box
@@ -24,7 +24,7 @@ public class AOTDGUiSpellScroll extends AOTDGuiContainer
      * @param width  The width of the component
      * @param height The height of the component
      */
-    public AOTDGUiSpellScroll(Integer x, Integer y, Integer width, Integer height)
+    public AOTDGuiSpellScroll(Integer x, Integer y, Integer width, Integer height)
     {
         super(x, y, width, height);
 
