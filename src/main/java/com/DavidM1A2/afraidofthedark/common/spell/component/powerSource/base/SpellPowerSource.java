@@ -35,6 +35,13 @@ public abstract class SpellPowerSource extends SpellComponent
     public abstract String getUnlocalizedOutOfPowerMsg();
 
     /**
+     * Gets a description message of how cost is computed for this power source
+     *
+     * @return A description describing how cost is computed
+     */
+    public abstract String getCostDescription();
+
+    /**
      * Should get the SpellPowerSourceEntry registry's type
      *
      * @return The registry entry that this power source was built with, used for deserialization

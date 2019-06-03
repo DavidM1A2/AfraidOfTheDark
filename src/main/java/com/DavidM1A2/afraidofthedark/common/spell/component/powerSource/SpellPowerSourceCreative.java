@@ -40,6 +40,17 @@ public class SpellPowerSourceCreative extends AOTDSpellPowerSource
     }
 
     /**
+     * Gets a description message of how cost is computed for this power source
+     *
+     * @return A description describing how cost is computed
+     */
+    @Override
+    public String getCostDescription()
+    {
+        return "Unlimited power!";
+    }
+
+    /**
      * Computes the message describing why the power source doesn't have enough power
      *
      * @return A string describing why the power source doesn't have enough energy

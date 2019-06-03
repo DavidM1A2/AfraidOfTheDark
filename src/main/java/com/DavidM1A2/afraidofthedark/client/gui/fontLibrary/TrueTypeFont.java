@@ -55,9 +55,9 @@ public class TrueTypeFont
     private int textureHeight = 1024;
     // The font metrics for our Java AWT font
     private FontMetrics fontMetrics;
-    // Correction constants used to render letters closer together
-    private static final int CORRECT_L = 2;
-    private static final int CORRECT_R = 1;
+    // Correction constants used to render letters closer together. These cause a big with getWidth() currently
+    private static final int CORRECT_L = 0; // 2
+    private static final int CORRECT_R = 0; // 1
 
     /**
      * Constructor initializes the font glyphs

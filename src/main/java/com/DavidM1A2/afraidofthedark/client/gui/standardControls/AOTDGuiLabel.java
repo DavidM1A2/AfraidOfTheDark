@@ -24,6 +24,8 @@ public class AOTDGuiLabel extends AOTDGuiContainer
     private Color textColor = new Color(255, 255, 255, 255);
     // Text alignment
     private TextAlignment textAlignment = TextAlignment.ALIGN_LEFT;
+    // True if we should ensure the text fits inside the label by shortening it, false otherwise
+    private boolean shortenTextToFit = true;
 
     /**
      * Constructor takes an x and y position as well as a font
@@ -64,7 +66,7 @@ public class AOTDGuiLabel extends AOTDGuiContainer
                 float yCoord = this.getYScaled().floatValue();
 
                 // Center align text on the y-axis
-                double spaceLeft = this.getHeight() - this.getFont().getHeight() * Constants.TEXT_SCALE_FACTOR / this.getScaleY();
+                double spaceLeft = this.getHeight() - this.getFont().getHeight() * Constants.TEXT_SCALE_FACTOR;
                 if (spaceLeft > 0)
                 {
                     yCoord = yCoord + (float) (spaceLeft / 2);
@@ -92,25 +94,33 @@ public class AOTDGuiLabel extends AOTDGuiContainer
         // Can only update text if font is non-null
         if (this.font != null)
         {
-            // Test if the text will fit into our label based on height
-            float height = (float) (this.font.getHeight() * Constants.TEXT_SCALE_FACTOR * this.getScaleY());
-            if (height > this.getHeightScaled())
+            // Shorten the text if necessary to fit inside the text box
+            if (this.shortenTextToFit)
             {
-                this.fitText = StringUtils.EMPTY;
+                // Test if the text will fit into our label based on height
+                float height = (float) (this.font.getHeight() * Constants.TEXT_SCALE_FACTOR * this.getScaleY());
+                if (height > this.getHeightScaled())
+                {
+                    this.fitText = StringUtils.EMPTY;
+                }
+                // If the height is OK shorten the text until it fits into the label
+                else
+                {
+                    this.fitText = text;
+                    // Grab the current width of the text
+                    float width = (float) (this.font.getWidth(this.fitText) * Constants.TEXT_SCALE_FACTOR * this.getScaleX());
+                    // If it's too big remove one character at a time until it isn't
+                    while (width > this.getWidthScaled() && !this.fitText.isEmpty())
+                    {
+                        this.fitText = this.fitText.substring(0, this.fitText.length() - 2);
+                        // Grab the current width of the text
+                        width = (float) (this.font.getWidth(this.fitText) * Constants.TEXT_SCALE_FACTOR * this.getScaleX());
+                    }
+                }
             }
-            // If the height is OK shorten the text until it fits into the label
             else
             {
                 this.fitText = text;
-                // Grab the current width of the text
-                float width = (float) (this.font.getWidth(this.fitText) * Constants.TEXT_SCALE_FACTOR * this.getScaleX());
-                // If it's too big remove one character at a time until it isn't
-                while (width > this.getWidthScaled() && !this.fitText.isEmpty())
-                {
-                    this.fitText = this.fitText.substring(0, this.fitText.length() - 2);
-                    // Grab the current width of the text
-                    width = (float) (this.font.getWidth(this.fitText) * Constants.TEXT_SCALE_FACTOR * this.getScaleX());
-                }
             }
         }
     }
@@ -183,5 +193,13 @@ public class AOTDGuiLabel extends AOTDGuiContainer
     public void setTextAlignment(TextAlignment textAlignment)
     {
         this.textAlignment = textAlignment;
+    }
+
+    /**
+     * @param shortenTextToFit True if we should shorten the text to fit inside the label exactly, false otherwise
+     */
+    public void setShortenTextToFit(boolean shortenTextToFit)
+    {
+        this.shortenTextToFit = shortenTextToFit;
     }
 }

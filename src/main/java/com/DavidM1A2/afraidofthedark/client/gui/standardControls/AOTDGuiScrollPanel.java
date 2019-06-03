@@ -3,7 +3,6 @@ package com.DavidM1A2.afraidofthedark.client.gui.standardControls;
 import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiUtility;
 import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiContainer;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.Rectangle;
 
 /**
  * Extension of a standard panel that requires a scroll bar to move content up and down
@@ -71,9 +70,9 @@ public class AOTDGuiScrollPanel extends AOTDGuiContainer
             // Update the y position internally by offsetting based on slider percent
             super.setY(this.originalYPos - (int) (maximumOffset * lastSliderPosition));
             // Compute the actual elements in "view"
-            Rectangle realBoundingBox = new Rectangle(this.getXScaled(), (int) (this.originalYPos * this.getScaleY()), this.getWidthScaled(), this.getHeightScaled());
+            // Rectangle realBoundingBox = new Rectangle(this.getXScaled(), (int) (this.originalYPos * this.getScaleY()), this.getWidthScaled(), this.getHeightScaled());
             // If any elements are no longer in "view' hide them, otherwise show them
-            this.getChildren().forEach(child -> child.setVisible(child.intersects(realBoundingBox)));
+            // this.getChildren().forEach(child -> child.setVisible(child.intersects(realBoundingBox)));
         }
 
         // Draw all sub-components

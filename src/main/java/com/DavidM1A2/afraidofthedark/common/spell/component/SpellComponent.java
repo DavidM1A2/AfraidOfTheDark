@@ -41,7 +41,7 @@ public abstract class SpellComponent implements INBTSerializable<NBTTagCompound>
      *
      * @return The registry entry that this component was built with, used for deserialization
      */
-    public abstract SpellComponentEntry<?, ?> getEntryRegistryType();
+    public abstract <V extends SpellComponent, T extends SpellComponentEntry<T, V>> T getEntryRegistryType();
 
     /**
      * Serializes the spell component to NBT, override to add additional fields

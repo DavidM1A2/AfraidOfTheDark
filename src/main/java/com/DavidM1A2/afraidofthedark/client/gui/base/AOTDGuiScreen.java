@@ -144,7 +144,7 @@ public abstract class AOTDGuiScreen extends GuiScreen
         if (this.inventoryToCloseGuiScreen())
         {
             // if the keycode is the inventory key bind close the GUI screen
-            if (keyCode == Minecraft.getMinecraft().gameSettings.keyBindInventory.getKeyCode())
+            if (keyCode == INVENTORY_KEYCODE)
             {
                 // Close the screen
                 entityPlayer.closeScreen();

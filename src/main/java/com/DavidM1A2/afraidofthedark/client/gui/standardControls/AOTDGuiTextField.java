@@ -2,6 +2,7 @@ package com.DavidM1A2.afraidofthedark.client.gui.standardControls;
 
 import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiUtility;
 import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiContainer;
+import com.DavidM1A2.afraidofthedark.client.gui.base.TextAlignment;
 import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDKeyListener;
 import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDKeyEvent;
@@ -59,6 +60,8 @@ public class AOTDGuiTextField extends AOTDGuiContainer
         this.textContainer = new AOTDGuiPanel(5, 5, width - 10, height - 10, true);
         // The text label contains the text field's text
         this.textLabel = new AOTDGuiLabel(5, 0, width - 15, height - 10, font);
+        // Make sure the label doesn't shorten the text inside to fit
+        this.textLabel.setShortenTextToFit(false);
 
         // Add the text label to the container
         this.textContainer.add(this.textLabel);
@@ -273,14 +276,14 @@ public class AOTDGuiTextField extends AOTDGuiContainer
     {
         // Get the text's width and multiply by our scale factor used
         float textWidth = this.textLabel.getFont().getWidth(this.textLabel.getText()) * Constants.TEXT_SCALE_FACTOR;
-        // If the text width is bigger than the label's width we figure out how much bigger it is and then add the offset to our X coordinate
+        // If the text width is bigger than the label's width we set the alignment to right so that you see the newest text not the oldest
         if (textWidth > this.textLabel.getWidth())
         {
-            this.textLabel.setX(Math.toIntExact(Math.round(this.textContainer.getX() - (textWidth - this.textLabel.getWidth()) * this.getScaleX())) + 5);
+            this.textLabel.setTextAlignment(TextAlignment.ALIGN_RIGHT);
         }
         else
         {
-            this.textLabel.setX(this.textContainer.getX() + 5);
+            this.textLabel.setTextAlignment(TextAlignment.ALIGN_LEFT);
         }
     }
 

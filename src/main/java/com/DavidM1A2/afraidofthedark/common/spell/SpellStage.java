@@ -82,6 +82,7 @@ public class SpellStage implements INBTSerializable<NBTTagCompound>
                     cost = cost + this.deliveryMethod.getStageCostMultiplier() * this.effects[i].getCost();
                 }
             }
+            return cost;
         }
         return 0;
     }

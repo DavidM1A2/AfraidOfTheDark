@@ -3,6 +3,7 @@ package com.DavidM1A2.afraidofthedark.client.gui;
 import com.DavidM1A2.afraidofthedark.client.gui.guiScreens.*;
 import com.DavidM1A2.afraidofthedark.client.settings.ClientData;
 import com.DavidM1A2.afraidofthedark.common.registry.research.Research;
+import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -64,8 +65,12 @@ public class AOTDGuiHandler implements IGuiHandler
     @Override
     public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
     {
+        // Grab the client data instance
+        ClientData clientData = ClientData.getInstance();
         // Grab the last selected research used in the page UI
-        Research lastSelectedResearch = ClientData.getInstance().getLastSelectedResearch();
+        Research lastSelectedResearch = clientData.getLastSelectedResearch();
+        // Grab the last selected spell used in the spell edit UI
+        Spell lastSelectedSpell = clientData.getLastSelectedSpell();
         switch (ID)
         {
             case BLOOD_STAINED_JOURNAL_SIGN_ID:
@@ -84,6 +89,8 @@ public class AOTDGuiHandler implements IGuiHandler
                 return new SextantGUI();
             case SPELL_LIST_ID:
                 return new SpellListGUI();
+            case SPELL_CRAFTING_ID:
+                return new SpellCraftingGUI(lastSelectedSpell);
             default:
                 return null;
         }

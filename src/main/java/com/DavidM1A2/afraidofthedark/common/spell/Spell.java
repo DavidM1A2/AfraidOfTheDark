@@ -141,10 +141,10 @@ public class Spell implements INBTSerializable<NBTTagCompound>
         // Go over each spell stage and add up costs
         for (SpellStage spellStage : this.spellStages)
         {
-            // Increase the cost of the next spell stage by 5%
-            costMultiplier = costMultiplier + 0.05;
             // Add the cost of the stage times the multiplier
             cost = cost + spellStage.getCost() * costMultiplier;
+            // Increase the cost of the next spell stage by 5%
+            costMultiplier = costMultiplier + 0.05;
         }
         return cost;
     }

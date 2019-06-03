@@ -31,7 +31,7 @@ public class SpellDeliveryMethodEntry extends SpellComponentEntry<SpellDeliveryM
      */
     public SpellDeliveryMethodEntry(ResourceLocation id, Supplier<SpellDeliveryMethod> factory)
     {
-        super(id, new ResourceLocation(id.getResourceDomain(), "textures/spell/delivery_methods/" + id.getResourcePath()), factory);
+        super(id, new ResourceLocation(id.getResourceDomain(), "textures/spell/delivery_methods/" + id.getResourcePath() + ".png"), factory);
         this.setDefaultTransitioner(new DefaultSpellDeliveryTransitioner());
         this.setDefaultApplicator(new DefaultSpellDeliveryEffectApplicator());
     }
