@@ -22,10 +22,10 @@ import java.io.IOException;
  */
 public class SpellCraftingGUI extends AOTDGuiScreen
 {
-    // A reference to the spell being edited
-    private final Spell spell;
     // The tablet left side of the GUI
     private final AOTDGuiSpellTablet tablet;
+    // The selected cursor icon to hold the currently selected component's icon
+    private final AOTDGuiImage selectedCursorIcon;
     // The current component slot that is selected on the scroll
     private AOTDGuiSpellComponentSlot<?, ?> selectedComponent;
 
@@ -37,20 +37,20 @@ public class SpellCraftingGUI extends AOTDGuiScreen
     public SpellCraftingGUI(Spell spell)
     {
         // Clone the spell so we don't modify the original
-        this.spell = new Spell(spell.serializeNBT());
+        Spell spellClone = new Spell(spell.serializeNBT());
 
         // First ensure the spell has the minimum 1 spell stage
-        if (this.spell.getSpellStages().isEmpty())
+        if (spellClone.getSpellStages().isEmpty())
         {
-            this.spell.getSpellStages().add(new SpellStage());
+            spellClone.getSpellStages().add(new SpellStage());
         }
 
         // Create the left side tablet to hold the current spell settings
-        this.tablet = new AOTDGuiSpellTablet(100, (Constants.GUI_HEIGHT - 256) / 2, 192, 256, this.spell);
+        this.tablet = new AOTDGuiSpellTablet(100, (Constants.GUI_HEIGHT - 256) / 2, 192, 256, spellClone, this::getSelectedComponent, () -> this.setSelectedComponent(null));
         this.getContentPane().add(tablet);
 
         // Setup the selected component hover under the mouse cursor using image component
-        AOTDGuiImage selectedCursorIcon = new AOTDGuiImage(0, 0, 20, 20, "afraidofthedark:textures/gui/spell_editor/blank_slot.png");
+        selectedCursorIcon = new AOTDGuiImage(0, 0, 20, 20, "afraidofthedark:textures/gui/spell_editor/blank_slot.png");
         selectedCursorIcon.addMouseMoveListener(new AOTDMouseMoveListener()
         {
             @Override
@@ -78,28 +78,14 @@ public class SpellCraftingGUI extends AOTDGuiScreen
             {
                 if (event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Right && selectedComponent != null)
                 {
-                    selectedComponent.setHighlight(false);
-                    selectedComponent = null;
-                    selectedCursorIcon.setVisible(false);
+                    setSelectedComponent(null);
                 }
             }
         });
 
         // Create the right side scroll to hold the current spell components available
         AOTDGuiSpellScroll scroll = new AOTDGuiSpellScroll(340, (Constants.GUI_HEIGHT - 256) / 2, 220, 256);
-        scroll.setComponentClickCallback(spellComponentSlot ->
-        {
-            // If we have a previously selected component deselect it
-            if (selectedComponent != null)
-            {
-                selectedComponent.setHighlight(false);
-            }
-            // Update the selected component, highlight the component
-            selectedComponent = spellComponentSlot;
-            selectedComponent.setHighlight(true);
-            selectedCursorIcon.setImageTexture(selectedComponent.getComponentType().getIcon());
-            selectedCursorIcon.setVisible(true);
-        });
+        scroll.setComponentClickCallback(this::setSelectedComponent);
         this.getContentPane().add(scroll);
         this.getContentPane().add(selectedCursorIcon);
 
@@ -143,6 +129,43 @@ public class SpellCraftingGUI extends AOTDGuiScreen
                 entityPlayer.openGui(Constants.MOD_ID, AOTDGuiHandler.SPELL_LIST_ID, entityPlayer.world, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ());
             }
         }
+    }
+
+    /**
+     * Sets the currently selected component slot, or null to clear it
+     *
+     * @param selectedComponent The currently selected spell component slot on the spell scroll, or null
+     */
+    private void setSelectedComponent(AOTDGuiSpellComponentSlot<?, ?> selectedComponent)
+    {
+        // If we have a previously selected component deselect it
+        if (this.selectedComponent != null)
+        {
+            this.selectedComponent.setHighlight(false);
+        }
+        // If the new component is non-null update our image texture and highlight the component
+        if (selectedComponent != null)
+        {
+            // Update the selected component, highlight the component
+            this.selectedComponent = selectedComponent;
+            this.selectedComponent.setHighlight(true);
+            this.selectedCursorIcon.setImageTexture(this.selectedComponent.getComponentType().getIcon());
+            this.selectedCursorIcon.setVisible(true);
+        }
+        // If it is null clear out our selected component and hide the icon
+        else
+        {
+            this.selectedComponent = null;
+            this.selectedCursorIcon.setVisible(false);
+        }
+    }
+
+    /**
+     * @return The currently selected spell component slot on the spell scroll
+     */
+    private AOTDGuiSpellComponentSlot<?, ?> getSelectedComponent()
+    {
+        return this.selectedComponent;
     }
 
     /**

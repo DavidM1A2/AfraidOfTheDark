@@ -184,4 +184,20 @@ public class AOTDGuiSpellStage extends AOTDGuiContainer
             this.effects[i].setComponentInstance(this.spellStage.getEffects()[i]);
         }
     }
+
+    /**
+     * @return Gets the delivery method slot on this stage
+     */
+    public AOTDGuiSpellDeliveryMethodSlot getDeliveryMethod()
+    {
+        return deliveryMethod;
+    }
+
+    /**
+     * @return Gets an array of the 4 effect slots on this stage
+     */
+    public AOTDGuiSpellEffectSlot[] getEffects()
+    {
+        return effects;
+    }
 }
