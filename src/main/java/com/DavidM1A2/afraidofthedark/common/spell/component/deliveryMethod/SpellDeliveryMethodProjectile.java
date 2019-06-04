@@ -20,8 +20,11 @@ public class SpellDeliveryMethodProjectile extends AOTDSpellDeliveryMethod
     // The NBT keys
     private static final String NBT_SPEED = "speed";
 
+    // The default speed value
+    private static final double DEFAULT_SPEED = 0.6;
+
     // The speed of the projectile
-    private double speed = 1.0;
+    private double speed = DEFAULT_SPEED;
 
     /**
      * Constructor initializes the editable properties
@@ -43,6 +46,7 @@ public class SpellDeliveryMethodProjectile extends AOTDSpellDeliveryMethod
                 }
                 else
                 {
+                    this.speed = DEFAULT_SPEED;
                     return "Speed must be at least 0.25";
                 }
             }

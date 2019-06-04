@@ -166,6 +166,8 @@ effect.afraidofthedark:dig=Dig
 effect.afraidofthedark:explosion=Explosion
 effect.afraidofthedark:teleport=Teleport
 effect.afraidofthedark:grow=Grow
+effect.afraidofthedark:heal=Heal
+effect.afraidofthedark:feed=Feed
 
 delivery_method.afraidofthedark:self=Self
 delivery_method.afraidofthedark:projectile=Projectile

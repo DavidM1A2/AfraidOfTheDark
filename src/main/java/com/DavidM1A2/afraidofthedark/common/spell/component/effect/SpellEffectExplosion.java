@@ -19,8 +19,10 @@ public class SpellEffectExplosion extends SpellEffect
     // NBT constants
     private static final String NBT_RADIUS = "radius";
 
+    private static final double DEFAULT_RADIUS = 5;
+
     // The radius of the explosion
-    private double radius = 5;
+    private double radius = DEFAULT_RADIUS;
 
     /**
      * Constructor initializes the editable properties
@@ -42,6 +44,7 @@ public class SpellEffectExplosion extends SpellEffect
                 }
                 else
                 {
+                    this.radius = DEFAULT_RADIUS;
                     return "Radius must be larger than 0";
                 }
             }
@@ -94,10 +97,10 @@ public class SpellEffectExplosion extends SpellEffect
     /**
      * Performs the effect against a given entity
      *
-     * @param spell The spell that caused the effect
+     * @param spell           The spell that caused the effect
      * @param spellStageIndex The spell stage that this effect is a part of
-     * @param effectIndex The effect slot that this effect is in
-     * @param entityHit The entity that the effect should be applied to
+     * @param effectIndex     The effect slot that this effect is in
+     * @param entityHit       The entity that the effect should be applied to
      */
     @Override
     public void performEffect(Spell spell, int spellStageIndex, int effectIndex, Entity entityHit)
@@ -108,11 +111,11 @@ public class SpellEffectExplosion extends SpellEffect
     /**
      * Performs the effect at a given position in the world
      *
-     * @param spell The spell that caused the effect
+     * @param spell           The spell that caused the effect
      * @param spellStageIndex The spell stage that this effect is a part of
-     * @param effectIndex The effect slot that this effect is in
-     * @param world    The world the effect is being fired in
-     * @param position The position the effect is being performed at
+     * @param effectIndex     The effect slot that this effect is in
+     * @param world           The world the effect is being fired in
+     * @param position        The position the effect is being performed at
      */
     @Override
     public void performEffect(Spell spell, int spellStageIndex, int effectIndex, World world, BlockPos position)

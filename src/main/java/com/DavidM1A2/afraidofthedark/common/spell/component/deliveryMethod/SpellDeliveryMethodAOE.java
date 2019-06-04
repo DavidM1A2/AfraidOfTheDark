@@ -24,8 +24,11 @@ public class SpellDeliveryMethodAOE extends AOTDSpellDeliveryMethod
     private static final String NBT_RADIUS = "radius";
     private static final String NBT_TARGET_TYPE = "target_type";
 
+    // Default property values
+    private static final double DEFAULT_RADIUS = 3.0;
+
     // The radius of the projectile
-    private double radius = 10.0;
+    private double radius = DEFAULT_RADIUS;
     // If the AOE should target entities (true) or blocks (false)
     private boolean targetEntities = false;
 
@@ -53,6 +56,7 @@ public class SpellDeliveryMethodAOE extends AOTDSpellDeliveryMethod
                         }
                         else
                         {
+                            this.radius = DEFAULT_RADIUS;
                             return "Radius must be larger than 0";
                         }
                     }
