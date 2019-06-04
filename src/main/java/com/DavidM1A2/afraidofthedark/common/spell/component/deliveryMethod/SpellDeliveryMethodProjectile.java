@@ -3,23 +3,63 @@ package com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellDeliveryMethods;
 import com.DavidM1A2.afraidofthedark.common.entity.spell.projectile.EntitySpellProjectile;
 import com.DavidM1A2.afraidofthedark.common.spell.Spell;
+import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodEntry;
 import net.minecraft.entity.Entity;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.math.NumberUtils;
 
 /**
  * Projectile delivery method delivers the spell to the target with a projectile
  */
 public class SpellDeliveryMethodProjectile extends AOTDSpellDeliveryMethod
 {
+    // The NBT keys
+    private static final String NBT_SPEED = "speed";
+
+    // The speed of the projectile
+    private double speed = 1.0;
+
     /**
      * Constructor does not initialize anything
      */
     public SpellDeliveryMethodProjectile()
     {
         super();
+        this.addEditableProperty(new EditableSpellComponentProperty("Speed", "The speed of the projectile", newValue ->
+        {
+            // Ensure the number is parsable
+            if (NumberUtils.isParsable(newValue))
+            {
+                // Parse the speed
+                this.speed = Double.parseDouble(newValue);
+                // Ensure speed is valid
+                if (this.speed >= 0.25)
+                {
+                    return null;
+                }
+                else
+                {
+                    return "Speed must be at least 0.25";
+                }
+            }
+            // If it's not valid return an error
+            else
+            {
+                return newValue + " is not a valid decimal number!";
+            }
+        }));
+    }
+
+    /**
+     * @return Gets the projectile speed
+     */
+    public double getSpeed()
+    {
+        return speed;
     }
 
     /**
@@ -60,7 +100,7 @@ public class SpellDeliveryMethodProjectile extends AOTDSpellDeliveryMethod
     @Override
     public double getCost()
     {
-        return 5;
+        return 5 + this.speed;
     }
 
     /**
@@ -83,5 +123,32 @@ public class SpellDeliveryMethodProjectile extends AOTDSpellDeliveryMethod
     public SpellDeliveryMethodEntry getEntryRegistryType()
     {
         return ModSpellDeliveryMethods.PROJECTILE;
+    }
+
+    /**
+     * Serializes the spell component to NBT, override to add additional fields
+     *
+     * @return An NBT compound containing any required spell component info
+     */
+    @Override
+    public NBTTagCompound serializeNBT()
+    {
+        NBTTagCompound nbt = super.serializeNBT();
+
+        nbt.setDouble(NBT_SPEED, this.speed);
+
+        return nbt;
+    }
+
+    /**
+     * Deserializes the state of this spell component from NBT
+     *
+     * @param nbt The NBT to deserialize from
+     */
+    @Override
+    public void deserializeNBT(NBTTagCompound nbt)
+    {
+        super.deserializeNBT(nbt);
+        this.speed = nbt.getDouble(NBT_SPEED);
     }
 }

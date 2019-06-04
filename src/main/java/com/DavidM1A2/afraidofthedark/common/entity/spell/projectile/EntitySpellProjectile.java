@@ -5,6 +5,7 @@ import com.DavidM1A2.afraidofthedark.common.entity.mcAnimatorLib.animation.Anima
 import com.DavidM1A2.afraidofthedark.common.entity.spell.projectile.animation.AnimationHandlerSpellProjectile;
 import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import com.DavidM1A2.afraidofthedark.common.spell.SpellStage;
+import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.SpellDeliveryMethodProjectile;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.ISpellDeliveryEffectApplicator;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.ISpellDeliveryTransitioner;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod;
@@ -34,8 +35,6 @@ public class EntitySpellProjectile extends Entity implements IMCAnimatedEntity
     private static final String NBT_SPELL = "spell";
     private static final String NBT_SPELL_INDEX = "spell_index";
 
-    // The speed of the projectile
-    private static final double PROJECTILE_SPEED = 0.5;
     // The number of ticks the projectile has been in the air
     private int ticksInAir;
     // The spell that this projectile is a part of
@@ -78,10 +77,12 @@ public class EntitySpellProjectile extends Entity implements IMCAnimatedEntity
         this.spell = spell;
         this.spellIndex = spellIndex;
         double velocityMagnitude = MathHelper.sqrt(xVelocity * xVelocity + yVelocity * yVelocity + zVelocity * zVelocity);
+        // Grab the projectile speed from the delivery method
+        double projectileSpeed = ((SpellDeliveryMethodProjectile) spell.getStage(spellIndex).getDeliveryMethod()).getSpeed();
         // Update the acceleration vector by normalizing it and multiplying by speed
-        this.motionX = xVelocity / velocityMagnitude * PROJECTILE_SPEED;
-        this.motionY = yVelocity / velocityMagnitude * PROJECTILE_SPEED;
-        this.motionZ = zVelocity / velocityMagnitude * PROJECTILE_SPEED;
+        this.motionX = xVelocity / velocityMagnitude * projectileSpeed;
+        this.motionY = yVelocity / velocityMagnitude * projectileSpeed;
+        this.motionZ = zVelocity / velocityMagnitude * projectileSpeed;
         // Position the entity at the center of the shooter moved slightly in the dir of fire
         this.setPosition(x + this.motionX, y + this.motionY, z + this.motionZ);
         // Null shooter
