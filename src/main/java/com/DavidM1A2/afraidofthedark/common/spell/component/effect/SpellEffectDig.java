@@ -1,6 +1,7 @@
 package com.DavidM1A2.afraidofthedark.common.spell.component.effect;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellEffects;
+import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
 import net.minecraft.block.state.IBlockState;
@@ -35,10 +36,13 @@ public class SpellEffectDig extends AOTDSpellEffect
     /**
      * Performs the dig effect against a given entity which removes the block under them
      *
+     * @param spell The spell that caused the effect
+     * @param spellStageIndex The spell stage that this effect is a part of
+     * @param effectIndex The effect slot that this effect is in
      * @param entityHit The entity that the effect should be applied to
      */
     @Override
-    public void performEffect(Entity entityHit)
+    public void performEffect(Spell spell, int spellStageIndex, int effectIndex, Entity entityHit)
     {
         // Digs the block under the player
         BlockPos blockPos = entityHit.getPosition().down();
@@ -51,11 +55,14 @@ public class SpellEffectDig extends AOTDSpellEffect
     /**
      * Performs the effect against a given block in the world
      *
+     * @param spell The spell that caused the effect
+     * @param spellStageIndex The spell stage that this effect is a part of
+     * @param effectIndex The effect slot that this effect is in
      * @param world The world the effect is being fired in
      * @param position The position the effect is being performed at
      */
     @Override
-    public void performEffect(World world, BlockPos position)
+    public void performEffect(Spell spell, int spellStageIndex, int effectIndex, World world, BlockPos position)
     {
         // Digs the block at the position
         if (this.canBlockBeDestroyed(world, position))

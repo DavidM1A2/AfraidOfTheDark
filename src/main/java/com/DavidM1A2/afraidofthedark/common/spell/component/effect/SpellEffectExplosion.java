@@ -1,6 +1,7 @@
 package com.DavidM1A2.afraidofthedark.common.spell.component.effect;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellEffects;
+import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffect;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
@@ -93,10 +94,13 @@ public class SpellEffectExplosion extends SpellEffect
     /**
      * Performs the effect against a given entity
      *
+     * @param spell The spell that caused the effect
+     * @param spellStageIndex The spell stage that this effect is a part of
+     * @param effectIndex The effect slot that this effect is in
      * @param entityHit The entity that the effect should be applied to
      */
     @Override
-    public void performEffect(Entity entityHit)
+    public void performEffect(Spell spell, int spellStageIndex, int effectIndex, Entity entityHit)
     {
         entityHit.world.createExplosion(entityHit, entityHit.posX, entityHit.posY, entityHit.posZ, (float) this.radius, true);
     }
@@ -104,11 +108,14 @@ public class SpellEffectExplosion extends SpellEffect
     /**
      * Performs the effect at a given position in the world
      *
+     * @param spell The spell that caused the effect
+     * @param spellStageIndex The spell stage that this effect is a part of
+     * @param effectIndex The effect slot that this effect is in
      * @param world    The world the effect is being fired in
      * @param position The position the effect is being performed at
      */
     @Override
-    public void performEffect(World world, BlockPos position)
+    public void performEffect(Spell spell, int spellStageIndex, int effectIndex, World world, BlockPos position)
     {
         world.createExplosion(null, position.getX(), position.getY(), position.getZ(), (float) this.radius, true);
     }

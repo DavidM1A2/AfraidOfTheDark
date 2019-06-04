@@ -264,7 +264,7 @@ aotd.spell.invalid=Invalid spell. Make sure to have delivery methods on each spe
 aotd.spell.power_source.creative.invalid_msg=How did you use creative with infinite energy and not cast the spell?
 aotd.spell.power_source.experience.invalid_msg=Not enough experience levels to cast this spell.
 aotd.spell.save_successful=Spell '%1$s' saved successfully.
-aotd.spell.property_edit_fail=Property %1$s did not have a valid value - %2$s.
+aotd.spell.property_edit_fail=Property %1$s did not have a valid value - %2$s
 aotd.spell.property_edit_success=All properties saved successfully.
 
 aotd.dont_understand=§oI don't understand how this works.

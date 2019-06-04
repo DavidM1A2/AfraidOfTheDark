@@ -244,7 +244,7 @@ public class Spell implements INBTSerializable<NBTTagCompound>
      */
     public EntityPlayer getOwner(World world)
     {
-        return world.getPlayerEntityByUUID(this.id);
+        return world.getPlayerEntityByUUID(this.ownerId);
     }
 
     /**

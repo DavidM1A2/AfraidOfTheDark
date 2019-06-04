@@ -184,10 +184,10 @@ public class EntitySpellProjectile extends Entity implements IMCAnimatedEntity
                 // Need to make hitpos "final"
                 BlockPos finalHitPos = hitPos;
                 // For each valid effect apply it at the hit pos
-                currentStage.forAllValidEffects(spellEffect ->
+                currentStage.forAllValidEffects((spellEffect, index) ->
                 {
                     ISpellDeliveryEffectApplicator effectApplicator = currentStage.getDeliveryMethod().getEntryRegistryType().getApplicator(spellEffect.getEntryRegistryType());
-                    effectApplicator.applyEffect(spellEffect, world, finalHitPos);
+                    effectApplicator.applyEffect(spell, spellIndex, index, world, finalHitPos);
                 });
 
                 // Grab the next delivery method
@@ -203,10 +203,10 @@ public class EntitySpellProjectile extends Entity implements IMCAnimatedEntity
             else if (result.typeOfHit == RayTraceResult.Type.ENTITY)
             {
                 // Go through each effect and apply it to the entity
-                currentStage.forAllValidEffects(spellEffect ->
+                currentStage.forAllValidEffects((spellEffect, index) ->
                 {
                     ISpellDeliveryEffectApplicator effectApplicator = currentStage.getDeliveryMethod().getEntryRegistryType().getApplicator(spellEffect.getEntryRegistryType());
-                    effectApplicator.applyEffect(spellEffect, result.entityHit);
+                    effectApplicator.applyEffect(spell, spellIndex, index, result.entityHit);
                 });
 
                 // Grab the next delivery method

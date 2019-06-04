@@ -31,10 +31,10 @@ public class SpellDeliveryMethodSelf extends AOTDSpellDeliveryMethod
     public void deliver(Spell spell, int spellIndex, Entity source)
     {
         // Delivery is as simple as applying effects for the "self" delivery method
-        spell.getStage(spellIndex).forAllValidEffects(spellEffect ->
+        spell.getStage(spellIndex).forAllValidEffects((spellEffect, index) ->
         {
             ISpellDeliveryEffectApplicator effectApplicator = this.getEntryRegistryType().getApplicator(spellEffect.getEntryRegistryType());
-            effectApplicator.applyEffect(spellEffect, source);
+            effectApplicator.applyEffect(spell, spellIndex, index, source);
         });
 
         // Grab the next delivery method
