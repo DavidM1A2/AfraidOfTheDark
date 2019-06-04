@@ -227,9 +227,15 @@ public class AOTDGuiSpellScroll extends AOTDGuiContainer
                     editPanel.add(propertyName);
                     currentY = currentY + propertyName.getHeight();
                     // Create a text box that shows the description of the property
-                    AOTDGuiTextBox propertyDescription = new AOTDGuiTextBox(0, currentY, 120, 30, ClientData.getInstance().getTargaMSHandFontSized(26f));
+                    AOTDGuiTextBox propertyDescription = new AOTDGuiTextBox(0, currentY, 120, 12, ClientData.getInstance().getTargaMSHandFontSized(26f));
                     propertyDescription.setTextColor(purpleText);
                     propertyDescription.setText("Description: " + editableProp.getPropertyDescription());
+                    // While we don't have enough room for the description increase the size by a constant
+                    while (!propertyDescription.getOverflowText().isEmpty())
+                    {
+                        propertyDescription.setHeight(propertyDescription.getHeight() + 12);
+                        propertyDescription.setText("Description: " + editableProp.getPropertyDescription());
+                    }
                     editPanel.add(propertyDescription);
                     currentY = currentY + propertyDescription.getHeight();
                     // Create a text field that edits the property value
