@@ -32,7 +32,7 @@ public class AOTDGuiSpellPowerSourceSlot extends AOTDGuiSpellComponentSlot<Spell
         // If the component type is non-null show the power source and stats, otherwise show the slot is empty
         if (this.getComponentType() != null)
         {
-            this.setHoverTexts("Power Source (" + I18n.format(this.getComponentType().getRegistryName().toString()) + ")", "Cost Meaning: " + this.getComponentInstance().getCostDescription());
+            this.setHoverTexts("Power Source (" + I18n.format(this.getComponentType().getUnlocalizedName()) + ")", "Cost Meaning: " + this.getComponentInstance().getCostDescription());
         }
         else
         {

@@ -20,4 +20,12 @@ public class SpellEffectEntry extends SpellComponentEntry<SpellEffectEntry, Spel
     {
         super(id, new ResourceLocation(id.getResourceDomain(), "textures/spell/effects/" + id.getResourcePath() + ".png"), factory);
     }
+
+    /**
+     * @return Gets the unlocalized name of the component
+     */
+    public String getUnlocalizedName()
+    {
+        return "effect." + this.getRegistryName().toString();
+    }
 }

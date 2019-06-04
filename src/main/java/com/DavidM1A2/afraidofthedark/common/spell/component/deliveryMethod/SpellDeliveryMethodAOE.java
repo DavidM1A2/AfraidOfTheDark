@@ -36,7 +36,7 @@ public class SpellDeliveryMethodAOE extends AOTDSpellDeliveryMethod
     public SpellDeliveryMethodAOE()
     {
         super();
-        this.addEditableProperty(new EditableSpellComponentProperty("Radius", "The radius of the AOE in blocks", newValue ->
+        this.addEditableProperty(new EditableSpellComponentProperty("Radius", "The radius of the AOE in blocks", () -> Double.toString(this.radius), newValue ->
         {
             // Ensure the number is parsable
             if (NumberUtils.isParsable(newValue))
@@ -59,7 +59,7 @@ public class SpellDeliveryMethodAOE extends AOTDSpellDeliveryMethod
                 return newValue + " is not a valid decimal number!";
             }
         }));
-        this.addEditableProperty(new EditableSpellComponentProperty("Target Type", "Should be either 'entity' or 'block'", newValue ->
+        this.addEditableProperty(new EditableSpellComponentProperty("Target Type", "Should be either 'entity' or 'block'", () -> this.targetEntities ? "entity" : "block", newValue ->
         {
             // Check the two valid options first
             if (newValue.equalsIgnoreCase("entity"))

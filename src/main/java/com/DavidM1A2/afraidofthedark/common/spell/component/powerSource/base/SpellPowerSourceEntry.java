@@ -20,4 +20,12 @@ public class SpellPowerSourceEntry extends SpellComponentEntry<SpellPowerSourceE
     {
         super(id, new ResourceLocation(id.getResourceDomain(), "textures/spell/power_sources/" + id.getResourcePath() + ".png"), factory);
     }
+
+    /**
+     * @return Gets the unlocalized name of the component
+     */
+    public String getUnlocalizedName()
+    {
+        return "power_source." + this.getRegistryName().toString();
+    }
 }

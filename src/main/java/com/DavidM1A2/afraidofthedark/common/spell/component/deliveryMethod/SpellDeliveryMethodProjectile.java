@@ -29,7 +29,7 @@ public class SpellDeliveryMethodProjectile extends AOTDSpellDeliveryMethod
     public SpellDeliveryMethodProjectile()
     {
         super();
-        this.addEditableProperty(new EditableSpellComponentProperty("Speed", "The speed of the projectile", newValue ->
+        this.addEditableProperty(new EditableSpellComponentProperty("Speed", "The speed of the projectile", () -> Double.toString(this.speed), newValue ->
         {
             // Ensure the number is parsable
             if (NumberUtils.isParsable(newValue))

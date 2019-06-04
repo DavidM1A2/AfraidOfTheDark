@@ -32,7 +32,7 @@ public class AOTDGuiSpellEffectSlot extends AOTDGuiSpellComponentSlot<SpellEffec
         // If the component type is non-null show the effect method and stats, otherwise show the slot is empty
         if (this.getComponentType() != null)
         {
-            this.setHoverTexts("Effect (" + I18n.format(this.getComponentType().getRegistryName().toString()) + ")", "Cost: " + this.getComponentInstance().getCost());
+            this.setHoverTexts("Effect (" + I18n.format(this.getComponentType().getUnlocalizedName()) + ")", "Cost: " + this.getComponentInstance().getCost());
         }
         else
         {

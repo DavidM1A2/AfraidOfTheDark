@@ -21,6 +21,7 @@ import net.minecraft.util.text.TextComponentTranslation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
@@ -43,6 +44,8 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
 
     // Listeners for buttons
     private Runnable onHelp;
+    // The callback that will be fired when a spell component is selected
+    private Consumer<AOTDGuiSpellComponentSlot<?, ?>> componentEditCallback;
 
     // A special supplier that gets the currently selected component
     private final Supplier<AOTDGuiSpellComponentSlot<?, ?>> selectedComponentGetter;
@@ -227,6 +230,11 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
                             // Clear the selected component
                             clearSelectedComponent.run();
                         }
+                        // If nothing is being hovered we instead edit the current slot
+                        else if (selectedComponent == null && uiPowerSource.getComponentType() != null)
+                        {
+                            componentEditCallback.accept(uiPowerSource);
+                        }
                     }
                     // If we right click set the slot's power source to null
                     else if (event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Right)
@@ -346,6 +354,11 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
                             // Clear the selected component
                             clearSelectedComponent.run();
                         }
+                        // If nothing is being hovered we instead edit the current slot
+                        else if (selectedComponent == null && uiDeliveryMethod.getComponentType() != null)
+                        {
+                            componentEditCallback.accept(uiDeliveryMethod);
+                        }
                     }
                     // If we right click set the slot's delivery method to null
                     else if (event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Right)
@@ -410,6 +423,11 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
                                 uiEffect.setComponentInstance(spellEffect);
                                 // Clear the selected component
                                 clearSelectedComponent.run();
+                            }
+                            // If nothing is being hovered we instead edit the current slot
+                            else if (selectedComponent == null && uiEffect.getComponentType() != null)
+                            {
+                                componentEditCallback.accept(uiEffect);
                             }
                         }
                         // If we right click set the slot's effect to null
@@ -511,6 +529,16 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
     public void setOnHelp(Runnable onHelp)
     {
         this.onHelp = onHelp;
+    }
+
+    /**
+     * Called when a component is clicked
+     *
+     * @param componentEditCallback The callback that to fire
+     */
+    public void setComponentEditCallback(Consumer<AOTDGuiSpellComponentSlot<?, ?>> componentEditCallback)
+    {
+        this.componentEditCallback = componentEditCallback;
     }
 
     /**

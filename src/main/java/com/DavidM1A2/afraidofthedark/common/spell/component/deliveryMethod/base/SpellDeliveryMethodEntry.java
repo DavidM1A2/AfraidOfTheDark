@@ -37,6 +37,14 @@ public class SpellDeliveryMethodEntry extends SpellComponentEntry<SpellDeliveryM
     }
 
     /**
+     * @return Gets the unlocalized name of the component
+     */
+    public String getUnlocalizedName()
+    {
+        return "delivery_method." + this.getRegistryName().toString();
+    }
+
+    /**
      * Sets the default transitioner to be used for this delivery method. This must be called before the entry can be used
      *
      * @param defaultTransitioner The default transitioner to be used if an unknown delivery method transitions into this one

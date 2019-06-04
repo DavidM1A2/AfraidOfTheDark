@@ -27,7 +27,7 @@ public class SpellEffectExplosion extends SpellEffect
     public SpellEffectExplosion()
     {
         super();
-        this.addEditableProperty(new EditableSpellComponentProperty("Radius", "The explosion radius", newValue ->
+        this.addEditableProperty(new EditableSpellComponentProperty("Radius", "The explosion radius", () -> Double.toString(this.radius), newValue ->
         {
             // Ensure the number is parsable
             if (NumberUtils.isParsable(newValue))

@@ -12,7 +12,7 @@ import java.util.function.Supplier;
  * @param <T> The type that will be registered
  * @param <V> The type that this entry will create
  */
-public class SpellComponentEntry <T extends IForgeRegistryEntry<T>, V extends SpellComponent> extends IForgeRegistryEntry.Impl<T>
+public abstract class SpellComponentEntry<T extends IForgeRegistryEntry<T>, V extends SpellComponent> extends IForgeRegistryEntry.Impl<T>
 {
     // A factory reference that creates instances for us
     private final Supplier<V> factory;
@@ -31,6 +31,11 @@ public class SpellComponentEntry <T extends IForgeRegistryEntry<T>, V extends Sp
         this.icon = icon;
         this.factory = factory;
     }
+
+    /**
+     * @return Gets the unlocalized name of the component
+     */
+    public abstract String getUnlocalizedName();
 
     /**
      * Utility method to fire our factory and make a new instance

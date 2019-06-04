@@ -158,6 +158,18 @@ afraidofthedark:void_chest=Void Chest
 afraidofthedark:dark_forest=Dark Forest
 afraidofthedark:gnomish_city=Gnomish City
 
+# Spell components
+power_source.afraidofthedark:creative=Creative
+power_source.afraidofthedark:experience=Experience
+
+effect.afraidofthedark:dig=Dig
+effect.afraidofthedark:explosion=Explosion
+effect.afraidofthedark:teleport=Teleport
+
+delivery_method.afraidofthedark:self=Self
+delivery_method.afraidofthedark:projectile=Projectile
+delivery_method.afraidofthedark:aoe=AOE
+
 # AOTD Messages to player
 aotd.journal.sign.successful=§cWhat have I done?
 aotd.journal.sign.unsuccessful=§oI expected something to happen... but nothing did. Perhaps the name I signed was incorrect?
@@ -252,5 +264,7 @@ aotd.spell.invalid=Invalid spell. Make sure to have delivery methods on each spe
 aotd.spell.power_source.creative.invalid_msg=How did you use creative with infinite energy and not cast the spell?
 aotd.spell.power_source.experience.invalid_msg=Not enough experience levels to cast this spell.
 aotd.spell.save_successful=Spell '%1$s' saved successfully.
+aotd.spell.property_edit_fail=Property %1$s did not have a valid value - %2$s.
+aotd.spell.property_edit_success=All properties saved successfully.
 
 aotd.dont_understand=§oI don't understand how this works.

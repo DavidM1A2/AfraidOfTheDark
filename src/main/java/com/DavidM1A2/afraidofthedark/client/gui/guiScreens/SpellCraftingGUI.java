@@ -24,6 +24,8 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 {
     // The tablet left side of the GUI
     private final AOTDGuiSpellTablet tablet;
+    // The scroll right side of the GUI
+    private final AOTDGuiSpellScroll scroll;
     // The selected cursor icon to hold the currently selected component's icon
     private final AOTDGuiImage selectedCursorIcon;
     // The current component slot that is selected on the scroll
@@ -84,8 +86,11 @@ public class SpellCraftingGUI extends AOTDGuiScreen
         });
 
         // Create the right side scroll to hold the current spell components available
-        AOTDGuiSpellScroll scroll = new AOTDGuiSpellScroll(340, (Constants.GUI_HEIGHT - 256) / 2, 220, 256);
-        scroll.setComponentClickCallback(this::setSelectedComponent);
+        this.scroll = new AOTDGuiSpellScroll(340, (Constants.GUI_HEIGHT - 256) / 2, 220, 256);
+        // When we click a component on the scroll update it as hovered
+        this.scroll.setComponentClickCallback(this::setSelectedComponent);
+        // When we click a component on the tablet update it as being edited
+        this.tablet.setComponentEditCallback(slot -> scroll.setEditing(slot.getComponentInstance()));
         this.getContentPane().add(scroll);
         this.getContentPane().add(selectedCursorIcon);
 
@@ -122,7 +127,7 @@ public class SpellCraftingGUI extends AOTDGuiScreen
     {
         super.keyTyped(character, keyCode);
         // If the inventory key closes the ui and is pressed open the spell list UI
-        if (tablet.inventoryKeyClosesUI())
+        if (tablet.inventoryKeyClosesUI() && scroll.inventoryKeyClosesUI())
         {
             if (keyCode == INVENTORY_KEYCODE)
             {

@@ -32,7 +32,7 @@ public class AOTDGuiSpellDeliveryMethodSlot extends AOTDGuiSpellComponentSlot<Sp
         // If the component type is non-null show the delivery method and stats, otherwise show the slot is empty
         if (this.getComponentType() != null)
         {
-            this.setHoverTexts("Delivery Method (" + I18n.format(this.getComponentType().getRegistryName().toString()) + ")", "Cost Multiplier: " + this.getComponentInstance().getStageCostMultiplier(), "Cost: " + this.getComponentInstance().getCost());
+            this.setHoverTexts("Delivery Method (" + I18n.format(this.getComponentType().getUnlocalizedName()) + ")", "Cost Multiplier: " + this.getComponentInstance().getStageCostMultiplier(), "Cost: " + this.getComponentInstance().getCost());
         }
         else
         {

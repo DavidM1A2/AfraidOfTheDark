@@ -58,7 +58,7 @@ public abstract class AOTDGuiComponent
     public void draw()
     {
         // Draw the bounding box for debug purposes
-        // this.drawBoundingBox();
+        //this.drawBoundingBox();
     }
 
     /**
