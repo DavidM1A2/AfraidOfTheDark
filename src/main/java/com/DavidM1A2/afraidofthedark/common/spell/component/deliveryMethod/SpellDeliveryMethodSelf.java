@@ -8,7 +8,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
- * Self delivery method delivers the spell to the target with a self entity
+ * Self delivery method delivers the spell to the caster
  */
 public class SpellDeliveryMethodSelf extends AOTDSpellDeliveryMethod
 {

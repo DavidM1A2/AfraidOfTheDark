@@ -7,6 +7,7 @@ import com.DavidM1A2.afraidofthedark.client.entity.bolt.*;
 import com.DavidM1A2.afraidofthedark.client.entity.enaria.RenderEnaria;
 import com.DavidM1A2.afraidofthedark.client.entity.enaria.RenderGhastlyEnaria;
 import com.DavidM1A2.afraidofthedark.client.entity.enchantedSkeleton.RenderEnchantedSkeleton;
+import com.DavidM1A2.afraidofthedark.client.entity.spell.projectile.RenderSpellProjectile;
 import com.DavidM1A2.afraidofthedark.client.entity.splinterDrone.RenderSplinterDrone;
 import com.DavidM1A2.afraidofthedark.client.entity.splinterDrone.RenderSplinterDroneProjectile;
 import com.DavidM1A2.afraidofthedark.client.entity.werewolf.RenderWerewolf;
@@ -16,6 +17,7 @@ import com.DavidM1A2.afraidofthedark.common.entity.bolt.*;
 import com.DavidM1A2.afraidofthedark.common.entity.enaria.EntityEnaria;
 import com.DavidM1A2.afraidofthedark.common.entity.enaria.EntityGhastlyEnaria;
 import com.DavidM1A2.afraidofthedark.common.entity.enchantedSkeleton.EntityEnchantedSkeleton;
+import com.DavidM1A2.afraidofthedark.common.entity.spell.projectile.EntitySpellProjectile;
 import com.DavidM1A2.afraidofthedark.common.entity.splinterDrone.EntitySplinterDrone;
 import com.DavidM1A2.afraidofthedark.common.entity.splinterDrone.EntitySplinterDroneProjectile;
 import com.DavidM1A2.afraidofthedark.common.entity.werewolf.EntityWerewolf;
@@ -51,6 +53,7 @@ public class ClientProxy extends CommonProxy
         RenderingRegistry.registerEntityRenderingHandler(EntitySilverBolt.class, RenderSilverBolt::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityIgneousBolt.class, RenderIgneousBolt::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityStarMetalBolt.class, RenderStarMetalBolt::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntitySpellProjectile.class, RenderSpellProjectile::new);
     }
 
     /**

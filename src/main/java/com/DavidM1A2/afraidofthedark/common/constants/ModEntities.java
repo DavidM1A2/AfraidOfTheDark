@@ -5,6 +5,7 @@ import com.DavidM1A2.afraidofthedark.common.entity.bolt.*;
 import com.DavidM1A2.afraidofthedark.common.entity.enaria.EntityEnaria;
 import com.DavidM1A2.afraidofthedark.common.entity.enaria.EntityGhastlyEnaria;
 import com.DavidM1A2.afraidofthedark.common.entity.enchantedSkeleton.EntityEnchantedSkeleton;
+import com.DavidM1A2.afraidofthedark.common.entity.spell.projectile.EntitySpellProjectile;
 import com.DavidM1A2.afraidofthedark.common.entity.splinterDrone.EntitySplinterDrone;
 import com.DavidM1A2.afraidofthedark.common.entity.splinterDrone.EntitySplinterDroneProjectile;
 import com.DavidM1A2.afraidofthedark.common.entity.werewolf.EntityWerewolf;
@@ -80,6 +81,14 @@ public class ModEntities
             .tracker(50, 1, true)
             .build();
 
+    // Spell entities
+    public static final EntityEntry SPELL_PROJECTILE = EntityEntryBuilder.create()
+            .entity(EntitySpellProjectile.class)
+            .id(new ResourceLocation(Constants.MOD_ID, "spell_projectile"), SPELL_PROJECTILE_ID)
+            .name("spell_projectile")
+            .tracker(50, 1, true)
+            .build();
+
     // 5 bolt entities
     public static final EntityEntry WOODEN_BOLT = EntityEntryBuilder.create()
             .entity(EntityWoodenBolt.class)
@@ -121,6 +130,7 @@ public class ModEntities
                     SPLINTER_DRONE,
                     SPLINTER_DRONE_PROJECTILE,
                     ENARIA,
+                    SPELL_PROJECTILE,
                     WOODEN_BOLT,
                     IRON_BOLT,
                     SILVER_BOLT,

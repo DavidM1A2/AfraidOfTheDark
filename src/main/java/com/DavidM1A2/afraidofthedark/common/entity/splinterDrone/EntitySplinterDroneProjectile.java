@@ -141,7 +141,7 @@ public class EntitySplinterDroneProjectile extends Entity implements IMCAnimated
     }
 
     /**
-     * Called when this EntityFireball hits a block or entity.
+     * Called when this Entity hits a block or entity.
      *
      * @param result The result of the ray hitting an object
      */

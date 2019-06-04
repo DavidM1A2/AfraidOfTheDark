@@ -1,0 +1,340 @@
+package com.DavidM1A2.afraidofthedark.common.entity.spell.projectile;
+
+import com.DavidM1A2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedEntity;
+import com.DavidM1A2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler;
+import com.DavidM1A2.afraidofthedark.common.entity.spell.projectile.animation.AnimationHandlerSpellProjectile;
+import com.DavidM1A2.afraidofthedark.common.spell.Spell;
+import com.DavidM1A2.afraidofthedark.common.spell.SpellStage;
+import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.ISpellDeliveryEffectApplicator;
+import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.ISpellDeliveryTransitioner;
+import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.projectile.ProjectileHelper;
+import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+/**
+ * Class representing the projectile delivery method
+ */
+public class EntitySpellProjectile extends Entity implements IMCAnimatedEntity
+{
+    // NBT compound constants
+    private static final String NBT_TICKS_IN_AIR = "ticks_in_air";
+    private static final String NBT_MOTION_DIRECTION = "motion_direction";
+    private static final String NBT_SPELL = "spell";
+    private static final String NBT_SPELL_INDEX = "spell_index";
+
+    // The speed of the projectile
+    private static final double PROJECTILE_SPEED = 0.5;
+    // The number of ticks the projectile has been in the air
+    private int ticksInAir;
+    // The spell that this projectile is a part of
+    private Spell spell;
+    // The current spell stage index
+    private int spellIndex;
+    // The entity that fired the projectile, can be null
+    private Entity shooter;
+
+    // The animation handler that this entity uses for all animations
+    private AnimationHandler animHandler = new AnimationHandlerSpellProjectile(this);
+
+    /**
+     * Required constructor that sets the world
+     *
+     * @param worldIn The world the entity is in
+     */
+    public EntitySpellProjectile(World worldIn)
+    {
+        super(worldIn);
+        this.setSize(0.4F, 0.4F);
+    }
+
+    /**
+     * Required constructor that sets the world, pos, and velocity
+     *
+     * @param world      The world the entity is in
+     * @param spell      The spell that this projectile is delivering
+     * @param spellIndex The index of the current spell stage that is being executed
+     * @param x          The x position of the spell projectile
+     * @param y          The y position of the spell projectile
+     * @param z          The z position of the spell projectile
+     * @param xVelocity  The x component of velocity of the projectile
+     * @param yVelocity  The y component of velocity of the projectile
+     * @param zVelocity  The z component of velocity of the projectile
+     */
+    public EntitySpellProjectile(World world, Spell spell, int spellIndex, double x, double y, double z, double xVelocity, double yVelocity, double zVelocity)
+    {
+        this(world);
+        this.spell = spell;
+        this.spellIndex = spellIndex;
+        double velocityMagnitude = MathHelper.sqrt(xVelocity * xVelocity + yVelocity * yVelocity + zVelocity * zVelocity);
+        // Update the acceleration vector by normalizing it and multiplying by speed
+        this.motionX = xVelocity / velocityMagnitude * PROJECTILE_SPEED;
+        this.motionY = yVelocity / velocityMagnitude * PROJECTILE_SPEED;
+        this.motionZ = zVelocity / velocityMagnitude * PROJECTILE_SPEED;
+        // Position the entity at the center of the shooter moved slightly in the dir of fire
+        this.setPosition(x + this.motionX, y + this.motionY, z + this.motionZ);
+        // Null shooter
+        this.shooter = null;
+    }
+
+    /**
+     * Constructor sets the projectile's properties based on a shooter entity
+     *
+     * @param world      The world the projectile is in
+     * @param spell      The spell that was fired
+     * @param spellIndex The index of the current spell stage that is being executed
+     * @param entity     The entity that fired the projectile
+     */
+    public EntitySpellProjectile(World world, Spell spell, int spellIndex, Entity entity)
+    {
+        this(world, spell, spellIndex, entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ, entity.getLookVec().x, entity.getLookVec().y, entity.getLookVec().z);
+        this.setRotation(entity.rotationYaw, entity.rotationPitch);
+        this.shooter = entity;
+    }
+
+    /**
+     * Required init method, does nothing
+     */
+    @Override
+    protected void entityInit()
+    {
+    }
+
+    /**
+     * Called every tick to update the entity's logic
+     */
+    public void onUpdate()
+    {
+        super.onUpdate();
+
+        // Animations only update client side
+        if (world.isRemote)
+        {
+            this.animHandler.animationsUpdate();
+        }
+
+        // Update logic server side
+        if (!world.isRemote)
+        {
+            // Ensure the shooting entity is null or not dead, and that the area the projectile is in is loaded
+            if (this.world.isBlockLoaded(new BlockPos(this)))
+            {
+                // We are in the air, so increment our counter
+                this.ticksInAir++;
+
+                // Perform a ray case to test if we've hit something. We can only hit the entity that fired the projectile after 25 ticks
+                RayTraceResult rayTraceResult = ProjectileHelper.forwardsRaycast(this, true, this.ticksInAir >= 25, this.shooter);
+
+                // If the ray trace hit something, perform the hit effect
+                // Intellij says this is always non-null, that is not the case....
+                if (rayTraceResult != null)
+                {
+                    this.onImpact(rayTraceResult);
+                }
+
+                // Continue flying in the direction of motion, update the position
+                this.setPosition(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+            }
+            else
+            {
+                this.setDead();
+            }
+        }
+    }
+
+    /**
+     * Called when this Entity hits a block or entity.
+     *
+     * @param result The result of the ray hitting an object
+     */
+    private void onImpact(RayTraceResult result)
+    {
+        // Only process server side
+        if (!this.world.isRemote)
+        {
+            // Grab the current spell stage
+            SpellStage currentStage = spell.getStage(spellIndex);
+            // If the type was a miss don't do anything
+            if (result.typeOfHit == RayTraceResult.Type.MISS)
+            {
+                // Don't do anything
+            }
+            // If we hit a block proceed with the effects
+            else if (result.typeOfHit == RayTraceResult.Type.BLOCK)
+            {
+                // Grab the hit position
+                BlockPos hitPos = new BlockPos(result.hitVec);
+                // If we hit an air block find the block to the side of the air, hit that instead
+                if (world.getBlockState(hitPos).getBlock() == Blocks.AIR)
+                {
+                    hitPos = hitPos.offset(result.sideHit.getOpposite());
+                }
+                // Need to make hitpos "final"
+                BlockPos finalHitPos = hitPos;
+                // For each valid effect apply it at the hit pos
+                currentStage.forAllValidEffects(spellEffect ->
+                {
+                    ISpellDeliveryEffectApplicator effectApplicator = currentStage.getDeliveryMethod().getEntryRegistryType().getApplicator(spellEffect.getEntryRegistryType());
+                    effectApplicator.applyEffect(spellEffect, world, finalHitPos);
+                });
+
+                // Grab the next delivery method
+                SpellDeliveryMethod nextDeliveryMethod = spell.hasStage(spellIndex + 1) ? spell.getStage(spellIndex + 1).getDeliveryMethod() : null;
+                if (nextDeliveryMethod != null)
+                {
+                    // Perform the transition between the next delivery method and the current delivery method
+                    ISpellDeliveryTransitioner spellDeliveryTransitioner = nextDeliveryMethod.getEntryRegistryType().getTransitioner(currentStage.getDeliveryMethod().getEntryRegistryType());
+                    spellDeliveryTransitioner.transitionAtPosition(spell, spellIndex, world, result.hitVec, new Vec3d(this.motionX, this.motionY, this.motionZ));
+                }
+            }
+            // If we hit an entity apply effects to the entity
+            else if (result.typeOfHit == RayTraceResult.Type.ENTITY)
+            {
+                // Go through each effect and apply it to the entity
+                currentStage.forAllValidEffects(spellEffect ->
+                {
+                    ISpellDeliveryEffectApplicator effectApplicator = currentStage.getDeliveryMethod().getEntryRegistryType().getApplicator(spellEffect.getEntryRegistryType());
+                    effectApplicator.applyEffect(spellEffect, result.entityHit);
+                });
+
+                // Grab the next delivery method
+                SpellDeliveryMethod nextDeliveryMethod = spell.hasStage(spellIndex + 1) ? spell.getStage(spellIndex + 1).getDeliveryMethod() : null;
+                if (nextDeliveryMethod != null)
+                {
+                    // Perform the transition between the next delivery method and the current delivery method
+                    ISpellDeliveryTransitioner spellDeliveryTransitioner = nextDeliveryMethod.getEntryRegistryType().getTransitioner(currentStage.getDeliveryMethod().getEntryRegistryType());
+                    spellDeliveryTransitioner.transitionThroughEntity(spell, spellIndex, result.entityHit);
+                }
+            }
+            // Kill the projectile
+            this.setDead();
+        }
+    }
+
+    /**
+     * Called from onUpdate to update entity specific logic
+     */
+    @Override
+    public void onEntityUpdate()
+    {
+        super.onEntityUpdate();
+
+        // If we're client side and no animation is active play the idle animation
+        if (this.world.isRemote)
+        {
+            if (!animHandler.isAnimationActive("Idle"))
+            {
+                animHandler.activateAnimation("Idle", 0);
+            }
+        }
+    }
+
+    /**
+     * Writes the entity to the nbt compound
+     *
+     * @param compound The nbt compound to write to
+     */
+    @Override
+    protected void writeEntityToNBT(NBTTagCompound compound)
+    {
+        compound.setInteger(NBT_TICKS_IN_AIR, this.ticksInAir);
+        compound.setTag(NBT_MOTION_DIRECTION, this.newDoubleNBTList(this.motionX, this.motionY, this.motionZ));
+        compound.setTag(NBT_SPELL, this.spell.serializeNBT());
+        compound.setInteger(NBT_SPELL_INDEX, this.spellIndex);
+    }
+
+    /**
+     * Reads the entity from the nbt compound into the entity object
+     *
+     * @param compound The nbt compound to read data from
+     */
+    @Override
+    protected void readEntityFromNBT(NBTTagCompound compound)
+    {
+        this.ticksInAir = compound.getInteger(NBT_TICKS_IN_AIR);
+        NBTTagList motionTagList = compound.getTagList(NBT_MOTION_DIRECTION, Constants.NBT.TAG_DOUBLE);
+        this.motionX = motionTagList.getDoubleAt(0);
+        this.motionY = motionTagList.getDoubleAt(1);
+        this.motionZ = motionTagList.getDoubleAt(2);
+        this.spell = new Spell(compound.getCompoundTag(NBT_SPELL));
+        this.spellIndex = compound.getInteger(NBT_SPELL_INDEX);
+    }
+
+    /**
+     * @return True, the projectile can hit other entities
+     */
+    @Override
+    public boolean canBeCollidedWith()
+    {
+        return true;
+    }
+
+    /**
+     * Gets the collision bounding box which allows the collision box to be bigger than the entity box
+     *
+     * @return The size of the entity, 0.4
+     */
+    @Override
+    public float getCollisionBorderSize()
+    {
+        return 0.4f;
+    }
+
+    /**
+     * Called when the entity is attacked.
+     *
+     * @param source The damage source that hit the projectile
+     * @param amount The amount of damage inflicted
+     * @return False, this projectile cannot be attacked
+     */
+    @Override
+    public boolean attackEntityFrom(DamageSource source, float amount)
+    {
+        return false;
+    }
+
+    /**
+     * Gets how bright this entity is.
+     *
+     * @return 1.0, max brightness so the projectile isn't too dark
+     */
+    @Override
+    public float getBrightness()
+    {
+        return 1.0F;
+    }
+
+    /**
+     * Not sure exactly what this does, but the fireball uses this code too so I copied the value over
+     *
+     * @return The same value as EntityFireball
+     */
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getBrightnessForRender()
+    {
+        return 15728880;
+    }
+
+    /**
+     * Gets the animation handler which makes the projectile spin
+     *
+     * @return The animation handler for the projectile
+     */
+    @Override
+    public AnimationHandler getAnimationHandler()
+    {
+        return animHandler;
+    }
+}
