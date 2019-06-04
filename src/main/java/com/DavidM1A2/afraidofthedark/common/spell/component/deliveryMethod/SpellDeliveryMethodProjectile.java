@@ -24,7 +24,7 @@ public class SpellDeliveryMethodProjectile extends AOTDSpellDeliveryMethod
     private double speed = 1.0;
 
     /**
-     * Constructor does not initialize anything
+     * Constructor initializes the editable properties
      */
     public SpellDeliveryMethodProjectile()
     {
