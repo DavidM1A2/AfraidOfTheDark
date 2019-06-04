@@ -165,6 +165,7 @@ power_source.afraidofthedark:experience=Experience
 effect.afraidofthedark:dig=Dig
 effect.afraidofthedark:explosion=Explosion
 effect.afraidofthedark:teleport=Teleport
+effect.afraidofthedark:grow=Grow
 
 delivery_method.afraidofthedark:self=Self
 delivery_method.afraidofthedark:projectile=Projectile

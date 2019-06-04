@@ -128,7 +128,7 @@ public class SpellDeliveryMethodAOE extends AOTDSpellDeliveryMethod
             // Perform the transition between the next delivery method and the current delivery method
             ISpellDeliveryTransitioner spellDeliveryTransitioner = nextDeliveryMethod.getEntryRegistryType().getTransitioner(this.getEntryRegistryType());
             // randomize the direction of the transition for the AOE
-            spellDeliveryTransitioner.transitionAtPosition(spell, spellIndex, world, position, new Vec3d(Math.random(), Math.random(), Math.random()).normalize());
+            spellDeliveryTransitioner.transitionAtPosition(spell, spellIndex, world, position, new Vec3d(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize());
         }
     }
 
