@@ -7,6 +7,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.INBTSerializable;
 import org.apache.commons.lang3.StringUtils;
@@ -85,10 +86,10 @@ public class Spell implements INBTSerializable<NBTTagCompound>
                 if (this.isValid())
                 {
                     // Test if the spell can be cast, if not tell the player why
-                    if (this.powerSource.canCast(this))
+                    if (this.powerSource.canCast(entityPlayer, this))
                     {
                         // Consumer the power to cast the spell
-                        this.powerSource.consumePowerToCast(this);
+                        this.powerSource.consumePowerToCast(entityPlayer, this);
                         // Tell the first delivery method to fire
                         this.getStage(0)
                                 .getDeliveryMethod()
@@ -236,6 +237,17 @@ public class Spell implements INBTSerializable<NBTTagCompound>
     }
 
     /**
+     * Gets the owner of the spell
+     *
+     * @param world The world that the spell is being cast in
+     * @return The player who owns the spell, or null if the player is offline
+     */
+    public EntityPlayer getOwner(World world)
+    {
+        return world.getPlayerEntityByUUID(this.id);
+    }
+
+    /**
      * @return A special string containing all of this spell's information
      */
     @Override
@@ -262,11 +274,6 @@ public class Spell implements INBTSerializable<NBTTagCompound>
     public UUID getId()
     {
         return this.id;
-    }
-
-    public UUID getOwnerId()
-    {
-        return this.ownerId;
     }
 
     public void setPowerSource(SpellPowerSource powerSource)

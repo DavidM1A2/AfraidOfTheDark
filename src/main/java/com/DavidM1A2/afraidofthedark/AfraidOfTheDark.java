@@ -140,6 +140,8 @@ public class AfraidOfTheDark
         proxy.initializeOreDictionary();
         // Initialize furnace recipes
         FurnaceRecipeRegister.initialize();
+        // Initialize spell effect overrides
+        SpellEffectOverrideRegister.initialize();
         // Register our key input event handler client side
         if (event.getSide() == Side.CLIENT)
         {

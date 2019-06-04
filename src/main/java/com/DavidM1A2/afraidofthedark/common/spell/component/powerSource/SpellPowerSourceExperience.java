@@ -7,14 +7,17 @@ import com.DavidM1A2.afraidofthedark.common.spell.component.powerSource.base.Spe
 import net.minecraft.entity.player.EntityPlayer;
 
 /**
- * Class representing the creative power source
+ * Class representing the experience source
  */
-public class SpellPowerSourceCreative extends AOTDSpellPowerSource
+public class SpellPowerSourceExperience extends AOTDSpellPowerSource
 {
+    // The number of units each xp level supplies
+    private static final double UNIT_COST_PER_LEVEL = 5;
+
     /**
      * Constructor just calls super
      */
-    public SpellPowerSourceCreative()
+    public SpellPowerSourceExperience()
     {
         super();
     }
@@ -23,23 +26,26 @@ public class SpellPowerSourceCreative extends AOTDSpellPowerSource
      * True if the given spell can be cast, false otherwise
      *
      * @param entityPlayer The player that is casting the spell
-     * @param spell The spell to attempt to cast
+     * @param spell        The spell to attempt to cast
      * @return True if the spell can be cast, false otherwise
      */
     @Override
     public boolean canCast(EntityPlayer entityPlayer, Spell spell)
     {
-        return true;
+        int xpLevelCost = (int) Math.ceil(spell.getCost() / UNIT_COST_PER_LEVEL);
+        return xpLevelCost <= entityPlayer.experienceLevel;
     }
 
     /**
      * Does nothing, creative power sources don't use energy
      *
      * @param entityPlayer The player that is casting the spell
-     * @param spell the spell to attempt to cast
+     * @param spell        the spell to attempt to cast
      */
     public void consumePowerToCast(EntityPlayer entityPlayer, Spell spell)
     {
+        int xpLevelCost = (int) Math.ceil(spell.getCost() / UNIT_COST_PER_LEVEL);
+        entityPlayer.addExperienceLevel(-xpLevelCost);
     }
 
     /**
@@ -50,7 +56,7 @@ public class SpellPowerSourceCreative extends AOTDSpellPowerSource
     @Override
     public String getCostDescription()
     {
-        return "Unlimited power!";
+        return "1xp level for every " + UNIT_COST_PER_LEVEL + " units of spell cost";
     }
 
     /**
@@ -61,7 +67,7 @@ public class SpellPowerSourceCreative extends AOTDSpellPowerSource
     @Override
     public String getUnlocalizedOutOfPowerMsg()
     {
-        return "aotd.spell.power_source.creative.invalid_msg";
+        return "aotd.spell.power_source.experience.invalid_msg";
     }
 
     /**
@@ -72,6 +78,6 @@ public class SpellPowerSourceCreative extends AOTDSpellPowerSource
     @Override
     public SpellPowerSourceEntry getEntryRegistryType()
     {
-        return ModSpellPowerSources.CREATIVE;
+        return ModSpellPowerSources.EXPERIENCE;
     }
 }

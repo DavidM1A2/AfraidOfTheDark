@@ -3,6 +3,7 @@ package com.DavidM1A2.afraidofthedark.common.spell.component.powerSource.base;
 import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
 import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import com.DavidM1A2.afraidofthedark.common.spell.component.SpellComponent;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
@@ -14,18 +15,20 @@ public abstract class SpellPowerSource extends SpellComponent
     /**
      * True if the given spell can be cast, false otherwise
      *
+     * @param entityPlayer The player that is casting the spell
      * @param spell The spell to attempt to cast
      * @return True if the spell can be cast, false otherwise
      */
-    public abstract boolean canCast(Spell spell);
+    public abstract boolean canCast(EntityPlayer entityPlayer, Spell spell);
 
     /**
      * Consumes power to cast a given spell. canCast must return true first to ensure there is
      * enough power to cast the spell
      *
+     * @param entityPlayer The player that is casting the spell
      * @param spell the spell to attempt to cast
      */
-    public abstract void consumePowerToCast(Spell spell);
+    public abstract void consumePowerToCast(EntityPlayer entityPlayer, Spell spell);
 
     /**
      * Computes the message describing why the power source doesn't have enough power
