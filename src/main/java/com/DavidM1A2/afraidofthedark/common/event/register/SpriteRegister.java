@@ -29,6 +29,8 @@ public class SpriteRegister
             ModSprites.ENARIA_SPELL_CAST = event.getMap().registerSprite(new ResourceLocation(Constants.MOD_ID, "particles/enaria_spell_cast"));
             ModSprites.ENARIA_SPELL_CAST_2 = event.getMap().registerSprite(new ResourceLocation(Constants.MOD_ID, "particles/enaria_spell_cast_2"));
             ModSprites.ENARIA_TELEPORT = event.getMap().registerSprite(new ResourceLocation(Constants.MOD_ID, "particles/enaria_teleport"));
+            ModSprites.SPELL_CAST = event.getMap().registerSprite(new ResourceLocation(Constants.MOD_ID, "particles/spell_cast"));
+            ModSprites.SPELL_HIT = event.getMap().registerSprite(new ResourceLocation(Constants.MOD_ID, "particles/spell_hit"));
         }
     }
 }

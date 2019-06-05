@@ -2,18 +2,21 @@ package com.DavidM1A2.afraidofthedark.common.spell.component.effect;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellEffects;
 import com.DavidM1A2.afraidofthedark.common.spell.Spell;
-import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffect;
+import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
  * Teleports the spell owner to the hit location
  */
-public class SpellEffectTeleport extends SpellEffect
+public class SpellEffectTeleport extends AOTDSpellEffect
 {
     /**
      * Gets the cost of the effect
@@ -40,6 +43,12 @@ public class SpellEffectTeleport extends SpellEffect
         EntityPlayer spellCaster = spell.getOwner(entityHit.world);
         if (spellCaster != null)
         {
+            // Create particles at the pre and post teleport position
+            this.createParticlesAt(1, 3, new Vec3d(spellCaster.posX, spellCaster.posY, spellCaster.posZ), spellCaster.dimension);
+            this.createParticlesAt(1, 3, new Vec3d(entityHit.posX, entityHit.posY, entityHit.posZ), entityHit.dimension);
+            // Play sound at the pre and post teleport position
+            entityHit.world.playSound(null, spellCaster.posX, spellCaster.posY, spellCaster.posZ, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 2.5F, 1.0F);
+            entityHit.world.playSound(null, entityHit.posX, entityHit.posY, entityHit.posZ, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 2.5F, 1.0F);
             ((EntityPlayerMP) spellCaster).connection.setPlayerLocation(entityHit.posX, entityHit.posY, entityHit.posZ, spellCaster.rotationYaw, spellCaster.rotationPitch);
         }
     }
@@ -59,7 +68,13 @@ public class SpellEffectTeleport extends SpellEffect
         EntityPlayer spellCaster = spell.getOwner(world);
         if (spellCaster != null)
         {
+            // Create particles at the pre and post teleport position
+            // Play sound at the pre and post teleport position
+            this.createParticlesAt(1, 3, new Vec3d(spellCaster.posX, spellCaster.posY, spellCaster.posZ), spellCaster.dimension);
+            world.playSound(null, spellCaster.posX, spellCaster.posY, spellCaster.posZ, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 2.5F, 1.0F);
             ((EntityPlayerMP) spellCaster).connection.setPlayerLocation(position.getX(), position.getY(), position.getZ(), spellCaster.rotationYaw, spellCaster.rotationPitch);
+            this.createParticlesAt(1, 3, new Vec3d(spellCaster.posX, spellCaster.posY, spellCaster.posZ), spellCaster.dimension);
+            world.playSound(null, spellCaster.posX, spellCaster.posY, spellCaster.posZ, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 2.5F, 1.0F);
         }
     }
 

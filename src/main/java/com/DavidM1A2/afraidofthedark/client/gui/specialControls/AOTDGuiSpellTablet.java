@@ -242,6 +242,8 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
                         spell.setPowerSource(null);
                         uiPowerSource.setComponentType(null);
                     }
+                    // Update cost
+                    refreshCost();
                 }
             }
 
@@ -285,7 +287,7 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
     private void refresh()
     {
         // Update the spell cost label
-        this.spellCost.setText("Cost: " + Math.round(this.spell.getCost()));
+        this.refreshCost();
         // Update the power source instance
         this.uiPowerSource.setComponentInstance(this.spell.getPowerSource());
         // Update the spell's name
@@ -301,6 +303,15 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
         this.uiSpellStages.forEach(AOTDGuiSpellStage::refresh);
         // Update the amount of scroll based on the number of spell stages that exist
         this.updateScrollOffset();
+    }
+
+    /**
+     * Updates the cost label
+     */
+    private void refreshCost()
+    {
+        // Update the spell cost label
+        this.spellCost.setText("Cost: " + Math.round(this.spell.getCost()));
     }
 
     /**
@@ -366,6 +377,8 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
                         spellStage.setDeliveryMethod(null);
                         uiDeliveryMethod.setComponentType(null);
                     }
+                    // Update cost
+                    refreshCost();
                 }
             }
 
@@ -436,6 +449,8 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
                             spellStage.getEffects()[index] = null;
                             uiEffect.setComponentType(null);
                         }
+                        // Update cost
+                        refreshCost();
                     }
                 }
 

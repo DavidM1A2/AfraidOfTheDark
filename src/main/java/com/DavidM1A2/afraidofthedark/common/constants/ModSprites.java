@@ -11,4 +11,6 @@ public class ModSprites
     public static TextureAtlasSprite ENARIA_SPELL_CAST;
     public static TextureAtlasSprite ENARIA_SPELL_CAST_2;
     public static TextureAtlasSprite ENARIA_TELEPORT;
+    public static TextureAtlasSprite SPELL_CAST;
+    public static TextureAtlasSprite SPELL_HIT;
 }

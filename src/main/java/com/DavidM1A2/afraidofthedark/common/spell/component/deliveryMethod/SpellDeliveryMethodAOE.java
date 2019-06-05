@@ -180,12 +180,16 @@ public class SpellDeliveryMethodAOE extends AOTDSpellDeliveryMethod
                     {
                         // Grab the blockpos
                         BlockPos aoePos = blockPos.add(x, y, z);
-                        // Go through each effect and apply it to the position
-                        spell.getStage(spellStageIndex).forAllValidEffects((spellEffect, index) ->
+                        // Test to see if the block is within the radius
+                        if (aoePos.distanceSq(blockPos) < radius * radius)
                         {
-                            ISpellDeliveryEffectApplicator effectApplicator = this.getEntryRegistryType().getApplicator(spellEffect.getEntryRegistryType());
-                            effectApplicator.applyEffect(spell, spellStageIndex, index, world, aoePos);
-                        });
+                            // Go through each effect and apply it to the position
+                            spell.getStage(spellStageIndex).forAllValidEffects((spellEffect, index) ->
+                            {
+                                ISpellDeliveryEffectApplicator effectApplicator = this.getEntryRegistryType().getApplicator(spellEffect.getEntryRegistryType());
+                                effectApplicator.applyEffect(spell, spellStageIndex, index, world, aoePos);
+                            });
+                        }
                     }
                 }
             }

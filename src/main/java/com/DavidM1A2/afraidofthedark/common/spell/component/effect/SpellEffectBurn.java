@@ -3,19 +3,20 @@ package com.DavidM1A2.afraidofthedark.common.spell.component.effect;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellEffects;
 import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
-import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffect;
+import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
 import net.minecraft.block.BlockAir;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
  * Effect that sets fire to the hit target
  */
-public class SpellEffectBurn extends SpellEffect
+public class SpellEffectBurn extends AOTDSpellEffect
 {
     // NBT constants for burn duration
     private static final String NBT_BURN_DURATION = "burn_duration";
@@ -85,6 +86,7 @@ public class SpellEffectBurn extends SpellEffect
     @Override
     public void performEffect(Spell spell, int spellStageIndex, int effectIndex, Entity entityHit)
     {
+        this.createParticlesAt(3, 5, new Vec3d(entityHit.posX, entityHit.posY, entityHit.posZ), entityHit.dimension);
         entityHit.setFire(this.burnDuration);
     }
 
@@ -104,6 +106,7 @@ public class SpellEffectBurn extends SpellEffect
         {
             if (!(world.getBlockState(position).getBlock() instanceof BlockAir))
             {
+                this.createParticlesAt(1, 3, new Vec3d(position.getX() + 0.5, position.getY() + 0.5, position.getZ() + 0.5), world.provider.getDimension());
                 world.setBlockState(position.up(), Blocks.FIRE.getDefaultState());
             }
         }

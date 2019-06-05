@@ -7,6 +7,7 @@ import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEff
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
@@ -48,6 +49,7 @@ public class SpellEffectDig extends AOTDSpellEffect
         BlockPos blockPos = entityHit.getPosition().down();
         if (this.canBlockBeDestroyed(entityHit.world, blockPos))
         {
+            this.createParticlesAt(1, 3, new Vec3d(entityHit.posX, entityHit.posY, entityHit.posZ), entityHit.dimension);
             entityHit.world.destroyBlock(blockPos, true);
         }
     }
@@ -67,6 +69,7 @@ public class SpellEffectDig extends AOTDSpellEffect
         // Digs the block at the position
         if (this.canBlockBeDestroyed(world, position))
         {
+            this.createParticlesAt(1, 3, new Vec3d(position.getX() + 0.5, position.getY() + 0.5, position.getZ() + 0.5), world.provider.getDimension());
             world.destroyBlock(position, true);
         }
     }

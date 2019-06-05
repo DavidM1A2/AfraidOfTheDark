@@ -1,18 +1,26 @@
 package com.DavidM1A2.afraidofthedark.common.spell;
 
+import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
+import com.DavidM1A2.afraidofthedark.client.particle.AOTDParticleRegistry;
 import com.DavidM1A2.afraidofthedark.common.constants.ModDimensions;
+import com.DavidM1A2.afraidofthedark.common.constants.ModSounds;
+import com.DavidM1A2.afraidofthedark.common.packets.otherPackets.SyncParticle;
 import com.DavidM1A2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTUtil;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -90,6 +98,18 @@ public class Spell implements INBTSerializable<NBTTagCompound>
                     {
                         // Consumer the power to cast the spell
                         this.powerSource.consumePowerToCast(entityPlayer, this);
+                        // Play a cast sound
+                        entityPlayer.world.playSound(null, entityPlayer.getPosition(), ModSounds.SPELL_CAST, SoundCategory.PLAYERS, 1.0f, (float) (0.8f + Math.random() * 0.4));
+                        // Spawn 3-5 particles
+                        List<Vec3d> positions = new ArrayList<>();
+                        for (int i = 0; i < entityPlayer.getRNG().nextInt(4) + 2; i++)
+                        {
+                            positions.add(new Vec3d(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ));
+                        }
+                        // Send the particle packet
+                        AfraidOfTheDark.INSTANCE.getPacketHandler().sendToAllAround(
+                                new SyncParticle(AOTDParticleRegistry.ParticleTypes.SPELL_CAST_ID, positions, Collections.nCopies(positions.size(), Vec3d.ZERO)),
+                                new NetworkRegistry.TargetPoint(entityPlayer.dimension, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, 100));
                         // Tell the first delivery method to fire
                         this.getStage(0)
                                 .getDeliveryMethod()

@@ -3,18 +3,19 @@ package com.DavidM1A2.afraidofthedark.common.spell.component.effect;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellEffects;
 import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
-import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffect;
+import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.math.NumberUtils;
 
 /**
  * Effect that creates an explosion at the given position
  */
-public class SpellEffectExplosion extends SpellEffect
+public class SpellEffectExplosion extends AOTDSpellEffect
 {
     // NBT constants
     private static final String NBT_RADIUS = "radius";
@@ -105,6 +106,7 @@ public class SpellEffectExplosion extends SpellEffect
     @Override
     public void performEffect(Spell spell, int spellStageIndex, int effectIndex, Entity entityHit)
     {
+        this.createParticlesAt(1, 3, new Vec3d(entityHit.posX, entityHit.posY, entityHit.posZ), entityHit.dimension);
         entityHit.world.createExplosion(entityHit, entityHit.posX, entityHit.posY, entityHit.posZ, (float) this.radius, true);
     }
 
@@ -120,6 +122,7 @@ public class SpellEffectExplosion extends SpellEffect
     @Override
     public void performEffect(Spell spell, int spellStageIndex, int effectIndex, World world, BlockPos position)
     {
+        this.createParticlesAt(1, 3, new Vec3d(position.getX() + 0.5, position.getY() + 0.5, position.getZ() + 0.5), world.provider.getDimension());
         world.createExplosion(null, position.getX(), position.getY(), position.getZ(), (float) this.radius, true);
     }
 

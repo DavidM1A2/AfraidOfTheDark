@@ -3,19 +3,20 @@ package com.DavidM1A2.afraidofthedark.common.spell.component.effect;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellEffects;
 import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
-import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffect;
+import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.FoodStats;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
  * Effect that feeds a hit player
  */
-public class SpellEffectFeed extends SpellEffect
+public class SpellEffectFeed extends AOTDSpellEffect
 {
     // NBT constants
     private static final String NBT_HUNGER_VALUE = "hunger_value";
@@ -120,6 +121,7 @@ public class SpellEffectFeed extends SpellEffect
     {
         if (entityHit instanceof EntityPlayer)
         {
+            this.createParticlesAt(1, 2, new Vec3d(entityHit.posX, entityHit.posY, entityHit.posZ), entityHit.dimension);
             FoodStats foodStats = ((EntityPlayer) entityHit).getFoodStats();
             foodStats.addStats(this.hungerValue, this.saturationValue);
         }

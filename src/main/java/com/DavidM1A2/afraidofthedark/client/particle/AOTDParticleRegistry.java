@@ -22,7 +22,9 @@ public class AOTDParticleRegistry
         ENARIA_BASIC_ATTACK_ID,
         ENARIA_SPELL_CAST_ID,
         ENARIA_SPELL_CAST_2_ID,
-        ENARIA_TELEPORT_ID
+        ENARIA_TELEPORT_ID,
+        SPELL_CAST_ID,
+        SPELL_HIT_ID
     }
 
     // A map of ID -> particle creator. This is used to instantiate the right particle for the id client side
@@ -37,6 +39,10 @@ public class AOTDParticleRegistry
                 new ParticleEnariaSpellCast2(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, zSpeedIn));
         put(ParticleTypes.ENARIA_TELEPORT_ID, (particleID, worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn, p_178902_15_) ->
                 new ParticleEnariaTeleport(worldIn, xCoordIn, yCoordIn, zCoordIn));
+        put(ParticleTypes.SPELL_CAST_ID, (particleID, worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn, p_178902_15_) ->
+                new ParticleSpellCast(worldIn, xCoordIn, yCoordIn, zCoordIn));
+        put(ParticleTypes.SPELL_HIT_ID, (particleID, worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn, p_178902_15_) ->
+                new ParticleSpellHit(worldIn, xCoordIn, yCoordIn, zCoordIn));
     }};
 
     /**

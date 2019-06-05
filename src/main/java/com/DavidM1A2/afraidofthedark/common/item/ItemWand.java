@@ -39,6 +39,8 @@ public class ItemWand extends AOTDItem
     public ItemWand()
     {
         super("wand");
+        // They don't stack
+        this.setMaxStackSize(1);
     }
 
     /**
