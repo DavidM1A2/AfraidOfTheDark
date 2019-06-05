@@ -18,7 +18,7 @@ public class SpellEffectEntry extends SpellComponentEntry<SpellEffectEntry, Spel
      */
     public SpellEffectEntry(ResourceLocation id, Supplier<SpellEffect> factory)
     {
-        super(id, new ResourceLocation(id.getResourceDomain(), "textures/spell/effects/" + id.getResourcePath() + ".png"), factory);
+        super(id, new ResourceLocation(id.getResourceDomain(), "textures/gui/spell_component/effects/" + id.getResourcePath() + ".png"), factory);
     }
 
     /**

@@ -17,6 +17,7 @@ public class ModSpellEffects
     public static final SpellEffectEntry FEED = new SpellEffectEntry(new ResourceLocation(Constants.MOD_ID, "feed"), SpellEffectFeed::new);
     public static final SpellEffectEntry BURN = new SpellEffectEntry(new ResourceLocation(Constants.MOD_ID, "burn"), SpellEffectBurn::new);
     public static final SpellEffectEntry POTION_EFFECT = new SpellEffectEntry(new ResourceLocation(Constants.MOD_ID, "potion_effect"), SpellEffectPotionEffect::new);
+    public static final SpellEffectEntry SMOKE_SCREEN = new SpellEffectEntry(new ResourceLocation(Constants.MOD_ID, "smoke_screen"), SpellEffectSmokeScreen::new);
 
     // An array containing a list of spell effects that AOTD adds
     public static final SpellEffectEntry[] SPELL_EFFECTS = new SpellEffectEntry[]
@@ -28,6 +29,7 @@ public class ModSpellEffects
                     HEAL,
                     FEED,
                     BURN,
-                    POTION_EFFECT
+                    POTION_EFFECT,
+                    SMOKE_SCREEN
             };
 }
