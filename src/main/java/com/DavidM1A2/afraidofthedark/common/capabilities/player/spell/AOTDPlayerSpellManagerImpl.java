@@ -142,6 +142,18 @@ public class AOTDPlayerSpellManagerImpl implements IAOTDPlayerSpellManager
     }
 
     /**
+     * Gets a spell by it's ID
+     *
+     * @param spellId The spell's ID
+     * @return The spell that has that ID, or null if it doesn't exist
+     */
+    @Override
+    public Spell getSpellById(UUID spellId)
+    {
+        return this.spellIdToSpell.getOrDefault(spellId, null);
+    }
+
+    /**
      * Synchronizes the spell manager between server and client, can be sent
      * from any side. This will sync all known spells and keybindings
      *

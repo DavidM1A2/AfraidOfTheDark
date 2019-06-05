@@ -4,6 +4,7 @@ import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.Collection;
+import java.util.UUID;
 
 /**
  * An interface that is a base for AOTD player spell capabilities
@@ -72,6 +73,14 @@ public interface IAOTDPlayerSpellManager
      * @return A spell that this key is bound to or null if it does not exist
      */
     Spell getSpellForKeybinding(String key);
+
+    /**
+     * Gets a spell by it's ID
+     *
+     * @param spellId The spell's ID
+     * @return The spell that has that ID, or null if it doesn't exist
+     */
+    Spell getSpellById(UUID spellId);
 
     /**
      * Synchronizes the spell manager between server and client, can be sent

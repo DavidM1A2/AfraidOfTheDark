@@ -104,7 +104,7 @@ public class SpellEffectFeed extends SpellEffect
     @Override
     public double getCost()
     {
-        return this.hungerValue / 2.0;
+        return this.hungerValue / 2.0 + this.saturationValue * 2.0;
     }
 
     /**

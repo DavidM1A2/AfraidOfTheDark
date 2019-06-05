@@ -15,6 +15,8 @@ public class ModSpellEffects
     public static final SpellEffectEntry GROW = new SpellEffectEntry(new ResourceLocation(Constants.MOD_ID, "grow"), SpellEffectGrow::new);
     public static final SpellEffectEntry HEAL = new SpellEffectEntry(new ResourceLocation(Constants.MOD_ID, "heal"), SpellEffectHeal::new);
     public static final SpellEffectEntry FEED = new SpellEffectEntry(new ResourceLocation(Constants.MOD_ID, "feed"), SpellEffectFeed::new);
+    public static final SpellEffectEntry BURN = new SpellEffectEntry(new ResourceLocation(Constants.MOD_ID, "burn"), SpellEffectBurn::new);
+    public static final SpellEffectEntry POTION_EFFECT = new SpellEffectEntry(new ResourceLocation(Constants.MOD_ID, "potion_effect"), SpellEffectPotionEffect::new);
 
     // An array containing a list of spell effects that AOTD adds
     public static final SpellEffectEntry[] SPELL_EFFECTS = new SpellEffectEntry[]
@@ -24,6 +26,8 @@ public class ModSpellEffects
                     TELEPORT,
                     GROW,
                     HEAL,
-                    FEED
+                    FEED,
+                    BURN,
+                    POTION_EFFECT
             };
 }

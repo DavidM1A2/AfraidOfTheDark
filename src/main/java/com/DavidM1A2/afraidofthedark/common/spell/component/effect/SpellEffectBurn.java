@@ -5,53 +5,53 @@ import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffect;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
+import net.minecraft.block.BlockAir;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityArmorStand;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 /**
- * Effect that heals a hit entity
+ * Effect that sets fire to the hit target
  */
-public class SpellEffectHeal extends SpellEffect
+public class SpellEffectBurn extends SpellEffect
 {
-    // NBT constants for healing amount
-    private static final String NBT_HEALING_AMOUNT = "healing_amount";
+    // NBT constants for burn duration
+    private static final String NBT_BURN_DURATION = "burn_duration";
 
-    // The default heal amount
-    private static final int DEFAULT_HEAL_AMOUNT = 2;
+    // The default burn duration
+    private static final int DEFAULT_BURN_DURATION = 2;
 
-    // The amount of healing this effect gives
-    private int healAmount = DEFAULT_HEAL_AMOUNT;
+    // The burn duration this effect gives
+    private int burnDuration = DEFAULT_BURN_DURATION;
 
     /**
      * Constructor adds the editable prop
      */
-    public SpellEffectHeal()
+    public SpellEffectBurn()
     {
         super();
         this.addEditableProperty(new EditableSpellComponentProperty(
-                "Heal Amount",
-                "The amount of healing to do in half-hearts.",
-                () -> Integer.toString(this.healAmount),
+                "Burn Duration",
+                "The number of seconds to set fire to when hitting entities.",
+                () -> Integer.toString(this.burnDuration),
                 newValue ->
                 {
                     // Ensure the number is parsable
                     try
                     {
-                        // Parse the heal amount
-                        this.healAmount = Integer.parseInt(newValue);
-                        // Ensure heal amount is valid
-                        if (this.healAmount > 0)
+                        // Parse the burn duration
+                        this.burnDuration = Integer.parseInt(newValue);
+                        // Ensure burn duration is valid
+                        if (this.burnDuration > 0)
                         {
                             return null;
                         }
                         else
                         {
-                            this.healAmount = DEFAULT_HEAL_AMOUNT;
-                            return "Heal amount must be larger than 0";
+                            this.burnDuration = DEFAULT_BURN_DURATION;
+                            return "Burn duration must be larger than 0";
                         }
                     }
                     // If it's not valid return an error
@@ -71,7 +71,7 @@ public class SpellEffectHeal extends SpellEffect
     @Override
     public double getCost()
     {
-        return healAmount * 2;
+        return 10 + burnDuration * 5;
     }
 
     /**
@@ -85,10 +85,7 @@ public class SpellEffectHeal extends SpellEffect
     @Override
     public void performEffect(Spell spell, int spellStageIndex, int effectIndex, Entity entityHit)
     {
-        if (entityHit instanceof EntityLivingBase && !(entityHit instanceof EntityArmorStand))
-        {
-            ((EntityLivingBase) entityHit).heal(this.healAmount);
-        }
+        entityHit.setFire(this.burnDuration);
     }
 
     /**
@@ -103,7 +100,13 @@ public class SpellEffectHeal extends SpellEffect
     @Override
     public void performEffect(Spell spell, int spellStageIndex, int effectIndex, World world, BlockPos position)
     {
-        // No Effect on blocks
+        if (world.getBlockState(position.up()).getBlock() instanceof BlockAir)
+        {
+            if (!(world.getBlockState(position).getBlock() instanceof BlockAir))
+            {
+                world.setBlockState(position.up(), Blocks.FIRE.getDefaultState());
+            }
+        }
     }
 
     /**
@@ -114,7 +117,7 @@ public class SpellEffectHeal extends SpellEffect
     @Override
     public SpellEffectEntry getEntryRegistryType()
     {
-        return ModSpellEffects.HEAL;
+        return ModSpellEffects.BURN;
     }
 
     /**
@@ -127,7 +130,7 @@ public class SpellEffectHeal extends SpellEffect
     {
         NBTTagCompound nbt = super.serializeNBT();
 
-        nbt.setInteger(NBT_HEALING_AMOUNT, this.healAmount);
+        nbt.setInteger(NBT_BURN_DURATION, this.burnDuration);
 
         return nbt;
     }
@@ -141,6 +144,6 @@ public class SpellEffectHeal extends SpellEffect
     public void deserializeNBT(NBTTagCompound nbt)
     {
         super.deserializeNBT(nbt);
-        this.healAmount = nbt.getInteger(NBT_HEALING_AMOUNT);
+        this.burnDuration = nbt.getInteger(NBT_BURN_DURATION);
     }
 }

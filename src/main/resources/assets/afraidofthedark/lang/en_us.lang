@@ -42,6 +42,7 @@ item.afraidofthedark:werewolf_blood.name=Werewolf Blood
 item.afraidofthedark:gnomish_metal_ingot.name=Gnomish Metal Ingot
 item.afraidofthedark:artwork.name=Artwork
 item.afraidofthedark:schematic_generator.name=Schematic Generator
+item.afraidofthedark:wand.name=Wand
 item.afraidofthedark:debug.name=Debug
 
 # Blocks
@@ -168,6 +169,7 @@ effect.afraidofthedark:teleport=Teleport
 effect.afraidofthedark:grow=Grow
 effect.afraidofthedark:heal=Heal
 effect.afraidofthedark:feed=Feed
+effect.afraidofthedark:potion_effect=Potion Effect
 
 delivery_method.afraidofthedark:self=Self
 delivery_method.afraidofthedark:projectile=Projectile
@@ -237,6 +239,11 @@ aotd.research_scroll.incomplete=This scroll is not complete yet.
 aotd.research_scroll.cant_understand=§oI don't understand the material referenced in this research scroll.
 aotd.research_scroll.already_researched=§oI have already studied this research scroll.
 aotd.research_scroll.corrupt=Scroll is corrupt.
+
+aotd.wand.spell_set=Spell set to %1$s.
+aotd.wand.invalid_spell=Invalid spell stored on the wand, please update it with shift+right click.
+aotd.wand.no_bound_spell=No spell set on wand, please do so with shift+right click.
+aotd.wand.no_spells=You do not have any spells to bind to the wand.
 
 aotd.telescope.not_high_enough=§oI can't see anything through these thick clouds. Maybe I could move to a higher elevation.
 

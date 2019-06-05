@@ -388,4 +388,39 @@ public class NBTHelper
         }
         return null;
     }
+
+    /**
+     * Sets an item stack's key name to store an NBT compound value
+     *
+     * @param itemStack The item stack to update
+     * @param keyName   The name of the key to store the double with
+     * @param keyValue  The nbt compound to store with that key value
+     */
+    public static void setCompound(ItemStack itemStack, String keyName, NBTTagCompound keyValue)
+    {
+        // Make sure the item stack is non-null
+        if (itemStack != null)
+        {
+            // Make sure the item stack has an NBT tag compound, if not add it
+            NBTHelper.initNBTTagCompound(itemStack);
+            // Set the nbt compound value onto the tag compound
+            itemStack.getTagCompound().setTag(keyName, keyValue);
+        }
+    }
+
+    /**
+     * Gets an nbt compound value from the NBT on the item stack given a key
+     *
+     * @param itemStack The itemstack to read NBT data from
+     * @param keyName   The key that contains the data we want to retrieve
+     * @return The nbt compound value represented by the key or null if it was not present
+     */
+    public static NBTTagCompound getCompound(ItemStack itemStack, String keyName)
+    {
+        if (NBTHelper.hasTag(itemStack, keyName))
+        {
+            return itemStack.getTagCompound().getCompoundTag(keyName);
+        }
+        return null;
+    }
 }

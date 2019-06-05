@@ -27,6 +27,7 @@ public class ModItems
     public static final Item CLOAK_OF_AGILITY = new ItemCloakOfAgility();
     public static final Item ELDRITCH_METAL_INGOT = new ItemEldritchMetalIngot();
     public static final Item SLEEPING_POTION = new ItemSleepingPotion();
+    public static final Item WAND = new ItemWand();
 
     public static final Item SUNSTONE_FRAGMENT = new ItemSunstoneFragment();
     public static final Item IGNEOUS_GEM = new ItemIgneousGem();
@@ -80,6 +81,7 @@ public class ModItems
                     STAR_METAL_BOLT,
                     DEBUG,
                     SLEEPING_POTION,
+                    WAND,
                     SUNSTONE_FRAGMENT,
                     IGNEOUS_GEM,
                     IGNEOUS_SWORD,
