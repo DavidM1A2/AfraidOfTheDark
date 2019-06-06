@@ -7,7 +7,6 @@ import com.DavidM1A2.afraidofthedark.common.constants.ModResearches;
 import com.DavidM1A2.afraidofthedark.common.entity.enaria.animation.AnimationHandlerEnaria;
 import com.DavidM1A2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedEntity;
 import com.DavidM1A2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler;
-import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -68,7 +67,8 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity
     {
         super(world);
         this.setSize(0.8F, 1.8F);
-        this.setCustomNameTag(ChatFormatting.RED + "" + ChatFormatting.BOLD + "Enaria");
+        // Name of the entity, will be bold and red
+        this.setCustomNameTag("Enaria");
         this.bossInfo.setName(this.getDisplayName());
         this.experienceValue = 300;
         this.isImmuneToFire = true;
@@ -322,7 +322,7 @@ public class EntityEnaria extends EntityMob implements IMCAnimatedEntity
     @Override
     public ITextComponent getDisplayName()
     {
-        return new TextComponentString(ChatFormatting.RED + "" + ChatFormatting.BOLD + this.getCustomNameTag());
+        return new TextComponentString("§c§l" + this.getCustomNameTag());
     }
 
     /**

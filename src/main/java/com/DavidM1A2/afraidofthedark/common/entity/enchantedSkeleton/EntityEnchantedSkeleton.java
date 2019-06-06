@@ -44,7 +44,7 @@ public class EntityEnchantedSkeleton extends EntityMob implements IMCAnimatedEnt
     private static final float MOVE_SPEED = 1.0f;
     private static final float AGRO_RANGE = 16.0f;
     private static final float FOLLOW_RANGE = 32.0f;
-    private static final float MAX_HEALTH = 10.0f;
+    private static final float MAX_HEALTH = 7.0f;
     private static final float ATTACK_DAMAGE = 4.0f;
     private static final float KNOCKBACK_RESISTANCE = 0.5f;
     // NBT tag for if the skeleton has done the spawn animation yet or not

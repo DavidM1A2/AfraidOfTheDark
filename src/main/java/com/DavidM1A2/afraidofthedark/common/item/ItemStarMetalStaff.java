@@ -25,7 +25,7 @@ import java.util.List;
 public class ItemStarMetalStaff extends AOTDItemWithSharedCooldown
 {
     // The amount of knockback the staff has once dropping out of it
-    private static final double KNOCKBACK_STRENGTH = 2;
+    private static final double KNOCKBACK_STRENGTH = 6;
     // The maximum number of ticks a player can be on the troll poll
     private static final int MAX_TROLL_POLE_TIME_IN_TICKS = 60;
 

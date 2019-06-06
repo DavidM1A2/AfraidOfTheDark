@@ -31,7 +31,7 @@ public class EntitySplinterDrone extends EntityFlying implements IMob, IMCAnimat
     private static final double MOVE_SPEED = 0.05D;
     private static final double AGRO_RANGE = 30.0D;
     private static final double FOLLOW_RANGE = 30.0D;
-    private static final double MAX_HEALTH = 25.0D;
+    private static final double MAX_HEALTH = 20.0D;
     private static final double ATTACK_DAMAGE = 2.0D;
     private static final double KNOCKBACK_RESISTANCE = 0.5D;
     // NBT tag for if the skeleton has done the spawn animation yet or not

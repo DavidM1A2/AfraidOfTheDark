@@ -7,12 +7,13 @@ import com.DavidM1A2.afraidofthedark.common.constants.ModResearches;
 import com.DavidM1A2.afraidofthedark.common.entity.enaria.animation.AnimationHandlerGhastlyEnaria;
 import com.DavidM1A2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedEntity;
 import com.DavidM1A2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler;
-import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 /**
@@ -45,8 +46,8 @@ public class EntityGhastlyEnaria extends EntityFlying implements IMCAnimatedEnti
         super(worldIn);
         // Sets the size of the hitbox of enaria
         this.setSize(0.8F, 1.8F);
-        // The name of the entity
-        this.setCustomNameTag(ChatFormatting.RED + "" + ChatFormatting.BOLD + "Ghastly Enaria");
+        // The name of the entity, will be bold and red
+        this.setCustomNameTag("§c§lGhastly Enaria");
         // Enable noclip so enaria can go through walls
         this.noClip = true;
         // Enaria is immune to fire
@@ -170,6 +171,17 @@ public class EntityGhastlyEnaria extends EntityFlying implements IMCAnimatedEnti
             return super.attackEntityFrom(damageSource, damage);
         }
         return false;
+    }
+
+    /**
+     * Gets the name of the entity to show above it
+     *
+     * @return Red and bold nametag
+     */
+    @Override
+    public ITextComponent getDisplayName()
+    {
+        return new TextComponentString("§c§l" + this.getCustomNameTag());
     }
 
     /**

@@ -62,7 +62,7 @@ public class SextantGUI extends AOTDGuiScreen
         background.add(longitude);
 
         // Create a calculate button that performs the math and returns drop location coordinates
-        AOTDGuiButton confirm = new AOTDGuiButton(15, 204, 120, 20, ClientData.getInstance().getTargaMSHandFontSized(40f), "afraidofthedark:textures/gui/sign_button.png", "afraidofthedark:textures/gui/sign_button_hovered.png");
+        AOTDGuiButton confirm = new AOTDGuiButton(15, 204, 120, 20, ClientData.getInstance().getTargaMSHandFontSized(40f), "afraidofthedark:textures/gui/journal_sign/sign_button.png", "afraidofthedark:textures/gui/journal_sign/sign_button_hovered.png");
         // Text just says calculate
         confirm.setText("Calculate");
         // Center the text
