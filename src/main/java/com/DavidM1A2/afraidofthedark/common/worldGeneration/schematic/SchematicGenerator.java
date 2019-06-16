@@ -220,8 +220,8 @@ public class SchematicGenerator
                     if (nextToPlace != Blocks.AIR)
                     {
                         BlockPos position = new BlockPos(x, y, z);
-                        // Diamond blocks represent air blocks in my schematic system. This allows for easy underground structure generation.
-                        if (nextToPlace == Blocks.DIAMOND_BLOCK)
+                        // Structure void blocks represent air blocks in my schematic system. This allows for easy underground structure generation.
+                        if (nextToPlace == Blocks.STRUCTURE_VOID)
                         {
                             // Set the block to air
                             WorldGenFast.setBlockStateFast(world, position, Blocks.AIR.getDefaultState(), setBlockFlags);
