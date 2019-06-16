@@ -16,6 +16,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeProvider;
@@ -157,8 +158,9 @@ public class StructureCrypt extends AOTDStructure
         // Compute the ground height at the center
         int groundHeight = OverworldHeightmap.get(world).getLowestHeight(centerChunk);
 
-        // Set the schematic height to be underground + 3 blocks
-        blockPos = new BlockPos(blockPos.getX(), groundHeight - ModSchematics.CRYPT.getHeight() + 3, blockPos.getZ());
+        // Set the schematic height to be underground + 3 blocks+, ensure it isn't below bedrock
+        int y = MathHelper.clamp(groundHeight - ModSchematics.CRYPT.getHeight() + 3, 5, Integer.MAX_VALUE);
+        blockPos = new BlockPos(blockPos.getX(), y, blockPos.getZ());
         // Update the NBT
         compound.setTag(NBT_POSITION, NBTUtil.createPosTag(blockPos));
 

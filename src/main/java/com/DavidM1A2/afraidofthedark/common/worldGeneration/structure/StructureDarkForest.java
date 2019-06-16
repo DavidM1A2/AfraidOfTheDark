@@ -21,6 +21,7 @@ import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeProvider;
@@ -386,8 +387,8 @@ public class StructureDarkForest extends AOTDStructure
             BlockPos schematicPosNoY = getRandomTreePosition(schematic, blockPos, gutter, bedHouseSide);
             // Get the low height in the center chunk of the schematic and place the schematic there.
             int yPos = heightmap.getLowestHeight(new ChunkPos(schematicPosNoY.add(schematic.getWidth() / 2, 0, schematic.getLength() / 2)));
-            // Trees need to have roots underground so move them down by 5
-            yPos = yPos - 5;
+            // Trees need to have roots underground so move them down by 5, ensure it's above ground though
+            yPos = MathHelper.clamp(yPos - 5, 0, Integer.MAX_VALUE);
             // Update the Y value
             BlockPos schematicPos = new BlockPos(schematicPosNoY.getX(), yPos, schematicPosNoY.getZ());
 
