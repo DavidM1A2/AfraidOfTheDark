@@ -4,6 +4,8 @@ import com.DavidM1A2.afraidofthedark.common.worldGeneration.schematic.Schematic;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.schematic.SchematicLoader;
 import net.minecraft.util.ResourceLocation;
 
+import java.util.stream.Stream;
+
 /**
  * A static class containing all of our schematic references for us
  */
@@ -64,4 +66,30 @@ public class ModSchematics
     public static final Schematic ROOM_STAIR_UP = SchematicLoader.load(new ResourceLocation(Constants.MOD_ID, "schematics/gnomish_city/room_stair_up.schematic"));
     public static final Schematic ROOM_TANKS = SchematicLoader.load(new ResourceLocation(Constants.MOD_ID, "schematics/gnomish_city/room_tanks.schematic"));
     public static final Schematic[] GNOMISH_CITY_ROOMS = {ROOM_CAVE, ROOM_FARM, ROOM_HOTEL, ROOM_MEETING_HALL, ROOM_MUSHROOM, ROOM_RUIN, ROOM_TANKS};
+
+    // A list of all schematics present in AOTD
+    public static final Schematic[] LIST =
+            Stream.of(
+                    // Create an array of standalone schematics
+                    new Schematic[]
+                            {
+                                    CRYPT,
+                                    WITCH_HUT,
+                                    VOID_CHEST_PORTAL,
+                                    VOID_CHEST,
+                                    NIGHTMARE_ISLAND,
+                                    ENARIAS_ALTAR,
+                                    BED_HOUSE,
+                                    ENARIA_LAIR,
+                                    STAIRWELL,
+                                    TUNNEL_EW,
+                                    TUNNEL_NS
+                            },
+                    // Join it with arrays of sub-component schematics
+                    DARK_FOREST_TREES,
+                    DARK_FOREST_PROPS,
+                    GNOMISH_CITY_ROOMS)
+                    // Join the arrays
+                    .flatMap(Stream::of)
+                    .toArray(Schematic[]::new);
 }

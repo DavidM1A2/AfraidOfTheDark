@@ -6,11 +6,11 @@ import net.minecraft.block.Block;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 /**
  * Class used to load schematic files from disk
@@ -25,6 +25,7 @@ public class SchematicLoader
      */
     public static Schematic load(ResourceLocation location)
     {
+        Schematic toReturn = null;
         try
         {
             // Grab an input stream to the schematic file
@@ -59,7 +60,7 @@ public class SchematicLoader
             }
 
             // Return the schematic
-            return new Schematic(tileEntities, width, height, length, blocks, data, entities);
+            toReturn = new Schematic(tileEntities, width, height, length, blocks, data, entities);
         } catch (IOException e)
         {
             // Log an error
@@ -67,6 +68,64 @@ public class SchematicLoader
         }
 
         // Error, return null
-        return null;
+        return toReturn;
+    }
+
+    /**
+     * Debug method used to write a schematic to disk
+     *
+     * @param schematic The schematic to write out
+     * @param file      The file to write to
+     */
+    public static void writeToFile(Schematic schematic, File file)
+    {
+        // Don't overwrite files
+        if (file.exists())
+        {
+            AfraidOfTheDark.INSTANCE.getLogger().warn("File already exists, returning...");
+            return;
+        }
+
+        try
+        {
+            // Create folders down to the file
+            file.getParentFile().mkdirs();
+            // Create the file
+            file.createNewFile();
+
+            // Open an output stream to the file
+            try (OutputStream outputStream = new FileOutputStream(file))
+            {
+                // Create a schematic NBT
+                NBTTagCompound schematicNBT = new NBTTagCompound();
+
+                // Write each of the w/l/h values to nbt
+                schematicNBT.setShort("Width", schematic.getWidth());
+                schematicNBT.setShort("Height", schematic.getHeight());
+                schematicNBT.setShort("Length", schematic.getLength());
+
+                // Write each entity and tile entity to the nbt
+                schematicNBT.setTag("TileEntities", schematic.getTileEntities());
+                schematicNBT.setTag("Entities", schematic.getEntities());
+
+                // For each block write its name to nbt
+                NBTTagList stringBlocks = new NBTTagList();
+                for (Block block : schematic.getBlocks())
+                {
+                    stringBlocks.appendTag(new NBTTagString(block.getRegistryName().toString()));
+                }
+                schematicNBT.setTag("Blocks", stringBlocks);
+                // Write all of the nbt data to disk
+                schematicNBT.setIntArray("Data", schematic.getData());
+
+                // Write the nbt to the file
+                CompressedStreamTools.writeCompressed(schematicNBT, outputStream);
+            }
+        }
+        // Catch the exception and print it out
+        catch (IOException e)
+        {
+            AfraidOfTheDark.INSTANCE.getLogger().error(e);
+        }
     }
 }
