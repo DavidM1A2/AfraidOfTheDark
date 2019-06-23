@@ -147,14 +147,18 @@ public class ItemJournal extends AOTDItem
     @Override
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
     {
-        // Two item stacks one standard and one cheatsheet journal
-        ItemStack standardJournal = new ItemStack(this);
-        ItemStack cheatsheetJournal = new ItemStack(this);
-        // The cheat sheet journal will have the cheat sheet tag set to true
-        NBTHelper.setBoolean(cheatsheetJournal, NBT_CHEAT_SHEET, true);
-        // Add the two journals to the item list
-        items.add(standardJournal);
-        items.add(cheatsheetJournal);
+        // Ensure that the item is in the creative tab first...
+        if (this.isInCreativeTab(tab))
+        {
+            // Two item stacks one standard and one cheatsheet journal
+            ItemStack standardJournal = new ItemStack(this);
+            ItemStack cheatsheetJournal = new ItemStack(this);
+            // The cheat sheet journal will have the cheat sheet tag set to true
+            NBTHelper.setBoolean(cheatsheetJournal, NBT_CHEAT_SHEET, true);
+            // Add the two journals to the item list
+            items.add(standardJournal);
+            items.add(cheatsheetJournal);
+        }
     }
 
     /**
