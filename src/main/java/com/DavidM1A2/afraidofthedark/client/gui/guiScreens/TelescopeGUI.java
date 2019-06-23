@@ -48,7 +48,7 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
         // Create the panel to hold all the meteors, the size doesnt matter since it is just a base to hold all of our meteor buttons
         telescopeMeteors = new AOTDGuiPanel(0, 0, 1, 1, false);
         // The amount of buffer to apply to the sides for the fade in to make the telescope look realistic
-        final int SIDE_BUFFER = 21;
+        final int SIDE_BUFFER = 22;
         // Create a clipping panel to hold the meteors so they don't clip outside
         AOTDGuiPanel telescopeMeteorClip = new AOTDGuiPanel(SIDE_BUFFER, SIDE_BUFFER, GUI_SIZE - SIDE_BUFFER * 2, GUI_SIZE - SIDE_BUFFER * 2, true);
         // Initialize the background star sky image and center the image
