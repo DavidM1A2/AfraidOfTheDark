@@ -1,7 +1,4 @@
 # Items
-item.afraidofthedark:insanity_control.name=Insanity Control Debug
-item.afraidofthedark:world_gen_test.name=World Generation Tester
-
 item.afraidofthedark:journal.name=Blood Stained Journal
 item.afraidofthedark:astral_silver_sword.name=Astral Silver Sword
 item.afraidofthedark:igneous_sword.name=Igneous Sword
@@ -41,7 +38,6 @@ item.afraidofthedark:flask_of_souls.name=Flask of Souls
 item.afraidofthedark:werewolf_blood.name=Werewolf Blood
 item.afraidofthedark:gnomish_metal_ingot.name=Gnomish Metal Ingot
 item.afraidofthedark:artwork.name=Artwork
-item.afraidofthedark:schematic_generator.name=Schematic Generator
 item.afraidofthedark:wand.name=Wand
 item.afraidofthedark:debug.name=Debug
 
@@ -75,7 +71,6 @@ tile.afraidofthedark:void_chest_portal.name=Void Chest Portal
 tile.afraidofthedark:eldritch_obsidian.name=Eldritch Obsidian
 tile.afraidofthedark:amorphous_eldritch_metal.name=Amorphous Eldritch Metal
 tile.afraidofthedark:eldritch_stone.name=Eldritch Stone
-tile.afraidofthedark:aotd_barrier.name=Witherproof Barrier
 tile.afraidofthedark:gnomish_metal_plate.name=Gnomish Metal Plate
 tile.afraidofthedark:gnomish_metal_strut.name=Gnomish Metal Strut
 tile.afraidofthedark:glow_stalk.name=Glow Stalk
