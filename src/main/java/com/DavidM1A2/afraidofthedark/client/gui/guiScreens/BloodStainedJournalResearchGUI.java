@@ -28,9 +28,6 @@ import org.lwjgl.util.Color;
  */
 public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 {
-    // The width and height of the journal research tree background texture
-    private static final int BACKGROUND_TEXTURE_WIDTH = 1024;
-    private static final int BACKGROUND_TEXTURE_HEIGHT = 1024;
     // Set the size of the UI to always be 256x256
     private static final int BACKGROUND_HEIGHT = 256;
     private static final int BACKGROUND_WIDTH = 256;
@@ -70,9 +67,9 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
         this.researchTree = new AOTDGuiPanel(-this.guiOffsetX, -this.guiOffsetY, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, false);
         this.getContentPane().add(researchTreeBase);
 
-        this.scrollBackground = new AOTDGuiImage(0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, BACKGROUND_TEXTURE_WIDTH, BACKGROUND_TEXTURE_HEIGHT, "afraidofthedark:textures/gui/journal_tech_tree/background.png");
-        this.scrollBackground.setU(this.guiOffsetX + (BACKGROUND_TEXTURE_WIDTH - BACKGROUND_WIDTH) / 2);
-        this.scrollBackground.setV(this.guiOffsetY + (BACKGROUND_TEXTURE_HEIGHT - BACKGROUND_HEIGHT));
+        this.scrollBackground = new AOTDGuiImage(0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, 1024, 1024, "afraidofthedark:textures/gui/journal_tech_tree/background.png");
+        this.scrollBackground.setU(this.guiOffsetX + (this.scrollBackground.getMaxTextureWidth() - this.scrollBackground.getWidth()) / 2);
+        this.scrollBackground.setV(this.guiOffsetY + (this.scrollBackground.getMaxTextureHeight() - this.scrollBackground.getHeight()));
         // The border around the research
         AOTDGuiImage backgroundBorder = new AOTDGuiImage(0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, "afraidofthedark:textures/gui/journal_tech_tree/frame.png");
         researchTreeBase.add(scrollBackground);
@@ -246,8 +243,8 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
         this.researchTree.setY(-this.guiOffsetY + researchTree.getParent().getY());
 
         // Set the scroll background U and V
-        this.scrollBackground.setU(this.guiOffsetX + (BACKGROUND_TEXTURE_WIDTH - BACKGROUND_WIDTH) / 2);
-        this.scrollBackground.setV(this.guiOffsetY + (BACKGROUND_TEXTURE_HEIGHT - BACKGROUND_HEIGHT));
+        this.scrollBackground.setU(this.guiOffsetX + (this.scrollBackground.getMaxTextureWidth() - this.scrollBackground.getWidth()) / 2);
+        this.scrollBackground.setV(this.guiOffsetY + (this.scrollBackground.getMaxTextureHeight() - this.scrollBackground.getHeight()));
     }
 
     /**
@@ -256,9 +253,9 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
     @Override
     protected void checkOutOfBounds()
     {
-        int backgroundWiggleRoom = (BACKGROUND_TEXTURE_WIDTH - BACKGROUND_WIDTH) / 2;
+        int backgroundWiggleRoom = (this.scrollBackground.getMaxTextureWidth() - this.scrollBackground.getWidth()) / 2;
         this.guiOffsetX = MathHelper.clamp(this.guiOffsetX, -backgroundWiggleRoom, backgroundWiggleRoom);
-        this.guiOffsetY = MathHelper.clamp(this.guiOffsetY, -BACKGROUND_TEXTURE_HEIGHT + BACKGROUND_HEIGHT, 0);
+        this.guiOffsetY = MathHelper.clamp(this.guiOffsetY, -this.scrollBackground.getMaxTextureHeight() + this.scrollBackground.getHeight(), 0);
     }
 
     /**

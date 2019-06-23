@@ -53,8 +53,8 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
         AOTDGuiPanel telescopeMeteorClip = new AOTDGuiPanel(SIDE_BUFFER, SIDE_BUFFER, GUI_SIZE - SIDE_BUFFER * 2, GUI_SIZE - SIDE_BUFFER * 2, true);
         // Initialize the background star sky image and center the image
         telescopeImage = new AOTDGuiImage(0, 0, GUI_SIZE - SIDE_BUFFER * 2, GUI_SIZE - SIDE_BUFFER * 2, 3840, 2160, "afraidofthedark:textures/gui/telescope/background.png");
-        telescopeImage.setU(this.guiOffsetX + (telescopeImage.getMaxTextureWidth() / 2));
-        telescopeImage.setV(this.guiOffsetY + (telescopeImage.getMaxTextureHeight() / 2));
+        telescopeImage.setU(this.guiOffsetX + (telescopeImage.getMaxTextureWidth() - telescopeImage.getWidth()) / 2);
+        telescopeImage.setV(this.guiOffsetY + (telescopeImage.getMaxTextureHeight() - telescopeImage.getHeight()) / 2);
 
         // Click listener that gets called when we click a meteor button
         AOTDMouseListener meteorClickListener = new AOTDMouseListener()
@@ -134,8 +134,8 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
         this.telescopeMeteors.setY(-this.guiOffsetY + telescopeMeteors.getParent().getY());
 
         // Update the background image's U/V
-        telescopeImage.setU(this.guiOffsetX + (this.telescopeImage.getMaxTextureWidth() / 2));
-        telescopeImage.setV(this.guiOffsetY + (this.telescopeImage.getMaxTextureHeight() / 2));
+        telescopeImage.setU(this.guiOffsetX + (telescopeImage.getMaxTextureWidth() - telescopeImage.getWidth()) / 2);
+        telescopeImage.setV(this.guiOffsetY + (telescopeImage.getMaxTextureHeight() - telescopeImage.getHeight()) / 2);
     }
 
     /**
