@@ -17,8 +17,8 @@ public class Constants
     public static final String MOD_ID = "afraidofthedark";
     // The mod name
     public static final String MOD_NAME = "Afraid of the Dark";
-    // The minecraft version number and version
-    public static final String MOD_VERSION = "1.2";
+    // The mod version
+    public static final String MOD_VERSION = "1.1";
     // The minecraft version number
     public static final String MC_VERSION = "1.12.2";
     // Refrences to the proxies
