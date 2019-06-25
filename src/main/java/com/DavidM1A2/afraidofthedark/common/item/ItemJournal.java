@@ -61,7 +61,7 @@ public class ItemJournal extends AOTDItem
             if (playerIn.getCapability(ModCapabilities.PLAYER_BASICS, null).getStartedAOTD())
             {
                 // Set the owner tag to the player's username
-                this.setOwner(heldItemStack, playerIn.getDisplayName().getUnformattedText());
+                this.setOwner(heldItemStack, playerIn.getGameProfile().getName());
                 // Show the journal UI
                 if (worldIn.isRemote)
                 {
@@ -82,7 +82,7 @@ public class ItemJournal extends AOTDItem
             }
         }
         // If the journal does have an owner, check if that owner is us
-        else if (playerIn.getDisplayName().getUnformattedText().equals(NBTHelper.getString(heldItemStack, NBT_OWNER)))
+        else if (playerIn.getGameProfile().getName().equals(NBTHelper.getString(heldItemStack, NBT_OWNER)))
         {
             // If the player has started AOTD show the jounral UI
             if (playerIn.getCapability(ModCapabilities.PLAYER_BASICS, null).getStartedAOTD())

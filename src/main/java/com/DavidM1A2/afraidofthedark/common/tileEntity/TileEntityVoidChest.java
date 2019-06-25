@@ -184,7 +184,7 @@ public class TileEntityVoidChest extends AOTDTickingTileEntity
                 World voidChestWorld = this.world.getMinecraftServer().getWorld(ModDimensions.VOID_CHEST.getId());
                 IAOTDPlayerVoidChestData playerVoidChestData = entityPlayer.getCapability(ModCapabilities.PLAYER_VOID_CHEST_DATA, null);
                 this.indexToGoTo = IslandUtility.getOrAssignPlayerPositionalIndex(voidChestWorld, playerVoidChestData);
-                entityPlayer.sendMessage(new TextComponentTranslation("aotd.void_chest.owner_set", entityPlayer.getDisplayName().getUnformattedText()));
+                entityPlayer.sendMessage(new TextComponentTranslation("aotd.void_chest.owner_set", entityPlayer.getGameProfile().getName()));
             }
             // If the chest has an owner test if we're the owner
             else if (entityPlayer.getGameProfile().getId().equals(this.owner))

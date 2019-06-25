@@ -358,7 +358,7 @@ public class NightmareHandler
     private ItemStack createNamedJournal(EntityPlayer entityPlayer)
     {
         ItemStack toReturn = new ItemStack(ModItems.JOURNAL, 1, 0);
-        ModItems.JOURNAL.setOwner(toReturn, entityPlayer.getDisplayName().getUnformattedText());
+        ModItems.JOURNAL.setOwner(toReturn, entityPlayer.getGameProfile().getName());
         return toReturn;
     }
 

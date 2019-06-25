@@ -91,7 +91,7 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
                     entityPlayer.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f);
                     IAOTDPlayerBasics playerBasics = entityPlayer.getCapability(ModCapabilities.PLAYER_BASICS, null);
                     IAOTDPlayerResearch playerResearch = entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null);
-                    if (BloodStainedJournalSignGUI.this.nameSignField.getText().equals(entityPlayer.getDisplayName().getUnformattedText()))
+                    if (BloodStainedJournalSignGUI.this.nameSignField.getText().equals(entityPlayer.getGameProfile().getName()))
                     {
                         // if the name is correct start the mod
                         if (!playerBasics.getStartedAOTD())
@@ -111,11 +111,11 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
                             // We must check both off hand and main hand since the journal could be in either hand
                             if (mainHand.getItem() instanceof ItemJournal)
                             {
-                                ((ItemJournal) mainHand.getItem()).setOwner(mainHand, entityPlayer.getDisplayName().getUnformattedText());
+                                ((ItemJournal) mainHand.getItem()).setOwner(mainHand, entityPlayer.getGameProfile().getName());
                             }
                             else if (offHand.getItem() instanceof ItemJournal)
                             {
-                                ((ItemJournal) offHand.getItem()).setOwner(offHand, entityPlayer.getDisplayName().getUnformattedText());
+                                ((ItemJournal) offHand.getItem()).setOwner(offHand, entityPlayer.getGameProfile().getName());
                             }
 
                             // Play the sign animation and chat message
