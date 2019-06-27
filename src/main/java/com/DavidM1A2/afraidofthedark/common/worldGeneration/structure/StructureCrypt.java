@@ -110,8 +110,8 @@ public class StructureCrypt extends AOTDStructure
                 double percentErie = (double) numErieForestChunks / (numErieForestChunks + numOtherChunks);
                 double percentOther = 1.0 - percentErie;
 
-                // 1% chance to spawn in other biomes, 5% chance to spawn in erie forests
-                return (percentErie * 0.05 + percentOther * 0.01) * AfraidOfTheDark.INSTANCE.getConfigurationHandler().getCryptMultiplier();
+                // 0.6% chance to spawn in other biomes, 2% chance to spawn in erie forests
+                return (percentErie * 0.02 + percentOther * 0.006) * AfraidOfTheDark.INSTANCE.getConfigurationHandler().getCryptMultiplier();
             }
 
             @Override

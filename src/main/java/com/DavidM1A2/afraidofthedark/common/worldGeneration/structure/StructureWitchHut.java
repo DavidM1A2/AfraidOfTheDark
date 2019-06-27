@@ -76,8 +76,8 @@ public class StructureWitchHut extends AOTDStructure
                     return this.getDefaultResult();
                 }
 
-                // 10% chance to generate in any chunks this fits in
-                return 0.1 * AfraidOfTheDark.INSTANCE.getConfigurationHandler().getWitchHutMultiplier();
+                // 4% chance to generate in any chunks this fits in
+                return 0.04 * AfraidOfTheDark.INSTANCE.getConfigurationHandler().getWitchHutMultiplier();
             }
 
             @Override

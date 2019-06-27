@@ -34,7 +34,9 @@ public class BlockVoidChestPortal extends AOTDBlock
         super("void_chest_portal", Material.PORTAL);
         // This block gives off light
         this.setLightLevel(1.0f);
-        this.setResistance(100.0f);
+        // This block can't be broken
+        this.setResistance(600000.0f);
+        this.setBlockUnbreakable();
     }
 
     /**

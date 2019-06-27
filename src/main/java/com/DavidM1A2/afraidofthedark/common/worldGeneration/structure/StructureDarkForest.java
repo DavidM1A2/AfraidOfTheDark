@@ -155,9 +155,9 @@ public class StructureDarkForest extends AOTDStructure
             return 0;
         }
         else
-        // If the house is valid we're good to go, the chance to gen will be .23%
+        // If the house is valid we're good to go, the chance to gen will be .2%
         {
-            return 0.0023 * AfraidOfTheDark.INSTANCE.getConfigurationHandler().getDarkForestMultiplier();
+            return 0.002 * AfraidOfTheDark.INSTANCE.getConfigurationHandler().getDarkForestMultiplier();
         }
     }
 

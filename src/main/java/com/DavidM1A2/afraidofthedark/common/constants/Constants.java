@@ -9,7 +9,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 
 /**
- * Refrences for static final variables
+ * References for static final variables
  */
 public class Constants
 {

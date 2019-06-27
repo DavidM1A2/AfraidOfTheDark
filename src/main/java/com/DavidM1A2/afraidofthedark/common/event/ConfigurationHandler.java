@@ -22,7 +22,11 @@ public class ConfigurationHandler
     ///
     /// A list of configurable properties
     ///
+
+    // Category types
     private static final String CATEGORY_WORLD_GENERATION = "world_generation";
+    private static final String CATEGORY_DIMENSION = "dimension";
+
     // A reference to the configuration which is read from the file
     private Configuration configuration;
 
@@ -44,6 +48,10 @@ public class ConfigurationHandler
 
     // The priority to register the world generator at for AOTD
     private int worldGenPriority = 0;
+
+    // The ID of the dimensions or -1 to mean "pick for me"
+    private int nightmareDimensionId = -1;
+    private int voidChestDimensionId = -1;
 
     /**
      * Initializes this configuration handler from a .cfg file
@@ -82,6 +90,7 @@ public class ConfigurationHandler
         // Add headers to our configuration
         this.configuration.addCustomCategoryComment(CATEGORY_DUNGEON_FREQUENCY, "Here you can set how frequently certain dungeons appear.");
         this.configuration.addCustomCategoryComment(CATEGORY_WORLD_GENERATION, "Here you can set world generation properties.");
+        this.configuration.addCustomCategoryComment(CATEGORY_DIMENSION, "Here you can set dimension IDs");
 
         // Grab all the configuration elements from the file
 
@@ -99,6 +108,9 @@ public class ConfigurationHandler
 
         this.worldGenPriority = this.configuration.getInt("World Generation Priority", CATEGORY_WORLD_GENERATION, 0, -1000, 1000, "Sets the priority for afraid of the dark world generation. Higher numbers result in world generation running after other mods.");
 
+        this.nightmareDimensionId = this.configuration.getInt("Nightmare Dimension ID", CATEGORY_DIMENSION, 0, 0, 256, "Sets the dimension ID of the nightmare realm. 0 indicates that the value should be dynamically chosen by forge.");
+        this.voidChestDimensionId = this.configuration.getInt("Void Chest Dimension ID", CATEGORY_DIMENSION, 0, 0, 256, "Sets the dimension ID of the void chest realm. 0 indicates that the value should be dynamically chosen by forge.");
+
         // If we changed the configuration at all, save it
         if (this.configuration.hasChanged())
         {
@@ -115,6 +127,7 @@ public class ConfigurationHandler
         {{
             this.addAll(new ConfigElement(ConfigurationHandler.this.configuration.getCategory(Configuration.CATEGORY_GENERAL)).getChildElements());
             this.addAll(new ConfigElement(ConfigurationHandler.this.configuration.getCategory(CATEGORY_DUNGEON_FREQUENCY)).getChildElements());
+            this.addAll(new ConfigElement(ConfigurationHandler.this.configuration.getCategory(CATEGORY_DIMENSION)).getChildElements());
         }};
     }
 
@@ -173,5 +186,15 @@ public class ConfigurationHandler
     public int getWorldGenPriority()
     {
         return this.worldGenPriority;
+    }
+
+    public int getNightmareDimensionId()
+    {
+        return this.nightmareDimensionId;
+    }
+
+    public int getVoidChestDimensionId()
+    {
+        return this.voidChestDimensionId;
     }
 }
