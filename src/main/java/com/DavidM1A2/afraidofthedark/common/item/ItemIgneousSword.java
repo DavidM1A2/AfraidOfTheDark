@@ -39,7 +39,7 @@ public class ItemIgneousSword extends AOTDChargeableSword
     public ItemIgneousSword()
     {
         super(ModToolMaterials.IGNEOUS, "igneous_sword");
-        this.percentChargePerAttack = 10;
+        this.percentChargePerAttack = 35;
     }
 
     /**

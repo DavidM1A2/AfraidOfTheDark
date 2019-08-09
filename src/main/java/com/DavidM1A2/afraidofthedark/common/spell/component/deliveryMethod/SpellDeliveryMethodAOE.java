@@ -50,14 +50,14 @@ public class SpellDeliveryMethodAOE extends AOTDSpellDeliveryMethod
                         // Parse the radius
                         this.radius = Double.parseDouble(newValue);
                         // Ensure radius is valid
-                        if (this.radius > 0)
+                        if (this.radius >= 1.0)
                         {
                             return null;
                         }
                         else
                         {
                             this.radius = DEFAULT_RADIUS;
-                            return "Radius must be larger than 0";
+                            return "Radius must be larger than or equal to 1";
                         }
                     }
                     // If it's not valid return an error
@@ -166,11 +166,6 @@ public class SpellDeliveryMethodAOE extends AOTDSpellDeliveryMethod
         {
             // Compute the radius in blocks
             int blockRadius = MathHelper.floor(this.radius);
-            // Make sure it's positive or 0
-            if (blockRadius < 0)
-            {
-                blockRadius = 0;
-            }
             // Go over every block in the radius
             for (int x = -blockRadius; x <= blockRadius; x++)
             {

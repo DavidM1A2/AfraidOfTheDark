@@ -85,11 +85,12 @@ public class FireWristCrossbow implements IMessage
                 world.playSound(null, entityPlayer.getPosition(), ModSounds.CROSSBOW_FIRE, SoundCategory.PLAYERS, 0.5f, world.rand.nextFloat() * 0.4f + 0.8f);
                 // Instantiate bolt!
                 EntityBolt bolt = msg.selectedBolt.getBoltEntityFactory().apply(world, entityPlayer);
-                // Push the bolt slightly forward so it does not collide with the player
+                // Aim and fire the bolt
                 bolt.shoot(entityPlayer, entityPlayer.rotationPitch, entityPlayer.rotationYaw, 0f, 3f, 0f);
-                bolt.posX = bolt.posX + bolt.motionX;
-                bolt.posY = bolt.posY + bolt.motionY;
-                bolt.posZ = bolt.posZ + bolt.motionZ;
+                // Push the bolt slightly forward so it does not collide with the player
+                bolt.posX = bolt.posX + bolt.motionX * 0.4;
+                bolt.posY = bolt.posY + bolt.motionY * 0.4;
+                bolt.posZ = bolt.posZ + bolt.motionZ * 0.4;
                 world.spawnEntity(bolt);
             }
         }

@@ -178,12 +178,12 @@ aotd.journal.sign.unsuccessful=§oI expected something to happen... but nothing 
 aotd.sextant.process.field_empty=§oI need to fill out all the fields to accurately predict the meteor's landing coordinates.
 aotd.sextant.process.invalid_vals=§oThe calculation was not successful, the values entered must be integers.
 
-aotd.wrist_crossbow.bolt_change=§oWrist crossbow(s) will now fire %1$s bolts.
+aotd.wrist_crossbow.bolt_change=§oWrist crossbow(s) will now fire %1$s§o bolts.
 aotd.wrist_crossbow.reloading=§oWrist crossbow(s) are reloading...
-aotd.wrist_crossbow.no_bolt=§oI'll need a %1$s bolt in my inventory to shoot.
+aotd.wrist_crossbow.no_bolt=§oI'll need a %1$s§o bolt in my inventory to shoot.
 aotd.wrist_crossbow.no_crossbow=§oI'll need a wrist crossbow in my inventory to shoot.
 
-aotd.cloak_of_agility.too_tired=§oI'm too tired to roll again (%1$ss).
+aotd.cloak_of_agility.too_tired=§oI'm too tired to roll again (%1$s§os).
 aotd.cloak_of_agility.not_grounded=§oI need to be on the ground to roll.
 
 aotd.void_chest.dont_understand=§oI'm not sure how to open this chest.
@@ -243,14 +243,14 @@ aotd.wand.no_spells=You do not have any spells to bind to the wand.
 
 aotd.telescope.not_high_enough=§oI can't see anything through these thick clouds. Maybe I could move to a higher elevation.
 
-aotd.crossbow.no_bolt=§oI'll need a %1$s bolt in my inventory to shoot.
-aotd.crossbow.bolt_change=§oCrossbow will now fire %1$s bolts.
+aotd.crossbow.no_bolt=§oI'll need a %1$s§o bolt in my inventory to shoot.
+aotd.crossbow.bolt_change=§oCrossbow will now fire %1$s§o bolts.
 
 aotd.star_metal_staff.on_cooldown=Star metal staff is on cooldow (%1$ss)!
 
 aotd.enarias_altar.no_research=The block whispers to me... what does it mean?
 
-aotd.meteor.location=§oBased off of this information the meteor fell around %1$s, %2$s.
+aotd.meteor.location=§oBased off of this information the meteor fell around %1$s§o, %2$s§o.
 aotd.meteor.process.invalid_vals=§oThe values entered do not make sense. I should try to re-enter the meteor's data or observe a new meteor.
 
 aotd.falling_meteor.info.header=It appears that this is a %1$s meteor falling to earth. I have observed some information on it:

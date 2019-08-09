@@ -42,7 +42,7 @@ public class ItemStarMetalKhopesh extends AOTDChargeableSword
     public ItemStarMetalKhopesh()
     {
         super(ModToolMaterials.STAR_METAL, "star_metal_khopesh");
-        this.percentChargePerAttack = 10;
+        this.percentChargePerAttack = 35;
     }
 
     /**
