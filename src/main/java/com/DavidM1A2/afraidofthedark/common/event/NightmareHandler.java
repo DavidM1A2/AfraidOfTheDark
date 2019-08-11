@@ -8,7 +8,6 @@ import com.DavidM1A2.afraidofthedark.common.capabilities.player.research.IAOTDPl
 import com.DavidM1A2.afraidofthedark.common.constants.*;
 import com.DavidM1A2.afraidofthedark.common.dimension.IslandUtility;
 import com.DavidM1A2.afraidofthedark.common.entity.enaria.EntityGhastlyEnaria;
-import com.DavidM1A2.afraidofthedark.common.utility.NBTHelper;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundHandler;
@@ -16,10 +15,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.ClassInheritanceMultiMap;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -310,7 +307,7 @@ public class NightmareHandler
             // Give the player a research journal
             entityPlayer.inventory.addItemStackToInventory(createNamedJournal(entityPlayer));
             // Give the player a hint book to find the researches
-            entityPlayer.inventory.addItemStackToInventory(createHintBook());
+            entityPlayer.inventory.addItemStackToInventory(new ItemStack(ModItems.INSANITYS_HEIGHTS));
             // Give the player torches to see
             entityPlayer.inventory.addItemStackToInventory(new ItemStack(Blocks.TORCH, 64));
             // Test if the player needs their spell creation structure generated as an addon to the nightmare island
@@ -360,37 +357,6 @@ public class NightmareHandler
         ItemStack toReturn = new ItemStack(ModItems.JOURNAL, 1, 0);
         ModItems.JOURNAL.setOwner(toReturn, entityPlayer.getGameProfile().getName());
         return toReturn;
-    }
-
-    /**
-     * Creates a hint book to be used to explore the nightmare by the player
-     *
-     * @return The itemstack representing the hint book
-     */
-    private ItemStack createHintBook()
-    {
-        ItemStack toReturn = new ItemStack(Items.WRITTEN_BOOK, 1, 0);
-        NBTHelper.setString(toReturn, "title", "Insanity's Heights");
-        NBTHelper.setString(toReturn, "author", "Foul Ole Ron");
-        NBTHelper.setBoolean(toReturn, "resolved", true);
-        toReturn.getTagCompound().setTag("pages", createPages());
-        return toReturn;
-    }
-
-    /**
-     * Creates a tag list of strings representing pages in the insanity's heights book
-     *
-     * @return Creates a list of pages to be used by the book
-     */
-    private NBTTagList createPages()
-    {
-        NBTTagList pages = new NBTTagList();
-        pages.appendTag(new NBTTagString("To whomever finds this: don't stay here. This place is evil. I have been stuck here for longer than I can remember. I can hear the abyss calling to me. It beckons me to jump, calling my name. I've found all of the notes, but I cannot"));
-        pages.appendTag(new NBTTagString("leave with them. There are ten scrolls hidden here. Three are in the tallest tower, with two being near the top and one being near the bottom. The saw mill whispers such sweet things to be. The stone tower says that it has two"));
-        pages.appendTag(new NBTTagString("gifts for me. What pretty things they have, so many rings. Enaria's bones whisper to me from her grave. I'm sorry; we tried to save you! Her whispers make me want to hide inside of the log. The roof top rooms are hiding something"));
-        pages.appendTag(new NBTTagString("from me. They always stay quiet when I am near. I know they are keeping secrets from me! What has it told you? What has the monolith told you to make you stop talking to me? Answer me Enaria! Where have you gone? Have you left me?"));
-        pages.appendTag(new NBTTagString("You said we would be together forever!"));
-        return pages;
     }
 
     /**

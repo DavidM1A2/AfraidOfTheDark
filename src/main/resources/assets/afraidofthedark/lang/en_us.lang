@@ -39,6 +39,7 @@ item.afraidofthedark:werewolf_blood.name=Werewolf Blood
 item.afraidofthedark:gnomish_metal_ingot.name=Gnomish Metal Ingot
 item.afraidofthedark:artwork.name=Artwork
 item.afraidofthedark:wand.name=Wand
+item.afraidofthedark:insanitys_heights.name=Insanity's Heights
 item.afraidofthedark:debug.name=Debug
 
 # Blocks
@@ -272,5 +273,7 @@ aotd.spell.power_source.experience.invalid_msg=Not enough experience levels to c
 aotd.spell.save_successful=Spell '%1$s' saved successfully.
 aotd.spell.property_edit_fail=Property %1$s did not have a valid value - %2$s
 aotd.spell.property_edit_success=All properties saved successfully.
+
+aotd.insanitys_heights.dont_understand=§oThe book appears to be empty.
 
 aotd.dont_understand=§oI don't understand how this works.

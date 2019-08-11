@@ -28,6 +28,7 @@ public class ModItems
     public static final Item ELDRITCH_METAL_INGOT = new ItemEldritchMetalIngot();
     public static final Item SLEEPING_POTION = new ItemSleepingPotion();
     public static final Item WAND = new ItemWand();
+    public static final Item INSANITYS_HEIGHTS = new ItemInsanitysHeights();
 
     public static final Item SUNSTONE_FRAGMENT = new ItemSunstoneFragment();
     public static final Item IGNEOUS_GEM = new ItemIgneousGem();
@@ -82,6 +83,7 @@ public class ModItems
                     DEBUG,
                     SLEEPING_POTION,
                     WAND,
+                    INSANITYS_HEIGHTS,
                     SUNSTONE_FRAGMENT,
                     IGNEOUS_GEM,
                     IGNEOUS_SWORD,

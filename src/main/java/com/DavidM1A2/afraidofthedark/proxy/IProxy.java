@@ -6,6 +6,7 @@
 package com.DavidM1A2.afraidofthedark.proxy;
 
 import com.DavidM1A2.afraidofthedark.common.event.ResearchOverlayHandler;
+import net.minecraft.entity.player.EntityPlayer;
 
 /**
  * Interface containing methods for the proxy. This proxy will be instantiated differently on the server and client
@@ -41,4 +42,11 @@ public interface IProxy
      * @return The research overlay handler client side or null server side
      */
     ResearchOverlayHandler getResearchOverlay();
+
+    /**
+     * Opens the "Insanity's Heights" book on the client side, does nothing server side
+     *
+     * @param entityPlayer The player that opened the book
+     */
+    void showInsanitysHeightsBook(EntityPlayer entityPlayer);
 }

@@ -143,8 +143,8 @@ public class BlockMangroveSapling extends AOTDSapling
             }
         }
 
-        // Now generate a somewhat straight trunk 4-6 blocks tall
-        int trunkHeight = random.nextInt(3) + 4;
+        // Now generate a somewhat straight trunk 6-9 blocks tall
+        int trunkHeight = random.nextInt(4) + 6;
         // Compute the current top of the trunk
         BlockPos currentPos = pos.up(heightBeforeTrunk);
         // Begin working upwards with a low chance to lean sideways
