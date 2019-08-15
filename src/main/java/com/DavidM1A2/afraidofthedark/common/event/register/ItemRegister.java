@@ -4,6 +4,7 @@ import com.DavidM1A2.afraidofthedark.common.block.core.AOTDSlab;
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;
 import com.DavidM1A2.afraidofthedark.common.constants.ModItems;
+import com.DavidM1A2.afraidofthedark.common.item.core.IVariableModel;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -59,30 +60,21 @@ public class ItemRegister
     @SubscribeEvent
     public void registerItemRenderers(ModelRegistryEvent event)
     {
+        // Ensure any special models are registered
+        OBJLoader.INSTANCE.addDomain(Constants.MOD_ID);
+
         // Register models for all items in our mod
         for (Item item : ModItems.ITEM_LIST)
-            ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
-
-        // Crossbows will have different textures for metadata states 0 to 3
-        ModelLoader.setCustomModelResourceLocation(ModItems.CROSSBOW, 0, new ModelResourceLocation(Constants.MOD_ID + ":crossbow_unloaded", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(ModItems.CROSSBOW, 1, new ModelResourceLocation(Constants.MOD_ID + ":crossbow_quarter", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(ModItems.CROSSBOW, 2, new ModelResourceLocation(Constants.MOD_ID + ":crossbow_half", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(ModItems.CROSSBOW, 3, new ModelResourceLocation(Constants.MOD_ID + ":crossbow_loaded", "inventory"));
-
-        // The flask of souls has two different states, charged and not charged
-        ModelLoader.setCustomModelResourceLocation(ModItems.FLASK_OF_SOULS, 0, new ModelResourceLocation(Constants.MOD_ID + ":flask_of_souls", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(ModItems.FLASK_OF_SOULS, 1, new ModelResourceLocation(Constants.MOD_ID + ":flask_of_souls_charged", "inventory"));
-
-        // The igneous sword has two different states, charged and not charged
-        ModelLoader.setCustomModelResourceLocation(ModItems.IGNEOUS_SWORD, 0, new ModelResourceLocation(Constants.MOD_ID + ":igneous_sword", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(ModItems.IGNEOUS_SWORD, 1, new ModelResourceLocation(Constants.MOD_ID + ":igneous_sword_full_charge", "inventory"));
-
-        // The star metal khopesh has two different states, charged and not charged
-        ModelLoader.setCustomModelResourceLocation(ModItems.STAR_METAL_KHOPESH, 0, new ModelResourceLocation(Constants.MOD_ID + ":star_metal_khopesh", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(ModItems.STAR_METAL_KHOPESH, 1, new ModelResourceLocation(Constants.MOD_ID + ":star_metal_khopesh_full_charge", "inventory"));
-
-        // The altar has a special obj model
-        OBJLoader.INSTANCE.addDomain(Constants.MOD_ID);
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(ModBlocks.ENARIAS_ALTAR), 0, new ModelResourceLocation(Constants.MOD_ID + ":enarias_altar", "inventory"));
+        {
+            if (item instanceof IVariableModel)
+            {
+                ((IVariableModel) item).getModelVariants().forEach((metadata, modelName) ->
+                        ModelLoader.setCustomModelResourceLocation(item, metadata, new ModelResourceLocation(Constants.MOD_ID + ":" + modelName, "inventory")));
+            }
+            else
+            {
+                ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
+            }
+        }
     }
 }

@@ -5,7 +5,9 @@ import com.DavidM1A2.afraidofthedark.common.constants.ModDamageSources;
 import com.DavidM1A2.afraidofthedark.common.constants.ModResearches;
 import com.DavidM1A2.afraidofthedark.common.constants.ModToolMaterials;
 import com.DavidM1A2.afraidofthedark.common.item.core.AOTDChargeableSword;
+import com.DavidM1A2.afraidofthedark.common.item.core.IVariableModel;
 import com.DavidM1A2.afraidofthedark.common.utility.NBTHelper;
+import com.google.common.collect.ImmutableMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.util.ITooltipFlag;
@@ -21,11 +23,12 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Star metal sword is a khopesh
  */
-public class ItemStarMetalKhopesh extends AOTDChargeableSword
+public class ItemStarMetalKhopesh extends AOTDChargeableSword implements IVariableModel
 {
     // The AOE knockback range
     private static final int HIT_RANGE = 5;
@@ -194,5 +197,19 @@ public class ItemStarMetalKhopesh extends AOTDChargeableSword
         {
             NBTHelper.setInteger(itemStack, NBT_SPIN_TICKS_LEFT, NBTHelper.getInteger(itemStack, NBT_SPIN_TICKS_LEFT) - 1);
         }
+    }
+
+    /**
+     * Can be overridden to return a custom mapping of metadata -> model to be used by this item
+     *
+     * @return Mapping of metadata->model name to be used by this item
+     */
+    @Override
+    public Map<Integer, String> getModelVariants()
+    {
+        return ImmutableMap.of(
+                0, "star_metal_khopesh",
+                1, "star_metal_khopesh_full_charge"
+        );
     }
 }

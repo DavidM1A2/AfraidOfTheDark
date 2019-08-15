@@ -29,8 +29,8 @@ public class ModelSplinterDrone extends ModelBase
     {
         // Auto-generated from the MCAnimator software
 
-        textureWidth = 128;
-        textureHeight = 128;
+        textureWidth = 64;
+        textureHeight = 64;
 
         body = new MCAModelRenderer(this, "Body", 18, 0);
         body.mirror = false;

@@ -1,6 +1,8 @@
 package com.DavidM1A2.afraidofthedark.common.event.register;
 
+import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;
+import com.DavidM1A2.afraidofthedark.common.item.core.IVariableModel;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -46,6 +48,16 @@ public class BlockRegister
     {
         // Register models for all blocks in our mod
         for (Block block : ModBlocks.BLOCK_LIST)
-            ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, new ModelResourceLocation(block.getRegistryName(), "inventory"));
+        {
+            if (block instanceof IVariableModel)
+            {
+                ((IVariableModel) block).getModelVariants().forEach((metadata, modelName) ->
+                        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), metadata, new ModelResourceLocation(Constants.MOD_ID + ":" + modelName, "inventory")));
+            }
+            else
+            {
+                ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, new ModelResourceLocation(block.getRegistryName(), "inventory"));
+            }
+        }
     }
 }

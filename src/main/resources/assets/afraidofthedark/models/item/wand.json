@@ -6,7 +6,7 @@
   "display": {
     "thirdperson_righthand": {
       "rotation": [
-        0,
+        90,
         90,
         -35
       ],
@@ -23,7 +23,7 @@
     },
     "thirdperson_lefthand": {
       "rotation": [
-        90,
+        0,
         90,
         -35
       ],

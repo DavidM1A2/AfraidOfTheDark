@@ -3,9 +3,11 @@ package com.DavidM1A2.afraidofthedark.common.item.crossbow;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSounds;
 import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityBolt;
 import com.DavidM1A2.afraidofthedark.common.item.core.AOTDItem;
+import com.DavidM1A2.afraidofthedark.common.item.core.IVariableModel;
 import com.DavidM1A2.afraidofthedark.common.registry.bolt.BoltEntry;
 import com.DavidM1A2.afraidofthedark.common.utility.BoltOrderHelper;
 import com.DavidM1A2.afraidofthedark.common.utility.NBTHelper;
+import com.google.common.collect.ImmutableMap;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -21,11 +23,12 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Class representing the crossbow item
  */
-public class ItemCrossbow extends AOTDItem
+public class ItemCrossbow extends AOTDItem implements IVariableModel
 {
     // Store the reload time of the crossbow in ticks
     private static final int RELOAD_TIME = 50;
@@ -317,5 +320,21 @@ public class ItemCrossbow extends AOTDItem
     public int getMaxItemUseDuration(ItemStack stack)
     {
         return RELOAD_TIME;
+    }
+
+    /**
+     * Can be overridden to return a custom mapping of metadata -> model to be used by this item
+     *
+     * @return Mapping of metadata->model name to be used by this item
+     */
+    @Override
+    public Map<Integer, String> getModelVariants()
+    {
+        return ImmutableMap.of(
+                0, "crossbow_unloaded",
+                1, "crossbow_quarter",
+                2, "crossbow_half",
+                3, "crossbow_loaded"
+        );
     }
 }

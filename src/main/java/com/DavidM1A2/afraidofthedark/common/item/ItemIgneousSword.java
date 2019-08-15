@@ -5,6 +5,8 @@ import com.DavidM1A2.afraidofthedark.common.constants.ModDamageSources;
 import com.DavidM1A2.afraidofthedark.common.constants.ModResearches;
 import com.DavidM1A2.afraidofthedark.common.constants.ModToolMaterials;
 import com.DavidM1A2.afraidofthedark.common.item.core.AOTDChargeableSword;
+import com.DavidM1A2.afraidofthedark.common.item.core.IVariableModel;
+import com.google.common.collect.ImmutableMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.util.ITooltipFlag;
@@ -22,11 +24,12 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Igneous sword lets you set fire to an area with its special ability
  */
-public class ItemIgneousSword extends AOTDChargeableSword
+public class ItemIgneousSword extends AOTDChargeableSword implements IVariableModel
 {
     // The max range the fire can be cast
     private static final int SPECIAL_FIRE_RANGE_BLOCKS = 50;
@@ -136,5 +139,19 @@ public class ItemIgneousSword extends AOTDChargeableSword
             return true;
         }
         return false;
+    }
+
+    /**
+     * Can be overridden to return a custom mapping of metadata -> model to be used by this item
+     *
+     * @return Mapping of metadata->model name to be used by this item
+     */
+    @Override
+    public Map<Integer, String> getModelVariants()
+    {
+        return ImmutableMap.of(
+                0, "igneous_sword",
+                1, "igneous_sword_full_charge"
+        );
     }
 }

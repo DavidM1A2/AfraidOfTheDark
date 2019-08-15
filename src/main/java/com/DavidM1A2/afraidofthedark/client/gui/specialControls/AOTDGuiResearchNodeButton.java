@@ -8,9 +8,9 @@ import com.DavidM1A2.afraidofthedark.common.registry.research.Research;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 
 /**
  * Button that represents a research in the research GUI
@@ -54,18 +54,21 @@ public class AOTDGuiResearchNodeButton extends AOTDGuiButton
             super.draw();
 
             // Ensure our color is white to draw with
-            GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+            GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+            GlStateManager.enableBlend();
 
             // Draw the researches icon on the button
             Minecraft.getMinecraft().getTextureManager().bindTexture(this.research.getIcon());
-            Gui.drawScaledCustomSizeModalRect(this.getXScaled() + 2, this.getYScaled() + 2, 0, 0, 32, 32, this.getWidthScaled(), this.getHeightScaled(), 32, 32);
+            Gui.drawScaledCustomSizeModalRect(this.getXScaled(), this.getYScaled(), 0, 0, 64, 64, this.getWidthScaled(), this.getHeightScaled(), 64, 64);
 
             // If the player has not researched the research then show the question mark over top
             if (!this.playerResearch.isResearched(this.research))
             {
                 Minecraft.getMinecraft().getTextureManager().bindTexture(UNKNOWN_RESEARCH);
-                Gui.drawScaledCustomSizeModalRect(this.getXScaled() + 2, this.getYScaled() + 2, 0, 0, 32, 32, this.getWidthScaled(), this.getHeightScaled(), 32, 32);
+                Gui.drawScaledCustomSizeModalRect(this.getXScaled(), this.getYScaled(), 0, 0, 32, 32, this.getWidthScaled(), this.getHeightScaled(), 32, 32);
             }
+
+            GlStateManager.disableBlend();
         }
     }
 

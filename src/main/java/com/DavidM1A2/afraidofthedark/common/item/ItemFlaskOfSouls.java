@@ -5,6 +5,7 @@ import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
 import com.DavidM1A2.afraidofthedark.common.constants.ModEntities;
 import com.DavidM1A2.afraidofthedark.common.constants.ModResearches;
 import com.DavidM1A2.afraidofthedark.common.item.core.AOTDItemWithPerItemCooldown;
+import com.DavidM1A2.afraidofthedark.common.item.core.IVariableModel;
 import com.DavidM1A2.afraidofthedark.common.utility.NBTHelper;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.block.BlockLiquid;
@@ -33,7 +34,7 @@ import java.util.Map;
 /**
  * Class representing the flask of souls item used to summon entities
  */
-public class ItemFlaskOfSouls extends AOTDItemWithPerItemCooldown
+public class ItemFlaskOfSouls extends AOTDItemWithPerItemCooldown implements IVariableModel
 {
     // Two constants, one for the flask type and one for flask kill count
     private static final String NBT_FLASK_TYPE = "flask_type";
@@ -343,5 +344,19 @@ public class ItemFlaskOfSouls extends AOTDItemWithPerItemCooldown
             return new ResourceLocation(NBTHelper.getString(itemStack, NBT_FLASK_TYPE));
         }
         return null;
+    }
+
+    /**
+     * Can be overridden to return a custom mapping of metadata -> model to be used by this item
+     *
+     * @return Mapping of metadata->model name to be used by this item
+     */
+    @Override
+    public Map<Integer, String> getModelVariants()
+    {
+        return ImmutableMap.of(
+                0, "flask_of_souls",
+                1, "flask_of_souls_charged"
+        );
     }
 }
