@@ -167,6 +167,8 @@ effect.afraidofthedark:heal=Heal
 effect.afraidofthedark:feed=Feed
 effect.afraidofthedark:potion_effect=Potion Effect
 effect.afraidofthedark:smoke_screen=Smoke Screen
+effect.afraidofthedark:burn=Burn
+effect.afraidofthedark:cleanse=Cleanse
 
 delivery_method.afraidofthedark:self=Self
 delivery_method.afraidofthedark:projectile=Projectile
