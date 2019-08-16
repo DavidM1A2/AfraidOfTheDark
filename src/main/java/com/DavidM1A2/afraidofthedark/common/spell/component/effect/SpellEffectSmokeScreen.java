@@ -15,11 +15,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
-import org.apache.commons.lang3.RandomUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Creates a smoke screen at a given effect location
@@ -99,7 +99,8 @@ public class SpellEffectSmokeScreen extends AOTDSpellEffect
         AxisAlignedBB boundingBox = entityHit.getEntityBoundingBox();
         for (int i = 0; i < this.smokeDensity; i++)
         {
-            positions.add(new Vec3d(RandomUtils.nextDouble(boundingBox.minX, boundingBox.maxX), RandomUtils.nextDouble(boundingBox.minY, boundingBox.maxY), RandomUtils.nextDouble(boundingBox.minZ, boundingBox.maxZ)));
+            ThreadLocalRandom random = ThreadLocalRandom.current();
+            positions.add(new Vec3d(random.nextDouble(boundingBox.minX, boundingBox.maxX), random.nextDouble(boundingBox.minY, boundingBox.maxY), random.nextDouble(boundingBox.minZ, boundingBox.maxZ)));
         }
         AfraidOfTheDark.INSTANCE.getPacketHandler().sendToAllAround(
                 new SyncParticle(AOTDParticleRegistry.ParticleTypes.SMOKE_SCREEN_ID, positions, Collections.nCopies(positions.size(), Vec3d.ZERO)),
