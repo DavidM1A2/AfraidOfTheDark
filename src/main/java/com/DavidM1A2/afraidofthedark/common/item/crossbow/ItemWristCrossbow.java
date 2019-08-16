@@ -61,7 +61,7 @@ public class ItemWristCrossbow extends AOTDItemWithPerItemCooldown implements IV
         if (player != null && player.getCapability(ModCapabilities.PLAYER_RESEARCH, null).isResearched(ModResearches.WRIST_CROSSBOW))
         {
             tooltip.add("Use " + Keyboard.getKeyName(ModKeybindings.FIRE_WRIST_CROSSBOW.getKeyCode()) + " to fire a bolt in the current look direction.");
-            tooltip.add("Shift + " + Keyboard.getKeyName(ModKeybindings.FIRE_WRIST_CROSSBOW.getKeyCode()) + " to change bolt type.");
+            tooltip.add("Crouch & " + Keyboard.getKeyName(ModKeybindings.FIRE_WRIST_CROSSBOW.getKeyCode()) + " to change bolt type.");
         }
         else
         {

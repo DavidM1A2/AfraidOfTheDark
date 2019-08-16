@@ -248,11 +248,11 @@ public class ItemWand extends AOTDItem
                     tooltip.add("Spell on wand is invalid.");
                 }
             }
-            // The wand isn't bound yet, so mention that the player can do it with shift+right click
+            // The wand isn't bound yet, so mention that the player can do it with crouch & right click
             else
             {
                 tooltip.add("Wand does not have a spell bound yet.");
-                tooltip.add("Do so with shift+right click.");
+                tooltip.add("Do so with crouch & right click.");
             }
         }
     }

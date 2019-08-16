@@ -306,7 +306,7 @@ public class ItemCrossbow extends AOTDItem implements IVariableModel
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-        tooltip.add("Shift & Right click to change crossbow bolt type.");
+        tooltip.add("Crouch & Right click to change crossbow bolt type.");
         tooltip.add("Bow will fire: " + I18n.format(this.getCurrentBoltType(stack).getUnLocalizedName()) + " bolts.");
     }
 
