@@ -1,40 +1,37 @@
 package com.DavidM1A2.afraidofthedark.common.item.crossbow;
 
+import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSounds;
 import com.DavidM1A2.afraidofthedark.common.entity.bolt.EntityBolt;
 import com.DavidM1A2.afraidofthedark.common.item.core.AOTDItem;
-import com.DavidM1A2.afraidofthedark.common.item.core.IVariableModel;
 import com.DavidM1A2.afraidofthedark.common.registry.bolt.BoltEntry;
 import com.DavidM1A2.afraidofthedark.common.utility.BoltOrderHelper;
 import com.DavidM1A2.afraidofthedark.common.utility.NBTHelper;
-import com.google.common.collect.ImmutableMap;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.SoundCategory;
+import net.minecraft.util.*;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Class representing the crossbow item
  */
-public class ItemCrossbow extends AOTDItem implements IVariableModel
+public class ItemCrossbow extends AOTDItem
 {
     // Store the reload time of the crossbow in ticks
-    private static final int RELOAD_TIME = 50;
+    private static final int RELOAD_TIME = 40;
 
     // Strings used as keys by NBT
     private static final String NBT_BOLT_TYPE = "bolt_type";
+    private static final String NBT_LOADED = "is_loaded";
 
     /**
      * Constructor just sets the item name and ensures it can't stack
@@ -43,28 +40,23 @@ public class ItemCrossbow extends AOTDItem implements IVariableModel
     {
         super("crossbow");
         this.setMaxStackSize(1);
-    }
-
-    /**
-     * Called every tick, we test if the bow is not selected and ensure it is either in damage state 0 or 3 based on if it is charged or not
-     *
-     * @param stack      The itemstack to update
-     * @param worldIn    The world the item is in
-     * @param entityIn   The entity holding the item
-     * @param itemSlot   The slot the item is in
-     * @param isSelected If the item is selected
-     */
-    @Override
-    public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
-    {
-        // If the itemstack is in state 1 or 2 then reset it to 0
-        if (!worldIn.isRemote && !isSelected)
+        // The charge level property is used to determine how far along in the charge the bow is
+        this.addPropertyOverride(new ResourceLocation(Constants.MOD_ID, "charge_level"), (stack, worldIn, entityIn) ->
         {
-            if (stack.getItemDamage() == 1 || stack.getItemDamage() == 2)
+            if (entityIn instanceof EntityPlayer)
             {
-                stack.setItemDamage(0);
+                // Grab the player
+                EntityPlayer entityPlayer = ((EntityPlayer) entityIn);
+                // If the selected item is the current one update the charge level
+                if (entityPlayer.inventory.mainInventory.get(entityPlayer.inventory.currentItem) == stack)
+                {
+                    return (float) entityIn.getItemInUseMaxCount() / (float) this.getMaxItemUseDuration(stack);
+                }
             }
-        }
+            return 0f;
+        });
+        // True if the bow is loaded (1f) or false (0f) otherwise
+        this.addPropertyOverride(new ResourceLocation(Constants.MOD_ID, "is_loaded"), ((stack, worldIn, entityIn) -> this.isLoaded(stack) ? 1 : 0));
     }
 
     /**
@@ -91,8 +83,8 @@ public class ItemCrossbow extends AOTDItem implements IVariableModel
             }
             else
             {
-                // If the player is not sneaking and the bow has no charge begin charging
-                if (itemStack.getItemDamage() == 0)
+                // If the player is not sneaking and the bow is not loaded begin loading
+                if (!this.isLoaded(itemStack))
                 {
                     // If we are in creative, no ammo is required or if we have ammo begin charging he bow
                     if (playerIn.capabilities.isCreativeMode || playerIn.inventory.hasItemStack(new ItemStack(this.getCurrentBoltType(itemStack).getBoltItem())))
@@ -111,7 +103,8 @@ public class ItemCrossbow extends AOTDItem implements IVariableModel
             }
         }
 
-        return ActionResult.newResult(EnumActionResult.SUCCESS, itemStack);
+        // We have to "fail" the action so that the bow doesn't play the item use animation and bounce
+        return ActionResult.newResult(EnumActionResult.FAIL, itemStack);
     }
 
     /**
@@ -124,38 +117,16 @@ public class ItemCrossbow extends AOTDItem implements IVariableModel
     @Override
     public void onUsingTick(ItemStack stack, EntityLivingBase entity, int count)
     {
-        // Server side processing only
-        if (!entity.world.isRemote)
+        // Only the player can charge the bow
+        if (entity instanceof EntityPlayer)
         {
-            // Only the player can charge the bow
-            if (entity instanceof EntityPlayer)
+            EntityPlayer entityPlayer = (EntityPlayer) entity;
+            // Load the bow at 2 ticks left instead of 1 so the unloaded texture doesn't flicker
+            if (count == 2)
             {
-                EntityPlayer entityPlayer = (EntityPlayer) entity;
-                count = this.getMaxItemUseDuration(stack) - count + 1;
-                // On using we play a sound
-                if (count == 1)
+                if (entityPlayer.capabilities.isCreativeMode || entityPlayer.inventory.clearMatchingItems(this.getCurrentBoltType(stack).getBoltItem(), -1, 1, null) == 1)
                 {
-                    stack.setItemDamage(1);
-                }
-                else if (count == RELOAD_TIME / 4)
-                {
-                    stack.setItemDamage(1);
-                }
-                else if (count == RELOAD_TIME / 4 * 2)
-                {
-                    stack.setItemDamage(2);
-                }
-                else if (count == RELOAD_TIME / 4 * 3)
-                {
-                    stack.setItemDamage(2);
-                }
-                else if (count == RELOAD_TIME)
-                {
-                    if (entityPlayer.capabilities.isCreativeMode || entityPlayer.inventory.clearMatchingItems(this.getCurrentBoltType(stack).getBoltItem(), -1, 1, null) == 1)
-                    // Bow is loaded at damage = 3
-                    {
-                        stack.setItemDamage(3);
-                    }
+                    this.setLoaded(stack, true);
                 }
             }
         }
@@ -172,10 +143,10 @@ public class ItemCrossbow extends AOTDItem implements IVariableModel
     public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack)
     {
         // Only fire server side and from players
-        if (!entityLiving.world.isRemote && entityLiving instanceof EntityPlayer && this.bowIsCharged(stack))
+        if (!entityLiving.world.isRemote && entityLiving instanceof EntityPlayer && this.isLoaded(stack))
         {
             // Reset the charge state and fire
-            stack.setItemDamage(0);
+            this.setLoaded(stack, false);
             this.fireBolt((EntityPlayer) entityLiving, entityLiving.world, stack);
         }
         return super.onEntitySwing(entityLiving, stack);
@@ -204,36 +175,6 @@ public class ItemCrossbow extends AOTDItem implements IVariableModel
     }
 
     /**
-     * The metadata of the item is just it's damage value in our case
-     *
-     * @param damage The damage of the crossbow which represents its charge state
-     * @return The metadata value of the item
-     */
-    @Override
-    public int getMetadata(int damage)
-    {
-        return damage;
-    }
-
-    /**
-     * Called when the player stops using the crossbow meaning they are no longer pulling it back
-     *
-     * @param stack        The stack that is being processed
-     * @param worldIn      The world the item is in
-     * @param entityLiving The entity using the item
-     * @param timeLeft     The time left before the bow can no longer be used
-     */
-    @Override
-    public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityLivingBase entityLiving, int timeLeft)
-    {
-        // If the bow is not charged, then
-        if (stack.getItemDamage() != 3)
-        {
-            stack.setItemDamage(0);
-        }
-    }
-
-    /**
      * Selects the next bolt type to be fired in a circular order
      *
      * @param itemStack The itemstack to update bolt type on
@@ -241,7 +182,7 @@ public class ItemCrossbow extends AOTDItem implements IVariableModel
     private void selectNextBoltType(ItemStack itemStack, EntityPlayer entityPlayer)
     {
         // First test if the itemstack is not fully charged
-        if (!this.bowIsCharged(itemStack))
+        if (!this.isLoaded(itemStack))
         {
             // Grab the current bolt type index
             int currentBoltTypeIndex = this.getCurrentBoltTypeIndex(itemStack);
@@ -256,17 +197,6 @@ public class ItemCrossbow extends AOTDItem implements IVariableModel
                 entityPlayer.sendMessage(new TextComponentTranslation("aotd.crossbow.bolt_change", new TextComponentTranslation(this.getCurrentBoltType(itemStack).getUnLocalizedName())));
             }
         }
-    }
-
-    /**
-     * True if the bow is charged and ready to fire
-     *
-     * @param itemStack The itemstack to test
-     * @return True if the bow is ready to fire, false otherwise
-     */
-    private boolean bowIsCharged(ItemStack itemStack)
-    {
-        return itemStack.getItemDamage() == 3;
     }
 
     /**
@@ -296,6 +226,32 @@ public class ItemCrossbow extends AOTDItem implements IVariableModel
     }
 
     /**
+     * Sets the bow's loaded state
+     *
+     * @param itemStack THe stack to set
+     * @param isLoaded  True if the bow is loaded, false otherwise
+     */
+    private void setLoaded(ItemStack itemStack, boolean isLoaded)
+    {
+        NBTHelper.setBoolean(itemStack, NBT_LOADED, isLoaded);
+    }
+
+    /**
+     * True if the bow is loaded, false otherwise
+     *
+     * @param itemStack The stack to test
+     * @return True if the bow is loaded, false otherwise
+     */
+    private boolean isLoaded(ItemStack itemStack)
+    {
+        if (!NBTHelper.hasTag(itemStack, NBT_LOADED))
+        {
+            this.setLoaded(itemStack, false);
+        }
+        return NBTHelper.getBoolean(itemStack, NBT_LOADED);
+    }
+
+    /**
      * Adds a tooltop to the crossbow
      *
      * @param stack   The item stack to tooltip
@@ -304,37 +260,23 @@ public class ItemCrossbow extends AOTDItem implements IVariableModel
      * @param flagIn  True if show advanced info is on, false otherwise
      */
     @Override
+    @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
         tooltip.add("Crouch & Right click to change crossbow bolt type.");
         tooltip.add("Bow will fire: " + I18n.format(this.getCurrentBoltType(stack).getUnLocalizedName()) + " bolts.");
+        tooltip.add(this.isLoaded(stack) ? "Bow is loaded" : "Bow is unloaded");
     }
 
     /**
      * Returns the amount of time the item can be in use
      *
      * @param stack The itemstack in question
-     *              \	 * @return An integer representing the reload time of the bow
+     * @return An integer representing the reload time of the bow
      */
     @Override
     public int getMaxItemUseDuration(ItemStack stack)
     {
         return RELOAD_TIME;
-    }
-
-    /**
-     * Can be overridden to return a custom mapping of metadata -> model to be used by this item
-     *
-     * @return Mapping of metadata->model name to be used by this item
-     */
-    @Override
-    public Map<Integer, String> getModelVariants()
-    {
-        return ImmutableMap.of(
-                0, "crossbow_unloaded",
-                1, "crossbow_quarter",
-                2, "crossbow_half",
-                3, "crossbow_loaded"
-        );
     }
 }
