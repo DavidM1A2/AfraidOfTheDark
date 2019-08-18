@@ -148,7 +148,7 @@ public class AfraidOfTheDark
             MinecraftForge.EVENT_BUS.register(new KeyInputEventHandler());
         }
         // Only used by the developer to create .schematic.meta files
-        // SchematicMetadataCreator.createSchematicMetaFiles();
+        // SchematicDebugUtils.createSchematicMetaFiles();
     }
 
     /**
