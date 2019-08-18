@@ -1,12 +1,15 @@
 package com.DavidM1A2.afraidofthedark.common.item.core;
 
+import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import com.DavidM1A2.afraidofthedark.common.utility.NBTHelper;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
@@ -31,8 +34,10 @@ public abstract class AOTDChargeableSword extends AOTDSword
     public AOTDChargeableSword(ToolMaterial toolMaterial, String baseName)
     {
         super(toolMaterial, baseName);
-        // This is required so we can register custom textures for metadata values, it makes the sword unbreakable
+        // This is required to make the sword unbreakable
         this.setMaxDamage(0);
+        // Emit a charged = 1 property when charged, 0 otherwise
+        this.addPropertyOverride(new ResourceLocation(Constants.MOD_ID, "charged"), (stack, worldIn, entityIn) -> this.isFullyCharged(stack) ? 1 : 0);
     }
 
     /**
@@ -77,18 +82,6 @@ public abstract class AOTDChargeableSword extends AOTDSword
     }
 
     /**
-     * Override our metadata to be 1 if the sword is charged and 0 otherwise
-     *
-     * @param stack The itemstack to test
-     * @return 1 if the sword is charged, 0 otherwise
-     */
-    @Override
-    public int getMetadata(ItemStack stack)
-    {
-        return this.isFullyCharged(stack) ? 1 : 0;
-    }
-
-    /**
      * Chargable swords always show the charge bar
      *
      * @param stack The itemstack to show charge bar for
@@ -111,10 +104,10 @@ public abstract class AOTDChargeableSword extends AOTDSword
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
     {
+        ItemStack swordStack = playerIn.getHeldItem(handIn);
         // Server side processing only
         if (!worldIn.isRemote)
         {
-            ItemStack swordStack = playerIn.getHeldItem(handIn);
             // Test if the sword is charged
             if (this.isFullyCharged(swordStack))
             {
@@ -131,7 +124,9 @@ public abstract class AOTDChargeableSword extends AOTDSword
                 playerIn.sendMessage(new TextComponentTranslation("aotd.chargable_sword.not_enough_energy"));
             }
         }
-        return super.onItemRightClick(worldIn, playerIn, handIn);
+
+        // Fail to avoid the move animation on item use
+        return ActionResult.newResult(EnumActionResult.FAIL, swordStack);
     }
 
     /**

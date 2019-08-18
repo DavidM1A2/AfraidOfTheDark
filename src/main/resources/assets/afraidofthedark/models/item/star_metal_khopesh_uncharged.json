@@ -1,7 +1,7 @@
 {
-  "parent": "item/generated",
+  "parent": "item/handheld",
   "textures": {
-    "layer0": "afraidofthedark:items/igneous_sword_full_charge"
+    "layer0": "afraidofthedark:items/star_metal_khopesh_uncharged"
   },
   "display": {
     "thirdperson_righthand": {

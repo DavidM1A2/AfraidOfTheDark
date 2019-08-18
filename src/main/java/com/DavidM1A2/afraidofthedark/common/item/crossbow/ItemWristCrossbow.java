@@ -1,15 +1,15 @@
 package com.DavidM1A2.afraidofthedark.common.item.crossbow;
 
 import com.DavidM1A2.afraidofthedark.client.keybindings.ModKeybindings;
+import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
 import com.DavidM1A2.afraidofthedark.common.constants.ModResearches;
 import com.DavidM1A2.afraidofthedark.common.item.core.AOTDItemWithPerItemCooldown;
-import com.DavidM1A2.afraidofthedark.common.item.core.IVariableModel;
-import com.google.common.collect.ImmutableMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -17,12 +17,11 @@ import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Class representing a wrist-mounted crossbow
  */
-public class ItemWristCrossbow extends AOTDItemWithPerItemCooldown implements IVariableModel
+public class ItemWristCrossbow extends AOTDItemWithPerItemCooldown
 {
     /**
      * Constructor sets up item properties
@@ -30,19 +29,7 @@ public class ItemWristCrossbow extends AOTDItemWithPerItemCooldown implements IV
     public ItemWristCrossbow()
     {
         super("wrist_crossbow");
-    }
-
-    /**
-     * Gets the metadata of the wrist crossbow, 1 means the bow is loaded and 0 means it is not, used to display a different
-     * texture
-     *
-     * @param stack The itemstack to test
-     * @return 1 if the crossbow is loaded, 0 otherwise
-     */
-    @Override
-    public int getMetadata(ItemStack stack)
-    {
-        return this.isOnCooldown(stack) ? 0 : 1;
+        this.addPropertyOverride(new ResourceLocation(Constants.MOD_ID, "is_loaded"), (stack, worldIn, entityIn) -> this.isOnCooldown(stack) ? 0 : 1);
     }
 
     /**
@@ -79,19 +66,5 @@ public class ItemWristCrossbow extends AOTDItemWithPerItemCooldown implements IV
     public int getItemCooldownInMilliseconds(ItemStack itemStack)
     {
         return 3000;
-    }
-
-    /**
-     * Can be overridden to return a custom mapping of metadata -> model to be used by this item
-     *
-     * @return Mapping of metadata->model name to be used by this item
-     */
-    @Override
-    public Map<Integer, String> getModelVariants()
-    {
-        return ImmutableMap.of(
-                0, "wrist_crossbow_unloaded",
-                1, "wrist_crossbow_loaded"
-        );
     }
 }

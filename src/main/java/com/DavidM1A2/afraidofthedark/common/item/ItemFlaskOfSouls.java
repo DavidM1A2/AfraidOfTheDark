@@ -1,11 +1,11 @@
 package com.DavidM1A2.afraidofthedark.common.item;
 
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
+import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
 import com.DavidM1A2.afraidofthedark.common.constants.ModEntities;
 import com.DavidM1A2.afraidofthedark.common.constants.ModResearches;
 import com.DavidM1A2.afraidofthedark.common.item.core.AOTDItemWithPerItemCooldown;
-import com.DavidM1A2.afraidofthedark.common.item.core.IVariableModel;
 import com.DavidM1A2.afraidofthedark.common.utility.NBTHelper;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.block.BlockLiquid;
@@ -34,11 +34,12 @@ import java.util.Map;
 /**
  * Class representing the flask of souls item used to summon entities
  */
-public class ItemFlaskOfSouls extends AOTDItemWithPerItemCooldown implements IVariableModel
+public class ItemFlaskOfSouls extends AOTDItemWithPerItemCooldown
 {
     // Two constants, one for the flask type and one for flask kill count
     private static final String NBT_FLASK_TYPE = "flask_type";
     private static final String NBT_FLASK_KILLS = "flask_kills";
+    private static final String NBT_FLASK_COMPLETE = "flask_complete";
     // A default kills required count
     private static final Integer DEFAULT_KILLS_REQUIRED = 32;
     // A mapping of entity -> kills required. Default kills required is 32, all other entities are listed below
@@ -71,6 +72,7 @@ public class ItemFlaskOfSouls extends AOTDItemWithPerItemCooldown implements IVa
     public ItemFlaskOfSouls()
     {
         super("flask_of_souls");
+        this.addPropertyOverride(new ResourceLocation(Constants.MOD_ID, "complete"), (stack, worldIn, entityIn) -> this.isComplete(stack) ? 1 : 0);
     }
 
     /**
@@ -267,7 +269,8 @@ public class ItemFlaskOfSouls extends AOTDItemWithPerItemCooldown implements IVa
      */
     public boolean isComplete(ItemStack itemStack)
     {
-        return itemStack.getItemDamage() == 1;
+        Boolean flaskComplete = NBTHelper.getBoolean(itemStack, NBT_FLASK_COMPLETE);
+        return flaskComplete != null ? flaskComplete : false;
     }
 
     /**
@@ -292,7 +295,7 @@ public class ItemFlaskOfSouls extends AOTDItemWithPerItemCooldown implements IVa
             // If we have enough kills update the NBT data to 1 so that it is complete
             if (currentKills == killsRequired)
             {
-                itemStack.setItemDamage(1);
+                NBTHelper.setBoolean(itemStack, NBT_FLASK_COMPLETE, true);
             }
         }
     }
@@ -344,19 +347,5 @@ public class ItemFlaskOfSouls extends AOTDItemWithPerItemCooldown implements IVa
             return new ResourceLocation(NBTHelper.getString(itemStack, NBT_FLASK_TYPE));
         }
         return null;
-    }
-
-    /**
-     * Can be overridden to return a custom mapping of metadata -> model to be used by this item
-     *
-     * @return Mapping of metadata->model name to be used by this item
-     */
-    @Override
-    public Map<Integer, String> getModelVariants()
-    {
-        return ImmutableMap.of(
-                0, "flask_of_souls",
-                1, "flask_of_souls_charged"
-        );
     }
 }

@@ -4,7 +4,6 @@ import com.DavidM1A2.afraidofthedark.common.block.core.AOTDSlab;
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import com.DavidM1A2.afraidofthedark.common.constants.ModBlocks;
 import com.DavidM1A2.afraidofthedark.common.constants.ModItems;
-import com.DavidM1A2.afraidofthedark.common.item.core.IVariableModel;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -66,15 +65,7 @@ public class ItemRegister
         // Register models for all items in our mod
         for (Item item : ModItems.ITEM_LIST)
         {
-            if (item instanceof IVariableModel)
-            {
-                ((IVariableModel) item).getModelVariants().forEach((metadata, modelName) ->
-                        ModelLoader.setCustomModelResourceLocation(item, metadata, new ModelResourceLocation(Constants.MOD_ID + ":" + modelName, "inventory")));
-            }
-            else
-            {
-                ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
-            }
+            ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
         }
     }
 }

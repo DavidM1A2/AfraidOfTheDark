@@ -3,18 +3,18 @@
   "textures": {
     "layer0": "afraidofthedark:items/igneous_sword_uncharged"
   },
-  "overrides": [
-    {
-      "predicate": {
-        "afraidofthedark:charged": 1
-      },
-      "model": "afraidofthedark:item/igneous_sword_charged"
-    }
-  ],
   "display": {
     "thirdperson_righthand": {
-      "rotation": [ 270, 270, -55 ],
-      "translation": [ 0, 8.25, 1.5 ],
+      "rotation": [
+        270,
+        270,
+        -55
+      ],
+      "translation": [
+        0,
+        8.25,
+        1.5
+      ],
       "scale": [
         1.5,
         1.5,
@@ -22,8 +22,16 @@
       ]
     },
     "thirdperson_lefthand": {
-      "rotation": [ 0, 90, -35 ],
-      "translation": [ 0, 8.25, 1.5 ],
+      "rotation": [
+        0,
+        90,
+        -35
+      ],
+      "translation": [
+        0,
+        8.25,
+        1.5
+      ],
       "scale": [
         1.5,
         1.5,

@@ -1,6 +1,14 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "afraidofthedark:items/flask_of_souls"
-  }
+    "layer0": "afraidofthedark:items/flask_of_souls_uncharged"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "afraidofthedark:complete": 1
+      },
+      "model": "afraidofthedark:item/flask_of_souls_charged"
+    }
+  ]
 }

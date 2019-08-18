@@ -1,16 +1,8 @@
 {
-  "parent": "item/handheld",
+  "parent": "item/generated",
   "textures": {
-    "layer0": "afraidofthedark:items/star_metal_khopesh_uncharged"
+    "layer0": "afraidofthedark:items/igneous_sword_charged"
   },
-  "overrides": [
-    {
-      "predicate": {
-        "afraidofthedark:charged": 1
-      },
-      "model": "afraidofthedark:item/star_metal_khopesh_charged"
-    }
-  ],
   "display": {
     "thirdperson_righthand": {
       "rotation": [
