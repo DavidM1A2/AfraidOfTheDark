@@ -7,6 +7,7 @@ import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import java.io.IOException;
@@ -94,12 +95,13 @@ public class SchematicBuilder
      */
     private Schematic createCached() throws IOException
     {
+        // Grab the name of the schematic
+        String schematicName = FilenameUtils.getBaseName(this.resourceLocation.getResourcePath());
+
         // Grab an input stream to the schematic file
         InputStream inputStream = ResourceUtil.getInputStream(this.resourceLocation);
         // Read the NBT data from the file
         NBTTagCompound nbtData = CompressedStreamTools.readCompressed(inputStream);
-        // Close the input stream
-        inputStream.close();
 
         // Begin processing the data
         short width = nbtData.getShort("Width");
@@ -126,7 +128,7 @@ public class SchematicBuilder
         }
 
         // Return the schematic
-        return new CachedSchematic(tileEntities, width, height, length, blocks, data, entities);
+        return new CachedSchematic(schematicName, tileEntities, width, height, length, blocks, data, entities);
     }
 
     /**
@@ -137,6 +139,21 @@ public class SchematicBuilder
      */
     private Schematic createOnDemand() throws IOException
     {
-        return new OnDemandSchematic();
+        // Grab the name of the schematic
+        String schematicName = FilenameUtils.getBaseName(this.resourceLocation.getResourcePath());
+
+        ResourceLocation metaLocation = new ResourceLocation(this.resourceLocation.getResourceDomain(), this.resourceLocation.getResourcePath() + ".meta");
+        // Grab an input stream to the schematic meta file
+        InputStream inputStream = ResourceUtil.getInputStream(metaLocation);
+        // Read the NBT data from the file
+        NBTTagCompound nbtData = CompressedStreamTools.readCompressed(inputStream);
+
+        // Grab the 3 fields stored in the .meta field
+        short width = nbtData.getShort("width");
+        short height = nbtData.getShort("height");
+        short length = nbtData.getShort("length");
+
+        // Return the schematic
+        return new OnDemandSchematic(this.resourceLocation, schematicName, width, height, length);
     }
 }

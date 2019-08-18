@@ -49,6 +49,11 @@ public class ConfigurationHandler
     // The priority to register the world generator at for AOTD
     private int worldGenPriority = 0;
 
+    // True if structures should be cached in memory, false otherwise
+    private boolean cacheStructures = false;
+    // Timeout to clear structures in milliseconds if cache is set to false
+    private long cacheTimeout = 0;
+
     // The ID of the dimensions or -1 to mean "pick for me"
     private int nightmareDimensionId = -1;
     private int voidChestDimensionId = -1;
@@ -107,6 +112,9 @@ public class ConfigurationHandler
         this.blocksBetweenIslands = this.configuration.getInt("Blocks Between Islands", CATEGORY_WORLD_GENERATION, 1000, 100, 100000, "Sets the number of blocks that are between nightmare and void chest islands. All players are technically in the same world, so this ensure they never see each other.");
 
         this.worldGenPriority = this.configuration.getInt("World Generation Priority", CATEGORY_WORLD_GENERATION, 0, -1000, 1000, "Sets the priority for afraid of the dark world generation. Higher numbers result in world generation running after other mods.");
+
+        this.cacheStructures = this.configuration.getBoolean("Cache Structures", CATEGORY_WORLD_GENERATION, false, "True means structures will be loaded into computer memory when Minecraft is started up. This will accelerate world generation at the cost of RAM usage. False means structures will be loaded when needed, which will require less RAM but can incur lag spikes when finding structures.");
+        this.cacheTimeout = this.configuration.getInt("Cache Timeout", CATEGORY_WORLD_GENERATION, 60000, 10000, Integer.MAX_VALUE, "Required if 'Cache Structures' is set to false, otherwise ignored. If a structure isn't needed for 'Cache Timeout' milliseconds it will be forgotten and cleared from RAM.");
 
         this.nightmareDimensionId = this.configuration.getInt("Nightmare Dimension ID", CATEGORY_DIMENSION, 0, 0, 256, "Sets the dimension ID of the nightmare realm. 0 indicates that the value should be dynamically chosen by forge.");
         this.voidChestDimensionId = this.configuration.getInt("Void Chest Dimension ID", CATEGORY_DIMENSION, 0, 0, 256, "Sets the dimension ID of the void chest realm. 0 indicates that the value should be dynamically chosen by forge.");
@@ -186,6 +194,16 @@ public class ConfigurationHandler
     public int getWorldGenPriority()
     {
         return this.worldGenPriority;
+    }
+
+    public boolean getCacheStructures()
+    {
+        return this.cacheStructures;
+    }
+
+    public long getCacheTimeout()
+    {
+        return this.cacheTimeout;
     }
 
     public int getNightmareDimensionId()

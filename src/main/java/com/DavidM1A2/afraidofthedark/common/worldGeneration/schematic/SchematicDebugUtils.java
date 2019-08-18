@@ -8,7 +8,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.ResourceLocation;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
@@ -23,12 +22,6 @@ import java.util.Arrays;
  */
 public class SchematicDebugUtils
 {
-    // The schematic metadata has 4 fields, size (width, height, length) and name
-    private static final String NBT_WIDTH = "width";
-    private static final String NBT_HEIGHT = "height";
-    private static final String NBT_LENGTH = "length";
-    private static final String NBT_NAME = "name";
-
     /**
      * Debug method used to write a schematic to disk
      *
@@ -129,14 +122,13 @@ public class SchematicDebugUtils
 
         // Get the path to the original schematic file and load it
         String localPath = StringUtils.substringAfter(schematicFile.getAbsolutePath(), "src\\main\\resources\\assets\\afraidofthedark\\");
-        Schematic schematic = new SchematicBuilder().withFile(new ResourceLocation(Constants.MOD_ID, localPath)).build();
+        Schematic schematic = new SchematicBuilder().withFile(new ResourceLocation(Constants.MOD_ID, localPath)).withCacheEnabled(true).build();
 
         // Create an NBT compound to write to
         NBTTagCompound nbt = new NBTTagCompound();
-        nbt.setShort(NBT_WIDTH, schematic.getWidth());
-        nbt.setShort(NBT_HEIGHT, schematic.getHeight());
-        nbt.setShort(NBT_LENGTH, schematic.getLength());
-        nbt.setString(NBT_NAME, FilenameUtils.getBaseName(schematicFile.getName()));
+        nbt.setShort("width", schematic.getWidth());
+        nbt.setShort("height", schematic.getHeight());
+        nbt.setShort("length", schematic.getLength());
 
         // Write the NBT to the .meta file
         try (FileOutputStream fileOutputStream = new FileOutputStream(schematicMetaFile))

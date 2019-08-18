@@ -8,6 +8,8 @@ import net.minecraft.nbt.NBTTagList;
  */
 public class CachedSchematic implements Schematic
 {
+    // The name of the schematic
+    private final String name;
     // A list of tile entities inside the schematic
     private final NBTTagList tileEntities;
     // The width of the schematic
@@ -26,6 +28,7 @@ public class CachedSchematic implements Schematic
     /**
      * Constructor just initializes fields
      *
+     * @param name         The name of the schematic
      * @param tileEntities The tile entities (like chests, etc)
      * @param width        The width of the schematic
      * @param height       The height of the schematic
@@ -34,8 +37,9 @@ public class CachedSchematic implements Schematic
      * @param data         The block data of each block inside the schematic
      * @param entities     The entities inside the schematic
      */
-    CachedSchematic(NBTTagList tileEntities, short width, short height, short length, Block[] blocks, int[] data, NBTTagList entities)
+    CachedSchematic(String name, NBTTagList tileEntities, short width, short height, short length, Block[] blocks, int[] data, NBTTagList entities)
     {
+        this.name = name;
         this.tileEntities = tileEntities;
         this.width = width;
         this.height = height;
@@ -43,6 +47,15 @@ public class CachedSchematic implements Schematic
         this.blocks = blocks;
         this.data = data;
         this.entities = entities;
+    }
+
+    /**
+     * @return The name of the schematic
+     */
+    @Override
+    public String getName()
+    {
+        return this.name;
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.DavidM1A2.afraidofthedark.common.constants;
 
+import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.schematic.Schematic;
 import com.DavidM1A2.afraidofthedark.common.worldGeneration.schematic.SchematicBuilder;
 import net.minecraft.util.ResourceLocation;
@@ -101,6 +102,6 @@ public class ModSchematics
      */
     private static Schematic load(String path)
     {
-        return new SchematicBuilder().withFile(new ResourceLocation(Constants.MOD_ID, path)).build();
+        return new SchematicBuilder().withFile(new ResourceLocation(Constants.MOD_ID, path)).withCacheEnabled(AfraidOfTheDark.INSTANCE.getConfigurationHandler().getCacheStructures()).build();
     }
 }

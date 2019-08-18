@@ -9,6 +9,11 @@ import net.minecraft.nbt.NBTTagList;
 public interface Schematic
 {
     /**
+     * @return The name of the schematic
+     */
+    String getName();
+
+    /**
      * @return A list of tile entities in the schematic region
      */
     NBTTagList getTileEntities();
