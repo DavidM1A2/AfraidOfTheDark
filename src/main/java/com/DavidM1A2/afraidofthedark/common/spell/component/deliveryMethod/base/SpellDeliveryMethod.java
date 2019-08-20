@@ -1,13 +1,9 @@
 package com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
-import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import com.DavidM1A2.afraidofthedark.common.spell.component.SpellComponent;
-import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 
 /**
  * Base class for all spell delivery methods
@@ -17,22 +13,9 @@ public abstract class SpellDeliveryMethod extends SpellComponent
     /**
      * Called to deliver the effects to the target by whatever means necessary
      *
-     * @param spell The spell that is being delivered
-     * @param spellIndex The current spell stage index
-     * @param source The entity that was the source of the spell
+     * @param state The state of the spell to deliver
      */
-    public abstract void deliver(Spell spell, int spellIndex, Entity source);
-
-    /**
-     * Called to deliver the effects to the target by whatever means necessary
-     *
-     * @param spell The spell that is being delivered
-     * @param spellIndex The current spell stage index
-     * @param world The world the spell was cast in
-     * @param position The position the delivery was cast at
-     * @param direction The direction the delivery should happen at
-     */
-    public abstract void deliver(Spell spell, int spellIndex, World world, Vec3d position, Vec3d direction);
+    public abstract void deliver(DeliveryTransitionState state);
 
     /**
      * Gets the cost of the delivery method

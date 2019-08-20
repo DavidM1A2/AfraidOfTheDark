@@ -1,9 +1,6 @@
 package com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base;
 
 import com.DavidM1A2.afraidofthedark.common.spell.Spell;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 
 /**
  * Class representing a delivery method transitioner to go from one delivery method to another
@@ -11,49 +8,26 @@ import net.minecraft.world.World;
 public class DefaultSpellDeliveryTransitioner implements ISpellDeliveryTransitioner
 {
     /**
-     * Executes the delivery method from an entity
+     * Called to deliver the effects to the target by whatever means necessary
      *
-     * @param spell      The spell reference
-     * @param stageIndex The current spell stage index
-     * @param entity     The entity the delivery method is being executed from
+     * @param state The state of the spell to deliver
      */
     @Override
-    public void transitionThroughEntity(Spell spell, int stageIndex, Entity entity)
+    public void transition(DeliveryTransitionState state)
     {
+        Spell spell = state.getSpell();
         // Advance to the the next delivery method
-        stageIndex++;
+        int nextStageIndex = state.getStageIndex() + 1;
 
         // If the spell has this stage execute it
-        if (spell.hasStage(stageIndex))
+        if (spell.hasStage(nextStageIndex))
         {
-            spell.getStage(stageIndex)
+            spell.getStage(nextStageIndex)
                     .getDeliveryMethod()
-                    .deliver(spell, stageIndex, entity);
-        }
-        // Spell complete
-    }
-
-    /**
-     * Executes the delivery method from a position and a direction which can be null
-     *
-     * @param spell      The spell reference
-     * @param stageIndex The current spell stage index
-     * @param world      The world the spell is being executed in
-     * @param position   The position the delivery method should execute at
-     * @param direction  The direction the delivery method should be executed in, can be null
-     */
-    @Override
-    public void transitionAtPosition(Spell spell, int stageIndex, World world, Vec3d position, Vec3d direction)
-    {
-        // Advance to the the next delivery method
-        stageIndex++;
-
-        // If the spell has this stage execute it
-        if (spell.hasStage(stageIndex))
-        {
-            spell.getStage(stageIndex)
-                    .getDeliveryMethod()
-                    .deliver(spell, stageIndex, world, position, direction);
+                    .deliver(new DeliveryTransitionStateBuilder()
+                            .copyOf(state)
+                            .withStageIndex(nextStageIndex)
+                            .build());
         }
         // Spell complete
     }

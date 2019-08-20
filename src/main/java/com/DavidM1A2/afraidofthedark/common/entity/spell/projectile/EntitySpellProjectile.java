@@ -6,6 +6,7 @@ import com.DavidM1A2.afraidofthedark.common.entity.spell.projectile.animation.An
 import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import com.DavidM1A2.afraidofthedark.common.spell.SpellStage;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.SpellDeliveryMethodProjectile;
+import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionStateBuilder;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.ISpellDeliveryEffectApplicator;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.ISpellDeliveryTransitioner;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod;
@@ -16,7 +17,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -64,27 +64,23 @@ public class EntitySpellProjectile extends Entity implements IMCAnimatedEntity
      * @param world      The world the entity is in
      * @param spell      The spell that this projectile is delivering
      * @param spellIndex The index of the current spell stage that is being executed
-     * @param x          The x position of the spell projectile
-     * @param y          The y position of the spell projectile
-     * @param z          The z position of the spell projectile
-     * @param xVelocity  The x component of velocity of the projectile
-     * @param yVelocity  The y component of velocity of the projectile
-     * @param zVelocity  The z component of velocity of the projectile
+     * @param position   The position of the spell projectile
+     * @param velocity   The velocity of the projectile
      */
-    public EntitySpellProjectile(World world, Spell spell, int spellIndex, double x, double y, double z, double xVelocity, double yVelocity, double zVelocity)
+    public EntitySpellProjectile(World world, Spell spell, int spellIndex, Vec3d position, Vec3d velocity)
     {
         this(world);
         this.spell = spell;
         this.spellIndex = spellIndex;
-        double velocityMagnitude = MathHelper.sqrt(xVelocity * xVelocity + yVelocity * yVelocity + zVelocity * zVelocity);
         // Grab the projectile speed from the delivery method
         double projectileSpeed = ((SpellDeliveryMethodProjectile) spell.getStage(spellIndex).getDeliveryMethod()).getSpeed();
         // Update the acceleration vector by normalizing it and multiplying by speed
-        this.motionX = xVelocity / velocityMagnitude * projectileSpeed;
-        this.motionY = yVelocity / velocityMagnitude * projectileSpeed;
-        this.motionZ = zVelocity / velocityMagnitude * projectileSpeed;
+        Vec3d motion = velocity.normalize().scale(projectileSpeed);
+        this.motionX = motion.x;
+        this.motionY = motion.y;
+        this.motionZ = motion.z;
         // Position the entity at the center of the shooter moved slightly in the dir of fire
-        this.setPosition(x + this.motionX, y + this.motionY, z + this.motionZ);
+        this.setPosition(position.x + this.motionX, position.y + this.motionY, position.z + this.motionZ);
         // Null shooter
         this.shooter = null;
     }
@@ -99,7 +95,7 @@ public class EntitySpellProjectile extends Entity implements IMCAnimatedEntity
      */
     public EntitySpellProjectile(World world, Spell spell, int spellIndex, Entity entity)
     {
-        this(world, spell, spellIndex, entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ, entity.getLookVec().x, entity.getLookVec().y, entity.getLookVec().z);
+        this(world, spell, spellIndex, entity.getPositionVector().addVector(0, entity.getEyeHeight(), 0), entity.getLookVec());
         this.setRotation(entity.rotationYaw, entity.rotationPitch);
         this.shooter = entity;
     }
@@ -196,7 +192,13 @@ public class EntitySpellProjectile extends Entity implements IMCAnimatedEntity
                 {
                     // Perform the transition between the next delivery method and the current delivery method
                     ISpellDeliveryTransitioner spellDeliveryTransitioner = nextDeliveryMethod.getEntryRegistryType().getTransitioner(currentStage.getDeliveryMethod().getEntryRegistryType());
-                    spellDeliveryTransitioner.transitionAtPosition(spell, spellIndex, world, result.hitVec, new Vec3d(this.motionX, this.motionY, this.motionZ));
+                    spellDeliveryTransitioner.transition(new DeliveryTransitionStateBuilder()
+                            .withSpell(spell)
+                            .withStageIndex(spellIndex)
+                            .withWorld(world)
+                            .withPosition(result.hitVec)
+                            .withDirection(new Vec3d(this.motionX, this.motionY, this.motionZ))
+                            .build());
                 }
             }
             // If we hit an entity apply effects to the entity
@@ -215,7 +217,11 @@ public class EntitySpellProjectile extends Entity implements IMCAnimatedEntity
                 {
                     // Perform the transition between the next delivery method and the current delivery method
                     ISpellDeliveryTransitioner spellDeliveryTransitioner = nextDeliveryMethod.getEntryRegistryType().getTransitioner(currentStage.getDeliveryMethod().getEntryRegistryType());
-                    spellDeliveryTransitioner.transitionThroughEntity(spell, spellIndex, result.entityHit);
+                    spellDeliveryTransitioner.transition(new DeliveryTransitionStateBuilder()
+                            .withSpell(spell)
+                            .withStageIndex(spellIndex)
+                            .withEntity(result.entityHit)
+                            .build());
                 }
             }
             // Kill the projectile

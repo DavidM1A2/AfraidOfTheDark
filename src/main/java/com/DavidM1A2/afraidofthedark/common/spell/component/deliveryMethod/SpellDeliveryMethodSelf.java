@@ -3,9 +3,6 @@ package com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellDeliveryMethods;
 import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.*;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 
 /**
  * Self delivery method delivers the spell to the caster
@@ -23,43 +20,32 @@ public class SpellDeliveryMethodSelf extends AOTDSpellDeliveryMethod
     /**
      * Called to deliver the effects to the target by whatever means necessary
      *
-     * @param spell The spell that is being delivered
-     * @param spellIndex The current spell stage index
-     * @param source The entity that was the source of the spell
+     * @param state The state of the spell to deliver
      */
     @Override
-    public void deliver(Spell spell, int spellIndex, Entity source)
+    public void deliver(DeliveryTransitionState state)
     {
-        // Delivery is as simple as applying effects for the "self" delivery method
-        spell.getStage(spellIndex).forAllValidEffects((spellEffect, index) ->
+        // Can only deliver "self" to an entity
+        if (state.getEntity() != null)
         {
-            ISpellDeliveryEffectApplicator effectApplicator = this.getEntryRegistryType().getApplicator(spellEffect.getEntryRegistryType());
-            effectApplicator.applyEffect(spell, spellIndex, index, source);
-        });
+            Spell spell = state.getSpell();
+            int spellIndex = state.getStageIndex();
 
-        // Grab the next delivery method
-        SpellDeliveryMethod nextDeliveryMethod = spell.hasStage(spellIndex + 1) ? spell.getStage(spellIndex + 1).getDeliveryMethod() : null;
-        if (nextDeliveryMethod != null)
-        {
-            // Perform the transition between the next delivery method and the current delivery method
-            ISpellDeliveryTransitioner spellDeliveryTransitioner = nextDeliveryMethod.getEntryRegistryType().getTransitioner(this.getEntryRegistryType());
-            spellDeliveryTransitioner.transitionThroughEntity(spell, spellIndex, source);
+            // Delivery is as simple as applying effects for the "self" delivery method
+            spell.getStage(spellIndex).forAllValidEffects((spellEffect, index) ->
+            {
+                ISpellDeliveryEffectApplicator effectApplicator = this.getEntryRegistryType().getApplicator(spellEffect.getEntryRegistryType());
+                effectApplicator.applyEffect(spell, spellIndex, index, state.getEntity());
+            });
+
+            // Grab the next delivery method
+            SpellDeliveryMethod nextDeliveryMethod = spell.hasStage(spellIndex + 1) ? spell.getStage(spellIndex + 1).getDeliveryMethod() : null;
+            if (nextDeliveryMethod != null)
+            {
+                // Perform the transition between the next delivery method and the current delivery method
+                nextDeliveryMethod.getEntryRegistryType().getTransitioner(this.getEntryRegistryType()).transition(state);
+            }
         }
-    }
-
-    /**
-     * Called to deliver the effects to the target by whatever means necessary
-     *
-     * @param spell The spell that is being delivered
-     * @param spellIndex The current spell stage index
-     * @param world The world the spell was cast in
-     * @param position The position the delivery was cast at
-     * @param direction The direction the delivery should happen at
-     */
-    @Override
-    public void deliver(Spell spell, int spellIndex, World world, Vec3d position, Vec3d direction)
-    {
-        // Don't transition or apply effects, self can't be applied to a block
     }
 
     /**

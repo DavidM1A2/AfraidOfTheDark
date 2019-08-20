@@ -9,8 +9,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import java.util.List;
@@ -92,78 +90,56 @@ public class SpellDeliveryMethodAOE extends AOTDSpellDeliveryMethod
     /**
      * Called to deliver the effects to the target by whatever means necessary
      *
-     * @param spell      The spell that is being delivered
-     * @param spellIndex The current spell stage index
-     * @param source     The entity that was the source of the spell
+     * @param state The state of the spell to deliver
      */
     @Override
-    public void deliver(Spell spell, int spellIndex, Entity source)
+    public void deliver(DeliveryTransitionState state)
     {
-        this.performAOEEffects(spell, spellIndex, source.world, source.getPosition());
+        this.performAOEEffects(state);
 
-        // Grab the next delivery method
-        SpellDeliveryMethod nextDeliveryMethod = spell.hasStage(spellIndex + 1) ? spell.getStage(spellIndex + 1).getDeliveryMethod() : null;
-        if (nextDeliveryMethod != null)
+        Spell spell = state.getSpell();
+        int spellIndex = state.getStageIndex();
+
+        if (spell.hasStage(spellIndex + 1))
         {
+            // Grab the next delivery method
+            SpellDeliveryMethod nextDeliveryMethod = spell.getStage(spellIndex + 1).getDeliveryMethod();
             // Perform the transition between the next delivery method and the current delivery method
-            ISpellDeliveryTransitioner spellDeliveryTransitioner = nextDeliveryMethod.getEntryRegistryType().getTransitioner(this.getEntryRegistryType());
-            spellDeliveryTransitioner.transitionThroughEntity(spell, spellIndex, source);
+            nextDeliveryMethod.getEntryRegistryType().getTransitioner(this.getEntryRegistryType()).transition(state);
         }
     }
 
     /**
-     * Called to deliver the effects to the target by whatever means necessary
+     * Performs effects in an AOE at a transition state
      *
-     * @param spell      The spell that is being delivered
-     * @param spellIndex The current spell stage index
-     * @param world      The world the spell was cast in
-     * @param position   The position the delivery was cast at
-     * @param direction  The direction the delivery should happen at
+     * @param state The state of the spell to deliver
      */
-    @Override
-    public void deliver(Spell spell, int spellIndex, World world, Vec3d position, Vec3d direction)
-    {
-        this.performAOEEffects(spell, spellIndex, world, new BlockPos(position));
-
-        // Grab the next delivery method
-        SpellDeliveryMethod nextDeliveryMethod = spell.hasStage(spellIndex + 1) ? spell.getStage(spellIndex + 1).getDeliveryMethod() : null;
-        if (nextDeliveryMethod != null)
-        {
-            // Perform the transition between the next delivery method and the current delivery method
-            ISpellDeliveryTransitioner spellDeliveryTransitioner = nextDeliveryMethod.getEntryRegistryType().getTransitioner(this.getEntryRegistryType());
-            // randomize the direction of the transition for the AOE
-            spellDeliveryTransitioner.transitionAtPosition(spell, spellIndex, world, position, new Vec3d(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize());
-        }
-    }
-
-    /**
-     * Performs effects in an AOE at a given pos
-     *
-     * @param spell           The spell that was cast
-     * @param spellStageIndex The spell stage index that we're currently on
-     * @param world           The world to perform the AOE in
-     * @param blockPos        The pos to AOE at
-     */
-    private void performAOEEffects(Spell spell, int spellStageIndex, World world, BlockPos blockPos)
+    private void performAOEEffects(DeliveryTransitionState state)
     {
         // This AOE should target entities hit all nearby entities
         if (this.targetEntities)
         {
             // A list of nearby entities
-            List<Entity> entitiesWithinAABB = world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(blockPos).grow(this.radius));
+            List<Entity> entitiesWithinAABB = state.getWorld().getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(new BlockPos(state.getPosition())).grow(this.radius));
             // Go over each nearby entity
             entitiesWithinAABB.forEach(entity ->
             {
+                Spell spell = state.getSpell();
+                int stageIndex = state.getStageIndex();
                 // Go through each effect and apply it to the entity
-                spell.getStage(spellStageIndex).forAllValidEffects((spellEffect, index) ->
+                spell.getStage(stageIndex).forAllValidEffects((spellEffect, index) ->
                 {
                     ISpellDeliveryEffectApplicator effectApplicator = this.getEntryRegistryType().getApplicator(spellEffect.getEntryRegistryType());
-                    effectApplicator.applyEffect(spell, spellStageIndex, index, entity);
+                    effectApplicator.applyEffect(spell, stageIndex, index, entity);
                 });
             });
         }
         else
         {
+            // Grab references to
+            BlockPos basePos = new BlockPos(state.getPosition());
+            Spell spell = state.getSpell();
+            int stageIndex = state.getStageIndex();
             // Compute the radius in blocks
             int blockRadius = MathHelper.floor(this.radius);
             // Go over every block in the radius
@@ -174,15 +150,15 @@ public class SpellDeliveryMethodAOE extends AOTDSpellDeliveryMethod
                     for (int z = -blockRadius; z <= blockRadius; z++)
                     {
                         // Grab the blockpos
-                        BlockPos aoePos = blockPos.add(x, y, z);
+                        BlockPos aoePos = basePos.add(x, y, z);
                         // Test to see if the block is within the radius
-                        if (aoePos.distanceSq(blockPos) < radius * radius)
+                        if (aoePos.distanceSq(basePos) < radius * radius)
                         {
                             // Go through each effect and apply it to the position
-                            spell.getStage(spellStageIndex).forAllValidEffects((spellEffect, index) ->
+                            spell.getStage(stageIndex).forAllValidEffects((spellEffect, index) ->
                             {
                                 ISpellDeliveryEffectApplicator effectApplicator = this.getEntryRegistryType().getApplicator(spellEffect.getEntryRegistryType());
-                                effectApplicator.applyEffect(spell, spellStageIndex, index, world, aoePos);
+                                effectApplicator.applyEffect(spell, stageIndex, index, state.getWorld(), aoePos);
                             });
                         }
                     }

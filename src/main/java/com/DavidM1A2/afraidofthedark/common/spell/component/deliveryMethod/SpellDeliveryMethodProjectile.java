@@ -2,14 +2,11 @@ package com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellDeliveryMethods;
 import com.DavidM1A2.afraidofthedark.common.entity.spell.projectile.EntitySpellProjectile;
-import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod;
+import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionState;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodEntry;
-import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 import org.apache.commons.lang3.math.NumberUtils;
 
 /**
@@ -69,31 +66,21 @@ public class SpellDeliveryMethodProjectile extends AOTDSpellDeliveryMethod
     /**
      * Called to deliver the effects to the target by whatever means necessary
      *
-     * @param spell      The spell that is being delivered
-     * @param spellIndex The current spell stage index
-     * @param source     The entity that was the source of the spell
+     * @param state The state of the spell to deliver
      */
     @Override
-    public void deliver(Spell spell, int spellIndex, Entity source)
+    public void deliver(DeliveryTransitionState state)
     {
-        EntitySpellProjectile spellProjectile = new EntitySpellProjectile(source.world, spell, spellIndex, source);
-        source.world.spawnEntity(spellProjectile);
-    }
-
-    /**
-     * Called to deliver the effects to the target by whatever means necessary
-     *
-     * @param spell      The spell that is being delivered
-     * @param spellIndex The current spell stage index
-     * @param world      The world the spell was cast in
-     * @param position   The position the delivery was cast at
-     * @param direction  The direction the delivery should happen at
-     */
-    @Override
-    public void deliver(Spell spell, int spellIndex, World world, Vec3d position, Vec3d direction)
-    {
-        EntitySpellProjectile spellProjectile = new EntitySpellProjectile(world, spell, spellIndex, position.x, position.y, position.z, direction.x, direction.y, direction.z);
-        world.spawnEntity(spellProjectile);
+        EntitySpellProjectile spellProjectile;
+        if (state.getEntity() != null)
+        {
+            spellProjectile = new EntitySpellProjectile(state.getWorld(), state.getSpell(), state.getStageIndex(), state.getEntity());
+        }
+        else
+        {
+            spellProjectile = new EntitySpellProjectile(state.getWorld(), state.getSpell(), state.getStageIndex(), state.getPosition(), state.getDirection());
+        }
+        state.getWorld().spawnEntity(spellProjectile);
     }
 
     /**
