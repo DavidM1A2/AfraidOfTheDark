@@ -186,10 +186,10 @@ public class EntitySpellProjectile extends Entity implements IMCAnimatedEntity
                     effectApplicator.applyEffect(spell, spellIndex, index, world, finalHitPos);
                 });
 
-                // Grab the next delivery method
-                SpellDeliveryMethod nextDeliveryMethod = spell.hasStage(spellIndex + 1) ? spell.getStage(spellIndex + 1).getDeliveryMethod() : null;
-                if (nextDeliveryMethod != null)
+                if (spell.hasStage(spellIndex + 1))
                 {
+                    // Grab the next delivery method
+                    SpellDeliveryMethod nextDeliveryMethod = spell.getStage(spellIndex + 1).getDeliveryMethod();
                     // Perform the transition between the next delivery method and the current delivery method
                     ISpellDeliveryTransitioner spellDeliveryTransitioner = nextDeliveryMethod.getEntryRegistryType().getTransitioner(currentStage.getDeliveryMethod().getEntryRegistryType());
                     spellDeliveryTransitioner.transition(new DeliveryTransitionStateBuilder()
@@ -211,10 +211,10 @@ public class EntitySpellProjectile extends Entity implements IMCAnimatedEntity
                     effectApplicator.applyEffect(spell, spellIndex, index, result.entityHit);
                 });
 
-                // Grab the next delivery method
-                SpellDeliveryMethod nextDeliveryMethod = spell.hasStage(spellIndex + 1) ? spell.getStage(spellIndex + 1).getDeliveryMethod() : null;
-                if (nextDeliveryMethod != null)
+                if (spell.hasStage(spellIndex + 1))
                 {
+                    // Grab the next delivery method
+                    SpellDeliveryMethod nextDeliveryMethod = spell.getStage(spellIndex + 1).getDeliveryMethod();
                     // Perform the transition between the next delivery method and the current delivery method
                     ISpellDeliveryTransitioner spellDeliveryTransitioner = nextDeliveryMethod.getEntryRegistryType().getTransitioner(currentStage.getDeliveryMethod().getEntryRegistryType());
                     spellDeliveryTransitioner.transition(new DeliveryTransitionStateBuilder()
