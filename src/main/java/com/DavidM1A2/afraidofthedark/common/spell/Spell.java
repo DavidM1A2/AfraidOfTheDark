@@ -114,7 +114,7 @@ public class Spell implements INBTSerializable<NBTTagCompound>
                         // Tell the first delivery method to fire
                         this.getStage(0)
                                 .getDeliveryMethod()
-                                .deliver(new DeliveryTransitionStateBuilder()
+                                .executeDelivery(new DeliveryTransitionStateBuilder()
                                         .withSpell(this)
                                         .withStageIndex(0)
                                         .withEntity(entityPlayer)

@@ -1,8 +1,8 @@
 package com.DavidM1A2.afraidofthedark.common.spell.component.effect;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellEffects;
-import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
+import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionState;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
 import net.minecraft.block.BlockAir;
@@ -76,38 +76,30 @@ public class SpellEffectBurn extends AOTDSpellEffect
     }
 
     /**
-     * Performs the effect against a given entity
+     * Performs the effect
      *
-     * @param spell           The spell that caused the effect
-     * @param spellStageIndex The spell stage that this effect is a part of
-     * @param effectIndex     The effect slot that this effect is in
-     * @param entityHit       The entity that the effect should be applied to
+     * @param state The state that the spell is in
      */
     @Override
-    public void performEffect(Spell spell, int spellStageIndex, int effectIndex, Entity entityHit)
+    public void procEffect(DeliveryTransitionState state)
     {
-        this.createParticlesAt(3, 5, new Vec3d(entityHit.posX, entityHit.posY, entityHit.posZ), entityHit.dimension);
-        entityHit.setFire(this.burnDuration);
-    }
-
-    /**
-     * Performs the effect at a given position in the world
-     *
-     * @param spell           The spell that caused the effect
-     * @param spellStageIndex The spell stage that this effect is a part of
-     * @param effectIndex     The effect slot that this effect is in
-     * @param world           The world the effect is being fired in
-     * @param position        The position the effect is being performed at
-     */
-    @Override
-    public void performEffect(Spell spell, int spellStageIndex, int effectIndex, World world, BlockPos position)
-    {
-        if (world.getBlockState(position.up()).getBlock() instanceof BlockAir)
+        if (state.getEntity() != null)
         {
-            if (!(world.getBlockState(position).getBlock() instanceof BlockAir))
+            Entity entity = state.getEntity();
+            this.createParticlesAt(3, 5, new Vec3d(entity.posX, entity.posY, entity.posZ), entity.dimension);
+            entity.setFire(this.burnDuration);
+        }
+        else
+        {
+            World world = state.getWorld();
+            BlockPos position = new BlockPos(state.getPosition());
+            if (world.getBlockState(position.up()).getBlock() instanceof BlockAir)
             {
-                this.createParticlesAt(1, 3, new Vec3d(position.getX() + 0.5, position.getY() + 0.5, position.getZ() + 0.5), world.provider.getDimension());
-                world.setBlockState(position.up(), Blocks.FIRE.getDefaultState());
+                if (!(world.getBlockState(position).getBlock() instanceof BlockAir))
+                {
+                    this.createParticlesAt(1, 3, new Vec3d(position.getX() + 0.5, position.getY() + 0.5, position.getZ() + 0.5), world.provider.getDimension());
+                    world.setBlockState(position.up(), Blocks.FIRE.getDefaultState());
+                }
             }
         }
     }

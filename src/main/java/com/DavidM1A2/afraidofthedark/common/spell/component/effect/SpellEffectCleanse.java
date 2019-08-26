@@ -1,14 +1,12 @@
 package com.DavidM1A2.afraidofthedark.common.spell.component.effect;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellEffects;
-import com.DavidM1A2.afraidofthedark.common.spell.Spell;
+import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionState;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 
 /**
  * The cleanse spell effect clears your spell effects
@@ -27,37 +25,23 @@ public class SpellEffectCleanse extends AOTDSpellEffect
     }
 
     /**
-     * Performs the effect against a given entity
+     * Performs the effect
      *
-     * @param spell           The spell that caused the effect
-     * @param spellStageIndex The spell stage that this effect is a part of
-     * @param effectIndex     The effect slot that this effect is in
-     * @param entityHit       The entity that the effect should be applied to
+     * @param state The state that the spell is in
      */
     @Override
-    public void performEffect(Spell spell, int spellStageIndex, int effectIndex, Entity entityHit)
+    public void procEffect(DeliveryTransitionState state)
     {
-        entityHit.extinguish();
-        if (entityHit instanceof EntityLivingBase)
+        if (state.getEntity() != null)
         {
-            ((EntityLivingBase) entityHit).clearActivePotions();
+            Entity entity = state.getEntity();
+            entity.extinguish();
+            if (entity instanceof EntityLivingBase)
+            {
+                ((EntityLivingBase) entity).clearActivePotions();
+            }
+            this.createParticlesAt(1, 2, new Vec3d(entity.posX, entity.posY, entity.posZ), entity.dimension);
         }
-        this.createParticlesAt(1, 2, new Vec3d(entityHit.posX, entityHit.posY, entityHit.posZ), entityHit.dimension);
-    }
-
-    /**
-     * Performs the effect at a given position in the world
-     *
-     * @param spell           The spell that caused the effect
-     * @param spellStageIndex The spell stage that this effect is a part of
-     * @param effectIndex     The effect slot that this effect is in
-     * @param world           The world the effect is being fired in
-     * @param position        The position the effect is being performed at
-     */
-    @Override
-    public void performEffect(Spell spell, int spellStageIndex, int effectIndex, World world, BlockPos position)
-    {
-        // Doesn't do anything here (yet!)
     }
 
     /**

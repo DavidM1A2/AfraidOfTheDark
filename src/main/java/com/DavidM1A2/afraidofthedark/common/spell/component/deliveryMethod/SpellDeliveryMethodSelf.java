@@ -2,7 +2,11 @@ package com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellDeliveryMethods;
 import com.DavidM1A2.afraidofthedark.common.spell.Spell;
-import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.*;
+import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod;
+import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionState;
+import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionStateBuilder;
+import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodEntry;
+import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffect;
 
 /**
  * Self delivery method delivers the spell to the caster
@@ -18,34 +22,50 @@ public class SpellDeliveryMethodSelf extends AOTDSpellDeliveryMethod
     }
 
     /**
-     * Called to deliver the effects to the target by whatever means necessary
+     * Called to begin delivering the effects to the target by whatever means necessary
      *
      * @param state The state of the spell to deliver
      */
     @Override
-    public void deliver(DeliveryTransitionState state)
+    public void executeDelivery(DeliveryTransitionState state)
+    {
+        // Self just procs the effects and transitions, no more
+        this.procEffects(state);
+        this.transitionFrom(state);
+    }
+
+    /**
+     * Applies a given effect given the spells current state
+     *
+     * @param state  The state of the spell at the current delivery method
+     * @param effect The effect that needs to be applied
+     */
+    @Override
+    public void defaultEffectProc(DeliveryTransitionState state, SpellEffect effect)
     {
         // Can only deliver "self" to an entity
         if (state.getEntity() != null)
         {
-            Spell spell = state.getSpell();
-            int spellIndex = state.getStageIndex();
-
-            // Delivery is as simple as applying effects for the "self" delivery method
-            spell.getStage(spellIndex).forAllValidEffects((spellEffect, index) ->
-            {
-                ISpellDeliveryEffectApplicator effectApplicator = this.getEntryRegistryType().getApplicator(spellEffect.getEntryRegistryType());
-                effectApplicator.applyEffect(spell, spellIndex, index, state.getEntity());
-            });
-
-            // Grab the next delivery method
-            SpellDeliveryMethod nextDeliveryMethod = spell.hasStage(spellIndex + 1) ? spell.getStage(spellIndex + 1).getDeliveryMethod() : null;
-            if (nextDeliveryMethod != null)
-            {
-                // Perform the transition between the next delivery method and the current delivery method
-                nextDeliveryMethod.getEntryRegistryType().getTransitioner(this.getEntryRegistryType()).transition(state);
-            }
+            effect.procEffect(state);
         }
+    }
+
+    /**
+     * Performs the default transition from this delivery method to the next
+     *
+     * @param state The state of the spell to transition
+     */
+    @Override
+    public void performDefaultTransition(DeliveryTransitionState state)
+    {
+        Spell spell = state.getSpell();
+        int spellIndex = state.getStageIndex();
+        // Perform the transition between the next delivery method and the current delivery method
+        spell.getStage(spellIndex + 1).getDeliveryMethod().executeDelivery(new DeliveryTransitionStateBuilder()
+                .withSpell(state.getSpell())
+                .withStageIndex(spellIndex + 1)
+                .withEntity(state.getEntity())
+                .build());
     }
 
     /**

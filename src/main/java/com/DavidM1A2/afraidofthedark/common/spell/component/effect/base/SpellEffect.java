@@ -1,13 +1,10 @@
 package com.DavidM1A2.afraidofthedark.common.spell.component.effect.base;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
-import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import com.DavidM1A2.afraidofthedark.common.spell.component.SpellComponent;
-import net.minecraft.entity.Entity;
+import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 
 /**
  * Base class for all spell effects
@@ -22,25 +19,11 @@ public abstract class SpellEffect extends SpellComponent
     public abstract double getCost();
 
     /**
-     * Performs the effect against a given entity
+     * Performs the effect
      *
-     * @param spell The spell that caused the effect
-     * @param spellStageIndex The spell stage that this effect is a part of
-     * @param effectIndex The effect slot that this effect is in
-     * @param entityHit The entity that the effect should be applied to
+     * @param state The state that the spell is in
      */
-    public abstract void performEffect(Spell spell, int spellStageIndex, int effectIndex, Entity entityHit);
-
-    /**
-     * Performs the effect at a given position in the world
-     *
-     * @param spell The spell that caused the effect
-     * @param spellStageIndex The spell stage that this effect is a part of
-     * @param effectIndex The effect slot that this effect is in
-     * @param world The world the effect is being fired in
-     * @param position The position the effect is being performed at
-     */
-    public abstract void performEffect(Spell spell, int spellStageIndex, int effectIndex, World world, BlockPos position);
+    public abstract void procEffect(DeliveryTransitionState state);
 
     /**
      * Should get the SpellEffectEntry registry's type

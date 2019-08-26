@@ -2,10 +2,13 @@ package com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellDeliveryMethods;
 import com.DavidM1A2.afraidofthedark.common.entity.spell.projectile.EntitySpellProjectile;
+import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionState;
+import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionStateBuilder;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodEntry;
+import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffect;
 import net.minecraft.nbt.NBTTagCompound;
 import org.apache.commons.lang3.math.NumberUtils;
 
@@ -69,7 +72,7 @@ public class SpellDeliveryMethodProjectile extends AOTDSpellDeliveryMethod
      * @param state The state of the spell to deliver
      */
     @Override
-    public void deliver(DeliveryTransitionState state)
+    public void executeDelivery(DeliveryTransitionState state)
     {
         EntitySpellProjectile spellProjectile;
         if (state.getEntity() != null)
@@ -81,6 +84,36 @@ public class SpellDeliveryMethodProjectile extends AOTDSpellDeliveryMethod
             spellProjectile = new EntitySpellProjectile(state.getWorld(), state.getSpell(), state.getStageIndex(), state.getPosition(), state.getDirection());
         }
         state.getWorld().spawnEntity(spellProjectile);
+    }
+
+    /**
+     * Applies a given effect given the spells current state
+     *
+     * @param state  The state of the spell at the current delivery method
+     * @param effect The effect that needs to be applied
+     */
+    @Override
+    public void defaultEffectProc(DeliveryTransitionState state, SpellEffect effect)
+    {
+        effect.procEffect(state);
+    }
+
+    /**
+     * Performs the default transition from this delivery method to the next
+     *
+     * @param state The state of the spell to transition
+     */
+    @Override
+    public void performDefaultTransition(DeliveryTransitionState state)
+    {
+        Spell spell = state.getSpell();
+        int spellIndex = state.getStageIndex();
+        // Perform the transition between the next delivery method and the current delivery method
+        spell.getStage(spellIndex + 1).getDeliveryMethod().executeDelivery(new DeliveryTransitionStateBuilder()
+                .copyOf(state)
+                .withStageIndex(spellIndex + 1)
+                .withDeliveryEntity(null)
+                .build());
     }
 
     /**

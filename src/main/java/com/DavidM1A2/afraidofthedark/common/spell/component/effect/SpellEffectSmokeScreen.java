@@ -4,22 +4,18 @@ import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.client.particle.AOTDParticleRegistry;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellEffects;
 import com.DavidM1A2.afraidofthedark.common.packets.otherPackets.SyncParticle;
-import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
+import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionState;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
-import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Creates a smoke screen at a given effect location
@@ -84,41 +80,14 @@ public class SpellEffectSmokeScreen extends AOTDSpellEffect
     }
 
     /**
-     * Performs the effect against a given entity
+     * Performs the effect
      *
-     * @param spell           The spell that caused the effect
-     * @param spellStageIndex The spell stage that this effect is a part of
-     * @param effectIndex     The effect slot that this effect is in
-     * @param entityHit       The entity that the effect should be applied to
+     * @param state The state that the spell is in
      */
     @Override
-    public void performEffect(Spell spell, int spellStageIndex, int effectIndex, Entity entityHit)
+    public void procEffect(DeliveryTransitionState state)
     {
-        List<Vec3d> positions = new ArrayList<>();
-        // Create smokeDensity random smoke particles around the entity
-        AxisAlignedBB boundingBox = entityHit.getEntityBoundingBox();
-        for (int i = 0; i < this.smokeDensity; i++)
-        {
-            ThreadLocalRandom random = ThreadLocalRandom.current();
-            positions.add(new Vec3d(random.nextDouble(boundingBox.minX, boundingBox.maxX), random.nextDouble(boundingBox.minY, boundingBox.maxY), random.nextDouble(boundingBox.minZ, boundingBox.maxZ)));
-        }
-        AfraidOfTheDark.INSTANCE.getPacketHandler().sendToAllAround(
-                new SyncParticle(AOTDParticleRegistry.ParticleTypes.SMOKE_SCREEN_ID, positions, Collections.nCopies(positions.size(), Vec3d.ZERO)),
-                new NetworkRegistry.TargetPoint(entityHit.dimension, entityHit.posX, entityHit.posY, entityHit.posZ, 100));
-    }
-
-    /**
-     * Performs the effect at a given position in the world
-     *
-     * @param spell           The spell that caused the effect
-     * @param spellStageIndex The spell stage that this effect is a part of
-     * @param effectIndex     The effect slot that this effect is in
-     * @param world           The world the effect is being fired in
-     * @param position        The position the effect is being performed at
-     */
-    @Override
-    public void performEffect(Spell spell, int spellStageIndex, int effectIndex, World world, BlockPos position)
-    {
+        BlockPos position = new BlockPos(state.getPosition());
         List<Vec3d> positions = new ArrayList<>();
         // Create smokeDensity random smoke particles
         for (int i = 0; i < this.smokeDensity; i++)
@@ -127,7 +96,7 @@ public class SpellEffectSmokeScreen extends AOTDSpellEffect
         }
         AfraidOfTheDark.INSTANCE.getPacketHandler().sendToAllAround(
                 new SyncParticle(AOTDParticleRegistry.ParticleTypes.SMOKE_SCREEN_ID, positions, Collections.nCopies(positions.size(), Vec3d.ZERO)),
-                new NetworkRegistry.TargetPoint(world.provider.getDimension(), position.getX(), position.getY(), position.getZ(), 100));
+                new NetworkRegistry.TargetPoint(state.getWorld().provider.getDimension(), position.getX(), position.getY(), position.getZ(), 100));
     }
 
     /**

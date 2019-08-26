@@ -1,8 +1,8 @@
 package com.DavidM1A2.afraidofthedark.common.spell.component.effect;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellEffects;
-import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
+import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionState;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
 import net.minecraft.block.BlockAir;
@@ -134,48 +134,40 @@ public class SpellEffectPotionEffect extends AOTDSpellEffect
     }
 
     /**
-     * Performs the effect against a given entity
+     * Performs the effect
      *
-     * @param spell           The spell that caused the effect
-     * @param spellStageIndex The spell stage that this effect is a part of
-     * @param effectIndex     The effect slot that this effect is in
-     * @param entityHit       The entity that the effect should be applied to
+     * @param state The state that the spell is in
      */
     @Override
-    public void performEffect(Spell spell, int spellStageIndex, int effectIndex, Entity entityHit)
+    public void procEffect(DeliveryTransitionState state)
     {
-        if (entityHit instanceof EntityLivingBase)
+        if (state.getEntity() != null)
         {
-            this.createParticlesAt(1, 3, new Vec3d(entityHit.posX, entityHit.posY, entityHit.posZ), entityHit.dimension);
-            ((EntityLivingBase) entityHit).addPotionEffect(new PotionEffect(this.potionType, this.potionDuration, this.potionStrength));
+            if (state.getEntity() instanceof EntityLivingBase)
+            {
+                Entity entityHit = state.getEntity();
+                this.createParticlesAt(1, 3, new Vec3d(entityHit.posX, entityHit.posY, entityHit.posZ), entityHit.dimension);
+                ((EntityLivingBase) entityHit).addPotionEffect(new PotionEffect(this.potionType, this.potionDuration, this.potionStrength));
+            }
         }
-    }
-
-    /**
-     * Performs the effect at a given position in the world
-     *
-     * @param spell           The spell that caused the effect
-     * @param spellStageIndex The spell stage that this effect is a part of
-     * @param effectIndex     The effect slot that this effect is in
-     * @param world           The world the effect is being fired in
-     * @param position        The position the effect is being performed at
-     */
-    @Override
-    public void performEffect(Spell spell, int spellStageIndex, int effectIndex, World world, BlockPos position)
-    {
-        // Move the hit pos up if we didn't hit an air block
-        if (!(world.getBlockState(position).getBlock() instanceof BlockAir))
+        else
         {
-            position = position.up();
+            World world = state.getWorld();
+            BlockPos position = new BlockPos(state.getPosition());
+            // Move the hit pos up if we didn't hit an air block
+            if (!(world.getBlockState(position).getBlock() instanceof BlockAir))
+            {
+                position = position.up();
+            }
+            EntityAreaEffectCloud aoePotion = new EntityAreaEffectCloud(world, position.getX(), position.getY(), position.getZ());
+            aoePotion.addEffect(new PotionEffect(this.potionType, this.potionDuration, this.potionStrength));
+            aoePotion.setOwner(state.getSpell().getOwner(world));
+            aoePotion.setRadius(2.0f);
+            aoePotion.setRadiusPerTick(0);
+            aoePotion.setDuration(this.potionDuration);
+            world.spawnEntity(aoePotion);
+            this.createParticlesAt(4, 8, new Vec3d(position.getX() + 0.5, position.getY() + 0.5, position.getZ() + 0.5), world.provider.getDimension());
         }
-        EntityAreaEffectCloud aoePotion = new EntityAreaEffectCloud(world, position.getX(), position.getY(), position.getZ());
-        aoePotion.addEffect(new PotionEffect(this.potionType, this.potionDuration, this.potionStrength));
-        aoePotion.setOwner(spell.getOwner(world));
-        aoePotion.setRadius(2.0f);
-        aoePotion.setRadiusPerTick(0);
-        aoePotion.setDuration(this.potionDuration);
-        world.spawnEntity(aoePotion);
-        this.createParticlesAt(4, 8, new Vec3d(position.getX() + 0.5, position.getY() + 0.5, position.getZ() + 0.5), world.provider.getDimension());
     }
 
     /**

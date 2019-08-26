@@ -1,7 +1,7 @@
 package com.DavidM1A2.afraidofthedark.common.spell.component.effect;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellEffects;
-import com.DavidM1A2.afraidofthedark.common.spell.Spell;
+import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionState;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
 import net.minecraft.block.state.IBlockState;
@@ -35,49 +35,41 @@ public class SpellEffectDig extends AOTDSpellEffect
     }
 
     /**
-     * Performs the dig effect against a given entity which removes the block under them
+     * Performs the effect
      *
-     * @param spell The spell that caused the effect
-     * @param spellStageIndex The spell stage that this effect is a part of
-     * @param effectIndex The effect slot that this effect is in
-     * @param entityHit The entity that the effect should be applied to
+     * @param state The state that the spell is in
      */
     @Override
-    public void performEffect(Spell spell, int spellStageIndex, int effectIndex, Entity entityHit)
+    public void procEffect(DeliveryTransitionState state)
     {
-        // Digs the block under the player
-        BlockPos blockPos = entityHit.getPosition().down();
-        if (this.canBlockBeDestroyed(entityHit.world, blockPos))
+        World world = state.getWorld();
+        if (state.getEntity() != null)
         {
-            this.createParticlesAt(1, 3, new Vec3d(entityHit.posX, entityHit.posY, entityHit.posZ), entityHit.dimension);
-            entityHit.world.destroyBlock(blockPos, true);
+            Entity entity = state.getEntity();
+            // Digs the block under the player
+            BlockPos blockPos = entity.getPosition().down();
+            if (this.canBlockBeDestroyed(world, blockPos))
+            {
+                this.createParticlesAt(1, 3, new Vec3d(entity.posX, entity.posY, entity.posZ), entity.dimension);
+                world.destroyBlock(blockPos, true);
+            }
         }
-    }
-
-    /**
-     * Performs the effect against a given block in the world
-     *
-     * @param spell The spell that caused the effect
-     * @param spellStageIndex The spell stage that this effect is a part of
-     * @param effectIndex The effect slot that this effect is in
-     * @param world The world the effect is being fired in
-     * @param position The position the effect is being performed at
-     */
-    @Override
-    public void performEffect(Spell spell, int spellStageIndex, int effectIndex, World world, BlockPos position)
-    {
-        // Digs the block at the position
-        if (this.canBlockBeDestroyed(world, position))
+        else
         {
-            this.createParticlesAt(1, 3, new Vec3d(position.getX() + 0.5, position.getY() + 0.5, position.getZ() + 0.5), world.provider.getDimension());
-            world.destroyBlock(position, true);
+            BlockPos position = new BlockPos(state.getPosition());
+            // Digs the block at the position
+            if (this.canBlockBeDestroyed(world, position))
+            {
+                this.createParticlesAt(1, 3, new Vec3d(position.getX() + 0.5, position.getY() + 0.5, position.getZ() + 0.5), world.provider.getDimension());
+                world.destroyBlock(position, true);
+            }
         }
     }
 
     /**
      * Tests if a given block can be broken with a dig spell
      *
-     * @param world The world the block is in
+     * @param world    The world the block is in
      * @param blockPos The pos the block is at
      * @return True if the block can be destroyed, false otherwise
      */

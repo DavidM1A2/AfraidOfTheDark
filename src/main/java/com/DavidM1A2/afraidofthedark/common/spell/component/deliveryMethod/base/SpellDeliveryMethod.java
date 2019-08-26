@@ -1,7 +1,9 @@
 package com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
+import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import com.DavidM1A2.afraidofthedark.common.spell.component.SpellComponent;
+import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffect;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
@@ -11,11 +13,80 @@ import net.minecraft.util.ResourceLocation;
 public abstract class SpellDeliveryMethod extends SpellComponent
 {
     /**
-     * Called to deliver the effects to the target by whatever means necessary
+     * Called to begin delivering the effects to the target by whatever means necessary
      *
-     * @param state The state of the spell to deliver
+     * @param state The state of the spell at the current delivery method
      */
-    public abstract void deliver(DeliveryTransitionState state);
+    public abstract void executeDelivery(DeliveryTransitionState state);
+
+    /**
+     * Applies the effects that are a part of this delivery method to the targets
+     *
+     * @param state The state of the spell at the current delivery method
+     */
+    public void procEffects(DeliveryTransitionState state)
+    {
+        // Go over each effect
+        for (SpellEffect effect : state.getCurrentStage().getEffects())
+        {
+            if (effect != null)
+            {
+                // Test if there's a special custom applicator for this effect, if so use that
+                ISpellDeliveryEffectApplicator customApplicator = this.getEntryRegistryType().getApplicator(this.getEntryRegistryType(), effect.getEntryRegistryType());
+                if (customApplicator != null)
+                {
+                    customApplicator.procEffect(state, effect);
+                }
+                // There's no custom applicator, so use the default proc effect
+                else
+                {
+                    this.defaultEffectProc(state, effect);
+                }
+            }
+        }
+    }
+
+    /**
+     * Applies a given effect given the spells current state
+     *
+     * @param state  The state of the spell at the current delivery method
+     * @param effect The effect that needs to be applied
+     */
+    public abstract void defaultEffectProc(DeliveryTransitionState state, SpellEffect effect);
+
+    /**
+     * Called after the delivery finishes and we transition from this state into the next
+     *
+     * @param state The state of the spell to transition FROM
+     */
+    public void transitionFrom(DeliveryTransitionState state)
+    {
+        Spell spell = state.getSpell();
+        // Test if we can transition to the next stage
+        if (spell.hasStage(state.getStageIndex() + 1))
+        {
+            // Grab the next delivery method
+            SpellDeliveryMethod nextDeliveryMethod = spell.getStage(state.getStageIndex() + 1).getDeliveryMethod();
+            // Grab the transitioner from the current delivery method to the next one
+            ISpellDeliveryTransitioner transitioner = nextDeliveryMethod.getEntryRegistryType().getTransitioner(state.getCurrentStage().getDeliveryMethod().getEntryRegistryType());
+            // Perform the transition if a custom transitioner is present
+            if (transitioner != null)
+            {
+                transitioner.transition(state);
+            }
+            else
+            {
+                performDefaultTransition(state);
+            }
+        }
+    }
+
+    /**
+     * Performs the default transition from this delivery method to the next
+     *
+     * @param state The state of the spell to transition
+     */
+    public abstract void performDefaultTransition(DeliveryTransitionState state);
 
     /**
      * Gets the cost of the delivery method

@@ -6,9 +6,8 @@ import com.DavidM1A2.afraidofthedark.common.entity.spell.projectile.animation.An
 import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import com.DavidM1A2.afraidofthedark.common.spell.SpellStage;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.SpellDeliveryMethodProjectile;
+import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionState;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionStateBuilder;
-import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.ISpellDeliveryEffectApplicator;
-import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.ISpellDeliveryTransitioner;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ProjectileHelper;
@@ -74,6 +73,11 @@ public class EntitySpellProjectile extends Entity implements IMCAnimatedEntity
         this.spellIndex = spellIndex;
         // Grab the projectile speed from the delivery method
         double projectileSpeed = ((SpellDeliveryMethodProjectile) spell.getStage(spellIndex).getDeliveryMethod()).getSpeed();
+        // Default velocity will just be random velocity
+        if (velocity == null)
+        {
+            velocity = new Vec3d(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5);
+        }
         // Update the acceleration vector by normalizing it and multiplying by speed
         Vec3d motion = velocity.normalize().scale(projectileSpeed);
         this.motionX = motion.x;
@@ -168,60 +172,45 @@ public class EntitySpellProjectile extends Entity implements IMCAnimatedEntity
                 // Don't do anything
             }
             // If we hit a block proceed with the effects
-            else if (result.typeOfHit == RayTraceResult.Type.BLOCK)
+            else
             {
-                // Grab the hit position
-                BlockPos hitPos = new BlockPos(result.hitVec);
-                // If we hit an air block find the block to the side of the air, hit that instead
-                if (world.getBlockState(hitPos).getBlock() == Blocks.AIR)
+                SpellDeliveryMethod currentDeliveryMethod = currentStage.getDeliveryMethod();
+                if (result.typeOfHit == RayTraceResult.Type.BLOCK)
                 {
-                    hitPos = hitPos.offset(result.sideHit.getOpposite());
-                }
-                // Need to make hitpos "final"
-                BlockPos finalHitPos = hitPos;
-                // For each valid effect apply it at the hit pos
-                currentStage.forAllValidEffects((spellEffect, index) ->
-                {
-                    ISpellDeliveryEffectApplicator effectApplicator = currentStage.getDeliveryMethod().getEntryRegistryType().getApplicator(spellEffect.getEntryRegistryType());
-                    effectApplicator.applyEffect(spell, spellIndex, index, world, finalHitPos);
-                });
+                    // Grab the hit position
+                    BlockPos hitPos = new BlockPos(result.hitVec);
+                    // If we hit an air block find the block to the side of the air, hit that instead
+                    if (world.getBlockState(hitPos).getBlock() == Blocks.AIR)
+                    {
+                        hitPos = hitPos.offset(result.sideHit.getOpposite());
+                    }
 
-                if (spell.hasStage(spellIndex + 1))
-                {
-                    // Grab the next delivery method
-                    SpellDeliveryMethod nextDeliveryMethod = spell.getStage(spellIndex + 1).getDeliveryMethod();
-                    // Perform the transition between the next delivery method and the current delivery method
-                    ISpellDeliveryTransitioner spellDeliveryTransitioner = nextDeliveryMethod.getEntryRegistryType().getTransitioner(currentStage.getDeliveryMethod().getEntryRegistryType());
-                    spellDeliveryTransitioner.transition(new DeliveryTransitionStateBuilder()
+                    DeliveryTransitionState state = new DeliveryTransitionStateBuilder()
                             .withSpell(spell)
                             .withStageIndex(spellIndex)
                             .withWorld(world)
-                            .withPosition(result.hitVec)
+                            .withPosition(new Vec3d(hitPos.getX() + 0.5, hitPos.getY() + 0.5, hitPos.getZ() + 0.5))
                             .withDirection(new Vec3d(this.motionX, this.motionY, this.motionZ))
-                            .build());
-                }
-            }
-            // If we hit an entity apply effects to the entity
-            else if (result.typeOfHit == RayTraceResult.Type.ENTITY)
-            {
-                // Go through each effect and apply it to the entity
-                currentStage.forAllValidEffects((spellEffect, index) ->
-                {
-                    ISpellDeliveryEffectApplicator effectApplicator = currentStage.getDeliveryMethod().getEntryRegistryType().getApplicator(spellEffect.getEntryRegistryType());
-                    effectApplicator.applyEffect(spell, spellIndex, index, result.entityHit);
-                });
+                            .withDeliveryEntity(this)
+                            .build();
 
-                if (spell.hasStage(spellIndex + 1))
+                    // Proc the effects and transition
+                    currentDeliveryMethod.procEffects(state);
+                    currentDeliveryMethod.transitionFrom(state);
+                }
+                // If we hit an entity apply effects to the entity
+                else if (result.typeOfHit == RayTraceResult.Type.ENTITY)
                 {
-                    // Grab the next delivery method
-                    SpellDeliveryMethod nextDeliveryMethod = spell.getStage(spellIndex + 1).getDeliveryMethod();
-                    // Perform the transition between the next delivery method and the current delivery method
-                    ISpellDeliveryTransitioner spellDeliveryTransitioner = nextDeliveryMethod.getEntryRegistryType().getTransitioner(currentStage.getDeliveryMethod().getEntryRegistryType());
-                    spellDeliveryTransitioner.transition(new DeliveryTransitionStateBuilder()
+                    DeliveryTransitionState state = new DeliveryTransitionStateBuilder()
                             .withSpell(spell)
                             .withStageIndex(spellIndex)
                             .withEntity(result.entityHit)
-                            .build());
+                            .withDeliveryEntity(this)
+                            .build();
+
+                    // Proc the effects and transition
+                    currentDeliveryMethod.procEffects(state);
+                    currentDeliveryMethod.transitionFrom(state);
                 }
             }
             // Kill the projectile

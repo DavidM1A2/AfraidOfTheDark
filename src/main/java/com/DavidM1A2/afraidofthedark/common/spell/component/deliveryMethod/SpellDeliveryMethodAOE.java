@@ -3,12 +3,17 @@ package com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellDeliveryMethods;
 import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
-import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.*;
+import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod;
+import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionState;
+import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionStateBuilder;
+import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodEntry;
+import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffect;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import java.util.List;
@@ -93,28 +98,21 @@ public class SpellDeliveryMethodAOE extends AOTDSpellDeliveryMethod
      * @param state The state of the spell to deliver
      */
     @Override
-    public void deliver(DeliveryTransitionState state)
+    public void executeDelivery(DeliveryTransitionState state)
     {
-        this.performAOEEffects(state);
-
-        Spell spell = state.getSpell();
-        int spellIndex = state.getStageIndex();
-
-        if (spell.hasStage(spellIndex + 1))
-        {
-            // Grab the next delivery method
-            SpellDeliveryMethod nextDeliveryMethod = spell.getStage(spellIndex + 1).getDeliveryMethod();
-            // Perform the transition between the next delivery method and the current delivery method
-            nextDeliveryMethod.getEntryRegistryType().getTransitioner(this.getEntryRegistryType()).transition(state);
-        }
+        // AOE just procs the effects and transitions in a sphere
+        this.procEffects(state);
+        this.transitionFrom(state);
     }
 
     /**
-     * Performs effects in an AOE at a transition state
+     * Applies a given effect given the spells current state
      *
-     * @param state The state of the spell to deliver
+     * @param state The state of the spell at the current delivery method
+     * @param effect The effect that needs to be applied
      */
-    private void performAOEEffects(DeliveryTransitionState state)
+    @Override
+    public void defaultEffectProc(DeliveryTransitionState state, SpellEffect effect)
     {
         // This AOE should target entities hit all nearby entities
         if (this.targetEntities)
@@ -124,24 +122,24 @@ public class SpellDeliveryMethodAOE extends AOTDSpellDeliveryMethod
             // Go over each nearby entity
             entitiesWithinAABB.forEach(entity ->
             {
-                Spell spell = state.getSpell();
-                int stageIndex = state.getStageIndex();
-                // Go through each effect and apply it to the entity
-                spell.getStage(stageIndex).forAllValidEffects((spellEffect, index) ->
-                {
-                    ISpellDeliveryEffectApplicator effectApplicator = this.getEntryRegistryType().getApplicator(spellEffect.getEntryRegistryType());
-                    effectApplicator.applyEffect(spell, stageIndex, index, entity);
-                });
+                // Apply it to the entity
+                effect.procEffect(new DeliveryTransitionStateBuilder()
+                        .withSpell(state.getSpell())
+                        .withStageIndex(state.getStageIndex())
+                        .withEntity(entity)
+                        .build());
             });
         }
         else
         {
             // Grab references to
             BlockPos basePos = new BlockPos(state.getPosition());
-            Spell spell = state.getSpell();
-            int stageIndex = state.getStageIndex();
             // Compute the radius in blocks
             int blockRadius = MathHelper.floor(this.radius);
+            DeliveryTransitionStateBuilder transitionBuilder = new DeliveryTransitionStateBuilder()
+                    .withSpell(state.getSpell())
+                    .withStageIndex(state.getStageIndex())
+                    .withWorld(state.getWorld());
             // Go over every block in the radius
             for (int x = -blockRadius; x <= blockRadius; x++)
             {
@@ -154,16 +152,50 @@ public class SpellDeliveryMethodAOE extends AOTDSpellDeliveryMethod
                         // Test to see if the block is within the radius
                         if (aoePos.distanceSq(basePos) < radius * radius)
                         {
-                            // Go through each effect and apply it to the position
-                            spell.getStage(stageIndex).forAllValidEffects((spellEffect, index) ->
-                            {
-                                ISpellDeliveryEffectApplicator effectApplicator = this.getEntryRegistryType().getApplicator(spellEffect.getEntryRegistryType());
-                                effectApplicator.applyEffect(spell, stageIndex, index, state.getWorld(), aoePos);
-                            });
+                            // Apply the effect at the position
+                            effect.procEffect(transitionBuilder.withPosition(new Vec3d(aoePos.getX(), aoePos.getY(), aoePos.getZ())).build());
                         }
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * Performs the default transition from this delivery method to the next
+     *
+     * @param state The state of the spell to transition
+     */
+    @Override
+    public void performDefaultTransition(DeliveryTransitionState state)
+    {
+        Spell spell = state.getSpell();
+        int spellIndex = state.getStageIndex();
+        if (this.targetEntities)
+        {
+            // A list of nearby entities
+            List<Entity> entitiesWithinAABB = state.getWorld().getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(new BlockPos(state.getPosition())).grow(this.radius));
+            // Go over each nearby entity
+            entitiesWithinAABB.forEach(entity ->
+            {
+                // Perform the transition between the next delivery method and the current delivery method
+                spell.getStage(spellIndex + 1).getDeliveryMethod().executeDelivery(new DeliveryTransitionStateBuilder()
+                        .withSpell(state.getSpell())
+                        .withStageIndex(spellIndex + 1)
+                        .withEntity(entity)
+                        .build());
+            });
+        }
+        else
+        {
+            // Perform the transition between the next delivery method and the current delivery method
+            spell.getStage(spellIndex + 1).getDeliveryMethod().executeDelivery(new DeliveryTransitionStateBuilder()
+                    .withSpell(state.getSpell())
+                    .withStageIndex(spellIndex + 1)
+                    .withWorld(state.getWorld())
+                    .withPosition(state.getPosition())
+                    .withDirection(new Vec3d(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize())
+                    .build());
         }
     }
 

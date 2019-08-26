@@ -17,6 +17,7 @@ public class DeliveryTransitionStateBuilder
     private Vec3d position = null;
     private Vec3d direction = null;
     private Entity entity = null;
+    private Entity deliveryEntity = null;
 
     /**
      * Sets the spell to transition for
@@ -79,6 +80,18 @@ public class DeliveryTransitionStateBuilder
     }
 
     /**
+     * Sets the delivery entity that is used to deliver the spell
+     *
+     * @param deliveryEntity The entity delivering the spell
+     * @return The builder
+     */
+    public DeliveryTransitionStateBuilder withDeliveryEntity(Entity deliveryEntity)
+    {
+        this.deliveryEntity = deliveryEntity;
+        return this;
+    }
+
+    /**
      * Sets the world, position, direction, and entity based on the entity's position
      *
      * @param entity The entity to grab data from
@@ -107,6 +120,7 @@ public class DeliveryTransitionStateBuilder
         this.position = state.getPosition();
         this.direction = state.getDirection();
         this.entity = state.getEntity();
+        this.deliveryEntity = state.getDeliveryEntity();
         return this;
     }
 
@@ -121,6 +135,6 @@ public class DeliveryTransitionStateBuilder
         Validate.notNull(world, "World must not be null!");
         Validate.notNull(position, "Position must not be null!");
 
-        return new DeliveryTransitionState(spell, stageIndex, world, position, direction, entity);
+        return new DeliveryTransitionState(spell, stageIndex, world, position, direction, entity, deliveryEntity);
     }
 }
