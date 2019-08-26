@@ -32,10 +32,16 @@ public abstract class SpellDeliveryMethod extends SpellComponent
             if (effect != null)
             {
                 // Test if there's a special custom applicator for this effect, if so use that
-                ISpellDeliveryEffectApplicator customApplicator = this.getEntryRegistryType().getApplicator(this.getEntryRegistryType(), effect.getEntryRegistryType());
+                ISpellDeliveryEffectApplicator customApplicator = this.getEntryRegistryType().getApplicator(effect.getEntryRegistryType());
                 if (customApplicator != null)
                 {
-                    customApplicator.procEffect(state, effect);
+                    // Test if the custom application was successful
+                    boolean customApplicationSuccessful = customApplicator.procEffect(state, effect);
+                    // If it was not, use the default logic
+                    if (!customApplicationSuccessful)
+                    {
+                        this.defaultEffectProc(state, effect);
+                    }
                 }
                 // There's no custom applicator, so use the default proc effect
                 else

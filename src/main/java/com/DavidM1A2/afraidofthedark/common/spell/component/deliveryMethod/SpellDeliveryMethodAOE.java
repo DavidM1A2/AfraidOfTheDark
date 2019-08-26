@@ -260,4 +260,18 @@ public class SpellDeliveryMethodAOE extends AOTDSpellDeliveryMethod
         this.radius = nbt.getDouble(NBT_RADIUS);
         this.targetEntities = nbt.getBoolean(NBT_TARGET_TYPE);
     }
+
+    ///
+    /// Getters
+    ///
+
+    public double getRadius()
+    {
+        return radius;
+    }
+
+    public boolean shouldTargetEntities()
+    {
+        return targetEntities;
+    }
 }

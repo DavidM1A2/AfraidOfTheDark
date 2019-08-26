@@ -2,8 +2,6 @@ package com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base
 
 import com.DavidM1A2.afraidofthedark.common.spell.component.SpellComponentEntry;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
-import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.Table;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.HashMap;
@@ -18,7 +16,7 @@ public class SpellDeliveryMethodEntry extends SpellComponentEntry<SpellDeliveryM
     // A map of previous delivery entry type to transitioner to fire to move from that delivery method to this one
     private final Map<SpellDeliveryMethodEntry, ISpellDeliveryTransitioner> deliveryCustomTransitioners = new HashMap<>();
     // A map of effect entries to custom effect applicators, used to specify how effects are applied
-    private final Table<SpellDeliveryMethodEntry, SpellEffectEntry, ISpellDeliveryEffectApplicator> deliveryEffectCustomApplicators = HashBasedTable.create();
+    private final Map<SpellEffectEntry, ISpellDeliveryEffectApplicator> deliveryEffectCustomApplicators = new HashMap<>();
 
     /**
      * Constructor just passes on the id and factory
@@ -53,13 +51,12 @@ public class SpellDeliveryMethodEntry extends SpellComponentEntry<SpellDeliveryM
     /**
      * Adds a custom applicator to this effect for the current delivery method
      *
-     * @param deliveryMethodEntry The delivery method that caused the effect
      * @param effectEntry         The effect to modify application of
      * @param applicator          The applicator to modify the application with
      */
-    public void addCustomEffectApplicator(SpellDeliveryMethodEntry deliveryMethodEntry, SpellEffectEntry effectEntry, ISpellDeliveryEffectApplicator applicator)
+    public void addCustomEffectApplicator(SpellEffectEntry effectEntry, ISpellDeliveryEffectApplicator applicator)
     {
-        this.deliveryEffectCustomApplicators.put(deliveryMethodEntry, effectEntry, applicator);
+        this.deliveryEffectCustomApplicators.put(effectEntry, applicator);
     }
 
     /**
@@ -76,12 +73,11 @@ public class SpellDeliveryMethodEntry extends SpellComponentEntry<SpellDeliveryM
     /**
      * Gets the applicator to use for this effect or the default if no custom one was specified
      *
-     * @param deliveryMethodEntry The delivery method that is applying
      * @param effectEntry The effect entry to apply
      * @return The applicator to use to apply this effect
      */
-    public ISpellDeliveryEffectApplicator getApplicator(SpellDeliveryMethodEntry deliveryMethodEntry, SpellEffectEntry effectEntry)
+    public ISpellDeliveryEffectApplicator getApplicator(SpellEffectEntry effectEntry)
     {
-        return this.deliveryEffectCustomApplicators.get(deliveryMethodEntry, effectEntry);
+        return this.deliveryEffectCustomApplicators.get(effectEntry);
     }
 }

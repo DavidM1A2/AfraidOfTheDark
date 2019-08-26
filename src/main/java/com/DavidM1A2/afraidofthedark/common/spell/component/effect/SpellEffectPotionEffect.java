@@ -16,6 +16,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.math.NumberUtils;
 
 /**
  * Spell effect that applies potion effects
@@ -26,16 +27,19 @@ public class SpellEffectPotionEffect extends AOTDSpellEffect
     private static final String NBT_POTION_TYPE = "potion_type";
     private static final String NBT_POTION_STRENGTH = "potion_strength";
     private static final String NBT_POTION_DURATION = "potion_duration";
+    private static final String NBT_POTION_RADIUS = "potion_radius";
 
     // Field defaults
     private static final Potion DEFAULT_POTION_TYPE = Potion.getPotionFromResourceLocation("minecraft:speed");
     private static final int DEFAULT_POTION_STRENGTH = 0;
     private static final int DEFAULT_POTION_DURATION = 20;
+    private static final float DEFAULT_POTION_RADIUS = 2.0f;
 
     // Spell potion fields
     private Potion potionType = DEFAULT_POTION_TYPE;
     private int potionStrength = DEFAULT_POTION_STRENGTH;
     private int potionDuration = DEFAULT_POTION_DURATION;
+    private float potionRadius = DEFAULT_POTION_RADIUS;
 
     /**
      * Constructor adds the editable props
@@ -120,6 +124,35 @@ public class SpellEffectPotionEffect extends AOTDSpellEffect
                     }
                 }
         ));
+        this.addEditableProperty(new EditableSpellComponentProperty(
+                "Potion Cloud Radius",
+                "The size of the potion cloud if the potion is delivered to a block and not an entity.",
+                () -> Double.toString(this.potionRadius),
+                newValue ->
+                {
+                    // Ensure the number is parsable
+                    if (NumberUtils.isParsable(newValue))
+                    {
+                        // Parse the radius
+                        this.potionRadius = Float.parseFloat(newValue);
+                        // Ensure radius is valid
+                        if (this.potionRadius > 0)
+                        {
+                            return null;
+                        }
+                        else
+                        {
+                            this.potionRadius = DEFAULT_POTION_RADIUS;
+                            return "Radius must be larger than 0";
+                        }
+                    }
+                    // If it's not valid return an error
+                    else
+                    {
+                        return newValue + " is not a valid decimal number!";
+                    }
+                }
+        ));
     }
 
     /**
@@ -130,7 +163,7 @@ public class SpellEffectPotionEffect extends AOTDSpellEffect
     @Override
     public double getCost()
     {
-        return 15 + this.potionDuration / 5.0 * this.potionStrength;
+        return 15 + this.potionDuration / 5.0 * this.potionStrength * Math.max(Math.sqrt(this.potionRadius), 1);
     }
 
     /**
@@ -162,7 +195,7 @@ public class SpellEffectPotionEffect extends AOTDSpellEffect
             EntityAreaEffectCloud aoePotion = new EntityAreaEffectCloud(world, position.getX(), position.getY(), position.getZ());
             aoePotion.addEffect(new PotionEffect(this.potionType, this.potionDuration, this.potionStrength));
             aoePotion.setOwner(state.getSpell().getOwner(world));
-            aoePotion.setRadius(2.0f);
+            aoePotion.setRadius(this.potionRadius);
             aoePotion.setRadiusPerTick(0);
             aoePotion.setDuration(this.potionDuration);
             world.spawnEntity(aoePotion);
@@ -194,6 +227,7 @@ public class SpellEffectPotionEffect extends AOTDSpellEffect
         nbt.setString(NBT_POTION_TYPE, this.potionType.getRegistryName().toString());
         nbt.setInteger(NBT_POTION_DURATION, this.potionDuration);
         nbt.setInteger(NBT_POTION_STRENGTH, this.potionStrength);
+        nbt.setFloat(NBT_POTION_RADIUS, this.potionRadius);
 
         return nbt;
     }
@@ -211,5 +245,6 @@ public class SpellEffectPotionEffect extends AOTDSpellEffect
         this.potionType = Potion.getPotionFromResourceLocation(nbt.getString(NBT_POTION_TYPE));
         this.potionDuration = nbt.getInteger(NBT_POTION_DURATION);
         this.potionStrength = nbt.getInteger(NBT_POTION_STRENGTH);
+        this.potionRadius = nbt.getFloat(NBT_POTION_RADIUS);
     }
 }

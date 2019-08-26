@@ -12,6 +12,8 @@ public interface ISpellDeliveryEffectApplicator
      *
      * @param state The state that the spell is in
      * @param effect The effect to proc
+     *
+     * @return True if the custom effect proc'd successfully, false if it did not and default logic should be used instead
      */
-    void procEffect(DeliveryTransitionState state, SpellEffect effect);
+    boolean procEffect(DeliveryTransitionState state, SpellEffect effect);
 }
