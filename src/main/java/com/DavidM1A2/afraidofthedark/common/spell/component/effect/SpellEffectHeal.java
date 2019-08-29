@@ -1,15 +1,14 @@
 package com.DavidM1A2.afraidofthedark.common.spell.component.effect;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellEffects;
+import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionState;
 import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
-import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionState;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.Vec3d;
 
 /**
  * Effect that heals a hit entity
@@ -84,7 +83,7 @@ public class SpellEffectHeal extends AOTDSpellEffect
         Entity entity = state.getEntity();
         if (entity instanceof EntityLivingBase && !(entity instanceof EntityArmorStand))
         {
-            this.createParticlesAt(1, 3, new Vec3d(entity.posX, entity.posY, entity.posZ), entity.dimension);
+            createParticlesAt(1, 3, state.getPosition(), entity.dimension);
             ((EntityLivingBase) entity).heal(this.healAmount);
         }
     }

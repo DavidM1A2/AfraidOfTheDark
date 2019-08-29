@@ -3,10 +3,10 @@ package com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellDeliveryMethods;
 import com.DavidM1A2.afraidofthedark.common.entity.spell.projectile.EntitySpellProjectile;
 import com.DavidM1A2.afraidofthedark.common.spell.Spell;
+import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionState;
+import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder;
 import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod;
-import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionState;
-import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionStateBuilder;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodEntry;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffect;
 import net.minecraft.nbt.NBTTagCompound;
@@ -56,14 +56,6 @@ public class SpellDeliveryMethodProjectile extends AOTDSpellDeliveryMethod
                 return newValue + " is not a valid decimal number!";
             }
         }));
-    }
-
-    /**
-     * @return Gets the projectile speed
-     */
-    public double getSpeed()
-    {
-        return speed;
     }
 
     /**
@@ -174,5 +166,13 @@ public class SpellDeliveryMethodProjectile extends AOTDSpellDeliveryMethod
     {
         super.deserializeNBT(nbt);
         this.speed = nbt.getDouble(NBT_SPEED);
+    }
+
+    /**
+     * @return Gets the projectile speed
+     */
+    public double getSpeed()
+    {
+        return speed;
     }
 }

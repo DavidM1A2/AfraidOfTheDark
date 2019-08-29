@@ -5,9 +5,9 @@ import com.DavidM1A2.afraidofthedark.common.entity.mcAnimatorLib.animation.Anima
 import com.DavidM1A2.afraidofthedark.common.entity.spell.projectile.animation.AnimationHandlerSpellProjectile;
 import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import com.DavidM1A2.afraidofthedark.common.spell.SpellStage;
+import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionState;
+import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.SpellDeliveryMethodProjectile;
-import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionState;
-import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionStateBuilder;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ProjectileHelper;
@@ -189,7 +189,8 @@ public class EntitySpellProjectile extends Entity implements IMCAnimatedEntity
                             .withSpell(spell)
                             .withStageIndex(spellIndex)
                             .withWorld(world)
-                            .withPosition(new Vec3d(hitPos.getX() + 0.5, hitPos.getY() + 0.5, hitPos.getZ() + 0.5))
+                            .withPosition(result.hitVec)
+                            .withBlockPosition(hitPos)
                             .withDirection(new Vec3d(this.motionX, this.motionY, this.motionZ))
                             .withDeliveryEntity(this)
                             .build();

@@ -2,13 +2,20 @@ package com.DavidM1A2.afraidofthedark.common.event.register;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellDeliveryMethods;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellEffects;
+import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.SpellDeliveryMethodAOE;
-import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionStateBuilder;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.ISpellDeliveryEffectApplicator;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod;
+import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -23,6 +30,7 @@ public class SpellEffectOverrideRegister
     public static void initialize()
     {
         registerAoeFixes();
+        registerAoeTeleportFix();
     }
 
     /**
@@ -81,5 +89,46 @@ public class SpellEffectOverrideRegister
         };
         ModSpellDeliveryMethods.AOE.addCustomEffectApplicator(ModSpellEffects.EXPLOSION, customAOEApplicator);
         ModSpellDeliveryMethods.AOE.addCustomEffectApplicator(ModSpellEffects.POTION_EFFECT, customAOEApplicator);
+    }
+
+    /**
+     * Fixes the crazy teleport spam when using AOE+teleport causing a bunch of teleports
+     */
+    private static void registerAoeTeleportFix()
+    {
+        ModSpellDeliveryMethods.AOE.addCustomEffectApplicator(ModSpellEffects.TELEPORT, (state, effect) ->
+        {
+            World world = state.getWorld();
+            EntityPlayer spellCaster = state.getSpell().getOwner(world);
+            if (spellCaster != null)
+            {
+                // Get the radius
+                double radius = ((SpellDeliveryMethodAOE) state.getCurrentStage().getDeliveryMethod()).getRadius();
+                // The center point
+                Vec3d center = state.getPosition();
+                ThreadLocalRandom random = ThreadLocalRandom.current();
+                // Pick a random spot in the AOE to teleport to, try 20 times to find an air space
+                for (int i = 0; i < 20; i++)
+                {
+                    Vec3d teleportPos = center.addVector(
+                            random.nextDouble(radius * 2) - radius,
+                            random.nextDouble(radius * 2) - radius,
+                            random.nextDouble(radius * 2) - radius);
+                    BlockPos blockPos = new BlockPos(teleportPos);
+                    if (world.getBlockState(blockPos).getBlock() == Blocks.AIR)
+                    {
+                        // Create particles at the pre and post teleport position
+                        // Play sound at the pre and post teleport position
+                        AOTDSpellEffect.createParticlesAt(1, 3, teleportPos, spellCaster.dimension);
+                        world.playSound(null, teleportPos.x, teleportPos.y, teleportPos.z, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 2.5F, 1.0F);
+                        ((EntityPlayerMP) spellCaster).connection.setPlayerLocation(teleportPos.x, teleportPos.y, teleportPos.z, spellCaster.rotationYaw, spellCaster.rotationPitch);
+                        AOTDSpellEffect.createParticlesAt(1, 3, teleportPos, spellCaster.dimension);
+                        world.playSound(null, teleportPos.x, teleportPos.y, teleportPos.z, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 2.5F, 1.0F);
+                        break;
+                    }
+                }
+            }
+            return true;
+        });
     }
 }

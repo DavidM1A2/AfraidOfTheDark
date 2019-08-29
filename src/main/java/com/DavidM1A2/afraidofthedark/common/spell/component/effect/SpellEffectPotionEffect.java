@@ -1,11 +1,10 @@
 package com.DavidM1A2.afraidofthedark.common.spell.component.effect;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellEffects;
+import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionState;
 import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
-import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionState;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
-import net.minecraft.block.BlockAir;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAreaEffectCloud;
 import net.minecraft.entity.EntityLivingBase;
@@ -13,7 +12,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -174,32 +172,27 @@ public class SpellEffectPotionEffect extends AOTDSpellEffect
     @Override
     public void procEffect(DeliveryTransitionState state)
     {
+        Vec3d exactPosition = state.getPosition();
         if (state.getEntity() != null)
         {
-            if (state.getEntity() instanceof EntityLivingBase)
+            Entity entityHit = state.getEntity();
+            if (entityHit instanceof EntityLivingBase)
             {
-                Entity entityHit = state.getEntity();
-                this.createParticlesAt(1, 3, new Vec3d(entityHit.posX, entityHit.posY, entityHit.posZ), entityHit.dimension);
+                createParticlesAt(1, 3, exactPosition, entityHit.dimension);
                 ((EntityLivingBase) entityHit).addPotionEffect(new PotionEffect(this.potionType, this.potionDuration, this.potionStrength));
             }
         }
         else
         {
             World world = state.getWorld();
-            BlockPos position = new BlockPos(state.getPosition());
-            // Move the hit pos up if we didn't hit an air block
-            if (!(world.getBlockState(position).getBlock() instanceof BlockAir))
-            {
-                position = position.up();
-            }
-            EntityAreaEffectCloud aoePotion = new EntityAreaEffectCloud(world, position.getX(), position.getY(), position.getZ());
+            EntityAreaEffectCloud aoePotion = new EntityAreaEffectCloud(world, exactPosition.x, exactPosition.y, exactPosition.z);
             aoePotion.addEffect(new PotionEffect(this.potionType, this.potionDuration, this.potionStrength));
             aoePotion.setOwner(state.getSpell().getOwner(world));
             aoePotion.setRadius(this.potionRadius);
             aoePotion.setRadiusPerTick(0);
             aoePotion.setDuration(this.potionDuration);
             world.spawnEntity(aoePotion);
-            this.createParticlesAt(4, 8, new Vec3d(position.getX() + 0.5, position.getY() + 0.5, position.getZ() + 0.5), world.provider.getDimension());
+            createParticlesAt(4, 8, exactPosition, world.provider.getDimension());
         }
     }
 

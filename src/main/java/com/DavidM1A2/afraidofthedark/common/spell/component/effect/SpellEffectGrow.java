@@ -1,14 +1,12 @@
 package com.DavidM1A2.afraidofthedark.common.spell.component.effect;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellEffects;
-import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionState;
+import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionState;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
-import net.minecraft.block.BlockFarmland;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
@@ -36,18 +34,19 @@ public class SpellEffectGrow extends AOTDSpellEffect
     public void procEffect(DeliveryTransitionState state)
     {
         World world = state.getWorld();
-        BlockPos position = new BlockPos(state.getPosition());
+        BlockPos position = state.getBlockPosition();
         IBlockState blockState = world.getBlockState(position);
-        // If we hit a farmland block check the crops above and see if they need growing
-        if (blockState.getBlock() instanceof BlockFarmland)
+        // If we hit a block that crops might be on check the block above and see if we can grow on that instead
+        if (!(blockState.getBlock() instanceof IGrowable))
         {
-            blockState = world.getBlockState(position.up());
+            position = position.up();
+            blockState = world.getBlockState(position);
         }
         // Grob the block at the current position if it's a type 'IGrowable'
         if (blockState.getBlock() instanceof IGrowable)
         {
-            this.createParticlesAt(1, 3, new Vec3d(position.getX() + 0.5, position.getY() + 0.5, position.getZ() + 0.5), world.provider.getDimension());
-            ((IGrowable) blockState.getBlock()).grow(world, world.rand, position.up(), blockState);
+            createParticlesAt(1, 3, state.getPosition(), world.provider.getDimension());
+            ((IGrowable) blockState.getBlock()).grow(world, world.rand, position, blockState);
         }
     }
 

@@ -1,7 +1,7 @@
 package com.DavidM1A2.afraidofthedark.common.spell.component.effect;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellEffects;
-import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionState;
+import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionState;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
 import net.minecraft.entity.Entity;
@@ -40,7 +40,7 @@ public class SpellEffectCleanse extends AOTDSpellEffect
             {
                 ((EntityLivingBase) entity).clearActivePotions();
             }
-            this.createParticlesAt(1, 2, new Vec3d(entity.posX, entity.posY, entity.posZ), entity.dimension);
+            createParticlesAt(1, 2, new Vec3d(entity.posX, entity.posY, entity.posZ), entity.dimension);
         }
     }
 

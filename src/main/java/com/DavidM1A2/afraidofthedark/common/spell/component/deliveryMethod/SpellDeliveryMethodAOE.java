@@ -2,10 +2,10 @@ package com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellDeliveryMethods;
 import com.DavidM1A2.afraidofthedark.common.spell.Spell;
+import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionState;
+import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder;
 import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod;
-import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionState;
-import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionStateBuilder;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodEntry;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffect;
 import net.minecraft.entity.Entity;
@@ -153,7 +153,10 @@ public class SpellDeliveryMethodAOE extends AOTDSpellDeliveryMethod
                         if (aoePos.distanceSq(basePos) < radius * radius)
                         {
                             // Apply the effect at the position
-                            effect.procEffect(transitionBuilder.withPosition(new Vec3d(aoePos.getX(), aoePos.getY(), aoePos.getZ())).build());
+                            effect.procEffect(transitionBuilder
+                                    .withPosition(new Vec3d(aoePos.getX(), aoePos.getY(), aoePos.getZ()))
+                                    .withBlockPosition(aoePos)
+                                    .build());
                         }
                     }
                 }
@@ -194,6 +197,7 @@ public class SpellDeliveryMethodAOE extends AOTDSpellDeliveryMethod
                     .withStageIndex(spellIndex + 1)
                     .withWorld(state.getWorld())
                     .withPosition(state.getPosition())
+                    .withBlockPosition(state.getBlockPosition())
                     .withDirection(new Vec3d(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize())
                     .build());
         }

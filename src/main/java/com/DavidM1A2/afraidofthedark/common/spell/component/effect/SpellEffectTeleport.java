@@ -1,7 +1,7 @@
 package com.DavidM1A2.afraidofthedark.common.spell.component.effect;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellEffects;
-import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionState;
+import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionState;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
 import net.minecraft.entity.player.EntityPlayer;
@@ -39,13 +39,14 @@ public class SpellEffectTeleport extends AOTDSpellEffect
         EntityPlayer spellCaster = state.getSpell().getOwner(world);
         if (spellCaster != null)
         {
+            Vec3d position = state.getPosition();
             // Create particles at the pre and post teleport position
             // Play sound at the pre and post teleport position
-            this.createParticlesAt(1, 3, new Vec3d(spellCaster.posX, spellCaster.posY, spellCaster.posZ), spellCaster.dimension);
-            world.playSound(null, spellCaster.posX, spellCaster.posY, spellCaster.posZ, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 2.5F, 1.0F);
-            ((EntityPlayerMP) spellCaster).connection.setPlayerLocation(state.getPosition().x, state.getPosition().y, state.getPosition().z, spellCaster.rotationYaw, spellCaster.rotationPitch);
-            this.createParticlesAt(1, 3, new Vec3d(spellCaster.posX, spellCaster.posY, spellCaster.posZ), spellCaster.dimension);
-            world.playSound(null, spellCaster.posX, spellCaster.posY, spellCaster.posZ, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 2.5F, 1.0F);
+            createParticlesAt(1, 3, position, spellCaster.dimension);
+            world.playSound(null, position.x, position.y, position.z, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 2.5F, 1.0F);
+            ((EntityPlayerMP) spellCaster).connection.setPlayerLocation(position.x, position.y, position.z, spellCaster.rotationYaw, spellCaster.rotationPitch);
+            createParticlesAt(1, 3, position, spellCaster.dimension);
+            world.playSound(null, position.x, position.y, position.z, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 2.5F, 1.0F);
         }
     }
 

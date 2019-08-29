@@ -14,4 +14,5 @@ public class ModSprites
     public static TextureAtlasSprite SPELL_CAST;
     public static TextureAtlasSprite SPELL_HIT;
     public static TextureAtlasSprite SMOKE_SCREEN;
+    public static TextureAtlasSprite SPELL_LASER;
 }

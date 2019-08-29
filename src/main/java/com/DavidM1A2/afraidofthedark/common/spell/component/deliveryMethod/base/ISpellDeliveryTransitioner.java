@@ -1,5 +1,7 @@
 package com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base;
 
+import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionState;
+
 /**
  * Interface representing a delivery method transitioner to go from one delivery method to another
  */

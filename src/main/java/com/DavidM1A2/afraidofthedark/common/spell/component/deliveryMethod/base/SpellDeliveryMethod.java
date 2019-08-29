@@ -2,6 +2,7 @@ package com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
 import com.DavidM1A2.afraidofthedark.common.spell.Spell;
+import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionState;
 import com.DavidM1A2.afraidofthedark.common.spell.component.SpellComponent;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffect;
 import net.minecraft.nbt.NBTTagCompound;

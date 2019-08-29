@@ -4,12 +4,11 @@ import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.client.particle.AOTDParticleRegistry;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellEffects;
 import com.DavidM1A2.afraidofthedark.common.packets.otherPackets.SyncParticle;
+import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionState;
 import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
-import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionState;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
@@ -87,16 +86,16 @@ public class SpellEffectSmokeScreen extends AOTDSpellEffect
     @Override
     public void procEffect(DeliveryTransitionState state)
     {
-        BlockPos position = new BlockPos(state.getPosition());
+        Vec3d position = state.getPosition();
         List<Vec3d> positions = new ArrayList<>();
         // Create smokeDensity random smoke particles
         for (int i = 0; i < this.smokeDensity; i++)
         {
-            positions.add(new Vec3d(position.getX() + Math.random(), position.getY() + Math.random(), position.getZ() + Math.random()));
+            positions.add(position.addVector(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5));
         }
         AfraidOfTheDark.INSTANCE.getPacketHandler().sendToAllAround(
                 new SyncParticle(AOTDParticleRegistry.ParticleTypes.SMOKE_SCREEN_ID, positions, Collections.nCopies(positions.size(), Vec3d.ZERO)),
-                new NetworkRegistry.TargetPoint(state.getWorld().provider.getDimension(), position.getX(), position.getY(), position.getZ(), 100));
+                new NetworkRegistry.TargetPoint(state.getWorld().provider.getDimension(), position.x, position.y, position.z, 100));
     }
 
     /**

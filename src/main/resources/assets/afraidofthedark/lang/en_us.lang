@@ -173,6 +173,7 @@ effect.afraidofthedark:cleanse=Cleanse
 delivery_method.afraidofthedark:self=Self
 delivery_method.afraidofthedark:projectile=Projectile
 delivery_method.afraidofthedark:aoe=AOE
+delivery_method.afraidofthedark:laser=Laser
 
 # AOTD Messages to player
 aotd.journal.sign.successful=§cWhat have I done?

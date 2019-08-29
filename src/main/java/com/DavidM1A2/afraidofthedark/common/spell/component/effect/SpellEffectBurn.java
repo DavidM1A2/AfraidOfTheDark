@@ -1,8 +1,8 @@
 package com.DavidM1A2.afraidofthedark.common.spell.component.effect;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellEffects;
+import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionState;
 import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
-import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionState;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
 import net.minecraft.block.BlockAir;
@@ -86,18 +86,18 @@ public class SpellEffectBurn extends AOTDSpellEffect
         if (state.getEntity() != null)
         {
             Entity entity = state.getEntity();
-            this.createParticlesAt(3, 5, new Vec3d(entity.posX, entity.posY, entity.posZ), entity.dimension);
+            createParticlesAt(3, 5, new Vec3d(entity.posX, entity.posY, entity.posZ), entity.dimension);
             entity.setFire(this.burnDuration);
         }
         else
         {
             World world = state.getWorld();
-            BlockPos position = new BlockPos(state.getPosition());
+            BlockPos position = state.getBlockPosition();
             if (world.getBlockState(position.up()).getBlock() instanceof BlockAir)
             {
                 if (!(world.getBlockState(position).getBlock() instanceof BlockAir))
                 {
-                    this.createParticlesAt(1, 3, new Vec3d(position.getX() + 0.5, position.getY() + 0.5, position.getZ() + 0.5), world.provider.getDimension());
+                    createParticlesAt(1, 3, state.getPosition(), world.provider.getDimension());
                     world.setBlockState(position.up(), Blocks.FIRE.getDefaultState());
                 }
             }

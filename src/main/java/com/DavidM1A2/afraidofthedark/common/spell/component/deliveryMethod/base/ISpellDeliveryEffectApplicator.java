@@ -1,5 +1,6 @@
 package com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base;
 
+import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionState;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffect;
 
 /**

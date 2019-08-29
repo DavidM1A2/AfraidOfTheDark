@@ -1,14 +1,13 @@
 package com.DavidM1A2.afraidofthedark.common.spell.component.effect;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellEffects;
+import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionState;
 import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
-import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionState;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.FoodStats;
-import net.minecraft.util.math.Vec3d;
 
 /**
  * Effect that feeds a hit player
@@ -116,7 +115,7 @@ public class SpellEffectFeed extends AOTDSpellEffect
         if (state.getEntity() instanceof EntityPlayer)
         {
             EntityPlayer entityPlayer = (EntityPlayer) state.getEntity();
-            this.createParticlesAt(1, 2, new Vec3d(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ), entityPlayer.dimension);
+            createParticlesAt(1, 2, state.getPosition(), entityPlayer.dimension);
             FoodStats foodStats = entityPlayer.getFoodStats();
             foodStats.addStats(this.hungerValue, this.saturationValue);
         }

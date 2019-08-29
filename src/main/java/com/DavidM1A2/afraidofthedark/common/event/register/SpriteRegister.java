@@ -32,6 +32,7 @@ public class SpriteRegister
             ModSprites.SPELL_CAST = event.getMap().registerSprite(new ResourceLocation(Constants.MOD_ID, "particles/spell_cast"));
             ModSprites.SPELL_HIT = event.getMap().registerSprite(new ResourceLocation(Constants.MOD_ID, "particles/spell_hit"));
             ModSprites.SMOKE_SCREEN = event.getMap().registerSprite(new ResourceLocation(Constants.MOD_ID, "particles/smoke_screen"));
+            ModSprites.SPELL_LASER = event.getMap().registerSprite(new ResourceLocation(Constants.MOD_ID, "particles/spell_laser"));
         }
     }
 }

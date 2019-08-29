@@ -5,7 +5,7 @@ import com.DavidM1A2.afraidofthedark.client.particle.AOTDParticleRegistry;
 import com.DavidM1A2.afraidofthedark.common.constants.ModDimensions;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSounds;
 import com.DavidM1A2.afraidofthedark.common.packets.otherPackets.SyncParticle;
-import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionStateBuilder;
+import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder;
 import com.DavidM1A2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;

@@ -1,13 +1,11 @@
 package com.DavidM1A2.afraidofthedark.common.spell.component.effect;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellEffects;
+import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionState;
 import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
-import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.DeliveryTransitionState;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
-import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -104,18 +102,9 @@ public class SpellEffectExplosion extends AOTDSpellEffect
     public void procEffect(DeliveryTransitionState state)
     {
         World world = state.getWorld();
-        if (state.getEntity() != null)
-        {
-            Entity entity = state.getEntity();
-            this.createParticlesAt(1, 3, new Vec3d(entity.posX, entity.posY, entity.posZ), entity.dimension);
-            world.createExplosion(entity, entity.posX, entity.posY, entity.posZ, (float) this.radius, true);
-        }
-        else
-        {
-            BlockPos position = new BlockPos(state.getPosition());
-            this.createParticlesAt(1, 3, new Vec3d(position.getX() + 0.5, position.getY() + 0.5, position.getZ() + 0.5), world.provider.getDimension());
-            world.createExplosion(null, position.getX(), position.getY(), position.getZ(), (float) this.radius, true);
-        }
+        Vec3d position = state.getPosition();
+        createParticlesAt(1, 3, position, world.provider.getDimension());
+        world.createExplosion(null, position.x, position.y, position.z, (float) this.radius, true);
     }
 
     /**

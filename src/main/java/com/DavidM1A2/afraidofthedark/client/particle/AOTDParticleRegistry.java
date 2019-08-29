@@ -25,7 +25,8 @@ public class AOTDParticleRegistry
         ENARIA_TELEPORT_ID,
         SPELL_CAST_ID,
         SPELL_HIT_ID,
-        SMOKE_SCREEN_ID
+        SMOKE_SCREEN_ID,
+        SPELL_LASER
     }
 
     // A map of ID -> particle creator. This is used to instantiate the right particle for the id client side
@@ -46,6 +47,8 @@ public class AOTDParticleRegistry
                 new ParticleSpellHit(worldIn, xCoordIn, yCoordIn, zCoordIn));
         put(ParticleTypes.SMOKE_SCREEN_ID, ((particleID, worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn, p_178902_15_) ->
                 new ParticleSmokeScreen(worldIn, xCoordIn, yCoordIn, zCoordIn)));
+        put(ParticleTypes.SPELL_LASER, ((particleID, worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn, p_178902_15_) ->
+                new ParticleSpellLaser(worldIn, xCoordIn, yCoordIn, zCoordIn)));
     }};
 
     /**

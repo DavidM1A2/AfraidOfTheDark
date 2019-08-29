@@ -25,14 +25,14 @@ public abstract class AOTDSpellEffect extends SpellEffect
     }
 
     /**
-     * Creates particles at the position
+     * Creates particles at the position. This is static so overridden effects can still use it
      *
      * @param min       The minimum number of particles to spawn
      * @param max       The maximum number of particles to spawn
      * @param pos       The position to spawn particles at
      * @param dimension The dimension to create particles in
      */
-    public void createParticlesAt(int min, int max, Vec3d pos, int dimension)
+    public static void createParticlesAt(int min, int max, Vec3d pos, int dimension)
     {
         // Spawn particles
         List<Vec3d> positions = new ArrayList<>();

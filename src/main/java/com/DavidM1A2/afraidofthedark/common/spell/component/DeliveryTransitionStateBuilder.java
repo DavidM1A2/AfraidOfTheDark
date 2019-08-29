@@ -1,7 +1,8 @@
-package com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base;
+package com.DavidM1A2.afraidofthedark.common.spell.component;
 
 import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.Validate;
@@ -15,6 +16,7 @@ public class DeliveryTransitionStateBuilder
     private int stageIndex = 0;
     private World world = null;
     private Vec3d position = null;
+    private BlockPos blockPosition = null;
     private Vec3d direction = null;
     private Entity entity = null;
     private Entity deliveryEntity = null;
@@ -68,6 +70,18 @@ public class DeliveryTransitionStateBuilder
     }
 
     /**
+     * Sets the block position the transition is happening at
+     *
+     * @param blockPosition The block position the transition is happening at
+     * @return The builder
+     */
+    public DeliveryTransitionStateBuilder withBlockPosition(BlockPos blockPosition)
+    {
+        this.blockPosition = blockPosition;
+        return this;
+    }
+
+    /**
      * Sets the direction the transition is happening towards
      *
      * @param direction The direction the transition is happening towards
@@ -102,6 +116,7 @@ public class DeliveryTransitionStateBuilder
         this.entity = entity;
         this.world = entity.getEntityWorld();
         this.position = entity.getPositionVector();
+        this.blockPosition = entity.getPosition();
         this.direction = entity.getLookVec();
         return this;
     }
@@ -118,6 +133,7 @@ public class DeliveryTransitionStateBuilder
         this.stageIndex = state.getStageIndex();
         this.world = state.getWorld();
         this.position = state.getPosition();
+        this.blockPosition = state.getBlockPosition();
         this.direction = state.getDirection();
         this.entity = state.getEntity();
         this.deliveryEntity = state.getDeliveryEntity();
@@ -135,6 +151,6 @@ public class DeliveryTransitionStateBuilder
         Validate.notNull(world, "World must not be null!");
         Validate.notNull(position, "Position must not be null!");
 
-        return new DeliveryTransitionState(spell, stageIndex, world, position, direction, entity, deliveryEntity);
+        return new DeliveryTransitionState(spell, stageIndex, world, position, blockPosition, direction, entity, deliveryEntity);
     }
 }
