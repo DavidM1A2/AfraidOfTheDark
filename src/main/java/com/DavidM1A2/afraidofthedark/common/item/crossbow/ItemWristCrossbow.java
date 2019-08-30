@@ -13,7 +13,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -47,8 +46,8 @@ public class ItemWristCrossbow extends AOTDItemWithPerItemCooldown
         EntityPlayerSP player = Minecraft.getMinecraft().player;
         if (player != null && player.getCapability(ModCapabilities.PLAYER_RESEARCH, null).isResearched(ModResearches.WRIST_CROSSBOW))
         {
-            tooltip.add("Use " + Keyboard.getKeyName(ModKeybindings.FIRE_WRIST_CROSSBOW.getKeyCode()) + " to fire a bolt in the current look direction.");
-            tooltip.add("Crouch & " + Keyboard.getKeyName(ModKeybindings.FIRE_WRIST_CROSSBOW.getKeyCode()) + " to change bolt type.");
+            tooltip.add("Use " + ModKeybindings.FIRE_WRIST_CROSSBOW.getDisplayName() + " to fire a bolt in the current look direction.");
+            tooltip.add("Crouch & " + ModKeybindings.FIRE_WRIST_CROSSBOW.getDisplayName() + " to change bolt type.");
         }
         else
         {
