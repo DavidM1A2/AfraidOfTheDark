@@ -102,8 +102,10 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
         this.getContentPane().add(titleLabel);
 
         // Create two page numbers, one for the left page and one for the right page
-        this.leftPageNumber = new AOTDGuiLabel(15, journalHeight - 40, 15, 15, ClientData.getInstance().getTargaMSHandFontSized(32f));
-        this.rightPageNumber = new AOTDGuiLabel(journalWidth - 26, journalHeight - 40, 15, 15, ClientData.getInstance().getTargaMSHandFontSized(32f));
+        this.leftPageNumber = new AOTDGuiLabel(15, 12, 15, 15, ClientData.getInstance().getTargaMSHandFontSized(32f));
+        this.rightPageNumber = new AOTDGuiLabel(journalWidth - 27, 12, 15, 15, ClientData.getInstance().getTargaMSHandFontSized(32f));
+        // Align the right page number right so that it fits into the corner
+        this.rightPageNumber.setTextAlignment(TextAlignment.ALIGN_RIGHT);
         // Start the page numbers at 1 and 2
         this.leftPageNumber.setText("1");
         this.rightPageNumber.setText("2");
@@ -115,8 +117,8 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
         journalBackground.add(this.rightPageNumber);
 
         // Create two pages, one for the left page text and one for the right page text
-        this.leftPage = new AOTDGuiTextBox(15, 15, journalWidth / 2 - 20, journalHeight - 55, ClientData.getInstance().getTargaMSHandFontSized(32f));
-        this.rightPage = new AOTDGuiTextBox(135, 15, journalWidth / 2 - 20, journalHeight - 55, ClientData.getInstance().getTargaMSHandFontSized(32f));
+        this.leftPage = new AOTDGuiTextBox(15, 30, journalWidth / 2 - 20, journalHeight - 70, ClientData.getInstance().getTargaMSHandFontSized(32f));
+        this.rightPage = new AOTDGuiTextBox(135, 30, journalWidth / 2 - 20, journalHeight - 70, ClientData.getInstance().getTargaMSHandFontSized(32f));
         // Set the text on both pages to red
         this.leftPage.setTextColor(TEXT_RED);
         this.rightPage.setTextColor(TEXT_RED);
@@ -168,12 +170,9 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
         this.bottomRightRecipe = new AOTDGuiRecipe(130, 130, 110, 90, null);
         journalBackground.add(this.bottomRightRecipe);
 
-        // Add the journal to the content pane
-        this.getContentPane().add(journalBackground);
-
         // Create the forward and backward button to advance and rewind pages
-        this.forwardButton = new AOTDGuiButton(this.getContentPane().getWidth() - 64, this.getContentPane().getHeight() - 64, 64, 64, null, "afraidofthedark:textures/gui/journal_page/forward_button.png", "afraidofthedark:textures/gui/journal_page/forward_button_hovered.png");
-        this.backwardButton = new AOTDGuiButton(0, this.getContentPane().getHeight() - 64, 64, 64, null, "afraidofthedark:textures/gui/journal_page/backward_button.png", "afraidofthedark:textures/gui/journal_page/backward_button_hovered.png");
+        this.forwardButton = new AOTDGuiButton(journalWidth - 23, journalHeight - 40, 16, 16, null, "afraidofthedark:textures/gui/journal_page/forward_button.png", "afraidofthedark:textures/gui/journal_page/forward_button_hovered.png");
+        this.backwardButton = new AOTDGuiButton(10, journalHeight - 40, 16, 16, null, "afraidofthedark:textures/gui/journal_page/backward_button.png", "afraidofthedark:textures/gui/journal_page/backward_button_hovered.png");
         // Upon clicking forward then advance the page, if we hover the button darken the color, if we don't hover the button brighten the color
         this.forwardButton.addMouseListener(new AOTDMouseListener()
         {
@@ -199,8 +198,12 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
             }
         });
         // Add the buttons to the pane
-        this.getContentPane().add(this.forwardButton);
-        this.getContentPane().add(this.backwardButton);
+        journalBackground.add(this.forwardButton);
+        journalBackground.add(this.backwardButton);
+
+        // Add the journal to the content pane
+        this.getContentPane().add(journalBackground);
+
 
         // Update the text on each page
         this.updateText();
