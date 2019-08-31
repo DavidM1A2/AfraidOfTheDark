@@ -110,6 +110,8 @@ public class AfraidOfTheDark
         MinecraftForge.EVENT_BUS.register(new NightmareHandler());
         // Register our void chest handler
         MinecraftForge.EVENT_BUS.register(new VoidChestHandler());
+        // Register our spell state handler
+        MinecraftForge.EVENT_BUS.register(new SpellStateHandler());
         // Register our block color handler used to color aotd leaves
         MinecraftForge.EVENT_BUS.register(new ModColorRegister());
         // Register our AOTD world generator

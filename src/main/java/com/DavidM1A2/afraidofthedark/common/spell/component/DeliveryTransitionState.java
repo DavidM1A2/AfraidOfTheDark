@@ -3,23 +3,42 @@ package com.DavidM1A2.afraidofthedark.common.spell.component;
 import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import com.DavidM1A2.afraidofthedark.common.spell.SpellStage;
 import net.minecraft.entity.Entity;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.DimensionManager;
+
+import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Class representing a spell in the transition state. This object is immutable
  */
 public class DeliveryTransitionState
 {
-    private final Spell spell;
-    private final int stageIndex;
-    private final World world;
-    private final Vec3d position;
-    private final BlockPos blockPos;
-    private final Vec3d direction;
-    private final Entity entity;
-    private final Entity deliveryEntity;
+    // Constants used for NBT serialization / deserialization
+    private static final String NBT_SPELL = "spell";
+    private static final String NBT_STAGE_INDEX = "stage_index";
+    private static final String NBT_WORLD_ID = "world_id";
+    private static final String NBT_POSITION = "position";
+    private static final String NBT_BLOCK_POSITION = "block_position";
+    private static final String NBT_DIRECTION = "direction";
+    private static final String NBT_ENTITY_ID = "entity_id";
+    private static final String NBT_DELIVERY_ENTITY_ID = "delivery_entity_id";
+
+    private Spell spell;
+    private int stageIndex;
+    private WorldServer world;
+    private Vec3d position;
+    private BlockPos blockPos;
+    private Vec3d direction;
+    // The entity being delivered to, can be null
+    private UUID entityId;
+    // The entity delivering the spell, can be null
+    private UUID deliveryEntityId;
 
     /**
      * Constructor initializes all final fields
@@ -36,12 +55,73 @@ public class DeliveryTransitionState
     {
         this.spell = spell;
         this.stageIndex = stageIndex;
-        this.world = world;
+        // This should only be created server side, so we can cast safely
+        this.world = (WorldServer) world;
         this.position = position;
         this.blockPos = blockPos;
         this.direction = direction;
-        this.entity = entity;
-        this.deliveryEntity = deliveryEntity;
+        this.entityId = Optional.ofNullable(entity).map(Entity::getPersistentID).orElse(null);
+        this.deliveryEntityId = Optional.ofNullable(deliveryEntity).map(Entity::getPersistentID).orElse(null);
+    }
+
+    /**
+     * Initializes the state from NBT
+     *
+     * @param nbt The NBT containing the delivery state
+     */
+    public DeliveryTransitionState(NBTTagCompound nbt)
+    {
+        this.spell = new Spell(nbt.getCompoundTag(NBT_SPELL));
+        this.stageIndex = nbt.getInteger(NBT_STAGE_INDEX);
+        this.world = DimensionManager.getWorld(nbt.getInteger(NBT_WORLD_ID));
+        this.position = new Vec3d(nbt.getDouble(NBT_POSITION + "_x"), nbt.getDouble(NBT_POSITION + "_y"), nbt.getDouble(NBT_POSITION + "_z"));
+        this.blockPos = NBTUtil.getPosFromTag(nbt.getCompoundTag(NBT_BLOCK_POSITION));
+        this.direction = new Vec3d(nbt.getDouble(NBT_DIRECTION + "_x"), nbt.getDouble(NBT_DIRECTION + "_y"), nbt.getDouble(NBT_DIRECTION + "_z"));
+        if (nbt.hasKey(NBT_ENTITY_ID))
+        {
+            this.entityId = NBTUtil.getUUIDFromTag(nbt.getCompoundTag(NBT_ENTITY_ID));
+        }
+        else
+        {
+            this.entityId = null;
+        }
+        if (nbt.hasKey(NBT_DELIVERY_ENTITY_ID))
+        {
+            this.deliveryEntityId = NBTUtil.getUUIDFromTag(nbt.getCompoundTag(NBT_DELIVERY_ENTITY_ID));
+        }
+        else
+        {
+            this.deliveryEntityId = null;
+        }
+    }
+
+    /**
+     * @return The transition state serialized as NBT
+     */
+    public NBTTagCompound writeToNbt()
+    {
+        NBTTagCompound nbt = new NBTTagCompound();
+
+        nbt.setTag(NBT_SPELL, this.spell.serializeNBT());
+        nbt.setInteger(NBT_STAGE_INDEX, this.stageIndex);
+        nbt.setInteger(NBT_WORLD_ID, this.world.provider.getDimension());
+        nbt.setDouble(NBT_POSITION + "_x", this.position.x);
+        nbt.setDouble(NBT_POSITION + "_y", this.position.y);
+        nbt.setDouble(NBT_POSITION + "_z", this.position.z);
+        nbt.setTag(NBT_BLOCK_POSITION, NBTUtil.createPosTag(this.blockPos));
+        nbt.setDouble(NBT_DIRECTION + "_x", this.direction.x);
+        nbt.setDouble(NBT_DIRECTION + "_y", this.direction.y);
+        nbt.setDouble(NBT_DIRECTION + "_z", this.direction.z);
+        if (this.entityId != null)
+        {
+            nbt.setTag(NBT_ENTITY_ID, NBTUtil.createUUIDTag(this.entityId));
+        }
+        if (this.deliveryEntityId != null)
+        {
+            nbt.setTag(NBT_DELIVERY_ENTITY_ID, NBTUtil.createUUIDTag(this.deliveryEntityId));
+        }
+
+        return nbt;
     }
 
     /**
@@ -107,7 +187,8 @@ public class DeliveryTransitionState
      */
     public Entity getEntity()
     {
-        return entity;
+        // If the entity is non null we get the entity in the world, otherwise we return null
+        return Optional.ofNullable(entityId).map(world::getEntityFromUuid).orElse(null);
     }
 
     /**
@@ -115,6 +196,7 @@ public class DeliveryTransitionState
      */
     public Entity getDeliveryEntity()
     {
-        return deliveryEntity;
+        // If the entity is non null we get the entity in the world, otherwise we return null
+        return Optional.ofNullable(deliveryEntityId).map(world::getEntityFromUuid).orElse(null);
     }
 }
