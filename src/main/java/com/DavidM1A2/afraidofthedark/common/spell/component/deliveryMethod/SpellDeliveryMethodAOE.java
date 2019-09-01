@@ -8,6 +8,7 @@ import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellCompone
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodEntry;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffect;
+import com.google.common.collect.ImmutableList;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -191,15 +192,28 @@ public class SpellDeliveryMethodAOE extends AOTDSpellDeliveryMethod
         }
         else
         {
-            // Perform the transition between the next delivery method and the current delivery method
-            spell.getStage(spellIndex + 1).getDeliveryMethod().executeDelivery(new DeliveryTransitionStateBuilder()
+            DeliveryTransitionStateBuilder deliveryTransitionStateBuilder = new DeliveryTransitionStateBuilder()
                     .withSpell(state.getSpell())
                     .withStageIndex(spellIndex + 1)
                     .withWorld(state.getWorld())
-                    .withPosition(state.getPosition())
-                    .withBlockPosition(state.getBlockPosition())
-                    .withDirection(new Vec3d(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize())
-                    .build());
+                    .withBlockPosition(state.getBlockPosition());
+
+            // Send out deliveries in all 6 possible directions around the hit point
+            ImmutableList.of(
+                    new Vec3d(1, 0, 0),
+                    new Vec3d(0, 1, 0),
+                    new Vec3d(0, 0, 1),
+                    new Vec3d(-1, 0, 0),
+                    new Vec3d(0, -1, 0),
+                    new Vec3d(0, 0, -1)
+            ).forEach(direction ->
+            {
+                // Perform the transition between the next delivery method and the current delivery method
+                spell.getStage(spellIndex + 1).getDeliveryMethod().executeDelivery(deliveryTransitionStateBuilder
+                        .withPosition(state.getPosition().add(direction.scale(0.2)))
+                        .withDirection(direction)
+                        .build());
+            });
         }
     }
 
