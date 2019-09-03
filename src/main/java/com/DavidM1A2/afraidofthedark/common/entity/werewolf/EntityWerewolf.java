@@ -51,7 +51,7 @@ public class EntityWerewolf extends EntityMob implements IMCAnimatedEntity
     {
         super(world);
         // Set the hitbox size
-        this.setSize(1.8F, 1.6F);
+        this.setSize(1.1F, 1.4F);
         // Ensure this werewolf does not attack anyone yet
         this.attacksAnyone = false;
         // This werewolf is worth 10xp

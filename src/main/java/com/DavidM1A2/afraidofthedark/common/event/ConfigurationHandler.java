@@ -113,7 +113,7 @@ public class ConfigurationHandler
 
         this.worldGenPriority = this.configuration.getInt("World Generation Priority", CATEGORY_WORLD_GENERATION, 0, -1000, 1000, "Sets the priority for afraid of the dark world generation. Higher numbers result in world generation running after other mods.");
 
-        this.cacheStructures = this.configuration.getBoolean("Cache Structures", CATEGORY_WORLD_GENERATION, false, "True means structures will be loaded into computer memory when Minecraft is started up. This will accelerate world generation at the cost of RAM usage. False means structures will be loaded when needed, which will require less RAM but can incur lag spikes when finding structures.");
+        this.cacheStructures = this.configuration.getBoolean("Cache Structures", CATEGORY_WORLD_GENERATION, true, "True means structures will be loaded into computer memory when Minecraft is started up. This will accelerate world generation at the cost of RAM usage. False means structures will be loaded when needed, which will require less RAM but can incur lag spikes when finding structures.");
         this.cacheTimeout = this.configuration.getInt("Cache Timeout", CATEGORY_WORLD_GENERATION, 60000, 10000, Integer.MAX_VALUE, "Required if 'Cache Structures' is set to false, otherwise ignored. If a structure isn't needed for 'Cache Timeout' milliseconds it will be forgotten and cleared from RAM.");
 
         this.nightmareDimensionId = this.configuration.getInt("Nightmare Dimension ID", CATEGORY_DIMENSION, 0, 0, 256, "Sets the dimension ID of the nightmare realm. 0 indicates that the value should be dynamically chosen by forge.");
