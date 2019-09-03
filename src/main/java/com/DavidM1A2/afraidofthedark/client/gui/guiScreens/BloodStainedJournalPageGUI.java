@@ -128,7 +128,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
 
         // The bookmark button returns the user to the research screen
         // The bookmark button to go back
-        AOTDGuiButton bookmarkButton = new AOTDGuiButton(journalWidth / 2 - 17, journalHeight - 28, 15, 30, null, "afraidofthedark:textures/gui/journal_page/slot_highlight.png");
+        AOTDGuiButton bookmarkButton = new AOTDGuiButton(journalWidth / 2 - 16, journalHeight - 28, 15, 30, null, "afraidofthedark:textures/gui/journal_page/slot_highlight.png");
         // Hide the button to start
         bookmarkButton.setVisible(false);
         // Set the color to a see-through white
@@ -141,7 +141,6 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
             {
                 if (event.getSource().isHovered() && event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
                 {
-                    entityPlayer.closeScreen();
                     entityPlayer.openGui(AfraidOfTheDark.INSTANCE, AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID, entityPlayer.world, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ());
                 }
             }

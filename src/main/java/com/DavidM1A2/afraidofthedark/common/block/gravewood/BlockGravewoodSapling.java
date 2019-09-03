@@ -44,7 +44,7 @@ public class BlockGravewoodSapling extends AOTDSapling
         }
 
         // Create a tree generator based on the gavewood log and leaf types
-        WorldGenerator treeGenerator = new WorldGenTrees(true, 6, ModBlocks.GRAVEWOOD.getDefaultState(), ModBlocks.GRAVEWOOD_LEAVES.getDefaultState().withProperty(BlockLeaves.CHECK_DECAY, false), true);
+        WorldGenerator treeGenerator = new WorldGenTrees(true, 6, ModBlocks.GRAVEWOOD.getDefaultState(), ModBlocks.GRAVEWOOD_LEAVES.getDefaultState().withProperty(BlockLeaves.CHECK_DECAY, false), false);
 
         // Remove the sapling block
         world.setBlockState(pos, Blocks.AIR.getDefaultState(), 4);
