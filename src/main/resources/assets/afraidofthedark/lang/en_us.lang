@@ -171,6 +171,7 @@ effect.afraidofthedark:burn=Burn
 effect.afraidofthedark:cleanse=Cleanse
 effect.afraidofthedark:extinguish=Extinguish
 effect.afraidofthedark:ender_pocket=Ender Pocket
+effect.afraidofthedark:freeze=Freeze
 
 delivery_method.afraidofthedark:self=Self
 delivery_method.afraidofthedark:projectile=Projectile

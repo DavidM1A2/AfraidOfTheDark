@@ -59,6 +59,7 @@ public abstract class CommonProxy implements IProxy
         packetHandler.registerPacket(SyncItemWithCooldown.class, new SyncItemWithCooldown.Handler(), Side.CLIENT);
         packetHandler.registerPacket(SyncVoidChest.class, new SyncVoidChest.Handler(), Side.CLIENT);
         packetHandler.registerPacket(SyncParticle.class, new SyncParticle.Handler(), Side.CLIENT);
+        packetHandler.registerPacket(SyncFreezeData.class, new SyncFreezeData.Handler(), Side.CLIENT);
 
         packetHandler.registerPacket(FireWristCrossbow.class, new FireWristCrossbow.Handler(), Side.SERVER);
         packetHandler.registerPacket(ProcessSextantInput.class, new ProcessSextantInput.Handler(), Side.SERVER);

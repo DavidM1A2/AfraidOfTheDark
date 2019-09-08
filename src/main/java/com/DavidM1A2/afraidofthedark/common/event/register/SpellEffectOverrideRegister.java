@@ -7,6 +7,8 @@ import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.Spell
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.ISpellDeliveryEffectApplicator;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect;
+import com.DavidM1A2.afraidofthedark.common.worldGeneration.WorldGenFast;
+import net.minecraft.block.BlockAir;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -31,6 +33,7 @@ public class SpellEffectOverrideRegister
     {
         registerAoeFixes();
         registerAoeTeleportFix();
+        registerAoeFreezeFix();
     }
 
     /**
@@ -129,6 +132,50 @@ public class SpellEffectOverrideRegister
                 }
             }
             return true;
+        });
+    }
+
+    /**
+     * Makes it so AOE+freeze creates a giant ice sphere at the position
+     */
+    private static void registerAoeFreezeFix()
+    {
+        ModSpellDeliveryMethods.AOE.addCustomEffectApplicator(ModSpellEffects.FREEZE, (state, effect) ->
+        {
+            World world = state.getWorld();
+            Vec3d centerPosition = state.getPosition();
+            BlockPos centerBlockPosition = state.getBlockPosition();
+            // Grab the radius from the AOE spell delivery method
+            double radius = ((SpellDeliveryMethodAOE) state.getCurrentStage().getDeliveryMethod()).getRadius();
+            int blockRadius = (int) Math.ceil(radius);
+            // The threshold lets us define the thickness of the sphere
+            double threshhold = 0.5;
+            // Iterate over all the blocks in the sphere
+            for (int x = -blockRadius; x < blockRadius + 1; x++)
+            {
+                for (int y = -blockRadius; y < blockRadius + 1; y++)
+                {
+                    for (int z = -blockRadius; z < blockRadius + 1; z++)
+                    {
+                        // Grab the block position at the xyz position
+                        BlockPos blockLocation = centerBlockPosition.add(x, y, z);
+                        Vec3d location = centerPosition.addVector(x, y, z);
+                        // Get the distance from the center to the location
+                        double distance = centerPosition.distanceTo(location);
+                        // Test if the block is within the threshold
+                        if (distance < radius + threshhold && distance > radius - threshhold)
+                        {
+                            // If the block is air replace it with ice
+                            if (world.getBlockState(blockLocation).getBlock() instanceof BlockAir)
+                            {
+                                WorldGenFast.setBlockStateFast(world, blockLocation, Blocks.ICE.getDefaultState(), 2 | 16);
+                                AOTDSpellEffect.createParticlesAt(1, 3, location, state.getWorld().provider.getDimension());
+                            }
+                        }
+                    }
+                }
+            }
+            return false;
         });
     }
 }

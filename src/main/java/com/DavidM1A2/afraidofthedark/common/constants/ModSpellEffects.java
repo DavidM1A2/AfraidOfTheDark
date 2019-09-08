@@ -21,6 +21,7 @@ public class ModSpellEffects
     public static final SpellEffectEntry CLEANSE = new SpellEffectEntry(new ResourceLocation(Constants.MOD_ID, "cleanse"), SpellEffectCleanse::new);
     public static final SpellEffectEntry EXTINGUISH = new SpellEffectEntry(new ResourceLocation(Constants.MOD_ID, "extinguish"), SpellEffectExtinguish::new);
     public static final SpellEffectEntry ENDER_POCKET = new SpellEffectEntry(new ResourceLocation(Constants.MOD_ID, "ender_pocket"), SpellEffectEnderPocket::new);
+    public static final SpellEffectEntry FREEZE = new SpellEffectEntry(new ResourceLocation(Constants.MOD_ID, "freeze"), SpellEffectFreeze::new);
 
     // An array containing a list of spell effects that AOTD adds
     public static final SpellEffectEntry[] SPELL_EFFECTS = new SpellEffectEntry[]
@@ -36,6 +37,7 @@ public class ModSpellEffects
                     SMOKE_SCREEN,
                     CLEANSE,
                     EXTINGUISH,
-                    ENDER_POCKET
+                    ENDER_POCKET,
+                    FREEZE
             };
 }

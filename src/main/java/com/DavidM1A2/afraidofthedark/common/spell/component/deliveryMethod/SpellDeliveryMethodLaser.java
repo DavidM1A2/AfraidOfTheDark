@@ -29,12 +29,16 @@ public class SpellDeliveryMethodLaser extends AOTDSpellDeliveryMethod
 {
     // The NBT keys
     private static final String NBT_RANGE = "range";
+    private static final String NBT_HIT_LIQUIDS = "hit_liquids";
 
     // The default range value
     private static final double DEFAULT_RANGE = 25.0;
+    private static final boolean DEFAULT_HIT_LIQUIDS = false;
 
     // The range of the hitscan
     private double range = DEFAULT_RANGE;
+    // True if liquids can be hit, false otherwise
+    private boolean hitLiquids = DEFAULT_HIT_LIQUIDS;
 
     /**
      * Constructor initializes the editable properties
@@ -66,6 +70,24 @@ public class SpellDeliveryMethodLaser extends AOTDSpellDeliveryMethod
                 return newValue + " is not a valid decimal number!";
             }
         }));
+        this.addEditableProperty(new EditableSpellComponentProperty(
+                "Hit Liquids",
+                "'True' to let liquid blocks be hit, or 'false' to go through them",
+                () -> Boolean.toString(this.hitLiquids),
+                newValue ->
+                {
+                    if (newValue.equalsIgnoreCase("true") || newValue.equalsIgnoreCase("false"))
+                    {
+                        this.hitLiquids = Boolean.parseBoolean(newValue);
+                        return null;
+                    }
+                    else
+                    {
+                        this.hitLiquids = DEFAULT_HIT_LIQUIDS;
+                        return "Hit liquids must be either 'true' or 'false'";
+                    }
+                }
+        ));
     }
 
     /**
@@ -85,7 +107,7 @@ public class SpellDeliveryMethodLaser extends AOTDSpellDeliveryMethod
         // The end position is the start position in the right direction scaled to range
         Vec3d endPos = startPos.add(direction.scale(this.range));
         // Perform a ray trace, this will not hit blocks
-        RayTraceResult rayTraceResult = world.rayTraceBlocks(startPos, endPos);
+        RayTraceResult rayTraceResult = world.rayTraceBlocks(startPos, endPos, this.hitLiquids);
         // Compute the hit vector
         Vec3d hitPos = rayTraceResult == null ? endPos : rayTraceResult.hitVec;
         // Compute the block position we hit
@@ -218,6 +240,7 @@ public class SpellDeliveryMethodLaser extends AOTDSpellDeliveryMethod
         NBTTagCompound nbt = super.serializeNBT();
 
         nbt.setDouble(NBT_RANGE, this.range);
+        nbt.setBoolean(NBT_HIT_LIQUIDS, this.hitLiquids);
 
         return nbt;
     }
@@ -232,6 +255,7 @@ public class SpellDeliveryMethodLaser extends AOTDSpellDeliveryMethod
     {
         super.deserializeNBT(nbt);
         this.range = nbt.getDouble(NBT_RANGE);
+        this.hitLiquids = nbt.getBoolean(NBT_HIT_LIQUIDS);
     }
 
     /**
