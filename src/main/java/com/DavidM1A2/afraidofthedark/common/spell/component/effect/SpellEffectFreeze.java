@@ -16,7 +16,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -105,7 +104,7 @@ public class SpellEffectFreeze extends AOTDSpellEffect
                     IAOTDPlayerSpellFreezeData freezeData = entityLiving.getCapability(ModCapabilities.PLAYER_SPELL_FREEZE_DATA, null);
                     freezeData.setFreezeTicks(this.freezeDuration);
                     freezeData.setFreezePosition(new Vec3d(entity.posX, entity.posY, entity.posZ));
-                    freezeData.setFreezeDirection(new Vec2f(entity.rotationYaw, entity.rotationPitch));
+                    freezeData.setFreezeDirection(entity.rotationYaw, entity.rotationPitch);
                 }
                 // If we hit an entity add slowness 99 to ensure the entity can't move
                 else

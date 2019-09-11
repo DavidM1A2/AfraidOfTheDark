@@ -5,6 +5,7 @@ import com.DavidM1A2.afraidofthedark.common.capabilities.player.dimension.IAOTDP
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.dimension.IAOTDPlayerVoidChestData;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.research.IAOTDPlayerResearch;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.spell.IAOTDPlayerSpellManager;
+import com.DavidM1A2.afraidofthedark.common.capabilities.player.spell.component.IAOTDPlayerSpellCharmData;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.spell.component.IAOTDPlayerSpellFreezeData;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -37,4 +38,8 @@ public class ModCapabilities
     // Capability that all players get which allows them to be frozen
     @CapabilityInject(IAOTDPlayerSpellFreezeData.class)
     public static final Capability<IAOTDPlayerSpellFreezeData> PLAYER_SPELL_FREEZE_DATA = null;
+
+    // Capability that all players get which allows them to be charmed
+    @CapabilityInject(IAOTDPlayerSpellCharmData.class)
+    public static final Capability<IAOTDPlayerSpellCharmData> PLAYER_SPELL_CHARM_DATA = null;
 }

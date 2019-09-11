@@ -13,10 +13,7 @@ import com.DavidM1A2.afraidofthedark.common.capabilities.player.spell.AOTDPlayer
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.spell.AOTDPlayerSpellManagerProvider;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.spell.AOTDPlayerSpellManagerStorage;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.spell.IAOTDPlayerSpellManager;
-import com.DavidM1A2.afraidofthedark.common.capabilities.player.spell.component.AOTDPlayerSpellFreezeDataImpl;
-import com.DavidM1A2.afraidofthedark.common.capabilities.player.spell.component.AOTDPlayerSpellFreezeDataProvider;
-import com.DavidM1A2.afraidofthedark.common.capabilities.player.spell.component.AOTDPlayerSpellFreezeDataStorage;
-import com.DavidM1A2.afraidofthedark.common.capabilities.player.spell.component.IAOTDPlayerSpellFreezeData;
+import com.DavidM1A2.afraidofthedark.common.capabilities.player.spell.component.*;
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
 import net.minecraft.entity.Entity;
@@ -51,6 +48,7 @@ public class CapabilityHandler
             CapabilityManager.INSTANCE.register(IAOTDPlayerNightmareData.class, new AOTDPlayerNightmareDataStorage(), AOTDPlayerNightmareImpl::new);
             CapabilityManager.INSTANCE.register(IAOTDPlayerSpellManager.class, new AOTDPlayerSpellManagerStorage(), AOTDPlayerSpellManagerImpl::new);
             CapabilityManager.INSTANCE.register(IAOTDPlayerSpellFreezeData.class, new AOTDPlayerSpellFreezeDataStorage(), AOTDPlayerSpellFreezeDataImpl::new);
+            CapabilityManager.INSTANCE.register(IAOTDPlayerSpellCharmData.class, new AOTDPlayerSpellCharmDataStorage(), AOTDPlayerSpellCharmDataImpl::new);
 
             CapabilityHandler.wasInitialized = true;
         }
@@ -73,6 +71,7 @@ public class CapabilityHandler
             event.addCapability(new ResourceLocation(Constants.MOD_ID, "player_nightmare_data"), new AOTDPlayerNightmareDataProvider());
             event.addCapability(new ResourceLocation(Constants.MOD_ID, "player_spell_manager"), new AOTDPlayerSpellManagerProvider());
             event.addCapability(new ResourceLocation(Constants.MOD_ID, "player_spell_freeze_data"), new AOTDPlayerSpellFreezeDataProvider());
+            event.addCapability(new ResourceLocation(Constants.MOD_ID, "player_spell_charm_data"), new AOTDPlayerSpellCharmDataProvider());
         }
     }
 
@@ -98,6 +97,7 @@ public class CapabilityHandler
                 // Dont sync PLAYER_NIGHTMARE_DATA because it's server side only storage!
                 entityPlayer.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null).syncAll(entityPlayer);
                 entityPlayer.getCapability(ModCapabilities.PLAYER_SPELL_FREEZE_DATA, null).sync(entityPlayer);
+                // Dont sync PLAYER_SPELL_CHARM_DATA because it's server side only storage!
             }
         }
     }
@@ -130,6 +130,8 @@ public class CapabilityHandler
             IAOTDPlayerSpellManager newPlayerSpellManager = event.getEntityPlayer().getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null);
 
             // Don't copy PLAYER_SPELL_FREEZE_DATA, if the player dies they aren't frozen anymore
+
+            // Don't copy PLAYER_SPELL_CHARM_DATA, if the player dies they aren't charmed anymore
 
             // Grab the NBT compound off of the original capabilities
             NBTTagCompound originalPlayerBasicsNBT = (NBTTagCompound) ModCapabilities.PLAYER_BASICS.getStorage().writeNBT(ModCapabilities.PLAYER_BASICS, originalPlayerBasics, null);

@@ -5,7 +5,6 @@ import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
 import com.DavidM1A2.afraidofthedark.common.packets.packetHandler.MessageHandler;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -19,8 +18,10 @@ public class SyncFreezeData implements IMessage
     private int freezeTicks;
     // The position the player is frozen at
     private Vec3d position;
-    // The direction the player was looking when being frozen
-    private Vec2f direction;
+    // The yaw the player was looking when being frozen
+    private float yaw;
+    // The pitch the player was looking when being frozen
+    private float pitch;
 
     /**
      * Required default constructor that is not used
@@ -29,7 +30,8 @@ public class SyncFreezeData implements IMessage
     {
         this.freezeTicks = 0;
         this.position = null;
-        this.direction = null;
+        this.yaw = 0;
+        this.pitch = 0;
     }
 
     /**
@@ -37,13 +39,15 @@ public class SyncFreezeData implements IMessage
      *
      * @param freezeTicks An integer containing the number of freeze ticks remaining
      * @param position    The position that the player was frozen at
-     * @param direction   The direction that the player was looking in when frozen
+     * @param yaw         The yaw of the direction that the player was looking in when frozen
+     * @param pitch       The pitch of the direction that the player was looking in when frozen
      */
-    public SyncFreezeData(int freezeTicks, Vec3d position, Vec2f direction)
+    public SyncFreezeData(int freezeTicks, Vec3d position, float yaw, float pitch)
     {
         this.freezeTicks = freezeTicks;
         this.position = position;
-        this.direction = direction;
+        this.yaw = yaw;
+        this.pitch = pitch;
     }
 
     /**
@@ -58,7 +62,8 @@ public class SyncFreezeData implements IMessage
         if (freezeTicks > 0)
         {
             this.position = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
-            this.direction = new Vec2f(buf.readFloat(), buf.readFloat());
+            this.yaw = buf.readFloat();
+            this.pitch = buf.readFloat();
         }
     }
 
@@ -76,8 +81,8 @@ public class SyncFreezeData implements IMessage
             buf.writeDouble(this.position.x);
             buf.writeDouble(this.position.y);
             buf.writeDouble(this.position.z);
-            buf.writeFloat(this.direction.x);
-            buf.writeFloat(this.direction.y);
+            buf.writeFloat(this.yaw);
+            buf.writeFloat(this.pitch);
         }
     }
 
@@ -99,7 +104,7 @@ public class SyncFreezeData implements IMessage
             IAOTDPlayerSpellFreezeData freezeData = player.getCapability(ModCapabilities.PLAYER_SPELL_FREEZE_DATA, null);
             freezeData.setFreezeTicks(msg.freezeTicks);
             freezeData.setFreezePosition(msg.position);
-            freezeData.setFreezeDirection(msg.direction);
+            freezeData.setFreezeDirection(msg.yaw, msg.pitch);
         }
     }
 }

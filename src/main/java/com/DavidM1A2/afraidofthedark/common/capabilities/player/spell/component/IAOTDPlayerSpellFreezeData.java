@@ -1,7 +1,6 @@
 package com.DavidM1A2.afraidofthedark.common.capabilities.player.spell.component;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 
 /**
@@ -40,16 +39,24 @@ public interface IAOTDPlayerSpellFreezeData
     /**
      * Sets the direction the player was looking when frozen
      *
-     * @param direction The direction the player is looking, x is yaw and y is pitch
+     * @param yaw The yaw of the direction the player is looking
+     * @param pitch The pitch of the direction the player is looking
      */
-    void setFreezeDirection(Vec2f direction);
+    void setFreezeDirection(float yaw, float pitch);
 
     /**
-     * Gets the direction the player is frozen towards
+     * Gets the yaw of the direction the player is frozen towards
      *
-     * @return The direction the player was looking when frozen, x is yaw and y is pitch
+     * @return The yaw that the player was looking when frozen
      */
-    Vec2f getFreezeDirection();
+    float getFreezeYaw();
+
+    /**
+     * Gets the pitch of the direction the player is frozen towards
+     *
+     * @return The pitch that the player was looking when frozen
+     */
+    float getFreezePitch();
 
     /**
      * Synchronizes freeze data between server and client

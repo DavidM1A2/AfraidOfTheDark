@@ -187,7 +187,7 @@ public class SpellEffectPotionEffect extends AOTDSpellEffect
             World world = state.getWorld();
             EntityAreaEffectCloud aoePotion = new EntityAreaEffectCloud(world, exactPosition.x, exactPosition.y, exactPosition.z);
             aoePotion.addEffect(new PotionEffect(this.potionType, this.potionDuration, this.potionStrength));
-            aoePotion.setOwner(state.getSpell().getOwner(world));
+            aoePotion.setOwner(state.getSpell().getOwner());
             aoePotion.setRadius(this.potionRadius);
             aoePotion.setRadiusPerTick(0);
             aoePotion.setDuration(this.potionDuration);

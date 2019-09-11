@@ -5,7 +5,6 @@ import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.MovementInput;
-import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.InputUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -26,40 +25,46 @@ public class SpellFreezeHandler
     @SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent event)
     {
-        if (event.type == TickEvent.Type.PLAYER)
+        // Server side processing
+        if (event.type == TickEvent.Type.PLAYER && event.phase == TickEvent.Phase.START && event.side == Side.SERVER)
         {
             EntityPlayer entityPlayer = event.player;
             IAOTDPlayerSpellFreezeData playerFreezeData = entityPlayer.getCapability(ModCapabilities.PLAYER_SPELL_FREEZE_DATA, null);
-            // Server side processing
-            if (event.phase == TickEvent.Phase.START && event.side == Side.SERVER)
+            // Ensure there's at least 1 freeze tick remaining
+            if (playerFreezeData.getFreezeTicks() > 0)
             {
-                if (playerFreezeData.getFreezeTicks() > 0)
+                // Reduce the freeze ticks by 1
+                int newFreezeTicks = playerFreezeData.getFreezeTicks() - 1;
+                playerFreezeData.setFreezeTicks(newFreezeTicks);
+                // If no freeze ticks are left tell the client
+                if (newFreezeTicks == 0)
                 {
-                    int newFreezeTicks = playerFreezeData.getFreezeTicks() - 1;
-                    playerFreezeData.setFreezeTicks(newFreezeTicks);
-                    if (newFreezeTicks == 0)
-                    {
-                        playerFreezeData.sync(entityPlayer);
-                    }
-
-                    Vec3d freezePosition = playerFreezeData.getFreezePosition();
-                    Vec2f freezeDirection = playerFreezeData.getFreezeDirection();
-                    ((EntityPlayerMP) entityPlayer).connection.setPlayerLocation(
-                            freezePosition.x,
-                            freezePosition.y,
-                            freezePosition.z,
-                            freezeDirection.x,
-                            freezeDirection.y);
+                    playerFreezeData.sync(entityPlayer);
                 }
+
+                // Freeze the player's location
+                Vec3d freezePosition = playerFreezeData.getFreezePosition();
+                ((EntityPlayerMP) entityPlayer).connection.setPlayerLocation(
+                        freezePosition.x,
+                        freezePosition.y,
+                        freezePosition.z,
+                        playerFreezeData.getFreezeYaw(),
+                        playerFreezeData.getFreezePitch());
             }
         }
     }
 
+    /**
+     * Called on the client side to block all movement input
+     *
+     * @param event The event to modify
+     */
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void onInputUpdateEvent(InputUpdateEvent event)
     {
         IAOTDPlayerSpellFreezeData playerFreezeData = event.getEntityPlayer().getCapability(ModCapabilities.PLAYER_SPELL_FREEZE_DATA, null);
+        // If the player is frozen block all movement
         if (playerFreezeData.getFreezeTicks() > 0)
         {
             MovementInput input = event.getMovementInput();

@@ -14,9 +14,9 @@ import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import org.apache.commons.lang3.StringUtils;
 
@@ -264,22 +264,11 @@ public class Spell implements INBTSerializable<NBTTagCompound>
     /**
      * Gets the owner of the spell
      *
-     * @param world The world that the spell is being cast in
      * @return The player who owns the spell, or null if the player is offline
      */
-    public EntityPlayer getOwner(World world)
+    public EntityPlayer getOwner()
     {
-        return world.getPlayerEntityByUUID(this.ownerId);
-    }
-
-    /**
-     * @return A special string containing all of this spell's information
-     */
-    @Override
-    public String toString()
-    {
-        return "Spell Printout:" +
-                this.getName() + "\n";
+        return FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(this.ownerId);
     }
 
     ///

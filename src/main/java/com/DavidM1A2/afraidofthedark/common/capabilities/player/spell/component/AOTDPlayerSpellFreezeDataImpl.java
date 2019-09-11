@@ -4,7 +4,6 @@ import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.common.packets.capabilityPackets.SyncFreezeData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 
 /**
@@ -17,7 +16,8 @@ public class AOTDPlayerSpellFreezeDataImpl implements IAOTDPlayerSpellFreezeData
     // The position the player is frozen at
     private Vec3d position;
     // The direction the player is facing when frozen
-    private Vec2f direction;
+    private float yaw;
+    private float pitch;
 
     /**
      * Returns true if the player is on server side or false if not
@@ -77,23 +77,36 @@ public class AOTDPlayerSpellFreezeDataImpl implements IAOTDPlayerSpellFreezeData
     /**
      * Sets the direction the player was looking when frozen
      *
-     * @param direction The direction the player is looking, x is yaw and y is pitch
+     * @param yaw The yaw of the direction the player is looking
+     * @param pitch The pitch of the direction the player is looking
      */
     @Override
-    public void setFreezeDirection(Vec2f direction)
+    public void setFreezeDirection(float yaw, float pitch)
     {
-        this.direction = direction;
+        this.yaw = yaw;
+        this.pitch = pitch;
     }
 
     /**
-     * Gets the direction the player is frozen towards
+     * Gets the yaw of the direction the player is frozen towards
      *
-     * @return The direction the player was looking when frozen, x is yaw and y is pitch
+     * @return The yaw that the player was looking when frozen
      */
     @Override
-    public Vec2f getFreezeDirection()
+    public float getFreezeYaw()
     {
-        return this.direction;
+        return this.yaw;
+    }
+
+    /**
+     * Gets the pitch of the direction the player is frozen towards
+     *
+     * @return The pitch that the player was looking when frozen
+     */
+    @Override
+    public float getFreezePitch()
+    {
+        return this.pitch;
     }
 
     /**
@@ -107,7 +120,7 @@ public class AOTDPlayerSpellFreezeDataImpl implements IAOTDPlayerSpellFreezeData
         // If we are on the server side sync this data to the client side
         if (isServerSide(entityPlayer))
         {
-            AfraidOfTheDark.INSTANCE.getPacketHandler().sendTo(new SyncFreezeData(this.freezeTicksRemaining, this.position, this.direction), (EntityPlayerMP) entityPlayer);
+            AfraidOfTheDark.INSTANCE.getPacketHandler().sendTo(new SyncFreezeData(this.freezeTicksRemaining, this.position, this.yaw, this.pitch), (EntityPlayerMP) entityPlayer);
         }
     }
 }

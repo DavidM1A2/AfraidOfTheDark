@@ -36,7 +36,7 @@ public class SpellEffectTeleport extends AOTDSpellEffect
     public void procEffect(DeliveryTransitionState state)
     {
         World world = state.getWorld();
-        EntityPlayer spellCaster = state.getSpell().getOwner(world);
+        EntityPlayer spellCaster = state.getSpell().getOwner();
         if (spellCaster != null)
         {
             Vec3d position = state.getPosition();

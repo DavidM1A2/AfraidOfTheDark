@@ -114,6 +114,8 @@ public class AfraidOfTheDark
         MinecraftForge.EVENT_BUS.register(new SpellStateHandler());
         // Register our spell freeze handler
         MinecraftForge.EVENT_BUS.register(new SpellFreezeHandler());
+        // Register our spell charm handler
+        MinecraftForge.EVENT_BUS.register(new SpellCharmHandler());
         // Register our block color handler used to color aotd leaves
         MinecraftForge.EVENT_BUS.register(new ModColorRegister());
         // Register our AOTD world generator

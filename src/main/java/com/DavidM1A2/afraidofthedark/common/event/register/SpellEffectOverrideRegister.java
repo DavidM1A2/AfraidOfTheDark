@@ -102,7 +102,7 @@ public class SpellEffectOverrideRegister
         ModSpellDeliveryMethods.AOE.addCustomEffectApplicator(ModSpellEffects.TELEPORT, (state, effect) ->
         {
             World world = state.getWorld();
-            EntityPlayer spellCaster = state.getSpell().getOwner(world);
+            EntityPlayer spellCaster = state.getSpell().getOwner();
             if (spellCaster != null)
             {
                 // Get the radius
@@ -145,8 +145,14 @@ public class SpellEffectOverrideRegister
             World world = state.getWorld();
             Vec3d centerPosition = state.getPosition();
             BlockPos centerBlockPosition = state.getBlockPosition();
+            SpellDeliveryMethodAOE deliveryMethodAOE = (SpellDeliveryMethodAOE) state.getCurrentStage().getDeliveryMethod();
+            // If we should target entities use default logic
+            if (deliveryMethodAOE.shouldTargetEntities())
+            {
+                return true;
+            }
             // Grab the radius from the AOE spell delivery method
-            double radius = ((SpellDeliveryMethodAOE) state.getCurrentStage().getDeliveryMethod()).getRadius();
+            double radius = deliveryMethodAOE.getRadius();
             int blockRadius = (int) Math.ceil(radius);
             // The threshold lets us define the thickness of the sphere
             double threshhold = 0.5;

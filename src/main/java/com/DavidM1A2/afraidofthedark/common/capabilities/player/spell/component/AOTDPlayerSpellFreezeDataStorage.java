@@ -4,7 +4,6 @@ import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.common.capabilities.Capability;
 
@@ -18,7 +17,8 @@ public class AOTDPlayerSpellFreezeDataStorage implements Capability.IStorage<IAO
     // NBT constants used for serialization
     private static final String NBT_FREEZE_TICKS = "freeze_ticks";
     private static final String NBT_POSITION = "position";
-    private static final String NBT_DIRECTION = "direction";
+    private static final String NBT_DIRECTION_YAW = "direction_yaw";
+    private static final String NBT_DIRECTION_PITCH = "direction_pitch";
 
     /**
      * Called to write a capability to an NBT compound
@@ -37,12 +37,14 @@ public class AOTDPlayerSpellFreezeDataStorage implements Capability.IStorage<IAO
 
         nbt.setInteger(NBT_FREEZE_TICKS, instance.getFreezeTicks());
 
-        nbt.setDouble(NBT_POSITION + "_x", instance.getFreezePosition().x);
-        nbt.setDouble(NBT_POSITION + "_y", instance.getFreezePosition().y);
-        nbt.setDouble(NBT_POSITION + "_z", instance.getFreezePosition().z);
-
-        nbt.setFloat(NBT_DIRECTION + "_x", instance.getFreezeDirection().x);
-        nbt.setFloat(NBT_DIRECTION + "_y", instance.getFreezeDirection().y);
+        if (instance.getFreezePosition() != null)
+        {
+            nbt.setDouble(NBT_POSITION + "_x", instance.getFreezePosition().x);
+            nbt.setDouble(NBT_POSITION + "_y", instance.getFreezePosition().y);
+            nbt.setDouble(NBT_POSITION + "_z", instance.getFreezePosition().z);
+        }
+        nbt.setFloat(NBT_DIRECTION_YAW, instance.getFreezeYaw());
+        nbt.setFloat(NBT_DIRECTION_PITCH, instance.getFreezePitch());
 
         return nbt;
     }
@@ -65,13 +67,15 @@ public class AOTDPlayerSpellFreezeDataStorage implements Capability.IStorage<IAO
             NBTTagCompound compound = (NBTTagCompound) nbt;
 
             instance.setFreezeTicks(compound.getInteger(NBT_FREEZE_TICKS));
-            instance.setFreezePosition(new Vec3d(
-                    compound.getDouble(NBT_POSITION + "_x"),
-                    compound.getDouble(NBT_POSITION + "_y"),
-                    compound.getDouble(NBT_POSITION + "_z")));
-            instance.setFreezeDirection(new Vec2f(
-                    compound.getFloat(NBT_DIRECTION + "_x"),
-                    compound.getFloat(NBT_DIRECTION + "_y")));
+
+            if (compound.hasKey(NBT_POSITION + "_x") && compound.hasKey(NBT_POSITION + "_y") && compound.hasKey(NBT_POSITION + "_z"))
+            {
+                instance.setFreezePosition(new Vec3d(
+                        compound.getDouble(NBT_POSITION + "_x"),
+                        compound.getDouble(NBT_POSITION + "_y"),
+                        compound.getDouble(NBT_POSITION + "_z")));
+            }
+            instance.setFreezeDirection(compound.getFloat(NBT_DIRECTION_YAW), compound.getFloat(NBT_DIRECTION_PITCH));
         }
         // There's an error, this should not be possible
         else
