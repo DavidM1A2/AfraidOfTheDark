@@ -19,12 +19,17 @@ public class SpellDeliveryMethodProjectile extends AOTDSpellDeliveryMethod
 {
     // The NBT keys
     private static final String NBT_SPEED = "speed";
+    private static final String NBT_RANGE = "range";
 
     // The default speed value
     private static final double DEFAULT_SPEED = 0.6;
+    // The default range value
+    private static final double DEFAULT_RANGE = 50;
 
     // The speed of the projectile
     private double speed = DEFAULT_SPEED;
+    // The range of the projectile
+    private double range = DEFAULT_RANGE;
 
     /**
      * Constructor initializes the editable properties
@@ -32,6 +37,30 @@ public class SpellDeliveryMethodProjectile extends AOTDSpellDeliveryMethod
     public SpellDeliveryMethodProjectile()
     {
         super();
+        this.addEditableProperty(new EditableSpellComponentProperty("Range", "The range of the projectile in blocks", () -> Double.toString(this.range), newValue ->
+        {
+            // Ensure the number is parsable
+            if (NumberUtils.isParsable(newValue))
+            {
+                // Parse the range
+                this.range = Double.parseDouble(newValue);
+                // Ensure range is valid
+                if (this.range >= 1)
+                {
+                    return null;
+                }
+                else
+                {
+                    this.range = DEFAULT_RANGE;
+                    return "Range must be at least 1";
+                }
+            }
+            // If it's not valid return an error
+            else
+            {
+                return newValue + " is not a valid decimal number!";
+            }
+        }));
         this.addEditableProperty(new EditableSpellComponentProperty("Speed", "The speed of the projectile", () -> Double.toString(this.speed), newValue ->
         {
             // Ensure the number is parsable
@@ -116,7 +145,7 @@ public class SpellDeliveryMethodProjectile extends AOTDSpellDeliveryMethod
     @Override
     public double getCost()
     {
-        return 5 + this.speed;
+        return 5 + this.speed + this.range * this.range / 15.0;
     }
 
     /**
@@ -152,6 +181,7 @@ public class SpellDeliveryMethodProjectile extends AOTDSpellDeliveryMethod
         NBTTagCompound nbt = super.serializeNBT();
 
         nbt.setDouble(NBT_SPEED, this.speed);
+        nbt.setDouble(NBT_RANGE, this.range);
 
         return nbt;
     }
@@ -166,6 +196,7 @@ public class SpellDeliveryMethodProjectile extends AOTDSpellDeliveryMethod
     {
         super.deserializeNBT(nbt);
         this.speed = nbt.getDouble(NBT_SPEED);
+        this.range = nbt.getDouble(NBT_RANGE);
     }
 
     /**
@@ -174,5 +205,13 @@ public class SpellDeliveryMethodProjectile extends AOTDSpellDeliveryMethod
     public double getSpeed()
     {
         return speed;
+    }
+
+    /**
+     * @return Gets the projectile range
+     */
+    public double getRange()
+    {
+        return range;
     }
 }

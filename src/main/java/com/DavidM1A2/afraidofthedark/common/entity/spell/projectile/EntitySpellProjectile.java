@@ -33,6 +33,7 @@ public class EntitySpellProjectile extends Entity implements IMCAnimatedEntity
     private static final String NBT_MOTION_DIRECTION = "motion_direction";
     private static final String NBT_SPELL = "spell";
     private static final String NBT_SPELL_INDEX = "spell_index";
+    private static final String NBT_BLOCK_DISTANCE_REMAINING = "block_distance_remaining";
 
     // The number of ticks the projectile has been in the air
     private int ticksInAir;
@@ -42,6 +43,8 @@ public class EntitySpellProjectile extends Entity implements IMCAnimatedEntity
     private int spellIndex;
     // The entity that fired the projectile, can be null
     private Entity shooter;
+    // The amount of blocks left before this projectile expires
+    private double blockDistanceRemaining;
 
     // The animation handler that this entity uses for all animations
     private AnimationHandler animHandler = new AnimationHandlerSpellProjectile(this);
@@ -71,8 +74,10 @@ public class EntitySpellProjectile extends Entity implements IMCAnimatedEntity
         this(world);
         this.spell = spell;
         this.spellIndex = spellIndex;
+        SpellDeliveryMethodProjectile deliveryMethodProjectile = (SpellDeliveryMethodProjectile) spell.getStage(spellIndex).getDeliveryMethod();
+        this.blockDistanceRemaining = deliveryMethodProjectile.getRange();
         // Grab the projectile speed from the delivery method
-        double projectileSpeed = ((SpellDeliveryMethodProjectile) spell.getStage(spellIndex).getDeliveryMethod()).getSpeed();
+        double projectileSpeed = deliveryMethodProjectile.getSpeed();
         // Default velocity will just be random velocity
         if (velocity == null)
         {
@@ -146,6 +151,31 @@ public class EntitySpellProjectile extends Entity implements IMCAnimatedEntity
 
                 // Continue flying in the direction of motion, update the position
                 this.setPosition(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+
+                // Update distance flown, and kill the entity if it went
+                double distanceFlown = new Vec3d(this.motionX, this.motionY, this.motionZ).lengthVector();
+                this.blockDistanceRemaining = this.blockDistanceRemaining - distanceFlown;
+
+                // If we're out of distance deliver the spell and kill the projectile
+                if (this.blockDistanceRemaining <= 0)
+                {
+                    DeliveryTransitionState state = new DeliveryTransitionStateBuilder()
+                            .withSpell(spell)
+                            .withStageIndex(spellIndex)
+                            .withWorld(world)
+                            .withPosition(this.getPositionVector())
+                            .withBlockPosition(this.getPosition())
+                            .withDirection(new Vec3d(this.motionX, this.motionY, this.motionZ))
+                            .withDeliveryEntity(this)
+                            .build();
+
+                    // Proc the effects and transition
+                    SpellDeliveryMethod currentDeliveryMethod = spell.getStage(spellIndex).getDeliveryMethod();
+                    currentDeliveryMethod.procEffects(state);
+                    currentDeliveryMethod.transitionFrom(state);
+
+                    this.setDead();
+                }
             }
             else
             {
@@ -249,6 +279,7 @@ public class EntitySpellProjectile extends Entity implements IMCAnimatedEntity
         compound.setTag(NBT_MOTION_DIRECTION, this.newDoubleNBTList(this.motionX, this.motionY, this.motionZ));
         compound.setTag(NBT_SPELL, this.spell.serializeNBT());
         compound.setInteger(NBT_SPELL_INDEX, this.spellIndex);
+        compound.setDouble(NBT_BLOCK_DISTANCE_REMAINING, this.blockDistanceRemaining);
     }
 
     /**
@@ -266,6 +297,7 @@ public class EntitySpellProjectile extends Entity implements IMCAnimatedEntity
         this.motionZ = motionTagList.getDoubleAt(2);
         this.spell = new Spell(compound.getCompoundTag(NBT_SPELL));
         this.spellIndex = compound.getInteger(NBT_SPELL_INDEX);
+        this.blockDistanceRemaining = compound.getDouble(NBT_BLOCK_DISTANCE_REMAINING);
     }
 
     /**
