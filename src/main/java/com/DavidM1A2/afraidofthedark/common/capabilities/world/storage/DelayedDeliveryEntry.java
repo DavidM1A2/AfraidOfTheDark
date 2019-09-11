@@ -70,34 +70,33 @@ public class DelayedDeliveryEntry
     }
 
     /**
-     * If the ticks left is less than or equal to 0 this will fire the delivery and then return true. If it's not ready
-     * yet it will return false.
+     * Returns true if this delayed entry has waited long enough and is ready to fire
      *
-     * @return True if the delivery happened, false if not
+     * @return True if this delayed entry is ready to fire, false otherwise
      */
-    public boolean triggerIfReady()
+    public boolean isReadyToFire()
     {
         // If ticks left is <= 0 then it's time to trigger the delivery
-        if (this.ticksLeft <= 0)
+        return this.ticksLeft <= 0;
+    }
+
+    /**
+     * Fires the delayed entry in its current state, assumes isReadyToFire() has been called and is true
+     */
+    public void fire()
+    {
+        SpellDeliveryMethod deliveryMethod = this.state.getCurrentStage().getDeliveryMethod();
+        // Update the state to reflect the current world position if the entity targeted has moved
+        if (this.state.getEntity() != null)
         {
-            SpellDeliveryMethod deliveryMethod = this.state.getCurrentStage().getDeliveryMethod();
-            // Update the state to reflect the current world position if the entity targeted has moved
-            if (this.state.getEntity() != null)
-            {
-                this.state = new DeliveryTransitionStateBuilder()
-                        .copyOf(this.state)
-                        // With entity updates the pos and direction
-                        .withEntity(this.state.getEntity())
-                        .build();
-            }
-            // Proc effects and transition, then return true since we delivered
-            deliveryMethod.procEffects(this.state);
-            deliveryMethod.transitionFrom(this.state);
-            return true;
+            this.state = new DeliveryTransitionStateBuilder()
+                    .copyOf(this.state)
+                    // With entity updates the pos and direction
+                    .withEntity(this.state.getEntity())
+                    .build();
         }
-        else
-        {
-            return false;
-        }
+        // Proc effects and transition, then return true since we delivered
+        deliveryMethod.procEffects(this.state);
+        deliveryMethod.transitionFrom(this.state);
     }
 }

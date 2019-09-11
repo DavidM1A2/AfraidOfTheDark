@@ -11,6 +11,7 @@ import net.minecraft.world.storage.WorldSavedData;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * World data that stores any spell data that is not stored in entity form and must persist
@@ -127,18 +128,17 @@ public class SpellStateData extends WorldSavedData
     {
         // Update each delayed delivery entry
         this.delayedDeliveryEntries.forEach(DelayedDeliveryEntry::update);
-        // Remove the entry if it triggered. If it triggered mark the data as dirty
-        this.delayedDeliveryEntries.removeIf(delayedDeliveryEntry ->
+        // Get a list of delayed entries that are ready to fire
+        List<DelayedDeliveryEntry> readyDelayedEntries = this.delayedDeliveryEntries.stream().filter(DelayedDeliveryEntry::isReadyToFire).collect(Collectors.toList());
+        // If we have any ready delayed entries remove and fire them
+        if (!readyDelayedEntries.isEmpty())
         {
-            if (delayedDeliveryEntry.triggerIfReady())
-            {
-                this.markDirty();
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        });
+            // Remove the delayed entries
+            this.delayedDeliveryEntries.removeAll(readyDelayedEntries);
+            // Fire the delayed entries
+            readyDelayedEntries.forEach(DelayedDeliveryEntry::fire);
+            // Ensure the data gets written to disk
+            this.markDirty();
+        }
     }
 }
