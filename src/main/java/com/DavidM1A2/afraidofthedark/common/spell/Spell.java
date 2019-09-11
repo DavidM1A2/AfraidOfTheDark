@@ -172,6 +172,11 @@ public class Spell implements INBTSerializable<NBTTagCompound>
             // Increase the cost of the next spell stage by 5%
             costMultiplier = costMultiplier + 0.05;
         }
+        // If cost overflowed then set it to max double
+        if (cost < 0)
+        {
+            cost = Double.MAX_VALUE;
+        }
         return cost;
     }
 
