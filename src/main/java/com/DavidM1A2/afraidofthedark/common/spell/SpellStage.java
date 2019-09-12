@@ -5,8 +5,6 @@ import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEff
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
 
-import java.util.function.BiConsumer;
-
 /**
  * Class representing a stage in a spell
  */
@@ -42,25 +40,6 @@ public class SpellStage implements INBTSerializable<NBTTagCompound>
     public SpellStage(NBTTagCompound spellStageNBT)
     {
         this.deserializeNBT(spellStageNBT);
-    }
-
-    /**
-     * Calls a given consumer for all valid effects in the spell stage
-     *
-     * @param consumer The consumer to fire for each valid effect in the spell stage
-     */
-    public void forAllValidEffects(BiConsumer<SpellEffect, Integer> consumer)
-    {
-        // Go over each effect, if it's non-null fire the consumer
-        SpellEffect[] spellEffects = this.effects;
-        for (int i = 0; i < spellEffects.length; i++)
-        {
-            SpellEffect spellEffect = spellEffects[i];
-            if (spellEffect != null)
-            {
-                consumer.accept(spellEffect, i);
-            }
-        }
     }
 
     /**
