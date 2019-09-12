@@ -2,13 +2,12 @@ package com.DavidM1A2.afraidofthedark.common.spell.component.effect;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellEffects;
 import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionState;
-import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
+import com.DavidM1A2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import org.apache.commons.lang3.math.NumberUtils;
 
 /**
  * Effect that creates an explosion at the given position
@@ -18,10 +17,8 @@ public class SpellEffectExplosion extends AOTDSpellEffect
     // NBT constants
     private static final String NBT_RADIUS = "radius";
 
-    private static final double DEFAULT_RADIUS = 5;
-
     // The radius of the explosion
-    private double radius = DEFAULT_RADIUS;
+    private double radius = 5;
 
     /**
      * Constructor initializes the editable properties
@@ -29,30 +26,15 @@ public class SpellEffectExplosion extends AOTDSpellEffect
     public SpellEffectExplosion()
     {
         super();
-        this.addEditableProperty(new EditableSpellComponentProperty("Radius", "The explosion radius", () -> Double.toString(this.radius), newValue ->
-        {
-            // Ensure the number is parsable
-            if (NumberUtils.isParsable(newValue))
-            {
-                // Parse the radius
-                this.radius = Double.parseDouble(newValue);
-                // Ensure radius is valid
-                if (this.radius > 0)
-                {
-                    return null;
-                }
-                else
-                {
-                    this.radius = DEFAULT_RADIUS;
-                    return "Radius must be larger than 0";
-                }
-            }
-            // If it's not valid return an error
-            else
-            {
-                return newValue + " is not a valid decimal number!";
-            }
-        }));
+        this.addEditableProperty(SpellComponentPropertyFactory.doubleProperty()
+                .withName("Radius")
+                .withDescription("The explosion's radius.")
+                .withSetter(newValue -> this.radius = newValue)
+                .withGetter(() -> this.radius)
+                .withDefaultValue(5D)
+                .withMinValue(1D)
+                .withMaxValue(150D)
+                .build());
     }
 
     /**

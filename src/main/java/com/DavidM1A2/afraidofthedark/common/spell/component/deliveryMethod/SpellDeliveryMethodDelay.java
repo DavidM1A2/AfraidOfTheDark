@@ -5,12 +5,11 @@ import com.DavidM1A2.afraidofthedark.common.constants.ModSpellDeliveryMethods;
 import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionState;
 import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder;
-import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodEntry;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffect;
+import com.DavidM1A2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory;
 import net.minecraft.nbt.NBTTagCompound;
-import org.apache.commons.lang3.math.NumberUtils;
 
 /**
  * Self delivery method delivers the spell after a delay
@@ -20,11 +19,8 @@ public class SpellDeliveryMethodDelay extends AOTDSpellDeliveryMethod
     // The NBT keys
     private static final String NBT_DELAY = "delay";
 
-    // Default property values
-    private static final long DEFAULT_DELAY = 20;
-
     // The delay of the delivery in ticks
-    private long delay = DEFAULT_DELAY;
+    private long delay = 20;
 
     /**
      * Constructor initializes the editable properties
@@ -32,34 +28,14 @@ public class SpellDeliveryMethodDelay extends AOTDSpellDeliveryMethod
     public SpellDeliveryMethodDelay()
     {
         super();
-        this.addEditableProperty(new EditableSpellComponentProperty(
-                "Delay",
-                "The delay of the delivery in ticks (20 ticks = 1 second)",
-                () -> Long.toString(this.delay),
-                newValue ->
-                {
-                    // Ensure the number is parsable
-                    if (NumberUtils.isDigits(newValue))
-                    {
-                        // Parse the delay
-                        this.delay = Long.parseLong(newValue);
-                        // Ensure delay is valid
-                        if (this.delay >= 1.0)
-                        {
-                            return null;
-                        }
-                        else
-                        {
-                            this.delay = DEFAULT_DELAY;
-                            return "Delay must be larger than or equal to 1";
-                        }
-                    }
-                    // If it's not valid return an error
-                    else
-                    {
-                        return newValue + " is not a valid integer!";
-                    }
-                }));
+        this.addEditableProperty(SpellComponentPropertyFactory.longProperty()
+                .withName("Delay")
+                .withDescription("The delay of the delivery in ticks (20 ticks = 1 second).")
+                .withSetter(newValue -> this.delay = newValue)
+                .withGetter(() -> this.delay)
+                .withDefaultValue(20L)
+                .withMinValue(1L)
+                .build());
     }
 
     /**

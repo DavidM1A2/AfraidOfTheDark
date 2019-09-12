@@ -7,15 +7,14 @@ import com.DavidM1A2.afraidofthedark.common.packets.otherPackets.SyncParticle;
 import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionState;
 import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder;
-import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodEntry;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffect;
+import com.DavidM1A2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
-import org.apache.commons.lang3.math.NumberUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,14 +30,10 @@ public class SpellDeliveryMethodLaser extends AOTDSpellDeliveryMethod
     private static final String NBT_RANGE = "range";
     private static final String NBT_HIT_LIQUIDS = "hit_liquids";
 
-    // The default range value
-    private static final double DEFAULT_RANGE = 25.0;
-    private static final boolean DEFAULT_HIT_LIQUIDS = false;
-
     // The range of the hitscan
-    private double range = DEFAULT_RANGE;
+    private double range = 50;
     // True if liquids can be hit, false otherwise
-    private boolean hitLiquids = DEFAULT_HIT_LIQUIDS;
+    private boolean hitLiquids = false;
 
     /**
      * Constructor initializes the editable properties
@@ -46,48 +41,22 @@ public class SpellDeliveryMethodLaser extends AOTDSpellDeliveryMethod
     public SpellDeliveryMethodLaser()
     {
         super();
-        this.addEditableProperty(new EditableSpellComponentProperty("Range", "The range of the laser in blocks", () -> Double.toString(this.range), newValue ->
-        {
-            // Ensure the number is parsable
-            if (NumberUtils.isParsable(newValue))
-            {
-                // Parse the range
-                this.range = Double.parseDouble(newValue);
-                // Ensure range is valid
-                if (this.range >= 1)
-                {
-                    return null;
-                }
-                else
-                {
-                    this.range = DEFAULT_RANGE;
-                    return "Range must be at least 1";
-                }
-            }
-            // If it's not valid return an error
-            else
-            {
-                return newValue + " is not a valid decimal number!";
-            }
-        }));
-        this.addEditableProperty(new EditableSpellComponentProperty(
-                "Hit Liquids",
-                "'True' to let liquid blocks be hit, or 'false' to go through them",
-                () -> Boolean.toString(this.hitLiquids),
-                newValue ->
-                {
-                    if (newValue.equalsIgnoreCase("true") || newValue.equalsIgnoreCase("false"))
-                    {
-                        this.hitLiquids = Boolean.parseBoolean(newValue);
-                        return null;
-                    }
-                    else
-                    {
-                        this.hitLiquids = DEFAULT_HIT_LIQUIDS;
-                        return "Hit liquids must be either 'true' or 'false'";
-                    }
-                }
-        ));
+        this.addEditableProperty(SpellComponentPropertyFactory.doubleProperty()
+                .withName("Range")
+                .withDescription("The range of the laser in blocks.")
+                .withSetter(newValue -> this.range = newValue)
+                .withGetter(() -> this.range)
+                .withDefaultValue(50D)
+                .withMinValue(1D)
+                .withMaxValue(300D)
+                .build());
+        this.addEditableProperty(SpellComponentPropertyFactory.booleanProperty()
+                .withName("Hit Liquids")
+                .withDescription("'True' to let liquid blocks be hit, or 'false' to go through them.")
+                .withSetter(newValue -> this.hitLiquids = newValue)
+                .withGetter(() -> this.hitLiquids)
+                .withDefaultValue(false)
+                .build());
     }
 
     /**

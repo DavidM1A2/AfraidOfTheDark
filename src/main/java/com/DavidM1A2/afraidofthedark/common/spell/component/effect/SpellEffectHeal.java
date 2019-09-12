@@ -2,9 +2,9 @@ package com.DavidM1A2.afraidofthedark.common.spell.component.effect;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellEffects;
 import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionState;
-import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
+import com.DavidM1A2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityArmorStand;
@@ -18,11 +18,8 @@ public class SpellEffectHeal extends AOTDSpellEffect
     // NBT constants for healing amount
     private static final String NBT_HEALING_AMOUNT = "healing_amount";
 
-    // The default heal amount
-    private static final int DEFAULT_HEAL_AMOUNT = 2;
-
     // The amount of healing this effect gives
-    private int healAmount = DEFAULT_HEAL_AMOUNT;
+    private int healAmount = 2;
 
     /**
      * Constructor adds the editable prop
@@ -30,35 +27,14 @@ public class SpellEffectHeal extends AOTDSpellEffect
     public SpellEffectHeal()
     {
         super();
-        this.addEditableProperty(new EditableSpellComponentProperty(
-                "Heal Amount",
-                "The amount of healing to do in half-hearts.",
-                () -> Integer.toString(this.healAmount),
-                newValue ->
-                {
-                    // Ensure the number is parsable
-                    try
-                    {
-                        // Parse the heal amount
-                        this.healAmount = Integer.parseInt(newValue);
-                        // Ensure heal amount is valid
-                        if (this.healAmount > 0)
-                        {
-                            return null;
-                        }
-                        else
-                        {
-                            this.healAmount = DEFAULT_HEAL_AMOUNT;
-                            return "Heal amount must be larger than 0";
-                        }
-                    }
-                    // If it's not valid return an error
-                    catch (NumberFormatException e)
-                    {
-                        return newValue + " is not a valid integer!";
-                    }
-                }
-        ));
+        this.addEditableProperty(SpellComponentPropertyFactory.intProperty()
+                .withName("Heal Amount")
+                .withDescription("The amount of half hearts to restore.")
+                .withSetter(newValue -> this.healAmount = newValue)
+                .withGetter(() -> this.healAmount)
+                .withDefaultValue(2)
+                .withMinValue(1)
+                .build());
     }
 
     /**

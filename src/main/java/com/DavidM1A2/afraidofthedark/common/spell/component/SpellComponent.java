@@ -1,5 +1,6 @@
 package com.DavidM1A2.afraidofthedark.common.spell.component;
 
+import com.DavidM1A2.afraidofthedark.common.spell.component.property.SpellComponentProperty;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
 
@@ -16,14 +17,14 @@ public abstract class SpellComponent implements INBTSerializable<NBTTagCompound>
     protected static final String NBT_TYPE_ID = "type_id";
 
     // A list of editable properties of this component
-    private final List<EditableSpellComponentProperty> editableProperties = new ArrayList<>();
+    private final List<SpellComponentProperty> editableProperties = new ArrayList<>();
 
     /**
      * Adds an editable property that this spell component has
      *
      * @param property A property that this component has that can be edited
      */
-    public void addEditableProperty(EditableSpellComponentProperty property)
+    public void addEditableProperty(SpellComponentProperty property)
     {
         this.editableProperties.add(property);
     }
@@ -31,7 +32,7 @@ public abstract class SpellComponent implements INBTSerializable<NBTTagCompound>
     /**
      * @return An unmodifiable list of editable component properties
      */
-    public List<EditableSpellComponentProperty> getEditableProperties()
+    public List<SpellComponentProperty> getEditableProperties()
     {
         return Collections.unmodifiableList(editableProperties);
     }

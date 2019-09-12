@@ -5,12 +5,11 @@ import com.DavidM1A2.afraidofthedark.common.entity.spell.projectile.EntitySpellP
 import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionState;
 import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder;
-import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodEntry;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffect;
+import com.DavidM1A2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory;
 import net.minecraft.nbt.NBTTagCompound;
-import org.apache.commons.lang3.math.NumberUtils;
 
 /**
  * Projectile delivery method delivers the spell to the target with a projectile
@@ -21,15 +20,10 @@ public class SpellDeliveryMethodProjectile extends AOTDSpellDeliveryMethod
     private static final String NBT_SPEED = "speed";
     private static final String NBT_RANGE = "range";
 
-    // The default speed value
-    private static final double DEFAULT_SPEED = 0.6;
-    // The default range value
-    private static final double DEFAULT_RANGE = 50;
-
     // The speed of the projectile
-    private double speed = DEFAULT_SPEED;
+    private double speed = 0.6;
     // The range of the projectile
-    private double range = DEFAULT_RANGE;
+    private double range = 50;
 
     /**
      * Constructor initializes the editable properties
@@ -37,54 +31,24 @@ public class SpellDeliveryMethodProjectile extends AOTDSpellDeliveryMethod
     public SpellDeliveryMethodProjectile()
     {
         super();
-        this.addEditableProperty(new EditableSpellComponentProperty("Range", "The range of the projectile in blocks", () -> Double.toString(this.range), newValue ->
-        {
-            // Ensure the number is parsable
-            if (NumberUtils.isParsable(newValue))
-            {
-                // Parse the range
-                this.range = Double.parseDouble(newValue);
-                // Ensure range is valid
-                if (this.range >= 1)
-                {
-                    return null;
-                }
-                else
-                {
-                    this.range = DEFAULT_RANGE;
-                    return "Range must be at least 1";
-                }
-            }
-            // If it's not valid return an error
-            else
-            {
-                return newValue + " is not a valid decimal number!";
-            }
-        }));
-        this.addEditableProperty(new EditableSpellComponentProperty("Speed", "The speed of the projectile", () -> Double.toString(this.speed), newValue ->
-        {
-            // Ensure the number is parsable
-            if (NumberUtils.isParsable(newValue))
-            {
-                // Parse the speed
-                this.speed = Double.parseDouble(newValue);
-                // Ensure speed is valid
-                if (this.speed >= 0.25)
-                {
-                    return null;
-                }
-                else
-                {
-                    this.speed = DEFAULT_SPEED;
-                    return "Speed must be at least 0.25";
-                }
-            }
-            // If it's not valid return an error
-            else
-            {
-                return newValue + " is not a valid decimal number!";
-            }
-        }));
+        this.addEditableProperty(SpellComponentPropertyFactory.doubleProperty()
+                .withName("Range")
+                .withDescription("The range of the projectile in blocks.")
+                .withSetter(newValue -> this.range = newValue)
+                .withGetter(() -> this.range)
+                .withDefaultValue(50D)
+                .withMinValue(1D)
+                .withMaxValue(300D)
+                .build());
+        this.addEditableProperty(SpellComponentPropertyFactory.doubleProperty()
+                .withName("Speed")
+                .withDescription("The speed of the projectile in blocks/tick.")
+                .withSetter(newValue -> this.speed = newValue)
+                .withGetter(() -> this.speed)
+                .withDefaultValue(0.6)
+                .withMinValue(0D)
+                .withMaxValue(10D)
+                .build());
     }
 
     /**

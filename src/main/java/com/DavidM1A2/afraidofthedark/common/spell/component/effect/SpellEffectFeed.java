@@ -2,9 +2,9 @@ package com.DavidM1A2.afraidofthedark.common.spell.component.effect;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellEffects;
 import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionState;
-import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
+import com.DavidM1A2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.FoodStats;
@@ -18,14 +18,10 @@ public class SpellEffectFeed extends AOTDSpellEffect
     private static final String NBT_HUNGER_VALUE = "hunger_value";
     private static final String NBT_SATURATION_VALUE = "saturation_value";
 
-    // Default values
-    private static final int DEFAULT_HUNGER_VALUE = 2;
-    private static final int DEFAULT_SATURATION_VALUE = 1;
-
     // The amount of hunger bars this effect gives
-    private int hungerValue = DEFAULT_HUNGER_VALUE;
+    private int hungerValue = 2;
     // The amount of saturation this effect gives
-    private int saturationValue = DEFAULT_SATURATION_VALUE;
+    private int saturationValue = 1;
 
     /**
      * Constructor adds the editable prop
@@ -33,64 +29,23 @@ public class SpellEffectFeed extends AOTDSpellEffect
     public SpellEffectFeed()
     {
         super();
-        this.addEditableProperty(new EditableSpellComponentProperty(
-                "Hunger Value",
-                "The amount of food half 'drumsticks' to restore.",
-                () -> Integer.toString(this.hungerValue),
-                newValue ->
-                {
-                    // Ensure the number is parsable
-                    try
-                    {
-                        // Parse the hunger
-                        this.hungerValue = Integer.parseInt(newValue);
-                        // Ensure hunger value is valid
-                        if (this.hungerValue > 0)
-                        {
-                            return null;
-                        }
-                        else
-                        {
-                            this.hungerValue = DEFAULT_HUNGER_VALUE;
-                            return "Hunger value must be larger than 0";
-                        }
-                    }
-                    // If it's not valid return an error
-                    catch (NumberFormatException e)
-                    {
-                        return newValue + " is not a valid integer!";
-                    }
-                }
-        ));
-        this.addEditableProperty(new EditableSpellComponentProperty(
-                "Saturation Value",
-                "The amount of saturation restore.",
-                () -> Integer.toString(this.saturationValue),
-                newValue ->
-                {
-                    // Ensure the number is parsable
-                    try
-                    {
-                        // Parse the saturation
-                        this.saturationValue = Integer.parseInt(newValue);
-                        // Ensure saturation value is valid
-                        if (this.saturationValue >= 0)
-                        {
-                            return null;
-                        }
-                        else
-                        {
-                            this.saturationValue = DEFAULT_SATURATION_VALUE;
-                            return "Saturation value must be positive";
-                        }
-                    }
-                    // If it's not valid return an error
-                    catch (NumberFormatException e)
-                    {
-                        return newValue + " is not a valid integer!";
-                    }
-                }
-        ));
+        this.addEditableProperty(SpellComponentPropertyFactory.intProperty()
+                .withName("Hunger Amount")
+                .withDescription("The amount of food half 'drumsticks' to restore.")
+                .withSetter(newValue -> this.hungerValue = newValue)
+                .withGetter(() -> this.hungerValue)
+                .withDefaultValue(2)
+                .withMinValue(1)
+                .withMaxValue(300)
+                .build());
+        this.addEditableProperty(SpellComponentPropertyFactory.intProperty()
+                .withName("Saturation Amount")
+                .withDescription("The amount of saturation restore.")
+                .withSetter(newValue -> this.saturationValue = newValue)
+                .withGetter(() -> this.saturationValue)
+                .withDefaultValue(1)
+                .withMinValue(0)
+                .build());
     }
 
     /**

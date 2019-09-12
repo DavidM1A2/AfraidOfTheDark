@@ -4,9 +4,9 @@ import com.DavidM1A2.afraidofthedark.common.capabilities.player.spell.component.
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellEffects;
 import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionState;
-import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
+import com.DavidM1A2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,11 +24,8 @@ public class SpellEffectCharm extends AOTDSpellEffect
     // NBT constants for charm duration
     private static final String NBT_CHARM_DURATION = "charm_duration";
 
-    // The default charm duration
-    private static final int DEFAULT_CHARM_DURATION = 40;
-
     // The charm duration this effect gives
-    private int charmDuration = DEFAULT_CHARM_DURATION;
+    private int charmDuration = 40;
 
     /**
      * Constructor adds the editable prop
@@ -36,35 +33,15 @@ public class SpellEffectCharm extends AOTDSpellEffect
     public SpellEffectCharm()
     {
         super();
-        this.addEditableProperty(new EditableSpellComponentProperty(
-                "Charm Duration",
-                "The number of ticks to set fire to when hitting entities.",
-                () -> Integer.toString(this.charmDuration),
-                newValue ->
-                {
-                    // Ensure the number is parsable
-                    try
-                    {
-                        // Parse the charm duration
-                        this.charmDuration = Integer.parseInt(newValue);
-                        // Ensure charm duration is valid
-                        if (this.charmDuration > 0)
-                        {
-                            return null;
-                        }
-                        else
-                        {
-                            this.charmDuration = DEFAULT_CHARM_DURATION;
-                            return "Charm duration must be larger than 0";
-                        }
-                    }
-                    // If it's not valid return an error
-                    catch (NumberFormatException e)
-                    {
-                        return newValue + " is not a valid integer!";
-                    }
-                }
-        ));
+        this.addEditableProperty(SpellComponentPropertyFactory.intProperty()
+                .withName("Charm Duration")
+                .withDescription("The number of ticks to charm to when hitting players.")
+                .withSetter(newValue -> this.charmDuration = newValue)
+                .withGetter(() -> this.charmDuration)
+                .withDefaultValue(40)
+                .withMinValue(1)
+                .withMaxValue(1200)
+                .build());
     }
 
     /**

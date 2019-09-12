@@ -2,9 +2,9 @@ package com.DavidM1A2.afraidofthedark.common.spell.component.effect;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellEffects;
 import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionState;
-import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
+import com.DavidM1A2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory;
 import net.minecraft.block.BlockAir;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
@@ -21,11 +21,8 @@ public class SpellEffectBurn extends AOTDSpellEffect
     // NBT constants for burn duration
     private static final String NBT_BURN_DURATION = "burn_duration";
 
-    // The default burn duration
-    private static final int DEFAULT_BURN_DURATION = 2;
-
     // The burn duration this effect gives
-    private int burnDuration = DEFAULT_BURN_DURATION;
+    private int burnDuration = 2;
 
     /**
      * Constructor adds the editable prop
@@ -33,35 +30,15 @@ public class SpellEffectBurn extends AOTDSpellEffect
     public SpellEffectBurn()
     {
         super();
-        this.addEditableProperty(new EditableSpellComponentProperty(
-                "Burn Duration",
-                "The number of seconds to set fire to when hitting entities.",
-                () -> Integer.toString(this.burnDuration),
-                newValue ->
-                {
-                    // Ensure the number is parsable
-                    try
-                    {
-                        // Parse the burn duration
-                        this.burnDuration = Integer.parseInt(newValue);
-                        // Ensure burn duration is valid
-                        if (this.burnDuration > 0)
-                        {
-                            return null;
-                        }
-                        else
-                        {
-                            this.burnDuration = DEFAULT_BURN_DURATION;
-                            return "Burn duration must be larger than 0";
-                        }
-                    }
-                    // If it's not valid return an error
-                    catch (NumberFormatException e)
-                    {
-                        return newValue + " is not a valid integer!";
-                    }
-                }
-        ));
+        this.addEditableProperty(SpellComponentPropertyFactory.intProperty()
+                .withName("Burn")
+                .withDescription("The number of seconds to set fire to when hitting entities.")
+                .withSetter(newValue -> this.burnDuration = newValue)
+                .withGetter(() -> this.burnDuration)
+                .withDefaultValue(2)
+                .withMinValue(1)
+                .withMaxValue(60)
+                .build());
     }
 
     /**

@@ -8,11 +8,12 @@ import com.DavidM1A2.afraidofthedark.client.gui.standardControls.*;
 import com.DavidM1A2.afraidofthedark.client.settings.ClientData;
 import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSounds;
-import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
+import com.DavidM1A2.afraidofthedark.common.spell.component.InvalidValueException;
 import com.DavidM1A2.afraidofthedark.common.spell.component.SpellComponent;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodEntry;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
 import com.DavidM1A2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSourceEntry;
+import com.DavidM1A2.afraidofthedark.common.spell.component.property.SpellComponentProperty;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -38,7 +39,7 @@ public class AOTDGuiSpellScroll extends AOTDGuiContainer
     // The offset that the scroll panel should have when the component scroll panel is visible
     private final int componentScrollPanelOffset;
     // A List of any additional text fields we currently have editing properties
-    private final List<Pair<EditableSpellComponentProperty, AOTDGuiTextField>> currentPropEditors = new ArrayList<>();
+    private final List<Pair<SpellComponentProperty, AOTDGuiTextField>> currentPropEditors = new ArrayList<>();
 
     /**
      * Constructor initializes the bounding box
@@ -204,7 +205,7 @@ public class AOTDGuiSpellScroll extends AOTDGuiContainer
             currentY = currentY + heading.getHeight();
 
             // Grab a list of editable properties
-            List<EditableSpellComponentProperty> editableProperties = spellComponent.getEditableProperties();
+            List<SpellComponentProperty> editableProperties = spellComponent.getEditableProperties();
 
             // If there are no editable properties say so with a text box
             if (editableProperties.isEmpty())
@@ -218,30 +219,30 @@ public class AOTDGuiSpellScroll extends AOTDGuiContainer
             else
             {
                 // Go over each editable property and add an editor for it
-                for (EditableSpellComponentProperty editableProp : editableProperties)
+                for (SpellComponentProperty editableProp : editableProperties)
                 {
                     // Create a label that states the name of the property
                     AOTDGuiLabel propertyName = new AOTDGuiLabel(0, currentY, 120, 15, ClientData.getInstance().getTargaMSHandFontSized(26f));
                     propertyName.setTextColor(purpleText);
-                    propertyName.setText("Name: " + editableProp.getPropertyName());
+                    propertyName.setText("Name: " + editableProp.getName());
                     editPanel.add(propertyName);
                     currentY = currentY + propertyName.getHeight();
                     // Create a text box that shows the description of the property
                     AOTDGuiTextBox propertyDescription = new AOTDGuiTextBox(0, currentY, 120, 12, ClientData.getInstance().getTargaMSHandFontSized(26f));
                     propertyDescription.setTextColor(purpleText);
-                    propertyDescription.setText("Description: " + editableProp.getPropertyDescription());
+                    propertyDescription.setText("Description: " + editableProp.getDescription());
                     // While we don't have enough room for the description increase the size by a constant
                     while (!propertyDescription.getOverflowText().isEmpty())
                     {
                         propertyDescription.setHeight(propertyDescription.getHeight() + 12);
-                        propertyDescription.setText("Description: " + editableProp.getPropertyDescription());
+                        propertyDescription.setText("Description: " + editableProp.getDescription());
                     }
                     editPanel.add(propertyDescription);
                     currentY = currentY + propertyDescription.getHeight();
                     // Create a text field that edits the property value
                     AOTDGuiTextField propertyEditor = new AOTDGuiTextField(0, currentY, 120, 30, ClientData.getInstance().getTargaMSHandFontSized(26f));
                     propertyEditor.setTextColor(purpleText);
-                    propertyEditor.setText(editableProp.getPropertyGetter().get());
+                    propertyEditor.setText(editableProp.getGetter().get());
                     editPanel.add(propertyEditor);
                     // Store the editor off for later use
                     this.currentPropEditors.add(Pair.of(editableProp, propertyEditor));
@@ -264,17 +265,20 @@ public class AOTDGuiSpellScroll extends AOTDGuiContainer
                         if (save.isVisible() && save.isHovered() && event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
                         {
                             // Go over all properties and their editors
-                            for (Pair<EditableSpellComponentProperty, AOTDGuiTextField> propEditorPair : currentPropEditors)
+                            for (Pair<SpellComponentProperty, AOTDGuiTextField> propEditorPair : currentPropEditors)
                             {
                                 // Grab the property and editor
-                                EditableSpellComponentProperty property = propEditorPair.getLeft();
+                                SpellComponentProperty property = propEditorPair.getLeft();
                                 AOTDGuiTextField editor = propEditorPair.getRight();
                                 // Attempt to set the property
-                                String result = property.getPropertySetter().setProperty(editor.getText());
-                                // If we get a non-null result it's an error, so tell the player what went wrong
-                                if (result != null)
+                                try
                                 {
-                                    entityPlayer.sendMessage(new TextComponentTranslation("aotd.spell.property_edit_fail", propEditorPair.getKey().getPropertyName(), result));
+                                    property.getSetter().accept(editor.getText());
+                                }
+                                // If we get an exception tell the player what went wrong
+                                catch (InvalidValueException e)
+                                {
+                                    entityPlayer.sendMessage(new TextComponentTranslation("aotd.spell.property_edit_fail", propEditorPair.getKey().getName(), e.getMessage()));
                                 }
                             }
                             // Clear the editor

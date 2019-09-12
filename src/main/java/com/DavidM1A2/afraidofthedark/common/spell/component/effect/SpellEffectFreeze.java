@@ -4,9 +4,9 @@ import com.DavidM1A2.afraidofthedark.common.capabilities.player.spell.component.
 import com.DavidM1A2.afraidofthedark.common.constants.ModCapabilities;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellEffects;
 import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionState;
-import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
+import com.DavidM1A2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -27,46 +27,23 @@ public class SpellEffectFreeze extends AOTDSpellEffect
     // NBT constants for freeze duration
     private static final String NBT_FREEZE_DURATION = "freeze_duration";
 
-    // The default freeze duration
-    private static final int DEFAULT_FREEZE_DURATION = 20;
-
     // The duration that the freeze lasts in ticks
-    private int freezeDuration = DEFAULT_FREEZE_DURATION;
+    private int freezeDuration = 20;
 
     /**
      * Constructor initializes properties
      */
     public SpellEffectFreeze()
     {
-        this.addEditableProperty(new EditableSpellComponentProperty(
-                "Duration",
-                "Number of ticks the freeze will last against entities",
-                () -> Integer.toString(this.freezeDuration),
-                newValue ->
-                {
-                    // Ensure the number is parsable
-                    try
-                    {
-                        // Parse the duration amount
-                        this.freezeDuration = Integer.parseInt(newValue);
-                        // Ensure duration is valid
-                        if (this.freezeDuration > 0)
-                        {
-                            return null;
-                        }
-                        else
-                        {
-                            this.freezeDuration = DEFAULT_FREEZE_DURATION;
-                            return "Freeze duration must be larger than 0";
-                        }
-                    }
-                    // If it's not valid return an error
-                    catch (NumberFormatException e)
-                    {
-                        return newValue + " is not a valid integer!";
-                    }
-                }
-        ));
+        this.addEditableProperty(SpellComponentPropertyFactory.intProperty()
+                .withName("Duration")
+                .withDescription("The number of ticks the freeze will last against entities.")
+                .withSetter(newValue -> this.freezeDuration = newValue)
+                .withGetter(() -> this.freezeDuration)
+                .withDefaultValue(20)
+                .withMinValue(1)
+                .withMaxValue(1200)
+                .build());
     }
 
     /**

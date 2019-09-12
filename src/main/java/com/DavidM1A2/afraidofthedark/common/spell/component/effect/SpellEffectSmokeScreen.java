@@ -5,9 +5,9 @@ import com.DavidM1A2.afraidofthedark.client.particle.AOTDParticleRegistry;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellEffects;
 import com.DavidM1A2.afraidofthedark.common.packets.otherPackets.SyncParticle;
 import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionState;
-import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
+import com.DavidM1A2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -36,35 +36,14 @@ public class SpellEffectSmokeScreen extends AOTDSpellEffect
     public SpellEffectSmokeScreen()
     {
         super();
-        this.addEditableProperty(new EditableSpellComponentProperty(
-                "Smoke Density",
-                "The number of particles present in the smoke screen.",
-                () -> Integer.toString(this.smokeDensity),
-                newValue ->
-                {
-                    // Ensure the number is parsable
-                    try
-                    {
-                        // Parse the smoke density
-                        this.smokeDensity = Integer.parseInt(newValue);
-                        // Ensure smoke density is valid
-                        if (this.smokeDensity > 0)
-                        {
-                            return null;
-                        }
-                        else
-                        {
-                            this.smokeDensity = DEFAULT_SMOKE_DENSITY;
-                            return "Smoke density must be larger than 0";
-                        }
-                    }
-                    // If it's not valid return an error
-                    catch (NumberFormatException e)
-                    {
-                        return newValue + " is not a valid integer!";
-                    }
-                }
-        ));
+        this.addEditableProperty(SpellComponentPropertyFactory.intProperty()
+                .withName("Smoke Density")
+                .withDescription("The number of particles present in the smoke screen.")
+                .withSetter(newValue -> this.smokeDensity = newValue)
+                .withGetter(() -> this.smokeDensity)
+                .withDefaultValue(10)
+                .withMinValue(1)
+                .build());
     }
 
     /**

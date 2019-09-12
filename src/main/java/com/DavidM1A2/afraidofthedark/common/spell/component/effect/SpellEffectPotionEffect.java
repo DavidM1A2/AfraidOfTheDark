@@ -2,9 +2,11 @@ package com.DavidM1A2.afraidofthedark.common.spell.component.effect;
 
 import com.DavidM1A2.afraidofthedark.common.constants.ModSpellEffects;
 import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionState;
-import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
+import com.DavidM1A2.afraidofthedark.common.spell.component.InvalidValueException;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry;
+import com.DavidM1A2.afraidofthedark.common.spell.component.property.SpellComponentProperty;
+import com.DavidM1A2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAreaEffectCloud;
 import net.minecraft.entity.EntityLivingBase;
@@ -14,7 +16,6 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import org.apache.commons.lang3.math.NumberUtils;
 
 /**
  * Spell effect that applies potion effects
@@ -27,17 +28,11 @@ public class SpellEffectPotionEffect extends AOTDSpellEffect
     private static final String NBT_POTION_DURATION = "potion_duration";
     private static final String NBT_POTION_RADIUS = "potion_radius";
 
-    // Field defaults
-    private static final Potion DEFAULT_POTION_TYPE = Potion.getPotionFromResourceLocation("minecraft:speed");
-    private static final int DEFAULT_POTION_STRENGTH = 0;
-    private static final int DEFAULT_POTION_DURATION = 20;
-    private static final float DEFAULT_POTION_RADIUS = 2.0f;
-
     // Spell potion fields
-    private Potion potionType = DEFAULT_POTION_TYPE;
-    private int potionStrength = DEFAULT_POTION_STRENGTH;
-    private int potionDuration = DEFAULT_POTION_DURATION;
-    private float potionRadius = DEFAULT_POTION_RADIUS;
+    private Potion potionType = Potion.getPotionFromResourceLocation("minecraft:speed");
+    private int potionStrength = 0;
+    private int potionDuration = 20;
+    private float potionRadius = 2;
 
     /**
      * Constructor adds the editable props
@@ -45,112 +40,48 @@ public class SpellEffectPotionEffect extends AOTDSpellEffect
     public SpellEffectPotionEffect()
     {
         super();
-        this.addEditableProperty(new EditableSpellComponentProperty(
+        this.addEditableProperty(new SpellComponentProperty(
                 "Potion Type",
                 "The type of potion effect to apply. Must be using the minecraft naming convention, like 'minecraft:speed'.",
-                () -> this.potionType.getRegistryName().toString(),
                 newValue ->
                 {
                     // Grab the potion associated with the text
                     Potion type = Potion.REGISTRY.getObject(new ResourceLocation(newValue));
-                    // Since type will be a default value if newValue is invalid we need to test if this is in fact a default value or not
+                    // If type is not null it's a valid potion type so we store it, otherwise throw an exception
                     if (type != null)
                     {
-                        potionType = type;
-                        return null;
+                        this.potionType = type;
                     }
                     else
                     {
-                        return "Invalid potion type " + newValue + ", it was not found in the registry.";
+                        throw new InvalidValueException("Invalid potion type " + newValue + ", it was not found in the registry.");
                     }
-                }));
-        this.addEditableProperty(new EditableSpellComponentProperty(
-                "Potion Strength",
-                "The level of the potion to apply, ex. 4 means apply 'Potion Type' at level 4",
-                () -> Integer.toString(this.potionStrength + 1),
-                newValue ->
-                {
-                    // Ensure the number is parsable
-                    try
-                    {
-                        // Parse the strength, subtract 1 to account for 0 based counting
-                        this.potionStrength = Integer.parseInt(newValue) - 1;
-                        // Ensure strength is valid
-                        if (this.potionStrength >= 0)
-                        {
-                            return null;
-                        }
-                        else
-                        {
-                            this.potionStrength = DEFAULT_POTION_STRENGTH;
-                            return "Potion strength must be at least level 1.";
-                        }
-                    }
-                    // If it's not valid return an error
-                    catch (NumberFormatException e)
-                    {
-                        return newValue + " is not a valid integer!";
-                    }
-                }
-        ));
-        this.addEditableProperty(new EditableSpellComponentProperty(
-                "Potion Duration",
-                "The number of ticks the potion effect should run for.",
-                () -> Integer.toString(this.potionDuration),
-                newValue ->
-                {
-                    // Ensure the number is parsable
-                    try
-                    {
-                        // Parse the duration
-                        this.potionDuration = Integer.parseInt(newValue);
-                        // Ensure duration is valid
-                        if (this.potionDuration > 0)
-                        {
-                            return null;
-                        }
-                        else
-                        {
-                            this.potionDuration = DEFAULT_POTION_DURATION;
-                            return "Potion duration must be at least level 1.";
-                        }
-                    }
-                    // If it's not valid return an error
-                    catch (NumberFormatException e)
-                    {
-                        return newValue + " is not a valid integer!";
-                    }
-                }
-        ));
-        this.addEditableProperty(new EditableSpellComponentProperty(
-                "Potion Cloud Radius",
-                "The size of the potion cloud if the potion is delivered to a block and not an entity.",
-                () -> Double.toString(this.potionRadius),
-                newValue ->
-                {
-                    // Ensure the number is parsable
-                    if (NumberUtils.isParsable(newValue))
-                    {
-                        // Parse the radius
-                        this.potionRadius = Float.parseFloat(newValue);
-                        // Ensure radius is valid
-                        if (this.potionRadius > 0)
-                        {
-                            return null;
-                        }
-                        else
-                        {
-                            this.potionRadius = DEFAULT_POTION_RADIUS;
-                            return "Radius must be larger than 0";
-                        }
-                    }
-                    // If it's not valid return an error
-                    else
-                    {
-                        return newValue + " is not a valid decimal number!";
-                    }
-                }
-        ));
+                },
+                () -> this.potionType.getRegistryName().toString()));
+        this.addEditableProperty(SpellComponentPropertyFactory.intProperty()
+                .withName("Potion Strength")
+                .withDescription("The level of the potion to apply, ex. 4 means apply 'Potion Type' at level 4.")
+                .withSetter(newValue -> this.potionStrength = newValue - 1)
+                .withGetter(() -> this.potionStrength + 1)
+                .withDefaultValue(1)
+                .withMinValue(1)
+                .build());
+        this.addEditableProperty(SpellComponentPropertyFactory.intProperty()
+                .withName("Potion Duration")
+                .withDescription("The number of ticks the potion effect should run for.")
+                .withSetter(newValue -> this.potionDuration = newValue)
+                .withGetter(() -> this.potionDuration)
+                .withDefaultValue(20)
+                .withMinValue(1)
+                .build());
+        this.addEditableProperty(SpellComponentPropertyFactory.floatProperty()
+                .withName("Potion Cloud Radius")
+                .withDescription("The size of the potion cloud if the potion is delivered to a block and not an entity.")
+                .withSetter(newValue -> this.potionRadius = newValue)
+                .withGetter(() -> this.potionRadius)
+                .withDefaultValue(2f)
+                .withMinValue(0f)
+                .build());
     }
 
     /**
@@ -173,6 +104,7 @@ public class SpellEffectPotionEffect extends AOTDSpellEffect
     public void procEffect(DeliveryTransitionState state)
     {
         Vec3d exactPosition = state.getPosition();
+        // If we hit an entity just apply the potion effect
         if (state.getEntity() != null)
         {
             Entity entityHit = state.getEntity();
@@ -182,6 +114,7 @@ public class SpellEffectPotionEffect extends AOTDSpellEffect
                 ((EntityLivingBase) entityHit).addPotionEffect(new PotionEffect(this.potionType, this.potionDuration, this.potionStrength));
             }
         }
+        // If we hit the ground create an AOE potion effect cloud
         else
         {
             World world = state.getWorld();

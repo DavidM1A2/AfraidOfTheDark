@@ -4,10 +4,12 @@ import com.DavidM1A2.afraidofthedark.common.constants.ModSpellDeliveryMethods;
 import com.DavidM1A2.afraidofthedark.common.spell.Spell;
 import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionState;
 import com.DavidM1A2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder;
-import com.DavidM1A2.afraidofthedark.common.spell.component.EditableSpellComponentProperty;
+import com.DavidM1A2.afraidofthedark.common.spell.component.InvalidValueException;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.AOTDSpellDeliveryMethod;
 import com.DavidM1A2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodEntry;
 import com.DavidM1A2.afraidofthedark.common.spell.component.effect.base.SpellEffect;
+import com.DavidM1A2.afraidofthedark.common.spell.component.property.SpellComponentProperty;
+import com.DavidM1A2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory;
 import com.google.common.collect.Lists;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,7 +17,6 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import org.apache.commons.lang3.math.NumberUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,11 +31,8 @@ public class SpellDeliveryMethodAOE extends AOTDSpellDeliveryMethod
     private static final String NBT_RADIUS = "radius";
     private static final String NBT_TARGET_TYPE = "target_type";
 
-    // Default property values
-    private static final double DEFAULT_RADIUS = 3.0;
-
     // The radius of the projectile
-    private double radius = DEFAULT_RADIUS;
+    private double radius = 3;
     // If the AOE should target entities (true) or blocks (false)
     private boolean targetEntities = false;
 
@@ -44,38 +42,18 @@ public class SpellDeliveryMethodAOE extends AOTDSpellDeliveryMethod
     public SpellDeliveryMethodAOE()
     {
         super();
-        this.addEditableProperty(new EditableSpellComponentProperty(
-                "Radius",
-                "The radius of the AOE in blocks",
-                () -> Double.toString(this.radius),
-                newValue ->
-                {
-                    // Ensure the number is parsable
-                    if (NumberUtils.isParsable(newValue))
-                    {
-                        // Parse the radius
-                        this.radius = Double.parseDouble(newValue);
-                        // Ensure radius is valid
-                        if (this.radius >= 1.0)
-                        {
-                            return null;
-                        }
-                        else
-                        {
-                            this.radius = DEFAULT_RADIUS;
-                            return "Radius must be larger than or equal to 1";
-                        }
-                    }
-                    // If it's not valid return an error
-                    else
-                    {
-                        return newValue + " is not a valid decimal number!";
-                    }
-                }));
-        this.addEditableProperty(new EditableSpellComponentProperty(
+        this.addEditableProperty(SpellComponentPropertyFactory.doubleProperty()
+                .withName("Radius")
+                .withDescription("The area of effect radius in blocks.")
+                .withSetter(newValue -> this.radius = newValue)
+                .withGetter(() -> this.radius)
+                .withDefaultValue(3D)
+                .withMinValue(1D)
+                .withMaxValue(150D)
+                .build());
+        this.addEditableProperty(new SpellComponentProperty(
                 "Target Type",
                 "Should be either 'entity' or 'block'. If the target type is 'block' all nearby blocks will be affected, if it is 'entity' all nearby entities will be affected.",
-                () -> this.targetEntities ? "entity" : "block",
                 newValue ->
                 {
                     // Check the two valid options first
@@ -89,10 +67,10 @@ public class SpellDeliveryMethodAOE extends AOTDSpellDeliveryMethod
                     }
                     else
                     {
-                        return "Invalid value " + newValue + ", should be 'entity' or 'block'";
+                        throw new InvalidValueException("Invalid value " + newValue + ", should be 'entity' or 'block'");
                     }
-                    return null;
-                }));
+                },
+                () -> this.targetEntities ? "entity" : "block"));
     }
 
     /**
