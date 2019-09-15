@@ -41,7 +41,7 @@ class DoubleSpellComponentProperty extends SpellComponentProperty
                         if (maxValue != null && doubleValue > maxValue)
                         {
                             setter.accept(defaultValue);
-                            throw new InvalidValueException(name + " must be smaller than than or equal to " + minValue);
+                            throw new InvalidValueException(name + " must be smaller than than or equal to " + maxValue);
                         }
                         setter.accept(doubleValue);
                     }

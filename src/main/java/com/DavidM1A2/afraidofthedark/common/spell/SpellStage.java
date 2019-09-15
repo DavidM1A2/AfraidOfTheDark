@@ -37,7 +37,7 @@ public class SpellStage implements INBTSerializable<NBTTagCompound>
      *
      * @param spellStageNBT The NBT containing the spell stage's information
      */
-    public SpellStage(NBTTagCompound spellStageNBT)
+    SpellStage(NBTTagCompound spellStageNBT)
     {
         this.deserializeNBT(spellStageNBT);
     }
@@ -55,12 +55,12 @@ public class SpellStage implements INBTSerializable<NBTTagCompound>
             // Grab the cost of the delivery method
             double cost = this.deliveryMethod.getCost();
             // Go over every effect and add its cost
-            for (int i = 0; i < this.effects.length; i++)
+            for (SpellEffect effect : this.effects)
             {
-                if (this.effects[i] != null)
+                if (effect != null)
                 {
                     // Multiply each effect's cost by the delivery method multiplier
-                    cost = cost + this.deliveryMethod.getStageCostMultiplier() * this.effects[i].getCost();
+                    cost = cost + this.deliveryMethod.getStageCostMultiplier() * effect.getCost();
                 }
             }
             return cost;
