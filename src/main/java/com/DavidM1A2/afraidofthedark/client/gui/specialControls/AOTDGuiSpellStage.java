@@ -1,8 +1,8 @@
 package com.DavidM1A2.afraidofthedark.client.gui.specialControls;
 
 import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiContainer;
-import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
+import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiButton;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiImage;
 import com.DavidM1A2.afraidofthedark.common.constants.ModSounds;
@@ -63,13 +63,12 @@ public class AOTDGuiSpellStage extends AOTDGuiContainer
         // Create two buttons, one to add a new row and one to remove the current row
         this.addNewRow = new AOTDGuiButton(0, height - 15, 15, 15, null, "afraidofthedark:textures/gui/spell_editor/add.png", "afraidofthedark:textures/gui/spell_editor/add_hovered.png");
         this.addNewRow.setHoverText("Add new spell stage");
-        this.addNewRow.addMouseListener(new AOTDMouseListener()
+        this.addNewRow.addMouseListener(event ->
         {
-            @Override
-            public void mousePressed(AOTDMouseEvent event)
+            if (event.getEventType() == AOTDMouseEvent.EventType.Press)
             {
                 // If we press the button and it's visible/hovered run the callback
-                if (addNewRow.isHovered() && addNewRow.isVisible() && event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
+                if (addNewRow.isHovered() && addNewRow.isVisible() && event.getClickedButton() == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                 {
                     if (addRunnable != null)
                     {
@@ -77,9 +76,10 @@ public class AOTDGuiSpellStage extends AOTDGuiContainer
                     }
                 }
             }
-
-            @Override
-            public void mouseEntered(AOTDMouseEvent event)
+        });
+        this.addNewRow.addMouseMoveListener(event ->
+        {
+            if (event.getEventType() == AOTDMouseMoveEvent.EventType.Enter)
             {
                 // If the button is hovered and visible play the button hover sound
                 if (addNewRow.isHovered() && addNewRow.isVisible())
@@ -91,13 +91,12 @@ public class AOTDGuiSpellStage extends AOTDGuiContainer
         this.add(addNewRow);
         this.removeRow = new AOTDGuiButton(15, height - 15, 15, 15, null, "afraidofthedark:textures/gui/spell_editor/delete.png", "afraidofthedark:textures/gui/spell_editor/delete_hovered.png");
         this.removeRow.setHoverText("Remove spell stage");
-        this.removeRow.addMouseListener(new AOTDMouseListener()
+        this.removeRow.addMouseListener(event ->
         {
-            @Override
-            public void mousePressed(AOTDMouseEvent event)
+            if (event.getEventType() == AOTDMouseEvent.EventType.Press)
             {
                 // If we press the button and it's visible/hovered run the callback
-                if (removeRow.isHovered() && removeRow.isVisible() && event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
+                if (removeRow.isHovered() && removeRow.isVisible() && event.getClickedButton() == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                 {
                     if (removeRunnable != null)
                     {
@@ -105,9 +104,10 @@ public class AOTDGuiSpellStage extends AOTDGuiContainer
                     }
                 }
             }
-
-            @Override
-            public void mouseEntered(AOTDMouseEvent event)
+        });
+        this.removeRow.addMouseMoveListener(event ->
+        {
+            if (event.getEventType() == AOTDMouseMoveEvent.EventType.Enter)
             {
                 // If the button is hovered and visible play the button hover sound
                 if (removeRow.isHovered() && removeRow.isVisible())

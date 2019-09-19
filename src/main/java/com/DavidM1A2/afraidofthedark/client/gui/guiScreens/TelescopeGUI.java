@@ -2,7 +2,7 @@ package com.DavidM1A2.afraidofthedark.client.gui.guiScreens;
 
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiClickAndDragable;
-import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDMouseListener;
+import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.IAOTDMouseListener;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.specialControls.AOTDGuiMeteorButton;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiImage;
@@ -57,13 +57,12 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
         telescopeImage.setV(this.guiOffsetY + (telescopeImage.getMaxTextureHeight() - telescopeImage.getHeight()) / 2);
 
         // Click listener that gets called when we click a meteor button
-        AOTDMouseListener meteorClickListener = new AOTDMouseListener()
+        IAOTDMouseListener meteorClickListener = event ->
         {
-            @Override
-            public void mouseClicked(AOTDMouseEvent event)
+            if (event.getEventType() == AOTDMouseEvent.EventType.Click)
             {
                 // Make sure the button clicked was in fact hovered and the click was LMB
-                if (event.getSource().isHovered() && event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
+                if (event.getSource().isHovered() && event.getClickedButton() == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                 {
                     // Ensure that the button is visible and not just outside of the visual clip
                     if (telescopeMeteorClip.intersects(event.getSource()))

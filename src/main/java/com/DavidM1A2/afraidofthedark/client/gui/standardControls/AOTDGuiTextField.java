@@ -4,7 +4,6 @@ import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiUtility;
 import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiContainer;
 import com.DavidM1A2.afraidofthedark.client.gui.base.TextAlignment;
 import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDKeyListener;
-import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDKeyEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont;
@@ -71,13 +70,12 @@ public class AOTDGuiTextField extends AOTDGuiContainer
         this.add(this.background);
 
         // Set the control to focused once it's selected
-        this.addMouseListener(new AOTDMouseListener()
+        this.addMouseListener(event ->
         {
-            @Override
-            public void mouseClicked(AOTDMouseEvent event)
+            if (event.getEventType() == AOTDMouseEvent.EventType.Click)
             {
                 // Make sure it was a left click
-                if (event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
+                if (event.getClickedButton() == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                 {
                     // Test if we're hovered or not, if so set it to focused, otherwise set it to not focused
                     AOTDGuiTextField current = AOTDGuiTextField.this;

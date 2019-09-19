@@ -2,9 +2,9 @@ package com.DavidM1A2.afraidofthedark.client.gui.guiScreens;
 
 import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiScreen;
 import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDKeyListener;
-import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDKeyEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
+import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.specialControls.AOTDGuiSpell;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.*;
 import com.DavidM1A2.afraidofthedark.client.keybindings.KeybindingUtils;
@@ -109,13 +109,12 @@ public class SpellListGUI extends AOTDGuiScreen
         // Add a button to create a new spell, center it under the scrollPanel spell entries
         btnCreateSpell = new AOTDGuiButton(scrollPanel.getWidth() / 2 - 13, 0, 26, 26, null, "afraidofthedark:textures/gui/spell_list/create_spell.png", "afraidofthedark:textures/gui/spell_list/create_spell_hovered.png");
         btnCreateSpell.setHoverText("Create a new spell");
-        btnCreateSpell.addMouseListener(new AOTDMouseListener()
+        btnCreateSpell.addMouseListener(event ->
         {
-            @Override
-            public void mousePressed(AOTDMouseEvent event)
+            if (event.getEventType() == AOTDMouseEvent.EventType.Press)
             {
                 // When we click the button create a new spell
-                if (event.getSource().isVisible() && event.getSource().isHovered() && event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
+                if (event.getSource().isVisible() && event.getSource().isHovered() && event.getClickedButton() == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                 {
                     // Create a new spell
                     Spell spell = new Spell(entityPlayer);
@@ -125,9 +124,10 @@ public class SpellListGUI extends AOTDGuiScreen
                     addSpell(spell);
                 }
             }
-
-            @Override
-            public void mouseEntered(AOTDMouseEvent event)
+        });
+        btnCreateSpell.addMouseMoveListener(event ->
+        {
+            if (event.getEventType() == AOTDMouseMoveEvent.EventType.Enter)
             {
                 // Play the button hover when hovering the add button
                 entityPlayer.playSound(ModSounds.SPELL_CRAFTING_BUTTON_HOVER, 0.6f, 1.7f);

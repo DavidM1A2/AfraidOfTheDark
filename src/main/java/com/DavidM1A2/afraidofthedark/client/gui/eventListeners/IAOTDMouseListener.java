@@ -8,37 +8,9 @@ import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
 public interface IAOTDMouseListener extends IAOTDEventListener
 {
     /**
-     * Called when a mouse button is pressed and released
+     * Called when a mouse button event is fired
      *
-     * @param event The event containing information about the mouse click
+     * @param event The event containing information about the mouse event
      */
-    void mouseClicked(AOTDMouseEvent event);
-
-    /**
-     * Called when a mouse button is pressed
-     *
-     * @param event The event containing information about the mouse press
-     */
-    void mousePressed(AOTDMouseEvent event);
-
-    /**
-     * Called when a mouse button is released
-     *
-     * @param event The event containing information about the mouse release
-     */
-    void mouseReleased(AOTDMouseEvent event);
-
-    /**
-     * Called when the mouse is moved into the bounding box of a control
-     *
-     * @param event The event containing information about the mouse entering event
-     */
-    void mouseEntered(AOTDMouseEvent event);
-
-    /**
-     * Called when the mouse is moved out of the bounding box of a control
-     *
-     * @param event The event containing information about the mouse exiting event
-     */
-    void mouseExited(AOTDMouseEvent event);
+    void fire(AOTDMouseEvent event);
 }

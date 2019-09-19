@@ -1,8 +1,12 @@
 package com.DavidM1A2.afraidofthedark.client.gui.base;
 
-import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.*;
+import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDEventMulticaster;
+import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.IAOTDKeyListener;
+import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.IAOTDMouseListener;
+import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.IAOTDMouseMoveListener;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDKeyEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
+import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent;
 import org.lwjgl.util.Point;
 
 /**
@@ -29,10 +33,10 @@ public abstract class AOTDGuiComponentWithEvents extends AOTDGuiComponent
     {
         super(x, y, width, height);
         // Add a mouse move listener to this control that allows us to fire off events whenever conditions are met
-        this.addMouseMoveListener(new AOTDMouseMoveListener()
+        this.addMouseMoveListener(event ->
         {
-            @Override
-            public void mouseMoved(AOTDMouseEvent event)
+            // If we move the mouse also fire other related events
+            if (event.getEventType() == AOTDMouseMoveEvent.EventType.Move)
             {
                 // Grab the source of the event
                 AOTDGuiComponentWithEvents component = event.getSource();
@@ -43,11 +47,11 @@ public abstract class AOTDGuiComponentWithEvents extends AOTDGuiComponent
                 // Fire mouse enter/exit events if our mouse entered or exited the control
                 if (component.isHovered() && !wasHovered)
                 {
-                    component.processMouseInput(new AOTDMouseEvent(component, event.getMouseX(), event.getMouseY(), AOTDMouseEvent.MouseButtonClicked.Other, AOTDMouseEvent.MouseEventType.Enter));
+                    component.processMouseMoveInput(new AOTDMouseMoveEvent(component, event.getMouseX(), event.getMouseY(), AOTDMouseMoveEvent.EventType.Enter));
                 }
                 if (!component.isHovered() && wasHovered)
                 {
-                    component.processMouseInput(new AOTDMouseEvent(component, event.getMouseX(), event.getMouseY(), AOTDMouseEvent.MouseButtonClicked.Other, AOTDMouseEvent.MouseEventType.Exit));
+                    component.processMouseMoveInput(new AOTDMouseMoveEvent(component, event.getMouseX(), event.getMouseY(), AOTDMouseMoveEvent.EventType.Exit));
                 }
             }
         });
@@ -65,53 +69,45 @@ public abstract class AOTDGuiComponentWithEvents extends AOTDGuiComponent
         {
             return;
         }
-        // If the event is an enter or exit event, consume the event. This is because an enter and exit event can only happen to a single control at a time
-        if (event.getEventType() == AOTDMouseEvent.MouseEventType.Enter || event.getEventType() == AOTDMouseEvent.MouseEventType.Exit)
-        {
-            event.consume();
-        }
+
         // We set the source to be this component, because we are processing it
         event.setSource(this);
-        // If we have a mouse move listener, and the event is a move or drag, fire off our mouse move listener
-        if (mouseMoveListener != null && (event.getEventType() == AOTDMouseEvent.MouseEventType.Move || event.getEventType() == AOTDMouseEvent.MouseEventType.Drag))
-        // Get the event type and process accordingly
-        {
-            switch (event.getEventType())
-            {
-                case Move:
-                    mouseMoveListener.mouseMoved(event);
-                    break;
-                case Drag:
-                    mouseMoveListener.mouseDragged(event);
-                    break;
-                default:
-                    return;
-            }
-        }
+
         // If we have a mouse listener, process a mouse event
         if (mouseListener != null)
         // Get the event type and process accordingly
         {
-            switch (event.getEventType())
-            {
-                case Click:
-                    mouseListener.mouseClicked(event);
-                    break;
-                case Enter:
-                    mouseListener.mouseEntered(event);
-                    break;
-                case Exit:
-                    mouseListener.mouseExited(event);
-                    break;
-                case Press:
-                    mouseListener.mousePressed(event);
-                    break;
-                case Release:
-                    mouseListener.mouseReleased(event);
-                    break;
-                default:
-                    break;
-            }
+            mouseListener.fire(event);
+        }
+    }
+
+    /**
+     * Called to process a mouse move input event
+     *
+     * @param event The event to process
+     */
+    public void processMouseMoveInput(AOTDMouseMoveEvent event)
+    {
+        // If the event is consumed, don't do anything
+        if (event.isConsumed())
+        {
+            return;
+        }
+
+        // If the event is an enter or exit event, consume the event. This is because an enter and exit event can only happen to a single control at a time
+        if (event.getEventType() == AOTDMouseMoveEvent.EventType.Enter || event.getEventType() == AOTDMouseMoveEvent.EventType.Exit)
+        {
+            event.consume();
+        }
+
+        // We set the source to be this component, because we are processing it
+        event.setSource(this);
+
+        // If we have a mouse move listener, and the event is a move or drag, fire off our mouse move listener
+        if (mouseMoveListener != null)
+        // Get the event type and process accordingly
+        {
+            mouseMoveListener.fire(event);
         }
     }
 
@@ -122,6 +118,12 @@ public abstract class AOTDGuiComponentWithEvents extends AOTDGuiComponent
      */
     public void processKeyInput(AOTDKeyEvent event)
     {
+        // If the event is consumed, don't do anything
+        if (event.isConsumed())
+        {
+            return;
+        }
+
         // We set the source to be this component, because we are processing it
         event.setSource(this);
         // If we have a key listener, process a key event

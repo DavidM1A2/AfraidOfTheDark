@@ -1,15 +1,16 @@
 buildscript {
+    ext.kotlin_version = '1.3.41'
     repositories {
         jcenter()
         maven { url = "https://files.minecraftforge.net/maven" }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
-//Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
-
+apply plugin: 'kotlin'
 
 version = "1.12.2-1.1.0"
 group = "com.DavidM1A2.afraidofthedark" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -18,6 +19,11 @@ archivesBaseName = "afraidofthedark"
 sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 compileJava {
     sourceCompatibility = targetCompatibility = '1.8'
+}
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = targetCompatibility
+    }
 }
 
 minecraft {
@@ -34,6 +40,7 @@ minecraft {
 }
 
 dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
     //compile "some.group:artifact:version:classifier"
@@ -74,4 +81,8 @@ processResources {
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
+}
+
+repositories {
+    mavenCentral()
 }

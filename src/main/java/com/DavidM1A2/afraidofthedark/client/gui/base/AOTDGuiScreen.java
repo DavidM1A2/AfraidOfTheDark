@@ -3,6 +3,7 @@ package com.DavidM1A2.afraidofthedark.client.gui.base;
 import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiUtility;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDKeyEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
+import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiPanel;
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import net.minecraft.client.Minecraft;
@@ -178,30 +179,26 @@ public abstract class AOTDGuiScreen extends GuiScreen
     {
         // Ensure to call super so default MC functions are called
         super.handleMouseInput();
+        /*
+        System.out.println("DEventWheel: " + Mouse.getEventDWheel());
+        System.out.println("DWheel:      " + Mouse.getDWheel());
+         */
         // Figure out what mouse button was pressed
-        switch (Mouse.getEventButton())
+        int mouseButton = Mouse.getEventButton();
+        if (mouseButton != -1)
         {
-            // Left mouse was clicked
-            case 0:
-                this.processMouseClick(AOTDMouseEvent.MouseButtonClicked.Left);
-                break;
-            // Right mouse was clicked
-            case 1:
-                this.processMouseClick(AOTDMouseEvent.MouseButtonClicked.Right);
-                break;
-            // A drag event happened
-            case -1:
-                // Grab the X and Y coordinates of the mouse
-                Integer mouseX = AOTDGuiUtility.getInstance().getMouseXInMCCoord();
-                Integer mouseY = AOTDGuiUtility.getInstance().getMouseYInMCCoord();
-                // Fire the content pane's move listener
-                contentPane.processMouseInput(new AOTDMouseEvent(contentPane, mouseX, mouseY, AOTDMouseEvent.MouseButtonClicked.Other, AOTDMouseEvent.MouseEventType.Move));
-                // If the left mouse button is down fire the content pane's drag listener
-                if (leftMouseButtonDown)
-                {
-                    contentPane.processMouseInput(new AOTDMouseEvent(contentPane, mouseX, mouseY, AOTDMouseEvent.MouseButtonClicked.Other, AOTDMouseEvent.MouseEventType.Drag));
-                }
-                break;
+            this.processMouseClick(mouseButton);
+        }
+        else
+        {
+            this.processMouseMove();
+        }
+
+        int mouseWheelDistance = Mouse.getDWheel();
+        // - distance means we scrolled backwards, + distance means we scrolled forwards
+        if (mouseWheelDistance != 0)
+        {
+            this.processMouseScroll(mouseWheelDistance);
         }
     }
 
@@ -210,7 +207,7 @@ public abstract class AOTDGuiScreen extends GuiScreen
      *
      * @param clickedButton The button that was clicked
      */
-    private void processMouseClick(AOTDMouseEvent.MouseButtonClicked clickedButton)
+    private void processMouseClick(int clickedButton)
     {
         // The X position of the mouse
         Integer mouseX = AOTDGuiUtility.getInstance().getMouseXInMCCoord();
@@ -222,19 +219,46 @@ public abstract class AOTDGuiScreen extends GuiScreen
         {
             leftMouseButtonDown = true;
             // Fire the mouse clicked event
-            contentPane.processMouseInput(new AOTDMouseEvent(contentPane, mouseX, mouseY, clickedButton, AOTDMouseEvent.MouseEventType.Click));
+            contentPane.processMouseInput(new AOTDMouseEvent(contentPane, mouseX, mouseY, clickedButton, AOTDMouseEvent.EventType.Click));
         }
         // If it's not pressed fire the mouse released event and press event
         else
         {
             // Fire the release event for sure
-            contentPane.processMouseInput(new AOTDMouseEvent(contentPane, mouseX, mouseY, clickedButton, AOTDMouseEvent.MouseEventType.Release));
+            contentPane.processMouseInput(new AOTDMouseEvent(contentPane, mouseX, mouseY, clickedButton, AOTDMouseEvent.EventType.Release));
             // If the left mouse button was down fire the press event
             if (leftMouseButtonDown)
             {
                 leftMouseButtonDown = false;
-                contentPane.processMouseInput(new AOTDMouseEvent(contentPane, mouseX, mouseY, clickedButton, AOTDMouseEvent.MouseEventType.Press));
+                contentPane.processMouseInput(new AOTDMouseEvent(contentPane, mouseX, mouseY, clickedButton, AOTDMouseEvent.EventType.Press));
             }
         }
+    }
+
+    /**
+     * Called to process any mouse move events
+     */
+    private void processMouseMove()
+    {
+        // Grab the X and Y coordinates of the mouse
+        Integer mouseX = AOTDGuiUtility.getInstance().getMouseXInMCCoord();
+        Integer mouseY = AOTDGuiUtility.getInstance().getMouseYInMCCoord();
+        // Fire the content pane's move listener
+        contentPane.processMouseMoveInput(new AOTDMouseMoveEvent(contentPane, mouseX, mouseY, AOTDMouseMoveEvent.EventType.Move));
+        // If the left mouse button is down fire the content pane's drag listener
+        if (leftMouseButtonDown)
+        {
+            contentPane.processMouseMoveInput(new AOTDMouseMoveEvent(contentPane, mouseX, mouseY, AOTDMouseMoveEvent.EventType.Drag));
+        }
+    }
+
+    /**
+     * Processes the mouse scroll distance
+     *
+     * @param distance A non-zero value of the amount we scrolled
+     */
+    private void processMouseScroll(int distance)
+    {
+
     }
 }

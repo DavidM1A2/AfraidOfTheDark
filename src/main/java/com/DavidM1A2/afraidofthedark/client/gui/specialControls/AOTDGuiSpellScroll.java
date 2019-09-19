@@ -2,8 +2,9 @@ package com.DavidM1A2.afraidofthedark.client.gui.specialControls;
 
 import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiContainer;
 import com.DavidM1A2.afraidofthedark.client.gui.base.TextAlignment;
-import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDMouseListener;
+import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.IAOTDMouseListener;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
+import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.*;
 import com.DavidM1A2.afraidofthedark.client.settings.ClientData;
 import com.DavidM1A2.afraidofthedark.common.constants.ModRegistries;
@@ -84,13 +85,12 @@ public class AOTDGuiSpellScroll extends AOTDGuiContainer
         currentComponent = currentComponent + COMPONENTS_PER_LINE;
 
         // Listener to be used by all of our spell components
-        AOTDMouseListener componentClickListener = new AOTDMouseListener()
+        IAOTDMouseListener componentClickListener = event ->
         {
-            @Override
-            public void mousePressed(AOTDMouseEvent event)
+            if (event.getEventType() == AOTDMouseEvent.EventType.Press)
             {
                 // If the component is hovered fire the listener
-                if (event.getSource().isHovered() && event.getSource().isVisible() && event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
+                if (event.getSource().isHovered() && event.getSource().isVisible() && event.getClickedButton() == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                 {
                     if (componentClickCallback != null)
                     {
@@ -257,12 +257,11 @@ public class AOTDGuiSpellScroll extends AOTDGuiContainer
                 AOTDGuiButton save = new AOTDGuiButton(0, currentY + 5, 50, 20, ClientData.getInstance().getTargaMSHandFontSized(32f), "afraidofthedark:textures/gui/spell_editor/button.png", "afraidofthedark:textures/gui/spell_editor/button_hovered.png");
                 save.setTextAlignment(TextAlignment.ALIGN_CENTER);
                 save.setText("Save");
-                save.addMouseListener(new AOTDMouseListener()
+                save.addMouseListener(event ->
                 {
-                    @Override
-                    public void mousePressed(AOTDMouseEvent event)
+                    if (event.getEventType() == AOTDMouseEvent.EventType.Press)
                     {
-                        if (save.isVisible() && save.isHovered() && event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
+                        if (save.isVisible() && save.isHovered() && event.getClickedButton() == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                         {
                             // Go over all properties and their editors
                             for (Pair<SpellComponentProperty, AOTDGuiTextField> propEditorPair : currentPropEditors)
@@ -285,9 +284,11 @@ public class AOTDGuiSpellScroll extends AOTDGuiContainer
                             setEditing(null);
                         }
                     }
-
-                    @Override
-                    public void mouseEntered(AOTDMouseEvent event)
+                });
+                // When we hover the button play the hover sound
+                save.addMouseMoveListener(event ->
+                {
+                    if (event.getEventType() == AOTDMouseMoveEvent.EventType.Enter)
                     {
                         if (save.isVisible())
                         {
@@ -303,20 +304,21 @@ public class AOTDGuiSpellScroll extends AOTDGuiContainer
             AOTDGuiButton cancel = new AOTDGuiButton(cancelX, currentY + 5, 50, 20, ClientData.getInstance().getTargaMSHandFontSized(32f), "afraidofthedark:textures/gui/spell_editor/button.png", "afraidofthedark:textures/gui/spell_editor/button_hovered.png");
             cancel.setTextAlignment(TextAlignment.ALIGN_CENTER);
             cancel.setText(editableProperties.isEmpty() ? "Close" : "Cancel");
-            cancel.addMouseListener(new AOTDMouseListener()
+            cancel.addMouseListener(event ->
             {
-                @Override
-                public void mousePressed(AOTDMouseEvent event)
+                if (event.getEventType() == AOTDMouseEvent.EventType.Press)
                 {
-                    if (cancel.isVisible() && cancel.isHovered() && event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
+                    if (cancel.isVisible() && cancel.isHovered() && event.getClickedButton() == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                     {
                         // Clear the currently edited spell
                         setEditing(null);
                     }
                 }
-
-                @Override
-                public void mouseEntered(AOTDMouseEvent event)
+            });
+            // When we hover the button play the hover sound
+            cancel.addMouseMoveListener(event ->
+            {
+                if (event.getEventType() == AOTDMouseMoveEvent.EventType.Enter)
                 {
                     if (cancel.isVisible())
                     {

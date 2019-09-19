@@ -4,8 +4,8 @@ import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiHandler;
 import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiScreen;
 import com.DavidM1A2.afraidofthedark.client.gui.base.TextAlignment;
-import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
+import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.*;
 import com.DavidM1A2.afraidofthedark.client.settings.ClientData;
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
@@ -133,26 +133,26 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
         bookmarkButton.setVisible(false);
         // Set the color to a see-through white
         bookmarkButton.setColor(new Color(255, 255, 255, 50));
-        // When clicked exit the UI, when hovered show the texture
-        bookmarkButton.addMouseListener(new AOTDMouseListener()
+        // When we click the bookmark return to the journal research ui
+        bookmarkButton.addMouseListener(event ->
         {
-            @Override
-            public void mouseClicked(AOTDMouseEvent event)
+            if (event.getEventType() == AOTDMouseEvent.EventType.Click)
             {
-                if (event.getSource().isHovered() && event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
+                if (event.getSource().isHovered() && event.getClickedButton() == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                 {
                     entityPlayer.openGui(AfraidOfTheDark.INSTANCE, AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID, entityPlayer.world, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ());
                 }
             }
+        });
 
-            @Override
-            public void mouseEntered(AOTDMouseEvent event)
+        // When we hover the bookmark button show/hide it
+        bookmarkButton.addMouseMoveListener(event ->
+        {
+            if (event.getEventType() == AOTDMouseMoveEvent.EventType.Enter)
             {
                 event.getSource().setVisible(true);
             }
-
-            @Override
-            public void mouseExited(AOTDMouseEvent event)
+            else if (event.getEventType() == AOTDMouseMoveEvent.EventType.Exit)
             {
                 event.getSource().setVisible(false);
             }
@@ -173,24 +173,22 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
         this.forwardButton = new AOTDGuiButton(journalWidth - 23, journalHeight - 40, 16, 16, null, "afraidofthedark:textures/gui/journal_page/forward_button.png", "afraidofthedark:textures/gui/journal_page/forward_button_hovered.png");
         this.backwardButton = new AOTDGuiButton(10, journalHeight - 40, 16, 16, null, "afraidofthedark:textures/gui/journal_page/backward_button.png", "afraidofthedark:textures/gui/journal_page/backward_button_hovered.png");
         // Upon clicking forward then advance the page, if we hover the button darken the color, if we don't hover the button brighten the color
-        this.forwardButton.addMouseListener(new AOTDMouseListener()
+        this.forwardButton.addMouseListener(event ->
         {
-            @Override
-            public void mouseClicked(AOTDMouseEvent event)
+            if (event.getEventType() == AOTDMouseEvent.EventType.Click)
             {
-                if (event.getSource().isHovered() && event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
+                if (event.getSource().isHovered() && event.getClickedButton() == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                 {
                     BloodStainedJournalPageGUI.this.advancePage();
                 }
             }
         });
         // Upon clicking backward then rewind the page, if we hover the button darken the color, if we don't hover the button brighten the color
-        this.backwardButton.addMouseListener(new AOTDMouseListener()
+        this.backwardButton.addMouseListener(event ->
         {
-            @Override
-            public void mouseClicked(AOTDMouseEvent event)
+            if (event.getEventType() == AOTDMouseEvent.EventType.Click)
             {
-                if (event.getSource().isHovered() && event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
+                if (event.getSource().isHovered() && event.getClickedButton() == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                 {
                     BloodStainedJournalPageGUI.this.rewindPage();
                 }

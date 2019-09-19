@@ -2,6 +2,7 @@ package com.DavidM1A2.afraidofthedark.client.gui.eventListeners;
 
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDKeyEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
+import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent;
 
 /**
  * Class used to add multiple event listeners to a given control. This design pattern is copied from Java's Swing EventMulticaster
@@ -84,87 +85,27 @@ public class AOTDEventMulticaster implements IAOTDKeyListener, IAOTDMouseListene
     }
 
     /**
-     * Called when a mouse is dragged, fires both listeners
+     * Called when a mouse button event is fired
      *
-     * @param event The event containing information about the mouse drag
+     * @param event The event containing information about the mouse event
      */
     @Override
-    public void mouseDragged(AOTDMouseEvent event)
+    public void fire(AOTDMouseEvent event)
     {
-        ((IAOTDMouseMoveListener) listener1).mouseDragged(event);
-        ((IAOTDMouseMoveListener) listener2).mouseDragged(event);
+        ((IAOTDMouseListener) listener1).fire(event);
+        ((IAOTDMouseListener) listener2).fire(event);
     }
 
     /**
-     * Called when a mouse is moved, fires both listeners
+     * Called when a mouse move event is fired
      *
-     * @param event The event containing information about the mouse move
+     * @param event The event containing information about the mouse move event
      */
     @Override
-    public void mouseMoved(AOTDMouseEvent event)
+    public void fire(AOTDMouseMoveEvent event)
     {
-        ((IAOTDMouseMoveListener) listener1).mouseMoved(event);
-        ((IAOTDMouseMoveListener) listener2).mouseMoved(event);
-    }
-
-    /**
-     * Called when a mouse button is pressed and released, fires both listeners
-     *
-     * @param event The event containing information about the mouse click
-     */
-    @Override
-    public void mouseClicked(AOTDMouseEvent event)
-    {
-        ((IAOTDMouseListener) listener1).mouseClicked(event);
-        ((IAOTDMouseListener) listener2).mouseClicked(event);
-    }
-
-    /**
-     * Called when a mouse button is pressed, fires both listeners
-     *
-     * @param event The event containing information about the mouse press
-     */
-    @Override
-    public void mousePressed(AOTDMouseEvent event)
-    {
-        ((IAOTDMouseListener) listener1).mousePressed(event);
-        ((IAOTDMouseListener) listener2).mousePressed(event);
-    }
-
-    /**
-     * Called when a mouse button is released, fires both listeners
-     *
-     * @param event The event containing information about the mouse release
-     */
-    @Override
-    public void mouseReleased(AOTDMouseEvent event)
-    {
-        ((IAOTDMouseListener) listener1).mouseReleased(event);
-        ((IAOTDMouseListener) listener2).mouseReleased(event);
-    }
-
-    /**
-     * Called when the mouse is moved into the bounding box of a control, fires both listeners
-     *
-     * @param event The event containing information about the mouse entering event
-     */
-    @Override
-    public void mouseEntered(AOTDMouseEvent event)
-    {
-        ((IAOTDMouseListener) listener1).mouseEntered(event);
-        ((IAOTDMouseListener) listener2).mouseEntered(event);
-    }
-
-    /**
-     * Called when the mouse is moved out of the bounding box of a control, fires both listeners
-     *
-     * @param event The event containing information about the mouse exiting event
-     */
-    @Override
-    public void mouseExited(AOTDMouseEvent event)
-    {
-        ((IAOTDMouseListener) listener1).mouseExited(event);
-        ((IAOTDMouseListener) listener2).mouseExited(event);
+        ((IAOTDMouseMoveListener) listener1).fire(event);
+        ((IAOTDMouseMoveListener) listener2).fire(event);
     }
 
     /**

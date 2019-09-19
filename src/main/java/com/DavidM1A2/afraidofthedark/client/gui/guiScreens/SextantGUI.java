@@ -3,7 +3,6 @@ package com.DavidM1A2.afraidofthedark.client.gui.guiScreens;
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiScreen;
 import com.DavidM1A2.afraidofthedark.client.gui.base.TextAlignment;
-import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiButton;
@@ -68,18 +67,12 @@ public class SextantGUI extends AOTDGuiScreen
         // Center the text
         confirm.setTextAlignment(TextAlignment.ALIGN_CENTER);
         // When clicked tell the server to validate the numbers and create a meteor if possible
-        confirm.addMouseListener(new AOTDMouseListener()
+        confirm.addMouseListener(event ->
         {
-            /**
-             * Called when we click the confirm button
-             *
-             * @param event The event containing information about the mouse click
-             */
-            @Override
-            public void mouseClicked(AOTDMouseEvent event)
+            if (event.getEventType() == AOTDMouseEvent.EventType.Click)
             {
                 // Ensure this button was the one clicked
-                if (event.getSource().isHovered() && event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
+                if (event.getSource().isHovered() && event.getClickedButton() == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                 {
                     // Grab the text fron the text fields
                     String dropAngleText = SextantGUI.this.angle.getText();

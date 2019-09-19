@@ -5,8 +5,10 @@ import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiHandler;
 import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiClickAndDragable;
 import com.DavidM1A2.afraidofthedark.client.gui.base.SpriteSheetController;
 import com.DavidM1A2.afraidofthedark.client.gui.base.TextAlignment;
-import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDMouseListener;
+import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.IAOTDMouseListener;
+import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.IAOTDMouseMoveListener;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
+import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.specialControls.AOTDGuiResearchNodeButton;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiImage;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiLabel;
@@ -43,8 +45,9 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
     // Two sprite sheet controllers, one for vertical arrows and one for horizontal arrows
     private final SpriteSheetController nodeConnectorControllerVertical = new SpriteSheetController(500, 20, 60, 180, true, true);
     private final SpriteSheetController nodeConnectorControllerHorizontal = new SpriteSheetController(500, 20, 180, 60, true, false);
-    // A node listener to be used by all research tree nodes
-    private final AOTDMouseListener researchNodeListener;
+    // Two node listeners to be used by all research tree nodes
+    private final IAOTDMouseMoveListener researchNodeMouseMoveListener;
+    private final IAOTDMouseListener researchNodeMouseListener;
 
     /**
      * Constructor initializes the entire GUI
@@ -90,16 +93,10 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
         // Grab the player's research to be used later...
         IAOTDPlayerResearch playerResearch = entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null);
 
-        // Create a node listener that controls the behavior of selected research nodes
-        this.researchNodeListener = new AOTDMouseListener()
+        // Create two node listeners that controls the behavior of selected research nodes
+        this.researchNodeMouseMoveListener = event ->
         {
-            /**
-             * Called when we enter the node with our mouse, it just plays a click sound
-             *
-             * @param event The event containing information about the mouse entering event
-             */
-            @Override
-            public void mouseEntered(AOTDMouseEvent event)
+            if (event.getEventType() == AOTDMouseMoveEvent.EventType.Enter)
             {
                 // If the node is visible then play the hover sound since we moved our mouse over it
                 if (event.getSource().isVisible() && researchTreeBase.intersects(event.getSource()))
@@ -107,17 +104,13 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
                     entityPlayer.playSound(ModSounds.BUTTON_HOVER, 0.7f, 1.9f);
                 }
             }
-
-            /**
-             * Called when we click a node, opens the page UI
-             *
-             * @param event The event containing information about the mouse click
-             */
-            @Override
-            public void mouseClicked(AOTDMouseEvent event)
+        };
+        this.researchNodeMouseListener = event ->
+        {
+            if (event.getEventType() == AOTDMouseEvent.EventType.Click)
             {
                 // Ensure the clicked button is a ResearchNodeButton and the button used clicked is left
-                if (event.getSource().isHovered() && event.getSource() instanceof AOTDGuiResearchNodeButton && event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
+                if (event.getSource().isHovered() && event.getSource() instanceof AOTDGuiResearchNodeButton && event.getClickedButton() == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                 {
                     AOTDGuiResearchNodeButton current = (AOTDGuiResearchNodeButton) event.getSource();
                     // Only allow clicking the button if it's within the container
@@ -218,8 +211,9 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
 
         // Create the research button
         AOTDGuiResearchNodeButton researchNode = new AOTDGuiResearchNodeButton(xPos, yPos, research);
-        // Add our pre-build listener to this node
-        researchNode.addMouseListener(this.researchNodeListener);
+        // Add our pre-build listeners to this node
+        researchNode.addMouseListener(this.researchNodeMouseListener);
+        researchNode.addMouseMoveListener(this.researchNodeMouseMoveListener);
         // Add the node to our tree
         this.researchTree.add(researchNode);
     }

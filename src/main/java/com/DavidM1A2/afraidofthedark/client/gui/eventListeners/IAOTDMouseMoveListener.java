@@ -1,6 +1,6 @@
 package com.DavidM1A2.afraidofthedark.client.gui.eventListeners;
 
-import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
+import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent;
 
 /**
  * Interface to be implemented to add a new mouse moving listener to a control
@@ -8,16 +8,9 @@ import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
 public interface IAOTDMouseMoveListener extends IAOTDEventListener
 {
     /**
-     * Called when a mouse is dragged
+     * Called when a mouse move event is fired
      *
-     * @param event The event containing information about the mouse drag
+     * @param event The event containing information about the mouse move event
      */
-    void mouseDragged(AOTDMouseEvent event);
-
-    /**
-     * Called when a mouse is moved
-     *
-     * @param event The event containing information about the mouse move
-     */
-    void mouseMoved(AOTDMouseEvent event);
+    void fire(AOTDMouseMoveEvent event);
 }

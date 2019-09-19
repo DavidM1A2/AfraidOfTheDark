@@ -4,9 +4,9 @@ import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiHandler;
 import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiContainer;
 import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDKeyListener;
-import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDKeyEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
+import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.*;
 import com.DavidM1A2.afraidofthedark.client.settings.ClientData;
 import com.DavidM1A2.afraidofthedark.common.capabilities.player.spell.IAOTDPlayerSpellManager;
@@ -105,13 +105,12 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
         // Create a save spell button
         AOTDGuiButton saveButton = new AOTDGuiButton(152, 105, 20, 20, null, "afraidofthedark:textures/gui/spell_editor/save.png", "afraidofthedark:textures/gui/spell_editor/save_hovered.png");
         saveButton.setHoverText("Save Spell");
-        saveButton.addMouseListener(new AOTDMouseListener()
+        saveButton.addMouseListener(event ->
         {
-            @Override
-            public void mousePressed(AOTDMouseEvent event)
+            if (event.getEventType() == AOTDMouseEvent.EventType.Press)
             {
                 // When we press the save spell button and it's hovered save the spell and send changes to server
-                if (event.getSource().isVisible() && event.getSource().isHovered() && event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
+                if (event.getSource().isVisible() && event.getSource().isHovered() && event.getClickedButton() == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                 {
                     // Grab the player's spell manager
                     IAOTDPlayerSpellManager spellManager = entityPlayer.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null);
@@ -125,9 +124,10 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
                     entityPlayer.sendMessage(new TextComponentTranslation("aotd.spell.save_successful", spellClone.getName()));
                 }
             }
-
-            @Override
-            public void mouseEntered(AOTDMouseEvent event)
+        });
+        saveButton.addMouseMoveListener(event ->
+        {
+            if (event.getEventType() == AOTDMouseMoveEvent.EventType.Enter)
             {
                 // When hovering the button play the hover sound
                 if (event.getSource().isHovered() && event.getSource().isVisible())
@@ -142,21 +142,21 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
         AOTDGuiButton closeButton = new AOTDGuiButton(152, 130, 20, 20, null, "afraidofthedark:textures/gui/spell_editor/delete.png", "afraidofthedark:textures/gui/spell_editor/delete_hovered.png");
         closeButton.setHoverText("Exit without saving");
         // When we click the close button show the spell list
-        closeButton.addMouseListener(new AOTDMouseListener()
+        closeButton.addMouseListener(event ->
         {
-            @Override
-            public void mousePressed(AOTDMouseEvent event)
+            if (event.getEventType() == AOTDMouseEvent.EventType.Press)
             {
                 // Ensure the button is visible and hovered
-                if (closeButton.isVisible() && closeButton.isHovered() && event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
+                if (closeButton.isVisible() && closeButton.isHovered() && event.getClickedButton() == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                 {
                     // Open the list gui without saving
                     entityPlayer.openGui(AfraidOfTheDark.INSTANCE, AOTDGuiHandler.SPELL_LIST_ID, entityPlayer.world, (int) entityPlayer.posX, (int) entityPlayer.posY, (int) entityPlayer.posZ);
                 }
             }
-
-            @Override
-            public void mouseEntered(AOTDMouseEvent event)
+        });
+        closeButton.addMouseMoveListener(event ->
+        {
+            if (event.getEventType() == AOTDMouseMoveEvent.EventType.Enter)
             {
                 // Play the hover sound effect if the button is visible
                 if (closeButton.isHovered() && closeButton.isVisible())
@@ -171,13 +171,12 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
         AOTDGuiButton helpButton = new AOTDGuiButton(152, 180, 20, 20, null, "afraidofthedark:textures/gui/spell_editor/question.png", "afraidofthedark:textures/gui/spell_editor/question_hovered.png");
         helpButton.setHoverText("Help");
         // When pressing help execute our on help runnable
-        helpButton.addMouseListener(new AOTDMouseListener()
+        helpButton.addMouseListener(event ->
         {
-            @Override
-            public void mousePressed(AOTDMouseEvent event)
+            if (event.getEventType() == AOTDMouseEvent.EventType.Press)
             {
                 // Ensure the button is visible, hovered, and the callback is non-null
-                if (helpButton.isVisible() && helpButton.isHovered() && event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
+                if (helpButton.isVisible() && helpButton.isHovered() && event.getClickedButton() == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                 {
                     if (onHelp != null)
                     {
@@ -185,9 +184,10 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
                     }
                 }
             }
-
-            @Override
-            public void mouseEntered(AOTDMouseEvent event)
+        });
+        helpButton.addMouseMoveListener(event ->
+        {
+            if (event.getEventType() == AOTDMouseMoveEvent.EventType.Enter)
             {
                 // Play the hover sound effect if the button is visible
                 if (event.getSource().isHovered() && event.getSource().isVisible())
@@ -202,16 +202,15 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
         this.uiPowerSource = new AOTDGuiSpellPowerSourceSlot(152, 155, 20, 20, null);
         this.uiPowerSource.setComponentInstance(this.spell.getPowerSource());
         // When we click the power source check the selected component, if it's a power source perform additional updates
-        this.uiPowerSource.addMouseListener(new AOTDMouseListener()
+        this.uiPowerSource.addMouseListener(event ->
         {
-            @Override
-            public void mouseReleased(AOTDMouseEvent event)
+            if (event.getEventType() == AOTDMouseEvent.EventType.Release)
             {
                 // Test if we're hovering over the component...
                 if (uiPowerSource.isHovered() && uiPowerSource.isVisible())
                 {
                     // If we left click update the power source
-                    if (event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
+                    if (event.getClickedButton() == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                     {
                         // Grab the selected component
                         AOTDGuiSpellComponentSlot<?, ?> selectedComponent = selectedComponentGetter.get();
@@ -237,7 +236,7 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
                         }
                     }
                     // If we right click set the slot's power source to null
-                    else if (event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Right)
+                    else if (event.getClickedButton() == AOTDMouseEvent.RIGHT_MOUSE_BUTTON)
                     {
                         spell.setPowerSource(null);
                         uiPowerSource.setComponentType(null);
@@ -246,9 +245,10 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
                     refreshCost();
                 }
             }
-
-            @Override
-            public void mouseEntered(AOTDMouseEvent event)
+        });
+        uiPowerSource.addMouseMoveListener(event ->
+        {
+            if (event.getEventType() == AOTDMouseMoveEvent.EventType.Enter)
             {
                 // When we hover the power source with a selected component "in hand" highlight it
                 AOTDGuiSpellComponentSlot<?, ?> selectedComponent = selectedComponentGetter.get();
@@ -257,9 +257,7 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
                     uiPowerSource.setHighlight(true);
                 }
             }
-
-            @Override
-            public void mouseExited(AOTDMouseEvent event)
+            else if (event.getEventType() == AOTDMouseMoveEvent.EventType.Exit)
             {
                 // When we unhover the power source with a selected component "in hand" de-highlight it
                 AOTDGuiSpellComponentSlot<?, ?> spellComponentSlot = selectedComponentGetter.get();
@@ -337,16 +335,15 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
         });
         // When we click the delivery method check the selected component, if it's a delivery method perform additional updates
         AOTDGuiSpellDeliveryMethodSlot uiDeliveryMethod = nextSpellStage.getDeliveryMethod();
-        uiDeliveryMethod.addMouseListener(new AOTDMouseListener()
+        uiDeliveryMethod.addMouseListener(event ->
         {
-            @Override
-            public void mouseReleased(AOTDMouseEvent event)
+            if (event.getEventType() == AOTDMouseEvent.EventType.Release)
             {
                 // Test if we're hovering over the component...
                 if (uiDeliveryMethod.isHovered() && uiDeliveryMethod.isVisible())
                 {
                     // If we left click update the delivery method
-                    if (event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
+                    if (event.getClickedButton() == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                     {
                         // Grab the selected component
                         AOTDGuiSpellComponentSlot<?, ?> selectedComponent = selectedComponentGetter.get();
@@ -372,7 +369,7 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
                         }
                     }
                     // If we right click set the slot's delivery method to null
-                    else if (event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Right)
+                    else if (event.getClickedButton() == AOTDMouseEvent.RIGHT_MOUSE_BUTTON)
                     {
                         spellStage.setDeliveryMethod(null);
                         uiDeliveryMethod.setComponentType(null);
@@ -381,9 +378,10 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
                     refreshCost();
                 }
             }
-
-            @Override
-            public void mouseEntered(AOTDMouseEvent event)
+        });
+        uiDeliveryMethod.addMouseMoveListener(event ->
+        {
+            if (event.getEventType() == AOTDMouseMoveEvent.EventType.Enter)
             {
                 // When we hover the delivery method with a selected component "in hand" highlight it
                 AOTDGuiSpellComponentSlot<?, ?> selectedComponent = selectedComponentGetter.get();
@@ -392,9 +390,7 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
                     uiDeliveryMethod.setHighlight(true);
                 }
             }
-
-            @Override
-            public void mouseExited(AOTDMouseEvent event)
+            else if (event.getEventType() == AOTDMouseMoveEvent.EventType.Exit)
             {
                 // When we unhover the delivery method with a selected component "in hand" de-highlight it
                 AOTDGuiSpellComponentSlot<?, ?> spellComponentSlot = selectedComponentGetter.get();
@@ -409,16 +405,15 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
         {
             AOTDGuiSpellEffectSlot uiEffect = nextSpellStage.getEffects()[i];
             int index = i;
-            uiEffect.addMouseListener(new AOTDMouseListener()
+            uiEffect.addMouseListener(event ->
             {
-                @Override
-                public void mouseReleased(AOTDMouseEvent event)
+                if (event.getEventType() == AOTDMouseEvent.EventType.Release)
                 {
                     // Test if we're hovering over the component...
                     if (uiEffect.isHovered() && uiEffect.isVisible())
                     {
                         // If we left click update the effect
-                        if (event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
+                        if (event.getClickedButton() == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                         {
                             // Grab the selected component
                             AOTDGuiSpellComponentSlot<?, ?> selectedComponent = selectedComponentGetter.get();
@@ -444,7 +439,7 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
                             }
                         }
                         // If we right click set the slot's effect to null
-                        else if (event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Right)
+                        else if (event.getClickedButton() == AOTDMouseEvent.RIGHT_MOUSE_BUTTON)
                         {
                             spellStage.getEffects()[index] = null;
                             uiEffect.setComponentType(null);
@@ -453,9 +448,10 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
                         refreshCost();
                     }
                 }
-
-                @Override
-                public void mouseEntered(AOTDMouseEvent event)
+            });
+            uiEffect.addMouseMoveListener(event ->
+            {
+                if (event.getEventType() == AOTDMouseMoveEvent.EventType.Enter)
                 {
                     // When we hover the effect with a selected component "in hand" highlight it
                     AOTDGuiSpellComponentSlot<?, ?> selectedComponent = selectedComponentGetter.get();
@@ -464,9 +460,7 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
                         uiEffect.setHighlight(true);
                     }
                 }
-
-                @Override
-                public void mouseExited(AOTDMouseEvent event)
+                else if (event.getEventType() == AOTDMouseMoveEvent.EventType.Exit)
                 {
                     // When we unhover the effect with a selected component "in hand" de-highlight it
                     AOTDGuiSpellComponentSlot<?, ?> spellComponentSlot = selectedComponentGetter.get();

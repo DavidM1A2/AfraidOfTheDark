@@ -4,8 +4,10 @@ import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiHandler;
 import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiContainer;
 import com.DavidM1A2.afraidofthedark.client.gui.base.TextAlignment;
-import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDMouseListener;
+import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.IAOTDMouseListener;
+import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.IAOTDMouseMoveListener;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
+import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiButton;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiImage;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiLabel;
@@ -65,10 +67,9 @@ public class AOTDGuiSpell extends AOTDGuiContainer
         this.add(spellNameContainer);
 
         // When we hover any button play hover sound
-        AOTDMouseListener hoverSound = new AOTDMouseListener()
+        IAOTDMouseMoveListener hoverSound = event ->
         {
-            @Override
-            public void mouseEntered(AOTDMouseEvent event)
+            if (event.getEventType() == AOTDMouseMoveEvent.EventType.Enter)
             {
                 // Play a hover sound for visible buttons
                 if (event.getSource().isVisible() && event.getSource().isHovered())
@@ -76,9 +77,11 @@ public class AOTDGuiSpell extends AOTDGuiContainer
                     entityPlayer.playSound(ModSounds.SPELL_CRAFTING_BUTTON_HOVER, 0.7f, 1.9f);
                 }
             }
-
-            @Override
-            public void mouseClicked(AOTDMouseEvent event)
+        };
+        // When we click any button play the click sound
+        IAOTDMouseListener clickSound = event ->
+        {
+            if (event.getEventType() == AOTDMouseEvent.EventType.Click)
             {
                 // Play a clicked sound for visible buttons
                 if (event.getSource().isVisible() && event.getSource().isHovered())
@@ -90,14 +93,14 @@ public class AOTDGuiSpell extends AOTDGuiContainer
 
         // Create a button to edit the spell
         AOTDGuiButton btnEdit = new AOTDGuiButton(5, 22, 24, 13, null, "afraidofthedark:textures/gui/spell_list/spell_edit.png", "afraidofthedark:textures/gui/spell_list/spell_edit_hovered.png");
-        btnEdit.addMouseListener(hoverSound);
+        btnEdit.addMouseListener(clickSound);
+        btnEdit.addMouseMoveListener(hoverSound);
         btnEdit.setHoverText("Edit Spell");
-        btnEdit.addMouseListener(new AOTDMouseListener()
+        btnEdit.addMouseListener(event ->
         {
-            @Override
-            public void mouseClicked(AOTDMouseEvent event)
+            if (event.getEventType() == AOTDMouseEvent.EventType.Click)
             {
-                if (event.getSource().isHovered() && event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
+                if (event.getSource().isHovered() && event.getClickedButton() == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                 {
                     // Set the edited spell to this one
                     ClientData.getInstance().setLastSelectedSpell(spell);
@@ -110,13 +113,13 @@ public class AOTDGuiSpell extends AOTDGuiContainer
 
         // Create a button to delete a spell
         AOTDGuiButton btnDelete = new AOTDGuiButton(width - 5 - 24, 22, 24, 13, null, "afraidofthedark:textures/gui/spell_list/spell_delete.png", "afraidofthedark:textures/gui/spell_list/spell_delete_hovered.png");
-        btnDelete.addMouseListener(hoverSound);
-        btnDelete.addMouseListener(new AOTDMouseListener()
+        btnEdit.addMouseListener(clickSound);
+        btnEdit.addMouseMoveListener(hoverSound);
+        btnDelete.addMouseListener(event ->
         {
-            @Override
-            public void mousePressed(AOTDMouseEvent event)
+            if (event.getEventType() == AOTDMouseEvent.EventType.Press)
             {
-                if (event.getSource().isHovered() && event.getSource().isVisible() && event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
+                if (event.getSource().isHovered() && event.getSource().isVisible() && event.getClickedButton() == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                 {
                     if (deleteCallback != null)
                     {
@@ -131,13 +134,13 @@ public class AOTDGuiSpell extends AOTDGuiContainer
         // Create a button to keybind this spell
         lblKeybind = new AOTDGuiLabel(37, 20, 100, 13, ClientData.getInstance().getTargaMSHandFontSized(30f));
         lblKeybind.setTextAlignment(TextAlignment.ALIGN_CENTER);
-        lblKeybind.addMouseListener(hoverSound);
-        lblKeybind.addMouseListener(new AOTDMouseListener()
+        btnEdit.addMouseListener(clickSound);
+        btnEdit.addMouseMoveListener(hoverSound);
+        lblKeybind.addMouseListener(event ->
         {
-            @Override
-            public void mousePressed(AOTDMouseEvent event)
+            if (event.getEventType() == AOTDMouseEvent.EventType.Press)
             {
-                if (event.getSource().isHovered() && event.getSource().isVisible() && event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
+                if (event.getSource().isHovered() && event.getSource().isVisible() && event.getClickedButton() == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                 {
                     if (keybindCallback != null)
                     {

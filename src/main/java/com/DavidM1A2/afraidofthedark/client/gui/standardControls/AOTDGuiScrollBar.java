@@ -1,9 +1,8 @@
 package com.DavidM1A2.afraidofthedark.client.gui.standardControls;
 
 import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiContainer;
-import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDMouseListener;
-import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDMouseMoveListener;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
+import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent;
 import net.minecraft.util.math.MathHelper;
 
 /**
@@ -75,13 +74,12 @@ public class AOTDGuiScrollBar extends AOTDGuiContainer
         this.add(handle);
 
         // When we click the mouse we update the state of the handle to being held/released
-        handle.addMouseListener(new AOTDMouseListener()
+        handle.addMouseListener(event ->
         {
-            @Override
-            public void mouseClicked(AOTDMouseEvent event)
+            if (event.getEventType() == AOTDMouseEvent.EventType.Click)
             {
                 // If we clicked the lmb set its state to hovered
-                if (event.getSource().isHovered() && event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
+                if (event.getSource().isHovered() && event.getClickedButton() == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                 {
                     // We're holding the handle
                     handleHeld = true;
@@ -90,12 +88,10 @@ public class AOTDGuiScrollBar extends AOTDGuiContainer
                     originalHandleLocation = handleLocation;
                 }
             }
-
-            @Override
-            public void mouseReleased(AOTDMouseEvent event)
+            else if (event.getEventType() == AOTDMouseEvent.EventType.Release)
             {
                 // Ensure the lmb was released
-                if (event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
+                if (event.getClickedButton() == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                 {
                     // No longer holding the mouse down, the handle isn't held anymore
                     handleHeld = false;
@@ -104,10 +100,9 @@ public class AOTDGuiScrollBar extends AOTDGuiContainer
         });
 
         // Add a listener to the handle that moves it when lmb is down
-        handle.addMouseMoveListener(new AOTDMouseMoveListener()
+        handle.addMouseMoveListener(event ->
         {
-            @Override
-            public void mouseDragged(AOTDMouseEvent event)
+            if (event.getEventType() == AOTDMouseMoveEvent.EventType.Drag)
             {
                 // If we're holding the handle move it
                 if (handleHeld)

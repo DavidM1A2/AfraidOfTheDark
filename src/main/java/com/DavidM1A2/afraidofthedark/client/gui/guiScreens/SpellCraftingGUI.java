@@ -3,10 +3,9 @@ package com.DavidM1A2.afraidofthedark.client.gui.guiScreens;
 import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiHandler;
 import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiScreen;
 import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDKeyListener;
-import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDMouseListener;
-import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDMouseMoveListener;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDKeyEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
+import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.specialControls.AOTDGuiSpellComponentSlot;
 import com.DavidM1A2.afraidofthedark.client.gui.specialControls.AOTDGuiSpellScroll;
 import com.DavidM1A2.afraidofthedark.client.gui.specialControls.AOTDGuiSpellTablet;
@@ -53,10 +52,9 @@ public class SpellCraftingGUI extends AOTDGuiScreen
 
         // Setup the selected component hover under the mouse cursor using image component
         selectedCursorIcon = new AOTDGuiImage(0, 0, 20, 20, "afraidofthedark:textures/gui/spell_editor/blank_slot.png");
-        selectedCursorIcon.addMouseMoveListener(new AOTDMouseMoveListener()
+        selectedCursorIcon.addMouseMoveListener(event ->
         {
-            @Override
-            public void mouseMoved(AOTDMouseEvent event)
+            if (event.getEventType() == AOTDMouseMoveEvent.EventType.Move)
             {
                 // If we have nothing selected put the component off in the middle of nowhere
                 if (selectedComponent == null)
@@ -73,12 +71,11 @@ public class SpellCraftingGUI extends AOTDGuiScreen
             }
         });
         // If we right click clear the selected component
-        this.getContentPane().addMouseListener(new AOTDMouseListener()
+        this.getContentPane().addMouseListener(event ->
         {
-            @Override
-            public void mousePressed(AOTDMouseEvent event)
+            if (event.getEventType() == AOTDMouseEvent.EventType.Press)
             {
-                if (event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Right && selectedComponent != null)
+                if (event.getClickedButton() == AOTDMouseEvent.RIGHT_MOUSE_BUTTON && selectedComponent != null)
                 {
                     setSelectedComponent(null);
                 }

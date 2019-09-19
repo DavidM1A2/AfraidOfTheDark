@@ -3,9 +3,9 @@ package com.DavidM1A2.afraidofthedark.client.gui.guiScreens;
 import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiScreen;
 import com.DavidM1A2.afraidofthedark.client.gui.base.TextAlignment;
 import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDKeyListener;
-import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDMouseListener;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDKeyEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
+import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiButton;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiImage;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiPanel;
@@ -81,12 +81,11 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
         signButton.setTextColor(new Color(255, 0, 0));
         signButton.setTextAlignment(TextAlignment.ALIGN_CENTER);
         // When we click the sign button either start the mod or tell the user they messed up
-        signButton.addMouseListener(new AOTDMouseListener()
+        signButton.addMouseListener(event ->
         {
-            @Override
-            public void mouseClicked(AOTDMouseEvent event)
+            if (event.getEventType() == AOTDMouseEvent.EventType.Click)
             {
-                if (event.getSource().isHovered() && event.getClickedButton() == AOTDMouseEvent.MouseButtonClicked.Left)
+                if (event.getSource().isHovered() && event.getClickedButton() == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                 {
                     entityPlayer.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f);
                     IAOTDPlayerBasics playerBasics = entityPlayer.getCapability(ModCapabilities.PLAYER_BASICS, null);
@@ -137,9 +136,11 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
                 }
                 event.consume();
             }
-
-            @Override
-            public void mouseEntered(AOTDMouseEvent event)
+        });
+        // If we hover the sign button play a button hover sound
+        signButton.addMouseMoveListener(event ->
+        {
+            if (event.getEventType() == AOTDMouseMoveEvent.EventType.Enter)
             {
                 entityPlayer.playSound(ModSounds.BUTTON_HOVER, 0.1f, 0.8f);
             }
