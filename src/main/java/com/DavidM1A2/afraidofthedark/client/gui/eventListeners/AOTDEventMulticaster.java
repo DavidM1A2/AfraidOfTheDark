@@ -109,38 +109,14 @@ public class AOTDEventMulticaster implements IAOTDKeyListener, IAOTDMouseListene
     }
 
     /**
-     * Called when a key is typed (pressed and released), fires both listeners
+     * Called when a key is interacted with
      *
      * @param event The event containing information about the key press
      */
     @Override
-    public void keyTyped(AOTDKeyEvent event)
+    public void fire(AOTDKeyEvent event)
     {
-        ((IAOTDKeyListener) listener1).keyTyped(event);
-        ((IAOTDKeyListener) listener2).keyTyped(event);
-    }
-
-    /**
-     * Called when a key is pressed down, fires both listeners
-     *
-     * @param event The event containing information about the key press
-     */
-    @Override
-    public void keyPressed(AOTDKeyEvent event)
-    {
-        ((IAOTDKeyListener) listener1).keyPressed(event);
-        ((IAOTDKeyListener) listener2).keyPressed(event);
-    }
-
-    /**
-     * Called when a key is released, fires both listeners
-     *
-     * @param event The event containing information about the key release
-     */
-    @Override
-    public void keyReleased(AOTDKeyEvent event)
-    {
-        ((IAOTDKeyListener) listener1).keyReleased(event);
-        ((IAOTDKeyListener) listener2).keyReleased(event);
+        ((IAOTDKeyListener) listener1).fire(event);
+        ((IAOTDKeyListener) listener2).fire(event);
     }
 }

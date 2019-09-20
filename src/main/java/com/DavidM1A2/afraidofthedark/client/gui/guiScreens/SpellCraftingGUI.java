@@ -2,7 +2,6 @@ package com.DavidM1A2.afraidofthedark.client.gui.guiScreens;
 
 import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiHandler;
 import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiScreen;
-import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDKeyListener;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDKeyEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent;
@@ -95,10 +94,9 @@ public class SpellCraftingGUI extends AOTDGuiScreen
         AOTDGuiImage helpOverlay = new AOTDGuiImage(0, 0, Constants.GUI_WIDTH, Constants.GUI_HEIGHT, "afraidofthedark:textures/gui/spell_editor/help_screen.png");
         helpOverlay.setVisible(false);
         // When pressing any key hide the overlay
-        helpOverlay.addKeyListener(new AOTDKeyListener()
+        helpOverlay.addKeyListener(event ->
         {
-            @Override
-            public void keyTyped(AOTDKeyEvent event)
+            if (event.getEventType() == AOTDKeyEvent.KeyEventType.Type)
             {
                 if (event.getSource().isVisible())
                 {

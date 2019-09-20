@@ -126,21 +126,11 @@ public abstract class AOTDGuiComponentWithEvents extends AOTDGuiComponent
 
         // We set the source to be this component, because we are processing it
         event.setSource(this);
+
         // If we have a key listener, process a key event
         if (keyListener != null)
         {
-            switch (event.getEventType())
-            {
-                case Type:
-                    keyListener.keyTyped(event);
-                    break;
-                case Press:
-                    keyListener.keyPressed(event);
-                    break;
-                case Release:
-                    keyListener.keyReleased(event);
-                    break;
-            }
+            keyListener.fire(event);
         }
     }
 

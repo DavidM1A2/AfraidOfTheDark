@@ -3,7 +3,6 @@ package com.DavidM1A2.afraidofthedark.client.gui.standardControls;
 import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiUtility;
 import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiContainer;
 import com.DavidM1A2.afraidofthedark.client.gui.base.TextAlignment;
-import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDKeyListener;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDKeyEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont;
@@ -91,10 +90,9 @@ public class AOTDGuiTextField extends AOTDGuiContainer
             }
         });
         // When a key is typed save that information
-        this.addKeyListener(new AOTDKeyListener()
+        this.addKeyListener(event ->
         {
-            @Override
-            public void keyTyped(AOTDKeyEvent event)
+            if (event.getEventType() == AOTDKeyEvent.KeyEventType.Type)
             {
                 AOTDGuiTextField.this.keyTyped(event.getKey(), event.getKeyCode());
             }

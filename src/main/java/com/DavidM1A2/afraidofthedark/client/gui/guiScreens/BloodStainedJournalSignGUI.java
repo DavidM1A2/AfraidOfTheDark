@@ -2,7 +2,6 @@ package com.DavidM1A2.afraidofthedark.client.gui.guiScreens;
 
 import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiScreen;
 import com.DavidM1A2.afraidofthedark.client.gui.base.TextAlignment;
-import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDKeyListener;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDKeyEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent;
@@ -146,10 +145,9 @@ public class BloodStainedJournalSignGUI extends AOTDGuiScreen
             }
         });
         // When we type a character play a type sound
-        this.nameSignField.addKeyListener(new AOTDKeyListener()
+        this.nameSignField.addKeyListener(event ->
         {
-            @Override
-            public void keyTyped(AOTDKeyEvent event)
+            if (event.getEventType() == AOTDKeyEvent.KeyEventType.Type)
             {
                 if (BloodStainedJournalSignGUI.this.nameSignField.isFocused())
                 {

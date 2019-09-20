@@ -3,7 +3,6 @@ package com.DavidM1A2.afraidofthedark.client.gui.specialControls;
 import com.DavidM1A2.afraidofthedark.AfraidOfTheDark;
 import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiHandler;
 import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiContainer;
-import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDKeyListener;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDKeyEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent;
@@ -80,10 +79,9 @@ public class AOTDGuiSpellTablet extends AOTDGuiContainer
         this.spellName = new AOTDGuiTextField(60, 30, 85, 25, ClientData.getInstance().getTargaMSHandFontSized(36f));
         this.spellName.setGhostText("Spell Name");
         // When we type into this slot set the spell name
-        this.spellName.addKeyListener(new AOTDKeyListener()
+        this.spellName.addKeyListener(event ->
         {
-            @Override
-            public void keyTyped(AOTDKeyEvent event)
+            if (event.getEventType() == AOTDKeyEvent.KeyEventType.Type)
             {
                 AOTDGuiSpellTablet.this.spell.setName(spellName.getText());
             }

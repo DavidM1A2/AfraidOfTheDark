@@ -1,7 +1,6 @@
 package com.DavidM1A2.afraidofthedark.client.gui.guiScreens;
 
 import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiScreen;
-import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDKeyListener;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDKeyEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent;
@@ -82,10 +81,9 @@ public class SpellListGUI extends AOTDGuiScreen
         backgroundPanel.add(scrollBar);
 
         // When we press a key test if we are waiting for a keybind, if so set the spell's keybind
-        this.getContentPane().addKeyListener(new AOTDKeyListener()
+        this.getContentPane().addKeyListener(event ->
         {
-            @Override
-            public void keyTyped(AOTDKeyEvent event)
+            if (event.getEventType() == AOTDKeyEvent.KeyEventType.Type)
             {
                 // If we're waiting on a keybind assign the keybind and update each spell
                 if (spellWaitingOnKeybind != null)
