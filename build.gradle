@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'kotlin'
 
 version = "1.12.2-1.1.0"
-group = "com.DavidM1A2.afraidofthedark" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group = "com.davidm1a2.afraidofthedark" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "afraidofthedark"
 
 sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
