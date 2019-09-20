@@ -1,12 +1,10 @@
 package com.DavidM1A2.afraidofthedark.client.gui.base;
 
-import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.AOTDEventMulticaster;
-import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.IAOTDKeyListener;
-import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.IAOTDMouseListener;
-import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.IAOTDMouseMoveListener;
+import com.DavidM1A2.afraidofthedark.client.gui.eventListeners.*;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDKeyEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent;
+import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseScrollEvent;
 import org.lwjgl.util.Point;
 
 /**
@@ -14,12 +12,14 @@ import org.lwjgl.util.Point;
  */
 public abstract class AOTDGuiComponentWithEvents extends AOTDGuiComponent
 {
-    // The key listener of this component
-    private IAOTDKeyListener keyListener;
     // The mouse listener of this component
     private IAOTDMouseListener mouseListener;
     // The mouse move listener of this component
     private IAOTDMouseMoveListener mouseMoveListener;
+    // The mouse scroll listener of this component
+    private IAOTDMouseScrollListener mouseScrollListener;
+    // The key listener of this component
+    private IAOTDKeyListener keyListener;
 
     /**
      * Constructor initializes the bounding box
@@ -105,9 +105,31 @@ public abstract class AOTDGuiComponentWithEvents extends AOTDGuiComponent
 
         // If we have a mouse move listener, and the event is a move or drag, fire off our mouse move listener
         if (mouseMoveListener != null)
-        // Get the event type and process accordingly
         {
             mouseMoveListener.fire(event);
+        }
+    }
+
+    /**
+     * Called to process a mouse scroll input event
+     *
+     * @param event The event to process
+     */
+    public void processMouseScrollInput(AOTDMouseScrollEvent event)
+    {
+        // If the event is consumed, don't do anything
+        if (event.isConsumed())
+        {
+            return;
+        }
+
+        // We set the source to be this component, because we are processing it
+        event.setSource(this);
+
+        // If we have a mouse scroll listener fire off our mouse scroll listener
+        if (mouseScrollListener != null)
+        {
+            mouseScrollListener.fire(event);
         }
     }
 
@@ -132,21 +154,6 @@ public abstract class AOTDGuiComponentWithEvents extends AOTDGuiComponent
         {
             keyListener.fire(event);
         }
-    }
-
-    /**
-     * Adds a key listener to this control to be fired whenever a key event is raised
-     *
-     * @param keyListener The key listener to add
-     */
-    public void addKeyListener(IAOTDKeyListener keyListener)
-    {
-        if (keyListener == null)
-        {
-            return;
-        }
-        // Combine the current key listener with the new one to make the next key listener
-        this.keyListener = AOTDEventMulticaster.combineKeyListeners(this.keyListener, keyListener);
     }
 
     /**
@@ -177,5 +184,35 @@ public abstract class AOTDGuiComponentWithEvents extends AOTDGuiComponent
         }
         // Combine the current mouse move listener with the new one to make the next mouse move listener
         this.mouseMoveListener = AOTDEventMulticaster.combineMouseMoveListeners(this.mouseMoveListener, mouseMoveListener);
+    }
+
+    /**
+     * Adds a mouse scroll listener to this control to be fired whenever a mouse scroll event is raised
+     *
+     * @param mouseScrollListener The mouse scroll listener to add
+     */
+    public void addMouseScrollListener(IAOTDMouseScrollListener mouseScrollListener)
+    {
+        if (mouseScrollListener == null)
+        {
+            return;
+        }
+        // Combine the current mouse scroll listener with the new one to make the next mouse scroll listener
+        this.mouseScrollListener = AOTDEventMulticaster.combineMouseScrollListeners(this.mouseScrollListener, mouseScrollListener);
+    }
+
+    /**
+     * Adds a key listener to this control to be fired whenever a key event is raised
+     *
+     * @param keyListener The key listener to add
+     */
+    public void addKeyListener(IAOTDKeyListener keyListener)
+    {
+        if (keyListener == null)
+        {
+            return;
+        }
+        // Combine the current key listener with the new one to make the next key listener
+        this.keyListener = AOTDEventMulticaster.combineKeyListeners(this.keyListener, keyListener);
     }
 }

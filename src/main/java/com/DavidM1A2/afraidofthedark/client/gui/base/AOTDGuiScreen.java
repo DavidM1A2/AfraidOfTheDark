@@ -4,6 +4,7 @@ import com.DavidM1A2.afraidofthedark.client.gui.AOTDGuiUtility;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDKeyEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent;
+import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseScrollEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.standardControls.AOTDGuiPanel;
 import com.DavidM1A2.afraidofthedark.common.constants.Constants;
 import net.minecraft.client.Minecraft;
@@ -179,10 +180,6 @@ public abstract class AOTDGuiScreen extends GuiScreen
     {
         // Ensure to call super so default MC functions are called
         super.handleMouseInput();
-        /*
-        System.out.println("DEventWheel: " + Mouse.getEventDWheel());
-        System.out.println("DWheel:      " + Mouse.getDWheel());
-         */
         // Figure out what mouse button was pressed
         int mouseButton = Mouse.getEventButton();
         if (mouseButton != -1)
@@ -259,6 +256,7 @@ public abstract class AOTDGuiScreen extends GuiScreen
      */
     private void processMouseScroll(int distance)
     {
-
+        // Fire the content pane's mouse scroll listener
+        contentPane.processMouseScrollInput(new AOTDMouseScrollEvent(contentPane, distance));
     }
 }

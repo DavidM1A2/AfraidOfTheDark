@@ -18,13 +18,15 @@ public class AOTDGuiScrollBar extends AOTDGuiContainer
     private int originalMousePressLocation = 0;
     // A float telling us where the handle was before the drag began
     private float originalHandleLocation = 0;
+    // A reference to the handle object
+    private AOTDGuiButton handle;
 
     /**
      * Constructor initializes the position of the scroll bar and its width/height
      *
-     * @param x The scroll bar's x position
-     * @param y The scroll bar's y position
-     * @param width The scroll bar's width
+     * @param x      The scroll bar's x position
+     * @param y      The scroll bar's y position
+     * @param width  The scroll bar's width
      * @param height The scroll bar's height
      */
     public AOTDGuiScrollBar(int x, int y, int width, int height)
@@ -36,12 +38,12 @@ public class AOTDGuiScrollBar extends AOTDGuiContainer
     /**
      * Constructor initializes the scroll bar given a position, height, and texture
      *
-     * @param x The scroll bar's x position
-     * @param y The scroll bar's y position
-     * @param width The scroll bar's width
-     * @param height The scroll bar's height
+     * @param x                The scroll bar's x position
+     * @param y                The scroll bar's y position
+     * @param width            The scroll bar's width
+     * @param height           The scroll bar's height
      * @param scrollBarTexture The scroll bar background texture
-     * @param handleTexture The scrol bar handle texture
+     * @param handleTexture    The scrol bar handle texture
      */
     public AOTDGuiScrollBar(int x, int y, int width, int height, String scrollBarTexture, String handleTexture)
     {
@@ -51,12 +53,12 @@ public class AOTDGuiScrollBar extends AOTDGuiContainer
     /**
      * Constructor initializes the scroll bar given a position, height, and texture
      *
-     * @param x The scroll bar's x position
-     * @param y The scroll bar's y position
-     * @param width The scroll bar's width
-     * @param height The scroll bar's height
-     * @param scrollBarTexture The scroll bar background texture
-     * @param handleTexture The scroll bar handle texture
+     * @param x                    The scroll bar's x position
+     * @param y                    The scroll bar's y position
+     * @param width                The scroll bar's width
+     * @param height               The scroll bar's height
+     * @param scrollBarTexture     The scroll bar background texture
+     * @param handleTexture        The scroll bar handle texture
      * @param handleHoveredTexture The scroll bar hovered handle texture
      */
     public AOTDGuiScrollBar(int x, int y, int width, int height, String scrollBarTexture, String handleTexture, String handleHoveredTexture)
@@ -69,12 +71,12 @@ public class AOTDGuiScrollBar extends AOTDGuiContainer
         // Add the background to the control
         this.add(barBackground);
         // Create a handle to grab, let the height be the height of the bar / 10
-        AOTDGuiButton handle = new AOTDGuiButton(0, 0, width, height / 10, null, handleTexture, handleHoveredTexture);
+        this.handle = new AOTDGuiButton(0, 0, width, height / 10, null, handleTexture, handleHoveredTexture);
         // Add the handle
-        this.add(handle);
+        this.add(this.handle);
 
         // When we click the mouse we update the state of the handle to being held/released
-        handle.addMouseListener(event ->
+        this.handle.addMouseListener(event ->
         {
             if (event.getEventType() == AOTDMouseEvent.EventType.Click)
             {
@@ -100,34 +102,47 @@ public class AOTDGuiScrollBar extends AOTDGuiContainer
         });
 
         // Add a listener to the handle that moves it when lmb is down
-        handle.addMouseMoveListener(event ->
+        this.handle.addMouseMoveListener(event ->
         {
             if (event.getEventType() == AOTDMouseMoveEvent.EventType.Drag)
             {
                 // If we're holding the handle move it
                 if (handleHeld)
                 {
-                    // The minimum y value the handle can have
-                    int minY = getY();
-                    // Compute the difference between the max and min y values
-                    int maxYDiff = getHeight() - handle.getHeight();
-                    // The maximum y value the handle can have
-                    int maxY = getY() + maxYDiff;
-
                     // Compute the offset between mouse and original hold location
                     int yOffset = event.getMouseY() - originalMousePressLocation;
-                    // Compute where the handle should be based on the y offset, ensure to y offset is scaled to the
-                    // current y scale
-                    int newY = (int) (yOffset / getScaleY()) + (int) (minY + originalHandleLocation * maxYDiff);
-                    // Clamp the y inside the bar so you can't drag it off the top or bottom
-                    newY = MathHelper.clamp(newY, minY, maxY);
-                    // Update the y pos of the handle
-                    handle.setY(newY);
-                    // Set the handle location to be the percent down the bar the handle is
-                    handleLocation = (newY - minY) / (float) maxYDiff;
+                    // Move the the handle based on the offset
+                    moveHandle(yOffset, false);
                 }
             }
         });
+    }
+
+    /**
+     * Moves the handle up (+) or down (-) by yAmount
+     *
+     * @param yAmount    The amount to move the handle
+     * @param isRelative True if the yAmount is relative to the current position, false if not
+     */
+    public void moveHandle(int yAmount, boolean isRelative)
+    {
+        // The minimum y value the handle can have
+        int minY = getY();
+        // Compute the difference between the max and min y values
+        int maxYDiff = getHeight() - handle.getHeight();
+        // The maximum y value the handle can have
+        int maxY = getY() + maxYDiff;
+
+        // Compute where the handle should be based on the y offset, ensure to y offset is scaled to the
+        // current y scale
+        int newY = (int) (yAmount / getScaleY()) + (int) (minY + (isRelative ? handleLocation : originalHandleLocation) * maxYDiff);
+
+        // Clamp the y inside the bar so you can't drag it off the top or bottom
+        newY = MathHelper.clamp(newY, minY, maxY);
+        // Update the y pos of the handle
+        handle.setY(newY);
+        // Set the handle location to be the percent down the bar the handle is
+        handleLocation = (newY - minY) / (float) maxYDiff;
     }
 
     /**

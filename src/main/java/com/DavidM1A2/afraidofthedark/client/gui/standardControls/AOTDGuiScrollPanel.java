@@ -5,6 +5,8 @@ import com.DavidM1A2.afraidofthedark.client.gui.base.AOTDGuiContainer;
 import net.minecraft.util.math.MathHelper;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.Point;
+import org.lwjgl.util.Rectangle;
 
 import java.nio.IntBuffer;
 
@@ -23,6 +25,10 @@ public class AOTDGuiScrollPanel extends AOTDGuiContainer
     private float lastSliderPosition;
     // The original y position this panel was at before moving because of the slider
     private int originalYPos;
+    // A rectangle that represents the scroll panel's viewport
+    private Rectangle viewport;
+    // Number of pixels we scroll per mouse wheel click
+    private static final int PIXELS_SCROLLED_PER_CLICK = 25;
 
     /**
      * Constructor initializes the bounding box and if scissors are enabled or not
@@ -40,6 +46,22 @@ public class AOTDGuiScrollPanel extends AOTDGuiContainer
         this.originalYPos = y;
         this.scrollBar = scrollBar;
         this.scissorEnabled = scissorEnabled;
+
+        // When we scroll we want to move the content pane up or down
+        this.addMouseScrollListener(event ->
+        {
+            // Only scroll the pane if it's hovered
+            if (this.isHovered())
+            {
+                int scrollDistance = event.getScrollDistance();
+                // Only move the handle if scrollDistance is non-zero
+                if (scrollDistance != 0)
+                {
+                    // Move the scroll bar by the distance amount
+                    scrollBar.moveHandle(Math.round(-scrollDistance / (float) this.maximumOffset * PIXELS_SCROLLED_PER_CLICK), true);
+                }
+            }
+        });
     }
 
     /**
@@ -130,6 +152,30 @@ public class AOTDGuiScrollPanel extends AOTDGuiContainer
     }
 
     /**
+     * Returns true if the current component's viewport intersects the point, or false if not
+     *
+     * @param point The point to test intersection with
+     * @return True if the point intersects the rectangle, false otherwise
+     */
+    @Override
+    public Boolean intersects(Point point)
+    {
+        return this.viewport.contains(point);
+    }
+
+    /**
+     * Returns true if the current component's viewport intersects the rectangle, or false if not
+     *
+     * @param rectangle The point to test intersection with
+     * @return True if the point intersects the rectangle, false otherwise
+     */
+    @Override
+    public boolean intersects(Rectangle rectangle)
+    {
+        return this.viewport.intersects(rectangle);
+    }
+
+    /**
      * Set the maximum offset this panel can have when being scrolled
      *
      * @param maximumOffset The new max offset
@@ -139,6 +185,16 @@ public class AOTDGuiScrollPanel extends AOTDGuiContainer
         this.maximumOffset = maximumOffset;
         // Force a recomputation of the panel's position by falsifying the slider's pos
         this.lastSliderPosition = -1;
+    }
+
+    /**
+     * Updates the scaled bounding box from the current X and Y scale
+     */
+    @Override
+    public void updateScaledBounds()
+    {
+        super.updateScaledBounds();
+        this.viewport = new Rectangle(getXScaled(), (int) (originalYPos * getScaleY()), getWidthScaled(), getHeightScaled());
     }
 
     /**

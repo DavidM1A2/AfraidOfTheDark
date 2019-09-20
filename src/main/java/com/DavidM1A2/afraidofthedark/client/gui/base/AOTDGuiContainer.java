@@ -3,6 +3,7 @@ package com.DavidM1A2.afraidofthedark.client.gui.base;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDKeyEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent;
+import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseScrollEvent;
 
 import java.util.Collections;
 import java.util.List;
@@ -174,6 +175,20 @@ public abstract class AOTDGuiContainer extends AOTDGuiComponentWithEvents
         super.processMouseMoveInput(event);
         // Fire our sub-component's mouse move input events
         this.subComponents.forEach(subContainer -> subContainer.processMouseMoveInput(event));
+    }
+
+    /**
+     * Called to process a mouse scroll input event
+     *
+     * @param event The event to process
+     */
+    @Override
+    public void processMouseScrollInput(AOTDMouseScrollEvent event)
+    {
+        // Fire our component's mouse scroll input
+        super.processMouseScrollInput(event);
+        // Fire our sub-component's mouse scroll input events
+        this.subComponents.forEach(subContainer -> subContainer.processMouseScrollInput(event));
     }
 
     /**

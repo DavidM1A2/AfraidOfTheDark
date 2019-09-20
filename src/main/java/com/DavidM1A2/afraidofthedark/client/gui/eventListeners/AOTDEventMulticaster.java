@@ -3,11 +3,12 @@ package com.DavidM1A2.afraidofthedark.client.gui.eventListeners;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDKeyEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseEvent;
 import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent;
+import com.DavidM1A2.afraidofthedark.client.gui.events.AOTDMouseScrollEvent;
 
 /**
  * Class used to add multiple event listeners to a given control. This design pattern is copied from Java's Swing EventMulticaster
  */
-public class AOTDEventMulticaster implements IAOTDKeyListener, IAOTDMouseListener, IAOTDMouseMoveListener
+public class AOTDEventMulticaster implements IAOTDKeyListener, IAOTDMouseListener, IAOTDMouseMoveListener, IAOTDMouseScrollListener
 {
     // The first event listener to call
     private final IAOTDEventListener listener1;
@@ -24,18 +25,6 @@ public class AOTDEventMulticaster implements IAOTDKeyListener, IAOTDMouseListene
     {
         this.listener1 = listener1;
         this.listener2 = listener2;
-    }
-
-    /**
-     * Static function to create a new event listener that is made up of two other event listeners. When the event is called both listeners are fired
-     *
-     * @param first  The first key listener to fire
-     * @param second The second key listener to fire
-     * @return The key listener that will fire both listeners when called
-     */
-    public static IAOTDKeyListener combineKeyListeners(IAOTDKeyListener first, IAOTDKeyListener second)
-    {
-        return (IAOTDKeyListener) combine(first, second);
     }
 
     /**
@@ -60,6 +49,30 @@ public class AOTDEventMulticaster implements IAOTDKeyListener, IAOTDMouseListene
     public static IAOTDMouseMoveListener combineMouseMoveListeners(IAOTDMouseMoveListener first, IAOTDMouseMoveListener second)
     {
         return (IAOTDMouseMoveListener) combine(first, second);
+    }
+
+    /**
+     * Static function to create a new event listener that is made up of two other event listeners. When the event is called both listeners are fired
+     *
+     * @param first  The first mouse scroll listener to fire
+     * @param second The second mouse scroll listener to fire
+     * @return The mouse scroll listener that will fire both listeners when called
+     */
+    public static IAOTDMouseScrollListener combineMouseScrollListeners(IAOTDMouseScrollListener first, IAOTDMouseScrollListener second)
+    {
+        return (IAOTDMouseScrollListener) combine(first, second);
+    }
+
+    /**
+     * Static function to create a new event listener that is made up of two other event listeners. When the event is called both listeners are fired
+     *
+     * @param first  The first key listener to fire
+     * @param second The second key listener to fire
+     * @return The key listener that will fire both listeners when called
+     */
+    public static IAOTDKeyListener combineKeyListeners(IAOTDKeyListener first, IAOTDKeyListener second)
+    {
+        return (IAOTDKeyListener) combine(first, second);
     }
 
     /**
@@ -118,5 +131,17 @@ public class AOTDEventMulticaster implements IAOTDKeyListener, IAOTDMouseListene
     {
         ((IAOTDKeyListener) listener1).fire(event);
         ((IAOTDKeyListener) listener2).fire(event);
+    }
+
+    /**
+     * Called when a mouse scroll event is fired
+     *
+     * @param event The event containing information about the mouse move event
+     */
+    @Override
+    public void fire(AOTDMouseScrollEvent event)
+    {
+        ((IAOTDMouseScrollListener) listener1).fire(event);
+        ((IAOTDMouseScrollListener) listener2).fire(event);
     }
 }
