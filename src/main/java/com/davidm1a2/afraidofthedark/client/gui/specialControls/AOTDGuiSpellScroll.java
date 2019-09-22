@@ -2,7 +2,6 @@ package com.davidm1a2.afraidofthedark.client.gui.specialControls;
 
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer;
 import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment;
-import com.davidm1a2.afraidofthedark.client.gui.eventListeners.IAOTDMouseListener;
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent;
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent;
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.*;
@@ -85,7 +84,7 @@ public class AOTDGuiSpellScroll extends AOTDGuiContainer
         currentComponent = currentComponent + COMPONENTS_PER_LINE;
 
         // Listener to be used by all of our spell components
-        IAOTDMouseListener componentClickListener = event ->
+        Consumer<AOTDMouseEvent> componentClickListener = event ->
         {
             if (event.getEventType() == AOTDMouseEvent.EventType.Press)
             {

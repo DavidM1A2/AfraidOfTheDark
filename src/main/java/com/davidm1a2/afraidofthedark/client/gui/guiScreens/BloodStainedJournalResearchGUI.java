@@ -5,8 +5,6 @@ import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiHandler;
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiClickAndDragable;
 import com.davidm1a2.afraidofthedark.client.gui.base.SpriteSheetController;
 import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment;
-import com.davidm1a2.afraidofthedark.client.gui.eventListeners.IAOTDMouseListener;
-import com.davidm1a2.afraidofthedark.client.gui.eventListeners.IAOTDMouseMoveListener;
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent;
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent;
 import com.davidm1a2.afraidofthedark.client.gui.specialControls.AOTDGuiResearchNodeButton;
@@ -24,6 +22,8 @@ import com.davidm1a2.afraidofthedark.common.registry.research.Research;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import org.lwjgl.util.Color;
+
+import java.util.function.Consumer;
 
 /**
  * The research GUI used by the blood stained journal to show what has been unlocked and what has not been unlocked
@@ -46,8 +46,8 @@ public class BloodStainedJournalResearchGUI extends AOTDGuiClickAndDragable
     private final SpriteSheetController nodeConnectorControllerVertical = new SpriteSheetController(500, 20, 60, 180, true, true);
     private final SpriteSheetController nodeConnectorControllerHorizontal = new SpriteSheetController(500, 20, 180, 60, true, false);
     // Two node listeners to be used by all research tree nodes
-    private final IAOTDMouseMoveListener researchNodeMouseMoveListener;
-    private final IAOTDMouseListener researchNodeMouseListener;
+    private final Consumer<AOTDMouseMoveEvent> researchNodeMouseMoveListener;
+    private final Consumer<AOTDMouseEvent> researchNodeMouseListener;
 
     /**
      * Constructor initializes the entire GUI

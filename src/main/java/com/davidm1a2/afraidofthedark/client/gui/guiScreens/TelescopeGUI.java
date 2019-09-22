@@ -2,7 +2,6 @@ package com.davidm1a2.afraidofthedark.client.gui.guiScreens;
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark;
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiClickAndDragable;
-import com.davidm1a2.afraidofthedark.client.gui.eventListeners.IAOTDMouseListener;
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent;
 import com.davidm1a2.afraidofthedark.client.gui.specialControls.AOTDGuiMeteorButton;
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiImage;
@@ -17,6 +16,7 @@ import net.minecraft.util.math.MathHelper;
 
 import java.util.List;
 import java.util.Random;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -57,7 +57,7 @@ public class TelescopeGUI extends AOTDGuiClickAndDragable
         telescopeImage.setV(this.guiOffsetY + (telescopeImage.getMaxTextureHeight() - telescopeImage.getHeight()) / 2);
 
         // Click listener that gets called when we click a meteor button
-        IAOTDMouseListener meteorClickListener = event ->
+        Consumer<AOTDMouseEvent> meteorClickListener = event ->
         {
             if (event.getEventType() == AOTDMouseEvent.EventType.Click)
             {

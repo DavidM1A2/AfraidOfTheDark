@@ -4,8 +4,6 @@ import com.davidm1a2.afraidofthedark.AfraidOfTheDark;
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiHandler;
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer;
 import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment;
-import com.davidm1a2.afraidofthedark.client.gui.eventListeners.IAOTDMouseListener;
-import com.davidm1a2.afraidofthedark.client.gui.eventListeners.IAOTDMouseMoveListener;
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent;
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent;
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiButton;
@@ -19,6 +17,8 @@ import com.davidm1a2.afraidofthedark.common.constants.ModSounds;
 import com.davidm1a2.afraidofthedark.common.spell.Spell;
 import net.minecraft.init.SoundEvents;
 import org.lwjgl.util.Color;
+
+import java.util.function.Consumer;
 
 /**
  * UI component representing a spell in the GUI
@@ -67,7 +67,7 @@ public class AOTDGuiSpell extends AOTDGuiContainer
         this.add(spellNameContainer);
 
         // When we hover any button play hover sound
-        IAOTDMouseMoveListener hoverSound = event ->
+        Consumer<AOTDMouseMoveEvent> hoverSound = event ->
         {
             if (event.getEventType() == AOTDMouseMoveEvent.EventType.Enter)
             {
@@ -79,7 +79,7 @@ public class AOTDGuiSpell extends AOTDGuiContainer
             }
         };
         // When we click any button play the click sound
-        IAOTDMouseListener clickSound = event ->
+        Consumer<AOTDMouseEvent> clickSound = event ->
         {
             if (event.getEventType() == AOTDMouseEvent.EventType.Click)
             {
