@@ -124,7 +124,7 @@ public class SpellCraftingGUI extends AOTDGuiScreen
         // If the inventory key closes the ui and is pressed open the spell list UI
         if (tablet.inventoryKeyClosesUI() && scroll.inventoryKeyClosesUI())
         {
-            if (keyCode == INVENTORY_KEYCODE)
+            if (keyCode == inventoryKeycode)
             {
                 entityPlayer.openGui(Constants.MOD_ID, AOTDGuiHandler.SPELL_LIST_ID, entityPlayer.world, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ());
             }

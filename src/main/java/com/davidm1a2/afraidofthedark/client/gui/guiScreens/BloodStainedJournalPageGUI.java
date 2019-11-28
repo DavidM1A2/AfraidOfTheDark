@@ -371,7 +371,7 @@ public class BloodStainedJournalPageGUI extends AOTDGuiScreen
     protected void keyTyped(char character, int keyCode) throws IOException
     {
         // If we press our inventory button close the UI and go to the journal UI
-        if (keyCode == INVENTORY_KEYCODE)
+        if (keyCode == inventoryKeycode)
         {
             entityPlayer.openGui(AfraidOfTheDark.INSTANCE, AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID, entityPlayer.world, entityPlayer.getPosition().getX(), entityPlayer.getPosition().getY(), entityPlayer.getPosition().getZ());
         }

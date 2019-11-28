@@ -45,6 +45,16 @@ public abstract class SpellComponent implements INBTSerializable<NBTTagCompound>
     public abstract <V extends SpellComponent, T extends SpellComponentEntry<T, V>> T getEntryRegistryType();
 
     /**
+     * Temporary way to read recursive generic in kotlin
+     *
+     * @return The entity registry type unlocalized string
+     */
+    public String getEntityTypeUnlocalizedName()
+    {
+        return getEntryRegistryType().getUnlocalizedName();
+    }
+
+    /**
      * Serializes the spell component to NBT, override to add additional fields
      *
      * @return An NBT compound containing any required spell component info
