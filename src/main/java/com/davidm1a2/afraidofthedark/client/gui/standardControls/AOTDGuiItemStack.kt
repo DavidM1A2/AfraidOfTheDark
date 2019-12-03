@@ -20,7 +20,7 @@ class AOTDGuiItemStack(x: Int, y: Int, width: Int, height: Int, backgroundHighli
     AOTDGuiContainer(x, y, width, height)
 {
     // The image that is shown when the itemstack is hovered over
-    private var highlight: AOTDGuiImage? = null
+    private val highlight: AOTDGuiImage?
 
     init
     {
@@ -29,8 +29,12 @@ class AOTDGuiItemStack(x: Int, y: Int, width: Int, height: Int, backgroundHighli
         {
             highlight = AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/journal_page/slot_highlight.png")
             // Start the highlight off
-            highlight?.isVisible = false
-            this.add(highlight!!)
+            highlight.isVisible = false
+            this.add(highlight)
+        }
+        else
+        {
+            highlight = null
         }
     }
 
@@ -46,7 +50,7 @@ class AOTDGuiItemStack(x: Int, y: Int, width: Int, height: Int, backgroundHighli
             if (this.highlight != null)
             {
                 // Show the highlit background if hovered and hide it if not
-                highlight?.isVisible = this.isHovered
+                highlight.isVisible = this.isHovered && !this.itemStack.isEmpty
             }
 
             super.draw()

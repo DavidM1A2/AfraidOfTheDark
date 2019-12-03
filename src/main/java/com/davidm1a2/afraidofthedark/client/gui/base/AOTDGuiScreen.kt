@@ -237,7 +237,7 @@ abstract class AOTDGuiScreen : GuiScreen()
 
     companion object
     {
-        protected val entityPlayer: EntityPlayerSP = Minecraft.getMinecraft().player
-        protected val inventoryKeycode = Minecraft.getMinecraft().gameSettings.keyBindInventory.keyCode
+        val entityPlayer: EntityPlayerSP = Minecraft.getMinecraft().player
+        val inventoryKeycode = Minecraft.getMinecraft().gameSettings.keyBindInventory.keyCode
     }
 }

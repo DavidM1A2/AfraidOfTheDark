@@ -21,7 +21,7 @@ import net.minecraftforge.common.crafting.IShapedRecipe
 class AOTDGuiRecipe(x: Int, y: Int, width: Int, height: Int, recipe: IRecipe? = null) : AOTDGuiContainer(x, y, width, height)
 {
     private val craftingGrid: AOTDGuiImage
-    private val guiItemStacks: MutableList<AOTDGuiItemStack>
+    private val guiItemStacks: Array<AOTDGuiItemStack>
     private val output: AOTDGuiItemStack
 
     init
@@ -30,19 +30,18 @@ class AOTDGuiRecipe(x: Int, y: Int, width: Int, height: Int, recipe: IRecipe? = 
         this.craftingGrid = AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/journal_page/crafting_grid.png")
         this.add(this.craftingGrid)
 
-        // Create an array of 9 stacks for each of the 9 slots
-        this.guiItemStacks = mutableListOf()
-        // Initialize each of the 9 stacks
-        for (i in 0..8)
+        // Create an array of 9 stacks for each of the 9 slots and initialize each of the 9 stacks
+        this.guiItemStacks = Array(9)
         {
-            guiItemStacks[i] = AOTDGuiItemStack(
-                5 + i % 3 * 24,
-                6 + 26 * (i / 3),
-                (width / 5.0).toInt(),
-                (height / 4.0).toInt(),
-                true
+            AOTDGuiItemStack(
+                    5 + it % 3 * 24,
+                    6 + 26 * (it / 3),
+                    (width / 5.0).toInt(),
+                    (height / 4.0).toInt(),
+                    true
             )
         }
+
         // Initialize the output stack
         output = AOTDGuiItemStack(83, 31, 24, 24, true)
 
