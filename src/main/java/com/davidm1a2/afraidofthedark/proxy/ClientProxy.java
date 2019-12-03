@@ -74,7 +74,7 @@ public class ClientProxy extends CommonProxy
     public void initializeTileEntityRenderers()
     {
         // Tell MC to render our void chest tile entity with the special renderer
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVoidChest.class, new TileEntityVoidChestRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVoidChest.class, TileEntityVoidChestRenderer.INSTANCE);
     }
 
     /**
