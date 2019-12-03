@@ -79,9 +79,7 @@ public final class PacketHandler
      * @param target         The side to which this packet can be sent.
      * @return <code>true</code>, if successful
      */
-    @SuppressWarnings(
-            {"unchecked", "rawtypes"})
-    public boolean registerPacket(Class<? extends IMessage> packetClass, AbstractMessageHandler messageHandler, Side target)
+    public <T extends IMessage, V extends AbstractMessageHandler<T>> boolean registerPacket(Class<T> packetClass, V messageHandler, Side target)
     {
         if (this.nextPacketID == -1)
         {
@@ -104,9 +102,7 @@ public final class PacketHandler
      * @param messageHandler the message handler for this packet type.
      * @return <code>true</code>, if successful
      */
-    @SuppressWarnings(
-            {"unchecked", "rawtypes"})
-    public boolean registerBidiPacket(Class<? extends IMessage> packetClass, MessageHandler.Bidirectional messageHandler)
+    public <T extends IMessage> boolean registerBidiPacket(Class<T> packetClass, MessageHandler.Bidirectional<T> messageHandler)
     {
         if (this.nextPacketID == -1)
         {

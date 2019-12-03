@@ -16,7 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * @param <T> The packet type that can be handled
  * @author _Bedrock_Miner_ (minerbedrock@gmail.com)
  */
-abstract class AbstractMessageHandler<T extends IMessage> implements IMessageHandler<T, IMessage>
+public abstract class AbstractMessageHandler<T extends IMessage> implements IMessageHandler<T, IMessage>
 {
 
     /**
