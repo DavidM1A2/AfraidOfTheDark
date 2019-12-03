@@ -1,31 +1,29 @@
-package com.davidm1a2.afraidofthedark.client.keybindings;
+package com.davidm1a2.afraidofthedark.client.keybindings
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark;
-import com.davidm1a2.afraidofthedark.common.capabilities.player.basics.IAOTDPlayerBasics;
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities;
-import com.davidm1a2.afraidofthedark.common.constants.ModItems;
-import com.davidm1a2.afraidofthedark.common.constants.ModResearches;
-import com.davidm1a2.afraidofthedark.common.item.ItemCloakOfAgility;
-import com.davidm1a2.afraidofthedark.common.item.crossbow.ItemWristCrossbow;
-import com.davidm1a2.afraidofthedark.common.packets.otherPackets.FireWristCrossbow;
-import com.davidm1a2.afraidofthedark.common.packets.otherPackets.SyncSpellKeyPress;
-import com.davidm1a2.afraidofthedark.common.registry.bolt.BoltEntry;
-import com.davidm1a2.afraidofthedark.common.utility.BoltOrderHelper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.InputEvent;
-import org.lwjgl.input.Keyboard;
+import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.constants.ModItems
+import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.item.ItemCloakOfAgility
+import com.davidm1a2.afraidofthedark.common.item.crossbow.ItemWristCrossbow
+import com.davidm1a2.afraidofthedark.common.packets.otherPackets.FireWristCrossbow
+import com.davidm1a2.afraidofthedark.common.packets.otherPackets.SyncSpellKeyPress
+import com.davidm1a2.afraidofthedark.common.utility.BoltOrderHelper
+import net.minecraft.client.Minecraft
+import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.item.ItemStack
+import net.minecraft.util.math.Vec3d
+import net.minecraft.util.text.TextComponentTranslation
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent
+import org.lwjgl.input.Keyboard
 
 /**
  * Class that receives all keyboard events and processes them accordingly
  */
-public class KeyInputEventHandler
+object KeyInputEventHandler
 {
-    private static final double ROLL_VELOCITY = 3;
+    private const val ROLL_VELOCITY = 3.0
 
     /**
      * Called whenever a key is pressed
@@ -33,26 +31,28 @@ public class KeyInputEventHandler
      * @param event The key event containing press information
      */
     @SubscribeEvent
-    public void handleKeyInputEvent(InputEvent.KeyInputEvent event)
+    fun handleKeyInputEvent(event: KeyInputEvent)
     {
         // Process input
-        if (ModKeybindings.FIRE_WRIST_CROSSBOW.isPressed())
+        if (ModKeybindings.FIRE_WRIST_CROSSBOW.isPressed)
         {
-            this.fireWristCrossbow();
+            fireWristCrossbow()
         }
-        if (ModKeybindings.ROLL_WITH_CLOAK_OF_AGILITY.isPressed())
+
+        if (ModKeybindings.ROLL_WITH_CLOAK_OF_AGILITY.isPressed)
         {
-            this.rollWithCloakOfAgility();
+            rollWithCloakOfAgility()
         }
+
         // If a key was pressed and it is bound to a spell fire the spell
         if (Keyboard.getEventKeyState() && KeybindingUtils.keybindableKeyDown())
         {
             // Grab the currently held bind
-            String keybindingPressed = KeybindingUtils.getCurrentlyHeldKeybind();
+            val keybindingPressed = KeybindingUtils.getCurrentlyHeldKeybind()
             // If that keybind exists then tell the server to fire the spell
-            if (Minecraft.getMinecraft().player.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null).keybindExists(keybindingPressed))
+            if (Minecraft.getMinecraft().player.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null)!!.keybindExists(keybindingPressed))
             {
-                AfraidOfTheDark.INSTANCE.getPacketHandler().sendToServer(new SyncSpellKeyPress(keybindingPressed));
+                AfraidOfTheDark.INSTANCE.packetHandler.sendToServer(SyncSpellKeyPress(keybindingPressed))
             }
         }
     }
@@ -60,75 +60,73 @@ public class KeyInputEventHandler
     /**
      * Call to attempt firing the wrist crossbow
      */
-    private void fireWristCrossbow()
+    private fun fireWristCrossbow()
     {
         // Grab a player reference
-        EntityPlayer entityPlayer = Minecraft.getMinecraft().player;
+        val entityPlayer: EntityPlayer = Minecraft.getMinecraft().player
         // Grab the player's bolt of choice
-        IAOTDPlayerBasics playerBasics = entityPlayer.getCapability(ModCapabilities.PLAYER_BASICS, null);
+        val playerBasics = entityPlayer.getCapability(ModCapabilities.PLAYER_BASICS, null)!!
         // If the player is sneaking change the mode
-        if (entityPlayer.isSneaking())
+        if (entityPlayer.isSneaking)
         {
             // Advance the current index
-            int currentBoltIndex = playerBasics.getSelectedWristCrossbowBoltIndex();
+            var currentBoltIndex = playerBasics.selectedWristCrossbowBoltIndex
             // Compute the next bolt index
-            currentBoltIndex = BoltOrderHelper.getNextBoltIndex(entityPlayer, currentBoltIndex);
+            currentBoltIndex = BoltOrderHelper.getNextBoltIndex(entityPlayer, currentBoltIndex)
             // Set the selected index and sync the index
-            playerBasics.setSelectedWristCrossbowBoltIndex(currentBoltIndex);
-            playerBasics.syncSelectedWristCrossbowBoltIndex(entityPlayer);
+            playerBasics.selectedWristCrossbowBoltIndex = currentBoltIndex
+            playerBasics.syncSelectedWristCrossbowBoltIndex(entityPlayer)
             // Tell the player what type of bolt will be fired now
-            entityPlayer.sendMessage(new TextComponentTranslation("aotd.wrist_crossbow.bolt_change", new TextComponentTranslation(BoltOrderHelper.getBoltAt(currentBoltIndex).getUnLocalizedName())));
+            entityPlayer.sendMessage(TextComponentTranslation("aotd.wrist_crossbow.bolt_change", TextComponentTranslation(BoltOrderHelper.getBoltAt(currentBoltIndex).unLocalizedName)))
         }
-        // Fire a bolt
         else
         {
             // Test if the player has the correct research
-            if (entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null).isResearched(ModResearches.WRIST_CROSSBOW))
+            if (entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!.isResearched(ModResearches.WRIST_CROSSBOW))
             {
                 // Test if the player has a wrist crossbow to shoot with
-                if (entityPlayer.inventory.hasItemStack(new ItemStack(ModItems.WRIST_CROSSBOW, 1, 0)))
+                if (entityPlayer.inventory.hasItemStack(ItemStack(ModItems.WRIST_CROSSBOW, 1, 0)))
                 {
                     // Grab the currently selected bolt type
-                    BoltEntry boltType = BoltOrderHelper.getBoltAt(playerBasics.getSelectedWristCrossbowBoltIndex());
+                    val boltType = BoltOrderHelper.getBoltAt(playerBasics.selectedWristCrossbowBoltIndex)
                     // Ensure the player has a bolt of the right type in his/her inventory or is in creative mode
-                    if (entityPlayer.inventory.hasItemStack(new ItemStack(boltType.getBoltItem(), 1, 0)) || entityPlayer.isCreative())
+                    if (entityPlayer.inventory.hasItemStack(ItemStack(boltType.boltItem, 1, 0)) || entityPlayer.isCreative)
                     {
                         // Find the wrist crossbow item in the player's inventory
-                        for (ItemStack itemStack : entityPlayer.inventory.mainInventory)
+                        for (itemStack in entityPlayer.inventory.mainInventory)
                         {
-                            if (itemStack.getItem() instanceof ItemWristCrossbow)
+                            if (itemStack.item is ItemWristCrossbow)
                             {
                                 // Grab the crossbow item reference
-                                ItemWristCrossbow wristCrossbow = (ItemWristCrossbow) itemStack.getItem();
+                                val wristCrossbow = itemStack.item as ItemWristCrossbow
                                 // Test if the crossbow is on CD or not. If it is fire, if it is not continue searching
                                 if (!wristCrossbow.isOnCooldown(itemStack))
                                 {
                                     // Tell the server to fire the crossbow
-                                    AfraidOfTheDark.INSTANCE.getPacketHandler().sendToServer(new FireWristCrossbow(boltType));
+                                    AfraidOfTheDark.INSTANCE.packetHandler.sendToServer(FireWristCrossbow(boltType))
                                     // Set the item on CD
-                                    wristCrossbow.setOnCooldown(itemStack, entityPlayer);
-
+                                    wristCrossbow.setOnCooldown(itemStack, entityPlayer)
                                     // Return, we fired the bolt
-                                    return;
+                                    return
                                 }
                             }
                         }
                         // No valid wrist crossbow found
-                        entityPlayer.sendMessage(new TextComponentTranslation("aotd.wrist_crossbow.reloading"));
+                        entityPlayer.sendMessage(TextComponentTranslation("aotd.wrist_crossbow.reloading"))
                     }
                     else
                     {
-                        entityPlayer.sendMessage(new TextComponentTranslation("aotd.wrist_crossbow.no_bolt", new TextComponentTranslation(boltType.getUnLocalizedName())));
+                        entityPlayer.sendMessage(TextComponentTranslation("aotd.wrist_crossbow.no_bolt", TextComponentTranslation(boltType.unLocalizedName)))
                     }
                 }
                 else
                 {
-                    entityPlayer.sendMessage(new TextComponentTranslation("aotd.wrist_crossbow.no_crossbow"));
+                    entityPlayer.sendMessage(TextComponentTranslation("aotd.wrist_crossbow.no_crossbow"))
                 }
             }
             else
             {
-                entityPlayer.sendMessage(new TextComponentTranslation("aotd.dont_understand"));
+                entityPlayer.sendMessage(TextComponentTranslation("aotd.dont_understand"))
             }
         }
     }
@@ -136,66 +134,64 @@ public class KeyInputEventHandler
     /**
      * Call to attempt rolling with the cloak of agility
      */
-    private void rollWithCloakOfAgility()
+    private fun rollWithCloakOfAgility()
     {
         // Grab a player reference
-        EntityPlayer entityPlayer = Minecraft.getMinecraft().player;
+        val entityPlayer: EntityPlayer = Minecraft.getMinecraft().player
         // Test if the player has the correct research
-        if (entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null).isResearched(ModResearches.CLOAK_OF_AGILITY))
+        if (entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!.isResearched(ModResearches.CLOAK_OF_AGILITY))
         {
             // Ensure the player is on the ground
             if (entityPlayer.onGround)
             {
                 // Test if the player has a cloak of agility in their inventory
-                for (ItemStack itemStack : entityPlayer.inventory.mainInventory)
+                for (itemStack in entityPlayer.inventory.mainInventory)
                 {
                     // If the itemstack is a cloak set it on cooldown and dash
-                    if (itemStack.getItem() instanceof ItemCloakOfAgility)
+                    if (itemStack.item is ItemCloakOfAgility)
                     {
-                        ItemCloakOfAgility cloakOfAgility = (ItemCloakOfAgility) itemStack.getItem();
+                        val cloakOfAgility = itemStack.item as ItemCloakOfAgility
                         // Ensure the cloak is not on cooldown
                         if (!cloakOfAgility.isOnCooldown(itemStack))
                         {
                             // Set the cloak on CD
-                            cloakOfAgility.setOnCooldown(itemStack, entityPlayer);
-                            // Roll with the cloak
-                            Vec3d motionDirection;
+                            cloakOfAgility.setOnCooldown(itemStack, entityPlayer)
                             // If the player is not moving roll in the direction the player is looking, otherwise roll in the direction the player is moving
-                            if (entityPlayer.motionX <= 0.01 && entityPlayer.motionX >= -0.01 && entityPlayer.motionZ <= 0.01 && entityPlayer.motionZ >= -0.01)
+                            var motionDirection = if (entityPlayer.motionX <= 0.01 && entityPlayer.motionX >= -0.01 && entityPlayer.motionZ <= 0.01 && entityPlayer.motionZ >= -0.01)
                             {
-                                Vec3d lookDirection = entityPlayer.getLookVec();
-                                motionDirection = new Vec3d(lookDirection.x, 0, lookDirection.z);
+                                val lookDirection = entityPlayer.lookVec
+                                Vec3d(lookDirection.x, 0.0, lookDirection.z)
                             }
                             else
                             {
-                                motionDirection = new Vec3d(entityPlayer.motionX, 0, entityPlayer.motionZ);
+                                Vec3d(entityPlayer.motionX, 0.0, entityPlayer.motionZ)
                             }
                             // Normalize the motion vector
-                            motionDirection = motionDirection.normalize();
+                            motionDirection = motionDirection.normalize()
                             // Update the player's motion in the new direction
-                            entityPlayer.motionX = motionDirection.x * ROLL_VELOCITY;
-                            entityPlayer.motionY = 0.2;
-                            entityPlayer.motionZ = motionDirection.z * ROLL_VELOCITY;
+                            entityPlayer.motionX = motionDirection.x * ROLL_VELOCITY
+                            entityPlayer.motionY = 0.2
+                            entityPlayer.motionZ = motionDirection.z * ROLL_VELOCITY
                             // Return
-                            return;
+                            return
                         }
                         else
                         {
-                            entityPlayer.sendMessage(new TextComponentTranslation("aotd.cloak_of_agility.too_tired", cloakOfAgility.cooldownRemainingInSeconds(itemStack)));
+                            entityPlayer.sendMessage(TextComponentTranslation("aotd.cloak_of_agility.too_tired", cloakOfAgility.cooldownRemainingInSeconds(itemStack)))
                             // If one cloak is on cooldown they all are, return
-                            return;
+                            return
                         }
                     }
                 }
             }
             else
             {
-                entityPlayer.sendMessage(new TextComponentTranslation("aotd.cloak_of_agility.not_grounded"));
+                entityPlayer.sendMessage(TextComponentTranslation("aotd.cloak_of_agility.not_grounded"))
             }
         }
         else
         {
-            entityPlayer.sendMessage(new TextComponentTranslation("aotd.dont_understand"));
+            entityPlayer.sendMessage(TextComponentTranslation("aotd.dont_understand"))
         }
     }
 }

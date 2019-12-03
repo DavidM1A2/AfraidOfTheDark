@@ -83,7 +83,7 @@ public class ClientProxy extends CommonProxy
     @Override
     public void registerKeyBindings()
     {
-        for (KeyBinding keyBinding : ModKeybindings.KEY_BINDING_LIST)
+        for (KeyBinding keyBinding : ModKeybindings.INSTANCE.getKEY_BINDING_LIST())
             ClientRegistry.registerKeyBinding(keyBinding);
     }
 

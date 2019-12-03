@@ -1,56 +1,51 @@
-package com.davidm1a2.afraidofthedark.client.keybindings;
+package com.davidm1a2.afraidofthedark.client.keybindings
 
-import org.lwjgl.input.Keyboard;
-
-import java.util.LinkedHashSet;
-import java.util.Set;
+import org.lwjgl.input.Keyboard
 
 /**
  * Utility class for determining what combinations of keys are down
  */
-public class KeybindingUtils
+object KeybindingUtils
 {
     // A set of keys that are unbindable alone and require additional keys down
-    private static final Set<Integer> UNBINDABLE_KEYS = new LinkedHashSet<Integer>()
-    {{
-        add(Keyboard.KEY_RMENU);
-        add(Keyboard.KEY_LMENU);
-        add(Keyboard.KEY_RCONTROL);
-        add(Keyboard.KEY_LCONTROL);
-        add(Keyboard.KEY_RSHIFT);
-        add(Keyboard.KEY_LSHIFT);
-    }};
+    private val UNBINDABLE_KEYS = linkedSetOf(
+            Keyboard.KEY_RMENU,
+            Keyboard.KEY_LMENU,
+            Keyboard.KEY_RCONTROL,
+            Keyboard.KEY_LCONTROL,
+            Keyboard.KEY_RSHIFT,
+            Keyboard.KEY_LSHIFT)
 
     /**
      * @return True if a keybindable key is down, false otherwise
      */
-    public static boolean keybindableKeyDown()
+    fun keybindableKeyDown(): Boolean
     {
-        Integer keyCode = Keyboard.getEventKey();
-        return !UNBINDABLE_KEYS.contains(keyCode);
+        val keyCode = Keyboard.getEventKey()
+        return !UNBINDABLE_KEYS.contains(keyCode)
     }
 
     /**
      * @return Gets the current keybinding that is being held
      */
-    public static String getCurrentlyHeldKeybind()
+    fun getCurrentlyHeldKeybind(): String
     {
         // The string that is being bound
-        StringBuilder keybindString = new StringBuilder();
+        val keybindString = StringBuilder()
         // Go over all unbindable key codes and test if they're down
-        for (int unbindableKeyCode : UNBINDABLE_KEYS)
+        for (unbindableKeyCode in UNBINDABLE_KEYS)
         {
             // If they are down then append the key to the string
             if (Keyboard.isKeyDown(unbindableKeyCode))
             {
                 // Append the key and a + symbol
-                keybindString.append(Keyboard.getKeyName(unbindableKeyCode).toUpperCase()).append("+");
+                keybindString.append(Keyboard.getKeyName(unbindableKeyCode).toUpperCase()).append("+")
             }
         }
         // Finally append the key pressed
-        String keyName = Keyboard.getKeyName(Keyboard.getEventKey()).toUpperCase();
-        keybindString.append(keyName);
+        val keyName = Keyboard.getKeyName(Keyboard.getEventKey()).toUpperCase()
+        keybindString.append(keyName)
         // Return the keybinding string
-        return keybindString.toString();
+        return keybindString.toString()
     }
 }

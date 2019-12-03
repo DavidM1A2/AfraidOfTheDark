@@ -46,8 +46,8 @@ public class ItemWristCrossbow extends AOTDItemWithPerItemCooldown
         EntityPlayerSP player = Minecraft.getMinecraft().player;
         if (player != null && player.getCapability(ModCapabilities.PLAYER_RESEARCH, null).isResearched(ModResearches.WRIST_CROSSBOW))
         {
-            tooltip.add("Use " + ModKeybindings.FIRE_WRIST_CROSSBOW.getDisplayName() + " to fire a bolt in the current look direction.");
-            tooltip.add("Crouch & " + ModKeybindings.FIRE_WRIST_CROSSBOW.getDisplayName() + " to change bolt type.");
+            tooltip.add("Use " + ModKeybindings.INSTANCE.getFIRE_WRIST_CROSSBOW().getDisplayName() + " to fire a bolt in the current look direction.");
+            tooltip.add("Crouch & " + ModKeybindings.INSTANCE.getFIRE_WRIST_CROSSBOW().getDisplayName() + " to change bolt type.");
         }
         else
         {

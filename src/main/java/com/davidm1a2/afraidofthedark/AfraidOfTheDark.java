@@ -151,7 +151,7 @@ public class AfraidOfTheDark
         // Register our key input event handler client side
         if (event.getSide() == Side.CLIENT)
         {
-            MinecraftForge.EVENT_BUS.register(new KeyInputEventHandler());
+            MinecraftForge.EVENT_BUS.register(KeyInputEventHandler.INSTANCE);
         }
         // Only used by the developer to create .schematic.meta files
         // SchematicDebugUtils.createSchematicMetaFiles();

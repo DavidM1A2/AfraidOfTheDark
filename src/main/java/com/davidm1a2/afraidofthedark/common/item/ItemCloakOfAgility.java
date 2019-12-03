@@ -41,7 +41,7 @@ public class ItemCloakOfAgility extends AOTDItemWithSharedCooldown
         // If the player has the research show them what key is used to roll, otherwise tell them they don't know how to use the cloak
         if (player != null && player.getCapability(ModCapabilities.PLAYER_RESEARCH, null).isResearched(ModResearches.CLOAK_OF_AGILITY))
         {
-            tooltip.add("Use " + ModKeybindings.ROLL_WITH_CLOAK_OF_AGILITY.getDisplayName() + " to perform a roll in");
+            tooltip.add("Use " + ModKeybindings.INSTANCE.getROLL_WITH_CLOAK_OF_AGILITY().getDisplayName() + " to perform a roll in");
             tooltip.add("the current direction of movement");
         }
         else
