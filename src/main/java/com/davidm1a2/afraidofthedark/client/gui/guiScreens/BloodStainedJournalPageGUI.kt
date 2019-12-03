@@ -90,15 +90,15 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
                 xCornerOfPage,
                 yCornerOfPage - 25,
                 journalWidth, 25,
-                ClientData.getInstance().getTargaMSHandFontSized(50f))
+                ClientData.getTargaMSHandFontSized(50f))
         titleLabel.text = titleText
         titleLabel.textColor = titleColor
         titleLabel.textAlignment = TextAlignment.ALIGN_CENTER
         contentPane.add(titleLabel)
 
         // Create two page numbers, one for the left page and one for the right page
-        leftPageNumber = AOTDGuiLabel(15, 12, 15, 15, ClientData.getInstance().getTargaMSHandFontSized(32f))
-        rightPageNumber = AOTDGuiLabel(journalWidth - 27, 12, 15, 15, ClientData.getInstance().getTargaMSHandFontSized(32f))
+        leftPageNumber = AOTDGuiLabel(15, 12, 15, 15, ClientData.getTargaMSHandFontSized(32f))
+        rightPageNumber = AOTDGuiLabel(journalWidth - 27, 12, 15, 15, ClientData.getTargaMSHandFontSized(32f))
         // Align the right page number right so that it fits into the corner
         rightPageNumber.textAlignment = TextAlignment.ALIGN_RIGHT
         // Start the page numbers at 1 and 2
@@ -112,8 +112,8 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
         journalBackground.add(rightPageNumber)
 
         // Create two pages, one for the left page text and one for the right page text
-        leftPage = AOTDGuiTextBox(15, 30, journalWidth / 2 - 20, journalHeight - 70, ClientData.getInstance().getTargaMSHandFontSized(32f))
-        rightPage = AOTDGuiTextBox(135, 30, journalWidth / 2 - 20, journalHeight - 70, ClientData.getInstance().getTargaMSHandFontSized(32f))
+        leftPage = AOTDGuiTextBox(15, 30, journalWidth / 2 - 20, journalHeight - 70, ClientData.getTargaMSHandFontSized(32f))
+        rightPage = AOTDGuiTextBox(135, 30, journalWidth / 2 - 20, journalHeight - 70, ClientData.getTargaMSHandFontSized(32f))
         // Set the text on both pages to red
         leftPage.textColor = textColor
         rightPage.textColor = textColor

@@ -68,7 +68,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
 
         // Create the power source label
         val powerSourceHeading =
-            AOTDGuiLabel(5 + 24 * (currentComponent % 5), 5 + 24 * (currentComponent / 5), 120, 20, ClientData.getInstance().getTargaMSHandFontSized(46f))
+            AOTDGuiLabel(5 + 24 * (currentComponent % 5), 5 + 24 * (currentComponent / 5), 120, 20, ClientData.getTargaMSHandFontSized(46f))
         powerSourceHeading.textColor = Color(140, 35, 206)
         powerSourceHeading.text = "Power Sources"
         this.componentScrollPanel.add(powerSourceHeading)
@@ -100,7 +100,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
         currentComponent = MathHelper.roundUp(currentComponent, componentsPerLine)
 
         // Create the effect label
-        val effectHeading = AOTDGuiLabel(5 + 24 * (currentComponent % 5), 5 + 24 * (currentComponent / 5), 120, 20, ClientData.getInstance().getTargaMSHandFontSized(46f))
+        val effectHeading = AOTDGuiLabel(5 + 24 * (currentComponent % 5), 5 + 24 * (currentComponent / 5), 120, 20, ClientData.getTargaMSHandFontSized(46f))
         effectHeading.textColor = Color(140, 35, 206)
         effectHeading.text = "Effects"
         this.componentScrollPanel.add(effectHeading)
@@ -120,7 +120,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
 
         // Create the delivery method label
         val deliveryMethodHeading =
-            AOTDGuiLabel(5 + 24 * (currentComponent % 5), 5 + 24 * (currentComponent / 5), 120, 20, ClientData.getInstance().getTargaMSHandFontSized(46f))
+            AOTDGuiLabel(5 + 24 * (currentComponent % 5), 5 + 24 * (currentComponent / 5), 120, 20, ClientData.getTargaMSHandFontSized(46f))
         deliveryMethodHeading.textColor = Color(140, 35, 206)
         deliveryMethodHeading.text = "Delivery Methods"
         this.componentScrollPanel.add(deliveryMethodHeading)
@@ -186,7 +186,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
             val purpleText = Color(140, 35, 206)
 
             // Create a heading label to indicate what is currently being edited
-            val heading = AOTDGuiLabel(0, currentY, 120, 30, ClientData.getInstance().getTargaMSHandFontSized(32f))
+            val heading = AOTDGuiLabel(0, currentY, 120, 30, ClientData.getTargaMSHandFontSized(32f))
             heading.textColor = purpleText
             heading.text = I18n.format(spellComponent.entityTypeUnlocalizedName) + " Properties"
             editPanel.add(heading)
@@ -198,7 +198,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
             // If there are no editable properties say so with a text box
             if (editableProperties.isEmpty())
             {
-                val noPropsLine = AOTDGuiTextBox(0, currentY, 120, 30, ClientData.getInstance().getTargaMSHandFontSized(26f))
+                val noPropsLine = AOTDGuiTextBox(0, currentY, 120, 30, ClientData.getTargaMSHandFontSized(26f))
                 noPropsLine.textColor = purpleText
                 noPropsLine.text = "This component has no editable properties."
                 editPanel.add(noPropsLine)
@@ -210,13 +210,13 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
                 for (editableProp in editableProperties)
                 {
                     // Create a label that states the name of the property
-                    val propertyName = AOTDGuiLabel(0, currentY, 120, 15, ClientData.getInstance().getTargaMSHandFontSized(26f))
+                    val propertyName = AOTDGuiLabel(0, currentY, 120, 15, ClientData.getTargaMSHandFontSized(26f))
                     propertyName.textColor = purpleText
                     propertyName.text = "Name: " + editableProp.name
                     editPanel.add(propertyName)
                     currentY = currentY + propertyName.height
                     // Create a text box that shows the description of the property
-                    val propertyDescription = AOTDGuiTextBox(0, currentY, 120, 12, ClientData.getInstance().getTargaMSHandFontSized(26f))
+                    val propertyDescription = AOTDGuiTextBox(0, currentY, 120, 12, ClientData.getTargaMSHandFontSized(26f))
                     propertyDescription.textColor = purpleText
                     propertyDescription.text = "Description: " + editableProp.description
                     // While we don't have enough room for the description increase the size by a constant
@@ -228,7 +228,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
                     editPanel.add(propertyDescription)
                     currentY = currentY + propertyDescription.height
                     // Create a text field that edits the property value
-                    val propertyEditor = AOTDGuiTextField(0, currentY, 120, 30, ClientData.getInstance().getTargaMSHandFontSized(26f))
+                    val propertyEditor = AOTDGuiTextField(0, currentY, 120, 30, ClientData.getTargaMSHandFontSized(26f))
                     propertyEditor.textColor = purpleText
                     propertyEditor.text = editableProp.getter.get()
                     editPanel.add(propertyEditor)
@@ -249,7 +249,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
                     20,
                     "afraidofthedark:textures/gui/spell_editor/button.png",
                     "afraidofthedark:textures/gui/spell_editor/button_hovered.png",
-                    ClientData.getInstance().getTargaMSHandFontSized(32f)
+                    ClientData.getTargaMSHandFontSized(32f)
                 )
                 save.setTextAlignment(TextAlignment.ALIGN_CENTER)
                 save.setText("Save")
@@ -309,7 +309,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
                 20,
                 "afraidofthedark:textures/gui/spell_editor/button.png",
                 "afraidofthedark:textures/gui/spell_editor/button_hovered.png",
-                ClientData.getInstance().getTargaMSHandFontSized(32f)
+                ClientData.getTargaMSHandFontSized(32f)
             )
             cancel.setTextAlignment(TextAlignment.ALIGN_CENTER)
             cancel.setText(if (editableProperties.isEmpty()) "Close" else "Cancel")

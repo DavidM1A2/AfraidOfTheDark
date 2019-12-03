@@ -57,7 +57,7 @@ class BloodStainedJournalSignGUI : AOTDGuiScreen()
                 90,
                 160,
                 30,
-                ClientData.getInstance().getTargaMSHandFontSized(45f))
+                ClientData.getTargaMSHandFontSized(45f))
         this.nameSignField.textColor = Color(255, 0, 0)
         backgroundPanel.add(this.nameSignField)
 
@@ -71,7 +71,7 @@ class BloodStainedJournalSignGUI : AOTDGuiScreen()
                 signButtonHeight,
                 "afraidofthedark:textures/gui/journal_sign/sign_button.png",
                 "afraidofthedark:textures/gui/journal_sign/sign_button_hovered.png",
-                ClientData.getInstance().getTargaMSHandFontSized(55f))
+                ClientData.getTargaMSHandFontSized(55f))
         signButton.setText("Sign")
         signButton.setTextColor(Color(255, 0, 0))
         signButton.setTextAlignment(TextAlignment.ALIGN_CENTER)

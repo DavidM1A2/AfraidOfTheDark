@@ -46,7 +46,7 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
         val spellNameContainer = AOTDGuiPanel(10, 3, width - 20, 15, false)
 
         // The label holding the actual spell name
-        val lblSpellName = AOTDGuiLabel(0, 0, spellNameContainer.width, spellNameContainer.height, ClientData.getInstance().getTargaMSHandFontSized(36f))
+        val lblSpellName = AOTDGuiLabel(0, 0, spellNameContainer.width, spellNameContainer.height, ClientData.getTargaMSHandFontSized(36f))
         // Set the name label's name and color
         lblSpellName.text = this.spell.name
         lblSpellName.textColor = Color(245, 61, 199)
@@ -94,7 +94,7 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
                 if (it.source.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                 {
                     // Set the edited spell to this one
-                    ClientData.getInstance().lastSelectedSpell = spell
+                    ClientData.lastSelectedSpell = spell
                     // Open the spell edit GUI
                     entityPlayer.openGui(
                         AfraidOfTheDark.INSTANCE,
@@ -134,7 +134,7 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
         this.add(btnDelete)
 
         // Create a button to keybind this spell
-        lblKeybind = AOTDGuiLabel(37, 20, 100, 13, ClientData.getInstance().getTargaMSHandFontSized(30f))
+        lblKeybind = AOTDGuiLabel(37, 20, 100, 13, ClientData.getTargaMSHandFontSized(30f))
         lblKeybind.textAlignment = TextAlignment.ALIGN_CENTER
         btnEdit.addMouseListener(clickSound)
         btnEdit.addMouseMoveListener(hoverSound)

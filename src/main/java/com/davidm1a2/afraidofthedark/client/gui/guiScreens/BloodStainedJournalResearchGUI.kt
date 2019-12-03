@@ -71,7 +71,7 @@ class BloodStainedJournalResearchGUI(isCheatSheet: Boolean) : AOTDGuiClickAndDra
         if (isCheatSheet)
         {
             // Put the label on top and set the color to white
-            val lblCheatSheet = AOTDGuiLabel(15, 20, BACKGROUND_WIDTH - 30, 20, ClientData.getInstance().getTargaMSHandFontSized(32f))
+            val lblCheatSheet = AOTDGuiLabel(15, 20, BACKGROUND_WIDTH - 30, 20, ClientData.getTargaMSHandFontSized(32f))
             lblCheatSheet.textAlignment = TextAlignment.ALIGN_CENTER
             lblCheatSheet.textColor = Color(255, 255, 255)
             lblCheatSheet.text = "Cheat sheet - select researches to unlock them"
@@ -106,7 +106,7 @@ class BloodStainedJournalResearchGUI(isCheatSheet: Boolean) : AOTDGuiClickAndDra
                         if (!isCheatSheet)
                         {
                             // Store the selected research
-                            ClientData.getInstance().lastSelectedResearch = current.research
+                            ClientData.lastSelectedResearch = current.research
                             // If the research is researched show the page UI, otherwise show the pre-page UI
                             if (playerResearch.isResearched(current.research))
                             {

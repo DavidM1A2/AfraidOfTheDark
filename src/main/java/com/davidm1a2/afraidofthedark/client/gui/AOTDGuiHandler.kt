@@ -45,31 +45,29 @@ class AOTDGuiHandler : IGuiHandler
      */
     override fun getClientGuiElement(ID: Int, player: EntityPlayer, world: World, x: Int, y: Int, z: Int): Any?
     {
-        // Grab the client data instance
-        val clientData = ClientData.getInstance()
         // Grab the last selected research used in the page UI
-        val lastSelectedResearch = clientData.lastSelectedResearch
+        val lastSelectedResearch = ClientData.lastSelectedResearch
         // Grab the last selected spell used in the spell edit UI
-        val lastSelectedSpell = clientData.lastSelectedSpell
+        val lastSelectedSpell = ClientData.lastSelectedSpell
         return when (ID)
         {
             BLOOD_STAINED_JOURNAL_SIGN_ID -> BloodStainedJournalSignGUI()
             BLOOD_STAINED_JOURNAL_ID -> BloodStainedJournalResearchGUI(false)
             BLOOD_STAINED_JOURNAL_CHEAT_SHEET -> BloodStainedJournalResearchGUI(true)
             BLOOD_STAINED_JOURNAL_PAGE_ID -> BloodStainedJournalPageGUI(
-                lastSelectedResearch.researchedText,
+                lastSelectedResearch!!.researchedText,
                 I18n.format(lastSelectedResearch.unLocalizedName),
                 lastSelectedResearch.researchedRecipes
             )
             BLOOD_STAINED_JOURNAL_PAGE_PRE_ID -> BloodStainedJournalPageGUI(
-                lastSelectedResearch.preResearchedText,
+                lastSelectedResearch!!.preResearchedText,
                 "???",
                 lastSelectedResearch.preResearchedRecipes
             )
             TELESCOPE_ID -> TelescopeGUI()
             SEXTANT_ID -> SextantGUI()
             SPELL_LIST_ID -> SpellListGUI()
-            SPELL_CRAFTING_ID -> SpellCraftingGUI(lastSelectedSpell)
+            SPELL_CRAFTING_ID -> SpellCraftingGUI(lastSelectedSpell!!)
             else -> null
         }
     }

@@ -60,7 +60,7 @@ class AOTDGuiSpellTablet(
         val backgroundImage = AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/spell_editor/tablet_background.png")
         tablet.add(backgroundImage)
         // Setup the spell name label
-        spellName = AOTDGuiTextField(60, 30, 85, 25, ClientData.getInstance().getTargaMSHandFontSized(36f))
+        spellName = AOTDGuiTextField(60, 30, 85, 25, ClientData.getTargaMSHandFontSized(36f))
         spellName.ghostText = "Spell Name"
         // When we type into this slot set the spell name
         spellName.addKeyListener()
@@ -261,7 +261,7 @@ class AOTDGuiSpellTablet(
         }
         tablet.add(uiPowerSource)
         // Add the spell cost label
-        spellCost = AOTDGuiLabel(30, 225, 120, 20, ClientData.getInstance().getTargaMSHandFontSized(32f))
+        spellCost = AOTDGuiLabel(30, 225, 120, 20, ClientData.getTargaMSHandFontSized(32f))
         tablet.add(spellCost)
         // Update all the gui components from our spell
         refresh()
