@@ -111,7 +111,7 @@ public class SyncParticle implements IMessage
             {
                 Vec3d position = positions.get(i);
                 Vec3d speed = speeds.get(i);
-                AOTDParticleRegistry.spawnParticle(msg.particle, player.world, position.x, position.y, position.z, speed.x, speed.y, speed.z);
+                AOTDParticleRegistry.INSTANCE.spawnParticle(msg.particle, player.world, position.x, position.y, position.z, speed.x, speed.y, speed.z);
             }
         }
     }
