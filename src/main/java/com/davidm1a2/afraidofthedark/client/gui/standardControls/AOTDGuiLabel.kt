@@ -62,12 +62,12 @@ class AOTDGuiLabel(x: Int, y: Int, width: Int, height: Int, val font: TrueTypeFo
         {
             // Compute the x and y positions of the text
             val xCoord =
-                this.xScaled + when
-                {
-                    this.textAlignment === TextAlignment.ALIGN_LEFT -> 0f
-                    this.textAlignment === TextAlignment.ALIGN_CENTER -> this.widthScaled / 2f
-                    else -> this.widthScaled.toFloat()
-                }
+                    this.xScaled + when
+                    {
+                        this.textAlignment === TextAlignment.ALIGN_LEFT -> 0f
+                        this.textAlignment === TextAlignment.ALIGN_CENTER -> this.widthScaled / 2f
+                        else -> this.widthScaled.toFloat()
+                    }
             var yCoord = this.yScaled.toFloat()
 
             // Center align text on the y-axis
@@ -79,13 +79,13 @@ class AOTDGuiLabel(x: Int, y: Int, width: Int, height: Int, val font: TrueTypeFo
 
             // Draw the string at (x, y) with the correct color and scale
             this.font.drawString(
-                xCoord,
-                yCoord,
-                this.fitText,
-                this.scaleX.toFloat() * Constants.TEXT_SCALE_FACTOR,
-                this.scaleY.toFloat() * Constants.TEXT_SCALE_FACTOR,
-                textAlignment,
-                this.textColor
+                    xCoord,
+                    yCoord,
+                    this.fitText,
+                    this.scaleX.toFloat() * Constants.TEXT_SCALE_FACTOR,
+                    this.scaleY.toFloat() * Constants.TEXT_SCALE_FACTOR,
+                    textAlignment,
+                    this.textColor
             )
             super.draw()
         }

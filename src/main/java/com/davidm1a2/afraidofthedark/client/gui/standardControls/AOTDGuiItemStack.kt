@@ -17,7 +17,7 @@ import org.lwjgl.opengl.GL11
  * @param itemStack           The itemstack to draw
  */
 class AOTDGuiItemStack(x: Int, y: Int, width: Int, height: Int, backgroundHighlight: Boolean, var itemStack: ItemStack = ItemStack.EMPTY) :
-    AOTDGuiContainer(x, y, width, height)
+        AOTDGuiContainer(x, y, width, height)
 {
     // The image that is shown when the itemstack is hovered over
     private val highlight: AOTDGuiImage?
@@ -101,10 +101,10 @@ class AOTDGuiItemStack(x: Int, y: Int, width: Int, height: Int, backgroundHighli
             {
                 // Show the item name and count
                 fontRenderer.drawStringWithShadow(
-                    itemStack.displayName + " x" + itemStack.count,
-                    this.xScaled.toFloat(),
-                    (this.yScaled - 5).toFloat(),
-                    -0x1
+                        itemStack.displayName + " x" + itemStack.count,
+                        this.xScaled.toFloat(),
+                        (this.yScaled - 5).toFloat(),
+                        -0x1
                 )
             }
         }

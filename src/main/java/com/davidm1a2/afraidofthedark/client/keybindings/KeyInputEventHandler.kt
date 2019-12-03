@@ -77,7 +77,8 @@ object KeyInputEventHandler
             playerBasics.selectedWristCrossbowBoltIndex = currentBoltIndex
             playerBasics.syncSelectedWristCrossbowBoltIndex(entityPlayer)
             // Tell the player what type of bolt will be fired now
-            entityPlayer.sendMessage(TextComponentTranslation("aotd.wrist_crossbow.bolt_change", TextComponentTranslation(BoltOrderHelper.getBoltAt(currentBoltIndex).unLocalizedName)))
+            entityPlayer.sendMessage(TextComponentTranslation("aotd.wrist_crossbow.bolt_change",
+                    TextComponentTranslation(BoltOrderHelper.getBoltAt(currentBoltIndex).unLocalizedName)))
         }
         else
         {

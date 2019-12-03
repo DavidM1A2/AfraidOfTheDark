@@ -15,14 +15,14 @@ import net.minecraft.client.resources.I18n
  * @param deliveryMethodEntry The delivery method that is in this spell slot
  */
 class AOTDGuiSpellDeliveryMethodSlot(x: Int, y: Int, width: Int, height: Int, deliveryMethodEntry: SpellDeliveryMethodEntry?) :
-    AOTDGuiSpellComponentSlot<SpellDeliveryMethodEntry, SpellDeliveryMethod>(
-        x,
-        y,
-        width,
-        height,
-        "afraidofthedark:textures/gui/spell_editor/delivery_method_holder.png",
-        deliveryMethodEntry
-    )
+        AOTDGuiSpellComponentSlot<SpellDeliveryMethodEntry, SpellDeliveryMethod>(
+                x,
+                y,
+                width,
+                height,
+                "afraidofthedark:textures/gui/spell_editor/delivery_method_holder.png",
+                deliveryMethodEntry
+        )
 {
     /**
      * Refreshes the text that gets displayed when the slot is hovered
@@ -33,9 +33,9 @@ class AOTDGuiSpellDeliveryMethodSlot(x: Int, y: Int, width: Int, height: Int, de
         if (this.getComponentType() != null)
         {
             this.hoverTexts = arrayOf(
-                "Delivery Method (${I18n.format(this.getComponentType()!!.unlocalizedName)})",
-                "Cost Multiplier: ${this.getComponentInstance()!!.stageCostMultiplier}",
-                "Cost: ${this.getComponentInstance()!!.cost}"
+                    "Delivery Method (${I18n.format(this.getComponentType()!!.unlocalizedName)})",
+                    "Cost Multiplier: ${this.getComponentInstance()!!.stageCostMultiplier}",
+                    "Cost: ${this.getComponentInstance()!!.cost}"
             )
         }
         else

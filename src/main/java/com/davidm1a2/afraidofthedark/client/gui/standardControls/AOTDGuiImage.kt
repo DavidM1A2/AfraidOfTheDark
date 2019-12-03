@@ -22,7 +22,7 @@ import net.minecraft.util.ResourceLocation
  * @property maxTextureHeight The maximum texture height. If we don't have a texture height use this control's height as the image's height
  */
 class AOTDGuiImage(x: Int, y: Int, width: Int, height: Int, var imageTexture: ResourceLocation, private var textureWidth: Int = -1, private var textureHeight: Int = -1) :
-    AOTDGuiContainer(x, y, width, height)
+        AOTDGuiContainer(x, y, width, height)
 {
     var u = 0
     var v = 0
@@ -59,13 +59,13 @@ class AOTDGuiImage(x: Int, y: Int, width: Int, height: Int, var imageTexture: Re
      * @param textureHeight The height of the image png texture
      */
     constructor(x: Int, y: Int, width: Int, height: Int, imageTexture: String, textureWidth: Int = -1, textureHeight: Int = -1) : this(
-        x,
-        y,
-        width,
-        height,
-        ResourceLocation(imageTexture),
-        textureWidth,
-        textureHeight
+            x,
+            y,
+            width,
+            height,
+            ResourceLocation(imageTexture),
+            textureWidth,
+            textureHeight
     )
 
     /**
@@ -86,29 +86,29 @@ class AOTDGuiImage(x: Int, y: Int, width: Int, height: Int, var imageTexture: Re
             if (textureHeight == -1 || textureWidth == -1)
             {
                 Gui.drawModalRectWithCustomSizedTexture(
-                    this.xScaled,
-                    this.yScaled,
-                    this.u.toFloat(),
-                    this.v.toFloat(),
-                    this.widthScaled,
-                    this.heightScaled,
-                    this.widthScaled.toFloat(),
-                    this.heightScaled.toFloat()
+                        this.xScaled,
+                        this.yScaled,
+                        this.u.toFloat(),
+                        this.v.toFloat(),
+                        this.widthScaled,
+                        this.heightScaled,
+                        this.widthScaled.toFloat(),
+                        this.heightScaled.toFloat()
                 )
             }
             else
             {
                 Gui.drawScaledCustomSizeModalRect(
-                    this.xScaled,
-                    this.yScaled,
-                    this.u.toFloat(),
-                    this.v.toFloat(),
-                    this.width,
-                    this.height,
-                    this.widthScaled,
-                    this.heightScaled,
-                    this.textureWidth.toFloat(),
-                    this.textureHeight.toFloat()
+                        this.xScaled,
+                        this.yScaled,
+                        this.u.toFloat(),
+                        this.v.toFloat(),
+                        this.width,
+                        this.height,
+                        this.widthScaled,
+                        this.heightScaled,
+                        this.textureWidth.toFloat(),
+                        this.textureHeight.toFloat()
                 )
             }
             GlStateManager.popMatrix()

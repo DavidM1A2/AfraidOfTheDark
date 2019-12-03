@@ -15,7 +15,7 @@ import net.minecraft.client.resources.I18n
  * @param effectEntry The effect that is in this spell slot
  */
 class AOTDGuiSpellEffectSlot(x: Int, y: Int, width: Int, height: Int, effectEntry: SpellEffectEntry?) :
-    AOTDGuiSpellComponentSlot<SpellEffectEntry, SpellEffect>(x, y, width, height, "afraidofthedark:textures/gui/spell_editor/effect_holder.png", effectEntry)
+        AOTDGuiSpellComponentSlot<SpellEffectEntry, SpellEffect>(x, y, width, height, "afraidofthedark:textures/gui/spell_editor/effect_holder.png", effectEntry)
 {
     /**
      * Refreshes the text that gets displayed when the slot is hovered

@@ -26,7 +26,11 @@ import org.apache.logging.log4j.Logger
 /**
  * Main class run when the mod is started up
  */
-@Mod(modid = Constants.MOD_ID, name = Constants.MOD_NAME, version = Constants.MOD_VERSION, guiFactory = Constants.GUI_FACTORY_CLASS, acceptedMinecraftVersions = Constants.MC_VERSION)
+@Mod(modid = Constants.MOD_ID,
+        name = Constants.MOD_NAME,
+        version = Constants.MOD_VERSION,
+        guiFactory = Constants.GUI_FACTORY_CLASS,
+        acceptedMinecraftVersions = Constants.MC_VERSION)
 class AfraidOfTheDark
 {
     // Packet handler used to send and receive AOTD packets
@@ -146,7 +150,8 @@ class AfraidOfTheDark
         // Initialize spell effect overrides
         SpellEffectOverrideRegister.initialize()
         // Register our key input event handler client side
-        if (event.side == Side.CLIENT) {
+        if (event.side == Side.CLIENT)
+        {
             MinecraftForge.EVENT_BUS.register(KeyInputEventHandler)
         }
         // Only used by the developer to create .schematic.meta files

@@ -55,14 +55,14 @@ class AOTDGuiHandler : IGuiHandler
             BLOOD_STAINED_JOURNAL_ID -> BloodStainedJournalResearchGUI(false)
             BLOOD_STAINED_JOURNAL_CHEAT_SHEET -> BloodStainedJournalResearchGUI(true)
             BLOOD_STAINED_JOURNAL_PAGE_ID -> BloodStainedJournalPageGUI(
-                lastSelectedResearch!!.researchedText,
-                I18n.format(lastSelectedResearch.unLocalizedName),
-                lastSelectedResearch.researchedRecipes
+                    lastSelectedResearch!!.researchedText,
+                    I18n.format(lastSelectedResearch.unLocalizedName),
+                    lastSelectedResearch.researchedRecipes
             )
             BLOOD_STAINED_JOURNAL_PAGE_PRE_ID -> BloodStainedJournalPageGUI(
-                lastSelectedResearch!!.preResearchedText,
-                "???",
-                lastSelectedResearch.preResearchedRecipes
+                    lastSelectedResearch!!.preResearchedText,
+                    "???",
+                    lastSelectedResearch.preResearchedRecipes
             )
             TELESCOPE_ID -> TelescopeGUI()
             SEXTANT_ID -> SextantGUI()

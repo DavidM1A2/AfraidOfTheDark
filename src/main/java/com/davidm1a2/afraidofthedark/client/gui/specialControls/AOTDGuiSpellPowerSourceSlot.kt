@@ -15,14 +15,14 @@ import net.minecraft.client.resources.I18n
  * @param powerSourceEntry The power source that powers this spell slot
  */
 class AOTDGuiSpellPowerSourceSlot(x: Int, y: Int, width: Int, height: Int, powerSourceEntry: SpellPowerSourceEntry?) :
-    AOTDGuiSpellComponentSlot<SpellPowerSourceEntry, SpellPowerSource>(
-        x,
-        y,
-        width,
-        height,
-        "afraidofthedark:textures/gui/spell_editor/power_source_holder.png",
-        powerSourceEntry
-    )
+        AOTDGuiSpellComponentSlot<SpellPowerSourceEntry, SpellPowerSource>(
+                x,
+                y,
+                width,
+                height,
+                "afraidofthedark:textures/gui/spell_editor/power_source_holder.png",
+                powerSourceEntry
+        )
 {
     /**
      * Refreshes the text that gets displayed when the slot is hovered
@@ -33,7 +33,7 @@ class AOTDGuiSpellPowerSourceSlot(x: Int, y: Int, width: Int, height: Int, power
         if (this.getComponentType() != null)
         {
             this.hoverTexts =
-                arrayOf("Power Source (${I18n.format(this.getComponentType()!!.unlocalizedName)})", "Cost Meaning: ${this.getComponentInstance()!!.costDescription}")
+                    arrayOf("Power Source (${I18n.format(this.getComponentType()!!.unlocalizedName)})", "Cost Meaning: ${this.getComponentInstance()!!.costDescription}")
         }
         else
         {

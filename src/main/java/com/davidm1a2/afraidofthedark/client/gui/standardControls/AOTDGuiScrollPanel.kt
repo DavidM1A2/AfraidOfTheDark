@@ -23,7 +23,7 @@ import kotlin.math.round
  * @property viewport A rectangle that represents the scroll panel's viewport
  */
 class AOTDGuiScrollPanel(x: Int, private var originalYPos: Int, width: Int, height: Int, private val scissorEnabled: Boolean, private val scrollBar: AOTDGuiScrollBar) :
-    AOTDGuiContainer(x, originalYPos, width, height)
+        AOTDGuiContainer(x, originalYPos, width, height)
 {
     var maximumOffset = 0
         set(maximumOffset)

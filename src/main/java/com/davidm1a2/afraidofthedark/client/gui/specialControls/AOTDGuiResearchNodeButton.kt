@@ -20,12 +20,12 @@ import net.minecraft.util.ResourceLocation
  * @param research The research that this button represents
  */
 class AOTDGuiResearchNodeButton(x: Int, y: Int, val research: Research) : AOTDGuiButton(
-    x,
-    y,
-    32,
-    32,
-    "afraidofthedark:textures/gui/journal_tech_tree/research_background.png",
-    "afraidofthedark:textures/gui/journal_tech_tree/research_background_hovered.png"
+        x,
+        y,
+        32,
+        32,
+        "afraidofthedark:textures/gui/journal_tech_tree/research_background.png",
+        "afraidofthedark:textures/gui/journal_tech_tree/research_background_hovered.png"
 )
 {
     init

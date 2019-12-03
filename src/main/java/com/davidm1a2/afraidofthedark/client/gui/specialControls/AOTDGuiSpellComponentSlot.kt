@@ -15,12 +15,12 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentEntry
  * @param height The height of the component
  */
 abstract class AOTDGuiSpellComponentSlot<T : SpellComponentEntry<T, V>, V : SpellComponent>(
-    x: Int,
-    y: Int,
-    width: Int,
-    height: Int,
-    slotBackground: String,
-    componentInstance: T?
+        x: Int,
+        y: Int,
+        width: Int,
+        height: Int,
+        slotBackground: String,
+        componentInstance: T?
 ) : AOTDGuiContainer(x, y, width, height)
 {
     // The foreground image of the spell slot

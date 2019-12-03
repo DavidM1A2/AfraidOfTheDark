@@ -42,7 +42,11 @@ class SpellListGUI : AOTDGuiScreen()
         val backgroundPanel = AOTDGuiPanel(xPosSpellList, yPosSpellList, GUI_WIDTH, GUI_HEIGHT, false)
 
         // Create a magic mirror background image
-        val mirrorBackgroundImage = AOTDGuiImage(0, 0, GUI_WIDTH - SCROLL_BAR_WIDTH - SCROLL_BAR_HORIZONTAL_PADDING * 2, GUI_HEIGHT, "afraidofthedark:textures/gui/spell_list/spell_list_background.png")
+        val mirrorBackgroundImage = AOTDGuiImage(0,
+                0,
+                GUI_WIDTH - SCROLL_BAR_WIDTH - SCROLL_BAR_HORIZONTAL_PADDING * 2,
+                GUI_HEIGHT,
+                "afraidofthedark:textures/gui/spell_list/spell_list_background.png")
         backgroundPanel.add(mirrorBackgroundImage)
         // Compute the scroll bar's x and y position
         val scrollBarX = mirrorBackgroundImage.width + SCROLL_BAR_HORIZONTAL_PADDING
@@ -89,7 +93,12 @@ class SpellListGUI : AOTDGuiScreen()
         }
 
         // Add a button to create a new spell, center it under the scrollPanel spell entries
-        btnCreateSpell = AOTDGuiButton(scrollPanel.width / 2 - 13, 0, 26, 26, "afraidofthedark:textures/gui/spell_list/create_spell.png", "afraidofthedark:textures/gui/spell_list/create_spell_hovered.png")
+        btnCreateSpell = AOTDGuiButton(scrollPanel.width / 2 - 13,
+                0,
+                26,
+                26,
+                "afraidofthedark:textures/gui/spell_list/create_spell.png",
+                "afraidofthedark:textures/gui/spell_list/create_spell_hovered.png")
         btnCreateSpell.hoverText = "Create a new spell"
         btnCreateSpell.addMouseListener()
         {
