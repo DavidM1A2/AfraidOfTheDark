@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.common.biomes
 
-import com.davidm1a2.afraidofthedark.common.biomes.BiomeVoidChest.spawnableCreatures
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import net.minecraft.entity.EnumCreatureType
 import net.minecraft.init.Blocks
@@ -16,7 +15,7 @@ import java.util.*
  *
  * @property spawnableCreatures This list should always be empty
  */
-object BiomeVoidChest : Biome(BiomeProperties("Void Chest")
+class BiomeVoidChest : Biome(BiomeProperties("Void Chest")
         .setWaterColor(0x537B09)
         .setBaseHeight(0.125f)
         .setHeightVariation(0.05f)

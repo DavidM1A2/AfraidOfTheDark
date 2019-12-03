@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.common.biomes
 
-import com.davidm1a2.afraidofthedark.common.biomes.BiomeNightmare.spawnableCreatures
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import net.minecraft.entity.EnumCreatureType
 import net.minecraft.util.ResourceLocation
@@ -12,7 +11,7 @@ import net.minecraft.world.biome.Biome
  * @constructor initializes the biome's fields
  * @property spawnableCreatures A list of spawnable creatures, should always be empty
  */
-object BiomeNightmare : Biome(BiomeProperties("Nightmare")
+class BiomeNightmare : Biome(BiomeProperties("Nightmare")
         .setWaterColor(0xFF0000)
         .setBaseHeight(0.125f)
         .setHeightVariation(0.05f)

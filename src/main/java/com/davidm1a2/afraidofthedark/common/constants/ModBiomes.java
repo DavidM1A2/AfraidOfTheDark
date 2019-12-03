@@ -11,11 +11,11 @@ import net.minecraft.world.biome.Biome;
 public class ModBiomes
 {
     // The Erie Forest biome
-    public static final Biome ERIE_FOREST = BiomeErieForest.INSTANCE;
+    public static final Biome ERIE_FOREST = new BiomeErieForest();
     // The Void Chest biome
-    public static final Biome VOID_CHEST = BiomeVoidChest.INSTANCE;
+    public static final Biome VOID_CHEST = new BiomeVoidChest();
     // The Nightmare biome
-    public static final Biome NIGHTMARE = BiomeNightmare.INSTANCE;
+    public static final Biome NIGHTMARE = new BiomeNightmare();
 
     // An array containing a list of biomes that AOTD adds
     public static final Biome[] BIOME_LIST = new Biome[]

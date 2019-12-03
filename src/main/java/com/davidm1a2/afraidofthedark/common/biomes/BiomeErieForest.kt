@@ -18,7 +18,7 @@ import java.util.*
  *
  * @constructor initializes the biome's fields
  */
-object BiomeErieForest : Biome(BiomeProperties("Erie Forest")
+class BiomeErieForest : Biome(BiomeProperties("Erie Forest")
         .setWaterColor(0x000099)
         .setBaseHeight(0.125f)
         .setHeightVariation(0.05f))
