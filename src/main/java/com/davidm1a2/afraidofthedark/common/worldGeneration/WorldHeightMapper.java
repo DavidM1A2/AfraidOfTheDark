@@ -87,7 +87,7 @@ public class WorldHeightMapper
             // ChunkPrimer chunkPrimer = new ChunkPrimer();
 
             // Grab data for the world object
-            IHeightmap heightmap = OverworldHeightmap.get(worldServer);
+            IHeightmap heightmap = OverworldHeightmap.Companion.get(worldServer);
 
             // This should not happen, but in case it does throw an error
             if (heightmap == null)

@@ -22,7 +22,7 @@ public class SpellStateHandler
         if (event.phase == TickEvent.Phase.START && event.type == TickEvent.Type.SERVER && event.side == Side.SERVER)
         {
             // Doesn't matter what world we use, SpellStateData is global
-            SpellStateData.get(DimensionManager.getWorld(0)).update();
+            SpellStateData.Companion.get(DimensionManager.getWorld(0)).update();
         }
     }
 }

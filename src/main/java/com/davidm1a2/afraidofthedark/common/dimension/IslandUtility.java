@@ -26,7 +26,7 @@ public class IslandUtility
         if (islandData.getPositionalIndex() == -1)
         {
             // Compute this new player's index
-            int playersNewPositionalIndex = IslandVisitorData.get(world).addAndReturnNewVisitor();
+            int playersNewPositionalIndex = IslandVisitorData.Companion.get(world).addAndReturnNewVisitor();
             // Set that new index
             islandData.setPositionalIndex(playersNewPositionalIndex);
         }

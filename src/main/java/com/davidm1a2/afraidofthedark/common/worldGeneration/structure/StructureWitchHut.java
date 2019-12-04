@@ -118,7 +118,7 @@ public class StructureWitchHut extends AOTDStructure
         NBTTagCompound compound = new NBTTagCompound();
 
         // Find the lowest y value containing a block
-        int groundLevel = this.processChunks(new LowestHeightChunkProcessor(OverworldHeightmap.get(world)), new InteriorChunkIterator(this, blockPos));
+        int groundLevel = this.processChunks(new LowestHeightChunkProcessor(OverworldHeightmap.Companion.get(world)), new InteriorChunkIterator(this, blockPos));
         // Set the schematic at the lowest point in the chunk
         blockPos = new BlockPos(blockPos.getX(), groundLevel - 1, blockPos.getZ());
         // Update the NBT

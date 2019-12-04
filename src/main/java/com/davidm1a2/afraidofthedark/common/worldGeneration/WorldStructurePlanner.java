@@ -74,7 +74,7 @@ public class WorldStructurePlanner
         if (!world.isRemote && world.provider.getDimension() == 0)
         {
             // Grab the structure plan for the world
-            IStructurePlan structurePlan = StructurePlan.get(world);
+            IStructurePlan structurePlan = StructurePlan.Companion.get(world);
 
             ChunkPos chunkPos = new ChunkPos(chunkX, chunkZ);
             // If a structure does not yet exist at the position
@@ -84,7 +84,7 @@ public class WorldStructurePlanner
                 Collections.shuffle(REGISTERED_STRUCTURES, RANDOM);
 
                 // Grab the heightmap for the world
-                IHeightmap heightmap = OverworldHeightmap.get(world);
+                IHeightmap heightmap = OverworldHeightmap.Companion.get(world);
 
                 // Grab the biome provider for the world which we use to test which biomes exist where
                 BiomeProvider biomeProvider = world.getBiomeProvider();

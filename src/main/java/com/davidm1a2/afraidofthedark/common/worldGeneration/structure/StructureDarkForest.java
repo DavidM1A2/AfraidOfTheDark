@@ -246,7 +246,7 @@ public class StructureDarkForest extends AOTDStructure
         List<EnumFacing> bedHouseSides = ImmutableList.of(EnumFacing.EAST, EnumFacing.WEST, EnumFacing.NORTH, EnumFacing.SOUTH);
 
         // Add random props, trees, and the bed house into the data
-        IHeightmap heightmap = OverworldHeightmap.get(world);
+        IHeightmap heightmap = OverworldHeightmap.Companion.get(world);
         NBTTagCompound data = new NBTTagCompound();
         addRandomProps(data, heightmap, blockPos, biomeProvider, gutters);
         addRandomTrees(data, heightmap, blockPos, gutters, bedHouseSides);

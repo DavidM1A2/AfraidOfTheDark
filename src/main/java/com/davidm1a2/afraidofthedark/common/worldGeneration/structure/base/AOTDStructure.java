@@ -87,7 +87,7 @@ public abstract class AOTDStructure extends Structure
         NBTTagCompound compound = new NBTTagCompound();
 
         // By default set the position to be on ground level
-        int yPos = this.processChunks(new LowestHeightChunkProcessor(OverworldHeightmap.get(world)), new InteriorChunkIterator(this, blockPos));
+        int yPos = this.processChunks(new LowestHeightChunkProcessor(OverworldHeightmap.Companion.get(world)), new InteriorChunkIterator(this, blockPos));
         // Update the y coordinate
         blockPos = new BlockPos(blockPos.getX(), yPos, blockPos.getZ());
         // Set the pos tag

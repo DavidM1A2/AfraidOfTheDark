@@ -201,7 +201,7 @@ public class AOTDCommands extends CommandBase
             // Grab the chunk the player is in
             ChunkPos chunkPos = new ChunkPos(sender.getPosition());
             // Grab the structure plan
-            IStructurePlan structurePlan = StructurePlan.get(sender.getEntityWorld());
+            IStructurePlan structurePlan = StructurePlan.Companion.get(sender.getEntityWorld());
             // If the structure exists print info about the structure, otherwise show no structures exist
             if (structurePlan.structureExistsAt(chunkPos))
             {
@@ -244,7 +244,7 @@ public class AOTDCommands extends CommandBase
             // Grab the chunk the player is in
             ChunkPos chunkPos = new ChunkPos(sender.getPosition());
             // Grab the structure plan
-            IStructurePlan structurePlan = StructurePlan.get(sender.getEntityWorld());
+            IStructurePlan structurePlan = StructurePlan.Companion.get(sender.getEntityWorld());
             // If the structure exists print info about the structure, otherwise show no structures exist
             if (structurePlan.structureExistsAt(chunkPos))
             {
@@ -274,7 +274,7 @@ public class AOTDCommands extends CommandBase
     {
         World overworld = server.getWorld(0);
         sender.sendMessage(new TextComponentTranslation("aotd.command.dungeon.list.header"));
-        IStructurePlan structurePlan = StructurePlan.get(overworld);
+        IStructurePlan structurePlan = StructurePlan.Companion.get(overworld);
         // Print all placed structures in the world
         filterSortAndPrint(structurePlan.getPlacedStructures(), s -> true, sender);
     }
@@ -294,7 +294,7 @@ public class AOTDCommands extends CommandBase
             // Otherwise we list the dungeons of that type
             World overworld = server.getWorld(0);
             sender.sendMessage(new TextComponentTranslation("aotd.command.dungeon.list_type.header", new TextComponentTranslation(structureName)));
-            IStructurePlan structurePlan = StructurePlan.get(overworld);
+            IStructurePlan structurePlan = StructurePlan.Companion.get(overworld);
             // Go over all placed structures and only print them if they have the right name
             filterSortAndPrint(
                     structurePlan.getPlacedStructures(),

@@ -156,7 +156,7 @@ public class StructureCrypt extends AOTDStructure
         // Convert that block to the chunk it is in
         ChunkPos centerChunk = new ChunkPos(centerBlock);
         // Compute the ground height at the center
-        int groundHeight = OverworldHeightmap.get(world).getLowestHeight(centerChunk);
+        int groundHeight = OverworldHeightmap.Companion.get(world).getLowestHeight(centerChunk);
 
         // Set the schematic height to be underground + 3 blocks+, ensure it isn't below bedrock
         int y = MathHelper.clamp(groundHeight - ModSchematics.CRYPT.getHeight() + 3, 5, Integer.MAX_VALUE);

@@ -132,7 +132,7 @@ public class StructureVoidChest extends AOTDStructure
         NBTTagCompound compound = new NBTTagCompound();
 
         // Find the lowest y value containing a block
-        int groundLevel = this.processChunks(new LowestHeightChunkProcessor(OverworldHeightmap.get(world)), new InteriorChunkIterator(this, blockPos));
+        int groundLevel = this.processChunks(new LowestHeightChunkProcessor(OverworldHeightmap.Companion.get(world)), new InteriorChunkIterator(this, blockPos));
         // Set the schematic's position to the lowest point in the chunk
         blockPos = new BlockPos(blockPos.getX(), groundLevel - 7, blockPos.getZ());
         // Update the NBT

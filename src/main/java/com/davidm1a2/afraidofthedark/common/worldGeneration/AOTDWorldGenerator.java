@@ -119,7 +119,7 @@ public class AOTDWorldGenerator implements IWorldGenerator
     private void generate(World world, ChunkPos chunkPos)
     {
         // Get the structure plan for the world
-        IStructurePlan structurePlan = StructurePlan.get(world);
+        IStructurePlan structurePlan = StructurePlan.Companion.get(world);
         // Make sure that our plan is valid
         if (structurePlan != null)
         {

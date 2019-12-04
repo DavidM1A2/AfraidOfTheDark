@@ -47,7 +47,7 @@ public class SpellDeliveryMethodDelay extends AOTDSpellDeliveryMethod
     public void executeDelivery(DeliveryTransitionState state)
     {
         // Delayed adds this spell to the queue to wait
-        SpellStateData spellStateData = SpellStateData.get(state.getWorld());
+        SpellStateData spellStateData = SpellStateData.Companion.get(state.getWorld());
         spellStateData.addDelayedDelivery(state);
     }
 
