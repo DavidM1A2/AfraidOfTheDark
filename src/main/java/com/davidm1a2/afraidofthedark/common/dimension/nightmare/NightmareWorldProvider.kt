@@ -1,51 +1,46 @@
-package com.davidm1a2.afraidofthedark.common.dimension.nightmare;
+package com.davidm1a2.afraidofthedark.common.dimension.nightmare
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark;
-import com.davidm1a2.afraidofthedark.client.dimension.NightmareSkyRenderer;
-import com.davidm1a2.afraidofthedark.common.constants.ModBiomes;
-import com.davidm1a2.afraidofthedark.common.constants.ModDimensions;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.DimensionType;
-import net.minecraft.world.WorldProvider;
-import net.minecraft.world.biome.BiomeProviderSingle;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.gen.IChunkGenerator;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nullable;
+import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.client.dimension.NightmareSkyRenderer
+import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
+import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
+import net.minecraft.entity.player.EntityPlayerMP
+import net.minecraft.util.math.Vec3d
+import net.minecraft.world.DimensionType
+import net.minecraft.world.WorldProvider
+import net.minecraft.world.biome.BiomeProviderSingle
+import net.minecraft.world.chunk.Chunk
+import net.minecraft.world.gen.IChunkGenerator
+import net.minecraftforge.fml.relauncher.Side
+import net.minecraftforge.fml.relauncher.SideOnly
 
 /**
  * Class that provides the nightmare world
  */
-public class NightmareWorldProvider extends WorldProvider
+class NightmareWorldProvider : WorldProvider()
 {
     /**
      * Initializes the provider
      */
-    @Override
-    protected void init()
+    override fun init()
     {
         // The only biome is nightmare
-        this.biomeProvider = new BiomeProviderSingle(ModBiomes.NIGHTMARE);
+        biomeProvider = BiomeProviderSingle(ModBiomes.NIGHTMARE)
         // The sky provides no light
-        this.hasSkyLight = false;
+        hasSkyLight = false
         // Register the sky renderer client side
-        if (this.world.isRemote)
+        if (world.isRemote)
         {
-            this.setSkyRenderer(new NightmareSkyRenderer());
+            skyRenderer = NightmareSkyRenderer()
         }
     }
 
     /**
      * @return The name of the save folder to save world data in
      */
-    @Nullable
-    @Override
-    public String getSaveFolder()
+    override fun getSaveFolder(): String
     {
-        return "nightmare_world";
+        return "nightmare_world"
     }
 
     /**
@@ -54,11 +49,10 @@ public class NightmareWorldProvider extends WorldProvider
      *
      * @return 0.25, or max fog at y = 64
      */
-    @Override
     @SideOnly(Side.CLIENT)
-    public double getVoidFogYFactor()
+    override fun getVoidFogYFactor(): Double
     {
-        return 0.25d;
+        return 0.25
     }
 
     /**
@@ -68,20 +62,18 @@ public class NightmareWorldProvider extends WorldProvider
      * @param p_76562_2_ ignored
      * @return A red RGB color
      */
-    @Override
     @SideOnly(Side.CLIENT)
-    public Vec3d getFogColor(float p_76562_1_, float p_76562_2_)
+    override fun getFogColor(p_76562_1_: Float, p_76562_2_: Float): Vec3d
     {
-        return new Vec3d(0.2, 0.0, 0.0);
+        return Vec3d(0.2, 0.0, 0.0)
     }
 
     /**
      * @return False, nightmare is always night
      */
-    @Override
-    public boolean isDaytime()
+    override fun isDaytime(): Boolean
     {
-        return false;
+        return false
     }
 
     /**
@@ -89,10 +81,9 @@ public class NightmareWorldProvider extends WorldProvider
      *
      * @return A new nightmare chunk generator
      */
-    @Override
-    public IChunkGenerator createChunkGenerator()
+    override fun createChunkGenerator(): IChunkGenerator
     {
-        return new NightmareChunkGenerator(this.world);
+        return NightmareChunkGenerator(world)
     }
 
     /**
@@ -100,10 +91,9 @@ public class NightmareWorldProvider extends WorldProvider
      *
      * @return The average ground level
      */
-    @Override
-    public int getAverageGroundLevel()
+    override fun getAverageGroundLevel(): Int
     {
-        return 72;
+        return 72
     }
 
     /**
@@ -113,17 +103,18 @@ public class NightmareWorldProvider extends WorldProvider
      * @param z The chunk z
      * @return True, always show fog
      */
-    @Override
     @SideOnly(Side.CLIENT)
-    public boolean doesXZShowFog(int x, int z)
+    override fun doesXZShowFog(x: Int, z: Int): Boolean
     {
-        return true;
+        return true
     }
 
-    @Override
-    public DimensionType getDimensionType()
+    /**
+     * @return The dimension type will be 'Nightmare'
+     */
+    override fun getDimensionType(): DimensionType
     {
-        return ModDimensions.NIGHTMARE;
+        return ModDimensions.NIGHTMARE
     }
 
     /**
@@ -132,37 +123,33 @@ public class NightmareWorldProvider extends WorldProvider
      * @param par1 ignored
      * @return Return a value from 0 to 16 for star brightness
      */
-    @Override
-    public float getStarBrightness(float par1)
+    override fun getStarBrightness(par1: Float): Float
     {
-        return 13f;
+        return 13f
     }
 
     /**
      * @return We can respawn here, but it will teleport the player back right after
      */
-    @Override
-    public boolean canRespawnHere()
+    override fun canRespawnHere(): Boolean
     {
-        return true;
+        return true
     }
 
     /**
      * @return False, this is not a standard surface world
      */
-    @Override
-    public boolean isSurfaceWorld()
+    override fun isSurfaceWorld(): Boolean
     {
-        return false;
+        return false
     }
 
     /**
      * @return 255, put clouds at max height so they don't get in the way
      */
-    @Override
-    public float getCloudHeight()
+    override fun getCloudHeight(): Float
     {
-        return 255.0f;
+        return 255.0f
     }
 
     /**
@@ -174,10 +161,9 @@ public class NightmareWorldProvider extends WorldProvider
      * @param rotation the regular rotation of the marker
      * @return True to 'spin' the cursor
      */
-    @Override
-    public boolean shouldMapSpin(String entity, double x, double z, double rotation)
+    override fun shouldMapSpin(entity: String, x: Double, z: Double, rotation: Double): Boolean
     {
-        return true;
+        return true
     }
 
     /**
@@ -186,10 +172,9 @@ public class NightmareWorldProvider extends WorldProvider
      * @param player The player who is respawning
      * @return The dimension id
      */
-    @Override
-    public int getRespawnDimension(EntityPlayerMP player)
+    override fun getRespawnDimension(player: EntityPlayerMP): Int
     {
-        return player.dimension;
+        return player.dimension
     }
 
     /**
@@ -199,10 +184,9 @@ public class NightmareWorldProvider extends WorldProvider
      * @param z The blockpos z
      * @return True if x is a multiple of the blocks between islands and z is 0, false otherwise
      */
-    @Override
-    public boolean canCoordinateBeSpawn(int x, int z)
+    override fun canCoordinateBeSpawn(x: Int, z: Int): Boolean
     {
-        return x % AfraidOfTheDark.INSTANCE.getConfigurationHandler().getBlocksBetweenIslands() == 0 && z == 0;
+        return x % AfraidOfTheDark.INSTANCE.configurationHandler.blocksBetweenIslands == 0 && z == 0
     }
 
     /**
@@ -212,11 +196,9 @@ public class NightmareWorldProvider extends WorldProvider
      * @param partialTicks   The ticks since last
      * @return All 0s
      */
-    @Nullable
-    @Override
-    public float[] calcSunriseSunsetColors(float celestialAngle, float partialTicks)
+    override fun calcSunriseSunsetColors(celestialAngle: Float, partialTicks: Float): FloatArray?
     {
-        return new float[]{0, 0, 0, 0};
+        return floatArrayOf(0f, 0f, 0f, 0f)
     }
 
     /**
@@ -225,10 +207,9 @@ public class NightmareWorldProvider extends WorldProvider
      * @param chunk The chunk to test
      * @return False, no rain allowed
      */
-    @Override
-    public boolean canDoRainSnowIce(Chunk chunk)
+    override fun canDoRainSnowIce(chunk: Chunk): Boolean
     {
-        return false;
+        return false
     }
 
     /**
@@ -238,9 +219,8 @@ public class NightmareWorldProvider extends WorldProvider
      * @param partialTicks The ticks since the last tick
      * @return The celestial sky angle
      */
-    @Override
-    public float calculateCelestialAngle(long worldTime, float partialTicks)
+    override fun calculateCelestialAngle(worldTime: Long, partialTicks: Float): Float
     {
-        return 0.5f;
+        return 0.5f
     }
 }
