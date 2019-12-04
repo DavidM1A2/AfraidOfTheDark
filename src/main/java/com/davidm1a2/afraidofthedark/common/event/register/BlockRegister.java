@@ -1,6 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.event.register;
 
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks;
+import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity;
+import kotlin.Pair;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -12,7 +14,6 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
-import org.apache.commons.lang3.tuple.Pair;
 
 /**
  * Class that receives the register block event and registers all of our blocks
@@ -29,11 +30,11 @@ public class BlockRegister
     {
         IForgeRegistry<Block> registry = event.getRegistry();
         // Register all blocks in our mod
-        registry.registerAll(ModBlocks.BLOCK_LIST);
+        registry.registerAll(ModBlocks.INSTANCE.getBLOCK_LIST());
 
         // Register any special tile entities
-        for (Pair<Class<? extends TileEntity>, ResourceLocation> tileEntityEntry : ModBlocks.TILE_ENTITY_LIST)
-            GameRegistry.registerTileEntity(tileEntityEntry.getKey(), tileEntityEntry.getValue());
+        for (Pair<Class<? extends AOTDTickingTileEntity>, ResourceLocation> tileEntityEntry : ModBlocks.INSTANCE.getTILE_ENTITY_LIST())
+            GameRegistry.registerTileEntity(tileEntityEntry.getFirst(), tileEntityEntry.getSecond());
     }
 
     /**
@@ -45,7 +46,7 @@ public class BlockRegister
     public void registerBlockRenderers(ModelRegistryEvent event)
     {
         // Register models for all blocks in our mod
-        for (Block block : ModBlocks.BLOCK_LIST)
+        for (Block block : ModBlocks.INSTANCE.getBLOCK_LIST())
         {
             ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, new ModelResourceLocation(block.getRegistryName(), "inventory"));
         }

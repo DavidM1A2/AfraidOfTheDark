@@ -48,7 +48,7 @@ public class ItemStarMetalArmor extends AOTDArmor implements ISpecialArmor
      */
     public ItemStarMetalArmor(String baseName, EntityEquipmentSlot equipmentSlotIn)
     {
-        super(baseName, ModArmorMaterials.IGNEOUS, 3, equipmentSlotIn);
+        super(baseName, ModArmorMaterials.INSTANCE.getSTAR_METAL(), 3, equipmentSlotIn);
         // Makes the armor invincible
         this.setMaxDamage(0);
         // Block 70% of the damage up to 20
