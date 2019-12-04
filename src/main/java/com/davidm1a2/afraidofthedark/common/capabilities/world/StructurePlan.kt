@@ -192,7 +192,7 @@ class StructurePlan @JvmOverloads constructor(identifier: String = IDENTIFIER) :
          * @param world The world to get data for
          * @return The data for that world or null if it is client side
          */
-        operator fun get(world: World): IStructurePlan?
+        fun get(world: World): IStructurePlan?
         {
             // If we are on client side or the world is not the overworld return 0
             if (world.isRemote)

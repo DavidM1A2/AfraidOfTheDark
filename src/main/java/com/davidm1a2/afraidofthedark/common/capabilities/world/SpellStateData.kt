@@ -96,7 +96,7 @@ class SpellStateData @JvmOverloads constructor(identifier: String = IDENTIFIER) 
          * @param world The world to get data for
          * @return The data for that world or null if it is not present
          */
-        operator fun get(world: World): SpellStateData
+        fun get(world: World): SpellStateData
         {
             // If we are on client side throw an exception
             if (world.isRemote)

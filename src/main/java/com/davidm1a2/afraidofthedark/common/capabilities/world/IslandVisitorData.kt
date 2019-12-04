@@ -64,7 +64,7 @@ class IslandVisitorData @JvmOverloads constructor(identifier: String = IDENTIFIE
          * @param world The world to get data for
          * @return The data for that world or null if it is not present
          */
-        operator fun get(world: World): IslandVisitorData?
+        fun get(world: World): IslandVisitorData?
         {
             // If we are on client side or the world is not supported return null
             if (world.isRemote || !VALID_DIMENSIONS.contains(world.provider.dimension))
