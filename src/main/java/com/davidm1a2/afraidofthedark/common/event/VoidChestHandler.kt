@@ -1,54 +1,51 @@
-package com.davidm1a2.afraidofthedark.common.event;
+package com.davidm1a2.afraidofthedark.common.event
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark;
-import com.davidm1a2.afraidofthedark.common.capabilities.player.dimension.IAOTDPlayerVoidChestData;
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities;
-import com.davidm1a2.afraidofthedark.common.constants.ModDimensions;
-import com.davidm1a2.afraidofthedark.common.dimension.IslandUtility;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
+import com.davidm1a2.afraidofthedark.common.dimension.IslandUtility
+import net.minecraft.entity.player.EntityPlayerMP
+import net.minecraft.util.text.TextComponentTranslation
+import net.minecraftforge.event.entity.EntityTravelToDimensionEvent
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent
 
 /**
  * Handles that pertain to the void chest dimension
  */
-public class VoidChestHandler
+class VoidChestHandler
 {
-    // Constant number of blocks to search for a spawn position
-    private static final int VALID_SPAWN_SEARCH_DISTANCE = 6;
-
     /**
      * Called when the player dies, set them back to their void chest home
      *
      * @param event The data of the respawned player
      */
     @SubscribeEvent
-    public void onPlayerRespawnEvent(PlayerEvent.PlayerRespawnEvent event)
+    fun onPlayerRespawnEvent(event: PlayerRespawnEvent)
     {
         // Server side processing only
         if (!event.player.world.isRemote)
         {
-            if (event.player.dimension == ModDimensions.VOID_CHEST.getId())
+            if (event.player.dimension == ModDimensions.VOID_CHEST.id)
             {
-                IAOTDPlayerVoidChestData playerVoidChestData = event.player.getCapability(ModCapabilities.PLAYER_VOID_CHEST_DATA, null);
+                val playerVoidChestData = event.player.getCapability(ModCapabilities.PLAYER_VOID_CHEST_DATA, null)!!
+
                 // If the player was traveling to a friend's void chest grab that index, otherwise grab our own index
-                int indexToGoTo;
                 // If the friend's index is -1 then we go to our position, otherwise go to the friends position and wipe out the friends index variable
-                if (playerVoidChestData.getFriendsIndex() == -1)
-                // Get or compute the player's index to go to based on who the furthest out player is
+                val indexToGoTo = if (playerVoidChestData.friendsIndex == -1)
                 {
-                    indexToGoTo = IslandUtility.getOrAssignPlayerPositionalIndex(event.player.getServer().getWorld(ModDimensions.VOID_CHEST.getId()), playerVoidChestData);
+                    // Get or compute the player's index to go to based on who the furthest out player is
+                    IslandUtility.getOrAssignPlayerPositionalIndex(event.player.server!!.getWorld(ModDimensions.VOID_CHEST.id), playerVoidChestData)
                 }
                 else
                 {
-                    indexToGoTo = playerVoidChestData.getFriendsIndex();
+                    playerVoidChestData.friendsIndex
                 }
+
                 // Compute the player's X position based on the index
-                int playerXBase = indexToGoTo * AfraidOfTheDark.INSTANCE.getConfigurationHandler().getBlocksBetweenIslands();
-                ((EntityPlayerMP) event.player).connection.setPlayerLocation(playerXBase + 24.5, 104, 3, 0, 0);
+                val playerXBase = indexToGoTo * AfraidOfTheDark.INSTANCE.configurationHandler.blocksBetweenIslands
+                (event.player as EntityPlayerMP).connection.setPlayerLocation(playerXBase + 24.5, 104.0, 3.0, 0f, 0f)
             }
         }
     }
@@ -59,22 +56,23 @@ public class VoidChestHandler
      * @param event The event parameters
      */
     @SubscribeEvent
-    public void onPreEntityTravelToDimension(EntityTravelToDimensionEvent event)
+    fun onPreEntityTravelToDimension(event: EntityTravelToDimensionEvent)
     {
         // Server side processing only
-        if (!event.getEntity().world.isRemote)
+        if (!event.entity.world.isRemote)
         {
             // Get to and from dimension
-            int fromDimension = event.getEntity().dimension;
-            int toDimension = event.getDimension();
+            val fromDimension = event.entity.dimension
+            val toDimension = event.dimension
+
             // Test if the entity is a player, if so process it
-            if (event.getEntity() instanceof EntityPlayerMP)
+            if (event.entity is EntityPlayerMP)
             {
-                EntityPlayerMP entityPlayer = (EntityPlayerMP) event.getEntity();
+                val entityPlayer = event.entity as EntityPlayerMP
                 // Process the pre-teleport server side, if it returns true then we cancel the TP
-                if (this.processPreTeleport(entityPlayer, fromDimension, toDimension))
+                if (processPreTeleport(entityPlayer, fromDimension, toDimension))
                 {
-                    event.setCanceled(true);
+                    event.isCanceled = true
                 }
             }
         }
@@ -88,45 +86,46 @@ public class VoidChestHandler
      * @param dimensionTo   The dimension the player is going to
      * @return True to cancel the teleport, false otherwise
      */
-    private boolean processPreTeleport(EntityPlayerMP entityPlayer, int dimensionFrom, int dimensionTo)
+    private fun processPreTeleport(entityPlayer: EntityPlayerMP, dimensionFrom: Int, dimensionTo: Int): Boolean
     {
         // If we're going to dimension VOID_CHEST then we need to do some preprocesing and tests to ensure the player can continue
-        if (dimensionTo == ModDimensions.VOID_CHEST.getId())
+        if (dimensionTo == ModDimensions.VOID_CHEST.id)
         {
             // We can't go from void chest to void chest
-            if (dimensionFrom == ModDimensions.VOID_CHEST.getId())
+            if (dimensionFrom == ModDimensions.VOID_CHEST.id)
             {
-                return true;
+                return true
             }
 
             // Any other dimension is valid. We can go from any dimension other than the void_chest to the void_chest
             // We need to store off player position data pre-teleport
-            IAOTDPlayerVoidChestData playerVoidChestData = entityPlayer.getCapability(ModCapabilities.PLAYER_VOID_CHEST_DATA, null);
+
+            val playerVoidChestData = entityPlayer.getCapability(ModCapabilities.PLAYER_VOID_CHEST_DATA, null)!!
             // Test for a valid spot within ~6 blocks of the player's position. This is used to ensure players do not come back to the overworld and straight into a
             // new portal block. This ensure you don't get stuck in a teleport loop
             // First just test the player's current position, if it's invalid search in a +/- 6 block radius in all directions for a valid position
-            if (IslandUtility.isValidSpawnLocation(entityPlayer.world, entityPlayer.getPosition()))
+            if (IslandUtility.isValidSpawnLocation(entityPlayer.world, entityPlayer.position))
             {
-                playerVoidChestData.setPreTeleportPosition(entityPlayer.getPosition());
+                playerVoidChestData.preTeleportPosition = entityPlayer.position
             }
             else
             {
-                BlockPos preTeleportPosition = IslandUtility.findValidSpawnLocation(entityPlayer.world, entityPlayer.getPosition(), VALID_SPAWN_SEARCH_DISTANCE);
+                val preTeleportPosition = IslandUtility.findValidSpawnLocation(entityPlayer.world, entityPlayer.position, VALID_SPAWN_SEARCH_DISTANCE)
                 // If we didn't find a valid spot around the player's position then throw an error and reject the teleport
                 if (preTeleportPosition == null)
                 {
-                    entityPlayer.sendMessage(new TextComponentTranslation("aotd.dimension.void_chest.no_spawn"));
-                    return true;
+                    entityPlayer.sendMessage(TextComponentTranslation("aotd.dimension.void_chest.no_spawn"))
+                    return true
                 }
                 else
                 {
-                    playerVoidChestData.setPreTeleportPosition(preTeleportPosition);
+                    playerVoidChestData.preTeleportPosition = preTeleportPosition
                 }
             }
             // Set our pre-teleport dimension ID
-            playerVoidChestData.setPreTeleportDimensionID(dimensionFrom);
+            playerVoidChestData.preTeleportDimensionID = dimensionFrom
         }
-        return false;
+        return false
     }
 
     /**
@@ -135,18 +134,19 @@ public class VoidChestHandler
      * @param event The event parameters
      */
     @SubscribeEvent
-    public void onPostEntityTravelToDimension(PlayerEvent.PlayerChangedDimensionEvent event)
+    fun onPostEntityTravelToDimension(event: PlayerChangedDimensionEvent)
     {
         // Server side processing only
         if (!event.player.world.isRemote)
         {
             // Get to and from dimension
-            int fromDimension = event.fromDim;
-            int toDimension = event.toDim;
+            val fromDimension = event.fromDim
+            val toDimension = event.toDim
+
             // Get the player teleporting
-            EntityPlayerMP entityPlayer = (EntityPlayerMP) event.player;
+            val entityPlayer = event.player as EntityPlayerMP
             // Process the post-teleport server side
-            this.processPostTeleport(entityPlayer, fromDimension, toDimension);
+            processPostTeleport(entityPlayer, fromDimension, toDimension)
         }
     }
 
@@ -157,38 +157,42 @@ public class VoidChestHandler
      * @param dimensionFrom The dimension the player was in
      * @param dimensionTo   The dimension the player is now in
      */
-    private void processPostTeleport(EntityPlayerMP entityPlayer, int dimensionFrom, int dimensionTo)
+    private fun processPostTeleport(entityPlayer: EntityPlayerMP, dimensionFrom: Int, dimensionTo: Int)
     {
         // If the player entered the void chest dimension then set their position
-        if (dimensionTo == ModDimensions.VOID_CHEST.getId())
+        if (dimensionTo == ModDimensions.VOID_CHEST.id)
         {
             // Grab the player's void chest data
-            IAOTDPlayerVoidChestData playerVoidChestData = entityPlayer.getCapability(ModCapabilities.PLAYER_VOID_CHEST_DATA, null);
+            val playerVoidChestData = entityPlayer.getCapability(ModCapabilities.PLAYER_VOID_CHEST_DATA, null)!!
             // If the player was traveling to a friend's void chest grab that index, otherwise grab our own index
-            int indexToGoTo;
             // If the friend's index is -1 then we go to our position, otherwise go to the friends position
-            if (playerVoidChestData.getFriendsIndex() == -1)
-            // Get or compute the player's index to go to based on who the furthest out player is
+            val indexToGoTo = if (playerVoidChestData.friendsIndex == -1) // Get or compute the player's index to go to based on who the furthest out player is
             {
-                indexToGoTo = IslandUtility.getOrAssignPlayerPositionalIndex(entityPlayer.getServer().getWorld(ModDimensions.VOID_CHEST.getId()), playerVoidChestData);
+                IslandUtility.getOrAssignPlayerPositionalIndex(entityPlayer.server!!.getWorld(ModDimensions.VOID_CHEST.id), playerVoidChestData)
             }
             else
             {
-                indexToGoTo = playerVoidChestData.getFriendsIndex();
+                playerVoidChestData.friendsIndex
             }
-            // Compute the player's X position based on the index
-            int playerXBase = indexToGoTo * AfraidOfTheDark.INSTANCE.getConfigurationHandler().getBlocksBetweenIslands();
-            // Set the player's position and rotation for some reason we have to use the connection object to send a packet instead of just using entityplayer#setPosition
-            entityPlayer.connection.setPlayerLocation(playerXBase + 24.5, 104, 3, 0, 0);
-        }
 
+            // Compute the player's X position based on the index
+            val playerXBase = indexToGoTo * AfraidOfTheDark.INSTANCE.configurationHandler.blocksBetweenIslands
+            // Set the player's position and rotation for some reason we have to use the connection object to send a packet instead of just using entityplayer#setPosition
+            entityPlayer.connection.setPlayerLocation(playerXBase + 24.5, 104.0, 3.0, 0f, 0f)
+        }
         // If the player left the void chest reset their position
-        if (dimensionFrom == ModDimensions.VOID_CHEST.getId())
+        if (dimensionFrom == ModDimensions.VOID_CHEST.id)
         {
             // Grab the player's pre-teleport position
-            BlockPos preTeleportPosition = entityPlayer.getCapability(ModCapabilities.PLAYER_VOID_CHEST_DATA, null).getPreTeleportPosition();
+            val preTeleportPosition = entityPlayer.getCapability(ModCapabilities.PLAYER_VOID_CHEST_DATA, null)!!.preTeleportPosition
             // Reset the player's position
-            entityPlayer.connection.setPlayerLocation(preTeleportPosition.getX() + 0.5, preTeleportPosition.getY() + 1.5, preTeleportPosition.getZ() + 0.5, 0, 0);
+            entityPlayer.connection.setPlayerLocation(preTeleportPosition!!.x + 0.5, preTeleportPosition.y + 1.5, preTeleportPosition.z + 0.5, 0f, 0f)
         }
+    }
+
+    companion object
+    {
+        // Constant number of blocks to search for a spawn position
+        private const val VALID_SPAWN_SEARCH_DISTANCE = 6
     }
 }

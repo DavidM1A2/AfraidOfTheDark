@@ -1,21 +1,18 @@
-package com.davidm1a2.afraidofthedark.common.event;
+package com.davidm1a2.afraidofthedark.common.event
 
-import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IAOTDPlayerSpellFreezeData;
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.MovementInput;
-import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.client.event.InputUpdateEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import net.minecraft.entity.player.EntityPlayerMP
+import net.minecraftforge.client.event.InputUpdateEvent
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.minecraftforge.fml.common.gameevent.TickEvent
+import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent
+import net.minecraftforge.fml.relauncher.Side
+import net.minecraftforge.fml.relauncher.SideOnly
 
 /**
  * Handles the on server tick to update any existing spell freeze effects
  */
-public class SpellFreezeHandler
+class SpellFreezeHandler
 {
     /**
      * Called every game tick on the server, updates all server wide spell data
@@ -23,33 +20,36 @@ public class SpellFreezeHandler
      * @param event The event containing server tick info
      */
     @SubscribeEvent
-    public void onPlayerTick(TickEvent.PlayerTickEvent event)
+    fun onPlayerTick(event: PlayerTickEvent)
     {
         // Server side processing
         if (event.type == TickEvent.Type.PLAYER && event.phase == TickEvent.Phase.START && event.side == Side.SERVER)
         {
-            EntityPlayer entityPlayer = event.player;
-            IAOTDPlayerSpellFreezeData playerFreezeData = entityPlayer.getCapability(ModCapabilities.PLAYER_SPELL_FREEZE_DATA, null);
+            val entityPlayer = event.player
+            val playerFreezeData = entityPlayer.getCapability(ModCapabilities.PLAYER_SPELL_FREEZE_DATA, null)!!
+
             // Ensure there's at least 1 freeze tick remaining
-            if (playerFreezeData.getFreezeTicks() > 0)
+            if (playerFreezeData.freezeTicks > 0)
             {
                 // Reduce the freeze ticks by 1
-                int newFreezeTicks = playerFreezeData.getFreezeTicks() - 1;
-                playerFreezeData.setFreezeTicks(newFreezeTicks);
+                val newFreezeTicks = playerFreezeData.freezeTicks - 1
+                playerFreezeData.freezeTicks = newFreezeTicks
+
                 // If no freeze ticks are left tell the client
                 if (newFreezeTicks == 0)
                 {
-                    playerFreezeData.sync(entityPlayer);
+                    playerFreezeData.sync(entityPlayer)
                 }
 
                 // Freeze the player's location
-                Vec3d freezePosition = playerFreezeData.getFreezePosition();
-                ((EntityPlayerMP) entityPlayer).connection.setPlayerLocation(
-                        freezePosition.x,
-                        freezePosition.y,
-                        freezePosition.z,
-                        playerFreezeData.getFreezeYaw(),
-                        playerFreezeData.getFreezePitch());
+                val freezePosition = playerFreezeData.freezePosition!!
+                (entityPlayer as EntityPlayerMP).connection.setPlayerLocation(
+                    freezePosition.x,
+                    freezePosition.y,
+                    freezePosition.z,
+                    playerFreezeData.getFreezeYaw(),
+                    playerFreezeData.getFreezePitch()
+                )
             }
         }
     }
@@ -61,21 +61,21 @@ public class SpellFreezeHandler
      */
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
-    public void onInputUpdateEvent(InputUpdateEvent event)
+    fun onInputUpdateEvent(event: InputUpdateEvent)
     {
-        IAOTDPlayerSpellFreezeData playerFreezeData = event.getEntityPlayer().getCapability(ModCapabilities.PLAYER_SPELL_FREEZE_DATA, null);
+        val playerFreezeData = event.entityPlayer.getCapability(ModCapabilities.PLAYER_SPELL_FREEZE_DATA, null)!!
         // If the player is frozen block all movement
-        if (playerFreezeData.getFreezeTicks() > 0)
+        if (playerFreezeData.freezeTicks > 0)
         {
-            MovementInput input = event.getMovementInput();
-            input.backKeyDown = false;
-            input.forwardKeyDown = false;
-            input.jump = false;
-            input.leftKeyDown = false;
-            input.rightKeyDown = false;
-            input.moveStrafe = 0;
-            input.moveForward = 0;
-            input.sneak = false;
+            val input = event.movementInput
+            input.backKeyDown = false
+            input.forwardKeyDown = false
+            input.jump = false
+            input.leftKeyDown = false
+            input.rightKeyDown = false
+            input.moveStrafe = 0f
+            input.moveForward = 0f
+            input.sneak = false
         }
     }
 }

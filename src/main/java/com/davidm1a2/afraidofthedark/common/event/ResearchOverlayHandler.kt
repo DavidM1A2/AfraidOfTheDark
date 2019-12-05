@@ -1,20 +1,20 @@
-package com.davidm1a2.afraidofthedark.common.event;
+package com.davidm1a2.afraidofthedark.common.event
 
-import com.davidm1a2.afraidofthedark.client.gui.ResearchAchievedOverlay;
-import com.davidm1a2.afraidofthedark.common.registry.research.Research;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import com.davidm1a2.afraidofthedark.client.gui.ResearchAchievedOverlay
+import com.davidm1a2.afraidofthedark.common.registry.research.Research
+import net.minecraftforge.client.event.RenderGameOverlayEvent.Chat
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.minecraftforge.fml.relauncher.Side
+import net.minecraftforge.fml.relauncher.SideOnly
 
 /**
  * Research overlay handler class is used to show whenever a research is unlocked
  */
-public class ResearchOverlayHandler
+class ResearchOverlayHandler
 {
     // The overlay to show researches with
     @SideOnly(Side.CLIENT)
-    private final ResearchAchievedOverlay RESEARCH_ACHIEVED_OVERLAY = new ResearchAchievedOverlay();
+    private val researchAchievedOverlay = ResearchAchievedOverlay()
 
     /**
      * Called every tick client side to draw the overlay
@@ -23,9 +23,9 @@ public class ResearchOverlayHandler
      */
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
-    public void onRenderGameOverlayEventChat(RenderGameOverlayEvent.Chat event)
+    fun onRenderGameOverlayEventChat(event: Chat)
     {
-        RESEARCH_ACHIEVED_OVERLAY.updateResearchAchievedWindow();
+        researchAchievedOverlay.updateResearchAchievedWindow()
     }
 
     /**
@@ -34,8 +34,8 @@ public class ResearchOverlayHandler
      * @param research The research to display
      */
     @SideOnly(Side.CLIENT)
-    public void displayResearch(Research research)
+    fun displayResearch(research: Research)
     {
-        RESEARCH_ACHIEVED_OVERLAY.displayResearch(research);
+        researchAchievedOverlay.displayResearch(research)
     }
 }
