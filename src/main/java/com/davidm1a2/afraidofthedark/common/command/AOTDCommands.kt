@@ -206,7 +206,7 @@ class AOTDCommands : CommandBase()
                         blockPos.x,
                         blockPos.y,
                         blockPos.z))
-                if (AfraidOfTheDark.INSTANCE.configurationHandler.showDebugMessages())
+                if (AfraidOfTheDark.INSTANCE.configurationHandler.debugMessages)
                 {
                     sender.sendMessage(TextComponentTranslation("aotd.command.dungeon.info.extra_nbt", placedStructure.data.toString()))
                 }

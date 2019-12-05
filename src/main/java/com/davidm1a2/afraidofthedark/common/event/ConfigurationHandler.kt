@@ -1,7 +1,10 @@
 package com.davidm1a2.afraidofthedark.common.event
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import net.minecraftforge.common.config.ConfigElement
 import net.minecraftforge.common.config.Configuration
+import net.minecraftforge.fml.client.config.GuiConfig
+import net.minecraftforge.fml.client.config.IConfigElement
 import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import java.io.File
@@ -38,7 +41,8 @@ class ConfigurationHandler(configurationFile: File)
         private set
 
     // If debug messages should be sent
-    private var debugMessages = false
+    var debugMessages = false
+        private set
 
     // The number of blocks inbetween nightmare and void chest islands
     var blocksBetweenIslands = 1000
@@ -208,6 +212,24 @@ class ConfigurationHandler(configurationFile: File)
         {
             configuration.save()
         }
+    }
+
+    /**
+     * @return Returns a list of configurable elements
+     */
+    fun getInGameConfigurableOptions(): List<IConfigElement>
+    {
+        return ConfigElement(configuration.getCategory(Configuration.CATEGORY_GENERAL)).childElements +
+                ConfigElement(configuration.getCategory(CATEGORY_DUNGEON_FREQUENCY)).childElements +
+                ConfigElement(configuration.getCategory(CATEGORY_DIMENSION)).childElements
+    }
+
+    /**
+     * @return The title of this configuration which will be in the form of .minecraft/......./afraidofthedark.cfg
+     */
+    fun getDisplayTitle(): String
+    {
+        return GuiConfig.getAbridgedConfigPath(this.configuration.toString())
     }
 
     companion object

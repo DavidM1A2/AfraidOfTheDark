@@ -39,11 +39,11 @@ class AOTDGuiFactory : IModGuiFactory
         val configurationHandler = AfraidOfTheDark.INSTANCE.configurationHandler
         return GuiConfig(
                 parentScreen,
-                configurationHandler.inGameConfigurableOptions,
+            configurationHandler.getInGameConfigurableOptions(),
                 Constants.MOD_ID,
                 true,
                 true,
-                configurationHandler.displayTitle
+            configurationHandler.getDisplayTitle()
         )
     }
 
