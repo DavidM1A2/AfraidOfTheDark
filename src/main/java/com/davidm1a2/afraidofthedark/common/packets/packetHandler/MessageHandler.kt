@@ -1,15 +1,15 @@
-package com.davidm1a2.afraidofthedark.common.packets.packetHandler;
+package com.davidm1a2.afraidofthedark.common.packets.packetHandler
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraft.entity.player.EntityPlayer
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext
 
 /**
  * The Class MessageHandler is a collection of message handlers.
  *
  * @author _Bedrock_Miner_ (minerbedrock@gmail.com)
  */
-public class MessageHandler
+class MessageHandler
 {
     /**
      * The client message handler can be extended to write handlers for packets sent to client side.
@@ -17,10 +17,9 @@ public class MessageHandler
      * @param <T> the packet type that can be handled
      * @author _Bedrock_Miner_ (minerbedrock@gmail.com)
      */
-    public static abstract class Client<T extends IMessage> extends AbstractMessageHandler<T>
+    abstract class Client<T : IMessage> : AbstractMessageHandler<T>()
     {
-        @Override
-        public final void handleServerMessage(EntityPlayer player, T message, MessageContext ctx)
+        override fun handleServerMessage(player: EntityPlayer, msg: T, ctx: MessageContext)
         {
         }
     }
@@ -31,10 +30,9 @@ public class MessageHandler
      * @param <T> the packet type that can be handled
      * @author _Bedrock_Miner_ (minerbedrock@gmail.com)
      */
-    public static abstract class Server<T extends IMessage> extends AbstractMessageHandler<T>
+    abstract class Server<T : IMessage> : AbstractMessageHandler<T>()
     {
-        @Override
-        public final void handleClientMessage(EntityPlayer player, T message, MessageContext ctx)
+        override fun handleClientMessage(player: EntityPlayer, msg: T, ctx: MessageContext)
         {
         }
     }
@@ -45,7 +43,5 @@ public class MessageHandler
      * @param <T> the packet type that can be handled
      * @author _Bedrock_Miner_ (minerbedrock@gmail.com)
      */
-    public static abstract class Bidirectional<T extends IMessage> extends AbstractMessageHandler<T>
-    {
-    }
+    abstract class Bidirectional<T : IMessage> : AbstractMessageHandler<T>()
 }

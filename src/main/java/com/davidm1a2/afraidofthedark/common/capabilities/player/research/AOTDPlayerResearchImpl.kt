@@ -106,7 +106,7 @@ class AOTDPlayerResearchImpl : IAOTDPlayerResearch
         // Send packets based on server side or client side
         if (isServerSide(entityPlayer))
         {
-            AfraidOfTheDark.INSTANCE.packetHandler.sendTo(SyncResearch(researchToUnlocked, notify), entityPlayer as EntityPlayerMP?)
+            AfraidOfTheDark.INSTANCE.packetHandler.sendTo(SyncResearch(researchToUnlocked, notify), entityPlayer as EntityPlayerMP)
         }
         else
         {
