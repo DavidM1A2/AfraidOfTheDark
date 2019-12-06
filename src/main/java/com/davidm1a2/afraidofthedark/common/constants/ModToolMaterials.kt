@@ -7,8 +7,8 @@ import net.minecraftforge.common.util.EnumHelper
  */
 object ModToolMaterials
 {
-    val BLADE_OF_EXHUMATION = EnumHelper.addToolMaterial("blade_of_exhumation", 0, 150, 0f, 0f, 0)
-    val ASTRAL_SILVER = EnumHelper.addToolMaterial("astral_silver", 2, 250, 1f, 3.0f, 20)
-    val IGNEOUS = EnumHelper.addToolMaterial("igneous", 3, 600, 1f, 5f, 15)
-    val STAR_METAL = EnumHelper.addToolMaterial("star_metal", 3, 600, 1f, 4f, 15)
+    val BLADE_OF_EXHUMATION = EnumHelper.addToolMaterial("blade_of_exhumation", 0, 150, 0f, 0f, 0)!!
+    val ASTRAL_SILVER = EnumHelper.addToolMaterial("astral_silver", 2, 250, 1f, 3.0f, 20)!!
+    val IGNEOUS = EnumHelper.addToolMaterial("igneous", 3, 600, 1f, 5f, 15)!!
+    val STAR_METAL = EnumHelper.addToolMaterial("star_metal", 3, 600, 1f, 4f, 15)!!
 }
