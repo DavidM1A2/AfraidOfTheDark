@@ -79,7 +79,7 @@ class FireWristCrossbow : IMessage
                 world.playSound(null, entityPlayer.position, ModSounds.CROSSBOW_FIRE, SoundCategory.PLAYERS, 0.5f, world.rand.nextFloat() * 0.4f + 0.8f)
 
                 // Instantiate bolt!
-                val bolt = msg.selectedBolt.boltEntityFactory.apply(world, entityPlayer)
+                val bolt = msg.selectedBolt.boltEntityFactory(world, entityPlayer)
 
                 // Aim and fire the bolt
                 bolt.shoot(entityPlayer, entityPlayer.rotationPitch, entityPlayer.rotationYaw, 0f, 3f, 0f)

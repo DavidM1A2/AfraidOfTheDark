@@ -48,7 +48,7 @@ class ItemTelescope : AOTDItem("telescope")
             }
 
             // If the research is researched then test if the player is high enough
-            if (playerResearch.isResearched(ModResearches.ASTRONOMY_1) || playerResearch.isResearched(ModResearches.ASTRONOMY_1.preRequisite))
+            if (playerResearch.isResearched(ModResearches.ASTRONOMY_1) || playerResearch.isResearched(ModResearches.ASTRONOMY_1.preRequisite!!))
             {
                 // Tell the player that they need to be higher to see through the clouds
                 if (!highEnough)

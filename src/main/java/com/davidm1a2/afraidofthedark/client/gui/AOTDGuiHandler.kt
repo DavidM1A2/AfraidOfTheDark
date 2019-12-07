@@ -56,7 +56,7 @@ class AOTDGuiHandler : IGuiHandler
             BLOOD_STAINED_JOURNAL_CHEAT_SHEET -> BloodStainedJournalResearchGUI(true)
             BLOOD_STAINED_JOURNAL_PAGE_ID -> BloodStainedJournalPageGUI(
                     lastSelectedResearch!!.researchedText,
-                    I18n.format(lastSelectedResearch.unLocalizedName),
+                I18n.format(lastSelectedResearch.getUnlocalizedName()),
                     lastSelectedResearch.researchedRecipes
             )
             BLOOD_STAINED_JOURNAL_PAGE_PRE_ID -> BloodStainedJournalPageGUI(

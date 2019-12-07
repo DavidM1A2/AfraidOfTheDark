@@ -85,7 +85,7 @@ class ItemCrossbow : AOTDItem("crossbow")
                     }
                     else
                     {
-                        player.sendMessage(TextComponentTranslation("aotd.crossbow.no_bolt", TextComponentTranslation(getCurrentBoltType(itemStack).unLocalizedName)))
+                        player.sendMessage(TextComponentTranslation("aotd.crossbow.no_bolt", TextComponentTranslation(getCurrentBoltType(itemStack).getUnlocalizedName())))
                     }
                 }
             }
@@ -150,7 +150,7 @@ class ItemCrossbow : AOTDItem("crossbow")
         world.playSound(null, entityPlayer.position, ModSounds.CROSSBOW_FIRE, SoundCategory.PLAYERS, 0.5f, world.rand.nextFloat() * 0.4f + 0.8f)
 
         // Instantiate bolt!
-        val bolt = getCurrentBoltType(itemStack).boltEntityFactory.apply(world, entityPlayer)
+        val bolt = getCurrentBoltType(itemStack).boltEntityFactory(world, entityPlayer)
         // Aim and fire the bolt
         bolt.shoot(entityPlayer, entityPlayer.rotationPitch, entityPlayer.rotationYaw, 0f, 3f, 0f)
         // Push the bolt slightly forward so it does not collide with the player
@@ -179,7 +179,7 @@ class ItemCrossbow : AOTDItem("crossbow")
             // Tell the user that they have a new bolt loaded
             if (!entityPlayer.world.isRemote)
             {
-                entityPlayer.sendMessage(TextComponentTranslation("aotd.crossbow.bolt_change", TextComponentTranslation(getCurrentBoltType(itemStack).unLocalizedName)))
+                entityPlayer.sendMessage(TextComponentTranslation("aotd.crossbow.bolt_change", TextComponentTranslation(getCurrentBoltType(itemStack).getUnlocalizedName())))
             }
         }
     }
@@ -248,7 +248,7 @@ class ItemCrossbow : AOTDItem("crossbow")
     override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag)
     {
         tooltip.add("Crouch & Right click to change crossbow bolt type.")
-        tooltip.add("Bow will fire: " + I18n.format(getCurrentBoltType(stack).unLocalizedName) + " bolts.")
+        tooltip.add("Bow will fire: " + I18n.format(getCurrentBoltType(stack).getUnlocalizedName()) + " bolts.")
         tooltip.add(if (isLoaded(stack)) "Bow is loaded" else "Bow is unloaded")
     }
 

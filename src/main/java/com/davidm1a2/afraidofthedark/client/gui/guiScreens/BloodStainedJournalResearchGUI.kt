@@ -117,7 +117,7 @@ class BloodStainedJournalResearchGUI(isCheatSheet: Boolean) : AOTDGuiClickAndDra
                                                 entityPlayer.posY.toInt(),
                                                 entityPlayer.posZ.toInt())
                                     }
-                                    else if (playerResearch.isResearched(current.research.preRequisite))
+                                    else if (current.research.preRequisite != null && playerResearch.isResearched(current.research.preRequisite))
                                     {
                                         entityPlayer.openGui(AfraidOfTheDark.INSTANCE,
                                                 AOTDGuiHandler.BLOOD_STAINED_JOURNAL_PAGE_PRE_ID,
@@ -171,44 +171,55 @@ class BloodStainedJournalResearchGUI(isCheatSheet: Boolean) : AOTDGuiClickAndDra
         val yPos = BACKGROUND_HEIGHT - 50 - DISTANCE_BETWEEN_RESEARCHES * research.zPosition
         // Grab the prerequisite research
         val previous = research.preRequisite
-        // Depending on where the research is in relation to its previous research create an arrow
-        when
+        if (previous != null)
         {
-            research.xPosition < previous.xPosition ->
+            // Depending on where the research is in relation to its previous research create an arrow
+            when
             {
-                researchTree.add(AOTDGuiSpriteSheetImage(xPos + 26,
+                research.xPosition < previous.xPosition ->
+                {
+                    researchTree.add(
+                        AOTDGuiSpriteSheetImage(
+                            xPos + 26,
                         yPos + 9,
                         54,
                         14,
                         ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/horizontal_connector.png"),
                         nodeConnectorControllerHorizontal))
-            }
-            research.xPosition > previous.xPosition ->
-            {
-                researchTree.add(AOTDGuiSpriteSheetImage(xPos - 50,
+                }
+                research.xPosition > previous.xPosition ->
+                {
+                    researchTree.add(
+                        AOTDGuiSpriteSheetImage(
+                            xPos - 50,
                         yPos + 9,
                         54,
                         14,
                         ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/horizontal_connector.png"),
                         nodeConnectorControllerHorizontal))
-            }
-            research.zPosition > previous.zPosition ->
-            {
-                researchTree.add(AOTDGuiSpriteSheetImage(xPos + 9,
+                }
+                research.zPosition > previous.zPosition ->
+                {
+                    researchTree.add(
+                        AOTDGuiSpriteSheetImage(
+                            xPos + 9,
                         yPos + 30,
                         14,
                         46,
                         ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/vertical_connector.png"),
                         nodeConnectorControllerVertical))
-            }
-            research.zPosition < previous.zPosition ->
-            {
-                researchTree.add(AOTDGuiSpriteSheetImage(xPos + 9,
+                }
+                research.zPosition < previous.zPosition ->
+                {
+                    researchTree.add(
+                        AOTDGuiSpriteSheetImage(
+                            xPos + 9,
                         yPos - 46,
                         14,
                         46,
                         ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/vertical_connector.png"),
                         nodeConnectorControllerVertical))
+                }
             }
         }
     }

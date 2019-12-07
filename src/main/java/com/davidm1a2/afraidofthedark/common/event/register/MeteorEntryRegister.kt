@@ -19,7 +19,7 @@ class MeteorEntryRegister
     fun registerMeteorEntries(event: RegistryEvent.Register<MeteorEntry>)
     {
         // Grab the registry for meteor entries
-        val registry = event.registry
+        val registry = event.getRegistry()
         // Register all of our mod meteor entries
         registry.registerAll(*ModMeteorEntries.METEOR_ENTRY_LIST)
     }

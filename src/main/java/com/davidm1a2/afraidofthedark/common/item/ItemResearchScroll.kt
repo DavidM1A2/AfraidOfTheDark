@@ -119,11 +119,11 @@ class ItemResearchScroll : AOTDItem("research_scroll")
         {
             if (isPart(stack))
             {
-                tooltip.add("Scroll part " + getPartNumber(stack) + "/" + getNumberParts(stack) + " of the research " + I18n.format(scrollResearch.unLocalizedName) + ".")
+                tooltip.add("Scroll part " + getPartNumber(stack) + "/" + getNumberParts(stack) + " of the research " + I18n.format(scrollResearch.getUnlocalizedName()) + ".")
             }
             else
             {
-                tooltip.add(I18n.format(scrollResearch.unLocalizedName))
+                tooltip.add(I18n.format(scrollResearch.getUnlocalizedName()))
             }
         }
         else

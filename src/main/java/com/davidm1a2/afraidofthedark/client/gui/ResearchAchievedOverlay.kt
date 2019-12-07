@@ -73,7 +73,7 @@ class ResearchAchievedOverlay : Gui()
             // The research to display
             val research = toDisplay.pop()
             // The new research description
-            researchDescription = I18n.format(research.unLocalizedName)
+            researchDescription = I18n.format(research.getUnlocalizedName())
             // Update the notification time to be the current system time
             notificationTime = Minecraft.getSystemTime()
         }

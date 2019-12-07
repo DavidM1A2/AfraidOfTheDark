@@ -11,7 +11,6 @@ import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.packets.otherPackets.UpdateWatchedMeteor
 import net.minecraft.util.math.MathHelper
-import java.util.stream.Collectors
 
 /**
  * Gui screen that represents the telescope GUI
@@ -68,7 +67,7 @@ class TelescopeGUI : AOTDGuiClickAndDragable()
         // Grab the player's research
         val playerResearch = entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!
         // Grab a list of possible meteors
-        val possibleMeteors = ModRegistries.METEORS.valuesCollection.stream().filter { playerResearch.isResearched(it.preRequisite) }.collect(Collectors.toList())
+        val possibleMeteors = ModRegistries.METEORS.getValuesCollection().filter { playerResearch.isResearched(it.preRequisite) }
         // If we somehow open the GUI without having any known meteors don't show any. This can happen if the telescope is right
         // clicked and the packet to update research from the server hasn't arrived yet
         if (possibleMeteors.isNotEmpty())
