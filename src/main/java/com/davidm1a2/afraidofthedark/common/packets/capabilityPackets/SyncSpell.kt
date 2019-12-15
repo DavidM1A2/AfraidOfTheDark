@@ -78,7 +78,7 @@ class SyncSpell : IMessage
         }
 
         // Finally read in the spell's NBT
-        spell = Spell(ByteBufUtils.readTag(buf))
+        spell = Spell(ByteBufUtils.readTag(buf)!!)
     }
 
     /**

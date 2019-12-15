@@ -1,7 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.specialControls
 
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
-import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry
 import net.minecraft.client.resources.I18n
 
 /**
@@ -12,10 +11,10 @@ import net.minecraft.client.resources.I18n
  * @param y           The Y location of the top left corner
  * @param width       The width of the component
  * @param height      The height of the component
- * @param effectEntry The effect that is in this spell slot
+ * @param effect The effect that is in this spell slot
  */
-class AOTDGuiSpellEffectSlot(x: Int, y: Int, width: Int, height: Int, effectEntry: SpellEffectEntry?) :
-        AOTDGuiSpellComponentSlot<SpellEffectEntry, SpellEffect>(x, y, width, height, "afraidofthedark:textures/gui/spell_editor/effect_holder.png", effectEntry)
+class AOTDGuiSpellEffectSlot(x: Int, y: Int, width: Int, height: Int, effect: SpellEffect?) :
+    AOTDGuiSpellComponentSlot<SpellEffect>(x, y, width, height, "afraidofthedark:textures/gui/spell_editor/effect_holder.png", effect)
 {
     /**
      * Refreshes the text that gets displayed when the slot is hovered
@@ -23,9 +22,14 @@ class AOTDGuiSpellEffectSlot(x: Int, y: Int, width: Int, height: Int, effectEntr
     override fun refreshHoverText()
     {
         // If the component type is non-null show the effect method and stats, otherwise show the slot is empty
-        if (this.getComponentType() != null)
+        val componentType = this.getComponentType()
+        if (componentType != null)
         {
-            this.hoverTexts = arrayOf("Effect (${I18n.format(this.getComponentType()!!.unlocalizedName)})", "Cost: ${this.getComponentInstance()!!.cost}")
+            val componentInstance = this.getComponentInstance()!!
+            this.hoverTexts = arrayOf(
+                "Effect (${I18n.format(componentType.getUnlocalizedName())})",
+                "Cost: ${componentType.getCost(componentInstance)}"
+            )
         }
         else
         {

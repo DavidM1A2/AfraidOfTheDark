@@ -12,6 +12,7 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiImage
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
+import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
 import java.io.IOException
 
 /**
@@ -28,7 +29,7 @@ class SpellCraftingGUI(spell: Spell) : AOTDGuiScreen()
     private val tablet: AOTDGuiSpellTablet
     private val scroll: AOTDGuiSpellScroll
     private val selectedCursorIcon: AOTDGuiImage
-    private var selectedComponent: AOTDGuiSpellComponentSlot<*, *>? = null
+    private var selectedComponent: AOTDGuiSpellComponentSlot<*>? = null
         /**
          * Update the selected component, highlight the component// If we have a previously selected component deselect it
          * If the new component is non-null update our image texture and highlight the component
@@ -44,8 +45,7 @@ class SpellCraftingGUI(spell: Spell) : AOTDGuiScreen()
                 // Update the selected component, highlight the component
                 field = selectedComponent
                 field!!.setHighlight(true)
-                // TODO: FIX GENERIC
-                // selectedCursorIcon.imageTexture = field!!.getComponentType().getIcon()
+                selectedCursorIcon.imageTexture = (field!!.getComponentType()!! as SpellComponent<*>).icon
                 selectedCursorIcon.isVisible = true
             }
             else

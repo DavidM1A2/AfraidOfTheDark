@@ -10,6 +10,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.spell.component.InvalidValueException
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
+import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentProperty
 import net.minecraft.client.resources.I18n
 import net.minecraft.util.math.MathHelper
@@ -35,7 +36,7 @@ import kotlin.math.max
  */
 class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiContainer(x, y, width, height)
 {
-    private var componentClickCallback: ((AOTDGuiSpellComponentSlot<*, *>) -> Unit) = { }
+    private var componentClickCallback: ((AOTDGuiSpellComponentSlot<*>) -> Unit) = { }
     private val scrollPanel: AOTDGuiScrollPanel
     private val componentScrollPanel: AOTDGuiPanel
     private val componentScrollPanelOffset: Int
@@ -82,7 +83,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
                         // If the component is hovered fire the listener
                         if (it.source.isHovered && it.source.isVisible && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                         {
-                            componentClickCallback(it.source as AOTDGuiSpellComponentSlot<*, *>)
+                            componentClickCallback(it.source as AOTDGuiSpellComponentSlot<*>)
                         }
                     }
                 }
@@ -151,7 +152,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
      *
      * @param componentClickCallback The callback that to fire
      */
-    fun setComponentClickCallback(componentClickCallback: (AOTDGuiSpellComponentSlot<*, *>) -> Unit)
+    fun setComponentClickCallback(componentClickCallback: (AOTDGuiSpellComponentSlot<*>) -> Unit)
     {
         this.componentClickCallback = componentClickCallback
     }
@@ -159,14 +160,14 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
     /**
      * Sets the current spell component to be edited, or null if no component is being edited
      *
-     * @param spellComponent The spell component to edit, or null to clear it
+     * @param componentInstance The spell component to edit, or null to clear it
      */
-    fun setEditing(spellComponent: SpellComponent?)
+    fun setEditing(componentInstance: SpellComponentInstance<*>?)
     {
         // Clear the current list of prop editors
         currentPropEditors.clear()
         // If this is null then clear the currently edited spell
-        if (spellComponent == null)
+        if (componentInstance == null)
         {
             // Remove all nodes from the scroll panel
             this.scrollPanel.children.forEach(Consumer { this.scrollPanel.remove(it) })
@@ -188,12 +189,13 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
             // Create a heading label to indicate what is currently being edited
             val heading = AOTDGuiLabel(0, currentY, 120, 30, ClientData.getTargaMSHandFontSized(32f))
             heading.textColor = purpleText
-            heading.text = I18n.format(spellComponent.entityTypeUnlocalizedName) + " Properties"
+            val spellComponent = componentInstance.component as SpellComponent<*>
+            heading.text = I18n.format(spellComponent.getUnlocalizedName()) + " Properties"
             editPanel.add(heading)
             currentY = currentY + heading.height
 
             // Grab a list of editable properties
-            val editableProperties = spellComponent.editableProperties
+            val editableProperties = spellComponent.getEditableProperties()
 
             // If there are no editable properties say so with a text box
             if (editableProperties.isEmpty())
@@ -230,7 +232,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
                     // Create a text field that edits the property value
                     val propertyEditor = AOTDGuiTextField(0, currentY, 120, 30, ClientData.getTargaMSHandFontSized(26f))
                     propertyEditor.textColor = purpleText
-                    propertyEditor.text = editableProp.getter.get()
+                    propertyEditor.text = editableProp.getter(componentInstance)
                     editPanel.add(propertyEditor)
                     // Store the editor off for later use
                     this.currentPropEditors.add(Pair.of(editableProp, propertyEditor))
@@ -268,7 +270,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
                                 // Attempt to set the property
                                 try
                                 {
-                                    property.setter.accept(editor.text)
+                                    property.setter(componentInstance, editor.text)
                                 }
                                 catch (e: InvalidValueException)
                                 {

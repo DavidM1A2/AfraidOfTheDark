@@ -1,12 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
-import com.davidm1a2.afraidofthedark.common.constants.ModSpellDeliveryMethods
-import com.davidm1a2.afraidofthedark.common.constants.ModSpellEffects
-import com.davidm1a2.afraidofthedark.common.constants.ModSpellPowerSources
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
-import com.davidm1a2.afraidofthedark.common.spell.Spell
-import com.davidm1a2.afraidofthedark.common.spell.SpellStage
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
@@ -38,6 +32,7 @@ class ItemDebug : AOTDItem("debug")
 		*/
         if (!worldIn.isRemote)
         {
+            /*
             val spellManager = playerIn.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null)
             if (spellManager!!.spells.isNotEmpty())
             {
@@ -47,7 +42,7 @@ class ItemDebug : AOTDItem("debug")
             {
                 val spell = Spell(playerIn)
                 val spellStage = SpellStage()
-                spellStage.deliveryMethod = ModSpellDeliveryMethods.SELF.newInstance()
+                spellStage.deliveryInstance = ModSpellDeliveryMethods.SELF.newInstance()
                 spellStage.effects[0] = ModSpellEffects.DIG.newInstance()
                 spell.spellStages.add(spellStage)
                 spell.powerSource = ModSpellPowerSources.CREATIVE.newInstance()
@@ -55,7 +50,6 @@ class ItemDebug : AOTDItem("debug")
                 spellManager.addOrUpdateSpell(spell)
                 spellManager.syncAll(playerIn)
             }
-            /*
             AfraidOfTheDark.INSTANCE.getPacketHandler().sendTo(new SyncParticle(AOTDParticleRegistry.ParticleTypes.ENARIA_TELEPORT_ID,
                     Lists.newArrayList(new Vec3d(playerIn.posX, playerIn.posY + 2, playerIn.posZ)), Lists.newArrayList(Vec3d.ZERO)), (EntityPlayerMP) playerIn);
 

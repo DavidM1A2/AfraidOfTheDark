@@ -149,11 +149,11 @@ class AOTDGuiSpellStage(
     fun refresh()
     {
         // Update the delivery method icon based on delivery method
-        deliveryMethod.setComponentInstance(spellStage.deliveryMethod)
+        deliveryMethod.setSpellComponent(spellStage.deliveryInstance)
         // Update each effect slot
         for (i in spellStage.effects.indices)
         {
-            effects[i].setComponentInstance(spellStage.effects[i])
+            effects[i].setSpellComponent(spellStage.effects[i])
         }
     }
 

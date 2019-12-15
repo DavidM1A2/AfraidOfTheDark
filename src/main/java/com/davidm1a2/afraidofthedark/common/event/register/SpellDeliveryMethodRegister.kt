@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
 import com.davidm1a2.afraidofthedark.common.constants.ModSpellDeliveryMethods
-import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodEntry
+import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
@@ -16,7 +16,7 @@ class SpellDeliveryMethodRegister
      * @param event The event to register to
      */
     @SubscribeEvent
-    fun registerSpellDeliveryMethods(event: RegistryEvent.Register<SpellDeliveryMethodEntry>)
+    fun registerSpellDeliveryMethods(event: RegistryEvent.Register<SpellDeliveryMethod>)
     {
         val registry = event.registry
         // Register all spell delivery methods in our mod

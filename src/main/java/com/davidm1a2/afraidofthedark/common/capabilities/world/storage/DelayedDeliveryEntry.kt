@@ -25,8 +25,8 @@ class DelayedDeliveryEntry
     {
         this.state = state
         // Grab the delivery method and get the number of ticks to delay
-        val deliveryMethod = state.currentStage.deliveryMethod
-        ticksLeft = deliveryMethod?.let { it as SpellDeliveryMethodDelay }?.delay ?: 0L
+        val deliveryMethod = state.getCurrentStage().deliveryInstance!!.component
+        ticksLeft = deliveryMethod.let { it as SpellDeliveryMethodDelay }.getDelay(state.getCurrentStage().deliveryInstance!!)
     }
 
     /**
@@ -76,14 +76,14 @@ class DelayedDeliveryEntry
      */
     fun fire()
     {
-        val deliveryMethod = state.currentStage.deliveryMethod
+        val deliveryMethod = state.getCurrentStage().deliveryInstance?.component!!
         // Update the state to reflect the current world position if the entity targeted has moved
-        if (state.entity != null)
+        if (state.getEntity() != null)
         {
             state = DeliveryTransitionStateBuilder()
-                    .copyOf(state) // With entity updates the pos and direction
-                    .withEntity(state.entity)
-                    .build()
+                .copyOf(state) // With entity updates the pos and direction
+                .withEntity(state.getEntity()!!)
+                .build()
         }
         // Proc effects and transition, then return true since we delivered
         deliveryMethod.procEffects(state)

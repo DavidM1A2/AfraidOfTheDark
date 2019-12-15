@@ -228,7 +228,7 @@ class ItemWand : AOTDItem("wand")
                 if (spell != null)
                 {
                     tooltip.add("Spell: " + spell.name)
-                    tooltip.add("Cost: " + spell.cost)
+                    tooltip.add("Cost: " + spell.getCost())
                 }
                 else
                 {

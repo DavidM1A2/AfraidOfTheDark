@@ -59,10 +59,11 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
         var velocity = velocity
         this.spell = spell
         this.spellIndex = spellIndex
-        val deliveryMethodProjectile = spell.getStage(spellIndex).deliveryMethod as SpellDeliveryMethodProjectile
-        blockDistanceRemaining = deliveryMethodProjectile.range
+        val deliveryInstance = spell.getStage(spellIndex)!!.deliveryInstance!!
+        val deliveryMethodProjectile = deliveryInstance.component as SpellDeliveryMethodProjectile
+        blockDistanceRemaining = deliveryMethodProjectile.getRange(deliveryInstance)
         // Grab the projectile speed from the delivery method
-        val projectileSpeed = deliveryMethodProjectile.speed
+        val projectileSpeed = deliveryMethodProjectile.getSpeed(deliveryInstance)
         // Default velocity will just be random velocity
         if (velocity == null)
         {
@@ -150,7 +151,7 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
                             .withDeliveryEntity(this)
                             .build()
                     // Proc the effects and transition
-                    val currentDeliveryMethod = spell.getStage(spellIndex).deliveryMethod
+                    val currentDeliveryMethod = spell.getStage(spellIndex)!!.deliveryInstance!!.component
                     currentDeliveryMethod.procEffects(state)
                     currentDeliveryMethod.transitionFrom(state)
                     setDead()
@@ -178,7 +179,7 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
             // If we hit something process the hit
             if (result.typeOfHit != RayTraceResult.Type.MISS)
             {
-                val currentDeliveryMethod = currentStage.deliveryMethod
+                val currentDeliveryMethod = currentStage!!.deliveryInstance!!.component
                 if (result.typeOfHit == RayTraceResult.Type.BLOCK)
                 {
                     // Grab the hit position

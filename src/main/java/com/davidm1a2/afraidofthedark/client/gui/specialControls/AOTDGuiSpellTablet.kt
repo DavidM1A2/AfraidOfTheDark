@@ -12,6 +12,9 @@ import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
+import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodInstance
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffectInstance
+import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSourceInstance
 import net.minecraft.util.text.TextComponentTranslation
 import kotlin.math.roundToInt
 
@@ -35,13 +38,13 @@ import kotlin.math.roundToInt
  *
  */
 class AOTDGuiSpellTablet(
-        x: Int,
-        y: Int,
-        width: Int,
-        height: Int,
-        private val spell: Spell,
-        private val selectedComponentGetter: () -> AOTDGuiSpellComponentSlot<*, *>?,
-        private val clearSelectedComponent: () -> Unit
+    x: Int,
+    y: Int,
+    width: Int,
+    height: Int,
+    private val spell: Spell,
+    private val selectedComponentGetter: () -> AOTDGuiSpellComponentSlot<*>?,
+    private val clearSelectedComponent: () -> Unit
 ) : AOTDGuiContainer(x, y, width, height)
 {
     private val spellName: AOTDGuiTextField
@@ -50,7 +53,7 @@ class AOTDGuiSpellTablet(
     private val uiPowerSource: AOTDGuiSpellPowerSourceSlot
     private val spellCost: AOTDGuiLabel
     var onHelp: (() -> Unit)? = null
-    var componentEditCallback: ((AOTDGuiSpellComponentSlot<*, *>) -> Unit)? = null
+    var componentEditCallback: ((AOTDGuiSpellComponentSlot<*>) -> Unit)? = null
 
     init
     {
@@ -195,7 +198,7 @@ class AOTDGuiSpellTablet(
 
         // Create the power source spell slot
         uiPowerSource = AOTDGuiSpellPowerSourceSlot(152, 155, 20, 20, null)
-        uiPowerSource.setComponentInstance(spell.powerSource)
+        uiPowerSource.setSpellComponent(spell.powerSource)
         // When we click the power source check the selected component, if it's a power source perform additional updates
         uiPowerSource.addMouseListener()
         {
@@ -216,10 +219,10 @@ class AOTDGuiSpellTablet(
                             // Unhighlight the power source UI element
                             uiPowerSource.setHighlight(false)
                             // Create a new instance of the selected power source
-                            val spellPowerSource = selectedComponent.getComponentType()!!.newInstance()
+                            val spellPowerSource = SpellPowerSourceInstance(selectedComponent.getComponentType()!!)
                             // Update the slot and spell
                             spell.powerSource = spellPowerSource
-                            uiPowerSource.setComponentInstance(spellPowerSource)
+                            uiPowerSource.setSpellComponent(spellPowerSource)
                             // Clear the selected component
                             clearSelectedComponent()
                         }
@@ -231,7 +234,7 @@ class AOTDGuiSpellTablet(
                     else if (it.clickedButton == AOTDMouseEvent.RIGHT_MOUSE_BUTTON)
                     {
                         spell.powerSource = null
-                        uiPowerSource.setComponentType(null)
+                        uiPowerSource.setSpellComponent(null)
                     }
                     // Update cost
                     refreshCost()
@@ -276,7 +279,7 @@ class AOTDGuiSpellTablet(
         // Update the spell cost label
         refreshCost()
         // Update the power source instance
-        uiPowerSource.setComponentInstance(spell.powerSource)
+        uiPowerSource.setSpellComponent(spell.powerSource)
         // Update the spell's name
         spellName.text = spell.name
         // Remove all existing spell stages
@@ -298,7 +301,7 @@ class AOTDGuiSpellTablet(
     private fun refreshCost()
     {
         // Update the spell cost label
-        spellCost.text = "Cost: " + spell.cost.roundToInt()
+        spellCost.text = "Cost: " + spell.getCost().roundToInt()
     }
 
     /**
@@ -343,10 +346,10 @@ class AOTDGuiSpellTablet(
                             // Unhighlight the delivery method UI element
                             uiDeliveryMethod.setHighlight(false)
                             // Create a new instance of the selected delivery method
-                            val spellDeliveryMethod = selectedComponent.getComponentType()!!.newInstance()
+                            val spellDeliveryMethod = SpellDeliveryMethodInstance(selectedComponent.getComponentType()!!)
                             // Update the slot and spell
-                            spellStage.deliveryMethod = spellDeliveryMethod
-                            uiDeliveryMethod.setComponentInstance(spellDeliveryMethod)
+                            spellStage.deliveryInstance = spellDeliveryMethod
+                            uiDeliveryMethod.setSpellComponent(spellDeliveryMethod)
                             // Clear the selected component
                             clearSelectedComponent()
                         }
@@ -357,8 +360,8 @@ class AOTDGuiSpellTablet(
                     }
                     else if (it.clickedButton == AOTDMouseEvent.RIGHT_MOUSE_BUTTON)
                     {
-                        spellStage.deliveryMethod = null
-                        uiDeliveryMethod.setComponentType(null)
+                        spellStage.deliveryInstance = null
+                        uiDeliveryMethod.setSpellComponent(null)
                     }
                     // Update cost
                     refreshCost()
@@ -409,10 +412,10 @@ class AOTDGuiSpellTablet(
                                 // Unhighlight the delivery method UI element
                                 uiEffect.setHighlight(false)
                                 // Create a new instance of the selected effect
-                                val spellEffect = selectedComponent.getComponentType()!!.newInstance()
+                                val spellEffect = SpellEffectInstance(selectedComponent.getComponentType()!!)
                                 // Update the slot and spell
                                 spellStage.effects[i] = spellEffect
-                                uiEffect.setComponentInstance(spellEffect)
+                                uiEffect.setSpellComponent(spellEffect)
                                 // Clear the selected component
                                 clearSelectedComponent()
                             }
@@ -424,7 +427,7 @@ class AOTDGuiSpellTablet(
                         else if (it.clickedButton == AOTDMouseEvent.RIGHT_MOUSE_BUTTON)
                         {
                             spellStage.effects[i] = null
-                            uiEffect.setComponentType(null)
+                            uiEffect.setSpellComponent(null)
                         }
                         // Update cost
                         refreshCost()

@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
 import com.davidm1a2.afraidofthedark.common.constants.ModSpellEffects
-import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffectEntry
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
@@ -16,7 +16,7 @@ class SpellEffectRegister
      * @param event The event to register to
      */
     @SubscribeEvent
-    fun registerSpellEffects(event: RegistryEvent.Register<SpellEffectEntry>)
+    fun registerSpellEffects(event: RegistryEvent.Register<SpellEffect>)
     {
         val registry = event.registry
         // Register all spell effects in our mod

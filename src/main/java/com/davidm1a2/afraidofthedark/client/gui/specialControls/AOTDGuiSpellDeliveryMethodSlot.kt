@@ -1,7 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.specialControls
 
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
-import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodEntry
 import net.minecraft.client.resources.I18n
 
 /**
@@ -12,17 +11,10 @@ import net.minecraft.client.resources.I18n
  * @param y                   The Y location of the top left corner
  * @param width               The width of the component
  * @param height              The height of the component
- * @param deliveryMethodEntry The delivery method that is in this spell slot
+ * @param deliveryMethod The delivery method that is in this spell slot
  */
-class AOTDGuiSpellDeliveryMethodSlot(x: Int, y: Int, width: Int, height: Int, deliveryMethodEntry: SpellDeliveryMethodEntry?) :
-        AOTDGuiSpellComponentSlot<SpellDeliveryMethodEntry, SpellDeliveryMethod>(
-                x,
-                y,
-                width,
-                height,
-                "afraidofthedark:textures/gui/spell_editor/delivery_method_holder.png",
-                deliveryMethodEntry
-        )
+class AOTDGuiSpellDeliveryMethodSlot(x: Int, y: Int, width: Int, height: Int, deliveryMethod: SpellDeliveryMethod?) :
+    AOTDGuiSpellComponentSlot<SpellDeliveryMethod>(x, y, width, height, "afraidofthedark:textures/gui/spell_editor/delivery_method_holder.png", deliveryMethod)
 {
     /**
      * Refreshes the text that gets displayed when the slot is hovered
@@ -30,12 +22,14 @@ class AOTDGuiSpellDeliveryMethodSlot(x: Int, y: Int, width: Int, height: Int, de
     override fun refreshHoverText()
     {
         // If the component type is non-null show the delivery method and stats, otherwise show the slot is empty
-        if (this.getComponentType() != null)
+        val componentType = this.getComponentType()
+        if (componentType != null)
         {
+            val componentInstance = this.getComponentInstance()!!
             this.hoverTexts = arrayOf(
-                    "Delivery Method (${I18n.format(this.getComponentType()!!.unlocalizedName)})",
-                    "Cost Multiplier: ${this.getComponentInstance()!!.stageCostMultiplier}",
-                    "Cost: ${this.getComponentInstance()!!.cost}"
+                "Delivery Method (${I18n.format(componentType.getUnlocalizedName())})",
+                "Cost Multiplier: ${componentType.getStageCostMultiplier(componentInstance)}",
+                "Cost: ${componentType.getCost(componentInstance)}"
             )
         }
         else
