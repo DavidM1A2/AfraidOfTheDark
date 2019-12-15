@@ -1,20 +1,18 @@
-package com.davidm1a2.afraidofthedark.common.worldGeneration;
+package com.davidm1a2.afraidofthedark.common.worldGeneration
 
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldType;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
-import net.minecraftforge.common.util.BlockSnapshot;
+import net.minecraft.block.state.IBlockState
+import net.minecraft.init.Blocks
+import net.minecraft.util.math.BlockPos
+import net.minecraft.world.World
+import net.minecraft.world.WorldType
+import net.minecraft.world.chunk.Chunk
+import net.minecraft.world.chunk.storage.ExtendedBlockStorage
+import net.minecraftforge.common.util.BlockSnapshot
 
 /**
  * Utility class to perform special world operations more quickly than default MC like setblock
  */
-public class WorldGenFast
+object WorldGenFast
 {
     /**
      * Faster version of world.setBlockState() that does not perform any lighting computation or updates
@@ -25,30 +23,30 @@ public class WorldGenFast
      * @param flags    Any additional flags to pass down, see original setBlockState() for flag documentation
      * @return True if the block was set, false otherwise
      */
-    public static boolean setBlockStateFast(World world, BlockPos pos, IBlockState newState, int flags)
+    fun setBlockStateFast(world: World, pos: BlockPos, newState: IBlockState, flags: Int): Boolean
     {
         /*
         Code copied and modified:
          */
 
-        if (world.isOutsideBuildHeight(pos))
+        var pos = pos
+        return if (world.isOutsideBuildHeight(pos))
         {
-            return false;
+            false
         }
-        else if (!world.isRemote && world.getWorldInfo().getTerrainType() == WorldType.DEBUG_ALL_BLOCK_STATES)
+        else if (!world.isRemote && world.worldInfo.terrainType === WorldType.DEBUG_ALL_BLOCK_STATES)
         {
-            return false;
+            false
         }
         else
         {
-            Chunk chunk = world.getChunkFromBlockCoords(pos);
-
-            pos = pos.toImmutable(); // Forge - prevent mutable BlockPos leaks
-            BlockSnapshot blockSnapshot = null;
+            val chunk = world.getChunkFromBlockCoords(pos)
+            pos = pos.toImmutable() // Forge - prevent mutable BlockPos leaks
+            var blockSnapshot: BlockSnapshot? = null
             if (world.captureBlockSnapshots && !world.isRemote)
             {
-                blockSnapshot = net.minecraftforge.common.util.BlockSnapshot.getBlockSnapshot(world, pos, flags);
-                world.capturedBlockSnapshots.add(blockSnapshot);
+                blockSnapshot = BlockSnapshot.getBlockSnapshot(world, pos, flags)
+                world.capturedBlockSnapshots.add(blockSnapshot)
             }
 
             /*
@@ -59,15 +57,14 @@ public class WorldGenFast
              */
 
             // We need to modify how the chunk sets block state too, call our internal chunk set block state
-            IBlockState iblockstate = setChunkBlockStateFast(chunk, pos, newState);
-
+            val iblockstate = setChunkBlockStateFast(chunk, pos, newState)
             if (iblockstate == null)
             {
                 if (blockSnapshot != null)
                 {
-                    world.capturedBlockSnapshots.remove(blockSnapshot);
+                    world.capturedBlockSnapshots.remove(blockSnapshot)
                 }
-                return false;
+                false
             }
             else
             {
@@ -83,9 +80,9 @@ public class WorldGenFast
 
                 if (blockSnapshot == null) // Don't notify clients or update physics while capturing blockstates
                 {
-                    world.markAndNotifyBlock(pos, chunk, iblockstate, newState, flags);
+                    world.markAndNotifyBlock(pos, chunk, iblockstate, newState, flags)
                 }
-                return true;
+                true
             }
         }
     }
@@ -99,11 +96,11 @@ public class WorldGenFast
      * @param state The state to set
      * @return The set block state or null if the state wasn't set
      */
-    private static IBlockState setChunkBlockStateFast(Chunk chunk, BlockPos pos, IBlockState state)
+    private fun setChunkBlockStateFast(chunk: Chunk, pos: BlockPos, state: IBlockState): IBlockState?
     {
-        int i = pos.getX() & 15;
-        int j = pos.getY();
-        int k = pos.getZ() & 15;
+        val i = pos.x and 15
+        val j = pos.y
+        val k = pos.z and 15
 
         /*
         No need for this check, it's not lighting related but requires more effort and requires reflection so ignore it
@@ -119,70 +116,74 @@ public class WorldGenFast
         // No need for any height information since we're not updating lighting
         int i1 = this.heightMap[l];
          */
-        IBlockState iblockstate = chunk.getBlockState(pos);
 
-        if (iblockstate == state)
+        val iblockstate = chunk.getBlockState(pos)
+        return if (iblockstate === state)
         {
-            return null;
+            null
         }
         else
         {
-            Block block = state.getBlock();
-            Block block1 = iblockstate.getBlock();
+            val block = state.block
+            val block1 = iblockstate.block
+
             /*
             Computes the new light value, we don't need this
             int k1 = iblockstate.getLightOpacity(chunk.getWorld(), pos); // Relocate old light value lookup here, so that it is called before TE is removed.
              */
-            ExtendedBlockStorage extendedblockstorage = chunk.getBlockStorageArray()[j >> 4];
+
+            var extendedblockstorage = chunk.blockStorageArray[j shr 4]
+
             /*
             This flag is used for height tests, ignore it too
             boolean flag = false;
              */
-
-            if (extendedblockstorage == Chunk.NULL_BLOCK_STORAGE)
+            if (extendedblockstorage === Chunk.NULL_BLOCK_STORAGE)
             {
-                if (block == Blocks.AIR)
+                if (block === Blocks.AIR)
                 {
-                    return null;
+                    return null
                 }
+                extendedblockstorage = ExtendedBlockStorage(j shr 4 shl 4, chunk.world.provider.hasSkyLight())
+                chunk.blockStorageArray[j shr 4] = extendedblockstorage
 
-                extendedblockstorage = new ExtendedBlockStorage(j >> 4 << 4, chunk.getWorld().provider.hasSkyLight());
-                chunk.getBlockStorageArray()[j >> 4] = extendedblockstorage;
                 /*
-                This flag is used for height tests as mentioned above
-                flag = j >= i1;
+                    This flag is used for height tests as mentioned above
+                    flag = j >= i1;
                  */
             }
 
-            extendedblockstorage.set(i, j & 15, k, state);
+            extendedblockstorage[i, j and 15, k] = state
 
             //if (block1 != block)
-            {
-                if (!chunk.getWorld().isRemote)
+            run {
+                if (!chunk.world.isRemote)
                 {
-                    if (block1 != block) //Only fire block breaks when the block changes.
+                    if (block1 !== block) //Only fire block breaks when the block changes.
                     {
-                        block1.breakBlock(chunk.getWorld(), pos, iblockstate);
+                        block1.breakBlock(chunk.world, pos, iblockstate)
                     }
-                    TileEntity te = chunk.getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK);
-                    if (te != null && te.shouldRefresh(chunk.getWorld(), pos, iblockstate, state))
+
+                    val te = chunk.getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK)
+
+                    if (te != null && te.shouldRefresh(chunk.world, pos, iblockstate, state))
                     {
-                        chunk.getWorld().removeTileEntity(pos);
+                        chunk.world.removeTileEntity(pos)
                     }
                 }
                 else if (block1.hasTileEntity(iblockstate))
                 {
-                    TileEntity te = chunk.getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK);
-                    if (te != null && te.shouldRefresh(chunk.getWorld(), pos, iblockstate, state))
+                    val te = chunk.getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK)
+                    if (te != null && te.shouldRefresh(chunk.world, pos, iblockstate, state))
                     {
-                        chunk.getWorld().removeTileEntity(pos);
+                        chunk.world.removeTileEntity(pos)
                     }
                 }
             }
 
-            if (extendedblockstorage.get(i, j & 15, k).getBlock() != block)
+            if (extendedblockstorage[i, j and 15, k].block !== block)
             {
-                return null;
+                null
             }
             else
             {
@@ -216,29 +217,22 @@ public class WorldGenFast
                  */
 
                 // If capturing blocks, only run block physics for TE's. Non-TE's are handled in ForgeHooks.onPlaceItemIntoWorld
-                if (!chunk.getWorld().isRemote && block1 != block && (!chunk.getWorld().captureBlockSnapshots || block.hasTileEntity(state)))
+                if (!chunk.world.isRemote && block1 !== block && (!chunk.world.captureBlockSnapshots || block.hasTileEntity(state)))
                 {
-                    block.onBlockAdded(chunk.getWorld(), pos, state);
+                    block.onBlockAdded(chunk.world, pos, state)
                 }
-
                 if (block.hasTileEntity(state))
                 {
-                    TileEntity tileentity1 = chunk.getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK);
-
+                    var tileentity1 = chunk.getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK)
                     if (tileentity1 == null)
                     {
-                        tileentity1 = block.createTileEntity(chunk.getWorld(), state);
-                        chunk.getWorld().setTileEntity(pos, tileentity1);
+                        tileentity1 = block.createTileEntity(chunk.world, state)
+                        chunk.world.setTileEntity(pos, tileentity1)
                     }
-
-                    if (tileentity1 != null)
-                    {
-                        tileentity1.updateContainingBlockInfo();
-                    }
+                    tileentity1?.updateContainingBlockInfo()
                 }
-
-                chunk.markDirty();
-                return iblockstate;
+                chunk.markDirty()
+                iblockstate
             }
         }
     }

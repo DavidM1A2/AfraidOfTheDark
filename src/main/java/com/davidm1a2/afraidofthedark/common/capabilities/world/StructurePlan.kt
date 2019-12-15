@@ -134,7 +134,7 @@ class StructurePlan @JvmOverloads constructor(identifier: String = IDENTIFIER) :
     {
         // Grab the bottom left and top right that the structure would occupy
         val bottomLeftCorner = ChunkPos(blockPos)
-        val topRightCorner = ChunkPos(blockPos.add(structure.xWidth, 0, structure.zLength))
+        val topRightCorner = ChunkPos(blockPos.add(structure.getXWidth(), 0, structure.getZLength()))
         // Iterate over all chunks in the region, and test if each chunk is currently empty
         for (chunkX in bottomLeftCorner.x..topRightCorner.x)
         {
@@ -163,7 +163,7 @@ class StructurePlan @JvmOverloads constructor(identifier: String = IDENTIFIER) :
 
         // Compute the bottom left and top right chunk position
         val bottomLeftCorner = ChunkPos(blockPos)
-        val topRightCorner = ChunkPos(blockPos.add(structure.xWidth, 0, structure.zLength))
+        val topRightCorner = ChunkPos(blockPos.add(structure.getXWidth(), 0, structure.getZLength()))
         // The structure entry to be placed down
         val placedStructure = PlacedStructure(structure, data)
         // Iterate over all chunks in the region, and update their structure names

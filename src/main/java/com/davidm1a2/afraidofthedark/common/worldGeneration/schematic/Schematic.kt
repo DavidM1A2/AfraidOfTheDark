@@ -1,50 +1,50 @@
-package com.davidm1a2.afraidofthedark.common.worldGeneration.schematic;
+package com.davidm1a2.afraidofthedark.common.worldGeneration.schematic
 
-import net.minecraft.block.Block;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.block.Block
+import net.minecraft.nbt.NBTTagList
 
 /**
  * Object representation of a schematic file (.schematic)
  */
-public interface Schematic
+interface Schematic
 {
     /**
      * @return The name of the schematic
      */
-    String getName();
+    fun getName(): String
 
     /**
      * @return A list of tile entities in the schematic region
      */
-    NBTTagList getTileEntities();
+    fun getTileEntities(): NBTTagList
 
     /**
      * @return The width of the schematic region
      */
-    short getWidth();
+    fun getWidth(): Short
 
     /**
      * @return The height of the schematic region
      */
-    short getHeight();
+    fun getHeight(): Short
 
     /**
      * @return The length of the schematic region
      */
-    short getLength();
+    fun getLength(): Short
 
     /**
      * @return An array of blocks in the structure
      */
-    Block[] getBlocks();
+    fun getBlocks(): Array<Block>
 
     /**
      * @return An array of block metadata values in the schematic
      */
-    int[] getData();
+    fun getData(): IntArray
 
     /**
      * @return A list of entities in the schematic region
      */
-    NBTTagList getEntities();
+    fun getEntities(): NBTTagList
 }

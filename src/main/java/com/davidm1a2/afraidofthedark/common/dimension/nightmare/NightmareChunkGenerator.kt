@@ -63,8 +63,8 @@ class NightmareChunkGenerator(private val world: World) : IChunkGenerator
     override fun populate(x: Int, z: Int)
     {
         // Grab some constants
-        val islandLength = ModStructures.NIGHTMARE_ISLAND.zLength
-        val islandWidth = ModStructures.NIGHTMARE_ISLAND.xWidth
+        val islandWidth = ModStructures.NIGHTMARE_ISLAND.getXWidth()
+        val islandLength = ModStructures.NIGHTMARE_ISLAND.getZLength()
         val blocksBetweenIslands = AfraidOfTheDark.INSTANCE.configurationHandler.blocksBetweenIslands
         // Compute the z position
         val zPos = z * 16
