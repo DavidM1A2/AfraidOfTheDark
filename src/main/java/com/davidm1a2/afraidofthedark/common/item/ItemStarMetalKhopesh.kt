@@ -146,7 +146,7 @@ class ItemStarMetalKhopesh : AOTDChargeableSword("star_metal_khopesh", ModToolMa
      */
     private fun shouldSpin(itemStack: ItemStack): Boolean
     {
-        return NBTHelper.hasTag(itemStack, NBT_SPIN_TICKS_LEFT) && NBTHelper.getInteger(itemStack, NBT_SPIN_TICKS_LEFT) > 0
+        return NBTHelper.hasTag(itemStack, NBT_SPIN_TICKS_LEFT) && NBTHelper.getInteger(itemStack, NBT_SPIN_TICKS_LEFT)!! > 0
     }
 
     /**
@@ -158,7 +158,7 @@ class ItemStarMetalKhopesh : AOTDChargeableSword("star_metal_khopesh", ModToolMa
     {
         if (NBTHelper.hasTag(itemStack, NBT_SPIN_TICKS_LEFT))
         {
-            NBTHelper.setInteger(itemStack, NBT_SPIN_TICKS_LEFT, NBTHelper.getInteger(itemStack, NBT_SPIN_TICKS_LEFT) - 1)
+            NBTHelper.setInteger(itemStack, NBT_SPIN_TICKS_LEFT, NBTHelper.getInteger(itemStack, NBT_SPIN_TICKS_LEFT)!! - 1)
         }
     }
 

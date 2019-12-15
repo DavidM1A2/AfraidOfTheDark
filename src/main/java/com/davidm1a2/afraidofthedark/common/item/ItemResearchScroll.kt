@@ -162,7 +162,7 @@ class ItemResearchScroll : AOTDItem("research_scroll")
      */
     fun getNumberParts(itemStack: ItemStack): Int
     {
-        return NBTHelper.getInteger(itemStack, NBT_NUMBER_PARTS)
+        return NBTHelper.getInteger(itemStack, NBT_NUMBER_PARTS)!!
     }
 
     /**
@@ -173,7 +173,7 @@ class ItemResearchScroll : AOTDItem("research_scroll")
      */
     fun getPartNumber(itemStack: ItemStack): Int
     {
-        return NBTHelper.getInteger(itemStack, NBT_PART_NUMBER)
+        return NBTHelper.getInteger(itemStack, NBT_PART_NUMBER)!!
     }
 
     /**

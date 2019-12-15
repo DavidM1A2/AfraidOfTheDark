@@ -43,7 +43,7 @@ class ItemJournal : AOTDItem("journal")
     {
         val heldItemStack = player.getHeldItem(hand)
         // Test if the journal is a cheat sheet or not
-        val isCheatSheet = NBTHelper.hasTag(heldItemStack, NBT_CHEAT_SHEET) && NBTHelper.getBoolean(heldItemStack, NBT_CHEAT_SHEET)
+        val isCheatSheet = NBTHelper.hasTag(heldItemStack, NBT_CHEAT_SHEET) && NBTHelper.getBoolean(heldItemStack, NBT_CHEAT_SHEET)!!
 
         // If the journal does not have an owner yet...
         if (!NBTHelper.hasTag(heldItemStack, NBT_OWNER))
@@ -129,7 +129,7 @@ class ItemJournal : AOTDItem("journal")
      * @param itemStack The itemstack to modify
      * @param owner     The new journal owner
      */
-    fun setOwner(itemStack: ItemStack?, owner: String?)
+    fun setOwner(itemStack: ItemStack, owner: String?)
     {
         if (owner == null)
         {

@@ -102,7 +102,7 @@ abstract class AOTDItemWithPerItemCooldown(baseName: String, displayInCreative: 
         {
             NBTHelper.setLong(itemStack, NBT_LAST_USE_TIME, 0L)
         }
-        return NBTHelper.getLong(itemStack, NBT_LAST_USE_TIME)
+        return NBTHelper.getLong(itemStack, NBT_LAST_USE_TIME)!!
     }
 
     /**

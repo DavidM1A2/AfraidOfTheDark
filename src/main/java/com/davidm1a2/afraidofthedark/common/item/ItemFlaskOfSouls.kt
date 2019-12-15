@@ -276,7 +276,7 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls")
         {
             NBTHelper.setInteger(itemStack, NBT_FLASK_KILLS, 0)
         }
-        return NBTHelper.getInteger(itemStack, NBT_FLASK_KILLS)
+        return NBTHelper.getInteger(itemStack, NBT_FLASK_KILLS)!!
     }
 
     /**

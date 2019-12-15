@@ -123,7 +123,7 @@ class ItemStarMetalArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
         return !NBTHelper.hasTag(itemStack, NBT_LAST_ABSORPTION_PROC) || System.currentTimeMillis() > NBTHelper.getLong(
             itemStack,
             NBT_LAST_ABSORPTION_PROC
-        ) + ABSORPTION_PROC_CD_MILLIS
+        )!! + ABSORPTION_PROC_CD_MILLIS
     }
 
     /**

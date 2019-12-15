@@ -207,7 +207,7 @@ class ItemCrossbow : AOTDItem("crossbow")
         {
             NBTHelper.setInteger(itemStack, NBT_BOLT_TYPE, 0)
         }
-        return NBTHelper.getInteger(itemStack, NBT_BOLT_TYPE)
+        return NBTHelper.getInteger(itemStack, NBT_BOLT_TYPE)!!
     }
 
     /**
@@ -233,7 +233,7 @@ class ItemCrossbow : AOTDItem("crossbow")
         {
             setLoaded(itemStack, false)
         }
-        return NBTHelper.getBoolean(itemStack, NBT_LOADED)
+        return NBTHelper.getBoolean(itemStack, NBT_LOADED)!!
     }
 
     /**

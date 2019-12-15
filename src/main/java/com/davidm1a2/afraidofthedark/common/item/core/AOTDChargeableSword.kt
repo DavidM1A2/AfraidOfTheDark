@@ -140,7 +140,7 @@ abstract class AOTDChargeableSword(baseName: String, toolMaterial: ToolMaterial,
     fun getCharge(itemStack: ItemStack): Double
     {
         ensureChargeInit(itemStack)
-        return NBTHelper.getDouble(itemStack, NBT_CHARGE)
+        return NBTHelper.getDouble(itemStack, NBT_CHARGE)!!
     }
 
     /**
@@ -152,7 +152,7 @@ abstract class AOTDChargeableSword(baseName: String, toolMaterial: ToolMaterial,
     fun addCharge(itemStack: ItemStack, charge: Double)
     {
         ensureChargeInit(itemStack)
-        val newCharge = (NBTHelper.getDouble(itemStack, NBT_CHARGE) + charge).coerceIn(0.0, 100.0)
+        val newCharge = (NBTHelper.getDouble(itemStack, NBT_CHARGE)!! + charge).coerceIn(0.0, 100.0)
         NBTHelper.setDouble(itemStack, NBT_CHARGE, newCharge)
     }
 
