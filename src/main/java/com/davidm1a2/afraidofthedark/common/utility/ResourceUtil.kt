@@ -1,13 +1,12 @@
-package com.davidm1a2.afraidofthedark.common.utility;
+package com.davidm1a2.afraidofthedark.common.utility
 
-import net.minecraft.util.ResourceLocation;
-
-import java.io.InputStream;
+import net.minecraft.util.ResourceLocation
+import java.io.InputStream
 
 /**
  * Class that helps load resources from server side as well as client side
  */
-public class ResourceUtil
+object ResourceUtil
 {
     /**
      * Returns a resource location as an input stream, this is much better than Minecraft.getMinecraft().getResourceManager() because that is only client side
@@ -15,8 +14,8 @@ public class ResourceUtil
      * @param resourceLocation The resource location to read
      * @return The input stream to read from
      */
-    public static InputStream getInputStream(ResourceLocation resourceLocation)
+    fun getInputStream(resourceLocation: ResourceLocation): InputStream
     {
-        return ResourceUtil.class.getResourceAsStream("/assets/" + resourceLocation.getResourceDomain() + "/" + resourceLocation.getResourcePath());
+        return ResourceUtil::class.java.getResourceAsStream("/assets/${resourceLocation.resourceDomain}/${resourceLocation.resourcePath}")
     }
 }
