@@ -13,7 +13,6 @@ import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.world.World
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext
-import org.apache.commons.lang3.RandomUtils
 import kotlin.random.Random
 
 /**
@@ -164,7 +163,7 @@ class ProcessSextantInput : IMessage
             if (yPos > 0)
             {
                 // Compute the meteor's radius, it will be based on the parameters of the meteor entry
-                val radius = RandomUtils.nextInt(meteorEntry.minMeteorRadius, meteorEntry.maxMeteorRadius + 1)
+                val radius = Random.nextInt(meteorEntry.minMeteorRadius, meteorEntry.maxMeteorRadius + 1)
                 // Iterate over x, y, and z
                 for (x in xPos - radius..xPos + radius)
                 {

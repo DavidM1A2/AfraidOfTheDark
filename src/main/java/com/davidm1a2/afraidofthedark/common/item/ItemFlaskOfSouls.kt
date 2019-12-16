@@ -11,7 +11,6 @@ import net.minecraft.block.BlockLiquid
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.EntityList
-import net.minecraft.entity.EntityLivingBase
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
@@ -22,7 +21,7 @@ import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.RayTraceResult
 import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.world.World
-import org.apache.commons.lang3.RandomUtils
+import kotlin.random.Random
 
 /**
  * Class representing the flask of souls item used to summon entities
@@ -35,7 +34,7 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls")
     init
     {
         addPropertyOverride(ResourceLocation(Constants.MOD_ID, "complete"))
-        { stack: ItemStack, _: World?, _: EntityLivingBase? ->
+        { stack, _, _ ->
             if (isComplete(stack)) 1f else 0f
         }
     }
@@ -120,7 +119,7 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls")
                         // If the entity is non-null spawn it
                         if (entity != null)
                         {
-                            entity.setLocationAndAngles(x, y, z, RandomUtils.nextFloat(0f, 360f), 0.0f)
+                            entity.setLocationAndAngles(x, y, z, Random.nextDouble(0.0, 360.0).toFloat(), 0.0f)
                             world.spawnEntity(entity)
                             setOnCooldown(itemStack, entityPlayer)
                         }
