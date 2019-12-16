@@ -36,28 +36,31 @@ class BloodStainedJournalSignGUI : AOTDGuiScreen()
         val guiSize = 256
         // Setup the background panel that holds all of our controls
         val backgroundPanel = AOTDGuiPanel(
-                (Constants.GUI_WIDTH - guiSize) / 2,
-                (Constants.GUI_HEIGHT - guiSize) / 2,
-                guiSize,
-                guiSize,
-                false)
+            (Constants.GUI_WIDTH - guiSize) / 2,
+            (Constants.GUI_HEIGHT - guiSize) / 2,
+            guiSize,
+            guiSize,
+            false
+        )
 
         // Add a background image to the background panel
         val backgroundImageSize = 220
         val backgroundImage = AOTDGuiImage(
-                (guiSize - backgroundImageSize) / 2,
-                0,
-                backgroundImageSize,
-                backgroundImageSize,
-                "afraidofthedark:textures/gui/journal_sign/blood_stained_journal.png")
+            (guiSize - backgroundImageSize) / 2,
+            0,
+            backgroundImageSize,
+            backgroundImageSize,
+            "afraidofthedark:textures/gui/journal_sign/blood_stained_journal.png"
+        )
         backgroundPanel.add(backgroundImage)
 
         this.nameSignField = AOTDGuiTextField(
-                45,
-                90,
-                160,
-                30,
-                ClientData.getTargaMSHandFontSized(45f))
+            45,
+            90,
+            160,
+            30,
+            ClientData.getTargaMSHandFontSized(45f)
+        )
         this.nameSignField.textColor = Color(255, 0, 0)
         backgroundPanel.add(this.nameSignField)
 
@@ -65,13 +68,14 @@ class BloodStainedJournalSignGUI : AOTDGuiScreen()
         val signButtonWidth = 100
         val signButtonHeight = 25
         val signButton = AOTDGuiButton(
-                guiSize / 2 - signButtonWidth / 2,
-                guiSize - 30,
-                signButtonWidth,
-                signButtonHeight,
-                "afraidofthedark:textures/gui/journal_sign/sign_button.png",
-                "afraidofthedark:textures/gui/journal_sign/sign_button_hovered.png",
-                ClientData.getTargaMSHandFontSized(55f))
+            guiSize / 2 - signButtonWidth / 2,
+            guiSize - 30,
+            signButtonWidth,
+            signButtonHeight,
+            "afraidofthedark:textures/gui/journal_sign/sign_button.png",
+            "afraidofthedark:textures/gui/journal_sign/sign_button_hovered.png",
+            ClientData.getTargaMSHandFontSized(55f)
+        )
         signButton.setText("Sign")
         signButton.setTextColor(Color(255, 0, 0))
         signButton.setTextAlignment(TextAlignment.ALIGN_CENTER)

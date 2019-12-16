@@ -62,7 +62,7 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
     {
         // Get a list of recipes for each item
         researchRecipes = CraftingManager.REGISTRY
-                .filter { relatedItemRecipes.contains(it.recipeOutput.item) }
+            .filter { relatedItemRecipes.contains(it.recipeOutput.item) }
 
         // Store the raw text of the research
         completeText = text
@@ -87,10 +87,11 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
 
         // Create a title label to contain the research name
         val titleLabel = AOTDGuiLabel(
-                xCornerOfPage,
-                yCornerOfPage - 25,
-                journalWidth, 25,
-                ClientData.getTargaMSHandFontSized(50f))
+            xCornerOfPage,
+            yCornerOfPage - 25,
+            journalWidth, 25,
+            ClientData.getTargaMSHandFontSized(50f)
+        )
         titleLabel.text = titleText
         titleLabel.textColor = titleColor
         titleLabel.textAlignment = TextAlignment.ALIGN_CENTER
@@ -135,12 +136,14 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
             {
                 if (it.source.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                 {
-                    entityPlayer.openGui(AfraidOfTheDark.INSTANCE,
-                            AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID,
-                            entityPlayer.world,
-                            entityPlayer.position.x,
-                            entityPlayer.position.y,
-                            entityPlayer.position.z)
+                    entityPlayer.openGui(
+                        AfraidOfTheDark.INSTANCE,
+                        AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID,
+                        entityPlayer.world,
+                        entityPlayer.position.x,
+                        entityPlayer.position.y,
+                        entityPlayer.position.z
+                    )
                 }
             }
         }
@@ -169,18 +172,22 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
         journalBackground.add(bottomRightRecipe)
 
         // Create the forward and backward button to advance and rewind pages
-        forwardButton = AOTDGuiButton(journalWidth - 23,
-                journalHeight - 40,
-                16,
-                16,
-                "afraidofthedark:textures/gui/journal_page/forward_button.png",
-                "afraidofthedark:textures/gui/journal_page/forward_button_hovered.png")
-        backwardButton = AOTDGuiButton(10,
-                journalHeight - 40,
-                16,
-                16,
-                "afraidofthedark:textures/gui/journal_page/backward_button.png",
-                "afraidofthedark:textures/gui/journal_page/backward_button_hovered.png")
+        forwardButton = AOTDGuiButton(
+            journalWidth - 23,
+            journalHeight - 40,
+            16,
+            16,
+            "afraidofthedark:textures/gui/journal_page/forward_button.png",
+            "afraidofthedark:textures/gui/journal_page/forward_button_hovered.png"
+        )
+        backwardButton = AOTDGuiButton(
+            10,
+            journalHeight - 40,
+            16,
+            16,
+            "afraidofthedark:textures/gui/journal_page/backward_button.png",
+            "afraidofthedark:textures/gui/journal_page/backward_button_hovered.png"
+        )
         // Upon clicking forward then advance the page, if we hover the button darken the color, if we don't hover the button brighten the color
         forwardButton.addMouseListener()
         {
@@ -373,12 +380,14 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
         // If we press our inventory button close the UI and go to the journal UI
         if (keyCode == inventoryKeycode)
         {
-            entityPlayer.openGui(AfraidOfTheDark.INSTANCE,
-                    AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID,
-                    entityPlayer.world,
-                    entityPlayer.position.x,
-                    entityPlayer.position.y,
-                    entityPlayer.position.z)
+            entityPlayer.openGui(
+                AfraidOfTheDark.INSTANCE,
+                AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID,
+                entityPlayer.world,
+                entityPlayer.position.x,
+                entityPlayer.position.y,
+                entityPlayer.position.z
+            )
         }
         else if (character == 'a' || character == 'A' || keyCode == Keyboard.KEY_LEFT)
         {

@@ -64,9 +64,9 @@ object SpellEffectOverrideRegister
                         val maxExplosions = ceil(sqrt(radius)).toInt().coerceIn(1, Int.MAX_VALUE)
                         val basePos = BlockPos(state.position)
                         val transitionBuilder = DeliveryTransitionStateBuilder()
-                                .withSpell(state.spell)
-                                .withStageIndex(state.stageIndex)
-                                .withWorld(state.world)
+                            .withSpell(state.spell)
+                            .withStageIndex(state.stageIndex)
+                            .withWorld(state.world)
 
                         var explosionCount = 0
                         while (explosionCount < maxExplosions)

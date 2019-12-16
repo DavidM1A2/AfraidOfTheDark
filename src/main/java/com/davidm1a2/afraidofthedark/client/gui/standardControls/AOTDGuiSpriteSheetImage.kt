@@ -18,12 +18,12 @@ import net.minecraft.util.ResourceLocation
  * @param sheetController The controller that defines what state the sprite is in
  */
 class AOTDGuiSpriteSheetImage(
-        x: Int,
-        y: Int,
-        width: Int,
-        height: Int,
-        private val spriteSheet: ResourceLocation,
-        private val sheetController: SpriteSheetController
+    x: Int,
+    y: Int,
+    width: Int,
+    height: Int,
+    private val spriteSheet: ResourceLocation,
+    private val sheetController: SpriteSheetController
 ) : AOTDGuiContainer(x, y, width, height)
 {
     /**
@@ -54,57 +54,57 @@ class AOTDGuiSpriteSheetImage(
                 if (sheetController.isVertical)
                 {
                     Gui.drawScaledCustomSizeModalRect(
-                            xScaled,
-                            yScaled,
-                            0f,
-                            currentFrame * frameHeight.toFloat(),
-                            frameWidth,
-                            frameHeight,
-                            widthScaled,
-                            heightScaled,
-                            frameWidth.toFloat(),
-                            frameHeight * totalFrames.toFloat()
+                        xScaled,
+                        yScaled,
+                        0f,
+                        currentFrame * frameHeight.toFloat(),
+                        frameWidth,
+                        frameHeight,
+                        widthScaled,
+                        heightScaled,
+                        frameWidth.toFloat(),
+                        frameHeight * totalFrames.toFloat()
                     )
                     GlStateManager.color(color.red / 255f, color.green / 255f, color.blue / 255f, 1 - percentageToNextFrame)
                     Gui.drawScaledCustomSizeModalRect(
-                            xScaled,
-                            yScaled,
-                            0f,
-                            nextFrame * frameHeight.toFloat(),
-                            frameWidth,
-                            frameHeight,
-                            widthScaled,
-                            heightScaled,
-                            frameWidth.toFloat(),
-                            frameHeight * totalFrames.toFloat()
+                        xScaled,
+                        yScaled,
+                        0f,
+                        nextFrame * frameHeight.toFloat(),
+                        frameWidth,
+                        frameHeight,
+                        widthScaled,
+                        heightScaled,
+                        frameWidth.toFloat(),
+                        frameHeight * totalFrames.toFloat()
                     )
                 }
                 else
                 {
                     Gui.drawScaledCustomSizeModalRect(
-                            xScaled,
-                            yScaled,
-                            currentFrame * frameWidth.toFloat(),
-                            0f,
-                            frameWidth,
-                            frameHeight,
-                            widthScaled,
-                            heightScaled,
-                            frameWidth * totalFrames.toFloat(),
-                            frameHeight.toFloat()
+                        xScaled,
+                        yScaled,
+                        currentFrame * frameWidth.toFloat(),
+                        0f,
+                        frameWidth,
+                        frameHeight,
+                        widthScaled,
+                        heightScaled,
+                        frameWidth * totalFrames.toFloat(),
+                        frameHeight.toFloat()
                     )
                     GlStateManager.color(color.red / 255f, color.green / 255f, color.blue / 255f, 1 - percentageToNextFrame)
                     Gui.drawScaledCustomSizeModalRect(
-                            xScaled,
-                            yScaled,
-                            nextFrame * frameWidth.toFloat(),
-                            0f,
-                            frameWidth,
-                            frameHeight,
-                            widthScaled,
-                            heightScaled,
-                            frameWidth * totalFrames.toFloat(),
-                            frameHeight.toFloat()
+                        xScaled,
+                        yScaled,
+                        nextFrame * frameWidth.toFloat(),
+                        0f,
+                        frameWidth,
+                        frameHeight,
+                        widthScaled,
+                        heightScaled,
+                        frameWidth * totalFrames.toFloat(),
+                        frameHeight.toFloat()
                     )
                 }
             }
@@ -114,31 +114,31 @@ class AOTDGuiSpriteSheetImage(
                 if (sheetController.isVertical)
                 {
                     Gui.drawScaledCustomSizeModalRect(
-                            xScaled,
-                            yScaled,
-                            0f,
-                            currentFrame * frameHeight.toFloat(),
-                            frameWidth,
-                            frameHeight,
-                            widthScaled,
-                            heightScaled,
-                            frameWidth.toFloat(),
-                            frameHeight * totalFrames.toFloat()
+                        xScaled,
+                        yScaled,
+                        0f,
+                        currentFrame * frameHeight.toFloat(),
+                        frameWidth,
+                        frameHeight,
+                        widthScaled,
+                        heightScaled,
+                        frameWidth.toFloat(),
+                        frameHeight * totalFrames.toFloat()
                     )
                 }
                 else
                 {
                     Gui.drawScaledCustomSizeModalRect(
-                            xScaled,
-                            yScaled,
-                            currentFrame * frameWidth.toFloat(),
-                            0f,
-                            frameWidth,
-                            frameHeight,
-                            widthScaled,
-                            heightScaled,
-                            frameWidth * totalFrames.toFloat(),
-                            frameHeight.toFloat()
+                        xScaled,
+                        yScaled,
+                        currentFrame * frameWidth.toFloat(),
+                        0f,
+                        frameWidth,
+                        frameHeight,
+                        widthScaled,
+                        heightScaled,
+                        frameWidth * totalFrames.toFloat(),
+                        frameHeight.toFloat()
                     )
                 }
             }

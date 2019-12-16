@@ -103,8 +103,10 @@ abstract class AOTDSlab(baseName: String, material: Material) : BlockSlab(materi
         // if it's a half slab, store if the slab is on top or on bottom
         if (!this.isDouble)
         {
-            iBlockState = iBlockState.withProperty(HALF,
-                    if (IS_TOP_FIELD.getValue(meta) == 1) EnumBlockHalf.TOP else EnumBlockHalf.BOTTOM)
+            iBlockState = iBlockState.withProperty(
+                HALF,
+                if (IS_TOP_FIELD.getValue(meta) == 1) EnumBlockHalf.TOP else EnumBlockHalf.BOTTOM
+            )
         }
         return iBlockState
     }
@@ -134,9 +136,11 @@ abstract class AOTDSlab(baseName: String, material: Material) : BlockSlab(materi
     override fun createBlockState(): BlockStateContainer
     {
         return if (this.isDouble) BlockStateContainer(this, VARIANT)
-        else BlockStateContainer(this,
-                HALF,
-                VARIANT)
+        else BlockStateContainer(
+            this,
+            HALF,
+            VARIANT
+        )
     }
 
     /**
@@ -188,8 +192,9 @@ abstract class AOTDSlab(baseName: String, material: Material) : BlockSlab(materi
     {
         // Variant is required by slabs, so we are forced to create a default variant that does nothing
         private val VARIANT = PropertyEnum.create(
-                "variant",
-                Variant::class.java)
+            "variant",
+            Variant::class.java
+        )
 
         private val IS_TOP_FIELD = BitField(0x1)
     }

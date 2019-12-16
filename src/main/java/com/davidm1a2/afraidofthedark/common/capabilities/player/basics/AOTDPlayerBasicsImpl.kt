@@ -128,10 +128,14 @@ class AOTDPlayerBasicsImpl : IAOTDPlayerBasics
         // If we're on server side send the client the meteor data
         if (isServerSide(entityPlayer))
         {
-            AfraidOfTheDark.INSTANCE.packetHandler.sendTo(UpdateWatchedMeteor(watchedMeteor,
+            AfraidOfTheDark.INSTANCE.packetHandler.sendTo(
+                UpdateWatchedMeteor(
+                    watchedMeteor,
                     watchedMeteorDropAngle,
                     watchedMeteorLatitude,
-                    watchedMeteorLongitude), entityPlayer as EntityPlayerMP)
+                    watchedMeteorLongitude
+                ), entityPlayer as EntityPlayerMP
+            )
         }
     }
 

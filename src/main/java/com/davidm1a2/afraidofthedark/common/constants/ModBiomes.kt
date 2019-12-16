@@ -3,7 +3,6 @@ package com.davidm1a2.afraidofthedark.common.constants
 import com.davidm1a2.afraidofthedark.common.biomes.BiomeErieForest
 import com.davidm1a2.afraidofthedark.common.biomes.BiomeNightmare
 import com.davidm1a2.afraidofthedark.common.biomes.BiomeVoidChest
-import net.minecraft.world.biome.Biome
 
 /**
  * Storage for all mod biomes used in AOTD
@@ -19,8 +18,8 @@ object ModBiomes
 
     // An array containing a list of biomes that AOTD adds
     val BIOME_LIST = arrayOf(
-            ERIE_FOREST,
-            VOID_CHEST,
-            NIGHTMARE
+        ERIE_FOREST,
+        VOID_CHEST,
+        NIGHTMARE
     )
 }

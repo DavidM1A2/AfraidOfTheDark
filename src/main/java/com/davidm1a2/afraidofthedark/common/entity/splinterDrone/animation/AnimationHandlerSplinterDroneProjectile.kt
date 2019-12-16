@@ -36,7 +36,7 @@ class AnimationHandlerSplinterDroneProjectile(entity: IMCAnimatedEntity) : Anima
     {
         // Map of animation name to channel
         private val ANIMATION_TO_CHANNEL = mapOf(
-                "Sping" to ChannelSping("Sping", 100.0f, 100, Channel.LINEAR)
+            "Sping" to ChannelSping("Sping", 100.0f, 100, Channel.LINEAR)
         )
     }
 }

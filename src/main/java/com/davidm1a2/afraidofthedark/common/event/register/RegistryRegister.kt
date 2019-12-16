@@ -34,19 +34,19 @@ object RegistryRegister
     {
         // Create a new registry for structures with the name 'afraidofthedark:structures'
         ModRegistries.STRUCTURE = RegistryBuilder<Structure>()
-                .setType(Structure::class.java)
-                .setName(ResourceLocation(Constants.MOD_ID, "structures"))
-                .create()
+            .setType(Structure::class.java)
+            .setName(ResourceLocation(Constants.MOD_ID, "structures"))
+            .create()
 
         // Create a new registry for research with the name 'afraidofthedark:research'
         ModRegistries.RESEARCH = RegistryBuilder<Research>()
-                .setType(Research::class.java)
-                .setName(ResourceLocation(Constants.MOD_ID, "research"))
-                .create()
+            .setType(Research::class.java)
+            .setName(ResourceLocation(Constants.MOD_ID, "research"))
+            .create()
 
         // Create a new registry for the different bolt types with the name 'afraidofthedark:bolts'
         ModRegistries.BOLTS = RegistryBuilder<BoltEntry>()
-                .setType(BoltEntry::class.java)
+            .setType(BoltEntry::class.java)
             .setName(ResourceLocation(Constants.MOD_ID, "bolts"))
             .create()
 

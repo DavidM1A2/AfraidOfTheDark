@@ -63,8 +63,8 @@ class BlockMangroveSapling : AOTDSapling("mangrove_sapling")
             var zDistanceFromTrunk = random.nextInt(3) + 3
             // THe current pos of the root block being placed
             var currentPos = pos
-                    .offset(xOffsetDirection, xDistanceFromTrunk)
-                    .offset(zOffsetDirection, zDistanceFromTrunk)
+                .offset(xOffsetDirection, xDistanceFromTrunk)
+                .offset(zOffsetDirection, zDistanceFromTrunk)
             // Iterate from the current height up until we reach trunk height
             for (j in 0 until heightBeforeTrunk)
             {
@@ -246,18 +246,19 @@ class BlockMangroveSapling : AOTDSapling("mangrove_sapling")
         private val MANGROVE_LOG_UP = ModBlocks.MANGROVE.defaultState.withProperty(BlockLog.LOG_AXIS, EnumAxis.Y)
         // Reference to the mangrove leaf block to place
         private val MANGROVE_LEAVES = ModBlocks.MANGROVE_LEAVES.defaultState
-                .withProperty(BlockLeaves.DECAYABLE, true)
-                .withProperty(BlockLeaves.CHECK_DECAY, false)
+            .withProperty(BlockLeaves.DECAYABLE, true)
+            .withProperty(BlockLeaves.CHECK_DECAY, false)
 
         // A set of blocks that can be replaced by wood upon growing
         private val REPLACEABLE_BLOCKS = setOf(
-                Blocks.TALLGRASS,
-                Blocks.AIR,
-                Blocks.LEAVES,
-                Blocks.LEAVES2,
-                Blocks.WATER,
-                Blocks.FLOWING_WATER,
-                Blocks.GRASS,
-                ModBlocks.MANGROVE_LEAVES)
+            Blocks.TALLGRASS,
+            Blocks.AIR,
+            Blocks.LEAVES,
+            Blocks.LEAVES2,
+            Blocks.WATER,
+            Blocks.FLOWING_WATER,
+            Blocks.GRASS,
+            ModBlocks.MANGROVE_LEAVES
+        )
     }
 }

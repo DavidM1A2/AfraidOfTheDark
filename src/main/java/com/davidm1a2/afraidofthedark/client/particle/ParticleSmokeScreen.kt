@@ -13,10 +13,10 @@ import net.minecraft.world.World
  * @param z The z position of the smoke screen particle
  */
 class ParticleSmokeScreen(
-        world: World,
-        x: Double,
-        y: Double,
-        z: Double
+    world: World,
+    x: Double,
+    y: Double,
+    z: Double
 ) : AOTDParticle(world, ModSprites.SMOKE_SCREEN, x, y, z, 0.0, 0.0, 0.0)
 {
     init

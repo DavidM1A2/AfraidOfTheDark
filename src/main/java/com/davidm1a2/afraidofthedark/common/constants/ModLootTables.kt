@@ -2,9 +2,7 @@ package com.davidm1a2.afraidofthedark.common.constants
 
 import com.davidm1a2.afraidofthedark.common.worldGeneration.LootTable
 import net.minecraft.init.Items
-import net.minecraft.item.Item
 import net.minecraft.util.ResourceLocation
-import java.util.*
 
 /**
  * All mod loot tables used in afraid of the dark
@@ -15,7 +13,8 @@ object ModLootTables
     val WITCH_HUT = LootTable(mapOf(null to ResourceLocation(Constants.MOD_ID, "witch_hut")))
     val VOID_CHEST = LootTable(mapOf(null to ResourceLocation(Constants.MOD_ID, "void_chest")))
     val DARK_FOREST = LootTable(mapOf(null to ResourceLocation(Constants.MOD_ID, "dark_forest")))
-    val NIGHTMARE_ISLAND = LootTable(mapOf(
+    val NIGHTMARE_ISLAND = LootTable(
+        mapOf(
             Items.COOKED_BEEF to ResourceLocation(Constants.MOD_ID, "nightmare/random_food"),
             Items.FEATHER to ResourceLocation(Constants.MOD_ID, "nightmare/insanity_research"),
             Items.SUGAR to ResourceLocation(Constants.MOD_ID, "nightmare/potions"),
@@ -31,9 +30,12 @@ object ModLootTables
             Items.GLOWSTONE_DUST to ResourceLocation(Constants.MOD_ID, "nightmare/astronomy2_part2"),
             Items.NETHER_WART to ResourceLocation(Constants.MOD_ID, "nightmare/astronomy2_part3"),
             Items.RABBIT_HIDE to ResourceLocation(Constants.MOD_ID, "nightmare/astronomy2_part4")
-    ))
-    val GNOMISH_CITY = LootTable(mapOf(
+        )
+    )
+    val GNOMISH_CITY = LootTable(
+        mapOf(
             null to ResourceLocation(Constants.MOD_ID, "gnomish_city/standard"),
             Items.DIAMOND to ResourceLocation(Constants.MOD_ID, "gnomish_city/rare")
-    ))
+        )
+    )
 }

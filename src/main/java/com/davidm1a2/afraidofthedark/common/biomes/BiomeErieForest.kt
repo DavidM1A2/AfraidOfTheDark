@@ -18,10 +18,12 @@ import java.util.*
  *
  * @constructor initializes the biome's fields
  */
-class BiomeErieForest : Biome(BiomeProperties("Erie Forest")
+class BiomeErieForest : Biome(
+    BiomeProperties("Erie Forest")
         .setWaterColor(0x000099)
         .setBaseHeight(0.125f)
-        .setHeightVariation(0.05f))
+        .setHeightVariation(0.05f)
+)
 {
     init
     {
@@ -64,20 +66,24 @@ class BiomeErieForest : Biome(BiomeProperties("Erie Forest")
         // Every 3 trees is a big tree
         return if (rand.nextInt(3) == 0)
         {
-            AOTDWorldGenBigTree(true,
-                    ModBlocks.GRAVEWOOD.defaultState.withProperty(BlockLog.LOG_AXIS, EnumAxis.Y),
-                    ModBlocks.GRAVEWOOD_LEAVES.defaultState).apply {
+            AOTDWorldGenBigTree(
+                true,
+                ModBlocks.GRAVEWOOD.defaultState.withProperty(BlockLog.LOG_AXIS, EnumAxis.Y),
+                ModBlocks.GRAVEWOOD_LEAVES.defaultState
+            ).apply {
                 leafIntegrity = 0.9
                 trunkSize = 2
             }
         }
         else
         {
-            WorldGenTrees(true,
-                    6,
-                    ModBlocks.GRAVEWOOD.defaultState.withProperty(BlockLog.LOG_AXIS, EnumAxis.Y),
-                    ModBlocks.GRAVEWOOD_LEAVES.defaultState,
-                    false)
+            WorldGenTrees(
+                true,
+                6,
+                ModBlocks.GRAVEWOOD.defaultState.withProperty(BlockLog.LOG_AXIS, EnumAxis.Y),
+                ModBlocks.GRAVEWOOD_LEAVES.defaultState,
+                false
+            )
         }
     }
 }

@@ -13,10 +13,10 @@ import net.minecraft.world.World
  * @param z The z position of the spell cast effect
  */
 class ParticleSpellCast(
-        world: World,
-        x: Double,
-        y: Double,
-        z: Double
+    world: World,
+    x: Double,
+    y: Double,
+    z: Double
 ) : AOTDParticle(world, ModSprites.SPELL_CAST, x, y, z)
 {
     init

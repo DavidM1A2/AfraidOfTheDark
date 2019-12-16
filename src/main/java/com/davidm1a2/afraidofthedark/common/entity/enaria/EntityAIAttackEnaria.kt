@@ -78,8 +78,10 @@ class EntityAIAttackEnaria(private val enaria: EntityEnaria) : EntityAIBase()
             // Make sure you can't use potions on enaria, she clears them every spell cast
             enaria.clearActivePotions()
             // Play the spell cast animation
-            AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(SyncAnimation("spell", enaria, "spell"),
-                    TargetPoint(enaria.dimension, enaria.posX, enaria.posY, enaria.posZ, 100.0))
+            AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(
+                SyncAnimation("spell", enaria, "spell"),
+                TargetPoint(enaria.dimension, enaria.posX, enaria.posY, enaria.posZ, 100.0)
+            )
         }
         else if (ticksUntilNextAttack % 40 == 0)
         {
@@ -89,8 +91,10 @@ class EntityAIAttackEnaria(private val enaria: EntityEnaria) : EntityAIBase()
                 // Perform basic attack
                 enaria.enariaAttacks.performBasicAttack()
                 // Show the auto attack animation
-                AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(SyncAnimation("autoattack", enaria, "spell", "autoattack"),
-                        TargetPoint(enaria.dimension, enaria.posX, enaria.posY, enaria.posZ, 100.0))
+                AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(
+                    SyncAnimation("autoattack", enaria, "spell", "autoattack"),
+                    TargetPoint(enaria.dimension, enaria.posX, enaria.posY, enaria.posZ, 100.0)
+                )
             }
         }
     }

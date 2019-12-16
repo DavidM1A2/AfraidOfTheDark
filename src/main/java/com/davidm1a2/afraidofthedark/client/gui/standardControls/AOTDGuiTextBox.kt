@@ -90,13 +90,13 @@ class AOTDGuiTextBox(x: Int, y: Int, width: Int, height: Int, private val font: 
             // Draw each string in the text lines list one at at time
             for (i in this.textLines.indices)
                 this.font.drawString(
-                        this.xScaled.toFloat(),
-                        this.yScaled.toFloat() + i * this.font.height * Constants.TEXT_SCALE_FACTOR * this.scaleY.toFloat(),
-                        this.textLines[i],
-                        this.scaleX.toFloat() * Constants.TEXT_SCALE_FACTOR,
-                        this.scaleY.toFloat() * Constants.TEXT_SCALE_FACTOR,
-                        TextAlignment.ALIGN_LEFT,
-                        this.textColor
+                    this.xScaled.toFloat(),
+                    this.yScaled.toFloat() + i * this.font.height * Constants.TEXT_SCALE_FACTOR * this.scaleY.toFloat(),
+                    this.textLines[i],
+                    this.scaleX.toFloat() * Constants.TEXT_SCALE_FACTOR,
+                    this.scaleY.toFloat() * Constants.TEXT_SCALE_FACTOR,
+                    TextAlignment.ALIGN_LEFT,
+                    this.textColor
                 )
         }
     }

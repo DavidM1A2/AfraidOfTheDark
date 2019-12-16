@@ -88,11 +88,13 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
      * @param spellIndex The index of the current spell stage that is being executed
      * @param entity     The entity that fired the projectile
      */
-    constructor(world: World, spell: Spell, spellIndex: Int, entity: Entity) : this(world,
-            spell,
-            spellIndex,
-            entity.positionVector.addVector(0.0, entity.eyeHeight.toDouble(), 0.0),
-            entity.lookVec)
+    constructor(world: World, spell: Spell, spellIndex: Int, entity: Entity) : this(
+        world,
+        spell,
+        spellIndex,
+        entity.positionVector.addVector(0.0, entity.eyeHeight.toDouble(), 0.0),
+        entity.lookVec
+    )
     {
         setRotation(entity.rotationYaw, entity.rotationPitch)
         shooter = entity
@@ -142,14 +144,14 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
                 if (blockDistanceRemaining <= 0)
                 {
                     val state = DeliveryTransitionStateBuilder()
-                            .withSpell(spell)
-                            .withStageIndex(spellIndex)
-                            .withWorld(world)
-                            .withPosition(this.positionVector)
-                            .withBlockPosition(this.position)
-                            .withDirection(Vec3d(motionX, motionY, motionZ))
-                            .withDeliveryEntity(this)
-                            .build()
+                        .withSpell(spell)
+                        .withStageIndex(spellIndex)
+                        .withWorld(world)
+                        .withPosition(this.positionVector)
+                        .withBlockPosition(this.position)
+                        .withDirection(Vec3d(motionX, motionY, motionZ))
+                        .withDeliveryEntity(this)
+                        .build()
                     // Proc the effects and transition
                     val currentDeliveryMethod = spell.getStage(spellIndex)!!.deliveryInstance!!.component
                     currentDeliveryMethod.procEffects(state)
@@ -190,14 +192,14 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
                         hitPos = hitPos.offset(result.sideHit.opposite)
                     }
                     val state = DeliveryTransitionStateBuilder()
-                            .withSpell(spell)
-                            .withStageIndex(spellIndex)
-                            .withWorld(world)
-                            .withPosition(result.hitVec)
-                            .withBlockPosition(hitPos)
-                            .withDirection(Vec3d(motionX, motionY, motionZ))
-                            .withDeliveryEntity(this)
-                            .build()
+                        .withSpell(spell)
+                        .withStageIndex(spellIndex)
+                        .withWorld(world)
+                        .withPosition(result.hitVec)
+                        .withBlockPosition(hitPos)
+                        .withDirection(Vec3d(motionX, motionY, motionZ))
+                        .withDeliveryEntity(this)
+                        .build()
                     // Proc the effects and transition
                     currentDeliveryMethod.procEffects(state)
                     currentDeliveryMethod.transitionFrom(state)
@@ -205,11 +207,11 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
                 else if (result.typeOfHit == RayTraceResult.Type.ENTITY)
                 {
                     val state = DeliveryTransitionStateBuilder()
-                            .withSpell(spell)
-                            .withStageIndex(spellIndex)
-                            .withEntity(result.entityHit)
-                            .withDeliveryEntity(this)
-                            .build()
+                        .withSpell(spell)
+                        .withStageIndex(spellIndex)
+                        .withEntity(result.entityHit)
+                        .withDeliveryEntity(this)
+                        .build()
                     // Proc the effects and transition
                     currentDeliveryMethod.procEffects(state)
                     currentDeliveryMethod.transitionFrom(state)

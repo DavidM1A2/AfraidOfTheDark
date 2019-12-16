@@ -21,9 +21,11 @@ class AOTDPlayerVoidChestDataStorage : IStorage<IAOTDPlayerVoidChestData>
      * @param side       ignored
      * @return An NBTTagCompound that contains all info about the capability
      */
-    override fun writeNBT(capability: Capability<IAOTDPlayerVoidChestData>,
-                          instance: IAOTDPlayerVoidChestData,
-                          side: EnumFacing?): NBTBase?
+    override fun writeNBT(
+        capability: Capability<IAOTDPlayerVoidChestData>,
+        instance: IAOTDPlayerVoidChestData,
+        side: EnumFacing?
+    ): NBTBase?
     {
         // Create a compound to write
         val compound = NBTTagCompound()
@@ -45,10 +47,12 @@ class AOTDPlayerVoidChestDataStorage : IStorage<IAOTDPlayerVoidChestData>
      * @param side       ignored
      * @param nbt        An NBTTagCompound that contains all info about the capability
      */
-    override fun readNBT(capability: Capability<IAOTDPlayerVoidChestData>,
-                         instance: IAOTDPlayerVoidChestData,
-                         side: EnumFacing?,
-                         nbt: NBTBase)
+    override fun readNBT(
+        capability: Capability<IAOTDPlayerVoidChestData>,
+        instance: IAOTDPlayerVoidChestData,
+        side: EnumFacing?,
+        nbt: NBTBase
+    )
     {
         // Test if the nbt tag base is an NBT tag compound
         if (nbt is NBTTagCompound)

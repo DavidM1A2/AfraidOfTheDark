@@ -2,7 +2,6 @@ package com.davidm1a2.afraidofthedark.common.constants
 
 import com.davidm1a2.afraidofthedark.common.dimension.NoopTeleporter
 import net.minecraft.world.DimensionType
-import net.minecraftforge.common.util.ITeleporter
 
 /**
  * Mod dimensions class initializes dimension types used in AOTD

@@ -76,8 +76,10 @@ class EntityAIAttackSplinterDrone(private val splinterDrone: EntitySplinterDrone
             if (splinterDrone.attackTarget != null)
             {
                 // Play the charge animation if it is not already playing and activate is not already playing
-                AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(SyncAnimation("Charge", splinterDrone, "Activate", "Charge"),
-                        TargetPoint(splinterDrone.dimension, splinterDrone.posX, splinterDrone.posY, splinterDrone.posZ, 50.0))
+                AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(
+                    SyncAnimation("Charge", splinterDrone, "Activate", "Charge"),
+                    TargetPoint(splinterDrone.dimension, splinterDrone.posX, splinterDrone.posY, splinterDrone.posZ, 50.0)
+                )
             }
             // If we are ready to attack do so
             if (timeUntilNextAttack-- <= 0)

@@ -22,9 +22,11 @@ class AOTDPlayerNightmareDataStorage : IStorage<IAOTDPlayerNightmareData>
      * @param side       ignored
      * @return An NBTTagCompound that contains all info about the capability
      */
-    override fun writeNBT(capability: Capability<IAOTDPlayerNightmareData>,
-                          instance: IAOTDPlayerNightmareData,
-                          side: EnumFacing?): NBTBase?
+    override fun writeNBT(
+        capability: Capability<IAOTDPlayerNightmareData>,
+        instance: IAOTDPlayerNightmareData,
+        side: EnumFacing?
+    ): NBTBase?
     {
         // Create a compound to write
         val compound = NBTTagCompound()
@@ -49,10 +51,12 @@ class AOTDPlayerNightmareDataStorage : IStorage<IAOTDPlayerNightmareData>
      * @param side       ignored
      * @param nbt        An NBTTagCompound that contains all info about the capability
      */
-    override fun readNBT(capability: Capability<IAOTDPlayerNightmareData>,
-                         instance: IAOTDPlayerNightmareData,
-                         side: EnumFacing?,
-                         nbt: NBTBase)
+    override fun readNBT(
+        capability: Capability<IAOTDPlayerNightmareData>,
+        instance: IAOTDPlayerNightmareData,
+        side: EnumFacing?,
+        nbt: NBTBase
+    )
     {
         // Test if the nbt tag base is an NBT tag compound
         if (nbt is NBTTagCompound)
@@ -61,8 +65,10 @@ class AOTDPlayerNightmareDataStorage : IStorage<IAOTDPlayerNightmareData>
             instance.positionalIndex = nbt.getInteger(NBT_POSITIONAL_INDEX)
             if (nbt.hasKey(NBT_PRE_TELEPORT_INVENTORY))
             {
-                instance.preTeleportPlayerInventory = nbt.getTagList(NBT_PRE_TELEPORT_INVENTORY,
-                        Constants.NBT.TAG_COMPOUND)
+                instance.preTeleportPlayerInventory = nbt.getTagList(
+                    NBT_PRE_TELEPORT_INVENTORY,
+                    Constants.NBT.TAG_COMPOUND
+                )
             }
             else
             {

@@ -15,12 +15,12 @@ import net.minecraft.world.World
  * @param zSpeed The z speed of the spell cast attack
  */
 class ParticleEnariaSpellCast2(
-        world: World,
-        x: Double,
-        y: Double,
-        z: Double,
-        xSpeed: Double,
-        zSpeed: Double
+    world: World,
+    x: Double,
+    y: Double,
+    z: Double,
+    xSpeed: Double,
+    zSpeed: Double
 ) : AOTDParticle(world, ModSprites.ENARIA_SPELL_CAST_2, x, y, z, xSpeed, 0.0, zSpeed)
 {
     init

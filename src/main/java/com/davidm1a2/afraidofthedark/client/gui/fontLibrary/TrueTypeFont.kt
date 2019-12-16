@@ -257,15 +257,15 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
      * @param rgba The color to use when drawing the string
      */
     fun drawString(
-            x: Float,
-            y: Float,
-            stringToDraw: String,
-            startIndex: Int,
-            endIndex: Int,
-            scaleX: Float,
-            scaleY: Float,
-            textAlignment: TextAlignment,
-            rgba: org.lwjgl.util.Color
+        x: Float,
+        y: Float,
+        stringToDraw: String,
+        startIndex: Int,
+        endIndex: Int,
+        scaleX: Float,
+        scaleY: Float,
+        textAlignment: TextAlignment,
+        rgba: org.lwjgl.util.Color
     )
     {
         // The current glyph being drawn
@@ -403,14 +403,14 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
                 {
                     // Draw a letter
                     drawQuad(
-                            totalWidth * scaleX + x,
-                            startY * scaleY + y,
-                            (totalWidth + characterGlyph.width) * scaleX + x,
-                            (startY + characterGlyph.height) * scaleY + y,
-                            (characterGlyph.storedX + characterGlyph.width).toFloat(),
-                            characterGlyph.storedY + characterGlyph.height,
-                            characterGlyph.storedX.toFloat(),
-                            characterGlyph.storedY
+                        totalWidth * scaleX + x,
+                        startY * scaleY + y,
+                        (totalWidth + characterGlyph.width) * scaleX + x,
+                        (startY + characterGlyph.height) * scaleY + y,
+                        (characterGlyph.storedX + characterGlyph.width).toFloat(),
+                        characterGlyph.storedY + characterGlyph.height,
+                        characterGlyph.storedX.toFloat(),
+                        characterGlyph.storedY
                     )
                     // If we are aligning left then increase the width of the current line
                     if (alignmentFlag > 0)
@@ -451,17 +451,17 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
 
         // Add the 4 vertices that are used to draw the glyph. These must be done in this order
         bufferBuilder.pos(drawX.toDouble(), (drawY + drawHeight).toDouble(), 0.0)
-                .tex(((srcX + srcWidth) / textureWidth).toDouble(), (srcY / textureHeight).toDouble())
-                .endVertex()
+            .tex(((srcX + srcWidth) / textureWidth).toDouble(), (srcY / textureHeight).toDouble())
+            .endVertex()
         bufferBuilder.pos((drawX + drawWidth).toDouble(), (drawY + drawHeight).toDouble(), 0.0)
-                .tex((srcX / textureWidth).toDouble(), (srcY / textureHeight).toDouble())
-                .endVertex()
+            .tex((srcX / textureWidth).toDouble(), (srcY / textureHeight).toDouble())
+            .endVertex()
         bufferBuilder.pos((drawX + drawWidth).toDouble(), drawY.toDouble(), 0.0)
-                .tex((srcX / textureWidth).toDouble(), ((srcY + srcHeight) / textureHeight).toDouble())
-                .endVertex()
+            .tex((srcX / textureWidth).toDouble(), ((srcY + srcHeight) / textureHeight).toDouble())
+            .endVertex()
         bufferBuilder.pos(drawX.toDouble(), drawY.toDouble(), 0.0)
-                .tex(((srcX + srcWidth) / textureWidth).toDouble(), ((srcY + srcHeight) / textureHeight).toDouble())
-                .endVertex()
+            .tex(((srcX + srcWidth) / textureWidth).toDouble(), ((srcY + srcHeight) / textureHeight).toDouble())
+            .endVertex()
     }
 
     /**

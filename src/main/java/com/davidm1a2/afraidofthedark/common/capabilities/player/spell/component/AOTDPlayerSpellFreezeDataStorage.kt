@@ -21,9 +21,11 @@ class AOTDPlayerSpellFreezeDataStorage : IStorage<IAOTDPlayerSpellFreezeData>
      * @param side       ignored
      * @return An NBTTagCompound that contains all info about the capability
      */
-    override fun writeNBT(capability: Capability<IAOTDPlayerSpellFreezeData>,
-                          instance: IAOTDPlayerSpellFreezeData,
-                          side: EnumFacing?): NBTBase?
+    override fun writeNBT(
+        capability: Capability<IAOTDPlayerSpellFreezeData>,
+        instance: IAOTDPlayerSpellFreezeData,
+        side: EnumFacing?
+    ): NBTBase?
     {
         // Create a compound to write
         val nbt = NBTTagCompound()
@@ -47,25 +49,32 @@ class AOTDPlayerSpellFreezeDataStorage : IStorage<IAOTDPlayerSpellFreezeData>
      * @param side       ignored
      * @param nbt        An NBTTagCompound that contains all info about the capability
      */
-    override fun readNBT(capability: Capability<IAOTDPlayerSpellFreezeData>,
-                         instance: IAOTDPlayerSpellFreezeData,
-                         side: EnumFacing?,
-                         nbt: NBTBase)
+    override fun readNBT(
+        capability: Capability<IAOTDPlayerSpellFreezeData>,
+        instance: IAOTDPlayerSpellFreezeData,
+        side: EnumFacing?,
+        nbt: NBTBase
+    )
     {
         // Test if the nbt tag base is an NBT tag compound
         if (nbt is NBTTagCompound)
         {
             instance.freezeTicks = nbt.getInteger(NBT_FREEZE_TICKS)
             if (nbt.hasKey(NBT_POSITION + "_x") && nbt.hasKey(NBT_POSITION + "_y") && nbt.hasKey(
-                            NBT_POSITION + "_z"))
+                    NBT_POSITION + "_z"
+                )
+            )
             {
                 instance.freezePosition = Vec3d(
-                        nbt.getDouble(NBT_POSITION + "_x"),
-                        nbt.getDouble(NBT_POSITION + "_y"),
-                        nbt.getDouble(NBT_POSITION + "_z"))
+                    nbt.getDouble(NBT_POSITION + "_x"),
+                    nbt.getDouble(NBT_POSITION + "_y"),
+                    nbt.getDouble(NBT_POSITION + "_z")
+                )
             }
-            instance.setFreezeDirection(nbt.getFloat(NBT_DIRECTION_YAW),
-                    nbt.getFloat(NBT_DIRECTION_PITCH))
+            instance.setFreezeDirection(
+                nbt.getFloat(NBT_DIRECTION_YAW),
+                nbt.getFloat(NBT_DIRECTION_PITCH)
+            )
         }
         else
         {

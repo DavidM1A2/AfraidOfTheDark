@@ -7,11 +7,7 @@ import com.davidm1a2.afraidofthedark.common.tileEntity.TileEntityDarkForest
 import com.davidm1a2.afraidofthedark.common.tileEntity.TileEntityEnariaSpawner
 import com.davidm1a2.afraidofthedark.common.tileEntity.TileEntityGhastlyEnariaSpawner
 import com.davidm1a2.afraidofthedark.common.tileEntity.TileEntityVoidChest
-import net.minecraft.block.Block
-import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.ResourceLocation
-import org.apache.commons.lang3.ArrayUtils
-import org.apache.commons.lang3.tuple.Pair
 
 /**
  * A static class containing all of our block references for us
@@ -48,46 +44,46 @@ object ModBlocks
     val DARK_FOREST = BlockDarkForest()
     val ENARIA_SPAWNER = BlockEnariaSpawner()
     val ENARIAS_ALTAR = BlockEnariasAltar()
-    
+
     // An array containing a list of blocks that AOTD adds
     val BLOCK_LIST = arrayOf(
-            GRAVEWOOD,
-            GRAVEWOOD_PLANKS,
-            GRAVEWOOD_SAPLING,
-            GRAVEWOOD_LEAVES,
-            GRAVEWOOD_HALF_SLAB,
-            GRAVEWOOD_DOUBLE_SLAB,
-            GRAVEWOOD_STAIRS,
-            MANGROVE,
-            MANGROVE_PLANKS,
-            MANGROVE_SAPLING,
-            MANGROVE_LEAVES,
-            MANGROVE_HALF_SLAB,
-            MANGROVE_DOUBLE_SLAB,
-            MANGROVE_STAIRS,
-            METEOR,
-            ASTRAL_SILVER_ORE,
-            ELDRITCH_STONE,
-            ELDRITCH_OBSIDIAN,
-            AMORPHOUS_ELDRITCH_METAL,
-            VOID_CHEST,
-            VOID_CHEST_PORTAL,
-            DARK_FOREST,
-            ENARIA_SPAWNER,
-            SUNSTONE_ORE,
-            STAR_METAL_ORE,
-            IGNEOUS,
-            GNOMISH_METAL_STRUT,
-            GNOMISH_METAL_PLATE,
-            GLOW_STALK,
-            ENARIAS_ALTAR
+        GRAVEWOOD,
+        GRAVEWOOD_PLANKS,
+        GRAVEWOOD_SAPLING,
+        GRAVEWOOD_LEAVES,
+        GRAVEWOOD_HALF_SLAB,
+        GRAVEWOOD_DOUBLE_SLAB,
+        GRAVEWOOD_STAIRS,
+        MANGROVE,
+        MANGROVE_PLANKS,
+        MANGROVE_SAPLING,
+        MANGROVE_LEAVES,
+        MANGROVE_HALF_SLAB,
+        MANGROVE_DOUBLE_SLAB,
+        MANGROVE_STAIRS,
+        METEOR,
+        ASTRAL_SILVER_ORE,
+        ELDRITCH_STONE,
+        ELDRITCH_OBSIDIAN,
+        AMORPHOUS_ELDRITCH_METAL,
+        VOID_CHEST,
+        VOID_CHEST_PORTAL,
+        DARK_FOREST,
+        ENARIA_SPAWNER,
+        SUNSTONE_ORE,
+        STAR_METAL_ORE,
+        IGNEOUS,
+        GNOMISH_METAL_STRUT,
+        GNOMISH_METAL_PLATE,
+        GLOW_STALK,
+        ENARIAS_ALTAR
     )
-    
+
     // A list of tile entities to register
     val TILE_ENTITY_LIST = arrayOf(
-            TileEntityVoidChest::class.java to ResourceLocation(Constants.MOD_ID, "tile_entity_void_chest"),
-            TileEntityDarkForest::class.java to ResourceLocation(Constants.MOD_ID, "tile_entity_dark_forest"),
-            TileEntityGhastlyEnariaSpawner::class.java to ResourceLocation(Constants.MOD_ID, "tile_entity_ghastly_enaria_spawner"),
-            TileEntityEnariaSpawner::class.java to ResourceLocation(Constants.MOD_ID, "tile_entity_enaria_spawner")
+        TileEntityVoidChest::class.java to ResourceLocation(Constants.MOD_ID, "tile_entity_void_chest"),
+        TileEntityDarkForest::class.java to ResourceLocation(Constants.MOD_ID, "tile_entity_dark_forest"),
+        TileEntityGhastlyEnariaSpawner::class.java to ResourceLocation(Constants.MOD_ID, "tile_entity_ghastly_enaria_spawner"),
+        TileEntityEnariaSpawner::class.java to ResourceLocation(Constants.MOD_ID, "tile_entity_enaria_spawner")
     )
 }

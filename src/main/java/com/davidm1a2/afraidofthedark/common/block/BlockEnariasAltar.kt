@@ -42,15 +42,17 @@ class BlockEnariasAltar : AOTDBlock("enarias_altar", Material.PORTAL)
      * @param hitZ     The Z position of the block that was right clicked
      * @return True to cancel processing
      */
-    override fun onBlockActivated(worldIn: World,
-                                  pos: BlockPos,
-                                  state: IBlockState,
-                                  playerIn: EntityPlayer,
-                                  hand: EnumHand,
-                                  facing: EnumFacing,
-                                  hitX: Float,
-                                  hitY: Float,
-                                  hitZ: Float): Boolean
+    override fun onBlockActivated(
+        worldIn: World,
+        pos: BlockPos,
+        state: IBlockState,
+        playerIn: EntityPlayer,
+        hand: EnumHand,
+        facing: EnumFacing,
+        hitX: Float,
+        hitY: Float,
+        hitZ: Float
+    ): Boolean
     {
         // Grab the player's research
         val playerResearch = playerIn.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!
@@ -69,12 +71,14 @@ class BlockEnariasAltar : AOTDBlock("enarias_altar", Material.PORTAL)
             // If the player has the right research show the gui
             if (playerResearch.isResearched(ModResearches.ENARIAS_SECRET))
             {
-                playerIn.openGui(Constants.MOD_ID,
-                        AOTDGuiHandler.SPELL_LIST_ID,
-                        worldIn,
-                        playerIn.posX.toInt(),
-                        playerIn.posY.toInt(),
-                        playerIn.posZ.toInt())
+                playerIn.openGui(
+                    Constants.MOD_ID,
+                    AOTDGuiHandler.SPELL_LIST_ID,
+                    worldIn,
+                    playerIn.posX.toInt(),
+                    playerIn.posY.toInt(),
+                    playerIn.posZ.toInt()
+                )
             }
             else
             {

@@ -32,31 +32,31 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
 {
     // A list of possible potion effects enaria can apply
     private val possibleEffects: List<() -> PotionEffect> = listOf(
-            // Slowness
-            { PotionEffect(Potion.getPotionById(2)!!, 300, 1, false, true) },
-            // Mining fatigue
-            { PotionEffect(Potion.getPotionById(4)!!, 300, 2, false, true) },
-            // Nausea
-            { PotionEffect(Potion.getPotionById(9)!!, 350, 1, false, true) },
-            // Blindness
-            { PotionEffect(Potion.getPotionById(15)!!, 100, 0, false, true) },
-            // Hunger
-            { PotionEffect(Potion.getPotionById(17)!!, 100, 10, false, true) },
-            // Weakness
-            { PotionEffect(Potion.getPotionById(18)!!, 100, 4, false, true) },
-            // Poison
-            { PotionEffect(Potion.getPotionById(19)!!, 100, 3, false, true) },
-            // Wither
-            { PotionEffect(Potion.getPotionById(20)!!, 100, 2, false, true) }
+        // Slowness
+        { PotionEffect(Potion.getPotionById(2)!!, 300, 1, false, true) },
+        // Mining fatigue
+        { PotionEffect(Potion.getPotionById(4)!!, 300, 2, false, true) },
+        // Nausea
+        { PotionEffect(Potion.getPotionById(9)!!, 350, 1, false, true) },
+        // Blindness
+        { PotionEffect(Potion.getPotionById(15)!!, 100, 0, false, true) },
+        // Hunger
+        { PotionEffect(Potion.getPotionById(17)!!, 100, 10, false, true) },
+        // Weakness
+        { PotionEffect(Potion.getPotionById(18)!!, 100, 4, false, true) },
+        // Poison
+        { PotionEffect(Potion.getPotionById(19)!!, 100, 3, false, true) },
+        // Wither
+        { PotionEffect(Potion.getPotionById(20)!!, 100, 2, false, true) }
     )
     // A set of random spell attacks enaria can perform
     private val possibleSpells: List<() -> Unit> = listOf(
-            { spellAOEPotion() },
-            { spellDarkness() },
-            { spellShuffleInventory() },
-            { spellSummonEnchantedSkeletons() },
-            { spellSummonSplinterDrones() },
-            { spellSummonWerewolves() }
+        { spellAOEPotion() },
+        { spellDarkness() },
+        { spellShuffleInventory() },
+        { spellSummonEnchantedSkeletons() },
+        { spellSummonSplinterDrones() },
+        { spellSummonWerewolves() }
     )
 
     /**
@@ -65,15 +65,19 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
     fun performBasicAttack()
     {
         // Go over all nearby players
-        for (entityPlayer in enaria.world.getEntitiesWithinAABB(EntityPlayer::class.java,
-                enaria.entityBoundingBox.grow(BASIC_RANGE.toDouble())))
+        for (entityPlayer in enaria.world.getEntitiesWithinAABB(
+            EntityPlayer::class.java,
+            enaria.entityBoundingBox.grow(BASIC_RANGE.toDouble())
+        ))
         {
             // If the player can be seen basic attack them
             if (enaria.canEntityBeSeen(entityPlayer))
             {
                 // Attack for 6 hearts
-                entityPlayer.attackEntityFrom(EntityDamageSource.causeMobDamage(enaria),
-                        enaria.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).attributeValue.toFloat())
+                entityPlayer.attackEntityFrom(
+                    EntityDamageSource.causeMobDamage(enaria),
+                    enaria.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).attributeValue.toFloat()
+                )
                 // Show particle FX
                 performBasicAttackParticleEffectTo(entityPlayer)
             }
@@ -126,9 +130,11 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
             // Make the 20 spell cast 2 particles move outwards in a circle
             speeds = List(positions.size)
             {
-                Vec3d(sin(Math.toRadians(360.0 / positions.size * it)) * 0.3,
-                        0.0,
-                        cos(Math.toRadians(360.0 / positions.size * it)) * 0.3)
+                Vec3d(
+                    sin(Math.toRadians(360.0 / positions.size * it)) * 0.3,
+                    0.0,
+                    cos(Math.toRadians(360.0 / positions.size * it)) * 0.3
+                )
             }
             // Summon the particles in
             summonParticles(SyncParticle(AOTDParticleRegistry.ParticleTypes.ENARIA_SPELL_CAST_2_ID, positions, speeds))
@@ -146,9 +152,11 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
             // Create 30 random positions around enaria for teleport particles
             val positions = (0..NUMBER_OF_PARTICLES_PER_TELEPORT).map()
             {
-                Vec3d(enaria.position.x + random.nextDouble() * 4 - 2.0,
-                        enaria.position.y + random.nextDouble() * 4 - 2.0 + 0.7,
-                        enaria.position.z + random.nextDouble() * 4 - 2.0)
+                Vec3d(
+                    enaria.position.x + random.nextDouble() * 4 - 2.0,
+                    enaria.position.y + random.nextDouble() * 4 - 2.0 + 0.7,
+                    enaria.position.z + random.nextDouble() * 4 - 2.0
+                )
             }.toList()
             val speeds = List(positions.size) { Vec3d.ZERO }
 
@@ -353,14 +361,16 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
             }
         }
         // Play the potion sound effect
-        enaria.world.playSound(null,
-                enaria.posX,
-                enaria.posY,
-                enaria.posZ,
-                SoundEvents.ENTITY_SPLASH_POTION_BREAK,
-                SoundCategory.HOSTILE,
-                0.8f,
-                0.4f / (random.nextFloat() * 0.4f + 0.8f))
+        enaria.world.playSound(
+            null,
+            enaria.posX,
+            enaria.posY,
+            enaria.posZ,
+            SoundEvents.ENTITY_SPLASH_POTION_BREAK,
+            SoundCategory.HOSTILE,
+            0.8f,
+            0.4f / (random.nextFloat() * 0.4f + 0.8f)
+        )
     }
 
     /**

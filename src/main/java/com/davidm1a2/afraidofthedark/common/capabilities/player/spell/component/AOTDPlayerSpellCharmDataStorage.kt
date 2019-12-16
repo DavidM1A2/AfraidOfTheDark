@@ -21,9 +21,11 @@ class AOTDPlayerSpellCharmDataStorage : IStorage<IAOTDPlayerSpellCharmData>
      * @param side       ignored
      * @return An NBTTagCompound that contains all info about the capability
      */
-    override fun writeNBT(capability: Capability<IAOTDPlayerSpellCharmData>,
-                          instance: IAOTDPlayerSpellCharmData,
-                          side: EnumFacing?): NBTBase?
+    override fun writeNBT(
+        capability: Capability<IAOTDPlayerSpellCharmData>,
+        instance: IAOTDPlayerSpellCharmData,
+        side: EnumFacing?
+    ): NBTBase?
     {
         // Create a compound to write
         val nbt = NBTTagCompound()
@@ -43,10 +45,12 @@ class AOTDPlayerSpellCharmDataStorage : IStorage<IAOTDPlayerSpellCharmData>
      * @param side       ignored
      * @param nbt        An NBTTagCompound that contains all info about the capability
      */
-    override fun readNBT(capability: Capability<IAOTDPlayerSpellCharmData>,
-                         instance: IAOTDPlayerSpellCharmData,
-                         side: EnumFacing?,
-                         nbt: NBTBase)
+    override fun readNBT(
+        capability: Capability<IAOTDPlayerSpellCharmData>,
+        instance: IAOTDPlayerSpellCharmData,
+        side: EnumFacing?,
+        nbt: NBTBase
+    )
     {
         // Test if the nbt tag base is an NBT tag compound
         if (nbt is NBTTagCompound)

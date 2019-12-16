@@ -26,11 +26,13 @@ import org.apache.logging.log4j.Logger
 /**
  * Main class run when the mod is started up
  */
-@Mod(modid = Constants.MOD_ID,
-        name = Constants.MOD_NAME,
-        version = Constants.MOD_VERSION,
-        guiFactory = Constants.GUI_FACTORY_CLASS,
-        acceptedMinecraftVersions = Constants.MC_VERSION)
+@Mod(
+    modid = Constants.MOD_ID,
+    name = Constants.MOD_NAME,
+    version = Constants.MOD_VERSION,
+    guiFactory = Constants.GUI_FACTORY_CLASS,
+    acceptedMinecraftVersions = Constants.MC_VERSION
+)
 class AfraidOfTheDark
 {
     // Packet handler used to send and receive AOTD packets

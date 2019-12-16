@@ -28,7 +28,7 @@ abstract class AOTDLeaves(baseName: String) : BlockLeaves()
         setCreativeTab(Constants.AOTD_CREATIVE_TAB)
         // Set the default state
         this.defaultState = this.defaultState.withProperty(CHECK_DECAY, true)
-                .withProperty(DECAYABLE, true)
+            .withProperty(DECAYABLE, true)
     }
 
     /**
@@ -51,7 +51,7 @@ abstract class AOTDLeaves(baseName: String) : BlockLeaves()
     override fun getStateFromMeta(meta: Int): IBlockState
     {
         return this.defaultState.withProperty(DECAYABLE, DECAYABLE_FIELD.getValue(meta) == 1)
-                .withProperty(CHECK_DECAY, CHECK_DECAY_FIELD.getValue(meta) == 1)
+            .withProperty(CHECK_DECAY, CHECK_DECAY_FIELD.getValue(meta) == 1)
     }
 
     /**

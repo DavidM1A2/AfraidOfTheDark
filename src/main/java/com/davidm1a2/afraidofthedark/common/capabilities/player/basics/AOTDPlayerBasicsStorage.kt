@@ -28,8 +28,10 @@ class AOTDPlayerBasicsStorage : IStorage<IAOTDPlayerBasics>
         val compound = NBTTagCompound()
         compound.setBoolean(STARTED_AOTD, instance.startedAOTD)
         compound.setInteger(WRIST_CROSSBOW_BOLT_INDEX, instance.selectedWristCrossbowBoltIndex)
-        compound.setString(WATCHED_METEOR,
-                if (instance.getWatchedMeteor() == null) "none" else instance.getWatchedMeteor()!!.registryName.toString())
+        compound.setString(
+            WATCHED_METEOR,
+            if (instance.getWatchedMeteor() == null) "none" else instance.getWatchedMeteor()!!.registryName.toString()
+        )
         compound.setInteger(WATCHED_METEOR_DROP_ANGLE, instance.getWatchedMeteorDropAngle())
         compound.setInteger(WATCHED_METEOR_LATITUDE, instance.getWatchedMeteorLatitude())
         compound.setInteger(WATCHED_METEOR_LONGITUDE, instance.getWatchedMeteorLongitude())
@@ -44,10 +46,12 @@ class AOTDPlayerBasicsStorage : IStorage<IAOTDPlayerBasics>
      * @param side       ignored
      * @param nbt        An NBTTagCompound that contains all info about the capability
      */
-    override fun readNBT(capability: Capability<IAOTDPlayerBasics>,
-                         instance: IAOTDPlayerBasics,
-                         side: EnumFacing?,
-                         nbt: NBTBase)
+    override fun readNBT(
+        capability: Capability<IAOTDPlayerBasics>,
+        instance: IAOTDPlayerBasics,
+        side: EnumFacing?,
+        nbt: NBTBase
+    )
     {
         // Test if the nbt tag base is an NBT tag compound
         if (nbt is NBTTagCompound)

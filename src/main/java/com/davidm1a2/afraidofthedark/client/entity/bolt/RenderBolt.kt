@@ -41,16 +41,16 @@ abstract class RenderBolt<T : EntityBolt>(renderManager: RenderManager) : Render
         GlStateManager.disableLighting()
         GlStateManager.translate(x.toFloat(), y.toFloat(), z.toFloat())
         GlStateManager.rotate(
-                entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks - 90.0f,
-                0.0f,
-                1.0f,
-                0.0f
+            entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks - 90.0f,
+            0.0f,
+            1.0f,
+            0.0f
         )
         GlStateManager.rotate(
-                entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks,
-                0.0f,
-                0.0f,
-                1.0f
+            entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks,
+            0.0f,
+            0.0f,
+            1.0f
         )
         val tessellator = Tessellator.getInstance()
         val bufferbuilder = tessellator.buffer

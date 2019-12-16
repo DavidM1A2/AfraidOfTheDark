@@ -60,13 +60,14 @@ class SextantGUI : AOTDGuiScreen()
 
         // Create a calculate button that performs the math and returns drop location coordinates
         val confirm = AOTDGuiButton(
-                15,
-                204,
-                120,
-                20,
-                "afraidofthedark:textures/gui/journal_sign/sign_button.png",
-                "afraidofthedark:textures/gui/journal_sign/sign_button_hovered.png",
-                ClientData.getTargaMSHandFontSized(40f))
+            15,
+            204,
+            120,
+            20,
+            "afraidofthedark:textures/gui/journal_sign/sign_button.png",
+            "afraidofthedark:textures/gui/journal_sign/sign_button_hovered.png",
+            ClientData.getTargaMSHandFontSized(40f)
+        )
         // Text just says calculate
         confirm.setText("Calculate")
         // Center the text
@@ -92,13 +93,14 @@ class SextantGUI : AOTDGuiScreen()
                     // If any field is invalid send the player an error, otherwrise send the info to the server
                     try
                     {
-                        AfraidOfTheDark.INSTANCE.packetHandler.sendToServer(ProcessSextantInput(
+                        AfraidOfTheDark.INSTANCE.packetHandler.sendToServer(
+                            ProcessSextantInput(
                                 dropAngleText.toInt(),
                                 latitudeText.toInt(),
-                                longitudeText.toInt())
+                                longitudeText.toInt()
+                            )
                         )
-                    }
-                    catch (e: NumberFormatException)
+                    } catch (e: NumberFormatException)
                     {
                         entityPlayer.sendMessage(TextComponentTranslation("aotd.sextant.process.invalid_vals"))
                     }

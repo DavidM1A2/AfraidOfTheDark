@@ -112,15 +112,17 @@ class BlockVoidChest : AOTDBlockTileEntity("void_chest", Material.ROCK)
      * @param hand   The hand that is holding the block
      * @return The block state after being placed
      */
-    override fun getStateForPlacement(world: World,
-                                      pos: BlockPos,
-                                      facing: EnumFacing,
-                                      hitX: Float,
-                                      hitY: Float,
-                                      hitZ: Float,
-                                      meta: Int,
-                                      placer: EntityLivingBase,
-                                      hand: EnumHand): IBlockState
+    override fun getStateForPlacement(
+        world: World,
+        pos: BlockPos,
+        facing: EnumFacing,
+        hitX: Float,
+        hitY: Float,
+        hitZ: Float,
+        meta: Int,
+        placer: EntityLivingBase,
+        hand: EnumHand
+    ): IBlockState
     {
         // Face the block depending on the player's horizontal facing
         return this.defaultState.withProperty(FACING_PROPERTY, placer.horizontalFacing.opposite)
@@ -155,15 +157,17 @@ class BlockVoidChest : AOTDBlockTileEntity("void_chest", Material.ROCK)
      * @param hitZ     The Z position that was right clicked
      * @return True to allow the interaction, false otherwise
      */
-    override fun onBlockActivated(worldIn: World,
-                                  pos: BlockPos,
-                                  state: IBlockState,
-                                  playerIn: EntityPlayer,
-                                  hand: EnumHand,
-                                  facing: EnumFacing,
-                                  hitX: Float,
-                                  hitY: Float,
-                                  hitZ: Float): Boolean
+    override fun onBlockActivated(
+        worldIn: World,
+        pos: BlockPos,
+        state: IBlockState,
+        playerIn: EntityPlayer,
+        hand: EnumHand,
+        facing: EnumFacing,
+        hitX: Float,
+        hitY: Float,
+        hitZ: Float
+    ): Boolean
     {
         // Test if the tile entity at this position is a void chest (it should be!)
         if (worldIn.getTileEntity(pos) is TileEntityVoidChest)

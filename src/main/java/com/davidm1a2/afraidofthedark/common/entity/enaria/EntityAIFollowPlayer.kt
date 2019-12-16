@@ -15,10 +15,10 @@ import net.minecraft.entity.player.EntityPlayer
  * @param trackRange The range to pick up new players to follow
  */
 class EntityAIFollowPlayer(
-        private val entity: EntityLiving,
-        private val minRange: Double,
-        private val maxRange: Double,
-        private val trackRange: Double
+    private val entity: EntityLiving,
+    private val minRange: Double,
+    private val maxRange: Double,
+    private val trackRange: Double
 ) : EntityAIBase()
 {
     // The target player to follow
@@ -35,7 +35,7 @@ class EntityAIFollowPlayer(
         val players = entity.world.getEntitiesWithinAABB(EntityPlayer::class.java, entity.entityBoundingBox.grow(trackRange))
         // Grab the closest player, if there is no closest player return false
         val closestPlayer = players.filter { !it.capabilities.isCreativeMode }
-                                    .minWith(Comparator { p1, p2 -> p1.getDistance(entity).compareTo(p2.getDistance(entity)) }) ?: return false
+            .minWith(Comparator { p1, p2 -> p1.getDistance(entity).compareTo(p2.getDistance(entity)) }) ?: return false
 
         // If the distance to the player is less than min don't walk towards the player
         val distance = closestPlayer.getDistance(entity).toDouble()

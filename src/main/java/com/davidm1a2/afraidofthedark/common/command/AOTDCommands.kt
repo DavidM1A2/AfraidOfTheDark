@@ -79,8 +79,8 @@ class AOTDCommands : CommandBase()
             {
                 // Valid structure ids
                 val structureNames = ModRegistries.STRUCTURE.valuesCollection
-                        .map { it.registryName.toString() }
-                        .toTypedArray()
+                    .map { it.registryName.toString() }
+                    .toTypedArray()
                 getListOfStringsMatchingLastWord(args, *structureNames)
             }
             else ->
@@ -201,11 +201,15 @@ class AOTDCommands : CommandBase()
                 // Grab structure position
                 val blockPos = placedStructure.structure.getPosition(placedStructure.data)
                 // Send the structure info and if debug is enabled send debug info too
-                sender.sendMessage(TextComponentTranslation("aotd.command.dungeon.info",
+                sender.sendMessage(
+                    TextComponentTranslation(
+                        "aotd.command.dungeon.info",
                         TextComponentTranslation(placedStructure.structure.registryName.toString()),
                         blockPos.x,
                         blockPos.y,
-                        blockPos.z))
+                        blockPos.z
+                    )
+                )
                 if (AfraidOfTheDark.INSTANCE.configurationHandler.debugMessages)
                 {
                     sender.sendMessage(TextComponentTranslation("aotd.command.dungeon.info.extra_nbt", placedStructure.data.toString()))
@@ -288,9 +292,10 @@ class AOTDCommands : CommandBase()
             val structurePlan = StructurePlan.get(overworld)!!
             // Go over all placed structures and only print them if they have the right name
             filterSortAndPrint(
-                    structurePlan.getPlacedStructures(),
-                    { it.structure.registryName.toString().equals(structureName, ignoreCase = true) },
-                    sender)
+                structurePlan.getPlacedStructures(),
+                { it.structure.registryName.toString().equals(structureName, ignoreCase = true) },
+                sender
+            )
         }
         else
         {
@@ -309,12 +314,12 @@ class AOTDCommands : CommandBase()
     {
         // Filter the list, sort it by distance to player, and print it out
         original.filter(filter)
-                .sortedWith(Comparator.comparingDouble()
-                {
-                    it.structure.getPosition(it.data).distanceSq(sender.position)
-                })
-                .reversed()
-                .forEach { printStructure(it, sender) }
+            .sortedWith(Comparator.comparingDouble()
+            {
+                it.structure.getPosition(it.data).distanceSq(sender.position)
+            })
+            .reversed()
+            .forEach { printStructure(it, sender) }
     }
 
     /**
@@ -327,11 +332,15 @@ class AOTDCommands : CommandBase()
     {
         val position = placedStructure.structure.getPosition(placedStructure.data)
         // Send the message in the format: <dungeon_type> at [<x>, <y>, <z>] ~ <number> blocks away
-        sender.sendMessage(TextComponentTranslation("aotd.command.dungeon.list",
+        sender.sendMessage(
+            TextComponentTranslation(
+                "aotd.command.dungeon.list",
                 TextComponentTranslation(placedStructure.structure.registryName.toString()),
                 position.x,
                 position.y,
                 position.z,
-                ceil(sqrt(sender.position.distanceSq(placedStructure.structure.getPosition(placedStructure.data))))))
+                ceil(sqrt(sender.position.distanceSq(placedStructure.structure.getPosition(placedStructure.data))))
+            )
+        )
     }
 }

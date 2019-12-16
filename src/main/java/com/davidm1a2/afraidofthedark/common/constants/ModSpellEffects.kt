@@ -31,12 +31,12 @@ object ModSpellEffects
         HEAL,
         FEED,
         BURN,
-            POTION_EFFECT,
-            SMOKE_SCREEN,
-            CLEANSE,
-            EXTINGUISH,
-            ENDER_POCKET,
-            FREEZE,
-            CHARM
+        POTION_EFFECT,
+        SMOKE_SCREEN,
+        CLEANSE,
+        EXTINGUISH,
+        ENDER_POCKET,
+        FREEZE,
+        CHARM
     )
 }

@@ -1,7 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
 import com.davidm1a2.afraidofthedark.common.registry.research.AOTDResearch
-import com.davidm1a2.afraidofthedark.common.registry.research.Research
 
 /**
  * A static class containing all of our research references for us
@@ -35,29 +34,29 @@ object ModResearches
 
     // An array containing a list of researches that AOTD adds
     var RESEARCH_LIST = arrayOf(
-            AN_UNBREAKABLE_COVENANT,
-            ENCHANTED_SKELETON,
-            BLADE_OF_EXHUMATION,
-            CROSSBOW,
-            WRIST_CROSSBOW,
-            WEREWOLF_EXAMINATION,
-            ASTRONOMY_1,
-            ASTRAL_SILVER,
-            SLAYING_OF_THE_WOLVES,
-            PHYLACTERY_OF_SOULS,
-            CLOAK_OF_AGILITY,
-            VOID_CHEST,
-            ELDRITCH_DECORATION,
-            DARK_FOREST,
-            SLEEPING_POTION,
-            NIGHTMARE,
-            INSANITY,
-            VITAE_1,
-            ASTRONOMY_2,
-            IGNEOUS,
-            STAR_METAL,
-            GNOMISH_CITY,
-            ENARIA,
-            ENARIAS_SECRET
+        AN_UNBREAKABLE_COVENANT,
+        ENCHANTED_SKELETON,
+        BLADE_OF_EXHUMATION,
+        CROSSBOW,
+        WRIST_CROSSBOW,
+        WEREWOLF_EXAMINATION,
+        ASTRONOMY_1,
+        ASTRAL_SILVER,
+        SLAYING_OF_THE_WOLVES,
+        PHYLACTERY_OF_SOULS,
+        CLOAK_OF_AGILITY,
+        VOID_CHEST,
+        ELDRITCH_DECORATION,
+        DARK_FOREST,
+        SLEEPING_POTION,
+        NIGHTMARE,
+        INSANITY,
+        VITAE_1,
+        ASTRONOMY_2,
+        IGNEOUS,
+        STAR_METAL,
+        GNOMISH_CITY,
+        ENARIA,
+        ENARIAS_SECRET
     )
 }

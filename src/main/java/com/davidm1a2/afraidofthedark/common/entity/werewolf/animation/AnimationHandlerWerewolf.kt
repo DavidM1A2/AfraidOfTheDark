@@ -36,8 +36,8 @@ class AnimationHandlerWerewolf(entity: IMCAnimatedEntity) : AnimationHandler(ent
     {
         // Map of animation name to channel
         var ANIMATION_TO_CHANNEL = mapOf(
-                "Bite" to ChannelBite("Bite", 50.0f, 21, Channel.LINEAR),
-                "Run" to ChannelRun("Run", 60.0f, 32, Channel.LINEAR)
+            "Bite" to ChannelBite("Bite", 50.0f, 21, Channel.LINEAR),
+            "Run" to ChannelRun("Run", 60.0f, 32, Channel.LINEAR)
         )
     }
 }

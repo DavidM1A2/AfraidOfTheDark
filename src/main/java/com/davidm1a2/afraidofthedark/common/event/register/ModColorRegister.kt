@@ -46,7 +46,8 @@ class ModColorRegister
                 return@IBlockColor BiomeColorHelper.getFoliageColorAtPos(blockAccess, pos)
             }
             ColorizerFoliage.getFoliageColor(0.5, 1.0)
-        }, *leafBlocks)
+        }, *leafBlocks
+        )
     }
 
     /**
@@ -71,6 +72,7 @@ class ModColorRegister
             // Grab the state of the block if it was placed in the world
             val iBlockState = (stack.item as ItemBlock).block.getStateFromMeta(stack.metadata)
             blockColors.colorMultiplier(iBlockState, null, null, tintIndex)
-        }, *leafBlocks)
+        }, *leafBlocks
+        )
     }
 }

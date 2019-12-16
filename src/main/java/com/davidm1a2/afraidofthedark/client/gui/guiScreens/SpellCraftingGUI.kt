@@ -71,13 +71,13 @@ class SpellCraftingGUI(spell: Spell) : AOTDGuiScreen()
 
         // Create the left side tablet to hold the current spell settings
         tablet = AOTDGuiSpellTablet(
-                100,
-                (Constants.GUI_HEIGHT - 256) / 2,
-                192,
-                256,
-                spellClone,
-                { this.selectedComponent },
-                { this.selectedComponent = null }
+            100,
+            (Constants.GUI_HEIGHT - 256) / 2,
+            192,
+            256,
+            spellClone,
+            { this.selectedComponent },
+            { this.selectedComponent = null }
         )
         contentPane.add(tablet)
 

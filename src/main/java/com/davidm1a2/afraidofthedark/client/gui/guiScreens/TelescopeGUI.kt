@@ -48,22 +48,22 @@ class TelescopeGUI : AOTDGuiClickAndDragable()
         telescopeImage.v = guiOffsetY + (telescopeImage.maxTextureHeight - telescopeImage.height) / 2
         // Click listener that gets called when we click a meteor button
         val meteorClickListener =
-                { event: AOTDMouseEvent ->
-                    if (event.eventType === AOTDMouseEvent.EventType.Click)
+            { event: AOTDMouseEvent ->
+                if (event.eventType === AOTDMouseEvent.EventType.Click)
+                {
+                    // Make sure the button clicked was in fact hovered and the click was LMB
+                    if (event.source.isHovered && event.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                     {
-                        // Make sure the button clicked was in fact hovered and the click was LMB
-                        if (event.source.isHovered && event.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
+                        // Ensure that the button is visible and not just outside of the visual clip
+                        if (telescopeMeteorClip.intersects(event.source))
                         {
-                            // Ensure that the button is visible and not just outside of the visual clip
-                            if (telescopeMeteorClip.intersects(event.source))
-                            {
-                                // Tell the server we're watching a new meteor. It will update our capability NBT data for us
-                                AfraidOfTheDark.INSTANCE.packetHandler.sendToServer(UpdateWatchedMeteor((event.source as AOTDGuiMeteorButton).meteorType))
-                                entityPlayer.closeScreen()
-                            }
+                            // Tell the server we're watching a new meteor. It will update our capability NBT data for us
+                            AfraidOfTheDark.INSTANCE.packetHandler.sendToServer(UpdateWatchedMeteor((event.source as AOTDGuiMeteorButton).meteorType))
+                            entityPlayer.closeScreen()
                         }
                     }
                 }
+            }
         // Grab the player's research
         val playerResearch = entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!
         // Grab a list of possible meteors
@@ -81,11 +81,11 @@ class TelescopeGUI : AOTDGuiClickAndDragable()
             {
                 // Create the meteor button based on if astronomy 2 is researched or not
                 val meteorButton = AOTDGuiMeteorButton(
-                        random.nextInt(telescopeImage.maxTextureWidth) - telescopeImage.maxTextureWidth / 2,
-                        random.nextInt(telescopeImage.maxTextureHeight) - telescopeImage.maxTextureHeight / 2,
-                        64,
-                        64,
-                        possibleMeteors[random.nextInt(possibleMeteors.size)]
+                    random.nextInt(telescopeImage.maxTextureWidth) - telescopeImage.maxTextureWidth / 2,
+                    random.nextInt(telescopeImage.maxTextureHeight) - telescopeImage.maxTextureHeight / 2,
+                    64,
+                    64,
+                    possibleMeteors[random.nextInt(possibleMeteors.size)]
                 )
                 // Add a listener
                 meteorButton.addMouseListener(meteorClickListener)

@@ -39,9 +39,11 @@ import kotlin.math.min
 class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity
 {
     private val animHandler = AnimationHandlerEnaria(this)
-    private val bossInfo = BossInfoServer(this.displayName,
-            BossInfo.Color.PURPLE,
-            BossInfo.Overlay.PROGRESS).setDarkenSky(true) as BossInfoServer
+    private val bossInfo = BossInfoServer(
+        this.displayName,
+        BossInfo.Color.PURPLE,
+        BossInfo.Overlay.PROGRESS
+    ).setDarkenSky(true) as BossInfoServer
     lateinit var allowedRegion: AxisAlignedBB
     val enariaAttacks: EnariaAttacks
 
@@ -114,7 +116,8 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity
                 if (!animHandler.isAnimationActive("spell") &&
                     !animHandler.isAnimationActive("autoattack") &&
                     !animHandler.isAnimationActive("armthrow") &&
-                    !animHandler.isAnimationActive("walk"))
+                    !animHandler.isAnimationActive("walk")
+                )
                 {
                     // Walk
                     animHandler.activateAnimation("walk", 0f)
@@ -373,12 +376,12 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity
     {
         super.readEntityFromNBT(compound)
         allowedRegion = AxisAlignedBB(
-                compound.getDouble("minX"),
-                compound.getDouble("minY"),
-                compound.getDouble("minZ"),
-                compound.getDouble("maxX"),
-                compound.getDouble("maxY"),
-                compound.getDouble("maxZ")
+            compound.getDouble("minX"),
+            compound.getDouble("minY"),
+            compound.getDouble("minZ"),
+            compound.getDouble("maxX"),
+            compound.getDouble("maxY"),
+            compound.getDouble("maxZ")
         )
     }
 
