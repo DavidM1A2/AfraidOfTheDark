@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.common.worldGeneration.structure
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.world.IHeightmap
-import com.davidm1a2.afraidofthedark.common.capabilities.world.OverworldHeightmap.Companion.get
+import com.davidm1a2.afraidofthedark.common.capabilities.world.OverworldHeightmap
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator.generateSchematic
@@ -108,7 +108,7 @@ class StructureVoidChest : AOTDStructure("void_chest")
         val compound = NBTTagCompound()
 
         // Find the lowest y value containing a block
-        val groundLevel = processChunks(LowestHeightChunkProcessor(get(world)), InteriorChunkIterator(this, blockPos))
+        val groundLevel = processChunks(LowestHeightChunkProcessor(OverworldHeightmap.get(world)), InteriorChunkIterator(this, blockPos))
         // Set the schematic's position to the lowest point in the chunk
         blockPos = BlockPos(blockPos.x, groundLevel - 7, blockPos.z)
         // Update the NBT

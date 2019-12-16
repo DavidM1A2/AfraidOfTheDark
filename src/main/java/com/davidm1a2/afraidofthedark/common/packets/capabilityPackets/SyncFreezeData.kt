@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext
 class SyncFreezeData : IMessage
 {
     private var freezeTicks: Int
-    private lateinit var position: Vec3d
+    private var position: Vec3d?
     private var yaw: Float
     private var pitch: Float
 
@@ -29,6 +29,7 @@ class SyncFreezeData : IMessage
     constructor()
     {
         freezeTicks = 0
+        position = null
         yaw = 0f
         pitch = 0f
     }
@@ -41,7 +42,7 @@ class SyncFreezeData : IMessage
      * @param yaw         The yaw of the direction that the player was looking in when frozen
      * @param pitch       The pitch of the direction that the player was looking in when frozen
      */
-    constructor(freezeTicks: Int, position: Vec3d, yaw: Float, pitch: Float)
+    constructor(freezeTicks: Int, position: Vec3d?, yaw: Float, pitch: Float)
     {
         this.freezeTicks = freezeTicks
         this.position = position
@@ -75,9 +76,9 @@ class SyncFreezeData : IMessage
         buf.writeInt(freezeTicks)
         if (freezeTicks > 0)
         {
-            buf.writeDouble(position.x)
-            buf.writeDouble(position.y)
-            buf.writeDouble(position.z)
+            buf.writeDouble(position!!.x)
+            buf.writeDouble(position!!.y)
+            buf.writeDouble(position!!.z)
             buf.writeFloat(yaw)
             buf.writeFloat(pitch)
         }

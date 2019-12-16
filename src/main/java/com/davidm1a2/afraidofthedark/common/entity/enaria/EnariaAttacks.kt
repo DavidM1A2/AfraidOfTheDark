@@ -344,7 +344,7 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
             if (!entityPlayer.capabilities.isCreativeMode)
             {
                 // Create a list of effect indices
-                val effectIndices = (0..possibleEffects.size).shuffled()
+                val effectIndices = possibleEffects.indices.shuffled()
                 // Apply 4 random bad potion effects
                 for (i in 0..3)
                 {

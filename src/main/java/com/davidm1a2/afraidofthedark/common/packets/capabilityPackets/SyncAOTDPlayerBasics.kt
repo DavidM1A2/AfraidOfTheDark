@@ -85,7 +85,6 @@ class SyncAOTDPlayerBasics : IMessage
         override fun handleServerMessage(player: EntityPlayer, msg: SyncAOTDPlayerBasics, ctx: MessageContext)
         {
             // Send the player his/her current capabilities in a packet as requested
-            // TODO: UPDATED FROM ADD SCHEDULED
             player.getCapability(ModCapabilities.PLAYER_BASICS, null)!!.syncAll(player)
         }
     }

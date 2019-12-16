@@ -3,6 +3,8 @@ package com.davidm1a2.afraidofthedark.common.item
 import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItemWithSharedCooldown
+import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
+import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityLiving
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.entity.player.EntityPlayer
@@ -23,6 +25,38 @@ import net.minecraft.world.World
  */
 class ItemStarMetalStaff : AOTDItemWithSharedCooldown("star_metal_staff")
 {
+    /**
+     * Called every tick the player has the item. Check if the player swapped off of the staff, if so make sure they're
+     * no longer invincible
+     *
+     * @param stack The item being in the player's inventory
+     * @param world The world the player is in
+     * @param entity The entity that has the item
+     * @param itemSlot The slot in the entities inventory that the item is in
+     * @param isSelected True if the item is selected, false otherwise
+     */
+    override fun onUpdate(stack: ItemStack, world: World, entity: Entity, itemSlot: Int, isSelected: Boolean)
+    {
+        // Server side processing only
+        if (!world.isRemote)
+        {
+            // Check if the entity is a player
+            if (entity is EntityPlayer)
+            {
+                // If the item isn't selected ensure the player isn't invincible
+                if (!isSelected)
+                {
+                    // If a star metal staff is not selected make sure the player can take damage
+                    if (!entity.capabilities.isCreativeMode && entity.capabilities.disableDamage && isInUse(stack))
+                    {
+                        entity.capabilities.disableDamage = false
+                        setInUse(stack, false)
+                    }
+                }
+            }
+        }
+    }
+
     /**
      * Called to fire the right click effect
      *
@@ -57,6 +91,9 @@ class ItemStarMetalStaff : AOTDItemWithSharedCooldown("star_metal_staff")
 
                     // Set the player's active hand to the one that was right clicked with
                     player.setActiveHand(hand)
+
+                    // Update the item NBT so that we know it's in use
+                    setInUse(heldItem, true)
 
                     // We're good to go, return success
                     return ActionResult.newResult(EnumActionResult.SUCCESS, heldItem)
@@ -124,6 +161,9 @@ class ItemStarMetalStaff : AOTDItemWithSharedCooldown("star_metal_staff")
         // Server side processing only
         if (!entityLiving.world.isRemote)
         {
+            // Update the item NBT so it's not in use
+            setInUse(stack, false)
+
             // Only test players
             if (entityLiving is EntityPlayer)
             {
@@ -152,6 +192,9 @@ class ItemStarMetalStaff : AOTDItemWithSharedCooldown("star_metal_staff")
         // Server side processing only
         if (!world.isRemote)
         {
+            // Update the item NBT so it's not in use
+            setInUse(stack, false)
+
             // Ensure the entity is a player
             if (entityLiving is EntityPlayer)
             {
@@ -219,11 +262,42 @@ class ItemStarMetalStaff : AOTDItemWithSharedCooldown("star_metal_staff")
         return MAX_TROLL_POLE_TIME_IN_TICKS
     }
 
+    /**
+     * Sets the 'in_use' nbt tag which is used to determine if the item was in use or not
+     *
+     * @param itemStack The itemstack to check
+     * @param inUse True if the item is in use, false otherwise
+     */
+    fun setInUse(itemStack: ItemStack, inUse: Boolean)
+    {
+        NBTHelper.setBoolean(itemStack, NBT_IN_USE, inUse)
+    }
+
+    /**
+     * True if the item has the 'in_use' nbt tag, false otherwise
+     *
+     * @param itemStack The itemstack to test
+     */
+    fun isInUse(itemStack: ItemStack): Boolean
+    {
+        return if (NBTHelper.hasTag(itemStack, NBT_IN_USE))
+        {
+            NBTHelper.getBoolean(itemStack, NBT_IN_USE)!!
+        }
+        else
+        {
+            false
+        }
+    }
+
     companion object
     {
         // The amount of knockback the staff has once dropping out of it
         private const val KNOCKBACK_STRENGTH = 6.0
         // The maximum number of ticks a player can be on the troll poll
         private const val MAX_TROLL_POLE_TIME_IN_TICKS = 60
+
+        // NBT constants
+        private const val NBT_IN_USE = "in_use"
     }
 }

@@ -46,7 +46,7 @@ class ItemIgneousArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) : A
      * @param type   The subtype, can be null or "overlay"
      * @return Path of texture to bind, or null to use default
      */
-    override fun getArmorTexture(stack: ItemStack, entity: Entity, slot: EntityEquipmentSlot, type: String): String
+    override fun getArmorTexture(stack: ItemStack, entity: Entity, slot: EntityEquipmentSlot, type: String?): String
     {
         // Igneous 1 is for helm, boots, and chest while igneous 2 is for leggings
         return if (slot == EntityEquipmentSlot.LEGS)

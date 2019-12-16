@@ -80,7 +80,6 @@ class SyncStartedAOTD : IMessage
          */
         override fun handleServerMessage(player: EntityPlayer, msg: SyncStartedAOTD, ctx: MessageContext)
         {
-            // TODO: UPDATED FROM ADD SCHEDULED
             player.getCapability(ModCapabilities.PLAYER_BASICS, null)!!.startedAOTD = msg.startedAOTD
         }
     }

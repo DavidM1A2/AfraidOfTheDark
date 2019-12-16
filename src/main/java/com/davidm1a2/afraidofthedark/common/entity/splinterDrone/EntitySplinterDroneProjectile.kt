@@ -93,7 +93,7 @@ class EntitySplinterDroneProjectile(world: World) : Entity(world), IMCAnimatedEn
                 // We are in the air, so increment our counter
                 ticksInAir++
                 // Perform a ray cast to test if we've hit something. We can only hit the entity that fired the projectile after 25 ticks
-                val rayTraceResult: RayTraceResult? = ProjectileHelper.forwardsRaycast(this, true, ticksInAir >= 25, shootingEntity!!)
+                val rayTraceResult: RayTraceResult? = ProjectileHelper.forwardsRaycast(this, true, ticksInAir >= 25, shootingEntity)
                 // If the ray trace hit something, perform the hit effect
                 // Intellij says this is always non-null, that is not the case....
                 if (rayTraceResult != null)

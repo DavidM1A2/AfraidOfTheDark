@@ -97,14 +97,14 @@ class AOTDGuiItemStack(x: Int, y: Int, width: Int, height: Int, backgroundHighli
         if (this.isVisible && highlight != null)
         {
             // Ensure the stack is hovered and the interior items are not null
-            if (this.isHovered)
+            if (this.isHovered && !this.itemStack.isEmpty)
             {
                 // Show the item name and count
                 fontRenderer.drawStringWithShadow(
-                        itemStack.displayName + " x" + itemStack.count,
-                        this.xScaled.toFloat(),
-                        (this.yScaled - 5).toFloat(),
-                        -0x1
+                    itemStack.displayName + " x" + itemStack.count,
+                    this.xScaled.toFloat(),
+                    (this.yScaled - 5).toFloat(),
+                    -0x1
                 )
             }
         }

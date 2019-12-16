@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.common.worldGeneration.structure
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.world.IHeightmap
-import com.davidm1a2.afraidofthedark.common.capabilities.world.OverworldHeightmap.Companion.get
+import com.davidm1a2.afraidofthedark.common.capabilities.world.OverworldHeightmap
 import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
@@ -129,7 +129,7 @@ class StructureCrypt : AOTDStructure("crypt")
         // Convert that block to the chunk it is in
         val centerChunk = ChunkPos(centerBlock)
         // Compute the ground height at the center
-        val groundHeight = get(world).getLowestHeight(centerChunk)
+        val groundHeight = OverworldHeightmap.get(world).getLowestHeight(centerChunk)
 
         // Set the schematic height to be underground + 3 blocks+, ensure it isn't below bedrock
         val y = MathHelper.clamp(groundHeight - ModSchematics.CRYPT.getHeight() + 3, 5, Int.MAX_VALUE)

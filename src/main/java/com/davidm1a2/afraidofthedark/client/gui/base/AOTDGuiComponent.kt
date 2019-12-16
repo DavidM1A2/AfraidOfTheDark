@@ -1,7 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.base
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
-import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiComponent.Companion.entityPlayer
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiComponent.Companion.fontRenderer
 import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.EntityPlayerSP
@@ -33,6 +32,9 @@ import kotlin.math.roundToInt
  */
 abstract class AOTDGuiComponent(x: Int, y: Int, width: Int, height: Int)
 {
+    val entityPlayer: EntityPlayerSP
+        get() = Minecraft.getMinecraft().player
+
     private val boundingBox: Rectangle = Rectangle(x, y, width, height)
     private val scaledBoundingBox = Rectangle(0, 0, 0, 0)
 
@@ -236,7 +238,6 @@ abstract class AOTDGuiComponent(x: Int, y: Int, width: Int, height: Int)
 
     companion object
     {
-        val entityPlayer: EntityPlayerSP = Minecraft.getMinecraft().player
         val fontRenderer: FontRenderer = Minecraft.getMinecraft().fontRenderer
     }
 }

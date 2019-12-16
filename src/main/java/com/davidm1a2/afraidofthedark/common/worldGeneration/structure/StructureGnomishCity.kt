@@ -178,7 +178,7 @@ class StructureGnomishCity : AOTDStructure("gnomish_city")
         // Create a queue of rooms where each room is represented twice.
         val roomIndicesQueue = LinkedList<Int>()
         // Populate the list with the indices 0-length twice
-        (0..ModSchematics.GNOMISH_CITY_ROOMS.size)
+        ModSchematics.GNOMISH_CITY_ROOMS.indices
             .flatMap { listOf(it, it) }
             .forEach { roomIndicesQueue.add(it) }
         // Shuffle the list so it's random

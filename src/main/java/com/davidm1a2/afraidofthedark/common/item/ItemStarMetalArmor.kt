@@ -46,7 +46,7 @@ class ItemStarMetalArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
      * @param type   The subtype, can be null or "overlay"
      * @return Path of texture to bind, or null to use default
      */
-    override fun getArmorTexture(stack: ItemStack, entity: Entity, slot: EntityEquipmentSlot, type: String): String?
+    override fun getArmorTexture(stack: ItemStack, entity: Entity, slot: EntityEquipmentSlot, type: String?): String?
     {
         // Star metal 1 is for helm, boots, and chest while Star metal 2 is for leggings
         return if (slot == EntityEquipmentSlot.LEGS)

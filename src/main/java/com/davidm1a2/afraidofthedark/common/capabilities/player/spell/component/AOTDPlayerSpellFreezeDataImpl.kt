@@ -74,7 +74,7 @@ class AOTDPlayerSpellFreezeDataImpl : IAOTDPlayerSpellFreezeData
         // If we are on the server side sync this data to the client side
         if (isServerSide(entityPlayer))
         {
-            AfraidOfTheDark.INSTANCE.packetHandler.sendTo(SyncFreezeData(freezeTicks, freezePosition!!, yaw, pitch), entityPlayer as EntityPlayerMP)
+            AfraidOfTheDark.INSTANCE.packetHandler.sendTo(SyncFreezeData(freezeTicks, freezePosition, yaw, pitch), entityPlayer as EntityPlayerMP)
         }
     }
 }

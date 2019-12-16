@@ -28,6 +28,9 @@ class AOTDGuiResearchNodeButton(x: Int, y: Int, val research: Research) : AOTDGu
         "afraidofthedark:textures/gui/journal_tech_tree/research_background_hovered.png"
 )
 {
+    // The player's research for fast querying
+    private val playerResearch = entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!
+
     init
     {
         // Make the button visible if the research is either researched or can be researched show it
@@ -94,7 +97,5 @@ class AOTDGuiResearchNodeButton(x: Int, y: Int, val research: Research) : AOTDGu
     {
         // Icon used by buttons that have unknown icons
         private val UNKNOWN_RESEARCH = ResourceLocation("afraidofthedark:textures/gui/research_icons/question_mark.png")
-        // The player's research for fast querying
-        private val playerResearch = entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!
     }
 }

@@ -27,6 +27,12 @@ import kotlin.math.round
  */
 abstract class AOTDGuiScreen : GuiScreen()
 {
+    // Don't cache these in a companion object, they can change!
+    val entityPlayer: EntityPlayerSP
+        get() = Minecraft.getMinecraft().player
+    val inventoryKeycode: Int
+        get() = Minecraft.getMinecraft().gameSettings.keyBindInventory.keyCode
+
     val contentPane: AOTDGuiPanel = AOTDGuiPanel(0, 0, Constants.GUI_WIDTH, Constants.GUI_HEIGHT, false)
     private val spriteSheetControllers = LinkedList<SpriteSheetController>()
     private var leftMouseButtonDown = false
@@ -233,11 +239,5 @@ abstract class AOTDGuiScreen : GuiScreen()
     {
         // Fire the content pane's mouse scroll listener
         contentPane.processMouseScrollInput(AOTDMouseScrollEvent(contentPane, distance))
-    }
-
-    companion object
-    {
-        val entityPlayer: EntityPlayerSP = Minecraft.getMinecraft().player
-        val inventoryKeycode = Minecraft.getMinecraft().gameSettings.keyBindInventory.keyCode
     }
 }
