@@ -18,7 +18,8 @@ class ErieEcho : PlayerFollowingSound(ModSounds.ERIE_ECHOS, SoundCategory.AMBIEN
     override fun update()
     {
         super.update()
-        val entityPlayer = Minecraft.getMinecraft().player
+
+        val entityPlayer = Minecraft.getMinecraft().player!!
         if (entityPlayer.isDead || entityPlayer.dimension != ModDimensions.NIGHTMARE.id)
         {
             donePlaying = true

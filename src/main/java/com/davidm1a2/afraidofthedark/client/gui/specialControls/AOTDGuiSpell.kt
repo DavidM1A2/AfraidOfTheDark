@@ -46,13 +46,13 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
         val spellNameContainer = AOTDGuiPanel(10, 3, width - 20, 15, false)
 
         // The label holding the actual spell name
-        val lblSpellName = AOTDGuiLabel(0, 0, spellNameContainer.width, spellNameContainer.height, ClientData.getTargaMSHandFontSized(36f))
+        val lblSpellName = AOTDGuiLabel(0, 0, spellNameContainer.getWidth(), spellNameContainer.getHeight(), ClientData.getTargaMSHandFontSized(36f))
         // Set the name label's name and color
         lblSpellName.text = this.spell.name
         lblSpellName.textColor = Color(245, 61, 199)
         lblSpellName.textAlignment = TextAlignment.ALIGN_CENTER
         // Update the hover text of the container and add the spell label to it
-        spellNameContainer.hoverText = lblSpellName.text
+        spellNameContainer.setHoverText(lblSpellName.text)
         spellNameContainer.add(lblSpellName)
         this.add(spellNameContainer)
 
@@ -68,6 +68,7 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
                     }
                 }
             }
+
         // When we click any button play the click sound
         val clickSound: ((AOTDMouseEvent) -> Unit) =
             {
@@ -86,7 +87,7 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
             AOTDGuiButton(5, 22, 24, 13, "afraidofthedark:textures/gui/spell_list/spell_edit.png", "afraidofthedark:textures/gui/spell_list/spell_edit_hovered.png")
         btnEdit.addMouseListener(clickSound)
         btnEdit.addMouseMoveListener(hoverSound)
-        btnEdit.hoverText = "Edit Spell"
+        btnEdit.setHoverText("Edit Spell")
         btnEdit.addMouseListener()
         {
             if (it.eventType === AOTDMouseEvent.EventType.Click)
@@ -144,7 +145,7 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
             {
                 if (it.source.isHovered && it.source.isVisible && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                 {
-                    lblKeybind.hoverText = "Awaiting keypress..."
+                    lblKeybind.setHoverText("Awaiting keypress...")
                     lblKeybind.text = "Awaiting keypress..."
                     keybindCallback()
                 }
@@ -168,12 +169,12 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
         // if the keybind is non-null show it, otherwise mention it's unbound
         if (keybindingForSpell != null)
         {
-            lblKeybind.hoverText = "Spell is bound to: $keybindingForSpell"
+            lblKeybind.setHoverText("Spell is bound to: $keybindingForSpell")
             lblKeybind.text = keybindingForSpell
         }
         else
         {
-            lblKeybind.hoverText = "Spell is unbound."
+            lblKeybind.setHoverText("Spell is unbound.")
             lblKeybind.text = ""
         }
     }

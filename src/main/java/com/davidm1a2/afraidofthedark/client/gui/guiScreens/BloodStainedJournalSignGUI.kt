@@ -10,8 +10,9 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiImage
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiPanel
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiTextField
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
+import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.item.ItemJournal
@@ -22,18 +23,17 @@ import org.lwjgl.util.Color
 /**
  * Class used to create a blood stained journal signing UI
  *
+ * @constructor adds any required components to the sign UI
  * @property nameSignField The text field that you sign your name in
  */
 class BloodStainedJournalSignGUI : AOTDGuiScreen()
 {
     private val nameSignField: AOTDGuiTextField
 
-    /**
-     * Constructor adds any required components to the sign UI
-     */
     init
     {
         val guiSize = 256
+
         // Setup the background panel that holds all of our controls
         val backgroundPanel = AOTDGuiPanel(
             (Constants.GUI_WIDTH - guiSize) / 2,
@@ -61,7 +61,7 @@ class BloodStainedJournalSignGUI : AOTDGuiScreen()
             30,
             ClientData.getTargaMSHandFontSized(45f)
         )
-        this.nameSignField.textColor = Color(255, 0, 0)
+        this.nameSignField.setTextColor(Color(255, 0, 0))
         backgroundPanel.add(this.nameSignField)
 
         // Add the sign button
@@ -88,9 +88,9 @@ class BloodStainedJournalSignGUI : AOTDGuiScreen()
                 if (it.source.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                 {
                     entityPlayer.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f)
-                    val playerBasics = entityPlayer.getCapability(ModCapabilities.PLAYER_BASICS, null)!!
-                    val playerResearch = entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!
-                    if (nameSignField.text == entityPlayer.gameProfile.name)
+                    val playerBasics = entityPlayer.getBasics()
+                    val playerResearch = entityPlayer.getResearch()
+                    if (nameSignField.getText() == entityPlayer.gameProfile.name)
                     {
                         // if the name is correct start the mod
                         if (!playerBasics.startedAOTD)

@@ -36,14 +36,17 @@ class AOTDGuiSpriteSheetImage(
         {
             // Draw any children
             super.draw()
+
             // Bind the spritesheet texture
             Minecraft.getMinecraft().textureManager.bindTexture(spriteSheet)
+
             // Grab all fields from the controller
             val percentageToNextFrame = sheetController.percentageTowardsNextFrame
             val currentFrame = sheetController.currentFrame
             val frameWidth = sheetController.frameWidth
             val frameHeight = sheetController.frameHeight
             val totalFrames = sheetController.totalFrames
+
             // Setup the color tint
             GlStateManager.color(color.red / 255f, color.green / 255f, color.blue / 255f, sheetController.percentageTowardsNextFrame)
             if (sheetController.frameInterpolate)
@@ -54,27 +57,27 @@ class AOTDGuiSpriteSheetImage(
                 if (sheetController.isVertical)
                 {
                     Gui.drawScaledCustomSizeModalRect(
-                        xScaled,
-                        yScaled,
+                        getXScaled(),
+                        getYScaled(),
                         0f,
                         currentFrame * frameHeight.toFloat(),
                         frameWidth,
                         frameHeight,
-                        widthScaled,
-                        heightScaled,
+                        getWidthScaled(),
+                        getHeightScaled(),
                         frameWidth.toFloat(),
                         frameHeight * totalFrames.toFloat()
                     )
                     GlStateManager.color(color.red / 255f, color.green / 255f, color.blue / 255f, 1 - percentageToNextFrame)
                     Gui.drawScaledCustomSizeModalRect(
-                        xScaled,
-                        yScaled,
+                        getXScaled(),
+                        getYScaled(),
                         0f,
                         nextFrame * frameHeight.toFloat(),
                         frameWidth,
                         frameHeight,
-                        widthScaled,
-                        heightScaled,
+                        getWidthScaled(),
+                        getHeightScaled(),
                         frameWidth.toFloat(),
                         frameHeight * totalFrames.toFloat()
                     )
@@ -82,27 +85,27 @@ class AOTDGuiSpriteSheetImage(
                 else
                 {
                     Gui.drawScaledCustomSizeModalRect(
-                        xScaled,
-                        yScaled,
+                        getXScaled(),
+                        getYScaled(),
                         currentFrame * frameWidth.toFloat(),
                         0f,
                         frameWidth,
                         frameHeight,
-                        widthScaled,
-                        heightScaled,
+                        getWidthScaled(),
+                        getHeightScaled(),
                         frameWidth * totalFrames.toFloat(),
                         frameHeight.toFloat()
                     )
                     GlStateManager.color(color.red / 255f, color.green / 255f, color.blue / 255f, 1 - percentageToNextFrame)
                     Gui.drawScaledCustomSizeModalRect(
-                        xScaled,
-                        yScaled,
+                        getXScaled(),
+                        getYScaled(),
                         nextFrame * frameWidth.toFloat(),
                         0f,
                         frameWidth,
                         frameHeight,
-                        widthScaled,
-                        heightScaled,
+                        getWidthScaled(),
+                        getHeightScaled(),
                         frameWidth * totalFrames.toFloat(),
                         frameHeight.toFloat()
                     )
@@ -114,14 +117,14 @@ class AOTDGuiSpriteSheetImage(
                 if (sheetController.isVertical)
                 {
                     Gui.drawScaledCustomSizeModalRect(
-                        xScaled,
-                        yScaled,
+                        getXScaled(),
+                        getYScaled(),
                         0f,
                         currentFrame * frameHeight.toFloat(),
                         frameWidth,
                         frameHeight,
-                        widthScaled,
-                        heightScaled,
+                        getWidthScaled(),
+                        getHeightScaled(),
                         frameWidth.toFloat(),
                         frameHeight * totalFrames.toFloat()
                     )
@@ -129,14 +132,14 @@ class AOTDGuiSpriteSheetImage(
                 else
                 {
                     Gui.drawScaledCustomSizeModalRect(
-                        xScaled,
-                        yScaled,
+                        getXScaled(),
+                        getYScaled(),
                         currentFrame * frameWidth.toFloat(),
                         0f,
                         frameWidth,
                         frameHeight,
-                        widthScaled,
-                        heightScaled,
+                        getWidthScaled(),
+                        getHeightScaled(),
                         frameWidth * totalFrames.toFloat(),
                         frameHeight.toFloat()
                     )

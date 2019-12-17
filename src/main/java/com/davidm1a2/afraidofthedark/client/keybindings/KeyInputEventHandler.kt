@@ -1,7 +1,10 @@
 package com.davidm1a2.afraidofthedark.client.keybindings
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.client.keybindings.KeyInputEventHandler.ROLL_VELOCITY
+import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.ItemCloakOfAgility
@@ -20,6 +23,8 @@ import org.lwjgl.input.Keyboard
 
 /**
  * Class that receives all keyboard events and processes them accordingly
+ *
+ * @property ROLL_VELOCITY The velocity which the player rolls with the cloak of agility
  */
 object KeyInputEventHandler
 {
@@ -50,7 +55,7 @@ object KeyInputEventHandler
             // Grab the currently held bind
             val keybindingPressed = KeybindingUtils.getCurrentlyHeldKeybind()
             // If that keybind exists then tell the server to fire the spell
-            if (Minecraft.getMinecraft().player.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null)!!.keybindExists(keybindingPressed))
+            if (Minecraft.getMinecraft().player.getSpellManager().keybindExists(keybindingPressed))
             {
                 AfraidOfTheDark.INSTANCE.packetHandler.sendToServer(SyncSpellKeyPress(keybindingPressed))
             }
@@ -64,8 +69,10 @@ object KeyInputEventHandler
     {
         // Grab a player reference
         val entityPlayer: EntityPlayer = Minecraft.getMinecraft().player
+
         // Grab the player's bolt of choice
-        val playerBasics = entityPlayer.getCapability(ModCapabilities.PLAYER_BASICS, null)!!
+        val playerBasics = entityPlayer.getBasics()
+
         // If the player is sneaking change the mode
         if (entityPlayer.isSneaking)
         {
@@ -76,6 +83,7 @@ object KeyInputEventHandler
             // Set the selected index and sync the index
             playerBasics.selectedWristCrossbowBoltIndex = currentBoltIndex
             playerBasics.syncSelectedWristCrossbowBoltIndex(entityPlayer)
+
             // Tell the player what type of bolt will be fired now
             entityPlayer.sendMessage(
                 TextComponentTranslation(
@@ -87,15 +95,16 @@ object KeyInputEventHandler
         else
         {
             // Test if the player has the correct research
-            if (entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!.isResearched(ModResearches.WRIST_CROSSBOW))
+            if (entityPlayer.getResearch().isResearched(ModResearches.WRIST_CROSSBOW))
             {
                 // Test if the player has a wrist crossbow to shoot with
-                if (entityPlayer.inventory.hasItemStack(ItemStack(ModItems.WRIST_CROSSBOW, 1, 0)))
+                if (entityPlayer.inventory.hasItemStack(ItemStack(ModItems.WRIST_CROSSBOW)))
                 {
                     // Grab the currently selected bolt type
                     val boltType = BoltOrderHelper.getBoltAt(playerBasics.selectedWristCrossbowBoltIndex)
+
                     // Ensure the player has a bolt of the right type in his/her inventory or is in creative mode
-                    if (entityPlayer.inventory.hasItemStack(ItemStack(boltType.boltItem, 1, 0)) || entityPlayer.isCreative)
+                    if (entityPlayer.inventory.hasItemStack(ItemStack(boltType.boltItem)) || entityPlayer.isCreative)
                     {
                         // Find the wrist crossbow item in the player's inventory
                         for (itemStack in entityPlayer.inventory.mainInventory)
@@ -104,6 +113,7 @@ object KeyInputEventHandler
                             {
                                 // Grab the crossbow item reference
                                 val wristCrossbow = itemStack.item as ItemWristCrossbow
+
                                 // Test if the crossbow is on CD or not. If it is fire, if it is not continue searching
                                 if (!wristCrossbow.isOnCooldown(itemStack))
                                 {
@@ -142,9 +152,10 @@ object KeyInputEventHandler
     private fun rollWithCloakOfAgility()
     {
         // Grab a player reference
-        val entityPlayer: EntityPlayer = Minecraft.getMinecraft().player
+        val entityPlayer = Minecraft.getMinecraft().player
+
         // Test if the player has the correct research
-        if (entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!.isResearched(ModResearches.CLOAK_OF_AGILITY))
+        if (entityPlayer.getResearch().isResearched(ModResearches.CLOAK_OF_AGILITY))
         {
             // Ensure the player is on the ground
             if (entityPlayer.onGround)
@@ -161,6 +172,7 @@ object KeyInputEventHandler
                         {
                             // Set the cloak on CD
                             cloakOfAgility.setOnCooldown(itemStack, entityPlayer)
+
                             // If the player is not moving roll in the direction the player is looking, otherwise roll in the direction the player is moving
                             var motionDirection = if (entityPlayer.motionX <= 0.01 && entityPlayer.motionX >= -0.01 && entityPlayer.motionZ <= 0.01 && entityPlayer.motionZ >= -0.01)
                             {
@@ -171,12 +183,15 @@ object KeyInputEventHandler
                             {
                                 Vec3d(entityPlayer.motionX, 0.0, entityPlayer.motionZ)
                             }
+
                             // Normalize the motion vector
                             motionDirection = motionDirection.normalize()
+
                             // Update the player's motion in the new direction
                             entityPlayer.motionX = motionDirection.x * ROLL_VELOCITY
                             entityPlayer.motionY = 0.2
                             entityPlayer.motionZ = motionDirection.z * ROLL_VELOCITY
+
                             // Return
                             return
                         }

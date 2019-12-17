@@ -8,8 +8,6 @@ import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import net.minecraft.util.ChatAllowedCharacters
-import net.minecraft.util.math.MathHelper
-import org.apache.commons.lang3.StringUtils
 import org.lwjgl.input.Keyboard
 import org.lwjgl.util.Color
 
@@ -28,7 +26,6 @@ import org.lwjgl.util.Color
  * @property ghostText The text to show when no text is present
  * @property textColor If we were not showing ghost text update the label's color
  * @property text The current text in the text field or empty string if it is ghost text
- * @property isShowingGhostText True if ghost text is showing, false otherwise
  */
 class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFont) : AOTDGuiContainer(x, y, width, height)
 {
@@ -36,118 +33,12 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
     private val textContainer: AOTDGuiPanel
     private val textLabel: AOTDGuiLabel
     var isFocused = false
-        private set(isFocused)
-        {
-            // Was focused tells us if we were previously focused
-            val wasFocused = this.isFocused
-            // If we were not focused and now are focused update the text
-            if (!wasFocused && isFocused)
-            {
-                // Enable repeat events so we can type multiple characters in the box by holding them
-                Keyboard.enableRepeatEvents(true)
-                // Set the background to be tinted
-                this.background.color = FOCUSED_COLOR_TINT
-                // Get the current text
-                val currentText = this.text
-                // Update our focused variable
-                field = true
-                // Call set text to refresh the text formatting
-                this.text = currentText
-            }
-            // If we were focused and now are not focused update the text
-            else if (wasFocused && !isFocused)
-            {
-                // Disable repeat events
-                Keyboard.enableRepeatEvents(false)
-                // Set the background to be untinted
-                this.background.color = BASE_COLOR_TINT
-                // Get the current text
-                val currentText = this.text
-                // Update our focused variable
-                field = false
-                // Call set text to refresh the text formatting
-                this.text = currentText
-            }
-        }
-    var ghostText = StringUtils.EMPTY
-        set(ghostText)
-        {
-            // Flag telling us if ghost text used to be loaded
-            val ghostTextWasLoaded = this.isShowingGhostText
-            field = ghostText
-            // If the text was ghost text update the ghost text
-            if (ghostTextWasLoaded)
-            {
-                this.textLabel.text = this.ghostText
-            }
-            else if (StringUtils.isEmpty(this.textLabel.text))
-            {
-                this.textLabel.text = this.ghostText
-                this.textLabel.textColor = GHOST_TEXT_COLOR
-            }
-        }
+        private set
+    var ghostText = ""
+        private set
     var textColor = Color(255, 255, 255)
-        set(color)
-        {
-            field = color
-            if (!this.isShowingGhostText)
-            {
-                this.textLabel.textColor = this.textColor
-            }
-        }
-    var text: String
-        // Return either "" if the text is ghost text or the text otherwise
-        get() = if (this.isShowingGhostText)
-        {
-            StringUtils.EMPTY
-        }
-        else
-        {
-            // If we're focused remove the _, otherwise just return the text
-            if (this.isFocused)
-            {
-                this.textLabel.text.substring(0, this.textLabel.text.length - 1)
-            }
-            else
-            {
-                this.textLabel.text
-            }
-        }
-        set(text)
-        {
-            var rawText = text
-            // Make sure that the text contains valid characters
-            rawText = ChatAllowedCharacters.filterAllowedCharacters(rawText)
-            // Now we test if we should show ghost text or not
-            if (this.isFocused)
-            {
-                // If the control is focused then we don't show ghost text
-                this.textLabel.text = rawText + "_"
-                this.textLabel.textColor = this.textColor
-            }
-            // If the control is not focused we check if the text is empty to decide if we want to show ghost text or not
-            else
-            {
-                // If the string is empty we show ghost text
-                if (StringUtils.isEmpty(rawText))
-                {
-                    this.textLabel.text = this.ghostText
-                    this.textLabel.textColor = GHOST_TEXT_COLOR
-                }
-                else
-                {
-                    // If it is not we just show the text
-                    this.textLabel.text = rawText
-                    this.textLabel.textColor = this.textColor
-                }
-            }
-            // Update the scroll based on the new text
-            this.updateScroll()
-        }
-    private val isShowingGhostText: Boolean
-        // Here we use a bit of a hack to detect if we're showing ghost text. We check the color of the text and the string contents.
-        // There's an edge case where this fails if the color is gray and the string is exactly the ghost text
-        get() = this.textLabel.textColor == GHOST_TEXT_COLOR && this.textLabel.text == this.ghostText
+        private set
+    private var text: String = ""
 
     init
     {
@@ -177,7 +68,7 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
                 if (it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                 {
                     // Test if we're hovered or not, if so set it to focused, otherwise set it to not focused
-                    isFocused = isHovered
+                    setFocused(isHovered)
                 }
             }
         }
@@ -214,27 +105,27 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
         if (this.isFocused)
         {
             // CTRL + A
-            if (AOTDGuiUtility.isCtrlKeyDown && keyCode == Keyboard.KEY_A)
+            if (AOTDGuiUtility.isCtrlKeyDown() && keyCode == Keyboard.KEY_A)
             {
                 // Select all text, not yet implemented
             }
             // CTRL + C
-            else if (AOTDGuiUtility.isCtrlKeyDown && keyCode == Keyboard.KEY_C)
+            else if (AOTDGuiUtility.isCtrlKeyDown() && keyCode == Keyboard.KEY_C)
             {
                 // Update the clipboard string
-                AOTDGuiUtility.clipboardString = this.text
+                AOTDGuiUtility.setClipboardString(this.getText())
             }
             // Ctrl + V
-            else if (AOTDGuiUtility.isCtrlKeyDown && keyCode == Keyboard.KEY_V)
+            else if (AOTDGuiUtility.isCtrlKeyDown() && keyCode == Keyboard.KEY_V)
             {
-                this.text = ""
-                this.addText(ChatAllowedCharacters.filterAllowedCharacters(AOTDGuiUtility.clipboardString))
+                this.setText("")
+                this.addText(ChatAllowedCharacters.filterAllowedCharacters(AOTDGuiUtility.getClipboardString()))
             }
             // CTRL + X
-            else if (AOTDGuiUtility.isCtrlKeyDown && keyCode == Keyboard.KEY_X)
+            else if (AOTDGuiUtility.isCtrlKeyDown() && keyCode == Keyboard.KEY_X)
             {
-                AOTDGuiUtility.clipboardString = this.text
-                this.text = ""
+                AOTDGuiUtility.setClipboardString(this.getText())
+                this.setText("")
             }
             // Regular key typed
             else
@@ -265,6 +156,67 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
     }
 
     /**
+     * @return The current text in the text field or empty string if it is ghost text
+     */
+    fun getText(): String
+    {
+        // Return either "" if the text is ghost text or the text otherwise
+        return if (isShowingGhostText())
+        {
+            ""
+        }
+        else
+        {
+            // If we're focused remove the _, otherwise just return the text
+            if (isFocused)
+            {
+                textLabel.text.substring(0, textLabel.text.length - 1)
+            }
+            else
+            {
+                textLabel.text
+            }
+        }
+    }
+
+    /**
+     * Sets the text of the text field. If the text field is focused an _ is added. If it is not focused either ghost text is shown
+     * or the text is added without the _ depending on if text is empty or not
+     *
+     * @param text The new text to display, or empty string if ghost text should be down
+     */
+    fun setText(text: String)
+    {
+        // Make sure that the text contains valid characters
+        var text = text
+        text = ChatAllowedCharacters.filterAllowedCharacters(text)
+        // Now we test if we should show ghost text or not
+        // If the control is focused then we don't show ghost text
+        if (isFocused)
+        {
+            textLabel.text = text + "_"
+            textLabel.textColor = textColor
+        }
+        else
+        {
+            // If the string is empty we show ghost text
+            if (text.isEmpty())
+            {
+                textLabel.text = ghostText
+                textLabel.textColor = GHOST_TEXT_COLOR
+            }
+            else
+            {
+                textLabel.text = text
+                textLabel.textColor = textColor
+            }
+        }
+
+        // Update the scroll based on the new text
+        updateScroll()
+    }
+
+    /**
      * Adds text to the current text in the text field
      *
      * @param text The new text to add
@@ -272,9 +224,9 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
     private fun addText(text: String)
     {
         // Make sure the text is non-empty
-        if (!StringUtils.isEmpty(text))
+        if (text.isNotEmpty())
         {
-            this.text = this.text + text
+            this.setText(this.getText() + text)
         }
     }
 
@@ -285,12 +237,12 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
      */
     private fun removeChars(number: Int)
     {
-        // Clamp the number to be between 0 and the text's length
-        val numberClamped = MathHelper.clamp(number, 0, this.text.length)
         // Get the current text
-        val currentText = this.text
+        val currentText = this.getText()
+        // Clamp the number to be between 0 and the text's length
+        val numberClamped = number.coerceIn(0, currentText.length)
         // Set the new text
-        this.text = currentText.substring(0, currentText.length - numberClamped)
+        this.setText(currentText.substring(0, currentText.length - numberClamped))
     }
 
     /**
@@ -301,13 +253,99 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
         // Get the text's width and multiply by our scale factor used
         val textWidth = this.textLabel.font.getWidth(this.textLabel.text) * Constants.TEXT_SCALE_FACTOR
         // If the text width is bigger than the label's width we set the alignment to right so that you see the newest text not the oldest
-        if (textWidth > this.textLabel.width)
+        if (textWidth > this.textLabel.getWidth())
         {
             this.textLabel.textAlignment = TextAlignment.ALIGN_RIGHT
         }
         else
         {
             this.textLabel.textAlignment = TextAlignment.ALIGN_LEFT
+        }
+    }
+
+    /**
+     * Sets the control to be focused or not
+     *
+     * @param isFocused If the control is focused or not
+     */
+    private fun setFocused(isFocused: Boolean)
+    {
+        // Was focused tells us if we were previously focused
+        val wasFocused = this.isFocused
+        // If we were not focused and now are focused update the text
+        if (!wasFocused && isFocused)
+        {
+            // Enable repeat events so we can type multiple characters in the box by holding them
+            Keyboard.enableRepeatEvents(true)
+            // Set the background to be tinted
+            background.color = FOCUSED_COLOR_TINT
+            // Get the current text
+            val currentText = this.getText()
+            // Update our focused variable
+            this.isFocused = true
+            // Call set text to refresh the text formatting
+            this.setText(currentText)
+        }
+        else if (wasFocused && !isFocused)
+        {
+            // Disable repeat events
+            Keyboard.enableRepeatEvents(false)
+            // Set the background to be untinted
+            background.color = BASE_COLOR_TINT
+            // Get the current text
+            val currentText = this.getText()
+            // Update our focused variable
+            this.isFocused = false
+            // Call set text to refresh the text formatting
+            this.setText(currentText)
+        }
+    }
+
+    /**
+     * @return True if ghost text is showing, false otherwise
+     */
+    private fun isShowingGhostText(): Boolean
+    {
+        // Here we use a bit of a hack to detect if we're showing ghost text. We check the color of the text and the string contents. There's an
+        // edge case where this fails if the color is gray and the string is exactly the ghost text
+        return textLabel.textColor == GHOST_TEXT_COLOR && textLabel.text == ghostText
+    }
+
+    /**
+     * Sets the ghost text to use
+     *
+     * @param ghostText The new ghost text
+     */
+    fun setGhostText(ghostText: String)
+    {
+        // Flag telling us if ghost text used to be loaded
+        val ghostTextWasLoaded = this.isShowingGhostText()
+        this.ghostText = ghostText
+
+        // If the text was ghost text update the ghost text
+        if (ghostTextWasLoaded)
+        {
+            textLabel.text = this.ghostText
+        }
+        else if (textLabel.text.isEmpty())
+        {
+            textLabel.text = this.ghostText
+            textLabel.textColor = GHOST_TEXT_COLOR
+        }
+    }
+
+    /**
+     * Sets the text color
+     *
+     * @param textColor The new text color
+     */
+    fun setTextColor(textColor: Color)
+    {
+        this.textColor = textColor
+        // If we were not showing ghost text update the label's color
+        if (!isShowingGhostText())
+        {
+            textLabel.textColor = this.textColor
         }
     }
 

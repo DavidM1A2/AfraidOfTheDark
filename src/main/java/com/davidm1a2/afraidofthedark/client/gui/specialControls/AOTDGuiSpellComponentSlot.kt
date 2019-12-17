@@ -13,6 +13,10 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
  * @param y      The Y location of the top left corner
  * @param width  The width of the component
  * @param height The height of the component
+ * @property icon The foreground image of the spell slot
+ * @property highlight The highlight effect around the spell slot
+ * @property component The type that this spell slot is
+ * @property componentInstance The instance of this spell component
  */
 abstract class AOTDGuiSpellComponentSlot<T : SpellComponent<T>>(
     x: Int,
@@ -23,19 +27,13 @@ abstract class AOTDGuiSpellComponentSlot<T : SpellComponent<T>>(
     spellComponent: T?
 ) : AOTDGuiContainer(x, y, width, height)
 {
-    // The foreground image of the spell slot
     private val icon: AOTDGuiImage
-    // The highlight effect around the spell slot
     private val highlight: AOTDGuiImage
-    // The type that this spell slot is
     private var component: T? = null
-    // The instance of this spell component
     private var componentInstance: SpellComponentInstance<T>? = null
 
     init
     {
-        this.component = spellComponent
-
         // The background image of the spell slot
         val background = AOTDGuiImage(0, 0, width, height, slotBackground)
         this.add(background)
@@ -47,8 +45,10 @@ abstract class AOTDGuiSpellComponentSlot<T : SpellComponent<T>>(
 
         // Set the icon to be blank
         this.icon = AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/spell_editor/blank_slot.png")
-        this.icon.isVisible = component != null
+        this.icon.isVisible = spellComponent != null
         this.add(icon)
+
+        setSpellComponent(spellComponent?.let { SpellComponentInstance(it) })
     }
 
     /**
@@ -63,12 +63,14 @@ abstract class AOTDGuiSpellComponentSlot<T : SpellComponent<T>>(
         {
             this.icon.isVisible = false
             this.componentInstance = null
+            this.component = null
         }
         // If the component type is non-null show the the right icon
         else
         {
             this.icon.isVisible = true
             this.componentInstance = instance
+            this.component = instance.component
             this.icon.imageTexture = instance.component.icon
         }
         // Update the hover text based on the slot
@@ -88,6 +90,9 @@ abstract class AOTDGuiSpellComponentSlot<T : SpellComponent<T>>(
         return component
     }
 
+    /**
+     * @return The component instance of this slot
+     */
     fun getComponentInstance(): SpellComponentInstance<T>?
     {
         return componentInstance

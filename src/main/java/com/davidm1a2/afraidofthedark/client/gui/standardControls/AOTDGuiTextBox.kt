@@ -4,10 +4,10 @@ import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
 import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import net.minecraft.util.math.MathHelper
 import org.apache.commons.lang3.StringUtils
 import org.lwjgl.util.Color
 import java.util.*
+import kotlin.math.floor
 
 /**
  * A text box control that will have multiple lines of text like a label
@@ -23,60 +23,10 @@ import java.util.*
  */
 class AOTDGuiTextBox(x: Int, y: Int, width: Int, height: Int, private val font: TrueTypeFont) : AOTDGuiContainer(x, y, width, height)
 {
-    private var textLines: MutableList<String> = mutableListOf()
+    private var textLines = mutableListOf<String>()
     var textColor = Color(255, 255, 255, 255)
     var overflowText = StringUtils.EMPTY
         private set
-    var text: String
-        get() = this.textLines.joinToString("")
-        set(text)
-        {
-            // Clear the original text
-            this.textLines.clear()
-            // Split the text into words
-            val words = StringTokenizer(text, " ")
-            // The current line text
-            var currentLineText = ""
-            // Iterate over all words
-            while (words.hasMoreTokens())
-            {
-                // Grab the first word
-                var word = words.nextToken()
-                // Replace tab characters with spaces since tab characters are buggy to render
-                word = word.replace("\t", "   ")
-                when
-                {
-                    // If the line is too long for the current text move to the next line
-                    this.font.getWidth("$currentLineText $word") * Constants.TEXT_SCALE_FACTOR > this.width ->
-                    {
-                        // Store the current line and move on
-                        this.textLines.add(currentLineText)
-                        // Store the word as the beginning of the next line
-                        currentLineText = word
-                    }
-                    // Else append to the current line
-                    StringUtils.isEmpty(currentLineText) -> currentLineText = word
-                    else -> currentLineText = "$currentLineText $word"
-                }
-            }
-            this.textLines.add(currentLineText)
-
-            // Compute the maximum number of lines that fit vertically inside the text box
-            val maxLines = MathHelper.floor(this.height / (this.font.height * Constants.TEXT_SCALE_FACTOR))
-            // If the number of lines we have is less than or equal to the max we're OK
-            if (textLines.size <= maxLines)
-            {
-                this.overflowText = StringUtils.EMPTY
-            }
-            // If the number of lines is greater than the max then we partition the lines into actual text lines and overflow text
-            else
-            {
-                val actualText = this.textLines.subList(0, maxLines)
-                val spareText = this.textLines.subList(maxLines, this.textLines.size)
-                this.textLines = actualText
-                this.overflowText = spareText.joinToString(" ")
-            }
-        }
 
     /**
      * Draw the text given the width and height as bounds
@@ -90,8 +40,8 @@ class AOTDGuiTextBox(x: Int, y: Int, width: Int, height: Int, private val font: 
             // Draw each string in the text lines list one at at time
             for (i in this.textLines.indices)
                 this.font.drawString(
-                    this.xScaled.toFloat(),
-                    this.yScaled.toFloat() + i * this.font.height * Constants.TEXT_SCALE_FACTOR * this.scaleY.toFloat(),
+                    this.getXScaled().toFloat(),
+                    this.getYScaled().toFloat() + i * this.font.height * Constants.TEXT_SCALE_FACTOR * this.scaleY.toFloat(),
                     this.textLines[i],
                     this.scaleX.toFloat() * Constants.TEXT_SCALE_FACTOR,
                     this.scaleY.toFloat() * Constants.TEXT_SCALE_FACTOR,
@@ -99,5 +49,68 @@ class AOTDGuiTextBox(x: Int, y: Int, width: Int, height: Int, private val font: 
                     this.textColor
                 )
         }
+    }
+
+    /**
+     * Sets the text inside the text box
+     *
+     * @param text The text to use
+     */
+    fun setText(text: String)
+    {
+        // Clear the original text
+        this.textLines.clear()
+        // Split the text into words
+        val words = StringTokenizer(text, " ")
+        // The current line text
+        var currentLineText = ""
+
+        // Iterate over all words
+        while (words.hasMoreTokens())
+        {
+            // Grab the first word
+            var word = words.nextToken()
+            // Replace tab characters with spaces since tab characters are buggy to render
+            word = word.replace("\t", "   ")
+            currentLineText = when
+            {
+                // If the line is too long for the current text move to the next line
+                this.font.getWidth("$currentLineText $word") * Constants.TEXT_SCALE_FACTOR > this.getWidth() ->
+                {
+                    // Store the current line and move on
+                    this.textLines.add(currentLineText)
+                    // Store the word as the beginning of the next line
+                    word
+                }
+                // Else append to the current line
+                currentLineText.isEmpty() -> word
+                else -> "$currentLineText $word"
+            }
+        }
+        this.textLines.add(currentLineText)
+
+        // Compute the maximum number of lines that fit vertically inside the text box
+        val maxLines = floor(this.getHeight() / (this.font.height * Constants.TEXT_SCALE_FACTOR)).toInt()
+        // If the number of lines we have is less than or equal to the max we're OK
+        if (textLines.size <= maxLines)
+        {
+            this.overflowText = StringUtils.EMPTY
+        }
+        // If the number of lines is greater than the max then we partition the lines into actual text lines and overflow text
+        else
+        {
+            val actualText = this.textLines.subList(0, maxLines)
+            val spareText = this.textLines.subList(maxLines, this.textLines.size)
+            this.textLines = actualText
+            this.overflowText = spareText.joinToString(" ")
+        }
+    }
+
+    /**
+     * @return Returns the text found inside this text box
+     */
+    fun getText(): String
+    {
+        return textLines.joinToString(separator = "")
     }
 }

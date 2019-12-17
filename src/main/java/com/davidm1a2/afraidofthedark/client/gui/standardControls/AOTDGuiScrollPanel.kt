@@ -2,7 +2,6 @@ package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
-import net.minecraft.util.math.MathHelper
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL11
 import org.lwjgl.util.Point
@@ -31,21 +30,11 @@ class AOTDGuiScrollPanel(x: Int, private var originalYPos: Int, width: Int, heig
             field = maximumOffset
             this.lastSliderPosition = -1f
         }
-    private var lastSliderPosition: Float = 0.toFloat()
-    private var viewport: Rectangle = Rectangle(0, 0, 0, 0)
-
-    override var y: Int
-        get() = super.y
-        set(y)
-        {
-            super.y = y
-            this.originalYPos = y
-            this.lastSliderPosition = -1f
-        }
+    private var lastSliderPosition = 0f
+    private var viewport = Rectangle(0, 0, 0, 0)
 
     init
     {
-
         // When we scroll we want to move the content pane up or down
         this.addMouseScrollListener()
         {
@@ -71,11 +60,11 @@ class AOTDGuiScrollPanel(x: Int, private var originalYPos: Int, width: Int, heig
         if (scissorEnabled)
         {
             // Compute the OpenGL X and Y screen coordinates to scissor
-            var realX = AOTDGuiUtility.mcToRealScreenCoord(this.xScaled)
-            var realY = AOTDGuiUtility.realScreenYToGLYCoord(AOTDGuiUtility.mcToRealScreenCoord((this.originalYPos * this.scaleY).toInt() + this.heightScaled))
+            var realX = AOTDGuiUtility.mcToRealScreenCoord(this.getXScaled())
+            var realY = AOTDGuiUtility.realScreenYToGLYCoord(AOTDGuiUtility.mcToRealScreenCoord((this.originalYPos * this.scaleY).toInt() + this.getHeightScaled()))
             // Compute the OpenGL width and height to scissor with
-            var realWidth = AOTDGuiUtility.mcToRealScreenCoord(this.widthScaled)
-            var realHeight = AOTDGuiUtility.mcToRealScreenCoord(this.heightScaled)
+            var realWidth = AOTDGuiUtility.mcToRealScreenCoord(this.getWidthScaled())
+            var realHeight = AOTDGuiUtility.mcToRealScreenCoord(this.getHeightScaled())
 
             // If open GL scissors is enabled update the x,y width,height to be clamped within the current scissor box
             if (GL11.glIsEnabled(GL11.GL_SCISSOR_TEST))
@@ -84,16 +73,19 @@ class AOTDGuiScrollPanel(x: Int, private var originalYPos: Int, width: Int, heig
                 val buffer = BufferUtils.createIntBuffer(16)
                 // Grab the current scissor box values
                 GL11.glGetInteger(GL11.GL_SCISSOR_BOX, buffer)
+
                 // Grab the old scissor rect values from the buffer
                 val oldX = buffer.get()
                 val oldY = buffer.get()
                 val oldWidth = buffer.get()
                 val oldHeight = buffer.get()
+
                 // Clamp the new scissor values within the old scissor box
-                realX = MathHelper.clamp(realX, oldX, oldX + oldWidth)
-                realY = MathHelper.clamp(realY, oldY, oldY + oldHeight)
-                realWidth = MathHelper.clamp(realWidth, 0, oldX + oldWidth - realX)
-                realHeight = MathHelper.clamp(realHeight, 0, oldY + oldHeight - realY)
+                realX = realX.coerceIn(oldX, oldX + oldWidth)
+                realY = realY.coerceIn(oldY, oldY + oldHeight)
+                realWidth = realWidth.coerceIn(0, oldX + oldWidth - realX)
+                realHeight = realHeight.coerceIn(0, oldY + oldHeight - realY)
+
                 // Don't draw anything if we're completely ouside the original box
                 if (realWidth == 0 || realHeight == 0)
                 {
@@ -112,7 +104,7 @@ class AOTDGuiScrollPanel(x: Int, private var originalYPos: Int, width: Int, heig
         {
             lastSliderPosition = this.scrollBar.value
             // Update the y position internally by offsetting based on slider percent
-            super.y = this.originalYPos - (this.maximumOffset * lastSliderPosition).toInt()
+            super.setY(this.originalYPos - (this.maximumOffset * lastSliderPosition).toInt())
             // Compute the actual elements in "view"
             // Rectangle realBoundingBox = new Rectangle(this.getXScaled(), (int) (this.originalYPos * this.getScaleY()), this.getWidthScaled(), this.getHeightScaled());
             // If any elements are no longer in "view' hide them, otherwise show them
@@ -159,7 +151,19 @@ class AOTDGuiScrollPanel(x: Int, private var originalYPos: Int, width: Int, heig
     override fun updateScaledBounds()
     {
         super.updateScaledBounds()
-        this.viewport = Rectangle(xScaled, (originalYPos * scaleY).toInt(), widthScaled, heightScaled)
+        this.viewport = Rectangle(getXScaled(), (originalYPos * scaleY).toInt(), getWidthScaled(), getHeightScaled())
+    }
+
+    /**
+     * Sets the y of the scroll panel, also keeps the original y pos for calculations later
+     *
+     * @param y The new y value to use
+     */
+    override fun setY(y: Int)
+    {
+        super.setY(y)
+        this.originalYPos = y
+        this.lastSliderPosition = -1f
     }
 
     companion object

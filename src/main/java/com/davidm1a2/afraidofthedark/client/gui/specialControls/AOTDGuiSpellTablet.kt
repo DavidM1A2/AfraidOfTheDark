@@ -8,7 +8,7 @@ import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
@@ -62,15 +62,16 @@ class AOTDGuiSpellTablet(
         // Create the background image
         val backgroundImage = AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/spell_editor/tablet_background.png")
         tablet.add(backgroundImage)
+
         // Setup the spell name label
         spellName = AOTDGuiTextField(60, 30, 85, 25, ClientData.getTargaMSHandFontSized(36f))
-        spellName.ghostText = "Spell Name"
+        spellName.setGhostText("Spell Name")
         // When we type into this slot set the spell name
         spellName.addKeyListener()
         {
             if (it.eventType === AOTDKeyEvent.KeyEventType.Type)
             {
-                spell.name = spellName.text
+                spell.name = spellName.getText()
             }
         }
         tablet.add(spellName)
@@ -90,7 +91,7 @@ class AOTDGuiSpellTablet(
         // Create a save spell button
         val saveButton =
             AOTDGuiButton(152, 105, 20, 20, "afraidofthedark:textures/gui/spell_editor/save.png", "afraidofthedark:textures/gui/spell_editor/save_hovered.png")
-        saveButton.hoverText = "Save Spell"
+        saveButton.setHoverText("Save Spell")
         saveButton.addMouseListener()
         {
             if (it.eventType === AOTDMouseEvent.EventType.Press)
@@ -99,11 +100,11 @@ class AOTDGuiSpellTablet(
                 if (it.source.isVisible && it.source.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                 {
                     // Grab the player's spell manager
-                    val spellManager = entityPlayer.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null)
+                    val spellManager = entityPlayer.getSpellManager()
                     // Clone the spell so we don't modify it further
                     val spellClone = Spell(spell.serializeNBT())
                     // Update the spell
-                    spellManager!!.addOrUpdateSpell(spellClone)
+                    spellManager.addOrUpdateSpell(spellClone)
                     // Sync the spell server side
                     spellManager.sync(entityPlayer, spellClone)
                     // Tell the player the save was successful
@@ -127,7 +128,7 @@ class AOTDGuiSpellTablet(
         // Create a close UI and don't save button
         val closeButton =
             AOTDGuiButton(152, 130, 20, 20, "afraidofthedark:textures/gui/spell_editor/delete.png", "afraidofthedark:textures/gui/spell_editor/delete_hovered.png")
-        closeButton.hoverText = "Exit without saving"
+        closeButton.setHoverText("Exit without saving")
         // When we click the close button show the spell list
         closeButton.addMouseListener()
         {
@@ -170,7 +171,7 @@ class AOTDGuiSpellTablet(
             "afraidofthedark:textures/gui/spell_editor/question.png",
             "afraidofthedark:textures/gui/spell_editor/question_hovered.png"
         )
-        helpButton.hoverText = "Help"
+        helpButton.setHoverText("Help")
         // When pressing help execute our on help runnable
         helpButton.addMouseListener()
         {
@@ -281,7 +282,7 @@ class AOTDGuiSpellTablet(
         // Update the power source instance
         uiPowerSource.setSpellComponent(spell.powerSource)
         // Update the spell's name
-        spellName.text = spell.name
+        spellName.setText(spell.name)
         // Remove all existing spell stages
         while (uiSpellStages.isNotEmpty())
         {
@@ -301,7 +302,7 @@ class AOTDGuiSpellTablet(
     private fun refreshCost()
     {
         // Update the spell cost label
-        spellCost.text = "Cost: " + spell.getCost().roundToInt()
+        spellCost.text = "Cost: ${spell.getCost().roundToInt()}"
     }
 
     /**
@@ -325,6 +326,7 @@ class AOTDGuiSpellTablet(
                 spell.spellStages.removeAt(spell.spellStages.size - 1)
                 refresh()
             }
+
         // When we click the delivery method check the selected component, if it's a delivery method perform additional updates
         val uiDeliveryMethod = nextSpellStage.deliveryMethod
         uiDeliveryMethod.addMouseListener()
@@ -389,6 +391,7 @@ class AOTDGuiSpellTablet(
                 }
             }
         }
+
         // When we click the any of the effect slots check the selected component, if it's an effect perform additional updates
         for (i in nextSpellStage.effects.indices)
         {
@@ -456,10 +459,12 @@ class AOTDGuiSpellTablet(
                 }
             }
         }
+
         // Add the spell stage to the panel
         spellStagePanel.add(nextSpellStage)
-        //Add the spell stage to the stage list
+        // Add the spell stage to the stage list
         uiSpellStages.add(nextSpellStage)
+
         // If only 1 spell stage exists hide the delete button
         if (uiSpellStages.size == 1)
         {
@@ -489,6 +494,7 @@ class AOTDGuiSpellTablet(
             // Remove the stage from the panel and list of stages
             spellStagePanel.remove(lastStage)
             uiSpellStages.remove(lastStage)
+
             // If any spell stages remain update the last one
             if (uiSpellStages.isNotEmpty())
             {

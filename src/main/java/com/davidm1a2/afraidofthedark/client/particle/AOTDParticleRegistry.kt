@@ -13,7 +13,7 @@ object AOTDParticleRegistry
 {
     // A map of ID -> particle creator. This is used to instantiate the right particle for the id client side
     @SideOnly(Side.CLIENT)
-    private val PARTICLE_REGISTRY: Map<ParticleTypes, IParticleFactory> = mapOf(
+    private val PARTICLE_REGISTRY = mapOf(
         ParticleTypes.ENARIA_BASIC_ATTACK_ID to IParticleFactory { _: Int, world: World, x: Double, y: Double, z: Double, _: Double, _: Double, _: Double, _: IntArray? ->
             ParticleEnariaBasicAttack(
                 world,
@@ -76,8 +76,8 @@ object AOTDParticleRegistry
     @SideOnly(Side.CLIENT)
     fun spawnParticle(particleId: ParticleTypes, world: World, x: Double, y: Double, z: Double, xSpeed: Double, ySpeed: Double, zSpeed: Double)
     {
-        val particle = PARTICLE_REGISTRY[particleId]!!.createParticle(0, world, x, y, z, xSpeed, ySpeed, zSpeed)!!
-        Minecraft.getMinecraft().effectRenderer.addEffect(particle)
+        val particle = PARTICLE_REGISTRY[particleId]?.createParticle(0, world, x, y, z, xSpeed, ySpeed, zSpeed)
+        particle?.let { Minecraft.getMinecraft().effectRenderer.addEffect(it) }
     }
 
     // Public client and server side enum that can be sent around in packets to notify the clients to spawn particles in

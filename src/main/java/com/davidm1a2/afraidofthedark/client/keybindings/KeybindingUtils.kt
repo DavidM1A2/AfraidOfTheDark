@@ -8,7 +8,7 @@ import org.lwjgl.input.Keyboard
 object KeybindingUtils
 {
     // A set of keys that are unbindable alone and require additional keys down
-    private val UNBINDABLE_KEYS = linkedSetOf(
+    private val UNBINDABLE_KEYS = setOf(
         Keyboard.KEY_RMENU,
         Keyboard.KEY_LMENU,
         Keyboard.KEY_RCONTROL,
@@ -33,6 +33,7 @@ object KeybindingUtils
     {
         // The string that is being bound
         val keybindString = StringBuilder()
+
         // Go over all unbindable key codes and test if they're down
         for (unbindableKeyCode in UNBINDABLE_KEYS)
         {
@@ -43,9 +44,11 @@ object KeybindingUtils
                 keybindString.append(Keyboard.getKeyName(unbindableKeyCode).toUpperCase()).append("+")
             }
         }
+
         // Finally append the key pressed
         val keyName = Keyboard.getKeyName(Keyboard.getEventKey()).toUpperCase()
         keybindString.append(keyName)
+
         // Return the keybinding string
         return keybindString.toString()
     }

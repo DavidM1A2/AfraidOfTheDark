@@ -15,11 +15,11 @@ import org.lwjgl.opengl.GL11
  * @param height              The height of the component
  * @param backgroundHighlight If the background should be highlit when hovered
  * @param itemStack           The itemstack to draw
+ * @property highlight The image that is shown when the itemstack is hovered over
  */
 class AOTDGuiItemStack(x: Int, y: Int, width: Int, height: Int, backgroundHighlight: Boolean, var itemStack: ItemStack = ItemStack.EMPTY) :
     AOTDGuiContainer(x, y, width, height)
 {
-    // The image that is shown when the itemstack is hovered over
     private val highlight: AOTDGuiImage?
 
     init
@@ -61,9 +61,9 @@ class AOTDGuiItemStack(x: Int, y: Int, width: Int, height: Int, backgroundHighli
             GL11.glPushMatrix()
 
             // Translate to the center of the stack
-            GL11.glTranslated(this.xScaled.toDouble(), this.yScaled.toDouble(), 1.0)
+            GL11.glTranslated(this.getXScaled().toDouble(), this.getYScaled().toDouble(), 1.0)
             GL11.glScaled(this.scaleX, this.scaleY, 1.0)
-            GL11.glTranslated((3 - this.xScaled).toDouble(), (3 - this.yScaled).toDouble(), 1.0)
+            GL11.glTranslated((3 - this.getXScaled()).toDouble(), (3 - this.getYScaled()).toDouble(), 1.0)
 
             // Grab the render item to draw items
             val renderItem = Minecraft.getMinecraft().renderItem
@@ -75,9 +75,9 @@ class AOTDGuiItemStack(x: Int, y: Int, width: Int, height: Int, backgroundHighli
                 // Grab the font renderer for the item
                 val font = itemStack.item.getFontRenderer(itemStack) ?: Minecraft.getMinecraft().fontRenderer
                 // Render the itemstack into the GUI
-                renderItem.renderItemAndEffectIntoGUI(itemStack, this.xScaled, this.yScaled)
+                renderItem.renderItemAndEffectIntoGUI(itemStack, this.getXScaled(), this.getYScaled())
                 // Render the itemstack count overlay into the GUI
-                renderItem.renderItemOverlayIntoGUI(font, itemStack, this.xScaled, this.yScaled, null)
+                renderItem.renderItemOverlayIntoGUI(font, itemStack, this.getXScaled(), this.getYScaled(), null)
                 // Set Z level to 0 like in default MC code
                 renderItem.zLevel = 0.0f
             }
@@ -102,8 +102,8 @@ class AOTDGuiItemStack(x: Int, y: Int, width: Int, height: Int, backgroundHighli
                 // Show the item name and count
                 fontRenderer.drawStringWithShadow(
                     itemStack.displayName + " x" + itemStack.count,
-                    this.xScaled.toFloat(),
-                    (this.yScaled - 5).toFloat(),
+                    this.getXScaled().toFloat(),
+                    (this.getYScaled() - 5).toFloat(),
                     -0x1
                 )
             }

@@ -23,10 +23,12 @@ class ParticleSpellLaser(
     {
         // 1 second lifespan
         particleMaxAge = 20
+
         // No motion
         motionX = 0.0
         motionY = 0.0
         motionZ = 0.0
+
         // Scale starts at 1.0
         particleScale = 1.0f
     }
@@ -37,6 +39,6 @@ class ParticleSpellLaser(
     override fun updateMotionXYZ()
     {
         // Set scale to be based on time alive
-        particleScale = (particleMaxAge.toFloat() - particleAge.toFloat()) / particleMaxAge.toFloat()
+        particleScale = (particleMaxAge - particleAge) / particleMaxAge.toFloat()
     }
 }

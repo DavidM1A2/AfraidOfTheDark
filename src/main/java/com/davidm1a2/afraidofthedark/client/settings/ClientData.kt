@@ -2,22 +2,24 @@ package com.davidm1a2.afraidofthedark.client.settings
 
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.FontLoader.createFont
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
+import com.davidm1a2.afraidofthedark.client.settings.ClientData.fontMap
+import com.davidm1a2.afraidofthedark.client.settings.ClientData.lastSelectedResearch
+import com.davidm1a2.afraidofthedark.client.settings.ClientData.lastSelectedSpell
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import net.minecraft.util.ResourceLocation
 
 /**
  * A singleton class containing temporary client data to store
+ *
+ * @property fontMap A mapping of font size -> font object used to render text
+ * @property lastSelectedResearch A field that will keep track of which research is currently selected
+ * @property lastSelectedSpell A field that will keep track of which spell is currently selected
  */
 object ClientData
 {
-    // A mapping of font size -> font object used to render text
-    private val fontMap: MutableMap<Float, TrueTypeFont> = mutableMapOf()
-
-    // A field that will keep track of which research is currently selected
+    private val fontMap = mutableMapOf<Float, TrueTypeFont>()
     var lastSelectedResearch: Research? = null
-
-    // A field that will keep track of which spell is currently selected
     var lastSelectedSpell: Spell? = null
 
     /**
@@ -32,9 +34,9 @@ object ClientData
         if (!fontMap.containsKey(fontSize))
         {
             // Put the font size with the newly loaded font
-            val font = createFont(ResourceLocation("afraidofthedark:fonts/targa_ms_hand.ttf"), fontSize, true)
-            fontMap[fontSize] = font
+            fontMap[fontSize] = createFont(ResourceLocation("afraidofthedark:fonts/targa_ms_hand.ttf"), fontSize, true)
         }
+
         // Get the font from the map
         return fontMap[fontSize]!!
     }

@@ -3,7 +3,6 @@ package com.davidm1a2.afraidofthedark.client.sound
 import net.minecraft.client.Minecraft
 import net.minecraft.client.audio.ISound.AttenuationType
 import net.minecraft.client.audio.MovingSound
-import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.SoundCategory
 import net.minecraft.util.SoundEvent
 import net.minecraftforge.fml.relauncher.Side
@@ -30,7 +29,7 @@ abstract class PlayerFollowingSound internal constructor(soundEvent: SoundEvent,
      */
     override fun update()
     {
-        val entityPlayer: EntityPlayer = Minecraft.getMinecraft().player
+        val entityPlayer = Minecraft.getMinecraft().player!!
         xPosF = entityPlayer.posX.toFloat()
         yPosF = entityPlayer.posY.toFloat()
         zPosF = entityPlayer.posZ.toFloat()

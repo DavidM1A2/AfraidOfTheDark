@@ -43,16 +43,18 @@ class AOTDGuiSpellStage(
         // Set the background texture of the spell stage, save 14px for add and remove buttons
         val background = AOTDGuiImage(0, 0, width, height - 14, "afraidofthedark:textures/gui/spell_editor/spell_stage_background.png")
         add(background)
+
         // Create the delivery method slot
         deliveryMethod = AOTDGuiSpellDeliveryMethodSlot(5, 5, height - 25, height - 25, null)
         add(deliveryMethod)
+
         // Add a slot for each effect to the UI
         effects.forEach { add(it) }
 
         // Create two buttons, one to add a new row and one to remove the current row
         addNewRow =
             AOTDGuiButton(0, height - 15, 15, 15, "afraidofthedark:textures/gui/spell_editor/add.png", "afraidofthedark:textures/gui/spell_editor/add_hovered.png")
-        addNewRow.hoverText = "Add new spell stage"
+        addNewRow.setHoverText("Add new spell stage")
         addNewRow.addMouseListener()
         {
             if (it.eventType === AOTDMouseEvent.EventType.Press)
@@ -85,7 +87,7 @@ class AOTDGuiSpellStage(
             "afraidofthedark:textures/gui/spell_editor/delete.png",
             "afraidofthedark:textures/gui/spell_editor/delete_hovered.png"
         )
-        removeRow.hoverText = "Remove spell stage"
+        removeRow.setHoverText("Remove spell stage")
         removeRow.addMouseListener()
         {
             if (it.eventType === AOTDMouseEvent.EventType.Press)

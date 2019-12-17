@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.client.gui.specialControls
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiButton
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
 import com.mojang.realmsclient.gui.ChatFormatting
 import net.minecraft.client.Minecraft
@@ -29,7 +29,7 @@ class AOTDGuiResearchNodeButton(x: Int, y: Int, val research: Research) : AOTDGu
 )
 {
     // The player's research for fast querying
-    private val playerResearch = entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!
+    private val playerResearch = entityPlayer.getResearch()
 
     init
     {
@@ -52,13 +52,13 @@ class AOTDGuiResearchNodeButton(x: Int, y: Int, val research: Research) : AOTDGu
 
             // Draw the researches icon on the button
             Minecraft.getMinecraft().textureManager.bindTexture(this.research.icon)
-            Gui.drawScaledCustomSizeModalRect(this.xScaled, this.yScaled, 0f, 0f, 64, 64, this.widthScaled, this.heightScaled, 64f, 64f)
+            Gui.drawScaledCustomSizeModalRect(this.getXScaled(), this.getYScaled(), 0f, 0f, 64, 64, this.getWidthScaled(), this.getHeightScaled(), 64f, 64f)
 
             // If the player has not researched the research then show the question mark over top
             if (!playerResearch.isResearched(this.research))
             {
                 Minecraft.getMinecraft().textureManager.bindTexture(UNKNOWN_RESEARCH)
-                Gui.drawScaledCustomSizeModalRect(this.xScaled, this.yScaled, 0f, 0f, 32, 32, this.widthScaled, this.heightScaled, 32f, 32f)
+                Gui.drawScaledCustomSizeModalRect(this.getXScaled(), this.getYScaled(), 0f, 0f, 32, 32, this.getWidthScaled(), this.getHeightScaled(), 32f, 32f)
             }
 
             GlStateManager.disableBlend()
@@ -75,20 +75,20 @@ class AOTDGuiResearchNodeButton(x: Int, y: Int, val research: Research) : AOTDGu
         // If the button intersects the pane it's in then allow for drawing hover text
         if (this.parent!!.parent!!.intersects(this) && this.isHovered)
         {
-            val mouseX = AOTDGuiUtility.mouseXInMCCoord
-            val mouseY = AOTDGuiUtility.mouseYInMCCoord
+            val mouseX = AOTDGuiUtility.getMouseXInMCCoord()
+            val mouseY = AOTDGuiUtility.getMouseYInMCCoord()
 
             // If the research is researched show the name of the research when hovered
             if (playerResearch.isResearched(this.research))
             {
                 fontRenderer.drawString(I18n.format(research.getUnlocalizedName()), mouseX + 5, mouseY, 0xFF3399)
-                fontRenderer.drawString(ChatFormatting.ITALIC.toString() + this.research.tooltip, mouseX + 7, mouseY + 10, 0xE62E8A)
+                fontRenderer.drawString("${ChatFormatting.ITALIC}${this.research.tooltip}", mouseX + 7, mouseY + 10, 0xE62E8A)
             }
             // If the research can be researched show a ? and unknown research when hovered
             else if (playerResearch.canResearch(this.research))
             {
                 fontRenderer.drawString("?", mouseX + 5, mouseY, 0xFF3399)
-                fontRenderer.drawString(ChatFormatting.ITALIC.toString() + "Unknown Research", mouseX + 7, mouseY + 10, 0xE62E8A)
+                fontRenderer.drawString("${ChatFormatting.ITALIC}Unknown Research", mouseX + 7, mouseY + 10, 0xE62E8A)
             }
         }
     }

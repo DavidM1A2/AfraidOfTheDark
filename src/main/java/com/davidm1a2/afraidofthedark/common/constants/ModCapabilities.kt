@@ -7,7 +7,6 @@ import com.davidm1a2.afraidofthedark.common.capabilities.player.research.IAOTDPl
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.IAOTDPlayerSpellManager
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IAOTDPlayerSpellCharmData
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.IAOTDPlayerSpellFreezeData
-import net.minecraft.entity.player.EntityPlayer
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.capabilities.CapabilityInject
 
@@ -50,41 +49,4 @@ object ModCapabilities
     @JvmStatic
     @CapabilityInject(IAOTDPlayerSpellCharmData::class)
     lateinit var PLAYER_SPELL_CHARM_DATA: Capability<IAOTDPlayerSpellCharmData>
-
-    // Extension functions to access these player capabilities more easily
-
-    fun EntityPlayer.getBasics(): IAOTDPlayerBasics
-    {
-        return this.getCapability(PLAYER_BASICS, null)!!
-    }
-
-    fun EntityPlayer.getResearch(): IAOTDPlayerResearch
-    {
-        return this.getCapability(PLAYER_RESEARCH, null)!!
-    }
-
-    fun EntityPlayer.getVoidChestData(): IAOTDPlayerVoidChestData
-    {
-        return this.getCapability(PLAYER_VOID_CHEST_DATA, null)!!
-    }
-
-    fun EntityPlayer.getNightmareData(): IAOTDPlayerNightmareData
-    {
-        return this.getCapability(PLAYER_NIGHTMARE_DATA, null)!!
-    }
-
-    fun EntityPlayer.getSpellManager(): IAOTDPlayerSpellManager
-    {
-        return this.getCapability(PLAYER_SPELL_MANAGER, null)!!
-    }
-
-    fun EntityPlayer.getSpellFreezeData(): IAOTDPlayerSpellFreezeData
-    {
-        return this.getCapability(PLAYER_SPELL_FREEZE_DATA, null)!!
-    }
-
-    fun EntityPlayer.getSpellCharmData(): IAOTDPlayerSpellCharmData
-    {
-        return this.getCapability(PLAYER_SPELL_CHARM_DATA, null)!!
-    }
 }

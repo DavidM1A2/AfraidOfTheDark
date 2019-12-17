@@ -33,7 +33,7 @@ class AOTDGuiSpellEffectSlot(x: Int, y: Int, width: Int, height: Int, effect: Sp
         }
         else
         {
-            this.hoverText = "Empty effect slot"
+            this.setHoverText("Empty effect slot")
         }
     }
 }

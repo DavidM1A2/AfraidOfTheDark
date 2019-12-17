@@ -14,6 +14,5 @@ import net.minecraft.util.ResourceLocation
  */
 class RenderSilverBolt(renderManager: RenderManager) : RenderBolt<EntitySilverBolt>(renderManager)
 {
-    override val boltTexture: ResourceLocation
-        get() = ResourceLocation(Constants.MOD_ID, "textures/entity/silver_bolt.png")
+    override val boltTexture = ResourceLocation(Constants.MOD_ID, "textures/entity/silver_bolt.png")
 }

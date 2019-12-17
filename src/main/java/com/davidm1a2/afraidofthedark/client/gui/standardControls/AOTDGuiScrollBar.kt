@@ -101,11 +101,11 @@ class AOTDGuiScrollBar @JvmOverloads constructor(
     fun moveHandle(yAmount: Int, isRelative: Boolean)
     {
         // The minimum y value the handle can have
-        val minY = y
+        val minY = getY()
         // Compute the difference between the max and min y values
-        val maxYDiff = height - handle.height
+        val maxYDiff = getHeight() - handle.getHeight()
         // The maximum y value the handle can have
-        val maxY = y + maxYDiff
+        val maxY = getY() + maxYDiff
 
         // Compute where the handle should be based on the y offset, ensure to y offset is scaled to the
         // current y scale
@@ -114,7 +114,7 @@ class AOTDGuiScrollBar @JvmOverloads constructor(
         // Clamp the y inside the bar so you can't drag it off the top or bottom
         newY = MathHelper.clamp(newY, minY, maxY)
         // Update the y pos of the handle
-        handle.y = newY
+        handle.setY(newY)
         // Set the handle location to be the percent down the bar the handle is
         value = (newY - minY) / maxYDiff.toFloat()
     }

@@ -13,13 +13,13 @@ import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import net.minecraft.item.Item
 import net.minecraft.item.crafting.CraftingManager
 import net.minecraft.item.crafting.IRecipe
-import org.apache.commons.lang3.StringUtils
 import org.lwjgl.input.Keyboard
 import org.lwjgl.util.Color
 
 /**
  * Journal page UI which is shown when a player opens a page
  *
+ * @constructor Initializes the entire UI
  * @param text The text on the pages to render
  * @param titleText The text of the title
  * @param relatedItemRecipes The items that we should show recipes for
@@ -55,14 +55,10 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
     private val bottomRightRecipe: AOTDGuiRecipe
     private var pageNumber = 0
 
-    /**
-     * Initializes the entire UI
-     */
     init
     {
         // Get a list of recipes for each item
-        researchRecipes = CraftingManager.REGISTRY
-            .filter { relatedItemRecipes.contains(it.recipeOutput.item) }
+        researchRecipes = CraftingManager.REGISTRY.filter { relatedItemRecipes.contains(it.recipeOutput.item) }
 
         // Store the raw text of the research
         completeText = text
@@ -70,6 +66,7 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
         // Set the width and height of the journal
         val journalWidth = 256
         val journalHeight = 256
+
         // Calculate the x and y corner positions of the page
         val xCornerOfPage = (Constants.GUI_WIDTH - journalWidth) / 2
         val yCornerOfPage = (Constants.GUI_HEIGHT - journalHeight) / 2
@@ -291,38 +288,42 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
         // Update the page numbers
         leftPageNumber.text = (pageNumber + 1).toString()
         rightPageNumber.text = (pageNumber + 2).toString()
+
         // Hide the forward button if we're not on the last page
         forwardButton.isVisible = hasPageForward()
         // Hide the backward button if we're not on the first page
         backwardButton.isVisible = hasPageBackward()
+
         // The adjusted index for an index into the recipe list
         var adjustedIndexForRecipe = (pageNumber - textOnEachPage.size) * 2
+
         // If we have another page of text then load that page of text and clear out the recipes
         if (textOnEachPage.hasIndex(pageNumber))
         {
-            leftPage.text = textOnEachPage[pageNumber]
+            leftPage.setText(textOnEachPage[pageNumber])
             topLeftRecipe.setRecipe(null)
             bottomLeftRecipe.setRecipe(null)
             adjustedIndexForRecipe = adjustedIndexForRecipe + 2
         }
         else
         {
-            leftPage.text = ""
+            leftPage.setText("")
             // If we have another recipe load it into the top left box, otherwise clear it
             topLeftRecipe.setRecipe(if (researchRecipes.hasIndex(adjustedIndexForRecipe)) researchRecipes[adjustedIndexForRecipe++] else null)
             // If we have another recipe load it into the bottom left box, otherwise clear it
             bottomLeftRecipe.setRecipe(if (researchRecipes.hasIndex(adjustedIndexForRecipe)) researchRecipes[adjustedIndexForRecipe++] else null)
         }
+
         // If we have another page of text then load that page of text and clear out the recipes
         if (textOnEachPage.hasIndex(pageNumber + 1))
         {
-            rightPage.text = textOnEachPage[pageNumber + 1]
+            rightPage.setText(textOnEachPage[pageNumber + 1])
             topRightRecipe.setRecipe(null)
             bottomRightRecipe.setRecipe(null)
         }
         else
         {
-            rightPage.text = ""
+            rightPage.setText("")
             // If we have another recipe load it into the top left box, otherwise clear it
             topRightRecipe.setRecipe(if (researchRecipes.hasIndex(adjustedIndexForRecipe)) researchRecipes[adjustedIndexForRecipe++] else null)
             // If we have another recipe load it into the bottom left box, otherwise clear it
@@ -342,28 +343,31 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
         // An alternator variable to switch between adding text to the left and right box
         var alternator = true
         // Loop while we have text to distribute
-        while (StringUtils.isNotEmpty(textToDistribute))
+        while (textToDistribute.isNotEmpty())
         {
             // Left over text
             var leftOver: String
             if (alternator)
             {
                 // Set the text of the left page, then retrieve the text that doesnt fit into the box
-                leftPage.text = textToDistribute
+                leftPage.setText(textToDistribute)
                 leftOver = leftPage.overflowText
             }
             else
             {
                 // Set the text of the right page, then retrieve the text that doesnt fit into the box
-                rightPage.text = textToDistribute
+                rightPage.setText(textToDistribute)
                 leftOver = rightPage.overflowText
             }
+
             // Flip our alternator
             alternator = !alternator
+
             // Grab the text that will go on this page alone
             val pageText = textToDistribute.substring(0, textToDistribute.length - leftOver.length)
             // Update the remaining text that needs distributing
             textToDistribute = textToDistribute.substring(textToDistribute.length - leftOver.length)
+
             // Add the page of text
             textOnEachPage.add(pageText)
         }

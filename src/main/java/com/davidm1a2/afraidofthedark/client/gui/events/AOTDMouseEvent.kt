@@ -29,6 +29,6 @@ class AOTDMouseEvent(source: AOTDGuiComponentWithEvents, val mouseX: Int, val mo
         // The mouse buttons that are standard
         const val LEFT_MOUSE_BUTTON = 0
         const val RIGHT_MOUSE_BUTTON = 1
-        const val MIDDLE_MOUSE_BUTTOn = 2
+        const val MIDDLE_MOUSE_BUTTON = 2
     }
 }

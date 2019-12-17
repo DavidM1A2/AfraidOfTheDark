@@ -14,7 +14,6 @@ import net.minecraft.client.renderer.GlStateManager
 import org.lwjgl.input.Mouse
 import org.lwjgl.opengl.GL11
 import java.io.IOException
-import java.util.*
 import kotlin.math.min
 import kotlin.math.round
 
@@ -34,7 +33,7 @@ abstract class AOTDGuiScreen : GuiScreen()
         get() = Minecraft.getMinecraft().gameSettings.keyBindInventory.keyCode
 
     val contentPane: AOTDGuiPanel = AOTDGuiPanel(0, 0, Constants.GUI_WIDTH, Constants.GUI_HEIGHT, false)
-    private val spriteSheetControllers = LinkedList<SpriteSheetController>()
+    private val spriteSheetControllers = mutableListOf<SpriteSheetController>()
     private var leftMouseButtonDown = false
 
     /**
@@ -59,16 +58,16 @@ abstract class AOTDGuiScreen : GuiScreen()
         // If our X scale is less than our Y scale we pin the X coordinate to the left side of the screen and set the Y to center the GUI panel
         if (guiScaleX < guiScaleY)
         {
-            this.contentPane.x = 0
+            this.contentPane.setX(0)
             // We must multiply by 1 / guiScale so that our Y position is centered and not scaled since 1 / guiScale * guiScale = 1
-            this.contentPane.y = round((this.height - this.contentPane.heightScaled) / 2f * (1 / guiScale)).toInt()
+            this.contentPane.setY(round((this.height - this.contentPane.getHeightScaled()) / 2f * (1 / guiScale)).toInt())
         }
         // If our Y scale is less than our X scale we pin the Y coordinate to the top of the screen and set the X to center the GUI panel
         else
         {
             // We must multiply by 1 / guiScale so that our X position is centered and not scaled since 1 / guiScale * guiScale = 1
-            this.contentPane.x = round((this.width - this.contentPane.widthScaled) / 2f * (1 / guiScale)).toInt()
-            this.contentPane.y = 0
+            this.contentPane.setX(round((this.width - this.contentPane.getWidthScaled()) / 2f * (1 / guiScale)).toInt())
+            this.contentPane.setY(0)
         }
     }
 
@@ -188,9 +187,9 @@ abstract class AOTDGuiScreen : GuiScreen()
     private fun processMouseClick(clickedButton: Int)
     {
         // The X position of the mouse
-        val mouseX = AOTDGuiUtility.mouseXInMCCoord
+        val mouseX = AOTDGuiUtility.getMouseXInMCCoord()
         // The Y position of the mouse
-        val mouseY = AOTDGuiUtility.mouseYInMCCoord
+        val mouseY = AOTDGuiUtility.getMouseYInMCCoord()
 
         // If the mouse button is pressed set the flag
         if (Mouse.getEventButtonState())
@@ -219,8 +218,8 @@ abstract class AOTDGuiScreen : GuiScreen()
     private fun processMouseMove()
     {
         // Grab the X and Y coordinates of the mouse
-        val mouseX = AOTDGuiUtility.mouseXInMCCoord
-        val mouseY = AOTDGuiUtility.mouseYInMCCoord
+        val mouseX = AOTDGuiUtility.getMouseXInMCCoord()
+        val mouseY = AOTDGuiUtility.getMouseYInMCCoord()
         // Fire the content pane's move listener
         contentPane.processMouseMoveInput(AOTDMouseMoveEvent(contentPane, mouseX, mouseY, AOTDMouseMoveEvent.EventType.Move))
         // If the left mouse button is down fire the content pane's drag listener

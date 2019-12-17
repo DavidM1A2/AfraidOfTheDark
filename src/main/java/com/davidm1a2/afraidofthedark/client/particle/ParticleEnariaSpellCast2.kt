@@ -27,8 +27,10 @@ class ParticleEnariaSpellCast2(
     {
         // 2-3 second lifespan
         particleMaxAge = rand.nextInt(20) + 40
+
         // Make the particles huge when she casts a spell
         particleScale = 5.0f
+
         // speed will be the same as motion for this particle
         motionX = xSpeed
         motionY = 0.0

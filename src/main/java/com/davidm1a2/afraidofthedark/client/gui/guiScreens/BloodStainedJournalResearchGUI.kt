@@ -13,18 +13,18 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiLabel
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiPanel
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiSpriteSheetImage
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
 import net.minecraft.util.ResourceLocation
-import net.minecraft.util.math.MathHelper
 import org.lwjgl.util.Color
 
 /**
  * The research GUI used by the blood stained journal to show what has been unlocked and what has not been unlocked
  *
+ * @constructor initializes the entire GUI
  * @param isCheatSheet True if this GUI should be a cheat sheet, or false otherwise
  * @property scrollBackground The GUI scroll background
  * @property researchTree The panel that contains all research nodes
@@ -42,25 +42,25 @@ class BloodStainedJournalResearchGUI(isCheatSheet: Boolean) : AOTDGuiClickAndDra
     private val researchNodeMouseMoveListener: (AOTDMouseMoveEvent) -> Unit
     private val researchNodeMouseListener: (AOTDMouseEvent) -> Unit
 
-    /**
-     * Constructor initializes the entire GUI
-     */
     init
     {
         // Calculate the various positions of GUI elements on the screen
         val xPosScroll = (Constants.GUI_WIDTH - BACKGROUND_WIDTH) / 2
         val yPosScroll = (Constants.GUI_HEIGHT - BACKGROUND_HEIGHT) / 2
+
         // Recall our previous GUI offsets from the last time we had the GUI open, this helps remember where we left off in the UI
         guiOffsetX = lastGuiOffsetX
         guiOffsetY = lastGuiOffsetY
+
         // Create the research tree panel that will hold all the research nodes
         // The base panel that contains all researches
         val researchTreeBase = AOTDGuiPanel(xPosScroll, yPosScroll, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, true)
         researchTree = AOTDGuiPanel(-guiOffsetX, -guiOffsetY, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, false)
         contentPane.add(researchTreeBase)
         scrollBackground = AOTDGuiImage(0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, "afraidofthedark:textures/gui/journal_tech_tree/background.png", 1024, 1024)
-        scrollBackground.u = guiOffsetX + (scrollBackground.maxTextureWidth - scrollBackground.width) / 2
-        scrollBackground.v = guiOffsetY + (scrollBackground.maxTextureHeight - scrollBackground.height)
+        scrollBackground.u = guiOffsetX + (scrollBackground.getMaxTextureWidth() - scrollBackground.getWidth()) / 2
+        scrollBackground.v = guiOffsetY + (scrollBackground.getMaxTextureHeight() - scrollBackground.getHeight())
+
         // The border around the research
         val backgroundBorder = AOTDGuiImage(0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, "afraidofthedark:textures/gui/journal_tech_tree/frame.png")
         researchTreeBase.add(scrollBackground)
@@ -77,8 +77,9 @@ class BloodStainedJournalResearchGUI(isCheatSheet: Boolean) : AOTDGuiClickAndDra
             lblCheatSheet.text = "Cheat sheet - select researches to unlock them"
             researchTreeBase.add(lblCheatSheet)
         }
+
         // Grab the player's research to be used later...
-        val playerResearch = entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!
+        val playerResearch = entityPlayer.getResearch()
         // Create two node listeners that controls the behavior of selected research nodes
         researchNodeMouseMoveListener =
             {
@@ -268,11 +269,11 @@ class BloodStainedJournalResearchGUI(isCheatSheet: Boolean) : AOTDGuiClickAndDra
         // Call the super method
         super.mouseClickMove(mouseX, mouseY, lastButtonClicked, timeBetweenClicks)
         // Update the research tree's X and Y coordinates
-        researchTree.x = -guiOffsetX + researchTree.parent!!.x
-        researchTree.y = -guiOffsetY + researchTree.parent!!.y
+        researchTree.setX(-guiOffsetX + researchTree.parent!!.getX())
+        researchTree.setY(-guiOffsetY + researchTree.parent!!.getY())
         // Set the scroll background U and V
-        scrollBackground.u = guiOffsetX + (scrollBackground.maxTextureWidth - scrollBackground.width) / 2
-        scrollBackground.v = guiOffsetY + (scrollBackground.maxTextureHeight - scrollBackground.height)
+        scrollBackground.u = guiOffsetX + (scrollBackground.getMaxTextureWidth() - scrollBackground.getWidth()) / 2
+        scrollBackground.v = guiOffsetY + (scrollBackground.getMaxTextureHeight() - scrollBackground.getHeight())
     }
 
     /**
@@ -280,9 +281,9 @@ class BloodStainedJournalResearchGUI(isCheatSheet: Boolean) : AOTDGuiClickAndDra
      */
     override fun checkOutOfBounds()
     {
-        val backgroundWiggleRoom = (scrollBackground.maxTextureWidth - scrollBackground.width) / 2
-        guiOffsetX = MathHelper.clamp(guiOffsetX, -backgroundWiggleRoom, backgroundWiggleRoom)
-        guiOffsetY = MathHelper.clamp(guiOffsetY, -scrollBackground.maxTextureHeight + scrollBackground.height, 0)
+        val backgroundWiggleRoom = (scrollBackground.getMaxTextureWidth() - scrollBackground.getWidth()) / 2
+        guiOffsetX = guiOffsetX.coerceIn(-backgroundWiggleRoom, backgroundWiggleRoom)
+        guiOffsetY = guiOffsetY.coerceIn(-scrollBackground.getMaxTextureHeight() + scrollBackground.getHeight(), 0)
     }
 
     /**

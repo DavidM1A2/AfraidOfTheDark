@@ -14,6 +14,5 @@ import net.minecraft.util.ResourceLocation
  */
 class RenderStarMetalBolt(renderManager: RenderManager) : RenderBolt<EntityStarMetalBolt>(renderManager)
 {
-    override val boltTexture: ResourceLocation
-        get() = ResourceLocation(Constants.MOD_ID, "textures/entity/star_metal_bolt.png")
+    override val boltTexture = ResourceLocation(Constants.MOD_ID, "textures/entity/star_metal_bolt.png")
 }

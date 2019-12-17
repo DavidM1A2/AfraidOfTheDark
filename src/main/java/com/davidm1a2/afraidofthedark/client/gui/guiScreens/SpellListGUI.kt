@@ -16,6 +16,7 @@ import java.util.*
 /**
  * Spell selection/list gui allows players to create spells and keybind them
  *
+ * @constructor initializes the gui elements
  * @property scrollPanel The scroll panel that holds the spell list
  * @property btnCreateSpell The button used to create more spells
  * @property guiSpells A list of spells to be shown
@@ -30,14 +31,12 @@ class SpellListGUI : AOTDGuiScreen()
     private val spellManager = entityPlayer.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null)!!
     private var spellWaitingOnKeybind: AOTDGuiSpell? = null
 
-    /**
-     * Constructor initializes the gui elements
-     */
     init
     {
         // Calculate the x,y base position of the UI
         val xPosSpellList = (Constants.GUI_WIDTH - GUI_WIDTH) / 2
         val yPosSpellList = (Constants.GUI_HEIGHT - GUI_HEIGHT) / 2
+
         // Place the background panel in the center
         val backgroundPanel = AOTDGuiPanel(xPosSpellList, yPosSpellList, GUI_WIDTH, GUI_HEIGHT, false)
 
@@ -50,19 +49,21 @@ class SpellListGUI : AOTDGuiScreen()
             "afraidofthedark:textures/gui/spell_list/spell_list_background.png"
         )
         backgroundPanel.add(mirrorBackgroundImage)
+
         // Compute the scroll bar's x and y position
-        val scrollBarX = mirrorBackgroundImage.width + SCROLL_BAR_HORIZONTAL_PADDING
+        val scrollBarX = mirrorBackgroundImage.getWidth() + SCROLL_BAR_HORIZONTAL_PADDING
         val scrollBarY = 0
         // Create the scroll bar
         val scrollBar = AOTDGuiScrollBar(
             scrollBarX,
             scrollBarY,
-            GUI_WIDTH - mirrorBackgroundImage.width - SCROLL_BAR_HORIZONTAL_PADDING * 2,
+            GUI_WIDTH - mirrorBackgroundImage.getWidth() - SCROLL_BAR_HORIZONTAL_PADDING * 2,
             GUI_HEIGHT,
             "afraidofthedark:textures/gui/spell_list/scroll_bar.png",
             "afraidofthedark:textures/gui/spell_list/scroll_bar_handle.png",
             "afraidofthedark:textures/gui/spell_list/scroll_bar_handle_hovered.png"
         )
+
         // Create the scroll panel to add spells to, position it centered on the background image
         scrollPanel = AOTDGuiScrollPanel(28, 8, 175, 238, true, scrollBar)
         // Start with a max offset of 0
@@ -97,14 +98,14 @@ class SpellListGUI : AOTDGuiScreen()
 
         // Add a button to create a new spell, center it under the scrollPanel spell entries
         btnCreateSpell = AOTDGuiButton(
-            scrollPanel.width / 2 - 13,
+            scrollPanel.getWidth() / 2 - 13,
             0,
             26,
             26,
             "afraidofthedark:textures/gui/spell_list/create_spell.png",
             "afraidofthedark:textures/gui/spell_list/create_spell_hovered.png"
         )
-        btnCreateSpell.hoverText = "Create a new spell"
+        btnCreateSpell.setHoverText("Create a new spell")
         btnCreateSpell.addMouseListener()
         {
             if (it.eventType == AOTDMouseEvent.EventType.Press)
@@ -131,7 +132,8 @@ class SpellListGUI : AOTDGuiScreen()
         }
         scrollPanel.add(btnCreateSpell)
         // Go over each spell the player has and add a gui spell for it
-        spellManager.spells.forEach { spell -> addSpell(spell) }
+        spellManager.spells.forEach { addSpell(it) }
+
         contentPane.add(backgroundPanel)
     }
 
@@ -165,7 +167,7 @@ class SpellListGUI : AOTDGuiScreen()
         // Add the gui spell to the list of spells for later use
         guiSpells.add(guiSpell)
         // Move our create spell button down
-        btnCreateSpell.y = btnCreateSpell.y + DISTANCE_BETWEEN_SPELLS
+        btnCreateSpell.setY(btnCreateSpell.getY() + DISTANCE_BETWEEN_SPELLS)
         // Update our scroll panel offset
         refreshScrollPanelOffset()
     }
@@ -189,10 +191,10 @@ class SpellListGUI : AOTDGuiScreen()
         for (i in index until guiSpells.size)
         {
             val guiSpell = guiSpells[i]
-            guiSpell.y = guiSpell.y - DISTANCE_BETWEEN_SPELLS
+            guiSpell.setY(guiSpell.getY() - DISTANCE_BETWEEN_SPELLS)
         }
         // Move our create spell button up
-        btnCreateSpell.y = btnCreateSpell.y - DISTANCE_BETWEEN_SPELLS
+        btnCreateSpell.setY(btnCreateSpell.getY() - DISTANCE_BETWEEN_SPELLS)
         // Update our scroll panel offset
         refreshScrollPanelOffset()
     }

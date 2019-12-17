@@ -16,7 +16,9 @@ import org.lwjgl.util.Color
  * @param height The height of the component
  * @param font   The font to be used to draw the button's text
  * @param icon   The icon to use for the background of the button
- * @property
+ * @property background The image containing the background texture
+ * @property label The label containing the center text
+ * @property color The color of the background and text
  */
 open class AOTDGuiButton(
     x: Int,
@@ -28,11 +30,8 @@ open class AOTDGuiButton(
     font: TrueTypeFont? = null
 ) : AOTDGuiContainer(x, y, width, height)
 {
-    // The image containing the background texture
     private val background: AOTDGuiImage
-    // The label containing the center text
     private val label: AOTDGuiLabel?
-
     override var color: Color
         get() = super.color
         set(tint)

@@ -17,8 +17,6 @@ import net.minecraft.util.math.MathHelper
 import net.minecraft.util.text.TextComponentTranslation
 import org.apache.commons.lang3.tuple.Pair
 import org.lwjgl.util.Color
-import java.util.*
-import java.util.function.Consumer
 import kotlin.math.max
 
 /**
@@ -40,7 +38,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
     private val scrollPanel: AOTDGuiScrollPanel
     private val componentScrollPanel: AOTDGuiPanel
     private val componentScrollPanelOffset: Int
-    private val currentPropEditors = ArrayList<Pair<SpellComponentProperty, AOTDGuiTextField>>()
+    private val currentPropEditors = mutableListOf<Pair<SpellComponentProperty, AOTDGuiTextField>>()
 
     init
     {
@@ -53,7 +51,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
         scroll.add(backgroundScroll)
 
         // Add a scroll bar to the right of the scroll
-        val componentScrollBar = AOTDGuiScrollBar(backgroundScroll.width, 50, 13, height - 100)
+        val componentScrollBar = AOTDGuiScrollBar(backgroundScroll.getWidth(), 50, 13, height - 100)
         scroll.add(componentScrollBar)
 
         // Add a scroll panel to the scroll
@@ -170,7 +168,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
         if (componentInstance == null)
         {
             // Remove all nodes from the scroll panel
-            this.scrollPanel.children.forEach(Consumer { this.scrollPanel.remove(it) })
+            this.scrollPanel.getChildren().forEach { this.scrollPanel.remove(it) }
             // Add the component scroll panel back in
             this.scrollPanel.add(this.componentScrollPanel)
             // Reset the maximum offset
@@ -189,10 +187,11 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
             // Create a heading label to indicate what is currently being edited
             val heading = AOTDGuiLabel(0, currentY, 120, 30, ClientData.getTargaMSHandFontSized(32f))
             heading.textColor = purpleText
+            // This cast is required even though IntelliJ doesn't agree
             val spellComponent = componentInstance.component as SpellComponent<*>
-            heading.text = I18n.format(spellComponent.getUnlocalizedName()) + " Properties"
+            heading.text = "${I18n.format(spellComponent.getUnlocalizedName())} Properties"
             editPanel.add(heading)
-            currentY = currentY + heading.height
+            currentY = currentY + heading.getHeight()
 
             // Grab a list of editable properties
             val editableProperties = spellComponent.getEditableProperties()
@@ -202,9 +201,9 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
             {
                 val noPropsLine = AOTDGuiTextBox(0, currentY, 120, 30, ClientData.getTargaMSHandFontSized(26f))
                 noPropsLine.textColor = purpleText
-                noPropsLine.text = "This component has no editable properties."
+                noPropsLine.setText("This component has no editable properties.")
                 editPanel.add(noPropsLine)
-                currentY = currentY + noPropsLine.height
+                currentY = currentY + noPropsLine.getHeight()
             }
             else
             {
@@ -216,27 +215,30 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
                     propertyName.textColor = purpleText
                     propertyName.text = "Name: " + editableProp.name
                     editPanel.add(propertyName)
-                    currentY = currentY + propertyName.height
+                    currentY = currentY + propertyName.getHeight()
+
                     // Create a text box that shows the description of the property
                     val propertyDescription = AOTDGuiTextBox(0, currentY, 120, 12, ClientData.getTargaMSHandFontSized(26f))
                     propertyDescription.textColor = purpleText
-                    propertyDescription.text = "Description: " + editableProp.description
+                    propertyDescription.setText("Description: ${editableProp.description}")
                     // While we don't have enough room for the description increase the size by a constant
                     while (propertyDescription.overflowText.isNotEmpty())
                     {
-                        propertyDescription.height = propertyDescription.height + 12
-                        propertyDescription.text = "Description: " + editableProp.description
+                        propertyDescription.setHeight(propertyDescription.getHeight() + 12)
+                        propertyDescription.setText("Description: ${editableProp.description}")
                     }
                     editPanel.add(propertyDescription)
-                    currentY = currentY + propertyDescription.height
+                    currentY = currentY + propertyDescription.getHeight()
+
                     // Create a text field that edits the property value
                     val propertyEditor = AOTDGuiTextField(0, currentY, 120, 30, ClientData.getTargaMSHandFontSized(26f))
-                    propertyEditor.textColor = purpleText
-                    propertyEditor.text = editableProp.getter(componentInstance)
+                    propertyEditor.setTextColor(purpleText)
+                    propertyEditor.setText(editableProp.getter(componentInstance))
                     editPanel.add(propertyEditor)
+
                     // Store the editor off for later use
                     this.currentPropEditors.add(Pair.of(editableProp, propertyEditor))
-                    currentY = currentY + propertyEditor.height
+                    currentY = currentY + propertyEditor.getHeight()
                 }
             }
 
@@ -270,7 +272,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
                                 // Attempt to set the property
                                 try
                                 {
-                                    property.setter(componentInstance, editor.text)
+                                    property.setter(componentInstance, editor.getText())
                                 } catch (e: InvalidValueException)
                                 {
                                     entityPlayer.sendMessage(
@@ -303,7 +305,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
             }
 
             // Add a cancel button at the bottom. Center it if we have no edit properties (and no save button!)
-            val cancelX = if (editableProperties.isEmpty()) editPanel.width / 2 - 25 else editPanel.width - 50
+            val cancelX = if (editableProperties.isEmpty()) editPanel.getWidth() / 2 - 25 else editPanel.getWidth() - 50
             val cancel = AOTDGuiButton(
                 cancelX,
                 currentY + 5,
@@ -338,14 +340,14 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
                 }
             }
             editPanel.add(cancel)
-            currentY = currentY + cancel.height + 5
+            currentY = currentY + cancel.getHeight() + 5
 
             // Remove all nodes from the scroll panel
-            this.scrollPanel.children.forEach { this.scrollPanel.remove(it) }
+            this.scrollPanel.getChildren().forEach { this.scrollPanel.remove(it) }
             // Add in the edit panel
             this.scrollPanel.add(editPanel)
             // Update the scroll offset
-            this.scrollPanel.maximumOffset = max(0, currentY - editPanel.height)
+            this.scrollPanel.maximumOffset = max(0, currentY - editPanel.getHeight())
         }
     }
 

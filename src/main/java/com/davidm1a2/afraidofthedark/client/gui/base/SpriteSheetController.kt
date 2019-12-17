@@ -1,7 +1,5 @@
 package com.davidm1a2.afraidofthedark.client.gui.base
 
-import net.minecraft.util.math.MathHelper
-
 /**
  * A controller used to draw sprite sheets. The controller tells us what frame to draw
  *
@@ -51,6 +49,6 @@ class SpriteSheetController(
             }
         }
         // Update the percentage we are towards the next frame
-        this.percentageTowardsNextFrame = MathHelper.clamp(1 - (System.currentTimeMillis() - lastFrameTime).toFloat() / frameDelayInMillis, 0.0f, 1.0f)
+        this.percentageTowardsNextFrame = (1 - (System.currentTimeMillis() - lastFrameTime).toFloat() / frameDelayInMillis).coerceIn(0.0f, 1.0f)
     }
 }

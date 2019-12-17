@@ -24,7 +24,8 @@ class BellsRinging : PlayerFollowingSound(ModSounds.BELLS, SoundCategory.AMBIENT
     override fun update()
     {
         super.update()
-        val entityPlayer = Minecraft.getMinecraft().player
+
+        val entityPlayer = Minecraft.getMinecraft().player!!
         if (entityPlayer.isDead || entityPlayer.dimension != ModDimensions.NIGHTMARE.id)
         {
             donePlaying = true

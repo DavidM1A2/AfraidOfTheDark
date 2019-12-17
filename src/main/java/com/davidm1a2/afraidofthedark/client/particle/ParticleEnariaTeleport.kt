@@ -23,8 +23,10 @@ class ParticleEnariaTeleport(
     {
         // 2-3 second lifespan
         particleMaxAge = rand.nextInt(20) + 40
+
         // Blinding size teleport particles
         particleScale = 10.0f + rand.nextFloat() * 5
+
         // Upwards motion only
         motionX = 0.0
         motionY = rand.nextFloat() * 0.1 + 0.3

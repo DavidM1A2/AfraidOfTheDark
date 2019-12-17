@@ -6,15 +6,15 @@ import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.specialControls.AOTDGuiMeteorButton
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiImage
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiPanel
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.packets.otherPackets.UpdateWatchedMeteor
-import net.minecraft.util.math.MathHelper
 
 /**
  * Gui screen that represents the telescope GUI
  *
+ * @constructor initializes the entire UI
  * @property telescopeMeteors The panel that will contain all the meteors on it
  * @property telescopeImage The image that represents the 'sky'
  */
@@ -23,14 +23,12 @@ class TelescopeGUI : AOTDGuiClickAndDragable()
     private val telescopeMeteors: AOTDGuiPanel
     private val telescopeImage: AOTDGuiImage
 
-    /**
-     * Constructor initializes the entire UI
-     */
     init
     {
         // Calculate the various positions of GUI elements on the screen
         val xPosTelescope = (Constants.GUI_WIDTH - GUI_SIZE) / 2
         val yPosTelescope = (Constants.GUI_HEIGHT - GUI_SIZE) / 2
+
         // Create a panel that will hold all the UI contents
         val telescope = AOTDGuiPanel(xPosTelescope, yPosTelescope, GUI_SIZE, GUI_SIZE, false)
 
@@ -42,14 +40,15 @@ class TelescopeGUI : AOTDGuiClickAndDragable()
 
         // Create a clipping panel to hold the meteors so they don't clip outside
         val telescopeMeteorClip = AOTDGuiPanel(SIDE_BUFFER, SIDE_BUFFER, GUI_SIZE - SIDE_BUFFER * 2, GUI_SIZE - SIDE_BUFFER * 2, true)
+
         // Initialize the background star sky image and center the image
         telescopeImage = AOTDGuiImage(0, 0, GUI_SIZE - SIDE_BUFFER * 2, GUI_SIZE - SIDE_BUFFER * 2, "afraidofthedark:textures/gui/telescope/background.png", 3840, 2160)
-        telescopeImage.u = guiOffsetX + (telescopeImage.maxTextureWidth - telescopeImage.width) / 2
-        telescopeImage.v = guiOffsetY + (telescopeImage.maxTextureHeight - telescopeImage.height) / 2
+        telescopeImage.u = guiOffsetX + (telescopeImage.getMaxTextureWidth() - telescopeImage.getWidth()) / 2
+        telescopeImage.v = guiOffsetY + (telescopeImage.getMaxTextureHeight() - telescopeImage.getHeight()) / 2
         // Click listener that gets called when we click a meteor button
         val meteorClickListener =
             { event: AOTDMouseEvent ->
-                if (event.eventType === AOTDMouseEvent.EventType.Click)
+                if (event.eventType == AOTDMouseEvent.EventType.Click)
                 {
                     // Make sure the button clicked was in fact hovered and the click was LMB
                     if (event.source.isHovered && event.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
@@ -64,8 +63,9 @@ class TelescopeGUI : AOTDGuiClickAndDragable()
                     }
                 }
             }
+
         // Grab the player's research
-        val playerResearch = entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!
+        val playerResearch = entityPlayer.getResearch()
         // Grab a list of possible meteors
         val possibleMeteors = ModRegistries.METEORS.getValuesCollection().filter { playerResearch.isResearched(it.preRequisite) }
         // If we somehow open the GUI without having any known meteors don't show any. This can happen if the telescope is right
@@ -81,8 +81,8 @@ class TelescopeGUI : AOTDGuiClickAndDragable()
             {
                 // Create the meteor button based on if astronomy 2 is researched or not
                 val meteorButton = AOTDGuiMeteorButton(
-                    random.nextInt(telescopeImage.maxTextureWidth) - telescopeImage.maxTextureWidth / 2,
-                    random.nextInt(telescopeImage.maxTextureHeight) - telescopeImage.maxTextureHeight / 2,
+                    random.nextInt(telescopeImage.getMaxTextureWidth()) - telescopeImage.getMaxTextureWidth() / 2,
+                    random.nextInt(telescopeImage.getMaxTextureHeight()) - telescopeImage.getMaxTextureHeight() / 2,
                     64,
                     64,
                     possibleMeteors[random.nextInt(possibleMeteors.size)]
@@ -114,11 +114,11 @@ class TelescopeGUI : AOTDGuiClickAndDragable()
         // Call super first
         super.mouseClickMove(mouseX, mouseY, lastButtonClicked, timeBetweenClicks)
         // Move the meteors based on the gui offset
-        telescopeMeteors.x = -guiOffsetX + telescopeMeteors.parent!!.x
-        telescopeMeteors.y = -guiOffsetY + telescopeMeteors.parent!!.y
+        telescopeMeteors.setX(-guiOffsetX + telescopeMeteors.parent!!.getX())
+        telescopeMeteors.setY(-guiOffsetY + telescopeMeteors.parent!!.getY())
         // Update the background image's U/V
-        telescopeImage.u = guiOffsetX + (telescopeImage.maxTextureWidth - telescopeImage.width) / 2
-        telescopeImage.v = guiOffsetY + (telescopeImage.maxTextureHeight - telescopeImage.height) / 2
+        telescopeImage.u = guiOffsetX + (telescopeImage.getMaxTextureWidth() - telescopeImage.getWidth()) / 2
+        telescopeImage.v = guiOffsetY + (telescopeImage.getMaxTextureHeight() - telescopeImage.getHeight()) / 2
     }
 
     /**
@@ -126,8 +126,8 @@ class TelescopeGUI : AOTDGuiClickAndDragable()
      */
     override fun checkOutOfBounds()
     {
-        guiOffsetX = MathHelper.clamp(guiOffsetX, -telescopeImage.maxTextureWidth / 2, telescopeImage.maxTextureWidth / 2)
-        guiOffsetY = MathHelper.clamp(guiOffsetY, -telescopeImage.maxTextureHeight / 2, telescopeImage.maxTextureHeight / 2)
+        guiOffsetX = guiOffsetX.coerceIn(-telescopeImage.getMaxTextureWidth() / 2, telescopeImage.getMaxTextureWidth() / 2)
+        guiOffsetY = guiOffsetY.coerceIn(-telescopeImage.getMaxTextureHeight() / 2, telescopeImage.getMaxTextureHeight() / 2)
     }
 
     /**

@@ -23,8 +23,10 @@ class ParticleSmokeScreen(
     {
         // 10-20 second lifespan
         particleMaxAge = rand.nextInt(200) + 200
+
         // Blinding size teleport particles
         particleScale = 3f + rand.nextFloat() * 13f
+
         // Particle moves outwards
         motionX = rand.nextFloat() * 0.07
         motionX = if (rand.nextBoolean()) -motionX - 0.07 else motionX + 0.07

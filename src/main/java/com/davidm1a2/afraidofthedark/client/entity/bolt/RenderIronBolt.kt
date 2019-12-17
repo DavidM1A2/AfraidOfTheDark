@@ -14,6 +14,5 @@ import net.minecraft.util.ResourceLocation
  */
 class RenderIronBolt(renderManager: RenderManager) : RenderBolt<EntityIronBolt>(renderManager)
 {
-    override val boltTexture: ResourceLocation
-        get() = ResourceLocation(Constants.MOD_ID, "textures/entity/iron_bolt.png")
+    override val boltTexture = ResourceLocation(Constants.MOD_ID, "textures/entity/iron_bolt.png")
 }

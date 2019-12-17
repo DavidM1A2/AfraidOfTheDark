@@ -18,6 +18,7 @@ import java.io.IOException
 /**
  * Class representing the spell crating GUI screen used to edit spells
  *
+ * @constructor creates the spell GUI
  * @param spell The spell that this gui will edit
  * @property tablet The tablet left side of the GUI
  * @property scroll The scroll right side of the GUI
@@ -30,34 +31,7 @@ class SpellCraftingGUI(spell: Spell) : AOTDGuiScreen()
     private val scroll: AOTDGuiSpellScroll
     private val selectedCursorIcon: AOTDGuiImage
     private var selectedComponent: AOTDGuiSpellComponentSlot<*>? = null
-        /**
-         * Update the selected component, highlight the component// If we have a previously selected component deselect it
-         * If the new component is non-null update our image texture and highlight the component
-         */
-        private set(selectedComponent)
-        {
-            // If we have a previously selected component deselect it
-            field?.setHighlight(false)
 
-            // If the new component is non-null update our image texture and highlight the component
-            if (selectedComponent != null)
-            {
-                // Update the selected component, highlight the component
-                field = selectedComponent
-                field!!.setHighlight(true)
-                selectedCursorIcon.imageTexture = (field!!.getComponentType()!! as SpellComponent<*>).icon
-                selectedCursorIcon.isVisible = true
-            }
-            else
-            {
-                field = null
-                selectedCursorIcon.isVisible = false
-            }
-        }
-
-    /**
-     * Constructor creates the spell GUI
-     */
     init
     {
         // Clone the spell so we don't modify the original\
@@ -77,7 +51,7 @@ class SpellCraftingGUI(spell: Spell) : AOTDGuiScreen()
             256,
             spellClone,
             { this.selectedComponent },
-            { this.selectedComponent = null }
+            { this.setSelectedComponent(null) }
         )
         contentPane.add(tablet)
 
@@ -90,13 +64,13 @@ class SpellCraftingGUI(spell: Spell) : AOTDGuiScreen()
                 // If we have nothing selected put the component off in the middle of nowhere
                 if (selectedComponent == null)
                 {
-                    selectedCursorIcon.x = -20
-                    selectedCursorIcon.y = -20
+                    selectedCursorIcon.setX(-20)
+                    selectedCursorIcon.setY(-20)
                 }
                 else
                 {
-                    selectedCursorIcon.x = (it.mouseX / tablet.scaleX).toInt() - selectedCursorIcon.widthScaled / 2
-                    selectedCursorIcon.y = (it.mouseY / tablet.scaleY).toInt() - selectedCursorIcon.heightScaled / 2
+                    selectedCursorIcon.setX((it.mouseX / tablet.scaleX).toInt() - selectedCursorIcon.getWidthScaled() / 2)
+                    selectedCursorIcon.setY((it.mouseY / tablet.scaleY).toInt() - selectedCursorIcon.getHeightScaled() / 2)
                 }
             }
         }
@@ -108,7 +82,7 @@ class SpellCraftingGUI(spell: Spell) : AOTDGuiScreen()
             {
                 if (it.clickedButton == AOTDMouseEvent.RIGHT_MOUSE_BUTTON && selectedComponent != null)
                 {
-                    selectedComponent = null
+                    setSelectedComponent(null)
                 }
             }
         }
@@ -116,7 +90,7 @@ class SpellCraftingGUI(spell: Spell) : AOTDGuiScreen()
         // Create the right side scroll to hold the current spell components available
         scroll = AOTDGuiSpellScroll(340, (Constants.GUI_HEIGHT - 256) / 2, 220, 256)
         // When we click a component on the scroll update it as hovered
-        scroll.setComponentClickCallback { selectedComponent = it }
+        scroll.setComponentClickCallback { setSelectedComponent(it) }
         // When we click a component on the tablet update it as being edited
         tablet.componentEditCallback = { scroll.setEditing(it.getComponentInstance()) }
         contentPane.add(scroll)
@@ -136,6 +110,34 @@ class SpellCraftingGUI(spell: Spell) : AOTDGuiScreen()
         // When pressing help on the tablet show the help overlay
         tablet.onHelp = { helpOverlay.isVisible = true }
         contentPane.add(helpOverlay)
+    }
+
+    /**
+     * Update the selected component, highlight the component// If we have a previously selected component deselect it
+     * If the new component is non-null update our image texture and highlight the component
+     *
+     * @param selectedComponent The newly selected component, could be null to clear
+     */
+    private fun setSelectedComponent(selectedComponent: AOTDGuiSpellComponentSlot<*>?)
+    {
+        // If we have a previously selected component deselect it
+        this.selectedComponent?.setHighlight(false)
+
+        // If the new component is non-null update our image texture and highlight the component
+        if (selectedComponent != null)
+        {
+            // Update the selected component, highlight the component
+            this.selectedComponent = selectedComponent
+            this.selectedComponent!!.setHighlight(true)
+            // Cast is not useless, don't trust IJ here :)
+            selectedCursorIcon.imageTexture = (this.selectedComponent!!.getComponentType()!! as SpellComponent<*>).icon
+            selectedCursorIcon.isVisible = true
+        }
+        else
+        {
+            this.selectedComponent = null
+            selectedCursorIcon.isVisible = false
+        }
     }
 
     /**

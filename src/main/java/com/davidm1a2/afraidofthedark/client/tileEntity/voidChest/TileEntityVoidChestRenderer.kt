@@ -1,5 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.tileEntity.voidChest
 
+import com.davidm1a2.afraidofthedark.client.tileEntity.voidChest.TileEntityVoidChestRenderer.MODEL_CHEST
+import com.davidm1a2.afraidofthedark.client.tileEntity.voidChest.TileEntityVoidChestRenderer.VOID_CHEST_TEXTURE
 import com.davidm1a2.afraidofthedark.common.tileEntity.TileEntityVoidChest
 import net.minecraft.client.model.ModelChest
 import net.minecraft.client.renderer.GlStateManager
@@ -10,14 +12,14 @@ import net.minecraftforge.fml.relauncher.SideOnly
 
 /**
  * Class used to render the void chest. Most of this code is from 'TileEntityEnderChestRenderer'
+ *
+ * @property VOID_CHEST_TEXTURE The texture for the void chest
+ * @property MODEL_CHEST Create a chest model that we render our void chest with
  */
 @SideOnly(Side.CLIENT)
 object TileEntityVoidChestRenderer : TileEntitySpecialRenderer<TileEntityVoidChest>()
 {
-    // The texture for the void chest
     private val VOID_CHEST_TEXTURE = ResourceLocation("afraidofthedark:textures/blocks/void_chest/void_chest.png")
-
-    // Create a chest model that we render our void chest with
     private val MODEL_CHEST = ModelChest()
 
     /**
@@ -36,6 +38,7 @@ object TileEntityVoidChestRenderer : TileEntitySpecialRenderer<TileEntityVoidChe
         ///
         /// All code below is from TileEntityEnderChestRender.class::render()
         ///
+
         var i = 0
         if (te.hasWorld())
         {

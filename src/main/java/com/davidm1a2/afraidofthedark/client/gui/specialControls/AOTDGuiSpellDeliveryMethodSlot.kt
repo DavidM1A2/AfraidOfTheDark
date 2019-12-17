@@ -34,7 +34,7 @@ class AOTDGuiSpellDeliveryMethodSlot(x: Int, y: Int, width: Int, height: Int, de
         }
         else
         {
-            this.hoverText = "Empty delivery method slot"
+            this.setHoverText("Empty delivery method slot")
         }
     }
 }

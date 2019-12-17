@@ -14,6 +14,5 @@ import net.minecraft.util.ResourceLocation
  */
 class RenderIgneousBolt(renderManager: RenderManager) : RenderBolt<EntityIgneousBolt>(renderManager)
 {
-    override val boltTexture: ResourceLocation
-        get() = ResourceLocation(Constants.MOD_ID, "textures/entity/igneous_bolt.png")
+    override val boltTexture = ResourceLocation(Constants.MOD_ID, "textures/entity/igneous_bolt.png")
 }

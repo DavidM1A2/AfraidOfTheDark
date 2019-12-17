@@ -23,8 +23,10 @@ class ParticleSpellHit(
     {
         // 0.5-1.5 second lifespan
         particleMaxAge = rand.nextInt(30) + 10
+
         // Make the particles noticable
         particleScale = 1.0f + rand.nextFloat() * 4
+
         // Random motion
         motionX = (rand.nextFloat() - 0.5) * 0.05
         motionY = rand.nextFloat() * 0.02

@@ -77,6 +77,7 @@ class ResearchAchievedOverlay : Gui()
             // Update the notification time to be the current system time
             notificationTime = Minecraft.getSystemTime()
         }
+
         // After this everything is copied from the default MC achievement class
         if (notificationTime != 0L && Minecraft.getMinecraft().player != null)
         {
@@ -86,9 +87,11 @@ class ResearchAchievedOverlay : Gui()
                 notificationTime = 0L
                 return
             }
+
             updateResearchAchievedWindowScale()
             GlStateManager.disableDepth()
             GlStateManager.depthMask(false)
+
             var d1 = d0 * 2.0
             if (d1 > 1.0)
             {
@@ -101,8 +104,10 @@ class ResearchAchievedOverlay : Gui()
                 d1 = 0.0
             }
             d1 = d1 * d1 * d1 * d1
+
             val i = width - 160
             val j = 0 - (d1 * 36.0).toInt()
+
             GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f)
             GlStateManager.enableTexture2D()
             mc.textureManager.bindTexture(ACHIEVEMENT_BACKGROUND)
@@ -135,6 +140,6 @@ class ResearchAchievedOverlay : Gui()
         // The texture of the achievement background
         private val ACHIEVEMENT_BACKGROUND = ResourceLocation(Constants.MOD_ID, "textures/gui/research_achieved.png")
         // The title of the research achieved window
-        private const val ACHIEVEMENT_TITLE = "New Research!"
+        private val ACHIEVEMENT_TITLE = I18n.format("researchextra.title")
     }
 }

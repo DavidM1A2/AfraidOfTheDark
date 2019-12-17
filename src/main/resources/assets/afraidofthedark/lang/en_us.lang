@@ -136,6 +136,9 @@ research.gnomish_city=Gnomish City
 research.enaria=Enaria
 research.enarias_secret=Enaria's Secret
 
+# Research extras
+researchextra.title=New Research!
+
 # Bolt entries
 bolt_entry.wooden=Wooden
 bolt_entry.iron=Iron

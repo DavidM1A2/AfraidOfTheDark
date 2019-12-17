@@ -5,7 +5,7 @@ import net.minecraftforge.common.util.INBTSerializable
 
 open class SpellComponentInstance<T : SpellComponent<T>>(val component: T) : INBTSerializable<NBTTagCompound>
 {
-    lateinit var data: NBTTagCompound
+    var data: NBTTagCompound = NBTTagCompound()
         private set
 
     override fun serializeNBT(): NBTTagCompound

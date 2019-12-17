@@ -17,6 +17,7 @@ import org.lwjgl.util.Color
 /**
  * Gui screen that represents the sextant GUI
  *
+ * @constructor initializes the GUI
  * @property angle The text field containing the meteor's drop angle
  * @property latitude The text field containing the meteor's latitude
  * @property longitude The text field containing the meteor's longitude
@@ -27,13 +28,11 @@ class SextantGUI : AOTDGuiScreen()
     private val latitude: AOTDGuiTextField
     private val longitude: AOTDGuiTextField
 
-    /**
-     * The constructor initializes the GUI
-     */
     init
     {
         // The gui will be 256x256
         val guiSize = 256
+
         // Background panel holds all the gui items
         val background = AOTDGuiPanel((Constants.GUI_WIDTH - guiSize) / 2, (Constants.GUI_HEIGHT - guiSize) / 2, 256, 256, false)
 
@@ -43,19 +42,21 @@ class SextantGUI : AOTDGuiScreen()
 
         // Grab the font for the text fields
         val textFieldFont = ClientData.getTargaMSHandFontSized(45f)
+
         // Initialize fields
         angle = AOTDGuiTextField(15, 108, 120, 30, textFieldFont)
         latitude = AOTDGuiTextField(15, 140, 120, 30, textFieldFont)
         longitude = AOTDGuiTextField(15, 172, 120, 30, textFieldFont)
+
         // All fields are white and contain ghost text based on what they represent
-        angle.textColor = Color(255, 255, 255)
-        angle.ghostText = "Angle"
+        angle.setTextColor(Color(255, 255, 255))
+        angle.setGhostText("Angle")
         background.add(angle)
-        latitude.textColor = Color(255, 255, 255)
-        latitude.ghostText = "Latitude"
+        latitude.setTextColor(Color(255, 255, 255))
+        latitude.setGhostText("Latitude")
         background.add(latitude)
-        longitude.textColor = Color(255, 255, 255)
-        longitude.ghostText = "Longitude"
+        longitude.setTextColor(Color(255, 255, 255))
+        longitude.setGhostText("Longitude")
         background.add(longitude)
 
         // Create a calculate button that performs the math and returns drop location coordinates
@@ -81,9 +82,9 @@ class SextantGUI : AOTDGuiScreen()
                 if (it.source.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                 {
                     // Grab the text fron the text fields
-                    val dropAngleText = angle.text
-                    val latitudeText = latitude.text
-                    val longitudeText = longitude.text
+                    val dropAngleText = angle.getText()
+                    val latitudeText = latitude.getText()
+                    val longitudeText = longitude.getText()
                     // If any of the fields are empty print a message
                     if (dropAngleText.isEmpty() || latitudeText.isEmpty() || longitudeText.isEmpty())
                     {

@@ -14,6 +14,5 @@ import net.minecraft.util.ResourceLocation
  */
 class RenderWoodenBolt(renderManager: RenderManager) : RenderBolt<EntityWoodenBolt>(renderManager)
 {
-    override val boltTexture: ResourceLocation
-        get() = ResourceLocation(Constants.MOD_ID, "textures/entity/wooden_bolt.png")
+    override val boltTexture = ResourceLocation(Constants.MOD_ID, "textures/entity/wooden_bolt.png")
 }

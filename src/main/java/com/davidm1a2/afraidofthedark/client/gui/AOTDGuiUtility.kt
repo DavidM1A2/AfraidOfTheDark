@@ -1,19 +1,16 @@
 package com.davidm1a2.afraidofthedark.client.gui
 
-import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility.clipboardString
-import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility.isCtrlKeyDown
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility.minecraft
-import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility.mouseXInMCCoord
-import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility.mouseYInMCCoord
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility.scaledResolution
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.ScaledResolution
-import org.apache.commons.lang3.StringUtils
 import org.lwjgl.input.Keyboard
 import org.lwjgl.input.Mouse
 import java.awt.Toolkit
 import java.awt.datatransfer.DataFlavor
 import java.awt.datatransfer.StringSelection
+import java.awt.datatransfer.UnsupportedFlavorException
+import java.io.IOException
 
 /**
  * Class that allows for scaling and resizing UI components to fit the screen more easily
@@ -21,54 +18,11 @@ import java.awt.datatransfer.StringSelection
  * @constructor just initializes fields
  * @property minecraft The minecraft instance
  * @property scaledResolution Getter for scaled resolution, returns the last scaled resolution that was build by refreshScaledResolution()
- * @property mouseXInMCCoord the mouse's X current position in MC coordinates
- * @property mouseYInMCCoord the mouse's Y current position in MC coordinates
- * @property isCtrlKeyDown True if the ctrl or cmd key is down, false otherwise
- * @property clipboardString the current system clipboard text
  */
 object AOTDGuiUtility
 {
     private val minecraft = Minecraft.getMinecraft()
     private var scaledResolution: ScaledResolution = ScaledResolution(minecraft)
-
-    val mouseXInMCCoord: Int
-        get() = Mouse.getX() * this.scaledResolution.scaledWidth / minecraft.displayWidth
-    val mouseYInMCCoord: Int
-        get()
-        {
-            val scaledHeight = this.scaledResolution.scaledHeight
-            return scaledHeight - Mouse.getY() * scaledHeight / Minecraft.getMinecraft().displayHeight - 1
-        }
-
-    val isCtrlKeyDown: Boolean
-        get() =
-            if (Minecraft.IS_RUNNING_ON_MAC)
-                Keyboard.isKeyDown(Keyboard.KEY_LMETA) || Keyboard.isKeyDown(Keyboard.KEY_RMETA)
-            else
-                Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)
-
-    var clipboardString: String
-        get()
-        {
-            val contents = Toolkit.getDefaultToolkit().systemClipboard.getContents(null)
-            if (contents != null && contents.isDataFlavorSupported(DataFlavor.stringFlavor))
-            {
-                val data = contents.getTransferData(DataFlavor.stringFlavor)
-                if (data is String)
-                {
-                    return data
-                }
-            }
-            return StringUtils.EMPTY
-        }
-        set(text)
-        {
-            if (!StringUtils.isEmpty(text))
-            {
-                val stringSelection = StringSelection(text)
-                Toolkit.getDefaultToolkit().systemClipboard.setContents(stringSelection, null)
-            }
-        }
 
     /**
      * Forces our scaled resolution variable to update to the current window size, this ensures that all scale calls are accurate
@@ -109,5 +63,89 @@ object AOTDGuiUtility
     fun realScreenYToGLYCoord(realScreenY: Int): Int
     {
         return minecraft.displayHeight - realScreenY
+    }
+
+    /**
+     * @return Returns the mouse's X current position in MC coordinates
+     */
+    fun getMouseXInMCCoord(): Int
+    {
+        return Mouse.getX() * this.scaledResolution.scaledWidth / minecraft.displayWidth
+    }
+
+    /**
+     * @return Returns the mouse's Y current position in MC coordinates
+     */
+    fun getMouseYInMCCoord(): Int
+    {
+        val scaledHeight: Int = this.scaledResolution.scaledHeight
+        return scaledHeight - Mouse.getY() * scaledHeight / Minecraft.getMinecraft().displayHeight - 1
+    }
+
+    /**
+     * @return true if either windows ctrl key is down or if either mac meta key is down
+     */
+    fun isCtrlKeyDown(): Boolean
+    {
+        return if (Minecraft.IS_RUNNING_ON_MAC)
+        {
+            Keyboard.isKeyDown(Keyboard.KEY_LMETA) || Keyboard.isKeyDown(Keyboard.KEY_RMETA)
+        }
+        else
+        {
+            Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)
+        }
+    }
+
+    /**
+     * Sets the current system clipboard to hold the given text
+     *
+     * @param text The text that was cut/copied
+     */
+    fun setClipboardString(text: String)
+    {
+        // Empty strings are not allowed to be copied
+        if (text.isNotEmpty())
+        {
+            // Use string selection to store our text
+            val stringSelection = StringSelection(text)
+            // Set the clipboard's contents
+            Toolkit.getDefaultToolkit().systemClipboard.setContents(stringSelection, null)
+        }
+    }
+
+    /**
+     * Tests if the clipboard has a string in it, if so returns it, if not returns empty string
+     *
+     * @return The current text in the clipboard or ""
+     */
+    fun getClipboardString(): String
+    {
+        // Get the current clipboard contents
+        val contents = Toolkit.getDefaultToolkit().systemClipboard.getContents(null)
+
+        // Make sure the clipboard has a string
+        if (contents != null && contents.isDataFlavorSupported(DataFlavor.stringFlavor))
+        {
+            // Attempt to parse that data
+            try
+            {
+                // Get the string from the clipboard contents
+                val data = contents.getTransferData(DataFlavor.stringFlavor)
+
+                // If the data is a string, return it
+                if (data is String)
+                {
+                    return data
+                }
+            } catch (ignored: UnsupportedFlavorException)
+            {
+            } catch (ignored: IOException)
+            {
+            }
+        }
+
+        // Return default empty string
+        return ""
     }
 }

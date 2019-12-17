@@ -44,7 +44,7 @@ class RenderGhastlyEnaria(renderManager: RenderManager) : RenderLiving<EntityGha
      * @param entityLiving    The entity to render
      * @param partialTickTime The partial ticks that have gone by since the last frame
      */
-    override fun preRenderCallback(entityLiving: EntityGhastlyEnaria?, partialTickTime: Float)
+    override fun preRenderCallback(entityLiving: EntityGhastlyEnaria, partialTickTime: Float)
     {
         GL11.glRotatef(180f, 0f, 1f, 0f)
         GL11.glRotatef(180f, 0f, 0f, 1f)

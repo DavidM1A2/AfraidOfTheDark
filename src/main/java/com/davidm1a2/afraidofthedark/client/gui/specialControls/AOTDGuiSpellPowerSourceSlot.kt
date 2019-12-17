@@ -32,7 +32,7 @@ class AOTDGuiSpellPowerSourceSlot(x: Int, y: Int, width: Int, height: Int, power
         }
         else
         {
-            this.hoverText = "Empty power source slot"
+            this.setHoverText("Empty power source slot")
         }
     }
 }
