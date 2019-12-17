@@ -43,6 +43,7 @@ class AfraidOfTheDark
 
     // Logger used to log any debug messages relating to AOTD
     lateinit var logger: Logger
+        private set
 
     // Configuration handler used to read and update the afraidofthedark.cfg file
     lateinit var configurationHandler: ConfigurationHandler
