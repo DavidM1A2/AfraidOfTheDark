@@ -36,6 +36,7 @@ object KeyInputEventHandler
      * @param event The key event containing press information
      */
     @SubscribeEvent
+    @Suppress("UNUSED_PARAMETER")
     fun handleKeyInputEvent(event: KeyInputEvent)
     {
         // Process input

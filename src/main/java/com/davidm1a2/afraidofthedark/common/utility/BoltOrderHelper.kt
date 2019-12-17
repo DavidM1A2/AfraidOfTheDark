@@ -21,6 +21,7 @@ object BoltOrderHelper
      */
     fun getNextBoltIndex(entityPlayer: EntityPlayer, currentBoltIndex: Int): Int
     {
+        @Suppress("NAME_SHADOWING")
         var currentBoltIndex = currentBoltIndex
         var preRequisite: Research?
 

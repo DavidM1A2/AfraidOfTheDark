@@ -69,11 +69,11 @@ class SyncItemWithCooldown : IMessage
         /**
          * Handles the packet on client side
          *
-         * @param entityPlayer the player reference (the player who received the packet)
+         * @param player the player reference (the player who received the packet)
          * @param msg          the message received
          * @param ctx          the message context object. This contains additional information about the packet.
          */
-        override fun handleClientMessage(entityPlayer: EntityPlayer, msg: SyncItemWithCooldown, ctx: MessageContext)
+        override fun handleClientMessage(player: EntityPlayer, msg: SyncItemWithCooldown, ctx: MessageContext)
         {
             // Compute the difference between client and server time and store that info
             msg.itemToSync.updateServerClientDifference(System.currentTimeMillis() - msg.timeServer)

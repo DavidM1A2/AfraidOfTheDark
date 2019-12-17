@@ -188,6 +188,7 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
     fun setText(text: String)
     {
         // Make sure that the text contains valid characters
+        @Suppress("NAME_SHADOWING")
         var text = text
         text = ChatAllowedCharacters.filterAllowedCharacters(text)
         // Now we test if we should show ghost text or not

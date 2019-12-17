@@ -146,6 +146,7 @@ class StructureGnomishCity : AOTDStructure("gnomish_city")
     override fun generateStructureData(world: World, blockPos: BlockPos, biomeProvider: BiomeProvider): NBTTagCompound
     {
         // Create an nbt compound to return
+        @Suppress("NAME_SHADOWING")
         var blockPos = blockPos
         val compound = NBTTagCompound()
         // Set the block pos to be at y=20 where all gnomish cities spawn at

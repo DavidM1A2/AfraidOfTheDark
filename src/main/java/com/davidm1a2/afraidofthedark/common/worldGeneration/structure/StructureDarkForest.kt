@@ -428,6 +428,7 @@ class StructureDarkForest : AOTDStructure("dark_forest")
             EnumFacing.WEST -> xMin = gutter.x + trunkSize
             EnumFacing.NORTH -> zMax = gutter.y + gutter.height - trunkSize
             EnumFacing.SOUTH -> zMin = gutter.y + trunkSize
+            else -> throw IllegalArgumentException("Expected a side NORTH/SOUTH/EAST/WEST but got '$bedHouseSide'")
         }
 
         // Move the schematic so that the tree is centered in the position

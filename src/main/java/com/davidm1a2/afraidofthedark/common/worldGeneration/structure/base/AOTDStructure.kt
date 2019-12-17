@@ -77,10 +77,11 @@ abstract class AOTDStructure(baseName: String) : Structure()
      */
     override fun generateStructureData(world: World, blockPos: BlockPos, biomeProvider: BiomeProvider): NBTTagCompound
     {
+        @Suppress("NAME_SHADOWING")
         var blockPos = blockPos
         val compound = NBTTagCompound()
         // By default set the position to be on ground level
-        val yPos = processChunks(LowestHeightChunkProcessor(OverworldHeightmap.get(world)), InteriorChunkIterator(this, blockPos))!!
+        val yPos = processChunks(LowestHeightChunkProcessor(OverworldHeightmap.get(world)), InteriorChunkIterator(this, blockPos))
 
         // Update the y coordinate
         blockPos = BlockPos(blockPos.x, yPos, blockPos.z)

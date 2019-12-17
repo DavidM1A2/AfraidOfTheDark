@@ -186,7 +186,7 @@ class ItemResearchScroll : AOTDItem("research_scroll")
     {
         return if (NBTHelper.hasTag(itemStack, NBT_RESEARCH_ID))
         {
-            ModRegistries.RESEARCH.getValue(ResourceLocation(NBTHelper.getString(itemStack, NBT_RESEARCH_ID)))
+            ModRegistries.RESEARCH.getValue(ResourceLocation(NBTHelper.getString(itemStack, NBT_RESEARCH_ID)!!))
         }
         else
         {

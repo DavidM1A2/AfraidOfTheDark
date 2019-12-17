@@ -30,6 +30,7 @@ object RegistryRegister
      */
     @JvmStatic
     @SubscribeEvent
+    @Suppress("UNUSED_PARAMETER")
     fun registryRegister(event: NewRegistry)
     {
         // Create a new registry for structures with the name 'afraidofthedark:structures'

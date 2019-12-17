@@ -26,6 +26,7 @@ class AOTDGuiHandler : IGuiHandler
      */
     override fun getServerGuiElement(ID: Int, player: EntityPlayer, world: World, x: Int, y: Int, z: Int): Any?
     {
+        @Suppress("UNUSED_EXPRESSION")
         return when (ID)
         {
             else -> null

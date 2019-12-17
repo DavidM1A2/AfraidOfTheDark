@@ -59,6 +59,7 @@ abstract class AOTDBlockTileEntity(name: String, material: Material, displayInCr
      * @param param   The event parameter, not sure what this does
      * @return True to call this on the client, false otherwise
      */
+    @Suppress("DEPRECATION")
     override fun eventReceived(state: IBlockState, worldIn: World, pos: BlockPos, id: Int, param: Int): Boolean
     {
         super.eventReceived(state, worldIn, pos, id, param)

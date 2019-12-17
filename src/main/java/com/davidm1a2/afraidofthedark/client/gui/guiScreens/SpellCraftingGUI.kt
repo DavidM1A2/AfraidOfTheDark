@@ -130,6 +130,7 @@ class SpellCraftingGUI(spell: Spell) : AOTDGuiScreen()
             this.selectedComponent = selectedComponent
             this.selectedComponent!!.setHighlight(true)
             // Cast is not useless, don't trust IJ here :)
+            @Suppress("USELESS_CAST")
             selectedCursorIcon.imageTexture = (this.selectedComponent!!.getComponentType()!! as SpellComponent<*>).icon
             selectedCursorIcon.isVisible = true
         }

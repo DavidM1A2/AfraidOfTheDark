@@ -56,6 +56,7 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
      */
     constructor(world: World, spell: Spell, spellIndex: Int, position: Vec3d, velocity: Vec3d?) : this(world)
     {
+        @Suppress("NAME_SHADOWING")
         var velocity = velocity
         this.spell = spell
         this.spellIndex = spellIndex
@@ -127,9 +128,9 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
                 // We are in the air, so increment our counter
                 ticksInAir++
                 // Perform a ray case to test if we've hit something. We can only hit the entity that fired the projectile after 25 ticks
+                // Intellij says 'shooter' should always be non-null, that is not the case....
                 val rayTraceResult: RayTraceResult? = ProjectileHelper.forwardsRaycast(this, true, ticksInAir >= 25, shooter)
                 // If the ray trace hit something, perform the hit effect
-                // Intellij says this is always non-null, that is not the case....
                 if (rayTraceResult != null)
                 {
                     onImpact(rayTraceResult)

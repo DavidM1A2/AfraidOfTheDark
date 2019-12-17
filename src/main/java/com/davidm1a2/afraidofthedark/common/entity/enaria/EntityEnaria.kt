@@ -179,6 +179,7 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity
             this.entityData.setLong(NBT_LAST_HIT, timeBetweenHits)
 
             // Make amount mutable
+            @Suppress("NAME_SHADOWING")
             var amount = amount
             // Kill the entity if damage received is FLOAT.MAX_VALUE
             if (amount == Float.MAX_VALUE)

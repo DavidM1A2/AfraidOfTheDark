@@ -70,6 +70,7 @@ class ModColorRegister
         itemColors.registerItemColorHandler(IItemColor
         { stack: ItemStack, tintIndex: Int ->
             // Grab the state of the block if it was placed in the world
+            @Suppress("DEPRECATION")
             val iBlockState = (stack.item as ItemBlock).block.getStateFromMeta(stack.metadata)
             blockColors.colorMultiplier(iBlockState, null, null, tintIndex)
         }, *leafBlocks

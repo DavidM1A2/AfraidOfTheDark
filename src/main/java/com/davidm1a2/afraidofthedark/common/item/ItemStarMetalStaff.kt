@@ -124,6 +124,7 @@ class ItemStarMetalStaff : AOTDItemWithSharedCooldown("star_metal_staff")
     {
         // Server side processing only
         // Make 'count' mutable...
+        @Suppress("NAME_SHADOWING")
         var count = count
         if (!entityLivingBase.world.isRemote)
         {

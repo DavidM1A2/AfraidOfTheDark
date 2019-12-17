@@ -53,7 +53,8 @@ class ItemRegister
      * @param event The event that signifies that ModelLoader is ready to receive item
      */
     @SubscribeEvent
-    fun registerItemRenderers(event: ModelRegistryEvent?)
+    @Suppress("UNUSED_PARAMETER")
+    fun registerItemRenderers(event: ModelRegistryEvent)
     {
         // Ensure any special models are registered
         OBJLoader.INSTANCE.addDomain(Constants.MOD_ID)

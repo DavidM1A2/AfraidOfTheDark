@@ -166,6 +166,7 @@ class AfraidOfTheDark
      * @param event Register the research achieved overlay on the client side only
      */
     @Mod.EventHandler
+    @Suppress("UNUSED_PARAMETER")
     fun postInitialization(event: FMLPostInitializationEvent)
     {
     }

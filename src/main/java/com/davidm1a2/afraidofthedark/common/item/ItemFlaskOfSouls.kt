@@ -306,7 +306,7 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls")
     {
         return if (NBTHelper.hasTag(itemStack, NBT_FLASK_TYPE))
         {
-            ResourceLocation(NBTHelper.getString(itemStack, NBT_FLASK_TYPE))
+            ResourceLocation(NBTHelper.getString(itemStack, NBT_FLASK_TYPE)!!)
         }
         else
         {

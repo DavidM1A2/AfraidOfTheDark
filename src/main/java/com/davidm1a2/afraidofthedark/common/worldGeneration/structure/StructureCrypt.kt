@@ -121,6 +121,7 @@ class StructureCrypt : AOTDStructure("crypt")
      */
     override fun generateStructureData(world: World, blockPos: BlockPos, biomeProvider: BiomeProvider): NBTTagCompound
     {
+        @Suppress("NAME_SHADOWING")
         var blockPos = blockPos
         val compound = NBTTagCompound()
 

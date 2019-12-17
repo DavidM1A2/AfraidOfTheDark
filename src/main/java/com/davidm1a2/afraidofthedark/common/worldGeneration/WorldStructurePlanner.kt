@@ -100,7 +100,7 @@ class WorldStructurePlanner
                     positions[1] = topRight.add(-random.nextInt(16), 0, -random.nextInt(16))
 
                     // Position the structure in the top left of the chunk
-                    val topLeft = chunk0Corner.add(0 - structure!!.getXWidth() + 1, 0, 15)
+                    val topLeft = chunk0Corner.add(0 - structure.getXWidth() + 1, 0, 15)
                     positions[2] = topLeft
                     positions[3] = topLeft.add(random.nextInt(16), 0, -random.nextInt(16))
 

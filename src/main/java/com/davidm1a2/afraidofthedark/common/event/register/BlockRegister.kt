@@ -40,6 +40,7 @@ class BlockRegister
      * @param event The event that signifies that ModelLoader is ready to receive blocks
      */
     @SubscribeEvent
+    @Suppress("UNUSED_PARAMETER")
     fun registerBlockRenderers(event: ModelRegistryEvent)
     {
         // Register models for all blocks in our mod

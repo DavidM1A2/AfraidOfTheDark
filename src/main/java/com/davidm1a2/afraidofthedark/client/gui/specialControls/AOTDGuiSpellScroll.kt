@@ -188,6 +188,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
             val heading = AOTDGuiLabel(0, currentY, 120, 30, ClientData.getTargaMSHandFontSized(32f))
             heading.textColor = purpleText
             // This cast is required even though IntelliJ doesn't agree
+            @Suppress("USELESS_CAST")
             val spellComponent = componentInstance.component as SpellComponent<*>
             heading.text = "${I18n.format(spellComponent.getUnlocalizedName())} Properties"
             editPanel.add(heading)

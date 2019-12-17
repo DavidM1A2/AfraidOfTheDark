@@ -247,7 +247,7 @@ object NBTHelper
         // Make sure the item stack has an NBT tag compound, if not add it
         initNBTTagCompound(itemStack)
         // Set the short value onto the tag compound
-        itemStack.tagCompound!!.setShort(keyName, keyValue!!)
+        itemStack.tagCompound!!.setShort(keyName, keyValue)
     }
 
     /**
@@ -340,7 +340,7 @@ object NBTHelper
         // Make sure the item stack has an NBT tag compound, if not add it
         initNBTTagCompound(itemStack)
         // Set the double value onto the tag compound
-        itemStack.tagCompound!!.setDouble(keyName, keyValue!!)
+        itemStack.tagCompound!!.setDouble(keyName, keyValue)
     }
 
     /**

@@ -64,25 +64,25 @@ class FireWristCrossbow : IMessage
         /**
          * Called when the server receives the packet
          *
-         * @param entityPlayer The player that sent the message
+         * @param player The player that sent the message
          * @param msg          the message received
          * @param ctx          The message's context
          */
-        override fun handleServerMessage(entityPlayer: EntityPlayer, msg: FireWristCrossbow, ctx: MessageContext)
+        override fun handleServerMessage(player: EntityPlayer, msg: FireWristCrossbow, ctx: MessageContext)
         {
             // Only fire a bolt if the player is in creative or has the right bolt item
-            if (entityPlayer.capabilities.isCreativeMode || entityPlayer.inventory.clearMatchingItems(msg.selectedBolt.boltItem, -1, 1, null) == 1)
+            if (player.capabilities.isCreativeMode || player.inventory.clearMatchingItems(msg.selectedBolt.boltItem, -1, 1, null) == 1)
             {
-                val world = entityPlayer.world
+                val world = player.world
 
                 // Play a fire sound effect
-                world.playSound(null, entityPlayer.position, ModSounds.CROSSBOW_FIRE, SoundCategory.PLAYERS, 0.5f, world.rand.nextFloat() * 0.4f + 0.8f)
+                world.playSound(null, player.position, ModSounds.CROSSBOW_FIRE, SoundCategory.PLAYERS, 0.5f, world.rand.nextFloat() * 0.4f + 0.8f)
 
                 // Instantiate bolt!
-                val bolt = msg.selectedBolt.boltEntityFactory(world, entityPlayer)
+                val bolt = msg.selectedBolt.boltEntityFactory(world, player)
 
                 // Aim and fire the bolt
-                bolt.shoot(entityPlayer, entityPlayer.rotationPitch, entityPlayer.rotationYaw, 0f, 3f, 0f)
+                bolt.shoot(player, player.rotationPitch, player.rotationYaw, 0f, 3f, 0f)
 
                 // Push the bolt slightly forward so it does not collide with the player
                 bolt.posX = bolt.posX + bolt.motionX * 0.4

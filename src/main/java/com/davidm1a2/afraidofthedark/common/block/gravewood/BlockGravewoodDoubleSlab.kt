@@ -17,7 +17,7 @@ class BlockGravewoodDoubleSlab : AOTDSlab("gravewood_double_slab", Material.WOOD
      */
     override fun getOpposite(): BlockSlab
     {
-        return ModBlocks.GRAVEWOOD_HALF_SLAB as BlockSlab
+        return ModBlocks.GRAVEWOOD_HALF_SLAB
     }
 
     /**

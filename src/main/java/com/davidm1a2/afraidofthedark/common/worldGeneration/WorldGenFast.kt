@@ -29,6 +29,7 @@ object WorldGenFast
         Code copied and modified:
          */
 
+        @Suppress("NAME_SHADOWING")
         var pos = pos
         return if (world.isOutsideBuildHeight(pos))
         {

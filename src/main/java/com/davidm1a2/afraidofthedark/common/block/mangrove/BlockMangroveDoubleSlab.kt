@@ -17,7 +17,7 @@ class BlockMangroveDoubleSlab : AOTDSlab("mangrove_double_slab", Material.WOOD)
      */
     override fun getOpposite(): BlockSlab
     {
-        return ModBlocks.MANGROVE_HALF_SLAB as BlockSlab
+        return ModBlocks.MANGROVE_HALF_SLAB
     }
 
     /**

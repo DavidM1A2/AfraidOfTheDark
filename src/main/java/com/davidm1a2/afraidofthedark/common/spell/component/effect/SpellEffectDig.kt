@@ -56,6 +56,7 @@ class SpellEffectDig : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "dig")
     private fun canBlockBeDestroyed(world: World, blockPos: BlockPos): Boolean
     {
         val blockState = world.getBlockState(blockPos)
+        @Suppress("DEPRECATION")
         return blockState.block.getBlockHardness(blockState, world, blockPos) != -1f
     }
 

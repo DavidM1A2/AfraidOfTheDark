@@ -327,7 +327,7 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
             // If we have another recipe load it into the top left box, otherwise clear it
             topRightRecipe.setRecipe(if (researchRecipes.hasIndex(adjustedIndexForRecipe)) researchRecipes[adjustedIndexForRecipe++] else null)
             // If we have another recipe load it into the bottom left box, otherwise clear it
-            bottomRightRecipe.setRecipe(if (researchRecipes.hasIndex(adjustedIndexForRecipe)) researchRecipes[adjustedIndexForRecipe++] else null)
+            bottomRightRecipe.setRecipe(if (researchRecipes.hasIndex(adjustedIndexForRecipe)) researchRecipes[adjustedIndexForRecipe] else null)
         }
     }
 

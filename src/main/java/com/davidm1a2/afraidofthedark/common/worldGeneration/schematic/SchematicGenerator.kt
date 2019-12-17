@@ -188,6 +188,7 @@ object SchematicGenerator
                             if (!PHASE_2_BLOCKS.contains(nextToPlace))
                             {
                                 // Grab the blockstate to place
+                                @Suppress("DEPRECATION")
                                 val blockState = blocks[index].getStateFromMeta(data[index])
                                 // Otherwise set the block based on state from the data array
                                 WorldGenFast.setBlockStateFast(world, position, blockState, setBlockFlags)
@@ -213,6 +214,7 @@ object SchematicGenerator
             val index = phase2Blocks[i]
             val position = phase2Positions[i]
             // Grab the block state
+            @Suppress("DEPRECATION")
             val blockState = blocks[index].getStateFromMeta(data[index])
             // Set the block
             WorldGenFast.setBlockStateFast(world, position, blockState, setBlockFlags)
@@ -341,6 +343,7 @@ object SchematicGenerator
      * @param blockPos  The position the schematic was generated at
      * @param chunkPos  The chunk position the schematic was generated at
      */
+    @Suppress("UNUSED_PARAMETER")
     private fun computeLight(schematic: Schematic, world: World, blockPos: BlockPos, chunkPos: ChunkPos?)
     {
         /*

@@ -23,6 +23,7 @@ class ResearchOverlayHandler
      */
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
+    @Suppress("UNUSED_PARAMETER")
     fun onRenderGameOverlayEventChat(event: Chat)
     {
         researchAchievedOverlay.updateResearchAchievedWindow()
