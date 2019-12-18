@@ -34,6 +34,7 @@ class BlockGravewoodSapling : AOTDSapling("gravewood_sapling")
         {
             return
         }
+
         // Create a tree generator based on the gavewood log and leaf types
         val treeGenerator: WorldGenerator = WorldGenTrees(
             true,
@@ -42,8 +43,10 @@ class BlockGravewoodSapling : AOTDSapling("gravewood_sapling")
             ModBlocks.GRAVEWOOD_LEAVES.defaultState.withProperty(BlockLeaves.CHECK_DECAY, false),
             false
         )
+
         // Remove the sapling block
         world.setBlockState(pos, Blocks.AIR.defaultState, 4)
+
         // Attempt to generate the tree, if it fails, set the base block back to its original state
         if (!treeGenerator.generate(world, random, pos))
         {

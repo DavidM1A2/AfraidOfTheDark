@@ -14,14 +14,16 @@ import net.minecraft.entity.player.EntityPlayerMP
  *
  * @property startedAOTD Flag telling us if the user has started the mod or not
  * @property selectedWristCrossbowBoltIndex Integer telling us what bolt the wrist crossbow is currently set to fire
+ * @property watchedMeteor The meteor the player is currently observing (was last clicked in telescope)
+ * @property watchedMeteorDropAngle <\
+ * @property watchedMeteorLatitude    - The  3 properties of the watched meteor
+ * @property watchedMeteorLongitude </
  */
 class AOTDPlayerBasicsImpl : IAOTDPlayerBasics
 {
     override var startedAOTD = false
     override var selectedWristCrossbowBoltIndex = 0
-    // The meteor the player is currently observing (was last clicked in telescope)
     private var watchedMeteor: MeteorEntry? = null
-    // The 3 properties of the watched meteor
     private var watchedMeteorDropAngle: Int = -1
     private var watchedMeteorLatitude: Int = -1
     private var watchedMeteorLongitude: Int = -1

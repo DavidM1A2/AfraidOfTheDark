@@ -39,6 +39,6 @@ class BlockGlowStalk : AOTDBlock("glow_stalk", Material.GROUND)
      */
     override fun getItemDropped(state: IBlockState, rand: Random, fortune: Int): Item
     {
-        return if (rand.nextBoolean()) Item.getItemFromBlock(Blocks.BROWN_MUSHROOM) else Item.getItemFromBlock(Blocks.RED_MUSHROOM)
+        return Item.getItemFromBlock(if (rand.nextBoolean()) Blocks.BROWN_MUSHROOM else Blocks.RED_MUSHROOM)
     }
 }

@@ -29,8 +29,8 @@ abstract class AOTDSlab(baseName: String, material: Material) : BlockSlab(materi
     init
     {
         // Set the name of the slab
-        unlocalizedName = Constants.MOD_ID + ":" + baseName
-        this.setRegistryName(Constants.MOD_ID + ":" + baseName)
+        unlocalizedName = "${Constants.MOD_ID}:$baseName"
+        this.setRegistryName("${Constants.MOD_ID}:$baseName")
         // We must set the hardness to something otherwise it will be 0 by default
         setHardness(2.0f)
         // If the slab is not a double slab, add it to creative mode and make sure it's state is set to the bottom slab state
@@ -82,11 +82,11 @@ abstract class AOTDSlab(baseName: String, material: Material) : BlockSlab(materi
         // If it's a half slab we just return the item stack, if it's a double slab we get the opposite which is the half slab
         return if (!this.isDouble)
         {
-            ItemStack(this, 1, 0)
+            ItemStack(this)
         }
         else
         {
-            ItemStack(getOpposite(), 1, 0)
+            ItemStack(getOpposite())
         }
     }
 
@@ -100,6 +100,7 @@ abstract class AOTDSlab(baseName: String, material: Material) : BlockSlab(materi
     {
         // Start with the default state
         var iBlockState = this.defaultState.withProperty(VARIANT, Variant.DEFAULT)
+
         // if it's a half slab, store if the slab is on top or on bottom
         if (!this.isDouble)
         {
@@ -108,6 +109,7 @@ abstract class AOTDSlab(baseName: String, material: Material) : BlockSlab(materi
                 if (IS_TOP_FIELD.getValue(meta) == 1) EnumBlockHalf.TOP else EnumBlockHalf.BOTTOM
             )
         }
+
         return iBlockState
     }
 

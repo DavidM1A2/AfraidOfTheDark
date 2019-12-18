@@ -30,10 +30,7 @@ class AOTDPlayerSpellCharmDataStorage : IStorage<IAOTDPlayerSpellCharmData>
         // Create a compound to write
         val nbt = NBTTagCompound()
         nbt.setInteger(NBT_CHARM_TICKS, instance.charmTicks)
-        if (instance.charmingEntityId != null)
-        {
-            nbt.setTag(NBT_CHARMING_ENTITY, NBTUtil.createUUIDTag(instance.charmingEntityId!!))
-        }
+        instance.charmingEntityId?.let { nbt.setTag(NBT_CHARMING_ENTITY, NBTUtil.createUUIDTag(it)) }
         return nbt
     }
 
@@ -56,9 +53,14 @@ class AOTDPlayerSpellCharmDataStorage : IStorage<IAOTDPlayerSpellCharmData>
         if (nbt is NBTTagCompound)
         {
             instance.charmTicks = nbt.getInteger(NBT_CHARM_TICKS)
+
             if (nbt.hasKey(NBT_CHARMING_ENTITY))
             {
                 instance.charmingEntityId = NBTUtil.getUUIDFromTag(nbt.getCompoundTag(NBT_CHARMING_ENTITY))
+            }
+            else
+            {
+                instance.charmingEntityId = null
             }
         }
         else

@@ -35,18 +35,21 @@ class AOTDPlayerSpellManagerStorage : IStorage<IAOTDPlayerSpellManager>
         val compound = NBTTagCompound()
         // Create a list of nbt spells
         val spellsNBT = NBTTagList()
+
         // Write each spell to NBT
-        for (spell in instance.spells)
+        for (spell in instance.getSpells())
         {
             // Write the spell to NBT
             spellsNBT.appendTag(spell.serializeNBT())
         }
+
         // Set the spell list into the compound
         compound.setTag(NBT_SPELLS_LIST, spellsNBT)
+
         // Go over each keybind and store it off
         val keybindingsNBT = NBTTagList()
         // Go over every spell that has a keybinding
-        for (spell in instance.spells)
+        for (spell in instance.getSpells())
         {
             // Grab the keybinding for the spell, test if it's valid
             val keybinding = instance.getKeybindingForSpell(spell)
@@ -95,7 +98,7 @@ class AOTDPlayerSpellManagerStorage : IStorage<IAOTDPlayerSpellManager>
                 instance.addOrUpdateSpell(spell)
             }
             // A utility temp map of uuid -> spell for use in determining keybinds in O(1) for extra memory usage
-            val idToSpell: Map<UUID, Spell> = instance.spells
+            val idToSpell: Map<UUID, Spell> = instance.getSpells()
                 .map { it.id to it }
                 .toMap()
 

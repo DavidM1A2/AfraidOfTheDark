@@ -15,8 +15,8 @@ abstract class AOTDStairs(baseName: String, modelState: IBlockState) : BlockStai
 {
     init
     {
-        unlocalizedName = Constants.MOD_ID + ":" + baseName
-        this.setRegistryName(Constants.MOD_ID + ":" + baseName)
+        unlocalizedName = "${Constants.MOD_ID}:$baseName"
+        this.setRegistryName("${Constants.MOD_ID}:$baseName")
         setCreativeTab(Constants.AOTD_CREATIVE_TAB)
     }
 }

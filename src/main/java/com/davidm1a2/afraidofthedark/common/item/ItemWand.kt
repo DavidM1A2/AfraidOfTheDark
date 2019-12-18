@@ -68,7 +68,7 @@ class ItemWand : AOTDItem("wand")
                 else
                 {
                     // Grab the spell list
-                    val spells = spellManager.spells
+                    val spells = spellManager.getSpells()
 
                     // Go over each spell in the list
                     val iterator = spells.iterator()
@@ -141,9 +141,9 @@ class ItemWand : AOTDItem("wand")
         // Grab the player's spell manager
         val spellManager = entityPlayer.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null)!!
         // If they have at least one spell grab it
-        if (spellManager.spells.isNotEmpty())
+        if (spellManager.getSpells().isNotEmpty())
         {
-            val next = spellManager.spells[0]
+            val next = spellManager.getSpells()[0]
             // Server side sending only, tell the player the spell was updated
             if (!entityPlayer.world.isRemote)
             {

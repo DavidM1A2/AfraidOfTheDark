@@ -25,9 +25,13 @@ class AOTDPlayerResearchStorage : IStorage<IAOTDPlayerResearch>
     {
         // Create a compound to write
         val compound = NBTTagCompound()
+
         // Write each researches name as a key with true/false as the value
         for (research in ModRegistries.RESEARCH)
+        {
             compound.setBoolean(research.registryName.toString(), instance.isResearched(research))
+        }
+
         return compound
     }
 
@@ -50,7 +54,10 @@ class AOTDPlayerResearchStorage : IStorage<IAOTDPlayerResearch>
         if (nbt is NBTTagCompound)
         {
             // For each research if we have researched it unlock that research in our instance
-            for (research in ModRegistries.RESEARCH) instance.setResearch(research, nbt.getBoolean(research.registryName.toString()))
+            for (research in ModRegistries.RESEARCH)
+            {
+                instance.setResearch(research, nbt.getBoolean(research.registryName.toString()))
+            }
         }
         else
         {

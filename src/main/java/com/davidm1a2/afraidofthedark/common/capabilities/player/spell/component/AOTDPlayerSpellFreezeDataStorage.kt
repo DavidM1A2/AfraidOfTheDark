@@ -30,11 +30,11 @@ class AOTDPlayerSpellFreezeDataStorage : IStorage<IAOTDPlayerSpellFreezeData>
         // Create a compound to write
         val nbt = NBTTagCompound()
         nbt.setInteger(NBT_FREEZE_TICKS, instance.freezeTicks)
-        if (instance.freezePosition != null)
+        instance.freezePosition?.let()
         {
-            nbt.setDouble(NBT_POSITION + "_x", instance.freezePosition!!.x)
-            nbt.setDouble(NBT_POSITION + "_y", instance.freezePosition!!.y)
-            nbt.setDouble(NBT_POSITION + "_z", instance.freezePosition!!.z)
+            nbt.setDouble(NBT_POSITION + "_x", it.x)
+            nbt.setDouble(NBT_POSITION + "_y", it.y)
+            nbt.setDouble(NBT_POSITION + "_z", it.z)
         }
         nbt.setFloat(NBT_DIRECTION_YAW, instance.getFreezeYaw())
         nbt.setFloat(NBT_DIRECTION_PITCH, instance.getFreezePitch())
@@ -60,9 +60,10 @@ class AOTDPlayerSpellFreezeDataStorage : IStorage<IAOTDPlayerSpellFreezeData>
         if (nbt is NBTTagCompound)
         {
             instance.freezeTicks = nbt.getInteger(NBT_FREEZE_TICKS)
-            if (nbt.hasKey(NBT_POSITION + "_x") && nbt.hasKey(NBT_POSITION + "_y") && nbt.hasKey(
-                    NBT_POSITION + "_z"
-                )
+
+            if (nbt.hasKey(NBT_POSITION + "_x") &&
+                nbt.hasKey(NBT_POSITION + "_y") &&
+                nbt.hasKey(NBT_POSITION + "_z")
             )
             {
                 instance.freezePosition = Vec3d(
@@ -71,6 +72,7 @@ class AOTDPlayerSpellFreezeDataStorage : IStorage<IAOTDPlayerSpellFreezeData>
                     nbt.getDouble(NBT_POSITION + "_z")
                 )
             }
+
             instance.setFreezeDirection(
                 nbt.getFloat(NBT_DIRECTION_YAW),
                 nbt.getFloat(NBT_DIRECTION_PITCH)

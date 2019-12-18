@@ -22,8 +22,8 @@ abstract class AOTDLeaves(baseName: String) : BlockLeaves()
 {
     init
     {
-        unlocalizedName = Constants.MOD_ID + ":" + baseName
-        this.setRegistryName(Constants.MOD_ID + ":" + baseName)
+        unlocalizedName = "${Constants.MOD_ID}:$baseName"
+        this.setRegistryName("${Constants.MOD_ID}:$baseName")
         // Don't forget the creative tab...
         setCreativeTab(Constants.AOTD_CREATIVE_TAB)
         // Set the default state
@@ -39,7 +39,7 @@ abstract class AOTDLeaves(baseName: String) : BlockLeaves()
      */
     override fun getSilkTouchDrop(state: IBlockState): ItemStack
     {
-        return ItemStack(Item.getItemFromBlock(this), 1, 0)
+        return ItemStack(Item.getItemFromBlock(this))
     }
 
     /**

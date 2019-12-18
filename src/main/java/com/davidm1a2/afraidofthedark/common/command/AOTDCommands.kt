@@ -67,15 +67,15 @@ class AOTDCommands : CommandBase()
             {
                 getListOfStringsMatchingLastWord(args, "aotd", "AOTD", "afraidofthedark")
             }
-            args.size == 1 ->
+            matchArgs(args, expectedArgCount = 1) ->
             {
                 getListOfStringsMatchingLastWord(args, "help", "dungeon")
             }
-            args.size == 2 && args[0].equals("dungeon", ignoreCase = true) ->
+            matchArgs(args, "dungeon", expectedArgCount = 2) ->
             {
                 getListOfStringsMatchingLastWord(args, "list", "types", "info", "regenerate")
             }
-            args.size == 3 && args[0].equals("dungeon", ignoreCase = true) && args[1].equals("list", ignoreCase = true) ->
+            matchArgs(args, "dungeon", "list", expectedArgCount = 3) ->
             {
                 // Valid structure ids
                 val structureNames = ModRegistries.STRUCTURE.valuesCollection
@@ -102,41 +102,69 @@ class AOTDCommands : CommandBase()
         when
         {
             // /aotd or /aotd help
-            args.isEmpty() || args.size == 1 && args[0].equals("help", ignoreCase = true) ->
+            args.isEmpty() || matchArgs(args, "help") ->
             {
                 printHelp(sender)
             }
             // /aotd dungeon
-            args.size == 1 && args[0].equals("dungeon", ignoreCase = true) ->
+            matchArgs(args, "dungeon") ->
             {
                 printDungeonHelp(sender)
             }
             // /aotd dungeon info
-            args.size == 2 && args[0].equals("dungeon", ignoreCase = true) && args[1].equals("info", ignoreCase = true) ->
+            matchArgs(args, "dungeon", "info") ->
             {
                 printDungeonInfo(sender)
             }
             // /aotd dungeon regenerate
-            args.size == 2 && args[0].equals("dungeon", ignoreCase = true) && args[1].equals("regenerate", ignoreCase = true) ->
+            matchArgs(args, "dungeon", "regenerate") ->
             {
                 regenerateDungeonChunk(sender)
             }
             // /aotd dungeon types
-            args.size == 2 && args[0].equals("dungeon", ignoreCase = true) && args[1].equals("types", ignoreCase = true) ->
+            matchArgs(args, "dungeon", "types") ->
             {
                 printStructureTypes(sender)
             }
             // /aotd dungeon list
-            args.size == 2 && args[0].equals("dungeon", ignoreCase = true) && args[1].equals("list", ignoreCase = true) ->
+            matchArgs(args, "dungeon", "list") ->
             {
                 printAllStructures(sender, server)
             }
             // /aotd dungeon list <type>
-            args.size == 3 && args[0].equals("dungeon", ignoreCase = true) && args[1].equals("list", ignoreCase = true) ->
+            matchArgs(args, "dungeon", "list", expectedArgCount = 3) ->
             {
                 printSpecificStructures(sender, server, args[2])
             }
         }
+    }
+
+    /**
+     * Tests if arguments match the expected arguments
+     *
+     * @param args The arguments that the user passed
+     * @param expectedArgs The expected arguments, must be less than or equal to the length of the actual arguments
+     * @param expectedArgCount The expected argument count, can be more than the expected arguments to indicate unknown arguments
+     * @return True if the first n arguments match the n expected arguments
+     */
+    private fun matchArgs(args: Array<String>, vararg expectedArgs: String, expectedArgCount: Int = expectedArgs.size): Boolean
+    {
+        // Make sure we got the expected argument count
+        if (args.size != expectedArgCount)
+        {
+            return false
+        }
+
+        // Go over each argument, ensure it's correct
+        for (expectedArg in expectedArgs.withIndex())
+        {
+            if (!args[expectedArg.index].equals(expectedArg.value, ignoreCase = true))
+            {
+                return false
+            }
+        }
+
+        return true
     }
 
     /**

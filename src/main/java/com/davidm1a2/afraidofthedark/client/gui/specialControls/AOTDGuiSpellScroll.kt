@@ -214,7 +214,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
                     // Create a label that states the name of the property
                     val propertyName = AOTDGuiLabel(0, currentY, 120, 15, ClientData.getTargaMSHandFontSized(26f))
                     propertyName.textColor = purpleText
-                    propertyName.text = "Name: " + editableProp.name
+                    propertyName.text = "Name: ${editableProp.name}"
                     editPanel.add(propertyName)
                     currentY = currentY + propertyName.getHeight()
 

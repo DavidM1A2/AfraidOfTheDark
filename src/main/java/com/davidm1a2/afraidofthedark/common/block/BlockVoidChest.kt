@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.block
 
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDBlockTileEntity
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.tileEntity.TileEntityVoidChest
 import net.minecraft.block.BlockHorizontal
@@ -170,13 +170,14 @@ class BlockVoidChest : AOTDBlockTileEntity("void_chest", Material.ROCK)
     ): Boolean
     {
         // Test if the tile entity at this position is a void chest (it should be!)
-        if (worldIn.getTileEntity(pos) is TileEntityVoidChest)
+        val tileEntity = worldIn.getTileEntity(pos)
+        if (tileEntity is TileEntityVoidChest)
         {
-            val entityVoidChest = worldIn.getTileEntity(pos) as TileEntityVoidChest?
             // Ensure the player can interact with the chest
-            if (playerIn.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!.isResearched(ModResearches.VOID_CHEST)) // Let the player interact with the chest
+            if (playerIn.getResearch().isResearched(ModResearches.VOID_CHEST))
             {
-                entityVoidChest!!.interact(playerIn)
+                // Let the player interact with the chest
+                tileEntity.interact(playerIn)
             }
             else if (!worldIn.isRemote)
             {

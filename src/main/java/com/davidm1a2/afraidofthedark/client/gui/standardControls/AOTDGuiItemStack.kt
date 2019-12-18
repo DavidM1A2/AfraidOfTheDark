@@ -101,7 +101,7 @@ class AOTDGuiItemStack(x: Int, y: Int, width: Int, height: Int, backgroundHighli
             {
                 // Show the item name and count
                 fontRenderer.drawStringWithShadow(
-                    itemStack.displayName + " x" + itemStack.count,
+                    "${itemStack.displayName} x${itemStack.count}",
                     this.getXScaled().toFloat(),
                     (this.getYScaled() - 5).toFloat(),
                     -0x1

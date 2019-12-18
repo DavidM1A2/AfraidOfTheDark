@@ -9,7 +9,7 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable
 /**
  * Class responsible for providing a capability to a player
  */
-class AOTDPlayerSpellFreezeDataProvider : ICapabilitySerializable<NBTBase?>
+class AOTDPlayerSpellFreezeDataProvider : ICapabilitySerializable<NBTBase>
 {
     // The instance of the player spell freeze data capability
     private val instance = ModCapabilities.PLAYER_SPELL_FREEZE_DATA.defaultInstance
@@ -44,9 +44,9 @@ class AOTDPlayerSpellFreezeDataProvider : ICapabilitySerializable<NBTBase?>
      *
      * @return The NBTTagCompound representing this capability
      */
-    override fun serializeNBT(): NBTBase?
+    override fun serializeNBT(): NBTBase
     {
-        return ModCapabilities.PLAYER_SPELL_FREEZE_DATA.storage.writeNBT(ModCapabilities.PLAYER_SPELL_FREEZE_DATA, instance, null)
+        return ModCapabilities.PLAYER_SPELL_FREEZE_DATA.storage.writeNBT(ModCapabilities.PLAYER_SPELL_FREEZE_DATA, instance, null)!!
     }
 
     /**
@@ -54,7 +54,7 @@ class AOTDPlayerSpellFreezeDataProvider : ICapabilitySerializable<NBTBase?>
      *
      * @param nbt The NBT tag compound to read from
      */
-    override fun deserializeNBT(nbt: NBTBase?)
+    override fun deserializeNBT(nbt: NBTBase)
     {
         ModCapabilities.PLAYER_SPELL_FREEZE_DATA.storage.readNBT(ModCapabilities.PLAYER_SPELL_FREEZE_DATA, instance, null, nbt)
     }

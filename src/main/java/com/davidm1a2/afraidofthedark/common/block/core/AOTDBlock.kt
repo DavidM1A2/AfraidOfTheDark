@@ -16,8 +16,8 @@ abstract class AOTDBlock(baseName: String, material: Material, displayInCreative
 {
     init
     {
-        unlocalizedName = Constants.MOD_ID + ":" + baseName
-        this.setRegistryName(Constants.MOD_ID + ":" + baseName)
+        unlocalizedName = "${Constants.MOD_ID}:$baseName"
+        this.setRegistryName("${Constants.MOD_ID}:$baseName")
         if (displayInCreative)
         {
             setCreativeTab(Constants.AOTD_CREATIVE_TAB)

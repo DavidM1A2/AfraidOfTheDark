@@ -18,10 +18,23 @@ import kotlin.math.*
  * This is a custom implementation of net.minecraft.world.gen.feature.WorldGenBigTree that lets us customize certain features
  *
  * @constructor initializes the wood and leaf types as well as if this tree should notify clients that it was grown
- *
  * @param notify If the tree should notify users that it has grown
  * @param wood   The wood type to use
  * @param leaves The leaf type to use
+ * @property rand The random object
+ * @property world The world object this tree is in
+ * @property basePos The base position of the tree
+ * @property heightLimit The maximum height the tree can have
+ * @property height The actual height of the tree
+ * @property foliageCoords A list of wood nodes to be surrounded with leaves
+ * @property heightAttenuation How much room is reserved for leaves at the top
+ * @property branchSlope The slope of the branches as they come off of the trunk
+ * @property scaleWidth The width:height scale of the tree
+ * @property leafDensity The leaf density to be used by the tree
+ * @property trunkSize How thick the trunk should be
+ * @property heightLimitMax The maximum height of the tree
+ * @property leafDistanceLimit The maximum distance the leaves can be from the tree
+ * @property leafIntegrity The percent leaf block integrity
  */
 class AOTDWorldGenBigTree(
     notify: Boolean,
@@ -33,17 +46,11 @@ class AOTDWorldGenBigTree(
     /// Variables computed from the options
     ///
 
-    // The random object
     private lateinit var rand: Random
-    // The world object this tree is in
     private var world: World? = null
-    // The base position of the tree
     private var basePos = BlockPos.ORIGIN
-    // The maximum height the tree can have
     private var heightLimit = 0
-    // The actual height of the tree
     private var height = 0
-    // A list of wood nodes to be surrounded with leaves
     private var foliageCoords: MutableList<FoliageCoordinates>? = null
 
     ///
@@ -51,21 +58,13 @@ class AOTDWorldGenBigTree(
     /// minecraft world generation due to run-away world generation
     ///
 
-    // How much room is reserved for leaves at the top
-    private var heightAttenuation = 0.618
-    // The slope of the branches as they come off of the trunk
-    private var branchSlope = 0.381
-    // The width:height scale of the tree
-    private var scaleWidth = 1.0
-    // The leaf density to be used by the tree
-    private var leafDensity = 1.0
-    // How thick the trunk should be
+    var heightAttenuation = 0.618
+    var branchSlope = 0.381
+    var scaleWidth = 1.0
+    var leafDensity = 1.0
     var trunkSize = 1
-    // The maximum height of the tree
-    private var heightLimitMax = 16
-    // The maximum distance the leaves can be from the tree
-    private var leafDistanceLimit = 4
-    // The percent leaf block integrity
+    var heightLimitMax = 16
+    var leafDistanceLimit = 4
     var leafIntegrity = 1.0
 
     /**
@@ -83,11 +82,13 @@ class AOTDWorldGenBigTree(
         basePos = position
         // Create a new random num generator for this tree
         this.rand = Random(rand.nextLong())
+
         // If the height limit is 0 set it to a random value
         if (heightLimit == 0)
         {
             heightLimit = 5 + this.rand.nextInt(heightLimitMax)
         }
+
         // If the location is not valid, return false because the tree did not generate
         return if (!validTreeLocation())
         {

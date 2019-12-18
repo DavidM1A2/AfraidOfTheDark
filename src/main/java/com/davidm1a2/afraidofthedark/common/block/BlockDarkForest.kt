@@ -43,7 +43,7 @@ class BlockDarkForest : AOTDBlockTileEntity("dark_forest", Material.ROCK, false)
      * @param meta    The block's metadata value
      * @return The dark forest tile entity instance
      */
-    override fun createNewTileEntity(worldIn: World, meta: Int): TileEntity?
+    override fun createNewTileEntity(worldIn: World, meta: Int): TileEntity
     {
         return TileEntityDarkForest()
     }

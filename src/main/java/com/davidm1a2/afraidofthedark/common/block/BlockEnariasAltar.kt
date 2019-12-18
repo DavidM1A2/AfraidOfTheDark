@@ -2,8 +2,8 @@ package com.davidm1a2.afraidofthedark.common.block
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiHandler
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDBlock
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
@@ -55,7 +55,8 @@ class BlockEnariasAltar : AOTDBlock("enarias_altar", Material.PORTAL)
     ): Boolean
     {
         // Grab the player's research
-        val playerResearch = playerIn.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!
+        val playerResearch = playerIn.getResearch()
+
         // Server side processing research
         if (!worldIn.isRemote)
         {

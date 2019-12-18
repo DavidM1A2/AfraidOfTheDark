@@ -8,10 +8,11 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable
 
 /**
  * Class responsible for providing a capability to a player
+ *
+ * @property instance The instance of the player basics capability
  */
-class AOTDPlayerBasicsProvider : ICapabilitySerializable<NBTBase?>
+class AOTDPlayerBasicsProvider : ICapabilitySerializable<NBTBase>
 {
-    // The instance of the player basics capability
     private val instance = ModCapabilities.PLAYER_BASICS.defaultInstance
 
     /**
@@ -44,9 +45,9 @@ class AOTDPlayerBasicsProvider : ICapabilitySerializable<NBTBase?>
      *
      * @return The NBTTagCompound representing this capability
      */
-    override fun serializeNBT(): NBTBase?
+    override fun serializeNBT(): NBTBase
     {
-        return ModCapabilities.PLAYER_BASICS.storage.writeNBT(ModCapabilities.PLAYER_BASICS, instance, null)
+        return ModCapabilities.PLAYER_BASICS.storage.writeNBT(ModCapabilities.PLAYER_BASICS, instance, null)!!
     }
 
     /**
@@ -54,7 +55,7 @@ class AOTDPlayerBasicsProvider : ICapabilitySerializable<NBTBase?>
      *
      * @param nbt The NBT tag compound to read from
      */
-    override fun deserializeNBT(nbt: NBTBase?)
+    override fun deserializeNBT(nbt: NBTBase)
     {
         ModCapabilities.PLAYER_BASICS.storage.readNBT(ModCapabilities.PLAYER_BASICS, instance, null, nbt)
     }

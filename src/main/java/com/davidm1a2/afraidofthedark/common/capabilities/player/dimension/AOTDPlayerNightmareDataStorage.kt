@@ -31,14 +31,8 @@ class AOTDPlayerNightmareDataStorage : IStorage<IAOTDPlayerNightmareData>
         // Create a compound to write
         val compound = NBTTagCompound()
         compound.setInteger(NBT_POSITIONAL_INDEX, instance.positionalIndex)
-        if (instance.preTeleportPlayerInventory != null)
-        {
-            compound.setTag(NBT_PRE_TELEPORT_INVENTORY, instance.preTeleportPlayerInventory!!)
-        }
-        if (instance.preTeleportPosition != null)
-        {
-            compound.setTag(NBT_PRE_TELEPORT_POSITION, NBTUtil.createPosTag(instance.preTeleportPosition!!))
-        }
+        instance.preTeleportPlayerInventory?.let { compound.setTag(NBT_PRE_TELEPORT_INVENTORY, it) }
+        instance.preTeleportPosition?.let { compound.setTag(NBT_PRE_TELEPORT_POSITION, NBTUtil.createPosTag(it)) }
         compound.setInteger(NBT_PRE_TELEPORT_DIMENSION_ID, instance.preTeleportDimensionID)
         return compound
     }
@@ -74,6 +68,7 @@ class AOTDPlayerNightmareDataStorage : IStorage<IAOTDPlayerNightmareData>
             {
                 instance.preTeleportPlayerInventory = null
             }
+
             if (nbt.hasKey(NBT_PRE_TELEPORT_POSITION))
             {
                 instance.preTeleportPosition = NBTUtil.getPosFromTag(nbt.getTag(NBT_PRE_TELEPORT_POSITION) as NBTTagCompound)
@@ -82,6 +77,7 @@ class AOTDPlayerNightmareDataStorage : IStorage<IAOTDPlayerNightmareData>
             {
                 instance.preTeleportPosition = null
             }
+
             instance.preTeleportDimensionID = nbt.getInteger(NBT_PRE_TELEPORT_DIMENSION_ID)
         }
         else

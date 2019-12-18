@@ -31,10 +31,7 @@ class AOTDPlayerVoidChestDataStorage : IStorage<IAOTDPlayerVoidChestData>
         val compound = NBTTagCompound()
         compound.setInteger(NBT_POSITIONAL_INDEX, instance.positionalIndex)
         compound.setInteger(NBT_FRIENDS_INDEX, instance.friendsIndex)
-        if (instance.preTeleportPosition != null)
-        {
-            compound.setTag(NBT_PRE_TELEPORT_POSITION, NBTUtil.createPosTag(instance.preTeleportPosition!!))
-        }
+        instance.preTeleportPosition?.let { compound.setTag(NBT_PRE_TELEPORT_POSITION, NBTUtil.createPosTag(it)) }
         compound.setInteger(NBT_PRE_TELEPORT_DIMENSION_ID, instance.preTeleportDimensionID)
         return compound
     }
@@ -60,6 +57,7 @@ class AOTDPlayerVoidChestDataStorage : IStorage<IAOTDPlayerVoidChestData>
             // The compound to read from
             instance.positionalIndex = nbt.getInteger(NBT_POSITIONAL_INDEX)
             instance.friendsIndex = nbt.getInteger(NBT_FRIENDS_INDEX)
+
             if (nbt.hasKey(NBT_PRE_TELEPORT_POSITION))
             {
                 instance.preTeleportPosition = NBTUtil.getPosFromTag(nbt.getTag(NBT_PRE_TELEPORT_POSITION) as NBTTagCompound)
@@ -68,6 +66,7 @@ class AOTDPlayerVoidChestDataStorage : IStorage<IAOTDPlayerVoidChestData>
             {
                 instance.preTeleportPosition = null
             }
+
             instance.preTeleportDimensionID = nbt.getInteger(NBT_PRE_TELEPORT_DIMENSION_ID)
         }
         else

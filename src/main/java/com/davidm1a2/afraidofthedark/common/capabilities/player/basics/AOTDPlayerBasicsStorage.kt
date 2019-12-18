@@ -28,10 +28,7 @@ class AOTDPlayerBasicsStorage : IStorage<IAOTDPlayerBasics>
         val compound = NBTTagCompound()
         compound.setBoolean(STARTED_AOTD, instance.startedAOTD)
         compound.setInteger(WRIST_CROSSBOW_BOLT_INDEX, instance.selectedWristCrossbowBoltIndex)
-        compound.setString(
-            WATCHED_METEOR,
-            if (instance.getWatchedMeteor() == null) "none" else instance.getWatchedMeteor()!!.registryName.toString()
-        )
+        compound.setString(WATCHED_METEOR, instance.getWatchedMeteor()?.registryName?.toString() ?: "none")
         compound.setInteger(WATCHED_METEOR_DROP_ANGLE, instance.getWatchedMeteorDropAngle())
         compound.setInteger(WATCHED_METEOR_LATITUDE, instance.getWatchedMeteorLatitude())
         compound.setInteger(WATCHED_METEOR_LONGITUDE, instance.getWatchedMeteorLongitude())

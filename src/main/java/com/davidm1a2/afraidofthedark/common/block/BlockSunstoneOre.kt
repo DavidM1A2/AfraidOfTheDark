@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.block
 
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDBlock
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import net.minecraft.block.material.Material
@@ -54,7 +54,7 @@ class BlockSunstoneOre : AOTDBlock("sunstone_ore", Material.ROCK)
      */
     override fun harvestBlock(worldIn: World, player: EntityPlayer, pos: BlockPos, state: IBlockState, te: TileEntity?, stack: ItemStack)
     {
-        val playerResearch = player.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!
+        val playerResearch = player.getResearch()
         // If the player can research igneous let them
         if (playerResearch.canResearch(ModResearches.IGNEOUS))
         {

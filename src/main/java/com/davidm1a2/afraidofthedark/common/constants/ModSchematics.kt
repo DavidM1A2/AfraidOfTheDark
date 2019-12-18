@@ -13,6 +13,7 @@ object ModSchematics
     ///
     /// Standalone schematics
     ///
+
     val CRYPT = load("schematics/crypt.schematic")
     val WITCH_HUT = load("schematics/witch_hut.schematic")
     val VOID_CHEST_PORTAL = load("schematics/void_chest_portal.schematic")
@@ -23,6 +24,7 @@ object ModSchematics
     ///
     /// Dark Forest structure related schematics
     ///
+
     val BED_HOUSE = load("schematics/dark_forest/bed_house.schematic")
     val TREE_BRANCHY_TYPE_1 = load("schematics/dark_forest/tree_branchy_type_1.schematic")
     val TREE_BRANCHY_TYPE_2 = load("schematics/dark_forest/tree_branchy_type_2.schematic")
@@ -61,6 +63,7 @@ object ModSchematics
     ///
     /// Gnomish city structure related schematics
     ///
+
     val ENARIA_LAIR = load("schematics/gnomish_city/enaria_lair.schematic")
     val STAIRWELL = load("schematics/gnomish_city/stairwell.schematic")
     val TUNNEL_EW = load("schematics/gnomish_city/tunnel_ew.schematic")
@@ -110,7 +113,9 @@ object ModSchematics
      */
     private fun load(path: String): Schematic
     {
-        return SchematicBuilder().withFile(ResourceLocation(Constants.MOD_ID, path))
-            .withCacheEnabled(AfraidOfTheDark.INSTANCE.configurationHandler.cacheStructures).build()
+        return SchematicBuilder()
+            .withFile(ResourceLocation(Constants.MOD_ID, path))
+            .withCacheEnabled(AfraidOfTheDark.INSTANCE.configurationHandler.cacheStructures)
+            .build()
     }
 }

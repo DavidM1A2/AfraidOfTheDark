@@ -23,8 +23,8 @@ abstract class AOTDSapling(baseName: String) : BlockBush(), IGrowable
 {
     init
     {
-        unlocalizedName = Constants.MOD_ID + ":" + baseName
-        this.setRegistryName(Constants.MOD_ID + ":" + baseName)
+        unlocalizedName = "${Constants.MOD_ID}:$baseName"
+        this.setRegistryName("${Constants.MOD_ID}:$baseName")
         setHardness(0.0f)
         setResistance(0.0f)
         this.soundType = SoundType.PLANT
@@ -61,11 +61,13 @@ abstract class AOTDSapling(baseName: String) : BlockBush(), IGrowable
         {
             // Perform any original functionality
             super.updateTick(world, pos, state, random)
+
             // If the area of the world is not loaded, return
             if (!world.isAreaLoaded(pos, 1))
             {
                 return
             }
+
             // If we have enough light and our 1 in 7 chance succeeds, advance our sapling growth
             if (world.getLightFromNeighbors(pos.up()) >= 9 && random.nextInt(7) == 0)
             {

@@ -11,15 +11,13 @@ import net.minecraft.entity.player.EntityPlayerMP
 /**
  * Default implementation of the AOTD player research capability
  *
+ * @constructor Initializes the hashmap to all researches not unlocked
  * @property researchToUnlocked A mapping of research to if that research is unlocked for a given user
  */
 class AOTDPlayerResearchImpl : IAOTDPlayerResearch
 {
     private val researchToUnlocked: MutableMap<Research, Boolean> = mutableMapOf()
 
-    /**
-     * Initializes the hashmap to all researches not unlocked
-     */
     init
     {
         ModRegistries.RESEARCH.valuesCollection.forEach { researchToUnlocked[it] = false }

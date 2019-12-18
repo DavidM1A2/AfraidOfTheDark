@@ -31,7 +31,7 @@ interface IAOTDPlayerSpellManager
     /**
      * @return An unmodifiable collection of spells that were added
      */
-    val spells: List<Spell>
+    fun getSpells(): List<Spell>
 
     /**
      * Adds a keybinding to a given spell

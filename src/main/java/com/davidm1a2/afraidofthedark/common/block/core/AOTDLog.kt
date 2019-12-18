@@ -18,8 +18,8 @@ abstract class AOTDLog(baseName: String) : BlockLog()
 {
     init
     {
-        unlocalizedName = Constants.MOD_ID + ":" + baseName
-        this.setRegistryName(Constants.MOD_ID + ":" + baseName)
+        unlocalizedName = "${Constants.MOD_ID}:$baseName"
+        this.setRegistryName("${Constants.MOD_ID}:$baseName")
         setHardness(2.0f)
         this.soundType = SoundType.WOOD
         setCreativeTab(Constants.AOTD_CREATIVE_TAB)

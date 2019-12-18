@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.block
 
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDBlock
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
@@ -38,7 +38,7 @@ class BlockAstralSilverOre : AOTDBlock("astral_silver_ore", Material.ROCK)
     override fun harvestBlock(worldIn: World, player: EntityPlayer, pos: BlockPos, state: IBlockState, te: TileEntity?, stack: ItemStack)
     {
         // If the player can unlock the astral silver research unlock it and sync
-        val playerResearch = player.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!
+        val playerResearch = player.getResearch()
         if (playerResearch.canResearch(ModResearches.ASTRAL_SILVER))
         {
             playerResearch.setResearch(ModResearches.ASTRAL_SILVER, true)

@@ -10,8 +10,6 @@ import net.minecraft.util.math.ChunkPos
 import net.minecraft.world.World
 import net.minecraft.world.storage.WorldSavedData
 import net.minecraftforge.common.util.Constants
-import org.apache.commons.lang3.StringUtils
-import org.apache.commons.lang3.math.NumberUtils
 
 /**
  * Class used to store a world's structure plan
@@ -36,7 +34,7 @@ class StructurePlan @JvmOverloads constructor(identifier: String = IDENTIFIER) :
         // For each position add the tag "XCoord ZCoord" -> structureUUID
         val chunkMap = NBTTagCompound()
         chunkToStructure.forEach()
-        { (position: ChunkPos, structure: PlacedStructure) ->
+        { (position, structure) ->
             chunkMap.setTag("${position.x} ${position.z}", NBTTagString(structure.uuid.toString()))
         }
 
@@ -59,7 +57,7 @@ class StructurePlan @JvmOverloads constructor(identifier: String = IDENTIFIER) :
         // Grab the structureNBT list
         val structureData = nbt.getTagList(NBT_STRUCTURE_DATA, Constants.NBT.TAG_COMPOUND)
         // A temporary map of structureUUID -> structure to be used later
-        val uuidToStructure: MutableMap<String, PlacedStructure> = mutableMapOf()
+        val uuidToStructure = mutableMapOf<String, PlacedStructure>()
         // For each structure data create a placed structure object and store it into the map
         for (i in 0 until structureData.tagCount())
         {
@@ -73,9 +71,9 @@ class StructurePlan @JvmOverloads constructor(identifier: String = IDENTIFIER) :
         for (positionKey in chunkMap.keySet)
         {
             // Parse the X coordinate from string to integer
-            val x = NumberUtils.toInt(StringUtils.substringBefore(positionKey, " "), Int.MAX_VALUE)
+            val x = positionKey.substringBefore(" ").toIntOrNull() ?: Int.MAX_VALUE
             // Parse the Z coordinate from string to integer
-            val z = NumberUtils.toInt(StringUtils.substringAfter(positionKey, " "), Int.MAX_VALUE)
+            val z = positionKey.substringAfter(" ").toIntOrNull() ?: Int.MAX_VALUE
             // Ensure both X and Z are valid
             if (x != Int.MAX_VALUE && z != Int.MAX_VALUE)
             {
@@ -135,6 +133,7 @@ class StructurePlan @JvmOverloads constructor(identifier: String = IDENTIFIER) :
         // Grab the bottom left and top right that the structure would occupy
         val bottomLeftCorner = ChunkPos(blockPos)
         val topRightCorner = ChunkPos(blockPos.add(structure.getXWidth(), 0, structure.getZLength()))
+
         // Iterate over all chunks in the region, and test if each chunk is currently empty
         for (chunkX in bottomLeftCorner.x..topRightCorner.x)
         {
@@ -164,8 +163,10 @@ class StructurePlan @JvmOverloads constructor(identifier: String = IDENTIFIER) :
         // Compute the bottom left and top right chunk position
         val bottomLeftCorner = ChunkPos(blockPos)
         val topRightCorner = ChunkPos(blockPos.add(structure.getXWidth(), 0, structure.getZLength()))
+
         // The structure entry to be placed down
         val placedStructure = PlacedStructure(structure, data)
+
         // Iterate over all chunks in the region, and update their structure names
         for (chunkX in bottomLeftCorner.x..topRightCorner.x)
         {
@@ -174,6 +175,7 @@ class StructurePlan @JvmOverloads constructor(identifier: String = IDENTIFIER) :
                 chunkToStructure[ChunkPos(chunkX, chunkZ)] = placedStructure
             }
         }
+
         // Make sure to write chnages to disk
         markDirty()
     }

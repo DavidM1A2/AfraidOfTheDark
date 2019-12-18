@@ -50,21 +50,26 @@ class BlockMangroveSapling : AOTDSapling("mangrove_sapling")
     {
         // The height to reach before the trunk starts is between 4 and 7 blocks
         val heightBeforeTrunk = random.nextInt(4) + 4
+
         // The number of roots coming off of the trunk base are 4 - 8
         val numRoots = random.nextInt(5) + 4
+
         // Iterate num roots times to generate that many roots
         for (i in 0 until numRoots)
         {
             // Pick a random direction to generate a root in
             val xOffsetDirection = if (random.nextBoolean()) EnumFacing.NORTH else EnumFacing.SOUTH
             val zOffsetDirection = if (random.nextBoolean()) EnumFacing.EAST else EnumFacing.WEST
+
             // Let the root start at the sapling height 3-5 blocks away
             var xDistanceFromTrunk = random.nextInt(3) + 3
             var zDistanceFromTrunk = random.nextInt(3) + 3
-            // THe current pos of the root block being placed
+
+            // The current pos of the root block being placed
             var currentPos = pos
                 .offset(xOffsetDirection, xDistanceFromTrunk)
                 .offset(zOffsetDirection, zDistanceFromTrunk)
+
             // Iterate from the current height up until we reach trunk height
             for (j in 0 until heightBeforeTrunk)
             {
@@ -79,16 +84,20 @@ class BlockMangroveSapling : AOTDSapling("mangrove_sapling")
                     currentPos = currentPos.offset(zOffsetDirection.opposite)
                     zDistanceFromTrunk--
                 }
+
                 // Add a log at the current position
                 setBlockIfPossible(world, currentPos, MANGROVE_LOG_UP)
+
                 // Have a 1/10 chance to generate an extra log one block up or down
                 if (random.nextDouble() < 0.1)
                 {
                     setBlockIfPossible(world, if (random.nextBoolean()) currentPos.up() else currentPos.down(), MANGROVE_LOG_UP)
                 }
+
                 // Always move up each iteration
                 currentPos = currentPos.up()
             }
+
             // If we reached the top of the trunk before being all the way in generate horizontal logs all the way to the center
             while (xDistanceFromTrunk > 0 || zDistanceFromTrunk > 0)
             {
@@ -98,20 +107,25 @@ class BlockMangroveSapling : AOTDSapling("mangrove_sapling")
                     currentPos = currentPos.offset(xOffsetDirection.opposite)
                     xDistanceFromTrunk--
                 }
+
                 // If we need to close the z distance do so
                 if (zDistanceFromTrunk != 0)
                 {
                     currentPos = currentPos.offset(zOffsetDirection.opposite)
                     zDistanceFromTrunk--
                 }
+
                 // Set the block to log
                 setBlockIfPossible(world, currentPos, MANGROVE_LOG_UP)
             }
         }
+
         // Now generate a somewhat straight trunk 6-9 blocks tall
         val trunkHeight = random.nextInt(4) + 6
+
         // Compute the current top of the trunk
         var currentPos = pos.up(heightBeforeTrunk)
+
         // Begin working upwards with a low chance to lean sideways
         for (i in 0 until trunkHeight)
         {
@@ -120,8 +134,10 @@ class BlockMangroveSapling : AOTDSapling("mangrove_sapling")
             {
                 currentPos = currentPos.offset(EnumFacing.HORIZONTALS[random.nextInt(EnumFacing.HORIZONTALS.size)])
             }
+
             // Set the block to log
             setBlockIfPossible(world, currentPos, MANGROVE_LOG_UP)
+
             // Advance up the trunk
             currentPos = currentPos.up()
         }

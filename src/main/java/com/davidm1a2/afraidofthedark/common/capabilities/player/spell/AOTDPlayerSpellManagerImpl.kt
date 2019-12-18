@@ -18,7 +18,6 @@ import java.util.*
  */
 class AOTDPlayerSpellManagerImpl : IAOTDPlayerSpellManager
 {
-    // Keep two maps, one of keybind -> spell id and one of spell id -> spell
     private val keybindToSpellId: BiMap<String, UUID> = HashBiMap.create()
     private val spellIdToSpell: MutableMap<UUID, Spell> = linkedMapOf()
 
@@ -56,8 +55,10 @@ class AOTDPlayerSpellManagerImpl : IAOTDPlayerSpellManager
     /**
      * @return An unmodifiable list of spells that were added
      */
-    override val spells: List<Spell>
-        get() = spellIdToSpell.values.toList()
+    override fun getSpells(): List<Spell>
+    {
+        return spellIdToSpell.values.toList()
+    }
 
     /**
      * Adds a keybinding to a given spell

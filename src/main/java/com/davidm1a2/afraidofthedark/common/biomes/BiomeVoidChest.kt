@@ -13,6 +13,7 @@ import java.util.*
 /**
  * Void chest biome is used in the void chest dimension.
  *
+ * @constructor initializes the biome's fields
  * @property spawnableCreatures This list should always be empty
  */
 class BiomeVoidChest : Biome(
@@ -25,9 +26,6 @@ class BiomeVoidChest : Biome(
 {
     private val spawnableCreatures: MutableList<SpawnListEntry> = ArrayList()
 
-    /**
-     * Constructor sets up biome properties
-     */
     init
     {
         // Set this biome's properties. It takes height, variation, water color, and a name

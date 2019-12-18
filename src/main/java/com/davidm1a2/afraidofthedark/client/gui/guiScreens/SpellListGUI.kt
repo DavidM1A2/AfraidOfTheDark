@@ -132,7 +132,7 @@ class SpellListGUI : AOTDGuiScreen()
         }
         scrollPanel.add(btnCreateSpell)
         // Go over each spell the player has and add a gui spell for it
-        spellManager.spells.forEach { addSpell(it) }
+        spellManager.getSpells().forEach { addSpell(it) }
 
         contentPane.add(backgroundPanel)
     }

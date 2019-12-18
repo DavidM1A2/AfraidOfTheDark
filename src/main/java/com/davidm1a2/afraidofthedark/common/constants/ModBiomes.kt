@@ -9,11 +9,8 @@ import com.davidm1a2.afraidofthedark.common.biomes.BiomeVoidChest
  */
 object ModBiomes
 {
-    // The Erie Forest biome
     val ERIE_FOREST = BiomeErieForest()
-    // The Void Chest biome
     val VOID_CHEST = BiomeVoidChest()
-    // The Nightmare biome
     val NIGHTMARE = BiomeNightmare()
 
     // An array containing a list of biomes that AOTD adds
