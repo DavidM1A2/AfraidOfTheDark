@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.EntityEnchantedSkeleton
@@ -35,7 +35,7 @@ class ItemEnchantedSkeletonBone : AOTDItem("enchanted_skeleton_bone")
             // Keep a count of the number of bones on the ground
             var numberOfBones = 0
             // Keep a list of surrounding bone item stacks
-            val surroundingBones: MutableList<EntityItem> = mutableListOf()
+            val surroundingBones = mutableListOf<EntityItem>()
             // Iterate over surrounding item stacks to find ones that also have bones
             for (otherItem in surroundingItems)
             {
@@ -71,16 +71,15 @@ class ItemEnchantedSkeletonBone : AOTDItem("enchanted_skeleton_bone")
                 }
 
                 // Give all players in range of the summoned skeletons a research if possible
-                world.getEntitiesWithinAABB(EntityPlayer::class.java, entityItem.entityBoundingBox.grow(RESEARCH_UNLOCK_RADIUS.toDouble()))
-                    .forEach()
+                world.getEntitiesWithinAABB(EntityPlayer::class.java, entityItem.entityBoundingBox.grow(RESEARCH_UNLOCK_RADIUS.toDouble())).forEach()
+                {
+                    val playerResearch = it.getResearch()
+                    if (playerResearch.canResearch(ModResearches.ENCHANTED_SKELETON))
                     {
-                        val playerResearch = it.getCapability(ModCapabilities.PLAYER_RESEARCH, null)
-                        if (playerResearch!!.canResearch(ModResearches.ENCHANTED_SKELETON))
-                        {
-                            playerResearch.setResearch(ModResearches.ENCHANTED_SKELETON, true)
-                            playerResearch.sync(it, true)
-                        }
+                        playerResearch.setResearch(ModResearches.ENCHANTED_SKELETON, true)
+                        playerResearch.sync(it, true)
                     }
+                }
 
                 // If bones remain create a new entity item with that many bones left
                 if (bonesRemaining > 0)

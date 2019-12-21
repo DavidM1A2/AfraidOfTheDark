@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.entity.enaria
 
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.entity.enaria.animation.AnimationHandlerEnaria
@@ -181,6 +181,7 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity
             // Make amount mutable
             @Suppress("NAME_SHADOWING")
             var amount = amount
+
             // Kill the entity if damage received is FLOAT.MAX_VALUE
             if (amount == Float.MAX_VALUE)
             {
@@ -199,7 +200,7 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity
                 if (damageSource is EntityPlayer)
                 {
                     // If a player hit enaria check if they have the right research
-                    if (!damageSource.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!.isResearched(ModResearches.ENARIA.preRequisite!!))
+                    if (!damageSource.getResearch().isResearched(ModResearches.ENARIA.preRequisite!!))
                     {
                         damageSource.sendMessage(TextComponentTranslation("aotd.enaria.dont_understand"))
                         // Can't damage enaria without research
@@ -212,6 +213,7 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity
                 {
                     // If its been more than a second since the last attack do full damage, otherwise scale the damage
                     val amountModifier = min(1.0f, timeBetweenHits / 1000.0f)
+
                     // If the amount of time is less than 250ms then the player is spam clicking and enaria should teleport 1/40 times
                     if (rand.nextInt(40) == 0)
                     {
@@ -242,6 +244,7 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity
                 }
             }
         }
+
         // Finally if nothing succeeds do 1 damage. Only do this if she has more than 1hp, this ensures she doesn't
         // die to a non-player source
         return if (this.health >= 2.0)
@@ -274,7 +277,7 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity
                     // Grab all entities around enaria and if they can research "ENARIA" unlock the research for them
                     for (entityPlayer in world.getEntitiesWithinAABB(EntityPlayer::class.java, this.entityBoundingBox.grow(RESEARCH_UNLOCK_RANGE)))
                     {
-                        val playerResearch = entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!
+                        val playerResearch = entityPlayer.getResearch()
                         // If we can research enaria unlock it
                         if (playerResearch.canResearch(ModResearches.ENARIA))
                         {
@@ -395,9 +398,11 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity
         private const val ATTACK_DAMAGE = 12.0
         private const val KNOCKBACK_RESISTANCE = 0.5
         private const val RESEARCH_UNLOCK_RANGE = 100.0
+
         // NBT tag compounds for if the entity is valid and the last time she attacked
         private const val NBT_IS_VALID = "is_valid"
         private const val NBT_LAST_HIT = "last_hit"
+
         // The maximum amount of damage done in a single shot
         private const val MAX_DAMAGE_IN_1_HIT = 10
     }

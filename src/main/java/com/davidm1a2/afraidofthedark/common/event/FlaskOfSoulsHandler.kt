@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.event
 
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.ItemFlaskOfSouls
 import net.minecraft.entity.EntityList
@@ -29,7 +29,8 @@ class FlaskOfSoulsHandler
             if (event.crafting.item is ItemFlaskOfSouls)
             {
                 // Grab the player's research
-                val playerResearch = event.player.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!
+                val playerResearch = event.player.getResearch()
+
                 // If the player can research phylactery of souls unlock it
                 if (playerResearch.canResearch(ModResearches.PHYLACTERY_OF_SOULS))
                 {
@@ -53,12 +54,14 @@ class FlaskOfSoulsHandler
         {
             // Grab the killer player
             val entityPlayer = event.source.trueSource as EntityPlayer
+
             // Ensure the player has the right research
-            if (entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!.isResearched(ModResearches.PHYLACTERY_OF_SOULS))
+            if (entityPlayer.getResearch().isResearched(ModResearches.PHYLACTERY_OF_SOULS))
             {
                 // Grab the player's inventory
                 val inventory = entityPlayer.inventory.mainInventory
                 val entityID = EntityList.getKey(event.entity)
+
                 // Iterate over the player's inventory and look for flasks. If we find one test if we have a flask for the killed entity
                 for (i in inventory.indices)
                 {

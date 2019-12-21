@@ -45,11 +45,13 @@ class GhastlyEnariaPlayerChase(private val enaria: EntityGhastlyEnaria) : Entity
     override fun startExecuting()
     {
         val distanceBetweenIslands = AfraidOfTheDark.INSTANCE.configurationHandler.blocksBetweenIslands
+
         // If the target player is null try and find a nearby player
         if (targetPlayer == null)
         {
             targetPlayer = enaria.world.getClosestPlayerToEntity(enaria, distanceBetweenIslands / 2.toDouble())
         }
+
         // If there are no players nearby kill enaria
         if (targetPlayer == null || targetPlayer!!.isDead)
         {
@@ -69,8 +71,10 @@ class GhastlyEnariaPlayerChase(private val enaria: EntityGhastlyEnaria) : Entity
                         enaria.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).attributeValue
                     )
             }
+
             // Face the player entity always
             enaria.faceEntity(targetPlayer!!, 360f, 360f)
+
             // If the player can see enaria, add slowness 4 to the player
             if (targetPlayer!!.canEntityBeSeen(enaria))
             {

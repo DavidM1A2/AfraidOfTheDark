@@ -20,6 +20,7 @@ class EntityRegister
     {
         // Grab the registry for entities
         val registry = event.registry
+
         // Register all of our mod entities
         registry.registerAll(*ModEntities.ENTITY_LIST)
     }

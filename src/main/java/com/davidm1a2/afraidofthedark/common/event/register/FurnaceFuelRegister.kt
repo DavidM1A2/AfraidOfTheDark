@@ -19,10 +19,7 @@ class FurnaceFuelRegister
     fun onFurnaceFuelBurnTimeEvent(event: FurnaceFuelBurnTimeEvent)
     {
         // If we know of the burn time for the item then set the burn time for the item based on the hashmap
-        if (ITEM_TO_BURN_TIME.containsKey(Block.getBlockFromItem(event.itemStack.item)))
-        {
-            event.burnTime = ITEM_TO_BURN_TIME[Block.getBlockFromItem(event.itemStack.item)]!!
-        }
+        event.burnTime = ITEM_TO_BURN_TIME[Block.getBlockFromItem(event.itemStack.item)] ?: return
     }
 
     companion object

@@ -27,11 +27,13 @@ class EntitySplinterDroneMoveHelper(splinterDrone: EntitySplinterDrone) : Entity
             {
                 // Update this entity again in 2 - 7 ticks
                 ticksUntilNextUpdate = ticksUntilNextUpdate + entity.rng.nextInt(5) + 2
+
                 // Compute the x, y, and z motion vectors as well as the magnitude to normalize the vector
                 val xDir = posX - entity.posX
                 val yDir = posY - entity.posY
                 val zDir = posZ - entity.posZ
                 val dirMagnitude = sqrt(xDir * xDir + yDir * yDir + zDir * zDir)
+
                 // If we can move to our position update the entity's motion to move to the position
                 if (isNotColliding(posX, posY, posZ, dirMagnitude))
                 {
@@ -62,8 +64,10 @@ class EntitySplinterDroneMoveHelper(splinterDrone: EntitySplinterDrone) : Entity
         val x = (posX - entity.posX) / dirMagnitude
         val y = (posY - entity.posY) / dirMagnitude
         val z = (posZ - entity.posZ) / dirMagnitude
+
         // Grab the entity bounding box
         var axisalignedbb = entity.entityBoundingBox
+
         // Test if this entity can fit in each position as it moves to the position
         var i = 1
         while (i < dirMagnitude)

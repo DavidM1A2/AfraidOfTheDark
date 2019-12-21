@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
@@ -61,7 +61,7 @@ class ItemResearchScroll : AOTDItem("research_scroll")
         if (!world.isRemote)
         {
             // Grab the player's research
-            val playerResearch = player.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!
+            val playerResearch = player.getResearch()
 
             val scrollResearch = getScrollResearch(itemStack)
             // Ensure the scroll has a valid research
@@ -75,6 +75,7 @@ class ItemResearchScroll : AOTDItem("research_scroll")
                     {
                         // Shrink the itemstack to consume the scroll
                         itemStack.shrink(1)
+
                         // Unlock the research
                         playerResearch.setResearch(scrollResearch, true)
                         playerResearch.sync(player, true)

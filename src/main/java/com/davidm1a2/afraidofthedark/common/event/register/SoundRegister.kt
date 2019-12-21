@@ -19,6 +19,7 @@ class SoundRegister
     fun registerSounds(event: RegistryEvent.Register<SoundEvent>)
     {
         val registry = event.registry
+
         // Register all sounds in our mod
         registry.registerAll(*ModSounds.SOUND_LIST)
     }

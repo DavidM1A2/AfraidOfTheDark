@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.entity.werewolf
 
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityCreature
 import net.minecraft.entity.EntityLivingBase
@@ -31,18 +31,22 @@ class CustomWerewolfTargetLocator internal constructor(
     init
     {
         sorter = Sorter(entityCreature)
+
         // Required for a target locator, not sure what it does exactly
         mutexBits = 1
+
         // Create a target predicate which tells us if an entity is valid or not for selection
         targetEntitySelector =
             {
                 // Grab the range at which the werewolf can follow targets
                 var followRange = this@CustomWerewolfTargetLocator.targetDistance
+
                 // If the player is sneaking reduce the follow range
                 if (it.isSneaking)
                 {
                     followRange = followRange * 0.8
                 }
+
                 // Of the player is invis reduce the follow range based on if the player has armor or not
                 if (it.isInvisible)
                 {
@@ -53,6 +57,7 @@ class CustomWerewolfTargetLocator internal constructor(
                     }
                     followRange = followRange * visibility * 0.7f
                 }
+
                 // If the player is to far to follow dont do anything
                 if (it.getDistance(taskOwner) > followRange)
                 {
@@ -90,7 +95,7 @@ class CustomWerewolfTargetLocator internal constructor(
             // Iterate over all players nearby and pick a valid target
             for (entityPlayer in nearbyPlayers)
             {
-                if (entityPlayer.getCapability(ModCapabilities.PLAYER_BASICS, null)!!.startedAOTD || (taskOwner as EntityWerewolf).canAttackAnyone())
+                if (entityPlayer.getBasics().startedAOTD || (taskOwner as EntityWerewolf).canAttackAnyone())
                 {
                     targetEntity = entityPlayer
                     return true

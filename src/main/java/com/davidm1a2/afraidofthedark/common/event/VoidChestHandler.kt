@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.event
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.common.capabilities.getVoidChestData
 import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import com.davidm1a2.afraidofthedark.common.dimension.IslandUtility
@@ -29,7 +30,7 @@ class VoidChestHandler
         {
             if (event.player.dimension == ModDimensions.VOID_CHEST.id)
             {
-                val playerVoidChestData = event.player.getCapability(ModCapabilities.PLAYER_VOID_CHEST_DATA, null)!!
+                val playerVoidChestData = event.player.getVoidChestData()
 
                 // If the player was traveling to a friend's void chest grab that index, otherwise grab our own index
                 // If the friend's index is -1 then we go to our position, otherwise go to the friends position and wipe out the friends index variable

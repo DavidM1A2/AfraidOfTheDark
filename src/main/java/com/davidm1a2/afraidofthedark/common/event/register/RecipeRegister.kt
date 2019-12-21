@@ -19,6 +19,7 @@ class RecipeRegister
     fun registerRecipes(event: RegistryEvent.Register<IRecipe>)
     {
         val registry = event.registry
+
         // Register each item in our item list
         registry.registerAll(*ModRecipes.MOD_RECIPES)
     }

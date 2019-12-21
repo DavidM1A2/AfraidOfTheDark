@@ -19,6 +19,7 @@ class ResearchRegister
     fun registerResearch(event: RegistryEvent.Register<Research>)
     {
         val registry = event.registry
+
         // Register each research in our research list
         registry.registerAll(*ModResearches.RESEARCH_LIST)
     }

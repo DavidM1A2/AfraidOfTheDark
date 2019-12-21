@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.item.crossbow
 
 import com.davidm1a2.afraidofthedark.client.keybindings.ModKeybindings.FIRE_WRIST_CROSSBOW
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItemWithPerItemCooldown
 import net.minecraft.client.Minecraft
@@ -16,12 +16,11 @@ import net.minecraftforge.fml.relauncher.SideOnly
 
 /**
  * Class representing a wrist-mounted crossbow
+ *
+ * @constructor sets up item properties
  */
 class ItemWristCrossbow : AOTDItemWithPerItemCooldown("wrist_crossbow")
 {
-    /**
-     * Constructor sets up item properties
-     */
     init
     {
         addPropertyOverride(ResourceLocation(Constants.MOD_ID, "is_loaded"))
@@ -42,7 +41,7 @@ class ItemWristCrossbow : AOTDItemWithPerItemCooldown("wrist_crossbow")
     override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag)
     {
         val player = Minecraft.getMinecraft().player
-        if (player != null && player.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!.isResearched(ModResearches.WRIST_CROSSBOW))
+        if (player != null && player.getResearch().isResearched(ModResearches.WRIST_CROSSBOW))
         {
             tooltip.add("Use " + FIRE_WRIST_CROSSBOW.displayName + " to fire a bolt in the current look direction.")
             tooltip.add("Crouch & " + FIRE_WRIST_CROSSBOW.displayName + " to change bolt type.")

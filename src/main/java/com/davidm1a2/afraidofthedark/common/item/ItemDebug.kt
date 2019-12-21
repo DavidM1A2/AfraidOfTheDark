@@ -9,12 +9,20 @@ import net.minecraft.world.World
 
 /**
  * Item that allows for modding debug, does nothing else
+ *
+ * @constructor sets up item properties
  */
 class ItemDebug : AOTDItem("debug")
 {
+    init
+    {
+        setMaxStackSize(1)
+    }
+
     ///
     /// Code below here is not documented due to its temporary nature used for testing
     ///
+
     override fun onItemRightClick(worldIn: World, playerIn: EntityPlayer, handIn: EnumHand): ActionResult<ItemStack>
     {
         if (worldIn.isRemote)
@@ -166,13 +174,5 @@ class ItemDebug : AOTDItem("debug")
 			*/
         }
         return super.onItemRightClick(worldIn, playerIn, handIn)
-    }
-
-    /**
-     * Constructor sets up item properties
-     */
-    init
-    {
-        setMaxStackSize(1)
     }
 }

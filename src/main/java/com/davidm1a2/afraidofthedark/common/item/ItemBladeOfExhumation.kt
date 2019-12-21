@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModToolMaterials
 import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.EntityEnchantedSkeleton
@@ -37,9 +37,8 @@ class ItemBladeOfExhumation : AOTDSword("blade_of_exhumation", ModToolMaterials.
         // If the player has researched the blade of exhumation research and the entity hit is an enchanted skeleton 1 shot kill it
         if (entity is EntityEnchantedSkeleton && !entity.isDead)
         {
-            val playerResearch = player.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!
             // 1 shot kill the skeleton
-            if (playerResearch.isResearched(ModResearches.BLADE_OF_EXHUMATION))
+            if (player.getResearch().isResearched(ModResearches.BLADE_OF_EXHUMATION))
             {
                 // 1 shot the skeleton
                 entity.attackEntityFrom(DamageSource.causePlayerDamage(player), Float.MAX_VALUE)

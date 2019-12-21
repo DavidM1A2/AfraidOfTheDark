@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.item
 
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModArmorMaterials
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDArmor
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
@@ -24,7 +24,7 @@ import net.minecraftforge.fml.relauncher.SideOnly
  *
  * @constructor sets up armor item properties
  * @param baseName        The name of the item to be used by the game registry
- * @param equipmentSlotIn The slot that this armor pieces goes on, can be one of 4 options
+ * @param equipmentSlot The slot that this armor pieces goes on, can be one of 4 options
  */
 class ItemStarMetalArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) : AOTDArmor(baseName, ModArmorMaterials.STAR_METAL, 3, equipmentSlot), ISpecialArmor
 {
@@ -71,7 +71,7 @@ class ItemStarMetalArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
     override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag)
     {
         val player = Minecraft.getMinecraft().player
-        if (player != null && player.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!.isResearched(ModResearches.STAR_METAL))
+        if (player != null && player.getResearch().isResearched(ModResearches.STAR_METAL))
         {
             tooltip.add("Magical armor will never break.")
             tooltip.add("Gives you two absorption hearts per piece.")
@@ -93,7 +93,7 @@ class ItemStarMetalArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
     {
         // We have to test client and server side since absorption is client side :(
         // Test if the player has the star metal research
-        if (player.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!.isResearched(ModResearches.STAR_METAL))
+        if (player.getResearch().isResearched(ModResearches.STAR_METAL))
         {
             // If the stack is ready to proc absorption, add 2 absorption hearts
             if (readyToProcAbsorption(itemStack))
@@ -184,7 +184,7 @@ class ItemStarMetalArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
         if (entity is EntityPlayer)
         {
             // Ensure the player has the right research
-            if (entity.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!.isResearched(ModResearches.STAR_METAL))
+            if (entity.getResearch().isResearched(ModResearches.STAR_METAL))
             {
                 // No damage reduction against true sources
                 if (TRUE_DAMAGE_SOURCES.contains(source))

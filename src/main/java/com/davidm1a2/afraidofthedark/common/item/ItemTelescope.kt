@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.common.item
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiHandler
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import net.minecraft.entity.player.EntityPlayer
@@ -32,8 +32,10 @@ class ItemTelescope : AOTDItem("telescope")
     {
         // Grab the itemstack the player is holding
         val itemStack = player.getHeldItem(hand)
+
         // Grab the player's research
-        val playerResearch = player.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!
+        val playerResearch = player.getResearch()
+
         // Test if the player is high enough to use the telescope
         val highEnough = player.position.y > 128
 

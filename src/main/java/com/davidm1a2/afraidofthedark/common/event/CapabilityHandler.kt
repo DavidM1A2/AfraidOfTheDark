@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.event
 
+import com.davidm1a2.afraidofthedark.common.capabilities.*
 import com.davidm1a2.afraidofthedark.common.capabilities.player.basics.AOTDPlayerBasicsImpl
 import com.davidm1a2.afraidofthedark.common.capabilities.player.basics.AOTDPlayerBasicsProvider
 import com.davidm1a2.afraidofthedark.common.capabilities.player.basics.AOTDPlayerBasicsStorage
@@ -86,12 +87,12 @@ class CapabilityHandler
             // The server will have correct data, the client needs new data
             if (!event.world.isRemote)
             {
-                entityPlayer.getCapability(ModCapabilities.PLAYER_BASICS, null)!!.syncAll(entityPlayer)
-                entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!.sync(entityPlayer, false)
+                entityPlayer.getBasics().syncAll(entityPlayer)
+                entityPlayer.getResearch().sync(entityPlayer, false)
                 // Dont sync PLAYER_VOID_CHEST_DATA because it's server side only storage!
                 // Dont sync PLAYER_NIGHTMARE_DATA because it's server side only storage!
-                entityPlayer.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null)!!.syncAll(entityPlayer)
-                entityPlayer.getCapability(ModCapabilities.PLAYER_SPELL_FREEZE_DATA, null)!!.sync(entityPlayer)
+                entityPlayer.getSpellManager().syncAll(entityPlayer)
+                entityPlayer.getSpellFreezeData().sync(entityPlayer)
                 // Dont sync PLAYER_SPELL_CHARM_DATA because it's server side only storage!
             }
         }
@@ -109,20 +110,20 @@ class CapabilityHandler
         if (event.isWasDeath)
         {
             // Grab new and original player capabilities
-            val originalPlayerBasics = event.original.getCapability(ModCapabilities.PLAYER_BASICS, null)
-            val newPlayerBasics = event.entityPlayer.getCapability(ModCapabilities.PLAYER_BASICS, null)
+            val originalPlayerBasics = event.original.getBasics()
+            val newPlayerBasics = event.entityPlayer.getBasics()
 
-            val originalPlayerResearch = event.original.getCapability(ModCapabilities.PLAYER_RESEARCH, null)
-            val newPlayerResearch = event.entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null)
+            val originalPlayerResearch = event.original.getResearch()
+            val newPlayerResearch = event.entityPlayer.getResearch()
 
-            val originalPlayerVoidChestData = event.original.getCapability(ModCapabilities.PLAYER_VOID_CHEST_DATA, null)
-            val newPlayerVoidChestData = event.entityPlayer.getCapability(ModCapabilities.PLAYER_VOID_CHEST_DATA, null)
+            val originalPlayerVoidChestData = event.original.getVoidChestData()
+            val newPlayerVoidChestData = event.entityPlayer.getVoidChestData()
 
-            val originalPlayerNightmareData = event.original.getCapability(ModCapabilities.PLAYER_NIGHTMARE_DATA, null)
-            val newPlayerNightmareData = event.entityPlayer.getCapability(ModCapabilities.PLAYER_NIGHTMARE_DATA, null)
+            val originalPlayerNightmareData = event.original.getNightmareData()
+            val newPlayerNightmareData = event.entityPlayer.getNightmareData()
 
-            val originalPlayerSpellManager = event.original.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null)
-            val newPlayerSpellManager = event.entityPlayer.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null)
+            val originalPlayerSpellManager = event.original.getSpellManager()
+            val newPlayerSpellManager = event.entityPlayer.getSpellManager()
 
             // Don't copy PLAYER_SPELL_FREEZE_DATA, if the player dies they aren't frozen anymore
 

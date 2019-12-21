@@ -20,7 +20,7 @@ class BiomeRegister
      * @param event The event to register to
      */
     @SubscribeEvent
-    fun registerBiomes(event: RegistryEvent.Register<Biome?>)
+    fun registerBiomes(event: RegistryEvent.Register<Biome>)
     {
         // Register the forest biome to our event
         event.registry.registerAll(*ModBiomes.BIOME_LIST)

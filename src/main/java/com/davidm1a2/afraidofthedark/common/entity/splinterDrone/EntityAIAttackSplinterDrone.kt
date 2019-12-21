@@ -30,6 +30,7 @@ class EntityAIAttackSplinterDrone(private val splinterDrone: EntitySplinterDrone
     {
         // Grab the target entity
         val target = splinterDrone.attackTarget
+
         // If there is no target don't execute the attack
         return if (target == null)
         {
@@ -72,6 +73,7 @@ class EntityAIAttackSplinterDrone(private val splinterDrone: EntitySplinterDrone
         {
             // Look at the target player
             splinterDrone.lookHelper.setLookPositionWithEntity(target!!, 30.0f, 30.0f)
+
             // Engage the player if there is a valid target (should always be true)
             if (splinterDrone.attackTarget != null)
             {
@@ -81,6 +83,7 @@ class EntityAIAttackSplinterDrone(private val splinterDrone: EntitySplinterDrone
                     TargetPoint(splinterDrone.dimension, splinterDrone.posX, splinterDrone.posY, splinterDrone.posZ, 50.0)
                 )
             }
+
             // If we are ready to attack do so
             if (timeUntilNextAttack-- <= 0)
             {
@@ -88,15 +91,19 @@ class EntityAIAttackSplinterDrone(private val splinterDrone: EntitySplinterDrone
                 var xVelocity = target!!.posX - splinterDrone.posX
                 var yVelocity = target!!.entityBoundingBox.minY + (target!!.height / 2.0f).toDouble() - (splinterDrone.posY + (splinterDrone.height / 2.0f).toDouble())
                 var zVelocity = target!!.posZ - splinterDrone.posZ
+
                 // Add random inaccuracy distributed over a gaussian with 0.4 block max inaccuracy
                 xVelocity = xVelocity + splinterDrone.rng.nextGaussian() * 0.4
                 yVelocity = yVelocity + splinterDrone.rng.nextGaussian() * 0.4
                 zVelocity = zVelocity + splinterDrone.rng.nextGaussian() * 0.4
+
                 // Create the projectile and spawn it in
                 val attackShot: Entity = EntitySplinterDroneProjectile(splinterDrone.world, splinterDrone, xVelocity, yVelocity, zVelocity)
                 splinterDrone.world.spawnEntity(attackShot)
+
                 // Play the shoot fireball sound effect
                 splinterDrone.world.playEvent(null, 1018, BlockPos(splinterDrone.posX, splinterDrone.posY, splinterDrone.posZ), 0)
+
                 // Attack again in the future
                 timeUntilNextAttack = TIME_BETWEEN_ATTACKS
             }

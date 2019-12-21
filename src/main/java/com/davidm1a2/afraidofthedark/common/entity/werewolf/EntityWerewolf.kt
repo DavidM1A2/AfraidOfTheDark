@@ -1,7 +1,11 @@
 package com.davidm1a2.afraidofthedark.common.entity.werewolf
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.constants.*
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
+import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources
+import com.davidm1a2.afraidofthedark.common.constants.ModItems
+import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedEntity
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.werewolf.animation.AnimationHandlerWerewolf
@@ -37,8 +41,10 @@ class EntityWerewolf(world: World) : EntityMob(world), IMCAnimatedEntity
     {
         // Set the hitbox size
         setSize(1.1f, 1.4f)
+
         // Ensure this werewolf does not attack anyone yet
         attacksAnyone = false
+
         // This werewolf is worth 10xp
         experienceValue = 10
     }
@@ -80,6 +86,7 @@ class EntityWerewolf(world: World) : EntityMob(world), IMCAnimatedEntity
     override fun onUpdate()
     {
         super.onUpdate()
+
         // Animations only update client side
         if (world.isRemote)
         {
@@ -94,6 +101,7 @@ class EntityWerewolf(world: World) : EntityMob(world), IMCAnimatedEntity
     {
         // Call super
         super.onEntityUpdate()
+
         // Show the walking animation if the entity is walking and not biting
         if (world.isRemote)
         {
@@ -115,6 +123,7 @@ class EntityWerewolf(world: World) : EntityMob(world), IMCAnimatedEntity
     override fun onDeath(cause: DamageSource)
     {
         super.onDeath(cause)
+
         // Server side processing only
         if (!world.isRemote)
         {
@@ -125,13 +134,15 @@ class EntityWerewolf(world: World) : EntityMob(world), IMCAnimatedEntity
                 if (cause.getTrueSource() is EntityPlayer)
                 {
                     val killer = cause.getTrueSource() as EntityPlayer
-                    val playerResearch = killer.getCapability(ModCapabilities.PLAYER_RESEARCH, null)
+                    val playerResearch = killer.getResearch()
+
                     // If the player can research the slaying of the wolves achievement do so
-                    if (playerResearch!!.canResearch(ModResearches.SLAYING_OF_THE_WOLVES))
+                    if (playerResearch.canResearch(ModResearches.SLAYING_OF_THE_WOLVES))
                     {
                         playerResearch.setResearch(ModResearches.SLAYING_OF_THE_WOLVES, true)
                         playerResearch.sync(killer, true)
                     }
+
                     // If the player has the slaying of the wolves achievement then test if the player has glass bottles to fill with werewolf blood
                     if (playerResearch.isResearched(ModResearches.SLAYING_OF_THE_WOLVES))
                     {
@@ -176,6 +187,7 @@ class EntityWerewolf(world: World) : EntityMob(world), IMCAnimatedEntity
     {
         // Perform the attack first, then process the aftermath
         val attackResult = super.attackEntityAsMob(entity)
+
         // Server side processing only
         if (!world.isRemote)
         {
@@ -183,8 +195,10 @@ class EntityWerewolf(world: World) : EntityMob(world), IMCAnimatedEntity
             {
                 // Show all players within 50 blocks the bite animation
                 AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(SyncAnimation("Bite", this, "Bite"), TargetPoint(dimension, posX, posY, posZ, 50.0))
+
                 // If the thing that was attacked was a player test if that player was killed or not
-                val playerResearch = entity.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!
+                val playerResearch = entity.getResearch()
+
                 // Don't check 'isDead' because that only gets updated next tick, instead check if HP > 0 for alive
                 if (entity.health > 0)
                 {
@@ -312,6 +326,7 @@ class EntityWerewolf(world: World) : EntityMob(world), IMCAnimatedEntity
         private const val MAX_HEALTH = 20.0
         private const val KNOCKBACK_RESISTANCE = 0.5
         private const val ATTACK_DAMAGE = 20.0
+
         // NBT tag for if the werewolf can attack anyone or just players that have started AOTD
         private const val NBT_CAN_ATTACK_ANYONE = "can_attack_anyone"
     }

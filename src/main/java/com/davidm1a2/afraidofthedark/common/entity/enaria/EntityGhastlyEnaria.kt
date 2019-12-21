@@ -1,7 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.entity.enaria
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getNightmareData
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.entity.enaria.animation.AnimationHandlerGhastlyEnaria
@@ -84,7 +85,6 @@ class EntityGhastlyEnaria(world: World) : EntityFlying(world), IMCAnimatedEntity
     override fun onEntityUpdate()
     {
         super.onEntityUpdate()
-        // Check every 10 seconds if enaria should be benign or aggressive
         // Check == 20 instead of == 0 so the player can spawn and that way we don't accidentally check before a player joins
         // the world
         if (ticksExisted % PLAYER_BENIGN_CHECK_FREQUENCY == 20.0)
@@ -100,7 +100,7 @@ class EntityGhastlyEnaria(world: World) : EntityFlying(world), IMCAnimatedEntity
             }
             else
             {
-                setBenign(!closestPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!.isResearched(ModResearches.ENARIA))
+                setBenign(!closestPlayer.getResearch().isResearched(ModResearches.ENARIA))
             }
         }
 
@@ -128,8 +128,9 @@ class EntityGhastlyEnaria(world: World) : EntityFlying(world), IMCAnimatedEntity
                 {
                     // Kill enaria, she's now unloaded (can't use .setDead()) or we get an index out of bounds exception?
                     onKillCommand()
+
                     // Send them back to their original dimension
-                    entityPlayer.changeDimension(entityPlayer.getCapability(ModCapabilities.PLAYER_NIGHTMARE_DATA, null)!!.preTeleportDimensionID, ModDimensions.NOOP_TELEPORTER)
+                    entityPlayer.changeDimension(entityPlayer.getNightmareData().preTeleportDimensionID, ModDimensions.NOOP_TELEPORTER)
                 }
             }
         }
@@ -210,7 +211,7 @@ class EntityGhastlyEnaria(world: World) : EntityFlying(world), IMCAnimatedEntity
     {
         this.benign = benign
         // If we're client side stop playing the dance animation
-        if (world.isRemote)
+        if (world.isRemote && !this.benign)
         {
             animHandler.stopAnimation("dance")
         }
@@ -236,6 +237,7 @@ class EntityGhastlyEnaria(world: World) : EntityFlying(world), IMCAnimatedEntity
         private const val KNOCKBACK_RESISTANCE = 1.0
         private const val PLAYER_DISTANCE_CHECK_FREQUENCY = 10.0
         private const val PLAYER_BENIGN_CHECK_FREQUENCY = 200.0
+
         // Constant for benign NBT field
         private const val NBT_BENIGN = "benign"
     }

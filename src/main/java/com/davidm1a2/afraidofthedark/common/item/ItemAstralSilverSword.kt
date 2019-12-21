@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources.getSilverDamage
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModToolMaterials
@@ -27,7 +27,7 @@ class ItemAstralSilverSword : AOTDSword("astral_silver_sword", ModToolMaterials.
     override fun onLeftClickEntity(stack: ItemStack, player: EntityPlayer, entity: Entity): Boolean
     {
         // If the player has researched astral silver then do silver damage
-        if (player.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!.isResearched(ModResearches.ASTRAL_SILVER))
+        if (player.getResearch().isResearched(ModResearches.ASTRAL_SILVER))
         {
             entity.attackEntityFrom(getSilverDamage(player), attackDamage)
         }

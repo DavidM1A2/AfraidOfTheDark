@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.event
 
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellCharmData
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.network.play.server.SPacketPlayerPosLook.EnumFlags
 import net.minecraft.util.math.Vec3d
@@ -31,7 +31,7 @@ class SpellCharmHandler
         if (event.type == TickEvent.Type.PLAYER && event.phase == TickEvent.Phase.START && event.side == Side.SERVER)
         {
             val entityPlayer = event.player
-            val playerCharmData = entityPlayer.getCapability(ModCapabilities.PLAYER_SPELL_CHARM_DATA, null)!!
+            val playerCharmData = entityPlayer.getSpellCharmData()
 
             // Ensure there's at least 1 charm tick remaining
             if (playerCharmData.charmTicks > 0)
@@ -50,10 +50,14 @@ class SpellCharmHandler
                     if (entityPlayer.persistentID != charmingEntityId)
                     {
                         // Compute the vector from the charming entity to the charmed entity
-                        val direction = Vec3d(charmingEntity.posX, charmingEntity.posY, charmingEntity.posZ).subtract(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ).normalize()
+                        val direction = Vec3d(charmingEntity.posX, charmingEntity.posY, charmingEntity.posZ)
+                            .subtract(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ)
+                            .normalize()
+
                         // Convert 3d direction vector to pitch and yaw
                         val yaw = (-atan2(direction.x, direction.z) * 180 / Math.PI).toFloat()
                         val pitch = (-asin(direction.y) * 180 / Math.PI).toFloat()
+
                         // Set the player's look to be at the charming entity
                         (entityPlayer as EntityPlayerMP).connection.setPlayerLocation(
                             0.0, 0.0, 0.0,

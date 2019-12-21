@@ -5,6 +5,7 @@ import net.minecraft.entity.SharedMonsterAttributes
 import net.minecraft.entity.ai.EntityAIBase
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MathHelper
+import kotlin.math.floor
 
 /**
  * AI task that makes the splinter drone randomly fly around like a ghast. Code from EntityGhast
@@ -26,6 +27,7 @@ class EntityAIHoverSplinterDrone(private val splinterDrone: EntitySplinterDrone)
     {
         // The move helper to move the splinter drone
         val entityMoveHelper = splinterDrone.moveHelper
+
         // Randomly fly if the move helper isn't updating and the drone doesn't have a target
         return if (!entityMoveHelper.isUpdating && splinterDrone.attackTarget == null)
         {
@@ -58,10 +60,12 @@ class EntityAIHoverSplinterDrone(private val splinterDrone: EntitySplinterDrone)
     {
         // Get the random object off of the splinter drone
         val random = splinterDrone.rng
+
         // Compute random x and z positions to go to, also ensure the splinter drone stays y=3 blocks above the ground
         val xToGoTo = splinterDrone.posX + (random.nextFloat() * 2.0f - 1.0f) * 16.0f
         val zToGoTo = splinterDrone.posZ + (random.nextFloat() * 2.0f - 1.0f) * 16.0f
         val yToGoTo = getHeightToMoveTo(xToGoTo, zToGoTo)
+
         // Move the the x,y,z position
         splinterDrone.moveHelper.setMoveTo(xToGoTo, yToGoTo, zToGoTo, splinterDrone.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).attributeValue)
     }
@@ -76,14 +80,15 @@ class EntityAIHoverSplinterDrone(private val splinterDrone: EntitySplinterDrone)
     private fun getHeightToMoveTo(x: Double, z: Double): Double
     {
         // Go from the splinter drone's y position downwards until we find a solid block
-        for (y in MathHelper.floor(splinterDrone.posY) downTo 1)
+        for (y in floor(splinterDrone.posY).toInt() downTo 1)
         {
             // If the block is non-air (so solid) move 3 blocks above it
             if (splinterDrone.world.getBlockState(BlockPos(x, y.toDouble(), z)).block !is BlockAir)
             {
-                return MathHelper.clamp(y + 3.toDouble(), 0.0, 255.0)
+                return (y + 3.0).coerceIn(0.0, 255.0)
             }
         }
+
         // If we can't find a position just stay at the same height
         return splinterDrone.posY
     }

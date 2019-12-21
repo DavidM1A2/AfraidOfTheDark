@@ -20,6 +20,7 @@ class StructureRegister
     {
         // Grab our structure registry
         val structureRegistry = event.registry
+
         // Add all mod structures
         structureRegistry.registerAll(*ModStructures.STRUCTURE_LIST)
     }

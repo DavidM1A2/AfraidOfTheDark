@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.item
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItemWithPerItemCooldown
@@ -17,7 +17,6 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.EnumActionResult
 import net.minecraft.util.EnumHand
 import net.minecraft.util.ResourceLocation
-import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.RayTraceResult
 import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.world.World
@@ -25,12 +24,11 @@ import kotlin.random.Random
 
 /**
  * Class representing the flask of souls item used to summon entities
+ *
+ * @constructor sets the item name
  */
 class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls")
 {
-    /**
-     * Constructor sets the item name
-     */
     init
     {
         addPropertyOverride(ResourceLocation(Constants.MOD_ID, "complete"))
@@ -56,10 +54,11 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls")
         if (!world.isRemote)
         {
             // Ensure the player has the right research
-            if (player.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!.isResearched(ModResearches.PHYLACTERY_OF_SOULS))
+            if (player.getResearch().isResearched(ModResearches.PHYLACTERY_OF_SOULS))
             {
                 // Ray trace where the player is looking
                 val rayTraceResult: RayTraceResult? = rayTrace(world, player, true)
+
                 // Test if we hit a block, Intellij is wrong here, ray trace CAN be null!!!
                 if (rayTraceResult != null && rayTraceResult.typeOfHit == RayTraceResult.Type.BLOCK)
                 {
@@ -111,6 +110,7 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls")
                 {
                     // Grab the spawned entity ID
                     val entityToSpawnID = getSpawnedEntity(itemStack)
+
                     // Ensure it's not null, this should always be true
                     if (entityToSpawnID != null)
                     {
@@ -192,7 +192,7 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls")
     {
         val player = Minecraft.getMinecraft().player
         // If the player has the right research then show them flask stats
-        if (player != null && player.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!.isResearched(ModResearches.PHYLACTERY_OF_SOULS))
+        if (player != null && player.getResearch().isResearched(ModResearches.PHYLACTERY_OF_SOULS))
         {
             // If the flask is unbound show them information how to bind it
             if (getSpawnedEntity(stack) == null)
@@ -206,13 +206,13 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls")
                 // If the flask is done show info one way, otherwise show it the other way
                 if (isComplete(stack))
                 {
-                    tooltip.add("Flask bound to: " + EntityList.getTranslationName(getSpawnedEntity(stack)))
-                    tooltip.add("Flask complete, cooldown is " + (getItemCooldownInMilliseconds(stack) / 1000 + 1) + "s")
+                    tooltip.add("Flask bound to: ${EntityList.getTranslationName(getSpawnedEntity(stack))}")
+                    tooltip.add("Flask complete, cooldown is ${getItemCooldownInMilliseconds(stack) / 1000 + 1}s")
                 }
                 else
                 {
-                    tooltip.add("Flask bound to: " + EntityList.getTranslationName(getSpawnedEntity(stack)))
-                    tooltip.add("Kills: " + getKills(stack) + "/" + (ENTITY_TO_KILLS_REQUIRED[getSpawnedEntity(stack)] ?: DEFAULT_KILLS_REQUIRED))
+                    tooltip.add("Flask bound to: ${EntityList.getTranslationName(getSpawnedEntity(stack))}")
+                    tooltip.add("Kills: ${getKills(stack)}/${ENTITY_TO_KILLS_REQUIRED[getSpawnedEntity(stack)] ?: DEFAULT_KILLS_REQUIRED}")
                 }
             }
         }
@@ -244,6 +244,7 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls")
     {
         // Grab the current kill count
         var currentKills = getKills(itemStack)
+
         // Grab the current entity, if this is null ignore the call
         val spawnedEntity = getSpawnedEntity(itemStack)
         if (spawnedEntity != null)
@@ -252,8 +253,9 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls")
             val killsRequired = ENTITY_TO_KILLS_REQUIRED[spawnedEntity] ?: DEFAULT_KILLS_REQUIRED
 
             // Update the current kills on the flask
-            currentKills = MathHelper.clamp(currentKills + kills, 0, killsRequired)
+            currentKills = (currentKills + kills).coerceIn(0, killsRequired)
             NBTHelper.setInteger(itemStack, NBT_FLASK_KILLS, currentKills)
+
             // If we have enough kills update the NBT data to 1 so that it is complete
             if (currentKills == killsRequired)
             {

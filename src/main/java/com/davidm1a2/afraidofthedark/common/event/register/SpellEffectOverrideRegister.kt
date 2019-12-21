@@ -48,6 +48,7 @@ object SpellEffectOverrideRegister
             {
                 val deliveryInstance = state.getCurrentStage().deliveryInstance!!
                 val deliveryMethod = deliveryInstance.component
+
                 // Should always be true, we're overriding AOE's custom applicator
                 if (deliveryMethod is SpellDeliveryMethodAOE)
                 {
@@ -110,10 +111,10 @@ object SpellEffectOverrideRegister
                 if (spellCaster != null)
                 {
                     // Get the delivery method instance
-                    val deliveryInstance = state.getCurrentStage().deliveryInstance
+                    val deliveryInstance = state.getCurrentStage().deliveryInstance!!
 
                     // Get the radius
-                    val radius = (deliveryInstance!!.component as SpellDeliveryMethodAOE).getRadius(deliveryInstance)
+                    val radius = (deliveryInstance.component as SpellDeliveryMethodAOE).getRadius(deliveryInstance)
                     // The center point
                     val center = state.position
 
@@ -133,6 +134,7 @@ object SpellEffectOverrideRegister
                             // Play sound at the pre and post teleport position
                             AOTDSpellEffect.createParticlesAt(1, 3, teleportPos, spellCaster.dimension)
                             world.playSound(null, teleportPos.x, teleportPos.y, teleportPos.z, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 2.5f, 1.0f)
+
                             (spellCaster as EntityPlayerMP).connection.setPlayerLocation(
                                 teleportPos.x,
                                 teleportPos.y,
@@ -140,6 +142,7 @@ object SpellEffectOverrideRegister
                                 spellCaster.rotationYaw,
                                 spellCaster.rotationPitch
                             )
+
                             AOTDSpellEffect.createParticlesAt(1, 3, teleportPos, spellCaster.dimension)
                             world.playSound(null, teleportPos.x, teleportPos.y, teleportPos.z, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 2.5f, 1.0f)
                             break
@@ -178,6 +181,7 @@ object SpellEffectOverrideRegister
 
                 // The threshold lets us define the thickness of the sphere
                 val threshhold = 0.5
+
                 // Iterate over all the blocks in the sphere
                 for (x in -blockRadius until blockRadius + 1)
                 {

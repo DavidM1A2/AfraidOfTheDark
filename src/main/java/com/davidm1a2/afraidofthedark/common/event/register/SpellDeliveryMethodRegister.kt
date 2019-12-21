@@ -19,6 +19,7 @@ class SpellDeliveryMethodRegister
     fun registerSpellDeliveryMethods(event: RegistryEvent.Register<SpellDeliveryMethod>)
     {
         val registry = event.registry
+
         // Register all spell delivery methods in our mod
         registry.registerAll(*ModSpellDeliveryMethods.SPELL_DELIVERY_METHODS)
     }

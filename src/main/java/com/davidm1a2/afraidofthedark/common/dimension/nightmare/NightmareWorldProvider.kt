@@ -196,7 +196,7 @@ class NightmareWorldProvider : WorldProvider()
      * @param partialTicks   The ticks since last
      * @return All 0s
      */
-    override fun calcSunriseSunsetColors(celestialAngle: Float, partialTicks: Float): FloatArray?
+    override fun calcSunriseSunsetColors(celestialAngle: Float, partialTicks: Float): FloatArray
     {
         return floatArrayOf(0f, 0f, 0f, 0f)
     }

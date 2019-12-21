@@ -9,10 +9,12 @@ import net.minecraft.entity.player.EntityPlayer
  * AI task to make an entity follow a target player
  *
  * @constructor initializes final constants
- * @param entity     The entity that is following the player
- * @param minRange   The minimum range to be at from the player
- * @param maxRange   The maximum range to follow the player
- * @param trackRange The range to pick up new players to follow
+ * @property entity     The entity that is following the player
+ * @property minRange   The minimum range to be at from the player
+ * @property maxRange   The maximum range to follow the player
+ * @property trackRange The range to pick up new players to follow
+ * @property target The target player to follow
+ * @property ticksUntilNextUpdate The ticks remaining until we check path finding again
  */
 class EntityAIFollowPlayer(
     private val entity: EntityLiving,
@@ -21,9 +23,7 @@ class EntityAIFollowPlayer(
     private val trackRange: Double
 ) : EntityAIBase()
 {
-    // The target player to follow
     private var target: EntityPlayer? = null
-    // The ticks remaining until we check path finding again
     private var ticksUntilNextUpdate = 0
 
     /**
@@ -33,6 +33,7 @@ class EntityAIFollowPlayer(
     {
         // Grab a list of nearby players
         val players = entity.world.getEntitiesWithinAABB(EntityPlayer::class.java, entity.entityBoundingBox.grow(trackRange))
+
         // Grab the closest player, if there is no closest player return false
         val closestPlayer = players.filter { !it.capabilities.isCreativeMode }
             .minWith(Comparator { p1, p2 -> p1.getDistance(entity).compareTo(p2.getDistance(entity)) }) ?: return false

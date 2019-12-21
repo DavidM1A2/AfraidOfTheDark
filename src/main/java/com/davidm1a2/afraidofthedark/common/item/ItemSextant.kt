@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.common.item
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiHandler
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import net.minecraft.entity.player.EntityPlayer
@@ -15,8 +15,6 @@ import net.minecraft.world.World
 
 /**
  * Class representing the telescope item used to track meteors
- *
- * @constructor sets up item properties
  */
 class ItemSextant : AOTDItem("sextant")
 {
@@ -31,7 +29,7 @@ class ItemSextant : AOTDItem("sextant")
     override fun onItemRightClick(world: World, player: EntityPlayer, hand: EnumHand): ActionResult<ItemStack>
     {
         val itemStack = player.getHeldItem(hand)
-        val playerResearch = player.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!
+        val playerResearch = player.getResearch()
 
         // If the player has astronomy 1 open the GUI client side
         if (playerResearch.isResearched(ModResearches.ASTRONOMY_1))

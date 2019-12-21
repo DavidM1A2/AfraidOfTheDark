@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.entity.splinterDrone
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedEntity
@@ -50,14 +50,14 @@ class EntitySplinterDrone(world: World) : EntityFlying(world), IMob, IMCAnimated
      * Sets up the entity's AI tasks
      */
     override fun initEntityAI()
-    { // Task one is always to face the nearest player
+    {
+        // Task one is always to face the nearest player
         tasks.addTask(1, EntityAIWatchClosest(this, EntityPlayer::class.java, AGRO_RANGE.toFloat()))
         // Task two is to hover over the ground and fly around
         tasks.addTask(2, EntityAIHoverSplinterDrone(this))
         // Task three is to look idle and look around
         tasks.addTask(3, EntityAILookIdle(this))
         // Set target tasks for shooting the player
-        // Shoot the current target
         targetTasks.addTask(1, EntityAIAttackSplinterDrone(this))
         // Find the nearest player to target and hit
         targetTasks.addTask(2, EntityAIFindEntityNearestPlayer(this))
@@ -84,11 +84,13 @@ class EntitySplinterDrone(world: World) : EntityFlying(world), IMob, IMCAnimated
     override fun onUpdate()
     {
         super.onUpdate()
+
         // If we're on peaceful and server side kill the entity
         if (!world.isRemote && world.difficulty == EnumDifficulty.PEACEFUL)
         {
             setDead()
         }
+
         // Animations only update client side
         if (world.isRemote)
         {
@@ -103,6 +105,7 @@ class EntitySplinterDrone(world: World) : EntityFlying(world), IMob, IMCAnimated
     {
         // Update any base logic
         super.onEntityUpdate()
+
         // Server side test if the entity has played the spawn animation
         if (!world.isRemote)
         {
@@ -113,6 +116,7 @@ class EntitySplinterDrone(world: World) : EntityFlying(world), IMob, IMCAnimated
                 hasPlayedSpawnAnimation = true
             }
         }
+
         // If we're client side and no animation is active play the idle animation
         if (world.isRemote)
         {
@@ -132,16 +136,17 @@ class EntitySplinterDrone(world: World) : EntityFlying(world), IMob, IMCAnimated
     {
         // Kill the entity
         super.onDeath(cause)
+
         // Only process server side
         if (!world.isRemote)
         {
             // If a player killed the entity unlock the gnomish city research
             if (cause.trueSource is EntityPlayer)
             {
-                val entityPlayer = cause.trueSource as EntityPlayer?
+                val entityPlayer = cause.trueSource as EntityPlayer
                 // If we can unlock the gnomish city research do so
-                val playerResearch = entityPlayer!!.getCapability(ModCapabilities.PLAYER_RESEARCH, null)
-                if (playerResearch!!.canResearch(ModResearches.GNOMISH_CITY))
+                val playerResearch = entityPlayer.getResearch()
+                if (playerResearch.canResearch(ModResearches.GNOMISH_CITY))
                 {
                     playerResearch.setResearch(ModResearches.GNOMISH_CITY, true)
                     playerResearch.sync(entityPlayer, true)
@@ -209,6 +214,7 @@ class EntitySplinterDrone(world: World) : EntityFlying(world), IMob, IMCAnimated
         private const val MAX_HEALTH = 20.0
         private const val ATTACK_DAMAGE = 2.0
         private const val KNOCKBACK_RESISTANCE = 0.5
+
         // NBT tag for if the skeleton has done the spawn animation yet or not
         private const val NBT_PLAYED_SPAWN_ANIMATION = "played_spawn_animation"
     }

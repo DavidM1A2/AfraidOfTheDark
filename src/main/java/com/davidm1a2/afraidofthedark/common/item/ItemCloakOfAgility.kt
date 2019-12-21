@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.item
 
 import com.davidm1a2.afraidofthedark.client.keybindings.ModKeybindings.ROLL_WITH_CLOAK_OF_AGILITY
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItemWithSharedCooldown
 import net.minecraft.client.Minecraft
@@ -28,7 +28,7 @@ class ItemCloakOfAgility : AOTDItemWithSharedCooldown("cloak_of_agility")
     {
         val player = Minecraft.getMinecraft().player
         // If the player has the research show them what key is used to roll, otherwise tell them they don't know how to use the cloak
-        if (player != null && player.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!.isResearched(ModResearches.CLOAK_OF_AGILITY))
+        if (player != null && player.getResearch().isResearched(ModResearches.CLOAK_OF_AGILITY))
         {
             tooltip.add("Use " + ROLL_WITH_CLOAK_OF_AGILITY.displayName + " to perform a roll in")
             tooltip.add("the current direction of movement")

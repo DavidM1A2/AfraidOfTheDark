@@ -52,31 +52,28 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
      * @param spell      The spell that this projectile is delivering
      * @param spellIndex The index of the current spell stage that is being executed
      * @param position   The position of the spell projectile
-     * @param velocity   The velocity of the projectile
+     * @param velocity   The velocity of the projectile, default will just be random velocity
      */
-    constructor(world: World, spell: Spell, spellIndex: Int, position: Vec3d, velocity: Vec3d?) : this(world)
+    constructor(world: World, spell: Spell, spellIndex: Int, position: Vec3d, velocity: Vec3d = Vec3d(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5)) : this(world)
     {
-        @Suppress("NAME_SHADOWING")
-        var velocity = velocity
         this.spell = spell
         this.spellIndex = spellIndex
         val deliveryInstance = spell.getStage(spellIndex)!!.deliveryInstance!!
         val deliveryMethodProjectile = deliveryInstance.component as SpellDeliveryMethodProjectile
         blockDistanceRemaining = deliveryMethodProjectile.getRange(deliveryInstance)
+
         // Grab the projectile speed from the delivery method
         val projectileSpeed = deliveryMethodProjectile.getSpeed(deliveryInstance)
-        // Default velocity will just be random velocity
-        if (velocity == null)
-        {
-            velocity = Vec3d(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5)
-        }
+
         // Update the acceleration vector by normalizing it and multiplying by speed
         val motion = velocity.normalize().scale(projectileSpeed)
         motionX = motion.x
         motionY = motion.y
         motionZ = motion.z
+
         // Position the entity at the center of the shooter moved slightly in the dir of fire
         setPosition(position.x + motionX, position.y + motionY, position.z + motionZ)
+
         // Null shooter
         shooter = null
     }
@@ -114,11 +111,13 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
     override fun onUpdate()
     {
         super.onUpdate()
+
         // Animations only update client side
         if (world.isRemote)
         {
             animHandler.animationsUpdate()
         }
+
         // Update logic server side
         if (!world.isRemote)
         {
@@ -127,9 +126,11 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
             {
                 // We are in the air, so increment our counter
                 ticksInAir++
+
                 // Perform a ray case to test if we've hit something. We can only hit the entity that fired the projectile after 25 ticks
                 // Intellij says 'shooter' should always be non-null, that is not the case....
                 val rayTraceResult: RayTraceResult? = ProjectileHelper.forwardsRaycast(this, true, ticksInAir >= 25, shooter)
+
                 // If the ray trace hit something, perform the hit effect
                 if (rayTraceResult != null)
                 {
@@ -138,9 +139,11 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
 
                 // Continue flying in the direction of motion, update the position
                 setPosition(posX + motionX, posY + motionY, posZ + motionZ)
+
                 // Update distance flown, and kill the entity if it went
                 val distanceFlown = Vec3d(motionX, motionY, motionZ).lengthVector()
                 blockDistanceRemaining = blockDistanceRemaining - distanceFlown
+
                 // If we're out of distance deliver the spell and kill the projectile
                 if (blockDistanceRemaining <= 0)
                 {
@@ -153,10 +156,12 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
                         .withDirection(Vec3d(motionX, motionY, motionZ))
                         .withDeliveryEntity(this)
                         .build()
+
                     // Proc the effects and transition
                     val currentDeliveryMethod = spell.getStage(spellIndex)!!.deliveryInstance!!.component
                     currentDeliveryMethod.procEffects(state)
                     currentDeliveryMethod.transitionFrom(state)
+
                     setDead()
                 }
             }
@@ -179,6 +184,7 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
         {
             // Grab the current spell stage
             val currentStage = spell.getStage(spellIndex)
+
             // If we hit something process the hit
             if (result.typeOfHit != RayTraceResult.Type.MISS)
             {
@@ -187,6 +193,7 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
                 {
                     // Grab the hit position
                     var hitPos = BlockPos(result.hitVec)
+
                     // If we hit an air block find the block to the side of the air, hit that instead
                     if (world.getBlockState(hitPos).block === Blocks.AIR)
                     {
@@ -201,6 +208,7 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
                         .withDirection(Vec3d(motionX, motionY, motionZ))
                         .withDeliveryEntity(this)
                         .build()
+
                     // Proc the effects and transition
                     currentDeliveryMethod.procEffects(state)
                     currentDeliveryMethod.transitionFrom(state)
@@ -213,11 +221,13 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
                         .withEntity(result.entityHit)
                         .withDeliveryEntity(this)
                         .build()
+
                     // Proc the effects and transition
                     currentDeliveryMethod.procEffects(state)
                     currentDeliveryMethod.transitionFrom(state)
                 }
             }
+
             // Kill the projectile
             setDead()
         }
@@ -229,6 +239,7 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
     override fun onEntityUpdate()
     {
         super.onEntityUpdate()
+
         // If we're client side and no animation is active play the idle animation
         if (world.isRemote)
         {

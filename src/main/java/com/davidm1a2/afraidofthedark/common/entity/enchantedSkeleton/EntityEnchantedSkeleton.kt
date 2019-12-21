@@ -6,7 +6,7 @@
 package com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.animation.AnimationHandlerEnchantedSkeleton
@@ -43,7 +43,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint
  */
 class EntityEnchantedSkeleton(world: World) : EntityMob(world), IMCAnimatedEntity
 {
-    private val animHandler: AnimationHandler = AnimationHandlerEnchantedSkeleton(this)
+    private val animHandler = AnimationHandlerEnchantedSkeleton(this)
     private var hasPlayedSpawnAnimation = false
 
     init
@@ -118,13 +118,16 @@ class EntityEnchantedSkeleton(world: World) : EntityMob(world), IMCAnimatedEntit
             {
                 // Tell clients to show the spawn animation
                 AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(SyncAnimation("Spawn", this), TargetPoint(dimension, posX, posY, posZ, 50.0))
+
                 // Give the skeleton slowness and weakness for 3 seconds with level 100 so it can't do anything while spawning
                 addPotionEffect(PotionEffect(Potion.getPotionById(18)!!, 60, 100))
                 addPotionEffect(PotionEffect(Potion.getPotionById(2)!!, 60, 100))
+
                 // Set our flag
                 hasPlayedSpawnAnimation = true
             }
         }
+
         // If we're on client side test if we need to show walking animations
         if (world.isRemote)
         {
@@ -159,6 +162,7 @@ class EntityEnchantedSkeleton(world: World) : EntityMob(world), IMCAnimatedEntit
     {
         // Call super
         super.onDeath(damageSource)
+
         // Server side processing only
         if (!world.isRemote)
         {
@@ -168,19 +172,21 @@ class EntityEnchantedSkeleton(world: World) : EntityMob(world), IMCAnimatedEntit
                 // Grab a reference to the player
                 val killer = damageSource.trueSource as EntityPlayer
                 // Grab the player's research
-                val playerResearch = killer.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!
+                val playerResearch = killer.getResearch()
                 // If the player can research the blade of exhumation research give him the research
                 if (playerResearch.canResearch(ModResearches.BLADE_OF_EXHUMATION))
-                { // Unlock the research for the player
+                {
+                    // Unlock the research for the player
                     playerResearch.setResearch(ModResearches.BLADE_OF_EXHUMATION, true)
                     playerResearch.sync(killer, true)
                 }
+
                 // If the blade of exhumation research is researched and the player is using a blade of exhumation drop one extra enchanted skeleton bone
                 if (playerResearch.isResearched(ModResearches.BLADE_OF_EXHUMATION))
                 {
                     if (killer.heldItemMainhand.item is ItemBladeOfExhumation)
                     {
-                        world.spawnEntity(EntityItem(world, posX, posY + 1, posZ, ItemStack(ModItems.ENCHANTED_SKELETON_BONE, 1, 0)))
+                        world.spawnEntity(EntityItem(world, posX, posY + 1, posZ, ItemStack(ModItems.ENCHANTED_SKELETON_BONE)))
                     }
                 }
             }
@@ -278,13 +284,23 @@ class EntityEnchantedSkeleton(world: World) : EntityMob(world), IMCAnimatedEntit
         // Server side processing the hit only
         if (!entity.world.isRemote)
         {
+            // If the entity has slowness 100, then it is still spawning so it can't attack
+            this.getActivePotionEffect(Potion.getPotionById(2)!!)?.let()
+            {
+                if (it.amplifier == 100)
+                {
+                    return false
+                }
+            }
+
             // Test if the entity is a player or not
             if (entity is EntityPlayer)
             {
-                // Add slowness and weakness\ to the player if hit by a skeleton
+                // Add slowness and weakness 1 to the player if hit by a skeleton
                 entity.addPotionEffect(PotionEffect(Potion.getPotionById(2)!!, 80, 0, false, true))
                 entity.addPotionEffect(PotionEffect(Potion.getPotionById(18)!!, 80, 0, false, true))
             }
+
             // Send a packet to the other players telling them the skeleton attacked
             AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(
                 SyncAnimation("Attack", this, "Attack", "Spawn"),
@@ -311,6 +327,7 @@ class EntityEnchantedSkeleton(world: World) : EntityMob(world), IMCAnimatedEntit
         private const val MAX_HEALTH = 7.0f
         private const val ATTACK_DAMAGE = 4.0f
         private const val KNOCKBACK_RESISTANCE = 0.5f
+
         // NBT tag for if the skeleton has done the spawn animation yet or not
         private const val NBT_PLAYED_SPAWN_ANIMATION = "played_spawn_animation"
     }

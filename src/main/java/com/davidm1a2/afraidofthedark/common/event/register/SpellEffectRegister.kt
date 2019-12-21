@@ -19,6 +19,7 @@ class SpellEffectRegister
     fun registerSpellEffects(event: RegistryEvent.Register<SpellEffect>)
     {
         val registry = event.registry
+
         // Register all spell effects in our mod
         registry.registerAll(*ModSpellEffects.SPELL_EFFECTS)
     }

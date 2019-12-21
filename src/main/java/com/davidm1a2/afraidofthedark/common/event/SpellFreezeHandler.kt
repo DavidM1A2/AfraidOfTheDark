@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.event
 
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellFreezeData
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraftforge.client.event.InputUpdateEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
@@ -26,7 +26,7 @@ class SpellFreezeHandler
         if (event.type == TickEvent.Type.PLAYER && event.phase == TickEvent.Phase.START && event.side == Side.SERVER)
         {
             val entityPlayer = event.player
-            val playerFreezeData = entityPlayer.getCapability(ModCapabilities.PLAYER_SPELL_FREEZE_DATA, null)!!
+            val playerFreezeData = entityPlayer.getSpellFreezeData()
 
             // Ensure there's at least 1 freeze tick remaining
             if (playerFreezeData.freezeTicks > 0)
@@ -41,8 +41,9 @@ class SpellFreezeHandler
                     playerFreezeData.sync(entityPlayer)
                 }
 
-                // Freeze the player's location
                 val freezePosition = playerFreezeData.freezePosition!!
+
+                // Freeze the player's location
                 (entityPlayer as EntityPlayerMP).connection.setPlayerLocation(
                     freezePosition.x,
                     freezePosition.y,
@@ -63,7 +64,8 @@ class SpellFreezeHandler
     @SideOnly(Side.CLIENT)
     fun onInputUpdateEvent(event: InputUpdateEvent)
     {
-        val playerFreezeData = event.entityPlayer.getCapability(ModCapabilities.PLAYER_SPELL_FREEZE_DATA, null)!!
+        val playerFreezeData = event.entityPlayer.getSpellFreezeData()
+
         // If the player is frozen block all movement
         if (playerFreezeData.freezeTicks > 0)
         {

@@ -47,6 +47,7 @@ abstract class AOTDItemWithPerItemCooldown(baseName: String, displayInCreative: 
     open fun setOnCooldown(itemStack: ItemStack, entityPlayer: EntityPlayer)
     {
         NBTHelper.setLong(itemStack, NBT_LAST_USE_TIME, System.currentTimeMillis())
+
         // We need to update the client of the new cooldown, so send a packet
         if (!entityPlayer.world.isRemote)
         {

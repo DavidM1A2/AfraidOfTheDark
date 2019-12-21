@@ -60,21 +60,25 @@ class VoidChestChunkGenerator(private val world: World) : IChunkGenerator
         // If we've hit one of the critical chunks trigger a void chest generation
         if (xPos % blocksBetweenIslands == 0 && z == 0)
         {
-            for (i in 0..48) for (j in 0..48)
+            for (i in 0..48)
             {
-                // Create the floor
-                world.setBlockState(BlockPos(xPos + i, 100, z + j), barrierDefaultState)
-                // Create the roof
-                world.setBlockState(BlockPos(xPos + i, 100 + 48, z + j), barrierDefaultState)
-                // Create the left wall
-                world.setBlockState(BlockPos(xPos + 0, 100 + i, z + j), barrierDefaultState)
-                // Create the right wall
-                world.setBlockState(BlockPos(xPos + 48, 100 + i, z + j), barrierDefaultState)
-                // Create the front wall
-                world.setBlockState(BlockPos(xPos + i, 100 + j, z + 0), barrierDefaultState)
-                // Create the back wall
-                world.setBlockState(BlockPos(xPos + i, 100 + j, z + 48), barrierDefaultState)
+                for (j in 0..48)
+                {
+                    // Create the floor
+                    world.setBlockState(BlockPos(xPos + i, 100, z + j), barrierDefaultState)
+                    // Create the roof
+                    world.setBlockState(BlockPos(xPos + i, 100 + 48, z + j), barrierDefaultState)
+                    // Create the left wall
+                    world.setBlockState(BlockPos(xPos + 0, 100 + i, z + j), barrierDefaultState)
+                    // Create the right wall
+                    world.setBlockState(BlockPos(xPos + 48, 100 + i, z + j), barrierDefaultState)
+                    // Create the front wall
+                    world.setBlockState(BlockPos(xPos + i, 100 + j, z + 0), barrierDefaultState)
+                    // Create the back wall
+                    world.setBlockState(BlockPos(xPos + i, 100 + j, z + 48), barrierDefaultState)
+                }
             }
+
             // Generate the portal
             SchematicGenerator.generateSchematic(ModSchematics.VOID_CHEST_PORTAL, world, BlockPos(xPos + 20, 100, -2))
         }

@@ -19,6 +19,7 @@ class SpellPowerSourceRegister
     fun registerSpellPowerSources(event: RegistryEvent.Register<SpellPowerSource>)
     {
         val registry = event.registry
+
         // Register all spell power sources in our mod
         registry.registerAll(*ModSpellPowerSources.SPELL_POWER_SOURCES)
     }

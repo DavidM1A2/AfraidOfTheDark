@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.item
 
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModArmorMaterials
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDArmor
 import net.minecraft.client.Minecraft
@@ -71,7 +71,7 @@ class ItemIgneousArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) : A
     override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag)
     {
         val player = Minecraft.getMinecraft().player
-        if (player != null && player.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!.isResearched(ModResearches.IGNEOUS))
+        if (player != null && player.getResearch().isResearched(ModResearches.IGNEOUS))
         {
             tooltip.add("Magical armor will never break.")
             tooltip.add("Knocks back enemies that hit you.")
@@ -96,7 +96,7 @@ class ItemIgneousArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) : A
         if (player.isBurning)
         {
             // Ensure the player has the right research
-            if (player.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!.isResearched(ModResearches.IGNEOUS))
+            if (player.getResearch().isResearched(ModResearches.IGNEOUS))
             {
                 // If the player is wearing full armor then add armor set bonuses
                 if (isWearingFullArmor(player))
@@ -165,7 +165,7 @@ class ItemIgneousArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) : A
         if (entity is EntityPlayer)
         {
             // Ensure the player has the right research
-            if (entity.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!.isResearched(ModResearches.IGNEOUS))
+            if (entity.getResearch().isResearched(ModResearches.IGNEOUS))
             {
                 // If the player is wearing full armor then add armor set bonuses
                 if (isWearingFullArmor(entity))
@@ -175,6 +175,7 @@ class ItemIgneousArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) : A
                     if (damageSourceEntity != null)
                     {
                         damageSourceEntity.setFire(5)
+
                         // Also knock the damage source entity back
                         val motionX = entity.position.x - damageSourceEntity.position.x.toDouble()
                         val motionZ = entity.position.z - damageSourceEntity.position.z.toDouble()
@@ -194,6 +195,7 @@ class ItemIgneousArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) : A
                 {
                     return ArmorProperties(0, getRatio(slot), Int.MAX_VALUE)
                 }
+                // Blocks no true damage
                 else if (TRUE_DAMAGE_SOURCES.contains(source))
                 {
                     return ArmorProperties(0, getRatio(slot), 0)

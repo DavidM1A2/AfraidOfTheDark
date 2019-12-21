@@ -19,6 +19,7 @@ class PotionRegister
     fun registerPotions(event: RegistryEvent.Register<Potion>)
     {
         val registry = event.registry
+
         // Register each potion in our potion list
         registry.registerAll(*ModPotions.POTION_LIST)
     }

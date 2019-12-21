@@ -25,8 +25,10 @@ class BlockRegister
     fun registerBlocks(event: RegistryEvent.Register<Block>)
     {
         val registry = event.registry
+
         // Register all blocks in our mod
         registry.registerAll(*BLOCK_LIST)
+
         // Register any special tile entities
         for ((tileEntityClass, resourceLocation) in TILE_ENTITY_LIST)
         {

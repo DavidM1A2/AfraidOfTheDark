@@ -11,12 +11,12 @@ import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint
  * Class that allows enaria to attack
  *
  * @property enaria The enaria entity
+ * @property target The target enaria is hitting
+ * @property ticksUntilNextAttack The ticks until enarias next attack
  */
 class EntityAIAttackEnaria(private val enaria: EntityEnaria) : EntityAIBase()
 {
-    // The target enaria is hitting
     private var target: EntityLivingBase? = null
-    // The ticks until enarias next attack
     private var ticksUntilNextAttack = 0
 
     /**
@@ -28,6 +28,7 @@ class EntityAIAttackEnaria(private val enaria: EntityEnaria) : EntityAIBase()
     {
         // Get enaria's target
         val target = enaria.attackTarget
+
         // if there's no target don't execute, otherwise set the target
         return if (target == null)
         {
@@ -66,17 +67,22 @@ class EntityAIAttackEnaria(private val enaria: EntityEnaria) : EntityAIBase()
     {
         // Look at the target
         enaria.lookHelper.setLookPositionWithEntity(target!!, 30.0f, 30.0f)
-        // Ddecrease the ticks until next attack
+
+        // Decrease the ticks until next attack
         ticksUntilNextAttack = ticksUntilNextAttack - 1
+
         // If ticks until next attack is 0 then perform a spell attack
         if (ticksUntilNextAttack <= 0)
         {
             // The next spell will be in the next 7 and 13 seconds
             ticksUntilNextAttack = enaria.world.rand.nextInt(100) + 140
+
             // Perform a random spell attack
             enaria.enariaAttacks.performRandomSpell()
+
             // Make sure you can't use potions on enaria, she clears them every spell cast
             enaria.clearActivePotions()
+
             // Play the spell cast animation
             AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(
                 SyncAnimation("spell", enaria, "spell"),
@@ -90,6 +96,7 @@ class EntityAIAttackEnaria(private val enaria: EntityEnaria) : EntityAIBase()
             {
                 // Perform basic attack
                 enaria.enariaAttacks.performBasicAttack()
+
                 // Show the auto attack animation
                 AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(
                     SyncAnimation("autoattack", enaria, "spell", "autoattack"),
@@ -98,5 +105,4 @@ class EntityAIAttackEnaria(private val enaria: EntityEnaria) : EntityAIBase()
             }
         }
     }
-
 }

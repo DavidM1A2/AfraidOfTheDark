@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources.getSilverDamage
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModToolMaterials
@@ -20,9 +20,16 @@ import net.minecraft.world.World
 
 /**
  * Star metal sword is a khopesh
+ *
+ * @constructor sets the sword properties
  */
 class ItemStarMetalKhopesh : AOTDChargeableSword("star_metal_khopesh", ModToolMaterials.STAR_METAL)
 {
+    init
+    {
+        percentChargePerAttack = 35.0
+    }
+
     /**
      * Called when you left click an entity with the sword
      *
@@ -34,7 +41,7 @@ class ItemStarMetalKhopesh : AOTDChargeableSword("star_metal_khopesh", ModToolMa
     override fun onLeftClickEntity(stack: ItemStack, player: EntityPlayer, entity: Entity): Boolean
     {
         // If star metal is researched allow the sword to function
-        if (player.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!.isResearched(ModResearches.STAR_METAL))
+        if (player.getResearch().isResearched(ModResearches.STAR_METAL))
         {
             // Ensure the clicked entity was non-null
             entity.attackEntityFrom(getSilverDamage(player), attackDamage)
@@ -58,7 +65,7 @@ class ItemStarMetalKhopesh : AOTDChargeableSword("star_metal_khopesh", ModToolMa
     override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag)
     {
         val player = Minecraft.getMinecraft().player
-        if (player != null && player.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!.isResearched(ModResearches.STAR_METAL))
+        if (player != null && player.getResearch().isResearched(ModResearches.STAR_METAL))
         {
             tooltip.add("Magical items will never break.")
             tooltip.add("Right click to use an AOE knockback and")
@@ -90,10 +97,13 @@ class ItemStarMetalKhopesh : AOTDChargeableSword("star_metal_khopesh", ModToolMa
                 // Compute the vector from player to entity
                 val motionX = entityPlayer.position.x - entity.position.x.toDouble()
                 val motionZ = entityPlayer.position.z - entity.position.z.toDouble()
+
                 // Compute the magnitude of the distance vector
                 val hypotenuse = MathHelper.sqrt(motionX * motionX + motionZ * motionZ).toDouble()
+
                 // Compute the strength we knock back with
                 val knockbackStrength = EnchantmentHelper.getEnchantmentLevel(Enchantments.KNOCKBACK, itemStack) + 2.toDouble()
+
                 // Compute the damage we hit with based on sharpness
                 val sharpnessDamage = EnchantmentHelper.getEnchantmentLevel(Enchantments.SHARPNESS, itemStack)
                 // Attack the entity with player damage and move them back
@@ -172,13 +182,5 @@ class ItemStarMetalKhopesh : AOTDChargeableSword("star_metal_khopesh", ModToolMa
         private const val TICKS_TO_SPIN = 8
         // Number of degrees to spin per tick
         private const val DEGREES_PER_TICK = 360.0f / TICKS_TO_SPIN
-    }
-
-    /**
-     * Constructor sets the sword properties
-     */
-    init
-    {
-        percentChargePerAttack = 35.0
     }
 }

@@ -20,12 +20,15 @@ class GhastlyEnariaMoveHelper(enaria: EntityGhastlyEnaria) : EntityMoveHelper(en
         {
             // Code copied from super, moves the entity in the direction enaria wants to move to
             action = Action.WAIT
+
             // Compute the distance between the entities current position and the position the entity wants to be in
             val xDifference = posX - entity.posX
             val yDifference = posY - entity.posY
             val zDifference = posZ - entity.posZ
+
             // Compute the total difference in all distances
             val totalDifference = sqrt(xDifference * xDifference + yDifference * yDifference + zDifference * zDifference)
+
             // If we haven't gotten to the final position update the entities motion to be in the correct direction
             if (totalDifference != 0.0)
             {

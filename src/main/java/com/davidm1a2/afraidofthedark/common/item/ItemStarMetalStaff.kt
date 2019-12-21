@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItemWithSharedCooldown
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
@@ -20,8 +20,6 @@ import net.minecraft.world.World
 
 /**
  * Class representing a star metal staff that can do a (fizz e from LoL)
- *
- * @constructor sets the item's name
  */
 class ItemStarMetalStaff : AOTDItemWithSharedCooldown("star_metal_staff")
 {
@@ -71,10 +69,11 @@ class ItemStarMetalStaff : AOTDItemWithSharedCooldown("star_metal_staff")
         if (!world.isRemote)
         {
             // Verify the player has the star metal research
-            if (player.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!.isResearched(ModResearches.STAR_METAL))
+            if (player.getResearch().isResearched(ModResearches.STAR_METAL))
             {
                 // Get the item that the player was holding
                 val heldItem = player.getHeldItem(hand)
+
                 // If the item is not on cooldown fire it off
                 if (!isOnCooldown(heldItem))
                 {
@@ -224,6 +223,7 @@ class ItemStarMetalStaff : AOTDItemWithSharedCooldown("star_metal_staff")
     {
         // Grab all entities around the player
         val entityList = world.getEntitiesWithinAABBExcludingEntity(entityPlayer, entityPlayer.entityBoundingBox.grow(10.0))
+
         // Go over all nearby entities
         for (entity in entityList)
         {
@@ -233,8 +233,10 @@ class ItemStarMetalStaff : AOTDItemWithSharedCooldown("star_metal_staff")
                 // Compute the x,z force vector to push the entity in
                 val motionX = entityPlayer.position.x - entity.position.x.toDouble()
                 val motionZ = entityPlayer.position.z - entity.position.z.toDouble()
+
                 // Compute the magnitude of the force
                 val hypotenuse = MathHelper.sqrt(motionX * motionX + motionZ * motionZ).toDouble()
+
                 // Push the entity away from the player
                 entity.addVelocity(-motionX * KNOCKBACK_STRENGTH * 0.6 / hypotenuse, 0.1, -motionZ * KNOCKBACK_STRENGTH * 0.6 / hypotenuse)
             }

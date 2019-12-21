@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.client.Minecraft
@@ -43,7 +43,7 @@ class ItemWand : AOTDItem("wand")
         // Grab the held itemstack
         val heldItem = player.getHeldItem(hand)
         // Grab the player's spell manager
-        val spellManager = player.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null)!!
+        val spellManager = player.getSpellManager()
 
         // If the player is sneaking switch spells, otherwise cast the spell
         if (player.isSneaking)
@@ -69,24 +69,12 @@ class ItemWand : AOTDItem("wand")
                 {
                     // Grab the spell list
                     val spells = spellManager.getSpells()
+                    val currentSpellIndex = spells.indexOfFirst { it.id == spellId }
 
-                    // Go over each spell in the list
-                    val iterator = spells.iterator()
-                    while (iterator.hasNext())
+                    // If our list has another spell after ours store that one
+                    if (currentSpellIndex + 1 < spells.size)
                     {
-                        // Grab the spell
-                        val spell = iterator.next()
-                        // If it has the right ID break out of the loop
-                        if (spell.id == spellId)
-                        {
-                            break
-                        }
-                    }
-
-                    // If our iterator has another spell after ours store that one
-                    if (iterator.hasNext())
-                    {
-                        val next = iterator.next()
+                        val next = spells[currentSpellIndex + 1]
                         setSpellId(heldItem, next.id)
                         // Send the message server side
                         if (!world.isRemote)
@@ -139,18 +127,21 @@ class ItemWand : AOTDItem("wand")
     private fun setSpellToFirstAvailable(entityPlayer: EntityPlayer, itemStack: ItemStack)
     {
         // Grab the player's spell manager
-        val spellManager = entityPlayer.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null)!!
+        val spellManager = entityPlayer.getSpellManager()
+
         // If they have at least one spell grab it
         if (spellManager.getSpells().isNotEmpty())
         {
-            val next = spellManager.getSpells()[0]
+            val first = spellManager.getSpells()[0]
+
             // Server side sending only, tell the player the spell was updated
             if (!entityPlayer.world.isRemote)
             {
-                entityPlayer.sendMessage(TextComponentTranslation("aotd.wand.spell_set", next.name))
+                entityPlayer.sendMessage(TextComponentTranslation("aotd.wand.spell_set", first.name))
             }
+
             // Set the NBT spell ID
-            setSpellId(itemStack, next.id)
+            setSpellId(itemStack, first.id)
         }
         else
         {
@@ -193,14 +184,7 @@ class ItemWand : AOTDItem("wand")
     private fun getSpellId(itemStack: ItemStack): UUID?
     {
         val uuidNBT = NBTHelper.getCompound(itemStack, NBT_SPELL_ID)
-        return if (uuidNBT != null)
-        {
-            NBTUtil.getUUIDFromTag(uuidNBT)
-        }
-        else
-        {
-            null
-        }
+        return uuidNBT?.let { NBTUtil.getUUIDFromTag(it) }
     }
 
     /**
@@ -223,7 +207,8 @@ class ItemWand : AOTDItem("wand")
             if (hasSpellId(stack))
             {
                 // Grab the spell by ID
-                val spell = player.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null)!!.getSpellById(getSpellId(stack)!!)
+                val spell = player.getSpellManager().getSpellById(getSpellId(stack)!!)
+
                 // If the spell is non-null show the spell's stats
                 if (spell != null)
                 {

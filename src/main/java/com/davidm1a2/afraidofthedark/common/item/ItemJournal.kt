@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.common.item
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiHandler
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.client.util.ITooltipFlag
@@ -49,10 +49,11 @@ class ItemJournal : AOTDItem("journal")
         if (!NBTHelper.hasTag(heldItemStack, NBT_OWNER))
         {
             // If the player has started AOTD, set the NBT tag and open the journal
-            if (player.getCapability(ModCapabilities.PLAYER_BASICS, null)!!.startedAOTD)
+            if (player.getBasics().startedAOTD)
             {
                 // Set the owner tag to the player's username
                 setOwner(heldItemStack, player.gameProfile.name)
+
                 // Show the journal UI
                 if (world.isRemote)
                 {
@@ -82,7 +83,7 @@ class ItemJournal : AOTDItem("journal")
         else if (player.gameProfile.name == NBTHelper.getString(heldItemStack, NBT_OWNER))
         {
             // If the player has started AOTD show the journal UI
-            if (player.getCapability(ModCapabilities.PLAYER_BASICS, null)!!.startedAOTD)
+            if (player.getBasics().startedAOTD)
             {
                 if (world.isRemote)
                 {

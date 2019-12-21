@@ -20,6 +20,7 @@ class BoltEntryRegister
     {
         // Grab the registry for bolt entries
         val registry = event.registry
+
         // Register all of our mod bolt entries
         registry.registerAll(*ModBoltEntries.BOLT_ENTRY_LIST)
     }

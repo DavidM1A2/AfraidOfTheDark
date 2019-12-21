@@ -52,6 +52,7 @@ class EntitySplinterDroneProjectile(world: World) : Entity(world), IMCAnimatedEn
     {
         // Update the entity that fired this projectile
         this.shootingEntity = shootingEntity
+
         // Position the entity at the center of the drone
         setLocationAndAngles(
             shootingEntity.posX,
@@ -81,11 +82,13 @@ class EntitySplinterDroneProjectile(world: World) : Entity(world), IMCAnimatedEn
     override fun onUpdate()
     {
         super.onUpdate()
+
         // Animations only update client side
         if (world.isRemote)
         {
             animHandler.animationsUpdate()
         }
+
         // Update logic server side
         if (!world.isRemote)
         {
@@ -94,14 +97,17 @@ class EntitySplinterDroneProjectile(world: World) : Entity(world), IMCAnimatedEn
             {
                 // We are in the air, so increment our counter
                 ticksInAir++
+
                 // Perform a ray cast to test if we've hit something. We can only hit the entity that fired the projectile after 25 ticks
                 val rayTraceResult: RayTraceResult? = ProjectileHelper.forwardsRaycast(this, true, ticksInAir >= 25, shootingEntity)
+
                 // If the ray trace hit something, perform the hit effect
                 // Intellij says this is always non-null, that is not the case....
                 if (rayTraceResult != null)
                 {
                     onImpact(rayTraceResult)
                 }
+
                 // Continue flying in the direction of motion, update the position
                 setPosition(posX + motionX, posY + motionY, posZ + motionZ)
             }
@@ -118,6 +124,7 @@ class EntitySplinterDroneProjectile(world: World) : Entity(world), IMCAnimatedEn
     override fun onEntityUpdate()
     {
         super.onEntityUpdate()
+
         // If we're client side and no animation is active play the sping animation
         if (world.isRemote)
         {
@@ -153,6 +160,7 @@ class EntitySplinterDroneProjectile(world: World) : Entity(world), IMCAnimatedEn
                     }
                 }
             }
+
             // Kill the projectile
             setDead()
         }
@@ -249,6 +257,7 @@ class EntitySplinterDroneProjectile(world: World) : Entity(world), IMCAnimatedEn
         // NBT compound constants
         private const val NBT_TICKS_IN_AIR = "ticks_in_air"
         private const val NBT_MOTION_DIRECTION = "motion_direction"
+
         // The speed of the projectile
         private const val PROJECTILE_SPEED = 0.5
     }

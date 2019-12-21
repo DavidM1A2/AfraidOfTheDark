@@ -267,6 +267,7 @@ class ItemCrossbow : AOTDItem("crossbow")
     {
         // Store the reload time of the crossbow in ticks
         private const val RELOAD_TIME = 40
+
         // Strings used as keys by NBT
         private const val NBT_BOLT_TYPE = "bolt_type"
         private const val NBT_LOADED = "is_loaded"

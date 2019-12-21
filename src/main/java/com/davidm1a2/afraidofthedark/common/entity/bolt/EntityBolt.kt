@@ -69,6 +69,7 @@ abstract class EntityBolt : EntityThrowable
                 {
                     entityHit.attackEntityFrom(damageSourceProducer(thrower as EntityPlayer), damage.toFloat())
                 }
+
                 // If the random chance succeeds, drop the bolt item
                 if (Math.random() < chanceToDropHitEntity)
                 {
@@ -84,6 +85,7 @@ abstract class EntityBolt : EntityThrowable
                 }
             }
         }
+
         // Kill the bolt on server and client side after impact
         setDead()
     }
