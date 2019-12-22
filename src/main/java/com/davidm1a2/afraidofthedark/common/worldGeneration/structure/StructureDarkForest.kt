@@ -12,7 +12,6 @@ import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.AOTDS
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.iterator.IChunkIterator
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.processor.IChunkProcessor
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.processor.LowestHeightChunkProcessor
-import com.google.common.collect.ImmutableSet
 import net.minecraft.init.Biomes
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTTagList
@@ -21,7 +20,6 @@ import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.world.World
-import net.minecraft.world.biome.Biome
 import net.minecraft.world.biome.BiomeProvider
 import net.minecraftforge.common.util.Constants
 import java.awt.Rectangle
@@ -474,7 +472,7 @@ class StructureDarkForest : AOTDStructure("dark_forest")
         )
 
         // A set of compatible biomes
-        private val COMPATIBLE_HOUSE_BIOMES: Set<Biome> = ImmutableSet.of(
+        private val COMPATIBLE_HOUSE_BIOMES = setOf(
             Biomes.SAVANNA,
             Biomes.MUTATED_SAVANNA,
             Biomes.PLAINS,

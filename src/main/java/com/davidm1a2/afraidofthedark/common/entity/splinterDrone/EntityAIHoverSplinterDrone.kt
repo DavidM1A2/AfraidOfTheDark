@@ -4,8 +4,8 @@ import net.minecraft.block.BlockAir
 import net.minecraft.entity.SharedMonsterAttributes
 import net.minecraft.entity.ai.EntityAIBase
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.MathHelper
 import kotlin.math.floor
+import kotlin.math.sqrt
 
 /**
  * AI task that makes the splinter drone randomly fly around like a ghast. Code from EntityGhast
@@ -40,7 +40,7 @@ class EntityAIHoverSplinterDrone(private val splinterDrone: EntitySplinterDrone)
             val xDistance = entityMoveHelper.x - splinterDrone.posX
             val yDistance = entityMoveHelper.y - splinterDrone.posY
             val zDistance = entityMoveHelper.z - splinterDrone.posZ
-            val overallDistance = MathHelper.sqrt(xDistance * xDistance + yDistance * yDistance + zDistance * zDistance).toDouble()
+            val overallDistance = sqrt(xDistance * xDistance + yDistance * yDistance + zDistance * zDistance)
             overallDistance < 1 || overallDistance > 60
         }
     }

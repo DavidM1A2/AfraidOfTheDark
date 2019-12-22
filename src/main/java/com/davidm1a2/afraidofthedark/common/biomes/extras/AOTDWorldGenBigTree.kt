@@ -7,7 +7,6 @@ import net.minecraft.block.state.IBlockState
 import net.minecraft.init.Blocks
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.MathHelper
 import net.minecraft.world.World
 import net.minecraft.world.gen.feature.WorldGenAbstractTree
 import net.minecraftforge.common.IPlantable
@@ -255,7 +254,7 @@ class AOTDWorldGenBigTree(
         {
             val f = heightLimit / 2.0f
             val f1 = f - y
-            var f2 = MathHelper.sqrt(f * f - f1 * f1)
+            var f2 = sqrt(f * f - f1 * f1)
             if (f1 == 0.0f)
             {
                 f2 = f
@@ -316,9 +315,9 @@ class AOTDWorldGenBigTree(
      */
     private fun getGreatestDistance(posIn: BlockPos): Int
     {
-        val i = MathHelper.abs(posIn.x)
-        val j = MathHelper.abs(posIn.y)
-        val k = MathHelper.abs(posIn.z)
+        val i = abs(posIn.x)
+        val j = abs(posIn.y)
+        val k = abs(posIn.z)
         return if (k > i && k > j)
         {
             k

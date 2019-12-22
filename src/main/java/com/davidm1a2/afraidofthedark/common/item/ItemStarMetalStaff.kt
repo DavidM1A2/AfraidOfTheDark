@@ -14,9 +14,9 @@ import net.minecraft.network.play.server.SPacketEntityVelocity
 import net.minecraft.util.ActionResult
 import net.minecraft.util.EnumActionResult
 import net.minecraft.util.EnumHand
-import net.minecraft.util.math.MathHelper
 import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.world.World
+import kotlin.math.sqrt
 
 /**
  * Class representing a star metal staff that can do a (fizz e from LoL)
@@ -235,7 +235,7 @@ class ItemStarMetalStaff : AOTDItemWithSharedCooldown("star_metal_staff")
                 val motionZ = entityPlayer.position.z - entity.position.z.toDouble()
 
                 // Compute the magnitude of the force
-                val hypotenuse = MathHelper.sqrt(motionX * motionX + motionZ * motionZ).toDouble()
+                val hypotenuse = sqrt(motionX * motionX + motionZ * motionZ)
 
                 // Push the entity away from the player
                 entity.addVelocity(-motionX * KNOCKBACK_STRENGTH * 0.6 / hypotenuse, 0.1, -motionZ * KNOCKBACK_STRENGTH * 0.6 / hypotenuse)

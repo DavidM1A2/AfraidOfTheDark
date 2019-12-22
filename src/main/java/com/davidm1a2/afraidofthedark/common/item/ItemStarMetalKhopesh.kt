@@ -15,8 +15,8 @@ import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.init.Enchantments
 import net.minecraft.item.ItemStack
 import net.minecraft.util.DamageSource
-import net.minecraft.util.math.MathHelper
 import net.minecraft.world.World
+import kotlin.math.sqrt
 
 /**
  * Star metal sword is a khopesh
@@ -99,7 +99,7 @@ class ItemStarMetalKhopesh : AOTDChargeableSword("star_metal_khopesh", ModToolMa
                 val motionZ = entityPlayer.position.z - entity.position.z.toDouble()
 
                 // Compute the magnitude of the distance vector
-                val hypotenuse = MathHelper.sqrt(motionX * motionX + motionZ * motionZ).toDouble()
+                val hypotenuse = sqrt(motionX * motionX + motionZ * motionZ)
 
                 // Compute the strength we knock back with
                 val knockbackStrength = EnchantmentHelper.getEnchantmentLevel(Enchantments.KNOCKBACK, itemStack) + 2.toDouble()

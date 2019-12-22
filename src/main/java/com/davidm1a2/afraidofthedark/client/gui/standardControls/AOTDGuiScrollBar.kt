@@ -3,7 +3,6 @@ package com.davidm1a2.afraidofthedark.client.gui.standardControls
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
-import net.minecraft.util.math.MathHelper
 
 /**
  * Advanced control that represents a scroll bar which can be dragged up and down
@@ -112,7 +111,7 @@ class AOTDGuiScrollBar @JvmOverloads constructor(
         var newY = (yAmount / scaleY).toInt() + (minY + (if (isRelative) value else originalHandleLocation) * maxYDiff).toInt()
 
         // Clamp the y inside the bar so you can't drag it off the top or bottom
-        newY = MathHelper.clamp(newY, minY, maxY)
+        newY = newY.coerceIn(minY, maxY)
         // Update the y pos of the handle
         handle.setY(newY)
         // Set the handle location to be the percent down the bar the handle is
