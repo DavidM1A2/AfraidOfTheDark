@@ -115,7 +115,9 @@ class ItemWand : AOTDItem("wand")
                 }
             }
         }
-        return ActionResult(EnumActionResult.SUCCESS, heldItem)
+
+        // Fail the result so that
+        return ActionResult(EnumActionResult.FAIL, heldItem)
     }
 
     /**

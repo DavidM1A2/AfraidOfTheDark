@@ -28,6 +28,12 @@ class EntityAIAttackSplinterDrone(private val splinterDrone: EntitySplinterDrone
      */
     override fun shouldExecute(): Boolean
     {
+        // If the splinter drone is 'activating' don't attack yet (4 seconds)
+        if (splinterDrone.ticksExisted < 80)
+        {
+            return false
+        }
+
         // Grab the target entity
         val target = splinterDrone.attackTarget
 
