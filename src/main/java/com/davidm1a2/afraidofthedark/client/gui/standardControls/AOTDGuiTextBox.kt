@@ -4,7 +4,6 @@ import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
 import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import org.apache.commons.lang3.StringUtils
 import org.lwjgl.util.Color
 import java.util.*
 import kotlin.math.floor
@@ -25,7 +24,7 @@ class AOTDGuiTextBox(x: Int, y: Int, width: Int, height: Int, private val font: 
 {
     private var textLines = mutableListOf<String>()
     var textColor = Color(255, 255, 255, 255)
-    var overflowText = StringUtils.EMPTY
+    var overflowText = ""
         private set
 
     /**
@@ -94,7 +93,7 @@ class AOTDGuiTextBox(x: Int, y: Int, width: Int, height: Int, private val font: 
         // If the number of lines we have is less than or equal to the max we're OK
         if (textLines.size <= maxLines)
         {
-            this.overflowText = StringUtils.EMPTY
+            this.overflowText = ""
         }
         // If the number of lines is greater than the max then we partition the lines into actual text lines and overflow text
         else

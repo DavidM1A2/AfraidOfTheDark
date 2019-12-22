@@ -11,7 +11,6 @@ import net.minecraft.util.text.TextComponentTranslation
 import net.minecraftforge.fml.common.network.ByteBufUtils
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext
-import org.apache.commons.lang3.StringUtils
 
 /**
  * Packet that can be sent from client -> server to tell the server to make a meteor for us, and server -> client
@@ -66,7 +65,7 @@ class UpdateWatchedMeteor : IMessage
     override fun fromBytes(buf: ByteBuf)
     {
         val meteorEntryString = ByteBufUtils.readUTF8String(buf)
-        meteorEntry = if (StringUtils.equals(meteorEntryString, "none"))
+        meteorEntry = if (meteorEntryString == "none")
         {
             null
         }

@@ -4,7 +4,6 @@ import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
 import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import org.apache.commons.lang3.StringUtils
 import org.lwjgl.util.Color
 
 /**
@@ -25,13 +24,13 @@ import org.lwjgl.util.Color
  */
 class AOTDGuiLabel(x: Int, y: Int, width: Int, height: Int, val font: TrueTypeFont) : AOTDGuiContainer(x, y, width, height)
 {
-    var text = StringUtils.EMPTY
+    var text = ""
         set(text)
         {
             field = text
             this.needsTextUpdate = true
         }
-    private var fitText = StringUtils.EMPTY
+    private var fitText = ""
     private var needsTextUpdate = true
     var textColor = Color(255, 255, 255, 255)
     var textAlignment = TextAlignment.ALIGN_LEFT
@@ -94,7 +93,7 @@ class AOTDGuiLabel(x: Int, y: Int, width: Int, height: Int, val font: TrueTypeFo
             val height = (this.font.height.toDouble() * Constants.TEXT_SCALE_FACTOR.toDouble() * this.scaleY).toFloat()
             if (height > this.getHeightScaled())
             {
-                this.fitText = StringUtils.EMPTY
+                this.fitText = ""
             }
             // If the height is OK shorten the text until it fits into the label
             else
