@@ -175,7 +175,7 @@ abstract class ResearchRequiredRecipeBase<T : IRecipe>(val baseRecipe: T, privat
             // If something goes wrong catch the exception and log it, then return null
             catch (e: IllegalAccessException)
             {
-                AfraidOfTheDark.INSTANCE.logger.error("Could not find the player crafting the recipe, error was: " + ExceptionUtils.getStackTrace(e))
+                AfraidOfTheDark.INSTANCE.logger.error("Could not find the player crafting the recipe, error was: ${ExceptionUtils.getStackTrace(e)}")
             }
             return null
         }

@@ -25,8 +25,8 @@ abstract class AOTDArmor(baseName: String, material: ArmorMaterial, renderIndex:
 
     init
     {
-        unlocalizedName = Constants.MOD_ID + ":" + baseName
-        this.setRegistryName(Constants.MOD_ID + ":" + baseName)
+        unlocalizedName = "${Constants.MOD_ID}:$baseName"
+        this.setRegistryName("${Constants.MOD_ID}:$baseName")
 
         if (displayInCreative)
         {

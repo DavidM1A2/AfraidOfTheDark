@@ -23,7 +23,7 @@ open class AOTDPotion(name: String, registryName: String, indexX: Int, indexY: I
 {
     init
     {
-        this.setRegistryName(Constants.MOD_ID + ":" + registryName)
+        this.setRegistryName("${Constants.MOD_ID}:$registryName")
         setPotionName(name)
         setIconIndex(indexX, indexY)
     }

@@ -16,6 +16,6 @@ class AOTDResearch(name: String, preRequisite: Research?) : Research(ResourceLoc
     init
     {
         // Set the registry name of the research to be 'modid:name'
-        registryName = ResourceLocation(Constants.MOD_ID + ":" + name)
+        registryName = ResourceLocation("${Constants.MOD_ID}:$name")
     }
 }

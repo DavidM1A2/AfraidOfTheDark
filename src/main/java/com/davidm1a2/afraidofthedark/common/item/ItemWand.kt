@@ -212,8 +212,8 @@ class ItemWand : AOTDItem("wand")
                 // If the spell is non-null show the spell's stats
                 if (spell != null)
                 {
-                    tooltip.add("Spell: " + spell.name)
-                    tooltip.add("Cost: " + spell.getCost())
+                    tooltip.add("Spell: ${spell.name}")
+                    tooltip.add("Cost: ${spell.getCost()}")
                 }
                 else
                 {

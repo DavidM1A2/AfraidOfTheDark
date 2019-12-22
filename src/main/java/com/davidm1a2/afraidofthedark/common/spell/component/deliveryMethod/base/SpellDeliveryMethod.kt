@@ -120,7 +120,7 @@ abstract class SpellDeliveryMethod(id: ResourceLocation) :
      */
     override fun getUnlocalizedName(): String
     {
-        return "delivery_method." + registryName.toString()
+        return "delivery_method.${registryName.toString()}"
     }
 
     /**

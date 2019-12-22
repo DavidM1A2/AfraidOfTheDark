@@ -34,6 +34,6 @@ abstract class SpellEffect(id: ResourceLocation) : SpellComponent<SpellEffect>(i
      */
     override fun getUnlocalizedName(): String
     {
-        return "effect." + registryName.toString()
+        return "effect.${registryName.toString()}"
     }
 }

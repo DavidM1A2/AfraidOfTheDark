@@ -94,7 +94,7 @@ class SchematicBuilder
         // Convert all of our string blocks in the format of 'modid:registryname' to block pointer
         val blocks = Array(stringBlocks.tagCount())
         {
-            Block.getBlockFromName(stringBlocks.getStringTagAt(it)) ?: throw IllegalStateException("Invalid schematic block found: " + stringBlocks.getStringTagAt(it))
+            Block.getBlockFromName(stringBlocks.getStringTagAt(it)) ?: throw IllegalStateException("Invalid schematic block found: ${stringBlocks.getStringTagAt(it)}")
         }
 
         // Return the schematic

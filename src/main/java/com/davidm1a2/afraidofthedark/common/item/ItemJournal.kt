@@ -180,7 +180,7 @@ class ItemJournal : AOTDItem("journal")
         // If the stack has an owner tag, show who owns the stack, otherwise show that the journal is not bound
         if (NBTHelper.hasTag(stack, NBT_OWNER))
         {
-            tooltip.add("Item soulbound to " + NBTHelper.getString(stack, NBT_OWNER))
+            tooltip.add("Item soulbound to ${NBTHelper.getString(stack, NBT_OWNER)}")
         }
         else
         {

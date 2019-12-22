@@ -13,8 +13,8 @@ abstract class AOTDItem(baseName: String, displayInCreative: Boolean = true) : I
 {
     init
     {
-        unlocalizedName = Constants.MOD_ID + ":" + baseName
-        this.setRegistryName(Constants.MOD_ID + ":" + baseName)
+        unlocalizedName = "${Constants.MOD_ID}:$baseName"
+        this.setRegistryName("${Constants.MOD_ID}:$baseName")
 
         if (displayInCreative)
         {

@@ -43,6 +43,6 @@ abstract class MeteorEntry(
      */
     fun getUnLocalizedName(): String
     {
-        return "meteor_entry." + registryName!!.resourcePath
+        return "meteor_entry.${registryName!!.resourcePath}"
     }
 }

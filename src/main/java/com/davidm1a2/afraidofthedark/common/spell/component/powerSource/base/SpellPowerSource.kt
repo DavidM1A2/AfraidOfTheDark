@@ -50,6 +50,6 @@ abstract class SpellPowerSource(id: ResourceLocation) : SpellComponent<SpellPowe
      */
     override fun getUnlocalizedName(): String
     {
-        return "power_source." + registryName.toString()
+        return "power_source.${registryName.toString()}"
     }
 }

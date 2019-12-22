@@ -96,7 +96,7 @@ abstract class Research(data: ResourceLocation, val preRequisite: Research? = nu
      */
     fun getUnlocalizedName(): String
     {
-        return "research." + registryName!!.resourcePath
+        return "research.${registryName!!.resourcePath}"
     }
 
     companion object

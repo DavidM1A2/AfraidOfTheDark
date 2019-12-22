@@ -43,8 +43,8 @@ class ItemWristCrossbow : AOTDItemWithPerItemCooldown("wrist_crossbow")
         val player = Minecraft.getMinecraft().player
         if (player != null && player.getResearch().isResearched(ModResearches.WRIST_CROSSBOW))
         {
-            tooltip.add("Use " + FIRE_WRIST_CROSSBOW.displayName + " to fire a bolt in the current look direction.")
-            tooltip.add("Crouch & " + FIRE_WRIST_CROSSBOW.displayName + " to change bolt type.")
+            tooltip.add("Use ${FIRE_WRIST_CROSSBOW.displayName} to fire a bolt in the current look direction.")
+            tooltip.add("Crouch & ${FIRE_WRIST_CROSSBOW.displayName} to change bolt type.")
         }
         else
         {

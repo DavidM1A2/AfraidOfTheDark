@@ -16,8 +16,8 @@ open class AOTDSword(baseName: String, toolMaterial: ToolMaterial, displayInCrea
     init
     {
         // Set the unlocalized and registry name
-        unlocalizedName = Constants.MOD_ID + ":" + baseName
-        this.setRegistryName(Constants.MOD_ID + ":" + baseName)
+        unlocalizedName = "${Constants.MOD_ID}:$baseName"
+        this.setRegistryName("${Constants.MOD_ID}:$baseName")
 
         // If this should be displayed in creative then set the tab
         if (displayInCreative)
