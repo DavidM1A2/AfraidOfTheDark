@@ -13,12 +13,11 @@ import net.minecraft.util.ResourceLocation
 
 /**
  * Projectile delivery method delivers the spell to the target with a projectile
+ *
+ * @constructor initializes the editable properties
  */
 class SpellDeliveryMethodProjectile : AOTDSpellDeliveryMethod(ResourceLocation(Constants.MOD_ID, "projectile"))
 {
-    /**
-     * Constructor initializes the editable properties
-     */
     init
     {
         addEditableProperty(
@@ -52,7 +51,7 @@ class SpellDeliveryMethodProjectile : AOTDSpellDeliveryMethod(ResourceLocation(C
      */
     override fun executeDelivery(state: DeliveryTransitionState)
     {
-        val spellProjectile: EntitySpellProjectile = if (state.getEntity() != null)
+        val spellProjectile = if (state.getEntity() != null)
         {
             EntitySpellProjectile(state.world, state.spell, state.stageIndex, state.getEntity()!!)
         }
@@ -83,6 +82,7 @@ class SpellDeliveryMethodProjectile : AOTDSpellDeliveryMethod(ResourceLocation(C
     {
         val spell = state.spell
         val spellIndex = state.stageIndex
+
         // Perform the transition between the next delivery method and the current delivery method
         spell.getStage(spellIndex + 1)!!.deliveryInstance!!.component.executeDelivery(
             DeliveryTransitionStateBuilder()

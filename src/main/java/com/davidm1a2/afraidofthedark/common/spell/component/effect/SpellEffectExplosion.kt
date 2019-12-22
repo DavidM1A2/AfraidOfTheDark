@@ -11,12 +11,11 @@ import net.minecraft.world.World
 
 /**
  * Effect that creates an explosion at the given position
+ *
+ * @constructor initializes the editable properties
  */
 class SpellEffectExplosion : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "explosion"))
 {
-    /**
-     * Constructor initializes the editable properties
-     */
     init
     {
         addEditableProperty(

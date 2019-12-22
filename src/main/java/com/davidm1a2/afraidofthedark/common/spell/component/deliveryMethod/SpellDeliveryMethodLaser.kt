@@ -22,12 +22,11 @@ import kotlin.math.ceil
 
 /**
  * Laser delivery method delivers the spell to the target with a hitscan laser
+ *
+ * @constructor initializes the editable properties
  */
 class SpellDeliveryMethodLaser : AOTDSpellDeliveryMethod(ResourceLocation(Constants.MOD_ID, "laser"))
 {
-    /**
-     * Constructor initializes the editable properties
-     */
     init
     {
         addEditableProperty(
@@ -65,9 +64,11 @@ class SpellDeliveryMethodLaser : AOTDSpellDeliveryMethod(ResourceLocation(Consta
 
         // Start at entity eye height if it's from an entity
         val startPos = if (entity == null) state.position else state.position.addVector(0.0, entity.eyeHeight.toDouble(), 0.0)
+
         val direction = state.direction.normalize()
         // The end position is the start position in the right direction scaled to range
         val endPos = startPos.add(direction.scale(getRange(state.getCurrentStage().deliveryInstance!!)))
+
         // Perform a ray trace, this will not hit blocks
         val rayTraceResult = world.rayTraceBlocks(startPos, endPos, hitLiquids(state.getCurrentStage().deliveryInstance!!))
 
@@ -79,6 +80,7 @@ class SpellDeliveryMethodLaser : AOTDSpellDeliveryMethod(ResourceLocation(Consta
         // Ray tracing doesn't actually hit entities, so use this "hack" to test that. Create a bounding box that is huge and
         // has the entire possible ray inside. Then grab entities inside, then intersect each of their hitboxes manually
         val potentialHitEntities = world.getEntitiesWithinAABB(Entity::class.java, AxisAlignedBB(startPos.x, startPos.y, startPos.z, hitPos.x, hitPos.y, hitPos.z))
+
         val hitEntity = potentialHitEntities
             // Don't hitscan ourselves
             .filter { it !== entity }
@@ -95,16 +97,19 @@ class SpellDeliveryMethodLaser : AOTDSpellDeliveryMethod(ResourceLocation(Consta
         val distanceToHit = startPos.distanceTo(hitPos)
         // Spawn at least 10 particles and at most 100. Take the distance to the hit position and spawn one particle per distance
         val numParticlesToSpawn = ceil(distanceToHit).coerceIn(10.0, 100.0).toInt()
+
         // Compute points along the hitscan line
         val laserPositions = List<Vec3d>(numParticlesToSpawn)
         {
             startPos.add(direction.scale(it.toDouble() / numParticlesToSpawn * distanceToHit))
         }
+
         // Spawn laser particles
         AfraidOfTheDark.INSTANCE.packetHandler.sendToDimension(
             SyncParticle(AOTDParticleRegistry.ParticleTypes.SPELL_LASER, laserPositions, Collections.nCopies(numParticlesToSpawn, Vec3d.ZERO)),
             state.world.provider.dimension
         )
+
         // Begin performing effects and transition
         val currentState = if (hitEntity != null)
         {
@@ -151,6 +156,7 @@ class SpellDeliveryMethodLaser : AOTDSpellDeliveryMethod(ResourceLocation(Consta
     {
         val spell = state.spell
         val spellIndex = state.stageIndex
+
         // Perform the transition between the next delivery method and the current delivery method
         spell.getStage(spellIndex + 1)!!.deliveryInstance!!.component.executeDelivery(
             DeliveryTransitionStateBuilder()

@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellCharmData
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
@@ -15,12 +15,11 @@ import java.util.concurrent.ThreadLocalRandom
 
 /**
  * Effect that forces players to walk towards you or animals to mate
+ *
+ * @constructor adds the editable prop
  */
 class SpellEffectCharm : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "charm"))
 {
-    /**
-     * Constructor adds the editable prop
-     */
     init
     {
         addEditableProperty(
@@ -52,7 +51,7 @@ class SpellEffectCharm : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "cha
         else if (entity is EntityPlayer)
         {
             // Grab the player's charm data
-            val spellCharmData = entity.getCapability(ModCapabilities.PLAYER_SPELL_CHARM_DATA, null)!!
+            val spellCharmData = entity.getSpellCharmData()
             // Charm them for the "charm duration"
             spellCharmData.charmTicks = getCharmDuration(instance)
 
@@ -66,11 +65,14 @@ class SpellEffectCharm : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "cha
             for (i in 0..3)
             {
                 state.world.spawnParticle(
-                    EnumParticleTypes.HEART,  // The position will be somewhere inside the player's hitbox
+                    EnumParticleTypes.HEART,
+                    // The position will be somewhere inside the player's hitbox
                     state.position.x + random.nextFloat() * width * 2.0f - width,
                     state.position.y + 0.5 + random.nextFloat() * height,
-                    state.position.z + random.nextFloat() * width * 2.0f - width,  // Spawn one particle
-                    1,  // Randomize velocity
+                    state.position.z + random.nextFloat() * width * 2.0f - width,
+                    // Spawn one particle
+                    1,
+                    // Randomize velocity
                     random.nextGaussian() * 0.02,
                     random.nextGaussian() * 0.02,
                     random.nextGaussian() * 0.02,

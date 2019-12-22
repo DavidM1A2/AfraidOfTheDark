@@ -16,12 +16,11 @@ import java.util.*
 
 /**
  * Creates a smoke screen at a given effect location
+ *
+ * @constructor adds the editable prop
  */
 class SpellEffectSmokeScreen : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "smoke_screen"))
 {
-    /**
-     * Constructor adds the editable prop
-     */
     init
     {
         addEditableProperty(
@@ -52,6 +51,7 @@ class SpellEffectSmokeScreen : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID
         {
             positions.add(position.addVector(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5))
         }
+
         AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(
             SyncParticle(AOTDParticleRegistry.ParticleTypes.SMOKE_SCREEN_ID, positions, Collections.nCopies(positions.size, Vec3d.ZERO)),
             TargetPoint(state.world.provider.dimension, position.x, position.y, position.z, 100.0)

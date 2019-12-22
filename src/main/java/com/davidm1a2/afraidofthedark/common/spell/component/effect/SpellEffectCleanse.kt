@@ -1,7 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellCharmData
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellFreezeData
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
@@ -38,11 +39,12 @@ class SpellEffectCleanse : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "c
             // Unfreeze and uncharm the player
             if (entity is EntityPlayer)
             {
-                val freezeData = entity.getCapability(ModCapabilities.PLAYER_SPELL_FREEZE_DATA, null)
-                freezeData!!.freezeTicks = 0
+                val freezeData = entity.getSpellFreezeData()
+                freezeData.freezeTicks = 0
                 freezeData.sync(entity)
-                val charmData = entity.getCapability(ModCapabilities.PLAYER_SPELL_CHARM_DATA, null)
-                charmData!!.charmTicks = 0
+
+                val charmData = entity.getSpellCharmData()
+                charmData.charmTicks = 0
                 freezeData.sync(entity)
             }
 

@@ -19,12 +19,11 @@ import kotlin.math.sqrt
 
 /**
  * Spell effect that applies potion effects
+ *
+ * @constructor adds the editable props
  */
 class SpellEffectPotionEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "potion_effect"))
 {
-    /**
-     * Constructor adds the editable props
-     */
     init
     {
         addEditableProperty(
@@ -91,6 +90,7 @@ class SpellEffectPotionEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
         val potionType = getPotionType(instance)
         val potionStrength = getPotionStrength(instance)
         val potionDuration = getPotionDuration(instance)
+
         // If we hit an entity just apply the potion effect
         val entityHit = state.getEntity()
         if (entityHit != null)

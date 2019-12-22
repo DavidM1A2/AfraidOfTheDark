@@ -14,12 +14,11 @@ import net.minecraft.world.World
 
 /**
  * Effect that sets fire to the hit target
+ *
+ * @constructor adds the editable prop
  */
 class SpellEffectBurn : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "burn"))
 {
-    /**
-     * Constructor adds the editable prop
-     */
     init
     {
         addEditableProperty(

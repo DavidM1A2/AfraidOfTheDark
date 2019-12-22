@@ -23,7 +23,7 @@ class SpellEffectDig : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "dig")
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>)
     {
         val world = state.world
-        val entity = state.getEntity();
+        val entity = state.getEntity()
         if (entity != null)
         {
             // Digs the block under the entity

@@ -21,7 +21,7 @@ abstract class AOTDStructure(baseName: String) : Structure()
 {
     init
     {
-        this.setRegistryName("${Constants.MOD_ID}:$baseName");
+        this.setRegistryName("${Constants.MOD_ID}:$baseName")
     }
 
     /**

@@ -13,12 +13,11 @@ import net.minecraft.util.ResourceLocation
 
 /**
  * Self delivery method delivers the spell after a delay
+ *
+ * @constructor initializes the editable properties
  */
 class SpellDeliveryMethodDelay : AOTDSpellDeliveryMethod(ResourceLocation(Constants.MOD_ID, "delay"))
 {
-    /**
-     * Constructor initializes the editable properties
-     */
     init
     {
         addEditableProperty(

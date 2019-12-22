@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.effect
 
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellFreezeData
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
@@ -18,12 +18,11 @@ import net.minecraft.world.World
 
 /**
  * Spell effect that causes water to freeze and creates ice
+ *
+ * @constructor initializes properties
  */
 class SpellEffectFreeze : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "freeze"))
 {
-    /**
-     * Constructor initializes properties
-     */
     init
     {
         addEditableProperty(
@@ -49,6 +48,7 @@ class SpellEffectFreeze : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "fr
         val world: World = state.world
         val blockPos = state.blockPosition
         val entity = state.getEntity()
+
         // If the entity hit is living freeze it in place
         if (entity != null)
         {
@@ -58,7 +58,7 @@ class SpellEffectFreeze : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "fr
                 // If we hit a player, freeze their position and direction
                 if (entity is EntityPlayer)
                 {
-                    val freezeData = entity.getCapability(ModCapabilities.PLAYER_SPELL_FREEZE_DATA, null)!!
+                    val freezeData = entity.getSpellFreezeData()
                     freezeData.freezeTicks = getFreezeDuration(instance)
                     freezeData.freezePosition = Vec3d(entity.posX, entity.posY, entity.posZ)
                     freezeData.setFreezeDirection(entity.rotationYaw, entity.rotationPitch)

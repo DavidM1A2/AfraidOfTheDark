@@ -11,12 +11,11 @@ import net.minecraft.util.ResourceLocation
 
 /**
  * Effect that feeds a hit player
+ *
+ * @constructor adds the editable prop
  */
 class SpellEffectFeed : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "feed"))
 {
-    /**
-     * Constructor adds the editable prop
-     */
     init
     {
         addEditableProperty(

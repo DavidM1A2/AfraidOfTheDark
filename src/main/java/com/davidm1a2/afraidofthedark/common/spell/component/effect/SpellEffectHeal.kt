@@ -12,12 +12,11 @@ import net.minecraft.util.ResourceLocation
 
 /**
  * Effect that heals a hit entity
+ *
+ * @constructor adds the editable prop
  */
 class SpellEffectHeal : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "heal"))
 {
-    /**
-     * Constructor adds the editable prop
-     */
     init
     {
         addEditableProperty(

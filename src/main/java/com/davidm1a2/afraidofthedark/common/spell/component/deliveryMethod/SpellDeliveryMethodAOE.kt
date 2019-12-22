@@ -11,7 +11,6 @@ import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.helpe
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentProperty
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
-import com.google.common.collect.Lists
 import net.minecraft.entity.Entity
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.AxisAlignedBB
@@ -21,12 +20,11 @@ import kotlin.math.floor
 
 /**
  * AOE method delivers the spell to the target in a circle
+ *
+ * @constructor initializes the editable properties
  */
 class SpellDeliveryMethodAOE : AOTDSpellDeliveryMethod(ResourceLocation(Constants.MOD_ID, "aoe"))
 {
-    /**
-     * Constructor initializes the editable properties
-     */
     init
     {
         addEditableProperty(
@@ -189,24 +187,23 @@ class SpellDeliveryMethodAOE : AOTDSpellDeliveryMethod(ResourceLocation(Constant
                 .withBlockPosition(state.blockPosition)
 
             // Send out deliveries in all 6 possible directions around the hit point
-            val cardinalDirections = Lists.newArrayList(
+            // Randomize which order the directions get applied in
+            val cardinalDirections = mutableListOf(
                 Vec3d(1.0, 0.0, 0.0),
                 Vec3d(0.0, 1.0, 0.0),
                 Vec3d(0.0, 0.0, 1.0),
                 Vec3d(-1.0, 0.0, 0.0),
                 Vec3d(0.0, -1.0, 0.0),
                 Vec3d(0.0, 0.0, -1.0)
-            )
-
-            // Randomize which order the directions get applied in
-            cardinalDirections.shuffle()
+            ).apply { shuffle() }
+                .toList()
 
             cardinalDirections.forEach()
             {
                 // Perform the transition between the next delivery method and the current delivery method
                 spell.getStage(spellIndex + 1)!!.deliveryInstance!!.component.executeDelivery(
                     deliveryTransitionStateBuilder
-                        .withPosition(state.position.add(it!!.scale(0.2)))
+                        .withPosition(state.position.add(it.scale(0.2)))
                         .withDirection(it)
                         .build()
                 )

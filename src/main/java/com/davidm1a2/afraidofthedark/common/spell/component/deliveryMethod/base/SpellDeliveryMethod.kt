@@ -17,8 +17,8 @@ import net.minecraft.util.ResourceLocation
 abstract class SpellDeliveryMethod(id: ResourceLocation) :
     SpellComponent<SpellDeliveryMethod>(id, ResourceLocation(id.resourceDomain, "textures/gui/spell_component/delivery_methods/${id.resourcePath}.png"))
 {
-    private val deliveryCustomTransitioners: MutableMap<SpellDeliveryMethod, ISpellDeliveryTransitioner> = mutableMapOf()
-    private val deliveryEffectCustomApplicators: MutableMap<SpellEffect, ISpellDeliveryEffectApplicator> = mutableMapOf()
+    private val deliveryCustomTransitioners = mutableMapOf<SpellDeliveryMethod, ISpellDeliveryTransitioner>()
+    private val deliveryEffectCustomApplicators = mutableMapOf<SpellEffect, ISpellDeliveryEffectApplicator>()
 
     /**
      * Called to begin delivering the effects to the target by whatever means necessary
@@ -83,14 +83,7 @@ abstract class SpellDeliveryMethod(id: ResourceLocation) :
             // Grab the transitioner from the current delivery method to the next one
             val transitioner = nextDeliveryInstance.getTransitioner(state.getCurrentStage().deliveryInstance!!.component)
             // Perform the transition if a custom transitioner is present
-            if (transitioner != null)
-            {
-                transitioner.transition(state)
-            }
-            else
-            {
-                performDefaultTransition(state)
-            }
+            transitioner?.transition(state) ?: performDefaultTransition(state)
         }
     }
 
