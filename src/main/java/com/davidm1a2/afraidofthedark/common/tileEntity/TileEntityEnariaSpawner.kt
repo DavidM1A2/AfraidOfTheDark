@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.tileEntity
 
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.entity.enaria.EntityEnaria
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity
@@ -58,7 +58,7 @@ class TileEntityEnariaSpawner : AOTDTickingTileEntity(ModBlocks.ENARIA_SPAWNER)
                         for (entityPlayer in world.getEntitiesWithinAABB(EntityPlayer::class.java, playerCheckRegion))
                         {
                             // If any player can spawn her spawn her
-                            if (entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!.canResearch(ModResearches.ENARIA))
+                            if (entityPlayer.getResearch().canResearch(ModResearches.ENARIA))
                             {
                                 summonEnaria()
                                 break

@@ -15,10 +15,11 @@ import kotlin.math.min
 
 /**
  * Class used to map out the entire world height used for terrain generation
+ *
+ * @property chunkPredictionRange The range at which we predict chunk height values
  */
 class WorldHeightMapper
 {
-    // The range at which we predict chunk height values
     private var chunkPredictionRange = -1
 
     /**
@@ -79,8 +80,10 @@ class WorldHeightMapper
         {
             // Grab a reference to the chunk provider
             val chunkProvider = world.chunkProvider
+
             // Allocate one chunk primer to predict chunks
             // ChunkPrimer chunkPrimer = new ChunkPrimer();
+
             // Grab data for the world object
             val heightmap = OverworldHeightmap.get(world)
 

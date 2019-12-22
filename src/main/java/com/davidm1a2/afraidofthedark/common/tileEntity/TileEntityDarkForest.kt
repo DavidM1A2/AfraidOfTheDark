@@ -1,6 +1,10 @@
 package com.davidm1a2.afraidofthedark.common.tileEntity
 
-import com.davidm1a2.afraidofthedark.common.constants.*
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
+import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
+import com.davidm1a2.afraidofthedark.common.constants.ModItems
+import com.davidm1a2.afraidofthedark.common.constants.ModPotions
+import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.init.PotionTypes
@@ -42,7 +46,8 @@ class TileEntityDarkForest : AOTDTickingTileEntity(ModBlocks.DARK_FOREST)
                 ))
                 {
                     // Grab their research
-                    val playerResearch = entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!
+                    val playerResearch = entityPlayer.getResearch()
+
                     // If the player can research dark forest unlock it and sync that research
                     if (playerResearch.canResearch(ModResearches.DARK_FOREST))
                     {
@@ -61,6 +66,7 @@ class TileEntityDarkForest : AOTDTickingTileEntity(ModBlocks.DARK_FOREST)
                         {
                             // Grab the stack in the current slot
                             val itemStack = entityPlayer.inventory.getStackInSlot(i)
+
                             // If it's a potion with type water unlock the sleeping potion research and replace water bottles with sleeping potions
                             if (PotionUtils.getPotionFromItem(itemStack) === PotionTypes.WATER)
                             {

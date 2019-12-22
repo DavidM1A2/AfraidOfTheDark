@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.tileEntity
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.common.capabilities.getVoidChestData
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import com.davidm1a2.afraidofthedark.common.dimension.IslandUtility.getOrAssignPlayerPositionalIndex
 import com.davidm1a2.afraidofthedark.common.packets.otherPackets.SyncVoidChest
@@ -14,7 +14,6 @@ import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTTagList
 import net.minecraft.nbt.NBTTagLong
 import net.minecraft.util.SoundCategory
-import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.world.World
@@ -87,7 +86,7 @@ class TileEntityVoidChest : AOTDTickingTileEntity(ModBlocks.VOID_CHEST)
             val distanceSqToPlayer = playerToSend!!.getDistanceSq(pos)
 
             // Inverse square law, force decreases as player gets more distant
-            val adjustedVelocity = velocity.scale(MathHelper.clamp(PULL_FORCE * 1 / distanceSqToPlayer, 0.01, 0.25))
+            val adjustedVelocity = velocity.scale((PULL_FORCE * 1 / distanceSqToPlayer).coerceIn(0.01, 0.25))
             playerToSend!!.addVelocity(adjustedVelocity.x, adjustedVelocity.y, adjustedVelocity.z)
         }
 
@@ -123,15 +122,15 @@ class TileEntityVoidChest : AOTDTickingTileEntity(ModBlocks.VOID_CHEST)
                         {
                             if (!world.isRemote)
                             {
-                                val playerVoidChestData = playerToSend!!.getCapability(ModCapabilities.PLAYER_VOID_CHEST_DATA, null)
+                                val playerVoidChestData = playerToSend!!.getVoidChestData()
                                 // If the player we're sending is the owner send them to their home dimension, otherwise send them to their friend's dimension
                                 if (playerToSend!!.gameProfile.id == owner)
                                 {
-                                    playerVoidChestData!!.friendsIndex = -1
+                                    playerVoidChestData.friendsIndex = -1
                                 }
                                 else
                                 {
-                                    playerVoidChestData!!.friendsIndex = indexToGoTo
+                                    playerVoidChestData.friendsIndex = indexToGoTo
                                 }
                                 playerToSend!!.changeDimension(ModDimensions.VOID_CHEST.id, ModDimensions.NOOP_TELEPORTER)
                             }
@@ -164,8 +163,8 @@ class TileEntityVoidChest : AOTDTickingTileEntity(ModBlocks.VOID_CHEST)
             {
                 owner = entityPlayer.gameProfile.id
                 val voidChestWorld: World = world.minecraftServer!!.getWorld(ModDimensions.VOID_CHEST.id)
-                val playerVoidChestData = entityPlayer.getCapability(ModCapabilities.PLAYER_VOID_CHEST_DATA, null)
-                indexToGoTo = getOrAssignPlayerPositionalIndex(voidChestWorld, playerVoidChestData!!)
+                val playerVoidChestData = entityPlayer.getVoidChestData()
+                indexToGoTo = getOrAssignPlayerPositionalIndex(voidChestWorld, playerVoidChestData)
                 entityPlayer.sendMessage(TextComponentTranslation("aotd.void_chest.owner_set", entityPlayer.gameProfile.name))
             }
             else if (entityPlayer.gameProfile.id == owner)
@@ -176,6 +175,7 @@ class TileEntityVoidChest : AOTDTickingTileEntity(ModBlocks.VOID_CHEST)
                 {
                     // Grab the player's UUID
                     val friendsUUID = getID(heldItem.displayName)
+
                     // If it's non-null continue, otherwise tell the player the name is wrong
                     if (friendsUUID != null)
                     {
@@ -257,6 +257,7 @@ class TileEntityVoidChest : AOTDTickingTileEntity(ModBlocks.VOID_CHEST)
     {
         // Start by writing any default MC things to the NBT
         super.writeToNBT(compound)
+
         // Write the owner as an ID
         if (owner != null)
         {

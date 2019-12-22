@@ -15,7 +15,6 @@ import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
-import net.minecraft.util.math.MathHelper
 import net.minecraft.world.World
 import net.minecraft.world.biome.BiomeProvider
 import kotlin.math.max
@@ -133,7 +132,7 @@ class StructureCrypt : AOTDStructure("crypt")
         val groundHeight = OverworldHeightmap.get(world).getLowestHeight(centerChunk)
 
         // Set the schematic height to be underground + 3 blocks+, ensure it isn't below bedrock
-        val y = MathHelper.clamp(groundHeight - ModSchematics.CRYPT.getHeight() + 3, 5, Int.MAX_VALUE)
+        val y = (groundHeight - ModSchematics.CRYPT.getHeight() + 3).coerceIn(5, Int.MAX_VALUE)
         blockPos = BlockPos(blockPos.x, y, blockPos.z)
 
         // Update the NBT

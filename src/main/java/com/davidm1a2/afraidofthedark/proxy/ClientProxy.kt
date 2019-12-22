@@ -36,10 +36,11 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry
 
 /**
  * Proxy that is only to be instantiated on the CLIENT side
+ *
+ * @property researchOverlay Research overlay handler used to show when a player unlocks a research
  */
 class ClientProxy : CommonProxy()
 {
-    // Research overlay handler used to show when a player unlocks a research
     override val researchOverlay = ResearchOverlayHandler()
 
     /**

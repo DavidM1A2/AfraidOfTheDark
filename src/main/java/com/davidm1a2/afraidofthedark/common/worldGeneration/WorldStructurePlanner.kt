@@ -15,12 +15,13 @@ import java.util.*
 
 /**
  * Class used to map out the entire world structures used for structure generation
+ *
+ * @property registeredStructures Create a random permutation of the structures to test, the first that passes the test will be generated
+ * @property random Create a random object from the world seed
  */
 class WorldStructurePlanner
 {
-    // Create a random permutation of the structures to test, the first that passes the test will be generated
     private lateinit var registeredStructures: MutableList<Structure>
-    // Create a random object from the world seed
     private lateinit var random: Random
 
     /**
@@ -126,15 +127,19 @@ class WorldStructurePlanner
                         {
                             // Compute the chance that the structure could spawn here
                             val percentChance = structure.computeChanceToGenerateAt(possiblePos, heightmap, biomeProvider)
+
                             // If our random dice roll succeeds place the structure
                             if (random.nextDouble() < percentChance)
                             {
                                 // Grab the randomized position to generate the structure at
                                 val posToGenerate = positions[i + 1]
+
                                 // Place the structure into our structure plan
                                 structurePlan.placeStructure(structure, structure.generateStructureData(world, posToGenerate!!, biomeProvider))
+
                                 // Generate any chunks that this structure will generate in that are already generated
                                 generateExistingChunks(structure, world, posToGenerate)
+
                                 // We planned a structure for this chunk so return out
                                 return
                             }
@@ -157,6 +162,7 @@ class WorldStructurePlanner
     {
         // Store a reference to the world generator
         val worldGenerator = AfraidOfTheDark.INSTANCE.worldGenerator
+
         // Compute the bottom left and top right chunk position
         val bottomLeftCorner = ChunkPos(posToGenerate)
         val topRightCorner = ChunkPos(posToGenerate.add(structure.getXWidth(), 0, structure.getZLength()))

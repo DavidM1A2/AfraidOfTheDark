@@ -330,6 +330,7 @@ class StructureGnomishCity : AOTDStructure("gnomish_city")
         private const val NBT_SURFACE_STAIRS = "surface_stairs"
         private const val NBT_TUNNELS_NS = "tunnels_ns"
         private const val NBT_TUNNELS_EW = "tunnels_ew"
+
         // Downward index is for going down floors, upward is for doing the opposite
         private const val STAIR_DOWNWARD_INDEX = -1
         private const val STAIR_UPWARD_INDEX = -2

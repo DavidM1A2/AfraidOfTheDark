@@ -23,7 +23,7 @@ class InteriorChunkIterator(private val structure: Structure, private val basePo
         val topRightCorner = ChunkPos(basePos.add(structure.getXWidth(), 0, structure.getZLength()))
 
         // Go over all chunks in the structure and add them to the list.
-        val interiorChunks: MutableList<ChunkPos> = mutableListOf()
+        val interiorChunks = mutableListOf<ChunkPos>()
         for (chunkX in bottomLeftCorner.x..topRightCorner.x)
         {
             for (chunkZ in bottomLeftCorner.z..topRightCorner.z)

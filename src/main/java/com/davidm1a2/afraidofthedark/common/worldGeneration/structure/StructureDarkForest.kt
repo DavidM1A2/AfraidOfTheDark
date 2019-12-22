@@ -12,7 +12,6 @@ import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.AOTDS
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.iterator.IChunkIterator
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.processor.IChunkProcessor
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.processor.LowestHeightChunkProcessor
-import com.google.common.collect.ImmutableList
 import com.google.common.collect.ImmutableSet
 import net.minecraft.init.Biomes
 import net.minecraft.nbt.NBTTagCompound
@@ -34,16 +33,16 @@ import kotlin.random.Random
  * Dark forest structure class
  *
  * @constructor just sets the registry name
+ * @property width The width of the dark forest dungeon
+ * @property bedHouseWidth The bed house width
+ * @property height The height of the dark forest dungeon
+ * @property bedHouseLength The bed house length
  */
 class StructureDarkForest : AOTDStructure("dark_forest")
 {
-    // The width of the dark forest dungeon
     private val width: Int
-    // The bed house width
     private val bedHouseWidth: Int
-    // The height of the dark forest dungeon
     private val height: Int
-    // The bed house length
     private val bedHouseLength: Int
 
     init
@@ -117,7 +116,7 @@ class StructureDarkForest : AOTDStructure("dark_forest")
                 override fun getChunks(): List<ChunkPos>
                 {
                     // Go over all chunks that the bed house would cover and check them
-                    val houseChunks: MutableList<ChunkPos> = mutableListOf()
+                    val houseChunks = mutableListOf<ChunkPos>()
 
                     for (chunkX in houseCorner1ChunkPos.x..houseCorner1ChunkPos.x)
                     {
@@ -222,8 +221,8 @@ class StructureDarkForest : AOTDStructure("dark_forest")
         val topGutter = Rectangle(0, bedHouseLength + bottomGutter.height, getXWidth(), (getZLength() - bedHouseLength) / 2)
 
         // A list of gutters
-        val gutters: List<Rectangle> = ImmutableList.of(leftGutter, rightGutter, bottomGutter, topGutter)
-        val bedHouseSides: List<EnumFacing> = ImmutableList.of(EnumFacing.EAST, EnumFacing.WEST, EnumFacing.NORTH, EnumFacing.SOUTH)
+        val gutters = listOf(leftGutter, rightGutter, bottomGutter, topGutter)
+        val bedHouseSides = listOf(EnumFacing.EAST, EnumFacing.WEST, EnumFacing.NORTH, EnumFacing.SOUTH)
 
         // Add random props, trees, and the bed house into the data
         val heightmap = OverworldHeightmap.get(world)
@@ -261,12 +260,16 @@ class StructureDarkForest : AOTDStructure("dark_forest")
         {
             override fun getChunks(): List<ChunkPos>
             {
-                val houseChunks: MutableList<ChunkPos> = mutableListOf()
+                val houseChunks = mutableListOf<ChunkPos>()
 
                 // Go over all chunks that the bed house is covering
                 for (chunkX in houseCorner1ChunkPos.x..houseCorner2ChunkPos.x)
+                {
                     for (chunkZ in houseCorner1ChunkPos.z..houseCorner2ChunkPos.z)
+                    {
                         houseChunks.add(ChunkPos(chunkX, chunkZ))
+                    }
+                }
 
                 return houseChunks
             }

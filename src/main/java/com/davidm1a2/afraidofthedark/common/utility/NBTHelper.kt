@@ -31,7 +31,7 @@ object NBTHelper
         }
 
         // A list of player NBTs to return
-        val toReturn: MutableList<NBTTagCompound> = mutableListOf()
+        val toReturn = mutableListOf<NBTTagCompound>()
 
         // All worlds share a single save handler so we can just use the overworld's save handler to grab all player data even players in other dimensions
         val saveHandler = minecraftServer.worlds[0].saveHandler
@@ -44,6 +44,7 @@ object NBTHelper
         {
             // Create a file pointed at that player's data
             val playerData = File(playerDataDirectory, "$playerUUID.dat")
+
             // If the player data exists, is a file, and can be read read the file
             if (playerData.exists() && playerData.isFile && playerData.canRead())
             {

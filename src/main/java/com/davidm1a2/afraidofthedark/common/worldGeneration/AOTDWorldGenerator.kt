@@ -17,10 +17,11 @@ import java.util.concurrent.ConcurrentLinkedQueue
 
 /**
  * Class that takes care of all world generation from afraid of the dark
+ *
+ * @property chunksThatNeedGeneration A queue of chunk positions that need to be generated
  */
 class AOTDWorldGenerator : IWorldGenerator
 {
-    // A queue of chunk positions that need to be generated
     private val chunksThatNeedGeneration = ConcurrentLinkedQueue<ChunkPos>()
 
     /**
@@ -125,6 +126,7 @@ class AOTDWorldGenerator : IWorldGenerator
                 val placedStructure = structurePlan.getPlacedStructureAt(chunkPos)!!
                 val structure = placedStructure.structure
                 val data = placedStructure.data
+
                 // Generate the structure
                 structure.generate(world, chunkPos, data)
             }

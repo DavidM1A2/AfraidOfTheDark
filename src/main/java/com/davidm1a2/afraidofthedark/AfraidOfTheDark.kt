@@ -25,6 +25,11 @@ import org.apache.logging.log4j.Logger
 
 /**
  * Main class run when the mod is started up
+ *
+ * @property packetHandler Packet handler used to send and receive AOTD packets
+ * @property worldGenerator World generator used to generate structures in the world
+ * @property logger Logger used to log any debug messages relating to AOTD
+ * @property configurationHandler Configuration handler used to read and update the afraidofthedark.cfg file
  */
 @Mod(
     modid = Constants.MOD_ID,
@@ -35,17 +40,10 @@ import org.apache.logging.log4j.Logger
 )
 class AfraidOfTheDark
 {
-    // Packet handler used to send and receive AOTD packets
     val packetHandler = PacketHandler(Constants.MOD_ID)
-
-    // World generator used to generate structures in the world
     val worldGenerator = AOTDWorldGenerator()
-
-    // Logger used to log any debug messages relating to AOTD
     lateinit var logger: Logger
         private set
-
-    // Configuration handler used to read and update the afraidofthedark.cfg file
     lateinit var configurationHandler: ConfigurationHandler
         private set
 

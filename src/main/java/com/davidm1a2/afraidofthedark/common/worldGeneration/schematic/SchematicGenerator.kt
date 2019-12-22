@@ -8,7 +8,6 @@ import net.minecraft.tileentity.TileEntity
 import net.minecraft.tileentity.TileEntityChest
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
-import net.minecraft.util.math.MathHelper
 import net.minecraft.world.World
 import java.util.*
 
@@ -135,18 +134,18 @@ object SchematicGenerator
         // If we should only generate a single chunk update our start and end X/Z to respect that
         if (chunkPos != null)
         {
-            startZ = MathHelper.clamp(startZ, chunkPos.zStart, chunkPos.zEnd + 1)
-            endZ = MathHelper.clamp(endZ, chunkPos.zStart, chunkPos.zEnd + 1)
-            startX = MathHelper.clamp(startX, chunkPos.xStart, chunkPos.xEnd + 1)
-            endX = MathHelper.clamp(endX, chunkPos.xStart, chunkPos.xEnd + 1)
+            startZ = startZ.coerceIn(chunkPos.zStart, chunkPos.zEnd + 1)
+            endZ = endZ.coerceIn(chunkPos.zStart, chunkPos.zEnd + 1)
+            startX = startX.coerceIn(chunkPos.xStart, chunkPos.xEnd + 1)
+            endX = endX.coerceIn(chunkPos.xStart, chunkPos.xEnd + 1)
         }
 
         // Fixes cascading world gen with leaves/fences
         val setBlockFlags = 2 or 16
 
         // Keep a list of indices we need to generate in phase 2 of the generation because they rely on other blocks
-        val phase2Blocks: MutableList<Int> = mutableListOf()
-        val phase2Positions: MutableList<BlockPos> = mutableListOf()
+        val phase2Blocks = mutableListOf<Int>()
+        val phase2Positions = mutableListOf<BlockPos>()
 
         ///
         /// Phase 1 is to generate all solid blocks, this should take most of the time
@@ -157,16 +156,19 @@ object SchematicGenerator
         {
             // Get the y index which we can use to index into the blocks array
             val indexY = (y - posY) * length * width
+
             // Iterate over the Z axis second
             for (z in startZ until endZ)
             {
                 // Get the z index which we can use to index into the blocks array
                 val indexZ = (z - posZ) * width
+
                 // Iterate over the X axis last
                 for (x in startX until endX)
                 {
                     // Get the x index which we can use to index into the blocks array
                     val indexX = x - posX
+
                     // Compute the index into our blocks array
                     val index = indexY + indexZ + indexX
 
@@ -213,9 +215,11 @@ object SchematicGenerator
             // Grab our stored off block index and blockpos
             val index = phase2Blocks[i]
             val position = phase2Positions[i]
+
             // Grab the block state
             @Suppress("DEPRECATION")
             val blockState = blocks[index].getStateFromMeta(data[index])
+
             // Set the block
             WorldGenFast.setBlockStateFast(world, position, blockState, setBlockFlags)
         }
@@ -252,6 +256,7 @@ object SchematicGenerator
             {
                 // Get the X, Y, and Z coordinates of this entity if instantiated inside the world
                 val tileEntityPosition = tileEntity.pos.add(blockPos)
+
                 // If the chunk pos was not given or we are in the correct chunk spawn the entity in
                 if (chunkPos == null || isInsideChunk(tileEntityPosition, chunkPos))
                 {
@@ -283,22 +288,27 @@ object SchematicGenerator
     {
         // Get the list of entities inside this schematic
         val entities = schematic.getEntities()
+
         // Iterate over each entity
         for (i in 0 until entities.tagCount())
         {
             // Grab the compound that represents this entity
             val entityCompound = entities.getCompoundTagAt(i)
+
             // Instantiate the entity object from the compound
             val entity = EntityList.createEntityFromNBT(entityCompound, world)
+
             // If the entity is valid, continue...
             if (entity != null)
             {
                 // Update the UUID to be random so that it does not conflict with other entities from the same schematic
                 entity.setUniqueId(UUID.randomUUID())
+
                 // Get the X, Y, and Z coordinates of this entity if instantiated inside the world
                 val newX = entity.posX + blockPos.x
                 val newY = entity.posY + blockPos.y
                 val newZ = entity.posZ + blockPos.z
+
                 // If the chunk pos was not given or we are in the correct chunk spawn the entity in
                 if (chunkPos == null || isInsideChunk(newX, newZ, chunkPos))
                 {

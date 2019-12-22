@@ -192,7 +192,7 @@ class OnDemandSchematic internal constructor(
         // Timer used to test if the schematic is ready to timeout
         private val TIMEOUT_TIMER = Timer("Schematic Timeout Timer")
         // Static list of on demand schematics to test timeouts on
-        private val ON_DEMAND_SCHEMATICS: MutableList<OnDemandSchematic> = ArrayList()
+        private val ON_DEMAND_SCHEMATICS = mutableListOf<OnDemandSchematic>()
 
         init
         {

@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.utility
 
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.registry.bolt.BoltEntry
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
@@ -36,7 +36,7 @@ object BoltOrderHelper
                 currentBoltIndex = 0
             }
             preRequisite = getBoltAt(currentBoltIndex).preRequisite
-        } while (preRequisite != null && !entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!.isResearched(preRequisite))
+        } while (preRequisite != null && !entityPlayer.getResearch().isResearched(preRequisite))
         return currentBoltIndex
     }
 
