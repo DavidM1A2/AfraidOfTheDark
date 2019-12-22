@@ -10,7 +10,7 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiImage
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiLabel
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiPanel
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.utility.openGui
@@ -156,7 +156,7 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
     fun refreshLabels()
     {
         // Grab the player's spell manager
-        val spellManager = entityPlayer.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null)!!
+        val spellManager = entityPlayer.getSpellManager()
         // Get the keybinding for the spell
         val keybindingForSpell = spellManager.getKeybindingForSpell(this.spell)
         // if the keybind is non-null show it, otherwise mention it's unbound

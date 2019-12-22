@@ -112,7 +112,7 @@ class NightmareHandler
 
                                     // Spawn a new enaria
                                     val newEnaria = EntityGhastlyEnaria(event.world)
-                                    newEnaria.setBenign(!entityPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!.isResearched(ModResearches.ENARIA))
+                                    newEnaria.setBenign(!entityPlayer.getResearch().isResearched(ModResearches.ENARIA))
                                     newEnaria.setPosition(posX.toDouble(), entityPlayer.posY, posZ.toDouble())
                                     event.world.spawnEntity(newEnaria)
 

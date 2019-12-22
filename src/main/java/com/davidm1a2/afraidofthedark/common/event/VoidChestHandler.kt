@@ -2,7 +2,6 @@ package com.davidm1a2.afraidofthedark.common.event
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.getVoidChestData
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import com.davidm1a2.afraidofthedark.common.dimension.IslandUtility
 import net.minecraft.entity.player.EntityPlayerMP
@@ -101,7 +100,7 @@ class VoidChestHandler
             // Any other dimension is valid. We can go from any dimension other than the void_chest to the void_chest
             // We need to store off player position data pre-teleport
 
-            val playerVoidChestData = entityPlayer.getCapability(ModCapabilities.PLAYER_VOID_CHEST_DATA, null)!!
+            val playerVoidChestData = entityPlayer.getVoidChestData()
             // Test for a valid spot within ~6 blocks of the player's position. This is used to ensure players do not come back to the overworld and straight into a
             // new portal block. This ensure you don't get stuck in a teleport loop
             // First just test the player's current position, if it's invalid search in a +/- 6 block radius in all directions for a valid position
@@ -164,7 +163,7 @@ class VoidChestHandler
         if (dimensionTo == ModDimensions.VOID_CHEST.id)
         {
             // Grab the player's void chest data
-            val playerVoidChestData = entityPlayer.getCapability(ModCapabilities.PLAYER_VOID_CHEST_DATA, null)!!
+            val playerVoidChestData = entityPlayer.getVoidChestData()
             // If the player was traveling to a friend's void chest grab that index, otherwise grab our own index
             // If the friend's index is -1 then we go to our position, otherwise go to the friends position
             val indexToGoTo = if (playerVoidChestData.friendsIndex == -1) // Get or compute the player's index to go to based on who the furthest out player is
@@ -185,7 +184,7 @@ class VoidChestHandler
         if (dimensionFrom == ModDimensions.VOID_CHEST.id)
         {
             // Grab the player's pre-teleport position
-            val preTeleportPosition = entityPlayer.getCapability(ModCapabilities.PLAYER_VOID_CHEST_DATA, null)!!.preTeleportPosition
+            val preTeleportPosition = entityPlayer.getVoidChestData().preTeleportPosition
             // Reset the player's position
             entityPlayer.connection.setPlayerLocation(preTeleportPosition!!.x + 0.5, preTeleportPosition.y + 1.5, preTeleportPosition.z + 0.5, 0f, 0f)
         }

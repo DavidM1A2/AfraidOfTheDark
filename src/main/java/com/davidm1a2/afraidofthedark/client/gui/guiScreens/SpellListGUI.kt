@@ -7,11 +7,10 @@ import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.specialControls.AOTDGuiSpell
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.client.keybindings.KeybindingUtils
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.spell.Spell
-import java.util.*
 
 /**
  * Spell selection/list gui allows players to create spells and keybind them
@@ -27,8 +26,8 @@ class SpellListGUI : AOTDGuiScreen()
 {
     private val scrollPanel: AOTDGuiScrollPanel
     private val btnCreateSpell: AOTDGuiButton
-    private val guiSpells: MutableList<AOTDGuiSpell> = ArrayList()
-    private val spellManager = entityPlayer.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null)!!
+    private val guiSpells = mutableListOf<AOTDGuiSpell>()
+    private val spellManager = entityPlayer.getSpellManager()
     private var spellWaitingOnKeybind: AOTDGuiSpell? = null
 
     init
