@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.packets.capabilityPackets
 
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.packets.packetHandler.MessageHandler.Bidirectional
 import io.netty.buffer.ByteBuf
 import net.minecraft.entity.player.EntityPlayer
@@ -68,7 +68,7 @@ class SyncStartedAOTD : IMessage
          */
         override fun handleClientMessage(player: EntityPlayer, msg: SyncStartedAOTD, ctx: MessageContext)
         {
-            player.getCapability(ModCapabilities.PLAYER_BASICS, null)!!.startedAOTD = msg.startedAOTD
+            player.getBasics().startedAOTD = msg.startedAOTD
         }
 
         /**
@@ -80,7 +80,7 @@ class SyncStartedAOTD : IMessage
          */
         override fun handleServerMessage(player: EntityPlayer, msg: SyncStartedAOTD, ctx: MessageContext)
         {
-            player.getCapability(ModCapabilities.PLAYER_BASICS, null)!!.startedAOTD = msg.startedAOTD
+            player.getBasics().startedAOTD = msg.startedAOTD
         }
     }
 }

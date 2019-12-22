@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.packets.capabilityPackets
 
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.packets.packetHandler.MessageHandler.Bidirectional
 import io.netty.buffer.ByteBuf
 import net.minecraft.entity.player.EntityPlayer
@@ -46,7 +46,7 @@ class SyncClearSpells : IMessage
          */
         override fun handleClientMessage(player: EntityPlayer, msg: SyncClearSpells, ctx: MessageContext)
         {
-            val spellManager = player.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null)!!
+            val spellManager = player.getSpellManager()
             spellManager.clearSpells()
         }
 
@@ -59,7 +59,7 @@ class SyncClearSpells : IMessage
          */
         override fun handleServerMessage(player: EntityPlayer, msg: SyncClearSpells, ctx: MessageContext)
         {
-            val spellManager = player.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null)!!
+            val spellManager = player.getSpellManager()
             spellManager.clearSpells()
         }
     }

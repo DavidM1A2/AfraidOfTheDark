@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.packets.capabilityPackets
 
+import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.capabilities.player.basics.IAOTDPlayerBasics
 import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.packets.packetHandler.MessageHandler.Bidirectional
@@ -70,7 +71,8 @@ class SyncAOTDPlayerBasics : IMessage
         override fun handleClientMessage(player: EntityPlayer, msg: SyncAOTDPlayerBasics, ctx: MessageContext)
         {
             // Grab the current player's capabilities
-            val playerBasics = Minecraft.getMinecraft().player.getCapability(ModCapabilities.PLAYER_BASICS, null)
+            val playerBasics = Minecraft.getMinecraft().player.getBasics()
+
             // Read the new capabilities into the player's data
             ModCapabilities.PLAYER_BASICS.storage.readNBT(ModCapabilities.PLAYER_BASICS, playerBasics, null, msg.data)
         }
@@ -85,7 +87,7 @@ class SyncAOTDPlayerBasics : IMessage
         override fun handleServerMessage(player: EntityPlayer, msg: SyncAOTDPlayerBasics, ctx: MessageContext)
         {
             // Send the player his/her current capabilities in a packet as requested
-            player.getCapability(ModCapabilities.PLAYER_BASICS, null)!!.syncAll(player)
+            player.getBasics().syncAll(player)
         }
     }
 }

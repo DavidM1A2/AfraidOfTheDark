@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.packets.otherPackets
 
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.packets.packetHandler.MessageHandler.Bidirectional
 import com.davidm1a2.afraidofthedark.common.registry.meteor.MeteorEntry
@@ -41,29 +41,16 @@ class UpdateWatchedMeteor : IMessage
     }
 
     /**
-     * First constructor which will be used by the client to tell the server what meteor was selected
-     * in the telescope GUI
-     *
-     * @param meteorEntry The meteor being watched
-     */
-    constructor(meteorEntry: MeteorEntry?)
-    {
-        this.meteorEntry = meteorEntry
-        dropAngle = 0
-        latitude = 0
-        longitude = 0
-    }
-
-    /**
-     * Second constructor which wil lbe used by the server to tell the client what the properties of the
-     * watched meteor are
+     * Constructor which will be used by
+     * 1. The server to tell the client what the properties of the watched meteor are
+     * 2. The client to tell the server what meteor was selected in the telescope GUI
      *
      * @param meteorEntry The meteor being watched
      * @param dropAngle   The angle the meteor dropped at
      * @param latitude    The latitude the meteor was at
      * @param longitude   The longitude the meteor was at
      */
-    constructor(meteorEntry: MeteorEntry?, dropAngle: Int, latitude: Int, longitude: Int)
+    constructor(meteorEntry: MeteorEntry?, dropAngle: Int = 0, latitude: Int = 0, longitude: Int = 0)
     {
         this.meteorEntry = meteorEntry
         this.dropAngle = dropAngle
@@ -122,7 +109,7 @@ class UpdateWatchedMeteor : IMessage
         override fun handleClientMessage(player: EntityPlayer, msg: UpdateWatchedMeteor, ctx: MessageContext)
         {
             // Update the player's watched meteor
-            player.getCapability(ModCapabilities.PLAYER_BASICS, null)!!.setWatchedMeteor(msg.meteorEntry, msg.dropAngle, msg.latitude, msg.longitude)
+            player.getBasics().setWatchedMeteor(msg.meteorEntry, msg.dropAngle, msg.latitude, msg.longitude)
         }
 
         /**
@@ -147,8 +134,8 @@ class UpdateWatchedMeteor : IMessage
             player.sendMessage(TextComponentTranslation("aotd.falling_meteor.info.help"))
 
             // Update the player's watched meteor and send them values
-            val playerBasics = player.getCapability(ModCapabilities.PLAYER_BASICS, null)
-            playerBasics!!.setWatchedMeteor(watchedMeteor, dropAngle, latitude, longitude)
+            val playerBasics = player.getBasics()
+            playerBasics.setWatchedMeteor(watchedMeteor, dropAngle, latitude, longitude)
             playerBasics.syncWatchedMeteor(player)
         }
     }

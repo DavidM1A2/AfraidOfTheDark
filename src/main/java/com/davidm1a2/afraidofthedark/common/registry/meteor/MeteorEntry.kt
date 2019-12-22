@@ -23,7 +23,7 @@ abstract class MeteorEntry(
     val richnessPercent: Double,
     val interiorBlock: Block,
     val preRequisite: Research
-) : IForgeRegistryEntry.Impl<MeteorEntry?>()
+) : IForgeRegistryEntry.Impl<MeteorEntry>()
 {
     init
     {

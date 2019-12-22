@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.packets.capabilityPackets
 
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellFreezeData
 import com.davidm1a2.afraidofthedark.common.packets.packetHandler.MessageHandler
 import io.netty.buffer.ByteBuf
 import net.minecraft.entity.player.EntityPlayer
@@ -98,7 +98,7 @@ class SyncFreezeData : IMessage
          */
         override fun handleClientMessage(player: EntityPlayer, msg: SyncFreezeData, ctx: MessageContext)
         {
-            val freezeData = player.getCapability(ModCapabilities.PLAYER_SPELL_FREEZE_DATA, null)!!
+            val freezeData = player.getSpellFreezeData()
             freezeData.freezeTicks = msg.freezeTicks
             freezeData.freezePosition = msg.position
             freezeData.setFreezeDirection(msg.yaw, msg.pitch)

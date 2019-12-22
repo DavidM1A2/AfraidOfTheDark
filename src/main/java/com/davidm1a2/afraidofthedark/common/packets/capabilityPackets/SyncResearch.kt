@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.packets.capabilityPackets
 
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.packets.packetHandler.MessageHandler.Bidirectional
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
@@ -25,7 +25,6 @@ class SyncResearch : IMessage
         notifyNewResearch = false
     }
 
-    @JvmOverloads
     constructor(researchToUnlocked: MutableMap<Research, Boolean>, notifyNewResearch: Boolean = false)
     {
         this.researchToUnlocked = researchToUnlocked
@@ -41,8 +40,10 @@ class SyncResearch : IMessage
     {
         // Read the notify flag first
         notifyNewResearch = buf.readBoolean()
+
         // Read the compound from the buffer
         val data = ByteBufUtils.readTag(buf)!!
+
         // For each research read our compound to test if it is researched or not
         for (research in ModRegistries.RESEARCH)
         {
@@ -64,7 +65,7 @@ class SyncResearch : IMessage
 
         // For each research write a boolean if that research is researched
         researchToUnlocked.forEach()
-        { (research: Research, researched: Boolean) ->
+        { (research, researched) ->
             data.setBoolean(
                 research.registryName.toString(),
                 researched
@@ -90,11 +91,11 @@ class SyncResearch : IMessage
         override fun handleClientMessage(player: EntityPlayer, msg: SyncResearch, ctx: MessageContext)
         {
             // Grab the player's current research, we must use Minecraft.getMinecraft().player because the player passed to use might be null
-            val playerResearch = player.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!
+            val playerResearch = player.getResearch()
 
             // Iterate over the new research
             msg.researchToUnlocked.forEach()
-            { (research: Research, researched: Boolean) ->
+            { (research, researched) ->
                 // If the research was not researched and it now is researched show the popup
                 val wasResearched = playerResearch.isResearched(research)
                 val showPopup = researched && !wasResearched && msg.notifyNewResearch
@@ -121,11 +122,11 @@ class SyncResearch : IMessage
         override fun handleServerMessage(player: EntityPlayer, msg: SyncResearch, ctx: MessageContext)
         {
             // Grab the player's current research
-            val playerResearch = player.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!
+            val playerResearch = player.getResearch()
 
             // Update each research, don't show popups server side
             msg.researchToUnlocked.forEach()
-            { (research: Research, researched: Boolean) ->
+            { (research, researched) ->
                 playerResearch.setResearch(
                     research,
                     researched

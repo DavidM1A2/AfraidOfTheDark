@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.recipe
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.inventory.*
@@ -29,13 +29,13 @@ abstract class ResearchRequiredRecipeBase<T : IRecipe>(val baseRecipe: T, privat
      * Used to check if a recipe matches current crafting inventory. Also checks if the player has the correct research
      *
      * @param inv     The current inventory state
-     * @param worldIn The current world the object is being crafted in
+     * @param world The current world the object is being crafted in
      * @return True if the crafting recipe matches, false if it does not
      */
-    override fun matches(inv: InventoryCrafting, worldIn: World): Boolean
+    override fun matches(inv: InventoryCrafting, world: World): Boolean
     {
         // Compute if the recipe matches first
-        val matches = baseRecipe.matches(inv, worldIn)
+        val matches = baseRecipe.matches(inv, world)
 
         // Grab the player who did the crafting
         val craftingPlayer = findPlayer(inv)
@@ -44,10 +44,10 @@ abstract class ResearchRequiredRecipeBase<T : IRecipe>(val baseRecipe: T, privat
         if (craftingPlayer != null)
         {
             // If the player does not have the research return false
-            if (!craftingPlayer.getCapability(ModCapabilities.PLAYER_RESEARCH, null)!!.isResearched(preRequisite))
+            if (!craftingPlayer.getResearch().isResearched(preRequisite))
             {
                 // Before returning false notify the player why the crafting failed if the recipe matched
-                if (matches && !worldIn.isRemote)
+                if (matches && !world.isRemote)
                 {
                     craftingPlayer.sendMessage(TextComponentTranslation("aotd.crafting.missing_research"))
                 }
@@ -161,6 +161,7 @@ abstract class ResearchRequiredRecipeBase<T : IRecipe>(val baseRecipe: T, privat
             {
                 // Attempt to grab the container the player is crafting in
                 val container = eventHandlerField[inventoryCrafting] as Container
+
                 // Test if the container is a 2x2 grid or 'ContainerPlayer', if so return the player from the 'player' field
                 if (container is ContainerPlayer)
                 {

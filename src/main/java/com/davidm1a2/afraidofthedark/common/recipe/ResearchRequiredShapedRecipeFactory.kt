@@ -27,9 +27,9 @@ class ResearchRequiredShapedRecipeFactory : IRecipeFactory
         val baseRecipe = ShapedOreRecipe.factory(context, json)
 
         // Grab the pre-requisite recipe which is based on our research registry
-        val preRequisite = ModRegistries.RESEARCH.getValue(ResourceLocation(JsonUtils.getString(json, "required_research")))
+        val preRequisite = ModRegistries.RESEARCH.getValue(ResourceLocation(JsonUtils.getString(json, "required_research")))!!
 
         // Return the research required shaped recipe
-        return ResearchRequiredShapedRecipe(baseRecipe, preRequisite!!)
+        return ResearchRequiredShapedRecipe(baseRecipe, preRequisite)
     }
 }

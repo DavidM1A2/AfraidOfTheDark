@@ -8,8 +8,6 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraftforge.fml.common.network.ByteBufUtils
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext
-import org.apache.commons.lang3.ArrayUtils
-import org.apache.commons.lang3.StringUtils
 
 /**
  * Packed used to synchronize animations that are started server side and run client side
@@ -27,8 +25,8 @@ class SyncAnimation : EntitySyncBase
      */
     constructor() : super()
     {
-        animationName = StringUtils.EMPTY
-        higherPriorityAnims = ArrayUtils.EMPTY_STRING_ARRAY
+        animationName = ""
+        higherPriorityAnims = arrayOf()
     }
 
     /**
@@ -88,11 +86,13 @@ class SyncAnimation : EntitySyncBase
         {
             // Grab the entity in the world by ID that the server wanted us to update
             val entity = player.world.getEntityByID(msg.entityID)
+
             // Ensure the entity is non-null and a MC animated entity
             if (entity is IMCAnimatedEntity)
             {
                 // Grab the animation handler
                 val animationHandler = (entity as IMCAnimatedEntity).animationHandler
+
                 // Ensure no higher priority animations are active, and if so activate the animation
                 if (msg.higherPriorityAnims.none { animationHandler.isAnimationActive(it) })
                 {

@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.packets.capabilityPackets
 
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.packets.packetHandler.MessageHandler.Bidirectional
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import io.netty.buffer.ByteBuf
@@ -95,7 +95,7 @@ class SyncSpell : IMessage
          */
         override fun handleClientMessage(player: EntityPlayer, msg: SyncSpell, ctx: MessageContext)
         {
-            val spellManager = player.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null)!!
+            val spellManager = player.getSpellManager()
 
             // Add the spell and keybind it if necessary
             spellManager.addOrUpdateSpell(msg.spell)
@@ -114,7 +114,7 @@ class SyncSpell : IMessage
          */
         override fun handleServerMessage(player: EntityPlayer, msg: SyncSpell, ctx: MessageContext)
         {
-            val spellManager = player.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null)!!
+            val spellManager = player.getSpellManager()
 
             // Add the spell and keybind it if necessary
             spellManager.addOrUpdateSpell(msg.spell)

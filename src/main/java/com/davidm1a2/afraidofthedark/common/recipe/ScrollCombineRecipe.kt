@@ -12,12 +12,11 @@ import net.minecraftforge.registries.IForgeRegistryEntry
 
 /**
  * Class that registers a dynamic recipe allowing us to combine scroll pieces
+ *
+ * @constructor sets the registry name
  */
 class ScrollCombineRecipe : IForgeRegistryEntry.Impl<IRecipe?>(), IRecipe
 {
-    /**
-     * Constructor sets the registry name
-     */
     init
     {
         registryName = ResourceLocation(Constants.MOD_ID, "scroll_combine")

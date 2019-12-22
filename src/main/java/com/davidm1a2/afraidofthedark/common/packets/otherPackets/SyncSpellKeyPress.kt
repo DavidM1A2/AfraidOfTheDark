@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.packets.otherPackets
 
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.packets.packetHandler.MessageHandler
 import io.netty.buffer.ByteBuf
 import net.minecraft.entity.player.EntityPlayer
@@ -67,7 +67,7 @@ class SyncSpellKeyPress : IMessage
         override fun handleServerMessage(player: EntityPlayer, msg: SyncSpellKeyPress, ctx: MessageContext)
         {
             // Grab the player's spell manager
-            val spellManager = player.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null)!!
+            val spellManager = player.getSpellManager()
 
             // Ensure the keybinding exists
             if (spellManager.keybindExists(msg.keyPressedName))

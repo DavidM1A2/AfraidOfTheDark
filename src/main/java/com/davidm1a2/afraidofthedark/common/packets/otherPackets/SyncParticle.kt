@@ -59,6 +59,7 @@ class SyncParticle : IMessage
             mutablePositions.add(Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble()))
             mutableSpeeds.add(Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble()))
         }
+
         positions = mutablePositions.toList()
         speeds = mutableSpeeds.toList()
     }
@@ -101,6 +102,7 @@ class SyncParticle : IMessage
             // Grab the list of positions and speeds
             val positions = msg.positions
             val speeds = msg.speeds
+
             // Go over each position and speed and spawn a particle for it
             for (i in positions.indices)
             {

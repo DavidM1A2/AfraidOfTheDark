@@ -39,14 +39,7 @@ class PacketHandler(private val channelId: String)
         if (AfraidOfTheDark.INSTANCE.configurationHandler.debugMessages)
         {
             AfraidOfTheDark.INSTANCE.logger.info(
-                String.format(
-                    "Registered packet class %s with handler class %s for the channel %s. Send direction: to %s. The discriminator is %s.",
-                    packetClass.simpleName,
-                    messageHandler.javaClass.simpleName,
-                    channelId,
-                    target.name.toLowerCase(),
-                    nextPacketID
-                )
+                "Registered packet class ${packetClass.simpleName} with handler class ${messageHandler.javaClass.simpleName} for the channel $channelId. Send direction: to ${target.name.toLowerCase()}. The discriminator is $nextPacketID."
             )
         }
 
@@ -71,13 +64,7 @@ class PacketHandler(private val channelId: String)
         if (AfraidOfTheDark.INSTANCE.configurationHandler.debugMessages)
         {
             AfraidOfTheDark.INSTANCE.logger.info(
-                String.format(
-                    "Registered bidirectional packet class %s with handler class %s for the channel %s. The discriminator is %s.",
-                    packetClass.simpleName,
-                    messageHandler.javaClass.simpleName,
-                    channelId,
-                    nextPacketID
-                )
+                "Registered packet class ${packetClass.simpleName} with handler class ${messageHandler.javaClass.simpleName} for the channel $channelId. The discriminator is $nextPacketID."
             )
         }
 

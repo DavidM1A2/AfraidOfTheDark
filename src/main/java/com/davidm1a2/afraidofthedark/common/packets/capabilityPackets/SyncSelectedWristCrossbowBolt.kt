@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.packets.capabilityPackets
 
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
+import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.packets.packetHandler.MessageHandler
 import io.netty.buffer.ByteBuf
 import net.minecraft.entity.player.EntityPlayer
@@ -68,7 +68,7 @@ class SyncSelectedWristCrossbowBolt : IMessage
          */
         override fun handleServerMessage(player: EntityPlayer, msg: SyncSelectedWristCrossbowBolt, ctx: MessageContext)
         {
-            player.getCapability(ModCapabilities.PLAYER_BASICS, null)!!.selectedWristCrossbowBoltIndex = msg.selectedWristCrossbowBoltIndex
+            player.getBasics().selectedWristCrossbowBoltIndex = msg.selectedWristCrossbowBoltIndex
         }
     }
 }

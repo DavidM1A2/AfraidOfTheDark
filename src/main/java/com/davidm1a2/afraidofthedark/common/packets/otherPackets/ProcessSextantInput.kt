@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.packets.otherPackets
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.packets.packetHandler.MessageHandler
 import com.davidm1a2.afraidofthedark.common.registry.meteor.MeteorEntry
 import io.netty.buffer.ByteBuf
@@ -91,7 +91,7 @@ class ProcessSextantInput : IMessage
         override fun handleServerMessage(player: EntityPlayer, msg: ProcessSextantInput, ctx: MessageContext)
         {
             // First validate that the player entered the correct values into the sextant
-            val playerBasics = player.getCapability(ModCapabilities.PLAYER_BASICS, null)!!
+            val playerBasics = player.getBasics()
             if (playerBasics.getWatchedMeteorDropAngle() == msg.dropAngle &&
                 playerBasics.getWatchedMeteorLatitude() == msg.latitude &&
                 playerBasics.getWatchedMeteorLongitude() == msg.longitude
@@ -178,8 +178,10 @@ class ProcessSextantInput : IMessage
                             {
                                 // Grab the block pos at the x,y,z coordinates
                                 val blockPos = BlockPos(x, y, z)
+
                                 // Grab the block present at these x,y,z coordinates
                                 val existingBlock = world.getBlockState(blockPos).block
+
                                 // If the block is replaceable, replace it
                                 if (REPLACEABLE_BLOCKS.contains(existingBlock))
                                 {

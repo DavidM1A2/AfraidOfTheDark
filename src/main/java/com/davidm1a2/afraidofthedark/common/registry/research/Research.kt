@@ -85,7 +85,7 @@ abstract class Research(data: ResourceLocation, val preRequisite: Research? = nu
         }
 
         // This shouldn't happen, but if it does print out an error
-        catch (e: IOException)
+        catch (_: IOException)
         {
             AfraidOfTheDark.INSTANCE.logger.error("Could not load the research defined by '$data'")
         }
