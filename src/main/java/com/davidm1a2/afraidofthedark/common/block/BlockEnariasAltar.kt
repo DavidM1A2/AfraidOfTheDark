@@ -3,8 +3,8 @@ package com.davidm1a2.afraidofthedark.common.block
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiHandler
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDBlock
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.utility.openGui
 import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.player.EntityPlayer
@@ -72,14 +72,7 @@ class BlockEnariasAltar : AOTDBlock("enarias_altar", Material.PORTAL)
             // If the player has the right research show the gui
             if (playerResearch.isResearched(ModResearches.ENARIAS_SECRET))
             {
-                playerIn.openGui(
-                    Constants.MOD_ID,
-                    AOTDGuiHandler.SPELL_LIST_ID,
-                    worldIn,
-                    playerIn.posX.toInt(),
-                    playerIn.posY.toInt(),
-                    playerIn.posZ.toInt()
-                )
+                playerIn.openGui(AOTDGuiHandler.SPELL_LIST_ID)
             }
             else
             {

@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.client.gui.specialControls
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiHandler
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
@@ -15,6 +14,7 @@ import com.davidm1a2.afraidofthedark.common.spell.SpellStage
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffectInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSourceInstance
+import com.davidm1a2.afraidofthedark.common.utility.openGui
 import net.minecraft.util.text.TextComponentTranslation
 import kotlin.math.roundToInt
 
@@ -138,14 +138,7 @@ class AOTDGuiSpellTablet(
                 if (closeButton.isVisible && closeButton.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                 {
                     // Open the list gui without saving
-                    entityPlayer.openGui(
-                        AfraidOfTheDark.INSTANCE,
-                        AOTDGuiHandler.SPELL_LIST_ID,
-                        entityPlayer.world,
-                        entityPlayer.posX.toInt(),
-                        entityPlayer.posY.toInt(),
-                        entityPlayer.posZ.toInt()
-                    )
+                    entityPlayer.openGui(AOTDGuiHandler.SPELL_LIST_ID)
                 }
             }
         }

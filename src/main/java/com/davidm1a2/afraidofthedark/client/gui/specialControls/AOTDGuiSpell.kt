@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.client.gui.specialControls
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiHandler
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
 import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
@@ -14,6 +13,7 @@ import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.spell.Spell
+import com.davidm1a2.afraidofthedark.common.utility.openGui
 import net.minecraft.init.SoundEvents
 import org.lwjgl.util.Color
 
@@ -97,14 +97,7 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
                     // Set the edited spell to this one
                     ClientData.lastSelectedSpell = spell
                     // Open the spell edit GUI
-                    entityPlayer.openGui(
-                        AfraidOfTheDark.INSTANCE,
-                        AOTDGuiHandler.SPELL_CRAFTING_ID,
-                        entityPlayer.world,
-                        entityPlayer.posX.toInt(),
-                        entityPlayer.posY.toInt(),
-                        entityPlayer.posZ.toInt()
-                    )
+                    entityPlayer.openGui(AOTDGuiHandler.SPELL_CRAFTING_ID)
                 }
             }
         }

@@ -1,10 +1,10 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiHandler
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
+import com.davidm1a2.afraidofthedark.common.utility.openGui
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.entity.player.EntityPlayer
@@ -57,25 +57,14 @@ class ItemJournal : AOTDItem("journal")
                 // Show the journal UI
                 if (world.isRemote)
                 {
-                    player.openGui(
-                        AfraidOfTheDark.INSTANCE,
-                        if (isCheatSheet) AOTDGuiHandler.BLOOD_STAINED_JOURNAL_CHEAT_SHEET else AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID,
-                        world, player.posX.toInt(), player.posY.toInt(), player.posZ.toInt()
-                    )
+                    player.openGui(if (isCheatSheet) AOTDGuiHandler.BLOOD_STAINED_JOURNAL_CHEAT_SHEET else AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID)
                 }
             }
             else
             {
                 if (world.isRemote)
                 {
-                    player.openGui(
-                        AfraidOfTheDark.INSTANCE,
-                        AOTDGuiHandler.BLOOD_STAINED_JOURNAL_SIGN_ID,
-                        world,
-                        player.position.x,
-                        player.position.y,
-                        player.position.z
-                    )
+                    player.openGui(AOTDGuiHandler.BLOOD_STAINED_JOURNAL_SIGN_ID)
                 }
             }
         }
@@ -87,11 +76,7 @@ class ItemJournal : AOTDItem("journal")
             {
                 if (world.isRemote)
                 {
-                    player.openGui(
-                        AfraidOfTheDark.INSTANCE,
-                        if (isCheatSheet) AOTDGuiHandler.BLOOD_STAINED_JOURNAL_CHEAT_SHEET else AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID,
-                        world, player.posX.toInt(), player.posY.toInt(), player.posZ.toInt()
-                    )
+                    player.openGui(if (isCheatSheet) AOTDGuiHandler.BLOOD_STAINED_JOURNAL_CHEAT_SHEET else AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID)
                 }
             }
             // If the player has not started AOTD show the sign UI and clear the owner
@@ -99,14 +84,7 @@ class ItemJournal : AOTDItem("journal")
             {
                 if (world.isRemote)
                 {
-                    player.openGui(
-                        AfraidOfTheDark.INSTANCE,
-                        AOTDGuiHandler.BLOOD_STAINED_JOURNAL_SIGN_ID,
-                        world,
-                        player.posX.toInt(),
-                        player.posY.toInt(),
-                        player.posZ.toInt()
-                    )
+                    player.openGui(AOTDGuiHandler.BLOOD_STAINED_JOURNAL_SIGN_ID)
                 }
                 setOwner(heldItemStack, null)
             }

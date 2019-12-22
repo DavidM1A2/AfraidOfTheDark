@@ -13,6 +13,7 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
+import com.davidm1a2.afraidofthedark.common.utility.openGui
 import java.io.IOException
 
 /**
@@ -157,7 +158,7 @@ class SpellCraftingGUI(spell: Spell) : AOTDGuiScreen()
         {
             if (keyCode == inventoryKeycode)
             {
-                entityPlayer.openGui(Constants.MOD_ID, AOTDGuiHandler.SPELL_LIST_ID, entityPlayer.world, entityPlayer.position.x, entityPlayer.position.y, entityPlayer.position.z)
+                entityPlayer.openGui(AOTDGuiHandler.SPELL_LIST_ID)
             }
         }
     }

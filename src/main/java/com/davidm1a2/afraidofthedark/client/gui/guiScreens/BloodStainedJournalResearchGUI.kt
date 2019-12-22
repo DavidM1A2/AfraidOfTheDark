@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.client.gui.guiScreens
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiHandler
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiClickAndDragable
 import com.davidm1a2.afraidofthedark.client.gui.base.SpriteSheetController
@@ -18,6 +17,7 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
+import com.davidm1a2.afraidofthedark.common.utility.openGui
 import net.minecraft.util.ResourceLocation
 import org.lwjgl.util.Color
 
@@ -111,25 +111,11 @@ class BloodStainedJournalResearchGUI(isCheatSheet: Boolean) : AOTDGuiClickAndDra
                                 // If the research is researched show the page UI, otherwise show the pre-page UI
                                 if (playerResearch.isResearched(current.research))
                                 {
-                                    entityPlayer.openGui(
-                                        AfraidOfTheDark.INSTANCE,
-                                        AOTDGuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID,
-                                        entityPlayer.world,
-                                        entityPlayer.posX.toInt(),
-                                        entityPlayer.posY.toInt(),
-                                        entityPlayer.posZ.toInt()
-                                    )
+                                    entityPlayer.openGui(AOTDGuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID)
                                 }
                                 else if (current.research.preRequisite != null && playerResearch.isResearched(current.research.preRequisite))
                                 {
-                                    entityPlayer.openGui(
-                                        AfraidOfTheDark.INSTANCE,
-                                        AOTDGuiHandler.BLOOD_STAINED_JOURNAL_PAGE_PRE_ID,
-                                        entityPlayer.world,
-                                        entityPlayer.posX.toInt(),
-                                        entityPlayer.posY.toInt(),
-                                        entityPlayer.posZ.toInt()
-                                    )
+                                    entityPlayer.openGui(AOTDGuiHandler.BLOOD_STAINED_JOURNAL_PAGE_PRE_ID)
                                 }
                             }
                             else

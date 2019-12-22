@@ -1,10 +1,10 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiHandler
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
+import com.davidm1a2.afraidofthedark.common.utility.openGui
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
@@ -37,7 +37,7 @@ class ItemSextant : AOTDItem("sextant")
             // Only open GUIs client side
             if (world.isRemote)
             {
-                player.openGui(AfraidOfTheDark.INSTANCE, AOTDGuiHandler.SEXTANT_ID, world, player.position.x, player.position.y, player.position.z)
+                player.openGui(AOTDGuiHandler.SEXTANT_ID)
             }
         }
         // If the player does not have the research send him a chat message from the server

@@ -1,10 +1,10 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiHandler
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
+import com.davidm1a2.afraidofthedark.common.utility.openGui
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
@@ -70,7 +70,7 @@ class ItemTelescope : AOTDItem("telescope")
         {
             if (playerResearch.isResearched(ModResearches.ASTRONOMY_1) || playerResearch.canResearch(ModResearches.ASTRONOMY_1))
             {
-                player.openGui(AfraidOfTheDark.INSTANCE, AOTDGuiHandler.TELESCOPE_ID, world, player.position.x, player.position.y, player.position.z)
+                player.openGui(AOTDGuiHandler.TELESCOPE_ID)
             }
         }
         return ActionResult.newResult(EnumActionResult.SUCCESS, itemStack)

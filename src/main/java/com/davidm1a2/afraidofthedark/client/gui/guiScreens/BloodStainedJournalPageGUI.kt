@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.client.gui.guiScreens
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiHandler
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiScreen
 import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
@@ -10,6 +9,7 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
+import com.davidm1a2.afraidofthedark.common.utility.openGui
 import net.minecraft.item.Item
 import net.minecraft.item.crafting.CraftingManager
 import net.minecraft.item.crafting.IRecipe
@@ -133,14 +133,7 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
             {
                 if (it.source.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                 {
-                    entityPlayer.openGui(
-                        AfraidOfTheDark.INSTANCE,
-                        AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID,
-                        entityPlayer.world,
-                        entityPlayer.position.x,
-                        entityPlayer.position.y,
-                        entityPlayer.position.z
-                    )
+                    entityPlayer.openGui(AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID)
                 }
             }
         }
@@ -384,14 +377,7 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
         // If we press our inventory button close the UI and go to the journal UI
         if (keyCode == inventoryKeycode)
         {
-            entityPlayer.openGui(
-                AfraidOfTheDark.INSTANCE,
-                AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID,
-                entityPlayer.world,
-                entityPlayer.position.x,
-                entityPlayer.position.y,
-                entityPlayer.position.z
-            )
+            entityPlayer.openGui(AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID)
         }
         else if (character == 'a' || character == 'A' || keyCode == Keyboard.KEY_LEFT)
         {
