@@ -70,7 +70,7 @@ class SpellDeliveryMethodSelf : AOTDSpellDeliveryMethod(ResourceLocation(Constan
      */
     override fun getCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double
     {
-        return 0.0
+        return 1.0
     }
 
     /**

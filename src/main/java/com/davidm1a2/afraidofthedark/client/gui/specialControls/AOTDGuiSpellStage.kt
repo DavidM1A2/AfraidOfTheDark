@@ -33,7 +33,7 @@ class AOTDGuiSpellStage(
     val effects = Array(4)
     {
         // Place the slot at an offset based on the spacing
-        AOTDGuiSpellEffectSlot(5 + SLOT_SPACING * (it + 1), 5, height - 25, height - 25, null)
+        AOTDGuiSpellEffectSlot(5 + SLOT_SPACING * (it + 1), 5, height - 25, height - 25)
     }
     var addRunnable: (() -> Unit)? = null
     var removeRunnable: (() -> Unit)? = null
@@ -45,7 +45,7 @@ class AOTDGuiSpellStage(
         add(background)
 
         // Create the delivery method slot
-        deliveryMethod = AOTDGuiSpellDeliveryMethodSlot(5, 5, height - 25, height - 25, null)
+        deliveryMethod = AOTDGuiSpellDeliveryMethodSlot(5, 5, height - 25, height - 25)
         add(deliveryMethod)
 
         // Add a slot for each effect to the UI

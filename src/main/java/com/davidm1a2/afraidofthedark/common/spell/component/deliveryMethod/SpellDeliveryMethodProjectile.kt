@@ -100,7 +100,7 @@ class SpellDeliveryMethodProjectile : AOTDSpellDeliveryMethod(ResourceLocation(C
      */
     override fun getCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double
     {
-        return 5 + getSpeed(instance) + getRange(instance) * getRange(instance) / 15.0
+        return 5 + getSpeed(instance) + getRange(instance) / 15.0
     }
 
     /**

@@ -63,6 +63,9 @@ class SpellDeliveryMethodAOE : AOTDSpellDeliveryMethod(ResourceLocation(Constant
                 {
                     @Suppress("UNCHECKED_CAST")
                     if (getTargetType(it as SpellComponentInstance<SpellDeliveryMethod>) == TargetType.ENTITY) "entity" else "block"
+                },
+                {
+                    it.data.setInteger(NBT_TARGET_TYPE, TargetType.BLOCK.ordinal)
                 }
             )
         )
@@ -140,6 +143,8 @@ class SpellDeliveryMethodAOE : AOTDSpellDeliveryMethod(ResourceLocation(Constant
                                 transitionBuilder
                                     .withPosition(Vec3d(aoePos.x.toDouble(), aoePos.y.toDouble(), aoePos.z.toDouble()))
                                     .withBlockPosition(aoePos)
+                                    // Random direction, AOE has no direction
+                                    .withDirection(Vec3d(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize())
                                     .build(),
                                 effect
                             )

@@ -8,6 +8,11 @@ open class SpellComponentInstance<T : SpellComponent<T>>(val component: T) : INB
     var data: NBTTagCompound = NBTTagCompound()
         private set
 
+    fun setDefaults()
+    {
+        component.getEditableProperties().forEach { it.defaultSetter(this) }
+    }
+
     override fun serializeNBT(): NBTTagCompound
     {
         val nbt = NBTTagCompound()

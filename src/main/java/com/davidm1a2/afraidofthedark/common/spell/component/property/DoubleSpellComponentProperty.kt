@@ -47,5 +47,8 @@ internal class DoubleSpellComponentProperty
     },
     {
         getter(it).toString()
+    },
+    {
+        setter(it, defaultValue)
     }
 )

@@ -43,5 +43,8 @@ internal class BooleanSpellComponentProperty(
     },
     {
         getter(it).toString()
+    },
+    {
+        setter(it, defaultValue)
     }
 )

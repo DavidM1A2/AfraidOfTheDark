@@ -191,7 +191,7 @@ class AOTDGuiSpellTablet(
         tablet.add(helpButton)
 
         // Create the power source spell slot
-        uiPowerSource = AOTDGuiSpellPowerSourceSlot(152, 155, 20, 20, null)
+        uiPowerSource = AOTDGuiSpellPowerSourceSlot(152, 155, 20, 20)
         uiPowerSource.setSpellComponent(spell.powerSource)
         // When we click the power source check the selected component, if it's a power source perform additional updates
         uiPowerSource.addMouseListener()
@@ -214,6 +214,7 @@ class AOTDGuiSpellTablet(
                             uiPowerSource.setHighlight(false)
                             // Create a new instance of the selected power source
                             val spellPowerSource = SpellPowerSourceInstance(selectedComponent.getComponentType()!!)
+                            spellPowerSource.setDefaults()
                             // Update the slot and spell
                             spell.powerSource = spellPowerSource
                             uiPowerSource.setSpellComponent(spellPowerSource)
@@ -342,6 +343,7 @@ class AOTDGuiSpellTablet(
                             uiDeliveryMethod.setHighlight(false)
                             // Create a new instance of the selected delivery method
                             val spellDeliveryMethod = SpellDeliveryMethodInstance(selectedComponent.getComponentType()!!)
+                            spellDeliveryMethod.setDefaults()
                             // Update the slot and spell
                             spellStage.deliveryInstance = spellDeliveryMethod
                             uiDeliveryMethod.setSpellComponent(spellDeliveryMethod)
@@ -409,6 +411,7 @@ class AOTDGuiSpellTablet(
                                 uiEffect.setHighlight(false)
                                 // Create a new instance of the selected effect
                                 val spellEffect = SpellEffectInstance(selectedComponent.getComponentType()!!)
+                                spellEffect.setDefaults()
                                 // Update the slot and spell
                                 spellStage.effects[i] = spellEffect
                                 uiEffect.setSpellComponent(spellEffect)

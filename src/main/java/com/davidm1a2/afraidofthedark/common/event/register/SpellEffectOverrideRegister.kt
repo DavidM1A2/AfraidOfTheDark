@@ -83,7 +83,14 @@ object SpellEffectOverrideRegister
                             if (aoePos.distanceSq(basePos) < radius * radius)
                             {
                                 // Apply the effect at the position
-                                effect.component.procEffect(transitionBuilder.withPosition(Vec3d(aoePos.x.toDouble(), aoePos.y.toDouble(), aoePos.z.toDouble())).build(), effect)
+                                effect.component.procEffect(
+                                    transitionBuilder.withPosition(Vec3d(aoePos.x.toDouble(), aoePos.y.toDouble(), aoePos.z.toDouble()))
+                                        .withBlockPosition(aoePos)
+                                        // Random direction, AOE has no direction
+                                        .withDirection(Vec3d(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize())
+                                        .build(),
+                                    effect
+                                )
                                 explosionCount++
                             }
                         }

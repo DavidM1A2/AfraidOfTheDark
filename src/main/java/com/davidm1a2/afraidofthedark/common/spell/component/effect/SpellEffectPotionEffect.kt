@@ -43,7 +43,8 @@ class SpellEffectPotionEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
                         throw InvalidValueException("Invalid potion type $newValue, it was not found in the registry.")
                     }
                 },
-                { it.data.getString(NBT_POTION_TYPE) }
+                { it.data.getString(NBT_POTION_TYPE) },
+                { it.data.setString(NBT_POTION_TYPE, "speed") }
             )
         )
         addEditableProperty(

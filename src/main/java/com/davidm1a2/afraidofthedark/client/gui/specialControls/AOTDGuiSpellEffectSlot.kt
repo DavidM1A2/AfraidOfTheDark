@@ -11,10 +11,9 @@ import net.minecraft.client.resources.I18n
  * @param y           The Y location of the top left corner
  * @param width       The width of the component
  * @param height      The height of the component
- * @param effect The effect that is in this spell slot
  */
-class AOTDGuiSpellEffectSlot(x: Int, y: Int, width: Int, height: Int, effect: SpellEffect?) :
-    AOTDGuiSpellComponentSlot<SpellEffect>(x, y, width, height, "afraidofthedark:textures/gui/spell_editor/effect_holder.png", effect)
+class AOTDGuiSpellEffectSlot(x: Int, y: Int, width: Int, height: Int) :
+    AOTDGuiSpellComponentSlot<SpellEffect>(x, y, width, height, "afraidofthedark:textures/gui/spell_editor/effect_holder.png")
 {
     /**
      * Refreshes the text that gets displayed when the slot is hovered

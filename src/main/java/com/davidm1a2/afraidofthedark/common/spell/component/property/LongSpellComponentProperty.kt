@@ -43,5 +43,8 @@ internal class LongSpellComponentProperty(
     },
     {
         getter(it).toString()
+    },
+    {
+        setter(it, defaultValue)
     }
 )

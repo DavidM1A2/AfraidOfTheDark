@@ -45,5 +45,8 @@ internal class FloatSpellComponentProperty(
     },
     {
         getter(it).toString()
+    },
+    {
+        setter(it, defaultValue)
     }
 )

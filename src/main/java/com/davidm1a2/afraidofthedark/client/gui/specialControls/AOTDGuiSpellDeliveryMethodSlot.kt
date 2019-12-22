@@ -11,10 +11,9 @@ import net.minecraft.client.resources.I18n
  * @param y                   The Y location of the top left corner
  * @param width               The width of the component
  * @param height              The height of the component
- * @param deliveryMethod The delivery method that is in this spell slot
  */
-class AOTDGuiSpellDeliveryMethodSlot(x: Int, y: Int, width: Int, height: Int, deliveryMethod: SpellDeliveryMethod?) :
-    AOTDGuiSpellComponentSlot<SpellDeliveryMethod>(x, y, width, height, "afraidofthedark:textures/gui/spell_editor/delivery_method_holder.png", deliveryMethod)
+class AOTDGuiSpellDeliveryMethodSlot(x: Int, y: Int, width: Int, height: Int) :
+    AOTDGuiSpellComponentSlot<SpellDeliveryMethod>(x, y, width, height, "afraidofthedark:textures/gui/spell_editor/delivery_method_holder.png")
 {
     /**
      * Refreshes the text that gets displayed when the slot is hovered

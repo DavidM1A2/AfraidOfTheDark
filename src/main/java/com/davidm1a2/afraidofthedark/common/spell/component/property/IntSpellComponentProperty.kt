@@ -45,5 +45,8 @@ internal class IntSpellComponentProperty(
     },
     {
         getter(it).toString()
+    },
+    {
+        setter(it, defaultValue)
     }
 )

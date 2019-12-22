@@ -16,5 +16,6 @@ open class SpellComponentProperty(
     val name: String,
     val description: String,
     val setter: (SpellComponentInstance<*>, String) -> Unit,
-    val getter: (SpellComponentInstance<*>) -> String
+    val getter: (SpellComponentInstance<*>) -> String,
+    val defaultSetter: (SpellComponentInstance<*>) -> Unit
 )

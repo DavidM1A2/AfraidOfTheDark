@@ -15,7 +15,6 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
  * @param height The height of the component
  * @property icon The foreground image of the spell slot
  * @property highlight The highlight effect around the spell slot
- * @property component The type that this spell slot is
  * @property componentInstance The instance of this spell component
  */
 abstract class AOTDGuiSpellComponentSlot<T : SpellComponent<T>>(
@@ -23,13 +22,11 @@ abstract class AOTDGuiSpellComponentSlot<T : SpellComponent<T>>(
     y: Int,
     width: Int,
     height: Int,
-    slotBackground: String,
-    spellComponent: T?
+    slotBackground: String
 ) : AOTDGuiContainer(x, y, width, height)
 {
     private val icon: AOTDGuiImage
     private val highlight: AOTDGuiImage
-    private var component: T? = null
     private var componentInstance: SpellComponentInstance<T>? = null
 
     init
@@ -45,10 +42,8 @@ abstract class AOTDGuiSpellComponentSlot<T : SpellComponent<T>>(
 
         // Set the icon to be blank
         this.icon = AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/spell_editor/blank_slot.png")
-        this.icon.isVisible = spellComponent != null
+        this.icon.isVisible = false
         this.add(icon)
-
-        setSpellComponent(spellComponent?.let { SpellComponentInstance(it) })
     }
 
     /**
@@ -63,14 +58,12 @@ abstract class AOTDGuiSpellComponentSlot<T : SpellComponent<T>>(
         {
             this.icon.isVisible = false
             this.componentInstance = null
-            this.component = null
         }
         // If the component type is non-null show the the right icon
         else
         {
             this.icon.isVisible = true
             this.componentInstance = instance
-            this.component = instance.component
             this.icon.imageTexture = instance.component.icon
         }
         // Update the hover text based on the slot
@@ -87,7 +80,7 @@ abstract class AOTDGuiSpellComponentSlot<T : SpellComponent<T>>(
      */
     fun getComponentType(): T?
     {
-        return component
+        return componentInstance?.component
     }
 
     /**

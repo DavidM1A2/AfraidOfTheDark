@@ -20,10 +20,13 @@ class SpellEffectInstance(component: SpellEffect) : SpellComponentInstance<Spell
             // Figure out the type of delivery method that this NBT represents
             val effectTypeId = nbt.getString(NBT_TYPE_ID)
             // Use our registry to create a new instance of this type
-            return SpellEffectInstance(
+            val instance = SpellEffectInstance(
                 ModRegistries.SPELL_EFFECTS.getValue(ResourceLocation(effectTypeId))
                     ?: throw IllegalArgumentException("$effectTypeId doesn't exist!")
             )
+            // Deserialize the instance and return it
+            instance.deserializeNBT(nbt)
+            return instance
         }
     }
 }

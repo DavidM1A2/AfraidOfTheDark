@@ -11,6 +11,9 @@ import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.spell.component.InvalidValueException
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
+import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodInstance
+import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffectInstance
+import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSourceInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentProperty
 import net.minecraft.client.resources.I18n
 import net.minecraft.util.math.MathHelper
@@ -89,7 +92,8 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
         // Go over all power sources and add a slot for each
         for (powerSourceEntry in ModRegistries.SPELL_POWER_SOURCES)
         {
-            val powerSource = AOTDGuiSpellPowerSourceSlot(5 + 24 * (currentComponent % 5), 5 + 24 * (currentComponent / 5), 20, 20, powerSourceEntry)
+            val powerSource = AOTDGuiSpellPowerSourceSlot(5 + 24 * (currentComponent % 5), 5 + 24 * (currentComponent / 5), 20, 20)
+            powerSource.setSpellComponent(SpellPowerSourceInstance(powerSourceEntry).apply { setDefaults() })
             powerSource.addMouseListener(componentClickListener)
             this.componentScrollPanel.add(powerSource)
             currentComponent = currentComponent + 1
@@ -108,7 +112,8 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
         // Go over all effects and add a slot for each
         for (effectEntry in ModRegistries.SPELL_EFFECTS)
         {
-            val effect = AOTDGuiSpellEffectSlot(5 + 24 * (currentComponent % 5), 5 + 24 * (currentComponent / 5), 20, 20, effectEntry)
+            val effect = AOTDGuiSpellEffectSlot(5 + 24 * (currentComponent % 5), 5 + 24 * (currentComponent / 5), 20, 20)
+            effect.setSpellComponent(SpellEffectInstance(effectEntry).apply { setDefaults() })
             effect.addMouseListener(componentClickListener)
             this.componentScrollPanel.add(effect)
             currentComponent = currentComponent + 1
@@ -128,7 +133,8 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
         // Go over all delivery methods and add a slot for each
         for (deliveryMethodEntry in ModRegistries.SPELL_DELIVERY_METHODS)
         {
-            val deliveryMethod = AOTDGuiSpellDeliveryMethodSlot(5 + 24 * (currentComponent % 5), 5 + 24 * (currentComponent / 5), 20, 20, deliveryMethodEntry)
+            val deliveryMethod = AOTDGuiSpellDeliveryMethodSlot(5 + 24 * (currentComponent % 5), 5 + 24 * (currentComponent / 5), 20, 20)
+            deliveryMethod.setSpellComponent(SpellDeliveryMethodInstance(deliveryMethodEntry).apply { setDefaults() })
             deliveryMethod.addMouseListener(componentClickListener)
             this.componentScrollPanel.add(deliveryMethod)
             currentComponent = currentComponent + 1
@@ -222,12 +228,14 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
                     val propertyDescription = AOTDGuiTextBox(0, currentY, 120, 12, ClientData.getTargaMSHandFontSized(26f))
                     propertyDescription.textColor = purpleText
                     propertyDescription.setText("Description: ${editableProp.description}")
+
                     // While we don't have enough room for the description increase the size by a constant
                     while (propertyDescription.overflowText.isNotEmpty())
                     {
                         propertyDescription.setHeight(propertyDescription.getHeight() + 12)
                         propertyDescription.setText("Description: ${editableProp.description}")
                     }
+
                     editPanel.add(propertyDescription)
                     currentY = currentY + propertyDescription.getHeight()
 

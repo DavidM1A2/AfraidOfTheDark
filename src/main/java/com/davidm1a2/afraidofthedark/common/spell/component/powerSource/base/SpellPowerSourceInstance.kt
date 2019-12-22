@@ -20,10 +20,13 @@ class SpellPowerSourceInstance(component: SpellPowerSource) : SpellComponentInst
             // Figure out the type of power source that this NBT represents
             val powerSourceTypeId = nbt.getString(NBT_TYPE_ID)
             // Use our registry to create a new instance of this type
-            return SpellPowerSourceInstance(
+            val instance = SpellPowerSourceInstance(
                 ModRegistries.SPELL_POWER_SOURCES.getValue(ResourceLocation(powerSourceTypeId))
                     ?: throw IllegalArgumentException("$powerSourceTypeId doesn't exist!")
             )
+            // Deserialize the instance and return it
+            instance.deserializeNBT(nbt)
+            return instance
         }
     }
 }
