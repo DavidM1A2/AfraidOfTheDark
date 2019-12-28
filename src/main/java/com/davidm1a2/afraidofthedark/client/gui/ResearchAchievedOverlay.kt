@@ -113,7 +113,7 @@ class ResearchAchievedOverlay : Gui()
             mc.textureManager.bindTexture(ACHIEVEMENT_BACKGROUND)
             GlStateManager.disableLighting()
             this.drawTexturedModalRect(i, j, 96, 202, 160, 32)
-            mc.fontRenderer.drawString(ACHIEVEMENT_TITLE, i + 10, j + 5, -256)
+            mc.fontRenderer.drawString(I18n.format("researchextra.title"), i + 10, j + 5, -256)
             mc.fontRenderer.drawString(researchDescription!!, i + 10, j + 18, -1)
             RenderHelper.enableGUIStandardItemLighting()
             GlStateManager.disableLighting()
@@ -139,7 +139,5 @@ class ResearchAchievedOverlay : Gui()
     {
         // The texture of the achievement background
         private val ACHIEVEMENT_BACKGROUND = ResourceLocation(Constants.MOD_ID, "textures/gui/research_achieved.png")
-        // The title of the research achieved window
-        private val ACHIEVEMENT_TITLE = I18n.format("researchextra.title")
     }
 }

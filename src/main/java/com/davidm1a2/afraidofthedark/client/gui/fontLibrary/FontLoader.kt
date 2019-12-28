@@ -54,6 +54,6 @@ object FontLoader
         // Set the font size and make it bold. Bold fonts tend to look better in this font rendering system
         font = font.deriveFont(size).deriveFont(Font.BOLD)
         // Return a new true type font without any additional characters
-        return TrueTypeFont(font, antiAlias, null)
+        return TrueTypeFont(font, antiAlias, charArrayOf())
     }
 }

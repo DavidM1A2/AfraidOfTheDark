@@ -16,8 +16,6 @@ import java.awt.image.DataBufferByte
 import java.awt.image.DataBufferInt
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
-import java.util.*
-import java.util.function.IntConsumer
 import kotlin.math.abs
 import kotlin.math.max
 
@@ -45,17 +43,16 @@ import kotlin.math.max
  * @property textureHeight Default font texture height
  * @property fontMetrics The font metrics for our Java AWT font
  */
-class TrueTypeFont internal constructor(private val font: Font, private val antiAlias: Boolean, additionalChars: CharArray?)
+class TrueTypeFont internal constructor(private val font: Font, private val antiAlias: Boolean, additionalChars: CharArray)
 {
-    private val asciiGlyphs = arrayOfNulls<CharacterGlyph>(256)
-    private val additionalGlyphs = HashMap<Char, CharacterGlyph>()
+    private val additionalGlyphs = mapOf<Char, CharacterGlyph>()
     private val fontSize: Int = font.size
     var height = 0
         private set
-    private var fontTextureID: Int = 0
-    private var textureWidth = 1024
-    private val textureHeight = 1024
-    private var fontMetrics: FontMetrics? = null
+    private val fontTextureID: Int
+    private val textureWidth: Int
+    private val textureHeight: Int
+    private lateinit var fontMetrics: FontMetrics
 
     init
     {
@@ -68,10 +65,10 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
      *
      * @param customCharsArray The extra non-ascii characters to render
      */
-    private fun createSet(customCharsArray: CharArray?)
+    private fun createSet(customCharsArray: CharArray)
     {
         // If there are custom chars then expand the font texture twice
-        if (customCharsArray != null && customCharsArray.isNotEmpty())
+        if (customCharsArray.isNotEmpty())
         {
             textureWidth = textureWidth * 2
         }
@@ -101,14 +98,11 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
             var positionX = 0
             var positionY = 0
 
-            // The number of custom characters to write
-            val customCharsLength = customCharsArray?.size ?: 0
-
             // Go over all 256 ascii characters and then additional custom characters
-            for (i in 0 until 256 + customCharsLength)
+            for (i in 0 until 256 + customCharsArray.size)
             {
                 // Grab the current character to render
-                val character = if (i < 256) i.toChar() else customCharsArray!![i - 256]
+                val character = if (i < 256) i.toChar() else customCharsArray[i - 256]
 
                 // Render the character into an image
                 val fontImage = getFontImage(character)
@@ -133,12 +127,12 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
 
                 // Assign the glyph position on the texture
                 characterGlyph.storedX = positionX
-                characterGlyph.storedY = positionY.toFloat()
+                characterGlyph.storedY = positionY
 
                 // The font height is the max of the current height and the new glyph's height
                 height = max(height, characterGlyph.height)
 
-                // The row height is the ma of the current row height and the new glyph's height
+                // The row height is the max of the current row height and the new glyph's height
                 rowHeight = max(rowHeight, characterGlyph.height)
 
                 // Draw the character glyph to the large texture
@@ -179,20 +173,26 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
     {
         // Create a temporary image to extract the character's size
         val tempFontImage = BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB)
+
         // Grab the graphics component
         var g = tempFontImage.graphics as Graphics2D
+
         // If anti-aliasing is enabled do so for the graphics component
         if (antiAlias)
         {
             // Enable anti-aliasing
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
         }
+
         // Set the graphic's font
         g.font = font
+
         // Grab the font metrics and store that off to be used later
         fontMetrics = g.fontMetrics
+
         // Compute the width of the current character (not sure why we add 8?)
-        var charWidth = fontMetrics!!.charWidth(ch) // + 8?
+        var charWidth = fontMetrics.charWidth(ch) // + 8?
+
         // If our character has no width just use a width of 1 and don't do anything with it
         if (charWidth <= 0)
         {
@@ -200,7 +200,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
         }
 
         // Compute the height of the character
-        var charHeight = fontMetrics!!.height
+        var charHeight = fontMetrics.height
         // If the char's height is invalid just use the font size
         if (charHeight <= 0)
         {
@@ -209,19 +209,24 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
 
         // Create another image holding the character we are creating
         val fontImage = BufferedImage(charWidth, charHeight, BufferedImage.TYPE_INT_ARGB)
+
         // Update g to be the final image
         g = fontImage.graphics as Graphics2D
+
         // Set the anti-alias flag if needed
         if (antiAlias)
         {
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
         }
+
         // Set the font
         g.font = font
+
         // Set the color to white
         g.color = Color.WHITE
+
         // Write the character onto the image
-        g.drawString(ch.toString(), 0, fontMetrics!!.ascent)
+        g.drawString(ch.toString(), 0, fontMetrics.ascent)
 
         // Return the image
         return fontImage
@@ -408,9 +413,9 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
                         (totalWidth + characterGlyph.width) * scaleX + x,
                         (startY + characterGlyph.height) * scaleY + y,
                         (characterGlyph.storedX + characterGlyph.width).toFloat(),
-                        characterGlyph.storedY + characterGlyph.height,
+                        characterGlyph.storedY.toFloat() + characterGlyph.height,
                         characterGlyph.storedX.toFloat(),
-                        characterGlyph.storedY
+                        characterGlyph.storedY.toFloat()
                     )
                     // If we are aligning left then increase the width of the current line
                     if (alignmentFlag > 0)
@@ -472,7 +477,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
      */
     fun getWidth(string: String): Float
     {
-        return this.fontMetrics?.stringWidth(string)?.toFloat() ?: 0f
+        return this.fontMetrics.stringWidth(string).toFloat()
     }
 
     /**
@@ -499,7 +504,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
         // Character's stored x position
         var storedX: Int = 0
         // Character's stored y position
-        var storedY: Float = 0.toFloat()
+        var storedY: Int = 0
     }
 
     companion object
@@ -530,7 +535,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
                 if (db is DataBufferInt)
                 {
                     byteBuffer = ByteBuffer.allocateDirect(width * height * (bytesPerPixel / 8)).order(ByteOrder.nativeOrder())
-                    Arrays.stream((bufferedImage.data.dataBuffer as DataBufferInt).data).forEach(IntConsumer { byteBuffer.putInt(it) })
+                    (bufferedImage.data.dataBuffer as DataBufferInt).data.forEach { byteBuffer.putInt(it) }
                 }
                 // If it's a byte buffer write it directly into the buffer
                 else
@@ -543,10 +548,12 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
 
                 // Not very familiar with OpenGl here, but create an int buffer and generate the texture from the byte buffer
 
-                val textureId = GLAllocation.createDirectIntBuffer(1)
-                GL11.glGenTextures(textureId)
+                val textureBuffer = GLAllocation.createDirectIntBuffer(1)
+                val textureId = textureBuffer.get(0)
 
-                GlStateManager.bindTexture(textureId.get(0))
+                GL11.glGenTextures(textureBuffer)
+
+                GlStateManager.bindTexture(textureId)
 
                 GlStateManager.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_CLAMP)
                 GlStateManager.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_CLAMP)
@@ -559,7 +566,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
                 GLU.gluBuild2DMipmaps(GL11.GL_TEXTURE_2D, GL11.GL_RGBA8, width, height, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, byteBuffer)
 
                 // Return the texture ID
-                return textureId.get(0)
+                return textureId
             }
             // Catch any exceptions, log an error, and then shutdown java since we can't continue without fonts
             catch (e: Exception)
