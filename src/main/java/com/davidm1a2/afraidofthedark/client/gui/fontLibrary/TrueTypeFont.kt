@@ -16,26 +16,18 @@ import java.awt.image.DataBufferByte
 import java.awt.image.DataBufferInt
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
-import kotlin.math.abs
-import kotlin.math.max
+import kotlin.math.*
 
 /**
- * TrueTyper: Open Source TTF implementation for Minecraft. Modified from Slick2D - under BSD Licensing - http://slick.ninjacave.com/license/
+ * TrueTyper: Open Source TTF implementation for Minecraft.
  *
- *
- * Copyright (c) 2013 - Slick2D
- *
- *
- * All rights reserved.
- *
- * Heavily modified the implementation for later versions of MC 1.12+
+ * Heavily modified the implementation found online for later versions of MC 1.12+
  *
  * @constructor initializes the font glyphs
  * @param font The java font to render
  * @param antiAlias True if anti-alias is on, false otherwise
- * @param additionalChars Additional characters to draw
- * @property asciiGlyphs Array that holds necessary information about the font characters
- * @property additionalGlyphs Map of user defined font characters (Character <-> IntObject)
+ * @param supportedChars A list of characters to support
+ * @property glyphs Map of font characters (Character <-> IntObject)
  * @property fontSize Font's size
  * @property height Font's height
  * @property fontTextureID Texture used to cache the font 0-255 characters
@@ -43,164 +35,165 @@ import kotlin.math.max
  * @property textureHeight Default font texture height
  * @property fontMetrics The font metrics for our Java AWT font
  */
-class TrueTypeFont internal constructor(private val font: Font, private val antiAlias: Boolean, additionalChars: CharArray)
+class TrueTypeFont internal constructor(private val font: Font, private val antiAlias: Boolean, supportedChars: Set<Char>)
 {
-    private val additionalGlyphs = mapOf<Char, CharacterGlyph>()
+    private val glyphs = mutableMapOf<Char, CharacterGlyph>()
     private val fontSize: Int = font.size
-    var height = 0
+    var height: Int = 0
         private set
     private val fontTextureID: Int
     private val textureWidth: Int
     private val textureHeight: Int
-    private lateinit var fontMetrics: FontMetrics
+    private val fontMetrics: FontMetrics
 
     init
     {
+        // Compute and cache the font's metrics
+        fontMetrics = computeFontMetrics()
+
+        // A multiple of 2 for the opengl texture (ex. 256, 512, or 1024)
+        val textureWidthHeight = getTextureSize(supportedChars)
+        textureWidth = textureWidthHeight
+        textureHeight = textureWidthHeight
+
         // Render the characters into open GL format
-        createSet(additionalChars)
+        fontTextureID = createTextureSheet(supportedChars)
+    }
+
+    /**
+     * Sets up the font metrics object used to determine the width and height of characters
+     *
+     * @return A font metrics instance for the font
+     */
+    private fun computeFontMetrics(): FontMetrics
+    {
+        // To get a graphics object we need a buffered image...
+        val g = BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB).graphics as Graphics2D
+        if (antiAlias)
+        {
+            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
+        }
+        g.font = font
+        return g.fontMetrics
+    }
+
+    /**
+     * Gets the size of the texture in pixels
+     *
+     * @param supportedChars The characters that are allowed
+     * @return The size with the constraints that width = height, and it's a multiple of 2
+     */
+    private fun getTextureSize(supportedChars: Set<Char>): Int
+    {
+        // Get the maximum possible height and width of each character
+        val maxCharHeight = fontMetrics.height
+        val maxCharWidth = supportedChars.map { fontMetrics.charWidth(it) }.max()!!
+        // Compute how many glpyhs we will need
+        val textureSize = ceil(sqrt(supportedChars.size.toDouble())).toInt()
+
+        // Get the size required for each glyph
+        val minTextureSize = max(maxCharHeight, maxCharWidth) * textureSize
+
+        // Find the closest thing to a multiple of two, up to 4096
+        for (possibleTextureSize in validTextureSizes)
+        {
+            if (possibleTextureSize >= minTextureSize)
+            {
+                return possibleTextureSize
+            }
+        }
+
+        throw IllegalArgumentException("Texture width/height could not be created as it would be larger than ${validTextureSizes.max()}")
     }
 
     /**
      * Initializes the font by rendering each character to an image
      *
-     * @param customCharsArray The extra non-ascii characters to render
+     * @param supportedChars The extra non-ascii characters to render
      */
-    private fun createSet(customCharsArray: CharArray)
+    private fun createTextureSheet(supportedChars: Set<Char>): Int
     {
-        // If there are custom chars then expand the font texture twice
-        if (customCharsArray.isNotEmpty())
+        // Create a temp buffered image to write to
+        val imgTemp = BufferedImage(textureWidth, textureHeight, BufferedImage.TYPE_INT_ARGB)
+        // Grab the graphics object to write to the image
+        val g = imgTemp.graphics as Graphics2D
+
+        // Set the color to blank
+        g.color = Color(0, 0, 0, 0)
+        // Fill the rectangle with black
+        g.fillRect(0, 0, textureWidth, textureHeight)
+
+        // 3 values to use in writing the glyphs to the image
+        // The current row's height
+        var rowHeight = 0
+        // The current glyph pos x and y
+        var positionX = 0
+        var positionY = 0
+
+        // Go over each character
+        for (character in supportedChars)
         {
-            textureWidth = textureWidth * 2
-        }
+            // Render the character into an image
+            val fontImage = getFontImage(character)
 
-        // In any case this should be done in other way. Texture with size
-        // 1024x1024
-        // can maintain only 256 characters with resolution of 64x64. The
-        // texture
-        // size should be calculated dynamically by looking at character sizes.
+            // Create a new character glyph for this font
+            val characterGlyph = CharacterGlyph()
 
-        try
-        {
-            // Create a temp buffered image to write to
-            val imgTemp = BufferedImage(textureWidth, textureHeight, BufferedImage.TYPE_INT_ARGB)
-            // Grab the graphics object to write to the image
-            val g = imgTemp.graphics as Graphics2D
+            // Assign the width and height fields
+            characterGlyph.width = fontImage.width
+            characterGlyph.height = fontImage.height
 
-            // Set the color to black
-            g.color = Color(0, 0, 0, 1)
-            // Fill the rectangle with black
-            g.fillRect(0, 0, textureWidth, textureHeight)
-
-            // 3 values to use in writing the glyphs to the image
-            // The current row's height
-            var rowHeight = 0
-            // The current glyph pos x and y
-            var positionX = 0
-            var positionY = 0
-
-            // Go over all 256 ascii characters and then additional custom characters
-            for (i in 0 until 256 + customCharsArray.size)
+            // If the glyph is too big for the texture move down a line
+            if (positionX + characterGlyph.width >= textureWidth)
             {
-                // Grab the current character to render
-                val character = if (i < 256) i.toChar() else customCharsArray[i - 256]
-
-                // Render the character into an image
-                val fontImage = getFontImage(character)
-
-                // Create a new character glyph for this font
-                val characterGlyph = CharacterGlyph()
-
-                // Assign the width and height fields
-                characterGlyph.width = fontImage.width
-                characterGlyph.height = fontImage.height
-
-                // If the glyph is too big for the texture move down a line
-                if (positionX + characterGlyph.width >= textureWidth)
-                {
-                    // Reset X to the far left
-                    positionX = 0
-                    // Move Y down a row
-                    positionY = positionY + rowHeight
-                    // Reset row height to be 0, the current row has no glyphs
-                    rowHeight = 0
-                }
-
-                // Assign the glyph position on the texture
-                characterGlyph.storedX = positionX
-                characterGlyph.storedY = positionY
-
-                // The font height is the max of the current height and the new glyph's height
-                height = max(height, characterGlyph.height)
-
-                // The row height is the max of the current row height and the new glyph's height
-                rowHeight = max(rowHeight, characterGlyph.height)
-
-                // Draw the character glyph to the large texture
-                g.drawImage(fontImage, positionX, positionY, null)
-
-                // Move the X position over by the glyph's width
-                positionX = positionX + characterGlyph.width
-
-                // If we are working with a standard ascii glyph assign it here
-                if (i < 256)
-                {
-                    asciiGlyphs[i] = characterGlyph
-                }
-                // Otherwise store a custom character glyph into the hash map
-                else
-                {
-                    additionalGlyphs[character] = characterGlyph
-                }
+                // Reset X to the far left
+                positionX = 0
+                // Move Y down a row
+                positionY = positionY + rowHeight
+                // Reset row height to be 0, the current row has no glyphs
+                rowHeight = 0
             }
 
-            // Once we're done writing all of our glyphs onto the 1024x1024 image we load it into open GL for rendering
-            fontTextureID = loadImage(imgTemp)
+            // Assign the glyph position on the texture
+            characterGlyph.storedX = positionX
+            characterGlyph.storedY = positionY
+
+            // The font height is the max of the current height and the new glyph's height
+            height = max(height, characterGlyph.height)
+
+            // The row height is the max of the current row height and the new glyph's height
+            rowHeight = max(rowHeight, characterGlyph.height)
+
+            // Draw the character glyph to the large texture
+            g.drawImage(fontImage, positionX, positionY, null)
+
+            // Move the X position over by the glyph's width
+            positionX = positionX + characterGlyph.width
+
+            glyphs[character] = characterGlyph
         }
-        // Catch any exceptions and log them
-        catch (e: Exception)
-        {
-            AfraidOfTheDark.INSTANCE.logger.error("Failed to create font.", e)
-        }
+
+        // Once we're done writing all of our glyphs onto the 1024x1024 image we load it into open GL for rendering
+        return loadImage(imgTemp)
     }
 
     /**
      * Converts a character to an image by writing it to an image
      *
-     * @param ch The character to write
+     * @param character The character to write
      * @return The buffered image representing the character
      */
-    private fun getFontImage(ch: Char): BufferedImage
+    private fun getFontImage(character: Char): BufferedImage
     {
-        // Create a temporary image to extract the character's size
-        val tempFontImage = BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB)
-
-        // Grab the graphics component
-        var g = tempFontImage.graphics as Graphics2D
-
-        // If anti-aliasing is enabled do so for the graphics component
-        if (antiAlias)
-        {
-            // Enable anti-aliasing
-            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
-        }
-
-        // Set the graphic's font
-        g.font = font
-
-        // Grab the font metrics and store that off to be used later
-        fontMetrics = g.fontMetrics
-
-        // Compute the width of the current character (not sure why we add 8?)
-        var charWidth = fontMetrics.charWidth(ch) // + 8?
+        // Compute the width of the current character
+        var charWidth = fontMetrics.charWidth(character)
 
         // If our character has no width just use a width of 1 and don't do anything with it
-        if (charWidth <= 0)
-        {
-            charWidth = 1
-        }
+        charWidth = charWidth.coerceAtLeast(1)
 
         // Compute the height of the character
         var charHeight = fontMetrics.height
+
         // If the char's height is invalid just use the font size
         if (charHeight <= 0)
         {
@@ -210,8 +203,8 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
         // Create another image holding the character we are creating
         val fontImage = BufferedImage(charWidth, charHeight, BufferedImage.TYPE_INT_ARGB)
 
-        // Update g to be the final image
-        g = fontImage.graphics as Graphics2D
+        // Extract the graphics component that we write to
+        val g = fontImage.graphics as Graphics2D
 
         // Set the anti-alias flag if needed
         if (antiAlias)
@@ -226,7 +219,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
         g.color = Color.WHITE
 
         // Write the character onto the image
-        g.drawString(ch.toString(), 0, fontMetrics.ascent)
+        g.drawString(character.toString(), 0, fontMetrics.ascent)
 
         // Return the image
         return fontImage
@@ -262,15 +255,15 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
      * @param rgba The color to use when drawing the string
      */
     fun drawString(
-        x: Float,
-        y: Float,
-        stringToDraw: String,
-        startIndex: Int,
-        endIndex: Int,
-        scaleX: Float,
-        scaleY: Float,
-        textAlignment: TextAlignment,
-        rgba: org.lwjgl.util.Color
+            x: Float,
+            y: Float,
+            stringToDraw: String,
+            startIndex: Int,
+            endIndex: Int,
+            scaleX: Float,
+            scaleY: Float,
+            textAlignment: TextAlignment,
+            rgba: org.lwjgl.util.Color
     )
     {
         // The current glyph being drawn
@@ -318,6 +311,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
                 {
                     // Grab the character
                     currentChar = stringToDraw[i]
+
                     // If the character is a new line we're done, break and align on this alone
                     if (currentChar == '\n')
                     {
@@ -326,7 +320,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
 
                     // Grab the current glyph, if it's an ascii character grab it from the array, otherwise get it from
                     // our custom character hash map
-                    characterGlyph = if (currentChar.toInt() < 256) asciiGlyphs[currentChar.toInt()] else additionalGlyphs[currentChar]
+                    characterGlyph = glyphs[currentChar]
 
                     // Increase our total width by the glyph's width
                     totalWidth = totalWidth + (characterGlyph!!.width - CORRECT_L)
@@ -363,7 +357,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
             // Grab the current character to draw
             currentChar = stringToDraw[currentIndex]
             // Grab the glyph to draw, it will either be ascii or in the additional glyphs map
-            characterGlyph = if (currentChar.toInt() < 256) asciiGlyphs[currentChar.toInt()] else additionalGlyphs[currentChar]
+            characterGlyph = glyphs[currentChar]
 
             // If the glyph is valid draw it
             if (characterGlyph != null)
@@ -395,7 +389,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
                             }
 
                             // Set the current glyph to be either an ascii glyph or a custom glyph if it's bigger than 255
-                            characterGlyph = if (currentChar.toInt() < 256) asciiGlyphs[currentChar.toInt()] else additionalGlyphs[currentChar]
+                            characterGlyph = glyphs[currentChar]
                             // Increase the width by the glyph width, subtract off the spacing modifier
                             totalWidth = totalWidth + (characterGlyph!!.width - CORRECT_L)
                         }
@@ -408,14 +402,14 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
                 {
                     // Draw a letter
                     drawQuad(
-                        totalWidth * scaleX + x,
-                        startY * scaleY + y,
-                        (totalWidth + characterGlyph.width) * scaleX + x,
-                        (startY + characterGlyph.height) * scaleY + y,
-                        (characterGlyph.storedX + characterGlyph.width).toFloat(),
-                        characterGlyph.storedY.toFloat() + characterGlyph.height,
-                        characterGlyph.storedX.toFloat(),
-                        characterGlyph.storedY.toFloat()
+                            totalWidth * scaleX + x,
+                            startY * scaleY + y,
+                            (totalWidth + characterGlyph.width) * scaleX + x,
+                            (startY + characterGlyph.height) * scaleY + y,
+                            (characterGlyph.storedX + characterGlyph.width).toFloat(),
+                            characterGlyph.storedY.toFloat() + characterGlyph.height,
+                            characterGlyph.storedX.toFloat(),
+                            characterGlyph.storedY.toFloat()
                     )
                     // If we are aligning left then increase the width of the current line
                     if (alignmentFlag > 0)
@@ -456,17 +450,17 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
 
         // Add the 4 vertices that are used to draw the glyph. These must be done in this order
         bufferBuilder.pos(drawX.toDouble(), (drawY + drawHeight).toDouble(), 0.0)
-            .tex(((srcX + srcWidth) / textureWidth).toDouble(), (srcY / textureHeight).toDouble())
-            .endVertex()
+                .tex(((srcX + srcWidth) / textureWidth).toDouble(), (srcY / textureHeight).toDouble())
+                .endVertex()
         bufferBuilder.pos((drawX + drawWidth).toDouble(), (drawY + drawHeight).toDouble(), 0.0)
-            .tex((srcX / textureWidth).toDouble(), (srcY / textureHeight).toDouble())
-            .endVertex()
+                .tex((srcX / textureWidth).toDouble(), (srcY / textureHeight).toDouble())
+                .endVertex()
         bufferBuilder.pos((drawX + drawWidth).toDouble(), drawY.toDouble(), 0.0)
-            .tex((srcX / textureWidth).toDouble(), ((srcY + srcHeight) / textureHeight).toDouble())
-            .endVertex()
+                .tex((srcX / textureWidth).toDouble(), ((srcY + srcHeight) / textureHeight).toDouble())
+                .endVertex()
         bufferBuilder.pos(drawX.toDouble(), drawY.toDouble(), 0.0)
-            .tex(((srcX + srcWidth) / textureWidth).toDouble(), ((srcY + srcHeight) / textureHeight).toDouble())
-            .endVertex()
+                .tex(((srcX + srcWidth) / textureWidth).toDouble(), ((srcY + srcHeight) / textureHeight).toDouble())
+                .endVertex()
     }
 
     /**
@@ -495,23 +489,24 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
     /**
      * Utility class for storing glyph positions
      */
-    private class CharacterGlyph
-    {
-        // Character's width
-        var width: Int = 0
-        // Character's height
-        var height: Int = 0
-        // Character's stored x position
-        var storedX: Int = 0
-        // Character's stored y position
-        var storedY: Int = 0
-    }
+    private data class CharacterGlyph(
+            // Character's width
+            var width: Int = 0,
+            // Character's height
+            var height: Int = 0,
+            // Character's stored x position
+            var storedX: Int = 0,
+            // Character's stored y position
+            var storedY: Int = 0
+    )
 
     companion object
     {
         // Correction constants used to render letters closer together. These cause a big with getWidth() currently
         private const val CORRECT_L = 0 // 2
         private const val CORRECT_R = 0 // 1
+
+        private val validTextureSizes = (1..12).map { 2.0.pow(it).toInt() }
 
         /**
          * Converts a buffered image into an open GL ready image to be loaded
@@ -549,10 +544,9 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
                 // Not very familiar with OpenGl here, but create an int buffer and generate the texture from the byte buffer
 
                 val textureBuffer = GLAllocation.createDirectIntBuffer(1)
-                val textureId = textureBuffer.get(0)
-
                 GL11.glGenTextures(textureBuffer)
 
+                val textureId = textureBuffer.get(0)
                 GlStateManager.bindTexture(textureId)
 
                 GlStateManager.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_CLAMP)
