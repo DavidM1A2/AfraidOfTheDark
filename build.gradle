@@ -34,6 +34,11 @@ compileKotlin {
     }
 }
 
+// Set your username if you want a new name
+runClient {
+    args "--username", "David_M1A2"
+}
+
 minecraft {
     version = "1.12.2-14.23.5.2768"
     runDir = "run"

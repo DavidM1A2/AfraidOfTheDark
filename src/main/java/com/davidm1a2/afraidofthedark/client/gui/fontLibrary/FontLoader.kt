@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.fontLibrary
 
+import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import net.minecraft.client.Minecraft
 import net.minecraft.util.ResourceLocation
 import java.awt.Font
@@ -25,18 +26,8 @@ import java.awt.Font
  */
 object FontLoader
 {
-    /**
-     * Creates a font to be used by MC given a resource location, size, and anti-alias flag
-     *
-     * @param resourceLocation The resource location of the .ttf file to read
-     * @param size The size of the font
-     * @param antiAlias Flag enabling or disabling anti-aliasing
-     * @return A true-type font reference to be used in the MC game engine
-     */
-    fun createFont(resourceLocation: ResourceLocation, size: Float, antiAlias: Boolean): TrueTypeFont
-    {
-        return createFont(resourceLocation, size, antiAlias, Font.TRUETYPE_FONT)
-    }
+    // If a font can't render all characters required use this instead
+    private val DEFAULT_FONT_LOCATION = ResourceLocation("afraidofthedark:fonts/calibri.ttf")
 
     /**
      * Creates a font to be used by MC given a resource location, size, type, and anti-alias flag
@@ -47,109 +38,24 @@ object FontLoader
      * @param type The type of font to read, see Font public static fields for options
      * @return A true-type font reference to be used in the MC game engine
      */
-    private fun createFont(resourceLocation: ResourceLocation, size: Float, antiAlias: Boolean, type: Int): TrueTypeFont
+    fun createFont(resourceLocation: ResourceLocation, size: Float, antiAlias: Boolean = true, type: Int = Font.TRUETYPE_FONT): TrueTypeFont
     {
+        // Grab the list of characters our font must support
+        val characters = AfraidOfTheDark.INSTANCE.configurationHandler.supportedCharacters
         // Create a system font first given the type and input stream created by the MC game engine
         var font = Font.createFont(type, Minecraft.getMinecraft().resourceManager.getResource(resourceLocation).inputStream)
+        // If the font has non-ascii characters use Calibri
+        if (characters.any { !font.canDisplay(it) })
+        {
+            font = Font.createFont(type, Minecraft.getMinecraft().resourceManager.getResource(DEFAULT_FONT_LOCATION).inputStream)
+            // If Calibri can't render the characters, give up
+            characters.map { !font.canDisplay(it) }.forEach { AfraidOfTheDark.INSTANCE.logger.error("Calibri doesnt support character '$it', ignoring...") }
+        }
+
         // Set the font size and make it bold. Bold fonts tend to look better in this font rendering system
         font = font.deriveFont(size).deriveFont(Font.BOLD)
+
         // Return a new true type font without any additional characters
-        return TrueTypeFont(font, antiAlias, setOf(
-                '0',
-                '1',
-                '2',
-                '3',
-                '4',
-                '5',
-                '6',
-                '7',
-                '8',
-                '9',
-                'a',
-                'b',
-                'c',
-                'd',
-                'e',
-                'f',
-                'g',
-                'h',
-                'i',
-                'j',
-                'k',
-                'l',
-                'm',
-                'n',
-                'o',
-                'p',
-                'q',
-                'r',
-                's',
-                't',
-                'u',
-                'v',
-                'w',
-                'x',
-                'y',
-                'z',
-                'A',
-                'B',
-                'C',
-                'D',
-                'E',
-                'F',
-                'G',
-                'H',
-                'I',
-                'I',
-                'K',
-                'L',
-                'M',
-                'N',
-                'O',
-                'P',
-                'Q',
-                'R',
-                'S',
-                'T',
-                'U',
-                'V',
-                'W',
-                'X',
-                'Y',
-                'Z',
-                ' ',
-                '!',
-                '"',
-                '#',
-                '$',
-                '%',
-                '&',
-                '\'',
-                '(',
-                ')',
-                '*',
-                '+',
-                ',',
-                '-',
-                '.',
-                '/',
-                ':',
-                ';',
-                '<',
-                '>',
-                '=',
-                '?',
-                '@',
-                '[',
-                '\\',
-                ']',
-                '^',
-                '_',
-                '`',
-                '{',
-                '|',
-                '}',
-                '~'
-        ))
+        return TrueTypeFont(font, antiAlias, characters)
     }
 }

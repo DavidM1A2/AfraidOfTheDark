@@ -66,6 +66,10 @@ class ConfigurationHandler(configurationFile: File)
     var voidChestDimensionId = 0
         private set
 
+    // A of characters that the font supports
+    var supportedCharacters = setOf<Char>()
+        private set
+
     init
     {
         // Refresh the configuration
@@ -145,24 +149,31 @@ class ConfigurationHandler(configurationFile: File)
             Configuration.CATEGORY_GENERAL,
             10,
             0,
-            1000,
-            "Increase this value to increase the number of Erie Biomes. 10 is the default MC forest value."
+                1000,
+                "Increase this value to increase the number of Erie Biomes. 10 is the default MC forest value."
         )
 
         debugMessages = configuration.getBoolean(
-            "Debug Messages",
-            Configuration.CATEGORY_GENERAL,
-            false,
-            "If you wish to receive all possible kinds of spammy debug messages in the console turn this on. Mostly used for developers only."
+                "Debug Messages",
+                Configuration.CATEGORY_GENERAL,
+                false,
+                "If you wish to receive all possible kinds of spammy debug messages in the console turn this on. Mostly used for developers only."
         )
+        val supportedCharactersRaw = configuration.getString(
+                "Supported Characters",
+                Configuration.CATEGORY_GENERAL,
+                """0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIIKLMNOPQRSTUVWXYZ !"#$%&'()*+,-./:;<>=?@[\]^_`{|}~""",
+                "A list of supported characters that will be rendered by the Afraid of the Dark font. Add characters from any language to be recognized by the mod. (Ex: цвèÓยั)"
+        )
+        supportedCharacters = supportedCharactersRaw.toCharArray().toSet()
 
         blocksBetweenIslands = configuration.getInt(
-            "Blocks Between Islands",
-            CATEGORY_WORLD_GENERATION,
-            1000,
-            100,
-            100000,
-            "Sets the number of blocks that are between nightmare and void chest islands. All players are technically in the same world, so this ensure they never see each other."
+                "Blocks Between Islands",
+                CATEGORY_WORLD_GENERATION,
+                1000,
+                100,
+                100000,
+                "Sets the number of blocks that are between nightmare and void chest islands. All players are technically in the same world, so this ensure they never see each other."
         )
 
         worldGenPriority = configuration.getInt(

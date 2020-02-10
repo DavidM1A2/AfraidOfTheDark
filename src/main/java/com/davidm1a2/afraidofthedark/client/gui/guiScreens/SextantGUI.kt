@@ -41,7 +41,7 @@ class SextantGUI : AOTDGuiScreen()
         background.add(backgroundImage)
 
         // Grab the font for the text fields
-        val textFieldFont = ClientData.getTargaMSHandFontSized(45f)
+        val textFieldFont = ClientData.getOrCreate(45f)
 
         // Initialize fields
         angle = AOTDGuiTextField(15, 108, 120, 30, textFieldFont)
@@ -67,7 +67,7 @@ class SextantGUI : AOTDGuiScreen()
             20,
             "afraidofthedark:textures/gui/journal_sign/sign_button.png",
             "afraidofthedark:textures/gui/journal_sign/sign_button_hovered.png",
-            ClientData.getTargaMSHandFontSized(40f)
+                ClientData.getOrCreate(40f)
         )
         // Text just says calculate
         confirm.setText("Calculate")

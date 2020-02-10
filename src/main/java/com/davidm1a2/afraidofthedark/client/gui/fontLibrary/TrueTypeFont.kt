@@ -28,7 +28,6 @@ import kotlin.math.*
  * @param antiAlias True if anti-alias is on, false otherwise
  * @param supportedChars A list of characters to support
  * @property glyphs Map of font characters (Character <-> IntObject)
- * @property fontSize Font's size
  * @property height Font's height
  * @property fontTextureID Texture used to cache the font 0-255 characters
  * @property textureWidth Default font texture width
@@ -38,7 +37,6 @@ import kotlin.math.*
 class TrueTypeFont internal constructor(private val font: Font, private val antiAlias: Boolean, supportedChars: Set<Char>)
 {
     private val glyphs = mutableMapOf<Char, CharacterGlyph>()
-    private val fontSize: Int = font.size
     var height: Int = 0
         private set
     private val fontTextureID: Int
@@ -48,16 +46,18 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
 
     init
     {
+        val characters = supportedChars + DEFAULT_CHARACTER
+
         // Compute and cache the font's metrics
         fontMetrics = computeFontMetrics()
 
         // A multiple of 2 for the opengl texture (ex. 256, 512, or 1024)
-        val textureWidthHeight = getTextureSize(supportedChars)
+        val textureWidthHeight = getTextureSize(characters)
         textureWidth = textureWidthHeight
         textureHeight = textureWidthHeight
 
         // Render the characters into open GL format
-        fontTextureID = createTextureSheet(supportedChars)
+        fontTextureID = createTextureSheet(characters)
     }
 
     /**
@@ -197,7 +197,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
         // If the char's height is invalid just use the font size
         if (charHeight <= 0)
         {
-            charHeight = fontSize
+            charHeight = font.size
         }
 
         // Create another image holding the character we are creating
@@ -267,7 +267,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
     )
     {
         // The current glyph being drawn
-        var characterGlyph: CharacterGlyph?
+        var characterGlyph: CharacterGlyph
         // The current character to draw
         var currentChar: Char
         // The total width of the current line being drawn
@@ -320,10 +320,10 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
 
                     // Grab the current glyph, if it's an ascii character grab it from the array, otherwise get it from
                     // our custom character hash map
-                    characterGlyph = glyphs[currentChar]
+                    characterGlyph = glyphs[currentChar] ?: glyphs[DEFAULT_CHARACTER]!!
 
                     // Increase our total width by the glyph's width
-                    totalWidth = totalWidth + (characterGlyph!!.width - CORRECT_L)
+                    totalWidth = totalWidth + (characterGlyph.width - CORRECT_L)
                 }
                 // Divide the total width by 2 to get the center the current line
                 totalWidth = totalWidth / -2
@@ -357,69 +357,65 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
             // Grab the current character to draw
             currentChar = stringToDraw[currentIndex]
             // Grab the glyph to draw, it will either be ascii or in the additional glyphs map
-            characterGlyph = glyphs[currentChar]
+            characterGlyph = glyphs[currentChar] ?: glyphs[DEFAULT_CHARACTER]!!
 
-            // If the glyph is valid draw it
-            if (characterGlyph != null)
+            // If the alignment flag is -1 align right is set so we reduce the total width
+            if (alignmentFlag < 0)
             {
-                // If the alignment flag is -1 align right is set so we reduce the total width
-                if (alignmentFlag < 0)
+                totalWidth = totalWidth + (characterGlyph.width - spacingCorrection) * alignmentFlag
+            }
+            // If the current character is a new line change lines
+            if (currentChar == '\n')
+            {
+                // Move in the right direction (up if align right, down otherwise)
+                startY = startY - height * alignmentFlag
+                // Reset the width since we're on a new line
+                totalWidth = 0
+                // If the alignment is center we need to compute the width of the next line
+                if (textAlignment == TextAlignment.ALIGN_CENTER)
+                {
+                    // Iterate over the next line, compute its width
+                    for (i in currentIndex + 1..endIndex)
+                    {
+                        // Grab the current character
+                        currentChar = stringToDraw[i]
+                        // If we've hit a new new line then the line is over
+                        if (currentChar == '\n')
+                        {
+                            break
+                        }
+
+                        // Set the current glyph to be either an ascii glyph or a custom glyph if it's bigger than 255
+                        characterGlyph = glyphs[currentChar] ?: glyphs[DEFAULT_CHARACTER]!!
+                        // Increase the width by the glyph width, subtract off the spacing modifier
+                        totalWidth = totalWidth + (characterGlyph.width - CORRECT_L)
+                    }
+                    // Center the text, so divide by 2
+                    totalWidth = totalWidth / -2
+                }
+            }
+            // If the current char is not a new line then we can continue drawing our character
+            else
+            {
+                // Draw a letter
+                drawQuad(
+                        totalWidth * scaleX + x,
+                        startY * scaleY + y,
+                        (totalWidth + characterGlyph.width) * scaleX + x,
+                        (startY + characterGlyph.height) * scaleY + y,
+                        (characterGlyph.storedX + characterGlyph.width).toFloat(),
+                        characterGlyph.storedY.toFloat() + characterGlyph.height,
+                        characterGlyph.storedX.toFloat(),
+                        characterGlyph.storedY.toFloat()
+                )
+                // If we are aligning left then increase the width of the current line
+                if (alignmentFlag > 0)
                 {
                     totalWidth = totalWidth + (characterGlyph.width - spacingCorrection) * alignmentFlag
                 }
-                // If the current character is a new line change lines
-                if (currentChar == '\n')
-                {
-                    // Move in the right direction (up if align right, down otherwise)
-                    startY = startY - height * alignmentFlag
-                    // Reset the width since we're on a new line
-                    totalWidth = 0
-                    // If the alignment is center we need to compute the width of the next line
-                    if (textAlignment == TextAlignment.ALIGN_CENTER)
-                    {
-                        // Iterate over the next line, compute its width
-                        for (i in currentIndex + 1..endIndex)
-                        {
-                            // Grab the current character
-                            currentChar = stringToDraw[i]
-                            // If we've hit a new new line then the line is over
-                            if (currentChar == '\n')
-                            {
-                                break
-                            }
-
-                            // Set the current glyph to be either an ascii glyph or a custom glyph if it's bigger than 255
-                            characterGlyph = glyphs[currentChar]
-                            // Increase the width by the glyph width, subtract off the spacing modifier
-                            totalWidth = totalWidth + (characterGlyph!!.width - CORRECT_L)
-                        }
-                        // Center the text, so divide by 2
-                        totalWidth = totalWidth / -2
-                    }
-                }
-                // If the current char is not a new line then we can continue drawing our character
-                else
-                {
-                    // Draw a letter
-                    drawQuad(
-                            totalWidth * scaleX + x,
-                            startY * scaleY + y,
-                            (totalWidth + characterGlyph.width) * scaleX + x,
-                            (startY + characterGlyph.height) * scaleY + y,
-                            (characterGlyph.storedX + characterGlyph.width).toFloat(),
-                            characterGlyph.storedY.toFloat() + characterGlyph.height,
-                            characterGlyph.storedX.toFloat(),
-                            characterGlyph.storedY.toFloat()
-                    )
-                    // If we are aligning left then increase the width of the current line
-                    if (alignmentFlag > 0)
-                    {
-                        totalWidth = totalWidth + (characterGlyph.width - spacingCorrection) * alignmentFlag
-                    }
-                }
-                // Advance or reduce the current index depending on if we're aligning right or left
-                currentIndex = currentIndex + alignmentFlag
             }
+            // Advance or reduce the current index depending on if we're aligning right or left
+            currentIndex = currentIndex + alignmentFlag
         }
         // Finally draw the screen now that all the glyphs are in place
         tessellator.draw()
@@ -505,6 +501,9 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
         // Correction constants used to render letters closer together. These cause a big with getWidth() currently
         private const val CORRECT_L = 0 // 2
         private const val CORRECT_R = 0 // 1
+
+        // Default character
+        private const val DEFAULT_CHARACTER = '?'
 
         private val validTextureSizes = (1..12).map { 2.0.pow(it).toInt() }
 

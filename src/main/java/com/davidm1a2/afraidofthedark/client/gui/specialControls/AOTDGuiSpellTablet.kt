@@ -64,7 +64,7 @@ class AOTDGuiSpellTablet(
         tablet.add(backgroundImage)
 
         // Setup the spell name label
-        spellName = AOTDGuiTextField(60, 30, 85, 25, ClientData.getTargaMSHandFontSized(36f))
+        spellName = AOTDGuiTextField(60, 30, 85, 25, ClientData.getOrCreate(36f))
         spellName.setGhostText("Spell Name")
         // When we type into this slot set the spell name
         spellName.addKeyListener()
@@ -259,7 +259,7 @@ class AOTDGuiSpellTablet(
         }
         tablet.add(uiPowerSource)
         // Add the spell cost label
-        spellCost = AOTDGuiLabel(30, 225, 120, 20, ClientData.getTargaMSHandFontSized(32f))
+        spellCost = AOTDGuiLabel(30, 225, 120, 20, ClientData.getOrCreate(32f))
         tablet.add(spellCost)
         // Update all the gui components from our spell
         refresh()
