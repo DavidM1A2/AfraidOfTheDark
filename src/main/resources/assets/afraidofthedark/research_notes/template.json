@@ -1,10 +1,7 @@
 {
   "x": 0,
   "y": 0,
-  "tooltip": "",
   "recipes": [],
   "preRecipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/",
-  "pre": "",
-  "researched": ""
+  "icon": "afraidofthedark:textures/gui/research_icons/"
 }

@@ -49,7 +49,11 @@ object FontLoader
         {
             font = Font.createFont(type, Minecraft.getMinecraft().resourceManager.getResource(DEFAULT_FONT_LOCATION).inputStream)
             // If Calibri can't render the characters, give up
-            characters.map { !font.canDisplay(it) }.forEach { AfraidOfTheDark.INSTANCE.logger.error("Calibri doesnt support character '$it', ignoring...") }
+            val unrenderableCharacters = characters.filter { !font.canDisplay(it) }
+            if (unrenderableCharacters.isNotEmpty())
+            {
+                AfraidOfTheDark.INSTANCE.logger.error("Calibri doesnt support the characters [$unrenderableCharacters], they will be ignored...")
+            }
         }
 
         // Set the font size and make it bold. Bold fonts tend to look better in this font rendering system

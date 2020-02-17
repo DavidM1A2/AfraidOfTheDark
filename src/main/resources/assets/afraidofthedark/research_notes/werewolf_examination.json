@@ -1,10 +1,7 @@
 {
   "x": 0,
   "y": 1,
-  "tooltip": "by your skin on their teeth",
   "recipes": [],
   "preRecipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/werewolf_examination.png",
-  "pre": "I have noticed several monstrous wolves around the countryside. They look extremely dangerous, but I cannot resist getting a closer look at them! They exist in abundance in Erie forests, which is the first place I should start looking for them.",
-  "researched": "My encounter with the large wolves almost ended in my own death. From what I saw, I can determine that they are extremely hardy and almost impervious to conventional weapons. For now I should avoid them until I can find some... unconventional ways of killing them."
+  "icon": "afraidofthedark:textures/gui/research_icons/werewolf_examination.png"
 }

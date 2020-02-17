@@ -1,12 +1,9 @@
 {
   "x": -1,
   "y": 0,
-  "tooltip": "great prank material",
   "recipes": [
     "minecraft:dye"
   ],
   "preRecipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/enchanted_skeleton.png",
-  "pre": "The enchanted skeletons I found in the underground dungeon appear to drop enchanted bones. These bones shake and quiver when placed close together in my hands... maybe I could experiment a little and drop them together on the ground somewhere?",
-  "researched": "I just witnessed a pile of bones become animated. While enchanted skeletons do not do a lot of damage and appear simple to kill, they recombine after being killed and re-animate like zombies. I should try to contain the enchanted bones separately to keep them from combining. As far as I can tell, the bones are not useful for anything except bonemeal. I have also collected all the other dye recipes here for reference."
+  "icon": "afraidofthedark:textures/gui/research_icons/enchanted_skeleton.png"
 }

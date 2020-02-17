@@ -20,9 +20,6 @@ import java.io.InputStreamReader
  *
  * @param data The resource location with the JSON document for this research
  * @property preRequisite The research that this research requires before it can be researched
- * @property tooltip The tooltip that is displayed when the research is hovered
- * @property preResearchedText The pre-researched text that is displayed on the page when the research is not researched yet
- * @property researchedText The researched text that is displayed on the page when the research is researched
  * @property xPosition The X position on the research screen that this research will be placed at
  * @property zPosition The Z position on the research screen that this research will be placed at
  * @property researchedRecipes A list of recipes that will be shown if the research is researched
@@ -31,12 +28,6 @@ import java.io.InputStreamReader
  */
 abstract class Research(data: ResourceLocation, val preRequisite: Research? = null) : IForgeRegistryEntry.Impl<Research>()
 {
-    lateinit var tooltip: String
-        private set
-    lateinit var preResearchedText: String
-        private set
-    lateinit var researchedText: String
-        private set
     var xPosition = 0
         private set
     var zPosition = 0
@@ -66,7 +57,6 @@ abstract class Research(data: ResourceLocation, val preRequisite: Research? = nu
                             // Parse all the fields of the JSON object using the JSONUtils class
                             xPosition = JsonUtils.getInt(jsonObject, "x")
                             zPosition = JsonUtils.getInt(jsonObject, "y")
-                            tooltip = JsonUtils.getString(jsonObject, "tooltip")
                             researchedRecipes = JsonUtils.getJsonArray(jsonObject, "recipes").map()
                             {
                                 JsonUtils.getItem(it, "")
@@ -76,17 +66,15 @@ abstract class Research(data: ResourceLocation, val preRequisite: Research? = nu
                                 JsonUtils.getItem(it, "")
                             }
                             icon = ResourceLocation(JsonUtils.getString(jsonObject, "icon"))
-                            preResearchedText = JsonUtils.getString(jsonObject, "pre")
-                            researchedText = JsonUtils.getString(jsonObject, "researched")
                         }
                     }
                 }
             }
         }
         // This shouldn't happen, but if it does print out an error
-        catch (_: IOException)
+        catch (e: IOException)
         {
-            AfraidOfTheDark.INSTANCE.logger.error("Could not load the research defined by '$data'")
+            AfraidOfTheDark.INSTANCE.logger.error("Could not load the research defined by '$data'", e)
         }
     }
 
@@ -95,7 +83,31 @@ abstract class Research(data: ResourceLocation, val preRequisite: Research? = nu
      */
     fun getUnlocalizedName(): String
     {
-        return "research.${registryName!!.resourceDomain}:${registryName!!.resourcePath}"
+        return "research.${registryName!!.resourceDomain}:${registryName!!.resourcePath}.name"
+    }
+
+    /**
+     * @return The unlocalized tooltip of the research
+     */
+    fun getUnlocalizedTooltip(): String
+    {
+        return "research.${registryName!!.resourceDomain}:${registryName!!.resourcePath}.tooltip"
+    }
+
+    /**
+     * @return The unlocalized pre text of the research
+     */
+    fun getUnlocalizedPreText(): String
+    {
+        return "research.${registryName!!.resourceDomain}:${registryName!!.resourcePath}.pre_text"
+    }
+
+    /**
+     * @return The unlocalized text of the research
+     */
+    fun getUnlocalizedText(): String
+    {
+        return "research.${registryName!!.resourceDomain}:${registryName!!.resourcePath}.text"
     }
 
     companion object

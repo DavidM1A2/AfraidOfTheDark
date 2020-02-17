@@ -111,30 +111,125 @@ entity.spellMyself.name=Self
 entity.spellAOE.name=AOE
 
 # Researches
-research.afraidofthedark:an_unbreakable_covenant=An Unbreakable Covenant
-research.afraidofthedark:enchanted_skeleton=Enchanted Skeleton
-research.afraidofthedark:blade_of_exhumation=Blade of Exhumation
-research.afraidofthedark:crossbow=Crossbow
-research.afraidofthedark:wrist_crossbow=Wrist Crossbow
-research.afraidofthedark:werewolf_examination=Werewolf Examination
-research.afraidofthedark:astronomy_1=Astronomy 1
-research.afraidofthedark:astral_silver=Astral Silver
-research.afraidofthedark:slaying_of_the_wolves=Slaying of the Wolves
-research.afraidofthedark:phylactery_of_souls=Phylactery of Souls
-research.afraidofthedark:cloak_of_agility=Cloak of Agility
-research.afraidofthedark:void_chest=Void Chest
-research.afraidofthedark:eldritch_decoration=Eldritch Decoration
-research.afraidofthedark:dark_forest=Dark Forest
-research.afraidofthedark:sleeping_potion=Sleeping Potion
-research.afraidofthedark:nightmare=Nightmare
-research.afraidofthedark:insanity=Insanity
-research.afraidofthedark:vitae_1=Vitae 1
-research.afraidofthedark:astronomy_2=Astronomy 2
-research.afraidofthedark:igneous=Igneous
-research.afraidofthedark:star_metal=Star Metal
-research.afraidofthedark:gnomish_city=Gnomish City
-research.afraidofthedark:enaria=Enaria
-research.afraidofthedark:enarias_secret=Enaria's Secret
+research.afraidofthedark:an_unbreakable_covenant.name=An Unbreakable Covenant
+research.afraidofthedark:an_unbreakable_covenant.tooltip=whoops
+research.afraidofthedark:an_unbreakable_covenant.pre_text=None
+research.afraidofthedark:an_unbreakable_covenant.text=I ÜÖöкл мнпрст фхцчшщ have recently signed this very journal in my own blood. From what I've seen so far from working with it, it appears to be otherworldly in origin. It also appears that I am the only one who can read it. I suspect that the notes I write in it are stored in an extra-dimensional location and then projected into my mind when I look at the pages. I further suspect that if I were to lose track of this journal, I could just look for a replacement and it would still contain all of my original notes and research. I have decided to organize my research in different sections based on relevance. I am certain that new opportunities will open themselves to me as I uncover more information. I can also return to the research tree by clicking the bookmark below. Additionally, I can run into others' research in the wilderness. This will take the form of research scrolls. Simply finding these scrolls and reading them will let me copy their notes into my own journal. Sometimes, there will be multiple multiple parts to a scroll and it will be labelled as such eg: part seven of nine. Sometimes, there may be stories or histories coming in multiple volumes which also contain hints for future researches.
+
+research.afraidofthedark:enchanted_skeleton.name=Enchanted Skeleton
+research.afraidofthedark:enchanted_skeleton.tooltip=great prank material
+research.afraidofthedark:enchanted_skeleton.pre_text=The enchanted skeletons I found in the underground dungeon appear to drop enchanted bones. These bones shake and quiver when placed close together in my hands... maybe I could experiment a little and drop them together on the ground somewhere?
+research.afraidofthedark:enchanted_skeleton.text=I just witnessed a pile of bones become animated. While enchanted skeletons do not do a lot of damage and appear simple to kill, they recombine after being killed and re-animate like zombies. I should try to contain the enchanted bones separately to keep them from combining. As far as I can tell, the bones are not useful for anything except bonemeal. I have also collected all the other dye recipes here for reference.
+
+research.afraidofthedark:blade_of_exhumation.name=Blade of Exhumation
+research.afraidofthedark:blade_of_exhumation.tooltip=recycling your enemies
+research.afraidofthedark:blade_of_exhumation.pre_text=I have just witnessed an enchanted skeleton reform from a pile of bones. I should kill it again to see if it stays dead... undead... or whatever.
+research.afraidofthedark:blade_of_exhumation.text=I have devised a sword specifically for fighting enchanted skeletons. When they die normally, they drop three bones and seeing as they require 4 bones to reform, I have to fight them over and over. For example, if I were to kill one hundred enchanted skeletons, seventy-five would reform. If I killed seventy-five of them, fifty-six would reform and so on. This blade ensures a one-shot kill on enchanted skeletons and makes them drop 4 bones, meaning I can easily use it to grind enchanting levels until the sword runs out of charge. The sword can be crafted with a single diamond to recharge it. The sword contains enough energy for one hundred fifty uses and after that, it becomes inert until recharged.
+
+research.afraidofthedark:crossbow.name=Crossbow
+research.afraidofthedark:crossbow.tooltip=werewolf hunter
+research.afraidofthedark:crossbow.pre_text=None
+research.afraidofthedark:crossbow.text=The journal I have recently discovered appears to contain the instructions to construct a crossbow as well as several types of bolts. I am certain more uses for this crossbow will unveil themselves in the future.
+
+research.afraidofthedark:wrist_crossbow.name=Wrist Crossbow
+research.afraidofthedark:wrist_crossbow.tooltip=the night hunter
+research.afraidofthedark:wrist_crossbow.pre_text=The crossbow is clunky and large. Every time into the fray I charge. It just slows me down an' I take a poundin' while the bow I try to recharge. It is extraordinarily bad, and it always makes me quite mad. I wish it was better. It just seems like a fetter. I'd run faster, but I'm iron clad. I just wish it wasn't so useless! This really is killing my hubris. To thy own self me true. Yes, people like you! Oh piss off you old man Confucius! The crossbow just needs an upgrade. With someone, maybe I could trade. Except not a village, the last one I pillaged, and they always need to be paid.
+research.afraidofthedark:wrist_crossbow.text=Evidently, someone else shared my opinions on the uselessness of the crossbow and has invented an interesting solution. They have made the crossbow wrist mounted, leaving the reloading to a spring-loaded mechanism. This change will allow me to hold a weapon or tool while still firing projectiles on a short cool down. Now I'd better steal this person's notes and potions before they get back...
+
+research.afraidofthedark:werewolf_examination.name=Werewolf Examination
+research.afraidofthedark:werewolf_examination.tooltip=by your skin on their teeth
+research.afraidofthedark:werewolf_examination.pre_text=I have noticed several monstrous wolves around the countryside. They look extremely dangerous, but I cannot resist getting a closer look at them! They exist in abundance in Erie forests, which is the first place I should start looking for them.
+research.afraidofthedark:werewolf_examination.text=My encounter with the large wolves almost ended in my own death. From what I saw, I can determine that they are extremely hardy and almost impervious to conventional weapons. For now I should avoid them until I can find some... unconventional ways of killing them.
+
+research.afraidofthedark:astronomy_1.name=Astronomy 1
+research.afraidofthedark:astronomy_1.tooltip=not astrology
+research.afraidofthedark:astronomy_1.pre_text=I have failed to kill the wolves. Science has failed to deliver rational answers to the source of their power. I will have to use unorthodox methods if I want to survive. I think that I should construct a telescope and take it to a high place so I can see through the clouds. Perhaps the stars can provide answers to this problem which is clearly not of this world.
+research.afraidofthedark:astronomy_1.text=Success! My attempts at astrology and divination have yielded scientific answers! I spotted several types of meteors falling through the night sky. I think that if I follow these to their crash locations, I can discover useful materials.
+
+research.afraidofthedark:astral_silver.name=Astral Silver
+research.afraidofthedark:astral_silver.tooltip=silver of the moon
+research.afraidofthedark:astral_silver.pre_text=I have noticed a meteor in my telescope. I should track one down with my telescope and sextant.
+research.afraidofthedark:astral_silver.text=I have finished tracking down a meteor. Its composition is a material similar to elemental silver. It can be made into a sword, which seems to be about as effective as an iron sword. Its main characteristic is that it deals massive damage to werewolves. It can also be made into crossbow bolts, which share the sword's ability to harm werewolves where nothing else seems to work.
+
+research.afraidofthedark:slaying_of_the_wolves.name=Slaying of the Wolves
+research.afraidofthedark:slaying_of_the_wolves.tooltip=Warwick OP
+research.afraidofthedark:slaying_of_the_wolves.pre_text=Now that I have access to weapons which can actually hurt werewolves, I should endeavor to kill one using an astral silver sword.
+research.afraidofthedark:slaying_of_the_wolves.text=Now that I have managed to kill a werewolf, I should endeavor to collect its blood. The blood of a creature this powerful must have some magical properties which merit studying in greater depth. If I have empty glass bottles with me at the time that I slay a werewolf, I can gather a portion of its blood.
+
+research.afraidofthedark:phylactery_of_souls.name=Phylactery of Souls
+research.afraidofthedark:phylactery_of_souls.tooltip=Is this worse than murder?
+research.afraidofthedark:phylactery_of_souls.pre_text=If my ideas are correct regarding werewolves' regenerative powers, then I should be able to make my next creation using a portion of their blood.
+research.afraidofthedark:phylactery_of_souls.text=My theory was correct! Werewolves are immortal! Even if killed, they will simply regenerate somewhere else in the land. This must be part of the reason they are so powerful; some werewolves could be ancient and very intelligent! The blood of a werewolf traps the creatures soul, making it unable to die. Even if its body is destroyed, its soul will be unable to pass on and will instead be forced into a new body. This begs the question: who is controlling the werewolves? Who is cursing them to forever wander in their beast form, unable to die? Anyways, I can use the soul trapping properties of werewolf blood to trap the souls of other creatures. By constructing a bottle or flask of the most valuable crystal and diamond and filling it with werewolf blood, I can create the phylactary of souls. When it's in my hotbar and I kill a creature, it binds to the soul type of that creature. Every kill made on the same creature type will steal more pieces of the creatures' souls, until enough fragments have been gathered to form an entire soul. Once enough kills have been made, the phylactery will turn blue and transparent and can be used to summon one of the same creature type every so often, effectively providing an endless supply of whatever creature I can repeatedly slay. I already know that elder guardians, ender dragons, and withers all have souls much too powerful to be captured in this method. If I want to clear a flask's memory I can craft it together with werewolf blood.
+
+research.afraidofthedark:cloak_of_agility.name=Cloak of Agility
+research.afraidofthedark:cloak_of_agility.tooltip=kiting fo' dayz
+research.afraidofthedark:cloak_of_agility.pre_text=TODO - If you want this give yourself a research scroll for it in creative.
+research.afraidofthedark:cloak_of_agility.text=I have discovered old notes which describe how to make a cloak of agility. Adding this fantastic cape to my wardrobe will allow me to dash and roll around like a demonic hedgehog on bad acid. The cloak of agility's utter fabulousness should allow me to dash every few seconds to dodge whatever attacks come my way.
+
+research.afraidofthedark:void_chest.name=Void Chest
+research.afraidofthedark:void_chest.tooltip=enderchests for people
+research.afraidofthedark:void_chest.pre_text=All this meteor searching has lead me to notice strange buildings in the surrounding area, one of which has the appearance of a chest.
+research.afraidofthedark:void_chest.text=After travelling through the massive underground chest, I think I have a clue as to how it works. If my theory is correct, it basically functions as a massive enderchest for people. I have devised a much smaller version of the large void chest. My newest creation is the same size as a regular chest. When opened, it will suck in the one who lifted its lid and draw them inside itself. If the void chest is destroyed, it can simply be replaced by another one without anything inside being lost, similar to an ender chest. The first person who activates a void chest will be its owner until it is broken, meaning unwanted guests cannot enter. However, if I want to enable a friend to visit the inside of my chest, I simply right click the void chest with a name tag that has the name of the friend on it. Trying to add a friend when they are already added will instead remove them. All void chests owned by one person will lead to the same location. Void chests owned by one person do not share a friend list and breaking a void chest will reset the owner and delete all friends on that particular chest.
+
+research.afraidofthedark:eldritch_decoration.name=Eldritch Decoration
+research.afraidofthedark:eldritch_decoration.tooltip=only the worst abominations would... decorate
+research.afraidofthedark:eldritch_decoration.pre_text=None
+research.afraidofthedark:eldritch_decoration.text=After examining the void chest, I am certain that I can replicate some of the building blocks. These blocks serve no purpose besides decoration. Maybe now I can make a scale model of the profane city R'lyeh. Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn! Cthulhu fhtagn! Cthulhu fhtagn! Yeah good luck pronouncing that.
+
+research.afraidofthedark:dark_forest.name=Dark Forest
+research.afraidofthedark:dark_forest.tooltip=cults can be fun
+research.afraidofthedark:dark_forest.pre_text=Despite my successes with astral silver, there is reason to be wanting more. I know there must be more advanced methods of combating werewolves and the undead legions. I recall once reading about areas in the world where strange energies caused trees to grow extraordinarily tall and twisted. I should visit one of these locations to perhaps enhance the quality of my astral silver tools. I should look for these forests in flat areas.
+research.afraidofthedark:dark_forest.text=It seems that I am not the first person to have the idea to explore this place. I found a small, yet deserted compound within the dark forest. I cannot shake this erie feeling of doom this place gives me.
+
+research.afraidofthedark:sleeping_potion.name=Sleeping Potion
+research.afraidofthedark:sleeping_potion.tooltip=they drank the kool-aid
+research.afraidofthedark:sleeping_potion.pre_text=I've recently visited an abandoned house in a forest. It looks like it was previously inhabited by some cult or other. Where did they go? They left plenty of white clothes behind along with other strange items. I've heard before that some cult leaders will poison their followers by contaminating their drinking water somehow and thus turning a cult into a mass suicide cult. Maybe I could test the water springs around the dark forest house. Either way, I should bring a filled water bottle there to see what happens.
+research.afraidofthedark:sleeping_potion.text=This was most unexpected. Simply having a water bottle in the dark forest house will turn it into a sleeping potion of some kind. When drunk, it makes the consumer drowsy and more willing to sleep in a bed. I want to take a nap.
+
+research.afraidofthedark:nightmare.name=Nightmare
+research.afraidofthedark:nightmare.tooltip=I see Them every night
+research.afraidofthedark:nightmare.pre_text=The house inside of the dark forest makes my eyelids heavy with sleep. This drowsyness makes me able to sleep at any time. I wonder what my dreams would be like if I slept while under these effects?
+research.afraidofthedark:nightmare.text=I woke up in my own dreams on an island floating nowhere. Red fogs and mists swirled around me. This place is insanity itself. I can almost feel my thoughts degrading from the oppressive atmosphere. Although I wish for nothing else but to leave, I know that I must stay and search for whatever treasure I may find here.
+
+research.afraidofthedark:insanity.name=Insanity
+research.afraidofthedark:insanity.tooltip=gibbering madness
+research.afraidofthedark:insanity.pre_text=I can sense great power in my dreams. I know there is important information hidden here. I should continue searching until I find it.
+research.afraidofthedark:insanity.text=I have seen things, things that were not meant for the eyes of men. These things make my vision fog and my mind cloud. I don't want to see them. I don't want to see them. Shut up! Shut up! Leave me alone! MEANS: A moment before the dawn now and not there was a strife amongst the barely a linear curve teem
+
+research.afraidofthedark:vitae_1.name=Vitae 1
+research.afraidofthedark:vitae_1.tooltip=The Colour of Magic
+research.afraidofthedark:vitae_1.pre_text=I need to search my nightmare more.
+research.afraidofthedark:vitae_1.text=I have discovered a mystical substance which I have named vitae. Vitae is an energy that can exist inside or outside of creatures. It can be tapped to power various functions, although I don't know of any. Every creature has a quantity of vitae inside of them. If that level were to go too high, the energy would run rampant and expend itself on random effects, some of them deadly. Vitae appears to be able to also exist inside of non-organic objects.
+
+research.afraidofthedark:astronomy_2.name=Astronomy 2
+research.afraidofthedark:astronomy_2.tooltip=OP incoming
+research.afraidofthedark:astronomy_2.pre_text=I can sense great power in my dreams. I know there is important information hidden here. I should continue searching until I find it.
+research.afraidofthedark:astronomy_2.text=I have found what I was searching for in my dreams. I now know how to track two new types of meteors using my telescope.
+
+research.afraidofthedark:igneous.name=Igneous
+research.afraidofthedark:igneous.tooltip=totally not a sunfire cape
+research.afraidofthedark:igneous.pre_text=I have tracked a new type of meteor. I should find it and see what materials reside within.
+research.afraidofthedark:igneous.text=I have discovered strange gems inside of a meteor. I have named the gems sunstones for their warm feeling and vibrant colors. Sunstones can be combined with diamonds to create igneous gems, powerful crystals which contain trapped elemental fire within their latices. Igneous gems burn their holder severely, so caution must be taken handling them. I should invest in a good fire blanket... If igneous gems are gathered, they can be crafted into igneous armor, a powerful suit which renders the user impervious to damage from fire and resistant to lava. In addition, when wearing a full suit of igneous armor, the armor lights any attackers on fire, regardless of the attacks being ranged or physical. It will also knock attackers back making it an excellent tool against quick mobs. Igneous gems can also be made into a sword which lights enemies on fire. Striking enemies builds up a magical charge. When the sword is at maximum charge, it glows with latent energy. When energized, it can unleash a flaming tempest with a right click. It should also be noted that igneous crossbow bolts will deal massive damage to werewolves.
+
+research.afraidofthedark:star_metal.name=Star Metal
+research.afraidofthedark:star_metal.tooltip=troll pole
+research.afraidofthedark:star_metal.pre_text=I have tracked a new type of meteor. I should find it and see what materials reside within.
+research.afraidofthedark:star_metal.text=Upon rummaging around the insides of an asteroid, I have discovered a new material, which I have named starmetal. Starmetal ingots are made by smelting starmetal fragments. If starmetal ingots are combined with iron ingots, they can be made into starmetal plates, which can then be forged into various tools and armor. Starmetal armor provides superior protection to diamond, and gives the user an overshield which will absorb damage before the user. A starmetal khopesh gains energy upon striking an enemy. When it reaches maximum charge, it will begin to shimmer with arcane power. When at maximum charge, it can unleash a devastating area of effect slash by using right click. In addition to the khopesh, a staff can be made out of starmetal. Every so often, the wielder can activate the starmetal staff to jump on top of it, becoming invulnerable for several seconds, dodging everything from arrows to cataclysmic world-annihilating explosions as if you rolled a natural 20 on your dodge check. It should also be noted that star metal crossbow bolts will deal massive damage to werewolves.
+
+research.afraidofthedark:gnomish_city.name=Gnomish City
+research.afraidofthedark:gnomish_city.tooltip=Where'd they all go?
+research.afraidofthedark:gnomish_city.pre_text=After peering to the stars at night I have read ancient books about great gnomish cities deep in the earth. While certainly rare, story has it that the city appears to be lead by an almost limitlessly powerful leader.
+research.afraidofthedark:gnomish_city.text=I have encountered an extensive underground city which I believe to have been created by... gnomes. This abandoned city is filled with bounties of treasure, undead, and machines created by its former owners. These automatons, called Splinter Drones, guard the ruined hallways of their deceased or departed masters. Splinter Drones are deadly with their rapid-fire plasma cannons and can easily mow down anything their perceive as a threat. Too bad they're fine with zombies and enchanted skeletons... I am sure that I will eventually be able to modify a drone's friend or foe identification, so that it will follow and protect me. I hear whispers from the deep... whispers which I can now comprehend.
+
+research.afraidofthedark:enaria.name=Enaria
+research.afraidofthedark:enaria.tooltip=This doesn't sound too hard!
+research.afraidofthedark:enaria.pre_text=Enaria is in the lowest level of the Gnomish city. If I can rid the world of her wretched form, perhaps I can also become magically adept myself.
+research.afraidofthedark:enaria.text=Now that I have defeated Enaria, secrets have unveiled themselves about a new power. I have always adored reading about the ancient mages of the past able to detonate mountains with a simple blink. After Enaria's fall, I felt beset by a compelling influential presence. I wonder what it may unveil to me.
+
+research.afraidofthedark:enarias_secret.name=Enaria's Secret
+research.afraidofthedark:enarias_secret.tooltip=spells at last
+research.afraidofthedark:enarias_secret.pre_text=Ever since Enaria's demise I have been sleepless. Whispers taunt me in the night. I recall seeing Enaria's phantom quietly dancing in my nightmares, and now this similar slight murmur beckons me to return.
+research.afraidofthedark:enarias_secret.text=While the table before me looks quite incongruous, I can grasp the basics. After peering into the table it becomes apparent that this spell table resembles a mirror reflecting any spells I have created into my mind. I have the ability to forget spells, create new spells, edit spells, and fire off spells in various ways. *cough* key-bindings *cough* Editing spells looks about as complex as proving P = NP, but after some careful inspection the table becomes more distinguishable. I can easily name a spell whatever I desire. After probing the magical block, it would appear each spell requires a source of power to tap from to trigger the spell. It would also seem that each spell is divided into separate spell stages. Each spell stage is preceded by a delivery method. This delivery method defines how a given spell reaches its target. For example, a projectile flies through the air until it reaches its target. Once the delivery method reaches its destination, it applies any of the proceeding effects. As well as this, it will trigger the next spell stage's delivery method. The way in which the next delivery method is fired depends on the previous delivery method. After some tinkering I have discovered that sum of the cost of each spell stage adds up to the cost of the spell as a whole. How this cost is interpreted depends on the power source. I'm sure that further perusing of my surroundings in the overworld will help discover more spell effects, delivery methods, and power sources. Unfortunately, it currently appears that only whispers in the nightmare allow me to conjure up and edit new spells. I hope to find a way to do this in the comfort of my home at some point, since Enaria will always find me eventually in the Nightmare. If Enaria does manage to find me while I am spell crafting, any progress or work done on the current spell may be lost or distorted.
 
 # Research extras
 researchbanner.title=New Research!

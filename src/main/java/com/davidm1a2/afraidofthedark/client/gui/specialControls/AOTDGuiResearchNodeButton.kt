@@ -82,7 +82,7 @@ class AOTDGuiResearchNodeButton(x: Int, y: Int, val research: Research) : AOTDGu
             if (playerResearch.isResearched(this.research))
             {
                 fontRenderer.drawString(I18n.format(research.getUnlocalizedName()), mouseX + 5, mouseY, 0xFF3399)
-                fontRenderer.drawString("${ChatFormatting.ITALIC}${this.research.tooltip}", mouseX + 7, mouseY + 10, 0xE62E8A)
+                fontRenderer.drawString("${ChatFormatting.ITALIC}${I18n.format(this.research.getUnlocalizedTooltip())}", mouseX + 7, mouseY + 10, 0xE62E8A)
             }
             // If the research can be researched show a ? and unknown research when hovered
             else if (playerResearch.canResearch(this.research))

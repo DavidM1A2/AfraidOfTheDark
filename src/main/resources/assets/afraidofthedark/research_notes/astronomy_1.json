@@ -1,7 +1,6 @@
 {
   "x": 0,
   "y": 2,
-  "tooltip": "not astrology",
   "recipes": [
     "afraidofthedark:telescope",
     "afraidofthedark:sextant"
@@ -9,7 +8,5 @@
   "preRecipes": [
     "afraidofthedark:telescope"
   ],
-  "icon": "afraidofthedark:textures/gui/research_icons/astronomy_1.png",
-  "pre": "I have failed to kill the wolves. Science has failed to deliver rational answers to the source of their power. I will have to use unorthodox methods if I want to survive. I think that I should construct a telescope and take it to a high place so I can see through the clouds. Perhaps the stars can provide answers to this problem which is clearly not of this world.",
-  "researched": "Success! My attempts at astrology and divination have yielded scientific answers! I spotted several types of meteors falling through the night sky. I think that if I follow these to their crash locations, I can discover useful materials."
+  "icon": "afraidofthedark:textures/gui/research_icons/astronomy_1.png"
 }

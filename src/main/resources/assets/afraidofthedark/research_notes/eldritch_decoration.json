@@ -1,7 +1,7 @@
 {
   "x": 2,
   "y": 3,
-  "tooltip": "only the worst abominations would... decorate",
+  "tooltip": "",
   "recipes": [
     "afraidofthedark:eldritch_metal_ingot",
     "afraidofthedark:eldritch_stone",
@@ -10,6 +10,6 @@
   ],
   "preRecipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/eldritch_decoration.png",
-  "pre": "-none-",
-  "researched": "After examining the void chest, I am certain that I can replicate some of the building blocks. These blocks serve no purpose besides decoration. Maybe now I can make a scale model of the profane city R'lyeh. Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn! Cthulhu fhtagn! Cthulhu fhtagn! Yeah good luck pronouncing that."
+  "pre": "",
+  "researched": ""
 }

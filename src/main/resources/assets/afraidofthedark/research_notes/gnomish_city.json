@@ -1,14 +1,11 @@
 {
   "x": 0,
   "y": 7,
-  "tooltip": "Where'd they all go?",
   "recipes": [
     "afraidofthedark:gnomish_metal_ingot",
     "afraidofthedark:gnomish_metal_strut",
     "afraidofthedark:gnomish_metal_plate"
   ],
   "preRecipes": [],
-  "icon": "afraidofthedark:textures/gui/research_icons/gnomish_city.png",
-  "pre": "After peering to the stars at night I have read ancient books about great gnomish cities deep in the earth. While certainly rare, story has it that the city appears to be lead by an almost limitlessly powerful leader.",
-  "researched": "I have encountered an extensive underground city which I believe to have been created by... gnomes. This abandoned city is filled with bounties of treasure, undead, and machines created by its former owners. These automatons, called Splinter Drones, guard the ruined hallways of their deceased or departed masters. Splinter Drones are deadly with their rapid-fire plasma cannons and can easily mow down anything their perceive as a threat. Too bad they're fine with zombies and enchanted skeletons... I am sure that I will eventually be able to modify a drone's friend or foe identification, so that it will follow and protect me. I hear whispers from the deep... whispers which I can now comprehend."
+  "icon": "afraidofthedark:textures/gui/research_icons/gnomish_city.png"
 }
