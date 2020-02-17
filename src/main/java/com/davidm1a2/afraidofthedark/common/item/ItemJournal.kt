@@ -94,7 +94,7 @@ class ItemJournal : AOTDItem("journal")
             // Send chat messages on server side only
             if (!world.isRemote)
             {
-                player.sendMessage(TextComponentTranslation("aotd.journal.cant_comprehend"))
+                player.sendMessage(TextComponentTranslation("message.afraidofthedark:journal.cant_comprehend"))
             }
         }
 

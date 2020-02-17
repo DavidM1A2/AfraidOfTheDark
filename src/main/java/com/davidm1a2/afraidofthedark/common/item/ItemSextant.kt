@@ -45,7 +45,7 @@ class ItemSextant : AOTDItem("sextant")
         {
             if (!world.isRemote)
             {
-                player.sendMessage(TextComponentTranslation("aotd.dont_understand"))
+                player.sendMessage(TextComponentTranslation("message.afraidofthedark:dont_understand"))
             }
         }
         return ActionResult.newResult(EnumActionResult.SUCCESS, itemStack)

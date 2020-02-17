@@ -71,6 +71,14 @@ abstract class Structure : IForgeRegistryEntry.Impl<Structure>()
      */
     abstract fun getZLength(): Int
 
+    /**
+     * @return The unlocalized name of the structure
+     */
+    fun getUnlocalizedName(): String
+    {
+        return "structure.${registryName!!.resourceDomain}:${registryName!!.resourcePath}"
+    }
+
     companion object
     {
         // A constant NBT tag for structure position

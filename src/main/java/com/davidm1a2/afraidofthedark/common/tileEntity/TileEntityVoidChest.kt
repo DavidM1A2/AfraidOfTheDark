@@ -140,7 +140,7 @@ class TileEntityVoidChest : AOTDTickingTileEntity(ModBlocks.VOID_CHEST)
                     {
                         if (!world.isRemote)
                         {
-                            playerToSend!!.sendMessage(TextComponentTranslation("aotd.void_chest.wrong_dimension"))
+                            playerToSend!!.sendMessage(TextComponentTranslation("message.afraidofthedark:void_chest.wrong_dimension"))
                         }
                     }
                 }
@@ -165,7 +165,7 @@ class TileEntityVoidChest : AOTDTickingTileEntity(ModBlocks.VOID_CHEST)
                 val voidChestWorld: World = world.minecraftServer!!.getWorld(ModDimensions.VOID_CHEST.id)
                 val playerVoidChestData = entityPlayer.getVoidChestData()
                 indexToGoTo = getOrAssignPlayerPositionalIndex(voidChestWorld, playerVoidChestData)
-                entityPlayer.sendMessage(TextComponentTranslation("aotd.void_chest.owner_set", entityPlayer.gameProfile.name))
+                entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:void_chest.owner_set", entityPlayer.gameProfile.name))
             }
             else if (entityPlayer.gameProfile.id == owner)
             {
@@ -183,17 +183,17 @@ class TileEntityVoidChest : AOTDTickingTileEntity(ModBlocks.VOID_CHEST)
                         if (!friends.contains(friendsUUID))
                         {
                             friends.add(friendsUUID)
-                            entityPlayer.sendMessage(TextComponentTranslation("aotd.void_chest.friend_add", heldItem.displayName))
+                            entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:void_chest.friend_add", heldItem.displayName))
                         }
                         else
                         {
                             friends.remove(friendsUUID)
-                            entityPlayer.sendMessage(TextComponentTranslation("aotd.void_chest.friend_remove", heldItem.displayName))
+                            entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:void_chest.friend_remove", heldItem.displayName))
                         }
                     }
                     else
                     {
-                        entityPlayer.sendMessage(TextComponentTranslation("aotd.void_chest.invalid_account", heldItem.displayName))
+                        entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:void_chest.invalid_account", heldItem.displayName))
                     }
                 }
                 else
@@ -208,7 +208,7 @@ class TileEntityVoidChest : AOTDTickingTileEntity(ModBlocks.VOID_CHEST)
                 val heldItem = entityPlayer.heldItemMainhand
                 if (heldItem.item is ItemNameTag)
                 {
-                    entityPlayer.sendMessage(TextComponentTranslation("atod.void_chest.no_edit_access"))
+                    entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:void_chest.no_edit_access"))
                 }
                 else
                 {
@@ -218,7 +218,7 @@ class TileEntityVoidChest : AOTDTickingTileEntity(ModBlocks.VOID_CHEST)
             }
             else
             {
-                entityPlayer.sendMessage(TextComponentTranslation("atod.void_chest.no_access"))
+                entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:void_chest.no_access"))
             }
         }
     }

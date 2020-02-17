@@ -174,9 +174,9 @@ class AOTDCommands : CommandBase()
      */
     private fun printHelp(sender: ICommandSender)
     {
-        sender.sendMessage(TextComponentTranslation("aotd.command.help.header"))
-        sender.sendMessage(TextComponentTranslation("aotd.command.help.help"))
-        sender.sendMessage(TextComponentTranslation("aotd.command.help.dungeon"))
+        sender.sendMessage(TextComponentTranslation("message.afraidofthedark:command.help.header"))
+        sender.sendMessage(TextComponentTranslation("message.afraidofthedark:command.help.help"))
+        sender.sendMessage(TextComponentTranslation("message.afraidofthedark:command.help.dungeon"))
     }
 
     /**
@@ -186,13 +186,13 @@ class AOTDCommands : CommandBase()
      */
     private fun printDungeonHelp(sender: ICommandSender)
     {
-        sender.sendMessage(TextComponentTranslation("aotd.command.dungeon.help.header"))
-        sender.sendMessage(TextComponentTranslation("aotd.command.dungeon.help.help"))
-        sender.sendMessage(TextComponentTranslation("aotd.command.dungeon.help.types"))
-        sender.sendMessage(TextComponentTranslation("aotd.command.dungeon.help.list"))
-        sender.sendMessage(TextComponentTranslation("aotd.command.dungeon.help.list_type"))
-        sender.sendMessage(TextComponentTranslation("aotd.command.dungeon.help.info"))
-        sender.sendMessage(TextComponentTranslation("aotd.command.dungeon.help.regenerate"))
+        sender.sendMessage(TextComponentTranslation("message.afraidofthedark:command.dungeon.help.header"))
+        sender.sendMessage(TextComponentTranslation("message.afraidofthedark:command.dungeon.help.help"))
+        sender.sendMessage(TextComponentTranslation("message.afraidofthedark:command.dungeon.help.types"))
+        sender.sendMessage(TextComponentTranslation("message.afraidofthedark:command.dungeon.help.list"))
+        sender.sendMessage(TextComponentTranslation("message.afraidofthedark:command.dungeon.help.list.type"))
+        sender.sendMessage(TextComponentTranslation("message.afraidofthedark:command.dungeon.help.info"))
+        sender.sendMessage(TextComponentTranslation("message.afraidofthedark:command.dungeon.help.regenerate"))
     }
 
     /**
@@ -202,7 +202,7 @@ class AOTDCommands : CommandBase()
      */
     private fun printStructureTypes(sender: ICommandSender)
     {
-        sender.sendMessage(TextComponentTranslation("aotd.command.dungeon.types"))
+        sender.sendMessage(TextComponentTranslation("message.afraidofthedark:command.dungeon.types"))
         // Iterate over structures and print each one out
         ModRegistries.STRUCTURE.valuesCollection.forEach { sender.sendMessage(TextComponentString(it.registryName.toString())) }
     }
@@ -231,8 +231,8 @@ class AOTDCommands : CommandBase()
                 // Send the structure info and if debug is enabled send debug info too
                 sender.sendMessage(
                     TextComponentTranslation(
-                        "aotd.command.dungeon.info",
-                        TextComponentTranslation(placedStructure.structure.registryName.toString()),
+                        "message.afraidofthedark:command.dungeon.info",
+                        TextComponentTranslation(placedStructure.structure.getUnlocalizedName()),
                         blockPos.x,
                         blockPos.y,
                         blockPos.z
@@ -240,17 +240,17 @@ class AOTDCommands : CommandBase()
                 )
                 if (AfraidOfTheDark.INSTANCE.configurationHandler.debugMessages)
                 {
-                    sender.sendMessage(TextComponentTranslation("aotd.command.dungeon.info.extra_nbt", placedStructure.data.toString()))
+                    sender.sendMessage(TextComponentTranslation("message.afraidofthedark:command.dungeon.info.extra_nbt", placedStructure.data.toString()))
                 }
             }
             else
             {
-                sender.sendMessage(TextComponentTranslation("aotd.command.dungeon.info.no_structures"))
+                sender.sendMessage(TextComponentTranslation("message.afraidofthedark:command.dungeon.info.no_structures"))
             }
         }
         else
         {
-            sender.sendMessage(TextComponentTranslation("aotd.command.dungeon.info.invalid_world"))
+            sender.sendMessage(TextComponentTranslation("message.afraidofthedark:command.dungeon.info.invalid_world"))
         }
     }
 
@@ -278,12 +278,12 @@ class AOTDCommands : CommandBase()
             }
             else
             {
-                sender.sendMessage(TextComponentTranslation("aotd.command.dungeon.regenerate.no_structures"))
+                sender.sendMessage(TextComponentTranslation("message.afraidofthedark:command.dungeon.regenerate.no_structures"))
             }
         }
         else
         {
-            sender.sendMessage(TextComponentTranslation("aotd.command.dungeon.regenerate.invalid_world"))
+            sender.sendMessage(TextComponentTranslation("message.afraidofthedark:command.dungeon.regenerate.invalid_world"))
         }
     }
 
@@ -296,7 +296,7 @@ class AOTDCommands : CommandBase()
     private fun printAllStructures(sender: ICommandSender, server: MinecraftServer)
     {
         val overworld = server.getWorld(0)
-        sender.sendMessage(TextComponentTranslation("aotd.command.dungeon.list.header"))
+        sender.sendMessage(TextComponentTranslation("message.afraidofthedark:command.dungeon.list.header"))
         val structurePlan = StructurePlan.get(overworld)!!
         // Print all placed structures in the world
         filterSortAndPrint(structurePlan.getPlacedStructures(), { true }, sender)
@@ -316,7 +316,7 @@ class AOTDCommands : CommandBase()
         {
             // Otherwise we list the dungeons of that type
             val overworld = server.getWorld(0)
-            sender.sendMessage(TextComponentTranslation("aotd.command.dungeon.list_type.header", TextComponentTranslation(structureName)))
+            sender.sendMessage(TextComponentTranslation("message.afraidofthedark:command.dungeon.list_type.header", TextComponentTranslation(structureName)))
             val structurePlan = StructurePlan.get(overworld)!!
             // Go over all placed structures and only print them if they have the right name
             filterSortAndPrint(
@@ -327,7 +327,7 @@ class AOTDCommands : CommandBase()
         }
         else
         {
-            sender.sendMessage(TextComponentTranslation("aotd.command.dungeon.list_type.unknown_type", structureName))
+            sender.sendMessage(TextComponentTranslation("message.afraidofthedark:command.dungeon.list_type.unknown_type", structureName))
         }
     }
 
@@ -362,8 +362,8 @@ class AOTDCommands : CommandBase()
         // Send the message in the format: <dungeon_type> at [<x>, <y>, <z>] ~ <number> blocks away
         sender.sendMessage(
             TextComponentTranslation(
-                "aotd.command.dungeon.list",
-                TextComponentTranslation(placedStructure.structure.registryName.toString()),
+                "message.afraidofthedark:command.dungeon.list",
+                TextComponentTranslation(placedStructure.structure.getUnlocalizedName()),
                 position.x,
                 position.y,
                 position.z,

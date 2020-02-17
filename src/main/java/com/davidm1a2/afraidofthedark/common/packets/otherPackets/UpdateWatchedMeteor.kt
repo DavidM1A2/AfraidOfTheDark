@@ -128,9 +128,9 @@ class UpdateWatchedMeteor : IMessage
             val longitude = player.rng.nextInt(130) + 5
 
             // Tell the player about the meteor estimated values
-            player.sendMessage(TextComponentTranslation("aotd.falling_meteor.info.header", TextComponentTranslation(watchedMeteor!!.getUnLocalizedName())))
-            player.sendMessage(TextComponentTranslation("aotd.falling_meteor.info.data", dropAngle, latitude, longitude))
-            player.sendMessage(TextComponentTranslation("aotd.falling_meteor.info.help"))
+            player.sendMessage(TextComponentTranslation("message.afraidofthedark:falling_meteor.info.header", TextComponentTranslation(watchedMeteor!!.getUnlocalizedName())))
+            player.sendMessage(TextComponentTranslation("message.afraidofthedark:falling_meteor.info.data", dropAngle, latitude, longitude))
+            player.sendMessage(TextComponentTranslation("message.afraidofthedark:falling_meteor.info.help"))
 
             // Update the player's watched meteor and send them values
             val playerBasics = player.getBasics()

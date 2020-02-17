@@ -108,7 +108,7 @@ class AOTDGuiSpellTablet(
                     // Sync the spell server side
                     spellManager.sync(entityPlayer, spellClone)
                     // Tell the player the save was successful
-                    entityPlayer.sendMessage(TextComponentTranslation("aotd.spell.save_successful", spellClone.name))
+                    entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:spell.save_successful", spellClone.name))
                 }
             }
         }

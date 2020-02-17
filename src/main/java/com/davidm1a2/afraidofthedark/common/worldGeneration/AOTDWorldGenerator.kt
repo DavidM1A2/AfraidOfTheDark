@@ -92,7 +92,7 @@ class AOTDWorldGenerator : IWorldGenerator
             // Perform some finalization if we need to generate some chunks
             if (!chunksThatNeedGeneration.isEmpty())
             {
-                event.world.minecraftServer!!.sendMessage(TextComponentTranslation("aotd.world_gen.saving", chunksThatNeedGeneration.size))
+                event.world.minecraftServer!!.sendMessage(TextComponentTranslation("message.afraidofthedark:world_gen.saving", chunksThatNeedGeneration.size))
 
                 // Loop while we still need to generate a chunk
                 while (!chunksThatNeedGeneration.isEmpty())

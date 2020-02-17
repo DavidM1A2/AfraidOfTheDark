@@ -50,6 +50,6 @@ class SpellPowerSourceCreative : AOTDSpellPowerSource(ResourceLocation(Constants
      */
     override fun getUnlocalizedOutOfPowerMsg(): String
     {
-        return "aotd.spell.power_source.creative.invalid_msg"
+        return "message.afraidofthedark:spell.power_source.creative.invalid_msg"
     }
 }

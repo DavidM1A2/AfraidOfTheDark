@@ -113,7 +113,7 @@ abstract class AOTDChargeableSword(baseName: String, toolMaterial: ToolMaterial,
             }
             else
             {
-                playerIn.sendMessage(TextComponentTranslation("aotd.chargable_sword.not_enough_energy"))
+                playerIn.sendMessage(TextComponentTranslation("message.afraidofthedark:chargable_sword.not_enough_energy"))
             }
         }
 

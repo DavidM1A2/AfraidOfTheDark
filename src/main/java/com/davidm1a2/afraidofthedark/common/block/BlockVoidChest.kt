@@ -181,7 +181,7 @@ class BlockVoidChest : AOTDBlockTileEntity("void_chest", Material.ROCK)
             }
             else if (!worldIn.isRemote)
             {
-                playerIn.sendMessage(TextComponentTranslation("aotd.void_chest.dont_understand"))
+                playerIn.sendMessage(TextComponentTranslation("message.afraidofthedark:void_chest.dont_understand"))
             }
         }
         return true

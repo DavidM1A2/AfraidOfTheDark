@@ -272,6 +272,8 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
                     {
                         if (save.isVisible && save.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                         {
+                            // Flag telling us at least one property was invalid
+                            var onePropertyInvalid = false
                             // Go over all properties and their editors
                             for (propEditorPair in currentPropEditors)
                             {
@@ -282,18 +284,29 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
                                 try
                                 {
                                     property.setter(componentInstance, editor.getText())
-                                } catch (e: InvalidValueException)
+                                }
+                                // If we get an exception tell the player what went wrong
+                                catch (e: InvalidValueException)
                                 {
+                                    onePropertyInvalid = true
                                     entityPlayer.sendMessage(
                                         TextComponentTranslation(
-                                            "aotd.spell.property_edit_fail",
+                                            "message.afraidofthedark:spell.property_edit_fail",
                                             propEditorPair.key.name,
                                             e.message
                                         )
                                     )
                                 }
-                                // If we get an exception tell the player what went wrong
                             }
+
+                            // If no properties were invalid save successfully
+                            if (!onePropertyInvalid)
+                            {
+                                entityPlayer.sendMessage(
+                                        TextComponentTranslation("message.afraidofthedark:spell.property_edit_success")
+                                )
+                            }
+
                             // Clear the editor
                             setEditing(null)
                         }

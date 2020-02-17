@@ -232,6 +232,7 @@ class ConfigurationHandler(configurationFile: File)
     {
         return ConfigElement(configuration.getCategory(Configuration.CATEGORY_GENERAL)).childElements +
                 ConfigElement(configuration.getCategory(CATEGORY_DUNGEON_FREQUENCY)).childElements +
+                ConfigElement(configuration.getCategory(CATEGORY_WORLD_GENERATION)).childElements +
                 ConfigElement(configuration.getCategory(CATEGORY_DIMENSION)).childElements
     }
 

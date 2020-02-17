@@ -120,12 +120,12 @@ class Spell : INBTSerializable<NBTTagCompound>
                 }
                 else
                 {
-                    entityPlayer.sendMessage(TextComponentTranslation("aotd.spell.invalid"))
+                    entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:spell.invalid"))
                 }
             }
             else
             {
-                entityPlayer.sendMessage(TextComponentTranslation("aotd.spell.wrong_dimension"))
+                entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:spell.wrong_dimension"))
             }
         }
     }

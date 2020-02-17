@@ -85,8 +85,8 @@ itemGroup.afraidofthedark=Afraid of the Dark
 
 # Keys
 keys.afraidofthedark.category=Afraid of the Dark
-keys.afraidofthedark.roll_with_cloak=Roll with Cloak of Agility
-keys.afraidofthedark.fire_wrist_crossbow=Fire Wrist Crossbow
+keys.afraidofthedark:roll_with_cloak=Roll with Cloak of Agility
+keys.afraidofthedark:fire_wrist_crossbow=Fire Wrist Crossbow
 
 # Mobs
 entity.werewolf.name=Werewolf
@@ -111,52 +111,52 @@ entity.spellMyself.name=Self
 entity.spellAOE.name=AOE
 
 # Researches
-research.an_unbreakable_covenant=An Unbreakable Covenant
-research.enchanted_skeleton=Enchanted Skeleton
-research.blade_of_exhumation=Blade of Exhumation
-research.crossbow=Crossbow
-research.wrist_crossbow=Wrist Crossbow
-research.werewolf_examination=Werewolf Examination
-research.astronomy_1=Astronomy 1
-research.astral_silver=Astral Silver
-research.slaying_of_the_wolves=Slaying of the Wolves
-research.phylactery_of_souls=Phylactery of Souls
-research.cloak_of_agility=Cloak of Agility
-research.void_chest=Void Chest
-research.eldritch_decoration=Eldritch Decoration
-research.dark_forest=Dark Forest
-research.sleeping_potion=Sleeping Potion
-research.nightmare=Nightmare
-research.insanity=Insanity
-research.vitae_1=Vitae 1
-research.astronomy_2=Astronomy 2
-research.igneous=Igneous
-research.star_metal=Star Metal
-research.gnomish_city=Gnomish City
-research.enaria=Enaria
-research.enarias_secret=Enaria's Secret
+research.afraidofthedark:an_unbreakable_covenant=An Unbreakable Covenant
+research.afraidofthedark:enchanted_skeleton=Enchanted Skeleton
+research.afraidofthedark:blade_of_exhumation=Blade of Exhumation
+research.afraidofthedark:crossbow=Crossbow
+research.afraidofthedark:wrist_crossbow=Wrist Crossbow
+research.afraidofthedark:werewolf_examination=Werewolf Examination
+research.afraidofthedark:astronomy_1=Astronomy 1
+research.afraidofthedark:astral_silver=Astral Silver
+research.afraidofthedark:slaying_of_the_wolves=Slaying of the Wolves
+research.afraidofthedark:phylactery_of_souls=Phylactery of Souls
+research.afraidofthedark:cloak_of_agility=Cloak of Agility
+research.afraidofthedark:void_chest=Void Chest
+research.afraidofthedark:eldritch_decoration=Eldritch Decoration
+research.afraidofthedark:dark_forest=Dark Forest
+research.afraidofthedark:sleeping_potion=Sleeping Potion
+research.afraidofthedark:nightmare=Nightmare
+research.afraidofthedark:insanity=Insanity
+research.afraidofthedark:vitae_1=Vitae 1
+research.afraidofthedark:astronomy_2=Astronomy 2
+research.afraidofthedark:igneous=Igneous
+research.afraidofthedark:star_metal=Star Metal
+research.afraidofthedark:gnomish_city=Gnomish City
+research.afraidofthedark:enaria=Enaria
+research.afraidofthedark:enarias_secret=Enaria's Secret
 
 # Research extras
-researchextra.title=New Research!
+researchbanner.title=New Research!
 
 # Bolt entries
-bolt_entry.wooden=Wooden
-bolt_entry.iron=Iron
-bolt_entry.astral_silver=Silver
-bolt_entry.igneous=Igneous
-bolt_entry.star_metal=Star Metal
+bolt_entry.afraidofthedark:wooden=Wooden
+bolt_entry.afraidofthedark:iron=Iron
+bolt_entry.afraidofthedark:astral_silver=Silver
+bolt_entry.afraidofthedark:igneous=Igneous
+bolt_entry.afraidofthedark:star_metal=Star Metal
 
 # Meteor entries
-meteor_entry.astral_silver=Astral Silver
-meteor_entry.star_metal=Star Metal
-meteor_entry.igneous=Igneous
+meteor_entry.afraidofthedark:astral_silver=Astral Silver
+meteor_entry.afraidofthedark:star_metal=Star Metal
+meteor_entry.afraidofthedark:igneous=Igneous
 
 # Structure entries
-afraidofthedark:crypt=Crypt
-afraidofthedark:witch_hut=Witch Hut
-afraidofthedark:void_chest=Void Chest
-afraidofthedark:dark_forest=Dark Forest
-afraidofthedark:gnomish_city=Gnomish City
+structure.afraidofthedark:crypt=Crypt
+structure.afraidofthedark:witch_hut=Witch Hut
+structure.afraidofthedark:void_chest=Void Chest
+structure.afraidofthedark:dark_forest=Dark Forest
+structure.afraidofthedark:gnomish_city=Gnomish City
 
 # Spell components
 power_source.afraidofthedark:creative=Creative
@@ -184,107 +184,107 @@ delivery_method.afraidofthedark:laser=Laser
 delivery_method.afraidofthedark:delay=Delay
 
 # AOTD Messages to player
-aotd.journal.sign.successful=§cWhat have I done?
-aotd.journal.sign.unsuccessful=§oI expected something to happen... but nothing did. Perhaps the name I signed was incorrect?
+message.afraidofthedark:journal.sign.successful=§cWhat have I done?
+message.afraidofthedark:journal.sign.unsuccessful=§oI expected something to happen... but nothing did. Perhaps the name I signed was incorrect?
 
-aotd.sextant.process.field_empty=§oI need to fill out all the fields to accurately predict the meteor's landing coordinates.
-aotd.sextant.process.invalid_vals=§oThe calculation was not successful, the values entered must be integers.
+message.afraidofthedark:sextant.process.field_empty=§oI need to fill out all the fields to accurately predict the meteor's landing coordinates.
+message.afraidofthedark:sextant.process.invalid_vals=§oThe calculation was not successful, the values entered must be integers.
 
-aotd.wrist_crossbow.bolt_change=§oWrist crossbow(s) will now fire %1$s§o bolts.
-aotd.wrist_crossbow.reloading=§oWrist crossbow(s) are reloading...
-aotd.wrist_crossbow.no_bolt=§oI'll need a %1$s§o bolt in my inventory to shoot.
-aotd.wrist_crossbow.no_crossbow=§oI'll need a wrist crossbow in my inventory to shoot.
+message.afraidofthedark:wrist_crossbow.bolt_change=§oWrist crossbow(s) will now fire %1$s§o bolts.
+message.afraidofthedark:wrist_crossbow.reloading=§oWrist crossbow(s) are reloading...
+message.afraidofthedark:wrist_crossbow.no_bolt=§oI'll need a %1$s§o bolt in my inventory to shoot.
+message.afraidofthedark:wrist_crossbow.no_crossbow=§oI'll need a wrist crossbow in my inventory to shoot.
 
-aotd.cloak_of_agility.too_tired=§oI'm too tired to roll again (%1$s§os).
-aotd.cloak_of_agility.not_grounded=§oI need to be on the ground to roll.
+message.afraidofthedark:cloak_of_agility.too_tired=§oI'm too tired to roll again (%1$s§os).
+message.afraidofthedark:cloak_of_agility.not_grounded=§oI need to be on the ground to roll.
 
-aotd.void_chest.dont_understand=§oI'm not sure how to open this chest.
-aotd.void_chest.wrong_dimension=The void chest refuses to work in this dimension.
-aotd.void_chest.owner_set=The owner of this chest has been set to %1$s
-aotd.void_chest.friend_add=Player %1$s was added to this chest's friend list.
-aotd.void_chest.friend_remove=Player %1$s was removed from this chest's friend list.
-aotd.void_chest.invalid_account=The account %1$s does not exist, are you sure you spelled the name correctly?
-atod.void_chest.no_edit_access=§oI can't edit the access of this chest
-atod.void_chest.no_access=§oI can't access this chest
+message.afraidofthedark:void_chest.dont_understand=§oI'm not sure how to open this chest.
+message.afraidofthedark:void_chest.wrong_dimension=The void chest refuses to work in this dimension.
+message.afraidofthedark:void_chest.owner_set=The owner of this chest has been set to %1$s
+message.afraidofthedark:void_chest.friend_add=Player %1$s was added to this chest's friend list.
+message.afraidofthedark:void_chest.friend_remove=Player %1$s was removed from this chest's friend list.
+message.afraidofthedark:void_chest.invalid_account=The account %1$s does not exist, are you sure you spelled the name correctly?
+message.afraidofthedark:void_chest.no_edit_access=§oI can't edit the access of this chest
+message.afraidofthedark:void_chest.no_access=§oI can't access this chest
 
-aotd.command.help.header=/AOTD, /aotd, and /afraidofthedark work for all commands:
-aotd.command.help.help=/AOTD help - Lists all AOTD Commands
-aotd.command.help.dungeon=/AOTD dungeon - Lists all dungeon Commands
+message.afraidofthedark:command.help.header=/AOTD, /aotd, and /afraidofthedark work for all commands:
+message.afraidofthedark:command.help.help=/AOTD help - Lists all AOTD Commands
+message.afraidofthedark:command.help.dungeon=/AOTD dungeon - Lists all dungeon Commands
 
-aotd.command.dungeon.help.header=AOTD dungeon commands:
-aotd.command.dungeon.help.help=/AOTD dungeon - Lists all dungeon Commands
-aotd.command.dungeon.help.types=/AOTD dungeon types - Lists all dungeon types present possible
-aotd.command.dungeon.help.list=/AOTD dungeon list - Lists all dungeons present in the world
-aotd.command.dungeon.help.list_type=/AOTD dungeon list <type> - Lists all dungeons of a type present in the world. See /AOTD dungeon types
-aotd.command.dungeon.help.info=/AOTD dungeon info - Gets dungeon information in the player's current chunk
-aotd.command.dungeon.help.regenerate=/AOTD dungeon regenerate - Regenerates a dungeon in the player's current chunk
+message.afraidofthedark:command.dungeon.help.header=AOTD dungeon commands:
+message.afraidofthedark:command.dungeon.help.help=/AOTD dungeon - Lists all dungeon Commands
+message.afraidofthedark:command.dungeon.help.types=/AOTD dungeon types - Lists all dungeon types present possible
+message.afraidofthedark:command.dungeon.help.list=/AOTD dungeon list - Lists all dungeons present in the world
+message.afraidofthedark:command.dungeon.help.list.type=/AOTD dungeon list <type> - Lists all dungeons of a type present in the world. See /AOTD dungeon types
+message.afraidofthedark:command.dungeon.help.info=/AOTD dungeon info - Gets dungeon information in the player's current chunk
+message.afraidofthedark:command.dungeon.help.regenerate=/AOTD dungeon regenerate - Regenerates a dungeon in the player's current chunk
 
-aotd.command.dungeon.types=Registered dungeon types:
+message.afraidofthedark:command.dungeon.types=Registered dungeon types:
 
-aotd.command.dungeon.info=Structure %1$s with corner at [%2$s, %3$s, %4$s]
-aotd.command.dungeon.info.extra_nbt=Extra NBT debug info: %1$s
-aotd.command.dungeon.info.no_structures=No structures in your chunk.
-aotd.command.dungeon.info.invalid_world=Must be in the overworld to get a chunk's structure info
+message.afraidofthedark:command.dungeon.info=Structure %1$s with corner at [%2$s, %3$s, %4$s]
+message.afraidofthedark:command.dungeon.info.extra_nbt=Extra NBT debug info: %1$s
+message.afraidofthedark:command.dungeon.info.no_structures=No structures in your chunk.
+message.afraidofthedark:command.dungeon.info.invalid_world=Must be in the overworld to get a chunk's structure info
 
-aotd.command.dungeon.regenerate.no_structures=No structures in your chunk to regenerate.
-aotd.command.dungeon.regenerate.invalid_world=Must be in the overworld to regenerate a chunk's structure.
+message.afraidofthedark:command.dungeon.regenerate.no_structures=No structures in your chunk to regenerate.
+message.afraidofthedark:command.dungeon.regenerate.invalid_world=Must be in the overworld to regenerate a chunk's structure.
 
-aotd.command.dungeon.list.header=All Overworld dungeons:
-aotd.command.dungeon.list=%1$s with corner at [%2$s, %3$s, %4$s] ~ %5$s blocks away.
+message.afraidofthedark:command.dungeon.list.header=All Overworld dungeons:
+message.afraidofthedark:command.dungeon.list=%1$s with corner at [%2$s, %3$s, %4$s] ~ %5$s blocks away.
 
-aotd.command.dungeon.list_type.header=Overworld dungeons of type [%1$s]:
-aotd.command.dungeon.list_type.unknown_type=Unknown structure type [%1$s]
+message.afraidofthedark:command.dungeon.list_type.header=Overworld dungeons of type [%1$s]:
+message.afraidofthedark:command.dungeon.list_type.unknown_type=Unknown structure type [%1$s]
 
-aotd.dimension.nightmare.no_spawn=An error occoured when computing a re-spawn position upon returning to your dimension later so the teleport can't happen. Try finding a more open place to enter the portal/chest at!
-aotd.dimension.void_chest.no_spawn=An error occoured when computing a re-spawn position upon returning to your dimension later so the teleport can't happen. Try finding a more open place to enter the portal/chest at!
+message.afraidofthedark:dimension.nightmare.no_spawn=An error occoured when computing a re-spawn position upon returning to your dimension later so the teleport can't happen. Try finding a more open place to enter the portal/chest at!
+message.afraidofthedark:dimension.void_chest.no_spawn=An error occoured when computing a re-spawn position upon returning to your dimension later so the teleport can't happen. Try finding a more open place to enter the portal/chest at!
 
-aotd.flask_of_souls.on_cooldown=Flask is on cooldown (%1$ss)!
-aotd.flask_of_souls.incomplete=Flask is unbound or incomplete!
+message.afraidofthedark:flask_of_souls.on_cooldown=Flask is on cooldown (%1$ss)!
+message.afraidofthedark:flask_of_souls.incomplete=Flask is unbound or incomplete!
 
-aotd.journal.cant_comprehend=§oI cannot comprehend this journal...
+message.afraidofthedark:journal.cant_comprehend=§oI cannot comprehend this journal...
 
-aotd.research_scroll.incomplete=This scroll is not complete yet.
-aotd.research_scroll.cant_understand=§oI don't understand the material referenced in this research scroll.
-aotd.research_scroll.already_researched=§oI have already studied this research scroll.
-aotd.research_scroll.corrupt=Scroll is corrupt.
+message.afraidofthedark:research_scroll.incomplete=This scroll is not complete yet.
+message.afraidofthedark:research_scroll.cant_understand=§oI don't understand the material referenced in this research scroll.
+message.afraidofthedark:research_scroll.already_researched=§oI have already studied this research scroll.
+message.afraidofthedark:research_scroll.corrupt=Scroll is corrupt.
 
-aotd.wand.spell_set=Spell set to %1$s.
-aotd.wand.invalid_spell=Invalid spell stored on the wand, please update it with crouch & right click.
-aotd.wand.no_bound_spell=No spell set on wand, please do so with crouch & right click.
-aotd.wand.no_spells=You do not have any spells to bind to the wand.
+message.afraidofthedark:wand.spell_set=Spell set to %1$s.
+message.afraidofthedark:wand.invalid_spell=Invalid spell stored on the wand, please update it with crouch & right click.
+message.afraidofthedark:wand.no_bound_spell=No spell set on wand, please do so with crouch & right click.
+message.afraidofthedark:wand.no_spells=You do not have any spells to bind to the wand.
 
-aotd.telescope.not_high_enough=§oI can't see anything through these thick clouds. Maybe I could move to a higher elevation.
+message.afraidofthedark:telescope.not_high_enough=§oI can't see anything through these thick clouds. Maybe I could move to a higher elevation.
 
-aotd.crossbow.no_bolt=§oI'll need a %1$s§o bolt in my inventory to shoot.
-aotd.crossbow.bolt_change=§oCrossbow will now fire %1$s§o bolts.
+message.afraidofthedark:crossbow.no_bolt=§oI'll need a %1$s§o bolt in my inventory to shoot.
+message.afraidofthedark:crossbow.bolt_change=§oCrossbow will now fire %1$s§o bolts.
 
-aotd.star_metal_staff.on_cooldown=Star metal staff is on cooldow (%1$ss)!
+message.afraidofthedark:star_metal_staff.on_cooldown=Star metal staff is on cooldow (%1$ss)!
 
-aotd.enarias_altar.no_research=The block whispers to me... what does it mean?
+message.afraidofthedark:enarias_altar.no_research=The block whispers to me... what does it mean?
 
-aotd.meteor.location=§oBased off of this information the meteor fell around %1$s§o, %2$s§o.
-aotd.meteor.process.invalid_vals=§oThe values entered do not make sense. I should try to re-enter the meteor's data or observe a new meteor.
+message.afraidofthedark:meteor.location=§oBased off of this information the meteor fell around %1$s§o, %2$s§o.
+message.afraidofthedark:meteor.process.invalid_vals=§oThe values entered do not make sense. I should try to re-enter the meteor's data or observe a new meteor.
 
-aotd.falling_meteor.info.header=It appears that this is a %1$s meteor falling to earth. I have observed some information on it:
-aotd.falling_meteor.info.data=Drop Angle: %1$s°, Latitude: %2$s°, Longitude: %3$s°
-aotd.falling_meteor.info.help=§oI should probably write these values down and later calculate the landing position using my sextant.
+message.afraidofthedark:falling_meteor.info.header=It appears that this is a %1$s meteor falling to earth. I have observed some information on it:
+message.afraidofthedark:falling_meteor.info.data=Drop Angle: %1$s°, Latitude: %2$s°, Longitude: %3$s°
+message.afraidofthedark:falling_meteor.info.help=§oI should probably write these values down and later calculate the landing position using my sextant.
 
-aotd.crafting.missing_research=§oI'll need to do some more research before I can craft this.
+message.afraidofthedark:crafting.missing_research=§oI'll need to do some more research before I can craft this.
 
-aotd.world_gen.saving=§5[Afraid of the Dark] %1$s chunks are still being generated, please wait while these finish generating...
+message.afraidofthedark:world_gen.saving=§5[Afraid of the Dark] %1$s chunks are still being generated, please wait while these finish generating...
 
-aotd.chargable_sword.not_enough_energy=I'll need more energy to perform the ability.
+message.afraidofthedark:chargable_sword.not_enough_energy=I'll need more energy to perform the ability.
 
-aotd.enaria.dont_understand=I can't understand who I'm fighting...
+message.afraidofthedark:enaria.dont_understand=I can't understand who I'm fighting...
 
-aotd.spell.wrong_dimension=My mind is too clouded to cast spells here.
-aotd.spell.invalid=Invalid spell. Make sure to have delivery methods on each spell stage and a power source!
-aotd.spell.power_source.creative.invalid_msg=How did you use creative with infinite energy and not cast the spell?
-aotd.spell.power_source.experience.invalid_msg=Not enough experience levels to cast this spell.
-aotd.spell.save_successful=Spell '%1$s' saved successfully.
-aotd.spell.property_edit_fail=Property %1$s did not have a valid value - %2$s
-aotd.spell.property_edit_success=All properties saved successfully.
+message.afraidofthedark:spell.wrong_dimension=My mind is too clouded to cast spells here.
+message.afraidofthedark:spell.invalid=Invalid spell. Make sure to have delivery methods on each spell stage and a power source!
+message.afraidofthedark:spell.power_source.creative.invalid_msg=How did you use creative with infinite energy and not cast the spell?
+message.afraidofthedark:spell.power_source.experience.invalid_msg=Not enough experience levels to cast this spell.
+message.afraidofthedark:spell.save_successful=Spell '%1$s' saved successfully.
+message.afraidofthedark:spell.property_edit_fail=Property %1$s did not have a valid value - %2$s
+message.afraidofthedark:spell.property_edit_success=All properties saved successfully.
 
-aotd.insanitys_heights.dont_understand=§oThe book appears to be empty.
+message.afraidofthedark:insanitys_heights.dont_understand=§oThe book appears to be empty.
 
-aotd.dont_understand=§oI don't understand how this works.
+message.afraidofthedark:dont_understand=§oI don't understand how this works.

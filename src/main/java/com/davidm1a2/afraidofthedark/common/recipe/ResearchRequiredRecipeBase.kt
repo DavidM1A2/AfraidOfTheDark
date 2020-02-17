@@ -49,7 +49,7 @@ abstract class ResearchRequiredRecipeBase<T : IRecipe>(val baseRecipe: T, privat
                 // Before returning false notify the player why the crafting failed if the recipe matched
                 if (matches && !world.isRemote)
                 {
-                    craftingPlayer.sendMessage(TextComponentTranslation("aotd.crafting.missing_research"))
+                    craftingPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:crafting.missing_research"))
                 }
                 return false
             }

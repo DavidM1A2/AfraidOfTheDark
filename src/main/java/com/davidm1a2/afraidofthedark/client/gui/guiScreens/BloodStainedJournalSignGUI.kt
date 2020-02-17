@@ -119,7 +119,7 @@ class BloodStainedJournalSignGUI : AOTDGuiScreen()
 
                             // Play the sign animation and chat message
                             entityPlayer.playSound(ModSounds.JOURNAL_SIGN, 4.0F, 1.0F)
-                            entityPlayer.sendMessage(TextComponentTranslation("aotd.journal.sign.successful"))
+                            entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:journal.sign.successful"))
                         }
                     }
                     else
@@ -128,7 +128,7 @@ class BloodStainedJournalSignGUI : AOTDGuiScreen()
                         if (!playerBasics.startedAOTD)
                         {
                             // If he has not started then print out a message that the name was wrong
-                            entityPlayer.sendMessage(TextComponentTranslation("aotd.journal.sign.unsuccessful"))
+                            entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:journal.sign.unsuccessful"))
                             entityPlayer.closeScreen()
                         }
                     }

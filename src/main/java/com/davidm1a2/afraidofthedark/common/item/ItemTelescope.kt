@@ -55,12 +55,12 @@ class ItemTelescope : AOTDItem("telescope")
                 // Tell the player that they need to be higher to see through the clouds
                 if (!highEnough)
                 {
-                    player.sendMessage(TextComponentTranslation("aotd.telescope.not_high_enough"))
+                    player.sendMessage(TextComponentTranslation("message.afraidofthedark:telescope.not_high_enough"))
                 }
             }
             else
             {
-                player.sendMessage(TextComponentTranslation("aotd.dont_understand"))
+                player.sendMessage(TextComponentTranslation("message.afraidofthedark:dont_understand"))
             }
         }
 

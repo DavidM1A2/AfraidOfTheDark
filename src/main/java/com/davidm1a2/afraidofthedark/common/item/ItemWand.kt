@@ -79,7 +79,7 @@ class ItemWand : AOTDItem("wand")
                         // Send the message server side
                         if (!world.isRemote)
                         {
-                            player.sendMessage(TextComponentTranslation("aotd.wand.spell_set", next.name))
+                            player.sendMessage(TextComponentTranslation("message.afraidofthedark:wand.spell_set", next.name))
                         }
                     }
                     else
@@ -106,12 +106,12 @@ class ItemWand : AOTDItem("wand")
                     }
                     else
                     {
-                        player.sendMessage(TextComponentTranslation("aotd.wand.invalid_spell"))
+                        player.sendMessage(TextComponentTranslation("message.afraidofthedark:wand.invalid_spell"))
                     }
                 }
                 else
                 {
-                    player.sendMessage(TextComponentTranslation("aotd.wand.no_bound_spell"))
+                    player.sendMessage(TextComponentTranslation("message.afraidofthedark:wand.no_bound_spell"))
                 }
             }
         }
@@ -139,7 +139,7 @@ class ItemWand : AOTDItem("wand")
             // Server side sending only, tell the player the spell was updated
             if (!entityPlayer.world.isRemote)
             {
-                entityPlayer.sendMessage(TextComponentTranslation("aotd.wand.spell_set", first.name))
+                entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:wand.spell_set", first.name))
             }
 
             // Set the NBT spell ID
@@ -150,7 +150,7 @@ class ItemWand : AOTDItem("wand")
             // Server side sending only, tell the player he/she has no spells to bind to the wand yet
             if (!entityPlayer.world.isRemote)
             {
-                entityPlayer.sendMessage(TextComponentTranslation("aotd.wand.no_spells"))
+                entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:wand.no_spells"))
             }
         }
     }

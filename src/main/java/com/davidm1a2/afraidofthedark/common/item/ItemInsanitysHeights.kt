@@ -43,7 +43,7 @@ class ItemInsanitysHeights : AOTDItem("insanitys_heights")
         {
             if (!worldIn.isRemote)
             {
-                player.sendMessage(TextComponentTranslation("aotd.insanitys_heights.dont_understand"))
+                player.sendMessage(TextComponentTranslation("message.afraidofthedark:insanitys_heights.dont_understand"))
             }
         }
         return ActionResult.newResult(EnumActionResult.SUCCESS, heldItem)

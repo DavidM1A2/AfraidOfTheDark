@@ -76,7 +76,7 @@ class BlockEnariasAltar : AOTDBlock("enarias_altar", Material.PORTAL)
             }
             else
             {
-                playerIn.sendMessage(TextComponentTranslation("aotd.enarias_altar.no_research"))
+                playerIn.sendMessage(TextComponentTranslation("message.afraidofthedark:enarias_altar.no_research"))
             }
         }
         return true

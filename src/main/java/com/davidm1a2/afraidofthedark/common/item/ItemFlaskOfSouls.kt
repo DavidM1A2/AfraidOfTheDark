@@ -81,7 +81,7 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls")
             }
             else
             {
-                player.sendMessage(TextComponentTranslation("aotd.dont_understand"))
+                player.sendMessage(TextComponentTranslation("message.afraidofthedark:dont_understand"))
             }
         }
         return ActionResult.newResult(EnumActionResult.SUCCESS, itemStack)
@@ -131,12 +131,12 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls")
                 }
                 else
                 {
-                    entityPlayer.sendMessage(TextComponentTranslation("aotd.flask_of_souls.on_cooldown", cooldownRemainingInSeconds(itemStack)))
+                    entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:flask_of_souls.on_cooldown", cooldownRemainingInSeconds(itemStack)))
                 }
             }
             else
             {
-                entityPlayer.sendMessage(TextComponentTranslation("aotd.flask_of_souls.incomplete"))
+                entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:flask_of_souls.incomplete"))
             }
         }
     }

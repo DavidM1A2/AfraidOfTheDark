@@ -54,7 +54,7 @@ class SpellPowerSourceExperience : AOTDSpellPowerSource(ResourceLocation(Constan
      */
     override fun getUnlocalizedOutOfPowerMsg(): String
     {
-        return "aotd.spell.power_source.experience.invalid_msg"
+        return "message.afraidofthedark:spell.power_source.experience.invalid_msg"
     }
 
     companion object

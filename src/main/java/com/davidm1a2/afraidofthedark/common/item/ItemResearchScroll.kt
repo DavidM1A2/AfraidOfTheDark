@@ -82,24 +82,24 @@ class ItemResearchScroll : AOTDItem("research_scroll")
                     }
                     else
                     {
-                        player.sendMessage(TextComponentTranslation("aotd.research_scroll.incomplete"))
+                        player.sendMessage(TextComponentTranslation("message.afraidofthedark:research_scroll.incomplete"))
                     }
                 }
                 // If the player does not yet have the research then state that they need additional research first
                 else if (!playerResearch.isResearched(scrollResearch))
                 {
-                    player.sendMessage(TextComponentTranslation("aotd.research_scroll.cant_understand"))
+                    player.sendMessage(TextComponentTranslation("message.afraidofthedark:research_scroll.cant_understand"))
                 }
                 // If the player does have the research tell them
                 else
                 {
-                    player.sendMessage(TextComponentTranslation("aotd.research_scroll.already_researched"))
+                    player.sendMessage(TextComponentTranslation("message.afraidofthedark:research_scroll.already_researched"))
                 }
             }
             // No valid research detected
             else
             {
-                player.sendMessage(TextComponentTranslation("aotd.research_scroll.corrupt"))
+                player.sendMessage(TextComponentTranslation("message.afraidofthedark:research_scroll.corrupt"))
             }
         }
         return super.onItemRightClick(world, player, hand)

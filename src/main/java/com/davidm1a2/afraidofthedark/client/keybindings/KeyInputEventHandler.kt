@@ -88,7 +88,7 @@ object KeyInputEventHandler
             // Tell the player what type of bolt will be fired now
             entityPlayer.sendMessage(
                 TextComponentTranslation(
-                    "aotd.wrist_crossbow.bolt_change",
+                    "message.afraidofthedark:wrist_crossbow.bolt_change",
                     TextComponentTranslation(BoltOrderHelper.getBoltAt(currentBoltIndex).getUnlocalizedName())
                 )
             )
@@ -128,21 +128,21 @@ object KeyInputEventHandler
                             }
                         }
                         // No valid wrist crossbow found
-                        entityPlayer.sendMessage(TextComponentTranslation("aotd.wrist_crossbow.reloading"))
+                        entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:wrist_crossbow.reloading"))
                     }
                     else
                     {
-                        entityPlayer.sendMessage(TextComponentTranslation("aotd.wrist_crossbow.no_bolt", TextComponentTranslation(boltType.getUnlocalizedName())))
+                        entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:wrist_crossbow.no_bolt", TextComponentTranslation(boltType.getUnlocalizedName())))
                     }
                 }
                 else
                 {
-                    entityPlayer.sendMessage(TextComponentTranslation("aotd.wrist_crossbow.no_crossbow"))
+                    entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:wrist_crossbow.no_crossbow"))
                 }
             }
             else
             {
-                entityPlayer.sendMessage(TextComponentTranslation("aotd.dont_understand"))
+                entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:dont_understand"))
             }
         }
     }
@@ -198,7 +198,7 @@ object KeyInputEventHandler
                         }
                         else
                         {
-                            entityPlayer.sendMessage(TextComponentTranslation("aotd.cloak_of_agility.too_tired", cloakOfAgility.cooldownRemainingInSeconds(itemStack)))
+                            entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:cloak_of_agility.too_tired", cloakOfAgility.cooldownRemainingInSeconds(itemStack)))
                             // If one cloak is on cooldown they all are, return
                             return
                         }
@@ -207,12 +207,12 @@ object KeyInputEventHandler
             }
             else
             {
-                entityPlayer.sendMessage(TextComponentTranslation("aotd.cloak_of_agility.not_grounded"))
+                entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:cloak_of_agility.not_grounded"))
             }
         }
         else
         {
-            entityPlayer.sendMessage(TextComponentTranslation("aotd.dont_understand"))
+            entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:dont_understand"))
         }
     }
 }

@@ -202,7 +202,7 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity
                     // If a player hit enaria check if they have the right research
                     if (!damageSource.getResearch().isResearched(ModResearches.ENARIA.preRequisite!!))
                     {
-                        damageSource.sendMessage(TextComponentTranslation("aotd.enaria.dont_understand"))
+                        damageSource.sendMessage(TextComponentTranslation("message.afraidofthedark:enaria.dont_understand"))
                         // Can't damage enaria without research
                         return false
                     }

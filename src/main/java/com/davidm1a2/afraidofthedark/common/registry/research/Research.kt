@@ -83,7 +83,6 @@ abstract class Research(data: ResourceLocation, val preRequisite: Research? = nu
                 }
             }
         }
-
         // This shouldn't happen, but if it does print out an error
         catch (_: IOException)
         {
@@ -96,7 +95,7 @@ abstract class Research(data: ResourceLocation, val preRequisite: Research? = nu
      */
     fun getUnlocalizedName(): String
     {
-        return "research.${registryName!!.resourcePath}"
+        return "research.${registryName!!.resourceDomain}:${registryName!!.resourcePath}"
     }
 
     companion object

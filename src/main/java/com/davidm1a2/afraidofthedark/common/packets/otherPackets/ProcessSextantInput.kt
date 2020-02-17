@@ -116,7 +116,7 @@ class ProcessSextantInput : IMessage
                     zLocOfDrop =
                         zLocOfDrop + (if (Random.nextBoolean()) -1 else 1) * Random.nextInt(ACCURACY + 1)
 
-                    player.sendMessage(TextComponentTranslation("aotd.meteor.location", xLocOfDrop, zLocOfDrop))
+                    player.sendMessage(TextComponentTranslation("message.afraidofthedark:meteor.location", xLocOfDrop, zLocOfDrop))
 
                     // Clear the player's watched meteors so that the same meteor can't be used twice
                     playerBasics.setWatchedMeteor(null, -1, -1, -1)
@@ -131,7 +131,7 @@ class ProcessSextantInput : IMessage
             // The values aren't correct so show an error
             else
             {
-                player.sendMessage(TextComponentTranslation("aotd.meteor.process.invalid_vals"))
+                player.sendMessage(TextComponentTranslation("message.afraidofthedark:meteor.process.invalid_vals"))
             }
         }
 
