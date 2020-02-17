@@ -1477,7 +1477,8 @@ public class Matrix4f implements java.io.Serializable
             try
             {
                 throw new Exception("PROBLEM!!! Matrix4f12");
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 e.printStackTrace();
             }
@@ -2248,7 +2249,8 @@ public class Matrix4f implements java.io.Serializable
         {
             return (this.m00 == m1.m00 && this.m01 == m1.m01 && this.m02 == m1.m02 && this.m03 == m1.m03 && this.m10 == m1.m10 && this.m11 == m1.m11 && this.m12 == m1.m12 && this.m13 == m1.m13 && this.m20 == m1.m20 && this.m21 == m1.m21 && this.m22 == m1.m22 && this.m23 == m1.m23
                     && this.m30 == m1.m30 && this.m31 == m1.m31 && this.m32 == m1.m32 && this.m33 == m1.m33);
-        } catch (NullPointerException e)
+        }
+        catch (NullPointerException e)
         {
             return false;
         }
@@ -2270,10 +2272,12 @@ public class Matrix4f implements java.io.Serializable
             Matrix4f m2 = (Matrix4f) t1;
             return (this.m00 == m2.m00 && this.m01 == m2.m01 && this.m02 == m2.m02 && this.m03 == m2.m03 && this.m10 == m2.m10 && this.m11 == m2.m11 && this.m12 == m2.m12 && this.m13 == m2.m13 && this.m20 == m2.m20 && this.m21 == m2.m21 && this.m22 == m2.m22 && this.m23 == m2.m23
                     && this.m30 == m2.m30 && this.m31 == m2.m31 && this.m32 == m2.m32 && this.m33 == m2.m33);
-        } catch (ClassCastException e1)
+        }
+        catch (ClassCastException e1)
         {
             return false;
-        } catch (NullPointerException e2)
+        }
+        catch (NullPointerException e2)
         {
             return false;
         }
@@ -2616,7 +2620,8 @@ public class Matrix4f implements java.io.Serializable
         try
         {
             m1 = (Matrix4f) super.clone();
-        } catch (CloneNotSupportedException e)
+        }
+        catch (CloneNotSupportedException e)
         {
             // this shouldn't happen, since we are Cloneable
             throw new InternalError();

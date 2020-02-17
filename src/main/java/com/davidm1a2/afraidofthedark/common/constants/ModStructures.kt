@@ -15,11 +15,11 @@ object ModStructures
     val GNOMISH_CITY = StructureGnomishCity()
 
     var STRUCTURE_LIST = arrayOf(
-        CRYPT,
-        WITCH_HUT,
-        VOID_CHEST,
-        DARK_FOREST,
-        NIGHTMARE_ISLAND,
-        GNOMISH_CITY
+            CRYPT,
+            WITCH_HUT,
+            VOID_CHEST,
+            DARK_FOREST,
+            NIGHTMARE_ISLAND,
+            GNOMISH_CITY
     )
 }

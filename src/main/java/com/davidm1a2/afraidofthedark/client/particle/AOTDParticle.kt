@@ -18,14 +18,14 @@ import net.minecraft.world.World
  * @param zSpeed  The z speed of the particle
  */
 abstract class AOTDParticle(
-    world: World,
-    sprite: TextureAtlasSprite,
-    x: Double,
-    y: Double,
-    z: Double,
-    xSpeed: Double = 0.0,
-    ySpeed: Double = 0.0,
-    zSpeed: Double = 0.0
+        world: World,
+        sprite: TextureAtlasSprite,
+        x: Double,
+        y: Double,
+        z: Double,
+        xSpeed: Double = 0.0,
+        ySpeed: Double = 0.0,
+        zSpeed: Double = 0.0
 ) : Particle(world, x, y, z, xSpeed, ySpeed, zSpeed)
 {
     init

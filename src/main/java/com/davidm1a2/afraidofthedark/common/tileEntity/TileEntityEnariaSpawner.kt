@@ -32,8 +32,18 @@ class TileEntityEnariaSpawner : AOTDTickingTileEntity(ModBlocks.ENARIA_SPAWNER)
     override fun onLoad()
     {
         super.onLoad()
-        playerCheckRegion = AxisAlignedBB((pos.x - 11).toDouble(), (pos.y - 2).toDouble(), (pos.z - 2).toDouble(), (pos.x + 11).toDouble(), (pos.y + 11).toDouble(), (pos.z + 20).toDouble())
-        enariaArenaRegion = AxisAlignedBB((pos.x - 30).toDouble(), (pos.y - 3).toDouble(), (pos.z - 3).toDouble(), (pos.x + 30).toDouble(), (pos.y + 12).toDouble(), (pos.z + 80).toDouble())
+        playerCheckRegion = AxisAlignedBB((pos.x - 11).toDouble(),
+                (pos.y - 2).toDouble(),
+                (pos.z - 2).toDouble(),
+                (pos.x + 11).toDouble(),
+                (pos.y + 11).toDouble(),
+                (pos.z + 20).toDouble())
+        enariaArenaRegion = AxisAlignedBB((pos.x - 30).toDouble(),
+                (pos.y - 3).toDouble(),
+                (pos.z - 3).toDouble(),
+                (pos.x + 30).toDouble(),
+                (pos.y + 12).toDouble(),
+                (pos.z + 80).toDouble())
     }
 
     /**

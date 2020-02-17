@@ -45,11 +45,11 @@ class SpellFreezeHandler
 
                 // Freeze the player's location
                 (entityPlayer as EntityPlayerMP).connection.setPlayerLocation(
-                    freezePosition.x,
-                    freezePosition.y,
-                    freezePosition.z,
-                    playerFreezeData.getFreezeYaw(),
-                    playerFreezeData.getFreezePitch()
+                        freezePosition.x,
+                        freezePosition.y,
+                        freezePosition.z,
+                        playerFreezeData.getFreezeYaw(),
+                        playerFreezeData.getFreezePitch()
                 )
             }
         }

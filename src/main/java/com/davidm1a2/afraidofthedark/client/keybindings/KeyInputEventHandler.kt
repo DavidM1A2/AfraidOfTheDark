@@ -87,10 +87,10 @@ object KeyInputEventHandler
 
             // Tell the player what type of bolt will be fired now
             entityPlayer.sendMessage(
-                TextComponentTranslation(
-                    "message.afraidofthedark:wrist_crossbow.bolt_change",
-                    TextComponentTranslation(BoltOrderHelper.getBoltAt(currentBoltIndex).getUnlocalizedName())
-                )
+                    TextComponentTranslation(
+                            "message.afraidofthedark:wrist_crossbow.bolt_change",
+                            TextComponentTranslation(BoltOrderHelper.getBoltAt(currentBoltIndex).getUnlocalizedName())
+                    )
             )
         }
         else
@@ -132,7 +132,8 @@ object KeyInputEventHandler
                     }
                     else
                     {
-                        entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:wrist_crossbow.no_bolt", TextComponentTranslation(boltType.getUnlocalizedName())))
+                        entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:wrist_crossbow.no_bolt",
+                                TextComponentTranslation(boltType.getUnlocalizedName())))
                     }
                 }
                 else
@@ -198,7 +199,8 @@ object KeyInputEventHandler
                         }
                         else
                         {
-                            entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:cloak_of_agility.too_tired", cloakOfAgility.cooldownRemainingInSeconds(itemStack)))
+                            entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:cloak_of_agility.too_tired",
+                                    cloakOfAgility.cooldownRemainingInSeconds(itemStack)))
                             // If one cloak is on cooldown they all are, return
                             return
                         }

@@ -2507,7 +2507,8 @@ public class Matrix3d implements java.io.Serializable, Cloneable
             try
             {
                 throw new Exception("PROBLEM!!! Matrix3d12");
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 e.printStackTrace();
             }
@@ -3118,7 +3119,8 @@ public class Matrix3d implements java.io.Serializable, Cloneable
         try
         {
             return (this.m00 == m1.m00 && this.m01 == m1.m01 && this.m02 == m1.m02 && this.m10 == m1.m10 && this.m11 == m1.m11 && this.m12 == m1.m12 && this.m20 == m1.m20 && this.m21 == m1.m21 && this.m22 == m1.m22);
-        } catch (NullPointerException e2)
+        }
+        catch (NullPointerException e2)
         {
             return false;
         }
@@ -3139,10 +3141,12 @@ public class Matrix3d implements java.io.Serializable, Cloneable
         {
             Matrix3d m2 = (Matrix3d) t1;
             return (this.m00 == m2.m00 && this.m01 == m2.m01 && this.m02 == m2.m02 && this.m10 == m2.m10 && this.m11 == m2.m11 && this.m12 == m2.m12 && this.m20 == m2.m20 && this.m21 == m2.m21 && this.m22 == m2.m22);
-        } catch (ClassCastException e1)
+        }
+        catch (ClassCastException e1)
         {
             return false;
-        } catch (NullPointerException e2)
+        }
+        catch (NullPointerException e2)
         {
             return false;
         }
@@ -3315,7 +3319,8 @@ public class Matrix3d implements java.io.Serializable, Cloneable
         try
         {
             m1 = (Matrix3d) super.clone();
-        } catch (CloneNotSupportedException e)
+        }
+        catch (CloneNotSupportedException e)
         {
             // this shouldn't happen, since we are Cloneable
             throw new InternalError();

@@ -21,14 +21,14 @@ class SpellDeliveryMethodDelay : AOTDSpellDeliveryMethod(ResourceLocation(Consta
     init
     {
         addEditableProperty(
-            SpellComponentPropertyFactory.longProperty()
-                .withName("Delay")
-                .withDescription("The delay of the delivery in ticks (20 ticks = 1 second).")
-                .withSetter { instance, newValue -> instance.data.setLong(NBT_DELAY, newValue) }
-                .withGetter { it.data.getLong(NBT_DELAY) }
-                .withDefaultValue(20L)
-                .withMinValue(1L)
-                .build()
+                SpellComponentPropertyFactory.longProperty()
+                        .withName("Delay")
+                        .withDescription("The delay of the delivery in ticks (20 ticks = 1 second).")
+                        .withSetter { instance, newValue -> instance.data.setLong(NBT_DELAY, newValue) }
+                        .withGetter { it.data.getLong(NBT_DELAY) }
+                        .withDefaultValue(20L)
+                        .withMinValue(1L)
+                        .build()
         )
     }
 
@@ -67,11 +67,11 @@ class SpellDeliveryMethodDelay : AOTDSpellDeliveryMethod(ResourceLocation(Consta
         val spellIndex = state.stageIndex
         // Perform the transition between the next delivery method and the current delivery method
         spell.getStage(spellIndex + 1)!!.deliveryInstance!!.component.executeDelivery(
-            DeliveryTransitionStateBuilder()
-                .copyOf(state)
-                .withStageIndex(spellIndex + 1)
-                .withDeliveryEntity(null)
-                .build()
+                DeliveryTransitionStateBuilder()
+                        .copyOf(state)
+                        .withStageIndex(spellIndex + 1)
+                        .withDeliveryEntity(null)
+                        .build()
         )
     }
 

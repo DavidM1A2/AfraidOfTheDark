@@ -15,12 +15,12 @@ package com.davidm1a2.afraidofthedark.client.gui.base
  * @property currentFrame The index of the current frame
  */
 class SpriteSheetController(
-    private val frameDelayInMillis: Int,
-    val totalFrames: Int,
-    val frameWidth: Int,
-    val frameHeight: Int,
-    val frameInterpolate: Boolean,
-    val isVertical: Boolean
+        private val frameDelayInMillis: Int,
+        val totalFrames: Int,
+        val frameWidth: Int,
+        val frameHeight: Int,
+        val frameInterpolate: Boolean,
+        val isVertical: Boolean
 )
 {
     var percentageTowardsNextFrame = 0.0f

@@ -104,51 +104,51 @@ class ConfigurationHandler(configurationFile: File)
 
         // Grab all the configuration elements from the file
         cryptMultiplier = configuration.getFloat(
-            "Crypt Multiplier",
-            CATEGORY_DUNGEON_FREQUENCY,
-            1.0f,
-            0.0f,
-            100.0f,
-            "Increases the number of Crypts in the world by the multiplier specified."
+                "Crypt Multiplier",
+                CATEGORY_DUNGEON_FREQUENCY,
+                1.0f,
+                0.0f,
+                100.0f,
+                "Increases the number of Crypts in the world by the multiplier specified."
         )
         darkForestMultiplier = configuration.getFloat(
-            "Dark Forest Multiplier",
-            CATEGORY_DUNGEON_FREQUENCY,
-            1.0f,
-            0.0f,
-            100.0f,
-            "Increases the number of Dark Forests in the world by the multiplier specified."
+                "Dark Forest Multiplier",
+                CATEGORY_DUNGEON_FREQUENCY,
+                1.0f,
+                0.0f,
+                100.0f,
+                "Increases the number of Dark Forests in the world by the multiplier specified."
         )
         gnomishCityFrequency = configuration.getFloat(
-            "Gnomish City Multiplier",
-            CATEGORY_DUNGEON_FREQUENCY,
-            1.0f,
-            0.0f,
-            100.0f,
-            "Increases the number of Gnomish Cities in the world by the multiplier specified."
+                "Gnomish City Multiplier",
+                CATEGORY_DUNGEON_FREQUENCY,
+                1.0f,
+                0.0f,
+                100.0f,
+                "Increases the number of Gnomish Cities in the world by the multiplier specified."
         )
         voidChestMultiplier = configuration.getFloat(
-            "Void Chest Multiplier",
-            CATEGORY_DUNGEON_FREQUENCY,
-            1.0f,
-            0.0f,
-            100.0f,
-            "Increases the number of Void Chests in the world by the multiplier specified."
+                "Void Chest Multiplier",
+                CATEGORY_DUNGEON_FREQUENCY,
+                1.0f,
+                0.0f,
+                100.0f,
+                "Increases the number of Void Chests in the world by the multiplier specified."
         )
         witchHutMultiplier = configuration.getFloat(
-            "Witch Hut Multiplier",
-            CATEGORY_DUNGEON_FREQUENCY,
-            1.0f,
-            0.0f,
-            100.0f,
-            "Increases the number of Witch Huts in the world by the multiplier specified."
+                "Witch Hut Multiplier",
+                CATEGORY_DUNGEON_FREQUENCY,
+                1.0f,
+                0.0f,
+                100.0f,
+                "Increases the number of Witch Huts in the world by the multiplier specified."
         )
 
         erieBiomeFrequency = configuration.getInt(
-            "Erie Biome Frequency",
-            Configuration.CATEGORY_GENERAL,
-            10,
-            0,
+                "Erie Biome Frequency",
+                Configuration.CATEGORY_GENERAL,
+                10,
+                0,
                 1000,
                 "Increase this value to increase the number of Erie Biomes. 10 is the default MC forest value."
         )
@@ -177,45 +177,45 @@ class ConfigurationHandler(configurationFile: File)
         )
 
         worldGenPriority = configuration.getInt(
-            "World Generation Priority",
-            CATEGORY_WORLD_GENERATION,
-            0,
-            -1000,
-            1000,
-            "Sets the priority for afraid of the dark world generation. Higher numbers result in world generation running after other mods."
+                "World Generation Priority",
+                CATEGORY_WORLD_GENERATION,
+                0,
+                -1000,
+                1000,
+                "Sets the priority for afraid of the dark world generation. Higher numbers result in world generation running after other mods."
         )
 
         cacheStructures = configuration.getBoolean(
-            "Cache Structures",
-            CATEGORY_WORLD_GENERATION,
-            true,
-            "True means structures will be loaded into computer memory when Minecraft is started up. This will accelerate world generation at the cost of RAM usage. False means structures will be loaded when needed, which will require less RAM but can incur lag spikes when finding structures."
+                "Cache Structures",
+                CATEGORY_WORLD_GENERATION,
+                true,
+                "True means structures will be loaded into computer memory when Minecraft is started up. This will accelerate world generation at the cost of RAM usage. False means structures will be loaded when needed, which will require less RAM but can incur lag spikes when finding structures."
         )
 
         cacheTimeout = configuration.getInt(
-            "Cache Timeout",
-            CATEGORY_WORLD_GENERATION,
-            60000,
-            10000,
-            Int.MAX_VALUE,
-            "Required if 'Cache Structures' is set to false, otherwise ignored. If a structure isn't needed for 'Cache Timeout' milliseconds it will be forgotten and cleared from RAM."
+                "Cache Timeout",
+                CATEGORY_WORLD_GENERATION,
+                60000,
+                10000,
+                Int.MAX_VALUE,
+                "Required if 'Cache Structures' is set to false, otherwise ignored. If a structure isn't needed for 'Cache Timeout' milliseconds it will be forgotten and cleared from RAM."
         ).toLong()
 
         nightmareDimensionId = configuration.getInt(
-            "Nightmare Dimension ID",
-            CATEGORY_DIMENSION,
-            0,
-            0,
-            256,
-            "Sets the dimension ID of the nightmare realm. 0 indicates that the value should be dynamically chosen by forge."
+                "Nightmare Dimension ID",
+                CATEGORY_DIMENSION,
+                0,
+                0,
+                256,
+                "Sets the dimension ID of the nightmare realm. 0 indicates that the value should be dynamically chosen by forge."
         )
         voidChestDimensionId = configuration.getInt(
-            "Void Chest Dimension ID",
-            CATEGORY_DIMENSION,
-            0,
-            0,
-            256,
-            "Sets the dimension ID of the void chest realm. 0 indicates that the value should be dynamically chosen by forge."
+                "Void Chest Dimension ID",
+                CATEGORY_DIMENSION,
+                0,
+                0,
+                256,
+                "Sets the dimension ID of the void chest realm. 0 indicates that the value should be dynamically chosen by forge."
         )
 
         // If we changed the configuration at all, save it
@@ -231,9 +231,9 @@ class ConfigurationHandler(configurationFile: File)
     fun getInGameConfigurableOptions(): List<IConfigElement>
     {
         return ConfigElement(configuration.getCategory(Configuration.CATEGORY_GENERAL)).childElements +
-                ConfigElement(configuration.getCategory(CATEGORY_DUNGEON_FREQUENCY)).childElements +
-                ConfigElement(configuration.getCategory(CATEGORY_WORLD_GENERATION)).childElements +
-                ConfigElement(configuration.getCategory(CATEGORY_DIMENSION)).childElements
+               ConfigElement(configuration.getCategory(CATEGORY_DUNGEON_FREQUENCY)).childElements +
+               ConfigElement(configuration.getCategory(CATEGORY_WORLD_GENERATION)).childElements +
+               ConfigElement(configuration.getCategory(CATEGORY_DIMENSION)).childElements
     }
 
     /**

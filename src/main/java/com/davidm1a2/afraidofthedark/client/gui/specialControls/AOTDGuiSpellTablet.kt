@@ -38,13 +38,13 @@ import kotlin.math.roundToInt
  *
  */
 class AOTDGuiSpellTablet(
-    x: Int,
-    y: Int,
-    width: Int,
-    height: Int,
-    private val spell: Spell,
-    private val selectedComponentGetter: () -> AOTDGuiSpellComponentSlot<*>?,
-    private val clearSelectedComponent: () -> Unit
+        x: Int,
+        y: Int,
+        width: Int,
+        height: Int,
+        private val spell: Spell,
+        private val selectedComponentGetter: () -> AOTDGuiSpellComponentSlot<*>?,
+        private val clearSelectedComponent: () -> Unit
 ) : AOTDGuiContainer(x, y, width, height)
 {
     private val spellName: AOTDGuiTextField
@@ -90,7 +90,7 @@ class AOTDGuiSpellTablet(
 
         // Create a save spell button
         val saveButton =
-            AOTDGuiButton(152, 105, 20, 20, "afraidofthedark:textures/gui/spell_editor/save.png", "afraidofthedark:textures/gui/spell_editor/save_hovered.png")
+                AOTDGuiButton(152, 105, 20, 20, "afraidofthedark:textures/gui/spell_editor/save.png", "afraidofthedark:textures/gui/spell_editor/save_hovered.png")
         saveButton.setHoverText("Save Spell")
         saveButton.addMouseListener()
         {
@@ -127,7 +127,7 @@ class AOTDGuiSpellTablet(
 
         // Create a close UI and don't save button
         val closeButton =
-            AOTDGuiButton(152, 130, 20, 20, "afraidofthedark:textures/gui/spell_editor/delete.png", "afraidofthedark:textures/gui/spell_editor/delete_hovered.png")
+                AOTDGuiButton(152, 130, 20, 20, "afraidofthedark:textures/gui/spell_editor/delete.png", "afraidofthedark:textures/gui/spell_editor/delete_hovered.png")
         closeButton.setHoverText("Exit without saving")
         // When we click the close button show the spell list
         closeButton.addMouseListener()
@@ -157,12 +157,12 @@ class AOTDGuiSpellTablet(
 
         // Create a help button
         val helpButton = AOTDGuiButton(
-            152,
-            180,
-            20,
-            20,
-            "afraidofthedark:textures/gui/spell_editor/question.png",
-            "afraidofthedark:textures/gui/spell_editor/question_hovered.png"
+                152,
+                180,
+                20,
+                20,
+                "afraidofthedark:textures/gui/spell_editor/question.png",
+                "afraidofthedark:textures/gui/spell_editor/question_hovered.png"
         )
         helpButton.setHoverText("Help")
         // When pressing help execute our on help runnable
@@ -310,16 +310,16 @@ class AOTDGuiSpellTablet(
         val nextSpellStage = AOTDGuiSpellStage(5, 5 + uiSpellStages.size * 35, 110, 45, spellStage)
         // If we click add then add a spell stage and refresh this UI component
         nextSpellStage.addRunnable =
-            {
-                spell.spellStages.add(SpellStage())
-                refresh()
-            }
+                {
+                    spell.spellStages.add(SpellStage())
+                    refresh()
+                }
         // If we click remove then the last spell stage and refresh this UI component
         nextSpellStage.removeRunnable =
-            {
-                spell.spellStages.removeAt(spell.spellStages.size - 1)
-                refresh()
-            }
+                {
+                    spell.spellStages.removeAt(spell.spellStages.size - 1)
+                    refresh()
+                }
 
         // When we click the delivery method check the selected component, if it's a delivery method perform additional updates
         val uiDeliveryMethod = nextSpellStage.deliveryMethod

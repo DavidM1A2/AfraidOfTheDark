@@ -41,10 +41,10 @@ class AnimationHandlerEnchantedSkeleton(entity: IMCAnimatedEntity) : AnimationHa
     {
         // Map of animation name to channel
         private val ANIMATION_TO_CHANNEL = mapOf(
-            "Walk" to ChannelWalk("Walk", 20.0f, 40, Channel.LINEAR),
-            "Attack" to ChannelAttack("Attack", 30.0f, 20, Channel.LINEAR),
-            "Spawn" to ChannelSpawn("Spawn", 20.0f, 40, Channel.LINEAR),
-            "Idle" to ChannelIdle("Idle", 10.0f, 20, Channel.LOOP)
+                "Walk" to ChannelWalk("Walk", 20.0f, 40, Channel.LINEAR),
+                "Attack" to ChannelAttack("Attack", 30.0f, 20, Channel.LINEAR),
+                "Spawn" to ChannelSpawn("Spawn", 20.0f, 40, Channel.LINEAR),
+                "Idle" to ChannelIdle("Idle", 10.0f, 20, Channel.LOOP)
         )
     }
 }

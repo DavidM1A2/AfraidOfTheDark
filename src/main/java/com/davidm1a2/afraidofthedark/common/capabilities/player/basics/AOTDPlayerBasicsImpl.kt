@@ -131,12 +131,12 @@ class AOTDPlayerBasicsImpl : IAOTDPlayerBasics
         if (isServerSide(entityPlayer))
         {
             AfraidOfTheDark.INSTANCE.packetHandler.sendTo(
-                UpdateWatchedMeteor(
-                    watchedMeteor,
-                    watchedMeteorDropAngle,
-                    watchedMeteorLatitude,
-                    watchedMeteorLongitude
-                ), entityPlayer as EntityPlayerMP
+                    UpdateWatchedMeteor(
+                            watchedMeteor,
+                            watchedMeteorDropAngle,
+                            watchedMeteorLatitude,
+                            watchedMeteorLongitude
+                    ), entityPlayer as EntityPlayerMP
             )
         }
     }

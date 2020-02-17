@@ -24,14 +24,14 @@ class SpellEffectSmokeScreen : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID
     init
     {
         addEditableProperty(
-            SpellComponentPropertyFactory.intProperty()
-                .withName("Smoke Density")
-                .withDescription("The number of particles present in the smoke screen.")
-                .withSetter { instance, newValue -> instance.data.setInteger(NBT_SMOKE_DENSITY, newValue) }
-                .withGetter { it.data.getInteger(NBT_SMOKE_DENSITY) }
-                .withDefaultValue(10)
-                .withMinValue(1)
-                .build()
+                SpellComponentPropertyFactory.intProperty()
+                        .withName("Smoke Density")
+                        .withDescription("The number of particles present in the smoke screen.")
+                        .withSetter { instance, newValue -> instance.data.setInteger(NBT_SMOKE_DENSITY, newValue) }
+                        .withGetter { it.data.getInteger(NBT_SMOKE_DENSITY) }
+                        .withDefaultValue(10)
+                        .withMinValue(1)
+                        .build()
         )
     }
 
@@ -53,8 +53,8 @@ class SpellEffectSmokeScreen : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID
         }
 
         AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(
-            SyncParticle(AOTDParticleRegistry.ParticleTypes.SMOKE_SCREEN_ID, positions, Collections.nCopies(positions.size, Vec3d.ZERO)),
-            TargetPoint(state.world.provider.dimension, position.x, position.y, position.z, 100.0)
+                SyncParticle(AOTDParticleRegistry.ParticleTypes.SMOKE_SCREEN_ID, positions, Collections.nCopies(positions.size, Vec3d.ZERO)),
+                TargetPoint(state.world.provider.dimension, position.x, position.y, position.z, 100.0)
         )
     }
 

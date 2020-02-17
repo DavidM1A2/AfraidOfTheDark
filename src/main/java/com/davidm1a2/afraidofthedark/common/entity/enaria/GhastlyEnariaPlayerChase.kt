@@ -64,12 +64,12 @@ class GhastlyEnariaPlayerChase(private val enaria: EntityGhastlyEnaria) : Entity
             {
                 // Move to the player
                 enaria.moveHelper
-                    .setMoveTo(
-                        targetPlayer!!.posX,
-                        targetPlayer!!.posY,
-                        targetPlayer!!.posZ,
-                        enaria.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).attributeValue
-                    )
+                        .setMoveTo(
+                                targetPlayer!!.posX,
+                                targetPlayer!!.posY,
+                                targetPlayer!!.posZ,
+                                enaria.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).attributeValue
+                        )
             }
 
             // Face the player entity always

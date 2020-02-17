@@ -97,21 +97,21 @@ class Spell : INBTSerializable<NBTTagCompound>
                         }
                         // Send the particle packet
                         AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(
-                            SyncParticle(AOTDParticleRegistry.ParticleTypes.SPELL_CAST_ID, positions, Collections.nCopies(positions.size, Vec3d.ZERO)),
-                            TargetPoint(entityPlayer.dimension, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, 100.0)
+                                SyncParticle(AOTDParticleRegistry.ParticleTypes.SPELL_CAST_ID, positions, Collections.nCopies(positions.size, Vec3d.ZERO)),
+                                TargetPoint(entityPlayer.dimension, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, 100.0)
                         )
 
                         // Tell the first delivery method to fire
                         getStage(0)!!
-                            .deliveryInstance!!
-                            .component
-                            .executeDelivery(
-                                DeliveryTransitionStateBuilder()
-                                    .withSpell(this)
-                                    .withStageIndex(0)
-                                    .withEntity(entityPlayer)
-                                    .build()
-                            )
+                                .deliveryInstance!!
+                                .component
+                                .executeDelivery(
+                                        DeliveryTransitionStateBuilder()
+                                                .withSpell(this)
+                                                .withStageIndex(0)
+                                                .withEntity(entityPlayer)
+                                                .build()
+                                )
                     }
                     else
                     {

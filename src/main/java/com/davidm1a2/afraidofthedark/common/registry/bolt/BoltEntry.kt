@@ -16,9 +16,9 @@ import net.minecraftforge.registries.IForgeRegistryEntry
  * @param preRequisite The pre-requisite research that needs to be researched for this to be used
  */
 abstract class BoltEntry constructor(
-    val boltItem: Item,
-    val boltEntityFactory: (World, EntityPlayer) -> EntityBolt,
-    val preRequisite: Research?
+        val boltItem: Item,
+        val boltEntityFactory: (World, EntityPlayer) -> EntityBolt,
+        val preRequisite: Research?
 ) : IForgeRegistryEntry.Impl<BoltEntry>()
 {
     /**

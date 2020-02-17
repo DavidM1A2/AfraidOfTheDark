@@ -51,8 +51,8 @@ class SpellCharmHandler
                     {
                         // Compute the vector from the charming entity to the charmed entity
                         val direction = Vec3d(charmingEntity.posX, charmingEntity.posY, charmingEntity.posZ)
-                            .subtract(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ)
-                            .normalize()
+                                .subtract(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ)
+                                .normalize()
 
                         // Convert 3d direction vector to pitch and yaw
                         val yaw = (-atan2(direction.x, direction.z) * 180 / Math.PI).toFloat()
@@ -60,10 +60,10 @@ class SpellCharmHandler
 
                         // Set the player's look to be at the charming entity
                         (entityPlayer as EntityPlayerMP).connection.setPlayerLocation(
-                            0.0, 0.0, 0.0,
-                            yaw,
-                            pitch,
-                            setOf(EnumFlags.X, EnumFlags.Y, EnumFlags.Z)
+                                0.0, 0.0, 0.0,
+                                yaw,
+                                pitch,
+                                setOf(EnumFlags.X, EnumFlags.Y, EnumFlags.Z)
                         )
                     }
                 }

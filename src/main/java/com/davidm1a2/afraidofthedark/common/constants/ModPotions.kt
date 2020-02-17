@@ -10,6 +10,6 @@ object ModPotions
     val SLEEPING_POTION = PotionSleeping()
 
     val POTION_LIST = arrayOf(
-        SLEEPING_POTION
+            SLEEPING_POTION
     )
 }

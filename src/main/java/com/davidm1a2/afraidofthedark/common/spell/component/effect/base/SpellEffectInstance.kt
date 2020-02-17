@@ -21,7 +21,7 @@ class SpellEffectInstance(component: SpellEffect) : SpellComponentInstance<Spell
             val effectTypeId = nbt.getString(NBT_TYPE_ID)
             // Use our registry to create a new instance of this type
             val instance = SpellEffectInstance(
-                ModRegistries.SPELL_EFFECTS.getValue(ResourceLocation(effectTypeId))
+                    ModRegistries.SPELL_EFFECTS.getValue(ResourceLocation(effectTypeId))
                     ?: throw IllegalArgumentException("$effectTypeId doesn't exist!")
             )
             // Deserialize the instance and return it

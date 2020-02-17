@@ -63,7 +63,7 @@ object NBTHelper
                 catch (e: IOException)
                 {
                     AfraidOfTheDark.INSTANCE.logger.error(
-                        "Could not read player data for file ${playerData.absolutePath}, exception was:\n${ExceptionUtils.getStackTrace(e)}"
+                            "Could not read player data for file ${playerData.absolutePath}, exception was:\n${ExceptionUtils.getStackTrace(e)}"
                     )
                 }
             }

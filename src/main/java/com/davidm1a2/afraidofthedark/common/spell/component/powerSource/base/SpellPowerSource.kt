@@ -11,7 +11,8 @@ import net.minecraft.util.ResourceLocation
  * @constructor just passes on the id and factory
  * @param id The ID of this power source
  */
-abstract class SpellPowerSource(id: ResourceLocation) : SpellComponent<SpellPowerSource>(id, ResourceLocation(id.resourceDomain, "textures/gui/spell_component/power_sources/${id.resourcePath}.png"))
+abstract class SpellPowerSource(id: ResourceLocation) :
+        SpellComponent<SpellPowerSource>(id, ResourceLocation(id.resourceDomain, "textures/gui/spell_component/power_sources/${id.resourcePath}.png"))
 {
     /**
      * True if the given spell can be cast, false otherwise

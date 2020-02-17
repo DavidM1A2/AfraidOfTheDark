@@ -19,9 +19,9 @@ import java.util.*
  * @property targetEntity The entity that is currently targeted by the werewolf
  */
 class CustomWerewolfTargetLocator internal constructor(
-    entityCreature: EntityCreature,
-    shouldCheckSight: Boolean,
-    private val targetChance: Int
+        entityCreature: EntityCreature,
+        shouldCheckSight: Boolean,
+        private val targetChance: Int
 ) : EntityAITarget(entityCreature, shouldCheckSight, false)
 {
     private val sorter: Sorter
@@ -37,37 +37,37 @@ class CustomWerewolfTargetLocator internal constructor(
 
         // Create a target predicate which tells us if an entity is valid or not for selection
         targetEntitySelector =
-            {
-                // Grab the range at which the werewolf can follow targets
-                var followRange = this@CustomWerewolfTargetLocator.targetDistance
-
-                // If the player is sneaking reduce the follow range
-                if (it.isSneaking)
                 {
-                    followRange = followRange * 0.8
-                }
+                    // Grab the range at which the werewolf can follow targets
+                    var followRange = this@CustomWerewolfTargetLocator.targetDistance
 
-                // Of the player is invis reduce the follow range based on if the player has armor or not
-                if (it.isInvisible)
-                {
-                    var visibility = it.armorVisibility
-                    if (visibility < 0.1)
+                    // If the player is sneaking reduce the follow range
+                    if (it.isSneaking)
                     {
-                        visibility = 0.1f
+                        followRange = followRange * 0.8
                     }
-                    followRange = followRange * visibility * 0.7f
-                }
 
-                // If the player is to far to follow dont do anything
-                if (it.getDistance(taskOwner) > followRange)
-                {
-                    false
+                    // Of the player is invis reduce the follow range based on if the player has armor or not
+                    if (it.isInvisible)
+                    {
+                        var visibility = it.armorVisibility
+                        if (visibility < 0.1)
+                        {
+                            visibility = 0.1f
+                        }
+                        followRange = followRange * visibility * 0.7f
+                    }
+
+                    // If the player is to far to follow dont do anything
+                    if (it.getDistance(taskOwner) > followRange)
+                    {
+                        false
+                    }
+                    else
+                    {
+                        isSuitableTarget(it, false)
+                    }
                 }
-                else
-                {
-                    isSuitableTarget(it, false)
-                }
-            }
     }
 
     /**
@@ -89,8 +89,8 @@ class CustomWerewolfTargetLocator internal constructor(
 
             // Grab a list of nearby players sorted by distance
             val nearbyPlayers = taskOwner.world.getEntitiesWithinAABB(EntityPlayer::class.java, taskOwner.entityBoundingBox.grow(followRange, 4.0, followRange))
-                .filter { targetEntitySelector(it) }
-                .sortedWith(sorter)
+                    .filter { targetEntitySelector(it) }
+                    .sortedWith(sorter)
 
             // Iterate over all players nearby and pick a valid target
             for (entityPlayer in nearbyPlayers)

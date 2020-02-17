@@ -81,9 +81,9 @@ class DelayedDeliveryEntry
         if (state.getEntity() != null)
         {
             state = DeliveryTransitionStateBuilder()
-                .copyOf(state) // With entity updates the pos and direction
-                .withEntity(state.getEntity()!!)
-                .build()
+                    .copyOf(state) // With entity updates the pos and direction
+                    .withEntity(state.getEntity()!!)
+                    .build()
         }
         // Proc effects and transition, then return true since we delivered
         deliveryMethod.procEffects(state)

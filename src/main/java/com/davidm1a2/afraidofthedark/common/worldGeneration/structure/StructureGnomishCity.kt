@@ -174,14 +174,15 @@ class StructureGnomishCity : AOTDStructure("gnomish_city")
         do
         {
             stairs1To2 = world.rand.nextInt(9)
-        } while (stairSurfaceTo1 == stairs1To2 || stairs2ToEnaria == stairs1To2)
+        }
+        while (stairSurfaceTo1 == stairs1To2 || stairs2ToEnaria == stairs1To2)
 
         // Create a queue of rooms where each room is represented twice.
         val roomIndicesQueue = LinkedList<Int>()
         // Populate the list with the indices 0-length twice
         ModSchematics.GNOMISH_CITY_ROOMS.indices
-            .flatMap { listOf(it, it) }
-            .forEach { roomIndicesQueue.add(it) }
+                .flatMap { listOf(it, it) }
+                .forEach { roomIndicesQueue.add(it) }
         // Shuffle the list so it's random
         roomIndicesQueue.shuffle(world.rand)
 
@@ -204,8 +205,8 @@ class StructureGnomishCity : AOTDStructure("gnomish_city")
 
                     // The room will always occur at the same position
                     room.setTag(
-                        NBT_POSITION,
-                        NBTUtil.createPosTag(blockPos.add(xIndex * 50, floor * 15 + 15, zIndex * 50))
+                            NBT_POSITION,
+                            NBTUtil.createPosTag(blockPos.add(xIndex * 50, floor * 15 + 15, zIndex * 50))
                     )
 
                     // If the room is the stair from surface to level 1 and the floor is upper (1) generate the stair room and stairwell
@@ -215,8 +216,8 @@ class StructureGnomishCity : AOTDStructure("gnomish_city")
                         // Create an NBT for the surface stairs that are used to walk down into the gnomish city
                         val surfaceStairs = NBTTagCompound()
                         surfaceStairs.setTag(
-                            NBT_POSITION,
-                            NBTUtil.createPosTag(blockPos.add(xIndex * 50 + 13, floor * 15 + 30, zIndex * 50 + 13))
+                                NBT_POSITION,
+                                NBTUtil.createPosTag(blockPos.add(xIndex * 50 + 13, floor * 15 + 30, zIndex * 50 + 13))
                         )
                         compound.setTag(NBT_SURFACE_STAIRS, surfaceStairs)
                     }
@@ -238,8 +239,8 @@ class StructureGnomishCity : AOTDStructure("gnomish_city")
                         // Create the enaria lair too to fit under this room
                         val enariaRoom = NBTTagCompound()
                         enariaRoom.setTag(
-                            NBT_POSITION,
-                            NBTUtil.createPosTag(blockPos.add(xIndex * 50 - 14, floor * 15, zIndex * 50 - 73))
+                                NBT_POSITION,
+                                NBTUtil.createPosTag(blockPos.add(xIndex * 50 - 14, floor * 15, zIndex * 50 - 73))
                         )
                         compound.setTag(NBT_ENARIAS_LAIR, enariaRoom)
                     }
@@ -274,16 +275,16 @@ class StructureGnomishCity : AOTDStructure("gnomish_city")
                     // Create an east-west tunnel for these parameters
                     val tunnelEW = NBTTagCompound()
                     tunnelEW.setTag(
-                        NBT_POSITION,
-                        NBTUtil.createPosTag(blockPos.add(i * 50 + 13, floor * 15 + 15 + 7, j * 50 + 32))
+                            NBT_POSITION,
+                            NBTUtil.createPosTag(blockPos.add(i * 50 + 13, floor * 15 + 15 + 7, j * 50 + 32))
                     )
                     tunnelsEW.appendTag(tunnelEW)
 
                     // Create a north-south tunnel for these parameters
                     val tunnelNS = NBTTagCompound()
                     tunnelNS.setTag(
-                        NBT_POSITION,
-                        NBTUtil.createPosTag(blockPos.add(j * 50 + 32, floor * 15 + 15 + 7, i * 50 + 13))
+                            NBT_POSITION,
+                            NBTUtil.createPosTag(blockPos.add(j * 50 + 32, floor * 15 + 15 + 7, i * 50 + 13))
                     )
                     tunnelsNS.appendTag(tunnelNS)
                 }

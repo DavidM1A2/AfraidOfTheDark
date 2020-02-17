@@ -18,11 +18,11 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
  * @property componentInstance The instance of this spell component
  */
 abstract class AOTDGuiSpellComponentSlot<T : SpellComponent<T>>(
-    x: Int,
-    y: Int,
-    width: Int,
-    height: Int,
-    slotBackground: String
+        x: Int,
+        y: Int,
+        width: Int,
+        height: Int,
+        slotBackground: String
 ) : AOTDGuiContainer(x, y, width, height)
 {
     private val icon: AOTDGuiImage

@@ -36,9 +36,9 @@ import kotlin.math.*
  * @property leafIntegrity The percent leaf block integrity
  */
 class AOTDWorldGenBigTree(
-    notify: Boolean,
-    private val wood: IBlockState,
-    private val leaves: IBlockState
+        notify: Boolean,
+        private val wood: IBlockState,
+        private val leaves: IBlockState
 ) : WorldGenAbstractTree(notify)
 {
     ///
@@ -301,9 +301,9 @@ class AOTDWorldGenBigTree(
         for (j in 0..i)
         {
             val blockpos1 = startBlockPos.add(
-                (0.5f + j.toFloat() * f).toDouble(),
-                (0.5f + j.toFloat() * f1).toDouble(),
-                (0.5f + j.toFloat() * f2).toDouble()
+                    (0.5f + j.toFloat() * f).toDouble(),
+                    (0.5f + j.toFloat() * f1).toDouble(),
+                    (0.5f + j.toFloat() * f2).toDouble()
             )
             val logAxis = getLogAxis(startBlockPos, blockpos1)
             setBlockAndNotifyAdequately(world!!, blockpos1, wood.withProperty(BlockLog.LOG_AXIS, logAxis))
@@ -361,9 +361,9 @@ class AOTDWorldGenBigTree(
     private fun generateLeaves()
     {
         for (foliageCoordinates in foliageCoords!!) for (i in 0 until leafDistanceLimit) crossSection(
-            foliageCoordinates.up(i),
-            leafSize(i),
-            leaves.withProperty(BlockLeaves.CHECK_DECAY, java.lang.Boolean.FALSE)
+                foliageCoordinates.up(i),
+                leafSize(i),
+                leaves.withProperty(BlockLeaves.CHECK_DECAY, java.lang.Boolean.FALSE)
         )
     }
 
@@ -397,9 +397,9 @@ class AOTDWorldGenBigTree(
             {
                 limb(blockpos, foliageCoordinates)
                 setBlockAndNotifyAdequately(
-                    world!!,
-                    foliageCoordinates.up(leafDistanceLimit / 2),
-                    wood.withProperty(BlockLog.LOG_AXIS, EnumAxis.Y)
+                        world!!,
+                        foliageCoordinates.up(leafDistanceLimit / 2),
+                        wood.withProperty(BlockLog.LOG_AXIS, EnumAxis.Y)
                 )
             }
         }
@@ -429,9 +429,9 @@ class AOTDWorldGenBigTree(
             for (j in 0..i)
             {
                 val blockpos1 = posOne.add(
-                    (0.5f + j.toFloat() * f).toDouble(),
-                    (0.5f + j.toFloat() * f1).toDouble(),
-                    (0.5f + j.toFloat() * f2).toDouble()
+                        (0.5f + j.toFloat() * f).toDouble(),
+                        (0.5f + j.toFloat() * f1).toDouble(),
+                        (0.5f + j.toFloat() * f2).toDouble()
                 )
                 if (!isReplaceable(world!!, blockpos1))
                 {

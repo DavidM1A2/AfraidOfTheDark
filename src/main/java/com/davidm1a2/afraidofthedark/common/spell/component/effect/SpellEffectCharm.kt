@@ -23,15 +23,15 @@ class SpellEffectCharm : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "cha
     init
     {
         addEditableProperty(
-            SpellComponentPropertyFactory.intProperty()
-                .withName("Charm Duration")
-                .withDescription("The number of ticks to charm to when hitting players.")
-                .withSetter { instance, newValue -> instance.data.setInteger(NBT_CHARM_DURATION, newValue) }
-                .withGetter { it.data.getInteger(NBT_CHARM_DURATION) }
-                .withDefaultValue(40)
-                .withMinValue(1)
-                .withMaxValue(1200)
-                .build()
+                SpellComponentPropertyFactory.intProperty()
+                        .withName("Charm Duration")
+                        .withDescription("The number of ticks to charm to when hitting players.")
+                        .withSetter { instance, newValue -> instance.data.setInteger(NBT_CHARM_DURATION, newValue) }
+                        .withGetter { it.data.getInteger(NBT_CHARM_DURATION) }
+                        .withDefaultValue(40)
+                        .withMinValue(1)
+                        .withMaxValue(1200)
+                        .build()
         )
     }
 
@@ -65,18 +65,18 @@ class SpellEffectCharm : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "cha
             for (i in 0..3)
             {
                 state.world.spawnParticle(
-                    EnumParticleTypes.HEART,
-                    // The position will be somewhere inside the player's hitbox
-                    state.position.x + random.nextFloat() * width * 2.0f - width,
-                    state.position.y + 0.5 + random.nextFloat() * height,
-                    state.position.z + random.nextFloat() * width * 2.0f - width,
-                    // Spawn one particle
-                    1,
-                    // Randomize velocity
-                    random.nextGaussian() * 0.02,
-                    random.nextGaussian() * 0.02,
-                    random.nextGaussian() * 0.02,
-                    0.02
+                        EnumParticleTypes.HEART,
+                        // The position will be somewhere inside the player's hitbox
+                        state.position.x + random.nextFloat() * width * 2.0f - width,
+                        state.position.y + 0.5 + random.nextFloat() * height,
+                        state.position.z + random.nextFloat() * width * 2.0f - width,
+                        // Spawn one particle
+                        1,
+                        // Randomize velocity
+                        random.nextGaussian() * 0.02,
+                        random.nextGaussian() * 0.02,
+                        random.nextGaussian() * 0.02,
+                        0.02
                 )
             }
         }

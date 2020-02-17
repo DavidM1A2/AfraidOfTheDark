@@ -19,25 +19,25 @@ class SpellEffectFeed : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "feed
     init
     {
         addEditableProperty(
-            SpellComponentPropertyFactory.intProperty()
-                .withName("Hunger Amount")
-                .withDescription("The amount of food half 'drumsticks' to restore.")
-                .withSetter { instance, newValue -> instance.data.setInteger(NBT_HUNGER_VALUE, newValue) }
-                .withGetter { it.data.getInteger(NBT_HUNGER_VALUE) }
-                .withDefaultValue(2)
-                .withMinValue(1)
-                .withMaxValue(300)
-                .build()
+                SpellComponentPropertyFactory.intProperty()
+                        .withName("Hunger Amount")
+                        .withDescription("The amount of food half 'drumsticks' to restore.")
+                        .withSetter { instance, newValue -> instance.data.setInteger(NBT_HUNGER_VALUE, newValue) }
+                        .withGetter { it.data.getInteger(NBT_HUNGER_VALUE) }
+                        .withDefaultValue(2)
+                        .withMinValue(1)
+                        .withMaxValue(300)
+                        .build()
         )
         addEditableProperty(
-            SpellComponentPropertyFactory.intProperty()
-                .withName("Saturation Amount")
-                .withDescription("The amount of saturation restore.")
-                .withSetter { instance, newValue -> instance.data.setInteger(NBT_SATURATION_VALUE, newValue) }
-                .withGetter { it.data.getInteger(NBT_SATURATION_VALUE) }
-                .withDefaultValue(1)
-                .withMinValue(0)
-                .build()
+                SpellComponentPropertyFactory.intProperty()
+                        .withName("Saturation Amount")
+                        .withDescription("The amount of saturation restore.")
+                        .withSetter { instance, newValue -> instance.data.setInteger(NBT_SATURATION_VALUE, newValue) }
+                        .withGetter { it.data.getInteger(NBT_SATURATION_VALUE) }
+                        .withDefaultValue(1)
+                        .withMinValue(0)
+                        .build()
         )
     }
 

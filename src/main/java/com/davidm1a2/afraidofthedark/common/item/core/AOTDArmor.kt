@@ -18,7 +18,7 @@ import net.minecraft.item.ItemArmor
  * @property maxDamageBlocked The maximum damage blocked by the armor
  */
 abstract class AOTDArmor(baseName: String, material: ArmorMaterial, renderIndex: Int, equipmentSlot: EntityEquipmentSlot, displayInCreative: Boolean = true) :
-    ItemArmor(material, renderIndex, equipmentSlot)
+        ItemArmor(material, renderIndex, equipmentSlot)
 {
     protected var percentOfDamageBlocked = 0.0
     protected var maxDamageBlocked = 0
@@ -45,8 +45,8 @@ abstract class AOTDArmor(baseName: String, material: ArmorMaterial, renderIndex:
         val armorInventory = entityPlayer.inventory.armorInventory
         val armorClass = this.javaClass
         return armorClass.isInstance(armorInventory[0].item) &&
-                armorClass.isInstance(armorInventory[1].item) &&
-                armorClass.isInstance(armorInventory[2].item) &&
-                armorClass.isInstance(armorInventory[3].item)
+               armorClass.isInstance(armorInventory[1].item) &&
+               armorClass.isInstance(armorInventory[2].item) &&
+               armorClass.isInstance(armorInventory[3].item)
     }
 }

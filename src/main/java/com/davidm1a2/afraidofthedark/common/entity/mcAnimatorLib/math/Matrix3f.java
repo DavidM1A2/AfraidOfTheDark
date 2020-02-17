@@ -1299,7 +1299,8 @@ public final class Matrix3f implements Cloneable, java.io.Serializable
         try
         {
             return (Matrix3f) super.clone();
-        } catch (CloneNotSupportedException e)
+        }
+        catch (CloneNotSupportedException e)
         {
             throw new AssertionError(); // can not happen
         }

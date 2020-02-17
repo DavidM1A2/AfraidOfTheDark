@@ -21,13 +21,13 @@ import org.lwjgl.util.Color
  * @property color The color of the background and text
  */
 open class AOTDGuiButton(
-    x: Int,
-    y: Int,
-    width: Int,
-    height: Int,
-    private val icon: ResourceLocation,
-    private val iconHovered: ResourceLocation,
-    font: TrueTypeFont? = null
+        x: Int,
+        y: Int,
+        width: Int,
+        height: Int,
+        private val icon: ResourceLocation,
+        private val iconHovered: ResourceLocation,
+        font: TrueTypeFont? = null
 ) : AOTDGuiContainer(x, y, width, height)
 {
     private val background: AOTDGuiImage
@@ -71,13 +71,13 @@ open class AOTDGuiButton(
      * @param iconHovered The icon to use for the background of the button when the button is hovered
      */
     constructor(x: Int, y: Int, width: Int, height: Int, icon: String, iconHovered: String = icon, font: TrueTypeFont? = null) : this(
-        x,
-        y,
-        width,
-        height,
-        ResourceLocation(icon),
-        ResourceLocation(iconHovered),
-        font
+            x,
+            y,
+            width,
+            height,
+            ResourceLocation(icon),
+            ResourceLocation(iconHovered),
+            font
     )
 
     /**

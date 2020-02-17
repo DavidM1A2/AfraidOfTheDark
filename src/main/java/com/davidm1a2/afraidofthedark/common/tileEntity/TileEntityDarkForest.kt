@@ -34,15 +34,15 @@ class TileEntityDarkForest : AOTDTickingTileEntity(ModBlocks.DARK_FOREST)
             {
                 // Grab all nearby players
                 for (entityPlayer in world.getEntitiesWithinAABB(
-                    EntityPlayer::class.java,
-                    AxisAlignedBB(
-                        pos.x.toDouble(),
-                        pos.y.toDouble(),
-                        pos.z.toDouble(),
-                        (pos.x + 1).toDouble(),
-                        (pos.y + 1).toDouble(),
-                        (pos.z + 1).toDouble()
-                    ).grow(CHECK_RANGE.toDouble())
+                        EntityPlayer::class.java,
+                        AxisAlignedBB(
+                                pos.x.toDouble(),
+                                pos.y.toDouble(),
+                                pos.z.toDouble(),
+                                (pos.x + 1).toDouble(),
+                                (pos.y + 1).toDouble(),
+                                (pos.z + 1).toDouble()
+                        ).grow(CHECK_RANGE.toDouble())
                 ))
                 {
                     // Grab their research

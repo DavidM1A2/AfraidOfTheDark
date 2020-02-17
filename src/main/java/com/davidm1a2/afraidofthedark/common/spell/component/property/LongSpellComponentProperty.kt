@@ -14,37 +14,37 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
  * @param maxValue     The maximum value of the property
  */
 internal class LongSpellComponentProperty(
-    name: String,
-    description: String,
-    setter: (SpellComponentInstance<*>, Long) -> Unit,
-    getter: (SpellComponentInstance<*>) -> Long,
-    defaultValue: Long,
-    minValue: Long?,
-    maxValue: Long?
+        name: String,
+        description: String,
+        setter: (SpellComponentInstance<*>, Long) -> Unit,
+        getter: (SpellComponentInstance<*>) -> Long,
+        defaultValue: Long,
+        minValue: Long?,
+        maxValue: Long?
 ) : SpellComponentProperty(
-    name,
-    description,
-    { instance, newValue ->
-        // Ensure the number is parsable
-        val longValue = newValue.toLongOrNull() ?: throw InvalidValueException("$newValue is not a valid integer!")
+        name,
+        description,
+        { instance, newValue ->
+            // Ensure the number is parsable
+            val longValue = newValue.toLongOrNull() ?: throw InvalidValueException("$newValue is not a valid integer!")
 
-        // Ensure the long is valid
-        if (minValue != null && longValue < minValue)
+            // Ensure the long is valid
+            if (minValue != null && longValue < minValue)
+            {
+                setter(instance, defaultValue)
+                throw InvalidValueException("$name must be larger than or equal to $minValue");
+            }
+            if (maxValue != null && longValue > maxValue)
+            {
+                setter(instance, defaultValue)
+                throw InvalidValueException("$name must be smaller than than or equal to $maxValue");
+            }
+            setter(instance, longValue)
+        },
         {
-            setter(instance, defaultValue)
-            throw InvalidValueException("$name must be larger than or equal to $minValue");
-        }
-        if (maxValue != null && longValue > maxValue)
+            getter(it).toString()
+        },
         {
-            setter(instance, defaultValue)
-            throw InvalidValueException("$name must be smaller than than or equal to $maxValue");
+            setter(it, defaultValue)
         }
-        setter(instance, longValue)
-    },
-    {
-        getter(it).toString()
-    },
-    {
-        setter(it, defaultValue)
-    }
 )

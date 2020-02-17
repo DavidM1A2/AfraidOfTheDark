@@ -20,14 +20,14 @@ class SpellEffectHeal : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "heal
     init
     {
         addEditableProperty(
-            SpellComponentPropertyFactory.intProperty()
-                .withName("Heal Amount")
-                .withDescription("The amount of half hearts to restore.")
-                .withSetter { instance, newValue -> instance.data.setInteger(NBT_HEALING_AMOUNT, newValue) }
-                .withGetter { it.data.getInteger(NBT_HEALING_AMOUNT) }
-                .withDefaultValue(2)
-                .withMinValue(1)
-                .build()
+                SpellComponentPropertyFactory.intProperty()
+                        .withName("Heal Amount")
+                        .withDescription("The amount of half hearts to restore.")
+                        .withSetter { instance, newValue -> instance.data.setInteger(NBT_HEALING_AMOUNT, newValue) }
+                        .withGetter { it.data.getInteger(NBT_HEALING_AMOUNT) }
+                        .withDefaultValue(2)
+                        .withMinValue(1)
+                        .build()
         )
     }
 

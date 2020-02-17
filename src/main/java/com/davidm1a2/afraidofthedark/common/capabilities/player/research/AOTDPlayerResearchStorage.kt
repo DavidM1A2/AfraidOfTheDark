@@ -44,10 +44,10 @@ class AOTDPlayerResearchStorage : IStorage<IAOTDPlayerResearch>
      * @param nbt        An NBTTagCompound that contains all info about the capability
      */
     override fun readNBT(
-        capability: Capability<IAOTDPlayerResearch>,
-        instance: IAOTDPlayerResearch,
-        side: EnumFacing?,
-        nbt: NBTBase
+            capability: Capability<IAOTDPlayerResearch>,
+            instance: IAOTDPlayerResearch,
+            side: EnumFacing?,
+            nbt: NBTBase
     )
     {
         // Test if the nbt tag base is an NBT tag compound

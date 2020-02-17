@@ -20,7 +20,7 @@ import net.minecraft.util.ResourceLocation
  * @property v the y value to start drawing from inside the texture
  */
 class AOTDGuiImage(x: Int, y: Int, width: Int, height: Int, var imageTexture: ResourceLocation, private var textureWidth: Int = -1, private var textureHeight: Int = -1) :
-    AOTDGuiContainer(x, y, width, height)
+        AOTDGuiContainer(x, y, width, height)
 {
     var u = 0
     var v = 0
@@ -37,13 +37,13 @@ class AOTDGuiImage(x: Int, y: Int, width: Int, height: Int, var imageTexture: Re
      * @param textureHeight The height of the image png texture
      */
     constructor(x: Int, y: Int, width: Int, height: Int, imageTexture: String, textureWidth: Int = -1, textureHeight: Int = -1) : this(
-        x,
-        y,
-        width,
-        height,
-        ResourceLocation(imageTexture),
-        textureWidth,
-        textureHeight
+            x,
+            y,
+            width,
+            height,
+            ResourceLocation(imageTexture),
+            textureWidth,
+            textureHeight
     )
 
     /**
@@ -64,29 +64,29 @@ class AOTDGuiImage(x: Int, y: Int, width: Int, height: Int, var imageTexture: Re
             if (textureHeight == -1 || textureWidth == -1)
             {
                 Gui.drawModalRectWithCustomSizedTexture(
-                    this.getXScaled(),
-                    this.getYScaled(),
-                    this.u.toFloat(),
-                    this.v.toFloat(),
-                    this.getWidthScaled(),
-                    this.getHeightScaled(),
-                    this.getWidthScaled().toFloat(),
-                    this.getHeightScaled().toFloat()
+                        this.getXScaled(),
+                        this.getYScaled(),
+                        this.u.toFloat(),
+                        this.v.toFloat(),
+                        this.getWidthScaled(),
+                        this.getHeightScaled(),
+                        this.getWidthScaled().toFloat(),
+                        this.getHeightScaled().toFloat()
                 )
             }
             else
             {
                 Gui.drawScaledCustomSizeModalRect(
-                    this.getXScaled(),
-                    this.getYScaled(),
-                    this.u.toFloat(),
-                    this.v.toFloat(),
-                    this.getWidth(),
-                    this.getHeight(),
-                    this.getWidthScaled(),
-                    this.getHeightScaled(),
-                    this.textureWidth.toFloat(),
-                    this.textureHeight.toFloat()
+                        this.getXScaled(),
+                        this.getYScaled(),
+                        this.u.toFloat(),
+                        this.v.toFloat(),
+                        this.getWidth(),
+                        this.getHeight(),
+                        this.getWidthScaled(),
+                        this.getHeightScaled(),
+                        this.textureWidth.toFloat(),
+                        this.textureHeight.toFloat()
                 )
             }
             GlStateManager.popMatrix()

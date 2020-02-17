@@ -30,24 +30,24 @@ class SpellDeliveryMethodLaser : AOTDSpellDeliveryMethod(ResourceLocation(Consta
     init
     {
         addEditableProperty(
-            SpellComponentPropertyFactory.doubleProperty()
-                .withName("Range")
-                .withDescription("The range of the laser in blocks.")
-                .withSetter { instance, newValue -> instance.data.setDouble(NBT_RANGE, newValue) }
-                .withGetter { it.data.getDouble(NBT_RANGE) }
-                .withDefaultValue(50.0)
-                .withMinValue(1.0)
-                .withMaxValue(300.0)
-                .build()
+                SpellComponentPropertyFactory.doubleProperty()
+                        .withName("Range")
+                        .withDescription("The range of the laser in blocks.")
+                        .withSetter { instance, newValue -> instance.data.setDouble(NBT_RANGE, newValue) }
+                        .withGetter { it.data.getDouble(NBT_RANGE) }
+                        .withDefaultValue(50.0)
+                        .withMinValue(1.0)
+                        .withMaxValue(300.0)
+                        .build()
         )
         addEditableProperty(
-            SpellComponentPropertyFactory.booleanProperty()
-                .withName("Hit Liquids")
-                .withDescription("'True' to let liquid blocks be hit, or 'false' to go through them.")
-                .withSetter { instance, newValue -> instance.data.setBoolean(NBT_HIT_LIQUIDS, newValue) }
-                .withGetter { it.data.getBoolean(NBT_HIT_LIQUIDS) }
-                .withDefaultValue(false)
-                .build()
+                SpellComponentPropertyFactory.booleanProperty()
+                        .withName("Hit Liquids")
+                        .withDescription("'True' to let liquid blocks be hit, or 'false' to go through them.")
+                        .withSetter { instance, newValue -> instance.data.setBoolean(NBT_HIT_LIQUIDS, newValue) }
+                        .withGetter { it.data.getBoolean(NBT_HIT_LIQUIDS) }
+                        .withDefaultValue(false)
+                        .build()
         )
     }
 
@@ -82,15 +82,15 @@ class SpellDeliveryMethodLaser : AOTDSpellDeliveryMethod(ResourceLocation(Consta
         val potentialHitEntities = world.getEntitiesWithinAABB(Entity::class.java, AxisAlignedBB(startPos.x, startPos.y, startPos.z, hitPos.x, hitPos.y, hitPos.z))
 
         val hitEntity = potentialHitEntities
-            // Don't hitscan ourselves
-            .filter { it !== entity }
-            // Ensure the entity is along the path with the ray
-            .filter { it.entityBoundingBox.calculateIntercept(startPos, hitPos) != null }
-            // Find the closest entity
-            .minWith(Comparator<Entity>
-            { entity1, entity2 ->
-                entity1.getDistanceSq(BlockPos(startPos)).compareTo(entity2.getDistanceSq(BlockPos(hitPos)))
-            })
+                // Don't hitscan ourselves
+                .filter { it !== entity }
+                // Ensure the entity is along the path with the ray
+                .filter { it.entityBoundingBox.calculateIntercept(startPos, hitPos) != null }
+                // Find the closest entity
+                .minWith(Comparator<Entity>
+                { entity1, entity2 ->
+                    entity1.getDistanceSq(BlockPos(startPos)).compareTo(entity2.getDistanceSq(BlockPos(hitPos)))
+                })
         hitPos = hitEntity?.positionVector ?: hitPos
 
         // Compute the distance the ray traveled
@@ -106,8 +106,8 @@ class SpellDeliveryMethodLaser : AOTDSpellDeliveryMethod(ResourceLocation(Consta
 
         // Spawn laser particles
         AfraidOfTheDark.INSTANCE.packetHandler.sendToDimension(
-            SyncParticle(AOTDParticleRegistry.ParticleTypes.SPELL_LASER, laserPositions, Collections.nCopies(numParticlesToSpawn, Vec3d.ZERO)),
-            state.world.provider.dimension
+                SyncParticle(AOTDParticleRegistry.ParticleTypes.SPELL_LASER, laserPositions, Collections.nCopies(numParticlesToSpawn, Vec3d.ZERO)),
+                state.world.provider.dimension
         )
 
         // Begin performing effects and transition
@@ -115,22 +115,22 @@ class SpellDeliveryMethodLaser : AOTDSpellDeliveryMethod(ResourceLocation(Consta
         {
             // Apply the effect to the hit entity
             DeliveryTransitionStateBuilder()
-                .withSpell(state.spell)
-                .withStageIndex(state.stageIndex)
-                .withEntity(hitEntity)
-                .build()
+                    .withSpell(state.spell)
+                    .withStageIndex(state.stageIndex)
+                    .withEntity(hitEntity)
+                    .build()
         }
         else
         {
             // Apply the effect at the hit position
             DeliveryTransitionStateBuilder()
-                .withSpell(state.spell)
-                .withStageIndex(state.stageIndex)
-                .withWorld(state.world)
-                .withPosition(hitPos)
-                .withBlockPosition(hitBlockPos)
-                .withDirection(hitPos.subtract(startPos).normalize())
-                .build()
+                    .withSpell(state.spell)
+                    .withStageIndex(state.stageIndex)
+                    .withWorld(state.world)
+                    .withPosition(hitPos)
+                    .withBlockPosition(hitBlockPos)
+                    .withDirection(hitPos.subtract(startPos).normalize())
+                    .build()
         }
         procEffects(currentState)
         transitionFrom(currentState)
@@ -159,10 +159,10 @@ class SpellDeliveryMethodLaser : AOTDSpellDeliveryMethod(ResourceLocation(Consta
 
         // Perform the transition between the next delivery method and the current delivery method
         spell.getStage(spellIndex + 1)!!.deliveryInstance!!.component.executeDelivery(
-            DeliveryTransitionStateBuilder()
-                .copyOf(state)
-                .withStageIndex(spellIndex + 1)
-                .build()
+                DeliveryTransitionStateBuilder()
+                        .copyOf(state)
+                        .withStageIndex(spellIndex + 1)
+                        .build()
         )
     }
 

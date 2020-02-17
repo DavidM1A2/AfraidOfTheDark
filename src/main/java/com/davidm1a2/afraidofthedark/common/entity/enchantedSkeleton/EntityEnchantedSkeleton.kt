@@ -303,8 +303,8 @@ class EntityEnchantedSkeleton(world: World) : EntityMob(world), IMCAnimatedEntit
 
             // Send a packet to the other players telling them the skeleton attacked
             AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(
-                SyncAnimation("Attack", this, "Attack", "Spawn"),
-                TargetPoint(dimension, posX, posY, posZ, 15.0)
+                    SyncAnimation("Attack", this, "Attack", "Spawn"),
+                    TargetPoint(dimension, posX, posY, posZ, 15.0)
             )
         }
         return super.attackEntityAsMob(entity)

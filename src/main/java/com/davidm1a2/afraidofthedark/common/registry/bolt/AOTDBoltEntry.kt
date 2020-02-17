@@ -17,7 +17,8 @@ import net.minecraft.world.World
  * @param boltEntityFactory The entity that this bolt entry represents
  * @param preRequisite      The research that is required to use this bolt
  */
-class AOTDBoltEntry(name: String, boltItem: Item, boltEntityFactory: (World, EntityPlayer) -> EntityBolt, preRequisite: Research?) : BoltEntry(boltItem, boltEntityFactory, preRequisite)
+class AOTDBoltEntry(name: String, boltItem: Item, boltEntityFactory: (World, EntityPlayer) -> EntityBolt, preRequisite: Research?) :
+        BoltEntry(boltItem, boltEntityFactory, preRequisite)
 {
     init
     {

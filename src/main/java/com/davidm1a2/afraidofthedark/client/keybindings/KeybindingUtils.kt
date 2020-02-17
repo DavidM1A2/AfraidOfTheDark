@@ -9,12 +9,12 @@ object KeybindingUtils
 {
     // A set of keys that are unbindable alone and require additional keys down
     private val UNBINDABLE_KEYS = setOf(
-        Keyboard.KEY_RMENU,
-        Keyboard.KEY_LMENU,
-        Keyboard.KEY_RCONTROL,
-        Keyboard.KEY_LCONTROL,
-        Keyboard.KEY_RSHIFT,
-        Keyboard.KEY_LSHIFT
+            Keyboard.KEY_RMENU,
+            Keyboard.KEY_LMENU,
+            Keyboard.KEY_RCONTROL,
+            Keyboard.KEY_LCONTROL,
+            Keyboard.KEY_RSHIFT,
+            Keyboard.KEY_LSHIFT
     )
 
     /**

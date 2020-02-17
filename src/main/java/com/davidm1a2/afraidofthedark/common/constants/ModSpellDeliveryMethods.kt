@@ -15,10 +15,10 @@ object ModSpellDeliveryMethods
 
     // An array containing a list of spell delivery methods that AOTD adds
     val SPELL_DELIVERY_METHODS = arrayOf(
-        SELF,
-        PROJECTILE,
-        AOE,
-        LASER,
-        DELAY
+            SELF,
+            PROJECTILE,
+            AOE,
+            LASER,
+            DELAY
     )
 }

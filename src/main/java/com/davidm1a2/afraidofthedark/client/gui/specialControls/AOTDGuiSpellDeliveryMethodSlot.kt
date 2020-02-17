@@ -13,7 +13,7 @@ import net.minecraft.client.resources.I18n
  * @param height              The height of the component
  */
 class AOTDGuiSpellDeliveryMethodSlot(x: Int, y: Int, width: Int, height: Int) :
-    AOTDGuiSpellComponentSlot<SpellDeliveryMethod>(x, y, width, height, "afraidofthedark:textures/gui/spell_editor/delivery_method_holder.png")
+        AOTDGuiSpellComponentSlot<SpellDeliveryMethod>(x, y, width, height, "afraidofthedark:textures/gui/spell_editor/delivery_method_holder.png")
 {
     /**
      * Refreshes the text that gets displayed when the slot is hovered
@@ -26,9 +26,9 @@ class AOTDGuiSpellDeliveryMethodSlot(x: Int, y: Int, width: Int, height: Int) :
         {
             val componentInstance = this.getComponentInstance()!!
             this.hoverTexts = arrayOf(
-                "Delivery Method (${I18n.format(componentType.getUnlocalizedName())})",
-                "Cost Multiplier: ${componentType.getStageCostMultiplier(componentInstance)}",
-                "Cost: ${componentType.getCost(componentInstance)}"
+                    "Delivery Method (${I18n.format(componentType.getUnlocalizedName())})",
+                    "Cost Multiplier: ${componentType.getStageCostMultiplier(componentInstance)}",
+                    "Cost: ${componentType.getCost(componentInstance)}"
             )
         }
         else

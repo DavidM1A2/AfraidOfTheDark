@@ -21,26 +21,26 @@ class SpellDeliveryMethodProjectile : AOTDSpellDeliveryMethod(ResourceLocation(C
     init
     {
         addEditableProperty(
-            SpellComponentPropertyFactory.doubleProperty()
-                .withName("Range")
-                .withDescription("The range of the projectile in blocks.")
-                .withSetter { instance, newValue -> instance.data.setDouble(NBT_RANGE, newValue) }
-                .withGetter { it.data.getDouble(NBT_RANGE) }
-                .withDefaultValue(50.0)
-                .withMinValue(1.0)
-                .withMaxValue(300.0)
-                .build()
+                SpellComponentPropertyFactory.doubleProperty()
+                        .withName("Range")
+                        .withDescription("The range of the projectile in blocks.")
+                        .withSetter { instance, newValue -> instance.data.setDouble(NBT_RANGE, newValue) }
+                        .withGetter { it.data.getDouble(NBT_RANGE) }
+                        .withDefaultValue(50.0)
+                        .withMinValue(1.0)
+                        .withMaxValue(300.0)
+                        .build()
         )
         addEditableProperty(
-            SpellComponentPropertyFactory.doubleProperty()
-                .withName("Speed")
-                .withDescription("The speed of the projectile in blocks/tick.")
-                .withSetter { instance, newValue -> instance.data.setDouble(NBT_SPEED, newValue) }
-                .withGetter { it.data.getDouble(NBT_SPEED) }
-                .withDefaultValue(0.6)
-                .withMinValue(0.0)
-                .withMaxValue(10.0)
-                .build()
+                SpellComponentPropertyFactory.doubleProperty()
+                        .withName("Speed")
+                        .withDescription("The speed of the projectile in blocks/tick.")
+                        .withSetter { instance, newValue -> instance.data.setDouble(NBT_SPEED, newValue) }
+                        .withGetter { it.data.getDouble(NBT_SPEED) }
+                        .withDefaultValue(0.6)
+                        .withMinValue(0.0)
+                        .withMaxValue(10.0)
+                        .build()
         )
     }
 
@@ -85,11 +85,11 @@ class SpellDeliveryMethodProjectile : AOTDSpellDeliveryMethod(ResourceLocation(C
 
         // Perform the transition between the next delivery method and the current delivery method
         spell.getStage(spellIndex + 1)!!.deliveryInstance!!.component.executeDelivery(
-            DeliveryTransitionStateBuilder()
-                .copyOf(state)
-                .withStageIndex(spellIndex + 1)
-                .withDeliveryEntity(null)
-                .build()
+                DeliveryTransitionStateBuilder()
+                        .copyOf(state)
+                        .withStageIndex(spellIndex + 1)
+                        .withDeliveryEntity(null)
+                        .build()
         )
     }
 

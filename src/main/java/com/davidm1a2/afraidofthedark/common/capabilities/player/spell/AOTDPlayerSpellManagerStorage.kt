@@ -26,9 +26,9 @@ class AOTDPlayerSpellManagerStorage : IStorage<IAOTDPlayerSpellManager>
      * @return An NBTTagCompound that contains all info about the capability
      */
     override fun writeNBT(
-        capability: Capability<IAOTDPlayerSpellManager>,
-        instance: IAOTDPlayerSpellManager,
-        side: EnumFacing?
+            capability: Capability<IAOTDPlayerSpellManager>,
+            instance: IAOTDPlayerSpellManager,
+            side: EnumFacing?
     ): NBTBase?
     {
         // Create a compound to write
@@ -76,10 +76,10 @@ class AOTDPlayerSpellManagerStorage : IStorage<IAOTDPlayerSpellManager>
      * @param nbt        An NBTTagCompound that contains all info about the capability
      */
     override fun readNBT(
-        capability: Capability<IAOTDPlayerSpellManager>,
-        instance: IAOTDPlayerSpellManager,
-        side: EnumFacing?,
-        nbt: NBTBase
+            capability: Capability<IAOTDPlayerSpellManager>,
+            instance: IAOTDPlayerSpellManager,
+            side: EnumFacing?,
+            nbt: NBTBase
     )
     {
         // Test if the nbt tag base is an NBT tag compound
@@ -99,8 +99,8 @@ class AOTDPlayerSpellManagerStorage : IStorage<IAOTDPlayerSpellManager>
             }
             // A utility temp map of uuid -> spell for use in determining keybinds in O(1) for extra memory usage
             val idToSpell: Map<UUID, Spell> = instance.getSpells()
-                .map { it.id to it }
-                .toMap()
+                    .map { it.id to it }
+                    .toMap()
 
             // Restore the keybindings
             val keybindingsNBT = nbt.getTagList(NBT_KEYBINDS_LIST, Constants.NBT.TAG_COMPOUND)

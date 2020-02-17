@@ -141,7 +141,8 @@ abstract class ResearchRequiredRecipeBase<T : IRecipe>(val baseRecipe: T, privat
                 eventHandlerField = ReflectionHelper.findField(InventoryCrafting::class.java, "eventHandler")
                 containerPlayerPlayerField = ReflectionHelper.findField(ContainerPlayer::class.java, "player")
                 slotCraftingPlayerField = ReflectionHelper.findField(SlotCrafting::class.java, "player")
-            } catch (_: Exception)
+            }
+            catch (_: Exception)
             {
                 eventHandlerField = ReflectionHelper.findField(InventoryCrafting::class.java, "field_70465_c")
                 containerPlayerPlayerField = ReflectionHelper.findField(ContainerPlayer::class.java, "field_82862_h")

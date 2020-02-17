@@ -13,7 +13,7 @@ import net.minecraft.client.resources.I18n
  * @param height      The height of the component
  */
 class AOTDGuiSpellEffectSlot(x: Int, y: Int, width: Int, height: Int) :
-    AOTDGuiSpellComponentSlot<SpellEffect>(x, y, width, height, "afraidofthedark:textures/gui/spell_editor/effect_holder.png")
+        AOTDGuiSpellComponentSlot<SpellEffect>(x, y, width, height, "afraidofthedark:textures/gui/spell_editor/effect_holder.png")
 {
     /**
      * Refreshes the text that gets displayed when the slot is hovered
@@ -26,8 +26,8 @@ class AOTDGuiSpellEffectSlot(x: Int, y: Int, width: Int, height: Int) :
         {
             val componentInstance = this.getComponentInstance()!!
             this.hoverTexts = arrayOf(
-                "Effect (${I18n.format(componentType.getUnlocalizedName())})",
-                "Cost: ${componentType.getCost(componentInstance)}"
+                    "Effect (${I18n.format(componentType.getUnlocalizedName())})",
+                    "Cost: ${componentType.getCost(componentInstance)}"
             )
         }
         else

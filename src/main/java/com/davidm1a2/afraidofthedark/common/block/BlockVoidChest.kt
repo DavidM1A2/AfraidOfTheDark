@@ -113,15 +113,15 @@ class BlockVoidChest : AOTDBlockTileEntity("void_chest", Material.ROCK)
      * @return The block state after being placed
      */
     override fun getStateForPlacement(
-        world: World,
-        pos: BlockPos,
-        facing: EnumFacing,
-        hitX: Float,
-        hitY: Float,
-        hitZ: Float,
-        meta: Int,
-        placer: EntityLivingBase,
-        hand: EnumHand
+            world: World,
+            pos: BlockPos,
+            facing: EnumFacing,
+            hitX: Float,
+            hitY: Float,
+            hitZ: Float,
+            meta: Int,
+            placer: EntityLivingBase,
+            hand: EnumHand
     ): IBlockState
     {
         // Face the block depending on the player's horizontal facing
@@ -158,15 +158,15 @@ class BlockVoidChest : AOTDBlockTileEntity("void_chest", Material.ROCK)
      * @return True to allow the interaction, false otherwise
      */
     override fun onBlockActivated(
-        worldIn: World,
-        pos: BlockPos,
-        state: IBlockState,
-        playerIn: EntityPlayer,
-        hand: EnumHand,
-        facing: EnumFacing,
-        hitX: Float,
-        hitY: Float,
-        hitZ: Float
+            worldIn: World,
+            pos: BlockPos,
+            state: IBlockState,
+            playerIn: EntityPlayer,
+            hand: EnumHand,
+            facing: EnumFacing,
+            hitX: Float,
+            hitY: Float,
+            hitZ: Float
     ): Boolean
     {
         // Test if the tile entity at this position is a void chest (it should be!)

@@ -24,7 +24,7 @@ import com.davidm1a2.afraidofthedark.common.spell.SpellStage
  * @property removeRunnable to be fired when remove is called
  */
 class AOTDGuiSpellStage(
-    x: Int, y: Int, width: Int, height: Int, private val spellStage: SpellStage
+        x: Int, y: Int, width: Int, height: Int, private val spellStage: SpellStage
 ) : AOTDGuiContainer(x, y, width, height)
 {
     private val addNewRow: AOTDGuiButton
@@ -53,7 +53,7 @@ class AOTDGuiSpellStage(
 
         // Create two buttons, one to add a new row and one to remove the current row
         addNewRow =
-            AOTDGuiButton(0, height - 15, 15, 15, "afraidofthedark:textures/gui/spell_editor/add.png", "afraidofthedark:textures/gui/spell_editor/add_hovered.png")
+                AOTDGuiButton(0, height - 15, 15, 15, "afraidofthedark:textures/gui/spell_editor/add.png", "afraidofthedark:textures/gui/spell_editor/add_hovered.png")
         addNewRow.setHoverText("Add new spell stage")
         addNewRow.addMouseListener()
         {
@@ -80,12 +80,12 @@ class AOTDGuiSpellStage(
         add(addNewRow)
 
         removeRow = AOTDGuiButton(
-            15,
-            height - 15,
-            15,
-            15,
-            "afraidofthedark:textures/gui/spell_editor/delete.png",
-            "afraidofthedark:textures/gui/spell_editor/delete_hovered.png"
+                15,
+                height - 15,
+                15,
+                15,
+                "afraidofthedark:textures/gui/spell_editor/delete.png",
+                "afraidofthedark:textures/gui/spell_editor/delete_hovered.png"
         )
         removeRow.setHoverText("Remove spell stage")
         removeRow.addMouseListener()

@@ -43,15 +43,15 @@ class BlockEnariasAltar : AOTDBlock("enarias_altar", Material.PORTAL)
      * @return True to cancel processing
      */
     override fun onBlockActivated(
-        worldIn: World,
-        pos: BlockPos,
-        state: IBlockState,
-        playerIn: EntityPlayer,
-        hand: EnumHand,
-        facing: EnumFacing,
-        hitX: Float,
-        hitY: Float,
-        hitZ: Float
+            worldIn: World,
+            pos: BlockPos,
+            state: IBlockState,
+            playerIn: EntityPlayer,
+            hand: EnumHand,
+            facing: EnumFacing,
+            hitX: Float,
+            hitY: Float,
+            hitZ: Float
     ): Boolean
     {
         // Grab the player's research

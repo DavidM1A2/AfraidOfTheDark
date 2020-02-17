@@ -19,15 +19,15 @@ class SpellEffectExplosion : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, 
     init
     {
         addEditableProperty(
-            SpellComponentPropertyFactory.floatProperty()
-                .withName("Radius")
-                .withDescription("The explosion's radius.")
-                .withSetter { instance, newValue -> instance.data.setFloat(NBT_RADIUS, newValue) }
-                .withGetter { it.data.getFloat(NBT_RADIUS) }
-                .withDefaultValue(5.0f)
-                .withMinValue(1.0f)
-                .withMaxValue(150.0f)
-                .build()
+                SpellComponentPropertyFactory.floatProperty()
+                        .withName("Radius")
+                        .withDescription("The explosion's radius.")
+                        .withSetter { instance, newValue -> instance.data.setFloat(NBT_RADIUS, newValue) }
+                        .withGetter { it.data.getFloat(NBT_RADIUS) }
+                        .withDefaultValue(5.0f)
+                        .withMinValue(1.0f)
+                        .withMaxValue(150.0f)
+                        .build()
         )
     }
 

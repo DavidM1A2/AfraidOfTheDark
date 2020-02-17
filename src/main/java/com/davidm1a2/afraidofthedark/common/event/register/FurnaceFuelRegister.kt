@@ -26,8 +26,8 @@ class FurnaceFuelRegister
     {
         // Mapping of block -> burn time
         private val ITEM_TO_BURN_TIME = mapOf(
-            ModBlocks.GRAVEWOOD_SAPLING to 100,
-            ModBlocks.MANGROVE_SAPLING to 100
+                ModBlocks.GRAVEWOOD_SAPLING to 100,
+                ModBlocks.MANGROVE_SAPLING to 100
         )
     }
 }

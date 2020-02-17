@@ -28,46 +28,46 @@ class SpellDeliveryMethodAOE : AOTDSpellDeliveryMethod(ResourceLocation(Constant
     init
     {
         addEditableProperty(
-            SpellComponentPropertyFactory.doubleProperty()
-                .withName("Radius")
-                .withDescription("The area of effect radius in blocks.")
-                .withSetter { instance, newValue -> instance.data.setDouble(NBT_RADIUS, newValue) }
-                .withGetter { it.data.getDouble(NBT_RADIUS) }
-                .withDefaultValue(3.0)
-                .withMinValue(1.0)
-                .withMaxValue(150.0)
-                .build()
+                SpellComponentPropertyFactory.doubleProperty()
+                        .withName("Radius")
+                        .withDescription("The area of effect radius in blocks.")
+                        .withSetter { instance, newValue -> instance.data.setDouble(NBT_RADIUS, newValue) }
+                        .withGetter { it.data.getDouble(NBT_RADIUS) }
+                        .withDefaultValue(3.0)
+                        .withMinValue(1.0)
+                        .withMaxValue(150.0)
+                        .build()
         )
         addEditableProperty(
-            SpellComponentProperty(
-                "Target Type",
-                "Should be either 'entity' or 'block'. If the target type is 'block' all nearby blocks will be affected, if it is 'entity' all nearby entities will be affected.",
-                { instance, newValue ->
-                    // Check the two valid options first
-                    when
-                    {
-                        newValue.equals("entity", ignoreCase = true) ->
+                SpellComponentProperty(
+                        "Target Type",
+                        "Should be either 'entity' or 'block'. If the target type is 'block' all nearby blocks will be affected, if it is 'entity' all nearby entities will be affected.",
+                        { instance, newValue ->
+                            // Check the two valid options first
+                            when
+                            {
+                                newValue.equals("entity", ignoreCase = true) ->
+                                {
+                                    instance.data.setInteger(NBT_TARGET_TYPE, TargetType.ENTITY.ordinal)
+                                }
+                                newValue.equals("block", ignoreCase = true) ->
+                                {
+                                    instance.data.setInteger(NBT_TARGET_TYPE, TargetType.BLOCK.ordinal)
+                                }
+                                else ->
+                                {
+                                    throw InvalidValueException("Invalid value $newValue, should be 'entity' or 'block'")
+                                }
+                            }
+                        },
                         {
-                            instance.data.setInteger(NBT_TARGET_TYPE, TargetType.ENTITY.ordinal)
-                        }
-                        newValue.equals("block", ignoreCase = true) ->
+                            @Suppress("UNCHECKED_CAST")
+                            if (getTargetType(it as SpellComponentInstance<SpellDeliveryMethod>) == TargetType.ENTITY) "entity" else "block"
+                        },
                         {
-                            instance.data.setInteger(NBT_TARGET_TYPE, TargetType.BLOCK.ordinal)
+                            it.data.setInteger(NBT_TARGET_TYPE, TargetType.BLOCK.ordinal)
                         }
-                        else ->
-                        {
-                            throw InvalidValueException("Invalid value $newValue, should be 'entity' or 'block'")
-                        }
-                    }
-                },
-                {
-                    @Suppress("UNCHECKED_CAST")
-                    if (getTargetType(it as SpellComponentInstance<SpellDeliveryMethod>) == TargetType.ENTITY) "entity" else "block"
-                },
-                {
-                    it.data.setInteger(NBT_TARGET_TYPE, TargetType.BLOCK.ordinal)
-                }
-            )
+                )
         )
     }
 
@@ -98,19 +98,19 @@ class SpellDeliveryMethodAOE : AOTDSpellDeliveryMethod(ResourceLocation(Constant
         {
             // A list of nearby entities
             val entitiesWithinAABB =
-                state.world.getEntitiesWithinAABB(Entity::class.java, AxisAlignedBB(BlockPos(state.position)).grow(radius))
+                    state.world.getEntitiesWithinAABB(Entity::class.java, AxisAlignedBB(BlockPos(state.position)).grow(radius))
 
             // Go over each nearby entity
             entitiesWithinAABB.forEach()
             {
                 // Apply it to the entity
                 effect.component.procEffect(
-                    DeliveryTransitionStateBuilder()
-                        .withSpell(state.spell)
-                        .withStageIndex(state.stageIndex)
-                        .withEntity(it!!)
-                        .build(),
-                    effect
+                        DeliveryTransitionStateBuilder()
+                                .withSpell(state.spell)
+                                .withStageIndex(state.stageIndex)
+                                .withEntity(it!!)
+                                .build(),
+                        effect
                 )
             }
         }
@@ -122,9 +122,9 @@ class SpellDeliveryMethodAOE : AOTDSpellDeliveryMethod(ResourceLocation(Constant
             // Compute the radius in blocks
             val blockRadius = floor(radius).toInt()
             val transitionBuilder = DeliveryTransitionStateBuilder()
-                .withSpell(state.spell)
-                .withStageIndex(state.stageIndex)
-                .withWorld(state.world)
+                    .withSpell(state.spell)
+                    .withStageIndex(state.stageIndex)
+                    .withWorld(state.world)
 
             // Go over every block in the radius
             for (x in -blockRadius..blockRadius)
@@ -140,13 +140,13 @@ class SpellDeliveryMethodAOE : AOTDSpellDeliveryMethod(ResourceLocation(Constant
                         {
                             // Apply the effect at the position
                             effect.component.procEffect(
-                                transitionBuilder
-                                    .withPosition(Vec3d(aoePos.x.toDouble(), aoePos.y.toDouble(), aoePos.z.toDouble()))
-                                    .withBlockPosition(aoePos)
-                                    // Random direction, AOE has no direction
-                                    .withDirection(Vec3d(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize())
-                                    .build(),
-                                effect
+                                    transitionBuilder
+                                            .withPosition(Vec3d(aoePos.x.toDouble(), aoePos.y.toDouble(), aoePos.z.toDouble()))
+                                            .withBlockPosition(aoePos)
+                                            // Random direction, AOE has no direction
+                                            .withDirection(Vec3d(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize())
+                                            .build(),
+                                    effect
                             )
                         }
                     }
@@ -168,49 +168,49 @@ class SpellDeliveryMethodAOE : AOTDSpellDeliveryMethod(ResourceLocation(Constant
         {
             // A list of nearby entities
             val entitiesWithinAABB =
-                state.world.getEntitiesWithinAABB(Entity::class.java, AxisAlignedBB(BlockPos(state.position)).grow(getRadius(state.getCurrentStage().deliveryInstance!!)))
+                    state.world.getEntitiesWithinAABB(Entity::class.java, AxisAlignedBB(BlockPos(state.position)).grow(getRadius(state.getCurrentStage().deliveryInstance!!)))
 
             // Go over each nearby entity
             entitiesWithinAABB.forEach()
             {
                 // Perform the transition between the next delivery method and the current delivery method
                 spell.getStage(spellIndex + 1)!!.deliveryInstance!!.component.executeDelivery(
-                    DeliveryTransitionStateBuilder()
-                        .withSpell(state.spell)
-                        .withStageIndex(spellIndex + 1)
-                        .withEntity(it!!)
-                        .build()
+                        DeliveryTransitionStateBuilder()
+                                .withSpell(state.spell)
+                                .withStageIndex(spellIndex + 1)
+                                .withEntity(it!!)
+                                .build()
                 )
             }
         }
         else
         {
             val deliveryTransitionStateBuilder = DeliveryTransitionStateBuilder()
-                .withSpell(state.spell)
-                .withStageIndex(spellIndex + 1)
-                .withWorld(state.world)
-                .withBlockPosition(state.blockPosition)
+                    .withSpell(state.spell)
+                    .withStageIndex(spellIndex + 1)
+                    .withWorld(state.world)
+                    .withBlockPosition(state.blockPosition)
 
             // Send out deliveries in all 6 possible directions around the hit point
             // Randomize which order the directions get applied in
             val cardinalDirections = mutableListOf(
-                Vec3d(1.0, 0.0, 0.0),
-                Vec3d(0.0, 1.0, 0.0),
-                Vec3d(0.0, 0.0, 1.0),
-                Vec3d(-1.0, 0.0, 0.0),
-                Vec3d(0.0, -1.0, 0.0),
-                Vec3d(0.0, 0.0, -1.0)
+                    Vec3d(1.0, 0.0, 0.0),
+                    Vec3d(0.0, 1.0, 0.0),
+                    Vec3d(0.0, 0.0, 1.0),
+                    Vec3d(-1.0, 0.0, 0.0),
+                    Vec3d(0.0, -1.0, 0.0),
+                    Vec3d(0.0, 0.0, -1.0)
             ).apply { shuffle() }
-                .toList()
+                    .toList()
 
             cardinalDirections.forEach()
             {
                 // Perform the transition between the next delivery method and the current delivery method
                 spell.getStage(spellIndex + 1)!!.deliveryInstance!!.component.executeDelivery(
-                    deliveryTransitionStateBuilder
-                        .withPosition(state.position.add(it.scale(0.2)))
-                        .withDirection(it)
-                        .build()
+                        deliveryTransitionStateBuilder
+                                .withPosition(state.position.add(it.scale(0.2)))
+                                .withDirection(it)
+                                .build()
                 )
             }
         }

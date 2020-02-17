@@ -58,33 +58,33 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
 
         // When we hover any button play hover sound
         val hoverSound: ((AOTDMouseMoveEvent) -> Unit) =
-            {
-                if (it.eventType === AOTDMouseMoveEvent.EventType.Enter)
                 {
-                    // Play a hover sound for visible buttons
-                    if (it.source.isVisible && it.source.isHovered)
+                    if (it.eventType === AOTDMouseMoveEvent.EventType.Enter)
                     {
-                        entityPlayer.playSound(ModSounds.SPELL_CRAFTING_BUTTON_HOVER, 0.7f, 1.9f)
+                        // Play a hover sound for visible buttons
+                        if (it.source.isVisible && it.source.isHovered)
+                        {
+                            entityPlayer.playSound(ModSounds.SPELL_CRAFTING_BUTTON_HOVER, 0.7f, 1.9f)
+                        }
                     }
                 }
-            }
 
         // When we click any button play the click sound
         val clickSound: ((AOTDMouseEvent) -> Unit) =
-            {
-                if (it.eventType === AOTDMouseEvent.EventType.Click)
                 {
-                    // Play a clicked sound for visible buttons
-                    if (it.source.isVisible && it.source.isHovered)
+                    if (it.eventType === AOTDMouseEvent.EventType.Click)
                     {
-                        entityPlayer.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f)
+                        // Play a clicked sound for visible buttons
+                        if (it.source.isVisible && it.source.isHovered)
+                        {
+                            entityPlayer.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f)
+                        }
                     }
                 }
-            }
 
         // Create a button to edit the spell
         val btnEdit =
-            AOTDGuiButton(5, 22, 24, 13, "afraidofthedark:textures/gui/spell_list/spell_edit.png", "afraidofthedark:textures/gui/spell_list/spell_edit_hovered.png")
+                AOTDGuiButton(5, 22, 24, 13, "afraidofthedark:textures/gui/spell_list/spell_edit.png", "afraidofthedark:textures/gui/spell_list/spell_edit_hovered.png")
         btnEdit.addMouseListener(clickSound)
         btnEdit.addMouseMoveListener(hoverSound)
         btnEdit.setHoverText("Edit Spell")
@@ -105,12 +105,12 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
 
         // Create a button to delete a spell
         val btnDelete = AOTDGuiButton(
-            width - 5 - 24,
-            22,
-            24,
-            13,
-            "afraidofthedark:textures/gui/spell_list/spell_delete.png",
-            "afraidofthedark:textures/gui/spell_list/spell_delete_hovered.png"
+                width - 5 - 24,
+                22,
+                24,
+                13,
+                "afraidofthedark:textures/gui/spell_list/spell_delete.png",
+                "afraidofthedark:textures/gui/spell_list/spell_delete_hovered.png"
         )
         btnEdit.addMouseListener(clickSound)
         btnEdit.addMouseMoveListener(hoverSound)

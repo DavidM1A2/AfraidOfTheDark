@@ -138,15 +138,15 @@ class StructureVoidChest : AOTDStructure("void_chest")
     {
         // A set of compatible biomes
         private val COMPATIBLE_BIOMES = setOf(
-            Biomes.COLD_BEACH,
-            Biomes.COLD_TAIGA,
-            Biomes.COLD_TAIGA_HILLS,
-            Biomes.MUTATED_TAIGA_COLD,
-            Biomes.FROZEN_OCEAN,
-            Biomes.FROZEN_RIVER,
-            Biomes.ICE_PLAINS,
-            Biomes.ICE_MOUNTAINS,
-            Biomes.MUTATED_ICE_FLATS
+                Biomes.COLD_BEACH,
+                Biomes.COLD_TAIGA,
+                Biomes.COLD_TAIGA_HILLS,
+                Biomes.MUTATED_TAIGA_COLD,
+                Biomes.FROZEN_OCEAN,
+                Biomes.FROZEN_RIVER,
+                Biomes.ICE_PLAINS,
+                Biomes.ICE_MOUNTAINS,
+                Biomes.MUTATED_ICE_FLATS
         )
     }
 }

@@ -17,14 +17,14 @@ import net.minecraft.nbt.NBTTagList
  * @property entities     The entities inside the schematic
  */
 class CachedSchematic internal constructor(
-    private val name: String,
-    private val tileEntities: NBTTagList,
-    private val width: Short,
-    private val height: Short,
-    private val length: Short,
-    private val blocks: Array<Block>,
-    private val data: IntArray,
-    private val entities: NBTTagList
+        private val name: String,
+        private val tileEntities: NBTTagList,
+        private val width: Short,
+        private val height: Short,
+        private val length: Short,
+        private val blocks: Array<Block>,
+        private val data: IntArray,
+        private val entities: NBTTagList
 ) : Schematic
 {
     /**

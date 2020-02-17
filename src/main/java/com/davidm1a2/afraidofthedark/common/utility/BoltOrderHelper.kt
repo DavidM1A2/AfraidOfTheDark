@@ -36,7 +36,8 @@ object BoltOrderHelper
                 currentBoltIndex = 0
             }
             preRequisite = getBoltAt(currentBoltIndex).preRequisite
-        } while (preRequisite != null && !entityPlayer.getResearch().isResearched(preRequisite))
+        }
+        while (preRequisite != null && !entityPlayer.getResearch().isResearched(preRequisite))
         return currentBoltIndex
     }
 

@@ -13,10 +13,10 @@ import net.minecraft.world.World
  * @param z The z position of the enaria spell cast attack
  */
 class ParticleEnariaSpellCast(
-    world: World,
-    x: Double,
-    y: Double,
-    z: Double
+        world: World,
+        x: Double,
+        y: Double,
+        z: Double
 ) : AOTDParticle(world, ModSprites.ENARIA_SPELL_CAST, x, y, z)
 {
     init

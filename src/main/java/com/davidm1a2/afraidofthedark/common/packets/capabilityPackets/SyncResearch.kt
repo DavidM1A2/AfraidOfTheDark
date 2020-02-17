@@ -67,8 +67,8 @@ class SyncResearch : IMessage
         researchToUnlocked.forEach()
         { (research, researched) ->
             data.setBoolean(
-                research.registryName.toString(),
-                researched
+                    research.registryName.toString(),
+                    researched
             )
         }
 
@@ -128,8 +128,8 @@ class SyncResearch : IMessage
             msg.researchToUnlocked.forEach()
             { (research, researched) ->
                 playerResearch.setResearch(
-                    research,
-                    researched
+                        research,
+                        researched
                 )
             }
         }

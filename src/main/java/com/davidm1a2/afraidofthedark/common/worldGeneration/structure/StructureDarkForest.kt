@@ -109,24 +109,24 @@ class StructureDarkForest : AOTDStructure("dark_forest")
                 return false
             }
         },
-            object : IChunkIterator
-            {
-                override fun getChunks(): List<ChunkPos>
+                object : IChunkIterator
                 {
-                    // Go over all chunks that the bed house would cover and check them
-                    val houseChunks = mutableListOf<ChunkPos>()
-
-                    for (chunkX in houseCorner1ChunkPos.x..houseCorner1ChunkPos.x)
+                    override fun getChunks(): List<ChunkPos>
                     {
-                        for (chunkZ in houseCorner2ChunkPos.z..houseCorner2ChunkPos.z)
-                        {
-                            houseChunks.add(ChunkPos(chunkX, chunkZ))
-                        }
-                    }
+                        // Go over all chunks that the bed house would cover and check them
+                        val houseChunks = mutableListOf<ChunkPos>()
 
-                    return houseChunks
-                }
-            })
+                        for (chunkX in houseCorner1ChunkPos.x..houseCorner1ChunkPos.x)
+                        {
+                            for (chunkZ in houseCorner2ChunkPos.z..houseCorner2ChunkPos.z)
+                            {
+                                houseChunks.add(ChunkPos(chunkX, chunkZ))
+                            }
+                        }
+
+                        return houseChunks
+                    }
+                })
 
         // If the house isn't valid don't place a dark forest here
         return if (!houseValid)
@@ -462,22 +462,22 @@ class StructureDarkForest : AOTDStructure("dark_forest")
     {
         // A set of invalid prop biomes
         private val INCOMPATIBLE_BIOMES = setOf(
-            Biomes.OCEAN,
-            Biomes.DEEP_OCEAN,
-            Biomes.FROZEN_OCEAN,
-            Biomes.FROZEN_RIVER,
-            Biomes.RIVER,
-            Biomes.SKY,
-            Biomes.VOID
+                Biomes.OCEAN,
+                Biomes.DEEP_OCEAN,
+                Biomes.FROZEN_OCEAN,
+                Biomes.FROZEN_RIVER,
+                Biomes.RIVER,
+                Biomes.SKY,
+                Biomes.VOID
         )
 
         // A set of compatible biomes
         private val COMPATIBLE_HOUSE_BIOMES = setOf(
-            Biomes.SAVANNA,
-            Biomes.MUTATED_SAVANNA,
-            Biomes.PLAINS,
-            Biomes.MUTATED_PLAINS,
-            ModBiomes.ERIE_FOREST
+                Biomes.SAVANNA,
+                Biomes.MUTATED_SAVANNA,
+                Biomes.PLAINS,
+                Biomes.MUTATED_PLAINS,
+                ModBiomes.ERIE_FOREST
         )
 
         // NBT tag keys

@@ -36,9 +36,9 @@ class AnimationHandlerSplinterDrone(entity: IMCAnimatedEntity) : AnimationHandle
     {
         // Map of animation name to channel
         private val ANIMATION_TO_CHANNEL = mapOf(
-            "Activate" to ChannelActivate("Activate", 25.0f, 100, Channel.LINEAR),
-            "Charge" to ChannelCharge("Charge", 100.0f, 100, Channel.LINEAR),
-            "Idle" to ChannelIdle("Idle", 25.0f, 100, Channel.LINEAR)
+                "Activate" to ChannelActivate("Activate", 25.0f, 100, Channel.LINEAR),
+                "Charge" to ChannelCharge("Charge", 100.0f, 100, Channel.LINEAR),
+                "Idle" to ChannelIdle("Idle", 25.0f, 100, Channel.LINEAR)
         )
     }
 }

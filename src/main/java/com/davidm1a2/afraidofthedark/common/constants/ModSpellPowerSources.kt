@@ -13,7 +13,7 @@ object ModSpellPowerSources
 
     // An array containing a list of spell power sources that AOTD adds
     val SPELL_POWER_SOURCES = arrayOf(
-        CREATIVE,
-        EXPERIENCE
+            CREATIVE,
+            EXPERIENCE
     )
 }

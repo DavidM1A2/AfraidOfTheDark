@@ -65,9 +65,9 @@ object SpellEffectOverrideRegister
                         val maxExplosions = ceil(sqrt(radius)).toInt().coerceIn(1, Int.MAX_VALUE)
                         val basePos = BlockPos(state.position)
                         val transitionBuilder = DeliveryTransitionStateBuilder()
-                            .withSpell(state.spell)
-                            .withStageIndex(state.stageIndex)
-                            .withWorld(state.world)
+                                .withSpell(state.spell)
+                                .withStageIndex(state.stageIndex)
+                                .withWorld(state.world)
 
                         var explosionCount = 0
                         while (explosionCount < maxExplosions)
@@ -84,12 +84,12 @@ object SpellEffectOverrideRegister
                             {
                                 // Apply the effect at the position
                                 effect.component.procEffect(
-                                    transitionBuilder.withPosition(Vec3d(aoePos.x.toDouble(), aoePos.y.toDouble(), aoePos.z.toDouble()))
-                                        .withBlockPosition(aoePos)
-                                        // Random direction, AOE has no direction
-                                        .withDirection(Vec3d(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize())
-                                        .build(),
-                                    effect
+                                        transitionBuilder.withPosition(Vec3d(aoePos.x.toDouble(), aoePos.y.toDouble(), aoePos.z.toDouble()))
+                                                .withBlockPosition(aoePos)
+                                                // Random direction, AOE has no direction
+                                                .withDirection(Vec3d(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize())
+                                                .build(),
+                                        effect
                                 )
                                 explosionCount++
                             }
@@ -129,9 +129,9 @@ object SpellEffectOverrideRegister
                     for (i in 0..19)
                     {
                         val teleportPos = center.addVector(
-                            Random.nextDouble(radius * 2) - radius,
-                            Random.nextDouble(radius * 2) - radius,
-                            Random.nextDouble(radius * 2) - radius
+                                Random.nextDouble(radius * 2) - radius,
+                                Random.nextDouble(radius * 2) - radius,
+                                Random.nextDouble(radius * 2) - radius
                         )
                         val blockPos = BlockPos(teleportPos)
 
@@ -143,11 +143,11 @@ object SpellEffectOverrideRegister
                             world.playSound(null, teleportPos.x, teleportPos.y, teleportPos.z, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 2.5f, 1.0f)
 
                             (spellCaster as EntityPlayerMP).connection.setPlayerLocation(
-                                teleportPos.x,
-                                teleportPos.y,
-                                teleportPos.z,
-                                spellCaster.rotationYaw,
-                                spellCaster.rotationPitch
+                                    teleportPos.x,
+                                    teleportPos.y,
+                                    teleportPos.z,
+                                    spellCaster.rotationYaw,
+                                    spellCaster.rotationPitch
                             )
 
                             AOTDSpellEffect.createParticlesAt(1, 3, teleportPos, spellCaster.dimension)

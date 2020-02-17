@@ -33,8 +33,8 @@ abstract class AOTDSpellEffect(id: ResourceLocation) : SpellEffect(id)
 
             // Send the particle packet
             AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(
-                SyncParticle(AOTDParticleRegistry.ParticleTypes.SPELL_HIT_ID, positions, List(positions.size) { Vec3d.ZERO }),
-                TargetPoint(dimension, pos.x, pos.y, pos.z, 100.0)
+                    SyncParticle(AOTDParticleRegistry.ParticleTypes.SPELL_HIT_ID, positions, List(positions.size) { Vec3d.ZERO }),
+                    TargetPoint(dimension, pos.x, pos.y, pos.z, 100.0)
             )
         }
     }

@@ -26,13 +26,13 @@ class SpriteRegister
         if (event.map.basePath == "textures")
         {
             ModSprites.ENARIA_BASIC_ATTACK = event.map
-                .registerSprite(ResourceLocation(Constants.MOD_ID, "particles/enaria_basic_attack"))
+                    .registerSprite(ResourceLocation(Constants.MOD_ID, "particles/enaria_basic_attack"))
             ModSprites.ENARIA_SPELL_CAST = event.map
-                .registerSprite(ResourceLocation(Constants.MOD_ID, "particles/enaria_spell_cast"))
+                    .registerSprite(ResourceLocation(Constants.MOD_ID, "particles/enaria_spell_cast"))
             ModSprites.ENARIA_SPELL_CAST_2 = event.map
-                .registerSprite(ResourceLocation(Constants.MOD_ID, "particles/enaria_spell_cast_2"))
+                    .registerSprite(ResourceLocation(Constants.MOD_ID, "particles/enaria_spell_cast_2"))
             ModSprites.ENARIA_TELEPORT = event.map
-                .registerSprite(ResourceLocation(Constants.MOD_ID, "particles/enaria_teleport"))
+                    .registerSprite(ResourceLocation(Constants.MOD_ID, "particles/enaria_teleport"))
             ModSprites.SPELL_CAST = event.map.registerSprite(ResourceLocation(Constants.MOD_ID, "particles/spell_cast"))
             ModSprites.SPELL_HIT = event.map.registerSprite(ResourceLocation(Constants.MOD_ID, "particles/spell_hit"))
             ModSprites.SMOKE_SCREEN = event.map.registerSprite(ResourceLocation(Constants.MOD_ID, "particles/smoke_screen"))

@@ -15,8 +15,8 @@ object ModBiomes
 
     // An array containing a list of biomes that AOTD adds
     val BIOME_LIST = arrayOf(
-        ERIE_FOREST,
-        VOID_CHEST,
-        NIGHTMARE
+            ERIE_FOREST,
+            VOID_CHEST,
+            NIGHTMARE
     )
 }

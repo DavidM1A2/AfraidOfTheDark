@@ -183,9 +183,9 @@ class ItemIgneousArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) : A
 
                         // Move the entity away from the player
                         damageSourceEntity.addVelocity(
-                            -motionX * KNOCKBACK_STRENGTH * 0.6 / hypotenuse,
-                            0.1,
-                            -motionZ * KNOCKBACK_STRENGTH * 0.6 / hypotenuse
+                                -motionX * KNOCKBACK_STRENGTH * 0.6 / hypotenuse,
+                                0.1,
+                                -motionZ * KNOCKBACK_STRENGTH * 0.6 / hypotenuse
                         )
                     }
                 }

@@ -80,9 +80,9 @@ class TileEntityVoidChest : AOTDTickingTileEntity(ModBlocks.VOID_CHEST)
         {
             // Compute a vector pointing to the chest and then pull that player in that direction
             val velocity = Vec3d(pos)
-                .addVector(0.5, 0.5, 0.5)
-                .subtract(playerToSend!!.posX, playerToSend!!.posY, playerToSend!!.posZ)
-                .normalize()
+                    .addVector(0.5, 0.5, 0.5)
+                    .subtract(playerToSend!!.posX, playerToSend!!.posY, playerToSend!!.posZ)
+                    .normalize()
             val distanceSqToPlayer = playerToSend!!.getDistanceSq(pos)
 
             // Inverse square law, force decreases as player gets more distant

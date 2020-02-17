@@ -13,10 +13,10 @@ import net.minecraft.world.World
  * @param z The z position of the laser spell attack
  */
 class ParticleSpellLaser(
-    world: World,
-    x: Double,
-    y: Double,
-    z: Double
+        world: World,
+        x: Double,
+        y: Double,
+        z: Double
 ) : AOTDParticle(world, ModSprites.SPELL_LASER, x, y, z)
 {
     init

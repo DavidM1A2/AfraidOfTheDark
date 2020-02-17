@@ -13,10 +13,10 @@ import net.minecraft.world.World
  * @param z The z position of the basic attack
  */
 class ParticleEnariaBasicAttack(
-    world: World,
-    x: Double,
-    y: Double,
-    z: Double
+        world: World,
+        x: Double,
+        y: Double,
+        z: Double
 ) : AOTDParticle(world, ModSprites.ENARIA_BASIC_ATTACK, x, y, z)
 {
     init

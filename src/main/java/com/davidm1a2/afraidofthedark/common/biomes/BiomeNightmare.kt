@@ -12,11 +12,11 @@ import net.minecraft.world.biome.Biome
  * @property spawnableCreatures A list of spawnable creatures, should always be empty
  */
 class BiomeNightmare : Biome(
-    BiomeProperties("Nightmare")
-        .setWaterColor(0xFF0000)
-        .setBaseHeight(0.125f)
-        .setHeightVariation(0.05f)
-        .setRainfall(1.0f)
+        BiomeProperties("Nightmare")
+                .setWaterColor(0xFF0000)
+                .setBaseHeight(0.125f)
+                .setHeightVariation(0.05f)
+                .setRainfall(1.0f)
 )
 {
     private val spawnableCreatures: MutableList<SpawnListEntry> = mutableListOf()

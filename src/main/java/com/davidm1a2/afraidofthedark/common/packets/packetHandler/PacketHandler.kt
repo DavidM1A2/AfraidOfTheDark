@@ -39,7 +39,7 @@ class PacketHandler(private val channelId: String)
         if (AfraidOfTheDark.INSTANCE.configurationHandler.debugMessages)
         {
             AfraidOfTheDark.INSTANCE.logger.info(
-                "Registered packet class ${packetClass.simpleName} with handler class ${messageHandler.javaClass.simpleName} for the channel $channelId. Send direction: to ${target.name.toLowerCase()}. The discriminator is $nextPacketID."
+                    "Registered packet class ${packetClass.simpleName} with handler class ${messageHandler.javaClass.simpleName} for the channel $channelId. Send direction: to ${target.name.toLowerCase()}. The discriminator is $nextPacketID."
             )
         }
 
@@ -64,7 +64,7 @@ class PacketHandler(private val channelId: String)
         if (AfraidOfTheDark.INSTANCE.configurationHandler.debugMessages)
         {
             AfraidOfTheDark.INSTANCE.logger.info(
-                "Registered packet class ${packetClass.simpleName} with handler class ${messageHandler.javaClass.simpleName} for the channel $channelId. The discriminator is $nextPacketID."
+                    "Registered packet class ${packetClass.simpleName} with handler class ${messageHandler.javaClass.simpleName} for the channel $channelId. The discriminator is $nextPacketID."
             )
         }
 

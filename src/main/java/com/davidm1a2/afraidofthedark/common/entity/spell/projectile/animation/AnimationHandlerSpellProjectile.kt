@@ -36,7 +36,7 @@ class AnimationHandlerSpellProjectile(entity: IMCAnimatedEntity) : AnimationHand
     {
         // Map of animation name to channel
         private val ANIMATION_TO_CHANNEL = mapOf(
-            "Idle" to ChannelSpellProjectileIdle("Idle", 100.0f, 60, Channel.LOOP)
+                "Idle" to ChannelSpellProjectileIdle("Idle", 100.0f, 60, Channel.LOOP)
         )
     }
 }

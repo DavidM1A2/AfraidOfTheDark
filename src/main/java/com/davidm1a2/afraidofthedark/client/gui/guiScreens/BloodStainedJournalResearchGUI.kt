@@ -82,68 +82,68 @@ class BloodStainedJournalResearchGUI(isCheatSheet: Boolean) : AOTDGuiClickAndDra
         val playerResearch = entityPlayer.getResearch()
         // Create two node listeners that controls the behavior of selected research nodes
         researchNodeMouseMoveListener =
-            {
-                if (it.eventType == AOTDMouseMoveEvent.EventType.Enter)
                 {
-                    // If the node is visible then play the hover sound since we moved our mouse over it
-                    if (it.source.isVisible && researchTreeBase.intersects(it.source))
+                    if (it.eventType == AOTDMouseMoveEvent.EventType.Enter)
                     {
-                        entityPlayer.playSound(ModSounds.BUTTON_HOVER, 0.7f, 1.9f)
+                        // If the node is visible then play the hover sound since we moved our mouse over it
+                        if (it.source.isVisible && researchTreeBase.intersects(it.source))
+                        {
+                            entityPlayer.playSound(ModSounds.BUTTON_HOVER, 0.7f, 1.9f)
+                        }
                     }
                 }
-            }
         researchNodeMouseListener =
-            {
-                if (it.eventType == AOTDMouseEvent.EventType.Click)
                 {
-                    // Ensure the clicked button is a ResearchNodeButton and the button used clicked is left
-                    if (it.source.isHovered && it.source is AOTDGuiResearchNodeButton && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
+                    if (it.eventType == AOTDMouseEvent.EventType.Click)
                     {
-                        val current = it.source as AOTDGuiResearchNodeButton
-                        // Only allow clicking the button if it's within the container
-                        if (researchTreeBase.intersects(current))
+                        // Ensure the clicked button is a ResearchNodeButton and the button used clicked is left
+                        if (it.source.isHovered && it.source is AOTDGuiResearchNodeButton && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
                         {
-                            // If this isn't a cheat sheet open the research page
-                            if (!isCheatSheet)
+                            val current = it.source as AOTDGuiResearchNodeButton
+                            // Only allow clicking the button if it's within the container
+                            if (researchTreeBase.intersects(current))
                             {
-                                // Store the selected research
-                                ClientData.lastSelectedResearch = current.research
-                                // If the research is researched show the page UI, otherwise show the pre-page UI
-                                if (playerResearch.isResearched(current.research))
+                                // If this isn't a cheat sheet open the research page
+                                if (!isCheatSheet)
                                 {
-                                    entityPlayer.openGui(AOTDGuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID)
+                                    // Store the selected research
+                                    ClientData.lastSelectedResearch = current.research
+                                    // If the research is researched show the page UI, otherwise show the pre-page UI
+                                    if (playerResearch.isResearched(current.research))
+                                    {
+                                        entityPlayer.openGui(AOTDGuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID)
+                                    }
+                                    else if (current.research.preRequisite != null && playerResearch.isResearched(current.research.preRequisite))
+                                    {
+                                        entityPlayer.openGui(AOTDGuiHandler.BLOOD_STAINED_JOURNAL_PAGE_PRE_ID)
+                                    }
                                 }
-                                else if (current.research.preRequisite != null && playerResearch.isResearched(current.research.preRequisite))
+                                else
                                 {
-                                    entityPlayer.openGui(AOTDGuiHandler.BLOOD_STAINED_JOURNAL_PAGE_PRE_ID)
-                                }
-                            }
-                            else
-                            {
-                                // If this research can be researched unlock it
-                                if (playerResearch.canResearch(current.research))
-                                {
-                                    playerResearch.setResearchAndAlert(current.research, true, entityPlayer)
-                                    playerResearch.sync(entityPlayer, false)
+                                    // If this research can be researched unlock it
+                                    if (playerResearch.canResearch(current.research))
+                                    {
+                                        playerResearch.setResearchAndAlert(current.research, true, entityPlayer)
+                                        playerResearch.sync(entityPlayer, false)
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            }
 
         // Go over all known researches and add a connector for each that has a known pre-requisite
         ModRegistries.RESEARCH.valuesCollection.stream()
-            // We can only draw connectors if we have a pre-requisite
-            .filter { it.preRequisite != null }
-            // Only add the connectors if we know if the previous research or the current research
-            .filter { playerResearch.isResearched(it) || playerResearch.canResearch(it) }
-            .forEach { addConnector(it) }
+                // We can only draw connectors if we have a pre-requisite
+                .filter { it.preRequisite != null }
+                // Only add the connectors if we know if the previous research or the current research
+                .filter { playerResearch.isResearched(it) || playerResearch.canResearch(it) }
+                .forEach { addConnector(it) }
         // Now that we have all connectors added add each research node on top to ensure correct z-layer order
         ModRegistries.RESEARCH.valuesCollection.stream()
-            // Only add the node if we know if the previous research or the current research
-            .filter { playerResearch.isResearched(it) || playerResearch.canResearch(it) }
-            .forEach { addResearchButton(it) }
+                // Only add the node if we know if the previous research or the current research
+                .filter { playerResearch.isResearched(it) || playerResearch.canResearch(it) }
+                .forEach { addResearchButton(it) }
 
         // Add our sprite sheet controllers
         addSpriteSheetController(nodeConnectorControllerHorizontal)
@@ -170,53 +170,53 @@ class BloodStainedJournalResearchGUI(isCheatSheet: Boolean) : AOTDGuiClickAndDra
                 research.xPosition < previous.xPosition ->
                 {
                     researchTree.add(
-                        AOTDGuiSpriteSheetImage(
-                            xPos + 26,
-                            yPos + 9,
-                            54,
-                            14,
-                            ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/horizontal_connector.png"),
-                            nodeConnectorControllerHorizontal
-                        )
+                            AOTDGuiSpriteSheetImage(
+                                    xPos + 26,
+                                    yPos + 9,
+                                    54,
+                                    14,
+                                    ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/horizontal_connector.png"),
+                                    nodeConnectorControllerHorizontal
+                            )
                     )
                 }
                 research.xPosition > previous.xPosition ->
                 {
                     researchTree.add(
-                        AOTDGuiSpriteSheetImage(
-                            xPos - 50,
-                            yPos + 9,
-                            54,
-                            14,
-                            ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/horizontal_connector.png"),
-                            nodeConnectorControllerHorizontal
-                        )
+                            AOTDGuiSpriteSheetImage(
+                                    xPos - 50,
+                                    yPos + 9,
+                                    54,
+                                    14,
+                                    ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/horizontal_connector.png"),
+                                    nodeConnectorControllerHorizontal
+                            )
                     )
                 }
                 research.zPosition > previous.zPosition ->
                 {
                     researchTree.add(
-                        AOTDGuiSpriteSheetImage(
-                            xPos + 9,
-                            yPos + 30,
-                            14,
-                            46,
-                            ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/vertical_connector.png"),
-                            nodeConnectorControllerVertical
-                        )
+                            AOTDGuiSpriteSheetImage(
+                                    xPos + 9,
+                                    yPos + 30,
+                                    14,
+                                    46,
+                                    ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/vertical_connector.png"),
+                                    nodeConnectorControllerVertical
+                            )
                     )
                 }
                 research.zPosition < previous.zPosition ->
                 {
                     researchTree.add(
-                        AOTDGuiSpriteSheetImage(
-                            xPos + 9,
-                            yPos - 46,
-                            14,
-                            46,
-                            ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/vertical_connector.png"),
-                            nodeConnectorControllerVertical
-                        )
+                            AOTDGuiSpriteSheetImage(
+                                    xPos + 9,
+                                    yPos - 46,
+                                    14,
+                                    46,
+                                    ResourceLocation("afraidofthedark:textures/gui/journal_tech_tree/vertical_connector.png"),
+                                    nodeConnectorControllerVertical
+                            )
                     )
                 }
             }

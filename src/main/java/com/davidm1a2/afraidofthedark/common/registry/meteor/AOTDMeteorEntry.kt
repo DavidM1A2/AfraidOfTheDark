@@ -18,13 +18,13 @@ import net.minecraft.util.ResourceLocation
  * @param preRequisite    The pre-requisite research to be able to see this type of meteor
  */
 class AOTDMeteorEntry(
-    name: String,
-    icon: ResourceLocation,
-    minMeteorRadius: Int,
-    maxMeteorRadius: Int,
-    richnessPercent: Double,
-    interiorBlock: Block,
-    preRequisite: Research
+        name: String,
+        icon: ResourceLocation,
+        minMeteorRadius: Int,
+        maxMeteorRadius: Int,
+        richnessPercent: Double,
+        interiorBlock: Block,
+        preRequisite: Research
 ) : MeteorEntry(icon, minMeteorRadius, maxMeteorRadius, richnessPercent, interiorBlock, preRequisite)
 {
     init

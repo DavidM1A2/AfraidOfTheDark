@@ -36,10 +36,10 @@ class AnimationHandlerEnaria(entity: IMCAnimatedEntity) : AnimationHandler(entit
     {
         // Map of animation name to channel
         private val ANIMATION_TO_CHANNEL = mapOf(
-            "walk" to ChannelWalk("walk", 59.0f, 59, Channel.LINEAR),
-            "armthrow" to ChannelArmthrow("armthrow", 61.0f, 61, Channel.LINEAR),
-            "autoattack" to ChannelAutoattack("autoattack", 70.0f, 51, Channel.LINEAR),
-            "spell" to ChannelSpell("spell", 90.0f, 121, Channel.LINEAR)
+                "walk" to ChannelWalk("walk", 59.0f, 59, Channel.LINEAR),
+                "armthrow" to ChannelArmthrow("armthrow", 61.0f, 61, Channel.LINEAR),
+                "autoattack" to ChannelAutoattack("autoattack", 70.0f, 51, Channel.LINEAR),
+                "spell" to ChannelSpell("spell", 90.0f, 121, Channel.LINEAR)
         )
     }
 }

@@ -85,7 +85,8 @@ class ItemCrossbow : AOTDItem("crossbow")
                     }
                     else
                     {
-                        player.sendMessage(TextComponentTranslation("message.afraidofthedark:crossbow.no_bolt", TextComponentTranslation(getCurrentBoltType(itemStack).getUnlocalizedName())))
+                        player.sendMessage(TextComponentTranslation("message.afraidofthedark:crossbow.no_bolt",
+                                TextComponentTranslation(getCurrentBoltType(itemStack).getUnlocalizedName())))
                     }
                 }
             }
@@ -179,7 +180,8 @@ class ItemCrossbow : AOTDItem("crossbow")
             // Tell the user that they have a new bolt loaded
             if (!entityPlayer.world.isRemote)
             {
-                entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:crossbow.bolt_change", TextComponentTranslation(getCurrentBoltType(itemStack).getUnlocalizedName())))
+                entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:crossbow.bolt_change",
+                        TextComponentTranslation(getCurrentBoltType(itemStack).getUnlocalizedName())))
             }
         }
     }

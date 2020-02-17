@@ -34,11 +34,11 @@ class AOTDGuiRecipe(x: Int, y: Int, width: Int, height: Int, recipe: IRecipe? = 
         this.guiItemStacks = Array(9)
         {
             AOTDGuiItemStack(
-                5 + it % 3 * 24,
-                6 + 26 * (it / 3),
-                (width / 5.0).toInt(),
-                (height / 4.0).toInt(),
-                true
+                    5 + it % 3 * 24,
+                    6 + 26 * (it / 3),
+                    (width / 5.0).toInt(),
+                    (height / 4.0).toInt(),
+                    true
             )
         }
 

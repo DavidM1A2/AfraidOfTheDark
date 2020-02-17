@@ -44,10 +44,10 @@ class AOTDPlayerBasicsStorage : IStorage<IAOTDPlayerBasics>
      * @param nbt        An NBTTagCompound that contains all info about the capability
      */
     override fun readNBT(
-        capability: Capability<IAOTDPlayerBasics>,
-        instance: IAOTDPlayerBasics,
-        side: EnumFacing?,
-        nbt: NBTBase
+            capability: Capability<IAOTDPlayerBasics>,
+            instance: IAOTDPlayerBasics,
+            side: EnumFacing?,
+            nbt: NBTBase
     )
     {
         // Test if the nbt tag base is an NBT tag compound

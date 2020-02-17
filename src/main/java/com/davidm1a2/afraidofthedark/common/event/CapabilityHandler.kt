@@ -132,9 +132,15 @@ class CapabilityHandler
             // Grab the NBT compound off of the original capabilities
             val originalPlayerBasicsNBT = ModCapabilities.PLAYER_BASICS.storage.writeNBT(ModCapabilities.PLAYER_BASICS, originalPlayerBasics, null) as NBTTagCompound
             val originalPlayerResearchNBT = ModCapabilities.PLAYER_RESEARCH.storage.writeNBT(ModCapabilities.PLAYER_RESEARCH, originalPlayerResearch, null) as NBTTagCompound
-            val originalPlayerVoidChestDataNBT = ModCapabilities.PLAYER_VOID_CHEST_DATA.storage.writeNBT(ModCapabilities.PLAYER_VOID_CHEST_DATA, originalPlayerVoidChestData, null) as NBTTagCompound
-            val originalPlayerNightmareDataNBT = ModCapabilities.PLAYER_NIGHTMARE_DATA.storage.writeNBT(ModCapabilities.PLAYER_NIGHTMARE_DATA, originalPlayerNightmareData, null) as NBTTagCompound
-            val originalPlayerSpellManagerNBT = ModCapabilities.PLAYER_SPELL_MANAGER.storage.writeNBT(ModCapabilities.PLAYER_SPELL_MANAGER, originalPlayerSpellManager, null) as NBTTagCompound
+            val originalPlayerVoidChestDataNBT = ModCapabilities.PLAYER_VOID_CHEST_DATA.storage.writeNBT(ModCapabilities.PLAYER_VOID_CHEST_DATA,
+                    originalPlayerVoidChestData,
+                    null) as NBTTagCompound
+            val originalPlayerNightmareDataNBT = ModCapabilities.PLAYER_NIGHTMARE_DATA.storage.writeNBT(ModCapabilities.PLAYER_NIGHTMARE_DATA,
+                    originalPlayerNightmareData,
+                    null) as NBTTagCompound
+            val originalPlayerSpellManagerNBT = ModCapabilities.PLAYER_SPELL_MANAGER.storage.writeNBT(ModCapabilities.PLAYER_SPELL_MANAGER,
+                    originalPlayerSpellManager,
+                    null) as NBTTagCompound
 
             // Copy the NBT compound onto the new capabilities
             ModCapabilities.PLAYER_BASICS.storage.readNBT(ModCapabilities.PLAYER_BASICS, newPlayerBasics, null, originalPlayerBasicsNBT)

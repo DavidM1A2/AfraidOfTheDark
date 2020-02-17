@@ -138,9 +138,11 @@ object AOTDGuiUtility
                 {
                     return data
                 }
-            } catch (ignored: UnsupportedFlavorException)
+            }
+            catch (ignored: UnsupportedFlavorException)
             {
-            } catch (ignored: IOException)
+            }
+            catch (ignored: IOException)
             {
             }
         }

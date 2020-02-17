@@ -35,44 +35,44 @@ object RegistryRegister
     {
         // Create a new registry for structures with the name 'afraidofthedark:structures'
         ModRegistries.STRUCTURE = RegistryBuilder<Structure>()
-            .setType(Structure::class.java)
-            .setName(ResourceLocation(Constants.MOD_ID, "structures"))
-            .create()
+                .setType(Structure::class.java)
+                .setName(ResourceLocation(Constants.MOD_ID, "structures"))
+                .create()
 
         // Create a new registry for research with the name 'afraidofthedark:research'
         ModRegistries.RESEARCH = RegistryBuilder<Research>()
-            .setType(Research::class.java)
-            .setName(ResourceLocation(Constants.MOD_ID, "research"))
-            .create()
+                .setType(Research::class.java)
+                .setName(ResourceLocation(Constants.MOD_ID, "research"))
+                .create()
 
         // Create a new registry for the different bolt types with the name 'afraidofthedark:bolts'
         ModRegistries.BOLTS = RegistryBuilder<BoltEntry>()
-            .setType(BoltEntry::class.java)
-            .setName(ResourceLocation(Constants.MOD_ID, "bolts"))
-            .create()
+                .setType(BoltEntry::class.java)
+                .setName(ResourceLocation(Constants.MOD_ID, "bolts"))
+                .create()
 
         // Create a new registry for the different meteor types with the name 'afraidofthedark:meteors'
         ModRegistries.METEORS = RegistryBuilder<MeteorEntry>()
-            .setType(MeteorEntry::class.java)
-            .setName(ResourceLocation(Constants.MOD_ID, "meteors"))
-            .create()
+                .setType(MeteorEntry::class.java)
+                .setName(ResourceLocation(Constants.MOD_ID, "meteors"))
+                .create()
 
         // Create a new registry for the different spell power sources with the name 'afraidofthedark:spell_power_sources'
         ModRegistries.SPELL_POWER_SOURCES = RegistryBuilder<SpellPowerSource>()
-            .setType(SpellPowerSource::class.java)
-            .setName(ResourceLocation(Constants.MOD_ID, "spell_power_sources"))
-            .create()
+                .setType(SpellPowerSource::class.java)
+                .setName(ResourceLocation(Constants.MOD_ID, "spell_power_sources"))
+                .create()
 
         // Create a new registry for the different spell delivery methods with the name 'afraidofthedark:spell_delivery_methods'
         ModRegistries.SPELL_DELIVERY_METHODS = RegistryBuilder<SpellDeliveryMethod>()
-            .setType(SpellDeliveryMethod::class.java)
-            .setName(ResourceLocation(Constants.MOD_ID, "spell_delivery_methods"))
-            .create()
+                .setType(SpellDeliveryMethod::class.java)
+                .setName(ResourceLocation(Constants.MOD_ID, "spell_delivery_methods"))
+                .create()
 
         // Create a new registry for the different spell effects with the name 'afraidofthedark:spell_effects'
         ModRegistries.SPELL_EFFECTS = RegistryBuilder<SpellEffect>()
-            .setType(SpellEffect::class.java)
-            .setName(ResourceLocation(Constants.MOD_ID, "spell_effects"))
-            .create()
+                .setType(SpellEffect::class.java)
+                .setName(ResourceLocation(Constants.MOD_ID, "spell_effects"))
+                .create()
     }
 }

@@ -40,9 +40,9 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity
 {
     private val animHandler = AnimationHandlerEnaria(this)
     private val bossInfo = BossInfoServer(
-        this.displayName,
-        BossInfo.Color.PURPLE,
-        BossInfo.Overlay.PROGRESS
+            this.displayName,
+            BossInfo.Color.PURPLE,
+            BossInfo.Overlay.PROGRESS
     ).setDarkenSky(true) as BossInfoServer
     lateinit var allowedRegion: AxisAlignedBB
     val enariaAttacks: EnariaAttacks
@@ -380,12 +380,12 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity
     {
         super.readEntityFromNBT(compound)
         allowedRegion = AxisAlignedBB(
-            compound.getDouble("minX"),
-            compound.getDouble("minY"),
-            compound.getDouble("minZ"),
-            compound.getDouble("maxX"),
-            compound.getDouble("maxY"),
-            compound.getDouble("maxZ")
+                compound.getDouble("minX"),
+                compound.getDouble("minY"),
+                compound.getDouble("minZ"),
+                compound.getDouble("maxX"),
+                compound.getDouble("maxY"),
+                compound.getDouble("maxZ")
         )
     }
 

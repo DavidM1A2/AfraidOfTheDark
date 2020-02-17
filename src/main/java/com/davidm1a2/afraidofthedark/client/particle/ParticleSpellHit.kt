@@ -13,10 +13,10 @@ import net.minecraft.world.World
  * @param z The z position of the spell hit effect
  */
 class ParticleSpellHit(
-    world: World,
-    x: Double,
-    y: Double,
-    z: Double
+        world: World,
+        x: Double,
+        y: Double,
+        z: Double
 ) : AOTDParticle(world, ModSprites.SPELL_HIT, x, y, z)
 {
     init

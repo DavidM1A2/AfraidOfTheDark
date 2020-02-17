@@ -55,11 +55,11 @@ class EntitySplinterDroneProjectile(world: World) : Entity(world), IMCAnimatedEn
 
         // Position the entity at the center of the drone
         setLocationAndAngles(
-            shootingEntity.posX,
-            shootingEntity.posY + shootingEntity.eyeHeight,
-            shootingEntity.posZ,
-            shootingEntity.rotationYaw,
-            shootingEntity.rotationPitch
+                shootingEntity.posX,
+                shootingEntity.posY + shootingEntity.eyeHeight,
+                shootingEntity.posZ,
+                shootingEntity.rotationYaw,
+                shootingEntity.rotationPitch
         )
 
         val velocityMagnitude = sqrt(xVelocity * xVelocity + yVelocity * yVelocity + zVelocity * zVelocity)

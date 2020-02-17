@@ -163,15 +163,15 @@ class StructureCrypt : AOTDStructure("crypt")
     {
         // A set of incompatible biomes
         private val INCOMPATIBLE_BIOMES = setOf(
-            Biomes.OCEAN,
-            Biomes.DEEP_OCEAN,
-            Biomes.FROZEN_OCEAN,
-            Biomes.BEACH,
-            Biomes.FROZEN_RIVER,
-            Biomes.RIVER,
-            Biomes.SKY,
-            Biomes.VOID,
-            Biomes.STONE_BEACH
+                Biomes.OCEAN,
+                Biomes.DEEP_OCEAN,
+                Biomes.FROZEN_OCEAN,
+                Biomes.BEACH,
+                Biomes.FROZEN_RIVER,
+                Biomes.RIVER,
+                Biomes.SKY,
+                Biomes.VOID,
+                Biomes.STONE_BEACH
         )
     }
 }

@@ -13,7 +13,7 @@ import net.minecraft.client.resources.I18n
  * @param height           The height of the component
  */
 class AOTDGuiSpellPowerSourceSlot(x: Int, y: Int, width: Int, height: Int) :
-    AOTDGuiSpellComponentSlot<SpellPowerSource>(x, y, width, height, "afraidofthedark:textures/gui/spell_editor/power_source_holder.png")
+        AOTDGuiSpellComponentSlot<SpellPowerSource>(x, y, width, height, "afraidofthedark:textures/gui/spell_editor/power_source_holder.png")
 {
     /**
      * Refreshes the text that gets displayed when the slot is hovered
@@ -25,8 +25,8 @@ class AOTDGuiSpellPowerSourceSlot(x: Int, y: Int, width: Int, height: Int) :
         if (componentType != null)
         {
             this.hoverTexts = arrayOf(
-                "Power Source (${I18n.format(componentType.getUnlocalizedName())})",
-                "Cost Meaning: ${componentType.getCostDescription()}"
+                    "Power Source (${I18n.format(componentType.getUnlocalizedName())})",
+                    "Cost Meaning: ${componentType.getCostDescription()}"
             )
         }
         else

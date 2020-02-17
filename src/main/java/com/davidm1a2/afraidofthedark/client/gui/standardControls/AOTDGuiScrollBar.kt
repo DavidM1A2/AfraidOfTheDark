@@ -21,13 +21,13 @@ import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
  * @property originalHandleLocation A float telling us where the handle was before the drag began
  */
 class AOTDGuiScrollBar @JvmOverloads constructor(
-    x: Int,
-    y: Int,
-    width: Int,
-    height: Int,
-    scrollBarTexture: String = "afraidofthedark:textures/gui/scroll_bar.png",
-    handleTexture: String = "afraidofthedark:textures/gui/scroll_bar_handle.png",
-    handleHoveredTexture: String = handleTexture
+        x: Int,
+        y: Int,
+        width: Int,
+        height: Int,
+        scrollBarTexture: String = "afraidofthedark:textures/gui/scroll_bar.png",
+        handleTexture: String = "afraidofthedark:textures/gui/scroll_bar_handle.png",
+        handleHoveredTexture: String = handleTexture
 ) : AOTDGuiContainer(x, y, width, height)
 {
     var value = 0.0f

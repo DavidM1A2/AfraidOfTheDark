@@ -47,14 +47,14 @@ class DeliveryTransitionState
      * @param deliveryEntity The entity that caused the transition
      */
     internal constructor(
-        spell: Spell,
-        stageIndex: Int,
-        world: World,
-        position: Vec3d,
-        blockPos: BlockPos,
-        direction: Vec3d,
-        entity: Entity?,
-        deliveryEntity: Entity?
+            spell: Spell,
+            stageIndex: Int,
+            world: World,
+            position: Vec3d,
+            blockPos: BlockPos,
+            direction: Vec3d,
+            entity: Entity?,
+            deliveryEntity: Entity?
     )
     {
         this.spell = spell
@@ -79,15 +79,15 @@ class DeliveryTransitionState
         stageIndex = nbt.getInteger(NBT_STAGE_INDEX)
         world = DimensionManager.getWorld(nbt.getInteger(NBT_WORLD_ID))
         position = Vec3d(
-            nbt.getDouble(NBT_POSITION + "_x"),
-            nbt.getDouble(NBT_POSITION + "_y"),
-            nbt.getDouble(NBT_POSITION + "_z")
+                nbt.getDouble(NBT_POSITION + "_x"),
+                nbt.getDouble(NBT_POSITION + "_y"),
+                nbt.getDouble(NBT_POSITION + "_z")
         )
         blockPosition = NBTUtil.getPosFromTag(nbt.getCompoundTag(NBT_BLOCK_POSITION))
         direction = Vec3d(
-            nbt.getDouble(NBT_DIRECTION + "_x"),
-            nbt.getDouble(NBT_DIRECTION + "_y"),
-            nbt.getDouble(NBT_DIRECTION + "_z")
+                nbt.getDouble(NBT_DIRECTION + "_x"),
+                nbt.getDouble(NBT_DIRECTION + "_y"),
+                nbt.getDouble(NBT_DIRECTION + "_z")
         )
         entityId = if (nbt.hasKey(NBT_ENTITY_ID))
         {

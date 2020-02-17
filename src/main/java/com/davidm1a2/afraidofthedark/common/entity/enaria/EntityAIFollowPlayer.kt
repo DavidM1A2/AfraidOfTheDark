@@ -17,10 +17,10 @@ import net.minecraft.entity.player.EntityPlayer
  * @property ticksUntilNextUpdate The ticks remaining until we check path finding again
  */
 class EntityAIFollowPlayer(
-    private val entity: EntityLiving,
-    private val minRange: Double,
-    private val maxRange: Double,
-    private val trackRange: Double
+        private val entity: EntityLiving,
+        private val minRange: Double,
+        private val maxRange: Double,
+        private val trackRange: Double
 ) : EntityAIBase()
 {
     private var target: EntityPlayer? = null
@@ -36,7 +36,7 @@ class EntityAIFollowPlayer(
 
         // Grab the closest player, if there is no closest player return false
         val closestPlayer = players.filter { !it.capabilities.isCreativeMode }
-            .minWith(Comparator { p1, p2 -> p1.getDistance(entity).compareTo(p2.getDistance(entity)) }) ?: return false
+                                    .minWith(Comparator { p1, p2 -> p1.getDistance(entity).compareTo(p2.getDistance(entity)) }) ?: return false
 
         // If the distance to the player is less than min don't walk towards the player
         val distance = closestPlayer.getDistance(entity).toDouble()

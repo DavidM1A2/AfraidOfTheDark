@@ -27,55 +27,55 @@ class SpellEffectPotionEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
     init
     {
         addEditableProperty(
-            SpellComponentProperty(
-                "Potion Type",
-                "The type of potion effect to apply. Must be using the minecraft naming convention, like 'minecraft:speed'.",
-                { instance, newValue ->
-                    // Grab the potion associated with the text
-                    val type = Potion.getPotionFromResourceLocation(newValue)
-                    // If type is not null it's a valid potion type so we store it, otherwise throw an exception
-                    if (type != null)
-                    {
-                        instance.data.setString(NBT_POTION_TYPE, type.registryName.toString())
-                    }
-                    else
-                    {
-                        throw InvalidValueException("Invalid potion type $newValue, it was not found in the registry.")
-                    }
-                },
-                { it.data.getString(NBT_POTION_TYPE) },
-                { it.data.setString(NBT_POTION_TYPE, "speed") }
-            )
+                SpellComponentProperty(
+                        "Potion Type",
+                        "The type of potion effect to apply. Must be using the minecraft naming convention, like 'minecraft:speed'.",
+                        { instance, newValue ->
+                            // Grab the potion associated with the text
+                            val type = Potion.getPotionFromResourceLocation(newValue)
+                            // If type is not null it's a valid potion type so we store it, otherwise throw an exception
+                            if (type != null)
+                            {
+                                instance.data.setString(NBT_POTION_TYPE, type.registryName.toString())
+                            }
+                            else
+                            {
+                                throw InvalidValueException("Invalid potion type $newValue, it was not found in the registry.")
+                            }
+                        },
+                        { it.data.getString(NBT_POTION_TYPE) },
+                        { it.data.setString(NBT_POTION_TYPE, "speed") }
+                )
         )
         addEditableProperty(
-            SpellComponentPropertyFactory.intProperty()
-                .withName("Potion Strength")
-                .withDescription("The level of the potion to apply, ex. 4 means apply 'Potion Type' at level 4.")
-                .withSetter { instance, newValue -> instance.data.setInteger(NBT_POTION_STRENGTH, newValue - 1) }
-                .withGetter { it.data.getInteger(NBT_POTION_STRENGTH) + 1 }
-                .withDefaultValue(1)
-                .withMinValue(1)
-                .build()
+                SpellComponentPropertyFactory.intProperty()
+                        .withName("Potion Strength")
+                        .withDescription("The level of the potion to apply, ex. 4 means apply 'Potion Type' at level 4.")
+                        .withSetter { instance, newValue -> instance.data.setInteger(NBT_POTION_STRENGTH, newValue - 1) }
+                        .withGetter { it.data.getInteger(NBT_POTION_STRENGTH) + 1 }
+                        .withDefaultValue(1)
+                        .withMinValue(1)
+                        .build()
         )
         addEditableProperty(
-            SpellComponentPropertyFactory.intProperty()
-                .withName("Potion Duration")
-                .withDescription("The number of ticks the potion effect should run for.")
-                .withSetter { instance, newValue -> instance.data.setInteger(NBT_POTION_DURATION, newValue) }
-                .withGetter { it.data.getInteger(NBT_POTION_DURATION) }
-                .withDefaultValue(20)
-                .withMinValue(1)
-                .build()
+                SpellComponentPropertyFactory.intProperty()
+                        .withName("Potion Duration")
+                        .withDescription("The number of ticks the potion effect should run for.")
+                        .withSetter { instance, newValue -> instance.data.setInteger(NBT_POTION_DURATION, newValue) }
+                        .withGetter { it.data.getInteger(NBT_POTION_DURATION) }
+                        .withDefaultValue(20)
+                        .withMinValue(1)
+                        .build()
         )
         addEditableProperty(
-            SpellComponentPropertyFactory.floatProperty()
-                .withName("Potion Cloud Radius")
-                .withDescription("The size of the potion cloud if the potion is delivered to a block and not an entity.")
-                .withSetter { instance, newValue -> instance.data.setFloat(NBT_POTION_RADIUS, newValue) }
-                .withGetter { it.data.getFloat(NBT_POTION_RADIUS) }
-                .withDefaultValue(2f)
-                .withMinValue(0f)
-                .build()
+                SpellComponentPropertyFactory.floatProperty()
+                        .withName("Potion Cloud Radius")
+                        .withDescription("The size of the potion cloud if the potion is delivered to a block and not an entity.")
+                        .withSetter { instance, newValue -> instance.data.setFloat(NBT_POTION_RADIUS, newValue) }
+                        .withGetter { it.data.getFloat(NBT_POTION_RADIUS) }
+                        .withDefaultValue(2f)
+                        .withMinValue(0f)
+                        .build()
         )
     }
 

@@ -326,7 +326,8 @@ public class AxisAngle4f implements java.io.Serializable, Cloneable
         try
         {
             return (this.x == a1.x && this.y == a1.y && this.z == a1.z && this.angle == a1.angle);
-        } catch (NullPointerException e2)
+        }
+        catch (NullPointerException e2)
         {
             return false;
         }
@@ -347,10 +348,12 @@ public class AxisAngle4f implements java.io.Serializable, Cloneable
         {
             AxisAngle4f a2 = (AxisAngle4f) o1;
             return (this.x == a2.x && this.y == a2.y && this.z == a2.z && this.angle == a2.angle);
-        } catch (NullPointerException e2)
+        }
+        catch (NullPointerException e2)
         {
             return false;
-        } catch (ClassCastException e1)
+        }
+        catch (ClassCastException e1)
         {
             return false;
         }
@@ -410,7 +413,8 @@ public class AxisAngle4f implements java.io.Serializable, Cloneable
         try
         {
             return super.clone();
-        } catch (CloneNotSupportedException e)
+        }
+        catch (CloneNotSupportedException e)
         {
             // this shouldn't happen, since we are Cloneable
             throw new InternalError();

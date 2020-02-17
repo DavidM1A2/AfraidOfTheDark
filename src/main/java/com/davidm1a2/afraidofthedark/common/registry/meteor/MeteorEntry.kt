@@ -17,12 +17,12 @@ import net.minecraftforge.registries.IForgeRegistryEntry
  * @property preRequisite The pre-requisite research to be able to see this type of meteor
  */
 abstract class MeteorEntry(
-    val icon: ResourceLocation,
-    val minMeteorRadius: Int,
-    val maxMeteorRadius: Int,
-    val richnessPercent: Double,
-    val interiorBlock: Block,
-    val preRequisite: Research
+        val icon: ResourceLocation,
+        val minMeteorRadius: Int,
+        val maxMeteorRadius: Int,
+        val richnessPercent: Double,
+        val interiorBlock: Block,
+        val preRequisite: Research
 ) : IForgeRegistryEntry.Impl<MeteorEntry>()
 {
     init

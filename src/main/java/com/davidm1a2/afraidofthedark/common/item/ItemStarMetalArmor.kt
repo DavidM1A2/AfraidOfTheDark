@@ -121,8 +121,8 @@ class ItemStarMetalArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
     private fun readyToProcAbsorption(itemStack: ItemStack): Boolean
     {
         return !NBTHelper.hasTag(itemStack, NBT_LAST_ABSORPTION_PROC) || System.currentTimeMillis() > NBTHelper.getLong(
-            itemStack,
-            NBT_LAST_ABSORPTION_PROC
+                itemStack,
+                NBT_LAST_ABSORPTION_PROC
         )!! + ABSORPTION_PROC_CD_MILLIS
     }
 

@@ -17,11 +17,11 @@ import java.util.*
  * @property spawnableCreatures This list should always be empty
  */
 class BiomeVoidChest : Biome(
-    BiomeProperties("Void Chest")
-        .setWaterColor(0x537B09)
-        .setBaseHeight(0.125f)
-        .setHeightVariation(0.05f)
-        .setRainDisabled()
+        BiomeProperties("Void Chest")
+                .setWaterColor(0x537B09)
+                .setBaseHeight(0.125f)
+                .setHeightVariation(0.05f)
+                .setRainDisabled()
 )
 {
     private val spawnableCreatures: MutableList<SpawnListEntry> = ArrayList()

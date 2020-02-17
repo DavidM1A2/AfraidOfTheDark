@@ -55,11 +55,11 @@ class SpellDeliveryMethodSelf : AOTDSpellDeliveryMethod(ResourceLocation(Constan
 
         // Perform the transition between the next delivery method and the current delivery method
         spell.getStage(spellIndex + 1)!!.deliveryInstance!!.component.executeDelivery(
-            DeliveryTransitionStateBuilder()
-                .withSpell(spell)
-                .withStageIndex(spellIndex + 1)
-                .withEntity(state.getEntity()!!)
-                .build()
+                DeliveryTransitionStateBuilder()
+                        .withSpell(spell)
+                        .withStageIndex(spellIndex + 1)
+                        .withEntity(state.getEntity()!!)
+                        .build()
         )
     }
 

@@ -70,7 +70,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
 
         // Create the power source label
         val powerSourceHeading =
-            AOTDGuiLabel(5 + 24 * (currentComponent % 5), 5 + 24 * (currentComponent / 5), 120, 20, ClientData.getOrCreate(46f))
+                AOTDGuiLabel(5 + 24 * (currentComponent % 5), 5 + 24 * (currentComponent / 5), 120, 20, ClientData.getOrCreate(46f))
         powerSourceHeading.textColor = Color(140, 35, 206)
         powerSourceHeading.text = "Power Sources"
         this.componentScrollPanel.add(powerSourceHeading)
@@ -78,16 +78,16 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
 
         // Listener to be used by all of our spell components
         val componentClickListener: ((AOTDMouseEvent) -> Unit) =
-            {
-                if (it.eventType === AOTDMouseEvent.EventType.Press)
                 {
-                    // If the component is hovered fire the listener
-                    if (it.source.isHovered && it.source.isVisible && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
+                    if (it.eventType === AOTDMouseEvent.EventType.Press)
                     {
-                        componentClickCallback(it.source as AOTDGuiSpellComponentSlot<*>)
+                        // If the component is hovered fire the listener
+                        if (it.source.isHovered && it.source.isVisible && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
+                        {
+                            componentClickCallback(it.source as AOTDGuiSpellComponentSlot<*>)
+                        }
                     }
                 }
-            }
 
         // Go over all power sources and add a slot for each
         for (powerSourceEntry in ModRegistries.SPELL_POWER_SOURCES)
@@ -256,12 +256,12 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
             {
                 // Add a save button at the bottom if we have any editable properties
                 val save = AOTDGuiButton(
-                    0,
-                    currentY + 5,
-                    50,
-                    20,
-                    "afraidofthedark:textures/gui/spell_editor/button.png",
-                    "afraidofthedark:textures/gui/spell_editor/button_hovered.png",
+                        0,
+                        currentY + 5,
+                        50,
+                        20,
+                        "afraidofthedark:textures/gui/spell_editor/button.png",
+                        "afraidofthedark:textures/gui/spell_editor/button_hovered.png",
                         ClientData.getOrCreate(32f)
                 )
                 save.setTextAlignment(TextAlignment.ALIGN_CENTER)
@@ -290,11 +290,11 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
                                 {
                                     onePropertyInvalid = true
                                     entityPlayer.sendMessage(
-                                        TextComponentTranslation(
-                                            "message.afraidofthedark:spell.property_edit_fail",
-                                            propEditorPair.key.name,
-                                            e.message
-                                        )
+                                            TextComponentTranslation(
+                                                    "message.afraidofthedark:spell.property_edit_fail",
+                                                    propEditorPair.key.name,
+                                                    e.message
+                                            )
                                     )
                                 }
                             }
@@ -329,12 +329,12 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
             // Add a cancel button at the bottom. Center it if we have no edit properties (and no save button!)
             val cancelX = if (editableProperties.isEmpty()) editPanel.getWidth() / 2 - 25 else editPanel.getWidth() - 50
             val cancel = AOTDGuiButton(
-                cancelX,
-                currentY + 5,
-                50,
-                20,
-                "afraidofthedark:textures/gui/spell_editor/button.png",
-                "afraidofthedark:textures/gui/spell_editor/button_hovered.png",
+                    cancelX,
+                    currentY + 5,
+                    50,
+                    20,
+                    "afraidofthedark:textures/gui/spell_editor/button.png",
+                    "afraidofthedark:textures/gui/spell_editor/button_hovered.png",
                     ClientData.getOrCreate(32f)
             )
             cancel.setTextAlignment(TextAlignment.ALIGN_CENTER)

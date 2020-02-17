@@ -84,7 +84,7 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
 
         // Create a title label to contain the research name
         val titleLabel = AOTDGuiLabel(
-            xCornerOfPage,
+                xCornerOfPage,
                 yCornerOfPage - 25,
                 journalWidth, 25,
                 ClientData.getOrCreate(50f)
@@ -163,20 +163,20 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
 
         // Create the forward and backward button to advance and rewind pages
         forwardButton = AOTDGuiButton(
-            journalWidth - 23,
-            journalHeight - 40,
-            16,
-            16,
-            "afraidofthedark:textures/gui/journal_page/forward_button.png",
-            "afraidofthedark:textures/gui/journal_page/forward_button_hovered.png"
+                journalWidth - 23,
+                journalHeight - 40,
+                16,
+                16,
+                "afraidofthedark:textures/gui/journal_page/forward_button.png",
+                "afraidofthedark:textures/gui/journal_page/forward_button_hovered.png"
         )
         backwardButton = AOTDGuiButton(
-            10,
-            journalHeight - 40,
-            16,
-            16,
-            "afraidofthedark:textures/gui/journal_page/backward_button.png",
-            "afraidofthedark:textures/gui/journal_page/backward_button_hovered.png"
+                10,
+                journalHeight - 40,
+                16,
+                16,
+                "afraidofthedark:textures/gui/journal_page/backward_button.png",
+                "afraidofthedark:textures/gui/journal_page/backward_button_hovered.png"
         )
         // Upon clicking forward then advance the page, if we hover the button darken the color, if we don't hover the button brighten the color
         forwardButton.addMouseListener()

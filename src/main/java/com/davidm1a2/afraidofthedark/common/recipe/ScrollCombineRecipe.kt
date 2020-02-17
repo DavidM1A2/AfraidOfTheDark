@@ -61,17 +61,17 @@ class ScrollCombineRecipe : IForgeRegistryEntry.Impl<IRecipe?>(), IRecipe
                 {
                     // Go through all itemstacks and make sure they match the first one
                     val partNumbersPresent = stacks.asSequence()
-                        // Make sure they're all research scrolls
-                        .filter { it.item is ItemResearchScroll }
-                        // Make sure they all have the same research
-                        .filter { RESEARCH_SCROLL.getScrollResearch(it) === research }
-                        // Make sure they are all parts
-                        .filter { RESEARCH_SCROLL.isPart(it) }
-                        // Make sure they all have the same max number of parts
-                        .filter { RESEARCH_SCROLL.getNumberParts(it) == numberParts }
-                        // Map the itemstack to the part number and collect it into a set
-                        .map { RESEARCH_SCROLL.getPartNumber(it) }
-                        .toList()
+                            // Make sure they're all research scrolls
+                            .filter { it.item is ItemResearchScroll }
+                            // Make sure they all have the same research
+                            .filter { RESEARCH_SCROLL.getScrollResearch(it) === research }
+                            // Make sure they are all parts
+                            .filter { RESEARCH_SCROLL.isPart(it) }
+                            // Make sure they all have the same max number of parts
+                            .filter { RESEARCH_SCROLL.getNumberParts(it) == numberParts }
+                            // Map the itemstack to the part number and collect it into a set
+                            .map { RESEARCH_SCROLL.getPartNumber(it) }
+                            .toList()
 
                     // Check if the number of resulting part numbers is the same as the number of stacks meaning we have enough scrolls to complete the scroll
                     if (partNumbersPresent.size == stacks.size)

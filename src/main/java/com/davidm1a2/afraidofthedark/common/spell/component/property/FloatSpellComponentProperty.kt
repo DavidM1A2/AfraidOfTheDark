@@ -16,37 +16,37 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
  * @param maxValue     The maximum value of the property
  */
 internal class FloatSpellComponentProperty(
-    name: String,
-    description: String,
-    setter: (SpellComponentInstance<*>, Float) -> Unit,
-    getter: (SpellComponentInstance<*>) -> Float,
-    defaultValue: Float,
-    minValue: Float?,
-    maxValue: Float?
+        name: String,
+        description: String,
+        setter: (SpellComponentInstance<*>, Float) -> Unit,
+        getter: (SpellComponentInstance<*>) -> Float,
+        defaultValue: Float,
+        minValue: Float?,
+        maxValue: Float?
 ) : SpellComponentProperty(
-    name,
-    description,
-    { instance, newValue ->
-        // Ensure the number is parsable
-        val floatValue = newValue.toFloatOrNull() ?: throw InvalidValueException("$newValue is not a valid decimal value!")
+        name,
+        description,
+        { instance, newValue ->
+            // Ensure the number is parsable
+            val floatValue = newValue.toFloatOrNull() ?: throw InvalidValueException("$newValue is not a valid decimal value!")
 
-        // Ensure the float is valid
-        if (minValue != null && floatValue < minValue)
+            // Ensure the float is valid
+            if (minValue != null && floatValue < minValue)
+            {
+                setter(instance, defaultValue)
+                throw InvalidValueException("$name must be larger than or equal to $minValue");
+            }
+            if (maxValue != null && floatValue > maxValue)
+            {
+                setter(instance, defaultValue)
+                throw InvalidValueException("$name must be smaller than than or equal to $maxValue");
+            }
+            setter(instance, floatValue)
+        },
         {
-            setter(instance, defaultValue)
-            throw InvalidValueException("$name must be larger than or equal to $minValue");
-        }
-        if (maxValue != null && floatValue > maxValue)
+            getter(it).toString()
+        },
         {
-            setter(instance, defaultValue)
-            throw InvalidValueException("$name must be smaller than than or equal to $maxValue");
+            setter(it, defaultValue)
         }
-        setter(instance, floatValue)
-    },
-    {
-        getter(it).toString()
-    },
-    {
-        setter(it, defaultValue)
-    }
 )

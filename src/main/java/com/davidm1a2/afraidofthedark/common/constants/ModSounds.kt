@@ -26,21 +26,21 @@ object ModSounds
 
     // An array containing a list of sounds that AOTD adds
     val SOUND_LIST = arrayOf(
-        CROSSBOW_FIRE,
-        CROSSBOW_LOAD,
-        WEREWOLF_IDLE,
-        WEREWOLF_AGRO,
-        WEREWOLF_DEATH,
-        WEREWOLF_HURT,
-        JOURNAL_SIGN,
-        ACHIEVEMENT_UNLOCKED,
-        PAGE_TURN,
-        BUTTON_HOVER,
-        SPELL_CRAFTING_BUTTON_HOVER,
-        BELLS,
-        ERIE_ECHOS,
-        KEY_TYPED,
-        SPELL_CAST
+            CROSSBOW_FIRE,
+            CROSSBOW_LOAD,
+            WEREWOLF_IDLE,
+            WEREWOLF_AGRO,
+            WEREWOLF_DEATH,
+            WEREWOLF_HURT,
+            JOURNAL_SIGN,
+            ACHIEVEMENT_UNLOCKED,
+            PAGE_TURN,
+            BUTTON_HOVER,
+            SPELL_CRAFTING_BUTTON_HOVER,
+            BELLS,
+            ERIE_ECHOS,
+            KEY_TYPED,
+            SPELL_CAST
     )
 
     /**

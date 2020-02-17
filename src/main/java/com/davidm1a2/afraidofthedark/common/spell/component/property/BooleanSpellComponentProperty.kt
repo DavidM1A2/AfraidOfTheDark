@@ -14,37 +14,37 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
  * @param defaultValue The default value to use if the input is invalid
  */
 internal class BooleanSpellComponentProperty(
-    name: String,
-    description: String,
-    setter: (SpellComponentInstance<*>, Boolean) -> Unit,
-    getter: (SpellComponentInstance<*>) -> Boolean,
-    defaultValue: Boolean
+        name: String,
+        description: String,
+        setter: (SpellComponentInstance<*>, Boolean) -> Unit,
+        getter: (SpellComponentInstance<*>) -> Boolean,
+        defaultValue: Boolean
 ) : SpellComponentProperty(
-    name,
-    description,
-    { instance, newValue ->
-        // Ensure the boolean is valid
-        when
+        name,
+        description,
+        { instance, newValue ->
+            // Ensure the boolean is valid
+            when
+            {
+                newValue.equals("false", true) ->
+                {
+                    setter(instance, false)
+                }
+                newValue.equals("true", true) ->
+                {
+                    setter(instance, true)
+                }
+                else ->
+                {
+                    setter(instance, defaultValue)
+                    throw InvalidValueException("$newValue must be 'true' or 'false'!")
+                }
+            }
+        },
         {
-            newValue.equals("false", true) ->
-            {
-                setter(instance, false)
-            }
-            newValue.equals("true", true) ->
-            {
-                setter(instance, true)
-            }
-            else ->
-            {
-                setter(instance, defaultValue)
-                throw InvalidValueException("$newValue must be 'true' or 'false'!")
-            }
+            getter(it).toString()
+        },
+        {
+            setter(it, defaultValue)
         }
-    },
-    {
-        getter(it).toString()
-    },
-    {
-        setter(it, defaultValue)
-    }
 )

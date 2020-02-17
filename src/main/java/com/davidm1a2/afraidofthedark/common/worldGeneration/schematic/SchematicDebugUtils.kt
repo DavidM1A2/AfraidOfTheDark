@@ -131,7 +131,8 @@ object SchematicDebugUtils
         try
         {
             FileOutputStream(schematicMetaFile).use { fileOutputStream -> CompressedStreamTools.writeCompressed(nbt, fileOutputStream) }
-        } catch (e: IOException)
+        }
+        catch (e: IOException)
         {
             System.err.println("Could not write schematic .meta file:\n${ExceptionUtils.getStackTrace(e)}")
         }

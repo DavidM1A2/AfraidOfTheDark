@@ -14,51 +14,66 @@ object AOTDParticleRegistry
     // A map of ID -> particle creator. This is used to instantiate the right particle for the id client side
     @SideOnly(Side.CLIENT)
     private val PARTICLE_REGISTRY = mapOf(
-        ParticleTypes.ENARIA_BASIC_ATTACK_ID to IParticleFactory { _: Int, world: World, x: Double, y: Double, z: Double, _: Double, _: Double, _: Double, _: IntArray? ->
-            ParticleEnariaBasicAttack(
-                world,
-                x,
-                y,
-                z
-            )
-        },
-        ParticleTypes.ENARIA_SPELL_CAST_ID to IParticleFactory { _: Int, world: World, x: Double, y: Double, z: Double, _: Double, _: Double, _: Double, _: IntArray? ->
-            ParticleEnariaSpellCast(
-                world,
-                x,
-                y,
-                z
-            )
-        },
-        ParticleTypes.ENARIA_SPELL_CAST_2_ID to IParticleFactory { _: Int, world: World, x: Double, y: Double, z: Double, xSpeed: Double, _: Double, zSpeed: Double, _: IntArray? ->
-            ParticleEnariaSpellCast2(
-                world,
-                x,
-                y,
-                z,
-                xSpeed,
-                zSpeed
-            )
-        },
-        ParticleTypes.ENARIA_TELEPORT_ID to IParticleFactory { _: Int, world: World, x: Double, y: Double, z: Double, _: Double, _: Double, _: Double, _: IntArray? ->
-            ParticleEnariaTeleport(
-                world,
-                x,
-                y,
-                z
-            )
-        },
-        ParticleTypes.SPELL_CAST_ID to IParticleFactory { _: Int, world: World, x: Double, y: Double, z: Double, _: Double, _: Double, _: Double, _: IntArray? -> ParticleSpellCast(world, x, y, z) },
-        ParticleTypes.SPELL_HIT_ID to IParticleFactory { _: Int, world: World, x: Double, y: Double, z: Double, _: Double, _: Double, _: Double, _: IntArray? -> ParticleSpellHit(world, x, y, z) },
-        ParticleTypes.SMOKE_SCREEN_ID to IParticleFactory { _: Int, world: World, x: Double, y: Double, z: Double, _: Double, _: Double, _: Double, _: IntArray? ->
-            ParticleSmokeScreen(
-                world,
-                x,
-                y,
-                z
-            )
-        },
-        ParticleTypes.SPELL_LASER to IParticleFactory { _: Int, world: World, x: Double, y: Double, z: Double, _: Double, _: Double, _: Double, _: IntArray? -> ParticleSpellLaser(world, x, y, z) }
+            ParticleTypes.ENARIA_BASIC_ATTACK_ID to IParticleFactory { _: Int, world: World, x: Double, y: Double, z: Double, _: Double, _: Double, _: Double, _: IntArray? ->
+                ParticleEnariaBasicAttack(
+                        world,
+                        x,
+                        y,
+                        z
+                )
+            },
+            ParticleTypes.ENARIA_SPELL_CAST_ID to IParticleFactory { _: Int, world: World, x: Double, y: Double, z: Double, _: Double, _: Double, _: Double, _: IntArray? ->
+                ParticleEnariaSpellCast(
+                        world,
+                        x,
+                        y,
+                        z
+                )
+            },
+            ParticleTypes.ENARIA_SPELL_CAST_2_ID to IParticleFactory { _: Int, world: World, x: Double, y: Double, z: Double, xSpeed: Double, _: Double, zSpeed: Double, _: IntArray? ->
+                ParticleEnariaSpellCast2(
+                        world,
+                        x,
+                        y,
+                        z,
+                        xSpeed,
+                        zSpeed
+                )
+            },
+            ParticleTypes.ENARIA_TELEPORT_ID to IParticleFactory { _: Int, world: World, x: Double, y: Double, z: Double, _: Double, _: Double, _: Double, _: IntArray? ->
+                ParticleEnariaTeleport(
+                        world,
+                        x,
+                        y,
+                        z
+                )
+            },
+            ParticleTypes.SPELL_CAST_ID to IParticleFactory { _: Int, world: World, x: Double, y: Double, z: Double, _: Double, _: Double, _: Double, _: IntArray? ->
+                ParticleSpellCast(world,
+                        x,
+                        y,
+                        z)
+            },
+            ParticleTypes.SPELL_HIT_ID to IParticleFactory { _: Int, world: World, x: Double, y: Double, z: Double, _: Double, _: Double, _: Double, _: IntArray? ->
+                ParticleSpellHit(world,
+                        x,
+                        y,
+                        z)
+            },
+            ParticleTypes.SMOKE_SCREEN_ID to IParticleFactory { _: Int, world: World, x: Double, y: Double, z: Double, _: Double, _: Double, _: Double, _: IntArray? ->
+                ParticleSmokeScreen(
+                        world,
+                        x,
+                        y,
+                        z
+                )
+            },
+            ParticleTypes.SPELL_LASER to IParticleFactory { _: Int, world: World, x: Double, y: Double, z: Double, _: Double, _: Double, _: Double, _: IntArray? ->
+                ParticleSpellLaser(world,
+                        x,
+                        y,
+                        z)
+            }
     )
 
     /**

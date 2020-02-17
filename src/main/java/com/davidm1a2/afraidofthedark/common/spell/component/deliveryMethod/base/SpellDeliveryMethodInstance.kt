@@ -21,7 +21,7 @@ class SpellDeliveryMethodInstance(component: SpellDeliveryMethod) : SpellCompone
             val deliveryMethodTypeId = nbt.getString(NBT_TYPE_ID)
             // Use our registry to create a new instance of this type
             val instance = SpellDeliveryMethodInstance(
-                ModRegistries.SPELL_DELIVERY_METHODS.getValue(ResourceLocation(deliveryMethodTypeId))
+                    ModRegistries.SPELL_DELIVERY_METHODS.getValue(ResourceLocation(deliveryMethodTypeId))
                     ?: throw IllegalArgumentException("$deliveryMethodTypeId doesn't exist!")
             )
             // Deserialize the instance and return it

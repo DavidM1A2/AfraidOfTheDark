@@ -28,8 +28,8 @@ class TileEntityGhastlyEnariaSpawner : AOTDTickingTileEntity(ModBlocks.ENARIA_SP
                 // Find all nearby enaria entities
                 val distanceBetweenIslands = AfraidOfTheDark.INSTANCE.configurationHandler.blocksBetweenIslands / 2
                 val enariaEntities = world.getEntitiesWithinAABB(
-                    EntityGhastlyEnaria::class.java,
-                    AxisAlignedBB(getPos(), getPos().up()).grow(distanceBetweenIslands.toDouble(), distanceBetweenIslands.toDouble(), distanceBetweenIslands.toDouble())
+                        EntityGhastlyEnaria::class.java,
+                        AxisAlignedBB(getPos(), getPos().up()).grow(distanceBetweenIslands.toDouble(), distanceBetweenIslands.toDouble(), distanceBetweenIslands.toDouble())
                 )
 
                 // True if enaria is alive, false otherwise

@@ -24,19 +24,19 @@ object ModSpellEffects
 
     // An array containing a list of spell effects that AOTD adds
     val SPELL_EFFECTS = arrayOf(
-        DIG,
-        EXPLOSION,
-        TELEPORT,
-        GROW,
-        HEAL,
-        FEED,
-        BURN,
-        POTION_EFFECT,
-        SMOKE_SCREEN,
-        CLEANSE,
-        EXTINGUISH,
-        ENDER_POCKET,
-        FREEZE,
-        CHARM
+            DIG,
+            EXPLOSION,
+            TELEPORT,
+            GROW,
+            HEAL,
+            FEED,
+            BURN,
+            POTION_EFFECT,
+            SMOKE_SCREEN,
+            CLEANSE,
+            EXTINGUISH,
+            ENDER_POCKET,
+            FREEZE,
+            CHARM
     )
 }

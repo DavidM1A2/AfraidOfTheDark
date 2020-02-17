@@ -41,11 +41,11 @@ class SpellListGUI : AOTDGuiScreen()
 
         // Create a magic mirror background image
         val mirrorBackgroundImage = AOTDGuiImage(
-            0,
-            0,
-            GUI_WIDTH - SCROLL_BAR_WIDTH - SCROLL_BAR_HORIZONTAL_PADDING * 2,
-            GUI_HEIGHT,
-            "afraidofthedark:textures/gui/spell_list/spell_list_background.png"
+                0,
+                0,
+                GUI_WIDTH - SCROLL_BAR_WIDTH - SCROLL_BAR_HORIZONTAL_PADDING * 2,
+                GUI_HEIGHT,
+                "afraidofthedark:textures/gui/spell_list/spell_list_background.png"
         )
         backgroundPanel.add(mirrorBackgroundImage)
 
@@ -54,13 +54,13 @@ class SpellListGUI : AOTDGuiScreen()
         val scrollBarY = 0
         // Create the scroll bar
         val scrollBar = AOTDGuiScrollBar(
-            scrollBarX,
-            scrollBarY,
-            GUI_WIDTH - mirrorBackgroundImage.getWidth() - SCROLL_BAR_HORIZONTAL_PADDING * 2,
-            GUI_HEIGHT,
-            "afraidofthedark:textures/gui/spell_list/scroll_bar.png",
-            "afraidofthedark:textures/gui/spell_list/scroll_bar_handle.png",
-            "afraidofthedark:textures/gui/spell_list/scroll_bar_handle_hovered.png"
+                scrollBarX,
+                scrollBarY,
+                GUI_WIDTH - mirrorBackgroundImage.getWidth() - SCROLL_BAR_HORIZONTAL_PADDING * 2,
+                GUI_HEIGHT,
+                "afraidofthedark:textures/gui/spell_list/scroll_bar.png",
+                "afraidofthedark:textures/gui/spell_list/scroll_bar_handle.png",
+                "afraidofthedark:textures/gui/spell_list/scroll_bar_handle_hovered.png"
         )
 
         // Create the scroll panel to add spells to, position it centered on the background image
@@ -97,12 +97,12 @@ class SpellListGUI : AOTDGuiScreen()
 
         // Add a button to create a new spell, center it under the scrollPanel spell entries
         btnCreateSpell = AOTDGuiButton(
-            scrollPanel.getWidth() / 2 - 13,
-            0,
-            26,
-            26,
-            "afraidofthedark:textures/gui/spell_list/create_spell.png",
-            "afraidofthedark:textures/gui/spell_list/create_spell_hovered.png"
+                scrollPanel.getWidth() / 2 - 13,
+                0,
+                26,
+                26,
+                "afraidofthedark:textures/gui/spell_list/create_spell.png",
+                "afraidofthedark:textures/gui/spell_list/create_spell_hovered.png"
         )
         btnCreateSpell.setHoverText("Create a new spell")
         btnCreateSpell.addMouseListener()

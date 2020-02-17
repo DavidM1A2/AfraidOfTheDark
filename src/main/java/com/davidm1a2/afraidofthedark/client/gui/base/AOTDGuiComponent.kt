@@ -74,11 +74,11 @@ abstract class AOTDGuiComponent(x: Int, y: Int, width: Int, height: Int)
                 val mouseY = AOTDGuiUtility.getMouseYInMCCoord()
                 // Draw a background rectangle
                 Gui.drawRect(
-                    mouseX + 2,
-                    mouseY - 2,
-                    mouseX + maxHoverTextLength + 7,
-                    mouseY + fontRenderer.FONT_HEIGHT * this.hoverTexts.size,
-                    Color(140, 0, 0, 0).hashCode()
+                        mouseX + 2,
+                        mouseY - 2,
+                        mouseX + maxHoverTextLength + 7,
+                        mouseY + fontRenderer.FONT_HEIGHT * this.hoverTexts.size,
+                        Color(140, 0, 0, 0).hashCode()
                 )
                 // For each hover text in the array draw one line at a time
                 for (i in hoverTexts.indices)
@@ -87,10 +87,10 @@ abstract class AOTDGuiComponent(x: Int, y: Int, width: Int, height: Int)
                     val hoverText = hoverTexts[i]
                     // Draw the string
                     fontRenderer.drawStringWithShadow(
-                        hoverText,
-                        (mouseX + 5).toFloat(),
-                        (mouseY + i * fontRenderer.FONT_HEIGHT).toFloat(),
-                        Color(255, 255, 255).hashCode()
+                            hoverText,
+                            (mouseX + 5).toFloat(),
+                            (mouseY + i * fontRenderer.FONT_HEIGHT).toFloat(),
+                            Color(255, 255, 255).hashCode()
                     )
                 }
             }
@@ -105,8 +105,16 @@ abstract class AOTDGuiComponent(x: Int, y: Int, width: Int, height: Int)
         val whiteColor = Color(255, 255, 255, 255).hashCode()
         Gui.drawRect(this.getXScaled(), this.getYScaled(), this.getXScaled() + this.getWidthScaled(), this.getYScaled() + 1, whiteColor)
         Gui.drawRect(this.getXScaled(), this.getYScaled(), this.getXScaled() + 1, this.getYScaled() + this.getHeightScaled(), whiteColor)
-        Gui.drawRect(this.getXScaled() + this.getWidthScaled() - 1, this.getYScaled(), this.getXScaled() + this.getWidthScaled(), this.getYScaled() + this.getHeightScaled(), whiteColor)
-        Gui.drawRect(this.getXScaled(), this.getYScaled() + this.getHeightScaled() - 1, this.getXScaled() + this.getWidthScaled(), this.getYScaled() + this.getHeightScaled(), whiteColor)
+        Gui.drawRect(this.getXScaled() + this.getWidthScaled() - 1,
+                this.getYScaled(),
+                this.getXScaled() + this.getWidthScaled(),
+                this.getYScaled() + this.getHeightScaled(),
+                whiteColor)
+        Gui.drawRect(this.getXScaled(),
+                this.getYScaled() + this.getHeightScaled() - 1,
+                this.getXScaled() + this.getWidthScaled(),
+                this.getYScaled() + this.getHeightScaled(),
+                whiteColor)
     }
 
     /**

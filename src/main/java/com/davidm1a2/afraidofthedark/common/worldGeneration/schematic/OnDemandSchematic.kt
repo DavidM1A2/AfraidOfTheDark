@@ -26,11 +26,11 @@ import java.util.*
  * @property entities A list of entities inside the schematic, starts null to avoid load overhead
  */
 class OnDemandSchematic internal constructor(
-    private val schematicLocation: ResourceLocation,
-    private val name: String,
-    private val width: Short,
-    private val height: Short,
-    private val length: Short
+        private val schematicLocation: ResourceLocation,
+        private val name: String,
+        private val width: Short,
+        private val height: Short,
+        private val length: Short
 ) : Schematic
 {
     private var lastTimeAccessed: Long? = null
@@ -76,7 +76,8 @@ class OnDemandSchematic internal constructor(
                 }
 
                 AfraidOfTheDark.INSTANCE.logger.info("Loaded $name into memory.")
-            } catch (e: IOException)
+            }
+            catch (e: IOException)
             {
                 AfraidOfTheDark.INSTANCE.logger.error("Could not load on-demand schematic $name", e)
             }

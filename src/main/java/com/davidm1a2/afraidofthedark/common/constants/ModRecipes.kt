@@ -12,6 +12,6 @@ object ModRecipes
 
     // A list of mod recipes
     val MOD_RECIPES = arrayOf(
-        SCROLL_COMBINE_RECIPE
+            SCROLL_COMBINE_RECIPE
     )
 }

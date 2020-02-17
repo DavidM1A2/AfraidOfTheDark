@@ -103,18 +103,18 @@ class ProcessSextantInput : IMessage
                 {
                     // The meteor can drop from 15 - 500 blocks away from the player in both directions
                     var xLocOfDrop = player.position.x +
-                            (if (Random.nextBoolean()) -1 else 1) * (Random.nextInt(MAX_METEOR_DISTANCE - 15) + 15)
+                                     (if (Random.nextBoolean()) -1 else 1) * (Random.nextInt(MAX_METEOR_DISTANCE - 15) + 15)
                     var zLocOfDrop = player.position.z +
-                            (if (Random.nextBoolean()) -1 else 1) * (Random.nextInt(MAX_METEOR_DISTANCE - 15) + 15)
+                                     (if (Random.nextBoolean()) -1 else 1) * (Random.nextInt(MAX_METEOR_DISTANCE - 15) + 15)
 
                     // Drop the meteor
                     dropMeteor(player.world, meteorEntry, xLocOfDrop, zLocOfDrop)
 
                     // Print out a message telling the player where the meteor dropped +/- 8 blocks
                     xLocOfDrop =
-                        xLocOfDrop + (if (Random.nextBoolean()) -1 else 1) * Random.nextInt(ACCURACY + 1)
+                            xLocOfDrop + (if (Random.nextBoolean()) -1 else 1) * Random.nextInt(ACCURACY + 1)
                     zLocOfDrop =
-                        zLocOfDrop + (if (Random.nextBoolean()) -1 else 1) * Random.nextInt(ACCURACY + 1)
+                            zLocOfDrop + (if (Random.nextBoolean()) -1 else 1) * Random.nextInt(ACCURACY + 1)
 
                     player.sendMessage(TextComponentTranslation("message.afraidofthedark:meteor.location", xLocOfDrop, zLocOfDrop))
 
@@ -214,39 +214,39 @@ class ProcessSextantInput : IMessage
             private const val ACCURACY = 16
             // An invalid list of top level blocks that the meteor cant start on
             private val INVALID_TOP_BLOCKS = setOf(
-                Blocks.AIR,
-                Blocks.WATER,
-                Blocks.FLOWING_WATER,
-                Blocks.LAVA,
-                Blocks.FLOWING_LAVA
+                    Blocks.AIR,
+                    Blocks.WATER,
+                    Blocks.FLOWING_WATER,
+                    Blocks.LAVA,
+                    Blocks.FLOWING_LAVA
             )
             // A list of blocks that the meteor is allowed to remove and spawn in
             private val REPLACEABLE_BLOCKS = setOf(
-                ModBlocks.METEOR,
-                Blocks.DIRT,
-                Blocks.GRASS,
-                Blocks.LEAVES,
-                Blocks.LEAVES2,
-                Blocks.SAND,
-                Blocks.LOG,
-                Blocks.LOG2,
-                Blocks.VINE,
-                Blocks.DEADBUSH,
-                Blocks.DOUBLE_PLANT,
-                Blocks.ICE,
-                Blocks.AIR,
-                Blocks.STONE,
-                Blocks.GRAVEL,
-                Blocks.SANDSTONE,
-                Blocks.SNOW,
-                Blocks.SNOW_LAYER,
-                Blocks.HARDENED_CLAY,
-                Blocks.CLAY,
-                Blocks.WATER,
-                Blocks.FLOWING_WATER,
-                Blocks.LAVA,
-                Blocks.FLOWING_LAVA,
-                Blocks.GRASS_PATH
+                    ModBlocks.METEOR,
+                    Blocks.DIRT,
+                    Blocks.GRASS,
+                    Blocks.LEAVES,
+                    Blocks.LEAVES2,
+                    Blocks.SAND,
+                    Blocks.LOG,
+                    Blocks.LOG2,
+                    Blocks.VINE,
+                    Blocks.DEADBUSH,
+                    Blocks.DOUBLE_PLANT,
+                    Blocks.ICE,
+                    Blocks.AIR,
+                    Blocks.STONE,
+                    Blocks.GRAVEL,
+                    Blocks.SANDSTONE,
+                    Blocks.SNOW,
+                    Blocks.SNOW_LAYER,
+                    Blocks.HARDENED_CLAY,
+                    Blocks.CLAY,
+                    Blocks.WATER,
+                    Blocks.FLOWING_WATER,
+                    Blocks.LAVA,
+                    Blocks.FLOWING_LAVA,
+                    Blocks.GRASS_PATH
             )
         }
     }

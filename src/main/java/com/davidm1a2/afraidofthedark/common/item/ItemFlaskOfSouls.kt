@@ -328,18 +328,18 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls")
 
         // A mapping of entity -> kills required. Default kills required is 32, all other entities are listed below
         private val ENTITY_TO_KILLS_REQUIRED = mapOf(
-            ResourceLocation("villager") to 8,
-            ResourceLocation("ghast") to 8,
-            ResourceLocation("villager_golem") to 8,
-            ModEntities.WEREWOLF.registryName to 8,
-            ResourceLocation("enderman") to 16,
-            ResourceLocation("zombie_pigman") to 16,
-            ResourceLocation("blaze") to 16,
-            ResourceLocation("magma_cube") to 16,
-            ResourceLocation("slime") to 16,
-            ResourceLocation("witch") to 16,
-            ResourceLocation("horse") to 16,
-            ResourceLocation("wolf") to 16
+                ResourceLocation("villager") to 8,
+                ResourceLocation("ghast") to 8,
+                ResourceLocation("villager_golem") to 8,
+                ModEntities.WEREWOLF.registryName to 8,
+                ResourceLocation("enderman") to 16,
+                ResourceLocation("zombie_pigman") to 16,
+                ResourceLocation("blaze") to 16,
+                ResourceLocation("magma_cube") to 16,
+                ResourceLocation("slime") to 16,
+                ResourceLocation("witch") to 16,
+                ResourceLocation("horse") to 16,
+                ResourceLocation("wolf") to 16
         )
 
         // Default cooldown for unknown kill count
@@ -347,9 +347,9 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls")
 
         // A mapping of kills -> cooldown
         private val KILL_COUNT_TO_COOLDOWN = mapOf(
-            8 to 20000,
-            16 to 10000,
-            32 to 5000
+                8 to 20000,
+                16 to 10000,
+                32 to 5000
         )
     }
 }
