@@ -76,7 +76,7 @@ abstract class Structure : IForgeRegistryEntry.Impl<Structure>()
      */
     fun getUnlocalizedName(): String
     {
-        return "structure.${registryName!!.resourceDomain}:${registryName!!.resourcePath}"
+        return "structure.${registryName!!.resourceDomain}:${registryName!!.resourcePath}.name"
     }
 
     companion object

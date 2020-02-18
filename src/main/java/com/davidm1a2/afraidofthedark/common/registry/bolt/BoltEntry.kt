@@ -26,6 +26,6 @@ abstract class BoltEntry constructor(
      */
     fun getUnlocalizedName(): String
     {
-        return "bolt_entry.${registryName!!.resourceDomain}:${registryName!!.resourcePath}"
+        return "bolt_entry.${registryName!!.resourceDomain}:${registryName!!.resourcePath}.name"
     }
 }

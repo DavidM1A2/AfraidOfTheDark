@@ -84,9 +84,9 @@ tile.afraidofthedark:enarias_altar.name=Enaria's Altar
 itemGroup.afraidofthedark=Afraid of the Dark
 
 # Keys
-keys.afraidofthedark.category=Afraid of the Dark
-keys.afraidofthedark:roll_with_cloak=Roll with Cloak of Agility
-keys.afraidofthedark:fire_wrist_crossbow=Fire Wrist Crossbow
+key_category.afraidofthedark:name=Afraid of the Dark
+keys.afraidofthedark:roll_with_cloak.name=Roll with Cloak of Agility
+keys.afraidofthedark:fire_wrist_crossbow.name=Fire Wrist Crossbow
 
 # Mobs
 entity.werewolf.name=Werewolf
@@ -235,48 +235,48 @@ research.afraidofthedark:enarias_secret.text=While the table before me looks qui
 researchbanner.title=New Research!
 
 # Bolt entries
-bolt_entry.afraidofthedark:wooden=Wooden
-bolt_entry.afraidofthedark:iron=Iron
-bolt_entry.afraidofthedark:astral_silver=Silver
-bolt_entry.afraidofthedark:igneous=Igneous
-bolt_entry.afraidofthedark:star_metal=Star Metal
+bolt_entry.afraidofthedark:wooden.name=Wooden
+bolt_entry.afraidofthedark:iron.name=Iron
+bolt_entry.afraidofthedark:astral_silver.name=Silver
+bolt_entry.afraidofthedark:igneous.name=Igneous
+bolt_entry.afraidofthedark:star_metal.name=Star Metal
 
 # Meteor entries
-meteor_entry.afraidofthedark:astral_silver=Astral Silver
-meteor_entry.afraidofthedark:star_metal=Star Metal
-meteor_entry.afraidofthedark:igneous=Igneous
+meteor_entry.afraidofthedark:astral_silver.name=Astral Silver
+meteor_entry.afraidofthedark:star_metal.name=Star Metal
+meteor_entry.afraidofthedark:igneous.name=Igneous
 
 # Structure entries
-structure.afraidofthedark:crypt=Crypt
-structure.afraidofthedark:witch_hut=Witch Hut
-structure.afraidofthedark:void_chest=Void Chest
-structure.afraidofthedark:dark_forest=Dark Forest
-structure.afraidofthedark:gnomish_city=Gnomish City
+structure.afraidofthedark:crypt.name=Crypt
+structure.afraidofthedark:witch_hut.name=Witch Hut
+structure.afraidofthedark:void_chest.name=Void Chest
+structure.afraidofthedark:dark_forest.name=Dark Forest
+structure.afraidofthedark:gnomish_city.name=Gnomish City
 
 # Spell components
-power_source.afraidofthedark:creative=Creative
-power_source.afraidofthedark:experience=Experience
+power_source.afraidofthedark:creative.name=Creative
+power_source.afraidofthedark:experience.name=Experience
 
-effect.afraidofthedark:dig=Dig
-effect.afraidofthedark:explosion=Explosion
-effect.afraidofthedark:teleport=Teleport
-effect.afraidofthedark:grow=Grow
-effect.afraidofthedark:heal=Heal
-effect.afraidofthedark:feed=Feed
-effect.afraidofthedark:potion_effect=Potion Effect
-effect.afraidofthedark:smoke_screen=Smoke Screen
-effect.afraidofthedark:burn=Burn
-effect.afraidofthedark:cleanse=Cleanse
-effect.afraidofthedark:extinguish=Extinguish
-effect.afraidofthedark:ender_pocket=Ender Pocket
-effect.afraidofthedark:freeze=Freeze
-effect.afraidofthedark:charm=Charm
+effect.afraidofthedark:dig.name=Dig
+effect.afraidofthedark:explosion.name=Explosion
+effect.afraidofthedark:teleport.name=Teleport
+effect.afraidofthedark:grow.name=Grow
+effect.afraidofthedark:heal.name=Heal
+effect.afraidofthedark:feed.name=Feed
+effect.afraidofthedark:potion_effect.name=Potion Effect
+effect.afraidofthedark:smoke_screen.name=Smoke Screen
+effect.afraidofthedark:burn.name=Burn
+effect.afraidofthedark:cleanse.name=Cleanse
+effect.afraidofthedark:extinguish.name=Extinguish
+effect.afraidofthedark:ender_pocket.name=Ender Pocket
+effect.afraidofthedark:freeze.name=Freeze
+effect.afraidofthedark:charm.name=Charm
 
-delivery_method.afraidofthedark:self=Self
-delivery_method.afraidofthedark:projectile=Projectile
-delivery_method.afraidofthedark:aoe=AOE
-delivery_method.afraidofthedark:laser=Laser
-delivery_method.afraidofthedark:delay=Delay
+delivery_method.afraidofthedark:self.name=Self
+delivery_method.afraidofthedark:projectile.name=Projectile
+delivery_method.afraidofthedark:aoe.name=AOE
+delivery_method.afraidofthedark:laser.name=Laser
+delivery_method.afraidofthedark:delay.name=Delay
 
 # AOTD Messages to player
 message.afraidofthedark:journal.sign.successful=§cWhat have I done?

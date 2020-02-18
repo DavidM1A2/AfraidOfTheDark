@@ -9,15 +9,15 @@ import org.lwjgl.input.Keyboard
 object ModKeybindings
 {
     // AOTD will have its own keybinding category
-    private const val CATEGORY = "keys.afraidofthedark.category"
+    private const val CATEGORY_NAME = "key_category.afraidofthedark:name"
 
     // One keybinding is to roll with the cloak and the other is to fire the wrist crossbow
-    private const val FIRE_WRIST_CROSSBOW_NAME = "keys.afraidofthedark:fire_wrist_crossbow"
-    private const val ROLL_CLOAK_OF_AGILITY_NAME = "keys.afraidofthedark:roll_with_cloak"
+    private const val FIRE_WRIST_CROSSBOW_NAME = "keys.afraidofthedark:fire_wrist_crossbow.name"
+    private const val ROLL_CLOAK_OF_AGILITY_NAME = "keys.afraidofthedark:roll_with_cloak.name"
 
     // Public keybinding variables used to access the key states
-    val ROLL_WITH_CLOAK_OF_AGILITY = KeyBinding(ROLL_CLOAK_OF_AGILITY_NAME, Keyboard.KEY_G, CATEGORY)
-    val FIRE_WRIST_CROSSBOW = KeyBinding(FIRE_WRIST_CROSSBOW_NAME, Keyboard.KEY_F, CATEGORY)
+    val ROLL_WITH_CLOAK_OF_AGILITY = KeyBinding(ROLL_CLOAK_OF_AGILITY_NAME, Keyboard.KEY_G, CATEGORY_NAME)
+    val FIRE_WRIST_CROSSBOW = KeyBinding(FIRE_WRIST_CROSSBOW_NAME, Keyboard.KEY_F, CATEGORY_NAME)
 
     // A list of mod keybindings
     val KEY_BINDING_LIST = arrayOf(
