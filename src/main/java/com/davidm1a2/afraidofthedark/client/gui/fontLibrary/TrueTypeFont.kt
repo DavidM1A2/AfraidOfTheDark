@@ -26,7 +26,7 @@ import kotlin.math.*
  * @constructor initializes the font glyphs
  * @param font The java font to render
  * @param antiAlias True if anti-alias is on, false otherwise
- * @param supportedChars A list of characters to support
+ * @param alphabet A list of characters to support
  * @property glyphs Map of font characters (Character <-> IntObject)
  * @property height Font's height
  * @property fontTextureID Texture used to cache the font 0-255 characters
@@ -34,7 +34,7 @@ import kotlin.math.*
  * @property textureHeight Default font texture height
  * @property fontMetrics The font metrics for our Java AWT font
  */
-class TrueTypeFont internal constructor(private val font: Font, private val antiAlias: Boolean, supportedChars: Set<Char>)
+class TrueTypeFont internal constructor(private val font: Font, private val antiAlias: Boolean, alphabet: Set<Char>)
 {
     private val glyphs = mutableMapOf<Char, CharacterGlyph>()
     var height: Int = 0
@@ -46,18 +46,18 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
 
     init
     {
-        val characters = supportedChars + DEFAULT_CHARACTER
+        val supportedAlphabet = alphabet + DEFAULT_CHARACTER
 
         // Compute and cache the font's metrics
         fontMetrics = computeFontMetrics()
 
         // A multiple of 2 for the opengl texture (ex. 256, 512, or 1024)
-        val textureWidthHeight = getTextureSize(characters)
+        val textureWidthHeight = getTextureSize(supportedAlphabet)
         textureWidth = textureWidthHeight
         textureHeight = textureWidthHeight
 
         // Render the characters into open GL format
-        fontTextureID = createTextureSheet(characters)
+        fontTextureID = createTextureSheet(supportedAlphabet)
     }
 
     /**
@@ -80,16 +80,16 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
     /**
      * Gets the size of the texture in pixels
      *
-     * @param supportedChars The characters that are allowed
+     * @param alphabet The characters that are allowed
      * @return The size with the constraints that width = height, and it's a multiple of 2
      */
-    private fun getTextureSize(supportedChars: Set<Char>): Int
+    private fun getTextureSize(alphabet: Set<Char>): Int
     {
         // Get the maximum possible height and width of each character
         val maxCharHeight = fontMetrics.height
-        val maxCharWidth = supportedChars.map { fontMetrics.charWidth(it) }.max()!!
+        val maxCharWidth = alphabet.map { fontMetrics.charWidth(it) }.max()!!
         // Compute how many glpyhs we will need
-        val textureSize = ceil(sqrt(supportedChars.size.toDouble())).toInt()
+        val textureSize = ceil(sqrt(alphabet.size.toDouble())).toInt()
 
         // Get the size required for each glyph
         val minTextureSize = max(maxCharHeight, maxCharWidth) * textureSize
@@ -109,9 +109,9 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
     /**
      * Initializes the font by rendering each character to an image
      *
-     * @param supportedChars The extra non-ascii characters to render
+     * @param alphabet The extra non-ascii characters to render
      */
-    private fun createTextureSheet(supportedChars: Set<Char>): Int
+    private fun createTextureSheet(alphabet: Set<Char>): Int
     {
         // Create a temp buffered image to write to
         val imgTemp = BufferedImage(textureWidth, textureHeight, BufferedImage.TYPE_INT_ARGB)
@@ -131,7 +131,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
         var positionY = 0
 
         // Go over each character
-        for (character in supportedChars)
+        for (character in alphabet)
         {
             // Render the character into an image
             val fontImage = getFontImage(character)

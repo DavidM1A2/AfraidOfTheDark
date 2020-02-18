@@ -41,15 +41,15 @@ object FontLoader
     fun createFont(resourceLocation: ResourceLocation, size: Float, antiAlias: Boolean = true, type: Int = Font.TRUETYPE_FONT): TrueTypeFont
     {
         // Grab the list of characters our font must support
-        val characters = AfraidOfTheDark.INSTANCE.configurationHandler.supportedCharacters
+        val alphabet = AfraidOfTheDark.INSTANCE.configurationHandler.supportedAlphabet
         // Create a system font first given the type and input stream created by the MC game engine
         var font = Font.createFont(type, Minecraft.getMinecraft().resourceManager.getResource(resourceLocation).inputStream)
         // If the font has non-ascii characters use Calibri
-        if (characters.any { !font.canDisplay(it) })
+        if (alphabet.any { !font.canDisplay(it) })
         {
             font = Font.createFont(type, Minecraft.getMinecraft().resourceManager.getResource(DEFAULT_FONT_LOCATION).inputStream)
             // If Calibri can't render the characters, give up
-            val unrenderableCharacters = characters.filter { !font.canDisplay(it) }
+            val unrenderableCharacters = alphabet.filter { !font.canDisplay(it) }
             if (unrenderableCharacters.isNotEmpty())
             {
                 AfraidOfTheDark.INSTANCE.logger.error("Calibri doesnt support the characters [$unrenderableCharacters], they will be ignored...")
@@ -60,6 +60,6 @@ object FontLoader
         font = font.deriveFont(size).deriveFont(Font.BOLD)
 
         // Return a new true type font without any additional characters
-        return TrueTypeFont(font, antiAlias, characters)
+        return TrueTypeFont(font, antiAlias, alphabet)
     }
 }

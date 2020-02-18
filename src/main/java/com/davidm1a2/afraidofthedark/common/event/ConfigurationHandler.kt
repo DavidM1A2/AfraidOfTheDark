@@ -67,7 +67,7 @@ class ConfigurationHandler(configurationFile: File)
         private set
 
     // A of characters that the font supports
-    var supportedCharacters = setOf<Char>()
+    var supportedAlphabet = setOf<Char>()
         private set
 
     init
@@ -159,13 +159,13 @@ class ConfigurationHandler(configurationFile: File)
                 false,
                 "If you wish to receive all possible kinds of spammy debug messages in the console turn this on. Mostly used for developers only."
         )
-        val supportedCharactersRaw = configuration.getString(
-                "Supported Characters",
+        val supportedAlphabetRaw = configuration.getString(
+                "Supported Alphabet",
                 Configuration.CATEGORY_GENERAL,
                 """0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIIKLMNOPQRSTUVWXYZ !"#$%&'()*+,-./:;<>=?@[\]^_`{|}~""",
                 "A list of supported characters that will be rendered by the Afraid of the Dark font. Add characters from any language to be recognized by the mod. (Ex: цвèÓยั)"
         )
-        supportedCharacters = supportedCharactersRaw.toCharArray().toSet()
+        supportedAlphabet = supportedAlphabetRaw.toCharArray().toSet()
 
         blocksBetweenIslands = configuration.getInt(
                 "Blocks Between Islands",
