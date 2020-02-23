@@ -16,7 +16,9 @@ import java.awt.image.DataBufferByte
 import java.awt.image.DataBufferInt
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
-import kotlin.math.*
+import kotlin.math.abs
+import kotlin.math.max
+import kotlin.math.pow
 
 /**
  * TrueTyper: Open Source TTF implementation for Minecraft.
@@ -85,21 +87,40 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
      */
     private fun getTextureSize(alphabet: Set<Char>): Int
     {
-        // Get the maximum possible height and width of each character
+        // Get the maximum possible height of each character
         val maxCharHeight = fontMetrics.height
-        val maxCharWidth = alphabet.map { fontMetrics.charWidth(it) }.max()!!
-        // Compute how many glpyhs we will need
-        val textureSize = ceil(sqrt(alphabet.size.toDouble())).toInt()
 
-        // Get the size required for each glyph
-        val minTextureSize = max(maxCharHeight, maxCharWidth) * textureSize
+        // Use a list of characters so it is indexable
+        val indexableAlphabet = alphabet.toList()
 
-        // Find the closest thing to a multiple of two, up to 4096
+        // Find the closest valid texture size that will hold all the glyphs up to 4096x4096
         for (possibleTextureSize in validTextureSizes)
         {
-            if (possibleTextureSize >= minTextureSize)
+            var rowsRemaining = possibleTextureSize / maxCharHeight
+            var currentRowLength = 0.0
+            var currentCharIndex = 0
+
+            // Go row by row and see if all the glpyhs will fit
+            while (rowsRemaining > 0)
             {
-                return possibleTextureSize
+                // If no glyphs are left, we're done
+                if (currentCharIndex >= indexableAlphabet.size)
+                {
+                    return possibleTextureSize
+                }
+
+                // Get the glyph, see if it fits in this row. If not, move on to the next row
+                val currentCharWidth = fontMetrics.charWidth(indexableAlphabet[currentCharIndex])
+                if (currentRowLength + currentCharWidth > possibleTextureSize)
+                {
+                    currentRowLength = 0.0
+                    rowsRemaining--
+                }
+                else
+                {
+                    currentRowLength = currentRowLength + currentCharWidth
+                    currentCharIndex++
+                }
             }
         }
 
@@ -505,7 +526,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
         // Default character
         private const val DEFAULT_CHARACTER = '?'
 
-        private val validTextureSizes = (1..12).map { 2.0.pow(it).toInt() }
+        private val validTextureSizes = (6..12).map { 2.0.pow(it).toInt() }
 
         /**
          * Converts a buffered image into an open GL ready image to be loaded

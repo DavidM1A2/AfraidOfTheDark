@@ -27,7 +27,7 @@ import java.awt.Font
 object FontLoader
 {
     // If a font can't render all characters required use this instead
-    private val DEFAULT_FONT_LOCATION = ResourceLocation("afraidofthedark:fonts/calibri.ttf")
+    private val CALIBRI_FONT_LOCATION = ResourceLocation("afraidofthedark:fonts/calibri.ttf")
 
     /**
      * Creates a font to be used by MC given a resource location, size, type, and anti-alias flag
@@ -40,24 +40,24 @@ object FontLoader
      */
     fun createFont(resourceLocation: ResourceLocation, size: Float, antiAlias: Boolean = true, type: Int = Font.TRUETYPE_FONT): TrueTypeFont
     {
-        // Grab the list of characters our font must support
-        val alphabet = AfraidOfTheDark.INSTANCE.configurationHandler.supportedAlphabet
-        // Create a system font first given the type and input stream created by the MC game engine
-        var font = Font.createFont(type, Minecraft.getMinecraft().resourceManager.getResource(resourceLocation).inputStream)
-        // If the font has non-ascii characters use Calibri
-        if (alphabet.any { !font.canDisplay(it) })
+        // If we should use calibri use that, otherwise use the font provided to us
+        val fontFile = if (AfraidOfTheDark.INSTANCE.configurationHandler.useCalibri)
         {
-            font = Font.createFont(type, Minecraft.getMinecraft().resourceManager.getResource(DEFAULT_FONT_LOCATION).inputStream)
-            // If Calibri can't render the characters, give up
-            val unrenderableCharacters = alphabet.filter { !font.canDisplay(it) }
-            if (unrenderableCharacters.isNotEmpty())
-            {
-                AfraidOfTheDark.INSTANCE.logger.error("Calibri doesnt support the characters [$unrenderableCharacters], they will be ignored...")
-            }
+            CALIBRI_FONT_LOCATION
+        }
+        else
+        {
+            resourceLocation
         }
 
         // Set the font size and make it bold. Bold fonts tend to look better in this font rendering system
-        font = font.deriveFont(size).deriveFont(Font.BOLD)
+        val font = Minecraft.getMinecraft().resourceManager.getResource(fontFile).inputStream.use()
+        {
+            Font.createFont(type, it).deriveFont(size).deriveFont(Font.BOLD)
+        }
+
+        // Grab the list of characters our font can support
+        val alphabet = (Char.MIN_VALUE..Char.MAX_VALUE).filter { font.canDisplay(it) }.toSet()
 
         // Return a new true type font without any additional characters
         return TrueTypeFont(font, antiAlias, alphabet)

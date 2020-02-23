@@ -66,8 +66,8 @@ class ConfigurationHandler(configurationFile: File)
     var voidChestDimensionId = 0
         private set
 
-    // A of characters that the font supports
-    var supportedAlphabet = setOf<Char>()
+    // True if calibri should be used instead of a custom font
+    var useCalibri = false
         private set
 
     init
@@ -159,13 +159,13 @@ class ConfigurationHandler(configurationFile: File)
                 false,
                 "If you wish to receive all possible kinds of spammy debug messages in the console turn this on. Mostly used for developers only."
         )
-        val supportedAlphabetRaw = configuration.getString(
-                "Supported Alphabet",
+
+        useCalibri = configuration.getBoolean(
+                "Use Calibri Font",
                 Configuration.CATEGORY_GENERAL,
-                """0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIIKLMNOPQRSTUVWXYZ !"#$%&'()*+,-./:;<>=?@[\]^_`{|}~""",
-                "A list of supported characters that will be rendered by the Afraid of the Dark font. Add characters from any language to be recognized by the mod. (Ex: цвèÓยั)"
+                false,
+                "True will force Afraid of the Dark to use the 'Calibri' font. Calibri supports a lot more languages at the cost of longer load times and more memory usage. If you are seeing a lot of question marks in text, turning this on may help."
         )
-        supportedAlphabet = supportedAlphabetRaw.toCharArray().toSet()
 
         blocksBetweenIslands = configuration.getInt(
                 "Blocks Between Islands",
