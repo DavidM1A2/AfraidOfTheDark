@@ -16,10 +16,8 @@ import net.minecraft.world.World
  *
  * @constructor initializes the block's properties
  */
-class BlockAstralSilverOre : AOTDBlock("astral_silver_ore", Material.ROCK)
-{
-    init
-    {
+class BlockAstralSilverOre : AOTDBlock("astral_silver_ore", Material.ROCK) {
+    init {
         setHardness(10.0f)
         setResistance(50.0f)
         this.setHarvestLevel("pickaxe", 2)
@@ -35,12 +33,17 @@ class BlockAstralSilverOre : AOTDBlock("astral_silver_ore", Material.ROCK)
      * @param te      The tile entity at the block pos
      * @param stack   The item stack used to break the block
      */
-    override fun harvestBlock(worldIn: World, player: EntityPlayer, pos: BlockPos, state: IBlockState, te: TileEntity?, stack: ItemStack)
-    {
+    override fun harvestBlock(
+        worldIn: World,
+        player: EntityPlayer,
+        pos: BlockPos,
+        state: IBlockState,
+        te: TileEntity?,
+        stack: ItemStack
+    ) {
         // If the player can unlock the astral silver research unlock it and sync
         val playerResearch = player.getResearch()
-        if (playerResearch.canResearch(ModResearches.ASTRAL_SILVER))
-        {
+        if (playerResearch.canResearch(ModResearches.ASTRAL_SILVER)) {
             playerResearch.setResearch(ModResearches.ASTRAL_SILVER, true)
             playerResearch.sync(player, true)
         }

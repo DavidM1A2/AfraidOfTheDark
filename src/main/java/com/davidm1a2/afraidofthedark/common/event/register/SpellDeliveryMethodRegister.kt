@@ -8,16 +8,14 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 /**
  * Class that receives the register spell delivery method event and registers all of our spell delivery methods
  */
-class SpellDeliveryMethodRegister
-{
+class SpellDeliveryMethodRegister {
     /**
      * Called by forge to register any of our spell delivery methods
      *
      * @param event The event to register to
      */
     @SubscribeEvent
-    fun registerSpellDeliveryMethods(event: RegistryEvent.Register<SpellDeliveryMethod>)
-    {
+    fun registerSpellDeliveryMethods(event: RegistryEvent.Register<SpellDeliveryMethod>) {
         val registry = event.registry
 
         // Register all spell delivery methods in our mod

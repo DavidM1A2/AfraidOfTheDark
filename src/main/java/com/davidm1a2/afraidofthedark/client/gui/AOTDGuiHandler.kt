@@ -10,8 +10,7 @@ import net.minecraftforge.fml.common.network.IGuiHandler
 /**
  * Gui Handler for AOTD that opens a UI based on ID. It can open UIs sever or client side.
  */
-class AOTDGuiHandler : IGuiHandler
-{
+class AOTDGuiHandler : IGuiHandler {
     /**
      * Returns a container from the server side that allows synchronized editing of tile entities like containers (chests). It's not used for
      * AOTD yet since none of the UIs edit server-side containers
@@ -24,11 +23,9 @@ class AOTDGuiHandler : IGuiHandler
      * @param z      The Z location of the player or block that the UI is associated with
      * @return A class that extends Container representing the GUI object to be edited by the user
      */
-    override fun getServerGuiElement(ID: Int, player: EntityPlayer, world: World, x: Int, y: Int, z: Int): Any?
-    {
+    override fun getServerGuiElement(ID: Int, player: EntityPlayer, world: World, x: Int, y: Int, z: Int): Any? {
         @Suppress("UNUSED_EXPRESSION")
-        return when (ID)
-        {
+        return when (ID) {
             else -> null
         }
     }
@@ -44,26 +41,24 @@ class AOTDGuiHandler : IGuiHandler
      * @param z      The Z location of the player or block that the UI is associated with
      * @return A class that extends GuiScreen representing the GUI object to be edited by the user
      */
-    override fun getClientGuiElement(ID: Int, player: EntityPlayer, world: World, x: Int, y: Int, z: Int): Any?
-    {
+    override fun getClientGuiElement(ID: Int, player: EntityPlayer, world: World, x: Int, y: Int, z: Int): Any? {
         // Grab the last selected research used in the page UI
         val lastSelectedResearch = ClientData.lastSelectedResearch
         // Grab the last selected spell used in the spell edit UI
         val lastSelectedSpell = ClientData.lastSelectedSpell
-        return when (ID)
-        {
+        return when (ID) {
             BLOOD_STAINED_JOURNAL_SIGN_ID -> BloodStainedJournalSignGUI()
             BLOOD_STAINED_JOURNAL_ID -> BloodStainedJournalResearchGUI(false)
             BLOOD_STAINED_JOURNAL_CHEAT_SHEET -> BloodStainedJournalResearchGUI(true)
             BLOOD_STAINED_JOURNAL_PAGE_ID -> BloodStainedJournalPageGUI(
-                    I18n.format(lastSelectedResearch!!.getUnlocalizedText()),
-                    I18n.format(lastSelectedResearch.getUnlocalizedName()),
-                    lastSelectedResearch.researchedRecipes
+                I18n.format(lastSelectedResearch!!.getUnlocalizedText()),
+                I18n.format(lastSelectedResearch.getUnlocalizedName()),
+                lastSelectedResearch.researchedRecipes
             )
             BLOOD_STAINED_JOURNAL_PAGE_PRE_ID -> BloodStainedJournalPageGUI(
-                    I18n.format(lastSelectedResearch!!.getUnlocalizedPreText()),
-                    "???",
-                    lastSelectedResearch.preResearchedRecipes
+                I18n.format(lastSelectedResearch!!.getUnlocalizedPreText()),
+                "???",
+                lastSelectedResearch.preResearchedRecipes
             )
             TELESCOPE_ID -> TelescopeGUI()
             SEXTANT_ID -> SextantGUI()
@@ -73,8 +68,7 @@ class AOTDGuiHandler : IGuiHandler
         }
     }
 
-    companion object
-    {
+    companion object {
         // Each AOTD GUI has a unique ID:
         const val BLOOD_STAINED_JOURNAL_SIGN_ID = 1
         const val BLOOD_STAINED_JOURNAL_ID = 2

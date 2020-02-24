@@ -11,8 +11,7 @@ import net.minecraftforge.common.capabilities.Capability.IStorage
 /**
  * Default storage implementation for the AOTD freeze spell effect data
  */
-class AOTDPlayerSpellFreezeDataStorage : IStorage<IAOTDPlayerSpellFreezeData>
-{
+class AOTDPlayerSpellFreezeDataStorage : IStorage<IAOTDPlayerSpellFreezeData> {
     /**
      * Called to write a capability to an NBT compound
      *
@@ -22,16 +21,14 @@ class AOTDPlayerSpellFreezeDataStorage : IStorage<IAOTDPlayerSpellFreezeData>
      * @return An NBTTagCompound that contains all info about the capability
      */
     override fun writeNBT(
-            capability: Capability<IAOTDPlayerSpellFreezeData>,
-            instance: IAOTDPlayerSpellFreezeData,
-            side: EnumFacing?
-    ): NBTBase?
-    {
+        capability: Capability<IAOTDPlayerSpellFreezeData>,
+        instance: IAOTDPlayerSpellFreezeData,
+        side: EnumFacing?
+    ): NBTBase? {
         // Create a compound to write
         val nbt = NBTTagCompound()
         nbt.setInteger(NBT_FREEZE_TICKS, instance.freezeTicks)
-        instance.freezePosition?.let()
-        {
+        instance.freezePosition?.let {
             nbt.setDouble(NBT_POSITION + "_x", it.x)
             nbt.setDouble(NBT_POSITION + "_y", it.y)
             nbt.setDouble(NBT_POSITION + "_z", it.z)
@@ -50,42 +47,36 @@ class AOTDPlayerSpellFreezeDataStorage : IStorage<IAOTDPlayerSpellFreezeData>
      * @param nbt        An NBTTagCompound that contains all info about the capability
      */
     override fun readNBT(
-            capability: Capability<IAOTDPlayerSpellFreezeData>,
-            instance: IAOTDPlayerSpellFreezeData,
-            side: EnumFacing?,
-            nbt: NBTBase
-    )
-    {
+        capability: Capability<IAOTDPlayerSpellFreezeData>,
+        instance: IAOTDPlayerSpellFreezeData,
+        side: EnumFacing?,
+        nbt: NBTBase
+    ) {
         // Test if the nbt tag base is an NBT tag compound
-        if (nbt is NBTTagCompound)
-        {
+        if (nbt is NBTTagCompound) {
             instance.freezeTicks = nbt.getInteger(NBT_FREEZE_TICKS)
 
             if (nbt.hasKey(NBT_POSITION + "_x") &&
                 nbt.hasKey(NBT_POSITION + "_y") &&
                 nbt.hasKey(NBT_POSITION + "_z")
-            )
-            {
+            ) {
                 instance.freezePosition = Vec3d(
-                        nbt.getDouble(NBT_POSITION + "_x"),
-                        nbt.getDouble(NBT_POSITION + "_y"),
-                        nbt.getDouble(NBT_POSITION + "_z")
+                    nbt.getDouble(NBT_POSITION + "_x"),
+                    nbt.getDouble(NBT_POSITION + "_y"),
+                    nbt.getDouble(NBT_POSITION + "_z")
                 )
             }
 
             instance.setFreezeDirection(
-                    nbt.getFloat(NBT_DIRECTION_YAW),
-                    nbt.getFloat(NBT_DIRECTION_PITCH)
+                nbt.getFloat(NBT_DIRECTION_YAW),
+                nbt.getFloat(NBT_DIRECTION_PITCH)
             )
-        }
-        else
-        {
+        } else {
             AfraidOfTheDark.INSTANCE.logger.error("Attempted to deserialize an NBTBase that was not an NBTTagCompound!")
         }
     }
 
-    companion object
-    {
+    companion object {
         // NBT constants used for serialization
         private const val NBT_FREEZE_TICKS = "freeze_ticks"
         private const val NBT_POSITION = "position"

@@ -22,8 +22,7 @@ import kotlin.random.Random
  * @property latitude The second sextant field required
  * @property longitude The third sextant field required
  */
-class ProcessSextantInput : IMessage
-{
+class ProcessSextantInput : IMessage {
     private var dropAngle: Int
     private var latitude: Int
     private var longitude: Int
@@ -31,8 +30,7 @@ class ProcessSextantInput : IMessage
     /**
      * Default constructor is required but not used
      */
-    constructor()
-    {
+    constructor() {
         dropAngle = -1
         latitude = -1
         longitude = -1
@@ -45,8 +43,7 @@ class ProcessSextantInput : IMessage
      * @param latitude  The latitude the meteor was dropping to
      * @param longitude The longitude the meteor was dropping to
      */
-    constructor(dropAngle: Int, latitude: Int, longitude: Int)
-    {
+    constructor(dropAngle: Int, latitude: Int, longitude: Int) {
         this.dropAngle = dropAngle
         this.latitude = latitude
         this.longitude = longitude
@@ -57,8 +54,7 @@ class ProcessSextantInput : IMessage
      *
      * @param buf The buffer to read from
      */
-    override fun fromBytes(buf: ByteBuf)
-    {
+    override fun fromBytes(buf: ByteBuf) {
         dropAngle = buf.readInt()
         latitude = buf.readInt()
         longitude = buf.readInt()
@@ -69,8 +65,7 @@ class ProcessSextantInput : IMessage
      *
      * @param buf The buffer to write to
      */
-    override fun toBytes(buf: ByteBuf)
-    {
+    override fun toBytes(buf: ByteBuf) {
         buf.writeInt(dropAngle)
         buf.writeInt(latitude)
         buf.writeInt(longitude)
@@ -79,8 +74,7 @@ class ProcessSextantInput : IMessage
     /**
      * Handler handles ProcessSextantInput packets on the server side
      */
-    class Handler : MessageHandler.Server<ProcessSextantInput>()
-    {
+    class Handler : MessageHandler.Server<ProcessSextantInput>() {
         /**
          * Handles the message on the server side
          *
@@ -88,49 +82,49 @@ class ProcessSextantInput : IMessage
          * @param msg    the message received
          * @param ctx    The context that the message was sent through
          */
-        override fun handleServerMessage(player: EntityPlayer, msg: ProcessSextantInput, ctx: MessageContext)
-        {
+        override fun handleServerMessage(player: EntityPlayer, msg: ProcessSextantInput, ctx: MessageContext) {
             // First validate that the player entered the correct values into the sextant
             val playerBasics = player.getBasics()
             if (playerBasics.getWatchedMeteorDropAngle() == msg.dropAngle &&
                 playerBasics.getWatchedMeteorLatitude() == msg.latitude &&
                 playerBasics.getWatchedMeteorLongitude() == msg.longitude
-            )
-            {
+            ) {
                 val meteorEntry = playerBasics.getWatchedMeteor()
 
-                if (meteorEntry != null)
-                {
+                if (meteorEntry != null) {
                     // The meteor can drop from 15 - 500 blocks away from the player in both directions
                     var xLocOfDrop = player.position.x +
-                                     (if (Random.nextBoolean()) -1 else 1) * (Random.nextInt(MAX_METEOR_DISTANCE - 15) + 15)
+                            (if (Random.nextBoolean()) -1 else 1) * (Random.nextInt(MAX_METEOR_DISTANCE - 15) + 15)
                     var zLocOfDrop = player.position.z +
-                                     (if (Random.nextBoolean()) -1 else 1) * (Random.nextInt(MAX_METEOR_DISTANCE - 15) + 15)
+                            (if (Random.nextBoolean()) -1 else 1) * (Random.nextInt(MAX_METEOR_DISTANCE - 15) + 15)
 
                     // Drop the meteor
                     dropMeteor(player.world, meteorEntry, xLocOfDrop, zLocOfDrop)
 
                     // Print out a message telling the player where the meteor dropped +/- 8 blocks
                     xLocOfDrop =
-                            xLocOfDrop + (if (Random.nextBoolean()) -1 else 1) * Random.nextInt(ACCURACY + 1)
+                        xLocOfDrop + (if (Random.nextBoolean()) -1 else 1) * Random.nextInt(ACCURACY + 1)
                     zLocOfDrop =
-                            zLocOfDrop + (if (Random.nextBoolean()) -1 else 1) * Random.nextInt(ACCURACY + 1)
+                        zLocOfDrop + (if (Random.nextBoolean()) -1 else 1) * Random.nextInt(ACCURACY + 1)
 
-                    player.sendMessage(TextComponentTranslation("message.afraidofthedark:meteor.location", xLocOfDrop, zLocOfDrop))
+                    player.sendMessage(
+                        TextComponentTranslation(
+                            "message.afraidofthedark:meteor.location",
+                            xLocOfDrop,
+                            zLocOfDrop
+                        )
+                    )
 
                     // Clear the player's watched meteors so that the same meteor can't be used twice
                     playerBasics.setWatchedMeteor(null, -1, -1, -1)
                     playerBasics.syncWatchedMeteor(player)
-                }
-                else
-                {
+                } else {
                     AfraidOfTheDark.INSTANCE.logger.error("Player ${player.gameProfile.name} had null meteor entry")
                 }
 
             }
             // The values aren't correct so show an error
-            else
-            {
+            else {
                 player.sendMessage(TextComponentTranslation("message.afraidofthedark:meteor.process.invalid_vals"))
             }
         }
@@ -143,16 +137,14 @@ class ProcessSextantInput : IMessage
          * @param xPos        The X position the meteor is at
          * @param zPos        The Z position the meteor is at
          */
-        private fun dropMeteor(world: World, meteorEntry: MeteorEntry, xPos: Int, zPos: Int)
-        {
+        private fun dropMeteor(world: World, meteorEntry: MeteorEntry, xPos: Int, zPos: Int) {
             // We need to compute the y position, start at the top and work our way down
             var yPos = 255
             // Grab the top block
             var block = world.getBlockState(BlockPos(xPos, yPos, zPos)).block
 
             // Iterate while we are above bedrock on an air/water/lava block. Work our way down
-            while (yPos > 0 && INVALID_TOP_BLOCKS.contains(block))
-            {
+            while (yPos > 0 && INVALID_TOP_BLOCKS.contains(block)) {
                 yPos--
                 block = world.getBlockState(BlockPos(xPos, yPos, zPos)).block
             }
@@ -160,22 +152,18 @@ class ProcessSextantInput : IMessage
             AfraidOfTheDark.INSTANCE.logger.info("Meteor dropped at $xPos, $yPos, $zPos")
 
             // If we have a valid y-pos generate the meteor
-            if (yPos > 0)
-            {
+            if (yPos > 0) {
                 // Compute the meteor's radius, it will be based on the parameters of the meteor entry
                 val radius = Random.nextInt(meteorEntry.minMeteorRadius, meteorEntry.maxMeteorRadius + 1)
                 // Iterate over x, y, and z
-                for (x in xPos - radius..xPos + radius)
-                {
-                    for (y in yPos - radius until yPos + radius)
-                    {
-                        for (z in zPos - radius..zPos + radius)
-                        {
+                for (x in xPos - radius..xPos + radius) {
+                    for (y in yPos - radius until yPos + radius) {
+                        for (z in zPos - radius..zPos + radius) {
                             // Compute the distance from the center
-                            val distanceFromCenter = (xPos - x) * (xPos - x) + (yPos - y) * (yPos - y) + ((zPos - z) * (zPos - z)).toDouble()
+                            val distanceFromCenter =
+                                (xPos - x) * (xPos - x) + (yPos - y) * (yPos - y) + ((zPos - z) * (zPos - z)).toDouble()
                             // If the distance is less than the radius^2 then it's inside the sphere
-                            if (distanceFromCenter < radius * radius)
-                            {
+                            if (distanceFromCenter < radius * radius) {
                                 // Grab the block pos at the x,y,z coordinates
                                 val blockPos = BlockPos(x, y, z)
 
@@ -183,15 +171,11 @@ class ProcessSextantInput : IMessage
                                 val existingBlock = world.getBlockState(blockPos).block
 
                                 // If the block is replaceable, replace it
-                                if (REPLACEABLE_BLOCKS.contains(existingBlock))
-                                {
+                                if (REPLACEABLE_BLOCKS.contains(existingBlock)) {
                                     // It's an exterior block so set it to meteor
-                                    if (distanceFromCenter >= (radius - 1) * (radius - 1) || Math.random() > meteorEntry.richnessPercent)
-                                    {
+                                    if (distanceFromCenter >= (radius - 1) * (radius - 1) || Math.random() > meteorEntry.richnessPercent) {
                                         world.setBlockState(blockPos, ModBlocks.METEOR.defaultState)
-                                    }
-                                    else
-                                    {
+                                    } else {
                                         world.setBlockState(blockPos, meteorEntry.interiorBlock.defaultState)
                                     }
                                 }
@@ -199,54 +183,51 @@ class ProcessSextantInput : IMessage
                         }
                     }
                 }
-            }
-            else
-            {
+            } else {
                 AfraidOfTheDark.INSTANCE.logger.error("Could not find a suitable y-level for the meteor at $xPos, $yPos")
             }
         }
 
-        companion object
-        {
+        companion object {
             // The maximum distance a meteor can fall away from the player
             private const val MAX_METEOR_DISTANCE = 500
             // The chance accuracy of the sextant used, the actual meteor will be within this many blocks of the coordinates
             private const val ACCURACY = 16
             // An invalid list of top level blocks that the meteor cant start on
             private val INVALID_TOP_BLOCKS = setOf(
-                    Blocks.AIR,
-                    Blocks.WATER,
-                    Blocks.FLOWING_WATER,
-                    Blocks.LAVA,
-                    Blocks.FLOWING_LAVA
+                Blocks.AIR,
+                Blocks.WATER,
+                Blocks.FLOWING_WATER,
+                Blocks.LAVA,
+                Blocks.FLOWING_LAVA
             )
             // A list of blocks that the meteor is allowed to remove and spawn in
             private val REPLACEABLE_BLOCKS = setOf(
-                    ModBlocks.METEOR,
-                    Blocks.DIRT,
-                    Blocks.GRASS,
-                    Blocks.LEAVES,
-                    Blocks.LEAVES2,
-                    Blocks.SAND,
-                    Blocks.LOG,
-                    Blocks.LOG2,
-                    Blocks.VINE,
-                    Blocks.DEADBUSH,
-                    Blocks.DOUBLE_PLANT,
-                    Blocks.ICE,
-                    Blocks.AIR,
-                    Blocks.STONE,
-                    Blocks.GRAVEL,
-                    Blocks.SANDSTONE,
-                    Blocks.SNOW,
-                    Blocks.SNOW_LAYER,
-                    Blocks.HARDENED_CLAY,
-                    Blocks.CLAY,
-                    Blocks.WATER,
-                    Blocks.FLOWING_WATER,
-                    Blocks.LAVA,
-                    Blocks.FLOWING_LAVA,
-                    Blocks.GRASS_PATH
+                ModBlocks.METEOR,
+                Blocks.DIRT,
+                Blocks.GRASS,
+                Blocks.LEAVES,
+                Blocks.LEAVES2,
+                Blocks.SAND,
+                Blocks.LOG,
+                Blocks.LOG2,
+                Blocks.VINE,
+                Blocks.DEADBUSH,
+                Blocks.DOUBLE_PLANT,
+                Blocks.ICE,
+                Blocks.AIR,
+                Blocks.STONE,
+                Blocks.GRAVEL,
+                Blocks.SANDSTONE,
+                Blocks.SNOW,
+                Blocks.SNOW_LAYER,
+                Blocks.HARDENED_CLAY,
+                Blocks.CLAY,
+                Blocks.WATER,
+                Blocks.FLOWING_WATER,
+                Blocks.LAVA,
+                Blocks.FLOWING_LAVA,
+                Blocks.GRASS_PATH
             )
         }
     }

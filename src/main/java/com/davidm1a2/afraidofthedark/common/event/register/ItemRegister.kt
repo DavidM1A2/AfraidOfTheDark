@@ -17,31 +17,25 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 /**
  * Class that receives the register item event and registers all of our items
  */
-class ItemRegister
-{
+class ItemRegister {
     /**
      * Called by forge to register any of our items
      *
      * @param event The event to register to
      */
     @SubscribeEvent
-    fun registerItems(event: RegistryEvent.Register<Item>)
-    {
+    fun registerItems(event: RegistryEvent.Register<Item>) {
         val registry = event.registry
 
         // Register each item in our item list
         registry.registerAll(*ModItems.ITEM_LIST)
 
         // For each block in our block list we register an item so that we can hold the block
-        for (block in ModBlocks.BLOCK_LIST)
-        {
+        for (block in ModBlocks.BLOCK_LIST) {
             // If our block is a lower half slab, we register it using an ItemSlab not an ItemBlock
-            if (block is AOTDSlab && !block.isDouble)
-            {
+            if (block is AOTDSlab && !block.isDouble) {
                 registry.register(ItemSlab(block, block, block.getOpposite()).setRegistryName(block.getRegistryName()))
-            }
-            else
-            {
+            } else {
                 registry.register(ItemBlock(block).setRegistryName(block.registryName))
             }
         }
@@ -54,14 +48,12 @@ class ItemRegister
      */
     @SubscribeEvent
     @Suppress("UNUSED_PARAMETER")
-    fun registerItemRenderers(event: ModelRegistryEvent)
-    {
+    fun registerItemRenderers(event: ModelRegistryEvent) {
         // Ensure any special models are registered
         OBJLoader.INSTANCE.addDomain(Constants.MOD_ID)
 
         // Register models for all items in our mod
-        for (item in ModItems.ITEM_LIST)
-        {
+        for (item in ModItems.ITEM_LIST) {
             ModelLoader.setCustomModelResourceLocation(item, 0, ModelResourceLocation(item.registryName!!, "inventory"))
         }
     }

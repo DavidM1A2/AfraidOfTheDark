@@ -10,21 +10,17 @@ import kotlin.math.sqrt
  * @param splinterDrone The splinter drone entity to move
  * @property ticksUntilNextUpdate The number of ticks until we should re-compute pathing
  */
-class EntitySplinterDroneMoveHelper(splinterDrone: EntitySplinterDrone) : EntityMoveHelper(splinterDrone)
-{
+class EntitySplinterDroneMoveHelper(splinterDrone: EntitySplinterDrone) : EntityMoveHelper(splinterDrone) {
     private var ticksUntilNextUpdate = 0
 
     /**
      * Called to update movement of the entity, code copied from the ghast
      */
-    override fun onUpdateMoveHelper()
-    {
+    override fun onUpdateMoveHelper() {
         // Test if this move helper is updating and doesn't have a target, fly around
-        if (action == Action.MOVE_TO && entity.attackTarget == null)
-        {
+        if (action == Action.MOVE_TO && entity.attackTarget == null) {
             // If we should update perform a motion update
-            if (ticksUntilNextUpdate-- <= 0)
-            {
+            if (ticksUntilNextUpdate-- <= 0) {
                 // Update this entity again in 2 - 7 ticks
                 ticksUntilNextUpdate = ticksUntilNextUpdate + entity.rng.nextInt(5) + 2
 
@@ -35,14 +31,11 @@ class EntitySplinterDroneMoveHelper(splinterDrone: EntitySplinterDrone) : Entity
                 val dirMagnitude = sqrt(xDir * xDir + yDir * yDir + zDir * zDir)
 
                 // If we can move to our position update the entity's motion to move to the position
-                if (isNotColliding(posX, posY, posZ, dirMagnitude))
-                {
+                if (isNotColliding(posX, posY, posZ, dirMagnitude)) {
                     entity.motionX = entity.motionX + xDir / dirMagnitude * speed
                     entity.motionY = entity.motionY + yDir / dirMagnitude * speed
                     entity.motionZ = entity.motionZ + zDir / dirMagnitude * speed
-                }
-                else
-                {
+                } else {
                     action = Action.WAIT
                 }
             }
@@ -58,8 +51,7 @@ class EntitySplinterDroneMoveHelper(splinterDrone: EntitySplinterDrone) : Entity
      * @param dirMagnitude The magnitude of the vector
      * @return True if the splinter can move to the pos x,y,z, false otherwise
      */
-    private fun isNotColliding(posX: Double, posY: Double, posZ: Double, dirMagnitude: Double): Boolean
-    {
+    private fun isNotColliding(posX: Double, posY: Double, posZ: Double, dirMagnitude: Double): Boolean {
         // Compute the x,y,z components of the direction vector
         val x = (posX - entity.posX) / dirMagnitude
         val y = (posY - entity.posY) / dirMagnitude
@@ -70,13 +62,11 @@ class EntitySplinterDroneMoveHelper(splinterDrone: EntitySplinterDrone) : Entity
 
         // Test if this entity can fit in each position as it moves to the position
         var i = 1
-        while (i < dirMagnitude)
-        {
+        while (i < dirMagnitude) {
             // Move the bounding box in the direction of movement
             axisalignedbb = axisalignedbb.offset(x, y, z)
             // Test if the entity would fit
-            if (entity.world.getCollisionBoxes(entity, axisalignedbb).isNotEmpty())
-            {
+            if (entity.world.getCollisionBoxes(entity, axisalignedbb).isNotEmpty()) {
                 // False, there is no path
                 return false
             }

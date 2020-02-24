@@ -6,8 +6,7 @@ import net.minecraft.world.DimensionType
 /**
  * Mod dimensions class initializes dimension types used in AOTD
  */
-object ModDimensions
-{
+object ModDimensions {
     // Teleporter class used by all dimension teleportation, this does nothing
     val NOOP_TELEPORTER = NoopTeleporter()
 

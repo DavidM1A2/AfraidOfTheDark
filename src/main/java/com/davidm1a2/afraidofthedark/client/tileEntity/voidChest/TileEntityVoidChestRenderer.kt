@@ -17,8 +17,7 @@ import net.minecraftforge.fml.relauncher.SideOnly
  * @property MODEL_CHEST Create a chest model that we render our void chest with
  */
 @SideOnly(Side.CLIENT)
-object TileEntityVoidChestRenderer : TileEntitySpecialRenderer<TileEntityVoidChest>()
-{
+object TileEntityVoidChestRenderer : TileEntitySpecialRenderer<TileEntityVoidChest>() {
     private val VOID_CHEST_TEXTURE = ResourceLocation("afraidofthedark:textures/blocks/void_chest/void_chest.png")
     private val MODEL_CHEST = ModelChest()
 
@@ -33,28 +32,31 @@ object TileEntityVoidChestRenderer : TileEntitySpecialRenderer<TileEntityVoidChe
      * @param destroyStage How far the chest is destroyed
      * @param alpha        The alpha value to render with
      */
-    override fun render(te: TileEntityVoidChest, x: Double, y: Double, z: Double, partialTicks: Float, destroyStage: Int, alpha: Float)
-    {
+    override fun render(
+        te: TileEntityVoidChest,
+        x: Double,
+        y: Double,
+        z: Double,
+        partialTicks: Float,
+        destroyStage: Int,
+        alpha: Float
+    ) {
         ///
         /// All code below is from TileEntityEnderChestRender.class::render()
         ///
 
         var i = 0
-        if (te.hasWorld())
-        {
+        if (te.hasWorld()) {
             i = te.blockMetadata
         }
-        if (destroyStage >= 0)
-        {
+        if (destroyStage >= 0) {
             bindTexture(DESTROY_STAGES[destroyStage])
             GlStateManager.matrixMode(5890)
             GlStateManager.pushMatrix()
             GlStateManager.scale(4.0f, 4.0f, 1.0f)
             GlStateManager.translate(0.0625f, 0.0625f, 0.0625f)
             GlStateManager.matrixMode(5888)
-        }
-        else
-        {
+        } else {
             bindTexture(VOID_CHEST_TEXTURE)
         }
         GlStateManager.pushMatrix()
@@ -64,20 +66,16 @@ object TileEntityVoidChestRenderer : TileEntitySpecialRenderer<TileEntityVoidChe
         GlStateManager.scale(1.0f, -1.0f, -1.0f)
         GlStateManager.translate(0.5f, 0.5f, 0.5f)
         var j = 0
-        if (i == 2)
-        {
+        if (i == 2) {
             j = 180
         }
-        if (i == 3)
-        {
+        if (i == 3) {
             j = 0
         }
-        if (i == 4)
-        {
+        if (i == 4) {
             j = 90
         }
-        if (i == 5)
-        {
+        if (i == 5) {
             j = -90
         }
         GlStateManager.rotate(j.toFloat(), 0.0f, 1.0f, 0.0f)
@@ -90,8 +88,7 @@ object TileEntityVoidChestRenderer : TileEntitySpecialRenderer<TileEntityVoidChe
         GlStateManager.disableRescaleNormal()
         GlStateManager.popMatrix()
         GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f)
-        if (destroyStage >= 0)
-        {
+        if (destroyStage >= 0) {
             GlStateManager.matrixMode(5890)
             GlStateManager.popMatrix()
             GlStateManager.matrixMode(5888)

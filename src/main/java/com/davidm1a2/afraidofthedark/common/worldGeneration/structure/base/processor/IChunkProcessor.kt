@@ -7,8 +7,7 @@ import net.minecraft.util.math.ChunkPos
  *
  * @param <T> The return value type after processing
  */
-interface IChunkProcessor<T>
-{
+interface IChunkProcessor<T> {
     /**
      * Processes the X,Z chunk and returns true to continue or false to stop processing and return
      *
@@ -25,8 +24,7 @@ interface IChunkProcessor<T>
     /**
      * @return The default result if process chunk returns false. Not used if processChunk never returns false so default return null
      */
-    fun getDefaultResult(): T?
-    {
+    fun getDefaultResult(): T? {
         return null
     }
 }

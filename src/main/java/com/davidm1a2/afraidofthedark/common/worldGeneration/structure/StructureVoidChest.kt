@@ -25,8 +25,7 @@ import kotlin.math.min
  *
  * @constructor just sets the registry name
  */
-class StructureVoidChest : AOTDStructure("void_chest")
-{
+class StructureVoidChest : AOTDStructure("void_chest") {
     /**
      * Tests if this structure is valid for the given position
      *
@@ -35,20 +34,20 @@ class StructureVoidChest : AOTDStructure("void_chest")
      * @param biomeProvider The provider used to generate the world, use biomeProvider.getBiomes() to get what biomes exist at a position
      * @return A value between 0 and 1 which is the chance between 0% and 100% that a structure could spawn at the given position
      */
-    override fun computeChanceToGenerateAt(blockPos: BlockPos, heightmap: IHeightmap, biomeProvider: BiomeProvider): Double
-    {
-        return processChunks(object : IChunkProcessor<Double>
-        {
+    override fun computeChanceToGenerateAt(
+        blockPos: BlockPos,
+        heightmap: IHeightmap,
+        biomeProvider: BiomeProvider
+    ): Double {
+        return processChunks(object : IChunkProcessor<Double> {
             // Compute the minimum and maximum height over all the chunks that the void chest will cross over
             var minHeight = Int.MAX_VALUE
             var maxHeight = Int.MIN_VALUE
 
-            override fun processChunk(chunkPos: ChunkPos): Boolean
-            {
+            override fun processChunk(chunkPos: ChunkPos): Boolean {
                 val biomes = approximateBiomesInChunk(biomeProvider, chunkPos.x, chunkPos.z)
                 // Void Chests only spawn in snowy biomes
-                if (biomes.none { COMPATIBLE_BIOMES.contains(it) })
-                {
+                if (biomes.none { COMPATIBLE_BIOMES.contains(it) }) {
                     return false
                 }
 
@@ -58,22 +57,18 @@ class StructureVoidChest : AOTDStructure("void_chest")
                 return true
             }
 
-            override fun getResult(): Double
-            {
+            override fun getResult(): Double {
                 // If there's more than 8 blocks between the top and bottom block it's an invalid place for a void chest because it's not 'flat' enough
-                return if (maxHeight - minHeight > 8)
-                {
+                return if (maxHeight - minHeight > 8) {
                     getDefaultResult()
                 }
                 // 0.8% chance to generate in any chunks this fits in
-                else
-                {
+                else {
                     0.008 * AfraidOfTheDark.INSTANCE.configurationHandler.voidChestMultiplier
                 }
             }
 
-            override fun getDefaultResult(): Double
-            {
+            override fun getDefaultResult(): Double {
                 return 0.0
             }
         }, InteriorChunkIterator(this, blockPos))
@@ -86,8 +81,7 @@ class StructureVoidChest : AOTDStructure("void_chest")
      * @param chunkPos Optional chunk position of a chunk to generate in. If supplied all blocks generated must be in this chunk only!
      * @param data     NBT containing the void chest's position
      */
-    override fun generate(world: World, chunkPos: ChunkPos, data: NBTTagCompound)
-    {
+    override fun generate(world: World, chunkPos: ChunkPos, data: NBTTagCompound) {
         // Get the void chest's position from the NBT data
         val blockPos = getPosition(data)
         // This structure is simple, it is just the void chest schematic
@@ -102,14 +96,16 @@ class StructureVoidChest : AOTDStructure("void_chest")
      * @param biomeProvider ignored
      * @return The NBTTagCompound containing any data needed for generation. Sent in Structure::generate
      */
-    override fun generateStructureData(world: World, blockPos: BlockPos, biomeProvider: BiomeProvider): NBTTagCompound
-    {
+    override fun generateStructureData(world: World, blockPos: BlockPos, biomeProvider: BiomeProvider): NBTTagCompound {
         @Suppress("NAME_SHADOWING")
         var blockPos = blockPos
         val compound = NBTTagCompound()
 
         // Find the lowest y value containing a block
-        val groundLevel = processChunks(LowestHeightChunkProcessor(OverworldHeightmap.get(world)), InteriorChunkIterator(this, blockPos))
+        val groundLevel = processChunks(
+            LowestHeightChunkProcessor(OverworldHeightmap.get(world)),
+            InteriorChunkIterator(this, blockPos)
+        )
         // Set the schematic's position to the lowest point in the chunk
         blockPos = BlockPos(blockPos.x, groundLevel - 7, blockPos.z)
         // Update the NBT
@@ -121,32 +117,29 @@ class StructureVoidChest : AOTDStructure("void_chest")
     /**
      * @return The width of the structure in blocks
      */
-    override fun getXWidth(): Int
-    {
+    override fun getXWidth(): Int {
         return ModSchematics.VOID_CHEST.getWidth().toInt()
     }
 
     /**
      * @return The length of the structure in blocks
      */
-    override fun getZLength(): Int
-    {
+    override fun getZLength(): Int {
         return ModSchematics.VOID_CHEST.getLength().toInt()
     }
 
-    companion object
-    {
+    companion object {
         // A set of compatible biomes
         private val COMPATIBLE_BIOMES = setOf(
-                Biomes.COLD_BEACH,
-                Biomes.COLD_TAIGA,
-                Biomes.COLD_TAIGA_HILLS,
-                Biomes.MUTATED_TAIGA_COLD,
-                Biomes.FROZEN_OCEAN,
-                Biomes.FROZEN_RIVER,
-                Biomes.ICE_PLAINS,
-                Biomes.ICE_MOUNTAINS,
-                Biomes.MUTATED_ICE_FLATS
+            Biomes.COLD_BEACH,
+            Biomes.COLD_TAIGA,
+            Biomes.COLD_TAIGA_HILLS,
+            Biomes.MUTATED_TAIGA_COLD,
+            Biomes.FROZEN_OCEAN,
+            Biomes.FROZEN_RIVER,
+            Biomes.ICE_PLAINS,
+            Biomes.ICE_MOUNTAINS,
+            Biomes.MUTATED_ICE_FLATS
         )
     }
 }

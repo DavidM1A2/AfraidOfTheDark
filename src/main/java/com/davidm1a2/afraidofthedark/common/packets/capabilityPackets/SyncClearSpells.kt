@@ -12,15 +12,13 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext
  *
  * @constructor Required default constructor that is also used since no additional data is sent
  */
-class SyncClearSpells : IMessage
-{
+class SyncClearSpells : IMessage {
     /**
      * Converts the java objects into a byte buf
      *
      * @param buf The buffer to write to
      */
-    override fun toBytes(buf: ByteBuf)
-    {
+    override fun toBytes(buf: ByteBuf) {
     }
 
     /**
@@ -28,15 +26,13 @@ class SyncClearSpells : IMessage
      *
      * @param buf The buffer to read
      */
-    override fun fromBytes(buf: ByteBuf)
-    {
+    override fun fromBytes(buf: ByteBuf) {
     }
 
     /**
      * Handler to perform actions upon getting a packet
      */
-    class Handler : Bidirectional<SyncClearSpells>()
-    {
+    class Handler : Bidirectional<SyncClearSpells>() {
         /**
          * Handles the packet on client side
          *
@@ -44,8 +40,7 @@ class SyncClearSpells : IMessage
          * @param msg    the message received
          * @param ctx    the message context object. This contains additional information about the packet.
          */
-        override fun handleClientMessage(player: EntityPlayer, msg: SyncClearSpells, ctx: MessageContext)
-        {
+        override fun handleClientMessage(player: EntityPlayer, msg: SyncClearSpells, ctx: MessageContext) {
             val spellManager = player.getSpellManager()
             spellManager.clearSpells()
         }
@@ -57,8 +52,7 @@ class SyncClearSpells : IMessage
          * @param msg    the message received
          * @param ctx    the message context object. This contains additional information about the packet.
          */
-        override fun handleServerMessage(player: EntityPlayer, msg: SyncClearSpells, ctx: MessageContext)
-        {
+        override fun handleServerMessage(player: EntityPlayer, msg: SyncClearSpells, ctx: MessageContext) {
             val spellManager = player.getSpellManager()
             spellManager.clearSpells()
         }

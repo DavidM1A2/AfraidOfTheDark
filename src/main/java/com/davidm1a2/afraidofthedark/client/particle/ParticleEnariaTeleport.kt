@@ -13,14 +13,12 @@ import net.minecraft.world.World
  * @param z The z position of the teleport
  */
 class ParticleEnariaTeleport(
-        world: World,
-        x: Double,
-        y: Double,
-        z: Double
-) : AOTDParticle(world, ModSprites.ENARIA_TELEPORT, x, y, z)
-{
-    init
-    {
+    world: World,
+    x: Double,
+    y: Double,
+    z: Double
+) : AOTDParticle(world, ModSprites.ENARIA_TELEPORT, x, y, z) {
+    init {
         // 2-3 second lifespan
         particleMaxAge = rand.nextInt(20) + 40
 

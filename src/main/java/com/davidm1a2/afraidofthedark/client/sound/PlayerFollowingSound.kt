@@ -16,10 +16,9 @@ import net.minecraftforge.fml.relauncher.SideOnly
  * @param soundCategory The sound category (effects which sound slider modifies this sound volume)
  */
 @SideOnly(Side.CLIENT)
-abstract class PlayerFollowingSound internal constructor(soundEvent: SoundEvent, soundCategory: SoundCategory) : MovingSound(soundEvent, soundCategory)
-{
-    init
-    {
+abstract class PlayerFollowingSound internal constructor(soundEvent: SoundEvent, soundCategory: SoundCategory) :
+    MovingSound(soundEvent, soundCategory) {
+    init {
         // The sound is ambient
         attenuationType = AttenuationType.NONE
     }
@@ -27,8 +26,7 @@ abstract class PlayerFollowingSound internal constructor(soundEvent: SoundEvent,
     /**
      * The sound will follow the player's position
      */
-    override fun update()
-    {
+    override fun update() {
         val entityPlayer = Minecraft.getMinecraft().player!!
         xPosF = entityPlayer.posX.toFloat()
         yPosF = entityPlayer.posY.toFloat()

@@ -18,8 +18,7 @@ import net.minecraft.world.gen.IChunkGenerator
  *
  * @param world The nightmare world instance
  */
-class NightmareChunkGenerator(private val world: World) : IChunkGenerator
-{
+class NightmareChunkGenerator(private val world: World) : IChunkGenerator {
     /**
      * True if structures should be generated in the nightmare, false otherwise
      *
@@ -28,8 +27,7 @@ class NightmareChunkGenerator(private val world: World) : IChunkGenerator
      * @param z       The z position to test
      * @return False, we generate our structures manually
      */
-    override fun generateStructures(chunkIn: Chunk, x: Int, z: Int): Boolean
-    {
+    override fun generateStructures(chunkIn: Chunk, x: Int, z: Int): Boolean {
         return false
     }
 
@@ -40,8 +38,7 @@ class NightmareChunkGenerator(private val world: World) : IChunkGenerator
      * @param z The z position of the chunk
      * @return The generated chunk
      */
-    override fun generateChunk(x: Int, z: Int): Chunk
-    {
+    override fun generateChunk(x: Int, z: Int): Chunk {
         // Create a new chunk primer to generate blocks
         val chunkprimer = ChunkPrimer()
         // Generate the chunk with the primer
@@ -60,8 +57,7 @@ class NightmareChunkGenerator(private val world: World) : IChunkGenerator
      * @param x The x chunk position
      * @param z The z chunk position
      */
-    override fun populate(x: Int, z: Int)
-    {
+    override fun populate(x: Int, z: Int) {
         // Grab some constants
         val islandWidth = ModStructures.NIGHTMARE_ISLAND.getXWidth()
         val islandLength = ModStructures.NIGHTMARE_ISLAND.getZLength()
@@ -69,8 +65,7 @@ class NightmareChunkGenerator(private val world: World) : IChunkGenerator
         // Compute the z position
         val zPos = z * 16
         // Ensure z is between [0, len(island)+15]
-        if (zPos >= 0 && zPos <= islandLength + 15)
-        {
+        if (zPos >= 0 && zPos <= islandLength + 15) {
             // Compute the x position
             val xPos = x * 16
             // Grab the island index
@@ -78,8 +73,7 @@ class NightmareChunkGenerator(private val world: World) : IChunkGenerator
             // Compute the relative x position of the island between 0 and blocksBetweenIslands
             val relativeXPos = xPos % blocksBetweenIslands
             // Ensure the relative x pos will have blocks inside of it
-            if (relativeXPos >= 0 && relativeXPos <= islandWidth + 15)
-            {
+            if (relativeXPos >= 0 && relativeXPos <= islandWidth + 15) {
                 // Compute the position the island would generate at
                 val islandPos = BlockPos(islandIndex * blocksBetweenIslands, 0, 0)
                 // Compute data for the structure
@@ -97,8 +91,7 @@ class NightmareChunkGenerator(private val world: World) : IChunkGenerator
      * @param pos          The position to add it at
      * @return An empty list, this will be a nightmare biome which will return empty list
      */
-    override fun getPossibleCreatures(creatureType: EnumCreatureType, pos: BlockPos): List<SpawnListEntry>
-    {
+    override fun getPossibleCreatures(creatureType: EnumCreatureType, pos: BlockPos): List<SpawnListEntry> {
         return world.getBiome(pos).getSpawnableList(creatureType)
     }
 
@@ -111,8 +104,12 @@ class NightmareChunkGenerator(private val world: World) : IChunkGenerator
      * @param findUnexplored If unexplored structures should be returned
      * @return null, no nearest structures
      */
-    override fun getNearestStructurePos(worldIn: World, structureName: String, position: BlockPos, findUnexplored: Boolean): BlockPos?
-    {
+    override fun getNearestStructurePos(
+        worldIn: World,
+        structureName: String,
+        position: BlockPos,
+        findUnexplored: Boolean
+    ): BlockPos? {
         return null
     }
 
@@ -123,8 +120,7 @@ class NightmareChunkGenerator(private val world: World) : IChunkGenerator
      * @param x     The chunk x
      * @param z     The chunk z
      */
-    override fun recreateStructures(chunk: Chunk, x: Int, z: Int)
-    {
+    override fun recreateStructures(chunk: Chunk, x: Int, z: Int) {
     }
 
     /**
@@ -135,8 +131,7 @@ class NightmareChunkGenerator(private val world: World) : IChunkGenerator
      * @param pos           The position to test
      * @return False, it's not possible to be in a structure here
      */
-    override fun isInsideStructure(worldIn: World, structureName: String, pos: BlockPos): Boolean
-    {
+    override fun isInsideStructure(worldIn: World, structureName: String, pos: BlockPos): Boolean {
         return false
     }
 }

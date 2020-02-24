@@ -18,37 +18,36 @@ internal class DoubleSpellComponentProperty
  * @param minValue     The minimum value of the property
  * @param maxValue     The maximum value of the property
  */(
-        name: String,
-        description: String,
-        setter: (SpellComponentInstance<*>, Double) -> Unit,
-        getter: (SpellComponentInstance<*>) -> Double,
-        defaultValue: Double,
-        minValue: Double?,
-        maxValue: Double?
+    name: String,
+    description: String,
+    setter: (SpellComponentInstance<*>, Double) -> Unit,
+    getter: (SpellComponentInstance<*>) -> Double,
+    defaultValue: Double,
+    minValue: Double?,
+    maxValue: Double?
 ) : SpellComponentProperty(
-        name,
-        description,
-        { instance, newValue ->
-            // Ensure the number is parsable
-            val doubleValue = newValue.toDoubleOrNull() ?: throw InvalidValueException("$newValue is not a valid decimal value!")
+    name,
+    description,
+    { instance, newValue ->
+        // Ensure the number is parsable
+        val doubleValue =
+            newValue.toDoubleOrNull() ?: throw InvalidValueException("$newValue is not a valid decimal value!")
 
-            // Ensure the double is valid
-            if (minValue != null && doubleValue < minValue)
-            {
-                setter(instance, defaultValue)
-                throw InvalidValueException("$name must be larger than or equal to $minValue");
-            }
-            if (maxValue != null && doubleValue > maxValue)
-            {
-                setter(instance, defaultValue)
-                throw InvalidValueException("$name must be smaller than than or equal to $maxValue");
-            }
-            setter(instance, doubleValue)
-        },
-        {
-            getter(it).toString()
-        },
-        {
-            setter(it, defaultValue)
+        // Ensure the double is valid
+        if (minValue != null && doubleValue < minValue) {
+            setter(instance, defaultValue)
+            throw InvalidValueException("$name must be larger than or equal to $minValue")
         }
+        if (maxValue != null && doubleValue > maxValue) {
+            setter(instance, defaultValue)
+            throw InvalidValueException("$name must be smaller than than or equal to $maxValue")
+        }
+        setter(instance, doubleValue)
+    },
+    {
+        getter(it).toString()
+    },
+    {
+        setter(it, defaultValue)
+    }
 )

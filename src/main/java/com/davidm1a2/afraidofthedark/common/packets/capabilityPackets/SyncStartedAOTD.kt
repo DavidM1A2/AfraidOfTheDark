@@ -12,15 +12,13 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext
  *
  * @property startedAOTD Flag that is true or false depending on if we started the mod or not
  */
-class SyncStartedAOTD : IMessage
-{
+class SyncStartedAOTD : IMessage {
     private var startedAOTD: Boolean
 
     /**
      * Required default constructor that is not used
      */
-    constructor()
-    {
+    constructor() {
         startedAOTD = false
     }
 
@@ -29,8 +27,7 @@ class SyncStartedAOTD : IMessage
      *
      * @param startedAOTD True if the user has started AOTD, false otherwise
      */
-    constructor(startedAOTD: Boolean)
-    {
+    constructor(startedAOTD: Boolean) {
         this.startedAOTD = startedAOTD
     }
 
@@ -39,8 +36,7 @@ class SyncStartedAOTD : IMessage
      *
      * @param buf The buffer to read
      */
-    override fun fromBytes(buf: ByteBuf)
-    {
+    override fun fromBytes(buf: ByteBuf) {
         startedAOTD = buf.readBoolean()
     }
 
@@ -49,16 +45,14 @@ class SyncStartedAOTD : IMessage
      *
      * @param buf The buffer to write to
      */
-    override fun toBytes(buf: ByteBuf)
-    {
+    override fun toBytes(buf: ByteBuf) {
         buf.writeBoolean(startedAOTD)
     }
 
     /**
      * Handler to perform actions upon getting a packet
      */
-    class Handler : Bidirectional<SyncStartedAOTD>()
-    {
+    class Handler : Bidirectional<SyncStartedAOTD>() {
         /**
          * Handles the packet on client side
          *
@@ -66,8 +60,7 @@ class SyncStartedAOTD : IMessage
          * @param msg    the message received
          * @param ctx    the message context object. This contains additional information about the packet.
          */
-        override fun handleClientMessage(player: EntityPlayer, msg: SyncStartedAOTD, ctx: MessageContext)
-        {
+        override fun handleClientMessage(player: EntityPlayer, msg: SyncStartedAOTD, ctx: MessageContext) {
             player.getBasics().startedAOTD = msg.startedAOTD
         }
 
@@ -78,8 +71,7 @@ class SyncStartedAOTD : IMessage
          * @param msg    the message received
          * @param ctx    the message context object. This contains additional information about the packet.
          */
-        override fun handleServerMessage(player: EntityPlayer, msg: SyncStartedAOTD, ctx: MessageContext)
-        {
+        override fun handleServerMessage(player: EntityPlayer, msg: SyncStartedAOTD, ctx: MessageContext) {
             player.getBasics().startedAOTD = msg.startedAOTD
         }
     }

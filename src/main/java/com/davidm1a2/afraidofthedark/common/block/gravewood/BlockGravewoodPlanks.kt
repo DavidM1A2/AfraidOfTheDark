@@ -9,10 +9,8 @@ import net.minecraft.block.material.Material
  *
  * @constructor for gravewood planks sets the planks properties
  */
-class BlockGravewoodPlanks : AOTDBlock("gravewood_planks", Material.WOOD)
-{
-    init
-    {
+class BlockGravewoodPlanks : AOTDBlock("gravewood_planks", Material.WOOD) {
+    init {
         setHardness(2.0f)
         this.soundType = SoundType.WOOD
     }

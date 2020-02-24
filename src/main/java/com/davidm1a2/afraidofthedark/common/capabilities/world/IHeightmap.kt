@@ -5,8 +5,7 @@ import net.minecraft.util.math.ChunkPos
 /**
  * Utility interface to be implemented by any heightmaps
  */
-interface IHeightmap
-{
+interface IHeightmap {
     /**
      * Tests if we know the height of a given chunk position and quadrant
      *

@@ -12,8 +12,8 @@ import org.lwjgl.opengl.GL11
  * @constructor just passes down fields and the render manager
  * @param renderManager The render manager to pass down
  */
-class RenderSplinterDrone(renderManager: RenderManager) : RenderLiving<EntitySplinterDrone>(renderManager, SPLINTER_DRONE_MODEL, MODEL_SHADOW_SIZE)
-{
+class RenderSplinterDrone(renderManager: RenderManager) :
+    RenderLiving<EntitySplinterDrone>(renderManager, SPLINTER_DRONE_MODEL, MODEL_SHADOW_SIZE) {
     /**
      * Renders the entity at a given position, yaw, and partial ticks parameter
      *
@@ -24,8 +24,14 @@ class RenderSplinterDrone(renderManager: RenderManager) : RenderLiving<EntitySpl
      * @param entityYaw    The yaw of the entity to render
      * @param partialTicks The partial ticks that have gone by since the last frame
      */
-    override fun doRender(entity: EntitySplinterDrone, posX: Double, posY: Double, posZ: Double, entityYaw: Float, partialTicks: Float)
-    {
+    override fun doRender(
+        entity: EntitySplinterDrone,
+        posX: Double,
+        posY: Double,
+        posZ: Double,
+        entityYaw: Float,
+        partialTicks: Float
+    ) {
         GL11.glPushMatrix()
         GL11.glDisable(GL11.GL_CULL_FACE)
         super.doRender(entity, posX, posY, posZ, entityYaw, partialTicks)
@@ -39,8 +45,7 @@ class RenderSplinterDrone(renderManager: RenderManager) : RenderLiving<EntitySpl
      * @param entityliving    The entity to render
      * @param partialTickTime The partial ticks that have gone by since the last frame
      */
-    override fun preRenderCallback(entityliving: EntitySplinterDrone, partialTickTime: Float)
-    {
+    override fun preRenderCallback(entityliving: EntitySplinterDrone, partialTickTime: Float) {
         GL11.glRotatef(180f, 0f, 1f, 0f)
         GL11.glRotatef(180f, 0f, 0f, 1f)
         GL11.glTranslatef(0f, MODEL_HEIGHT, 0f)
@@ -52,13 +57,11 @@ class RenderSplinterDrone(renderManager: RenderManager) : RenderLiving<EntitySpl
      * @param entity The entity to get the texture for
      * @return The texture to use for this entity
      */
-    override fun getEntityTexture(entity: EntitySplinterDrone): ResourceLocation
-    {
+    override fun getEntityTexture(entity: EntitySplinterDrone): ResourceLocation {
         return SPLINTER_DRONE_TEXTURE
     }
 
-    companion object
-    {
+    companion object {
         // The texture used by the model
         private val SPLINTER_DRONE_TEXTURE = ResourceLocation("afraidofthedark:textures/entity/splinter_drone.png")
         // The splinter drone model

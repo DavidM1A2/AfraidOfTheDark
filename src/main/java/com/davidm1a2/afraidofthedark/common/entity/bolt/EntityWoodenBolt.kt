@@ -15,8 +15,7 @@ import net.minecraft.world.World
  * @property chanceToDropHitEntity The chance that the bolt will drop its item after hitting an entity
  * @property chanceToDropHitGround The chance that the bolt will drop its item after hitting the ground
  */
-class EntityWoodenBolt : EntityBolt
-{
+class EntityWoodenBolt : EntityBolt {
     override val damageSourceProducer: (EntityPlayer) -> DamageSource = { DamageSource.causePlayerDamage(it) }
     override val drop = ModItems.WOODEN_BOLT
     override val damage = 4

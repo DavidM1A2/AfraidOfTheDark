@@ -9,10 +9,8 @@ import net.minecraft.tileentity.TileEntity
  * @constructor initializes the tile entity fields
  * @param block The block that this tile entity is for
  */
-abstract class AOTDTileEntity(block: Block) : TileEntity()
-{
-    init
-    {
+abstract class AOTDTileEntity(block: Block) : TileEntity() {
+    init {
         blockType = block
     }
 }

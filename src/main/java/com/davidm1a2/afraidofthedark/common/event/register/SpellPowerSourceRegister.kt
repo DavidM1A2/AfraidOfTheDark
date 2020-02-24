@@ -8,16 +8,14 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 /**
  * Class that receives the register spell power source event and registers all of our spell power sources
  */
-class SpellPowerSourceRegister
-{
+class SpellPowerSourceRegister {
     /**
      * Called by forge to register any of our spell power sources
      *
      * @param event The event to register to
      */
     @SubscribeEvent
-    fun registerSpellPowerSources(event: RegistryEvent.Register<SpellPowerSource>)
-    {
+    fun registerSpellPowerSources(event: RegistryEvent.Register<SpellPowerSource>) {
         val registry = event.registry
 
         // Register all spell power sources in our mod

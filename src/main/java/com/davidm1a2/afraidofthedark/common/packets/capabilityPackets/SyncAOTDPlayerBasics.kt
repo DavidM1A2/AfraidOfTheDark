@@ -17,8 +17,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext
  *
  * @property data The NBT data to send
  */
-class SyncAOTDPlayerBasics : IMessage
-{
+class SyncAOTDPlayerBasics : IMessage {
     private lateinit var data: NBTTagCompound
 
     /**
@@ -31,9 +30,12 @@ class SyncAOTDPlayerBasics : IMessage
      *
      * @param playerBasics The player basics capability to send
      */
-    constructor(playerBasics: IAOTDPlayerBasics)
-    {
-        data = ModCapabilities.PLAYER_BASICS.storage.writeNBT(ModCapabilities.PLAYER_BASICS, playerBasics, null) as NBTTagCompound
+    constructor(playerBasics: IAOTDPlayerBasics) {
+        data = ModCapabilities.PLAYER_BASICS.storage.writeNBT(
+            ModCapabilities.PLAYER_BASICS,
+            playerBasics,
+            null
+        ) as NBTTagCompound
     }
 
     /**
@@ -41,8 +43,7 @@ class SyncAOTDPlayerBasics : IMessage
      *
      * @param buf The buffer to read from
      */
-    override fun fromBytes(buf: ByteBuf)
-    {
+    override fun fromBytes(buf: ByteBuf) {
         data = ByteBufUtils.readTag(buf)!!
     }
 
@@ -51,16 +52,14 @@ class SyncAOTDPlayerBasics : IMessage
      *
      * @param buf The buffer to write to
      */
-    override fun toBytes(buf: ByteBuf)
-    {
+    override fun toBytes(buf: ByteBuf) {
         ByteBufUtils.writeTag(buf, data)
     }
 
     /**
      * Handler to perform actions upon getting a packet
      */
-    class Handler : Bidirectional<SyncAOTDPlayerBasics>()
-    {
+    class Handler : Bidirectional<SyncAOTDPlayerBasics>() {
         /**
          * Handles the packet on client side
          *
@@ -68,8 +67,7 @@ class SyncAOTDPlayerBasics : IMessage
          * @param msg    the message received
          * @param ctx    the message context object. This contains additional information about the packet.
          */
-        override fun handleClientMessage(player: EntityPlayer, msg: SyncAOTDPlayerBasics, ctx: MessageContext)
-        {
+        override fun handleClientMessage(player: EntityPlayer, msg: SyncAOTDPlayerBasics, ctx: MessageContext) {
             // Grab the current player's capabilities
             val playerBasics = Minecraft.getMinecraft().player.getBasics()
 
@@ -84,8 +82,7 @@ class SyncAOTDPlayerBasics : IMessage
          * @param msg    the message received
          * @param ctx    the message context object. This contains additional information about the packet.
          */
-        override fun handleServerMessage(player: EntityPlayer, msg: SyncAOTDPlayerBasics, ctx: MessageContext)
-        {
+        override fun handleServerMessage(player: EntityPlayer, msg: SyncAOTDPlayerBasics, ctx: MessageContext) {
             // Send the player his/her current capabilities in a packet as requested
             player.getBasics().syncAll(player)
         }

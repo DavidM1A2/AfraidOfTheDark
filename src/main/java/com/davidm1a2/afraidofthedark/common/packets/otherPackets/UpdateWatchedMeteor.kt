@@ -21,8 +21,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext
  * @property latitude The second field we need to figure out where the meteor landed
  * @property longitude The third field we need to figure out where the meteor landed
  */
-class UpdateWatchedMeteor : IMessage
-{
+class UpdateWatchedMeteor : IMessage {
     private var meteorEntry: MeteorEntry?
     private var dropAngle: Int
     private var latitude: Int
@@ -31,8 +30,7 @@ class UpdateWatchedMeteor : IMessage
     /**
      * Default constructor is required but not used
      */
-    constructor()
-    {
+    constructor() {
         meteorEntry = null
         dropAngle = 0
         latitude = 0
@@ -49,8 +47,7 @@ class UpdateWatchedMeteor : IMessage
      * @param latitude    The latitude the meteor was at
      * @param longitude   The longitude the meteor was at
      */
-    constructor(meteorEntry: MeteorEntry?, dropAngle: Int = 0, latitude: Int = 0, longitude: Int = 0)
-    {
+    constructor(meteorEntry: MeteorEntry?, dropAngle: Int = 0, latitude: Int = 0, longitude: Int = 0) {
         this.meteorEntry = meteorEntry
         this.dropAngle = dropAngle
         this.latitude = latitude
@@ -62,15 +59,11 @@ class UpdateWatchedMeteor : IMessage
      *
      * @param buf The buffer to read from
      */
-    override fun fromBytes(buf: ByteBuf)
-    {
+    override fun fromBytes(buf: ByteBuf) {
         val meteorEntryString = ByteBufUtils.readUTF8String(buf)
-        meteorEntry = if (meteorEntryString == "none")
-        {
+        meteorEntry = if (meteorEntryString == "none") {
             null
-        }
-        else
-        {
+        } else {
             ModRegistries.METEORS.getValue(ResourceLocation(meteorEntryString))
         }
 
@@ -84,8 +77,7 @@ class UpdateWatchedMeteor : IMessage
      *
      * @param buf The buffer to write to
      */
-    override fun toBytes(buf: ByteBuf)
-    {
+    override fun toBytes(buf: ByteBuf) {
         ByteBufUtils.writeUTF8String(buf, meteorEntry?.registryName?.toString() ?: "none")
         buf.writeInt(dropAngle)
         buf.writeInt(latitude)
@@ -96,8 +88,7 @@ class UpdateWatchedMeteor : IMessage
      * Handler handles UpdateWatchedMeteor packets on both sides. Client updates capabilities and server
      * updates capabilities and updates the client too
      */
-    class Handler : Bidirectional<UpdateWatchedMeteor>()
-    {
+    class Handler : Bidirectional<UpdateWatchedMeteor>() {
         /**
          * When the client gets the message update the player's watched meteor capability
          *
@@ -105,8 +96,7 @@ class UpdateWatchedMeteor : IMessage
          * @param msg    the message received
          * @param ctx    The context the message was sent through
          */
-        override fun handleClientMessage(player: EntityPlayer, msg: UpdateWatchedMeteor, ctx: MessageContext)
-        {
+        override fun handleClientMessage(player: EntityPlayer, msg: UpdateWatchedMeteor, ctx: MessageContext) {
             // Update the player's watched meteor
             player.getBasics().setWatchedMeteor(msg.meteorEntry, msg.dropAngle, msg.latitude, msg.longitude)
         }
@@ -119,8 +109,7 @@ class UpdateWatchedMeteor : IMessage
          * @param msg    the message received
          * @param ctx    The context the message was sent through
          */
-        override fun handleServerMessage(player: EntityPlayer, msg: UpdateWatchedMeteor, ctx: MessageContext)
-        {
+        override fun handleServerMessage(player: EntityPlayer, msg: UpdateWatchedMeteor, ctx: MessageContext) {
             // Randomize the meteor drop angle, latitude, and longitude
             val watchedMeteor = msg.meteorEntry
             val dropAngle = player.rng.nextInt(45) + 5
@@ -128,8 +117,20 @@ class UpdateWatchedMeteor : IMessage
             val longitude = player.rng.nextInt(130) + 5
 
             // Tell the player about the meteor estimated values
-            player.sendMessage(TextComponentTranslation("message.afraidofthedark:falling_meteor.info.header", TextComponentTranslation(watchedMeteor!!.getUnlocalizedName())))
-            player.sendMessage(TextComponentTranslation("message.afraidofthedark:falling_meteor.info.data", dropAngle, latitude, longitude))
+            player.sendMessage(
+                TextComponentTranslation(
+                    "message.afraidofthedark:falling_meteor.info.header",
+                    TextComponentTranslation(watchedMeteor!!.getUnlocalizedName())
+                )
+            )
+            player.sendMessage(
+                TextComponentTranslation(
+                    "message.afraidofthedark:falling_meteor.info.data",
+                    dropAngle,
+                    latitude,
+                    longitude
+                )
+            )
             player.sendMessage(TextComponentTranslation("message.afraidofthedark:falling_meteor.info.help"))
 
             // Update the player's watched meteor and send them values

@@ -25,8 +25,7 @@ import kotlin.math.min
  *
  * @constructor just sets the registry name
  */
-class StructureWitchHut : AOTDStructure("witch_hut")
-{
+class StructureWitchHut : AOTDStructure("witch_hut") {
     /**
      * Tests if this structure is valid for the given position
      *
@@ -35,21 +34,21 @@ class StructureWitchHut : AOTDStructure("witch_hut")
      * @param biomeProvider The provider used to generate the world, use biomeProvider.getBiomes() to get what biomes exist at a position
      * @return true if the structure fits at the position, false otherwise
      */
-    override fun computeChanceToGenerateAt(blockPos: BlockPos, heightmap: IHeightmap, biomeProvider: BiomeProvider): Double
-    {
-        return processChunks(object : IChunkProcessor<Double>
-        {
+    override fun computeChanceToGenerateAt(
+        blockPos: BlockPos,
+        heightmap: IHeightmap,
+        biomeProvider: BiomeProvider
+    ): Double {
+        return processChunks(object : IChunkProcessor<Double> {
             // Compute the minimum and maximum height over all the chunks that the witch hut will cross over
             var minHeight = Int.MAX_VALUE
             var maxHeight = Int.MIN_VALUE
 
-            override fun processChunk(chunkPos: ChunkPos): Boolean
-            {
+            override fun processChunk(chunkPos: ChunkPos): Boolean {
                 val biomes = approximateBiomesInChunk(biomeProvider, chunkPos.x, chunkPos.z)
 
                 // Witch huts can only spawn in erie forests
-                if (!biomes.contains(ModBiomes.ERIE_FOREST) || biomes.size > 1)
-                {
+                if (!biomes.contains(ModBiomes.ERIE_FOREST) || biomes.size > 1) {
                     return false
                 }
 
@@ -59,22 +58,18 @@ class StructureWitchHut : AOTDStructure("witch_hut")
                 return true
             }
 
-            override fun getResult(): Double
-            {
+            override fun getResult(): Double {
                 // If there's more than 3 blocks between the top and bottom block it's an invalid place for a witch hut because it's not 'flat' enough
-                return if (maxHeight - minHeight > 3)
-                {
+                return if (maxHeight - minHeight > 3) {
                     getDefaultResult()
                 }
                 // 4% chance to generate in any chunks this fits in
-                else
-                {
+                else {
                     0.04 * AfraidOfTheDark.INSTANCE.configurationHandler.witchHutMultiplier
                 }
             }
 
-            override fun getDefaultResult(): Double
-            {
+            override fun getDefaultResult(): Double {
                 return 0.0
             }
         }, InteriorChunkIterator(this, blockPos))
@@ -87,8 +82,7 @@ class StructureWitchHut : AOTDStructure("witch_hut")
      * @param chunkPos Optional chunk position of a chunk to generate in. If supplied all blocks generated must be in this chunk only!
      * @param data     NBT data containing the structure's position
      */
-    override fun generate(world: World, chunkPos: ChunkPos, data: NBTTagCompound)
-    {
+    override fun generate(world: World, chunkPos: ChunkPos, data: NBTTagCompound) {
         // Grab the block pos from the NBT data
         val blockPos = getPosition(data)
         // This structure is simple, it is just the witch hut schematic
@@ -103,14 +97,16 @@ class StructureWitchHut : AOTDStructure("witch_hut")
      * @param biomeProvider ignored
      * @return The NBTTagCompound containing any data needed for generation. Sent in Structure::generate
      */
-    override fun generateStructureData(world: World, blockPos: BlockPos, biomeProvider: BiomeProvider): NBTTagCompound
-    {
+    override fun generateStructureData(world: World, blockPos: BlockPos, biomeProvider: BiomeProvider): NBTTagCompound {
         @Suppress("NAME_SHADOWING")
         var blockPos = blockPos
         val compound = NBTTagCompound()
 
         // Find the lowest y value containing a block
-        val groundLevel = processChunks(LowestHeightChunkProcessor(OverworldHeightmap.get(world)), InteriorChunkIterator(this, blockPos))
+        val groundLevel = processChunks(
+            LowestHeightChunkProcessor(OverworldHeightmap.get(world)),
+            InteriorChunkIterator(this, blockPos)
+        )
         // Set the schematic at the lowest point in the chunk
         blockPos = BlockPos(blockPos.x, groundLevel - 1, blockPos.z)
         // Update the NBT
@@ -122,8 +118,7 @@ class StructureWitchHut : AOTDStructure("witch_hut")
     /**
      * @return The width of the structure in blocks
      */
-    override fun getXWidth(): Int
-    {
+    override fun getXWidth(): Int {
         // For this structure the width is just the width of the witch hut
         return ModSchematics.WITCH_HUT.getWidth().toInt()
     }
@@ -131,8 +126,7 @@ class StructureWitchHut : AOTDStructure("witch_hut")
     /**
      * @return The length of the structure in blocks
      */
-    override fun getZLength(): Int
-    {
+    override fun getZLength(): Int {
         // For this structure the length is just the length of the witch hut
         return ModSchematics.WITCH_HUT.getLength().toInt()
     }

@@ -19,10 +19,8 @@ import net.minecraft.world.World
  *
  * @constructor sets the block's properties
  */
-class BlockEnariasAltar : AOTDBlock("enarias_altar", Material.PORTAL)
-{
-    init
-    {
+class BlockEnariasAltar : AOTDBlock("enarias_altar", Material.PORTAL) {
+    init {
         setLightLevel(1.0f)
         setResistance(Float.MAX_VALUE)
         setBlockUnbreakable()
@@ -43,39 +41,31 @@ class BlockEnariasAltar : AOTDBlock("enarias_altar", Material.PORTAL)
      * @return True to cancel processing
      */
     override fun onBlockActivated(
-            worldIn: World,
-            pos: BlockPos,
-            state: IBlockState,
-            playerIn: EntityPlayer,
-            hand: EnumHand,
-            facing: EnumFacing,
-            hitX: Float,
-            hitY: Float,
-            hitZ: Float
-    ): Boolean
-    {
+        worldIn: World,
+        pos: BlockPos,
+        state: IBlockState,
+        playerIn: EntityPlayer,
+        hand: EnumHand,
+        facing: EnumFacing,
+        hitX: Float,
+        hitY: Float,
+        hitZ: Float
+    ): Boolean {
         // Grab the player's research
         val playerResearch = playerIn.getResearch()
 
         // Server side processing research
-        if (!worldIn.isRemote)
-        {
+        if (!worldIn.isRemote) {
             // If the player can research enaria's secret do so
-            if (playerResearch.canResearch(ModResearches.ENARIAS_SECRET))
-            {
+            if (playerResearch.canResearch(ModResearches.ENARIAS_SECRET)) {
                 playerResearch.setResearch(ModResearches.ENARIAS_SECRET, true)
                 playerResearch.sync(playerIn, true)
             }
-        }
-        else
-        {
+        } else {
             // If the player has the right research show the gui
-            if (playerResearch.isResearched(ModResearches.ENARIAS_SECRET))
-            {
+            if (playerResearch.isResearched(ModResearches.ENARIAS_SECRET)) {
                 playerIn.openGui(AOTDGuiHandler.SPELL_LIST_ID)
-            }
-            else
-            {
+            } else {
                 playerIn.sendMessage(TextComponentTranslation("message.afraidofthedark:enarias_altar.no_research"))
             }
         }
@@ -88,8 +78,7 @@ class BlockEnariasAltar : AOTDBlock("enarias_altar", Material.PORTAL)
      * @param state The state of the block
      * @return False, this is not a full cube
      */
-    override fun isFullCube(state: IBlockState): Boolean
-    {
+    override fun isFullCube(state: IBlockState): Boolean {
         return false
     }
 
@@ -99,8 +88,7 @@ class BlockEnariasAltar : AOTDBlock("enarias_altar", Material.PORTAL)
      * @param state The block state to test
      * @return False since the block lets light through
      */
-    override fun isOpaqueCube(state: IBlockState): Boolean
-    {
+    override fun isOpaqueCube(state: IBlockState): Boolean {
         return false
     }
 }

@@ -19,16 +19,14 @@ import java.io.IOException
  * @property minecraft The minecraft instance
  * @property scaledResolution Getter for scaled resolution, returns the last scaled resolution that was build by refreshScaledResolution()
  */
-object AOTDGuiUtility
-{
+object AOTDGuiUtility {
     private val minecraft = Minecraft.getMinecraft()
     private var scaledResolution: ScaledResolution = ScaledResolution(minecraft)
 
     /**
      * Forces our scaled resolution variable to update to the current window size, this ensures that all scale calls are accurate
      */
-    fun refreshScaledResolution()
-    {
+    fun refreshScaledResolution() {
         this.scaledResolution = ScaledResolution(minecraft)
     }
 
@@ -38,8 +36,7 @@ object AOTDGuiUtility
      * @param mcCoord The MC screen coordinate
      * @return The coordinate of the UI element on the real screen
      */
-    fun mcToRealScreenCoord(mcCoord: Int): Int
-    {
+    fun mcToRealScreenCoord(mcCoord: Int): Int {
         return mcCoord * this.scaledResolution.scaleFactor
     }
 
@@ -49,8 +46,7 @@ object AOTDGuiUtility
      * @param realScreenCoord The real screen coordinate
      * @return The coordinate of the UI element on the MC coordinate system
      */
-    fun realScreenCoordToMC(realScreenCoord: Int): Int
-    {
+    fun realScreenCoordToMC(realScreenCoord: Int): Int {
         return realScreenCoord / this.scaledResolution.scaleFactor
     }
 
@@ -60,24 +56,21 @@ object AOTDGuiUtility
      * @param realScreenY The y coordinate of the screen in normal coordinates
      * @return The y coordinate of the screen in OpenGL coordinate
      */
-    fun realScreenYToGLYCoord(realScreenY: Int): Int
-    {
+    fun realScreenYToGLYCoord(realScreenY: Int): Int {
         return minecraft.displayHeight - realScreenY
     }
 
     /**
      * @return Returns the mouse's X current position in MC coordinates
      */
-    fun getMouseXInMCCoord(): Int
-    {
+    fun getMouseXInMCCoord(): Int {
         return Mouse.getX() * this.scaledResolution.scaledWidth / minecraft.displayWidth
     }
 
     /**
      * @return Returns the mouse's Y current position in MC coordinates
      */
-    fun getMouseYInMCCoord(): Int
-    {
+    fun getMouseYInMCCoord(): Int {
         val scaledHeight: Int = this.scaledResolution.scaledHeight
         return scaledHeight - Mouse.getY() * scaledHeight / Minecraft.getMinecraft().displayHeight - 1
     }
@@ -85,14 +78,10 @@ object AOTDGuiUtility
     /**
      * @return true if either windows ctrl key is down or if either mac meta key is down
      */
-    fun isCtrlKeyDown(): Boolean
-    {
-        return if (Minecraft.IS_RUNNING_ON_MAC)
-        {
+    fun isCtrlKeyDown(): Boolean {
+        return if (Minecraft.IS_RUNNING_ON_MAC) {
             Keyboard.isKeyDown(Keyboard.KEY_LMETA) || Keyboard.isKeyDown(Keyboard.KEY_RMETA)
-        }
-        else
-        {
+        } else {
             Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)
         }
     }
@@ -102,11 +91,9 @@ object AOTDGuiUtility
      *
      * @param text The text that was cut/copied
      */
-    fun setClipboardString(text: String)
-    {
+    fun setClipboardString(text: String) {
         // Empty strings are not allowed to be copied
-        if (text.isNotEmpty())
-        {
+        if (text.isNotEmpty()) {
             // Use string selection to store our text
             val stringSelection = StringSelection(text)
             // Set the clipboard's contents
@@ -119,31 +106,23 @@ object AOTDGuiUtility
      *
      * @return The current text in the clipboard or ""
      */
-    fun getClipboardString(): String
-    {
+    fun getClipboardString(): String {
         // Get the current clipboard contents
         val contents = Toolkit.getDefaultToolkit().systemClipboard.getContents(null)
 
         // Make sure the clipboard has a string
-        if (contents != null && contents.isDataFlavorSupported(DataFlavor.stringFlavor))
-        {
+        if (contents != null && contents.isDataFlavorSupported(DataFlavor.stringFlavor)) {
             // Attempt to parse that data
-            try
-            {
+            try {
                 // Get the string from the clipboard contents
                 val data = contents.getTransferData(DataFlavor.stringFlavor)
 
                 // If the data is a string, return it
-                if (data is String)
-                {
+                if (data is String) {
                     return data
                 }
-            }
-            catch (ignored: UnsupportedFlavorException)
-            {
-            }
-            catch (ignored: IOException)
-            {
+            } catch (ignored: UnsupportedFlavorException) {
+            } catch (ignored: IOException) {
             }
         }
 

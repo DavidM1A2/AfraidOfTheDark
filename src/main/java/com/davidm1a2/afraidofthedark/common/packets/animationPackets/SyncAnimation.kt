@@ -15,16 +15,14 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext
  * @property animationName The animation to play
  * @property higherPriorityAnims Animations that will block this animation from playing, meaning they are of a higher priority
  */
-class SyncAnimation : EntitySyncBase
-{
+class SyncAnimation : EntitySyncBase {
     private var animationName: String
     private var higherPriorityAnims: Array<String>
 
     /**
      * Required default constructor for all packets
      */
-    constructor() : super()
-    {
+    constructor() : super() {
         animationName = ""
         higherPriorityAnims = arrayOf()
     }
@@ -36,8 +34,7 @@ class SyncAnimation : EntitySyncBase
      * @param entity              The entity to sync
      * @param higherPriorityAnims Optional argument of higher priority animations
      */
-    constructor(animationName: String, entity: Entity, vararg higherPriorityAnims: String) : super(entity)
-    {
+    constructor(animationName: String, entity: Entity, vararg higherPriorityAnims: String) : super(entity) {
         this.animationName = animationName
         this.higherPriorityAnims = arrayOf(*higherPriorityAnims)
     }
@@ -47,8 +44,7 @@ class SyncAnimation : EntitySyncBase
      *
      * @param buf The buffer to read from
      */
-    override fun fromBytes(buf: ByteBuf)
-    {
+    override fun fromBytes(buf: ByteBuf) {
         super.fromBytes(buf)
         animationName = ByteBufUtils.readUTF8String(buf)
         higherPriorityAnims = Array(buf.readInt())
@@ -62,8 +58,7 @@ class SyncAnimation : EntitySyncBase
      *
      * @param buf The buffer to write to
      */
-    override fun toBytes(buf: ByteBuf)
-    {
+    override fun toBytes(buf: ByteBuf) {
         super.toBytes(buf)
         ByteBufUtils.writeUTF8String(buf, animationName)
         buf.writeInt(higherPriorityAnims.size)
@@ -73,8 +68,7 @@ class SyncAnimation : EntitySyncBase
     /**
      * Handler to perform actions upon getting a packet
      */
-    class Handler : MessageHandler.Client<SyncAnimation>()
-    {
+    class Handler : MessageHandler.Client<SyncAnimation>() {
         /**
          * Called whenever we get a sync animation packet from the server
          *
@@ -82,20 +76,17 @@ class SyncAnimation : EntitySyncBase
          * @param msg    the message received
          * @param ctx    the message context object. This contains additional information about the packet.
          */
-        override fun handleClientMessage(player: EntityPlayer, msg: SyncAnimation, ctx: MessageContext)
-        {
+        override fun handleClientMessage(player: EntityPlayer, msg: SyncAnimation, ctx: MessageContext) {
             // Grab the entity in the world by ID that the server wanted us to update
             val entity = player.world.getEntityByID(msg.entityID)
 
             // Ensure the entity is non-null and a MC animated entity
-            if (entity is IMCAnimatedEntity)
-            {
+            if (entity is IMCAnimatedEntity) {
                 // Grab the animation handler
                 val animationHandler = (entity as IMCAnimatedEntity).animationHandler
 
                 // Ensure no higher priority animations are active, and if so activate the animation
-                if (msg.higherPriorityAnims.none { animationHandler.isAnimationActive(it) })
-                {
+                if (msg.higherPriorityAnims.none { animationHandler.isAnimationActive(it) }) {
                     animationHandler.activateAnimation(msg.animationName, 0f)
                 }
             }

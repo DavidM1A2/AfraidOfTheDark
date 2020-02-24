@@ -18,42 +18,37 @@ import net.minecraft.world.World
  * @param zSpeed  The z speed of the particle
  */
 abstract class AOTDParticle(
-        world: World,
-        sprite: TextureAtlasSprite,
-        x: Double,
-        y: Double,
-        z: Double,
-        xSpeed: Double = 0.0,
-        ySpeed: Double = 0.0,
-        zSpeed: Double = 0.0
-) : Particle(world, x, y, z, xSpeed, ySpeed, zSpeed)
-{
-    init
-    {
+    world: World,
+    sprite: TextureAtlasSprite,
+    x: Double,
+    y: Double,
+    z: Double,
+    xSpeed: Double = 0.0,
+    ySpeed: Double = 0.0,
+    zSpeed: Double = 0.0
+) : Particle(world, x, y, z, xSpeed, ySpeed, zSpeed) {
+    init {
         setParticleTexture(sprite)
     }
 
     /**
      * @return Must be 1 for custom textures
      */
-    override fun getFXLayer(): Int
-    {
+    override fun getFXLayer(): Int {
         return 1
     }
 
     /**
      * Copied code from base particle with modifications to update motion x,y,z
      */
-    override fun onUpdate()
-    {
+    override fun onUpdate() {
         // Update the previous positions to be the current position
         prevPosX = posX
         prevPosY = posY
         prevPosZ = posZ
 
         // If the particle is too old kill it off
-        if (particleAge++ >= particleMaxAge)
-        {
+        if (particleAge++ >= particleMaxAge) {
             setExpired()
         }
 
@@ -64,8 +59,7 @@ abstract class AOTDParticle(
         move(motionX, motionY, motionZ)
 
         // If the particle is on the ground reduce the motion quickly
-        if (onGround)
-        {
+        if (onGround) {
             motionX *= 0.7
             motionZ *= 0.7
         }
@@ -74,8 +68,7 @@ abstract class AOTDParticle(
     /**
      * Called before the particle is moved, update the motionXYZ here
      */
-    open fun updateMotionXYZ()
-    {
+    open fun updateMotionXYZ() {
         // Default: Don't update motion at all, let it remain constant
     }
 }

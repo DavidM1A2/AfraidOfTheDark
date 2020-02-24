@@ -5,8 +5,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionSt
 /**
  * Interface representing a delivery method transitioner to go from one delivery method to another
  */
-interface ISpellDeliveryTransitioner
-{
+interface ISpellDeliveryTransitioner {
     /**
      * Called to deliver the effects to the target by whatever means necessary
      *

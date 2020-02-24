@@ -6,44 +6,43 @@ import com.davidm1a2.afraidofthedark.common.registry.bolt.AOTDBoltEntry
 /**
  * A static class containing all of our bolt entry references for us
  */
-object ModBoltEntries
-{
+object ModBoltEntries {
     val WOODEN = AOTDBoltEntry(
-            "wooden",
-            ModItems.WOODEN_BOLT,
-            { world, thrower -> EntityWoodenBolt(world, thrower) },
-            null
+        "wooden",
+        ModItems.WOODEN_BOLT,
+        { world, thrower -> EntityWoodenBolt(world, thrower) },
+        null
     )
     val IRON = AOTDBoltEntry(
-            "iron",
-            ModItems.IRON_BOLT,
-            { world, thrower -> EntityIronBolt(world, thrower) },
-            null
+        "iron",
+        ModItems.IRON_BOLT,
+        { world, thrower -> EntityIronBolt(world, thrower) },
+        null
     )
     val ASTRAL_SILVER = AOTDBoltEntry(
-            "astral_silver",
-            ModItems.SILVER_BOLT,
-            { world, thrower -> EntitySilverBolt(world, thrower) },
-            ModResearches.ASTRAL_SILVER
+        "astral_silver",
+        ModItems.SILVER_BOLT,
+        { world, thrower -> EntitySilverBolt(world, thrower) },
+        ModResearches.ASTRAL_SILVER
     )
     val IGNEOUS = AOTDBoltEntry(
-            "igneous",
-            ModItems.IGNEOUS_BOLT,
-            { world, thrower -> EntityIgneousBolt(world, thrower) },
-            ModResearches.IGNEOUS
+        "igneous",
+        ModItems.IGNEOUS_BOLT,
+        { world, thrower -> EntityIgneousBolt(world, thrower) },
+        ModResearches.IGNEOUS
     )
     val STAR_METAL = AOTDBoltEntry(
-            "star_metal",
-            ModItems.STAR_METAL_BOLT,
-            { world, thrower -> EntityStarMetalBolt(world, thrower) },
-            ModResearches.STAR_METAL
+        "star_metal",
+        ModItems.STAR_METAL_BOLT,
+        { world, thrower -> EntityStarMetalBolt(world, thrower) },
+        ModResearches.STAR_METAL
     )
 
     val BOLT_ENTRY_LIST = arrayOf(
-            WOODEN,
-            IRON,
-            ASTRAL_SILVER,
-            IGNEOUS,
-            STAR_METAL
+        WOODEN,
+        IRON,
+        ASTRAL_SILVER,
+        IGNEOUS,
+        STAR_METAL
     )
 }

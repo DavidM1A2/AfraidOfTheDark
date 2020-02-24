@@ -8,16 +8,14 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 /**
  * Class that receives the register research event and registers all of our researches
  */
-class ResearchRegister
-{
+class ResearchRegister {
     /**
      * Called by forge to register any of our researches
      *
      * @param event The event to register to
      */
     @SubscribeEvent
-    fun registerResearch(event: RegistryEvent.Register<Research>)
-    {
+    fun registerResearch(event: RegistryEvent.Register<Research>) {
         val registry = event.registry
 
         // Register each research in our research list

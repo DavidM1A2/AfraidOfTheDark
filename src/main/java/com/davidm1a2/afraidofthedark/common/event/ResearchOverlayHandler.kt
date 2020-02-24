@@ -10,8 +10,7 @@ import net.minecraftforge.fml.relauncher.SideOnly
 /**
  * Research overlay handler class is used to show whenever a research is unlocked
  */
-class ResearchOverlayHandler
-{
+class ResearchOverlayHandler {
     // The overlay to show researches with
     @SideOnly(Side.CLIENT)
     private val researchAchievedOverlay = ResearchAchievedOverlay()
@@ -24,8 +23,7 @@ class ResearchOverlayHandler
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
     @Suppress("UNUSED_PARAMETER")
-    fun onRenderGameOverlayEventChat(event: Chat)
-    {
+    fun onRenderGameOverlayEventChat(event: Chat) {
         researchAchievedOverlay.updateResearchAchievedWindow()
     }
 
@@ -35,8 +33,7 @@ class ResearchOverlayHandler
      * @param research The research to display
      */
     @SideOnly(Side.CLIENT)
-    fun displayResearch(research: Research)
-    {
+    fun displayResearch(research: Research) {
         researchAchievedOverlay.displayResearch(research)
     }
 }

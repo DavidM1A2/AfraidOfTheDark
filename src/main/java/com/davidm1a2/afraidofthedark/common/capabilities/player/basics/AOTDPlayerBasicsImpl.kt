@@ -19,8 +19,7 @@ import net.minecraft.entity.player.EntityPlayerMP
  * @property watchedMeteorLatitude    - The  3 properties of the watched meteor
  * @property watchedMeteorLongitude </
  */
-class AOTDPlayerBasicsImpl : IAOTDPlayerBasics
-{
+class AOTDPlayerBasicsImpl : IAOTDPlayerBasics {
     override var startedAOTD = false
     override var selectedWristCrossbowBoltIndex = 0
     private var watchedMeteor: MeteorEntry? = null
@@ -34,8 +33,7 @@ class AOTDPlayerBasicsImpl : IAOTDPlayerBasics
      * @param entityPlayer The player to test
      * @return true if the player is on server side or false if not
      */
-    private fun isServerSide(entityPlayer: EntityPlayer): Boolean
-    {
+    private fun isServerSide(entityPlayer: EntityPlayer): Boolean {
         return !entityPlayer.world.isRemote
     }
 
@@ -44,14 +42,10 @@ class AOTDPlayerBasicsImpl : IAOTDPlayerBasics
      *
      * @param entityPlayer The player to sync
      */
-    override fun syncStartedAOTD(entityPlayer: EntityPlayer)
-    {
-        if (isServerSide(entityPlayer))
-        {
+    override fun syncStartedAOTD(entityPlayer: EntityPlayer) {
+        if (isServerSide(entityPlayer)) {
             AfraidOfTheDark.INSTANCE.packetHandler.sendTo(SyncStartedAOTD(startedAOTD), entityPlayer as EntityPlayerMP)
-        }
-        else
-        {
+        } else {
             AfraidOfTheDark.INSTANCE.packetHandler.sendToServer(SyncStartedAOTD(startedAOTD))
         }
     }
@@ -61,12 +55,14 @@ class AOTDPlayerBasicsImpl : IAOTDPlayerBasics
      *
      * @param entityPlayer The player to sync for
      */
-    override fun syncSelectedWristCrossbowBoltIndex(entityPlayer: EntityPlayer)
-    {
+    override fun syncSelectedWristCrossbowBoltIndex(entityPlayer: EntityPlayer) {
         // Can only send this client -> server side
-        if (!isServerSide(entityPlayer))
-        {
-            AfraidOfTheDark.INSTANCE.packetHandler.sendToServer(SyncSelectedWristCrossbowBolt(selectedWristCrossbowBoltIndex))
+        if (!isServerSide(entityPlayer)) {
+            AfraidOfTheDark.INSTANCE.packetHandler.sendToServer(
+                SyncSelectedWristCrossbowBolt(
+                    selectedWristCrossbowBoltIndex
+                )
+            )
         }
     }
 
@@ -80,8 +76,7 @@ class AOTDPlayerBasicsImpl : IAOTDPlayerBasics
      * @param latitude    The latitude the meteor dropped in at
      * @param longitude   The longitude the meteor dropped in at
      */
-    override fun setWatchedMeteor(meteorEntry: MeteorEntry?, dropAngle: Int, latitude: Int, longitude: Int)
-    {
+    override fun setWatchedMeteor(meteorEntry: MeteorEntry?, dropAngle: Int, latitude: Int, longitude: Int) {
         watchedMeteor = meteorEntry
         watchedMeteorDropAngle = dropAngle
         watchedMeteorLatitude = latitude
@@ -91,32 +86,28 @@ class AOTDPlayerBasicsImpl : IAOTDPlayerBasics
     /**
      * @return The meteor that the player is watching or null if not present
      */
-    override fun getWatchedMeteor(): MeteorEntry?
-    {
+    override fun getWatchedMeteor(): MeteorEntry? {
         return watchedMeteor
     }
 
     /**
      * @return The angle the meteor dropped in at or -1 if not present
      */
-    override fun getWatchedMeteorDropAngle(): Int
-    {
+    override fun getWatchedMeteorDropAngle(): Int {
         return watchedMeteorDropAngle
     }
 
     /**
      * @return The latitude the meteor dropped at or -1 if not present
      */
-    override fun getWatchedMeteorLatitude(): Int
-    {
+    override fun getWatchedMeteorLatitude(): Int {
         return watchedMeteorLatitude
     }
 
     /**
      * @return The longitude the meteor dropped at or -1 if not present
      */
-    override fun getWatchedMeteorLongitude(): Int
-    {
+    override fun getWatchedMeteorLongitude(): Int {
         return watchedMeteorLongitude
     }
 
@@ -125,18 +116,16 @@ class AOTDPlayerBasicsImpl : IAOTDPlayerBasics
      *
      * @param entityPlayer The player that the data is being synced for
      */
-    override fun syncWatchedMeteor(entityPlayer: EntityPlayer)
-    {
+    override fun syncWatchedMeteor(entityPlayer: EntityPlayer) {
         // If we're on server side send the client the meteor data
-        if (isServerSide(entityPlayer))
-        {
+        if (isServerSide(entityPlayer)) {
             AfraidOfTheDark.INSTANCE.packetHandler.sendTo(
-                    UpdateWatchedMeteor(
-                            watchedMeteor,
-                            watchedMeteorDropAngle,
-                            watchedMeteorLatitude,
-                            watchedMeteorLongitude
-                    ), entityPlayer as EntityPlayerMP
+                UpdateWatchedMeteor(
+                    watchedMeteor,
+                    watchedMeteorDropAngle,
+                    watchedMeteorLatitude,
+                    watchedMeteorLongitude
+                ), entityPlayer as EntityPlayerMP
             )
         }
     }
@@ -146,15 +135,11 @@ class AOTDPlayerBasicsImpl : IAOTDPlayerBasics
      *
      * @param entityPlayer The player to sync to
      */
-    override fun syncAll(entityPlayer: EntityPlayer)
-    {
+    override fun syncAll(entityPlayer: EntityPlayer) {
         // If we're on server side send the player's data
-        if (isServerSide(entityPlayer))
-        {
+        if (isServerSide(entityPlayer)) {
             AfraidOfTheDark.INSTANCE.packetHandler.sendTo(SyncAOTDPlayerBasics(this), entityPlayer as EntityPlayerMP)
-        }
-        else
-        {
+        } else {
             AfraidOfTheDark.INSTANCE.packetHandler.sendToServer(SyncAOTDPlayerBasics(this))
         }
     }

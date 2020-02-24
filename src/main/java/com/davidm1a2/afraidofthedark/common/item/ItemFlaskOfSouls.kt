@@ -27,10 +27,8 @@ import kotlin.random.Random
  *
  * @constructor sets the item name
  */
-class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls")
-{
-    init
-    {
+class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls") {
+    init {
         addPropertyOverride(ResourceLocation(Constants.MOD_ID, "complete"))
         { stack, _, _ ->
             if (isComplete(stack)) 1f else 0f
@@ -45,42 +43,37 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls")
      * @param hand   The hand holding the item
      * @return The result of the right click
      */
-    override fun onItemRightClick(world: World, player: EntityPlayer, hand: EnumHand): ActionResult<ItemStack>
-    {
+    override fun onItemRightClick(world: World, player: EntityPlayer, hand: EnumHand): ActionResult<ItemStack> {
         // Grab the held item
         val itemStack = player.getHeldItem(hand)
 
         // Server side processing only
-        if (!world.isRemote)
-        {
+        if (!world.isRemote) {
             // Ensure the player has the right research
-            if (player.getResearch().isResearched(ModResearches.PHYLACTERY_OF_SOULS))
-            {
+            if (player.getResearch().isResearched(ModResearches.PHYLACTERY_OF_SOULS)) {
                 // Ray trace where the player is looking
                 val rayTraceResult: RayTraceResult? = rayTrace(world, player, true)
 
                 // Test if we hit a block, Intellij is wrong here, ray trace CAN be null!!!
-                if (rayTraceResult != null && rayTraceResult.typeOfHit == RayTraceResult.Type.BLOCK)
-                {
+                if (rayTraceResult != null && rayTraceResult.typeOfHit == RayTraceResult.Type.BLOCK) {
                     val hitPos = rayTraceResult.blockPos
                     // Test if the block right clicked is modifiable
-                    if (world.isBlockModifiable(player, hitPos) && player.canPlayerEdit(hitPos, rayTraceResult.sideHit, itemStack))
-                    {
+                    if (world.isBlockModifiable(player, hitPos) && player.canPlayerEdit(
+                            hitPos,
+                            rayTraceResult.sideHit,
+                            itemStack
+                        )
+                    ) {
                         // If the entity was selected to spawn inside a liquid spawn it inside a liquid
-                        if (world.getBlockState(hitPos).block is BlockLiquid)
-                        {
+                        if (world.getBlockState(hitPos).block is BlockLiquid) {
                             spawnEntity(world, hitPos.x + 0.5, hitPos.y + 0.5, hitPos.z + 0.5, itemStack, player)
-                        }
-                        else
-                        {
+                        } else {
                             val spawnPos = hitPos.offset(rayTraceResult.sideHit)
                             spawnEntity(world, spawnPos.x + 0.5, spawnPos.y + 0.5, spawnPos.z + 0.5, itemStack, player)
                         }
                     }
                 }
-            }
-            else
-            {
+            } else {
                 player.sendMessage(TextComponentTranslation("message.afraidofthedark:dont_understand"))
             }
         }
@@ -97,45 +90,45 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls")
      * @param itemStack    The itemstack used to spawn the entity
      * @param entityPlayer The player that is spawning the entity
      */
-    private fun spawnEntity(world: World, x: Double, y: Double, z: Double, itemStack: ItemStack, entityPlayer: EntityPlayer)
-    {
+    private fun spawnEntity(
+        world: World,
+        x: Double,
+        y: Double,
+        z: Double,
+        itemStack: ItemStack,
+        entityPlayer: EntityPlayer
+    ) {
         // Server side processing only
-        if (!world.isRemote)
-        {
+        if (!world.isRemote) {
             // Flask is complete
-            if (isComplete(itemStack))
-            {
+            if (isComplete(itemStack)) {
                 // The flask is not on cooldown
-                if (!isOnCooldown(itemStack))
-                {
+                if (!isOnCooldown(itemStack)) {
                     // Grab the spawned entity ID
                     val entityToSpawnID = getSpawnedEntity(itemStack)
 
                     // Ensure it's not null, this should always be true
-                    if (entityToSpawnID != null)
-                    {
+                    if (entityToSpawnID != null) {
                         // Create the entity from the ID
                         val entity = EntityList.createEntityByIDFromName(entityToSpawnID, world)
                         // If the entity is non-null spawn it
-                        if (entity != null)
-                        {
+                        if (entity != null) {
                             entity.setLocationAndAngles(x, y, z, Random.nextDouble(0.0, 360.0).toFloat(), 0.0f)
                             world.spawnEntity(entity)
                             setOnCooldown(itemStack, entityPlayer)
-                        }
-                        else
-                        {
+                        } else {
                             AfraidOfTheDark.INSTANCE.logger.error("Unknown entity: $entityToSpawnID")
                         }
                     }
+                } else {
+                    entityPlayer.sendMessage(
+                        TextComponentTranslation(
+                            "message.afraidofthedark:flask_of_souls.on_cooldown",
+                            cooldownRemainingInSeconds(itemStack)
+                        )
+                    )
                 }
-                else
-                {
-                    entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:flask_of_souls.on_cooldown", cooldownRemainingInSeconds(itemStack)))
-                }
-            }
-            else
-            {
+            } else {
                 entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:flask_of_souls.incomplete"))
             }
         }
@@ -147,22 +140,16 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls")
      * @param stack The itemstack to show durability for
      * @return Value between 0 to 1 of what percent of the durability bar to show
      */
-    override fun getDurabilityForDisplay(stack: ItemStack): Double
-    {
+    override fun getDurabilityForDisplay(stack: ItemStack): Double {
         // If the flask is not charged then show the flask charge
-        return if (!isComplete(stack))
-        {
-            if (getSpawnedEntity(stack) == null)
-            {
+        return if (!isComplete(stack)) {
+            if (getSpawnedEntity(stack) == null) {
                 1.0
+            } else {
+                1 - getKills(stack).toDouble() / (ENTITY_TO_KILLS_REQUIRED[getSpawnedEntity(stack)]
+                    ?: DEFAULT_KILLS_REQUIRED).toDouble()
             }
-            else
-            {
-                1 - getKills(stack).toDouble() / (ENTITY_TO_KILLS_REQUIRED[getSpawnedEntity(stack)] ?: DEFAULT_KILLS_REQUIRED).toDouble()
-            }
-        }
-        else
-        {
+        } else {
             // Otherwise default to the standard charge durability
             super.getDurabilityForDisplay(stack)
         }
@@ -174,8 +161,7 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls")
      * @param itemStack The itemstack to get the cooldown for
      * @return The number of milliseconds required to finish the cooldown
      */
-    override fun getItemCooldownInMilliseconds(itemStack: ItemStack): Int
-    {
+    override fun getItemCooldownInMilliseconds(itemStack: ItemStack): Int {
         val killsRequired = ENTITY_TO_KILLS_REQUIRED[getSpawnedEntity(itemStack)] ?: DEFAULT_KILLS_REQUIRED
         return KILL_COUNT_TO_COOLDOWN[killsRequired] ?: DEFAULT_COOLDOWN
     }
@@ -188,36 +174,29 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls")
      * @param tooltip The tooltip to add to
      * @param flag  True if the advanced tooltip is set on, false otherwise
      */
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag)
-    {
+    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag) {
         val player = Minecraft.getMinecraft().player
         // If the player has the right research then show them flask stats
-        if (player != null && player.getResearch().isResearched(ModResearches.PHYLACTERY_OF_SOULS))
-        {
+        if (player != null && player.getResearch().isResearched(ModResearches.PHYLACTERY_OF_SOULS)) {
             // If the flask is unbound show them information how to bind it
-            if (getSpawnedEntity(stack) == null)
-            {
+            if (getSpawnedEntity(stack) == null) {
                 tooltip.add("Flask unbound.")
                 tooltip.add("Hold this in your hotbar while")
                 tooltip.add("killing a mob to bind this flask.")
-            }
-            else
-            {
+            } else {
                 // If the flask is done show info one way, otherwise show it the other way
-                if (isComplete(stack))
-                {
+                if (isComplete(stack)) {
                     tooltip.add("Flask bound to: ${EntityList.getTranslationName(getSpawnedEntity(stack))}")
                     tooltip.add("Flask complete, cooldown is ${getItemCooldownInMilliseconds(stack) / 1000 + 1}s")
-                }
-                else
-                {
+                } else {
                     tooltip.add("Flask bound to: ${EntityList.getTranslationName(getSpawnedEntity(stack))}")
-                    tooltip.add("Kills: ${getKills(stack)}/${ENTITY_TO_KILLS_REQUIRED[getSpawnedEntity(stack)] ?: DEFAULT_KILLS_REQUIRED}")
+                    tooltip.add(
+                        "Kills: ${getKills(stack)}/${ENTITY_TO_KILLS_REQUIRED[getSpawnedEntity(stack)]
+                            ?: DEFAULT_KILLS_REQUIRED}"
+                    )
                 }
             }
-        }
-        else
-        {
+        } else {
             tooltip.add("I'm not sure how to use this.")
         }
     }
@@ -228,8 +207,7 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls")
      * @param itemStack The itemstack to test
      * @return True if the flask is done, false otherwise
      */
-    fun isComplete(itemStack: ItemStack): Boolean
-    {
+    fun isComplete(itemStack: ItemStack): Boolean {
         val flaskComplete = NBTHelper.getBoolean(itemStack, NBT_FLASK_COMPLETE)
         return flaskComplete ?: false
     }
@@ -240,15 +218,13 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls")
      * @param itemStack The item to add kills to
      * @param kills     The number of kills to add
      */
-    fun addKills(itemStack: ItemStack, kills: Int)
-    {
+    fun addKills(itemStack: ItemStack, kills: Int) {
         // Grab the current kill count
         var currentKills = getKills(itemStack)
 
         // Grab the current entity, if this is null ignore the call
         val spawnedEntity = getSpawnedEntity(itemStack)
-        if (spawnedEntity != null)
-        {
+        if (spawnedEntity != null) {
             // Grab the max kills required to fill the flask
             val killsRequired = ENTITY_TO_KILLS_REQUIRED[spawnedEntity] ?: DEFAULT_KILLS_REQUIRED
 
@@ -257,8 +233,7 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls")
             NBTHelper.setInteger(itemStack, NBT_FLASK_KILLS, currentKills)
 
             // If we have enough kills update the NBT data to 1 so that it is complete
-            if (currentKills == killsRequired)
-            {
+            if (currentKills == killsRequired) {
                 NBTHelper.setBoolean(itemStack, NBT_FLASK_COMPLETE, true)
             }
         }
@@ -270,11 +245,9 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls")
      * @param itemStack The itemstack to get kills from
      * @return The number of kills on the flask
      */
-    private fun getKills(itemStack: ItemStack): Int
-    {
+    private fun getKills(itemStack: ItemStack): Int {
         // Ensure we have the kills tag, and if not initialize it to 0
-        if (!NBTHelper.hasTag(itemStack, NBT_FLASK_KILLS))
-        {
+        if (!NBTHelper.hasTag(itemStack, NBT_FLASK_KILLS)) {
             NBTHelper.setInteger(itemStack, NBT_FLASK_KILLS, 0)
         }
         return NBTHelper.getInteger(itemStack, NBT_FLASK_KILLS)!!
@@ -286,14 +259,10 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls")
      * @param itemStack The itemstack to set the spawned entity of
      * @param entity    The entity to set, or null to clear
      */
-    fun setSpawnedEntity(itemStack: ItemStack, entity: ResourceLocation?)
-    {
-        if (entity != null)
-        {
+    fun setSpawnedEntity(itemStack: ItemStack, entity: ResourceLocation?) {
+        if (entity != null) {
             NBTHelper.setString(itemStack, NBT_FLASK_TYPE, entity.toString())
-        }
-        else
-        {
+        } else {
             NBTHelper.removeTag(itemStack, NBT_FLASK_TYPE)
         }
     }
@@ -304,20 +273,15 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls")
      * @param itemStack The itemstack to get the entity for
      * @return THe resourcelocation of the ID of the flask or null if it does not have an entity yet
      */
-    fun getSpawnedEntity(itemStack: ItemStack): ResourceLocation?
-    {
-        return if (NBTHelper.hasTag(itemStack, NBT_FLASK_TYPE))
-        {
+    fun getSpawnedEntity(itemStack: ItemStack): ResourceLocation? {
+        return if (NBTHelper.hasTag(itemStack, NBT_FLASK_TYPE)) {
             ResourceLocation(NBTHelper.getString(itemStack, NBT_FLASK_TYPE)!!)
-        }
-        else
-        {
+        } else {
             null
         }
     }
 
-    companion object
-    {
+    companion object {
         // Two constants, one for the flask type and one for flask kill count
         private const val NBT_FLASK_TYPE = "flask_type"
         private const val NBT_FLASK_KILLS = "flask_kills"
@@ -328,18 +292,18 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls")
 
         // A mapping of entity -> kills required. Default kills required is 32, all other entities are listed below
         private val ENTITY_TO_KILLS_REQUIRED = mapOf(
-                ResourceLocation("villager") to 8,
-                ResourceLocation("ghast") to 8,
-                ResourceLocation("villager_golem") to 8,
-                ModEntities.WEREWOLF.registryName to 8,
-                ResourceLocation("enderman") to 16,
-                ResourceLocation("zombie_pigman") to 16,
-                ResourceLocation("blaze") to 16,
-                ResourceLocation("magma_cube") to 16,
-                ResourceLocation("slime") to 16,
-                ResourceLocation("witch") to 16,
-                ResourceLocation("horse") to 16,
-                ResourceLocation("wolf") to 16
+            ResourceLocation("villager") to 8,
+            ResourceLocation("ghast") to 8,
+            ResourceLocation("villager_golem") to 8,
+            ModEntities.WEREWOLF.registryName to 8,
+            ResourceLocation("enderman") to 16,
+            ResourceLocation("zombie_pigman") to 16,
+            ResourceLocation("blaze") to 16,
+            ResourceLocation("magma_cube") to 16,
+            ResourceLocation("slime") to 16,
+            ResourceLocation("witch") to 16,
+            ResourceLocation("horse") to 16,
+            ResourceLocation("wolf") to 16
         )
 
         // Default cooldown for unknown kill count
@@ -347,9 +311,9 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls")
 
         // A mapping of kills -> cooldown
         private val KILL_COUNT_TO_COOLDOWN = mapOf(
-                8 to 20000,
-                16 to 10000,
-                32 to 5000
+            8 to 20000,
+            16 to 10000,
+            32 to 5000
         )
     }
 }

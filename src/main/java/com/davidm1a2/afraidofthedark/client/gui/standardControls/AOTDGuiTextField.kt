@@ -27,8 +27,8 @@ import org.lwjgl.util.Color
  * @property textColor If we were not showing ghost text update the label's color
  * @property text The current text in the text field or empty string if it is ghost text
  */
-class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFont) : AOTDGuiContainer(x, y, width, height)
-{
+class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFont) :
+    AOTDGuiContainer(x, y, width, height) {
     private val background: AOTDGuiImage
     private val textContainer: AOTDGuiPanel
     private val textLabel: AOTDGuiLabel
@@ -40,8 +40,7 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
         private set
     private var text: String = ""
 
-    init
-    {
+    init {
         // Create our background image
         this.background = AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/text_field_background.png")
 
@@ -60,23 +59,18 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
         this.add(this.background)
 
         // Set the control to focused once it's selected
-        this.addMouseListener()
-        {
-            if (it.eventType === AOTDMouseEvent.EventType.Click)
-            {
+        this.addMouseListener {
+            if (it.eventType == AOTDMouseEvent.EventType.Click) {
                 // Make sure it was a left click
-                if (it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
-                {
+                if (it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
                     // Test if we're hovered or not, if so set it to focused, otherwise set it to not focused
                     setFocused(isHovered)
                 }
             }
         }
         // When a key is typed save that information
-        this.addKeyListener()
-        {
-            if (it.eventType === AOTDKeyEvent.KeyEventType.Type)
-            {
+        this.addKeyListener {
+            if (it.eventType == AOTDKeyEvent.KeyEventType.Type) {
                 keyTyped(it.key, it.keyCode)
             }
         }
@@ -85,10 +79,8 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
     /**
      * Only draw the text field if visible
      */
-    override fun draw()
-    {
-        if (this.isVisible)
-        {
+    override fun draw() {
+        if (this.isVisible) {
             super.draw()
         }
     }
@@ -99,54 +91,43 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
      * @param character The character typed
      * @param keyCode   The code of the character typed
      */
-    private fun keyTyped(character: Char, keyCode: Int)
-    {
+    private fun keyTyped(character: Char, keyCode: Int) {
         // Ensure the text field is focused
-        if (this.isFocused)
-        {
+        if (this.isFocused) {
             // CTRL + A
-            if (AOTDGuiUtility.isCtrlKeyDown() && keyCode == Keyboard.KEY_A)
-            {
+            if (AOTDGuiUtility.isCtrlKeyDown() && keyCode == Keyboard.KEY_A) {
                 // Select all text, not yet implemented
             }
             // CTRL + C
-            else if (AOTDGuiUtility.isCtrlKeyDown() && keyCode == Keyboard.KEY_C)
-            {
+            else if (AOTDGuiUtility.isCtrlKeyDown() && keyCode == Keyboard.KEY_C) {
                 // Update the clipboard string
                 AOTDGuiUtility.setClipboardString(this.getText())
             }
             // Ctrl + V
-            else if (AOTDGuiUtility.isCtrlKeyDown() && keyCode == Keyboard.KEY_V)
-            {
+            else if (AOTDGuiUtility.isCtrlKeyDown() && keyCode == Keyboard.KEY_V) {
                 this.setText("")
                 this.addText(ChatAllowedCharacters.filterAllowedCharacters(AOTDGuiUtility.getClipboardString()))
             }
             // CTRL + X
-            else if (AOTDGuiUtility.isCtrlKeyDown() && keyCode == Keyboard.KEY_X)
-            {
+            else if (AOTDGuiUtility.isCtrlKeyDown() && keyCode == Keyboard.KEY_X) {
                 AOTDGuiUtility.setClipboardString(this.getText())
                 this.setText("")
             }
             // Regular key typed
-            else
-            {
-                when (keyCode)
-                {
+            else {
+                when (keyCode) {
                     // Backspace removes 1 character
                     Keyboard.KEY_BACK -> this.removeChars(1)
                     // Left arrow
-                    Keyboard.KEY_LEFT ->
-                    {
+                    Keyboard.KEY_LEFT -> {
                         // Not yet implemented
                     }
                     // Right arrow
-                    Keyboard.KEY_RIGHT ->
-                    {
+                    Keyboard.KEY_RIGHT -> {
                         // Not yet implemented
                     }
                     else ->
-                        if (ChatAllowedCharacters.isAllowedCharacter(character))
-                        {
+                        if (ChatAllowedCharacters.isAllowedCharacter(character)) {
                             // Add the character
                             this.addText(character.toString())
                         }
@@ -158,22 +139,15 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
     /**
      * @return The current text in the text field or empty string if it is ghost text
      */
-    fun getText(): String
-    {
+    fun getText(): String {
         // Return either "" if the text is ghost text or the text otherwise
-        return if (isShowingGhostText())
-        {
+        return if (isShowingGhostText()) {
             ""
-        }
-        else
-        {
+        } else {
             // If we're focused remove the _, otherwise just return the text
-            if (isFocused)
-            {
+            if (isFocused) {
                 textLabel.text.substring(0, textLabel.text.length - 1)
-            }
-            else
-            {
+            } else {
                 textLabel.text
             }
         }
@@ -185,29 +159,22 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
      *
      * @param text The new text to display, or empty string if ghost text should be down
      */
-    fun setText(text: String)
-    {
+    fun setText(text: String) {
         // Make sure that the text contains valid characters
         @Suppress("NAME_SHADOWING")
         var text = text
         text = ChatAllowedCharacters.filterAllowedCharacters(text)
         // Now we test if we should show ghost text or not
         // If the control is focused then we don't show ghost text
-        if (isFocused)
-        {
+        if (isFocused) {
             textLabel.text = text + "_"
             textLabel.textColor = textColor
-        }
-        else
-        {
+        } else {
             // If the string is empty we show ghost text
-            if (text.isEmpty())
-            {
+            if (text.isEmpty()) {
                 textLabel.text = ghostText
                 textLabel.textColor = GHOST_TEXT_COLOR
-            }
-            else
-            {
+            } else {
                 textLabel.text = text
                 textLabel.textColor = textColor
             }
@@ -222,11 +189,9 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
      *
      * @param text The new text to add
      */
-    private fun addText(text: String)
-    {
+    private fun addText(text: String) {
         // Make sure the text is non-empty
-        if (text.isNotEmpty())
-        {
+        if (text.isNotEmpty()) {
             this.setText(this.getText() + text)
         }
     }
@@ -236,8 +201,7 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
      *
      * @param number The number of characters to remove
      */
-    private fun removeChars(number: Int)
-    {
+    private fun removeChars(number: Int) {
         // Get the current text
         val currentText = this.getText()
         // Clamp the number to be between 0 and the text's length
@@ -249,17 +213,13 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
     /**
      * Updates the amount the text label should be shifted by to allow for scrolling text
      */
-    private fun updateScroll()
-    {
+    private fun updateScroll() {
         // Get the text's width and multiply by our scale factor used
         val textWidth = this.textLabel.font.getWidth(this.textLabel.text) * Constants.TEXT_SCALE_FACTOR
         // If the text width is bigger than the label's width we set the alignment to right so that you see the newest text not the oldest
-        if (textWidth > this.textLabel.getWidth())
-        {
+        if (textWidth > this.textLabel.getWidth()) {
             this.textLabel.textAlignment = TextAlignment.ALIGN_RIGHT
-        }
-        else
-        {
+        } else {
             this.textLabel.textAlignment = TextAlignment.ALIGN_LEFT
         }
     }
@@ -269,13 +229,11 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
      *
      * @param isFocused If the control is focused or not
      */
-    private fun setFocused(isFocused: Boolean)
-    {
+    private fun setFocused(isFocused: Boolean) {
         // Was focused tells us if we were previously focused
         val wasFocused = this.isFocused
         // If we were not focused and now are focused update the text
-        if (!wasFocused && isFocused)
-        {
+        if (!wasFocused && isFocused) {
             // Enable repeat events so we can type multiple characters in the box by holding them
             Keyboard.enableRepeatEvents(true)
             // Set the background to be tinted
@@ -286,9 +244,7 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
             this.isFocused = true
             // Call set text to refresh the text formatting
             this.setText(currentText)
-        }
-        else if (wasFocused && !isFocused)
-        {
+        } else if (wasFocused && !isFocused) {
             // Disable repeat events
             Keyboard.enableRepeatEvents(false)
             // Set the background to be untinted
@@ -305,8 +261,7 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
     /**
      * @return True if ghost text is showing, false otherwise
      */
-    private fun isShowingGhostText(): Boolean
-    {
+    private fun isShowingGhostText(): Boolean {
         // Here we use a bit of a hack to detect if we're showing ghost text. We check the color of the text and the string contents. There's an
         // edge case where this fails if the color is gray and the string is exactly the ghost text
         return textLabel.textColor == GHOST_TEXT_COLOR && textLabel.text == ghostText
@@ -317,19 +272,15 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
      *
      * @param ghostText The new ghost text
      */
-    fun setGhostText(ghostText: String)
-    {
+    fun setGhostText(ghostText: String) {
         // Flag telling us if ghost text used to be loaded
         val ghostTextWasLoaded = this.isShowingGhostText()
         this.ghostText = ghostText
 
         // If the text was ghost text update the ghost text
-        if (ghostTextWasLoaded)
-        {
+        if (ghostTextWasLoaded) {
             textLabel.text = this.ghostText
-        }
-        else if (textLabel.text.isEmpty())
-        {
+        } else if (textLabel.text.isEmpty()) {
             textLabel.text = this.ghostText
             textLabel.textColor = GHOST_TEXT_COLOR
         }
@@ -340,18 +291,15 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
      *
      * @param textColor The new text color
      */
-    fun setTextColor(textColor: Color)
-    {
+    fun setTextColor(textColor: Color) {
         this.textColor = textColor
         // If we were not showing ghost text update the label's color
-        if (!isShowingGhostText())
-        {
+        if (!isShowingGhostText()) {
             textLabel.textColor = this.textColor
         }
     }
 
-    companion object
-    {
+    companion object {
         // Ghost text color is gray
         private val GHOST_TEXT_COLOR = Color(128, 128, 128)
         // When focused tint gray

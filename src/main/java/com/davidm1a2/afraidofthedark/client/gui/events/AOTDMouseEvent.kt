@@ -12,20 +12,23 @@ import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiComponentWithEvents
  * @param clickedButton The mouse button that caused the event
  * @param eventType     The event type that was fired
  */
-class AOTDMouseEvent(source: AOTDGuiComponentWithEvents, val mouseX: Int, val mouseY: Int, val clickedButton: Int, val eventType: EventType) : AOTDEvent(source)
-{
+class AOTDMouseEvent(
+    source: AOTDGuiComponentWithEvents,
+    val mouseX: Int,
+    val mouseY: Int,
+    val clickedButton: Int,
+    val eventType: EventType
+) : AOTDEvent(source) {
     /**
      * Internal enum representing the different mouse event types we can have
      */
-    enum class EventType
-    {
+    enum class EventType {
         Click,
         Press,
         Release
     }
 
-    companion object
-    {
+    companion object {
         // The mouse buttons that are standard
         const val LEFT_MOUSE_BUTTON = 0
         const val RIGHT_MOUSE_BUTTON = 1

@@ -26,8 +26,8 @@ import java.io.InputStreamReader
  * @property preResearchedRecipes A list of recipes that will be shown if the previous research is researched
  * @property icon The icon to show for this research
  */
-abstract class Research(data: ResourceLocation, val preRequisite: Research? = null) : IForgeRegistryEntry.Impl<Research>()
-{
+abstract class Research(data: ResourceLocation, val preRequisite: Research? = null) :
+    IForgeRegistryEntry.Impl<Research>() {
     var xPosition = 0
         private set
     var zPosition = 0
@@ -39,30 +39,22 @@ abstract class Research(data: ResourceLocation, val preRequisite: Research? = nu
     lateinit var icon: ResourceLocation
         private set
 
-    init
-    {
+    init {
         // Open an input stream to our data resource JSON file
-        try
-        {
-            ResourceUtil.getInputStream(data).use()
-            { inputStream ->
-                InputStreamReader(inputStream).use()
-                { inputStreamReader ->
-                    BufferedReader(inputStreamReader).use()
-                    { reader ->
+        try {
+            ResourceUtil.getInputStream(data).use { inputStream ->
+                InputStreamReader(inputStream).use { inputStreamReader ->
+                    BufferedReader(inputStreamReader).use { reader ->
                         // Read the file as JSON
                         val jsonObject = JsonUtils.fromJson(DESERIALIZER, reader, JsonObject::class.java)
-                        if (jsonObject != null)
-                        {
+                        if (jsonObject != null) {
                             // Parse all the fields of the JSON object using the JSONUtils class
                             xPosition = JsonUtils.getInt(jsonObject, "x")
                             zPosition = JsonUtils.getInt(jsonObject, "y")
-                            researchedRecipes = JsonUtils.getJsonArray(jsonObject, "recipes").map()
-                            {
+                            researchedRecipes = JsonUtils.getJsonArray(jsonObject, "recipes").map {
                                 JsonUtils.getItem(it, "")
                             }
-                            preResearchedRecipes = JsonUtils.getJsonArray(jsonObject, "preRecipes").map()
-                            {
+                            preResearchedRecipes = JsonUtils.getJsonArray(jsonObject, "preRecipes").map {
                                 JsonUtils.getItem(it, "")
                             }
                             icon = ResourceLocation(JsonUtils.getString(jsonObject, "icon"))
@@ -72,8 +64,7 @@ abstract class Research(data: ResourceLocation, val preRequisite: Research? = nu
             }
         }
         // This shouldn't happen, but if it does print out an error
-        catch (e: IOException)
-        {
+        catch (e: IOException) {
             AfraidOfTheDark.INSTANCE.logger.error("Could not load the research defined by '$data'", e)
         }
     }
@@ -81,37 +72,32 @@ abstract class Research(data: ResourceLocation, val preRequisite: Research? = nu
     /**
      * @return The unlocalized name of the research
      */
-    fun getUnlocalizedName(): String
-    {
+    fun getUnlocalizedName(): String {
         return "research.${registryName!!.resourceDomain}:${registryName!!.resourcePath}.name"
     }
 
     /**
      * @return The unlocalized tooltip of the research
      */
-    fun getUnlocalizedTooltip(): String
-    {
+    fun getUnlocalizedTooltip(): String {
         return "research.${registryName!!.resourceDomain}:${registryName!!.resourcePath}.tooltip"
     }
 
     /**
      * @return The unlocalized pre text of the research
      */
-    fun getUnlocalizedPreText(): String
-    {
+    fun getUnlocalizedPreText(): String {
         return "research.${registryName!!.resourceDomain}:${registryName!!.resourcePath}.pre_text"
     }
 
     /**
      * @return The unlocalized text of the research
      */
-    fun getUnlocalizedText(): String
-    {
+    fun getUnlocalizedText(): String {
         return "research.${registryName!!.resourceDomain}:${registryName!!.resourcePath}.text"
     }
 
-    companion object
-    {
+    companion object {
         // Gson serializer to convert from JSON to java types
         private val DESERIALIZER = GsonBuilder().disableHtmlEscaping().create()
     }

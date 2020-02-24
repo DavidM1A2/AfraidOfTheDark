@@ -10,21 +10,18 @@ import net.minecraft.block.material.Material
  *
  * @constructor sets the name and material
  */
-class BlockGravewoodHalfSlab : AOTDSlab("gravewood_half_slab", Material.WOOD)
-{
+class BlockGravewoodHalfSlab : AOTDSlab("gravewood_half_slab", Material.WOOD) {
     /**
      * @return The double slab since this is a half slab
      */
-    override fun getOpposite(): BlockSlab
-    {
+    override fun getOpposite(): BlockSlab {
         return ModBlocks.GRAVEWOOD_DOUBLE_SLAB
     }
 
     /**
      * @return It's a half slab, so not double
      */
-    override fun isDouble(): Boolean
-    {
+    override fun isDouble(): Boolean {
         return false
     }
 }

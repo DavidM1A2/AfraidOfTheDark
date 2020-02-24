@@ -32,13 +32,11 @@ import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint
  * @property animHandler Animation handler used by the werewolf
  * @property attacksAnyone Flag telling the werewolf if it is allowed to attack anyone or just players that have started AOTD
  */
-class EntityWerewolf(world: World) : EntityMob(world), IMCAnimatedEntity
-{
+class EntityWerewolf(world: World) : EntityMob(world), IMCAnimatedEntity {
     private val animHandler = AnimationHandlerWerewolf(this)
     private var attacksAnyone: Boolean
 
-    init
-    {
+    init {
         // Set the hitbox size
         setSize(1.1f, 1.4f)
 
@@ -49,8 +47,7 @@ class EntityWerewolf(world: World) : EntityMob(world), IMCAnimatedEntity
         experienceValue = 10
     }
 
-    override fun initEntityAI()
-    {
+    override fun initEntityAI() {
         // First priority is to swim and not drown
         tasks.addTask(1, EntityAISwimming(this))
         // Second priority is to attack melee if possible
@@ -70,8 +67,7 @@ class EntityWerewolf(world: World) : EntityMob(world), IMCAnimatedEntity
     /**
      * Sets entity attributes such as max health and movespeed
      */
-    override fun applyEntityAttributes()
-    {
+    override fun applyEntityAttributes() {
         super.applyEntityAttributes()
         attributeMap.getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH).baseValue = MAX_HEALTH
         attributeMap.getAttributeInstance(SharedMonsterAttributes.FOLLOW_RANGE).baseValue = FOLLOW_RANGE
@@ -83,13 +79,11 @@ class EntityWerewolf(world: World) : EntityMob(world), IMCAnimatedEntity
     /**
      * Update animations for this entity when update is called
      */
-    override fun onUpdate()
-    {
+    override fun onUpdate() {
         super.onUpdate()
 
         // Animations only update client side
-        if (world.isRemote)
-        {
+        if (world.isRemote) {
             animHandler.animationsUpdate()
         }
     }
@@ -97,18 +91,14 @@ class EntityWerewolf(world: World) : EntityMob(world), IMCAnimatedEntity
     /**
      * Called every tick to update the entities state
      */
-    override fun onEntityUpdate()
-    {
+    override fun onEntityUpdate() {
         // Call super
         super.onEntityUpdate()
 
         // Show the walking animation if the entity is walking and not biting
-        if (world.isRemote)
-        {
-            if (motionX > 0.05 || motionX < -0.05 || motionZ > 0.05 || motionZ < -0.05)
-            {
-                if (!animHandler.isAnimationActive("Bite") && !animHandler.isAnimationActive("Run"))
-                {
+        if (world.isRemote) {
+            if (motionX > 0.05 || motionX < -0.05 || motionZ > 0.05 || motionZ < -0.05) {
+                if (!animHandler.isAnimationActive("Bite") && !animHandler.isAnimationActive("Run")) {
                     animHandler.activateAnimation("Run", 0f)
                 }
             }
@@ -120,35 +110,34 @@ class EntityWerewolf(world: World) : EntityMob(world), IMCAnimatedEntity
      *
      * @param cause The damage source that killed the werewolf
      */
-    override fun onDeath(cause: DamageSource)
-    {
+    override fun onDeath(cause: DamageSource) {
         super.onDeath(cause)
 
         // Server side processing only
-        if (!world.isRemote)
-        {
+        if (!world.isRemote) {
             // If the cause was from a player we perform further processing
-            if (cause is EntityDamageSource)
-            {
+            if (cause is EntityDamageSource) {
                 // Test if the killer was a player
-                if (cause.getTrueSource() is EntityPlayer)
-                {
+                if (cause.getTrueSource() is EntityPlayer) {
                     val killer = cause.getTrueSource() as EntityPlayer
                     val playerResearch = killer.getResearch()
 
                     // If the player can research the slaying of the wolves achievement do so
-                    if (playerResearch.canResearch(ModResearches.SLAYING_OF_THE_WOLVES))
-                    {
+                    if (playerResearch.canResearch(ModResearches.SLAYING_OF_THE_WOLVES)) {
                         playerResearch.setResearch(ModResearches.SLAYING_OF_THE_WOLVES, true)
                         playerResearch.sync(killer, true)
                     }
 
                     // If the player has the slaying of the wolves achievement then test if the player has glass bottles to fill with werewolf blood
-                    if (playerResearch.isResearched(ModResearches.SLAYING_OF_THE_WOLVES))
-                    {
+                    if (playerResearch.isResearched(ModResearches.SLAYING_OF_THE_WOLVES)) {
                         // If the player is in creative mode or we can clear a glass bottle do so and add 1 werewolf blood
-                        if (killer.isCreative || killer.inventory.clearMatchingItems(Items.GLASS_BOTTLE, 0, 1, null) == 1)
-                        {
+                        if (killer.isCreative || killer.inventory.clearMatchingItems(
+                                Items.GLASS_BOTTLE,
+                                0,
+                                1,
+                                null
+                            ) == 1
+                        ) {
                             killer.inventory.addItemStackToInventory(ItemStack(ModItems.WEREWOLF_BLOOD, 1))
                         }
                     }
@@ -164,15 +153,11 @@ class EntityWerewolf(world: World) : EntityMob(world), IMCAnimatedEntity
      * @param damage       The damage inflicted
      * @return True if the attack went through, false otherwise
      */
-    override fun attackEntityFrom(damageSource: DamageSource, damage: Float): Boolean
-    {
+    override fun attackEntityFrom(damageSource: DamageSource, damage: Float): Boolean {
         // If the damage was 'silver_damage' then we can apply it, otherwise we just do 1 'generic' damage
-        return if (damageSource.damageType == ModDamageSources.SILVER_DAMAGE)
-        {
+        return if (damageSource.damageType == ModDamageSources.SILVER_DAMAGE) {
             super.attackEntityFrom(damageSource, damage)
-        }
-        else
-        {
+        } else {
             super.attackEntityFrom(DamageSource.GENERIC, 1f)
         }
     }
@@ -183,28 +168,26 @@ class EntityWerewolf(world: World) : EntityMob(world), IMCAnimatedEntity
      * @param entity The entity that was attacked
      * @return True to let the interaction go through, false otherwise
      */
-    override fun attackEntityAsMob(entity: Entity): Boolean
-    {
+    override fun attackEntityAsMob(entity: Entity): Boolean {
         // Perform the attack first, then process the aftermath
         val attackResult = super.attackEntityAsMob(entity)
 
         // Server side processing only
-        if (!world.isRemote)
-        {
-            if (entity is EntityPlayer)
-            {
+        if (!world.isRemote) {
+            if (entity is EntityPlayer) {
                 // Show all players within 50 blocks the bite animation
-                AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(SyncAnimation("Bite", this, "Bite"), TargetPoint(dimension, posX, posY, posZ, 50.0))
+                AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(
+                    SyncAnimation("Bite", this, "Bite"),
+                    TargetPoint(dimension, posX, posY, posZ, 50.0)
+                )
 
                 // If the thing that was attacked was a player test if that player was killed or not
                 val playerResearch = entity.getResearch()
 
                 // Don't check 'isDead' because that only gets updated next tick, instead check if HP > 0 for alive
-                if (entity.health > 0)
-                {
+                if (entity.health > 0) {
                     // The player was not killed by the attack unlock the werewolf research if possible
-                    if (playerResearch.canResearch(ModResearches.WEREWOLF_EXAMINATION))
-                    {
+                    if (playerResearch.canResearch(ModResearches.WEREWOLF_EXAMINATION)) {
                         playerResearch.setResearch(ModResearches.WEREWOLF_EXAMINATION, true)
                         playerResearch.sync(entity, true)
                     }
@@ -219,8 +202,7 @@ class EntityWerewolf(world: World) : EntityMob(world), IMCAnimatedEntity
      *
      * @param nbtTagCompound The compound to read from
      */
-    override fun readEntityFromNBT(nbtTagCompound: NBTTagCompound)
-    {
+    override fun readEntityFromNBT(nbtTagCompound: NBTTagCompound) {
         attacksAnyone = nbtTagCompound.getBoolean(NBT_CAN_ATTACK_ANYONE)
         super.readEntityFromNBT(nbtTagCompound)
     }
@@ -230,8 +212,7 @@ class EntityWerewolf(world: World) : EntityMob(world), IMCAnimatedEntity
      *
      * @param nbtTagCompound The compound to write to
      */
-    override fun writeEntityToNBT(nbtTagCompound: NBTTagCompound)
-    {
+    override fun writeEntityToNBT(nbtTagCompound: NBTTagCompound) {
         nbtTagCompound.setBoolean(NBT_CAN_ATTACK_ANYONE, attacksAnyone)
         super.writeEntityToNBT(nbtTagCompound)
     }
@@ -239,30 +220,24 @@ class EntityWerewolf(world: World) : EntityMob(world), IMCAnimatedEntity
     /**
      * @return the sound this mob makes on death.
      */
-    override fun getDeathSound(): SoundEvent
-    {
+    override fun getDeathSound(): SoundEvent {
         return ModSounds.WEREWOLF_DEATH
     }
 
     /**
      * @return the sound this mob makes when it is hurt.
      */
-    override fun getHurtSound(damageSourceIn: DamageSource): SoundEvent
-    {
+    override fun getHurtSound(damageSourceIn: DamageSource): SoundEvent {
         return ModSounds.WEREWOLF_HURT
     }
 
     /**
      * @return The ambient sound of the werewolf, if the werewolf is attacking it is the agro sound otherwise it's the idle sound
      */
-    override fun getAmbientSound(): SoundEvent
-    {
-        return if (attackTarget == null)
-        {
+    override fun getAmbientSound(): SoundEvent {
+        return if (attackTarget == null) {
             ModSounds.WEREWOLF_IDLE
-        }
-        else
-        {
+        } else {
             ModSounds.WEREWOLF_AGRO
         }
     }
@@ -270,32 +245,28 @@ class EntityWerewolf(world: World) : EntityMob(world), IMCAnimatedEntity
     /**
      * @return the werewolf's volume
      */
-    override fun getSoundVolume(): Float
-    {
+    override fun getSoundVolume(): Float {
         return 0.5f
     }
 
     /**
      * @return Returns the animation handler which manages our animation state
      */
-    override fun getAnimationHandler(): AnimationHandler
-    {
+    override fun getAnimationHandler(): AnimationHandler {
         return animHandler
     }
 
     /**
      * @return Get the AI movespeed
      */
-    override fun getAIMoveSpeed(): Float
-    {
+    override fun getAIMoveSpeed(): Float {
         return MOVE_SPEED.toFloat()
     }
 
     /**
      * @return The eye height of the werewolf that it uses to look around
      */
-    override fun getEyeHeight(): Float
-    {
+    override fun getEyeHeight(): Float {
         return 1.3f
     }
 
@@ -304,21 +275,18 @@ class EntityWerewolf(world: World) : EntityMob(world), IMCAnimatedEntity
      *
      * @param attacksAnyone THe flag
      */
-    fun setCanAttackAnyone(attacksAnyone: Boolean)
-    {
+    fun setCanAttackAnyone(attacksAnyone: Boolean) {
         this.attacksAnyone = attacksAnyone
     }
 
     /**
      * @return True if the werewolf can attack anyone or false if it can just attack AOTD players
      */
-    fun canAttackAnyone(): Boolean
-    {
+    fun canAttackAnyone(): Boolean {
         return attacksAnyone
     }
 
-    companion object
-    {
+    companion object {
         // Constants defining werewolf parameters
         private const val MOVE_SPEED = .43
         private const val AGRO_RANGE = 16.0

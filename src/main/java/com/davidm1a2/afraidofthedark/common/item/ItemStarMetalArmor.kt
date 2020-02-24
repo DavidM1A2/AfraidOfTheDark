@@ -26,10 +26,9 @@ import net.minecraftforge.fml.relauncher.SideOnly
  * @param baseName        The name of the item to be used by the game registry
  * @param equipmentSlot The slot that this armor pieces goes on, can be one of 4 options
  */
-class ItemStarMetalArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) : AOTDArmor(baseName, ModArmorMaterials.STAR_METAL, 3, equipmentSlot), ISpecialArmor
-{
-    init
-    {
+class ItemStarMetalArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
+    AOTDArmor(baseName, ModArmorMaterials.STAR_METAL, 3, equipmentSlot), ISpecialArmor {
+    init {
         // Makes the armor invincible
         maxDamage = 0
         // Block 70% of the damage up to 20
@@ -46,15 +45,11 @@ class ItemStarMetalArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
      * @param type   The subtype, can be null or "overlay"
      * @return Path of texture to bind, or null to use default
      */
-    override fun getArmorTexture(stack: ItemStack, entity: Entity, slot: EntityEquipmentSlot, type: String?): String?
-    {
+    override fun getArmorTexture(stack: ItemStack, entity: Entity, slot: EntityEquipmentSlot, type: String?): String? {
         // Star metal 1 is for helm, boots, and chest while Star metal 2 is for leggings
-        return if (slot == EntityEquipmentSlot.LEGS)
-        {
+        return if (slot == EntityEquipmentSlot.LEGS) {
             "afraidofthedark:textures/armor/star_metal_2.png"
-        }
-        else
-        {
+        } else {
             "afraidofthedark:textures/armor/star_metal_1.png"
         }
     }
@@ -68,16 +63,12 @@ class ItemStarMetalArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
      * @param flag  The flag telling us if advanced tooltips are on or not
      */
     @SideOnly(Side.CLIENT)
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag)
-    {
+    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag) {
         val player = Minecraft.getMinecraft().player
-        if (player != null && player.getResearch().isResearched(ModResearches.STAR_METAL))
-        {
+        if (player != null && player.getResearch().isResearched(ModResearches.STAR_METAL)) {
             tooltip.add("Magical armor will never break.")
             tooltip.add("Gives you two absorption hearts per piece.")
-        }
-        else
-        {
+        } else {
             tooltip.add("I dont know how to use this.")
         }
     }
@@ -89,21 +80,21 @@ class ItemStarMetalArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
      * @param player    The player that is wearing the armor
      * @param itemStack The itemstack of the armor item
      */
-    override fun onArmorTick(world: World, player: EntityPlayer, itemStack: ItemStack)
-    {
+    override fun onArmorTick(world: World, player: EntityPlayer, itemStack: ItemStack) {
         // We have to test client and server side since absorption is client side :(
         // Test if the player has the star metal research
-        if (player.getResearch().isResearched(ModResearches.STAR_METAL))
-        {
+        if (player.getResearch().isResearched(ModResearches.STAR_METAL)) {
             // If the stack is ready to proc absorption, add 2 absorption hearts
-            if (readyToProcAbsorption(itemStack))
-            {
+            if (readyToProcAbsorption(itemStack)) {
                 // The number of star metal armor pieces worn
-                val numberStarMetalPiecesWorn = player.inventory.armorInventory.map { it.item }.filterIsInstance<ItemStarMetalArmor>().count()
-                if (numberStarMetalPiecesWorn * ABSORPTION_PER_PIECE >= player.absorptionAmount)
-                {
+                val numberStarMetalPiecesWorn =
+                    player.inventory.armorInventory.map { it.item }.filterIsInstance<ItemStarMetalArmor>().count()
+                if (numberStarMetalPiecesWorn * ABSORPTION_PER_PIECE >= player.absorptionAmount) {
                     // Add 4 to absorption up to a max for the proc
-                    player.absorptionAmount = (player.absorptionAmount + ABSORPTION_PER_PIECE).coerceIn(0f, numberStarMetalPiecesWorn * ABSORPTION_PER_PIECE.toFloat())
+                    player.absorptionAmount = (player.absorptionAmount + ABSORPTION_PER_PIECE).coerceIn(
+                        0f,
+                        numberStarMetalPiecesWorn * ABSORPTION_PER_PIECE.toFloat()
+                    )
                 }
 
                 // Update the last proc time to now
@@ -118,11 +109,10 @@ class ItemStarMetalArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
      * @param itemStack The itemstack to test
      * @return True if absorption can be proc'd, false otherwise
      */
-    private fun readyToProcAbsorption(itemStack: ItemStack): Boolean
-    {
+    private fun readyToProcAbsorption(itemStack: ItemStack): Boolean {
         return !NBTHelper.hasTag(itemStack, NBT_LAST_ABSORPTION_PROC) || System.currentTimeMillis() > NBTHelper.getLong(
-                itemStack,
-                NBT_LAST_ABSORPTION_PROC
+            itemStack,
+            NBT_LAST_ABSORPTION_PROC
         )!! + ABSORPTION_PROC_CD_MILLIS
     }
 
@@ -135,8 +125,7 @@ class ItemStarMetalArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
      * @param damage The amount of damage to apply
      * @param slot   The slot that is damaged
      */
-    override fun damageArmor(entity: EntityLivingBase, stack: ItemStack, source: DamageSource, damage: Int, slot: Int)
-    {
+    override fun damageArmor(entity: EntityLivingBase, stack: ItemStack, source: DamageSource, damage: Int, slot: Int) {
     }
 
     /**
@@ -147,8 +136,7 @@ class ItemStarMetalArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
      * @param slot   The slot the item is in
      * @return THe number of shields to display when wearing the armor
      */
-    override fun getArmorDisplay(player: EntityPlayer, armor: ItemStack, slot: Int): Int
-    {
+    override fun getArmorDisplay(player: EntityPlayer, armor: ItemStack, slot: Int): Int {
         // 0, since we only want to display default armor values
         return 0
     }
@@ -163,8 +151,13 @@ class ItemStarMetalArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
      * @param slot   The armor slot
      * @return False, let the damage be handled
      */
-    override fun handleUnblockableDamage(entity: EntityLivingBase, armor: ItemStack, source: DamageSource, damage: Double, slot: Int): Boolean
-    {
+    override fun handleUnblockableDamage(
+        entity: EntityLivingBase,
+        armor: ItemStack,
+        source: DamageSource,
+        damage: Double,
+        slot: Int
+    ): Boolean {
         return false
     }
 
@@ -178,28 +171,26 @@ class ItemStarMetalArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
      * @param slot   The slot containing the armor block
      * @return The armor's properties for these damage types
      */
-    override fun getProperties(entity: EntityLivingBase, armor: ItemStack, source: DamageSource, damage: Double, slot: Int): ArmorProperties
-    {
+    override fun getProperties(
+        entity: EntityLivingBase,
+        armor: ItemStack,
+        source: DamageSource,
+        damage: Double,
+        slot: Int
+    ): ArmorProperties {
         // Compute armor properties for players only
-        if (entity is EntityPlayer)
-        {
+        if (entity is EntityPlayer) {
             // Ensure the player has the right research
-            if (entity.getResearch().isResearched(ModResearches.STAR_METAL))
-            {
+            if (entity.getResearch().isResearched(ModResearches.STAR_METAL)) {
                 // No damage reduction against true sources
-                if (TRUE_DAMAGE_SOURCES.contains(source))
-                {
+                if (TRUE_DAMAGE_SOURCES.contains(source)) {
                     return ArmorProperties(0, getRatio(slot), 0)
                 }
-            }
-            else
-            {
+            } else {
                 // Armor is useless without research
                 return ArmorProperties(0, getRatio(slot), 0)
             }
-        }
-        else
-        {
+        } else {
             // Armor is useless without research
             return ArmorProperties(0, getRatio(slot), 0)
         }
@@ -214,12 +205,10 @@ class ItemStarMetalArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
      * @param slot The slot the armor is in
      * @return The ratio of protection of each piece reduced by the percent damage blocked
      */
-    private fun getRatio(slot: Int): Double
-    {
+    private fun getRatio(slot: Int): Double {
         // Total protection of each piece
         val totalProtection = 3 + 6 + 8 + 3
-        return when (slot)
-        {
+        return when (slot) {
             0, 3 -> 3.0 / totalProtection * percentOfDamageBlocked
             1 -> 6.0 / totalProtection * percentOfDamageBlocked
             2 -> 8.0 / totalProtection * percentOfDamageBlocked
@@ -233,13 +222,11 @@ class ItemStarMetalArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
      * @param slot The slot that the armor piece is in
      * @return default armor properties for this set
      */
-    private fun getDefaultProperties(slot: Int): ArmorProperties
-    {
+    private fun getDefaultProperties(slot: Int): ArmorProperties {
         return ArmorProperties(0, getRatio(slot), maxDamageBlocked)
     }
 
-    companion object
-    {
+    companion object {
         // When this armor piece last proc'd absorption
         private const val NBT_LAST_ABSORPTION_PROC = "last_absorption_proc"
         // Number of milliseconds until the absoroption proc
@@ -247,6 +234,13 @@ class ItemStarMetalArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
         // Amount of absorption from each armor piece in hearts
         private const val ABSORPTION_PER_PIECE = 4
         // Damage sources that relate to unblockable damage
-        private val TRUE_DAMAGE_SOURCES = setOf(DamageSource.DROWN, DamageSource.FALL, DamageSource.IN_WALL, DamageSource.OUT_OF_WORLD, DamageSource.STARVE, DamageSource.LAVA)
+        private val TRUE_DAMAGE_SOURCES = setOf(
+            DamageSource.DROWN,
+            DamageSource.FALL,
+            DamageSource.IN_WALL,
+            DamageSource.OUT_OF_WORLD,
+            DamageSource.STARVE,
+            DamageSource.LAVA
+        )
     }
 }

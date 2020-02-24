@@ -10,10 +10,8 @@ import net.minecraft.util.SoundCategory
  *
  * @constructor sets the sound event to play and sound category
  */
-class BellsRinging : PlayerFollowingSound(ModSounds.BELLS, SoundCategory.AMBIENT)
-{
-    init
-    {
+class BellsRinging : PlayerFollowingSound(ModSounds.BELLS, SoundCategory.AMBIENT) {
+    init {
         // This sound loops
         repeat = true
     }
@@ -21,13 +19,11 @@ class BellsRinging : PlayerFollowingSound(ModSounds.BELLS, SoundCategory.AMBIENT
     /**
      * Ensure that this only players in the nightmare when the player is not dead
      */
-    override fun update()
-    {
+    override fun update() {
         super.update()
 
         val entityPlayer = Minecraft.getMinecraft().player!!
-        if (entityPlayer.isDead || entityPlayer.dimension != ModDimensions.NIGHTMARE.id)
-        {
+        if (entityPlayer.isDead || entityPlayer.dimension != ModDimensions.NIGHTMARE.id) {
             donePlaying = true
         }
     }
@@ -37,8 +33,7 @@ class BellsRinging : PlayerFollowingSound(ModSounds.BELLS, SoundCategory.AMBIENT
      *
      * @return The delay between sound plays
      */
-    override fun getRepeatDelay(): Int
-    {
+    override fun getRepeatDelay(): Int {
         // Wait a minute (60 seconds * 20 ticks / second)
         return 60 * 20
     }

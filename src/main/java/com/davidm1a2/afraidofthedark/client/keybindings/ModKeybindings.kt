@@ -6,8 +6,7 @@ import org.lwjgl.input.Keyboard
 /**
  * Class containing a list of keybindings that the player can modify
  */
-object ModKeybindings
-{
+object ModKeybindings {
     // AOTD will have its own keybinding category
     private const val CATEGORY_NAME = "key_category.afraidofthedark:name"
 
@@ -21,7 +20,7 @@ object ModKeybindings
 
     // A list of mod keybindings
     val KEY_BINDING_LIST = arrayOf(
-            ROLL_WITH_CLOAK_OF_AGILITY,
-            FIRE_WRIST_CROSSBOW
+        ROLL_WITH_CLOAK_OF_AGILITY,
+        FIRE_WRIST_CROSSBOW
     )
 }

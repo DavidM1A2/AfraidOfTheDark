@@ -16,16 +16,14 @@ import net.minecraftforge.registries.IForgeRegistryEntry
  * @param preRequisite The pre-requisite research that needs to be researched for this to be used
  */
 abstract class BoltEntry constructor(
-        val boltItem: Item,
-        val boltEntityFactory: (World, EntityPlayer) -> EntityBolt,
-        val preRequisite: Research?
-) : IForgeRegistryEntry.Impl<BoltEntry>()
-{
+    val boltItem: Item,
+    val boltEntityFactory: (World, EntityPlayer) -> EntityBolt,
+    val preRequisite: Research?
+) : IForgeRegistryEntry.Impl<BoltEntry>() {
     /**
      * @return The unlocalized name of the bolt entry
      */
-    fun getUnlocalizedName(): String
-    {
+    fun getUnlocalizedName(): String {
         return "bolt_entry.${registryName!!.resourceDomain}:${registryName!!.resourcePath}.name"
     }
 }

@@ -5,8 +5,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.*
 /**
  * A static class containing all of our spell effect references for us
  */
-object ModSpellEffects
-{
+object ModSpellEffects {
     val DIG = SpellEffectDig()
     val EXPLOSION = SpellEffectExplosion()
     val TELEPORT = SpellEffectTeleport()
@@ -24,19 +23,19 @@ object ModSpellEffects
 
     // An array containing a list of spell effects that AOTD adds
     val SPELL_EFFECTS = arrayOf(
-            DIG,
-            EXPLOSION,
-            TELEPORT,
-            GROW,
-            HEAL,
-            FEED,
-            BURN,
-            POTION_EFFECT,
-            SMOKE_SCREEN,
-            CLEANSE,
-            EXTINGUISH,
-            ENDER_POCKET,
-            FREEZE,
-            CHARM
+        DIG,
+        EXPLOSION,
+        TELEPORT,
+        GROW,
+        HEAL,
+        FEED,
+        BURN,
+        POTION_EFFECT,
+        SMOKE_SCREEN,
+        CLEANSE,
+        EXTINGUISH,
+        ENDER_POCKET,
+        FREEZE,
+        CHARM
     )
 }

@@ -17,17 +17,15 @@ import java.util.*
  * @property spawnableCreatures This list should always be empty
  */
 class BiomeVoidChest : Biome(
-        BiomeProperties("Void Chest")
-                .setWaterColor(0x537B09)
-                .setBaseHeight(0.125f)
-                .setHeightVariation(0.05f)
-                .setRainDisabled()
-)
-{
+    BiomeProperties("Void Chest")
+        .setWaterColor(0x537B09)
+        .setBaseHeight(0.125f)
+        .setHeightVariation(0.05f)
+        .setRainDisabled()
+) {
     private val spawnableCreatures: MutableList<SpawnListEntry> = ArrayList()
 
-    init
-    {
+    init {
         // Set this biome's properties. It takes height, variation, water color, and a name
         // Set the biome's registry name
         registryName = ResourceLocation(Constants.MOD_ID, "void_chest")
@@ -43,8 +41,7 @@ class BiomeVoidChest : Biome(
      * @param creatureType ignored
      * @return An empty list of spawnables
      */
-    override fun getSpawnableList(creatureType: EnumCreatureType): List<SpawnListEntry>
-    {
+    override fun getSpawnableList(creatureType: EnumCreatureType): List<SpawnListEntry> {
         // Ensure the list stays empty
         spawnableCreatures.clear()
         return spawnableCreatures
@@ -53,19 +50,16 @@ class BiomeVoidChest : Biome(
     /**
      * @return 0% chance
      */
-    override fun getSpawningChance(): Float
-    {
+    override fun getSpawningChance(): Float {
         return 0f
     }
 
     /**
      * @return Creates an empty biome decorator
      */
-    override fun createBiomeDecorator(): BiomeDecorator
-    {
+    override fun createBiomeDecorator(): BiomeDecorator {
         // Return a biome decorator that does nothing
-        return object : BiomeDecorator()
-        {
+        return object : BiomeDecorator() {
             /**
              * Do nothing
              *
@@ -74,8 +68,7 @@ class BiomeVoidChest : Biome(
              * @param biome ignored
              * @param pos ignored
              */
-            override fun decorate(worldIn: World, random: Random, biome: Biome, pos: BlockPos)
-            {
+            override fun decorate(worldIn: World, random: Random, biome: Biome, pos: BlockPos) {
             }
         }
     }

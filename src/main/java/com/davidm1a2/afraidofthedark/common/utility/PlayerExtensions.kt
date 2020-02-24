@@ -10,7 +10,6 @@ import net.minecraft.entity.player.EntityPlayer
  *
  * @param guiId The ID of the gui to open
  */
-fun EntityPlayer.openGui(guiId: Int)
-{
+fun EntityPlayer.openGui(guiId: Int) {
     this.openGui(AfraidOfTheDark.INSTANCE, guiId, this.world, this.position.x, this.position.y, this.position.z)
 }

@@ -21,8 +21,7 @@ import java.util.*
  * @property notificationTime The time of the last research notification
  * @property toDisplay A queue of researches to display
  */
-class ResearchAchievedOverlay : Gui()
-{
+class ResearchAchievedOverlay : Gui() {
     private val mc = Minecraft.getMinecraft()
     private var width = 0
     private var height = 0
@@ -35,16 +34,14 @@ class ResearchAchievedOverlay : Gui()
      *
      * @param research The research to display
      */
-    fun displayResearch(research: Research)
-    {
+    fun displayResearch(research: Research) {
         toDisplay.push(research)
     }
 
     /**
      * Function provided by MC's achievement window to setup the viewport, copied and unmodified
      */
-    private fun updateResearchAchievedWindowScale()
-    {
+    private fun updateResearchAchievedWindowScale() {
         GlStateManager.viewport(0, 0, mc.displayWidth, mc.displayHeight)
         GlStateManager.matrixMode(5889)
         GlStateManager.loadIdentity()
@@ -65,11 +62,9 @@ class ResearchAchievedOverlay : Gui()
     /**
      * Function provided by MC's achievement window to setup the window, copied and slightly modified to work with a queue of researches to show
      */
-    fun updateResearchAchievedWindow()
-    {
+    fun updateResearchAchievedWindow() {
         // If there is no notification showing and the queue has another research to display display the next research
-        if (notificationTime == 0L && !toDisplay.isEmpty())
-        {
+        if (notificationTime == 0L && !toDisplay.isEmpty()) {
             // The research to display
             val research = toDisplay.pop()
             // The new research description
@@ -79,11 +74,9 @@ class ResearchAchievedOverlay : Gui()
         }
 
         // After this everything is copied from the default MC achievement class
-        if (notificationTime != 0L && Minecraft.getMinecraft().player != null)
-        {
+        if (notificationTime != 0L && Minecraft.getMinecraft().player != null) {
             val d0 = (Minecraft.getSystemTime() - notificationTime) / 3000.0
-            if (d0 < 0.0 || d0 > 1.0)
-            {
+            if (d0 < 0.0 || d0 > 1.0) {
                 notificationTime = 0L
                 return
             }
@@ -93,14 +86,12 @@ class ResearchAchievedOverlay : Gui()
             GlStateManager.depthMask(false)
 
             var d1 = d0 * 2.0
-            if (d1 > 1.0)
-            {
+            if (d1 > 1.0) {
                 d1 = 2.0 - d1
             }
             d1 *= 4.0
             d1 = 1.0 - d1
-            if (d1 < 0.0)
-            {
+            if (d1 < 0.0) {
                 d1 = 0.0
             }
             d1 = d1 * d1 * d1 * d1
@@ -129,14 +120,12 @@ class ResearchAchievedOverlay : Gui()
     /**
      * Clears any researches in the queue to be displayed
      */
-    fun clearResearches()
-    {
+    fun clearResearches() {
         toDisplay.clear()
         notificationTime = 0L
     }
 
-    companion object
-    {
+    companion object {
         // The texture of the achievement background
         private val ACHIEVEMENT_BACKGROUND = ResourceLocation(Constants.MOD_ID, "textures/gui/research_achieved.png")
     }

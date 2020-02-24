@@ -19,21 +19,18 @@ import org.lwjgl.util.Point
  * @property mouseScrollListeners The mouse scroll listeners of this component
  * @property keyListeners The key listeners of this component
  */
-abstract class AOTDGuiComponentWithEvents(x: Int, y: Int, width: Int, height: Int) : AOTDGuiComponent(x, y, width, height)
-{
-    private var mouseListeners: MutableList<(AOTDMouseEvent) -> Unit> = mutableListOf()
-    private var mouseMoveListeners: MutableList<(AOTDMouseMoveEvent) -> Unit> = mutableListOf()
-    private var mouseScrollListeners: MutableList<(AOTDMouseScrollEvent) -> Unit> = mutableListOf()
-    private var keyListeners: MutableList<(AOTDKeyEvent) -> Unit> = mutableListOf()
+abstract class AOTDGuiComponentWithEvents(x: Int, y: Int, width: Int, height: Int) :
+    AOTDGuiComponent(x, y, width, height) {
+    private var mouseListeners = mutableListOf<(AOTDMouseEvent) -> Unit>()
+    private var mouseMoveListeners = mutableListOf<(AOTDMouseMoveEvent) -> Unit>()
+    private var mouseScrollListeners = mutableListOf<(AOTDMouseScrollEvent) -> Unit>()
+    private var keyListeners = mutableListOf<(AOTDKeyEvent) -> Unit>()
 
-    init
-    {
+    init {
         // Add a mouse move listener to this control that allows us to fire off events whenever conditions are met
-        this.addMouseMoveListener()
-        {
+        this.addMouseMoveListener {
             // If we move the mouse also fire other related events
-            if (it.eventType === AOTDMouseMoveEvent.EventType.Move)
-            {
+            if (it.eventType == AOTDMouseMoveEvent.EventType.Move) {
                 // Grab the source of the event
                 val component = it.source
                 // Store the flag telling us if the component was hovered
@@ -41,13 +38,25 @@ abstract class AOTDGuiComponentWithEvents(x: Int, y: Int, width: Int, height: In
                 // Set the hovered flag based on if we intersect the component
                 component.isHovered = component.intersects(Point(it.mouseX, it.mouseY))
                 // Fire mouse enter/exit events if our mouse entered or exited the control
-                if (component.isHovered && !wasHovered)
-                {
-                    component.processMouseMoveInput(AOTDMouseMoveEvent(component, it.mouseX, it.mouseY, AOTDMouseMoveEvent.EventType.Enter))
+                if (component.isHovered && !wasHovered) {
+                    component.processMouseMoveInput(
+                        AOTDMouseMoveEvent(
+                            component,
+                            it.mouseX,
+                            it.mouseY,
+                            AOTDMouseMoveEvent.EventType.Enter
+                        )
+                    )
                 }
-                if (!component.isHovered && wasHovered)
-                {
-                    component.processMouseMoveInput(AOTDMouseMoveEvent(component, it.mouseX, it.mouseY, AOTDMouseMoveEvent.EventType.Exit))
+                if (!component.isHovered && wasHovered) {
+                    component.processMouseMoveInput(
+                        AOTDMouseMoveEvent(
+                            component,
+                            it.mouseX,
+                            it.mouseY,
+                            AOTDMouseMoveEvent.EventType.Exit
+                        )
+                    )
                 }
             }
         }
@@ -58,11 +67,9 @@ abstract class AOTDGuiComponentWithEvents(x: Int, y: Int, width: Int, height: In
      *
      * @param event The event to process
      */
-    open fun processMouseInput(event: AOTDMouseEvent)
-    {
+    open fun processMouseInput(event: AOTDMouseEvent) {
         // If the event is consumed, don't do anything
-        if (event.isConsumed)
-        {
+        if (event.isConsumed) {
             return
         }
 
@@ -77,17 +84,14 @@ abstract class AOTDGuiComponentWithEvents(x: Int, y: Int, width: Int, height: In
      *
      * @param event The event to process
      */
-    open fun processMouseMoveInput(event: AOTDMouseMoveEvent)
-    {
+    open fun processMouseMoveInput(event: AOTDMouseMoveEvent) {
         // If the event is consumed, don't do anything
-        if (event.isConsumed)
-        {
+        if (event.isConsumed) {
             return
         }
 
         // If the event is an enter or exit event, consume the event. This is because an enter and exit event can only happen to a single control at a time
-        if (event.eventType === AOTDMouseMoveEvent.EventType.Enter || event.eventType === AOTDMouseMoveEvent.EventType.Exit)
-        {
+        if (event.eventType == AOTDMouseMoveEvent.EventType.Enter || event.eventType == AOTDMouseMoveEvent.EventType.Exit) {
             event.consume()
         }
 
@@ -102,11 +106,9 @@ abstract class AOTDGuiComponentWithEvents(x: Int, y: Int, width: Int, height: In
      *
      * @param event The event to process
      */
-    open fun processMouseScrollInput(event: AOTDMouseScrollEvent)
-    {
+    open fun processMouseScrollInput(event: AOTDMouseScrollEvent) {
         // If the event is consumed, don't do anything
-        if (event.isConsumed)
-        {
+        if (event.isConsumed) {
             return
         }
 
@@ -121,11 +123,9 @@ abstract class AOTDGuiComponentWithEvents(x: Int, y: Int, width: Int, height: In
      *
      * @param event The event to process
      */
-    open fun processKeyInput(event: AOTDKeyEvent)
-    {
+    open fun processKeyInput(event: AOTDKeyEvent) {
         // If the event is consumed, don't do anything
-        if (event.isConsumed)
-        {
+        if (event.isConsumed) {
             return
         }
 
@@ -140,8 +140,7 @@ abstract class AOTDGuiComponentWithEvents(x: Int, y: Int, width: Int, height: In
      *
      * @param mouseListener The mouse listener to add
      */
-    fun addMouseListener(mouseListener: (AOTDMouseEvent) -> Unit)
-    {
+    fun addMouseListener(mouseListener: (AOTDMouseEvent) -> Unit) {
         this.mouseListeners.add(mouseListener)
     }
 
@@ -150,8 +149,7 @@ abstract class AOTDGuiComponentWithEvents(x: Int, y: Int, width: Int, height: In
      *
      * @param mouseMoveListener The mouse move listener to add
      */
-    fun addMouseMoveListener(mouseMoveListener: (AOTDMouseMoveEvent) -> Unit)
-    {
+    fun addMouseMoveListener(mouseMoveListener: (AOTDMouseMoveEvent) -> Unit) {
         this.mouseMoveListeners.add(mouseMoveListener)
     }
 
@@ -160,8 +158,7 @@ abstract class AOTDGuiComponentWithEvents(x: Int, y: Int, width: Int, height: In
      *
      * @param mouseScrollListener The mouse scroll listener to add
      */
-    fun addMouseScrollListener(mouseScrollListener: (AOTDMouseScrollEvent) -> Unit)
-    {
+    fun addMouseScrollListener(mouseScrollListener: (AOTDMouseScrollEvent) -> Unit) {
         this.mouseScrollListeners.add(mouseScrollListener)
     }
 
@@ -170,8 +167,7 @@ abstract class AOTDGuiComponentWithEvents(x: Int, y: Int, width: Int, height: In
      *
      * @param keyListener The key listener to add
      */
-    fun addKeyListener(keyListener: (AOTDKeyEvent) -> Unit)
-    {
+    fun addKeyListener(keyListener: (AOTDKeyEvent) -> Unit) {
         this.keyListeners.add(keyListener)
     }
 }

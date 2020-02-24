@@ -10,22 +10,18 @@ import net.minecraft.util.ResourceLocation
  * @constructor initializes the loot table
  * @param itemToLootTable The loot table entries that make up this loot table
  */
-class LootTable(private val itemToLootTable: Map<Item?, ResourceLocation>)
-{
+class LootTable(private val itemToLootTable: Map<Item?, ResourceLocation>) {
     /**
      * Generates the appropriate loot table for the chest tile entity based on what's inside
      *
      * @param chest The chest to generate loot in
      */
-    fun generate(chest: TileEntityChest)
-    {
+    fun generate(chest: TileEntityChest) {
         // Iterate over the chest's inventory
-        for (i in 0 until chest.sizeInventory)
-        {
+        for (i in 0 until chest.sizeInventory) {
             val stackInSlot = chest.getStackInSlot(i)
             // If we find a non-empty slot test if we know what loot table that corresponds to
-            if (!stackInSlot.isEmpty && itemToLootTable.containsKey(stackInSlot.item))
-            {
+            if (!stackInSlot.isEmpty && itemToLootTable.containsKey(stackInSlot.item)) {
                 // Clear the chest's inventory and update the loot table. Then return since we're done
                 chest.clear()
                 chest.setLootTable(itemToLootTable[stackInSlot.item]!!, chest.world.rand.nextLong())
@@ -34,8 +30,7 @@ class LootTable(private val itemToLootTable: Map<Item?, ResourceLocation>)
         }
 
         // No item matched the loot table, so attempt to use the default loot table with key = null
-        if (itemToLootTable.containsKey(null))
-        {
+        if (itemToLootTable.containsKey(null)) {
             chest.clear()
             chest.setLootTable(itemToLootTable[null]!!, chest.world.rand.nextLong())
         }

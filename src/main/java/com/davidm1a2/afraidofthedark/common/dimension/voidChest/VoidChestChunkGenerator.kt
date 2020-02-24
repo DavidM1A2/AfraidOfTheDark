@@ -19,8 +19,7 @@ import net.minecraft.world.gen.IChunkGenerator
  *
  * @param world The world that the chunk generator is for
  */
-class VoidChestChunkGenerator(private val world: World) : IChunkGenerator
-{
+class VoidChestChunkGenerator(private val world: World) : IChunkGenerator {
     /**
      * Generates a chunk at the x, z position
      *
@@ -28,8 +27,7 @@ class VoidChestChunkGenerator(private val world: World) : IChunkGenerator
      * @param z The Z chunkpos
      * @return A new chunk generated at the given x,z chunk position
      */
-    override fun generateChunk(x: Int, z: Int): Chunk
-    {
+    override fun generateChunk(x: Int, z: Int): Chunk {
         // A chunk primer generates base blocks, here we don't do anything with it so it's blank
         val chunkprimer = ChunkPrimer()
         // The chunk to return
@@ -49,8 +47,7 @@ class VoidChestChunkGenerator(private val world: World) : IChunkGenerator
      * @param x The x coordinate of the chunk
      * @param z The z coordinate of the chunk
      */
-    override fun populate(x: Int, z: Int)
-    {
+    override fun populate(x: Int, z: Int) {
         // The blocks between islands
         val blocksBetweenIslands = AfraidOfTheDark.INSTANCE.configurationHandler.blocksBetweenIslands
         // The X position in blockpos not chunkpos
@@ -58,12 +55,9 @@ class VoidChestChunkGenerator(private val world: World) : IChunkGenerator
         // The barrier block state
         val barrierDefaultState = Blocks.BARRIER.defaultState
         // If we've hit one of the critical chunks trigger a void chest generation
-        if (xPos % blocksBetweenIslands == 0 && z == 0)
-        {
-            for (i in 0..48)
-            {
-                for (j in 0..48)
-                {
+        if (xPos % blocksBetweenIslands == 0 && z == 0) {
+            for (i in 0..48) {
+                for (j in 0..48) {
                     // Create the floor
                     world.setBlockState(BlockPos(xPos + i, 100, z + j), barrierDefaultState)
                     // Create the roof
@@ -92,8 +86,7 @@ class VoidChestChunkGenerator(private val world: World) : IChunkGenerator
      * @param z       ignored
      * @return false since nothing generated
      */
-    override fun generateStructures(chunkIn: Chunk, x: Int, z: Int): Boolean
-    {
+    override fun generateStructures(chunkIn: Chunk, x: Int, z: Int): Boolean {
         return false
     }
 
@@ -104,8 +97,7 @@ class VoidChestChunkGenerator(private val world: World) : IChunkGenerator
      * @param pos          The position to spawn at
      * @return The list of valid creatures, should be empty for the void chest
      */
-    override fun getPossibleCreatures(creatureType: EnumCreatureType, pos: BlockPos): List<SpawnListEntry>
-    {
+    override fun getPossibleCreatures(creatureType: EnumCreatureType, pos: BlockPos): List<SpawnListEntry> {
         return world.getBiome(pos).getSpawnableList(creatureType)
     }
 
@@ -118,8 +110,12 @@ class VoidChestChunkGenerator(private val world: World) : IChunkGenerator
      * @param findUnexplored ignored
      * @return null, no structures exist in the void chest dimension
      */
-    override fun getNearestStructurePos(worldIn: World, structureName: String, position: BlockPos, findUnexplored: Boolean): BlockPos?
-    {
+    override fun getNearestStructurePos(
+        worldIn: World,
+        structureName: String,
+        position: BlockPos,
+        findUnexplored: Boolean
+    ): BlockPos? {
         return null
     }
 
@@ -130,8 +126,7 @@ class VoidChestChunkGenerator(private val world: World) : IChunkGenerator
      * @param x       ignored
      * @param z       ignored
      */
-    override fun recreateStructures(chunkIn: Chunk, x: Int, z: Int)
-    {
+    override fun recreateStructures(chunkIn: Chunk, x: Int, z: Int) {
     }
 
     /**
@@ -142,8 +137,7 @@ class VoidChestChunkGenerator(private val world: World) : IChunkGenerator
      * @param pos           ignored
      * @return false, there's no structures in the void chest dimension
      */
-    override fun isInsideStructure(worldIn: World, structureName: String, pos: BlockPos): Boolean
-    {
+    override fun isInsideStructure(worldIn: World, structureName: String, pos: BlockPos): Boolean {
         return false
     }
 }

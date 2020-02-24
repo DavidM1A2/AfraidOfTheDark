@@ -11,8 +11,7 @@ import net.minecraft.item.ItemStack
 /**
  * References for static final variables
  */
-object Constants
-{
+object Constants {
     // The ID of the mod
     const val MOD_ID = "afraidofthedark"
     // The mod name
@@ -28,15 +27,13 @@ object Constants
     const val GUI_FACTORY_CLASS = "com.davidm1a2.afraidofthedark.client.gui.AOTDGuiFactory"
 
     // Creative Tab for the mod
-    val AOTD_CREATIVE_TAB: CreativeTabs = object : CreativeTabs(MOD_ID)
-    {
+    val AOTD_CREATIVE_TAB: CreativeTabs = object : CreativeTabs(MOD_ID) {
         /**
          * Getter for the mod creative tab icon
          *
          * @return The icon for the creative tab as an item
          */
-        override fun getTabIconItem(): ItemStack
-        {
+        override fun getTabIconItem(): ItemStack {
             return ItemStack(ModItems.JOURNAL)
         }
     }

@@ -9,8 +9,7 @@ import net.minecraft.util.math.Vec3d
  * @property freezeTicks The number of ticks the player should be frozen
  * @property freezePosition The position to freeze the player at
  */
-interface IAOTDPlayerSpellFreezeData
-{
+interface IAOTDPlayerSpellFreezeData {
     var freezeTicks: Int
     var freezePosition: Vec3d?
 

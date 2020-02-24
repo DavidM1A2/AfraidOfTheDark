@@ -17,10 +17,8 @@ import net.minecraft.world.biome.BiomeProvider
 /**
  * Base class for all AOTD structures
  */
-abstract class AOTDStructure(baseName: String) : Structure()
-{
-    init
-    {
+abstract class AOTDStructure(baseName: String) : Structure() {
+    init {
         this.setRegistryName("${Constants.MOD_ID}:$baseName")
     }
 
@@ -32,13 +30,10 @@ abstract class AOTDStructure(baseName: String) : Structure()
      * @param <T>            The type of result to return after processing
      * @return The result of the chunk processor type
      */
-    protected open fun <T> processChunks(chunkProcessor: IChunkProcessor<T>, chunkIterator: IChunkIterator): T
-    {
-        for (chunkPos in chunkIterator.getChunks())
-        {
+    protected open fun <T> processChunks(chunkProcessor: IChunkProcessor<T>, chunkIterator: IChunkIterator): T {
+        for (chunkPos in chunkIterator.getChunks()) {
             // If process chunk returns false then return the default result
-            if (!chunkProcessor.processChunk(chunkPos))
-            {
+            if (!chunkProcessor.processChunk(chunkPos)) {
                 return chunkProcessor.getDefaultResult()!!
             }
         }
@@ -55,15 +50,14 @@ abstract class AOTDStructure(baseName: String) : Structure()
      * @param chunkZ        The chunk's Z coordinate
      * @return A set of biomes found at the 4 corners and center of the chunk
      */
-    protected open fun approximateBiomesInChunk(biomeProvider: BiomeProvider, chunkX: Int, chunkZ: Int): Set<Biome>
-    {
+    protected open fun approximateBiomesInChunk(biomeProvider: BiomeProvider, chunkX: Int, chunkZ: Int): Set<Biome> {
         val temp = arrayOfNulls<Biome>(1)
         return setOf(
-                biomeProvider.getBiomes(temp, chunkX * 16 + 0, chunkZ * 16 + 0, 1, 1)[0],
-                biomeProvider.getBiomes(temp, chunkX * 16 + 8, chunkZ * 16 + 8, 1, 1)[0],
-                biomeProvider.getBiomes(temp, chunkX * 16 + 15, chunkZ * 16 + 0, 1, 1)[0],
-                biomeProvider.getBiomes(temp, chunkX * 16 + 0, chunkZ * 16 + 15, 1, 1)[0],
-                biomeProvider.getBiomes(temp, chunkX * 16 + 15, chunkZ * 16 + 15, 1, 1)[0]
+            biomeProvider.getBiomes(temp, chunkX * 16 + 0, chunkZ * 16 + 0, 1, 1)[0],
+            biomeProvider.getBiomes(temp, chunkX * 16 + 8, chunkZ * 16 + 8, 1, 1)[0],
+            biomeProvider.getBiomes(temp, chunkX * 16 + 15, chunkZ * 16 + 0, 1, 1)[0],
+            biomeProvider.getBiomes(temp, chunkX * 16 + 0, chunkZ * 16 + 15, 1, 1)[0],
+            biomeProvider.getBiomes(temp, chunkX * 16 + 15, chunkZ * 16 + 15, 1, 1)[0]
         )
     }
 
@@ -75,13 +69,15 @@ abstract class AOTDStructure(baseName: String) : Structure()
      * @param biomeProvider ignored
      * @return The NBTTagCompound containing any data needed for generation. Sent in Structure::generate
      */
-    override fun generateStructureData(world: World, blockPos: BlockPos, biomeProvider: BiomeProvider): NBTTagCompound
-    {
+    override fun generateStructureData(world: World, blockPos: BlockPos, biomeProvider: BiomeProvider): NBTTagCompound {
         @Suppress("NAME_SHADOWING")
         var blockPos = blockPos
         val compound = NBTTagCompound()
         // By default set the position to be on ground level
-        val yPos = processChunks(LowestHeightChunkProcessor(OverworldHeightmap.get(world)), InteriorChunkIterator(this, blockPos))
+        val yPos = processChunks(
+            LowestHeightChunkProcessor(OverworldHeightmap.get(world)),
+            InteriorChunkIterator(this, blockPos)
+        )
 
         // Update the y coordinate
         blockPos = BlockPos(blockPos.x, yPos, blockPos.z)

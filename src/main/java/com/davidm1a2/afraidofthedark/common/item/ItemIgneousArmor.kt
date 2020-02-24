@@ -26,10 +26,9 @@ import kotlin.math.sqrt
  * @param baseName        The name of the item to be used by the game registry
  * @param equipmentSlot The slot that this armor pieces goes on, can be one of 4 options
  */
-class ItemIgneousArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) : AOTDArmor(baseName, ModArmorMaterials.IGNEOUS, 3, equipmentSlot), ISpecialArmor
-{
-    init
-    {
+class ItemIgneousArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
+    AOTDArmor(baseName, ModArmorMaterials.IGNEOUS, 3, equipmentSlot), ISpecialArmor {
+    init {
         // Makes the armor invincible
         maxDamage = 0
         // Block 80% of the damage up to 20
@@ -46,15 +45,11 @@ class ItemIgneousArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) : A
      * @param type   The subtype, can be null or "overlay"
      * @return Path of texture to bind, or null to use default
      */
-    override fun getArmorTexture(stack: ItemStack, entity: Entity, slot: EntityEquipmentSlot, type: String?): String
-    {
+    override fun getArmorTexture(stack: ItemStack, entity: Entity, slot: EntityEquipmentSlot, type: String?): String {
         // Igneous 1 is for helm, boots, and chest while igneous 2 is for leggings
-        return if (slot == EntityEquipmentSlot.LEGS)
-        {
+        return if (slot == EntityEquipmentSlot.LEGS) {
             "afraidofthedark:textures/armor/igneous_2.png"
-        }
-        else
-        {
+        } else {
             "afraidofthedark:textures/armor/igneous_1.png"
         }
     }
@@ -68,16 +63,12 @@ class ItemIgneousArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) : A
      * @param flag  The flag telling us if advanced tooltips are on or not
      */
     @SideOnly(Side.CLIENT)
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag)
-    {
+    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag) {
         val player = Minecraft.getMinecraft().player
-        if (player != null && player.getResearch().isResearched(ModResearches.IGNEOUS))
-        {
+        if (player != null && player.getResearch().isResearched(ModResearches.IGNEOUS)) {
             tooltip.add("Magical armor will never break.")
             tooltip.add("Knocks back enemies that hit you.")
-        }
-        else
-        {
+        } else {
             tooltip.add("I dont know how to use this.")
         }
     }
@@ -89,18 +80,14 @@ class ItemIgneousArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) : A
      * @param player    The player that is wearing the armor
      * @param itemStack The itemstack of the armor item
      */
-    override fun onArmorTick(world: World, player: EntityPlayer, itemStack: ItemStack)
-    {
+    override fun onArmorTick(world: World, player: EntityPlayer, itemStack: ItemStack) {
         super.onArmorTick(world, player, itemStack)
         // If the armor wearer is burning extinguish the fire
-        if (player.isBurning)
-        {
+        if (player.isBurning) {
             // Ensure the player has the right research
-            if (player.getResearch().isResearched(ModResearches.IGNEOUS))
-            {
+            if (player.getResearch().isResearched(ModResearches.IGNEOUS)) {
                 // If the player is wearing full armor then add armor set bonuses
-                if (isWearingFullArmor(player))
-                {
+                if (isWearingFullArmor(player)) {
                     player.extinguish()
                 }
             }
@@ -116,8 +103,7 @@ class ItemIgneousArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) : A
      * @param damage The amount of damage to apply
      * @param slot   The slot that is damaged
      */
-    override fun damageArmor(entity: EntityLivingBase, stack: ItemStack, source: DamageSource, damage: Int, slot: Int)
-    {
+    override fun damageArmor(entity: EntityLivingBase, stack: ItemStack, source: DamageSource, damage: Int, slot: Int) {
     }
 
     /**
@@ -128,8 +114,7 @@ class ItemIgneousArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) : A
      * @param slot   The slot the item is in
      * @return THe number of shields to display when wearing the armor
      */
-    override fun getArmorDisplay(player: EntityPlayer, armor: ItemStack, slot: Int): Int
-    {
+    override fun getArmorDisplay(player: EntityPlayer, armor: ItemStack, slot: Int): Int {
         // 0, since we only want to display default armor values
         return 0
     }
@@ -144,8 +129,13 @@ class ItemIgneousArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) : A
      * @param slot   The armor slot
      * @return False, let the damage be handled
      */
-    override fun handleUnblockableDamage(entity: EntityLivingBase, armor: ItemStack, source: DamageSource, damage: Double, slot: Int): Boolean
-    {
+    override fun handleUnblockableDamage(
+        entity: EntityLivingBase,
+        armor: ItemStack,
+        source: DamageSource,
+        damage: Double,
+        slot: Int
+    ): Boolean {
         return false
     }
 
@@ -159,21 +149,22 @@ class ItemIgneousArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) : A
      * @param slot   The slot containing the armor block
      * @return The armor's properties for these damage types
      */
-    override fun getProperties(entity: EntityLivingBase, armor: ItemStack, source: DamageSource, damage: Double, slot: Int): ArmorProperties
-    {
+    override fun getProperties(
+        entity: EntityLivingBase,
+        armor: ItemStack,
+        source: DamageSource,
+        damage: Double,
+        slot: Int
+    ): ArmorProperties {
         // Compute armor properties for players only
-        if (entity is EntityPlayer)
-        {
+        if (entity is EntityPlayer) {
             // Ensure the player has the right research
-            if (entity.getResearch().isResearched(ModResearches.IGNEOUS))
-            {
+            if (entity.getResearch().isResearched(ModResearches.IGNEOUS)) {
                 // If the player is wearing full armor then add armor set bonuses
-                if (isWearingFullArmor(entity))
-                {
+                if (isWearingFullArmor(entity)) {
                     val damageSourceEntity = source.trueSource
                     // If the damage source is non-null set them on fire
-                    if (damageSourceEntity != null)
-                    {
+                    if (damageSourceEntity != null) {
                         damageSourceEntity.setFire(5)
 
                         // Also knock the damage source entity back
@@ -183,26 +174,22 @@ class ItemIgneousArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) : A
 
                         // Move the entity away from the player
                         damageSourceEntity.addVelocity(
-                                -motionX * KNOCKBACK_STRENGTH * 0.6 / hypotenuse,
-                                0.1,
-                                -motionZ * KNOCKBACK_STRENGTH * 0.6 / hypotenuse
+                            -motionX * KNOCKBACK_STRENGTH * 0.6 / hypotenuse,
+                            0.1,
+                            -motionZ * KNOCKBACK_STRENGTH * 0.6 / hypotenuse
                         )
                     }
                 }
 
                 // Blocks all fire damage
-                if (FIRE_SOURCES.contains(source))
-                {
+                if (FIRE_SOURCES.contains(source)) {
                     return ArmorProperties(0, getRatio(slot), Int.MAX_VALUE)
                 }
                 // Blocks no true damage
-                else if (TRUE_DAMAGE_SOURCES.contains(source))
-                {
+                else if (TRUE_DAMAGE_SOURCES.contains(source)) {
                     return ArmorProperties(0, getRatio(slot), 0)
                 }
-            }
-            else
-            {
+            } else {
                 // Armor is useless without research
                 return ArmorProperties(0, getRatio(slot), 0)
             }
@@ -218,12 +205,10 @@ class ItemIgneousArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) : A
      * @param slot The slot the armor is in
      * @return The ratio of protection of each piece reduced by the percent damage blocked
      */
-    private fun getRatio(slot: Int): Double
-    {
+    private fun getRatio(slot: Int): Double {
         // Total protection of each piece
         val totalProtection = 3 + 6 + 8 + 3
-        return when (slot)
-        {
+        return when (slot) {
             0, 3 -> 3.0 / totalProtection * percentOfDamageBlocked
             1 -> 6.0 / totalProtection * percentOfDamageBlocked
             2 -> 8.0 / totalProtection * percentOfDamageBlocked
@@ -237,18 +222,22 @@ class ItemIgneousArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) : A
      * @param slot The slot that the armor piece is in
      * @return default armor properties for this set
      */
-    private fun getDefaultProperties(slot: Int): ArmorProperties
-    {
+    private fun getDefaultProperties(slot: Int): ArmorProperties {
         return ArmorProperties(0, getRatio(slot), maxDamageBlocked)
     }
 
-    companion object
-    {
+    companion object {
         // How much strength the armor knocks back enemies that attack you
         private const val KNOCKBACK_STRENGTH = 0.6
         // Damage sources that relate to fire damage
         private val FIRE_SOURCES = setOf(DamageSource.IN_FIRE, DamageSource.ON_FIRE)
         // Damage sources that relate to unblockable damage
-        private val TRUE_DAMAGE_SOURCES = setOf(DamageSource.DROWN, DamageSource.FALL, DamageSource.IN_WALL, DamageSource.OUT_OF_WORLD, DamageSource.STARVE)
+        private val TRUE_DAMAGE_SOURCES = setOf(
+            DamageSource.DROWN,
+            DamageSource.FALL,
+            DamageSource.IN_WALL,
+            DamageSource.OUT_OF_WORLD,
+            DamageSource.STARVE
+        )
     }
 }

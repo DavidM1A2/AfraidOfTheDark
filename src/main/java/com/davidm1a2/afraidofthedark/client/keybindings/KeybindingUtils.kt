@@ -5,23 +5,21 @@ import org.lwjgl.input.Keyboard
 /**
  * Utility class for determining what combinations of keys are down
  */
-object KeybindingUtils
-{
+object KeybindingUtils {
     // A set of keys that are unbindable alone and require additional keys down
     private val UNBINDABLE_KEYS = setOf(
-            Keyboard.KEY_RMENU,
-            Keyboard.KEY_LMENU,
-            Keyboard.KEY_RCONTROL,
-            Keyboard.KEY_LCONTROL,
-            Keyboard.KEY_RSHIFT,
-            Keyboard.KEY_LSHIFT
+        Keyboard.KEY_RMENU,
+        Keyboard.KEY_LMENU,
+        Keyboard.KEY_RCONTROL,
+        Keyboard.KEY_LCONTROL,
+        Keyboard.KEY_RSHIFT,
+        Keyboard.KEY_LSHIFT
     )
 
     /**
      * @return True if a keybindable key is down, false otherwise
      */
-    fun keybindableKeyDown(): Boolean
-    {
+    fun keybindableKeyDown(): Boolean {
         val keyCode = Keyboard.getEventKey()
         return !UNBINDABLE_KEYS.contains(keyCode)
     }
@@ -29,17 +27,14 @@ object KeybindingUtils
     /**
      * @return Gets the current keybinding that is being held
      */
-    fun getCurrentlyHeldKeybind(): String
-    {
+    fun getCurrentlyHeldKeybind(): String {
         // The string that is being bound
         val keybindString = StringBuilder()
 
         // Go over all unbindable key codes and test if they're down
-        for (unbindableKeyCode in UNBINDABLE_KEYS)
-        {
+        for (unbindableKeyCode in UNBINDABLE_KEYS) {
             // If they are down then append the key to the string
-            if (Keyboard.isKeyDown(unbindableKeyCode))
-            {
+            if (Keyboard.isKeyDown(unbindableKeyCode)) {
                 // Append the key and a + symbol
                 keybindString.append(Keyboard.getKeyName(unbindableKeyCode).toUpperCase()).append("+")
             }

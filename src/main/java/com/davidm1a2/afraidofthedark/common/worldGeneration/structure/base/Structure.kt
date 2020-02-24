@@ -12,8 +12,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry
 /**
  * Base class for all structures in the game that are generated using schematics
  */
-abstract class Structure : IForgeRegistryEntry.Impl<Structure>()
-{
+abstract class Structure : IForgeRegistryEntry.Impl<Structure>() {
     /**
      * Tests if this structure is valid for the given position
      *
@@ -22,7 +21,11 @@ abstract class Structure : IForgeRegistryEntry.Impl<Structure>()
      * @param biomeProvider The provider used to generate the world, use biomeProvider.getBiomes() to get what biomes exist at a position
      * @return A value between 0 and 1 which is the chance between 0% and 100% that a structure could spawn at the given position
      */
-    abstract fun computeChanceToGenerateAt(blockPos: BlockPos, heightmap: IHeightmap, biomeProvider: BiomeProvider): Double
+    abstract fun computeChanceToGenerateAt(
+        blockPos: BlockPos,
+        heightmap: IHeightmap,
+        biomeProvider: BiomeProvider
+    ): Double
 
     /**
      * Generates the structure with an optional argument of chunk position
@@ -42,8 +45,7 @@ abstract class Structure : IForgeRegistryEntry.Impl<Structure>()
      * @param biomeProvider A biome provider to be used if biome information is needed to generate structure data
      * @return The NBTTagCompound containing any data needed for generation. Sent in Structure::generate. Default returns nbt with position
      */
-    open fun generateStructureData(world: World, blockPos: BlockPos, biomeProvider: BiomeProvider): NBTTagCompound
-    {
+    open fun generateStructureData(world: World, blockPos: BlockPos, biomeProvider: BiomeProvider): NBTTagCompound {
         val compound = NBTTagCompound()
         // Set the position to the blockpos
         compound.setTag(NBT_POSITION, NBTUtil.createPosTag(blockPos))
@@ -56,8 +58,7 @@ abstract class Structure : IForgeRegistryEntry.Impl<Structure>()
      * @param data The raw NBT data
      * @return The blockpos contained in the data
      */
-    fun getPosition(data: NBTTagCompound): BlockPos
-    {
+    fun getPosition(data: NBTTagCompound): BlockPos {
         return NBTUtil.getPosFromTag(data.getCompoundTag(NBT_POSITION))
     }
 
@@ -74,13 +75,11 @@ abstract class Structure : IForgeRegistryEntry.Impl<Structure>()
     /**
      * @return The unlocalized name of the structure
      */
-    fun getUnlocalizedName(): String
-    {
+    fun getUnlocalizedName(): String {
         return "structure.${registryName!!.resourceDomain}:${registryName!!.resourcePath}.name"
     }
 
-    companion object
-    {
+    companion object {
         // A constant NBT tag for structure position
         const val NBT_POSITION = "position"
     }

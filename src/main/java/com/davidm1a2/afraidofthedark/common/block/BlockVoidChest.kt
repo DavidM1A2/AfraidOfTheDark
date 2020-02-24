@@ -28,10 +28,8 @@ import net.minecraftforge.fml.relauncher.SideOnly
  *
  * @constructor initializes the block's properties
  */
-class BlockVoidChest : AOTDBlockTileEntity("void_chest", Material.ROCK)
-{
-    init
-    {
+class BlockVoidChest : AOTDBlockTileEntity("void_chest", Material.ROCK) {
+    init {
         // Default chests face north
         this.defaultState = getBlockState().baseState.withProperty(FACING_PROPERTY, EnumFacing.NORTH)
         // Set the block's hardness, blast resistance, and harvest level
@@ -46,8 +44,7 @@ class BlockVoidChest : AOTDBlockTileEntity("void_chest", Material.ROCK)
      * @param state The block state
      * @return False since this is not opaque
      */
-    override fun isOpaqueCube(state: IBlockState): Boolean
-    {
+    override fun isOpaqueCube(state: IBlockState): Boolean {
         return false
     }
 
@@ -57,8 +54,7 @@ class BlockVoidChest : AOTDBlockTileEntity("void_chest", Material.ROCK)
      * @param state The block state
      * @return False since it's not a full 1x1x1 block
      */
-    override fun isFullCube(state: IBlockState): Boolean
-    {
+    override fun isFullCube(state: IBlockState): Boolean {
         return false
     }
 
@@ -69,8 +65,7 @@ class BlockVoidChest : AOTDBlockTileEntity("void_chest", Material.ROCK)
      * @return True since it's not a normal block
      */
     @SideOnly(Side.CLIENT)
-    override fun hasCustomBreakingProgress(state: IBlockState): Boolean
-    {
+    override fun hasCustomBreakingProgress(state: IBlockState): Boolean {
         return true
     }
 
@@ -80,8 +75,7 @@ class BlockVoidChest : AOTDBlockTileEntity("void_chest", Material.ROCK)
      * @param state The block state to render
      * @return EntityBlock since it's an animated block
      */
-    override fun getRenderType(state: IBlockState): EnumBlockRenderType
-    {
+    override fun getRenderType(state: IBlockState): EnumBlockRenderType {
         return EnumBlockRenderType.ENTITYBLOCK_ANIMATED
     }
 
@@ -93,8 +87,7 @@ class BlockVoidChest : AOTDBlockTileEntity("void_chest", Material.ROCK)
      * @param pos    The position of the block
      * @return The void chest AABB
      */
-    override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB
-    {
+    override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB {
         return VOID_CHEST_AABB
     }
 
@@ -113,17 +106,16 @@ class BlockVoidChest : AOTDBlockTileEntity("void_chest", Material.ROCK)
      * @return The block state after being placed
      */
     override fun getStateForPlacement(
-            world: World,
-            pos: BlockPos,
-            facing: EnumFacing,
-            hitX: Float,
-            hitY: Float,
-            hitZ: Float,
-            meta: Int,
-            placer: EntityLivingBase,
-            hand: EnumHand
-    ): IBlockState
-    {
+        world: World,
+        pos: BlockPos,
+        facing: EnumFacing,
+        hitX: Float,
+        hitY: Float,
+        hitZ: Float,
+        meta: Int,
+        placer: EntityLivingBase,
+        hand: EnumHand
+    ): IBlockState {
         // Face the block depending on the player's horizontal facing
         return this.defaultState.withProperty(FACING_PROPERTY, placer.horizontalFacing.opposite)
     }
@@ -137,8 +129,13 @@ class BlockVoidChest : AOTDBlockTileEntity("void_chest", Material.ROCK)
      * @param placer  The player/entity that placed the block
      * @param stack   The itemstack that this block came from
      */
-    override fun onBlockPlacedBy(worldIn: World, pos: BlockPos, state: IBlockState, placer: EntityLivingBase, stack: ItemStack)
-    {
+    override fun onBlockPlacedBy(
+        worldIn: World,
+        pos: BlockPos,
+        state: IBlockState,
+        placer: EntityLivingBase,
+        stack: ItemStack
+    ) {
         // Face the block depending on the player's horizontal facing and notify the player of the change
         worldIn.setBlockState(pos, state.withProperty(FACING_PROPERTY, placer.horizontalFacing.opposite), 2)
     }
@@ -158,29 +155,24 @@ class BlockVoidChest : AOTDBlockTileEntity("void_chest", Material.ROCK)
      * @return True to allow the interaction, false otherwise
      */
     override fun onBlockActivated(
-            worldIn: World,
-            pos: BlockPos,
-            state: IBlockState,
-            playerIn: EntityPlayer,
-            hand: EnumHand,
-            facing: EnumFacing,
-            hitX: Float,
-            hitY: Float,
-            hitZ: Float
-    ): Boolean
-    {
+        worldIn: World,
+        pos: BlockPos,
+        state: IBlockState,
+        playerIn: EntityPlayer,
+        hand: EnumHand,
+        facing: EnumFacing,
+        hitX: Float,
+        hitY: Float,
+        hitZ: Float
+    ): Boolean {
         // Test if the tile entity at this position is a void chest (it should be!)
         val tileEntity = worldIn.getTileEntity(pos)
-        if (tileEntity is TileEntityVoidChest)
-        {
+        if (tileEntity is TileEntityVoidChest) {
             // Ensure the player can interact with the chest
-            if (playerIn.getResearch().isResearched(ModResearches.VOID_CHEST))
-            {
+            if (playerIn.getResearch().isResearched(ModResearches.VOID_CHEST)) {
                 // Let the player interact with the chest
                 tileEntity.interact(playerIn)
-            }
-            else if (!worldIn.isRemote)
-            {
+            } else if (!worldIn.isRemote) {
                 playerIn.sendMessage(TextComponentTranslation("message.afraidofthedark:void_chest.dont_understand"))
             }
         }
@@ -193,11 +185,9 @@ class BlockVoidChest : AOTDBlockTileEntity("void_chest", Material.ROCK)
      * @param meta The metadata value to convert
      * @return The block state that this metadata value represents
      */
-    override fun getStateFromMeta(meta: Int): IBlockState
-    {
+    override fun getStateFromMeta(meta: Int): IBlockState {
         var enumfacing = EnumFacing.getFront(meta)
-        if (enumfacing.axis == EnumFacing.Axis.Y)
-        {
+        if (enumfacing.axis == EnumFacing.Axis.Y) {
             enumfacing = EnumFacing.NORTH
         }
         return this.defaultState.withProperty(FACING_PROPERTY, enumfacing)
@@ -209,16 +199,14 @@ class BlockVoidChest : AOTDBlockTileEntity("void_chest", Material.ROCK)
      * @param state The state the convert
      * @return The metadata value that this state represents
      */
-    override fun getMetaFromState(state: IBlockState): Int
-    {
+    override fun getMetaFromState(state: IBlockState): Int {
         return state.getValue(FACING_PROPERTY).index
     }
 
     /**
      * @return The block state properties that make this block work
      */
-    override fun createBlockState(): BlockStateContainer
-    {
+    override fun createBlockState(): BlockStateContainer {
         return BlockStateContainer(this, FACING_PROPERTY)
     }
 
@@ -229,13 +217,11 @@ class BlockVoidChest : AOTDBlockTileEntity("void_chest", Material.ROCK)
      * @param meta    The metadata value of this block
      * @return The tile entity that this block represents
      */
-    override fun createNewTileEntity(worldIn: World, meta: Int): TileEntity
-    {
+    override fun createNewTileEntity(worldIn: World, meta: Int): TileEntity {
         return TileEntityVoidChest()
     }
 
-    companion object
-    {
+    companion object {
         // The facing property of the void chest which tells it which way to open/close
         private val FACING_PROPERTY = BlockHorizontal.FACING
         // The hitbox of the chest is smaller than usual

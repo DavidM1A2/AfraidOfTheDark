@@ -14,64 +14,63 @@ import java.util.*
 /**
  * Class used to generate schematics
  */
-object SchematicGenerator
-{
+object SchematicGenerator {
     // A massive set of blocks that need to "be placed on" another block so we generate them after the solid blocks
     private val PHASE_2_BLOCKS = setOf(
-            Blocks.SAPLING,
-            Blocks.BED,
-            Blocks.RAIL,
-            Blocks.ACTIVATOR_RAIL,
-            Blocks.DETECTOR_RAIL,
-            Blocks.GOLDEN_RAIL,
-            Blocks.DEADBUSH,
-            Blocks.TALLGRASS,
-            Blocks.YELLOW_FLOWER,
-            Blocks.RED_FLOWER,
-            Blocks.BROWN_MUSHROOM,
-            Blocks.RED_MUSHROOM,
-            Blocks.TORCH,
-            Blocks.FIRE,
-            Blocks.REDSTONE_WIRE,
-            Blocks.WHEAT,
-            Blocks.STANDING_SIGN,
-            Blocks.WALL_SIGN,
-            Blocks.LADDER,
-            Blocks.LEVER,
-            Blocks.STONE_PRESSURE_PLATE,
-            Blocks.IRON_DOOR,
-            Blocks.WOODEN_PRESSURE_PLATE,
-            Blocks.REDSTONE_TORCH,
-            Blocks.UNLIT_REDSTONE_TORCH,
-            Blocks.STONE_BUTTON,
-            Blocks.CACTUS,
-            Blocks.REEDS,
-            Blocks.POWERED_REPEATER,
-            Blocks.UNPOWERED_REPEATER,
-            Blocks.PUMPKIN_STEM,
-            Blocks.MELON_STEM,
-            Blocks.VINE,
-            Blocks.WATERLILY,
-            Blocks.NETHER_WART,
-            Blocks.DRAGON_EGG,
-            Blocks.COCOA,
-            Blocks.TRIPWIRE_HOOK,
-            Blocks.TRIPWIRE,
-            Blocks.CARROTS,
-            Blocks.POTATOES,
-            Blocks.WOODEN_BUTTON,
-            Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE,
-            Blocks.HEAVY_WEIGHTED_PRESSURE_PLATE,
-            Blocks.CARPET,
-            Blocks.DOUBLE_PLANT,
-            Blocks.STANDING_BANNER,
-            Blocks.WALL_BANNER,
-            Blocks.SPRUCE_DOOR,
-            Blocks.BIRCH_DOOR,
-            Blocks.JUNGLE_DOOR,
-            Blocks.ACACIA_DOOR,
-            Blocks.DARK_OAK_DOOR,
-            Blocks.BEETROOTS
+        Blocks.SAPLING,
+        Blocks.BED,
+        Blocks.RAIL,
+        Blocks.ACTIVATOR_RAIL,
+        Blocks.DETECTOR_RAIL,
+        Blocks.GOLDEN_RAIL,
+        Blocks.DEADBUSH,
+        Blocks.TALLGRASS,
+        Blocks.YELLOW_FLOWER,
+        Blocks.RED_FLOWER,
+        Blocks.BROWN_MUSHROOM,
+        Blocks.RED_MUSHROOM,
+        Blocks.TORCH,
+        Blocks.FIRE,
+        Blocks.REDSTONE_WIRE,
+        Blocks.WHEAT,
+        Blocks.STANDING_SIGN,
+        Blocks.WALL_SIGN,
+        Blocks.LADDER,
+        Blocks.LEVER,
+        Blocks.STONE_PRESSURE_PLATE,
+        Blocks.IRON_DOOR,
+        Blocks.WOODEN_PRESSURE_PLATE,
+        Blocks.REDSTONE_TORCH,
+        Blocks.UNLIT_REDSTONE_TORCH,
+        Blocks.STONE_BUTTON,
+        Blocks.CACTUS,
+        Blocks.REEDS,
+        Blocks.POWERED_REPEATER,
+        Blocks.UNPOWERED_REPEATER,
+        Blocks.PUMPKIN_STEM,
+        Blocks.MELON_STEM,
+        Blocks.VINE,
+        Blocks.WATERLILY,
+        Blocks.NETHER_WART,
+        Blocks.DRAGON_EGG,
+        Blocks.COCOA,
+        Blocks.TRIPWIRE_HOOK,
+        Blocks.TRIPWIRE,
+        Blocks.CARROTS,
+        Blocks.POTATOES,
+        Blocks.WOODEN_BUTTON,
+        Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE,
+        Blocks.HEAVY_WEIGHTED_PRESSURE_PLATE,
+        Blocks.CARPET,
+        Blocks.DOUBLE_PLANT,
+        Blocks.STANDING_BANNER,
+        Blocks.WALL_BANNER,
+        Blocks.SPRUCE_DOOR,
+        Blocks.BIRCH_DOOR,
+        Blocks.JUNGLE_DOOR,
+        Blocks.ACACIA_DOOR,
+        Blocks.DARK_OAK_DOOR,
+        Blocks.BEETROOTS
     )
 
     /**
@@ -84,16 +83,14 @@ object SchematicGenerator
      * @param lootTable Optional argument to specify what loot to generate inside chests
      */
     fun generateSchematic(
-            schematic: Schematic,
-            world: World,
-            blockPos: BlockPos,
-            chunkPos: ChunkPos? = null,
-            lootTable: LootTable? = null
-    )
-    {
+        schematic: Schematic,
+        world: World,
+        blockPos: BlockPos,
+        chunkPos: ChunkPos? = null,
+        lootTable: LootTable? = null
+    ) {
         // Generate server side only
-        if (!world.isRemote)
-        {
+        if (!world.isRemote) {
             generateBlocks(schematic, world, blockPos, chunkPos)
             generateTileEntities(schematic, world, blockPos, chunkPos, lootTable)
             generateEntities(schematic, world, blockPos, chunkPos)
@@ -109,8 +106,7 @@ object SchematicGenerator
      * @param blockPos  The position to generate the schematic at
      * @param chunkPos  Optional argument to specify which chunk specify to generate of this schematic
      */
-    private fun generateBlocks(schematic: Schematic, world: World, blockPos: BlockPos, chunkPos: ChunkPos?)
-    {
+    private fun generateBlocks(schematic: Schematic, world: World, blockPos: BlockPos, chunkPos: ChunkPos?) {
         // Store the schematic variables up here so we don't have lots of superfluous method calls. Method calls are slow
         // if they happen over and over again, instead cache our variable values and then do simply math which is much
         // faster!
@@ -132,8 +128,7 @@ object SchematicGenerator
         var endX = posX + width
 
         // If we should only generate a single chunk update our start and end X/Z to respect that
-        if (chunkPos != null)
-        {
+        if (chunkPos != null) {
             startZ = startZ.coerceIn(chunkPos.zStart, chunkPos.zEnd + 1)
             endZ = endZ.coerceIn(chunkPos.zStart, chunkPos.zEnd + 1)
             startX = startX.coerceIn(chunkPos.xStart, chunkPos.xEnd + 1)
@@ -152,20 +147,17 @@ object SchematicGenerator
         ///
 
         // Iterate over the Y axis first since that's the format that schematics use
-        for (y in posY until endY)
-        {
+        for (y in posY until endY) {
             // Get the y index which we can use to index into the blocks array
             val indexY = (y - posY) * length * width
 
             // Iterate over the Z axis second
-            for (z in startZ until endZ)
-            {
+            for (z in startZ until endZ) {
                 // Get the z index which we can use to index into the blocks array
                 val indexZ = (z - posZ) * width
 
                 // Iterate over the X axis last
-                for (x in startX until endX)
-                {
+                for (x in startX until endX) {
                     // Get the x index which we can use to index into the blocks array
                     val indexX = x - posX
 
@@ -175,28 +167,21 @@ object SchematicGenerator
                     // Grab the reference to the next block to place
                     val nextToPlace = blocks[index]
                     // If the block in the schematic is air then ignore it
-                    if (nextToPlace !== Blocks.AIR)
-                    {
+                    if (nextToPlace !== Blocks.AIR) {
                         val position = BlockPos(x, y, z)
                         // Structure void blocks represent air blocks in my schematic system. This allows for easy underground structure generation.
-                        if (nextToPlace === Blocks.STRUCTURE_VOID)
-                        {
+                        if (nextToPlace == Blocks.STRUCTURE_VOID) {
                             // Set the block to air
                             WorldGenFast.setBlockStateFast(world, position, Blocks.AIR.defaultState, setBlockFlags)
-                        }
-                        else
-                        {
+                        } else {
                             // If we can generate this block now do so
-                            if (!PHASE_2_BLOCKS.contains(nextToPlace))
-                            {
+                            if (!PHASE_2_BLOCKS.contains(nextToPlace)) {
                                 // Grab the blockstate to place
                                 @Suppress("DEPRECATION")
                                 val blockState = blocks[index].getStateFromMeta(data[index])
                                 // Otherwise set the block based on state from the data array
                                 WorldGenFast.setBlockStateFast(world, position, blockState, setBlockFlags)
-                            }
-                            else
-                            {
+                            } else {
                                 phase2Blocks.add(index)
                                 phase2Positions.add(position)
                             }
@@ -210,8 +195,7 @@ object SchematicGenerator
         /// Phase 2 is to generate all non-solid blocks that "hang off" or are "placed on" other blocks
         ///
 
-        for (i in phase2Blocks.indices)
-        {
+        for (i in phase2Blocks.indices) {
             // Grab our stored off block index and blockpos
             val index = phase2Blocks[i]
             val position = phase2Positions[i]
@@ -235,31 +219,27 @@ object SchematicGenerator
      * @param lootTable Optional argument to specify what loot to generate inside chests
      */
     private fun generateTileEntities(
-            schematic: Schematic,
-            world: World,
-            blockPos: BlockPos,
-            chunkPos: ChunkPos?,
-            lootTable: LootTable?
-    )
-    {
+        schematic: Schematic,
+        world: World,
+        blockPos: BlockPos,
+        chunkPos: ChunkPos?,
+        lootTable: LootTable?
+    ) {
         // Get the list of tile entities inside this schematic
         val tileEntities = schematic.getTileEntities()
         // Iterate over each tile entity
-        for (i in 0 until tileEntities.tagCount())
-        {
+        for (i in 0 until tileEntities.tagCount()) {
             // Grab the compound that represents this tile entity
             val tileEntityCompound = tileEntities.getCompoundTagAt(i)
             // Instantiate the tile entity object from the compound
             val tileEntity = TileEntity.create(world, tileEntityCompound)
             // If the entity is valid, continue...
-            if (tileEntity != null)
-            {
+            if (tileEntity != null) {
                 // Get the X, Y, and Z coordinates of this entity if instantiated inside the world
                 val tileEntityPosition = tileEntity.pos.add(blockPos)
 
                 // If the chunk pos was not given or we are in the correct chunk spawn the entity in
-                if (chunkPos == null || isInsideChunk(tileEntityPosition, chunkPos))
-                {
+                if (chunkPos == null || isInsideChunk(tileEntityPosition, chunkPos)) {
                     // Remove the existing tile entity at the location
                     world.removeTileEntity(tileEntityPosition)
                     // Set the new position of our tile entity
@@ -267,8 +247,7 @@ object SchematicGenerator
                     // Add the tile entity to the world
                     world.setTileEntity(tileEntityPosition, tileEntity)
                     // If the tile entity is a chest and we have a loot table then generate the chest
-                    if (tileEntity is TileEntityChest && lootTable != null)
-                    {
+                    if (tileEntity is TileEntityChest && lootTable != null) {
                         lootTable.generate(tileEntity)
                     }
                 }
@@ -284,14 +263,12 @@ object SchematicGenerator
      * @param blockPos  The position to generate the schematic entities at
      * @param chunkPos  Optional argument to specify which chunk specify to generate of this schematic
      */
-    private fun generateEntities(schematic: Schematic, world: World, blockPos: BlockPos, chunkPos: ChunkPos?)
-    {
+    private fun generateEntities(schematic: Schematic, world: World, blockPos: BlockPos, chunkPos: ChunkPos?) {
         // Get the list of entities inside this schematic
         val entities = schematic.getEntities()
 
         // Iterate over each entity
-        for (i in 0 until entities.tagCount())
-        {
+        for (i in 0 until entities.tagCount()) {
             // Grab the compound that represents this entity
             val entityCompound = entities.getCompoundTagAt(i)
 
@@ -299,8 +276,7 @@ object SchematicGenerator
             val entity = EntityList.createEntityFromNBT(entityCompound, world)
 
             // If the entity is valid, continue...
-            if (entity != null)
-            {
+            if (entity != null) {
                 // Update the UUID to be random so that it does not conflict with other entities from the same schematic
                 entity.setUniqueId(UUID.randomUUID())
 
@@ -310,8 +286,7 @@ object SchematicGenerator
                 val newZ = entity.posZ + blockPos.z
 
                 // If the chunk pos was not given or we are in the correct chunk spawn the entity in
-                if (chunkPos == null || isInsideChunk(newX, newZ, chunkPos))
-                {
+                if (chunkPos == null || isInsideChunk(newX, newZ, chunkPos)) {
                     entity.setPosition(newX, newY, newZ)
                     world.spawnEntity(entity)
                 }
@@ -327,8 +302,7 @@ object SchematicGenerator
      * @param chunkPos The chunk to test
      * @return True if the (x, z) coordinate is inside the chunk or false otherwise
      */
-    private fun isInsideChunk(x: Double, z: Double, chunkPos: ChunkPos): Boolean
-    {
+    private fun isInsideChunk(x: Double, z: Double, chunkPos: ChunkPos): Boolean {
         return x >= chunkPos.xStart && x <= chunkPos.xEnd && z >= chunkPos.zStart && z <= chunkPos.zEnd
     }
 
@@ -339,8 +313,7 @@ object SchematicGenerator
      * @param chunkPos The chunk to test
      * @return True if the (x, z) coordinate is inside the chunk or false otherwise
      */
-    private fun isInsideChunk(blockPos: BlockPos, chunkPos: ChunkPos): Boolean
-    {
+    private fun isInsideChunk(blockPos: BlockPos, chunkPos: ChunkPos): Boolean {
         return blockPos.x >= chunkPos.xStart && blockPos.x <= chunkPos.xEnd && blockPos.z >= chunkPos.zStart && blockPos.z <= chunkPos.zEnd
     }
 
@@ -354,8 +327,7 @@ object SchematicGenerator
      * @param chunkPos  The chunk position the schematic was generated at
      */
     @Suppress("UNUSED_PARAMETER")
-    private fun computeLight(schematic: Schematic, world: World, blockPos: BlockPos, chunkPos: ChunkPos?)
-    {
+    private fun computeLight(schematic: Schematic, world: World, blockPos: BlockPos, chunkPos: ChunkPos?) {
         /*
         This code doesn't seem correct, not sure how to force a re-light, it might not be possible
         // If we generated a single chunk light it

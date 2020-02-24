@@ -25,8 +25,7 @@ import kotlin.math.min
  *
  * @constructor just initializes the name
  */
-class StructureCrypt : AOTDStructure("crypt")
-{
+class StructureCrypt : AOTDStructure("crypt") {
     /**
      * Tests if this structure is valid for the given position
      *
@@ -35,10 +34,12 @@ class StructureCrypt : AOTDStructure("crypt")
      * @param biomeProvider The provider used to generate the world, use biomeProvider.getBiomes() to get what biomes exist at a position
      * @return true if the structure fits at the position, false otherwise
      */
-    override fun computeChanceToGenerateAt(blockPos: BlockPos, heightmap: IHeightmap, biomeProvider: BiomeProvider): Double
-    {
-        return processChunks(object : IChunkProcessor<Double>
-        {
+    override fun computeChanceToGenerateAt(
+        blockPos: BlockPos,
+        heightmap: IHeightmap,
+        biomeProvider: BiomeProvider
+    ): Double {
+        return processChunks(object : IChunkProcessor<Double> {
             // Compute the minimum and maximum height over all the chunks that the crypt will cross over
             var minHeight = Int.MAX_VALUE
             var maxHeight = Int.MIN_VALUE
@@ -46,22 +47,17 @@ class StructureCrypt : AOTDStructure("crypt")
             // Counters for the number of erie forest chunks
             var numErieForestChunks = 0
             var numOtherChunks = 0
-            override fun processChunk(chunkPos: ChunkPos): Boolean
-            {
+            override fun processChunk(chunkPos: ChunkPos): Boolean {
                 val biomes = approximateBiomesInChunk(biomeProvider, chunkPos.x, chunkPos.z)
                 // Filter incompatible biomes
-                when
-                {
-                    biomes.any { INCOMPATIBLE_BIOMES.contains(it) } ->
-                    {
+                when {
+                    biomes.any { INCOMPATIBLE_BIOMES.contains(it) } -> {
                         return false
                     }
-                    biomes.contains(ModBiomes.ERIE_FOREST) ->
-                    {
+                    biomes.contains(ModBiomes.ERIE_FOREST) -> {
                         numErieForestChunks++
                     }
-                    else ->
-                    {
+                    else -> {
                         numOtherChunks++
                     }
                 }
@@ -71,11 +67,9 @@ class StructureCrypt : AOTDStructure("crypt")
                 return true
             }
 
-            override fun getResult(): Double
-            {
+            override fun getResult(): Double {
                 // If there's more than 5 blocks between the top and bottom block it's an invalid place for a crypt because it's not 'flat' enough
-                if (maxHeight - minHeight > 5)
-                {
+                if (maxHeight - minHeight > 5) {
                     return getDefaultResult()
                 }
 
@@ -87,8 +81,7 @@ class StructureCrypt : AOTDStructure("crypt")
                 return (percentErie * 0.02 + percentOther * 0.006) * AfraidOfTheDark.INSTANCE.configurationHandler.cryptMultiplier
             }
 
-            override fun getDefaultResult(): Double
-            {
+            override fun getDefaultResult(): Double {
                 return 0.0
             }
         }, InteriorChunkIterator(this, blockPos))
@@ -101,8 +94,7 @@ class StructureCrypt : AOTDStructure("crypt")
      * @param chunkPos Optional chunk position of a chunk to generate in. If supplied all blocks generated must be in this chunk only!
      * @param data     Data containing structure position
      */
-    override fun generate(world: World, chunkPos: ChunkPos, data: NBTTagCompound)
-    {
+    override fun generate(world: World, chunkPos: ChunkPos, data: NBTTagCompound) {
         // Get the position of the structure from the data compound
         val blockPos = getPosition(data)
 
@@ -118,8 +110,7 @@ class StructureCrypt : AOTDStructure("crypt")
      * @param biomeProvider ignored
      * @return The NBTTagCompound containing any data needed for generation. Sent in Structure::generate
      */
-    override fun generateStructureData(world: World, blockPos: BlockPos, biomeProvider: BiomeProvider): NBTTagCompound
-    {
+    override fun generateStructureData(world: World, blockPos: BlockPos, biomeProvider: BiomeProvider): NBTTagCompound {
         @Suppress("NAME_SHADOWING")
         var blockPos = blockPos
         val compound = NBTTagCompound()
@@ -144,8 +135,7 @@ class StructureCrypt : AOTDStructure("crypt")
     /**
      * @return The width of the structure in blocks
      */
-    override fun getXWidth(): Int
-    {
+    override fun getXWidth(): Int {
         // For this structure the width is just the width of the crypt
         return ModSchematics.CRYPT.getWidth().toInt()
     }
@@ -153,25 +143,23 @@ class StructureCrypt : AOTDStructure("crypt")
     /**
      * @return The length of the structure in blocks
      */
-    override fun getZLength(): Int
-    {
+    override fun getZLength(): Int {
         // For this structure the length is just the length of the crypt
         return ModSchematics.CRYPT.getLength().toInt()
     }
 
-    companion object
-    {
+    companion object {
         // A set of incompatible biomes
         private val INCOMPATIBLE_BIOMES = setOf(
-                Biomes.OCEAN,
-                Biomes.DEEP_OCEAN,
-                Biomes.FROZEN_OCEAN,
-                Biomes.BEACH,
-                Biomes.FROZEN_RIVER,
-                Biomes.RIVER,
-                Biomes.SKY,
-                Biomes.VOID,
-                Biomes.STONE_BEACH
+            Biomes.OCEAN,
+            Biomes.DEEP_OCEAN,
+            Biomes.FROZEN_OCEAN,
+            Biomes.BEACH,
+            Biomes.FROZEN_RIVER,
+            Biomes.RIVER,
+            Biomes.SKY,
+            Biomes.VOID,
+            Biomes.STONE_BEACH
         )
     }
 }

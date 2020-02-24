@@ -14,8 +14,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
  * @property defaultValue The default value of this property
  */
 @Suppress("UNCHECKED_CAST")
-abstract class SpellComponentPropertyBuilder<T, V : SpellComponentPropertyBuilder<T, V>>
-{
+abstract class SpellComponentPropertyBuilder<T, V : SpellComponentPropertyBuilder<T, V>> {
     var name: String? = null
     var description: String? = null
     var setter: ((SpellComponentInstance<*>, T) -> Unit)? = null
@@ -28,8 +27,7 @@ abstract class SpellComponentPropertyBuilder<T, V : SpellComponentPropertyBuilde
      * @param name The name of the property
      * @return The builder instance
      */
-    fun withName(name: String): V
-    {
+    fun withName(name: String): V {
         this.name = name
         return this as V
     }
@@ -40,8 +38,7 @@ abstract class SpellComponentPropertyBuilder<T, V : SpellComponentPropertyBuilde
      * @param description The description of the property
      * @return The builder instance
      */
-    fun withDescription(description: String): V
-    {
+    fun withDescription(description: String): V {
         this.description = description
         return this as V
     }
@@ -52,8 +49,7 @@ abstract class SpellComponentPropertyBuilder<T, V : SpellComponentPropertyBuilde
      * @param setter The setter of the property
      * @return The builder instance
      */
-    fun withSetter(setter: ((SpellComponentInstance<*>, T) -> Unit)): V
-    {
+    fun withSetter(setter: ((SpellComponentInstance<*>, T) -> Unit)): V {
         this.setter = setter
         return this as V
     }
@@ -64,8 +60,7 @@ abstract class SpellComponentPropertyBuilder<T, V : SpellComponentPropertyBuilde
      * @param getter The getter of the property
      * @return The builder instance
      */
-    fun withGetter(getter: ((SpellComponentInstance<*>) -> T)): V
-    {
+    fun withGetter(getter: ((SpellComponentInstance<*>) -> T)): V {
         this.getter = getter
         return this as V
     }
@@ -76,8 +71,7 @@ abstract class SpellComponentPropertyBuilder<T, V : SpellComponentPropertyBuilde
      * @param defaultValue The default value of the property
      * @return The builder instance
      */
-    fun withDefaultValue(defaultValue: T): V
-    {
+    fun withDefaultValue(defaultValue: T): V {
         this.defaultValue = defaultValue
         return this as V
     }

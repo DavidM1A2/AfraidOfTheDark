@@ -13,15 +13,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * <p>
  * Coords values are set following a right-handed system with no transformations(ie. a default one, with +Z which goes out of the screen).
  */
-public class MCAModelBox extends ModelBox
-{
+public class MCAModelBox extends ModelBox {
     /**
      * Same as superclass, but it was PRIVATE.
      */
     private TexturedQuad[] MCAquadList;
 
-    public MCAModelBox(ModelRenderer par1ModelRenderer, int textureX, int textureY, float posX, float posY, float posZ, int sizeX, int sizeY, int sizeZ, float scaleFactor)
-    {
+    public MCAModelBox(ModelRenderer par1ModelRenderer, int textureX, int textureY, float posX, float posY, float posZ, int sizeX, int sizeY, int sizeZ, float scaleFactor) {
         super(par1ModelRenderer, textureX, textureY, posX, posY, posZ, sizeX, sizeY, sizeZ, scaleFactor);
 
         this.MCAquadList = new TexturedQuad[6];
@@ -36,8 +34,7 @@ public class MCAModelBox extends ModelBox
         endY += scaleFactor;
         endZ += scaleFactor;
 
-        if (par1ModelRenderer.mirror)
-        {
+        if (par1ModelRenderer.mirror) {
             float tempValueForSwitch = endX;
             endX = posX;
             posX = tempValueForSwitch;
@@ -73,10 +70,8 @@ public class MCAModelBox extends ModelBox
         this.MCAquadList[5] = new TexturedQuad(new PositionTextureVertex[]
                 {PTV_front_right_top, PTV_front_left_top, PTV_front_left_bottom, PTV_front_right_bottom}, textureX + sizeZ, textureY + sizeZ, textureX + sizeZ + sizeX, textureY + sizeZ + sizeY, par1ModelRenderer.textureWidth, par1ModelRenderer.textureHeight);
 
-        if (par1ModelRenderer.mirror)
-        {
-            for (TexturedQuad aMCAquadList : this.MCAquadList)
-            {
+        if (par1ModelRenderer.mirror) {
+            for (TexturedQuad aMCAquadList : this.MCAquadList) {
                 aMCAquadList.flipFace();
             }
         }
@@ -85,10 +80,8 @@ public class MCAModelBox extends ModelBox
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void render(BufferBuilder bufferBuilder, float textureX)
-    {
-        for (TexturedQuad aMCAquadList : this.MCAquadList)
-        {
+    public void render(BufferBuilder bufferBuilder, float textureX) {
+        for (TexturedQuad aMCAquadList : this.MCAquadList) {
             aMCAquadList.draw(bufferBuilder, textureX);
         }
     }

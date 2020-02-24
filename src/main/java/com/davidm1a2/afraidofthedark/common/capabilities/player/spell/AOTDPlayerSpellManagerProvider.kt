@@ -11,8 +11,7 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable
  *
  * @property instance The instance of the player spell manager capability
  */
-class AOTDPlayerSpellManagerProvider : ICapabilitySerializable<NBTBase>
-{
+class AOTDPlayerSpellManagerProvider : ICapabilitySerializable<NBTBase> {
     private val instance = ModCapabilities.PLAYER_SPELL_MANAGER.defaultInstance
 
     /**
@@ -22,9 +21,8 @@ class AOTDPlayerSpellManagerProvider : ICapabilitySerializable<NBTBase>
      * @param facing     ignored
      * @return True if the capability is a spell manager capability, false otherwise
      */
-    override fun hasCapability(capability: Capability<*>, facing: EnumFacing?): Boolean
-    {
-        return capability === ModCapabilities.PLAYER_SPELL_MANAGER
+    override fun hasCapability(capability: Capability<*>, facing: EnumFacing?): Boolean {
+        return capability == ModCapabilities.PLAYER_SPELL_MANAGER
     }
 
     /**
@@ -35,9 +33,10 @@ class AOTDPlayerSpellManagerProvider : ICapabilitySerializable<NBTBase>
      * @param <T>        The type of capability
      * @return The capability or null if it was the wrong type
     </T> */
-    override fun <T> getCapability(capability: Capability<T>, facing: EnumFacing?): T?
-    {
-        return if (capability === ModCapabilities.PLAYER_SPELL_MANAGER) ModCapabilities.PLAYER_SPELL_MANAGER.cast(instance) else null
+    override fun <T> getCapability(capability: Capability<T>, facing: EnumFacing?): T? {
+        return if (capability == ModCapabilities.PLAYER_SPELL_MANAGER) ModCapabilities.PLAYER_SPELL_MANAGER.cast(
+            instance
+        ) else null
     }
 
     /**
@@ -45,9 +44,12 @@ class AOTDPlayerSpellManagerProvider : ICapabilitySerializable<NBTBase>
      *
      * @return The NBTTagCompound representing this capability
      */
-    override fun serializeNBT(): NBTBase
-    {
-        return ModCapabilities.PLAYER_SPELL_MANAGER.storage.writeNBT(ModCapabilities.PLAYER_SPELL_MANAGER, instance, null)!!
+    override fun serializeNBT(): NBTBase {
+        return ModCapabilities.PLAYER_SPELL_MANAGER.storage.writeNBT(
+            ModCapabilities.PLAYER_SPELL_MANAGER,
+            instance,
+            null
+        )!!
     }
 
     /**
@@ -55,8 +57,7 @@ class AOTDPlayerSpellManagerProvider : ICapabilitySerializable<NBTBase>
      *
      * @param nbt The NBT tag compound to read from
      */
-    override fun deserializeNBT(nbt: NBTBase)
-    {
+    override fun deserializeNBT(nbt: NBTBase) {
         ModCapabilities.PLAYER_SPELL_MANAGER.storage.readNBT(ModCapabilities.PLAYER_SPELL_MANAGER, instance, null, nbt)
     }
 }

@@ -13,8 +13,7 @@ import net.minecraftforge.common.capabilities.CapabilityInject
 /**
  * All capabilities that AOTD adds
  */
-object ModCapabilities
-{
+object ModCapabilities {
     // Capability that all players get which allows them to have AOTD basics
     @JvmStatic
     @CapabilityInject(IAOTDPlayerBasics::class)

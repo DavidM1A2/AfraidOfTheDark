@@ -10,8 +10,7 @@ import net.minecraft.util.math.BlockPos
  * @property preTeleportPosition The position of the player before teleporting to the void chest
  * @property preTeleportDimensionID The dimension id of the player before teleporting to the void chest
  */
-class AOTDPlayerVoidChestDataImpl : IAOTDPlayerVoidChestData
-{
+class AOTDPlayerVoidChestDataImpl : IAOTDPlayerVoidChestData {
     override var positionalIndex = -1
     override var friendsIndex = -1
     override var preTeleportPosition: BlockPos? = null

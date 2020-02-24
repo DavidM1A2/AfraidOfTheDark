@@ -36,19 +36,17 @@ import kotlin.math.min
  * @property allowedRegion The hitbox that enaria cannot leave
  * @property enariaAttacks Enaria's attack object use to manage her attacks
  */
-class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity
-{
+class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity {
     private val animHandler = AnimationHandlerEnaria(this)
     private val bossInfo = BossInfoServer(
-            this.displayName,
-            BossInfo.Color.PURPLE,
-            BossInfo.Overlay.PROGRESS
+        this.displayName,
+        BossInfo.Color.PURPLE,
+        BossInfo.Overlay.PROGRESS
     ).setDarkenSky(true) as BossInfoServer
     lateinit var allowedRegion: AxisAlignedBB
     val enariaAttacks: EnariaAttacks
 
-    init
-    {
+    init {
         setSize(0.8f, 1.8f)
         // Name of the entity, will be bold and red
         this.customNameTag = "Enaria"
@@ -64,8 +62,7 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity
      * @param world         The world to spawn enaria in
      * @param allowedRegion The region enaria is allowed to be inside of
      */
-    constructor(world: World, allowedRegion: AxisAlignedBB) : this(world)
-    {
+    constructor(world: World, allowedRegion: AxisAlignedBB) : this(world) {
         this.entityData.setBoolean(NBT_IS_VALID, true)
         this.allowedRegion = allowedRegion
     }
@@ -73,8 +70,7 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity
     /**
      * Initializes enaria's AI
      */
-    override fun initEntityAI()
-    {
+    override fun initEntityAI() {
         // First ensure we're not drowning and try to swim
         tasks.addTask(1, EntityAISwimming(this))
         // Attack the target if we are not swimming
@@ -90,12 +86,10 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity
     /**
      * Called to update the entity every tick
      */
-    override fun onUpdate()
-    {
+    override fun onUpdate() {
         super.onUpdate()
         // Animations only update client side
-        if (world.isRemote)
-        {
+        if (world.isRemote) {
             animHandler.animationsUpdate()
         }
     }
@@ -103,22 +97,18 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity
     /**
      * Called every game tick for the entity
      */
-    override fun onEntityUpdate()
-    {
+    override fun onEntityUpdate() {
         super.onEntityUpdate()
         // Client side test if enaria is walking, if so play the animation
-        if (world.isRemote)
-        {
+        if (world.isRemote) {
             // Motion >= 0.5 = walking
-            if (motionX > 0.05 || motionZ > 0.05 || motionX < -0.05 || motionZ < -0.05)
-            {
+            if (motionX > 0.05 || motionZ > 0.05 || motionX < -0.05 || motionZ < -0.05) {
                 // Ensure no other animation is currently active
                 if (!animHandler.isAnimationActive("spell") &&
                     !animHandler.isAnimationActive("autoattack") &&
                     !animHandler.isAnimationActive("armthrow") &&
                     !animHandler.isAnimationActive("walk")
-                )
-                {
+                ) {
                     // Walk
                     animHandler.activateAnimation("walk", 0f)
                 }
@@ -129,19 +119,15 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity
     /**
      * Called every tick the enaria entity is alive
      */
-    override fun onLivingUpdate()
-    {
+    override fun onLivingUpdate() {
         super.onLivingUpdate()
         // If we're on server side perform some checks
-        if (!world.isRemote)
-        {
+        if (!world.isRemote) {
             // Update the boss info HP bar
             bossInfo.percent = this.health / this.maxHealth
             // If enaria was spawned without the right tags she's invalid so kill her
-            if (ticksExisted == 1)
-            {
-                if (!this.entityData.getBoolean(NBT_IS_VALID))
-                {
+            if (ticksExisted == 1) {
+                if (!this.entityData.getBoolean(NBT_IS_VALID)) {
                     setDead()
                 }
             }
@@ -151,8 +137,7 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity
     /**
      * Gives enaria her entity attributes like damage and movespeed
      */
-    override fun applyEntityAttributes()
-    {
+    override fun applyEntityAttributes() {
         super.applyEntityAttributes()
         attributeMap.getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH).baseValue = MAX_HEALTH
         attributeMap.getAttributeInstance(SharedMonsterAttributes.FOLLOW_RANGE).baseValue = FOLLOW_RANGE
@@ -168,11 +153,9 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity
      * @param amount The amount of damage inflicted
      * @return True to allow the damage, false otherwise
      */
-    override fun attackEntityFrom(source: DamageSource, amount: Float): Boolean
-    {
+    override fun attackEntityFrom(source: DamageSource, amount: Float): Boolean {
         // Server side processing only
-        if (!world.isRemote)
-        {
+        if (!world.isRemote) {
             // Compute the time between this hit and the last hit she received
             val timeBetweenHits = System.currentTimeMillis() - this.entityData.getLong(NBT_LAST_HIT)
             // Update the last hit time
@@ -183,25 +166,19 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity
             var amount = amount
 
             // Kill the entity if damage received is FLOAT.MAX_VALUE
-            if (amount == Float.MAX_VALUE)
-            {
+            if (amount == Float.MAX_VALUE) {
                 return super.attackEntityFrom(source, amount)
-            }
-            else if (amount > MAX_DAMAGE_IN_1_HIT)
-            {
+            } else if (amount > MAX_DAMAGE_IN_1_HIT) {
                 amount = MAX_DAMAGE_IN_1_HIT.toFloat()
             }
 
             // If an entity damaged the entity check if it was with silver damage
-            if (source is EntityDamageSource)
-            {
+            if (source is EntityDamageSource) {
                 // Grab the source of the damage
                 val damageSource = source.getTrueSource()
-                if (damageSource is EntityPlayer)
-                {
+                if (damageSource is EntityPlayer) {
                     // If a player hit enaria check if they have the right research
-                    if (!damageSource.getResearch().isResearched(ModResearches.ENARIA.preRequisite!!))
-                    {
+                    if (!damageSource.getResearch().isResearched(ModResearches.ENARIA.preRequisite!!)) {
                         damageSource.sendMessage(TextComponentTranslation("message.afraidofthedark:enaria.dont_understand"))
                         // Can't damage enaria without research
                         return false
@@ -209,37 +186,26 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity
                 }
 
                 // If the damage source is silver damage inflict heavy damage
-                if (source.damageType.equals(ModDamageSources.SILVER_DAMAGE, ignoreCase = true))
-                {
+                if (source.damageType.equals(ModDamageSources.SILVER_DAMAGE, ignoreCase = true)) {
                     // If its been more than a second since the last attack do full damage, otherwise scale the damage
                     val amountModifier = min(1.0f, timeBetweenHits / 1000.0f)
 
                     // If the amount of time is less than 250ms then the player is spam clicking and enaria should teleport 1/40 times
-                    if (rand.nextInt(40) == 0)
-                    {
+                    if (rand.nextInt(40) == 0) {
                         enariaAttacks.randomTeleport()
                     }
                     return super.attackEntityFrom(source, amount * amountModifier)
-                }
-                else
-                {
-                    if (rand.nextInt(60) == 0)
-                    {
+                } else {
+                    if (rand.nextInt(60) == 0) {
                         enariaAttacks.randomTeleport()
                     }
                 }
-            }
-            else if (source === DamageSource.FALL)
-            {
-                if (rand.nextBoolean())
-                {
+            } else if (source == DamageSource.FALL) {
+                if (rand.nextBoolean()) {
                     enariaAttacks.randomTeleport()
                 }
-            }
-            else
-            {
-                if (rand.nextInt(100) == 0)
-                {
+            } else {
+                if (rand.nextInt(100) == 0) {
                     enariaAttacks.randomTeleport()
                 }
             }
@@ -247,12 +213,9 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity
 
         // Finally if nothing succeeds do 1 damage. Only do this if she has more than 1hp, this ensures she doesn't
         // die to a non-player source
-        return if (this.health >= 2.0)
-        {
+        return if (this.health >= 2.0) {
             super.attackEntityFrom(DamageSource.GENERIC, 1f)
-        }
-        else
-        {
+        } else {
             false
         }
     }
@@ -262,25 +225,22 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity
      *
      * @param cause The damage source that killed enaria
      */
-    override fun onDeath(cause: DamageSource)
-    {
+    override fun onDeath(cause: DamageSource) {
         super.onDeath(cause)
         // Server side processing only
-        if (!world.isRemote)
-        {
+        if (!world.isRemote) {
             // If enaria died to a player damage source continue processing...
-            if (cause is EntityDamageSource)
-            {
+            if (cause is EntityDamageSource) {
                 // If enaria died to a player continue processing...
-                if (cause.getTrueSource() is EntityPlayer)
-                {
+                if (cause.getTrueSource() is EntityPlayer) {
                     // Grab all entities around enaria and if they can research "ENARIA" unlock the research for them
-                    for (entityPlayer in world.getEntitiesWithinAABB(EntityPlayer::class.java, this.entityBoundingBox.grow(RESEARCH_UNLOCK_RANGE)))
-                    {
+                    for (entityPlayer in world.getEntitiesWithinAABB(
+                        EntityPlayer::class.java,
+                        this.entityBoundingBox.grow(RESEARCH_UNLOCK_RANGE)
+                    )) {
                         val playerResearch = entityPlayer.getResearch()
                         // If we can research enaria unlock it
-                        if (playerResearch.canResearch(ModResearches.ENARIA))
-                        {
+                        if (playerResearch.canResearch(ModResearches.ENARIA)) {
                             playerResearch.setResearch(ModResearches.ENARIA, true)
                             playerResearch.sync(entityPlayer, true)
                         }
@@ -293,8 +253,7 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity
     /**
      * @return Make enaria's name tag red and bold in chat
      */
-    override fun getDisplayName(): ITextComponent
-    {
+    override fun getDisplayName(): ITextComponent {
         return TextComponentString("§c§l${this.customNameTag}")
     }
 
@@ -304,24 +263,21 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity
      * @param entityIn The entity to test
      * @return False, duh
      */
-    override fun canBeRidden(entityIn: Entity): Boolean
-    {
+    override fun canBeRidden(entityIn: Entity): Boolean {
         return false
     }
 
     /**
      * @return False, enaria spawn behavior is managed by the tile entity
      */
-    override fun canDespawn(): Boolean
-    {
+    override fun canDespawn(): Boolean {
         return false
     }
 
     /**
      * @return The animation handler used to animate enaria
      */
-    override fun getAnimationHandler(): AnimationHandler
-    {
+    override fun getAnimationHandler(): AnimationHandler {
         return animHandler
     }
 
@@ -330,8 +286,7 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity
      *
      * @param player The player to show enaria's boss bar to
      */
-    override fun addTrackingPlayer(player: EntityPlayerMP)
-    {
+    override fun addTrackingPlayer(player: EntityPlayerMP) {
         super.addTrackingPlayer(player)
         bossInfo.addPlayer(player)
     }
@@ -341,8 +296,7 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity
      *
      * @param player The player to remove enaria's boss bar from
      */
-    override fun removeTrackingPlayer(player: EntityPlayerMP)
-    {
+    override fun removeTrackingPlayer(player: EntityPlayerMP) {
         super.removeTrackingPlayer(player)
         bossInfo.removePlayer(player)
     }
@@ -350,8 +304,7 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity
     /**
      * @return False, enaria is a boss mob
      */
-    override fun isNonBoss(): Boolean
-    {
+    override fun isNonBoss(): Boolean {
         return false
     }
 
@@ -360,8 +313,7 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity
      *
      * @param compound The NBT compound to write to
      */
-    override fun writeEntityToNBT(compound: NBTTagCompound)
-    {
+    override fun writeEntityToNBT(compound: NBTTagCompound) {
         super.writeEntityToNBT(compound)
         compound.setDouble("minX", allowedRegion.minX)
         compound.setDouble("minY", allowedRegion.minY)
@@ -376,21 +328,19 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity
      *
      * @param compound The NBT compound to read from
      */
-    override fun readEntityFromNBT(compound: NBTTagCompound)
-    {
+    override fun readEntityFromNBT(compound: NBTTagCompound) {
         super.readEntityFromNBT(compound)
         allowedRegion = AxisAlignedBB(
-                compound.getDouble("minX"),
-                compound.getDouble("minY"),
-                compound.getDouble("minZ"),
-                compound.getDouble("maxX"),
-                compound.getDouble("maxY"),
-                compound.getDouble("maxZ")
+            compound.getDouble("minX"),
+            compound.getDouble("minY"),
+            compound.getDouble("minZ"),
+            compound.getDouble("maxX"),
+            compound.getDouble("maxY"),
+            compound.getDouble("maxZ")
         )
     }
 
-    companion object
-    {
+    companion object {
         // Constants for enaria's stats
         private const val MOVE_SPEED = 0.6
         private const val FOLLOW_RANGE = 64.0

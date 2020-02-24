@@ -11,22 +11,19 @@ import net.minecraftforge.fml.client.config.GuiConfig
 /**
  * Allows for configuration of the mod in the options screen
  */
-class AOTDGuiFactory : IModGuiFactory
-{
+class AOTDGuiFactory : IModGuiFactory {
     /**
      * Initialize does nothing
      *
      * @param minecraft ignored
      */
-    override fun initialize(minecraft: Minecraft)
-    {
+    override fun initialize(minecraft: Minecraft) {
     }
 
     /**
      * @return True because we want our mod to be configurable in the settings
      */
-    override fun hasConfigGui(): Boolean
-    {
+    override fun hasConfigGui(): Boolean {
         return true
     }
 
@@ -34,24 +31,22 @@ class AOTDGuiFactory : IModGuiFactory
      * @param parentScreen The parent GUI screen that this one will live inside of
      * @return A GUI screen that lets us edit our mod options
      */
-    override fun createConfigGui(parentScreen: GuiScreen): GuiScreen
-    {
+    override fun createConfigGui(parentScreen: GuiScreen): GuiScreen {
         val configurationHandler = AfraidOfTheDark.INSTANCE.configurationHandler
         return GuiConfig(
-                parentScreen,
-                configurationHandler.getInGameConfigurableOptions(),
-                Constants.MOD_ID,
-                true,
-                true,
-                configurationHandler.getDisplayTitle()
+            parentScreen,
+            configurationHandler.getInGameConfigurableOptions(),
+            Constants.MOD_ID,
+            true,
+            true,
+            configurationHandler.getDisplayTitle()
         )
     }
 
     /**
      * @return An empty set for now, not useful for our mod
      */
-    override fun runtimeGuiCategories(): Set<RuntimeOptionCategoryElement>
-    {
+    override fun runtimeGuiCategories(): Set<RuntimeOptionCategoryElement> {
         return emptySet()
     }
 }

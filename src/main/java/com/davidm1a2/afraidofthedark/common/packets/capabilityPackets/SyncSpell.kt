@@ -15,16 +15,14 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext
  * @property spell The spell to sync
  * @property keybind The keybinding bound to the spell
  */
-class SyncSpell : IMessage
-{
+class SyncSpell : IMessage {
     private lateinit var spell: Spell
     private var keybind: String?
 
     /**
      * Required default constructor that is not used
      */
-    constructor()
-    {
+    constructor() {
         keybind = null
     }
 
@@ -34,8 +32,7 @@ class SyncSpell : IMessage
      * @param spell The spell to sync
      * @param keybind The keybind bound to the spell or null if no such keybind exists
      */
-    constructor(spell: Spell, keybind: String?)
-    {
+    constructor(spell: Spell, keybind: String?) {
         this.spell = spell
         this.keybind = keybind
     }
@@ -45,15 +42,13 @@ class SyncSpell : IMessage
      *
      * @param buf The buffer to write to
      */
-    override fun toBytes(buf: ByteBuf)
-    {
+    override fun toBytes(buf: ByteBuf) {
         // First write if we have a keybind
         val hasKeybind = keybind != null
         buf.writeBoolean(hasKeybind)
 
         // Then write the keybind out
-        if (hasKeybind)
-        {
+        if (hasKeybind) {
             ByteBufUtils.writeUTF8String(buf, keybind)
         }
 
@@ -66,14 +61,12 @@ class SyncSpell : IMessage
      *
      * @param buf The buffer to read
      */
-    override fun fromBytes(buf: ByteBuf)
-    {
+    override fun fromBytes(buf: ByteBuf) {
         // First test if we have a keybind
         val hasKeybind = buf.readBoolean()
 
         // If we have a keybind read it in
-        if (hasKeybind)
-        {
+        if (hasKeybind) {
             keybind = ByteBufUtils.readUTF8String(buf)
         }
 
@@ -84,8 +77,7 @@ class SyncSpell : IMessage
     /**
      * Handler to perform actions upon getting a packet
      */
-    class Handler : Bidirectional<SyncSpell>()
-    {
+    class Handler : Bidirectional<SyncSpell>() {
         /**
          * Handles the packet on client side
          *
@@ -93,14 +85,12 @@ class SyncSpell : IMessage
          * @param msg    the message received
          * @param ctx    the message context object. This contains additional information about the packet.
          */
-        override fun handleClientMessage(player: EntityPlayer, msg: SyncSpell, ctx: MessageContext)
-        {
+        override fun handleClientMessage(player: EntityPlayer, msg: SyncSpell, ctx: MessageContext) {
             val spellManager = player.getSpellManager()
 
             // Add the spell and keybind it if necessary
             spellManager.addOrUpdateSpell(msg.spell)
-            if (msg.keybind != null)
-            {
+            if (msg.keybind != null) {
                 spellManager.keybindSpell(msg.keybind!!, msg.spell)
             }
         }
@@ -112,14 +102,12 @@ class SyncSpell : IMessage
          * @param msg    the message received
          * @param ctx    the message context object. This contains additional information about the packet.
          */
-        override fun handleServerMessage(player: EntityPlayer, msg: SyncSpell, ctx: MessageContext)
-        {
+        override fun handleServerMessage(player: EntityPlayer, msg: SyncSpell, ctx: MessageContext) {
             val spellManager = player.getSpellManager()
 
             // Add the spell and keybind it if necessary
             spellManager.addOrUpdateSpell(msg.spell)
-            if (msg.keybind != null)
-            {
+            if (msg.keybind != null) {
                 spellManager.keybindSpell(msg.keybind!!, msg.spell)
             }
         }

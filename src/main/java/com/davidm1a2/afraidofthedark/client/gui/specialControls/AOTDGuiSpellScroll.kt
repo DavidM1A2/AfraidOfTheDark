@@ -35,22 +35,21 @@ import kotlin.math.max
  * @property componentScrollPanelOffset The offset that the scroll panel should have when the component scroll panel is visible
  * @property currentPropEditors A List of any additional text fields we currently have editing properties
  */
-class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiContainer(x, y, width, height)
-{
+class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiContainer(x, y, width, height) {
     private var componentClickCallback: ((AOTDGuiSpellComponentSlot<*>) -> Unit) = { }
     private val scrollPanel: AOTDGuiScrollPanel
     private val componentScrollPanel: AOTDGuiPanel
     private val componentScrollPanelOffset: Int
     private val currentPropEditors = mutableListOf<Pair<SpellComponentProperty, AOTDGuiTextField>>()
 
-    init
-    {
+    init {
         // Create the base panel to attach all of our components to
         // The scroll that contains either a list of components or a component editor
         val scroll = AOTDGuiPanel(0, 0, width, height, false)
 
         // Add the background scroll texture image
-        val backgroundScroll = AOTDGuiImage(0, 0, width - 20, height, "afraidofthedark:textures/gui/spell_editor/effect_list_scroll.png")
+        val backgroundScroll =
+            AOTDGuiImage(0, 0, width - 20, height, "afraidofthedark:textures/gui/spell_editor/effect_list_scroll.png")
         scroll.add(backgroundScroll)
 
         // Add a scroll bar to the right of the scroll
@@ -70,7 +69,13 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
 
         // Create the power source label
         val powerSourceHeading =
-                AOTDGuiLabel(5 + 24 * (currentComponent % 5), 5 + 24 * (currentComponent / 5), 120, 20, ClientData.getOrCreate(46f))
+            AOTDGuiLabel(
+                5 + 24 * (currentComponent % 5),
+                5 + 24 * (currentComponent / 5),
+                120,
+                20,
+                ClientData.getOrCreate(46f)
+            )
         powerSourceHeading.textColor = Color(140, 35, 206)
         powerSourceHeading.text = "Power Sources"
         this.componentScrollPanel.add(powerSourceHeading)
@@ -78,21 +83,19 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
 
         // Listener to be used by all of our spell components
         val componentClickListener: ((AOTDMouseEvent) -> Unit) =
-                {
-                    if (it.eventType === AOTDMouseEvent.EventType.Press)
-                    {
-                        // If the component is hovered fire the listener
-                        if (it.source.isHovered && it.source.isVisible && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
-                        {
-                            componentClickCallback(it.source as AOTDGuiSpellComponentSlot<*>)
-                        }
+            {
+                if (it.eventType == AOTDMouseEvent.EventType.Press) {
+                    // If the component is hovered fire the listener
+                    if (it.source.isHovered && it.source.isVisible && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
+                        componentClickCallback(it.source as AOTDGuiSpellComponentSlot<*>)
                     }
                 }
+            }
 
         // Go over all power sources and add a slot for each
-        for (powerSourceEntry in ModRegistries.SPELL_POWER_SOURCES)
-        {
-            val powerSource = AOTDGuiSpellPowerSourceSlot(5 + 24 * (currentComponent % 5), 5 + 24 * (currentComponent / 5), 20, 20)
+        for (powerSourceEntry in ModRegistries.SPELL_POWER_SOURCES) {
+            val powerSource =
+                AOTDGuiSpellPowerSourceSlot(5 + 24 * (currentComponent % 5), 5 + 24 * (currentComponent / 5), 20, 20)
             powerSource.setSpellComponent(SpellPowerSourceInstance(powerSourceEntry).apply { setDefaults() })
             powerSource.addMouseListener(componentClickListener)
             this.componentScrollPanel.add(powerSource)
@@ -103,16 +106,22 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
         currentComponent = MathHelper.roundUp(currentComponent, componentsPerLine)
 
         // Create the effect label
-        val effectHeading = AOTDGuiLabel(5 + 24 * (currentComponent % 5), 5 + 24 * (currentComponent / 5), 120, 20, ClientData.getOrCreate(46f))
+        val effectHeading = AOTDGuiLabel(
+            5 + 24 * (currentComponent % 5),
+            5 + 24 * (currentComponent / 5),
+            120,
+            20,
+            ClientData.getOrCreate(46f)
+        )
         effectHeading.textColor = Color(140, 35, 206)
         effectHeading.text = "Effects"
         this.componentScrollPanel.add(effectHeading)
         currentComponent = currentComponent + componentsPerLine
 
         // Go over all effects and add a slot for each
-        for (effectEntry in ModRegistries.SPELL_EFFECTS)
-        {
-            val effect = AOTDGuiSpellEffectSlot(5 + 24 * (currentComponent % 5), 5 + 24 * (currentComponent / 5), 20, 20)
+        for (effectEntry in ModRegistries.SPELL_EFFECTS) {
+            val effect =
+                AOTDGuiSpellEffectSlot(5 + 24 * (currentComponent % 5), 5 + 24 * (currentComponent / 5), 20, 20)
             effect.setSpellComponent(SpellEffectInstance(effectEntry).apply { setDefaults() })
             effect.addMouseListener(componentClickListener)
             this.componentScrollPanel.add(effect)
@@ -124,16 +133,22 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
 
         // Create the delivery method label
         val deliveryMethodHeading =
-                AOTDGuiLabel(5 + 24 * (currentComponent % 5), 5 + 24 * (currentComponent / 5), 120, 20, ClientData.getOrCreate(46f))
+            AOTDGuiLabel(
+                5 + 24 * (currentComponent % 5),
+                5 + 24 * (currentComponent / 5),
+                120,
+                20,
+                ClientData.getOrCreate(46f)
+            )
         deliveryMethodHeading.textColor = Color(140, 35, 206)
         deliveryMethodHeading.text = "Delivery Methods"
         this.componentScrollPanel.add(deliveryMethodHeading)
         currentComponent = currentComponent + componentsPerLine
 
         // Go over all delivery methods and add a slot for each
-        for (deliveryMethodEntry in ModRegistries.SPELL_DELIVERY_METHODS)
-        {
-            val deliveryMethod = AOTDGuiSpellDeliveryMethodSlot(5 + 24 * (currentComponent % 5), 5 + 24 * (currentComponent / 5), 20, 20)
+        for (deliveryMethodEntry in ModRegistries.SPELL_DELIVERY_METHODS) {
+            val deliveryMethod =
+                AOTDGuiSpellDeliveryMethodSlot(5 + 24 * (currentComponent % 5), 5 + 24 * (currentComponent / 5), 20, 20)
             deliveryMethod.setSpellComponent(SpellDeliveryMethodInstance(deliveryMethodEntry).apply { setDefaults() })
             deliveryMethod.addMouseListener(componentClickListener)
             this.componentScrollPanel.add(deliveryMethod)
@@ -156,8 +171,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
      *
      * @param componentClickCallback The callback that to fire
      */
-    fun setComponentClickCallback(componentClickCallback: (AOTDGuiSpellComponentSlot<*>) -> Unit)
-    {
+    fun setComponentClickCallback(componentClickCallback: (AOTDGuiSpellComponentSlot<*>) -> Unit) {
         this.componentClickCallback = componentClickCallback
     }
 
@@ -166,22 +180,18 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
      *
      * @param componentInstance The spell component to edit, or null to clear it
      */
-    fun setEditing(componentInstance: SpellComponentInstance<*>?)
-    {
+    fun setEditing(componentInstance: SpellComponentInstance<*>?) {
         // Clear the current list of prop editors
         currentPropEditors.clear()
         // If this is null then clear the currently edited spell
-        if (componentInstance == null)
-        {
+        if (componentInstance == null) {
             // Remove all nodes from the scroll panel
             this.scrollPanel.getChildren().forEach { this.scrollPanel.remove(it) }
             // Add the component scroll panel back in
             this.scrollPanel.add(this.componentScrollPanel)
             // Reset the maximum offset
             this.scrollPanel.maximumOffset = this.componentScrollPanelOffset
-        }
-        else
-        {
+        } else {
             // Create a panel to hold all of our controls
             val editPanel = AOTDGuiPanel(0, 0, 120, 175, false)
             // Start at y=0, or the "top" of the scroll
@@ -204,19 +214,15 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
             val editableProperties = spellComponent.getEditableProperties()
 
             // If there are no editable properties say so with a text box
-            if (editableProperties.isEmpty())
-            {
+            if (editableProperties.isEmpty()) {
                 val noPropsLine = AOTDGuiTextBox(0, currentY, 120, 30, ClientData.getOrCreate(26f))
                 noPropsLine.textColor = purpleText
                 noPropsLine.setText("This component has no editable properties.")
                 editPanel.add(noPropsLine)
                 currentY = currentY + noPropsLine.getHeight()
-            }
-            else
-            {
+            } else {
                 // Go over each editable property and add an editor for it
-                for (editableProp in editableProperties)
-                {
+                for (editableProp in editableProperties) {
                     // Create a label that states the name of the property
                     val propertyName = AOTDGuiLabel(0, currentY, 120, 15, ClientData.getOrCreate(26f))
                     propertyName.textColor = purpleText
@@ -230,8 +236,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
                     propertyDescription.setText("Description: ${editableProp.description}")
 
                     // While we don't have enough room for the description increase the size by a constant
-                    while (propertyDescription.overflowText.isNotEmpty())
-                    {
+                    while (propertyDescription.overflowText.isNotEmpty()) {
                         propertyDescription.setHeight(propertyDescription.getHeight() + 12)
                         propertyDescription.setText("Description: ${editableProp.description}")
                     }
@@ -252,58 +257,50 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
             }
 
             // If we have any editable properties show the save button
-            if (editableProperties.isNotEmpty())
-            {
+            if (editableProperties.isNotEmpty()) {
                 // Add a save button at the bottom if we have any editable properties
                 val save = AOTDGuiButton(
-                        0,
-                        currentY + 5,
-                        50,
-                        20,
-                        "afraidofthedark:textures/gui/spell_editor/button.png",
-                        "afraidofthedark:textures/gui/spell_editor/button_hovered.png",
-                        ClientData.getOrCreate(32f)
+                    0,
+                    currentY + 5,
+                    50,
+                    20,
+                    "afraidofthedark:textures/gui/spell_editor/button.png",
+                    "afraidofthedark:textures/gui/spell_editor/button_hovered.png",
+                    ClientData.getOrCreate(32f)
                 )
                 save.setTextAlignment(TextAlignment.ALIGN_CENTER)
                 save.setText("Save")
-                save.addMouseListener()
-                {
-                    if (it.eventType === AOTDMouseEvent.EventType.Press)
-                    {
-                        if (save.isVisible && save.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
-                        {
+                save.addMouseListener {
+                    if (it.eventType == AOTDMouseEvent.EventType.Press) {
+                        if (save.isVisible && save.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
                             // Flag telling us at least one property was invalid
                             var onePropertyInvalid = false
                             // Go over all properties and their editors
-                            for (propEditorPair in currentPropEditors)
-                            {
+                            for (propEditorPair in currentPropEditors) {
                                 // Grab the property and editor
                                 val property = propEditorPair.left
                                 val editor = propEditorPair.right
                                 // Attempt to set the property
-                                try
-                                {
+                                try {
                                     property.setter(componentInstance, editor.getText())
                                 }
                                 // If we get an exception tell the player what went wrong
-                                catch (e: InvalidValueException)
-                                {
+                                catch (e: InvalidValueException) {
                                     onePropertyInvalid = true
                                     entityPlayer.sendMessage(
-                                            TextComponentTranslation(
-                                                    "message.afraidofthedark:spell.property_edit_fail",
-                                                    propEditorPair.key.name,
-                                                    e.message
-                                            )
+                                        TextComponentTranslation(
+                                            "message.afraidofthedark:spell.property_edit_fail",
+                                            propEditorPair.key.name,
+                                            e.message
+                                        )
                                     )
                                 }
                             }
 
                             // If no properties were invalid save successfully
-                            if (!onePropertyInvalid)
-                            {
+                            if (!onePropertyInvalid) {
                                 entityPlayer.sendMessage(
-                                        TextComponentTranslation("message.afraidofthedark:spell.property_edit_success")
+                                    TextComponentTranslation("message.afraidofthedark:spell.property_edit_success")
                                 )
                             }
 
@@ -313,12 +310,9 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
                     }
                 }
                 // When we hover the button play the hover sound
-                save.addMouseMoveListener()
-                {
-                    if (it.eventType == AOTDMouseMoveEvent.EventType.Enter)
-                    {
-                        if (save.isVisible)
-                        {
+                save.addMouseMoveListener {
+                    if (it.eventType == AOTDMouseMoveEvent.EventType.Enter) {
+                        if (save.isVisible) {
                             entityPlayer.playSound(ModSounds.SPELL_CRAFTING_BUTTON_HOVER, 0.7f, 1.7f)
                         }
                     }
@@ -329,34 +323,28 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
             // Add a cancel button at the bottom. Center it if we have no edit properties (and no save button!)
             val cancelX = if (editableProperties.isEmpty()) editPanel.getWidth() / 2 - 25 else editPanel.getWidth() - 50
             val cancel = AOTDGuiButton(
-                    cancelX,
-                    currentY + 5,
-                    50,
-                    20,
-                    "afraidofthedark:textures/gui/spell_editor/button.png",
-                    "afraidofthedark:textures/gui/spell_editor/button_hovered.png",
-                    ClientData.getOrCreate(32f)
+                cancelX,
+                currentY + 5,
+                50,
+                20,
+                "afraidofthedark:textures/gui/spell_editor/button.png",
+                "afraidofthedark:textures/gui/spell_editor/button_hovered.png",
+                ClientData.getOrCreate(32f)
             )
             cancel.setTextAlignment(TextAlignment.ALIGN_CENTER)
             cancel.setText(if (editableProperties.isEmpty()) "Close" else "Cancel")
-            cancel.addMouseListener()
-            {
-                if (it.eventType == AOTDMouseEvent.EventType.Press)
-                {
-                    if (cancel.isVisible && cancel.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
-                    {
+            cancel.addMouseListener {
+                if (it.eventType == AOTDMouseEvent.EventType.Press) {
+                    if (cancel.isVisible && cancel.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
                         // Clear the currently edited spell
                         setEditing(null)
                     }
                 }
             }
             // When we hover the button play the hover sound
-            cancel.addMouseMoveListener()
-            {
-                if (it.eventType == AOTDMouseMoveEvent.EventType.Enter)
-                {
-                    if (cancel.isVisible)
-                    {
+            cancel.addMouseMoveListener {
+                if (it.eventType == AOTDMouseMoveEvent.EventType.Enter) {
+                    if (cancel.isVisible) {
                         entityPlayer.playSound(ModSounds.SPELL_CRAFTING_BUTTON_HOVER, 0.7f, 1.7f)
                     }
                 }
@@ -376,8 +364,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
     /**
      * @return True if the inventory key should currently close the UI, false otherwise
      */
-    fun inventoryKeyClosesUI(): Boolean
-    {
+    fun inventoryKeyClosesUI(): Boolean {
         return currentPropEditors.stream().map { it.right }.noneMatch { it.isFocused }
     }
 }

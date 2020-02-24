@@ -15,10 +15,9 @@ import kotlin.random.Random
  * @param height     The height of this button
  * @param meteorType The type of meteor to represent
  */
-class AOTDGuiMeteorButton(x: Int, y: Int, width: Int, height: Int, val meteorType: MeteorEntry) : AOTDGuiButton(x, y, width, height, meteorType.icon.toString())
-{
-    init
-    {
+class AOTDGuiMeteorButton(x: Int, y: Int, width: Int, height: Int, val meteorType: MeteorEntry) :
+    AOTDGuiButton(x, y, width, height, meteorType.icon.toString()) {
+    init {
         // Give the meteor a random opacity
         this.color = Color(255, 255, 255, Random.nextInt(256))
     }

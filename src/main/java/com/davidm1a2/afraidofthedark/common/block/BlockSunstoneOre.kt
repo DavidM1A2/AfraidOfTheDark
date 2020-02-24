@@ -19,10 +19,8 @@ import java.util.*
  *
  * @constructor sets the block's properties like name
  */
-class BlockSunstoneOre : AOTDBlock("sunstone_ore", Material.ROCK)
-{
-    init
-    {
+class BlockSunstoneOre : AOTDBlock("sunstone_ore", Material.ROCK) {
+    init {
         setLightLevel(1.0f)
         setHardness(10.0f)
         setResistance(50.0f)
@@ -37,8 +35,7 @@ class BlockSunstoneOre : AOTDBlock("sunstone_ore", Material.ROCK)
      * @param fortune The fortune level of the tool used to break the block
      * @return The item that should be dropped upon breaking the block
      */
-    override fun getItemDropped(state: IBlockState, rand: Random, fortune: Int): Item
-    {
+    override fun getItemDropped(state: IBlockState, rand: Random, fortune: Int): Item {
         return ModItems.SUNSTONE_FRAGMENT
     }
 
@@ -52,12 +49,17 @@ class BlockSunstoneOre : AOTDBlock("sunstone_ore", Material.ROCK)
      * @param te The tile entity inside the broken block
      * @param stack The item that was created as a result of breaking the block
      */
-    override fun harvestBlock(worldIn: World, player: EntityPlayer, pos: BlockPos, state: IBlockState, te: TileEntity?, stack: ItemStack)
-    {
+    override fun harvestBlock(
+        worldIn: World,
+        player: EntityPlayer,
+        pos: BlockPos,
+        state: IBlockState,
+        te: TileEntity?,
+        stack: ItemStack
+    ) {
         val playerResearch = player.getResearch()
         // If the player can research igneous let them
-        if (playerResearch.canResearch(ModResearches.IGNEOUS))
-        {
+        if (playerResearch.canResearch(ModResearches.IGNEOUS)) {
             playerResearch.setResearch(ModResearches.IGNEOUS, true)
             playerResearch.sync(player, true)
         }

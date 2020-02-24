@@ -14,28 +14,22 @@ import net.minecraft.world.World
 /**
  * Effect that extinguishes fire
  */
-class SpellEffectExtinguish : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "extinguish"))
-{
+class SpellEffectExtinguish : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "extinguish")) {
     /**
      * Performs the effect
      *
      * @param state The state that the spell is in
      */
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>)
-    {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
         // If we hit an entity extinguish them
         val entity = state.getEntity()
-        if (entity != null)
-        {
+        if (entity != null) {
             createParticlesAt(3, 5, Vec3d(entity.posX, entity.posY, entity.posZ), entity.dimension)
             entity.extinguish()
-        }
-        else
-        {
+        } else {
             val world: World = state.world
             val position = state.blockPosition
-            if (world.getBlockState(position).block is BlockFire)
-            {
+            if (world.getBlockState(position).block is BlockFire) {
                 createParticlesAt(1, 3, state.position, world.provider.dimension)
                 world.setBlockState(position, Blocks.AIR.defaultState)
             }
@@ -48,8 +42,7 @@ class SpellEffectExtinguish : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID,
      * @param instance The instance of the spell effect to grab the cost of
      * @return The cost of the delivery method
      */
-    override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double
-    {
+    override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
         return 15.0
     }
 }

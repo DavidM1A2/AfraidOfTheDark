@@ -12,7 +12,6 @@ import net.minecraft.util.ResourceLocation
  * @param renderManager The manager given to us by Minecraft
  * @property boltTexture A resource location containing the bolt texture
  */
-class RenderStarMetalBolt(renderManager: RenderManager) : RenderBolt<EntityStarMetalBolt>(renderManager)
-{
+class RenderStarMetalBolt(renderManager: RenderManager) : RenderBolt<EntityStarMetalBolt>(renderManager) {
     override val boltTexture = ResourceLocation(Constants.MOD_ID, "textures/entity/star_metal_bolt.png")
 }

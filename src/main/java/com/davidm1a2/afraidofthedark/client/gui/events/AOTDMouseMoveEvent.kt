@@ -11,13 +11,16 @@ import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiComponentWithEvents
  * @param mouseY    The Y position of the mouse when the event was fired
  * @param eventType The event type that was fired
  */
-class AOTDMouseMoveEvent(source: AOTDGuiComponentWithEvents, val mouseX: Int, val mouseY: Int, val eventType: EventType) : AOTDEvent(source)
-{
+class AOTDMouseMoveEvent(
+    source: AOTDGuiComponentWithEvents,
+    val mouseX: Int,
+    val mouseY: Int,
+    val eventType: EventType
+) : AOTDEvent(source) {
     /**
      * Internal enum representing the different mouse event types we can have
      */
-    enum class EventType
-    {
+    enum class EventType {
         Enter,
         Exit,
         Move,

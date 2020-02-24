@@ -14,10 +14,8 @@ import kotlin.random.Random
  * @param id The id of the spell effect
  * @constructor just calls super currently
  */
-abstract class AOTDSpellEffect(id: ResourceLocation) : SpellEffect(id)
-{
-    companion object
-    {
+abstract class AOTDSpellEffect(id: ResourceLocation) : SpellEffect(id) {
+    companion object {
         /**
          * Creates particles at the position. This is static so overridden effects can still use it
          *
@@ -26,15 +24,17 @@ abstract class AOTDSpellEffect(id: ResourceLocation) : SpellEffect(id)
          * @param pos       The position to spawn particles at
          * @param dimension The dimension to create particles in
          */
-        fun createParticlesAt(min: Int, max: Int, pos: Vec3d, dimension: Int)
-        {
+        fun createParticlesAt(min: Int, max: Int, pos: Vec3d, dimension: Int) {
             // Spawn particles
             val positions = List(Random.nextInt(min, max + 1)) { pos }
 
             // Send the particle packet
             AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(
-                    SyncParticle(AOTDParticleRegistry.ParticleTypes.SPELL_HIT_ID, positions, List(positions.size) { Vec3d.ZERO }),
-                    TargetPoint(dimension, pos.x, pos.y, pos.z, 100.0)
+                SyncParticle(
+                    AOTDParticleRegistry.ParticleTypes.SPELL_HIT_ID,
+                    positions,
+                    List(positions.size) { Vec3d.ZERO }),
+                TargetPoint(dimension, pos.x, pos.y, pos.z, 100.0)
             )
         }
     }

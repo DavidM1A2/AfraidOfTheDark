@@ -15,8 +15,7 @@ import net.minecraft.util.ResourceLocation
  * @param renderManager The manager given to us by Minecraft
  * @property boltTexture A resource location containing the bolt texture
  */
-abstract class RenderBolt<T : EntityBolt>(renderManager: RenderManager) : Render<T>(renderManager)
-{
+abstract class RenderBolt<T : EntityBolt>(renderManager: RenderManager) : Render<T>(renderManager) {
     internal abstract val boltTexture: ResourceLocation
 
     /**
@@ -29,8 +28,7 @@ abstract class RenderBolt<T : EntityBolt>(renderManager: RenderManager) : Render
      * @param entityYaw    The yaw of the entity to render
      * @param partialTicks Partial ticks between the last and next tick
      */
-    override fun doRender(entity: T, x: Double, y: Double, z: Double, entityYaw: Float, partialTicks: Float)
-    {
+    override fun doRender(entity: T, x: Double, y: Double, z: Double, entityYaw: Float, partialTicks: Float) {
         ///
         /// Code copied from ArrowRender
         ///
@@ -41,16 +39,16 @@ abstract class RenderBolt<T : EntityBolt>(renderManager: RenderManager) : Render
         GlStateManager.disableLighting()
         GlStateManager.translate(x.toFloat(), y.toFloat(), z.toFloat())
         GlStateManager.rotate(
-                entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks - 90.0f,
-                0.0f,
-                1.0f,
-                0.0f
+            entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks - 90.0f,
+            0.0f,
+            1.0f,
+            0.0f
         )
         GlStateManager.rotate(
-                entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks,
-                0.0f,
-                0.0f,
-                1.0f
+            entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks,
+            0.0f,
+            0.0f,
+            1.0f
         )
         val tessellator = Tessellator.getInstance()
         val bufferbuilder = tessellator.buffer
@@ -60,8 +58,7 @@ abstract class RenderBolt<T : EntityBolt>(renderManager: RenderManager) : Render
         GlStateManager.scale(0.05625f, 0.05625f, 0.05625f)
         GlStateManager.translate(-4.0f, 0.0f, 0.0f)
 
-        if (this.renderOutlines)
-        {
+        if (this.renderOutlines) {
             GlStateManager.enableColorMaterial()
             GlStateManager.enableOutlineMode(this.getTeamColor(entity))
         }
@@ -81,8 +78,7 @@ abstract class RenderBolt<T : EntityBolt>(renderManager: RenderManager) : Render
         bufferbuilder.pos(-7.0, -2.0, -2.0).tex(0.0, 0.3125).endVertex()
         tessellator.draw()
 
-        for (j in 0..3)
-        {
+        for (j in 0..3) {
             GlStateManager.rotate(90.0f, 1.0f, 0.0f, 0.0f)
             GlStateManager.glNormal3f(0.0f, 0.0f, 0.05625f)
             bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX)
@@ -93,8 +89,7 @@ abstract class RenderBolt<T : EntityBolt>(renderManager: RenderManager) : Render
             tessellator.draw()
         }
 
-        if (this.renderOutlines)
-        {
+        if (this.renderOutlines) {
             GlStateManager.disableOutlineMode()
             GlStateManager.disableColorMaterial()
         }
@@ -111,8 +106,7 @@ abstract class RenderBolt<T : EntityBolt>(renderManager: RenderManager) : Render
      * @param entity The entity to get the texture for
      * @return The resource location representing the entity texture
      */
-    override fun getEntityTexture(entity: T): ResourceLocation
-    {
+    override fun getEntityTexture(entity: T): ResourceLocation {
         return boltTexture
     }
 }

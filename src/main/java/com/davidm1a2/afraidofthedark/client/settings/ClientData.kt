@@ -16,8 +16,7 @@ import net.minecraft.util.ResourceLocation
  * @property lastSelectedResearch A field that will keep track of which research is currently selected
  * @property lastSelectedSpell A field that will keep track of which spell is currently selected
  */
-object ClientData
-{
+object ClientData {
     private val fontMap = mutableMapOf<Float, TrueTypeFont>()
     var lastSelectedResearch: Research? = null
     var lastSelectedSpell: Spell? = null
@@ -28,13 +27,12 @@ object ClientData
      * @param fontSize The size of the font to get
      * @return The font object to get
      */
-    fun getOrCreate(fontSize: Float): TrueTypeFont
-    {
+    fun getOrCreate(fontSize: Float): TrueTypeFont {
         // If the font map does not contain the size, create that font size and store it
-        if (!fontMap.containsKey(fontSize))
-        {
+        if (!fontMap.containsKey(fontSize)) {
             // Put the font size with the newly loaded font
-            fontMap[fontSize] = FontLoader.createFont(ResourceLocation("afraidofthedark:fonts/targa_ms_hand.ttf"), fontSize)
+            fontMap[fontSize] =
+                FontLoader.createFont(ResourceLocation("afraidofthedark:fonts/targa_ms_hand.ttf"), fontSize)
         }
 
         // Get the font from the map

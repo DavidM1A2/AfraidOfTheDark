@@ -9,29 +9,25 @@ import net.minecraft.entity.player.EntityPlayer
 /**
  * Proxy that is only instantiated on the SERVER
  */
-class ServerProxy : CommonProxy()
-{
+class ServerProxy : CommonProxy() {
     /**
      * Called to initialize entity renderers
      */
-    override fun initializeEntityRenderers()
-    {
+    override fun initializeEntityRenderers() {
         // Not used
     }
 
     /**
      * Called to initialize tile entity renderers
      */
-    override fun initializeTileEntityRenderers()
-    {
+    override fun initializeTileEntityRenderers() {
         // Not used
     }
 
     /**
      * Called to register any key bindings, there's none server side
      */
-    override fun registerKeyBindings()
-    {
+    override fun registerKeyBindings() {
         // Not used
     }
 
@@ -45,8 +41,7 @@ class ServerProxy : CommonProxy()
      *
      * @param entityPlayer The player that opened the book
      */
-    override fun showInsanitysHeightsBook(entityPlayer: EntityPlayer)
-    {
+    override fun showInsanitysHeightsBook(entityPlayer: EntityPlayer) {
         // Not used
     }
 }

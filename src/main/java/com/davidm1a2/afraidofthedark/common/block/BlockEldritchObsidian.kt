@@ -8,10 +8,8 @@ import net.minecraft.block.material.Material
  *
  * @constructor initializes the block
  */
-class BlockEldritchObsidian : AOTDBlock("eldritch_obsidian", Material.ROCK)
-{
-    init
-    {
+class BlockEldritchObsidian : AOTDBlock("eldritch_obsidian", Material.ROCK) {
+    init {
         setHardness(10.0f)
         setResistance(50.0f)
         this.setHarvestLevel("pickaxe", 3)

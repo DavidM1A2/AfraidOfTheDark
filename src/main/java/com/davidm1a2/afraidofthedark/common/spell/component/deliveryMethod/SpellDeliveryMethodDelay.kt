@@ -16,19 +16,17 @@ import net.minecraft.util.ResourceLocation
  *
  * @constructor initializes the editable properties
  */
-class SpellDeliveryMethodDelay : AOTDSpellDeliveryMethod(ResourceLocation(Constants.MOD_ID, "delay"))
-{
-    init
-    {
+class SpellDeliveryMethodDelay : AOTDSpellDeliveryMethod(ResourceLocation(Constants.MOD_ID, "delay")) {
+    init {
         addEditableProperty(
-                SpellComponentPropertyFactory.longProperty()
-                        .withName("Delay")
-                        .withDescription("The delay of the delivery in ticks (20 ticks = 1 second).")
-                        .withSetter { instance, newValue -> instance.data.setLong(NBT_DELAY, newValue) }
-                        .withGetter { it.data.getLong(NBT_DELAY) }
-                        .withDefaultValue(20L)
-                        .withMinValue(1L)
-                        .build()
+            SpellComponentPropertyFactory.longProperty()
+                .withName("Delay")
+                .withDescription("The delay of the delivery in ticks (20 ticks = 1 second).")
+                .withSetter { instance, newValue -> instance.data.setLong(NBT_DELAY, newValue) }
+                .withGetter { it.data.getLong(NBT_DELAY) }
+                .withDefaultValue(20L)
+                .withMinValue(1L)
+                .build()
         )
     }
 
@@ -37,8 +35,7 @@ class SpellDeliveryMethodDelay : AOTDSpellDeliveryMethod(ResourceLocation(Consta
      *
      * @param state The state of the spell to deliver
      */
-    override fun executeDelivery(state: DeliveryTransitionState)
-    {
+    override fun executeDelivery(state: DeliveryTransitionState) {
         // Delayed adds this spell to the queue to wait
         val spellStateData = SpellStateData.get(state.world)
         spellStateData.addDelayedDelivery(state)
@@ -50,8 +47,7 @@ class SpellDeliveryMethodDelay : AOTDSpellDeliveryMethod(ResourceLocation(Consta
      * @param state  The state of the spell at the current delivery method
      * @param effect The effect that needs to be applied
      */
-    override fun defaultEffectProc(state: DeliveryTransitionState, effect: SpellComponentInstance<SpellEffect>)
-    {
+    override fun defaultEffectProc(state: DeliveryTransitionState, effect: SpellComponentInstance<SpellEffect>) {
         // The effect is just applied to the target
         effect.component.procEffect(state, effect)
     }
@@ -61,17 +57,16 @@ class SpellDeliveryMethodDelay : AOTDSpellDeliveryMethod(ResourceLocation(Consta
      *
      * @param state The state of the spell to transition
      */
-    override fun performDefaultTransition(state: DeliveryTransitionState)
-    {
+    override fun performDefaultTransition(state: DeliveryTransitionState) {
         val spell = state.spell
         val spellIndex = state.stageIndex
         // Perform the transition between the next delivery method and the current delivery method
         spell.getStage(spellIndex + 1)!!.deliveryInstance!!.component.executeDelivery(
-                DeliveryTransitionStateBuilder()
-                        .copyOf(state)
-                        .withStageIndex(spellIndex + 1)
-                        .withDeliveryEntity(null)
-                        .build()
+            DeliveryTransitionStateBuilder()
+                .copyOf(state)
+                .withStageIndex(spellIndex + 1)
+                .withDeliveryEntity(null)
+                .build()
         )
     }
 
@@ -81,8 +76,7 @@ class SpellDeliveryMethodDelay : AOTDSpellDeliveryMethod(ResourceLocation(Consta
      * @param instance The spell delivery method instance
      * @return The cost of the delivery method
      */
-    override fun getCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double
-    {
+    override fun getCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
         return 10 + getDelay(instance) / 10.0
     }
 
@@ -92,8 +86,7 @@ class SpellDeliveryMethodDelay : AOTDSpellDeliveryMethod(ResourceLocation(Consta
      * @param instance The spell delivery method instance
      * @return The spell stage multiplier for cost
      */
-    override fun getStageCostMultiplier(instance: SpellComponentInstance<SpellDeliveryMethod>): Double
-    {
+    override fun getStageCostMultiplier(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
         return 1.0
     }
 
@@ -103,13 +96,11 @@ class SpellDeliveryMethodDelay : AOTDSpellDeliveryMethod(ResourceLocation(Consta
      * @param instance The spell delivery method instance
      * @return the delay of the delivery in ticks
      */
-    fun getDelay(instance: SpellComponentInstance<SpellDeliveryMethod>): Long
-    {
+    fun getDelay(instance: SpellComponentInstance<SpellDeliveryMethod>): Long {
         return instance.data.getLong(NBT_DELAY)
     }
 
-    companion object
-    {
+    companion object {
         // The NBT keys
         private const val NBT_DELAY = "delay"
     }

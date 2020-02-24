@@ -17,8 +17,8 @@ import org.lwjgl.opengl.GL11
  * @constructor just initializes the render living renderer
  * @param renderManager The render manager to pass down
  */
-class RenderEnchantedSkeleton(renderManager: RenderManager) : RenderLiving<EntityEnchantedSkeleton>(renderManager, ENCHANTED_SKELETON_MODEL, MODEL_SHADOW_SIZE)
-{
+class RenderEnchantedSkeleton(renderManager: RenderManager) :
+    RenderLiving<EntityEnchantedSkeleton>(renderManager, ENCHANTED_SKELETON_MODEL, MODEL_SHADOW_SIZE) {
     /**
      * Renders the entity at a given position, yaw, and partial ticks parameter
      *
@@ -29,8 +29,14 @@ class RenderEnchantedSkeleton(renderManager: RenderManager) : RenderLiving<Entit
      * @param entityYaw    The yaw of the entity to render
      * @param partialTicks The partial ticks that have gone by since the last frame
      */
-    override fun doRender(entity: EntityEnchantedSkeleton, posX: Double, posY: Double, posZ: Double, entityYaw: Float, partialTicks: Float)
-    {
+    override fun doRender(
+        entity: EntityEnchantedSkeleton,
+        posX: Double,
+        posY: Double,
+        posZ: Double,
+        entityYaw: Float,
+        partialTicks: Float
+    ) {
         // Disable culling and render the model
         GL11.glPushMatrix()
         GL11.glDisable(GL11.GL_CULL_FACE)
@@ -45,8 +51,7 @@ class RenderEnchantedSkeleton(renderManager: RenderManager) : RenderLiving<Entit
      * @param entityLiving    The entity to render
      * @param partialTickTime The partial ticks that have gone by since the last frame
      */
-    override fun preRenderCallback(entityLiving: EntityEnchantedSkeleton, partialTickTime: Float)
-    {
+    override fun preRenderCallback(entityLiving: EntityEnchantedSkeleton, partialTickTime: Float) {
         GL11.glRotatef(180f, 0f, 1f, 0f)
         GL11.glRotatef(180f, 0f, 0f, 1f)
         GL11.glTranslatef(0f, MODEL_HEIGHT, 0f)
@@ -58,15 +63,14 @@ class RenderEnchantedSkeleton(renderManager: RenderManager) : RenderLiving<Entit
      * @param entity The entity to get the texture for
      * @return The texture to use for this entity
      */
-    override fun getEntityTexture(entity: EntityEnchantedSkeleton): ResourceLocation
-    {
+    override fun getEntityTexture(entity: EntityEnchantedSkeleton): ResourceLocation {
         return ENCHANTED_SKELETON_TEXTURE
     }
 
-    companion object
-    {
+    companion object {
         // The texture used by the model
-        private val ENCHANTED_SKELETON_TEXTURE = ResourceLocation("afraidofthedark:textures/entity/enchanted_skeleton.png")
+        private val ENCHANTED_SKELETON_TEXTURE =
+            ResourceLocation("afraidofthedark:textures/entity/enchanted_skeleton.png")
         // The skeleton model
         private val ENCHANTED_SKELETON_MODEL = ModelEnchantedSkeleton()
         // The height of the skeleton model

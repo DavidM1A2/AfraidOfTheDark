@@ -5,8 +5,7 @@ import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.*
 /**
  * A list of structures to be registered
  */
-object ModStructures
-{
+object ModStructures {
     val CRYPT = StructureCrypt()
     val WITCH_HUT = StructureWitchHut()
     val VOID_CHEST = StructureVoidChest()
@@ -15,11 +14,11 @@ object ModStructures
     val GNOMISH_CITY = StructureGnomishCity()
 
     var STRUCTURE_LIST = arrayOf(
-            CRYPT,
-            WITCH_HUT,
-            VOID_CHEST,
-            DARK_FOREST,
-            NIGHTMARE_ISLAND,
-            GNOMISH_CITY
+        CRYPT,
+        WITCH_HUT,
+        VOID_CHEST,
+        DARK_FOREST,
+        NIGHTMARE_ISLAND,
+        GNOMISH_CITY
     )
 }

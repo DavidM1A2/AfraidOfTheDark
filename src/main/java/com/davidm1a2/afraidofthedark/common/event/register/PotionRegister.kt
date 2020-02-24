@@ -8,16 +8,14 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 /**
  * Class that receives the register potion event and registers all of our potions
  */
-class PotionRegister
-{
+class PotionRegister {
     /**
      * Called by forge to register any of our potions
      *
      * @param event The event to register to
      */
     @SubscribeEvent
-    fun registerPotions(event: RegistryEvent.Register<Potion>)
-    {
+    fun registerPotions(event: RegistryEvent.Register<Potion>) {
         val registry = event.registry
 
         // Register each potion in our potion list

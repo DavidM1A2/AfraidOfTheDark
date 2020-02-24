@@ -16,31 +16,29 @@ import net.minecraft.util.ResourceLocation
  *
  * @constructor initializes the editable properties
  */
-class SpellDeliveryMethodProjectile : AOTDSpellDeliveryMethod(ResourceLocation(Constants.MOD_ID, "projectile"))
-{
-    init
-    {
+class SpellDeliveryMethodProjectile : AOTDSpellDeliveryMethod(ResourceLocation(Constants.MOD_ID, "projectile")) {
+    init {
         addEditableProperty(
-                SpellComponentPropertyFactory.doubleProperty()
-                        .withName("Range")
-                        .withDescription("The range of the projectile in blocks.")
-                        .withSetter { instance, newValue -> instance.data.setDouble(NBT_RANGE, newValue) }
-                        .withGetter { it.data.getDouble(NBT_RANGE) }
-                        .withDefaultValue(50.0)
-                        .withMinValue(1.0)
-                        .withMaxValue(300.0)
-                        .build()
+            SpellComponentPropertyFactory.doubleProperty()
+                .withName("Range")
+                .withDescription("The range of the projectile in blocks.")
+                .withSetter { instance, newValue -> instance.data.setDouble(NBT_RANGE, newValue) }
+                .withGetter { it.data.getDouble(NBT_RANGE) }
+                .withDefaultValue(50.0)
+                .withMinValue(1.0)
+                .withMaxValue(300.0)
+                .build()
         )
         addEditableProperty(
-                SpellComponentPropertyFactory.doubleProperty()
-                        .withName("Speed")
-                        .withDescription("The speed of the projectile in blocks/tick.")
-                        .withSetter { instance, newValue -> instance.data.setDouble(NBT_SPEED, newValue) }
-                        .withGetter { it.data.getDouble(NBT_SPEED) }
-                        .withDefaultValue(0.6)
-                        .withMinValue(0.0)
-                        .withMaxValue(10.0)
-                        .build()
+            SpellComponentPropertyFactory.doubleProperty()
+                .withName("Speed")
+                .withDescription("The speed of the projectile in blocks/tick.")
+                .withSetter { instance, newValue -> instance.data.setDouble(NBT_SPEED, newValue) }
+                .withGetter { it.data.getDouble(NBT_SPEED) }
+                .withDefaultValue(0.6)
+                .withMinValue(0.0)
+                .withMaxValue(10.0)
+                .build()
         )
     }
 
@@ -49,14 +47,10 @@ class SpellDeliveryMethodProjectile : AOTDSpellDeliveryMethod(ResourceLocation(C
      *
      * @param state The state of the spell to deliver
      */
-    override fun executeDelivery(state: DeliveryTransitionState)
-    {
-        val spellProjectile = if (state.getEntity() != null)
-        {
+    override fun executeDelivery(state: DeliveryTransitionState) {
+        val spellProjectile = if (state.getEntity() != null) {
             EntitySpellProjectile(state.world, state.spell, state.stageIndex, state.getEntity()!!)
-        }
-        else
-        {
+        } else {
             EntitySpellProjectile(state.world, state.spell, state.stageIndex, state.position, state.direction)
         }
         state.world.spawnEntity(spellProjectile)
@@ -68,8 +62,7 @@ class SpellDeliveryMethodProjectile : AOTDSpellDeliveryMethod(ResourceLocation(C
      * @param state  The state of the spell at the current delivery method
      * @param effect The effect that needs to be applied
      */
-    override fun defaultEffectProc(state: DeliveryTransitionState, effect: SpellComponentInstance<SpellEffect>)
-    {
+    override fun defaultEffectProc(state: DeliveryTransitionState, effect: SpellComponentInstance<SpellEffect>) {
         effect.component.procEffect(state, effect)
     }
 
@@ -78,18 +71,17 @@ class SpellDeliveryMethodProjectile : AOTDSpellDeliveryMethod(ResourceLocation(C
      *
      * @param state The state of the spell to transition
      */
-    override fun performDefaultTransition(state: DeliveryTransitionState)
-    {
+    override fun performDefaultTransition(state: DeliveryTransitionState) {
         val spell = state.spell
         val spellIndex = state.stageIndex
 
         // Perform the transition between the next delivery method and the current delivery method
         spell.getStage(spellIndex + 1)!!.deliveryInstance!!.component.executeDelivery(
-                DeliveryTransitionStateBuilder()
-                        .copyOf(state)
-                        .withStageIndex(spellIndex + 1)
-                        .withDeliveryEntity(null)
-                        .build()
+            DeliveryTransitionStateBuilder()
+                .copyOf(state)
+                .withStageIndex(spellIndex + 1)
+                .withDeliveryEntity(null)
+                .build()
         )
     }
 
@@ -98,8 +90,7 @@ class SpellDeliveryMethodProjectile : AOTDSpellDeliveryMethod(ResourceLocation(C
      *
      * @return The cost of the delivery method
      */
-    override fun getCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double
-    {
+    override fun getCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
         return 5 + getSpeed(instance) + getRange(instance) / 15.0
     }
 
@@ -108,8 +99,7 @@ class SpellDeliveryMethodProjectile : AOTDSpellDeliveryMethod(ResourceLocation(C
      *
      * @return The spell stage multiplier for cost
      */
-    override fun getStageCostMultiplier(instance: SpellComponentInstance<SpellDeliveryMethod>): Double
-    {
+    override fun getStageCostMultiplier(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
         return 1.1
     }
 
@@ -119,8 +109,7 @@ class SpellDeliveryMethodProjectile : AOTDSpellDeliveryMethod(ResourceLocation(C
      * @param instance The delivery method instance
      * @return the projectile speed
      */
-    fun getSpeed(instance: SpellComponentInstance<SpellDeliveryMethod>): Double
-    {
+    fun getSpeed(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
         return instance.data.getDouble(NBT_SPEED)
     }
 
@@ -130,13 +119,11 @@ class SpellDeliveryMethodProjectile : AOTDSpellDeliveryMethod(ResourceLocation(C
      * @param instance The delivery method instance
      * @return the projectile range
      */
-    fun getRange(instance: SpellComponentInstance<SpellDeliveryMethod>): Double
-    {
+    fun getRange(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
         return instance.data.getDouble(NBT_RANGE)
     }
 
-    companion object
-    {
+    companion object {
         // The NBT keys
         private const val NBT_SPEED = "speed"
         private const val NBT_RANGE = "range"

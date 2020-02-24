@@ -16,8 +16,7 @@ import net.minecraft.world.World
  * @property chanceToDropHitEntity The chance that the bolt will drop its item after hitting an entity
  * @property chanceToDropHitGround The chance that the bolt will drop its item after hitting the ground
  */
-class EntityStarMetalBolt : EntityBolt
-{
+class EntityStarMetalBolt : EntityBolt {
     override val damageSourceProducer: (EntityPlayer) -> DamageSource = { ModDamageSources.getSilverDamage(it) }
     override val drop = ModItems.STAR_METAL_BOLT
     override val damage = 18

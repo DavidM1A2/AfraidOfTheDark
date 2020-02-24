@@ -5,7 +5,6 @@ package com.davidm1a2.afraidofthedark.common.capabilities.player.dimension
  *
  * @property positionalIndex the index corresponding to the player's island position
  */
-interface IAOTDIslandData
-{
+interface IAOTDIslandData {
     var positionalIndex: Int
 }

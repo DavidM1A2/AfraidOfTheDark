@@ -14,8 +14,7 @@ import net.minecraftforge.common.util.Constants
  * @constructor just calls super with our ID
  * @property delayedDeliveryEntries A list of delayed delivery entries that are awaiting delivery
  */
-class SpellStateData @JvmOverloads constructor(identifier: String = IDENTIFIER) : WorldSavedData(identifier)
-{
+class SpellStateData @JvmOverloads constructor(identifier: String = IDENTIFIER) : WorldSavedData(identifier) {
     private val delayedDeliveryEntries: MutableList<DelayedDeliveryEntry> = mutableListOf()
 
     /**
@@ -24,12 +23,10 @@ class SpellStateData @JvmOverloads constructor(identifier: String = IDENTIFIER) 
      * @param nbt The NBT to write to
      * @return The compound that represents the spell state data
      */
-    override fun writeToNBT(nbt: NBTTagCompound): NBTTagCompound
-    {
+    override fun writeToNBT(nbt: NBTTagCompound): NBTTagCompound {
         val delayedEntries = NBTTagList()
         // Write each entry to the list
-        delayedDeliveryEntries.forEach()
-        {
+        delayedDeliveryEntries.forEach {
             delayedEntries.appendTag(it.serializeNBT())
         }
         nbt.setTag(NBT_DELAYED_DELIVERY_ENTRIES, delayedEntries)
@@ -41,12 +38,10 @@ class SpellStateData @JvmOverloads constructor(identifier: String = IDENTIFIER) 
      *
      * @param nbt The NBT to read spell data in
      */
-    override fun readFromNBT(nbt: NBTTagCompound)
-    {
+    override fun readFromNBT(nbt: NBTTagCompound) {
         // Go over each delayed delivery entry and read it in
         val delayedEntries = nbt.getTagList(NBT_DELAYED_DELIVERY_ENTRIES, Constants.NBT.TAG_COMPOUND)
-        for (i in 0 until delayedEntries.tagCount())
-        {
+        for (i in 0 until delayedEntries.tagCount()) {
             delayedDeliveryEntries.add(DelayedDeliveryEntry(delayedEntries.getCompoundTagAt(i)))
         }
     }
@@ -56,8 +51,7 @@ class SpellStateData @JvmOverloads constructor(identifier: String = IDENTIFIER) 
      *
      * @param state The state to store
      */
-    fun addDelayedDelivery(state: DeliveryTransitionState?)
-    {
+    fun addDelayedDelivery(state: DeliveryTransitionState?) {
         delayedDeliveryEntries.add(DelayedDeliveryEntry(state!!))
         markDirty()
     }
@@ -65,15 +59,13 @@ class SpellStateData @JvmOverloads constructor(identifier: String = IDENTIFIER) 
     /**
      * Called once per tick, tests every delayed delivery method to see if it's ready to fire
      */
-    fun update()
-    {
+    fun update() {
         // Update each delayed delivery entry
         delayedDeliveryEntries.forEach { it.update() }
         // Get a list of delayed entries that are ready to fire
         val readyDelayedEntries = delayedDeliveryEntries.filter { it.isReadyToFire() }.toList()
         // If we have any ready delayed entries remove and fire them
-        if (readyDelayedEntries.isNotEmpty())
-        {
+        if (readyDelayedEntries.isNotEmpty()) {
             // Remove the delayed entries
             delayedDeliveryEntries.removeAll(readyDelayedEntries)
             // Fire the delayed entries
@@ -83,8 +75,7 @@ class SpellStateData @JvmOverloads constructor(identifier: String = IDENTIFIER) 
         }
     }
 
-    companion object
-    {
+    companion object {
         // The ID of the AOTD spell states in progress
         private const val IDENTIFIER = com.davidm1a2.afraidofthedark.common.constants.Constants.MOD_ID + "_spell_states"
         // NBT constants used in serialization/deserialization
@@ -96,11 +87,9 @@ class SpellStateData @JvmOverloads constructor(identifier: String = IDENTIFIER) 
          * @param world The world to get data for
          * @return The data for that world or null if it is not present
          */
-        fun get(world: World): SpellStateData
-        {
+        fun get(world: World): SpellStateData {
             // If we are on client side throw an exception
-            if (world.isRemote)
-            {
+            if (world.isRemote) {
                 throw UnsupportedOperationException("Attempted to get the SpellStateData client side!")
             }
             // Grab the storage object for all worlds (per server, not per world!)
@@ -108,8 +97,7 @@ class SpellStateData @JvmOverloads constructor(identifier: String = IDENTIFIER) 
             // Get the saved spell state data for all worlds (per server, not per world!)
             var spellStateData = storage!!.getOrLoadData(SpellStateData::class.java, IDENTIFIER) as SpellStateData?
             // If it does not exist, instantiate new spell state data and store it into the storage object
-            if (spellStateData == null)
-            {
+            if (spellStateData == null) {
                 spellStateData = SpellStateData()
                 storage.setData(IDENTIFIER, spellStateData)
                 spellStateData.markDirty()

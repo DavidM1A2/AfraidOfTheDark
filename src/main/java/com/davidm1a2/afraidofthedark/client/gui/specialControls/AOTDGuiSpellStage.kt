@@ -24,9 +24,8 @@ import com.davidm1a2.afraidofthedark.common.spell.SpellStage
  * @property removeRunnable to be fired when remove is called
  */
 class AOTDGuiSpellStage(
-        x: Int, y: Int, width: Int, height: Int, private val spellStage: SpellStage
-) : AOTDGuiContainer(x, y, width, height)
-{
+    x: Int, y: Int, width: Int, height: Int, private val spellStage: SpellStage
+) : AOTDGuiContainer(x, y, width, height) {
     private val addNewRow: AOTDGuiButton
     private val removeRow: AOTDGuiButton
     val deliveryMethod: AOTDGuiSpellDeliveryMethodSlot
@@ -38,10 +37,15 @@ class AOTDGuiSpellStage(
     var addRunnable: (() -> Unit)? = null
     var removeRunnable: (() -> Unit)? = null
 
-    init
-    {
+    init {
         // Set the background texture of the spell stage, save 14px for add and remove buttons
-        val background = AOTDGuiImage(0, 0, width, height - 14, "afraidofthedark:textures/gui/spell_editor/spell_stage_background.png")
+        val background = AOTDGuiImage(
+            0,
+            0,
+            width,
+            height - 14,
+            "afraidofthedark:textures/gui/spell_editor/spell_stage_background.png"
+        )
         add(background)
 
         // Create the delivery method slot
@@ -53,26 +57,27 @@ class AOTDGuiSpellStage(
 
         // Create two buttons, one to add a new row and one to remove the current row
         addNewRow =
-                AOTDGuiButton(0, height - 15, 15, 15, "afraidofthedark:textures/gui/spell_editor/add.png", "afraidofthedark:textures/gui/spell_editor/add_hovered.png")
+            AOTDGuiButton(
+                0,
+                height - 15,
+                15,
+                15,
+                "afraidofthedark:textures/gui/spell_editor/add.png",
+                "afraidofthedark:textures/gui/spell_editor/add_hovered.png"
+            )
         addNewRow.setHoverText("Add new spell stage")
-        addNewRow.addMouseListener()
-        {
-            if (it.eventType === AOTDMouseEvent.EventType.Press)
-            {
+        addNewRow.addMouseListener {
+            if (it.eventType == AOTDMouseEvent.EventType.Press) {
                 // If we press the button and it's visible/hovered run the callback
-                if (addNewRow.isHovered && addNewRow.isVisible && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
-                {
+                if (addNewRow.isHovered && addNewRow.isVisible && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
                     addRunnable?.invoke()
                 }
             }
         }
-        addNewRow.addMouseMoveListener()
-        {
-            if (it.eventType === AOTDMouseMoveEvent.EventType.Enter)
-            {
+        addNewRow.addMouseMoveListener {
+            if (it.eventType == AOTDMouseMoveEvent.EventType.Enter) {
                 // If the button is hovered and visible play the button hover sound
-                if (addNewRow.isHovered && addNewRow.isVisible)
-                {
+                if (addNewRow.isHovered && addNewRow.isVisible) {
                     entityPlayer.playSound(ModSounds.SPELL_CRAFTING_BUTTON_HOVER, 0.6f, 1.7f)
                 }
             }
@@ -80,32 +85,26 @@ class AOTDGuiSpellStage(
         add(addNewRow)
 
         removeRow = AOTDGuiButton(
-                15,
-                height - 15,
-                15,
-                15,
-                "afraidofthedark:textures/gui/spell_editor/delete.png",
-                "afraidofthedark:textures/gui/spell_editor/delete_hovered.png"
+            15,
+            height - 15,
+            15,
+            15,
+            "afraidofthedark:textures/gui/spell_editor/delete.png",
+            "afraidofthedark:textures/gui/spell_editor/delete_hovered.png"
         )
         removeRow.setHoverText("Remove spell stage")
-        removeRow.addMouseListener()
-        {
-            if (it.eventType === AOTDMouseEvent.EventType.Press)
-            {
+        removeRow.addMouseListener {
+            if (it.eventType == AOTDMouseEvent.EventType.Press) {
                 // If we press the button and it's visible/hovered run the callback
-                if (removeRow.isHovered && removeRow.isVisible && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
-                {
+                if (removeRow.isHovered && removeRow.isVisible && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
                     removeRunnable?.invoke()
                 }
             }
         }
-        removeRow.addMouseMoveListener()
-        {
-            if (it.eventType === AOTDMouseMoveEvent.EventType.Enter)
-            {
+        removeRow.addMouseMoveListener {
+            if (it.eventType == AOTDMouseMoveEvent.EventType.Enter) {
                 // If the button is hovered and visible play the button hover sound
-                if (removeRow.isHovered && removeRow.isVisible)
-                {
+                if (removeRow.isHovered && removeRow.isVisible) {
                     entityPlayer.playSound(ModSounds.SPELL_CRAFTING_BUTTON_HOVER, 0.6f, 1.7f)
                 }
             }
@@ -116,51 +115,44 @@ class AOTDGuiSpellStage(
     /**
      * Shows the + button
      */
-    fun showPlus()
-    {
+    fun showPlus() {
         addNewRow.isVisible = true
     }
 
     /**
      * Hides the + button
      */
-    fun hidePlus()
-    {
+    fun hidePlus() {
         addNewRow.isVisible = false
     }
 
     /**
      * Shows the - button
      */
-    fun showMinus()
-    {
+    fun showMinus() {
         removeRow.isVisible = true
     }
 
     /**
      * Hides the - button
      */
-    fun hideMinus()
-    {
+    fun hideMinus() {
         removeRow.isVisible = false
     }
 
     /**
      * Updates this spell stage's slots based on the spell stage.
      */
-    fun refresh()
-    {
+    fun refresh() {
         // Update the delivery method icon based on delivery method
         deliveryMethod.setSpellComponent(spellStage.deliveryInstance)
         // Update each effect slot
-        for (i in spellStage.effects.indices)
-        {
+        for (i in spellStage.effects.indices) {
             effects[i].setSpellComponent(spellStage.effects[i])
         }
     }
 
-    companion object
-    {
+    companion object {
         // The amount of space between effect/delivery slots
         private const val SLOT_SPACING = 20
     }

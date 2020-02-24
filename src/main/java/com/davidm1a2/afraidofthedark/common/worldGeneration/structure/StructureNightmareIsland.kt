@@ -17,8 +17,7 @@ import net.minecraft.world.biome.BiomeProvider
  *
  * @constructor sets the structure name
  */
-class StructureNightmareIsland : AOTDStructure("nightmare_island")
-{
+class StructureNightmareIsland : AOTDStructure("nightmare_island") {
     /**
      * Tests if this structure is valid for the given position
      *
@@ -27,8 +26,11 @@ class StructureNightmareIsland : AOTDStructure("nightmare_island")
      * @param biomeProvider The provider used to generate the world, use biomeProvider.getBiomes() to get what biomes exist at a position
      * @return 0, this structure does not generate
      */
-    override fun computeChanceToGenerateAt(blockPos: BlockPos, heightmap: IHeightmap, biomeProvider: BiomeProvider): Double
-    {
+    override fun computeChanceToGenerateAt(
+        blockPos: BlockPos,
+        heightmap: IHeightmap,
+        biomeProvider: BiomeProvider
+    ): Double {
         return 0.0
     }
 
@@ -39,8 +41,7 @@ class StructureNightmareIsland : AOTDStructure("nightmare_island")
      * @param chunkPos Optional chunk position of a chunk to generate in. If supplied all blocks generated must be in this chunk only!
      * @param data     Any additional structure data that is needed for generation such as structure position
      */
-    override fun generate(world: World, chunkPos: ChunkPos, data: NBTTagCompound)
-    {
+    override fun generate(world: World, chunkPos: ChunkPos, data: NBTTagCompound) {
         // Get the position of the structure from the data compound
         val blockPos = getPosition(data)
 
@@ -56,8 +57,7 @@ class StructureNightmareIsland : AOTDStructure("nightmare_island")
      * @param biomeProvider ignored
      * @return The NBTTagCompound containing any data needed for generation. Sent in Structure::generate
      */
-    override fun generateStructureData(world: World, blockPos: BlockPos, biomeProvider: BiomeProvider): NBTTagCompound
-    {
+    override fun generateStructureData(world: World, blockPos: BlockPos, biomeProvider: BiomeProvider): NBTTagCompound {
         val compound = NBTTagCompound()
         // Set the position to the blockpos
         compound.setTag(NBT_POSITION, NBTUtil.createPosTag(blockPos))
@@ -67,16 +67,14 @@ class StructureNightmareIsland : AOTDStructure("nightmare_island")
     /**
      * @return The width of the structure in blocks
      */
-    override fun getXWidth(): Int
-    {
+    override fun getXWidth(): Int {
         return ModSchematics.NIGHTMARE_ISLAND.getWidth().toInt()
     }
 
     /**
      * @return The length of the structure in blocks
      */
-    override fun getZLength(): Int
-    {
+    override fun getZLength(): Int {
         return ModSchematics.NIGHTMARE_ISLAND.getLength().toInt()
     }
 }

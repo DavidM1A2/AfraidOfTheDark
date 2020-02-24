@@ -24,8 +24,7 @@ import java.awt.Font
  *
  * Code was heavily modified to support MC 1.12+
  */
-object FontLoader
-{
+object FontLoader {
     // If a font can't render all characters required use this instead
     private val CALIBRI_FONT_LOCATION = ResourceLocation("afraidofthedark:fonts/calibri.ttf")
 
@@ -38,21 +37,21 @@ object FontLoader
      * @param type The type of font to read, see Font public static fields for options
      * @return A true-type font reference to be used in the MC game engine
      */
-    fun createFont(resourceLocation: ResourceLocation, size: Float, antiAlias: Boolean = true, type: Int = Font.TRUETYPE_FONT): TrueTypeFont
-    {
+    fun createFont(
+        resourceLocation: ResourceLocation,
+        size: Float,
+        antiAlias: Boolean = true,
+        type: Int = Font.TRUETYPE_FONT
+    ): TrueTypeFont {
         // If we should use calibri use that, otherwise use the font provided to us
-        val fontFile = if (AfraidOfTheDark.INSTANCE.configurationHandler.useCalibri)
-        {
+        val fontFile = if (AfraidOfTheDark.INSTANCE.configurationHandler.useCalibri) {
             CALIBRI_FONT_LOCATION
-        }
-        else
-        {
+        } else {
             resourceLocation
         }
 
         // Set the font size and make it bold. Bold fonts tend to look better in this font rendering system
-        val font = Minecraft.getMinecraft().resourceManager.getResource(fontFile).inputStream.use()
-        {
+        val font = Minecraft.getMinecraft().resourceManager.getResource(fontFile).inputStream.use {
             Font.createFont(type, it).deriveFont(size).deriveFont(Font.BOLD)
         }
 

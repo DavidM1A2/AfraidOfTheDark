@@ -19,8 +19,7 @@ import net.minecraftforge.fml.relauncher.SideOnly
 /**
  * Color register registers item and block colors for leaves and grass blocks
  */
-class ModColorRegister
-{
+class ModColorRegister {
     /**
      * Registers block color handlers for leaves and grass blocks
      *
@@ -28,8 +27,7 @@ class ModColorRegister
      */
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
-    fun registerBlockColors(event: ColorHandlerEvent.Block)
-    {
+    fun registerBlockColors(event: ColorHandlerEvent.Block) {
         // Filter our block list by leaf blocks only
         val leafBlocks = ModBlocks.BLOCK_LIST.filterIsInstance<BlockLeaves>().toTypedArray()
 
@@ -37,16 +35,16 @@ class ModColorRegister
         val blockColors = event.blockColors
 
         // Register a block color handler so that leaf blocks are colored properly when placed
-        blockColors.registerBlockColorHandler(IBlockColor
-        { _: IBlockState, blockAccess: IBlockAccess?, pos: BlockPos?, _: Int ->
-            // Make sure we were passed valid parameters
-            if (blockAccess != null && pos != null)
-            {
-                // Return the color at the position
-                return@IBlockColor BiomeColorHelper.getFoliageColorAtPos(blockAccess, pos)
-            }
-            ColorizerFoliage.getFoliageColor(0.5, 1.0)
-        }, *leafBlocks
+        blockColors.registerBlockColorHandler(
+            IBlockColor
+            { _: IBlockState, blockAccess: IBlockAccess?, pos: BlockPos?, _: Int ->
+                // Make sure we were passed valid parameters
+                if (blockAccess != null && pos != null) {
+                    // Return the color at the position
+                    return@IBlockColor BiomeColorHelper.getFoliageColorAtPos(blockAccess, pos)
+                }
+                ColorizerFoliage.getFoliageColor(0.5, 1.0)
+            }, *leafBlocks
         )
     }
 
@@ -57,8 +55,7 @@ class ModColorRegister
      */
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
-    fun registerItemColors(event: ColorHandlerEvent.Item)
-    {
+    fun registerItemColors(event: ColorHandlerEvent.Item) {
         // Filter our block list by leaf blocks only
         val leafBlocks = ModBlocks.BLOCK_LIST.filterIsInstance<BlockLeaves>().toTypedArray()
 
@@ -67,13 +64,14 @@ class ModColorRegister
         val blockColors = event.blockColors
 
         // Register an item color handler so that leaf blocks are colored properly when held in the inventory
-        itemColors.registerItemColorHandler(IItemColor
-        { stack: ItemStack, tintIndex: Int ->
-            // Grab the state of the block if it was placed in the world
-            @Suppress("DEPRECATION")
-            val iBlockState = (stack.item as ItemBlock).block.getStateFromMeta(stack.metadata)
-            blockColors.colorMultiplier(iBlockState, null, null, tintIndex)
-        }, *leafBlocks
+        itemColors.registerItemColorHandler(
+            IItemColor
+            { stack: ItemStack, tintIndex: Int ->
+                // Grab the state of the block if it was placed in the world
+                @Suppress("DEPRECATION")
+                val iBlockState = (stack.item as ItemBlock).block.getStateFromMeta(stack.metadata)
+                blockColors.colorMultiplier(iBlockState, null, null, tintIndex)
+            }, *leafBlocks
         )
     }
 }

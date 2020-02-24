@@ -12,10 +12,8 @@ import net.minecraft.world.World
  *
  * @constructor sets up item properties
  */
-class ItemDebug : AOTDItem("debug")
-{
-    init
-    {
+class ItemDebug : AOTDItem("debug") {
+    init {
         setMaxStackSize(1)
     }
 
@@ -23,10 +21,8 @@ class ItemDebug : AOTDItem("debug")
     /// Code below here is not documented due to its temporary nature used for testing
     ///
 
-    override fun onItemRightClick(worldIn: World, playerIn: EntityPlayer, handIn: EnumHand): ActionResult<ItemStack>
-    {
-        if (worldIn.isRemote)
-        {
+    override fun onItemRightClick(worldIn: World, playerIn: EntityPlayer, handIn: EnumHand): ActionResult<ItemStack> {
+        if (worldIn.isRemote) {
             //Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleEnariaBasicAttack(worldIn, playerIn.posX, playerIn.posY + 2.0, playerIn.posZ));
         }
         /*
@@ -38,8 +34,7 @@ class ItemDebug : AOTDItem("debug")
 		playerIn.sendMessage(new TextComponentString("" + playerIn.getCapability(ModCapabilities.PLAYER_BASICS, null).getWatchedMeteorLatitude()));
 		playerIn.sendMessage(new TextComponentString("" + playerIn.getCapability(ModCapabilities.PLAYER_BASICS, null).getWatchedMeteorLongitude()));
 		*/
-        if (!worldIn.isRemote)
-        {
+        if (!worldIn.isRemote) {
             /*
             val spellManager = playerIn.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null)
             if (spellManager!!.spells.isNotEmpty())

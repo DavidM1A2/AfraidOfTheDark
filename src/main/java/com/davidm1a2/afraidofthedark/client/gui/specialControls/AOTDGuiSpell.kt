@@ -30,23 +30,28 @@ import org.lwjgl.util.Color
  * @property keybindCallback Callback function that we fire when we want a new keybind for this spell
  * @property deleteCallback Callback function that we fire when the delete spell button is pressed
  */
-class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : AOTDGuiContainer(x, y, width, height)
-{
+class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : AOTDGuiContainer(x, y, width, height) {
     private val lblKeybind: AOTDGuiLabel
     private var keybindCallback: (() -> Unit) = { }
     private var deleteCallback: (() -> Unit) = { }
 
-    init
-    {
+    init {
         // The background image to hold all the buttons
-        val background = AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/spell_list/spell_background.png")
+        val background =
+            AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/spell_list/spell_background.png")
         this.add(background)
 
         // The container for spell name
         val spellNameContainer = AOTDGuiPanel(10, 3, width - 20, 15, false)
 
         // The label holding the actual spell name
-        val lblSpellName = AOTDGuiLabel(0, 0, spellNameContainer.getWidth(), spellNameContainer.getHeight(), ClientData.getOrCreate(36f))
+        val lblSpellName = AOTDGuiLabel(
+            0,
+            0,
+            spellNameContainer.getWidth(),
+            spellNameContainer.getHeight(),
+            ClientData.getOrCreate(36f)
+        )
         // Set the name label's name and color
         lblSpellName.text = this.spell.name
         lblSpellName.textColor = Color(245, 61, 199)
@@ -58,42 +63,42 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
 
         // When we hover any button play hover sound
         val hoverSound: ((AOTDMouseMoveEvent) -> Unit) =
-                {
-                    if (it.eventType === AOTDMouseMoveEvent.EventType.Enter)
-                    {
-                        // Play a hover sound for visible buttons
-                        if (it.source.isVisible && it.source.isHovered)
-                        {
-                            entityPlayer.playSound(ModSounds.SPELL_CRAFTING_BUTTON_HOVER, 0.7f, 1.9f)
-                        }
+            {
+                if (it.eventType == AOTDMouseMoveEvent.EventType.Enter) {
+                    // Play a hover sound for visible buttons
+                    if (it.source.isVisible && it.source.isHovered) {
+                        entityPlayer.playSound(ModSounds.SPELL_CRAFTING_BUTTON_HOVER, 0.7f, 1.9f)
                     }
                 }
+            }
 
         // When we click any button play the click sound
         val clickSound: ((AOTDMouseEvent) -> Unit) =
-                {
-                    if (it.eventType === AOTDMouseEvent.EventType.Click)
-                    {
-                        // Play a clicked sound for visible buttons
-                        if (it.source.isVisible && it.source.isHovered)
-                        {
-                            entityPlayer.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f)
-                        }
+            {
+                if (it.eventType == AOTDMouseEvent.EventType.Click) {
+                    // Play a clicked sound for visible buttons
+                    if (it.source.isVisible && it.source.isHovered) {
+                        entityPlayer.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f)
                     }
                 }
+            }
 
         // Create a button to edit the spell
         val btnEdit =
-                AOTDGuiButton(5, 22, 24, 13, "afraidofthedark:textures/gui/spell_list/spell_edit.png", "afraidofthedark:textures/gui/spell_list/spell_edit_hovered.png")
+            AOTDGuiButton(
+                5,
+                22,
+                24,
+                13,
+                "afraidofthedark:textures/gui/spell_list/spell_edit.png",
+                "afraidofthedark:textures/gui/spell_list/spell_edit_hovered.png"
+            )
         btnEdit.addMouseListener(clickSound)
         btnEdit.addMouseMoveListener(hoverSound)
         btnEdit.setHoverText("Edit Spell")
-        btnEdit.addMouseListener()
-        {
-            if (it.eventType === AOTDMouseEvent.EventType.Click)
-            {
-                if (it.source.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
-                {
+        btnEdit.addMouseListener {
+            if (it.eventType == AOTDMouseEvent.EventType.Click) {
+                if (it.source.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
                     // Set the edited spell to this one
                     ClientData.lastSelectedSpell = spell
                     // Open the spell edit GUI
@@ -105,21 +110,18 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
 
         // Create a button to delete a spell
         val btnDelete = AOTDGuiButton(
-                width - 5 - 24,
-                22,
-                24,
-                13,
-                "afraidofthedark:textures/gui/spell_list/spell_delete.png",
-                "afraidofthedark:textures/gui/spell_list/spell_delete_hovered.png"
+            width - 5 - 24,
+            22,
+            24,
+            13,
+            "afraidofthedark:textures/gui/spell_list/spell_delete.png",
+            "afraidofthedark:textures/gui/spell_list/spell_delete_hovered.png"
         )
         btnEdit.addMouseListener(clickSound)
         btnEdit.addMouseMoveListener(hoverSound)
-        btnDelete.addMouseListener()
-        {
-            if (it.eventType === AOTDMouseEvent.EventType.Press)
-            {
-                if (it.source.isHovered && it.source.isVisible && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
-                {
+        btnDelete.addMouseListener {
+            if (it.eventType == AOTDMouseEvent.EventType.Press) {
+                if (it.source.isHovered && it.source.isVisible && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
                     deleteCallback()
                 }
             }
@@ -132,12 +134,9 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
         lblKeybind.textAlignment = TextAlignment.ALIGN_CENTER
         btnEdit.addMouseListener(clickSound)
         btnEdit.addMouseMoveListener(hoverSound)
-        lblKeybind.addMouseListener()
-        {
-            if (it.eventType === AOTDMouseEvent.EventType.Press)
-            {
-                if (it.source.isHovered && it.source.isVisible && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
-                {
+        lblKeybind.addMouseListener {
+            if (it.eventType == AOTDMouseEvent.EventType.Press) {
+                if (it.source.isHovered && it.source.isVisible && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
                     lblKeybind.setHoverText("Awaiting keypress...")
                     lblKeybind.text = "Awaiting keypress..."
                     keybindCallback()
@@ -153,20 +152,16 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
     /**
      * Refreshes this gui spell based on the current spell state if it's changed
      */
-    fun refreshLabels()
-    {
+    fun refreshLabels() {
         // Grab the player's spell manager
         val spellManager = entityPlayer.getSpellManager()
         // Get the keybinding for the spell
         val keybindingForSpell = spellManager.getKeybindingForSpell(this.spell)
         // if the keybind is non-null show it, otherwise mention it's unbound
-        if (keybindingForSpell != null)
-        {
+        if (keybindingForSpell != null) {
             lblKeybind.setHoverText("Spell is bound to: $keybindingForSpell")
             lblKeybind.text = keybindingForSpell
-        }
-        else
-        {
+        } else {
             lblKeybind.setHoverText("Spell is unbound.")
             lblKeybind.text = ""
         }
@@ -177,8 +172,7 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
      *
      * @param keybindCallback The keybind callback to fire
      */
-    fun setKeybindCallback(keybindCallback: () -> Unit)
-    {
+    fun setKeybindCallback(keybindCallback: () -> Unit) {
         this.keybindCallback = keybindCallback
     }
 
@@ -187,8 +181,7 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
      *
      * @param deleteCallback The delete callback to fire
      */
-    fun setDeleteCallback(deleteCallback: () -> Unit)
-    {
+    fun setDeleteCallback(deleteCallback: () -> Unit) {
         this.deleteCallback = deleteCallback
     }
 }

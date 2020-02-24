@@ -15,10 +15,8 @@ import net.minecraftforge.fml.relauncher.SideOnly
  *
  * @constructor initializes the block's properties
  */
-class BlockAmorphousEldritchMetal : AOTDBlock("amorphous_eldritch_metal", Material.PORTAL)
-{
-    init
-    {
+class BlockAmorphousEldritchMetal : AOTDBlock("amorphous_eldritch_metal", Material.PORTAL) {
+    init {
         setHardness(10.0f)
         setResistance(50.0f)
         this.setHarvestLevel("pickaxe", 2)
@@ -33,8 +31,11 @@ class BlockAmorphousEldritchMetal : AOTDBlock("amorphous_eldritch_metal", Materi
      * @param pos        The position the block is at
      * @return The hitbox/bounding box of this block
      */
-    override fun getCollisionBoundingBox(blockState: IBlockState, worldIn: IBlockAccess, pos: BlockPos): AxisAlignedBB?
-    {
+    override fun getCollisionBoundingBox(
+        blockState: IBlockState,
+        worldIn: IBlockAccess,
+        pos: BlockPos
+    ): AxisAlignedBB? {
         return NULL_AABB
     }
 
@@ -44,8 +45,7 @@ class BlockAmorphousEldritchMetal : AOTDBlock("amorphous_eldritch_metal", Materi
      * @param state The block state
      * @return False since the block is not opaque
      */
-    override fun isOpaqueCube(state: IBlockState): Boolean
-    {
+    override fun isOpaqueCube(state: IBlockState): Boolean {
         return false
     }
 
@@ -53,8 +53,7 @@ class BlockAmorphousEldritchMetal : AOTDBlock("amorphous_eldritch_metal", Materi
      * @return The layer that this block is in, it's translucent since we can see through it
      */
     @SideOnly(Side.CLIENT)
-    override fun getBlockLayer(): BlockRenderLayer
-    {
+    override fun getBlockLayer(): BlockRenderLayer {
         return BlockRenderLayer.TRANSLUCENT
     }
 }

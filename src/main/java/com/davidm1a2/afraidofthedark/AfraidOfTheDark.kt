@@ -32,14 +32,13 @@ import org.apache.logging.log4j.Logger
  * @property configurationHandler Configuration handler used to read and update the afraidofthedark.cfg file
  */
 @Mod(
-        modid = Constants.MOD_ID,
-        name = Constants.MOD_NAME,
-        version = Constants.MOD_VERSION,
-        guiFactory = Constants.GUI_FACTORY_CLASS,
-        acceptedMinecraftVersions = Constants.MC_VERSION
+    modid = Constants.MOD_ID,
+    name = Constants.MOD_NAME,
+    version = Constants.MOD_VERSION,
+    guiFactory = Constants.GUI_FACTORY_CLASS,
+    acceptedMinecraftVersions = Constants.MC_VERSION
 )
-class AfraidOfTheDark
-{
+class AfraidOfTheDark {
     val packetHandler = PacketHandler(Constants.MOD_ID)
     val worldGenerator = AOTDWorldGenerator()
     lateinit var logger: Logger
@@ -53,8 +52,7 @@ class AfraidOfTheDark
      * @param event Pre-init used to register events and various other things (see class names for what each line does)
      */
     @Mod.EventHandler
-    fun preInitialization(event: FMLPreInitializationEvent)
-    {
+    fun preInitialization(event: FMLPreInitializationEvent) {
         // Grab a reference to the AOTD logger to debug with
         logger = event.modLog
         // We initialize the configuration handler from the suggested file
@@ -94,8 +92,7 @@ class AfraidOfTheDark
         // Register our mod dimensions
         DimensionRegister.initialize()
         // Register our research overlay display to draw on the screen, only need to do this client side
-        if (event.side == Side.CLIENT)
-        {
+        if (event.side == Side.CLIENT) {
             MinecraftForge.EVENT_BUS.register(proxy.researchOverlay)
         }
         // Forward any capability events to our capability handler
@@ -142,8 +139,7 @@ class AfraidOfTheDark
      * @param event Initialization event is responsible for renders and recipes
      */
     @Mod.EventHandler
-    fun initialization(event: FMLInitializationEvent)
-    {
+    fun initialization(event: FMLInitializationEvent) {
         // Initialize any ore-dictionary entries
         proxy.initializeOreDictionary()
         // Initialize furnace recipes
@@ -151,8 +147,7 @@ class AfraidOfTheDark
         // Initialize spell effect overrides
         SpellEffectOverrideRegister.initialize()
         // Register our key input event handler client side
-        if (event.side == Side.CLIENT)
-        {
+        if (event.side == Side.CLIENT) {
             MinecraftForge.EVENT_BUS.register(KeyInputEventHandler)
         }
         // Only used by the developer to create .schematic.meta files
@@ -166,8 +161,7 @@ class AfraidOfTheDark
      */
     @Mod.EventHandler
     @Suppress("UNUSED_PARAMETER")
-    fun postInitialization(event: FMLPostInitializationEvent)
-    {
+    fun postInitialization(event: FMLPostInitializationEvent) {
     }
 
     /**
@@ -176,14 +170,12 @@ class AfraidOfTheDark
      * @param event Register commands when the server starts
      */
     @Mod.EventHandler
-    fun serverStartingEvent(event: FMLServerStartingEvent)
-    {
+    fun serverStartingEvent(event: FMLServerStartingEvent) {
         // Register mod commands
         event.registerServerCommand(AOTDCommands())
     }
 
-    companion object
-    {
+    companion object {
         // Singleton design pattern used here
         @JvmStatic
         @Mod.Instance(Constants.MOD_ID)

@@ -17,8 +17,8 @@ import net.minecraftforge.common.util.Constants
  * @constructor Just calls super with our ID
  * @property chunkToStructure The actual structure plan map that we are saving
  */
-class StructurePlan @JvmOverloads constructor(identifier: String = IDENTIFIER) : WorldSavedData(identifier), IStructurePlan
-{
+class StructurePlan @JvmOverloads constructor(identifier: String = IDENTIFIER) : WorldSavedData(identifier),
+    IStructurePlan {
     private val chunkToStructure: MutableMap<ChunkPos, PlacedStructure> = mutableMapOf()
 
     /**
@@ -29,12 +29,10 @@ class StructurePlan @JvmOverloads constructor(identifier: String = IDENTIFIER) :
      * @param nbt The NBT tag to write to
      * @return The same NBT tag as passed in
      */
-    override fun writeToNBT(nbt: NBTTagCompound): NBTTagCompound
-    {
+    override fun writeToNBT(nbt: NBTTagCompound): NBTTagCompound {
         // For each position add the tag "XCoord ZCoord" -> structureUUID
         val chunkMap = NBTTagCompound()
-        chunkToStructure.forEach()
-        { (position, structure) ->
+        chunkToStructure.forEach { (position, structure) ->
             chunkMap.setTag("${position.x} ${position.z}", NBTTagString(structure.uuid.toString()))
         }
 
@@ -52,15 +50,13 @@ class StructurePlan @JvmOverloads constructor(identifier: String = IDENTIFIER) :
      *
      * @param nbt The NBT data to read from
      */
-    override fun readFromNBT(nbt: NBTTagCompound)
-    {
+    override fun readFromNBT(nbt: NBTTagCompound) {
         // Grab the structureNBT list
         val structureData = nbt.getTagList(NBT_STRUCTURE_DATA, Constants.NBT.TAG_COMPOUND)
         // A temporary map of structureUUID -> structure to be used later
         val uuidToStructure = mutableMapOf<String, PlacedStructure>()
         // For each structure data create a placed structure object and store it into the map
-        for (i in 0 until structureData.tagCount())
-        {
+        for (i in 0 until structureData.tagCount()) {
             val placedStructure = PlacedStructure(structureData.getCompoundTagAt(i))
             uuidToStructure[placedStructure.uuid.toString()] = placedStructure
         }
@@ -68,22 +64,18 @@ class StructurePlan @JvmOverloads constructor(identifier: String = IDENTIFIER) :
         // Grab the map of "chunkX chunkZ" -> structureUUID
         val chunkMap = nbt.getCompoundTag(NBT_CHUNK_MAP)
         // Iterate over all keys in the NBT which should be all positions
-        for (positionKey in chunkMap.keySet)
-        {
+        for (positionKey in chunkMap.keySet) {
             // Parse the X coordinate from string to integer
             val x = positionKey.substringBefore(" ").toIntOrNull() ?: Int.MAX_VALUE
             // Parse the Z coordinate from string to integer
             val z = positionKey.substringAfter(" ").toIntOrNull() ?: Int.MAX_VALUE
             // Ensure both X and Z are valid
-            if (x != Int.MAX_VALUE && z != Int.MAX_VALUE)
-            {
+            if (x != Int.MAX_VALUE && z != Int.MAX_VALUE) {
                 // Grab the value, should be the NBT data compound
                 val structureUUID = chunkMap.getString(positionKey)
                 // Use our map of structureUUID -> structure to avoid creating a bunch of placed structure objects
                 chunkToStructure[ChunkPos(x, z)] = uuidToStructure[structureUUID]!!
-            }
-            else
-            {
+            } else {
                 AfraidOfTheDark.INSTANCE.logger.error("Found an invalid key in the world saved data NBT: $positionKey")
             }
         }
@@ -95,8 +87,7 @@ class StructurePlan @JvmOverloads constructor(identifier: String = IDENTIFIER) :
      * @param chunkPos The position to test
      * @return A structure if it exists, or null if no structure exists here
      */
-    override fun getPlacedStructureAt(chunkPos: ChunkPos): PlacedStructure?
-    {
+    override fun getPlacedStructureAt(chunkPos: ChunkPos): PlacedStructure? {
         return chunkToStructure.getOrDefault(chunkPos, null)
     }
 
@@ -105,8 +96,7 @@ class StructurePlan @JvmOverloads constructor(identifier: String = IDENTIFIER) :
      *
      * @return A copy of the structures in the structure plan
      */
-    override fun getPlacedStructures(): List<PlacedStructure>
-    {
+    override fun getPlacedStructures(): List<PlacedStructure> {
         return chunkToStructure.values.distinct().toList()
     }
 
@@ -116,8 +106,7 @@ class StructurePlan @JvmOverloads constructor(identifier: String = IDENTIFIER) :
      * @param chunkPos The position to test
      * @return True if a structure exists at the position, or false otherwise
      */
-    override fun structureExistsAt(chunkPos: ChunkPos): Boolean
-    {
+    override fun structureExistsAt(chunkPos: ChunkPos): Boolean {
         return chunkToStructure.containsKey(chunkPos)
     }
 
@@ -128,20 +117,16 @@ class StructurePlan @JvmOverloads constructor(identifier: String = IDENTIFIER) :
      * @param blockPos  The position to place the structure
      * @return True if the structure would fit without overlapping another structure, or false otherwise
      */
-    override fun structureFitsAt(structure: Structure, blockPos: BlockPos): Boolean
-    {
+    override fun structureFitsAt(structure: Structure, blockPos: BlockPos): Boolean {
         // Grab the bottom left and top right that the structure would occupy
         val bottomLeftCorner = ChunkPos(blockPos)
         val topRightCorner = ChunkPos(blockPos.add(structure.getXWidth(), 0, structure.getZLength()))
 
         // Iterate over all chunks in the region, and test if each chunk is currently empty
-        for (chunkX in bottomLeftCorner.x..topRightCorner.x)
-        {
-            for (chunkZ in bottomLeftCorner.z..topRightCorner.z)
-            {
+        for (chunkX in bottomLeftCorner.x..topRightCorner.x) {
+            for (chunkZ in bottomLeftCorner.z..topRightCorner.z) {
                 // If any chunk is already planned then return false
-                if (chunkToStructure.containsKey(ChunkPos(chunkX, chunkZ)))
-                {
+                if (chunkToStructure.containsKey(ChunkPos(chunkX, chunkZ))) {
                     return false
                 }
             }
@@ -155,8 +140,7 @@ class StructurePlan @JvmOverloads constructor(identifier: String = IDENTIFIER) :
      * @param structure The structure to place
      * @param data      Any additional data the structure requires
      */
-    override fun placeStructure(structure: Structure, data: NBTTagCompound)
-    {
+    override fun placeStructure(structure: Structure, data: NBTTagCompound) {
         // Extract the blockpos from the structure's data
         val blockPos = structure.getPosition(data)
 
@@ -168,10 +152,8 @@ class StructurePlan @JvmOverloads constructor(identifier: String = IDENTIFIER) :
         val placedStructure = PlacedStructure(structure, data)
 
         // Iterate over all chunks in the region, and update their structure names
-        for (chunkX in bottomLeftCorner.x..topRightCorner.x)
-        {
-            for (chunkZ in bottomLeftCorner.z..topRightCorner.z)
-            {
+        for (chunkX in bottomLeftCorner.x..topRightCorner.x) {
+            for (chunkZ in bottomLeftCorner.z..topRightCorner.z) {
                 chunkToStructure[ChunkPos(chunkX, chunkZ)] = placedStructure
             }
         }
@@ -180,10 +162,10 @@ class StructurePlan @JvmOverloads constructor(identifier: String = IDENTIFIER) :
         markDirty()
     }
 
-    companion object
-    {
+    companion object {
         // The ID of the AOTD structure plan
-        private const val IDENTIFIER = com.davidm1a2.afraidofthedark.common.constants.Constants.MOD_ID + "_structure_plan"
+        private const val IDENTIFIER =
+            com.davidm1a2.afraidofthedark.common.constants.Constants.MOD_ID + "_structure_plan"
         // The NBT compound tag keys
         private const val NBT_CHUNK_MAP = "chunk_map"
         private const val NBT_STRUCTURE_DATA = "structure_data"
@@ -194,11 +176,9 @@ class StructurePlan @JvmOverloads constructor(identifier: String = IDENTIFIER) :
          * @param world The world to get data for
          * @return The data for that world or null if it is client side
          */
-        fun get(world: World): IStructurePlan?
-        {
+        fun get(world: World): IStructurePlan? {
             // If we are on client side or the world is not the overworld return 0
-            if (world.isRemote)
-            {
+            if (world.isRemote) {
                 return null
             }
             // Grab the storage object for this world
@@ -206,8 +186,7 @@ class StructurePlan @JvmOverloads constructor(identifier: String = IDENTIFIER) :
             // Get the saved heightmap data for this world
             var structurePlan = storage.getOrLoadData(StructurePlan::class.java, IDENTIFIER) as StructurePlan?
             // If it does not exist, instantiate new structure plan and store it into the storage object
-            if (structurePlan == null)
-            {
+            if (structurePlan == null) {
                 structurePlan = StructurePlan()
                 storage.setData(IDENTIFIER, structurePlan)
                 structurePlan.markDirty()

@@ -12,8 +12,7 @@ import net.minecraft.util.math.BlockPos
  * @property preTeleportDimensionID The ID of the dimension the player was in before teleporting to the nightmare
  * @property preTeleportPlayerInventory The player's inventory before teleporting to the nightmare
  */
-interface IAOTDPlayerNightmareData : IAOTDIslandData
-{
+interface IAOTDPlayerNightmareData : IAOTDIslandData {
     override var positionalIndex: Int
     var preTeleportPosition: BlockPos?
     var preTeleportDimensionID: Int

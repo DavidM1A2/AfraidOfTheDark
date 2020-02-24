@@ -20,16 +20,14 @@ import net.minecraftforge.fml.relauncher.SideOnly
  *
  * @constructor sets the item name
  */
-class ItemSleepingPotion : AOTDItem("sleeping_potion")
-{
+class ItemSleepingPotion : AOTDItem("sleeping_potion") {
     /**
      * It takes 32 ticks to drink the potion
      *
      * @param stack The item stack being drunk
      * @return The number of ticks to drink the potion
      */
-    override fun getMaxItemUseDuration(stack: ItemStack): Int
-    {
+    override fun getMaxItemUseDuration(stack: ItemStack): Int {
         return 32
     }
 
@@ -40,8 +38,7 @@ class ItemSleepingPotion : AOTDItem("sleeping_potion")
      * @return True since the potion has the 'enchanted' look
      */
     @SideOnly(Side.CLIENT)
-    override fun hasEffect(stack: ItemStack): Boolean
-    {
+    override fun hasEffect(stack: ItemStack): Boolean {
         return true
     }
 
@@ -51,8 +48,7 @@ class ItemSleepingPotion : AOTDItem("sleeping_potion")
      * @param stack The item stack being drunk
      * @return DRINK since this is a potion
      */
-    override fun getItemUseAction(stack: ItemStack): EnumAction
-    {
+    override fun getItemUseAction(stack: ItemStack): EnumAction {
         return EnumAction.DRINK
     }
 
@@ -64,8 +60,7 @@ class ItemSleepingPotion : AOTDItem("sleeping_potion")
      * @param hand   The hand the player is using to hold the potion
      * @return SUCCESS since the potion drinking began
      */
-    override fun onItemRightClick(world: World, player: EntityPlayer, hand: EnumHand): ActionResult<ItemStack>
-    {
+    override fun onItemRightClick(world: World, player: EntityPlayer, hand: EnumHand): ActionResult<ItemStack> {
         player.activeHand = hand
         return ActionResult.newResult(EnumActionResult.SUCCESS, player.getHeldItem(hand))
     }
@@ -78,22 +73,17 @@ class ItemSleepingPotion : AOTDItem("sleeping_potion")
      * @param entityLiving The entity that drunk the potion
      * @return The itemstack that this item became
      */
-    override fun onItemUseFinish(stack: ItemStack, worldIn: World, entityLiving: EntityLivingBase): ItemStack
-    {
+    override fun onItemUseFinish(stack: ItemStack, worldIn: World, entityLiving: EntityLivingBase): ItemStack {
         // Server side only processing
-        if (!worldIn.isRemote)
-        {
+        if (!worldIn.isRemote) {
             // This potion only effects players
-            if (entityLiving is EntityPlayer)
-            {
+            if (entityLiving is EntityPlayer) {
                 entityLiving.addPotionEffect(PotionEffect(ModPotions.SLEEPING_POTION, 4800, 0, false, true))
                 // If the player is not in creative mode reduce the bottle stack size by 1 and return the bottle
-                if (!entityLiving.capabilities.isCreativeMode)
-                {
+                if (!entityLiving.capabilities.isCreativeMode) {
                     stack.shrink(1)
                     // If the stack is empty return a glass bottle, otherwise add a glass bottle to the player's inventory
-                    if (stack.isEmpty)
-                    {
+                    if (stack.isEmpty) {
                         return ItemStack(Items.GLASS_BOTTLE)
                     }
                     entityLiving.inventory.addItemStackToInventory(ItemStack(Items.GLASS_BOTTLE))

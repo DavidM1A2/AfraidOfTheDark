@@ -12,17 +12,15 @@ import net.minecraft.world.biome.Biome
  * @property spawnableCreatures A list of spawnable creatures, should always be empty
  */
 class BiomeNightmare : Biome(
-        BiomeProperties("Nightmare")
-                .setWaterColor(0xFF0000)
-                .setBaseHeight(0.125f)
-                .setHeightVariation(0.05f)
-                .setRainfall(1.0f)
-)
-{
+    BiomeProperties("Nightmare")
+        .setWaterColor(0xFF0000)
+        .setBaseHeight(0.125f)
+        .setHeightVariation(0.05f)
+        .setRainfall(1.0f)
+) {
     private val spawnableCreatures: MutableList<SpawnListEntry> = mutableListOf()
 
-    init
-    {
+    init {
         // Set the biome's registry name to nightmare
         registryName = ResourceLocation(Constants.MOD_ID, "nightmare")
         // We will have no flowers or creatures in this biome
@@ -36,8 +34,7 @@ class BiomeNightmare : Biome(
      * @param creatureType The creature type to test
      * @return An empty list
      */
-    override fun getSpawnableList(creatureType: EnumCreatureType): List<SpawnListEntry>
-    {
+    override fun getSpawnableList(creatureType: EnumCreatureType): List<SpawnListEntry> {
         spawnableCreatures.clear()
         return spawnableCreatures
     }
@@ -45,8 +42,7 @@ class BiomeNightmare : Biome(
     /**
      * @return 0, nothing spawns here
      */
-    override fun getSpawningChance(): Float
-    {
+    override fun getSpawningChance(): Float {
         return 0.0f
     }
 }

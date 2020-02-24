@@ -28,56 +28,52 @@ import kotlin.math.sin
  * @property enaria Enaria entity reference
  * @property random Random object reference
  */
-class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random)
-{
+class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random) {
     // A list of possible potion effects enaria can apply
     private val possibleEffects: List<() -> PotionEffect> = listOf(
-            // Slowness
-            { PotionEffect(Potion.getPotionById(2)!!, 300, 1, false, true) },
-            // Mining fatigue
-            { PotionEffect(Potion.getPotionById(4)!!, 300, 2, false, true) },
-            // Nausea
-            { PotionEffect(Potion.getPotionById(9)!!, 350, 1, false, true) },
-            // Blindness
-            { PotionEffect(Potion.getPotionById(15)!!, 100, 0, false, true) },
-            // Hunger
-            { PotionEffect(Potion.getPotionById(17)!!, 100, 10, false, true) },
-            // Weakness
-            { PotionEffect(Potion.getPotionById(18)!!, 100, 4, false, true) },
-            // Poison
-            { PotionEffect(Potion.getPotionById(19)!!, 100, 3, false, true) },
-            // Wither
-            { PotionEffect(Potion.getPotionById(20)!!, 100, 2, false, true) }
+        // Slowness
+        { PotionEffect(Potion.getPotionById(2)!!, 300, 1, false, true) },
+        // Mining fatigue
+        { PotionEffect(Potion.getPotionById(4)!!, 300, 2, false, true) },
+        // Nausea
+        { PotionEffect(Potion.getPotionById(9)!!, 350, 1, false, true) },
+        // Blindness
+        { PotionEffect(Potion.getPotionById(15)!!, 100, 0, false, true) },
+        // Hunger
+        { PotionEffect(Potion.getPotionById(17)!!, 100, 10, false, true) },
+        // Weakness
+        { PotionEffect(Potion.getPotionById(18)!!, 100, 4, false, true) },
+        // Poison
+        { PotionEffect(Potion.getPotionById(19)!!, 100, 3, false, true) },
+        // Wither
+        { PotionEffect(Potion.getPotionById(20)!!, 100, 2, false, true) }
     )
 
     // A set of random spell attacks enaria can perform
     private val possibleSpells: List<() -> Unit> = listOf(
-            { spellAOEPotion() },
-            { spellDarkness() },
-            { spellShuffleInventory() },
-            { spellSummonEnchantedSkeletons() },
-            { spellSummonSplinterDrones() },
-            { spellSummonWerewolves() }
+        { spellAOEPotion() },
+        { spellDarkness() },
+        { spellShuffleInventory() },
+        { spellSummonEnchantedSkeletons() },
+        { spellSummonSplinterDrones() },
+        { spellSummonWerewolves() }
     )
 
     /**
      * Makes enaria "basic attack" the player
      */
-    fun performBasicAttack()
-    {
+    fun performBasicAttack() {
         // Go over all nearby players
         for (entityPlayer in enaria.world.getEntitiesWithinAABB(
-                EntityPlayer::class.java,
-                enaria.entityBoundingBox.grow(BASIC_RANGE.toDouble())
-        ))
-        {
+            EntityPlayer::class.java,
+            enaria.entityBoundingBox.grow(BASIC_RANGE.toDouble())
+        )) {
             // If the player can be seen basic attack them
-            if (enaria.canEntityBeSeen(entityPlayer))
-            {
+            if (enaria.canEntityBeSeen(entityPlayer)) {
                 // Attack for 6 hearts
                 entityPlayer.attackEntityFrom(
-                        EntityDamageSource.causeMobDamage(enaria),
-                        enaria.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).attributeValue.toFloat()
+                    EntityDamageSource.causeMobDamage(enaria),
+                    enaria.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).attributeValue.toFloat()
                 )
                 // Show particle FX
                 performBasicAttackParticleEffectTo(entityPlayer)
@@ -90,17 +86,14 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
      *
      * @param entityPlayer The player being attacked
      */
-    private fun performBasicAttackParticleEffectTo(entityPlayer: EntityPlayer)
-    {
-        if (!entityPlayer.world.isRemote)
-        {
+    private fun performBasicAttackParticleEffectTo(entityPlayer: EntityPlayer) {
+        if (!entityPlayer.world.isRemote) {
             // Create a list of positions to create the particle fx at
             val positions = mutableListOf<Vec3d>()
             val speeds = mutableListOf<Vec3d>()
 
             // Create a trail of particle FX from enaria to the player
-            for (i in 0 until NUMBER_OF_PARTICLES_PER_ATTACK)
-            {
+            for (i in 0 until NUMBER_OF_PARTICLES_PER_ATTACK) {
                 // Compute the point along the ray from enaria -> player
                 val x = enaria.posX + (entityPlayer.posX - enaria.posX) * i / NUMBER_OF_PARTICLES_PER_ATTACK
                 val y = 1 + enaria.posY + (entityPlayer.posY - enaria.posY) * i / NUMBER_OF_PARTICLES_PER_ATTACK
@@ -117,11 +110,9 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
     /**
      * Performs a random spell attack
      */
-    fun performRandomSpell()
-    {
+    fun performRandomSpell() {
         // Server side processing only
-        if (!enaria.world.isRemote)
-        {
+        if (!enaria.world.isRemote) {
             // Perform a random spell
             possibleSpells.random().invoke()
 
@@ -139,9 +130,9 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
             speeds = List(positions.size)
             {
                 Vec3d(
-                        sin(Math.toRadians(360.0 / positions.size * it)) * 0.3,
-                        0.0,
-                        cos(Math.toRadians(360.0 / positions.size * it)) * 0.3
+                    sin(Math.toRadians(360.0 / positions.size * it)) * 0.3,
+                    0.0,
+                    cos(Math.toRadians(360.0 / positions.size * it)) * 0.3
                 )
             }
 
@@ -153,18 +144,16 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
     /**
      * Randomly teleports nearby the player
      */
-    fun randomTeleport()
-    {
+    fun randomTeleport() {
         // Server side processing only
-        if (!enaria.world.isRemote)
-        {
+        if (!enaria.world.isRemote) {
             // Create 30 random positions around enaria for teleport particles
             val positions = List(NUMBER_OF_PARTICLES_PER_TELEPORT)
             {
                 Vec3d(
-                        enaria.position.x + random.nextDouble() * 4 - 2.0,
-                        enaria.position.y + random.nextDouble() * 4 - 2.0 + 0.7,
-                        enaria.position.z + random.nextDouble() * 4 - 2.0
+                    enaria.position.x + random.nextDouble() * 4 - 2.0,
+                    enaria.position.y + random.nextDouble() * 4 - 2.0 + 0.7,
+                    enaria.position.z + random.nextDouble() * 4 - 2.0
                 )
             }
             val speeds = List(positions.size) { Vec3d.ZERO }
@@ -174,14 +163,22 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
 
             // Get all players in the allowed fight region and randomly teleport to one
             val entityPlayers = enaria.world.getEntitiesWithinAABB(EntityPlayer::class.java, enaria.allowedRegion)
-            if (entityPlayers.isNotEmpty())
-            {
+            if (entityPlayers.isNotEmpty()) {
                 val entityPlayer = entityPlayers.random()
                 // Teleport to the player and become invisible for 15 ticks
                 enaria.setPosition(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ)
                 enaria.addPotionEffect(PotionEffect(Potion.getPotionById(14)!!, 15, 0, false, false))
                 // Play the enderman teleport sound
-                enaria.world.playSound(null, enaria.posX, enaria.posY, enaria.posZ, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.HOSTILE, 1.0f, 1.0f)
+                enaria.world.playSound(
+                    null,
+                    enaria.posX,
+                    enaria.posY,
+                    enaria.posZ,
+                    SoundEvents.ENTITY_ENDERMEN_TELEPORT,
+                    SoundCategory.HOSTILE,
+                    1.0f,
+                    1.0f
+                )
             }
         }
     }
@@ -189,17 +186,23 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
     /**
      * Makes everything dark around the player
      */
-    private fun spellDarkness()
-    {
+    private fun spellDarkness() {
         // Go over all players in the fight arena
-        for (entityPlayer in enaria.world.getEntitiesWithinAABB(EntityPlayer::class.java, enaria.allowedRegion))
-        {
+        for (entityPlayer in enaria.world.getEntitiesWithinAABB(EntityPlayer::class.java, enaria.allowedRegion)) {
             // Play the wither hurt effect
-            enaria.world.playSound(null, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, SoundEvents.ENTITY_WITHER_HURT, SoundCategory.HOSTILE, 1.0f, 0.5f)
+            enaria.world.playSound(
+                null,
+                entityPlayer.posX,
+                entityPlayer.posY,
+                entityPlayer.posZ,
+                SoundEvents.ENTITY_WITHER_HURT,
+                SoundCategory.HOSTILE,
+                1.0f,
+                0.5f
+            )
 
             // Remove night vision
-            if (entityPlayer.isPotionActive(Potion.getPotionById(16)!!))
-            {
+            if (entityPlayer.isPotionActive(Potion.getPotionById(16)!!)) {
                 entityPlayer.removePotionEffect(Potion.getPotionById(16)!!)
             }
 
@@ -208,16 +211,12 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
         }
 
         // Go over all blocks within a +/- 5 radius that emit night and destroy them
-        for (x in enaria.position.x - DARKNESS_RANGE until enaria.position.x + DARKNESS_RANGE)
-        {
-            for (y in enaria.position.y - DARKNESS_RANGE until enaria.position.y + DARKNESS_RANGE)
-            {
-                for (z in enaria.position.z - DARKNESS_RANGE until enaria.position.z + DARKNESS_RANGE)
-                {
+        for (x in enaria.position.x - DARKNESS_RANGE until enaria.position.x + DARKNESS_RANGE) {
+            for (y in enaria.position.y - DARKNESS_RANGE until enaria.position.y + DARKNESS_RANGE) {
+                for (z in enaria.position.z - DARKNESS_RANGE until enaria.position.z + DARKNESS_RANGE) {
                     val blockPos = BlockPos(x, y, z)
                     // if the block emits light destroy it
-                    if (enaria.world.getBlockState(blockPos).getLightValue(enaria.world, blockPos) > 0)
-                    {
+                    if (enaria.world.getBlockState(blockPos).getLightValue(enaria.world, blockPos) > 0) {
                         enaria.world.setBlockToAir(blockPos)
                     }
                 }
@@ -228,14 +227,11 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
     /**
      * Shuffles the player's current item with a random one
      */
-    private fun spellShuffleInventory()
-    {
+    private fun spellShuffleInventory() {
         // Randomly pick two slots and swap them
-        for (entityPlayer in enaria.world.getEntitiesWithinAABB(EntityPlayer::class.java, enaria.allowedRegion))
-        {
+        for (entityPlayer in enaria.world.getEntitiesWithinAABB(EntityPlayer::class.java, enaria.allowedRegion)) {
             // Don't affect creative mode players
-            if (!entityPlayer.capabilities.isCreativeMode)
-            {
+            if (!entityPlayer.capabilities.isCreativeMode) {
                 // Pick a random inventory slot to swap with
                 val toSwapPos = random.nextInt(36)
 
@@ -259,20 +255,17 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
     /**
      * Summons 4 werewolves around enaria
      */
-    private fun spellSummonWerewolves()
-    {
+    private fun spellSummonWerewolves() {
         // The number of werewolves spawned
         var numberOfWWsSpawned = 0
         // Go over all blocks around enaria
-        for (facing in EnumFacing.HORIZONTALS)
-        {
+        for (facing in EnumFacing.HORIZONTALS) {
             // Grab the block next to enaria
             val current = enaria.position.offset(facing, 2).up()
             val block = enaria.world.getBlockState(current)
 
             // Ensure it's air so that a werewolf can spawn there
-            if (block.block is BlockAir)
-            {
+            if (block.block is BlockAir) {
                 // Create a wererwolf and spawn it next to enaria
                 val werewolf = EntityWerewolf(enaria.world)
                 werewolf.setPosition(current.x.toDouble(), current.y.toDouble(), current.z.toDouble())
@@ -287,8 +280,7 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
         }
 
         // If no wolves were spawned enaria is trapped, teleport her out
-        if (numberOfWWsSpawned == 0)
-        {
+        if (numberOfWWsSpawned == 0) {
             randomTeleport()
         }
     }
@@ -296,22 +288,19 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
     /**
      * Summons 2 splinter drones around enaria
      */
-    private fun spellSummonSplinterDrones()
-    {
+    private fun spellSummonSplinterDrones() {
         // Count the number of splinter drones spawned so far
         var numberOfSplinterDronesSpawned = 0
         // Get a list of possible sides to spawn drones at, randomize the sides
         val possibleSides = EnumFacing.HORIZONTALS.toList().shuffled()
         // Grab random sides
-        for (facing in possibleSides)
-        {
+        for (facing in possibleSides) {
             // Move outward 2 and up 2, attempt to spawn a drone there
             val current = enaria.position.offset(facing, 2).up(2)
             // Grab the block at that position
             val block = enaria.world.getBlockState(current)
             // If it's air, we can spawn the drone here
-            if (block.block is BlockAir)
-            {
+            if (block.block is BlockAir) {
                 // Create the drone, set the position, and spawn it
                 val splinterDrone = EntitySplinterDrone(enaria.world)
                 splinterDrone.setPosition(current.x.toDouble(), current.y.toDouble(), current.z.toDouble())
@@ -319,16 +308,14 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
 
                 // If we've spawned the max number of drones break out
                 numberOfSplinterDronesSpawned = numberOfSplinterDronesSpawned + 1
-                if (numberOfSplinterDronesSpawned == MAX_SPLINTERS_SPAWNED)
-                {
+                if (numberOfSplinterDronesSpawned == MAX_SPLINTERS_SPAWNED) {
                     break
                 }
             }
         }
 
         // If no drones were spawned enaria is stuck, so teleport
-        if (numberOfSplinterDronesSpawned == 0)
-        {
+        if (numberOfSplinterDronesSpawned == 0) {
             randomTeleport()
         }
     }
@@ -336,19 +323,16 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
     /**
      * Summons up to 8 enchanted skeletons around enaria
      */
-    private fun spellSummonEnchantedSkeletons()
-    {
+    private fun spellSummonEnchantedSkeletons() {
         var numberOfSkeletonsSpawned = 0
-        for (i in 0 until MAX_SKELETONS_SPAWNED)
-        {
+        for (i in 0 until MAX_SKELETONS_SPAWNED) {
             val facing = EnumFacing.HORIZONTALS.random()
             // Move outward 2 and up 1, attempt to spawn a skeleton there
             val current = enaria.position.offset(facing, 2).up()
             // Grab the block at that position
             val block = enaria.world.getBlockState(current)
             // If it's air, we can spawn the skeleton here
-            if (block.block is BlockAir)
-            {
+            if (block.block is BlockAir) {
                 // Create the skeleton, set the position, and spawn it
                 val enchantedSkeleton = EntityEnchantedSkeleton(enaria.world)
                 enchantedSkeleton.setPosition(current.x.toDouble(), current.y.toDouble(), current.z.toDouble())
@@ -358,8 +342,7 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
         }
 
         // If no skeletons were spawned enaria is stuck, so teleport
-        if (numberOfSkeletonsSpawned == 0)
-        {
+        if (numberOfSkeletonsSpawned == 0) {
             randomTeleport()
         }
     }
@@ -367,19 +350,15 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
     /**
      * Applies random negative potion effects to the players nearby
      */
-    private fun spellAOEPotion()
-    {
+    private fun spellAOEPotion() {
         // Go over all players
-        for (entityPlayer in enaria.world.getEntitiesWithinAABB(EntityPlayer::class.java, enaria.allowedRegion))
-        {
+        for (entityPlayer in enaria.world.getEntitiesWithinAABB(EntityPlayer::class.java, enaria.allowedRegion)) {
             // Only apply to non-creative mode
-            if (!entityPlayer.capabilities.isCreativeMode)
-            {
+            if (!entityPlayer.capabilities.isCreativeMode) {
                 // Create a list of effect indices
                 val effectIndices = possibleEffects.indices.shuffled()
                 // Apply 3 random bad potion effects
-                for (i in 0..2)
-                {
+                for (i in 0..2) {
                     entityPlayer.addPotionEffect(possibleEffects[effectIndices[i]].invoke())
                 }
             }
@@ -387,14 +366,14 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
 
         // Play the potion sound effect
         enaria.world.playSound(
-                null,
-                enaria.posX,
-                enaria.posY,
-                enaria.posZ,
-                SoundEvents.ENTITY_SPLASH_POTION_BREAK,
-                SoundCategory.HOSTILE,
-                0.8f,
-                0.4f / (random.nextFloat() * 0.4f + 0.8f)
+            null,
+            enaria.posX,
+            enaria.posY,
+            enaria.posZ,
+            SoundEvents.ENTITY_SPLASH_POTION_BREAK,
+            SoundCategory.HOSTILE,
+            0.8f,
+            0.4f / (random.nextFloat() * 0.4f + 0.8f)
         )
     }
 
@@ -403,13 +382,14 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
      *
      * @param particlePacket The packet to send to everyone in the fight
      */
-    private fun summonParticles(particlePacket: SyncParticle)
-    {
-        AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(particlePacket, TargetPoint(enaria.dimension, enaria.posX, enaria.posY, enaria.posZ, 100.0))
+    private fun summonParticles(particlePacket: SyncParticle) {
+        AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(
+            particlePacket,
+            TargetPoint(enaria.dimension, enaria.posX, enaria.posY, enaria.posZ, 100.0)
+        )
     }
 
-    companion object
-    {
+    companion object {
         // Constants used by enaria's attacks
         private const val DARKNESS_RANGE = 5
         private const val BASIC_RANGE = 20

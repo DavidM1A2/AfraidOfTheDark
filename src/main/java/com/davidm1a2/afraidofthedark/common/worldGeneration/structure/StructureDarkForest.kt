@@ -36,17 +36,19 @@ import kotlin.random.Random
  * @property height The height of the dark forest dungeon
  * @property bedHouseLength The bed house length
  */
-class StructureDarkForest : AOTDStructure("dark_forest")
-{
+class StructureDarkForest : AOTDStructure("dark_forest") {
     private val width: Int
     private val bedHouseWidth: Int
     private val height: Int
     private val bedHouseLength: Int
 
-    init
-    {
-        val widestTree = ModSchematics.DARK_FOREST_TREES.map { it.getWidth() }.maxWith(Comparator { tree1, tree2 -> tree1.compareTo(tree2) })!!.toInt()
-        val longestTree = ModSchematics.DARK_FOREST_TREES.map { it.getLength() }.maxWith(Comparator { tree1, tree2 -> tree1.compareTo(tree2) })!!.toInt()
+    init {
+        val widestTree = ModSchematics.DARK_FOREST_TREES.map { it.getWidth() }.maxWith(Comparator { tree1, tree2 ->
+            tree1.compareTo(tree2)
+        })!!.toInt()
+        val longestTree = ModSchematics.DARK_FOREST_TREES.map { it.getLength() }.maxWith(Comparator { tree1, tree2 ->
+            tree1.compareTo(tree2)
+        })!!.toInt()
 
         bedHouseWidth = ModSchematics.BED_HOUSE.getWidth().toInt()
         bedHouseLength = ModSchematics.BED_HOUSE.getLength().toInt()
@@ -66,76 +68,67 @@ class StructureDarkForest : AOTDStructure("dark_forest")
      * @param biomeProvider The provider used to generate the world, use biomeProvider.getBiomes() to get what biomes exist at a position
      * @return A value between 0 and 1 which is the chance between 0% and 100% that a structure could spawn at the given position
      */
-    override fun computeChanceToGenerateAt(blockPos: BlockPos, heightmap: IHeightmap, biomeProvider: BiomeProvider): Double
-    {
+    override fun computeChanceToGenerateAt(
+        blockPos: BlockPos,
+        heightmap: IHeightmap,
+        biomeProvider: BiomeProvider
+    ): Double {
         // Compute the two chunk position corners of the house
-        val houseCorner1BlockPos = blockPos.add(getXWidth() / 2 - bedHouseWidth / 2, 0, getZLength() / 2 - bedHouseLength / 2)
+        val houseCorner1BlockPos =
+            blockPos.add(getXWidth() / 2 - bedHouseWidth / 2, 0, getZLength() / 2 - bedHouseLength / 2)
         val houseCorner2BlockPos = houseCorner1BlockPos.add(bedHouseWidth, 0, bedHouseLength)
         val houseCorner1ChunkPos = ChunkPos(houseCorner1BlockPos)
         val houseCorner2ChunkPos = ChunkPos(houseCorner2BlockPos)
 
         // Test all the chunks that the house will be in, ensure that all chunks that the house will be in are of the correct type
-        val houseValid = processChunks(object : IChunkProcessor<Boolean>
-        {
+        val houseValid = processChunks(object : IChunkProcessor<Boolean> {
             // Compute the minimum and maximum height over all the chunks that the dark forest house will cross over
             var minHeight = Int.MAX_VALUE
             var maxHeight = Int.MIN_VALUE
 
-            override fun processChunk(chunkPos: ChunkPos): Boolean
-            {
+            override fun processChunk(chunkPos: ChunkPos): Boolean {
                 val biomes = approximateBiomesInChunk(biomeProvider, chunkPos.x, chunkPos.z)
                 // Dark forest can only spawn in in plains or savannahs
-                return if (COMPATIBLE_HOUSE_BIOMES.containsAll(biomes))
-                {
+                return if (COMPATIBLE_HOUSE_BIOMES.containsAll(biomes)) {
                     // Compute min and max height
                     minHeight = min(minHeight, heightmap.getLowestHeight(chunkPos))
                     maxHeight = max(maxHeight, heightmap.getHighestHeight(chunkPos))
                     true
-                }
-                else
-                {
+                } else {
                     false
                 }
             }
 
-            override fun getResult(): Boolean
-            {
+            override fun getResult(): Boolean {
                 // If the height difference is less than 8 then it's OK to place the house here
                 return maxHeight - minHeight < 8
             }
 
-            override fun getDefaultResult(): Boolean
-            {
+            override fun getDefaultResult(): Boolean {
                 return false
             }
         },
-                object : IChunkIterator
-                {
-                    override fun getChunks(): List<ChunkPos>
-                    {
-                        // Go over all chunks that the bed house would cover and check them
-                        val houseChunks = mutableListOf<ChunkPos>()
+            object : IChunkIterator {
+                override fun getChunks(): List<ChunkPos> {
+                    // Go over all chunks that the bed house would cover and check them
+                    val houseChunks = mutableListOf<ChunkPos>()
 
-                        for (chunkX in houseCorner1ChunkPos.x..houseCorner1ChunkPos.x)
-                        {
-                            for (chunkZ in houseCorner2ChunkPos.z..houseCorner2ChunkPos.z)
-                            {
-                                houseChunks.add(ChunkPos(chunkX, chunkZ))
-                            }
+                    for (chunkX in houseCorner1ChunkPos.x..houseCorner1ChunkPos.x) {
+                        for (chunkZ in houseCorner2ChunkPos.z..houseCorner2ChunkPos.z) {
+                            houseChunks.add(ChunkPos(chunkX, chunkZ))
                         }
-
-                        return houseChunks
                     }
-                })
+
+                    return houseChunks
+                }
+            })
 
         // If the house isn't valid don't place a dark forest here
-        return if (!houseValid)
-        {
+        return if (!houseValid) {
             0.0
         }
         // If the house is valid we're good to go, the chance to gen will be .2%
-        else
-        {
+        else {
             0.002 * AfraidOfTheDark.INSTANCE.configurationHandler.darkForestMultiplier
         }
     }
@@ -147,12 +140,10 @@ class StructureDarkForest : AOTDStructure("dark_forest")
      * @param chunkPos Optional chunk position of a chunk to generate in. If supplied all blocks generated must be in this chunk only!
      * @param data     Data containing info about structure placement like tree locations and prop positions
      */
-    override fun generate(world: World, chunkPos: ChunkPos, data: NBTTagCompound)
-    {
+    override fun generate(world: World, chunkPos: ChunkPos, data: NBTTagCompound) {
         // Create props first since they're least important and can be overridden
         val props = data.getTagList(NBT_PROPS, Constants.NBT.TAG_COMPOUND)
-        for (i in 0 until props.tagCount())
-        {
+        for (i in 0 until props.tagCount()) {
             val schematicNBT = props.getCompoundTagAt(i)
             // Grab the schematic ID to generate
             val schematicId = schematicNBT.getInteger(NBT_SCHEMATIC_ID)
@@ -166,8 +157,7 @@ class StructureDarkForest : AOTDStructure("dark_forest")
 
         // Create trees second since they shouldn't override the house but can override props
         val trees = data.getTagList(NBT_TREES, Constants.NBT.TAG_COMPOUND)
-        for (i in 0 until trees.tagCount())
-        {
+        for (i in 0 until trees.tagCount()) {
             val schematicNBT = trees.getCompoundTagAt(i)
             // Grab the schematic ID to generate
             val schematicId = schematicNBT.getInteger(NBT_SCHEMATIC_ID)
@@ -192,8 +182,7 @@ class StructureDarkForest : AOTDStructure("dark_forest")
      * @param biomeProvider The biome provider used to generate props on dry land only
      * @return The tree and prop positions used in generation and structure position
      */
-    override fun generateStructureData(world: World, blockPos: BlockPos, biomeProvider: BiomeProvider): NBTTagCompound
-    {
+    override fun generateStructureData(world: World, blockPos: BlockPos, biomeProvider: BiomeProvider): NBTTagCompound {
         /*
         Dark forest layout:
            ________________________________
@@ -216,7 +205,8 @@ class StructureDarkForest : AOTDStructure("dark_forest")
         val leftGutter = Rectangle(0, 0, (getXWidth() - bedHouseWidth) / 2, getZLength())
         val rightGutter = Rectangle(bedHouseWidth + leftGutter.width, 0, leftGutter.width, getZLength())
         val bottomGutter = Rectangle(0, 0, getXWidth(), (getZLength() - bedHouseLength) / 2)
-        val topGutter = Rectangle(0, bedHouseLength + bottomGutter.height, getXWidth(), (getZLength() - bedHouseLength) / 2)
+        val topGutter =
+            Rectangle(0, bedHouseLength + bottomGutter.height, getXWidth(), (getZLength() - bedHouseLength) / 2)
 
         // A list of gutters
         val gutters = listOf(leftGutter, rightGutter, bottomGutter, topGutter)
@@ -243,28 +233,24 @@ class StructureDarkForest : AOTDStructure("dark_forest")
      * @param heightmap A heightmap to use to compute position
      * @param blockPos  The position the dark forest was placed at
      */
-    private fun setBedHousePosition(data: NBTTagCompound, heightmap: IHeightmap, blockPos: BlockPos)
-    {
+    private fun setBedHousePosition(data: NBTTagCompound, heightmap: IHeightmap, blockPos: BlockPos) {
         // Compute the house's y level so that it sits flat
 
         // Compute the two chunk position corners of the house
-        val houseCorner1BlockPos = blockPos.add(getXWidth() / 2 - bedHouseWidth / 2, 0, getZLength() / 2 - bedHouseLength / 2)
+        val houseCorner1BlockPos =
+            blockPos.add(getXWidth() / 2 - bedHouseWidth / 2, 0, getZLength() / 2 - bedHouseLength / 2)
         val houseCorner2BlockPos = houseCorner1BlockPos.add(bedHouseWidth, 0, bedHouseLength)
 
         // Find the lowest y value of the chunks covered by the bed house
         val houseCorner1ChunkPos = ChunkPos(houseCorner1BlockPos)
         val houseCorner2ChunkPos = ChunkPos(houseCorner2BlockPos)
-        val minGroundHeight = processChunks(LowestHeightChunkProcessor(heightmap), object : IChunkIterator
-        {
-            override fun getChunks(): List<ChunkPos>
-            {
+        val minGroundHeight = processChunks(LowestHeightChunkProcessor(heightmap), object : IChunkIterator {
+            override fun getChunks(): List<ChunkPos> {
                 val houseChunks = mutableListOf<ChunkPos>()
 
                 // Go over all chunks that the bed house is covering
-                for (chunkX in houseCorner1ChunkPos.x..houseCorner2ChunkPos.x)
-                {
-                    for (chunkZ in houseCorner1ChunkPos.z..houseCorner2ChunkPos.z)
-                    {
+                for (chunkX in houseCorner1ChunkPos.x..houseCorner2ChunkPos.x) {
+                    for (chunkZ in houseCorner1ChunkPos.z..houseCorner2ChunkPos.z) {
                         houseChunks.add(ChunkPos(chunkX, chunkZ))
                     }
                 }
@@ -288,14 +274,18 @@ class StructureDarkForest : AOTDStructure("dark_forest")
      * @param biomeProvider The biome provider used to get information about the biomes a prop will be placed in
      * @param gutters       The gutters around the bed house to generate in
      */
-    private fun addRandomProps(data: NBTTagCompound, heightmap: IHeightmap, blockPos: BlockPos, biomeProvider: BiomeProvider, gutters: List<Rectangle>)
-    {
+    private fun addRandomProps(
+        data: NBTTagCompound,
+        heightmap: IHeightmap,
+        blockPos: BlockPos,
+        biomeProvider: BiomeProvider,
+        gutters: List<Rectangle>
+    ) {
         val props = NBTTagList()
         // The number of props to generate
         val numberOfProps = Random.nextInt(25, 100)
 
-        for (i in 0 until numberOfProps)
-        {
+        for (i in 0 until numberOfProps) {
             // Get a random prop schematic ID
             val schematicId = Random.nextInt(0, ModSchematics.DARK_FOREST_PROPS.size)
             // Get that schematic
@@ -310,13 +300,20 @@ class StructureDarkForest : AOTDStructure("dark_forest")
 
             // Figure out if this position is valid (no water under props)
             val biomes = approximateBiomesInChunk(biomeProvider, chunkPos.x, chunkPos.z)
-            if (INCOMPATIBLE_BIOMES.any { biomes.contains(it) })
-            {
+            if (INCOMPATIBLE_BIOMES.any { biomes.contains(it) }) {
                 continue
             }
 
             // Get the low height in the center chunk of the schematic and place the schematic there.
-            val yPos = heightmap.getLowestHeight(ChunkPos(schematicPosNoY.add(schematic.getWidth() / 2, 0, schematic.getLength() / 2)))
+            val yPos = heightmap.getLowestHeight(
+                ChunkPos(
+                    schematicPosNoY.add(
+                        schematic.getWidth() / 2,
+                        0,
+                        schematic.getLength() / 2
+                    )
+                )
+            )
             // Update the Y value
             val schematicPos = BlockPos(schematicPosNoY.x, yPos, schematicPosNoY.z)
 
@@ -337,8 +334,7 @@ class StructureDarkForest : AOTDStructure("dark_forest")
      * @param gutter   The gutter to put the prop in
      * @return The position that this prop will be placed at in the world
      */
-    private fun getRandomPropPosition(prop: Schematic, blockPos: BlockPos, gutter: Rectangle): BlockPos
-    {
+    private fun getRandomPropPosition(prop: Schematic, blockPos: BlockPos, gutter: Rectangle): BlockPos {
         // Ensure the schematic fits perfectly into the gutter without going outside
         val xMin = gutter.x
         val xMax = gutter.x + gutter.width - prop.getWidth()
@@ -358,14 +354,18 @@ class StructureDarkForest : AOTDStructure("dark_forest")
      * @param gutters       The gutters around the bed house to generate in
      * @param bedHouseSides A parallel list to gutters with the sides that the bed house is at for each gutter
      */
-    private fun addRandomTrees(data: NBTTagCompound, heightmap: IHeightmap, blockPos: BlockPos, gutters: List<Rectangle>, bedHouseSides: List<EnumFacing>)
-    {
+    private fun addRandomTrees(
+        data: NBTTagCompound,
+        heightmap: IHeightmap,
+        blockPos: BlockPos,
+        gutters: List<Rectangle>,
+        bedHouseSides: List<EnumFacing>
+    ) {
         val trees = NBTTagList()
 
         // The number of trees to generate
         val numberOfTrees = Random.nextInt(10, 20)
-        for (i in 0 until numberOfTrees)
-        {
+        for (i in 0 until numberOfTrees) {
             // Get a random tree schematic ID
             val schematicId = Random.nextInt(0, ModSchematics.DARK_FOREST_TREES.size)
             // Get that schematic
@@ -379,7 +379,15 @@ class StructureDarkForest : AOTDStructure("dark_forest")
             // Compute the x,z position the schematic should be at
             val schematicPosNoY = getRandomTreePosition(schematic, blockPos, gutter, bedHouseSide)
             // Get the low height in the center chunk of the schematic and place the schematic there.
-            var yPos = heightmap.getLowestHeight(ChunkPos(schematicPosNoY.add(schematic.getWidth() / 2, 0, schematic.getLength() / 2)))
+            var yPos = heightmap.getLowestHeight(
+                ChunkPos(
+                    schematicPosNoY.add(
+                        schematic.getWidth() / 2,
+                        0,
+                        schematic.getLength() / 2
+                    )
+                )
+            )
             // Trees need to have roots underground so move them down by 5, ensure it's above ground though
             yPos = (yPos - 5).coerceIn(0, Int.MAX_VALUE)
             // Update the Y value
@@ -405,8 +413,12 @@ class StructureDarkForest : AOTDStructure("dark_forest")
      * overlap with the house since the leaves may go over top
      * @return The position that this tree will be placed at
      */
-    private fun getRandomTreePosition(tree: Schematic, blockPos: BlockPos, gutter: Rectangle, bedHouseSide: EnumFacing): BlockPos
-    {
+    private fun getRandomTreePosition(
+        tree: Schematic,
+        blockPos: BlockPos,
+        gutter: Rectangle,
+        bedHouseSide: EnumFacing
+    ): BlockPos {
         var xMin: Int
         var xMax: Int
         var zMin: Int
@@ -423,8 +435,7 @@ class StructureDarkForest : AOTDStructure("dark_forest")
         zMax = gutter.y + gutter.height - tree.getLength() / 2
         zMin = gutter.y + tree.getLength() / 2
 
-        when (bedHouseSide)
-        {
+        when (bedHouseSide) {
             EnumFacing.EAST -> xMax = gutter.x + gutter.width - trunkSize
             EnumFacing.WEST -> xMin = gutter.x + trunkSize
             EnumFacing.NORTH -> zMax = gutter.y + gutter.height - trunkSize
@@ -445,39 +456,36 @@ class StructureDarkForest : AOTDStructure("dark_forest")
     /**
      * @return The width of the structure in blocks
      */
-    override fun getXWidth(): Int
-    {
+    override fun getXWidth(): Int {
         return width
     }
 
     /**
      * @return The length of the structure in blocks
      */
-    override fun getZLength(): Int
-    {
+    override fun getZLength(): Int {
         return height
     }
 
-    companion object
-    {
+    companion object {
         // A set of invalid prop biomes
         private val INCOMPATIBLE_BIOMES = setOf(
-                Biomes.OCEAN,
-                Biomes.DEEP_OCEAN,
-                Biomes.FROZEN_OCEAN,
-                Biomes.FROZEN_RIVER,
-                Biomes.RIVER,
-                Biomes.SKY,
-                Biomes.VOID
+            Biomes.OCEAN,
+            Biomes.DEEP_OCEAN,
+            Biomes.FROZEN_OCEAN,
+            Biomes.FROZEN_RIVER,
+            Biomes.RIVER,
+            Biomes.SKY,
+            Biomes.VOID
         )
 
         // A set of compatible biomes
         private val COMPATIBLE_HOUSE_BIOMES = setOf(
-                Biomes.SAVANNA,
-                Biomes.MUTATED_SAVANNA,
-                Biomes.PLAINS,
-                Biomes.MUTATED_PLAINS,
-                ModBiomes.ERIE_FOREST
+            Biomes.SAVANNA,
+            Biomes.MUTATED_SAVANNA,
+            Biomes.PLAINS,
+            Biomes.MUTATED_PLAINS,
+            ModBiomes.ERIE_FOREST
         )
 
         // NBT tag keys

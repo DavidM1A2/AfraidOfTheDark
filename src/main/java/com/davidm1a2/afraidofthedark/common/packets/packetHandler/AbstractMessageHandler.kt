@@ -15,8 +15,7 @@ import net.minecraftforge.fml.relauncher.SideOnly
  * @param <T> The packet type that can be handled
  * @author _Bedrock_Miner_ (minerbedrock@gmail.com)
  */
-abstract class AbstractMessageHandler<T : IMessage> : IMessageHandler<T, IMessage>
-{
+abstract class AbstractMessageHandler<T : IMessage> : IMessageHandler<T, IMessage> {
     /**
      * Handles a packet on client side. Note that this occurs after decoding has completed.
      *
@@ -42,9 +41,14 @@ abstract class AbstractMessageHandler<T : IMessage> : IMessageHandler<T, IMessag
      * @param message the message
      */
     @SideOnly(Side.CLIENT)
-    private fun runHandleClient(message: T, ctx: MessageContext)
-    {
-        Minecraft.getMinecraft().addScheduledTask { handleClientMessage(if (ctx.side.isClient) Minecraft.getMinecraft().player else ctx.serverHandler.player, message, ctx) }
+    private fun runHandleClient(message: T, ctx: MessageContext) {
+        Minecraft.getMinecraft().addScheduledTask {
+            handleClientMessage(
+                if (ctx.side.isClient) Minecraft.getMinecraft().player else ctx.serverHandler.player,
+                message,
+                ctx
+            )
+        }
     }
 
     /**
@@ -52,8 +56,7 @@ abstract class AbstractMessageHandler<T : IMessage> : IMessageHandler<T, IMessag
      *
      * @param message the message
      */
-    private fun runHandleServer(message: T, ctx: MessageContext)
-    {
+    private fun runHandleServer(message: T, ctx: MessageContext) {
         val player = ctx.serverHandler.player
         player.world.minecraftServer!!.addScheduledTask { handleServerMessage(player, message, ctx) }
     }
@@ -64,14 +67,10 @@ abstract class AbstractMessageHandler<T : IMessage> : IMessageHandler<T, IMessag
      * @param message the message
      * @param ctx     the context
      */
-    override fun onMessage(message: T, ctx: MessageContext): IMessage?
-    {
-        if (ctx.side.isClient)
-        {
+    override fun onMessage(message: T, ctx: MessageContext): IMessage? {
+        if (ctx.side.isClient) {
             runHandleClient(message, ctx)
-        }
-        else
-        {
+        } else {
             runHandleServer(message, ctx)
         }
         return null

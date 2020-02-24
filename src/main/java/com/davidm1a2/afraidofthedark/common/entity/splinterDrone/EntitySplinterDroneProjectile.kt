@@ -28,14 +28,12 @@ import kotlin.math.sqrt
  * @property ticksInAir The number of ticks the projectile has been in the air
  * @property animHandler The animation handler used to manage animations
  */
-class EntitySplinterDroneProjectile(world: World) : Entity(world), IMCAnimatedEntity
-{
+class EntitySplinterDroneProjectile(world: World) : Entity(world), IMCAnimatedEntity {
     private var shootingEntity: EntitySplinterDrone? = null
     private var ticksInAir = 0
     private val animHandler = AnimationHandlerSplinterDroneProjectile(this)
 
-    init
-    {
+    init {
         setSize(0.4f, 0.4f)
     }
 
@@ -48,18 +46,23 @@ class EntitySplinterDroneProjectile(world: World) : Entity(world), IMCAnimatedEn
      * @param yVelocity      The y component of velocity of the projectile
      * @param zVelocity      The z component of velocity of the projectile
      */
-    constructor(world: World, shootingEntity: EntitySplinterDrone, xVelocity: Double, yVelocity: Double, zVelocity: Double) : this(world)
-    {
+    constructor(
+        world: World,
+        shootingEntity: EntitySplinterDrone,
+        xVelocity: Double,
+        yVelocity: Double,
+        zVelocity: Double
+    ) : this(world) {
         // Update the entity that fired this projectile
         this.shootingEntity = shootingEntity
 
         // Position the entity at the center of the drone
         setLocationAndAngles(
-                shootingEntity.posX,
-                shootingEntity.posY + shootingEntity.eyeHeight,
-                shootingEntity.posZ,
-                shootingEntity.rotationYaw,
-                shootingEntity.rotationPitch
+            shootingEntity.posX,
+            shootingEntity.posY + shootingEntity.eyeHeight,
+            shootingEntity.posZ,
+            shootingEntity.rotationYaw,
+            shootingEntity.rotationPitch
         )
 
         val velocityMagnitude = sqrt(xVelocity * xVelocity + yVelocity * yVelocity + zVelocity * zVelocity)
@@ -72,47 +75,40 @@ class EntitySplinterDroneProjectile(world: World) : Entity(world), IMCAnimatedEn
     /**
      * Required init method, does nothing
      */
-    override fun entityInit()
-    {
+    override fun entityInit() {
     }
 
     /**
      * Called every tick to update the entity's logic
      */
-    override fun onUpdate()
-    {
+    override fun onUpdate() {
         super.onUpdate()
 
         // Animations only update client side
-        if (world.isRemote)
-        {
+        if (world.isRemote) {
             animHandler.animationsUpdate()
         }
 
         // Update logic server side
-        if (!world.isRemote)
-        {
+        if (!world.isRemote) {
             // Ensure the shooting entity is null or not dead, and that the area the projectile is in is loaded
-            if ((shootingEntity == null || !shootingEntity!!.isDead) && world.isBlockLoaded(BlockPos(this)))
-            {
+            if ((shootingEntity == null || !shootingEntity!!.isDead) && world.isBlockLoaded(BlockPos(this))) {
                 // We are in the air, so increment our counter
                 ticksInAir++
 
                 // Perform a ray cast to test if we've hit something. We can only hit the entity that fired the projectile after 25 ticks
-                val rayTraceResult: RayTraceResult? = ProjectileHelper.forwardsRaycast(this, true, ticksInAir >= 25, shootingEntity)
+                val rayTraceResult: RayTraceResult? =
+                    ProjectileHelper.forwardsRaycast(this, true, ticksInAir >= 25, shootingEntity)
 
                 // If the ray trace hit something, perform the hit effect
                 // Intellij says this is always non-null, that is not the case....
-                if (rayTraceResult != null)
-                {
+                if (rayTraceResult != null) {
                     onImpact(rayTraceResult)
                 }
 
                 // Continue flying in the direction of motion, update the position
                 setPosition(posX + motionX, posY + motionY, posZ + motionZ)
-            }
-            else
-            {
+            } else {
                 setDead()
             }
         }
@@ -121,15 +117,12 @@ class EntitySplinterDroneProjectile(world: World) : Entity(world), IMCAnimatedEn
     /**
      * Called from onUpdate to update entity specific logic
      */
-    override fun onEntityUpdate()
-    {
+    override fun onEntityUpdate() {
         super.onEntityUpdate()
 
         // If we're client side and no animation is active play the sping animation
-        if (world.isRemote)
-        {
-            if (!animHandler.isAnimationActive("Sping"))
-            {
+        if (world.isRemote) {
+            if (!animHandler.isAnimationActive("Sping")) {
                 animHandler.activateAnimation("Sping", 0f)
             }
         }
@@ -140,20 +133,15 @@ class EntitySplinterDroneProjectile(world: World) : Entity(world), IMCAnimatedEn
      *
      * @param result The result of the ray hitting an object
      */
-    private fun onImpact(result: RayTraceResult)
-    {
+    private fun onImpact(result: RayTraceResult) {
         // Only process server side
-        if (!world.isRemote)
-        {
+        if (!world.isRemote) {
             // Only do something if we hit an entity
-            if (result.entityHit != null)
-            {
+            if (result.entityHit != null) {
                 // Cause a slight amount of damage
-                if (result.entityHit.attackEntityFrom(causePlasmaBallDamage(this, shootingEntity), 1.0f))
-                {
+                if (result.entityHit.attackEntityFrom(causePlasmaBallDamage(this, shootingEntity), 1.0f)) {
                     // If we hit a player slow them
-                    if (result.entityHit is EntityPlayer)
-                    {
+                    if (result.entityHit is EntityPlayer) {
                         // The player that was hit, add slowness
                         val entityPlayer = result.entityHit as EntityPlayer
                         entityPlayer.addPotionEffect(PotionEffect(Potion.getPotionById(2)!!, 60, 2, false, false))
@@ -171,8 +159,7 @@ class EntitySplinterDroneProjectile(world: World) : Entity(world), IMCAnimatedEn
      *
      * @param compound The nbt compound to write to
      */
-    override fun writeEntityToNBT(compound: NBTTagCompound)
-    {
+    override fun writeEntityToNBT(compound: NBTTagCompound) {
         compound.setInteger(NBT_TICKS_IN_AIR, ticksInAir)
         compound.setTag(NBT_MOTION_DIRECTION, newDoubleNBTList(motionX, motionY, motionZ))
     }
@@ -182,8 +169,7 @@ class EntitySplinterDroneProjectile(world: World) : Entity(world), IMCAnimatedEn
      *
      * @param compound The nbt compound to read data from
      */
-    override fun readEntityFromNBT(compound: NBTTagCompound)
-    {
+    override fun readEntityFromNBT(compound: NBTTagCompound) {
         ticksInAir = compound.getInteger(NBT_TICKS_IN_AIR)
         val motionTagList = compound.getTagList(NBT_MOTION_DIRECTION, Constants.NBT.TAG_DOUBLE)
         motionX = motionTagList.getDoubleAt(0)
@@ -194,8 +180,7 @@ class EntitySplinterDroneProjectile(world: World) : Entity(world), IMCAnimatedEn
     /**
      * @return True, the projectile can hit other entities
      */
-    override fun canBeCollidedWith(): Boolean
-    {
+    override fun canBeCollidedWith(): Boolean {
         return true
     }
 
@@ -204,8 +189,7 @@ class EntitySplinterDroneProjectile(world: World) : Entity(world), IMCAnimatedEn
      *
      * @return The size of the entity, 0.4
      */
-    override fun getCollisionBorderSize(): Float
-    {
+    override fun getCollisionBorderSize(): Float {
         return 0.4f
     }
 
@@ -216,8 +200,7 @@ class EntitySplinterDroneProjectile(world: World) : Entity(world), IMCAnimatedEn
      * @param amount The amount of damage inflicted
      * @return False, this projectile cannot be attacked
      */
-    override fun attackEntityFrom(source: DamageSource, amount: Float): Boolean
-    {
+    override fun attackEntityFrom(source: DamageSource, amount: Float): Boolean {
         return false
     }
 
@@ -226,8 +209,7 @@ class EntitySplinterDroneProjectile(world: World) : Entity(world), IMCAnimatedEn
      *
      * @return 1.0, max brightness so the projectile isn't too dar
      */
-    override fun getBrightness(): Float
-    {
+    override fun getBrightness(): Float {
         return 1.0f
     }
 
@@ -237,8 +219,7 @@ class EntitySplinterDroneProjectile(world: World) : Entity(world), IMCAnimatedEn
      * @return The same value as EntityFireball
      */
     @SideOnly(Side.CLIENT)
-    override fun getBrightnessForRender(): Int
-    {
+    override fun getBrightnessForRender(): Int {
         return 15728880
     }
 
@@ -247,13 +228,11 @@ class EntitySplinterDroneProjectile(world: World) : Entity(world), IMCAnimatedEn
      *
      * @return The animation handler for the projectile
      */
-    override fun getAnimationHandler(): AnimationHandler
-    {
+    override fun getAnimationHandler(): AnimationHandler {
         return animHandler
     }
 
-    companion object
-    {
+    companion object {
         // NBT compound constants
         private const val NBT_TICKS_IN_AIR = "ticks_in_air"
         private const val NBT_MOTION_DIRECTION = "motion_direction"

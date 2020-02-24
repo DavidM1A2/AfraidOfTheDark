@@ -13,8 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger
  * @constructor just calls super with our ID
  * @property uniqueVisitors The current number of unique dimension visitors
  */
-class IslandVisitorData @JvmOverloads constructor(identifier: String = IDENTIFIER) : WorldSavedData(identifier)
-{
+class IslandVisitorData @JvmOverloads constructor(identifier: String = IDENTIFIER) : WorldSavedData(identifier) {
     private val uniqueVisitors = AtomicInteger(-1)
 
     /**
@@ -22,8 +21,7 @@ class IslandVisitorData @JvmOverloads constructor(identifier: String = IDENTIFIE
      *
      * @param nbt The NBT data to read from
      */
-    override fun readFromNBT(nbt: NBTTagCompound)
-    {
+    override fun readFromNBT(nbt: NBTTagCompound) {
         uniqueVisitors.set(nbt.getInteger(NBT_UNIQUE_VISITORS))
     }
 
@@ -33,8 +31,7 @@ class IslandVisitorData @JvmOverloads constructor(identifier: String = IDENTIFIE
      * @param compound The NBT tag to write to
      * @return The same NBT tag as passed in
      */
-    override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound
-    {
+    override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
         compound.setInteger(NBT_UNIQUE_VISITORS, uniqueVisitors.get())
         return compound
     }
@@ -44,13 +41,11 @@ class IslandVisitorData @JvmOverloads constructor(identifier: String = IDENTIFIE
      *
      * @return The newly updated count of unique visitors
      */
-    fun addAndReturnNewVisitor(): Int
-    {
+    fun addAndReturnNewVisitor(): Int {
         return uniqueVisitors.incrementAndGet()
     }
 
-    companion object
-    {
+    companion object {
         // A list of valid dimensions
         private val VALID_DIMENSIONS = setOf(ModDimensions.NIGHTMARE.id, ModDimensions.VOID_CHEST.id)
         // The NBT key for the unique visitors value
@@ -64,11 +59,9 @@ class IslandVisitorData @JvmOverloads constructor(identifier: String = IDENTIFIE
          * @param world The world to get data for
          * @return The data for that world or null if it is not present
          */
-        fun get(world: World): IslandVisitorData?
-        {
+        fun get(world: World): IslandVisitorData? {
             // If we are on client side or the world is not supported return null
-            if (world.isRemote || !VALID_DIMENSIONS.contains(world.provider.dimension))
-            {
+            if (world.isRemote || !VALID_DIMENSIONS.contains(world.provider.dimension)) {
                 return null
             }
             // Grab the storage object for this world
@@ -76,8 +69,7 @@ class IslandVisitorData @JvmOverloads constructor(identifier: String = IDENTIFIE
             // Get the saved data for this world
             var visitorData = storage.getOrLoadData(IslandVisitorData::class.java, IDENTIFIER) as IslandVisitorData?
             // If it does not exist, instantiate new data and store it into the storage object
-            if (visitorData == null)
-            {
+            if (visitorData == null) {
                 visitorData = IslandVisitorData()
                 storage.setData(IDENTIFIER, visitorData)
                 visitorData.markDirty()

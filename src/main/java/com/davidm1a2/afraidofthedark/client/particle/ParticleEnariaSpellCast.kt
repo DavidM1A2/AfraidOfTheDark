@@ -13,14 +13,12 @@ import net.minecraft.world.World
  * @param z The z position of the enaria spell cast attack
  */
 class ParticleEnariaSpellCast(
-        world: World,
-        x: Double,
-        y: Double,
-        z: Double
-) : AOTDParticle(world, ModSprites.ENARIA_SPELL_CAST, x, y, z)
-{
-    init
-    {
+    world: World,
+    x: Double,
+    y: Double,
+    z: Double
+) : AOTDParticle(world, ModSprites.ENARIA_SPELL_CAST, x, y, z) {
+    init {
         // 2-3 second lifespan
         particleMaxAge = rand.nextInt(20) + 40
 
@@ -36,8 +34,7 @@ class ParticleEnariaSpellCast(
     /**
      * Called before the particle is moved, update the motionXYZ here
      */
-    override fun updateMotionXYZ()
-    {
+    override fun updateMotionXYZ() {
         // Slowly increase y motion
         motionY = motionY + 0.02
     }

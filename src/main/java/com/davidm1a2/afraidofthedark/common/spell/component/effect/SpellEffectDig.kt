@@ -12,34 +12,27 @@ import net.minecraft.world.World
 /**
  * Dig effect digs a block
  */
-class SpellEffectDig : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "dig"))
-{
+class SpellEffectDig : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "dig")) {
     /**
      * Performs the effect
      *
      * @param state The state that the spell is in
      * @param instance The instance of the effect
      */
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>)
-    {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
         val world = state.world
         val entity = state.getEntity()
-        if (entity != null)
-        {
+        if (entity != null) {
             // Digs the block under the entity
             val blockPos = entity.position.down()
-            if (canBlockBeDestroyed(world, blockPos))
-            {
+            if (canBlockBeDestroyed(world, blockPos)) {
                 createParticlesAt(1, 3, entity.positionVector, entity.dimension)
                 world.destroyBlock(blockPos, true)
             }
-        }
-        else
-        {
+        } else {
             // Digs the block at the position
             val position = state.blockPosition
-            if (canBlockBeDestroyed(world, position))
-            {
+            if (canBlockBeDestroyed(world, position)) {
                 createParticlesAt(1, 3, state.position, world.provider.dimension)
                 world.destroyBlock(position, true)
             }
@@ -53,8 +46,7 @@ class SpellEffectDig : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "dig")
      * @param blockPos The pos the block is at
      * @return True if the block can be destroyed, false otherwise
      */
-    private fun canBlockBeDestroyed(world: World, blockPos: BlockPos): Boolean
-    {
+    private fun canBlockBeDestroyed(world: World, blockPos: BlockPos): Boolean {
         val blockState = world.getBlockState(blockPos)
         @Suppress("DEPRECATION")
         return blockState.block.getBlockHardness(blockState, world, blockPos) != -1f
@@ -66,8 +58,7 @@ class SpellEffectDig : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "dig")
      * @param instance The instance of the spell effect to grab the cost of
      * @return The cost of dig is 14
      */
-    override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double
-    {
+    override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
         return 14.0
     }
 }

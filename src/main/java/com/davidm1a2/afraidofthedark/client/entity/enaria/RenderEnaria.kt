@@ -13,8 +13,7 @@ import org.lwjgl.opengl.GL11
  * @constructor just initializes the render living renderer
  * @param renderManager The render manager to pass down
  */
-class RenderEnaria(renderManager: RenderManager) : RenderLiving<EntityEnaria>(renderManager, ENARIA_MODEL, 0f)
-{
+class RenderEnaria(renderManager: RenderManager) : RenderLiving<EntityEnaria>(renderManager, ENARIA_MODEL, 0f) {
     /**
      * Renders the entity at a given position, yaw, and partial ticks parameter
      *
@@ -25,8 +24,14 @@ class RenderEnaria(renderManager: RenderManager) : RenderLiving<EntityEnaria>(re
      * @param entityYaw    The yaw of the entity to render
      * @param partialTicks The partial ticks that have gone by since the last frame
      */
-    override fun doRender(entity: EntityEnaria, posX: Double, posY: Double, posZ: Double, entityYaw: Float, partialTicks: Float)
-    {
+    override fun doRender(
+        entity: EntityEnaria,
+        posX: Double,
+        posY: Double,
+        posZ: Double,
+        entityYaw: Float,
+        partialTicks: Float
+    ) {
         GL11.glPushMatrix()
         GL11.glDisable(GL11.GL_CULL_FACE)
         super.doRender(entity, posX, posY, posZ, entityYaw, partialTicks)
@@ -40,8 +45,7 @@ class RenderEnaria(renderManager: RenderManager) : RenderLiving<EntityEnaria>(re
      * @param entityLiving    The entity to render
      * @param partialTickTime The partial ticks that have gone by since the last frame
      */
-    override fun preRenderCallback(entityLiving: EntityEnaria, partialTickTime: Float)
-    {
+    override fun preRenderCallback(entityLiving: EntityEnaria, partialTickTime: Float) {
         GL11.glRotatef(180f, 0f, 1f, 0f)
         GL11.glRotatef(180f, 0f, 0f, 1f)
         GL11.glTranslatef(0f, MODEL_HEIGHT, 0f)
@@ -53,13 +57,11 @@ class RenderEnaria(renderManager: RenderManager) : RenderLiving<EntityEnaria>(re
      * @param entity The entity to get the texture for
      * @return The texture to use for this entity
      */
-    override fun getEntityTexture(entity: EntityEnaria): ResourceLocation
-    {
+    override fun getEntityTexture(entity: EntityEnaria): ResourceLocation {
         return ENARIA_TEXTURE
     }
 
-    companion object
-    {
+    companion object {
         // The texture to apply to the model
         private val ENARIA_TEXTURE = ResourceLocation(Constants.MOD_ID, "textures/entity/enaria.png")
         // The model to render

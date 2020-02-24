@@ -8,10 +8,8 @@ import net.minecraft.block.material.Material
  *
  * @constructor sets the name and block properties
  */
-class BlockGnomishMetalStrut : AOTDBlock("gnomish_metal_strut", Material.ROCK)
-{
-    init
-    {
+class BlockGnomishMetalStrut : AOTDBlock("gnomish_metal_strut", Material.ROCK) {
+    init {
         setHardness(2.0f)
         setResistance(10.0f)
         this.setHarvestLevel("pickaxe", 2)

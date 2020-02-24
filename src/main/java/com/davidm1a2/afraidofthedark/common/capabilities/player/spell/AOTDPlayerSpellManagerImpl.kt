@@ -16,8 +16,7 @@ import java.util.*
  * @property keybindToSpellId Key -> spell id is a bimap so we can answer queries both ways quickly
  * @property spellIdToSpell Use a linked hash map to keep order of spells
  */
-class AOTDPlayerSpellManagerImpl : IAOTDPlayerSpellManager
-{
+class AOTDPlayerSpellManagerImpl : IAOTDPlayerSpellManager {
     private val keybindToSpellId: BiMap<String, UUID> = HashBiMap.create()
     private val spellIdToSpell: MutableMap<UUID, Spell> = linkedMapOf()
 
@@ -26,8 +25,7 @@ class AOTDPlayerSpellManagerImpl : IAOTDPlayerSpellManager
      *
      * @param spell The spell to add or update
      */
-    override fun addOrUpdateSpell(spell: Spell)
-    {
+    override fun addOrUpdateSpell(spell: Spell) {
         spellIdToSpell[spell.id] = spell
     }
 
@@ -36,8 +34,7 @@ class AOTDPlayerSpellManagerImpl : IAOTDPlayerSpellManager
      *
      * @param spell The spell to delete from the list
      */
-    override fun deleteSpell(spell: Spell)
-    {
+    override fun deleteSpell(spell: Spell) {
         spellIdToSpell.remove(spell.id)
         // Make use of our bi-map to remove by "value"
         keybindToSpellId.inverse().remove(spell.id)
@@ -46,8 +43,7 @@ class AOTDPlayerSpellManagerImpl : IAOTDPlayerSpellManager
     /**
      * Clears all spells and keybinds stored
      */
-    override fun clearSpells()
-    {
+    override fun clearSpells() {
         spellIdToSpell.clear()
         keybindToSpellId.clear()
     }
@@ -55,8 +51,7 @@ class AOTDPlayerSpellManagerImpl : IAOTDPlayerSpellManager
     /**
      * @return An unmodifiable list of spells that were added
      */
-    override fun getSpells(): List<Spell>
-    {
+    override fun getSpells(): List<Spell> {
         return spellIdToSpell.values.toList()
     }
 
@@ -66,15 +61,11 @@ class AOTDPlayerSpellManagerImpl : IAOTDPlayerSpellManager
      * @param key The key to bind to the spell
      * @param spell The spell to fire when the key is pressed
      */
-    override fun keybindSpell(key: String, spell: Spell)
-    {
+    override fun keybindSpell(key: String, spell: Spell) {
         // Test if we have a spell registered by the id first
-        if (spellIdToSpell.containsKey(spell.id))
-        {
+        if (spellIdToSpell.containsKey(spell.id)) {
             keybindToSpellId.forcePut(key, spell.id)
-        }
-        else
-        {
+        } else {
             AfraidOfTheDark.INSTANCE.logger.error("Cannot bind a spell that isn't registered!")
         }
     }
@@ -84,8 +75,7 @@ class AOTDPlayerSpellManagerImpl : IAOTDPlayerSpellManager
      *
      * @param spell The spell to unbind
      */
-    override fun unbindSpell(spell: Spell)
-    {
+    override fun unbindSpell(spell: Spell) {
         // Remove the key bound to the spell
         keybindToSpellId.inverse().remove(spell.id)
     }
@@ -96,8 +86,7 @@ class AOTDPlayerSpellManagerImpl : IAOTDPlayerSpellManager
      * @param key The key to test
      * @return True if the key maps to a spell, false otherwise
      */
-    override fun keybindExists(key: String): Boolean
-    {
+    override fun keybindExists(key: String): Boolean {
         return keybindToSpellId.containsKey(key)
     }
 
@@ -107,8 +96,7 @@ class AOTDPlayerSpellManagerImpl : IAOTDPlayerSpellManager
      * @param spell The spell to grab the keybinding for
      * @return The keybinding a spell is bound to or null if it is unbound
      */
-    override fun getKeybindingForSpell(spell: Spell): String?
-    {
+    override fun getKeybindingForSpell(spell: Spell): String? {
         return keybindToSpellId.inverse().getOrDefault(spell.id, null)
     }
 
@@ -118,17 +106,14 @@ class AOTDPlayerSpellManagerImpl : IAOTDPlayerSpellManager
      * @param key The keybinding to lookup spells for
      * @return A spell that this key is bound to or null if it does not exist
      */
-    override fun getSpellForKeybinding(key: String): Spell?
-    {
+    override fun getSpellForKeybinding(key: String): Spell? {
         // Get the spell's UUID for the keybinding
         val spellUUID = keybindToSpellId.getOrDefault(key, null)
         // If it's non-null get the spell for the id
-        return if (spellUUID != null)
-        {
+        return if (spellUUID != null) {
             // Return the spell or null
             spellIdToSpell.getOrDefault(spellUUID, null)
-        }
-        else null
+        } else null
     }
 
     /**
@@ -137,8 +122,7 @@ class AOTDPlayerSpellManagerImpl : IAOTDPlayerSpellManager
      * @param spellId The spell's ID
      * @return The spell that has that ID, or null if it doesn't exist
      */
-    override fun getSpellById(spellId: UUID): Spell?
-    {
+    override fun getSpellById(spellId: UUID): Spell? {
         return spellIdToSpell.getOrDefault(spellId, null)
     }
 
@@ -148,15 +132,11 @@ class AOTDPlayerSpellManagerImpl : IAOTDPlayerSpellManager
      *
      * @param entityPlayer The player to sync the spell manager to
      */
-    override fun syncAll(entityPlayer: EntityPlayer)
-    {
+    override fun syncAll(entityPlayer: EntityPlayer) {
         // Clear the existing spells first
-        if (isServerSide(entityPlayer))
-        {
+        if (isServerSide(entityPlayer)) {
             AfraidOfTheDark.INSTANCE.packetHandler.sendTo(SyncClearSpells(), entityPlayer as EntityPlayerMP)
-        }
-        else
-        {
+        } else {
             AfraidOfTheDark.INSTANCE.packetHandler.sendToServer(SyncClearSpells())
         }
         // Go over each spell and sync them one by one. We do this to avoid a large memory overhead
@@ -168,19 +148,15 @@ class AOTDPlayerSpellManagerImpl : IAOTDPlayerSpellManager
      * Synchronizes a specific spell between server and client, can be sent from
      * any side. This will only send the spell and keybinding information for a single spell
      */
-    override fun sync(entityPlayer: EntityPlayer, spell: Spell)
-    {
+    override fun sync(entityPlayer: EntityPlayer, spell: Spell) {
         // Grab the keybind or null
         val keybind = getKeybindingForSpell(spell)
         // Create the packet
         val syncSpellPacket = SyncSpell(spell, keybind)
         // If we're on server side send the packet to the player, otherwise send it to the server
-        if (isServerSide(entityPlayer))
-        {
+        if (isServerSide(entityPlayer)) {
             AfraidOfTheDark.INSTANCE.packetHandler.sendTo(syncSpellPacket, entityPlayer as EntityPlayerMP)
-        }
-        else
-        {
+        } else {
             AfraidOfTheDark.INSTANCE.packetHandler.sendToServer(syncSpellPacket)
         }
     }
@@ -191,8 +167,7 @@ class AOTDPlayerSpellManagerImpl : IAOTDPlayerSpellManager
      * @param entityPlayer The player to test
      * @return true if the player is on server side or false if not
      */
-    private fun isServerSide(entityPlayer: EntityPlayer): Boolean
-    {
+    private fun isServerSide(entityPlayer: EntityPlayer): Boolean {
         return !entityPlayer.world.isRemote
     }
 }

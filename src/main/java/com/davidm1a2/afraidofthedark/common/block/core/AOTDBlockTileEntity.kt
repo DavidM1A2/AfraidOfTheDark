@@ -15,10 +15,9 @@ import net.minecraft.world.World
  * @param material The material of the block
  * @param displayInCreative True if the block should show up in creative, false otherwise
  */
-abstract class AOTDBlockTileEntity(name: String, material: Material, displayInCreative: Boolean = false) : AOTDBlock(name, material, displayInCreative), ITileEntityProvider
-{
-    init
-    {
+abstract class AOTDBlockTileEntity(name: String, material: Material, displayInCreative: Boolean = false) :
+    AOTDBlock(name, material, displayInCreative), ITileEntityProvider {
+    init {
         hasTileEntity = true
     }
 
@@ -28,8 +27,7 @@ abstract class AOTDBlockTileEntity(name: String, material: Material, displayInCr
      * @param state The block state to render
      * @return Invisible since the tile entity does not render itself
      */
-    override fun getRenderType(state: IBlockState): EnumBlockRenderType
-    {
+    override fun getRenderType(state: IBlockState): EnumBlockRenderType {
         return EnumBlockRenderType.INVISIBLE
     }
 
@@ -40,8 +38,7 @@ abstract class AOTDBlockTileEntity(name: String, material: Material, displayInCr
      * @param pos     The position the that the block is at
      * @param state   The state of the block
      */
-    override fun breakBlock(worldIn: World, pos: BlockPos, state: IBlockState)
-    {
+    override fun breakBlock(worldIn: World, pos: BlockPos, state: IBlockState) {
         super.breakBlock(worldIn, pos, state)
         // Remove the tile entity!
         worldIn.removeTileEntity(pos)
@@ -60,8 +57,7 @@ abstract class AOTDBlockTileEntity(name: String, material: Material, displayInCr
      * @return True to call this on the client, false otherwise
      */
     @Suppress("DEPRECATION")
-    override fun eventReceived(state: IBlockState, worldIn: World, pos: BlockPos, id: Int, param: Int): Boolean
-    {
+    override fun eventReceived(state: IBlockState, worldIn: World, pos: BlockPos, id: Int, param: Int): Boolean {
         super.eventReceived(state, worldIn, pos, id, param)
         val tileEntity = worldIn.getTileEntity(pos)
         return tileEntity != null && tileEntity.receiveClientEvent(id, param)

@@ -6,14 +6,13 @@ import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.SpellPow
 /**
  * A static class containing all of our spell power source references for us
  */
-object ModSpellPowerSources
-{
+object ModSpellPowerSources {
     val CREATIVE = SpellPowerSourceCreative()
     val EXPERIENCE = SpellPowerSourceExperience()
 
     // An array containing a list of spell power sources that AOTD adds
     val SPELL_POWER_SOURCES = arrayOf(
-            CREATIVE,
-            EXPERIENCE
+        CREATIVE,
+        EXPERIENCE
     )
 }

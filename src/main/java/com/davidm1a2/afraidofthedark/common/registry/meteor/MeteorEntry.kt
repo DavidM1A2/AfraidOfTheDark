@@ -17,23 +17,19 @@ import net.minecraftforge.registries.IForgeRegistryEntry
  * @property preRequisite The pre-requisite research to be able to see this type of meteor
  */
 abstract class MeteorEntry(
-        val icon: ResourceLocation,
-        val minMeteorRadius: Int,
-        val maxMeteorRadius: Int,
-        val richnessPercent: Double,
-        val interiorBlock: Block,
-        val preRequisite: Research
-) : IForgeRegistryEntry.Impl<MeteorEntry>()
-{
-    init
-    {
+    val icon: ResourceLocation,
+    val minMeteorRadius: Int,
+    val maxMeteorRadius: Int,
+    val richnessPercent: Double,
+    val interiorBlock: Block,
+    val preRequisite: Research
+) : IForgeRegistryEntry.Impl<MeteorEntry>() {
+    init {
         // Ensure the min/max radii are valid values
-        if (minMeteorRadius < 2)
-        {
+        if (minMeteorRadius < 2) {
             AfraidOfTheDark.INSTANCE.logger.error("Meteor entries should not have a min radius less than 2!")
         }
-        if (minMeteorRadius > maxMeteorRadius)
-        {
+        if (minMeteorRadius > maxMeteorRadius) {
             AfraidOfTheDark.INSTANCE.logger.error("Meteor entries max-radius should be larger than the min-radius!")
         }
     }
@@ -41,8 +37,7 @@ abstract class MeteorEntry(
     /**
      * @return The unlocalized name of the meteor entry
      */
-    fun getUnlocalizedName(): String
-    {
+    fun getUnlocalizedName(): String {
         return "meteor_entry.${registryName!!.resourceDomain}:${registryName!!.resourcePath}.name"
     }
 }

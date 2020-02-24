@@ -14,19 +14,16 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext
 /**
  * Packet used to sync research between server and client
  */
-class SyncResearch : IMessage
-{
+class SyncResearch : IMessage {
     private var researchToUnlocked: MutableMap<Research, Boolean>
     private var notifyNewResearch: Boolean
 
-    constructor()
-    {
+    constructor() {
         researchToUnlocked = mutableMapOf()
         notifyNewResearch = false
     }
 
-    constructor(researchToUnlocked: MutableMap<Research, Boolean>, notifyNewResearch: Boolean = false)
-    {
+    constructor(researchToUnlocked: MutableMap<Research, Boolean>, notifyNewResearch: Boolean = false) {
         this.researchToUnlocked = researchToUnlocked
         this.notifyNewResearch = notifyNewResearch
     }
@@ -36,8 +33,7 @@ class SyncResearch : IMessage
      *
      * @param buf The buffer to read
      */
-    override fun fromBytes(buf: ByteBuf)
-    {
+    override fun fromBytes(buf: ByteBuf) {
         // Read the notify flag first
         notifyNewResearch = buf.readBoolean()
 
@@ -45,8 +41,7 @@ class SyncResearch : IMessage
         val data = ByteBufUtils.readTag(buf)!!
 
         // For each research read our compound to test if it is researched or not
-        for (research in ModRegistries.RESEARCH)
-        {
+        for (research in ModRegistries.RESEARCH) {
             researchToUnlocked[research] = data.getBoolean(research.registryName.toString())
         }
     }
@@ -56,19 +51,17 @@ class SyncResearch : IMessage
      *
      * @param buf The buffer to read
      */
-    override fun toBytes(buf: ByteBuf)
-    {
+    override fun toBytes(buf: ByteBuf) {
         // Write the notify flag first
         buf.writeBoolean(notifyNewResearch)
         // Create a compound to write to
         val data = NBTTagCompound()
 
         // For each research write a boolean if that research is researched
-        researchToUnlocked.forEach()
-        { (research, researched) ->
+        researchToUnlocked.forEach { (research, researched) ->
             data.setBoolean(
-                    research.registryName.toString(),
-                    researched
+                research.registryName.toString(),
+                researched
             )
         }
 
@@ -79,8 +72,7 @@ class SyncResearch : IMessage
     /**
      * Handler to perform actions upon getting a packet
      */
-    class Handler : Bidirectional<SyncResearch>()
-    {
+    class Handler : Bidirectional<SyncResearch>() {
         /**
          * Handles the packet on client side
          *
@@ -88,25 +80,20 @@ class SyncResearch : IMessage
          * @param msg    the message received
          * @param ctx    the message context object. This contains additional information about the packet.
          */
-        override fun handleClientMessage(player: EntityPlayer, msg: SyncResearch, ctx: MessageContext)
-        {
+        override fun handleClientMessage(player: EntityPlayer, msg: SyncResearch, ctx: MessageContext) {
             // Grab the player's current research, we must use Minecraft.getMinecraft().player because the player passed to use might be null
             val playerResearch = player.getResearch()
 
             // Iterate over the new research
-            msg.researchToUnlocked.forEach()
-            { (research, researched) ->
+            msg.researchToUnlocked.forEach { (research, researched) ->
                 // If the research was not researched and it now is researched show the popup
                 val wasResearched = playerResearch.isResearched(research)
                 val showPopup = researched && !wasResearched && msg.notifyNewResearch
 
                 // Set the research
-                if (showPopup)
-                {
+                if (showPopup) {
                     playerResearch.setResearchAndAlert(research, researched, player)
-                }
-                else
-                {
+                } else {
                     playerResearch.setResearch(research, researched)
                 }
             }
@@ -119,17 +106,15 @@ class SyncResearch : IMessage
          * @param msg    the message received
          * @param ctx    the message context object. This contains additional information about the packet.
          */
-        override fun handleServerMessage(player: EntityPlayer, msg: SyncResearch, ctx: MessageContext)
-        {
+        override fun handleServerMessage(player: EntityPlayer, msg: SyncResearch, ctx: MessageContext) {
             // Grab the player's current research
             val playerResearch = player.getResearch()
 
             // Update each research, don't show popups server side
-            msg.researchToUnlocked.forEach()
-            { (research, researched) ->
+            msg.researchToUnlocked.forEach { (research, researched) ->
                 playerResearch.setResearch(
-                        research,
-                        researched
+                    research,
+                    researched
                 )
             }
         }

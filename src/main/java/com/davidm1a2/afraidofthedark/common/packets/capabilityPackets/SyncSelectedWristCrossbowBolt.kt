@@ -12,15 +12,13 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext
  *
  * @property selectedWristCrossbowBoltIndex The selected wrist crossbow bolt index to update
  */
-class SyncSelectedWristCrossbowBolt : IMessage
-{
+class SyncSelectedWristCrossbowBolt : IMessage {
     private var selectedWristCrossbowBoltIndex: Int
 
     /**
      * Default constructor is required but not used
      */
-    constructor()
-    {
+    constructor() {
         selectedWristCrossbowBoltIndex = 0
     }
 
@@ -29,8 +27,7 @@ class SyncSelectedWristCrossbowBolt : IMessage
      *
      * @param index The new bolt index
      */
-    constructor(index: Int)
-    {
+    constructor(index: Int) {
         selectedWristCrossbowBoltIndex = index
     }
 
@@ -39,8 +36,7 @@ class SyncSelectedWristCrossbowBolt : IMessage
      *
      * @param buf The buffer to read from
      */
-    override fun fromBytes(buf: ByteBuf)
-    {
+    override fun fromBytes(buf: ByteBuf) {
         selectedWristCrossbowBoltIndex = buf.readInt()
     }
 
@@ -49,16 +45,14 @@ class SyncSelectedWristCrossbowBolt : IMessage
      *
      * @param buf The buffer to write to
      */
-    override fun toBytes(buf: ByteBuf)
-    {
+    override fun toBytes(buf: ByteBuf) {
         buf.writeInt(selectedWristCrossbowBoltIndex)
     }
 
     /**
      * Handler class handles when we receive packets from the client
      */
-    class Handler : MessageHandler.Server<SyncSelectedWristCrossbowBolt>()
-    {
+    class Handler : MessageHandler.Server<SyncSelectedWristCrossbowBolt>() {
         /**
          * Called when we receive a new packet from a client
          *
@@ -66,8 +60,11 @@ class SyncSelectedWristCrossbowBolt : IMessage
          * @param msg    the message received
          * @param ctx    The message's context
          */
-        override fun handleServerMessage(player: EntityPlayer, msg: SyncSelectedWristCrossbowBolt, ctx: MessageContext)
-        {
+        override fun handleServerMessage(
+            player: EntityPlayer,
+            msg: SyncSelectedWristCrossbowBolt,
+            ctx: MessageContext
+        ) {
             player.getBasics().selectedWristCrossbowBoltIndex = msg.selectedWristCrossbowBoltIndex
         }
     }

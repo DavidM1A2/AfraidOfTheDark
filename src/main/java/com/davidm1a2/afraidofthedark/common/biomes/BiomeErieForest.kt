@@ -19,14 +19,12 @@ import java.util.*
  * @constructor initializes the biome's fields
  */
 class BiomeErieForest : Biome(
-        BiomeProperties("Erie Forest")
-                .setWaterColor(0x000099)
-                .setBaseHeight(0.125f)
-                .setHeightVariation(0.05f)
-)
-{
-    init
-    {
+    BiomeProperties("Erie Forest")
+        .setWaterColor(0x000099)
+        .setBaseHeight(0.125f)
+        .setHeightVariation(0.05f)
+) {
+    init {
         // Set this biome's properties. It takes height, variation, water color, and a name
         decorator.grassPerChunk = 10
         // Set the biome's registry name to erie forest
@@ -49,8 +47,7 @@ class BiomeErieForest : Biome(
      * @param original The original grass color
      * @return The new grass color
      */
-    override fun getModdedBiomeGrassColor(original: Int): Int
-    {
+    override fun getModdedBiomeGrassColor(original: Int): Int {
         // hash code converts from color object to 32-bit integer, then get rid of the alpha parameter
         return Color(83, 56, 6).hashCode()
     }
@@ -61,28 +58,24 @@ class BiomeErieForest : Biome(
      * @param rand Random object to be used by the generator
      * @return The biome tree generator
      */
-    override fun getRandomTreeFeature(rand: Random): WorldGenAbstractTree
-    {
+    override fun getRandomTreeFeature(rand: Random): WorldGenAbstractTree {
         // Every 3 trees is a big tree
-        return if (rand.nextInt(3) == 0)
-        {
+        return if (rand.nextInt(3) == 0) {
             AOTDWorldGenBigTree(
-                    true,
-                    ModBlocks.GRAVEWOOD.defaultState.withProperty(BlockLog.LOG_AXIS, EnumAxis.Y),
-                    ModBlocks.GRAVEWOOD_LEAVES.defaultState
+                true,
+                ModBlocks.GRAVEWOOD.defaultState.withProperty(BlockLog.LOG_AXIS, EnumAxis.Y),
+                ModBlocks.GRAVEWOOD_LEAVES.defaultState
             ).apply {
                 leafIntegrity = 0.9
                 trunkSize = 2
             }
-        }
-        else
-        {
+        } else {
             WorldGenTrees(
-                    true,
-                    6,
-                    ModBlocks.GRAVEWOOD.defaultState.withProperty(BlockLog.LOG_AXIS, EnumAxis.Y),
-                    ModBlocks.GRAVEWOOD_LEAVES.defaultState,
-                    false
+                true,
+                6,
+                ModBlocks.GRAVEWOOD.defaultState.withProperty(BlockLog.LOG_AXIS, EnumAxis.Y),
+                ModBlocks.GRAVEWOOD_LEAVES.defaultState,
+                false
             )
         }
     }

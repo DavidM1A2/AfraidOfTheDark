@@ -24,8 +24,7 @@ import kotlin.math.round
  * @property spriteSheetControllers A list of sprite sheet controllers that are used to control sprite sheets
  * @property leftMouseButtonDown Flag telling us if the left mouse button is down or not
  */
-abstract class AOTDGuiScreen : GuiScreen()
-{
+abstract class AOTDGuiScreen : GuiScreen() {
     // Don't cache these in a companion object, they can change!
     val entityPlayer: EntityPlayerSP
         get() = Minecraft.getMinecraft().player
@@ -39,8 +38,7 @@ abstract class AOTDGuiScreen : GuiScreen()
     /**
      * Called to initialize the GUI screen
      */
-    override fun initGui()
-    {
+    override fun initGui() {
         super.initGui()
         // Force our GUI utility to update its scaled resolution
         AOTDGuiUtility.refreshScaledResolution()
@@ -56,15 +54,13 @@ abstract class AOTDGuiScreen : GuiScreen()
         this.contentPane.setScaleXAndY(guiScale)
 
         // If our X scale is less than our Y scale we pin the X coordinate to the left side of the screen and set the Y to center the GUI panel
-        if (guiScaleX < guiScaleY)
-        {
+        if (guiScaleX < guiScaleY) {
             this.contentPane.setX(0)
             // We must multiply by 1 / guiScale so that our Y position is centered and not scaled since 1 / guiScale * guiScale = 1
             this.contentPane.setY(round((this.height - this.contentPane.getHeightScaled()) / 2f * (1 / guiScale)).toInt())
         }
         // If our Y scale is less than our X scale we pin the Y coordinate to the top of the screen and set the X to center the GUI panel
-        else
-        {
+        else {
             // We must multiply by 1 / guiScale so that our X position is centered and not scaled since 1 / guiScale * guiScale = 1
             this.contentPane.setX(round((this.width - this.contentPane.getWidthScaled()) / 2f * (1 / guiScale)).toInt())
             this.contentPane.setY(0)
@@ -78,15 +74,13 @@ abstract class AOTDGuiScreen : GuiScreen()
      * @param mouseY       The current mouse's Y position
      * @param partialTicks How much time has happened since the last tick, ignored
      */
-    override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float)
-    {
+    override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
         // First update all of our sprite sheet controllers
         this.spriteSheetControllers.forEach { it.performUpdate() }
         // Enable blend so we can draw opacity
         GlStateManager.enableBlend()
         // If we want a gradient background draw that background
-        if (this.drawGradientBackground())
-        {
+        if (this.drawGradientBackground()) {
             this.drawDefaultBackground()
         }
         // Draw the content pane
@@ -107,8 +101,7 @@ abstract class AOTDGuiScreen : GuiScreen()
     /**
      * @return True if this gui screen pauses the game, false otherwise
      */
-    override fun doesGuiPauseGame(): Boolean
-    {
+    override fun doesGuiPauseGame(): Boolean {
         return false
     }
 
@@ -119,16 +112,20 @@ abstract class AOTDGuiScreen : GuiScreen()
      * @param keyCode   The code of the character typed
      * @throws IOException forwarded from the super method
      */
-    override fun keyTyped(character: Char, keyCode: Int)
-    {
+    override fun keyTyped(character: Char, keyCode: Int) {
         // Fire the process key event on our content pane
-        this.contentPane.processKeyInput(AOTDKeyEvent(this.contentPane, character, keyCode, AOTDKeyEvent.KeyEventType.Type))
+        this.contentPane.processKeyInput(
+            AOTDKeyEvent(
+                this.contentPane,
+                character,
+                keyCode,
+                AOTDKeyEvent.KeyEventType.Type
+            )
+        )
         // If our inventory key closes the screen, test if that key was pressed
-        if (this.inventoryToCloseGuiScreen())
-        {
+        if (this.inventoryToCloseGuiScreen()) {
             // if the keycode is the inventory key bind close the GUI screen
-            if (keyCode == inventoryKeycode)
-            {
+            if (keyCode == inventoryKeycode) {
                 // Close the screen
                 entityPlayer.closeScreen()
                 GL11.glFlush()
@@ -148,33 +145,27 @@ abstract class AOTDGuiScreen : GuiScreen()
      *
      * @param sheetController The controller to update every tick
      */
-    fun addSpriteSheetController(sheetController: SpriteSheetController)
-    {
+    fun addSpriteSheetController(sheetController: SpriteSheetController) {
         this.spriteSheetControllers.add(sheetController)
     }
 
     /**
      * Called whenever mouse input should be handled
      */
-    override fun handleMouseInput()
-    {
+    override fun handleMouseInput() {
         // Ensure to call super so default MC functions are called
         super.handleMouseInput()
         // Figure out what mouse button was pressed
         val mouseButton = Mouse.getEventButton()
-        if (mouseButton != -1)
-        {
+        if (mouseButton != -1) {
             this.processMouseClick(mouseButton)
-        }
-        else
-        {
+        } else {
             this.processMouseMove()
         }
 
         val mouseWheelDistance = Mouse.getDWheel()
         // - distance means we scrolled backwards, + distance means we scrolled forwards
-        if (mouseWheelDistance != 0)
-        {
+        if (mouseWheelDistance != 0) {
             this.processMouseScroll(mouseWheelDistance)
         }
     }
@@ -184,30 +175,50 @@ abstract class AOTDGuiScreen : GuiScreen()
      *
      * @param clickedButton The button that was clicked
      */
-    private fun processMouseClick(clickedButton: Int)
-    {
+    private fun processMouseClick(clickedButton: Int) {
         // The X position of the mouse
         val mouseX = AOTDGuiUtility.getMouseXInMCCoord()
         // The Y position of the mouse
         val mouseY = AOTDGuiUtility.getMouseYInMCCoord()
 
         // If the mouse button is pressed set the flag
-        if (Mouse.getEventButtonState())
-        {
+        if (Mouse.getEventButtonState()) {
             leftMouseButtonDown = true
             // Fire the mouse clicked event
-            contentPane.processMouseInput(AOTDMouseEvent(contentPane, mouseX, mouseY, clickedButton, AOTDMouseEvent.EventType.Click))
+            contentPane.processMouseInput(
+                AOTDMouseEvent(
+                    contentPane,
+                    mouseX,
+                    mouseY,
+                    clickedButton,
+                    AOTDMouseEvent.EventType.Click
+                )
+            )
         }
         // If it's not pressed fire the mouse released event and press event
-        else
-        {
+        else {
             // Fire the release event for sure
-            contentPane.processMouseInput(AOTDMouseEvent(contentPane, mouseX, mouseY, clickedButton, AOTDMouseEvent.EventType.Release))
+            contentPane.processMouseInput(
+                AOTDMouseEvent(
+                    contentPane,
+                    mouseX,
+                    mouseY,
+                    clickedButton,
+                    AOTDMouseEvent.EventType.Release
+                )
+            )
             // If the left mouse button was down fire the press event
-            if (leftMouseButtonDown)
-            {
+            if (leftMouseButtonDown) {
                 leftMouseButtonDown = false
-                contentPane.processMouseInput(AOTDMouseEvent(contentPane, mouseX, mouseY, clickedButton, AOTDMouseEvent.EventType.Press))
+                contentPane.processMouseInput(
+                    AOTDMouseEvent(
+                        contentPane,
+                        mouseX,
+                        mouseY,
+                        clickedButton,
+                        AOTDMouseEvent.EventType.Press
+                    )
+                )
             }
         }
     }
@@ -215,17 +226,29 @@ abstract class AOTDGuiScreen : GuiScreen()
     /**
      * Called to process any mouse move events
      */
-    private fun processMouseMove()
-    {
+    private fun processMouseMove() {
         // Grab the X and Y coordinates of the mouse
         val mouseX = AOTDGuiUtility.getMouseXInMCCoord()
         val mouseY = AOTDGuiUtility.getMouseYInMCCoord()
         // Fire the content pane's move listener
-        contentPane.processMouseMoveInput(AOTDMouseMoveEvent(contentPane, mouseX, mouseY, AOTDMouseMoveEvent.EventType.Move))
+        contentPane.processMouseMoveInput(
+            AOTDMouseMoveEvent(
+                contentPane,
+                mouseX,
+                mouseY,
+                AOTDMouseMoveEvent.EventType.Move
+            )
+        )
         // If the left mouse button is down fire the content pane's drag listener
-        if (leftMouseButtonDown)
-        {
-            contentPane.processMouseMoveInput(AOTDMouseMoveEvent(contentPane, mouseX, mouseY, AOTDMouseMoveEvent.EventType.Drag))
+        if (leftMouseButtonDown) {
+            contentPane.processMouseMoveInput(
+                AOTDMouseMoveEvent(
+                    contentPane,
+                    mouseX,
+                    mouseY,
+                    AOTDMouseMoveEvent.EventType.Drag
+                )
+            )
         }
     }
 
@@ -234,8 +257,7 @@ abstract class AOTDGuiScreen : GuiScreen()
      *
      * @param distance A non-zero value of the amount we scrolled
      */
-    private fun processMouseScroll(distance: Int)
-    {
+    private fun processMouseScroll(distance: Int) {
         // Fire the content pane's mouse scroll listener
         contentPane.processMouseScrollInput(AOTDMouseScrollEvent(contentPane, distance))
     }

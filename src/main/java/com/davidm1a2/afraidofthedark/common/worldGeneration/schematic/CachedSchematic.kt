@@ -17,77 +17,68 @@ import net.minecraft.nbt.NBTTagList
  * @property entities     The entities inside the schematic
  */
 class CachedSchematic internal constructor(
-        private val name: String,
-        private val tileEntities: NBTTagList,
-        private val width: Short,
-        private val height: Short,
-        private val length: Short,
-        private val blocks: Array<Block>,
-        private val data: IntArray,
-        private val entities: NBTTagList
-) : Schematic
-{
+    private val name: String,
+    private val tileEntities: NBTTagList,
+    private val width: Short,
+    private val height: Short,
+    private val length: Short,
+    private val blocks: Array<Block>,
+    private val data: IntArray,
+    private val entities: NBTTagList
+) : Schematic {
     /**
      * @return The name of the schematic
      */
-    override fun getName(): String
-    {
+    override fun getName(): String {
         return name
     }
 
     /**
      * @return A list of tile entities in the schematic region
      */
-    override fun getTileEntities(): NBTTagList
-    {
+    override fun getTileEntities(): NBTTagList {
         return tileEntities
     }
 
     /**
      * @return The width of the schematic region
      */
-    override fun getWidth(): Short
-    {
+    override fun getWidth(): Short {
         return width
     }
 
     /**
      * @return The height of the schematic region
      */
-    override fun getHeight(): Short
-    {
+    override fun getHeight(): Short {
         return height
     }
 
     /**
      * @return The length of the schematic region
      */
-    override fun getLength(): Short
-    {
+    override fun getLength(): Short {
         return length
     }
 
     /**
      * @return An array of blocks in the structure
      */
-    override fun getBlocks(): Array<Block>
-    {
+    override fun getBlocks(): Array<Block> {
         return blocks
     }
 
     /**
      * @return An array of block metadata values in the schematic
      */
-    override fun getData(): IntArray
-    {
+    override fun getData(): IntArray {
         return data
     }
 
     /**
      * @return A list of entities in the schematic region
      */
-    override fun getEntities(): NBTTagList
-    {
+    override fun getEntities(): NBTTagList {
         return entities
     }
 }

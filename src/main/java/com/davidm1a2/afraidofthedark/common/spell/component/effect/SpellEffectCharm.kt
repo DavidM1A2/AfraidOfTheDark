@@ -18,20 +18,18 @@ import java.util.concurrent.ThreadLocalRandom
  *
  * @constructor adds the editable prop
  */
-class SpellEffectCharm : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "charm"))
-{
-    init
-    {
+class SpellEffectCharm : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "charm")) {
+    init {
         addEditableProperty(
-                SpellComponentPropertyFactory.intProperty()
-                        .withName("Charm Duration")
-                        .withDescription("The number of ticks to charm to when hitting players.")
-                        .withSetter { instance, newValue -> instance.data.setInteger(NBT_CHARM_DURATION, newValue) }
-                        .withGetter { it.data.getInteger(NBT_CHARM_DURATION) }
-                        .withDefaultValue(40)
-                        .withMinValue(1)
-                        .withMaxValue(1200)
-                        .build()
+            SpellComponentPropertyFactory.intProperty()
+                .withName("Charm Duration")
+                .withDescription("The number of ticks to charm to when hitting players.")
+                .withSetter { instance, newValue -> instance.data.setInteger(NBT_CHARM_DURATION, newValue) }
+                .withGetter { it.data.getInteger(NBT_CHARM_DURATION) }
+                .withDefaultValue(40)
+                .withMinValue(1)
+                .withMaxValue(1200)
+                .build()
         )
     }
 
@@ -40,16 +38,12 @@ class SpellEffectCharm : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "cha
      *
      * @param state The state that the spell is in
      */
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>)
-    {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
         val entity = state.getEntity()
         // If we hit an entity that is an animal set them in love
-        if (entity is EntityAnimal)
-        {
+        if (entity is EntityAnimal) {
             entity.setInLove(state.spell.getOwner())
-        }
-        else if (entity is EntityPlayer)
-        {
+        } else if (entity is EntityPlayer) {
             // Grab the player's charm data
             val spellCharmData = entity.getSpellCharmData()
             // Charm them for the "charm duration"
@@ -62,21 +56,20 @@ class SpellEffectCharm : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "cha
             val height = entity.height.toDouble()
 
             // Spawn 4 random heart particles
-            for (i in 0..3)
-            {
+            for (i in 0..3) {
                 state.world.spawnParticle(
-                        EnumParticleTypes.HEART,
-                        // The position will be somewhere inside the player's hitbox
-                        state.position.x + random.nextFloat() * width * 2.0f - width,
-                        state.position.y + 0.5 + random.nextFloat() * height,
-                        state.position.z + random.nextFloat() * width * 2.0f - width,
-                        // Spawn one particle
-                        1,
-                        // Randomize velocity
-                        random.nextGaussian() * 0.02,
-                        random.nextGaussian() * 0.02,
-                        random.nextGaussian() * 0.02,
-                        0.02
+                    EnumParticleTypes.HEART,
+                    // The position will be somewhere inside the player's hitbox
+                    state.position.x + random.nextFloat() * width * 2.0f - width,
+                    state.position.y + 0.5 + random.nextFloat() * height,
+                    state.position.z + random.nextFloat() * width * 2.0f - width,
+                    // Spawn one particle
+                    1,
+                    // Randomize velocity
+                    random.nextGaussian() * 0.02,
+                    random.nextGaussian() * 0.02,
+                    random.nextGaussian() * 0.02,
+                    0.02
                 )
             }
         }
@@ -88,8 +81,7 @@ class SpellEffectCharm : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "cha
      * @param instance The instance of the spell effect to grab the cost of
      * @return The cost of the delivery method
      */
-    override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double
-    {
+    override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
         return 10.0 + getCharmDuration(instance)
     }
 
@@ -99,13 +91,11 @@ class SpellEffectCharm : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "cha
      * @param instance The instance of the spell effect to grab the charm duration from
      * @return The duration of the charm in ticks
      */
-    private fun getCharmDuration(instance: SpellComponentInstance<SpellEffect>): Int
-    {
+    private fun getCharmDuration(instance: SpellComponentInstance<SpellEffect>): Int {
         return instance.data.getInteger(NBT_CHARM_DURATION)
     }
 
-    companion object
-    {
+    companion object {
         // NBT constants for charm duration
         private const val NBT_CHARM_DURATION = "charm_duration"
     }

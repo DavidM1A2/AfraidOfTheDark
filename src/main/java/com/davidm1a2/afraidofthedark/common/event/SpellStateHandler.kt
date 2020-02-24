@@ -10,18 +10,15 @@ import net.minecraftforge.fml.relauncher.Side
 /**
  * Handles the on server tick to update any existing spell states
  */
-class SpellStateHandler
-{
+class SpellStateHandler {
     /**
      * Called every game tick on the server, updates all server wide spell data
      *
      * @param event The event containing server tick info
      */
     @SubscribeEvent
-    fun onServerTick(event: ServerTickEvent)
-    {
-        if (event.phase == TickEvent.Phase.START && event.type == TickEvent.Type.SERVER && event.side == Side.SERVER)
-        {
+    fun onServerTick(event: ServerTickEvent) {
+        if (event.phase == TickEvent.Phase.START && event.type == TickEvent.Type.SERVER && event.side == Side.SERVER) {
             // Doesn't matter what world we use, SpellStateData is global
             SpellStateData.get(DimensionManager.getWorld(0)).update()
         }

@@ -26,21 +26,19 @@ import java.util.*
  * @property entities A list of entities inside the schematic, starts null to avoid load overhead
  */
 class OnDemandSchematic internal constructor(
-        private val schematicLocation: ResourceLocation,
-        private val name: String,
-        private val width: Short,
-        private val height: Short,
-        private val length: Short
-) : Schematic
-{
+    private val schematicLocation: ResourceLocation,
+    private val name: String,
+    private val width: Short,
+    private val height: Short,
+    private val length: Short
+) : Schematic {
     private var lastTimeAccessed: Long? = null
     private var tileEntities: NBTTagList? = null
     private var blocks: Array<Block>? = null
     private var data: IntArray? = null
     private var entities: NBTTagList? = null
 
-    init
-    {
+    init {
         synchronized(ON_DEMAND_SCHEMATICS) { ON_DEMAND_SCHEMATICS.add(this) }
     }
 
@@ -48,14 +46,11 @@ class OnDemandSchematic internal constructor(
      * Demands the block data to be cached and ready to go for generation
      */
     @Synchronized
-    private fun demandCache()
-    {
+    private fun demandCache() {
         val wasTimedOut = isTimedOut()
         lastTimeAccessed = System.currentTimeMillis()
-        if (wasTimedOut)
-        {
-            try
-            {
+        if (wasTimedOut) {
+            try {
                 // Grab an input stream to the schematic file
                 val inputStream = ResourceUtil.getInputStream(schematicLocation)
                 // Read the NBT data from the file
@@ -72,13 +67,15 @@ class OnDemandSchematic internal constructor(
                 // Convert all of our string blocks in the format of 'modid:registryname' to block pointer
                 blocks = Array(stringBlocks.tagCount())
                 {
-                    Block.getBlockFromName(stringBlocks.getStringTagAt(it)) ?: throw IllegalArgumentException("Invalid schematic block found: ${stringBlocks.getStringTagAt(it)}")
+                    Block.getBlockFromName(stringBlocks.getStringTagAt(it)) ?: throw IllegalArgumentException(
+                        "Invalid schematic block found: ${stringBlocks.getStringTagAt(
+                            it
+                        )}"
+                    )
                 }
 
                 AfraidOfTheDark.INSTANCE.logger.info("Loaded $name into memory.")
-            }
-            catch (e: IOException)
-            {
+            } catch (e: IOException) {
                 AfraidOfTheDark.INSTANCE.logger.error("Could not load on-demand schematic $name", e)
             }
         }
@@ -88,10 +85,8 @@ class OnDemandSchematic internal constructor(
      * Checks the timeout of the schematic and clears the data if it's past the timeout
      */
     @Synchronized
-    private fun checkTimeout()
-    {
-        if (lastTimeAccessed != null && isTimedOut())
-        {
+    private fun checkTimeout() {
+        if (lastTimeAccessed != null && isTimedOut()) {
             // Timeout, free memory
             lastTimeAccessed = null
             tileEntities = null
@@ -106,21 +101,17 @@ class OnDemandSchematic internal constructor(
      * @return True if the schematic is timed out and can be removed from ram
      */
     @Synchronized
-    private fun isTimedOut(): Boolean
-    {
-        return if (lastTimeAccessed == null)
-        {
+    private fun isTimedOut(): Boolean {
+        return if (lastTimeAccessed == null) {
             true
-        }
-        else System.currentTimeMillis() - lastTimeAccessed!! > AfraidOfTheDark.INSTANCE.configurationHandler.cacheTimeout
+        } else System.currentTimeMillis() - lastTimeAccessed!! > AfraidOfTheDark.INSTANCE.configurationHandler.cacheTimeout
     }
 
     /**
      * @return The name of the schematic
      */
     @Synchronized
-    override fun getName(): String
-    {
+    override fun getName(): String {
         return name
     }
 
@@ -128,8 +119,7 @@ class OnDemandSchematic internal constructor(
      * @return A list of tile entities in the schematic region
      */
     @Synchronized
-    override fun getTileEntities(): NBTTagList
-    {
+    override fun getTileEntities(): NBTTagList {
         demandCache()
         return tileEntities!!
     }
@@ -137,24 +127,21 @@ class OnDemandSchematic internal constructor(
     /**
      * @return The width of the schematic region
      */
-    override fun getWidth(): Short
-    {
+    override fun getWidth(): Short {
         return width
     }
 
     /**
      * @return The height of the schematic region
      */
-    override fun getHeight(): Short
-    {
+    override fun getHeight(): Short {
         return height
     }
 
     /**
      * @return The length of the schematic region
      */
-    override fun getLength(): Short
-    {
+    override fun getLength(): Short {
         return length
     }
 
@@ -162,8 +149,7 @@ class OnDemandSchematic internal constructor(
      * @return An array of blocks in the structure
      */
     @Synchronized
-    override fun getBlocks(): Array<Block>
-    {
+    override fun getBlocks(): Array<Block> {
         demandCache()
         return blocks!!
     }
@@ -172,8 +158,7 @@ class OnDemandSchematic internal constructor(
      * @return An array of block metadata values in the schematic
      */
     @Synchronized
-    override fun getData(): IntArray
-    {
+    override fun getData(): IntArray {
         demandCache()
         return data!!
     }
@@ -182,25 +167,20 @@ class OnDemandSchematic internal constructor(
      * @return A list of entities in the schematic region
      */
     @Synchronized
-    override fun getEntities(): NBTTagList
-    {
+    override fun getEntities(): NBTTagList {
         demandCache()
         return entities!!
     }
 
-    companion object
-    {
+    companion object {
         // Timer used to test if the schematic is ready to timeout
         private val TIMEOUT_TIMER = Timer("Schematic Timeout Timer")
         // Static list of on demand schematics to test timeouts on
         private val ON_DEMAND_SCHEMATICS = mutableListOf<OnDemandSchematic>()
 
-        init
-        {
-            TIMEOUT_TIMER.scheduleAtFixedRate(object : TimerTask()
-            {
-                override fun run()
-                {
+        init {
+            TIMEOUT_TIMER.scheduleAtFixedRate(object : TimerTask() {
+                override fun run() {
                     synchronized(ON_DEMAND_SCHEMATICS) { ON_DEMAND_SCHEMATICS.forEach { it.checkTimeout() } }
                 }
             }, 0, 5000)

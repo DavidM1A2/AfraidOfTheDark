@@ -11,8 +11,7 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable
  *
  * @property instance The instance of the player spell freeze data capability
  */
-class AOTDPlayerSpellCharmDataProvider : ICapabilitySerializable<NBTBase>
-{
+class AOTDPlayerSpellCharmDataProvider : ICapabilitySerializable<NBTBase> {
     private val instance = ModCapabilities.PLAYER_SPELL_CHARM_DATA.defaultInstance
 
     /**
@@ -22,9 +21,8 @@ class AOTDPlayerSpellCharmDataProvider : ICapabilitySerializable<NBTBase>
      * @param facing     ignored
      * @return True if the capability is a spell freeze data capability, false otherwise
      */
-    override fun hasCapability(capability: Capability<*>, facing: EnumFacing?): Boolean
-    {
-        return capability === ModCapabilities.PLAYER_SPELL_CHARM_DATA
+    override fun hasCapability(capability: Capability<*>, facing: EnumFacing?): Boolean {
+        return capability == ModCapabilities.PLAYER_SPELL_CHARM_DATA
     }
 
     /**
@@ -35,9 +33,10 @@ class AOTDPlayerSpellCharmDataProvider : ICapabilitySerializable<NBTBase>
      * @param <T>        The type of capability
      * @return The capability or null if it was the wrong type
      */
-    override fun <T> getCapability(capability: Capability<T>, facing: EnumFacing?): T?
-    {
-        return if (capability === ModCapabilities.PLAYER_SPELL_CHARM_DATA) ModCapabilities.PLAYER_SPELL_CHARM_DATA.cast(instance) else null
+    override fun <T> getCapability(capability: Capability<T>, facing: EnumFacing?): T? {
+        return if (capability == ModCapabilities.PLAYER_SPELL_CHARM_DATA) ModCapabilities.PLAYER_SPELL_CHARM_DATA.cast(
+            instance
+        ) else null
     }
 
     /**
@@ -45,9 +44,12 @@ class AOTDPlayerSpellCharmDataProvider : ICapabilitySerializable<NBTBase>
      *
      * @return The NBTTagCompound representing this capability
      */
-    override fun serializeNBT(): NBTBase
-    {
-        return ModCapabilities.PLAYER_SPELL_CHARM_DATA.storage.writeNBT(ModCapabilities.PLAYER_SPELL_CHARM_DATA, instance, null)!!
+    override fun serializeNBT(): NBTBase {
+        return ModCapabilities.PLAYER_SPELL_CHARM_DATA.storage.writeNBT(
+            ModCapabilities.PLAYER_SPELL_CHARM_DATA,
+            instance,
+            null
+        )!!
     }
 
     /**
@@ -55,8 +57,12 @@ class AOTDPlayerSpellCharmDataProvider : ICapabilitySerializable<NBTBase>
      *
      * @param nbt The NBT tag compound to read from
      */
-    override fun deserializeNBT(nbt: NBTBase)
-    {
-        ModCapabilities.PLAYER_SPELL_CHARM_DATA.storage.readNBT(ModCapabilities.PLAYER_SPELL_CHARM_DATA, instance, null, nbt)
+    override fun deserializeNBT(nbt: NBTBase) {
+        ModCapabilities.PLAYER_SPELL_CHARM_DATA.storage.readNBT(
+            ModCapabilities.PLAYER_SPELL_CHARM_DATA,
+            instance,
+            null,
+            nbt
+        )
     }
 }

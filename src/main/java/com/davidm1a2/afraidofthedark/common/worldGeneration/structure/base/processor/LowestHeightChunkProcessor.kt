@@ -11,8 +11,7 @@ import kotlin.math.min
  * @param heightmap The heightmap to use
  * @property minGroundHeight The minimum ground height
  */
-class LowestHeightChunkProcessor(private val heightmap: IHeightmap) : IChunkProcessor<Int>
-{
+class LowestHeightChunkProcessor(private val heightmap: IHeightmap) : IChunkProcessor<Int> {
     private var minGroundHeight = 256
 
     /**
@@ -21,8 +20,7 @@ class LowestHeightChunkProcessor(private val heightmap: IHeightmap) : IChunkProc
      * @param chunkPos The coordinate of the chunk
      * @return true to continue processing
      */
-    override fun processChunk(chunkPos: ChunkPos): Boolean
-    {
+    override fun processChunk(chunkPos: ChunkPos): Boolean {
         // Compute the ground height in the chunk
         val groundHeight = heightmap.getLowestHeight(chunkPos)
         minGroundHeight = min(minGroundHeight, groundHeight)
@@ -32,8 +30,7 @@ class LowestHeightChunkProcessor(private val heightmap: IHeightmap) : IChunkProc
     /**
      * @return The minimum ground height
      */
-    override fun getResult(): Int
-    {
+    override fun getResult(): Int {
         return minGroundHeight
     }
 }

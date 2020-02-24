@@ -15,8 +15,10 @@ import net.minecraft.util.ResourceLocation
  * @property deliveryEffectCustomApplicators A map of effect entries to custom effect applicators, used to specify how effects are applied
  */
 abstract class SpellDeliveryMethod(id: ResourceLocation) :
-        SpellComponent<SpellDeliveryMethod>(id, ResourceLocation(id.resourceDomain, "textures/gui/spell_component/delivery_methods/${id.resourcePath}.png"))
-{
+    SpellComponent<SpellDeliveryMethod>(
+        id,
+        ResourceLocation(id.resourceDomain, "textures/gui/spell_component/delivery_methods/${id.resourcePath}.png")
+    ) {
     private val deliveryCustomTransitioners = mutableMapOf<SpellDeliveryMethod, ISpellDeliveryTransitioner>()
     private val deliveryEffectCustomApplicators = mutableMapOf<SpellEffect, ISpellDeliveryEffectApplicator>()
 
@@ -32,27 +34,20 @@ abstract class SpellDeliveryMethod(id: ResourceLocation) :
      *
      * @param state The state of the spell at the current delivery method
      */
-    fun procEffects(state: DeliveryTransitionState)
-    {
+    fun procEffects(state: DeliveryTransitionState) {
         // Go over each effect
-        for (effect in state.getCurrentStage().effects)
-        {
-            if (effect != null)
-            {
+        for (effect in state.getCurrentStage().effects) {
+            if (effect != null) {
                 // Test if there's a special custom applicator for this effect, if so use that
                 val customApplicator = getApplicator(effect.component)
-                if (customApplicator != null)
-                {
+                if (customApplicator != null) {
                     // Test if the custom application was successful
                     val customApplicationSuccessful = customApplicator.procEffect(state, effect)
                     // If it was not, use the default logic
-                    if (!customApplicationSuccessful)
-                    {
+                    if (!customApplicationSuccessful) {
                         defaultEffectProc(state, effect)
                     }
-                }
-                else
-                {
+                } else {
                     defaultEffectProc(state, effect)
                 }
             }
@@ -72,16 +67,15 @@ abstract class SpellDeliveryMethod(id: ResourceLocation) :
      *
      * @param state The state of the spell to transition FROM
      */
-    fun transitionFrom(state: DeliveryTransitionState)
-    {
+    fun transitionFrom(state: DeliveryTransitionState) {
         val spell = state.spell
         // Test if we can transition to the next stage
-        if (spell.hasStage(state.stageIndex + 1))
-        {
+        if (spell.hasStage(state.stageIndex + 1)) {
             // Grab the next delivery method
             val nextDeliveryInstance = spell.getStage(state.stageIndex + 1)!!.deliveryInstance!!.component
             // Grab the transitioner from the current delivery method to the next one
-            val transitioner = nextDeliveryInstance.getTransitioner(state.getCurrentStage().deliveryInstance!!.component)
+            val transitioner =
+                nextDeliveryInstance.getTransitioner(state.getCurrentStage().deliveryInstance!!.component)
             // Perform the transition if a custom transitioner is present
             transitioner?.transition(state) ?: performDefaultTransition(state)
         }
@@ -111,8 +105,7 @@ abstract class SpellDeliveryMethod(id: ResourceLocation) :
     /**
      * @return Gets the unlocalized name of the component
      */
-    override fun getUnlocalizedName(): String
-    {
+    override fun getUnlocalizedName(): String {
         return "delivery_method.${registryName.toString()}.name"
     }
 
@@ -122,8 +115,7 @@ abstract class SpellDeliveryMethod(id: ResourceLocation) :
      * @param previous     The previous delivery method that causes this custom transitioner
      * @param transitioner The transitioner to be used if the previous delivery method fired
      */
-    fun addCustomTransitioner(previous: SpellDeliveryMethod, transitioner: ISpellDeliveryTransitioner)
-    {
+    fun addCustomTransitioner(previous: SpellDeliveryMethod, transitioner: ISpellDeliveryTransitioner) {
         deliveryCustomTransitioners[previous] = transitioner
     }
 
@@ -133,8 +125,7 @@ abstract class SpellDeliveryMethod(id: ResourceLocation) :
      * @param effectEntry         The effect to modify application of
      * @param applicator          The applicator to modify the application with
      */
-    fun addCustomEffectApplicator(effectEntry: SpellEffect, applicator: ISpellDeliveryEffectApplicator)
-    {
+    fun addCustomEffectApplicator(effectEntry: SpellEffect, applicator: ISpellDeliveryEffectApplicator) {
         deliveryEffectCustomApplicators[effectEntry] = applicator
     }
 
@@ -144,8 +135,7 @@ abstract class SpellDeliveryMethod(id: ResourceLocation) :
      * @param previous The previous delivery method type
      * @return The transitioner to use to go from the previous delivery method to this one
      */
-    fun getTransitioner(previous: SpellDeliveryMethod): ISpellDeliveryTransitioner?
-    {
+    fun getTransitioner(previous: SpellDeliveryMethod): ISpellDeliveryTransitioner? {
         return deliveryCustomTransitioners[previous]
     }
 
@@ -155,8 +145,7 @@ abstract class SpellDeliveryMethod(id: ResourceLocation) :
      * @param effectEntry The effect entry to apply
      * @return The applicator to use to apply this effect
      */
-    fun getApplicator(effectEntry: SpellEffect): ISpellDeliveryEffectApplicator?
-    {
+    fun getApplicator(effectEntry: SpellEffect): ISpellDeliveryEffectApplicator? {
         return deliveryEffectCustomApplicators[effectEntry]
     }
 }

@@ -16,10 +16,8 @@ import java.util.*
  *
  * @constructor makes the block hard to break and sets the block's name
  */
-class BlockEnariaSpawner : AOTDBlockTileEntity("enaria_spawner", Material.ROCK, false)
-{
-    init
-    {
+class BlockEnariaSpawner : AOTDBlockTileEntity("enaria_spawner", Material.ROCK, false) {
+    init {
         setHardness(10.0f)
         setResistance(50.0f)
         this.setHarvestLevel("pickaxe", 3)
@@ -33,21 +31,16 @@ class BlockEnariaSpawner : AOTDBlockTileEntity("enaria_spawner", Material.ROCK, 
      * @param meta    The block's metadata
      * @return A tile entity representing this block
      */
-    override fun createNewTileEntity(worldIn: World, meta: Int): TileEntity?
-    {
+    override fun createNewTileEntity(worldIn: World, meta: Int): TileEntity? {
         // In the overworld we spawn a regular enaria, in the nightmare we spawn a ghastly enaria
-        return when (worldIn.provider.dimension)
-        {
-            0 ->
-            {
+        return when (worldIn.provider.dimension) {
+            0 -> {
                 TileEntityEnariaSpawner()
             }
-            ModDimensions.NIGHTMARE.id ->
-            {
+            ModDimensions.NIGHTMARE.id -> {
                 TileEntityGhastlyEnariaSpawner()
             }
-            else ->
-            {
+            else -> {
                 null
             }
         }
@@ -59,8 +52,7 @@ class BlockEnariaSpawner : AOTDBlockTileEntity("enaria_spawner", Material.ROCK, 
      * @param state The block state to render
      * @return MODEL meaning it's not a tile entity
      */
-    override fun getRenderType(state: IBlockState): EnumBlockRenderType
-    {
+    override fun getRenderType(state: IBlockState): EnumBlockRenderType {
         return EnumBlockRenderType.MODEL
     }
 
@@ -70,8 +62,7 @@ class BlockEnariaSpawner : AOTDBlockTileEntity("enaria_spawner", Material.ROCK, 
      * @param random ignored
      * @return 0
      */
-    override fun quantityDropped(random: Random): Int
-    {
+    override fun quantityDropped(random: Random): Int {
         return 0
     }
 }

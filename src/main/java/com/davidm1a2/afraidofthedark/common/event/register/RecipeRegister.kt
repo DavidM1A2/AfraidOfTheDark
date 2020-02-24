@@ -8,16 +8,14 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 /**
  * Class that receives the register recipe event and registers all of our custom IRecipes
  */
-class RecipeRegister
-{
+class RecipeRegister {
     /**
      * Called by forge to register any of our recipes
      *
      * @param event The event to register to
      */
     @SubscribeEvent
-    fun registerRecipes(event: RegistryEvent.Register<IRecipe>)
-    {
+    fun registerRecipes(event: RegistryEvent.Register<IRecipe>) {
         val registry = event.registry
 
         // Register each item in our item list

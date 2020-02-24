@@ -11,8 +11,7 @@ import net.minecraftforge.common.capabilities.Capability.IStorage
 /**
  * Default storage implementation for AOTD player research
  */
-class AOTDPlayerResearchStorage : IStorage<IAOTDPlayerResearch>
-{
+class AOTDPlayerResearchStorage : IStorage<IAOTDPlayerResearch> {
     /**
      * Called to write a capability to an NBT compound
      *
@@ -21,14 +20,16 @@ class AOTDPlayerResearchStorage : IStorage<IAOTDPlayerResearch>
      * @param side       ignored
      * @return An NBTTagCompound that contains all info about the capability
      */
-    override fun writeNBT(capability: Capability<IAOTDPlayerResearch>, instance: IAOTDPlayerResearch, side: EnumFacing?): NBTBase?
-    {
+    override fun writeNBT(
+        capability: Capability<IAOTDPlayerResearch>,
+        instance: IAOTDPlayerResearch,
+        side: EnumFacing?
+    ): NBTBase? {
         // Create a compound to write
         val compound = NBTTagCompound()
 
         // Write each researches name as a key with true/false as the value
-        for (research in ModRegistries.RESEARCH)
-        {
+        for (research in ModRegistries.RESEARCH) {
             compound.setBoolean(research.registryName.toString(), instance.isResearched(research))
         }
 
@@ -44,23 +45,18 @@ class AOTDPlayerResearchStorage : IStorage<IAOTDPlayerResearch>
      * @param nbt        An NBTTagCompound that contains all info about the capability
      */
     override fun readNBT(
-            capability: Capability<IAOTDPlayerResearch>,
-            instance: IAOTDPlayerResearch,
-            side: EnumFacing?,
-            nbt: NBTBase
-    )
-    {
+        capability: Capability<IAOTDPlayerResearch>,
+        instance: IAOTDPlayerResearch,
+        side: EnumFacing?,
+        nbt: NBTBase
+    ) {
         // Test if the nbt tag base is an NBT tag compound
-        if (nbt is NBTTagCompound)
-        {
+        if (nbt is NBTTagCompound) {
             // For each research if we have researched it unlock that research in our instance
-            for (research in ModRegistries.RESEARCH)
-            {
+            for (research in ModRegistries.RESEARCH) {
                 instance.setResearch(research, nbt.getBoolean(research.registryName.toString()))
             }
-        }
-        else
-        {
+        } else {
             AfraidOfTheDark.INSTANCE.logger.error("Attempted to deserialize an NBTBase that was not an NBTTagCompound!")
         }
     }

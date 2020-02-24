@@ -11,8 +11,7 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable
  *
  * @property instance The instance of the player basics capability
  */
-class AOTDPlayerBasicsProvider : ICapabilitySerializable<NBTBase>
-{
+class AOTDPlayerBasicsProvider : ICapabilitySerializable<NBTBase> {
     private val instance = ModCapabilities.PLAYER_BASICS.defaultInstance
 
     /**
@@ -22,9 +21,8 @@ class AOTDPlayerBasicsProvider : ICapabilitySerializable<NBTBase>
      * @param facing     ignored
      * @return True if the capability is a player basics capability, false otherwise
      */
-    override fun hasCapability(capability: Capability<*>, facing: EnumFacing?): Boolean
-    {
-        return capability === ModCapabilities.PLAYER_BASICS
+    override fun hasCapability(capability: Capability<*>, facing: EnumFacing?): Boolean {
+        return capability == ModCapabilities.PLAYER_BASICS
     }
 
     /**
@@ -35,9 +33,8 @@ class AOTDPlayerBasicsProvider : ICapabilitySerializable<NBTBase>
      * @param <T>        The type of capability
      * @return The capability or null if it was the wrong type
      */
-    override fun <T> getCapability(capability: Capability<T>, facing: EnumFacing?): T?
-    {
-        return if (capability === ModCapabilities.PLAYER_BASICS) ModCapabilities.PLAYER_BASICS.cast(instance) else null
+    override fun <T> getCapability(capability: Capability<T>, facing: EnumFacing?): T? {
+        return if (capability == ModCapabilities.PLAYER_BASICS) ModCapabilities.PLAYER_BASICS.cast(instance) else null
     }
 
     /**
@@ -45,8 +42,7 @@ class AOTDPlayerBasicsProvider : ICapabilitySerializable<NBTBase>
      *
      * @return The NBTTagCompound representing this capability
      */
-    override fun serializeNBT(): NBTBase
-    {
+    override fun serializeNBT(): NBTBase {
         return ModCapabilities.PLAYER_BASICS.storage.writeNBT(ModCapabilities.PLAYER_BASICS, instance, null)!!
     }
 
@@ -55,8 +51,7 @@ class AOTDPlayerBasicsProvider : ICapabilitySerializable<NBTBase>
      *
      * @param nbt The NBT tag compound to read from
      */
-    override fun deserializeNBT(nbt: NBTBase)
-    {
+    override fun deserializeNBT(nbt: NBTBase) {
         ModCapabilities.PLAYER_BASICS.storage.readNBT(ModCapabilities.PLAYER_BASICS, instance, null, nbt)
     }
 }

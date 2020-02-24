@@ -3,8 +3,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component
 /**
  * Utility interface containing a method with the logic to set a property in an NBT tag compound
  */
-interface SpellComponentPropertySetter
-{
+interface SpellComponentPropertySetter {
     /**
      * A setter function used to set the new value of the property, will return null if
      * the value was set successfully or a string containing error information if something

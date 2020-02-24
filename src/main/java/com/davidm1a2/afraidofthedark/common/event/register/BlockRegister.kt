@@ -14,24 +14,21 @@ import net.minecraftforge.fml.common.registry.GameRegistry
 /**
  * Class that receives the register block event and registers all of our blocks
  */
-class BlockRegister
-{
+class BlockRegister {
     /**
      * Called by forge to register any of our blocks
      *
      * @param event The event to register to
      */
     @SubscribeEvent
-    fun registerBlocks(event: RegistryEvent.Register<Block>)
-    {
+    fun registerBlocks(event: RegistryEvent.Register<Block>) {
         val registry = event.registry
 
         // Register all blocks in our mod
         registry.registerAll(*BLOCK_LIST)
 
         // Register any special tile entities
-        for ((tileEntityClass, resourceLocation) in TILE_ENTITY_LIST)
-        {
+        for ((tileEntityClass, resourceLocation) in TILE_ENTITY_LIST) {
             GameRegistry.registerTileEntity(tileEntityClass, resourceLocation)
         }
     }
@@ -43,12 +40,14 @@ class BlockRegister
      */
     @SubscribeEvent
     @Suppress("UNUSED_PARAMETER")
-    fun registerBlockRenderers(event: ModelRegistryEvent)
-    {
+    fun registerBlockRenderers(event: ModelRegistryEvent) {
         // Register models for all blocks in our mod
-        for (block in BLOCK_LIST)
-        {
-            ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, ModelResourceLocation(block.registryName!!, "inventory"))
+        for (block in BLOCK_LIST) {
+            ModelLoader.setCustomModelResourceLocation(
+                Item.getItemFromBlock(block),
+                0,
+                ModelResourceLocation(block.registryName!!, "inventory")
+            )
         }
     }
 }

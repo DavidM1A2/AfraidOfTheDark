@@ -17,8 +17,7 @@ import net.minecraftforge.fml.relauncher.Side
  * @property nextPacketID The ID for the next packet registration
  * @property wrapper The internal network wrapper.
  */
-class PacketHandler(private val channelId: String)
-{
+class PacketHandler(private val channelId: String) {
     private var nextPacketID: Byte = 0
     private val wrapper = NetworkRegistry.INSTANCE.newSimpleChannel(channelId)
 
@@ -30,16 +29,18 @@ class PacketHandler(private val channelId: String)
      * @param target         The side to which this packet can be sent.
      * @return `true`, if successful
      */
-    fun <T : IMessage, V : AbstractMessageHandler<T>> registerPacket(packetClass: Class<T>, messageHandler: V, target: Side): Boolean
-    {
+    fun <T : IMessage, V : AbstractMessageHandler<T>> registerPacket(
+        packetClass: Class<T>,
+        messageHandler: V,
+        target: Side
+    ): Boolean {
         check(nextPacketID.toInt() != -1) { "Too many packets registered for channel $channelId" }
 
         wrapper.registerMessage(messageHandler, packetClass, nextPacketID.toInt(), target)
 
-        if (AfraidOfTheDark.INSTANCE.configurationHandler.debugMessages)
-        {
+        if (AfraidOfTheDark.INSTANCE.configurationHandler.debugMessages) {
             AfraidOfTheDark.INSTANCE.logger.info(
-                    "Registered packet class ${packetClass.simpleName} with handler class ${messageHandler.javaClass.simpleName} for the channel $channelId. Send direction: to ${target.name.toLowerCase()}. The discriminator is $nextPacketID."
+                "Registered packet class ${packetClass.simpleName} with handler class ${messageHandler.javaClass.simpleName} for the channel $channelId. Send direction: to ${target.name.toLowerCase()}. The discriminator is $nextPacketID."
             )
         }
 
@@ -54,17 +55,15 @@ class PacketHandler(private val channelId: String)
      * @param messageHandler the message handler for this packet type.
      * @return `true`, if successful
      */
-    fun <T : IMessage> registerBidiPacket(packetClass: Class<T>, messageHandler: Bidirectional<T>): Boolean
-    {
+    fun <T : IMessage> registerBidiPacket(packetClass: Class<T>, messageHandler: Bidirectional<T>): Boolean {
         check(nextPacketID.toInt() != -1) { "Too many packets registered for channel $channelId" }
 
         wrapper.registerMessage(messageHandler, packetClass, nextPacketID.toInt(), Side.CLIENT)
         wrapper.registerMessage(messageHandler, packetClass, nextPacketID.toInt(), Side.SERVER)
 
-        if (AfraidOfTheDark.INSTANCE.configurationHandler.debugMessages)
-        {
+        if (AfraidOfTheDark.INSTANCE.configurationHandler.debugMessages) {
             AfraidOfTheDark.INSTANCE.logger.info(
-                    "Registered packet class ${packetClass.simpleName} with handler class ${messageHandler.javaClass.simpleName} for the channel $channelId. The discriminator is $nextPacketID."
+                "Registered packet class ${packetClass.simpleName} with handler class ${messageHandler.javaClass.simpleName} for the channel $channelId. The discriminator is $nextPacketID."
             )
         }
 
@@ -77,8 +76,7 @@ class PacketHandler(private val channelId: String)
      *
      * @param message the packet to send.
      */
-    fun sendToAll(message: IMessage?)
-    {
+    fun sendToAll(message: IMessage?) {
         wrapper.sendToAll(message)
     }
 
@@ -88,10 +86,8 @@ class PacketHandler(private val channelId: String)
      * @param message the packet to send.
      * @param player  the player to send the packet to.
      */
-    fun sendTo(message: IMessage, player: EntityPlayerMP)
-    {
-        if (player.connection != null)
-        {
+    fun sendTo(message: IMessage, player: EntityPlayerMP) {
+        if (player.connection != null) {
             wrapper.sendTo(message, player)
         }
     }
@@ -102,8 +98,7 @@ class PacketHandler(private val channelId: String)
      * @param message the packet to send.
      * @param point   the target point.
      */
-    fun sendToAllAround(message: IMessage, point: TargetPoint?)
-    {
+    fun sendToAllAround(message: IMessage, point: TargetPoint?) {
         wrapper.sendToAllAround(message, point)
     }
 
@@ -117,8 +112,7 @@ class PacketHandler(private val channelId: String)
      * @param z         the z coordinate.
      * @param range     the radius.
      */
-    fun sendToAllAround(message: IMessage, dimension: Int, x: Double, y: Double, z: Double, range: Double)
-    {
+    fun sendToAllAround(message: IMessage, dimension: Int, x: Double, y: Double, z: Double, range: Double) {
         this.sendToAllAround(message, TargetPoint(dimension, x, y, z, range))
     }
 
@@ -129,8 +123,7 @@ class PacketHandler(private val channelId: String)
      * @param entity  the entity.
      * @param range   the radius.
      */
-    fun sendToAllAround(message: IMessage, entity: Entity, range: Double)
-    {
+    fun sendToAllAround(message: IMessage, entity: Entity, range: Double) {
         this.sendToAllAround(message, entity.world.provider.dimension, entity.posX, entity.posY, entity.posZ, range)
     }
 
@@ -140,8 +133,7 @@ class PacketHandler(private val channelId: String)
      * @param message     the packet to send.
      * @param dimensionId the dimension to send the packet to.
      */
-    fun sendToDimension(message: IMessage, dimensionId: Int)
-    {
+    fun sendToDimension(message: IMessage, dimensionId: Int) {
         wrapper.sendToDimension(message, dimensionId)
     }
 
@@ -150,8 +142,7 @@ class PacketHandler(private val channelId: String)
      *
      * @param message the packet to send.
      */
-    fun sendToServer(message: IMessage)
-    {
+    fun sendToServer(message: IMessage) {
         wrapper.sendToServer(message)
     }
 }

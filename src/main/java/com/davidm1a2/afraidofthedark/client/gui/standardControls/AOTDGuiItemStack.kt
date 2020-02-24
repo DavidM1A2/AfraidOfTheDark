@@ -17,23 +17,26 @@ import org.lwjgl.opengl.GL11
  * @param itemStack           The itemstack to draw
  * @property highlight The image that is shown when the itemstack is hovered over
  */
-class AOTDGuiItemStack(x: Int, y: Int, width: Int, height: Int, backgroundHighlight: Boolean, var itemStack: ItemStack = ItemStack.EMPTY) :
-        AOTDGuiContainer(x, y, width, height)
-{
+class AOTDGuiItemStack(
+    x: Int,
+    y: Int,
+    width: Int,
+    height: Int,
+    backgroundHighlight: Boolean,
+    var itemStack: ItemStack = ItemStack.EMPTY
+) :
+    AOTDGuiContainer(x, y, width, height) {
     private val highlight: AOTDGuiImage?
 
-    init
-    {
+    init {
         // if we should highlight the background then add a highlit background image
-        if (backgroundHighlight)
-        {
-            highlight = AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/journal_page/slot_highlight.png")
+        if (backgroundHighlight) {
+            highlight =
+                AOTDGuiImage(0, 0, width, height, "afraidofthedark:textures/gui/journal_page/slot_highlight.png")
             // Start the highlight off
             highlight.isVisible = false
             this.add(highlight)
-        }
-        else
-        {
+        } else {
             highlight = null
         }
     }
@@ -41,14 +44,11 @@ class AOTDGuiItemStack(x: Int, y: Int, width: Int, height: Int, backgroundHighli
     /**
      * Render the itemstack
      */
-    override fun draw()
-    {
+    override fun draw() {
         // Ensure the control is visible
-        if (this.isVisible)
-        {
+        if (this.isVisible) {
             // Test if we need to toggle the visibility of the highlit background
-            if (this.highlight != null)
-            {
+            if (this.highlight != null) {
                 // Show the highlit background if hovered and hide it if not
                 highlight.isVisible = this.isHovered && !this.itemStack.isEmpty
             }
@@ -70,8 +70,7 @@ class AOTDGuiItemStack(x: Int, y: Int, width: Int, height: Int, backgroundHighli
             // Set Z level to 100 like in default MC code
             renderItem.zLevel = 100.0f
             // Ensure we have an itemstack to draw
-            if (!itemStack.isEmpty)
-            {
+            if (!itemStack.isEmpty) {
                 // Grab the font renderer for the item
                 val font = itemStack.item.getFontRenderer(itemStack) ?: Minecraft.getMinecraft().fontRenderer
                 // Render the itemstack into the GUI
@@ -91,20 +90,17 @@ class AOTDGuiItemStack(x: Int, y: Int, width: Int, height: Int, backgroundHighli
     /**
      * Draws the overlay that displays the highlit background and item name
      */
-    override fun drawOverlay()
-    {
+    override fun drawOverlay() {
         // Ensure the control is visible and we have an overlay to draw
-        if (this.isVisible && highlight != null)
-        {
+        if (this.isVisible && highlight != null) {
             // Ensure the stack is hovered and the interior items are not null
-            if (this.isHovered && !this.itemStack.isEmpty)
-            {
+            if (this.isHovered && !this.itemStack.isEmpty) {
                 // Show the item name and count
                 fontRenderer.drawStringWithShadow(
-                        "${itemStack.displayName} x${itemStack.count}",
-                        this.getXScaled().toFloat(),
-                        (this.getYScaled() - 5).toFloat(),
-                        -0x1
+                    "${itemStack.displayName} x${itemStack.count}",
+                    this.getXScaled().toFloat(),
+                    (this.getYScaled() - 5).toFloat(),
+                    -0x1
                 )
             }
         }

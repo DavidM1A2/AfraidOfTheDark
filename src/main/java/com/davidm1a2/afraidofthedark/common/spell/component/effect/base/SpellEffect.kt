@@ -12,8 +12,10 @@ import net.minecraft.util.ResourceLocation
  * @param id      The ID of this delivery method entry
  */
 abstract class SpellEffect(id: ResourceLocation) :
-        SpellComponent<SpellEffect>(id, ResourceLocation(id.resourceDomain, "textures/gui/spell_component/effects/${id.resourcePath}.png"))
-{
+    SpellComponent<SpellEffect>(
+        id,
+        ResourceLocation(id.resourceDomain, "textures/gui/spell_component/effects/${id.resourcePath}.png")
+    ) {
     /**
      * Performs the effect
      *
@@ -33,8 +35,7 @@ abstract class SpellEffect(id: ResourceLocation) :
     /**
      * @return Gets the unlocalized name of the component
      */
-    override fun getUnlocalizedName(): String
-    {
+    override fun getUnlocalizedName(): String {
         return "effect.${registryName.toString()}.name"
     }
 }

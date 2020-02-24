@@ -17,19 +17,22 @@ import net.minecraft.item.ItemArmor
  * @property percentOfDamageBlocked The percent of damage blocked by the armor
  * @property maxDamageBlocked The maximum damage blocked by the armor
  */
-abstract class AOTDArmor(baseName: String, material: ArmorMaterial, renderIndex: Int, equipmentSlot: EntityEquipmentSlot, displayInCreative: Boolean = true) :
-        ItemArmor(material, renderIndex, equipmentSlot)
-{
+abstract class AOTDArmor(
+    baseName: String,
+    material: ArmorMaterial,
+    renderIndex: Int,
+    equipmentSlot: EntityEquipmentSlot,
+    displayInCreative: Boolean = true
+) :
+    ItemArmor(material, renderIndex, equipmentSlot) {
     protected var percentOfDamageBlocked = 0.0
     protected var maxDamageBlocked = 0
 
-    init
-    {
+    init {
         unlocalizedName = "${Constants.MOD_ID}:$baseName"
         this.setRegistryName("${Constants.MOD_ID}:$baseName")
 
-        if (displayInCreative)
-        {
+        if (displayInCreative) {
             this.creativeTab = Constants.AOTD_CREATIVE_TAB
         }
     }
@@ -40,13 +43,12 @@ abstract class AOTDArmor(baseName: String, material: ArmorMaterial, renderIndex:
      * @param entityPlayer The player to test
      * @return True if the player is wearing all armor of this type, false otherwise
      */
-    protected fun isWearingFullArmor(entityPlayer: EntityPlayer): Boolean
-    {
+    protected fun isWearingFullArmor(entityPlayer: EntityPlayer): Boolean {
         val armorInventory = entityPlayer.inventory.armorInventory
         val armorClass = this.javaClass
         return armorClass.isInstance(armorInventory[0].item) &&
-               armorClass.isInstance(armorInventory[1].item) &&
-               armorClass.isInstance(armorInventory[2].item) &&
-               armorClass.isInstance(armorInventory[3].item)
+                armorClass.isInstance(armorInventory[1].item) &&
+                armorClass.isInstance(armorInventory[2].item) &&
+                armorClass.isInstance(armorInventory[3].item)
     }
 }

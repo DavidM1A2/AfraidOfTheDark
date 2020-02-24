@@ -31,8 +31,7 @@ import java.util.*
  * @property powerSource The source that is powering the spell, can be null
  * @property spellStages The list of spell stages this spell can go through, can have 0 - inf elements
  */
-class Spell : INBTSerializable<NBTTagCompound>
-{
+class Spell : INBTSerializable<NBTTagCompound> {
     lateinit var name: String
     lateinit var id: UUID
         private set
@@ -45,8 +44,7 @@ class Spell : INBTSerializable<NBTTagCompound>
      *
      * @param entityPlayer The player that owns the spell/made the spell
      */
-    constructor(entityPlayer: EntityPlayer)
-    {
+    constructor(entityPlayer: EntityPlayer) {
         // Assign a random spell ID
         id = UUID.randomUUID()
         // Assign the owner id to the player's id
@@ -60,8 +58,7 @@ class Spell : INBTSerializable<NBTTagCompound>
      *
      * @param nbt The NBT containing the spell's information
      */
-    constructor(nbt: NBTTagCompound)
-    {
+    constructor(nbt: NBTTagCompound) {
         deserializeNBT(nbt)
     }
 
@@ -70,61 +67,66 @@ class Spell : INBTSerializable<NBTTagCompound>
      *
      * @param entityPlayer The player casting the spell
      */
-    fun attemptToCast(entityPlayer: EntityPlayer)
-    {
+    fun attemptToCast(entityPlayer: EntityPlayer) {
         // Server side processing only
-        if (!entityPlayer.world.isRemote)
-        {
+        if (!entityPlayer.world.isRemote) {
             // Make sure the player isn't in the nightmare realm
-            if (entityPlayer.dimension != ModDimensions.NIGHTMARE.id)
-            {
+            if (entityPlayer.dimension != ModDimensions.NIGHTMARE.id) {
                 // If the spell is valid continue, if not print an error
-                if (isValid())
-                {
+                if (isValid()) {
                     // Test if the spell can be cast, if not tell the player why
-                    if (powerSource!!.component.canCast(entityPlayer, this))
-                    {
+                    if (powerSource!!.component.canCast(entityPlayer, this)) {
                         // Consumer the power to cast the spell
                         powerSource!!.component.consumePowerToCast(entityPlayer, this)
 
                         // Play a cast sound
-                        entityPlayer.world.playSound(null, entityPlayer.position, ModSounds.SPELL_CAST, SoundCategory.PLAYERS, 1.0f, (0.8f + Math.random() * 0.4).toFloat())
+                        entityPlayer.world.playSound(
+                            null,
+                            entityPlayer.position,
+                            ModSounds.SPELL_CAST,
+                            SoundCategory.PLAYERS,
+                            1.0f,
+                            (0.8f + Math.random() * 0.4).toFloat()
+                        )
                         // Spawn 3-5 particles
                         val positions: MutableList<Vec3d> = ArrayList()
-                        for (i in 0 until entityPlayer.rng.nextInt(4) + 2)
-                        {
+                        for (i in 0 until entityPlayer.rng.nextInt(4) + 2) {
                             positions.add(Vec3d(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ))
                         }
                         // Send the particle packet
                         AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(
-                                SyncParticle(AOTDParticleRegistry.ParticleTypes.SPELL_CAST_ID, positions, Collections.nCopies(positions.size, Vec3d.ZERO)),
-                                TargetPoint(entityPlayer.dimension, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, 100.0)
+                            SyncParticle(
+                                AOTDParticleRegistry.ParticleTypes.SPELL_CAST_ID,
+                                positions,
+                                Collections.nCopies(positions.size, Vec3d.ZERO)
+                            ),
+                            TargetPoint(
+                                entityPlayer.dimension,
+                                entityPlayer.posX,
+                                entityPlayer.posY,
+                                entityPlayer.posZ,
+                                100.0
+                            )
                         )
 
                         // Tell the first delivery method to fire
                         getStage(0)!!
-                                .deliveryInstance!!
-                                .component
-                                .executeDelivery(
-                                        DeliveryTransitionStateBuilder()
-                                                .withSpell(this)
-                                                .withStageIndex(0)
-                                                .withEntity(entityPlayer)
-                                                .build()
-                                )
-                    }
-                    else
-                    {
+                            .deliveryInstance!!
+                            .component
+                            .executeDelivery(
+                                DeliveryTransitionStateBuilder()
+                                    .withSpell(this)
+                                    .withStageIndex(0)
+                                    .withEntity(entityPlayer)
+                                    .build()
+                            )
+                    } else {
                         entityPlayer.sendMessage(TextComponentTranslation(powerSource!!.component.getUnlocalizedOutOfPowerMsg()))
                     }
-                }
-                else
-                {
+                } else {
                     entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:spell.invalid"))
                 }
-            }
-            else
-            {
+            } else {
                 entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:spell.wrong_dimension"))
             }
         }
@@ -135,16 +137,13 @@ class Spell : INBTSerializable<NBTTagCompound>
      *
      * @return True if the power source method is non-null and at least one spell stage is registered
      */
-    fun isValid(): Boolean
-    {
+    fun isValid(): Boolean {
         val isValid = powerSource != null
         // Ensure the power source is valid and the spell stages are non-empty
-        return if (isValid && spellStages.isNotEmpty())
-        {
+        return if (isValid && spellStages.isNotEmpty()) {
             // Test to ensure all spell stages are valid
             spellStages.all { it.isValid() }
-        }
-        else false
+        } else false
     }
 
     /**
@@ -152,16 +151,14 @@ class Spell : INBTSerializable<NBTTagCompound>
      *
      * @return The cost of the spell including all spell stages
      */
-    fun getCost(): Double
-    {
+    fun getCost(): Double {
         var cost = 0.0
 
         // Keep a multiplier that will make each spell stage more and more expensive
         var costMultiplier = 1.0
 
         // Go over each spell stage and add up costs
-        for (spellStage in spellStages)
-        {
+        for (spellStage in spellStages) {
             // Add the cost of the stage times the multiplier
             cost = cost + spellStage.getCost() * costMultiplier
             // Increase the cost of the next spell stage by 5% by default
@@ -169,8 +166,7 @@ class Spell : INBTSerializable<NBTTagCompound>
         }
 
         // If cost overflowed then set it to max double
-        if (cost < 0)
-        {
+        if (cost < 0) {
             cost = Double.MAX_VALUE
         }
         return cost
@@ -182,8 +178,7 @@ class Spell : INBTSerializable<NBTTagCompound>
      * @param index The index of the stage to get
      * @return True if the stage exists, false otherwise
      */
-    fun hasStage(index: Int): Boolean
-    {
+    fun hasStage(index: Int): Boolean {
         return index >= 0 && index < spellStages.size
     }
 
@@ -193,14 +188,10 @@ class Spell : INBTSerializable<NBTTagCompound>
      * @param index The spell stage index
      * @return The spell stage at a given index or null if it doesn't exist
      */
-    fun getStage(index: Int): SpellStage?
-    {
-        return if (hasStage(index))
-        {
+    fun getStage(index: Int): SpellStage? {
+        return if (hasStage(index)) {
             spellStages[index]
-        }
-        else
-        {
+        } else {
             null
         }
     }
@@ -210,8 +201,7 @@ class Spell : INBTSerializable<NBTTagCompound>
      *
      * @return The player who owns the spell, or null if the player is offline
      */
-    fun getOwner(): EntityPlayer?
-    {
+    fun getOwner(): EntityPlayer? {
         return FMLCommonHandler.instance().minecraftServerInstance.playerList.getPlayerByUUID(ownerId)
     }
 
@@ -220,8 +210,7 @@ class Spell : INBTSerializable<NBTTagCompound>
      *
      * @return An NBT compound with all this spell's data
      */
-    override fun serializeNBT(): NBTTagCompound
-    {
+    override fun serializeNBT(): NBTTagCompound {
         val nbt = NBTTagCompound()
 
         // Write each field to NBT
@@ -230,8 +219,7 @@ class Spell : INBTSerializable<NBTTagCompound>
         nbt.setTag(NBT_OWNER_ID, NBTUtil.createUUIDTag(ownerId))
 
         // The spell power source can be null, double check that it isn't before writing it and its state
-        if (powerSource != null)
-        {
+        if (powerSource != null) {
             nbt.setTag(NBT_POWER_SOURCE, powerSource!!.serializeNBT())
         }
 
@@ -247,16 +235,14 @@ class Spell : INBTSerializable<NBTTagCompound>
      *
      * @param nbt The NBT compound to read from
      */
-    override fun deserializeNBT(nbt: NBTTagCompound)
-    {
+    override fun deserializeNBT(nbt: NBTTagCompound) {
         // Read each field from NBT
         name = nbt.getString(NBT_NAME)
         id = NBTUtil.getUUIDFromTag(nbt.getCompoundTag(NBT_ID))
         ownerId = NBTUtil.getUUIDFromTag(nbt.getCompoundTag(NBT_OWNER_ID))
 
         // The spell power source can be null, double check that it exists before reading it and its state
-        if (nbt.hasKey(NBT_POWER_SOURCE))
-        {
+        if (nbt.hasKey(NBT_POWER_SOURCE)) {
             // Grab the power source NBT and create a power source out of it
             powerSource = SpellPowerSourceInstance.createFromNBT(nbt.getCompoundTag(NBT_POWER_SOURCE))
         }
@@ -264,8 +250,7 @@ class Spell : INBTSerializable<NBTTagCompound>
         // Read each spell stage from NBT
         val spellStagesNBT = nbt.getTagList(NBT_SPELL_STAGES, Constants.NBT.TAG_COMPOUND)
         spellStages.clear()
-        for (i in 0 until spellStagesNBT.tagCount())
-        {
+        for (i in 0 until spellStagesNBT.tagCount()) {
             // Grab the spell stage NBT, read it into the spell stage, and add it
             val spellStageNBT = spellStagesNBT.getCompoundTagAt(i)
             val spellStage = SpellStage(spellStageNBT)
@@ -273,8 +258,7 @@ class Spell : INBTSerializable<NBTTagCompound>
         }
     }
 
-    companion object
-    {
+    companion object {
         // Constants used for NBT serialization/deserialiation
         private const val NBT_NAME = "name"
         private const val NBT_ID = "id"

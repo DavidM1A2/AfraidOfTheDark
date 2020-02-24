@@ -10,21 +10,19 @@ import net.minecraftforge.common.crafting.IShapedRecipe
  * @param baseRecipe   The base recipe to start with
  * @param preRequisite The pre-requisite research to be required to craft this recipe
  */
-class ResearchRequiredShapedRecipe(baseRecipe: IShapedRecipe, preRequisite: Research) : ResearchRequiredRecipeBase<IShapedRecipe>(baseRecipe, preRequisite), IShapedRecipe
-{
+class ResearchRequiredShapedRecipe(baseRecipe: IShapedRecipe, preRequisite: Research) :
+    ResearchRequiredRecipeBase<IShapedRecipe>(baseRecipe, preRequisite), IShapedRecipe {
     /**
      * @return The width of the recipe
      */
-    override fun getRecipeWidth(): Int
-    {
+    override fun getRecipeWidth(): Int {
         return baseRecipe.recipeWidth
     }
 
     /**
      * @return The height of the recipe
      */
-    override fun getRecipeHeight(): Int
-    {
+    override fun getRecipeHeight(): Int {
         return baseRecipe.recipeHeight
     }
 }

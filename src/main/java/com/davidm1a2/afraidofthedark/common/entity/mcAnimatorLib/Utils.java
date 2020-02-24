@@ -11,16 +11,14 @@ import java.nio.FloatBuffer;
 /**
  * This class was provided by the MC animator library
  */
-public class Utils
-{
+public class Utils {
     /**
      * Make a direct NIO FloatBuffer from an array of floats
      *
      * @param arr The array
      * @return The newly created FloatBuffer
      */
-    public static FloatBuffer makeFloatBuffer(float[] arr)
-    {
+    public static FloatBuffer makeFloatBuffer(float[] arr) {
         ByteBuffer bb = ByteBuffer.allocateDirect(arr.length * 4);
         bb.order(ByteOrder.nativeOrder());
         FloatBuffer fb = bb.asFloatBuffer();
@@ -35,8 +33,7 @@ public class Utils
      * @param arr The array
      * @return The newly created FloatBuffer
      */
-    public static ByteBuffer makeByteBuffer(byte[] arr)
-    {
+    public static ByteBuffer makeByteBuffer(byte[] arr) {
         ByteBuffer bb = ByteBuffer.allocateDirect(arr.length);
         bb.order(ByteOrder.nativeOrder());
         bb.put(arr);
@@ -47,8 +44,7 @@ public class Utils
     /**
      * Get the quaternion from a matrix. We need to transpose the matrix.
      */
-    public static Quaternion getQuaternionFromMatrix(Matrix4f matrix)
-    {
+    public static Quaternion getQuaternionFromMatrix(Matrix4f matrix) {
         Matrix4f copy = new Matrix4f(matrix);
         return new Quaternion(copy.transpose());
     }
@@ -56,8 +52,7 @@ public class Utils
     /**
      * Get the quaternion from euler angles. Minecraft eulers order is XYZ.
      */
-    public static Quaternion getQuaternionFromEulers(float x, float y, float z)
-    {
+    public static Quaternion getQuaternionFromEulers(float x, float y, float z) {
         Quaternion quatX = new Quaternion(Vector3f.UNIT_X, (float) Math.toRadians(x));
         Quaternion quatY = new Quaternion(Vector3f.UNIT_Y, (float) Math.toRadians(y));
         Quaternion quatZ = new Quaternion(Vector3f.UNIT_Z, (float) Math.toRadians(z));

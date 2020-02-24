@@ -8,10 +8,8 @@ import net.minecraft.block.material.Material
  *
  * @constructor sets the name and block properties
  */
-class BlockGnomishMetalPlate : AOTDBlock("gnomish_metal_plate", Material.ROCK)
-{
-    init
-    {
+class BlockGnomishMetalPlate : AOTDBlock("gnomish_metal_plate", Material.ROCK) {
+    init {
         setHardness(2.0f)
         setResistance(10.0f)
         this.setHarvestLevel("pickaxe", 2)

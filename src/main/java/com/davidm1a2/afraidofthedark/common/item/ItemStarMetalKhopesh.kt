@@ -23,10 +23,8 @@ import kotlin.math.sqrt
  *
  * @constructor sets the sword properties
  */
-class ItemStarMetalKhopesh : AOTDChargeableSword("star_metal_khopesh", ModToolMaterials.STAR_METAL)
-{
-    init
-    {
+class ItemStarMetalKhopesh : AOTDChargeableSword("star_metal_khopesh", ModToolMaterials.STAR_METAL) {
+    init {
         percentChargePerAttack = 35.0
     }
 
@@ -38,16 +36,12 @@ class ItemStarMetalKhopesh : AOTDChargeableSword("star_metal_khopesh", ModToolMa
      * @param entity The entity that was clicked
      * @return True to cancel the interaction, false otherwise
      */
-    override fun onLeftClickEntity(stack: ItemStack, player: EntityPlayer, entity: Entity): Boolean
-    {
+    override fun onLeftClickEntity(stack: ItemStack, player: EntityPlayer, entity: Entity): Boolean {
         // If star metal is researched allow the sword to function
-        if (player.getResearch().isResearched(ModResearches.STAR_METAL))
-        {
+        if (player.getResearch().isResearched(ModResearches.STAR_METAL)) {
             // Ensure the clicked entity was non-null
             entity.attackEntityFrom(getSilverDamage(player), attackDamage)
-        }
-        else
-        {
+        } else {
             return true
         }
 
@@ -62,17 +56,13 @@ class ItemStarMetalKhopesh : AOTDChargeableSword("star_metal_khopesh", ModToolMa
      * @param tooltip The tooltip to return
      * @param flag True if advanced tooltips are on, false otherwise
      */
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag)
-    {
+    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag) {
         val player = Minecraft.getMinecraft().player
-        if (player != null && player.getResearch().isResearched(ModResearches.STAR_METAL))
-        {
+        if (player != null && player.getResearch().isResearched(ModResearches.STAR_METAL)) {
             tooltip.add("Magical items will never break.")
             tooltip.add("Right click to use an AOE knockback and")
             tooltip.add("damage attack when charged to 100%")
-        }
-        else
-        {
+        } else {
             tooltip.add("I'm not sure how to use this.")
         }
     }
@@ -85,15 +75,15 @@ class ItemStarMetalKhopesh : AOTDChargeableSword("star_metal_khopesh", ModToolMa
      * @param entityPlayer The player who used the charge attack
      * @return True if the charge attack went off, false otherwise
      */
-    override fun performChargeAttack(itemStack: ItemStack, world: World, entityPlayer: EntityPlayer): Boolean
-    {
-        val nearbyEntities = world.getEntitiesWithinAABBExcludingEntity(entityPlayer, entityPlayer.entityBoundingBox.grow(HIT_RANGE.toDouble()))
+    override fun performChargeAttack(itemStack: ItemStack, world: World, entityPlayer: EntityPlayer): Boolean {
+        val nearbyEntities = world.getEntitiesWithinAABBExcludingEntity(
+            entityPlayer,
+            entityPlayer.entityBoundingBox.grow(HIT_RANGE.toDouble())
+        )
         // Iterate over all entities within 5 blocks of the player
-        for (entity in nearbyEntities)
-        {
+        for (entity in nearbyEntities) {
             // Only knock back living entities
-            if (entity is EntityPlayer || entity is EntityLiving)
-            {
+            if (entity is EntityPlayer || entity is EntityLiving) {
                 // Compute the vector from player to entity
                 val motionX = entityPlayer.position.x - entity.position.x.toDouble()
                 val motionZ = entityPlayer.position.z - entity.position.z.toDouble()
@@ -102,13 +92,21 @@ class ItemStarMetalKhopesh : AOTDChargeableSword("star_metal_khopesh", ModToolMa
                 val hypotenuse = sqrt(motionX * motionX + motionZ * motionZ)
 
                 // Compute the strength we knock back with
-                val knockbackStrength = EnchantmentHelper.getEnchantmentLevel(Enchantments.KNOCKBACK, itemStack) + 2.toDouble()
+                val knockbackStrength =
+                    EnchantmentHelper.getEnchantmentLevel(Enchantments.KNOCKBACK, itemStack) + 2.toDouble()
 
                 // Compute the damage we hit with based on sharpness
                 val sharpnessDamage = EnchantmentHelper.getEnchantmentLevel(Enchantments.SHARPNESS, itemStack)
                 // Attack the entity with player damage and move them back
-                entity.attackEntityFrom(DamageSource.causePlayerDamage(entityPlayer), attackDamage + 4.0f + sharpnessDamage * 1.5f)
-                entity.addVelocity(-motionX * knockbackStrength * 0.6 / hypotenuse, 0.1, -motionZ * knockbackStrength * 0.6 / hypotenuse)
+                entity.attackEntityFrom(
+                    DamageSource.causePlayerDamage(entityPlayer),
+                    attackDamage + 4.0f + sharpnessDamage * 1.5f
+                )
+                entity.addVelocity(
+                    -motionX * knockbackStrength * 0.6 / hypotenuse,
+                    0.1,
+                    -motionZ * knockbackStrength * 0.6 / hypotenuse
+                )
             }
         }
 
@@ -126,11 +124,9 @@ class ItemStarMetalKhopesh : AOTDChargeableSword("star_metal_khopesh", ModToolMa
      * @param itemSlot The slot the khopesh is in
      * @param isSelected True if the sword is selected, false otherwise
      */
-    override fun onUpdate(stack: ItemStack, world: World, entity: Entity, itemSlot: Int, isSelected: Boolean)
-    {
+    override fun onUpdate(stack: ItemStack, world: World, entity: Entity, itemSlot: Int, isSelected: Boolean) {
         // Only spin the player if the stack is spinning the player
-        if (shouldSpin(stack))
-        {
+        if (shouldSpin(stack)) {
             // Reduce the ticks remaining by one
             decrementSpinTicks(stack)
             // Spin the entity/player
@@ -143,8 +139,7 @@ class ItemStarMetalKhopesh : AOTDChargeableSword("star_metal_khopesh", ModToolMa
      *
      * @param itemStack The itemstack to set NBT data for
      */
-    private fun resetSpin(itemStack: ItemStack)
-    {
+    private fun resetSpin(itemStack: ItemStack) {
         NBTHelper.setInteger(itemStack, NBT_SPIN_TICKS_LEFT, TICKS_TO_SPIN)
     }
 
@@ -154,9 +149,11 @@ class ItemStarMetalKhopesh : AOTDChargeableSword("star_metal_khopesh", ModToolMa
      * @param itemStack The itemstack to test spin for
      * @return True if the khopesh should spin the player, false otherwise
      */
-    private fun shouldSpin(itemStack: ItemStack): Boolean
-    {
-        return NBTHelper.hasTag(itemStack, NBT_SPIN_TICKS_LEFT) && NBTHelper.getInteger(itemStack, NBT_SPIN_TICKS_LEFT)!! > 0
+    private fun shouldSpin(itemStack: ItemStack): Boolean {
+        return NBTHelper.hasTag(itemStack, NBT_SPIN_TICKS_LEFT) && NBTHelper.getInteger(
+            itemStack,
+            NBT_SPIN_TICKS_LEFT
+        )!! > 0
     }
 
     /**
@@ -164,16 +161,17 @@ class ItemStarMetalKhopesh : AOTDChargeableSword("star_metal_khopesh", ModToolMa
      *
      * @param itemStack The itemstack to decrement the spin ticks for
      */
-    private fun decrementSpinTicks(itemStack: ItemStack)
-    {
-        if (NBTHelper.hasTag(itemStack, NBT_SPIN_TICKS_LEFT))
-        {
-            NBTHelper.setInteger(itemStack, NBT_SPIN_TICKS_LEFT, NBTHelper.getInteger(itemStack, NBT_SPIN_TICKS_LEFT)!! - 1)
+    private fun decrementSpinTicks(itemStack: ItemStack) {
+        if (NBTHelper.hasTag(itemStack, NBT_SPIN_TICKS_LEFT)) {
+            NBTHelper.setInteger(
+                itemStack,
+                NBT_SPIN_TICKS_LEFT,
+                NBTHelper.getInteger(itemStack, NBT_SPIN_TICKS_LEFT)!! - 1
+            )
         }
     }
 
-    companion object
-    {
+    companion object {
         // The AOE knockback range
         private const val HIT_RANGE = 5
         // NBT containing spin info

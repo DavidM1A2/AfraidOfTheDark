@@ -14,13 +14,11 @@ import net.minecraftforge.oredict.OreDictionary
 /**
  * Common proxy that is instantiated on both sides (CLIENT and SERVER)
  */
-abstract class CommonProxy : IProxy
-{
+abstract class CommonProxy : IProxy {
     /**
      * Called to initialize any mod blocks into the ore dictionary. Happens on server and client
      */
-    override fun initializeOreDictionary()
-    {
+    override fun initializeOreDictionary() {
         OreDictionary.registerOre("logWood", ModBlocks.GRAVEWOOD)
         OreDictionary.registerOre("plankWood", ModBlocks.GRAVEWOOD_PLANKS)
         OreDictionary.registerOre("treeLeaves", ModBlocks.GRAVEWOOD_LEAVES)
@@ -40,8 +38,7 @@ abstract class CommonProxy : IProxy
     /**
      * Registers any packets used by AOTD
      */
-    override fun registerPackets()
-    {
+    override fun registerPackets() {
         val packetHandler = AfraidOfTheDark.INSTANCE.packetHandler
         packetHandler.registerBidiPacket(SyncStartedAOTD::class.java, SyncStartedAOTD.Handler())
         packetHandler.registerBidiPacket(SyncAOTDPlayerBasics::class.java, SyncAOTDPlayerBasics.Handler())
@@ -56,7 +53,11 @@ abstract class CommonProxy : IProxy
         packetHandler.registerPacket(SyncFreezeData::class.java, SyncFreezeData.Handler(), Side.CLIENT)
         packetHandler.registerPacket(FireWristCrossbow::class.java, FireWristCrossbow.Handler(), Side.SERVER)
         packetHandler.registerPacket(ProcessSextantInput::class.java, ProcessSextantInput.Handler(), Side.SERVER)
-        packetHandler.registerPacket(SyncSelectedWristCrossbowBolt::class.java, SyncSelectedWristCrossbowBolt.Handler(), Side.SERVER)
+        packetHandler.registerPacket(
+            SyncSelectedWristCrossbowBolt::class.java,
+            SyncSelectedWristCrossbowBolt.Handler(),
+            Side.SERVER
+        )
         packetHandler.registerPacket(SyncSpellKeyPress::class.java, SyncSpellKeyPress.Handler(), Side.SERVER)
     }
 }

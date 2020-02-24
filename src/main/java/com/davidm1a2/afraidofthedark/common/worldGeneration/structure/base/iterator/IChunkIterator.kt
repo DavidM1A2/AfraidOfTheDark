@@ -5,8 +5,7 @@ import net.minecraft.util.math.ChunkPos
 /**
  * Used to get a list of chunks to iterate over
  */
-interface IChunkIterator
-{
+interface IChunkIterator {
     /**
      * @return A list of chunks to iterate over
      */

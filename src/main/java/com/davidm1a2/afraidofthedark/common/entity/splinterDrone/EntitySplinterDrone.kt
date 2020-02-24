@@ -29,13 +29,11 @@ import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint
  * @property animHandler The animation handler used to manage animations
  * @property hasPlayedSpawnAnimation Flag telling us if we have played the spawn animation yet or not
  */
-class EntitySplinterDrone(world: World) : EntityFlying(world), IMob, IMCAnimatedEntity
-{
+class EntitySplinterDrone(world: World) : EntityFlying(world), IMob, IMCAnimatedEntity {
     private val animHandler = AnimationHandlerSplinterDrone(this)
     private var hasPlayedSpawnAnimation = false
 
-    init
-    {
+    init {
         // The the entity hitbox
         setSize(0.8f, 3.0f)
         // Make the entity immune to fire
@@ -49,8 +47,7 @@ class EntitySplinterDrone(world: World) : EntityFlying(world), IMob, IMCAnimated
     /**
      * Sets up the entity's AI tasks
      */
-    override fun initEntityAI()
-    {
+    override fun initEntityAI() {
         // Task one is always to face the nearest player
         tasks.addTask(1, EntityAIWatchClosest(this, EntityPlayer::class.java, AGRO_RANGE.toFloat()))
         // Task two is to hover over the ground and fly around
@@ -66,8 +63,7 @@ class EntitySplinterDrone(world: World) : EntityFlying(world), IMob, IMCAnimated
     /**
      * Sets entity attributes such as max health and movespeed
      */
-    override fun applyEntityAttributes()
-    {
+    override fun applyEntityAttributes() {
         super.applyEntityAttributes()
         // Make sure to register the attack damage attribute for this entity
         attributeMap.registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE)
@@ -81,19 +77,16 @@ class EntitySplinterDrone(world: World) : EntityFlying(world), IMob, IMCAnimated
     /**
      * Update animations for this entity when update is called, also kill the entity if it's peaceful
      */
-    override fun onUpdate()
-    {
+    override fun onUpdate() {
         super.onUpdate()
 
         // If we're on peaceful and server side kill the entity
-        if (!world.isRemote && world.difficulty == EnumDifficulty.PEACEFUL)
-        {
+        if (!world.isRemote && world.difficulty == EnumDifficulty.PEACEFUL) {
             setDead()
         }
 
         // Animations only update client side
-        if (world.isRemote)
-        {
+        if (world.isRemote) {
             animHandler.animationsUpdate()
         }
     }
@@ -101,27 +94,28 @@ class EntitySplinterDrone(world: World) : EntityFlying(world), IMob, IMCAnimated
     /**
      * Called every game tick for the entity
      */
-    override fun onEntityUpdate()
-    {
+    override fun onEntityUpdate() {
         // Update any base logic
         super.onEntityUpdate()
 
         // Server side test if the entity has played the spawn animation
-        if (!world.isRemote)
-        {
-            if (!hasPlayedSpawnAnimation)
-            {
+        if (!world.isRemote) {
+            if (!hasPlayedSpawnAnimation) {
                 // If it hasn't played the spawn animation play it to all nearby players
-                AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(SyncAnimation("Activate", this), TargetPoint(dimension, posX, posY, posZ, 50.0))
+                AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(
+                    SyncAnimation("Activate", this),
+                    TargetPoint(dimension, posX, posY, posZ, 50.0)
+                )
                 hasPlayedSpawnAnimation = true
             }
         }
 
         // If we're client side and no animation is active play the idle animation
-        if (world.isRemote)
-        {
-            if (!animHandler.isAnimationActive("Activate") && !animHandler.isAnimationActive("Charge") && !animHandler.isAnimationActive("Idle"))
-            {
+        if (world.isRemote) {
+            if (!animHandler.isAnimationActive("Activate") && !animHandler.isAnimationActive("Charge") && !animHandler.isAnimationActive(
+                    "Idle"
+                )
+            ) {
                 animHandler.activateAnimation("Idle", 0f)
             }
         }
@@ -132,22 +126,18 @@ class EntitySplinterDrone(world: World) : EntityFlying(world), IMob, IMCAnimated
      *
      * @param cause The damage source that killed the skeleton
      */
-    override fun onDeath(cause: DamageSource)
-    {
+    override fun onDeath(cause: DamageSource) {
         // Kill the entity
         super.onDeath(cause)
 
         // Only process server side
-        if (!world.isRemote)
-        {
+        if (!world.isRemote) {
             // If a player killed the entity unlock the gnomish city research
-            if (cause.trueSource is EntityPlayer)
-            {
+            if (cause.trueSource is EntityPlayer) {
                 val entityPlayer = cause.trueSource as EntityPlayer
                 // If we can unlock the gnomish city research do so
                 val playerResearch = entityPlayer.getResearch()
-                if (playerResearch.canResearch(ModResearches.GNOMISH_CITY))
-                {
+                if (playerResearch.canResearch(ModResearches.GNOMISH_CITY)) {
                     playerResearch.setResearch(ModResearches.GNOMISH_CITY, true)
                     playerResearch.sync(entityPlayer, true)
                 }
@@ -161,8 +151,7 @@ class EntitySplinterDrone(world: World) : EntityFlying(world), IMob, IMCAnimated
      * @param wasRecentlyHit  If the entity was recently hit by a player
      * @param lootingModifier The player's looting modifier
      */
-    override fun dropFewItems(wasRecentlyHit: Boolean, lootingModifier: Int)
-    {
+    override fun dropFewItems(wasRecentlyHit: Boolean, lootingModifier: Int) {
         // Drop 3 - 7 ingots
         dropItem(ModItems.GNOMISH_METAL_INGOT, rand.nextInt(5) + 3)
     }
@@ -170,16 +159,14 @@ class EntitySplinterDrone(world: World) : EntityFlying(world), IMob, IMCAnimated
     /**
      * @return The handler for all animations for this entity
      */
-    override fun getAnimationHandler(): AnimationHandler
-    {
+    override fun getAnimationHandler(): AnimationHandler {
         return animHandler
     }
 
     /**
      * @return The eye height of the splinter drone which is up towards the top
      */
-    override fun getEyeHeight(): Float
-    {
+    override fun getEyeHeight(): Float {
         return 1.5f
     }
 
@@ -188,8 +175,7 @@ class EntitySplinterDrone(world: World) : EntityFlying(world), IMob, IMCAnimated
      *
      * @param tagCompound The compound to write to
      */
-    override fun writeEntityToNBT(tagCompound: NBTTagCompound)
-    {
+    override fun writeEntityToNBT(tagCompound: NBTTagCompound) {
         tagCompound.setBoolean(NBT_PLAYED_SPAWN_ANIMATION, hasPlayedSpawnAnimation)
         super.writeEntityToNBT(tagCompound)
     }
@@ -199,14 +185,12 @@ class EntitySplinterDrone(world: World) : EntityFlying(world), IMob, IMCAnimated
      *
      * @param tagCompound The compound to read from
      */
-    override fun readEntityFromNBT(tagCompound: NBTTagCompound)
-    {
+    override fun readEntityFromNBT(tagCompound: NBTTagCompound) {
         hasPlayedSpawnAnimation = tagCompound.getBoolean(NBT_PLAYED_SPAWN_ANIMATION)
         super.readEntityFromNBT(tagCompound)
     }
 
-    companion object
-    {
+    companion object {
         // Constants used to define splinter drone properties
         private const val MOVE_SPEED = 0.05
         private const val AGRO_RANGE = 30.0

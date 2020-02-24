@@ -8,10 +8,8 @@ import net.minecraft.block.material.Material
  *
  * @constructor initializes the block's properties
  */
-class BlockMeteor : AOTDBlock("meteor", Material.ROCK)
-{
-    init
-    {
+class BlockMeteor : AOTDBlock("meteor", Material.ROCK) {
+    init {
         setHardness(10.0f)
         setResistance(50.0f)
         this.setHarvestLevel("pickaxe", 2)

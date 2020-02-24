@@ -7,8 +7,7 @@ import net.minecraftforge.common.util.ITeleporter
 /**
  * Teleporter class that does nothing except reset entity motion
  */
-class NoopTeleporter : ITeleporter
-{
+class NoopTeleporter : ITeleporter {
     /**
      * Spawns the entity in the world
      *
@@ -16,8 +15,7 @@ class NoopTeleporter : ITeleporter
      * @param entity The entity that is teleporting
      * @param yaw    The yaw of the entity
      */
-    override fun placeEntity(world: World, entity: Entity, yaw: Float)
-    {
+    override fun placeEntity(world: World, entity: Entity, yaw: Float) {
         // Reset the entity's motion so they don't die of fall damage
         entity.motionX = 0.0
         entity.motionY = 0.0
@@ -27,8 +25,7 @@ class NoopTeleporter : ITeleporter
     /**
      * @return False, not a vanilla teleporter
      */
-    override fun isVanilla(): Boolean
-    {
+    override fun isVanilla(): Boolean {
         return false
     }
 }

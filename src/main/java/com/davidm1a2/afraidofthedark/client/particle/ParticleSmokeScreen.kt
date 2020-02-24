@@ -13,14 +13,12 @@ import net.minecraft.world.World
  * @param z The z position of the smoke screen particle
  */
 class ParticleSmokeScreen(
-        world: World,
-        x: Double,
-        y: Double,
-        z: Double
-) : AOTDParticle(world, ModSprites.SMOKE_SCREEN, x, y, z, 0.0, 0.0, 0.0)
-{
-    init
-    {
+    world: World,
+    x: Double,
+    y: Double,
+    z: Double
+) : AOTDParticle(world, ModSprites.SMOKE_SCREEN, x, y, z, 0.0, 0.0, 0.0) {
+    init {
         // 10-20 second lifespan
         particleMaxAge = rand.nextInt(200) + 200
 
@@ -39,8 +37,7 @@ class ParticleSmokeScreen(
     /**
      * Called before the particle is moved, update the motionXYZ here
      */
-    override fun updateMotionXYZ()
-    {
+    override fun updateMotionXYZ() {
         // Slowly reduce motion
         motionX = motionX * 0.95
         motionY = motionY * 0.95

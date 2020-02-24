@@ -7,8 +7,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEff
 /**
  * Interface representing how effects are applied based on the delivery method used
  */
-interface ISpellDeliveryEffectApplicator
-{
+interface ISpellDeliveryEffectApplicator {
     /**
      * Performs the effect
      *

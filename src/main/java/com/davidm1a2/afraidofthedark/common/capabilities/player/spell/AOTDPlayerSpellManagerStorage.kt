@@ -15,8 +15,7 @@ import java.util.*
 /**
  * Default storage implementation for the AOTD spell manager
  */
-class AOTDPlayerSpellManagerStorage : IStorage<IAOTDPlayerSpellManager>
-{
+class AOTDPlayerSpellManagerStorage : IStorage<IAOTDPlayerSpellManager> {
     /**
      * Called to write a capability to an NBT compound
      *
@@ -26,19 +25,17 @@ class AOTDPlayerSpellManagerStorage : IStorage<IAOTDPlayerSpellManager>
      * @return An NBTTagCompound that contains all info about the capability
      */
     override fun writeNBT(
-            capability: Capability<IAOTDPlayerSpellManager>,
-            instance: IAOTDPlayerSpellManager,
-            side: EnumFacing?
-    ): NBTBase?
-    {
+        capability: Capability<IAOTDPlayerSpellManager>,
+        instance: IAOTDPlayerSpellManager,
+        side: EnumFacing?
+    ): NBTBase? {
         // Create a compound to write
         val compound = NBTTagCompound()
         // Create a list of nbt spells
         val spellsNBT = NBTTagList()
 
         // Write each spell to NBT
-        for (spell in instance.getSpells())
-        {
+        for (spell in instance.getSpells()) {
             // Write the spell to NBT
             spellsNBT.appendTag(spell.serializeNBT())
         }
@@ -49,12 +46,10 @@ class AOTDPlayerSpellManagerStorage : IStorage<IAOTDPlayerSpellManager>
         // Go over each keybind and store it off
         val keybindingsNBT = NBTTagList()
         // Go over every spell that has a keybinding
-        for (spell in instance.getSpells())
-        {
+        for (spell in instance.getSpells()) {
             // Grab the keybinding for the spell, test if it's valid
             val keybinding = instance.getKeybindingForSpell(spell)
-            if (keybinding != null)
-            {
+            if (keybinding != null) {
                 // Store the spell UUID, keybind pair
                 val keybindCompound = NBTTagCompound()
                 keybindCompound.setTag(NBT_KEYBIND_SPELL_UUID, NBTUtil.createUUIDTag(spell.id))
@@ -76,20 +71,17 @@ class AOTDPlayerSpellManagerStorage : IStorage<IAOTDPlayerSpellManager>
      * @param nbt        An NBTTagCompound that contains all info about the capability
      */
     override fun readNBT(
-            capability: Capability<IAOTDPlayerSpellManager>,
-            instance: IAOTDPlayerSpellManager,
-            side: EnumFacing?,
-            nbt: NBTBase
-    )
-    {
+        capability: Capability<IAOTDPlayerSpellManager>,
+        instance: IAOTDPlayerSpellManager,
+        side: EnumFacing?,
+        nbt: NBTBase
+    ) {
         // Test if the nbt tag base is an NBT tag compound
-        if (nbt is NBTTagCompound)
-        {
+        if (nbt is NBTTagCompound) {
             // Grab the list of spells
             val spellsNBT = nbt.getTagList(NBT_SPELLS_LIST, Constants.NBT.TAG_COMPOUND)
             // Go over each spell in the list
-            for (i in 0 until spellsNBT.tagCount())
-            {
+            for (i in 0 until spellsNBT.tagCount()) {
                 // Grab the compound for the spell
                 val spellNBT = spellsNBT.getCompoundTagAt(i)
                 // Create a new spell instance, and read in the state from NBT
@@ -99,14 +91,13 @@ class AOTDPlayerSpellManagerStorage : IStorage<IAOTDPlayerSpellManager>
             }
             // A utility temp map of uuid -> spell for use in determining keybinds in O(1) for extra memory usage
             val idToSpell: Map<UUID, Spell> = instance.getSpells()
-                    .map { it.id to it }
-                    .toMap()
+                .map { it.id to it }
+                .toMap()
 
             // Restore the keybindings
             val keybindingsNBT = nbt.getTagList(NBT_KEYBINDS_LIST, Constants.NBT.TAG_COMPOUND)
             // Go over each compound in the list
-            for (i in 0 until keybindingsNBT.tagCount())
-            {
+            for (i in 0 until keybindingsNBT.tagCount()) {
                 // Grab the compound for the keybinding
                 val keybindingNBT = keybindingsNBT.getCompoundTagAt(i)
                 // Grab the key and spell UUID
@@ -115,15 +106,12 @@ class AOTDPlayerSpellManagerStorage : IStorage<IAOTDPlayerSpellManager>
                 // Keybind the key to the spell
                 instance.keybindSpell(keybind, idToSpell[spellUUID]!!)
             }
-        }
-        else
-        {
+        } else {
             AfraidOfTheDark.INSTANCE.logger.error("Attempted to deserialize an NBTBase that was not an NBTTagCompound!")
         }
     }
 
-    companion object
-    {
+    companion object {
         // The spell list
         private const val NBT_SPELLS_LIST = "spells"
         // The keybinds list

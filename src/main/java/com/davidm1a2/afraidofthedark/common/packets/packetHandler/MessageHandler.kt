@@ -9,18 +9,15 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext
  *
  * @author _Bedrock_Miner_ (minerbedrock@gmail.com)
  */
-class MessageHandler
-{
+class MessageHandler {
     /**
      * The client message handler can be extended to write handlers for packets sent to client side.
      *
      * @param <T> the packet type that can be handled
      * @author _Bedrock_Miner_ (minerbedrock@gmail.com)
      */
-    abstract class Client<T : IMessage> : AbstractMessageHandler<T>()
-    {
-        override fun handleServerMessage(player: EntityPlayer, msg: T, ctx: MessageContext)
-        {
+    abstract class Client<T : IMessage> : AbstractMessageHandler<T>() {
+        override fun handleServerMessage(player: EntityPlayer, msg: T, ctx: MessageContext) {
         }
     }
 
@@ -30,10 +27,8 @@ class MessageHandler
      * @param <T> the packet type that can be handled
      * @author _Bedrock_Miner_ (minerbedrock@gmail.com)
      */
-    abstract class Server<T : IMessage> : AbstractMessageHandler<T>()
-    {
-        override fun handleClientMessage(player: EntityPlayer, msg: T, ctx: MessageContext)
-        {
+    abstract class Server<T : IMessage> : AbstractMessageHandler<T>() {
+        override fun handleClientMessage(player: EntityPlayer, msg: T, ctx: MessageContext) {
         }
     }
 

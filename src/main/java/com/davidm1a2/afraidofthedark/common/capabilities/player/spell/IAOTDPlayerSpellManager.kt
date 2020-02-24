@@ -7,8 +7,7 @@ import java.util.*
 /**
  * An interface that is a base for AOTD player spell capabilities
  */
-interface IAOTDPlayerSpellManager
-{
+interface IAOTDPlayerSpellManager {
     /**
      * Adds a spell to the list if it doesnt exist, or updates the spell if the ID already exists
      *

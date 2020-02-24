@@ -15,10 +15,8 @@ import net.minecraftforge.registries.IForgeRegistryEntry
  *
  * @constructor sets the registry name
  */
-class ScrollCombineRecipe : IForgeRegistryEntry.Impl<IRecipe?>(), IRecipe
-{
-    init
-    {
+class ScrollCombineRecipe : IForgeRegistryEntry.Impl<IRecipe?>(), IRecipe {
+    init {
         registryName = ResourceLocation(Constants.MOD_ID, "scroll_combine")
     }
 
@@ -29,53 +27,46 @@ class ScrollCombineRecipe : IForgeRegistryEntry.Impl<IRecipe?>(), IRecipe
      * @param worldIn The world the recipe was crafted in
      * @return True if the recipe works, and false otherwise
      */
-    override fun matches(inv: InventoryCrafting, worldIn: World): Boolean
-    {
+    override fun matches(inv: InventoryCrafting, worldIn: World): Boolean {
         // Grab a list of non-empty stacks in the crafting grid
         val stacks = mutableListOf<ItemStack>()
-        for (i in 0 until inv.sizeInventory)
-        {
+        for (i in 0 until inv.sizeInventory) {
             val itemStack = inv.getStackInSlot(i)
-            if (!itemStack.isEmpty)
-            {
+            if (!itemStack.isEmpty) {
                 stacks.add(itemStack)
             }
         }
 
         // Make sure we have at least one itemstack
-        if (stacks.isNotEmpty())
-        {
+        if (stacks.isNotEmpty()) {
             // Grab a random itemstack (pick the first)
             val firstItemStack = stacks[0]
 
             // Check if it's a research scroll and if it's a part-based scroll
-            if (firstItemStack.item is ItemResearchScroll && RESEARCH_SCROLL.isPart(firstItemStack))
-            {
+            if (firstItemStack.item is ItemResearchScroll && RESEARCH_SCROLL.isPart(firstItemStack)) {
                 // Grab the number of parts required to fufill the scroll
                 val numberParts = RESEARCH_SCROLL.getNumberParts(firstItemStack)
                 // Grab the research of the first scroll
                 val research = RESEARCH_SCROLL.getScrollResearch(firstItemStack)
 
                 // Make sure num parts and research are valid
-                if (research != null)
-                {
+                if (research != null) {
                     // Go through all itemstacks and make sure they match the first one
                     val partNumbersPresent = stacks.asSequence()
-                            // Make sure they're all research scrolls
-                            .filter { it.item is ItemResearchScroll }
-                            // Make sure they all have the same research
-                            .filter { RESEARCH_SCROLL.getScrollResearch(it) === research }
-                            // Make sure they are all parts
-                            .filter { RESEARCH_SCROLL.isPart(it) }
-                            // Make sure they all have the same max number of parts
-                            .filter { RESEARCH_SCROLL.getNumberParts(it) == numberParts }
-                            // Map the itemstack to the part number and collect it into a set
-                            .map { RESEARCH_SCROLL.getPartNumber(it) }
-                            .toList()
+                        // Make sure they're all research scrolls
+                        .filter { it.item is ItemResearchScroll }
+                        // Make sure they all have the same research
+                        .filter { RESEARCH_SCROLL.getScrollResearch(it) == research }
+                        // Make sure they are all parts
+                        .filter { RESEARCH_SCROLL.isPart(it) }
+                        // Make sure they all have the same max number of parts
+                        .filter { RESEARCH_SCROLL.getNumberParts(it) == numberParts }
+                        // Map the itemstack to the part number and collect it into a set
+                        .map { RESEARCH_SCROLL.getPartNumber(it) }
+                        .toList()
 
                     // Check if the number of resulting part numbers is the same as the number of stacks meaning we have enough scrolls to complete the scroll
-                    if (partNumbersPresent.size == stacks.size)
-                    {
+                    if (partNumbersPresent.size == stacks.size) {
                         // Ensure we have part numbers 1 through n, then It's valid!
                         return partNumbersPresent.containsAll((1..(numberParts + 1)).toList())
                     }
@@ -91,15 +82,12 @@ class ScrollCombineRecipe : IForgeRegistryEntry.Impl<IRecipe?>(), IRecipe
      * @param inv The inventory containing items to put together
      * @return The resulting item
      */
-    override fun getCraftingResult(inv: InventoryCrafting): ItemStack
-    {
+    override fun getCraftingResult(inv: InventoryCrafting): ItemStack {
         // Grab a list of non-empty stacks in the crafting grid
         val stacks = mutableListOf<ItemStack>()
-        for (i in 0 until inv.sizeInventory)
-        {
+        for (i in 0 until inv.sizeInventory) {
             val itemStack = inv.getStackInSlot(i)
-            if (!itemStack.isEmpty)
-            {
+            if (!itemStack.isEmpty) {
                 stacks.add(itemStack)
             }
         }
@@ -123,8 +111,7 @@ class ScrollCombineRecipe : IForgeRegistryEntry.Impl<IRecipe?>(), IRecipe
      * @param height The height of the crafting inventory
      * @return True if wxh is bigger than 2
      */
-    override fun canFit(width: Int, height: Int): Boolean
-    {
+    override fun canFit(width: Int, height: Int): Boolean {
         return width * height >= 2
     }
 
@@ -133,8 +120,7 @@ class ScrollCombineRecipe : IForgeRegistryEntry.Impl<IRecipe?>(), IRecipe
      *
      * @return An empty itemstack
      */
-    override fun getRecipeOutput(): ItemStack
-    {
+    override fun getRecipeOutput(): ItemStack {
         return ItemStack.EMPTY
     }
 
@@ -143,13 +129,11 @@ class ScrollCombineRecipe : IForgeRegistryEntry.Impl<IRecipe?>(), IRecipe
      *
      * @return True, the recipe is dynamic
      */
-    override fun isDynamic(): Boolean
-    {
+    override fun isDynamic(): Boolean {
         return true
     }
 
-    companion object
-    {
+    companion object {
         // A reference to the research scroll item
         private val RESEARCH_SCROLL = ModItems.RESEARCH_SCROLL
     }

@@ -9,16 +9,14 @@ import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiComponentWithEvents
  * @param source The source component that triggered this event
  * @property isConsumed A flag to tell us if the event is consumed
  */
-open class AOTDEvent(var source: AOTDGuiComponentWithEvents)
-{
+open class AOTDEvent(var source: AOTDGuiComponentWithEvents) {
     var isConsumed = false
         private set
 
     /**
      * Consumes the event preventing further processing
      */
-    fun consume()
-    {
+    fun consume() {
         this.isConsumed = true
     }
 }

@@ -14,15 +14,13 @@ import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.math.Vector3f
  * @param totalFrames The number of frames in the animation
  * @param mode        The animation mode to use
  */
-class ChannelDance(name: String, fps: Float, totalFrames: Int, mode: Byte) : Channel(name, fps, totalFrames, mode)
-{
+class ChannelDance(name: String, fps: Float, totalFrames: Int, mode: Byte) : Channel(name, fps, totalFrames, mode) {
     /**
      * Initializes a map of frame -> position which will be interpolated by the rendering handler
      *
      * All code below is created by the MC animator software
      */
-    override fun initializeAllFrames()
-    {
+    override fun initializeAllFrames() {
         val frame0 = KeyFrame()
         frame0.modelRenderersRotations["leftarm"] = Quaternion(0.0f, 0.0f, 0.0f, 1.0f)
         frame0.modelRenderersRotations["rightleg"] = Quaternion(0.0f, 0.0f, 0.0f, 1.0f)
@@ -57,7 +55,8 @@ class ChannelDance(name: String, fps: Float, totalFrames: Int, mode: Byte) : Cha
         keyFrames[135] = frame135
         val frame170 = KeyFrame()
         frame170.modelRenderersRotations["leftarm"] = Quaternion(-0.3313379f, 0.0f, 0.0f, 0.94351214f)
-        frame170.modelRenderersRotations["rightleg"] = Quaternion(-0.39341342f, 0.0047545787f, -0.053014386f, 0.91781956f)
+        frame170.modelRenderersRotations["rightleg"] =
+            Quaternion(-0.39341342f, 0.0047545787f, -0.053014386f, 0.91781956f)
         frame170.modelRenderersRotations["rightarm"] = Quaternion(0.3313379f, 0.0f, 0.0f, 0.94351214f)
         frame170.modelRenderersRotations["leftleg"] = Quaternion(0.393853f, 0.026504928f, 0.06169189f, 0.91671777f)
         frame170.modelRenderersRotations["body"] = Quaternion(0.0f, 0.70710677f, 0.0f, 0.70710677f)

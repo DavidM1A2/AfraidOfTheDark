@@ -11,8 +11,7 @@ import net.minecraft.util.math.BlockPos
  * @property preTeleportDimensionID The ID of the dimension the player was in before teleporting to the void chest
  * @property friendsIndex The index of the friend's void chest position that the player was going to, or -1 if the player is going to their own index
  */
-interface IAOTDPlayerVoidChestData : IAOTDIslandData
-{
+interface IAOTDPlayerVoidChestData : IAOTDIslandData {
     override var positionalIndex: Int
     var preTeleportPosition: BlockPos?
     var preTeleportDimensionID: Int

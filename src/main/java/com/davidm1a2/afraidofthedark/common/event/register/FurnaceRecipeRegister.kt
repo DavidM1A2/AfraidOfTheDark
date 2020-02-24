@@ -9,13 +9,11 @@ import net.minecraftforge.fml.common.registry.GameRegistry
 /**
  * Class that registers all furnace recipes
  */
-object FurnaceRecipeRegister
-{
+object FurnaceRecipeRegister {
     /**
      * Furnace recipes don't initialize through Json, instead you do that with code which we just trigger here
      */
-    fun initialize()
-    {
+    fun initialize() {
         // Register smelting recipe for astral silver ore -> ingot
         GameRegistry.addSmelting(ModBlocks.ASTRAL_SILVER_ORE, ItemStack(ModItems.ASTRAL_SILVER_INGOT), 0.4f)
         // Star metal fragment -> star metal ingot

@@ -12,20 +12,17 @@ import net.minecraft.util.math.Vec3d
 /**
  * Effect that creates an ender chest
  */
-class SpellEffectEnderPocket : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "ender_pocket"))
-{
+class SpellEffectEnderPocket : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "ender_pocket")) {
     /**
      * Performs the effect
      *
      * @param state The state that the spell is in
      * @param instance The instance of the effect
      */
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>)
-    {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
         // If we hit a player open the ender chest GUI
         val entity = state.getEntity()
-        if (entity is EntityPlayer)
-        {
+        if (entity is EntityPlayer) {
             createParticlesAt(3, 5, Vec3d(entity.posX, entity.posY, entity.posZ), entity.dimension)
             val enderChest = entity.inventoryEnderChest
             entity.displayGUIChest(enderChest)
@@ -38,8 +35,7 @@ class SpellEffectEnderPocket : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID
      * @param instance The instance of the spell effect to grab the cost of
      * @return The cost of the delivery method
      */
-    override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double
-    {
+    override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
         return 45.0
     }
 }

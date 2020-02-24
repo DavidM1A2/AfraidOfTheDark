@@ -17,8 +17,7 @@ import net.minecraft.world.World
  * @property chanceToDropHitEntity The chance that the bolt will drop its item after hitting an entity
  * @property chanceToDropHitGround The chance that the bolt will drop its item after hitting the ground
  */
-class EntityIgneousBolt : EntityBolt
-{
+class EntityIgneousBolt : EntityBolt {
     override val damageSourceProducer: (EntityPlayer) -> DamageSource = { ModDamageSources.getSilverDamage(it) }
     override val drop = ModItems.IGNEOUS_BOLT
     override val damage = 18
@@ -55,12 +54,10 @@ class EntityIgneousBolt : EntityBolt
      *
      * @param result The object containing hit information
      */
-    override fun onImpact(result: RayTraceResult)
-    {
+    override fun onImpact(result: RayTraceResult) {
         super.onImpact(result)
         // On top of doing damage this bolt lights the entity hit on fire
-        if (result.entityHit != null)
-        {
+        if (result.entityHit != null) {
             result.entityHit.setFire(10)
         }
     }

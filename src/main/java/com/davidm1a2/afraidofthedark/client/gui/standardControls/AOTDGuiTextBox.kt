@@ -20,8 +20,8 @@ import kotlin.math.floor
  * @property textColor The color to draw the text with
  * @property overflowText The overflow text that doesn't fit inside this text box
  */
-class AOTDGuiTextBox(x: Int, y: Int, width: Int, height: Int, private val font: TrueTypeFont) : AOTDGuiContainer(x, y, width, height)
-{
+class AOTDGuiTextBox(x: Int, y: Int, width: Int, height: Int, private val font: TrueTypeFont) :
+    AOTDGuiContainer(x, y, width, height) {
     private var textLines = mutableListOf<String>()
     var textColor = Color(255, 255, 255, 255)
     var overflowText = ""
@@ -30,22 +30,20 @@ class AOTDGuiTextBox(x: Int, y: Int, width: Int, height: Int, private val font: 
     /**
      * Draw the text given the width and height as bounds
      */
-    override fun draw()
-    {
+    override fun draw() {
         // Only draw the text if it's visible
-        if (this.isVisible)
-        {
+        if (this.isVisible) {
             super.draw()
             // Draw each string in the text lines list one at at time
             for (i in this.textLines.indices)
                 this.font.drawString(
-                        this.getXScaled().toFloat(),
-                        this.getYScaled().toFloat() + i * this.font.height * Constants.TEXT_SCALE_FACTOR * this.scaleY.toFloat(),
-                        this.textLines[i],
-                        this.scaleX.toFloat() * Constants.TEXT_SCALE_FACTOR,
-                        this.scaleY.toFloat() * Constants.TEXT_SCALE_FACTOR,
-                        TextAlignment.ALIGN_LEFT,
-                        this.textColor
+                    this.getXScaled().toFloat(),
+                    this.getYScaled().toFloat() + i * this.font.height * Constants.TEXT_SCALE_FACTOR * this.scaleY.toFloat(),
+                    this.textLines[i],
+                    this.scaleX.toFloat() * Constants.TEXT_SCALE_FACTOR,
+                    this.scaleY.toFloat() * Constants.TEXT_SCALE_FACTOR,
+                    TextAlignment.ALIGN_LEFT,
+                    this.textColor
                 )
         }
     }
@@ -55,8 +53,7 @@ class AOTDGuiTextBox(x: Int, y: Int, width: Int, height: Int, private val font: 
      *
      * @param text The text to use
      */
-    fun setText(text: String)
-    {
+    fun setText(text: String) {
         // Clear the original text
         this.textLines.clear()
         // Split the text into words
@@ -65,17 +62,14 @@ class AOTDGuiTextBox(x: Int, y: Int, width: Int, height: Int, private val font: 
         var currentLineText = ""
 
         // Iterate over all words
-        while (words.hasMoreTokens())
-        {
+        while (words.hasMoreTokens()) {
             // Grab the first word
             var word = words.nextToken()
             // Replace tab characters with spaces since tab characters are buggy to render
             word = word.replace("\t", "   ")
-            currentLineText = when
-            {
+            currentLineText = when {
                 // If the line is too long for the current text move to the next line
-                this.font.getWidth("$currentLineText $word") * Constants.TEXT_SCALE_FACTOR > this.getWidth() ->
-                {
+                this.font.getWidth("$currentLineText $word") * Constants.TEXT_SCALE_FACTOR > this.getWidth() -> {
                     // Store the current line and move on
                     this.textLines.add(currentLineText)
                     // Store the word as the beginning of the next line
@@ -91,13 +85,11 @@ class AOTDGuiTextBox(x: Int, y: Int, width: Int, height: Int, private val font: 
         // Compute the maximum number of lines that fit vertically inside the text box
         val maxLines = floor(this.getHeight() / (this.font.height * Constants.TEXT_SCALE_FACTOR)).toInt()
         // If the number of lines we have is less than or equal to the max we're OK
-        if (textLines.size <= maxLines)
-        {
+        if (textLines.size <= maxLines) {
             this.overflowText = ""
         }
         // If the number of lines is greater than the max then we partition the lines into actual text lines and overflow text
-        else
-        {
+        else {
             val actualText = this.textLines.subList(0, maxLines)
             val spareText = this.textLines.subList(maxLines, this.textLines.size)
             this.textLines = actualText
@@ -108,8 +100,7 @@ class AOTDGuiTextBox(x: Int, y: Int, width: Int, height: Int, private val font: 
     /**
      * @return Returns the text found inside this text box
      */
-    fun getText(): String
-    {
+    fun getText(): String {
         return textLines.joinToString(separator = "")
     }
 }

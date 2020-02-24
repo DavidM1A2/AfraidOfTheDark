@@ -13,10 +13,8 @@ import kotlin.math.max
  *
  * @constructor sets the item name and makes it glow
  */
-class BlockGlowStalk : AOTDBlock("glow_stalk", Material.GROUND)
-{
-    init
-    {
+class BlockGlowStalk : AOTDBlock("glow_stalk", Material.GROUND) {
+    init {
         setLightLevel(1.0f)
         setHardness(1.0f)
         setResistance(4.0f)
@@ -27,8 +25,7 @@ class BlockGlowStalk : AOTDBlock("glow_stalk", Material.GROUND)
      *
      * @return The same value as vanilla hugh mushroom blocks
      */
-    override fun quantityDropped(random: Random): Int
-    {
+    override fun quantityDropped(random: Random): Int {
         return max(0, random.nextInt(10) - 7)
     }
 
@@ -37,8 +34,7 @@ class BlockGlowStalk : AOTDBlock("glow_stalk", Material.GROUND)
      *
      * @return The item dropped which will be either brown or red mushroom randomly picked
      */
-    override fun getItemDropped(state: IBlockState, rand: Random, fortune: Int): Item
-    {
+    override fun getItemDropped(state: IBlockState, rand: Random, fortune: Int): Item {
         return Item.getItemFromBlock(if (rand.nextBoolean()) Blocks.BROWN_MUSHROOM else Blocks.RED_MUSHROOM)
     }
 }

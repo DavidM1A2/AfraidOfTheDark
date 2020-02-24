@@ -17,8 +17,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext
  *
  * @property selectedBolt The bolt to fire
  */
-class FireWristCrossbow : IMessage
-{
+class FireWristCrossbow : IMessage {
     private lateinit var selectedBolt: BoltEntry
 
     /**
@@ -31,8 +30,7 @@ class FireWristCrossbow : IMessage
      *
      * @param selectedBolt The bolt to fire
      */
-    constructor(selectedBolt: BoltEntry)
-    {
+    constructor(selectedBolt: BoltEntry) {
         this.selectedBolt = selectedBolt
     }
 
@@ -41,8 +39,7 @@ class FireWristCrossbow : IMessage
      *
      * @param buf The buffer to read from
      */
-    override fun fromBytes(buf: ByteBuf)
-    {
+    override fun fromBytes(buf: ByteBuf) {
         selectedBolt = ModRegistries.BOLTS.getValue(ResourceLocation(ByteBufUtils.readUTF8String(buf)))!!
     }
 
@@ -51,16 +48,14 @@ class FireWristCrossbow : IMessage
      *
      * @param buf The buffer to write to
      */
-    override fun toBytes(buf: ByteBuf)
-    {
+    override fun toBytes(buf: ByteBuf) {
         ByteBufUtils.writeUTF8String(buf, selectedBolt.registryName.toString())
     }
 
     /**
      * Handler class for wrist fire crossbow messages sent from the client
      */
-    class Handler : MessageHandler.Server<FireWristCrossbow>()
-    {
+    class Handler : MessageHandler.Server<FireWristCrossbow>() {
         /**
          * Called when the server receives the packet
          *
@@ -68,15 +63,26 @@ class FireWristCrossbow : IMessage
          * @param msg          the message received
          * @param ctx          The message's context
          */
-        override fun handleServerMessage(player: EntityPlayer, msg: FireWristCrossbow, ctx: MessageContext)
-        {
+        override fun handleServerMessage(player: EntityPlayer, msg: FireWristCrossbow, ctx: MessageContext) {
             // Only fire a bolt if the player is in creative or has the right bolt item
-            if (player.capabilities.isCreativeMode || player.inventory.clearMatchingItems(msg.selectedBolt.boltItem, -1, 1, null) == 1)
-            {
+            if (player.capabilities.isCreativeMode || player.inventory.clearMatchingItems(
+                    msg.selectedBolt.boltItem,
+                    -1,
+                    1,
+                    null
+                ) == 1
+            ) {
                 val world = player.world
 
                 // Play a fire sound effect
-                world.playSound(null, player.position, ModSounds.CROSSBOW_FIRE, SoundCategory.PLAYERS, 0.5f, world.rand.nextFloat() * 0.4f + 0.8f)
+                world.playSound(
+                    null,
+                    player.position,
+                    ModSounds.CROSSBOW_FIRE,
+                    SoundCategory.PLAYERS,
+                    0.5f,
+                    world.rand.nextFloat() * 0.4f + 0.8f
+                )
 
                 // Instantiate bolt!
                 val bolt = msg.selectedBolt.boltEntityFactory(world, player)

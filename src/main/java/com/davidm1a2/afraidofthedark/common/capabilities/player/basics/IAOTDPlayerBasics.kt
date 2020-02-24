@@ -9,8 +9,7 @@ import net.minecraft.entity.player.EntityPlayer
  * @property startedAOTD True if the player has started the afraid of the dark mod, false otherwise
  * @property selectedWristCrossbowBoltIndex the selected wrist crossbow bolt index
  */
-interface IAOTDPlayerBasics
-{
+interface IAOTDPlayerBasics {
     var startedAOTD: Boolean
     var selectedWristCrossbowBoltIndex: Int
 

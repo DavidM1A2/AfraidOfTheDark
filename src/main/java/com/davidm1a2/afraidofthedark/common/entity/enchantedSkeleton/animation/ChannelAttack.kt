@@ -19,15 +19,14 @@ import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.math.Vector3f
  * @param totalFrames The number of frames in the animation
  * @param mode        The animation mode to use
  */
-class ChannelAttack internal constructor(name: String, fps: Float, totalFrames: Int, mode: Byte) : Channel(name, fps, totalFrames, mode)
-{
+class ChannelAttack internal constructor(name: String, fps: Float, totalFrames: Int, mode: Byte) :
+    Channel(name, fps, totalFrames, mode) {
     /**
      * Initializes a map of frame -> position which will be interpolated by the rendering handler
      *
      * All code below is created by the MC animator software
      */
-    override fun initializeAllFrames()
-    {
+    override fun initializeAllFrames() {
         val frame0 = KeyFrame()
         frame0.modelRenderersRotations["rightarm"] = Quaternion(-0.67559016f, 0.0f, 0.0f, 0.7372773f)
         frame0.modelRenderersRotations["leftarm"] = Quaternion(-0.7372773f, 0.0f, 0.0f, 0.6755902f)

@@ -6,8 +6,7 @@ import net.minecraft.entity.player.EntityPlayer
 /**
  * An interface that stores all known research for a given player
  */
-interface IAOTDPlayerResearch
-{
+interface IAOTDPlayerResearch {
     /**
      * Returns true if a research is researched by a player or false otherwise
      *

@@ -12,8 +12,10 @@ import net.minecraft.util.ResourceLocation
  * @param id The ID of this power source
  */
 abstract class SpellPowerSource(id: ResourceLocation) :
-        SpellComponent<SpellPowerSource>(id, ResourceLocation(id.resourceDomain, "textures/gui/spell_component/power_sources/${id.resourcePath}.png"))
-{
+    SpellComponent<SpellPowerSource>(
+        id,
+        ResourceLocation(id.resourceDomain, "textures/gui/spell_component/power_sources/${id.resourcePath}.png")
+    ) {
     /**
      * True if the given spell can be cast, false otherwise
      *
@@ -49,8 +51,7 @@ abstract class SpellPowerSource(id: ResourceLocation) :
     /**
      * @return Gets the unlocalized name of the component
      */
-    override fun getUnlocalizedName(): String
-    {
+    override fun getUnlocalizedName(): String {
         return "power_source.${registryName.toString()}.name"
     }
 }

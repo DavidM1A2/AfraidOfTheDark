@@ -16,8 +16,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext
  * @property positions A list of positions to spawn the particle at
  * @property speeds A list of speeds to spawn the particle at
  */
-class SyncParticle : IMessage
-{
+class SyncParticle : IMessage {
     private lateinit var particle: ParticleTypes
     private lateinit var positions: List<Vec3d>
     private lateinit var speeds: List<Vec3d>
@@ -34,8 +33,7 @@ class SyncParticle : IMessage
      * @param positions The positions to spawn it in at
      * @param speeds    The speeds to spawn them in with
      */
-    constructor(particle: ParticleTypes, positions: List<Vec3d>, speeds: List<Vec3d>)
-    {
+    constructor(particle: ParticleTypes, positions: List<Vec3d>, speeds: List<Vec3d>) {
         this.particle = particle
         this.positions = positions
         this.speeds = speeds
@@ -46,16 +44,14 @@ class SyncParticle : IMessage
      *
      * @param buf The buffer to read from
      */
-    override fun fromBytes(buf: ByteBuf)
-    {
+    override fun fromBytes(buf: ByteBuf) {
         // Read the particle, then the number of particles to spawn, then the position/speed of each particle
         particle = ParticleTypes.values()[buf.readInt()]
 
         val numPositions = buf.readInt()
         val mutablePositions = mutableListOf<Vec3d>()
         val mutableSpeeds = mutableListOf<Vec3d>()
-        for (i in 0 until numPositions)
-        {
+        for (i in 0 until numPositions) {
             mutablePositions.add(Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble()))
             mutableSpeeds.add(Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble()))
         }
@@ -69,13 +65,11 @@ class SyncParticle : IMessage
      *
      * @param buf The buffer to write to
      */
-    override fun toBytes(buf: ByteBuf)
-    {
+    override fun toBytes(buf: ByteBuf) {
         // Write the particle index first, then the number of particles to spawn, then each position and speed
         buf.writeInt(particle.ordinal)
         buf.writeInt(positions.size)
-        for (i in positions.indices)
-        {
+        for (i in positions.indices) {
             buf.writeDouble(positions[i].x)
             buf.writeDouble(positions[i].y)
             buf.writeDouble(positions[i].z)
@@ -88,8 +82,7 @@ class SyncParticle : IMessage
     /**
      * Handler class used to handle the packet on the client side
      */
-    class Handler : MessageHandler.Client<SyncParticle>()
-    {
+    class Handler : MessageHandler.Client<SyncParticle>() {
         /**
          * Called to handle the packet on the client side
          *
@@ -97,15 +90,13 @@ class SyncParticle : IMessage
          * @param msg    the message received
          * @param ctx    The context the message was sent from
          */
-        override fun handleClientMessage(player: EntityPlayer, msg: SyncParticle, ctx: MessageContext)
-        {
+        override fun handleClientMessage(player: EntityPlayer, msg: SyncParticle, ctx: MessageContext) {
             // Grab the list of positions and speeds
             val positions = msg.positions
             val speeds = msg.speeds
 
             // Go over each position and speed and spawn a particle for it
-            for (i in positions.indices)
-            {
+            for (i in positions.indices) {
                 val position = positions[i]
                 val speed = speeds[i]
                 spawnParticle(msg.particle, player.world, position.x, position.y, position.z, speed.x, speed.y, speed.z)

@@ -19,10 +19,8 @@ import net.minecraftforge.fml.relauncher.SideOnly
  *
  * @constructor sets up item properties
  */
-class ItemWristCrossbow : AOTDItemWithPerItemCooldown("wrist_crossbow")
-{
-    init
-    {
+class ItemWristCrossbow : AOTDItemWithPerItemCooldown("wrist_crossbow") {
+    init {
         addPropertyOverride(ResourceLocation(Constants.MOD_ID, "is_loaded"))
         { stack: ItemStack, _: World?, _: EntityLivingBase? ->
             if (isOnCooldown(stack)) 0f else 1f
@@ -38,16 +36,12 @@ class ItemWristCrossbow : AOTDItemWithPerItemCooldown("wrist_crossbow")
      * @param flag  The flag telling us if advanced tooltips are on or off
      */
     @SideOnly(Side.CLIENT)
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag)
-    {
+    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag) {
         val player = Minecraft.getMinecraft().player
-        if (player != null && player.getResearch().isResearched(ModResearches.WRIST_CROSSBOW))
-        {
+        if (player != null && player.getResearch().isResearched(ModResearches.WRIST_CROSSBOW)) {
             tooltip.add("Use ${FIRE_WRIST_CROSSBOW.displayName} to fire a bolt in the current look direction.")
             tooltip.add("Crouch & ${FIRE_WRIST_CROSSBOW.displayName} to change bolt type.")
-        }
-        else
-        {
+        } else {
             tooltip.add("I'm not sure how to use this.")
         }
     }
@@ -58,8 +52,7 @@ class ItemWristCrossbow : AOTDItemWithPerItemCooldown("wrist_crossbow")
      * @param itemStack The itemstack to get the cooldown for
      * @return The number of milliseconds required to finish the cooldown
      */
-    override fun getItemCooldownInMilliseconds(itemStack: ItemStack): Int
-    {
+    override fun getItemCooldownInMilliseconds(itemStack: ItemStack): Int {
         return 3000
     }
 }

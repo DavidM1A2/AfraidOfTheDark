@@ -8,16 +8,14 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 /**
  * Class that receives the register bolt entry event and registers all of our bolt entries
  */
-class BoltEntryRegister
-{
+class BoltEntryRegister {
     /**
      * Called by forge to register any of our bolt entries
      *
      * @param event The event to register to
      */
     @SubscribeEvent
-    fun registerBoltEntries(event: RegistryEvent.Register<BoltEntry>)
-    {
+    fun registerBoltEntries(event: RegistryEvent.Register<BoltEntry>) {
         // Grab the registry for bolt entries
         val registry = event.registry
 

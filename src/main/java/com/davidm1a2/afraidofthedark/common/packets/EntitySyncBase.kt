@@ -11,16 +11,14 @@ import java.util.*
  * @property entityUUID UUID for client to server
  * @property entityID Int ID for server to client
  */
-abstract class EntitySyncBase : IMessage
-{
+abstract class EntitySyncBase : IMessage {
     protected lateinit var entityUUID: UUID
     protected var entityID: Int
 
     /**
      * Required default constructor for all packets
      */
-    constructor()
-    {
+    constructor() {
         entityID = 0
     }
 
@@ -29,8 +27,7 @@ abstract class EntitySyncBase : IMessage
      *
      * @param entity The entity to sync
      */
-    constructor(entity: Entity)
-    {
+    constructor(entity: Entity) {
         entityUUID = entity.persistentID
         entityID = entity.entityId
     }
@@ -40,8 +37,7 @@ abstract class EntitySyncBase : IMessage
      *
      * @param buf The buffer to read from
      */
-    override fun fromBytes(buf: ByteBuf)
-    {
+    override fun fromBytes(buf: ByteBuf) {
         entityUUID = UUID(buf.readLong(), buf.readLong())
         entityID = buf.readInt()
     }
@@ -51,8 +47,7 @@ abstract class EntitySyncBase : IMessage
      *
      * @param buf The buffer to write to
      */
-    override fun toBytes(buf: ByteBuf)
-    {
+    override fun toBytes(buf: ByteBuf) {
         buf.writeLong(entityUUID.mostSignificantBits)
         buf.writeLong(entityUUID.leastSignificantBits)
         buf.writeInt(entityID)

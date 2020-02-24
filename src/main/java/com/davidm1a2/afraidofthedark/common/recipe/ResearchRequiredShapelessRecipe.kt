@@ -10,4 +10,5 @@ import net.minecraft.item.crafting.IRecipe
  * @param baseRecipe   The base recipe to start with
  * @param preRequisite The pre-requisite research to be required to craft this recipe
  */
-class ResearchRequiredShapelessRecipe(baseRecipe: IRecipe, preRequisite: Research) : ResearchRequiredRecipeBase<IRecipe>(baseRecipe, preRequisite)
+class ResearchRequiredShapelessRecipe(baseRecipe: IRecipe, preRequisite: Research) :
+    ResearchRequiredRecipeBase<IRecipe>(baseRecipe, preRequisite)

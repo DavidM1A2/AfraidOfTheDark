@@ -17,12 +17,11 @@ import kotlin.math.max
  * @property serverClientTimeDifference The time different between server and client clocks which is used to syncronize the cooldown bar. This can be the same for all items with cooldowns.
  *                                      Since the server-client time difference is not item dependent
  */
-abstract class AOTDItemWithPerItemCooldown(baseName: String, displayInCreative: Boolean = true) : AOTDItem(baseName, displayInCreative)
-{
+abstract class AOTDItemWithPerItemCooldown(baseName: String, displayInCreative: Boolean = true) :
+    AOTDItem(baseName, displayInCreative) {
     private var serverClientTimeDifference = 0L
 
-    init
-    {
+    init {
         // Cooldown items can't stack!
         setMaxStackSize(1)
     }
@@ -33,8 +32,7 @@ abstract class AOTDItemWithPerItemCooldown(baseName: String, displayInCreative: 
      *
      * @param difference The new time difference
      */
-    fun updateServerClientDifference(difference: Long)
-    {
+    fun updateServerClientDifference(difference: Long) {
         serverClientTimeDifference = difference
     }
 
@@ -44,14 +42,15 @@ abstract class AOTDItemWithPerItemCooldown(baseName: String, displayInCreative: 
      * @param itemStack    The item to set on cooldown
      * @param entityPlayer The player that is holding the item
      */
-    open fun setOnCooldown(itemStack: ItemStack, entityPlayer: EntityPlayer)
-    {
+    open fun setOnCooldown(itemStack: ItemStack, entityPlayer: EntityPlayer) {
         NBTHelper.setLong(itemStack, NBT_LAST_USE_TIME, System.currentTimeMillis())
 
         // We need to update the client of the new cooldown, so send a packet
-        if (!entityPlayer.world.isRemote)
-        {
-            AfraidOfTheDark.INSTANCE.packetHandler.sendTo(SyncItemWithCooldown(System.currentTimeMillis(), this), entityPlayer as EntityPlayerMP)
+        if (!entityPlayer.world.isRemote) {
+            AfraidOfTheDark.INSTANCE.packetHandler.sendTo(
+                SyncItemWithCooldown(System.currentTimeMillis(), this),
+                entityPlayer as EntityPlayerMP
+            )
         }
     }
 
@@ -61,8 +60,7 @@ abstract class AOTDItemWithPerItemCooldown(baseName: String, displayInCreative: 
      * @param itemStack The itemstack to test the cooldown of
      * @return True if the item is on cooldown, false otherwise
      */
-    fun isOnCooldown(itemStack: ItemStack): Boolean
-    {
+    fun isOnCooldown(itemStack: ItemStack): Boolean {
         val millisecondsElapsed = System.currentTimeMillis() - getLastUseTime(itemStack)
         return millisecondsElapsed < getItemCooldownInMilliseconds(itemStack)
     }
@@ -73,8 +71,7 @@ abstract class AOTDItemWithPerItemCooldown(baseName: String, displayInCreative: 
      * @param itemStack The itemstack to get the cooldown for
      * @return The remaining cooldown in seconds
      */
-    fun cooldownRemainingInSeconds(itemStack: ItemStack): Int
-    {
+    fun cooldownRemainingInSeconds(itemStack: ItemStack): Int {
         val millisecondsElapsed = System.currentTimeMillis() - getLastUseTime(itemStack)
         return ceil((getItemCooldownInMilliseconds(itemStack) - millisecondsElapsed) / 1000.0).toInt()
     }
@@ -85,8 +82,7 @@ abstract class AOTDItemWithPerItemCooldown(baseName: String, displayInCreative: 
      * @param stack The itemstack to show durability for
      * @return Value between 0 to 1 of what percent of the durability bar to show
      */
-    override fun getDurabilityForDisplay(stack: ItemStack): Double
-    {
+    override fun getDurabilityForDisplay(stack: ItemStack): Double {
         val millisecondsElapsed = System.currentTimeMillis() - serverClientTimeDifference - getLastUseTime(stack)
         return max(0.0, 1 - millisecondsElapsed.toDouble() / getItemCooldownInMilliseconds(stack).toDouble())
     }
@@ -97,10 +93,8 @@ abstract class AOTDItemWithPerItemCooldown(baseName: String, displayInCreative: 
      * @param itemStack The item to test
      * @return The last time in milliseconds the cooldown was activated
      */
-    private fun getLastUseTime(itemStack: ItemStack): Long
-    {
-        if (!NBTHelper.hasTag(itemStack, NBT_LAST_USE_TIME))
-        {
+    private fun getLastUseTime(itemStack: ItemStack): Long {
+        if (!NBTHelper.hasTag(itemStack, NBT_LAST_USE_TIME)) {
             NBTHelper.setLong(itemStack, NBT_LAST_USE_TIME, 0L)
         }
         return NBTHelper.getLong(itemStack, NBT_LAST_USE_TIME)!!
@@ -112,8 +106,7 @@ abstract class AOTDItemWithPerItemCooldown(baseName: String, displayInCreative: 
      * @param itemStack The stack to show current CD for
      * @return True to show the CD bar
      */
-    override fun showDurabilityBar(itemStack: ItemStack): Boolean
-    {
+    override fun showDurabilityBar(itemStack: ItemStack): Boolean {
         return true
     }
 
@@ -125,8 +118,7 @@ abstract class AOTDItemWithPerItemCooldown(baseName: String, displayInCreative: 
      */
     abstract fun getItemCooldownInMilliseconds(itemStack: ItemStack): Int
 
-    companion object
-    {
+    companion object {
         private const val NBT_LAST_USE_TIME = "last_use_time"
     }
 }

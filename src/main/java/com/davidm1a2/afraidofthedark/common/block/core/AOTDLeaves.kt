@@ -18,17 +18,15 @@ import org.apache.commons.lang3.BitField
  * @constructor just requires the name of the block to register as the registry name
  * @param baseName The name to be used by the registry and unlocalized names
  */
-abstract class AOTDLeaves(baseName: String) : BlockLeaves()
-{
-    init
-    {
+abstract class AOTDLeaves(baseName: String) : BlockLeaves() {
+    init {
         unlocalizedName = "${Constants.MOD_ID}:$baseName"
         this.setRegistryName("${Constants.MOD_ID}:$baseName")
         // Don't forget the creative tab...
         setCreativeTab(Constants.AOTD_CREATIVE_TAB)
         // Set the default state
         this.defaultState = this.defaultState.withProperty(CHECK_DECAY, true)
-                .withProperty(DECAYABLE, true)
+            .withProperty(DECAYABLE, true)
     }
 
     /**
@@ -37,8 +35,7 @@ abstract class AOTDLeaves(baseName: String) : BlockLeaves()
      * @param state The block state that was mined
      * @return An itemstack of size 1 containing the leaf block
      */
-    override fun getSilkTouchDrop(state: IBlockState): ItemStack
-    {
+    override fun getSilkTouchDrop(state: IBlockState): ItemStack {
         return ItemStack(Item.getItemFromBlock(this))
     }
 
@@ -48,10 +45,9 @@ abstract class AOTDLeaves(baseName: String) : BlockLeaves()
      * @param meta The metadata value to start from
      * @return The block state to convert the metadata into
      */
-    override fun getStateFromMeta(meta: Int): IBlockState
-    {
+    override fun getStateFromMeta(meta: Int): IBlockState {
         return this.defaultState.withProperty(DECAYABLE, DECAYABLE_FIELD.getValue(meta) == 1)
-                .withProperty(CHECK_DECAY, CHECK_DECAY_FIELD.getValue(meta) == 1)
+            .withProperty(CHECK_DECAY, CHECK_DECAY_FIELD.getValue(meta) == 1)
     }
 
     /**
@@ -60,8 +56,7 @@ abstract class AOTDLeaves(baseName: String) : BlockLeaves()
      * @param state The block state in the world
      * @return The metadata value to conver the state into
      */
-    override fun getMetaFromState(state: IBlockState): Int
-    {
+    override fun getMetaFromState(state: IBlockState): Int {
         var meta = 0
         meta = DECAYABLE_FIELD.setBoolean(meta, state.getValue(DECAYABLE))
         meta = CHECK_DECAY_FIELD.setBoolean(meta, state.getValue(CHECK_DECAY))
@@ -74,8 +69,7 @@ abstract class AOTDLeaves(baseName: String) : BlockLeaves()
      * @param meta ignored
      * @return null
      */
-    override fun getWoodType(meta: Int): BlockPlanks.EnumType?
-    {
+    override fun getWoodType(meta: Int): BlockPlanks.EnumType? {
         return null
     }
 
@@ -84,8 +78,7 @@ abstract class AOTDLeaves(baseName: String) : BlockLeaves()
      *
      * @return A container with all properties of the leaf
      */
-    override fun createBlockState(): BlockStateContainer
-    {
+    override fun createBlockState(): BlockStateContainer {
         return BlockStateContainer(this, DECAYABLE, CHECK_DECAY)
     }
 
@@ -98,13 +91,11 @@ abstract class AOTDLeaves(baseName: String) : BlockLeaves()
      * @param fortune If the shears have fortune
      * @return A list of itemstacks to drop after this leaf block is sheared
      */
-    override fun onSheared(item: ItemStack, world: IBlockAccess, pos: BlockPos, fortune: Int): List<ItemStack>
-    {
+    override fun onSheared(item: ItemStack, world: IBlockAccess, pos: BlockPos, fortune: Int): List<ItemStack> {
         return NonNullList.withSize(1, ItemStack(this, 1, 0))
     }
 
-    companion object
-    {
+    companion object {
         private val CHECK_DECAY_FIELD = BitField(0x1)
         private val DECAYABLE_FIELD = BitField(0x2)
     }

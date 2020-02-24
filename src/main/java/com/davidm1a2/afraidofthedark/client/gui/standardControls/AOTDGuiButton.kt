@@ -21,40 +21,34 @@ import org.lwjgl.util.Color
  * @property color The color of the background and text
  */
 open class AOTDGuiButton(
-        x: Int,
-        y: Int,
-        width: Int,
-        height: Int,
-        private val icon: ResourceLocation,
-        private val iconHovered: ResourceLocation,
-        font: TrueTypeFont? = null
-) : AOTDGuiContainer(x, y, width, height)
-{
+    x: Int,
+    y: Int,
+    width: Int,
+    height: Int,
+    private val icon: ResourceLocation,
+    private val iconHovered: ResourceLocation,
+    font: TrueTypeFont? = null
+) : AOTDGuiContainer(x, y, width, height) {
     private val background: AOTDGuiImage
     private val label: AOTDGuiLabel?
     override var color: Color
         get() = super.color
-        set(tint)
-        {
+        set(tint) {
             super.color = tint
             this.background.color = tint
         }
 
-    init
-    {
+    init {
         // Create a background image for the button
         this.background = AOTDGuiImage(0, 0, width, height, icon)
         this.background.color = Color(255, 255, 255)
         this.add(background)
 
         // Create a label to cover the button
-        if (font != null)
-        {
+        if (font != null) {
             this.label = AOTDGuiLabel(0, 0, width, height, font)
             this.add(this.label)
-        }
-        else
-        {
+        } else {
             this.label = null
         }
     }
@@ -70,23 +64,29 @@ open class AOTDGuiButton(
      * @param icon        The icon to use for the background of the button
      * @param iconHovered The icon to use for the background of the button when the button is hovered
      */
-    constructor(x: Int, y: Int, width: Int, height: Int, icon: String, iconHovered: String = icon, font: TrueTypeFont? = null) : this(
-            x,
-            y,
-            width,
-            height,
-            ResourceLocation(icon),
-            ResourceLocation(iconHovered),
-            font
+    constructor(
+        x: Int,
+        y: Int,
+        width: Int,
+        height: Int,
+        icon: String,
+        iconHovered: String = icon,
+        font: TrueTypeFont? = null
+    ) : this(
+        x,
+        y,
+        width,
+        height,
+        ResourceLocation(icon),
+        ResourceLocation(iconHovered),
+        font
     )
 
     /**
      * Draw function that gets called every frame. Draw the button and i's label
      */
-    override fun draw()
-    {
-        if (this.isVisible)
-        {
+    override fun draw() {
+        if (this.isVisible) {
             super.draw()
             this.background.imageTexture = if (this.isHovered) this.iconHovered else this.icon
         }
@@ -97,8 +97,7 @@ open class AOTDGuiButton(
      *
      * @param text The text to draw over the button
      */
-    fun setText(text: String)
-    {
+    fun setText(text: String) {
         this.label?.text = text
     }
 
@@ -107,8 +106,7 @@ open class AOTDGuiButton(
      *
      * @param textColor The text color
      */
-    fun setTextColor(textColor: Color)
-    {
+    fun setTextColor(textColor: Color) {
         this.label?.textColor = textColor
     }
 
@@ -117,8 +115,7 @@ open class AOTDGuiButton(
      *
      * @param textAlignment The button's text alignment
      */
-    fun setTextAlignment(textAlignment: TextAlignment)
-    {
+    fun setTextAlignment(textAlignment: TextAlignment) {
         this.label?.textAlignment = textAlignment
     }
 }

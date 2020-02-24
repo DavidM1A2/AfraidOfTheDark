@@ -5,8 +5,7 @@ import com.davidm1a2.afraidofthedark.common.registry.research.AOTDResearch
 /**
  * A static class containing all of our research references for us
  */
-object ModResearches
-{
+object ModResearches {
     val AN_UNBREAKABLE_COVENANT = AOTDResearch("an_unbreakable_covenant", null)
     val ENCHANTED_SKELETON = AOTDResearch("enchanted_skeleton", AN_UNBREAKABLE_COVENANT)
     val BLADE_OF_EXHUMATION = AOTDResearch("blade_of_exhumation", ENCHANTED_SKELETON)
@@ -34,29 +33,29 @@ object ModResearches
 
     // An array containing a list of researches that AOTD adds
     var RESEARCH_LIST = arrayOf(
-            AN_UNBREAKABLE_COVENANT,
-            ENCHANTED_SKELETON,
-            BLADE_OF_EXHUMATION,
-            CROSSBOW,
-            WRIST_CROSSBOW,
-            WEREWOLF_EXAMINATION,
-            ASTRONOMY_1,
-            ASTRAL_SILVER,
-            SLAYING_OF_THE_WOLVES,
-            PHYLACTERY_OF_SOULS,
-            CLOAK_OF_AGILITY,
-            VOID_CHEST,
-            ELDRITCH_DECORATION,
-            DARK_FOREST,
-            SLEEPING_POTION,
-            NIGHTMARE,
-            INSANITY,
-            VITAE_1,
-            ASTRONOMY_2,
-            IGNEOUS,
-            STAR_METAL,
-            GNOMISH_CITY,
-            ENARIA,
-            ENARIAS_SECRET
+        AN_UNBREAKABLE_COVENANT,
+        ENCHANTED_SKELETON,
+        BLADE_OF_EXHUMATION,
+        CROSSBOW,
+        WRIST_CROSSBOW,
+        WEREWOLF_EXAMINATION,
+        ASTRONOMY_1,
+        ASTRAL_SILVER,
+        SLAYING_OF_THE_WOLVES,
+        PHYLACTERY_OF_SOULS,
+        CLOAK_OF_AGILITY,
+        VOID_CHEST,
+        ELDRITCH_DECORATION,
+        DARK_FOREST,
+        SLEEPING_POTION,
+        NIGHTMARE,
+        INSANITY,
+        VITAE_1,
+        ASTRONOMY_2,
+        IGNEOUS,
+        STAR_METAL,
+        GNOMISH_CITY,
+        ENARIA,
+        ENARIAS_SECRET
     )
 }

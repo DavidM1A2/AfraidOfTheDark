@@ -22,21 +22,17 @@ import net.minecraft.world.World
  *
  * @constructor
  */
-class ItemResearchScroll : AOTDItem("research_scroll")
-{
+class ItemResearchScroll : AOTDItem("research_scroll") {
     /**
      * Get a list of sub-items which is one item per research
      *
      * @param tab   The creative tab to get sub-items for
      * @param items The sub-items
      */
-    override fun getSubItems(tab: CreativeTabs, items: NonNullList<ItemStack>)
-    {
-        if (isInCreativeTab(tab))
-        {
+    override fun getSubItems(tab: CreativeTabs, items: NonNullList<ItemStack>) {
+        if (isInCreativeTab(tab)) {
             // Add one itemstack for each research
-            for (research in ModRegistries.RESEARCH)
-            {
+            for (research in ModRegistries.RESEARCH) {
                 val itemStack = ItemStack(this, 1, 0)
                 setScrollResearch(itemStack, research)
                 items.add(itemStack)
@@ -52,53 +48,43 @@ class ItemResearchScroll : AOTDItem("research_scroll")
      * @param hand   The hand the item is held in
      * @return The action result of the right click
      */
-    override fun onItemRightClick(world: World, player: EntityPlayer, hand: EnumHand): ActionResult<ItemStack>
-    {
+    override fun onItemRightClick(world: World, player: EntityPlayer, hand: EnumHand): ActionResult<ItemStack> {
         // Grab the itemstack that represents the scroll
         val itemStack = player.getHeldItem(hand)
 
         // Server side processing only
-        if (!world.isRemote)
-        {
+        if (!world.isRemote) {
             // Grab the player's research
             val playerResearch = player.getResearch()
 
             val scrollResearch = getScrollResearch(itemStack)
             // Ensure the scroll has a valid research
-            if (scrollResearch != null)
-            {
+            if (scrollResearch != null) {
                 // If the player can research the research do so
-                if (playerResearch.canResearch(scrollResearch))
-                {
+                if (playerResearch.canResearch(scrollResearch)) {
                     // Test if the scroll is ready
-                    if (!isPart(itemStack))
-                    {
+                    if (!isPart(itemStack)) {
                         // Shrink the itemstack to consume the scroll
                         itemStack.shrink(1)
 
                         // Unlock the research
                         playerResearch.setResearch(scrollResearch, true)
                         playerResearch.sync(player, true)
-                    }
-                    else
-                    {
+                    } else {
                         player.sendMessage(TextComponentTranslation("message.afraidofthedark:research_scroll.incomplete"))
                     }
                 }
                 // If the player does not yet have the research then state that they need additional research first
-                else if (!playerResearch.isResearched(scrollResearch))
-                {
+                else if (!playerResearch.isResearched(scrollResearch)) {
                     player.sendMessage(TextComponentTranslation("message.afraidofthedark:research_scroll.cant_understand"))
                 }
                 // If the player does have the research tell them
-                else
-                {
+                else {
                     player.sendMessage(TextComponentTranslation("message.afraidofthedark:research_scroll.already_researched"))
                 }
             }
             // No valid research detected
-            else
-            {
+            else {
                 player.sendMessage(TextComponentTranslation("message.afraidofthedark:research_scroll.corrupt"))
             }
         }
@@ -113,22 +99,19 @@ class ItemResearchScroll : AOTDItem("research_scroll")
      * @param tooltip The tooltip of the research
      * @param flag  If the advanced details is on or off
      */
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag)
-    {
+    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag) {
         val scrollResearch = getScrollResearch(stack)
-        if (scrollResearch != null)
-        {
-            if (isPart(stack))
-            {
-                tooltip.add("Scroll part ${getPartNumber(stack)}/${getNumberParts(stack)} of the research ${I18n.format(scrollResearch.getUnlocalizedName())}.")
-            }
-            else
-            {
+        if (scrollResearch != null) {
+            if (isPart(stack)) {
+                tooltip.add(
+                    "Scroll part ${getPartNumber(stack)}/${getNumberParts(stack)} of the research ${I18n.format(
+                        scrollResearch.getUnlocalizedName()
+                    )}."
+                )
+            } else {
                 tooltip.add(I18n.format(scrollResearch.getUnlocalizedName()))
             }
-        }
-        else
-        {
+        } else {
             tooltip.add("Scroll is corrupt.")
         }
     }
@@ -139,8 +122,7 @@ class ItemResearchScroll : AOTDItem("research_scroll")
      * @param itemStack The item to set the research for
      * @param research  The research to set
      */
-    fun setScrollResearch(itemStack: ItemStack, research: Research)
-    {
+    fun setScrollResearch(itemStack: ItemStack, research: Research) {
         NBTHelper.setString(itemStack, NBT_RESEARCH_ID, research.registryName.toString())
     }
 
@@ -150,8 +132,7 @@ class ItemResearchScroll : AOTDItem("research_scroll")
      * @param itemStack The scroll itemstack
      * @return True if the itemstack has the number parts and part number tags, false otherwise
      */
-    fun isPart(itemStack: ItemStack): Boolean
-    {
+    fun isPart(itemStack: ItemStack): Boolean {
         return NBTHelper.hasTag(itemStack, NBT_NUMBER_PARTS) && NBTHelper.hasTag(itemStack, NBT_PART_NUMBER)
     }
 
@@ -161,8 +142,7 @@ class ItemResearchScroll : AOTDItem("research_scroll")
      * @param itemStack The research scroll
      * @return The number of total parts required to combine the scroll
      */
-    fun getNumberParts(itemStack: ItemStack): Int
-    {
+    fun getNumberParts(itemStack: ItemStack): Int {
         return NBTHelper.getInteger(itemStack, NBT_NUMBER_PARTS)!!
     }
 
@@ -172,8 +152,7 @@ class ItemResearchScroll : AOTDItem("research_scroll")
      * @param itemStack The itemstack to get part number for
      * @return The part number of this scroll, should be in the range [1 ... getNumberParts()]
      */
-    fun getPartNumber(itemStack: ItemStack): Int
-    {
+    fun getPartNumber(itemStack: ItemStack): Int {
         return NBTHelper.getInteger(itemStack, NBT_PART_NUMBER)!!
     }
 
@@ -183,20 +162,15 @@ class ItemResearchScroll : AOTDItem("research_scroll")
      * @param itemStack The item to get research from
      * @return The research on the scroll or null if it doesn't exist
      */
-    fun getScrollResearch(itemStack: ItemStack): Research?
-    {
-        return if (NBTHelper.hasTag(itemStack, NBT_RESEARCH_ID))
-        {
+    fun getScrollResearch(itemStack: ItemStack): Research? {
+        return if (NBTHelper.hasTag(itemStack, NBT_RESEARCH_ID)) {
             ModRegistries.RESEARCH.getValue(ResourceLocation(NBTHelper.getString(itemStack, NBT_RESEARCH_ID)!!))
-        }
-        else
-        {
+        } else {
             null
         }
     }
 
-    companion object
-    {
+    companion object {
         // NBT string constants
         private const val NBT_RESEARCH_ID = "research_id"
         private const val NBT_PART_NUMBER = "part_number"

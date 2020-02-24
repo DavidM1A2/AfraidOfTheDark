@@ -6,8 +6,7 @@ import net.minecraft.util.SoundEvent
 /**
  * A class containing all sounds in AOTD
  */
-object ModSounds
-{
+object ModSounds {
     val CROSSBOW_FIRE = create("crossbow_fire")
     val CROSSBOW_LOAD = create("crossbow_load")
     val WEREWOLF_IDLE = create("werewolf_idle")
@@ -26,21 +25,21 @@ object ModSounds
 
     // An array containing a list of sounds that AOTD adds
     val SOUND_LIST = arrayOf(
-            CROSSBOW_FIRE,
-            CROSSBOW_LOAD,
-            WEREWOLF_IDLE,
-            WEREWOLF_AGRO,
-            WEREWOLF_DEATH,
-            WEREWOLF_HURT,
-            JOURNAL_SIGN,
-            ACHIEVEMENT_UNLOCKED,
-            PAGE_TURN,
-            BUTTON_HOVER,
-            SPELL_CRAFTING_BUTTON_HOVER,
-            BELLS,
-            ERIE_ECHOS,
-            KEY_TYPED,
-            SPELL_CAST
+        CROSSBOW_FIRE,
+        CROSSBOW_LOAD,
+        WEREWOLF_IDLE,
+        WEREWOLF_AGRO,
+        WEREWOLF_DEATH,
+        WEREWOLF_HURT,
+        JOURNAL_SIGN,
+        ACHIEVEMENT_UNLOCKED,
+        PAGE_TURN,
+        BUTTON_HOVER,
+        SPELL_CRAFTING_BUTTON_HOVER,
+        BELLS,
+        ERIE_ECHOS,
+        KEY_TYPED,
+        SPELL_CAST
     )
 
     /**
@@ -49,8 +48,7 @@ object ModSounds
      * @param name The name of the sound
      * @return A sound event representing that sound
      */
-    private fun create(name: String): SoundEvent
-    {
+    private fun create(name: String): SoundEvent {
         val location = ResourceLocation(Constants.MOD_ID, name)
         return SoundEvent(location).setRegistryName(location)
     }

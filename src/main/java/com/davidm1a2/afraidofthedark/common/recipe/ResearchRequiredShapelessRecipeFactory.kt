@@ -12,8 +12,7 @@ import net.minecraftforge.oredict.ShapelessOreRecipe
 /**
  * Factory for research required shapeless recipes. This type of recipe just ensures the proper research is done first
  */
-class ResearchRequiredShapelessRecipeFactory : IRecipeFactory
-{
+class ResearchRequiredShapelessRecipeFactory : IRecipeFactory {
     /**
      * Parses the recipe from JSON
      *
@@ -21,13 +20,13 @@ class ResearchRequiredShapelessRecipeFactory : IRecipeFactory
      * @param json    The actual JSON to parse
      * @return The IRecipe representing this recipe
      */
-    override fun parse(context: JsonContext, json: JsonObject): IRecipe
-    {
+    override fun parse(context: JsonContext, json: JsonObject): IRecipe {
         // This recipe is based on the shapeless ore recipe, so start with parsing that
         val baseRecipe = ShapelessOreRecipe.factory(context, json)
 
         // Grab the pre-requisite recipe which is based on our research registry
-        val preRequisite = ModRegistries.RESEARCH.getValue(ResourceLocation(JsonUtils.getString(json, "required_research")))!!
+        val preRequisite =
+            ModRegistries.RESEARCH.getValue(ResourceLocation(JsonUtils.getString(json, "required_research")))!!
 
         // Return the research required shaped recipe
         return ResearchRequiredShapelessRecipe(baseRecipe, preRequisite)

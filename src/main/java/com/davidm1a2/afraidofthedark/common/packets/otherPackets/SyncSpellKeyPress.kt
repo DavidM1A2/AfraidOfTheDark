@@ -13,8 +13,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext
  *
  * @property keyPressedName The name of the key that was pressed
  */
-class SyncSpellKeyPress : IMessage
-{
+class SyncSpellKeyPress : IMessage {
     private lateinit var keyPressedName: String
 
     /**
@@ -27,8 +26,7 @@ class SyncSpellKeyPress : IMessage
      *
      * @param keyPressedName The name of the key that was pressed
      */
-    constructor(keyPressedName: String)
-    {
+    constructor(keyPressedName: String) {
         this.keyPressedName = keyPressedName
     }
 
@@ -37,8 +35,7 @@ class SyncSpellKeyPress : IMessage
      *
      * @param buf The buffer to write to
      */
-    override fun toBytes(buf: ByteBuf)
-    {
+    override fun toBytes(buf: ByteBuf) {
         ByteBufUtils.writeUTF8String(buf, keyPressedName)
     }
 
@@ -47,16 +44,14 @@ class SyncSpellKeyPress : IMessage
      *
      * @param buf The raw bytes to read from
      */
-    override fun fromBytes(buf: ByteBuf)
-    {
+    override fun fromBytes(buf: ByteBuf) {
         keyPressedName = ByteBufUtils.readUTF8String(buf)
     }
 
     /**
      * Static handler class used to handle the spell key press packet
      */
-    class Handler : MessageHandler.Server<SyncSpellKeyPress>()
-    {
+    class Handler : MessageHandler.Server<SyncSpellKeyPress>() {
         /**
          * Handles the message on the server side
          *
@@ -64,14 +59,12 @@ class SyncSpellKeyPress : IMessage
          * @param msg    the message received
          * @param ctx    The context that the message was sent through
          */
-        override fun handleServerMessage(player: EntityPlayer, msg: SyncSpellKeyPress, ctx: MessageContext)
-        {
+        override fun handleServerMessage(player: EntityPlayer, msg: SyncSpellKeyPress, ctx: MessageContext) {
             // Grab the player's spell manager
             val spellManager = player.getSpellManager()
 
             // Ensure the keybinding exists
-            if (spellManager.keybindExists(msg.keyPressedName))
-            {
+            if (spellManager.keybindExists(msg.keyPressedName)) {
                 // Grab the spell to fire, and cast it
                 val spellToFire = spellManager.getSpellForKeybinding(msg.keyPressedName)
                 spellToFire!!.attemptToCast(player)

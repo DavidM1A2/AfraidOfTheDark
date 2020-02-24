@@ -14,18 +14,15 @@ import net.minecraft.util.ResourceLocation
  *
  * @constructor does not initialize anything
  */
-class SpellDeliveryMethodSelf : AOTDSpellDeliveryMethod(ResourceLocation(Constants.MOD_ID, "self"))
-{
+class SpellDeliveryMethodSelf : AOTDSpellDeliveryMethod(ResourceLocation(Constants.MOD_ID, "self")) {
     /**
      * Called to begin delivering the effects to the target by whatever means necessary
      *
      * @param state The state of the spell to deliver
      */
-    override fun executeDelivery(state: DeliveryTransitionState)
-    {
+    override fun executeDelivery(state: DeliveryTransitionState) {
         // Self just procs the effects and transitions at the target entity
-        if (state.getEntity() != null)
-        {
+        if (state.getEntity() != null) {
             this.procEffects(state)
             this.transitionFrom(state)
         }
@@ -37,8 +34,7 @@ class SpellDeliveryMethodSelf : AOTDSpellDeliveryMethod(ResourceLocation(Constan
      * @param state  The state of the spell at the current delivery method
      * @param effect The effect that needs to be applied
      */
-    override fun defaultEffectProc(state: DeliveryTransitionState, effect: SpellComponentInstance<SpellEffect>)
-    {
+    override fun defaultEffectProc(state: DeliveryTransitionState, effect: SpellComponentInstance<SpellEffect>) {
         // The effect is just applied to the target
         effect.component.procEffect(state, effect)
     }
@@ -48,18 +44,17 @@ class SpellDeliveryMethodSelf : AOTDSpellDeliveryMethod(ResourceLocation(Constan
      *
      * @param state The state of the spell to transition
      */
-    override fun performDefaultTransition(state: DeliveryTransitionState)
-    {
+    override fun performDefaultTransition(state: DeliveryTransitionState) {
         val spell = state.spell
         val spellIndex = state.stageIndex
 
         // Perform the transition between the next delivery method and the current delivery method
         spell.getStage(spellIndex + 1)!!.deliveryInstance!!.component.executeDelivery(
-                DeliveryTransitionStateBuilder()
-                        .withSpell(spell)
-                        .withStageIndex(spellIndex + 1)
-                        .withEntity(state.getEntity()!!)
-                        .build()
+            DeliveryTransitionStateBuilder()
+                .withSpell(spell)
+                .withStageIndex(spellIndex + 1)
+                .withEntity(state.getEntity()!!)
+                .build()
         )
     }
 
@@ -68,8 +63,7 @@ class SpellDeliveryMethodSelf : AOTDSpellDeliveryMethod(ResourceLocation(Constan
      *
      * @return The cost of the delivery method
      */
-    override fun getCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double
-    {
+    override fun getCost(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
         return 1.0
     }
 
@@ -78,8 +72,7 @@ class SpellDeliveryMethodSelf : AOTDSpellDeliveryMethod(ResourceLocation(Constan
      *
      * @return The spell stage multiplier for cost
      */
-    override fun getStageCostMultiplier(instance: SpellComponentInstance<SpellDeliveryMethod>): Double
-    {
+    override fun getStageCostMultiplier(instance: SpellComponentInstance<SpellDeliveryMethod>): Double {
         return 1.0
     }
 }

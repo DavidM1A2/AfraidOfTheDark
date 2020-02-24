@@ -17,20 +17,17 @@ import net.minecraftforge.fml.relauncher.SideOnly
 /**
  * Class that provides the nightmare world
  */
-class NightmareWorldProvider : WorldProvider()
-{
+class NightmareWorldProvider : WorldProvider() {
     /**
      * Initializes the provider
      */
-    override fun init()
-    {
+    override fun init() {
         // The only biome is nightmare
         biomeProvider = BiomeProviderSingle(ModBiomes.NIGHTMARE)
         // The sky provides no light
         hasSkyLight = false
         // Register the sky renderer client side
-        if (world.isRemote)
-        {
+        if (world.isRemote) {
             skyRenderer = NightmareSkyRenderer()
         }
     }
@@ -38,8 +35,7 @@ class NightmareWorldProvider : WorldProvider()
     /**
      * @return The name of the save folder to save world data in
      */
-    override fun getSaveFolder(): String
-    {
+    override fun getSaveFolder(): String {
         return "nightmare_world"
     }
 
@@ -50,8 +46,7 @@ class NightmareWorldProvider : WorldProvider()
      * @return 0.25, or max fog at y = 64
      */
     @SideOnly(Side.CLIENT)
-    override fun getVoidFogYFactor(): Double
-    {
+    override fun getVoidFogYFactor(): Double {
         return 0.25
     }
 
@@ -63,16 +58,14 @@ class NightmareWorldProvider : WorldProvider()
      * @return A red RGB color
      */
     @SideOnly(Side.CLIENT)
-    override fun getFogColor(p_76562_1_: Float, p_76562_2_: Float): Vec3d
-    {
+    override fun getFogColor(p_76562_1_: Float, p_76562_2_: Float): Vec3d {
         return Vec3d(0.2, 0.0, 0.0)
     }
 
     /**
      * @return False, nightmare is always night
      */
-    override fun isDaytime(): Boolean
-    {
+    override fun isDaytime(): Boolean {
         return false
     }
 
@@ -81,8 +74,7 @@ class NightmareWorldProvider : WorldProvider()
      *
      * @return A new nightmare chunk generator
      */
-    override fun createChunkGenerator(): IChunkGenerator
-    {
+    override fun createChunkGenerator(): IChunkGenerator {
         return NightmareChunkGenerator(world)
     }
 
@@ -91,8 +83,7 @@ class NightmareWorldProvider : WorldProvider()
      *
      * @return The average ground level
      */
-    override fun getAverageGroundLevel(): Int
-    {
+    override fun getAverageGroundLevel(): Int {
         return 72
     }
 
@@ -104,16 +95,14 @@ class NightmareWorldProvider : WorldProvider()
      * @return True, always show fog
      */
     @SideOnly(Side.CLIENT)
-    override fun doesXZShowFog(x: Int, z: Int): Boolean
-    {
+    override fun doesXZShowFog(x: Int, z: Int): Boolean {
         return true
     }
 
     /**
      * @return The dimension type will be 'Nightmare'
      */
-    override fun getDimensionType(): DimensionType
-    {
+    override fun getDimensionType(): DimensionType {
         return ModDimensions.NIGHTMARE
     }
 
@@ -123,32 +112,28 @@ class NightmareWorldProvider : WorldProvider()
      * @param par1 ignored
      * @return Return a value from 0 to 16 for star brightness
      */
-    override fun getStarBrightness(par1: Float): Float
-    {
+    override fun getStarBrightness(par1: Float): Float {
         return 13f
     }
 
     /**
      * @return We can respawn here, but it will teleport the player back right after
      */
-    override fun canRespawnHere(): Boolean
-    {
+    override fun canRespawnHere(): Boolean {
         return true
     }
 
     /**
      * @return False, this is not a standard surface world
      */
-    override fun isSurfaceWorld(): Boolean
-    {
+    override fun isSurfaceWorld(): Boolean {
         return false
     }
 
     /**
      * @return 255, put clouds at max height so they don't get in the way
      */
-    override fun getCloudHeight(): Float
-    {
+    override fun getCloudHeight(): Float {
         return 255.0f
     }
 
@@ -161,8 +146,7 @@ class NightmareWorldProvider : WorldProvider()
      * @param rotation the regular rotation of the marker
      * @return True to 'spin' the cursor
      */
-    override fun shouldMapSpin(entity: String, x: Double, z: Double, rotation: Double): Boolean
-    {
+    override fun shouldMapSpin(entity: String, x: Double, z: Double, rotation: Double): Boolean {
         return true
     }
 
@@ -172,8 +156,7 @@ class NightmareWorldProvider : WorldProvider()
      * @param player The player who is respawning
      * @return The dimension id
      */
-    override fun getRespawnDimension(player: EntityPlayerMP): Int
-    {
+    override fun getRespawnDimension(player: EntityPlayerMP): Int {
         return player.dimension
     }
 
@@ -184,8 +167,7 @@ class NightmareWorldProvider : WorldProvider()
      * @param z The blockpos z
      * @return True if x is a multiple of the blocks between islands and z is 0, false otherwise
      */
-    override fun canCoordinateBeSpawn(x: Int, z: Int): Boolean
-    {
+    override fun canCoordinateBeSpawn(x: Int, z: Int): Boolean {
         return x % AfraidOfTheDark.INSTANCE.configurationHandler.blocksBetweenIslands == 0 && z == 0
     }
 
@@ -196,8 +178,7 @@ class NightmareWorldProvider : WorldProvider()
      * @param partialTicks   The ticks since last
      * @return All 0s
      */
-    override fun calcSunriseSunsetColors(celestialAngle: Float, partialTicks: Float): FloatArray
-    {
+    override fun calcSunriseSunsetColors(celestialAngle: Float, partialTicks: Float): FloatArray {
         return floatArrayOf(0f, 0f, 0f, 0f)
     }
 
@@ -207,8 +188,7 @@ class NightmareWorldProvider : WorldProvider()
      * @param chunk The chunk to test
      * @return False, no rain allowed
      */
-    override fun canDoRainSnowIce(chunk: Chunk): Boolean
-    {
+    override fun canDoRainSnowIce(chunk: Chunk): Boolean {
         return false
     }
 
@@ -219,8 +199,7 @@ class NightmareWorldProvider : WorldProvider()
      * @param partialTicks The ticks since the last tick
      * @return The celestial sky angle
      */
-    override fun calculateCelestialAngle(worldTime: Long, partialTicks: Float): Float
-    {
+    override fun calculateCelestialAngle(worldTime: Long, partialTicks: Float): Float {
         return 0.5f
     }
 }

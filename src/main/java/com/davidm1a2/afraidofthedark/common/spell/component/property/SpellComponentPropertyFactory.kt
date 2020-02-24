@@ -3,45 +3,39 @@ package com.davidm1a2.afraidofthedark.common.spell.component.property
 /**
  * Builder for spell component property
  */
-object SpellComponentPropertyFactory
-{
+object SpellComponentPropertyFactory {
     /**
      * @return A new integer spell component property builder
      */
-    fun intProperty(): IntSpellComponentPropertyBuilder
-    {
+    fun intProperty(): IntSpellComponentPropertyBuilder {
         return IntSpellComponentPropertyBuilder()
     }
 
     /**
      * @return A new long spell component property builder
      */
-    fun longProperty(): LongSpellComponentPropertyBuilder
-    {
+    fun longProperty(): LongSpellComponentPropertyBuilder {
         return LongSpellComponentPropertyBuilder()
     }
 
     /**
      * @return A new double spell component property builder
      */
-    fun doubleProperty(): DoubleSpellComponentPropertyBuilder
-    {
+    fun doubleProperty(): DoubleSpellComponentPropertyBuilder {
         return DoubleSpellComponentPropertyBuilder()
     }
 
     /**
      * @return A new float spell component property builder
      */
-    fun floatProperty(): FloatSpellComponentPropertyBuilder
-    {
+    fun floatProperty(): FloatSpellComponentPropertyBuilder {
         return FloatSpellComponentPropertyBuilder()
     }
 
     /**
      * @return A new boolean spell component property builder
      */
-    fun booleanProperty(): BooleanSpellComponentPropertyBuilder
-    {
+    fun booleanProperty(): BooleanSpellComponentPropertyBuilder {
         return BooleanSpellComponentPropertyBuilder()
     }
 }

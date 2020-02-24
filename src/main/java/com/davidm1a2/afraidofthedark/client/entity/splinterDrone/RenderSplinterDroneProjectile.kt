@@ -12,8 +12,8 @@ import org.lwjgl.opengl.GL11
  * @constructor just passes down fields and the render manager
  * @param renderManager The render manager to pass down
  */
-class RenderSplinterDroneProjectile(renderManager: RenderManager) : Render<EntitySplinterDroneProjectile>(renderManager)
-{
+class RenderSplinterDroneProjectile(renderManager: RenderManager) :
+    Render<EntitySplinterDroneProjectile>(renderManager) {
     /**
      * Renders the entity at a given position, yaw, and partial ticks parameter
      *
@@ -24,8 +24,14 @@ class RenderSplinterDroneProjectile(renderManager: RenderManager) : Render<Entit
      * @param entityYaw    The yaw of the entity to render
      * @param partialTicks The partial ticks that have gone by since the last frame
      */
-    override fun doRender(entity: EntitySplinterDroneProjectile, posX: Double, posY: Double, posZ: Double, entityYaw: Float, partialTicks: Float)
-    {
+    override fun doRender(
+        entity: EntitySplinterDroneProjectile,
+        posX: Double,
+        posY: Double,
+        posZ: Double,
+        entityYaw: Float,
+        partialTicks: Float
+    ) {
         GL11.glPushMatrix()
         GL11.glDisable(GL11.GL_CULL_FACE)
         GL11.glTranslatef(posX.toFloat(), posY.toFloat() + 0.2f, posZ.toFloat())
@@ -41,15 +47,14 @@ class RenderSplinterDroneProjectile(renderManager: RenderManager) : Render<Entit
      * @param entity The entity to get the texture for
      * @return The texture to use for this entity
      */
-    override fun getEntityTexture(entity: EntitySplinterDroneProjectile): ResourceLocation
-    {
+    override fun getEntityTexture(entity: EntitySplinterDroneProjectile): ResourceLocation {
         return SPLINTER_DRONE_PROJECTILE_TEXTURE
     }
 
-    companion object
-    {
+    companion object {
         // The texture used by the model
-        private val SPLINTER_DRONE_PROJECTILE_TEXTURE = ResourceLocation("afraidofthedark:textures/entity/splinter_drone_projectile.png")
+        private val SPLINTER_DRONE_PROJECTILE_TEXTURE =
+            ResourceLocation("afraidofthedark:textures/entity/splinter_drone_projectile.png")
         // The splinter drone projectile model
         private val SPLINTER_DRONE_PROJECTILE_MODEL = ModelSplinterDroneProjectile()
     }

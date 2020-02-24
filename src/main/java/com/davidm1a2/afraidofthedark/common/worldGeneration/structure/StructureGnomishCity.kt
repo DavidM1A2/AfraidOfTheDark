@@ -25,8 +25,7 @@ import kotlin.math.min
  *
  * @constructor just passes down the structure name
  */
-class StructureGnomishCity : AOTDStructure("gnomish_city")
-{
+class StructureGnomishCity : AOTDStructure("gnomish_city") {
     /**
      * Tests if this structure is valid for the given position
      *
@@ -35,16 +34,17 @@ class StructureGnomishCity : AOTDStructure("gnomish_city")
      * @param biomeProvider The provider used to generate the world, use biomeProvider.getBiomes() to get what biomes exist at a position
      * @return true if the structure fits at the position, false otherwise
      */
-    override fun computeChanceToGenerateAt(blockPos: BlockPos, heightmap: IHeightmap, biomeProvider: BiomeProvider): Double
-    {
-        return processChunks(object : IChunkProcessor<Double>
-        {
+    override fun computeChanceToGenerateAt(
+        blockPos: BlockPos,
+        heightmap: IHeightmap,
+        biomeProvider: BiomeProvider
+    ): Double {
+        return processChunks(object : IChunkProcessor<Double> {
             // Compute the minimum and maximum height over all the chunks that the witch hut will cross over
             var minHeight = Int.MAX_VALUE
             var maxHeight = Int.MIN_VALUE
 
-            override fun processChunk(chunkPos: ChunkPos): Boolean
-            {
+            override fun processChunk(chunkPos: ChunkPos): Boolean {
                 // Compute min and max height
                 minHeight = min(minHeight, heightmap.getLowestHeight(chunkPos))
                 maxHeight = max(maxHeight, heightmap.getHighestHeight(chunkPos))
@@ -53,14 +53,12 @@ class StructureGnomishCity : AOTDStructure("gnomish_city")
                 return maxHeight - minHeight <= 20
             }
 
-            override fun getResult(): Double
-            {
+            override fun getResult(): Double {
                 // .1% chance to generate in any chunks this fits in
                 return 0.001 * AfraidOfTheDark.INSTANCE.configurationHandler.gnomishCityFrequency
             }
 
-            override fun getDefaultResult(): Double
-            {
+            override fun getDefaultResult(): Double {
                 return 0.0
             }
         }, InteriorChunkIterator(this, blockPos))
@@ -73,32 +71,38 @@ class StructureGnomishCity : AOTDStructure("gnomish_city")
      * @param chunkPos Optional chunk position of a chunk to generate in. If supplied all blocks generated must be in this chunk only!
      * @param data     NBT data containing the structure's position
      */
-    override fun generate(world: World, chunkPos: ChunkPos, data: NBTTagCompound)
-    {
+    override fun generate(world: World, chunkPos: ChunkPos, data: NBTTagCompound) {
         // Grab the rooms NBT and generate the 9 * 2 rooms first
         val rooms = data.getTagList(NBT_ROOMS, Constants.NBT.TAG_COMPOUND)
-        for (i in 0 until rooms.tagCount())
-        {
+        for (i in 0 until rooms.tagCount()) {
             val room = rooms.getCompoundTagAt(i)
             // Get the room index and position
             val roomIndex = room.getInteger(NBT_ROOM_INDEX)
             val roomPos = NBTUtil.getPosFromTag(room.getCompoundTag(NBT_POSITION))
 
-            when
-            {
+            when {
                 // If the index is 0-rooms.length it's a standard room
-                roomIndex >= 0 ->
-                {
-                    generateSchematic(ModSchematics.GNOMISH_CITY_ROOMS[roomIndex], world, roomPos, chunkPos, ModLootTables.GNOMISH_CITY)
+                roomIndex >= 0 -> {
+                    generateSchematic(
+                        ModSchematics.GNOMISH_CITY_ROOMS[roomIndex],
+                        world,
+                        roomPos,
+                        chunkPos,
+                        ModLootTables.GNOMISH_CITY
+                    )
                 }
                 // If the index is DOWNWARD_INDEX then it is the stairs that lead downwards
-                roomIndex == STAIR_DOWNWARD_INDEX ->
-                {
-                    generateSchematic(ModSchematics.ROOM_STAIR_DOWN, world, roomPos, chunkPos, ModLootTables.GNOMISH_CITY)
+                roomIndex == STAIR_DOWNWARD_INDEX -> {
+                    generateSchematic(
+                        ModSchematics.ROOM_STAIR_DOWN,
+                        world,
+                        roomPos,
+                        chunkPos,
+                        ModLootTables.GNOMISH_CITY
+                    )
                 }
                 // If the index is UPWARD_INDEX then it is the stairs that lead upwards
-                roomIndex == STAIR_UPWARD_INDEX ->
-                {
+                roomIndex == STAIR_UPWARD_INDEX -> {
                     generateSchematic(ModSchematics.ROOM_STAIR_UP, world, roomPos, chunkPos, ModLootTables.GNOMISH_CITY)
                 }
             }
@@ -106,8 +110,7 @@ class StructureGnomishCity : AOTDStructure("gnomish_city")
 
         // Generate the east-west tunnels, this is pretty straight forward. Grab the position and generate the schematic
         val tunnelsEW = data.getTagList(NBT_TUNNELS_EW, Constants.NBT.TAG_COMPOUND)
-        for (i in 0 until tunnelsEW.tagCount())
-        {
+        for (i in 0 until tunnelsEW.tagCount()) {
             val tunnelEW = tunnelsEW.getCompoundTagAt(i)
             val tunnelPos = NBTUtil.getPosFromTag(tunnelEW.getCompoundTag(NBT_POSITION))
             generateSchematic(ModSchematics.TUNNEL_EW, world, tunnelPos, chunkPos)
@@ -115,8 +118,7 @@ class StructureGnomishCity : AOTDStructure("gnomish_city")
 
         // Generate the north-south tunnels, this is pretty straight forward. Grab the position and generate the schematic
         val tunnelsNS = data.getTagList(NBT_TUNNELS_NS, Constants.NBT.TAG_COMPOUND)
-        for (i in 0 until tunnelsNS.tagCount())
-        {
+        for (i in 0 until tunnelsNS.tagCount()) {
             val tunnelNS = tunnelsNS.getCompoundTagAt(i)
             val tunnelPos = NBTUtil.getPosFromTag(tunnelNS.getCompoundTag(NBT_POSITION))
             generateSchematic(ModSchematics.TUNNEL_NS, world, tunnelPos, chunkPos)
@@ -127,7 +129,12 @@ class StructureGnomishCity : AOTDStructure("gnomish_city")
         val surfaceStairs = data.getCompoundTag(NBT_SURFACE_STAIRS)
         val surfaceStairsPos = NBTUtil.getPosFromTag(surfaceStairs.getCompoundTag(NBT_POSITION))
         generateSchematic(ModSchematics.STAIRWELL, world, surfaceStairsPos, chunkPos)
-        generateSchematic(ModSchematics.STAIRWELL, world, surfaceStairsPos.add(0, ModSchematics.STAIRWELL.getHeight().toInt(), 0), chunkPos)
+        generateSchematic(
+            ModSchematics.STAIRWELL,
+            world,
+            surfaceStairsPos.add(0, ModSchematics.STAIRWELL.getHeight().toInt(), 0),
+            chunkPos
+        )
 
         // Generate enaria's lair at the bottom under the structure
         val enariasLair = data.getCompoundTag(NBT_ENARIAS_LAIR)
@@ -143,8 +150,7 @@ class StructureGnomishCity : AOTDStructure("gnomish_city")
      * @param biomeProvider ignored
      * @return The NBTTagCompound containing any data needed for generation. Sent in Structure::generate
      */
-    override fun generateStructureData(world: World, blockPos: BlockPos, biomeProvider: BiomeProvider): NBTTagCompound
-    {
+    override fun generateStructureData(world: World, blockPos: BlockPos, biomeProvider: BiomeProvider): NBTTagCompound {
         // Create an nbt compound to return
         @Suppress("NAME_SHADOWING")
         var blockPos = blockPos
@@ -171,32 +177,27 @@ class StructureGnomishCity : AOTDStructure("gnomish_city")
         stairs2ToEnaria = 7
 
         // Compute the stairs from level 1 to level 2, can't be in the same spot as stairs from 'surface -> 1' or '2 -> enaria'
-        do
-        {
+        do {
             stairs1To2 = world.rand.nextInt(9)
-        }
-        while (stairSurfaceTo1 == stairs1To2 || stairs2ToEnaria == stairs1To2)
+        } while (stairSurfaceTo1 == stairs1To2 || stairs2ToEnaria == stairs1To2)
 
         // Create a queue of rooms where each room is represented twice.
         val roomIndicesQueue = LinkedList<Int>()
         // Populate the list with the indices 0-length twice
         ModSchematics.GNOMISH_CITY_ROOMS.indices
-                .flatMap { listOf(it, it) }
-                .forEach { roomIndicesQueue.add(it) }
+            .flatMap { listOf(it, it) }
+            .forEach { roomIndicesQueue.add(it) }
         // Shuffle the list so it's random
         roomIndicesQueue.shuffle(world.rand)
 
         // Generate the room NBTs
         val rooms = NBTTagList()
         // floor 0 (bottom) or 1 (upper)
-        for (floor in 0..1)
-        {
+        for (floor in 0..1) {
             // Rooms in the x direction
-            for (xIndex in 0..2)
-            {
+            for (xIndex in 0..2) {
                 // Rooms in the z direction
-                for (zIndex in 0..2)
-                {
+                for (zIndex in 0..2) {
                     // Grab the current room index
                     val currentRoom = xIndex + zIndex * 3
 
@@ -205,48 +206,43 @@ class StructureGnomishCity : AOTDStructure("gnomish_city")
 
                     // The room will always occur at the same position
                     room.setTag(
-                            NBT_POSITION,
-                            NBTUtil.createPosTag(blockPos.add(xIndex * 50, floor * 15 + 15, zIndex * 50))
+                        NBT_POSITION,
+                        NBTUtil.createPosTag(blockPos.add(xIndex * 50, floor * 15 + 15, zIndex * 50))
                     )
 
                     // If the room is the stair from surface to level 1 and the floor is upper (1) generate the stair room and stairwell
-                    if (currentRoom == stairSurfaceTo1 && floor == 1)
-                    {
+                    if (currentRoom == stairSurfaceTo1 && floor == 1) {
                         room.setInteger(NBT_ROOM_INDEX, STAIR_UPWARD_INDEX)
                         // Create an NBT for the surface stairs that are used to walk down into the gnomish city
                         val surfaceStairs = NBTTagCompound()
                         surfaceStairs.setTag(
-                                NBT_POSITION,
-                                NBTUtil.createPosTag(blockPos.add(xIndex * 50 + 13, floor * 15 + 30, zIndex * 50 + 13))
+                            NBT_POSITION,
+                            NBTUtil.createPosTag(blockPos.add(xIndex * 50 + 13, floor * 15 + 30, zIndex * 50 + 13))
                         )
                         compound.setTag(NBT_SURFACE_STAIRS, surfaceStairs)
                     }
                     // If the room is the stair from level 1 to 2 and the floor is upper (1) generate the stair room
-                    else if (currentRoom == stairs1To2 && floor == 1)
-                    {
+                    else if (currentRoom == stairs1To2 && floor == 1) {
                         room.setInteger(NBT_ROOM_INDEX, STAIR_DOWNWARD_INDEX)
                     }
                     // If the room is the stair from level 1 to 2 and the floor is lower (0) generate the stair room
-                    else if (currentRoom == stairs1To2 && floor == 0)
-                    {
+                    else if (currentRoom == stairs1To2 && floor == 0) {
                         room.setInteger(NBT_ROOM_INDEX, STAIR_UPWARD_INDEX)
                     }
                     // If the room is the stair from level 2 to enaria and the floor is lower (0) generate the stair room
-                    else if (currentRoom == stairs2ToEnaria && floor == 0)
-                    {
+                    else if (currentRoom == stairs2ToEnaria && floor == 0) {
                         room.setInteger(NBT_ROOM_INDEX, STAIR_DOWNWARD_INDEX)
 
                         // Create the enaria lair too to fit under this room
                         val enariaRoom = NBTTagCompound()
                         enariaRoom.setTag(
-                                NBT_POSITION,
-                                NBTUtil.createPosTag(blockPos.add(xIndex * 50 - 14, floor * 15, zIndex * 50 - 73))
+                            NBT_POSITION,
+                            NBTUtil.createPosTag(blockPos.add(xIndex * 50 - 14, floor * 15, zIndex * 50 - 73))
                         )
                         compound.setTag(NBT_ENARIAS_LAIR, enariaRoom)
                     }
                     // Generate a non-stair room, pop it off of the queue so we don't get it again
-                    else
-                    {
+                    else {
                         room.setInteger(NBT_ROOM_INDEX, roomIndicesQueue.pop()!!)
                     }
 
@@ -264,27 +260,24 @@ class StructureGnomishCity : AOTDStructure("gnomish_city")
         val tunnelsNS = NBTTagList()
 
         // Create tunnels for each floor
-        for (floor in 0..1)
-        {
+        for (floor in 0..1) {
             // One loop that iterates 3 times for the axis (x or z) that contains 3 tunnels
-            for (i in 0..2)
-            {
+            for (i in 0..2) {
                 // One loop that iterates 2 times for the axis (x or z) that contains 2 tunnels
-                for (j in 0..1)
-                {
+                for (j in 0..1) {
                     // Create an east-west tunnel for these parameters
                     val tunnelEW = NBTTagCompound()
                     tunnelEW.setTag(
-                            NBT_POSITION,
-                            NBTUtil.createPosTag(blockPos.add(i * 50 + 13, floor * 15 + 15 + 7, j * 50 + 32))
+                        NBT_POSITION,
+                        NBTUtil.createPosTag(blockPos.add(i * 50 + 13, floor * 15 + 15 + 7, j * 50 + 32))
                     )
                     tunnelsEW.appendTag(tunnelEW)
 
                     // Create a north-south tunnel for these parameters
                     val tunnelNS = NBTTagCompound()
                     tunnelNS.setTag(
-                            NBT_POSITION,
-                            NBTUtil.createPosTag(blockPos.add(j * 50 + 32, floor * 15 + 15 + 7, i * 50 + 13))
+                        NBT_POSITION,
+                        NBTUtil.createPosTag(blockPos.add(j * 50 + 32, floor * 15 + 15 + 7, i * 50 + 13))
                     )
                     tunnelsNS.appendTag(tunnelNS)
                 }
@@ -301,8 +294,7 @@ class StructureGnomishCity : AOTDStructure("gnomish_city")
     /**
      * @return The width of the structure in blocks
      */
-    override fun getXWidth(): Int
-    {
+    override fun getXWidth(): Int {
         // Room width is the same for all schematics
         val roomWidth = ModSchematics.ROOM_CAVE.getWidth().toInt()
         val tunnelWidth = ModSchematics.TUNNEL_NS.getWidth().toInt()
@@ -313,8 +305,7 @@ class StructureGnomishCity : AOTDStructure("gnomish_city")
     /**
      * @return The length of the structure in blocks
      */
-    override fun getZLength(): Int
-    {
+    override fun getZLength(): Int {
         // Room length is the same for all schematics
         val roomLength = ModSchematics.ROOM_CAVE.getLength().toInt()
         val tunnelLength = ModSchematics.TUNNEL_EW.getLength().toInt()
@@ -322,8 +313,7 @@ class StructureGnomishCity : AOTDStructure("gnomish_city")
         return roomLength * 3 + tunnelLength * 2 - 4
     }
 
-    companion object
-    {
+    companion object {
         // A list of NBT tag compound keys
         private const val NBT_ROOM_INDEX = "room_index"
         private const val NBT_ENARIAS_LAIR = "enarias_lair"

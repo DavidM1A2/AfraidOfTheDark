@@ -14,20 +14,18 @@ import net.minecraft.world.World
  *
  * @constructor initializes the editable properties
  */
-class SpellEffectExplosion : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "explosion"))
-{
-    init
-    {
+class SpellEffectExplosion : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "explosion")) {
+    init {
         addEditableProperty(
-                SpellComponentPropertyFactory.floatProperty()
-                        .withName("Radius")
-                        .withDescription("The explosion's radius.")
-                        .withSetter { instance, newValue -> instance.data.setFloat(NBT_RADIUS, newValue) }
-                        .withGetter { it.data.getFloat(NBT_RADIUS) }
-                        .withDefaultValue(5.0f)
-                        .withMinValue(1.0f)
-                        .withMaxValue(150.0f)
-                        .build()
+            SpellComponentPropertyFactory.floatProperty()
+                .withName("Radius")
+                .withDescription("The explosion's radius.")
+                .withSetter { instance, newValue -> instance.data.setFloat(NBT_RADIUS, newValue) }
+                .withGetter { it.data.getFloat(NBT_RADIUS) }
+                .withDefaultValue(5.0f)
+                .withMinValue(1.0f)
+                .withMaxValue(150.0f)
+                .build()
         )
     }
 
@@ -37,8 +35,7 @@ class SpellEffectExplosion : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, 
      * @param state The state that the spell is in
      * @param instance The instance of the effect
      */
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>)
-    {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
         val world: World = state.world
         val position = state.position
         createParticlesAt(1, 3, position, world.provider.dimension)
@@ -51,8 +48,7 @@ class SpellEffectExplosion : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, 
      * @param instance The instance of the spell effect to grab the cost of
      * @return The cost of the delivery method
      */
-    override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double
-    {
+    override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
         val radius = getRadius(instance)
         return 10.0 + radius * radius
     }
@@ -63,13 +59,11 @@ class SpellEffectExplosion : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, 
      * @param instance The instance of the spell effect
      * @return The radius of the explosion
      */
-    fun getRadius(instance: SpellComponentInstance<SpellEffect>): Float
-    {
+    fun getRadius(instance: SpellComponentInstance<SpellEffect>): Float {
         return instance.data.getFloat(NBT_RADIUS)
     }
 
-    companion object
-    {
+    companion object {
         // NBT constants
         private const val NBT_RADIUS = "radius"
     }

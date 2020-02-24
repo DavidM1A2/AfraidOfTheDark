@@ -15,8 +15,7 @@ import net.minecraftforge.fml.relauncher.SideOnly
 /**
  * Class that renders the void chest 'sky' texture
  */
-class VoidChestSkyRenderer : IRenderHandler()
-{
+class VoidChestSkyRenderer : IRenderHandler() {
     /**
      * Called to render the sky
      *
@@ -25,8 +24,7 @@ class VoidChestSkyRenderer : IRenderHandler()
      * @param mc           The minecraft instance
      */
     @SideOnly(Side.CLIENT)
-    override fun render(partialTicks: Float, world: WorldClient, mc: Minecraft)
-    {
+    override fun render(partialTicks: Float, world: WorldClient, mc: Minecraft) {
         ///
         /// Code below found online and modified slightly
         ///
@@ -40,34 +38,27 @@ class VoidChestSkyRenderer : IRenderHandler()
         val tessellator = Tessellator.getInstance()
         val bufferBuilder = tessellator.buffer
 
-        for (i in 0..5)
-        {
+        for (i in 0..5) {
             GlStateManager.pushMatrix()
 
-            when (i)
-            {
-                1 ->
-                {
+            when (i) {
+                1 -> {
                     Minecraft.getMinecraft().renderEngine.bindTexture(VOID_CHEST_SKY_SIDE_2)
                     GlStateManager.rotate(90.0f, 1.0f, 0.0f, 0.0f)
                 }
-                2 ->
-                {
+                2 -> {
                     Minecraft.getMinecraft().renderEngine.bindTexture(VOID_CHEST_SKY_SIDE_4)
                     GlStateManager.rotate(-90.0f, 1.0f, 0.0f, 0.0f)
                 }
-                3 ->
-                {
+                3 -> {
                     Minecraft.getMinecraft().renderEngine.bindTexture(VOID_CHEST_SKY_TOP)
                     GlStateManager.rotate(180.0f, 1.0f, 0.0f, 0.0f)
                 }
-                4 ->
-                {
+                4 -> {
                     Minecraft.getMinecraft().renderEngine.bindTexture(VOID_CHEST_SKY_SIDE_3)
                     GlStateManager.rotate(90.0f, 0.0f, 0.0f, 1.0f)
                 }
-                5 ->
-                {
+                5 -> {
                     Minecraft.getMinecraft().renderEngine.bindTexture(VOID_CHEST_SKY_SIDE_1)
                     GlStateManager.rotate(-90.0f, 0.0f, 0.0f, 1.0f)
                 }
@@ -88,8 +79,7 @@ class VoidChestSkyRenderer : IRenderHandler()
         GlStateManager.enableAlpha()
     }
 
-    companion object
-    {
+    companion object {
         // Textures used by the 6 sides of the skybox
         private val VOID_CHEST_SKY_TOP = ResourceLocation(Constants.MOD_ID, "textures/skybox/void_chest_top.png")
         private val VOID_CHEST_SKY_BOTTOM = ResourceLocation(Constants.MOD_ID, "textures/skybox/void_chest_bottom.png")

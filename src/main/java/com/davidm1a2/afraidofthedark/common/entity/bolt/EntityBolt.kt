@@ -17,8 +17,7 @@ import net.minecraft.world.World
  * @property chanceToDropHitEntity The chance that the bolt will drop its item after hitting an entity
  * @property chanceToDropHitGround The chance that the bolt will drop its item after hitting the ground
  */
-abstract class EntityBolt : EntityThrowable
-{
+abstract class EntityBolt : EntityThrowable {
     abstract val damageSourceProducer: (EntityPlayer) -> DamageSource
     abstract val drop: Item
     open val damage: Int = 6
@@ -55,32 +54,24 @@ abstract class EntityBolt : EntityThrowable
      *
      * @param result The object containing hit information
      */
-    override fun onImpact(result: RayTraceResult)
-    {
+    override fun onImpact(result: RayTraceResult) {
         // Server side processing only
-        if (!world.isRemote)
-        {
+        if (!world.isRemote) {
             val entityHit = result.entityHit
             // Test if we hit an entity or the ground
-            if (entityHit != null)
-            {
+            if (entityHit != null) {
                 // Test if the shooter of the bolt is a player
-                if (thrower is EntityPlayer)
-                {
+                if (thrower is EntityPlayer) {
                     entityHit.attackEntityFrom(damageSourceProducer(thrower as EntityPlayer), damage.toFloat())
                 }
 
                 // If the random chance succeeds, drop the bolt item
-                if (Math.random() < chanceToDropHitEntity)
-                {
+                if (Math.random() < chanceToDropHitEntity) {
                     entityHit.dropItem(drop, 1)
                 }
-            }
-            else
-            {
+            } else {
                 // If the random chance succeeds, drop the bolt item
-                if (Math.random() < chanceToDropHitGround)
-                {
+                if (Math.random() < chanceToDropHitGround) {
                     dropItem(drop, 1)
                 }
             }

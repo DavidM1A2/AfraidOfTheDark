@@ -14,12 +14,10 @@ import net.minecraft.entity.player.EntityPlayerMP
  * @constructor Initializes the hashmap to all researches not unlocked
  * @property researchToUnlocked A mapping of research to if that research is unlocked for a given user
  */
-class AOTDPlayerResearchImpl : IAOTDPlayerResearch
-{
+class AOTDPlayerResearchImpl : IAOTDPlayerResearch {
     private val researchToUnlocked: MutableMap<Research, Boolean> = mutableMapOf()
 
-    init
-    {
+    init {
         ModRegistries.RESEARCH.valuesCollection.forEach { researchToUnlocked[it] = false }
     }
 
@@ -29,8 +27,7 @@ class AOTDPlayerResearchImpl : IAOTDPlayerResearch
      * @param entityPlayer The player to test
      * @return true if the player is on server side or false if not
      */
-    private fun isServerSide(entityPlayer: EntityPlayer): Boolean
-    {
+    private fun isServerSide(entityPlayer: EntityPlayer): Boolean {
         return !entityPlayer.world.isRemote
     }
 
@@ -40,8 +37,7 @@ class AOTDPlayerResearchImpl : IAOTDPlayerResearch
      * @param research The research to test
      * @return True if the research is researched, or false otherwise
      */
-    override fun isResearched(research: Research): Boolean
-    {
+    override fun isResearched(research: Research): Boolean {
         return researchToUnlocked.getOrDefault(research, false)
     }
 
@@ -51,15 +47,11 @@ class AOTDPlayerResearchImpl : IAOTDPlayerResearch
      * @param research The research to test
      * @return True if the player can research a given research or false otherwise
      */
-    override fun canResearch(research: Research): Boolean
-    {
+    override fun canResearch(research: Research): Boolean {
         val preRequisite = research.preRequisite
-        return if (preRequisite == null)
-        {
+        return if (preRequisite == null) {
             true
-        }
-        else
-        {
+        } else {
             !isResearched(research) && isResearched(preRequisite)
         }
     }
@@ -70,8 +62,7 @@ class AOTDPlayerResearchImpl : IAOTDPlayerResearch
      * @param research   The research to unlock
      * @param researched If the research is researched or not
      */
-    override fun setResearch(research: Research, researched: Boolean)
-    {
+    override fun setResearch(research: Research, researched: Boolean) {
         researchToUnlocked[research] = researched
     }
 
@@ -82,11 +73,9 @@ class AOTDPlayerResearchImpl : IAOTDPlayerResearch
      * @param researched   If the research is researched or not
      * @param entityPlayer The player to alert of the research
      */
-    override fun setResearchAndAlert(research: Research, researched: Boolean, entityPlayer: EntityPlayer)
-    {
+    override fun setResearchAndAlert(research: Research, researched: Boolean, entityPlayer: EntityPlayer) {
         setResearch(research, researched)
-        if (!isServerSide(entityPlayer))
-        {
+        if (!isServerSide(entityPlayer)) {
             // Play the achievement sound and display the research
             entityPlayer.playSound(ModSounds.ACHIEVEMENT_UNLOCKED, 1.0f, 1.0f)
             AfraidOfTheDark.proxy.researchOverlay!!.displayResearch(research)
@@ -99,15 +88,14 @@ class AOTDPlayerResearchImpl : IAOTDPlayerResearch
      * @param entityPlayer The player to sync research to
      * @param notify       True if the player should be notified of any new researches, false otherwise
      */
-    override fun sync(entityPlayer: EntityPlayer, notify: Boolean)
-    {
+    override fun sync(entityPlayer: EntityPlayer, notify: Boolean) {
         // Send packets based on server side or client side
-        if (isServerSide(entityPlayer))
-        {
-            AfraidOfTheDark.INSTANCE.packetHandler.sendTo(SyncResearch(researchToUnlocked, notify), entityPlayer as EntityPlayerMP)
-        }
-        else
-        {
+        if (isServerSide(entityPlayer)) {
+            AfraidOfTheDark.INSTANCE.packetHandler.sendTo(
+                SyncResearch(researchToUnlocked, notify),
+                entityPlayer as EntityPlayerMP
+            )
+        } else {
             AfraidOfTheDark.INSTANCE.packetHandler.sendToServer(SyncResearch(researchToUnlocked, notify))
         }
     }

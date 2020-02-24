@@ -14,8 +14,7 @@ import net.minecraft.item.ItemStack
  *
  * @constructor sets up the item's properties
  */
-class ItemAstralSilverSword : AOTDSword("astral_silver_sword", ModToolMaterials.ASTRAL_SILVER)
-{
+class ItemAstralSilverSword : AOTDSword("astral_silver_sword", ModToolMaterials.ASTRAL_SILVER) {
     /**
      * Called when the player left clicks an entity with the sword
      *
@@ -24,15 +23,11 @@ class ItemAstralSilverSword : AOTDSword("astral_silver_sword", ModToolMaterials.
      * @param entity The entity that was hit
      * @return True to cancel the interaction, false otherwise
      */
-    override fun onLeftClickEntity(stack: ItemStack, player: EntityPlayer, entity: Entity): Boolean
-    {
+    override fun onLeftClickEntity(stack: ItemStack, player: EntityPlayer, entity: Entity): Boolean {
         // If the player has researched astral silver then do silver damage
-        if (player.getResearch().isResearched(ModResearches.ASTRAL_SILVER))
-        {
+        if (player.getResearch().isResearched(ModResearches.ASTRAL_SILVER)) {
             entity.attackEntityFrom(getSilverDamage(player), attackDamage)
-        }
-        else
-        {
+        } else {
             return true
         }
 

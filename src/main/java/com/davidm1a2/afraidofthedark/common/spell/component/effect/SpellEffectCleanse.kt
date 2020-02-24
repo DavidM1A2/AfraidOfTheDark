@@ -15,30 +15,25 @@ import net.minecraft.util.math.Vec3d
 /**
  * The cleanse spell effect clears your spell effects
  */
-class SpellEffectCleanse : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "cleanse"))
-{
+class SpellEffectCleanse : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "cleanse")) {
     /**
      * Performs the effect
      *
      * @param state The state that the spell is in
      */
-    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>)
-    {
-        val entity = state.getEntity();
-        if (entity != null)
-        {
+    override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
+        val entity = state.getEntity()
+        if (entity != null) {
             // Extinguish the entity
             entity.extinguish()
 
             // Clear potion effects
-            if (entity is EntityLivingBase)
-            {
+            if (entity is EntityLivingBase) {
                 entity.clearActivePotions()
             }
 
             // Unfreeze and uncharm the player
-            if (entity is EntityPlayer)
-            {
+            if (entity is EntityPlayer) {
                 val freezeData = entity.getSpellFreezeData()
                 freezeData.freezeTicks = 0
                 freezeData.sync(entity)
@@ -58,8 +53,7 @@ class SpellEffectCleanse : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "c
      * @param instance The instance of the spell effect to grab the cost of
      * @return The cost of the effect
      */
-    override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double
-    {
+    override fun getCost(instance: SpellComponentInstance<SpellEffect>): Double {
         return 20.0
     }
 }

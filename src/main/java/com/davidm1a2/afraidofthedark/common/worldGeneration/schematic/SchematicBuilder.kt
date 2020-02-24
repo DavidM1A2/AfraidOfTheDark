@@ -14,8 +14,7 @@ import java.io.IOException
  * @property cacheEnabled True if the schematic should be cached in memory, false if it should be on demand
  * @property resourceLocation The file location of the schematic
  */
-class SchematicBuilder
-{
+class SchematicBuilder {
     private var cacheEnabled = true
     private var resourceLocation: ResourceLocation? = null
 
@@ -26,8 +25,7 @@ class SchematicBuilder
      * @param cacheEnabled True if the cache is enabled false otherwise
      * @return The builder instance
      */
-    fun withCacheEnabled(cacheEnabled: Boolean): SchematicBuilder
-    {
+    fun withCacheEnabled(cacheEnabled: Boolean): SchematicBuilder {
         this.cacheEnabled = cacheEnabled
         return this
     }
@@ -38,8 +36,7 @@ class SchematicBuilder
      * @param resourceLocation The schematic resource location
      * @return The builder instance
      */
-    fun withFile(resourceLocation: ResourceLocation): SchematicBuilder
-    {
+    fun withFile(resourceLocation: ResourceLocation): SchematicBuilder {
         this.resourceLocation = resourceLocation
         return this
     }
@@ -49,16 +46,12 @@ class SchematicBuilder
      *
      * @return The schematic ready to be generated in the world
      */
-    fun build(): Schematic
-    {
+    fun build(): Schematic {
         requireNotNull(resourceLocation) { "Resource location must be specified!" }
 
-        return if (cacheEnabled)
-        {
+        return if (cacheEnabled) {
             createCached()
-        }
-        else
-        {
+        } else {
             createOnDemand()
         }
     }
@@ -69,8 +62,7 @@ class SchematicBuilder
      * @return A cached schematic instance
      * @throws IOException If the schematic file does not exist or can't be read
      */
-    private fun createCached(): Schematic
-    {
+    private fun createCached(): Schematic {
         // Grab the name of the schematic
         val schematicName = FilenameUtils.getBaseName(resourceLocation!!.resourcePath)
         // Grab an input stream to the schematic file
@@ -94,7 +86,8 @@ class SchematicBuilder
         // Convert all of our string blocks in the format of 'modid:registryname' to block pointer
         val blocks = Array(stringBlocks.tagCount())
         {
-            Block.getBlockFromName(stringBlocks.getStringTagAt(it)) ?: throw IllegalStateException("Invalid schematic block found: ${stringBlocks.getStringTagAt(it)}")
+            Block.getBlockFromName(stringBlocks.getStringTagAt(it))
+                ?: throw IllegalStateException("Invalid schematic block found: ${stringBlocks.getStringTagAt(it)}")
         }
 
         // Return the schematic
@@ -107,11 +100,11 @@ class SchematicBuilder
      * @return An on demand schematic instance
      * @throws IOException If the schematic file does not exist or can't be read
      */
-    private fun createOnDemand(): Schematic
-    {
+    private fun createOnDemand(): Schematic {
         // Grab the name of the schematic
         val schematicName = FilenameUtils.getBaseName(resourceLocation!!.resourcePath)
-        val metaLocation = ResourceLocation(resourceLocation!!.resourceDomain, resourceLocation!!.resourcePath + ".meta")
+        val metaLocation =
+            ResourceLocation(resourceLocation!!.resourceDomain, resourceLocation!!.resourcePath + ".meta")
         // Grab an input stream to the schematic meta file
         val inputStream = ResourceUtil.getInputStream(metaLocation)
         // Read the NBT data from the file

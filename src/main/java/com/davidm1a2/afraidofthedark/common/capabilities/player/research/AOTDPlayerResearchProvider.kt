@@ -11,8 +11,7 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable
  *
  * @property instance instance of the player research capability
  */
-class AOTDPlayerResearchProvider : ICapabilitySerializable<NBTBase>
-{
+class AOTDPlayerResearchProvider : ICapabilitySerializable<NBTBase> {
     private val instance = ModCapabilities.PLAYER_RESEARCH.defaultInstance
 
     /**
@@ -22,9 +21,8 @@ class AOTDPlayerResearchProvider : ICapabilitySerializable<NBTBase>
      * @param facing     ignored
      * @return True if the capability is a player research capability, false otherwise
      */
-    override fun hasCapability(capability: Capability<*>, facing: EnumFacing?): Boolean
-    {
-        return capability === ModCapabilities.PLAYER_RESEARCH
+    override fun hasCapability(capability: Capability<*>, facing: EnumFacing?): Boolean {
+        return capability == ModCapabilities.PLAYER_RESEARCH
     }
 
     /**
@@ -35,9 +33,8 @@ class AOTDPlayerResearchProvider : ICapabilitySerializable<NBTBase>
      * @param <T>        The type of capability
      * @return The capability or null if it was the wrong type
      */
-    override fun <T> getCapability(capability: Capability<T>, facing: EnumFacing?): T?
-    {
-        return if (capability === ModCapabilities.PLAYER_RESEARCH) ModCapabilities.PLAYER_RESEARCH.cast(instance) else null
+    override fun <T> getCapability(capability: Capability<T>, facing: EnumFacing?): T? {
+        return if (capability == ModCapabilities.PLAYER_RESEARCH) ModCapabilities.PLAYER_RESEARCH.cast(instance) else null
     }
 
     /**
@@ -45,8 +42,7 @@ class AOTDPlayerResearchProvider : ICapabilitySerializable<NBTBase>
      *
      * @return The NBTTagCompound representing this capability
      */
-    override fun serializeNBT(): NBTBase
-    {
+    override fun serializeNBT(): NBTBase {
         return ModCapabilities.PLAYER_RESEARCH.storage.writeNBT(ModCapabilities.PLAYER_RESEARCH, instance, null)!!
     }
 
@@ -55,8 +51,7 @@ class AOTDPlayerResearchProvider : ICapabilitySerializable<NBTBase>
      *
      * @param nbt The NBT tag compound to read from
      */
-    override fun deserializeNBT(nbt: NBTBase)
-    {
+    override fun deserializeNBT(nbt: NBTBase) {
         ModCapabilities.PLAYER_RESEARCH.storage.readNBT(ModCapabilities.PLAYER_RESEARCH, instance, null, nbt)
     }
 }

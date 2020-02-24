@@ -9,16 +9,14 @@ import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.Chann
  *
  * @param entity The entity that this animator belongs to
  */
-class AnimationHandlerWerewolf(entity: IMCAnimatedEntity) : AnimationHandler(entity)
-{
+class AnimationHandlerWerewolf(entity: IMCAnimatedEntity) : AnimationHandler(entity) {
     /**
      * Begins playing a specific animation given a name and starting frame
      *
      * @param name          The animation to play
      * @param startingFrame The frame to begin playing at
      */
-    override fun activateAnimation(name: String, startingFrame: Float)
-    {
+    override fun activateAnimation(name: String, startingFrame: Float) {
         super.activateAnimation(ANIMATION_TO_CHANNEL, name, startingFrame)
     }
 
@@ -27,17 +25,15 @@ class AnimationHandlerWerewolf(entity: IMCAnimatedEntity) : AnimationHandler(ent
      *
      * @param name The animation to stop playing
      */
-    override fun stopAnimation(name: String)
-    {
+    override fun stopAnimation(name: String) {
         super.stopAnimation(ANIMATION_TO_CHANNEL, name)
     }
 
-    companion object
-    {
+    companion object {
         // Map of animation name to channel
         var ANIMATION_TO_CHANNEL = mapOf(
-                "Bite" to ChannelBite("Bite", 50.0f, 21, Channel.LINEAR),
-                "Run" to ChannelRun("Run", 60.0f, 32, Channel.LINEAR)
+            "Bite" to ChannelBite("Bite", 50.0f, 21, Channel.LINEAR),
+            "Run" to ChannelRun("Run", 60.0f, 32, Channel.LINEAR)
         )
     }
 }

@@ -19,10 +19,8 @@ import java.util.*
  *
  * @constructor initializes the block's name and properties
  */
-class BlockStarMetalOre : AOTDBlock("star_metal_ore", Material.ROCK)
-{
-    init
-    {
+class BlockStarMetalOre : AOTDBlock("star_metal_ore", Material.ROCK) {
+    init {
         setLightLevel(0.4f)
         setHardness(10.0f)
         setResistance(50.0f)
@@ -37,8 +35,7 @@ class BlockStarMetalOre : AOTDBlock("star_metal_ore", Material.ROCK)
      * @param fortune The fortune level that the ore was mined with
      * @return A star metal fragment to craft with
      */
-    override fun getItemDropped(state: IBlockState, rand: Random, fortune: Int): Item
-    {
+    override fun getItemDropped(state: IBlockState, rand: Random, fortune: Int): Item {
         return ModItems.STAR_METAL_FRAGMENT
     }
 
@@ -52,12 +49,17 @@ class BlockStarMetalOre : AOTDBlock("star_metal_ore", Material.ROCK)
      * @param te The tile entity inside the broken block
      * @param stack The item that was created as a result of breaking the block
      */
-    override fun harvestBlock(worldIn: World, player: EntityPlayer, pos: BlockPos, state: IBlockState, te: TileEntity?, stack: ItemStack)
-    {
+    override fun harvestBlock(
+        worldIn: World,
+        player: EntityPlayer,
+        pos: BlockPos,
+        state: IBlockState,
+        te: TileEntity?,
+        stack: ItemStack
+    ) {
         val playerResearch = player.getResearch()
         // If the player can research star metal let them
-        if (playerResearch.canResearch(ModResearches.STAR_METAL))
-        {
+        if (playerResearch.canResearch(ModResearches.STAR_METAL)) {
             playerResearch.setResearch(ModResearches.STAR_METAL, true)
             playerResearch.sync(player, true)
         }

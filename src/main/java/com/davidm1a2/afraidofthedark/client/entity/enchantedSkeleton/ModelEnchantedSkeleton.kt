@@ -20,13 +20,11 @@ import net.minecraft.entity.Entity
  * @property parts A map of part name to part
  * @property body The different parts of the model
  */
-class ModelEnchantedSkeleton internal constructor() : ModelBase()
-{
+class ModelEnchantedSkeleton internal constructor() : ModelBase() {
     private val parts = mutableMapOf<String, MCAModelRenderer>()
     private val body: MCAModelRenderer
 
-    init
-    {
+    init {
         // Auto-generated from the MCAnimator software
 
         textureWidth = 64
@@ -106,8 +104,15 @@ class ModelEnchantedSkeleton internal constructor() : ModelBase()
      * @param headPitch       ignored, used only by default MC
      * @param scale           The scale to render the model at
      */
-    override fun render(entityIn: Entity?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, netHeadYaw: Float, headPitch: Float, scale: Float)
-    {
+    override fun render(
+        entityIn: Entity?,
+        limbSwing: Float,
+        limbSwingAmount: Float,
+        ageInTicks: Float,
+        netHeadYaw: Float,
+        headPitch: Float,
+        scale: Float
+    ) {
         // Cast the entity to a skeleton model
         val entity = entityIn as EntityEnchantedSkeleton?
 

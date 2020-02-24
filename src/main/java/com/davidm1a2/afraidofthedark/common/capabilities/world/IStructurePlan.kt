@@ -8,8 +8,7 @@ import net.minecraft.util.math.ChunkPos
 /**
  * Structure plan interface used to plan AOTD structures
  */
-interface IStructurePlan
-{
+interface IStructurePlan {
     /**
      * Returns the structure in the given chunk or null if no such structure exists
      *

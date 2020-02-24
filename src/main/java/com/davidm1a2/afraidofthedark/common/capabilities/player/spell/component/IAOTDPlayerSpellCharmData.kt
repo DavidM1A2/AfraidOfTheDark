@@ -8,8 +8,7 @@ import java.util.*
  * @property charmTicks The number of ticks the player should be charmed
  * @property charmingEntityId The id of the entity that is doing the charming
  */
-interface IAOTDPlayerSpellCharmData
-{
+interface IAOTDPlayerSpellCharmData {
     var charmTicks: Int
     var charmingEntityId: UUID?
 }

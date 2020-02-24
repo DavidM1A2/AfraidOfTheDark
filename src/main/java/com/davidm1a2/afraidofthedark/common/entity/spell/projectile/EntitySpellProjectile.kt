@@ -31,8 +31,7 @@ import net.minecraftforge.fml.relauncher.SideOnly
  * @property blockDistanceRemaining The amount of blocks left before this projectile expires
  * @property animHandler The animation handler that this entity uses for all animations
  */
-class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
-{
+class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity {
     private var ticksInAir = 0
     private lateinit var spell: Spell
     private var spellIndex: Int = 0
@@ -40,8 +39,7 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
     private var blockDistanceRemaining: Double = 0.0
     private val animHandler = AnimationHandlerSpellProjectile(this)
 
-    init
-    {
+    init {
         setSize(0.4f, 0.4f)
     }
 
@@ -54,8 +52,13 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
      * @param position   The position of the spell projectile
      * @param velocity   The velocity of the projectile, default will just be random velocity
      */
-    constructor(world: World, spell: Spell, spellIndex: Int, position: Vec3d, velocity: Vec3d = Vec3d(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5)) : this(world)
-    {
+    constructor(
+        world: World,
+        spell: Spell,
+        spellIndex: Int,
+        position: Vec3d,
+        velocity: Vec3d = Vec3d(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5)
+    ) : this(world) {
         this.spell = spell
         this.spellIndex = spellIndex
         val deliveryInstance = spell.getStage(spellIndex)!!.deliveryInstance!!
@@ -87,13 +90,12 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
      * @param entity     The entity that fired the projectile
      */
     constructor(world: World, spell: Spell, spellIndex: Int, entity: Entity) : this(
-            world,
-            spell,
-            spellIndex,
-            entity.positionVector.addVector(0.0, entity.eyeHeight.toDouble(), 0.0),
-            entity.lookVec
-    )
-    {
+        world,
+        spell,
+        spellIndex,
+        entity.positionVector.addVector(0.0, entity.eyeHeight.toDouble(), 0.0),
+        entity.lookVec
+    ) {
         setRotation(entity.rotationYaw, entity.rotationPitch)
         shooter = entity
     }
@@ -101,39 +103,34 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
     /**
      * Required init method, does nothing
      */
-    override fun entityInit()
-    {
+    override fun entityInit() {
     }
 
     /**
      * Called every tick to update the entity's logic
      */
-    override fun onUpdate()
-    {
+    override fun onUpdate() {
         super.onUpdate()
 
         // Animations only update client side
-        if (world.isRemote)
-        {
+        if (world.isRemote) {
             animHandler.animationsUpdate()
         }
 
         // Update logic server side
-        if (!world.isRemote)
-        {
+        if (!world.isRemote) {
             // Ensure the shooting entity is null or not dead, and that the area the projectile is in is loaded
-            if (world.isBlockLoaded(BlockPos(this)))
-            {
+            if (world.isBlockLoaded(BlockPos(this))) {
                 // We are in the air, so increment our counter
                 ticksInAir++
 
                 // Perform a ray case to test if we've hit something. We can only hit the entity that fired the projectile after 25 ticks
                 // Intellij says 'shooter' should always be non-null, that is not the case....
-                val rayTraceResult: RayTraceResult? = ProjectileHelper.forwardsRaycast(this, true, ticksInAir >= 25, shooter)
+                val rayTraceResult: RayTraceResult? =
+                    ProjectileHelper.forwardsRaycast(this, true, ticksInAir >= 25, shooter)
 
                 // If the ray trace hit something, perform the hit effect
-                if (rayTraceResult != null)
-                {
+                if (rayTraceResult != null) {
                     onImpact(rayTraceResult)
                 }
 
@@ -145,17 +142,16 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
                 blockDistanceRemaining = blockDistanceRemaining - distanceFlown
 
                 // If we're out of distance deliver the spell and kill the projectile
-                if (blockDistanceRemaining <= 0)
-                {
+                if (blockDistanceRemaining <= 0) {
                     val state = DeliveryTransitionStateBuilder()
-                            .withSpell(spell)
-                            .withStageIndex(spellIndex)
-                            .withWorld(world)
-                            .withPosition(this.positionVector)
-                            .withBlockPosition(this.position)
-                            .withDirection(Vec3d(motionX, motionY, motionZ))
-                            .withDeliveryEntity(this)
-                            .build()
+                        .withSpell(spell)
+                        .withStageIndex(spellIndex)
+                        .withWorld(world)
+                        .withPosition(this.positionVector)
+                        .withBlockPosition(this.position)
+                        .withDirection(Vec3d(motionX, motionY, motionZ))
+                        .withDeliveryEntity(this)
+                        .build()
 
                     // Proc the effects and transition
                     val currentDeliveryMethod = spell.getStage(spellIndex)!!.deliveryInstance!!.component
@@ -164,9 +160,7 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
 
                     setDead()
                 }
-            }
-            else
-            {
+            } else {
                 setDead()
             }
         }
@@ -177,50 +171,43 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
      *
      * @param result The result of the ray hitting an object
      */
-    private fun onImpact(result: RayTraceResult)
-    {
+    private fun onImpact(result: RayTraceResult) {
         // Only process server side
-        if (!world.isRemote)
-        {
+        if (!world.isRemote) {
             // Grab the current spell stage
             val currentStage = spell.getStage(spellIndex)
 
             // If we hit something process the hit
-            if (result.typeOfHit != RayTraceResult.Type.MISS)
-            {
+            if (result.typeOfHit != RayTraceResult.Type.MISS) {
                 val currentDeliveryMethod = currentStage!!.deliveryInstance!!.component
-                if (result.typeOfHit == RayTraceResult.Type.BLOCK)
-                {
+                if (result.typeOfHit == RayTraceResult.Type.BLOCK) {
                     // Grab the hit position
                     var hitPos = BlockPos(result.hitVec)
 
                     // If we hit an air block find the block to the side of the air, hit that instead
-                    if (world.getBlockState(hitPos).block === Blocks.AIR)
-                    {
+                    if (world.getBlockState(hitPos).block == Blocks.AIR) {
                         hitPos = hitPos.offset(result.sideHit.opposite)
                     }
                     val state = DeliveryTransitionStateBuilder()
-                            .withSpell(spell)
-                            .withStageIndex(spellIndex)
-                            .withWorld(world)
-                            .withPosition(result.hitVec)
-                            .withBlockPosition(hitPos)
-                            .withDirection(Vec3d(motionX, motionY, motionZ))
-                            .withDeliveryEntity(this)
-                            .build()
+                        .withSpell(spell)
+                        .withStageIndex(spellIndex)
+                        .withWorld(world)
+                        .withPosition(result.hitVec)
+                        .withBlockPosition(hitPos)
+                        .withDirection(Vec3d(motionX, motionY, motionZ))
+                        .withDeliveryEntity(this)
+                        .build()
 
                     // Proc the effects and transition
                     currentDeliveryMethod.procEffects(state)
                     currentDeliveryMethod.transitionFrom(state)
-                }
-                else if (result.typeOfHit == RayTraceResult.Type.ENTITY)
-                {
+                } else if (result.typeOfHit == RayTraceResult.Type.ENTITY) {
                     val state = DeliveryTransitionStateBuilder()
-                            .withSpell(spell)
-                            .withStageIndex(spellIndex)
-                            .withEntity(result.entityHit)
-                            .withDeliveryEntity(this)
-                            .build()
+                        .withSpell(spell)
+                        .withStageIndex(spellIndex)
+                        .withEntity(result.entityHit)
+                        .withDeliveryEntity(this)
+                        .build()
 
                     // Proc the effects and transition
                     currentDeliveryMethod.procEffects(state)
@@ -236,15 +223,12 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
     /**
      * Called from onUpdate to update entity specific logic
      */
-    override fun onEntityUpdate()
-    {
+    override fun onEntityUpdate() {
         super.onEntityUpdate()
 
         // If we're client side and no animation is active play the idle animation
-        if (world.isRemote)
-        {
-            if (!animHandler.isAnimationActive("Idle"))
-            {
+        if (world.isRemote) {
+            if (!animHandler.isAnimationActive("Idle")) {
                 animHandler.activateAnimation("Idle", 0f)
             }
         }
@@ -255,8 +239,7 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
      *
      * @param compound The nbt compound to write to
      */
-    override fun writeEntityToNBT(compound: NBTTagCompound)
-    {
+    override fun writeEntityToNBT(compound: NBTTagCompound) {
         compound.setInteger(NBT_TICKS_IN_AIR, ticksInAir)
         compound.setTag(NBT_MOTION_DIRECTION, newDoubleNBTList(motionX, motionY, motionZ))
         compound.setTag(NBT_SPELL, spell.serializeNBT())
@@ -269,8 +252,7 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
      *
      * @param compound The nbt compound to read data from
      */
-    override fun readEntityFromNBT(compound: NBTTagCompound)
-    {
+    override fun readEntityFromNBT(compound: NBTTagCompound) {
         ticksInAir = compound.getInteger(NBT_TICKS_IN_AIR)
         val motionTagList = compound.getTagList(NBT_MOTION_DIRECTION, Constants.NBT.TAG_DOUBLE)
         motionX = motionTagList.getDoubleAt(0)
@@ -284,8 +266,7 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
     /**
      * @return True, the projectile can hit other entities
      */
-    override fun canBeCollidedWith(): Boolean
-    {
+    override fun canBeCollidedWith(): Boolean {
         return true
     }
 
@@ -294,8 +275,7 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
      *
      * @return The size of the entity, 0.4
      */
-    override fun getCollisionBorderSize(): Float
-    {
+    override fun getCollisionBorderSize(): Float {
         return 0.4f
     }
 
@@ -306,8 +286,7 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
      * @param amount The amount of damage inflicted
      * @return False, this projectile cannot be attacked
      */
-    override fun attackEntityFrom(source: DamageSource, amount: Float): Boolean
-    {
+    override fun attackEntityFrom(source: DamageSource, amount: Float): Boolean {
         return false
     }
 
@@ -316,8 +295,7 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
      *
      * @return 1.0, max brightness so the projectile isn't too dark
      */
-    override fun getBrightness(): Float
-    {
+    override fun getBrightness(): Float {
         return 1.0f
     }
 
@@ -327,8 +305,7 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
      * @return The same value as EntityFireball
      */
     @SideOnly(Side.CLIENT)
-    override fun getBrightnessForRender(): Int
-    {
+    override fun getBrightnessForRender(): Int {
         return 15728880
     }
 
@@ -337,13 +314,11 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity
      *
      * @return The animation handler for the projectile
      */
-    override fun getAnimationHandler(): AnimationHandler
-    {
+    override fun getAnimationHandler(): AnimationHandler {
         return animHandler
     }
 
-    companion object
-    {
+    companion object {
         // NBT compound constants
         private const val NBT_TICKS_IN_AIR = "ticks_in_air"
         private const val NBT_MOTION_DIRECTION = "motion_direction"

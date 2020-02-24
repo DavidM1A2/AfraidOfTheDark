@@ -18,8 +18,7 @@ import kotlin.math.min
  *
  * @property chunkPredictionRange The range at which we predict chunk height values
  */
-class WorldHeightMapper
-{
+class WorldHeightMapper {
     private var chunkPredictionRange = -1
 
     /**
@@ -28,8 +27,7 @@ class WorldHeightMapper
      * @param event The event containing the chunk and world
      */
     @SubscribeEvent(priority = EventPriority.HIGH)
-    fun onChunkPopulated(event: PopulateChunkEvent.Pre)
-    {
+    fun onChunkPopulated(event: PopulateChunkEvent.Pre) {
         // Get a reference to the world
         val world = event.world
 
@@ -38,11 +36,9 @@ class WorldHeightMapper
         val chunkZ = event.chunkZ
 
         // Initialize the chunk prediction range once based on the largest structure size
-        if (chunkPredictionRange == -1)
-        {
+        if (chunkPredictionRange == -1) {
             // Go over each structure and find the largest
-            for (structure in ModRegistries.STRUCTURE)
-            {
+            for (structure in ModRegistries.STRUCTURE) {
                 // Compute the maximum number of blocks a structure can cover, add 15 to adjust for if the structure is placed in the corner of a chunk
                 val maxXBlocksCovered = structure.getXWidth() + 15
                 val maxZBlocksCovered = structure.getZLength() + 15
@@ -55,8 +51,7 @@ class WorldHeightMapper
                 chunkPredictionRange = max(chunkPredictionRange, maxChunksCovered)
             }
 
-            if (AfraidOfTheDark.INSTANCE.configurationHandler.debugMessages)
-            {
+            if (AfraidOfTheDark.INSTANCE.configurationHandler.debugMessages) {
                 AfraidOfTheDark.INSTANCE.logger.debug("Chunk heightmap prediction range set to $chunkPredictionRange")
             }
         }
@@ -73,11 +68,9 @@ class WorldHeightMapper
      * @param chunkZ               The Z coordinate of the chunk
      * @param chunkPredictionRange The prediction range to go out
      */
-    private fun heightMapChunk(world: World, chunkX: Int, chunkZ: Int, chunkPredictionRange: Int)
-    {
+    private fun heightMapChunk(world: World, chunkX: Int, chunkZ: Int, chunkPredictionRange: Int) {
         // If the world is server side, and it's the overworld, we begin heightmap creation
-        if (!world.isRemote && world is WorldServer && world.provider.dimension == 0)
-        {
+        if (!world.isRemote && world is WorldServer && world.provider.dimension == 0) {
             // Grab a reference to the chunk provider
             val chunkProvider = world.chunkProvider
 
@@ -88,18 +81,15 @@ class WorldHeightMapper
             val heightmap = OverworldHeightmap.get(world)
 
             // Iterate from chunkX - 3 to chunkX + 3
-            for (x in chunkX - chunkPredictionRange..chunkX + chunkPredictionRange)
-            {
+            for (x in chunkX - chunkPredictionRange..chunkX + chunkPredictionRange) {
                 // Iterate from chunkZ - 3 to chunkZ + 3
-                for (z in chunkZ - chunkPredictionRange..chunkZ + chunkPredictionRange)
-                {
+                for (z in chunkZ - chunkPredictionRange..chunkZ + chunkPredictionRange) {
                     // Predict the height of that chunk
                     val chunkPos = ChunkPos(x, z)
 
                     // Test first if the chunk has already been generated. We can just test 4,4 because if 4,4 is not present
                     // The rest will not be either
-                    if (!heightmap.heightKnown(chunkPos))
-                    {
+                    if (!heightmap.heightKnown(chunkPos)) {
                         // Let our world generator set the blocks inside the chunk. This is much faster than actually generating the chunk!
                         //chunkGenerator.setBlocksInChunk(x, z, chunkPrimer);
                         val chunk = chunkProvider.chunkGenerator.generateChunk(x, z)
@@ -109,8 +99,14 @@ class WorldHeightMapper
                         // Instead of heightmapping the entire chunk we only do 4 points to get an idea if the chunk is flat or not. This
                         // Lets us make fairly accurate predictions if the chunk is flat or not. We pick the 4 corners of the chunk
                         // Use z-1 because there's a bug with findGroundBlockIdx
-                        val corner1Height = chunk.getHeightValue(0, 0) //chunkPrimer.findGroundBlockIdx(0, 0); // Can't use -1? -1 is broken
-                        val corner2Height = chunk.getHeightValue(15, 0) //chunkPrimer.findGroundBlockIdx(15, 0); // Can't use -1? -1 is broken
+                        val corner1Height = chunk.getHeightValue(
+                            0,
+                            0
+                        ) //chunkPrimer.findGroundBlockIdx(0, 0); // Can't use -1? -1 is broken
+                        val corner2Height = chunk.getHeightValue(
+                            15,
+                            0
+                        ) //chunkPrimer.findGroundBlockIdx(15, 0); // Can't use -1? -1 is broken
                         val corner3Height = chunk.getHeightValue(0, 15) //chunkPrimer.findGroundBlockIdx(0, 14);
                         val corner4Height = chunk.getHeightValue(15, 15) //chunkPrimer.findGroundBlockIdx(15, 14);
 

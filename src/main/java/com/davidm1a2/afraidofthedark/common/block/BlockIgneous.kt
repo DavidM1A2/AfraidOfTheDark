@@ -8,10 +8,8 @@ import net.minecraft.block.material.Material
  *
  * @constructor sets the block's properties
  */
-class BlockIgneous : AOTDBlock("igneous_block", Material.ROCK)
-{
-    init
-    {
+class BlockIgneous : AOTDBlock("igneous_block", Material.ROCK) {
+    init {
         blockHardness = 4.0f
         blockResistance = 1.0f
         setLightLevel(1.0f)

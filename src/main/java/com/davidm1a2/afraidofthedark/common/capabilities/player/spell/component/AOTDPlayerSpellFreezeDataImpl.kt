@@ -14,8 +14,7 @@ import net.minecraft.util.math.Vec3d
  * @property yaw The yaw direction the player is facing when frozen
  * @property pitch The pitch direction the player is facing when frozen
  */
-class AOTDPlayerSpellFreezeDataImpl : IAOTDPlayerSpellFreezeData
-{
+class AOTDPlayerSpellFreezeDataImpl : IAOTDPlayerSpellFreezeData {
     override var freezeTicks = 0
     override var freezePosition: Vec3d? = null
     private var yaw = 0f
@@ -27,8 +26,7 @@ class AOTDPlayerSpellFreezeDataImpl : IAOTDPlayerSpellFreezeData
      * @param entityPlayer The player to test
      * @return true if the player is on server side or false if not
      */
-    private fun isServerSide(entityPlayer: EntityPlayer): Boolean
-    {
+    private fun isServerSide(entityPlayer: EntityPlayer): Boolean {
         return !entityPlayer.world.isRemote
     }
 
@@ -38,8 +36,7 @@ class AOTDPlayerSpellFreezeDataImpl : IAOTDPlayerSpellFreezeData
      * @param yaw The yaw of the direction the player is looking
      * @param pitch The pitch of the direction the player is looking
      */
-    override fun setFreezeDirection(yaw: Float, pitch: Float)
-    {
+    override fun setFreezeDirection(yaw: Float, pitch: Float) {
         this.yaw = yaw
         this.pitch = pitch
     }
@@ -49,8 +46,7 @@ class AOTDPlayerSpellFreezeDataImpl : IAOTDPlayerSpellFreezeData
      *
      * @return The yaw that the player was looking when frozen
      */
-    override fun getFreezeYaw(): Float
-    {
+    override fun getFreezeYaw(): Float {
         return yaw
     }
 
@@ -59,8 +55,7 @@ class AOTDPlayerSpellFreezeDataImpl : IAOTDPlayerSpellFreezeData
      *
      * @return The pitch that the player was looking when frozen
      */
-    override fun getFreezePitch(): Float
-    {
+    override fun getFreezePitch(): Float {
         return pitch
     }
 
@@ -69,12 +64,13 @@ class AOTDPlayerSpellFreezeDataImpl : IAOTDPlayerSpellFreezeData
      *
      * @param entityPlayer The player to sync freeze data to
      */
-    override fun sync(entityPlayer: EntityPlayer)
-    {
+    override fun sync(entityPlayer: EntityPlayer) {
         // If we are on the server side sync this data to the client side
-        if (isServerSide(entityPlayer))
-        {
-            AfraidOfTheDark.INSTANCE.packetHandler.sendTo(SyncFreezeData(freezeTicks, freezePosition, yaw, pitch), entityPlayer as EntityPlayerMP)
+        if (isServerSide(entityPlayer)) {
+            AfraidOfTheDark.INSTANCE.packetHandler.sendTo(
+                SyncFreezeData(freezeTicks, freezePosition, yaw, pitch),
+                entityPlayer as EntityPlayerMP
+            )
         }
     }
 }

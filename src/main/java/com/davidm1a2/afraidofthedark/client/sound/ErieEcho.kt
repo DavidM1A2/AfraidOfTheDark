@@ -10,18 +10,15 @@ import net.minecraft.util.SoundCategory
  *
  * @constructor sets the sound event to play and category
  */
-class ErieEcho : PlayerFollowingSound(ModSounds.ERIE_ECHOS, SoundCategory.AMBIENT)
-{
+class ErieEcho : PlayerFollowingSound(ModSounds.ERIE_ECHOS, SoundCategory.AMBIENT) {
     /**
      * Ensure that this only players in the nightmare when the player is not dead
      */
-    override fun update()
-    {
+    override fun update() {
         super.update()
 
         val entityPlayer = Minecraft.getMinecraft().player!!
-        if (entityPlayer.isDead || entityPlayer.dimension != ModDimensions.NIGHTMARE.id)
-        {
+        if (entityPlayer.isDead || entityPlayer.dimension != ModDimensions.NIGHTMARE.id) {
             donePlaying = true
         }
     }

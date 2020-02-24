@@ -16,8 +16,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext
  * @property yaw The yaw the player was looking when being frozen
  * @property pitch The pitch the player was looking when being frozen
  */
-class SyncFreezeData : IMessage
-{
+class SyncFreezeData : IMessage {
     private var freezeTicks: Int
     private var position: Vec3d?
     private var yaw: Float
@@ -26,8 +25,7 @@ class SyncFreezeData : IMessage
     /**
      * Required default constructor that is not used
      */
-    constructor()
-    {
+    constructor() {
         freezeTicks = 0
         position = null
         yaw = 0f
@@ -42,8 +40,7 @@ class SyncFreezeData : IMessage
      * @param yaw         The yaw of the direction that the player was looking in when frozen
      * @param pitch       The pitch of the direction that the player was looking in when frozen
      */
-    constructor(freezeTicks: Int, position: Vec3d?, yaw: Float, pitch: Float)
-    {
+    constructor(freezeTicks: Int, position: Vec3d?, yaw: Float, pitch: Float) {
         this.freezeTicks = freezeTicks
         this.position = position
         this.yaw = yaw
@@ -55,11 +52,9 @@ class SyncFreezeData : IMessage
      *
      * @param buf The buffer to read
      */
-    override fun fromBytes(buf: ByteBuf)
-    {
+    override fun fromBytes(buf: ByteBuf) {
         freezeTicks = buf.readInt()
-        if (freezeTicks > 0)
-        {
+        if (freezeTicks > 0) {
             position = Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble())
             yaw = buf.readFloat()
             pitch = buf.readFloat()
@@ -71,11 +66,9 @@ class SyncFreezeData : IMessage
      *
      * @param buf The buffer to write to
      */
-    override fun toBytes(buf: ByteBuf)
-    {
+    override fun toBytes(buf: ByteBuf) {
         buf.writeInt(freezeTicks)
-        if (freezeTicks > 0)
-        {
+        if (freezeTicks > 0) {
             buf.writeDouble(position!!.x)
             buf.writeDouble(position!!.y)
             buf.writeDouble(position!!.z)
@@ -87,8 +80,7 @@ class SyncFreezeData : IMessage
     /**
      * Handler to perform actions upon getting a packet
      */
-    class Handler : MessageHandler.Client<SyncFreezeData>()
-    {
+    class Handler : MessageHandler.Client<SyncFreezeData>() {
         /**
          * Handles the packet on client side
          *
@@ -96,8 +88,7 @@ class SyncFreezeData : IMessage
          * @param msg    the message received
          * @param ctx    the message context object. This contains additional information about the packet.
          */
-        override fun handleClientMessage(player: EntityPlayer, msg: SyncFreezeData, ctx: MessageContext)
-        {
+        override fun handleClientMessage(player: EntityPlayer, msg: SyncFreezeData, ctx: MessageContext) {
             val freezeData = player.getSpellFreezeData()
             freezeData.freezeTicks = msg.freezeTicks
             freezeData.freezePosition = msg.position

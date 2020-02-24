@@ -9,8 +9,7 @@ import net.minecraft.util.ResourceLocation
 /**
  * Class representing the creative power source
  */
-class SpellPowerSourceCreative : AOTDSpellPowerSource(ResourceLocation(Constants.MOD_ID, "creative"))
-{
+class SpellPowerSourceCreative : AOTDSpellPowerSource(ResourceLocation(Constants.MOD_ID, "creative")) {
     /**
      * True if the given spell can be cast, false otherwise
      *
@@ -18,8 +17,7 @@ class SpellPowerSourceCreative : AOTDSpellPowerSource(ResourceLocation(Constants
      * @param spell The spell to attempt to cast
      * @return True if the spell can be cast, false otherwise
      */
-    override fun canCast(entityPlayer: EntityPlayer, spell: Spell): Boolean
-    {
+    override fun canCast(entityPlayer: EntityPlayer, spell: Spell): Boolean {
         return true
     }
 
@@ -29,8 +27,7 @@ class SpellPowerSourceCreative : AOTDSpellPowerSource(ResourceLocation(Constants
      * @param entityPlayer The player that is casting the spell
      * @param spell the spell to attempt to cast
      */
-    override fun consumePowerToCast(entityPlayer: EntityPlayer, spell: Spell)
-    {
+    override fun consumePowerToCast(entityPlayer: EntityPlayer, spell: Spell) {
     }
 
     /**
@@ -38,8 +35,7 @@ class SpellPowerSourceCreative : AOTDSpellPowerSource(ResourceLocation(Constants
      *
      * @return A description describing how cost is computed
      */
-    override fun getCostDescription(): String
-    {
+    override fun getCostDescription(): String {
         return "Unlimited power!"
     }
 
@@ -48,8 +44,7 @@ class SpellPowerSourceCreative : AOTDSpellPowerSource(ResourceLocation(Constants
      *
      * @return A string describing why the power source doesn't have enough energy
      */
-    override fun getUnlocalizedOutOfPowerMsg(): String
-    {
+    override fun getUnlocalizedOutOfPowerMsg(): String {
         return "message.afraidofthedark:spell.power_source.creative.invalid_msg"
     }
 }

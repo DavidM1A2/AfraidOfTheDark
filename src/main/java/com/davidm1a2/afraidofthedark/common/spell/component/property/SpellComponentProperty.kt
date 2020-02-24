@@ -13,9 +13,9 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
  * @property getter      The getter to get this property's current value
  */
 open class SpellComponentProperty(
-        val name: String,
-        val description: String,
-        val setter: (SpellComponentInstance<*>, String) -> Unit,
-        val getter: (SpellComponentInstance<*>) -> String,
-        val defaultSetter: (SpellComponentInstance<*>) -> Unit
+    val name: String,
+    val description: String,
+    val setter: (SpellComponentInstance<*>, String) -> Unit,
+    val getter: (SpellComponentInstance<*>) -> String,
+    val defaultSetter: (SpellComponentInstance<*>) -> Unit
 )

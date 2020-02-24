@@ -24,8 +24,7 @@ import java.util.*
  * @property entityId The entity being delivered to, can be null
  * @property deliveryEntityId The entity delivering the spell, can be null
  */
-class DeliveryTransitionState
-{
+class DeliveryTransitionState {
     val spell: Spell
     val stageIndex: Int
     val world: WorldServer
@@ -47,16 +46,15 @@ class DeliveryTransitionState
      * @param deliveryEntity The entity that caused the transition
      */
     internal constructor(
-            spell: Spell,
-            stageIndex: Int,
-            world: World,
-            position: Vec3d,
-            blockPos: BlockPos,
-            direction: Vec3d,
-            entity: Entity?,
-            deliveryEntity: Entity?
-    )
-    {
+        spell: Spell,
+        stageIndex: Int,
+        world: World,
+        position: Vec3d,
+        blockPos: BlockPos,
+        direction: Vec3d,
+        entity: Entity?,
+        deliveryEntity: Entity?
+    ) {
         this.spell = spell
         this.stageIndex = stageIndex
         // This should only be created server side, so we can cast safely
@@ -73,36 +71,29 @@ class DeliveryTransitionState
      *
      * @param nbt The NBT containing the delivery state
      */
-    constructor(nbt: NBTTagCompound)
-    {
+    constructor(nbt: NBTTagCompound) {
         spell = Spell(nbt.getCompoundTag(NBT_SPELL))
         stageIndex = nbt.getInteger(NBT_STAGE_INDEX)
         world = DimensionManager.getWorld(nbt.getInteger(NBT_WORLD_ID))
         position = Vec3d(
-                nbt.getDouble(NBT_POSITION + "_x"),
-                nbt.getDouble(NBT_POSITION + "_y"),
-                nbt.getDouble(NBT_POSITION + "_z")
+            nbt.getDouble(NBT_POSITION + "_x"),
+            nbt.getDouble(NBT_POSITION + "_y"),
+            nbt.getDouble(NBT_POSITION + "_z")
         )
         blockPosition = NBTUtil.getPosFromTag(nbt.getCompoundTag(NBT_BLOCK_POSITION))
         direction = Vec3d(
-                nbt.getDouble(NBT_DIRECTION + "_x"),
-                nbt.getDouble(NBT_DIRECTION + "_y"),
-                nbt.getDouble(NBT_DIRECTION + "_z")
+            nbt.getDouble(NBT_DIRECTION + "_x"),
+            nbt.getDouble(NBT_DIRECTION + "_y"),
+            nbt.getDouble(NBT_DIRECTION + "_z")
         )
-        entityId = if (nbt.hasKey(NBT_ENTITY_ID))
-        {
+        entityId = if (nbt.hasKey(NBT_ENTITY_ID)) {
             NBTUtil.getUUIDFromTag(nbt.getCompoundTag(NBT_ENTITY_ID))
-        }
-        else
-        {
+        } else {
             null
         }
-        deliveryEntityId = if (nbt.hasKey(NBT_DELIVERY_ENTITY_ID))
-        {
+        deliveryEntityId = if (nbt.hasKey(NBT_DELIVERY_ENTITY_ID)) {
             NBTUtil.getUUIDFromTag(nbt.getCompoundTag(NBT_DELIVERY_ENTITY_ID))
-        }
-        else
-        {
+        } else {
             null
         }
     }
@@ -110,8 +101,7 @@ class DeliveryTransitionState
     /**
      * @return The transition state serialized as NBT
      */
-    fun writeToNbt(): NBTTagCompound
-    {
+    fun writeToNbt(): NBTTagCompound {
         val nbt = NBTTagCompound()
         nbt.setTag(NBT_SPELL, spell.serializeNBT())
         nbt.setInteger(NBT_STAGE_INDEX, stageIndex)
@@ -123,12 +113,10 @@ class DeliveryTransitionState
         nbt.setDouble(NBT_DIRECTION + "_x", direction.x)
         nbt.setDouble(NBT_DIRECTION + "_y", direction.y)
         nbt.setDouble(NBT_DIRECTION + "_z", direction.z)
-        if (entityId != null)
-        {
+        if (entityId != null) {
             nbt.setTag(NBT_ENTITY_ID, NBTUtil.createUUIDTag(entityId))
         }
-        if (deliveryEntityId != null)
-        {
+        if (deliveryEntityId != null) {
             nbt.setTag(NBT_DELIVERY_ENTITY_ID, NBTUtil.createUUIDTag(deliveryEntityId))
         }
         return nbt
@@ -139,16 +127,15 @@ class DeliveryTransitionState
      *
      * @return The current spell stage
      */
-    fun getCurrentStage(): SpellStage
-    {
-        return this.spell.getStage(this.stageIndex) ?: throw IllegalArgumentException("Current spell state is null, that shouldn't be possible. Spell: \n${spell.name}")
+    fun getCurrentStage(): SpellStage {
+        return this.spell.getStage(this.stageIndex)
+            ?: throw IllegalArgumentException("Current spell state is null, that shouldn't be possible. Spell: \n${spell.name}")
     }
 
     /**
      * @return The entity that this state was transitioning through
      */
-    fun getEntity(): Entity?
-    {
+    fun getEntity(): Entity? {
         // If the entity is non null we get the entity in the world, otherwise we return null
         return this.entityId?.let { world.getEntityFromUuid(it) }
     }
@@ -156,14 +143,12 @@ class DeliveryTransitionState
     /**
      * @return The entity that performed the delivery and transition
      */
-    fun getDeliveryEntity(): Entity?
-    {
+    fun getDeliveryEntity(): Entity? {
         // If the entity is non null we get the entity in the world, otherwise we return null
         return deliveryEntityId?.let { world.getEntityFromUuid(it) }
     }
 
-    companion object
-    {
+    companion object {
         // Constants used for NBT serialization / deserialization
         private const val NBT_SPELL = "spell"
         private const val NBT_STAGE_INDEX = "stage_index"

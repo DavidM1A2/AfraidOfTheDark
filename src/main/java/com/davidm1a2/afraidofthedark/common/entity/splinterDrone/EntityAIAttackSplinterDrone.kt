@@ -16,8 +16,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint
  * @property target The target that the drone is shooting at
  * @property timeUntilNextAttack The number of ticks until the next shots
  */
-class EntityAIAttackSplinterDrone(private val splinterDrone: EntitySplinterDrone) : EntityAIBase()
-{
+class EntityAIAttackSplinterDrone(private val splinterDrone: EntitySplinterDrone) : EntityAIBase() {
     private var target: EntityLivingBase? = null
     private var timeUntilNextAttack = 0
 
@@ -26,11 +25,9 @@ class EntityAIAttackSplinterDrone(private val splinterDrone: EntitySplinterDrone
      *
      * @return True if we have a target, false otherwise
      */
-    override fun shouldExecute(): Boolean
-    {
+    override fun shouldExecute(): Boolean {
         // If the splinter drone is 'activating' don't attack yet (4 seconds)
-        if (splinterDrone.ticksExisted < 80)
-        {
+        if (splinterDrone.ticksExisted < 80) {
             return false
         }
 
@@ -38,12 +35,9 @@ class EntityAIAttackSplinterDrone(private val splinterDrone: EntitySplinterDrone
         val target = splinterDrone.attackTarget
 
         // If there is no target don't execute the attack
-        return if (target == null)
-        {
+        return if (target == null) {
             false
-        }
-        else
-        {
+        } else {
             this.target = target
             true
         }
@@ -54,16 +48,14 @@ class EntityAIAttackSplinterDrone(private val splinterDrone: EntitySplinterDrone
      *
      * @return True if the attack should continue, false otherwise
      */
-    override fun shouldContinueExecuting(): Boolean
-    {
+    override fun shouldContinueExecuting(): Boolean {
         return shouldExecute() && splinterDrone.canEntityBeSeen(target!!)
     }
 
     /**
      * Resets the task as if nothing had happened yet
      */
-    override fun resetTask()
-    {
+    override fun resetTask() {
         // Reset target and time until next attack
         target = null
         timeUntilNextAttack = TIME_BETWEEN_ATTACKS
@@ -72,30 +64,33 @@ class EntityAIAttackSplinterDrone(private val splinterDrone: EntitySplinterDrone
     /**
      * Called every tick to update the task and fire projectiles
      */
-    override fun updateTask()
-    {
+    override fun updateTask() {
         // Server side processing only
-        if (!target!!.world.isRemote)
-        {
+        if (!target!!.world.isRemote) {
             // Look at the target player
             splinterDrone.lookHelper.setLookPositionWithEntity(target!!, 30.0f, 30.0f)
 
             // Engage the player if there is a valid target (should always be true)
-            if (splinterDrone.attackTarget != null)
-            {
+            if (splinterDrone.attackTarget != null) {
                 // Play the charge animation if it is not already playing and activate is not already playing
                 AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(
-                        SyncAnimation("Charge", splinterDrone, "Activate", "Charge"),
-                        TargetPoint(splinterDrone.dimension, splinterDrone.posX, splinterDrone.posY, splinterDrone.posZ, 50.0)
+                    SyncAnimation("Charge", splinterDrone, "Activate", "Charge"),
+                    TargetPoint(
+                        splinterDrone.dimension,
+                        splinterDrone.posX,
+                        splinterDrone.posY,
+                        splinterDrone.posZ,
+                        50.0
+                    )
                 )
             }
 
             // If we are ready to attack do so
-            if (timeUntilNextAttack-- <= 0)
-            {
+            if (timeUntilNextAttack-- <= 0) {
                 // Compute the x, y, and z velocities of the projectile
                 var xVelocity = target!!.posX - splinterDrone.posX
-                var yVelocity = target!!.entityBoundingBox.minY + (target!!.height / 2.0f).toDouble() - (splinterDrone.posY + (splinterDrone.height / 2.0f).toDouble())
+                var yVelocity =
+                    target!!.entityBoundingBox.minY + (target!!.height / 2.0f).toDouble() - (splinterDrone.posY + (splinterDrone.height / 2.0f).toDouble())
                 var zVelocity = target!!.posZ - splinterDrone.posZ
 
                 // Add random inaccuracy distributed over a gaussian with 0.4 block max inaccuracy
@@ -104,11 +99,17 @@ class EntityAIAttackSplinterDrone(private val splinterDrone: EntitySplinterDrone
                 zVelocity = zVelocity + splinterDrone.rng.nextGaussian() * 0.4
 
                 // Create the projectile and spawn it in
-                val attackShot: Entity = EntitySplinterDroneProjectile(splinterDrone.world, splinterDrone, xVelocity, yVelocity, zVelocity)
+                val attackShot: Entity =
+                    EntitySplinterDroneProjectile(splinterDrone.world, splinterDrone, xVelocity, yVelocity, zVelocity)
                 splinterDrone.world.spawnEntity(attackShot)
 
                 // Play the shoot fireball sound effect
-                splinterDrone.world.playEvent(null, 1018, BlockPos(splinterDrone.posX, splinterDrone.posY, splinterDrone.posZ), 0)
+                splinterDrone.world.playEvent(
+                    null,
+                    1018,
+                    BlockPos(splinterDrone.posX, splinterDrone.posY, splinterDrone.posZ),
+                    0
+                )
 
                 // Attack again in the future
                 timeUntilNextAttack = TIME_BETWEEN_ATTACKS
@@ -116,8 +117,7 @@ class EntityAIAttackSplinterDrone(private val splinterDrone: EntitySplinterDrone
         }
     }
 
-    companion object
-    {
+    companion object {
         // The number of ticks inbetween shots
         private const val TIME_BETWEEN_ATTACKS = 10
     }

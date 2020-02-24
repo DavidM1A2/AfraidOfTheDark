@@ -16,8 +16,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext
  * @property chestY The chest's y position
  * @property chestZ The chest's z position
  */
-class SyncVoidChest : EntitySyncBase
-{
+class SyncVoidChest : EntitySyncBase {
     private var chestX: Int
     private var chestY: Int
     private var chestZ: Int
@@ -25,8 +24,7 @@ class SyncVoidChest : EntitySyncBase
     /**
      * Default constructor is required but not used
      */
-    constructor() : super()
-    {
+    constructor() : super() {
         chestX = 0
         chestY = 0
         chestZ = 0
@@ -40,8 +38,7 @@ class SyncVoidChest : EntitySyncBase
      * @param chestZ The Z position of this chest
      * @param player The player that opened the chest
      */
-    constructor(chestX: Int, chestY: Int, chestZ: Int, player: EntityPlayer) : super(player)
-    {
+    constructor(chestX: Int, chestY: Int, chestZ: Int, player: EntityPlayer) : super(player) {
         this.chestX = chestX
         this.chestY = chestY
         this.chestZ = chestZ
@@ -52,8 +49,7 @@ class SyncVoidChest : EntitySyncBase
      *
      * @param buf The buffer to read from
      */
-    override fun fromBytes(buf: ByteBuf)
-    {
+    override fun fromBytes(buf: ByteBuf) {
         super.fromBytes(buf)
         chestX = buf.readInt()
         chestY = buf.readInt()
@@ -65,8 +61,7 @@ class SyncVoidChest : EntitySyncBase
      *
      * @param buf The buffer to write to
      */
-    override fun toBytes(buf: ByteBuf)
-    {
+    override fun toBytes(buf: ByteBuf) {
         super.toBytes(buf)
         buf.writeInt(chestX)
         buf.writeInt(chestY)
@@ -76,8 +71,7 @@ class SyncVoidChest : EntitySyncBase
     /**
      * Handler class handles SyncVoidChest packets on the client side
      */
-    class Handler : MessageHandler.Client<SyncVoidChest>()
-    {
+    class Handler : MessageHandler.Client<SyncVoidChest>() {
         /**
          * Called to handle the packet on the client side
          *
@@ -85,34 +79,24 @@ class SyncVoidChest : EntitySyncBase
          * @param msg    the message received
          * @param ctx    The context the message was sent from
          */
-        override fun handleClientMessage(player: EntityPlayer, msg: SyncVoidChest, ctx: MessageContext)
-        {
+        override fun handleClientMessage(player: EntityPlayer, msg: SyncVoidChest, ctx: MessageContext) {
             // The player that opened the chest
             val chestOpener = player.world.getPlayerEntityByUUID(msg.entityUUID)
-            if (chestOpener != null)
-            {
+            if (chestOpener != null) {
                 // Grab the void chest tile entity
                 val chestTileEntity = player.world.getTileEntity(BlockPos(msg.chestX, msg.chestY, msg.chestZ))
-                if (chestTileEntity != null)
-                {
+                if (chestTileEntity != null) {
                     // Ensure the tile entity is valid
-                    if (chestTileEntity is TileEntityVoidChest)
-                    {
+                    if (chestTileEntity is TileEntityVoidChest) {
                         // Open the tile entity
                         chestTileEntity.openChest(chestOpener)
-                    }
-                    else
-                    {
+                    } else {
                         AfraidOfTheDark.INSTANCE.logger.warn("Attempted to sync a void chest opening on a non void chest tile entity!")
                     }
-                }
-                else
-                {
+                } else {
                     AfraidOfTheDark.INSTANCE.logger.warn("Attempted to find an invalid void chest!")
                 }
-            }
-            else
-            {
+            } else {
                 AfraidOfTheDark.INSTANCE.logger.warn("Attempted to update user of a void chest opening from a null player!")
             }
         }

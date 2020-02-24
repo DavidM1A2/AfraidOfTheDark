@@ -13,8 +13,7 @@ import net.minecraftforge.registries.IForgeRegistry
  * Class containing references to any registries AOTD adds. We can't actually init the registry here though, so that is done
  * inside RegisterRegistries
  */
-object ModRegistries
-{
+object ModRegistries {
     // Fields that are unchanged and basically final (just not initialized here) representing the registries we are adding. Initialized from RegistryRegister
     lateinit var STRUCTURE: IForgeRegistry<Structure>
     lateinit var RESEARCH: IForgeRegistry<Research>

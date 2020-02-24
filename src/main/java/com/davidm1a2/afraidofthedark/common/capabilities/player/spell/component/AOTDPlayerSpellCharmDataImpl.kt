@@ -8,8 +8,7 @@ import java.util.*
  * @property charmTicks The number of charm ticks remaining
  * @property charmingEntityId The id of the entity that is doing the charming
  */
-class AOTDPlayerSpellCharmDataImpl : IAOTDPlayerSpellCharmData
-{
+class AOTDPlayerSpellCharmDataImpl : IAOTDPlayerSpellCharmData {
     override var charmTicks = 0
     override var charmingEntityId: UUID? = null
 }

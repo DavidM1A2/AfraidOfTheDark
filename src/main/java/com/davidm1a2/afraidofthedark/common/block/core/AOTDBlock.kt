@@ -12,14 +12,11 @@ import net.minecraft.block.material.Material
  * @param material The material of this block
  * @param displayInCreative True if the block should show up in creative, false otherwise
  */
-abstract class AOTDBlock(baseName: String, material: Material, displayInCreative: Boolean = true) : Block(material)
-{
-    init
-    {
+abstract class AOTDBlock(baseName: String, material: Material, displayInCreative: Boolean = true) : Block(material) {
+    init {
         unlocalizedName = "${Constants.MOD_ID}:$baseName"
         this.setRegistryName("${Constants.MOD_ID}:$baseName")
-        if (displayInCreative)
-        {
+        if (displayInCreative) {
             setCreativeTab(Constants.AOTD_CREATIVE_TAB)
         }
     }

@@ -13,14 +13,12 @@ import net.minecraft.world.World
  * @param z The z position of the laser spell attack
  */
 class ParticleSpellLaser(
-        world: World,
-        x: Double,
-        y: Double,
-        z: Double
-) : AOTDParticle(world, ModSprites.SPELL_LASER, x, y, z)
-{
-    init
-    {
+    world: World,
+    x: Double,
+    y: Double,
+    z: Double
+) : AOTDParticle(world, ModSprites.SPELL_LASER, x, y, z) {
+    init {
         // 1 second lifespan
         particleMaxAge = 20
 
@@ -36,8 +34,7 @@ class ParticleSpellLaser(
     /**
      * Called before the particle is moved, update the motionXYZ here
      */
-    override fun updateMotionXYZ()
-    {
+    override fun updateMotionXYZ() {
         // Set scale to be based on time alive
         particleScale = (particleMaxAge - particleAge) / particleMaxAge.toFloat()
     }

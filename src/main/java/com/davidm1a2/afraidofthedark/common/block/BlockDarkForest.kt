@@ -14,10 +14,8 @@ import java.util.*
  *
  * @constructor sets the block name and properties
  */
-class BlockDarkForest : AOTDBlockTileEntity("dark_forest", Material.ROCK, false)
-{
-    init
-    {
+class BlockDarkForest : AOTDBlockTileEntity("dark_forest", Material.ROCK, false) {
+    init {
         // Set the block name and material
         // Make this block hard to destroy with explosives and only harvestable with a diamond pick
         setHardness(10.0f)
@@ -31,8 +29,7 @@ class BlockDarkForest : AOTDBlockTileEntity("dark_forest", Material.ROCK, false)
      * @param state The block state to render
      * @return MODEL, since it's not an animated tile entity
      */
-    override fun getRenderType(state: IBlockState): EnumBlockRenderType
-    {
+    override fun getRenderType(state: IBlockState): EnumBlockRenderType {
         return EnumBlockRenderType.MODEL
     }
 
@@ -43,16 +40,14 @@ class BlockDarkForest : AOTDBlockTileEntity("dark_forest", Material.ROCK, false)
      * @param meta    The block's metadata value
      * @return The dark forest tile entity instance
      */
-    override fun createNewTileEntity(worldIn: World, meta: Int): TileEntity
-    {
+    override fun createNewTileEntity(worldIn: World, meta: Int): TileEntity {
         return TileEntityDarkForest()
     }
 
     /**
      * The dark forest block cannot be dropped and picked up
      */
-    override fun quantityDropped(random: Random): Int
-    {
+    override fun quantityDropped(random: Random): Int {
         return 0
     }
 }

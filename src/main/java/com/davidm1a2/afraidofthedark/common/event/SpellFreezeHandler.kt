@@ -12,32 +12,27 @@ import net.minecraftforge.fml.relauncher.SideOnly
 /**
  * Handles the on server tick to update any existing spell freeze effects
  */
-class SpellFreezeHandler
-{
+class SpellFreezeHandler {
     /**
      * Called every game tick on the server, updates all server wide spell data
      *
      * @param event The event containing server tick info
      */
     @SubscribeEvent
-    fun onPlayerTick(event: PlayerTickEvent)
-    {
+    fun onPlayerTick(event: PlayerTickEvent) {
         // Server side processing
-        if (event.type == TickEvent.Type.PLAYER && event.phase == TickEvent.Phase.START && event.side == Side.SERVER)
-        {
+        if (event.type == TickEvent.Type.PLAYER && event.phase == TickEvent.Phase.START && event.side == Side.SERVER) {
             val entityPlayer = event.player
             val playerFreezeData = entityPlayer.getSpellFreezeData()
 
             // Ensure there's at least 1 freeze tick remaining
-            if (playerFreezeData.freezeTicks > 0)
-            {
+            if (playerFreezeData.freezeTicks > 0) {
                 // Reduce the freeze ticks by 1
                 val newFreezeTicks = playerFreezeData.freezeTicks - 1
                 playerFreezeData.freezeTicks = newFreezeTicks
 
                 // If no freeze ticks are left tell the client
-                if (newFreezeTicks == 0)
-                {
+                if (newFreezeTicks == 0) {
                     playerFreezeData.sync(entityPlayer)
                 }
 
@@ -45,11 +40,11 @@ class SpellFreezeHandler
 
                 // Freeze the player's location
                 (entityPlayer as EntityPlayerMP).connection.setPlayerLocation(
-                        freezePosition.x,
-                        freezePosition.y,
-                        freezePosition.z,
-                        playerFreezeData.getFreezeYaw(),
-                        playerFreezeData.getFreezePitch()
+                    freezePosition.x,
+                    freezePosition.y,
+                    freezePosition.z,
+                    playerFreezeData.getFreezeYaw(),
+                    playerFreezeData.getFreezePitch()
                 )
             }
         }
@@ -62,13 +57,11 @@ class SpellFreezeHandler
      */
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
-    fun onInputUpdateEvent(event: InputUpdateEvent)
-    {
+    fun onInputUpdateEvent(event: InputUpdateEvent) {
         val playerFreezeData = event.entityPlayer.getSpellFreezeData()
 
         // If the player is frozen block all movement
-        if (playerFreezeData.freezeTicks > 0)
-        {
+        if (playerFreezeData.freezeTicks > 0) {
             val input = event.movementInput
             input.backKeyDown = false
             input.forwardKeyDown = false

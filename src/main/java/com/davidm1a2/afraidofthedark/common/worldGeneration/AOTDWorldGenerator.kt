@@ -20,8 +20,7 @@ import java.util.concurrent.ConcurrentLinkedQueue
  *
  * @property chunksThatNeedGeneration A queue of chunk positions that need to be generated
  */
-class AOTDWorldGenerator : IWorldGenerator
-{
+class AOTDWorldGenerator : IWorldGenerator {
     private val chunksThatNeedGeneration = ConcurrentLinkedQueue<ChunkPos>()
 
     /**
@@ -29,8 +28,7 @@ class AOTDWorldGenerator : IWorldGenerator
      *
      * @param chunkPos The position to regenerate
      */
-    fun addChunkToRegenerate(chunkPos: ChunkPos)
-    {
+    fun addChunkToRegenerate(chunkPos: ChunkPos) {
         chunksThatNeedGeneration.add(chunkPos)
     }
 
@@ -44,8 +42,14 @@ class AOTDWorldGenerator : IWorldGenerator
      * @param chunkGenerator : additionalData[1] The [IChunkProvider] that is generating.
      * @param chunkProvider  : additionalData[2] [IChunkProvider] that is requesting the world generation.
      */
-    override fun generate(random: Random, chunkX: Int, chunkZ: Int, world: World, chunkGenerator: IChunkGenerator, chunkProvider: IChunkProvider)
-    {
+    override fun generate(
+        random: Random,
+        chunkX: Int,
+        chunkZ: Int,
+        world: World,
+        chunkGenerator: IChunkGenerator,
+        chunkProvider: IChunkProvider
+    ) {
         // Create a chunk pos object for our chunk (X,Z) coords
         val chunkPos = ChunkPos(chunkX, chunkZ)
         // Generate the chunk
@@ -59,15 +63,12 @@ class AOTDWorldGenerator : IWorldGenerator
      * @param event The tick event
      */
     @SubscribeEvent
-    fun onServerTick(event: ServerTickEvent)
-    {
+    fun onServerTick(event: ServerTickEvent) {
         // We can assume event.type == Type.SERVER and event.side == Side.SERVER because we are listening to the ServerTickEvent
         // Ensure phase is tick start to perform the generation
-        if (event.phase == TickEvent.Phase.START)
-        {
+        if (event.phase == TickEvent.Phase.START) {
             // Test if we have a chunk to generate
-            if (!chunksThatNeedGeneration.isEmpty())
-            {
+            if (chunksThatNeedGeneration.isNotEmpty()) {
                 // Grab the chunk to generate
                 val chunkToGenerate = chunksThatNeedGeneration.remove()
                 // Grab the world to generate which is the overworld (world 0)
@@ -84,19 +85,20 @@ class AOTDWorldGenerator : IWorldGenerator
      * @param event The event which will be ignored for all worlds but the overworld
      */
     @SubscribeEvent
-    fun onWorldSave(event: WorldEvent.Save)
-    {
+    fun onWorldSave(event: WorldEvent.Save) {
         // Overworld only
-        if (!event.world.isRemote && event.world.provider.dimension == 0)
-        {
+        if (!event.world.isRemote && event.world.provider.dimension == 0) {
             // Perform some finalization if we need to generate some chunks
-            if (!chunksThatNeedGeneration.isEmpty())
-            {
-                event.world.minecraftServer!!.sendMessage(TextComponentTranslation("message.afraidofthedark:world_gen.saving", chunksThatNeedGeneration.size))
+            if (!chunksThatNeedGeneration.isEmpty()) {
+                event.world.minecraftServer!!.sendMessage(
+                    TextComponentTranslation(
+                        "message.afraidofthedark:world_gen.saving",
+                        chunksThatNeedGeneration.size
+                    )
+                )
 
                 // Loop while we still need to generate a chunk
-                while (!chunksThatNeedGeneration.isEmpty())
-                {
+                while (!chunksThatNeedGeneration.isEmpty()) {
                     // Grab the chunk to generate
                     val chunkToGenerate = chunksThatNeedGeneration.remove()
                     // Generate the chunk
@@ -112,16 +114,13 @@ class AOTDWorldGenerator : IWorldGenerator
      * @param world    The world to generate in
      * @param chunkPos The position to generate at
      */
-    private fun generate(world: World, chunkPos: ChunkPos)
-    {
+    private fun generate(world: World, chunkPos: ChunkPos) {
         // Get the structure plan for the world
         val structurePlan = StructurePlan.get(world)
         // Make sure that our plan is valid
-        if (structurePlan != null)
-        {
+        if (structurePlan != null) {
             // Test if a structure exists at the X,Z coordinates
-            if (structurePlan.structureExistsAt(chunkPos))
-            {
+            if (structurePlan.structureExistsAt(chunkPos)) {
                 // The structure exists, grab it and the origin
                 val placedStructure = structurePlan.getPlacedStructureAt(chunkPos)!!
                 val structure = placedStructure.structure

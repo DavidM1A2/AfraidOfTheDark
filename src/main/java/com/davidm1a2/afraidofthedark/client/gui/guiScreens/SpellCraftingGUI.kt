@@ -26,50 +26,42 @@ import java.io.IOException
  * @property selectedCursorIcon The selected cursor icon to hold the currently selected component's icon
  * @property selectedComponent The currently selected spell component slot on the spell scroll, or null
  */
-class SpellCraftingGUI(spell: Spell) : AOTDGuiScreen()
-{
+class SpellCraftingGUI(spell: Spell) : AOTDGuiScreen() {
     private val tablet: AOTDGuiSpellTablet
     private val scroll: AOTDGuiSpellScroll
     private val selectedCursorIcon: AOTDGuiImage
     private var selectedComponent: AOTDGuiSpellComponentSlot<*>? = null
 
-    init
-    {
+    init {
         // Clone the spell so we don't modify the original\
         val spellClone = Spell(spell.serializeNBT())
 
         // First ensure the spell has the minimum 1 spell stage
-        if (spellClone.spellStages.isEmpty())
-        {
+        if (spellClone.spellStages.isEmpty()) {
             spellClone.spellStages.add(SpellStage())
         }
 
         // Create the left side tablet to hold the current spell settings
         tablet = AOTDGuiSpellTablet(
-                100,
-                (Constants.GUI_HEIGHT - 256) / 2,
-                192,
-                256,
-                spellClone,
-                { this.selectedComponent },
-                { this.setSelectedComponent(null) }
+            100,
+            (Constants.GUI_HEIGHT - 256) / 2,
+            192,
+            256,
+            spellClone,
+            { this.selectedComponent },
+            { this.setSelectedComponent(null) }
         )
         contentPane.add(tablet)
 
         // Setup the selected component hover under the mouse cursor using image component
         selectedCursorIcon = AOTDGuiImage(0, 0, 20, 20, "afraidofthedark:textures/gui/spell_editor/blank_slot.png")
-        selectedCursorIcon.addMouseMoveListener()
-        {
-            if (it.eventType == AOTDMouseMoveEvent.EventType.Move)
-            {
+        selectedCursorIcon.addMouseMoveListener {
+            if (it.eventType == AOTDMouseMoveEvent.EventType.Move) {
                 // If we have nothing selected put the component off in the middle of nowhere
-                if (selectedComponent == null)
-                {
+                if (selectedComponent == null) {
                     selectedCursorIcon.setX(-20)
                     selectedCursorIcon.setY(-20)
-                }
-                else
-                {
+                } else {
                     selectedCursorIcon.setX((it.mouseX / tablet.scaleX).toInt() - selectedCursorIcon.getWidthScaled() / 2)
                     selectedCursorIcon.setY((it.mouseY / tablet.scaleY).toInt() - selectedCursorIcon.getHeightScaled() / 2)
                 }
@@ -77,12 +69,9 @@ class SpellCraftingGUI(spell: Spell) : AOTDGuiScreen()
         }
 
         // If we right click clear the selected component
-        contentPane.addMouseListener()
-        {
-            if (it.eventType == AOTDMouseEvent.EventType.Press)
-            {
-                if (it.clickedButton == AOTDMouseEvent.RIGHT_MOUSE_BUTTON && selectedComponent != null)
-                {
+        contentPane.addMouseListener {
+            if (it.eventType == AOTDMouseEvent.EventType.Press) {
+                if (it.clickedButton == AOTDMouseEvent.RIGHT_MOUSE_BUTTON && selectedComponent != null) {
                     setSelectedComponent(null)
                 }
             }
@@ -98,13 +87,17 @@ class SpellCraftingGUI(spell: Spell) : AOTDGuiScreen()
         contentPane.add(selectedCursorIcon)
 
         // Create a help overlay that comes up when you press the ? button
-        val helpOverlay = AOTDGuiImage(0, 0, Constants.GUI_WIDTH, Constants.GUI_HEIGHT, "afraidofthedark:textures/gui/spell_editor/help_screen.png")
+        val helpOverlay = AOTDGuiImage(
+            0,
+            0,
+            Constants.GUI_WIDTH,
+            Constants.GUI_HEIGHT,
+            "afraidofthedark:textures/gui/spell_editor/help_screen.png"
+        )
         helpOverlay.isVisible = false
         // When pressing any key hide the overlay
-        helpOverlay.addKeyListener()
-        {
-            if (it.eventType == AOTDKeyEvent.KeyEventType.Type)
-            {
+        helpOverlay.addKeyListener {
+            if (it.eventType == AOTDKeyEvent.KeyEventType.Type) {
                 it.source.isVisible = false
             }
         }
@@ -119,14 +112,12 @@ class SpellCraftingGUI(spell: Spell) : AOTDGuiScreen()
      *
      * @param selectedComponent The newly selected component, could be null to clear
      */
-    private fun setSelectedComponent(selectedComponent: AOTDGuiSpellComponentSlot<*>?)
-    {
+    private fun setSelectedComponent(selectedComponent: AOTDGuiSpellComponentSlot<*>?) {
         // If we have a previously selected component deselect it
         this.selectedComponent?.setHighlight(false)
 
         // If the new component is non-null update our image texture and highlight the component
-        if (selectedComponent != null)
-        {
+        if (selectedComponent != null) {
             // Update the selected component, highlight the component
             this.selectedComponent = selectedComponent
             this.selectedComponent!!.setHighlight(true)
@@ -134,9 +125,7 @@ class SpellCraftingGUI(spell: Spell) : AOTDGuiScreen()
             @Suppress("USELESS_CAST")
             selectedCursorIcon.imageTexture = (this.selectedComponent!!.getComponentType()!! as SpellComponent<*>).icon
             selectedCursorIcon.isVisible = true
-        }
-        else
-        {
+        } else {
             this.selectedComponent = null
             selectedCursorIcon.isVisible = false
         }
@@ -150,14 +139,11 @@ class SpellCraftingGUI(spell: Spell) : AOTDGuiScreen()
      * @param keyCode   The code of the character typed
      * @throws IOException forwarded from the super method
      */
-    override fun keyTyped(character: Char, keyCode: Int)
-    {
+    override fun keyTyped(character: Char, keyCode: Int) {
         super.keyTyped(character, keyCode)
         // If the inventory key closes the ui and is pressed open the spell list UI
-        if (tablet.inventoryKeyClosesUI() && scroll.inventoryKeyClosesUI())
-        {
-            if (keyCode == inventoryKeycode)
-            {
+        if (tablet.inventoryKeyClosesUI() && scroll.inventoryKeyClosesUI()) {
+            if (keyCode == inventoryKeycode) {
                 entityPlayer.openGui(AOTDGuiHandler.SPELL_LIST_ID)
             }
         }
@@ -168,8 +154,7 @@ class SpellCraftingGUI(spell: Spell) : AOTDGuiScreen()
      *
      * @return False to avoid any super code going off
      */
-    override fun inventoryToCloseGuiScreen(): Boolean
-    {
+    override fun inventoryToCloseGuiScreen(): Boolean {
         return false
     }
 
@@ -178,8 +163,7 @@ class SpellCraftingGUI(spell: Spell) : AOTDGuiScreen()
      *
      * @return True
      */
-    override fun drawGradientBackground(): Boolean
-    {
+    override fun drawGradientBackground(): Boolean {
         return true
     }
 }

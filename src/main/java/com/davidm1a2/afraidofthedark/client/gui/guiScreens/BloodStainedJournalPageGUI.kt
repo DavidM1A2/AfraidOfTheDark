@@ -38,8 +38,7 @@ import org.lwjgl.util.Color
  * @property bottomRightRecipe The bottom right recipe image box
  * @property pageNumber The current page we're on
  */
-class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRecipes: List<Item>) : AOTDGuiScreen()
-{
+class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRecipes: List<Item>) : AOTDGuiScreen() {
     private val completeText: String
     private val textOnEachPage: MutableList<String> = mutableListOf()
     private val researchRecipes: List<IRecipe>
@@ -55,8 +54,7 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
     private val bottomRightRecipe: AOTDGuiRecipe
     private var pageNumber = 0
 
-    init
-    {
+    init {
         // Get a list of recipes for each item
         researchRecipes = CraftingManager.REGISTRY.filter { relatedItemRecipes.contains(it.recipeOutput.item) }
 
@@ -75,7 +73,8 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
         val journalBackground = AOTDGuiPanel(xCornerOfPage, yCornerOfPage, journalWidth, journalHeight, false)
 
         // Create a page image to be used as the background
-        val pageBackgroundImage = AOTDGuiImage(0, 0, journalWidth, journalHeight, "afraidofthedark:textures/gui/journal_page/background.png")
+        val pageBackgroundImage =
+            AOTDGuiImage(0, 0, journalWidth, journalHeight, "afraidofthedark:textures/gui/journal_page/background.png")
         journalBackground.add(pageBackgroundImage)
 
         // Create red colors for text
@@ -84,10 +83,10 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
 
         // Create a title label to contain the research name
         val titleLabel = AOTDGuiLabel(
-                xCornerOfPage,
-                yCornerOfPage - 25,
-                journalWidth, 25,
-                ClientData.getOrCreate(50f)
+            xCornerOfPage,
+            yCornerOfPage - 25,
+            journalWidth, 25,
+            ClientData.getOrCreate(50f)
         )
         titleLabel.text = titleText
         titleLabel.textColor = titleColor
@@ -121,31 +120,30 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
 
         // The bookmark button returns the user to the research screen
         // The bookmark button to go back
-        val bookmarkButton = AOTDGuiButton(journalWidth / 2 - 16, journalHeight - 28, 15, 30, "afraidofthedark:textures/gui/journal_page/slot_highlight.png")
+        val bookmarkButton = AOTDGuiButton(
+            journalWidth / 2 - 16,
+            journalHeight - 28,
+            15,
+            30,
+            "afraidofthedark:textures/gui/journal_page/slot_highlight.png"
+        )
         // Hide the button to start
         bookmarkButton.isVisible = false
         // Set the color to a see-through white
         bookmarkButton.color = Color(255, 255, 255, 50)
         // When we click the bookmark return to the journal research ui
-        bookmarkButton.addMouseListener()
-        {
-            if (it.eventType == AOTDMouseEvent.EventType.Click)
-            {
-                if (it.source.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
-                {
+        bookmarkButton.addMouseListener {
+            if (it.eventType == AOTDMouseEvent.EventType.Click) {
+                if (it.source.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
                     entityPlayer.openGui(AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID)
                 }
             }
         }
         // When we hover the bookmark button show/hide it
-        bookmarkButton.addMouseMoveListener()
-        {
-            if (it.eventType == AOTDMouseMoveEvent.EventType.Enter)
-            {
+        bookmarkButton.addMouseMoveListener {
+            if (it.eventType == AOTDMouseMoveEvent.EventType.Enter) {
                 it.source.isVisible = true
-            }
-            else if (it.eventType == AOTDMouseMoveEvent.EventType.Exit)
-            {
+            } else if (it.eventType == AOTDMouseMoveEvent.EventType.Exit) {
                 it.source.isVisible = false
             }
         }
@@ -163,39 +161,33 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
 
         // Create the forward and backward button to advance and rewind pages
         forwardButton = AOTDGuiButton(
-                journalWidth - 23,
-                journalHeight - 40,
-                16,
-                16,
-                "afraidofthedark:textures/gui/journal_page/forward_button.png",
-                "afraidofthedark:textures/gui/journal_page/forward_button_hovered.png"
+            journalWidth - 23,
+            journalHeight - 40,
+            16,
+            16,
+            "afraidofthedark:textures/gui/journal_page/forward_button.png",
+            "afraidofthedark:textures/gui/journal_page/forward_button_hovered.png"
         )
         backwardButton = AOTDGuiButton(
-                10,
-                journalHeight - 40,
-                16,
-                16,
-                "afraidofthedark:textures/gui/journal_page/backward_button.png",
-                "afraidofthedark:textures/gui/journal_page/backward_button_hovered.png"
+            10,
+            journalHeight - 40,
+            16,
+            16,
+            "afraidofthedark:textures/gui/journal_page/backward_button.png",
+            "afraidofthedark:textures/gui/journal_page/backward_button_hovered.png"
         )
         // Upon clicking forward then advance the page, if we hover the button darken the color, if we don't hover the button brighten the color
-        forwardButton.addMouseListener()
-        {
-            if (it.eventType == AOTDMouseEvent.EventType.Click)
-            {
-                if (it.source.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
-                {
+        forwardButton.addMouseListener {
+            if (it.eventType == AOTDMouseEvent.EventType.Click) {
+                if (it.source.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
                     advancePage()
                 }
             }
         }
         // Upon clicking backward then rewind the page, if we hover the button darken the color, if we don't hover the button brighten the color
-        backwardButton.addMouseListener()
-        {
-            if (it.eventType == AOTDMouseEvent.EventType.Click)
-            {
-                if (it.source.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON)
-                {
+        backwardButton.addMouseListener {
+            if (it.eventType == AOTDMouseEvent.EventType.Click) {
+                if (it.source.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
                     rewindPage()
                 }
             }
@@ -224,11 +216,9 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
     /**
      * Advances the page to the next page
      */
-    private fun advancePage()
-    {
+    private fun advancePage() {
         // Ensure we can advance the page
-        if (this.hasPageForward())
-        {
+        if (this.hasPageForward()) {
             // Advance the page number
             pageNumber = pageNumber + 2
             // Play the turn sound
@@ -241,11 +231,9 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
     /**
      * Rewinds the page to the previous page
      */
-    private fun rewindPage()
-    {
+    private fun rewindPage() {
         // Ensure we can rewind the page
-        if (this.hasPageBackward())
-        {
+        if (this.hasPageBackward()) {
             // Rewind the page number
             pageNumber = pageNumber - 2
             // Play the turn sound
@@ -258,16 +246,14 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
     /**
      * @return True if we can rewind the page, or false otherwise
      */
-    private fun hasPageBackward(): Boolean
-    {
+    private fun hasPageBackward(): Boolean {
         return pageNumber != 0
     }
 
     /**
      * @return True if we can advance the page, or false otherwise
      */
-    private fun hasPageForward(): Boolean
-    {
+    private fun hasPageForward(): Boolean {
         val hasMoreText = textOnEachPage.hasIndex(pageNumber + 2)
         val hasMoreRecipes = researchRecipes.hasIndex((pageNumber + 2 - textOnEachPage.size) * 2)
         return hasMoreText || hasMoreRecipes
@@ -276,8 +262,7 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
     /**
      * Updates the text or recipes on each page
      */
-    private fun refreshPagesForNumber()
-    {
+    private fun refreshPagesForNumber() {
         // Update the page numbers
         leftPageNumber.text = (pageNumber + 1).toString()
         rightPageNumber.text = (pageNumber + 2).toString()
@@ -291,15 +276,12 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
         var adjustedIndexForRecipe = (pageNumber - textOnEachPage.size) * 2
 
         // If we have another page of text then load that page of text and clear out the recipes
-        if (textOnEachPage.hasIndex(pageNumber))
-        {
+        if (textOnEachPage.hasIndex(pageNumber)) {
             leftPage.setText(textOnEachPage[pageNumber])
             topLeftRecipe.setRecipe(null)
             bottomLeftRecipe.setRecipe(null)
             adjustedIndexForRecipe = adjustedIndexForRecipe + 2
-        }
-        else
-        {
+        } else {
             leftPage.setText("")
             // If we have another recipe load it into the top left box, otherwise clear it
             topLeftRecipe.setRecipe(if (researchRecipes.hasIndex(adjustedIndexForRecipe)) researchRecipes[adjustedIndexForRecipe++] else null)
@@ -308,14 +290,11 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
         }
 
         // If we have another page of text then load that page of text and clear out the recipes
-        if (textOnEachPage.hasIndex(pageNumber + 1))
-        {
+        if (textOnEachPage.hasIndex(pageNumber + 1)) {
             rightPage.setText(textOnEachPage[pageNumber + 1])
             topRightRecipe.setRecipe(null)
             bottomRightRecipe.setRecipe(null)
-        }
-        else
-        {
+        } else {
             rightPage.setText("")
             // If we have another recipe load it into the top left box, otherwise clear it
             topRightRecipe.setRecipe(if (researchRecipes.hasIndex(adjustedIndexForRecipe)) researchRecipes[adjustedIndexForRecipe++] else null)
@@ -327,8 +306,7 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
     /**
      * Updates the text based on the size of text boxes
      */
-    private fun updateText()
-    {
+    private fun updateText() {
         // Clear the text distribution to start out with
         textOnEachPage.clear()
         // Create a variable that will be the text to distribute
@@ -336,18 +314,14 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
         // An alternator variable to switch between adding text to the left and right box
         var alternator = true
         // Loop while we have text to distribute
-        while (textToDistribute.isNotEmpty())
-        {
+        while (textToDistribute.isNotEmpty()) {
             // Left over text
             var leftOver: String
-            if (alternator)
-            {
+            if (alternator) {
                 // Set the text of the left page, then retrieve the text that doesnt fit into the box
                 leftPage.setText(textToDistribute)
                 leftOver = leftPage.overflowText
-            }
-            else
-            {
+            } else {
                 // Set the text of the right page, then retrieve the text that doesnt fit into the box
                 rightPage.setText(textToDistribute)
                 leftOver = rightPage.overflowText
@@ -372,19 +346,13 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
      * @param character The character typed
      * @param keyCode   The code of the character typed
      */
-    override fun keyTyped(character: Char, keyCode: Int)
-    {
+    override fun keyTyped(character: Char, keyCode: Int) {
         // If we press our inventory button close the UI and go to the journal UI
-        if (keyCode == inventoryKeycode)
-        {
+        if (keyCode == inventoryKeycode) {
             entityPlayer.openGui(AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID)
-        }
-        else if (character == 'a' || character == 'A' || keyCode == Keyboard.KEY_LEFT)
-        {
+        } else if (character == 'a' || character == 'A' || keyCode == Keyboard.KEY_LEFT) {
             rewindPage()
-        }
-        else if (character == 'd' || character == 'D' || keyCode == Keyboard.KEY_RIGHT)
-        {
+        } else if (character == 'd' || character == 'D' || keyCode == Keyboard.KEY_RIGHT) {
             advancePage()
         }
         super.keyTyped(character, keyCode)
@@ -396,24 +364,21 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
      * @param index The index to check
      * @return True if the list has the index, false otherwise
      */
-    private fun <T> List<T>.hasIndex(index: Int): Boolean
-    {
+    private fun <T> List<T>.hasIndex(index: Int): Boolean {
         return index >= 0 && index < this.size
     }
 
     /**
      * @return False since the inventory key does not close the screen
      */
-    override fun inventoryToCloseGuiScreen(): Boolean
-    {
+    override fun inventoryToCloseGuiScreen(): Boolean {
         return false
     }
 
     /**
      * @return True since the screen should have a gradient background
      */
-    override fun drawGradientBackground(): Boolean
-    {
+    override fun drawGradientBackground(): Boolean {
         return true
     }
 }

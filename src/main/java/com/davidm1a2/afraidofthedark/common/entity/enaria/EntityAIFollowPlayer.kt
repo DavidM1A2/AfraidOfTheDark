@@ -17,35 +17,31 @@ import net.minecraft.entity.player.EntityPlayer
  * @property ticksUntilNextUpdate The ticks remaining until we check path finding again
  */
 class EntityAIFollowPlayer(
-        private val entity: EntityLiving,
-        private val minRange: Double,
-        private val maxRange: Double,
-        private val trackRange: Double
-) : EntityAIBase()
-{
+    private val entity: EntityLiving,
+    private val minRange: Double,
+    private val maxRange: Double,
+    private val trackRange: Double
+) : EntityAIBase() {
     private var target: EntityPlayer? = null
     private var ticksUntilNextUpdate = 0
 
     /**
      * @return True if the following should execute, false otherwise
      */
-    override fun shouldExecute(): Boolean
-    {
+    override fun shouldExecute(): Boolean {
         // Grab a list of nearby players
-        val players = entity.world.getEntitiesWithinAABB(EntityPlayer::class.java, entity.entityBoundingBox.grow(trackRange))
+        val players =
+            entity.world.getEntitiesWithinAABB(EntityPlayer::class.java, entity.entityBoundingBox.grow(trackRange))
 
         // Grab the closest player, if there is no closest player return false
         val closestPlayer = players.filter { !it.capabilities.isCreativeMode }
-                                    .minWith(Comparator { p1, p2 -> p1.getDistance(entity).compareTo(p2.getDistance(entity)) }) ?: return false
+            .minWith(Comparator { p1, p2 -> p1.getDistance(entity).compareTo(p2.getDistance(entity)) }) ?: return false
 
         // If the distance to the player is less than min don't walk towards the player
         val distance = closestPlayer.getDistance(entity).toDouble()
-        return if (distance < minRange)
-        {
+        return if (distance < minRange) {
             false
-        }
-        else
-        {
+        } else {
             target = closestPlayer
             true
         }
@@ -54,8 +50,7 @@ class EntityAIFollowPlayer(
     /**
      * Resets the task and clears the existing path
      */
-    override fun resetTask()
-    {
+    override fun resetTask() {
         // Clear the path, clear the target, and reset the update tick counter
         entity.navigator.clearPath()
         target = null
@@ -65,15 +60,11 @@ class EntityAIFollowPlayer(
     /**
      * @return True if the pathing should continue to execute, false otherwise
      */
-    override fun shouldContinueExecuting(): Boolean
-    {
+    override fun shouldContinueExecuting(): Boolean {
         // If the target is dead or in creative don't execute
-        return if (!target!!.isEntityAlive || target!!.capabilities.isCreativeMode)
-        {
+        return if (!target!!.isEntityAlive || target!!.capabilities.isCreativeMode) {
             false
-        }
-        else
-        {
+        } else {
             val distance = entity.getDistance(target!!).toDouble()
             distance in minRange..maxRange
         }
@@ -82,19 +73,19 @@ class EntityAIFollowPlayer(
     /**
      * Updates the entity pathing
      */
-    override fun updateTask()
-    {
+    override fun updateTask() {
         // Only update the task once every 10 ticks
-        if (ticksUntilNextUpdate-- <= 0)
-        {
+        if (ticksUntilNextUpdate-- <= 0) {
             ticksUntilNextUpdate = TICKS_BETWEEN_PATHING_UPDATES
             // Move to the player to the entity
-            entity.navigator.tryMoveToEntityLiving(target!!, entity.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).attributeValue)
+            entity.navigator.tryMoveToEntityLiving(
+                target!!,
+                entity.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).attributeValue
+            )
         }
     }
 
-    companion object
-    {
+    companion object {
         // Ticks inbetween pathing updates
         private const val TICKS_BETWEEN_PATHING_UPDATES = 10
     }

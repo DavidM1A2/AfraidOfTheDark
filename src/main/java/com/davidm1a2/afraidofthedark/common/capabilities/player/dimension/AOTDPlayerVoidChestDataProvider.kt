@@ -11,8 +11,7 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable
  *
  * @property instance The instance of the player void chest data capability
  */
-class AOTDPlayerVoidChestDataProvider : ICapabilitySerializable<NBTBase>
-{
+class AOTDPlayerVoidChestDataProvider : ICapabilitySerializable<NBTBase> {
     private val instance = ModCapabilities.PLAYER_VOID_CHEST_DATA.defaultInstance
 
     /**
@@ -22,9 +21,8 @@ class AOTDPlayerVoidChestDataProvider : ICapabilitySerializable<NBTBase>
      * @param facing     ignored
      * @return True if the capability is a player void chest data capability, false otherwise
      */
-    override fun hasCapability(capability: Capability<*>, facing: EnumFacing?): Boolean
-    {
-        return capability === ModCapabilities.PLAYER_VOID_CHEST_DATA
+    override fun hasCapability(capability: Capability<*>, facing: EnumFacing?): Boolean {
+        return capability == ModCapabilities.PLAYER_VOID_CHEST_DATA
     }
 
     /**
@@ -35,9 +33,10 @@ class AOTDPlayerVoidChestDataProvider : ICapabilitySerializable<NBTBase>
      * @param <T>        The type of capability
      * @return The capability or null if it was the wrong type
      */
-    override fun <T> getCapability(capability: Capability<T>, facing: EnumFacing?): T?
-    {
-        return if (capability === ModCapabilities.PLAYER_VOID_CHEST_DATA) ModCapabilities.PLAYER_VOID_CHEST_DATA.cast(instance) else null
+    override fun <T> getCapability(capability: Capability<T>, facing: EnumFacing?): T? {
+        return if (capability == ModCapabilities.PLAYER_VOID_CHEST_DATA) ModCapabilities.PLAYER_VOID_CHEST_DATA.cast(
+            instance
+        ) else null
     }
 
     /**
@@ -45,9 +44,12 @@ class AOTDPlayerVoidChestDataProvider : ICapabilitySerializable<NBTBase>
      *
      * @return The NBTTagCompound representing this capability
      */
-    override fun serializeNBT(): NBTBase
-    {
-        return ModCapabilities.PLAYER_VOID_CHEST_DATA.storage.writeNBT(ModCapabilities.PLAYER_VOID_CHEST_DATA, instance, null)!!
+    override fun serializeNBT(): NBTBase {
+        return ModCapabilities.PLAYER_VOID_CHEST_DATA.storage.writeNBT(
+            ModCapabilities.PLAYER_VOID_CHEST_DATA,
+            instance,
+            null
+        )!!
     }
 
     /**
@@ -55,8 +57,12 @@ class AOTDPlayerVoidChestDataProvider : ICapabilitySerializable<NBTBase>
      *
      * @param nbt The NBT tag compound to read from
      */
-    override fun deserializeNBT(nbt: NBTBase)
-    {
-        ModCapabilities.PLAYER_VOID_CHEST_DATA.storage.readNBT(ModCapabilities.PLAYER_VOID_CHEST_DATA, instance, null, nbt)
+    override fun deserializeNBT(nbt: NBTBase) {
+        ModCapabilities.PLAYER_VOID_CHEST_DATA.storage.readNBT(
+            ModCapabilities.PLAYER_VOID_CHEST_DATA,
+            instance,
+            null,
+            nbt
+        )
     }
 }

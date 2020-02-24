@@ -15,13 +15,11 @@ import net.minecraft.entity.Entity
  * @property parts A map of part name to part
  * @property body The different parts of the model
  */
-class ModelSplinterDrone internal constructor() : ModelBase()
-{
+class ModelSplinterDrone internal constructor() : ModelBase() {
     private val parts = mutableMapOf<String, MCAModelRenderer>()
     private val body: MCAModelRenderer
 
-    init
-    {
+    init {
         // Auto-generated from the MCAnimator software
 
         textureWidth = 64
@@ -48,7 +46,16 @@ class ModelSplinterDrone internal constructor() : ModelBase()
         bodyPlate3.mirror = false
         bodyPlate3.addBox(-3.0f, -11.0f, -1.0f, 6, 22, 2)
         bodyPlate3.setInitialRotationPoint(-4.0f, 0.0f, 0.0f)
-        bodyPlate3.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.70710677f, 0.0f, 0.70710677f)).transpose())
+        bodyPlate3.setInitialRotationMatrix(
+            Matrix4f().set(
+                Quaternion(
+                    0.0f,
+                    0.70710677f,
+                    0.0f,
+                    0.70710677f
+                )
+            ).transpose()
+        )
         bodyPlate3.setTextureSize(128, 128)
         parts[bodyPlate3.boxName] = bodyPlate3
         body.addChild(bodyPlate3)
@@ -66,7 +73,16 @@ class ModelSplinterDrone internal constructor() : ModelBase()
         bodyPlate2.mirror = false
         bodyPlate2.addBox(-3.0f, -11.0f, -1.0f, 6, 22, 2)
         bodyPlate2.setInitialRotationPoint(4.0f, 0.0f, 0.0f)
-        bodyPlate2.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, -0.70710677f, 0.0f, 0.70710677f)).transpose())
+        bodyPlate2.setInitialRotationMatrix(
+            Matrix4f().set(
+                Quaternion(
+                    0.0f,
+                    -0.70710677f,
+                    0.0f,
+                    0.70710677f
+                )
+            ).transpose()
+        )
         bodyPlate2.setTextureSize(128, 128)
         parts[bodyPlate2.boxName] = bodyPlate2
         body.addChild(bodyPlate2)
@@ -192,8 +208,15 @@ class ModelSplinterDrone internal constructor() : ModelBase()
      * @param headPitch       ignored, used only by default MC
      * @param scale           The scale to render the model at
      */
-    override fun render(entityIn: Entity?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, netHeadYaw: Float, headPitch: Float, scale: Float)
-    {
+    override fun render(
+        entityIn: Entity?,
+        limbSwing: Float,
+        limbSwingAmount: Float,
+        ageInTicks: Float,
+        netHeadYaw: Float,
+        headPitch: Float,
+        scale: Float
+    ) {
         // Cast the entity to a splinter drone model
         val entity = entityIn as EntitySplinterDrone?
 

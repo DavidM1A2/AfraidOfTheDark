@@ -11,8 +11,7 @@ import net.minecraftforge.fml.relauncher.SideOnly
 /**
  * Class used to register all of our mod sprites used for particle FX
  */
-class SpriteRegister
-{
+class SpriteRegister {
     /**
      * Registers our sprites to be used for particle FX
      *
@@ -20,23 +19,23 @@ class SpriteRegister
      */
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
-    fun onTextureStitchEvent(event: TextureStitchEvent.Pre)
-    {
+    fun onTextureStitchEvent(event: TextureStitchEvent.Pre) {
         // There's normally only one map, but just to make sure ensure it's the right one
-        if (event.map.basePath == "textures")
-        {
+        if (event.map.basePath == "textures") {
             ModSprites.ENARIA_BASIC_ATTACK = event.map
-                    .registerSprite(ResourceLocation(Constants.MOD_ID, "particles/enaria_basic_attack"))
+                .registerSprite(ResourceLocation(Constants.MOD_ID, "particles/enaria_basic_attack"))
             ModSprites.ENARIA_SPELL_CAST = event.map
-                    .registerSprite(ResourceLocation(Constants.MOD_ID, "particles/enaria_spell_cast"))
+                .registerSprite(ResourceLocation(Constants.MOD_ID, "particles/enaria_spell_cast"))
             ModSprites.ENARIA_SPELL_CAST_2 = event.map
-                    .registerSprite(ResourceLocation(Constants.MOD_ID, "particles/enaria_spell_cast_2"))
+                .registerSprite(ResourceLocation(Constants.MOD_ID, "particles/enaria_spell_cast_2"))
             ModSprites.ENARIA_TELEPORT = event.map
-                    .registerSprite(ResourceLocation(Constants.MOD_ID, "particles/enaria_teleport"))
+                .registerSprite(ResourceLocation(Constants.MOD_ID, "particles/enaria_teleport"))
             ModSprites.SPELL_CAST = event.map.registerSprite(ResourceLocation(Constants.MOD_ID, "particles/spell_cast"))
             ModSprites.SPELL_HIT = event.map.registerSprite(ResourceLocation(Constants.MOD_ID, "particles/spell_hit"))
-            ModSprites.SMOKE_SCREEN = event.map.registerSprite(ResourceLocation(Constants.MOD_ID, "particles/smoke_screen"))
-            ModSprites.SPELL_LASER = event.map.registerSprite(ResourceLocation(Constants.MOD_ID, "particles/spell_laser"))
+            ModSprites.SMOKE_SCREEN =
+                event.map.registerSprite(ResourceLocation(Constants.MOD_ID, "particles/smoke_screen"))
+            ModSprites.SPELL_LASER =
+                event.map.registerSprite(ResourceLocation(Constants.MOD_ID, "particles/spell_laser"))
         }
     }
 }

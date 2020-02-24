@@ -8,55 +8,46 @@ import java.util.Map;
 /**
  * Class was provided by the MC animator library
  */
-public class CustomChannel extends Channel
-{
+public class CustomChannel extends Channel {
 
-    public CustomChannel(String _name)
-    {
+    public CustomChannel(String _name) {
         super(_name);
         this.mode = Channel.CUSTOM;
     }
 
     @Override
-    protected void initializeAllFrames()
-    {
+    protected void initializeAllFrames() {
     }
 
     @Override
-    public KeyFrame getPreviousRotationKeyFrameForBox(String boxName, float currentFrame)
-    {
+    public KeyFrame getPreviousRotationKeyFrameForBox(String boxName, float currentFrame) {
         return null;
     }
 
     @Override
-    public KeyFrame getNextRotationKeyFrameForBox(String boxName, float currentFrame)
-    {
+    public KeyFrame getNextRotationKeyFrameForBox(String boxName, float currentFrame) {
         return null;
     }
 
     @Override
-    public KeyFrame getPreviousTranslationKeyFrameForBox(String boxName, float currentFrame)
-    {
+    public KeyFrame getPreviousTranslationKeyFrameForBox(String boxName, float currentFrame) {
         return null;
     }
 
     @Override
-    public KeyFrame getNextTranslationKeyFrameForBox(String boxName, float currentFrame)
-    {
+    public KeyFrame getNextTranslationKeyFrameForBox(String boxName, float currentFrame) {
         return null;
     }
 
     @Override
-    public int getKeyFramePosition(KeyFrame keyFrame)
-    {
+    public int getKeyFramePosition(KeyFrame keyFrame) {
         return -1;
     }
 
     /**
      * Write the actual behaviour of this custom animation here. It will called every tick until the animation is active.
      */
-    public void update(Map<String, MCAModelRenderer> parts, IMCAnimatedEntity entity)
-    {
+    public void update(Map<String, MCAModelRenderer> parts, IMCAnimatedEntity entity) {
         //This must be filled in the actual custom channels!
     }
 }

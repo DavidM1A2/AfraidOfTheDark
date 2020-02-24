@@ -36,8 +36,7 @@ import kotlin.math.pow
  * @property textureHeight Default font texture height
  * @property fontMetrics The font metrics for our Java AWT font
  */
-class TrueTypeFont internal constructor(private val font: Font, private val antiAlias: Boolean, alphabet: Set<Char>)
-{
+class TrueTypeFont internal constructor(private val font: Font, private val antiAlias: Boolean, alphabet: Set<Char>) {
     private val glyphs = mutableMapOf<Char, CharacterGlyph>()
     var height: Int = 0
         private set
@@ -46,8 +45,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
     private val textureHeight: Int
     private val fontMetrics: FontMetrics
 
-    init
-    {
+    init {
         val supportedAlphabet = alphabet + DEFAULT_CHARACTER
 
         // Compute and cache the font's metrics
@@ -67,12 +65,10 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
      *
      * @return A font metrics instance for the font
      */
-    private fun computeFontMetrics(): FontMetrics
-    {
+    private fun computeFontMetrics(): FontMetrics {
         // To get a graphics object we need a buffered image...
         val g = BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB).graphics as Graphics2D
-        if (antiAlias)
-        {
+        if (antiAlias) {
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
         }
         g.font = font
@@ -85,8 +81,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
      * @param alphabet The characters that are allowed
      * @return The size with the constraints that width = height, and it's a multiple of 2
      */
-    private fun getTextureSize(alphabet: Set<Char>): Int
-    {
+    private fun getTextureSize(alphabet: Set<Char>): Int {
         // Get the maximum possible height of each character
         val maxCharHeight = fontMetrics.height
 
@@ -94,30 +89,24 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
         val indexableAlphabet = alphabet.toList()
 
         // Find the closest valid texture size that will hold all the glyphs up to 4096x4096
-        for (possibleTextureSize in validTextureSizes)
-        {
+        for (possibleTextureSize in validTextureSizes) {
             var rowsRemaining = possibleTextureSize / maxCharHeight
             var currentRowLength = 0.0
             var currentCharIndex = 0
 
             // Go row by row and see if all the glpyhs will fit
-            while (rowsRemaining > 0)
-            {
+            while (rowsRemaining > 0) {
                 // If no glyphs are left, we're done
-                if (currentCharIndex >= indexableAlphabet.size)
-                {
+                if (currentCharIndex >= indexableAlphabet.size) {
                     return possibleTextureSize
                 }
 
                 // Get the glyph, see if it fits in this row. If not, move on to the next row
                 val currentCharWidth = fontMetrics.charWidth(indexableAlphabet[currentCharIndex])
-                if (currentRowLength + currentCharWidth > possibleTextureSize)
-                {
+                if (currentRowLength + currentCharWidth > possibleTextureSize) {
                     currentRowLength = 0.0
                     rowsRemaining--
-                }
-                else
-                {
+                } else {
                     currentRowLength = currentRowLength + currentCharWidth
                     currentCharIndex++
                 }
@@ -132,8 +121,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
      *
      * @param alphabet The extra non-ascii characters to render
      */
-    private fun createTextureSheet(alphabet: Set<Char>): Int
-    {
+    private fun createTextureSheet(alphabet: Set<Char>): Int {
         // Create a temp buffered image to write to
         val imgTemp = BufferedImage(textureWidth, textureHeight, BufferedImage.TYPE_INT_ARGB)
         // Grab the graphics object to write to the image
@@ -152,8 +140,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
         var positionY = 0
 
         // Go over each character
-        for (character in alphabet)
-        {
+        for (character in alphabet) {
             // Render the character into an image
             val fontImage = getFontImage(character)
 
@@ -165,8 +152,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
             characterGlyph.height = fontImage.height
 
             // If the glyph is too big for the texture move down a line
-            if (positionX + characterGlyph.width >= textureWidth)
-            {
+            if (positionX + characterGlyph.width >= textureWidth) {
                 // Reset X to the far left
                 positionX = 0
                 // Move Y down a row
@@ -204,8 +190,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
      * @param character The character to write
      * @return The buffered image representing the character
      */
-    private fun getFontImage(character: Char): BufferedImage
-    {
+    private fun getFontImage(character: Char): BufferedImage {
         // Compute the width of the current character
         var charWidth = fontMetrics.charWidth(character)
 
@@ -216,8 +201,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
         var charHeight = fontMetrics.height
 
         // If the char's height is invalid just use the font size
-        if (charHeight <= 0)
-        {
+        if (charHeight <= 0) {
             charHeight = font.size
         }
 
@@ -228,8 +212,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
         val g = fontImage.graphics as Graphics2D
 
         // Set the anti-alias flag if needed
-        if (antiAlias)
-        {
+        if (antiAlias) {
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
         }
 
@@ -257,8 +240,15 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
      * @param textAlignment The alignment to draw the text with
      * @param rgba The color to use when drawing the string
      */
-    fun drawString(x: Float, y: Float, stringToDraw: String, scaleX: Float, scaleY: Float, textAlignment: TextAlignment, rgba: org.lwjgl.util.Color)
-    {
+    fun drawString(
+        x: Float,
+        y: Float,
+        stringToDraw: String,
+        scaleX: Float,
+        scaleY: Float,
+        textAlignment: TextAlignment,
+        rgba: org.lwjgl.util.Color
+    ) {
         drawString(x, y, stringToDraw, 0, stringToDraw.length - 1, scaleX, scaleY, textAlignment, rgba)
     }
 
@@ -276,17 +266,16 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
      * @param rgba The color to use when drawing the string
      */
     fun drawString(
-            x: Float,
-            y: Float,
-            stringToDraw: String,
-            startIndex: Int,
-            endIndex: Int,
-            scaleX: Float,
-            scaleY: Float,
-            textAlignment: TextAlignment,
-            rgba: org.lwjgl.util.Color
-    )
-    {
+        x: Float,
+        y: Float,
+        stringToDraw: String,
+        startIndex: Int,
+        endIndex: Int,
+        scaleX: Float,
+        scaleY: Float,
+        textAlignment: TextAlignment,
+        rgba: org.lwjgl.util.Color
+    ) {
         // The current glyph being drawn
         var characterGlyph: CharacterGlyph
         // The current character to draw
@@ -303,39 +292,32 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
         var startY = 0
 
         // Based on the text alignment start drawing at different positions
-        when (textAlignment)
-        {
+        when (textAlignment) {
             // Align the text right
-            TextAlignment.ALIGN_RIGHT ->
-            {
+            TextAlignment.ALIGN_RIGHT -> {
                 // Align right is set, so use flag = -1
                 alignmentFlag = -1
                 // Set spacing correction to right since we are aligned right
                 spacingCorrection = CORRECT_R
 
                 // Iterate while our current index is smaller than the end index so there are still characters to draw
-                while (currentIndex < endIndex)
-                {
+                while (currentIndex < endIndex) {
                     // For each new line move the start y coordinate down by the font's height
-                    if (stringToDraw[currentIndex] == '\n')
-                    {
+                    if (stringToDraw[currentIndex] == '\n') {
                         startY = startY - height
                     }
                     currentIndex++
                 }
             }
             // Align the text centered
-            TextAlignment.ALIGN_CENTER ->
-            {
+            TextAlignment.ALIGN_CENTER -> {
                 // Go over each character in the string
-                for (i in startIndex..endIndex)
-                {
+                for (i in startIndex..endIndex) {
                     // Grab the character
                     currentChar = stringToDraw[i]
 
                     // If the character is a new line we're done, break and align on this alone
-                    if (currentChar == '\n')
-                    {
+                    if (currentChar == '\n') {
                         break
                     }
 
@@ -355,8 +337,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
                 spacingCorrection = CORRECT_L
             }
             // Align the text left, also used for align center
-            TextAlignment.ALIGN_LEFT ->
-            {
+            TextAlignment.ALIGN_LEFT -> {
                 alignmentFlag = 1
                 spacingCorrection = CORRECT_L
             }
@@ -373,36 +354,30 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
         // Set the color to be the passed in color
         GlStateManager.color(rgba.red / 255f, rgba.green / 255f, rgba.blue / 255f, rgba.alpha / 255f)
         // Loop while the current index is between the start and end index
-        while (currentIndex in startIndex..endIndex)
-        {
+        while (currentIndex in startIndex..endIndex) {
             // Grab the current character to draw
             currentChar = stringToDraw[currentIndex]
             // Grab the glyph to draw, it will either be ascii or in the additional glyphs map
             characterGlyph = glyphs[currentChar] ?: glyphs[DEFAULT_CHARACTER]!!
 
             // If the alignment flag is -1 align right is set so we reduce the total width
-            if (alignmentFlag < 0)
-            {
+            if (alignmentFlag < 0) {
                 totalWidth = totalWidth + (characterGlyph.width - spacingCorrection) * alignmentFlag
             }
             // If the current character is a new line change lines
-            if (currentChar == '\n')
-            {
+            if (currentChar == '\n') {
                 // Move in the right direction (up if align right, down otherwise)
                 startY = startY - height * alignmentFlag
                 // Reset the width since we're on a new line
                 totalWidth = 0
                 // If the alignment is center we need to compute the width of the next line
-                if (textAlignment == TextAlignment.ALIGN_CENTER)
-                {
+                if (textAlignment == TextAlignment.ALIGN_CENTER) {
                     // Iterate over the next line, compute its width
-                    for (i in currentIndex + 1..endIndex)
-                    {
+                    for (i in currentIndex + 1..endIndex) {
                         // Grab the current character
                         currentChar = stringToDraw[i]
                         // If we've hit a new new line then the line is over
-                        if (currentChar == '\n')
-                        {
+                        if (currentChar == '\n') {
                             break
                         }
 
@@ -416,22 +391,20 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
                 }
             }
             // If the current char is not a new line then we can continue drawing our character
-            else
-            {
+            else {
                 // Draw a letter
                 drawQuad(
-                        totalWidth * scaleX + x,
-                        startY * scaleY + y,
-                        (totalWidth + characterGlyph.width) * scaleX + x,
-                        (startY + characterGlyph.height) * scaleY + y,
-                        (characterGlyph.storedX + characterGlyph.width).toFloat(),
-                        characterGlyph.storedY.toFloat() + characterGlyph.height,
-                        characterGlyph.storedX.toFloat(),
-                        characterGlyph.storedY.toFloat()
+                    totalWidth * scaleX + x,
+                    startY * scaleY + y,
+                    (totalWidth + characterGlyph.width) * scaleX + x,
+                    (startY + characterGlyph.height) * scaleY + y,
+                    (characterGlyph.storedX + characterGlyph.width).toFloat(),
+                    characterGlyph.storedY.toFloat() + characterGlyph.height,
+                    characterGlyph.storedX.toFloat(),
+                    characterGlyph.storedY.toFloat()
                 )
                 // If we are aligning left then increase the width of the current line
-                if (alignmentFlag > 0)
-                {
+                if (alignmentFlag > 0) {
                     totalWidth = totalWidth + (characterGlyph.width - spacingCorrection) * alignmentFlag
                 }
             }
@@ -454,8 +427,16 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
      * @param srcX2 The source x position to draw to
      * @param srcY2 The source y position to draw to
      */
-    private fun drawQuad(drawX: Float, drawY: Float, drawX2: Float, drawY2: Float, srcX: Float, srcY: Float, srcX2: Float, srcY2: Float)
-    {
+    private fun drawQuad(
+        drawX: Float,
+        drawY: Float,
+        drawX2: Float,
+        drawY2: Float,
+        srcX: Float,
+        srcY: Float,
+        srcX2: Float,
+        srcY2: Float
+    ) {
         // Compute the width and height of the glyph to draw
         val drawWidth = abs(drawX2 - drawX)
         val drawHeight = abs(drawY2 - drawY)
@@ -467,17 +448,17 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
 
         // Add the 4 vertices that are used to draw the glyph. These must be done in this order
         bufferBuilder.pos(drawX.toDouble(), (drawY + drawHeight).toDouble(), 0.0)
-                .tex(((srcX + srcWidth) / textureWidth).toDouble(), (srcY / textureHeight).toDouble())
-                .endVertex()
+            .tex(((srcX + srcWidth) / textureWidth).toDouble(), (srcY / textureHeight).toDouble())
+            .endVertex()
         bufferBuilder.pos((drawX + drawWidth).toDouble(), (drawY + drawHeight).toDouble(), 0.0)
-                .tex((srcX / textureWidth).toDouble(), (srcY / textureHeight).toDouble())
-                .endVertex()
+            .tex((srcX / textureWidth).toDouble(), (srcY / textureHeight).toDouble())
+            .endVertex()
         bufferBuilder.pos((drawX + drawWidth).toDouble(), drawY.toDouble(), 0.0)
-                .tex((srcX / textureWidth).toDouble(), ((srcY + srcHeight) / textureHeight).toDouble())
-                .endVertex()
+            .tex((srcX / textureWidth).toDouble(), ((srcY + srcHeight) / textureHeight).toDouble())
+            .endVertex()
         bufferBuilder.pos(drawX.toDouble(), drawY.toDouble(), 0.0)
-                .tex(((srcX + srcWidth) / textureWidth).toDouble(), ((srcY + srcHeight) / textureHeight).toDouble())
-                .endVertex()
+            .tex(((srcX + srcWidth) / textureWidth).toDouble(), ((srcY + srcHeight) / textureHeight).toDouble())
+            .endVertex()
     }
 
     /**
@@ -486,16 +467,14 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
      * @param string The string to get the width of
      * @return The width of the string if printed in pixels
      */
-    fun getWidth(string: String): Float
-    {
+    fun getWidth(string: String): Float {
         return this.fontMetrics.stringWidth(string).toFloat()
     }
 
     /**
      * Destroys the font and releases the resources
      */
-    fun destroy()
-    {
+    fun destroy() {
         // Create the buffer with the texture id, bind the texture, and delete the texture
         val scratch = BufferUtils.createIntBuffer(1)
         scratch.put(0, fontTextureID)
@@ -507,18 +486,17 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
      * Utility class for storing glyph positions
      */
     private data class CharacterGlyph(
-            // Character's width
-            var width: Int = 0,
-            // Character's height
-            var height: Int = 0,
-            // Character's stored x position
-            var storedX: Int = 0,
-            // Character's stored y position
-            var storedY: Int = 0
+        // Character's width
+        var width: Int = 0,
+        // Character's height
+        var height: Int = 0,
+        // Character's stored x position
+        var storedX: Int = 0,
+        // Character's stored y position
+        var storedY: Int = 0
     )
 
-    companion object
-    {
+    companion object {
         // Correction constants used to render letters closer together. These cause a big with getWidth() currently
         private const val CORRECT_L = 0 // 2
         private const val CORRECT_R = 0 // 1
@@ -534,10 +512,8 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
          * @param bufferedImage The buffered image to load into OpenGL
          * @return The ID of the texture used to reference this image
          */
-        private fun loadImage(bufferedImage: BufferedImage): Int
-        {
-            try
-            {
+        private fun loadImage(bufferedImage: BufferedImage): Int {
+            try {
                 // Grab the width and height of the texture
                 val width = bufferedImage.width
                 val height = bufferedImage.height
@@ -547,15 +523,15 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
                 // Grab the data buffer used by the buffered image
                 val db = bufferedImage.data.dataBuffer
                 // If it's an int buffer write each int to the data buffer 4 bytes at a time
-                if (db is DataBufferInt)
-                {
-                    byteBuffer = ByteBuffer.allocateDirect(width * height * (bytesPerPixel / 8)).order(ByteOrder.nativeOrder())
+                if (db is DataBufferInt) {
+                    byteBuffer =
+                        ByteBuffer.allocateDirect(width * height * (bytesPerPixel / 8)).order(ByteOrder.nativeOrder())
                     (bufferedImage.data.dataBuffer as DataBufferInt).data.forEach { byteBuffer.putInt(it) }
                 }
                 // If it's a byte buffer write it directly into the buffer
-                else
-                {
-                    byteBuffer = ByteBuffer.allocateDirect(width * height * (bytesPerPixel / 8)).order(ByteOrder.nativeOrder())
+                else {
+                    byteBuffer =
+                        ByteBuffer.allocateDirect(width * height * (bytesPerPixel / 8)).order(ByteOrder.nativeOrder())
                     byteBuffer.put((bufferedImage.data.dataBuffer as DataBufferByte).data)
                 }
                 // We need to flip the bytes so they get drawn correctly
@@ -577,14 +553,21 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
 
                 GlStateManager.glTexEnvf(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE.toFloat())
 
-                GLU.gluBuild2DMipmaps(GL11.GL_TEXTURE_2D, GL11.GL_RGBA8, width, height, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, byteBuffer)
+                GLU.gluBuild2DMipmaps(
+                    GL11.GL_TEXTURE_2D,
+                    GL11.GL_RGBA8,
+                    width,
+                    height,
+                    GL11.GL_RGBA,
+                    GL11.GL_UNSIGNED_BYTE,
+                    byteBuffer
+                )
 
                 // Return the texture ID
                 return textureId
             }
             // Catch any exceptions, log an error, and then shutdown java since we can't continue without fonts
-            catch (e: Exception)
-            {
+            catch (e: Exception) {
                 AfraidOfTheDark.INSTANCE.logger.error("Could not allocate an OpenGL texture!", e)
                 FMLCommonHandler.instance().exitJava(-1, false)
             }

@@ -18,8 +18,7 @@ import net.minecraft.world.World
  * @property entity The entity being delivered to, can be null
  * @property deliveryEntity The entity delivering the spell, can be null
  */
-class DeliveryTransitionStateBuilder
-{
+class DeliveryTransitionStateBuilder {
     private lateinit var spell: Spell
     private var stageIndex = 0
     private lateinit var world: World
@@ -35,8 +34,7 @@ class DeliveryTransitionStateBuilder
      * @param spell The spell to transition for
      * @return The builder
      */
-    fun withSpell(spell: Spell): DeliveryTransitionStateBuilder
-    {
+    fun withSpell(spell: Spell): DeliveryTransitionStateBuilder {
         this.spell = spell
         return this
     }
@@ -47,8 +45,7 @@ class DeliveryTransitionStateBuilder
      * @param stageIndex The spell index we're transitioning from
      * @return The builder
      */
-    fun withStageIndex(stageIndex: Int): DeliveryTransitionStateBuilder
-    {
+    fun withStageIndex(stageIndex: Int): DeliveryTransitionStateBuilder {
         this.stageIndex = stageIndex
         return this
     }
@@ -59,8 +56,7 @@ class DeliveryTransitionStateBuilder
      * @param world The world the transition is happening in
      * @return The builder
      */
-    fun withWorld(world: World): DeliveryTransitionStateBuilder
-    {
+    fun withWorld(world: World): DeliveryTransitionStateBuilder {
         this.world = world
         return this
     }
@@ -71,8 +67,7 @@ class DeliveryTransitionStateBuilder
      * @param position The position the transition is happening at
      * @return The builder
      */
-    fun withPosition(position: Vec3d): DeliveryTransitionStateBuilder
-    {
+    fun withPosition(position: Vec3d): DeliveryTransitionStateBuilder {
         this.position = position
         return this
     }
@@ -83,8 +78,7 @@ class DeliveryTransitionStateBuilder
      * @param blockPosition The block position the transition is happening at
      * @return The builder
      */
-    fun withBlockPosition(blockPosition: BlockPos): DeliveryTransitionStateBuilder
-    {
+    fun withBlockPosition(blockPosition: BlockPos): DeliveryTransitionStateBuilder {
         this.blockPosition = blockPosition
         return this
     }
@@ -95,8 +89,7 @@ class DeliveryTransitionStateBuilder
      * @param direction The direction the transition is happening towards
      * @return The builder
      */
-    fun withDirection(direction: Vec3d): DeliveryTransitionStateBuilder
-    {
+    fun withDirection(direction: Vec3d): DeliveryTransitionStateBuilder {
         this.direction = direction
         return this
     }
@@ -107,8 +100,7 @@ class DeliveryTransitionStateBuilder
      * @param deliveryEntity The entity delivering the spell
      * @return The builder
      */
-    fun withDeliveryEntity(deliveryEntity: Entity?): DeliveryTransitionStateBuilder
-    {
+    fun withDeliveryEntity(deliveryEntity: Entity?): DeliveryTransitionStateBuilder {
         this.deliveryEntity = deliveryEntity
         return this
     }
@@ -119,8 +111,7 @@ class DeliveryTransitionStateBuilder
      * @param entity The entity to grab data from
      * @return The builder
      */
-    fun withEntity(entity: Entity): DeliveryTransitionStateBuilder
-    {
+    fun withEntity(entity: Entity): DeliveryTransitionStateBuilder {
         this.entity = entity
         world = entity.entityWorld
         position = entity.positionVector
@@ -135,8 +126,7 @@ class DeliveryTransitionStateBuilder
      * @param state The state to copy from
      * @return The builder
      */
-    fun copyOf(state: DeliveryTransitionState): DeliveryTransitionStateBuilder
-    {
+    fun copyOf(state: DeliveryTransitionState): DeliveryTransitionStateBuilder {
         spell = state.spell
         stageIndex = state.stageIndex
         world = state.world
@@ -153,8 +143,16 @@ class DeliveryTransitionStateBuilder
      *
      * @return The state object
      */
-    fun build(): DeliveryTransitionState
-    {
-        return DeliveryTransitionState(spell, stageIndex, world, position, blockPosition, direction, entity, deliveryEntity)
+    fun build(): DeliveryTransitionState {
+        return DeliveryTransitionState(
+            spell,
+            stageIndex,
+            world,
+            position,
+            blockPosition,
+            direction,
+            entity,
+            deliveryEntity
+        )
     }
 }

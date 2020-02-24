@@ -21,31 +21,35 @@ import kotlin.math.round
  * @property lastSliderPosition The last known slider pos is used for determining if the panel should update
  * @property viewport A rectangle that represents the scroll panel's viewport
  */
-class AOTDGuiScrollPanel(x: Int, private var originalYPos: Int, width: Int, height: Int, private val scissorEnabled: Boolean, private val scrollBar: AOTDGuiScrollBar) :
-        AOTDGuiContainer(x, originalYPos, width, height)
-{
+class AOTDGuiScrollPanel(
+    x: Int,
+    private var originalYPos: Int,
+    width: Int,
+    height: Int,
+    private val scissorEnabled: Boolean,
+    private val scrollBar: AOTDGuiScrollBar
+) :
+    AOTDGuiContainer(x, originalYPos, width, height) {
     var maximumOffset = 0
-        set(maximumOffset)
-        {
+        set(maximumOffset) {
             field = maximumOffset
             this.lastSliderPosition = -1f
         }
     private var lastSliderPosition = 0f
     private var viewport = Rectangle(0, 0, 0, 0)
 
-    init
-    {
+    init {
         // When we scroll we want to move the content pane up or down
-        this.addMouseScrollListener()
-        {
+        this.addMouseScrollListener {
             // Only scroll the pane if it's hovered
-            if (this.isHovered)
-            {
+            if (this.isHovered) {
                 // Only move the handle if scrollDistance is non-zero
-                if (it.scrollDistance != 0)
-                {
+                if (it.scrollDistance != 0) {
                     // Move the scroll bar by the distance amount
-                    scrollBar.moveHandle(round(-it.scrollDistance / this.maximumOffset.toFloat() * PIXELS_SCROLLED_PER_CLICK).toInt(), true)
+                    scrollBar.moveHandle(
+                        round(-it.scrollDistance / this.maximumOffset.toFloat() * PIXELS_SCROLLED_PER_CLICK).toInt(),
+                        true
+                    )
                 }
             }
         }
@@ -54,21 +58,19 @@ class AOTDGuiScrollPanel(x: Int, private var originalYPos: Int, width: Int, heig
     /**
      * Draws the component
      */
-    override fun draw()
-    {
+    override fun draw() {
         // If scissor is enabled we use glScissor to force all drawing to happen inside of a box
-        if (scissorEnabled)
-        {
+        if (scissorEnabled) {
             // Compute the OpenGL X and Y screen coordinates to scissor
             var realX = AOTDGuiUtility.mcToRealScreenCoord(this.getXScaled())
-            var realY = AOTDGuiUtility.realScreenYToGLYCoord(AOTDGuiUtility.mcToRealScreenCoord((this.originalYPos * this.scaleY).toInt() + this.getHeightScaled()))
+            var realY =
+                AOTDGuiUtility.realScreenYToGLYCoord(AOTDGuiUtility.mcToRealScreenCoord((this.originalYPos * this.scaleY).toInt() + this.getHeightScaled()))
             // Compute the OpenGL width and height to scissor with
             var realWidth = AOTDGuiUtility.mcToRealScreenCoord(this.getWidthScaled())
             var realHeight = AOTDGuiUtility.mcToRealScreenCoord(this.getHeightScaled())
 
             // If open GL scissors is enabled update the x,y width,height to be clamped within the current scissor box
-            if (GL11.glIsEnabled(GL11.GL_SCISSOR_TEST))
-            {
+            if (GL11.glIsEnabled(GL11.GL_SCISSOR_TEST)) {
                 // Create an int buffer to hold all the current scissor box values
                 val buffer = BufferUtils.createIntBuffer(16)
                 // Grab the current scissor box values
@@ -87,8 +89,7 @@ class AOTDGuiScrollPanel(x: Int, private var originalYPos: Int, width: Int, heig
                 realHeight = realHeight.coerceIn(0, oldY + oldHeight - realY)
 
                 // Don't draw anything if we're completely ouside the original box
-                if (realWidth == 0 || realHeight == 0)
-                {
+                if (realWidth == 0 || realHeight == 0) {
                     return
                 }
             }
@@ -100,8 +101,7 @@ class AOTDGuiScrollPanel(x: Int, private var originalYPos: Int, width: Int, heig
         }
 
         // If we get a new scroll value update the panel's position
-        if (lastSliderPosition != this.scrollBar.value)
-        {
+        if (lastSliderPosition != this.scrollBar.value) {
             lastSliderPosition = this.scrollBar.value
             // Update the y position internally by offsetting based on slider percent
             super.setY(this.originalYPos - (this.maximumOffset * lastSliderPosition).toInt())
@@ -115,8 +115,7 @@ class AOTDGuiScrollPanel(x: Int, private var originalYPos: Int, width: Int, heig
         super.draw()
 
         // If scissor was enabled disable it
-        if (scissorEnabled)
-        {
+        if (scissorEnabled) {
             // Disable scissor and pop the old bit
             GL11.glDisable(GL11.GL_SCISSOR_TEST)
             GL11.glPopAttrib()
@@ -129,8 +128,7 @@ class AOTDGuiScrollPanel(x: Int, private var originalYPos: Int, width: Int, heig
      * @param point The point to test intersection with
      * @return True if the point intersects the rectangle, false otherwise
      */
-    override fun intersects(point: Point): Boolean
-    {
+    override fun intersects(point: Point): Boolean {
         return this.viewport.contains(point)
     }
 
@@ -140,16 +138,14 @@ class AOTDGuiScrollPanel(x: Int, private var originalYPos: Int, width: Int, heig
      * @param rectangle The point to test intersection with
      * @return True if the point intersects the rectangle, false otherwise
      */
-    override fun intersects(rectangle: Rectangle): Boolean
-    {
+    override fun intersects(rectangle: Rectangle): Boolean {
         return this.viewport.intersects(rectangle)
     }
 
     /**
      * Updates the scaled bounding box from the current X and Y scale
      */
-    override fun updateScaledBounds()
-    {
+    override fun updateScaledBounds() {
         super.updateScaledBounds()
         this.viewport = Rectangle(getXScaled(), (originalYPos * scaleY).toInt(), getWidthScaled(), getHeightScaled())
     }
@@ -159,15 +155,13 @@ class AOTDGuiScrollPanel(x: Int, private var originalYPos: Int, width: Int, heig
      *
      * @param y The new y value to use
      */
-    override fun setY(y: Int)
-    {
+    override fun setY(y: Int) {
         super.setY(y)
         this.originalYPos = y
         this.lastSliderPosition = -1f
     }
 
-    companion object
-    {
+    companion object {
         // Number of pixels we scroll per mouse wheel click
         private const val PIXELS_SCROLLED_PER_CLICK = 25
     }

@@ -9,8 +9,7 @@ import net.minecraft.util.ITickable
  * @constructor initializes the tile entity fields
  * @param block The block that this tile entity is for
  */
-abstract class AOTDTickingTileEntity(block: Block) : AOTDTileEntity(block), ITickable
-{
+abstract class AOTDTickingTileEntity(block: Block) : AOTDTileEntity(block), ITickable {
     // The number of ticks the tile entity has existed
     protected var ticksExisted: Long = 0
         private set
@@ -18,8 +17,7 @@ abstract class AOTDTickingTileEntity(block: Block) : AOTDTileEntity(block), ITic
     /**
      * Called every tick to update the tile entity's state
      */
-    override fun update()
-    {
+    override fun update() {
         ticksExisted = ticksExisted + 1
     }
 }

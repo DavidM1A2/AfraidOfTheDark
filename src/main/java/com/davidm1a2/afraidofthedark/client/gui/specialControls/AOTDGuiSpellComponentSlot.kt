@@ -18,19 +18,17 @@ import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstan
  * @property componentInstance The instance of this spell component
  */
 abstract class AOTDGuiSpellComponentSlot<T : SpellComponent<T>>(
-        x: Int,
-        y: Int,
-        width: Int,
-        height: Int,
-        slotBackground: String
-) : AOTDGuiContainer(x, y, width, height)
-{
+    x: Int,
+    y: Int,
+    width: Int,
+    height: Int,
+    slotBackground: String
+) : AOTDGuiContainer(x, y, width, height) {
     private val icon: AOTDGuiImage
     private val highlight: AOTDGuiImage
     private var componentInstance: SpellComponentInstance<T>? = null
 
-    init
-    {
+    init {
         // The background image of the spell slot
         val background = AOTDGuiImage(0, 0, width, height, slotBackground)
         this.add(background)
@@ -51,17 +49,14 @@ abstract class AOTDGuiSpellComponentSlot<T : SpellComponent<T>>(
      *
      * @param instance The component instance to show
      */
-    fun setSpellComponent(instance: SpellComponentInstance<T>?)
-    {
+    fun setSpellComponent(instance: SpellComponentInstance<T>?) {
         // If the component type is null hide the icon and set the instance to null too
-        if (instance == null)
-        {
+        if (instance == null) {
             this.icon.isVisible = false
             this.componentInstance = null
         }
         // If the component type is non-null show the the right icon
-        else
-        {
+        else {
             this.icon.isVisible = true
             this.componentInstance = instance
             this.icon.imageTexture = instance.component.icon
@@ -78,16 +73,14 @@ abstract class AOTDGuiSpellComponentSlot<T : SpellComponent<T>>(
     /**
      * @return The component type of this slot
      */
-    fun getComponentType(): T?
-    {
+    fun getComponentType(): T? {
         return componentInstance?.component
     }
 
     /**
      * @return The component instance of this slot
      */
-    fun getComponentInstance(): SpellComponentInstance<T>?
-    {
+    fun getComponentInstance(): SpellComponentInstance<T>? {
         return componentInstance
     }
 
@@ -96,8 +89,7 @@ abstract class AOTDGuiSpellComponentSlot<T : SpellComponent<T>>(
      *
      * @param highlit True if the slot is highlit, false otherwise
      */
-    fun setHighlight(highlit: Boolean)
-    {
+    fun setHighlight(highlit: Boolean) {
         this.highlight.isVisible = highlit
     }
 }

@@ -36,11 +36,10 @@ import kotlin.math.*
  * @property leafIntegrity The percent leaf block integrity
  */
 class AOTDWorldGenBigTree(
-        notify: Boolean,
-        private val wood: IBlockState,
-        private val leaves: IBlockState
-) : WorldGenAbstractTree(notify)
-{
+    notify: Boolean,
+    private val wood: IBlockState,
+    private val leaves: IBlockState
+) : WorldGenAbstractTree(notify) {
     ///
     /// Variables computed from the options
     ///
@@ -74,8 +73,7 @@ class AOTDWorldGenBigTree(
      * @param position The position of the tree
      * @return True if the tree was created, false otherwise
      */
-    override fun generate(world: World, rand: Random, position: BlockPos): Boolean
-    {
+    override fun generate(world: World, rand: Random, position: BlockPos): Boolean {
         this.world = world
         // Fix chunk overflowing
         basePos = position
@@ -83,20 +81,16 @@ class AOTDWorldGenBigTree(
         this.rand = Random(rand.nextLong())
 
         // If the height limit is 0 set it to a random value
-        if (heightLimit == 0)
-        {
+        if (heightLimit == 0) {
             heightLimit = 5 + this.rand.nextInt(heightLimitMax)
         }
 
         // If the location is not valid, return false because the tree did not generate
-        return if (!validTreeLocation())
-        {
+        return if (!validTreeLocation()) {
             //Fix vanilla Mem leak, holds latest world
             this.world = null
             false
-        }
-        else
-        {
+        } else {
             generateLeafNodeList()
             generateLeaves()
             generateTrunk()
@@ -110,8 +104,7 @@ class AOTDWorldGenBigTree(
     /**
      * Setter for decoration defaults, in our case max leaf distance is set to 5
      */
-    override fun setDecorationDefaults()
-    {
+    override fun setDecorationDefaults() {
         leafDistanceLimit = 5
     }
 
@@ -125,36 +118,34 @@ class AOTDWorldGenBigTree(
      *
      * @return True if the location is valid, false otherwise
      */
-    private fun validTreeLocation(): Boolean
-    {
+    private fun validTreeLocation(): Boolean {
         // Grab the position of the block below the stump
         val posBelowTree = basePos.down()
         // Get the state of the block below the stump
         val blockBelowTreeState = world!!.getBlockState(posBelowTree)
         // Test if the block can sustain tree growth
-        val isSoil = blockBelowTreeState.block.canSustainPlant(blockBelowTreeState, world!!, posBelowTree, EnumFacing.UP, Blocks.SAPLING as IPlantable)
+        val isSoil = blockBelowTreeState.block.canSustainPlant(
+            blockBelowTreeState,
+            world!!,
+            posBelowTree,
+            EnumFacing.UP,
+            Blocks.SAPLING as IPlantable
+        )
         // If it cannot return false
-        return if (!isSoil)
-        {
+        return if (!isSoil) {
             false
-        }
-        else
-        {
+        } else {
             // Count the number of blocks above the base available for the trunk
             val blocksAvailableAbove = checkBlockLine(basePos, basePos.up(heightLimit - 1))
             // If it's -1 we've got enough room
-            when
-            {
-                blocksAvailableAbove == -1 ->
-                {
+            when {
+                blocksAvailableAbove == -1 -> {
                     true
                 }
-                blocksAvailableAbove < 6 ->
-                {
+                blocksAvailableAbove < 6 -> {
                     false
                 }
-                else ->
-                {
+                else -> {
                     heightLimit = blocksAvailableAbove
                     true
                 }
@@ -165,46 +156,38 @@ class AOTDWorldGenBigTree(
     /**
      * Generates a list of leaf nodes for the tree, to be populated by generate Leaves.
      */
-    private fun generateLeafNodeList()
-    {
+    private fun generateLeafNodeList() {
         // Compute the height of the tree based on the limit
         height = (heightLimit * heightAttenuation).toInt()
         // If the height is greater than the limit we use the limit as the max
-        if (height >= heightLimit)
-        {
+        if (height >= heightLimit) {
             height = heightLimit - 1
         }
         var leafDensityConverted = (1.382 + (leafDensity * heightLimit.toDouble() / 13.0).pow(2.0)).toInt()
-        if (leafDensityConverted < 1)
-        {
+        if (leafDensityConverted < 1) {
             leafDensityConverted = 1
         }
         val maxHeight = basePos.y + height
         var k = heightLimit - leafDistanceLimit
         foliageCoords = mutableListOf()
         foliageCoords!!.add(FoliageCoordinates(basePos.up(k), maxHeight))
-        while (k >= 0)
-        {
+        while (k >= 0) {
             val f = layerSize(k)
-            if (f >= 0.0f)
-            {
-                for (l in 0 until leafDensityConverted)
-                {
+            if (f >= 0.0f) {
+                for (l in 0 until leafDensityConverted) {
                     val d0 = scaleWidth * f.toDouble() * (rand.nextFloat().toDouble() + 0.328)
                     val d1 = (rand.nextFloat() * 2.0f).toDouble() * Math.PI
                     val d2 = d0 * sin(d1) + 0.5
                     val d3 = d0 * cos(d1) + 0.5
                     val blockpos = basePos.add(d2, (k - 1).toDouble(), d3)
                     val blockpos1 = blockpos.up(leafDistanceLimit)
-                    if (checkBlockLine(blockpos, blockpos1) == -1)
-                    {
+                    if (checkBlockLine(blockpos, blockpos1) == -1) {
                         val i1 = basePos.x - blockpos.x
                         val j1 = basePos.z - blockpos.z
                         val d4 = blockpos.y.toDouble() - sqrt((i1 * i1 + j1 * j1).toDouble()) * branchSlope
                         val k1 = if (d4 > maxHeight.toDouble()) maxHeight else d4.toInt()
                         val blockpos2 = BlockPos(basePos.x, k1, basePos.z)
-                        if (checkBlockLine(blockpos2, blockpos) == -1)
-                        {
+                        if (checkBlockLine(blockpos2, blockpos) == -1) {
                             foliageCoords!!.add(FoliageCoordinates(blockpos, blockpos2.y))
                         }
                     }
@@ -221,19 +204,19 @@ class AOTDWorldGenBigTree(
      * @param leafSize  The size the cross section should be
      * @param leafBlock The block to use as leaves
      */
-    private fun crossSection(pos: BlockPos, leafSize: Float, leafBlock: IBlockState)
-    {
+    private fun crossSection(pos: BlockPos, leafSize: Float, leafBlock: IBlockState) {
         val i = (leafSize + 0.618).toInt()
-        for (j in -i..i)
-        {
-            for (k in -i..i)
-            {
-                if ((abs(j) + 0.5).pow(2.0) + (abs(k) + 0.5).pow(2.0) <= leafSize * leafSize)
-                {
+        for (j in -i..i) {
+            for (k in -i..i) {
+                if ((abs(j) + 0.5).pow(2.0) + (abs(k) + 0.5).pow(2.0) <= leafSize * leafSize) {
                     val blockpos = pos.add(j, 0, k)
                     val state = world!!.getBlockState(blockpos)
-                    if ((state.block.isAir(state, world!!, blockpos) || state.block.isLeaves(state, world!!, blockpos)) && rand.nextDouble() < leafIntegrity)
-                    {
+                    if ((state.block.isAir(state, world!!, blockpos) || state.block.isLeaves(
+                            state,
+                            world!!,
+                            blockpos
+                        )) && rand.nextDouble() < leafIntegrity
+                    ) {
                         setBlockAndNotifyAdequately(world!!, blockpos, leafBlock)
                     }
                 }
@@ -244,23 +227,16 @@ class AOTDWorldGenBigTree(
     /**
      * Gets the rough size of a layer of the tree.
      */
-    private fun layerSize(y: Int): Float
-    {
-        return if (y < heightLimit * 0.3f)
-        {
+    private fun layerSize(y: Int): Float {
+        return if (y < heightLimit * 0.3f) {
             -1.0f
-        }
-        else
-        {
+        } else {
             val f = heightLimit / 2.0f
             val f1 = f - y
             var f2 = sqrt(f * f - f1 * f1)
-            if (f1 == 0.0f)
-            {
+            if (f1 == 0.0f) {
                 f2 = f
-            }
-            else if (abs(f1) >= f)
-            {
+            } else if (abs(f1) >= f) {
                 return 0.0f
             }
             f2 * 0.5f
@@ -273,14 +249,10 @@ class AOTDWorldGenBigTree(
      * @param leafDistance The leaf distance to grow
      * @return The distance the leaves should go outwards
      */
-    private fun leafSize(leafDistance: Int): Float
-    {
-        return if (leafDistance in 0 until leafDistanceLimit)
-        {
+    private fun leafSize(leafDistance: Int): Float {
+        return if (leafDistance in 0 until leafDistanceLimit) {
             if (leafDistance != 0 && leafDistance != leafDistanceLimit - 1) 3.0f else 2.0f
-        }
-        else
-        {
+        } else {
             -1.0f
         }
     }
@@ -291,19 +263,17 @@ class AOTDWorldGenBigTree(
      * @param startBlockPos The tree log start position
      * @param endBlockPos   The tree log end position
      */
-    private fun limb(startBlockPos: BlockPos, endBlockPos: BlockPos)
-    {
+    private fun limb(startBlockPos: BlockPos, endBlockPos: BlockPos) {
         val blockpos = endBlockPos.add(-startBlockPos.x, -startBlockPos.y, -startBlockPos.z)
         val i = getGreatestDistance(blockpos)
         val f = blockpos.x.toFloat() / i.toFloat()
         val f1 = blockpos.y.toFloat() / i.toFloat()
         val f2 = blockpos.z.toFloat() / i.toFloat()
-        for (j in 0..i)
-        {
+        for (j in 0..i) {
             val blockpos1 = startBlockPos.add(
-                    (0.5f + j.toFloat() * f).toDouble(),
-                    (0.5f + j.toFloat() * f1).toDouble(),
-                    (0.5f + j.toFloat() * f2).toDouble()
+                (0.5f + j.toFloat() * f).toDouble(),
+                (0.5f + j.toFloat() * f1).toDouble(),
+                (0.5f + j.toFloat() * f2).toDouble()
             )
             val logAxis = getLogAxis(startBlockPos, blockpos1)
             setBlockAndNotifyAdequately(world!!, blockpos1, wood.withProperty(BlockLog.LOG_AXIS, logAxis))
@@ -313,17 +283,13 @@ class AOTDWorldGenBigTree(
     /**
      * Returns the absolute greatest distance in the BlockPos object.
      */
-    private fun getGreatestDistance(posIn: BlockPos): Int
-    {
+    private fun getGreatestDistance(posIn: BlockPos): Int {
         val i = abs(posIn.x)
         val j = abs(posIn.y)
         val k = abs(posIn.z)
-        return if (k > i && k > j)
-        {
+        return if (k > i && k > j) {
             k
-        }
-        else
-        {
+        } else {
             if (j > i) j else i
         }
     }
@@ -335,20 +301,15 @@ class AOTDWorldGenBigTree(
      * @param endBlockPos   The end position of the branch
      * @return The axis the log should face
      */
-    private fun getLogAxis(startBlockPos: BlockPos, endBlockPos: BlockPos): EnumAxis
-    {
+    private fun getLogAxis(startBlockPos: BlockPos, endBlockPos: BlockPos): EnumAxis {
         var logAxis = EnumAxis.Y
         val xDistance = abs(endBlockPos.x - startBlockPos.x)
         val zDistance = abs(endBlockPos.z - startBlockPos.z)
         val k = max(xDistance, zDistance)
-        if (k > 0)
-        {
-            logAxis = if (xDistance == k)
-            {
+        if (k > 0) {
+            logAxis = if (xDistance == k) {
                 EnumAxis.X
-            }
-            else
-            {
+            } else {
                 EnumAxis.Z
             }
         }
@@ -358,12 +319,11 @@ class AOTDWorldGenBigTree(
     /**
      * Generates the leaf portion of the tree as specified by the leafNodes list.
      */
-    private fun generateLeaves()
-    {
+    private fun generateLeaves() {
         for (foliageCoordinates in foliageCoords!!) for (i in 0 until leafDistanceLimit) crossSection(
-                foliageCoordinates.up(i),
-                leafSize(i),
-                leaves.withProperty(BlockLeaves.CHECK_DECAY, java.lang.Boolean.FALSE)
+            foliageCoordinates.up(i),
+            leafSize(i),
+            leaves.withProperty(BlockLeaves.CHECK_DECAY, java.lang.Boolean.FALSE)
         )
     }
 
@@ -371,13 +331,11 @@ class AOTDWorldGenBigTree(
      * Places the trunk for the big tree that is being generated. Able to generate double-sized trunks by changing a
      * field that is always 1 to 2.
      */
-    private fun generateTrunk()
-    {
+    private fun generateTrunk() {
         val blockpos = basePos
         val blockpos1 = basePos.up(height)
         limb(blockpos, blockpos1)
-        if (trunkSize == 2)
-        {
+        if (trunkSize == 2) {
             limb(blockpos.east(), blockpos1.east())
             limb(blockpos.east().south(), blockpos1.east().south())
             limb(blockpos.south(), blockpos1.south())
@@ -387,19 +345,16 @@ class AOTDWorldGenBigTree(
     /**
      * Generates additional wood blocks to fill out the bases of different leaf nodes that would otherwise degrade.
      */
-    private fun generateLeafNodeBases()
-    {
-        for (foliageCoordinates in foliageCoords!!)
-        {
+    private fun generateLeafNodeBases() {
+        for (foliageCoordinates in foliageCoords!!) {
             val i = foliageCoordinates.branchBase
             val blockpos = BlockPos(basePos.x, i, basePos.z)
-            if (blockpos != foliageCoordinates && i - basePos.y >= heightLimit * 0.2)
-            {
+            if (blockpos != foliageCoordinates && i - basePos.y >= heightLimit * 0.2) {
                 limb(blockpos, foliageCoordinates)
                 setBlockAndNotifyAdequately(
-                        world!!,
-                        foliageCoordinates.up(leafDistanceLimit / 2),
-                        wood.withProperty(BlockLog.LOG_AXIS, EnumAxis.Y)
+                    world!!,
+                    foliageCoordinates.up(leafDistanceLimit / 2),
+                    wood.withProperty(BlockLog.LOG_AXIS, EnumAxis.Y)
                 )
             }
         }
@@ -413,28 +368,22 @@ class AOTDWorldGenBigTree(
      * @param posTwo The end or second position to check
      * @return The number of blocks that are non-air from first -> second pos
      */
-    private fun checkBlockLine(posOne: BlockPos, posTwo: BlockPos): Int
-    {
+    private fun checkBlockLine(posOne: BlockPos, posTwo: BlockPos): Int {
         val blockpos = posTwo.add(-posOne.x, -posOne.y, -posOne.z)
         val i = getGreatestDistance(blockpos)
         val f = blockpos.x.toFloat() / i.toFloat()
         val f1 = blockpos.y.toFloat() / i.toFloat()
         val f2 = blockpos.z.toFloat() / i.toFloat()
-        return if (i == 0)
-        {
+        return if (i == 0) {
             -1
-        }
-        else
-        {
-            for (j in 0..i)
-            {
+        } else {
+            for (j in 0..i) {
                 val blockpos1 = posOne.add(
-                        (0.5f + j.toFloat() * f).toDouble(),
-                        (0.5f + j.toFloat() * f1).toDouble(),
-                        (0.5f + j.toFloat() * f2).toDouble()
+                    (0.5f + j.toFloat() * f).toDouble(),
+                    (0.5f + j.toFloat() * f1).toDouble(),
+                    (0.5f + j.toFloat() * f2).toDouble()
                 )
-                if (!isReplaceable(world!!, blockpos1))
-                {
+                if (!isReplaceable(world!!, blockpos1)) {
                     return j
                 }
             }
@@ -442,5 +391,6 @@ class AOTDWorldGenBigTree(
         }
     }
 
-    private inner class FoliageCoordinates internal constructor(pos: BlockPos, val branchBase: Int) : BlockPos(pos.x, pos.y, pos.z)
+    private inner class FoliageCoordinates internal constructor(pos: BlockPos, val branchBase: Int) :
+        BlockPos(pos.x, pos.y, pos.z)
 }

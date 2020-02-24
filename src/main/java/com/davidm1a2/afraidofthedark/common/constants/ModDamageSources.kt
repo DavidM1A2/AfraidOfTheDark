@@ -10,8 +10,7 @@ import net.minecraft.util.EntityDamageSourceIndirect
 /**
  * Class containing definitions for AOTD damage sources
  */
-object ModDamageSources
-{
+object ModDamageSources {
     // Constant names for the damage sources
     const val SILVER_DAMAGE = "silver_damage"
     const val PLASMA_BALL = "plasma_ball"
@@ -22,8 +21,7 @@ object ModDamageSources
      * @param entity The entity hitting
      * @return The silver damage source
      */
-    fun getSilverDamage(entity: Entity?): DamageSource
-    {
+    fun getSilverDamage(entity: Entity?): DamageSource {
         return EntityDamageSource(SILVER_DAMAGE, entity)
     }
 
@@ -34,8 +32,10 @@ object ModDamageSources
      * @param indirectSource The drone that fired the shot
      * @return The damage source to apply
      */
-    fun causePlasmaBallDamage(source: EntitySplinterDroneProjectile, indirectSource: EntitySplinterDrone?): DamageSource
-    {
+    fun causePlasmaBallDamage(
+        source: EntitySplinterDroneProjectile,
+        indirectSource: EntitySplinterDrone?
+    ): DamageSource {
         return EntityDamageSourceIndirect(PLASMA_BALL, source, indirectSource).setProjectile()
     }
 }

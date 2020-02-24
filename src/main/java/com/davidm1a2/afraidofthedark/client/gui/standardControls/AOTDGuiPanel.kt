@@ -15,26 +15,24 @@ import org.lwjgl.opengl.GL11
  * @param height         The height of the component
  * @param scissorEnabled If scissors are enabled when drawing this panel
  */
-open class AOTDGuiPanel(x: Int, y: Int, width: Int, height: Int, private val scissorEnabled: Boolean) : AOTDGuiContainer(x, y, width, height)
-{
+open class AOTDGuiPanel(x: Int, y: Int, width: Int, height: Int, private val scissorEnabled: Boolean) :
+    AOTDGuiContainer(x, y, width, height) {
     /**
      * A panel can only be drawn inside of a box that may be scissored
      */
-    override fun draw()
-    {
+    override fun draw() {
         // If scissor is enabled we use glScissor to force all drawing to happen inside of a box
-        if (scissorEnabled)
-        {
+        if (scissorEnabled) {
             // Compute the OpenGL X and Y screen coordinates to scissor
             var realX = AOTDGuiUtility.mcToRealScreenCoord(this.getXScaled())
-            var realY = AOTDGuiUtility.realScreenYToGLYCoord(AOTDGuiUtility.mcToRealScreenCoord(this.getYScaled() + this.getHeightScaled()))
+            var realY =
+                AOTDGuiUtility.realScreenYToGLYCoord(AOTDGuiUtility.mcToRealScreenCoord(this.getYScaled() + this.getHeightScaled()))
             // Compute the OpenGL width and height to scissor with
             var realWidth = AOTDGuiUtility.mcToRealScreenCoord(this.getWidthScaled())
             var realHeight = AOTDGuiUtility.mcToRealScreenCoord(this.getHeightScaled())
 
             // If open GL scissors is enabled update the x,y width,height to be clamped within the current scissor box
-            if (GL11.glIsEnabled(GL11.GL_SCISSOR_TEST))
-            {
+            if (GL11.glIsEnabled(GL11.GL_SCISSOR_TEST)) {
                 // Create an int buffer to hold all the current scissor box values
                 val buffer = BufferUtils.createIntBuffer(16)
                 // Grab the current scissor box values
@@ -53,8 +51,7 @@ open class AOTDGuiPanel(x: Int, y: Int, width: Int, height: Int, private val sci
                 realHeight = realHeight.coerceIn(0, oldY + oldHeight - realY)
 
                 // Don't draw anything if we're completely outside the original box
-                if (realWidth == 0 || realHeight == 0)
-                {
+                if (realWidth == 0 || realHeight == 0) {
                     return
                 }
             }
@@ -69,8 +66,7 @@ open class AOTDGuiPanel(x: Int, y: Int, width: Int, height: Int, private val sci
         super.draw()
 
         // If scissor was enabled disable it
-        if (scissorEnabled)
-        {
+        if (scissorEnabled) {
             // Disable scissor and pop the old bit
             GL11.glDisable(GL11.GL_SCISSOR_TEST)
             GL11.glPopAttrib()

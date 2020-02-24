@@ -6,8 +6,7 @@ import net.minecraft.nbt.NBTTagList
 /**
  * Object representation of a schematic file (.schematic)
  */
-interface Schematic
-{
+interface Schematic {
     /**
      * @return The name of the schematic
      */

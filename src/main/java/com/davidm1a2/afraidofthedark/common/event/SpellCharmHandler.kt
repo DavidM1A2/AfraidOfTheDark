@@ -16,8 +16,7 @@ import kotlin.math.atan2
 /**
  * Handles events that let the player be charmed
  */
-class SpellCharmHandler
-{
+class SpellCharmHandler {
     /**
      * Called every game tick on the server, updates all server wide spell data
      *
@@ -25,34 +24,30 @@ class SpellCharmHandler
      */
     @SubscribeEvent
     @SideOnly(Side.SERVER)
-    fun onPlayerTick(event: PlayerTickEvent)
-    {
+    fun onPlayerTick(event: PlayerTickEvent) {
         // Server side processing
-        if (event.type == TickEvent.Type.PLAYER && event.phase == TickEvent.Phase.START && event.side == Side.SERVER)
-        {
+        if (event.type == TickEvent.Type.PLAYER && event.phase == TickEvent.Phase.START && event.side == Side.SERVER) {
             val entityPlayer = event.player
             val playerCharmData = entityPlayer.getSpellCharmData()
 
             // Ensure there's at least 1 charm tick remaining
-            if (playerCharmData.charmTicks > 0)
-            {
+            if (playerCharmData.charmTicks > 0) {
                 // Reduce the charm ticks by 1
                 playerCharmData.charmTicks = playerCharmData.charmTicks - 1
 
                 // Force the player to look at the entity
                 val charmingEntityId = playerCharmData.charmingEntityId
-                val charmingEntity = FMLCommonHandler.instance().minecraftServerInstance.getEntityFromUuid(charmingEntityId!!)
+                val charmingEntity =
+                    FMLCommonHandler.instance().minecraftServerInstance.getEntityFromUuid(charmingEntityId!!)
 
                 // If the player is non-null set the player's facing
-                if (charmingEntity != null)
-                {
+                if (charmingEntity != null) {
                     // A player cant charm themselves
-                    if (entityPlayer.persistentID != charmingEntityId)
-                    {
+                    if (entityPlayer.persistentID != charmingEntityId) {
                         // Compute the vector from the charming entity to the charmed entity
                         val direction = Vec3d(charmingEntity.posX, charmingEntity.posY, charmingEntity.posZ)
-                                .subtract(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ)
-                                .normalize()
+                            .subtract(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ)
+                            .normalize()
 
                         // Convert 3d direction vector to pitch and yaw
                         val yaw = (-atan2(direction.x, direction.z) * 180 / Math.PI).toFloat()
@@ -60,10 +55,10 @@ class SpellCharmHandler
 
                         // Set the player's look to be at the charming entity
                         (entityPlayer as EntityPlayerMP).connection.setPlayerLocation(
-                                0.0, 0.0, 0.0,
-                                yaw,
-                                pitch,
-                                setOf(EnumFlags.X, EnumFlags.Y, EnumFlags.Z)
+                            0.0, 0.0, 0.0,
+                            yaw,
+                            pitch,
+                            setOf(EnumFlags.X, EnumFlags.Y, EnumFlags.Z)
                         )
                     }
                 }

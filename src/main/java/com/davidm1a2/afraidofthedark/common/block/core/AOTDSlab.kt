@@ -24,18 +24,15 @@ import java.util.*
  * @param baseName The base name of the slab
  * @param material The material of slab
  */
-abstract class AOTDSlab(baseName: String, material: Material) : BlockSlab(material)
-{
-    init
-    {
+abstract class AOTDSlab(baseName: String, material: Material) : BlockSlab(material) {
+    init {
         // Set the name of the slab
         unlocalizedName = "${Constants.MOD_ID}:$baseName"
         this.setRegistryName("${Constants.MOD_ID}:$baseName")
         // We must set the hardness to something otherwise it will be 0 by default
         setHardness(2.0f)
         // If the slab is not a double slab, add it to creative mode and make sure it's state is set to the bottom slab state
-        if (!this.isDouble)
-        {
+        if (!this.isDouble) {
             setCreativeTab(Constants.AOTD_CREATIVE_TAB)
             this.defaultState = blockState.baseState.withProperty(HALF, EnumBlockHalf.BOTTOM)
         }
@@ -54,15 +51,11 @@ abstract class AOTDSlab(baseName: String, material: Material) : BlockSlab(materi
      * @param fortune The fortune enchantment of the tool which we don't need
      * @return The half slab item of this slab
      */
-    override fun getItemDropped(state: IBlockState, rand: Random, fortune: Int): Item
-    {
+    override fun getItemDropped(state: IBlockState, rand: Random, fortune: Int): Item {
         // If it's a half slab we just use the item, if it's a double slab we get the opposite which is the half slab
-        return if (!this.isDouble)
-        {
+        return if (!this.isDouble) {
             Item.getItemFromBlock(this)
-        }
-        else
-        {
+        } else {
             Item.getItemFromBlock(getOpposite())
         }
     }
@@ -77,15 +70,17 @@ abstract class AOTDSlab(baseName: String, material: Material) : BlockSlab(materi
      * @param player The player mining the block
      * @return The itemstack that is returned when the block is broken
      */
-    override fun getPickBlock(state: IBlockState, target: RayTraceResult, world: World, pos: BlockPos, player: EntityPlayer): ItemStack
-    {
+    override fun getPickBlock(
+        state: IBlockState,
+        target: RayTraceResult,
+        world: World,
+        pos: BlockPos,
+        player: EntityPlayer
+    ): ItemStack {
         // If it's a half slab we just return the item stack, if it's a double slab we get the opposite which is the half slab
-        return if (!this.isDouble)
-        {
+        return if (!this.isDouble) {
             ItemStack(this)
-        }
-        else
-        {
+        } else {
             ItemStack(getOpposite())
         }
     }
@@ -96,17 +91,15 @@ abstract class AOTDSlab(baseName: String, material: Material) : BlockSlab(materi
      * @param meta The metadata integer representing this block
      * @return The block state represented by this metadata integer
      */
-    override fun getStateFromMeta(meta: Int): IBlockState
-    {
+    override fun getStateFromMeta(meta: Int): IBlockState {
         // Start with the default state
         var iBlockState = this.defaultState.withProperty(VARIANT, Variant.DEFAULT)
 
         // if it's a half slab, store if the slab is on top or on bottom
-        if (!this.isDouble)
-        {
+        if (!this.isDouble) {
             iBlockState = iBlockState.withProperty(
-                    HALF,
-                    if (IS_TOP_FIELD.getValue(meta) == 1) EnumBlockHalf.TOP else EnumBlockHalf.BOTTOM
+                HALF,
+                if (IS_TOP_FIELD.getValue(meta) == 1) EnumBlockHalf.TOP else EnumBlockHalf.BOTTOM
             )
         }
 
@@ -119,12 +112,10 @@ abstract class AOTDSlab(baseName: String, material: Material) : BlockSlab(materi
      * @param state The block state to convert into a metadata field
      * @return The metadata value that this block state represents
      */
-    override fun getMetaFromState(state: IBlockState): Int
-    {
+    override fun getMetaFromState(state: IBlockState): Int {
         var meta = 0
         // If the slab is a half slab, test if it's on top or not
-        if (!this.isDouble)
-        {
+        if (!this.isDouble) {
             meta = IS_TOP_FIELD.setBoolean(meta, state.getValue(HALF) == EnumBlockHalf.TOP)
         }
         return meta
@@ -135,13 +126,12 @@ abstract class AOTDSlab(baseName: String, material: Material) : BlockSlab(materi
      *
      * @return If the block is a half slab, return a container with 2 different properties, otherwise just return the slab with one property
      */
-    override fun createBlockState(): BlockStateContainer
-    {
+    override fun createBlockState(): BlockStateContainer {
         return if (this.isDouble) BlockStateContainer(this, VARIANT)
         else BlockStateContainer(
-                this,
-                HALF,
-                VARIANT
+            this,
+            HALF,
+            VARIANT
         )
     }
 
@@ -151,8 +141,7 @@ abstract class AOTDSlab(baseName: String, material: Material) : BlockSlab(materi
      * @param meta The metadata of the slab
      * @return The unlocalized name of the slab
      */
-    override fun getUnlocalizedName(meta: Int): String
-    {
+    override fun getUnlocalizedName(meta: Int): String {
         return super.getUnlocalizedName()
     }
 
@@ -161,8 +150,7 @@ abstract class AOTDSlab(baseName: String, material: Material) : BlockSlab(materi
      *
      * @return The default varient that never changes
      */
-    override fun getVariantProperty(): IProperty<*>
-    {
+    override fun getVariantProperty(): IProperty<*> {
         return VARIANT
     }
 
@@ -172,30 +160,26 @@ abstract class AOTDSlab(baseName: String, material: Material) : BlockSlab(materi
      * @param stack Ignored, each slab has the same default variant
      * @return The default variant
      */
-    override fun getTypeForItem(stack: ItemStack): Comparable<*>
-    {
+    override fun getTypeForItem(stack: ItemStack): Comparable<*> {
         return Variant.DEFAULT
     }
 
     /**
      * Variant is required for slabs, so just make the variant have one option that is default
      */
-    private enum class Variant : IStringSerializable
-    {
+    private enum class Variant : IStringSerializable {
         DEFAULT;
 
-        override fun getName(): String
-        {
+        override fun getName(): String {
             return "default"
         }
     }
 
-    companion object
-    {
+    companion object {
         // Variant is required by slabs, so we are forced to create a default variant that does nothing
         private val VARIANT = PropertyEnum.create(
-                "variant",
-                Variant::class.java
+            "variant",
+            Variant::class.java
         )
 
         private val IS_TOP_FIELD = BitField(0x1)

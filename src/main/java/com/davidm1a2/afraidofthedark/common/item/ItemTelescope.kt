@@ -18,8 +18,7 @@ import net.minecraft.world.World
  *
  * @constructor sets up item properties
  */
-class ItemTelescope : AOTDItem("telescope")
-{
+class ItemTelescope : AOTDItem("telescope") {
     /**
      * Called when the player right clicks with the telescope
      *
@@ -28,8 +27,7 @@ class ItemTelescope : AOTDItem("telescope")
      * @param hand   The hand the telescope is in
      * @return The result of the right click
      */
-    override fun onItemRightClick(world: World, player: EntityPlayer, hand: EnumHand): ActionResult<ItemStack>
-    {
+    override fun onItemRightClick(world: World, player: EntityPlayer, hand: EnumHand): ActionResult<ItemStack> {
         // Grab the itemstack the player is holding
         val itemStack = player.getHeldItem(hand)
 
@@ -40,36 +38,28 @@ class ItemTelescope : AOTDItem("telescope")
         val highEnough = player.position.y > 128
 
         // Start with server side processing
-        if (!world.isRemote)
-        {
+        if (!world.isRemote) {
             // If the player can research the research research it
-            if (playerResearch.canResearch(ModResearches.ASTRONOMY_1) && highEnough)
-            {
+            if (playerResearch.canResearch(ModResearches.ASTRONOMY_1) && highEnough) {
                 playerResearch.setResearch(ModResearches.ASTRONOMY_1, true)
                 playerResearch.sync(player, true)
             }
 
             // If the research is researched then test if the player is high enough
-            if (playerResearch.isResearched(ModResearches.ASTRONOMY_1) || playerResearch.isResearched(ModResearches.ASTRONOMY_1.preRequisite!!))
-            {
+            if (playerResearch.isResearched(ModResearches.ASTRONOMY_1) || playerResearch.isResearched(ModResearches.ASTRONOMY_1.preRequisite!!)) {
                 // Tell the player that they need to be higher to see through the clouds
-                if (!highEnough)
-                {
+                if (!highEnough) {
                     player.sendMessage(TextComponentTranslation("message.afraidofthedark:telescope.not_high_enough"))
                 }
-            }
-            else
-            {
+            } else {
                 player.sendMessage(TextComponentTranslation("message.afraidofthedark:dont_understand"))
             }
         }
 
         // If we're on client side and have the proper research and the player is above y=128 to see the stars, show the GUI
         // Don't print anything out client side since the server side takes care of that for us
-        if (world.isRemote && highEnough)
-        {
-            if (playerResearch.isResearched(ModResearches.ASTRONOMY_1) || playerResearch.canResearch(ModResearches.ASTRONOMY_1))
-            {
+        if (world.isRemote && highEnough) {
+            if (playerResearch.isResearched(ModResearches.ASTRONOMY_1) || playerResearch.canResearch(ModResearches.ASTRONOMY_1)) {
                 player.openGui(AOTDGuiHandler.TELESCOPE_ID)
             }
         }

@@ -13,14 +13,12 @@ import net.minecraft.world.World
  * @param z The z position of the spell cast effect
  */
 class ParticleSpellCast(
-        world: World,
-        x: Double,
-        y: Double,
-        z: Double
-) : AOTDParticle(world, ModSprites.SPELL_CAST, x, y, z)
-{
-    init
-    {
+    world: World,
+    x: Double,
+    y: Double,
+    z: Double
+) : AOTDParticle(world, ModSprites.SPELL_CAST, x, y, z) {
+    init {
         // 0.5-1.5 second lifespan
         particleMaxAge = rand.nextInt(10) + 30
         // Make the particles noticable

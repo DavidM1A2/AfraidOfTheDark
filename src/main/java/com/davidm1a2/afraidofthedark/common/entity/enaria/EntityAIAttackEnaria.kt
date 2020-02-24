@@ -14,8 +14,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint
  * @property target The target enaria is hitting
  * @property ticksUntilNextAttack The ticks until enarias next attack
  */
-class EntityAIAttackEnaria(private val enaria: EntityEnaria) : EntityAIBase()
-{
+class EntityAIAttackEnaria(private val enaria: EntityEnaria) : EntityAIBase() {
     private var target: EntityLivingBase? = null
     private var ticksUntilNextAttack = 0
 
@@ -24,18 +23,14 @@ class EntityAIAttackEnaria(private val enaria: EntityEnaria) : EntityAIBase()
      *
      * @return True if the target is non-null, false otherwise
      */
-    override fun shouldExecute(): Boolean
-    {
+    override fun shouldExecute(): Boolean {
         // Get enaria's target
         val target = enaria.attackTarget
 
         // if there's no target don't execute, otherwise set the target
-        return if (target == null)
-        {
+        return if (target == null) {
             false
-        }
-        else
-        {
+        } else {
             this.target = target
             true
         }
@@ -46,16 +41,14 @@ class EntityAIAttackEnaria(private val enaria: EntityEnaria) : EntityAIBase()
      *
      * @return True if there is no target or there is no path to the entity
      */
-    override fun shouldContinueExecuting(): Boolean
-    {
+    override fun shouldContinueExecuting(): Boolean {
         return shouldExecute() || !enaria.navigator.noPath()
     }
 
     /**
      * Resets the task
      */
-    override fun resetTask()
-    {
+    override fun resetTask() {
         target = null
         ticksUntilNextAttack = 0
     }
@@ -63,8 +56,7 @@ class EntityAIAttackEnaria(private val enaria: EntityEnaria) : EntityAIBase()
     /**
      * Updates the task and attacks the target
      */
-    override fun updateTask()
-    {
+    override fun updateTask() {
         // Look at the target
         enaria.lookHelper.setLookPositionWithEntity(target!!, 30.0f, 30.0f)
 
@@ -72,8 +64,7 @@ class EntityAIAttackEnaria(private val enaria: EntityEnaria) : EntityAIBase()
         ticksUntilNextAttack = ticksUntilNextAttack - 1
 
         // If ticks until next attack is 0 then perform a spell attack
-        if (ticksUntilNextAttack <= 0)
-        {
+        if (ticksUntilNextAttack <= 0) {
             // The next spell will be in the next 7 and 13 seconds
             ticksUntilNextAttack = enaria.world.rand.nextInt(100) + 140
 
@@ -85,22 +76,19 @@ class EntityAIAttackEnaria(private val enaria: EntityEnaria) : EntityAIBase()
 
             // Play the spell cast animation
             AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(
-                    SyncAnimation("spell", enaria, "spell"),
-                    TargetPoint(enaria.dimension, enaria.posX, enaria.posY, enaria.posZ, 100.0)
+                SyncAnimation("spell", enaria, "spell"),
+                TargetPoint(enaria.dimension, enaria.posX, enaria.posY, enaria.posZ, 100.0)
             )
-        }
-        else if (ticksUntilNextAttack % 40 == 0)
-        {
+        } else if (ticksUntilNextAttack % 40 == 0) {
             // If Enaria is not invisible basic attack
-            if (!enaria.isPotionActive(Potion.getPotionById(14)!!))
-            {
+            if (!enaria.isPotionActive(Potion.getPotionById(14)!!)) {
                 // Perform basic attack
                 enaria.enariaAttacks.performBasicAttack()
 
                 // Show the auto attack animation
                 AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(
-                        SyncAnimation("autoattack", enaria, "spell", "autoattack"),
-                        TargetPoint(enaria.dimension, enaria.posX, enaria.posY, enaria.posZ, 100.0)
+                    SyncAnimation("autoattack", enaria, "spell", "autoattack"),
+                    TargetPoint(enaria.dimension, enaria.posX, enaria.posY, enaria.posZ, 100.0)
                 )
             }
         }

@@ -9,8 +9,8 @@ package com.davidm1a2.afraidofthedark.common.spell.component.property
  * @property maxValue The maximum value of this bounded value
  */
 @Suppress("UNCHECKED_CAST")
-abstract class BoundedSpellComponentPropertyBuilder<T, V : BoundedSpellComponentPropertyBuilder<T, V>> : SpellComponentPropertyBuilder<T, V>()
-{
+abstract class BoundedSpellComponentPropertyBuilder<T, V : BoundedSpellComponentPropertyBuilder<T, V>> :
+    SpellComponentPropertyBuilder<T, V>() {
     var minValue: T? = null
     var maxValue: T? = null
 
@@ -20,8 +20,7 @@ abstract class BoundedSpellComponentPropertyBuilder<T, V : BoundedSpellComponent
      * @param minValue The minimum value of the property
      * @return The builder instance
      */
-    fun withMinValue(minValue: T): V
-    {
+    fun withMinValue(minValue: T): V {
         this.minValue = minValue
         return this as V
     }
@@ -32,8 +31,7 @@ abstract class BoundedSpellComponentPropertyBuilder<T, V : BoundedSpellComponent
      * @param maxValue The maximum value of the property
      * @return The builder instance
      */
-    fun withMaxValue(maxValue: T): V
-    {
+    fun withMaxValue(maxValue: T): V {
         this.maxValue = maxValue
         return this as V
     }

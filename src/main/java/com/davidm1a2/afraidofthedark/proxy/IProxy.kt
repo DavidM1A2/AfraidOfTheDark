@@ -11,8 +11,7 @@ import net.minecraft.entity.player.EntityPlayer
 /**
  * Interface containing methods for the proxy. This proxy will be instantiated differently on the server and client
  */
-interface IProxy
-{
+interface IProxy {
     /**
      * @return The research overlay handler client side or null server side
      */

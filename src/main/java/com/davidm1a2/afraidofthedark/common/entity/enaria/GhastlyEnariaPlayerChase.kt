@@ -13,12 +13,10 @@ import net.minecraft.potion.PotionEffect
  * @property enaria A reference to the enaria entity
  * @property targetPlayer The target player enaria is chasing
  */
-class GhastlyEnariaPlayerChase(private val enaria: EntityGhastlyEnaria) : EntityAIBase()
-{
+class GhastlyEnariaPlayerChase(private val enaria: EntityGhastlyEnaria) : EntityAIBase() {
     private var targetPlayer: EntityPlayer? = null
 
-    init
-    {
+    init {
         // Sync movement, look, and etc state
         mutexBits = 1 or 2 or 4
     }
@@ -26,58 +24,49 @@ class GhastlyEnariaPlayerChase(private val enaria: EntityGhastlyEnaria) : Entity
     /**
      * This will only execute if enaria is not moving
      */
-    override fun shouldExecute(): Boolean
-    {
+    override fun shouldExecute(): Boolean {
         return !enaria.moveHelper.isUpdating
     }
 
     /**
      * False since the ai task only executes once
      */
-    override fun shouldContinueExecuting(): Boolean
-    {
+    override fun shouldContinueExecuting(): Boolean {
         return false
     }
 
     /**
      * Executes the task. Finds a nearby player and follows them
      */
-    override fun startExecuting()
-    {
+    override fun startExecuting() {
         val distanceBetweenIslands = AfraidOfTheDark.INSTANCE.configurationHandler.blocksBetweenIslands
 
         // If the target player is null try and find a nearby player
-        if (targetPlayer == null)
-        {
+        if (targetPlayer == null) {
             targetPlayer = enaria.world.getClosestPlayerToEntity(enaria, distanceBetweenIslands / 2.toDouble())
         }
 
         // If there are no players nearby kill enaria
-        if (targetPlayer == null || targetPlayer!!.isDead)
-        {
+        if (targetPlayer == null || targetPlayer!!.isDead) {
             enaria.setDead()
-        }
-        else
-        {
+        } else {
             // Otherwise follow the player if not benign
-            if (!enaria.isBenign())
-            {
+            if (!enaria.isBenign()) {
                 // Move to the player
                 enaria.moveHelper
-                        .setMoveTo(
-                                targetPlayer!!.posX,
-                                targetPlayer!!.posY,
-                                targetPlayer!!.posZ,
-                                enaria.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).attributeValue
-                        )
+                    .setMoveTo(
+                        targetPlayer!!.posX,
+                        targetPlayer!!.posY,
+                        targetPlayer!!.posZ,
+                        enaria.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).attributeValue
+                    )
             }
 
             // Face the player entity always
             enaria.faceEntity(targetPlayer!!, 360f, 360f)
 
             // If the player can see enaria, add slowness 4 to the player
-            if (targetPlayer!!.canEntityBeSeen(enaria))
-            {
+            if (targetPlayer!!.canEntityBeSeen(enaria)) {
                 targetPlayer!!.addPotionEffect(PotionEffect(Potion.getPotionById(2)!!, 60, 4, false, false))
             }
         }

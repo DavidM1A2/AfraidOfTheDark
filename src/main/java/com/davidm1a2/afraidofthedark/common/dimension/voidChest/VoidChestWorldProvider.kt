@@ -13,20 +13,17 @@ import net.minecraftforge.fml.relauncher.SideOnly
 /**
  * Class that provides the void chest world
  */
-class VoidChestWorldProvider : WorldProvider()
-{
+class VoidChestWorldProvider : WorldProvider() {
     /**
      * Initializes the void chest world provider
      */
-    override fun init()
-    {
+    override fun init() {
         // Initialize the biome provider
         biomeProvider = BiomeProviderSingle(ModBiomes.VOID_CHEST)
         // We have no sky light
         hasSkyLight = false
         // If we're on client side set the sky renderer
-        if (world.isRemote)
-        {
+        if (world.isRemote) {
             skyRenderer = VoidChestSkyRenderer()
         }
     }
@@ -36,16 +33,14 @@ class VoidChestWorldProvider : WorldProvider()
      *
      * @return The sub-folder name to save this world's chunks to.
      */
-    override fun getSaveFolder(): String
-    {
+    override fun getSaveFolder(): String {
         return "void_chest_world"
     }
 
     /**
      * @return The dimension type
      */
-    override fun getDimensionType(): DimensionType
-    {
+    override fun getDimensionType(): DimensionType {
         return ModDimensions.VOID_CHEST
     }
 
@@ -54,16 +49,14 @@ class VoidChestWorldProvider : WorldProvider()
      *
      * @return A new VoidChestChunkGenerator
      */
-    override fun createChunkGenerator(): IChunkGenerator
-    {
+    override fun createChunkGenerator(): IChunkGenerator {
         return VoidChestChunkGenerator(world)
     }
 
     /**
      * @return The ground level which will be the bottom of the barriers at level 100
      */
-    override fun getAverageGroundLevel(): Int
-    {
+    override fun getAverageGroundLevel(): Int {
         return 100
     }
 
@@ -75,8 +68,7 @@ class VoidChestWorldProvider : WorldProvider()
      * @return false, there's no fog in the void chest
      */
     @SideOnly(Side.CLIENT)
-    override fun doesXZShowFog(x: Int, z: Int): Boolean
-    {
+    override fun doesXZShowFog(x: Int, z: Int): Boolean {
         return false
     }
 
@@ -87,24 +79,21 @@ class VoidChestWorldProvider : WorldProvider()
      * @return The star brightness
      */
     @SideOnly(Side.CLIENT)
-    override fun getStarBrightness(partialTicks: Float): Float
-    {
+    override fun getStarBrightness(partialTicks: Float): Float {
         return 1f
     }
 
     /**
      * @return True since players can respawn here
      */
-    override fun canRespawnHere(): Boolean
-    {
+    override fun canRespawnHere(): Boolean {
         return true
     }
 
     /**
      * @return False, this is not a surface world
      */
-    override fun isSurfaceWorld(): Boolean
-    {
+    override fun isSurfaceWorld(): Boolean {
         return false
     }
 
@@ -112,19 +101,16 @@ class VoidChestWorldProvider : WorldProvider()
      * @return The height of the clouds, set it at 255 so that they're out of the way
      */
     @SideOnly(Side.CLIENT)
-    override fun getCloudHeight(): Float
-    {
+    override fun getCloudHeight(): Float {
         return 255f
     }
 
     /**
      * Creates a light brightness table that
      */
-    override fun generateLightBrightnessTable()
-    {
+    override fun generateLightBrightnessTable() {
         // Create the light brightness table so that everything is somewhat lit
-        for (i in 0..15)
-        {
+        for (i in 0..15) {
             val f1 = 1.0f - i / 15.0f
             lightBrightnessTable[i] = (1.0f - f1) / (f1 * 3.0f + 1.0f)
         }
@@ -139,8 +125,7 @@ class VoidChestWorldProvider : WorldProvider()
      * @param rotation ignored
      * @return false
      */
-    override fun shouldMapSpin(entity: String, x: Double, z: Double, rotation: Double): Boolean
-    {
+    override fun shouldMapSpin(entity: String, x: Double, z: Double, rotation: Double): Boolean {
         return false
     }
 }

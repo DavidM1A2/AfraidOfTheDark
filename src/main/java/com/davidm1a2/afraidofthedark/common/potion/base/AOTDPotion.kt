@@ -19,10 +19,9 @@ import java.awt.Color
  * @param isBad        True if the potion is 'bad', false otherwise
  * @param color        The color of the potion
  */
-open class AOTDPotion(name: String, registryName: String, indexX: Int, indexY: Int, isBad: Boolean, color: Color) : Potion(isBad, color.hashCode())
-{
-    init
-    {
+open class AOTDPotion(name: String, registryName: String, indexX: Int, indexY: Int, isBad: Boolean, color: Color) :
+    Potion(isBad, color.hashCode()) {
+    init {
         this.setRegistryName("${Constants.MOD_ID}:$registryName")
         setPotionName(name)
         setIconIndex(indexX, indexY)
@@ -34,8 +33,7 @@ open class AOTDPotion(name: String, registryName: String, indexX: Int, indexY: I
      * @return The index of our custom potion texture sheet
      */
     @SideOnly(Side.CLIENT)
-    override fun getStatusIconIndex(): Int
-    {
+    override fun getStatusIconIndex(): Int {
         Minecraft.getMinecraft().textureManager.bindTexture(AOTD_POTION_TEXTURES)
         return super.getStatusIconIndex()
     }
@@ -47,14 +45,13 @@ open class AOTDPotion(name: String, registryName: String, indexX: Int, indexY: I
      * @param amplifier The potion amplifier
      * @return True if the potion is ready, false otherwise
      */
-    override fun isReady(duration: Int, amplifier: Int): Boolean
-    {
+    override fun isReady(duration: Int, amplifier: Int): Boolean {
         return duration >= 1
     }
 
-    companion object
-    {
+    companion object {
         // Due to the crappy MC design all potion textures are on one PNG, so here we load that sheet of textures in
-        private val AOTD_POTION_TEXTURES = ResourceLocation(Constants.MOD_ID, "textures/potion_effect/potion_effects.png")
+        private val AOTD_POTION_TEXTURES =
+            ResourceLocation(Constants.MOD_ID, "textures/potion_effect/potion_effects.png")
     }
 }

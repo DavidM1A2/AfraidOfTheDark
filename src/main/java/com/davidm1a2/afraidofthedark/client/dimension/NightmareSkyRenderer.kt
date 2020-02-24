@@ -9,8 +9,7 @@ import net.minecraftforge.fml.relauncher.SideOnly
 /**
  * Class that renders the nightmare 'sky' texture
  */
-class NightmareSkyRenderer : IRenderHandler()
-{
+class NightmareSkyRenderer : IRenderHandler() {
     /**
      * Called to render the sky
      *
@@ -19,8 +18,7 @@ class NightmareSkyRenderer : IRenderHandler()
      * @param mc           The minecraft instance
      */
     @SideOnly(Side.CLIENT)
-    override fun render(partialTicks: Float, world: WorldClient, mc: Minecraft)
-    {
+    override fun render(partialTicks: Float, world: WorldClient, mc: Minecraft) {
         // Empty for now, might have a skybox later
     }
 }

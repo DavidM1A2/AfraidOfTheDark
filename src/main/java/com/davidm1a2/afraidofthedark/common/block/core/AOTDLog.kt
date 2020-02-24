@@ -14,10 +14,8 @@ import net.minecraft.item.ItemStack
  * @constructor just sets default state and initializes sounds
  * @param baseName The name of the block to register
  */
-abstract class AOTDLog(baseName: String) : BlockLog()
-{
-    init
-    {
+abstract class AOTDLog(baseName: String) : BlockLog() {
+    init {
         unlocalizedName = "${Constants.MOD_ID}:$baseName"
         this.setRegistryName("${Constants.MOD_ID}:$baseName")
         setHardness(2.0f)
@@ -32,10 +30,8 @@ abstract class AOTDLog(baseName: String) : BlockLog()
      * @param meta The metadata of the block representing the axis
      * @return A block state with the given metadata integer
      */
-    override fun getStateFromMeta(meta: Int): IBlockState
-    {
-        return when (meta)
-        {
+    override fun getStateFromMeta(meta: Int): IBlockState {
+        return when (meta) {
             0 -> this.defaultState.withProperty(LOG_AXIS, EnumAxis.Y)
             1 -> this.defaultState.withProperty(LOG_AXIS, EnumAxis.X)
             2 -> this.defaultState.withProperty(LOG_AXIS, EnumAxis.Z)
@@ -49,10 +45,8 @@ abstract class AOTDLog(baseName: String) : BlockLog()
      * @param state The current block state
      * @return An integer representing this block's state as an axis
      */
-    override fun getMetaFromState(state: IBlockState): Int
-    {
-        return when (state.getValue(LOG_AXIS))
-        {
+    override fun getMetaFromState(state: IBlockState): Int {
+        return when (state.getValue(LOG_AXIS)) {
             EnumAxis.X -> 1
             EnumAxis.Y -> 0
             EnumAxis.Z -> 2
@@ -65,8 +59,7 @@ abstract class AOTDLog(baseName: String) : BlockLog()
      *
      * @return The block state container with all properties this log defines
      */
-    override fun createBlockState(): BlockStateContainer
-    {
+    override fun createBlockState(): BlockStateContainer {
         return BlockStateContainer(this, LOG_AXIS)
     }
 
@@ -76,8 +69,7 @@ abstract class AOTDLog(baseName: String) : BlockLog()
      * @param state The current state is ignored
      * @return A metadata value to be dropped representing this block
      */
-    override fun damageDropped(state: IBlockState): Int
-    {
+    override fun damageDropped(state: IBlockState): Int {
         return getMetaFromState(this.defaultState)
     }
 
@@ -87,8 +79,7 @@ abstract class AOTDLog(baseName: String) : BlockLog()
      * @param state The current block state, ignored
      * @return The block as a new item stack oriented in the Y axis orientation
      */
-    override fun getSilkTouchDrop(state: IBlockState): ItemStack
-    {
+    override fun getSilkTouchDrop(state: IBlockState): ItemStack {
         return ItemStack(Item.getItemFromBlock(this), 1, getMetaFromState(this.defaultState))
     }
 }

@@ -14,16 +14,14 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext
  * @property timeServer The time it is on the server
  * @property itemToSync The item to synchronize
  */
-class SyncItemWithCooldown : IMessage
-{
+class SyncItemWithCooldown : IMessage {
     private var timeServer: Long
     private lateinit var itemToSync: AOTDItemWithPerItemCooldown
 
     /**
      * Unused by required default constructor
      */
-    constructor()
-    {
+    constructor() {
         timeServer = -1
     }
 
@@ -33,8 +31,7 @@ class SyncItemWithCooldown : IMessage
      * @param timeServer The time of the server
      * @param itemToSync The item to syncronize
      */
-    constructor(timeServer: Long, itemToSync: AOTDItemWithPerItemCooldown)
-    {
+    constructor(timeServer: Long, itemToSync: AOTDItemWithPerItemCooldown) {
         this.timeServer = timeServer
         this.itemToSync = itemToSync
     }
@@ -44,8 +41,7 @@ class SyncItemWithCooldown : IMessage
      *
      * @param buf The buffer to read from
      */
-    override fun fromBytes(buf: ByteBuf)
-    {
+    override fun fromBytes(buf: ByteBuf) {
         timeServer = buf.readLong()
         itemToSync = Item.getItemById(buf.readInt()) as AOTDItemWithPerItemCooldown
     }
@@ -55,8 +51,7 @@ class SyncItemWithCooldown : IMessage
      *
      * @param buf The buffer to write into
      */
-    override fun toBytes(buf: ByteBuf)
-    {
+    override fun toBytes(buf: ByteBuf) {
         buf.writeLong(timeServer)
         buf.writeInt(Item.getIdFromItem(itemToSync))
     }
@@ -64,8 +59,7 @@ class SyncItemWithCooldown : IMessage
     /**
      * Handler handles SyncCooldown packets on the client side
      */
-    class Handler : MessageHandler.Client<SyncItemWithCooldown>()
-    {
+    class Handler : MessageHandler.Client<SyncItemWithCooldown>() {
         /**
          * Handles the packet on client side
          *
@@ -73,8 +67,7 @@ class SyncItemWithCooldown : IMessage
          * @param msg          the message received
          * @param ctx          the message context object. This contains additional information about the packet.
          */
-        override fun handleClientMessage(player: EntityPlayer, msg: SyncItemWithCooldown, ctx: MessageContext)
-        {
+        override fun handleClientMessage(player: EntityPlayer, msg: SyncItemWithCooldown, ctx: MessageContext) {
             // Compute the difference between client and server time and store that info
             msg.itemToSync.updateServerClientDifference(System.currentTimeMillis() - msg.timeServer)
         }
