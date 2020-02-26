@@ -18,7 +18,7 @@ configurations {
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'kotlin'
 
-version = "1.12.2-1.2.0"
+version = "1.12.2-1.2.1"
 group = "com.davidm1a2.afraidofthedark" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "afraidofthedark"
 

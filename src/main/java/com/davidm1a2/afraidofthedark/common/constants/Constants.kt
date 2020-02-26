@@ -17,7 +17,7 @@ object Constants {
     // The mod name
     const val MOD_NAME = "Afraid of the Dark"
     // The mod version
-    const val MOD_VERSION = "1.2.0"
+    const val MOD_VERSION = "1.2.1"
     // The minecraft version number
     const val MC_VERSION = "1.12.2"
     // Refrences to the proxies
