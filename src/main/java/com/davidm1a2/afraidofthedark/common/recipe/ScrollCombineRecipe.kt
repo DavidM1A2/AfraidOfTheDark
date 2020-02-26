@@ -23,11 +23,11 @@ class ScrollCombineRecipe : IForgeRegistryEntry.Impl<IRecipe?>(), IRecipe {
     /**
      * True if the recipe is matched, false otherwise
      *
-     * @param inv     The inventory used to craft the item
-     * @param worldIn The world the recipe was crafted in
+     * @param inv The inventory used to craft the item
+     * @param world The current world the object is being crafted in. Can be null even though it never is in vanilla. See: CoFH core
      * @return True if the recipe works, and false otherwise
      */
-    override fun matches(inv: InventoryCrafting, worldIn: World): Boolean {
+    override fun matches(inv: InventoryCrafting, world: World?): Boolean {
         // Grab a list of non-empty stacks in the crafting grid
         val stacks = mutableListOf<ItemStack>()
         for (i in 0 until inv.sizeInventory) {

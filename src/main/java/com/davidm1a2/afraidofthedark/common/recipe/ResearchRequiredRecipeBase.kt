@@ -28,11 +28,11 @@ abstract class ResearchRequiredRecipeBase<T : IRecipe>(val baseRecipe: T, privat
     /**
      * Used to check if a recipe matches current crafting inventory. Also checks if the player has the correct research
      *
-     * @param inv     The current inventory state
-     * @param world The current world the object is being crafted in
+     * @param inv The current inventory state
+     * @param world The current world the object is being crafted in. Can be null even though it never is in vanilla. See: CoFH core
      * @return True if the crafting recipe matches, false if it does not
      */
-    override fun matches(inv: InventoryCrafting, world: World): Boolean {
+    override fun matches(inv: InventoryCrafting, world: World?): Boolean {
         // Compute if the recipe matches first
         val matches = baseRecipe.matches(inv, world)
 
@@ -44,7 +44,7 @@ abstract class ResearchRequiredRecipeBase<T : IRecipe>(val baseRecipe: T, privat
             // If the player does not have the research return false
             if (!craftingPlayer.getResearch().isResearched(preRequisite)) {
                 // Before returning false notify the player why the crafting failed if the recipe matched
-                if (matches && !world.isRemote) {
+                if (matches && !craftingPlayer.world.isRemote) {
                     craftingPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:crafting.missing_research"))
                 }
                 return false
