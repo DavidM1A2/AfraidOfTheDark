@@ -90,6 +90,8 @@ object ModSchematics {
     /// Desert oasis structure related schematics
     ///
 
+    val OASIS = load("schematics/desert_oasis/oasis.schematic")
+
     val ARCH_HOUSE = load("schematics/desert_oasis/small_structures/arch_house.schematic")
     val ARCH_HOUSE90 = load("schematics/desert_oasis/small_structures/arch_house90.schematic")
     val CIRCLE_OF_POWER = load("schematics/desert_oasis/small_structures/circle_of_power.schematic")
@@ -193,7 +195,8 @@ object ModSchematics {
         *DESERT_OASIS_SMALL_ROOMS,
         *DESERT_OASIS_SMALL_ROOMS90,
         *DESERT_OASIS_MEDIUM_ROOMS,
-        *DESERT_OASIS_MEDIUM_ROOMS90
+        *DESERT_OASIS_MEDIUM_ROOMS90,
+        OASIS
     )
 
     /**

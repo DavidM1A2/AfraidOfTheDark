@@ -1,6 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.item
 
+import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
+import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
@@ -35,6 +37,33 @@ class ItemDebug : AOTDItem("debug", displayInCreative = false) {
 		playerIn.sendMessage(new TextComponentString("" + playerIn.getCapability(ModCapabilities.PLAYER_BASICS, null).getWatchedMeteorLongitude()));
 		*/
         if (!worldIn.isRemote) {
+
+            /*
+            val rooms = arrayOf(
+                *ModSchematics.DESERT_OASIS_SMALL_ROOMS,
+                *ModSchematics.DESERT_OASIS_SMALL_ROOMS90,
+                *ModSchematics.DESERT_OASIS_MEDIUM_ROOMS,
+                *ModSchematics.DESERT_OASIS_MEDIUM_ROOMS90
+            )
+
+            val stack = playerIn.getHeldItem(handIn)
+            if (!NBTHelper.hasTag(stack, "index")) {
+                NBTHelper.setInteger(stack, "index", 0)
+            }
+
+            var index = NBTHelper.getInteger(stack, "index")!!
+            playerIn.sendMessage(TextComponentString(rooms[index].getName()))
+            SchematicGenerator.generateSchematic(rooms[index], worldIn, playerIn.position.add(1, 0, 1))
+
+            index++
+            if (index >= rooms.size) {
+                index = 0
+            }
+            NBTHelper.setInteger(stack, "index", index)
+
+             */
+            SchematicGenerator.generateSchematic(ModSchematics.OASIS, worldIn, playerIn.position.add(1, 0, 1))
+
             /*
             val spellManager = playerIn.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null)
             if (spellManager!!.spells.isNotEmpty())
