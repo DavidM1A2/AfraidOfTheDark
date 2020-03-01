@@ -1,8 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
-import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
@@ -37,7 +35,6 @@ class ItemDebug : AOTDItem("debug", displayInCreative = false) {
 		playerIn.sendMessage(new TextComponentString("" + playerIn.getCapability(ModCapabilities.PLAYER_BASICS, null).getWatchedMeteorLongitude()));
 		*/
         if (!worldIn.isRemote) {
-            SchematicGenerator.generateSchematic(ModSchematics.TEST, worldIn, playerIn.position.add(1, 0, 1))
             /*
             val spellManager = playerIn.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null)
             if (spellManager!!.spells.isNotEmpty())
