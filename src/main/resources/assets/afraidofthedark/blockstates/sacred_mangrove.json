@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "afraidofthedark:sacred_mangrove"
+    },
+    "axis=z": {
+      "model": "afraidofthedark:sacred_mangrove",
+      "x": 90
+    },
+    "axis=x": {
+      "model": "afraidofthedark:sacred_mangrove",
+      "x": 90,
+      "y": 90
+    },
+    "axis=none": {
+      "model": "afraidofthedark:sacred_mangrove_side"
+    },
+    "inventory": {
+      "model": "afraidofthedark:sacred_mangrove"
+    }
+  }
+}

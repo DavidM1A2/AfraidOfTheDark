@@ -41,6 +41,7 @@ item.afraidofthedark:artwork.name=Artwork
 item.afraidofthedark:wand.name=Wand
 item.afraidofthedark:insanitys_heights.name=Insanity's Heights
 item.afraidofthedark:debug.name=Debug
+item.afraidofthedark:schematic_creator.name=Schematic Creator
 
 # Blocks
 tile.afraidofthedark:silver_ore.name=Silver Ore
@@ -52,6 +53,7 @@ tile.afraidofthedark:gravewood_half_slab.name=Gravewood Slab
 tile.afraidofthedark:gravewood_double_slab.name=Gravewood Double Slab
 tile.afraidofthedark:gravewood_leaves.name=Gravewood Leaves
 tile.afraidofthedark:gravewood_sapling.name=Gravewood Sapling
+
 tile.afraidofthedark:mangrove.name=Mangrove
 tile.afraidofthedark:mangrove_planks.name=Mangrove Planks
 tile.afraidofthedark:mangrove_stairs.name=Mangrove Stairs
@@ -59,6 +61,15 @@ tile.afraidofthedark:mangrove_half_slab.name=Mangrove Slab
 tile.afraidofthedark:mangrove_upper_slab.name=Mangrove Double Slab
 tile.afraidofthedark:mangrove_leaves.name=Mangrove Leaves
 tile.afraidofthedark:mangrove_sapling.name=Mangrove Sapling
+
+tile.afraidofthedark:sacred_mangrove.name=Sacred Mangrove
+tile.afraidofthedark:sacred_mangrove_planks.name=Sacred Mangrove Planks
+tile.afraidofthedark:sacred_mangrove_stairs.name=Sacred Mangrove Stairs
+tile.afraidofthedark:sacred_mangrove_half_slab.name=Sacred Mangrove Slab
+tile.afraidofthedark:sacred_mangrove_upper_slab.name=Sacred Mangrove Double Slab
+tile.afraidofthedark:sacred_mangrove_leaves.name=Sacred Mangrove Leaves
+tile.afraidofthedark:sacred_mangrove_sapling.name=Sacred Mangrove Sapling
+
 tile.afraidofthedark:sunstone_ore.name=Sunstone Ore
 tile.afraidofthedark:astral_silver_ore.name=Astral Silver Ore
 tile.afraidofthedark:meteor.name=Meteor

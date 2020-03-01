@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "variant=default": {
+      "model": "afraidofthedark:sacred_mangrove_planks"
+    },
+    "inventory": {
+      "model": "afraidofthedark:sacred_mangrove_planks"
+    }
+  }
+}

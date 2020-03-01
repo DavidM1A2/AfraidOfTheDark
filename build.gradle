@@ -36,7 +36,7 @@ compileKotlin {
 
 // Set your username if you want a new name
 runClient {
-    args "--username", "David_M1A2"
+    args "--username", username, "--password", password
 }
 
 minecraft {

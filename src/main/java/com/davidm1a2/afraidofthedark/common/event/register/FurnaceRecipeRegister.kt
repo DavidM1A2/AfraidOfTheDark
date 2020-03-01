@@ -22,5 +22,7 @@ object FurnaceRecipeRegister {
         GameRegistry.addSmelting(ItemStack(ModBlocks.GRAVEWOOD), ItemStack(Items.COAL, 1, 1), 0.15f)
         // Mangrove -> charcoal
         GameRegistry.addSmelting(ItemStack(ModBlocks.MANGROVE), ItemStack(Items.COAL, 1, 1), 0.15f)
+        // Sacred Mangrove -> charcoal
+        GameRegistry.addSmelting(ItemStack(ModBlocks.SACRED_MANGROVE), ItemStack(Items.COAL, 20, 1), 1f)
     }
 }

@@ -50,6 +50,7 @@ object ModItems {
     val IGNEOUS_BOLT = ItemIgneousBolt()
     val STAR_METAL_BOLT = ItemStarMetalBolt()
     val DEBUG = ItemDebug()
+    val SCHEMATIC_CREATOR = ItemSchematicCreator()
 
     // An array containing a list of items that AOTD adds
     var ITEM_LIST = arrayOf(
@@ -73,6 +74,7 @@ object ModItems {
         IGNEOUS_BOLT,
         STAR_METAL_BOLT,
         DEBUG,
+        SCHEMATIC_CREATOR,
         SLEEPING_POTION,
         WAND,
         INSANITYS_HEIGHTS,

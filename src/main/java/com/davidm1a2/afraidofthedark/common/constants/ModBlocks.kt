@@ -3,6 +3,7 @@ package com.davidm1a2.afraidofthedark.common.constants
 import com.davidm1a2.afraidofthedark.common.block.*
 import com.davidm1a2.afraidofthedark.common.block.gravewood.*
 import com.davidm1a2.afraidofthedark.common.block.mangrove.*
+import com.davidm1a2.afraidofthedark.common.block.sacred_mangrove.*
 import com.davidm1a2.afraidofthedark.common.tileEntity.TileEntityDarkForest
 import com.davidm1a2.afraidofthedark.common.tileEntity.TileEntityEnariaSpawner
 import com.davidm1a2.afraidofthedark.common.tileEntity.TileEntityGhastlyEnariaSpawner
@@ -20,6 +21,7 @@ object ModBlocks {
     val GRAVEWOOD_DOUBLE_SLAB = BlockGravewoodDoubleSlab()
     val GRAVEWOOD_STAIRS = BlockGravewoodStairs()
     val GRAVEWOOD_SAPLING = BlockGravewoodSapling()
+
     val MANGROVE = BlockMangrove()
     val MANGROVE_PLANKS = BlockMangrovePlanks()
     val MANGROVE_LEAVES = BlockMangroveLeaves()
@@ -27,6 +29,15 @@ object ModBlocks {
     val MANGROVE_DOUBLE_SLAB = BlockMangroveDoubleSlab()
     val MANGROVE_STAIRS = BlockMangroveStairs()
     val MANGROVE_SAPLING = BlockMangroveSapling()
+
+    val SACRED_MANGROVE = BlockSacredMangrove()
+    val SACRED_MANGROVE_PLANKS = BlockSacredMangrovePlanks()
+    val SACRED_MANGROVE_LEAVES = BlockSacredMangroveLeaves()
+    val SACRED_MANGROVE_HALF_SLAB = BlockSacredMangroveHalfSlab()
+    val SACRED_MANGROVE_DOUBLE_SLAB = BlockSacredMangroveDoubleSlab()
+    val SACRED_MANGROVE_STAIRS = BlockSacredMangroveStairs()
+    val SACRED_MANGROVE_SAPLING = BlockSacredMangroveSapling()
+
     val METEOR = BlockMeteor()
     val ASTRAL_SILVER_ORE = BlockAstralSilverOre()
     val SUNSTONE_ORE = BlockSunstoneOre()
@@ -60,6 +71,13 @@ object ModBlocks {
         MANGROVE_HALF_SLAB,
         MANGROVE_DOUBLE_SLAB,
         MANGROVE_STAIRS,
+        SACRED_MANGROVE,
+        SACRED_MANGROVE_PLANKS,
+        SACRED_MANGROVE_SAPLING,
+        SACRED_MANGROVE_LEAVES,
+        SACRED_MANGROVE_HALF_SLAB,
+        SACRED_MANGROVE_DOUBLE_SLAB,
+        SACRED_MANGROVE_STAIRS,
         METEOR,
         ASTRAL_SILVER_ORE,
         ELDRITCH_STONE,

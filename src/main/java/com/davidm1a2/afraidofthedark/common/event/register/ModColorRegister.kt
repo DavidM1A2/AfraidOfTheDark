@@ -36,8 +36,7 @@ class ModColorRegister {
 
         // Register a block color handler so that leaf blocks are colored properly when placed
         blockColors.registerBlockColorHandler(
-            IBlockColor
-            { _: IBlockState, blockAccess: IBlockAccess?, pos: BlockPos?, _: Int ->
+            IBlockColor { _: IBlockState, blockAccess: IBlockAccess?, pos: BlockPos?, _: Int ->
                 // Make sure we were passed valid parameters
                 if (blockAccess != null && pos != null) {
                     // Return the color at the position
@@ -65,8 +64,7 @@ class ModColorRegister {
 
         // Register an item color handler so that leaf blocks are colored properly when held in the inventory
         itemColors.registerItemColorHandler(
-            IItemColor
-            { stack: ItemStack, tintIndex: Int ->
+            IItemColor { stack: ItemStack, tintIndex: Int ->
                 // Grab the state of the block if it was placed in the world
                 @Suppress("DEPRECATION")
                 val iBlockState = (stack.item as ItemBlock).block.getStateFromMeta(stack.metadata)

@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "end": "afraidofthedark:blocks/sacred_mangrove_end",
+    "side": "afraidofthedark:blocks/sacred_mangrove"
+  }
+}

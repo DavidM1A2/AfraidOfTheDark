@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "stage=0": {
+      "model": "afraidofthedark:sacred_mangrove_sapling"
+    },
+    "stage=1": {
+      "model": "afraidofthedark:sacred_mangrove_sapling"
+    }
+  }
+}
