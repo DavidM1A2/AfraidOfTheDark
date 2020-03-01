@@ -92,6 +92,14 @@ object ModSchematics {
 
     val OASIS = load("schematics/desert_oasis/oasis.schematic")
 
+    val TOWER_OPEN = load("schematics/desert_oasis/large_structures/tower_open.schematic")
+    val TOWER_SPACE_NEEDLE = load("schematics/desert_oasis/large_structures/tower_space_needle.schematic")
+
+    val DESERT_OASIS_LARGE_PLOTS = arrayOf(
+        TOWER_OPEN,
+        TOWER_SPACE_NEEDLE
+    )
+
     val ARCH_HOUSE = load("schematics/desert_oasis/small_structures/arch_house.schematic")
     val ARCH_HOUSE90 = load("schematics/desert_oasis/small_structures/arch_house90.schematic")
     val CIRCLE_OF_POWER = load("schematics/desert_oasis/small_structures/circle_of_power.schematic")
@@ -115,7 +123,7 @@ object ModSchematics {
     val WOOD_TOWER = load("schematics/desert_oasis/small_structures/wood_tower.schematic")
     val WOOD_TOWER90 = load("schematics/desert_oasis/small_structures/wood_tower90.schematic")
 
-    val DESERT_OASIS_SMALL_ROOMS = arrayOf(
+    val DESERT_OASIS_SMALL_PLOTS = arrayOf(
         ARCH_HOUSE,
         CIRCLE_OF_POWER,
         DEAD_FARM,
@@ -128,7 +136,7 @@ object ModSchematics {
         TRADE_POST,
         WOOD_TOWER
     )
-    val DESERT_OASIS_SMALL_ROOMS90 = arrayOf(
+    val DESERT_OASIS_SMALL_PLOTS90 = arrayOf(
         ARCH_HOUSE90,
         CIRCLE_OF_POWER90,
         DEAD_FARM90,
@@ -157,7 +165,7 @@ object ModSchematics {
     val STABLES = load("schematics/desert_oasis/medium_structures/stables.schematic")
     val STABLES90 = load("schematics/desert_oasis/medium_structures/stables90.schematic")
 
-    val DESERT_OASIS_MEDIUM_ROOMS = arrayOf(
+    val DESERT_OASIS_MEDIUM_PLOTS = arrayOf(
         ARCH,
         BIG_HOUSE,
         FORGE,
@@ -166,7 +174,7 @@ object ModSchematics {
         SPRING,
         STABLES
     )
-    val DESERT_OASIS_MEDIUM_ROOMS90 = arrayOf(
+    val DESERT_OASIS_MEDIUM_PLOTS90 = arrayOf(
         ARCH90,
         BIG_HOUSE90,
         FORGE90,
@@ -192,10 +200,11 @@ object ModSchematics {
         *DARK_FOREST_TREES,
         *DARK_FOREST_PROPS,
         *GNOMISH_CITY_ROOMS,
-        *DESERT_OASIS_SMALL_ROOMS,
-        *DESERT_OASIS_SMALL_ROOMS90,
-        *DESERT_OASIS_MEDIUM_ROOMS,
-        *DESERT_OASIS_MEDIUM_ROOMS90,
+        *DESERT_OASIS_LARGE_PLOTS,
+        *DESERT_OASIS_SMALL_PLOTS,
+        *DESERT_OASIS_SMALL_PLOTS90,
+        *DESERT_OASIS_MEDIUM_PLOTS,
+        *DESERT_OASIS_MEDIUM_PLOTS90,
         OASIS
     )
 

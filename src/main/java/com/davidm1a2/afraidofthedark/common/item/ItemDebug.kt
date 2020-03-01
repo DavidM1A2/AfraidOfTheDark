@@ -1,8 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
-import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
@@ -62,7 +60,9 @@ class ItemDebug : AOTDItem("debug", displayInCreative = false) {
             NBTHelper.setInteger(stack, "index", index)
 
              */
-            SchematicGenerator.generateSchematic(ModSchematics.OASIS, worldIn, playerIn.position.add(1, 0, 1))
+            // SchematicGenerator.generateSchematic(ModSchematics.TOWER_OPEN, worldIn, playerIn.position.add(1, 0, 1))
+
+            // SchematicGenerator.generateSchematic(ModSchematics.TOWER_SPACE_NEEDLE, worldIn, playerIn.position.add(-40, 0, -40))
 
             /*
             val spellManager = playerIn.getCapability(ModCapabilities.PLAYER_SPELL_MANAGER, null)

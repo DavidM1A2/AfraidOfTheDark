@@ -166,6 +166,7 @@ object SchematicGenerator {
 
                     // Grab the reference to the next block to place
                     val nextToPlace = blocks[index]
+
                     // If the block in the schematic is air then ignore it
                     if (nextToPlace !== Blocks.AIR) {
                         val position = BlockPos(x, y, z)
