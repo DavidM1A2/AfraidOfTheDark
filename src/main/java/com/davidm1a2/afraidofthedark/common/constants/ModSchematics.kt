@@ -90,7 +90,7 @@ object ModSchematics {
     /// Desert oasis structure related schematics
     ///
 
-    val OASIS = load("schematics/desert_oasis/oasis.schematic")
+    val DESERT_OASIS = load("schematics/desert_oasis/oasis.schematic")
 
     val TOWER_OPEN = load("schematics/desert_oasis/large_structures/tower_open.schematic")
     val TOWER_SPACE_NEEDLE = load("schematics/desert_oasis/large_structures/tower_space_needle.schematic")
@@ -205,7 +205,7 @@ object ModSchematics {
         *DESERT_OASIS_SMALL_PLOTS90,
         *DESERT_OASIS_MEDIUM_PLOTS,
         *DESERT_OASIS_MEDIUM_PLOTS90,
-        OASIS
+        DESERT_OASIS
     )
 
     /**

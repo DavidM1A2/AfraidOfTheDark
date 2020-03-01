@@ -107,7 +107,10 @@ object SchematicDebugUtils {
 
         // Get the path to the original schematic file and load it
         val localPath =
-            StringUtils.substringAfter(schematicFile.absolutePath, "src\\main\\resources\\assets\\afraidofthedark\\")
+            StringUtils.substringAfter(
+                schematicFile.absolutePath.replace("\\", "/"),
+                "src/main/resources/assets/afraidofthedark/"
+            )
         val schematic =
             SchematicBuilder().withFile(ResourceLocation(Constants.MOD_ID, localPath)).withCacheEnabled(true).build()
 

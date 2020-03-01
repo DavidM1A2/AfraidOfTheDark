@@ -65,10 +65,10 @@ class SchematicBuilder {
     private fun createCached(): Schematic {
         // Grab the name of the schematic
         val schematicName = FilenameUtils.getBaseName(resourceLocation!!.resourcePath)
-        // Grab an input stream to the schematic file
-        val inputStream = ResourceUtil.getInputStream(resourceLocation!!)
         // Read the NBT data from the file
-        val nbtData = CompressedStreamTools.readCompressed(inputStream)
+        val nbtData = ResourceUtil.getInputStream(resourceLocation!!).use {
+            CompressedStreamTools.readCompressed(it)
+        }
 
         // Begin processing the data
         val width = nbtData.getShort("Width")
