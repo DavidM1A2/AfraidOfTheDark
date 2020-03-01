@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "MMM"
+  ],
+  "key": {
+    "M": {
+      "item": "afraidofthedark:sacred_mangrove_planks"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:sacred_mangrove_half_slab",
+    "data": 0,
+    "count": 6
+  }
+}
