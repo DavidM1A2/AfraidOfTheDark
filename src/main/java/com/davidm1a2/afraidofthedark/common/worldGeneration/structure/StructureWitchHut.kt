@@ -45,7 +45,7 @@ class StructureWitchHut : AOTDStructure("witch_hut") {
             var maxHeight = Int.MIN_VALUE
 
             override fun processChunk(chunkPos: ChunkPos): Boolean {
-                val biomes = approximateBiomesInChunk(biomeProvider, chunkPos.x, chunkPos.z)
+                val biomes = getBiomesInChunk(biomeProvider, chunkPos.x, chunkPos.z)
 
                 // Witch huts can only spawn in erie forests
                 if (!biomes.contains(ModBiomes.ERIE_FOREST) || biomes.size > 1) {

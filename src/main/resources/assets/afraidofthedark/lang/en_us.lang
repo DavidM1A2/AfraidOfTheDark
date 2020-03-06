@@ -263,6 +263,7 @@ structure.afraidofthedark:witch_hut.name=Witch Hut
 structure.afraidofthedark:void_chest.name=Void Chest
 structure.afraidofthedark:dark_forest.name=Dark Forest
 structure.afraidofthedark:gnomish_city.name=Gnomish City
+structure.afraidofthedark:desert_oasis.name=Desert Oasis
 
 # Spell components
 power_source.afraidofthedark:creative.name=Creative

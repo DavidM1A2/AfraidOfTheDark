@@ -87,7 +87,7 @@ class StructureDarkForest : AOTDStructure("dark_forest") {
             var maxHeight = Int.MIN_VALUE
 
             override fun processChunk(chunkPos: ChunkPos): Boolean {
-                val biomes = approximateBiomesInChunk(biomeProvider, chunkPos.x, chunkPos.z)
+                val biomes = getBiomesInChunk(biomeProvider, chunkPos.x, chunkPos.z)
                 // Dark forest can only spawn in in plains or savannahs
                 return if (COMPATIBLE_HOUSE_BIOMES.containsAll(biomes)) {
                     // Compute min and max height
@@ -113,8 +113,8 @@ class StructureDarkForest : AOTDStructure("dark_forest") {
                     // Go over all chunks that the bed house would cover and check them
                     val houseChunks = mutableListOf<ChunkPos>()
 
-                    for (chunkX in houseCorner1ChunkPos.x..houseCorner1ChunkPos.x) {
-                        for (chunkZ in houseCorner2ChunkPos.z..houseCorner2ChunkPos.z) {
+                    for (chunkX in houseCorner1ChunkPos.x..houseCorner2ChunkPos.x) {
+                        for (chunkZ in houseCorner1ChunkPos.z..houseCorner2ChunkPos.z) {
                             houseChunks.add(ChunkPos(chunkX, chunkZ))
                         }
                     }
@@ -299,7 +299,7 @@ class StructureDarkForest : AOTDStructure("dark_forest") {
             val chunkPos = ChunkPos(schematicPosNoY)
 
             // Figure out if this position is valid (no water under props)
-            val biomes = approximateBiomesInChunk(biomeProvider, chunkPos.x, chunkPos.z)
+            val biomes = getBiomesInChunk(biomeProvider, chunkPos.x, chunkPos.z)
             if (INCOMPATIBLE_BIOMES.any { biomes.contains(it) }) {
                 continue
             }

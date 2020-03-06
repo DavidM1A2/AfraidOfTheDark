@@ -18,6 +18,8 @@ import net.minecraft.world.biome.BiomeProvider
  * Base class for all AOTD structures
  */
 abstract class AOTDStructure(baseName: String) : Structure() {
+    private val biomesArray = arrayOfNulls<Biome>(16 * 16)
+
     init {
         this.setRegistryName("${Constants.MOD_ID}:$baseName")
     }
@@ -43,22 +45,15 @@ abstract class AOTDStructure(baseName: String) : Structure() {
     }
 
     /**
-     * Approximates the biomes in a chunk by testing the 4 corners and the center
+     * Gets the biomes in a chunk
      *
      * @param biomeProvider The biome provider
      * @param chunkX        The chunk's X coordinate
      * @param chunkZ        The chunk's Z coordinate
-     * @return A set of biomes found at the 4 corners and center of the chunk
+     * @return A set of biomes found in the chunk
      */
-    protected open fun approximateBiomesInChunk(biomeProvider: BiomeProvider, chunkX: Int, chunkZ: Int): Set<Biome> {
-        val temp = arrayOfNulls<Biome>(1)
-        return setOf(
-            biomeProvider.getBiomes(temp, chunkX * 16 + 0, chunkZ * 16 + 0, 1, 1)[0],
-            biomeProvider.getBiomes(temp, chunkX * 16 + 8, chunkZ * 16 + 8, 1, 1)[0],
-            biomeProvider.getBiomes(temp, chunkX * 16 + 15, chunkZ * 16 + 0, 1, 1)[0],
-            biomeProvider.getBiomes(temp, chunkX * 16 + 0, chunkZ * 16 + 15, 1, 1)[0],
-            biomeProvider.getBiomes(temp, chunkX * 16 + 15, chunkZ * 16 + 15, 1, 1)[0]
-        )
+    protected open fun getBiomesInChunk(biomeProvider: BiomeProvider, chunkX: Int, chunkZ: Int): Set<Biome> {
+        return biomeProvider.getBiomes(biomesArray, chunkX * 16, chunkZ * 16, 16, 16).toSet()
     }
 
     /**

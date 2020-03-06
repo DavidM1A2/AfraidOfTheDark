@@ -36,7 +36,10 @@ compileKotlin {
 
 // Set your username if you want a new name
 runClient {
-    args "--username", username, "--password", password
+    outputs.upToDateWhen { false }
+    if (project.hasProperty("username") && project.hasProperty("password")) {
+        args "--username", username, "--password", password
+    }
 }
 
 minecraft {

@@ -48,7 +48,7 @@ class StructureCrypt : AOTDStructure("crypt") {
             var numErieForestChunks = 0
             var numOtherChunks = 0
             override fun processChunk(chunkPos: ChunkPos): Boolean {
-                val biomes = approximateBiomesInChunk(biomeProvider, chunkPos.x, chunkPos.z)
+                val biomes = getBiomesInChunk(biomeProvider, chunkPos.x, chunkPos.z)
                 // Filter incompatible biomes
                 when {
                     biomes.any { INCOMPATIBLE_BIOMES.contains(it) } -> {
@@ -77,8 +77,8 @@ class StructureCrypt : AOTDStructure("crypt") {
                 val percentErie = numErieForestChunks.toDouble() / (numErieForestChunks + numOtherChunks)
                 val percentOther = 1.0 - percentErie
 
-                // 0.6% chance to spawn in other biomes, 2% chance to spawn in erie forests
-                return (percentErie * 0.02 + percentOther * 0.006) * AfraidOfTheDark.INSTANCE.configurationHandler.cryptMultiplier
+                // 0.2% chance to spawn in other biomes, 2% chance to spawn in erie forests
+                return (percentErie * 0.02 + percentOther * 0.002) * AfraidOfTheDark.INSTANCE.configurationHandler.cryptMultiplier
             }
 
             override fun getDefaultResult(): Double {

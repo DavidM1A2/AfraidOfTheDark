@@ -45,7 +45,7 @@ class StructureVoidChest : AOTDStructure("void_chest") {
             var maxHeight = Int.MIN_VALUE
 
             override fun processChunk(chunkPos: ChunkPos): Boolean {
-                val biomes = approximateBiomesInChunk(biomeProvider, chunkPos.x, chunkPos.z)
+                val biomes = getBiomesInChunk(biomeProvider, chunkPos.x, chunkPos.z)
                 // Void Chests only spawn in snowy biomes
                 if (biomes.none { COMPATIBLE_BIOMES.contains(it) }) {
                     return false

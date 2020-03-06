@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.constants
 
 import com.davidm1a2.afraidofthedark.common.worldGeneration.LootTable
 import net.minecraft.init.Items
+import net.minecraft.item.Item
 import net.minecraft.util.ResourceLocation
 
 /**
@@ -35,6 +36,22 @@ object ModLootTables {
         mapOf(
             null to ResourceLocation(Constants.MOD_ID, "gnomish_city/standard"),
             Items.DIAMOND to ResourceLocation(Constants.MOD_ID, "gnomish_city/rare")
+        )
+    )
+    val DESERT_OASIS = LootTable(
+        mapOf(
+            Item.getItemFromBlock(ModBlocks.GRAVEWOOD_SAPLING) to ResourceLocation(
+                Constants.MOD_ID,
+                "desert_oasis/low_tier"
+            ),
+            Item.getItemFromBlock(ModBlocks.MANGROVE_SAPLING) to ResourceLocation(
+                Constants.MOD_ID,
+                "desert_oasis/mid_tier"
+            ),
+            Item.getItemFromBlock(ModBlocks.SACRED_MANGROVE_SAPLING) to ResourceLocation(
+                Constants.MOD_ID,
+                "desert_oasis/high_tier"
+            )
         )
     )
 }
