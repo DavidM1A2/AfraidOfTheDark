@@ -1,8 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.event
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.client.sound.BellsRinging
 import com.davidm1a2.afraidofthedark.client.sound.ErieEcho
+import com.davidm1a2.afraidofthedark.client.sound.NightmareChaseMusic
+import com.davidm1a2.afraidofthedark.client.sound.NightmareMusic
 import com.davidm1a2.afraidofthedark.common.capabilities.getNightmareData
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.*
@@ -146,18 +147,23 @@ class NightmareHandler {
     fun onEntityJoinWorldEvent(event: EntityJoinWorldEvent) {
         // Client side only, even though this must be true since we're using SideOnly
         if (event.world.isRemote) {
+            val entity = event.entity
+
             // Test if the player is going to the nightmare
-            if (event.world.provider.dimension == ModDimensions.NIGHTMARE.id && event.entity is EntityPlayer) {
+            if (event.world.provider.dimension == ModDimensions.NIGHTMARE.id && entity is EntityPlayer) {
                 // We need one more check to see if the player's dimension id is nightmare. This is a workaround because
                 // when teleporting this callback will get fired twice since the player teleports once for
                 // the teleport, once to be spawned into the world
-                if (event.entity.world.provider.dimension == ModDimensions.NIGHTMARE.id) {
+                if (entity.world.provider.dimension == ModDimensions.NIGHTMARE.id) {
                     // Grab the client's sound handler and play the sound if it is not already playing
                     val soundHandler = Minecraft.getMinecraft().soundHandler
 
-                    // Play the bell sound after 20 seconds and erie echo after 3
-                    soundHandler.playDelayedSound(BellsRinging(), 20 * 20)
+                    // Play the erie echo sound after 3 seconds followed by the enaria music after 7
                     soundHandler.playDelayedSound(ErieEcho(), 3 * 20)
+                    // Play both music types, one will automatically disable itself based on player research. We can't
+                    // test player research here because it isn't synced from Server -> Client at this point
+                    soundHandler.playDelayedSound(NightmareMusic(), 7 * 20)
+                    soundHandler.playDelayedSound(NightmareChaseMusic(), 7 * 20)
                 }
             }
         }

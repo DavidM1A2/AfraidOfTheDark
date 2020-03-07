@@ -22,6 +22,8 @@ object ModSounds {
     val ERIE_ECHOS = create("erie_echos")
     val KEY_TYPED = create("key_typed")
     val SPELL_CAST = create("spell_cast")
+    val NIGHTMARE_MUSIC = create("nightmare_music")
+    val NIGHTMARE_CHASE_MUSIC = create("nightmare_chase_music")
 
     // An array containing a list of sounds that AOTD adds
     val SOUND_LIST = arrayOf(
@@ -39,7 +41,9 @@ object ModSounds {
         BELLS,
         ERIE_ECHOS,
         KEY_TYPED,
-        SPELL_CAST
+        SPELL_CAST,
+        NIGHTMARE_MUSIC,
+        NIGHTMARE_CHASE_MUSIC
     )
 
     /**

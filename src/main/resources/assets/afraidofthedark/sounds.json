@@ -7,7 +7,7 @@
         "stream": false
       }
     ],
-    "subtitle": ""
+    "subtitle": "Crossbow Fired"
   },
   "crossbow_load": {
     "category": "player",
@@ -17,7 +17,7 @@
         "stream": false
       }
     ],
-    "subtitle": ""
+    "subtitle": "Crossbow Loading"
   },
   "werewolf_idle": {
     "category": "player",
@@ -27,7 +27,7 @@
         "stream": false
       }
     ],
-    "subtitle": ""
+    "subtitle": "Werewolf Howl"
   },
   "werewolf_agro": {
     "category": "player",
@@ -37,7 +37,7 @@
         "stream": false
       }
     ],
-    "subtitle": ""
+    "subtitle": "Werewolf Angry"
   },
   "werewolf_death": {
     "category": "player",
@@ -47,7 +47,7 @@
         "stream": false
       }
     ],
-    "subtitle": ""
+    "subtitle": "Werewolf Death"
   },
   "werewolf_hurt": {
     "category": "player",
@@ -57,7 +57,7 @@
         "stream": false
       }
     ],
-    "subtitle": ""
+    "subtitle": "Werewolf Hurt"
   },
   "journal_sign": {
     "category": "player",
@@ -67,7 +67,7 @@
         "stream": false
       }
     ],
-    "subtitle": ""
+    "subtitle": "Journal Signed"
   },
   "achievement_unlocked": {
     "category": "player",
@@ -77,7 +77,7 @@
         "stream": false
       }
     ],
-    "subtitle": ""
+    "subtitle": "Research Unlocked"
   },
   "page_turn": {
     "category": "player",
@@ -87,7 +87,7 @@
         "stream": false
       }
     ],
-    "subtitle": ""
+    "subtitle": "Page Turn"
   },
   "button_hover": {
     "category": "player",
@@ -97,7 +97,7 @@
         "stream": false
       }
     ],
-    "subtitle": ""
+    "subtitle": "Button Hover"
   },
   "spell_crafting_button_hover": {
     "category": "player",
@@ -107,7 +107,7 @@
         "stream": false
       }
     ],
-    "subtitle": ""
+    "subtitle": "Spell Crafting Button Hover"
   },
   "bells": {
     "category": "player",
@@ -117,7 +117,7 @@
         "stream": false
       }
     ],
-    "subtitle": ""
+    "subtitle": "Bells"
   },
   "erie_echos": {
     "category": "player",
@@ -127,7 +127,7 @@
         "stream": false
       }
     ],
-    "subtitle": ""
+    "subtitle": "Erie Echos"
   },
   "key_typed": {
     "category": "player",
@@ -137,7 +137,7 @@
         "stream": false
       }
     ],
-    "subtitle": ""
+    "subtitle": "Key Typed"
   },
   "spell_cast": {
     "category": "player",
@@ -147,6 +147,26 @@
         "stream": false
       }
     ],
-    "subtitle": ""
+    "subtitle": "Spell Cast"
+  },
+  "nightmare_music": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "afraidofthedark:nightmare_music",
+        "stream": false
+      }
+    ],
+    "subtitle": "Nightmare Music"
+  },
+  "nightmare_chase_music": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "afraidofthedark:nightmare_chase_music",
+        "stream": false
+      }
+    ],
+    "subtitle": "Nightmare Chase Music"
   }
 }
