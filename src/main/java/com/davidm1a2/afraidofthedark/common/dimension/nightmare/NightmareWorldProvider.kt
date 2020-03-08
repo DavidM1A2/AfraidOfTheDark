@@ -24,7 +24,7 @@ class NightmareWorldProvider : WorldProvider() {
     override fun init() {
         // The only biome is nightmare
         biomeProvider = BiomeProviderSingle(ModBiomes.NIGHTMARE)
-        // The sky provides no light
+        // We need a sky light for torches to light up properly
         hasSkyLight = true
         // Register the sky renderer client side
         if (world.isRemote) {
@@ -116,16 +116,6 @@ class NightmareWorldProvider : WorldProvider() {
     }
 
     /**
-     * Star brightness is very high
-     *
-     * @param par1 ignored
-     * @return Return a value from 0 to 16 for star brightness
-     */
-    override fun getStarBrightness(par1: Float): Float {
-        return 13f
-    }
-
-    /**
      * @return We can respawn here, but it will teleport the player back right after
      */
     override fun canRespawnHere(): Boolean {
@@ -202,13 +192,29 @@ class NightmareWorldProvider : WorldProvider() {
     }
 
     /**
-     * Keep the sky locked at 0.5 (technically, 'noon')
+     * @param partialTicks ignored
+     * @return We don't have a sun, so return 0
+     */
+    override fun getSunBrightness(partialTicks: Float): Float {
+        return 0f
+    }
+
+    /**
+     * @param partialTicks ignored
+     * @return We don't have a sun, so return 0
+     */
+    override fun getSunBrightnessFactor(partialTicks: Float): Float {
+        return 0f
+    }
+
+    /**
+     * Keep the sky locked at 0.75 (night time)
      *
      * @param worldTime    The current time of the world
      * @param partialTicks The ticks since the last tick
      * @return The celestial sky angle
      */
     override fun calculateCelestialAngle(worldTime: Long, partialTicks: Float): Float {
-        return 0.5f
+        return 0.75f
     }
 }
