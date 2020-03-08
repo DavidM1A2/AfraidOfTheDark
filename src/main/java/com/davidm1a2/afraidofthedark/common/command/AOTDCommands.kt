@@ -42,7 +42,7 @@ class AOTDCommands : CommandBase() {
      * @return A list of possible command aliases
      */
     override fun getAliases(): List<String> {
-        return listOf("aotd", "AOTD", "afraidofthedark")
+        return listOf("aotd", "afraidofthedark")
     }
 
     /**
@@ -60,10 +60,10 @@ class AOTDCommands : CommandBase() {
         args: Array<String>,
         targetPos: BlockPos?
     ): List<String> {
-        // Commands can start with /aotd, /AOTD, or /afraidofthedark
+        // Commands can start with /aotd, or /afraidofthedark
         return when {
             args.isEmpty() -> {
-                getListOfStringsMatchingLastWord(args, "aotd", "AOTD", "afraidofthedark")
+                getListOfStringsMatchingLastWord(args, "aotd", "afraidofthedark")
             }
             matchArgs(args, expectedArgCount = 1) -> {
                 getListOfStringsMatchingLastWord(args, "help", "dungeon")
