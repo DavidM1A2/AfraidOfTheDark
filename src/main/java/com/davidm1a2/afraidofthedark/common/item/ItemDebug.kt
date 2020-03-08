@@ -22,7 +22,12 @@ class ItemDebug : AOTDItem("debug", displayInCreative = false) {
     ///
 
     override fun onItemRightClick(worldIn: World, playerIn: EntityPlayer, handIn: EnumHand): ActionResult<ItemStack> {
+        // val chunk = worldIn.getChunkFromBlockCoords(playerIn.position)
+        // chunk.generateSkylightMap()
+        // chunk.checkLight()
+        // chunk.markDirty()
         if (worldIn.isRemote) {
+            // worldIn.checkLight(playerIn.position)
             //Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleEnariaBasicAttack(worldIn, playerIn.posX, playerIn.posY + 2.0, playerIn.posZ));
         }
         /*
@@ -35,6 +40,20 @@ class ItemDebug : AOTDItem("debug", displayInCreative = false) {
 		playerIn.sendMessage(new TextComponentString("" + playerIn.getCapability(ModCapabilities.PLAYER_BASICS, null).getWatchedMeteorLongitude()));
 		*/
         if (!worldIn.isRemote) {
+            if (playerIn.isSneaking) {
+                // SchematicGenerator.generateSchematic(ModSchematics.DESERT_OASIS, worldIn, playerIn.position.add(1, 0, 1))
+            } else {
+                //val chunk = worldIn.getChunkFromBlockCoords(playerIn.position)
+                //chunk.checkLight()
+                //chunk.checkLight()
+                /*
+                worldIn.checkLight(playerIn.position)
+                worldIn.checkLightFor(EnumSkyBlock.SKY, playerIn.position)
+                worldIn.checkLightFor(EnumSkyBlock.BLOCK, playerIn.position)
+                worldIn.notifyLightSet(playerIn.position)
+                 */
+                println("Check light!")
+            }
 
             /*
             val rooms = arrayOf(

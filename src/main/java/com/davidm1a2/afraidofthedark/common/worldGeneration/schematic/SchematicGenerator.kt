@@ -11,6 +11,7 @@ import net.minecraft.util.math.ChunkPos
 import net.minecraft.world.World
 import java.util.*
 
+
 /**
  * Class used to generate schematics
  */
@@ -94,7 +95,6 @@ object SchematicGenerator {
             generateBlocks(schematic, world, blockPos, chunkPos)
             generateTileEntities(schematic, world, blockPos, chunkPos, lootTable)
             generateEntities(schematic, world, blockPos, chunkPos)
-            computeLight(schematic, world, blockPos, chunkPos)
         }
     }
 
@@ -316,39 +316,5 @@ object SchematicGenerator {
      */
     private fun isInsideChunk(blockPos: BlockPos, chunkPos: ChunkPos): Boolean {
         return blockPos.x >= chunkPos.xStart && blockPos.x <= chunkPos.xEnd && blockPos.z >= chunkPos.zStart && blockPos.z <= chunkPos.zEnd
-    }
-
-    /**
-     * Since we are using a version of set block that ignores light we need to do a final pass over the structure to
-     * re-light it.
-     *
-     * @param schematic The schematic that was generated
-     * @param world     The world that the schematic was generated in
-     * @param blockPos  The position the schematic was generated at
-     * @param chunkPos  The chunk position the schematic was generated at
-     */
-    @Suppress("UNUSED_PARAMETER")
-    private fun computeLight(schematic: Schematic, world: World, blockPos: BlockPos, chunkPos: ChunkPos?) {
-        /*
-        This code doesn't seem correct, not sure how to force a re-light, it might not be possible
-        // If we generated a single chunk light it
-        if (chunkPos != null)
-        {
-            world.getChunkFromChunkCoords(chunkPos.x, chunkPos.z).generateSkylightMap();
-        }
-        // If we generated a bunch of chunks light them all
-        else
-        {
-            ChunkPos corner1 = new ChunkPos(blockPos);
-            ChunkPos corner2 = new ChunkPos(blockPos.add(schematic.getWidth(), 0, schematic.getLength()));
-            for (int chunkX = corner1.x; chunkX <= corner1.x; chunkX++)
-            {
-                for (int chunkZ = corner2.z; chunkZ <= corner2.z; chunkZ++)
-                {
-                    world.getChunkFromChunkCoords(chunkX, chunkZ).generateSkylightMap();
-                }
-            }
-        }
-         */
     }
 }

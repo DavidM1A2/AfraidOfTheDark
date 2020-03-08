@@ -3,6 +3,7 @@ package com.davidm1a2.afraidofthedark.common.dimension.nightmare
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
 import com.davidm1a2.afraidofthedark.common.constants.ModStructures
+import com.davidm1a2.afraidofthedark.common.worldGeneration.relightChunk
 import net.minecraft.entity.EnumCreatureType
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
@@ -78,8 +79,11 @@ class NightmareChunkGenerator(private val world: World) : IChunkGenerator {
                 val islandPos = BlockPos(islandIndex * blocksBetweenIslands, 0, 0)
                 // Compute data for the structure
                 val data = ModStructures.NIGHTMARE_ISLAND.generateStructureData(world, islandPos, world.biomeProvider)
+                val chunkPos = ChunkPos(x, z)
                 // Generate the chunk
-                ModStructures.NIGHTMARE_ISLAND.generate(world, ChunkPos(x, z), data)
+                ModStructures.NIGHTMARE_ISLAND.generate(world, chunkPos, data)
+                // Fix the lighting
+                world.relightChunk(chunkPos)
             }
         }
     }

@@ -128,6 +128,8 @@ class AOTDWorldGenerator : IWorldGenerator {
 
                 // Generate the structure
                 structure.generate(world, chunkPos, data)
+
+                world.relightChunk(chunkPos)
             }
         }
     }

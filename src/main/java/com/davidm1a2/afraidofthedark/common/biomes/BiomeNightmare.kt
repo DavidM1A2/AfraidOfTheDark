@@ -16,6 +16,7 @@ class BiomeNightmare : Biome(
         .setWaterColor(0xFF0000)
         .setBaseHeight(0.125f)
         .setHeightVariation(0.05f)
+        .setRainDisabled()
         .setRainfall(1.0f)
 ) {
     private val spawnableCreatures: MutableList<SpawnListEntry> = mutableListOf()

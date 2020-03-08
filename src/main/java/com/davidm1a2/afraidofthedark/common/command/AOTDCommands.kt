@@ -5,6 +5,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.world.PlacedStructure
 import com.davidm1a2.afraidofthedark.common.capabilities.world.StructurePlan
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
+import com.davidm1a2.afraidofthedark.common.worldGeneration.relightChunk
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
 import net.minecraft.server.MinecraftServer
@@ -251,6 +252,8 @@ class AOTDCommands : CommandBase() {
                 val placedStructure = structurePlan.getPlacedStructureAt(chunkPos)!!
                 // Generate the structure in the player's chunk
                 placedStructure.structure.generate(sender.entityWorld, chunkPos, placedStructure.data)
+                // Re-light the chunk at the position
+                sender.entityWorld.relightChunk(chunkPos)
             } else {
                 sender.sendMessage(TextComponentTranslation("message.afraidofthedark:command.dungeon.regenerate.no_structures"))
             }

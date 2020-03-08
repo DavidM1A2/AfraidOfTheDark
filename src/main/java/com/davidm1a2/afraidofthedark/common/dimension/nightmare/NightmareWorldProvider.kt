@@ -25,7 +25,7 @@ class NightmareWorldProvider : WorldProvider() {
         // The only biome is nightmare
         biomeProvider = BiomeProviderSingle(ModBiomes.NIGHTMARE)
         // The sky provides no light
-        hasSkyLight = false
+        hasSkyLight = true
         // Register the sky renderer client side
         if (world.isRemote) {
             skyRenderer = NightmareSkyRenderer()
@@ -85,6 +85,15 @@ class NightmareWorldProvider : WorldProvider() {
      */
     override fun getAverageGroundLevel(): Int {
         return 72
+    }
+
+    /**
+     * Creates the map of light level to brightness
+     */
+    override fun generateLightBrightnessTable() {
+        super.generateLightBrightnessTable()
+        // Make the brightest light 60% of what it would be in the overworld
+        lightBrightnessTable.forEachIndexed { index, value -> lightBrightnessTable[index] = value * 0.6f }
     }
 
     /**
