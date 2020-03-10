@@ -58,12 +58,19 @@ class ItemSchematicCreator : AOTDItem("schematic_creator", displayInCreative = f
             if (player.heldItemOffhand.item == Items.DIAMOND) {
                 // Ensure pos1 and pos2 are set
                 if (NBTHelper.hasTag(mainhandItem, NBT_POS_1) && NBTHelper.hasTag(mainhandItem, NBT_POS_2)) {
-                    saveStructure(
+                    val schematicName = saveStructure(
                         world,
                         NBTUtil.getPosFromTag(NBTHelper.getCompound(mainhandItem, NBT_POS_1)!!),
                         NBTUtil.getPosFromTag(NBTHelper.getCompound(mainhandItem, NBT_POS_2)!!),
                         mainhandItem.displayName
                     )
+
+                    // If the name is empty it means the name is invalid
+                    if (schematicName.isNotEmpty()) {
+                        player.sendMessage(TextComponentString("Schematic '$schematicName' saved successfully"))
+                    } else {
+                        player.sendMessage(TextComponentString("Schematic '${mainhandItem.displayName}' has an invalid name (No ., \\, /, or space)"))
+                    }
                 } else {
                     player.sendMessage(TextComponentString("Please set pos1 and pos2 before saving"))
                 }
@@ -88,8 +95,9 @@ class ItemSchematicCreator : AOTDItem("schematic_creator", displayInCreative = f
      * @param world The world the structure is in
      * @param pos1 The first block position
      * @param pos2 The second block position
+     * @return The name of the structure file, or empty string indicating error
      */
-    private fun saveStructure(world: World, pos1: BlockPos, pos2: BlockPos, name: String) {
+    private fun saveStructure(world: World, pos1: BlockPos, pos2: BlockPos, name: String): String {
         val smallPos = BlockPos(min(pos1.x, pos2.x), min(pos1.y, pos2.y), min(pos1.z, pos2.z))
         val largePos = BlockPos(max(pos1.x, pos2.x), max(pos1.y, pos2.y), max(pos1.z, pos2.z))
 
@@ -145,7 +153,16 @@ class ItemSchematicCreator : AOTDItem("schematic_creator", displayInCreative = f
             nbtEntites
         )
 
-        SchematicDebugUtils.writeToFile(schematic, File("./$name${RandomStringUtils.randomAlphabetic(10)}.schematic"))
+        val schematicName = "$name${RandomStringUtils.randomAlphabetic(10)}"
+        val illegalStrings = setOf(".", "/", "\\", " ")
+
+        // Don't allow players to use ../../ to write arbitrary files
+        if (illegalStrings.any { schematicName.contains(it) }) {
+            return ""
+        }
+
+        SchematicDebugUtils.writeToFile(schematic, File("./aotd_schematics/$schematicName.schematic"))
+        return schematicName
     }
 
     /**
