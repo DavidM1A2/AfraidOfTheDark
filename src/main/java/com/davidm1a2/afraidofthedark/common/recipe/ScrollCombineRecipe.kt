@@ -68,7 +68,7 @@ class ScrollCombineRecipe : IForgeRegistryEntry.Impl<IRecipe?>(), IRecipe {
                     // Check if the number of resulting part numbers is the same as the number of stacks meaning we have enough scrolls to complete the scroll
                     if (partNumbersPresent.size == stacks.size) {
                         // Ensure we have part numbers 1 through n, then It's valid!
-                        return partNumbersPresent.containsAll((1..(numberParts + 1)).toList())
+                        return partNumbersPresent.containsAll((1..numberParts).toList())
                     }
                 }
             }
