@@ -12,7 +12,7 @@ object ModStructures {
     val DARK_FOREST = StructureDarkForest()
     val NIGHTMARE_ISLAND = StructureNightmareIsland()
     val GNOMISH_CITY = StructureGnomishCity()
-    val DESERT_OASIS = StructureDesertOasis()
+    // val DESERT_OASIS = StructureDesertOasis()
 
     var STRUCTURE_LIST = arrayOf(
         CRYPT,
@@ -20,7 +20,7 @@ object ModStructures {
         VOID_CHEST,
         DARK_FOREST,
         NIGHTMARE_ISLAND,
-        GNOMISH_CITY,
-        DESERT_OASIS
+        GNOMISH_CITY
+        // DESERT_OASIS
     )
 }

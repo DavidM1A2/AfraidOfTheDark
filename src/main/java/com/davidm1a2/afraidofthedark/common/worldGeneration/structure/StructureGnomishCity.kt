@@ -54,8 +54,8 @@ class StructureGnomishCity : AOTDStructure("gnomish_city") {
             }
 
             override fun getResult(): Double {
-                // .1% chance to generate in any chunks this fits in
-                return 0.001 * AfraidOfTheDark.INSTANCE.configurationHandler.gnomishCityFrequency
+                // .05% chance to generate in any chunks this fits in
+                return 0.0005 * AfraidOfTheDark.INSTANCE.configurationHandler.gnomishCityFrequency
             }
 
             override fun getDefaultResult(): Double {
