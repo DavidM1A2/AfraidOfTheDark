@@ -149,7 +149,7 @@ research.afraidofthedark:wrist_crossbow.text=Evidently, someone else shared my o
 
 research.afraidofthedark:werewolf_examination.name=Werewolf Examination
 research.afraidofthedark:werewolf_examination.tooltip=by your skin on their teeth
-research.afraidofthedark:werewolf_examination.pre_text=I have noticed several monstrous wolves around the countryside. They look extremely dangerous, but I cannot resist getting a closer look at them! They exist in abundance in Erie forests, which is the first place I should start looking for them.
+research.afraidofthedark:werewolf_examination.pre_text=I have noticed several monstrous wolves around the countryside. They look extremely dangerous, but I cannot resist getting a closer look at them! They exist in abundance in Eerie forests, which is the first place I should start looking for them.
 research.afraidofthedark:werewolf_examination.text=My encounter with the large wolves almost ended in my own death. From what I saw, I can determine that they are extremely hardy and almost impervious to conventional weapons. For now I should avoid them until I can find some... unconventional ways of killing them.
 
 research.afraidofthedark:astronomy_1.name=Astronomy 1
@@ -190,7 +190,7 @@ research.afraidofthedark:eldritch_decoration.text=After examining the void chest
 research.afraidofthedark:dark_forest.name=Dark Forest
 research.afraidofthedark:dark_forest.tooltip=cults can be fun
 research.afraidofthedark:dark_forest.pre_text=Despite my successes with astral silver, there is reason to be wanting more. I know there must be more advanced methods of combating werewolves and the undead legions. I recall once reading about areas in the world where strange energies caused trees to grow extraordinarily tall and twisted. I should visit one of these locations to perhaps enhance the quality of my astral silver tools. I should look for these forests in flat areas.
-research.afraidofthedark:dark_forest.text=It seems that I am not the first person to have the idea to explore this place. I found a small, yet deserted compound within the dark forest. I cannot shake this erie feeling of doom this place gives me.
+research.afraidofthedark:dark_forest.text=It seems that I am not the first person to have the idea to explore this place. I found a small, yet deserted compound within the dark forest. I cannot shake this eerie feeling of doom this place gives me.
 
 research.afraidofthedark:sleeping_potion.name=Sleeping Potion
 research.afraidofthedark:sleeping_potion.tooltip=they drank the kool-aid
@@ -391,7 +391,7 @@ message.afraidofthedark:enaria.dont_understand=I can't understand who I'm fighti
 
 message.afraidofthedark:spell.wrong_dimension=My mind is too clouded to cast spells here.
 message.afraidofthedark:spell.invalid=Invalid spell. Make sure to have delivery methods on each spell stage and a power source!
-message.afraidofthedark:spell.power_source.creative.invalid_msg=How did you use creative with infinite energy and not cast the spell?
+message.afraidofthedark:spell.power_source.creative.invalid_msg=You must be in creative mode to cast this spell.
 message.afraidofthedark:spell.power_source.experience.invalid_msg=Not enough experience levels to cast this spell.
 message.afraidofthedark:spell.save_successful=Spell '%1$s' saved successfully.
 message.afraidofthedark:spell.property_edit_fail=Property %1$s did not have a valid value - %2$s

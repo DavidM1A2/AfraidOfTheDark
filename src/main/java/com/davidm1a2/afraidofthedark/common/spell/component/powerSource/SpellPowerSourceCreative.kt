@@ -18,7 +18,7 @@ class SpellPowerSourceCreative : AOTDSpellPowerSource(ResourceLocation(Constants
      * @return True if the spell can be cast, false otherwise
      */
     override fun canCast(entityPlayer: EntityPlayer, spell: Spell): Boolean {
-        return true
+        return entityPlayer.isCreative
     }
 
     /**

@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.event
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.client.sound.ErieEcho
+import com.davidm1a2.afraidofthedark.client.sound.EerieEcho
 import com.davidm1a2.afraidofthedark.client.sound.NightmareChaseMusic
 import com.davidm1a2.afraidofthedark.client.sound.NightmareMusic
 import com.davidm1a2.afraidofthedark.common.capabilities.getNightmareData
@@ -158,8 +158,8 @@ class NightmareHandler {
                     // Grab the client's sound handler and play the sound if it is not already playing
                     val soundHandler = Minecraft.getMinecraft().soundHandler
 
-                    // Play the erie echo sound after 3 seconds followed by the enaria music after 7
-                    soundHandler.playDelayedSound(ErieEcho(), 3 * 20)
+                    // Play the eerie echo sound after 3 seconds followed by the enaria music after 7
+                    soundHandler.playDelayedSound(EerieEcho(), 3 * 20)
                     // Play both music types, one will automatically disable itself based on player research. We can't
                     // test player research here because it isn't synced from Server -> Client at this point
                     soundHandler.playDelayedSound(NightmareMusic(), 7 * 20)

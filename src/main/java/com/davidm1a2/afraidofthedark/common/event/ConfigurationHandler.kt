@@ -35,8 +35,8 @@ class ConfigurationHandler(configurationFile: File) {
     var witchHutMultiplier = 1.0f
         private set
 
-    // The erie biome frequency
-    var erieBiomeFrequency = 10
+    // The eerie biome frequency
+    var eerieBiomeFrequency = 10
         private set
 
     // If debug messages should be sent
@@ -145,13 +145,13 @@ class ConfigurationHandler(configurationFile: File) {
             "Increases the number of Witch Huts in the world by the multiplier specified."
         )
 
-        erieBiomeFrequency = configuration.getInt(
-            "Erie Biome Frequency",
+        eerieBiomeFrequency = configuration.getInt(
+            "Eerie Biome Frequency",
             Configuration.CATEGORY_GENERAL,
             10,
             0,
             1000,
-            "Increase this value to increase the number of Erie Biomes. 10 is the default MC forest value."
+            "Increase this value to increase the number of Eerie Biomes. 10 is the default MC forest value."
         )
 
         debugMessages = configuration.getBoolean(

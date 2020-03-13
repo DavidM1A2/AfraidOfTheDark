@@ -119,15 +119,15 @@
     ],
     "subtitle": "Bells"
   },
-  "erie_echos": {
+  "eerie_echos": {
     "category": "player",
     "sounds": [
       {
-        "name": "afraidofthedark:erie_echos",
+        "name": "afraidofthedark:eerie_echos",
         "stream": false
       }
     ],
-    "subtitle": "Erie Echos"
+    "subtitle": "Eerie Echos"
   },
   "key_typed": {
     "category": "player",

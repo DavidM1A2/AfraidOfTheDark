@@ -44,8 +44,8 @@ class StructureCrypt : AOTDStructure("crypt") {
             var minHeight = Int.MAX_VALUE
             var maxHeight = Int.MIN_VALUE
 
-            // Counters for the number of erie forest chunks
-            var numErieForestChunks = 0
+            // Counters for the number of eerie forest chunks
+            var numEerieForestChunks = 0
             var numOtherChunks = 0
             override fun processChunk(chunkPos: ChunkPos): Boolean {
                 val biomes = getBiomesInChunk(biomeProvider, chunkPos.x, chunkPos.z)
@@ -54,8 +54,8 @@ class StructureCrypt : AOTDStructure("crypt") {
                     biomes.any { INCOMPATIBLE_BIOMES.contains(it) } -> {
                         return false
                     }
-                    biomes.contains(ModBiomes.ERIE_FOREST) -> {
-                        numErieForestChunks++
+                    biomes.contains(ModBiomes.EERIE_FOREST) -> {
+                        numEerieForestChunks++
                     }
                     else -> {
                         numOtherChunks++
@@ -73,12 +73,12 @@ class StructureCrypt : AOTDStructure("crypt") {
                     return getDefaultResult()
                 }
 
-                // Compute how many chunks are erie forest and how many are other biomes
-                val percentErie = numErieForestChunks.toDouble() / (numErieForestChunks + numOtherChunks)
-                val percentOther = 1.0 - percentErie
+                // Compute how many chunks are eerie forest and how many are other biomes
+                val percentEerie = numEerieForestChunks.toDouble() / (numEerieForestChunks + numOtherChunks)
+                val percentOther = 1.0 - percentEerie
 
                 // 0.2% chance to spawn in other biomes, 2% chance to spawn in erie forests
-                return (percentErie * 0.02 + percentOther * 0.002) * AfraidOfTheDark.INSTANCE.configurationHandler.cryptMultiplier
+                return (percentEerie * 0.02 + percentOther * 0.002) * AfraidOfTheDark.INSTANCE.configurationHandler.cryptMultiplier
             }
 
             override fun getDefaultResult(): Double {

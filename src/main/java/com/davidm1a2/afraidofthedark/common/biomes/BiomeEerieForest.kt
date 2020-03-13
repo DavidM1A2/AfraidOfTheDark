@@ -14,12 +14,12 @@ import java.awt.Color
 import java.util.*
 
 /**
- * Class representing the Erie Forest biome
+ * Class representing the Eerie Forest biome
  *
  * @constructor initializes the biome's fields
  */
-class BiomeErieForest : Biome(
-    BiomeProperties("Erie Forest")
+class BiomeEerieForest : Biome(
+    BiomeProperties("Eerie Forest")
         .setWaterColor(0x000099)
         .setBaseHeight(0.125f)
         .setHeightVariation(0.05f)
@@ -27,7 +27,7 @@ class BiomeErieForest : Biome(
     init {
         // Set this biome's properties. It takes height, variation, water color, and a name
         decorator.grassPerChunk = 10
-        // Set the biome's registry name to erie forest
+        // Set the biome's registry name to eerie forest
         registryName = ResourceLocation(Constants.MOD_ID, "erie_forest")
         // Use stone as the underground filler block
         fillerBlock = Blocks.STONE.defaultState

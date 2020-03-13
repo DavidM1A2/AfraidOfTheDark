@@ -25,18 +25,18 @@ class BiomeRegister {
         // Grab our configuration
         val configurationHandler = AfraidOfTheDark.INSTANCE.configurationHandler
 
-        // Make sure the erie forest can generate in warm and cool biomes
+        // Make sure the eerie forest can generate in warm and cool biomes
         BiomeManager.addBiome(
             BiomeManager.BiomeType.COOL,
-            BiomeEntry(ModBiomes.ERIE_FOREST, configurationHandler.erieBiomeFrequency)
+            BiomeEntry(ModBiomes.EERIE_FOREST, configurationHandler.eerieBiomeFrequency)
         )
         BiomeManager.addBiome(
             BiomeManager.BiomeType.WARM,
-            BiomeEntry(ModBiomes.ERIE_FOREST, configurationHandler.erieBiomeFrequency)
+            BiomeEntry(ModBiomes.EERIE_FOREST, configurationHandler.eerieBiomeFrequency)
         )
-        // Make sure the erie forest is registered as being compatible with forests, coniferous, and plains types
+        // Make sure the eerie forest is registered as being compatible with forests, coniferous, and plains types
         BiomeDictionary.addTypes(
-            ModBiomes.ERIE_FOREST,
+            ModBiomes.EERIE_FOREST,
             BiomeDictionary.Type.FOREST,
             BiomeDictionary.Type.CONIFEROUS,
             BiomeDictionary.Type.PLAINS

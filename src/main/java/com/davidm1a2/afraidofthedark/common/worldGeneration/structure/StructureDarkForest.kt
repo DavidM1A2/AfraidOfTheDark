@@ -485,7 +485,7 @@ class StructureDarkForest : AOTDStructure("dark_forest") {
             Biomes.MUTATED_SAVANNA,
             Biomes.PLAINS,
             Biomes.MUTATED_PLAINS,
-            ModBiomes.ERIE_FOREST
+            ModBiomes.EERIE_FOREST
         )
 
         // NBT tag keys

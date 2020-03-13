@@ -6,11 +6,11 @@ import net.minecraft.client.Minecraft
 import net.minecraft.util.SoundCategory
 
 /**
- * Class representing the erie echo that plays when entering the nightamre realm
+ * Class representing the eerie echo that plays when entering the nightamre realm
  *
  * @constructor sets the sound event to play and category
  */
-class ErieEcho : PlayerFollowingSound(ModSounds.ERIE_ECHOS, SoundCategory.AMBIENT) {
+class EerieEcho : PlayerFollowingSound(ModSounds.EERIE_ECHOS, SoundCategory.AMBIENT) {
     /**
      * Ensure that this only players in the nightmare when the player is not dead
      */

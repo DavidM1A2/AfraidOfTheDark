@@ -47,8 +47,8 @@ class StructureWitchHut : AOTDStructure("witch_hut") {
             override fun processChunk(chunkPos: ChunkPos): Boolean {
                 val biomes = getBiomesInChunk(biomeProvider, chunkPos.x, chunkPos.z)
 
-                // Witch huts can only spawn in erie forests
-                if (!biomes.contains(ModBiomes.ERIE_FOREST) || biomes.size > 1) {
+                // Witch huts can only spawn in eerie forests
+                if (!biomes.contains(ModBiomes.EERIE_FOREST) || biomes.size > 1) {
                     return false
                 }
 

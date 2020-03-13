@@ -19,7 +19,7 @@ object ModSounds {
     val BUTTON_HOVER = create("button_hover")
     val SPELL_CRAFTING_BUTTON_HOVER = create("spell_crafting_button_hover")
     val BELLS = create("bells")
-    val ERIE_ECHOS = create("erie_echos")
+    val EERIE_ECHOS = create("eerie_echos")
     val KEY_TYPED = create("key_typed")
     val SPELL_CAST = create("spell_cast")
     val NIGHTMARE_MUSIC = create("nightmare_music")
@@ -39,7 +39,7 @@ object ModSounds {
         BUTTON_HOVER,
         SPELL_CRAFTING_BUTTON_HOVER,
         BELLS,
-        ERIE_ECHOS,
+        EERIE_ECHOS,
         KEY_TYPED,
         SPELL_CAST,
         NIGHTMARE_MUSIC,

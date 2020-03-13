@@ -57,7 +57,7 @@ object ModEntities {
             25,
             1,
             4,
-            ModBiomes.ERIE_FOREST
+            ModBiomes.EERIE_FOREST
         ) // Weight = 100 is for skeletons, use 1/4 of that
         .build()
 
