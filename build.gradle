@@ -39,6 +39,8 @@ runClient {
     outputs.upToDateWhen { false }
     if (project.hasProperty("username") && project.hasProperty("password")) {
         args "--username", username, "--password", password
+    } else if (project.hasProperty("username")) {
+        args "--username", username
     }
 }
 
