@@ -18,7 +18,7 @@ class NightmareChaseMusic : PlayerFollowingSound(ModSounds.NIGHTMARE_CHASE_MUSIC
     init {
         // This sound loops
         repeat = true
-        volume = 0.7f
+        volume = 0.6f
     }
 
     /**
