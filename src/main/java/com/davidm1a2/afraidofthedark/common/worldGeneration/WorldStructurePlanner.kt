@@ -160,10 +160,12 @@ class WorldStructurePlanner {
         val topRightCorner = ChunkPos(posToGenerate.add(structure.getXWidth(), 0, structure.getZLength()))
 
         // Iterate over all chunks in the region and test if the world has a given chunk or not yet
-        for (chunkX in bottomLeftCorner.x..topRightCorner.x) for (chunkZ in bottomLeftCorner.z..topRightCorner.z) {
-            // If the chunk is generated at the coordinates then generate the structure at that position
-            if (world.isChunkGeneratedAt(chunkX, chunkZ)) {
-                worldGenerator.addChunkToRegenerate(ChunkPos(chunkX, chunkZ))
+        for (chunkX in bottomLeftCorner.x..topRightCorner.x) {
+            for (chunkZ in bottomLeftCorner.z..topRightCorner.z) {
+                // If the chunk is generated at the coordinates then generate the structure at that position
+                if (world.isChunkGeneratedAt(chunkX, chunkZ)) {
+                    worldGenerator.addChunkToRegenerate(ChunkPos(chunkX, chunkZ))
+                }
             }
         }
     }
