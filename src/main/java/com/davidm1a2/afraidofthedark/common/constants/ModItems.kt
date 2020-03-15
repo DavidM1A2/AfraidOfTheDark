@@ -51,6 +51,13 @@ object ModItems {
     val STAR_METAL_BOLT = ItemStarMetalBolt()
     val DEBUG = ItemDebug()
     val SCHEMATIC_CREATOR = ItemSchematicCreator()
+    val DESERT_FRUIT = ItemDesertFruit()
+    val BONE_DUST = ItemBoneDust()
+    val MAGIC_ESSENCE = ItemMagicEssence()
+    val MYSTIC_OPAL = ItemMysticOpal()
+    val POWER_CORE = ItemPowerCore()
+    val SMOKEY_QUARTZ = ItemSmokeyQuartz()
+    val SAPPHIRE_HEART = ItemSapphireHeart()
 
     // An array containing a list of items that AOTD adds
     var ITEM_LIST = arrayOf(
@@ -94,6 +101,13 @@ object ModItems {
         STAR_METAL_CHESTPLATE,
         STAR_METAL_LEGGINGS,
         STAR_METAL_BOOTS,
-        GNOMISH_METAL_INGOT
+        GNOMISH_METAL_INGOT,
+        DESERT_FRUIT,
+        BONE_DUST,
+        MAGIC_ESSENCE,
+        MYSTIC_OPAL,
+        POWER_CORE,
+        SMOKEY_QUARTZ,
+        SAPPHIRE_HEART
     )
 }
