@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GSG",
+    "GSG"
+  ],
+  "key": {
+    "G": {
+      "item": "afraidofthedark:gravewood_planks"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:gravewood_fence",
+    "count": 3
+  }
+}
