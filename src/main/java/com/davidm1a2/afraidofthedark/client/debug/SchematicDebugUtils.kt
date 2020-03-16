@@ -1,7 +1,9 @@
-package com.davidm1a2.afraidofthedark.common.worldGeneration.schematic
+package com.davidm1a2.afraidofthedark.client.debug
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.Schematic
+import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.SchematicBuilder
 import net.minecraft.nbt.CompressedStreamTools
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTTagList
@@ -73,7 +75,11 @@ object SchematicDebugUtils {
      * Debug function to create or update existing schematic meta files
      */
     fun createSchematicMetaFiles() {
-        generateMcMetaFileForDir(File("../src/main/resources/assets/afraidofthedark/schematics"))
+        generateMcMetaFileForDir(
+            File(
+                "../src/main/resources/assets/afraidofthedark/schematics"
+            )
+        )
     }
 
     /**
@@ -86,8 +92,16 @@ object SchematicDebugUtils {
         val subfiles = schematicDir.listFiles()
         if (subfiles != null) {
             // Go over each subfile, the ones that are directories we recurse over, the ones that are schematic files we create a meta file for
-            subfiles.filter { it.isDirectory }.forEach { generateMcMetaFileForDir(it) }
-            subfiles.filter { it.isFile }.filter { it.name.endsWith(".schematic") }.forEach { createMetaFor(it) }
+            subfiles.filter { it.isDirectory }.forEach {
+                generateMcMetaFileForDir(
+                    it
+                )
+            }
+            subfiles.filter { it.isFile }.filter { it.name.endsWith(".schematic") }.forEach {
+                createMetaFor(
+                    it
+                )
+            }
         }
     }
 
@@ -112,7 +126,8 @@ object SchematicDebugUtils {
                 "src/main/resources/assets/afraidofthedark/"
             )
         val schematic =
-            SchematicBuilder().withFile(ResourceLocation(Constants.MOD_ID, localPath)).withCacheEnabled(true).build()
+            SchematicBuilder()
+                .withFile(ResourceLocation(Constants.MOD_ID, localPath)).withCacheEnabled(true).build()
 
         // Create an NBT compound to write to
         val nbt = NBTTagCompound()

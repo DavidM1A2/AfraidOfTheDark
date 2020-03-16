@@ -24,6 +24,7 @@ abstract class CommonProxy : IProxy {
         OreDictionary.registerOre("treeSapling", ModBlocks.GRAVEWOOD_SAPLING)
         OreDictionary.registerOre("stairWood", ModBlocks.GRAVEWOOD_STAIRS)
         OreDictionary.registerOre("fenceWood", ModBlocks.GRAVEWOOD_FENCE)
+        OreDictionary.registerOre("fenceGateWood", ModBlocks.GRAVEWOOD_FENCE_GATE)
 
         OreDictionary.registerOre("logWood", ModBlocks.MANGROVE)
         OreDictionary.registerOre("plankWood", ModBlocks.MANGROVE_PLANKS)

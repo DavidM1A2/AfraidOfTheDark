@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SGS",
+    "SGS"
+  ],
+  "key": {
+    "G": {
+      "item": "afraidofthedark:gravewood_planks"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:gravewood_fence_gate"
+  }
+}

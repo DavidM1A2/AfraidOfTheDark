@@ -22,6 +22,7 @@ object ModBlocks {
     val GRAVEWOOD_STAIRS = BlockGravewoodStairs()
     val GRAVEWOOD_SAPLING = BlockGravewoodSapling()
     val GRAVEWOOD_FENCE = BlockGravewoodFence()
+    val GRAVEWOOD_FENCE_GATE = BlockGravewoodFenceGate()
 
     val MANGROVE = BlockMangrove()
     val MANGROVE_PLANKS = BlockMangrovePlanks()
@@ -66,6 +67,7 @@ object ModBlocks {
         GRAVEWOOD_DOUBLE_SLAB,
         GRAVEWOOD_STAIRS,
         GRAVEWOOD_FENCE,
+        GRAVEWOOD_FENCE_GATE,
         MANGROVE,
         MANGROVE_PLANKS,
         MANGROVE_SAPLING,
