@@ -152,8 +152,6 @@ class AfraidOfTheDark {
         }
         // Only used by the developer to create .schematic.meta files
         // SchematicDebugUtils.createSchematicMetaFiles()
-        // Only used by the developer to create .json model files
-        // ItemModelCreator.createModels()
     }
 
     /**

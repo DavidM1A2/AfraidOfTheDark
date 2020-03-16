@@ -1,9 +1,7 @@
-package com.davidm1a2.afraidofthedark.client.debug
+package com.davidm1a2.afraidofthedark.common.worldGeneration.schematic
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.Schematic
-import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.SchematicBuilder
 import net.minecraft.nbt.CompressedStreamTools
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTTagList
