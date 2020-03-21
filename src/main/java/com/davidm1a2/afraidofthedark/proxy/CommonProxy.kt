@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.proxy
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
+import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.packets.animationPackets.SyncAnimation
 import com.davidm1a2.afraidofthedark.common.packets.capabilityPackets.*
 import com.davidm1a2.afraidofthedark.common.packets.otherPackets.*
@@ -25,6 +26,8 @@ abstract class CommonProxy : IProxy {
         OreDictionary.registerOre("stairWood", ModBlocks.GRAVEWOOD_STAIRS)
         OreDictionary.registerOre("fenceWood", ModBlocks.GRAVEWOOD_FENCE)
         OreDictionary.registerOre("fenceGateWood", ModBlocks.GRAVEWOOD_FENCE_GATE)
+        // Door blocks don't use default items, instead they have their own custom item
+        OreDictionary.registerOre("doorWood", ModItems.GRAVEWOOD_DOOR)
 
         OreDictionary.registerOre("logWood", ModBlocks.MANGROVE)
         OreDictionary.registerOre("plankWood", ModBlocks.MANGROVE_PLANKS)

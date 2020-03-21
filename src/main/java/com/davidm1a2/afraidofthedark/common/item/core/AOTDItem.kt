@@ -8,6 +8,7 @@ import net.minecraft.item.Item
  *
  * @constructor sets up item properties
  * @param baseName The name of the item to be used by the game registry
+ * @param displayInCreative True if the item should show up in creative, false otherwise
  */
 abstract class AOTDItem(baseName: String, displayInCreative: Boolean = true) : Item() {
     init {
