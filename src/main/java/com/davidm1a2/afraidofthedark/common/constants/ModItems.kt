@@ -12,6 +12,8 @@ import net.minecraft.inventory.EntityEquipmentSlot
 object ModItems {
     val JOURNAL = ItemJournal()
     val GRAVEWOOD_DOOR = ItemGravewoodDoor()
+    val MANGROVE_DOOR = ItemMangroveDoor()
+    val SACRED_MANGROVE_DOOR = ItemSacredMangroveDoor()
     val ENCHANTED_SKELETON_BONE = ItemEnchantedSkeletonBone()
     val BLADE_OF_EXHUMATION = ItemBladeOfExhumation()
     val CROSSBOW = ItemCrossbow()
@@ -64,6 +66,8 @@ object ModItems {
     var ITEM_LIST = arrayOf(
         JOURNAL,
         GRAVEWOOD_DOOR,
+        MANGROVE_DOOR,
+        SACRED_MANGROVE_DOOR,
         ENCHANTED_SKELETON_BONE,
         BLADE_OF_EXHUMATION,
         CROSSBOW,

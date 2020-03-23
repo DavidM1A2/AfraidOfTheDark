@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "MM",
+    "MM",
+    "MM"
+  ],
+  "key": {
+    "M": {
+      "item": "afraidofthedark:sacred_mangrove_planks"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:sacred_mangrove_door",
+    "count": 3
+  }
+}

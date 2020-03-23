@@ -1,0 +1,7 @@
+{
+  "parent": "block/door_top_rh",
+  "textures": {
+    "bottom": "afraidofthedark:blocks/mangrove_door_lower",
+    "top": "afraidofthedark:blocks/mangrove_door_upper"
+  }
+}

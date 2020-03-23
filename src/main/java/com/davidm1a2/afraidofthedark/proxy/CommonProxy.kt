@@ -38,6 +38,8 @@ abstract class CommonProxy : IProxy {
         OreDictionary.registerOre("stairWood", ModBlocks.MANGROVE_STAIRS)
         OreDictionary.registerOre("fenceWood", ModBlocks.MANGROVE_FENCE)
         OreDictionary.registerOre("fenceGateWood", ModBlocks.MANGROVE_FENCE_GATE)
+        // Door blocks don't use default items, instead they have their own custom item
+        OreDictionary.registerOre("doorWood", ModItems.MANGROVE_DOOR)
 
         OreDictionary.registerOre("logWood", ModBlocks.SACRED_MANGROVE)
         OreDictionary.registerOre("plankWood", ModBlocks.SACRED_MANGROVE_PLANKS)
@@ -48,6 +50,8 @@ abstract class CommonProxy : IProxy {
         OreDictionary.registerOre("stairWood", ModBlocks.SACRED_MANGROVE_STAIRS)
         OreDictionary.registerOre("fenceWood", ModBlocks.SACRED_MANGROVE_FENCE)
         OreDictionary.registerOre("fenceGateWood", ModBlocks.SACRED_MANGROVE_FENCE_GATE)
+        // Door blocks don't use default items, instead they have their own custom item
+        OreDictionary.registerOre("doorWood", ModItems.SACRED_MANGROVE_DOOR)
     }
 
     /**
