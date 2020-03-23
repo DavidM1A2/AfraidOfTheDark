@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "MSM",
+    "MSM"
+  ],
+  "key": {
+    "M": {
+      "item": "afraidofthedark:sacred_mangrove_planks"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:sacred_mangrove_fence",
+    "count": 3
+  }
+}

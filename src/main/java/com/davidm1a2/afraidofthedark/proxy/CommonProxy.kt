@@ -36,6 +36,7 @@ abstract class CommonProxy : IProxy {
         OreDictionary.registerOre("slabWood", ModBlocks.MANGROVE_DOUBLE_SLAB)
         OreDictionary.registerOre("treeSapling", ModBlocks.GRAVEWOOD_SAPLING)
         OreDictionary.registerOre("stairWood", ModBlocks.MANGROVE_STAIRS)
+        OreDictionary.registerOre("fenceWood", ModBlocks.MANGROVE_FENCE)
 
         OreDictionary.registerOre("logWood", ModBlocks.SACRED_MANGROVE)
         OreDictionary.registerOre("plankWood", ModBlocks.SACRED_MANGROVE_PLANKS)
@@ -44,6 +45,7 @@ abstract class CommonProxy : IProxy {
         OreDictionary.registerOre("slabWood", ModBlocks.SACRED_MANGROVE_DOUBLE_SLAB)
         OreDictionary.registerOre("treeSapling", ModBlocks.GRAVEWOOD_SAPLING)
         OreDictionary.registerOre("stairWood", ModBlocks.SACRED_MANGROVE_STAIRS)
+        OreDictionary.registerOre("fenceWood", ModBlocks.SACRED_MANGROVE_FENCE)
     }
 
     /**
