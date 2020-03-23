@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SMS",
+    "SMS"
+  ],
+  "key": {
+    "M": {
+      "item": "afraidofthedark:mangrove_planks"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:mangrove_fence_gate"
+  }
+}

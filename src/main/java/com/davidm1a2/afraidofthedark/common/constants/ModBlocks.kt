@@ -33,6 +33,7 @@ object ModBlocks {
     val MANGROVE_STAIRS = BlockMangroveStairs()
     val MANGROVE_SAPLING = BlockMangroveSapling()
     val MANGROVE_FENCE = BlockMangroveFence()
+    val MANGROVE_FENCE_GATE = BlockMangroveFenceGate()
 
     val SACRED_MANGROVE = BlockSacredMangrove()
     val SACRED_MANGROVE_PLANKS = BlockSacredMangrovePlanks()
@@ -42,6 +43,7 @@ object ModBlocks {
     val SACRED_MANGROVE_STAIRS = BlockSacredMangroveStairs()
     val SACRED_MANGROVE_SAPLING = BlockSacredMangroveSapling()
     val SACRED_MANGROVE_FENCE = BlockSacredMangroveFence()
+    val SACRED_MANGROVE_FENCE_GATE = BlockSacredMangroveFenceGate()
 
     val METEOR = BlockMeteor()
     val ASTRAL_SILVER_ORE = BlockAstralSilverOre()
@@ -80,6 +82,7 @@ object ModBlocks {
         MANGROVE_DOUBLE_SLAB,
         MANGROVE_STAIRS,
         MANGROVE_FENCE,
+        MANGROVE_FENCE_GATE,
         SACRED_MANGROVE,
         SACRED_MANGROVE_PLANKS,
         SACRED_MANGROVE_SAPLING,
@@ -88,6 +91,7 @@ object ModBlocks {
         SACRED_MANGROVE_DOUBLE_SLAB,
         SACRED_MANGROVE_STAIRS,
         SACRED_MANGROVE_FENCE,
+        SACRED_MANGROVE_FENCE_GATE,
         METEOR,
         ASTRAL_SILVER_ORE,
         ELDRITCH_STONE,
