@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.worldGeneration.structure
 
+import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.world.IHeightmap
 import com.davidm1a2.afraidofthedark.common.capabilities.world.OverworldHeightmap
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
@@ -56,7 +57,7 @@ class StructureDesertOasis : AOTDStructure("desert_oasis") {
             override fun getResult(): Double {
                 val percentDesertTiles = numValidChunks / (numValidChunks + numNonValidChunks)
                 // 70% valid tiles required, .5% chance to spawn
-                return if (percentDesertTiles > 0.7) 0.005 else 0.0
+                return if (percentDesertTiles > 0.7) 0.005 * AfraidOfTheDark.INSTANCE.configurationHandler.desertOasisMultiplier else 0.0
             }
 
             override fun getDefaultResult(): Double {
