@@ -35,6 +35,7 @@ object ModLootTables {
     val GNOMISH_CITY = LootTable(
         mapOf(
             null to ResourceLocation(Constants.MOD_ID, "gnomish_city/standard"),
+            Items.GOLD_INGOT to ResourceLocation(Constants.MOD_ID, "gnomish_city/cave_room"),
             Items.DIAMOND to ResourceLocation(Constants.MOD_ID, "gnomish_city/rare")
         )
     )

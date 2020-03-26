@@ -36,6 +36,20 @@
           "type": "item",
           "name": "afraidofthedark:sacred_mangrove",
           "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "afraidofthedark:mystic_opal",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 5
+              }
+            }
+          ],
+          "weight": 1
         }
       ]
     }

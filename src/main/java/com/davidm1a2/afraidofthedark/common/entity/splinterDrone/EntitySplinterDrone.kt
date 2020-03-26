@@ -152,8 +152,11 @@ class EntitySplinterDrone(world: World) : EntityFlying(world), IMob, IMCAnimated
      * @param lootingModifier The player's looting modifier
      */
     override fun dropFewItems(wasRecentlyHit: Boolean, lootingModifier: Int) {
-        // Drop 3 - 7 ingots
-        dropItem(ModItems.GNOMISH_METAL_INGOT, rand.nextInt(5) + 3)
+        // Drop 1 energy core 20% of the time (+20% per looting level)
+        if (rand.nextDouble() < 0.2 + lootingModifier * 0.2)
+        {
+            dropItem(ModItems.POWER_CORE, 1)
+        }
     }
 
     /**

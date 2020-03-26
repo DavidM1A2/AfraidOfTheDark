@@ -2,54 +2,66 @@
   "pools": [
     {
       "name": "main",
-      "rolls": 2,
+      "rolls": {
+        "min": 2,
+        "max": 4
+      },
       "entries": [
         {
           "type": "item",
-          "name": "minecraft:bone",
+          "name": "minecraft:diamond",
           "functions": [
             {
               "function": "set_count",
               "count": {
                 "min": 1,
-                "max": 15
+                "max": 5
               }
             }
           ],
-          "weight": 20
+          "weight": 1
         },
         {
           "type": "item",
-          "name": "afraidofthedark:enchanted_skeleton_bone",
+          "name": "minecraft:gold_ingot",
           "functions": [
             {
               "function": "set_count",
               "count": {
-                "min": 5,
+                "min": 1,
                 "max": 10
               }
             }
           ],
-          "weight": 10
+          "weight": 1
         },
         {
           "type": "item",
-          "name": "afraidofthedark:journal",
+          "name": "minecraft:iron_ingot",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 20
+              }
+            }
+          ],
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "afraidofthedark:smokey_quartz",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 8
+              }
+            }
+          ],
           "weight": 2
-        },
-        {
-          "type": "item",
-          "name": "afraidofthedark:bone_dust",
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 1,
-                "max": 10
-              }
-            }
-          ],
-          "weight": 5
         }
       ]
     }
