@@ -63,6 +63,8 @@ object ModBlocks {
     val DARK_FOREST = BlockDarkForest()
     val ENARIA_SPAWNER = BlockEnariaSpawner()
     val ENARIAS_ALTAR = BlockEnariasAltar()
+    val IMBUED_CACTUS = BlockImbuedCactus()
+    val IMBUED_CACTUS_BLOSSOM = BlockImbuedCactusBlossom()
 
     // An array containing a list of blocks that AOTD adds
     val BLOCK_LIST = arrayOf(
@@ -111,7 +113,9 @@ object ModBlocks {
         GNOMISH_METAL_STRUT,
         GNOMISH_METAL_PLATE,
         GLOW_STALK,
-        ENARIAS_ALTAR
+        ENARIAS_ALTAR,
+        IMBUED_CACTUS,
+        IMBUED_CACTUS_BLOSSOM
     )
 
     // A list of tile entities to register
