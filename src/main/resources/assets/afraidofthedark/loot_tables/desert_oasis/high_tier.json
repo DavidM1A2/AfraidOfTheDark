@@ -39,7 +39,7 @@
         },
         {
           "type": "item",
-          "name": "afraidofthedark:mystic_opal",
+          "name": "afraidofthedark:black_opal",
           "functions": [
             {
               "function": "set_count",

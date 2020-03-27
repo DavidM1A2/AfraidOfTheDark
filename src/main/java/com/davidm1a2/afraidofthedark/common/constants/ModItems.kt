@@ -57,10 +57,11 @@ object ModItems {
     val DESERT_FRUIT = ItemDesertFruit()
     val BONE_DUST = ItemBoneDust()
     val MAGIC_ESSENCE = ItemMagicEssence()
-    val MYSTIC_OPAL = ItemMysticOpal()
+    val BLACK_OPAL = ItemBlackOpal()
     val POWER_CORE = ItemPowerCore()
     val SMOKEY_QUARTZ = ItemSmokeyQuartz()
     val SAPPHIRE_HEART = ItemSapphireHeart()
+    val MYSTIC_TOPAZ = ItemMysticTopaz()
 
     // An array containing a list of items that AOTD adds
     var ITEM_LIST = arrayOf(
@@ -111,9 +112,10 @@ object ModItems {
         DESERT_FRUIT,
         BONE_DUST,
         MAGIC_ESSENCE,
-        MYSTIC_OPAL,
+        BLACK_OPAL,
         POWER_CORE,
         SMOKEY_QUARTZ,
-        SAPPHIRE_HEART
+        SAPPHIRE_HEART,
+        MYSTIC_TOPAZ
     )
 }

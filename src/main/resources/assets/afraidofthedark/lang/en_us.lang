@@ -45,10 +45,11 @@ item.afraidofthedark:schematic_creator.name=Schematic Creator
 item.afraidofthedark:bone_dust.name=Bone Dust
 item.afraidofthedark:desert_fruit.name=Desert Fruit
 item.afraidofthedark:magic_essence.name=Magic Essence
-item.afraidofthedark:mystic_opal.name=Mystic Opal
+item.afraidofthedark:black_opal.name=Black Opal
 item.afraidofthedark:power_core.name=Power Core
 item.afraidofthedark:sapphire_heart.name=Sapphire Heart
 item.afraidofthedark:smokey_quartz.name=Smokey Quartz
+item.afraidofthedark:mystic_topaz.name=Mystic Topaz
 
 # Blocks
 tile.afraidofthedark:silver_ore.name=Silver Ore
