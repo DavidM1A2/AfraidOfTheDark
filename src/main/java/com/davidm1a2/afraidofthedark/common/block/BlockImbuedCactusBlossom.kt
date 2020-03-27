@@ -102,6 +102,6 @@ class BlockImbuedCactusBlossom : AOTDBush("imbued_cactus_blossom", Material.VINE
 
     companion object
     {
-        private val IMBUED_CACTUS_BLOSSOM_AABB = AxisAlignedBB(0.09999999403953552, 0.0, 0.09999999403953552, 0.8999999761581421, 0.800000011920929, 0.8999999761581421)
+        private val IMBUED_CACTUS_BLOSSOM_AABB = AxisAlignedBB(0.2, 0.0, 0.2, 0.8, 1.0, 0.8)
     }
 }

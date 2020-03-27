@@ -23,9 +23,7 @@ class ItemDebug : AOTDItem("debug", displayInCreative = false) {
 
     override fun onItemRightClick(worldIn: World, playerIn: EntityPlayer, handIn: EnumHand): ActionResult<ItemStack> {
         if (worldIn.isRemote) {
-
         } else {
-
         }
         return super.onItemRightClick(worldIn, playerIn, handIn)
     }

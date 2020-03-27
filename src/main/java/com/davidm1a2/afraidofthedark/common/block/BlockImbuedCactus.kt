@@ -190,7 +190,7 @@ class BlockImbuedCactus : AOTDBlock("imbued_cactus", Material.CACTUS), IPlantabl
      */
     override fun getStateFromMeta(meta: Int): IBlockState
     {
-        return this.defaultState.withProperty(AGE, Integer.valueOf(meta))
+        return this.defaultState.withProperty(AGE, meta)
     }
 
     /**
