@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.block.sacred_mangrove
 
-import com.davidm1a2.afraidofthedark.common.block.core.AOTDStairs
+import com.davidm1a2.afraidofthedark.common.block.core.AOTDBlockStairs
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 
 /**
@@ -8,4 +8,4 @@ import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
  *
  * @constructor sets the name and texture to the sacred mangrove plank texture
  */
-class BlockSacredMangroveStairs : AOTDStairs("sacred_mangrove_stairs", ModBlocks.SACRED_MANGROVE_PLANKS.defaultState)
+class BlockSacredMangroveStairs : AOTDBlockStairs("sacred_mangrove_stairs", ModBlocks.SACRED_MANGROVE_PLANKS.defaultState)

@@ -13,7 +13,7 @@ import net.minecraft.block.material.Material
  * @param material The material of this block
  * @param displayInCreative True if the block should show up in creative, false otherwise
  */
-abstract class AOTDBush(baseName: String, material: Material, displayInCreative: Boolean = true) : BlockBush(material)
+abstract class AOTDBlockBush(baseName: String, material: Material, displayInCreative: Boolean = true) : BlockBush(material)
 {
     init
     {

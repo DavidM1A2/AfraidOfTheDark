@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.block.sacred_mangrove
 
-import com.davidm1a2.afraidofthedark.common.block.core.AOTDSlab
+import com.davidm1a2.afraidofthedark.common.block.core.AOTDBlockSlab
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import net.minecraft.block.BlockSlab
 import net.minecraft.block.material.Material
@@ -10,11 +10,13 @@ import net.minecraft.block.material.Material
  *
  * @constructor sets the name and material
  */
-class BlockSacredMangroveDoubleSlab : AOTDSlab("sacred_mangrove_double_slab", Material.WOOD) {
+class BlockSacredMangroveDoubleSlab : AOTDBlockSlab("sacred_mangrove_double_slab", Material.WOOD)
+{
     /**
      * @return The half slab since this is a double slab
      */
-    override fun getOpposite(): BlockSlab {
+    override fun getOpposite(): BlockSlab
+    {
         return ModBlocks.SACRED_MANGROVE_HALF_SLAB
     }
 

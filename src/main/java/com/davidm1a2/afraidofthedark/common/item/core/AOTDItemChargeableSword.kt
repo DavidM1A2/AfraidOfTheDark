@@ -22,11 +22,13 @@ import net.minecraft.world.World
  * @param displayInCreative True if this item should be displayed in creative mode, false otherwise
  * @property percentChargePerAttack The percent the sword will charge per entity hit, defaults to 5%
  */
-abstract class AOTDChargeableSword(baseName: String, toolMaterial: ToolMaterial, displayInCreative: Boolean = false) :
-    AOTDSword(baseName, toolMaterial, displayInCreative) {
+abstract class AOTDItemChargeableSword(baseName: String, toolMaterial: ToolMaterial, displayInCreative: Boolean = false) :
+    AOTDItemSword(baseName, toolMaterial, displayInCreative)
+{
     protected var percentChargePerAttack = 5.0
 
-    init {
+    init
+    {
         // This is required to make the sword unbreakable
         maxDamage = 0
 

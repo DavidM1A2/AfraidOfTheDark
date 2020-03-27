@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.block
 
-import com.davidm1a2.afraidofthedark.common.block.core.AOTDBush
+import com.davidm1a2.afraidofthedark.common.block.core.AOTDBlockBush
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import net.minecraft.block.material.Material
@@ -13,7 +13,7 @@ import net.minecraft.world.World
 import net.minecraftforge.common.EnumPlantType
 import java.util.*
 
-class BlockImbuedCactusBlossom : AOTDBush("imbued_cactus_blossom", Material.VINE)
+class BlockImbuedCactusBlossom : AOTDBlockBush("imbued_cactus_blossom", Material.VINE)
 {
     /**
      * Checks if this block can be placed exactly at the given position.

@@ -4,7 +4,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModToolMaterials
 import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.EntityEnchantedSkeleton
-import com.davidm1a2.afraidofthedark.common.item.core.AOTDSword
+import com.davidm1a2.afraidofthedark.common.item.core.AOTDItemSword
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.init.SoundEvents
@@ -16,7 +16,8 @@ import net.minecraft.util.DamageSource
  *
  * @constructor Initializes the item with a name and material
  */
-class ItemBladeOfExhumation : AOTDSword("blade_of_exhumation", ModToolMaterials.BLADE_OF_EXHUMATION) {
+class ItemBladeOfExhumation : AOTDItemSword("blade_of_exhumation", ModToolMaterials.BLADE_OF_EXHUMATION)
+{
     /**
      * Called when the player left clicks on an entity
      *
@@ -25,7 +26,8 @@ class ItemBladeOfExhumation : AOTDSword("blade_of_exhumation", ModToolMaterials.
      * @param entity The entity that was clicked on
      * @return True to cancel the interaction, false otherwise
      */
-    override fun onLeftClickEntity(stack: ItemStack, player: EntityPlayer, entity: Entity): Boolean {
+    override fun onLeftClickEntity(stack: ItemStack, player: EntityPlayer, entity: Entity): Boolean
+    {
         // If the sword is about to break cancel the interaction and don't let it break!
         if (stack.itemDamage == stack.maxDamage - 1) {
             return true

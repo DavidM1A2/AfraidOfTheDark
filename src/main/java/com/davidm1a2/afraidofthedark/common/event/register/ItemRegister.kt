@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
-import com.davidm1a2.afraidofthedark.common.block.core.AOTDDoor
-import com.davidm1a2.afraidofthedark.common.block.core.AOTDSlab
+import com.davidm1a2.afraidofthedark.common.block.core.AOTDBlockDoor
+import com.davidm1a2.afraidofthedark.common.block.core.AOTDBlockSlab
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
@@ -34,11 +34,14 @@ class ItemRegister {
         // For each block in our block list we register an item so that we can hold the block
         for (block in ModBlocks.BLOCK_LIST) {
             // If our block is a lower half slab, we register it using an ItemSlab not an ItemBlock
-            if (block is AOTDSlab && !block.isDouble) {
+            if (block is AOTDBlockSlab && !block.isDouble)
+            {
                 registry.register(ItemSlab(block, block, block.getOpposite()).setRegistryName(block.registryName))
-            } else if (block is AOTDDoor) {
+            } else if (block is AOTDBlockDoor)
+            {
                 // Doors are similarly registered using an ItemDoor, the block doesn't have an item
-            } else {
+            } else
+            {
                 registry.register(ItemBlock(block).setRegistryName(block.registryName))
             }
         }

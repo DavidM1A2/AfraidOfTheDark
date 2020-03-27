@@ -1,10 +1,10 @@
 package com.davidm1a2.afraidofthedark.common.block.mangrove
 
-import com.davidm1a2.afraidofthedark.common.block.core.AOTDLog
+import com.davidm1a2.afraidofthedark.common.block.core.AOTDBlockLog
 
 /**
  * Class representing a mangrove log block
  *
  * @constructor passes on the name
  */
-class BlockMangrove : AOTDLog("mangrove")
+class BlockMangrove : AOTDBlockLog("mangrove")

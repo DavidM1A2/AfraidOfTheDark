@@ -4,7 +4,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources.getSilverDamage
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModToolMaterials
-import com.davidm1a2.afraidofthedark.common.item.core.AOTDChargeableSword
+import com.davidm1a2.afraidofthedark.common.item.core.AOTDItemChargeableSword
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.enchantment.EnchantmentHelper
@@ -23,8 +23,10 @@ import net.minecraft.world.World
  *
  * @constructor sets the sword properties
  */
-class ItemIgneousSword : AOTDChargeableSword("igneous_sword", ModToolMaterials.IGNEOUS) {
-    init {
+class ItemIgneousSword : AOTDItemChargeableSword("igneous_sword", ModToolMaterials.IGNEOUS)
+{
+    init
+    {
         percentChargePerAttack = 35.0
     }
 

@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.block.sacred_mangrove
 
-import com.davidm1a2.afraidofthedark.common.block.core.AOTDDoor
+import com.davidm1a2.afraidofthedark.common.block.core.AOTDBlockDoor
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import net.minecraft.block.material.Material
 import net.minecraft.item.Item
@@ -10,7 +10,7 @@ import net.minecraft.item.Item
  *
  * @constructor just sets the registry and unlocalized name
  */
-class BlockSacredMangroveDoor : AOTDDoor("sacred_mangrove_door", Material.WOOD)
+class BlockSacredMangroveDoor : AOTDBlockDoor("sacred_mangrove_door", Material.WOOD)
 {
     /**
      * @return The item that places this door

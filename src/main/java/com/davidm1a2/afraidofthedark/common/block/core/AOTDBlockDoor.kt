@@ -20,9 +20,11 @@ import java.util.*
  * @param material The material of this block
  * @param displayInCreative True if the block should show up in creative, false otherwise
  */
-abstract class AOTDDoor(baseName: String, material: Material, val displayInCreative: Boolean = true) :
-    BlockDoor(material) {
-    init {
+abstract class AOTDBlockDoor(baseName: String, material: Material, val displayInCreative: Boolean = true) :
+    BlockDoor(material)
+{
+    init
+    {
         unlocalizedName = "${Constants.MOD_ID}:$baseName"
         this.setRegistryName("${Constants.MOD_ID}:$baseName")
         this.setHardness(3.0f)

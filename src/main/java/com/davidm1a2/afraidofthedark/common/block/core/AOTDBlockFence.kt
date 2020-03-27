@@ -16,13 +16,15 @@ import net.minecraft.block.material.Material
  * @param mapColor The color used to tint the fence's texture
  * @param displayInCreative True if the block should show up in creative, false otherwise
  */
-abstract class AOTDFence(
+abstract class AOTDBlockFence(
     baseName: String,
     material: Material,
     mapColor: MapColor? = null,
     displayInCreative: Boolean = true
-) : BlockFence(material, mapColor ?: material.materialMapColor) {
-    init {
+) : BlockFence(material, mapColor ?: material.materialMapColor)
+{
+    init
+    {
         unlocalizedName = "${Constants.MOD_ID}:$baseName"
         this.setRegistryName("${Constants.MOD_ID}:$baseName")
         this.setHardness(2.0f)

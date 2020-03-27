@@ -4,7 +4,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources.getSilverDamage
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModToolMaterials
-import com.davidm1a2.afraidofthedark.common.item.core.AOTDChargeableSword
+import com.davidm1a2.afraidofthedark.common.item.core.AOTDItemChargeableSword
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
@@ -23,8 +23,10 @@ import kotlin.math.sqrt
  *
  * @constructor sets the sword properties
  */
-class ItemStarMetalKhopesh : AOTDChargeableSword("star_metal_khopesh", ModToolMaterials.STAR_METAL) {
-    init {
+class ItemStarMetalKhopesh : AOTDItemChargeableSword("star_metal_khopesh", ModToolMaterials.STAR_METAL)
+{
+    init
+    {
         percentChargePerAttack = 35.0
     }
 

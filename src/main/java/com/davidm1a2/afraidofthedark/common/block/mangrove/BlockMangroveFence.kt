@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.block.mangrove
 
-import com.davidm1a2.afraidofthedark.common.block.core.AOTDFence
+import com.davidm1a2.afraidofthedark.common.block.core.AOTDBlockFence
 import net.minecraft.block.material.Material
 
 /**
@@ -8,4 +8,4 @@ import net.minecraft.block.material.Material
  *
  * @constructor sets the name and material
  */
-class BlockMangroveFence : AOTDFence("mangrove_fence", Material.WOOD)
+class BlockMangroveFence : AOTDBlockFence("mangrove_fence", Material.WOOD)

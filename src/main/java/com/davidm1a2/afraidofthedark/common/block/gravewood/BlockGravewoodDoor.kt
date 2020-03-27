@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.block.gravewood
 
-import com.davidm1a2.afraidofthedark.common.block.core.AOTDDoor
+import com.davidm1a2.afraidofthedark.common.block.core.AOTDBlockDoor
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import net.minecraft.block.material.Material
 import net.minecraft.item.Item
@@ -10,11 +10,13 @@ import net.minecraft.item.Item
  *
  * @constructor just sets the registry and unlocalized name
  */
-class BlockGravewoodDoor : AOTDDoor("gravewood_door", Material.WOOD) {
+class BlockGravewoodDoor : AOTDBlockDoor("gravewood_door", Material.WOOD)
+{
     /**
      * @return The item that places this door
      */
-    override fun getItem(): Item {
+    override fun getItem(): Item
+    {
         return ModItems.GRAVEWOOD_DOOR
     }
 }

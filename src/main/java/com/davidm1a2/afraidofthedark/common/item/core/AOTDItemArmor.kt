@@ -17,14 +17,15 @@ import net.minecraft.item.ItemArmor
  * @property percentOfDamageBlocked The percent of damage blocked by the armor
  * @property maxDamageBlocked The maximum damage blocked by the armor
  */
-abstract class AOTDArmor(
+abstract class AOTDItemArmor(
     baseName: String,
     material: ArmorMaterial,
     renderIndex: Int,
     equipmentSlot: EntityEquipmentSlot,
     displayInCreative: Boolean = true
 ) :
-    ItemArmor(material, renderIndex, equipmentSlot) {
+    ItemArmor(material, renderIndex, equipmentSlot)
+{
     protected var percentOfDamageBlocked = 0.0
     protected var maxDamageBlocked = 0
 

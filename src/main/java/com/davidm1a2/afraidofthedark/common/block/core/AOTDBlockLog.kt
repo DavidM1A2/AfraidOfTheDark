@@ -14,8 +14,10 @@ import net.minecraft.item.ItemStack
  * @constructor just sets default state and initializes sounds
  * @param baseName The name of the block to register
  */
-abstract class AOTDLog(baseName: String) : BlockLog() {
-    init {
+abstract class AOTDBlockLog(baseName: String) : BlockLog()
+{
+    init
+    {
         unlocalizedName = "${Constants.MOD_ID}:$baseName"
         this.setRegistryName("${Constants.MOD_ID}:$baseName")
         setHardness(2.0f)

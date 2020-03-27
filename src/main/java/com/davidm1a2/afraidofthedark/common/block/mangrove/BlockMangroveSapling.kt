@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.block.mangrove
 
-import com.davidm1a2.afraidofthedark.common.block.core.AOTDSapling
+import com.davidm1a2.afraidofthedark.common.block.core.AOTDBlockSapling
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import net.minecraft.block.BlockLeaves
 import net.minecraft.block.BlockLog
@@ -18,7 +18,8 @@ import kotlin.math.sqrt
  *
  * @constructor initializes the sapling with a name
  */
-class BlockMangroveSapling : AOTDSapling("mangrove_sapling") {
+class BlockMangroveSapling : AOTDBlockSapling("mangrove_sapling")
+{
     /**
      * Causes the tree to grow. Uses a custom tree generation algorithm
      *
@@ -27,7 +28,8 @@ class BlockMangroveSapling : AOTDSapling("mangrove_sapling") {
      * @param state  The current state of the sapling
      * @param random The random object to grow the tree with
      */
-    override fun causeTreeToGrow(world: World, pos: BlockPos, state: IBlockState, random: Random) {
+    override fun causeTreeToGrow(world: World, pos: BlockPos, state: IBlockState, random: Random)
+    {
         // Clear the sapling block
         world.setBlockState(pos, Blocks.AIR.defaultState)
         // Generate the trunk and root blocks

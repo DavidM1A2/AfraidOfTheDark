@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.common.item
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModArmorMaterials
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
-import com.davidm1a2.afraidofthedark.common.item.core.AOTDArmor
+import com.davidm1a2.afraidofthedark.common.item.core.AOTDItemArmor
 import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.Entity
@@ -27,8 +27,10 @@ import kotlin.math.sqrt
  * @param equipmentSlot The slot that this armor pieces goes on, can be one of 4 options
  */
 class ItemIgneousArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
-    AOTDArmor(baseName, ModArmorMaterials.IGNEOUS, 3, equipmentSlot), ISpecialArmor {
-    init {
+    AOTDItemArmor(baseName, ModArmorMaterials.IGNEOUS, 3, equipmentSlot), ISpecialArmor
+{
+    init
+    {
         // Makes the armor invincible
         maxDamage = 0
         // Block 80% of the damage up to 20
