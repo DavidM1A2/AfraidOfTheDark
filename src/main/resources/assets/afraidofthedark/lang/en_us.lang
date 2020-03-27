@@ -50,6 +50,7 @@ item.afraidofthedark:power_core.name=Power Core
 item.afraidofthedark:sapphire_heart.name=Sapphire Heart
 item.afraidofthedark:smokey_quartz.name=Smokey Quartz
 item.afraidofthedark:mystic_topaz.name=Mystic Topaz
+item.afraidofthedark:cursed_veil.name=Cursed Veil
 
 # Blocks
 tile.afraidofthedark:silver_ore.name=Silver Ore
