@@ -8,6 +8,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.entity.enaria.animation.AnimationHandlerGhastlyEnaria
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedEntity
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
+import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityFlying
 import net.minecraft.entity.SharedMonsterAttributes
 import net.minecraft.nbt.NBTTagCompound
@@ -112,6 +113,9 @@ class EntityGhastlyEnaria(world: World) : EntityFlying(world), IMCAnimatedEntity
                     // Kill enaria, she's now unloaded (can't use .setDead()) or we get an index out of bounds exception?
                     onKillCommand()
 
+                    // Dismount whatever we're in
+                    entityPlayer.dismountRidingEntity()
+
                     // Send them back to their original dimension
                     entityPlayer.changeDimension(
                         entityPlayer.getNightmareData().preTeleportDimensionID,
@@ -168,6 +172,13 @@ class EntityGhastlyEnaria(world: World) : EntityFlying(world), IMCAnimatedEntity
      * @return False, enaria can't despawn
      */
     override fun canDespawn(): Boolean {
+        return false
+    }
+
+    /**
+     * @return False, enaria can't ride any entities
+     */
+    override fun canBeRidden(entityIn: Entity): Boolean {
         return false
     }
 

@@ -3,6 +3,7 @@ package com.davidm1a2.afraidofthedark.proxy
 import com.davidm1a2.afraidofthedark.client.entity.bolt.*
 import com.davidm1a2.afraidofthedark.client.entity.enaria.RenderEnaria
 import com.davidm1a2.afraidofthedark.client.entity.enaria.RenderGhastlyEnaria
+import com.davidm1a2.afraidofthedark.client.entity.enchantedFrog.RenderEnchantedFrog
 import com.davidm1a2.afraidofthedark.client.entity.enchantedSkeleton.RenderEnchantedSkeleton
 import com.davidm1a2.afraidofthedark.client.entity.spell.projectile.RenderSpellProjectile
 import com.davidm1a2.afraidofthedark.client.entity.splinterDrone.RenderSplinterDrone
@@ -13,6 +14,7 @@ import com.davidm1a2.afraidofthedark.client.tileEntity.voidChest.TileEntityVoidC
 import com.davidm1a2.afraidofthedark.common.entity.bolt.*
 import com.davidm1a2.afraidofthedark.common.entity.enaria.EntityEnaria
 import com.davidm1a2.afraidofthedark.common.entity.enaria.EntityGhastlyEnaria
+import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EntityEnchantedFrog
 import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.EntityEnchantedSkeleton
 import com.davidm1a2.afraidofthedark.common.entity.spell.projectile.EntitySpellProjectile
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.EntitySplinterDrone
@@ -65,6 +67,7 @@ class ClientProxy : CommonProxy() {
         RenderingRegistry.registerEntityRenderingHandler(EntityIgneousBolt::class.java) { RenderIgneousBolt(it) }
         RenderingRegistry.registerEntityRenderingHandler(EntityStarMetalBolt::class.java) { RenderStarMetalBolt(it) }
         RenderingRegistry.registerEntityRenderingHandler(EntitySpellProjectile::class.java) { RenderSpellProjectile(it) }
+        RenderingRegistry.registerEntityRenderingHandler(EntityEnchantedFrog::class.java) { RenderEnchantedFrog(it) }
     }
 
     /**

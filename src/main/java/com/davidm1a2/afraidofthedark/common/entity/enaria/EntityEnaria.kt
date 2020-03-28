@@ -258,7 +258,7 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity {
     }
 
     /**
-     * Can't ride enaria
+     * Enaria can't ride anything
      *
      * @param entityIn The entity to test
      * @return False, duh

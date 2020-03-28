@@ -4,6 +4,7 @@ import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.entity.bolt.*
 import com.davidm1a2.afraidofthedark.common.entity.enaria.EntityEnaria
 import com.davidm1a2.afraidofthedark.common.entity.enaria.EntityGhastlyEnaria
+import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EntityEnchantedFrog
 import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.EntityEnchantedSkeleton
 import com.davidm1a2.afraidofthedark.common.entity.spell.projectile.EntitySpellProjectile
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.EntitySplinterDrone
@@ -18,24 +19,25 @@ import net.minecraftforge.fml.common.registry.EntityEntryBuilder
  */
 object ModEntities {
     // Various entity IDs
-    const val WEREWOLF_ID = 0
-    const val IRON_BOLT_ID = 1
-    const val SILVER_BOLT_ID = 2
-    const val WOODEN_BOLT_ID = 3
-    const val DEEE_SYFT_ID = 4
-    const val IGNEOUS_BOLT_ID = 5
-    const val STAR_METAL_BOLT_ID = 6
-    const val ENCHANTED_SKELETON_ID = 7
-    const val ENARIA_ID = 8
-    const val SPLINTER_DRONE_ID = 9
-    const val SPLINTER_DRONE_PROJECTILE_ID = 10
-    const val SPELL_PROJECTILE_ID = 11
-    const val SPELL_PROJECTILE_DIVE_ID = 12
-    const val SPELL_MYSELF_ID = 13
-    const val SPELL_AOE_ID = 14
-    const val GHASTLY_ENARIA_ID = 15
-    const val ARTWORK_ID = 16
-    const val SPELL_EXTRA_EFFECTS_ID = 17
+    private const val WEREWOLF_ID = 0
+    private const val IRON_BOLT_ID = 1
+    private const val SILVER_BOLT_ID = 2
+    private const val WOODEN_BOLT_ID = 3
+    private const val DEEE_SYFT_ID = 4
+    private const val IGNEOUS_BOLT_ID = 5
+    private const val STAR_METAL_BOLT_ID = 6
+    private const val ENCHANTED_SKELETON_ID = 7
+    private const val ENARIA_ID = 8
+    private const val SPLINTER_DRONE_ID = 9
+    private const val SPLINTER_DRONE_PROJECTILE_ID = 10
+    private const val SPELL_PROJECTILE_ID = 11
+    private const val SPELL_PROJECTILE_DIVE_ID = 12
+    private const val SPELL_MYSELF_ID = 13
+    private const val SPELL_AOE_ID = 14
+    private const val GHASTLY_ENARIA_ID = 15
+    private const val ARTWORK_ID = 16
+    private const val SPELL_EXTRA_EFFECTS_ID = 17
+    private const val ENCHANTED_FROG_ID = 18
 
     // All mod entity static fields
     val ENCHANTED_SKELETON = EntityEntryBuilder.create<EntityEnchantedSkeleton>()
@@ -90,6 +92,14 @@ object ModEntities {
         .tracker(50, 1, true)
         .build()
 
+    val ENCHANTED_FROG = EntityEntryBuilder.create<EntityEnchantedFrog>()
+        .egg(0x92029c, 0xd4028e)
+        .entity(EntityEnchantedFrog::class.java)
+        .id(ResourceLocation(Constants.MOD_ID, "enchanted_frog"), ENCHANTED_FROG_ID)
+        .name("enchanted_frog")
+        .tracker(50, 1, true)
+        .build()
+
     // Spell entities
     val SPELL_PROJECTILE = EntityEntryBuilder.create<EntitySpellProjectile>()
         .entity(EntitySpellProjectile::class.java)
@@ -138,6 +148,7 @@ object ModEntities {
         SPLINTER_DRONE,
         SPLINTER_DRONE_PROJECTILE,
         ENARIA,
+        ENCHANTED_FROG,
         SPELL_PROJECTILE,
         WOODEN_BOLT,
         IRON_BOLT,
