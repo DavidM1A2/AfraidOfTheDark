@@ -62,7 +62,8 @@ object ModItems {
     val SMOKEY_QUARTZ = ItemSmokeyQuartz()
     val SAPPHIRE_HEART = ItemSapphireHeart()
     val MYSTIC_TOPAZ = ItemMysticTopaz()
-    val CURSED_VEIL = ItemCursedVeil();
+    val CURSED_VEIL = ItemCursedVeil()
+    val NIGHTMARE_STONE = ItemNightmareStone()
 
     // An array containing a list of items that AOTD adds
     var ITEM_LIST = arrayOf(
@@ -118,6 +119,7 @@ object ModItems {
         SMOKEY_QUARTZ,
         SAPPHIRE_HEART,
         MYSTIC_TOPAZ,
-        CURSED_VEIL
+        CURSED_VEIL,
+        NIGHTMARE_STONE
     )
 }
