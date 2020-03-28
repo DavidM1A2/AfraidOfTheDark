@@ -57,7 +57,7 @@ object ModItems {
     val DESERT_FRUIT = ItemDesertFruit()
     val BONE_DUST = ItemBoneDust()
     val MAGIC_ESSENCE = ItemMagicEssence()
-    val BLACK_OPAL = ItemBlackOpal()
+    val MYSTIC_OPAL = ItemMysticOpal()
     val POWER_CORE = ItemPowerCore()
     val SMOKEY_QUARTZ = ItemSmokeyQuartz()
     val SAPPHIRE_HEART = ItemSapphireHeart()
@@ -113,7 +113,7 @@ object ModItems {
         DESERT_FRUIT,
         BONE_DUST,
         MAGIC_ESSENCE,
-        BLACK_OPAL,
+        MYSTIC_OPAL,
         POWER_CORE,
         SMOKEY_QUARTZ,
         SAPPHIRE_HEART,

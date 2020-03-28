@@ -9,6 +9,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionSt
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSourceInstance
+import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTTagList
@@ -27,7 +28,7 @@ import java.util.*
  *
  * @property name The spell's name, can't be null (empty by default)
  * @property id The spell's universally unique identifier, cannot be null
- * @property ownerId The spell's owner's id (player's universally unique identifier), cannot be null
+ * @property ownerId The spell's owner's persistent entity id, cannot be null
  * @property powerSource The source that is powering the spell, can be null
  * @property spellStages The list of spell stages this spell can go through, can have 0 - inf elements
  */
@@ -42,13 +43,13 @@ class Spell : INBTSerializable<NBTTagCompound> {
     /**
      * Constructor that takes the player that created the spell in as a parameter
      *
-     * @param entityPlayer The player that owns the spell/made the spell
+     * @param entity The entity that owns the spell/made the spell
      */
-    constructor(entityPlayer: EntityPlayer) {
+    constructor(entity: Entity) {
         // Assign a random spell ID
         id = UUID.randomUUID()
         // Assign the owner id to the player's id
-        ownerId = entityPlayer.persistentID
+        ownerId = entity.persistentID
         // Empty spell name is default
         name = ""
     }
