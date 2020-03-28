@@ -4,10 +4,7 @@ import com.davidm1a2.afraidofthedark.common.block.*
 import com.davidm1a2.afraidofthedark.common.block.gravewood.*
 import com.davidm1a2.afraidofthedark.common.block.mangrove.*
 import com.davidm1a2.afraidofthedark.common.block.sacred_mangrove.*
-import com.davidm1a2.afraidofthedark.common.tileEntity.TileEntityDarkForest
-import com.davidm1a2.afraidofthedark.common.tileEntity.TileEntityEnariaSpawner
-import com.davidm1a2.afraidofthedark.common.tileEntity.TileEntityGhastlyEnariaSpawner
-import com.davidm1a2.afraidofthedark.common.tileEntity.TileEntityVoidChest
+import com.davidm1a2.afraidofthedark.common.tileEntity.*
 import net.minecraft.util.ResourceLocation
 
 /**
@@ -65,6 +62,7 @@ object ModBlocks {
     val ENARIAS_ALTAR = BlockEnariasAltar()
     val IMBUED_CACTUS = BlockImbuedCactus()
     val IMBUED_CACTUS_BLOSSOM = BlockImbuedCactusBlossom()
+    val DESERT_OASIS = BlockDesertOasis()
 
     // An array containing a list of blocks that AOTD adds
     val BLOCK_LIST = arrayOf(
@@ -115,7 +113,8 @@ object ModBlocks {
         GLOW_STALK,
         ENARIAS_ALTAR,
         IMBUED_CACTUS,
-        IMBUED_CACTUS_BLOSSOM
+        IMBUED_CACTUS_BLOSSOM,
+        DESERT_OASIS
     )
 
     // A list of tile entities to register
@@ -126,6 +125,7 @@ object ModBlocks {
             Constants.MOD_ID,
             "tile_entity_ghastly_enaria_spawner"
         ),
-        TileEntityEnariaSpawner::class.java to ResourceLocation(Constants.MOD_ID, "tile_entity_enaria_spawner")
+        TileEntityEnariaSpawner::class.java to ResourceLocation(Constants.MOD_ID, "tile_entity_enaria_spawner"),
+        TileEntityDesertOasis::class.java to ResourceLocation(Constants.MOD_ID, "tile_entity_desert_oasis")
     )
 }

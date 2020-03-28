@@ -310,6 +310,16 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity {
     }
 
     /**
+     * The spell projectile can't ride anything
+     *
+     * @param entityIn The entity to test
+     * @return False
+     */
+    override fun canBeRidden(entityIn: Entity): Boolean {
+        return false
+    }
+
+    /**
      * Gets the animation handler which makes the projectile spin
      *
      * @return The animation handler for the projectile

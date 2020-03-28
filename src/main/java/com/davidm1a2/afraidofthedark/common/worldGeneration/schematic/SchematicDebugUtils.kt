@@ -2,6 +2,8 @@ package com.davidm1a2.afraidofthedark.common.worldGeneration.schematic
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
+import net.minecraft.block.Block
 import net.minecraft.nbt.CompressedStreamTools
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTTagList
@@ -17,6 +19,22 @@ import java.io.IOException
  * Collection of utility methods used to debug, not used in actual play
  */
 object SchematicDebugUtils {
+    /**
+     * Sets a block in a schematic
+     *
+     * @param schematic The schematic to update
+     * @param x The block's x position
+     * @param y The block's y position
+     * @param z The block's z position
+     * @param block The block to set it to
+     */
+    fun setBlock(schematic: Schematic, x: Int, y: Int, z: Int, block: Block) {
+        val width = ModSchematics.DESERT_OASIS.getWidth().toInt()
+        val length = ModSchematics.DESERT_OASIS.getLength().toInt()
+
+        schematic.getBlocks()[x + y * length * width + z * width] = block
+    }
+
     /**
      * Debug method used to write a schematic to disk
      *
