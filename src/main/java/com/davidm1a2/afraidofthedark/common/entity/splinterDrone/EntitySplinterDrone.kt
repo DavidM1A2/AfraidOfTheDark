@@ -153,8 +153,7 @@ class EntitySplinterDrone(world: World) : EntityFlying(world), IMob, IMCAnimated
      */
     override fun dropFewItems(wasRecentlyHit: Boolean, lootingModifier: Int) {
         // Drop 1 energy core 20% of the time (+20% per looting level)
-        if (rand.nextDouble() < 0.2 + lootingModifier * 0.2)
-        {
+        if (rand.nextDouble() < 0.2 + lootingModifier * 0.2) {
             dropItem(ModItems.POWER_CORE, 1)
         }
     }

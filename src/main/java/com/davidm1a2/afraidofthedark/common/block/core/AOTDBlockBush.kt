@@ -13,16 +13,14 @@ import net.minecraft.block.material.Material
  * @param material The material of this block
  * @param displayInCreative True if the block should show up in creative, false otherwise
  */
-abstract class AOTDBlockBush(baseName: String, material: Material, displayInCreative: Boolean = true) : BlockBush(material)
-{
-    init
-    {
+abstract class AOTDBlockBush(baseName: String, material: Material, displayInCreative: Boolean = true) :
+    BlockBush(material) {
+    init {
         unlocalizedName = "${Constants.MOD_ID}:$baseName"
         this.setRegistryName("${Constants.MOD_ID}:$baseName")
         setHardness(0.0F)
         soundType = SoundType.PLANT
-        if (displayInCreative)
-        {
+        if (displayInCreative) {
             setCreativeTab(Constants.AOTD_CREATIVE_TAB)
         }
     }

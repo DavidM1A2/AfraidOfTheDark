@@ -34,14 +34,11 @@ class ItemRegister {
         // For each block in our block list we register an item so that we can hold the block
         for (block in ModBlocks.BLOCK_LIST) {
             // If our block is a lower half slab, we register it using an ItemSlab not an ItemBlock
-            if (block is AOTDBlockSlab && !block.isDouble)
-            {
+            if (block is AOTDBlockSlab && !block.isDouble) {
                 registry.register(ItemSlab(block, block, block.getOpposite()).setRegistryName(block.registryName))
-            } else if (block is AOTDBlockDoor)
-            {
+            } else if (block is AOTDBlockDoor) {
                 // Doors are similarly registered using an ItemDoor, the block doesn't have an item
-            } else
-            {
+            } else {
                 registry.register(ItemBlock(block).setRegistryName(block.registryName))
             }
         }

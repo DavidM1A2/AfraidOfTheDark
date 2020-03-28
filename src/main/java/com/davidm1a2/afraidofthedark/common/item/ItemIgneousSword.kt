@@ -23,10 +23,8 @@ import net.minecraft.world.World
  *
  * @constructor sets the sword properties
  */
-class ItemIgneousSword : AOTDItemChargeableSword("igneous_sword", ModToolMaterials.IGNEOUS)
-{
-    init
-    {
+class ItemIgneousSword : AOTDItemChargeableSword("igneous_sword", ModToolMaterials.IGNEOUS) {
+    init {
         percentChargePerAttack = 35.0
     }
 

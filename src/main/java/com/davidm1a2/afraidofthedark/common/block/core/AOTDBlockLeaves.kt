@@ -18,10 +18,8 @@ import org.apache.commons.lang3.BitField
  * @constructor just requires the name of the block to register as the registry name
  * @param baseName The name to be used by the registry and unlocalized names
  */
-abstract class AOTDBlockLeaves(baseName: String) : BlockLeaves()
-{
-    init
-    {
+abstract class AOTDBlockLeaves(baseName: String) : BlockLeaves() {
+    init {
         unlocalizedName = "${Constants.MOD_ID}:$baseName"
         this.setRegistryName("${Constants.MOD_ID}:$baseName")
         // Don't forget the creative tab...

@@ -23,10 +23,8 @@ import kotlin.math.sqrt
  *
  * @constructor sets the sword properties
  */
-class ItemStarMetalKhopesh : AOTDItemChargeableSword("star_metal_khopesh", ModToolMaterials.STAR_METAL)
-{
-    init
-    {
+class ItemStarMetalKhopesh : AOTDItemChargeableSword("star_metal_khopesh", ModToolMaterials.STAR_METAL) {
+    init {
         percentChargePerAttack = 35.0
     }
 

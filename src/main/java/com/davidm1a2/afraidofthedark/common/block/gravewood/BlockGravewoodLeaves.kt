@@ -11,8 +11,7 @@ import java.util.*
  *
  * @constructor just sets the name of the block
  */
-class BlockGravewoodLeaves : AOTDBlockLeaves("gravewood_leaves")
-{
+class BlockGravewoodLeaves : AOTDBlockLeaves("gravewood_leaves") {
     /**
      * We override the item dropped to be a gravewood sapling
      *
@@ -21,8 +20,7 @@ class BlockGravewoodLeaves : AOTDBlockLeaves("gravewood_leaves")
      * @param fortune The fortune level that the leaf block was mined with
      * @return A gravewood sapling
      */
-    override fun getItemDropped(state: IBlockState, rand: Random, fortune: Int): Item
-    {
+    override fun getItemDropped(state: IBlockState, rand: Random, fortune: Int): Item {
         return Item.getItemFromBlock(ModBlocks.GRAVEWOOD_SAPLING)
     }
 }

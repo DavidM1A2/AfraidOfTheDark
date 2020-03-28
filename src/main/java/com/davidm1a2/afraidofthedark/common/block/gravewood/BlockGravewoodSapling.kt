@@ -17,8 +17,7 @@ import java.util.*
  *
  * @constructor initializes the sapling with a name
  */
-class BlockGravewoodSapling : AOTDBlockSapling("gravewood_sapling")
-{
+class BlockGravewoodSapling : AOTDBlockSapling("gravewood_sapling") {
     /**
      * Causes the tree to grow. Uses the default MC tree generation algorithm
      *
@@ -27,8 +26,7 @@ class BlockGravewoodSapling : AOTDBlockSapling("gravewood_sapling")
      * @param state  The current state of the sapling
      * @param random The random object to grow the tree with
      */
-    override fun causeTreeToGrow(world: World, pos: BlockPos, state: IBlockState, random: Random)
-    {
+    override fun causeTreeToGrow(world: World, pos: BlockPos, state: IBlockState, random: Random) {
         // Make sure we have room for a tree
         if (!TerrainGen.saplingGrowTree(world, random, pos)) {
             return

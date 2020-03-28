@@ -12,17 +12,14 @@ import net.minecraft.item.ItemSword
  * @param displayInCreative True if this item should be displayed in creative mode, false otherwise
  */
 open class AOTDItemSword(baseName: String, toolMaterial: ToolMaterial, displayInCreative: Boolean = false) :
-    ItemSword(toolMaterial)
-{
-    init
-    {
+    ItemSword(toolMaterial) {
+    init {
         // Set the unlocalized and registry name
         unlocalizedName = "${Constants.MOD_ID}:$baseName"
         this.setRegistryName("${Constants.MOD_ID}:$baseName")
 
         // If this should be displayed in creative then set the tab
-        if (displayInCreative)
-        {
+        if (displayInCreative) {
             this.creativeTab = Constants.AOTD_CREATIVE_TAB
         }
     }

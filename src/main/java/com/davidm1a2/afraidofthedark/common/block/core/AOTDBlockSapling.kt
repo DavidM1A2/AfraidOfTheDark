@@ -19,10 +19,8 @@ import java.util.*
  * @constructor sets up default sapling properties
  * @param baseName The name of the block to register
  */
-abstract class AOTDBlockSapling(baseName: String) : BlockBush(), IGrowable
-{
-    init
-    {
+abstract class AOTDBlockSapling(baseName: String) : BlockBush(), IGrowable {
+    init {
         unlocalizedName = "${Constants.MOD_ID}:$baseName"
         this.setRegistryName("${Constants.MOD_ID}:$baseName")
         setHardness(0.0f)

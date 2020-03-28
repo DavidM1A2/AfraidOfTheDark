@@ -21,10 +21,8 @@ abstract class AOTDBlockFence(
     material: Material,
     mapColor: MapColor? = null,
     displayInCreative: Boolean = true
-) : BlockFence(material, mapColor ?: material.materialMapColor)
-{
-    init
-    {
+) : BlockFence(material, mapColor ?: material.materialMapColor) {
+    init {
         unlocalizedName = "${Constants.MOD_ID}:$baseName"
         this.setRegistryName("${Constants.MOD_ID}:$baseName")
         this.setHardness(2.0f)

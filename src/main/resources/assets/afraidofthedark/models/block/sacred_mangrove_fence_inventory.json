@@ -1,6 +1,6 @@
 {
-    "parent": "block/fence_inventory",
-    "textures": {
-        "texture": "afraidofthedark:blocks/sacred_mangrove_planks"
-    }
+  "parent": "block/fence_inventory",
+  "textures": {
+    "texture": "afraidofthedark:blocks/sacred_mangrove_planks"
+  }
 }

@@ -27,10 +27,8 @@ import kotlin.math.sqrt
  * @param equipmentSlot The slot that this armor pieces goes on, can be one of 4 options
  */
 class ItemIgneousArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
-    AOTDItemArmor(baseName, ModArmorMaterials.IGNEOUS, 3, equipmentSlot), ISpecialArmor
-{
-    init
-    {
+    AOTDItemArmor(baseName, ModArmorMaterials.IGNEOUS, 3, equipmentSlot), ISpecialArmor {
+    init {
         // Makes the armor invincible
         maxDamage = 0
         // Block 80% of the damage up to 20

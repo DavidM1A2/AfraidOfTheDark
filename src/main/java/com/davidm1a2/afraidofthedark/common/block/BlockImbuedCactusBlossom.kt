@@ -13,8 +13,7 @@ import net.minecraft.world.World
 import net.minecraftforge.common.EnumPlantType
 import java.util.*
 
-class BlockImbuedCactusBlossom : AOTDBlockBush("imbued_cactus_blossom", Material.VINE)
-{
+class BlockImbuedCactusBlossom : AOTDBlockBush("imbued_cactus_blossom", Material.VINE) {
     /**
      * Checks if this block can be placed exactly at the given position.
      *
@@ -22,8 +21,7 @@ class BlockImbuedCactusBlossom : AOTDBlockBush("imbued_cactus_blossom", Material
      * @param pos The position the block is being placed
      * @return True if the block can fit here, or false otherwise
      */
-    override fun canPlaceBlockAt(worldIn: World, pos: BlockPos): Boolean
-    {
+    override fun canPlaceBlockAt(worldIn: World, pos: BlockPos): Boolean {
         val ground = worldIn.getBlockState(pos.down())
         return super.canPlaceBlockAt(worldIn, pos) && ground.block == ModBlocks.IMBUED_CACTUS
     }
@@ -36,8 +34,7 @@ class BlockImbuedCactusBlossom : AOTDBlockBush("imbued_cactus_blossom", Material
      * @param pos The position of the block
      * @return The cactus's AABB
      */
-    override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB
-    {
+    override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB {
         return IMBUED_CACTUS_BLOSSOM_AABB
     }
 
@@ -47,8 +44,7 @@ class BlockImbuedCactusBlossom : AOTDBlockBush("imbued_cactus_blossom", Material
      * @param state The block's state
      * @return True if the block is a cactus, false otherwise
      */
-    override fun canSustainBush(state: IBlockState): Boolean
-    {
+    override fun canSustainBush(state: IBlockState): Boolean {
         return state.block == ModBlocks.IMBUED_CACTUS
     }
 
@@ -59,8 +55,7 @@ class BlockImbuedCactusBlossom : AOTDBlockBush("imbued_cactus_blossom", Material
      * @param pos The position the block is at
      * @return False since the block isn't replaceable
      */
-    override fun isReplaceable(worldIn: IBlockAccess, pos: BlockPos): Boolean
-    {
+    override fun isReplaceable(worldIn: IBlockAccess, pos: BlockPos): Boolean {
         return false
     }
 
@@ -70,8 +65,7 @@ class BlockImbuedCactusBlossom : AOTDBlockBush("imbued_cactus_blossom", Material
      * @param random The random object to use
      * @return 1-2 fruits
      */
-    override fun quantityDropped(random: Random): Int
-    {
+    override fun quantityDropped(random: Random): Int {
         return random.nextInt(2) + 1
     }
 
@@ -83,8 +77,7 @@ class BlockImbuedCactusBlossom : AOTDBlockBush("imbued_cactus_blossom", Material
      * @param fortune The fortune level of the tool
      * @return Desert fruit item
      */
-    override fun getItemDropped(state: IBlockState, rand: Random, fortune: Int): Item
-    {
+    override fun getItemDropped(state: IBlockState, rand: Random, fortune: Int): Item {
         return ModItems.DESERT_FRUIT
     }
 
@@ -95,13 +88,11 @@ class BlockImbuedCactusBlossom : AOTDBlockBush("imbued_cactus_blossom", Material
      * @param pos The position the block is in
      * @return Desert so that this block can sit on a cactus
      */
-    override fun getPlantType(world: IBlockAccess, pos: BlockPos): EnumPlantType
-    {
+    override fun getPlantType(world: IBlockAccess, pos: BlockPos): EnumPlantType {
         return EnumPlantType.Desert
     }
 
-    companion object
-    {
+    companion object {
         private val IMBUED_CACTUS_BLOSSOM_AABB = AxisAlignedBB(0.2, 0.0, 0.2, 0.8, 1.0, 0.8)
     }
 }

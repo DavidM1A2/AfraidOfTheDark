@@ -10,13 +10,11 @@ import net.minecraft.item.Item
  *
  * @constructor just sets the registry and unlocalized name
  */
-class BlockSacredMangroveDoor : AOTDBlockDoor("sacred_mangrove_door", Material.WOOD)
-{
+class BlockSacredMangroveDoor : AOTDBlockDoor("sacred_mangrove_door", Material.WOOD) {
     /**
      * @return The item that places this door
      */
-    override fun getItem(): Item
-    {
+    override fun getItem(): Item {
         return ModItems.SACRED_MANGROVE_DOOR
     }
 }

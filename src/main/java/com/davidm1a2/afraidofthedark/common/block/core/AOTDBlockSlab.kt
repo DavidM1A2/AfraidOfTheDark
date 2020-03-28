@@ -24,18 +24,15 @@ import java.util.*
  * @param baseName The base name of the slab
  * @param material The material of slab
  */
-abstract class AOTDBlockSlab(baseName: String, material: Material) : BlockSlab(material)
-{
-    init
-    {
+abstract class AOTDBlockSlab(baseName: String, material: Material) : BlockSlab(material) {
+    init {
         // Set the name of the slab
         unlocalizedName = "${Constants.MOD_ID}:$baseName"
         this.setRegistryName("${Constants.MOD_ID}:$baseName")
         // We must set the hardness to something otherwise it will be 0 by default
         setHardness(2.0f)
         // If the slab is not a double slab, add it to creative mode and make sure it's state is set to the bottom slab state
-        if (!this.isDouble)
-        {
+        if (!this.isDouble) {
             setCreativeTab(Constants.AOTD_CREATIVE_TAB)
             this.defaultState = blockState.baseState.withProperty(HALF, EnumBlockHalf.BOTTOM)
         }

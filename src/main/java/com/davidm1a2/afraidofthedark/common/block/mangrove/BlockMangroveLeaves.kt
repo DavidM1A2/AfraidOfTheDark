@@ -11,8 +11,7 @@ import java.util.*
  *
  * @constructor just sets the name of the block
  */
-class BlockMangroveLeaves : AOTDBlockLeaves("mangrove_leaves")
-{
+class BlockMangroveLeaves : AOTDBlockLeaves("mangrove_leaves") {
     /**
      * We override the item dropped to be a mangrove sapling
      *
@@ -21,8 +20,7 @@ class BlockMangroveLeaves : AOTDBlockLeaves("mangrove_leaves")
      * @param fortune The fortune level that the leaf block was mined with
      * @return A mangrove sapling
      */
-    override fun getItemDropped(state: IBlockState, rand: Random, fortune: Int): Item
-    {
+    override fun getItemDropped(state: IBlockState, rand: Random, fortune: Int): Item {
         return Item.getItemFromBlock(ModBlocks.MANGROVE_SAPLING)
     }
 }

@@ -28,10 +28,8 @@ import java.util.*
  *
  * @constructor sets the block's properties
  */
-class BlockImbuedCactus : AOTDBlock("imbued_cactus", Material.CACTUS), IPlantable
-{
-    init
-    {
+class BlockImbuedCactus : AOTDBlock("imbued_cactus", Material.CACTUS), IPlantable {
+    init {
         defaultState = this.blockState.baseState.withProperty(AGE, 0)
         tickRandomly = true
         setHardness(0.4f)
@@ -46,41 +44,37 @@ class BlockImbuedCactus : AOTDBlock("imbued_cactus", Material.CACTUS), IPlantabl
      * @param state The block's state
      * @param rand A random instance to use
      */
-    override fun updateTick(world: World, pos: BlockPos, state: IBlockState, rand: Random)
-    {
-        if (!world.isAreaLoaded(pos, 1)) return  // Forge: prevent growing cactus from loading unloaded chunks with block update
+    override fun updateTick(world: World, pos: BlockPos, state: IBlockState, rand: Random) {
+        if (!world.isAreaLoaded(
+                pos,
+                1
+            )
+        ) return  // Forge: prevent growing cactus from loading unloaded chunks with block update
 
         // Check if the air block above is air, if so grow
-        if (world.isAirBlock(pos.up()))
-        {
+        if (world.isAirBlock(pos.up())) {
             var age = state.getValue<Int>(AGE)
             age++
 
             // If we're at max age grow and reset age to 0
-            if (age == MAX_AGE)
-            {
+            if (age == MAX_AGE) {
                 age = 0
 
                 // Compute the number of cactus blocks stacked
                 var currentHeight = 0
-                for (yOffset in 0 until MAX_HEIGHT)
-                {
+                for (yOffset in 0 until MAX_HEIGHT) {
                     val blockBelow = world.getBlockState(pos.down(yOffset))
-                    if (blockBelow.block == this)
-                    {
+                    if (blockBelow.block == this) {
                         currentHeight++
-                    } else if (blockBelow.block != this)
-                    {
+                    } else if (blockBelow.block != this) {
                         break
                     }
                 }
 
                 // If we're at max height, grow a blossom, otherwise grow a cactus block
-                if (currentHeight == MAX_HEIGHT)
-                {
+                if (currentHeight == MAX_HEIGHT) {
                     world.setBlockState(pos.up(), ModBlocks.IMBUED_CACTUS_BLOSSOM.defaultState)
-                } else
-                {
+                } else {
                     world.setBlockState(pos.up(), this.defaultState)
                 }
             }
@@ -98,8 +92,11 @@ class BlockImbuedCactus : AOTDBlock("imbued_cactus", Material.CACTUS), IPlantabl
      * @param pos The block's position
      * @return The cactus collision AABB
      */
-    override fun getCollisionBoundingBox(blockState: IBlockState, worldIn: IBlockAccess, pos: BlockPos): AxisAlignedBB?
-    {
+    override fun getCollisionBoundingBox(
+        blockState: IBlockState,
+        worldIn: IBlockAccess,
+        pos: BlockPos
+    ): AxisAlignedBB? {
         return CACTUS_COLLISION_AABB
     }
 
@@ -111,8 +108,7 @@ class BlockImbuedCactus : AOTDBlock("imbued_cactus", Material.CACTUS), IPlantabl
      * @param pos The block's position
      * @return The cactus AABB
      */
-    override fun getSelectedBoundingBox(state: IBlockState, worldIn: World, pos: BlockPos): AxisAlignedBB
-    {
+    override fun getSelectedBoundingBox(state: IBlockState, worldIn: World, pos: BlockPos): AxisAlignedBB {
         return CACTUS_AABB.offset(pos)
     }
 
@@ -122,8 +118,7 @@ class BlockImbuedCactus : AOTDBlock("imbued_cactus", Material.CACTUS), IPlantabl
      * @param state The block's state
      * @return false, since this is not a full cube
      */
-    override fun isFullCube(state: IBlockState): Boolean
-    {
+    override fun isFullCube(state: IBlockState): Boolean {
         return false
     }
 
@@ -133,8 +128,7 @@ class BlockImbuedCactus : AOTDBlock("imbued_cactus", Material.CACTUS), IPlantabl
      * @param state The block's state
      * @return false, the block doesn't fully hide the blocks behind it
      */
-    override fun isOpaqueCube(state: IBlockState): Boolean
-    {
+    override fun isOpaqueCube(state: IBlockState): Boolean {
         return false
     }
 
@@ -145,8 +139,7 @@ class BlockImbuedCactus : AOTDBlock("imbued_cactus", Material.CACTUS), IPlantabl
      * @param pos The position the block is being placed
      * @return true if the block would fit there, false otherwise
      */
-    override fun canPlaceBlockAt(worldIn: World, pos: BlockPos): Boolean
-    {
+    override fun canPlaceBlockAt(worldIn: World, pos: BlockPos): Boolean {
         return if (super.canPlaceBlockAt(worldIn, pos)) canBlockStay(worldIn, pos) else false
     }
 
@@ -160,11 +153,9 @@ class BlockImbuedCactus : AOTDBlock("imbued_cactus", Material.CACTUS), IPlantabl
      * @param blockIn The current block
      * @param fromPos The position that updated
      */
-    override fun neighborChanged(state: IBlockState, worldIn: World, pos: BlockPos, blockIn: Block, fromPos: BlockPos)
-    {
+    override fun neighborChanged(state: IBlockState, worldIn: World, pos: BlockPos, blockIn: Block, fromPos: BlockPos) {
         // If the block can't survive here anymore break it
-        if (!canBlockStay(worldIn, pos))
-        {
+        if (!canBlockStay(worldIn, pos)) {
             worldIn.destroyBlock(pos, true)
         }
     }
@@ -177,8 +168,7 @@ class BlockImbuedCactus : AOTDBlock("imbued_cactus", Material.CACTUS), IPlantabl
      * @param state The block's current state
      * @param entityIn The entity that hit the block
      */
-    override fun onEntityCollidedWithBlock(worldIn: World, pos: BlockPos, state: IBlockState, entityIn: Entity)
-    {
+    override fun onEntityCollidedWithBlock(worldIn: World, pos: BlockPos, state: IBlockState, entityIn: Entity) {
         entityIn.attackEntityFrom(DamageSource.CACTUS, 2.0f)
     }
 
@@ -188,8 +178,7 @@ class BlockImbuedCactus : AOTDBlock("imbued_cactus", Material.CACTUS), IPlantabl
      * @param meta The metadata value
      * @return The block state from meta
      */
-    override fun getStateFromMeta(meta: Int): IBlockState
-    {
+    override fun getStateFromMeta(meta: Int): IBlockState {
         return this.defaultState.withProperty(AGE, meta)
     }
 
@@ -199,8 +188,7 @@ class BlockImbuedCactus : AOTDBlock("imbued_cactus", Material.CACTUS), IPlantabl
      * @param state The block state to convert
      * @return The metadata value for the state
      */
-    override fun getMetaFromState(state: IBlockState): Int
-    {
+    override fun getMetaFromState(state: IBlockState): Int {
         return state.getValue<Int>(AGE)
     }
 
@@ -208,8 +196,7 @@ class BlockImbuedCactus : AOTDBlock("imbued_cactus", Material.CACTUS), IPlantabl
      * Returns cutout since the block layer is transparent
      */
     @SideOnly(Side.CLIENT)
-    override fun getBlockLayer(): BlockRenderLayer
-    {
+    override fun getBlockLayer(): BlockRenderLayer {
         return BlockRenderLayer.CUTOUT
     }
 
@@ -220,8 +207,7 @@ class BlockImbuedCactus : AOTDBlock("imbued_cactus", Material.CACTUS), IPlantabl
      * @param pos The position this block is in
      * @return Desert, since this is cactus
      */
-    override fun getPlantType(world: IBlockAccess, pos: BlockPos): EnumPlantType
-    {
+    override fun getPlantType(world: IBlockAccess, pos: BlockPos): EnumPlantType {
         return EnumPlantType.Desert
     }
 
@@ -232,8 +218,7 @@ class BlockImbuedCactus : AOTDBlock("imbued_cactus", Material.CACTUS), IPlantabl
      * @param pos The position the block is being placed at
      * @return The default state of this cactus (it doesn't start off differently)
      */
-    override fun getPlant(world: IBlockAccess, pos: BlockPos): IBlockState
-    {
+    override fun getPlant(world: IBlockAccess, pos: BlockPos): IBlockState {
         return defaultState
     }
 
@@ -242,8 +227,7 @@ class BlockImbuedCactus : AOTDBlock("imbued_cactus", Material.CACTUS), IPlantabl
      *
      * @return A default block state with the age property
      */
-    override fun createBlockState(): BlockStateContainer
-    {
+    override fun createBlockState(): BlockStateContainer {
         return BlockStateContainer(this, AGE)
     }
 
@@ -257,8 +241,12 @@ class BlockImbuedCactus : AOTDBlock("imbued_cactus", Material.CACTUS), IPlantabl
      * @param face The side of the block
      * @return UNDEFINED since this is not a traditional solid block
      */
-    override fun getBlockFaceShape(worldIn: IBlockAccess, state: IBlockState, pos: BlockPos, face: EnumFacing): BlockFaceShape
-    {
+    override fun getBlockFaceShape(
+        worldIn: IBlockAccess,
+        state: IBlockState,
+        pos: BlockPos,
+        face: EnumFacing
+    ): BlockFaceShape {
         return BlockFaceShape.UNDEFINED
     }
 
@@ -271,8 +259,13 @@ class BlockImbuedCactus : AOTDBlock("imbued_cactus", Material.CACTUS), IPlantabl
      * @param direction The side of the block
      * @param plantable The block being tested
      */
-    override fun canSustainPlant(state: IBlockState, world: IBlockAccess, pos: BlockPos, direction: EnumFacing, plantable: IPlantable): Boolean
-    {
+    override fun canSustainPlant(
+        state: IBlockState,
+        world: IBlockAccess,
+        pos: BlockPos,
+        direction: EnumFacing,
+        plantable: IPlantable
+    ): Boolean {
         val plantStateToPlace = plantable.getPlant(world, pos.offset(direction))
         return plantStateToPlace.block == this || plantStateToPlace.block == ModBlocks.IMBUED_CACTUS_BLOSSOM
     }
@@ -284,14 +277,18 @@ class BlockImbuedCactus : AOTDBlock("imbued_cactus", Material.CACTUS), IPlantabl
      * @param pos The position the block is at
      * @return True if the block fits here, false otherwise
      */
-    private fun canBlockStay(world: World, pos: BlockPos): Boolean
-    {
+    private fun canBlockStay(world: World, pos: BlockPos): Boolean {
         val blockStateBelow = world.getBlockState(pos.down())
-        return blockStateBelow.block.canSustainPlant(blockStateBelow, world, pos.down(), EnumFacing.UP, this) && !world.getBlockState(pos.up()).material.isLiquid
+        return blockStateBelow.block.canSustainPlant(
+            blockStateBelow,
+            world,
+            pos.down(),
+            EnumFacing.UP,
+            this
+        ) && !world.getBlockState(pos.up()).material.isLiquid
     }
 
-    companion object
-    {
+    companion object {
         private const val MAX_HEIGHT = 3
         private const val MAX_AGE = 5
         private val AGE = PropertyInteger.create("age", 0, MAX_AGE)

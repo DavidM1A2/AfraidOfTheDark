@@ -24,8 +24,7 @@ abstract class AOTDItemArmor(
     equipmentSlot: EntityEquipmentSlot,
     displayInCreative: Boolean = true
 ) :
-    ItemArmor(material, renderIndex, equipmentSlot)
-{
+    ItemArmor(material, renderIndex, equipmentSlot) {
     protected var percentOfDamageBlocked = 0.0
     protected var maxDamageBlocked = 0
 

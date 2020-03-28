@@ -16,8 +16,7 @@ import net.minecraft.util.DamageSource
  *
  * @constructor Initializes the item with a name and material
  */
-class ItemBladeOfExhumation : AOTDItemSword("blade_of_exhumation", ModToolMaterials.BLADE_OF_EXHUMATION)
-{
+class ItemBladeOfExhumation : AOTDItemSword("blade_of_exhumation", ModToolMaterials.BLADE_OF_EXHUMATION) {
     /**
      * Called when the player left clicks on an entity
      *
@@ -26,8 +25,7 @@ class ItemBladeOfExhumation : AOTDItemSword("blade_of_exhumation", ModToolMateri
      * @param entity The entity that was clicked on
      * @return True to cancel the interaction, false otherwise
      */
-    override fun onLeftClickEntity(stack: ItemStack, player: EntityPlayer, entity: Entity): Boolean
-    {
+    override fun onLeftClickEntity(stack: ItemStack, player: EntityPlayer, entity: Entity): Boolean {
         // If the sword is about to break cancel the interaction and don't let it break!
         if (stack.itemDamage == stack.maxDamage - 1) {
             return true

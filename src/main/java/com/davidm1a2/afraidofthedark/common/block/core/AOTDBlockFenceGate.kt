@@ -16,17 +16,14 @@ import net.minecraft.block.SoundType
 abstract class AOTDBlockFenceGate(
     baseName: String,
     displayInCreative: Boolean = true
-) : BlockFenceGate(BlockPlanks.EnumType.OAK)
-{
-    init
-    {
+) : BlockFenceGate(BlockPlanks.EnumType.OAK) {
+    init {
         unlocalizedName = "${Constants.MOD_ID}:$baseName"
         this.setRegistryName("${Constants.MOD_ID}:$baseName")
         this.setHardness(2.0f)
         this.setResistance(5.0f)
         this.soundType = SoundType.WOOD
-        if (displayInCreative)
-        {
+        if (displayInCreative) {
             setCreativeTab(Constants.AOTD_CREATIVE_TAB)
         }
     }

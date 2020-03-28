@@ -27,10 +27,8 @@ import net.minecraftforge.fml.relauncher.SideOnly
  * @param equipmentSlot The slot that this armor pieces goes on, can be one of 4 options
  */
 class ItemStarMetalArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
-    AOTDItemArmor(baseName, ModArmorMaterials.STAR_METAL, 3, equipmentSlot), ISpecialArmor
-{
-    init
-    {
+    AOTDItemArmor(baseName, ModArmorMaterials.STAR_METAL, 3, equipmentSlot), ISpecialArmor {
+    init {
         // Makes the armor invincible
         maxDamage = 0
         // Block 70% of the damage up to 20

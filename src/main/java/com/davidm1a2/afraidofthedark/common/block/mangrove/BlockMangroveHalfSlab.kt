@@ -10,13 +10,11 @@ import net.minecraft.block.material.Material
  *
  * @constructor sets the name and material
  */
-class BlockMangroveHalfSlab : AOTDBlockSlab("mangrove_half_slab", Material.WOOD)
-{
+class BlockMangroveHalfSlab : AOTDBlockSlab("mangrove_half_slab", Material.WOOD) {
     /**
      * @return The double slab since this is a half slab
      */
-    override fun getOpposite(): BlockSlab
-    {
+    override fun getOpposite(): BlockSlab {
         return ModBlocks.MANGROVE_DOUBLE_SLAB
     }
 

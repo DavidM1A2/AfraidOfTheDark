@@ -18,8 +18,7 @@ import kotlin.math.sqrt
  *
  * @constructor initializes the sapling with a name
  */
-class BlockMangroveSapling : AOTDBlockSapling("mangrove_sapling")
-{
+class BlockMangroveSapling : AOTDBlockSapling("mangrove_sapling") {
     /**
      * Causes the tree to grow. Uses a custom tree generation algorithm
      *
@@ -28,8 +27,7 @@ class BlockMangroveSapling : AOTDBlockSapling("mangrove_sapling")
      * @param state  The current state of the sapling
      * @param random The random object to grow the tree with
      */
-    override fun causeTreeToGrow(world: World, pos: BlockPos, state: IBlockState, random: Random)
-    {
+    override fun causeTreeToGrow(world: World, pos: BlockPos, state: IBlockState, random: Random) {
         // Clear the sapling block
         world.setBlockState(pos, Blocks.AIR.defaultState)
         // Generate the trunk and root blocks
