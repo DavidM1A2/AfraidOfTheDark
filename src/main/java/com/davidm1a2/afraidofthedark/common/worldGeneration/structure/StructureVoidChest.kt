@@ -62,9 +62,9 @@ class StructureVoidChest : AOTDStructure("void_chest") {
                 return if (maxHeight - minHeight > 8) {
                     getDefaultResult()
                 }
-                // 0.8% chance to generate in any chunks this fits in
+                // 0.2% chance to generate in any chunks this fits in
                 else {
-                    0.008 * AfraidOfTheDark.INSTANCE.configurationHandler.voidChestMultiplier
+                    0.002 * AfraidOfTheDark.INSTANCE.configurationHandler.voidChestMultiplier
                 }
             }
 
