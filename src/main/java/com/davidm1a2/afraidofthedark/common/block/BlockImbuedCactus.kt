@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.block
 
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDBlock
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
+import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import net.minecraft.block.Block
 import net.minecraft.block.SoundType
 import net.minecraft.block.material.Material
@@ -10,6 +11,7 @@ import net.minecraft.block.state.BlockFaceShape
 import net.minecraft.block.state.BlockStateContainer
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.Entity
+import net.minecraft.entity.item.EntityItem
 import net.minecraft.util.BlockRenderLayer
 import net.minecraft.util.DamageSource
 import net.minecraft.util.EnumFacing
@@ -169,7 +171,9 @@ class BlockImbuedCactus : AOTDBlock("imbued_cactus", Material.CACTUS), IPlantabl
      * @param entityIn The entity that hit the block
      */
     override fun onEntityCollidedWithBlock(worldIn: World, pos: BlockPos, state: IBlockState, entityIn: Entity) {
-        entityIn.attackEntityFrom(DamageSource.CACTUS, 2.0f)
+        if (entityIn !is EntityItem || entityIn.item.item != ModItems.DESERT_FRUIT) {
+            entityIn.attackEntityFrom(DamageSource.CACTUS, 2.0f)
+        }
     }
 
     /**

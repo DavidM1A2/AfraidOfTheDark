@@ -78,6 +78,16 @@ object AOTDParticleRegistry {
                 y,
                 z
             )
+        },
+        ParticleTypes.ENCHANTED_FROG_SPAWN to IParticleFactory { _: Int, world: World, x: Double, y: Double, z: Double, xSpeed: Double, _: Double, zSpeed: Double, _: IntArray? ->
+            ParticleEnchantedFrogSpawn(
+                world,
+                x,
+                y,
+                z,
+                xSpeed,
+                zSpeed
+            )
         }
     )
 
@@ -117,6 +127,7 @@ object AOTDParticleRegistry {
         SPELL_CAST_ID,
         SPELL_HIT_ID,
         SMOKE_SCREEN_ID,
-        SPELL_LASER
+        SPELL_LASER,
+        ENCHANTED_FROG_SPAWN
     }
 }

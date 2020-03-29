@@ -39,11 +39,11 @@ class EntityEnchantedFrog(world: World) : EntityCreature(world), IMCAnimatedEnti
         // If the entity can swim and it's in water it must do that otherwise it will skin
         tasks.addTask(1, EntityAISwimming(this))
         // If the entity isn't attacking then try to walk around
-        tasks.addTask(2, EntityAIWander(this, (MOVE_SPEED / 4).toDouble()))
+        tasks.addTask(2, EntityAIWander(this, 1.0, 20))
         // If the entity isn't wandering then try to watch whatever entity is nearby
-        tasks.addTask(4, EntityAIWatchClosest(this, EntityPlayer::class.java, AGRO_RANGE))
+        tasks.addTask(3, EntityAIWatchClosest(this, EntityPlayer::class.java, AGRO_RANGE))
         // If the entity isn't walking, attacking, or watching anything look idle
-        tasks.addTask(5, EntityAILookIdle(this))
+        tasks.addTask(4, EntityAILookIdle(this))
     }
 
     /**
@@ -80,8 +80,8 @@ class EntityEnchantedFrog(world: World) : EntityCreature(world), IMCAnimatedEnti
         if (world.isRemote) {
             // If the entity is moving show the walking animation
             if (motionX > 0.05 || motionZ > 0.05 || motionX < -0.05 || motionZ < -0.05) {
-                if (!animHandler.isAnimationActive("cast")) {
-                    animHandler.activateAnimation("cast", 0f)
+                if (!animHandler.isAnimationActive("hop")) {
+                    animHandler.activateAnimation("hop", 0f)
                 }
             }
         }
@@ -133,8 +133,8 @@ class EntityEnchantedFrog(world: World) : EntityCreature(world), IMCAnimatedEnti
 
     companion object {
         // Constants defining skeleton parameters
-        private const val MOVE_SPEED = 1.0f
-        private const val AGRO_RANGE = 16.0f
+        private const val MOVE_SPEED = 0.25f
+        private const val AGRO_RANGE = 32.0f
         private const val FOLLOW_RANGE = 32.0f
         private const val MAX_HEALTH = 7.0f
         private const val KNOCKBACK_RESISTANCE = 0.5f

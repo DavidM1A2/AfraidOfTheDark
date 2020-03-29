@@ -14,4 +14,5 @@ object ModSprites {
     lateinit var SPELL_HIT: TextureAtlasSprite
     lateinit var SMOKE_SCREEN: TextureAtlasSprite
     lateinit var SPELL_LASER: TextureAtlasSprite
+    lateinit var ENCHANTED_FROG_SPAWN: TextureAtlasSprite
 }
