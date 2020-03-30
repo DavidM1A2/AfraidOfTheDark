@@ -99,7 +99,7 @@ class Spell : INBTSerializable<NBTTagCompound> {
                             SyncParticle(
                                 AOTDParticleRegistry.ParticleTypes.SPELL_CAST_ID,
                                 positions,
-                                Collections.nCopies(positions.size, Vec3d.ZERO)
+                                List<Vec3d>(positions.size) { Vec3d.ZERO }
                             ),
                             TargetPoint(
                                 entityPlayer.dimension,
@@ -200,10 +200,10 @@ class Spell : INBTSerializable<NBTTagCompound> {
     /**
      * Gets the owner of the spell
      *
-     * @return The player who owns the spell, or null if the player is offline
+     * @return The entity that owns the spell, or null if the entity doesn't exist
      */
-    fun getOwner(): EntityPlayer? {
-        return FMLCommonHandler.instance().minecraftServerInstance.playerList.getPlayerByUUID(ownerId)
+    fun getOwner(): Entity? {
+        return FMLCommonHandler.instance().minecraftServerInstance.getEntityFromUuid(ownerId)
     }
 
     /**

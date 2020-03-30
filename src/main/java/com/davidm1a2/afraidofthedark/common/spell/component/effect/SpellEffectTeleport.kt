@@ -5,7 +5,6 @@ import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionSt
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
-import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.init.SoundEvents
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.SoundCategory
@@ -40,13 +39,7 @@ class SpellEffectTeleport : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "
                 1.0f
             )
 
-            (spellCaster as EntityPlayerMP).connection.setPlayerLocation(
-                position.x,
-                position.y,
-                position.z,
-                spellCaster.rotationYaw,
-                spellCaster.rotationPitch
-            )
+            spellCaster.setPositionAndUpdate(position.x, position.y, position.z)
 
             createParticlesAt(1, 3, position, spellCaster.dimension)
             world.playSound(

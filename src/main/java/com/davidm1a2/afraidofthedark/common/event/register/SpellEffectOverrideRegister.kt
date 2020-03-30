@@ -12,7 +12,6 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpel
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.worldGeneration.WorldGenFast
 import net.minecraft.block.BlockAir
-import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.init.Blocks
 import net.minecraft.init.SoundEvents
 import net.minecraft.util.SoundCategory
@@ -154,13 +153,7 @@ object SpellEffectOverrideRegister {
                                     1.0f
                                 )
 
-                                (spellCaster as EntityPlayerMP).connection.setPlayerLocation(
-                                    teleportPos.x,
-                                    teleportPos.y,
-                                    teleportPos.z,
-                                    spellCaster.rotationYaw,
-                                    spellCaster.rotationPitch
-                                )
+                                spellCaster.setPositionAndUpdate(teleportPos.x, teleportPos.y, teleportPos.z)
 
                                 AOTDSpellEffect.createParticlesAt(1, 3, teleportPos, spellCaster.dimension)
                                 world.playSound(

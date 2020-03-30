@@ -40,17 +40,18 @@ class SpellEffectCharm : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "cha
      */
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
         val entity = state.getEntity()
+        val spellOwner = state.spell.getOwner()
         // If we hit an entity that is an animal set them in love
         if (entity is EntityAnimal) {
-            entity.setInLove(state.spell.getOwner())
-        } else if (entity is EntityPlayer) {
+            entity.setInLove(spellOwner as? EntityPlayer)
+        } else if (entity is EntityPlayer && spellOwner != null) {
             // Grab the player's charm data
             val spellCharmData = entity.getSpellCharmData()
             // Charm them for the "charm duration"
             spellCharmData.charmTicks = getCharmDuration(instance)
 
             // Set the charming entity
-            spellCharmData.charmingEntityId = state.spell.getOwner()!!.persistentID
+            spellCharmData.charmingEntityId = spellOwner.persistentID
             val random = ThreadLocalRandom.current()
             val width = entity.width.toDouble()
             val height = entity.height.toDouble()
