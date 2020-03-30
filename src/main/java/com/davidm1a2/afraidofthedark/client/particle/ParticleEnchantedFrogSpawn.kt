@@ -37,7 +37,7 @@ class ParticleEnchantedFrogSpawn(
     override fun onUpdate() {
         super.onUpdate()
         setAlphaF((particleMaxAge - particleAge).toFloat() / particleMaxAge.toFloat())
-        motionX = motionX * 0.8
-        motionZ = motionZ * 0.8
+        motionX = motionX * 0.7
+        motionZ = motionZ * 0.7
     }
 }

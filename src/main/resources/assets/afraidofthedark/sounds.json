@@ -20,7 +20,7 @@
     "subtitle": "Crossbow Loading"
   },
   "werewolf_idle": {
-    "category": "player",
+    "category": "hostile",
     "sounds": [
       {
         "name": "afraidofthedark:werewolf_idle",
@@ -30,7 +30,7 @@
     "subtitle": "Werewolf Howl"
   },
   "werewolf_agro": {
-    "category": "player",
+    "category": "hostile",
     "sounds": [
       {
         "name": "afraidofthedark:werewolf_agro",
@@ -40,7 +40,7 @@
     "subtitle": "Werewolf Angry"
   },
   "werewolf_death": {
-    "category": "player",
+    "category": "hostile",
     "sounds": [
       {
         "name": "afraidofthedark:werewolf_death",
@@ -50,7 +50,7 @@
     "subtitle": "Werewolf Death"
   },
   "werewolf_hurt": {
-    "category": "player",
+    "category": "hostile",
     "sounds": [
       {
         "name": "afraidofthedark:werewolf_hurt",
@@ -58,6 +58,16 @@
       }
     ],
     "subtitle": "Werewolf Hurt"
+  },
+  "enchanted_frog_croak": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "afraidofthedark:enchanted_frog_croak",
+        "stream": false
+      }
+    ],
+    "subtitle": "Enchanted Frog Croak"
   },
   "journal_sign": {
     "category": "player",

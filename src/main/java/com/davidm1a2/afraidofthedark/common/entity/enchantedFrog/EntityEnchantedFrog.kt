@@ -1,9 +1,11 @@
 package com.davidm1a2.afraidofthedark.common.entity.enchantedFrog
 
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
+import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.animation.AnimationHandlerEnchantedFrog
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedEntity
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
+import net.minecraft.block.Block
 import net.minecraft.entity.EntityCreature
 import net.minecraft.entity.SharedMonsterAttributes
 import net.minecraft.entity.ai.EntityAILookIdle
@@ -12,6 +14,9 @@ import net.minecraft.entity.ai.EntityAIWander
 import net.minecraft.entity.ai.EntityAIWatchClosest
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.Item
+import net.minecraft.util.DamageSource
+import net.minecraft.util.SoundEvent
+import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
 /**
@@ -115,6 +120,42 @@ class EntityEnchantedFrog(world: World) : EntityCreature(world), IMCAnimatedEnti
      */
     override fun getDropItem(): Item {
         return ModItems.MAGIC_ESSENCE
+    }
+
+    /**
+     * Don't play a step sound for the frog
+     *
+     * @param pos The position
+     */
+    override fun playStepSound(pos: BlockPos, blockIn: Block) {
+    }
+
+    /**
+     * Gets the ambient sound of the entity
+     *
+     * @return The croak sound
+     */
+    override fun getAmbientSound(): SoundEvent {
+        return ModSounds.ENCHANTED_FROG_CROAK
+    }
+
+    /**
+     * Gets the hurt sound of the entity
+     *
+     * @param damageSourceIn The source of the hurt damage
+     * @return The croak sound
+     */
+    override fun getHurtSound(damageSourceIn: DamageSource): SoundEvent? {
+        return super.getHurtSound(damageSourceIn)
+    }
+
+    /**
+     * Gets the death sound of the entity
+     *
+     * @return The croak sound
+     */
+    override fun getDeathSound(): SoundEvent? {
+        return super.getDeathSound()
     }
 
     /**

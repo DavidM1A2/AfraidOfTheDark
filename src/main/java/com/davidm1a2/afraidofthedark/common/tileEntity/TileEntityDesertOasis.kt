@@ -71,8 +71,13 @@ class TileEntityDesertOasis : AOTDTickingTileEntity(ModBlocks.DESERT_OASIS) {
      */
     private fun spawnFrogs(number: Int) {
         for (ignored in 0 until number) {
-            val xPos = Random.nextInt(oasisBoundingBox.minX.toInt(), oasisBoundingBox.maxX.toInt())
-            val zPos = Random.nextInt(oasisBoundingBox.minZ.toInt(), oasisBoundingBox.maxZ.toInt())
+            // https://gamedev.stackexchange.com/questions/168279/get-a-point-inside-an-ellipse
+            val ellipseWidth = oasisBoundingBox.maxX.toInt() - oasisBoundingBox.minX.toInt()
+            val ellipseHeight = oasisBoundingBox.maxZ.toInt() - oasisBoundingBox.minZ.toInt()
+            val x = cos(Random.nextDouble(0.0, 2 * Math.PI)) * ellipseWidth / 2 * Random.nextDouble()
+            val z = sin(Random.nextDouble(0.0, 2 * Math.PI)) * ellipseHeight / 2 * Random.nextDouble()
+            val xPos = oasisBoundingBox.minX.toInt() + ellipseWidth / 2 + x.toInt()
+            val zPos = oasisBoundingBox.minZ.toInt() + ellipseHeight / 2 + z.toInt()
 
             // Find the first surface block that the frog may spawn on
             var yPos = 0
