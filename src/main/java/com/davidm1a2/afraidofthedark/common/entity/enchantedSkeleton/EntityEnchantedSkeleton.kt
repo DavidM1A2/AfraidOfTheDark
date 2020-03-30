@@ -192,6 +192,11 @@ class EntityEnchantedSkeleton(world: World) : EntityMob(world), IMCAnimatedEntit
     override fun dropFewItems(wasRecentlyHit: Boolean, lootingModifier: Int) {
         // Drop exactly 3 bones, because 4 bones cause another skeleton to spawn
         dropItem(this.dropItem, 3)
+
+        // Have a 5% chance to drop a heart, increased by 5% per looting level
+        if (rand.nextDouble() < 0.05 + 0.05 * lootingModifier) {
+            dropItem(ModItems.CURSED_HEART, 1)
+        }
     }
 
     /**
