@@ -21,6 +21,7 @@ import java.util.*
  * @property position The exact double vector position the transition occurred
  * @property blockPosition A rounded for of getPosition() that estimates the block the transition occurred in
  * @property direction A normalized vector pointing in the direction the transition was in
+ * @property casterEntityId The entity that cast the spell originally
  * @property entityId The entity being delivered to, can be null
  * @property deliveryEntityId The entity delivering the spell, can be null
  */
@@ -31,6 +32,7 @@ class DeliveryTransitionState {
     val position: Vec3d
     val blockPosition: BlockPos
     val direction: Vec3d
+    private val casterEntityId: UUID?
     private val entityId: UUID?
     private val deliveryEntityId: UUID?
 
@@ -42,6 +44,7 @@ class DeliveryTransitionState {
      * @param world          The world that the spell is transitioning in
      * @param position       The position the transition is happening at
      * @param direction      The direction the transition is toward
+     * @param casterEntity   The entity that cast the spell initially
      * @param entity         The entity being transitioned through
      * @param deliveryEntity The entity that caused the transition
      */
@@ -52,6 +55,7 @@ class DeliveryTransitionState {
         position: Vec3d,
         blockPos: BlockPos,
         direction: Vec3d,
+        casterEntity: Entity?,
         entity: Entity?,
         deliveryEntity: Entity?
     ) {
@@ -62,6 +66,7 @@ class DeliveryTransitionState {
         this.position = position
         blockPosition = blockPos
         this.direction = direction
+        casterEntityId = casterEntity?.persistentID
         entityId = entity?.persistentID
         deliveryEntityId = deliveryEntity?.persistentID
     }
@@ -86,6 +91,11 @@ class DeliveryTransitionState {
             nbt.getDouble(NBT_DIRECTION + "_y"),
             nbt.getDouble(NBT_DIRECTION + "_z")
         )
+        casterEntityId = if (nbt.hasKey(NBT_CASTER_ENTITY_ID)) {
+            NBTUtil.getUUIDFromTag(nbt.getCompoundTag(NBT_CASTER_ENTITY_ID))
+        } else {
+            null
+        }
         entityId = if (nbt.hasKey(NBT_ENTITY_ID)) {
             NBTUtil.getUUIDFromTag(nbt.getCompoundTag(NBT_ENTITY_ID))
         } else {
@@ -113,6 +123,9 @@ class DeliveryTransitionState {
         nbt.setDouble(NBT_DIRECTION + "_x", direction.x)
         nbt.setDouble(NBT_DIRECTION + "_y", direction.y)
         nbt.setDouble(NBT_DIRECTION + "_z", direction.z)
+        if (casterEntityId != null) {
+            nbt.setTag(NBT_CASTER_ENTITY_ID, NBTUtil.createUUIDTag(casterEntityId))
+        }
         if (entityId != null) {
             nbt.setTag(NBT_ENTITY_ID, NBTUtil.createUUIDTag(entityId))
         }
@@ -130,6 +143,14 @@ class DeliveryTransitionState {
     fun getCurrentStage(): SpellStage {
         return this.spell.getStage(this.stageIndex)
             ?: throw IllegalArgumentException("Current spell state is null, that shouldn't be possible. Spell: \n${spell.name}")
+    }
+
+    /**
+     * @return The entity that cast this spell originally
+     */
+    fun getCasterEntity(): Entity? {
+        // If the entity is non null we get the entity in the world, otherwise we return null
+        return this.casterEntityId?.let { world.getEntityFromUuid(this.casterEntityId) }
     }
 
     /**
@@ -156,6 +177,7 @@ class DeliveryTransitionState {
         private const val NBT_POSITION = "position"
         private const val NBT_BLOCK_POSITION = "block_position"
         private const val NBT_DIRECTION = "direction"
+        private const val NBT_CASTER_ENTITY_ID = "caster_entity_id"
         private const val NBT_ENTITY_ID = "entity_id"
         private const val NBT_DELIVERY_ENTITY_ID = "delivery_entity_id"
     }

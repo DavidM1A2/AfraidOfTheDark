@@ -40,7 +40,7 @@ class SpellEffectCharm : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "cha
      */
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
         val entity = state.getEntity()
-        val spellOwner = state.spell.getOwner()
+        val spellOwner = state.getCasterEntity()
         // If we hit an entity that is an animal set them in love
         if (entity is EntityAnimal) {
             entity.setInLove(spellOwner as? EntityPlayer)

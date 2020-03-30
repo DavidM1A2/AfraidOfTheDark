@@ -10,14 +10,17 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.projectile.ProjectileHelper
 import net.minecraft.init.Blocks
 import net.minecraft.nbt.NBTTagCompound
+import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.DamageSource
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.RayTraceResult
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import net.minecraft.world.WorldServer
 import net.minecraftforge.common.util.Constants
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
+import java.util.*
 
 /**
  * Class representing the projectile delivery method
@@ -28,15 +31,17 @@ import net.minecraftforge.fml.relauncher.SideOnly
  * @property spell The spell that this projectile is a part of
  * @property spellIndex The current spell stage index
  * @property shooter The entity that fired the projectile, can be null
+ * @property spellCasterId The entity that casted the spell
  * @property blockDistanceRemaining The amount of blocks left before this projectile expires
  * @property animHandler The animation handler that this entity uses for all animations
  */
 class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity {
     private var ticksInAir = 0
     private lateinit var spell: Spell
-    private var spellIndex: Int = 0
+    private var spellIndex = 0
     private var shooter: Entity? = null
-    private var blockDistanceRemaining: Double = 0.0
+    private var spellCasterId: UUID? = null
+    private var blockDistanceRemaining = 0.0
     private val animHandler = AnimationHandlerSpellProjectile(this)
 
     init {
@@ -46,21 +51,24 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity {
     /**
      * Required constructor that sets the world, pos, and velocity
      *
-     * @param world      The world the entity is in
-     * @param spell      The spell that this projectile is delivering
-     * @param spellIndex The index of the current spell stage that is being executed
-     * @param position   The position of the spell projectile
-     * @param velocity   The velocity of the projectile, default will just be random velocity
+     * @param world       The world the entity is in
+     * @param spell       The spell that this projectile is delivering
+     * @param spellIndex  The index of the current spell stage that is being executed
+     * @param spellCaster The entity that casted the spell
+     * @param position    The position of the spell projectile
+     * @param velocity    The velocity of the projectile, default will just be random velocity
      */
     constructor(
         world: World,
         spell: Spell,
         spellIndex: Int,
+        spellCaster: Entity?,
         position: Vec3d,
         velocity: Vec3d = Vec3d(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5)
     ) : this(world) {
         this.spell = spell
         this.spellIndex = spellIndex
+        this.spellCasterId = spellCaster?.persistentID
         val deliveryInstance = spell.getStage(spellIndex)!!.deliveryInstance!!
         val deliveryMethodProjectile = deliveryInstance.component as SpellDeliveryMethodProjectile
         blockDistanceRemaining = deliveryMethodProjectile.getRange(deliveryInstance)
@@ -84,15 +92,17 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity {
     /**
      * Constructor sets the projectile's properties based on a shooter entity
      *
-     * @param world      The world the projectile is in
-     * @param spell      The spell that was fired
-     * @param spellIndex The index of the current spell stage that is being executed
-     * @param entity     The entity that fired the projectile
+     * @param world       The world the projectile is in
+     * @param spell       The spell that was fired
+     * @param spellIndex  The index of the current spell stage that is being executed
+     * @param spellCaster The entity that casted the spell
+     * @param entity      The entity that fired the projectile
      */
-    constructor(world: World, spell: Spell, spellIndex: Int, entity: Entity) : this(
+    constructor(world: World, spell: Spell, spellIndex: Int, spellCaster: Entity?, entity: Entity) : this(
         world,
         spell,
         spellIndex,
+        spellCaster,
         entity.positionVector.addVector(0.0, entity.eyeHeight.toDouble(), 0.0),
         entity.lookVec
     ) {
@@ -150,6 +160,7 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity {
                         .withPosition(this.positionVector)
                         .withBlockPosition(this.position)
                         .withDirection(Vec3d(motionX, motionY, motionZ))
+                        .withCasterEntity(spellCasterId?.let { (world as? WorldServer)?.getEntityFromUuid(it) })
                         .withDeliveryEntity(this)
                         .build()
 
@@ -195,6 +206,7 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity {
                         .withPosition(result.hitVec)
                         .withBlockPosition(hitPos)
                         .withDirection(Vec3d(motionX, motionY, motionZ))
+                        .withCasterEntity(spellCasterId?.let { (world as? WorldServer)?.getEntityFromUuid(it) })
                         .withDeliveryEntity(this)
                         .build()
 
@@ -206,6 +218,7 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity {
                         .withSpell(spell)
                         .withStageIndex(spellIndex)
                         .withEntity(result.entityHit)
+                        .withCasterEntity(spellCasterId?.let { (world as? WorldServer)?.getEntityFromUuid(it) })
                         .withDeliveryEntity(this)
                         .build()
 
@@ -245,6 +258,7 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity {
         compound.setTag(NBT_SPELL, spell.serializeNBT())
         compound.setInteger(NBT_SPELL_INDEX, spellIndex)
         compound.setDouble(NBT_BLOCK_DISTANCE_REMAINING, blockDistanceRemaining)
+        spellCasterId?.let { compound.setTag(NBT_CASTER_ENTITY_ID, NBTUtil.createUUIDTag(it)) }
     }
 
     /**
@@ -261,6 +275,11 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity {
         spell = Spell(compound.getCompoundTag(NBT_SPELL))
         spellIndex = compound.getInteger(NBT_SPELL_INDEX)
         blockDistanceRemaining = compound.getDouble(NBT_BLOCK_DISTANCE_REMAINING)
+        spellCasterId = if (compound.hasKey(NBT_CASTER_ENTITY_ID)) {
+            NBTUtil.getUUIDFromTag(compound.getCompoundTag(NBT_CASTER_ENTITY_ID))
+        } else {
+            null
+        }
     }
 
     /**
@@ -335,5 +354,6 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity {
         private const val NBT_SPELL = "spell"
         private const val NBT_SPELL_INDEX = "spell_index"
         private const val NBT_BLOCK_DISTANCE_REMAINING = "block_distance_remaining"
+        private const val NBT_CASTER_ENTITY_ID = "caster_entity_id"
     }
 }

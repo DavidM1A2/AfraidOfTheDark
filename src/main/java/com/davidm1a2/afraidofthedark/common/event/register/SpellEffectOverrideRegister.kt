@@ -61,6 +61,7 @@ object SpellEffectOverrideRegister {
                             .withSpell(state.spell)
                             .withStageIndex(state.stageIndex)
                             .withWorld(state.world)
+                            .withCasterEntity(state.getCasterEntity())
 
                         var explosionCount = 0
                         while (explosionCount < maxExplosions) {
@@ -119,7 +120,7 @@ object SpellEffectOverrideRegister {
                 ): Boolean {
                     val world = state.world
 
-                    val spellCaster = state.spell.getOwner()
+                    val spellCaster = state.getCasterEntity()
                     if (spellCaster != null) {
                         // Get the delivery method instance
                         val deliveryInstance = state.getCurrentStage().deliveryInstance!!

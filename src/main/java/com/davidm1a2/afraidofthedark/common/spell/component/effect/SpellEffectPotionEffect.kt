@@ -97,7 +97,7 @@ class SpellEffectPotionEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
             val world: World = state.world
             val aoePotion = EntityAreaEffectCloud(world, exactPosition.x, exactPosition.y, exactPosition.z)
             aoePotion.addEffect(PotionEffect(potionType, potionDuration, potionStrength))
-            aoePotion.owner = state.spell.getOwner() as? EntityLivingBase
+            aoePotion.owner = state.getCasterEntity() as? EntityLivingBase
             aoePotion.radius = getPotionRadius(instance)
             aoePotion.setRadiusPerTick(0f)
             aoePotion.duration = potionDuration

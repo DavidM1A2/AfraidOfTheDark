@@ -122,6 +122,7 @@ class SpellDeliveryMethodLaser : AOTDSpellDeliveryMethod(ResourceLocation(Consta
             DeliveryTransitionStateBuilder()
                 .withSpell(state.spell)
                 .withStageIndex(state.stageIndex)
+                .withCasterEntity(state.getCasterEntity())
                 .withEntity(hitEntity)
                 .build()
         } else {
@@ -133,6 +134,7 @@ class SpellDeliveryMethodLaser : AOTDSpellDeliveryMethod(ResourceLocation(Consta
                 .withPosition(hitPos)
                 .withBlockPosition(hitBlockPos)
                 .withDirection(hitPos.subtract(startPos).normalize())
+                .withCasterEntity(state.getCasterEntity())
                 .build()
         }
         procEffects(currentState)

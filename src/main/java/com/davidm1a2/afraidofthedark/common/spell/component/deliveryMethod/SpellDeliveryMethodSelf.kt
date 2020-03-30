@@ -53,6 +53,7 @@ class SpellDeliveryMethodSelf : AOTDSpellDeliveryMethod(ResourceLocation(Constan
             DeliveryTransitionStateBuilder()
                 .withSpell(spell)
                 .withStageIndex(spellIndex + 1)
+                .withCasterEntity(state.getCasterEntity())
                 .withEntity(state.getEntity()!!)
                 .build()
         )

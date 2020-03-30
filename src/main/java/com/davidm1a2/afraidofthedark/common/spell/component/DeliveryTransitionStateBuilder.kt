@@ -15,8 +15,9 @@ import net.minecraft.world.World
  * @property position The exact double vector position the transition occurred
  * @property blockPosition A rounded for of getPosition() that estimates the block the transition occurred in
  * @property direction A normalized vector pointing in the direction the transition was in
+ * @property casterEntity The entity that cast the spell
  * @property entity The entity being delivered to, can be null
- * @property deliveryEntity The entity delivering the spell, can be null
+ * @property deliveryEntity The entity delivering the spell (ex: projectile entity), can be null
  */
 class DeliveryTransitionStateBuilder {
     private lateinit var spell: Spell
@@ -25,6 +26,7 @@ class DeliveryTransitionStateBuilder {
     private lateinit var position: Vec3d
     private lateinit var blockPosition: BlockPos
     private lateinit var direction: Vec3d
+    private var casterEntity: Entity? = null
     private var entity: Entity? = null
     private var deliveryEntity: Entity? = null
 
@@ -95,6 +97,17 @@ class DeliveryTransitionStateBuilder {
     }
 
     /**
+     * Sets the the entity that cast the spell
+     *
+     * @param casterEntity The entity that cast the spell
+     * @return The builder
+     */
+    fun withCasterEntity(casterEntity: Entity?): DeliveryTransitionStateBuilder {
+        this.casterEntity = casterEntity
+        return this
+    }
+
+    /**
      * Sets the delivery entity that is used to deliver the spell
      *
      * @param deliveryEntity The entity delivering the spell
@@ -133,6 +146,7 @@ class DeliveryTransitionStateBuilder {
         position = state.position
         blockPosition = state.blockPosition
         direction = state.direction
+        casterEntity = state.getCasterEntity()
         entity = state.getEntity()
         deliveryEntity = state.getDeliveryEntity()
         return this
@@ -151,6 +165,7 @@ class DeliveryTransitionStateBuilder {
             position,
             blockPosition,
             direction,
+            casterEntity,
             entity,
             deliveryEntity
         )

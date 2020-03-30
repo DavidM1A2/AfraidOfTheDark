@@ -19,7 +19,6 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.util.text.TextComponentTranslation
 import net.minecraftforge.common.util.Constants
 import net.minecraftforge.common.util.INBTSerializable
-import net.minecraftforge.fml.common.FMLCommonHandler
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint
 import java.util.*
 
@@ -28,7 +27,6 @@ import java.util.*
  *
  * @property name The spell's name, can't be null (empty by default)
  * @property id The spell's universally unique identifier, cannot be null
- * @property ownerId The spell's owner's persistent entity id, cannot be null
  * @property powerSource The source that is powering the spell, can be null
  * @property spellStages The list of spell stages this spell can go through, can have 0 - inf elements
  */
@@ -36,7 +34,6 @@ class Spell : INBTSerializable<NBTTagCompound> {
     lateinit var name: String
     lateinit var id: UUID
         private set
-    private lateinit var ownerId: UUID
     var powerSource: SpellComponentInstance<SpellPowerSource>? = null
     val spellStages = mutableListOf<SpellStage>()
 
@@ -48,8 +45,6 @@ class Spell : INBTSerializable<NBTTagCompound> {
     constructor(entity: Entity) {
         // Assign a random spell ID
         id = UUID.randomUUID()
-        // Assign the owner id to the player's id
-        ownerId = entity.persistentID
         // Empty spell name is default
         name = ""
     }
@@ -118,6 +113,7 @@ class Spell : INBTSerializable<NBTTagCompound> {
                                 DeliveryTransitionStateBuilder()
                                     .withSpell(this)
                                     .withStageIndex(0)
+                                    .withCasterEntity(entityPlayer)
                                     .withEntity(entityPlayer)
                                     .build()
                             )
@@ -198,15 +194,6 @@ class Spell : INBTSerializable<NBTTagCompound> {
     }
 
     /**
-     * Gets the owner of the spell
-     *
-     * @return The entity that owns the spell, or null if the entity doesn't exist
-     */
-    fun getOwner(): Entity? {
-        return FMLCommonHandler.instance().minecraftServerInstance.getEntityFromUuid(ownerId)
-    }
-
-    /**
      * Writes the contents of the object into a new NBT compound
      *
      * @return An NBT compound with all this spell's data
@@ -217,7 +204,6 @@ class Spell : INBTSerializable<NBTTagCompound> {
         // Write each field to NBT
         nbt.setString(NBT_NAME, name)
         nbt.setTag(NBT_ID, NBTUtil.createUUIDTag(id))
-        nbt.setTag(NBT_OWNER_ID, NBTUtil.createUUIDTag(ownerId))
 
         // The spell power source can be null, double check that it isn't before writing it and its state
         if (powerSource != null) {
@@ -240,7 +226,6 @@ class Spell : INBTSerializable<NBTTagCompound> {
         // Read each field from NBT
         name = nbt.getString(NBT_NAME)
         id = NBTUtil.getUUIDFromTag(nbt.getCompoundTag(NBT_ID))
-        ownerId = NBTUtil.getUUIDFromTag(nbt.getCompoundTag(NBT_OWNER_ID))
 
         // The spell power source can be null, double check that it exists before reading it and its state
         if (nbt.hasKey(NBT_POWER_SOURCE)) {
@@ -263,7 +248,6 @@ class Spell : INBTSerializable<NBTTagCompound> {
         // Constants used for NBT serialization/deserialiation
         private const val NBT_NAME = "name"
         private const val NBT_ID = "id"
-        private const val NBT_OWNER_ID = "owner_id"
         private const val NBT_POWER_SOURCE = "power_source"
         private const val NBT_SPELL_STAGES = "spell_stages"
     }

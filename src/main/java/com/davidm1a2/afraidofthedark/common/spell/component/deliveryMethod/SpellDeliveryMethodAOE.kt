@@ -101,6 +101,7 @@ class SpellDeliveryMethodAOE : AOTDSpellDeliveryMethod(ResourceLocation(Constant
                     DeliveryTransitionStateBuilder()
                         .withSpell(state.spell)
                         .withStageIndex(state.stageIndex)
+                        .withCasterEntity(state.getCasterEntity())
                         .withEntity(it!!)
                         .build(),
                     effect
@@ -116,6 +117,7 @@ class SpellDeliveryMethodAOE : AOTDSpellDeliveryMethod(ResourceLocation(Constant
                 .withSpell(state.spell)
                 .withStageIndex(state.stageIndex)
                 .withWorld(state.world)
+                .withCasterEntity(state.getCasterEntity())
 
             // Go over every block in the radius
             for (x in -blockRadius..blockRadius) {
@@ -171,6 +173,7 @@ class SpellDeliveryMethodAOE : AOTDSpellDeliveryMethod(ResourceLocation(Constant
                     DeliveryTransitionStateBuilder()
                         .withSpell(state.spell)
                         .withStageIndex(spellIndex + 1)
+                        .withCasterEntity(state.getCasterEntity())
                         .withEntity(it!!)
                         .build()
                 )
@@ -181,6 +184,7 @@ class SpellDeliveryMethodAOE : AOTDSpellDeliveryMethod(ResourceLocation(Constant
                 .withStageIndex(spellIndex + 1)
                 .withWorld(state.world)
                 .withBlockPosition(state.blockPosition)
+                .withCasterEntity(state.getCasterEntity())
 
             // Send out deliveries in all 6 possible directions around the hit point
             // Randomize which order the directions get applied in
