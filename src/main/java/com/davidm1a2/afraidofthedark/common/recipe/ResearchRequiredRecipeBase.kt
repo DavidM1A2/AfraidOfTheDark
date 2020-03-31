@@ -143,13 +143,13 @@ abstract class ResearchRequiredRecipeBase<T : IRecipe>(val baseRecipe: T, privat
         private fun findPlayer(inventoryCrafting: InventoryCrafting): EntityPlayer? {
             try {
                 // Attempt to grab the container the player is crafting in
-                val container = eventHandlerField[inventoryCrafting] as Container
+                val container = eventHandlerField[inventoryCrafting] as? Container
 
                 // Test if the container is a 2x2 grid or 'ContainerPlayer', if so return the player from the 'player' field
                 if (container is ContainerPlayer) {
-                    return containerPlayerPlayerField[container] as EntityPlayer
+                    return containerPlayerPlayerField[container] as? EntityPlayer
                 } else if (container is ContainerWorkbench) {
-                    return slotCraftingPlayerField[container.getSlot(0)] as EntityPlayer
+                    return slotCraftingPlayerField[container.getSlot(0)] as? EntityPlayer
                 }
             }
             // If something goes wrong catch the exception and log it, then return null
