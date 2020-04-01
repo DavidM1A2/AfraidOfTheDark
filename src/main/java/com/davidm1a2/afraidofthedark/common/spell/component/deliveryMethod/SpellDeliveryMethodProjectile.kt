@@ -48,24 +48,15 @@ class SpellDeliveryMethodProjectile : AOTDSpellDeliveryMethod(ResourceLocation(C
      * @param state The state of the spell to deliver
      */
     override fun executeDelivery(state: DeliveryTransitionState) {
-        val spellProjectile = if (state.getEntity() != null) {
-            EntitySpellProjectile(
-                state.world,
-                state.spell,
-                state.stageIndex,
-                state.getCasterEntity(),
-                state.getEntity()!!
-            )
-        } else {
-            EntitySpellProjectile(
-                state.world,
-                state.spell,
-                state.stageIndex,
-                state.getCasterEntity(),
-                state.position,
-                state.direction
-            )
-        }
+        val spellProjectile = EntitySpellProjectile(
+            state.world,
+            state.spell,
+            state.stageIndex,
+            state.getCasterEntity(),
+            state.position,
+            state.direction,
+            state.getEntity()
+        )
         state.world.spawnEntity(spellProjectile)
     }
 

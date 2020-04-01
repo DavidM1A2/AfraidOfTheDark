@@ -112,10 +112,20 @@ class SpellStage : INBTSerializable<NBTTagCompound> {
         }
     }
 
+    /**
+     * @return a pretty printed spell stage
+     */
+    override fun toString(): String {
+        return "${deliveryInstance?.component?.registryName?.resourcePath}: ${effects.filterNotNull()
+            .map { it.component.registryName?.resourcePath }
+            .joinToString(separator = ", ", prefix = "[", postfix = "]")}"
+    }
+
     companion object {
         // NBT Tag constants
         private const val NBT_DELIVERY_METHOD = "delivery_method"
         private const val NBT_EFFECT_BASE = "effect_"
+
         // The max number of effects per spell stage
         private const val MAX_EFFECTS_PER_STAGE = 4
     }

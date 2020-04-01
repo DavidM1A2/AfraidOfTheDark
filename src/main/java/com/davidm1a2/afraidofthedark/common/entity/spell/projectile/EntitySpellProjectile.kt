@@ -64,10 +64,12 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity {
         spellIndex: Int,
         spellCaster: Entity?,
         position: Vec3d,
-        velocity: Vec3d = Vec3d(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5)
+        velocity: Vec3d,
+        shooter: Entity? = null
     ) : this(world) {
         this.spell = spell
         this.spellIndex = spellIndex
+        this.shooter = shooter
         this.spellCasterId = spellCaster?.persistentID
         val deliveryInstance = spell.getStage(spellIndex)!!.deliveryInstance!!
         val deliveryMethodProjectile = deliveryInstance.component as SpellDeliveryMethodProjectile
@@ -85,29 +87,9 @@ class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity {
         // Position the entity at the center of the shooter moved slightly in the dir of fire
         setPosition(position.x + motionX, position.y + motionY, position.z + motionZ)
 
-        // Null shooter
-        shooter = null
-    }
-
-    /**
-     * Constructor sets the projectile's properties based on a shooter entity
-     *
-     * @param world       The world the projectile is in
-     * @param spell       The spell that was fired
-     * @param spellIndex  The index of the current spell stage that is being executed
-     * @param spellCaster The entity that casted the spell
-     * @param entity      The entity that fired the projectile
-     */
-    constructor(world: World, spell: Spell, spellIndex: Int, spellCaster: Entity?, entity: Entity) : this(
-        world,
-        spell,
-        spellIndex,
-        spellCaster,
-        entity.positionVector.addVector(0.0, entity.eyeHeight.toDouble(), 0.0),
-        entity.lookVec
-    ) {
-        setRotation(entity.rotationYaw, entity.rotationPitch)
-        shooter = entity
+        this.shooter?.let {
+            setRotation(it.rotationYaw, it.rotationPitch)
+        }
     }
 
     /**

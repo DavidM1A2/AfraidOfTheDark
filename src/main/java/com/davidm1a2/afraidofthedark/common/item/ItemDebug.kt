@@ -1,10 +1,14 @@
 package com.davidm1a2.afraidofthedark.common.item
 
+import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EntityEnchantedFrog
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
+import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
 import net.minecraft.util.EnumHand
+import net.minecraft.util.text.TextComponentString
 import net.minecraft.world.World
 
 /**
@@ -26,5 +30,15 @@ class ItemDebug : AOTDItem("debug", displayInCreative = false) {
         } else {
         }
         return super.onItemRightClick(worldIn, playerIn, handIn)
+    }
+
+    override fun onLeftClickEntity(stack: ItemStack, player: EntityPlayer, entity: Entity): Boolean {
+        if (!player.world.isRemote)
+            if (entity is EntityEnchantedFrog) {
+                val s = entity.frogsSpell
+                player.sendMessage(TextComponentString(s.toString()))
+                AfraidOfTheDark.INSTANCE.logger.info("Type is:\n$s")
+            }
+        return super.onLeftClickEntity(stack, player, entity)
     }
 }

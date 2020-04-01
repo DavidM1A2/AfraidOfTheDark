@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base
 
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
-import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.entity.Entity
 import net.minecraft.util.ResourceLocation
 
 /**
@@ -19,20 +19,20 @@ abstract class SpellPowerSource(id: ResourceLocation) :
     /**
      * True if the given spell can be cast, false otherwise
      *
-     * @param entityPlayer The player that is casting the spell
+     * @param entity The entity that is casting the spell
      * @param spell The spell to attempt to cast
      * @return True if the spell can be cast, false otherwise
      */
-    abstract fun canCast(entityPlayer: EntityPlayer, spell: Spell): Boolean
+    abstract fun canCast(entity: Entity, spell: Spell): Boolean
 
     /**
      * Consumes power to cast a given spell. canCast must return true first to ensure there is
      * enough power to cast the spell
      *
-     * @param entityPlayer The player that is casting the spell
+     * @param entity The entity that is casting the spell
      * @param spell the spell to attempt to cast
      */
-    abstract fun consumePowerToCast(entityPlayer: EntityPlayer, spell: Spell)
+    abstract fun consumePowerToCast(entity: Entity, spell: Spell)
 
     /**
      * Computes the message describing why the power source doesn't have enough power

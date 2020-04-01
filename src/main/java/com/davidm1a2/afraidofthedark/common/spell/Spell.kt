@@ -21,6 +21,7 @@ import net.minecraftforge.common.util.Constants
 import net.minecraftforge.common.util.INBTSerializable
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint
 import java.util.*
+import kotlin.random.Random
 
 /**
  * Class representing a spell instance created by a player
@@ -39,10 +40,8 @@ class Spell : INBTSerializable<NBTTagCompound> {
 
     /**
      * Constructor that takes the player that created the spell in as a parameter
-     *
-     * @param entity The entity that owns the spell/made the spell
      */
-    constructor(entity: Entity) {
+    constructor() {
         // Assign a random spell ID
         id = UUID.randomUUID()
         // Empty spell name is default
@@ -59,26 +58,27 @@ class Spell : INBTSerializable<NBTTagCompound> {
     }
 
     /**
-     * Called to cast the spell, notifies the player if something is wrong so the spell won't cast
+     * Called to cast the spell, notifies the a player if something is wrong so the spell won't cast
      *
-     * @param entityPlayer The player casting the spell
+     * @param entity The entity casting the spell
+     * @param direction The direction the spell should be casted, defaults to the look vec
      */
-    fun attemptToCast(entityPlayer: EntityPlayer) {
+    fun attemptToCast(entity: Entity, direction: Vec3d = entity.lookVec) {
         // Server side processing only
-        if (!entityPlayer.world.isRemote) {
+        if (!entity.world.isRemote) {
             // Make sure the player isn't in the nightmare realm
-            if (entityPlayer.dimension != ModDimensions.NIGHTMARE.id) {
+            if (entity.dimension != ModDimensions.NIGHTMARE.id) {
                 // If the spell is valid continue, if not print an error
                 if (isValid()) {
                     // Test if the spell can be cast, if not tell the player why
-                    if (powerSource!!.component.canCast(entityPlayer, this)) {
+                    if (powerSource!!.component.canCast(entity, this)) {
                         // Consumer the power to cast the spell
-                        powerSource!!.component.consumePowerToCast(entityPlayer, this)
+                        powerSource!!.component.consumePowerToCast(entity, this)
 
                         // Play a cast sound
-                        entityPlayer.world.playSound(
+                        entity.world.playSound(
                             null,
-                            entityPlayer.position,
+                            entity.position,
                             ModSounds.SPELL_CAST,
                             SoundCategory.PLAYERS,
                             1.0f,
@@ -86,8 +86,8 @@ class Spell : INBTSerializable<NBTTagCompound> {
                         )
                         // Spawn 3-5 particles
                         val positions: MutableList<Vec3d> = ArrayList()
-                        for (i in 0 until entityPlayer.rng.nextInt(4) + 2) {
-                            positions.add(Vec3d(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ))
+                        for (i in 0 until Random.nextInt(2, 6)) {
+                            positions.add(Vec3d(entity.posX, entity.posY, entity.posZ))
                         }
                         // Send the particle packet
                         AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(
@@ -97,10 +97,10 @@ class Spell : INBTSerializable<NBTTagCompound> {
                                 List<Vec3d>(positions.size) { Vec3d.ZERO }
                             ),
                             TargetPoint(
-                                entityPlayer.dimension,
-                                entityPlayer.posX,
-                                entityPlayer.posY,
-                                entityPlayer.posZ,
+                                entity.dimension,
+                                entity.posX,
+                                entity.posY,
+                                entity.posZ,
                                 100.0
                             )
                         )
@@ -113,18 +113,28 @@ class Spell : INBTSerializable<NBTTagCompound> {
                                 DeliveryTransitionStateBuilder()
                                     .withSpell(this)
                                     .withStageIndex(0)
-                                    .withCasterEntity(entityPlayer)
-                                    .withEntity(entityPlayer)
+                                    .withCasterEntity(entity)
+                                    .withEntity(entity)
+                                    .withDirection(direction)
                                     .build()
                             )
                     } else {
-                        entityPlayer.sendMessage(TextComponentTranslation(powerSource!!.component.getUnlocalizedOutOfPowerMsg()))
+                        entity.sendMessage(TextComponentTranslation(powerSource!!.component.getUnlocalizedOutOfPowerMsg()))
+                        if (entity !is EntityPlayer) {
+                            AfraidOfTheDark.INSTANCE.logger.info("Entity '${entity.name}' attempted to cast a spell without enough power?")
+                        }
                     }
                 } else {
-                    entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:spell.invalid"))
+                    entity.sendMessage(TextComponentTranslation("message.afraidofthedark:spell.invalid"))
+                    if (entity !is EntityPlayer) {
+                        AfraidOfTheDark.INSTANCE.logger.info("Entity '${entity.name}' attempted to cast an invalid spell?")
+                    }
                 }
             } else {
-                entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:spell.wrong_dimension"))
+                entity.sendMessage(TextComponentTranslation("message.afraidofthedark:spell.wrong_dimension"))
+                if (entity !is EntityPlayer) {
+                    AfraidOfTheDark.INSTANCE.logger.info("Entity '${entity.name}' attempted to cast a spell in the nightmare?")
+                }
             }
         }
     }
@@ -242,6 +252,16 @@ class Spell : INBTSerializable<NBTTagCompound> {
             val spellStage = SpellStage(spellStageNBT)
             spellStages.add(spellStage)
         }
+    }
+
+    /**
+     * @return a pretty printed spell
+     */
+    override fun toString(): String {
+        return "Spell $name\n" +
+                "Power Source: ${powerSource?.component?.registryName?.resourcePath}\n" +
+                "Spell Stages:\n" +
+                spellStages.joinToString(separator = "\n") { " -> $it" }
     }
 
     companion object {

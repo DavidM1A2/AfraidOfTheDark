@@ -60,8 +60,7 @@ class SpellDeliveryMethodLaser : AOTDSpellDeliveryMethod(ResourceLocation(Consta
         val entity = state.getEntity()
 
         // Start at entity eye height if it's from an entity
-        val startPos =
-            if (entity == null) state.position else state.position.addVector(0.0, entity.eyeHeight.toDouble(), 0.0)
+        val startPos = entity?.getPositionEyes(1.0f) ?: state.position
 
         val direction = state.direction.normalize()
         // The end position is the start position in the right direction scaled to range
@@ -89,8 +88,7 @@ class SpellDeliveryMethodLaser : AOTDSpellDeliveryMethod(ResourceLocation(Consta
             // Ensure the entity is along the path with the ray
             .filter { it.entityBoundingBox.calculateIntercept(startPos, hitPos) != null }
             // Find the closest entity
-            .minWith(Comparator<Entity>
-            { entity1, entity2 ->
+            .minWith(Comparator<Entity> { entity1, entity2 ->
                 entity1.getDistanceSq(BlockPos(startPos)).compareTo(entity2.getDistanceSq(BlockPos(hitPos)))
             })
         hitPos = hitEntity?.positionVector ?: hitPos
@@ -101,8 +99,7 @@ class SpellDeliveryMethodLaser : AOTDSpellDeliveryMethod(ResourceLocation(Consta
         val numParticlesToSpawn = ceil(distanceToHit).coerceIn(10.0, 100.0).toInt()
 
         // Compute points along the hitscan line
-        val laserPositions = List<Vec3d>(numParticlesToSpawn)
-        {
+        val laserPositions = List<Vec3d>(numParticlesToSpawn) {
             startPos.add(direction.scale(it.toDouble() / numParticlesToSpawn * distanceToHit))
         }
 

@@ -14,6 +14,8 @@ object ModSounds {
     val WEREWOLF_DEATH = create("werewolf_death")
     val WEREWOLF_HURT = create("werewolf_hurt")
     val ENCHANTED_FROG_CROAK = create("enchanted_frog_croak")
+    val ENCHANTED_FROG_DEATH = create("enchanted_frog_death")
+    val ENCHANTED_FROG_HURT = create("enchanted_frog_hurt")
     val JOURNAL_SIGN = create("journal_sign")
     val ACHIEVEMENT_UNLOCKED = create("achievement_unlocked")
     val PAGE_TURN = create("page_turn")

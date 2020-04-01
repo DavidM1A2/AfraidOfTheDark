@@ -104,7 +104,7 @@ class SpellListGUI : AOTDGuiScreen() {
                 // When we click the button create a new spell
                 if (it.source.isVisible && it.source.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
                     // Create a new spell
-                    val spell = Spell(entityPlayer)
+                    val spell = Spell()
                     // Add the spell
                     spellManager.addOrUpdateSpell(spell)
                     // Add the UI spell

@@ -3,6 +3,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.powerSource
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.AOTDSpellPowerSource
+import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.ResourceLocation
 
@@ -13,21 +14,21 @@ class SpellPowerSourceCreative : AOTDSpellPowerSource(ResourceLocation(Constants
     /**
      * True if the given spell can be cast, false otherwise
      *
-     * @param entityPlayer The player that is casting the spell
+     * @param entity The entity that is casting the spell
      * @param spell The spell to attempt to cast
      * @return True if the spell can be cast, false otherwise
      */
-    override fun canCast(entityPlayer: EntityPlayer, spell: Spell): Boolean {
-        return entityPlayer.isCreative
+    override fun canCast(entity: Entity, spell: Spell): Boolean {
+        return (entity as? EntityPlayer)?.isCreative ?: true
     }
 
     /**
      * Does nothing, creative power sources don't use energy
      *
-     * @param entityPlayer The player that is casting the spell
+     * @param entity The entity that is casting the spell
      * @param spell the spell to attempt to cast
      */
-    override fun consumePowerToCast(entityPlayer: EntityPlayer, spell: Spell) {
+    override fun consumePowerToCast(entity: Entity, spell: Spell) {
     }
 
     /**

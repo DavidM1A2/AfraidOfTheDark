@@ -69,6 +69,24 @@
     ],
     "subtitle": "Enchanted Frog Croak"
   },
+  "enchanted_frog_death": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "afraidofthedark:enchanted_frog_death",
+        "stream": false
+      }
+    ]
+  },
+  "enchanted_frog_hurt": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "afraidofthedark:enchanted_frog_hurt",
+        "stream": false
+      }
+    ]
+  },
   "journal_sign": {
     "category": "player",
     "sounds": [
