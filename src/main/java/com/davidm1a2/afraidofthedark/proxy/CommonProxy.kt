@@ -70,6 +70,7 @@ abstract class CommonProxy : IProxy {
         packetHandler.registerPacket(SyncVoidChest::class.java, SyncVoidChest.Handler(), Side.CLIENT)
         packetHandler.registerPacket(SyncParticle::class.java, SyncParticle.Handler(), Side.CLIENT)
         packetHandler.registerPacket(SyncFreezeData::class.java, SyncFreezeData.Handler(), Side.CLIENT)
+        packetHandler.registerPacket(PlayEnariasFightMusic::class.java, PlayEnariasFightMusic.Handler(), Side.CLIENT)
         packetHandler.registerPacket(FireWristCrossbow::class.java, FireWristCrossbow.Handler(), Side.SERVER)
         packetHandler.registerPacket(ProcessSextantInput::class.java, ProcessSextantInput.Handler(), Side.SERVER)
         packetHandler.registerPacket(

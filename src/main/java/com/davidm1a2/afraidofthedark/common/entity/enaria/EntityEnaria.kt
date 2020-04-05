@@ -1,11 +1,13 @@
 package com.davidm1a2.afraidofthedark.common.entity.enaria
 
+import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.entity.enaria.animation.AnimationHandlerEnaria
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedEntity
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
+import com.davidm1a2.afraidofthedark.common.packets.otherPackets.PlayEnariasFightMusic
 import net.minecraft.entity.Entity
 import net.minecraft.entity.SharedMonsterAttributes
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget
@@ -288,6 +290,8 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity {
      */
     override fun addTrackingPlayer(player: EntityPlayerMP) {
         super.addTrackingPlayer(player)
+        // Tell the player to play the enaria combat music
+        AfraidOfTheDark.INSTANCE.packetHandler.sendTo(PlayEnariasFightMusic(this, true), player)
         bossInfo.addPlayer(player)
     }
 
@@ -298,6 +302,8 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity {
      */
     override fun removeTrackingPlayer(player: EntityPlayerMP) {
         super.removeTrackingPlayer(player)
+        // Tell the player to stop playing the enaria combat music
+        AfraidOfTheDark.INSTANCE.packetHandler.sendTo(PlayEnariasFightMusic(this, false), player)
         bossInfo.removePlayer(player)
     }
 

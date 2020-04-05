@@ -196,5 +196,15 @@
       }
     ],
     "subtitle": "Nightmare Chase Music"
+  },
+  "enaria_fight_music": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "afraidofthedark:enaria_fight_music",
+        "stream": false
+      }
+    ],
+    "subtitle": "Enaria Fight Music"
   }
 }
