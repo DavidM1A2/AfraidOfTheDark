@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.entity.enaria
 
 import com.davidm1a2.afraidofthedark.client.entity.mcAnimatorLib.MCAModelRenderer
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedEntity
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.math.Matrix4f
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.math.Quaternion
@@ -98,7 +98,7 @@ class ModelEnaria internal constructor() : ModelBase() {
         scale: Float
     ) {
         // Grab the enaria entity
-        val enariaEntity = entityIn as IMCAnimatedEntity?
+        val enariaEntity = entityIn as IMCAnimatedModel?
 
         // Perform the animation
         AnimationHandler.performAnimationInModel(parts, enariaEntity)

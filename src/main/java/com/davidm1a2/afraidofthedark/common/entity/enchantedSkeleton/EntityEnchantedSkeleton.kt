@@ -10,7 +10,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.animation.AnimationHandlerEnchantedSkeleton
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedEntity
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.item.ItemBladeOfExhumation
 import com.davidm1a2.afraidofthedark.common.packets.animationPackets.SyncAnimation
@@ -41,7 +41,8 @@ import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint
  * @property animHandler The animation handler used to manage animations
  * @property hasPlayedSpawnAnimation Flag telling us if we have played the spawn animation yet or not
  */
-class EntityEnchantedSkeleton(world: World) : EntityMob(world), IMCAnimatedEntity {
+class EntityEnchantedSkeleton(world: World) : EntityMob(world),
+    IMCAnimatedModel {
     private val animHandler = AnimationHandlerEnchantedSkeleton(this)
     private var hasPlayedSpawnAnimation = false
 

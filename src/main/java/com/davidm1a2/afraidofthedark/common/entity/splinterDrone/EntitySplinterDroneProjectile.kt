@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.entity.splinterDrone
 
 import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources.causePlasmaBallDamage
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedEntity
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.animation.AnimationHandlerSplinterDroneProjectile
 import net.minecraft.entity.Entity
@@ -28,7 +28,8 @@ import kotlin.math.sqrt
  * @property ticksInAir The number of ticks the projectile has been in the air
  * @property animHandler The animation handler used to manage animations
  */
-class EntitySplinterDroneProjectile(world: World) : Entity(world), IMCAnimatedEntity {
+class EntitySplinterDroneProjectile(world: World) : Entity(world),
+    IMCAnimatedModel {
     private var shootingEntity: EntitySplinterDrone? = null
     private var ticksInAir = 0
     private val animHandler = AnimationHandlerSplinterDroneProjectile(this)

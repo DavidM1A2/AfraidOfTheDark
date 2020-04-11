@@ -1,15 +1,15 @@
 package com.davidm1a2.afraidofthedark.common.entity.splinterDrone.animation
 
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedEntity
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.Channel
 
 /**
  * Animation handler class for the splinter drone projectile
  *
- * @param entity The entity that this animator belongs to
+ * @param model The entity that this animator belongs to
  */
-class AnimationHandlerSplinterDroneProjectile(entity: IMCAnimatedEntity) : AnimationHandler(entity) {
+class AnimationHandlerSplinterDroneProjectile(model: IMCAnimatedModel) : AnimationHandler(model) {
     /**
      * Begins playing a specific animation given a name and starting frame
      *

@@ -5,7 +5,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.entity.enaria.animation.AnimationHandlerEnaria
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedEntity
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.packets.otherPackets.PlayEnariasFightMusic
 import net.minecraft.entity.Entity
@@ -38,7 +38,8 @@ import kotlin.math.min
  * @property allowedRegion The hitbox that enaria cannot leave
  * @property enariaAttacks Enaria's attack object use to manage her attacks
  */
-class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedEntity {
+class EntityEnaria(world: World) : EntityMob(world),
+    IMCAnimatedModel {
     private val animHandler = AnimationHandlerEnaria(this)
     private val bossInfo = BossInfoServer(
         this.displayName,

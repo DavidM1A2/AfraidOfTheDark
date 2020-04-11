@@ -4,7 +4,7 @@ import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedEntity
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.animation.AnimationHandlerSplinterDrone
 import com.davidm1a2.afraidofthedark.common.packets.animationPackets.SyncAnimation
@@ -29,7 +29,8 @@ import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint
  * @property animHandler The animation handler used to manage animations
  * @property hasPlayedSpawnAnimation Flag telling us if we have played the spawn animation yet or not
  */
-class EntitySplinterDrone(world: World) : EntityFlying(world), IMob, IMCAnimatedEntity {
+class EntitySplinterDrone(world: World) : EntityFlying(world), IMob,
+    IMCAnimatedModel {
     private val animHandler = AnimationHandlerSplinterDrone(this)
     private var hasPlayedSpawnAnimation = false
 

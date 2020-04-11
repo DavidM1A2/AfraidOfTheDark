@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.packets.animationPackets
 
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedEntity
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.packets.EntitySyncBase
 import com.davidm1a2.afraidofthedark.common.packets.packetHandler.MessageHandler
 import io.netty.buffer.ByteBuf
@@ -81,9 +81,9 @@ class SyncAnimation : EntitySyncBase {
             val entity = player.world.getEntityByID(msg.entityID)
 
             // Ensure the entity is non-null and a MC animated entity
-            if (entity is IMCAnimatedEntity) {
+            if (entity is IMCAnimatedModel) {
                 // Grab the animation handler
-                val animationHandler = (entity as IMCAnimatedEntity).animationHandler
+                val animationHandler = entity.animationHandler
 
                 // Ensure no higher priority animations are active, and if so activate the animation
                 if (msg.higherPriorityAnims.none { animationHandler.isAnimationActive(it) }) {

@@ -6,7 +6,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedEntity
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.werewolf.animation.AnimationHandlerWerewolf
 import com.davidm1a2.afraidofthedark.common.packets.animationPackets.SyncAnimation
@@ -32,7 +32,8 @@ import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint
  * @property animHandler Animation handler used by the werewolf
  * @property attacksAnyone Flag telling the werewolf if it is allowed to attack anyone or just players that have started AOTD
  */
-class EntityWerewolf(world: World) : EntityMob(world), IMCAnimatedEntity {
+class EntityWerewolf(world: World) : EntityMob(world),
+    IMCAnimatedModel {
     private val animHandler = AnimationHandlerWerewolf(this)
     private var attacksAnyone: Boolean
 

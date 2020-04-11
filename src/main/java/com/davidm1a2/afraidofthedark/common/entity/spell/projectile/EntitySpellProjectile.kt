@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.entity.spell.projectile
 
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedEntity
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.spell.projectile.animation.AnimationHandlerSpellProjectile
 import com.davidm1a2.afraidofthedark.common.spell.Spell
@@ -35,7 +35,8 @@ import java.util.*
  * @property blockDistanceRemaining The amount of blocks left before this projectile expires
  * @property animHandler The animation handler that this entity uses for all animations
  */
-class EntitySpellProjectile(world: World) : Entity(world), IMCAnimatedEntity {
+class EntitySpellProjectile(world: World) : Entity(world),
+    IMCAnimatedModel {
     private var ticksInAir = 0
     private lateinit var spell: Spell
     private var spellIndex = 0

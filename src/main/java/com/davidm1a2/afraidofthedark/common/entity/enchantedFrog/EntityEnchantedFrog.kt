@@ -6,7 +6,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.constants.ModSpellPowerSources
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.animation.AnimationHandlerEnchantedFrog
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedEntity
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.packets.animationPackets.SyncAnimation
 import com.davidm1a2.afraidofthedark.common.spell.Spell
@@ -37,7 +37,8 @@ import kotlin.random.Random
  * @param world The world the frog is spawning into
  * @property animHandler The animation handler used to manage animations
  */
-class EntityEnchantedFrog(world: World) : EntityCreature(world), IMCAnimatedEntity {
+class EntityEnchantedFrog(world: World) : EntityCreature(world),
+    IMCAnimatedModel {
     // We don't need to write this to NBT data, it's not important to persist
     private var ticksUntilNextCastAttempt = MAX_TICKS_BETWEEN_CASTS
     private val animHandler = AnimationHandlerEnchantedFrog(this)

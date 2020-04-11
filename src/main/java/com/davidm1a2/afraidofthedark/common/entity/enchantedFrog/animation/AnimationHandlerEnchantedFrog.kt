@@ -1,15 +1,15 @@
 package com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.animation
 
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedEntity
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.Channel
 
 /**
  * Animation handler class for the magic frog entity
  *
- * @param entity The entity that this animator belongs to
+ * @param model The entity that this animator belongs to
  */
-class AnimationHandlerEnchantedFrog(entity: IMCAnimatedEntity) : AnimationHandler(entity) {
+class AnimationHandlerEnchantedFrog(model: IMCAnimatedModel) : AnimationHandler(model) {
     /**
      * Begins playing a specific animation given a name and starting frame
      *

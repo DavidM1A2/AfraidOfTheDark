@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation;
 
 import com.davidm1a2.afraidofthedark.client.entity.mcAnimatorLib.MCAModelRenderer;
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedEntity;
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel;
 
 import java.util.Map;
 
@@ -47,7 +47,7 @@ public class CustomChannel extends Channel {
     /**
      * Write the actual behaviour of this custom animation here. It will called every tick until the animation is active.
      */
-    public void update(Map<String, MCAModelRenderer> parts, IMCAnimatedEntity entity) {
+    public void update(Map<String, MCAModelRenderer> parts, IMCAnimatedModel model) {
         //This must be filled in the actual custom channels!
     }
 }

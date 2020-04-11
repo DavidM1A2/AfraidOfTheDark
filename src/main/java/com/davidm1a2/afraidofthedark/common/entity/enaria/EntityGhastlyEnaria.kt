@@ -6,7 +6,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.entity.enaria.animation.AnimationHandlerGhastlyEnaria
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedEntity
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityFlying
@@ -25,7 +25,8 @@ import net.minecraft.world.World
  * @property animHandler The animation handler used to manage animations
  * @property benign Flag telling us if this enaria is benign or not, defaults to true. This will change her AI
  */
-class EntityGhastlyEnaria(world: World) : EntityFlying(world), IMCAnimatedEntity {
+class EntityGhastlyEnaria(world: World) : EntityFlying(world),
+    IMCAnimatedModel {
     private val animHandler = AnimationHandlerGhastlyEnaria(this)
     private var benign = true
 
