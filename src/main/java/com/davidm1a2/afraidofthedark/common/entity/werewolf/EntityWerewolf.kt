@@ -34,7 +34,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint
  */
 class EntityWerewolf(world: World) : EntityMob(world),
     IMCAnimatedModel {
-    private val animHandler = AnimationHandlerWerewolf(this)
+    private val animHandler = AnimationHandlerWerewolf()
     private var attacksAnyone: Boolean
 
     init {
@@ -85,7 +85,7 @@ class EntityWerewolf(world: World) : EntityMob(world),
 
         // Animations only update client side
         if (world.isRemote) {
-            animHandler.animationsUpdate()
+            animHandler.update()
         }
     }
 
@@ -100,7 +100,7 @@ class EntityWerewolf(world: World) : EntityMob(world),
         if (world.isRemote) {
             if (motionX > 0.05 || motionX < -0.05 || motionZ > 0.05 || motionZ < -0.05) {
                 if (!animHandler.isAnimationActive("Bite") && !animHandler.isAnimationActive("Run")) {
-                    animHandler.activateAnimation("Run", 0f)
+                    animHandler.playAnimation("Run")
                 }
             }
         }

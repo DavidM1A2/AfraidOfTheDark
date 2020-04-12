@@ -2,7 +2,6 @@ package com.davidm1a2.afraidofthedark.client.entity.enaria
 
 import com.davidm1a2.afraidofthedark.client.entity.mcAnimatorLib.MCAModelRenderer
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.math.Matrix4f
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.math.Quaternion
 import net.minecraft.client.model.ModelBase
@@ -89,7 +88,7 @@ class ModelEnaria internal constructor() : ModelBase() {
      * @param scale           The scale to render the model at
      */
     override fun render(
-        entityIn: Entity?,
+        entityIn: Entity,
         limbSwing: Float,
         limbSwingAmount: Float,
         ageInTicks: Float,
@@ -97,13 +96,10 @@ class ModelEnaria internal constructor() : ModelBase() {
         headPitch: Float,
         scale: Float
     ) {
-        // Grab the enaria entity
-        val enariaEntity = entityIn as IMCAnimatedModel?
-
         // Perform the animation
-        AnimationHandler.performAnimationInModel(parts, enariaEntity)
+        (entityIn as IMCAnimatedModel).getAnimationHandler().performAnimationInModel(parts)
 
-        // Render every non-child part
+        // Render the model in its current state
         body.render(scale)
     }
 }

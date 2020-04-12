@@ -1,10 +1,9 @@
 package com.davidm1a2.afraidofthedark.client.entity.splinterDrone
 
 import com.davidm1a2.afraidofthedark.client.entity.mcAnimatorLib.MCAModelRenderer
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.math.Matrix4f
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.math.Quaternion
-import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.EntitySplinterDroneProjectile
 import net.minecraft.client.model.ModelBase
 import net.minecraft.entity.Entity
 
@@ -100,7 +99,7 @@ class ModelSplinterDroneProjectile internal constructor() : ModelBase() {
      * @param scale           The scale to render the model at
      */
     override fun render(
-        entityIn: Entity?,
+        entityIn: Entity,
         limbSwing: Float,
         limbSwingAmount: Float,
         ageInTicks: Float,
@@ -108,13 +107,10 @@ class ModelSplinterDroneProjectile internal constructor() : ModelBase() {
         headPitch: Float,
         scale: Float
     ) {
-        // Cast the entity to a splinter drone projectile model
-        val entity = entityIn as EntitySplinterDroneProjectile?
+        // Perform the animation
+        (entityIn as IMCAnimatedModel).getAnimationHandler().performAnimationInModel(parts)
 
-        // Animate the model (moves all pieces from time t to t+1)
-        AnimationHandler.performAnimationInModel(parts, entity)
-
-        // Render the model
+        // Render the model in its current state
         body.render(scale)
     }
 }

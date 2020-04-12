@@ -43,7 +43,7 @@ class EntitySpellProjectile(world: World) : Entity(world),
     private var shooter: Entity? = null
     private var spellCasterId: UUID? = null
     private var blockDistanceRemaining = 0.0
-    private val animHandler = AnimationHandlerSpellProjectile(this)
+    private val animHandler = AnimationHandlerSpellProjectile()
 
     init {
         setSize(0.4f, 0.4f)
@@ -107,7 +107,7 @@ class EntitySpellProjectile(world: World) : Entity(world),
 
         // Animations only update client side
         if (world.isRemote) {
-            animHandler.animationsUpdate()
+            animHandler.update()
         }
 
         // Update logic server side
@@ -225,7 +225,7 @@ class EntitySpellProjectile(world: World) : Entity(world),
         // If we're client side and no animation is active play the idle animation
         if (world.isRemote) {
             if (!animHandler.isAnimationActive("Idle")) {
-                animHandler.activateAnimation("Idle", 0f)
+                animHandler.playAnimation("Idle")
             }
         }
     }

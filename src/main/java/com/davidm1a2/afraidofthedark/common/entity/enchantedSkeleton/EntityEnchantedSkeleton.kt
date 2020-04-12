@@ -43,7 +43,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint
  */
 class EntityEnchantedSkeleton(world: World) : EntityMob(world),
     IMCAnimatedModel {
-    private val animHandler = AnimationHandlerEnchantedSkeleton(this)
+    private val animHandler = AnimationHandlerEnchantedSkeleton()
     private var hasPlayedSpawnAnimation = false
 
     init {
@@ -95,7 +95,7 @@ class EntityEnchantedSkeleton(world: World) : EntityMob(world),
         super.onUpdate()
         // Animations only update client side
         if (world.isRemote) {
-            animHandler.animationsUpdate()
+            animHandler.update()
         }
     }
 
@@ -131,11 +131,11 @@ class EntityEnchantedSkeleton(world: World) : EntityMob(world),
                 // If the entity is moving show the walking animation
                 if (motionX > 0.05 || motionZ > 0.05 || motionX < -0.05 || motionZ < -0.05) {
                     if (!animHandler.isAnimationActive("Walk")) {
-                        animHandler.activateAnimation("Walk", 0f)
+                        animHandler.playAnimation("Walk")
                     }
                 } else {
                     if (!animHandler.isAnimationActive("Idle")) {
-                        animHandler.activateAnimation("Idle", 0f)
+                        animHandler.playAnimation("Idle")
                     }
                 }
             }

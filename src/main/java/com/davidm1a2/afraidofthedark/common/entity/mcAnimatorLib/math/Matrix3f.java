@@ -493,7 +493,7 @@ public final class Matrix3f implements Cloneable, java.io.Serializable {
      *
      * @param matrix the new values of the matrix.
      * @return this
-     * @throws JmeException if the array is not of size 9.
+     * @throws IllegalArgumentException if the array is not of size 9.
      */
     public Matrix3f set(float[][] matrix) {
         if (matrix.length != 3 || matrix[0].length != 3) {

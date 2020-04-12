@@ -83,11 +83,11 @@ class SyncAnimation : EntitySyncBase {
             // Ensure the entity is non-null and a MC animated entity
             if (entity is IMCAnimatedModel) {
                 // Grab the animation handler
-                val animationHandler = entity.animationHandler
+                val animationHandler = entity.getAnimationHandler()
 
                 // Ensure no higher priority animations are active, and if so activate the animation
                 if (msg.higherPriorityAnims.none { animationHandler.isAnimationActive(it) }) {
-                    animationHandler.activateAnimation(msg.animationName, 0f)
+                    animationHandler.playAnimation(msg.animationName)
                 }
             }
         }

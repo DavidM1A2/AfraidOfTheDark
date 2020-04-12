@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.entity.splinterDrone.animation
 
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.Channel
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.KeyFrame
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.math.Quaternion
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.math.Vector3f
@@ -14,7 +15,7 @@ import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.math.Vector3f
  * @param totalFrames The number of frames in the animation
  * @param mode        The animation mode to use
  */
-class ChannelIdle internal constructor(name: String, fps: Float, totalFrames: Int, mode: Byte) :
+class ChannelIdle internal constructor(name: String, fps: Float, totalFrames: Int, mode: ChannelMode) :
     Channel(name, fps, totalFrames, mode) {
     /**
      * Initializes a map of frame -> position which will be interpolated by the rendering handler

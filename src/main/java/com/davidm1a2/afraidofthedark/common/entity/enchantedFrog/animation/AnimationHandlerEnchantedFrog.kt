@@ -1,39 +1,14 @@
 package com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.animation
 
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.Channel
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
 
 /**
  * Animation handler class for the magic frog entity
- *
- * @param model The entity that this animator belongs to
  */
-class AnimationHandlerEnchantedFrog(model: IMCAnimatedModel) : AnimationHandler(model) {
-    /**
-     * Begins playing a specific animation given a name and starting frame
-     *
-     * @param name          The animation to play
-     * @param startingFrame The frame to begin playing at
-     */
-    override fun activateAnimation(name: String, startingFrame: Float) {
-        super.activateAnimation(ANIMATION_TO_CHANNEL, name, startingFrame)
-    }
-
-    /**
-     * Stops playing a given animation
-     *
-     * @param name The animation to stop playing
-     */
-    override fun stopAnimation(name: String) {
-        super.stopAnimation(ANIMATION_TO_CHANNEL, name)
-    }
-
-    companion object {
-        // Map of animation name to channel
-        private val ANIMATION_TO_CHANNEL = mapOf(
-            "hop" to ChannelHop("hop", 120.0f, 80, Channel.LINEAR),
-            "cast" to ChannelCast("cast", 120.0f, 60, Channel.LINEAR)
-        )
-    }
-}
+class AnimationHandlerEnchantedFrog : AnimationHandler(
+    setOf(
+        ChannelHop("hop", 120.0f, 80, ChannelMode.LINEAR),
+        ChannelCast("cast", 120.0f, 60, ChannelMode.LINEAR)
+    )
+)

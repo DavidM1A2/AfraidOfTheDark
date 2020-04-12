@@ -32,7 +32,7 @@ class EntitySplinterDroneProjectile(world: World) : Entity(world),
     IMCAnimatedModel {
     private var shootingEntity: EntitySplinterDrone? = null
     private var ticksInAir = 0
-    private val animHandler = AnimationHandlerSplinterDroneProjectile(this)
+    private val animHandler = AnimationHandlerSplinterDroneProjectile()
 
     init {
         setSize(0.4f, 0.4f)
@@ -87,7 +87,7 @@ class EntitySplinterDroneProjectile(world: World) : Entity(world),
 
         // Animations only update client side
         if (world.isRemote) {
-            animHandler.animationsUpdate()
+            animHandler.update()
         }
 
         // Update logic server side
@@ -124,7 +124,7 @@ class EntitySplinterDroneProjectile(world: World) : Entity(world),
         // If we're client side and no animation is active play the sping animation
         if (world.isRemote) {
             if (!animHandler.isAnimationActive("Sping")) {
-                animHandler.activateAnimation("Sping", 0f)
+                animHandler.playAnimation("Sping")
             }
         }
     }

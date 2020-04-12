@@ -1,39 +1,14 @@
 package com.davidm1a2.afraidofthedark.common.entity.werewolf.animation
 
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.Channel
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
 
 /**
  * Animation handler class for the werewolf
- *
- * @param model The entity that this animator belongs to
  */
-class AnimationHandlerWerewolf(model: IMCAnimatedModel) : AnimationHandler(model) {
-    /**
-     * Begins playing a specific animation given a name and starting frame
-     *
-     * @param name          The animation to play
-     * @param startingFrame The frame to begin playing at
-     */
-    override fun activateAnimation(name: String, startingFrame: Float) {
-        super.activateAnimation(ANIMATION_TO_CHANNEL, name, startingFrame)
-    }
-
-    /**
-     * Stops playing a given animation
-     *
-     * @param name The animation to stop playing
-     */
-    override fun stopAnimation(name: String) {
-        super.stopAnimation(ANIMATION_TO_CHANNEL, name)
-    }
-
-    companion object {
-        // Map of animation name to channel
-        var ANIMATION_TO_CHANNEL = mapOf(
-            "Bite" to ChannelBite("Bite", 50.0f, 21, Channel.LINEAR),
-            "Run" to ChannelRun("Run", 60.0f, 32, Channel.LINEAR)
-        )
-    }
-}
+class AnimationHandlerWerewolf : AnimationHandler(
+    setOf(
+        ChannelBite("Bite", 50.0f, 21, ChannelMode.LINEAR),
+        ChannelRun("Run", 60.0f, 32, ChannelMode.LINEAR)
+    )
+)

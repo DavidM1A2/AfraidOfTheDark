@@ -41,7 +41,7 @@ class EntityEnchantedFrog(world: World) : EntityCreature(world),
     IMCAnimatedModel {
     // We don't need to write this to NBT data, it's not important to persist
     private var ticksUntilNextCastAttempt = MAX_TICKS_BETWEEN_CASTS
-    private val animHandler = AnimationHandlerEnchantedFrog(this)
+    private val animHandler = AnimationHandlerEnchantedFrog()
     var frogsSpell: Spell
 
     init {
@@ -134,7 +134,7 @@ class EntityEnchantedFrog(world: World) : EntityCreature(world),
         super.onUpdate()
         // Animations only update client side
         if (world.isRemote) {
-            animHandler.animationsUpdate()
+            animHandler.update()
         }
     }
 
@@ -150,7 +150,7 @@ class EntityEnchantedFrog(world: World) : EntityCreature(world),
             // If the entity is moving show the walking animation
             if (motionX > 0.05 || motionZ > 0.05 || motionX < -0.05 || motionZ < -0.05) {
                 if (!animHandler.isAnimationActive("hop") && !animHandler.isAnimationActive("cast")) {
-                    animHandler.activateAnimation("hop", 0f)
+                    animHandler.playAnimation("hop")
                 }
             }
         }

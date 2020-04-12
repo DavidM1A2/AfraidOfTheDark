@@ -127,7 +127,7 @@ public class MCAModelRenderer extends ModelRenderer {
                     GL11.glPushMatrix();
                     GL11.glTranslatef(this.rotationPointX * par1, this.rotationPointY * par1,
                             this.rotationPointZ * par1);
-                    FloatBuffer buf = Utils.makeFloatBuffer(this.rotationMatrix.intoArray());
+                    FloatBuffer buf = Utils.INSTANCE.makeFloatBuffer(this.rotationMatrix.intoArray());
                     GL11.glMultMatrix(buf);
 
                     GL11.glCallList(this.DDSdisplayList);
@@ -218,7 +218,7 @@ public class MCAModelRenderer extends ModelRenderer {
     public void setInitialRotationMatrix(Matrix4f matrix) {
         defaultRotationMatrix = matrix;
         setRotationMatrix(matrix);
-        this.defaultRotationAsQuaternion = Utils.getQuaternionFromMatrix(rotationMatrix);
+        this.defaultRotationAsQuaternion = Utils.INSTANCE.getQuaternionFromMatrix(rotationMatrix);
     }
 
     /**

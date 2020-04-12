@@ -27,7 +27,7 @@ import net.minecraft.world.World
  */
 class EntityGhastlyEnaria(world: World) : EntityFlying(world),
     IMCAnimatedModel {
-    private val animHandler = AnimationHandlerGhastlyEnaria(this)
+    private val animHandler = AnimationHandlerGhastlyEnaria()
     private var benign = true
 
     init {
@@ -71,7 +71,7 @@ class EntityGhastlyEnaria(world: World) : EntityFlying(world),
         super.onUpdate()
         // Animations only update client side
         if (world.isRemote) {
-            animHandler.animationsUpdate()
+            animHandler.update()
         }
     }
 
@@ -98,8 +98,8 @@ class EntityGhastlyEnaria(world: World) : EntityFlying(world),
         // If dance is not active play the animation client side
         if (world.isRemote) {
             if (isBenign()) {
-                if (!this.animationHandler.isAnimationActive("dance")) {
-                    this.animationHandler.activateAnimation("dance", 0f)
+                if (!this.animHandler.isAnimationActive("dance")) {
+                    this.animHandler.playAnimation("dance")
                 }
             }
         }

@@ -31,7 +31,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint
  */
 class EntitySplinterDrone(world: World) : EntityFlying(world), IMob,
     IMCAnimatedModel {
-    private val animHandler = AnimationHandlerSplinterDrone(this)
+    private val animHandler = AnimationHandlerSplinterDrone()
     private var hasPlayedSpawnAnimation = false
 
     init {
@@ -88,7 +88,7 @@ class EntitySplinterDrone(world: World) : EntityFlying(world), IMob,
 
         // Animations only update client side
         if (world.isRemote) {
-            animHandler.animationsUpdate()
+            animHandler.update()
         }
     }
 
@@ -117,7 +117,7 @@ class EntitySplinterDrone(world: World) : EntityFlying(world), IMob,
                     "Idle"
                 )
             ) {
-                animHandler.activateAnimation("Idle", 0f)
+                animHandler.playAnimation("Idle")
             }
         }
     }

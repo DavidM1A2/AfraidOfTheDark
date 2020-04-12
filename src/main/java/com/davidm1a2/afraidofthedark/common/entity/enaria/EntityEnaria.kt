@@ -40,7 +40,7 @@ import kotlin.math.min
  */
 class EntityEnaria(world: World) : EntityMob(world),
     IMCAnimatedModel {
-    private val animHandler = AnimationHandlerEnaria(this)
+    private val animHandler = AnimationHandlerEnaria()
     private val bossInfo = BossInfoServer(
         this.displayName,
         BossInfo.Color.PURPLE,
@@ -93,7 +93,7 @@ class EntityEnaria(world: World) : EntityMob(world),
         super.onUpdate()
         // Animations only update client side
         if (world.isRemote) {
-            animHandler.animationsUpdate()
+            animHandler.update()
         }
     }
 
@@ -113,7 +113,7 @@ class EntityEnaria(world: World) : EntityMob(world),
                     !animHandler.isAnimationActive("walk")
                 ) {
                     // Walk
-                    animHandler.activateAnimation("walk", 0f)
+                    animHandler.playAnimation("walk")
                 }
             }
         }
