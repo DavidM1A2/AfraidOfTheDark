@@ -63,6 +63,7 @@ object ModBlocks {
     val IMBUED_CACTUS = BlockImbuedCactus()
     val IMBUED_CACTUS_BLOSSOM = BlockImbuedCactusBlossom()
     val DESERT_OASIS = BlockDesertOasis()
+    val SPELL_ALTAR = BlockSpellAltar()
 
     // An array containing a list of blocks that AOTD adds
     val BLOCK_LIST = arrayOf(
@@ -114,7 +115,8 @@ object ModBlocks {
         ENARIAS_ALTAR,
         IMBUED_CACTUS,
         IMBUED_CACTUS_BLOSSOM,
-        DESERT_OASIS
+        DESERT_OASIS,
+        SPELL_ALTAR
     )
 
     // A list of tile entities to register
@@ -126,6 +128,7 @@ object ModBlocks {
             "tile_entity_ghastly_enaria_spawner"
         ),
         TileEntityEnariaSpawner::class.java to ResourceLocation(Constants.MOD_ID, "tile_entity_enaria_spawner"),
-        TileEntityDesertOasis::class.java to ResourceLocation(Constants.MOD_ID, "tile_entity_desert_oasis")
+        TileEntityDesertOasis::class.java to ResourceLocation(Constants.MOD_ID, "tile_entity_desert_oasis"),
+        TileEntitySpellAltar::class.java to ResourceLocation(Constants.MOD_ID, "tile_entity_spell_altar")
     )
 }

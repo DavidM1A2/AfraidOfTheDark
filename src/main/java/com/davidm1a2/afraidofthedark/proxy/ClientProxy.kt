@@ -10,6 +10,7 @@ import com.davidm1a2.afraidofthedark.client.entity.splinterDrone.RenderSplinterD
 import com.davidm1a2.afraidofthedark.client.entity.splinterDrone.RenderSplinterDroneProjectile
 import com.davidm1a2.afraidofthedark.client.entity.werewolf.RenderWerewolf
 import com.davidm1a2.afraidofthedark.client.keybindings.ModKeybindings.KEY_BINDING_LIST
+import com.davidm1a2.afraidofthedark.client.tileEntity.spellAltar.TileEntitySpellAltarRenderer
 import com.davidm1a2.afraidofthedark.client.tileEntity.voidChest.TileEntityVoidChestRenderer
 import com.davidm1a2.afraidofthedark.common.entity.bolt.*
 import com.davidm1a2.afraidofthedark.common.entity.enaria.EntityEnaria
@@ -21,6 +22,7 @@ import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.EntitySplinterD
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.EntitySplinterDroneProjectile
 import com.davidm1a2.afraidofthedark.common.entity.werewolf.EntityWerewolf
 import com.davidm1a2.afraidofthedark.common.event.ResearchOverlayHandler
+import com.davidm1a2.afraidofthedark.common.tileEntity.TileEntitySpellAltar
 import com.davidm1a2.afraidofthedark.common.tileEntity.TileEntityVoidChest
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.client.Minecraft
@@ -74,8 +76,9 @@ class ClientProxy : CommonProxy() {
      * Called to initialize tile entity renderers
      */
     override fun initializeTileEntityRenderers() {
-        // Tell MC to render our void chest tile entity with the special renderer
+        // Tell MC to render our special tile entities with the special renderer
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVoidChest::class.java, TileEntityVoidChestRenderer)
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySpellAltar::class.java, TileEntitySpellAltarRenderer)
     }
 
     /**

@@ -18,6 +18,6 @@ abstract class AOTDTickingTileEntity(block: Block) : AOTDTileEntity(block), ITic
      * Called every tick to update the tile entity's state
      */
     override fun update() {
-        ticksExisted = ticksExisted + 1
+        ticksExisted++
     }
 }
