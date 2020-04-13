@@ -2,10 +2,12 @@ package com.davidm1a2.afraidofthedark.client.entity.splinterDrone
 
 import com.davidm1a2.afraidofthedark.client.entity.mcAnimatorLib.MCAModelRenderer
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.math.Matrix4f
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.math.Quaternion
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.setAndReturn
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.transposeAndReturn
 import net.minecraft.client.model.ModelBase
 import net.minecraft.entity.Entity
+import javax.vecmath.Matrix4f
+import javax.vecmath.Quat4f
 
 /**
  * Model class that defines the splinter drone projectile model
@@ -28,7 +30,7 @@ class ModelSplinterDroneProjectile internal constructor() : ModelBase() {
         body.mirror = false
         body.addBox(-3.0f, -3.0f, -3.0f, 6, 6, 6)
         body.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
-        body.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        body.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
         body.setTextureSize(32, 32)
         parts[body.boxName] = body
 
@@ -36,7 +38,7 @@ class ModelSplinterDroneProjectile internal constructor() : ModelBase() {
         part1.mirror = false
         part1.addBox(-2.0f, -2.0f, 0.0f, 4, 4, 4)
         part1.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
-        part1.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        part1.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
         part1.setTextureSize(32, 32)
         parts[part1.boxName] = part1
         body.addChild(part1)
@@ -45,7 +47,7 @@ class ModelSplinterDroneProjectile internal constructor() : ModelBase() {
         part2.mirror = false
         part2.addBox(0.0f, -2.0f, -2.0f, 4, 4, 4)
         part2.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
-        part2.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        part2.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
         part2.setTextureSize(32, 32)
         parts[part2.boxName] = part2
         body.addChild(part2)
@@ -54,7 +56,7 @@ class ModelSplinterDroneProjectile internal constructor() : ModelBase() {
         part3.mirror = false
         part3.addBox(-2.0f, -2.0f, -4.0f, 4, 4, 4)
         part3.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
-        part3.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        part3.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
         part3.setTextureSize(32, 32)
         parts[part3.boxName] = part3
         body.addChild(part3)
@@ -63,7 +65,7 @@ class ModelSplinterDroneProjectile internal constructor() : ModelBase() {
         part4.mirror = false
         part4.addBox(-4.0f, -2.0f, -2.0f, 4, 4, 4)
         part4.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
-        part4.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        part4.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
         part4.setTextureSize(32, 32)
         parts[part4.boxName] = part4
         body.addChild(part4)
@@ -72,7 +74,7 @@ class ModelSplinterDroneProjectile internal constructor() : ModelBase() {
         part5.mirror = false
         part5.addBox(-2.0f, 0.0f, -2.0f, 4, 4, 4)
         part5.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
-        part5.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        part5.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
         part5.setTextureSize(32, 32)
         parts[part5.boxName] = part5
         body.addChild(part5)
@@ -81,7 +83,7 @@ class ModelSplinterDroneProjectile internal constructor() : ModelBase() {
         part6.mirror = false
         part6.addBox(-2.0f, -4.0f, -2.0f, 4, 4, 4)
         part6.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
-        part6.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        part6.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
         part6.setTextureSize(32, 32)
         parts[part6.boxName] = part6
         body.addChild(part6)

@@ -1,16 +1,16 @@
 package com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation
 
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.math.Quaternion
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.math.Vector3f
+import javax.vecmath.Quat4f
+import javax.vecmath.Vector3f
 
 /**
  * Class was provided by the MC animator library
  *
- * @property modelRenderersRotations A map of part name to quaternion rotation
+ * @property modelRenderersRotations A map of part name to Quat4f rotation
  * @property modelRenderersTranslations A map of part name to position
  */
 class KeyFrame {
-    internal var modelRenderersRotations: MutableMap<String, Quaternion> = mutableMapOf()
+    internal var modelRenderersRotations: MutableMap<String, Quat4f> = mutableMapOf()
     internal var modelRenderersTranslations: MutableMap<String, Vector3f> = mutableMapOf()
 
     /**

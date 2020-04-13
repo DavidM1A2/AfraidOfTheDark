@@ -3,8 +3,8 @@ package com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.animation
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.Channel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.KeyFrame
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.math.Quaternion
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.math.Vector3f
+import javax.vecmath.Quat4f
+import javax.vecmath.Vector3f
 
 
 /**
@@ -25,20 +25,20 @@ class ChannelHop internal constructor(name: String, fps: Float, totalFrames: Int
      */
     override fun initializeAllFrames() {
         val frame0 = KeyFrame()
-        frame0.modelRenderersRotations["frogBody"] = Quaternion(0.0f, 0.0f, 0.0f, 1.0f)
-        frame0.modelRenderersRotations["frogLLeg"] = Quaternion(
+        frame0.modelRenderersRotations["frogBody"] = Quat4f(0.0f, 0.0f, 0.0f, 1.0f)
+        frame0.modelRenderersRotations["frogLLeg"] = Quat4f(
             0.27059805f,
             0.27059805f,
             0.65328145f,
             0.65328145f
         )
-        frame0.modelRenderersRotations["frogMouth"] = Quaternion(
+        frame0.modelRenderersRotations["frogMouth"] = Quat4f(
             -0.08715574f,
             0.0f,
             0.0f,
             0.9961947f
         )
-        frame0.modelRenderersRotations["frogRLeg"] = Quaternion(
+        frame0.modelRenderersRotations["frogRLeg"] = Quat4f(
             0.0f,
             -0.38268346f,
             0.0f,
@@ -51,14 +51,14 @@ class ChannelHop internal constructor(name: String, fps: Float, totalFrames: Int
         keyFrames[0] = frame0
 
         val frame20 = KeyFrame()
-        frame20.modelRenderersRotations["frogBody"] = Quaternion(0.0f, 0.0f, 0.0f, 1.0f)
-        frame20.modelRenderersRotations["frogLLeg"] = Quaternion(
+        frame20.modelRenderersRotations["frogBody"] = Quat4f(0.0f, 0.0f, 0.0f, 1.0f)
+        frame20.modelRenderersRotations["frogLLeg"] = Quat4f(
             0.29883623f,
             0.29883623f,
             0.6408563f,
             0.6408563f
         )
-        frame20.modelRenderersRotations["frogRLeg"] = Quaternion(
+        frame20.modelRenderersRotations["frogRLeg"] = Quat4f(
             0.0f,
             -0.42261827f,
             0.0f,
@@ -70,25 +70,25 @@ class ChannelHop internal constructor(name: String, fps: Float, totalFrames: Int
         keyFrames[20] = frame20
 
         val frame40 = KeyFrame()
-        frame40.modelRenderersRotations["frogBody"] = Quaternion(
+        frame40.modelRenderersRotations["frogBody"] = Quat4f(
             0.06975647f,
             0.0f,
             0.0f,
             0.9975641f
         )
-        frame40.modelRenderersRotations["frogLLeg"] = Quaternion(
+        frame40.modelRenderersRotations["frogLLeg"] = Quat4f(
             0.4055798f,
             0.4055798f,
             0.579228f,
             0.579228f
         )
-        frame40.modelRenderersRotations["frogMouth"] = Quaternion(
+        frame40.modelRenderersRotations["frogMouth"] = Quat4f(
             0.043619387f,
             0.0f,
             0.0f,
             0.99904823f
         )
-        frame40.modelRenderersRotations["frogRLeg"] = Quaternion(
+        frame40.modelRenderersRotations["frogRLeg"] = Quat4f(
             0.0f,
             -0.57357645f,
             0.0f,
@@ -101,14 +101,14 @@ class ChannelHop internal constructor(name: String, fps: Float, totalFrames: Int
         keyFrames[40] = frame40
 
         val frame60 = KeyFrame()
-        frame60.modelRenderersRotations["frogBody"] = Quaternion(0.0f, 0.0f, 0.0f, 1.0f)
-        frame60.modelRenderersRotations["frogLLeg"] = Quaternion(
+        frame60.modelRenderersRotations["frogBody"] = Quat4f(0.0f, 0.0f, 0.0f, 1.0f)
+        frame60.modelRenderersRotations["frogLLeg"] = Quat4f(
             0.1830127f,
             0.1830127f,
             0.68301266f,
             0.68301266f
         )
-        frame60.modelRenderersRotations["frogRLeg"] = Quaternion(
+        frame60.modelRenderersRotations["frogRLeg"] = Quat4f(
             0.0f,
             -0.25881904f,
             0.0f,
@@ -120,20 +120,20 @@ class ChannelHop internal constructor(name: String, fps: Float, totalFrames: Int
         keyFrames[60] = frame60
 
         val frame79 = KeyFrame()
-        frame79.modelRenderersRotations["frogBody"] = Quaternion(0.0f, 0.0f, 0.0f, 1.0f)
-        frame79.modelRenderersRotations["frogLLeg"] = Quaternion(
+        frame79.modelRenderersRotations["frogBody"] = Quat4f(0.0f, 0.0f, 0.0f, 1.0f)
+        frame79.modelRenderersRotations["frogLLeg"] = Quat4f(
             0.27059805f,
             0.27059805f,
             0.65328145f,
             0.65328145f
         )
-        frame79.modelRenderersRotations["frogMouth"] = Quaternion(
+        frame79.modelRenderersRotations["frogMouth"] = Quat4f(
             -0.08715574f,
             0.0f,
             0.0f,
             0.9961947f
         )
-        frame79.modelRenderersRotations["frogRLeg"] = Quaternion(
+        frame79.modelRenderersRotations["frogRLeg"] = Quat4f(
             0.0f,
             -0.38268346f,
             0.0f,

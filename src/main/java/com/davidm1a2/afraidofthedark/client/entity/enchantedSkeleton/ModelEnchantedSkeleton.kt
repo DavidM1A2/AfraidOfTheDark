@@ -7,10 +7,12 @@ package com.davidm1a2.afraidofthedark.client.entity.enchantedSkeleton
 
 import com.davidm1a2.afraidofthedark.client.entity.mcAnimatorLib.MCAModelRenderer
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.math.Matrix4f
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.math.Quaternion
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.setAndReturn
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.transposeAndReturn
 import net.minecraft.client.model.ModelBase
 import net.minecraft.entity.Entity
+import javax.vecmath.Matrix4f
+import javax.vecmath.Quat4f
 
 /**
  * Model class that defines the enchanted skeleton model
@@ -33,7 +35,7 @@ class ModelEnchantedSkeleton internal constructor() : ModelBase() {
         body.mirror = false
         body.addBox(-4.0f, -12.0f, -2.0f, 8, 12, 4)
         body.setInitialRotationPoint(0.0f, 2.0f, 2.0f)
-        body.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        body.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
         body.setTextureSize(64, 32)
         parts[body.boxName] = body
 
@@ -41,7 +43,7 @@ class ModelEnchantedSkeleton internal constructor() : ModelBase() {
         head.mirror = false
         head.addBox(-4.0f, 0.0f, -4.0f, 8, 8, 8)
         head.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
-        head.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        head.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
         head.setTextureSize(64, 32)
         parts[head.boxName] = head
         body.addChild(head)
@@ -50,7 +52,7 @@ class ModelEnchantedSkeleton internal constructor() : ModelBase() {
         rightarm.mirror = false
         rightarm.addBox(-2.0f, -10.0f, -1.0f, 2, 12, 2)
         rightarm.setInitialRotationPoint(-4.0f, -2.0f, 0.0f)
-        rightarm.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        rightarm.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
         rightarm.setTextureSize(64, 32)
         parts[rightarm.boxName] = rightarm
         body.addChild(rightarm)
@@ -59,7 +61,7 @@ class ModelEnchantedSkeleton internal constructor() : ModelBase() {
         leftarm.mirror = false
         leftarm.addBox(0.0f, -10.0f, -1.0f, 2, 12, 2)
         leftarm.setInitialRotationPoint(4.0f, -2.0f, 0.0f)
-        leftarm.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        leftarm.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
         leftarm.setTextureSize(64, 32)
         parts[leftarm.boxName] = leftarm
         body.addChild(leftarm)
@@ -68,7 +70,7 @@ class ModelEnchantedSkeleton internal constructor() : ModelBase() {
         rightleg.mirror = false
         rightleg.addBox(-1.0f, -12.0f, -1.0f, 2, 12, 2)
         rightleg.setInitialRotationPoint(-2.0f, -12.0f, 0.0f)
-        rightleg.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        rightleg.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
         rightleg.setTextureSize(64, 32)
         parts[rightleg.boxName] = rightleg
         body.addChild(rightleg)
@@ -77,7 +79,7 @@ class ModelEnchantedSkeleton internal constructor() : ModelBase() {
         leftleg.mirror = false
         leftleg.addBox(-1.0f, -12.0f, -1.0f, 2, 12, 2)
         leftleg.setInitialRotationPoint(2.0f, -12.0f, 0.0f)
-        leftleg.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        leftleg.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
         leftleg.setTextureSize(64, 32)
         parts[leftleg.boxName] = leftleg
         body.addChild(leftleg)
@@ -86,7 +88,7 @@ class ModelEnchantedSkeleton internal constructor() : ModelBase() {
         heart.mirror = false
         heart.addBox(-1.5f, -2.0f, -1.0f, 3, 3, 2)
         heart.setInitialRotationPoint(0.0f, -3.0f, 0.0f)
-        heart.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        heart.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
         heart.setTextureSize(64, 32)
         parts[heart.boxName] = heart
         body.addChild(heart)

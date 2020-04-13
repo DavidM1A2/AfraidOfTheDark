@@ -2,10 +2,12 @@ package com.davidm1a2.afraidofthedark.client.entity.enchantedFrog
 
 import com.davidm1a2.afraidofthedark.client.entity.mcAnimatorLib.MCAModelRenderer
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.math.Matrix4f
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.math.Quaternion
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.setAndReturn
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.transposeAndReturn
 import net.minecraft.client.model.ModelBase
 import net.minecraft.entity.Entity
+import javax.vecmath.Matrix4f
+import javax.vecmath.Quat4f
 
 
 /**
@@ -30,9 +32,9 @@ class ModelEnchantedFrog internal constructor() : ModelBase() {
         frogBody.addBox(-4.0f, 0.0f, -3.0f, 8, 5, 6)
         frogBody.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
         frogBody.setInitialRotationMatrix(
-            Matrix4f().set(
-                Quaternion(0.0f, 0.0f, 0.0f, 1.0f)
-            ).transpose()
+            Matrix4f().setAndReturn(
+                Quat4f(0.0f, 0.0f, 0.0f, 1.0f)
+            ).transposeAndReturn()
         )
         frogBody.setTextureSize(32, 32)
         parts[frogBody.boxName] = frogBody
@@ -42,14 +44,14 @@ class ModelEnchantedFrog internal constructor() : ModelBase() {
         frogLLeg.addBox(0.0f, 0.0f, 0.0f, 2, 2, 5)
         frogLLeg.setInitialRotationPoint(4.0f, 0.0f, -3.0f)
         frogLLeg.setInitialRotationMatrix(
-            Matrix4f().set(
-                Quaternion(
+            Matrix4f().setAndReturn(
+                Quat4f(
                     0.27059805f,
                     0.27059805f,
                     0.65328145f,
                     0.65328145f
                 )
-            ).transpose()
+            ).transposeAndReturn()
         )
         frogLLeg.setTextureSize(32, 32)
         parts[frogLLeg.boxName] = frogLLeg
@@ -60,14 +62,14 @@ class ModelEnchantedFrog internal constructor() : ModelBase() {
         frogRLeg.addBox(0.0f, 0.0f, 0.0f, 2, 2, 5)
         frogRLeg.setInitialRotationPoint(-4.0f, 0.0f, -3.0f)
         frogRLeg.setInitialRotationMatrix(
-            Matrix4f().set(
-                Quaternion(
+            Matrix4f().setAndReturn(
+                Quat4f(
                     0.0f,
                     -0.38268346f,
                     0.0f,
                     0.9238795f
                 )
-            ).transpose()
+            ).transposeAndReturn()
         )
         frogRLeg.setTextureSize(32, 32)
         parts[frogRLeg.boxName] = frogRLeg
@@ -78,14 +80,14 @@ class ModelEnchantedFrog internal constructor() : ModelBase() {
         frogMouth.addBox(0.0f, 0.0f, 0.0f, 8, 2, 5)
         frogMouth.setInitialRotationPoint(-4.0f, 0.0f, 3.0f)
         frogMouth.setInitialRotationMatrix(
-            Matrix4f().set(
-                Quaternion(
+            Matrix4f().setAndReturn(
+                Quat4f(
                     -0.08715574f,
                     0.0f,
                     0.0f,
                     0.9961947f
                 )
-            ).transpose()
+            ).transposeAndReturn()
         )
         frogMouth.setTextureSize(32, 32)
         parts[frogMouth.boxName] = frogMouth
@@ -96,14 +98,14 @@ class ModelEnchantedFrog internal constructor() : ModelBase() {
         frogHead.addBox(0.0f, 0.0f, 0.0f, 8, 5, 3)
         frogHead.setInitialRotationPoint(-4.0f, 5.0f, 2.0f)
         frogHead.setInitialRotationMatrix(
-            Matrix4f().set(
-                Quaternion(
+            Matrix4f().setAndReturn(
+                Quat4f(
                     0.6427876f,
                     0.0f,
                     0.0f,
                     0.76604444f
                 )
-            ).transpose()
+            ).transposeAndReturn()
         )
         frogHead.setTextureSize(32, 32)
         parts[frogHead.boxName] = frogHead

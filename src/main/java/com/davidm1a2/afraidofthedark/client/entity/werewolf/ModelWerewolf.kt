@@ -2,10 +2,12 @@ package com.davidm1a2.afraidofthedark.client.entity.werewolf
 
 import com.davidm1a2.afraidofthedark.client.entity.mcAnimatorLib.MCAModelRenderer
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.math.Matrix4f
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.math.Quaternion
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.setAndReturn
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.transposeAndReturn
 import net.minecraft.client.model.ModelBase
 import net.minecraft.entity.Entity
+import javax.vecmath.Matrix4f
+import javax.vecmath.Quat4f
 
 /**
  * Class representing the model of a werewolf
@@ -28,7 +30,7 @@ class ModelWerewolf internal constructor() : ModelBase() {
         bodyUpper.mirror = false
         bodyUpper.addBox(-5.0f, -5.0f, 0.0f, 10, 10, 11)
         bodyUpper.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
-        bodyUpper.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        bodyUpper.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
         bodyUpper.setTextureSize(128, 128)
         parts[bodyUpper.boxName] = bodyUpper
 
@@ -36,7 +38,7 @@ class ModelWerewolf internal constructor() : ModelBase() {
         bodyLower.mirror = false
         bodyLower.addBox(-4.0f, -4.0f, -14.0f, 8, 8, 14)
         bodyLower.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
-        bodyLower.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        bodyLower.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
         bodyLower.setTextureSize(128, 128)
         parts[bodyLower.boxName] = bodyLower
         bodyUpper.addChild(bodyLower)
@@ -45,7 +47,9 @@ class ModelWerewolf internal constructor() : ModelBase() {
         head.mirror = false
         head.addBox(-3.0f, -4.0f, 0.0f, 6, 7, 8)
         head.setInitialRotationPoint(0.0f, 3.0f, 10.0f)
-        head.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0784591f, 0.0f, 0.0f, 0.9969173f)).transpose())
+        head.setInitialRotationMatrix(
+            Matrix4f().setAndReturn(Quat4f(0.0784591f, 0.0f, 0.0f, 0.9969173f)).transposeAndReturn()
+        )
         head.setTextureSize(128, 128)
         parts[head.boxName] = head
         bodyUpper.addChild(head)
@@ -55,14 +59,14 @@ class ModelWerewolf internal constructor() : ModelBase() {
         rightFrontLeg.addBox(-1.5f, -7.0f, -1.5f, 3, 7, 3)
         rightFrontLeg.setInitialRotationPoint(-4.5f, -4.0f, 9.0f)
         rightFrontLeg.setInitialRotationMatrix(
-            Matrix4f().set(
-                Quaternion(
+            Matrix4f().setAndReturn(
+                Quat4f(
                     0.17364818f,
                     0.0f,
                     0.0f,
                     0.9848077f
                 )
-            ).transpose()
+            ).transposeAndReturn()
         )
         rightFrontLeg.setTextureSize(128, 128)
         parts[rightFrontLeg.boxName] = rightFrontLeg
@@ -73,14 +77,14 @@ class ModelWerewolf internal constructor() : ModelBase() {
         leftFrontLeg.addBox(-1.5f, -7.0f, -1.5f, 3, 7, 3)
         leftFrontLeg.setInitialRotationPoint(4.5f, -4.0f, 9.0f)
         leftFrontLeg.setInitialRotationMatrix(
-            Matrix4f().set(
-                Quaternion(
+            Matrix4f().setAndReturn(
+                Quat4f(
                     0.17364818f,
                     0.0f,
                     0.0f,
                     0.9848077f
                 )
-            ).transpose()
+            ).transposeAndReturn()
         )
         leftFrontLeg.setTextureSize(128, 128)
         parts[leftFrontLeg.boxName] = leftFrontLeg
@@ -90,7 +94,9 @@ class ModelWerewolf internal constructor() : ModelBase() {
         tail.mirror = false
         tail.addBox(-1.0f, -1.0f, -14.0f, 3, 3, 15)
         tail.setInitialRotationPoint(0.0f, 2.0f, -14.0f)
-        tail.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.08715574f, 0.0f, 0.0f, 0.9961947f)).transpose())
+        tail.setInitialRotationMatrix(
+            Matrix4f().setAndReturn(Quat4f(0.08715574f, 0.0f, 0.0f, 0.9961947f)).transposeAndReturn()
+        )
         tail.setTextureSize(128, 128)
         parts[tail.boxName] = tail
         bodyLower.addChild(tail)
@@ -100,14 +106,14 @@ class ModelWerewolf internal constructor() : ModelBase() {
         leftBackLeg.addBox(-2.0f, -5.0f, -2.0f, 4, 6, 4)
         leftBackLeg.setInitialRotationPoint(3.0f, -3.5f, -11.0f)
         leftBackLeg.setInitialRotationMatrix(
-            Matrix4f().set(
-                Quaternion(
+            Matrix4f().setAndReturn(
+                Quat4f(
                     -0.25881904f,
                     0.0f,
                     0.0f,
                     0.9659258f
                 )
-            ).transpose()
+            ).transposeAndReturn()
         )
         leftBackLeg.setTextureSize(128, 128)
         parts[leftBackLeg.boxName] = leftBackLeg
@@ -118,14 +124,14 @@ class ModelWerewolf internal constructor() : ModelBase() {
         rightBackLeg.addBox(-2.0f, -5.0f, -2.0f, 4, 6, 4)
         rightBackLeg.setInitialRotationPoint(-3.0f, -3.5f, -11.0f)
         rightBackLeg.setInitialRotationMatrix(
-            Matrix4f().set(
-                Quaternion(
+            Matrix4f().setAndReturn(
+                Quat4f(
                     -0.25881904f,
                     0.0f,
                     0.0f,
                     0.9659258f
                 )
-            ).transpose()
+            ).transposeAndReturn()
         )
         rightBackLeg.setTextureSize(128, 128)
         parts[rightBackLeg.boxName] = rightBackLeg
@@ -135,7 +141,9 @@ class ModelWerewolf internal constructor() : ModelBase() {
         snoutUpper.mirror = false
         snoutUpper.addBox(-2.0f, 0.0f, -1.0f, 4, 2, 6)
         snoutUpper.setInitialRotationPoint(0.0f, -1.0f, 8.0f)
-        snoutUpper.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        snoutUpper.setInitialRotationMatrix(
+            Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn()
+        )
         snoutUpper.setTextureSize(128, 128)
         parts[snoutUpper.boxName] = snoutUpper
         head.addChild(snoutUpper)
@@ -144,7 +152,9 @@ class ModelWerewolf internal constructor() : ModelBase() {
         snoutLower.mirror = false
         snoutLower.addBox(-2.0f, -2.0f, -1.0f, 4, 2, 5)
         snoutLower.setInitialRotationPoint(0.0f, -1.0f, 8.0f)
-        snoutLower.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.17364818f, 0.0f, 0.0f, 0.9848077f)).transpose())
+        snoutLower.setInitialRotationMatrix(
+            Matrix4f().setAndReturn(Quat4f(0.17364818f, 0.0f, 0.0f, 0.9848077f)).transposeAndReturn()
+        )
         snoutLower.setTextureSize(128, 128)
         parts[snoutLower.boxName] = snoutLower
         head.addChild(snoutLower)
@@ -153,7 +163,7 @@ class ModelWerewolf internal constructor() : ModelBase() {
         rightEar.mirror = false
         rightEar.addBox(-1.0f, 0.0f, 0.0f, 2, 2, 1)
         rightEar.setInitialRotationPoint(-2.0f, 3.0f, 1.0f)
-        rightEar.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        rightEar.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
         rightEar.setTextureSize(128, 128)
         parts[rightEar.boxName] = rightEar
         head.addChild(rightEar)
@@ -162,7 +172,7 @@ class ModelWerewolf internal constructor() : ModelBase() {
         leftEar.mirror = false
         leftEar.addBox(-1.0f, 0.0f, 0.0f, 2, 2, 1)
         leftEar.setInitialRotationPoint(2.0f, 3.0f, 1.0f)
-        leftEar.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        leftEar.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
         leftEar.setTextureSize(128, 128)
         parts[leftEar.boxName] = leftEar
         head.addChild(leftEar)
@@ -172,14 +182,14 @@ class ModelWerewolf internal constructor() : ModelBase() {
         rightFrontFoot.addBox(-1.5f, -6.0f, -1.0f, 3, 7, 3)
         rightFrontFoot.setInitialRotationPoint(0.0f, -7.0f, 0.0f)
         rightFrontFoot.setInitialRotationMatrix(
-            Matrix4f().set(
-                Quaternion(
+            Matrix4f().setAndReturn(
+                Quat4f(
                     -0.25881904f,
                     0.0f,
                     0.0f,
                     0.9659258f
                 )
-            ).transpose()
+            ).transposeAndReturn()
         )
         rightFrontFoot.setTextureSize(128, 128)
         parts[rightFrontFoot.boxName] = rightFrontFoot
@@ -190,14 +200,14 @@ class ModelWerewolf internal constructor() : ModelBase() {
         lefttFrontFoot.addBox(-1.5f, -6.0f, -1.0f, 3, 7, 3)
         lefttFrontFoot.setInitialRotationPoint(0.0f, -7.0f, 0.0f)
         lefttFrontFoot.setInitialRotationMatrix(
-            Matrix4f().set(
-                Quaternion(
+            Matrix4f().setAndReturn(
+                Quat4f(
                     -0.25881904f,
                     0.0f,
                     0.0f,
                     0.9659258f
                 )
-            ).transpose()
+            ).transposeAndReturn()
         )
         lefttFrontFoot.setTextureSize(128, 128)
         parts[lefttFrontFoot.boxName] = lefttFrontFoot
@@ -208,14 +218,14 @@ class ModelWerewolf internal constructor() : ModelBase() {
         leftBackLowerLeg.addBox(-2.0f, -4.5f, -1.5f, 3, 6, 3)
         leftBackLowerLeg.setInitialRotationPoint(0.5f, -5.0f, 0.0f)
         leftBackLowerLeg.setInitialRotationMatrix(
-            Matrix4f().set(
-                Quaternion(
+            Matrix4f().setAndReturn(
+                Quat4f(
                     0.47715878f,
                     0.0f,
                     0.0f,
                     0.8788171f
                 )
-            ).transpose()
+            ).transposeAndReturn()
         )
         leftBackLowerLeg.setTextureSize(128, 128)
         parts[leftBackLowerLeg.boxName] = leftBackLowerLeg
@@ -226,14 +236,14 @@ class ModelWerewolf internal constructor() : ModelBase() {
         rightBackLowerLeg.addBox(-2.0f, -4.5f, -1.5f, 3, 6, 3)
         rightBackLowerLeg.setInitialRotationPoint(0.5f, -5.0f, 0.0f)
         rightBackLowerLeg.setInitialRotationMatrix(
-            Matrix4f().set(
-                Quaternion(
+            Matrix4f().setAndReturn(
+                Quat4f(
                     0.47715878f,
                     0.0f,
                     0.0f,
                     0.8788171f
                 )
-            ).transpose()
+            ).transposeAndReturn()
         )
         rightBackLowerLeg.setTextureSize(128, 128)
         parts[rightBackLowerLeg.boxName] = rightBackLowerLeg
@@ -244,14 +254,14 @@ class ModelWerewolf internal constructor() : ModelBase() {
         leftBackFoot.addBox(-1.0f, -5.0f, -1.5f, 3, 5, 3)
         leftBackFoot.setInitialRotationPoint(-1.0f, -4.0f, 0.0f)
         leftBackFoot.setInitialRotationMatrix(
-            Matrix4f().set(
-                Quaternion(
+            Matrix4f().setAndReturn(
+                Quat4f(
                     -0.2079117f,
                     0.0f,
                     0.0f,
                     0.9781476f
                 )
-            ).transpose()
+            ).transposeAndReturn()
         )
         leftBackFoot.setTextureSize(128, 128)
         parts[leftBackFoot.boxName] = leftBackFoot
@@ -262,14 +272,14 @@ class ModelWerewolf internal constructor() : ModelBase() {
         rightBackFoot.addBox(-1.0f, -5.0f, -1.5f, 3, 5, 3)
         rightBackFoot.setInitialRotationPoint(-1.0f, -4.0f, 0.0f)
         rightBackFoot.setInitialRotationMatrix(
-            Matrix4f().set(
-                Quaternion(
+            Matrix4f().setAndReturn(
+                Quat4f(
                     -0.2079117f,
                     0.0f,
                     0.0f,
                     0.9781476f
                 )
-            ).transpose()
+            ).transposeAndReturn()
         )
         rightBackFoot.setTextureSize(128, 128)
         parts[rightBackFoot.boxName] = rightBackFoot

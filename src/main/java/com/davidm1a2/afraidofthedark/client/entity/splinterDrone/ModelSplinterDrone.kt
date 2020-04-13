@@ -2,10 +2,12 @@ package com.davidm1a2.afraidofthedark.client.entity.splinterDrone
 
 import com.davidm1a2.afraidofthedark.client.entity.mcAnimatorLib.MCAModelRenderer
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.math.Matrix4f
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.math.Quaternion
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.setAndReturn
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.transposeAndReturn
 import net.minecraft.client.model.ModelBase
 import net.minecraft.entity.Entity
+import javax.vecmath.Matrix4f
+import javax.vecmath.Quat4f
 
 /**
  * Model class that defines the splinter drone model
@@ -28,7 +30,7 @@ class ModelSplinterDrone internal constructor() : ModelBase() {
         body.mirror = false
         body.addBox(-4.0f, -12.0f, -4.0f, 8, 24, 8)
         body.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
-        body.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        body.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
         body.setTextureSize(128, 128)
         parts[body.boxName] = body
 
@@ -36,7 +38,9 @@ class ModelSplinterDrone internal constructor() : ModelBase() {
         bodyPlate1.mirror = false
         bodyPlate1.addBox(-3.0f, -11.0f, -1.0f, 6, 22, 2)
         bodyPlate1.setInitialRotationPoint(0.0f, 0.0f, 4.0f)
-        bodyPlate1.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        bodyPlate1.setInitialRotationMatrix(
+            Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn()
+        )
         bodyPlate1.setTextureSize(128, 128)
         parts[bodyPlate1.boxName] = bodyPlate1
         body.addChild(bodyPlate1)
@@ -46,14 +50,14 @@ class ModelSplinterDrone internal constructor() : ModelBase() {
         bodyPlate3.addBox(-3.0f, -11.0f, -1.0f, 6, 22, 2)
         bodyPlate3.setInitialRotationPoint(-4.0f, 0.0f, 0.0f)
         bodyPlate3.setInitialRotationMatrix(
-            Matrix4f().set(
-                Quaternion(
+            Matrix4f().setAndReturn(
+                Quat4f(
                     0.0f,
                     0.70710677f,
                     0.0f,
                     0.70710677f
                 )
-            ).transpose()
+            ).transposeAndReturn()
         )
         bodyPlate3.setTextureSize(128, 128)
         parts[bodyPlate3.boxName] = bodyPlate3
@@ -63,7 +67,9 @@ class ModelSplinterDrone internal constructor() : ModelBase() {
         bodyPlate4.mirror = false
         bodyPlate4.addBox(-3.0f, -11.0f, -1.0f, 6, 22, 2)
         bodyPlate4.setInitialRotationPoint(0.0f, 0.0f, -4.0f)
-        bodyPlate4.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        bodyPlate4.setInitialRotationMatrix(
+            Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn()
+        )
         bodyPlate4.setTextureSize(128, 128)
         parts[bodyPlate4.boxName] = bodyPlate4
         body.addChild(bodyPlate4)
@@ -73,14 +79,14 @@ class ModelSplinterDrone internal constructor() : ModelBase() {
         bodyPlate2.addBox(-3.0f, -11.0f, -1.0f, 6, 22, 2)
         bodyPlate2.setInitialRotationPoint(4.0f, 0.0f, 0.0f)
         bodyPlate2.setInitialRotationMatrix(
-            Matrix4f().set(
-                Quaternion(
+            Matrix4f().setAndReturn(
+                Quat4f(
                     0.0f,
                     -0.70710677f,
                     0.0f,
                     0.70710677f
                 )
-            ).transpose()
+            ).transposeAndReturn()
         )
         bodyPlate2.setTextureSize(128, 128)
         parts[bodyPlate2.boxName] = bodyPlate2
@@ -90,7 +96,9 @@ class ModelSplinterDrone internal constructor() : ModelBase() {
         bottomPlate.mirror = false
         bottomPlate.addBox(-3.0f, -1.0f, -3.0f, 6, 2, 6)
         bottomPlate.setInitialRotationPoint(0.0f, -12.0f, 0.0f)
-        bottomPlate.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        bottomPlate.setInitialRotationMatrix(
+            Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn()
+        )
         bottomPlate.setTextureSize(128, 128)
         parts[bottomPlate.boxName] = bottomPlate
         body.addChild(bottomPlate)
@@ -99,7 +107,7 @@ class ModelSplinterDrone internal constructor() : ModelBase() {
         topPlate.mirror = false
         topPlate.addBox(-3.0f, -1.0f, -3.0f, 6, 2, 6)
         topPlate.setInitialRotationPoint(0.0f, 12.0f, 0.0f)
-        topPlate.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        topPlate.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
         topPlate.setTextureSize(128, 128)
         parts[topPlate.boxName] = topPlate
         body.addChild(topPlate)
@@ -108,7 +116,7 @@ class ModelSplinterDrone internal constructor() : ModelBase() {
         sphere1.mirror = false
         sphere1.addBox(-2.0f, 21.0f, -2.0f, 4, 4, 4)
         sphere1.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
-        sphere1.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        sphere1.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
         sphere1.setTextureSize(128, 128)
         parts[sphere1.boxName] = sphere1
         body.addChild(sphere1)
@@ -117,7 +125,7 @@ class ModelSplinterDrone internal constructor() : ModelBase() {
         sphere2.mirror = false
         sphere2.addBox(-2.0f, -25.0f, -2.0f, 4, 4, 4)
         sphere2.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
-        sphere2.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        sphere2.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
         sphere2.setTextureSize(128, 128)
         parts[sphere2.boxName] = sphere2
         body.addChild(sphere2)
@@ -126,7 +134,7 @@ class ModelSplinterDrone internal constructor() : ModelBase() {
         pillar1.mirror = false
         pillar1.addBox(-0.5f, -10.0f, 8.0f, 1, 20, 1)
         pillar1.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
-        pillar1.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        pillar1.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
         pillar1.setTextureSize(128, 128)
         parts[pillar1.boxName] = pillar1
         body.addChild(pillar1)
@@ -135,7 +143,9 @@ class ModelSplinterDrone internal constructor() : ModelBase() {
         pillar2.mirror = false
         pillar2.addBox(-0.5f, -9.0f, 10.0f, 1, 18, 1)
         pillar2.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
-        pillar2.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.38268346f, 0.0f, 0.9238795f)).transpose())
+        pillar2.setInitialRotationMatrix(
+            Matrix4f().setAndReturn(Quat4f(0.0f, 0.38268346f, 0.0f, 0.9238795f)).transposeAndReturn()
+        )
         pillar2.setTextureSize(128, 128)
         parts[pillar2.boxName] = pillar2
         body.addChild(pillar2)
@@ -144,7 +154,9 @@ class ModelSplinterDrone internal constructor() : ModelBase() {
         pillar3.mirror = false
         pillar3.addBox(-0.5f, -10.0f, 8.0f, 1, 20, 1)
         pillar3.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
-        pillar3.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.70710677f, 0.0f, 0.70710677f)).transpose())
+        pillar3.setInitialRotationMatrix(
+            Matrix4f().setAndReturn(Quat4f(0.0f, 0.70710677f, 0.0f, 0.70710677f)).transposeAndReturn()
+        )
         pillar3.setTextureSize(128, 128)
         parts[pillar3.boxName] = pillar3
         body.addChild(pillar3)
@@ -153,7 +165,9 @@ class ModelSplinterDrone internal constructor() : ModelBase() {
         pillar4.mirror = false
         pillar4.addBox(-0.5f, -9.0f, 10.0f, 1, 18, 1)
         pillar4.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
-        pillar4.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.9238795f, 0.0f, 0.38268343f)).transpose())
+        pillar4.setInitialRotationMatrix(
+            Matrix4f().setAndReturn(Quat4f(0.0f, 0.9238795f, 0.0f, 0.38268343f)).transposeAndReturn()
+        )
         pillar4.setTextureSize(128, 128)
         parts[pillar4.boxName] = pillar4
         body.addChild(pillar4)
@@ -162,7 +176,9 @@ class ModelSplinterDrone internal constructor() : ModelBase() {
         pillar5.mirror = false
         pillar5.addBox(-0.5f, -10.0f, 8.0f, 1, 20, 1)
         pillar5.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
-        pillar5.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, -1.0f, 0.0f, -4.371139E-8f)).transpose())
+        pillar5.setInitialRotationMatrix(
+            Matrix4f().setAndReturn(Quat4f(0.0f, -1.0f, 0.0f, -4.371139E-8f)).transposeAndReturn()
+        )
         pillar5.setTextureSize(128, 128)
         parts[pillar5.boxName] = pillar5
         body.addChild(pillar5)
@@ -171,7 +187,9 @@ class ModelSplinterDrone internal constructor() : ModelBase() {
         pillar6.mirror = false
         pillar6.addBox(-0.5f, -9.0f, 10.0f, 1, 18, 1)
         pillar6.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
-        pillar6.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, -0.9238795f, 0.0f, 0.38268343f)).transpose())
+        pillar6.setInitialRotationMatrix(
+            Matrix4f().setAndReturn(Quat4f(0.0f, -0.9238795f, 0.0f, 0.38268343f)).transposeAndReturn()
+        )
         pillar6.setTextureSize(128, 128)
         parts[pillar6.boxName] = pillar6
         body.addChild(pillar6)
@@ -180,7 +198,9 @@ class ModelSplinterDrone internal constructor() : ModelBase() {
         pillar8.mirror = false
         pillar8.addBox(-0.5f, -9.0f, 10.0f, 1, 18, 1)
         pillar8.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
-        pillar8.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, -0.38268346f, 0.0f, 0.9238795f)).transpose())
+        pillar8.setInitialRotationMatrix(
+            Matrix4f().setAndReturn(Quat4f(0.0f, -0.38268346f, 0.0f, 0.9238795f)).transposeAndReturn()
+        )
         pillar8.setTextureSize(128, 128)
         parts[pillar8.boxName] = pillar8
         body.addChild(pillar8)
@@ -189,7 +209,9 @@ class ModelSplinterDrone internal constructor() : ModelBase() {
         pillar7.mirror = false
         pillar7.addBox(-0.5f, -10.0f, 8.0f, 1, 20, 1)
         pillar7.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
-        pillar7.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, -0.70710677f, 0.0f, 0.70710677f)).transpose())
+        pillar7.setInitialRotationMatrix(
+            Matrix4f().setAndReturn(Quat4f(0.0f, -0.70710677f, 0.0f, 0.70710677f)).transposeAndReturn()
+        )
         pillar7.setTextureSize(128, 128)
         parts[pillar7.boxName] = pillar7
         body.addChild(pillar7)

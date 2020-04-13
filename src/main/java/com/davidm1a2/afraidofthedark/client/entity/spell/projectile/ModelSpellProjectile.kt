@@ -2,10 +2,12 @@ package com.davidm1a2.afraidofthedark.client.entity.spell.projectile
 
 import com.davidm1a2.afraidofthedark.client.entity.mcAnimatorLib.MCAModelRenderer
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.math.Matrix4f
-import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.math.Quaternion
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.setAndReturn
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.transposeAndReturn
 import net.minecraft.client.model.ModelBase
 import net.minecraft.entity.Entity
+import javax.vecmath.Matrix4f
+import javax.vecmath.Quat4f
 
 /**
  * Class representing the spell projectile entity model
@@ -28,7 +30,7 @@ class ModelSpellProjectile internal constructor() : ModelBase() {
         center.mirror = false
         center.addBox(-3.0f, -3.0f, -3.0f, 6, 6, 6)
         center.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
-        center.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        center.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
         center.setTextureSize(32, 32)
         parts[center.boxName] = center
 
@@ -36,7 +38,7 @@ class ModelSpellProjectile internal constructor() : ModelBase() {
         one.mirror = false
         one.addBox(-2.0f, -2.0f, 0.0f, 4, 4, 4)
         one.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
-        one.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        one.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
         one.setTextureSize(32, 32)
         parts[one.boxName] = one
         center.addChild(one)
@@ -45,7 +47,7 @@ class ModelSpellProjectile internal constructor() : ModelBase() {
         two.mirror = false
         two.addBox(0.0f, -2.0f, -2.0f, 4, 4, 4)
         two.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
-        two.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        two.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
         two.setTextureSize(32, 32)
         parts[two.boxName] = two
         center.addChild(two)
@@ -54,7 +56,7 @@ class ModelSpellProjectile internal constructor() : ModelBase() {
         three.mirror = false
         three.addBox(-2.0f, -2.0f, -4.0f, 4, 4, 4)
         three.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
-        three.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        three.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
         three.setTextureSize(32, 32)
         parts[three.boxName] = three
         center.addChild(three)
@@ -63,7 +65,7 @@ class ModelSpellProjectile internal constructor() : ModelBase() {
         four.mirror = false
         four.addBox(-4.0f, -2.0f, -2.0f, 4, 4, 4)
         four.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
-        four.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        four.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
         four.setTextureSize(32, 32)
         parts[four.boxName] = four
         center.addChild(four)
@@ -72,7 +74,7 @@ class ModelSpellProjectile internal constructor() : ModelBase() {
         five.mirror = false
         five.addBox(-2.0f, -4.0f, -2.0f, 4, 4, 4)
         five.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
-        five.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        five.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
         five.setTextureSize(32, 32)
         parts[five.boxName] = five
         center.addChild(five)
@@ -81,7 +83,7 @@ class ModelSpellProjectile internal constructor() : ModelBase() {
         six.mirror = false
         six.addBox(-2.0f, 0.0f, -2.0f, 4, 4, 4)
         six.setInitialRotationPoint(0.0f, 0.0f, 0.0f)
-        six.setInitialRotationMatrix(Matrix4f().set(Quaternion(0.0f, 0.0f, 0.0f, 1.0f)).transpose())
+        six.setInitialRotationMatrix(Matrix4f().setAndReturn(Quat4f(0.0f, 0.0f, 0.0f, 1.0f)).transposeAndReturn())
         six.setTextureSize(32, 32)
         parts[six.boxName] = six
         center.addChild(six)
