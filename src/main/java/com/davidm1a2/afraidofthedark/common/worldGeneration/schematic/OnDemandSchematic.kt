@@ -65,12 +65,9 @@ class OnDemandSchematic internal constructor(
                 data = nbtData.getIntArray("Data")
 
                 // Convert all of our string blocks in the format of 'modid:registryname' to block pointer
-                blocks = Array(stringBlocks.tagCount())
-                {
+                blocks = Array(stringBlocks.tagCount()) {
                     Block.getBlockFromName(stringBlocks.getStringTagAt(it)) ?: throw IllegalArgumentException(
-                        "Invalid schematic block found: ${stringBlocks.getStringTagAt(
-                            it
-                        )}"
+                        "Invalid schematic block found: ${stringBlocks.getStringTagAt(it)}"
                     )
                 }
 
@@ -174,7 +171,8 @@ class OnDemandSchematic internal constructor(
 
     companion object {
         // Timer used to test if the schematic is ready to timeout
-        private val TIMEOUT_TIMER = Timer("Schematic Timeout Timer")
+        private val TIMEOUT_TIMER = Timer("Schematic Cache Timeout Timer")
+
         // Static list of on demand schematics to test timeouts on
         private val ON_DEMAND_SCHEMATICS = mutableListOf<OnDemandSchematic>()
 

@@ -127,8 +127,7 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
             positions = List(20) { Vec3d(enaria.posX, enaria.posY + 3, enaria.posZ) }
 
             // Make the 20 spell cast 2 particles move outwards in a circle
-            speeds = List(positions.size)
-            {
+            speeds = List(positions.size) {
                 Vec3d(
                     sin(Math.toRadians(360.0 / positions.size * it)) * 0.3,
                     0.0,

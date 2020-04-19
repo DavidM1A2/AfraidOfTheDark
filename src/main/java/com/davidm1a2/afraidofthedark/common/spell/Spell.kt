@@ -144,13 +144,9 @@ class Spell : INBTSerializable<NBTTagCompound> {
      *
      * @return True if the power source method is non-null and at least one spell stage is registered
      */
-    fun isValid(): Boolean {
-        val isValid = powerSource != null
-        // Ensure the power source is valid and the spell stages are non-empty
-        return if (isValid && spellStages.isNotEmpty()) {
-            // Test to ensure all spell stages are valid
-            spellStages.all { it.isValid() }
-        } else false
+    private fun isValid(): Boolean {
+        // Ensure the power source is valid and the spell stages are non-empty, and all spell stages are valid
+        return powerSource != null && spellStages.isNotEmpty() && spellStages.all { it.isValid() }
     }
 
     /**
@@ -216,9 +212,7 @@ class Spell : INBTSerializable<NBTTagCompound> {
         nbt.setTag(NBT_ID, NBTUtil.createUUIDTag(id))
 
         // The spell power source can be null, double check that it isn't before writing it and its state
-        if (powerSource != null) {
-            nbt.setTag(NBT_POWER_SOURCE, powerSource!!.serializeNBT())
-        }
+        powerSource?.let { nbt.setTag(NBT_POWER_SOURCE, it.serializeNBT()) }
 
         // Write each spell stage to NBT
         val spellStagesNBT = NBTTagList()

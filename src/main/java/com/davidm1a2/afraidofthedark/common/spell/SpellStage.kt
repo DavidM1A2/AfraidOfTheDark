@@ -76,19 +76,11 @@ class SpellStage : INBTSerializable<NBTTagCompound> {
         val nbt = NBTTagCompound()
 
         // The spell stage delivery method can be null, double check that it isn't before writing it and its state
-        if (deliveryInstance != null) {
-            nbt.setTag(NBT_DELIVERY_METHOD, deliveryInstance!!.serializeNBT())
-        }
+        deliveryInstance?.let { nbt.setTag(NBT_DELIVERY_METHOD, it.serializeNBT()) }
 
         // The spell stage effects can be null, so we need to skip null effects
-        for (i in effects.indices) {
-            // Grab the spell effect to write
-            val spellEffect = effects[i]
-            // If the spell effect is not null write it
-            if (spellEffect != null) {
-                nbt.setTag(NBT_EFFECT_BASE + i, spellEffect.serializeNBT())
-            }
-        }
+        effects.forEachIndexed { i, effect -> effect?.let { nbt.setTag(NBT_EFFECT_BASE + i, it.serializeNBT()) } }
+
         return nbt
     }
 

@@ -47,8 +47,7 @@ class SyncAnimation : EntitySyncBase {
     override fun fromBytes(buf: ByteBuf) {
         super.fromBytes(buf)
         animationName = ByteBufUtils.readUTF8String(buf)
-        higherPriorityAnims = Array(buf.readInt())
-        {
+        higherPriorityAnims = Array(buf.readInt()) {
             ByteBufUtils.readUTF8String(buf)
         }
     }
