@@ -15,7 +15,6 @@ import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.SidedProxy
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent
 import net.minecraftforge.fml.common.network.NetworkRegistry
@@ -152,16 +151,6 @@ class AfraidOfTheDark {
         }
         // Only used by the developer to create .schematic.meta files
         // SchematicDebugUtils.createSchematicMetaFiles()
-    }
-
-    /**
-     * Called with the forge post-initialization event
-     *
-     * @param event Register the research achieved overlay on the client side only
-     */
-    @Mod.EventHandler
-    @Suppress("UNUSED_PARAMETER")
-    fun postInitialization(event: FMLPostInitializationEvent) {
     }
 
     /**
