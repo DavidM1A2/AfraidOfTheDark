@@ -29,13 +29,8 @@ object ClientData {
      */
     fun getOrCreate(fontSize: Float): TrueTypeFont {
         // If the font map does not contain the size, create that font size and store it
-        if (!fontMap.containsKey(fontSize)) {
-            // Put the font size with the newly loaded font
-            fontMap[fontSize] =
-                FontLoader.createFont(ResourceLocation("afraidofthedark:fonts/targa_ms_hand.ttf"), fontSize)
+        return fontMap.computeIfAbsent(fontSize) {
+            FontLoader.createFont(ResourceLocation("afraidofthedark:fonts/targa_ms_hand.ttf"), it)
         }
-
-        // Get the font from the map
-        return fontMap[fontSize]!!
     }
 }

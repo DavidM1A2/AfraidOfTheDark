@@ -2,16 +2,13 @@ package com.davidm1a2.afraidofthedark.common.event
 
 import com.davidm1a2.afraidofthedark.common.capabilities.*
 import com.davidm1a2.afraidofthedark.common.capabilities.player.basics.AOTDPlayerBasicsImpl
-import com.davidm1a2.afraidofthedark.common.capabilities.player.basics.AOTDPlayerBasicsProvider
 import com.davidm1a2.afraidofthedark.common.capabilities.player.basics.AOTDPlayerBasicsStorage
 import com.davidm1a2.afraidofthedark.common.capabilities.player.basics.IAOTDPlayerBasics
 import com.davidm1a2.afraidofthedark.common.capabilities.player.dimension.*
 import com.davidm1a2.afraidofthedark.common.capabilities.player.research.AOTDPlayerResearchImpl
-import com.davidm1a2.afraidofthedark.common.capabilities.player.research.AOTDPlayerResearchProvider
 import com.davidm1a2.afraidofthedark.common.capabilities.player.research.AOTDPlayerResearchStorage
 import com.davidm1a2.afraidofthedark.common.capabilities.player.research.IAOTDPlayerResearch
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.AOTDPlayerSpellManagerImpl
-import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.AOTDPlayerSpellManagerProvider
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.AOTDPlayerSpellManagerStorage
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.IAOTDPlayerSpellManager
 import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.*
@@ -78,27 +75,33 @@ class CapabilityHandler {
     fun onAttachCapabilitiesEntity(event: AttachCapabilitiesEvent<Entity>) {
         // If the entity is a player then add any player specific capabilities
         if (event.getObject() is EntityPlayer) {
-            event.addCapability(ResourceLocation(Constants.MOD_ID, "player_basics"), AOTDPlayerBasicsProvider())
-            event.addCapability(ResourceLocation(Constants.MOD_ID, "player_research"), AOTDPlayerResearchProvider())
+            event.addCapability(
+                ResourceLocation(Constants.MOD_ID, "player_basics"),
+                CapabilityProvider(ModCapabilities.PLAYER_BASICS)
+            )
+            event.addCapability(
+                ResourceLocation(Constants.MOD_ID, "player_research"),
+                CapabilityProvider(ModCapabilities.PLAYER_RESEARCH)
+            )
             event.addCapability(
                 ResourceLocation(Constants.MOD_ID, "player_void_chest_data"),
-                AOTDPlayerVoidChestDataProvider()
+                CapabilityProvider(ModCapabilities.PLAYER_VOID_CHEST_DATA)
             )
             event.addCapability(
                 ResourceLocation(Constants.MOD_ID, "player_nightmare_data"),
-                AOTDPlayerNightmareDataProvider()
+                CapabilityProvider(ModCapabilities.PLAYER_NIGHTMARE_DATA)
             )
             event.addCapability(
                 ResourceLocation(Constants.MOD_ID, "player_spell_manager"),
-                AOTDPlayerSpellManagerProvider()
+                CapabilityProvider(ModCapabilities.PLAYER_SPELL_MANAGER)
             )
             event.addCapability(
                 ResourceLocation(Constants.MOD_ID, "player_spell_freeze_data"),
-                AOTDPlayerSpellFreezeDataProvider()
+                CapabilityProvider(ModCapabilities.PLAYER_SPELL_FREEZE_DATA)
             )
             event.addCapability(
                 ResourceLocation(Constants.MOD_ID, "player_spell_charm_data"),
-                AOTDPlayerSpellCharmDataProvider()
+                CapabilityProvider(ModCapabilities.PLAYER_SPELL_CHARM_DATA)
             )
         }
     }

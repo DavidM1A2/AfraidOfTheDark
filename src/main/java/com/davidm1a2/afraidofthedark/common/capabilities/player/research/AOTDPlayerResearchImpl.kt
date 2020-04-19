@@ -48,12 +48,7 @@ class AOTDPlayerResearchImpl : IAOTDPlayerResearch {
      * @return True if the player can research a given research or false otherwise
      */
     override fun canResearch(research: Research): Boolean {
-        val preRequisite = research.preRequisite
-        return if (preRequisite == null) {
-            true
-        } else {
-            !isResearched(research) && isResearched(preRequisite)
-        }
+        return !isResearched(research) && research.preRequisite?.let { isResearched(it) } ?: true
     }
 
     /**
