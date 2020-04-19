@@ -25,96 +25,96 @@ class ChannelCast internal constructor(name: String, fps: Float, totalFrames: In
      */
     override fun initializeAllFrames() {
         val frame0 = KeyFrame()
-        frame0.modelRenderersRotations["frogLLeg"] = Quat4f(
+        frame0.modelRotations["frogLLeg"] = Quat4f(
             0.27059805f,
             0.27059805f,
             0.65328145f,
             0.65328145f
         )
-        frame0.modelRenderersRotations["frogMouth"] = Quat4f(
+        frame0.modelRotations["frogMouth"] = Quat4f(
             -0.08715574f,
             0.0f,
             0.0f,
             0.9961947f
         )
-        frame0.modelRenderersRotations["frogRLeg"] = Quat4f(
+        frame0.modelRotations["frogRLeg"] = Quat4f(
             0.0f,
             -0.38268346f,
             0.0f,
             0.9238795f
         )
-        frame0.modelRenderersRotations["frogHead"] = Quat4f(
+        frame0.modelRotations["frogHead"] = Quat4f(
             0.6427876f,
             0.0f,
             0.0f,
             0.76604444f
         )
-        frame0.modelRenderersTranslations["frogLLeg"] = Vector3f(4.0f, 0.0f, -3.0f)
-        frame0.modelRenderersTranslations["frogMouth"] = Vector3f(-4.0f, 0.0f, 3.0f)
-        frame0.modelRenderersTranslations["frogRLeg"] = Vector3f(-4.0f, 0.0f, -3.0f)
-        frame0.modelRenderersTranslations["frogHead"] = Vector3f(-4.0f, 5.0f, 2.0f)
+        frame0.modelTranslations["frogLLeg"] = Vector3f(4.0f, 0.0f, -3.0f)
+        frame0.modelTranslations["frogMouth"] = Vector3f(-4.0f, 0.0f, 3.0f)
+        frame0.modelTranslations["frogRLeg"] = Vector3f(-4.0f, 0.0f, -3.0f)
+        frame0.modelTranslations["frogHead"] = Vector3f(-4.0f, 5.0f, 2.0f)
         keyFrames[0] = frame0
 
         val frame20 = KeyFrame()
-        frame20.modelRenderersRotations["frogMouth"] = Quat4f(
+        frame20.modelRotations["frogMouth"] = Quat4f(
             0.043619387f,
             0.0f,
             0.0f,
             0.99904823f
         )
-        frame20.modelRenderersRotations["frogHead"] = Quat4f(0.5f, 0.0f, 0.0f, 0.8660254f)
-        frame20.modelRenderersTranslations["frogMouth"] = Vector3f(-4.0f, 0.0f, 3.0f)
-        frame20.modelRenderersTranslations["frogHead"] = Vector3f(-4.0f, 5.0f, 2.0f)
+        frame20.modelRotations["frogHead"] = Quat4f(0.5f, 0.0f, 0.0f, 0.8660254f)
+        frame20.modelTranslations["frogMouth"] = Vector3f(-4.0f, 0.0f, 3.0f)
+        frame20.modelTranslations["frogHead"] = Vector3f(-4.0f, 5.0f, 2.0f)
         keyFrames[20] = frame20
 
         val frame40 = KeyFrame()
-        frame40.modelRenderersRotations["frogLLeg"] = Quat4f(
+        frame40.modelRotations["frogLLeg"] = Quat4f(
             0.35355338f,
             0.35355338f,
             0.6123724f,
             0.6123724f
         )
-        frame40.modelRenderersRotations["frogRLeg"] = Quat4f(0.0f, -0.5f, 0.0f, 0.8660254f)
-        frame40.modelRenderersRotations["frogHead"] = Quat4f(
+        frame40.modelRotations["frogRLeg"] = Quat4f(0.0f, -0.5f, 0.0f, 0.8660254f)
+        frame40.modelRotations["frogHead"] = Quat4f(
             0.42261827f,
             0.0f,
             0.0f,
             0.90630776f
         )
-        frame40.modelRenderersTranslations["frogLLeg"] = Vector3f(4.0f, 0.0f, -3.0f)
-        frame40.modelRenderersTranslations["frogRLeg"] = Vector3f(-4.0f, 0.0f, -3.0f)
-        frame40.modelRenderersTranslations["frogHead"] = Vector3f(-4.0f, 5.0f, 2.0f)
+        frame40.modelTranslations["frogLLeg"] = Vector3f(4.0f, 0.0f, -3.0f)
+        frame40.modelTranslations["frogRLeg"] = Vector3f(-4.0f, 0.0f, -3.0f)
+        frame40.modelTranslations["frogHead"] = Vector3f(-4.0f, 5.0f, 2.0f)
         keyFrames[40] = frame40
 
         val frame59 = KeyFrame()
-        frame59.modelRenderersRotations["frogLLeg"] = Quat4f(
+        frame59.modelRotations["frogLLeg"] = Quat4f(
             0.27059805f,
             0.27059805f,
             0.65328145f,
             0.65328145f
         )
-        frame59.modelRenderersRotations["frogMouth"] = Quat4f(
+        frame59.modelRotations["frogMouth"] = Quat4f(
             -0.08715574f,
             0.0f,
             0.0f,
             0.9961947f
         )
-        frame59.modelRenderersRotations["frogRLeg"] = Quat4f(
+        frame59.modelRotations["frogRLeg"] = Quat4f(
             0.0f,
             -0.38268346f,
             0.0f,
             0.9238795f
         )
-        frame59.modelRenderersRotations["frogHead"] = Quat4f(
+        frame59.modelRotations["frogHead"] = Quat4f(
             0.6427876f,
             0.0f,
             0.0f,
             0.76604444f
         )
-        frame59.modelRenderersTranslations["frogLLeg"] = Vector3f(4.0f, 0.0f, -3.0f)
-        frame59.modelRenderersTranslations["frogMouth"] = Vector3f(-4.0f, 0.0f, 3.0f)
-        frame59.modelRenderersTranslations["frogRLeg"] = Vector3f(-4.0f, 0.0f, -3.0f)
-        frame59.modelRenderersTranslations["frogHead"] = Vector3f(-4.0f, 5.0f, 2.0f)
+        frame59.modelTranslations["frogLLeg"] = Vector3f(4.0f, 0.0f, -3.0f)
+        frame59.modelTranslations["frogMouth"] = Vector3f(-4.0f, 0.0f, 3.0f)
+        frame59.modelTranslations["frogRLeg"] = Vector3f(-4.0f, 0.0f, -3.0f)
+        frame59.modelTranslations["frogHead"] = Vector3f(-4.0f, 5.0f, 2.0f)
         keyFrames[59] = frame59
     }
 }

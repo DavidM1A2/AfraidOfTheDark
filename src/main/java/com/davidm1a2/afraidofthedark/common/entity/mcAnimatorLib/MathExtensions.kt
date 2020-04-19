@@ -52,17 +52,13 @@ fun Quat4f.slerp(q1: Quat4f, q2: Quat4f, t: Float): Quat4f {
     }
 
     // Set the first and second scale for the interpolation
-
-    // Set the first and second scale for the interpolation
     var scale0 = 1 - t
     var scale1 = t
 
     // Check if the angle between the 2 quaternions was big enough to
     // warrant such calculations
-
-    // Check if the angle between the 2 quaternions was big enough to
-    // warrant such calculations
-    if (1 - result > 0.1f) { // Get the angle between the 2 quaternions,
+    if (1 - result > 0.1f) {
+        // Get the angle between the 2 quaternions,
         // and then store the sin() of that angle
         val theta = acos(result)
         val invSinTheta = 1f / sin(theta)
@@ -77,15 +73,10 @@ fun Quat4f.slerp(q1: Quat4f, q2: Quat4f, t: Float): Quat4f {
     // special
     // form of linear interpolation for quaternions.
 
-    // Calculate the x, y, z and w values for the quaternion by using a
-    // special
-    // form of linear interpolation for quaternions.
     x = scale0 * q1.x + scale1 * q2.x
     y = scale0 * q1.y + scale1 * q2.y
     z = scale0 * q1.z + scale1 * q2.z
     w = scale0 * q1.w + scale1 * q2.w
-
-    // Return the interpolated quaternion
 
     // Return the interpolated quaternion
     return this

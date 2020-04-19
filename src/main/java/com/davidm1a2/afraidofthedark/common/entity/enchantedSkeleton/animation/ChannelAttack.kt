@@ -29,16 +29,16 @@ class ChannelAttack internal constructor(name: String, fps: Float, totalFrames: 
      */
     override fun initializeAllFrames() {
         val frame0 = KeyFrame()
-        frame0.modelRenderersRotations["rightarm"] = Quat4f(-0.67559016f, 0.0f, 0.0f, 0.7372773f)
-        frame0.modelRenderersRotations["leftarm"] = Quat4f(-0.7372773f, 0.0f, 0.0f, 0.6755902f)
-        frame0.modelRenderersTranslations["rightarm"] = Vector3f(-4.0f, -2.0f, 0.0f)
-        frame0.modelRenderersTranslations["leftarm"] = Vector3f(4.0f, -2.0f, 0.0f)
+        frame0.modelRotations["rightarm"] = Quat4f(-0.67559016f, 0.0f, 0.0f, 0.7372773f)
+        frame0.modelRotations["leftarm"] = Quat4f(-0.7372773f, 0.0f, 0.0f, 0.6755902f)
+        frame0.modelTranslations["rightarm"] = Vector3f(-4.0f, -2.0f, 0.0f)
+        frame0.modelTranslations["leftarm"] = Vector3f(4.0f, -2.0f, 0.0f)
         keyFrames[0] = frame0
         val frame19 = KeyFrame()
-        frame19.modelRenderersRotations["rightarm"] = Quat4f(-0.9542403f, 0.0f, 0.0f, 0.2990408f)
-        frame19.modelRenderersRotations["leftarm"] = Quat4f(-0.9378889f, 0.0f, 0.0f, 0.3469357f)
-        frame19.modelRenderersTranslations["rightarm"] = Vector3f(-4.0f, -2.0f, 0.0f)
-        frame19.modelRenderersTranslations["leftarm"] = Vector3f(4.0f, -2.0f, 0.0f)
+        frame19.modelRotations["rightarm"] = Quat4f(-0.9542403f, 0.0f, 0.0f, 0.2990408f)
+        frame19.modelRotations["leftarm"] = Quat4f(-0.9378889f, 0.0f, 0.0f, 0.3469357f)
+        frame19.modelTranslations["rightarm"] = Vector3f(-4.0f, -2.0f, 0.0f)
+        frame19.modelTranslations["leftarm"] = Vector3f(4.0f, -2.0f, 0.0f)
         keyFrames[19] = frame19
     }
 }

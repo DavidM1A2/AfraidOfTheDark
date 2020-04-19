@@ -1,5 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation
 
+import com.google.common.collect.BiMap
+import com.google.common.collect.HashBiMap
+
 /**
  * Channel was provided by the MC animator library and updated by myself
  *
@@ -15,7 +18,7 @@ abstract class Channel(
     val totalFrames: Int = 0,
     val mode: ChannelMode = ChannelMode.LINEAR
 ) {
-    val keyFrames: MutableMap<Int, KeyFrame> = mutableMapOf()
+    val keyFrames: BiMap<Int, KeyFrame> = HashBiMap.create()
 
     init {
         initializeAllFrames()
@@ -35,17 +38,8 @@ abstract class Channel(
      * @return The key frame
      */
     open fun getPreviousRotationKeyFrameForBox(boxName: String, currentFrame: Float): KeyFrame? {
-        var latestFramePosition = -1
-        var latestKeyFrame: KeyFrame? = null
-        for ((key, value) in keyFrames) {
-            if (key <= currentFrame && key > latestFramePosition) {
-                if (value.useBoxInRotation(boxName)) {
-                    latestFramePosition = key
-                    latestKeyFrame = value
-                }
-            }
-        }
-        return latestKeyFrame
+        return keyFrames.asSequence().filter { it.key <= currentFrame && it.value.useBoxInRotation(boxName) }
+            .maxBy { it.key }?.value
     }
 
     /**
@@ -57,17 +51,8 @@ abstract class Channel(
      * @return The key frame
      */
     open fun getNextRotationKeyFrameForBox(boxName: String, currentFrame: Float): KeyFrame? {
-        var nextFramePosition = -1
-        var nextKeyFrame: KeyFrame? = null
-        for ((key, value) in keyFrames) {
-            if (key > currentFrame && (key < nextFramePosition || nextFramePosition == -1)) {
-                if (value.useBoxInRotation(boxName)) {
-                    nextFramePosition = key
-                    nextKeyFrame = value
-                }
-            }
-        }
-        return nextKeyFrame
+        return keyFrames.asSequence().filter { it.key > currentFrame && it.value.useBoxInRotation(boxName) }
+            .minBy { it.key }?.value
     }
 
     /**
@@ -79,17 +64,8 @@ abstract class Channel(
      * @return The key frame
      */
     open fun getPreviousTranslationKeyFrameForBox(boxName: String, currentFrame: Float): KeyFrame? {
-        var latestFramePosition = -1
-        var latestKeyFrame: KeyFrame? = null
-        for ((key, value) in keyFrames) {
-            if (key <= currentFrame && key > latestFramePosition) {
-                if (value.useBoxInTranslation(boxName)) {
-                    latestFramePosition = key
-                    latestKeyFrame = value
-                }
-            }
-        }
-        return latestKeyFrame
+        return keyFrames.asSequence().filter { it.key <= currentFrame && it.value.useBoxInTranslation(boxName) }
+            .maxBy { it.key }?.value
     }
 
     /**
@@ -101,17 +77,8 @@ abstract class Channel(
      * @return The key frame
      */
     open fun getNextTranslationKeyFrameForBox(boxName: String, currentFrame: Float): KeyFrame? {
-        var nextFramePosition = -1
-        var nextKeyFrame: KeyFrame? = null
-        for ((key, value) in keyFrames) {
-            if (key > currentFrame && (key < nextFramePosition || nextFramePosition == -1)) {
-                if (value.useBoxInTranslation(boxName)) {
-                    nextFramePosition = key
-                    nextKeyFrame = value
-                }
-            }
-        }
-        return nextKeyFrame
+        return keyFrames.asSequence().filter { it.key > currentFrame && it.value.useBoxInTranslation(boxName) }
+            .minBy { it.key }?.value
     }
 
     /**
@@ -121,13 +88,6 @@ abstract class Channel(
      * @return The position of the frame
      */
     open fun getKeyFramePosition(keyFrame: KeyFrame?): Int {
-        if (keyFrame != null) {
-            for ((key, keyframe) in keyFrames) {
-                if (keyframe === keyFrame) {
-                    return key
-                }
-            }
-        }
-        return -1
+        return keyFrame?.let { keyFrames.inverse()[it] } ?: -1
     }
 }
