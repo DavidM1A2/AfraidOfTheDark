@@ -107,7 +107,6 @@ class OnDemandSchematic internal constructor(
     /**
      * @return The name of the schematic
      */
-    @Synchronized
     override fun getName(): String {
         return name
     }

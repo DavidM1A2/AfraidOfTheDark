@@ -6,7 +6,7 @@ import net.minecraft.entity.player.EntityPlayer
 /**
  * Proxy that is only instantiated on the SERVER
  */
-class ServerProxy : CommonProxy() {
+class ServerProxy : IProxy {
     /**
      * Called to initialize entity renderers
      */

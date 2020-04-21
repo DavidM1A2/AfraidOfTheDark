@@ -28,19 +28,9 @@ interface IProxy {
     fun initializeTileEntityRenderers()
 
     /**
-     * Called to initialize any mod blocks into the ore dictionary
-     */
-    fun initializeOreDictionary()
-
-    /**
      * Called to register any key bindings
      */
     fun registerKeyBindings()
-
-    /**
-     * Called to register all packets used by AOTD
-     */
-    fun registerPackets()
 
     /**
      * Opens the "Insanity's Heights" book on the client side, does nothing server side

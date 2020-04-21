@@ -123,7 +123,7 @@ class AfraidOfTheDark {
         // Register our GUI handler that lets us open UIs for specific players
         NetworkRegistry.INSTANCE.registerGuiHandler(this, AOTDGuiHandler())
         // Register all AOTD packets
-        proxy.registerPackets()
+        PacketRegister.initialize()
         // Initialize entity renderers (client side only)
         proxy.initializeEntityRenderers()
         // Initialize tile entity renderers (also client side)
@@ -140,7 +140,7 @@ class AfraidOfTheDark {
     @Mod.EventHandler
     fun initialization(event: FMLInitializationEvent) {
         // Initialize any ore-dictionary entries
-        proxy.initializeOreDictionary()
+        OreDictionaryRegister.initialize()
         // Initialize furnace recipes
         FurnaceRecipeRegister.initialize()
         // Initialize spell effect overrides

@@ -54,30 +54,30 @@ object SchematicDebugUtils {
             // Create the file
             file.createNewFile()
 
+            // Create a schematic NBT
+            val schematicNBT = NBTTagCompound()
+
+            // Write each of the w/l/h values to nbt
+            schematicNBT.setShort("Width", schematic.getWidth())
+            schematicNBT.setShort("Height", schematic.getHeight())
+            schematicNBT.setShort("Length", schematic.getLength())
+
+            // Write each entity and tile entity to the nbt
+            schematicNBT.setTag("TileEntities", schematic.getTileEntities())
+            schematicNBT.setTag("Entities", schematic.getEntities())
+
+            // For each block write its name to nbt
+            val stringBlocks = NBTTagList()
+            for (block in schematic.getBlocks()) {
+                stringBlocks.appendTag(NBTTagString(block.registryName.toString()))
+            }
+            schematicNBT.setTag("Blocks", stringBlocks)
+
+            // Write all of the nbt data to disk
+            schematicNBT.setIntArray("Data", schematic.getData())
+
+            // Write the nbt to the file
             FileOutputStream(file).use {
-                // Create a schematic NBT
-                val schematicNBT = NBTTagCompound()
-
-                // Write each of the w/l/h values to nbt
-                schematicNBT.setShort("Width", schematic.getWidth())
-                schematicNBT.setShort("Height", schematic.getHeight())
-                schematicNBT.setShort("Length", schematic.getLength())
-
-                // Write each entity and tile entity to the nbt
-                schematicNBT.setTag("TileEntities", schematic.getTileEntities())
-                schematicNBT.setTag("Entities", schematic.getEntities())
-
-                // For each block write its name to nbt
-                val stringBlocks = NBTTagList()
-                for (block in schematic.getBlocks()) {
-                    stringBlocks.appendTag(NBTTagString(block.registryName.toString()))
-                }
-                schematicNBT.setTag("Blocks", stringBlocks)
-
-                // Write all of the nbt data to disk
-                schematicNBT.setIntArray("Data", schematic.getData())
-
-                // Write the nbt to the file
                 CompressedStreamTools.writeCompressed(schematicNBT, it)
             }
         }
@@ -109,14 +109,10 @@ object SchematicDebugUtils {
         if (subfiles != null) {
             // Go over each subfile, the ones that are directories we recurse over, the ones that are schematic files we create a meta file for
             subfiles.filter { it.isDirectory }.forEach {
-                generateMcMetaFileForDir(
-                    it
-                )
+                generateMcMetaFileForDir(it)
             }
             subfiles.filter { it.isFile }.filter { it.name.endsWith(".schematic") }.forEach {
-                createMetaFor(
-                    it
-                )
+                createMetaFor(it)
             }
         }
     }
@@ -141,9 +137,10 @@ object SchematicDebugUtils {
                 schematicFile.absolutePath.replace("\\", "/"),
                 "src/main/resources/assets/afraidofthedark/"
             )
-        val schematic =
-            SchematicBuilder()
-                .withFile(ResourceLocation(Constants.MOD_ID, localPath)).withCacheEnabled(true).build()
+        val schematic = SchematicBuilder()
+            .withFile(ResourceLocation(Constants.MOD_ID, localPath))
+            .withCacheEnabled(true)
+            .build()
 
         // Create an NBT compound to write to
         val nbt = NBTTagCompound()
@@ -153,11 +150,8 @@ object SchematicDebugUtils {
 
         // Write the NBT to the .meta file
         try {
-            FileOutputStream(schematicMetaFile).use { fileOutputStream ->
-                CompressedStreamTools.writeCompressed(
-                    nbt,
-                    fileOutputStream
-                )
+            FileOutputStream(schematicMetaFile).use {
+                CompressedStreamTools.writeCompressed(nbt, it)
             }
         } catch (e: IOException) {
             System.err.println("Could not write schematic .meta file:\n${ExceptionUtils.getStackTrace(e)}")
