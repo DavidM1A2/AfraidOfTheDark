@@ -1,7 +1,5 @@
-package com.davidm1a2.afraidofthedark.client.tileEntity.voidChest
+package com.davidm1a2.afraidofthedark.client.tileEntity
 
-import com.davidm1a2.afraidofthedark.client.tileEntity.voidChest.TileEntityVoidChestRenderer.MODEL_CHEST
-import com.davidm1a2.afraidofthedark.client.tileEntity.voidChest.TileEntityVoidChestRenderer.VOID_CHEST_TEXTURE
 import com.davidm1a2.afraidofthedark.common.tileEntity.TileEntityVoidChest
 import net.minecraft.client.model.ModelChest
 import net.minecraft.client.renderer.GlStateManager
@@ -13,13 +11,13 @@ import net.minecraftforge.fml.relauncher.SideOnly
 /**
  * Class used to render the void chest. Most of this code is from 'TileEntityEnderChestRenderer'
  *
- * @property VOID_CHEST_TEXTURE The texture for the void chest
- * @property MODEL_CHEST Create a chest model that we render our void chest with
+ * @property voidChestTexture The texture for the void chest
+ * @property modelChest Create a chest model that we render our void chest with
  */
 @SideOnly(Side.CLIENT)
-object TileEntityVoidChestRenderer : TileEntitySpecialRenderer<TileEntityVoidChest>() {
-    private val VOID_CHEST_TEXTURE = ResourceLocation("afraidofthedark:textures/blocks/void_chest/void_chest.png")
-    private val MODEL_CHEST = ModelChest()
+class TileEntityVoidChestRenderer : TileEntitySpecialRenderer<TileEntityVoidChest>() {
+    private val voidChestTexture = ResourceLocation("afraidofthedark:textures/blocks/void_chest/void_chest.png")
+    private val modelChest = ModelChest()
 
     /**
      * Called to render the tile entity
@@ -57,7 +55,7 @@ object TileEntityVoidChestRenderer : TileEntitySpecialRenderer<TileEntityVoidChe
             GlStateManager.translate(0.0625f, 0.0625f, 0.0625f)
             GlStateManager.matrixMode(5888)
         } else {
-            bindTexture(VOID_CHEST_TEXTURE)
+            bindTexture(voidChestTexture)
         }
         GlStateManager.pushMatrix()
         GlStateManager.enableRescaleNormal()
@@ -83,8 +81,8 @@ object TileEntityVoidChestRenderer : TileEntitySpecialRenderer<TileEntityVoidChe
         var f = te.previousLidAngle + (te.lidAngle - te.previousLidAngle) * partialTicks
         f = 1.0f - f
         f = 1.0f - f * f * f
-        MODEL_CHEST.chestLid.rotateAngleX = -(f * (Math.PI.toFloat() / 2f))
-        MODEL_CHEST.renderAll()
+        modelChest.chestLid.rotateAngleX = -(f * (Math.PI.toFloat() / 2f))
+        modelChest.renderAll()
         GlStateManager.disableRescaleNormal()
         GlStateManager.popMatrix()
         GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f)

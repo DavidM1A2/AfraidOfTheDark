@@ -2,7 +2,6 @@ package com.davidm1a2.afraidofthedark.common.event.register
 
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDBlockDoor
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDBlockSlab
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import net.minecraft.client.renderer.block.model.ModelResourceLocation
@@ -11,7 +10,6 @@ import net.minecraft.item.ItemBlock
 import net.minecraft.item.ItemSlab
 import net.minecraftforge.client.event.ModelRegistryEvent
 import net.minecraftforge.client.model.ModelLoader
-import net.minecraftforge.client.model.obj.OBJLoader
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
@@ -52,9 +50,6 @@ class ItemRegister {
     @SubscribeEvent
     @Suppress("UNUSED_PARAMETER")
     fun registerItemRenderers(event: ModelRegistryEvent) {
-        // Ensure any special models are registered
-        OBJLoader.INSTANCE.addDomain(Constants.MOD_ID)
-
         // Register models for all items in our mod
         for (item in ModItems.ITEM_LIST) {
             ModelLoader.setCustomModelResourceLocation(item, 0, ModelResourceLocation(item.registryName!!, "inventory"))

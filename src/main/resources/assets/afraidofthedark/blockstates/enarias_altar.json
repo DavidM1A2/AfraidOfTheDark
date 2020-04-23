@@ -1,17 +1,7 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "custom": {
-      "flip-v": true
-    },
-    "model": "afraidofthedark:enarias_altar.obj"
-  },
   "variants": {
-    "normal": [
-      {}
-    ],
-    "inventory": [
-      {}
-    ]
+    "normal": {
+      "model": "afraidofthedark:enarias_altar"
+    }
   }
 }

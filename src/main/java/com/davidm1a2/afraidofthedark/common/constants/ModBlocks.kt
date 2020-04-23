@@ -5,6 +5,7 @@ import com.davidm1a2.afraidofthedark.common.block.gravewood.*
 import com.davidm1a2.afraidofthedark.common.block.mangrove.*
 import com.davidm1a2.afraidofthedark.common.block.sacred_mangrove.*
 import com.davidm1a2.afraidofthedark.common.tileEntity.*
+import com.davidm1a2.afraidofthedark.common.tileEntity.enariasAltar.TileEntityEnariasAltar
 import net.minecraft.util.ResourceLocation
 
 /**
@@ -129,6 +130,7 @@ object ModBlocks {
         ),
         TileEntityEnariaSpawner::class.java to ResourceLocation(Constants.MOD_ID, "tile_entity_enaria_spawner"),
         TileEntityDesertOasis::class.java to ResourceLocation(Constants.MOD_ID, "tile_entity_desert_oasis"),
-        TileEntitySpellAltar::class.java to ResourceLocation(Constants.MOD_ID, "tile_entity_spell_altar")
+        TileEntitySpellAltar::class.java to ResourceLocation(Constants.MOD_ID, "tile_entity_spell_altar"),
+        TileEntityEnariasAltar::class.java to ResourceLocation(Constants.MOD_ID, "tile_entity_enarias_altar")
     )
 }

@@ -20,7 +20,7 @@ import javax.vecmath.Vector3f
  * @property animPrevTime Previous time of every active animation
  * @property animCurrentFrame Current frame of every active animation
  */
-abstract class AnimationHandler(animChannels: Set<Channel>) {
+class AnimationHandler(vararg animChannels: Channel) {
     private val animCurrentChannels = mutableSetOf<Channel>()
     private val animPrevTime = mutableMapOf<String, Long>()
     private val animCurrentFrame = mutableMapOf<String, Float>()

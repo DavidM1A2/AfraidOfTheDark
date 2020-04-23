@@ -5,9 +5,10 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getNightmareData
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
-import com.davidm1a2.afraidofthedark.common.entity.enaria.animation.AnimationHandlerGhastlyEnaria
+import com.davidm1a2.afraidofthedark.common.entity.enaria.animation.ChannelDance
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityFlying
 import net.minecraft.entity.SharedMonsterAttributes
@@ -25,9 +26,8 @@ import net.minecraft.world.World
  * @property animHandler The animation handler used to manage animations
  * @property benign Flag telling us if this enaria is benign or not, defaults to true. This will change her AI
  */
-class EntityGhastlyEnaria(world: World) : EntityFlying(world),
-    IMCAnimatedModel {
-    private val animHandler = AnimationHandlerGhastlyEnaria()
+class EntityGhastlyEnaria(world: World) : EntityFlying(world), IMCAnimatedModel {
+    private val animHandler = AnimationHandler(ChannelDance("dance", 30.0f, 300, ChannelMode.LINEAR))
     private var benign = true
 
     init {

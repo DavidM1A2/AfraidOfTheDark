@@ -1,13 +1,15 @@
 package com.davidm1a2.afraidofthedark.common.block
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiHandler
-import com.davidm1a2.afraidofthedark.common.block.core.AOTDBlock
+import com.davidm1a2.afraidofthedark.common.block.core.AOTDBlockTileEntity
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.tileEntity.enariasAltar.TileEntityEnariasAltar
 import com.davidm1a2.afraidofthedark.common.utility.openGui
 import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.EnumHand
 import net.minecraft.util.math.BlockPos
@@ -19,7 +21,7 @@ import net.minecraft.world.World
  *
  * @constructor sets the block's properties
  */
-class BlockEnariasAltar : AOTDBlock("enarias_altar", Material.PORTAL) {
+class BlockEnariasAltar : AOTDBlockTileEntity("enarias_altar", Material.PORTAL) {
     init {
         setLightLevel(1.0f)
         setResistance(Float.MAX_VALUE)
@@ -90,5 +92,16 @@ class BlockEnariasAltar : AOTDBlock("enarias_altar", Material.PORTAL) {
      */
     override fun isOpaqueCube(state: IBlockState): Boolean {
         return false
+    }
+
+    /**
+     * Creates a tile entity that monitors for nearby players
+     *
+     * @param worldIn The world the block is in
+     * @param meta    The block's metadata value
+     * @return The dark forest tile entity instance
+     */
+    override fun createNewTileEntity(worldIn: World, meta: Int): TileEntity {
+        return TileEntityEnariasAltar()
     }
 }

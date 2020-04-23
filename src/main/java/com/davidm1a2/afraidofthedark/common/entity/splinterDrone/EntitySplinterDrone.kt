@@ -6,7 +6,10 @@ import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
-import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.animation.AnimationHandlerSplinterDrone
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
+import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.animation.ChannelActivate
+import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.animation.ChannelCharge
+import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.animation.ChannelIdle
 import com.davidm1a2.afraidofthedark.common.packets.animationPackets.SyncAnimation
 import net.minecraft.entity.EntityFlying
 import net.minecraft.entity.SharedMonsterAttributes
@@ -31,7 +34,11 @@ import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint
  */
 class EntitySplinterDrone(world: World) : EntityFlying(world), IMob,
     IMCAnimatedModel {
-    private val animHandler = AnimationHandlerSplinterDrone()
+    private val animHandler = AnimationHandler(
+        ChannelActivate("Activate", 25.0f, 100, ChannelMode.LINEAR),
+        ChannelCharge("Charge", 100.0f, 100, ChannelMode.LINEAR),
+        ChannelIdle("Idle", 25.0f, 100, ChannelMode.LINEAR)
+    )
     private var hasPlayedSpawnAnimation = false
 
     init {

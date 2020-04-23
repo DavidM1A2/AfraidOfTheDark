@@ -1,19 +1,22 @@
-package com.davidm1a2.afraidofthedark.client.tileEntity.spellAltar
+package com.davidm1a2.afraidofthedark.client.tileEntity.enariasAltar
 
-import com.davidm1a2.afraidofthedark.client.entity.enaria.ModelEnaria
-import com.davidm1a2.afraidofthedark.common.tileEntity.TileEntitySpellAltar
+import com.davidm1a2.afraidofthedark.common.tileEntity.enariasAltar.TileEntityEnariasAltar
+import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 
 /**
- * Class used to render the void chest. Most of this code is from 'TileEntityEnderChestRenderer'
+ * Class used to render the enaria's altar
+ *
+ * @property model The altar's model
+ * @property texture The altar's texture
  */
 @SideOnly(Side.CLIENT)
-object TileEntitySpellAltarRenderer : TileEntitySpecialRenderer<TileEntitySpellAltar>() {
-    private val MODEL = ModelEnaria()
-    private val TEXTURE = ResourceLocation("afraidofthedark:textures/entity/enaria.png")
+class TileEntityEnariasAltarRenderer : TileEntitySpecialRenderer<TileEntityEnariasAltar>() {
+    private val model = TileEntityEnariasAltarModel()
+    private val texture = ResourceLocation("afraidofthedark:textures/blocks/enarias_altar_te.png")
 
     /**
      * Called to render the tile entity
@@ -27,7 +30,7 @@ object TileEntitySpellAltarRenderer : TileEntitySpecialRenderer<TileEntitySpellA
      * @param alpha        The alpha value to render with
      */
     override fun render(
-        te: TileEntitySpellAltar,
+        te: TileEntityEnariasAltar,
         x: Double,
         y: Double,
         z: Double,
@@ -35,12 +38,10 @@ object TileEntitySpellAltarRenderer : TileEntitySpecialRenderer<TileEntitySpellA
         destroyStage: Int,
         alpha: Float
     ) {
-        /*
         GlStateManager.pushMatrix()
-        GlStateManager.translate(x + 0.5, y + 1.0, z + 0.5)
-        bindTexture(TEXTURE)
-        MODEL.render(te, 0.0625f)
+        GlStateManager.translate(x + 0.5, y, z + 0.5)
+        bindTexture(texture)
+        model.render(te, 0.0625f)
         GlStateManager.popMatrix()
-         */
     }
 }

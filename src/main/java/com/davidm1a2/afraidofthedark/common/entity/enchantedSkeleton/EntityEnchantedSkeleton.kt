@@ -9,9 +9,13 @@ import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
-import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.animation.AnimationHandlerEnchantedSkeleton
+import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.animation.ChannelAttack
+import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.animation.ChannelIdle
+import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.animation.ChannelSpawn
+import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.animation.ChannelWalk
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
 import com.davidm1a2.afraidofthedark.common.item.ItemBladeOfExhumation
 import com.davidm1a2.afraidofthedark.common.packets.animationPackets.SyncAnimation
 import net.minecraft.block.Block
@@ -41,9 +45,13 @@ import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint
  * @property animHandler The animation handler used to manage animations
  * @property hasPlayedSpawnAnimation Flag telling us if we have played the spawn animation yet or not
  */
-class EntityEnchantedSkeleton(world: World) : EntityMob(world),
-    IMCAnimatedModel {
-    private val animHandler = AnimationHandlerEnchantedSkeleton()
+class EntityEnchantedSkeleton(world: World) : EntityMob(world), IMCAnimatedModel {
+    private val animHandler = AnimationHandler(
+        ChannelWalk("Walk", 20.0f, 40, ChannelMode.LINEAR),
+        ChannelAttack("Attack", 30.0f, 20, ChannelMode.LINEAR),
+        ChannelSpawn("Spawn", 20.0f, 40, ChannelMode.LINEAR),
+        ChannelIdle("Idle", 10.0f, 20, ChannelMode.LOOP)
+    )
     private var hasPlayedSpawnAnimation = false
 
     init {

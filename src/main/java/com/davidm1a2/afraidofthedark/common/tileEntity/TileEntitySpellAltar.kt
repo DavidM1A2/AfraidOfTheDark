@@ -1,7 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.tileEntity
 
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
-import com.davidm1a2.afraidofthedark.common.entity.enaria.animation.AnimationHandlerEnaria
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity
@@ -13,7 +12,7 @@ import net.minecraft.util.math.AxisAlignedBB
  * @constructor just sets the block type
  */
 class TileEntitySpellAltar : AOTDTickingTileEntity(ModBlocks.SPELL_ALTAR), IMCAnimatedModel {
-    private val animHandler = AnimationHandlerEnaria()
+    private val animHandler = AnimationHandler()
 
     /**
      * Called every tick to update the tile entity's state

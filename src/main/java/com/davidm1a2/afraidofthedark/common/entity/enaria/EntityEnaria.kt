@@ -4,9 +4,13 @@ import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
-import com.davidm1a2.afraidofthedark.common.entity.enaria.animation.AnimationHandlerEnaria
+import com.davidm1a2.afraidofthedark.common.entity.enaria.animation.ChannelArmthrow
+import com.davidm1a2.afraidofthedark.common.entity.enaria.animation.ChannelAutoattack
+import com.davidm1a2.afraidofthedark.common.entity.enaria.animation.ChannelSpell
+import com.davidm1a2.afraidofthedark.common.entity.enaria.animation.ChannelWalk
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
 import com.davidm1a2.afraidofthedark.common.packets.otherPackets.PlayEnariasFightMusic
 import net.minecraft.entity.Entity
 import net.minecraft.entity.SharedMonsterAttributes
@@ -38,9 +42,13 @@ import kotlin.math.min
  * @property allowedRegion The hitbox that enaria cannot leave
  * @property enariaAttacks Enaria's attack object use to manage her attacks
  */
-class EntityEnaria(world: World) : EntityMob(world),
-    IMCAnimatedModel {
-    private val animHandler = AnimationHandlerEnaria()
+class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedModel {
+    private val animHandler = AnimationHandler(
+        ChannelWalk("walk", 59.0f, 59, ChannelMode.LINEAR),
+        ChannelArmthrow("armthrow", 61.0f, 61, ChannelMode.LINEAR),
+        ChannelAutoattack("autoattack", 70.0f, 51, ChannelMode.LINEAR),
+        ChannelSpell("spell", 90.0f, 121, ChannelMode.LINEAR)
+    )
     private val bossInfo = BossInfoServer(
         this.displayName,
         BossInfo.Color.PURPLE,

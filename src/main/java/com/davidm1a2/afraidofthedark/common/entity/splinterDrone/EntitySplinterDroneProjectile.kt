@@ -3,7 +3,8 @@ package com.davidm1a2.afraidofthedark.common.entity.splinterDrone
 import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources.causePlasmaBallDamage
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
-import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.animation.AnimationHandlerSplinterDroneProjectile
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
+import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.animation.ChannelSping
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.entity.projectile.ProjectileHelper
@@ -32,7 +33,7 @@ class EntitySplinterDroneProjectile(world: World) : Entity(world),
     IMCAnimatedModel {
     private var shootingEntity: EntitySplinterDrone? = null
     private var ticksInAir = 0
-    private val animHandler = AnimationHandlerSplinterDroneProjectile()
+    private val animHandler = AnimationHandler(ChannelSping("Sping", 100.0f, 100, ChannelMode.LINEAR))
 
     init {
         setSize(0.4f, 0.4f)

@@ -8,7 +8,9 @@ import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
-import com.davidm1a2.afraidofthedark.common.entity.werewolf.animation.AnimationHandlerWerewolf
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
+import com.davidm1a2.afraidofthedark.common.entity.werewolf.animation.ChannelBite
+import com.davidm1a2.afraidofthedark.common.entity.werewolf.animation.ChannelRun
 import com.davidm1a2.afraidofthedark.common.packets.animationPackets.SyncAnimation
 import net.minecraft.entity.Entity
 import net.minecraft.entity.SharedMonsterAttributes
@@ -34,7 +36,10 @@ import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint
  */
 class EntityWerewolf(world: World) : EntityMob(world),
     IMCAnimatedModel {
-    private val animHandler = AnimationHandlerWerewolf()
+    private val animHandler = AnimationHandler(
+        ChannelBite("Bite", 50.0f, 21, ChannelMode.LINEAR),
+        ChannelRun("Run", 60.0f, 32, ChannelMode.LINEAR)
+    )
     private var attacksAnyone: Boolean
 
     init {

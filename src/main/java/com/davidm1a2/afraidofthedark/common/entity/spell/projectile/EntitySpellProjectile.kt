@@ -2,7 +2,8 @@ package com.davidm1a2.afraidofthedark.common.entity.spell.projectile
 
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
-import com.davidm1a2.afraidofthedark.common.entity.spell.projectile.animation.AnimationHandlerSpellProjectile
+import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
+import com.davidm1a2.afraidofthedark.common.entity.spell.projectile.animation.ChannelSpellProjectileIdle
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.SpellDeliveryMethodProjectile
@@ -43,7 +44,7 @@ class EntitySpellProjectile(world: World) : Entity(world),
     private var shooter: Entity? = null
     private var spellCasterId: UUID? = null
     private var blockDistanceRemaining = 0.0
-    private val animHandler = AnimationHandlerSpellProjectile()
+    private val animHandler = AnimationHandler(ChannelSpellProjectileIdle("Idle", 100.0f, 60, ChannelMode.LOOP))
 
     init {
         setSize(0.4f, 0.4f)
