@@ -38,6 +38,8 @@ class SpriteRegister {
                 event.map.registerSprite(ResourceLocation(Constants.MOD_ID, "particles/spell_laser"))
             ModSprites.ENCHANTED_FROG_SPAWN =
                 event.map.registerSprite(ResourceLocation(Constants.MOD_ID, "particles/enchanted_frog_spawn"))
+            ModSprites.ENARIAS_ALTAR =
+                event.map.registerSprite(ResourceLocation(Constants.MOD_ID, "particles/enarias_altar"))
         }
     }
 }

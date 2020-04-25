@@ -322,11 +322,22 @@ class NightmareHandler {
             // Reset the player's stats so that they don't die from low hp in the new dimension
             resetPlayerStats(entityPlayer)
 
+            // Figure out how many nightmare stones the player has
+            val numberNightmareStones = entityPlayer.inventory
+                .clearMatchingItems(ModItems.NIGHTMARE_STONE, -1, -1, null)
+                .coerceAtMost(64)
+
             // Clear the nightmare junk out of the player's inventory
             entityPlayer.inventory.clear()
 
             // Update the player's inventory with the original things
             entityPlayer.inventory.readFromNBT(playerNightmareData.preTeleportPlayerInventory!!)
+
+            // If the player found a nightmare stone save it
+            if (numberNightmareStones > 0) {
+                entityPlayer.inventory.addItemStackToInventory(ItemStack(ModItems.NIGHTMARE_STONE, numberNightmareStones))
+            }
+
             entityPlayer.inventoryContainer.detectAndSendChanges()
         }
     }
