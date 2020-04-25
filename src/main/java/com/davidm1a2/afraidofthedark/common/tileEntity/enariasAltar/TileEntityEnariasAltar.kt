@@ -10,7 +10,11 @@ import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDAnimatedTileEnti
  */
 class TileEntityEnariasAltar : AOTDAnimatedTileEntity(
     ModBlocks.ENARIAS_ALTAR,
-    AnimationHandler(ChannelSpin("Spin", 5f, 60, ChannelMode.LINEAR))
+    AnimationHandler(
+        ChannelSpin("SpinSlow", 5f, 60, ChannelMode.LINEAR),
+        ChannelSpin("SpinMedium", 15f, 60, ChannelMode.LINEAR),
+        ChannelSpin("SpinFast", 30f, 60, ChannelMode.LINEAR)
+    )
 ) {
     /**
      * Called every tick to update the tile entity's state
@@ -18,10 +22,32 @@ class TileEntityEnariasAltar : AOTDAnimatedTileEntity(
     override fun update() {
         super.update()
         if (world.isRemote) {
-            val animHandler = getAnimationHandler()
-            if (!animHandler.isAnimationActive("Spin")) {
-                animHandler.playAnimation("Spin")
+            if (!anySpinActive()) {
+                val animHandler = getAnimationHandler()
+                val closestPlayer = world.getClosestPlayer(pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble(), MEDIUM_DISTANCE) { true }
+                if (closestPlayer != null) {
+                    val distance = closestPlayer.getDistance(pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble())
+                    if (distance <= FAST_DISTANCE) {
+                        animHandler.playAnimation("SpinFast")
+                    } else {
+                        animHandler.playAnimation("SpinMedium")
+                    }
+                } else {
+                    animHandler.playAnimation("SpinSlow")
+                }
             }
         }
+    }
+
+    private fun anySpinActive(): Boolean {
+        val animHandler = getAnimationHandler()
+        return animHandler.isAnimationActive("SpinFast") ||
+                animHandler.isAnimationActive("SpinMedium") ||
+                animHandler.isAnimationActive("SpinSlow")
+    }
+
+    companion object {
+        private const val FAST_DISTANCE = 5.0
+        private const val MEDIUM_DISTANCE = 15.0
     }
 }
