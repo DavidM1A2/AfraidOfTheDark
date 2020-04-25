@@ -200,6 +200,8 @@ object ModSchematics {
         *DARK_FOREST_TREES,
         *DARK_FOREST_PROPS,
         *GNOMISH_CITY_ROOMS,
+        ROOM_STAIR_DOWN,
+        ROOM_STAIR_UP,
         *DESERT_OASIS_LARGE_PLOTS,
         *DESERT_OASIS_SMALL_PLOTS,
         *DESERT_OASIS_SMALL_PLOTS90,

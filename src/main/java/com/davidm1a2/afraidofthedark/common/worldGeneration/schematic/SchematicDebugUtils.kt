@@ -4,10 +4,7 @@ import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import net.minecraft.block.Block
-import net.minecraft.nbt.CompressedStreamTools
-import net.minecraft.nbt.NBTTagCompound
-import net.minecraft.nbt.NBTTagList
-import net.minecraft.nbt.NBTTagString
+import net.minecraft.nbt.*
 import net.minecraft.util.ResourceLocation
 import org.apache.commons.lang3.StringUtils
 import org.apache.commons.lang3.exception.ExceptionUtils
@@ -66,12 +63,17 @@ object SchematicDebugUtils {
             schematicNBT.setTag("TileEntities", schematic.getTileEntities())
             schematicNBT.setTag("Entities", schematic.getEntities())
 
-            // For each block write its name to nbt
-            val stringBlocks = NBTTagList()
-            for (block in schematic.getBlocks()) {
-                stringBlocks.appendTag(NBTTagString(block.registryName.toString()))
-            }
-            schematicNBT.setTag("Blocks", stringBlocks)
+            // For each block:
+            // 1. Create a map of block name to arbitrary block id
+            // 2. Map each block to its arbitrary id
+            // 3. Store each arbitrary block id
+            // 4. Store the names of the corresponding block ids into an array
+            var lastBlockId = 0
+            val idToBlock = mutableMapOf<String, Int>()
+            val blocks = schematic.getBlocks()
+            val blockIds = blocks.map { idToBlock.computeIfAbsent(it.registryName.toString()) { lastBlockId++ } }.toIntArray()
+            schematicNBT.setTag("BlockIds", NBTTagIntArray(blockIds))
+            schematicNBT.setTag("BlockIdNames", NBTTagList().apply { idToBlock.keys.forEach { appendTag(NBTTagString(it)) } })
 
             // Write all of the nbt data to disk
             schematicNBT.setIntArray("Data", schematic.getData())

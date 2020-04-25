@@ -28,14 +28,14 @@ import net.minecraftforge.fml.relauncher.SideOnly
  *
  * @constructor initializes the block's properties
  */
-class BlockVoidChest : AOTDBlockTileEntity("void_chest", Material.ROCK) {
+class BlockVoidChest : AOTDBlockTileEntity("void_chest", Material.ROCK, true) {
     init {
         // Default chests face north
         this.defaultState = getBlockState().baseState.withProperty(FACING_PROPERTY, EnumFacing.NORTH)
         // Set the block's hardness, blast resistance, and harvest level
         setHardness(4.0f)
         setResistance(50.0f)
-        this.setHarvestLevel("pickaxe", 2)
+        setHarvestLevel("pickaxe", 2)
     }
 
     /**

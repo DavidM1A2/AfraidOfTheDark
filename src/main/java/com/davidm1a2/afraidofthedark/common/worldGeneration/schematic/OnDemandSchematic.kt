@@ -5,6 +5,7 @@ import com.davidm1a2.afraidofthedark.common.utility.ResourceUtil
 import net.minecraft.block.Block
 import net.minecraft.nbt.CompressedStreamTools
 import net.minecraft.nbt.NBTTagList
+import net.minecraft.nbt.NBTTagString
 import net.minecraft.util.ResourceLocation
 import java.io.IOException
 import java.util.*
@@ -60,16 +61,19 @@ class OnDemandSchematic internal constructor(
                 tileEntities = nbtData.getTagList("TileEntities", 10)
                 entities = nbtData.getTagList("Entities", 10)
 
-                // Read the blocks and data, use type 8 for string data.
-                val stringBlocks = nbtData.getTagList("Blocks", 8)
+                // Read the block data
                 data = nbtData.getIntArray("Data")
 
-                // Convert all of our string blocks in the format of 'modid:registryname' to block pointer
-                blocks = Array(stringBlocks.tagCount()) {
-                    Block.getBlockFromName(stringBlocks.getStringTagAt(it)) ?: throw IllegalArgumentException(
-                        "Invalid schematic block found: ${stringBlocks.getStringTagAt(it)}"
-                    )
-                }
+                // Read the block ids
+                val blockIds = nbtData.getIntArray("BlockIds")
+                // Read the map of block name to id
+                val blockMapNames = nbtData.getTagList("BlockIdNames", 8).map { (it as NBTTagString).string }
+
+                // Convert block names to block pointer references
+                val blockMapBlocks =
+                    blockMapNames.map { Block.getBlockFromName(it) ?: throw IllegalStateException("Invalid schematic block found: $it}") }.toTypedArray()
+                // Map each block id to block pointer
+                blocks = blockIds.map { blockMapBlocks[it] }.toTypedArray()
 
                 AfraidOfTheDark.INSTANCE.logger.info("Loaded $name into memory.")
             } catch (e: IOException) {
