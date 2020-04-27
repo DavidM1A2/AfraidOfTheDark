@@ -27,7 +27,8 @@ import org.lwjgl.util.Color
  * @constructor initializes the entire GUI
  * @param isCheatSheet True if this GUI should be a cheat sheet, or false otherwise
  * @property scrollBackground The GUI scroll background
- * @property researchTree The panel that contains all research nodes
+ * @property researchNodes The panel that contains all research nodes
+ * @property researchConnectors The panel that contains all research node connectors
  * @property nodeConnectorControllerVertical Sprite sheet controller for vertical arrows
  * @property nodeConnectorControllerHorizontal Sprite sheet controller for horizontal arrows
  * @property researchNodeMouseMoveListener Listener used by all research tree nodes
@@ -35,9 +36,10 @@ import org.lwjgl.util.Color
  */
 class BloodStainedJournalResearchGUI(isCheatSheet: Boolean) : AOTDGuiClickAndDragable() {
     private val scrollBackground: AOTDGuiImage
-    private val researchTree: AOTDGuiPanel
-    private val nodeConnectorControllerVertical = SpriteSheetController(500, 20, 60, 180, true, true)
-    private val nodeConnectorControllerHorizontal = SpriteSheetController(500, 20, 180, 60, true, false)
+    private val researchNodes: AOTDGuiPanel
+    private val researchConnectors: AOTDGuiPanel
+    private val nodeConnectorControllerVertical = SpriteSheetController(500, 20, 15, 45, true, true)
+    private val nodeConnectorControllerHorizontal = SpriteSheetController(500, 20, 45, 15, true, false)
     private val researchNodeMouseMoveListener: (AOTDMouseMoveEvent) -> Unit
     private val researchNodeMouseListener: (AOTDMouseEvent) -> Unit
 
@@ -53,7 +55,8 @@ class BloodStainedJournalResearchGUI(isCheatSheet: Boolean) : AOTDGuiClickAndDra
         // Create the research tree panel that will hold all the research nodes
         // The base panel that contains all researches
         val researchTreeBase = AOTDGuiPanel(xPosScroll, yPosScroll, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, true)
-        researchTree = AOTDGuiPanel(-guiOffsetX, -guiOffsetY, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, false)
+        researchNodes = AOTDGuiPanel(-guiOffsetX, -guiOffsetY, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, false)
+        researchConnectors = AOTDGuiPanel(-guiOffsetX, -guiOffsetY, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, false)
         contentPane.add(researchTreeBase)
         scrollBackground = AOTDGuiImage(
             0,
@@ -76,7 +79,8 @@ class BloodStainedJournalResearchGUI(isCheatSheet: Boolean) : AOTDGuiClickAndDra
             "afraidofthedark:textures/gui/journal_tech_tree/frame.png"
         )
         researchTreeBase.add(scrollBackground)
-        researchTreeBase.add(researchTree)
+        researchTreeBase.add(researchConnectors)
+        researchTreeBase.add(researchNodes)
         researchTreeBase.add(backgroundBorder)
 
         // If this is a cheat sheet add a label on top to make that clear
@@ -108,21 +112,29 @@ class BloodStainedJournalResearchGUI(isCheatSheet: Boolean) : AOTDGuiClickAndDra
                     val current = it.source as AOTDGuiResearchNodeButton
                     // Only allow clicking the button if it's within the container
                     if (researchTreeBase.intersects(current)) {
+                        val research = current.research
                         // If this isn't a cheat sheet open the research page
                         if (!isCheatSheet) {
                             // Store the selected research
-                            ClientData.lastSelectedResearch = current.research
+                            ClientData.lastSelectedResearch = research
                             // If the research is researched show the page UI, otherwise show the pre-page UI
-                            if (playerResearch.isResearched(current.research)) {
+                            if (playerResearch.isResearched(research)) {
                                 entityPlayer.openGui(AOTDGuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID)
-                            } else if (current.research.preRequisite != null && playerResearch.isResearched(current.research.preRequisite)) {
+                            } else if (research.preRequisite != null && playerResearch.isResearched(research.preRequisite)) {
                                 entityPlayer.openGui(AOTDGuiHandler.BLOOD_STAINED_JOURNAL_PAGE_PRE_ID)
                             }
                         } else {
                             // If this research can be researched unlock it
-                            if (playerResearch.canResearch(current.research)) {
-                                playerResearch.setResearchAndAlert(current.research, true, entityPlayer)
+                            if (playerResearch.canResearch(research)) {
+                                playerResearch.setResearchAndAlert(research, true, entityPlayer)
                                 playerResearch.sync(entityPlayer, false)
+                            }
+                            // Add a connector to any new researches that are available
+                            for (possibleResearch in ModRegistries.RESEARCH.valuesCollection) {
+                                if (possibleResearch.preRequisite == research) {
+                                    addConnector(possibleResearch)
+                                    addResearchButton(possibleResearch)
+                                }
                             }
                         }
                     }
@@ -163,7 +175,7 @@ class BloodStainedJournalResearchGUI(isCheatSheet: Boolean) : AOTDGuiClickAndDra
             // Depending on where the research is in relation to its previous research create an arrow
             when {
                 research.xPosition < previous.xPosition -> {
-                    researchTree.add(
+                    researchConnectors.add(
                         AOTDGuiSpriteSheetImage(
                             xPos + 26,
                             yPos + 9,
@@ -175,7 +187,7 @@ class BloodStainedJournalResearchGUI(isCheatSheet: Boolean) : AOTDGuiClickAndDra
                     )
                 }
                 research.xPosition > previous.xPosition -> {
-                    researchTree.add(
+                    researchConnectors.add(
                         AOTDGuiSpriteSheetImage(
                             xPos - 50,
                             yPos + 9,
@@ -187,7 +199,7 @@ class BloodStainedJournalResearchGUI(isCheatSheet: Boolean) : AOTDGuiClickAndDra
                     )
                 }
                 research.zPosition > previous.zPosition -> {
-                    researchTree.add(
+                    researchConnectors.add(
                         AOTDGuiSpriteSheetImage(
                             xPos + 9,
                             yPos + 30,
@@ -199,7 +211,7 @@ class BloodStainedJournalResearchGUI(isCheatSheet: Boolean) : AOTDGuiClickAndDra
                     )
                 }
                 research.zPosition < previous.zPosition -> {
-                    researchTree.add(
+                    researchConnectors.add(
                         AOTDGuiSpriteSheetImage(
                             xPos + 9,
                             yPos - 46,
@@ -229,7 +241,7 @@ class BloodStainedJournalResearchGUI(isCheatSheet: Boolean) : AOTDGuiClickAndDra
         researchNode.addMouseListener(researchNodeMouseListener)
         researchNode.addMouseMoveListener(researchNodeMouseMoveListener)
         // Add the node to our tree
-        researchTree.add(researchNode)
+        researchNodes.add(researchNode)
     }
 
     /**
@@ -244,8 +256,10 @@ class BloodStainedJournalResearchGUI(isCheatSheet: Boolean) : AOTDGuiClickAndDra
         // Call the super method
         super.mouseClickMove(mouseX, mouseY, lastButtonClicked, timeBetweenClicks)
         // Update the research tree's X and Y coordinates
-        researchTree.setX(-guiOffsetX + researchTree.parent!!.getX())
-        researchTree.setY(-guiOffsetY + researchTree.parent!!.getY())
+        researchNodes.setX(-guiOffsetX + researchNodes.parent!!.getX())
+        researchNodes.setY(-guiOffsetY + researchNodes.parent!!.getY())
+        researchConnectors.setX(-guiOffsetX + researchConnectors.parent!!.getX())
+        researchConnectors.setY(-guiOffsetY + researchConnectors.parent!!.getY())
         // Set the scroll background U and V
         scrollBackground.u = guiOffsetX + (scrollBackground.getMaxTextureWidth() - scrollBackground.getWidth()) / 2
         scrollBackground.v = guiOffsetY + (scrollBackground.getMaxTextureHeight() - scrollBackground.getHeight())
