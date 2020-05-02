@@ -51,19 +51,11 @@ class ClientProxy : IProxy {
      */
     override fun initializeEntityRenderers() {
         // Register all of our renderers
-        RenderingRegistry.registerEntityRenderingHandler(EntityEnchantedSkeleton::class.java) {
-            RenderEnchantedSkeleton(
-                it
-            )
-        }
+        RenderingRegistry.registerEntityRenderingHandler(EntityEnchantedSkeleton::class.java) { RenderEnchantedSkeleton(it) }
         RenderingRegistry.registerEntityRenderingHandler(EntityWerewolf::class.java) { RenderWerewolf(it) }
         RenderingRegistry.registerEntityRenderingHandler(EntityGhastlyEnaria::class.java) { RenderGhastlyEnaria(it) }
         RenderingRegistry.registerEntityRenderingHandler(EntitySplinterDrone::class.java) { RenderSplinterDrone(it) }
-        RenderingRegistry.registerEntityRenderingHandler(EntitySplinterDroneProjectile::class.java) {
-            RenderSplinterDroneProjectile(
-                it
-            )
-        }
+        RenderingRegistry.registerEntityRenderingHandler(EntitySplinterDroneProjectile::class.java) { RenderSplinterDroneProjectile(it) }
         RenderingRegistry.registerEntityRenderingHandler(EntityEnaria::class.java) { RenderEnaria(it) }
         RenderingRegistry.registerEntityRenderingHandler(EntityWoodenBolt::class.java) { RenderWoodenBolt(it) }
         RenderingRegistry.registerEntityRenderingHandler(EntityIronBolt::class.java) { RenderIronBolt(it) }
@@ -88,9 +80,7 @@ class ClientProxy : IProxy {
      * Called to register any key bindings
      */
     override fun registerKeyBindings() {
-        for (keyBinding in KEY_BINDING_LIST) {
-            ClientRegistry.registerKeyBinding(keyBinding)
-        }
+        KEY_BINDING_LIST.forEach { ClientRegistry.registerKeyBinding(it) }
     }
 
     /**
