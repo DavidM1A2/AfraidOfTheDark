@@ -26,7 +26,13 @@ import net.minecraftforge.fml.relauncher.SideOnly
  * @param accuracy How many blocks away meteors that the telescope finds are dropped
  * @param name The unlocalized name of the item
  */
-abstract class ItemTelescopeBase(private val accuracy: Int, name: String) : AOTDItem(name) {
+abstract class ItemTelescopeBase(val accuracy: Int, name: String) : AOTDItem(name) {
+    init {
+        require(accuracy >= 0) {
+            "Accuracy for telescopes must be positive!"
+        }
+    }
+
     /**
      * Called when the player right clicks with the telescope
      *

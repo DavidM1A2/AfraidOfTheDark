@@ -18,12 +18,14 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext
  * to tell the client what meteor lat/long/drop_angle/type they are watching
  *
  * @property meteorEntry The meteor entry that the user saw
+ * @property accuracy The telescope's accuracy
  * @property dropAngle The first field we need to figure out where the meteor landed
  * @property latitude The second field we need to figure out where the meteor landed
  * @property longitude The third field we need to figure out where the meteor landed
  */
 class UpdateWatchedMeteor : IMessage {
     private var meteorEntry: MeteorEntry?
+    private var accuracy: Int
     private var dropAngle: Int
     private var latitude: Int
     private var longitude: Int
@@ -33,6 +35,7 @@ class UpdateWatchedMeteor : IMessage {
      */
     constructor() {
         meteorEntry = null
+        accuracy = 0
         dropAngle = 0
         latitude = 0
         longitude = 0
@@ -44,12 +47,14 @@ class UpdateWatchedMeteor : IMessage {
      * 2. The client to tell the server what meteor was selected in the telescope GUI
      *
      * @param meteorEntry The meteor being watched
+     * @param accuracy The telescope's accuracy
      * @param dropAngle   The angle the meteor dropped at
      * @param latitude    The latitude the meteor was at
      * @param longitude   The longitude the meteor was at
      */
-    constructor(meteorEntry: MeteorEntry?, dropAngle: Int = 0, latitude: Int = 0, longitude: Int = 0) {
+    constructor(meteorEntry: MeteorEntry?, accuracy: Int, dropAngle: Int = 0, latitude: Int = 0, longitude: Int = 0) {
         this.meteorEntry = meteorEntry
+        this.accuracy = accuracy
         this.dropAngle = dropAngle
         this.latitude = latitude
         this.longitude = longitude
@@ -68,6 +73,7 @@ class UpdateWatchedMeteor : IMessage {
             ModRegistries.METEORS.getValue(ResourceLocation(meteorEntryString))
         }
 
+        accuracy = buf.readInt()
         dropAngle = buf.readInt()
         latitude = buf.readInt()
         longitude = buf.readInt()
@@ -80,6 +86,7 @@ class UpdateWatchedMeteor : IMessage {
      */
     override fun toBytes(buf: ByteBuf) {
         ByteBufUtils.writeUTF8String(buf, meteorEntry?.registryName?.toString() ?: "none")
+        buf.writeInt(accuracy)
         buf.writeInt(dropAngle)
         buf.writeInt(latitude)
         buf.writeInt(longitude)
@@ -99,7 +106,7 @@ class UpdateWatchedMeteor : IMessage {
          */
         override fun handleClientMessage(player: EntityPlayer, msg: UpdateWatchedMeteor, ctx: MessageContext) {
             // Update the player's watched meteor
-            player.getBasics().setWatchedMeteor(msg.meteorEntry, msg.dropAngle, msg.latitude, msg.longitude)
+            player.getBasics().setWatchedMeteor(msg.meteorEntry, msg.accuracy, msg.dropAngle, msg.latitude, msg.longitude)
         }
 
         /**
@@ -113,6 +120,7 @@ class UpdateWatchedMeteor : IMessage {
         override fun handleServerMessage(player: EntityPlayer, msg: UpdateWatchedMeteor, ctx: MessageContext) {
             // Randomize the meteor drop angle, latitude, and longitude
             val watchedMeteor = msg.meteorEntry
+            val accuracy = msg.accuracy
             val dropAngle = player.rng.nextInt(45) + 5
             val latitude = player.rng.nextInt(50) + 5
             val longitude = player.rng.nextInt(130) + 5
@@ -128,7 +136,7 @@ class UpdateWatchedMeteor : IMessage {
 
             // Update the player's watched meteor and send them values
             val playerBasics = player.getBasics()
-            playerBasics.setWatchedMeteor(watchedMeteor, dropAngle, latitude, longitude)
+            playerBasics.setWatchedMeteor(watchedMeteor, accuracy, dropAngle, latitude, longitude)
             playerBasics.syncWatchedMeteor(player)
         }
     }

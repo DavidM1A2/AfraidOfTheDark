@@ -31,6 +31,7 @@ class AOTDPlayerBasicsStorage : IStorage<IAOTDPlayerBasics> {
         compound.setBoolean(STARTED_AOTD, instance.startedAOTD)
         compound.setInteger(WRIST_CROSSBOW_BOLT_INDEX, instance.selectedWristCrossbowBoltIndex)
         compound.setString(WATCHED_METEOR, instance.getWatchedMeteor()?.registryName?.toString() ?: "none")
+        compound.setInteger(WATCHED_METEOR_ACCURACY, instance.getWatchedMeteorAccuracy())
         compound.setInteger(WATCHED_METEOR_DROP_ANGLE, instance.getWatchedMeteorDropAngle())
         compound.setInteger(WATCHED_METEOR_LATITUDE, instance.getWatchedMeteorLatitude())
         compound.setInteger(WATCHED_METEOR_LONGITUDE, instance.getWatchedMeteorLongitude())
@@ -60,11 +61,13 @@ class AOTDPlayerBasicsStorage : IStorage<IAOTDPlayerBasics> {
             val watchedMeteor = if (watchedMeteorName == "none") null else ModRegistries.METEORS.getValue(
                 ResourceLocation(watchedMeteorName)
             )
+            val watchedMeteorAccuracy = nbt.getInteger(WATCHED_METEOR_ACCURACY)
             val watchedMeteorDropAngle = nbt.getInteger(WATCHED_METEOR_DROP_ANGLE)
             val watchedMeteorLatitude = nbt.getInteger(WATCHED_METEOR_LATITUDE)
             val watchedMeteorLongitude = nbt.getInteger(WATCHED_METEOR_LONGITUDE)
             instance.setWatchedMeteor(
                 watchedMeteor,
+                watchedMeteorAccuracy,
                 watchedMeteorDropAngle,
                 watchedMeteorLatitude,
                 watchedMeteorLongitude
@@ -79,6 +82,7 @@ class AOTDPlayerBasicsStorage : IStorage<IAOTDPlayerBasics> {
         private const val STARTED_AOTD = "playerStartedAOTD"
         private const val WRIST_CROSSBOW_BOLT_INDEX = "wristCrossbowBoltIndex"
         private const val WATCHED_METEOR = "watchedMeteor"
+        private const val WATCHED_METEOR_ACCURACY = "watchedMeteorAccuracy"
         private const val WATCHED_METEOR_DROP_ANGLE = "watchedMeteorDropAngle"
         private const val WATCHED_METEOR_LATITUDE = "watchedMeteorLatitude"
         private const val WATCHED_METEOR_LONGITUDE = "watchedMeteorLongitude"

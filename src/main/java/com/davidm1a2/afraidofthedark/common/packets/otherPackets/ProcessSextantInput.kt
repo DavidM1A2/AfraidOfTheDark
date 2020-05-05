@@ -102,16 +102,18 @@ class ProcessSextantInput : IMessage {
                     // Drop the meteor
                     dropMeteor(player.world, meteorEntry, xLocOfDrop, zLocOfDrop)
 
+                    val accuracy = playerBasics.getWatchedMeteorAccuracy()
+
                     // Print out a message telling the player where the meteor dropped +/- 8 blocks
                     xLocOfDrop =
-                        xLocOfDrop + (if (Random.nextBoolean()) -1 else 1) * Random.nextInt(ACCURACY + 1)
+                        xLocOfDrop + (if (Random.nextBoolean()) -1 else 1) * Random.nextInt(accuracy + 1)
                     zLocOfDrop =
-                        zLocOfDrop + (if (Random.nextBoolean()) -1 else 1) * Random.nextInt(ACCURACY + 1)
+                        zLocOfDrop + (if (Random.nextBoolean()) -1 else 1) * Random.nextInt(accuracy + 1)
 
                     player.sendMessage(TextComponentTranslation(TranslationConstants.Sextant.METEOR_LOCATION, xLocOfDrop, zLocOfDrop))
 
                     // Clear the player's watched meteors so that the same meteor can't be used twice
-                    playerBasics.setWatchedMeteor(null, -1, -1, -1)
+                    playerBasics.setWatchedMeteor(null, 0, -1, -1, -1)
                     playerBasics.syncWatchedMeteor(player)
                 } else {
                     AfraidOfTheDark.INSTANCE.logger.error("Player ${player.gameProfile.name} had null meteor entry")
@@ -186,8 +188,6 @@ class ProcessSextantInput : IMessage {
         companion object {
             // The maximum distance a meteor can fall away from the player
             private const val MAX_METEOR_DISTANCE = 500
-            // The chance accuracy of the sextant used, the actual meteor will be within this many blocks of the coordinates
-            private const val ACCURACY = 16
             // An invalid list of top level blocks that the meteor cant start on
             private val INVALID_TOP_BLOCKS = setOf(
                 Blocks.AIR,

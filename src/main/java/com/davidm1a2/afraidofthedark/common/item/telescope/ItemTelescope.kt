@@ -10,7 +10,7 @@ import net.minecraft.util.EnumHand
 import net.minecraft.world.World
 
 /**
- * Basic telescope item used to track meteors
+ * Basic telescope item used to track meteors. Has an accuracy of 100 blocks
  */
 class ItemTelescope : ItemTelescopeBase(100, "telescope") {
     override fun onItemRightClick(world: World, player: EntityPlayer, hand: EnumHand): ActionResult<ItemStack> {

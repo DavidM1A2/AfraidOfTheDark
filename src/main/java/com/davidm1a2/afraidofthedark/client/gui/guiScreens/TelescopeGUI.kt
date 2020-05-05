@@ -8,7 +8,9 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiImage
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiPanel
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
+import com.davidm1a2.afraidofthedark.common.item.telescope.ItemTelescopeBase
 import com.davidm1a2.afraidofthedark.common.packets.otherPackets.UpdateWatchedMeteor
 
 /**
@@ -59,8 +61,10 @@ class TelescopeGUI : AOTDGuiClickAndDragable() {
                 if (event.source.isHovered && event.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
                     // Ensure that the button is visible and not just outside of the visual clip
                     if (telescopeMeteorClip.intersects(event.source)) {
+                        val telescopeItem = entityPlayer.heldItemMainhand.item as? ItemTelescopeBase ?: entityPlayer.heldItemOffhand.item as? ItemTelescopeBase
+                        val accuracy = telescopeItem?.accuracy ?: WORST_ACCURACY
                         // Tell the server we're watching a new meteor. It will update our capability NBT data for us
-                        AfraidOfTheDark.INSTANCE.packetHandler.sendToServer(UpdateWatchedMeteor((event.source as AOTDGuiMeteorButton).meteorType))
+                        AfraidOfTheDark.INSTANCE.packetHandler.sendToServer(UpdateWatchedMeteor((event.source as AOTDGuiMeteorButton).meteorType, accuracy))
                         entityPlayer.closeScreen()
                     }
                 }
@@ -149,7 +153,11 @@ class TelescopeGUI : AOTDGuiClickAndDragable() {
     companion object {
         // The gui will be 256x256
         private const val GUI_SIZE = 256
+
         // The amount of buffer to apply to the sides for the fade in to make the telescope look realistic
         private const val SIDE_BUFFER = 22
+
+        // The worst telescope accuracy possible
+        private val WORST_ACCURACY = ModItems.TELESCOPE.accuracy
     }
 }

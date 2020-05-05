@@ -15,6 +15,7 @@ import net.minecraft.entity.player.EntityPlayerMP
  * @property startedAOTD Flag telling us if the user has started the mod or not
  * @property selectedWristCrossbowBoltIndex Integer telling us what bolt the wrist crossbow is currently set to fire
  * @property watchedMeteor The meteor the player is currently observing (was last clicked in telescope)
+ * @property watchedMeteorAccuracy The accuracy of the telescope used to watch the meteor
  * @property watchedMeteorDropAngle <\
  * @property watchedMeteorLatitude    - The  3 properties of the watched meteor
  * @property watchedMeteorLongitude </
@@ -23,6 +24,7 @@ class AOTDPlayerBasicsImpl : IAOTDPlayerBasics {
     override var startedAOTD = false
     override var selectedWristCrossbowBoltIndex = 0
     private var watchedMeteor: MeteorEntry? = null
+    private var watchedMeteorAccuracy: Int = 0
     private var watchedMeteorDropAngle: Int = -1
     private var watchedMeteorLatitude: Int = -1
     private var watchedMeteorLongitude: Int = -1
@@ -72,12 +74,14 @@ class AOTDPlayerBasicsImpl : IAOTDPlayerBasics {
      * actual minecraft coordinates.
      *
      * @param meteorEntry The meteor that the player is watching
+     * @param accuracy The accuracy of the telescope used to track the meteor
      * @param dropAngle   The angle the meteor dropped in at
      * @param latitude    The latitude the meteor dropped in at
      * @param longitude   The longitude the meteor dropped in at
      */
-    override fun setWatchedMeteor(meteorEntry: MeteorEntry?, dropAngle: Int, latitude: Int, longitude: Int) {
+    override fun setWatchedMeteor(meteorEntry: MeteorEntry?, accuracy: Int, dropAngle: Int, latitude: Int, longitude: Int) {
         watchedMeteor = meteorEntry
+        watchedMeteorAccuracy = accuracy
         watchedMeteorDropAngle = dropAngle
         watchedMeteorLatitude = latitude
         watchedMeteorLongitude = longitude
@@ -88,6 +92,13 @@ class AOTDPlayerBasicsImpl : IAOTDPlayerBasics {
      */
     override fun getWatchedMeteor(): MeteorEntry? {
         return watchedMeteor
+    }
+
+    /**
+     * @return The accuracy of the telescope used to track the meteor
+     */
+    override fun getWatchedMeteorAccuracy(): Int {
+        return watchedMeteorAccuracy
     }
 
     /**
@@ -122,6 +133,7 @@ class AOTDPlayerBasicsImpl : IAOTDPlayerBasics {
             AfraidOfTheDark.INSTANCE.packetHandler.sendTo(
                 UpdateWatchedMeteor(
                     watchedMeteor,
+                    watchedMeteorAccuracy,
                     watchedMeteorDropAngle,
                     watchedMeteorLatitude,
                     watchedMeteorLongitude
