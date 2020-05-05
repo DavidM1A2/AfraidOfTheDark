@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.packets.otherPackets
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
+import com.davidm1a2.afraidofthedark.common.constants.TranslationConstants
 import com.davidm1a2.afraidofthedark.common.packets.packetHandler.MessageHandler.Bidirectional
 import com.davidm1a2.afraidofthedark.common.registry.meteor.MeteorEntry
 import io.netty.buffer.ByteBuf
@@ -119,19 +120,11 @@ class UpdateWatchedMeteor : IMessage {
             // Tell the player about the meteor estimated values
             player.sendMessage(
                 TextComponentTranslation(
-                    "message.afraidofthedark:falling_meteor.info.header",
-                    TextComponentTranslation(watchedMeteor!!.getUnlocalizedName())
+                    TranslationConstants.Sextant.FALLING_METEOR_INFO_HEADER, TextComponentTranslation(watchedMeteor!!.getUnlocalizedName())
                 )
             )
-            player.sendMessage(
-                TextComponentTranslation(
-                    "message.afraidofthedark:falling_meteor.info.data",
-                    dropAngle,
-                    latitude,
-                    longitude
-                )
-            )
-            player.sendMessage(TextComponentTranslation("message.afraidofthedark:falling_meteor.info.help"))
+            player.sendMessage(TextComponentTranslation(TranslationConstants.Sextant.FALLING_METEOR_INFO_DATA, dropAngle, latitude, longitude))
+            player.sendMessage(TextComponentTranslation(TranslationConstants.Sextant.FALLING_METEOR_INFO_HELP))
 
             // Update the player's watched meteor and send them values
             val playerBasics = player.getBasics()

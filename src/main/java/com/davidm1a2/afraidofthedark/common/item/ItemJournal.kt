@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.item
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiHandler
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
+import com.davidm1a2.afraidofthedark.common.constants.TranslationConstants
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import com.davidm1a2.afraidofthedark.common.utility.openGui
@@ -78,7 +79,7 @@ class ItemJournal : AOTDItem("journal") {
         } else {
             // Send chat messages on server side only
             if (!world.isRemote) {
-                player.sendMessage(TextComponentTranslation("message.afraidofthedark:journal.cant_comprehend"))
+                player.sendMessage(TextComponentTranslation(TranslationConstants.Item.JOURNAL_CANT_COMPREHEND))
             }
         }
 

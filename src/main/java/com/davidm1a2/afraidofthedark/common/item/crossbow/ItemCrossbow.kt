@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.item.crossbow
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
+import com.davidm1a2.afraidofthedark.common.constants.TranslationConstants
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.registry.bolt.BoltEntry
 import com.davidm1a2.afraidofthedark.common.utility.BoltOrderHelper
@@ -88,7 +89,7 @@ class ItemCrossbow : AOTDItem("crossbow") {
                     } else {
                         player.sendMessage(
                             TextComponentTranslation(
-                                "message.afraidofthedark:crossbow.no_bolt",
+                                TranslationConstants.Item.CROSSBOW_NO_BOLT,
                                 TextComponentTranslation(getCurrentBoltType(itemStack).getUnlocalizedName())
                             )
                         )
@@ -190,7 +191,7 @@ class ItemCrossbow : AOTDItem("crossbow") {
             if (!entityPlayer.world.isRemote) {
                 entityPlayer.sendMessage(
                     TextComponentTranslation(
-                        "message.afraidofthedark:crossbow.bolt_change",
+                        TranslationConstants.Item.CROSSBOW_BOLT_CHANGE,
                         TextComponentTranslation(getCurrentBoltType(itemStack).getUnlocalizedName())
                     )
                 )

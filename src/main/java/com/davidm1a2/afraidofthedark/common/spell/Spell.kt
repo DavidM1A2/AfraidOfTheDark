@@ -4,6 +4,7 @@ import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.client.particle.AOTDParticleRegistry
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
+import com.davidm1a2.afraidofthedark.common.constants.TranslationConstants
 import com.davidm1a2.afraidofthedark.common.packets.otherPackets.SyncParticle
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
@@ -125,13 +126,13 @@ class Spell : INBTSerializable<NBTTagCompound> {
                         }
                     }
                 } else {
-                    entity.sendMessage(TextComponentTranslation("message.afraidofthedark:spell.invalid"))
+                    entity.sendMessage(TextComponentTranslation(TranslationConstants.Spell.INVALID))
                     if (entity !is EntityPlayer) {
                         AfraidOfTheDark.INSTANCE.logger.info("Entity '${entity.name}' attempted to cast an invalid spell?")
                     }
                 }
             } else {
-                entity.sendMessage(TextComponentTranslation("message.afraidofthedark:spell.wrong_dimension"))
+                entity.sendMessage(TextComponentTranslation(TranslationConstants.Spell.WRONG_DIMENSION))
                 if (entity !is EntityPlayer) {
                     AfraidOfTheDark.INSTANCE.logger.info("Entity '${entity.name}' attempted to cast a spell in the nightmare?")
                 }

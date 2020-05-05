@@ -4,6 +4,7 @@ import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.constants.TranslationConstants
 import com.davidm1a2.afraidofthedark.common.entity.enaria.animation.ChannelArmthrow
 import com.davidm1a2.afraidofthedark.common.entity.enaria.animation.ChannelAutoattack
 import com.davidm1a2.afraidofthedark.common.entity.enaria.animation.ChannelSpell
@@ -190,7 +191,7 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedModel {
                 if (damageSource is EntityPlayer) {
                     // If a player hit enaria check if they have the right research
                     if (!damageSource.getResearch().isResearched(ModResearches.ENARIA.preRequisite!!)) {
-                        damageSource.sendMessage(TextComponentTranslation("message.afraidofthedark:enaria.dont_understand"))
+                        damageSource.sendMessage(TextComponentTranslation(TranslationConstants.Enaria.DONT_UNDERSTAND))
                         // Can't damage enaria without research
                         return false
                     }

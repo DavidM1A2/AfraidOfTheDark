@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.item
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.constants.TranslationConstants
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItemWithSharedCooldown
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.entity.Entity
@@ -94,16 +95,11 @@ class ItemStarMetalStaff : AOTDItemWithSharedCooldown("star_metal_staff") {
                     return ActionResult.newResult(EnumActionResult.SUCCESS, heldItem)
                 } else {
                     // If the staff is on cooldown say that
-                    player.sendMessage(
-                        TextComponentTranslation(
-                            "message.afraidofthedark:star_metal_staff.on_cooldown",
-                            cooldownRemainingInSeconds(heldItem)
-                        )
-                    )
+                    player.sendMessage(TextComponentTranslation(TranslationConstants.Item.STAR_METAL_STAFF_ON_COOLDOWN, cooldownRemainingInSeconds(heldItem)))
                 }
             } else {
                 // If the player has the wrong research print an error
-                player.sendMessage(TextComponentTranslation("message.afraidofthedark:dont_understand"))
+                player.sendMessage(TextComponentTranslation(TranslationConstants.Generic.DONT_UNDERSTAND))
             }
         }
         return super.onItemRightClick(world, player, hand)

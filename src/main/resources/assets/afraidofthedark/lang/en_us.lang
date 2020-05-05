@@ -188,6 +188,11 @@ research.afraidofthedark:astral_silver.tooltip=silver of the moon
 research.afraidofthedark:astral_silver.pre_text=I have noticed a meteor in my telescope. I should track one down with my telescope and sextant.
 research.afraidofthedark:astral_silver.text=I have finished tracking down a meteor. Its composition is a material similar to elemental silver. It can be made into a sword, which seems to be about as effective as an iron sword. Its main characteristic is that it deals massive damage to werewolves. It can also be made into crossbow bolts, which share the sword's ability to harm werewolves where nothing else seems to work.
 
+research.afraidofthedark:basic_optics.name=Basic Optics
+research.afraidofthedark:basic_optics.tooltip=eye spy
+research.afraidofthedark:basic_optics.pre_text=Pre
+research.afraidofthedark:basic_optics.text=Post
+
 research.afraidofthedark:slaying_of_the_wolves.name=Slaying of the Wolves
 research.afraidofthedark:slaying_of_the_wolves.tooltip=Warwick OP
 research.afraidofthedark:slaying_of_the_wolves.pre_text=Now that I have access to weapons which can actually hurt werewolves, I should endeavor to kill one using an astral silver sword.

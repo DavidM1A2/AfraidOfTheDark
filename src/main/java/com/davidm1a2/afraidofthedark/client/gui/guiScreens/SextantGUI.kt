@@ -10,6 +10,7 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiPanel
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiTextField
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.constants.TranslationConstants
 import com.davidm1a2.afraidofthedark.common.packets.otherPackets.ProcessSextantInput
 import net.minecraft.util.text.TextComponentTranslation
 import org.lwjgl.util.Color
@@ -83,7 +84,7 @@ class SextantGUI : AOTDGuiScreen() {
                     val longitudeText = longitude.getText()
                     // If any of the fields are empty print a message
                     if (dropAngleText.isEmpty() || latitudeText.isEmpty() || longitudeText.isEmpty()) {
-                        entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:sextant.process.field_empty"))
+                        entityPlayer.sendMessage(TextComponentTranslation(TranslationConstants.Sextant.FIELD_EMPTY))
                     }
 
                     // If any field is invalid send the player an error, otherwrise send the info to the server
@@ -96,7 +97,7 @@ class SextantGUI : AOTDGuiScreen() {
                             )
                         )
                     } catch (e: NumberFormatException) {
-                        entityPlayer.sendMessage(TextComponentTranslation("message.afraidofthedark:sextant.process.invalid_vals"))
+                        entityPlayer.sendMessage(TextComponentTranslation(TranslationConstants.Sextant.INVALID_VALUE))
                     }
                     entityPlayer.closeScreen()
                 }

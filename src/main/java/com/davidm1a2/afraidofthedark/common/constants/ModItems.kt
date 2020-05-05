@@ -4,6 +4,7 @@ import com.davidm1a2.afraidofthedark.common.item.*
 import com.davidm1a2.afraidofthedark.common.item.crossbow.ItemCrossbow
 import com.davidm1a2.afraidofthedark.common.item.crossbow.ItemWristCrossbow
 import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.*
+import com.davidm1a2.afraidofthedark.common.item.telescope.ItemTelescope
 import net.minecraft.inventory.EntityEquipmentSlot
 
 /**

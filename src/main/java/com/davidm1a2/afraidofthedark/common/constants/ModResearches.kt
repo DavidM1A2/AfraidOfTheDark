@@ -14,6 +14,7 @@ object ModResearches {
     val WEREWOLF_EXAMINATION = AOTDResearch("werewolf_examination", AN_UNBREAKABLE_COVENANT)
     val ASTRONOMY_1 = AOTDResearch("astronomy_1", WEREWOLF_EXAMINATION)
     val ASTRAL_SILVER = AOTDResearch("astral_silver", ASTRONOMY_1)
+    val BASIC_OPTICS = AOTDResearch("basic_optics", ASTRONOMY_1)
     val SLAYING_OF_THE_WOLVES = AOTDResearch("slaying_of_the_wolves", ASTRAL_SILVER)
     val PHYLACTERY_OF_SOULS = AOTDResearch("phylactery_of_souls", SLAYING_OF_THE_WOLVES)
     val CLOAK_OF_AGILITY = AOTDResearch("cloak_of_agility", WEREWOLF_EXAMINATION)
@@ -41,6 +42,7 @@ object ModResearches {
         WEREWOLF_EXAMINATION,
         ASTRONOMY_1,
         ASTRAL_SILVER,
+        BASIC_OPTICS,
         SLAYING_OF_THE_WOLVES,
         PHYLACTERY_OF_SOULS,
         CLOAK_OF_AGILITY,
