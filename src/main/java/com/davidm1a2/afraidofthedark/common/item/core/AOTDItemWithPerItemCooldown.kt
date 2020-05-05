@@ -14,7 +14,7 @@ import kotlin.math.max
  *
  * @constructor sets up item properties
  * @param baseName The name of the item to be used by the game registry
- * @property serverClientTimeDifference The time different between server and client clocks which is used to syncronize the cooldown bar. This can be the same for all items with cooldowns.
+ * @property serverClientTimeDifference The time different between server and client clocks which is used to synchronize the cooldown bar. This can be the same for all items with cooldowns.
  *                                      Since the server-client time difference is not item dependent
  */
 abstract class AOTDItemWithPerItemCooldown(baseName: String, displayInCreative: Boolean = true) :
@@ -62,7 +62,7 @@ abstract class AOTDItemWithPerItemCooldown(baseName: String, displayInCreative: 
      */
     fun isOnCooldown(itemStack: ItemStack): Boolean {
         val millisecondsElapsed = System.currentTimeMillis() - getLastUseTime(itemStack)
-        return millisecondsElapsed < getItemCooldownInMilliseconds(itemStack)
+        return millisecondsElapsed < getCooldownInMilliseconds(itemStack)
     }
 
     /**
@@ -73,7 +73,7 @@ abstract class AOTDItemWithPerItemCooldown(baseName: String, displayInCreative: 
      */
     fun cooldownRemainingInSeconds(itemStack: ItemStack): Int {
         val millisecondsElapsed = System.currentTimeMillis() - getLastUseTime(itemStack)
-        return ceil((getItemCooldownInMilliseconds(itemStack) - millisecondsElapsed) / 1000.0).toInt()
+        return ceil((getCooldownInMilliseconds(itemStack) - millisecondsElapsed) / 1000.0).toInt()
     }
 
     /**
@@ -84,7 +84,7 @@ abstract class AOTDItemWithPerItemCooldown(baseName: String, displayInCreative: 
      */
     override fun getDurabilityForDisplay(stack: ItemStack): Double {
         val millisecondsElapsed = System.currentTimeMillis() - serverClientTimeDifference - getLastUseTime(stack)
-        return max(0.0, 1 - millisecondsElapsed.toDouble() / getItemCooldownInMilliseconds(stack).toDouble())
+        return max(0.0, 1 - millisecondsElapsed.toDouble() / getCooldownInMilliseconds(stack).toDouble())
     }
 
     /**
@@ -116,7 +116,7 @@ abstract class AOTDItemWithPerItemCooldown(baseName: String, displayInCreative: 
      * @param itemStack The itemstack to get the cooldown for
      * @return The number of milliseconds required to finish the cooldown
      */
-    abstract fun getItemCooldownInMilliseconds(itemStack: ItemStack): Int
+    abstract fun getCooldownInMilliseconds(itemStack: ItemStack): Int
 
     companion object {
         private const val NBT_LAST_USE_TIME = "last_use_time"

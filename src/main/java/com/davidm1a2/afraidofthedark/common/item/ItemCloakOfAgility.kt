@@ -40,7 +40,7 @@ class ItemCloakOfAgility : AOTDItemWithSharedCooldown("cloak_of_agility") {
      * @param itemStack The itemstack to get the cooldown for
      * @return The number of milliseconds required to finish the cooldown
      */
-    override fun getItemCooldownInMilliseconds(itemStack: ItemStack): Int {
+    override fun getCooldownInMilliseconds(itemStack: ItemStack): Int {
         return 4000
     }
 }

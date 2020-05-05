@@ -159,7 +159,7 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls") {
      * @param itemStack The itemstack to get the cooldown for
      * @return The number of milliseconds required to finish the cooldown
      */
-    override fun getItemCooldownInMilliseconds(itemStack: ItemStack): Int {
+    override fun getCooldownInMilliseconds(itemStack: ItemStack): Int {
         val killsRequired = ENTITY_TO_KILLS_REQUIRED[getSpawnedEntity(itemStack)] ?: DEFAULT_KILLS_REQUIRED
         return KILL_COUNT_TO_COOLDOWN[killsRequired] ?: DEFAULT_COOLDOWN
     }
@@ -185,7 +185,7 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls") {
                 // If the flask is done show info one way, otherwise show it the other way
                 if (isComplete(stack)) {
                     tooltip.add("Flask bound to: ${EntityList.getTranslationName(getSpawnedEntity(stack))}")
-                    tooltip.add("Flask complete, cooldown is ${getItemCooldownInMilliseconds(stack) / 1000 + 1}s")
+                    tooltip.add("Flask complete, cooldown is ${getCooldownInMilliseconds(stack) / 1000 + 1}s")
                 } else {
                     tooltip.add("Flask bound to: ${EntityList.getTranslationName(getSpawnedEntity(stack))}")
                     tooltip.add(
