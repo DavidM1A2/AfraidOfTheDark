@@ -2,8 +2,8 @@ package com.davidm1a2.afraidofthedark.common.block
 
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDBlockTileEntity
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
+import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
-import com.davidm1a2.afraidofthedark.common.constants.TranslationConstants
 import com.davidm1a2.afraidofthedark.common.tileEntity.TileEntityVoidChest
 import net.minecraft.block.BlockHorizontal
 import net.minecraft.block.material.Material
@@ -174,7 +174,7 @@ class BlockVoidChest : AOTDBlockTileEntity("void_chest", Material.ROCK, true) {
                 // Let the player interact with the chest
                 tileEntity.interact(playerIn)
             } else if (!worldIn.isRemote) {
-                playerIn.sendMessage(TextComponentTranslation(TranslationConstants.VoidChest.DONT_UNDERSTAND))
+                playerIn.sendMessage(TextComponentTranslation(LocalizationConstants.VoidChest.DONT_UNDERSTAND))
             }
         }
         return true

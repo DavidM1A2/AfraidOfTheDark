@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.worldGeneration
 
 import com.davidm1a2.afraidofthedark.common.capabilities.world.StructurePlan
-import com.davidm1a2.afraidofthedark.common.constants.TranslationConstants
+import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.world.World
@@ -91,7 +91,7 @@ class AOTDWorldGenerator : IWorldGenerator {
         if (!event.world.isRemote && event.world.provider.dimension == 0) {
             // Perform some finalization if we need to generate some chunks
             if (!chunksThatNeedGeneration.isEmpty()) {
-                event.world.minecraftServer!!.sendMessage(TextComponentTranslation(TranslationConstants.WorldGen.SAVING, chunksThatNeedGeneration.size))
+                event.world.minecraftServer!!.sendMessage(TextComponentTranslation(LocalizationConstants.WorldGen.SAVING, chunksThatNeedGeneration.size))
 
                 // Loop while we still need to generate a chunk
                 while (!chunksThatNeedGeneration.isEmpty()) {

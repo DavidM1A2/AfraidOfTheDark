@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.common.constants
 /**
  * Translation keys used for messages to the player
  */
-object TranslationConstants {
+object LocalizationConstants {
     object Generic {
         const val DONT_UNDERSTAND = "message.afraidofthedark:dont_understand"
     }

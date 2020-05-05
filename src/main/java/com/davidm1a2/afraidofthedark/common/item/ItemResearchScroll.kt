@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.item
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
+import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
-import com.davidm1a2.afraidofthedark.common.constants.TranslationConstants
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
@@ -72,21 +72,21 @@ class ItemResearchScroll : AOTDItem("research_scroll") {
                         playerResearch.setResearch(scrollResearch, true)
                         playerResearch.sync(player, true)
                     } else {
-                        player.sendMessage(TextComponentTranslation(TranslationConstants.Item.RESEARCH_SCROLL_INCOMPLETE))
+                        player.sendMessage(TextComponentTranslation(LocalizationConstants.Item.RESEARCH_SCROLL_INCOMPLETE))
                     }
                 }
                 // If the player does not yet have the research then state that they need additional research first
                 else if (!playerResearch.isResearched(scrollResearch)) {
-                    player.sendMessage(TextComponentTranslation(TranslationConstants.Item.RESEARCH_SCROLL_CANT_UNDERSTAND))
+                    player.sendMessage(TextComponentTranslation(LocalizationConstants.Item.RESEARCH_SCROLL_CANT_UNDERSTAND))
                 }
                 // If the player does have the research tell them
                 else {
-                    player.sendMessage(TextComponentTranslation(TranslationConstants.Item.RESEARCH_SCROLL_ALREADY_RESEARCHED))
+                    player.sendMessage(TextComponentTranslation(LocalizationConstants.Item.RESEARCH_SCROLL_ALREADY_RESEARCHED))
                 }
             }
             // No valid research detected
             else {
-                player.sendMessage(TextComponentTranslation(TranslationConstants.Item.RESEARCH_SCROLL_CORRUPT))
+                player.sendMessage(TextComponentTranslation(LocalizationConstants.Item.RESEARCH_SCROLL_CORRUPT))
             }
         }
         return super.onItemRightClick(world, player, hand)

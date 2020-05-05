@@ -2,9 +2,9 @@ package com.davidm1a2.afraidofthedark.common.tileEntity
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.getVoidChestData
+import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
-import com.davidm1a2.afraidofthedark.common.constants.TranslationConstants
 import com.davidm1a2.afraidofthedark.common.dimension.IslandUtility.getOrAssignPlayerPositionalIndex
 import com.davidm1a2.afraidofthedark.common.packets.otherPackets.SyncVoidChest
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity
@@ -141,7 +141,7 @@ class TileEntityVoidChest : AOTDTickingTileEntity(ModBlocks.VOID_CHEST) {
                         }
                     } else {
                         if (!world.isRemote) {
-                            playerToSend!!.sendMessage(TextComponentTranslation(TranslationConstants.VoidChest.WRONG_DIMENSION))
+                            playerToSend!!.sendMessage(TextComponentTranslation(LocalizationConstants.VoidChest.WRONG_DIMENSION))
                         }
                     }
                 }
@@ -163,7 +163,7 @@ class TileEntityVoidChest : AOTDTickingTileEntity(ModBlocks.VOID_CHEST) {
                 val voidChestWorld: World = world.minecraftServer!!.getWorld(ModDimensions.VOID_CHEST.id)
                 val playerVoidChestData = entityPlayer.getVoidChestData()
                 indexToGoTo = getOrAssignPlayerPositionalIndex(voidChestWorld, playerVoidChestData)
-                entityPlayer.sendMessage(TextComponentTranslation(TranslationConstants.VoidChest.OWNER_SET, entityPlayer.gameProfile.name))
+                entityPlayer.sendMessage(TextComponentTranslation(LocalizationConstants.VoidChest.OWNER_SET, entityPlayer.gameProfile.name))
             } else if (entityPlayer.gameProfile.id == owner) {
                 // Test if the player is holding a name tag. If so add/remove the friend, if not open the chest
                 val heldItem = entityPlayer.heldItemMainhand
@@ -176,13 +176,13 @@ class TileEntityVoidChest : AOTDTickingTileEntity(ModBlocks.VOID_CHEST) {
                         // If the chest does not have the friend add the friend
                         if (!friends.contains(friendsUUID)) {
                             friends.add(friendsUUID)
-                            entityPlayer.sendMessage(TextComponentTranslation(TranslationConstants.VoidChest.FRIEND_ADD, heldItem.displayName))
+                            entityPlayer.sendMessage(TextComponentTranslation(LocalizationConstants.VoidChest.FRIEND_ADD, heldItem.displayName))
                         } else {
                             friends.remove(friendsUUID)
-                            entityPlayer.sendMessage(TextComponentTranslation(TranslationConstants.VoidChest.FRIEND_REMOVE, heldItem.displayName))
+                            entityPlayer.sendMessage(TextComponentTranslation(LocalizationConstants.VoidChest.FRIEND_REMOVE, heldItem.displayName))
                         }
                     } else {
-                        entityPlayer.sendMessage(TextComponentTranslation(TranslationConstants.VoidChest.INVALID_ACCOUNT, heldItem.displayName))
+                        entityPlayer.sendMessage(TextComponentTranslation(LocalizationConstants.VoidChest.INVALID_ACCOUNT, heldItem.displayName))
                     }
                 } else {
                     openChest(entityPlayer)
@@ -199,7 +199,7 @@ class TileEntityVoidChest : AOTDTickingTileEntity(ModBlocks.VOID_CHEST) {
                 // Test if the player is trying to edit a chest's friend list that isnt theirs
                 val heldItem = entityPlayer.heldItemMainhand
                 if (heldItem.item is ItemNameTag) {
-                    entityPlayer.sendMessage(TextComponentTranslation(TranslationConstants.VoidChest.NO_EDIT_ACCESS))
+                    entityPlayer.sendMessage(TextComponentTranslation(LocalizationConstants.VoidChest.NO_EDIT_ACCESS))
                 } else {
                     openChest(entityPlayer)
                     AfraidOfTheDark.INSTANCE.packetHandler.sendToDimension(
@@ -212,7 +212,7 @@ class TileEntityVoidChest : AOTDTickingTileEntity(ModBlocks.VOID_CHEST) {
                     )
                 }
             } else {
-                entityPlayer.sendMessage(TextComponentTranslation(TranslationConstants.VoidChest.NO_ACCESS))
+                entityPlayer.sendMessage(TextComponentTranslation(LocalizationConstants.VoidChest.NO_ACCESS))
             }
         }
     }

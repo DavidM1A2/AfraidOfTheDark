@@ -6,9 +6,9 @@ import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
+import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
-import com.davidm1a2.afraidofthedark.common.constants.TranslationConstants
 import com.davidm1a2.afraidofthedark.common.spell.component.InvalidValueException
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
@@ -289,14 +289,14 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
                                 catch (e: InvalidValueException) {
                                     onePropertyInvalid = true
                                     entityPlayer.sendMessage(
-                                        TextComponentTranslation(TranslationConstants.Spell.PROPERTY_EDIT_FAILED, propEditorPair.key.name, e.message)
+                                        TextComponentTranslation(LocalizationConstants.Spell.PROPERTY_EDIT_FAILED, propEditorPair.key.name, e.message)
                                     )
                                 }
                             }
 
                             // If no properties were invalid save successfully
                             if (!onePropertyInvalid) {
-                                entityPlayer.sendMessage(TextComponentTranslation(TranslationConstants.Spell.PROPERTY_EDIT_SUCCEEDED))
+                                entityPlayer.sendMessage(TextComponentTranslation(LocalizationConstants.Spell.PROPERTY_EDIT_SUCCEEDED))
                             }
 
                             // Clear the editor

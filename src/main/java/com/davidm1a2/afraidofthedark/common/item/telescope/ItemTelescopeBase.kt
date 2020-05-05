@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.common.item.telescope
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiHandler
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
-import com.davidm1a2.afraidofthedark.common.constants.TranslationConstants
+import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
 import com.davidm1a2.afraidofthedark.common.utility.openGui
@@ -60,10 +60,10 @@ abstract class ItemTelescopeBase(val accuracy: Int, name: String) : AOTDItem(nam
             if (playerResearch.isResearched(research) || playerResearch.canResearch(research)) {
                 // Tell the player that they need to be higher to see through the clouds
                 if (!highEnough) {
-                    player.sendMessage(TextComponentTranslation(TranslationConstants.Item.TELESCOPE_NOT_HIGH_ENOUGH))
+                    player.sendMessage(TextComponentTranslation(LocalizationConstants.Item.TELESCOPE_NOT_HIGH_ENOUGH))
                 }
             } else {
-                player.sendMessage(TextComponentTranslation(TranslationConstants.Generic.DONT_UNDERSTAND))
+                player.sendMessage(TextComponentTranslation(LocalizationConstants.Generic.DONT_UNDERSTAND))
             }
         }
 
@@ -94,10 +94,10 @@ abstract class ItemTelescopeBase(val accuracy: Int, name: String) : AOTDItem(nam
                 tooltip.add("Right click above y=128 to find meteors")
                 tooltip.add("Accurate to $accuracy blocks")
             } else {
-                tooltip.add(I18n.format(TranslationConstants.Generic.DONT_UNDERSTAND))
+                tooltip.add(I18n.format(LocalizationConstants.Generic.DONT_UNDERSTAND))
             }
         } else {
-            tooltip.add(I18n.format(TranslationConstants.Generic.DONT_UNDERSTAND))
+            tooltip.add(I18n.format(LocalizationConstants.Generic.DONT_UNDERSTAND))
         }
     }
 

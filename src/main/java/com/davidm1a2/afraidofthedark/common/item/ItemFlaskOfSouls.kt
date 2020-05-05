@@ -3,9 +3,9 @@ package com.davidm1a2.afraidofthedark.common.item
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
-import com.davidm1a2.afraidofthedark.common.constants.TranslationConstants
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItemWithPerItemCooldown
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.block.BlockLiquid
@@ -75,7 +75,7 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls") {
                     }
                 }
             } else {
-                player.sendMessage(TextComponentTranslation(TranslationConstants.Generic.DONT_UNDERSTAND))
+                player.sendMessage(TextComponentTranslation(LocalizationConstants.Generic.DONT_UNDERSTAND))
             }
         }
         return ActionResult.newResult(EnumActionResult.SUCCESS, itemStack)
@@ -123,11 +123,11 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls") {
                     }
                 } else {
                     entityPlayer.sendMessage(
-                        TextComponentTranslation(TranslationConstants.Item.FLASK_OF_SOULS_ON_COOLDOWN, cooldownRemainingInSeconds(itemStack))
+                        TextComponentTranslation(LocalizationConstants.Item.FLASK_OF_SOULS_ON_COOLDOWN, cooldownRemainingInSeconds(itemStack))
                     )
                 }
             } else {
-                entityPlayer.sendMessage(TextComponentTranslation(TranslationConstants.Item.FLASK_OF_SOULS_INCOMPLETE))
+                entityPlayer.sendMessage(TextComponentTranslation(LocalizationConstants.Item.FLASK_OF_SOULS_INCOMPLETE))
             }
         }
     }

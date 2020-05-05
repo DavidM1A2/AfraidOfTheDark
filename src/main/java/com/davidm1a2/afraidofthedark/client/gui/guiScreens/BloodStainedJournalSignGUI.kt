@@ -13,9 +13,9 @@ import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
-import com.davidm1a2.afraidofthedark.common.constants.TranslationConstants
 import com.davidm1a2.afraidofthedark.common.item.ItemJournal
 import net.minecraft.init.SoundEvents
 import net.minecraft.util.text.TextComponentTranslation
@@ -114,13 +114,13 @@ class BloodStainedJournalSignGUI : AOTDGuiScreen() {
 
                             // Play the sign animation and chat message
                             entityPlayer.playSound(ModSounds.JOURNAL_SIGN, 4.0F, 1.0F)
-                            entityPlayer.sendMessage(TextComponentTranslation(TranslationConstants.SignJournal.SUCCESSFUL))
+                            entityPlayer.sendMessage(TextComponentTranslation(LocalizationConstants.SignJournal.SUCCESSFUL))
                         }
                     } else {
                         // Test if the user has not yet started AOTD
                         if (!playerBasics.startedAOTD) {
                             // If he has not started then print out a message that the name was wrong
-                            entityPlayer.sendMessage(TextComponentTranslation(TranslationConstants.SignJournal.UNSUCCESSFUL))
+                            entityPlayer.sendMessage(TextComponentTranslation(LocalizationConstants.SignJournal.UNSUCCESSFUL))
                             entityPlayer.closeScreen()
                         }
                     }

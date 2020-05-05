@@ -3,8 +3,8 @@ package com.davidm1a2.afraidofthedark.common.block
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiHandler
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDBlockTileEntity
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
+import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
-import com.davidm1a2.afraidofthedark.common.constants.TranslationConstants
 import com.davidm1a2.afraidofthedark.common.tileEntity.enariasAltar.TileEntityEnariasAltar
 import com.davidm1a2.afraidofthedark.common.utility.openGui
 import net.minecraft.block.material.Material
@@ -69,7 +69,7 @@ class BlockEnariasAltar : AOTDBlockTileEntity("enarias_altar", Material.PORTAL) 
             if (playerResearch.isResearched(ModResearches.ENARIAS_SECRET)) {
                 playerIn.openGui(AOTDGuiHandler.SPELL_LIST_ID)
             } else {
-                playerIn.sendMessage(TextComponentTranslation(TranslationConstants.EnariasAltar.NO_RESEARCH))
+                playerIn.sendMessage(TextComponentTranslation(LocalizationConstants.EnariasAltar.NO_RESEARCH))
             }
         }
         return true

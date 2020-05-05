@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.item
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
-import com.davidm1a2.afraidofthedark.common.constants.TranslationConstants
+import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.client.Minecraft
@@ -91,10 +91,10 @@ class ItemWand : AOTDItem("wand") {
                     if (toCast != null) {
                         toCast.attemptToCast(player)
                     } else {
-                        player.sendMessage(TextComponentTranslation(TranslationConstants.Item.WAND_INVALID_SPELL))
+                        player.sendMessage(TextComponentTranslation(LocalizationConstants.Item.WAND_INVALID_SPELL))
                     }
                 } else {
-                    player.sendMessage(TextComponentTranslation(TranslationConstants.Item.WAND_NO_BOUND_SPELL))
+                    player.sendMessage(TextComponentTranslation(LocalizationConstants.Item.WAND_NO_BOUND_SPELL))
                 }
             }
         }
@@ -119,7 +119,7 @@ class ItemWand : AOTDItem("wand") {
 
             // Server side sending only, tell the player the spell was updated
             if (!entityPlayer.world.isRemote) {
-                entityPlayer.sendMessage(TextComponentTranslation(TranslationConstants.Item.WAND_SPELL_SET, first.name))
+                entityPlayer.sendMessage(TextComponentTranslation(LocalizationConstants.Item.WAND_SPELL_SET, first.name))
             }
 
             // Set the NBT spell ID
@@ -127,7 +127,7 @@ class ItemWand : AOTDItem("wand") {
         } else {
             // Server side sending only, tell the player he/she has no spells to bind to the wand yet
             if (!entityPlayer.world.isRemote) {
-                entityPlayer.sendMessage(TextComponentTranslation(TranslationConstants.Item.WAND_NO_SPELLS))
+                entityPlayer.sendMessage(TextComponentTranslation(LocalizationConstants.Item.WAND_NO_SPELLS))
             }
         }
     }

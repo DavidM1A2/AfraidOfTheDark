@@ -2,8 +2,8 @@ package com.davidm1a2.afraidofthedark.common.item
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiHandler
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
+import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
-import com.davidm1a2.afraidofthedark.common.constants.TranslationConstants
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.utility.openGui
 import net.minecraft.entity.player.EntityPlayer
@@ -40,7 +40,7 @@ class ItemSextant : AOTDItem("sextant") {
         // If the player does not have the research send him a chat message from the server
         else {
             if (!world.isRemote) {
-                player.sendMessage(TextComponentTranslation(TranslationConstants.Generic.DONT_UNDERSTAND))
+                player.sendMessage(TextComponentTranslation(LocalizationConstants.Generic.DONT_UNDERSTAND))
             }
         }
         return ActionResult.newResult(EnumActionResult.SUCCESS, itemStack)

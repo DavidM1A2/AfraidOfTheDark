@@ -2,8 +2,8 @@ package com.davidm1a2.afraidofthedark.common.packets.otherPackets
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
+import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
-import com.davidm1a2.afraidofthedark.common.constants.TranslationConstants
 import com.davidm1a2.afraidofthedark.common.packets.packetHandler.MessageHandler
 import com.davidm1a2.afraidofthedark.common.registry.meteor.MeteorEntry
 import io.netty.buffer.ByteBuf
@@ -110,7 +110,7 @@ class ProcessSextantInput : IMessage {
                     zLocOfDrop =
                         zLocOfDrop + (if (Random.nextBoolean()) -1 else 1) * Random.nextInt(accuracy + 1)
 
-                    player.sendMessage(TextComponentTranslation(TranslationConstants.Sextant.METEOR_LOCATION, xLocOfDrop, zLocOfDrop))
+                    player.sendMessage(TextComponentTranslation(LocalizationConstants.Sextant.METEOR_LOCATION, xLocOfDrop, zLocOfDrop))
 
                     // Clear the player's watched meteors so that the same meteor can't be used twice
                     playerBasics.setWatchedMeteor(null, 0, -1, -1, -1)
@@ -122,7 +122,7 @@ class ProcessSextantInput : IMessage {
             }
             // The values aren't correct so show an error
             else {
-                player.sendMessage(TextComponentTranslation(TranslationConstants.Sextant.METEOR_PROCESS_INVALID_VALUE))
+                player.sendMessage(TextComponentTranslation(LocalizationConstants.Sextant.METEOR_PROCESS_INVALID_VALUE))
             }
         }
 

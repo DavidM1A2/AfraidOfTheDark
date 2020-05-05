@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.spell.component.powerSource
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.constants.TranslationConstants
+import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.AOTDSpellPowerSource
 import net.minecraft.entity.Entity
@@ -55,7 +55,7 @@ class SpellPowerSourceExperience : AOTDSpellPowerSource(ResourceLocation(Constan
      * @return A string describing why the power source doesn't have enough energy
      */
     override fun getUnlocalizedOutOfPowerMsg(): String {
-        return TranslationConstants.Spell.POWER_SOURCE_EXPERIENCE_INVALID_MSG
+        return LocalizationConstants.Spell.POWER_SOURCE_EXPERIENCE_INVALID_MSG
     }
 
     companion object {

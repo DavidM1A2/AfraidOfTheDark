@@ -2,9 +2,9 @@ package com.davidm1a2.afraidofthedark.common.spell
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.client.particle.AOTDParticleRegistry
+import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
-import com.davidm1a2.afraidofthedark.common.constants.TranslationConstants
 import com.davidm1a2.afraidofthedark.common.packets.otherPackets.SyncParticle
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
@@ -126,13 +126,13 @@ class Spell : INBTSerializable<NBTTagCompound> {
                         }
                     }
                 } else {
-                    entity.sendMessage(TextComponentTranslation(TranslationConstants.Spell.INVALID))
+                    entity.sendMessage(TextComponentTranslation(LocalizationConstants.Spell.INVALID))
                     if (entity !is EntityPlayer) {
                         AfraidOfTheDark.INSTANCE.logger.info("Entity '${entity.name}' attempted to cast an invalid spell?")
                     }
                 }
             } else {
-                entity.sendMessage(TextComponentTranslation(TranslationConstants.Spell.WRONG_DIMENSION))
+                entity.sendMessage(TextComponentTranslation(LocalizationConstants.Spell.WRONG_DIMENSION))
                 if (entity !is EntityPlayer) {
                     AfraidOfTheDark.INSTANCE.logger.info("Entity '${entity.name}' attempted to cast a spell in the nightmare?")
                 }
