@@ -4,6 +4,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.ItemFlaskOfSouls
 import net.minecraft.entity.EntityList
+import net.minecraft.entity.EntityLiving
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraftforge.event.entity.living.LivingDeathEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
@@ -43,8 +44,8 @@ class FlaskOfSoulsHandler {
      */
     @SubscribeEvent
     fun onLivingDeathEvent(event: LivingDeathEvent) {
-        // Ensure a player killed the entity
-        if (event.source.trueSource is EntityPlayer) {
+        // Ensure a player killed the entity. Make sure the entity is an entity living
+        if (event.source.trueSource is EntityPlayer && event.entity is EntityLiving) {
             // Grab the killer player
             val entityPlayer = event.source.trueSource as EntityPlayer
 
