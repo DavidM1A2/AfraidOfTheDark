@@ -105,15 +105,18 @@ class ItemResearchScroll : AOTDItem("research_scroll") {
         if (scrollResearch != null) {
             if (isPart(stack)) {
                 tooltip.add(
-                    "Scroll part ${getPartNumber(stack)}/${getNumberParts(stack)} of the research ${I18n.format(
-                        scrollResearch.getUnlocalizedName()
-                    )}."
+                    I18n.format(
+                        LocalizationConstants.Item.RESEARCH_SCROLL_TOOLTIP_PART,
+                        getPartNumber(stack),
+                        getNumberParts(stack),
+                        I18n.format(scrollResearch.getUnlocalizedName())
+                    )
                 )
             } else {
-                tooltip.add(I18n.format(scrollResearch.getUnlocalizedName()))
+                tooltip.add(I18n.format(LocalizationConstants.Item.RESEARCH_SCROLL_TOOLTIP_COMPLETE, I18n.format(scrollResearch.getUnlocalizedName())))
             }
         } else {
-            tooltip.add("Scroll is corrupt.")
+            tooltip.add(I18n.format(LocalizationConstants.Item.RESEARCH_SCROLL_TOOLTIP_CORRUPT))
         }
     }
 

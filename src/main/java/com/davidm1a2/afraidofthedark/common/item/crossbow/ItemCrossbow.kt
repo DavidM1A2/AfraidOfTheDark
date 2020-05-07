@@ -255,9 +255,13 @@ class ItemCrossbow : AOTDItem("crossbow") {
      */
     @SideOnly(Side.CLIENT)
     override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag) {
-        tooltip.add("Crouch & Right click to change crossbow bolt type.")
-        tooltip.add("Bow will fire: ${I18n.format(getCurrentBoltType(stack).getUnlocalizedName())} bolts.")
-        tooltip.add(if (isLoaded(stack)) "Bow is loaded" else "Bow is unloaded")
+        tooltip.add(I18n.format(LocalizationConstants.Item.CROSSBOW_TOOLTIP_CHANGE_BOLT))
+        tooltip.add(I18n.format(LocalizationConstants.Item.CROSSBOW_TOOLTIP_FIRE_BOLT_TYPE, I18n.format(getCurrentBoltType(stack).getUnlocalizedName())))
+        if (isLoaded(stack)) {
+            tooltip.add(I18n.format(LocalizationConstants.Item.CROSSBOW_TOOLTIP_LOADED))
+        } else {
+            tooltip.add(I18n.format(LocalizationConstants.Item.CROSSBOW_TOOLTIP_UNLOADED))
+        }
     }
 
     /**

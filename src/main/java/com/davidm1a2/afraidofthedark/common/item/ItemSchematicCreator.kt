@@ -204,10 +204,8 @@ class ItemSchematicCreator : AOTDItem("schematic_creator", displayInCreative = f
     @SideOnly(Side.CLIENT)
     override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag) {
         tooltip.add("Note: This item is for mod developer use only")
-        tooltip.add("Pos1: " + (NBTHelper.getCompound(stack, NBT_POS_1)?.let { NBTUtil.getPosFromTag(it).toString() }
-            ?: "None"))
-        tooltip.add("Pos2: " + (NBTHelper.getCompound(stack, NBT_POS_2)?.let { NBTUtil.getPosFromTag(it).toString() }
-            ?: "None"))
+        tooltip.add("Pos1: " + (NBTHelper.getCompound(stack, NBT_POS_1)?.let { NBTUtil.getPosFromTag(it).toString() } ?: "None"))
+        tooltip.add("Pos2: " + (NBTHelper.getCompound(stack, NBT_POS_2)?.let { NBTUtil.getPosFromTag(it).toString() } ?: "None"))
         tooltip.add("Right click to set pos1")
         tooltip.add("Shift+Right click to set pos2")
         tooltip.add("Right click with a diamond in hand to save the schematic")

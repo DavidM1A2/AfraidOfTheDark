@@ -1,11 +1,13 @@
 package com.davidm1a2.afraidofthedark.common.item
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
+import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModArmorMaterials
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItemArmor
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.client.Minecraft
+import net.minecraft.client.resources.I18n
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityLivingBase
@@ -66,10 +68,10 @@ class ItemStarMetalArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
     override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag) {
         val player = Minecraft.getMinecraft().player
         if (player != null && player.getResearch().isResearched(ModResearches.STAR_METAL)) {
-            tooltip.add("Magical armor will never break.")
-            tooltip.add("Gives you two absorption hearts per piece.")
+            tooltip.add(I18n.format(LocalizationConstants.Item.TOOLTIP_MAGIC_ARMOR_NEVER_BREAKS))
+            tooltip.add(I18n.format(LocalizationConstants.Item.STAR_METAL_ARMOR_TOOLTIP_EFFECT))
         } else {
-            tooltip.add("I dont know how to use this.")
+            tooltip.add(I18n.format(LocalizationConstants.Item.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }
 

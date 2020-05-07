@@ -6,6 +6,7 @@ import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import com.davidm1a2.afraidofthedark.common.utility.openGui
+import net.minecraft.client.resources.I18n
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.entity.player.EntityPlayer
@@ -135,15 +136,15 @@ class ItemJournal : AOTDItem("journal") {
     override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag) {
         // If the stack has an owner tag, show who owns the stack, otherwise show that the journal is not bound
         if (NBTHelper.hasTag(stack, NBT_OWNER)) {
-            tooltip.add("Item soulbound to ${NBTHelper.getString(stack, NBT_OWNER)}")
+            tooltip.add(I18n.format(LocalizationConstants.Item.JOURNAL_TOOLTIP_BOUND, NBTHelper.getString(stack, NBT_OWNER)))
         } else {
-            tooltip.add("Item not bound")
+            tooltip.add(I18n.format(LocalizationConstants.Item.JOURNAL_TOOLTIP_UNBOUND))
         }
 
         // If the journal is a cheat sheet, show that
         if (NBTHelper.hasTag(stack, NBT_CHEAT_SHEET)) {
-            tooltip.add("Cheatsheet")
-            tooltip.add("Click researches to unlock them.")
+            tooltip.add(I18n.format(LocalizationConstants.Item.JOURNAL_TOOLTIP_CHEATSHEET_LINE1))
+            tooltip.add(I18n.format(LocalizationConstants.Item.JOURNAL_TOOLTIP_CHEATSHEET_LINE2))
         }
     }
 

@@ -1,11 +1,13 @@
 package com.davidm1a2.afraidofthedark.common.item.crossbow
 
-import com.davidm1a2.afraidofthedark.client.keybindings.ModKeybindings.FIRE_WRIST_CROSSBOW
+import com.davidm1a2.afraidofthedark.client.keybindings.ModKeybindings
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItemWithPerItemCooldown
 import net.minecraft.client.Minecraft
+import net.minecraft.client.resources.I18n
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.item.ItemStack
@@ -39,10 +41,10 @@ class ItemWristCrossbow : AOTDItemWithPerItemCooldown("wrist_crossbow") {
     override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag) {
         val player = Minecraft.getMinecraft().player
         if (player != null && player.getResearch().isResearched(ModResearches.WRIST_CROSSBOW)) {
-            tooltip.add("Use ${FIRE_WRIST_CROSSBOW.displayName} to fire a bolt in the current look direction.")
-            tooltip.add("Crouch & ${FIRE_WRIST_CROSSBOW.displayName} to change bolt type.")
+            tooltip.add(I18n.format(LocalizationConstants.Item.WRIST_CROSSBOW_TOOLTIP_HOW_TO_FIRE, ModKeybindings.FIRE_WRIST_CROSSBOW.displayName))
+            tooltip.add(I18n.format(LocalizationConstants.Item.WRIST_CROSSBOW_TOOLTIP_CHANGE_BOLT_TYPE, ModKeybindings.FIRE_WRIST_CROSSBOW.displayName))
         } else {
-            tooltip.add("I'm not sure how to use this.")
+            tooltip.add(I18n.format(LocalizationConstants.Item.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }
 

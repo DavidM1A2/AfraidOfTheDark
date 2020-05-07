@@ -2,9 +2,11 @@ package com.davidm1a2.afraidofthedark.common.item
 
 import com.davidm1a2.afraidofthedark.client.keybindings.ModKeybindings.ROLL_WITH_CLOAK_OF_AGILITY
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
+import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItemWithSharedCooldown
 import net.minecraft.client.Minecraft
+import net.minecraft.client.resources.I18n
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.item.ItemStack
 import net.minecraft.world.World
@@ -27,10 +29,10 @@ class ItemCloakOfAgility : AOTDItemWithSharedCooldown("cloak_of_agility") {
         val player = Minecraft.getMinecraft().player
         // If the player has the research show them what key is used to roll, otherwise tell them they don't know how to use the cloak
         if (player != null && player.getResearch().isResearched(ModResearches.CLOAK_OF_AGILITY)) {
-            tooltip.add("Use ${ROLL_WITH_CLOAK_OF_AGILITY.displayName} to perform a roll in")
-            tooltip.add("the current direction of movement")
+            tooltip.add(I18n.format(LocalizationConstants.Item.CLOAK_OF_AGILITY_TOOLTIP_LINE1, ROLL_WITH_CLOAK_OF_AGILITY.displayName))
+            tooltip.add(I18n.format(LocalizationConstants.Item.CLOAK_OF_AGILITY_TOOLTIP_LINE2))
         } else {
-            tooltip.add("I'm not sure how to use this.")
+            tooltip.add(I18n.format(LocalizationConstants.Item.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }
 

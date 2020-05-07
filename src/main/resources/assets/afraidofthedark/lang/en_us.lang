@@ -326,6 +326,60 @@ delivery_method.afraidofthedark:aoe.name=AOE
 delivery_method.afraidofthedark:laser.name=Laser
 delivery_method.afraidofthedark:delay.name=Delay
 
+# Item tooltip messages
+
+tooltip.afraidofthedark:dont_know_how_to_use=I'm not sure how to use this
+tooltip.afraidofthedark:magic_items_never_break=Magical items will never break.
+tooltip.afraidofthedark:magic_armor_never_breaks=Magical armor will never break.
+
+tooltip.afraidofthedark:cloak_of_agility.line1=Use %1$s to perform a roll in
+tooltip.afraidofthedark:cloak_of_agility.line2=the current direction of movement
+
+tooltip.afraidofthedark:flask_of_souls.empty.line1=Flask unbound
+tooltip.afraidofthedark:flask_of_souls.empty.line2=Hold this in your hotbar while
+tooltip.afraidofthedark:flask_of_souls.empty.line3=killing a mob to bind this flask
+tooltip.afraidofthedark:flask_of_souls.complete.line1=Flask bound to: %1$s
+tooltip.afraidofthedark:flask_of_souls.complete.line2=Flask complete, cooldown is %1$s§
+tooltip.afraidofthedark:flask_of_souls.incomplete.line1=Flask bound to: %1$s
+tooltip.afraidofthedark:flask_of_souls.incomplete.line2=Kills: %1$s/%2$s
+
+tooltip.afraidofthedark:igneous_armor.effect=Knocks back enemies that hit you.
+
+tooltip.afraidofthedark:star_metal_armor.effect=Gives you two absorption hearts per piece.
+
+tooltip.afraidofthedark:igneous_sword.line1=Right click to use an AOE fire strike
+tooltip.afraidofthedark:igneous_sword.line2=centered on the block you are looking
+tooltip.afraidofthedark:igneous_sword.line3=at when charged to 100%
+
+tooltip.afraidofthedark:journal.bound=Soulbound to %1$s
+tooltip.afraidofthedark:journal.unbound=Unbound
+tooltip.afraidofthedark:journal.cheatsheet.line1=Cheatsheet
+tooltip.afraidofthedark:journal.cheatsheet.line2=Click researches to unlock them.
+
+tooltip.afraidofthedark:research_scroll.part=Scroll part %1$s/%2%$s of the research %3$s.
+tooltip.afraidofthedark:research_scroll.complete=%1$s
+tooltip.afraidofthedark:research_scroll.corrupt=Scroll is corrupt.
+
+tooltip.afraidofthedark:star_metal_khopesh.effect1=Right click to use an AOE knockback and
+tooltip.afraidofthedark:star_metal_khopesh.effect2=damage attack when charged to 100%
+
+tooltip.afraidofthedark:wand.spell_name=Spell: %1$s
+tooltip.afraidofthedark:wand.spell_cost=Cost: %1$s
+tooltip.afraidofthedark:wand.spell_invalid=Spell on wand is invalid.
+tooltip.afraidofthedark:wand.no_spell=Wand does not have a spell bound yet.
+tooltip.afraidofthedark:wand.set_spell=Do so with crouch & right click.
+
+tooltip.afraidofthedark:crossbow.change_bolt=Crouch & Right click to change crossbow bolt type.
+tooltip.afraidofthedark:crossbow.fire_bolt_type=Bow will fire: %1$s bolts.
+tooltip.afraidofthedark:crossbow.loaded=Bow is loaded
+tooltip.afraidofthedark:crossbow.unloaded=Bow is unloaded
+
+tooltip.afraidofthedark:wrist_crossbow.how_to_fire=Use %1$s to fire a bolt in the current look direction.
+tooltip.afraidofthedark:wrist_crossbow.change_bolt_type=Crouch & %1$s to change bolt type.
+
+tooltip.afraidofthedark:telescope.directions=Right click above y=128 to find meteors
+tooltip.afraidofthedark:telescope.accuracy=Accurate to %1$s blocks
+
 # AOTD Messages to player
 message.afraidofthedark:journal.sign.successful=§cWhat have I done?
 message.afraidofthedark:journal.sign.unsuccessful=§oI expected something to happen... but nothing did. Perhaps the name I signed was incorrect?

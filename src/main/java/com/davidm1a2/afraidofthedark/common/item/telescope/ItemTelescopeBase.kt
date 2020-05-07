@@ -89,13 +89,9 @@ abstract class ItemTelescopeBase(val accuracy: Int, name: String) : AOTDItem(nam
     override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag) {
         val player = Minecraft.getMinecraft().player
 
-        if (player != null) {
-            if (player.getResearch().isResearched(getRequiredResearch())) {
-                tooltip.add("Right click above y=128 to find meteors")
-                tooltip.add("Accurate to $accuracy blocks")
-            } else {
-                tooltip.add(I18n.format(LocalizationConstants.Generic.DONT_UNDERSTAND))
-            }
+        if (player != null && player.getResearch().isResearched(getRequiredResearch())) {
+            tooltip.add(I18n.format(LocalizationConstants.Item.TELESCOPE_TOOLTIP_DIRECTIONS))
+            tooltip.add(I18n.format(LocalizationConstants.Item.TELESCOPE_TOOLTIP_ACCURACY, accuracy))
         } else {
             tooltip.add(I18n.format(LocalizationConstants.Generic.DONT_UNDERSTAND))
         }

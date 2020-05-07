@@ -10,6 +10,7 @@ import com.davidm1a2.afraidofthedark.common.item.core.AOTDItemWithPerItemCooldow
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.block.BlockLiquid
 import net.minecraft.client.Minecraft
+import net.minecraft.client.resources.I18n
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.EntityList
 import net.minecraft.entity.player.EntityPlayer
@@ -178,24 +179,33 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls") {
         if (player != null && player.getResearch().isResearched(ModResearches.PHYLACTERY_OF_SOULS)) {
             // If the flask is unbound show them information how to bind it
             if (getSpawnedEntity(stack) == null) {
-                tooltip.add("Flask unbound.")
-                tooltip.add("Hold this in your hotbar while")
-                tooltip.add("killing a mob to bind this flask.")
+                tooltip.add(I18n.format(LocalizationConstants.Item.FLASK_OF_SOULS_TOOLTIP_EMPTY_LINE1))
+                tooltip.add(I18n.format(LocalizationConstants.Item.FLASK_OF_SOULS_TOOLTIP_EMPTY_LINE2))
+                tooltip.add(I18n.format(LocalizationConstants.Item.FLASK_OF_SOULS_TOOLTIP_EMPTY_LINE3))
             } else {
                 // If the flask is done show info one way, otherwise show it the other way
                 if (isComplete(stack)) {
-                    tooltip.add("Flask bound to: ${EntityList.getTranslationName(getSpawnedEntity(stack))}")
-                    tooltip.add("Flask complete, cooldown is ${getCooldownInMilliseconds(stack) / 1000 + 1}s")
-                } else {
-                    tooltip.add("Flask bound to: ${EntityList.getTranslationName(getSpawnedEntity(stack))}")
                     tooltip.add(
-                        "Kills: ${getKills(stack)}/${ENTITY_TO_KILLS_REQUIRED[getSpawnedEntity(stack)]
-                            ?: DEFAULT_KILLS_REQUIRED}"
+                        I18n.format(LocalizationConstants.Item.FLASK_OF_SOULS_TOOLTIP_COMPLETE_LINE1, EntityList.getTranslationName(getSpawnedEntity(stack)))
+                    )
+                    tooltip.add(
+                        I18n.format(LocalizationConstants.Item.FLASK_OF_SOULS_TOOLTIP_COMPLETE_LINE2, getCooldownInMilliseconds(stack) / 1000 + 1)
+                    )
+                } else {
+                    tooltip.add(
+                        I18n.format(LocalizationConstants.Item.FLASK_OF_SOULS_TOOLTIP_INCOMPLETE_LINE1, EntityList.getTranslationName(getSpawnedEntity(stack)))
+                    )
+                    tooltip.add(
+                        I18n.format(
+                            LocalizationConstants.Item.FLASK_OF_SOULS_TOOLTIP_INCOMPLETE_LINE2,
+                            getKills(stack),
+                            ENTITY_TO_KILLS_REQUIRED[getSpawnedEntity(stack)] ?: DEFAULT_KILLS_REQUIRED
+                        )
                     )
                 }
             }
         } else {
-            tooltip.add("I'm not sure how to use this.")
+            tooltip.add(I18n.format(LocalizationConstants.Item.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }
 
@@ -206,8 +216,7 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls") {
      * @return True if the flask is done, false otherwise
      */
     fun isComplete(itemStack: ItemStack): Boolean {
-        val flaskComplete = NBTHelper.getBoolean(itemStack, NBT_FLASK_COMPLETE)
-        return flaskComplete ?: false
+        return NBTHelper.getBoolean(itemStack, NBT_FLASK_COMPLETE) ?: false
     }
 
     /**

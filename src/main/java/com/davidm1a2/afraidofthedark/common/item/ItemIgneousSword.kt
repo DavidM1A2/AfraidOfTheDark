@@ -1,11 +1,13 @@
 package com.davidm1a2.afraidofthedark.common.item
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
+import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources.getSilverDamage
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModToolMaterials
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItemChargeableSword
 import net.minecraft.client.Minecraft
+import net.minecraft.client.resources.I18n
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.Entity
@@ -61,12 +63,12 @@ class ItemIgneousSword : AOTDItemChargeableSword("igneous_sword", ModToolMateria
     override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag) {
         val player = Minecraft.getMinecraft().player
         if (player != null && player.getResearch().isResearched(ModResearches.IGNEOUS)) {
-            tooltip.add("Magical items will never break.")
-            tooltip.add("Right click to use an AOE fire strike")
-            tooltip.add("centered on the block you are looking")
-            tooltip.add("at when charged to 100%")
+            tooltip.add(I18n.format(LocalizationConstants.Item.TOOLTIP_MAGIC_ITEM_NEVER_BREAK))
+            tooltip.add(I18n.format(LocalizationConstants.Item.IGNEOUS_SWORD_TOOLTIP_LINE1))
+            tooltip.add(I18n.format(LocalizationConstants.Item.IGNEOUS_SWORD_TOOLTIP_LINE2))
+            tooltip.add(I18n.format(LocalizationConstants.Item.IGNEOUS_SWORD_TOOLTIP_LINE3))
         } else {
-            tooltip.add("I'm not sure how to use this.")
+            tooltip.add(I18n.format(LocalizationConstants.Item.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }
 

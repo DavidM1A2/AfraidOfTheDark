@@ -1,10 +1,13 @@
 package com.davidm1a2.afraidofthedark.common.item
 
+import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
+import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.client.Minecraft
+import net.minecraft.client.resources.I18n
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
@@ -176,7 +179,7 @@ class ItemWand : AOTDItem("wand") {
         val player = Minecraft.getMinecraft().player
 
         // Need to test if player is null during client init
-        if (player != null) {
+        if (player != null && player.getResearch().isResearched(ModResearches.ENARIAS_SECRET)) {
             // Test if the wand has a spell ID
             if (hasSpellId(stack)) {
                 // Grab the spell by ID
@@ -184,15 +187,17 @@ class ItemWand : AOTDItem("wand") {
 
                 // If the spell is non-null show the spell's stats
                 if (spell != null) {
-                    tooltip.add("Spell: ${spell.name}")
-                    tooltip.add("Cost: ${spell.getCost()}")
+                    tooltip.add(I18n.format(LocalizationConstants.Item.WAND_TOOLTIP_SPELL_NAME, spell.name))
+                    tooltip.add(I18n.format(LocalizationConstants.Item.WAND_TOOLTIP_SPELL_COST, spell.getCost()))
                 } else {
-                    tooltip.add("Spell on wand is invalid.")
+                    tooltip.add(I18n.format(LocalizationConstants.Item.WAND_TOOLTIP_SPELL_INVALID))
                 }
             } else {
-                tooltip.add("Wand does not have a spell bound yet.")
-                tooltip.add("Do so with crouch & right click.")
+                tooltip.add(I18n.format(LocalizationConstants.Item.WAND_TOOLTIP_SPELL_NO_SPELL))
+                tooltip.add(I18n.format(LocalizationConstants.Item.WAND_TOOLTIP_SPELL_SET_SPELL))
             }
+        } else {
+            tooltip.add(I18n.format(LocalizationConstants.Item.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }
 
