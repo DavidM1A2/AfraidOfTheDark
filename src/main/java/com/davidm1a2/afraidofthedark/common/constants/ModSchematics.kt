@@ -19,6 +19,7 @@ object ModSchematics {
     val VOID_CHEST = load("schematics/void_chest.schematic")
     val NIGHTMARE_ISLAND = load("schematics/nightmare_island.schematic")
     val ENARIAS_ALTAR = load("schematics/enarias_altar.schematic")
+    val OBSERVATORY = load("schematics/observatory.schematic")
 
     ///
     /// Dark Forest structure related schematics
@@ -192,6 +193,7 @@ object ModSchematics {
         VOID_CHEST,
         NIGHTMARE_ISLAND,
         ENARIAS_ALTAR,
+        OBSERVATORY,
         BED_HOUSE,
         ENARIA_LAIR,
         STAIRWELL,

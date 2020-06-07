@@ -31,6 +31,7 @@ abstract class ItemTelescopeBase(val accuracy: Int, name: String) : AOTDItem(nam
         require(accuracy >= 0) {
             "Accuracy for telescopes must be positive!"
         }
+        maxStackSize = 1
     }
 
     /**
@@ -57,7 +58,7 @@ abstract class ItemTelescopeBase(val accuracy: Int, name: String) : AOTDItem(nam
         // Start with server side processing
         if (!world.isRemote) {
             // If the research is researched then test if the player is high enough
-            if (playerResearch.isResearched(research) || playerResearch.canResearch(research)) {
+            if (playerResearch.isResearched(research)) {
                 // Tell the player that they need to be higher to see through the clouds
                 if (!highEnough) {
                     player.sendMessage(TextComponentTranslation(LocalizationConstants.Item.TELESCOPE_NOT_HIGH_ENOUGH))
@@ -70,7 +71,7 @@ abstract class ItemTelescopeBase(val accuracy: Int, name: String) : AOTDItem(nam
         // If we're on client side and have the proper research and the player is above y=128 to see the stars, show the GUI
         // Don't print anything out client side since the server side takes care of that for us
         if (world.isRemote && highEnough) {
-            if (playerResearch.isResearched(research) || playerResearch.canResearch(research)) {
+            if (playerResearch.isResearched(research)) {
                 player.openGui(AOTDGuiHandler.TELESCOPE_ID)
             }
         }

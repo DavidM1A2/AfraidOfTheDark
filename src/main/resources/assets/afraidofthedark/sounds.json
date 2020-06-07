@@ -206,5 +206,15 @@
       }
     ],
     "subtitle": "Enaria Fight Music"
+  },
+  "lens_cutter": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "afraidofthedark:lens_cutter",
+        "stream": false
+      }
+    ],
+    "subtitle": "Lens Cutter"
   }
 }

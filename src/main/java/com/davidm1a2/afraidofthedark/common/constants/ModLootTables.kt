@@ -13,6 +13,7 @@ object ModLootTables {
     val WITCH_HUT = LootTable(mapOf(null to ResourceLocation(Constants.MOD_ID, "witch_hut")))
     val VOID_CHEST = LootTable(mapOf(null to ResourceLocation(Constants.MOD_ID, "void_chest")))
     val DARK_FOREST = LootTable(mapOf(null to ResourceLocation(Constants.MOD_ID, "dark_forest")))
+    val OBSERVATORY = LootTable(mapOf(null to ResourceLocation(Constants.MOD_ID, "observatory")))
     val NIGHTMARE_ISLAND = LootTable(
         mapOf(
             Items.COOKED_BEEF to ResourceLocation(Constants.MOD_ID, "nightmare/random_food"),

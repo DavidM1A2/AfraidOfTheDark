@@ -65,6 +65,7 @@ object ModBlocks {
     val IMBUED_CACTUS_BLOSSOM = BlockImbuedCactusBlossom()
     val DESERT_OASIS = BlockDesertOasis()
     val SPELL_ALTAR = BlockSpellAltar()
+    val LENS_CUTTER = BlockLensCutter()
 
     // An array containing a list of blocks that AOTD adds
     val BLOCK_LIST = arrayOf(
@@ -117,7 +118,8 @@ object ModBlocks {
         IMBUED_CACTUS,
         IMBUED_CACTUS_BLOSSOM,
         DESERT_OASIS,
-        SPELL_ALTAR
+        SPELL_ALTAR,
+        LENS_CUTTER
     )
 
     // A list of tile entities to register

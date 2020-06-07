@@ -87,7 +87,7 @@ class SextantGUI : AOTDGuiScreen() {
                         entityPlayer.sendMessage(TextComponentTranslation(LocalizationConstants.Sextant.FIELD_EMPTY))
                     }
 
-                    // If any field is invalid send the player an error, otherwrise send the info to the server
+                    // If any field is invalid send the player an error, otherwise send the info to the server
                     try {
                         AfraidOfTheDark.INSTANCE.packetHandler.sendToServer(
                             ProcessSextantInput(

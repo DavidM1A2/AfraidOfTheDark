@@ -177,6 +177,10 @@ object LocalizationConstants {
         const val STAR_METAL_KHOPESH_TOOLTIP_EFFECT2 = "tooltip.afraidofthedark:star_metal_khopesh.effect2"
     }
 
+    object Block {
+        const val LENS_CUTTER_WRONG_ITEM = "message.afraidofthedark:lens_cutter.wrong_item"
+    }
+
     object Crafting {
         const val MISSING_RESEARCH = "message.afraidofthedark:crafting.missing_research"
     }

@@ -18,6 +18,10 @@ import net.minecraft.world.World
  * Class representing the telescope item used to track meteors
  */
 class ItemSextant : AOTDItem("sextant") {
+    init {
+        maxStackSize = 1
+    }
+
     /**
      * Called when the player right clicks with the sextant
      *

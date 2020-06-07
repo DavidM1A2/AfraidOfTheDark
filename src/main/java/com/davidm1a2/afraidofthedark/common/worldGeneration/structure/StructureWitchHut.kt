@@ -98,8 +98,6 @@ class StructureWitchHut : AOTDStructure("witch_hut") {
      * @return The NBTTagCompound containing any data needed for generation. Sent in Structure::generate
      */
     override fun generateStructureData(world: World, blockPos: BlockPos, biomeProvider: BiomeProvider): NBTTagCompound {
-        @Suppress("NAME_SHADOWING")
-        var blockPos = blockPos
         val compound = NBTTagCompound()
 
         // Find the lowest y value containing a block
@@ -108,9 +106,9 @@ class StructureWitchHut : AOTDStructure("witch_hut") {
             InteriorChunkIterator(this, blockPos)
         )
         // Set the schematic at the lowest point in the chunk
-        blockPos = BlockPos(blockPos.x, groundLevel - 1, blockPos.z)
+        val schematicPos = BlockPos(blockPos.x, groundLevel - 1, blockPos.z)
         // Update the NBT
-        compound.setTag(NBT_POSITION, NBTUtil.createPosTag(blockPos))
+        compound.setTag(NBT_POSITION, NBTUtil.createPosTag(schematicPos))
 
         return compound
     }

@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_bottom_top",
+  "textures": {
+    "bottom": "afraidofthedark:blocks/lens_cutter_bottom",
+    "top": "afraidofthedark:blocks/lens_cutter_top",
+    "side": "afraidofthedark:blocks/lens_cutter_side"
+  }
+}

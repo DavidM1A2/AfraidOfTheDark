@@ -36,6 +36,8 @@ class ConfigurationHandler(configurationFile: File) {
         private set
     var desertOasisMultiplier = 1.0f
         private set
+    var observatoryMultiplier = 1.0f
+        private set
 
     // The eerie biome frequency
     var eerieBiomeFrequency = 10
@@ -153,6 +155,14 @@ class ConfigurationHandler(configurationFile: File) {
             0.0f,
             100.0f,
             "Increases the number of Desert Oasis in the world by the multiplier specified."
+        )
+        observatoryMultiplier = configuration.getFloat(
+            "Observatory Multiplier",
+            CATEGORY_DUNGEON_FREQUENCY,
+            1.0f,
+            0.0f,
+            100.0f,
+            "Increases the number of Observatories in the world by the multiplier specified."
         )
 
         eerieBiomeFrequency = configuration.getInt(

@@ -54,6 +54,8 @@ item.afraidofthedark:cursed_veil.name=Cursed Veil
 item.afraidofthedark:nightmare_stone.name=Nightmare Stone
 item.afraidofthedark:cursed_heart.name=Cursed Heart
 item.afraidofthedark:cultist_tome.name=Cultist Tome
+item.afraidofthedark:advanced_telescope.name=Advanced Telescope
+item.afraidofthedark:lens.name=Lens
 
 # Blocks
 tile.afraidofthedark:silver_ore.name=Silver Ore
@@ -113,6 +115,7 @@ tile.afraidofthedark:imbued_cactus.name=Imbued Cactus
 tile.afraidofthedark:imbued_cactus_blossom.name=Imbued Cactus Blossom
 tile.afraidofthedark:desert_oasis.name=Desert Oasis
 tile.afraidofthedark:spell_altar.name=Spell Altar
+tile.afraidofthedark:lens_cutter.name=Lens Cutter
 
 # Potion
 
@@ -188,10 +191,10 @@ research.afraidofthedark:astral_silver.tooltip=silver of the moon
 research.afraidofthedark:astral_silver.pre_text=I have noticed a meteor in my telescope. I should track one down with my telescope and sextant.
 research.afraidofthedark:astral_silver.text=I have finished tracking down a meteor. Its composition is a material similar to elemental silver. It can be made into a sword, which seems to be about as effective as an iron sword. Its main characteristic is that it deals massive damage to werewolves. It can also be made into crossbow bolts, which share the sword's ability to harm werewolves where nothing else seems to work.
 
-research.afraidofthedark:basic_optics.name=Basic Optics
-research.afraidofthedark:basic_optics.tooltip=eye spy
-research.afraidofthedark:basic_optics.pre_text=Pre
-research.afraidofthedark:basic_optics.text=Post
+research.afraidofthedark:optics.name=Optics
+research.afraidofthedark:optics.tooltip=eye spy
+research.afraidofthedark:optics.pre_text=My first attempt at creating a telescope was only a partial success. I can see meteors in the telescope but the lenses are blurry and it's challenging to accurately predict the drop location. I've heard of astronomers building observatories in hilly areas, I should search them for equipment.
+research.afraidofthedark:optics.text=Fantastic, these astronomers were researching various lenses to more accurately predict the drop locations of meteors. I can use their lens cutter to turn glass blocks into lenses for use in crafting a better telescope. I have also studied the internals of the lens cutter so I can create one myself.
 
 research.afraidofthedark:slaying_of_the_wolves.name=Slaying of the Wolves
 research.afraidofthedark:slaying_of_the_wolves.tooltip=Warwick OP
@@ -205,7 +208,7 @@ research.afraidofthedark:phylactery_of_souls.text=My theory was correct! Werewol
 
 research.afraidofthedark:cloak_of_agility.name=Cloak of Agility
 research.afraidofthedark:cloak_of_agility.tooltip=kiting fo' dayz
-research.afraidofthedark:cloak_of_agility.pre_text=TODO - If you want this give yourself a research scroll for it in creative.
+research.afraidofthedark:cloak_of_agility.pre_text=I've heard tales of witches brewing up potions and infusing their effects into clothes. I should search their huts in Eerie biomes.
 research.afraidofthedark:cloak_of_agility.text=I have discovered old notes which describe how to make a cloak of agility. Adding this fantastic cape to my wardrobe will allow me to dash and roll around like a demonic hedgehog on bad acid. The cloak of agility's utter fabulousness should allow me to dash every few seconds to dodge whatever attacks come my way.
 
 research.afraidofthedark:void_chest.name=Void Chest
@@ -300,6 +303,7 @@ structure.afraidofthedark:void_chest.name=Void Chest
 structure.afraidofthedark:dark_forest.name=Dark Forest
 structure.afraidofthedark:gnomish_city.name=Gnomish City
 structure.afraidofthedark:desert_oasis.name=Desert Oasis
+structure.afraidofthedark:observatory.name=Observatory
 
 # Spell components
 power_source.afraidofthedark:creative.name=Creative
@@ -483,5 +487,7 @@ message.afraidofthedark:spell.property_edit_fail=Property %1$s did not have a va
 message.afraidofthedark:spell.property_edit_success=All properties saved successfully.
 
 message.afraidofthedark:insanitys_heights.dont_understand=§oThe book appears to be empty.
+
+message.afraidofthedark:lens_cutter.wrong_item=The lens cutter can only make lenses out of glass.
 
 message.afraidofthedark:dont_understand=§oI don't understand how this works.

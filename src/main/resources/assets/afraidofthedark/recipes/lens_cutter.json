@@ -1,0 +1,26 @@
+{
+  "type": "afraidofthedark:research_required_shaped_recipe",
+  "pattern": [
+    "pgp",
+    "gig",
+    "ppp"
+  ],
+  "key": {
+    "g": {
+      "item": "minecraft:glass_pane",
+      "data": 32767
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    },
+    "p": {
+      "item": "minecraft:planks",
+      "data": 32767
+    }
+  },
+  "result": {
+    "item": "afraidofthedark:lens_cutter",
+    "count": 1
+  },
+  "required_research": "afraidofthedark:optics"
+}
