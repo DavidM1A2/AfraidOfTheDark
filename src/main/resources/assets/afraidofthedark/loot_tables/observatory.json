@@ -16,7 +16,7 @@
               }
             }
           ],
-          "weight": 10
+          "weight": 15
         },
         {
           "type": "item",
@@ -30,6 +30,11 @@
               }
             }
           ],
+          "weight": 4
+        },
+        {
+          "type": "item",
+          "name": "afraidofthedark:mastercrafted_telescope",
           "weight": 1
         }
       ]

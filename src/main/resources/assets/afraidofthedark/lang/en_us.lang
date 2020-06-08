@@ -55,6 +55,7 @@ item.afraidofthedark:nightmare_stone.name=Nightmare Stone
 item.afraidofthedark:cursed_heart.name=Cursed Heart
 item.afraidofthedark:cultist_tome.name=Cultist Tome
 item.afraidofthedark:advanced_telescope.name=Advanced Telescope
+item.afraidofthedark:mastercrafted_telescope.name=Mastercrafted Telescope
 item.afraidofthedark:lens.name=Lens
 
 # Blocks
@@ -195,6 +196,11 @@ research.afraidofthedark:optics.name=Optics
 research.afraidofthedark:optics.tooltip=eye spy
 research.afraidofthedark:optics.pre_text=My first attempt at creating a telescope was only a partial success. I can see meteors in the telescope but the lenses are blurry and it's challenging to accurately predict the drop location. I've heard of astronomers building observatories in hilly areas, I should search them for equipment.
 research.afraidofthedark:optics.text=Fantastic, these astronomers were researching various lenses to more accurately predict the drop locations of meteors. I can use their lens cutter to turn glass blocks into lenses for use in crafting a better telescope. I have also studied the internals of the lens cutter so I can create one myself.
+
+research.afraidofthedark:elvovras.name=Elvovras
+research.afraidofthedark:elvovras.tooltip=legend
+research.afraidofthedark:elvovras.pre_text=The observatory mentions notes about a legendary "Elvovras" who created telescopes with unrivaled accuracy. I should search different observatories for traces of these telescopes.
+research.afraidofthedark:elvovras.text=I have found one of Elvovras' legendary telescopes. This telescope will allow me to perfectly predict the drop location of meteors.
 
 research.afraidofthedark:slaying_of_the_wolves.name=Slaying of the Wolves
 research.afraidofthedark:slaying_of_the_wolves.tooltip=Warwick OP

@@ -1,8 +1,11 @@
 package com.davidm1a2.afraidofthedark.common.item
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
+import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EntityEnchantedFrog
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
+import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
@@ -28,6 +31,7 @@ class ItemDebug : AOTDItem("debug", displayInCreative = false) {
     override fun onItemRightClick(worldIn: World, playerIn: EntityPlayer, handIn: EnumHand): ActionResult<ItemStack> {
         if (worldIn.isRemote) {
         } else {
+            SchematicGenerator.generateSchematic(ModSchematics.OBSERVATORY, worldIn, playerIn.position, null, ModLootTables.OBSERVATORY)
         }
         return super.onItemRightClick(worldIn, playerIn, handIn)
     }

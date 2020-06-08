@@ -6,6 +6,7 @@ import com.davidm1a2.afraidofthedark.common.item.crossbow.ItemWristCrossbow
 import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.*
 import com.davidm1a2.afraidofthedark.common.item.telescope.ItemAdvancedTelescope
 import com.davidm1a2.afraidofthedark.common.item.telescope.ItemLens
+import com.davidm1a2.afraidofthedark.common.item.telescope.ItemMastercraftedTelescope
 import com.davidm1a2.afraidofthedark.common.item.telescope.ItemTelescope
 import net.minecraft.inventory.EntityEquipmentSlot
 
@@ -71,7 +72,7 @@ object ModItems {
     val CULTIST_TOME = ItemCultistTome()
     val ADVANCED_TELESCOPE = ItemAdvancedTelescope()
 
-    //val MASTERCRAFTED_TELESCOPE = ItemMastercraftedTelescope()
+    val MASTERCRAFTED_TELESCOPE = ItemMastercraftedTelescope()
     val LENS = ItemLens()
 
     // An array containing a list of items that AOTD adds
@@ -133,7 +134,7 @@ object ModItems {
         CURSED_HEART,
         CULTIST_TOME,
         ADVANCED_TELESCOPE,
-        //MASTERCRAFTED_TELESCOPE,
+        MASTERCRAFTED_TELESCOPE,
         LENS
     )
 }
