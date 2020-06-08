@@ -238,6 +238,7 @@
         {
           "type": "item",
           "name": "afraidofthedark:research_scroll",
+          "entryName": "wrist_crossbow_research_scroll",
           "functions": [
             {
               "function": "set_nbt",
@@ -249,6 +250,7 @@
         {
           "type": "item",
           "name": "afraidofthedark:research_scroll",
+          "entryName": "cloak_of_agility_research_scroll",
           "functions": [
             {
               "function": "set_nbt",
