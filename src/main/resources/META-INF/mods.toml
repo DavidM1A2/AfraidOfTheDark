@@ -1,0 +1,52 @@
+# The overall format is standard TOML format, v0.5.0.
+# Note that there are a couple of TOML lists in this file.
+# Find more information on toml format here:  https://github.com/toml-lang/toml
+
+# The name of the mod loader type to load - for regular FML @Mod mods it should be javafml
+modLoader="javafml"
+# A version range to match for said mod loader - for regular FML @Mod it will be the forge version
+loaderVersion="[25,)" #mandatory (25 is current forge version)
+# A URL to refer people to when problems occur with this mod
+issueTrackerURL="https://github.com/DavidM1A2/AfraidOfTheDark/issues"
+
+# A list of mods
+[[mods]]
+# The modid of the mod
+modId="afraidofthedark"
+# The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
+version="1.3.0"
+ # A display name for the mod
+displayName="Afraid of the Dark"
+# A URL for the "homepage" for this mod, displayed in the mod UI
+displayURL="https://www.curseforge.com/minecraft/mc-mods/afraid-of-the-dark/"
+# A file name (in the root of the mod JAR) containing a logo for display
+logoFile="afraidofthedark.png"
+# A text field displayed in the mod UI
+credits="Mod created by David_M1A2, Tagii, and namcap623. Special thanks to gunman135 for creating textures."
+# A text field displayed in the mod UI
+authors="David_M1A2, Tagii, namcap623"
+# The description text for the mod (multi line!) (#mandatory)
+description='''
+A magic mod based on exploration and research of one's surroundings.
+'''
+
+# The first mod dependency is forge itself
+[[dependencies.afraidofthedark]] #optional
+    # the modid of the dependency
+    modId="forge"
+    # Does this dependency have to exist - if not, ordering below must be specified
+    mandatory=true
+    # The version range of the dependency
+    versionRange="[25,)"
+    # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
+    ordering="NONE"
+    # Side this dependency is applied on - BOTH, CLIENT or SERVER
+    side="BOTH"
+
+# The second mod dependency is minecraft 1.13.2
+[[dependencies.afraidofthedark]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.13.2]"
+    ordering="NONE"
+    side="BOTH"
