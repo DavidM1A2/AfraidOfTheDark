@@ -1,10 +1,11 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.research
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.client.sound.ResearchUnlockedSound
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
-import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.packets.capabilityPackets.SyncResearch
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
+import net.minecraft.client.Minecraft
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.entity.player.EntityPlayerMP
 
@@ -72,7 +73,7 @@ class AOTDPlayerResearchImpl : IAOTDPlayerResearch {
         setResearch(research, researched)
         if (!isServerSide(entityPlayer)) {
             // Play the achievement sound and display the research
-            entityPlayer.playSound(ModSounds.ACHIEVEMENT_UNLOCKED, 1.0f, 1.0f)
+            Minecraft.getMinecraft().soundHandler.playSound(ResearchUnlockedSound())
             AfraidOfTheDark.proxy.researchOverlay!!.displayResearch(research)
         }
     }
