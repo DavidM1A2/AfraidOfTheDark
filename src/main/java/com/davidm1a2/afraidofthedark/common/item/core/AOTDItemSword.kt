@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.item.core
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import net.minecraft.item.IItemTier
 import net.minecraft.item.ItemSword
 
 /**
@@ -11,16 +12,19 @@ import net.minecraft.item.ItemSword
  * @param toolMaterial The tool material to be used for the sword
  * @param displayInCreative True if this item should be displayed in creative mode, false otherwise
  */
-open class AOTDItemSword(baseName: String, toolMaterial: ToolMaterial, displayInCreative: Boolean = false) :
-    ItemSword(toolMaterial) {
+open class AOTDItemSword(
+    baseName: String,
+    toolMaterial: IItemTier,
+    damageAmplifier: Int,
+    attackSpeed: Float,
+    properties: Properties,
+    displayInCreative: Boolean = false
+) : ItemSword(toolMaterial, damageAmplifier, attackSpeed, properties.apply {
+    if (displayInCreative) {
+        group(Constants.AOTD_CREATIVE_TAB)
+    }
+}) {
     init {
-        // Set the unlocalized and registry name
-        unlocalizedName = "${Constants.MOD_ID}:$baseName"
         this.setRegistryName("${Constants.MOD_ID}:$baseName")
-
-        // If this should be displayed in creative then set the tab
-        if (displayInCreative) {
-            this.creativeTab = Constants.AOTD_CREATIVE_TAB
-        }
     }
 }

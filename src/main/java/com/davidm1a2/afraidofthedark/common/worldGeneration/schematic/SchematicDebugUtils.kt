@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.common.worldGeneration.schematic
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import net.minecraft.block.Block
@@ -8,6 +7,7 @@ import net.minecraft.nbt.*
 import net.minecraft.util.ResourceLocation
 import org.apache.commons.lang3.StringUtils
 import org.apache.commons.lang3.exception.ExceptionUtils
+import org.apache.logging.log4j.LogManager
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -16,6 +16,8 @@ import java.io.IOException
  * Collection of utility methods used to debug, not used in actual play
  */
 object SchematicDebugUtils {
+    private val logger = LogManager.getLogger()
+
     /**
      * Sets a block in a schematic
      *
@@ -41,7 +43,7 @@ object SchematicDebugUtils {
     fun writeToFile(schematic: Schematic, file: File) {
         // Don't overwrite files
         if (file.exists()) {
-            AfraidOfTheDark.INSTANCE.logger.warn("File already exists, returning...")
+            logger.warn("File already exists, returning...")
             return
         }
 
@@ -73,7 +75,7 @@ object SchematicDebugUtils {
             val blocks = schematic.getBlocks()
             val blockIds = blocks.map { idToBlock.computeIfAbsent(it.registryName.toString()) { lastBlockId++ } }.toIntArray()
             schematicNBT.setTag("BlockIds", NBTTagIntArray(blockIds))
-            schematicNBT.setTag("BlockIdNames", NBTTagList().apply { idToBlock.keys.forEach { appendTag(NBTTagString(it)) } })
+            schematicNBT.setTag("BlockIdNames", NBTTagList().apply { idToBlock.keys.forEach { add(NBTTagString(it)) } })
 
             // Write all of the nbt data to disk
             schematicNBT.setIntArray("Data", schematic.getData())
@@ -85,7 +87,7 @@ object SchematicDebugUtils {
         }
         // Catch the exception and print it out
         catch (e: IOException) {
-            AfraidOfTheDark.INSTANCE.logger.error(e)
+            logger.error(e)
         }
     }
 

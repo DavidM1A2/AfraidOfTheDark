@@ -20,7 +20,7 @@ class ParticleSmokeScreen(
 ) : AOTDParticle(world, ModSprites.SMOKE_SCREEN, x, y, z, 0.0, 0.0, 0.0) {
     init {
         // 10-20 second lifespan
-        particleMaxAge = rand.nextInt(200) + 200
+        maxAge = rand.nextInt(200) + 200
 
         // Blinding size teleport particles
         particleScale = 3f + rand.nextFloat() * 13f

@@ -1,14 +1,17 @@
 package com.davidm1a2.afraidofthedark.common.worldGeneration
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.world.OverworldHeightmap
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import net.minecraft.util.math.ChunkPos
-import net.minecraft.world.World
+import net.minecraft.world.IWorld
 import net.minecraft.world.WorldServer
-import net.minecraftforge.event.terraingen.PopulateChunkEvent
-import net.minecraftforge.fml.common.eventhandler.EventPriority
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.minecraft.world.chunk.ChunkPrimer
+import net.minecraft.world.chunk.UpgradeData
+import net.minecraft.world.dimension.DimensionType
+import net.minecraft.world.gen.Heightmap
+import net.minecraftforge.event.terraingen.ChunkGeneratorEvent
+import net.minecraftforge.eventbus.api.EventPriority
+import net.minecraftforge.eventbus.api.SubscribeEvent
 import kotlin.math.ceil
 import kotlin.math.max
 import kotlin.math.min
@@ -27,13 +30,13 @@ class WorldHeightMapper {
      * @param event The event containing the chunk and world
      */
     @SubscribeEvent(priority = EventPriority.HIGH)
-    fun onChunkPopulated(event: PopulateChunkEvent.Pre) {
+    fun onChunkPopulated(event: ChunkGeneratorEvent.ReplaceBiomeBlocks) {
         // Get a reference to the world
         val world = event.world
 
         // Get the X and Z coordinates of the chunk that was populated
-        val chunkX = event.chunkX
-        val chunkZ = event.chunkZ
+        val chunkX = event.chunk.pos.x
+        val chunkZ = event.chunk.pos.z
 
         // Initialize the chunk prediction range once based on the largest structure size
         if (chunkPredictionRange == -1) {
@@ -50,10 +53,6 @@ class WorldHeightMapper {
                 // The new prediction range is the max of the old range and the current structure size
                 chunkPredictionRange = max(chunkPredictionRange, maxChunksCovered)
             }
-
-            if (AfraidOfTheDark.INSTANCE.configurationHandler.debugMessages) {
-                AfraidOfTheDark.INSTANCE.logger.debug("Chunk heightmap prediction range set to $chunkPredictionRange")
-            }
         }
 
         // Generate the height map for the chunk
@@ -68,9 +67,9 @@ class WorldHeightMapper {
      * @param chunkZ               The Z coordinate of the chunk
      * @param chunkPredictionRange The prediction range to go out
      */
-    private fun heightMapChunk(world: World, chunkX: Int, chunkZ: Int, chunkPredictionRange: Int) {
+    private fun heightMapChunk(world: IWorld, chunkX: Int, chunkZ: Int, chunkPredictionRange: Int) {
         // If the world is server side, and it's the overworld, we begin heightmap creation
-        if (!world.isRemote && world is WorldServer && world.provider.dimension == 0) {
+        if (!world.isRemote && world is WorldServer && world.dimension.type == DimensionType.OVERWORLD) {
             // Grab a reference to the chunk provider
             val chunkProvider = world.chunkProvider
 
@@ -92,23 +91,19 @@ class WorldHeightMapper {
                     if (!heightmap.heightKnown(chunkPos)) {
                         // Let our world generator set the blocks inside the chunk. This is much faster than actually generating the chunk!
                         //chunkGenerator.setBlocksInChunk(x, z, chunkPrimer);
-                        val chunk = chunkProvider.chunkGenerator.generateChunk(x, z)
+                        val chunk = ChunkPrimer(ChunkPos(x, z), UpgradeData.EMPTY)
+                        chunkProvider.chunkGenerator.makeBase(ChunkPrimer(ChunkPos(x, z), UpgradeData.EMPTY))
 
                         // chunkGenerator.replaceBiomeBlocks(x, z, chunkPrimer, world.getBiomeProvider().getBiomes(null, x * 16, z * 16, 16, 16));
                         // Now use this chunk information to predict height values of chunks that have not yet been generated
                         // Instead of heightmapping the entire chunk we only do 4 points to get an idea if the chunk is flat or not. This
                         // Lets us make fairly accurate predictions if the chunk is flat or not. We pick the 4 corners of the chunk
                         // Use z-1 because there's a bug with findGroundBlockIdx
-                        val corner1Height = chunk.getHeightValue(
-                            0,
-                            0
-                        ) //chunkPrimer.findGroundBlockIdx(0, 0); // Can't use -1? -1 is broken
-                        val corner2Height = chunk.getHeightValue(
-                            15,
-                            0
-                        ) //chunkPrimer.findGroundBlockIdx(15, 0); // Can't use -1? -1 is broken
-                        val corner3Height = chunk.getHeightValue(0, 15) //chunkPrimer.findGroundBlockIdx(0, 14);
-                        val corner4Height = chunk.getHeightValue(15, 15) //chunkPrimer.findGroundBlockIdx(15, 14);
+                        val chunkHeights = chunk.getHeightmap(Heightmap.Type.WORLD_SURFACE)!!
+                        val corner1Height = chunkHeights.getHeight(0, 0)
+                        val corner2Height = chunkHeights.getHeight(15, 0)
+                        val corner3Height = chunkHeights.getHeight(0, 15)
+                        val corner4Height = chunkHeights.getHeight(15, 15)
 
                         // Find the min and max of the 4 values
                         val minHeight = min(min(corner1Height, corner2Height), min(corner3Height, corner4Height))

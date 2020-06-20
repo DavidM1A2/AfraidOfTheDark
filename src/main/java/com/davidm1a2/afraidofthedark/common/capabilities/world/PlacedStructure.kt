@@ -53,7 +53,7 @@ class PlacedStructure : INBTSerializable<NBTTagCompound> {
         val compound = NBTTagCompound()
         // Write the structure name, position, uuid, and additional data
         compound.setString(NBT_STRUCTURE_NAME, structure.registryName.toString())
-        compound.setTag(NBT_UUID, NBTUtil.createUUIDTag(uuid))
+        compound.setTag(NBT_UUID, NBTUtil.writeUniqueId(uuid))
         compound.setTag(NBT_DATA, data)
         return compound
     }
@@ -66,8 +66,8 @@ class PlacedStructure : INBTSerializable<NBTTagCompound> {
     override fun deserializeNBT(compound: NBTTagCompound) {
         // Read the structure, position, uuid, and data from the compound
         structure = ModRegistries.STRUCTURE.getValue(ResourceLocation(compound.getString(NBT_STRUCTURE_NAME)))!!
-        uuid = NBTUtil.getUUIDFromTag(compound.getCompoundTag(NBT_UUID))
-        data = compound.getCompoundTag(NBT_DATA)
+        uuid = NBTUtil.readUniqueId(compound.getCompound(NBT_UUID))
+        data = compound.getCompound(NBT_DATA)
     }
 
     companion object {

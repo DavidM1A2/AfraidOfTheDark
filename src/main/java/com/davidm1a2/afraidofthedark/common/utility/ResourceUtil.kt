@@ -14,7 +14,7 @@ object ResourceUtil {
      * @return The input stream to read from
      */
     fun getInputStream(resourceLocation: ResourceLocation): InputStream {
-        return ResourceUtil::class.java.getResourceAsStream("/assets/${resourceLocation.resourceDomain}/${resourceLocation.resourcePath}")
+        return ResourceUtil::class.java.getResourceAsStream("/assets/${resourceLocation.namespace}/${resourceLocation.path}")
             ?: throw IllegalArgumentException("Resource location $resourceLocation doesn't exist")
     }
 }

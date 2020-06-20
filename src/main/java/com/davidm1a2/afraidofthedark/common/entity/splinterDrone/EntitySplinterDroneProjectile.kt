@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.entity.splinterDrone
 
 import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources.causePlasmaBallDamage
+import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
@@ -15,9 +16,9 @@ import net.minecraft.util.DamageSource
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.RayTraceResult
 import net.minecraft.world.World
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.common.util.Constants
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
 import kotlin.math.sqrt
 
 /**
@@ -29,7 +30,7 @@ import kotlin.math.sqrt
  * @property ticksInAir The number of ticks the projectile has been in the air
  * @property animHandler The animation handler used to manage animations
  */
-class EntitySplinterDroneProjectile(world: World) : Entity(world),
+class EntitySplinterDroneProjectile(world: World) : Entity(ModEntities.SPLINTER_DRONE_PROJECTILE, world),
     IMCAnimatedModel {
     private var shootingEntity: EntitySplinterDrone? = null
     private var ticksInAir = 0
@@ -75,16 +76,10 @@ class EntitySplinterDroneProjectile(world: World) : Entity(world),
     }
 
     /**
-     * Required init method, does nothing
-     */
-    override fun entityInit() {
-    }
-
-    /**
      * Called every tick to update the entity's logic
      */
-    override fun onUpdate() {
-        super.onUpdate()
+    override fun tick() {
+        super.tick()
 
         // Animations only update client side
         if (world.isRemote) {
@@ -94,7 +89,7 @@ class EntitySplinterDroneProjectile(world: World) : Entity(world),
         // Update logic server side
         if (!world.isRemote) {
             // Ensure the shooting entity is null or not dead, and that the area the projectile is in is loaded
-            if ((shootingEntity == null || !shootingEntity!!.isDead) && world.isBlockLoaded(BlockPos(this))) {
+            if ((shootingEntity == null || shootingEntity!!.isAlive) && world.isBlockLoaded(BlockPos(this))) {
                 // We are in the air, so increment our counter
                 ticksInAir++
 
@@ -111,7 +106,7 @@ class EntitySplinterDroneProjectile(world: World) : Entity(world),
                 // Continue flying in the direction of motion, update the position
                 setPosition(posX + motionX, posY + motionY, posZ + motionZ)
             } else {
-                setDead()
+                remove()
             }
         }
     }
@@ -119,8 +114,8 @@ class EntitySplinterDroneProjectile(world: World) : Entity(world),
     /**
      * Called from onUpdate to update entity specific logic
      */
-    override fun onEntityUpdate() {
-        super.onEntityUpdate()
+    override fun baseTick() {
+        super.baseTick()
 
         // If we're client side and no animation is active play the sping animation
         if (world.isRemote) {
@@ -139,21 +134,27 @@ class EntitySplinterDroneProjectile(world: World) : Entity(world),
         // Only process server side
         if (!world.isRemote) {
             // Only do something if we hit an entity
-            if (result.entityHit != null) {
+            if (result.entity != null) {
                 // Cause a slight amount of damage
-                if (result.entityHit.attackEntityFrom(causePlasmaBallDamage(this, shootingEntity), 1.0f)) {
+                if (result.entity.attackEntityFrom(causePlasmaBallDamage(this, shootingEntity), 1.0f)) {
                     // If we hit a player slow them
-                    if (result.entityHit is EntityPlayer) {
+                    if (result.entity is EntityPlayer) {
                         // The player that was hit, add slowness
-                        val entityPlayer = result.entityHit as EntityPlayer
+                        val entityPlayer = result.entity as EntityPlayer
                         entityPlayer.addPotionEffect(PotionEffect(Potion.getPotionById(2)!!, 60, 2, false, false))
                     }
                 }
             }
 
             // Kill the projectile
-            setDead()
+            remove()
         }
+    }
+
+    /**
+     * Required, do nothing since we dont have any data
+     */
+    override fun registerData() {
     }
 
     /**
@@ -161,8 +162,8 @@ class EntitySplinterDroneProjectile(world: World) : Entity(world),
      *
      * @param compound The nbt compound to write to
      */
-    override fun writeEntityToNBT(compound: NBTTagCompound) {
-        compound.setInteger(NBT_TICKS_IN_AIR, ticksInAir)
+    override fun writeAdditional(compound: NBTTagCompound) {
+        compound.setInt(NBT_TICKS_IN_AIR, ticksInAir)
         compound.setTag(NBT_MOTION_DIRECTION, newDoubleNBTList(motionX, motionY, motionZ))
     }
 
@@ -171,12 +172,12 @@ class EntitySplinterDroneProjectile(world: World) : Entity(world),
      *
      * @param compound The nbt compound to read data from
      */
-    override fun readEntityFromNBT(compound: NBTTagCompound) {
-        ticksInAir = compound.getInteger(NBT_TICKS_IN_AIR)
-        val motionTagList = compound.getTagList(NBT_MOTION_DIRECTION, Constants.NBT.TAG_DOUBLE)
-        motionX = motionTagList.getDoubleAt(0)
-        motionY = motionTagList.getDoubleAt(1)
-        motionZ = motionTagList.getDoubleAt(2)
+    override fun readAdditional(compound: NBTTagCompound) {
+        ticksInAir = compound.getInt(NBT_TICKS_IN_AIR)
+        val motionTagList = compound.getList(NBT_MOTION_DIRECTION, Constants.NBT.TAG_DOUBLE)
+        motionX = motionTagList.getDouble(0)
+        motionY = motionTagList.getDouble(1)
+        motionZ = motionTagList.getDouble(2)
     }
 
     /**
@@ -220,7 +221,7 @@ class EntitySplinterDroneProjectile(world: World) : Entity(world),
      *
      * @return The same value as EntityFireball
      */
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     override fun getBrightnessForRender(): Int {
         return 15728880
     }

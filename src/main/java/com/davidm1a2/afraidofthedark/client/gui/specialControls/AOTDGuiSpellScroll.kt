@@ -20,7 +20,7 @@ import net.minecraft.client.resources.I18n
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.text.TextComponentTranslation
 import org.apache.commons.lang3.tuple.Pair
-import org.lwjgl.util.Color
+import java.awt.Color
 import kotlin.math.max
 
 /**
@@ -85,7 +85,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
         // Listener to be used by all of our spell components
         val componentClickListener: ((AOTDMouseEvent) -> Unit) =
             {
-                if (it.eventType == AOTDMouseEvent.EventType.Press) {
+                if (it.eventType == AOTDMouseEvent.EventType.Click) {
                     // If the component is hovered fire the listener
                     if (it.source.isHovered && it.source.isVisible && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
                         componentClickCallback(it.source as AOTDGuiSpellComponentSlot<*>)
@@ -272,7 +272,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
                 save.setTextAlignment(TextAlignment.ALIGN_CENTER)
                 save.setText("Save")
                 save.addMouseListener {
-                    if (it.eventType == AOTDMouseEvent.EventType.Press) {
+                    if (it.eventType == AOTDMouseEvent.EventType.Click) {
                         if (save.isVisible && save.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
                             // Flag telling us at least one property was invalid
                             var onePropertyInvalid = false
@@ -329,7 +329,7 @@ class AOTDGuiSpellScroll(x: Int, y: Int, width: Int, height: Int) : AOTDGuiConta
             cancel.setTextAlignment(TextAlignment.ALIGN_CENTER)
             cancel.setText(if (editableProperties.isEmpty()) "Close" else "Cancel")
             cancel.addMouseListener {
-                if (it.eventType == AOTDMouseEvent.EventType.Press) {
+                if (it.eventType == AOTDMouseEvent.EventType.Click) {
                     if (cancel.isVisible && cancel.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
                         // Clear the currently edited spell
                         setEditing(null)

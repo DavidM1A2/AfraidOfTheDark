@@ -6,6 +6,7 @@ import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
+import net.minecraft.block.SoundType
 import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.player.EntityPlayer
@@ -23,25 +24,16 @@ import kotlin.random.Random
 /**
  * Block that coverts glass into lens items
  */
-class BlockLensCutter : AOTDBlock("lens_cutter", Material.IRON) {
-    /**
-     * Called when the block is right clicked by a player
-     *
-     * @param worldIn The world the block is in
-     * @param pos The position the block is at
-     * @param state The state of the block
-     * @param playerIn The player that right clicked the block
-     * @param hand The hand that the item the player clicked with is in
-     * @param facing The side of the block that was clicked
-     * @param hitX The x pixel hit by the player
-     * @param hitY The y pixel hit by the player
-     * @param hitZ The z pixel hit by the player
-     * @return True to indicate a successful block interaction, false otherwise
-     */
+class BlockLensCutter : AOTDBlock(
+    "lens_cutter",
+    Properties.create(Material.IRON)
+        .hardnessAndResistance(5.0F, 6.0F)
+        .sound(SoundType.METAL)
+) {
     override fun onBlockActivated(
+        state: IBlockState,
         worldIn: World,
         pos: BlockPos,
-        state: IBlockState,
         playerIn: EntityPlayer,
         hand: EnumHand,
         facing: EnumFacing,

@@ -1,11 +1,11 @@
 package com.davidm1a2.afraidofthedark.common.entity.enaria
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.packets.animationPackets.SyncAnimation
+import com.davidm1a2.afraidofthedark.common.packets.animationPackets.AnimationPacket
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.entity.ai.EntityAIBase
 import net.minecraft.potion.Potion
-import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint
+import net.minecraftforge.fml.network.PacketDistributor
 
 /**
  * Class that allows enaria to attack
@@ -56,7 +56,7 @@ class EntityAIAttackEnaria(private val enaria: EntityEnaria) : EntityAIBase() {
     /**
      * Updates the task and attacks the target
      */
-    override fun updateTask() {
+    override fun tick() {
         // Look at the target
         enaria.lookHelper.setLookPositionWithEntity(target!!, 30.0f, 30.0f)
 
@@ -72,12 +72,12 @@ class EntityAIAttackEnaria(private val enaria: EntityEnaria) : EntityAIBase() {
             enaria.enariaAttacks.performRandomSpell()
 
             // Make sure you can't use potions on enaria, she clears them every spell cast
-            enaria.clearActivePotions()
+            enaria.activePotionMap.clear()
 
             // Play the spell cast animation
-            AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(
-                SyncAnimation("spell", enaria, "spell"),
-                TargetPoint(enaria.dimension, enaria.posX, enaria.posY, enaria.posZ, 100.0)
+            AfraidOfTheDark.packetHandler.sendToAllAround(
+                AnimationPacket(enaria, "spell", "spell"),
+                PacketDistributor.TargetPoint(enaria.posX, enaria.posY, enaria.posZ, 100.0, enaria.dimension)
             )
         } else if (ticksUntilNextAttack % 40 == 0) {
             // If Enaria is not invisible basic attack
@@ -86,9 +86,9 @@ class EntityAIAttackEnaria(private val enaria: EntityEnaria) : EntityAIBase() {
                 enaria.enariaAttacks.performBasicAttack()
 
                 // Show the auto attack animation
-                AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(
-                    SyncAnimation("autoattack", enaria, "spell", "autoattack"),
-                    TargetPoint(enaria.dimension, enaria.posX, enaria.posY, enaria.posZ, 100.0)
+                AfraidOfTheDark.packetHandler.sendToAllAround(
+                    AnimationPacket(enaria, "autoattack", "spell", "autoattack"),
+                    PacketDistributor.TargetPoint(enaria.posX, enaria.posY, enaria.posZ, 100.0, enaria.dimension)
                 )
             }
         }

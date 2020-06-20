@@ -6,9 +6,9 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.EntityPlayerSP
 import net.minecraft.client.gui.FontRenderer
 import net.minecraft.client.gui.Gui
-import org.lwjgl.util.Color
-import org.lwjgl.util.Point
-import org.lwjgl.util.Rectangle
+import java.awt.Color
+import java.awt.Point
+import java.awt.Rectangle
 import kotlin.math.roundToInt
 
 /**
@@ -32,7 +32,7 @@ import kotlin.math.roundToInt
  */
 abstract class AOTDGuiComponent(x: Int, y: Int, width: Int, height: Int) {
     val entityPlayer: EntityPlayerSP
-        get() = Minecraft.getMinecraft().player
+        get() = Minecraft.getInstance().player
 
     private val boundingBox = Rectangle(x, y, width, height)
     private val scaledBoundingBox = Rectangle(0, 0, 0, 0)
@@ -316,6 +316,6 @@ abstract class AOTDGuiComponent(x: Int, y: Int, width: Int, height: Int) {
     }
 
     companion object {
-        val fontRenderer: FontRenderer = Minecraft.getMinecraft().fontRenderer
+        val fontRenderer: FontRenderer = Minecraft.getInstance().fontRenderer
     }
 }

@@ -92,14 +92,14 @@ class SpellStage : INBTSerializable<NBTTagCompound> {
     override fun deserializeNBT(nbt: NBTTagCompound) {
         // The spell stage delivery method can be null, double check that it exists before reading it and its state
         if (nbt.hasKey(NBT_DELIVERY_METHOD)) {
-            deliveryInstance = SpellDeliveryMethodInstance.createFromNBT(nbt.getCompoundTag(NBT_DELIVERY_METHOD))
+            deliveryInstance = SpellDeliveryMethodInstance.createFromNBT(nbt.getCompound(NBT_DELIVERY_METHOD))
         }
 
         // Go over each spell effect
         for (i in effects.indices) {
             // The spell stage effects can be null, so we need to skip null effects
             if (nbt.hasKey(NBT_EFFECT_BASE + i)) {
-                effects[i] = SpellEffectInstance.createFromNBT(nbt.getCompoundTag(NBT_EFFECT_BASE + i))
+                effects[i] = SpellEffectInstance.createFromNBT(nbt.getCompound(NBT_EFFECT_BASE + i))
             }
         }
     }
@@ -108,9 +108,8 @@ class SpellStage : INBTSerializable<NBTTagCompound> {
      * @return a pretty printed spell stage
      */
     override fun toString(): String {
-        return "${deliveryInstance?.component?.registryName?.resourcePath}: ${effects.filterNotNull()
-            .map { it.component.registryName?.resourcePath }
-            .joinToString(separator = ", ", prefix = "[", postfix = "]")}"
+        return "${deliveryInstance?.component?.registryName?.path}: ${effects.filterNotNull()
+            .joinToString(separator = ", ", prefix = "[", postfix = "]") { it.component.registryName?.path!! }}"
     }
 
     companion object {

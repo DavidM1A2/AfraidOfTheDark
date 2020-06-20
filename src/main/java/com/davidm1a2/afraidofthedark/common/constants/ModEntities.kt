@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.entity.bolt.*
 import com.davidm1a2.afraidofthedark.common.entity.enaria.EntityEnaria
 import com.davidm1a2.afraidofthedark.common.entity.enaria.EntityGhastlyEnaria
@@ -10,135 +9,93 @@ import com.davidm1a2.afraidofthedark.common.entity.spell.projectile.EntitySpellP
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.EntitySplinterDrone
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.EntitySplinterDroneProjectile
 import com.davidm1a2.afraidofthedark.common.entity.werewolf.EntityWerewolf
-import net.minecraft.entity.EnumCreatureType
-import net.minecraft.util.ResourceLocation
-import net.minecraftforge.fml.common.registry.EntityEntryBuilder
+import net.minecraft.entity.EntityType
 
 /**
  * A static class containing all of our entity references for us
  */
 object ModEntities {
-    // Various entity IDs
-    private const val WEREWOLF_ID = 0
-    private const val IRON_BOLT_ID = 1
-    private const val SILVER_BOLT_ID = 2
-    private const val WOODEN_BOLT_ID = 3
-    private const val DEEE_SYFT_ID = 4
-    private const val IGNEOUS_BOLT_ID = 5
-    private const val STAR_METAL_BOLT_ID = 6
-    private const val ENCHANTED_SKELETON_ID = 7
-    private const val ENARIA_ID = 8
-    private const val SPLINTER_DRONE_ID = 9
-    private const val SPLINTER_DRONE_PROJECTILE_ID = 10
-    private const val SPELL_PROJECTILE_ID = 11
-    private const val SPELL_PROJECTILE_DIVE_ID = 12
-    private const val SPELL_MYSELF_ID = 13
-    private const val SPELL_AOE_ID = 14
-    private const val GHASTLY_ENARIA_ID = 15
-    private const val ARTWORK_ID = 16
-    private const val SPELL_EXTRA_EFFECTS_ID = 17
-    private const val ENCHANTED_FROG_ID = 18
-
     // All mod entity static fields
-    val ENCHANTED_SKELETON = EntityEntryBuilder.create<EntityEnchantedSkeleton>()
-        .egg(0x996600, 0xe69900)
-        .entity(EntityEnchantedSkeleton::class.java)
-        .id(ResourceLocation(Constants.MOD_ID, "enchanted_skeleton"), ENCHANTED_SKELETON_ID)
-        .name("enchanted_skeleton")
-        .tracker(50, 1, true)
-        .build()
+    val ENCHANTED_SKELETON = EntityType.register(
+        "${Constants.MOD_ID}:enchanted_skeleton",
+        EntityType.Builder.create(EntityEnchantedSkeleton::class.java) { EntityEnchantedSkeleton(it) }
+            .tracker(50, 1, true)
+    )
+    //.egg(0x996600, 0xe69900)
 
-    val WEREWOLF = EntityEntryBuilder.create<EntityWerewolf>()
-        .egg(0x3B170B, 0x181907)
-        .entity(EntityWerewolf::class.java)
-        .id(ResourceLocation(Constants.MOD_ID, "werewolf"), WEREWOLF_ID)
-        .name("werewolf")
-        .tracker(50, 1, true)
-        .spawn(
-            EnumCreatureType.MONSTER,
-            25,
-            1,
-            4,
-            ModBiomes.EERIE_FOREST
-        ) // Weight = 100 is for skeletons, use 1/4 of that
-        .build()
+    val WEREWOLF = EntityType.register(
+        "${Constants.MOD_ID}:werewolf",
+        EntityType.Builder.create(EntityWerewolf::class.java) { EntityWerewolf(it) }
+            .tracker(50, 1, true)
+    )
+    //.egg(0x3B170B, 0x181907)
+    //.spawn(EnumCreatureType.MONSTER, 25, 1, 4, ModBiomes.EERIE_FOREST) // Weight = 100 is for skeletons, use 1/4 of that
 
-    val GHASTLY_ENARIA = EntityEntryBuilder.create<EntityGhastlyEnaria>()
-        .entity(EntityGhastlyEnaria::class.java)
-        .id(ResourceLocation(Constants.MOD_ID, "ghastly_enaria"), GHASTLY_ENARIA_ID)
-        .name("ghastly_enaria")
-        .tracker(AfraidOfTheDark.INSTANCE.configurationHandler.blocksBetweenIslands / 2, 1, true)
-        .build()
+    val GHASTLY_ENARIA = EntityType.register(
+        "${Constants.MOD_ID}:ghastly_enaria",
+        EntityType.Builder.create(EntityGhastlyEnaria::class.java) { EntityGhastlyEnaria(it) }
+            .tracker(ModServerConfiguration.blocksBetweenIslands / 2, 1, true)
+    )
 
-    val SPLINTER_DRONE = EntityEntryBuilder.create<EntitySplinterDrone>()
-        .egg(0xcc6600, 0x63300)
-        .entity(EntitySplinterDrone::class.java)
-        .id(ResourceLocation(Constants.MOD_ID, "splinter_drone"), SPLINTER_DRONE_ID)
-        .name("splinter_drone")
-        .tracker(50, 1, true)
-        .build()
+    val SPLINTER_DRONE = EntityType.register(
+        "${Constants.MOD_ID}:splinter_drone",
+        EntityType.Builder.create(EntitySplinterDrone::class.java) { EntitySplinterDrone(it) }
+            .tracker(50, 1, true)
+    )
+    //.egg(0xcc6600, 0x63300)
 
-    val SPLINTER_DRONE_PROJECTILE = EntityEntryBuilder.create<EntitySplinterDroneProjectile>()
-        .entity(EntitySplinterDroneProjectile::class.java)
-        .id(ResourceLocation(Constants.MOD_ID, "splinter_drone_projectile"), SPLINTER_DRONE_PROJECTILE_ID)
-        .name("splinter_drone_projectile")
-        .tracker(50, 1, true)
-        .build()
+    val SPLINTER_DRONE_PROJECTILE = EntityType.register(
+        "${Constants.MOD_ID}:splinter_drone_projectile",
+        EntityType.Builder.create(EntitySplinterDroneProjectile::class.java) { EntitySplinterDroneProjectile(it) }
+            .tracker(50, 1, true)
+    )
 
-    val ENARIA = EntityEntryBuilder.create<EntityEnaria>()
-        .entity(EntityEnaria::class.java)
-        .id(ResourceLocation(Constants.MOD_ID, "enaria"), ENARIA_ID)
-        .name("enaria")
-        .tracker(50, 1, true)
-        .build()
+    val ENARIA = EntityType.register(
+        "${Constants.MOD_ID}:enaria",
+        EntityType.Builder.create(EntityEnaria::class.java) { EntityEnaria(it) }
+            .tracker(50, 1, true)
+    )
 
-    val ENCHANTED_FROG = EntityEntryBuilder.create<EntityEnchantedFrog>()
-        .egg(0x92029c, 0xd4028e)
-        .entity(EntityEnchantedFrog::class.java)
-        .id(ResourceLocation(Constants.MOD_ID, "enchanted_frog"), ENCHANTED_FROG_ID)
-        .name("enchanted_frog")
-        .tracker(50, 1, true)
-        .build()
+    val ENCHANTED_FROG = EntityType.register(
+        "${Constants.MOD_ID}:enchanted_frog",
+        EntityType.Builder.create(EntityEnchantedFrog::class.java) { EntityEnchantedFrog(it) }
+            .tracker(50, 1, true)
+    )
+    // .egg(0x92029c, 0xd4028e)
 
     // Spell entities
-    val SPELL_PROJECTILE = EntityEntryBuilder.create<EntitySpellProjectile>()
-        .entity(EntitySpellProjectile::class.java)
-        .id(ResourceLocation(Constants.MOD_ID, "spell_projectile"), SPELL_PROJECTILE_ID)
-        .name("spell_projectile")
-        .tracker(50, 1, true)
-        .build()
+    val SPELL_PROJECTILE = EntityType.register(
+        "${Constants.MOD_ID}:spell_projectile",
+        EntityType.Builder.create(EntitySpellProjectile::class.java) { EntitySpellProjectile(it) }
+            .tracker(50, 1, true)
+    )
 
     // 5 bolt entities
-    val WOODEN_BOLT = EntityEntryBuilder.create<EntityWoodenBolt>()
-        .entity(EntityWoodenBolt::class.java)
-        .id(ResourceLocation(Constants.MOD_ID, "wooden_bolt"), WOODEN_BOLT_ID)
-        .name("wooden_bolt")
-        .tracker(50, 1, true)
-        .build()
-    val IRON_BOLT = EntityEntryBuilder.create<EntityIronBolt>()
-        .entity(EntityIronBolt::class.java)
-        .id(ResourceLocation(Constants.MOD_ID, "iron_bolt"), IRON_BOLT_ID)
-        .name("iron_bolt")
-        .tracker(50, 1, true)
-        .build()
-    val SILVER_BOLT = EntityEntryBuilder.create<EntitySilverBolt>()
-        .entity(EntitySilverBolt::class.java)
-        .id(ResourceLocation(Constants.MOD_ID, "silver_bolt"), SILVER_BOLT_ID)
-        .name("silver_bolt")
-        .tracker(50, 1, true)
-        .build()
-    val IGNEOUS_BOLT = EntityEntryBuilder.create<EntityIgneousBolt>()
-        .entity(EntityIgneousBolt::class.java)
-        .id(ResourceLocation(Constants.MOD_ID, "igneous_bolt"), IGNEOUS_BOLT_ID)
-        .name("igneous_bolt")
-        .tracker(50, 1, true)
-        .build()
-    val STAR_METAL_BOLT = EntityEntryBuilder.create<EntityStarMetalBolt>()
-        .entity(EntityStarMetalBolt::class.java)
-        .id(ResourceLocation(Constants.MOD_ID, "star_metal_bolt"), STAR_METAL_BOLT_ID)
-        .name("star_metal_bolt")
-        .tracker(50, 1, true)
-        .build()
+    val WOODEN_BOLT = EntityType.register(
+        "${Constants.MOD_ID}:wooden_bolt",
+        EntityType.Builder.create(EntityWoodenBolt::class.java) { EntityWoodenBolt(it) }
+            .tracker(50, 1, true)
+    )
+    val IRON_BOLT = EntityType.register(
+        "${Constants.MOD_ID}:iron_bolt",
+        EntityType.Builder.create(EntityIronBolt::class.java) { EntityIronBolt(it) }
+            .tracker(50, 1, true)
+    )
+    val SILVER_BOLT = EntityType.register(
+        "${Constants.MOD_ID}:silver_bolt",
+        EntityType.Builder.create(EntitySilverBolt::class.java) { EntitySilverBolt(it) }
+            .tracker(50, 1, true)
+    )
+    val IGNEOUS_BOLT = EntityType.register(
+        "${Constants.MOD_ID}:igneous_bolt",
+        EntityType.Builder.create(EntityIgneousBolt::class.java) { EntityIgneousBolt(it) }
+            .tracker(50, 1, true)
+    )
+    val STAR_METAL_BOLT = EntityType.register(
+        "${Constants.MOD_ID}:star_metal_bolt",
+        EntityType.Builder.create(EntityStarMetalBolt::class.java) { EntityStarMetalBolt(it) }
+            .tracker(50, 1, true)
+    )
 
     // An array containing a list of entities that AOTD adds
     var ENTITY_LIST = arrayOf(

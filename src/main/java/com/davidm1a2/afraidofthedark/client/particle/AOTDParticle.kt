@@ -41,14 +41,14 @@ abstract class AOTDParticle(
     /**
      * Copied code from base particle with modifications to update motion x,y,z
      */
-    override fun onUpdate() {
+    override fun tick() {
         // Update the previous positions to be the current position
         prevPosX = posX
         prevPosY = posY
         prevPosZ = posZ
 
         // If the particle is too old kill it off
-        if (particleAge++ >= particleMaxAge) {
+        if (age++ >= maxAge) {
             setExpired()
         }
 

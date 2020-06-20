@@ -7,7 +7,6 @@ import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItemArmor
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.client.Minecraft
-import net.minecraft.client.resources.I18n
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityLivingBase
@@ -15,11 +14,11 @@ import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.inventory.EntityEquipmentSlot
 import net.minecraft.item.ItemStack
 import net.minecraft.util.DamageSource
+import net.minecraft.util.text.ITextComponent
+import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.world.World
-import net.minecraftforge.common.ISpecialArmor
-import net.minecraftforge.common.ISpecialArmor.ArmorProperties
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * Class representing the 4 different pieces of star metal armor
@@ -29,14 +28,8 @@ import net.minecraftforge.fml.relauncher.SideOnly
  * @param equipmentSlot The slot that this armor pieces goes on, can be one of 4 options
  */
 class ItemStarMetalArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
-    AOTDItemArmor(baseName, ModArmorMaterials.STAR_METAL, 3, equipmentSlot), ISpecialArmor {
-    init {
-        // Makes the armor invincible
-        maxDamage = 0
-        // Block 70% of the damage up to 20
-        maxDamageBlocked = 20
-        percentOfDamageBlocked = 0.7
-    }
+    AOTDItemArmor(baseName, ModArmorMaterials.STAR_METAL, equipmentSlot, Properties().defaultMaxDamage(0)) {
+    private val percentOfDamageBlocked = 0.7f
 
     /**
      * Gets the resource location path of the texture for the armor when worn by the player
@@ -64,25 +57,25 @@ class ItemStarMetalArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
      * @param tooltip The tooltip list to add to
      * @param flag  The flag telling us if advanced tooltips are on or not
      */
-    @SideOnly(Side.CLIENT)
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag) {
-        val player = Minecraft.getMinecraft().player
+    @OnlyIn(Dist.CLIENT)
+    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+        val player = Minecraft.getInstance().player
         if (player != null && player.getResearch().isResearched(ModResearches.STAR_METAL)) {
-            tooltip.add(I18n.format(LocalizationConstants.Item.TOOLTIP_MAGIC_ARMOR_NEVER_BREAKS))
-            tooltip.add(I18n.format(LocalizationConstants.Item.STAR_METAL_ARMOR_TOOLTIP_EFFECT))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.TOOLTIP_MAGIC_ARMOR_NEVER_BREAKS))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.STAR_METAL_ARMOR_TOOLTIP_EFFECT))
         } else {
-            tooltip.add(I18n.format(LocalizationConstants.Item.TOOLTIP_DONT_KNOW_HOW_TO_USE))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }
 
     /**
      * Called every tick the armor is being worn
      *
+     * @param itemStack The itemstack of the armor item
      * @param world     The world the player is in
      * @param player    The player that is wearing the armor
-     * @param itemStack The itemstack of the armor item
      */
-    override fun onArmorTick(world: World, player: EntityPlayer, itemStack: ItemStack) {
+    override fun onArmorTick(itemStack: ItemStack, world: World, player: EntityPlayer) {
         // We have to test client and server side since absorption is client side :(
         // Test if the player has the star metal research
         if (player.getResearch().isResearched(ModResearches.STAR_METAL)) {
@@ -119,86 +112,35 @@ class ItemStarMetalArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
     }
 
     /**
-     * Armor can't be damaged, just return
-     *
-     * @param entity THe entity that is wearing the armor
-     * @param stack  The itemstack that is being worn
-     * @param source The damage source that is hitting the armor
-     * @param damage The amount of damage to apply
-     * @param slot   The slot that is damaged
-     */
-    override fun damageArmor(entity: EntityLivingBase, stack: ItemStack, source: DamageSource, damage: Int, slot: Int) {
-    }
-
-    /**
-     * Returns the number of additional shields to display when wearing the armor
-     *
-     * @param player The player wearing the armor
-     * @param armor  The armor itemstack
-     * @param slot   The slot the item is in
-     * @return THe number of shields to display when wearing the armor
-     */
-    override fun getArmorDisplay(player: EntityPlayer, armor: ItemStack, slot: Int): Int {
-        // 0, since we only want to display default armor values
-        return 0
-    }
-
-    /**
-     * Called when unblockable damage is applied, just return the default false
-     *
-     * @param entity The entity wearing the armor
-     * @param armor  The armor itemstack
-     * @param source The damage source applied
-     * @param damage The damage inflicted
-     * @param slot   The armor slot
-     * @return False, let the damage be handled
-     */
-    override fun handleUnblockableDamage(
-        entity: EntityLivingBase,
-        armor: ItemStack,
-        source: DamageSource,
-        damage: Double,
-        slot: Int
-    ): Boolean {
-        return false
-    }
-
-    /**
      * Returns the armor properties for a given item in the player's armor inventory
      *
      * @param entity The player that is wearing the armor
-     * @param armor  The armor item that is being worn
+     * @param armorStack  The armor item that is being worn
      * @param source The damage source that hit the player
-     * @param damage The damage inflicted
-     * @param slot   The slot containing the armor block
+     * @param amount The damage inflicted
+     * @param slot The slot containing the armor block
      * @return The armor's properties for these damage types
      */
-    override fun getProperties(
-        entity: EntityLivingBase,
-        armor: ItemStack,
-        source: DamageSource,
-        damage: Double,
-        slot: Int
-    ): ArmorProperties {
+    override fun processDamage(entity: EntityLivingBase, armorStack: ItemStack, source: DamageSource, amount: Float, slot: EntityEquipmentSlot): Float {
         // Compute armor properties for players only
         if (entity is EntityPlayer) {
             // Ensure the player has the right research
             if (entity.getResearch().isResearched(ModResearches.STAR_METAL)) {
                 // No damage reduction against true sources
                 if (TRUE_DAMAGE_SOURCES.contains(source)) {
-                    return ArmorProperties(0, getRatio(slot), 0)
+                    return amount
                 }
             } else {
                 // Armor is useless without research
-                return ArmorProperties(0, getRatio(slot), 0)
+                return amount
             }
         } else {
             // Armor is useless without research
-            return ArmorProperties(0, getRatio(slot), 0)
+            return amount
         }
 
         // Default armor protection if no special set bonus applies
-        return getDefaultProperties(slot)
+        return amount * getRatio(slot) * percentOfDamageBlocked
     }
 
     /**
@@ -207,25 +149,15 @@ class ItemStarMetalArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
      * @param slot The slot the armor is in
      * @return The ratio of protection of each piece reduced by the percent damage blocked
      */
-    private fun getRatio(slot: Int): Double {
+    private fun getRatio(slot: EntityEquipmentSlot): Float {
         // Total protection of each piece
         val totalProtection = 3 + 6 + 8 + 3
         return when (slot) {
-            0, 3 -> 3.0 / totalProtection * percentOfDamageBlocked
-            1 -> 6.0 / totalProtection * percentOfDamageBlocked
-            2 -> 8.0 / totalProtection * percentOfDamageBlocked
-            else -> 0.0
+            EntityEquipmentSlot.HEAD, EntityEquipmentSlot.FEET -> 3.0f / totalProtection * percentOfDamageBlocked
+            EntityEquipmentSlot.LEGS -> 6.0f / totalProtection * percentOfDamageBlocked
+            EntityEquipmentSlot.CHEST -> 8.0f / totalProtection * percentOfDamageBlocked
+            else -> 0.0f
         }
-    }
-
-    /**
-     * Gets the default armor properties when taking damage
-     *
-     * @param slot The slot that the armor piece is in
-     * @return default armor properties for this set
-     */
-    private fun getDefaultProperties(slot: Int): ArmorProperties {
-        return ArmorProperties(0, getRatio(slot), maxDamageBlocked)
     }
 
     companion object {

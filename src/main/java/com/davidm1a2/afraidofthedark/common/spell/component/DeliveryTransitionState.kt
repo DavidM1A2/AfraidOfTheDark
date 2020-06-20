@@ -5,11 +5,13 @@ import com.davidm1a2.afraidofthedark.common.spell.SpellStage
 import net.minecraft.entity.Entity
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTUtil
+import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import net.minecraft.world.WorldServer
-import net.minecraftforge.common.DimensionManager
+import net.minecraft.world.dimension.DimensionType
+import net.minecraftforge.fml.server.ServerLifecycleHooks
 import java.util.*
 
 /**
@@ -66,9 +68,9 @@ class DeliveryTransitionState {
         this.position = position
         blockPosition = blockPos
         this.direction = direction
-        casterEntityId = casterEntity?.persistentID
-        entityId = entity?.persistentID
-        deliveryEntityId = deliveryEntity?.persistentID
+        casterEntityId = casterEntity?.uniqueID
+        entityId = entity?.uniqueID
+        deliveryEntityId = deliveryEntity?.uniqueID
     }
 
     /**
@@ -77,32 +79,32 @@ class DeliveryTransitionState {
      * @param nbt The NBT containing the delivery state
      */
     constructor(nbt: NBTTagCompound) {
-        spell = Spell(nbt.getCompoundTag(NBT_SPELL))
-        stageIndex = nbt.getInteger(NBT_STAGE_INDEX)
-        world = DimensionManager.getWorld(nbt.getInteger(NBT_WORLD_ID))
+        spell = Spell(nbt.getCompound(NBT_SPELL))
+        stageIndex = nbt.getInt(NBT_STAGE_INDEX)
+        world = ServerLifecycleHooks.getCurrentServer().getWorld(DimensionType.byName(ResourceLocation(nbt.getString(NBT_WORLD_ID)))!!)
         position = Vec3d(
             nbt.getDouble(NBT_POSITION + "_x"),
             nbt.getDouble(NBT_POSITION + "_y"),
             nbt.getDouble(NBT_POSITION + "_z")
         )
-        blockPosition = NBTUtil.getPosFromTag(nbt.getCompoundTag(NBT_BLOCK_POSITION))
+        blockPosition = NBTUtil.readBlockPos(nbt.getCompound(NBT_BLOCK_POSITION))
         direction = Vec3d(
             nbt.getDouble(NBT_DIRECTION + "_x"),
             nbt.getDouble(NBT_DIRECTION + "_y"),
             nbt.getDouble(NBT_DIRECTION + "_z")
         )
         casterEntityId = if (nbt.hasKey(NBT_CASTER_ENTITY_ID)) {
-            NBTUtil.getUUIDFromTag(nbt.getCompoundTag(NBT_CASTER_ENTITY_ID))
+            NBTUtil.readUniqueId(nbt.getCompound(NBT_CASTER_ENTITY_ID))
         } else {
             null
         }
         entityId = if (nbt.hasKey(NBT_ENTITY_ID)) {
-            NBTUtil.getUUIDFromTag(nbt.getCompoundTag(NBT_ENTITY_ID))
+            NBTUtil.readUniqueId(nbt.getCompound(NBT_ENTITY_ID))
         } else {
             null
         }
         deliveryEntityId = if (nbt.hasKey(NBT_DELIVERY_ENTITY_ID)) {
-            NBTUtil.getUUIDFromTag(nbt.getCompoundTag(NBT_DELIVERY_ENTITY_ID))
+            NBTUtil.readUniqueId(nbt.getCompound(NBT_DELIVERY_ENTITY_ID))
         } else {
             null
         }
@@ -114,23 +116,23 @@ class DeliveryTransitionState {
     fun writeToNbt(): NBTTagCompound {
         val nbt = NBTTagCompound()
         nbt.setTag(NBT_SPELL, spell.serializeNBT())
-        nbt.setInteger(NBT_STAGE_INDEX, stageIndex)
-        nbt.setInteger(NBT_WORLD_ID, world.provider.dimension)
+        nbt.setInt(NBT_STAGE_INDEX, stageIndex)
+        nbt.setString(NBT_WORLD_ID, world.dimension.type.registryName.toString())
         nbt.setDouble(NBT_POSITION + "_x", position.x)
         nbt.setDouble(NBT_POSITION + "_y", position.y)
         nbt.setDouble(NBT_POSITION + "_z", position.z)
-        nbt.setTag(NBT_BLOCK_POSITION, NBTUtil.createPosTag(blockPosition))
+        nbt.setTag(NBT_BLOCK_POSITION, NBTUtil.writeBlockPos(blockPosition))
         nbt.setDouble(NBT_DIRECTION + "_x", direction.x)
         nbt.setDouble(NBT_DIRECTION + "_y", direction.y)
         nbt.setDouble(NBT_DIRECTION + "_z", direction.z)
         if (casterEntityId != null) {
-            nbt.setTag(NBT_CASTER_ENTITY_ID, NBTUtil.createUUIDTag(casterEntityId))
+            nbt.setTag(NBT_CASTER_ENTITY_ID, NBTUtil.writeUniqueId(casterEntityId))
         }
         if (entityId != null) {
-            nbt.setTag(NBT_ENTITY_ID, NBTUtil.createUUIDTag(entityId))
+            nbt.setTag(NBT_ENTITY_ID, NBTUtil.writeUniqueId(entityId))
         }
         if (deliveryEntityId != null) {
-            nbt.setTag(NBT_DELIVERY_ENTITY_ID, NBTUtil.createUUIDTag(deliveryEntityId))
+            nbt.setTag(NBT_DELIVERY_ENTITY_ID, NBTUtil.writeUniqueId(deliveryEntityId))
         }
         return nbt
     }

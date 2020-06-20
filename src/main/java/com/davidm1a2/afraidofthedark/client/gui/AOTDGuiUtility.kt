@@ -1,34 +1,25 @@
 package com.davidm1a2.afraidofthedark.client.gui
 
 import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility.minecraft
-import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility.scaledResolution
+import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility.window
 import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.ScaledResolution
-import org.lwjgl.input.Keyboard
-import org.lwjgl.input.Mouse
 import java.awt.Toolkit
 import java.awt.datatransfer.DataFlavor
 import java.awt.datatransfer.StringSelection
 import java.awt.datatransfer.UnsupportedFlavorException
 import java.io.IOException
+import kotlin.math.roundToInt
 
 /**
  * Class that allows for scaling and resizing UI components to fit the screen more easily
  *
  * @constructor just initializes fields
  * @property minecraft The minecraft instance
- * @property scaledResolution Getter for scaled resolution, returns the last scaled resolution that was build by refreshScaledResolution()
+ * @property window Getter for window, returns the last scaled resolution that was build by refreshScaledResolution()
  */
 object AOTDGuiUtility {
-    private val minecraft = Minecraft.getMinecraft()
-    private var scaledResolution: ScaledResolution = ScaledResolution(minecraft)
-
-    /**
-     * Forces our scaled resolution variable to update to the current window size, this ensures that all scale calls are accurate
-     */
-    fun refreshScaledResolution() {
-        this.scaledResolution = ScaledResolution(minecraft)
-    }
+    private val minecraft = Minecraft.getInstance()
+    private var window = minecraft.mainWindow
 
     /**
      * Converts a coordinate from minecraft resolution to screen resolution
@@ -37,7 +28,7 @@ object AOTDGuiUtility {
      * @return The coordinate of the UI element on the real screen
      */
     fun mcToRealScreenCoord(mcCoord: Int): Int {
-        return mcCoord * this.scaledResolution.scaleFactor
+        return mcCoord * this.window.getScaleFactor(minecraft.gameSettings.guiScale)
     }
 
     /**
@@ -47,7 +38,7 @@ object AOTDGuiUtility {
      * @return The coordinate of the UI element on the MC coordinate system
      */
     fun realScreenCoordToMC(realScreenCoord: Int): Int {
-        return realScreenCoord / this.scaledResolution.scaleFactor
+        return realScreenCoord / this.window.getScaleFactor(minecraft.gameSettings.guiScale)
     }
 
     /**
@@ -57,33 +48,22 @@ object AOTDGuiUtility {
      * @return The y coordinate of the screen in OpenGL coordinate
      */
     fun realScreenYToGLYCoord(realScreenY: Int): Int {
-        return minecraft.displayHeight - realScreenY
+        return window.height - realScreenY
     }
 
     /**
      * @return Returns the mouse's X current position in MC coordinates
      */
     fun getMouseXInMCCoord(): Int {
-        return Mouse.getX() * this.scaledResolution.scaledWidth / minecraft.displayWidth
+        return minecraft.mouseHelper.mouseX.roundToInt() * this.window.scaledWidth / window.width
     }
 
     /**
      * @return Returns the mouse's Y current position in MC coordinates
      */
     fun getMouseYInMCCoord(): Int {
-        val scaledHeight: Int = this.scaledResolution.scaledHeight
-        return scaledHeight - Mouse.getY() * scaledHeight / Minecraft.getMinecraft().displayHeight - 1
-    }
-
-    /**
-     * @return true if either windows ctrl key is down or if either mac meta key is down
-     */
-    fun isCtrlKeyDown(): Boolean {
-        return if (Minecraft.IS_RUNNING_ON_MAC) {
-            Keyboard.isKeyDown(Keyboard.KEY_LMETA) || Keyboard.isKeyDown(Keyboard.KEY_RMETA)
-        } else {
-            Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)
-        }
+        val scaledHeight: Int = this.window.scaledHeight
+        return scaledHeight - minecraft.mouseHelper.mouseY.roundToInt() * scaledHeight / window.height - 1
     }
 
     /**

@@ -34,7 +34,7 @@ class DelayedDeliveryEntry {
      * @param nbt The NBT to read the state in from
      */
     constructor(nbt: NBTTagCompound) {
-        state = DeliveryTransitionState(nbt.getCompoundTag(NBT_STATE))
+        state = DeliveryTransitionState(nbt.getCompound(NBT_STATE))
         ticksLeft = nbt.getLong(NBT_TICKS_LEFT)
     }
 

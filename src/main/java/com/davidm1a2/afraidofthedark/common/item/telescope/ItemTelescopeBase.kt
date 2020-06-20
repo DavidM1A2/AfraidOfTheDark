@@ -1,23 +1,21 @@
 package com.davidm1a2.afraidofthedark.common.item.telescope
 
-import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiHandler
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
-import com.davidm1a2.afraidofthedark.common.utility.openGui
 import net.minecraft.client.Minecraft
-import net.minecraft.client.resources.I18n
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
 import net.minecraft.util.EnumActionResult
 import net.minecraft.util.EnumHand
+import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.world.World
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * Class representing the telescope item used to track meteors
@@ -26,12 +24,11 @@ import net.minecraftforge.fml.relauncher.SideOnly
  * @param accuracy How many blocks away meteors that the telescope finds are dropped
  * @param name The unlocalized name of the item
  */
-abstract class ItemTelescopeBase(val accuracy: Int, name: String) : AOTDItem(name) {
+abstract class ItemTelescopeBase(val accuracy: Int, name: String) : AOTDItem(name, Properties().maxStackSize(1)) {
     init {
         require(accuracy >= 0) {
             "Accuracy for telescopes must be positive!"
         }
-        maxStackSize = 1
     }
 
     /**
@@ -72,7 +69,7 @@ abstract class ItemTelescopeBase(val accuracy: Int, name: String) : AOTDItem(nam
         // Don't print anything out client side since the server side takes care of that for us
         if (world.isRemote && highEnough) {
             if (playerResearch.isResearched(research)) {
-                player.openGui(AOTDGuiHandler.TELESCOPE_ID)
+                // player.openGui(AOTDGuiHandler.TELESCOPE_ID)
             }
         }
         return ActionResult.newResult(EnumActionResult.SUCCESS, itemStack)
@@ -86,15 +83,15 @@ abstract class ItemTelescopeBase(val accuracy: Int, name: String) : AOTDItem(nam
      * @param tooltip The tooltip to add to
      * @param flag  True if the advanced tooltip is set on, false otherwise
      */
-    @SideOnly(Side.CLIENT)
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag) {
-        val player = Minecraft.getMinecraft().player
+    @OnlyIn(Dist.CLIENT)
+    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+        val player = Minecraft.getInstance().player
 
         if (player != null && player.getResearch().isResearched(getRequiredResearch())) {
-            tooltip.add(I18n.format(LocalizationConstants.Item.TELESCOPE_TOOLTIP_DIRECTIONS))
-            tooltip.add(I18n.format(LocalizationConstants.Item.TELESCOPE_TOOLTIP_ACCURACY, accuracy))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.TELESCOPE_TOOLTIP_DIRECTIONS))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.TELESCOPE_TOOLTIP_ACCURACY, accuracy))
         } else {
-            tooltip.add(I18n.format(LocalizationConstants.Generic.DONT_UNDERSTAND))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.Generic.DONT_UNDERSTAND))
         }
     }
 

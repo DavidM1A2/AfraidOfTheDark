@@ -8,14 +8,14 @@ import net.minecraft.client.renderer.RenderHelper
 import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import net.minecraft.util.ResourceLocation
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.client.IRenderHandler
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
 
 /**
  * Class that renders the void chest 'sky' texture
  */
-class VoidChestSkyRenderer : IRenderHandler() {
+class VoidChestSkyRenderer : IRenderHandler {
     /**
      * Called to render the sky
      *
@@ -23,16 +23,16 @@ class VoidChestSkyRenderer : IRenderHandler() {
      * @param world        The world to render in
      * @param mc           The minecraft instance
      */
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     override fun render(partialTicks: Float, world: WorldClient, mc: Minecraft) {
         ///
         /// Code below found online and modified slightly
         ///
 
         GlStateManager.disableFog()
-        GlStateManager.disableAlpha()
+        GlStateManager.disableAlphaTest()
         GlStateManager.enableBlend()
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0)
+        GlStateManager.blendFuncSeparate(770, 771, 1, 0)
         RenderHelper.disableStandardItemLighting()
         GlStateManager.depthMask(false)
         val tessellator = Tessellator.getInstance()
@@ -43,26 +43,26 @@ class VoidChestSkyRenderer : IRenderHandler() {
 
             when (i) {
                 1 -> {
-                    Minecraft.getMinecraft().renderEngine.bindTexture(VOID_CHEST_SKY_SIDE_2)
-                    GlStateManager.rotate(90.0f, 1.0f, 0.0f, 0.0f)
+                    mc.textureManager.bindTexture(VOID_CHEST_SKY_SIDE_2)
+                    GlStateManager.rotatef(90.0f, 1.0f, 0.0f, 0.0f)
                 }
                 2 -> {
-                    Minecraft.getMinecraft().renderEngine.bindTexture(VOID_CHEST_SKY_SIDE_4)
-                    GlStateManager.rotate(-90.0f, 1.0f, 0.0f, 0.0f)
+                    mc.textureManager.bindTexture(VOID_CHEST_SKY_SIDE_4)
+                    GlStateManager.rotatef(-90.0f, 1.0f, 0.0f, 0.0f)
                 }
                 3 -> {
-                    Minecraft.getMinecraft().renderEngine.bindTexture(VOID_CHEST_SKY_TOP)
-                    GlStateManager.rotate(180.0f, 1.0f, 0.0f, 0.0f)
+                    mc.textureManager.bindTexture(VOID_CHEST_SKY_TOP)
+                    GlStateManager.rotatef(180.0f, 1.0f, 0.0f, 0.0f)
                 }
                 4 -> {
-                    Minecraft.getMinecraft().renderEngine.bindTexture(VOID_CHEST_SKY_SIDE_3)
-                    GlStateManager.rotate(90.0f, 0.0f, 0.0f, 1.0f)
+                    mc.textureManager.bindTexture(VOID_CHEST_SKY_SIDE_3)
+                    GlStateManager.rotatef(90.0f, 0.0f, 0.0f, 1.0f)
                 }
                 5 -> {
-                    Minecraft.getMinecraft().renderEngine.bindTexture(VOID_CHEST_SKY_SIDE_1)
-                    GlStateManager.rotate(-90.0f, 0.0f, 0.0f, 1.0f)
+                    mc.textureManager.bindTexture(VOID_CHEST_SKY_SIDE_1)
+                    GlStateManager.rotatef(-90.0f, 0.0f, 0.0f, 1.0f)
                 }
-                else -> Minecraft.getMinecraft().renderEngine.bindTexture(VOID_CHEST_SKY_BOTTOM)
+                else -> mc.textureManager.bindTexture(VOID_CHEST_SKY_BOTTOM)
             }
 
             bufferBuilder.begin(7, DefaultVertexFormats.POSITION_TEX)
@@ -76,7 +76,7 @@ class VoidChestSkyRenderer : IRenderHandler() {
 
         GlStateManager.depthMask(true)
         GlStateManager.enableTexture2D()
-        GlStateManager.enableAlpha()
+        GlStateManager.enableAlphaTest()
     }
 
     companion object {

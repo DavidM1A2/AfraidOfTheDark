@@ -24,7 +24,7 @@ class ParticleEnariaSpellCast2(
 ) : AOTDParticle(world, ModSprites.ENARIA_SPELL_CAST_2, x, y, z, xSpeed, 0.0, zSpeed) {
     init {
         // 2-3 second lifespan
-        particleMaxAge = rand.nextInt(20) + 40
+        maxAge = rand.nextInt(20) + 40
 
         // Make the particles huge when she casts a spell
         particleScale = 5.0f

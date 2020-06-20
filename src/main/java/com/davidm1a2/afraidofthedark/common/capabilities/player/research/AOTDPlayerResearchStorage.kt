@@ -1,12 +1,12 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.research
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
-import net.minecraft.nbt.NBTBase
+import net.minecraft.nbt.INBTBase
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.EnumFacing
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.capabilities.Capability.IStorage
+import org.apache.logging.log4j.LogManager
 
 /**
  * Default storage implementation for AOTD player research
@@ -24,7 +24,7 @@ class AOTDPlayerResearchStorage : IStorage<IAOTDPlayerResearch> {
         capability: Capability<IAOTDPlayerResearch>,
         instance: IAOTDPlayerResearch,
         side: EnumFacing?
-    ): NBTBase? {
+    ): INBTBase {
         // Create a compound to write
         val compound = NBTTagCompound()
 
@@ -48,7 +48,7 @@ class AOTDPlayerResearchStorage : IStorage<IAOTDPlayerResearch> {
         capability: Capability<IAOTDPlayerResearch>,
         instance: IAOTDPlayerResearch,
         side: EnumFacing?,
-        nbt: NBTBase
+        nbt: INBTBase
     ) {
         // Test if the nbt tag base is an NBT tag compound
         if (nbt is NBTTagCompound) {
@@ -57,7 +57,11 @@ class AOTDPlayerResearchStorage : IStorage<IAOTDPlayerResearch> {
                 instance.setResearch(research, nbt.getBoolean(research.registryName.toString()))
             }
         } else {
-            AfraidOfTheDark.INSTANCE.logger.error("Attempted to deserialize an NBTBase that was not an NBTTagCompound!")
+            logger.error("Attempted to deserialize an NBTBase that was not an NBTTagCompound!")
         }
+    }
+
+    companion object {
+        private val logger = LogManager.getLogger()
     }
 }

@@ -67,7 +67,7 @@ class AOTDGuiSpellStage(
             )
         addNewRow.setHoverText("Add new spell stage")
         addNewRow.addMouseListener {
-            if (it.eventType == AOTDMouseEvent.EventType.Press) {
+            if (it.eventType == AOTDMouseEvent.EventType.Click) {
                 // If we press the button and it's visible/hovered run the callback
                 if (addNewRow.isHovered && addNewRow.isVisible && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
                     addRunnable?.invoke()
@@ -94,7 +94,7 @@ class AOTDGuiSpellStage(
         )
         removeRow.setHoverText("Remove spell stage")
         removeRow.addMouseListener {
-            if (it.eventType == AOTDMouseEvent.EventType.Press) {
+            if (it.eventType == AOTDMouseEvent.EventType.Click) {
                 // If we press the button and it's visible/hovered run the callback
                 if (removeRow.isHovered && removeRow.isVisible && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
                     removeRunnable?.invoke()

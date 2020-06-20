@@ -4,7 +4,7 @@ import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseScrollEvent
-import org.lwjgl.util.Point
+import java.awt.Point
 
 /**
  * A base class for any GUI components that can listen for action events like mouse clicks

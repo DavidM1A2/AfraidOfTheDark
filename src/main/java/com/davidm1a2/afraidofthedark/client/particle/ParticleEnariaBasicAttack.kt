@@ -20,7 +20,7 @@ class ParticleEnariaBasicAttack(
 ) : AOTDParticle(world, ModSprites.ENARIA_BASIC_ATTACK, x, y, z) {
     init {
         // 1-2 second lifespan
-        particleMaxAge = rand.nextInt(20) + 20
+        maxAge = rand.nextInt(20) + 20
         // No motion
         motionX = 0.0
         motionY = 0.0

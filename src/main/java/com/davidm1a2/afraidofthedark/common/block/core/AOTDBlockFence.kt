@@ -3,8 +3,6 @@ package com.davidm1a2.afraidofthedark.common.block.core
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import net.minecraft.block.BlockFence
 import net.minecraft.block.SoundType
-import net.minecraft.block.material.MapColor
-import net.minecraft.block.material.Material
 
 
 /**
@@ -12,24 +10,13 @@ import net.minecraft.block.material.Material
  *
  * @constructor requires a material parameter that defines some block properties
  * @param baseName The name of the block to be used by the game registry
- * @param material The material of this block
- * @param mapColor The color used to tint the fence's texture
- * @param displayInCreative True if the block should show up in creative, false otherwise
+ * @param properties The properties of this block
  */
-abstract class AOTDBlockFence(
-    baseName: String,
-    material: Material,
-    mapColor: MapColor? = null,
-    displayInCreative: Boolean = true
-) : BlockFence(material, mapColor ?: material.materialMapColor) {
+abstract class AOTDBlockFence(baseName: String, properties: Properties) : BlockFence(properties.apply {
+    hardnessAndResistance(2.0f, 3.0f)
+    sound(SoundType.WOOD)
+}), AOTDShowBlockCreative {
     init {
-        unlocalizedName = "${Constants.MOD_ID}:$baseName"
-        this.setRegistryName("${Constants.MOD_ID}:$baseName")
-        this.setHardness(2.0f)
-        this.setResistance(5.0f)
-        this.soundType = SoundType.WOOD
-        if (displayInCreative) {
-            setCreativeTab(Constants.AOTD_CREATIVE_TAB)
-        }
+        this.setRegistryName(Constants.MOD_ID, baseName)
     }
 }

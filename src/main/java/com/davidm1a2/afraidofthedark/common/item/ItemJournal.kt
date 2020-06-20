@@ -1,20 +1,18 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiHandler
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
-import com.davidm1a2.afraidofthedark.common.utility.openGui
-import net.minecraft.client.resources.I18n
 import net.minecraft.client.util.ITooltipFlag
-import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
 import net.minecraft.util.EnumActionResult
 import net.minecraft.util.EnumHand
 import net.minecraft.util.NonNullList
+import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.world.World
 
@@ -23,11 +21,7 @@ import net.minecraft.world.World
  *
  * @constructor sets up item properties
  */
-class ItemJournal : AOTDItem("journal") {
-    init {
-        setMaxStackSize(1)
-    }
-
+class ItemJournal : AOTDItem("journal", Properties().maxStackSize(1)) {
     /**
      * Called when the user right clicks with the journal. We show the research UI if they have started the mod
      *
@@ -54,11 +48,11 @@ class ItemJournal : AOTDItem("journal") {
 
                 // Show the journal UI
                 if (world.isRemote) {
-                    player.openGui(if (isCheatSheet) AOTDGuiHandler.BLOOD_STAINED_JOURNAL_CHEAT_SHEET else AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID)
+                    // player.openGui(if (isCheatSheet) AOTDGuiHandler.BLOOD_STAINED_JOURNAL_CHEAT_SHEET else AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID)
                 }
             } else {
                 if (world.isRemote) {
-                    player.openGui(AOTDGuiHandler.BLOOD_STAINED_JOURNAL_SIGN_ID)
+                    // player.openGui(AOTDGuiHandler.BLOOD_STAINED_JOURNAL_SIGN_ID)
                 }
             }
         }
@@ -67,13 +61,13 @@ class ItemJournal : AOTDItem("journal") {
             // If the player has started AOTD show the journal UI
             if (player.getBasics().startedAOTD) {
                 if (world.isRemote) {
-                    player.openGui(if (isCheatSheet) AOTDGuiHandler.BLOOD_STAINED_JOURNAL_CHEAT_SHEET else AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID)
+                    // player.openGui(if (isCheatSheet) AOTDGuiHandler.BLOOD_STAINED_JOURNAL_CHEAT_SHEET else AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID)
                 }
             }
             // If the player has not started AOTD show the sign UI and clear the owner
             else {
                 if (world.isRemote) {
-                    player.openGui(AOTDGuiHandler.BLOOD_STAINED_JOURNAL_SIGN_ID)
+                    // player.openGui(AOTDGuiHandler.BLOOD_STAINED_JOURNAL_SIGN_ID)
                 }
                 setOwner(heldItemStack, null)
             }
@@ -105,12 +99,12 @@ class ItemJournal : AOTDItem("journal") {
     /**
      * Returns a list of sub-items that this item has. In our case there's 2 journal types, one is a cheat sheet and one is not
      *
-     * @param tab   The creative tab that we can add items to if we want, we don't use this
+     * @param group The creative tab that we can add items to if we want, we don't use this
      * @param items A list of items (one cheatsheet, and one regular journal)
      */
-    override fun getSubItems(tab: CreativeTabs, items: NonNullList<ItemStack>) {
+    override fun fillItemGroup(group: ItemGroup, items: NonNullList<ItemStack>) {
         // Ensure that the item is in the creative tab first...
-        if (isInCreativeTab(tab)) {
+        if (isInGroup(group)) {
             // Two item stacks one standard and one cheatsheet journal
             val standardJournal = ItemStack(this)
             val cheatsheetJournal = ItemStack(this)
@@ -133,18 +127,18 @@ class ItemJournal : AOTDItem("journal") {
      * @param tooltip The tooltip that we need to fill out
      * @param flag  The flag telling us if we should show advanced or normal tooltips
      */
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag) {
+    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         // If the stack has an owner tag, show who owns the stack, otherwise show that the journal is not bound
         if (NBTHelper.hasTag(stack, NBT_OWNER)) {
-            tooltip.add(I18n.format(LocalizationConstants.Item.JOURNAL_TOOLTIP_BOUND, NBTHelper.getString(stack, NBT_OWNER)))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.JOURNAL_TOOLTIP_BOUND, NBTHelper.getString(stack, NBT_OWNER)))
         } else {
-            tooltip.add(I18n.format(LocalizationConstants.Item.JOURNAL_TOOLTIP_UNBOUND))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.JOURNAL_TOOLTIP_UNBOUND))
         }
 
         // If the journal is a cheat sheet, show that
         if (NBTHelper.hasTag(stack, NBT_CHEAT_SHEET)) {
-            tooltip.add(I18n.format(LocalizationConstants.Item.JOURNAL_TOOLTIP_CHEATSHEET_LINE1))
-            tooltip.add(I18n.format(LocalizationConstants.Item.JOURNAL_TOOLTIP_CHEATSHEET_LINE2))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.JOURNAL_TOOLTIP_CHEATSHEET_LINE1))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.JOURNAL_TOOLTIP_CHEATSHEET_LINE2))
         }
     }
 

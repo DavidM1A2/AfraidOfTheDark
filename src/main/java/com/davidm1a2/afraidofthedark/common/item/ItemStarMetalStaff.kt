@@ -22,7 +22,7 @@ import kotlin.math.sqrt
 /**
  * Class representing a star metal staff that can do a (fizz e from LoL)
  */
-class ItemStarMetalStaff : AOTDItemWithSharedCooldown("star_metal_staff") {
+class ItemStarMetalStaff : AOTDItemWithSharedCooldown("star_metal_staff", Properties()) {
     /**
      * Called every tick the player has the item. Check if the player swapped off of the staff, if so make sure they're
      * no longer invincible
@@ -33,7 +33,7 @@ class ItemStarMetalStaff : AOTDItemWithSharedCooldown("star_metal_staff") {
      * @param itemSlot The slot in the entities inventory that the item is in
      * @param isSelected True if the item is selected, false otherwise
      */
-    override fun onUpdate(stack: ItemStack, world: World, entity: Entity, itemSlot: Int, isSelected: Boolean) {
+    override fun inventoryTick(stack: ItemStack, world: World, entity: Entity, itemSlot: Int, isSelected: Boolean) {
         // Server side processing only
         if (!world.isRemote) {
             // Check if the entity is a player
@@ -41,8 +41,8 @@ class ItemStarMetalStaff : AOTDItemWithSharedCooldown("star_metal_staff") {
                 // If the item isn't selected ensure the player isn't invincible
                 if (!isSelected) {
                     // If a star metal staff is not selected make sure the player can take damage
-                    if (!entity.capabilities.isCreativeMode && entity.capabilities.disableDamage && isInUse(stack)) {
-                        entity.capabilities.disableDamage = false
+                    if (!entity.isCreative && entity.abilities.disableDamage && isInUse(stack)) {
+                        entity.abilities.disableDamage = false
                         setInUse(stack, false)
                     }
                 }
@@ -69,8 +69,8 @@ class ItemStarMetalStaff : AOTDItemWithSharedCooldown("star_metal_staff") {
                 // If the item is not on cooldown fire it off
                 if (!isOnCooldown(heldItem)) {
                     // Make the player invincible
-                    if (!player.capabilities.isCreativeMode) {
-                        player.capabilities.disableDamage = true
+                    if (!player.isCreative) {
+                        player.abilities.disableDamage = true
                     }
                     // Set the player's velocity to 0 with a 0.5 vertical velocity
                     (player as EntityPlayerMP).connection.sendPacket(
@@ -121,7 +121,7 @@ class ItemStarMetalStaff : AOTDItemWithSharedCooldown("star_metal_staff") {
             // Ensure the entity using the item is a player
             if (entityLivingBase is EntityPlayer) {
                 // Figure out how many ticks the item has been in use
-                count = getMaxItemUseDuration(stack) - count
+                count = getUseDuration(stack) - count
 
                 // On the first tick set the fall distance to 0 so the player doesn't take fall damage after using this item
                 if (count == 1) {
@@ -160,8 +160,8 @@ class ItemStarMetalStaff : AOTDItemWithSharedCooldown("star_metal_staff") {
             // Only test players
             if (entityLiving is EntityPlayer) {
                 // If the player is not creative let them take damage again
-                if (!entityLiving.capabilities.isCreativeMode) {
-                    entityLiving.capabilities.disableDamage = false
+                if (!entityLiving.isCreative) {
+                    entityLiving.abilities.disableDamage = false
                 }
                 // Perform the knockback
                 performKnockback(world, entityLiving)
@@ -187,8 +187,8 @@ class ItemStarMetalStaff : AOTDItemWithSharedCooldown("star_metal_staff") {
             // Ensure the entity is a player
             if (entityLiving is EntityPlayer) {
                 // If the player is not in creative let them take damage again
-                if (!entityLiving.capabilities.isCreativeMode) {
-                    entityLiving.capabilities.disableDamage = false
+                if (!entityLiving.isCreative) {
+                    entityLiving.abilities.disableDamage = false
                 }
 
                 // If less than 5 ticks were left on the use still perform the knockback
@@ -208,7 +208,7 @@ class ItemStarMetalStaff : AOTDItemWithSharedCooldown("star_metal_staff") {
     private fun performKnockback(world: World, entityPlayer: EntityPlayer) {
         // Grab all entities around the player
         val entityList =
-            world.getEntitiesWithinAABBExcludingEntity(entityPlayer, entityPlayer.entityBoundingBox.grow(10.0))
+            world.getEntitiesWithinAABBExcludingEntity(entityPlayer, entityPlayer.boundingBox.grow(10.0))
 
         // Go over all nearby entities
         for (entity in entityList) {
@@ -247,7 +247,7 @@ class ItemStarMetalStaff : AOTDItemWithSharedCooldown("star_metal_staff") {
      * @param stack The itemstack to test
      * @return The number of ticks the item may be in use for
      */
-    override fun getMaxItemUseDuration(stack: ItemStack): Int {
+    override fun getUseDuration(stack: ItemStack): Int {
         return MAX_TROLL_POLE_TIME_IN_TICKS
     }
 
@@ -257,7 +257,7 @@ class ItemStarMetalStaff : AOTDItemWithSharedCooldown("star_metal_staff") {
      * @param itemStack The itemstack to check
      * @param inUse True if the item is in use, false otherwise
      */
-    fun setInUse(itemStack: ItemStack, inUse: Boolean) {
+    private fun setInUse(itemStack: ItemStack, inUse: Boolean) {
         NBTHelper.setBoolean(itemStack, NBT_IN_USE, inUse)
     }
 
@@ -266,7 +266,7 @@ class ItemStarMetalStaff : AOTDItemWithSharedCooldown("star_metal_staff") {
      *
      * @param itemStack The itemstack to test
      */
-    fun isInUse(itemStack: ItemStack): Boolean {
+    private fun isInUse(itemStack: ItemStack): Boolean {
         return if (NBTHelper.hasTag(itemStack, NBT_IN_USE)) {
             NBTHelper.getBoolean(itemStack, NBT_IN_USE)!!
         } else {

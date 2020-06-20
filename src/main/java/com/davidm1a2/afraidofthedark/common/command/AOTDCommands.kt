@@ -1,19 +1,21 @@
 package com.davidm1a2.afraidofthedark.common.command
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.world.PlacedStructure
 import com.davidm1a2.afraidofthedark.common.capabilities.world.StructurePlan
-import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.worldGeneration.relightChunk
-import net.minecraft.command.CommandBase
-import net.minecraft.command.ICommandSender
+import com.mojang.brigadier.CommandDispatcher
+import com.mojang.brigadier.arguments.StringArgumentType.word
+import com.mojang.brigadier.builder.LiteralArgumentBuilder.literal
+import com.mojang.brigadier.builder.RequiredArgumentBuilder.argument
+import net.minecraft.command.CommandSource
 import net.minecraft.server.MinecraftServer
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.text.TextComponentTranslation
+import net.minecraft.world.dimension.DimensionType
 import java.util.*
 import kotlin.math.ceil
 import kotlin.math.sqrt
@@ -21,40 +23,28 @@ import kotlin.math.sqrt
 /**
  * Class containing all AOTD related commands
  */
-class AOTDCommands : CommandBase() {
+object AOTDCommands {
     /**
-     * @return The name of the command
+     * Registers Afraid of the Dark commands into the dispatcher
      */
-    override fun getName(): String {
-        return "${Constants.MOD_ID}_commands"
+    fun register(dispatcher: CommandDispatcher<CommandSource>) {
+        dispatcher.register(
+            literal<CommandSource>("aotd")
+                .then(
+                    argument<CommandSource, String>("command", word())
+                        .executes {
+                            printHelp(it.source)
+                            1
+                        }
+                )
+                .executes {
+                    printHelp(it.source)
+                    1
+                }
+        )
     }
 
-    /**
-     * Returns the usage of the command
-     *
-     * @param sender The command sender
-     * @return The usage of this command
-     */
-    override fun getUsage(sender: ICommandSender): String {
-        return "/aotd <text>"
-    }
-
-    /**
-     * @return A list of possible command aliases
-     */
-    override fun getAliases(): List<String> {
-        return listOf("aotd", "afraidofthedark")
-    }
-
-    /**
-     * Returns a list of strings that match the command
-     *
-     * @param server    The minecraft server
-     * @param sender    The command sender
-     * @param args      The current arguments
-     * @param targetPos The position of the player
-     * @return The list of possible command tab completions
-     */
+    /*
     override fun getTabCompletions(
         server: MinecraftServer,
         sender: ICommandSender,
@@ -85,13 +75,6 @@ class AOTDCommands : CommandBase() {
         }
     }
 
-    /**
-     * Executes the command
-     *
-     * @param server The server that the command is executed on
-     * @param sender The command sender
-     * @param args   The arguments the command is executed with
-     */
     override fun execute(server: MinecraftServer, sender: ICommandSender, args: Array<String>) {
         when {
             // /aotd or /aotd help
@@ -124,6 +107,8 @@ class AOTDCommands : CommandBase() {
             }
         }
     }
+
+     */
 
     /**
      * Tests if arguments match the expected arguments
@@ -158,10 +143,10 @@ class AOTDCommands : CommandBase() {
      *
      * @param sender The player who sent the command
      */
-    private fun printHelp(sender: ICommandSender) {
-        sender.sendMessage(TextComponentTranslation(LocalizationConstants.Command.HELP_HEADER))
-        sender.sendMessage(TextComponentTranslation(LocalizationConstants.Command.HELP_HELP))
-        sender.sendMessage(TextComponentTranslation(LocalizationConstants.Command.HELP_DUNGEON))
+    private fun printHelp(sender: CommandSource) {
+        sender.sendFeedback(TextComponentTranslation(LocalizationConstants.Command.HELP_HEADER), false)
+        sender.sendFeedback(TextComponentTranslation(LocalizationConstants.Command.HELP_HELP), false)
+        sender.sendFeedback(TextComponentTranslation(LocalizationConstants.Command.HELP_DUNGEON), false)
     }
 
     /**
@@ -169,14 +154,14 @@ class AOTDCommands : CommandBase() {
      *
      * @param sender The player who sent the command
      */
-    private fun printDungeonHelp(sender: ICommandSender) {
-        sender.sendMessage(TextComponentTranslation(LocalizationConstants.Command.DUNGEON_HELP_HEADER))
-        sender.sendMessage(TextComponentTranslation(LocalizationConstants.Command.DUNGEON_HELP_HELP))
-        sender.sendMessage(TextComponentTranslation(LocalizationConstants.Command.DUNGEON_HELP_TYPES))
-        sender.sendMessage(TextComponentTranslation(LocalizationConstants.Command.DUNGEON_HELP_LIST))
-        sender.sendMessage(TextComponentTranslation(LocalizationConstants.Command.DUNGEON_HELP_LIST_TYPE))
-        sender.sendMessage(TextComponentTranslation(LocalizationConstants.Command.DUNGEON_HELP_INFO))
-        sender.sendMessage(TextComponentTranslation(LocalizationConstants.Command.DUNGEON_HELP_REGENERATE))
+    private fun printDungeonHelp(sender: CommandSource) {
+        sender.sendFeedback(TextComponentTranslation(LocalizationConstants.Command.DUNGEON_HELP_HEADER), false)
+        sender.sendFeedback(TextComponentTranslation(LocalizationConstants.Command.DUNGEON_HELP_HELP), false)
+        sender.sendFeedback(TextComponentTranslation(LocalizationConstants.Command.DUNGEON_HELP_TYPES), false)
+        sender.sendFeedback(TextComponentTranslation(LocalizationConstants.Command.DUNGEON_HELP_LIST), false)
+        sender.sendFeedback(TextComponentTranslation(LocalizationConstants.Command.DUNGEON_HELP_LIST_TYPE), false)
+        sender.sendFeedback(TextComponentTranslation(LocalizationConstants.Command.DUNGEON_HELP_INFO), false)
+        sender.sendFeedback(TextComponentTranslation(LocalizationConstants.Command.DUNGEON_HELP_REGENERATE), false)
     }
 
     /**
@@ -184,10 +169,10 @@ class AOTDCommands : CommandBase() {
      *
      * @param sender The player who sent the command
      */
-    private fun printStructureTypes(sender: ICommandSender) {
-        sender.sendMessage(TextComponentTranslation(LocalizationConstants.Command.DUNGEON_TYPES))
+    private fun printStructureTypes(sender: CommandSource) {
+        sender.sendFeedback(TextComponentTranslation(LocalizationConstants.Command.DUNGEON_TYPES), false)
         // Iterate over structures and print each one out
-        ModRegistries.STRUCTURE.valuesCollection.forEach { sender.sendMessage(TextComponentTranslation(it.registryName.toString())) }
+        ModRegistries.STRUCTURE.values.forEach { sender.sendFeedback(TextComponentTranslation(it.registryName.toString()), false) }
     }
 
     /**
@@ -195,13 +180,13 @@ class AOTDCommands : CommandBase() {
      *
      * @param sender The player to test dungeon chunk info around
      */
-    private fun printDungeonInfo(sender: ICommandSender) {
+    private fun printDungeonInfo(sender: CommandSource) {
         // This command only works in the overworld
-        if (sender.entityWorld.provider.dimension == 0) {
+        if (sender.world.dimension.type == DimensionType.OVERWORLD) {
             // Grab the chunk the player is in
-            val chunkPos = ChunkPos(sender.position)
+            val chunkPos = ChunkPos(BlockPos(sender.pos))
             // Grab the structure plan
-            val structurePlan = StructurePlan.get(sender.entityWorld)!!
+            val structurePlan = StructurePlan.get(sender.world)!!
             // If the structure exists print info about the structure, otherwise show no structures exist
             if (structurePlan.structureExistsAt(chunkPos)) {
                 // Grab the structure at the position
@@ -209,28 +194,21 @@ class AOTDCommands : CommandBase() {
                 // Grab structure position
                 val blockPos = placedStructure.structure.getPosition(placedStructure.data)
                 // Send the structure info and if debug is enabled send debug info too
-                sender.sendMessage(
+                sender.sendFeedback(
                     TextComponentTranslation(
                         LocalizationConstants.Command.DUNGEON_INFO,
                         TextComponentTranslation(placedStructure.structure.getUnlocalizedName()),
                         blockPos.x,
                         blockPos.y,
                         blockPos.z
-                    )
+                    ),
+                    false
                 )
-                if (AfraidOfTheDark.INSTANCE.configurationHandler.debugMessages) {
-                    sender.sendMessage(
-                        TextComponentTranslation(
-                            LocalizationConstants.Command.DUNGEON_INFO_EXTRA_NBT,
-                            placedStructure.data.toString()
-                        )
-                    )
-                }
             } else {
-                sender.sendMessage(TextComponentTranslation(LocalizationConstants.Command.DUNGEON_INFO_NO_STRUCTURES))
+                sender.sendFeedback(TextComponentTranslation(LocalizationConstants.Command.DUNGEON_INFO_NO_STRUCTURES), false)
             }
         } else {
-            sender.sendMessage(TextComponentTranslation(LocalizationConstants.Command.DUNGEON_INFO_INVALID_WORLD))
+            sender.sendFeedback(TextComponentTranslation(LocalizationConstants.Command.DUNGEON_INFO_INVALID_WORLD), false)
         }
     }
 
@@ -239,26 +217,26 @@ class AOTDCommands : CommandBase() {
      *
      * @param sender The player whose chunk to regenerate the structure in
      */
-    private fun regenerateDungeonChunk(sender: ICommandSender) {
+    private fun regenerateDungeonChunk(sender: CommandSource) {
         // This command only works in the overworld
-        if (sender.entityWorld.provider.dimension == 0) {
+        if (sender.world.dimension.type == DimensionType.OVERWORLD) {
             // Grab the chunk the player is in
-            val chunkPos = ChunkPos(sender.position)
+            val chunkPos = ChunkPos(BlockPos(sender.pos))
             // Grab the structure plan
-            val structurePlan = StructurePlan.get(sender.entityWorld)!!
+            val structurePlan = StructurePlan.get(sender.world)!!
             // If the structure exists print info about the structure, otherwise show no structures exist
             if (structurePlan.structureExistsAt(chunkPos)) {
                 // Grab the structure at the position
                 val placedStructure = structurePlan.getPlacedStructureAt(chunkPos)!!
                 // Generate the structure in the player's chunk
-                placedStructure.structure.generate(sender.entityWorld, chunkPos, placedStructure.data)
+                placedStructure.structure.generate(sender.world, chunkPos, placedStructure.data)
                 // Re-light the chunk at the position
-                sender.entityWorld.relightChunk(chunkPos)
+                sender.world.relightChunk(chunkPos)
             } else {
-                sender.sendMessage(TextComponentTranslation(LocalizationConstants.Command.DUNGEON_REGENERATE_NO_STRUCTURES))
+                sender.sendFeedback(TextComponentTranslation(LocalizationConstants.Command.DUNGEON_REGENERATE_NO_STRUCTURES), false)
             }
         } else {
-            sender.sendMessage(TextComponentTranslation(LocalizationConstants.Command.DUNGEON_REGENERATE_INVALID_WORLD))
+            sender.sendFeedback(TextComponentTranslation(LocalizationConstants.Command.DUNGEON_REGENERATE_INVALID_WORLD), false)
         }
     }
 
@@ -268,9 +246,9 @@ class AOTDCommands : CommandBase() {
      * @param sender The player who sent the command
      * @param server The server used to get the overworld reference
      */
-    private fun printAllStructures(sender: ICommandSender, server: MinecraftServer) {
-        val overworld = server.getWorld(0)
-        sender.sendMessage(TextComponentTranslation(LocalizationConstants.Command.DUNGEON_LIST_HEADER))
+    private fun printAllStructures(sender: CommandSource, server: MinecraftServer) {
+        val overworld = server.getWorld(DimensionType.OVERWORLD)
+        sender.sendFeedback(TextComponentTranslation(LocalizationConstants.Command.DUNGEON_LIST_HEADER), false)
         val structurePlan = StructurePlan.get(overworld)!!
         // Print all placed structures in the world
         filterSortAndPrint(structurePlan.getPlacedStructures(), { true }, sender)
@@ -283,12 +261,15 @@ class AOTDCommands : CommandBase() {
      * @param server        The server used to get the overworld reference
      * @param structureName The structure the player is looking for
      */
-    private fun printSpecificStructures(sender: ICommandSender, server: MinecraftServer, structureName: String) {
+    private fun printSpecificStructures(sender: CommandSource, server: MinecraftServer, structureName: String) {
         // If the structure is invalid tell the user that
         if (ModRegistries.STRUCTURE.containsKey(ResourceLocation(structureName))) {
             // Otherwise we list the dungeons of that type
-            val overworld = server.getWorld(0)
-            sender.sendMessage(TextComponentTranslation(LocalizationConstants.Command.DUNGEON_LIST_TYPE_HEADER, TextComponentTranslation(structureName)))
+            val overworld = server.getWorld(DimensionType.OVERWORLD)
+            sender.sendFeedback(
+                TextComponentTranslation(LocalizationConstants.Command.DUNGEON_LIST_TYPE_HEADER, TextComponentTranslation(structureName)),
+                false
+            )
             val structurePlan = StructurePlan.get(overworld)!!
             // Go over all placed structures and only print them if they have the right name
             filterSortAndPrint(
@@ -297,7 +278,7 @@ class AOTDCommands : CommandBase() {
                 sender
             )
         } else {
-            sender.sendMessage(TextComponentTranslation(LocalizationConstants.Command.DUNGEON_LIST_TYPE_UNKNOWN_TYPE, structureName))
+            sender.sendFeedback(TextComponentTranslation(LocalizationConstants.Command.DUNGEON_LIST_TYPE_UNKNOWN_TYPE, structureName), false)
         }
     }
 
@@ -311,12 +292,12 @@ class AOTDCommands : CommandBase() {
     private fun filterSortAndPrint(
         original: List<PlacedStructure>,
         filter: (PlacedStructure) -> Boolean,
-        sender: ICommandSender
+        sender: CommandSource
     ) {
         // Filter the list, sort it by distance to player, and print it out
         original.filter(filter)
             .sortedWith(Comparator.comparingDouble {
-                it.structure.getPosition(it.data).distanceSq(sender.position)
+                it.structure.getPosition(it.data).distanceSq(sender.pos.x, sender.pos.y, sender.pos.z)
             })
             .reversed()
             .forEach { printStructure(it, sender) }
@@ -328,18 +309,19 @@ class AOTDCommands : CommandBase() {
      * @param placedStructure The structure to print
      * @param sender          The player to send the message to
      */
-    private fun printStructure(placedStructure: PlacedStructure, sender: ICommandSender) {
+    private fun printStructure(placedStructure: PlacedStructure, sender: CommandSource) {
         val position = placedStructure.structure.getPosition(placedStructure.data)
         // Send the message in the format: <dungeon_type> at [<x>, <y>, <z>] ~ <number> blocks away
-        sender.sendMessage(
+        sender.sendFeedback(
             TextComponentTranslation(
                 LocalizationConstants.Command.DUNGEON_LIST,
                 TextComponentTranslation(placedStructure.structure.getUnlocalizedName()),
                 position.x,
                 position.y,
                 position.z,
-                ceil(sqrt(sender.position.distanceSq(placedStructure.structure.getPosition(placedStructure.data))))
-            )
+                ceil(sqrt(placedStructure.structure.getPosition(placedStructure.data).distanceSq(sender.pos.x, sender.pos.y, sender.pos.z)))
+            ),
+            false
         )
     }
 }

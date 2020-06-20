@@ -7,7 +7,6 @@ import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.constants.ModToolMaterials
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItemChargeableSword
 import net.minecraft.client.Minecraft
-import net.minecraft.client.resources.I18n
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.Entity
@@ -18,6 +17,8 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.RayTraceResult
+import net.minecraft.util.text.ITextComponent
+import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.world.World
 
 /**
@@ -25,7 +26,13 @@ import net.minecraft.world.World
  *
  * @constructor sets the sword properties
  */
-class ItemIgneousSword : AOTDItemChargeableSword("igneous_sword", ModToolMaterials.IGNEOUS) {
+class ItemIgneousSword : AOTDItemChargeableSword(
+    "igneous_sword",
+    ModToolMaterials.IGNEOUS,
+    3,
+    -2.4f,
+    Properties()
+) {
     init {
         percentChargePerAttack = 35.0
     }
@@ -60,15 +67,15 @@ class ItemIgneousSword : AOTDItemChargeableSword("igneous_sword", ModToolMateria
      * @param tooltip The tooltip to return
      * @param flag True if advanced tooltips are on, false otherwise
      */
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag) {
-        val player = Minecraft.getMinecraft().player
+    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+        val player = Minecraft.getInstance().player
         if (player != null && player.getResearch().isResearched(ModResearches.IGNEOUS)) {
-            tooltip.add(I18n.format(LocalizationConstants.Item.TOOLTIP_MAGIC_ITEM_NEVER_BREAK))
-            tooltip.add(I18n.format(LocalizationConstants.Item.IGNEOUS_SWORD_TOOLTIP_LINE1))
-            tooltip.add(I18n.format(LocalizationConstants.Item.IGNEOUS_SWORD_TOOLTIP_LINE2))
-            tooltip.add(I18n.format(LocalizationConstants.Item.IGNEOUS_SWORD_TOOLTIP_LINE3))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.TOOLTIP_MAGIC_ITEM_NEVER_BREAK))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.IGNEOUS_SWORD_TOOLTIP_LINE1))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.IGNEOUS_SWORD_TOOLTIP_LINE2))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.IGNEOUS_SWORD_TOOLTIP_LINE3))
         } else {
-            tooltip.add(I18n.format(LocalizationConstants.Item.TOOLTIP_DONT_KNOW_HOW_TO_USE))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }
 
@@ -82,7 +89,7 @@ class ItemIgneousSword : AOTDItemChargeableSword("igneous_sword", ModToolMateria
      */
     override fun performChargeAttack(itemStack: ItemStack, world: World, entityPlayer: EntityPlayer): Boolean {
         // Grab the player's eye posiiton and look vector
-        val fromVec = entityPlayer.getPositionEyes(0f)
+        val fromVec = entityPlayer.getEyePosition(0f)
         val lookDir = entityPlayer.lookVec
 
         // The vector we want to ray trace to

@@ -11,8 +11,8 @@ import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.Spe
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.Structure
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.event.RegistryEvent.NewRegistry
+import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.registries.RegistryBuilder
 
 /**

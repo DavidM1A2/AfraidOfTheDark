@@ -31,10 +31,10 @@ class EntityAIFollowPlayer(
     override fun shouldExecute(): Boolean {
         // Grab a list of nearby players
         val players =
-            entity.world.getEntitiesWithinAABB(EntityPlayer::class.java, entity.entityBoundingBox.grow(trackRange))
+            entity.world.getEntitiesWithinAABB(EntityPlayer::class.java, entity.boundingBox.grow(trackRange))
 
         // Grab the closest player, if there is no closest player return false
-        val closestPlayer = players.filter { !it.capabilities.isCreativeMode }
+        val closestPlayer = players.filter { !it.isCreative }
             .minWith(Comparator { p1, p2 -> p1.getDistance(entity).compareTo(p2.getDistance(entity)) }) ?: return false
 
         // If the distance to the player is less than min don't walk towards the player
@@ -62,7 +62,7 @@ class EntityAIFollowPlayer(
      */
     override fun shouldContinueExecuting(): Boolean {
         // If the target is dead or in creative don't execute
-        return if (!target!!.isEntityAlive || target!!.capabilities.isCreativeMode) {
+        return if (!target!!.isAlive || target!!.isCreative) {
             false
         } else {
             val distance = entity.getDistance(target!!).toDouble()
@@ -73,14 +73,14 @@ class EntityAIFollowPlayer(
     /**
      * Updates the entity pathing
      */
-    override fun updateTask() {
+    override fun tick() {
         // Only update the task once every 10 ticks
         if (ticksUntilNextUpdate-- <= 0) {
             ticksUntilNextUpdate = TICKS_BETWEEN_PATHING_UPDATES
             // Move to the player to the entity
             entity.navigator.tryMoveToEntityLiving(
                 target!!,
-                entity.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).attributeValue
+                entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).value
             )
         }
     }

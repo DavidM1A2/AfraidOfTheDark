@@ -1,12 +1,14 @@
 package com.davidm1a2.afraidofthedark.common.worldGeneration.schematic
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.common.constants.ModServerConfiguration
 import com.davidm1a2.afraidofthedark.common.utility.ResourceUtil
 import net.minecraft.block.Block
 import net.minecraft.nbt.CompressedStreamTools
 import net.minecraft.nbt.NBTTagList
 import net.minecraft.nbt.NBTTagString
 import net.minecraft.util.ResourceLocation
+import net.minecraftforge.registries.ForgeRegistries
+import org.apache.logging.log4j.LogManager
 import java.io.IOException
 import java.util.*
 
@@ -58,8 +60,8 @@ class OnDemandSchematic internal constructor(
                 val nbtData = CompressedStreamTools.readCompressed(inputStream)
 
                 // Read the entities and tile entities
-                tileEntities = nbtData.getTagList("TileEntities", 10)
-                entities = nbtData.getTagList("Entities", 10)
+                tileEntities = nbtData.getList("TileEntities", 10)
+                entities = nbtData.getList("Entities", 10)
 
                 // Read the block data
                 data = nbtData.getIntArray("Data")
@@ -67,17 +69,19 @@ class OnDemandSchematic internal constructor(
                 // Read the block ids
                 val blockIds = nbtData.getIntArray("BlockIds")
                 // Read the map of block name to id
-                val blockMapNames = nbtData.getTagList("BlockIdNames", 8).map { (it as NBTTagString).string }
+                val blockMapNames = nbtData.getList("BlockIdNames", 8).map { (it as NBTTagString).string }
 
                 // Convert block names to block pointer references
                 val blockMapBlocks =
-                    blockMapNames.map { Block.getBlockFromName(it) ?: throw IllegalStateException("Invalid schematic block found: $it}") }.toTypedArray()
+                    blockMapNames.map {
+                        ForgeRegistries.BLOCKS.getValue(ResourceLocation(it)) ?: throw IllegalStateException("Invalid schematic block found: $it}")
+                    }.toTypedArray()
                 // Map each block id to block pointer
                 blocks = blockIds.map { blockMapBlocks[it] }.toTypedArray()
 
-                AfraidOfTheDark.INSTANCE.logger.info("Loaded $name into memory.")
+                logger.info("Loaded $name into memory.")
             } catch (e: IOException) {
-                AfraidOfTheDark.INSTANCE.logger.error("Could not load on-demand schematic $name", e)
+                logger.error("Could not load on-demand schematic $name", e)
             }
         }
     }
@@ -94,7 +98,7 @@ class OnDemandSchematic internal constructor(
             blocks = null
             data = null
             entities = null
-            AfraidOfTheDark.INSTANCE.logger.info("Cleared $name from memory.")
+            logger.info("Cleared $name from memory.")
         }
     }
 
@@ -105,7 +109,7 @@ class OnDemandSchematic internal constructor(
     private fun isTimedOut(): Boolean {
         return if (lastTimeAccessed == null) {
             true
-        } else System.currentTimeMillis() - lastTimeAccessed!! > AfraidOfTheDark.INSTANCE.configurationHandler.cacheTimeout
+        } else System.currentTimeMillis() - lastTimeAccessed!! > ModServerConfiguration.cacheTimeout
     }
 
     /**
@@ -173,6 +177,8 @@ class OnDemandSchematic internal constructor(
     }
 
     companion object {
+        private val logger = LogManager.getLogger()
+
         // Timer used to test if the schematic is ready to timeout
         private val TIMEOUT_TIMER = Timer("Schematic Cache Timeout Timer")
 

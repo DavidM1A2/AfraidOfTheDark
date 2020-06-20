@@ -3,23 +3,20 @@ package com.davidm1a2.afraidofthedark.common.recipe
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.item.ItemResearchScroll
-import net.minecraft.inventory.InventoryCrafting
+import net.minecraft.inventory.IInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.item.crafting.IRecipe
+import net.minecraft.item.crafting.IRecipeSerializer
+import net.minecraft.item.crafting.RecipeSerializers
 import net.minecraft.util.ResourceLocation
 import net.minecraft.world.World
-import net.minecraftforge.registries.IForgeRegistryEntry
 
 /**
  * Class that registers a dynamic recipe allowing us to combine scroll pieces
  *
  * @constructor sets the registry name
  */
-class ScrollCombineRecipe : IForgeRegistryEntry.Impl<IRecipe?>(), IRecipe {
-    init {
-        registryName = ResourceLocation(Constants.MOD_ID, "scroll_combine")
-    }
-
+class ScrollCombineRecipe : IRecipe {
     /**
      * True if the recipe is matched, false otherwise
      *
@@ -27,7 +24,7 @@ class ScrollCombineRecipe : IForgeRegistryEntry.Impl<IRecipe?>(), IRecipe {
      * @param world The current world the object is being crafted in. Can be null even though it never is in vanilla. See: CoFH core
      * @return True if the recipe works, and false otherwise
      */
-    override fun matches(inv: InventoryCrafting, world: World?): Boolean {
+    override fun matches(inv: IInventory, world: World?): Boolean {
         // Grab a list of non-empty stacks in the crafting grid
         val stacks = mutableListOf<ItemStack>()
         for (i in 0 until inv.sizeInventory) {
@@ -82,7 +79,7 @@ class ScrollCombineRecipe : IForgeRegistryEntry.Impl<IRecipe?>(), IRecipe {
      * @param inv The inventory containing items to put together
      * @return The resulting item
      */
-    override fun getCraftingResult(inv: InventoryCrafting): ItemStack {
+    override fun getCraftingResult(inv: IInventory): ItemStack {
         // Grab a list of non-empty stacks in the crafting grid
         val stacks = mutableListOf<ItemStack>()
         for (i in 0 until inv.sizeInventory) {
@@ -122,6 +119,14 @@ class ScrollCombineRecipe : IForgeRegistryEntry.Impl<IRecipe?>(), IRecipe {
      */
     override fun getRecipeOutput(): ItemStack {
         return ItemStack.EMPTY
+    }
+
+    override fun getId(): ResourceLocation {
+        return ResourceLocation(Constants.MOD_ID, "scroll_combine")
+    }
+
+    override fun getSerializer(): IRecipeSerializer<*> {
+        return RecipeSerializers.SimpleSerializer(id.toString()) { ScrollCombineRecipe() }
     }
 
     /**

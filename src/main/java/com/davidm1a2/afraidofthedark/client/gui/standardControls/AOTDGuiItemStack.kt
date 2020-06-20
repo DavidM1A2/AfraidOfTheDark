@@ -66,13 +66,13 @@ class AOTDGuiItemStack(
             GL11.glTranslated((3 - this.getXScaled()).toDouble(), (3 - this.getYScaled()).toDouble(), 1.0)
 
             // Grab the render item to draw items
-            val renderItem = Minecraft.getMinecraft().renderItem
+            val renderItem = Minecraft.getInstance().itemRenderer
             // Set Z level to 100 like in default MC code
             renderItem.zLevel = 100.0f
             // Ensure we have an itemstack to draw
             if (!itemStack.isEmpty) {
                 // Grab the font renderer for the item
-                val font = itemStack.item.getFontRenderer(itemStack) ?: Minecraft.getMinecraft().fontRenderer
+                val font = itemStack.item.getFontRenderer(itemStack) ?: Minecraft.getInstance().fontRenderer
                 // Render the itemstack into the GUI
                 renderItem.renderItemAndEffectIntoGUI(itemStack, this.getXScaled(), this.getYScaled())
                 // Render the itemstack count overlay into the GUI

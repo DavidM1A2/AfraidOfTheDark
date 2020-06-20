@@ -29,7 +29,7 @@ class NightmareChaseMusic : PlayerFollowingSound(ModSounds.NIGHTMARE_CHASE_MUSIC
      * @return What the super method returns
      */
     override fun createAccessor(handler: SoundHandler): SoundEventAccessor? {
-        val entityPlayer = Minecraft.getMinecraft().player!!
+        val entityPlayer = Minecraft.getInstance().player!!
         if (!entityPlayer.getResearch().isResearched(ModResearches.ENARIA)) {
             donePlaying = true
         }
@@ -39,12 +39,12 @@ class NightmareChaseMusic : PlayerFollowingSound(ModSounds.NIGHTMARE_CHASE_MUSIC
     /**
      * Ensure that this only players in the nightmare when the player is not dead
      */
-    override fun update() {
-        super.update()
+    override fun tick() {
+        super.tick()
 
-        val entityPlayer = Minecraft.getMinecraft().player!!
+        val entityPlayer = Minecraft.getInstance().player!!
         // Stop playing the sound if the player is 1) dead 2) not in the nightmare
-        if (entityPlayer.isDead || entityPlayer.dimension != ModDimensions.NIGHTMARE.id) {
+        if (!entityPlayer.isAlive || entityPlayer.dimension != ModDimensions.NIGHTMARE_TYPE) {
             donePlaying = true
         }
     }

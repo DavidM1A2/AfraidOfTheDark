@@ -7,4 +7,4 @@ import com.davidm1a2.afraidofthedark.common.item.core.AOTDItemFood
  *
  * @constructor initializes the item name
  */
-class ItemDesertFruit : AOTDItemFood("desert_fruit", 6, 2.0f)
+class ItemDesertFruit : AOTDItemFood("desert_fruit", 6, 2.0f, Properties())

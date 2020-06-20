@@ -1,15 +1,15 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.world
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.Structure
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTTagList
 import net.minecraft.nbt.NBTTagString
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
-import net.minecraft.world.World
+import net.minecraft.world.IWorld
 import net.minecraft.world.storage.WorldSavedData
 import net.minecraftforge.common.util.Constants
+import org.apache.logging.log4j.LogManager
 
 /**
  * Class used to store a world's structure plan
@@ -29,7 +29,7 @@ class StructurePlan @JvmOverloads constructor(identifier: String = IDENTIFIER) :
      * @param nbt The NBT tag to write to
      * @return The same NBT tag as passed in
      */
-    override fun writeToNBT(nbt: NBTTagCompound): NBTTagCompound {
+    override fun write(nbt: NBTTagCompound): NBTTagCompound {
         // For each position add the tag "XCoord ZCoord" -> structureUUID
         val chunkMap = NBTTagCompound()
         chunkToStructure.forEach { (position, structure) ->
@@ -38,7 +38,7 @@ class StructurePlan @JvmOverloads constructor(identifier: String = IDENTIFIER) :
 
         // For each structure add the structureNBT
         val structureData = NBTTagList()
-        chunkToStructure.values.distinct().forEach { structureData.appendTag(it.serializeNBT()) }
+        chunkToStructure.values.distinct().forEach { structureData.add(it.serializeNBT()) }
         // Add the two different NBT compounds to the nbt
         nbt.setTag(NBT_CHUNK_MAP, chunkMap)
         nbt.setTag(NBT_STRUCTURE_DATA, structureData)
@@ -50,21 +50,21 @@ class StructurePlan @JvmOverloads constructor(identifier: String = IDENTIFIER) :
      *
      * @param nbt The NBT data to read from
      */
-    override fun readFromNBT(nbt: NBTTagCompound) {
+    override fun read(nbt: NBTTagCompound) {
         // Grab the structureNBT list
-        val structureData = nbt.getTagList(NBT_STRUCTURE_DATA, Constants.NBT.TAG_COMPOUND)
+        val structureData = nbt.getList(NBT_STRUCTURE_DATA, Constants.NBT.TAG_COMPOUND)
         // A temporary map of structureUUID -> structure to be used later
         val uuidToStructure = mutableMapOf<String, PlacedStructure>()
         // For each structure data create a placed structure object and store it into the map
-        for (i in 0 until structureData.tagCount()) {
-            val placedStructure = PlacedStructure(structureData.getCompoundTagAt(i))
+        for (i in 0 until structureData.size) {
+            val placedStructure = PlacedStructure(structureData.getCompound(i))
             uuidToStructure[placedStructure.uuid.toString()] = placedStructure
         }
 
         // Grab the map of "chunkX chunkZ" -> structureUUID
-        val chunkMap = nbt.getCompoundTag(NBT_CHUNK_MAP)
+        val chunkMap = nbt.getCompound(NBT_CHUNK_MAP)
         // Iterate over all keys in the NBT which should be all positions
-        for (positionKey in chunkMap.keySet) {
+        for (positionKey in chunkMap.keySet()) {
             // Parse the X coordinate from string to integer
             val x = positionKey.substringBefore(" ").toIntOrNull() ?: Int.MAX_VALUE
             // Parse the Z coordinate from string to integer
@@ -76,7 +76,7 @@ class StructurePlan @JvmOverloads constructor(identifier: String = IDENTIFIER) :
                 // Use our map of structureUUID -> structure to avoid creating a bunch of placed structure objects
                 chunkToStructure[ChunkPos(x, z)] = uuidToStructure[structureUUID]!!
             } else {
-                AfraidOfTheDark.INSTANCE.logger.error("Found an invalid key in the world saved data NBT: $positionKey")
+                logger.error("Found an invalid key in the world saved data NBT: $positionKey")
             }
         }
     }
@@ -163,9 +163,12 @@ class StructurePlan @JvmOverloads constructor(identifier: String = IDENTIFIER) :
     }
 
     companion object {
+        private val logger = LogManager.getLogger()
+
         // The ID of the AOTD structure plan
         private const val IDENTIFIER =
             com.davidm1a2.afraidofthedark.common.constants.Constants.MOD_ID + "_structure_plan"
+
         // The NBT compound tag keys
         private const val NBT_CHUNK_MAP = "chunk_map"
         private const val NBT_STRUCTURE_DATA = "structure_data"
@@ -176,19 +179,20 @@ class StructurePlan @JvmOverloads constructor(identifier: String = IDENTIFIER) :
          * @param world The world to get data for
          * @return The data for that world or null if it is client side
          */
-        fun get(world: World): IStructurePlan? {
+        fun get(world: IWorld): IStructurePlan? {
             // If we are on client side or the world is not the overworld return 0
             if (world.isRemote) {
                 return null
             }
             // Grab the storage object for this world
-            val storage = world.perWorldStorage
-            // Get the saved heightmap data for this world
-            var structurePlan = storage.getOrLoadData(StructurePlan::class.java, IDENTIFIER) as StructurePlan?
+            val storage = world.mapStorage!!
+            // func_212426_a roughly equal to getOrLoadData?
+            var structurePlan = storage.func_212426_a(world.dimension.type, { StructurePlan() }, IDENTIFIER)
             // If it does not exist, instantiate new structure plan and store it into the storage object
             if (structurePlan == null) {
                 structurePlan = StructurePlan()
-                storage.setData(IDENTIFIER, structurePlan)
+                // func_212424_a roughly equal to setData?
+                storage.func_212424_a(world.dimension.type, IDENTIFIER, structurePlan)
                 structurePlan.markDirty()
             }
             // Return the data

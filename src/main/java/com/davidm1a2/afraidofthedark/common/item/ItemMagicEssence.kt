@@ -7,4 +7,4 @@ import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
  *
  * @constructor initializes the item name
  */
-class ItemMagicEssence : AOTDItem("magic_essence")
+class ItemMagicEssence : AOTDItem("magic_essence", Properties())

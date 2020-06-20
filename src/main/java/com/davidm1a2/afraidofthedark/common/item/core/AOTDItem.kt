@@ -10,13 +10,16 @@ import net.minecraft.item.Item
  * @param baseName The name of the item to be used by the game registry
  * @param displayInCreative True if the item should show up in creative, false otherwise
  */
-abstract class AOTDItem(baseName: String, displayInCreative: Boolean = true) : Item() {
+abstract class AOTDItem(
+    baseName: String,
+    properties: Properties,
+    displayInCreative: Boolean = true
+) : Item(properties.apply {
+    if (displayInCreative) {
+        group(Constants.AOTD_CREATIVE_TAB)
+    }
+}) {
     init {
-        unlocalizedName = "${Constants.MOD_ID}:$baseName"
         this.setRegistryName("${Constants.MOD_ID}:$baseName")
-
-        if (displayInCreative) {
-            this.creativeTab = Constants.AOTD_CREATIVE_TAB
-        }
     }
 }

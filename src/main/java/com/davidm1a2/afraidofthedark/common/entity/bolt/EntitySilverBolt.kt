@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.entity.bolt
 
 import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources
+import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.entity.player.EntityPlayer
@@ -28,7 +29,7 @@ class EntitySilverBolt : EntityBolt {
      *
      * @param world The world to create the bolt in
      */
-    constructor(world: World) : super(world)
+    constructor(world: World) : super(ModEntities.SILVER_BOLT, world)
 
     /**
      * Creates the entity in the world without a source at a position
@@ -38,7 +39,7 @@ class EntitySilverBolt : EntityBolt {
      * @param y       The y position of the bolt
      * @param z       The z position of the bolt
      */
-    constructor(world: World, x: Double, y: Double, z: Double) : super(world, x, y, z)
+    constructor(x: Double, y: Double, z: Double, world: World) : super(ModEntities.SILVER_BOLT, x, y, z, world)
 
     /**
      * Creates the entity in the world with a shooter source
@@ -46,5 +47,5 @@ class EntitySilverBolt : EntityBolt {
      * @param world   The world to create the bolt in
      * @param thrower The shooter of the bolt
      */
-    constructor(world: World, thrower: EntityLivingBase) : super(world, thrower)
+    constructor(thrower: EntityLivingBase, world: World) : super(ModEntities.SILVER_BOLT, thrower, world)
 }

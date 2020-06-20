@@ -4,6 +4,7 @@ import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources
+import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.entity.enaria.animation.ChannelArmthrow
 import com.davidm1a2.afraidofthedark.common.entity.enaria.animation.ChannelAutoattack
@@ -12,7 +13,7 @@ import com.davidm1a2.afraidofthedark.common.entity.enaria.animation.ChannelWalk
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
-import com.davidm1a2.afraidofthedark.common.packets.otherPackets.PlayEnariasFightMusic
+import com.davidm1a2.afraidofthedark.common.packets.otherPackets.PlayEnariasFightMusicPacket
 import net.minecraft.entity.Entity
 import net.minecraft.entity.SharedMonsterAttributes
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget
@@ -43,7 +44,7 @@ import kotlin.math.min
  * @property allowedRegion The hitbox that enaria cannot leave
  * @property enariaAttacks Enaria's attack object use to manage her attacks
  */
-class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedModel {
+class EntityEnaria(world: World) : EntityMob(ModEntities.ENARIA, world), IMCAnimatedModel {
     private val animHandler = AnimationHandler(
         ChannelWalk("walk", 59.0f, 59, ChannelMode.LINEAR),
         ChannelArmthrow("armthrow", 61.0f, 61, ChannelMode.LINEAR),
@@ -61,7 +62,7 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedModel {
     init {
         setSize(0.8f, 1.8f)
         // Name of the entity, will be bold and red
-        this.customNameTag = "Enaria"
+        this.customName = TextComponentString("Enaria")
         bossInfo.name = this.displayName
         experienceValue = 300
         isImmuneToFire = true
@@ -71,7 +72,7 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedModel {
     /**
      * Overloaded constructor that sets the world and the region enaria is allowed to be in
      *
-     * @param world         The world to spawn enaria in
+     * @param world The world to spawn enaria in
      * @param allowedRegion The region enaria is allowed to be inside of
      */
     constructor(world: World, allowedRegion: AxisAlignedBB) : this(world) {
@@ -98,8 +99,8 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedModel {
     /**
      * Called to update the entity every tick
      */
-    override fun onUpdate() {
-        super.onUpdate()
+    override fun tick() {
+        super.tick()
         // Animations only update client side
         if (world.isRemote) {
             animHandler.update()
@@ -109,8 +110,8 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedModel {
     /**
      * Called every game tick for the entity
      */
-    override fun onEntityUpdate() {
-        super.onEntityUpdate()
+    override fun baseTick() {
+        super.baseTick()
         // Client side test if enaria is walking, if so play the animation
         if (world.isRemote) {
             // Motion >= 0.5 = walking
@@ -131,8 +132,8 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedModel {
     /**
      * Called every tick the enaria entity is alive
      */
-    override fun onLivingUpdate() {
-        super.onLivingUpdate()
+    override fun livingTick() {
+        super.livingTick()
         // If we're on server side perform some checks
         if (!world.isRemote) {
             // Update the boss info HP bar
@@ -140,7 +141,7 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedModel {
             // If enaria was spawned without the right tags she's invalid so kill her
             if (ticksExisted == 1) {
                 if (!this.entityData.getBoolean(NBT_IS_VALID)) {
-                    setDead()
+                    remove()
                 }
             }
         }
@@ -149,8 +150,8 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedModel {
     /**
      * Gives enaria her entity attributes like damage and movespeed
      */
-    override fun applyEntityAttributes() {
-        super.applyEntityAttributes()
+    override fun registerAttributes() {
+        super.registerAttributes()
         attributeMap.getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH).baseValue = MAX_HEALTH
         attributeMap.getAttributeInstance(SharedMonsterAttributes.FOLLOW_RANGE).baseValue = FOLLOW_RANGE
         attributeMap.getAttributeInstance(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).baseValue = KNOCKBACK_RESISTANCE
@@ -248,7 +249,7 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedModel {
                     // Grab all entities around enaria and if they can research "ENARIA" unlock the research for them
                     for (entityPlayer in world.getEntitiesWithinAABB(
                         EntityPlayer::class.java,
-                        this.entityBoundingBox.grow(RESEARCH_UNLOCK_RANGE)
+                        this.boundingBox.grow(RESEARCH_UNLOCK_RANGE)
                     )) {
                         val playerResearch = entityPlayer.getResearch()
                         // If we can research enaria unlock it
@@ -266,7 +267,7 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedModel {
      * @return Make enaria's name tag red and bold in chat
      */
     override fun getDisplayName(): ITextComponent {
-        return TextComponentString("§c§l${this.customNameTag}")
+        return this.customName!!
     }
 
     /**
@@ -301,7 +302,7 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedModel {
     override fun addTrackingPlayer(player: EntityPlayerMP) {
         super.addTrackingPlayer(player)
         // Tell the player to play the enaria combat music
-        AfraidOfTheDark.INSTANCE.packetHandler.sendTo(PlayEnariasFightMusic(this, true), player)
+        AfraidOfTheDark.packetHandler.sendTo(PlayEnariasFightMusicPacket(this, true), player)
         bossInfo.addPlayer(player)
     }
 
@@ -313,7 +314,7 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedModel {
     override fun removeTrackingPlayer(player: EntityPlayerMP) {
         super.removeTrackingPlayer(player)
         // Tell the player to stop playing the enaria combat music
-        AfraidOfTheDark.INSTANCE.packetHandler.sendTo(PlayEnariasFightMusic(this, false), player)
+        AfraidOfTheDark.packetHandler.sendTo(PlayEnariasFightMusicPacket(this, false), player)
         bossInfo.removePlayer(player)
     }
 
@@ -329,8 +330,8 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedModel {
      *
      * @param compound The NBT compound to write to
      */
-    override fun writeEntityToNBT(compound: NBTTagCompound) {
-        super.writeEntityToNBT(compound)
+    override fun writeAdditional(compound: NBTTagCompound) {
+        super.writeAdditional(compound)
         compound.setDouble("minX", allowedRegion.minX)
         compound.setDouble("minY", allowedRegion.minY)
         compound.setDouble("minZ", allowedRegion.minZ)
@@ -344,8 +345,8 @@ class EntityEnaria(world: World) : EntityMob(world), IMCAnimatedModel {
      *
      * @param compound The NBT compound to read from
      */
-    override fun readEntityFromNBT(compound: NBTTagCompound) {
-        super.readEntityFromNBT(compound)
+    override fun readAdditional(compound: NBTTagCompound) {
+        super.readAdditional(compound)
         allowedRegion = AxisAlignedBB(
             compound.getDouble("minX"),
             compound.getDouble("minY"),

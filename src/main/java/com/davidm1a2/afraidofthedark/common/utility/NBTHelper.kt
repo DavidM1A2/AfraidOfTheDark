@@ -1,11 +1,12 @@
 package com.davidm1a2.afraidofthedark.common.utility
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.CompressedStreamTools
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.server.MinecraftServer
+import net.minecraft.world.dimension.DimensionType
 import org.apache.commons.lang3.exception.ExceptionUtils
+import org.apache.logging.log4j.LogManager
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
@@ -14,6 +15,8 @@ import java.io.IOException
  * Class that lets us work with itemstack NBT more easily
  */
 object NBTHelper {
+    private val logger = LogManager.getLogger()
+
     /**
      * Returns a list of all saved player nbts, if the flag is set then player data is saved to disk before being read
      *
@@ -31,7 +34,7 @@ object NBTHelper {
         val toReturn = mutableListOf<NBTTagCompound>()
 
         // All worlds share a single save handler so we can just use the overworld's save handler to grab all player data even players in other dimensions
-        val saveHandler = minecraftServer.worlds[0].saveHandler
+        val saveHandler = minecraftServer.getWorld(DimensionType.OVERWORLD).saveHandler
 
         // Grab the playerdata directory that stores all player's NBT data
         val playerDataDirectory = File(saveHandler.worldDirectory, "playerdata")
@@ -54,7 +57,7 @@ object NBTHelper {
                 }
                 // If something goes wrong log an error
                 catch (e: IOException) {
-                    AfraidOfTheDark.INSTANCE.logger.error(
+                    logger.error(
                         "Could not read player data for file ${playerData.absolutePath}, exception was:\n${ExceptionUtils.getStackTrace(
                             e
                         )}"
@@ -73,7 +76,7 @@ object NBTHelper {
      * @return True if the itemstack has the key, false otherwise
      */
     fun hasTag(itemStack: ItemStack, keyName: String): Boolean {
-        return itemStack.tagCompound != null && itemStack.tagCompound!!.hasKey(keyName)
+        return itemStack.tag != null && itemStack.tag!!.hasKey(keyName)
     }
 
     /**
@@ -85,7 +88,7 @@ object NBTHelper {
      */
     fun removeTag(itemStack: ItemStack, keyName: String) {
         if (hasTag(itemStack, keyName)) {
-            itemStack.tagCompound!!.removeTag(keyName)
+            itemStack.tag!!.removeTag(keyName)
         }
     }
 
@@ -96,8 +99,8 @@ object NBTHelper {
      */
     private fun initNBTTagCompound(itemStack: ItemStack) {
         // Make sure the item stack has an NBT tag compound, if not add it
-        if (itemStack.tagCompound == null) {
-            itemStack.tagCompound = NBTTagCompound()
+        if (itemStack.tag == null) {
+            itemStack.tag = NBTTagCompound()
         }
     }
 
@@ -112,7 +115,7 @@ object NBTHelper {
         // Make sure the item stack has an NBT tag compound, if not add it
         initNBTTagCompound(itemStack)
         // Set the long value onto the tag compound
-        itemStack.tagCompound!!.setLong(keyName, keyValue)
+        itemStack.tag!!.setLong(keyName, keyValue)
     }
 
     /**
@@ -124,7 +127,7 @@ object NBTHelper {
      */
     fun getLong(itemStack: ItemStack, keyName: String): Long? {
         return if (hasTag(itemStack, keyName)) {
-            itemStack.tagCompound!!.getLong(keyName)
+            itemStack.tag!!.getLong(keyName)
         } else null
     }
 
@@ -139,7 +142,7 @@ object NBTHelper {
         // Make sure the item stack has an NBT tag compound, if not add it
         initNBTTagCompound(itemStack)
         // Set the string value onto the tag compound
-        itemStack.tagCompound!!.setString(keyName, keyValue)
+        itemStack.tag!!.setString(keyName, keyValue)
     }
 
     /**
@@ -151,7 +154,7 @@ object NBTHelper {
      */
     fun getString(itemStack: ItemStack, keyName: String): String? {
         return if (hasTag(itemStack, keyName)) {
-            itemStack.tagCompound!!.getString(keyName)
+            itemStack.tag!!.getString(keyName)
         } else null
     }
 
@@ -166,7 +169,7 @@ object NBTHelper {
         // Make sure the item stack has an NBT tag compound, if not add it
         initNBTTagCompound(itemStack)
         // Set the boolean value onto the tag compound
-        itemStack.tagCompound!!.setBoolean(keyName, keyValue)
+        itemStack.tag!!.setBoolean(keyName, keyValue)
     }
 
     /**
@@ -178,7 +181,7 @@ object NBTHelper {
      */
     fun getBoolean(itemStack: ItemStack, keyName: String): Boolean? {
         return if (hasTag(itemStack, keyName)) {
-            itemStack.tagCompound!!.getBoolean(keyName)
+            itemStack.tag!!.getBoolean(keyName)
         } else null
     }
 
@@ -193,7 +196,7 @@ object NBTHelper {
         // Make sure the item stack has an NBT tag compound, if not add it
         initNBTTagCompound(itemStack)
         // Set the byte value onto the tag compound
-        itemStack.tagCompound!!.setByte(keyName, keyValue)
+        itemStack.tag!!.setByte(keyName, keyValue)
     }
 
     /**
@@ -205,7 +208,7 @@ object NBTHelper {
      */
     fun getByte(itemStack: ItemStack, keyName: String): Byte? {
         return if (hasTag(itemStack, keyName)) {
-            itemStack.tagCompound!!.getByte(keyName)
+            itemStack.tag!!.getByte(keyName)
         } else null
     }
 
@@ -220,7 +223,7 @@ object NBTHelper {
         // Make sure the item stack has an NBT tag compound, if not add it
         initNBTTagCompound(itemStack)
         // Set the short value onto the tag compound
-        itemStack.tagCompound!!.setShort(keyName, keyValue)
+        itemStack.tag!!.setShort(keyName, keyValue)
     }
 
     /**
@@ -232,7 +235,7 @@ object NBTHelper {
      */
     fun getShort(itemStack: ItemStack, keyName: String): Short? {
         return if (hasTag(itemStack, keyName)) {
-            itemStack.tagCompound!!.getShort(keyName)
+            itemStack.tag!!.getShort(keyName)
         } else null
     }
 
@@ -247,7 +250,7 @@ object NBTHelper {
         // Make sure the item stack has an NBT tag compound, if not add it
         initNBTTagCompound(itemStack)
         // Set the integer value onto the tag compound
-        itemStack.tagCompound!!.setInteger(keyName, keyValue)
+        itemStack.tag!!.setInt(keyName, keyValue)
     }
 
     /**
@@ -259,7 +262,7 @@ object NBTHelper {
      */
     fun getInteger(itemStack: ItemStack, keyName: String): Int? {
         return if (hasTag(itemStack, keyName)) {
-            itemStack.tagCompound!!.getInteger(keyName)
+            itemStack.tag!!.getInt(keyName)
         } else null
     }
 
@@ -274,7 +277,7 @@ object NBTHelper {
         // Make sure the item stack has an NBT tag compound, if not add it
         initNBTTagCompound(itemStack)
         // Set the float value onto the tag compound
-        itemStack.tagCompound!!.setFloat(keyName, keyValue)
+        itemStack.tag!!.setFloat(keyName, keyValue)
     }
 
     /**
@@ -286,7 +289,7 @@ object NBTHelper {
      */
     fun getFloat(itemStack: ItemStack, keyName: String): Float? {
         return if (hasTag(itemStack, keyName)) {
-            itemStack.tagCompound!!.getFloat(keyName)
+            itemStack.tag!!.getFloat(keyName)
         } else null
     }
 
@@ -301,7 +304,7 @@ object NBTHelper {
         // Make sure the item stack has an NBT tag compound, if not add it
         initNBTTagCompound(itemStack)
         // Set the double value onto the tag compound
-        itemStack.tagCompound!!.setDouble(keyName, keyValue)
+        itemStack.tag!!.setDouble(keyName, keyValue)
     }
 
     /**
@@ -313,7 +316,7 @@ object NBTHelper {
      */
     fun getDouble(itemStack: ItemStack, keyName: String): Double? {
         return if (hasTag(itemStack, keyName)) {
-            itemStack.tagCompound!!.getDouble(keyName)
+            itemStack.tag!!.getDouble(keyName)
         } else null
     }
 
@@ -328,7 +331,7 @@ object NBTHelper {
         // Make sure the item stack has an NBT tag compound, if not add it
         initNBTTagCompound(itemStack)
         // Set the nbt compound value onto the tag compound
-        itemStack.tagCompound!!.setTag(keyName, keyValue)
+        itemStack.tag!!.setTag(keyName, keyValue)
     }
 
     /**
@@ -340,7 +343,7 @@ object NBTHelper {
      */
     fun getCompound(itemStack: ItemStack, keyName: String): NBTTagCompound? {
         return if (hasTag(itemStack, keyName)) {
-            itemStack.tagCompound!!.getCompoundTag(keyName)
+            itemStack.tag!!.getCompound(keyName)
         } else null
     }
 }

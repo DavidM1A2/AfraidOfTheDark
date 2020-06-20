@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "afraidofthedark:star_metal_fragment"
+  },
+  "result": "afraidofthedark:star_metal_ingot",
+  "experience": 0.4,
+  "cookingtime": 200
+}

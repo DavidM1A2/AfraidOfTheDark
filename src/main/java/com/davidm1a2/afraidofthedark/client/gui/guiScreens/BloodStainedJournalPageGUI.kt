@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.client.gui.guiScreens
 
-import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiHandler
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiScreen
 import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
@@ -9,12 +8,10 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
-import com.davidm1a2.afraidofthedark.common.utility.openGui
 import net.minecraft.item.Item
-import net.minecraft.item.crafting.CraftingManager
 import net.minecraft.item.crafting.IRecipe
-import org.lwjgl.input.Keyboard
-import org.lwjgl.util.Color
+import org.lwjgl.glfw.GLFW
+import java.awt.Color
 
 /**
  * Journal page UI which is shown when a player opens a page
@@ -56,7 +53,7 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
 
     init {
         // Get a list of recipes for each item
-        researchRecipes = CraftingManager.REGISTRY.filter { relatedItemRecipes.contains(it.recipeOutput.item) }
+        researchRecipes = entityPlayer.world.recipeManager.recipes.filter { relatedItemRecipes.contains(it.recipeOutput.item) }
 
         // Store the raw text of the research
         completeText = text
@@ -135,7 +132,7 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
         bookmarkButton.addMouseListener {
             if (it.eventType == AOTDMouseEvent.EventType.Click) {
                 if (it.source.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
-                    entityPlayer.openGui(AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID)
+                    //entityPlayer.openGui(AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID)
                 }
             }
         }
@@ -346,16 +343,17 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
      * @param character The character typed
      * @param keyCode   The code of the character typed
      */
-    override fun keyTyped(character: Char, keyCode: Int) {
+    override fun charTyped(character: Char, keyCode: Int): Boolean {
         // If we press our inventory button close the UI and go to the journal UI
-        if (keyCode == inventoryKeycode) {
-            entityPlayer.openGui(AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID)
-        } else if (character == 'a' || character == 'A' || keyCode == Keyboard.KEY_LEFT) {
+        if (inventoryKeybindPressed()) {
+            //entityPlayer.openGui(AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID)
+        } else if (character == 'a' || character == 'A' || keyCode == GLFW.GLFW_KEY_LEFT) {
             rewindPage()
-        } else if (character == 'd' || character == 'D' || keyCode == Keyboard.KEY_RIGHT) {
+        } else if (character == 'd' || character == 'D' || keyCode == GLFW.GLFW_KEY_RIGHT) {
             advancePage()
         }
-        super.keyTyped(character, keyCode)
+
+        return super.charTyped(character, keyCode)
     }
 
     /**

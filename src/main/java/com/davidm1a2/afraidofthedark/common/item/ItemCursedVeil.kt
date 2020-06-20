@@ -7,4 +7,4 @@ import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
  *
  * @constructor initializes the item's name
  */
-class ItemCursedVeil : AOTDItem("cursed_veil")
+class ItemCursedVeil : AOTDItem("cursed_veil", Properties())

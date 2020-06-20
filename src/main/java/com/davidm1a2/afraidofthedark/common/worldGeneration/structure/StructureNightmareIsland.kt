@@ -10,7 +10,7 @@ import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.world.World
-import net.minecraft.world.biome.BiomeProvider
+import net.minecraft.world.biome.provider.BiomeProvider
 
 /**
  * Class representing the nightmare island structure, it will not generate naturally
@@ -60,7 +60,7 @@ class StructureNightmareIsland : AOTDStructure("nightmare_island") {
     override fun generateStructureData(world: World, blockPos: BlockPos, biomeProvider: BiomeProvider): NBTTagCompound {
         val compound = NBTTagCompound()
         // Set the position to the blockpos
-        compound.setTag(NBT_POSITION, NBTUtil.createPosTag(blockPos))
+        compound.setTag(NBT_POSITION, NBTUtil.writeBlockPos(blockPos))
         return compound
     }
 

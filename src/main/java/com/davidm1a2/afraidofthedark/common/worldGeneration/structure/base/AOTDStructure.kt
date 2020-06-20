@@ -11,15 +11,13 @@ import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.minecraft.world.biome.Biome
-import net.minecraft.world.biome.BiomeProvider
+import net.minecraft.world.biome.provider.BiomeProvider
 
 
 /**
  * Base class for all AOTD structures
  */
 abstract class AOTDStructure(baseName: String) : Structure() {
-    private val biomesArray = arrayOfNulls<Biome>(16 * 16)
-
     init {
         this.setRegistryName("${Constants.MOD_ID}:$baseName")
     }
@@ -53,7 +51,7 @@ abstract class AOTDStructure(baseName: String) : Structure() {
      * @return A set of biomes found in the chunk
      */
     protected open fun getBiomesInChunk(biomeProvider: BiomeProvider, chunkX: Int, chunkZ: Int): Set<Biome> {
-        return biomeProvider.getBiomes(biomesArray, chunkX * 16, chunkZ * 16, 16, 16).toSet()
+        return biomeProvider.getBiomes(chunkX * 16, chunkZ * 16, 16, 16).toSet()
     }
 
     /**
@@ -78,7 +76,7 @@ abstract class AOTDStructure(baseName: String) : Structure() {
         blockPos = BlockPos(blockPos.x, yPos, blockPos.z)
 
         // Set the pos tag
-        compound.setTag(NBT_POSITION, NBTUtil.createPosTag(blockPos))
+        compound.setTag(NBT_POSITION, NBTUtil.writeBlockPos(blockPos))
 
         return compound
     }

@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.fontLibrary
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.common.constants.ModClientConfiguration
 import net.minecraft.client.Minecraft
 import net.minecraft.util.ResourceLocation
 import java.awt.Font
@@ -44,14 +44,14 @@ object FontLoader {
         type: Int = Font.TRUETYPE_FONT
     ): TrueTypeFont {
         // If we should use calibri use that, otherwise use the font provided to us
-        val fontFile = if (AfraidOfTheDark.INSTANCE.configurationHandler.useCalibri) {
+        val fontFile = if (ModClientConfiguration.useCalibri) {
             CALIBRI_FONT_LOCATION
         } else {
             resourceLocation
         }
 
         // Set the font size and make it bold. Bold fonts tend to look better in this font rendering system
-        val font = Minecraft.getMinecraft().resourceManager.getResource(fontFile).inputStream.use {
+        val font = Minecraft.getInstance().resourceManager.getResource(fontFile).inputStream.use {
             Font.createFont(type, it).deriveFont(size).deriveFont(Font.BOLD)
         }
 

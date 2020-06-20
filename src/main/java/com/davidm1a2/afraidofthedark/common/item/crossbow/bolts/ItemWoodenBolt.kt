@@ -7,4 +7,4 @@ import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
  *
  * @constructor sets up the item's name
  */
-class ItemWoodenBolt : AOTDItem("wooden_bolt")
+class ItemWoodenBolt : AOTDItem("wooden_bolt", Properties())

@@ -1,34 +1,62 @@
 package com.davidm1a2.afraidofthedark.common.recipe
 
+import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.google.gson.JsonObject
-import net.minecraft.item.crafting.IRecipe
+import net.minecraft.item.crafting.IRecipeSerializer
+import net.minecraft.item.crafting.ShapelessRecipe
+import net.minecraft.network.PacketBuffer
 import net.minecraft.util.JsonUtils
 import net.minecraft.util.ResourceLocation
-import net.minecraftforge.common.crafting.IRecipeFactory
-import net.minecraftforge.common.crafting.JsonContext
-import net.minecraftforge.oredict.ShapelessOreRecipe
 
 /**
  * Factory for research required shapeless recipes. This type of recipe just ensures the proper research is done first
  */
-class ResearchRequiredShapelessRecipeFactory : IRecipeFactory {
-    /**
-     * Parses the recipe from JSON
-     *
-     * @param context The JSON context to parse with
-     * @param json    The actual JSON to parse
-     * @return The IRecipe representing this recipe
-     */
-    override fun parse(context: JsonContext, json: JsonObject): IRecipe {
-        // This recipe is based on the shapeless ore recipe, so start with parsing that
-        val baseRecipe = ShapelessOreRecipe.factory(context, json)
+class ResearchRequiredShapelessRecipeFactory : IRecipeSerializer<ResearchRequiredShapelessRecipe> {
+    override fun getName(): ResourceLocation {
+        return ResourceLocation(Constants.MOD_ID, "research_required_shapeless_recipe")
+    }
+
+    override fun write(buffer: PacketBuffer, recipe: ResearchRequiredShapelessRecipe) {
+        // Copy & Paste Start (from: SERIALIZER.write(buffer, recipe))
+        buffer.writeString(recipe.group)
+        buffer.writeVarInt(recipe.ingredients.size)
+
+        for (ingredient in recipe.ingredients) {
+            ingredient.writeToBuffer(buffer)
+        }
+
+        buffer.writeItemStack(recipe.recipeOutput)
+        // Copy & Paste End (from: SERIALIZER.write(buffer, recipe))
+
+        buffer.writeResourceLocation(recipe.preRequisite.registryName!!)
+    }
+
+    override fun read(recipeId: ResourceLocation, json: JsonObject): ResearchRequiredShapelessRecipe {
+        // This recipe is based on the shapeless recipe, so start with parsing that
+        val baseRecipe = SERIALIZER.read(recipeId, json)
 
         // Grab the pre-requisite recipe which is based on our research registry
         val preRequisite =
             ModRegistries.RESEARCH.getValue(ResourceLocation(JsonUtils.getString(json, "required_research")))!!
 
-        // Return the research required shaped recipe
+        // Return the research required shapeless recipe
         return ResearchRequiredShapelessRecipe(baseRecipe, preRequisite)
+    }
+
+    override fun read(recipeId: ResourceLocation, buffer: PacketBuffer): ResearchRequiredShapelessRecipe {
+        val baseRecipe = SERIALIZER.read(recipeId, buffer)
+
+        val preRequisite = ModRegistries.RESEARCH.getValue(buffer.readResourceLocation())!!
+
+        return ResearchRequiredShapelessRecipe(baseRecipe, preRequisite)
+    }
+    /*
+
+
+     */
+
+    companion object {
+        private val SERIALIZER = ShapelessRecipe.Serializer()
     }
 }

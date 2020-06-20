@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.client.gui.specialControls
 
-import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiHandler
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
 import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
@@ -13,9 +12,8 @@ import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.spell.Spell
-import com.davidm1a2.afraidofthedark.common.utility.openGui
 import net.minecraft.init.SoundEvents
-import org.lwjgl.util.Color
+import java.awt.Color
 
 /**
  * UI component representing a spell in the GUI
@@ -102,7 +100,7 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
                     // Set the edited spell to this one
                     ClientData.lastSelectedSpell = spell
                     // Open the spell edit GUI
-                    entityPlayer.openGui(AOTDGuiHandler.SPELL_CRAFTING_ID)
+                    // entityPlayer.openGui(AOTDGuiHandler.SPELL_CRAFTING_ID)
                 }
             }
         }
@@ -120,7 +118,7 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
         btnEdit.addMouseListener(clickSound)
         btnEdit.addMouseMoveListener(hoverSound)
         btnDelete.addMouseListener {
-            if (it.eventType == AOTDMouseEvent.EventType.Press) {
+            if (it.eventType == AOTDMouseEvent.EventType.Click) {
                 if (it.source.isHovered && it.source.isVisible && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
                     deleteCallback()
                 }
@@ -135,7 +133,7 @@ class AOTDGuiSpell(x: Int, y: Int, width: Int, height: Int, val spell: Spell) : 
         btnEdit.addMouseListener(clickSound)
         btnEdit.addMouseMoveListener(hoverSound)
         lblKeybind.addMouseListener {
-            if (it.eventType == AOTDMouseEvent.EventType.Press) {
+            if (it.eventType == AOTDMouseEvent.EventType.Click) {
                 if (it.source.isHovered && it.source.isVisible && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
                     lblKeybind.setHoverText("Awaiting keypress...")
                     lblKeybind.text = "Awaiting keypress..."

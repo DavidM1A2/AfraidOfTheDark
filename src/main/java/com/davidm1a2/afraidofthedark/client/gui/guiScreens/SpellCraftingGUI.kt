@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.client.gui.guiScreens
 
-import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiHandler
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiScreen
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
@@ -13,7 +12,6 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
-import com.davidm1a2.afraidofthedark.common.utility.openGui
 import java.io.IOException
 
 /**
@@ -70,7 +68,7 @@ class SpellCraftingGUI(spell: Spell) : AOTDGuiScreen() {
 
         // If we right click clear the selected component
         contentPane.addMouseListener {
-            if (it.eventType == AOTDMouseEvent.EventType.Press) {
+            if (it.eventType == AOTDMouseEvent.EventType.Click) {
                 if (it.clickedButton == AOTDMouseEvent.RIGHT_MOUSE_BUTTON && selectedComponent != null) {
                     setSelectedComponent(null)
                 }
@@ -139,14 +137,17 @@ class SpellCraftingGUI(spell: Spell) : AOTDGuiScreen() {
      * @param keyCode   The code of the character typed
      * @throws IOException forwarded from the super method
      */
-    override fun keyTyped(character: Char, keyCode: Int) {
-        super.keyTyped(character, keyCode)
+    override fun charTyped(character: Char, keyCode: Int): Boolean {
+        val toReturn = super.charTyped(character, keyCode)
+
         // If the inventory key closes the ui and is pressed open the spell list UI
         if (tablet.inventoryKeyClosesUI() && scroll.inventoryKeyClosesUI()) {
-            if (keyCode == inventoryKeycode) {
-                entityPlayer.openGui(AOTDGuiHandler.SPELL_LIST_ID)
+            if (inventoryKeybindPressed()) {
+                //entityPlayer.openGui(AOTDGuiHandler.SPELL_LIST_ID)
             }
         }
+
+        return toReturn
     }
 
     /**

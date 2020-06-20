@@ -11,6 +11,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.spell.Spell
+import org.lwjgl.glfw.GLFW
 
 /**
  * Spell selection/list gui allows players to create spells and keybind them
@@ -75,9 +76,9 @@ class SpellListGUI : AOTDGuiScreen() {
                 // If we're waiting on a keybind assign the keybind and update each spell
                 if (spellWaitingOnKeybind != null) {
                     // Test if the key down is bindable
-                    if (KeybindingUtils.keybindableKeyDown()) {
+                    if (KeybindingUtils.isKeyBindable(it.keyCode)) {
                         // Grab the keybind being held
-                        val keybind = KeybindingUtils.getCurrentlyHeldKeybind()
+                        val keybind = KeybindingUtils.getCurrentlyHeldKeybind(it.keyCode, GLFW.glfwGetKeyScancode(it.keyCode))
                         // Keybind the spell
                         spellManager.keybindSpell(keybind, spellWaitingOnKeybind!!.spell)
                         // Update all gui spell's labels
@@ -100,7 +101,7 @@ class SpellListGUI : AOTDGuiScreen() {
         )
         btnCreateSpell.setHoverText("Create a new spell")
         btnCreateSpell.addMouseListener {
-            if (it.eventType == AOTDMouseEvent.EventType.Press) {
+            if (it.eventType == AOTDMouseEvent.EventType.Click) {
                 // When we click the button create a new spell
                 if (it.source.isVisible && it.source.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
                     // Create a new spell

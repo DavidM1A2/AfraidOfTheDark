@@ -5,7 +5,7 @@
  */
 package com.davidm1a2.afraidofthedark.common.constants
 
-import net.minecraft.creativetab.CreativeTabs
+import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 
 /**
@@ -14,28 +14,15 @@ import net.minecraft.item.ItemStack
 object Constants {
     // The ID of the mod
     const val MOD_ID = "afraidofthedark"
-    // The mod name
-    const val MOD_NAME = "Afraid of the Dark"
-
-    // The mod version
-    const val MOD_VERSION = "1.3.0"
-
-    // The minecraft version number
-    const val MC_VERSION = "1.12.2"
-    // Refrences to the proxies
-    const val SERVER_PROXY_CLASS = "com.davidm1a2.afraidofthedark.proxy.ServerProxy"
-    const val CLIENT_PROXY_CLASS = "com.davidm1a2.afraidofthedark.proxy.ClientProxy"
-    // Reference to the GUI factory class to translate from IDs to UI objects
-    const val GUI_FACTORY_CLASS = "com.davidm1a2.afraidofthedark.client.gui.AOTDGuiFactory"
 
     // Creative Tab for the mod
-    val AOTD_CREATIVE_TAB: CreativeTabs = object : CreativeTabs(MOD_ID) {
+    val AOTD_CREATIVE_TAB = object : ItemGroup(MOD_ID) {
         /**
          * Getter for the mod creative tab icon
          *
          * @return The icon for the creative tab as an item
          */
-        override fun getTabIconItem(): ItemStack {
+        override fun createIcon(): ItemStack {
             return ItemStack(ModItems.JOURNAL)
         }
     }

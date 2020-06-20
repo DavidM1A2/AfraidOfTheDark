@@ -7,4 +7,4 @@ import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
  *
  * @constructor initializes the item name
  */
-class ItemAstralSilverIngot : AOTDItem("astral_silver_ingot")
+class ItemAstralSilverIngot : AOTDItem("astral_silver_ingot", Properties())

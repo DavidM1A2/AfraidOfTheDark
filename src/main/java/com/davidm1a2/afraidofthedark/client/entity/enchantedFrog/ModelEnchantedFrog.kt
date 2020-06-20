@@ -4,7 +4,7 @@ import com.davidm1a2.afraidofthedark.client.entity.mcAnimatorLib.MCAModelRendere
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.setAndReturn
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.transposeAndReturn
-import net.minecraft.client.model.ModelBase
+import net.minecraft.client.renderer.entity.model.ModelBase
 import net.minecraft.entity.Entity
 import javax.vecmath.Matrix4f
 import javax.vecmath.Quat4f

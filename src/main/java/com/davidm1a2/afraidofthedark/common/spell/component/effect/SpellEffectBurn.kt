@@ -23,8 +23,8 @@ class SpellEffectBurn : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "burn
             SpellComponentPropertyFactory.intProperty()
                 .withName("Burn")
                 .withDescription("The number of seconds to set fire to when hitting entities.")
-                .withSetter { instance, newValue -> instance.data.setInteger(NBT_BURN_DURATION, newValue) }
-                .withGetter { it.data.getInteger(NBT_BURN_DURATION) }
+                .withSetter { instance, newValue -> instance.data.setInt(NBT_BURN_DURATION, newValue) }
+                .withGetter { it.data.getInt(NBT_BURN_DURATION) }
                 .withDefaultValue(2)
                 .withMinValue(1)
                 .withMaxValue(60)
@@ -47,7 +47,7 @@ class SpellEffectBurn : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "burn
             val position = state.blockPosition
             if (world.getBlockState(position.up()).block is BlockAir) {
                 if (world.getBlockState(position).block !is BlockAir) {
-                    createParticlesAt(1, 3, state.position, world.provider.dimension)
+                    createParticlesAt(1, 3, state.position, world.dimension.type)
                     world.setBlockState(position.up(), Blocks.FIRE.defaultState)
                 }
             }
@@ -69,7 +69,7 @@ class SpellEffectBurn : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "burn
      * @return The cost of the effect
      */
     fun getBurnDuration(instance: SpellComponentInstance<SpellEffect>): Int {
-        return instance.data.getInteger(NBT_BURN_DURATION)
+        return instance.data.getInt(NBT_BURN_DURATION)
     }
 
     companion object {

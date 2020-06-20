@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.client.gui.specialControls
 
-import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiHandler
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
@@ -15,7 +14,6 @@ import com.davidm1a2.afraidofthedark.common.spell.SpellStage
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffectInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSourceInstance
-import com.davidm1a2.afraidofthedark.common.utility.openGui
 import net.minecraft.util.text.TextComponentTranslation
 import kotlin.math.roundToInt
 
@@ -99,7 +97,7 @@ class AOTDGuiSpellTablet(
             )
         saveButton.setHoverText("Save Spell")
         saveButton.addMouseListener {
-            if (it.eventType == AOTDMouseEvent.EventType.Press) {
+            if (it.eventType == AOTDMouseEvent.EventType.Click) {
                 // When we press the save spell button and it's hovered save the spell and send changes to server
                 if (it.source.isVisible && it.source.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
                     // Grab the player's spell manager
@@ -138,11 +136,11 @@ class AOTDGuiSpellTablet(
         closeButton.setHoverText("Exit without saving")
         // When we click the close button show the spell list
         closeButton.addMouseListener {
-            if (it.eventType == AOTDMouseEvent.EventType.Press) {
+            if (it.eventType == AOTDMouseEvent.EventType.Click) {
                 // Ensure the button is visible and hovered
                 if (closeButton.isVisible && closeButton.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
                     // Open the list gui without saving
-                    entityPlayer.openGui(AOTDGuiHandler.SPELL_LIST_ID)
+                    // entityPlayer.openGui(AOTDGuiHandler.SPELL_LIST_ID)
                 }
             }
         }
@@ -168,7 +166,7 @@ class AOTDGuiSpellTablet(
         helpButton.setHoverText("Help")
         // When pressing help execute our on help runnable
         helpButton.addMouseListener {
-            if (it.eventType == AOTDMouseEvent.EventType.Press) {
+            if (it.eventType == AOTDMouseEvent.EventType.Click) {
                 // Ensure the button is visible, hovered, and the callback is non-null
                 if (helpButton.isVisible && helpButton.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
                     onHelp?.invoke()

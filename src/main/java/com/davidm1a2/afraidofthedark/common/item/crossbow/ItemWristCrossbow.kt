@@ -7,24 +7,24 @@ import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItemWithPerItemCooldown
 import net.minecraft.client.Minecraft
-import net.minecraft.client.resources.I18n
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ResourceLocation
+import net.minecraft.util.text.ITextComponent
+import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.world.World
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * Class representing a wrist-mounted crossbow
  *
  * @constructor sets up item properties
  */
-class ItemWristCrossbow : AOTDItemWithPerItemCooldown("wrist_crossbow") {
+class ItemWristCrossbow : AOTDItemWithPerItemCooldown("wrist_crossbow", Properties()) {
     init {
-        addPropertyOverride(ResourceLocation(Constants.MOD_ID, "is_loaded"))
-        { stack: ItemStack, _: World?, _: EntityLivingBase? ->
+        addPropertyOverride(ResourceLocation(Constants.MOD_ID, "is_loaded")) { stack: ItemStack, _: World?, _: EntityLivingBase? ->
             if (isOnCooldown(stack)) 0f else 1f
         }
     }
@@ -37,14 +37,19 @@ class ItemWristCrossbow : AOTDItemWithPerItemCooldown("wrist_crossbow") {
      * @param tooltip The tooltip to add to
      * @param flag  The flag telling us if advanced tooltips are on or off
      */
-    @SideOnly(Side.CLIENT)
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag) {
-        val player = Minecraft.getMinecraft().player
+    @OnlyIn(Dist.CLIENT)
+    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+        val player = Minecraft.getInstance().player
         if (player != null && player.getResearch().isResearched(ModResearches.WRIST_CROSSBOW)) {
-            tooltip.add(I18n.format(LocalizationConstants.Item.WRIST_CROSSBOW_TOOLTIP_HOW_TO_FIRE, ModKeybindings.FIRE_WRIST_CROSSBOW.displayName))
-            tooltip.add(I18n.format(LocalizationConstants.Item.WRIST_CROSSBOW_TOOLTIP_CHANGE_BOLT_TYPE, ModKeybindings.FIRE_WRIST_CROSSBOW.displayName))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.WRIST_CROSSBOW_TOOLTIP_HOW_TO_FIRE, ModKeybindings.FIRE_WRIST_CROSSBOW.key.name))
+            tooltip.add(
+                TextComponentTranslation(
+                    LocalizationConstants.Item.WRIST_CROSSBOW_TOOLTIP_CHANGE_BOLT_TYPE,
+                    ModKeybindings.FIRE_WRIST_CROSSBOW.key.name
+                )
+            )
         } else {
-            tooltip.add(I18n.format(LocalizationConstants.Item.TOOLTIP_DONT_KNOW_HOW_TO_USE))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }
 

@@ -2,45 +2,46 @@ package com.davidm1a2.afraidofthedark.client.particle
 
 import net.minecraft.client.Minecraft
 import net.minecraft.client.particle.IParticleFactory
+import net.minecraft.particles.BasicParticleType
 import net.minecraft.world.World
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * An class of AOTD particle types since we don't have a registry system for them yet from forge
  */
 object AOTDParticleRegistry {
     // A map of ID -> particle creator. This is used to instantiate the right particle for the id client side
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     private val PARTICLE_REGISTRY = mapOf(
-        ParticleTypes.ENARIA_BASIC_ATTACK_ID to IParticleFactory { _: Int, world: World, x: Double, y: Double, z: Double, _: Double, _: Double, _: Double, _: IntArray? ->
+        ParticleTypes.ENARIA_BASIC_ATTACK_ID to IParticleFactory { _: BasicParticleType?, world: World, x: Double, y: Double, z: Double, _: Double, _: Double, _: Double ->
             ParticleEnariaBasicAttack(world, x, y, z)
         },
-        ParticleTypes.ENARIA_SPELL_CAST_ID to IParticleFactory { _: Int, world: World, x: Double, y: Double, z: Double, _: Double, _: Double, _: Double, _: IntArray? ->
+        ParticleTypes.ENARIA_SPELL_CAST_ID to IParticleFactory { _: BasicParticleType?, world: World, x: Double, y: Double, z: Double, _: Double, _: Double, _: Double ->
             ParticleEnariaSpellCast(world, x, y, z)
         },
-        ParticleTypes.ENARIA_SPELL_CAST_2_ID to IParticleFactory { _: Int, world: World, x: Double, y: Double, z: Double, xSpeed: Double, _: Double, zSpeed: Double, _: IntArray? ->
+        ParticleTypes.ENARIA_SPELL_CAST_2_ID to IParticleFactory { _: BasicParticleType?, world: World, x: Double, y: Double, z: Double, xSpeed: Double, _: Double, zSpeed: Double ->
             ParticleEnariaSpellCast2(world, x, y, z, xSpeed, zSpeed)
         },
-        ParticleTypes.ENARIA_TELEPORT_ID to IParticleFactory { _: Int, world: World, x: Double, y: Double, z: Double, _: Double, _: Double, _: Double, _: IntArray? ->
+        ParticleTypes.ENARIA_TELEPORT_ID to IParticleFactory { _: BasicParticleType?, world: World, x: Double, y: Double, z: Double, _: Double, _: Double, _: Double ->
             ParticleEnariaTeleport(world, x, y, z)
         },
-        ParticleTypes.SPELL_CAST_ID to IParticleFactory { _: Int, world: World, x: Double, y: Double, z: Double, _: Double, _: Double, _: Double, _: IntArray? ->
+        ParticleTypes.SPELL_CAST_ID to IParticleFactory { _: BasicParticleType?, world: World, x: Double, y: Double, z: Double, _: Double, _: Double, _: Double ->
             ParticleSpellCast(world, x, y, z)
         },
-        ParticleTypes.SPELL_HIT_ID to IParticleFactory { _: Int, world: World, x: Double, y: Double, z: Double, _: Double, _: Double, _: Double, _: IntArray? ->
+        ParticleTypes.SPELL_HIT_ID to IParticleFactory { _: BasicParticleType?, world: World, x: Double, y: Double, z: Double, _: Double, _: Double, _: Double ->
             ParticleSpellHit(world, x, y, z)
         },
-        ParticleTypes.SMOKE_SCREEN_ID to IParticleFactory { _: Int, world: World, x: Double, y: Double, z: Double, _: Double, _: Double, _: Double, _: IntArray? ->
+        ParticleTypes.SMOKE_SCREEN_ID to IParticleFactory { _: BasicParticleType?, world: World, x: Double, y: Double, z: Double, _: Double, _: Double, _: Double ->
             ParticleSmokeScreen(world, x, y, z)
         },
-        ParticleTypes.SPELL_LASER to IParticleFactory { _: Int, world: World, x: Double, y: Double, z: Double, _: Double, _: Double, _: Double, _: IntArray? ->
+        ParticleTypes.SPELL_LASER to IParticleFactory { _: BasicParticleType?, world: World, x: Double, y: Double, z: Double, _: Double, _: Double, _: Double ->
             ParticleSpellLaser(world, x, y, z)
         },
-        ParticleTypes.ENCHANTED_FROG_SPAWN to IParticleFactory { _: Int, world: World, x: Double, y: Double, z: Double, xSpeed: Double, _: Double, zSpeed: Double, _: IntArray? ->
+        ParticleTypes.ENCHANTED_FROG_SPAWN to IParticleFactory { _: BasicParticleType?, world: World, x: Double, y: Double, z: Double, xSpeed: Double, _: Double, zSpeed: Double ->
             ParticleEnchantedFrogSpawn(world, x, y, z, xSpeed, zSpeed)
         },
-        ParticleTypes.ENARIAS_ALTAR to IParticleFactory { _: Int, world: World, x: Double, y: Double, z: Double, _: Double, _: Double, _: Double, _: IntArray? ->
+        ParticleTypes.ENARIAS_ALTAR to IParticleFactory { _: BasicParticleType?, world: World, x: Double, y: Double, z: Double, _: Double, _: Double, _: Double ->
             ParticleEnariasAltar(world, x, y, z)
         }
     )
@@ -57,7 +58,7 @@ object AOTDParticleRegistry {
      * @param ySpeed   The y speed of the particle
      * @param zSpeed   The z speed of the particle
      */
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     fun spawnParticle(
         particleId: ParticleTypes,
         world: World,
@@ -68,8 +69,8 @@ object AOTDParticleRegistry {
         ySpeed: Double,
         zSpeed: Double
     ) {
-        val particle = PARTICLE_REGISTRY[particleId]?.createParticle(0, world, x, y, z, xSpeed, ySpeed, zSpeed)
-        particle?.let { Minecraft.getMinecraft().effectRenderer.addEffect(it) }
+        val particle = PARTICLE_REGISTRY[particleId]?.makeParticle(null, world, x, y, z, xSpeed, ySpeed, zSpeed)
+        particle?.let { Minecraft.getInstance().particles.addEffect(it) }
     }
 
     // Public client and server side enum that can be sent around in packets to notify the clients to spawn particles in

@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.client.gui.guiScreens
 
-import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiHandler
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiClickAndDragable
 import com.davidm1a2.afraidofthedark.client.gui.base.SpriteSheetController
 import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
@@ -17,9 +16,8 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
-import com.davidm1a2.afraidofthedark.common.utility.openGui
 import net.minecraft.util.ResourceLocation
-import org.lwjgl.util.Color
+import java.awt.Color
 
 /**
  * The research GUI used by the blood stained journal to show what has been unlocked and what has not been unlocked
@@ -119,9 +117,9 @@ class BloodStainedJournalResearchGUI(isCheatSheet: Boolean) : AOTDGuiClickAndDra
                             ClientData.lastSelectedResearch = research
                             // If the research is researched show the page UI, otherwise show the pre-page UI
                             if (playerResearch.isResearched(research)) {
-                                entityPlayer.openGui(AOTDGuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID)
+                                //entityPlayer.openGui(AOTDGuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID)
                             } else if (research.preRequisite != null && playerResearch.isResearched(research.preRequisite)) {
-                                entityPlayer.openGui(AOTDGuiHandler.BLOOD_STAINED_JOURNAL_PAGE_PRE_ID)
+                                //entityPlayer.openGui(AOTDGuiHandler.BLOOD_STAINED_JOURNAL_PAGE_PRE_ID)
                             }
                         } else {
                             // If this research can be researched unlock it
@@ -130,7 +128,7 @@ class BloodStainedJournalResearchGUI(isCheatSheet: Boolean) : AOTDGuiClickAndDra
                                 playerResearch.sync(entityPlayer, false)
                             }
                             // Add a connector to any new researches that are available
-                            for (possibleResearch in ModRegistries.RESEARCH.valuesCollection) {
+                            for (possibleResearch in ModRegistries.RESEARCH.getValues()) {
                                 if (possibleResearch.preRequisite == research) {
                                     addConnector(possibleResearch)
                                     addResearchButton(possibleResearch)
@@ -143,14 +141,14 @@ class BloodStainedJournalResearchGUI(isCheatSheet: Boolean) : AOTDGuiClickAndDra
         }
 
         // Go over all known researches and add a connector for each that has a known pre-requisite
-        ModRegistries.RESEARCH.valuesCollection.stream()
+        ModRegistries.RESEARCH.getValues()
             // We can only draw connectors if we have a pre-requisite
             .filter { it.preRequisite != null }
             // Only add the connectors if we know if the previous research or the current research
             .filter { playerResearch.isResearched(it) || playerResearch.canResearch(it) }
             .forEach { addConnector(it) }
         // Now that we have all connectors added add each research node on top to ensure correct z-layer order
-        ModRegistries.RESEARCH.valuesCollection.stream()
+        ModRegistries.RESEARCH.getValues()
             // Only add the node if we know if the previous research or the current research
             .filter { playerResearch.isResearched(it) || playerResearch.canResearch(it) }
             .forEach { addResearchButton(it) }
@@ -249,12 +247,13 @@ class BloodStainedJournalResearchGUI(isCheatSheet: Boolean) : AOTDGuiClickAndDra
      *
      * @param mouseX            The mouse X position
      * @param mouseY            The mouse Y position
-     * @param lastButtonClicked The last button clicked
-     * @param timeBetweenClicks The time between the last click
+     * @param mouseXTo The position we are dragging the x from
+     * @param mouseYTo The position we are dragging the y from
      */
-    override fun mouseClickMove(mouseX: Int, mouseY: Int, lastButtonClicked: Int, timeBetweenClicks: Long) {
+    override fun mouseDragged(mouseX: Double, mouseY: Double, lastButtonClicked: Int, mouseXTo: Double, mouseYTo: Double): Boolean {
         // Call the super method
-        super.mouseClickMove(mouseX, mouseY, lastButtonClicked, timeBetweenClicks)
+        val toReturn = super.mouseDragged(mouseX, mouseY, lastButtonClicked, mouseXTo, mouseYTo)
+
         // Update the research tree's X and Y coordinates
         researchNodes.setX(-guiOffsetX + researchNodes.parent!!.getX())
         researchNodes.setY(-guiOffsetY + researchNodes.parent!!.getY())
@@ -263,6 +262,8 @@ class BloodStainedJournalResearchGUI(isCheatSheet: Boolean) : AOTDGuiClickAndDra
         // Set the scroll background U and V
         scrollBackground.u = guiOffsetX + (scrollBackground.getMaxTextureWidth() - scrollBackground.getWidth()) / 2
         scrollBackground.v = guiOffsetY + (scrollBackground.getMaxTextureHeight() - scrollBackground.getHeight())
+
+        return toReturn
     }
 
     /**

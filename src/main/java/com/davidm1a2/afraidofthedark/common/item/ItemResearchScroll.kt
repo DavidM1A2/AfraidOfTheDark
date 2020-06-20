@@ -8,13 +8,14 @@ import com.davidm1a2.afraidofthedark.common.registry.research.Research
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.client.resources.I18n
 import net.minecraft.client.util.ITooltipFlag
-import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
 import net.minecraft.util.EnumHand
 import net.minecraft.util.NonNullList
 import net.minecraft.util.ResourceLocation
+import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.world.World
 
@@ -23,18 +24,18 @@ import net.minecraft.world.World
  *
  * @constructor
  */
-class ItemResearchScroll : AOTDItem("research_scroll") {
+class ItemResearchScroll : AOTDItem("research_scroll", Properties()) {
     /**
      * Get a list of sub-items which is one item per research
      *
-     * @param tab   The creative tab to get sub-items for
+     * @param group The creative tab to get sub-items for
      * @param items The sub-items
      */
-    override fun getSubItems(tab: CreativeTabs, items: NonNullList<ItemStack>) {
-        if (isInCreativeTab(tab)) {
+    override fun fillItemGroup(group: ItemGroup, items: NonNullList<ItemStack>) {
+        if (isInGroup(group)) {
             // Add one itemstack for each research
             for (research in ModRegistries.RESEARCH) {
-                val itemStack = ItemStack(this, 1, 0)
+                val itemStack = ItemStack(this, 1)
                 setScrollResearch(itemStack, research)
                 items.add(itemStack)
             }
@@ -100,23 +101,28 @@ class ItemResearchScroll : AOTDItem("research_scroll") {
      * @param tooltip The tooltip of the research
      * @param flag  If the advanced details is on or off
      */
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag) {
+    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         val scrollResearch = getScrollResearch(stack)
         if (scrollResearch != null) {
             if (isPart(stack)) {
                 tooltip.add(
-                    I18n.format(
+                    TextComponentTranslation(
                         LocalizationConstants.Item.RESEARCH_SCROLL_TOOLTIP_PART,
                         getPartNumber(stack),
                         getNumberParts(stack),
-                        I18n.format(scrollResearch.getUnlocalizedName())
+                        TextComponentTranslation(scrollResearch.getUnlocalizedName())
                     )
                 )
             } else {
-                tooltip.add(I18n.format(LocalizationConstants.Item.RESEARCH_SCROLL_TOOLTIP_COMPLETE, I18n.format(scrollResearch.getUnlocalizedName())))
+                tooltip.add(
+                    TextComponentTranslation(
+                        LocalizationConstants.Item.RESEARCH_SCROLL_TOOLTIP_COMPLETE,
+                        I18n.format(scrollResearch.getUnlocalizedName())
+                    )
+                )
             }
         } else {
-            tooltip.add(I18n.format(LocalizationConstants.Item.RESEARCH_SCROLL_TOOLTIP_CORRUPT))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.RESEARCH_SCROLL_TOOLTIP_CORRUPT))
         }
     }
 

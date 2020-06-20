@@ -37,7 +37,7 @@ class SpellDeliveryMethodDelay : AOTDSpellDeliveryMethod(ResourceLocation(Consta
      */
     override fun executeDelivery(state: DeliveryTransitionState) {
         // Delayed adds this spell to the queue to wait
-        val spellStateData = SpellStateData.get(state.world)
+        val spellStateData = SpellStateData.get()
         spellStateData.addDelayedDelivery(state)
     }
 

@@ -1,12 +1,13 @@
 package com.davidm1a2.afraidofthedark.common.worldGeneration
 
 import net.minecraft.block.state.IBlockState
-import net.minecraft.init.Blocks
+import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.minecraft.world.WorldType
 import net.minecraft.world.chunk.Chunk
-import net.minecraft.world.chunk.storage.ExtendedBlockStorage
+import net.minecraft.world.chunk.ChunkSection
+import net.minecraft.world.gen.Heightmap
 import net.minecraftforge.common.util.BlockSnapshot
 
 /**
@@ -29,12 +30,12 @@ object WorldGenFast {
 
         @Suppress("NAME_SHADOWING")
         var pos = pos
-        return if (world.isOutsideBuildHeight(pos)) {
+        return if (World.isOutsideBuildHeight(pos)) {
             false
         } else if (!world.isRemote && world.worldInfo.terrainType == WorldType.DEBUG_ALL_BLOCK_STATES) {
             false
         } else {
-            val chunk = world.getChunkFromBlockCoords(pos)
+            val chunk = world.getChunk(pos)
             pos = pos.toImmutable() // Forge - prevent mutable BlockPos leaks
             var blockSnapshot: BlockSnapshot? = null
             if (world.captureBlockSnapshots && !world.isRemote) {
@@ -50,7 +51,7 @@ object WorldGenFast {
              */
 
             // We need to modify how the chunk sets block state too, call our internal chunk set block state
-            val iblockstate = setChunkBlockStateFast(chunk, pos, newState)
+            val iblockstate = setChunkBlockStateFast(chunk, pos, newState, (flags and 64) != 0)
             if (iblockstate == null) {
                 if (blockSnapshot != null) {
                     world.capturedBlockSnapshots.remove(blockSnapshot)
@@ -85,7 +86,7 @@ object WorldGenFast {
      * @param state The state to set
      * @return The set block state or null if the state wasn't set
      */
-    private fun setChunkBlockStateFast(chunk: Chunk, pos: BlockPos, state: IBlockState): IBlockState? {
+    private fun setChunkBlockStateFast(chunk: Chunk, pos: BlockPos, state: IBlockState, isMoving: Boolean): IBlockState? {
         val i = pos.x and 15
         val j = pos.y
         val k = pos.z and 15
@@ -117,18 +118,18 @@ object WorldGenFast {
             int k1 = iblockstate.getLightOpacity(chunk.getWorld(), pos); // Relocate old light value lookup here, so that it is called before TE is removed.
              */
 
-            var extendedblockstorage = chunk.blockStorageArray[j shr 4]
+            var chunksection = chunk.sections[j shr 4]
 
             /*
             This flag is used for height tests, ignore it too
             boolean flag = false;
              */
-            if (extendedblockstorage == Chunk.NULL_BLOCK_STORAGE) {
-                if (block == Blocks.AIR) {
+            if (chunksection == Chunk.EMPTY_SECTION) {
+                if (state.isAir) {
                     return null
                 }
-                extendedblockstorage = ExtendedBlockStorage(j shr 4 shl 4, chunk.world.provider.hasSkyLight())
-                chunk.blockStorageArray[j shr 4] = extendedblockstorage
+                chunksection = ChunkSection(j shr 4 shl 4, chunk.world.dimension.hasSkyLight())
+                chunk.sections[j shr 4] = chunksection
 
                 /*
                     This flag is used for height tests as mentioned above
@@ -136,30 +137,24 @@ object WorldGenFast {
                  */
             }
 
-            extendedblockstorage[i, j and 15, k] = state
+            chunksection[i, j and 15, k] = state
+
+            chunksection.set(i, j and 15, k, state)
+            chunk.getHeightmap(Heightmap.Type.MOTION_BLOCKING).update(i, j, k, state)
+            chunk.getHeightmap(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES).update(i, j, k, state)
+            chunk.getHeightmap(Heightmap.Type.OCEAN_FLOOR).update(i, j, k, state)
+            chunk.getHeightmap(Heightmap.Type.WORLD_SURFACE).update(i, j, k, state)
 
             //if (block1 != block)
             run {
                 if (!chunk.world.isRemote) {
-                    if (block1 !== block) //Only fire block breaks when the block changes.
-                    {
-                        block1.breakBlock(chunk.world, pos, iblockstate)
-                    }
-
-                    val te = chunk.getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK)
-
-                    if (te != null && te.shouldRefresh(chunk.world, pos, iblockstate, state)) {
-                        chunk.world.removeTileEntity(pos)
-                    }
-                } else if (block1.hasTileEntity(iblockstate)) {
-                    val te = chunk.getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK)
-                    if (te != null && te.shouldRefresh(chunk.world, pos, iblockstate, state)) {
-                        chunk.world.removeTileEntity(pos)
-                    }
+                    iblockstate.onReplaced(chunk.world, pos, state, isMoving)
+                } else if (block1 !== block && iblockstate.hasTileEntity()) {
+                    chunk.world.removeTileEntity(pos)
                 }
             }
 
-            if (extendedblockstorage[i, j and 15, k].block !== block) {
+            if (chunksection[i, j and 15, k].block !== block) {
                 null
             } else {
                 /*
@@ -191,23 +186,26 @@ object WorldGenFast {
                 }
                  */
 
-                // If capturing blocks, only run block physics for TE's. Non-TE's are handled in ForgeHooks.onPlaceItemIntoWorld
-                if (!chunk.world.isRemote && block1 !== block && (!chunk.world.captureBlockSnapshots || block.hasTileEntity(
-                        state
-                    ))
-                ) {
-                    block.onBlockAdded(chunk.world, pos, state)
+                if (iblockstate.hasTileEntity()) {
+                    chunk.getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK)?.updateContainingBlockInfo()
                 }
-                if (block.hasTileEntity(state)) {
-                    var tileentity1 = chunk.getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK)
+
+                if (!chunk.world.isRemote) {
+                    state.onBlockAdded(chunk.world, pos, iblockstate)
+                }
+
+                if (state.hasTileEntity()) {
+                    var tileentity1: TileEntity? = chunk.getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK)
                     if (tileentity1 == null) {
-                        tileentity1 = block.createTileEntity(chunk.world, state)
+                        tileentity1 = state.createTileEntity(chunk.world)
                         chunk.world.setTileEntity(pos, tileentity1)
+                    } else {
+                        tileentity1.updateContainingBlockInfo()
                     }
-                    tileentity1?.updateContainingBlockInfo()
                 }
+
                 chunk.markDirty()
-                iblockstate
+                return iblockstate
             }
         }
     }

@@ -35,6 +35,7 @@ import net.minecraft.init.Items
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagList
 import net.minecraft.nbt.NBTTagString
+import net.minecraft.util.EnumHand
 import net.minecraftforge.fml.client.registry.ClientRegistry
 import net.minecraftforge.fml.client.registry.RenderingRegistry
 
@@ -91,7 +92,7 @@ class ClientProxy : IProxy {
     override fun showInsanitysHeightsBook(entityPlayer: EntityPlayer) {
         // A hint book itemstack used purely to open the book GUI, it's never actually given to the player
         val hintBook = createHintBook()
-        Minecraft.getMinecraft().displayGuiScreen(GuiScreenBook(entityPlayer, hintBook, false))
+        Minecraft.getInstance().displayGuiScreen(GuiScreenBook(entityPlayer, hintBook, false, EnumHand.MAIN_HAND))
     }
 
     /**
@@ -100,11 +101,11 @@ class ClientProxy : IProxy {
      * @return The itemstack representing the hint book
      */
     private fun createHintBook(): ItemStack {
-        val toReturn = ItemStack(Items.WRITTEN_BOOK, 1, 0)
+        val toReturn = ItemStack(Items.WRITTEN_BOOK, 1)
         NBTHelper.setString(toReturn, "title", I18n.format("nightmarebook.title"))
         NBTHelper.setString(toReturn, "author", I18n.format("nightmarebook.author"))
         NBTHelper.setBoolean(toReturn, "resolved", true)
-        toReturn.tagCompound!!.setTag("pages", createPages())
+        toReturn.tag!!.setTag("pages", createPages())
         return toReturn
     }
 
@@ -117,7 +118,7 @@ class ClientProxy : IProxy {
         val pages = NBTTagList()
         val bookText = I18n.format("nightmarebook.text").split(";;")
         bookText.forEach {
-            pages.appendTag(NBTTagString(it))
+            pages.add(NBTTagString(it))
         }
         return pages
     }

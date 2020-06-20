@@ -4,8 +4,8 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import net.minecraft.client.Minecraft
 import net.minecraft.potion.Potion
 import net.minecraft.util.ResourceLocation
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 import java.awt.Color
 
 /**
@@ -23,7 +23,6 @@ open class AOTDPotion(name: String, registryName: String, indexX: Int, indexY: I
     Potion(isBad, color.hashCode()) {
     init {
         this.setRegistryName("${Constants.MOD_ID}:$registryName")
-        setPotionName(name)
         setIconIndex(indexX, indexY)
     }
 
@@ -32,9 +31,9 @@ open class AOTDPotion(name: String, registryName: String, indexX: Int, indexY: I
      *
      * @return The index of our custom potion texture sheet
      */
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     override fun getStatusIconIndex(): Int {
-        Minecraft.getMinecraft().textureManager.bindTexture(AOTD_POTION_TEXTURES)
+        Minecraft.getInstance().textureManager.bindTexture(AOTD_POTION_TEXTURES)
         return super.getStatusIconIndex()
     }
 

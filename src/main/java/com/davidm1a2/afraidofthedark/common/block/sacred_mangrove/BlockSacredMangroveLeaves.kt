@@ -2,8 +2,11 @@ package com.davidm1a2.afraidofthedark.common.block.sacred_mangrove
 
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDBlockLeaves
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
+import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
-import net.minecraft.item.Item
+import net.minecraft.util.IItemProvider
+import net.minecraft.util.math.BlockPos
+import net.minecraft.world.World
 import java.util.*
 
 /**
@@ -11,26 +14,12 @@ import java.util.*
  *
  * @constructor just sets the name of the block
  */
-class BlockSacredMangroveLeaves : AOTDBlockLeaves("sacred_mangrove_leaves") {
-    /**
-     * We override the item dropped to be a sacred mangrove sapling
-     *
-     * @param state   The block state of the broken leaf block
-     * @param rand    A random object which is ignored
-     * @param fortune The fortune level that the leaf block was mined with
-     * @return A sacred mangrove sapling
-     */
-    override fun getItemDropped(state: IBlockState, rand: Random, fortune: Int): Item {
-        return Item.getItemFromBlock(ModBlocks.SACRED_MANGROVE_SAPLING)
+class BlockSacredMangroveLeaves : AOTDBlockLeaves("sacred_mangrove_leaves", Properties.create(Material.LEAVES)) {
+    override fun getItemDropped(state: IBlockState, world: World, blockPos: BlockPos, fortune: Int): IItemProvider {
+        return ModBlocks.SACRED_MANGROVE_SAPLING
     }
 
-    /**
-     * Returns the quantity of items to drop on block destruction
-     *
-     * @param random The random object to use to pick a quantity
-     * @return 0 since sacred mangrove leaves don't drop saplings.
-     */
-    override fun quantityDropped(random: Random): Int {
+    override fun getItemsToDropCount(state: IBlockState, fortune: Int, world: World, blockPos: BlockPos, random: Random): Int {
         return 0
     }
 }

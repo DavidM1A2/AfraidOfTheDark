@@ -7,4 +7,4 @@ import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
  *
  * @constructor initializes the item name
  */
-class ItemPowerCore : AOTDItem("power_core")
+class ItemPowerCore : AOTDItem("power_core", Properties())

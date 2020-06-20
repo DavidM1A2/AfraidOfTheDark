@@ -29,7 +29,7 @@ class SpellEffectCleanse : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "c
 
             // Clear potion effects
             if (entity is EntityLivingBase) {
-                entity.clearActivePotions()
+                entity.activePotionMap.clear()
             }
 
             // Unfreeze and uncharm the player

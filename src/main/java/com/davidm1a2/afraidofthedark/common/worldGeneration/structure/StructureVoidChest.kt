@@ -1,10 +1,10 @@
 package com.davidm1a2.afraidofthedark.common.worldGeneration.structure
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.world.IHeightmap
 import com.davidm1a2.afraidofthedark.common.capabilities.world.OverworldHeightmap
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
+import com.davidm1a2.afraidofthedark.common.constants.ModServerConfiguration
 import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator.generateSchematic
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.iterator.InteriorChunkIterator
@@ -16,7 +16,7 @@ import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.world.World
-import net.minecraft.world.biome.BiomeProvider
+import net.minecraft.world.biome.provider.BiomeProvider
 import kotlin.math.max
 import kotlin.math.min
 
@@ -64,7 +64,7 @@ class StructureVoidChest : AOTDStructure("void_chest") {
                 }
                 // 0.2% chance to generate in any chunks this fits in
                 else {
-                    0.002 * AfraidOfTheDark.INSTANCE.configurationHandler.voidChestMultiplier
+                    0.002 * ModServerConfiguration.voidChestMultiplier
                 }
             }
 
@@ -109,7 +109,7 @@ class StructureVoidChest : AOTDStructure("void_chest") {
         // Set the schematic's position to the lowest point in the chunk
         blockPos = BlockPos(blockPos.x, groundLevel - 7, blockPos.z)
         // Update the NBT
-        compound.setTag(NBT_POSITION, NBTUtil.createPosTag(blockPos))
+        compound.setTag(NBT_POSITION, NBTUtil.writeBlockPos(blockPos))
 
         return compound
     }
@@ -131,15 +131,13 @@ class StructureVoidChest : AOTDStructure("void_chest") {
     companion object {
         // A set of compatible biomes
         private val COMPATIBLE_BIOMES = setOf(
-            Biomes.COLD_BEACH,
-            Biomes.COLD_TAIGA,
-            Biomes.COLD_TAIGA_HILLS,
-            Biomes.MUTATED_TAIGA_COLD,
+            Biomes.SNOWY_BEACH,
+            Biomes.SNOWY_TAIGA,
+            Biomes.SNOWY_TAIGA_HILLS,
+            Biomes.SNOWY_TUNDRA,
             Biomes.FROZEN_OCEAN,
             Biomes.FROZEN_RIVER,
-            Biomes.ICE_PLAINS,
-            Biomes.ICE_MOUNTAINS,
-            Biomes.MUTATED_ICE_FLATS
+            Biomes.ICE_SPIKES
         )
     }
 }

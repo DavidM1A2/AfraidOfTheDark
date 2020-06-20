@@ -4,7 +4,9 @@ import com.davidm1a2.afraidofthedark.common.block.core.AOTDBlock
 import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
 import net.minecraft.init.Blocks
-import net.minecraft.item.Item
+import net.minecraft.util.IItemProvider
+import net.minecraft.util.math.BlockPos
+import net.minecraft.world.World
 import java.util.*
 import kotlin.math.max
 
@@ -13,28 +15,17 @@ import kotlin.math.max
  *
  * @constructor sets the item name and makes it glow
  */
-class BlockGlowStalk : AOTDBlock("glow_stalk", Material.GROUND) {
-    init {
-        setLightLevel(1.0f)
-        setHardness(1.0f)
-        setResistance(4.0f)
+class BlockGlowStalk : AOTDBlock(
+    "glow_stalk",
+    Properties.create(Material.GROUND)
+        .lightValue(1)
+        .hardnessAndResistance(1.0f, 4.0f)
+) {
+    override fun getItemDropped(state: IBlockState, world: World, blockPos: BlockPos, fortune: Int): IItemProvider {
+        return if (kotlin.random.Random.nextBoolean()) Blocks.BROWN_MUSHROOM else Blocks.RED_MUSHROOM
     }
 
-    /**
-     * Returns the quantity of items to drop on block destruction.
-     *
-     * @return The same value as vanilla hugh mushroom blocks
-     */
-    override fun quantityDropped(random: Random): Int {
-        return max(0, random.nextInt(10) - 7)
-    }
-
-    /**
-     * Get the Item that this Block should drop when harvested.
-     *
-     * @return The item dropped which will be either brown or red mushroom randomly picked
-     */
-    override fun getItemDropped(state: IBlockState, rand: Random, fortune: Int): Item {
-        return Item.getItemFromBlock(if (rand.nextBoolean()) Blocks.BROWN_MUSHROOM else Blocks.RED_MUSHROOM)
+    override fun getItemsToDropCount(state: IBlockState, fortune: Int, world: World, blockPos: BlockPos, rand: Random): Int {
+        return max(0, rand.nextInt(10) - 7)
     }
 }

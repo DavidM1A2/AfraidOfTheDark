@@ -11,11 +11,10 @@ import net.minecraft.util.ResourceLocation
  * @constructor just passes on the id and factory
  * @param id      The ID of this delivery method entry
  */
-abstract class SpellEffect(id: ResourceLocation) :
-    SpellComponent<SpellEffect>(
-        id,
-        ResourceLocation(id.resourceDomain, "textures/gui/spell_component/effects/${id.resourcePath}.png")
-    ) {
+abstract class SpellEffect(id: ResourceLocation) : SpellComponent<SpellEffect>(
+    id,
+    ResourceLocation(id.namespace, "textures/gui/spell_component/effects/${id.path}.png")
+) {
     /**
      * Performs the effect
      *

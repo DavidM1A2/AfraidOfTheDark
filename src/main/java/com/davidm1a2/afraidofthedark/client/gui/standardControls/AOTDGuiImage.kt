@@ -70,14 +70,14 @@ class AOTDGuiImage(
             // Enable alpha blending
             GlStateManager.enableBlend()
             // Set the color
-            GlStateManager.color(
+            GlStateManager.color4f(
                 this.color.red / 255f,
                 this.color.green / 255f,
                 this.color.blue / 255f,
                 this.color.alpha / 255f
             )
             // Bind the texture to render
-            Minecraft.getMinecraft().textureManager.bindTexture(this.imageTexture)
+            Minecraft.getInstance().textureManager.bindTexture(this.imageTexture)
             // If the texture width and height are both -1, then we assume the image's size is this control's size
             if (textureHeight == -1 || textureWidth == -1) {
                 Gui.drawModalRectWithCustomSizedTexture(

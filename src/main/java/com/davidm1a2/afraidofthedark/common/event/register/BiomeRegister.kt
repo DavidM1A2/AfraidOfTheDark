@@ -1,13 +1,13 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
+import com.davidm1a2.afraidofthedark.common.constants.ModServerConfiguration
 import net.minecraft.world.biome.Biome
 import net.minecraftforge.common.BiomeDictionary
 import net.minecraftforge.common.BiomeManager
 import net.minecraftforge.common.BiomeManager.BiomeEntry
 import net.minecraftforge.event.RegistryEvent
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.minecraftforge.eventbus.api.SubscribeEvent
 
 /**
  * Class used to register biomes
@@ -22,17 +22,15 @@ class BiomeRegister {
     fun registerBiomes(event: RegistryEvent.Register<Biome>) {
         // Register the forest biome to our event
         event.registry.registerAll(*ModBiomes.BIOME_LIST)
-        // Grab our configuration
-        val configurationHandler = AfraidOfTheDark.INSTANCE.configurationHandler
 
         // Make sure the eerie forest can generate in warm and cool biomes
         BiomeManager.addBiome(
             BiomeManager.BiomeType.COOL,
-            BiomeEntry(ModBiomes.EERIE_FOREST, configurationHandler.eerieBiomeFrequency)
+            BiomeEntry(ModBiomes.EERIE_FOREST, ModServerConfiguration.eerieBiomeFrequency)
         )
         BiomeManager.addBiome(
             BiomeManager.BiomeType.WARM,
-            BiomeEntry(ModBiomes.EERIE_FOREST, configurationHandler.eerieBiomeFrequency)
+            BiomeEntry(ModBiomes.EERIE_FOREST, ModServerConfiguration.eerieBiomeFrequency)
         )
         // Make sure the eerie forest is registered as being compatible with forests, coniferous, and plains types
         BiomeDictionary.addTypes(

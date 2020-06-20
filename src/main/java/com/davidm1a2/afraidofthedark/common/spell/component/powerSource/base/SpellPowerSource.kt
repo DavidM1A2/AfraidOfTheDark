@@ -14,7 +14,7 @@ import net.minecraft.util.ResourceLocation
 abstract class SpellPowerSource(id: ResourceLocation) :
     SpellComponent<SpellPowerSource>(
         id,
-        ResourceLocation(id.resourceDomain, "textures/gui/spell_component/power_sources/${id.resourcePath}.png")
+        ResourceLocation(id.namespace, "textures/gui/spell_component/power_sources/${id.path}.png")
     ) {
     /**
      * True if the given spell can be cast, false otherwise

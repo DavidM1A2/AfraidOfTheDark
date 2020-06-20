@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.common.event.register
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
 import net.minecraftforge.event.RegistryEvent
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.minecraftforge.eventbus.api.SubscribeEvent
 
 /**
  * Class that receives the register research event and registers all of our researches

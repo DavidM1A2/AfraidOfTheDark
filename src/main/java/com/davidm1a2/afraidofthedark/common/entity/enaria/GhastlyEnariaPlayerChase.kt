@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.entity.enaria
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
+import com.davidm1a2.afraidofthedark.common.constants.ModServerConfiguration
 import net.minecraft.entity.SharedMonsterAttributes
 import net.minecraft.entity.ai.EntityAIBase
 import net.minecraft.entity.player.EntityPlayer
@@ -39,7 +39,7 @@ class GhastlyEnariaPlayerChase(private val enaria: EntityGhastlyEnaria) : Entity
      * Executes the task. Finds a nearby player and follows them
      */
     override fun startExecuting() {
-        val distanceBetweenIslands = AfraidOfTheDark.INSTANCE.configurationHandler.blocksBetweenIslands
+        val distanceBetweenIslands = ModServerConfiguration.blocksBetweenIslands
 
         // If the target player is null try and find a nearby player
         if (targetPlayer == null) {
@@ -47,8 +47,8 @@ class GhastlyEnariaPlayerChase(private val enaria: EntityGhastlyEnaria) : Entity
         }
 
         // If there are no players nearby kill enaria
-        if (targetPlayer == null || targetPlayer!!.isDead) {
-            enaria.setDead()
+        if (targetPlayer == null || !targetPlayer!!.isAlive) {
+            enaria.remove()
         } else {
             // Otherwise follow the player if not benign
             if (!enaria.isBenign()) {
@@ -58,7 +58,7 @@ class GhastlyEnariaPlayerChase(private val enaria: EntityGhastlyEnaria) : Entity
                         targetPlayer!!.posX,
                         targetPlayer!!.posY,
                         targetPlayer!!.posZ,
-                        enaria.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).attributeValue
+                        enaria.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).value
                     )
             }
 

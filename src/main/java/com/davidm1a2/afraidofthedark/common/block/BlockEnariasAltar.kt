@@ -1,12 +1,10 @@
 package com.davidm1a2.afraidofthedark.common.block
 
-import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiHandler
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDBlockTileEntity
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.tileEntity.enariasAltar.TileEntityEnariasAltar
-import com.davidm1a2.afraidofthedark.common.utility.openGui
 import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.player.EntityPlayer
@@ -15,6 +13,7 @@ import net.minecraft.util.EnumFacing
 import net.minecraft.util.EnumHand
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.text.TextComponentTranslation
+import net.minecraft.world.IBlockReader
 import net.minecraft.world.World
 
 /**
@@ -22,31 +21,16 @@ import net.minecraft.world.World
  *
  * @constructor sets the block's properties
  */
-class BlockEnariasAltar : AOTDBlockTileEntity("enarias_altar", Material.PORTAL) {
-    init {
-        setLightLevel(1.0f)
-        setResistance(Float.MAX_VALUE)
-        setBlockUnbreakable()
-    }
-
-    /**
-     * Called when the block is right clicked
-     *
-     * @param worldIn  The world the block is in
-     * @param pos      The position the block is at
-     * @param state    The state of the block that is right clicked
-     * @param playerIn The player that right clicked the block
-     * @param hand     The hand that was used to right click
-     * @param facing   The side of the block that was right clicked
-     * @param hitX     The X position of the block that was right clicked
-     * @param hitY     The Y position of the block that was right clicked
-     * @param hitZ     The Z position of the block that was right clicked
-     * @return True to cancel processing
-     */
+class BlockEnariasAltar : AOTDBlockTileEntity(
+    "enarias_altar",
+    Properties.create(Material.PORTAL)
+        .lightValue(1)
+        .hardnessAndResistance(50.0f, 1200.0f)
+) {
     override fun onBlockActivated(
+        state: IBlockState,
         worldIn: World,
         pos: BlockPos,
-        state: IBlockState,
         playerIn: EntityPlayer,
         hand: EnumHand,
         facing: EnumFacing,
@@ -67,7 +51,7 @@ class BlockEnariasAltar : AOTDBlockTileEntity("enarias_altar", Material.PORTAL) 
         } else {
             // If the player has the right research show the gui
             if (playerResearch.isResearched(ModResearches.ENARIAS_SECRET)) {
-                playerIn.openGui(AOTDGuiHandler.SPELL_LIST_ID)
+                // playerIn.openGui(AOTDGuiHandler.SPELL_LIST_ID)
             } else {
                 playerIn.sendMessage(TextComponentTranslation(LocalizationConstants.EnariasAltar.NO_RESEARCH))
             }
@@ -75,34 +59,11 @@ class BlockEnariasAltar : AOTDBlockTileEntity("enarias_altar", Material.PORTAL) 
         return true
     }
 
-    /**
-     * This block is not a full cube, it has a special model
-     *
-     * @param state The state of the block
-     * @return False, this is not a full cube
-     */
     override fun isFullCube(state: IBlockState): Boolean {
         return false
     }
 
-    /**
-     * False, this block lets light through
-     *
-     * @param state The block state to test
-     * @return False since the block lets light through
-     */
-    override fun isOpaqueCube(state: IBlockState): Boolean {
-        return false
-    }
-
-    /**
-     * Creates a tile entity that monitors for nearby players
-     *
-     * @param worldIn The world the block is in
-     * @param meta    The block's metadata value
-     * @return The dark forest tile entity instance
-     */
-    override fun createNewTileEntity(worldIn: World, meta: Int): TileEntity {
+    override fun createTileEntity(state: IBlockState, world: IBlockReader): TileEntity {
         return TileEntityEnariasAltar()
     }
 }

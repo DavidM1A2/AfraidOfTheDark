@@ -7,6 +7,7 @@ package com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
+import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.animation.ChannelAttack
@@ -17,8 +18,8 @@ import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedMode
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
 import com.davidm1a2.afraidofthedark.common.item.ItemBladeOfExhumation
-import com.davidm1a2.afraidofthedark.common.packets.animationPackets.SyncAnimation
-import net.minecraft.block.Block
+import com.davidm1a2.afraidofthedark.common.packets.animationPackets.AnimationPacket
+import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.Entity
 import net.minecraft.entity.SharedMonsterAttributes
 import net.minecraft.entity.ai.*
@@ -35,7 +36,7 @@ import net.minecraft.util.DamageSource
 import net.minecraft.util.SoundEvent
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
-import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint
+import net.minecraftforge.fml.network.PacketDistributor
 
 /**
  * Class representing an enchanted skeleton entity
@@ -45,7 +46,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint
  * @property animHandler The animation handler used to manage animations
  * @property hasPlayedSpawnAnimation Flag telling us if we have played the spawn animation yet or not
  */
-class EntityEnchantedSkeleton(world: World) : EntityMob(world), IMCAnimatedModel {
+class EntityEnchantedSkeleton(world: World) : EntityMob(ModEntities.ENCHANTED_SKELETON, world), IMCAnimatedModel {
     private val animHandler = AnimationHandler(
         ChannelWalk("Walk", 20.0f, 40, ChannelMode.LINEAR),
         ChannelAttack("Attack", 30.0f, 20, ChannelMode.LINEAR),
@@ -86,8 +87,8 @@ class EntityEnchantedSkeleton(world: World) : EntityMob(world), IMCAnimatedModel
     /**
      * Sets entity attributes such as max health and movespeed
      */
-    override fun applyEntityAttributes() {
-        super.applyEntityAttributes()
+    override fun registerAttributes() {
+        super.registerAttributes()
         attributeMap.getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH).baseValue = MAX_HEALTH.toDouble()
         attributeMap.getAttributeInstance(SharedMonsterAttributes.FOLLOW_RANGE).baseValue = FOLLOW_RANGE.toDouble()
         attributeMap.getAttributeInstance(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).baseValue =
@@ -99,8 +100,8 @@ class EntityEnchantedSkeleton(world: World) : EntityMob(world), IMCAnimatedModel
     /**
      * Update animations for this entity when update is called
      */
-    override fun onUpdate() {
-        super.onUpdate()
+    override fun tick() {
+        super.tick()
         // Animations only update client side
         if (world.isRemote) {
             animHandler.update()
@@ -110,17 +111,17 @@ class EntityEnchantedSkeleton(world: World) : EntityMob(world), IMCAnimatedModel
     /**
      * Called every game tick for the entity
      */
-    override fun onEntityUpdate() {
+    override fun baseTick() {
         // Don't forget to call super!
-        super.onEntityUpdate()
+        super.baseTick()
         // If we're server side
         if (!world.isRemote) {
             // If we haven't played the spawn animation yet, play it now
             if (!hasPlayedSpawnAnimation) {
                 // Tell clients to show the spawn animation
-                AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(
-                    SyncAnimation("Spawn", this),
-                    TargetPoint(dimension, posX, posY, posZ, 50.0)
+                AfraidOfTheDark.packetHandler.sendToAllAround(
+                    AnimationPacket(this, "Spawn"),
+                    PacketDistributor.TargetPoint(posX, posY, posZ, 50.0, dimension)
                 )
 
                 // Give the skeleton slowness and weakness for 3 seconds with level 100 so it can't do anything while spawning
@@ -200,11 +201,11 @@ class EntityEnchantedSkeleton(world: World) : EntityMob(world), IMCAnimatedModel
      */
     override fun dropFewItems(wasRecentlyHit: Boolean, lootingModifier: Int) {
         // Drop exactly 3 bones, because 4 bones cause another skeleton to spawn
-        dropItem(this.dropItem, 3)
+        entityDropItem(this.dropItem, 3)
 
         // Have a 5% chance to drop a heart, increased by 5% per looting level
         if (rand.nextDouble() < 0.05 + 0.05 * lootingModifier) {
-            dropItem(ModItems.CURSED_HEART, 1)
+            entityDropItem(ModItems.CURSED_HEART, 1)
         }
     }
 
@@ -229,9 +230,9 @@ class EntityEnchantedSkeleton(world: World) : EntityMob(world), IMCAnimatedModel
      *
      * @param tagCompound The compound to write to
      */
-    override fun writeEntityToNBT(tagCompound: NBTTagCompound) {
+    override fun writeAdditional(tagCompound: NBTTagCompound) {
         tagCompound.setBoolean(NBT_PLAYED_SPAWN_ANIMATION, hasPlayedSpawnAnimation)
-        super.writeEntityToNBT(tagCompound)
+        super.writeAdditional(tagCompound)
     }
 
     /**
@@ -239,9 +240,9 @@ class EntityEnchantedSkeleton(world: World) : EntityMob(world), IMCAnimatedModel
      *
      * @param tagCompound The compound to read from
      */
-    override fun readEntityFromNBT(tagCompound: NBTTagCompound) {
+    override fun readAdditional(tagCompound: NBTTagCompound) {
         hasPlayedSpawnAnimation = tagCompound.getBoolean(NBT_PLAYED_SPAWN_ANIMATION)
-        super.readEntityFromNBT(tagCompound)
+        super.readAdditional(tagCompound)
     }
 
     /**
@@ -263,9 +264,9 @@ class EntityEnchantedSkeleton(world: World) : EntityMob(world), IMCAnimatedModel
      * Plays the sound the entity makes when moving
      *
      * @param pos     The position the entity is at
-     * @param blockIn The block the entity is over
+     * @param state The block the entity is over
      */
-    override fun playStepSound(pos: BlockPos, blockIn: Block) {
+    override fun playStepSound(pos: BlockPos, state: IBlockState) {
         playSound(SoundEvents.ENTITY_SKELETON_STEP, 0.15f, 1.0f)
     }
 
@@ -293,9 +294,9 @@ class EntityEnchantedSkeleton(world: World) : EntityMob(world), IMCAnimatedModel
             }
 
             // Send a packet to the other players telling them the skeleton attacked
-            AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(
-                SyncAnimation("Attack", this, "Attack", "Spawn"),
-                TargetPoint(dimension, posX, posY, posZ, 15.0)
+            AfraidOfTheDark.packetHandler.sendToAllAround(
+                AnimationPacket(this, "Attack", "Attack", "Spawn"),
+                PacketDistributor.TargetPoint(posX, posY, posZ, 15.0, dimension)
             )
         }
         return super.attackEntityAsMob(entity)

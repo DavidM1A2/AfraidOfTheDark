@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.common.event.register
 import com.davidm1a2.afraidofthedark.common.constants.ModStructures
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.Structure
 import net.minecraftforge.event.RegistryEvent
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.minecraftforge.eventbus.api.SubscribeEvent
 
 /**
  * Class used to register our structures into the game

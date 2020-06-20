@@ -1,9 +1,10 @@
 package com.davidm1a2.afraidofthedark.common.capabilities
 
-import net.minecraft.nbt.NBTBase
+import net.minecraft.nbt.INBTBase
 import net.minecraft.util.EnumFacing
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.capabilities.ICapabilitySerializable
+import net.minecraftforge.common.util.LazyOptional
 
 /**
  * Class responsible for providing a capability
@@ -11,19 +12,8 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable
  * @property capability The capability
  * @property capabilityInstance The default instance of the capability
  */
-class CapabilityProvider<T>(private val capability: Capability<T>) : ICapabilitySerializable<NBTBase> {
+class CapabilityProvider<T>(private val capability: Capability<T>) : ICapabilitySerializable<INBTBase> {
     private val capabilityInstance = capability.defaultInstance
-
-    /**
-     * Tests if the given capability is the right one
-     *
-     * @param capability The capability to test
-     * @param facing     ignored
-     * @return True if the capability is the right one, false otherwise
-     */
-    override fun hasCapability(capability: Capability<*>, facing: EnumFacing?): Boolean {
-        return capability == this.capability
-    }
 
     /**
      * Getter for a capability
@@ -33,8 +23,9 @@ class CapabilityProvider<T>(private val capability: Capability<T>) : ICapability
      * @param <T>        The type of capability
      * @return The capability or null if it was the wrong type
      */
-    override fun <V> getCapability(capability: Capability<V>, facing: EnumFacing?): V? {
-        return if (capability == this.capability) this.capability.cast(capabilityInstance) else null
+    override fun <V> getCapability(capability: Capability<V>, facing: EnumFacing?): LazyOptional<V> {
+        val instance = capabilityInstance?.let { LazyOptional.of { it } } ?: LazyOptional.empty()
+        return if (capability == this.capability) instance.cast() else LazyOptional.empty()
     }
 
     /**
@@ -42,7 +33,7 @@ class CapabilityProvider<T>(private val capability: Capability<T>) : ICapability
      *
      * @return The NBTTagCompound representing this capability
      */
-    override fun serializeNBT(): NBTBase {
+    override fun serializeNBT(): INBTBase {
         return this.capability.storage.writeNBT(this.capability, this.capabilityInstance, null)!!
     }
 
@@ -51,7 +42,7 @@ class CapabilityProvider<T>(private val capability: Capability<T>) : ICapability
      *
      * @param nbt The NBT tag compound to read from
      */
-    override fun deserializeNBT(nbt: NBTBase) {
+    override fun deserializeNBT(nbt: INBTBase) {
         this.capability.storage.readNBT(this.capability, this.capabilityInstance, null, nbt)
     }
 }

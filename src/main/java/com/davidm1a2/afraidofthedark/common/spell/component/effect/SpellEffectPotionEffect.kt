@@ -14,6 +14,7 @@ import net.minecraft.potion.Potion
 import net.minecraft.potion.PotionEffect
 import net.minecraft.util.ResourceLocation
 import net.minecraft.world.World
+import net.minecraftforge.registries.ForgeRegistries
 import kotlin.math.max
 import kotlin.math.sqrt
 
@@ -30,7 +31,7 @@ class SpellEffectPotionEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
                 "The type of potion effect to apply. Must be using the minecraft naming convention, like 'minecraft:speed'.",
                 { instance, newValue ->
                     // Grab the potion associated with the text
-                    val type = Potion.getPotionFromResourceLocation(newValue)
+                    val type = ForgeRegistries.POTIONS.getValue(ResourceLocation(newValue))
                     // If type is not null it's a valid potion type so we store it, otherwise throw an exception
                     if (type != null) {
                         instance.data.setString(NBT_POTION_TYPE, type.registryName.toString())
@@ -46,8 +47,8 @@ class SpellEffectPotionEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
             SpellComponentPropertyFactory.intProperty()
                 .withName("Potion Strength")
                 .withDescription("The level of the potion to apply, ex. 4 means apply 'Potion Type' at level 4.")
-                .withSetter { instance, newValue -> instance.data.setInteger(NBT_POTION_STRENGTH, newValue - 1) }
-                .withGetter { it.data.getInteger(NBT_POTION_STRENGTH) + 1 }
+                .withSetter { instance, newValue -> instance.data.setInt(NBT_POTION_STRENGTH, newValue - 1) }
+                .withGetter { it.data.getInt(NBT_POTION_STRENGTH) + 1 }
                 .withDefaultValue(1)
                 .withMinValue(1)
                 .build()
@@ -56,8 +57,8 @@ class SpellEffectPotionEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
             SpellComponentPropertyFactory.intProperty()
                 .withName("Potion Duration")
                 .withDescription("The number of ticks the potion effect should run for.")
-                .withSetter { instance, newValue -> instance.data.setInteger(NBT_POTION_DURATION, newValue) }
-                .withGetter { it.data.getInteger(NBT_POTION_DURATION) }
+                .withSetter { instance, newValue -> instance.data.setInt(NBT_POTION_DURATION, newValue) }
+                .withGetter { it.data.getInt(NBT_POTION_DURATION) }
                 .withDefaultValue(20)
                 .withMinValue(1)
                 .build()
@@ -102,7 +103,7 @@ class SpellEffectPotionEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
             aoePotion.setRadiusPerTick(0f)
             aoePotion.duration = potionDuration
             world.spawnEntity(aoePotion)
-            createParticlesAt(4, 8, exactPosition, world.provider.dimension)
+            createParticlesAt(4, 8, exactPosition, world.dimension.type)
         }
     }
 
@@ -126,7 +127,7 @@ class SpellEffectPotionEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
      * @return The potion for the instance
      */
     fun getPotionType(instance: SpellComponentInstance<SpellEffect>): Potion {
-        return Potion.getPotionFromResourceLocation(instance.data.getString(NBT_POTION_TYPE))!!
+        return ForgeRegistries.POTIONS.getValue(ResourceLocation(instance.data.getString(NBT_POTION_TYPE)))!!
     }
 
     /**
@@ -136,7 +137,7 @@ class SpellEffectPotionEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
      * @return The potion strength for the instance
      */
     fun getPotionStrength(instance: SpellComponentInstance<SpellEffect>): Int {
-        return instance.data.getInteger(NBT_POTION_STRENGTH)
+        return instance.data.getInt(NBT_POTION_STRENGTH)
     }
 
     /**
@@ -146,7 +147,7 @@ class SpellEffectPotionEffect : AOTDSpellEffect(ResourceLocation(Constants.MOD_I
      * @return The potion duration for the instance
      */
     fun getPotionDuration(instance: SpellComponentInstance<SpellEffect>): Int {
-        return instance.data.getInteger(NBT_POTION_DURATION)
+        return instance.data.getInt(NBT_POTION_DURATION)
     }
 
     /**

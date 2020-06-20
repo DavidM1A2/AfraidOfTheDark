@@ -1,11 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiHandler
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
-import com.davidm1a2.afraidofthedark.common.utility.openGui
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
@@ -17,11 +15,7 @@ import net.minecraft.world.World
 /**
  * Class representing the telescope item used to track meteors
  */
-class ItemSextant : AOTDItem("sextant") {
-    init {
-        maxStackSize = 1
-    }
-
+class ItemSextant : AOTDItem("sextant", Properties().maxStackSize(1)) {
     /**
      * Called when the player right clicks with the sextant
      *
@@ -38,7 +32,7 @@ class ItemSextant : AOTDItem("sextant") {
         if (playerResearch.isResearched(ModResearches.ASTRONOMY_1)) {
             // Only open GUIs client side
             if (world.isRemote) {
-                player.openGui(AOTDGuiHandler.SEXTANT_ID)
+                // player.openGui(AOTDGuiHandler.SEXTANT_ID)
             }
         }
         // If the player does not have the research send him a chat message from the server

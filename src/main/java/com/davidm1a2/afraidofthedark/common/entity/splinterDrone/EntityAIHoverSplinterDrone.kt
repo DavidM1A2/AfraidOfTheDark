@@ -63,7 +63,7 @@ class EntityAIHoverSplinterDrone(private val splinterDrone: EntitySplinterDrone)
             xToGoTo,
             yToGoTo,
             zToGoTo,
-            splinterDrone.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).attributeValue
+            splinterDrone.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).value
         )
     }
 

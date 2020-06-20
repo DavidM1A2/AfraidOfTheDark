@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.block.gravewood
 
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDBlockFence
+import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import net.minecraft.block.material.Material
 
 /**
@@ -8,4 +9,4 @@ import net.minecraft.block.material.Material
  *
  * @constructor sets the name and material
  */
-class BlockGravewoodFence : AOTDBlockFence("gravewood_fence", Material.WOOD)
+class BlockGravewoodFence : AOTDBlockFence("gravewood_fence", Properties.create(Material.WOOD, ModBlocks.GRAVEWOOD.getRawMaterialColor()))

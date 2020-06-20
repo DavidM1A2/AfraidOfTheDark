@@ -77,7 +77,7 @@ class CustomWerewolfTargetLocator internal constructor(
             // Grab a list of nearby players sorted by distance
             val nearbyPlayers = taskOwner.world.getEntitiesWithinAABB(
                 EntityPlayer::class.java,
-                taskOwner.entityBoundingBox.grow(followRange, 4.0, followRange)
+                taskOwner.boundingBox.grow(followRange, 4.0, followRange)
             )
                 .filter { targetEntitySelector(it) }
                 .sortedWith(sorter)

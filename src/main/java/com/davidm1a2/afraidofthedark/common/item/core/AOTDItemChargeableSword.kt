@@ -6,6 +6,7 @@ import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.entity.EntityLiving
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.item.IItemTier
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
 import net.minecraft.util.EnumActionResult
@@ -25,19 +26,20 @@ import net.minecraft.world.World
  */
 abstract class AOTDItemChargeableSword(
     baseName: String,
-    toolMaterial: ToolMaterial,
+    toolMaterial: IItemTier,
+    damageAmplifier: Int,
+    attackSpeed: Float,
+    properties: Properties,
     displayInCreative: Boolean = false
-) :
-    AOTDItemSword(baseName, toolMaterial, displayInCreative) {
+) : AOTDItemSword(baseName, toolMaterial, damageAmplifier, attackSpeed, properties.apply {
+    // This is required to make the sword unbreakable
+    defaultMaxDamage(0)
+}, displayInCreative) {
     protected var percentChargePerAttack = 5.0
 
     init {
-        // This is required to make the sword unbreakable
-        maxDamage = 0
-
         // Emit a charged = 1 property when charged, 0 otherwise
-        addPropertyOverride(ResourceLocation(Constants.MOD_ID, "charged"))
-        { stack: ItemStack, _: World?, _: EntityLivingBase? ->
+        addPropertyOverride(ResourceLocation(Constants.MOD_ID, "charged")) { stack: ItemStack, _: World?, _: EntityLivingBase? ->
             if (isFullyCharged(stack)) 1f else 0f
         }
     }

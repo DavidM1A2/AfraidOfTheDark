@@ -4,10 +4,10 @@ import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.Utils.getQuat4f
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.Utils.makeFloatBuffer
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.intoArray
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.isEmptyRotationMatrix
-import net.minecraft.client.model.ModelBase
-import net.minecraft.client.model.ModelRenderer
 import net.minecraft.client.renderer.GLAllocation
 import net.minecraft.client.renderer.Tessellator
+import net.minecraft.client.renderer.entity.model.ModelBase
+import net.minecraft.client.renderer.entity.model.ModelRenderer
 import org.lwjgl.opengl.GL11
 import java.nio.FloatBuffer
 import javax.vecmath.Matrix4f
@@ -196,7 +196,7 @@ class MCAModelRenderer(
                 GL11.glPushMatrix()
                 GL11.glTranslatef(rotationPointX * scale, rotationPointY * scale, rotationPointZ * scale)
                 val buf = makeFloatBuffer(rotationMatrix.intoArray())
-                GL11.glMultMatrix(buf)
+                GL11.glMultMatrixf(buf)
                 GL11.glCallList(displayList)
                 if (childModels != null) {
                     i = 0
@@ -238,7 +238,7 @@ class MCAModelRenderer(
                     }
                 } else {
                     GL11.glTranslatef(rotationPointX * scale, rotationPointY * scale, rotationPointZ * scale)
-                    GL11.glMultMatrix(FloatBuffer.wrap(rotationMatrix.intoArray()))
+                    GL11.glMultMatrixf(FloatBuffer.wrap(rotationMatrix.intoArray()))
                 }
             }
         }

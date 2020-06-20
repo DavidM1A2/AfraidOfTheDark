@@ -1,12 +1,12 @@
 package com.davidm1a2.afraidofthedark.common.entity.splinterDrone
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.packets.animationPackets.SyncAnimation
+import com.davidm1a2.afraidofthedark.common.packets.animationPackets.AnimationPacket
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.entity.ai.EntityAIBase
 import net.minecraft.util.math.BlockPos
-import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint
+import net.minecraftforge.fml.network.PacketDistributor
 
 /**
  * AI task that allows the splinter drone to attack nearby players
@@ -64,7 +64,7 @@ class EntityAIAttackSplinterDrone(private val splinterDrone: EntitySplinterDrone
     /**
      * Called every tick to update the task and fire projectiles
      */
-    override fun updateTask() {
+    override fun tick() {
         // Server side processing only
         if (!target!!.world.isRemote) {
             // Look at the target player
@@ -73,14 +73,14 @@ class EntityAIAttackSplinterDrone(private val splinterDrone: EntitySplinterDrone
             // Engage the player if there is a valid target (should always be true)
             if (splinterDrone.attackTarget != null) {
                 // Play the charge animation if it is not already playing and activate is not already playing
-                AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(
-                    SyncAnimation("Charge", splinterDrone, "Activate", "Charge"),
-                    TargetPoint(
-                        splinterDrone.dimension,
+                AfraidOfTheDark.packetHandler.sendToAllAround(
+                    AnimationPacket(splinterDrone, "Charge", "Activate", "Charge"),
+                    PacketDistributor.TargetPoint(
                         splinterDrone.posX,
                         splinterDrone.posY,
                         splinterDrone.posZ,
-                        50.0
+                        50.0,
+                        splinterDrone.dimension
                     )
                 )
             }
@@ -90,7 +90,7 @@ class EntityAIAttackSplinterDrone(private val splinterDrone: EntitySplinterDrone
                 // Compute the x, y, and z velocities of the projectile
                 var xVelocity = target!!.posX - splinterDrone.posX
                 var yVelocity =
-                    target!!.entityBoundingBox.minY + (target!!.height / 2.0f).toDouble() - (splinterDrone.posY + (splinterDrone.height / 2.0f).toDouble())
+                    target!!.boundingBox.minY + (target!!.height / 2.0f).toDouble() - (splinterDrone.posY + (splinterDrone.height / 2.0f).toDouble())
                 var zVelocity = target!!.posZ - splinterDrone.posZ
 
                 // Add random inaccuracy distributed over a gaussian with 0.4 block max inaccuracy

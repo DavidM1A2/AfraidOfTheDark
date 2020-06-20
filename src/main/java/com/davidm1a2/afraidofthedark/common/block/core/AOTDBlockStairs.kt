@@ -10,11 +10,10 @@ import net.minecraft.block.state.IBlockState
  * @constructor takes in a name and model state that this block uses to get texture from
  * @param baseName   The name of the block
  * @param modelState The state that this block copies its texture from
+ * @param properties The block properties
  */
-abstract class AOTDBlockStairs(baseName: String, modelState: IBlockState) : BlockStairs(modelState) {
+abstract class AOTDBlockStairs(baseName: String, modelState: IBlockState, properties: Properties) : BlockStairs(modelState, properties), AOTDShowBlockCreative {
     init {
-        unlocalizedName = "${Constants.MOD_ID}:$baseName"
-        this.setRegistryName("${Constants.MOD_ID}:$baseName")
-        setCreativeTab(Constants.AOTD_CREATIVE_TAB)
+        this.setRegistryName(Constants.MOD_ID, baseName)
     }
 }

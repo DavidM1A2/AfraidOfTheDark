@@ -11,9 +11,9 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiTextFiel
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
-import com.davidm1a2.afraidofthedark.common.packets.otherPackets.ProcessSextantInput
+import com.davidm1a2.afraidofthedark.common.packets.otherPackets.ProcessSextantInputPacket
 import net.minecraft.util.text.TextComponentTranslation
-import org.lwjgl.util.Color
+import java.awt.Color
 
 /**
  * Gui screen that represents the sextant GUI
@@ -31,7 +31,7 @@ class SextantGUI : AOTDGuiScreen() {
     init {
         // The gui will be 256x256
         val guiSize = 256
-
+        isCtrlKeyDown()
         // Background panel holds all the gui items
         val background =
             AOTDGuiPanel((Constants.GUI_WIDTH - guiSize) / 2, (Constants.GUI_HEIGHT - guiSize) / 2, 256, 256, false)
@@ -89,8 +89,8 @@ class SextantGUI : AOTDGuiScreen() {
 
                     // If any field is invalid send the player an error, otherwise send the info to the server
                     try {
-                        AfraidOfTheDark.INSTANCE.packetHandler.sendToServer(
-                            ProcessSextantInput(
+                        AfraidOfTheDark.packetHandler.sendToServer(
+                            ProcessSextantInputPacket(
                                 dropAngleText.toInt(),
                                 latitudeText.toInt(),
                                 longitudeText.toInt()

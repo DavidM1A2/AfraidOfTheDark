@@ -1,10 +1,10 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.basics
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.packets.capabilityPackets.SyncAOTDPlayerBasics
-import com.davidm1a2.afraidofthedark.common.packets.capabilityPackets.SyncSelectedWristCrossbowBolt
-import com.davidm1a2.afraidofthedark.common.packets.capabilityPackets.SyncStartedAOTD
-import com.davidm1a2.afraidofthedark.common.packets.otherPackets.UpdateWatchedMeteor
+import com.davidm1a2.afraidofthedark.common.packets.capabilityPackets.AOTDPlayerBasicsPacket
+import com.davidm1a2.afraidofthedark.common.packets.capabilityPackets.SelectedWristCrossbowBoltPacket
+import com.davidm1a2.afraidofthedark.common.packets.capabilityPackets.StartedAOTDPacket
+import com.davidm1a2.afraidofthedark.common.packets.otherPackets.UpdateWatchedMeteorPacket
 import com.davidm1a2.afraidofthedark.common.registry.meteor.MeteorEntry
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.entity.player.EntityPlayerMP
@@ -46,9 +46,9 @@ class AOTDPlayerBasicsImpl : IAOTDPlayerBasics {
      */
     override fun syncStartedAOTD(entityPlayer: EntityPlayer) {
         if (isServerSide(entityPlayer)) {
-            AfraidOfTheDark.INSTANCE.packetHandler.sendTo(SyncStartedAOTD(startedAOTD), entityPlayer as EntityPlayerMP)
+            AfraidOfTheDark.packetHandler.sendTo(StartedAOTDPacket(startedAOTD), entityPlayer as EntityPlayerMP)
         } else {
-            AfraidOfTheDark.INSTANCE.packetHandler.sendToServer(SyncStartedAOTD(startedAOTD))
+            AfraidOfTheDark.packetHandler.sendToServer(StartedAOTDPacket(startedAOTD))
         }
     }
 
@@ -60,8 +60,8 @@ class AOTDPlayerBasicsImpl : IAOTDPlayerBasics {
     override fun syncSelectedWristCrossbowBoltIndex(entityPlayer: EntityPlayer) {
         // Can only send this client -> server side
         if (!isServerSide(entityPlayer)) {
-            AfraidOfTheDark.INSTANCE.packetHandler.sendToServer(
-                SyncSelectedWristCrossbowBolt(
+            AfraidOfTheDark.packetHandler.sendToServer(
+                SelectedWristCrossbowBoltPacket(
                     selectedWristCrossbowBoltIndex
                 )
             )
@@ -130,8 +130,8 @@ class AOTDPlayerBasicsImpl : IAOTDPlayerBasics {
     override fun syncWatchedMeteor(entityPlayer: EntityPlayer) {
         // If we're on server side send the client the meteor data
         if (isServerSide(entityPlayer)) {
-            AfraidOfTheDark.INSTANCE.packetHandler.sendTo(
-                UpdateWatchedMeteor(
+            AfraidOfTheDark.packetHandler.sendTo(
+                UpdateWatchedMeteorPacket(
                     watchedMeteor,
                     watchedMeteorAccuracy,
                     watchedMeteorDropAngle,
@@ -150,9 +150,9 @@ class AOTDPlayerBasicsImpl : IAOTDPlayerBasics {
     override fun syncAll(entityPlayer: EntityPlayer) {
         // If we're on server side send the player's data
         if (isServerSide(entityPlayer)) {
-            AfraidOfTheDark.INSTANCE.packetHandler.sendTo(SyncAOTDPlayerBasics(this), entityPlayer as EntityPlayerMP)
+            AfraidOfTheDark.packetHandler.sendTo(AOTDPlayerBasicsPacket(this), entityPlayer as EntityPlayerMP)
         } else {
-            AfraidOfTheDark.INSTANCE.packetHandler.sendToServer(SyncAOTDPlayerBasics(this))
+            AfraidOfTheDark.packetHandler.sendToServer(AOTDPlayerBasicsPacket(this))
         }
     }
 }

@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.item.core
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.packets.otherPackets.SyncItemWithCooldown
+import com.davidm1a2.afraidofthedark.common.packets.otherPackets.CooldownSyncPacket
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.entity.player.EntityPlayerMP
@@ -17,14 +17,15 @@ import kotlin.math.max
  * @property serverClientTimeDifference The time different between server and client clocks which is used to synchronize the cooldown bar. This can be the same for all items with cooldowns.
  *                                      Since the server-client time difference is not item dependent
  */
-abstract class AOTDItemWithPerItemCooldown(baseName: String, displayInCreative: Boolean = true) :
-    AOTDItem(baseName, displayInCreative) {
+abstract class AOTDItemWithPerItemCooldown(
+    baseName: String,
+    properties: Properties,
+    displayInCreative: Boolean = true
+) : AOTDItem(baseName, properties.apply {
+    // Cooldown items can't stack!
+    maxStackSize(1)
+}, displayInCreative) {
     private var serverClientTimeDifference = 0L
-
-    init {
-        // Cooldown items can't stack!
-        setMaxStackSize(1)
-    }
 
     /**
      * Updates the amount of milliseconds difference between the server and client clocks. This is useful to make the progress bar of the item
@@ -47,8 +48,8 @@ abstract class AOTDItemWithPerItemCooldown(baseName: String, displayInCreative: 
 
         // We need to update the client of the new cooldown, so send a packet
         if (!entityPlayer.world.isRemote) {
-            AfraidOfTheDark.INSTANCE.packetHandler.sendTo(
-                SyncItemWithCooldown(System.currentTimeMillis(), this),
+            AfraidOfTheDark.packetHandler.sendTo(
+                CooldownSyncPacket(System.currentTimeMillis(), this),
                 entityPlayer as EntityPlayerMP
             )
         }

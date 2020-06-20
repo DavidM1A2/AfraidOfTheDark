@@ -1,10 +1,10 @@
 package com.davidm1a2.afraidofthedark.common.tileEntity
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
-import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModPotions
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity
 import net.minecraft.entity.item.EntityItem
 import net.minecraft.entity.player.EntityPlayer
@@ -20,12 +20,12 @@ import kotlin.random.Random
  *
  * @constructor sets the block type of the tile entity
  */
-class TileEntityDarkForest : AOTDTickingTileEntity(ModBlocks.DARK_FOREST) {
+class TileEntityDarkForest : AOTDTickingTileEntity(ModTileEntities.DARK_FOREST) {
     /**
      * Update gets called every tick
      */
-    override fun update() {
-        super.update()
+    override fun tick() {
+        super.tick()
         // Server side processing only
         if (!world.isRemote) {
             updateNearbyPlayers()

@@ -22,7 +22,7 @@ class ParticleEnchantedFrogSpawn(
 ) : AOTDParticle(world, ModSprites.ENCHANTED_FROG_SPAWN, x, y, z) {
     init {
         // 2 second lifespan
-        particleMaxAge = 40
+        maxAge = 40
         // Scale is random
         particleScale = rand.nextInt(3) + 2f
         // Slow up motion
@@ -34,9 +34,9 @@ class ParticleEnchantedFrogSpawn(
     /**
      * Slowly fade the particle
      */
-    override fun onUpdate() {
-        super.onUpdate()
-        setAlphaF((particleMaxAge - particleAge).toFloat() / particleMaxAge.toFloat())
+    override fun tick() {
+        super.tick()
+        setAlphaF((maxAge - age).toFloat() / maxAge.toFloat())
         motionX = motionX * 0.7
         motionZ = motionZ * 0.7
     }

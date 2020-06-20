@@ -17,7 +17,7 @@ import net.minecraft.util.ResourceLocation
 abstract class SpellDeliveryMethod(id: ResourceLocation) :
     SpellComponent<SpellDeliveryMethod>(
         id,
-        ResourceLocation(id.resourceDomain, "textures/gui/spell_component/delivery_methods/${id.resourcePath}.png")
+        ResourceLocation(id.namespace, "textures/gui/spell_component/delivery_methods/${id.path}.png")
     ) {
     private val deliveryCustomTransitioners = mutableMapOf<SpellDeliveryMethod, ISpellDeliveryTransitioner>()
     private val deliveryEffectCustomApplicators = mutableMapOf<SpellEffect, ISpellDeliveryEffectApplicator>()

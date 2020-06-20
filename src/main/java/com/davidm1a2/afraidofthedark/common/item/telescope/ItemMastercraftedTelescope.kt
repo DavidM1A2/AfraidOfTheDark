@@ -21,7 +21,7 @@ class ItemMastercraftedTelescope : ItemTelescopeBase(5, "mastercrafted_telescope
      * @param itemSlot The slot the item is in
      * @param isSelected True if the item is hovered, false otherwise
      */
-    override fun onUpdate(stack: ItemStack, worldIn: World, entityIn: Entity, itemSlot: Int, isSelected: Boolean) {
+    override fun inventoryTick(stack: ItemStack, worldIn: World, entityIn: Entity, itemSlot: Int, isSelected: Boolean) {
         // Every 1 second check if this item is in a player's inventory, if so unlock the research
         if (!worldIn.isRemote && entityIn.ticksExisted % 20 == 0) {
             if (entityIn is EntityPlayer) {

@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.keybindings
 
-import org.lwjgl.input.Keyboard
+import net.minecraft.client.Minecraft
+import org.lwjgl.glfw.GLFW
 
 /**
  * Utility class for determining what combinations of keys are down
@@ -8,40 +9,47 @@ import org.lwjgl.input.Keyboard
 object KeybindingUtils {
     // A set of keys that are unbindable alone and require additional keys down
     private val UNBINDABLE_KEYS = setOf(
-        Keyboard.KEY_RMENU,
-        Keyboard.KEY_LMENU,
-        Keyboard.KEY_RCONTROL,
-        Keyboard.KEY_LCONTROL,
-        Keyboard.KEY_RSHIFT,
-        Keyboard.KEY_LSHIFT
+        GLFW.GLFW_KEY_LEFT_SUPER,
+        GLFW.GLFW_KEY_RIGHT_SUPER,
+        GLFW.GLFW_KEY_LEFT_CONTROL,
+        GLFW.GLFW_KEY_RIGHT_CONTROL,
+        GLFW.GLFW_KEY_LEFT_SHIFT,
+        GLFW.GLFW_KEY_RIGHT_SHIFT
     )
 
+    // Unbindable key scan codes
+    private val UNBINDABLE_KEY_SCANCODES = UNBINDABLE_KEYS.map {
+        it to GLFW.glfwGetKeyScancode(it)
+    }.toMap()
+
     /**
+     * @param keyCode The code of the key to test
      * @return True if a keybindable key is down, false otherwise
      */
-    fun keybindableKeyDown(): Boolean {
-        val keyCode = Keyboard.getEventKey()
+    fun isKeyBindable(keyCode: Int): Boolean {
         return !UNBINDABLE_KEYS.contains(keyCode)
     }
 
     /**
+     * @param keyCode The last key that was hit
+     * @param scanCode The last key's scan code
      * @return Gets the current keybinding that is being held
      */
-    fun getCurrentlyHeldKeybind(): String {
+    fun getCurrentlyHeldKeybind(keyCode: Int, scanCode: Int): String {
         // The string that is being bound
         val keybindString = StringBuilder()
 
         // Go over all unbindable key codes and test if they're down
         for (unbindableKeyCode in UNBINDABLE_KEYS) {
             // If they are down then append the key to the string
-            if (Keyboard.isKeyDown(unbindableKeyCode)) {
+            if (GLFW.glfwGetKey(Minecraft.getInstance().mainWindow.handle, unbindableKeyCode) == GLFW.GLFW_PRESS) {
                 // Append the key and a + symbol
-                keybindString.append(Keyboard.getKeyName(unbindableKeyCode).toUpperCase()).append("+")
+                keybindString.append(GLFW.glfwGetKeyName(unbindableKeyCode, UNBINDABLE_KEY_SCANCODES[unbindableKeyCode]!!)!!.toUpperCase()).append("+")
             }
         }
 
         // Finally append the key pressed
-        val keyName = Keyboard.getKeyName(Keyboard.getEventKey()).toUpperCase()
+        val keyName = GLFW.glfwGetKeyName(keyCode, scanCode)!!.toUpperCase()
         keybindString.append(keyName)
 
         // Return the keybinding string

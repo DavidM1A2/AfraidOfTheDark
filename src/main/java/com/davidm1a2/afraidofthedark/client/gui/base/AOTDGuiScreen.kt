@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.client.gui.base
 
-import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
@@ -11,39 +10,37 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.EntityPlayerSP
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.client.renderer.GlStateManager
-import org.lwjgl.input.Mouse
 import org.lwjgl.opengl.GL11
 import java.io.IOException
 import kotlin.math.min
 import kotlin.math.round
+import kotlin.math.roundToInt
 
 /**
  * Base class for all GuiScreens used by the mod, allows support for things such as action listeners and proper UI scaling
  *
  * @property contentPane The panel that contains all the content on the screen
  * @property spriteSheetControllers A list of sprite sheet controllers that are used to control sprite sheets
- * @property leftMouseButtonDown Flag telling us if the left mouse button is down or not
+ * @property prevMouseX The previous mouse X position
+ * @property prevMouseY The previous mouse Y position
  */
 abstract class AOTDGuiScreen : GuiScreen() {
     // Don't cache these in a companion object, they can change!
     val entityPlayer: EntityPlayerSP
-        get() = Minecraft.getMinecraft().player
-    val inventoryKeycode: Int
-        get() = Minecraft.getMinecraft().gameSettings.keyBindInventory.keyCode
+        get() = Minecraft.getInstance().player
 
-    val contentPane: AOTDGuiPanel = AOTDGuiPanel(0, 0, Constants.GUI_WIDTH, Constants.GUI_HEIGHT, false)
+    val contentPane = AOTDGuiPanel(0, 0, Constants.GUI_WIDTH, Constants.GUI_HEIGHT, false)
     private val spriteSheetControllers = mutableListOf<SpriteSheetController>()
-    private var leftMouseButtonDown = false
+    private var prevMouseX = 1.0
+    private var prevMouseY = 1.0
 
     /**
      * Called to initialize the GUI screen
      */
     override fun initGui() {
         super.initGui()
-        // Force our GUI utility to update its scaled resolution
-        AOTDGuiUtility.refreshScaledResolution()
         // Clear all buttons on the screen
-        this.buttonList.clear()
+        this.buttons.clear()
 
         // Compute the correct X and Y gui scale that we should use
         val guiScaleX = this.width / Constants.GUI_WIDTH.toDouble()
@@ -74,7 +71,7 @@ abstract class AOTDGuiScreen : GuiScreen() {
      * @param mouseY       The current mouse's Y position
      * @param partialTicks How much time has happened since the last tick, ignored
      */
-    override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
+    override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
         // First update all of our sprite sheet controllers
         this.spriteSheetControllers.forEach { it.performUpdate() }
         // Enable blend so we can draw opacity
@@ -88,7 +85,7 @@ abstract class AOTDGuiScreen : GuiScreen() {
         // Draw the overlay on top of the content pane
         this.contentPane.drawOverlay()
         // Call the super method
-        super.drawScreen(mouseX, mouseY, partialTicks)
+        super.render(mouseX, mouseY, partialTicks)
         // Disable blend now that we drew the UI
         GlStateManager.disableBlend()
     }
@@ -112,7 +109,7 @@ abstract class AOTDGuiScreen : GuiScreen() {
      * @param keyCode   The code of the character typed
      * @throws IOException forwarded from the super method
      */
-    override fun keyTyped(character: Char, keyCode: Int) {
+    override fun charTyped(character: Char, keyCode: Int): Boolean {
         // Fire the process key event on our content pane
         this.contentPane.processKeyInput(
             AOTDKeyEvent(
@@ -125,14 +122,14 @@ abstract class AOTDGuiScreen : GuiScreen() {
         // If our inventory key closes the screen, test if that key was pressed
         if (this.inventoryToCloseGuiScreen()) {
             // if the keycode is the inventory key bind close the GUI screen
-            if (keyCode == inventoryKeycode) {
+            if (inventoryKeybindPressed()) {
                 // Close the screen
                 entityPlayer.closeScreen()
                 GL11.glFlush()
             }
         }
         // Call super afterwards to finish any default MC processing
-        super.keyTyped(character, keyCode)
+        return super.charTyped(character, keyCode)
     }
 
     /**
@@ -150,115 +147,94 @@ abstract class AOTDGuiScreen : GuiScreen() {
     }
 
     /**
-     * Called whenever mouse input should be handled
+     * Called when the mouse is pressed and released
+     *
+     * @param mouseX The X coordinate of the mouse
+     * @param mouseY The Y coordinate of the mouse
+     * @param mouseButton The mouse button clicked
+     * @return True to continue processing, false otherwise
      */
-    override fun handleMouseInput() {
-        // Ensure to call super so default MC functions are called
-        super.handleMouseInput()
-        // Figure out what mouse button was pressed
-        val mouseButton = Mouse.getEventButton()
-        if (mouseButton != -1) {
-            this.processMouseClick(mouseButton)
-        } else {
-            this.processMouseMove()
-        }
+    override fun mouseClicked(mouseX: Double, mouseY: Double, mouseButton: Int): Boolean {
+        // Fire the mouse clicked event
+        contentPane.processMouseInput(
+            AOTDMouseEvent(
+                contentPane,
+                mouseX.roundToInt(),
+                mouseY.roundToInt(),
+                mouseButton,
+                AOTDMouseEvent.EventType.Click
+            )
+        )
 
-        val mouseWheelDistance = Mouse.getDWheel()
-        // - distance means we scrolled backwards, + distance means we scrolled forwards
-        if (mouseWheelDistance != 0) {
-            this.processMouseScroll(mouseWheelDistance)
-        }
+        return super.mouseClicked(mouseX, mouseY, mouseButton)
     }
 
     /**
-     * Called to process the mouse click
+     * Called when the mouse is pressed and released
      *
-     * @param clickedButton The button that was clicked
+     * @param mouseX The X coordinate of the mouse
+     * @param mouseY The Y coordinate of the mouse
+     * @param mouseButton The mouse button clicked
+     * @return True to continue processing, false otherwise
      */
-    private fun processMouseClick(clickedButton: Int) {
-        // The X position of the mouse
-        val mouseX = AOTDGuiUtility.getMouseXInMCCoord()
-        // The Y position of the mouse
-        val mouseY = AOTDGuiUtility.getMouseYInMCCoord()
+    override fun mouseReleased(mouseX: Double, mouseY: Double, mouseButton: Int): Boolean {
+        // Fire the release event
+        contentPane.processMouseInput(
+            AOTDMouseEvent(
+                contentPane,
+                mouseX.roundToInt(),
+                mouseY.roundToInt(),
+                mouseButton,
+                AOTDMouseEvent.EventType.Release
+            )
+        )
 
-        // If the mouse button is pressed set the flag
-        if (Mouse.getEventButtonState()) {
-            leftMouseButtonDown = true
-            // Fire the mouse clicked event
-            contentPane.processMouseInput(
-                AOTDMouseEvent(
+        return super.mouseReleased(mouseX, mouseY, mouseButton)
+    }
+
+    override fun mouseScrolled(distance: Double): Boolean {
+        // Fire the content pane's mouse scroll listener
+        contentPane.processMouseScrollInput(AOTDMouseScrollEvent(contentPane, distance.roundToInt()))
+
+        return super.mouseScrolled(distance)
+    }
+
+    override fun tick() {
+        // Check if we should fire a mouse move event
+        val mouseHelper = Minecraft.getInstance().mouseHelper
+        if (mouseHelper.mouseX != prevMouseX || mouseHelper.mouseY != prevMouseY) {
+            prevMouseX = mouseHelper.mouseX
+            prevMouseY = mouseHelper.mouseY
+
+            // Fire the content pane's move listener
+            contentPane.processMouseMoveInput(
+                AOTDMouseMoveEvent(
                     contentPane,
-                    mouseX,
-                    mouseY,
-                    clickedButton,
-                    AOTDMouseEvent.EventType.Click
+                    prevMouseX.roundToInt(),
+                    prevMouseY.roundToInt(),
+                    AOTDMouseMoveEvent.EventType.Move
                 )
             )
-        }
-        // If it's not pressed fire the mouse released event and press event
-        else {
-            // Fire the release event for sure
-            contentPane.processMouseInput(
-                AOTDMouseEvent(
-                    contentPane,
-                    mouseX,
-                    mouseY,
-                    clickedButton,
-                    AOTDMouseEvent.EventType.Release
-                )
-            )
-            // If the left mouse button was down fire the press event
-            if (leftMouseButtonDown) {
-                leftMouseButtonDown = false
-                contentPane.processMouseInput(
-                    AOTDMouseEvent(
+            // If the left mouse button is down, process the drag
+            if (mouseHelper.isLeftDown) {
+                contentPane.processMouseMoveInput(
+                    AOTDMouseMoveEvent(
                         contentPane,
-                        mouseX,
-                        mouseY,
-                        clickedButton,
-                        AOTDMouseEvent.EventType.Press
+                        prevMouseX.roundToInt(),
+                        prevMouseY.roundToInt(),
+                        AOTDMouseMoveEvent.EventType.Drag
                     )
                 )
             }
         }
+
+        super.tick()
     }
 
     /**
-     * Called to process any mouse move events
+     * @return True if the inventory keybind is pressed, false otherwise
      */
-    private fun processMouseMove() {
-        // Grab the X and Y coordinates of the mouse
-        val mouseX = AOTDGuiUtility.getMouseXInMCCoord()
-        val mouseY = AOTDGuiUtility.getMouseYInMCCoord()
-        // Fire the content pane's move listener
-        contentPane.processMouseMoveInput(
-            AOTDMouseMoveEvent(
-                contentPane,
-                mouseX,
-                mouseY,
-                AOTDMouseMoveEvent.EventType.Move
-            )
-        )
-        // If the left mouse button is down fire the content pane's drag listener
-        if (leftMouseButtonDown) {
-            contentPane.processMouseMoveInput(
-                AOTDMouseMoveEvent(
-                    contentPane,
-                    mouseX,
-                    mouseY,
-                    AOTDMouseMoveEvent.EventType.Drag
-                )
-            )
-        }
-    }
-
-    /**
-     * Processes the mouse scroll distance
-     *
-     * @param distance A non-zero value of the amount we scrolled
-     */
-    private fun processMouseScroll(distance: Int) {
-        // Fire the content pane's mouse scroll listener
-        contentPane.processMouseScrollInput(AOTDMouseScrollEvent(contentPane, distance))
+    internal fun inventoryKeybindPressed(): Boolean {
+        return Minecraft.getInstance().gameSettings.keyBindInventory.isKeyDown
     }
 }

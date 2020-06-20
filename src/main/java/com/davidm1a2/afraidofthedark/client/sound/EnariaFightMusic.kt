@@ -22,10 +22,10 @@ class EnariaFightMusic(private val enariaId: Int) :
     /**
      * Ensure that this only players in the nightmare when the player is not dead
      */
-    override fun update() {
-        super.update()
+    override fun tick() {
+        super.tick()
 
-        val entityPlayer = Minecraft.getMinecraft().player!!
+        val entityPlayer = Minecraft.getInstance().player!!
         val enaria = entityPlayer.world.getEntityByID(enariaId) as? EntityEnaria
         // If the enaria entity doesn't exist kill the sound
         if (enaria == null) {

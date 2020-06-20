@@ -1,14 +1,15 @@
 package com.davidm1a2.afraidofthedark.common.event
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.getVoidChestData
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
+import com.davidm1a2.afraidofthedark.common.constants.ModServerConfiguration
 import com.davidm1a2.afraidofthedark.common.dimension.IslandUtility
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.util.text.TextComponentTranslation
+import net.minecraft.world.dimension.DimensionType
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent
 
@@ -25,7 +26,7 @@ class VoidChestHandler {
     fun onPlayerRespawnEvent(event: PlayerRespawnEvent) {
         // Server side processing only
         if (!event.player.world.isRemote) {
-            if (event.player.dimension == ModDimensions.VOID_CHEST.id) {
+            if (event.player.dimension == ModDimensions.VOID_CHEST_TYPE) {
                 val playerVoidChestData = event.player.getVoidChestData()
 
                 // If the player was traveling to a friend's void chest grab that index, otherwise grab our own index
@@ -33,7 +34,7 @@ class VoidChestHandler {
                 val indexToGoTo = if (playerVoidChestData.friendsIndex == -1) {
                     // Get or compute the player's index to go to based on who the furthest out player is
                     IslandUtility.getOrAssignPlayerPositionalIndex(
-                        event.player.server!!.getWorld(ModDimensions.VOID_CHEST.id),
+                        event.player.server!!.getWorld(ModDimensions.VOID_CHEST_TYPE),
                         playerVoidChestData
                     )
                 } else {
@@ -41,7 +42,7 @@ class VoidChestHandler {
                 }
 
                 // Compute the player's X position based on the index
-                val playerXBase = indexToGoTo * AfraidOfTheDark.INSTANCE.configurationHandler.blocksBetweenIslands
+                val playerXBase = indexToGoTo * ModServerConfiguration.blocksBetweenIslands
                 (event.player as EntityPlayerMP).connection.setPlayerLocation(playerXBase + 24.5, 104.0, 3.0, 0f, 0f)
             }
         }
@@ -79,11 +80,11 @@ class VoidChestHandler {
      * @param dimensionTo   The dimension the player is going to
      * @return True to cancel the teleport, false otherwise
      */
-    private fun processPreTeleport(entityPlayer: EntityPlayerMP, dimensionFrom: Int, dimensionTo: Int): Boolean {
+    private fun processPreTeleport(entityPlayer: EntityPlayerMP, dimensionFrom: DimensionType, dimensionTo: DimensionType): Boolean {
         // If we're going to dimension VOID_CHEST then we need to do some preprocesing and tests to ensure the player can continue
-        if (dimensionTo == ModDimensions.VOID_CHEST.id) {
+        if (dimensionTo == ModDimensions.VOID_CHEST_TYPE) {
             // We can't go from void chest to void chest
-            if (dimensionFrom == ModDimensions.VOID_CHEST.id) {
+            if (dimensionFrom == ModDimensions.VOID_CHEST_TYPE) {
                 return true
             }
 
@@ -111,7 +112,7 @@ class VoidChestHandler {
                 }
             }
             // Set our pre-teleport dimension ID
-            playerVoidChestData.preTeleportDimensionID = dimensionFrom
+            playerVoidChestData.preTeleportDimension = dimensionFrom
         }
         return false
     }
@@ -126,8 +127,8 @@ class VoidChestHandler {
         // Server side processing only
         if (!event.player.world.isRemote) {
             // Get to and from dimension
-            val fromDimension = event.fromDim
-            val toDimension = event.toDim
+            val fromDimension = event.from
+            val toDimension = event.to
 
             // Get the player teleporting
             val entityPlayer = event.player as EntityPlayerMP
@@ -143,9 +144,9 @@ class VoidChestHandler {
      * @param dimensionFrom The dimension the player was in
      * @param dimensionTo   The dimension the player is now in
      */
-    private fun processPostTeleport(entityPlayer: EntityPlayerMP, dimensionFrom: Int, dimensionTo: Int) {
+    private fun processPostTeleport(entityPlayer: EntityPlayerMP, dimensionFrom: DimensionType, dimensionTo: DimensionType) {
         // If the player entered the void chest dimension then set their position
-        if (dimensionTo == ModDimensions.VOID_CHEST.id) {
+        if (dimensionTo == ModDimensions.VOID_CHEST_TYPE) {
             // Grab the player's void chest data
             val playerVoidChestData = entityPlayer.getVoidChestData()
             // If the player was traveling to a friend's void chest grab that index, otherwise grab our own index
@@ -154,7 +155,7 @@ class VoidChestHandler {
                 if (playerVoidChestData.friendsIndex == -1) // Get or compute the player's index to go to based on who the furthest out player is
                 {
                     IslandUtility.getOrAssignPlayerPositionalIndex(
-                        entityPlayer.server!!.getWorld(ModDimensions.VOID_CHEST.id),
+                        entityPlayer.server!!.getWorld(ModDimensions.VOID_CHEST_TYPE),
                         playerVoidChestData
                     )
                 } else {
@@ -162,12 +163,12 @@ class VoidChestHandler {
                 }
 
             // Compute the player's X position based on the index
-            val playerXBase = indexToGoTo * AfraidOfTheDark.INSTANCE.configurationHandler.blocksBetweenIslands
+            val playerXBase = indexToGoTo * ModServerConfiguration.blocksBetweenIslands
             // Set the player's position and rotation for some reason we have to use the connection object to send a packet instead of just using entityplayer#setPosition
             entityPlayer.connection.setPlayerLocation(playerXBase + 24.5, 104.0, 3.0, 0f, 0f)
         }
         // If the player left the void chest reset their position
-        if (dimensionFrom == ModDimensions.VOID_CHEST.id) {
+        if (dimensionFrom == ModDimensions.VOID_CHEST_TYPE) {
             // Grab the player's pre-teleport position
             val preTeleportPosition = entityPlayer.getVoidChestData().preTeleportPosition
             // Reset the player's position

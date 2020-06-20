@@ -5,39 +5,19 @@ import com.davidm1a2.afraidofthedark.common.tileEntity.TileEntitySpellAltar
 import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
 import net.minecraft.tileentity.TileEntity
-import net.minecraft.world.World
+import net.minecraft.world.IBlockReader
 
 /**
  * Spell altar block used as the primary block to craft spells
  *
  * @constructor sets the block name and properties
  */
-class BlockSpellAltar : AOTDBlockTileEntity("spell_altar", Material.ROCK) {
-    init {
-        // Make this block hard to destroy with explosives
-        setHardness(2.0f)
-        setResistance(50.0f)
-        this.setHarvestLevel("pickaxe", 2)
-    }
-
-    /**
-     * False, it has a special renderer
-     *
-     * @param state The state to check
-     * @return False, this is a tile entity with a special renderer
-     */
-    override fun isOpaqueCube(state: IBlockState): Boolean {
+class BlockSpellAltar : AOTDBlockTileEntity("spell_altar", Properties.create(Material.ROCK).hardnessAndResistance(2.0f, 50.0f)) {
+    override fun isFullCube(state: IBlockState?): Boolean {
         return false
     }
 
-    /**
-     * Creates a tile entity that monitors for nearby players
-     *
-     * @param worldIn The world the block is in
-     * @param meta    The block's metadata value
-     * @return The dark forest tile entity instance
-     */
-    override fun createNewTileEntity(worldIn: World, meta: Int): TileEntity {
+    override fun createTileEntity(state: IBlockState, world: IBlockReader): TileEntity {
         return TileEntitySpellAltar()
     }
 }

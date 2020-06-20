@@ -25,7 +25,7 @@ object ModLootTables {
             Items.EMERALD to ResourceLocation(Constants.MOD_ID, "nightmare/vitae1_part1"),
             Items.IRON_INGOT to ResourceLocation(Constants.MOD_ID, "nightmare/vitae1_part2"),
             Items.GOLD_INGOT to ResourceLocation(Constants.MOD_ID, "nightmare/vitae1_part3"),
-            Items.NETHERBRICK to ResourceLocation(Constants.MOD_ID, "nightmare/vitae1_part4"),
+            Items.NETHER_BRICK to ResourceLocation(Constants.MOD_ID, "nightmare/vitae1_part4"),
             Items.COAL to ResourceLocation(Constants.MOD_ID, "nightmare/vitae1_part5"),
             Items.GOLD_NUGGET to ResourceLocation(Constants.MOD_ID, "nightmare/astronomy2_part1"),
             Items.GLOWSTONE_DUST to ResourceLocation(Constants.MOD_ID, "nightmare/astronomy2_part2"),

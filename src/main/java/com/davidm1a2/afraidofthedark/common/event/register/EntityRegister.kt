@@ -1,9 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
+import net.minecraft.entity.EntityType
 import net.minecraftforge.event.RegistryEvent
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
-import net.minecraftforge.fml.common.registry.EntityEntry
+import net.minecraftforge.eventbus.api.SubscribeEvent
 
 /**
  * Class that receives the register entity event and registers all of our entities
@@ -15,7 +15,7 @@ class EntityRegister {
      * @param event The event to register to
      */
     @SubscribeEvent
-    fun registerEntities(event: RegistryEvent.Register<EntityEntry>) {
+    fun registerEntities(event: RegistryEvent.Register<EntityType<*>>) {
         // Grab the registry for entities
         val registry = event.registry
 

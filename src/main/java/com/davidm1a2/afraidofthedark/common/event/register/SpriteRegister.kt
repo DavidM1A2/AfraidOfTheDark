@@ -1,12 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
-import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.constants.ModSprites
-import net.minecraft.util.ResourceLocation
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.client.event.TextureStitchEvent
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
+import net.minecraftforge.eventbus.api.SubscribeEvent
 
 /**
  * Class used to register all of our mod sprites used for particle FX
@@ -18,10 +15,11 @@ class SpriteRegister {
      * @param event The event to register sprites into
      */
     @SubscribeEvent
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     fun onTextureStitchEvent(event: TextureStitchEvent.Pre) {
         // There's normally only one map, but just to make sure ensure it's the right one
         if (event.map.basePath == "textures") {
+            /*
             ModSprites.ENARIA_BASIC_ATTACK = event.map
                 .registerSprite(ResourceLocation(Constants.MOD_ID, "particles/enaria_basic_attack"))
             ModSprites.ENARIA_SPELL_CAST = event.map
@@ -40,6 +38,8 @@ class SpriteRegister {
                 event.map.registerSprite(ResourceLocation(Constants.MOD_ID, "particles/enchanted_frog_spawn"))
             ModSprites.ENARIAS_ALTAR =
                 event.map.registerSprite(ResourceLocation(Constants.MOD_ID, "particles/enarias_altar"))
+
+             */
         }
     }
 }

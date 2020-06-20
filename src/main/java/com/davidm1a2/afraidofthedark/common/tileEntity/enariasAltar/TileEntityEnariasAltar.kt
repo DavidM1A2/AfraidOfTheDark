@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.tileEntity.enariasAltar
 
 import com.davidm1a2.afraidofthedark.client.particle.AOTDParticleRegistry
-import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
+import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDAnimatedTileEntity
@@ -11,7 +11,7 @@ import kotlin.random.Random
  * Enaria's altar tile entity which renders the animation
  */
 class TileEntityEnariasAltar : AOTDAnimatedTileEntity(
-    ModBlocks.ENARIAS_ALTAR,
+    ModTileEntities.ENARIAS_ALTAR,
     AnimationHandler(
         ChannelSpin("SpinSlow", 5f, 60, ChannelMode.LINEAR),
         ChannelSpin("SpinMedium", 15f, 60, ChannelMode.LINEAR),
@@ -21,8 +21,8 @@ class TileEntityEnariasAltar : AOTDAnimatedTileEntity(
     /**
      * Called every tick to update the tile entity's state
      */
-    override fun update() {
-        super.update()
+    override fun tick() {
+        super.tick()
         if (world.isRemote) {
             val animHandler = getAnimationHandler()
             if (animHandler.isAnimationActive("SpinSlow")) {

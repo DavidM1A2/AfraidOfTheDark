@@ -1,16 +1,12 @@
 package com.davidm1a2.afraidofthedark.common.tileEntity.core
 
-import net.minecraft.block.Block
 import net.minecraft.tileentity.TileEntity
+import net.minecraft.tileentity.TileEntityType
 
 /**
  * Base class for all AOTD tile entities
  *
  * @constructor initializes the tile entity fields
- * @param block The block that this tile entity is for
+ * @param tileEntityType The tile entity's type
  */
-abstract class AOTDTileEntity(block: Block) : TileEntity() {
-    init {
-        blockType = block
-    }
-}
+abstract class AOTDTileEntity(tileEntityType: TileEntityType<*>) : TileEntity(tileEntityType)

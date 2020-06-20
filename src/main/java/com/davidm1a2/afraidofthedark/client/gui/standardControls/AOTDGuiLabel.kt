@@ -4,7 +4,7 @@ import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
 import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import org.lwjgl.util.Color
+import java.awt.Color
 
 /**
  * Class representing a label to be drawn on the GUI

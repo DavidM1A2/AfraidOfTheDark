@@ -1,11 +1,11 @@
 package com.davidm1a2.afraidofthedark.common.worldGeneration.structure
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.world.IHeightmap
 import com.davidm1a2.afraidofthedark.common.capabilities.world.OverworldHeightmap
 import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
+import com.davidm1a2.afraidofthedark.common.constants.ModServerConfiguration
 import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator.generateSchematic
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.iterator.InteriorChunkIterator
@@ -16,7 +16,7 @@ import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.world.World
-import net.minecraft.world.biome.BiomeProvider
+import net.minecraft.world.biome.provider.BiomeProvider
 import kotlin.math.max
 import kotlin.math.min
 
@@ -65,7 +65,7 @@ class StructureWitchHut : AOTDStructure("witch_hut") {
                 }
                 // 4% chance to generate in any chunks this fits in
                 else {
-                    0.04 * AfraidOfTheDark.INSTANCE.configurationHandler.witchHutMultiplier
+                    0.04 * ModServerConfiguration.witchHutMultiplier
                 }
             }
 
@@ -108,7 +108,7 @@ class StructureWitchHut : AOTDStructure("witch_hut") {
         // Set the schematic at the lowest point in the chunk
         val schematicPos = BlockPos(blockPos.x, groundLevel - 1, blockPos.z)
         // Update the NBT
-        compound.setTag(NBT_POSITION, NBTUtil.createPosTag(schematicPos))
+        compound.setTag(NBT_POSITION, NBTUtil.writeBlockPos(schematicPos))
 
         return compound
     }

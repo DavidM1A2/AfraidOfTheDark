@@ -1,13 +1,13 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.basics
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
-import net.minecraft.nbt.NBTBase
+import net.minecraft.nbt.INBTBase
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.capabilities.Capability.IStorage
+import org.apache.logging.log4j.LogManager
 
 /**
  * Default storage implementation for AOTD player basics
@@ -25,16 +25,16 @@ class AOTDPlayerBasicsStorage : IStorage<IAOTDPlayerBasics> {
         capability: Capability<IAOTDPlayerBasics>,
         instance: IAOTDPlayerBasics,
         side: EnumFacing?
-    ): NBTBase {
+    ): INBTBase {
         // Create a compound to write
         val compound = NBTTagCompound()
         compound.setBoolean(STARTED_AOTD, instance.startedAOTD)
-        compound.setInteger(WRIST_CROSSBOW_BOLT_INDEX, instance.selectedWristCrossbowBoltIndex)
+        compound.setInt(WRIST_CROSSBOW_BOLT_INDEX, instance.selectedWristCrossbowBoltIndex)
         compound.setString(WATCHED_METEOR, instance.getWatchedMeteor()?.registryName?.toString() ?: "none")
-        compound.setInteger(WATCHED_METEOR_ACCURACY, instance.getWatchedMeteorAccuracy())
-        compound.setInteger(WATCHED_METEOR_DROP_ANGLE, instance.getWatchedMeteorDropAngle())
-        compound.setInteger(WATCHED_METEOR_LATITUDE, instance.getWatchedMeteorLatitude())
-        compound.setInteger(WATCHED_METEOR_LONGITUDE, instance.getWatchedMeteorLongitude())
+        compound.setInt(WATCHED_METEOR_ACCURACY, instance.getWatchedMeteorAccuracy())
+        compound.setInt(WATCHED_METEOR_DROP_ANGLE, instance.getWatchedMeteorDropAngle())
+        compound.setInt(WATCHED_METEOR_LATITUDE, instance.getWatchedMeteorLatitude())
+        compound.setInt(WATCHED_METEOR_LONGITUDE, instance.getWatchedMeteorLongitude())
         return compound
     }
 
@@ -50,21 +50,21 @@ class AOTDPlayerBasicsStorage : IStorage<IAOTDPlayerBasics> {
         capability: Capability<IAOTDPlayerBasics>,
         instance: IAOTDPlayerBasics,
         side: EnumFacing?,
-        nbt: NBTBase
+        nbt: INBTBase
     ) {
         // Test if the nbt tag base is an NBT tag compound
         if (nbt is NBTTagCompound) {
             // The compound to read from
             instance.startedAOTD = nbt.getBoolean(STARTED_AOTD)
-            instance.selectedWristCrossbowBoltIndex = nbt.getInteger(WRIST_CROSSBOW_BOLT_INDEX)
+            instance.selectedWristCrossbowBoltIndex = nbt.getInt(WRIST_CROSSBOW_BOLT_INDEX)
             val watchedMeteorName = nbt.getString(WATCHED_METEOR)
             val watchedMeteor = if (watchedMeteorName == "none") null else ModRegistries.METEORS.getValue(
                 ResourceLocation(watchedMeteorName)
             )
-            val watchedMeteorAccuracy = nbt.getInteger(WATCHED_METEOR_ACCURACY)
-            val watchedMeteorDropAngle = nbt.getInteger(WATCHED_METEOR_DROP_ANGLE)
-            val watchedMeteorLatitude = nbt.getInteger(WATCHED_METEOR_LATITUDE)
-            val watchedMeteorLongitude = nbt.getInteger(WATCHED_METEOR_LONGITUDE)
+            val watchedMeteorAccuracy = nbt.getInt(WATCHED_METEOR_ACCURACY)
+            val watchedMeteorDropAngle = nbt.getInt(WATCHED_METEOR_DROP_ANGLE)
+            val watchedMeteorLatitude = nbt.getInt(WATCHED_METEOR_LATITUDE)
+            val watchedMeteorLongitude = nbt.getInt(WATCHED_METEOR_LONGITUDE)
             instance.setWatchedMeteor(
                 watchedMeteor,
                 watchedMeteorAccuracy,
@@ -73,11 +73,13 @@ class AOTDPlayerBasicsStorage : IStorage<IAOTDPlayerBasics> {
                 watchedMeteorLongitude
             )
         } else {
-            AfraidOfTheDark.INSTANCE.logger.error("Attempted to deserialize an NBTBase that was not an NBTTagCompound!")
+            logger.error("Attempted to deserialize an NBTBase that was not an NBTTagCompound!")
         }
     }
 
     companion object {
+        private val logger = LogManager.getLogger()
+
         // Constant IDs used in NBT
         private const val STARTED_AOTD = "playerStartedAOTD"
         private const val WRIST_CROSSBOW_BOLT_INDEX = "wristCrossbowBoltIndex"

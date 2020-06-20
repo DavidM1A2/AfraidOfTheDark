@@ -8,4 +8,4 @@ import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
  *
  * @constructor sets the name and texture to the mangrove plank texture
  */
-class BlockMangroveStairs : AOTDBlockStairs("mangrove_stairs", ModBlocks.MANGROVE_PLANKS.defaultState)
+class BlockMangroveStairs : AOTDBlockStairs("mangrove_stairs", ModBlocks.MANGROVE_PLANKS.defaultState, Properties.from(ModBlocks.MANGROVE_PLANKS))

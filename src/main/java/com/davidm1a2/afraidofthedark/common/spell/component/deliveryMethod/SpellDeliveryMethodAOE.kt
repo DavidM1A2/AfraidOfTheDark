@@ -44,10 +44,10 @@ class SpellDeliveryMethodAOE : AOTDSpellDeliveryMethod(ResourceLocation(Constant
                     // Check the two valid options first
                     when {
                         newValue.equals("entity", ignoreCase = true) -> {
-                            instance.data.setInteger(NBT_TARGET_TYPE, TargetType.ENTITY.ordinal)
+                            instance.data.setInt(NBT_TARGET_TYPE, TargetType.ENTITY.ordinal)
                         }
                         newValue.equals("block", ignoreCase = true) -> {
-                            instance.data.setInteger(NBT_TARGET_TYPE, TargetType.BLOCK.ordinal)
+                            instance.data.setInt(NBT_TARGET_TYPE, TargetType.BLOCK.ordinal)
                         }
                         else -> {
                             throw InvalidValueException("Invalid value $newValue, should be 'entity' or 'block'")
@@ -59,7 +59,7 @@ class SpellDeliveryMethodAOE : AOTDSpellDeliveryMethod(ResourceLocation(Constant
                     if (getTargetType(it as SpellComponentInstance<SpellDeliveryMethod>) == TargetType.ENTITY) "entity" else "block"
                 },
                 {
-                    it.data.setInteger(NBT_TARGET_TYPE, TargetType.BLOCK.ordinal)
+                    it.data.setInt(NBT_TARGET_TYPE, TargetType.BLOCK.ordinal)
                 }
             )
         )
@@ -245,7 +245,7 @@ class SpellDeliveryMethodAOE : AOTDSpellDeliveryMethod(ResourceLocation(Constant
      * @return the target type of the AOE
      */
     fun getTargetType(instance: SpellComponentInstance<SpellDeliveryMethod>): TargetType {
-        return TargetType.values()[instance.data.getInteger(NBT_TARGET_TYPE)]
+        return TargetType.values()[instance.data.getInt(NBT_TARGET_TYPE)]
     }
 
     companion object {

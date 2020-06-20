@@ -27,8 +27,8 @@ class SpellEffectFreeze : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "fr
             SpellComponentPropertyFactory.intProperty()
                 .withName("Duration")
                 .withDescription("The number of ticks the freeze will last against entities.")
-                .withSetter { instance, newValue -> instance.data.setInteger(NBT_FREEZE_DURATION, newValue) }
-                .withGetter { it.data.getInteger(NBT_FREEZE_DURATION) }
+                .withSetter { instance, newValue -> instance.data.setInt(NBT_FREEZE_DURATION, newValue) }
+                .withGetter { it.data.getInt(NBT_FREEZE_DURATION) }
                 .withDefaultValue(20)
                 .withMinValue(1)
                 .withMaxValue(1200)
@@ -62,7 +62,7 @@ class SpellEffectFreeze : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "fr
             }
         } else {
             val hitBlock = world.getBlockState(blockPos)
-            if (hitBlock.block == Blocks.WATER || hitBlock.block == Blocks.FLOWING_WATER) {
+            if (hitBlock.block == Blocks.WATER) {
                 world.setBlockState(blockPos, Blocks.ICE.defaultState)
             }
         }
@@ -86,7 +86,7 @@ class SpellEffectFreeze : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "fr
      * @return The freeze duration in ticks
      */
     fun getFreezeDuration(instance: SpellComponentInstance<SpellEffect>): Int {
-        return instance.data.getInteger(NBT_FREEZE_DURATION)
+        return instance.data.getInt(NBT_FREEZE_DURATION)
     }
 
     companion object {

@@ -1,16 +1,18 @@
 package com.davidm1a2.afraidofthedark.common.worldGeneration
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.world.OverworldHeightmap
 import com.davidm1a2.afraidofthedark.common.capabilities.world.StructurePlan
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.Structure
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
+import net.minecraft.world.IWorld
 import net.minecraft.world.World
-import net.minecraftforge.event.terraingen.PopulateChunkEvent
-import net.minecraftforge.fml.common.eventhandler.EventPriority
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.minecraft.world.dimension.DimensionType
+import net.minecraft.world.gen.ChunkProviderServer
+import net.minecraftforge.event.terraingen.ChunkGeneratorEvent
+import net.minecraftforge.eventbus.api.EventPriority
+import net.minecraftforge.eventbus.api.SubscribeEvent
 import java.util.*
 
 /**
@@ -29,17 +31,17 @@ class WorldStructurePlanner {
      * @param event The event containing the chunk and world
      */
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    fun onChunkPopulated(event: PopulateChunkEvent.Pre) {
+    fun onChunkPopulated(event: ChunkGeneratorEvent.ReplaceBiomeBlocks) {
         // Get a reference to the world
         val world = event.world
         // Get the X and Z coordinates of the chunk that was populated
-        val chunkX = event.chunkX
-        val chunkZ = event.chunkZ
+        val chunkX = event.chunk.pos.x
+        val chunkZ = event.chunk.pos.z
 
         // If we do not know of our structure list yet grab the list from the registry
         if (!::registeredStructures.isInitialized) {
             // Remove structures that don't generate naturally
-            registeredStructures = ModRegistries.STRUCTURE.valuesCollection.toMutableList()
+            registeredStructures = ModRegistries.STRUCTURE.values.toMutableList()
         }
 
         // If we don't have a random yet init it
@@ -58,9 +60,9 @@ class WorldStructurePlanner {
      * @param chunkX The X coordinate of the chunk
      * @param chunkZ The Z coordinate of the chunk
      */
-    private fun planStructuresInChunk(world: World, chunkX: Int, chunkZ: Int) {
+    private fun planStructuresInChunk(world: IWorld, chunkX: Int, chunkZ: Int) {
         // If the world is server side, and it's the overworld, we begin planning overworld structures
-        if (!world.isRemote && world.provider.dimension == 0) {
+        if (!world.isRemote && world.dimension.type == DimensionType.OVERWORLD) {
             // Grab the structure plan for the world
             val structurePlan = StructurePlan.get(world)
             val chunkPos = ChunkPos(chunkX, chunkZ)
@@ -74,7 +76,7 @@ class WorldStructurePlanner {
                 val heightmap = OverworldHeightmap.get(world)
 
                 // Grab the biome provider for the world which we use to test which biomes exist where
-                val biomeProvider = world.biomeProvider
+                val biomeProvider = world.chunkProvider.chunkGenerator.biomeProvider
 
                 // Compute the 0,0 block pos for this structure
                 val chunk0Corner = chunkPos.getBlock(0, 63, 0)
@@ -127,11 +129,11 @@ class WorldStructurePlanner {
                                 // Place the structure into our structure plan
                                 structurePlan.placeStructure(
                                     structure,
-                                    structure.generateStructureData(world, posToGenerate!!, biomeProvider)
+                                    structure.generateStructureData(world.world, posToGenerate!!, biomeProvider)
                                 )
 
                                 // Generate any chunks that this structure will generate in that are already generated
-                                generateExistingChunks(structure, world, posToGenerate)
+                                generateExistingChunks(structure, world.world, posToGenerate)
 
                                 // We planned a structure for this chunk so return out
                                 return
@@ -153,7 +155,7 @@ class WorldStructurePlanner {
      */
     private fun generateExistingChunks(structure: Structure, world: World, posToGenerate: BlockPos) {
         // Store a reference to the world generator
-        val worldGenerator = AfraidOfTheDark.INSTANCE.worldGenerator
+        // val worldGenerator = AfraidOfTheDark.worldGenerator
 
         // Compute the bottom left and top right chunk position
         val bottomLeftCorner = ChunkPos(posToGenerate)
@@ -163,8 +165,8 @@ class WorldStructurePlanner {
         for (chunkX in bottomLeftCorner.x..topRightCorner.x) {
             for (chunkZ in bottomLeftCorner.z..topRightCorner.z) {
                 // If the chunk is generated at the coordinates then generate the structure at that position
-                if (world.isChunkGeneratedAt(chunkX, chunkZ)) {
-                    worldGenerator.addChunkToRegenerate(ChunkPos(chunkX, chunkZ))
+                if ((world.chunkProvider as ChunkProviderServer).chunkExists(chunkX, chunkZ)) {
+                    // worldGenerator.addChunkToRegenerate(ChunkPos(chunkX, chunkZ))
                 }
             }
         }

@@ -8,7 +8,6 @@ import com.davidm1a2.afraidofthedark.common.constants.ModToolMaterials
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItemChargeableSword
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.client.Minecraft
-import net.minecraft.client.resources.I18n
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.Entity
@@ -17,6 +16,8 @@ import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.init.Enchantments
 import net.minecraft.item.ItemStack
 import net.minecraft.util.DamageSource
+import net.minecraft.util.text.ITextComponent
+import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.world.World
 import kotlin.math.sqrt
 
@@ -25,7 +26,13 @@ import kotlin.math.sqrt
  *
  * @constructor sets the sword properties
  */
-class ItemStarMetalKhopesh : AOTDItemChargeableSword("star_metal_khopesh", ModToolMaterials.STAR_METAL) {
+class ItemStarMetalKhopesh : AOTDItemChargeableSword(
+    "star_metal_khopesh",
+    ModToolMaterials.STAR_METAL,
+    3,
+    -2.4f,
+    Properties()
+) {
     init {
         percentChargePerAttack = 35.0
     }
@@ -58,14 +65,14 @@ class ItemStarMetalKhopesh : AOTDItemChargeableSword("star_metal_khopesh", ModTo
      * @param tooltip The tooltip to return
      * @param flag True if advanced tooltips are on, false otherwise
      */
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag) {
-        val player = Minecraft.getMinecraft().player
+    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+        val player = Minecraft.getInstance().player
         if (player != null && player.getResearch().isResearched(ModResearches.STAR_METAL)) {
-            tooltip.add(I18n.format(LocalizationConstants.Item.TOOLTIP_MAGIC_ITEM_NEVER_BREAK))
-            tooltip.add(I18n.format(LocalizationConstants.Item.STAR_METAL_KHOPESH_TOOLTIP_EFFECT1))
-            tooltip.add(I18n.format(LocalizationConstants.Item.STAR_METAL_KHOPESH_TOOLTIP_EFFECT2))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.TOOLTIP_MAGIC_ITEM_NEVER_BREAK))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.STAR_METAL_KHOPESH_TOOLTIP_EFFECT1))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.STAR_METAL_KHOPESH_TOOLTIP_EFFECT2))
         } else {
-            tooltip.add(I18n.format(LocalizationConstants.Item.TOOLTIP_DONT_KNOW_HOW_TO_USE))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }
 
@@ -80,7 +87,7 @@ class ItemStarMetalKhopesh : AOTDItemChargeableSword("star_metal_khopesh", ModTo
     override fun performChargeAttack(itemStack: ItemStack, world: World, entityPlayer: EntityPlayer): Boolean {
         val nearbyEntities = world.getEntitiesWithinAABBExcludingEntity(
             entityPlayer,
-            entityPlayer.entityBoundingBox.grow(HIT_RANGE.toDouble())
+            entityPlayer.boundingBox.grow(HIT_RANGE.toDouble())
         )
         // Iterate over all entities within 5 blocks of the player
         for (entity in nearbyEntities) {
@@ -126,7 +133,7 @@ class ItemStarMetalKhopesh : AOTDItemChargeableSword("star_metal_khopesh", ModTo
      * @param itemSlot The slot the khopesh is in
      * @param isSelected True if the sword is selected, false otherwise
      */
-    override fun onUpdate(stack: ItemStack, world: World, entity: Entity, itemSlot: Int, isSelected: Boolean) {
+    override fun inventoryTick(stack: ItemStack, world: World, entity: Entity, itemSlot: Int, isSelected: Boolean) {
         // Only spin the player if the stack is spinning the player
         if (shouldSpin(stack)) {
             // Reduce the ticks remaining by one
@@ -176,10 +183,13 @@ class ItemStarMetalKhopesh : AOTDItemChargeableSword("star_metal_khopesh", ModTo
     companion object {
         // The AOE knockback range
         private const val HIT_RANGE = 5
+
         // NBT containing spin info
         private const val NBT_SPIN_TICKS_LEFT = "spin_ticks_left"
+
         // Number of ticks to spin
         private const val TICKS_TO_SPIN = 8
+
         // Number of degrees to spin per tick
         private const val DEGREES_PER_TICK = 360.0f / TICKS_TO_SPIN
     }

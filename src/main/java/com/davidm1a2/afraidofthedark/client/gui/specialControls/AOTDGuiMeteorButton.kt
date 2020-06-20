@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.client.gui.specialControls
 
 import com.davidm1a2.afraidofthedark.client.gui.standardControls.AOTDGuiButton
 import com.davidm1a2.afraidofthedark.common.registry.meteor.MeteorEntry
-import org.lwjgl.util.Color
+import java.awt.Color
 import kotlin.random.Random
 
 /**

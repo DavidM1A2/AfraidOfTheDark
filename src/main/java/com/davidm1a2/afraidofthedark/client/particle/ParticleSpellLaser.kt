@@ -20,7 +20,7 @@ class ParticleSpellLaser(
 ) : AOTDParticle(world, ModSprites.SPELL_LASER, x, y, z) {
     init {
         // 1 second lifespan
-        particleMaxAge = 20
+        maxAge = 20
 
         // No motion
         motionX = 0.0
@@ -36,6 +36,6 @@ class ParticleSpellLaser(
      */
     override fun updateMotionXYZ() {
         // Set scale to be based on time alive
-        particleScale = (particleMaxAge - particleAge) / particleMaxAge.toFloat()
+        particleScale = (maxAge - age) / maxAge.toFloat()
     }
 }

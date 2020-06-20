@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.entity.bolt
 
 import net.minecraft.entity.EntityLivingBase
+import net.minecraft.entity.EntityType
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.entity.projectile.EntityThrowable
 import net.minecraft.item.Item
@@ -27,27 +28,30 @@ abstract class EntityBolt : EntityThrowable {
     /**
      * Creates the entity in the world with a shooter source
      *
+     * @param entityType The entity type of the bolt
      * @param world The world to create the bolt in
      */
-    constructor(world: World) : super(world)
+    constructor(entityType: EntityType<*>, world: World) : super(entityType, world)
 
     /**
      * Creates the entity in the world without a source at a position
      *
+     * @param entityType The entity type of the bolt
      * @param world The world to create the bolt in
      * @param x       The x position of the bolt
      * @param y       The y position of the bolt
      * @param z       The z position of the bolt
      */
-    constructor(world: World, x: Double, y: Double, z: Double) : super(world, x, y, z)
+    constructor(entityType: EntityType<*>, x: Double, y: Double, z: Double, world: World) : super(entityType, x, y, z, world)
 
     /**
      * Creates the entity in the world with a shooter source
      *
+     * @param entityType The entity type of the bolt
      * @param world   The world to create the bolt in
      * @param thrower The shooter of the bolt
      */
-    constructor(world: World, thrower: EntityLivingBase) : super(world, thrower)
+    constructor(entityType: EntityType<*>, thrower: EntityLivingBase, world: World) : super(entityType, thrower, world)
 
     /**
      * Called when the bolt hits something
@@ -57,7 +61,7 @@ abstract class EntityBolt : EntityThrowable {
     override fun onImpact(result: RayTraceResult) {
         // Server side processing only
         if (!world.isRemote) {
-            val entityHit = result.entityHit
+            val entityHit = result.entity
             // Test if we hit an entity or the ground
             if (entityHit != null) {
                 // Test if the shooter of the bolt is a player
@@ -67,18 +71,18 @@ abstract class EntityBolt : EntityThrowable {
 
                 // If the random chance succeeds, drop the bolt item
                 if (Math.random() < chanceToDropHitEntity) {
-                    entityHit.dropItem(drop, 1)
+                    entityHit.entityDropItem(drop, 1)
                 }
             } else {
                 // If the random chance succeeds, drop the bolt item
                 if (Math.random() < chanceToDropHitGround) {
-                    dropItem(drop, 1)
+                    entityDropItem(drop, 1)
                 }
             }
         }
 
         // Kill the bolt on server and client side after impact
-        setDead()
+        remove()
     }
 
 }

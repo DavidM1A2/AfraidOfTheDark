@@ -1,10 +1,10 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.packets.animationPackets.SyncAnimation
+import com.davidm1a2.afraidofthedark.common.packets.animationPackets.AnimationPacket
+import com.davidm1a2.afraidofthedark.common.packets.animationPackets.AnimationPacketProcessor
 import com.davidm1a2.afraidofthedark.common.packets.capabilityPackets.*
 import com.davidm1a2.afraidofthedark.common.packets.otherPackets.*
-import net.minecraftforge.fml.relauncher.Side
 
 /**
  * Class that registers all of our mod's packets
@@ -14,26 +14,22 @@ object PacketRegister {
      * Registers all the mod's packets
      */
     fun initialize() {
-        val packetHandler = AfraidOfTheDark.INSTANCE.packetHandler
-        packetHandler.registerBidiPacket(SyncStartedAOTD::class.java, SyncStartedAOTD.Handler())
-        packetHandler.registerBidiPacket(SyncAOTDPlayerBasics::class.java, SyncAOTDPlayerBasics.Handler())
-        packetHandler.registerBidiPacket(SyncResearch::class.java, SyncResearch.Handler())
-        packetHandler.registerBidiPacket(UpdateWatchedMeteor::class.java, UpdateWatchedMeteor.Handler())
-        packetHandler.registerBidiPacket(SyncSpell::class.java, SyncSpell.Handler())
-        packetHandler.registerBidiPacket(SyncClearSpells::class.java, SyncClearSpells.Handler())
-        packetHandler.registerPacket(SyncAnimation::class.java, SyncAnimation.Handler(), Side.CLIENT)
-        packetHandler.registerPacket(SyncItemWithCooldown::class.java, SyncItemWithCooldown.Handler(), Side.CLIENT)
-        packetHandler.registerPacket(SyncVoidChest::class.java, SyncVoidChest.Handler(), Side.CLIENT)
-        packetHandler.registerPacket(SyncParticle::class.java, SyncParticle.Handler(), Side.CLIENT)
-        packetHandler.registerPacket(SyncFreezeData::class.java, SyncFreezeData.Handler(), Side.CLIENT)
-        packetHandler.registerPacket(PlayEnariasFightMusic::class.java, PlayEnariasFightMusic.Handler(), Side.CLIENT)
-        packetHandler.registerPacket(FireWristCrossbow::class.java, FireWristCrossbow.Handler(), Side.SERVER)
-        packetHandler.registerPacket(ProcessSextantInput::class.java, ProcessSextantInput.Handler(), Side.SERVER)
-        packetHandler.registerPacket(
-            SyncSelectedWristCrossbowBolt::class.java,
-            SyncSelectedWristCrossbowBolt.Handler(),
-            Side.SERVER
-        )
-        packetHandler.registerPacket(SyncSpellKeyPress::class.java, SyncSpellKeyPress.Handler(), Side.SERVER)
+        val packetHandler = AfraidOfTheDark.packetHandler
+        packetHandler.registerPacket(StartedAOTDPacket::class.java, StartedAOTDPacketProcessor())
+        packetHandler.registerPacket(AOTDPlayerBasicsPacket::class.java, AOTDPlayerBasicsPacketProcessor())
+        packetHandler.registerPacket(ResearchPacket::class.java, ResearchPacketProcessor())
+        packetHandler.registerPacket(UpdateWatchedMeteorPacket::class.java, UpdateWatchedMeteorPacketProcessor())
+        packetHandler.registerPacket(SpellPacket::class.java, SpellPacketProcessor())
+        packetHandler.registerPacket(ClearSpellsPacket::class.java, ClearSpellsPacketProcessor())
+        packetHandler.registerPacket(AnimationPacket::class.java, AnimationPacketProcessor())
+        packetHandler.registerPacket(CooldownSyncPacket::class.java, CooldownSyncPacketProcessor())
+        packetHandler.registerPacket(VoidChestPacket::class.java, VoidChestPacketProcessor())
+        packetHandler.registerPacket(ParticlePacket::class.java, ParticlePacketProcessor())
+        packetHandler.registerPacket(FreezeDataPacket::class.java, FreezeDataPacketProcessor())
+        packetHandler.registerPacket(PlayEnariasFightMusicPacket::class.java, PlayEnariasFightMusicPacketProcessor())
+        packetHandler.registerPacket(FireWristCrossbowPacket::class.java, FireWristCrossbowPacketProcessor())
+        packetHandler.registerPacket(ProcessSextantInputPacket::class.java, ProcessSextantInputPacketProcessor())
+        packetHandler.registerPacket(SelectedWristCrossbowBoltPacket::class.java, SelectedWristCrossbowBoltPacketProcessor())
+        packetHandler.registerPacket(SpellKeyPressPacket::class.java, SpellKeyPressPacketProcessor())
     }
 }

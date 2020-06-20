@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.effect
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.client.particle.AOTDParticleRegistry
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.packets.otherPackets.SyncParticle
+import com.davidm1a2.afraidofthedark.common.packets.otherPackets.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
@@ -11,7 +11,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEff
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.Vec3d
-import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint
+import net.minecraftforge.fml.network.PacketDistributor
 import java.util.*
 
 /**
@@ -25,8 +25,8 @@ class SpellEffectSmokeScreen : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID
             SpellComponentPropertyFactory.intProperty()
                 .withName("Smoke Density")
                 .withDescription("The number of particles present in the smoke screen.")
-                .withSetter { instance, newValue -> instance.data.setInteger(NBT_SMOKE_DENSITY, newValue) }
-                .withGetter { it.data.getInteger(NBT_SMOKE_DENSITY) }
+                .withSetter { instance, newValue -> instance.data.setInt(NBT_SMOKE_DENSITY, newValue) }
+                .withGetter { it.data.getInt(NBT_SMOKE_DENSITY) }
                 .withDefaultValue(10)
                 .withMinValue(1)
                 .build()
@@ -45,16 +45,16 @@ class SpellEffectSmokeScreen : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID
 
         // Create smokeDensity random smoke particles
         for (i in 0 until getSmokeDensity(instance)) {
-            positions.add(position.addVector(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5))
+            positions.add(position.add(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5))
         }
 
-        AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(
-            SyncParticle(
+        AfraidOfTheDark.packetHandler.sendToAllAround(
+            ParticlePacket(
                 AOTDParticleRegistry.ParticleTypes.SMOKE_SCREEN_ID,
                 positions,
                 Collections.nCopies(positions.size, Vec3d.ZERO)
             ),
-            TargetPoint(state.world.provider.dimension, position.x, position.y, position.z, 100.0)
+            PacketDistributor.TargetPoint(position.x, position.y, position.z, 100.0, state.world.dimension.type)
         )
     }
 
@@ -75,7 +75,7 @@ class SpellEffectSmokeScreen : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID
      * @return amount of smoke density this effect gives
      */
     fun getSmokeDensity(instance: SpellComponentInstance<SpellEffect>): Int {
-        return instance.data.getInteger(NBT_SMOKE_DENSITY)
+        return instance.data.getInt(NBT_SMOKE_DENSITY)
     }
 
     companion object {

@@ -1,54 +1,77 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
-import com.davidm1a2.afraidofthedark.common.dimension.nightmare.NightmareWorldProvider
-import com.davidm1a2.afraidofthedark.common.dimension.voidChest.VoidChestWorldProvider
-import net.minecraft.world.DimensionType
+import net.minecraft.world.dimension.DimensionType
 import net.minecraftforge.common.DimensionManager
-import org.apache.commons.lang3.StringUtils
+import net.minecraftforge.common.ModDimension
+import net.minecraftforge.event.RegistryEvent
+import net.minecraftforge.event.world.RegisterDimensionsEvent
+import net.minecraftforge.eventbus.api.SubscribeEvent
 
 /**
  * Class that registers all AOTD dimensions into the game
  */
-object DimensionRegister {
+class DimensionRegister {
+    /**
+     * Called by forge to register any of our mod dimension references
+     *
+     * @param event The event to register to
+     */
+    @SubscribeEvent
+    fun registerModDimensions(event: RegistryEvent.Register<ModDimension>) {
+        event.registry.registerAll(*ModDimensions.DIMENSION_LIST)
+    }
+
+    /**
+     * Called by forge to register any of our mod dimensions. This is required since dimensions
+     * are are created in 2 parts
+     *
+     * @param event The event to register to
+     */
+    @SubscribeEvent
+    fun registerDimensions(event: RegisterDimensionsEvent) {
+        val nightmare = ModDimensions.NIGHTMARE
+        if (DimensionType.byName(nightmare.registryName!!) == null) {
+            ModDimensions.NIGHTMARE_TYPE = DimensionManager.registerDimension(nightmare.registryName, nightmare, null)
+        }
+
+        val voidChest = ModDimensions.VOID_CHEST
+        if (DimensionType.byName(voidChest.registryName!!) == null) {
+            ModDimensions.VOID_CHEST_TYPE = DimensionManager.registerDimension(voidChest.registryName, voidChest, null)
+        }
+    }
+
     /**
      * Registers all AOTD dimensions
      */
-    fun initialize() {
-        // The reason we can't do this in a loop is because the getNextFreeDimId() doesn't return a new value until after registerDimension is called, so we must call these lines in this order
-        val configurationHandler = AfraidOfTheDark.INSTANCE.configurationHandler
-
-        // For each dimension:
-        // 1) Grab the ID from config
-        // 2) If it's the key ID of 0 then grab a dynamic ID instead
-        // 3) Register the dimension type with the ID
-        // 4) Instantly register the dimension after, incrementing the next free ID for the next mod
-
-        var voidChestDimensionId = configurationHandler.voidChestDimensionId
-        if (voidChestDimensionId == 0) {
-            voidChestDimensionId = DimensionManager.getNextFreeDimId()
-        }
-        ModDimensions.VOID_CHEST = DimensionType.register(
-            "Void Chest",
-            StringUtils.EMPTY,
-            voidChestDimensionId,
-            VoidChestWorldProvider::class.java,
-            false
-        )
-        DimensionManager.registerDimension(ModDimensions.VOID_CHEST.id, ModDimensions.VOID_CHEST)
-
-        var nightmareDimensionId = configurationHandler.nightmareDimensionId
-        if (nightmareDimensionId == 0) {
-            nightmareDimensionId = DimensionManager.getNextFreeDimId()
-        }
-        ModDimensions.NIGHTMARE = DimensionType.register(
-            "Nightmare",
-            StringUtils.EMPTY,
-            nightmareDimensionId,
-            NightmareWorldProvider::class.java,
-            false
-        )
-        DimensionManager.registerDimension(ModDimensions.NIGHTMARE.id, ModDimensions.NIGHTMARE)
+    /*
+fun initialize() {
+    var voidChestDimensionId = configurationHandler.voidChestDimensionId
+    if (voidChestDimensionId == 0) {
+        voidChestDimensionId = DimensionManager.getNextFreeDimId()
     }
+    ModDimensions.VOID_CHEST_TYPE = DimensionType.register(
+        "Void Chest",
+        StringUtils.EMPTY,
+        voidChestDimensionId,
+        VoidChestDimension::class.java,
+        false
+    )
+    DimensionManager.registerDimension(ModDimensions.VOID_CHEST_TYPE.id, ModDimensions.VOID_CHEST_TYPE)
+
+    var nightmareDimensionId = configurationHandler.nightmareDimensionId
+    if (nightmareDimensionId == 0) {
+        nightmareDimensionId = DimensionManager.getNextFreeDimId()
+    }
+    ModDimensions.NIGHTMARE_TYPE = DimensionType.register(
+        "Nightmare",
+        StringUtils.EMPTY,
+        nightmareDimensionId,
+        NightmareDimension::class.java,
+        false
+    )
+    DimensionManager.registerDimension(ModDimensions.NIGHTMARE_TYPE.id, ModDimensions.NIGHTMARE_TYPE)
+}
+
+     */
 }

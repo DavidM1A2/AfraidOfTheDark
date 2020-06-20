@@ -1,10 +1,10 @@
 package com.davidm1a2.afraidofthedark.common.registry.meteor
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
 import net.minecraft.block.Block
 import net.minecraft.util.ResourceLocation
-import net.minecraftforge.registries.IForgeRegistryEntry
+import net.minecraftforge.registries.ForgeRegistryEntry
+import org.apache.logging.log4j.LogManager
 
 /**
  * Base class for all meteor entries, meteor entries are used to define new meteor properties
@@ -23,14 +23,14 @@ abstract class MeteorEntry(
     val richnessPercent: Double,
     val interiorBlock: Block,
     val preRequisite: Research
-) : IForgeRegistryEntry.Impl<MeteorEntry>() {
+) : ForgeRegistryEntry<MeteorEntry>() {
     init {
         // Ensure the min/max radii are valid values
         if (minMeteorRadius < 2) {
-            AfraidOfTheDark.INSTANCE.logger.error("Meteor entries should not have a min radius less than 2!")
+            logger.error("Meteor entries should not have a min radius less than 2!")
         }
         if (minMeteorRadius > maxMeteorRadius) {
-            AfraidOfTheDark.INSTANCE.logger.error("Meteor entries max-radius should be larger than the min-radius!")
+            logger.error("Meteor entries max-radius should be larger than the min-radius!")
         }
     }
 
@@ -38,6 +38,10 @@ abstract class MeteorEntry(
      * @return The unlocalized name of the meteor entry
      */
     fun getUnlocalizedName(): String {
-        return "meteor_entry.${registryName!!.resourceDomain}:${registryName!!.resourcePath}.name"
+        return "meteor_entry.${registryName.toString()}.name"
+    }
+
+    companion object {
+        private val logger = LogManager.getLogger()
     }
 }

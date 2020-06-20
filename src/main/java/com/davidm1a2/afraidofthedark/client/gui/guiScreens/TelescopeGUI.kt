@@ -11,7 +11,7 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.item.telescope.ItemTelescopeBase
-import com.davidm1a2.afraidofthedark.common.packets.otherPackets.UpdateWatchedMeteor
+import com.davidm1a2.afraidofthedark.common.packets.otherPackets.UpdateWatchedMeteorPacket
 
 /**
  * Gui screen that represents the telescope GUI
@@ -64,7 +64,7 @@ class TelescopeGUI : AOTDGuiClickAndDragable() {
                         val telescopeItem = entityPlayer.heldItemMainhand.item as? ItemTelescopeBase ?: entityPlayer.heldItemOffhand.item as? ItemTelescopeBase
                         val accuracy = telescopeItem?.accuracy ?: WORST_ACCURACY
                         // Tell the server we're watching a new meteor. It will update our capability NBT data for us
-                        AfraidOfTheDark.INSTANCE.packetHandler.sendToServer(UpdateWatchedMeteor((event.source as AOTDGuiMeteorButton).meteorType, accuracy))
+                        AfraidOfTheDark.packetHandler.sendToServer(UpdateWatchedMeteorPacket((event.source as AOTDGuiMeteorButton).meteorType, accuracy))
                         entityPlayer.closeScreen()
                     }
                 }
@@ -75,7 +75,7 @@ class TelescopeGUI : AOTDGuiClickAndDragable() {
         val playerResearch = entityPlayer.getResearch()
         // Grab a list of possible meteors
         val possibleMeteors =
-            ModRegistries.METEORS.valuesCollection.filter { playerResearch.isResearched(it.preRequisite) }
+            ModRegistries.METEORS.getValues().filter { playerResearch.isResearched(it.preRequisite) }
         // If we somehow open the GUI without having any known meteors don't show any. This can happen if the telescope is right
         // clicked and the packet to update research from the server hasn't arrived yet
         if (possibleMeteors.isNotEmpty()) {
@@ -108,22 +108,26 @@ class TelescopeGUI : AOTDGuiClickAndDragable() {
     }
 
     /**
-     * Called when we drag the mouse
+     * Called when the mouse is dragged
      *
-     * @param mouseX            The mouse X position
-     * @param mouseY            The mouse Y position
-     * @param lastButtonClicked The last button clicked
-     * @param timeBetweenClicks The time between the last click
+     * @param mouseX The x position of the mouse
+     * @param mouseY The y position of the mouse
+     * @param lastButtonClicked The mouse button that was dragged
+     * @param mouseXTo The position we are dragging the x from
+     * @param mouseYTo The position we are dragging the y from
      */
-    override fun mouseClickMove(mouseX: Int, mouseY: Int, lastButtonClicked: Int, timeBetweenClicks: Long) {
+    override fun mouseDragged(mouseX: Double, mouseY: Double, lastButtonClicked: Int, mouseXTo: Double, mouseYTo: Double): Boolean {
         // Call super first
-        super.mouseClickMove(mouseX, mouseY, lastButtonClicked, timeBetweenClicks)
+        val toReturn = super.mouseDragged(mouseX, mouseY, lastButtonClicked, mouseXTo, mouseYTo)
+
         // Move the meteors based on the gui offset
         telescopeMeteors.setX(-guiOffsetX + telescopeMeteors.parent!!.getX())
         telescopeMeteors.setY(-guiOffsetY + telescopeMeteors.parent!!.getY())
         // Update the background image's U/V
         telescopeImage.u = guiOffsetX + (telescopeImage.getMaxTextureWidth() - telescopeImage.getWidth()) / 2
         telescopeImage.v = guiOffsetY + (telescopeImage.getMaxTextureHeight() - telescopeImage.getHeight()) / 2
+
+        return toReturn
     }
 
     /**

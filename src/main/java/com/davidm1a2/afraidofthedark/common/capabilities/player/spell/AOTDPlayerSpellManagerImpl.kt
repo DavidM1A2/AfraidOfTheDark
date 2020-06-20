@@ -1,13 +1,14 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.spell
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.packets.capabilityPackets.SyncClearSpells
-import com.davidm1a2.afraidofthedark.common.packets.capabilityPackets.SyncSpell
+import com.davidm1a2.afraidofthedark.common.packets.capabilityPackets.ClearSpellsPacketProcessor
+import com.davidm1a2.afraidofthedark.common.packets.capabilityPackets.SpellPacket
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.google.common.collect.BiMap
 import com.google.common.collect.HashBiMap
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.entity.player.EntityPlayerMP
+import org.apache.logging.log4j.LogManager
 import java.util.*
 
 /**
@@ -66,7 +67,7 @@ class AOTDPlayerSpellManagerImpl : IAOTDPlayerSpellManager {
         if (spellIdToSpell.containsKey(spell.id)) {
             keybindToSpellId.forcePut(key, spell.id)
         } else {
-            AfraidOfTheDark.INSTANCE.logger.error("Cannot bind a spell that isn't registered!")
+            logger.error("Cannot bind a spell that isn't registered!")
         }
     }
 
@@ -135,9 +136,9 @@ class AOTDPlayerSpellManagerImpl : IAOTDPlayerSpellManager {
     override fun syncAll(entityPlayer: EntityPlayer) {
         // Clear the existing spells first
         if (isServerSide(entityPlayer)) {
-            AfraidOfTheDark.INSTANCE.packetHandler.sendTo(SyncClearSpells(), entityPlayer as EntityPlayerMP)
+            AfraidOfTheDark.packetHandler.sendTo(ClearSpellsPacketProcessor(), entityPlayer as EntityPlayerMP)
         } else {
-            AfraidOfTheDark.INSTANCE.packetHandler.sendToServer(SyncClearSpells())
+            AfraidOfTheDark.packetHandler.sendToServer(ClearSpellsPacketProcessor())
         }
         // Go over each spell and sync them one by one. We do this to avoid a large memory overhead
         // of sending many spells in a single packet
@@ -152,12 +153,12 @@ class AOTDPlayerSpellManagerImpl : IAOTDPlayerSpellManager {
         // Grab the keybind or null
         val keybind = getKeybindingForSpell(spell)
         // Create the packet
-        val syncSpellPacket = SyncSpell(spell, keybind)
+        val syncSpellPacket = SpellPacket(spell, keybind)
         // If we're on server side send the packet to the player, otherwise send it to the server
         if (isServerSide(entityPlayer)) {
-            AfraidOfTheDark.INSTANCE.packetHandler.sendTo(syncSpellPacket, entityPlayer as EntityPlayerMP)
+            AfraidOfTheDark.packetHandler.sendTo(syncSpellPacket, entityPlayer as EntityPlayerMP)
         } else {
-            AfraidOfTheDark.INSTANCE.packetHandler.sendToServer(syncSpellPacket)
+            AfraidOfTheDark.packetHandler.sendToServer(syncSpellPacket)
         }
     }
 
@@ -169,5 +170,9 @@ class AOTDPlayerSpellManagerImpl : IAOTDPlayerSpellManager {
      */
     private fun isServerSide(entityPlayer: EntityPlayer): Boolean {
         return !entityPlayer.world.isRemote
+    }
+
+    companion object {
+        private val logger = LogManager.getLogger()
     }
 }

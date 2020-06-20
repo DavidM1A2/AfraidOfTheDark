@@ -4,8 +4,8 @@ import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL11
-import org.lwjgl.util.Point
-import org.lwjgl.util.Rectangle
+import java.awt.Point
+import java.awt.Rectangle
 import kotlin.math.round
 
 /**
@@ -74,7 +74,7 @@ class AOTDGuiScrollPanel(
                 // Create an int buffer to hold all the current scissor box values
                 val buffer = BufferUtils.createIntBuffer(16)
                 // Grab the current scissor box values
-                GL11.glGetInteger(GL11.GL_SCISSOR_BOX, buffer)
+                GL11.glGetIntegerv(GL11.GL_SCISSOR_BOX, buffer)
 
                 // Grab the old scissor rect values from the buffer
                 val oldX = buffer.get()

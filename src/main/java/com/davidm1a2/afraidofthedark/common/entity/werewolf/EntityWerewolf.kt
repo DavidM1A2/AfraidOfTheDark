@@ -2,16 +2,13 @@ package com.davidm1a2.afraidofthedark.common.entity.werewolf
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
-import com.davidm1a2.afraidofthedark.common.constants.ModDamageSources
-import com.davidm1a2.afraidofthedark.common.constants.ModItems
-import com.davidm1a2.afraidofthedark.common.constants.ModResearches
-import com.davidm1a2.afraidofthedark.common.constants.ModSounds
+import com.davidm1a2.afraidofthedark.common.constants.*
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
 import com.davidm1a2.afraidofthedark.common.entity.werewolf.animation.ChannelBite
 import com.davidm1a2.afraidofthedark.common.entity.werewolf.animation.ChannelRun
-import com.davidm1a2.afraidofthedark.common.packets.animationPackets.SyncAnimation
+import com.davidm1a2.afraidofthedark.common.packets.animationPackets.AnimationPacket
 import net.minecraft.entity.Entity
 import net.minecraft.entity.SharedMonsterAttributes
 import net.minecraft.entity.ai.*
@@ -24,7 +21,7 @@ import net.minecraft.util.DamageSource
 import net.minecraft.util.EntityDamageSource
 import net.minecraft.util.SoundEvent
 import net.minecraft.world.World
-import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint
+import net.minecraftforge.fml.network.PacketDistributor
 
 /**
  * Class representing a werewolf entity
@@ -34,7 +31,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint
  * @property animHandler Animation handler used by the werewolf
  * @property attacksAnyone Flag telling the werewolf if it is allowed to attack anyone or just players that have started AOTD
  */
-class EntityWerewolf(world: World) : EntityMob(world),
+class EntityWerewolf(world: World) : EntityMob(ModEntities.WEREWOLF, world),
     IMCAnimatedModel {
     private val animHandler = AnimationHandler(
         ChannelBite("Bite", 50.0f, 21, ChannelMode.LINEAR),
@@ -73,8 +70,8 @@ class EntityWerewolf(world: World) : EntityMob(world),
     /**
      * Sets entity attributes such as max health and movespeed
      */
-    override fun applyEntityAttributes() {
-        super.applyEntityAttributes()
+    override fun registerAttributes() {
+        super.registerAttributes()
         attributeMap.getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH).baseValue = MAX_HEALTH
         attributeMap.getAttributeInstance(SharedMonsterAttributes.FOLLOW_RANGE).baseValue = FOLLOW_RANGE
         attributeMap.getAttributeInstance(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).baseValue = KNOCKBACK_RESISTANCE
@@ -85,8 +82,8 @@ class EntityWerewolf(world: World) : EntityMob(world),
     /**
      * Update animations for this entity when update is called
      */
-    override fun onUpdate() {
-        super.onUpdate()
+    override fun tick() {
+        super.tick()
 
         // Animations only update client side
         if (world.isRemote) {
@@ -97,9 +94,9 @@ class EntityWerewolf(world: World) : EntityMob(world),
     /**
      * Called every tick to update the entities state
      */
-    override fun onEntityUpdate() {
+    override fun baseTick() {
         // Call super
-        super.onEntityUpdate()
+        super.baseTick()
 
         // Show the walking animation if the entity is walking and not biting
         if (world.isRemote) {
@@ -137,12 +134,7 @@ class EntityWerewolf(world: World) : EntityMob(world),
                     // If the player has the slaying of the wolves achievement then test if the player has glass bottles to fill with werewolf blood
                     if (playerResearch.isResearched(ModResearches.SLAYING_OF_THE_WOLVES)) {
                         // If the player is in creative mode or we can clear a glass bottle do so and add 1 werewolf blood
-                        if (killer.isCreative || killer.inventory.clearMatchingItems(
-                                Items.GLASS_BOTTLE,
-                                0,
-                                1,
-                                null
-                            ) == 1
+                        if (killer.isCreative || killer.inventory.clearMatchingItems({ it.item == Items.GLASS_BOTTLE }, 1) == 1
                         ) {
                             killer.inventory.addItemStackToInventory(ItemStack(ModItems.WEREWOLF_BLOOD, 1))
                         }
@@ -182,9 +174,9 @@ class EntityWerewolf(world: World) : EntityMob(world),
         if (!world.isRemote) {
             if (entity is EntityPlayer) {
                 // Show all players within 50 blocks the bite animation
-                AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(
-                    SyncAnimation("Bite", this, "Bite"),
-                    TargetPoint(dimension, posX, posY, posZ, 50.0)
+                AfraidOfTheDark.packetHandler.sendToAllAround(
+                    AnimationPacket(this, "Bite", "Bite"),
+                    PacketDistributor.TargetPoint(posX, posY, posZ, 50.0, dimension)
                 )
 
                 // If the thing that was attacked was a player test if that player was killed or not
@@ -208,9 +200,9 @@ class EntityWerewolf(world: World) : EntityMob(world),
      *
      * @param nbtTagCompound The compound to read from
      */
-    override fun readEntityFromNBT(nbtTagCompound: NBTTagCompound) {
+    override fun readAdditional(nbtTagCompound: NBTTagCompound) {
+        super.readAdditional(nbtTagCompound)
         attacksAnyone = nbtTagCompound.getBoolean(NBT_CAN_ATTACK_ANYONE)
-        super.readEntityFromNBT(nbtTagCompound)
     }
 
     /**
@@ -218,9 +210,9 @@ class EntityWerewolf(world: World) : EntityMob(world),
      *
      * @param nbtTagCompound The compound to write to
      */
-    override fun writeEntityToNBT(nbtTagCompound: NBTTagCompound) {
+    override fun writeAdditional(nbtTagCompound: NBTTagCompound) {
+        super.writeAdditional(nbtTagCompound)
         nbtTagCompound.setBoolean(NBT_CAN_ATTACK_ANYONE, attacksAnyone)
-        super.writeEntityToNBT(nbtTagCompound)
     }
 
     /**

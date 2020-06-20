@@ -33,7 +33,7 @@ class SpellEffectDig : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "dig")
             // Digs the block at the position
             val position = state.blockPosition
             if (canBlockBeDestroyed(world, position)) {
-                createParticlesAt(1, 3, state.position, world.provider.dimension)
+                createParticlesAt(1, 3, state.position, world.dimension.type)
                 world.destroyBlock(position, true)
             }
         }

@@ -7,4 +7,4 @@ import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
  *
  * @constructor sets the item name
  */
-class ItemWerewolfBlood : AOTDItem("werewolf_blood")
+class ItemWerewolfBlood : AOTDItem("werewolf_blood", Properties())

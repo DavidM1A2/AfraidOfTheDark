@@ -10,29 +10,26 @@ import net.minecraft.item.ItemStack
 import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
+import net.minecraftforge.common.ToolType
 
 /**
  * Class that represents an astral silver ore block
  *
  * @constructor initializes the block's properties
  */
-class BlockAstralSilverOre : AOTDBlock("astral_silver_ore", Material.ROCK) {
-    init {
-        setHardness(10.0f)
-        setResistance(50.0f)
-        this.setHarvestLevel("pickaxe", 2)
+class BlockAstralSilverOre : AOTDBlock(
+    "astral_silver_ore",
+    Properties.create(Material.ROCK)
+        .hardnessAndResistance(10.0f, 50.0f)
+) {
+    override fun getHarvestLevel(state: IBlockState): Int {
+        return 2
     }
 
-    /**
-     * Called when the block gets harvested with a pickaxe
-     *
-     * @param worldIn The world the block is in
-     * @param player  The player that broke the block
-     * @param pos     The position of the block
-     * @param state   The state of the block
-     * @param te      The tile entity at the block pos
-     * @param stack   The item stack used to break the block
-     */
+    override fun getHarvestTool(state: IBlockState): ToolType {
+        return ToolType.PICKAXE
+    }
+
     override fun harvestBlock(
         worldIn: World,
         player: EntityPlayer,

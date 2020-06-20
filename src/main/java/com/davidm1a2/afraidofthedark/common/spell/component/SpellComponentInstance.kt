@@ -22,7 +22,7 @@ open class SpellComponentInstance<T : SpellComponent<T>>(val component: T) : INB
     }
 
     override fun deserializeNBT(nbt: NBTTagCompound) {
-        data = nbt.getCompoundTag(NBT_EXTRA_DATA)
+        data = nbt.getCompound(NBT_EXTRA_DATA)
     }
 
     companion object {

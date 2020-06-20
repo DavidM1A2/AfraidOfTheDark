@@ -7,9 +7,11 @@ import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import net.minecraft.util.ChatAllowedCharacters
-import org.lwjgl.input.Keyboard
-import org.lwjgl.util.Color
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiScreen
+import net.minecraft.util.SharedConstants
+import org.lwjgl.glfw.GLFW
+import java.awt.Color
 
 /**
  * The GUI text field control to let users enter text
@@ -95,21 +97,21 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
         // Ensure the text field is focused
         if (this.isFocused) {
             // CTRL + A
-            if (AOTDGuiUtility.isCtrlKeyDown() && keyCode == Keyboard.KEY_A) {
+            if (GuiScreen.isCtrlKeyDown() && keyCode == GLFW.GLFW_KEY_A) {
                 // Select all text, not yet implemented
             }
             // CTRL + C
-            else if (AOTDGuiUtility.isCtrlKeyDown() && keyCode == Keyboard.KEY_C) {
+            else if (GuiScreen.isCtrlKeyDown() && keyCode == GLFW.GLFW_KEY_C) {
                 // Update the clipboard string
                 AOTDGuiUtility.setClipboardString(this.getText())
             }
             // Ctrl + V
-            else if (AOTDGuiUtility.isCtrlKeyDown() && keyCode == Keyboard.KEY_V) {
+            else if (GuiScreen.isCtrlKeyDown() && keyCode == GLFW.GLFW_KEY_V) {
                 this.setText("")
-                this.addText(ChatAllowedCharacters.filterAllowedCharacters(AOTDGuiUtility.getClipboardString()))
+                this.addText(SharedConstants.filterAllowedCharacters(AOTDGuiUtility.getClipboardString()))
             }
             // CTRL + X
-            else if (AOTDGuiUtility.isCtrlKeyDown() && keyCode == Keyboard.KEY_X) {
+            else if (GuiScreen.isCtrlKeyDown() && keyCode == GLFW.GLFW_KEY_X) {
                 AOTDGuiUtility.setClipboardString(this.getText())
                 this.setText("")
             }
@@ -117,17 +119,17 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
             else {
                 when (keyCode) {
                     // Backspace removes 1 character
-                    Keyboard.KEY_BACK -> this.removeChars(1)
+                    GLFW.GLFW_KEY_BACKSPACE -> this.removeChars(1)
                     // Left arrow
-                    Keyboard.KEY_LEFT -> {
+                    GLFW.GLFW_KEY_LEFT -> {
                         // Not yet implemented
                     }
                     // Right arrow
-                    Keyboard.KEY_RIGHT -> {
+                    GLFW.GLFW_KEY_RIGHT -> {
                         // Not yet implemented
                     }
                     else ->
-                        if (ChatAllowedCharacters.isAllowedCharacter(character)) {
+                        if (SharedConstants.isAllowedCharacter(character)) {
                             // Add the character
                             this.addText(character.toString())
                         }
@@ -163,7 +165,7 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
         // Make sure that the text contains valid characters
         @Suppress("NAME_SHADOWING")
         var text = text
-        text = ChatAllowedCharacters.filterAllowedCharacters(text)
+        text = SharedConstants.filterAllowedCharacters(text)
         // Now we test if we should show ghost text or not
         // If the control is focused then we don't show ghost text
         if (isFocused) {
@@ -235,7 +237,7 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
         // If we were not focused and now are focused update the text
         if (!wasFocused && isFocused) {
             // Enable repeat events so we can type multiple characters in the box by holding them
-            Keyboard.enableRepeatEvents(true)
+            Minecraft.getInstance().keyboardListener.enableRepeatEvents(true)
             // Set the background to be tinted
             background.color = FOCUSED_COLOR_TINT
             // Get the current text
@@ -246,7 +248,7 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
             this.setText(currentText)
         } else if (wasFocused && !isFocused) {
             // Disable repeat events
-            Keyboard.enableRepeatEvents(false)
+            Minecraft.getInstance().keyboardListener.enableRepeatEvents(false)
             // Set the background to be untinted
             background.color = BASE_COLOR_TINT
             // Get the current text

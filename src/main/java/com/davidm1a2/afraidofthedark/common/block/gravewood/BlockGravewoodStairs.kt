@@ -8,4 +8,4 @@ import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
  *
  * @constructor sets the name and texture to the gravewood plank texture
  */
-class BlockGravewoodStairs : AOTDBlockStairs("gravewood_stairs", ModBlocks.GRAVEWOOD_PLANKS.defaultState)
+class BlockGravewoodStairs : AOTDBlockStairs("gravewood_stairs", ModBlocks.GRAVEWOOD_PLANKS.defaultState, Properties.from(ModBlocks.GRAVEWOOD_PLANKS))

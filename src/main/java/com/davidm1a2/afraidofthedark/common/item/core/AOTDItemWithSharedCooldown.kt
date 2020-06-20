@@ -9,8 +9,11 @@ import net.minecraft.item.ItemStack
  * @constructor sets up item properties
  * @param baseName The name of the item to be used by the game registry
  */
-abstract class AOTDItemWithSharedCooldown(baseName: String, displayInCreative: Boolean = true) :
-    AOTDItemWithPerItemCooldown(baseName, displayInCreative) {
+abstract class AOTDItemWithSharedCooldown(
+    baseName: String,
+    properties: Properties,
+    displayInCreative: Boolean = true
+) : AOTDItemWithPerItemCooldown(baseName, properties, displayInCreative) {
     /**
      * Set all similar items on cooldown as well
      *

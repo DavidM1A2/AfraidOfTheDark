@@ -1,22 +1,19 @@
 package com.davidm1a2.afraidofthedark.common.entity.enchantedFrog
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.constants.ModItems
-import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
-import com.davidm1a2.afraidofthedark.common.constants.ModSounds
-import com.davidm1a2.afraidofthedark.common.constants.ModSpellPowerSources
+import com.davidm1a2.afraidofthedark.common.constants.*
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.animation.ChannelCast
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.animation.ChannelHop
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
-import com.davidm1a2.afraidofthedark.common.packets.animationPackets.SyncAnimation
+import com.davidm1a2.afraidofthedark.common.packets.animationPackets.AnimationPacket
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethodInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffectInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSourceInstance
-import net.minecraft.block.Block
+import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.EntityCreature
 import net.minecraft.entity.SharedMonsterAttributes
 import net.minecraft.entity.ai.EntityAILookIdle
@@ -39,7 +36,7 @@ import kotlin.random.Random
  * @param world The world the frog is spawning into
  * @property animHandler The animation handler used to manage animations
  */
-class EntityEnchantedFrog(world: World) : EntityCreature(world), IMCAnimatedModel {
+class EntityEnchantedFrog(world: World) : EntityCreature(ModEntities.ENCHANTED_FROG, world), IMCAnimatedModel {
     // We don't need to write this to NBT data, it's not important to persist
     private var ticksUntilNextCastAttempt = MAX_TICKS_BETWEEN_CASTS
     private val animHandler = AnimationHandler(
@@ -122,8 +119,8 @@ class EntityEnchantedFrog(world: World) : EntityCreature(world), IMCAnimatedMode
     /**
      * Sets entity attributes such as max health and movespeed
      */
-    override fun applyEntityAttributes() {
-        super.applyEntityAttributes()
+    override fun registerAttributes() {
+        super.registerAttributes()
         attributeMap.getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH).baseValue = MAX_HEALTH.toDouble()
         attributeMap.getAttributeInstance(SharedMonsterAttributes.FOLLOW_RANGE).baseValue = FOLLOW_RANGE.toDouble()
         attributeMap.getAttributeInstance(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).baseValue =
@@ -134,8 +131,8 @@ class EntityEnchantedFrog(world: World) : EntityCreature(world), IMCAnimatedMode
     /**
      * Update animations for this entity when update is called
      */
-    override fun onUpdate() {
-        super.onUpdate()
+    override fun tick() {
+        super.tick()
         // Animations only update client side
         if (world.isRemote) {
             animHandler.update()
@@ -145,9 +142,9 @@ class EntityEnchantedFrog(world: World) : EntityCreature(world), IMCAnimatedMode
     /**
      * Called every game tick for the entity
      */
-    override fun onEntityUpdate() {
+    override fun baseTick() {
         // Don't forget to call super!
-        super.onEntityUpdate()
+        super.baseTick()
 
         // If we're on client side test if we need to show walking animations
         if (world.isRemote) {
@@ -169,8 +166,8 @@ class EntityEnchantedFrog(world: World) : EntityCreature(world), IMCAnimatedMode
                 ) { it is EntityPlayer }
                 // Cast at the player, and show the cast animation
                 nearestPlayer?.let {
-                    frogsSpell.attemptToCast(this, it.getPositionEyes(1.0f).subtract(this.positionVector).normalize())
-                    AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(SyncAnimation("cast", this), this, 50.0)
+                    frogsSpell.attemptToCast(this, it.getEyePosition(1.0f).subtract(this.positionVector).normalize())
+                    AfraidOfTheDark.packetHandler.sendToAllAround(AnimationPacket(this, "cast"), this, 50.0)
                 }
 
                 ticksUntilNextCastAttempt = Random.nextInt(MIN_TICKS_BETWEEN_CASTS, MAX_TICKS_BETWEEN_CASTS)
@@ -195,7 +192,7 @@ class EntityEnchantedFrog(world: World) : EntityCreature(world), IMCAnimatedMode
         }
 
         if (numberToDrop > 0) {
-            dropItem(this.dropItem, numberToDrop)
+            entityDropItem(this.dropItem, numberToDrop)
         }
     }
 
@@ -212,8 +209,9 @@ class EntityEnchantedFrog(world: World) : EntityCreature(world), IMCAnimatedMode
      * Don't play a step sound for the frog
      *
      * @param pos The position
+     * @param state The block's state
      */
-    override fun playStepSound(pos: BlockPos, blockIn: Block) {
+    override fun playStepSound(pos: BlockPos, state: IBlockState) {
     }
 
     /**
@@ -263,8 +261,8 @@ class EntityEnchantedFrog(world: World) : EntityCreature(world), IMCAnimatedMode
      *
      * @param compound The compound to write to
      */
-    override fun writeEntityToNBT(compound: NBTTagCompound) {
-        super.writeEntityToNBT(compound)
+    override fun writeAdditional(compound: NBTTagCompound) {
+        super.writeAdditional(compound)
         compound.setTag(NBT_SPELL, frogsSpell.serializeNBT())
     }
 
@@ -273,9 +271,9 @@ class EntityEnchantedFrog(world: World) : EntityCreature(world), IMCAnimatedMode
      *
      * @param compound The compound to read from
      */
-    override fun readEntityFromNBT(compound: NBTTagCompound) {
-        super.readEntityFromNBT(compound)
-        frogsSpell = Spell(compound.getCompoundTag(NBT_SPELL))
+    override fun readAdditional(compound: NBTTagCompound) {
+        super.readAdditional(compound)
+        frogsSpell = Spell(compound.getCompound(NBT_SPELL))
     }
 
     companion object {

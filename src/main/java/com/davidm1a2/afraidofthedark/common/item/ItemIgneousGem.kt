@@ -10,7 +10,7 @@ import net.minecraft.world.World
  *
  * @constructor initializes the item name
  */
-class ItemIgneousGem : AOTDItem("igneous_gem") {
+class ItemIgneousGem : AOTDItem("igneous_gem", Properties()) {
     /**
      * Lights the entity on fire when held for 3 seconds
      *
@@ -20,7 +20,7 @@ class ItemIgneousGem : AOTDItem("igneous_gem") {
      * @param itemSlot The slot the item is in
      * @param isSelected True if the item is selected, false otherwise
      */
-    override fun onUpdate(stack: ItemStack, world: World, entity: Entity, itemSlot: Int, isSelected: Boolean) {
+    override fun inventoryTick(stack: ItemStack, world: World, entity: Entity, itemSlot: Int, isSelected: Boolean) {
         entity.setFire(3)
     }
 }

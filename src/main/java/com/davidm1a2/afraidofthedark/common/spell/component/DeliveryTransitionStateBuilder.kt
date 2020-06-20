@@ -127,7 +127,7 @@ class DeliveryTransitionStateBuilder {
     fun withEntity(entity: Entity): DeliveryTransitionStateBuilder {
         this.entity = entity
         world = entity.entityWorld
-        position = entity.getPositionEyes(1.0f)
+        position = entity.getEyePosition(1.0f)
         blockPosition = BlockPos(position)
         direction = entity.lookVec
         return this

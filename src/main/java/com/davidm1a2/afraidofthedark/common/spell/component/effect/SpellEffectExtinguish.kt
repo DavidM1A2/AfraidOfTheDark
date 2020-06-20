@@ -30,7 +30,7 @@ class SpellEffectExtinguish : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID,
             val world: World = state.world
             val position = state.blockPosition
             if (world.getBlockState(position).block is BlockFire) {
-                createParticlesAt(1, 3, state.position, world.provider.dimension)
+                createParticlesAt(1, 3, state.position, world.dimension.type)
                 world.setBlockState(position, Blocks.AIR.defaultState)
             }
         }

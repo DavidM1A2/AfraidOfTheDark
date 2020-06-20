@@ -19,7 +19,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.item.ItemJournal
 import net.minecraft.init.SoundEvents
 import net.minecraft.util.text.TextComponentTranslation
-import org.lwjgl.util.Color
+import java.awt.Color
 
 /**
  * Class used to create a blood stained journal signing UI

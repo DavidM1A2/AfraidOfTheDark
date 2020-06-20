@@ -33,7 +33,7 @@ class SpellEffectTeleport : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "
                 position.x,
                 position.y,
                 position.z,
-                SoundEvents.ENTITY_ENDERMEN_TELEPORT,
+                SoundEvents.ENTITY_ENDERMAN_TELEPORT,
                 SoundCategory.PLAYERS,
                 2.5f,
                 1.0f
@@ -47,7 +47,7 @@ class SpellEffectTeleport : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "
                 position.x,
                 position.y,
                 position.z,
-                SoundEvents.ENTITY_ENDERMEN_TELEPORT,
+                SoundEvents.ENTITY_ENDERMAN_TELEPORT,
                 SoundCategory.PLAYERS,
                 2.5f,
                 1.0f

@@ -7,4 +7,4 @@ import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
  *
  * @constructor sets item properties
  */
-class ItemStarMetalFragment : AOTDItem("star_metal_fragment")
+class ItemStarMetalFragment : AOTDItem("star_metal_fragment", Properties())

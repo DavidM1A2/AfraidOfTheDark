@@ -1,12 +1,12 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import net.minecraft.nbt.NBTBase
+import net.minecraft.nbt.INBTBase
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.EnumFacing
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.capabilities.Capability.IStorage
+import org.apache.logging.log4j.LogManager
 
 /**
  * Default storage implementation for the AOTD charm spell effect data
@@ -24,11 +24,11 @@ class AOTDPlayerSpellCharmDataStorage : IStorage<IAOTDPlayerSpellCharmData> {
         capability: Capability<IAOTDPlayerSpellCharmData>,
         instance: IAOTDPlayerSpellCharmData,
         side: EnumFacing?
-    ): NBTBase? {
+    ): INBTBase {
         // Create a compound to write
         val nbt = NBTTagCompound()
-        nbt.setInteger(NBT_CHARM_TICKS, instance.charmTicks)
-        instance.charmingEntityId?.let { nbt.setTag(NBT_CHARMING_ENTITY, NBTUtil.createUUIDTag(it)) }
+        nbt.setInt(NBT_CHARM_TICKS, instance.charmTicks)
+        instance.charmingEntityId?.let { nbt.setTag(NBT_CHARMING_ENTITY, NBTUtil.writeUniqueId(it)) }
         return nbt
     }
 
@@ -44,23 +44,25 @@ class AOTDPlayerSpellCharmDataStorage : IStorage<IAOTDPlayerSpellCharmData> {
         capability: Capability<IAOTDPlayerSpellCharmData>,
         instance: IAOTDPlayerSpellCharmData,
         side: EnumFacing?,
-        nbt: NBTBase
+        nbt: INBTBase
     ) {
         // Test if the nbt tag base is an NBT tag compound
         if (nbt is NBTTagCompound) {
-            instance.charmTicks = nbt.getInteger(NBT_CHARM_TICKS)
+            instance.charmTicks = nbt.getInt(NBT_CHARM_TICKS)
 
             if (nbt.hasKey(NBT_CHARMING_ENTITY)) {
-                instance.charmingEntityId = NBTUtil.getUUIDFromTag(nbt.getCompoundTag(NBT_CHARMING_ENTITY))
+                instance.charmingEntityId = NBTUtil.readUniqueId(nbt.getCompound(NBT_CHARMING_ENTITY))
             } else {
                 instance.charmingEntityId = null
             }
         } else {
-            AfraidOfTheDark.INSTANCE.logger.error("Attempted to deserialize an NBTBase that was not an NBTTagCompound!")
+            logger.error("Attempted to deserialize an NBTBase that was not an NBTTagCompound!")
         }
     }
 
     companion object {
+        private val logger = LogManager.getLogger()
+
         // NBT constants used for serialization
         private const val NBT_CHARM_TICKS = "charm_ticks"
         private const val NBT_CHARMING_ENTITY = "charming_entity"

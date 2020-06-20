@@ -7,4 +7,4 @@ import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
  *
  * @constructor initializes the item name
  */
-class ItemBoneDust : AOTDItem("bone_dust")
+class ItemBoneDust : AOTDItem("bone_dust", Properties())

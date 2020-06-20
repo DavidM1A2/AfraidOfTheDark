@@ -43,6 +43,6 @@ object BoltOrderHelper {
      * @return The bolt entry at that index in the registry
      */
     fun getBoltAt(index: Int): BoltEntry {
-        return ModRegistries.BOLTS.valuesCollection.elementAt(index)
+        return ModRegistries.BOLTS.values.elementAt(index)
     }
 }

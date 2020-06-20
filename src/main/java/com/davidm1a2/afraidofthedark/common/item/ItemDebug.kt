@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EntityEnchantedFrog
@@ -13,17 +12,14 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.EnumHand
 import net.minecraft.util.text.TextComponentString
 import net.minecraft.world.World
+import org.apache.logging.log4j.LogManager
 
 /**
  * Item that allows for modding debug, does nothing else
  *
  * @constructor sets up item properties
  */
-class ItemDebug : AOTDItem("debug", displayInCreative = false) {
-    init {
-        setMaxStackSize(1)
-    }
-
+class ItemDebug : AOTDItem("debug", Properties().maxStackSize(1), displayInCreative = false) {
     ///
     /// Code below here is not documented due to its temporary nature used for testing
     ///
@@ -41,8 +37,12 @@ class ItemDebug : AOTDItem("debug", displayInCreative = false) {
             if (entity is EntityEnchantedFrog) {
                 val s = entity.frogsSpell
                 player.sendMessage(TextComponentString(s.toString()))
-                AfraidOfTheDark.INSTANCE.logger.info("Type is:\n$s")
+                logger.info("Type is:\n$s")
             }
         return super.onLeftClickEntity(stack, player, entity)
+    }
+
+    companion object {
+        private val logger = LogManager.getLogger()
     }
 }

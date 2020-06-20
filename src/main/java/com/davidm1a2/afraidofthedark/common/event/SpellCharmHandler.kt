@@ -3,11 +3,11 @@ package com.davidm1a2.afraidofthedark.common.event
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellCharmData
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.network.play.server.SPacketPlayerPosLook.EnumFlags
-import net.minecraftforge.fml.common.FMLCommonHandler
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.minecraft.world.WorldServer
+import net.minecraftforge.eventbus.api.SubscribeEvent
+import net.minecraftforge.fml.LogicalSide
 import net.minecraftforge.fml.common.gameevent.TickEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent
-import net.minecraftforge.fml.relauncher.Side
 import kotlin.math.asin
 import kotlin.math.atan2
 
@@ -23,7 +23,7 @@ class SpellCharmHandler {
     @SubscribeEvent
     fun onPlayerTick(event: PlayerTickEvent) {
         // Server side processing
-        if (event.type == TickEvent.Type.PLAYER && event.phase == TickEvent.Phase.START && event.side == Side.SERVER) {
+        if (event.type == TickEvent.Type.PLAYER && event.phase == TickEvent.Phase.START && event.side == LogicalSide.SERVER) {
             val entityPlayer = event.player
             val playerCharmData = entityPlayer.getSpellCharmData()
 
@@ -34,16 +34,15 @@ class SpellCharmHandler {
 
                 // Force the player to look at the entity
                 val charmingEntityId = playerCharmData.charmingEntityId
-                val charmingEntity =
-                    FMLCommonHandler.instance().minecraftServerInstance.getEntityFromUuid(charmingEntityId!!)
+                val charmingEntity = (event.player.world as? WorldServer)?.getEntityFromUuid(charmingEntityId!!)
 
                 // If the player is non-null set the player's facing
                 if (charmingEntity != null) {
                     // A player cant charm themselves
-                    if (entityPlayer.persistentID != charmingEntityId) {
-                        val playerEyePosition = entityPlayer.getPositionEyes(1.0f)
+                    if (entityPlayer.uniqueID != charmingEntityId) {
+                        val playerEyePosition = entityPlayer.getEyePosition(1.0f)
                         // Compute the vector from the charming entity to the charmed entity
-                        val direction = charmingEntity.getPositionEyes(1.0f)
+                        val direction = charmingEntity.getEyePosition(1.0f)
                             .subtract(playerEyePosition.x, playerEyePosition.y, playerEyePosition.z)
                             .normalize()
 

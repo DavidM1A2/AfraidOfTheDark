@@ -7,7 +7,6 @@ import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import net.minecraft.client.Minecraft
-import net.minecraft.client.resources.I18n
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
@@ -15,10 +14,11 @@ import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.ActionResult
 import net.minecraft.util.EnumActionResult
 import net.minecraft.util.EnumHand
+import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.world.World
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 import java.util.*
 
 /**
@@ -26,12 +26,7 @@ import java.util.*
  *
  * @constructor sets up item properties
  */
-class ItemWand : AOTDItem("wand") {
-    init {
-        // They don't stack
-        setMaxStackSize(1)
-    }
-
+class ItemWand : AOTDItem("wand", Properties().maxStackSize(1)) {
     /**
      * Called when the item is right clicked with a hand
      *
@@ -152,7 +147,7 @@ class ItemWand : AOTDItem("wand") {
      * @param spellId   The new spell id to USE
      */
     private fun setSpellId(itemStack: ItemStack, spellId: UUID) {
-        NBTHelper.setCompound(itemStack, NBT_SPELL_ID, NBTUtil.createUUIDTag(spellId))
+        NBTHelper.setCompound(itemStack, NBT_SPELL_ID, NBTUtil.writeUniqueId(spellId))
     }
 
     /**
@@ -163,7 +158,7 @@ class ItemWand : AOTDItem("wand") {
      */
     private fun getSpellId(itemStack: ItemStack): UUID? {
         val uuidNBT = NBTHelper.getCompound(itemStack, NBT_SPELL_ID)
-        return uuidNBT?.let { NBTUtil.getUUIDFromTag(it) }
+        return uuidNBT?.let { NBTUtil.readUniqueId(it) }
     }
 
     /**
@@ -174,9 +169,9 @@ class ItemWand : AOTDItem("wand") {
      * @param tooltip The tooltip that we need to fill out
      * @param flag  The flag telling us if we should show advanced or normal tooltips
      */
-    @SideOnly(Side.CLIENT)
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag) {
-        val player = Minecraft.getMinecraft().player
+    @OnlyIn(Dist.CLIENT)
+    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+        val player = Minecraft.getInstance().player
 
         // Need to test if player is null during client init
         if (player != null && player.getResearch().isResearched(ModResearches.ENARIAS_SECRET)) {
@@ -187,17 +182,17 @@ class ItemWand : AOTDItem("wand") {
 
                 // If the spell is non-null show the spell's stats
                 if (spell != null) {
-                    tooltip.add(I18n.format(LocalizationConstants.Item.WAND_TOOLTIP_SPELL_NAME, spell.name))
-                    tooltip.add(I18n.format(LocalizationConstants.Item.WAND_TOOLTIP_SPELL_COST, spell.getCost()))
+                    tooltip.add(TextComponentTranslation(LocalizationConstants.Item.WAND_TOOLTIP_SPELL_NAME, spell.name))
+                    tooltip.add(TextComponentTranslation(LocalizationConstants.Item.WAND_TOOLTIP_SPELL_COST, spell.getCost()))
                 } else {
-                    tooltip.add(I18n.format(LocalizationConstants.Item.WAND_TOOLTIP_SPELL_INVALID))
+                    tooltip.add(TextComponentTranslation(LocalizationConstants.Item.WAND_TOOLTIP_SPELL_INVALID))
                 }
             } else {
-                tooltip.add(I18n.format(LocalizationConstants.Item.WAND_TOOLTIP_SPELL_NO_SPELL))
-                tooltip.add(I18n.format(LocalizationConstants.Item.WAND_TOOLTIP_SPELL_SET_SPELL))
+                tooltip.add(TextComponentTranslation(LocalizationConstants.Item.WAND_TOOLTIP_SPELL_NO_SPELL))
+                tooltip.add(TextComponentTranslation(LocalizationConstants.Item.WAND_TOOLTIP_SPELL_SET_SPELL))
             }
         } else {
-            tooltip.add(I18n.format(LocalizationConstants.Item.TOOLTIP_DONT_KNOW_HOW_TO_USE))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }
 

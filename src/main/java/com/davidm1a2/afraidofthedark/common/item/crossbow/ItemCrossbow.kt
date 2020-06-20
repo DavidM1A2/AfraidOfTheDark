@@ -7,41 +7,37 @@ import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.registry.bolt.BoltEntry
 import com.davidm1a2.afraidofthedark.common.utility.BoltOrderHelper
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
-import net.minecraft.client.resources.I18n
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
 import net.minecraft.util.*
+import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.world.World
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * Class representing the crossbow item
  *
  * @constructor Sets the item name and ensures it can't stack
  */
-class ItemCrossbow : AOTDItem("crossbow") {
+class ItemCrossbow : AOTDItem("crossbow", Properties().maxStackSize(1)) {
     init {
-        setMaxStackSize(1)
-
         // The charge level property is used to determine how far along in the charge the bow is
-        addPropertyOverride(ResourceLocation(Constants.MOD_ID, "charge_level"))
-        { stack: ItemStack, _: World?, entity: EntityLivingBase? ->
+        addPropertyOverride(ResourceLocation(Constants.MOD_ID, "charge_level")) { stack: ItemStack, _: World?, entity: EntityLivingBase? ->
             if (entity is EntityPlayer) {
                 // If the selected item is the current one update the charge level
                 if (entity.inventory.mainInventory[entity.inventory.currentItem] == stack) {
-                    return@addPropertyOverride entity.getItemInUseMaxCount().toFloat() / getMaxItemUseDuration(stack).toFloat()
+                    return@addPropertyOverride entity.getItemInUseMaxCount().toFloat() / getUseDuration(stack).toFloat()
                 }
             }
             0f
         }
 
         // True if the bow is loaded (1f) or false (0f) otherwise
-        addPropertyOverride(ResourceLocation(Constants.MOD_ID, "is_loaded"))
-        { stack: ItemStack, _: World?, _: EntityLivingBase? ->
+        addPropertyOverride(ResourceLocation(Constants.MOD_ID, "is_loaded")) { stack: ItemStack, _: World?, _: EntityLivingBase? ->
             if (isLoaded(stack)) 1f else 0f
         }
     }
@@ -67,7 +63,7 @@ class ItemCrossbow : AOTDItem("crossbow") {
                 // If the player is not sneaking and the bow is not loaded begin loading
                 if (!isLoaded(itemStack)) {
                     // If we are in creative, no ammo is required or if we have ammo begin charging he bow
-                    if (player.capabilities.isCreativeMode || player.inventory.hasItemStack(
+                    if (player.isCreative || player.inventory.hasItemStack(
                             ItemStack(
                                 getCurrentBoltType(
                                     itemStack
@@ -114,13 +110,7 @@ class ItemCrossbow : AOTDItem("crossbow") {
         if (entity is EntityPlayer) {
             // Load the bow at 2 ticks left instead of 1 so the unloaded texture doesn't flicker
             if (count == 2) {
-                if (entity.capabilities.isCreativeMode || entity.inventory.clearMatchingItems(
-                        getCurrentBoltType(stack).boltItem,
-                        -1,
-                        1,
-                        null
-                    ) == 1
-                ) {
+                if (entity.isCreative || entity.inventory.clearMatchingItems({ it.item == getCurrentBoltType(stack).boltItem }, 1) == 1) {
                     setLoaded(stack, true)
                 }
             }
@@ -134,14 +124,14 @@ class ItemCrossbow : AOTDItem("crossbow") {
      * @param stack        The item being swung
      * @return True to cancel the swing, false otherwise
      */
-    override fun onEntitySwing(entityLiving: EntityLivingBase, stack: ItemStack): Boolean {
+    override fun onEntitySwing(stack: ItemStack, entityLiving: EntityLivingBase): Boolean {
         // Only fire server side and from players
         if (!entityLiving.world.isRemote && entityLiving is EntityPlayer && isLoaded(stack)) {
             // Reset the charge state and fire
             setLoaded(stack, false)
             fireBolt(entityLiving, entityLiving.world, stack)
         }
-        return super.onEntitySwing(entityLiving, stack)
+        return super.onEntitySwing(stack, entityLiving)
     }
 
     /**
@@ -253,14 +243,19 @@ class ItemCrossbow : AOTDItem("crossbow") {
      * @param tooltip The tooltip to add to
      * @param flag  True if show advanced info is on, false otherwise
      */
-    @SideOnly(Side.CLIENT)
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag) {
-        tooltip.add(I18n.format(LocalizationConstants.Item.CROSSBOW_TOOLTIP_CHANGE_BOLT))
-        tooltip.add(I18n.format(LocalizationConstants.Item.CROSSBOW_TOOLTIP_FIRE_BOLT_TYPE, I18n.format(getCurrentBoltType(stack).getUnlocalizedName())))
+    @OnlyIn(Dist.CLIENT)
+    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+        tooltip.add(TextComponentTranslation(LocalizationConstants.Item.CROSSBOW_TOOLTIP_CHANGE_BOLT))
+        tooltip.add(
+            TextComponentTranslation(
+                LocalizationConstants.Item.CROSSBOW_TOOLTIP_FIRE_BOLT_TYPE,
+                TextComponentTranslation(getCurrentBoltType(stack).getUnlocalizedName())
+            )
+        )
         if (isLoaded(stack)) {
-            tooltip.add(I18n.format(LocalizationConstants.Item.CROSSBOW_TOOLTIP_LOADED))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.CROSSBOW_TOOLTIP_LOADED))
         } else {
-            tooltip.add(I18n.format(LocalizationConstants.Item.CROSSBOW_TOOLTIP_UNLOADED))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.CROSSBOW_TOOLTIP_UNLOADED))
         }
     }
 
@@ -270,7 +265,7 @@ class ItemCrossbow : AOTDItem("crossbow") {
      * @param stack The itemstack in question
      * @return An integer representing the reload time of the bow
      */
-    override fun getMaxItemUseDuration(stack: ItemStack): Int {
+    override fun getUseDuration(stack: ItemStack): Int {
         return RELOAD_TIME
     }
 

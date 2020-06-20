@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.entity.spell.projectile
 
+import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.ChannelMode
@@ -18,9 +19,9 @@ import net.minecraft.util.math.RayTraceResult
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import net.minecraft.world.WorldServer
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.common.util.Constants
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
 import java.util.*
 
 /**
@@ -36,7 +37,7 @@ import java.util.*
  * @property blockDistanceRemaining The amount of blocks left before this projectile expires
  * @property animHandler The animation handler that this entity uses for all animations
  */
-class EntitySpellProjectile(world: World) : Entity(world),
+class EntitySpellProjectile(world: World) : Entity(ModEntities.SPELL_PROJECTILE, world),
     IMCAnimatedModel {
     private var ticksInAir = 0
     private lateinit var spell: Spell
@@ -72,7 +73,7 @@ class EntitySpellProjectile(world: World) : Entity(world),
         this.spell = spell
         this.spellIndex = spellIndex
         this.shooter = shooter
-        this.spellCasterId = spellCaster?.persistentID
+        this.spellCasterId = spellCaster?.uniqueID
         val deliveryInstance = spell.getStage(spellIndex)!!.deliveryInstance!!
         val deliveryMethodProjectile = deliveryInstance.component as SpellDeliveryMethodProjectile
         blockDistanceRemaining = deliveryMethodProjectile.getRange(deliveryInstance)
@@ -95,16 +96,10 @@ class EntitySpellProjectile(world: World) : Entity(world),
     }
 
     /**
-     * Required init method, does nothing
-     */
-    override fun entityInit() {
-    }
-
-    /**
      * Called every tick to update the entity's logic
      */
-    override fun onUpdate() {
-        super.onUpdate()
+    override fun tick() {
+        super.tick()
 
         // Animations only update client side
         if (world.isRemote) {
@@ -132,7 +127,7 @@ class EntitySpellProjectile(world: World) : Entity(world),
                 setPosition(posX + motionX, posY + motionY, posZ + motionZ)
 
                 // Update distance flown, and kill the entity if it went
-                val distanceFlown = Vec3d(motionX, motionY, motionZ).lengthVector()
+                val distanceFlown = Vec3d(motionX, motionY, motionZ).length()
                 blockDistanceRemaining = blockDistanceRemaining - distanceFlown
 
                 // If we're out of distance deliver the spell and kill the projectile
@@ -153,10 +148,10 @@ class EntitySpellProjectile(world: World) : Entity(world),
                     currentDeliveryMethod.procEffects(state)
                     currentDeliveryMethod.transitionFrom(state)
 
-                    setDead()
+                    remove()
                 }
             } else {
-                setDead()
+                remove()
             }
         }
     }
@@ -173,9 +168,9 @@ class EntitySpellProjectile(world: World) : Entity(world),
             val currentStage = spell.getStage(spellIndex)
 
             // If we hit something process the hit
-            if (result.typeOfHit != RayTraceResult.Type.MISS) {
+            if (result.type != RayTraceResult.Type.MISS) {
                 val currentDeliveryMethod = currentStage!!.deliveryInstance!!.component
-                if (result.typeOfHit == RayTraceResult.Type.BLOCK) {
+                if (result.type == RayTraceResult.Type.BLOCK) {
                     // Grab the hit position
                     var hitPos = BlockPos(result.hitVec)
 
@@ -197,11 +192,11 @@ class EntitySpellProjectile(world: World) : Entity(world),
                     // Proc the effects and transition
                     currentDeliveryMethod.procEffects(state)
                     currentDeliveryMethod.transitionFrom(state)
-                } else if (result.typeOfHit == RayTraceResult.Type.ENTITY) {
+                } else if (result.type == RayTraceResult.Type.ENTITY) {
                     val state = DeliveryTransitionStateBuilder()
                         .withSpell(spell)
                         .withStageIndex(spellIndex)
-                        .withEntity(result.entityHit)
+                        .withEntity(result.entity)
                         .withCasterEntity(spellCasterId?.let { (world as? WorldServer)?.getEntityFromUuid(it) })
                         .withDeliveryEntity(this)
                         .build()
@@ -213,15 +208,15 @@ class EntitySpellProjectile(world: World) : Entity(world),
             }
 
             // Kill the projectile
-            setDead()
+            remove()
         }
     }
 
     /**
      * Called from onUpdate to update entity specific logic
      */
-    override fun onEntityUpdate() {
-        super.onEntityUpdate()
+    override fun baseTick() {
+        super.baseTick()
 
         // If we're client side and no animation is active play the idle animation
         if (world.isRemote) {
@@ -232,17 +227,23 @@ class EntitySpellProjectile(world: World) : Entity(world),
     }
 
     /**
+     * Required, do nothing since we dont have any data
+     */
+    override fun registerData() {
+    }
+
+    /**
      * Writes the entity to the nbt compound
      *
      * @param compound The nbt compound to write to
      */
-    override fun writeEntityToNBT(compound: NBTTagCompound) {
-        compound.setInteger(NBT_TICKS_IN_AIR, ticksInAir)
+    override fun writeAdditional(compound: NBTTagCompound) {
+        compound.setInt(NBT_TICKS_IN_AIR, ticksInAir)
         compound.setTag(NBT_MOTION_DIRECTION, newDoubleNBTList(motionX, motionY, motionZ))
         compound.setTag(NBT_SPELL, spell.serializeNBT())
-        compound.setInteger(NBT_SPELL_INDEX, spellIndex)
+        compound.setInt(NBT_SPELL_INDEX, spellIndex)
         compound.setDouble(NBT_BLOCK_DISTANCE_REMAINING, blockDistanceRemaining)
-        spellCasterId?.let { compound.setTag(NBT_CASTER_ENTITY_ID, NBTUtil.createUUIDTag(it)) }
+        spellCasterId?.let { compound.setTag(NBT_CASTER_ENTITY_ID, NBTUtil.writeUniqueId(it)) }
     }
 
     /**
@@ -250,17 +251,17 @@ class EntitySpellProjectile(world: World) : Entity(world),
      *
      * @param compound The nbt compound to read data from
      */
-    override fun readEntityFromNBT(compound: NBTTagCompound) {
-        ticksInAir = compound.getInteger(NBT_TICKS_IN_AIR)
-        val motionTagList = compound.getTagList(NBT_MOTION_DIRECTION, Constants.NBT.TAG_DOUBLE)
-        motionX = motionTagList.getDoubleAt(0)
-        motionY = motionTagList.getDoubleAt(1)
-        motionZ = motionTagList.getDoubleAt(2)
-        spell = Spell(compound.getCompoundTag(NBT_SPELL))
-        spellIndex = compound.getInteger(NBT_SPELL_INDEX)
+    override fun readAdditional(compound: NBTTagCompound) {
+        ticksInAir = compound.getInt(NBT_TICKS_IN_AIR)
+        val motionTagList = compound.getList(NBT_MOTION_DIRECTION, Constants.NBT.TAG_DOUBLE)
+        motionX = motionTagList.getDouble(0)
+        motionY = motionTagList.getDouble(1)
+        motionZ = motionTagList.getDouble(2)
+        spell = Spell(compound.getCompound(NBT_SPELL))
+        spellIndex = compound.getInt(NBT_SPELL_INDEX)
         blockDistanceRemaining = compound.getDouble(NBT_BLOCK_DISTANCE_REMAINING)
         spellCasterId = if (compound.hasKey(NBT_CASTER_ENTITY_ID)) {
-            NBTUtil.getUUIDFromTag(compound.getCompoundTag(NBT_CASTER_ENTITY_ID))
+            NBTUtil.readUniqueId(compound.getCompound(NBT_CASTER_ENTITY_ID))
         } else {
             null
         }
@@ -307,7 +308,7 @@ class EntitySpellProjectile(world: World) : Entity(world),
      *
      * @return The same value as EntityFireball
      */
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     override fun getBrightnessForRender(): Int {
         return 15728880
     }

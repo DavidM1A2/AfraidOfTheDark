@@ -21,8 +21,8 @@ class IslandVisitorData @JvmOverloads constructor(identifier: String = IDENTIFIE
      *
      * @param nbt The NBT data to read from
      */
-    override fun readFromNBT(nbt: NBTTagCompound) {
-        uniqueVisitors.set(nbt.getInteger(NBT_UNIQUE_VISITORS))
+    override fun read(nbt: NBTTagCompound) {
+        uniqueVisitors.set(nbt.getInt(NBT_UNIQUE_VISITORS))
     }
 
     /**
@@ -31,8 +31,8 @@ class IslandVisitorData @JvmOverloads constructor(identifier: String = IDENTIFIE
      * @param compound The NBT tag to write to
      * @return The same NBT tag as passed in
      */
-    override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
-        compound.setInteger(NBT_UNIQUE_VISITORS, uniqueVisitors.get())
+    override fun write(compound: NBTTagCompound): NBTTagCompound {
+        compound.setInt(NBT_UNIQUE_VISITORS, uniqueVisitors.get())
         return compound
     }
 
@@ -47,9 +47,11 @@ class IslandVisitorData @JvmOverloads constructor(identifier: String = IDENTIFIE
 
     companion object {
         // A list of valid dimensions
-        private val VALID_DIMENSIONS = setOf(ModDimensions.NIGHTMARE.id, ModDimensions.VOID_CHEST.id)
+        private val VALID_DIMENSIONS = setOf(ModDimensions.NIGHTMARE_TYPE, ModDimensions.VOID_CHEST_TYPE)
+
         // The NBT key for the unique visitors value
         private const val NBT_UNIQUE_VISITORS = "unique_visitors"
+
         // The ID of the AOTD nightmare data
         private const val IDENTIFIER = Constants.MOD_ID + "_island_visitor_data"
 
@@ -61,17 +63,18 @@ class IslandVisitorData @JvmOverloads constructor(identifier: String = IDENTIFIE
          */
         fun get(world: World): IslandVisitorData? {
             // If we are on client side or the world is not supported return null
-            if (world.isRemote || !VALID_DIMENSIONS.contains(world.provider.dimension)) {
+            if (world.isRemote || !VALID_DIMENSIONS.contains(world.dimension.type)) {
                 return null
             }
             // Grab the storage object for this world
-            val storage = world.perWorldStorage
-            // Get the saved data for this world
-            var visitorData = storage.getOrLoadData(IslandVisitorData::class.java, IDENTIFIER) as IslandVisitorData?
+            val storage = world.mapStorage!!
+            // func_212426_a roughly equal to getOrLoadData?
+            var visitorData = storage.func_212426_a(world.dimension.type, { IslandVisitorData() }, IDENTIFIER)
             // If it does not exist, instantiate new data and store it into the storage object
             if (visitorData == null) {
                 visitorData = IslandVisitorData()
-                storage.setData(IDENTIFIER, visitorData)
+                // func_212424_a roughly equal to setData?
+                storage.func_212424_a(world.dimension.type, IDENTIFIER, visitorData)
                 visitorData.markDirty()
             }
             // Return the data

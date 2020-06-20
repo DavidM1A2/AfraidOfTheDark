@@ -1,12 +1,14 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.dimension
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import net.minecraft.nbt.NBTBase
+import net.minecraft.nbt.INBTBase
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.EnumFacing
+import net.minecraft.util.ResourceLocation
+import net.minecraft.world.dimension.DimensionType
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.capabilities.Capability.IStorage
+import org.apache.logging.log4j.LogManager
 
 /**
  * Default storage implementation for AOTD void chest data
@@ -24,13 +26,13 @@ class AOTDPlayerVoidChestDataStorage : IStorage<IAOTDPlayerVoidChestData> {
         capability: Capability<IAOTDPlayerVoidChestData>,
         instance: IAOTDPlayerVoidChestData,
         side: EnumFacing?
-    ): NBTBase? {
+    ): INBTBase {
         // Create a compound to write
         val compound = NBTTagCompound()
-        compound.setInteger(NBT_POSITIONAL_INDEX, instance.positionalIndex)
-        compound.setInteger(NBT_FRIENDS_INDEX, instance.friendsIndex)
-        instance.preTeleportPosition?.let { compound.setTag(NBT_PRE_TELEPORT_POSITION, NBTUtil.createPosTag(it)) }
-        compound.setInteger(NBT_PRE_TELEPORT_DIMENSION_ID, instance.preTeleportDimensionID)
+        compound.setInt(NBT_POSITIONAL_INDEX, instance.positionalIndex)
+        compound.setInt(NBT_FRIENDS_INDEX, instance.friendsIndex)
+        instance.preTeleportPosition?.let { compound.setTag(NBT_PRE_TELEPORT_POSITION, NBTUtil.writeBlockPos(it)) }
+        instance.preTeleportDimension?.let { compound.setString(NBT_PRE_TELEPORT_DIMENSION, it.registryName.toString()) }
         return compound
     }
 
@@ -46,32 +48,38 @@ class AOTDPlayerVoidChestDataStorage : IStorage<IAOTDPlayerVoidChestData> {
         capability: Capability<IAOTDPlayerVoidChestData>,
         instance: IAOTDPlayerVoidChestData,
         side: EnumFacing?,
-        nbt: NBTBase
+        nbt: INBTBase
     ) {
         // Test if the nbt tag base is an NBT tag compound
         if (nbt is NBTTagCompound) {
             // The compound to read from
-            instance.positionalIndex = nbt.getInteger(NBT_POSITIONAL_INDEX)
-            instance.friendsIndex = nbt.getInteger(NBT_FRIENDS_INDEX)
+            instance.positionalIndex = nbt.getInt(NBT_POSITIONAL_INDEX)
+            instance.friendsIndex = nbt.getInt(NBT_FRIENDS_INDEX)
 
             if (nbt.hasKey(NBT_PRE_TELEPORT_POSITION)) {
                 instance.preTeleportPosition =
-                    NBTUtil.getPosFromTag(nbt.getTag(NBT_PRE_TELEPORT_POSITION) as NBTTagCompound)
+                    NBTUtil.readBlockPos(nbt.getTag(NBT_PRE_TELEPORT_POSITION) as NBTTagCompound)
             } else {
                 instance.preTeleportPosition = null
             }
 
-            instance.preTeleportDimensionID = nbt.getInteger(NBT_PRE_TELEPORT_DIMENSION_ID)
+            if (nbt.hasKey(NBT_PRE_TELEPORT_DIMENSION)) {
+                instance.preTeleportDimension = DimensionType.byName(ResourceLocation(nbt.getString(NBT_PRE_TELEPORT_DIMENSION)))
+            } else {
+                instance.preTeleportDimension = null
+            }
         } else {
-            AfraidOfTheDark.INSTANCE.logger.error("Attempted to deserialize an NBTBase that was not an NBTTagCompound!")
+            logger.error("Attempted to deserialize an NBTBase that was not an NBTTagCompound!")
         }
     }
 
     companion object {
+        private val logger = LogManager.getLogger()
+
         // Constant IDs used in NBT
         private const val NBT_POSITIONAL_INDEX = "positional_index"
         private const val NBT_FRIENDS_INDEX = "friends_index"
         private const val NBT_PRE_TELEPORT_POSITION = "pre_teleport_position"
-        private const val NBT_PRE_TELEPORT_DIMENSION_ID = "pre_teleport_dimension_id"
+        private const val NBT_PRE_TELEPORT_DIMENSION = "pre_teleport_dimension"
     }
 }

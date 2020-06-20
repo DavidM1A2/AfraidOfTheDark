@@ -1,11 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.entity.enaria
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.getNightmareData
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
-import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
-import com.davidm1a2.afraidofthedark.common.constants.ModItems
-import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.constants.*
 import com.davidm1a2.afraidofthedark.common.entity.enaria.animation.ChannelDance
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
@@ -24,11 +21,10 @@ import net.minecraft.world.World
  * Class representing the ghastly enaria entity
  *
  * @constructor sets the ghastly enaria entity properties
- * @param world The world enaria is being spawned in
  * @property animHandler The animation handler used to manage animations
  * @property benign Flag telling us if this enaria is benign or not, defaults to true. This will change her AI
  */
-class EntityGhastlyEnaria(world: World) : EntityFlying(world), IMCAnimatedModel {
+class EntityGhastlyEnaria(world: World) : EntityFlying(ModEntities.GHASTLY_ENARIA, world), IMCAnimatedModel {
     private val animHandler = AnimationHandler(ChannelDance("dance", 30.0f, 300, ChannelMode.LINEAR))
     private var benign = true
 
@@ -36,7 +32,7 @@ class EntityGhastlyEnaria(world: World) : EntityFlying(world), IMCAnimatedModel 
         // Sets the size of the hitbox of enaria
         setSize(0.8f, 1.8f)
         // The name of the entity, will be bold and red
-        this.customNameTag = "§c§lGhastly Enaria"
+        this.customName = TextComponentString("§c§lGhastly Enaria")
         // Enable noclip so enaria can go through walls
         noClip = true
         // Enaria is immune to fire
@@ -56,8 +52,8 @@ class EntityGhastlyEnaria(world: World) : EntityFlying(world), IMCAnimatedModel 
     /**
      * Sets entity attributes such as max health and movespeed
      */
-    override fun applyEntityAttributes() {
-        super.applyEntityAttributes()
+    override fun registerAttributes() {
+        super.registerAttributes()
         attributeMap.registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE)
         attributeMap.getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH).baseValue = MAX_HEALTH
         attributeMap.getAttributeInstance(SharedMonsterAttributes.FOLLOW_RANGE).baseValue = FOLLOW_RANGE
@@ -69,8 +65,8 @@ class EntityGhastlyEnaria(world: World) : EntityFlying(world), IMCAnimatedModel 
     /**
      * Update animations for this entity when update is called
      */
-    override fun onUpdate() {
-        super.onUpdate()
+    override fun tick() {
+        super.tick()
         // Animations only update client side
         if (world.isRemote) {
             animHandler.update()
@@ -80,13 +76,14 @@ class EntityGhastlyEnaria(world: World) : EntityFlying(world), IMCAnimatedModel 
     /**
      * Called every game tick for the entity
      */
-    override fun onEntityUpdate() {
-        super.onEntityUpdate()
+    override fun baseTick() {
+        super.baseTick()
+
         // Check == 20 instead of == 0 so the player can spawn and that way we don't accidentally check before a player joins
         // the world
         if (ticksExisted % PLAYER_BENIGN_CHECK_FREQUENCY == 20.0) {
             // Grab the distance between the nightamre islands
-            val distanceBetweenIslands = AfraidOfTheDark.INSTANCE.configurationHandler.blocksBetweenIslands
+            val distanceBetweenIslands = ModServerConfiguration.blocksBetweenIslands
             // Grab the closest player
             val closestPlayer = world.getClosestPlayer(posX, posY, posZ, distanceBetweenIslands / 2.toDouble(), false)
             // If the closest player is null enaria will be benign
@@ -112,19 +109,19 @@ class EntityGhastlyEnaria(world: World) : EntityFlying(world), IMCAnimatedModel 
                 // Grab the closest player within 3 blocks
                 val entityPlayer = world.getClosestPlayerToEntity(this, 3.0)
                 // Make sure the player is valid and not dead
-                if (entityPlayer != null && !entityPlayer.isDead) {
+                if (entityPlayer != null && entityPlayer.isAlive) {
                     // Kill enaria, she's now unloaded (can't use .setDead()) or we get an index out of bounds exception?
                     onKillCommand()
 
                     // Dismount whatever we're in
-                    entityPlayer.dismountRidingEntity()
+                    entityPlayer.stopRiding()
 
                     // Give the player a nightmare stone
                     entityPlayer.inventory.addItemStackToInventory(ItemStack(ModItems.NIGHTMARE_STONE))
 
                     // Send them back to their original dimension
                     entityPlayer.changeDimension(
-                        entityPlayer.getNightmareData().preTeleportDimensionID,
+                        entityPlayer.getNightmareData().preTeleportDimension!!,
                         ModDimensions.NOOP_TELEPORTER
                     )
                 }
@@ -151,7 +148,7 @@ class EntityGhastlyEnaria(world: World) : EntityFlying(world), IMCAnimatedModel 
      * @return Red and bold nametag
      */
     override fun getDisplayName(): ITextComponent {
-        return TextComponentString("§c§l${this.customNameTag}")
+        return this.customName!!
     }
 
     /**
@@ -159,8 +156,8 @@ class EntityGhastlyEnaria(world: World) : EntityFlying(world), IMCAnimatedModel 
      *
      * @param tagCompound The compound to write to
      */
-    override fun writeEntityToNBT(tagCompound: NBTTagCompound) {
-        super.writeEntityToNBT(tagCompound)
+    override fun writeAdditional(tagCompound: NBTTagCompound) {
+        super.writeAdditional(tagCompound)
         tagCompound.setBoolean(NBT_BENIGN, benign)
     }
 
@@ -169,8 +166,8 @@ class EntityGhastlyEnaria(world: World) : EntityFlying(world), IMCAnimatedModel 
      *
      * @param tagCompund The compound to read from
      */
-    override fun readEntityFromNBT(tagCompund: NBTTagCompound) {
-        super.readEntityFromNBT(tagCompund)
+    override fun readAdditional(tagCompund: NBTTagCompound) {
+        super.readAdditional(tagCompund)
         benign = tagCompund.getBoolean(NBT_BENIGN)
     }
 

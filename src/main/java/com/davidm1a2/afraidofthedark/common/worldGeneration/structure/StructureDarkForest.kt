@@ -1,11 +1,11 @@
 package com.davidm1a2.afraidofthedark.common.worldGeneration.structure
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.world.IHeightmap
 import com.davidm1a2.afraidofthedark.common.capabilities.world.OverworldHeightmap
 import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
+import com.davidm1a2.afraidofthedark.common.constants.ModServerConfiguration
 import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.Schematic
 import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator.generateSchematic
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.AOTDStructure
@@ -20,7 +20,7 @@ import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.world.World
-import net.minecraft.world.biome.BiomeProvider
+import net.minecraft.world.biome.provider.BiomeProvider
 import net.minecraftforge.common.util.Constants
 import java.awt.Rectangle
 import kotlin.math.max
@@ -129,7 +129,7 @@ class StructureDarkForest : AOTDStructure("dark_forest") {
         }
         // If the house is valid we're good to go, the chance to gen will be .2%
         else {
-            0.002 * AfraidOfTheDark.INSTANCE.configurationHandler.darkForestMultiplier
+            0.002 * ModServerConfiguration.darkForestMultiplier
         }
     }
 
@@ -142,35 +142,35 @@ class StructureDarkForest : AOTDStructure("dark_forest") {
      */
     override fun generate(world: World, chunkPos: ChunkPos, data: NBTTagCompound) {
         // Create props first since they're least important and can be overridden
-        val props = data.getTagList(NBT_PROPS, Constants.NBT.TAG_COMPOUND)
-        for (i in 0 until props.tagCount()) {
-            val schematicNBT = props.getCompoundTagAt(i)
+        val props = data.getList(NBT_PROPS, Constants.NBT.TAG_COMPOUND)
+        for (i in 0 until props.size) {
+            val schematicNBT = props.getCompound(i)
             // Grab the schematic ID to generate
-            val schematicId = schematicNBT.getInteger(NBT_SCHEMATIC_ID)
+            val schematicId = schematicNBT.getInt(NBT_SCHEMATIC_ID)
             // Grab the schematic to generate
             val schematic = ModSchematics.DARK_FOREST_PROPS[schematicId]
             // Grab the schematic position
-            val schematicPos = NBTUtil.getPosFromTag(schematicNBT.getCompoundTag(NBT_POSITION))
+            val schematicPos = NBTUtil.readBlockPos(schematicNBT.getCompound(NBT_POSITION))
             // Generate the schematic
             generateSchematic(schematic, world, schematicPos, chunkPos)
         }
 
         // Create trees second since they shouldn't override the house but can override props
-        val trees = data.getTagList(NBT_TREES, Constants.NBT.TAG_COMPOUND)
-        for (i in 0 until trees.tagCount()) {
-            val schematicNBT = trees.getCompoundTagAt(i)
+        val trees = data.getList(NBT_TREES, Constants.NBT.TAG_COMPOUND)
+        for (i in 0 until trees.size) {
+            val schematicNBT = trees.getCompound(i)
             // Grab the schematic ID to generate
-            val schematicId = schematicNBT.getInteger(NBT_SCHEMATIC_ID)
+            val schematicId = schematicNBT.getInt(NBT_SCHEMATIC_ID)
             // Grab the schematic to generate
             val schematic = ModSchematics.DARK_FOREST_TREES[schematicId]
             // Grab the schematic position
-            val schematicPos = NBTUtil.getPosFromTag(schematicNBT.getCompoundTag(NBT_POSITION))
+            val schematicPos = NBTUtil.readBlockPos(schematicNBT.getCompound(NBT_POSITION))
             // Generate the schematic
             generateSchematic(schematic, world, schematicPos, chunkPos)
         }
 
         // Generate the bed house in the center last
-        val housePos = NBTUtil.getPosFromTag(data.getCompoundTag(NBT_HOUSE_POSITION))
+        val housePos = NBTUtil.readBlockPos(data.getCompound(NBT_HOUSE_POSITION))
         generateSchematic(ModSchematics.BED_HOUSE, world, housePos, chunkPos, ModLootTables.DARK_FOREST)
     }
 
@@ -221,8 +221,8 @@ class StructureDarkForest : AOTDStructure("dark_forest") {
         setBedHousePosition(data, heightmap, blockPos)
 
         // Finally set the position of the structure to be at the same level as the house
-        val houseY = NBTUtil.getPosFromTag(data.getCompoundTag(NBT_HOUSE_POSITION)).y
-        data.setTag(NBT_POSITION, NBTUtil.createPosTag(BlockPos(blockPos.x, houseY, blockPos.z)))
+        val houseY = NBTUtil.readBlockPos(data.getCompound(NBT_HOUSE_POSITION)).y
+        data.setTag(NBT_POSITION, NBTUtil.writeBlockPos(BlockPos(blockPos.x, houseY, blockPos.z)))
         return data
     }
 
@@ -262,7 +262,7 @@ class StructureDarkForest : AOTDStructure("dark_forest") {
         // Get the house position and set it in the data nbt
         val housePos = BlockPos(houseCorner1BlockPos.x, minGroundHeight, houseCorner1BlockPos.z)
         // Store the house's position into the NBT
-        data.setTag(NBT_HOUSE_POSITION, NBTUtil.createPosTag(housePos))
+        data.setTag(NBT_HOUSE_POSITION, NBTUtil.writeBlockPos(housePos))
     }
 
     /**
@@ -319,9 +319,9 @@ class StructureDarkForest : AOTDStructure("dark_forest") {
 
             // Create the prop tag and append it
             val prop = NBTTagCompound()
-            prop.setInteger(NBT_SCHEMATIC_ID, schematicId)
-            prop.setTag(NBT_POSITION, NBTUtil.createPosTag(schematicPos))
-            props.appendTag(prop)
+            prop.setInt(NBT_SCHEMATIC_ID, schematicId)
+            prop.setTag(NBT_POSITION, NBTUtil.writeBlockPos(schematicPos))
+            props.add(prop)
         }
         data.setTag(NBT_PROPS, props)
     }
@@ -395,9 +395,9 @@ class StructureDarkForest : AOTDStructure("dark_forest") {
 
             // Create the tree tag and append it
             val tree = NBTTagCompound()
-            tree.setInteger(NBT_SCHEMATIC_ID, schematicId)
-            tree.setTag(NBT_POSITION, NBTUtil.createPosTag(schematicPos))
-            trees.appendTag(tree)
+            tree.setInt(NBT_SCHEMATIC_ID, schematicId)
+            tree.setTag(NBT_POSITION, NBTUtil.writeBlockPos(schematicPos))
+            trees.add(tree)
         }
         // Set the trees and prop's lists
         data.setTag(NBT_TREES, trees)
@@ -475,16 +475,15 @@ class StructureDarkForest : AOTDStructure("dark_forest") {
             Biomes.FROZEN_OCEAN,
             Biomes.FROZEN_RIVER,
             Biomes.RIVER,
-            Biomes.SKY,
-            Biomes.VOID
+            Biomes.THE_VOID
         )
 
         // A set of compatible biomes
         private val COMPATIBLE_HOUSE_BIOMES = setOf(
             Biomes.SAVANNA,
-            Biomes.MUTATED_SAVANNA,
+            Biomes.SAVANNA_PLATEAU,
             Biomes.PLAINS,
-            Biomes.MUTATED_PLAINS,
+            Biomes.SUNFLOWER_PLAINS,
             ModBiomes.EERIE_FOREST
         )
 

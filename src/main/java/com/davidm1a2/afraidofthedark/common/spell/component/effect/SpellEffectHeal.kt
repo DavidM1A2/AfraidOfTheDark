@@ -21,8 +21,8 @@ class SpellEffectHeal : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "heal
             SpellComponentPropertyFactory.intProperty()
                 .withName("Heal Amount")
                 .withDescription("The amount of half hearts to restore.")
-                .withSetter { instance, newValue -> instance.data.setInteger(NBT_HEALING_AMOUNT, newValue) }
-                .withGetter { it.data.getInteger(NBT_HEALING_AMOUNT) }
+                .withSetter { instance, newValue -> instance.data.setInt(NBT_HEALING_AMOUNT, newValue) }
+                .withGetter { it.data.getInt(NBT_HEALING_AMOUNT) }
                 .withDefaultValue(2)
                 .withMinValue(1)
                 .build()
@@ -59,7 +59,7 @@ class SpellEffectHeal : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "heal
      * @return The number of half hearts to heal
      */
     fun getHealAmount(instance: SpellComponentInstance<SpellEffect>): Int {
-        return instance.data.getInteger(NBT_HEALING_AMOUNT)
+        return instance.data.getInt(NBT_HEALING_AMOUNT)
     }
 
     companion object {

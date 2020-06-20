@@ -24,7 +24,6 @@ class AOTDMouseEvent(
      */
     enum class EventType {
         Click,
-        Press,
         Release
     }
 

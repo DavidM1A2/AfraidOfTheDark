@@ -2,10 +2,10 @@ package com.davidm1a2.afraidofthedark.client.tileEntity.enariasAltar
 
 import com.davidm1a2.afraidofthedark.common.tileEntity.enariasAltar.TileEntityEnariasAltar
 import net.minecraft.client.renderer.GlStateManager
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer
+import net.minecraft.client.renderer.tileentity.TileEntityRenderer
 import net.minecraft.util.ResourceLocation
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * Class used to render the enaria's altar
@@ -13,8 +13,8 @@ import net.minecraftforge.fml.relauncher.SideOnly
  * @property model The altar's model
  * @property texture The altar's texture
  */
-@SideOnly(Side.CLIENT)
-class TileEntityEnariasAltarRenderer : TileEntitySpecialRenderer<TileEntityEnariasAltar>() {
+@OnlyIn(Dist.CLIENT)
+class TileEntityEnariasAltarRenderer : TileEntityRenderer<TileEntityEnariasAltar>() {
     private val model = TileEntityEnariasAltarModel()
     private val texture = ResourceLocation("afraidofthedark:textures/blocks/enarias_altar_te.png")
 
@@ -27,7 +27,6 @@ class TileEntityEnariasAltarRenderer : TileEntitySpecialRenderer<TileEntityEnari
      * @param z            The z position of the tile entity
      * @param partialTicks How much time has passed since the last tick
      * @param destroyStage How far the block is destroyed
-     * @param alpha        The alpha value to render with
      */
     override fun render(
         te: TileEntityEnariasAltar,
@@ -35,11 +34,10 @@ class TileEntityEnariasAltarRenderer : TileEntitySpecialRenderer<TileEntityEnari
         y: Double,
         z: Double,
         partialTicks: Float,
-        destroyStage: Int,
-        alpha: Float
+        destroyStage: Int
     ) {
         GlStateManager.pushMatrix()
-        GlStateManager.translate(x + 0.5, y, z + 0.5)
+        GlStateManager.translatef(x.toFloat() + 0.5f, y.toFloat(), z.toFloat() + 0.5f)
         bindTexture(texture)
         model.render(te, 0.0625f)
         GlStateManager.popMatrix()

@@ -35,7 +35,7 @@ class AOTDGuiSpriteSheetImage(
             super.draw()
 
             // Bind the spritesheet texture
-            Minecraft.getMinecraft().textureManager.bindTexture(spriteSheet)
+            Minecraft.getInstance().textureManager.bindTexture(spriteSheet)
 
             // Grab all fields from the controller
             val percentageToNextFrame = sheetController.percentageTowardsNextFrame
@@ -45,7 +45,7 @@ class AOTDGuiSpriteSheetImage(
             val totalFrames = sheetController.totalFrames
 
             // Setup the color tint
-            GlStateManager.color(
+            GlStateManager.color4f(
                 color.red / 255f,
                 color.green / 255f,
                 color.blue / 255f,
@@ -68,7 +68,7 @@ class AOTDGuiSpriteSheetImage(
                         frameWidth.toFloat(),
                         frameHeight * totalFrames.toFloat()
                     )
-                    GlStateManager.color(
+                    GlStateManager.color4f(
                         color.red / 255f,
                         color.green / 255f,
                         color.blue / 255f,
@@ -99,7 +99,7 @@ class AOTDGuiSpriteSheetImage(
                         frameWidth * totalFrames.toFloat(),
                         frameHeight.toFloat()
                     )
-                    GlStateManager.color(
+                    GlStateManager.color4f(
                         color.red / 255f,
                         color.green / 255f,
                         color.blue / 255f,

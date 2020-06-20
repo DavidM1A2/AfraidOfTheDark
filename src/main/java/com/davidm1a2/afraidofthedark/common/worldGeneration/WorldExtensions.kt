@@ -9,8 +9,8 @@ import net.minecraft.world.World
  * @param chunkPos The chunk to relight
  */
 fun World.relightChunk(chunkPos: ChunkPos) {
-    val chunk = this.getChunkFromChunkCoords(chunkPos.x, chunkPos.z)
+    val chunk = this.getChunk(chunkPos.x, chunkPos.z)
     chunk.generateSkylightMap()
-    chunk.checkLight()
+    chunk.enqueueRelightChecks()
     chunk.markDirty()
 }

@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
@@ -8,11 +7,9 @@ import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItemWithPerItemCooldown
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
-import net.minecraft.block.BlockLiquid
 import net.minecraft.client.Minecraft
-import net.minecraft.client.resources.I18n
 import net.minecraft.client.util.ITooltipFlag
-import net.minecraft.entity.EntityList
+import net.minecraft.entity.EntityType
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
@@ -20,8 +17,10 @@ import net.minecraft.util.EnumActionResult
 import net.minecraft.util.EnumHand
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.RayTraceResult
+import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.world.World
+import org.apache.logging.log4j.LogManager
 import kotlin.random.Random
 
 /**
@@ -29,10 +28,9 @@ import kotlin.random.Random
  *
  * @constructor sets the item name
  */
-class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls") {
+class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls", Properties()) {
     init {
-        addPropertyOverride(ResourceLocation(Constants.MOD_ID, "complete"))
-        { stack, _, _ ->
+        addPropertyOverride(ResourceLocation(Constants.MOD_ID, "complete")) { stack, _, _ ->
             if (isComplete(stack)) 1f else 0f
         }
     }
@@ -57,7 +55,7 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls") {
                 val rayTraceResult: RayTraceResult? = rayTrace(world, player, true)
 
                 // Test if we hit a block, Intellij is wrong here, ray trace CAN be null!!!
-                if (rayTraceResult != null && rayTraceResult.typeOfHit == RayTraceResult.Type.BLOCK) {
+                if (rayTraceResult != null && rayTraceResult.type == RayTraceResult.Type.BLOCK) {
                     val hitPos = rayTraceResult.blockPos
                     // Test if the block right clicked is modifiable
                     if (world.isBlockModifiable(player, hitPos) && player.canPlayerEdit(
@@ -67,7 +65,7 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls") {
                         )
                     ) {
                         // If the entity was selected to spawn inside a liquid spawn it inside a liquid
-                        if (world.getBlockState(hitPos).block is BlockLiquid) {
+                        if (!world.getBlockState(hitPos).isSolid) {
                             spawnEntity(world, hitPos.x + 0.5, hitPos.y + 0.5, hitPos.z + 0.5, itemStack, player)
                         } else {
                             val spawnPos = hitPos.offset(rayTraceResult.sideHit)
@@ -112,14 +110,14 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls") {
                     // Ensure it's not null, this should always be true
                     if (entityToSpawnID != null) {
                         // Create the entity from the ID
-                        val entity = EntityList.createEntityByIDFromName(entityToSpawnID, world)
+                        val entity = EntityType.getById(entityToSpawnID.toString())?.create(world)
                         // If the entity is non-null spawn it
                         if (entity != null) {
                             entity.setLocationAndAngles(x, y, z, Random.nextDouble(0.0, 360.0).toFloat(), 0.0f)
                             world.spawnEntity(entity)
                             setOnCooldown(itemStack, entityPlayer)
                         } else {
-                            AfraidOfTheDark.INSTANCE.logger.error("Unknown entity: $entityToSpawnID")
+                            logger.error("Unknown entity: $entityToSpawnID")
                         }
                     }
                 } else {
@@ -173,30 +171,39 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls") {
      * @param tooltip The tooltip to add to
      * @param flag  True if the advanced tooltip is set on, false otherwise
      */
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag) {
-        val player = Minecraft.getMinecraft().player
+    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+        val player = Minecraft.getInstance().player
         // If the player has the right research then show them flask stats
         if (player != null && player.getResearch().isResearched(ModResearches.PHYLACTERY_OF_SOULS)) {
             // If the flask is unbound show them information how to bind it
             if (getSpawnedEntity(stack) == null) {
-                tooltip.add(I18n.format(LocalizationConstants.Item.FLASK_OF_SOULS_TOOLTIP_EMPTY_LINE1))
-                tooltip.add(I18n.format(LocalizationConstants.Item.FLASK_OF_SOULS_TOOLTIP_EMPTY_LINE2))
-                tooltip.add(I18n.format(LocalizationConstants.Item.FLASK_OF_SOULS_TOOLTIP_EMPTY_LINE3))
+                tooltip.add(TextComponentTranslation(LocalizationConstants.Item.FLASK_OF_SOULS_TOOLTIP_EMPTY_LINE1))
+                tooltip.add(TextComponentTranslation(LocalizationConstants.Item.FLASK_OF_SOULS_TOOLTIP_EMPTY_LINE2))
+                tooltip.add(TextComponentTranslation(LocalizationConstants.Item.FLASK_OF_SOULS_TOOLTIP_EMPTY_LINE3))
             } else {
                 // If the flask is done show info one way, otherwise show it the other way
                 if (isComplete(stack)) {
                     tooltip.add(
-                        I18n.format(LocalizationConstants.Item.FLASK_OF_SOULS_TOOLTIP_COMPLETE_LINE1, EntityList.getTranslationName(getSpawnedEntity(stack)))
+                        TextComponentTranslation(
+                            LocalizationConstants.Item.FLASK_OF_SOULS_TOOLTIP_COMPLETE_LINE1,
+                            EntityType.getById(getSpawnedEntity(stack)!!.toString())!!.translationKey
+                        )
                     )
                     tooltip.add(
-                        I18n.format(LocalizationConstants.Item.FLASK_OF_SOULS_TOOLTIP_COMPLETE_LINE2, getCooldownInMilliseconds(stack) / 1000 + 1)
+                        TextComponentTranslation(
+                            LocalizationConstants.Item.FLASK_OF_SOULS_TOOLTIP_COMPLETE_LINE2,
+                            getCooldownInMilliseconds(stack) / 1000 + 1
+                        )
                     )
                 } else {
                     tooltip.add(
-                        I18n.format(LocalizationConstants.Item.FLASK_OF_SOULS_TOOLTIP_INCOMPLETE_LINE1, EntityList.getTranslationName(getSpawnedEntity(stack)))
+                        TextComponentTranslation(
+                            LocalizationConstants.Item.FLASK_OF_SOULS_TOOLTIP_INCOMPLETE_LINE1,
+                            EntityType.getById(getSpawnedEntity(stack)!!.toString())!!.translationKey
+                        )
                     )
                     tooltip.add(
-                        I18n.format(
+                        TextComponentTranslation(
                             LocalizationConstants.Item.FLASK_OF_SOULS_TOOLTIP_INCOMPLETE_LINE2,
                             getKills(stack),
                             ENTITY_TO_KILLS_REQUIRED[getSpawnedEntity(stack)] ?: DEFAULT_KILLS_REQUIRED
@@ -205,7 +212,7 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls") {
                 }
             }
         } else {
-            tooltip.add(I18n.format(LocalizationConstants.Item.TOOLTIP_DONT_KNOW_HOW_TO_USE))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }
 
@@ -289,6 +296,8 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls") {
     }
 
     companion object {
+        private val logger = LogManager.getLogger()
+
         // Two constants, one for the flask type and one for flask kill count
         private const val NBT_FLASK_TYPE = "flask_type"
         private const val NBT_FLASK_KILLS = "flask_kills"

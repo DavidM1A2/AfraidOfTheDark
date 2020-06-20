@@ -2,10 +2,11 @@ package com.davidm1a2.afraidofthedark.common.spell.component.effect.base
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.client.particle.AOTDParticleRegistry
-import com.davidm1a2.afraidofthedark.common.packets.otherPackets.SyncParticle
+import com.davidm1a2.afraidofthedark.common.packets.otherPackets.ParticlePacket
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.Vec3d
-import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint
+import net.minecraft.world.dimension.DimensionType
+import net.minecraftforge.fml.network.PacketDistributor
 import kotlin.random.Random
 
 /**
@@ -24,17 +25,17 @@ abstract class AOTDSpellEffect(id: ResourceLocation) : SpellEffect(id) {
          * @param pos       The position to spawn particles at
          * @param dimension The dimension to create particles in
          */
-        fun createParticlesAt(min: Int, max: Int, pos: Vec3d, dimension: Int) {
+        fun createParticlesAt(min: Int, max: Int, pos: Vec3d, dimension: DimensionType) {
             // Spawn particles
             val positions = List(Random.nextInt(min, max + 1)) { pos }
 
             // Send the particle packet
-            AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(
-                SyncParticle(
+            AfraidOfTheDark.packetHandler.sendToAllAround(
+                ParticlePacket(
                     AOTDParticleRegistry.ParticleTypes.SPELL_HIT_ID,
                     positions,
                     List(positions.size) { Vec3d.ZERO }),
-                TargetPoint(dimension, pos.x, pos.y, pos.z, 100.0)
+                PacketDistributor.TargetPoint(pos.x, pos.y, pos.z, 100.0, dimension)
             )
         }
     }

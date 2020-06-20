@@ -9,7 +9,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEff
 import com.davidm1a2.afraidofthedark.common.spell.component.property.SpellComponentPropertyFactory
 import net.minecraft.entity.passive.EntityAnimal
 import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.util.EnumParticleTypes
+import net.minecraft.init.Particles
 import net.minecraft.util.ResourceLocation
 import java.util.concurrent.ThreadLocalRandom
 
@@ -24,8 +24,8 @@ class SpellEffectCharm : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "cha
             SpellComponentPropertyFactory.intProperty()
                 .withName("Charm Duration")
                 .withDescription("The number of ticks to charm to when hitting players.")
-                .withSetter { instance, newValue -> instance.data.setInteger(NBT_CHARM_DURATION, newValue) }
-                .withGetter { it.data.getInteger(NBT_CHARM_DURATION) }
+                .withSetter { instance, newValue -> instance.data.setInt(NBT_CHARM_DURATION, newValue) }
+                .withGetter { it.data.getInt(NBT_CHARM_DURATION) }
                 .withDefaultValue(40)
                 .withMinValue(1)
                 .withMaxValue(1200)
@@ -51,7 +51,7 @@ class SpellEffectCharm : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "cha
             spellCharmData.charmTicks = getCharmDuration(instance)
 
             // Set the charming entity
-            spellCharmData.charmingEntityId = spellOwner.persistentID
+            spellCharmData.charmingEntityId = spellOwner.uniqueID
             val random = ThreadLocalRandom.current()
             val width = entity.width.toDouble()
             val height = entity.height.toDouble()
@@ -59,7 +59,7 @@ class SpellEffectCharm : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "cha
             // Spawn 4 random heart particles
             for (i in 0..3) {
                 state.world.spawnParticle(
-                    EnumParticleTypes.HEART,
+                    Particles.HEART,
                     // The position will be somewhere inside the player's hitbox
                     state.position.x + random.nextFloat() * width * 2.0f - width,
                     state.position.y + 0.5 + random.nextFloat() * height,
@@ -93,7 +93,7 @@ class SpellEffectCharm : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "cha
      * @return The duration of the charm in ticks
      */
     private fun getCharmDuration(instance: SpellComponentInstance<SpellEffect>): Int {
-        return instance.data.getInteger(NBT_CHARM_DURATION)
+        return instance.data.getInt(NBT_CHARM_DURATION)
     }
 
     companion object {

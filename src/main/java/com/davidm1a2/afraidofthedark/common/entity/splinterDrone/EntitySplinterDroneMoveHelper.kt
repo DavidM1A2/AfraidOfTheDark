@@ -16,7 +16,7 @@ class EntitySplinterDroneMoveHelper(splinterDrone: EntitySplinterDrone) : Entity
     /**
      * Called to update movement of the entity, code copied from the ghast
      */
-    override fun onUpdateMoveHelper() {
+    override fun tick() {
         // Test if this move helper is updating and doesn't have a target, fly around
         if (action == Action.MOVE_TO && entity.attackTarget == null) {
             // If we should update perform a motion update
@@ -58,7 +58,7 @@ class EntitySplinterDroneMoveHelper(splinterDrone: EntitySplinterDrone) : Entity
         val z = (posZ - entity.posZ) / dirMagnitude
 
         // Grab the entity bounding box
-        var axisalignedbb = entity.entityBoundingBox
+        var axisalignedbb = entity.boundingBox
 
         // Test if this entity can fit in each position as it moves to the position
         var i = 1
@@ -66,7 +66,7 @@ class EntitySplinterDroneMoveHelper(splinterDrone: EntitySplinterDrone) : Entity
             // Move the bounding box in the direction of movement
             axisalignedbb = axisalignedbb.offset(x, y, z)
             // Test if the entity would fit
-            if (entity.world.getCollisionBoxes(entity, axisalignedbb).isNotEmpty()) {
+            if (entity.world.isCollisionBoxesEmpty(entity, axisalignedbb)) {
                 // False, there is no path
                 return false
             }

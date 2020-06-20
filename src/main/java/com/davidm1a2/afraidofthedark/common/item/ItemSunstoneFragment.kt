@@ -7,4 +7,4 @@ import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
  *
  * @constructor sets the item name, and that's it
  */
-class ItemSunstoneFragment : AOTDItem("sunstone_fragment")
+class ItemSunstoneFragment : AOTDItem("sunstone_fragment", Properties())

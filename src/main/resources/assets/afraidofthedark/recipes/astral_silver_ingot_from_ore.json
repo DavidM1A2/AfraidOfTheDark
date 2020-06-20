@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "afraidofthedark:astral_silver_ore"
+  },
+  "result": "afraidofthedark:astral_silver_ingot",
+  "experience": 0.4,
+  "cookingtime": 200
+}

@@ -9,9 +9,9 @@ import net.minecraft.block.material.Material
  *
  * @constructor for mangrove planks sets the planks properties
  */
-class BlockSacredMangrovePlanks : AOTDBlock("sacred_mangrove_planks", Material.WOOD) {
-    init {
-        setHardness(2.0f)
-        this.soundType = SoundType.WOOD
-    }
-}
+class BlockSacredMangrovePlanks : AOTDBlock(
+    "sacred_mangrove_planks",
+    Properties.create(Material.WOOD)
+        .hardnessAndResistance(2.0f)
+        .sound(SoundType.WOOD)
+)

@@ -1,82 +1,57 @@
 package com.davidm1a2.afraidofthedark.common.biomes
 
-import com.davidm1a2.afraidofthedark.common.biomes.extras.AOTDWorldGenBigTree
-import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.biomes.base.AOTDBiome
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
-import net.minecraft.block.BlockLog
-import net.minecraft.block.BlockLog.EnumAxis
-import net.minecraft.init.Blocks
-import net.minecraft.util.ResourceLocation
-import net.minecraft.world.biome.Biome
-import net.minecraft.world.gen.feature.WorldGenAbstractTree
-import net.minecraft.world.gen.feature.WorldGenTrees
+import net.minecraft.util.math.BlockPos
+import net.minecraft.world.gen.GenerationStage
+import net.minecraft.world.gen.feature.IFeatureConfig
+import net.minecraft.world.gen.feature.TreeFeature
+import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig
+import net.minecraft.world.gen.surfacebuilders.CompositeSurfaceBuilder
+import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig
 import java.awt.Color
-import java.util.*
 
 /**
  * Class representing the Eerie Forest biome
  *
  * @constructor initializes the biome's fields
  */
-class BiomeEerieForest : Biome(
-    BiomeProperties("Eerie Forest")
-        .setWaterColor(0x000099)
-        .setBaseHeight(0.125f)
-        .setHeightVariation(0.05f)
+class BiomeEerieForest : AOTDBiome(
+    "eerie_forest",
+    BiomeBuilder()
+        .waterColor(0x000099)
+        .category(Category.FOREST)
+        .depth(0.05f)
+        .scale(0.125f)
+        .surfaceBuilder(CompositeSurfaceBuilder(DEFAULT_SURFACE_BUILDER, SurfaceBuilderConfig(GRASS_BLOCK, DIRT, DIRT)))
 ) {
     init {
-        // Set this biome's properties. It takes height, variation, water color, and a name
-        decorator.grassPerChunk = 10
-        // Set the biome's registry name to eerie forest
-        registryName = ResourceLocation(Constants.MOD_ID, "erie_forest")
-        // Use stone as the underground filler block
-        fillerBlock = Blocks.STONE.defaultState
-        // We will have no flowers in this biome
-        flowers.clear()
-        // We have lots of trees per chunk
-        decorator.treesPerChunk = 10
-        decorator.flowersPerChunk = 0
-        decorator.mushroomsPerChunk = 0
-        // The top block of the biome is dirt
-        topBlock = Blocks.GRASS.defaultState
+        addCaves()
+        addDefaultStructures()
+        addDefaultDungeons()
+        addDefaultOreFeatures()
+        addDefaultEntitySpawns()
+
+        // Gravewood trees
+        addFeature(
+            GenerationStage.Decoration.VEGETAL_DECORATION,
+            createCompositeFeature(
+                TreeFeature(false, 4, ModBlocks.GRAVEWOOD.defaultState, ModBlocks.GRAVEWOOD_LEAVES.defaultState, false),
+                IFeatureConfig.NO_FEATURE_CONFIG,
+                AT_SURFACE_WITH_EXTRA,
+                AtSurfaceWithExtraConfig(10, 0.3f, 5)
+            )
+        )
     }
 
     /**
      * Use a brown grass color
      *
-     * @param original The original grass color
+     * @param blockPos The position of the grass block
      * @return The new grass color
      */
-    override fun getModdedBiomeGrassColor(original: Int): Int {
+    override fun getGrassColor(blockPos: BlockPos): Int {
         // hash code converts from color object to 32-bit integer, then get rid of the alpha parameter
         return Color(83, 56, 6).hashCode()
-    }
-
-    /**
-     * Getter for the tree generator
-     *
-     * @param rand Random object to be used by the generator
-     * @return The biome tree generator
-     */
-    override fun getRandomTreeFeature(rand: Random): WorldGenAbstractTree {
-        // Every 3 trees is a big tree
-        return if (rand.nextInt(3) == 0) {
-            AOTDWorldGenBigTree(
-                true,
-                ModBlocks.GRAVEWOOD.defaultState.withProperty(BlockLog.LOG_AXIS, EnumAxis.Y),
-                ModBlocks.GRAVEWOOD_LEAVES.defaultState
-            ).apply {
-                leafIntegrity = 0.9
-                trunkSize = 2
-            }
-        } else {
-            WorldGenTrees(
-                true,
-                6,
-                ModBlocks.GRAVEWOOD.defaultState.withProperty(BlockLog.LOG_AXIS, EnumAxis.Y),
-                ModBlocks.GRAVEWOOD_LEAVES.defaultState,
-                false
-            )
-        }
     }
 }

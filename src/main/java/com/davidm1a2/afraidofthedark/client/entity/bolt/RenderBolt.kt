@@ -34,17 +34,17 @@ abstract class RenderBolt<T : EntityBolt>(renderManager: RenderManager) : Render
         ///
 
         this.bindEntityTexture(entity)
-        GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f)
+        GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f)
         GlStateManager.pushMatrix()
         GlStateManager.disableLighting()
-        GlStateManager.translate(x.toFloat(), y.toFloat(), z.toFloat())
-        GlStateManager.rotate(
+        GlStateManager.translatef(x.toFloat(), y.toFloat(), z.toFloat())
+        GlStateManager.rotatef(
             entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks - 90.0f,
             0.0f,
             1.0f,
             0.0f
         )
-        GlStateManager.rotate(
+        GlStateManager.rotatef(
             entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks,
             0.0f,
             0.0f,
@@ -54,23 +54,23 @@ abstract class RenderBolt<T : EntityBolt>(renderManager: RenderManager) : Render
         val bufferbuilder = tessellator.buffer
         GlStateManager.enableRescaleNormal()
 
-        GlStateManager.rotate(45.0f, 1.0f, 0.0f, 0.0f)
-        GlStateManager.scale(0.05625f, 0.05625f, 0.05625f)
-        GlStateManager.translate(-4.0f, 0.0f, 0.0f)
+        GlStateManager.rotatef(45.0f, 1.0f, 0.0f, 0.0f)
+        GlStateManager.scalef(0.05625f, 0.05625f, 0.05625f)
+        GlStateManager.translatef(-4.0f, 0.0f, 0.0f)
 
         if (this.renderOutlines) {
             GlStateManager.enableColorMaterial()
             GlStateManager.enableOutlineMode(this.getTeamColor(entity))
         }
 
-        GlStateManager.glNormal3f(0.05625f, 0.0f, 0.0f)
+        GlStateManager.normal3f(0.05625f, 0.0f, 0.0f)
         bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX)
         bufferbuilder.pos(-7.0, -2.0, -2.0).tex(0.0, 0.15625).endVertex()
         bufferbuilder.pos(-7.0, -2.0, 2.0).tex(0.15625, 0.15625).endVertex()
         bufferbuilder.pos(-7.0, 2.0, 2.0).tex(0.15625, 0.3125).endVertex()
         bufferbuilder.pos(-7.0, 2.0, -2.0).tex(0.0, 0.3125).endVertex()
         tessellator.draw()
-        GlStateManager.glNormal3f(-0.05625f, 0.0f, 0.0f)
+        GlStateManager.normal3f(-0.05625f, 0.0f, 0.0f)
         bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX)
         bufferbuilder.pos(-7.0, 2.0, -2.0).tex(0.0, 0.15625).endVertex()
         bufferbuilder.pos(-7.0, 2.0, 2.0).tex(0.15625, 0.15625).endVertex()
@@ -79,8 +79,8 @@ abstract class RenderBolt<T : EntityBolt>(renderManager: RenderManager) : Render
         tessellator.draw()
 
         for (j in 0..3) {
-            GlStateManager.rotate(90.0f, 1.0f, 0.0f, 0.0f)
-            GlStateManager.glNormal3f(0.0f, 0.0f, 0.05625f)
+            GlStateManager.rotatef(90.0f, 1.0f, 0.0f, 0.0f)
+            GlStateManager.normal3f(0.0f, 0.0f, 0.05625f)
             bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX)
             bufferbuilder.pos(-8.0, -2.0, 0.0).tex(0.0, 0.0).endVertex()
             bufferbuilder.pos(8.0, -2.0, 0.0).tex(0.5, 0.0).endVertex()

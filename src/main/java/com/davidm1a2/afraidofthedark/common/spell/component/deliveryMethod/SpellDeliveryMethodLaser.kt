@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.client.particle.AOTDParticleRegistry
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.packets.otherPackets.SyncParticle
+import com.davidm1a2.afraidofthedark.common.packets.otherPackets.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
@@ -15,6 +15,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.RayTraceFluidMode
 import net.minecraft.util.math.Vec3d
 import java.util.*
 import kotlin.Comparator
@@ -60,15 +61,16 @@ class SpellDeliveryMethodLaser : AOTDSpellDeliveryMethod(ResourceLocation(Consta
         val entity = state.getEntity()
 
         // Start at entity eye height if it's from an entity
-        val startPos = entity?.getPositionEyes(1.0f) ?: state.position
+        val startPos = entity?.getEyePosition(1.0f) ?: state.position
 
         val direction = state.direction.normalize()
         // The end position is the start position in the right direction scaled to range
         val endPos = startPos.add(direction.scale(getRange(state.getCurrentStage().deliveryInstance!!)))
 
         // Perform a ray trace, this will not hit blocks
+        val hitLiquids = if (hitLiquids(state.getCurrentStage().deliveryInstance!!)) RayTraceFluidMode.ALWAYS else RayTraceFluidMode.NEVER
         val rayTraceResult =
-            world.rayTraceBlocks(startPos, endPos, hitLiquids(state.getCurrentStage().deliveryInstance!!))
+            world.rayTraceBlocks(startPos, endPos, hitLiquids)
 
         // Compute the hit vector
         var hitPos = if (rayTraceResult == null) endPos else rayTraceResult.hitVec
@@ -86,7 +88,7 @@ class SpellDeliveryMethodLaser : AOTDSpellDeliveryMethod(ResourceLocation(Consta
             // Don't hitscan ourselves
             .filter { it !== entity }
             // Ensure the entity is along the path with the ray
-            .filter { it.entityBoundingBox.calculateIntercept(startPos, hitPos) != null }
+            .filter { it.boundingBox.calculateIntercept(startPos, hitPos) != null }
             // Find the closest entity
             .minWith(Comparator<Entity> { entity1, entity2 ->
                 entity1.getDistanceSq(BlockPos(startPos)).compareTo(entity2.getDistanceSq(BlockPos(hitPos)))
@@ -104,13 +106,13 @@ class SpellDeliveryMethodLaser : AOTDSpellDeliveryMethod(ResourceLocation(Consta
         }
 
         // Spawn laser particles
-        AfraidOfTheDark.INSTANCE.packetHandler.sendToDimension(
-            SyncParticle(
+        AfraidOfTheDark.packetHandler.sendToDimension(
+            ParticlePacket(
                 AOTDParticleRegistry.ParticleTypes.SPELL_LASER,
                 laserPositions,
                 Collections.nCopies(numParticlesToSpawn, Vec3d.ZERO)
             ),
-            state.world.provider.dimension
+            state.world.dimension.type
         )
 
         // Begin performing effects and transition

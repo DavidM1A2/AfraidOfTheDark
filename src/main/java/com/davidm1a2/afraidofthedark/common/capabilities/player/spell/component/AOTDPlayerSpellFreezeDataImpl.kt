@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.packets.capabilityPackets.SyncFreezeData
+import com.davidm1a2.afraidofthedark.common.packets.capabilityPackets.FreezeDataPacket
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.util.math.Vec3d
@@ -67,8 +67,8 @@ class AOTDPlayerSpellFreezeDataImpl : IAOTDPlayerSpellFreezeData {
     override fun sync(entityPlayer: EntityPlayer) {
         // If we are on the server side sync this data to the client side
         if (isServerSide(entityPlayer)) {
-            AfraidOfTheDark.INSTANCE.packetHandler.sendTo(
-                SyncFreezeData(freezeTicks, freezePosition, yaw, pitch),
+            AfraidOfTheDark.packetHandler.sendTo(
+                FreezeDataPacket(freezeTicks, freezePosition, yaw, pitch),
                 entityPlayer as EntityPlayerMP
             )
         }

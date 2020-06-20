@@ -1,10 +1,10 @@
 package com.davidm1a2.afraidofthedark.common.worldGeneration.structure
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.world.IHeightmap
 import com.davidm1a2.afraidofthedark.common.capabilities.world.OverworldHeightmap
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
+import com.davidm1a2.afraidofthedark.common.constants.ModServerConfiguration
 import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.iterator.InteriorChunkIterator
@@ -16,7 +16,7 @@ import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.world.World
-import net.minecraft.world.biome.BiomeProvider
+import net.minecraft.world.biome.provider.BiomeProvider
 
 /**
  * Desert oasis structure class
@@ -57,7 +57,7 @@ class StructureDesertOasis : AOTDStructure("desert_oasis") {
             override fun getResult(): Double {
                 val percentDesertTiles = numValidChunks / (numValidChunks + numNonValidChunks)
                 // 70% valid tiles required, .5% chance to spawn
-                return if (percentDesertTiles > 0.7) 0.005 * AfraidOfTheDark.INSTANCE.configurationHandler.desertOasisMultiplier else 0.0
+                return if (percentDesertTiles > 0.7) 0.005 * ModServerConfiguration.desertOasisMultiplier else 0.0
             }
 
             override fun getDefaultResult(): Double {
@@ -156,7 +156,7 @@ class StructureDesertOasis : AOTDStructure("desert_oasis") {
         val yHeight = (averageLowHeight - 18).coerceIn(0..255)
 
         // Set the position to the base corner of the structure
-        nbt.setTag(NBT_POSITION, NBTUtil.createPosTag(BlockPos(blockPos.x, yHeight, blockPos.z)))
+        nbt.setTag(NBT_POSITION, NBTUtil.writeBlockPos(BlockPos(blockPos.x, yHeight, blockPos.z)))
 
         // Record picks for each of the 5 plot types (small, small90, medium, medium90, large)
         recordPlotPicks(
@@ -231,7 +231,7 @@ class StructureDesertOasis : AOTDStructure("desert_oasis") {
 
         private val VALID_BIOMES = setOf(
             Biomes.DESERT,
-            Biomes.MUTATED_DESERT,
+            Biomes.DESERT_LAKES,
             Biomes.RIVER
         )
     }

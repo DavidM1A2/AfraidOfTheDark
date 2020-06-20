@@ -17,11 +17,7 @@ import net.minecraft.world.World
  *
  * @constructor sets the item's name
  */
-class ItemInsanitysHeights : AOTDItem("insanitys_heights") {
-    init {
-        setMaxStackSize(1)
-    }
-
+class ItemInsanitysHeights : AOTDItem("insanitys_heights", Properties().maxStackSize(1)) {
     /**
      * Called when the book is right clicked, opens the book GUI
      *
@@ -33,7 +29,7 @@ class ItemInsanitysHeights : AOTDItem("insanitys_heights") {
     override fun onItemRightClick(worldIn: World, player: EntityPlayer, hand: EnumHand): ActionResult<ItemStack> {
         val heldItem = player.getHeldItem(hand)
         // Show the player the book if they're in the nightmare
-        if (worldIn.provider.dimension == ModDimensions.NIGHTMARE.id) {
+        if (worldIn.dimension.type == ModDimensions.NIGHTMARE_TYPE) {
             AfraidOfTheDark.proxy.showInsanitysHeightsBook(player)
         } else {
             if (!worldIn.isRemote) {

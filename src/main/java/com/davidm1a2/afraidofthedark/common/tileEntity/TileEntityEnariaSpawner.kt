@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.tileEntity
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
-import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
+import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.entity.enaria.EntityEnaria
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity
 import net.minecraft.entity.player.EntityPlayer
@@ -10,6 +10,7 @@ import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.world.EnumDifficulty
+import net.minecraft.world.WorldServer
 import java.util.*
 
 /**
@@ -20,7 +21,7 @@ import java.util.*
  * @property playerCheckRegion The bounding box that represents the check region to test for nearby players to spawn enaria
  * @property enariaArenaRegion The bounding box of the downstairs room enaria spawns in
  */
-class TileEntityEnariaSpawner : AOTDTickingTileEntity(ModBlocks.ENARIA_SPAWNER) {
+class TileEntityEnariaSpawner : AOTDTickingTileEntity(ModTileEntities.ENARIA_SPAWNER) {
     private var enariaEntityID: UUID? = null
     private lateinit var playerCheckRegion: AxisAlignedBB
     private lateinit var enariaArenaRegion: AxisAlignedBB
@@ -51,8 +52,8 @@ class TileEntityEnariaSpawner : AOTDTickingTileEntity(ModBlocks.ENARIA_SPAWNER) 
     /**
      * Called once per tick
      */
-    override fun update() {
-        super.update()
+    override fun tick() {
+        super.tick()
         // Server side processing only
         if (!world.isRemote) {
             // Only update every 40 ticks
@@ -71,7 +72,7 @@ class TileEntityEnariaSpawner : AOTDTickingTileEntity(ModBlocks.ENARIA_SPAWNER) 
                         }
                     } else {
                         // Grab the entity from the world
-                        val entity = world.minecraftServer!!.getEntityFromUuid(enariaEntityID!!)
+                        val entity = (world as WorldServer).getEntityFromUuid(enariaEntityID!!)
                         // If the entity no longer exists clear the entityID
                         if (entity == null) {
                             enariaEntityID = null
@@ -93,7 +94,7 @@ class TileEntityEnariaSpawner : AOTDTickingTileEntity(ModBlocks.ENARIA_SPAWNER) 
         // Spawn her in
         world.spawnEntity(enaria)
         // Get her ID and store it
-        enariaEntityID = enaria.persistentID
+        enariaEntityID = enaria.uniqueID
     }
 
     /**
@@ -102,10 +103,10 @@ class TileEntityEnariaSpawner : AOTDTickingTileEntity(ModBlocks.ENARIA_SPAWNER) 
      * @param compound The nbt tag compound to write to
      * @return The new nbt tag compound with any required changes made
      */
-    override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
-        super.writeToNBT(compound)
+    override fun write(compound: NBTTagCompound): NBTTagCompound {
+        super.write(compound)
         if (enariaEntityID != null) {
-            compound.setTag(NBT_ENARIA_ID, NBTUtil.createUUIDTag(enariaEntityID!!))
+            compound.setTag(NBT_ENARIA_ID, NBTUtil.writeUniqueId(enariaEntityID!!))
         }
         return compound
     }
@@ -115,10 +116,10 @@ class TileEntityEnariaSpawner : AOTDTickingTileEntity(ModBlocks.ENARIA_SPAWNER) 
      *
      * @param compound The nbt compound to read data from
      */
-    override fun readFromNBT(compound: NBTTagCompound) {
-        super.readFromNBT(compound)
+    override fun read(compound: NBTTagCompound) {
+        super.read(compound)
         enariaEntityID = if (compound.hasKey(NBT_ENARIA_ID)) {
-            NBTUtil.getUUIDFromTag(compound.getCompoundTag(NBT_ENARIA_ID))
+            NBTUtil.readUniqueId(compound.getCompound(NBT_ENARIA_ID))
         } else {
             null
         }

@@ -5,9 +5,10 @@ import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.setAndReturn
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.slerp
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.transposeAndReturn
 import net.minecraft.client.Minecraft
-import net.minecraftforge.fml.common.FMLCommonHandler
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
+import net.minecraftforge.fml.LogicalSide
+import net.minecraftforge.fml.common.thread.EffectiveSide
 import javax.vecmath.Quat4f
 import javax.vecmath.Vector3f
 
@@ -95,8 +96,8 @@ class AnimationHandler(vararg animChannels: Channel) {
      * @return false if the animation should stop, true otherwise
      */
     private fun updateAnimation(channel: Channel): Boolean {
-        val side = FMLCommonHandler.instance().effectiveSide
-        return if (side.isServer || side.isClient && !isGamePaused()) {
+        val side = EffectiveSide.get()
+        return if (side == LogicalSide.SERVER || side == LogicalSide.CLIENT && !isGamePaused()) {
             if (channel.mode != ChannelMode.CUSTOM) {
                 val prevTime = animPrevTime[channel.name]!!
                 val prevFrame = animCurrentFrame[channel.name]!!
@@ -130,9 +131,9 @@ class AnimationHandler(vararg animChannels: Channel) {
     /**
      * @return true if the game is paused, false if not
      */
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     private fun isGamePaused(): Boolean {
-        val minecraft = Minecraft.getMinecraft()
+        val minecraft = Minecraft.getInstance()
         return minecraft.isSingleplayer && minecraft.currentScreen != null && minecraft.currentScreen!!.doesGuiPauseGame() && !minecraft.integratedServer!!.public
     }
 
@@ -141,7 +142,7 @@ class AnimationHandler(vararg animChannels: Channel) {
      *
      * @param parts The parts of the model to update
      */
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     fun performAnimationInModel(parts: Map<String, MCAModelRenderer>) {
         for ((boxName, box) in parts) {
             var anyRotationApplied = false

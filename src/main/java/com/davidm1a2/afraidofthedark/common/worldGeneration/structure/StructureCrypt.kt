@@ -1,11 +1,11 @@
 package com.davidm1a2.afraidofthedark.common.worldGeneration.structure
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.world.IHeightmap
 import com.davidm1a2.afraidofthedark.common.capabilities.world.OverworldHeightmap
 import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
+import com.davidm1a2.afraidofthedark.common.constants.ModServerConfiguration
 import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator.generateSchematic
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.iterator.InteriorChunkIterator
@@ -16,7 +16,7 @@ import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.world.World
-import net.minecraft.world.biome.BiomeProvider
+import net.minecraft.world.biome.provider.BiomeProvider
 import kotlin.math.max
 import kotlin.math.min
 
@@ -78,7 +78,7 @@ class StructureCrypt : AOTDStructure("crypt") {
                 val percentOther = 1.0 - percentEerie
 
                 // 0.2% chance to spawn in other biomes, 2% chance to spawn in erie forests
-                return (percentEerie * 0.02 + percentOther * 0.002) * AfraidOfTheDark.INSTANCE.configurationHandler.cryptMultiplier
+                return (percentEerie * 0.02 + percentOther * 0.002) * ModServerConfiguration.cryptMultiplier
             }
 
             override fun getDefaultResult(): Double {
@@ -127,7 +127,7 @@ class StructureCrypt : AOTDStructure("crypt") {
         blockPos = BlockPos(blockPos.x, y, blockPos.z)
 
         // Update the NBT
-        compound.setTag(NBT_POSITION, NBTUtil.createPosTag(blockPos))
+        compound.setTag(NBT_POSITION, NBTUtil.writeBlockPos(blockPos))
 
         return compound
     }
@@ -157,9 +157,8 @@ class StructureCrypt : AOTDStructure("crypt") {
             Biomes.BEACH,
             Biomes.FROZEN_RIVER,
             Biomes.RIVER,
-            Biomes.SKY,
-            Biomes.VOID,
-            Biomes.STONE_BEACH
+            Biomes.THE_VOID,
+            Biomes.BEACH
         )
     }
 }

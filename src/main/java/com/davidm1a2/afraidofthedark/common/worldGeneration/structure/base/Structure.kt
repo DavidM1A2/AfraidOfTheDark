@@ -6,13 +6,13 @@ import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.world.World
-import net.minecraft.world.biome.BiomeProvider
-import net.minecraftforge.registries.IForgeRegistryEntry
+import net.minecraft.world.biome.provider.BiomeProvider
+import net.minecraftforge.registries.ForgeRegistryEntry
 
 /**
  * Base class for all structures in the game that are generated using schematics
  */
-abstract class Structure : IForgeRegistryEntry.Impl<Structure>() {
+abstract class Structure : ForgeRegistryEntry<Structure>() {
     /**
      * Tests if this structure is valid for the given position
      *
@@ -48,7 +48,7 @@ abstract class Structure : IForgeRegistryEntry.Impl<Structure>() {
     open fun generateStructureData(world: World, blockPos: BlockPos, biomeProvider: BiomeProvider): NBTTagCompound {
         val compound = NBTTagCompound()
         // Set the position to the blockpos
-        compound.setTag(NBT_POSITION, NBTUtil.createPosTag(blockPos))
+        compound.setTag(NBT_POSITION, NBTUtil.writeBlockPos(blockPos))
         return compound
     }
 
@@ -59,7 +59,7 @@ abstract class Structure : IForgeRegistryEntry.Impl<Structure>() {
      * @return The blockpos contained in the data
      */
     fun getPosition(data: NBTTagCompound): BlockPos {
-        return NBTUtil.getPosFromTag(data.getCompoundTag(NBT_POSITION))
+        return NBTUtil.readBlockPos(data.getCompound(NBT_POSITION))
     }
 
     /**
@@ -76,7 +76,7 @@ abstract class Structure : IForgeRegistryEntry.Impl<Structure>() {
      * @return The unlocalized name of the structure
      */
     fun getUnlocalizedName(): String {
-        return "structure.${registryName!!.resourceDomain}:${registryName!!.resourcePath}.name"
+        return "structure.${registryName!!}.name"
     }
 
     companion object {

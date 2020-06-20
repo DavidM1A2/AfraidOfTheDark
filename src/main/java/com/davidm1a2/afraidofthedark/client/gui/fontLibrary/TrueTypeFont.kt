@@ -1,15 +1,13 @@
 package com.davidm1a2.afraidofthedark.client.gui.fontLibrary
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
 import net.minecraft.client.renderer.GLAllocation
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
-import net.minecraftforge.fml.common.FMLCommonHandler
+import org.apache.logging.log4j.LogManager
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL11
-import org.lwjgl.util.glu.GLU
 import java.awt.*
 import java.awt.image.BufferedImage
 import java.awt.image.DataBufferByte
@@ -19,6 +17,7 @@ import java.nio.ByteOrder
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.pow
+import kotlin.system.exitProcess
 
 /**
  * TrueTyper: Open Source TTF implementation for Minecraft.
@@ -247,7 +246,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
         scaleX: Float,
         scaleY: Float,
         textAlignment: TextAlignment,
-        rgba: org.lwjgl.util.Color
+        rgba: Color
     ) {
         drawString(x, y, stringToDraw, 0, stringToDraw.length - 1, scaleX, scaleY, textAlignment, rgba)
     }
@@ -274,7 +273,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
         scaleX: Float,
         scaleY: Float,
         textAlignment: TextAlignment,
-        rgba: org.lwjgl.util.Color
+        rgba: Color
     ) {
         // The current glyph being drawn
         var characterGlyph: CharacterGlyph
@@ -352,7 +351,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
         // Begin drawing a texture
         bufferBuilder.begin(7, DefaultVertexFormats.POSITION_TEX)
         // Set the color to be the passed in color
-        GlStateManager.color(rgba.red / 255f, rgba.green / 255f, rgba.blue / 255f, rgba.alpha / 255f)
+        GlStateManager.color4f(rgba.red / 255f, rgba.green / 255f, rgba.blue / 255f, rgba.alpha / 255f)
         // Loop while the current index is between the start and end index
         while (currentIndex in startIndex..endIndex) {
             // Grab the current character to draw
@@ -497,6 +496,8 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
     )
 
     companion object {
+        private val logger = LogManager.getLogger()
+
         // Correction constants used to render letters closer together. These cause a big with getWidth() currently
         private const val CORRECT_L = 0 // 2
         private const val CORRECT_R = 0 // 1
@@ -539,28 +540,30 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
 
                 // Not very familiar with OpenGl here, but create an int buffer and generate the texture from the byte buffer
 
-                val textureBuffer = GLAllocation.createDirectIntBuffer(1)
+                val textureBuffer = GLAllocation.createDirectByteBuffer(4).asIntBuffer()
                 GL11.glGenTextures(textureBuffer)
 
                 val textureId = textureBuffer.get(0)
                 GlStateManager.bindTexture(textureId)
 
-                GlStateManager.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_CLAMP)
-                GlStateManager.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_CLAMP)
+                GlStateManager.texParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_CLAMP)
+                GlStateManager.texParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_CLAMP)
 
-                GlStateManager.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST)
-                GlStateManager.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST)
+                GlStateManager.texParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST)
+                GlStateManager.texParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST)
 
-                GlStateManager.glTexEnvf(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE.toFloat())
+                GlStateManager.texEnvf(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE.toFloat())
 
-                GLU.gluBuild2DMipmaps(
+                GlStateManager.texImage2D(
                     GL11.GL_TEXTURE_2D,
+                    0,
                     GL11.GL_RGBA8,
                     width,
                     height,
+                    0,
                     GL11.GL_RGBA,
                     GL11.GL_UNSIGNED_BYTE,
-                    byteBuffer
+                    byteBuffer.asIntBuffer()
                 )
 
                 // Return the texture ID
@@ -568,11 +571,9 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
             }
             // Catch any exceptions, log an error, and then shutdown java since we can't continue without fonts
             catch (e: Exception) {
-                AfraidOfTheDark.INSTANCE.logger.error("Could not allocate an OpenGL texture!", e)
-                FMLCommonHandler.instance().exitJava(-1, false)
+                logger.error("Could not allocate an OpenGL texture!", e)
+                exitProcess(-1)
             }
-
-            return -1
         }
     }
 }

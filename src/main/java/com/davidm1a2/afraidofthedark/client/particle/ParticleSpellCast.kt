@@ -20,7 +20,7 @@ class ParticleSpellCast(
 ) : AOTDParticle(world, ModSprites.SPELL_CAST, x, y, z) {
     init {
         // 0.5-1.5 second lifespan
-        particleMaxAge = rand.nextInt(10) + 30
+        maxAge = rand.nextInt(10) + 30
         // Make the particles noticable
         particleScale = 2.0f + rand.nextFloat() * 2
         // Random motion

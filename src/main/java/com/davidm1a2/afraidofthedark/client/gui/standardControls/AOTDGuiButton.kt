@@ -4,7 +4,7 @@ import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
 import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
 import net.minecraft.util.ResourceLocation
-import org.lwjgl.util.Color
+import java.awt.Color
 
 /**
  * Class representing a GUI button to be used by AOTD

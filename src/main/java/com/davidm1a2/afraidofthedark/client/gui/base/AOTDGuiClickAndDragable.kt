@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.gui.base
 
 import java.io.IOException
+import kotlin.math.roundToInt
 
 /**
  * Special gui screen that keeps track of X and Y gui offsets when dragging the mouse
@@ -17,34 +18,39 @@ abstract class AOTDGuiClickAndDragable : AOTDGuiScreen() {
     /**
      * Called when the mouse is clicked
      *
-     * @param xPos        The X position of the mouse
-     * @param yPos        The Y position of the mouse
+     * @param mouseX The X position of the mouse
+     * @param mouseY The Y position of the mouse
      * @param mouseButton The mouse button that was pressed
      * @throws IOException Required and could be thrown by the base method
      */
-    override fun mouseClicked(xPos: Int, yPos: Int, mouseButton: Int) {
-        super.mouseClicked(xPos, yPos, mouseButton)
+    override fun mouseClicked(mouseX: Double, mouseY: Double, mouseButton: Int): Boolean {
+        val toReturn = super.mouseClicked(mouseX, mouseY, mouseButton)
 
         // Store the original position before dragging when the mouse goes down
-        this.originalXPosition = xPos + this.guiOffsetX
-        this.originalYPosition = yPos + this.guiOffsetY
+        this.originalXPosition = mouseX.roundToInt() + this.guiOffsetX
+        this.originalYPosition = mouseY.roundToInt() + this.guiOffsetY
+
+        return toReturn
     }
 
     /**
-     * Called when we drag the mouse
+     * Called when the mouse is dragged
      *
-     * @param mouseX            The mouse X position
-     * @param mouseY            The mouse Y position
-     * @param lastButtonClicked The last button clicked
-     * @param timeBetweenClicks The time between the last click
+     * @param mouseX The x position of the mouse
+     * @param mouseY The y position of the mouse
+     * @param lastButtonClicked The mouse button that was dragged
+     * @param mouseXTo The position we are dragging the x from
+     * @param mouseYTo The position we are dragging the y from
      */
-    override fun mouseClickMove(mouseX: Int, mouseY: Int, lastButtonClicked: Int, timeBetweenClicks: Long) {
-        super.mouseClickMove(mouseX, mouseY, lastButtonClicked, timeBetweenClicks)
+    override fun mouseDragged(mouseX: Double, mouseY: Double, lastButtonClicked: Int, mouseXTo: Double, mouseYTo: Double): Boolean {
+        val toReturn = super.mouseDragged(mouseX, mouseY, lastButtonClicked, mouseXTo, mouseYTo)
 
-        this.guiOffsetX = this.originalXPosition - mouseX
-        this.guiOffsetY = this.originalYPosition - mouseY
+        this.guiOffsetX = this.originalXPosition - mouseX.roundToInt()
+        this.guiOffsetY = this.originalYPosition - mouseY.roundToInt()
 
         this.checkOutOfBounds()
+
+        return toReturn
     }
 
     /**

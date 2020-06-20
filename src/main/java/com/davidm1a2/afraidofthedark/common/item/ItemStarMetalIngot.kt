@@ -7,4 +7,4 @@ import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
  *
  * @constructor initializes the star metal ingot name
  */
-class ItemStarMetalIngot : AOTDItem("star_metal_ingot")
+class ItemStarMetalIngot : AOTDItem("star_metal_ingot", Properties())

@@ -1,15 +1,15 @@
 package com.davidm1a2.afraidofthedark.client.tileEntity
 
 import com.davidm1a2.afraidofthedark.common.tileEntity.TileEntitySpellAltar
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
+import net.minecraft.client.renderer.tileentity.TileEntityRenderer
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * Class used to render the void chest. Most of this code is from 'TileEntityEnderChestRenderer'
  */
-@SideOnly(Side.CLIENT)
-class TileEntitySpellAltarRenderer : TileEntitySpecialRenderer<TileEntitySpellAltar>() {
+@OnlyIn(Dist.CLIENT)
+class TileEntitySpellAltarRenderer : TileEntityRenderer<TileEntitySpellAltar>() {
     /**
      * Called to render the tile entity
      *
@@ -27,8 +27,7 @@ class TileEntitySpellAltarRenderer : TileEntitySpecialRenderer<TileEntitySpellAl
         y: Double,
         z: Double,
         partialTicks: Float,
-        destroyStage: Int,
-        alpha: Float
+        destroyStage: Int
     ) {
         /*
         GlStateManager.pushMatrix()

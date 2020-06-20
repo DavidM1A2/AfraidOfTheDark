@@ -10,31 +10,31 @@ object ModBoltEntries {
     val WOODEN = AOTDBoltEntry(
         "wooden",
         ModItems.WOODEN_BOLT,
-        { world, thrower -> EntityWoodenBolt(world, thrower) },
+        { world, thrower -> EntityWoodenBolt(thrower, world) },
         null
     )
     val IRON = AOTDBoltEntry(
         "iron",
         ModItems.IRON_BOLT,
-        { world, thrower -> EntityIronBolt(world, thrower) },
+        { world, thrower -> EntityIronBolt(thrower, world) },
         null
     )
     val ASTRAL_SILVER = AOTDBoltEntry(
         "astral_silver",
         ModItems.SILVER_BOLT,
-        { world, thrower -> EntitySilverBolt(world, thrower) },
+        { world, thrower -> EntitySilverBolt(thrower, world) },
         ModResearches.ASTRAL_SILVER
     )
     val IGNEOUS = AOTDBoltEntry(
         "igneous",
         ModItems.IGNEOUS_BOLT,
-        { world, thrower -> EntityIgneousBolt(world, thrower) },
+        { world, thrower -> EntityIgneousBolt(thrower, world) },
         ModResearches.IGNEOUS
     )
     val STAR_METAL = AOTDBoltEntry(
         "star_metal",
         ModItems.STAR_METAL_BOLT,
-        { world, thrower -> EntityStarMetalBolt(world, thrower) },
+        { world, thrower -> EntityStarMetalBolt(thrower, world) },
         ModResearches.STAR_METAL
     )
 

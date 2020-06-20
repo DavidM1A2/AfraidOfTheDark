@@ -19,10 +19,11 @@ import net.minecraft.util.EnumActionResult
 import net.minecraft.util.EnumHand
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TextComponentString
 import net.minecraft.world.World
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 import org.apache.commons.lang3.RandomStringUtils
 import java.io.File
 import kotlin.math.max
@@ -33,11 +34,7 @@ import kotlin.math.min
  *
  * @constructor sets up item properties
  */
-class ItemSchematicCreator : AOTDItem("schematic_creator", displayInCreative = false) {
-    init {
-        setMaxStackSize(1)
-    }
-
+class ItemSchematicCreator : AOTDItem("schematic_creator", Properties().maxStackSize(1), displayInCreative = false) {
     /**
      * Called when the user right clicks with the journal. We show the research UI if they have started the mod
      *
@@ -60,9 +57,9 @@ class ItemSchematicCreator : AOTDItem("schematic_creator", displayInCreative = f
                 if (NBTHelper.hasTag(mainhandItem, NBT_POS_1) && NBTHelper.hasTag(mainhandItem, NBT_POS_2)) {
                     val schematicName = saveStructure(
                         world,
-                        NBTUtil.getPosFromTag(NBTHelper.getCompound(mainhandItem, NBT_POS_1)!!),
-                        NBTUtil.getPosFromTag(NBTHelper.getCompound(mainhandItem, NBT_POS_2)!!),
-                        mainhandItem.displayName
+                        NBTUtil.readBlockPos(NBTHelper.getCompound(mainhandItem, NBT_POS_1)!!),
+                        NBTUtil.readBlockPos(NBTHelper.getCompound(mainhandItem, NBT_POS_2)!!),
+                        mainhandItem.displayName.formattedText
                     )
 
                     // If the name is empty it means the name is invalid
@@ -77,10 +74,10 @@ class ItemSchematicCreator : AOTDItem("schematic_creator", displayInCreative = f
             } else {
                 // If the player is sneaking, set pos2, otherwise set pos 1
                 if (player.isSneaking) {
-                    NBTHelper.setCompound(mainhandItem, NBT_POS_2, NBTUtil.createPosTag(player.position.down()))
+                    NBTHelper.setCompound(mainhandItem, NBT_POS_2, NBTUtil.writeBlockPos(player.position.down()))
                     player.sendMessage(TextComponentString("Pos2 set: " + player.position.down().toString()))
                 } else {
-                    NBTHelper.setCompound(mainhandItem, NBT_POS_1, NBTUtil.createPosTag(player.position.down()))
+                    NBTHelper.setCompound(mainhandItem, NBT_POS_1, NBTUtil.writeBlockPos(player.position.down()))
                     player.sendMessage(TextComponentString("Pos1 set: " + player.position.down().toString()))
                 }
             }
@@ -110,7 +107,7 @@ class ItemSchematicCreator : AOTDItem("schematic_creator", displayInCreative = f
         val entities = world.getEntitiesInAABBexcluding(null, AxisAlignedBB(smallPos, largePos), null)
         val nbtEntites = NBTTagList()
         entities.forEach {
-            nbtEntites.appendTag(it.serializeNBT().apply {
+            nbtEntites.add(it.serializeNBT().apply {
                 relativizeEntityPos(this, smallPos)
             })
         }
@@ -125,13 +122,12 @@ class ItemSchematicCreator : AOTDItem("schematic_creator", displayInCreative = f
             for (z in smallPos.z..largePos.z) {
                 for (x in smallPos.x..largePos.x) {
                     val pos = BlockPos(x, y, z)
-                    val block = world.getBlockState(pos)
-
+                    val blockState = world.getBlockState(pos)
                     // Save the block, the metadata, and the tile entity if it exists
-                    blocks[index] = block.block
-                    data[index] = block.block.getMetaFromState(block)
+                    blocks[index] = blockState.block
+                    data[index] = 0//= NBTUtil.writeBlockState(blockState)
                     world.getTileEntity(pos)?.let {
-                        nbtTileEntities.appendTag(it.serializeNBT().apply {
+                        nbtTileEntities.add(it.serializeNBT().apply {
                             relativizeTileEntityPos(this, smallPos)
                         })
                     }
@@ -174,9 +170,9 @@ class ItemSchematicCreator : AOTDItem("schematic_creator", displayInCreative = f
     private fun relativizeEntityPos(nbt: NBTTagCompound, baseCorner: BlockPos) {
         val absolutePos = nbt.getTag("Pos") as NBTTagList
         nbt.setTag("Pos", NBTTagList().apply {
-            appendTag(NBTTagDouble(absolutePos.getDoubleAt(0) - baseCorner.x))
-            appendTag(NBTTagDouble(absolutePos.getDoubleAt(1) - baseCorner.y))
-            appendTag(NBTTagDouble(absolutePos.getDoubleAt(2) - baseCorner.z))
+            add(NBTTagDouble(absolutePos.getDouble(0) - baseCorner.x))
+            add(NBTTagDouble(absolutePos.getDouble(1) - baseCorner.y))
+            add(NBTTagDouble(absolutePos.getDouble(2) - baseCorner.z))
         })
     }
 
@@ -188,9 +184,9 @@ class ItemSchematicCreator : AOTDItem("schematic_creator", displayInCreative = f
      */
     private fun relativizeTileEntityPos(nbt: NBTTagCompound, baseCorner: BlockPos) {
         // Make x, y, z relative to the corner
-        nbt.setInteger("x", nbt.getInteger("x") - baseCorner.x)
-        nbt.setInteger("y", nbt.getInteger("y") - baseCorner.y)
-        nbt.setInteger("z", nbt.getInteger("z") - baseCorner.z)
+        nbt.setInt("x", nbt.getInt("x") - baseCorner.x)
+        nbt.setInt("y", nbt.getInt("y") - baseCorner.y)
+        nbt.setInt("z", nbt.getInt("z") - baseCorner.z)
     }
 
     /**
@@ -201,14 +197,14 @@ class ItemSchematicCreator : AOTDItem("schematic_creator", displayInCreative = f
      * @param tooltip The tooltip of the item
      * @param flag  If the advanced details is on or off
      */
-    @SideOnly(Side.CLIENT)
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag) {
-        tooltip.add("Note: This item is for mod developer use only")
-        tooltip.add("Pos1: " + (NBTHelper.getCompound(stack, NBT_POS_1)?.let { NBTUtil.getPosFromTag(it).toString() } ?: "None"))
-        tooltip.add("Pos2: " + (NBTHelper.getCompound(stack, NBT_POS_2)?.let { NBTUtil.getPosFromTag(it).toString() } ?: "None"))
-        tooltip.add("Right click to set pos1")
-        tooltip.add("Shift+Right click to set pos2")
-        tooltip.add("Right click with a diamond in hand to save the schematic")
+    @OnlyIn(Dist.CLIENT)
+    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+        tooltip.add(TextComponentString("Note: This item is for mod developer use only"))
+        tooltip.add(TextComponentString("Pos1: " + (NBTHelper.getCompound(stack, NBT_POS_1)?.let { NBTUtil.readBlockPos(it).toString() } ?: "None")))
+        tooltip.add(TextComponentString("Pos2: " + (NBTHelper.getCompound(stack, NBT_POS_2)?.let { NBTUtil.readBlockPos(it).toString() } ?: "None")))
+        tooltip.add(TextComponentString("Right click to set pos1"))
+        tooltip.add(TextComponentString("Shift+Right click to set pos2"))
+        tooltip.add(TextComponentString("Right click with a diamond in hand to save the schematic"))
     }
 
     companion object {

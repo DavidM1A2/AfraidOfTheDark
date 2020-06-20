@@ -32,7 +32,7 @@ class SpellEffectGrow : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "grow
 
         // Grob the block at the current position if it's a type 'IGrowable'
         if (blockState.block is IGrowable) {
-            createParticlesAt(1, 3, state.position, world.provider.dimension)
+            createParticlesAt(1, 3, state.position, world.dimension.type)
             (blockState.block as IGrowable).grow(world, world.rand, position, blockState)
         }
     }

@@ -1,148 +1,140 @@
 package com.davidm1a2.afraidofthedark.common.packets.packetHandler
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.packets.packetHandler.MessageHandler.Bidirectional
+import com.davidm1a2.afraidofthedark.common.constants.Constants
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayerMP
-import net.minecraftforge.fml.common.network.NetworkRegistry
-import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage
-import net.minecraftforge.fml.relauncher.Side
+import net.minecraft.util.ResourceLocation
+import net.minecraft.world.dimension.DimensionType
+import net.minecraftforge.fml.network.NetworkRegistry
+import net.minecraftforge.fml.network.PacketDistributor
 
 /**
  * Miner's basic packet handler updated
  *
- * @constructor Instantiates a new packet handler with the given channelid and reserves the channel.
- * @param channelId the channelId. This is mostly the modid.
+ * @constructor Instantiates a new packet handler.
  * @property nextPacketID The ID for the next packet registration
  * @property wrapper The internal network wrapper.
  */
-class PacketHandler(private val channelId: String) {
-    private var nextPacketID: Byte = 0
-    private val wrapper = NetworkRegistry.INSTANCE.newSimpleChannel(channelId)
+class PacketHandler {
+    private var nextPacketID = 0
+    private val wrapper = NetworkRegistry.newSimpleChannel(
+        ResourceLocation(Constants.MOD_ID, ""),
+        { PROTOCOL_VERSION },
+        { it == PROTOCOL_VERSION },
+        { it == PROTOCOL_VERSION }
+    )
 
     /**
      * Register an IMessage packet with it's corresponding message handler.
      *
      * @param packetClass    the packet's class that should be registered.
-     * @param messageHandler the message handler for this packet type.
-     * @param target         The side to which this packet can be sent.
-     * @return `true`, if successful
+     * @param packetHandler the message handler for this packet type.
      */
-    fun <T : IMessage, V : AbstractMessageHandler<T>> registerPacket(
-        packetClass: Class<T>,
-        messageHandler: V,
-        target: Side
-    ): Boolean {
-        check(nextPacketID.toInt() != -1) { "Too many packets registered for channel $channelId" }
-
-        wrapper.registerMessage(messageHandler, packetClass, nextPacketID.toInt(), target)
-
-        if (AfraidOfTheDark.INSTANCE.configurationHandler.debugMessages) {
-            AfraidOfTheDark.INSTANCE.logger.info(
-                "Registered packet class ${packetClass.simpleName} with handler class ${messageHandler.javaClass.simpleName} for the channel $channelId. Send direction: to ${target.name.toLowerCase()}. The discriminator is $nextPacketID."
-            )
-        }
-
-        nextPacketID++
-        return true
-    }
-
-    /**
-     * Register an IMessage packet with it's corresponding bidirectional message handler.
-     *
-     * @param packetClass    the packet's class that should be registered.
-     * @param messageHandler the message handler for this packet type.
-     * @return `true`, if successful
-     */
-    fun <T : IMessage> registerBidiPacket(packetClass: Class<T>, messageHandler: Bidirectional<T>): Boolean {
-        check(nextPacketID.toInt() != -1) { "Too many packets registered for channel $channelId" }
-
-        wrapper.registerMessage(messageHandler, packetClass, nextPacketID.toInt(), Side.CLIENT)
-        wrapper.registerMessage(messageHandler, packetClass, nextPacketID.toInt(), Side.SERVER)
-
-        if (AfraidOfTheDark.INSTANCE.configurationHandler.debugMessages) {
-            AfraidOfTheDark.INSTANCE.logger.info(
-                "Registered packet class ${packetClass.simpleName} with handler class ${messageHandler.javaClass.simpleName} for the channel $channelId. The discriminator is $nextPacketID."
-            )
-        }
-
-        nextPacketID++
-        return true
+    fun <C, H : PacketProcessor<C>> registerPacket(packetClass: Class<C>, packetHandler: H) {
+        @Suppress("INACCESSIBLE_TYPE")
+        wrapper.registerMessage(
+            nextPacketID++,
+            packetClass,
+            { msg, buf -> packetHandler.encode(msg, buf) },
+            { packetHandler.decode(it) },
+            { msg, ctx ->
+                val context = ctx.get()
+                if (packetHandler.processAsync()) {
+                    context.enqueueWork<Void> {
+                        packetHandler.process(msg, context)
+                    }
+                } else {
+                    packetHandler.process(msg, context)
+                }
+                context.packetHandled = true
+            }
+        )
     }
 
     /**
      * Sends the given packet to every client.
      *
-     * @param message the packet to send.
+     * @param packet the packet to send.
      */
-    fun sendToAll(message: IMessage?) {
-        wrapper.sendToAll(message)
+    fun <C> sendToAll(packet: C) {
+        sendRaw(packet, PacketDistributor.ALL.noArg())
     }
 
     /**
      * Sends the given packet to the given player.
      *
-     * @param message the packet to send.
+     * @param packet the packet to send.
      * @param player  the player to send the packet to.
      */
-    fun sendTo(message: IMessage, player: EntityPlayerMP) {
-        if (player.connection != null) {
-            wrapper.sendTo(message, player)
-        }
+    fun <C> sendTo(packet: C, player: EntityPlayerMP) {
+        sendRaw(packet, PacketDistributor.PLAYER.with { player })
     }
 
     /**
      * Sends the given packet to all players around the given target point.
      *
-     * @param message the packet to send.
+     * @param packet the packet to send.
      * @param point   the target point.
      */
-    fun sendToAllAround(message: IMessage, point: TargetPoint?) {
-        wrapper.sendToAllAround(message, point)
+    fun <C> sendToAllAround(packet: C, point: PacketDistributor.TargetPoint) {
+        sendRaw(packet, PacketDistributor.NEAR.with { point })
     }
 
     /**
      * Sends the given packet to all players within the radius around the given coordinates.
      *
-     * @param message   the packet to send.
+     * @param packet   the packet to send.
      * @param dimension the dimension.
      * @param x         the x coordinate.
      * @param y         the y coordinate.
      * @param z         the z coordinate.
      * @param range     the radius.
      */
-    fun sendToAllAround(message: IMessage, dimension: Int, x: Double, y: Double, z: Double, range: Double) {
-        this.sendToAllAround(message, TargetPoint(dimension, x, y, z, range))
+    fun <C> sendToAllAround(packet: C, dimension: DimensionType, x: Double, y: Double, z: Double, range: Double) {
+        this.sendToAllAround(packet, PacketDistributor.TargetPoint(x, y, z, range, dimension))
     }
 
     /**
      * Sends the given packet to all players within the radius around the given entity.
      *
-     * @param message the packet to send.
+     * @param packet the packet to send.
      * @param entity  the entity.
      * @param range   the radius.
      */
-    fun sendToAllAround(message: IMessage, entity: Entity, range: Double) {
-        this.sendToAllAround(message, entity.world.provider.dimension, entity.posX, entity.posY, entity.posZ, range)
+    fun <C> sendToAllAround(packet: C, entity: Entity, range: Double) {
+        this.sendToAllAround(packet, PacketDistributor.TargetPoint(entity.posX, entity.posY, entity.posZ, range, entity.world.dimension.type))
     }
 
     /**
      * Sends the given packet to every player in the given dimension.
      *
-     * @param message     the packet to send.
-     * @param dimensionId the dimension to send the packet to.
+     * @param packet     the packet to send.
+     * @param dimensionType the dimension to send the packet to.
      */
-    fun sendToDimension(message: IMessage, dimensionId: Int) {
-        wrapper.sendToDimension(message, dimensionId)
+    fun <C> sendToDimension(packet: C, dimensionType: DimensionType) {
+        sendRaw(packet, PacketDistributor.DIMENSION.with { dimensionType })
     }
 
     /**
      * Sends the given packet to the server.
      *
-     * @param message the packet to send.
+     * @param packet the packet to send.
      */
-    fun sendToServer(message: IMessage) {
-        wrapper.sendToServer(message)
+    fun <C> sendToServer(packet: C) {
+        wrapper.sendToServer(packet)
+    }
+
+    /**
+     * Sends the given packet
+     *
+     * @param packet The packet to send
+     * @param packetDistributor The distributor to use
+     */
+    fun <C> sendRaw(packet: C, packetDistributor: PacketDistributor.PacketTarget) {
+        wrapper.send(packetDistributor, packet)
+    }
+
+    companion object {
+        private const val PROTOCOL_VERSION = "1"
     }
 }

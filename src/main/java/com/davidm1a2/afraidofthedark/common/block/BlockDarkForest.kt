@@ -6,7 +6,10 @@ import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
 import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.EnumBlockRenderType
+import net.minecraft.util.math.BlockPos
+import net.minecraft.world.IBlockReader
 import net.minecraft.world.World
+import net.minecraftforge.common.ToolType
 import java.util.*
 
 /**
@@ -14,40 +17,32 @@ import java.util.*
  *
  * @constructor sets the block name and properties
  */
-class BlockDarkForest : AOTDBlockTileEntity("dark_forest", Material.ROCK, false) {
-    init {
-        // Set the block name and material
-        // Make this block hard to destroy with explosives and only harvestable with a diamond pick
-        setHardness(10.0f)
-        setResistance(50.0f)
-        this.setHarvestLevel("pickaxe", 3)
+class BlockDarkForest : AOTDBlockTileEntity(
+    "dark_forest",
+    Properties.create(Material.ROCK)
+        .hardnessAndResistance(10.0f, 50.0f)
+) {
+    override fun displayInCreative(): Boolean {
+        return false
     }
 
-    /**
-     * This tile entity just renders as a normal block
-     *
-     * @param state The block state to render
-     * @return MODEL, since it's not an animated tile entity
-     */
+    override fun getHarvestLevel(state: IBlockState): Int {
+        return 3
+    }
+
+    override fun getHarvestTool(state: IBlockState): ToolType {
+        return ToolType.PICKAXE
+    }
+
     override fun getRenderType(state: IBlockState): EnumBlockRenderType {
         return EnumBlockRenderType.MODEL
     }
 
-    /**
-     * Creates a tile entity that monitors for nearby players
-     *
-     * @param worldIn The world the block is in
-     * @param meta    The block's metadata value
-     * @return The dark forest tile entity instance
-     */
-    override fun createNewTileEntity(worldIn: World, meta: Int): TileEntity {
+    override fun createTileEntity(state: IBlockState, world: IBlockReader): TileEntity {
         return TileEntityDarkForest()
     }
 
-    /**
-     * The dark forest block cannot be dropped and picked up
-     */
-    override fun quantityDropped(random: Random): Int {
+    override fun getItemsToDropCount(state: IBlockState, fortune: Int, world: World, pos: BlockPos, random: Random): Int {
         return 0
     }
 }

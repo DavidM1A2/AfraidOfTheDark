@@ -2,17 +2,18 @@ package com.davidm1a2.afraidofthedark.common.tileEntity.core
 
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
-import net.minecraft.block.Block
+import net.minecraft.tileentity.TileEntityType
 
 /**
  * Base class for animated ticking tile entities
  */
-abstract class AOTDAnimatedTileEntity(block: Block, private val animationHandler: AnimationHandler) : AOTDTickingTileEntity(block), IMCAnimatedModel {
+abstract class AOTDAnimatedTileEntity(tileEntityType: TileEntityType<*>, private val animationHandler: AnimationHandler) :
+    AOTDTickingTileEntity(tileEntityType), IMCAnimatedModel {
     /**
      * Called every tick to update the tile entity's state
      */
-    override fun update() {
-        super.update()
+    override fun tick() {
+        super.tick()
         if (world.isRemote) {
             animationHandler.update()
         }

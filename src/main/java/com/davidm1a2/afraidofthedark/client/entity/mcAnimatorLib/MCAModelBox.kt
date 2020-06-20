@@ -1,12 +1,12 @@
 package com.davidm1a2.afraidofthedark.client.entity.mcAnimatorLib
 
-import net.minecraft.client.model.ModelBox
-import net.minecraft.client.model.ModelRenderer
-import net.minecraft.client.model.PositionTextureVertex
-import net.minecraft.client.model.TexturedQuad
 import net.minecraft.client.renderer.BufferBuilder
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
+import net.minecraft.client.renderer.entity.model.ModelBox
+import net.minecraft.client.renderer.entity.model.ModelRenderer
+import net.minecraft.client.renderer.entity.model.PositionTextureVertex
+import net.minecraft.client.renderer.entity.model.TexturedQuad
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * This class was provided by the MC animator library and updated to Kotlin
@@ -175,7 +175,7 @@ class MCAModelBox(
      * @param bufferBuilder The buffer builder to draw with
      * @param scale The scale to draw at
      */
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     override fun render(bufferBuilder: BufferBuilder, scale: Float) {
         this.quadList.forEach { it.draw(bufferBuilder, scale) }
     }

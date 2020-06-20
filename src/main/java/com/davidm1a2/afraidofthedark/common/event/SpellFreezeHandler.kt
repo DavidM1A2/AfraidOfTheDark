@@ -2,12 +2,13 @@ package com.davidm1a2.afraidofthedark.common.event
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellFreezeData
 import net.minecraft.entity.player.EntityPlayerMP
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.client.event.InputUpdateEvent
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.minecraftforge.eventbus.api.SubscribeEvent
+import net.minecraftforge.fml.LogicalSide
 import net.minecraftforge.fml.common.gameevent.TickEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
 
 /**
  * Handles the on server tick to update any existing spell freeze effects
@@ -21,7 +22,7 @@ class SpellFreezeHandler {
     @SubscribeEvent
     fun onPlayerTick(event: PlayerTickEvent) {
         // Server side processing
-        if (event.type == TickEvent.Type.PLAYER && event.phase == TickEvent.Phase.START && event.side == Side.SERVER) {
+        if (event.type == TickEvent.Type.PLAYER && event.phase == TickEvent.Phase.START && event.side == LogicalSide.SERVER) {
             val entityPlayer = event.player
             val playerFreezeData = entityPlayer.getSpellFreezeData()
 
@@ -56,7 +57,7 @@ class SpellFreezeHandler {
      * @param event The event to modify
      */
     @SubscribeEvent
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     fun onInputUpdateEvent(event: InputUpdateEvent) {
         val playerFreezeData = event.entityPlayer.getSpellFreezeData()
 

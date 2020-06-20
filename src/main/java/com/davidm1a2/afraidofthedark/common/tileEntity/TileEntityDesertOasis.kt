@@ -4,14 +4,15 @@ import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.client.particle.AOTDParticleRegistry
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
+import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EntityEnchantedFrog
-import com.davidm1a2.afraidofthedark.common.packets.otherPackets.SyncParticle
+import com.davidm1a2.afraidofthedark.common.packets.otherPackets.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity
 import net.minecraft.init.Blocks
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
-import net.minecraftforge.fml.common.network.NetworkRegistry
+import net.minecraftforge.fml.network.PacketDistributor
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
@@ -21,15 +22,15 @@ import kotlin.random.Random
  *
  * @constructor sets the block type of the tile entity
  */
-class TileEntityDesertOasis : AOTDTickingTileEntity(ModBlocks.DESERT_OASIS) {
+class TileEntityDesertOasis : AOTDTickingTileEntity(ModTileEntities.DESERT_OASIS) {
     // The AABB of the desert oasis
     private lateinit var oasisBoundingBox: AxisAlignedBB
 
     /**
      * Update gets called every tick
      */
-    override fun update() {
-        super.update()
+    override fun tick() {
+        super.tick()
         // Server side processing only
         if (!world.isRemote) {
             // If we've existed for a multiple of 60 ticks perform a check for nearby players
@@ -84,7 +85,7 @@ class TileEntityDesertOasis : AOTDTickingTileEntity(ModBlocks.DESERT_OASIS) {
             for (y in oasisBoundingBox.maxY.toInt() downTo oasisBoundingBox.minY.toInt()) {
                 val currentBlock = world.getBlockState(BlockPos(xPos, y, zPos)).block
                 // If we hit water set yPos to 0 so we don't spawn frogs in water
-                if (currentBlock == Blocks.WATER || currentBlock == Blocks.FLOWING_WATER) {
+                if (currentBlock == Blocks.WATER) {
                     yPos = 0
                     break
                 }
@@ -114,13 +115,13 @@ class TileEntityDesertOasis : AOTDTickingTileEntity(ModBlocks.DESERT_OASIS) {
                     cos(Math.toRadians(360.0 / particlePositions.size * it)) * 0.2
                 )
             }
-            AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(
-                SyncParticle(
+            AfraidOfTheDark.packetHandler.sendToAllAround(
+                ParticlePacket(
                     AOTDParticleRegistry.ParticleTypes.ENCHANTED_FROG_SPAWN,
                     particlePositions,
                     particleSpeeds
                 ),
-                NetworkRegistry.TargetPoint(world.provider.dimension, xPos + 0.5, yPos + 0.5, zPos + 0.5, 100.0)
+                PacketDistributor.TargetPoint(xPos + 0.5, yPos + 0.5, zPos + 0.5, 100.0, world.dimension.type)
             )
 
             // Spawn a frog

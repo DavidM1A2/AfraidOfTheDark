@@ -16,20 +16,21 @@ import net.minecraft.potion.PotionEffect
  *
  * @constructor sets up item properties
  */
-class ItemEnchantedSkeletonBone : AOTDItem("enchanted_skeleton_bone") {
+class ItemEnchantedSkeletonBone : AOTDItem("enchanted_skeleton_bone", Properties()) {
     /**
      * Called when this item is on the ground as an entity, if enough bones are together they will combine into a new skeleton
      *
+     * @param itemStack The item in the entity
      * @param entityItem The item on the ground
      * @return True to skip further processing or false otherwise
      */
-    override fun onEntityItemUpdate(entityItem: EntityItem): Boolean {
+    override fun onEntityItemUpdate(itemStack: ItemStack, entityItem: EntityItem): Boolean {
         // To avoid server performance loss only check every "UPDATE TIME IN TICKS" ticks and ensure we're on server side
         if (!entityItem.world.isRemote && entityItem.ticksExisted % UPDATE_TIME_IN_TICKS == 0) {
             // Get a list of items on the ground around this one
             val surroundingItems = entityItem.world.getEntitiesWithinAABB(
                 EntityItem::class.java,
-                entityItem.entityBoundingBox.grow(COMBINE_RADIUS.toDouble())
+                entityItem.boundingBox.grow(COMBINE_RADIUS.toDouble())
             )
 
             // Keep a count of the number of bones on the ground
@@ -75,7 +76,7 @@ class ItemEnchantedSkeletonBone : AOTDItem("enchanted_skeleton_bone") {
                 // Give all players in range of the summoned skeletons a research if possible
                 world.getEntitiesWithinAABB(
                     EntityPlayer::class.java,
-                    entityItem.entityBoundingBox.grow(RESEARCH_UNLOCK_RADIUS.toDouble())
+                    entityItem.boundingBox.grow(RESEARCH_UNLOCK_RADIUS.toDouble())
                 ).forEach {
                     val playerResearch = it.getResearch()
                     if (playerResearch.canResearch(ModResearches.ENCHANTED_SKELETON)) {
@@ -98,12 +99,12 @@ class ItemEnchantedSkeletonBone : AOTDItem("enchanted_skeleton_bone") {
                 }
 
                 // Remove the bone item stacks
-                surroundingBones.forEach { it.setDead() }
+                surroundingBones.forEach { it.remove() }
             }
         }
 
         // Allow further processing
-        return super.onEntityItemUpdate(entityItem)
+        return super.onEntityItemUpdate(itemStack, entityItem)
     }
 
     companion object {

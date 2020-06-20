@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.common.capabilities.player.research
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.client.sound.ResearchUnlockedSound
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
-import com.davidm1a2.afraidofthedark.common.packets.capabilityPackets.SyncResearch
+import com.davidm1a2.afraidofthedark.common.packets.capabilityPackets.ResearchPacket
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
 import net.minecraft.client.Minecraft
 import net.minecraft.entity.player.EntityPlayer
@@ -19,7 +19,7 @@ class AOTDPlayerResearchImpl : IAOTDPlayerResearch {
     private val researchToUnlocked: MutableMap<Research, Boolean> = mutableMapOf()
 
     init {
-        ModRegistries.RESEARCH.valuesCollection.forEach { researchToUnlocked[it] = false }
+        ModRegistries.RESEARCH.getValues().forEach { researchToUnlocked[it] = false }
     }
 
     /**
@@ -73,7 +73,7 @@ class AOTDPlayerResearchImpl : IAOTDPlayerResearch {
         setResearch(research, researched)
         if (!isServerSide(entityPlayer)) {
             // Play the achievement sound and display the research
-            Minecraft.getMinecraft().soundHandler.playSound(ResearchUnlockedSound())
+            Minecraft.getInstance().soundHandler.play(ResearchUnlockedSound())
             AfraidOfTheDark.proxy.researchOverlay!!.displayResearch(research)
         }
     }
@@ -87,12 +87,12 @@ class AOTDPlayerResearchImpl : IAOTDPlayerResearch {
     override fun sync(entityPlayer: EntityPlayer, notify: Boolean) {
         // Send packets based on server side or client side
         if (isServerSide(entityPlayer)) {
-            AfraidOfTheDark.INSTANCE.packetHandler.sendTo(
-                SyncResearch(researchToUnlocked, notify),
+            AfraidOfTheDark.packetHandler.sendTo(
+                ResearchPacket(researchToUnlocked, notify),
                 entityPlayer as EntityPlayerMP
             )
         } else {
-            AfraidOfTheDark.INSTANCE.packetHandler.sendToServer(SyncResearch(researchToUnlocked, notify))
+            AfraidOfTheDark.packetHandler.sendToServer(ResearchPacket(researchToUnlocked, notify))
         }
     }
 }

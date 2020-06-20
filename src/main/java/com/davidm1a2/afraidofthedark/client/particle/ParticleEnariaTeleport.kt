@@ -20,7 +20,7 @@ class ParticleEnariaTeleport(
 ) : AOTDParticle(world, ModSprites.ENARIA_TELEPORT, x, y, z) {
     init {
         // 2-3 second lifespan
-        particleMaxAge = rand.nextInt(20) + 40
+        maxAge = rand.nextInt(20) + 40
 
         // Blinding size teleport particles
         particleScale = 10.0f + rand.nextFloat() * 5

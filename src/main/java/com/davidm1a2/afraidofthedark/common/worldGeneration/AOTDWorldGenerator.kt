@@ -6,13 +6,14 @@ import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.world.World
 import net.minecraft.world.chunk.IChunkProvider
+import net.minecraft.world.dimension.DimensionType
 import net.minecraft.world.gen.IChunkGenerator
-import net.minecraftforge.common.DimensionManager
 import net.minecraftforge.event.world.WorldEvent
+import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.IWorldGenerator
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent
+import net.minecraftforge.fml.server.ServerLifecycleHooks
 import java.util.*
 import java.util.concurrent.ConcurrentLinkedQueue
 
@@ -48,7 +49,7 @@ class AOTDWorldGenerator : IWorldGenerator {
         chunkX: Int,
         chunkZ: Int,
         world: World,
-        chunkGenerator: IChunkGenerator,
+        chunkGenerator: IChunkGenerator<*>,
         chunkProvider: IChunkProvider
     ) {
         // Create a chunk pos object for our chunk (X,Z) coords
@@ -73,7 +74,7 @@ class AOTDWorldGenerator : IWorldGenerator {
                 // Grab the chunk to generate
                 val chunkToGenerate = chunksThatNeedGeneration.remove()
                 // Grab the world to generate which is the overworld (world 0)
-                val world = DimensionManager.getWorld(0)!!
+                val world = ServerLifecycleHooks.getCurrentServer().getWorld(DimensionType.OVERWORLD)
                 // Generate the chunk
                 this.generate(world, chunkToGenerate)
             }
@@ -88,17 +89,17 @@ class AOTDWorldGenerator : IWorldGenerator {
     @SubscribeEvent
     fun onWorldSave(event: WorldEvent.Save) {
         // Overworld only
-        if (!event.world.isRemote && event.world.provider.dimension == 0) {
+        if (!event.world.isRemote && event.world.dimension.type == DimensionType.OVERWORLD) {
             // Perform some finalization if we need to generate some chunks
             if (!chunksThatNeedGeneration.isEmpty()) {
-                event.world.minecraftServer!!.sendMessage(TextComponentTranslation(LocalizationConstants.WorldGen.SAVING, chunksThatNeedGeneration.size))
+                event.world.world.server!!.sendMessage(TextComponentTranslation(LocalizationConstants.WorldGen.SAVING, chunksThatNeedGeneration.size))
 
                 // Loop while we still need to generate a chunk
                 while (!chunksThatNeedGeneration.isEmpty()) {
                     // Grab the chunk to generate
                     val chunkToGenerate = chunksThatNeedGeneration.remove()
                     // Generate the chunk
-                    this.generate(event.world, chunkToGenerate)
+                    this.generate(event.world.world, chunkToGenerate)
                 }
             }
         }

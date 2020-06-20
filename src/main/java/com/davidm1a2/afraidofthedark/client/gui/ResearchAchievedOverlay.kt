@@ -4,7 +4,6 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Gui
-import net.minecraft.client.gui.ScaledResolution
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.RenderHelper
 import net.minecraft.client.resources.I18n
@@ -22,7 +21,7 @@ import java.util.*
  * @property toDisplay A queue of researches to display
  */
 class ResearchAchievedOverlay : Gui() {
-    private val mc = Minecraft.getMinecraft()
+    private val mc = Minecraft.getInstance()
     private var width = 0
     private var height = 0
     private var researchDescription: String? = null
@@ -42,21 +41,20 @@ class ResearchAchievedOverlay : Gui() {
      * Function provided by MC's achievement window to setup the viewport, copied and unmodified
      */
     private fun updateResearchAchievedWindowScale() {
-        GlStateManager.viewport(0, 0, mc.displayWidth, mc.displayHeight)
+        GlStateManager.viewport(0, 0, mc.mainWindow.scaledWidth, mc.mainWindow.scaledHeight)
         GlStateManager.matrixMode(5889)
         GlStateManager.loadIdentity()
         GlStateManager.matrixMode(5888)
         GlStateManager.loadIdentity()
-        val scaledresolution = ScaledResolution(mc)
-        width = scaledresolution.scaledWidth
-        height = scaledresolution.scaledHeight
+        width = mc.mainWindow.width
+        height = mc.mainWindow.height
         GlStateManager.clear(256)
         GlStateManager.matrixMode(5889)
         GlStateManager.loadIdentity()
         GlStateManager.ortho(0.0, width.toDouble(), height.toDouble(), 0.0, 1000.0, 3000.0)
         GlStateManager.matrixMode(5888)
         GlStateManager.loadIdentity()
-        GlStateManager.translate(0.0f, 0.0f, -2000.0f)
+        GlStateManager.translatef(0.0f, 0.0f, -2000.0f)
     }
 
     /**
@@ -70,19 +68,19 @@ class ResearchAchievedOverlay : Gui() {
             // The new research description
             researchDescription = I18n.format(research.getUnlocalizedName())
             // Update the notification time to be the current system time
-            notificationTime = Minecraft.getSystemTime()
+            notificationTime = System.currentTimeMillis()
         }
 
         // After this everything is copied from the default MC achievement class
-        if (notificationTime != 0L && Minecraft.getMinecraft().player != null) {
-            val d0 = (Minecraft.getSystemTime() - notificationTime) / 3000.0
+        if (notificationTime != 0L && Minecraft.getInstance().player != null) {
+            val d0 = (System.currentTimeMillis() - notificationTime) / 3000.0
             if (d0 < 0.0 || d0 > 1.0) {
                 notificationTime = 0L
                 return
             }
 
             updateResearchAchievedWindowScale()
-            GlStateManager.disableDepth()
+            GlStateManager.disableDepthTest()
             GlStateManager.depthMask(false)
 
             var d1 = d0 * 2.0
@@ -99,13 +97,13 @@ class ResearchAchievedOverlay : Gui() {
             val i = width - 160
             val j = 0 - (d1 * 36.0).toInt()
 
-            GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f)
+            GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f)
             GlStateManager.enableTexture2D()
             mc.textureManager.bindTexture(ACHIEVEMENT_BACKGROUND)
             GlStateManager.disableLighting()
             this.drawTexturedModalRect(i, j, 96, 202, 160, 32)
-            mc.fontRenderer.drawString(I18n.format("researchbanner.title"), i + 10, j + 5, -256)
-            mc.fontRenderer.drawString(researchDescription!!, i + 10, j + 18, -1)
+            mc.fontRenderer.drawString(I18n.format("researchbanner.title"), i + 10f, j + 5f, -256)
+            mc.fontRenderer.drawString(researchDescription!!, i + 10f, j + 18f, -1)
             RenderHelper.enableGUIStandardItemLighting()
             GlStateManager.disableLighting()
             GlStateManager.enableRescaleNormal()
@@ -113,7 +111,7 @@ class ResearchAchievedOverlay : Gui() {
             GlStateManager.enableLighting()
             GlStateManager.disableLighting()
             GlStateManager.depthMask(true)
-            GlStateManager.enableDepth()
+            GlStateManager.enableDepthTest()
         }
     }
 

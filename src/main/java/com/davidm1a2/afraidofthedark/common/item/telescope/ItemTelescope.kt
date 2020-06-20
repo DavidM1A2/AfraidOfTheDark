@@ -1,21 +1,20 @@
 package com.davidm1a2.afraidofthedark.common.item.telescope
 
-import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiHandler
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
-import com.davidm1a2.afraidofthedark.common.utility.openGui
 import net.minecraft.client.Minecraft
-import net.minecraft.client.resources.I18n
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
 import net.minecraft.util.EnumHand
+import net.minecraft.util.text.ITextComponent
+import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.world.World
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * Basic telescope item used to track meteors. Has an accuracy of 130 blocks
@@ -47,7 +46,7 @@ class ItemTelescope : ItemTelescopeBase(130, "telescope") {
         // Also allow showing the gui if the player can research the telescope research
         if (world.isRemote && highEnough) {
             if (playerResearch.canResearch(getRequiredResearch())) {
-                player.openGui(AOTDGuiHandler.TELESCOPE_ID)
+                // player.openGui(AOTDGuiHandler.TELESCOPE_ID)
             }
         }
 
@@ -71,12 +70,12 @@ class ItemTelescope : ItemTelescopeBase(130, "telescope") {
      * @param tooltip The tooltip to add to
      * @param flag  True if the advanced tooltip is set on, false otherwise
      */
-    @SideOnly(Side.CLIENT)
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag) {
+    @OnlyIn(Dist.CLIENT)
+    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
         // Show the tooltip if the pre-req is researched
-        if (Minecraft.getMinecraft().player?.getResearch()?.isResearched(getRequiredResearch().preRequisite!!) == true) {
-            tooltip.add(I18n.format(LocalizationConstants.Item.TELESCOPE_TOOLTIP_DIRECTIONS))
-            tooltip.add(I18n.format(LocalizationConstants.Item.TELESCOPE_TOOLTIP_ACCURACY, accuracy))
+        if (Minecraft.getInstance().player?.getResearch()?.isResearched(getRequiredResearch().preRequisite!!) == true) {
+            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.TELESCOPE_TOOLTIP_DIRECTIONS))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.TELESCOPE_TOOLTIP_ACCURACY, accuracy))
         } else {
             super.addInformation(stack, world, tooltip, flag)
         }

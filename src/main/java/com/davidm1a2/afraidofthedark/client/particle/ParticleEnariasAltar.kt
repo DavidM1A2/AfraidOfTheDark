@@ -20,7 +20,7 @@ class ParticleEnariasAltar(
 ) : AOTDParticle(world, ModSprites.ENARIAS_ALTAR, x, y, z) {
     init {
         // 2-3 second lifespan
-        particleMaxAge = rand.nextInt(20) + 40
+        maxAge = rand.nextInt(20) + 40
         particleScale = 1.0f
 
         motionX = 0.0
@@ -35,6 +35,6 @@ class ParticleEnariasAltar(
         // Slowly increase y motion
         motionY = motionY * 1.02
         // Slowly make the particle fade
-        particleAlpha = (particleMaxAge - particleAge) / particleMaxAge.toFloat()
+        particleAlpha = (maxAge - age) / maxAge.toFloat()
     }
 }

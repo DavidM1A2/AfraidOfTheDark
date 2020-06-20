@@ -1,12 +1,12 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import net.minecraft.nbt.NBTBase
+import net.minecraft.nbt.INBTBase
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.Vec3d
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.capabilities.Capability.IStorage
+import org.apache.logging.log4j.LogManager
 
 /**
  * Default storage implementation for the AOTD freeze spell effect data
@@ -24,10 +24,10 @@ class AOTDPlayerSpellFreezeDataStorage : IStorage<IAOTDPlayerSpellFreezeData> {
         capability: Capability<IAOTDPlayerSpellFreezeData>,
         instance: IAOTDPlayerSpellFreezeData,
         side: EnumFacing?
-    ): NBTBase? {
+    ): INBTBase {
         // Create a compound to write
         val nbt = NBTTagCompound()
-        nbt.setInteger(NBT_FREEZE_TICKS, instance.freezeTicks)
+        nbt.setInt(NBT_FREEZE_TICKS, instance.freezeTicks)
         instance.freezePosition?.let {
             nbt.setDouble(NBT_POSITION + "_x", it.x)
             nbt.setDouble(NBT_POSITION + "_y", it.y)
@@ -50,11 +50,11 @@ class AOTDPlayerSpellFreezeDataStorage : IStorage<IAOTDPlayerSpellFreezeData> {
         capability: Capability<IAOTDPlayerSpellFreezeData>,
         instance: IAOTDPlayerSpellFreezeData,
         side: EnumFacing?,
-        nbt: NBTBase
+        nbt: INBTBase
     ) {
         // Test if the nbt tag base is an NBT tag compound
         if (nbt is NBTTagCompound) {
-            instance.freezeTicks = nbt.getInteger(NBT_FREEZE_TICKS)
+            instance.freezeTicks = nbt.getInt(NBT_FREEZE_TICKS)
 
             if (nbt.hasKey(NBT_POSITION + "_x") &&
                 nbt.hasKey(NBT_POSITION + "_y") &&
@@ -72,11 +72,13 @@ class AOTDPlayerSpellFreezeDataStorage : IStorage<IAOTDPlayerSpellFreezeData> {
                 nbt.getFloat(NBT_DIRECTION_PITCH)
             )
         } else {
-            AfraidOfTheDark.INSTANCE.logger.error("Attempted to deserialize an NBTBase that was not an NBTTagCompound!")
+            logger.error("Attempted to deserialize an NBTBase that was not an NBTTagCompound!")
         }
     }
 
     companion object {
+        private val logger = LogManager.getLogger()
+
         // NBT constants used for serialization
         private const val NBT_FREEZE_TICKS = "freeze_ticks"
         private const val NBT_POSITION = "position"

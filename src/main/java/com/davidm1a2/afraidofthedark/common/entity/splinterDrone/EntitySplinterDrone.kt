@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.entity.splinterDrone
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
+import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
@@ -10,7 +11,7 @@ import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.Chann
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.animation.ChannelActivate
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.animation.ChannelCharge
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.animation.ChannelIdle
-import com.davidm1a2.afraidofthedark.common.packets.animationPackets.SyncAnimation
+import com.davidm1a2.afraidofthedark.common.packets.animationPackets.AnimationPacket
 import net.minecraft.entity.EntityFlying
 import net.minecraft.entity.SharedMonsterAttributes
 import net.minecraft.entity.ai.EntityAIFindEntityNearestPlayer
@@ -22,7 +23,7 @@ import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.DamageSource
 import net.minecraft.world.EnumDifficulty
 import net.minecraft.world.World
-import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint
+import net.minecraftforge.fml.network.PacketDistributor
 
 /**
  * The splinter drone entity in gnomish cities
@@ -32,8 +33,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint
  * @property animHandler The animation handler used to manage animations
  * @property hasPlayedSpawnAnimation Flag telling us if we have played the spawn animation yet or not
  */
-class EntitySplinterDrone(world: World) : EntityFlying(world), IMob,
-    IMCAnimatedModel {
+class EntitySplinterDrone(world: World) : EntityFlying(ModEntities.SPLINTER_DRONE, world), IMob, IMCAnimatedModel {
     private val animHandler = AnimationHandler(
         ChannelActivate("Activate", 25.0f, 100, ChannelMode.LINEAR),
         ChannelCharge("Charge", 100.0f, 100, ChannelMode.LINEAR),
@@ -71,26 +71,26 @@ class EntitySplinterDrone(world: World) : EntityFlying(world), IMob,
     /**
      * Sets entity attributes such as max health and movespeed
      */
-    override fun applyEntityAttributes() {
-        super.applyEntityAttributes()
+    override fun registerAttributes() {
+        super.registerAttributes()
         // Make sure to register the attack damage attribute for this entity
         attributeMap.registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE)
-        getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).baseValue = MAX_HEALTH
-        getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).baseValue = FOLLOW_RANGE
-        getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).baseValue = KNOCKBACK_RESISTANCE
-        getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).baseValue = MOVE_SPEED
-        getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).baseValue = ATTACK_DAMAGE
+        getAttribute(SharedMonsterAttributes.MAX_HEALTH).baseValue = MAX_HEALTH
+        getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).baseValue = FOLLOW_RANGE
+        getAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).baseValue = KNOCKBACK_RESISTANCE
+        getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).baseValue = MOVE_SPEED
+        getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).baseValue = ATTACK_DAMAGE
     }
 
     /**
      * Update animations for this entity when update is called, also kill the entity if it's peaceful
      */
-    override fun onUpdate() {
-        super.onUpdate()
+    override fun tick() {
+        super.tick()
 
         // If we're on peaceful and server side kill the entity
         if (!world.isRemote && world.difficulty == EnumDifficulty.PEACEFUL) {
-            setDead()
+            remove()
         }
 
         // Animations only update client side
@@ -102,17 +102,17 @@ class EntitySplinterDrone(world: World) : EntityFlying(world), IMob,
     /**
      * Called every game tick for the entity
      */
-    override fun onEntityUpdate() {
+    override fun baseTick() {
         // Update any base logic
-        super.onEntityUpdate()
+        super.baseTick()
 
         // Server side test if the entity has played the spawn animation
         if (!world.isRemote) {
             if (!hasPlayedSpawnAnimation) {
                 // If it hasn't played the spawn animation play it to all nearby players
-                AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(
-                    SyncAnimation("Activate", this),
-                    TargetPoint(dimension, posX, posY, posZ, 50.0)
+                AfraidOfTheDark.packetHandler.sendToAllAround(
+                    AnimationPacket(this, "Activate"),
+                    PacketDistributor.TargetPoint(posX, posY, posZ, 50.0, dimension)
                 )
                 hasPlayedSpawnAnimation = true
             }
@@ -162,7 +162,7 @@ class EntitySplinterDrone(world: World) : EntityFlying(world), IMob,
     override fun dropFewItems(wasRecentlyHit: Boolean, lootingModifier: Int) {
         // Drop 1 energy core 20% of the time (+20% per looting level)
         if (rand.nextDouble() < 0.2 + lootingModifier * 0.2) {
-            dropItem(ModItems.POWER_CORE, 1)
+            entityDropItem(ModItems.POWER_CORE, 1)
         }
     }
 
@@ -185,9 +185,9 @@ class EntitySplinterDrone(world: World) : EntityFlying(world), IMob,
      *
      * @param tagCompound The compound to write to
      */
-    override fun writeEntityToNBT(tagCompound: NBTTagCompound) {
+    override fun writeAdditional(tagCompound: NBTTagCompound) {
         tagCompound.setBoolean(NBT_PLAYED_SPAWN_ANIMATION, hasPlayedSpawnAnimation)
-        super.writeEntityToNBT(tagCompound)
+        super.writeAdditional(tagCompound)
     }
 
     /**
@@ -195,9 +195,9 @@ class EntitySplinterDrone(world: World) : EntityFlying(world), IMob,
      *
      * @param tagCompound The compound to read from
      */
-    override fun readEntityFromNBT(tagCompound: NBTTagCompound) {
+    override fun readAdditional(tagCompound: NBTTagCompound) {
         hasPlayedSpawnAnimation = tagCompound.getBoolean(NBT_PLAYED_SPAWN_ANIMATION)
-        super.readEntityFromNBT(tagCompound)
+        super.readAdditional(tagCompound)
     }
 
     companion object {

@@ -4,9 +4,7 @@ import com.davidm1a2.afraidofthedark.common.block.*
 import com.davidm1a2.afraidofthedark.common.block.gravewood.*
 import com.davidm1a2.afraidofthedark.common.block.mangrove.*
 import com.davidm1a2.afraidofthedark.common.block.sacred_mangrove.*
-import com.davidm1a2.afraidofthedark.common.tileEntity.*
-import com.davidm1a2.afraidofthedark.common.tileEntity.enariasAltar.TileEntityEnariasAltar
-import net.minecraft.util.ResourceLocation
+import net.minecraft.block.Block
 
 /**
  * A static class containing all of our block references for us
@@ -15,8 +13,7 @@ object ModBlocks {
     val GRAVEWOOD = BlockGravewood()
     val GRAVEWOOD_PLANKS = BlockGravewoodPlanks()
     val GRAVEWOOD_LEAVES = BlockGravewoodLeaves()
-    val GRAVEWOOD_HALF_SLAB = BlockGravewoodHalfSlab()
-    val GRAVEWOOD_DOUBLE_SLAB = BlockGravewoodDoubleSlab()
+    val GRAVEWOOD_SLAB = BlockGravewoodSlab()
     val GRAVEWOOD_STAIRS = BlockGravewoodStairs()
     val GRAVEWOOD_SAPLING = BlockGravewoodSapling()
     val GRAVEWOOD_FENCE = BlockGravewoodFence()
@@ -26,8 +23,7 @@ object ModBlocks {
     val MANGROVE = BlockMangrove()
     val MANGROVE_PLANKS = BlockMangrovePlanks()
     val MANGROVE_LEAVES = BlockMangroveLeaves()
-    val MANGROVE_HALF_SLAB = BlockMangroveHalfSlab()
-    val MANGROVE_DOUBLE_SLAB = BlockMangroveDoubleSlab()
+    val MANGROVE_SLAB = BlockMangroveSlab()
     val MANGROVE_STAIRS = BlockMangroveStairs()
     val MANGROVE_SAPLING = BlockMangroveSapling()
     val MANGROVE_FENCE = BlockMangroveFence()
@@ -37,8 +33,7 @@ object ModBlocks {
     val SACRED_MANGROVE = BlockSacredMangrove()
     val SACRED_MANGROVE_PLANKS = BlockSacredMangrovePlanks()
     val SACRED_MANGROVE_LEAVES = BlockSacredMangroveLeaves()
-    val SACRED_MANGROVE_HALF_SLAB = BlockSacredMangroveHalfSlab()
-    val SACRED_MANGROVE_DOUBLE_SLAB = BlockSacredMangroveDoubleSlab()
+    val SACRED_MANGROVE_SLAB = BlockSacredMangroveSlab()
     val SACRED_MANGROVE_STAIRS = BlockSacredMangroveStairs()
     val SACRED_MANGROVE_SAPLING = BlockSacredMangroveSapling()
     val SACRED_MANGROVE_FENCE = BlockSacredMangroveFence()
@@ -68,13 +63,12 @@ object ModBlocks {
     val LENS_CUTTER = BlockLensCutter()
 
     // An array containing a list of blocks that AOTD adds
-    val BLOCK_LIST = arrayOf(
+    val BLOCK_LIST = arrayOf<Block>(
         GRAVEWOOD,
         GRAVEWOOD_PLANKS,
         GRAVEWOOD_SAPLING,
         GRAVEWOOD_LEAVES,
-        GRAVEWOOD_HALF_SLAB,
-        GRAVEWOOD_DOUBLE_SLAB,
+        GRAVEWOOD_SLAB,
         GRAVEWOOD_STAIRS,
         GRAVEWOOD_FENCE,
         GRAVEWOOD_FENCE_GATE,
@@ -83,8 +77,7 @@ object ModBlocks {
         MANGROVE_PLANKS,
         MANGROVE_SAPLING,
         MANGROVE_LEAVES,
-        MANGROVE_HALF_SLAB,
-        MANGROVE_DOUBLE_SLAB,
+        MANGROVE_SLAB,
         MANGROVE_STAIRS,
         MANGROVE_FENCE,
         MANGROVE_FENCE_GATE,
@@ -93,8 +86,7 @@ object ModBlocks {
         SACRED_MANGROVE_PLANKS,
         SACRED_MANGROVE_SAPLING,
         SACRED_MANGROVE_LEAVES,
-        SACRED_MANGROVE_HALF_SLAB,
-        SACRED_MANGROVE_DOUBLE_SLAB,
+        SACRED_MANGROVE_SLAB,
         SACRED_MANGROVE_STAIRS,
         SACRED_MANGROVE_FENCE,
         SACRED_MANGROVE_FENCE_GATE,
@@ -120,19 +112,5 @@ object ModBlocks {
         DESERT_OASIS,
         SPELL_ALTAR,
         LENS_CUTTER
-    )
-
-    // A list of tile entities to register
-    val TILE_ENTITY_LIST = arrayOf(
-        TileEntityVoidChest::class.java to ResourceLocation(Constants.MOD_ID, "tile_entity_void_chest"),
-        TileEntityDarkForest::class.java to ResourceLocation(Constants.MOD_ID, "tile_entity_dark_forest"),
-        TileEntityGhastlyEnariaSpawner::class.java to ResourceLocation(
-            Constants.MOD_ID,
-            "tile_entity_ghastly_enaria_spawner"
-        ),
-        TileEntityEnariaSpawner::class.java to ResourceLocation(Constants.MOD_ID, "tile_entity_enaria_spawner"),
-        TileEntityDesertOasis::class.java to ResourceLocation(Constants.MOD_ID, "tile_entity_desert_oasis"),
-        TileEntitySpellAltar::class.java to ResourceLocation(Constants.MOD_ID, "tile_entity_spell_altar"),
-        TileEntityEnariasAltar::class.java to ResourceLocation(Constants.MOD_ID, "tile_entity_enarias_altar")
     )
 }

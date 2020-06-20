@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.tileEntity
 
-import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
+import com.davidm1a2.afraidofthedark.common.constants.ModTileEntities
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.animation.AnimationHandler
 import com.davidm1a2.afraidofthedark.common.tileEntity.core.AOTDTickingTileEntity
@@ -11,14 +11,14 @@ import net.minecraft.util.math.AxisAlignedBB
  *
  * @constructor just sets the block type
  */
-class TileEntitySpellAltar : AOTDTickingTileEntity(ModBlocks.SPELL_ALTAR), IMCAnimatedModel {
+class TileEntitySpellAltar : AOTDTickingTileEntity(ModTileEntities.SPELL_ALTAR), IMCAnimatedModel {
     private val animHandler = AnimationHandler()
 
     /**
      * Called every tick to update the tile entity's state
      */
-    override fun update() {
-        super.update()
+    override fun tick() {
+        super.tick()
         if (world.isRemote) {
             /*
             animHandler.animationsUpdate()

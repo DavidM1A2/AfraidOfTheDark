@@ -1,10 +1,10 @@
 package com.davidm1a2.afraidofthedark.common.worldGeneration.schematic
 
 import com.davidm1a2.afraidofthedark.common.utility.ResourceUtil
-import net.minecraft.block.Block
 import net.minecraft.nbt.CompressedStreamTools
 import net.minecraft.nbt.NBTTagString
 import net.minecraft.util.ResourceLocation
+import net.minecraftforge.registries.ForgeRegistries
 import org.apache.commons.io.FilenameUtils
 import java.io.IOException
 
@@ -65,7 +65,7 @@ class SchematicBuilder {
      */
     private fun createCached(): Schematic {
         // Grab the name of the schematic
-        val schematicName = FilenameUtils.getBaseName(resourceLocation!!.resourcePath)
+        val schematicName = FilenameUtils.getBaseName(resourceLocation!!.path)
         // Read the NBT data from the file
         val nbtData = ResourceUtil.getInputStream(resourceLocation!!).use {
             CompressedStreamTools.readCompressed(it)
@@ -77,8 +77,8 @@ class SchematicBuilder {
         val length = nbtData.getShort("Length")
 
         // Read the entities and tile entities
-        val tileEntities = nbtData.getTagList("TileEntities", 10)
-        val entities = nbtData.getTagList("Entities", 10)
+        val tileEntities = nbtData.getList("TileEntities", 10)
+        val entities = nbtData.getList("Entities", 10)
 
         // Read the block data
         val data = nbtData.getIntArray("Data")
@@ -86,11 +86,12 @@ class SchematicBuilder {
         // Read the block ids
         val blockIds = nbtData.getIntArray("BlockIds")
         // Read the map of block name to id
-        val blockMapNames = nbtData.getTagList("BlockIdNames", 8).map { (it as NBTTagString).string }
+        val blockMapNames = nbtData.getList("BlockIdNames", 8).map { (it as NBTTagString).string }
 
         // Convert block names to block pointer references
         val blockMapBlocks =
-            blockMapNames.map { Block.getBlockFromName(it) ?: throw IllegalStateException("Invalid schematic block found: $it}") }.toTypedArray()
+            blockMapNames.map { ForgeRegistries.BLOCKS.getValue(ResourceLocation(it)) ?: throw IllegalStateException("Invalid schematic block found: $it}") }
+                .toTypedArray()
         // Map each block id to block pointer
         val blocks = blockIds.map { blockMapBlocks[it] }.toTypedArray()
 
@@ -106,9 +107,9 @@ class SchematicBuilder {
      */
     private fun createOnDemand(): Schematic {
         // Grab the name of the schematic
-        val schematicName = FilenameUtils.getBaseName(resourceLocation!!.resourcePath)
+        val schematicName = FilenameUtils.getBaseName(resourceLocation!!.path)
         val metaLocation =
-            ResourceLocation(resourceLocation!!.resourceDomain, resourceLocation!!.resourcePath + ".meta")
+            ResourceLocation(resourceLocation!!.namespace, resourceLocation!!.path + ".meta")
         // Grab an input stream to the schematic meta file
         val inputStream = ResourceUtil.getInputStream(metaLocation)
         // Read the NBT data from the file

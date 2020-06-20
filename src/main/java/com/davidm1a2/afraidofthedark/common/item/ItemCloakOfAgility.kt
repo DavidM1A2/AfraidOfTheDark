@@ -6,9 +6,10 @@ import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItemWithSharedCooldown
 import net.minecraft.client.Minecraft
-import net.minecraft.client.resources.I18n
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.item.ItemStack
+import net.minecraft.util.text.ITextComponent
+import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.world.World
 
 /**
@@ -16,7 +17,7 @@ import net.minecraft.world.World
  *
  * @constructor sets up item properties
  */
-class ItemCloakOfAgility : AOTDItemWithSharedCooldown("cloak_of_agility") {
+class ItemCloakOfAgility : AOTDItemWithSharedCooldown("cloak_of_agility", Properties()) {
     /**
      * Called to add a tooltip to the item
      *
@@ -25,14 +26,14 @@ class ItemCloakOfAgility : AOTDItemWithSharedCooldown("cloak_of_agility") {
      * @param tooltip The tooltip to add to
      * @param flag  True if the advanced flag is set or false otherwise
      */
-    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag) {
-        val player = Minecraft.getMinecraft().player
+    override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+        val player = Minecraft.getInstance().player
         // If the player has the research show them what key is used to roll, otherwise tell them they don't know how to use the cloak
         if (player != null && player.getResearch().isResearched(ModResearches.CLOAK_OF_AGILITY)) {
-            tooltip.add(I18n.format(LocalizationConstants.Item.CLOAK_OF_AGILITY_TOOLTIP_LINE1, ROLL_WITH_CLOAK_OF_AGILITY.displayName))
-            tooltip.add(I18n.format(LocalizationConstants.Item.CLOAK_OF_AGILITY_TOOLTIP_LINE2))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.CLOAK_OF_AGILITY_TOOLTIP_LINE1, ROLL_WITH_CLOAK_OF_AGILITY.key.name))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.CLOAK_OF_AGILITY_TOOLTIP_LINE2))
         } else {
-            tooltip.add(I18n.format(LocalizationConstants.Item.TOOLTIP_DONT_KNOW_HOW_TO_USE))
+            tooltip.add(TextComponentTranslation(LocalizationConstants.Item.TOOLTIP_DONT_KNOW_HOW_TO_USE))
         }
     }
 

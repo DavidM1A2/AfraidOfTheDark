@@ -3,11 +3,11 @@ package com.davidm1a2.afraidofthedark.common.event
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.ItemFlaskOfSouls
-import net.minecraft.entity.EntityList
 import net.minecraft.entity.EntityLiving
+import net.minecraft.entity.EntityType
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraftforge.event.entity.living.LivingDeathEvent
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent
 
 /**
@@ -53,7 +53,7 @@ class FlaskOfSoulsHandler {
             if (entityPlayer.getResearch().isResearched(ModResearches.PHYLACTERY_OF_SOULS)) {
                 // Grab the player's inventory
                 val inventory = entityPlayer.inventory.mainInventory
-                val entityID = EntityList.getKey(event.entity)
+                val entityID = EntityType.getId(event.entity.type)
 
                 // Iterate over the player's inventory and look for flasks. If we find one test if we have a flask for the killed entity
                 for (i in inventory.indices) {
@@ -82,7 +82,7 @@ class FlaskOfSoulsHandler {
                         // If the flask is not complete and does not yet have a spawned entity set the spawned entity
                         if (!flaskOfSouls.isComplete(itemStack) && flaskOfSouls.getSpawnedEntity(itemStack) == null) {
                             // Set the spawned entity and add the kill to the flask
-                            flaskOfSouls.setSpawnedEntity(itemStack, EntityList.getKey(event.entity))
+                            flaskOfSouls.setSpawnedEntity(itemStack, entityID)
                             flaskOfSouls.addKills(itemStack, 1)
                             return
                         }

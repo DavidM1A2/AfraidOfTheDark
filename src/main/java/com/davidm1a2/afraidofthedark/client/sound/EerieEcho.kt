@@ -14,11 +14,11 @@ class EerieEcho : PlayerFollowingSound(ModSounds.EERIE_ECHOS, SoundCategory.AMBI
     /**
      * Ensure that this only players in the nightmare when the player is not dead
      */
-    override fun update() {
-        super.update()
+    override fun tick() {
+        super.tick()
 
-        val entityPlayer = Minecraft.getMinecraft().player!!
-        if (entityPlayer.isDead || entityPlayer.dimension != ModDimensions.NIGHTMARE.id) {
+        val entityPlayer = Minecraft.getInstance().player!!
+        if (!entityPlayer.isAlive || entityPlayer.dimension != ModDimensions.NIGHTMARE_TYPE) {
             donePlaying = true
         }
     }

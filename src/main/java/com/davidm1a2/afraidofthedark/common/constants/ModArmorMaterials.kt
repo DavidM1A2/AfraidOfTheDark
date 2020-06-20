@@ -1,35 +1,29 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
+import com.davidm1a2.afraidofthedark.common.utility.AOTDArmorMaterial
 import net.minecraft.init.SoundEvents
-import net.minecraft.item.ItemStack
-import net.minecraftforge.common.util.EnumHelper
+import net.minecraft.item.crafting.Ingredient
 
 /**
  * Class storing armor material constants. These are registered through the enum helper class and not through the standard forge system
  */
 object ModArmorMaterials {
-    val IGNEOUS = EnumHelper.addArmorMaterial(
+    val IGNEOUS = AOTDArmorMaterial(
         "igneous",
-        "texture",
-        45,
-        intArrayOf(3, 8, 6, 3),
+        0,
+        arrayOf(0, 0, 0, 0),
         20,
         SoundEvents.ITEM_ARMOR_EQUIP_GENERIC,
-        2.0f
-    )!!
-    val STAR_METAL = EnumHelper.addArmorMaterial(
+        0f,
+        Ingredient.fromItems(ModItems.IGNEOUS_GEM)
+    )
+    val STAR_METAL = AOTDArmorMaterial(
         "star_metal",
-        "texture",
-        45,
-        intArrayOf(3, 8, 6, 3),
+        0,
+        arrayOf(0, 0, 0, 0),
         20,
         SoundEvents.ITEM_ARMOR_EQUIP_GENERIC,
-        3.0f
-    )!!
-
-    // Set material repair items
-    init {
-        IGNEOUS.setRepairItem(ItemStack(ModItems.IGNEOUS_GEM))
-        STAR_METAL.setRepairItem(ItemStack(ModItems.STAR_METAL_PLATE))
-    }
+        0f,
+        Ingredient.fromItems(ModItems.STAR_METAL_PLATE)
+    )
 }

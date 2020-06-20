@@ -20,8 +20,8 @@ class SpellEffectFeed : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "feed
             SpellComponentPropertyFactory.intProperty()
                 .withName("Hunger Amount")
                 .withDescription("The amount of food half 'drumsticks' to restore.")
-                .withSetter { instance, newValue -> instance.data.setInteger(NBT_HUNGER_VALUE, newValue) }
-                .withGetter { it.data.getInteger(NBT_HUNGER_VALUE) }
+                .withSetter { instance, newValue -> instance.data.setInt(NBT_HUNGER_VALUE, newValue) }
+                .withGetter { it.data.getInt(NBT_HUNGER_VALUE) }
                 .withDefaultValue(2)
                 .withMinValue(1)
                 .withMaxValue(300)
@@ -31,8 +31,8 @@ class SpellEffectFeed : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "feed
             SpellComponentPropertyFactory.intProperty()
                 .withName("Saturation Amount")
                 .withDescription("The amount of saturation restore.")
-                .withSetter { instance, newValue -> instance.data.setInteger(NBT_SATURATION_VALUE, newValue) }
-                .withGetter { it.data.getInteger(NBT_SATURATION_VALUE) }
+                .withSetter { instance, newValue -> instance.data.setInt(NBT_SATURATION_VALUE, newValue) }
+                .withGetter { it.data.getInt(NBT_SATURATION_VALUE) }
                 .withDefaultValue(1)
                 .withMinValue(0)
                 .build()
@@ -71,7 +71,7 @@ class SpellEffectFeed : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "feed
      * @return The hunger value this instance adds
      */
     fun getHungerValue(instance: SpellComponentInstance<SpellEffect>): Int {
-        return instance.data.getInteger(NBT_HUNGER_VALUE)
+        return instance.data.getInt(NBT_HUNGER_VALUE)
     }
 
     /**
@@ -81,7 +81,7 @@ class SpellEffectFeed : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, "feed
      * @return The saturation value this instance adds
      */
     fun getSaturationValue(instance: SpellComponentInstance<SpellEffect>): Int {
-        return instance.data.getInteger(NBT_SATURATION_VALUE)
+        return instance.data.getInt(NBT_SATURATION_VALUE)
     }
 
     companion object {

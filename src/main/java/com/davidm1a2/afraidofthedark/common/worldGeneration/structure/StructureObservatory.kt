@@ -1,10 +1,10 @@
 package com.davidm1a2.afraidofthedark.common.worldGeneration.structure
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.capabilities.world.IHeightmap
 import com.davidm1a2.afraidofthedark.common.capabilities.world.OverworldHeightmap
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
+import com.davidm1a2.afraidofthedark.common.constants.ModServerConfiguration
 import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.iterator.InteriorChunkIterator
@@ -16,7 +16,7 @@ import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.world.World
-import net.minecraft.world.biome.BiomeProvider
+import net.minecraft.world.biome.provider.BiomeProvider
 import kotlin.math.max
 import kotlin.math.min
 
@@ -62,7 +62,7 @@ class StructureObservatory : AOTDStructure("observatory") {
                 }
                 // 3% chance to generate in any chunks this fits in
                 else {
-                    0.03 * AfraidOfTheDark.INSTANCE.configurationHandler.observatoryMultiplier
+                    0.03 * ModServerConfiguration.observatoryMultiplier
                 }
             }
 
@@ -105,7 +105,7 @@ class StructureObservatory : AOTDStructure("observatory") {
 
         // Update the NBT
         return NBTTagCompound().apply {
-            setTag(NBT_POSITION, NBTUtil.createPosTag(schematicPos))
+            setTag(NBT_POSITION, NBTUtil.writeBlockPos(schematicPos))
         }
     }
 
@@ -125,11 +125,14 @@ class StructureObservatory : AOTDStructure("observatory") {
 
     companion object {
         private val VALID_BIOMES = setOf(
-            Biomes.EXTREME_HILLS,
-            Biomes.EXTREME_HILLS_EDGE,
-            Biomes.EXTREME_HILLS_WITH_TREES,
-            Biomes.MUTATED_EXTREME_HILLS,
-            Biomes.MUTATED_EXTREME_HILLS_WITH_TREES
+            Biomes.MOUNTAINS,
+            Biomes.MOUNTAIN_EDGE,
+            Biomes.GRAVELLY_MOUNTAINS,
+            Biomes.MODIFIED_GRAVELLY_MOUNTAINS,
+            Biomes.SNOWY_MOUNTAINS,
+            Biomes.SNOWY_TAIGA_MOUNTAINS,
+            Biomes.TAIGA_MOUNTAINS,
+            Biomes.WOODED_MOUNTAINS
         )
     }
 }

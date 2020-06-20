@@ -12,7 +12,7 @@ class GhastlyEnariaMoveHelper(enaria: EntityGhastlyEnaria) : EntityMoveHelper(en
     /**
      * Gets called when the move helper should update and move the entity
      */
-    override fun onUpdateMoveHelper() {
+    override fun tick() {
         // Only update if updating is true
         if (this.isUpdating) {
             // Code copied from super, moves the entity in the direction enaria wants to move to

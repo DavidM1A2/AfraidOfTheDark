@@ -1,13 +1,13 @@
 package com.davidm1a2.afraidofthedark.common.registry.research
 
-import com.davidm1a2.afraidofthedark.AfraidOfTheDark
 import com.davidm1a2.afraidofthedark.common.utility.ResourceUtil
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import net.minecraft.item.Item
 import net.minecraft.util.JsonUtils
 import net.minecraft.util.ResourceLocation
-import net.minecraftforge.registries.IForgeRegistryEntry
+import net.minecraftforge.registries.ForgeRegistryEntry
+import org.apache.logging.log4j.LogManager
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
@@ -26,8 +26,7 @@ import java.io.InputStreamReader
  * @property preResearchedRecipes A list of recipes that will be shown if the previous research is researched
  * @property icon The icon to show for this research
  */
-abstract class Research(data: ResourceLocation, val preRequisite: Research? = null) :
-    IForgeRegistryEntry.Impl<Research>() {
+abstract class Research(data: ResourceLocation, val preRequisite: Research? = null) : ForgeRegistryEntry<Research>() {
     var xPosition = 0
         private set
     var zPosition = 0
@@ -65,7 +64,7 @@ abstract class Research(data: ResourceLocation, val preRequisite: Research? = nu
         }
         // This shouldn't happen, but if it does print out an error
         catch (e: IOException) {
-            AfraidOfTheDark.INSTANCE.logger.error("Could not load the research defined by '$data'", e)
+            logger.error("Could not load the research defined by '$data'", e)
         }
     }
 
@@ -73,31 +72,33 @@ abstract class Research(data: ResourceLocation, val preRequisite: Research? = nu
      * @return The unlocalized name of the research
      */
     fun getUnlocalizedName(): String {
-        return "research.${registryName!!.resourceDomain}:${registryName!!.resourcePath}.name"
+        return "research.${registryName.toString()}.name"
     }
 
     /**
      * @return The unlocalized tooltip of the research
      */
     fun getUnlocalizedTooltip(): String {
-        return "research.${registryName!!.resourceDomain}:${registryName!!.resourcePath}.tooltip"
+        return "research.${registryName.toString()}.tooltip"
     }
 
     /**
      * @return The unlocalized pre text of the research
      */
     fun getUnlocalizedPreText(): String {
-        return "research.${registryName!!.resourceDomain}:${registryName!!.resourcePath}.pre_text"
+        return "research.${registryName.toString()}.pre_text"
     }
 
     /**
      * @return The unlocalized text of the research
      */
     fun getUnlocalizedText(): String {
-        return "research.${registryName!!.resourceDomain}:${registryName!!.resourcePath}.text"
+        return "research.${registryName.toString()}.text"
     }
 
     companion object {
+        private val logger = LogManager.getLogger()
+
         // Gson serializer to convert from JSON to java types
         private val DESERIALIZER = GsonBuilder().disableHtmlEscaping().create()
     }

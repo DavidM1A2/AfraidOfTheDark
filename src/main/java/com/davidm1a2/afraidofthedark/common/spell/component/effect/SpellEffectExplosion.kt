@@ -38,7 +38,7 @@ class SpellEffectExplosion : AOTDSpellEffect(ResourceLocation(Constants.MOD_ID, 
     override fun procEffect(state: DeliveryTransitionState, instance: SpellComponentInstance<SpellEffect>) {
         val world: World = state.world
         val position = state.position
-        createParticlesAt(1, 3, position, world.provider.dimension)
+        createParticlesAt(1, 3, position, world.dimension.type)
         world.createExplosion(null, position.x, position.y, position.z, getRadius(instance), true)
     }
 

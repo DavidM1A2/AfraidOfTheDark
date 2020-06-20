@@ -5,7 +5,7 @@ import com.davidm1a2.afraidofthedark.client.particle.AOTDParticleRegistry
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
-import com.davidm1a2.afraidofthedark.common.packets.otherPackets.SyncParticle
+import com.davidm1a2.afraidofthedark.common.packets.otherPackets.ParticlePacket
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionStateBuilder
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponentInstance
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource
@@ -20,7 +20,8 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.util.text.TextComponentTranslation
 import net.minecraftforge.common.util.Constants
 import net.minecraftforge.common.util.INBTSerializable
-import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint
+import net.minecraftforge.fml.network.PacketDistributor
+import org.apache.logging.log4j.LogManager
 import java.util.*
 import kotlin.random.Random
 
@@ -68,7 +69,7 @@ class Spell : INBTSerializable<NBTTagCompound> {
         // Server side processing only
         if (!entity.world.isRemote) {
             // Make sure the player isn't in the nightmare realm
-            if (entity.dimension != ModDimensions.NIGHTMARE.id) {
+            if (entity.dimension != ModDimensions.NIGHTMARE_TYPE) {
                 // If the spell is valid continue, if not print an error
                 if (isValid()) {
                     // Test if the spell can be cast, if not tell the player why
@@ -91,18 +92,18 @@ class Spell : INBTSerializable<NBTTagCompound> {
                             positions.add(Vec3d(entity.posX, entity.posY, entity.posZ))
                         }
                         // Send the particle packet
-                        AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(
-                            SyncParticle(
+                        AfraidOfTheDark.packetHandler.sendToAllAround(
+                            ParticlePacket(
                                 AOTDParticleRegistry.ParticleTypes.SPELL_CAST_ID,
                                 positions,
                                 List<Vec3d>(positions.size) { Vec3d.ZERO }
                             ),
-                            TargetPoint(
-                                entity.dimension,
+                            PacketDistributor.TargetPoint(
                                 entity.posX,
                                 entity.posY,
                                 entity.posZ,
-                                100.0
+                                100.0,
+                                entity.dimension
                             )
                         )
 
@@ -122,19 +123,19 @@ class Spell : INBTSerializable<NBTTagCompound> {
                     } else {
                         entity.sendMessage(TextComponentTranslation(powerSource!!.component.getUnlocalizedOutOfPowerMsg()))
                         if (entity !is EntityPlayer) {
-                            AfraidOfTheDark.INSTANCE.logger.info("Entity '${entity.name}' attempted to cast a spell without enough power?")
+                            logger.info("Entity '${entity.name}' attempted to cast a spell without enough power?")
                         }
                     }
                 } else {
                     entity.sendMessage(TextComponentTranslation(LocalizationConstants.Spell.INVALID))
                     if (entity !is EntityPlayer) {
-                        AfraidOfTheDark.INSTANCE.logger.info("Entity '${entity.name}' attempted to cast an invalid spell?")
+                        logger.info("Entity '${entity.name}' attempted to cast an invalid spell?")
                     }
                 }
             } else {
                 entity.sendMessage(TextComponentTranslation(LocalizationConstants.Spell.WRONG_DIMENSION))
                 if (entity !is EntityPlayer) {
-                    AfraidOfTheDark.INSTANCE.logger.info("Entity '${entity.name}' attempted to cast a spell in the nightmare?")
+                    logger.info("Entity '${entity.name}' attempted to cast a spell in the nightmare?")
                 }
             }
         }
@@ -210,14 +211,14 @@ class Spell : INBTSerializable<NBTTagCompound> {
 
         // Write each field to NBT
         nbt.setString(NBT_NAME, name)
-        nbt.setTag(NBT_ID, NBTUtil.createUUIDTag(id))
+        nbt.setTag(NBT_ID, NBTUtil.writeUniqueId(id))
 
         // The spell power source can be null, double check that it isn't before writing it and its state
         powerSource?.let { nbt.setTag(NBT_POWER_SOURCE, it.serializeNBT()) }
 
         // Write each spell stage to NBT
         val spellStagesNBT = NBTTagList()
-        spellStages.forEach { spellStagesNBT.appendTag(it.serializeNBT()) }
+        spellStages.forEach { spellStagesNBT.add(it.serializeNBT()) }
         nbt.setTag(NBT_SPELL_STAGES, spellStagesNBT)
         return nbt
     }
@@ -230,20 +231,20 @@ class Spell : INBTSerializable<NBTTagCompound> {
     override fun deserializeNBT(nbt: NBTTagCompound) {
         // Read each field from NBT
         name = nbt.getString(NBT_NAME)
-        id = NBTUtil.getUUIDFromTag(nbt.getCompoundTag(NBT_ID))
+        id = NBTUtil.readUniqueId(nbt.getCompound(NBT_ID))
 
         // The spell power source can be null, double check that it exists before reading it and its state
         if (nbt.hasKey(NBT_POWER_SOURCE)) {
             // Grab the power source NBT and create a power source out of it
-            powerSource = SpellPowerSourceInstance.createFromNBT(nbt.getCompoundTag(NBT_POWER_SOURCE))
+            powerSource = SpellPowerSourceInstance.createFromNBT(nbt.getCompound(NBT_POWER_SOURCE))
         }
 
         // Read each spell stage from NBT
-        val spellStagesNBT = nbt.getTagList(NBT_SPELL_STAGES, Constants.NBT.TAG_COMPOUND)
+        val spellStagesNBT = nbt.getList(NBT_SPELL_STAGES, Constants.NBT.TAG_COMPOUND)
         spellStages.clear()
-        for (i in 0 until spellStagesNBT.tagCount()) {
+        for (i in 0 until spellStagesNBT.size) {
             // Grab the spell stage NBT, read it into the spell stage, and add it
-            val spellStageNBT = spellStagesNBT.getCompoundTagAt(i)
+            val spellStageNBT = spellStagesNBT.getCompound(i)
             val spellStage = SpellStage(spellStageNBT)
             spellStages.add(spellStage)
         }
@@ -254,12 +255,14 @@ class Spell : INBTSerializable<NBTTagCompound> {
      */
     override fun toString(): String {
         return "Spell $name\n" +
-                "Power Source: ${powerSource?.component?.registryName?.resourcePath}\n" +
+                "Power Source: ${powerSource?.component?.registryName?.path}\n" +
                 "Spell Stages:\n" +
                 spellStages.joinToString(separator = "\n") { " -> $it" }
     }
 
     companion object {
+        private val logger = LogManager.getLogger()
+
         // Constants used for NBT serialization/deserialiation
         private const val NBT_NAME = "name"
         private const val NBT_ID = "id"

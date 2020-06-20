@@ -10,17 +10,16 @@ import com.davidm1a2.afraidofthedark.common.constants.ModItems
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
 import com.davidm1a2.afraidofthedark.common.item.ItemCloakOfAgility
 import com.davidm1a2.afraidofthedark.common.item.crossbow.ItemWristCrossbow
-import com.davidm1a2.afraidofthedark.common.packets.otherPackets.FireWristCrossbow
-import com.davidm1a2.afraidofthedark.common.packets.otherPackets.SyncSpellKeyPress
+import com.davidm1a2.afraidofthedark.common.packets.otherPackets.FireWristCrossbowPacket
+import com.davidm1a2.afraidofthedark.common.packets.otherPackets.SpellKeyPressPacket
 import com.davidm1a2.afraidofthedark.common.utility.BoltOrderHelper
 import net.minecraft.client.Minecraft
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.text.TextComponentTranslation
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
-import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent
-import org.lwjgl.input.Keyboard
+import net.minecraftforge.client.event.InputEvent
+import net.minecraftforge.eventbus.api.SubscribeEvent
 
 /**
  * Class that receives all keyboard events and processes them accordingly
@@ -37,7 +36,7 @@ object KeyInputEventHandler {
      */
     @SubscribeEvent
     @Suppress("UNUSED_PARAMETER")
-    fun handleKeyInputEvent(event: KeyInputEvent) {
+    fun handleKeyInputEvent(event: InputEvent.KeyInputEvent) {
         // Process input
         if (ModKeybindings.FIRE_WRIST_CROSSBOW.isPressed) {
             fireWristCrossbow()
@@ -48,12 +47,12 @@ object KeyInputEventHandler {
         }
 
         // If a key was pressed and it is bound to a spell fire the spell
-        if (Keyboard.getEventKeyState() && KeybindingUtils.keybindableKeyDown()) {
+        if (KeybindingUtils.isKeyBindable(event.key)) {
             // Grab the currently held bind
-            val keybindingPressed = KeybindingUtils.getCurrentlyHeldKeybind()
+            val keybindingPressed = KeybindingUtils.getCurrentlyHeldKeybind(event.key, event.scanCode)
             // If that keybind exists then tell the server to fire the spell
-            if (Minecraft.getMinecraft().player.getSpellManager().keybindExists(keybindingPressed)) {
-                AfraidOfTheDark.INSTANCE.packetHandler.sendToServer(SyncSpellKeyPress(keybindingPressed))
+            if (Minecraft.getInstance().player.getSpellManager().keybindExists(keybindingPressed)) {
+                AfraidOfTheDark.packetHandler.sendToServer(SpellKeyPressPacket(keybindingPressed))
             }
         }
     }
@@ -63,7 +62,7 @@ object KeyInputEventHandler {
      */
     private fun fireWristCrossbow() {
         // Grab a player reference
-        val entityPlayer: EntityPlayer = Minecraft.getMinecraft().player
+        val entityPlayer: EntityPlayer = Minecraft.getInstance().player
 
         // Grab the player's bolt of choice
         val playerBasics = entityPlayer.getBasics()
@@ -104,7 +103,7 @@ object KeyInputEventHandler {
                                 // Test if the crossbow is on CD or not. If it is fire, if it is not continue searching
                                 if (!wristCrossbow.isOnCooldown(itemStack)) {
                                     // Tell the server to fire the crossbow
-                                    AfraidOfTheDark.INSTANCE.packetHandler.sendToServer(FireWristCrossbow(boltType))
+                                    AfraidOfTheDark.packetHandler.sendToServer(FireWristCrossbowPacket(boltType))
                                     // Set the item on CD
                                     wristCrossbow.setOnCooldown(itemStack, entityPlayer)
                                     // Return, we fired the bolt
@@ -136,7 +135,7 @@ object KeyInputEventHandler {
      */
     private fun rollWithCloakOfAgility() {
         // Grab a player reference
-        val entityPlayer = Minecraft.getMinecraft().player
+        val entityPlayer = Minecraft.getInstance().player
 
         // Test if the player has the correct research
         if (entityPlayer.getResearch().isResearched(ModResearches.CLOAK_OF_AGILITY)) {

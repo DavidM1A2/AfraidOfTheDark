@@ -2,17 +2,17 @@ package com.davidm1a2.afraidofthedark.common.event
 
 import com.davidm1a2.afraidofthedark.client.gui.ResearchAchievedOverlay
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Chat
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
+import net.minecraftforge.eventbus.api.SubscribeEvent
 
 /**
  * Research overlay handler class is used to show whenever a research is unlocked
  */
 class ResearchOverlayHandler {
     // The overlay to show researches with
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     private val researchAchievedOverlay = ResearchAchievedOverlay()
 
     /**
@@ -20,7 +20,7 @@ class ResearchOverlayHandler {
      *
      * @param event ignored
      */
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     @Suppress("UNUSED_PARAMETER")
     fun onRenderGameOverlayEventChat(event: Chat) {
@@ -32,7 +32,7 @@ class ResearchOverlayHandler {
      *
      * @param research The research to display
      */
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     fun displayResearch(research: Research) {
         researchAchievedOverlay.displayResearch(research)
     }

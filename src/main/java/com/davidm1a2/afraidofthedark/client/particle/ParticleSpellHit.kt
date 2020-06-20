@@ -20,7 +20,7 @@ class ParticleSpellHit(
 ) : AOTDParticle(world, ModSprites.SPELL_HIT, x, y, z) {
     init {
         // 0.5-1.5 second lifespan
-        particleMaxAge = rand.nextInt(30) + 10
+        maxAge = rand.nextInt(30) + 10
 
         // Make the particles noticable
         particleScale = 1.0f + rand.nextFloat() * 4

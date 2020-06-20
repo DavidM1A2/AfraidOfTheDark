@@ -5,10 +5,11 @@ import com.davidm1a2.afraidofthedark.client.particle.AOTDParticleRegistry
 import com.davidm1a2.afraidofthedark.common.entity.enchantedSkeleton.EntityEnchantedSkeleton
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.EntitySplinterDrone
 import com.davidm1a2.afraidofthedark.common.entity.werewolf.EntityWerewolf
-import com.davidm1a2.afraidofthedark.common.packets.otherPackets.SyncParticle
+import com.davidm1a2.afraidofthedark.common.packets.otherPackets.ParticlePacket
 import net.minecraft.block.BlockAir
 import net.minecraft.entity.SharedMonsterAttributes
 import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.init.Blocks
 import net.minecraft.init.SoundEvents
 import net.minecraft.potion.Potion
 import net.minecraft.potion.PotionEffect
@@ -17,7 +18,7 @@ import net.minecraft.util.EnumFacing
 import net.minecraft.util.SoundCategory
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
-import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint
+import net.minecraftforge.fml.network.PacketDistributor
 import java.util.*
 import kotlin.math.cos
 import kotlin.math.sin
@@ -66,14 +67,14 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
         // Go over all nearby players
         for (entityPlayer in enaria.world.getEntitiesWithinAABB(
             EntityPlayer::class.java,
-            enaria.entityBoundingBox.grow(BASIC_RANGE.toDouble())
+            enaria.boundingBox.grow(BASIC_RANGE.toDouble())
         )) {
             // If the player can be seen basic attack them
             if (enaria.canEntityBeSeen(entityPlayer)) {
                 // Attack for 6 hearts
                 entityPlayer.attackEntityFrom(
                     EntityDamageSource.causeMobDamage(enaria),
-                    enaria.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).attributeValue.toFloat()
+                    enaria.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).value.toFloat()
                 )
                 // Show particle FX
                 performBasicAttackParticleEffectTo(entityPlayer)
@@ -103,7 +104,7 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
             }
 
             // Send a packet with all particles at once to everyone in the area
-            summonParticles(SyncParticle(AOTDParticleRegistry.ParticleTypes.ENARIA_BASIC_ATTACK_ID, positions, speeds))
+            summonParticles(ParticlePacket(AOTDParticleRegistry.ParticleTypes.ENARIA_BASIC_ATTACK_ID, positions, speeds))
         }
     }
 
@@ -121,7 +122,7 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
             var speeds = List(50) { Vec3d.ZERO }
 
             // Summon the particles in
-            summonParticles(SyncParticle(AOTDParticleRegistry.ParticleTypes.ENARIA_SPELL_CAST_ID, positions, speeds))
+            summonParticles(ParticlePacket(AOTDParticleRegistry.ParticleTypes.ENARIA_SPELL_CAST_ID, positions, speeds))
 
             // Create 20 spell cast 2 particles around enaria that start high and move downwards
             positions = List(20) { Vec3d(enaria.posX, enaria.posY + 3, enaria.posZ) }
@@ -136,7 +137,7 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
             }
 
             // Summon the particles in
-            summonParticles(SyncParticle(AOTDParticleRegistry.ParticleTypes.ENARIA_SPELL_CAST_2_ID, positions, speeds))
+            summonParticles(ParticlePacket(AOTDParticleRegistry.ParticleTypes.ENARIA_SPELL_CAST_2_ID, positions, speeds))
         }
     }
 
@@ -158,7 +159,7 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
             val speeds = List(positions.size) { Vec3d.ZERO }
 
             // Summon them in
-            summonParticles(SyncParticle(AOTDParticleRegistry.ParticleTypes.ENARIA_TELEPORT_ID, positions, speeds))
+            summonParticles(ParticlePacket(AOTDParticleRegistry.ParticleTypes.ENARIA_TELEPORT_ID, positions, speeds))
 
             // Get all players in the allowed fight region and randomly teleport to one
             val entityPlayers = enaria.world.getEntitiesWithinAABB(EntityPlayer::class.java, enaria.allowedRegion)
@@ -173,7 +174,7 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
                     enaria.posX,
                     enaria.posY,
                     enaria.posZ,
-                    SoundEvents.ENTITY_ENDERMEN_TELEPORT,
+                    SoundEvents.ENTITY_ENDERMAN_TELEPORT,
                     SoundCategory.HOSTILE,
                     1.0f,
                     1.0f
@@ -216,7 +217,7 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
                     val blockPos = BlockPos(x, y, z)
                     // if the block emits light destroy it
                     if (enaria.world.getBlockState(blockPos).getLightValue(enaria.world, blockPos) > 0) {
-                        enaria.world.setBlockToAir(blockPos)
+                        enaria.world.setBlockState(blockPos, Blocks.AIR.defaultState)
                     }
                 }
             }
@@ -230,7 +231,7 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
         // Randomly pick two slots and swap them
         for (entityPlayer in enaria.world.getEntitiesWithinAABB(EntityPlayer::class.java, enaria.allowedRegion)) {
             // Don't affect creative mode players
-            if (!entityPlayer.capabilities.isCreativeMode) {
+            if (!entityPlayer.isCreative) {
                 // Pick a random inventory slot to swap with
                 val toSwapPos = random.nextInt(36)
 
@@ -258,7 +259,7 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
         // The number of werewolves spawned
         var numberOfWWsSpawned = 0
         // Go over all blocks around enaria
-        for (facing in EnumFacing.HORIZONTALS) {
+        for (facing in EnumFacing.Plane.HORIZONTAL) {
             // Grab the block next to enaria
             val current = enaria.position.offset(facing, 2).up()
             val block = enaria.world.getBlockState(current)
@@ -291,7 +292,7 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
         // Count the number of splinter drones spawned so far
         var numberOfSplinterDronesSpawned = 0
         // Get a list of possible sides to spawn drones at, randomize the sides
-        val possibleSides = EnumFacing.HORIZONTALS.toList().shuffled()
+        val possibleSides = EnumFacing.Plane.HORIZONTAL.toList().shuffled()
         // Grab random sides
         for (facing in possibleSides) {
             // Move outward 2 and up 2, attempt to spawn a drone there
@@ -325,7 +326,7 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
     private fun spellSummonEnchantedSkeletons() {
         var numberOfSkeletonsSpawned = 0
         for (i in 0 until MAX_SKELETONS_SPAWNED) {
-            val facing = EnumFacing.HORIZONTALS.random()
+            val facing = EnumFacing.Plane.HORIZONTAL.toList().random()
             // Move outward 2 and up 1, attempt to spawn a skeleton there
             val current = enaria.position.offset(facing, 2).up()
             // Grab the block at that position
@@ -353,7 +354,7 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
         // Go over all players
         for (entityPlayer in enaria.world.getEntitiesWithinAABB(EntityPlayer::class.java, enaria.allowedRegion)) {
             // Only apply to non-creative mode
-            if (!entityPlayer.capabilities.isCreativeMode) {
+            if (!entityPlayer.isCreative) {
                 // Create a list of effect indices
                 val effectIndices = possibleEffects.indices.shuffled()
                 // Apply 3 random bad potion effects
@@ -381,10 +382,10 @@ class EnariaAttacks(private val enaria: EntityEnaria, private val random: Random
      *
      * @param particlePacket The packet to send to everyone in the fight
      */
-    private fun summonParticles(particlePacket: SyncParticle) {
-        AfraidOfTheDark.INSTANCE.packetHandler.sendToAllAround(
+    private fun summonParticles(particlePacket: ParticlePacket) {
+        AfraidOfTheDark.packetHandler.sendToAllAround(
             particlePacket,
-            TargetPoint(enaria.dimension, enaria.posX, enaria.posY, enaria.posZ, 100.0)
+            PacketDistributor.TargetPoint(enaria.posX, enaria.posY, enaria.posZ, 100.0, enaria.dimension)
         )
     }
 

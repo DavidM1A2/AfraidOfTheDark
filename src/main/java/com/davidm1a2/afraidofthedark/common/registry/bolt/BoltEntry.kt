@@ -5,7 +5,7 @@ import com.davidm1a2.afraidofthedark.common.registry.research.Research
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.Item
 import net.minecraft.world.World
-import net.minecraftforge.registries.IForgeRegistryEntry
+import net.minecraftforge.registries.ForgeRegistryEntry
 
 /**
  * Base class for all bolt entries, bolt entries are used to define new bolt item/entity/research/name types
@@ -19,11 +19,11 @@ abstract class BoltEntry constructor(
     val boltItem: Item,
     val boltEntityFactory: (World, EntityPlayer) -> EntityBolt,
     val preRequisite: Research?
-) : IForgeRegistryEntry.Impl<BoltEntry>() {
+) : ForgeRegistryEntry<BoltEntry>() {
     /**
      * @return The unlocalized name of the bolt entry
      */
     fun getUnlocalizedName(): String {
-        return "bolt_entry.${registryName!!.resourceDomain}:${registryName!!.resourcePath}.name"
+        return "bolt_entry.${registryName.toString()}.name"
     }
 }

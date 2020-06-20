@@ -7,4 +7,4 @@ import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
  *
  * @constructor initializes the item name
  */
-class ItemMysticOpal : AOTDItem("mystic_opal")
+class ItemMysticOpal : AOTDItem("mystic_opal", Properties())

@@ -43,11 +43,11 @@ class AOTDGuiResearchNodeButton(x: Int, y: Int, val research: Research) : AOTDGu
             super.draw()
 
             // Ensure our color is white to draw with
-            GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f)
+            GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f)
             GlStateManager.enableBlend()
 
             // Draw the researches icon on the button
-            Minecraft.getMinecraft().textureManager.bindTexture(this.research.icon)
+            Minecraft.getInstance().textureManager.bindTexture(this.research.icon)
             Gui.drawScaledCustomSizeModalRect(
                 this.getXScaled(),
                 this.getYScaled(),
@@ -63,7 +63,7 @@ class AOTDGuiResearchNodeButton(x: Int, y: Int, val research: Research) : AOTDGu
 
             // If the player has not researched the research then show the question mark over top
             if (!playerResearch.isResearched(this.research)) {
-                Minecraft.getMinecraft().textureManager.bindTexture(UNKNOWN_RESEARCH)
+                Minecraft.getInstance().textureManager.bindTexture(UNKNOWN_RESEARCH)
                 Gui.drawScaledCustomSizeModalRect(
                     this.getXScaled(),
                     this.getYScaled(),
@@ -95,18 +95,18 @@ class AOTDGuiResearchNodeButton(x: Int, y: Int, val research: Research) : AOTDGu
 
             // If the research is researched show the name of the research when hovered
             if (playerResearch.isResearched(this.research)) {
-                fontRenderer.drawString(I18n.format(research.getUnlocalizedName()), mouseX + 5, mouseY, 0xFF3399)
+                fontRenderer.drawString(I18n.format(research.getUnlocalizedName()), mouseX + 5f, mouseY.toFloat(), 0xFF3399)
                 fontRenderer.drawString(
                     "${ChatFormatting.ITALIC}${I18n.format(this.research.getUnlocalizedTooltip())}",
-                    mouseX + 7,
-                    mouseY + 10,
+                    mouseX + 7f,
+                    mouseY + 10f,
                     0xE62E8A
                 )
             }
             // If the research can be researched show a ? and unknown research when hovered
             else if (playerResearch.canResearch(this.research)) {
-                fontRenderer.drawString("?", mouseX + 5, mouseY, 0xFF3399)
-                fontRenderer.drawString("${ChatFormatting.ITALIC}Unknown Research", mouseX + 7, mouseY + 10, 0xE62E8A)
+                fontRenderer.drawString("?", mouseX + 5f, mouseY.toFloat(), 0xFF3399)
+                fontRenderer.drawString("${ChatFormatting.ITALIC}Unknown Research", mouseX + 7f, mouseY + 10f, 0xE62E8A)
             }
         }
     }

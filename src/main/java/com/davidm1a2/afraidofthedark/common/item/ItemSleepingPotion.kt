@@ -12,22 +12,22 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.EnumActionResult
 import net.minecraft.util.EnumHand
 import net.minecraft.world.World
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 
 /**
  * Potion that gives you the drowsy potion effect
  *
  * @constructor sets the item name
  */
-class ItemSleepingPotion : AOTDItem("sleeping_potion") {
+class ItemSleepingPotion : AOTDItem("sleeping_potion", Properties()) {
     /**
      * It takes 32 ticks to drink the potion
      *
      * @param stack The item stack being drunk
      * @return The number of ticks to drink the potion
      */
-    override fun getMaxItemUseDuration(stack: ItemStack): Int {
+    override fun getUseDuration(stack: ItemStack): Int {
         return 32
     }
 
@@ -37,7 +37,7 @@ class ItemSleepingPotion : AOTDItem("sleeping_potion") {
      * @param stack The item stack
      * @return True since the potion has the 'enchanted' look
      */
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     override fun hasEffect(stack: ItemStack): Boolean {
         return true
     }
@@ -48,7 +48,7 @@ class ItemSleepingPotion : AOTDItem("sleeping_potion") {
      * @param stack The item stack being drunk
      * @return DRINK since this is a potion
      */
-    override fun getItemUseAction(stack: ItemStack): EnumAction {
+    override fun getUseAction(stack: ItemStack): EnumAction {
         return EnumAction.DRINK
     }
 
@@ -80,7 +80,7 @@ class ItemSleepingPotion : AOTDItem("sleeping_potion") {
             if (entityLiving is EntityPlayer) {
                 entityLiving.addPotionEffect(PotionEffect(ModPotions.SLEEPING_POTION, 4800, 0, false, true))
                 // If the player is not in creative mode reduce the bottle stack size by 1 and return the bottle
-                if (!entityLiving.capabilities.isCreativeMode) {
+                if (!entityLiving.isCreative) {
                     stack.shrink(1)
                     // If the stack is empty return a glass bottle, otherwise add a glass bottle to the player's inventory
                     if (stack.isEmpty) {

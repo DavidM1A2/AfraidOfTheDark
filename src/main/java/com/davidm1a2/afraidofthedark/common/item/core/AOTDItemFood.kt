@@ -14,15 +14,15 @@ abstract class AOTDItemFood(
     baseName: String,
     foodAmount: Int,
     saturation: Float,
+    properties: Properties,
     isWolfFood: Boolean = false,
     displayInCreative: Boolean = true
-) : ItemFood(foodAmount, saturation, isWolfFood) {
+) : ItemFood(foodAmount, saturation, isWolfFood, properties.apply {
+    if (displayInCreative) {
+        group(Constants.AOTD_CREATIVE_TAB)
+    }
+}) {
     init {
-        unlocalizedName = "${Constants.MOD_ID}:$baseName"
         this.setRegistryName("${Constants.MOD_ID}:$baseName")
-
-        if (displayInCreative) {
-            this.creativeTab = Constants.AOTD_CREATIVE_TAB
-        }
     }
 }

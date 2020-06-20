@@ -7,4 +7,4 @@ import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
  *
  * @constructor sets the item name
  */
-class ItemStarMetalPlate : AOTDItem("star_metal_plate")
+class ItemStarMetalPlate : AOTDItem("star_metal_plate", Properties())

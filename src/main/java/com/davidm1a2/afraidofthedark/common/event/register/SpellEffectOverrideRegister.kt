@@ -132,7 +132,7 @@ object SpellEffectOverrideRegister {
 
                         // Pick a random spot in the AOE to teleport to, try 20 times to find an air space
                         for (i in 0..19) {
-                            val teleportPos = center.addVector(
+                            val teleportPos = center.add(
                                 Random.nextDouble(radius * 2) - radius,
                                 Random.nextDouble(radius * 2) - radius,
                                 Random.nextDouble(radius * 2) - radius
@@ -148,7 +148,7 @@ object SpellEffectOverrideRegister {
                                     teleportPos.x,
                                     teleportPos.y,
                                     teleportPos.z,
-                                    SoundEvents.ENTITY_ENDERMEN_TELEPORT,
+                                    SoundEvents.ENTITY_ENDERMAN_TELEPORT,
                                     SoundCategory.PLAYERS,
                                     2.5f,
                                     1.0f
@@ -162,7 +162,7 @@ object SpellEffectOverrideRegister {
                                     teleportPos.x,
                                     teleportPos.y,
                                     teleportPos.z,
-                                    SoundEvents.ENTITY_ENDERMEN_TELEPORT,
+                                    SoundEvents.ENTITY_ENDERMAN_TELEPORT,
                                     SoundCategory.PLAYERS,
                                     2.5f,
                                     1.0f
@@ -211,7 +211,7 @@ object SpellEffectOverrideRegister {
                             for (z in -blockRadius until blockRadius + 1) {
                                 // Grab the block position at the xyz position
                                 val blockLocation = centerBlockPosition.add(x, y, z)
-                                val location = centerPosition.addVector(x.toDouble(), y.toDouble(), z.toDouble())
+                                val location = centerPosition.add(x.toDouble(), y.toDouble(), z.toDouble())
 
                                 // Get the distance from the center to the location
                                 val distance = centerPosition.distanceTo(location)
@@ -229,7 +229,7 @@ object SpellEffectOverrideRegister {
                                             1,
                                             3,
                                             location,
-                                            state.world.provider.dimension
+                                            state.world.dimension.type
                                         )
                                     }
                                 }

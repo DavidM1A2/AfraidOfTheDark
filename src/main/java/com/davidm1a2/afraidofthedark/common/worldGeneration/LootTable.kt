@@ -24,7 +24,7 @@ class LootTable(private val itemToLootTable: Map<Item?, ResourceLocation>) {
             if (!stackInSlot.isEmpty && itemToLootTable.containsKey(stackInSlot.item)) {
                 // Clear the chest's inventory and update the loot table. Then return since we're done
                 chest.clear()
-                chest.setLootTable(itemToLootTable[stackInSlot.item]!!, chest.world.rand.nextLong())
+                chest.setLootTable(itemToLootTable[stackInSlot.item]!!, chest.world!!.rand.nextLong())
                 return
             }
         }
@@ -32,7 +32,7 @@ class LootTable(private val itemToLootTable: Map<Item?, ResourceLocation>) {
         // No item matched the loot table, so attempt to use the default loot table with key = null
         if (itemToLootTable.containsKey(null)) {
             chest.clear()
-            chest.setLootTable(itemToLootTable[null]!!, chest.world.rand.nextLong())
+            chest.setLootTable(itemToLootTable[null]!!, chest.world!!.rand.nextLong())
         }
     }
 }

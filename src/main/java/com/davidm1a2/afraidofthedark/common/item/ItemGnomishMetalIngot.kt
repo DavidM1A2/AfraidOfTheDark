@@ -7,4 +7,4 @@ import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
  *
  * @constructor just calls super with the name
  */
-class ItemGnomishMetalIngot : AOTDItem("gnomish_metal_ingot")
+class ItemGnomishMetalIngot : AOTDItem("gnomish_metal_ingot", Properties())

@@ -2,7 +2,7 @@ package com.davidm1a2.afraidofthedark.common.worldGeneration.schematic
 
 import com.davidm1a2.afraidofthedark.common.worldGeneration.LootTable
 import com.davidm1a2.afraidofthedark.common.worldGeneration.WorldGenFast
-import net.minecraft.entity.EntityList
+import net.minecraft.entity.EntityType
 import net.minecraft.init.Blocks
 import net.minecraft.tileentity.TileEntity
 import net.minecraft.tileentity.TileEntityChest
@@ -16,64 +16,6 @@ import java.util.*
  * Class used to generate schematics
  */
 object SchematicGenerator {
-    // A massive set of blocks that need to "be placed on" another block so we generate them after the solid blocks
-    private val PHASE_2_BLOCKS = setOf(
-        Blocks.SAPLING,
-        Blocks.BED,
-        Blocks.RAIL,
-        Blocks.ACTIVATOR_RAIL,
-        Blocks.DETECTOR_RAIL,
-        Blocks.GOLDEN_RAIL,
-        Blocks.DEADBUSH,
-        Blocks.TALLGRASS,
-        Blocks.YELLOW_FLOWER,
-        Blocks.RED_FLOWER,
-        Blocks.BROWN_MUSHROOM,
-        Blocks.RED_MUSHROOM,
-        Blocks.TORCH,
-        Blocks.FIRE,
-        Blocks.REDSTONE_WIRE,
-        Blocks.WHEAT,
-        Blocks.STANDING_SIGN,
-        Blocks.WALL_SIGN,
-        Blocks.LADDER,
-        Blocks.LEVER,
-        Blocks.STONE_PRESSURE_PLATE,
-        Blocks.IRON_DOOR,
-        Blocks.WOODEN_PRESSURE_PLATE,
-        Blocks.REDSTONE_TORCH,
-        Blocks.UNLIT_REDSTONE_TORCH,
-        Blocks.STONE_BUTTON,
-        Blocks.CACTUS,
-        Blocks.REEDS,
-        Blocks.POWERED_REPEATER,
-        Blocks.UNPOWERED_REPEATER,
-        Blocks.PUMPKIN_STEM,
-        Blocks.MELON_STEM,
-        Blocks.VINE,
-        Blocks.WATERLILY,
-        Blocks.NETHER_WART,
-        Blocks.DRAGON_EGG,
-        Blocks.COCOA,
-        Blocks.TRIPWIRE_HOOK,
-        Blocks.TRIPWIRE,
-        Blocks.CARROTS,
-        Blocks.POTATOES,
-        Blocks.WOODEN_BUTTON,
-        Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE,
-        Blocks.HEAVY_WEIGHTED_PRESSURE_PLATE,
-        Blocks.CARPET,
-        Blocks.DOUBLE_PLANT,
-        Blocks.STANDING_BANNER,
-        Blocks.WALL_BANNER,
-        Blocks.SPRUCE_DOOR,
-        Blocks.BIRCH_DOOR,
-        Blocks.JUNGLE_DOOR,
-        Blocks.ACACIA_DOOR,
-        Blocks.DARK_OAK_DOOR,
-        Blocks.BEETROOTS
-    )
-
     /**
      * Generates a specific chunk of a schematic in a world at a specific block position without loot
      *
@@ -175,6 +117,7 @@ object SchematicGenerator {
                             // Set the block to air
                             WorldGenFast.setBlockStateFast(world, position, Blocks.AIR.defaultState, setBlockFlags)
                         } else {
+                            /*
                             // If we can generate this block now do so
                             if (!PHASE_2_BLOCKS.contains(nextToPlace)) {
                                 // Grab the blockstate to place
@@ -186,6 +129,7 @@ object SchematicGenerator {
                                 phase2Blocks.add(index)
                                 phase2Positions.add(position)
                             }
+                             */
                         }
                     }
                 }
@@ -197,6 +141,7 @@ object SchematicGenerator {
         ///
 
         for (i in phase2Blocks.indices) {
+            /*
             // Grab our stored off block index and blockpos
             val index = phase2Blocks[i]
             val position = phase2Positions[i]
@@ -207,6 +152,7 @@ object SchematicGenerator {
 
             // Set the block
             WorldGenFast.setBlockStateFast(world, position, blockState, setBlockFlags)
+             */
         }
     }
 
@@ -229,13 +175,15 @@ object SchematicGenerator {
         // Get the list of tile entities inside this schematic
         val tileEntities = schematic.getTileEntities()
         // Iterate over each tile entity
-        for (i in 0 until tileEntities.tagCount()) {
+        for (i in 0 until tileEntities.size) {
             // Grab the compound that represents this tile entity
-            val tileEntityCompound = tileEntities.getCompoundTagAt(i)
+            val tileEntityCompound = tileEntities.getCompound(i)
             // Instantiate the tile entity object from the compound
-            val tileEntity = TileEntity.create(world, tileEntityCompound)
+            val tileEntity = TileEntity.create(tileEntityCompound)
             // If the entity is valid, continue...
             if (tileEntity != null) {
+                // Set the world
+                tileEntity.world = world
                 // Get the X, Y, and Z coordinates of this entity if instantiated inside the world
                 val tileEntityPosition = tileEntity.pos.add(blockPos)
 
@@ -269,12 +217,12 @@ object SchematicGenerator {
         val entities = schematic.getEntities()
 
         // Iterate over each entity
-        for (i in 0 until entities.tagCount()) {
+        for (i in 0 until entities.size) {
             // Grab the compound that represents this entity
-            val entityCompound = entities.getCompoundTagAt(i)
+            val entityCompound = entities.getCompound(i)
 
             // Instantiate the entity object from the compound
-            val entity = EntityList.createEntityFromNBT(entityCompound, world)
+            val entity = EntityType.create(entityCompound, world)
 
             // If the entity is valid, continue...
             if (entity != null) {
