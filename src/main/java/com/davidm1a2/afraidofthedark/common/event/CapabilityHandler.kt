@@ -1,24 +1,12 @@
 package com.davidm1a2.afraidofthedark.common.event
 
 import com.davidm1a2.afraidofthedark.common.capabilities.*
-import com.davidm1a2.afraidofthedark.common.capabilities.player.basics.AOTDPlayerBasicsImpl
-import com.davidm1a2.afraidofthedark.common.capabilities.player.basics.AOTDPlayerBasicsStorage
-import com.davidm1a2.afraidofthedark.common.capabilities.player.basics.IAOTDPlayerBasics
-import com.davidm1a2.afraidofthedark.common.capabilities.player.dimension.*
-import com.davidm1a2.afraidofthedark.common.capabilities.player.research.AOTDPlayerResearchImpl
-import com.davidm1a2.afraidofthedark.common.capabilities.player.research.AOTDPlayerResearchStorage
-import com.davidm1a2.afraidofthedark.common.capabilities.player.research.IAOTDPlayerResearch
-import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.AOTDPlayerSpellManagerImpl
-import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.AOTDPlayerSpellManagerStorage
-import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.IAOTDPlayerSpellManager
-import com.davidm1a2.afraidofthedark.common.capabilities.player.spell.component.*
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.ResourceLocation
-import net.minecraftforge.common.capabilities.CapabilityManager
 import net.minecraftforge.event.AttachCapabilitiesEvent
 import net.minecraftforge.event.entity.EntityJoinWorldEvent
 import net.minecraftforge.event.entity.player.PlayerEvent.Clone
@@ -28,44 +16,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent
  * Class used to register all of our mod capabilities
  */
 class CapabilityHandler {
-    /**
-     * Called to initialize all of our mod capabilities into the capability manager if it was not already initialized
-     */
-    init {
-        // If the capability manager was not initialized initialize it
-        if (!wasInitialized) {
-            CapabilityManager.INSTANCE.register(
-                IAOTDPlayerBasics::class.java,
-                AOTDPlayerBasicsStorage()
-            ) { AOTDPlayerBasicsImpl() }
-            CapabilityManager.INSTANCE.register(
-                IAOTDPlayerResearch::class.java,
-                AOTDPlayerResearchStorage()
-            ) { AOTDPlayerResearchImpl() }
-            CapabilityManager.INSTANCE.register(
-                IAOTDPlayerVoidChestData::class.java,
-                AOTDPlayerVoidChestDataStorage()
-            ) { AOTDPlayerVoidChestDataImpl() }
-            CapabilityManager.INSTANCE.register(
-                IAOTDPlayerNightmareData::class.java,
-                AOTDPlayerNightmareDataStorage()
-            ) { AOTDPlayerNightmareImpl() }
-            CapabilityManager.INSTANCE.register(
-                IAOTDPlayerSpellManager::class.java,
-                AOTDPlayerSpellManagerStorage()
-            ) { AOTDPlayerSpellManagerImpl() }
-            CapabilityManager.INSTANCE.register(
-                IAOTDPlayerSpellFreezeData::class.java,
-                AOTDPlayerSpellFreezeDataStorage()
-            ) { AOTDPlayerSpellFreezeDataImpl() }
-            CapabilityManager.INSTANCE.register(
-                IAOTDPlayerSpellCharmData::class.java,
-                AOTDPlayerSpellCharmDataStorage()
-            ) { AOTDPlayerSpellCharmDataImpl() }
-            wasInitialized = true
-        }
-    }
-
     /**
      * When we get an attach capabilites event we attach our player capabilities
      *
@@ -217,10 +167,5 @@ class CapabilityHandler {
                 originalPlayerSpellManagerNBT
             )
         }
-    }
-
-    companion object {
-        // Store a flag that ensures if we create multiple capability handlers we only initialize once
-        private var wasInitialized = false
     }
 }

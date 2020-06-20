@@ -19,11 +19,15 @@ import java.awt.Color
 class BiomeEerieForest : AOTDBiome(
     "eerie_forest",
     BiomeBuilder()
+        .surfaceBuilder(CompositeSurfaceBuilder(DEFAULT_SURFACE_BUILDER, SurfaceBuilderConfig(GRASS_BLOCK, DIRT, DIRT)))
         .waterColor(0x000099)
         .category(Category.FOREST)
         .depth(0.05f)
         .scale(0.125f)
-        .surfaceBuilder(CompositeSurfaceBuilder(DEFAULT_SURFACE_BUILDER, SurfaceBuilderConfig(GRASS_BLOCK, DIRT, DIRT)))
+        .precipitation(RainType.RAIN)
+        .temperature(0.7f)
+        .downfall(0.8f)
+        .waterFogColor(0x000042)
 ) {
     init {
         addCaves()

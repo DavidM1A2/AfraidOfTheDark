@@ -4,6 +4,7 @@ import com.davidm1a2.afraidofthedark.AfraidOfTheDark.Companion.packetHandler
 import com.davidm1a2.afraidofthedark.client.keybindings.KeyInputEventHandler
 import com.davidm1a2.afraidofthedark.common.command.AOTDCommands
 import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.constants.ModConfigHolder
 import com.davidm1a2.afraidofthedark.common.event.*
 import com.davidm1a2.afraidofthedark.common.event.register.*
@@ -22,6 +23,7 @@ import net.minecraftforge.fml.ModLoadingContext
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.thread.EffectiveSide
 import net.minecraftforge.fml.config.ModConfig
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
@@ -120,6 +122,11 @@ class AfraidOfTheDark {
         proxy.initializeTileEntityRenderers()
         // Register game key bindings
         proxy.registerKeyBindings()
+    }
+
+    @SubscribeEvent
+    fun commonSetupEvent(event: FMLCommonSetupEvent) {
+        ModCapabilities.register()
     }
 
     /**

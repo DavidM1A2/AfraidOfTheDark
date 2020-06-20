@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.item.crossbow
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
+import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.registry.bolt.BoltEntry
@@ -245,6 +246,10 @@ class ItemCrossbow : AOTDItem("crossbow", Properties().maxStackSize(1)) {
      */
     @OnlyIn(Dist.CLIENT)
     override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
+        // Can't add information without registries being initialized
+        if (!ModRegistries.isBoltsInitialized()) {
+            return
+        }
         tooltip.add(TextComponentTranslation(LocalizationConstants.Item.CROSSBOW_TOOLTIP_CHANGE_BOLT))
         tooltip.add(
             TextComponentTranslation(

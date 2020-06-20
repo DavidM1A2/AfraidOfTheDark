@@ -12,10 +12,15 @@ import net.minecraft.world.gen.surfacebuilders.CompositeSurfaceBuilder
 class BiomeVoidChest : AOTDBiome(
     "void_chest",
     BiomeBuilder()
-        .waterColor(0x537B09)
+        .surfaceBuilder(CompositeSurfaceBuilder(NOOP_SURFACE_BUILDER, STONE_STONE_GRAVEL_SURFACE))
+        .waterColor(0x5851C6)
+        .waterFogColor(0x585186)
         .category(Category.NONE)
         .precipitation(RainType.NONE)
-        .surfaceBuilder(CompositeSurfaceBuilder(NOOP_SURFACE_BUILDER, STONE_STONE_GRAVEL_SURFACE))
+        .depth(0.1F)
+        .scale(0.2F)
+        .temperature(0.5F)
+        .downfall(0.5F)
 ) {
     /**
      * No spawns allowed

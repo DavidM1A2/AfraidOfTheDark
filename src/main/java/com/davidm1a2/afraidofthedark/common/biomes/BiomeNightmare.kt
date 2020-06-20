@@ -12,10 +12,15 @@ import net.minecraft.world.gen.surfacebuilders.CompositeSurfaceBuilder
 class BiomeNightmare : AOTDBiome(
     "nightmare",
     BiomeBuilder()
+        .surfaceBuilder(CompositeSurfaceBuilder(NOOP_SURFACE_BUILDER, STONE_STONE_GRAVEL_SURFACE))
         .waterColor(0xFF0000)
+        .waterFogColor(0x980000)
         .category(Category.NONE)
         .precipitation(RainType.NONE)
-        .surfaceBuilder(CompositeSurfaceBuilder(NOOP_SURFACE_BUILDER, STONE_STONE_GRAVEL_SURFACE))
+        .depth(0.1F)
+        .scale(0.2F)
+        .temperature(0.5F)
+        .downfall(0.5F)
 ) {
     /**
      * No spawns allowed
