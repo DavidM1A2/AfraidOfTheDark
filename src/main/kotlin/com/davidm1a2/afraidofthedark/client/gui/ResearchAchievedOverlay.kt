@@ -41,13 +41,13 @@ class ResearchAchievedOverlay : Gui() {
      * Function provided by MC's achievement window to setup the viewport, copied and unmodified
      */
     private fun updateResearchAchievedWindowScale() {
-        GlStateManager.viewport(0, 0, mc.mainWindow.scaledWidth, mc.mainWindow.scaledHeight)
+        GlStateManager.viewport(0, 0, mc.mainWindow.width, mc.mainWindow.height)
         GlStateManager.matrixMode(5889)
         GlStateManager.loadIdentity()
         GlStateManager.matrixMode(5888)
         GlStateManager.loadIdentity()
-        width = mc.mainWindow.width
-        height = mc.mainWindow.height
+        width = mc.mainWindow.scaledWidth
+        height = mc.mainWindow.scaledHeight
         GlStateManager.clear(256)
         GlStateManager.matrixMode(5889)
         GlStateManager.loadIdentity()
