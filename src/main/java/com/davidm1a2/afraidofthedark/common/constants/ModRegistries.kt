@@ -22,12 +22,4 @@ object ModRegistries {
     lateinit var SPELL_POWER_SOURCES: IForgeRegistry<SpellPowerSource>
     lateinit var SPELL_DELIVERY_METHODS: IForgeRegistry<SpellDeliveryMethod>
     lateinit var SPELL_EFFECTS: IForgeRegistry<SpellEffect>
-
-    fun isResearchInitialized(): Boolean {
-        return ::RESEARCH.isInitialized
-    }
-
-    fun isBoltsInitialized(): Boolean {
-        return ::BOLTS.isInitialized
-    }
 }

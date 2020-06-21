@@ -246,8 +246,8 @@ class ItemCrossbow : AOTDItem("crossbow", Properties().maxStackSize(1)) {
      */
     @OnlyIn(Dist.CLIENT)
     override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<ITextComponent>, flag: ITooltipFlag) {
-        // Can't add information without registries being initialized
-        if (!ModRegistries.isBoltsInitialized()) {
+        if (ModRegistries.BOLTS.isEmpty) {
+            // Skip adding information before the bolts registry is initialized
             return
         }
         tooltip.add(TextComponentTranslation(LocalizationConstants.Item.CROSSBOW_TOOLTIP_CHANGE_BOLT))

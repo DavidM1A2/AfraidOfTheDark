@@ -32,17 +32,13 @@ class ItemResearchScroll : AOTDItem("research_scroll", Properties()) {
      * @param items The sub-items
      */
     override fun fillItemGroup(group: ItemGroup, items: NonNullList<ItemStack>) {
-        if (ModRegistries.isResearchInitialized()) {
-            if (isInGroup(group)) {
-                // Add one itemstack for each research
-                for (research in ModRegistries.RESEARCH) {
-                    val itemStack = ItemStack(this, 1)
-                    setScrollResearch(itemStack, research)
-                    items.add(itemStack)
-                }
+        if (isInGroup(group)) {
+            // Add one itemstack for each research
+            for (research in ModRegistries.RESEARCH) {
+                val itemStack = ItemStack(this, 1)
+                setScrollResearch(itemStack, research)
+                items.add(itemStack)
             }
-        } else {
-            super.fillItemGroup(group, items)
         }
     }
 

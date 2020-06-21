@@ -41,6 +41,8 @@ class AfraidOfTheDark {
         val eventBus = FMLJavaModLoadingContext.get().modEventBus
         val context = ModLoadingContext.get()
 
+        // Register our registry register
+        eventBus.register(RegistryRegister())
         // If any changes in the config are detected, we trigger an event that we listen to here
         eventBus.register(ConfigurationHandler())
         // Register our block handler used to add all of our blocks to the game

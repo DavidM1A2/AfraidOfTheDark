@@ -2,7 +2,7 @@
   "x": -1,
   "y": 0,
   "recipes": [
-    "minecraft:dye"
+    "minecraft:bone_meal"
   ],
   "preRecipes": [],
   "icon": "afraidofthedark:textures/gui/research_icons/enchanted_skeleton.png"

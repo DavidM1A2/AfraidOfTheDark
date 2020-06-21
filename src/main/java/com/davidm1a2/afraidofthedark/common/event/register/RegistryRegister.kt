@@ -12,22 +12,18 @@ import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.Struc
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.event.RegistryEvent.NewRegistry
 import net.minecraftforge.eventbus.api.SubscribeEvent
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber
 import net.minecraftforge.registries.RegistryBuilder
 
 /**
- * Class used to register any custom registries we are using. Because registry registering happens before
- * pre-initialization, we must mark this class as being a mod event bus subscriber
+ * Class used to register any custom registries we are using
  */
-@EventBusSubscriber(modid = Constants.MOD_ID)
-object RegistryRegister {
+class RegistryRegister {
     /**
      * Called to add any custom new registries to the game. This must be static in order for the event
      * bus subscriber annotation to fire and add our custom registry
      *
      * @param event The event specifying we can now add new registries into the game
      */
-    @JvmStatic
     @SubscribeEvent
     @Suppress("UNUSED_PARAMETER")
     fun registryRegister(event: NewRegistry) {
