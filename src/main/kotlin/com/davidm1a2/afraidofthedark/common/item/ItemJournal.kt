@@ -1,9 +1,12 @@
 package com.davidm1a2.afraidofthedark.common.item
 
+import com.davidm1a2.afraidofthedark.client.gui.guiScreens.BloodStainedJournalResearchGUI
+import com.davidm1a2.afraidofthedark.client.gui.guiScreens.BloodStainedJournalSignGUI
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
+import net.minecraft.client.Minecraft
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemGroup
@@ -48,11 +51,11 @@ class ItemJournal : AOTDItem("journal", Properties().maxStackSize(1)) {
 
                 // Show the journal UI
                 if (world.isRemote) {
-                    // player.openGui(if (isCheatSheet) AOTDGuiHandler.BLOOD_STAINED_JOURNAL_CHEAT_SHEET else AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID)
+                    Minecraft.getInstance().displayGuiScreen(BloodStainedJournalResearchGUI(isCheatSheet))
                 }
             } else {
                 if (world.isRemote) {
-                    // player.openGui(AOTDGuiHandler.BLOOD_STAINED_JOURNAL_SIGN_ID)
+                    Minecraft.getInstance().displayGuiScreen(BloodStainedJournalSignGUI())
                 }
             }
         }
@@ -61,13 +64,13 @@ class ItemJournal : AOTDItem("journal", Properties().maxStackSize(1)) {
             // If the player has started AOTD show the journal UI
             if (player.getBasics().startedAOTD) {
                 if (world.isRemote) {
-                    // player.openGui(if (isCheatSheet) AOTDGuiHandler.BLOOD_STAINED_JOURNAL_CHEAT_SHEET else AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID)
+                    Minecraft.getInstance().displayGuiScreen(BloodStainedJournalResearchGUI(isCheatSheet))
                 }
             }
             // If the player has not started AOTD show the sign UI and clear the owner
             else {
                 if (world.isRemote) {
-                    // player.openGui(AOTDGuiHandler.BLOOD_STAINED_JOURNAL_SIGN_ID)
+                    Minecraft.getInstance().displayGuiScreen(BloodStainedJournalSignGUI())
                 }
                 setOwner(heldItemStack, null)
             }

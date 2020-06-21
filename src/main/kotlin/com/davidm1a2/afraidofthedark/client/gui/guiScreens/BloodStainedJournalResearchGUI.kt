@@ -16,6 +16,8 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
+import net.minecraft.client.Minecraft
+import net.minecraft.client.resources.I18n
 import net.minecraft.util.ResourceLocation
 import java.awt.Color
 
@@ -113,13 +115,23 @@ class BloodStainedJournalResearchGUI(isCheatSheet: Boolean) : AOTDGuiClickAndDra
                         val research = current.research
                         // If this isn't a cheat sheet open the research page
                         if (!isCheatSheet) {
-                            // Store the selected research
-                            ClientData.lastSelectedResearch = research
                             // If the research is researched show the page UI, otherwise show the pre-page UI
                             if (playerResearch.isResearched(research)) {
-                                //entityPlayer.openGui(AOTDGuiHandler.BLOOD_STAINED_JOURNAL_PAGE_ID)
+                                Minecraft.getInstance().displayGuiScreen(
+                                    BloodStainedJournalPageGUI(
+                                        I18n.format(research.getUnlocalizedText()),
+                                        I18n.format(research.getUnlocalizedName()),
+                                        research.researchedRecipes
+                                    )
+                                )
                             } else if (research.preRequisite != null && playerResearch.isResearched(research.preRequisite)) {
-                                //entityPlayer.openGui(AOTDGuiHandler.BLOOD_STAINED_JOURNAL_PAGE_PRE_ID)
+                                Minecraft.getInstance().displayGuiScreen(
+                                    BloodStainedJournalPageGUI(
+                                        I18n.format(research.getUnlocalizedPreText()),
+                                        "???",
+                                        research.preResearchedRecipes
+                                    )
+                                )
                             }
                         } else {
                             // If this research can be researched unlock it

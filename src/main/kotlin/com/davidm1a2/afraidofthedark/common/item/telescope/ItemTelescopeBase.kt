@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.item.telescope
 
+import com.davidm1a2.afraidofthedark.client.gui.guiScreens.TelescopeGUI
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
@@ -69,7 +70,7 @@ abstract class ItemTelescopeBase(val accuracy: Int, name: String) : AOTDItem(nam
         // Don't print anything out client side since the server side takes care of that for us
         if (world.isRemote && highEnough) {
             if (playerResearch.isResearched(research)) {
-                // player.openGui(AOTDGuiHandler.TELESCOPE_ID)
+                Minecraft.getInstance().displayGuiScreen(TelescopeGUI())
             }
         }
         return ActionResult.newResult(EnumActionResult.SUCCESS, itemStack)

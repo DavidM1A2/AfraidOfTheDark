@@ -12,6 +12,7 @@ import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
+import net.minecraft.client.Minecraft
 import java.io.IOException
 
 /**
@@ -143,7 +144,7 @@ class SpellCraftingGUI(spell: Spell) : AOTDGuiScreen() {
         // If the inventory key closes the ui and is pressed open the spell list UI
         if (tablet.inventoryKeyClosesUI() && scroll.inventoryKeyClosesUI()) {
             if (inventoryKeybindPressed()) {
-                //entityPlayer.openGui(AOTDGuiHandler.SPELL_LIST_ID)
+                Minecraft.getInstance().displayGuiScreen(SpellListGUI())
             }
         }
 

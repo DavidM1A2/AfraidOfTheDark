@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.item.telescope
 
+import com.davidm1a2.afraidofthedark.client.gui.guiScreens.TelescopeGUI
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModResearches
@@ -46,7 +47,7 @@ class ItemTelescope : ItemTelescopeBase(130, "telescope") {
         // Also allow showing the gui if the player can research the telescope research
         if (world.isRemote && highEnough) {
             if (playerResearch.canResearch(getRequiredResearch())) {
-                // player.openGui(AOTDGuiHandler.TELESCOPE_ID)
+                Minecraft.getInstance().displayGuiScreen(TelescopeGUI())
             }
         }
 

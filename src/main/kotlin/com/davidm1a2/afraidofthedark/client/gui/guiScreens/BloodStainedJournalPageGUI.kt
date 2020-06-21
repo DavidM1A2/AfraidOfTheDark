@@ -8,6 +8,7 @@ import com.davidm1a2.afraidofthedark.client.gui.standardControls.*
 import com.davidm1a2.afraidofthedark.client.settings.ClientData
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
+import net.minecraft.client.Minecraft
 import net.minecraft.item.Item
 import net.minecraft.item.crafting.IRecipe
 import org.lwjgl.glfw.GLFW
@@ -132,7 +133,7 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
         bookmarkButton.addMouseListener {
             if (it.eventType == AOTDMouseEvent.EventType.Click) {
                 if (it.source.isHovered && it.clickedButton == AOTDMouseEvent.LEFT_MOUSE_BUTTON) {
-                    //entityPlayer.openGui(AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID)
+                    Minecraft.getInstance().displayGuiScreen(BloodStainedJournalResearchGUI(false))
                 }
             }
         }
@@ -346,7 +347,7 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
     override fun charTyped(character: Char, keyCode: Int): Boolean {
         // If we press our inventory button close the UI and go to the journal UI
         if (inventoryKeybindPressed()) {
-            //entityPlayer.openGui(AOTDGuiHandler.BLOOD_STAINED_JOURNAL_ID)
+            Minecraft.getInstance().displayGuiScreen(BloodStainedJournalResearchGUI(false))
         } else if (character == 'a' || character == 'A' || keyCode == GLFW.GLFW_KEY_LEFT) {
             rewindPage()
         } else if (character == 'd' || character == 'D' || keyCode == GLFW.GLFW_KEY_RIGHT) {
