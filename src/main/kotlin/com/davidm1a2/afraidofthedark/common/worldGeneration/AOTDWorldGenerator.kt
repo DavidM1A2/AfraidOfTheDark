@@ -1,19 +1,14 @@
 package com.davidm1a2.afraidofthedark.common.worldGeneration
 
 import com.davidm1a2.afraidofthedark.common.capabilities.world.StructurePlan
-import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import net.minecraft.util.math.ChunkPos
-import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.world.World
 import net.minecraft.world.chunk.IChunkProvider
-import net.minecraft.world.dimension.DimensionType
 import net.minecraft.world.gen.IChunkGenerator
 import net.minecraftforge.event.world.WorldEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.IWorldGenerator
-import net.minecraftforge.fml.common.gameevent.TickEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent
-import net.minecraftforge.fml.server.ServerLifecycleHooks
 import java.util.*
 import java.util.concurrent.ConcurrentLinkedQueue
 
@@ -68,6 +63,7 @@ class AOTDWorldGenerator : IWorldGenerator {
     fun onServerTick(event: ServerTickEvent) {
         // We can assume event.type == Type.SERVER and event.side == Side.SERVER because we are listening to the ServerTickEvent
         // Ensure phase is tick start to perform the generation
+        /*
         if (event.phase == TickEvent.Phase.START) {
             // Test if we have a chunk to generate
             if (chunksThatNeedGeneration.isNotEmpty()) {
@@ -79,6 +75,7 @@ class AOTDWorldGenerator : IWorldGenerator {
                 this.generate(world, chunkToGenerate)
             }
         }
+         */
     }
 
     /**
@@ -89,6 +86,7 @@ class AOTDWorldGenerator : IWorldGenerator {
     @SubscribeEvent
     fun onWorldSave(event: WorldEvent.Save) {
         // Overworld only
+        /*
         if (!event.world.isRemote && event.world.dimension.type == DimensionType.OVERWORLD) {
             // Perform some finalization if we need to generate some chunks
             if (!chunksThatNeedGeneration.isEmpty()) {
@@ -103,6 +101,7 @@ class AOTDWorldGenerator : IWorldGenerator {
                 }
             }
         }
+         */
     }
 
     /**

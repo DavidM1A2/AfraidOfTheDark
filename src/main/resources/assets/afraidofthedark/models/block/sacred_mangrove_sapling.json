@@ -1,6 +1,6 @@
 {
   "parent": "block/cross",
   "textures": {
-    "cross": "afraidofthedark:blocks/sacred_mangrove_sapling"
+    "cross": "afraidofthedark:block/sacred_mangrove_sapling"
   }
 }

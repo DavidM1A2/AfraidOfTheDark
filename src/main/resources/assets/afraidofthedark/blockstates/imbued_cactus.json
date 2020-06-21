@@ -1,25 +1,7 @@
 {
   "variants": {
-    "inventory": {
-      "model": "afraidofthedark:imbued_cactus"
-    },
-    "age=0": {
-      "model": "afraidofthedark:imbued_cactus"
-    },
-    "age=1": {
-      "model": "afraidofthedark:imbued_cactus"
-    },
-    "age=2": {
-      "model": "afraidofthedark:imbued_cactus"
-    },
-    "age=3": {
-      "model": "afraidofthedark:imbued_cactus"
-    },
-    "age=4": {
-      "model": "afraidofthedark:imbued_cactus"
-    },
-    "age=5": {
-      "model": "afraidofthedark:imbued_cactus"
+    "": {
+      "model": "afraidofthedark:block/imbued_cactus"
     }
   }
 }

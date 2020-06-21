@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "afraidofthedark:blocks/sunstone_ore"
+    "all": "afraidofthedark:block/sunstone_ore"
   }
 }

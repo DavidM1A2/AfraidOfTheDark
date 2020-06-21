@@ -13,8 +13,7 @@
       "item": "minecraft:iron_ingot"
     },
     "P": {
-      "item": "minecraft:planks",
-      "data": 0
+      "item": "minecraft:oak_planks"
     },
     "S": {
       "item": "minecraft:string"

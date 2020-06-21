@@ -16,6 +16,14 @@ object KeybindingUtils {
         GLFW.GLFW_KEY_LEFT_SHIFT,
         GLFW.GLFW_KEY_RIGHT_SHIFT
     )
+    private val UNBINDABLE_KEY_NAMES = mapOf(
+        GLFW.GLFW_KEY_LEFT_SUPER to "Left Super",
+        GLFW.GLFW_KEY_RIGHT_SUPER to "Right Super",
+        GLFW.GLFW_KEY_LEFT_CONTROL to "Left Control",
+        GLFW.GLFW_KEY_RIGHT_CONTROL to "Right Control",
+        GLFW.GLFW_KEY_LEFT_SHIFT to "Left Shift",
+        GLFW.GLFW_KEY_RIGHT_SHIFT to "Right Shift"
+    )
 
     // Unbindable key scan codes
     private val UNBINDABLE_KEY_SCANCODES = UNBINDABLE_KEYS.map {
@@ -44,13 +52,15 @@ object KeybindingUtils {
             // If they are down then append the key to the string
             if (GLFW.glfwGetKey(Minecraft.getInstance().mainWindow.handle, unbindableKeyCode) == GLFW.GLFW_PRESS) {
                 // Append the key and a + symbol
-                keybindString.append(GLFW.glfwGetKeyName(unbindableKeyCode, UNBINDABLE_KEY_SCANCODES[unbindableKeyCode]!!)!!.toUpperCase()).append("+")
+                keybindString.append(UNBINDABLE_KEY_NAMES[unbindableKeyCode]!!.toUpperCase()).append("+")
             }
         }
 
         // Finally append the key pressed
-        val keyName = GLFW.glfwGetKeyName(keyCode, scanCode)!!.toUpperCase()
-        keybindString.append(keyName)
+        val keyName = GLFW.glfwGetKeyName(keyCode, scanCode)
+        if (keyName != null) {
+            keybindString.append(keyName.toUpperCase())
+        }
 
         // Return the keybinding string
         return keybindString.toString()

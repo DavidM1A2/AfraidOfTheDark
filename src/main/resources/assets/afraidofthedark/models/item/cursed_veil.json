@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "afraidofthedark:items/cursed_veil"
+    "layer0": "afraidofthedark:item/cursed_veil"
   }
 }

@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "afraidofthedark:blocks/dark_forest"
+    "all": "afraidofthedark:block/dark_forest"
   }
 }

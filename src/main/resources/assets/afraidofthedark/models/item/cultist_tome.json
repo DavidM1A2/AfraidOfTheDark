@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "afraidofthedark:items/cultist_tome"
+    "layer0": "afraidofthedark:item/cultist_tome"
   }
 }

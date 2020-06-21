@@ -1,19 +1,7 @@
 {
   "variants": {
-    "inventory": {
-      "model": "afraidofthedark:void_chest"
-    },
-    "facing=west": {
-      "model": "afraidofthedark:void_chest"
-    },
-    "facing=south": {
-      "model": "afraidofthedark:void_chest"
-    },
-    "facing=north": {
-      "model": "afraidofthedark:void_chest"
-    },
-    "facing=east": {
-      "model": "afraidofthedark:void_chest"
+    "": {
+      "model": "afraidofthedark:block/void_chest"
     }
   }
 }

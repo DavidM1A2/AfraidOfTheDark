@@ -1,6 +1,6 @@
 {
   "parent": "block/leaves",
   "textures": {
-    "all": "afraidofthedark:blocks/sacred_mangrove_leaves"
+    "all": "afraidofthedark:block/sacred_mangrove_leaves"
   }
 }

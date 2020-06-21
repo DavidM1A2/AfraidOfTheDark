@@ -1,7 +1,7 @@
 {
   "parent": "block/cube_column",
   "textures": {
-    "side": "afraidofthedark:blocks/gnomish_metal_strut",
-    "end": "afraidofthedark:blocks/gnomish_metal_strut_end"
+    "side": "afraidofthedark:block/gnomish_metal_strut",
+    "end": "afraidofthedark:block/gnomish_metal_strut_end"
   }
 }

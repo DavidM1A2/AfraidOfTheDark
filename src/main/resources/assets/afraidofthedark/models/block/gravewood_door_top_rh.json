@@ -1,7 +1,7 @@
 {
   "parent": "block/door_top_rh",
   "textures": {
-    "bottom": "afraidofthedark:blocks/gravewood_door_lower",
-    "top": "afraidofthedark:blocks/gravewood_door_upper"
+    "bottom": "afraidofthedark:block/gravewood_door_lower",
+    "top": "afraidofthedark:block/gravewood_door_upper"
   }
 }

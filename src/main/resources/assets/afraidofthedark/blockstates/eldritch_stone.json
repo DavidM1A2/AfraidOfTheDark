@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "afraidofthedark:eldritch_stone"
+    "": {
+      "model": "afraidofthedark:block/eldritch_stone"
     }
   }
 }

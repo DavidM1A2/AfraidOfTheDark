@@ -37,6 +37,11 @@ object KeyInputEventHandler {
     @SubscribeEvent
     @Suppress("UNUSED_PARAMETER")
     fun handleKeyInputEvent(event: InputEvent.KeyInputEvent) {
+        // This gets fired in the main menu, so when not in game player is null and we return
+        if (Minecraft.getInstance().player == null) {
+            return
+        }
+
         // Process input
         if (ModKeybindings.FIRE_WRIST_CROSSBOW.isPressed) {
             fireWristCrossbow()

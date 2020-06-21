@@ -50,7 +50,7 @@ class WorldStructurePlanner {
         }
 
         // Generate the structure plan for the chunk
-        planStructuresInChunk(world, chunkX, chunkZ)
+        // planStructuresInChunk(world, chunkX, chunkZ)
     }
 
     /**

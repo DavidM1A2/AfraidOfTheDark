@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "afraidofthedark:blocks/igneous_block"
+    "all": "afraidofthedark:block/igneous_block"
   }
 }

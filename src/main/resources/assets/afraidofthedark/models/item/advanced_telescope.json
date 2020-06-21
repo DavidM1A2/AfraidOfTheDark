@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "afraidofthedark:items/advanced_telescope"
+    "layer0": "afraidofthedark:item/advanced_telescope"
   }
 }

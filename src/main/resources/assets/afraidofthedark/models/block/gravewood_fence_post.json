@@ -1,6 +1,6 @@
 {
   "parent": "block/fence_post",
   "textures": {
-    "texture": "afraidofthedark:blocks/gravewood_planks"
+    "texture": "afraidofthedark:block/gravewood_planks"
   }
 }

@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "afraidofthedark:blocks/enaria_spawner"
+    "all": "afraidofthedark:block/enaria_spawner"
   }
 }

@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "afraidofthedark:igneous_block"
+    "": {
+      "model": "afraidofthedark:block/igneous_block"
     }
   }
 }

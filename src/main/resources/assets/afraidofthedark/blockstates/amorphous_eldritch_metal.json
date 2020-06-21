@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "afraidofthedark:amorphous_eldritch_metal"
+    "": {
+      "model": "afraidofthedark:block/amorphous_eldritch_metal"
     }
   }
 }

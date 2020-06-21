@@ -2,10 +2,10 @@
   "parent": "block/block",
   "ambientocclusion": false,
   "textures": {
-    "particle": "afraidofthedark:blocks/imbued_cactus_side",
-    "bottom": "afraidofthedark:blocks/imbued_cactus_bottom",
-    "top": "afraidofthedark:blocks/imbued_cactus_top",
-    "side": "afraidofthedark:blocks/imbued_cactus_side"
+    "particle": "afraidofthedark:block/imbued_cactus_side",
+    "bottom": "afraidofthedark:block/imbued_cactus_bottom",
+    "top": "afraidofthedark:block/imbued_cactus_top",
+    "side": "afraidofthedark:block/imbued_cactus_side"
   },
   "elements": [
     {

@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "afraidofthedark:blocks/imbued_cactus_blossom"
+    "layer0": "afraidofthedark:block/imbued_cactus_blossom"
   }
 }

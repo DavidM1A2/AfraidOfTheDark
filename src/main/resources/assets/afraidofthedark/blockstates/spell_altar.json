@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "afraidofthedark:spell_altar"
+    "": {
+      "model": "afraidofthedark:block/spell_altar"
     }
   }
 }

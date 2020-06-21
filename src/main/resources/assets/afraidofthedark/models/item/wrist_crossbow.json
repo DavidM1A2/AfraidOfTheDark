@@ -1,7 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "afraidofthedark:items/wrist_crossbow_unloaded"
+    "layer0": "afraidofthedark:item/wrist_crossbow_unloaded"
   },
   "overrides": [
     {

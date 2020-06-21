@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "afraidofthedark:lens_cutter"
+    "": {
+      "model": "afraidofthedark:block/lens_cutter"
     }
   }
 }

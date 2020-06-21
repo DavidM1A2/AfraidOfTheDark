@@ -1,7 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "afraidofthedark:items/igneous_sword_charged"
+    "layer0": "afraidofthedark:item/igneous_sword_charged"
   },
   "display": {
     "thirdperson_righthand": {

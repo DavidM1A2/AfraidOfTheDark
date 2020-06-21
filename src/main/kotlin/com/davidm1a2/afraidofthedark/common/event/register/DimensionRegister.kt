@@ -31,13 +31,11 @@ class DimensionRegister {
     @SubscribeEvent
     fun registerDimensions(event: RegisterDimensionsEvent) {
         val nightmare = ModDimensions.NIGHTMARE
-        if (DimensionType.byName(nightmare.registryName!!) == null) {
-            ModDimensions.NIGHTMARE_TYPE = DimensionManager.registerDimension(nightmare.registryName, nightmare, null)
-        }
+        ModDimensions.NIGHTMARE_TYPE =
+            DimensionType.byName(nightmare.registryName!!) ?: DimensionManager.registerDimension(nightmare.registryName, nightmare, null)
 
         val voidChest = ModDimensions.VOID_CHEST
-        if (DimensionType.byName(voidChest.registryName!!) == null) {
-            ModDimensions.VOID_CHEST_TYPE = DimensionManager.registerDimension(voidChest.registryName, voidChest, null)
-        }
+        ModDimensions.VOID_CHEST_TYPE =
+            DimensionType.byName(voidChest.registryName!!) ?: DimensionManager.registerDimension(voidChest.registryName, voidChest, null)
     }
 }

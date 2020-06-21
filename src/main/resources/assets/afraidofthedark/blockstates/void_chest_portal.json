@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "afraidofthedark:void_chest_portal"
+    "": {
+      "model": "afraidofthedark:block/void_chest_portal"
     }
   }
 }

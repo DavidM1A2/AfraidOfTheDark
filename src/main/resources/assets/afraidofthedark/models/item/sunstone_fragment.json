@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "afraidofthedark:items/sunstone_fragment"
+    "layer0": "afraidofthedark:item/sunstone_fragment"
   }
 }

@@ -1,7 +1,7 @@
 {
   "parent": "block/door_bottom",
   "textures": {
-    "bottom": "afraidofthedark:blocks/sacred_mangrove_door_lower",
-    "top": "afraidofthedark:blocks/sacred_mangrove_door_upper"
+    "bottom": "afraidofthedark:block/sacred_mangrove_door_lower",
+    "top": "afraidofthedark:block/sacred_mangrove_door_upper"
   }
 }

@@ -1,7 +1,7 @@
 {
   "parent": "block/cube_column",
   "textures": {
-    "end": "afraidofthedark:blocks/mangrove_end",
-    "side": "afraidofthedark:blocks/mangrove"
+    "end": "afraidofthedark:block/mangrove_end",
+    "side": "afraidofthedark:block/mangrove"
   }
 }

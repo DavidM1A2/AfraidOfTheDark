@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "afraidofthedark:blocks/star_metal_ore"
+    "all": "afraidofthedark:block/star_metal_ore"
   }
 }

@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "afraidofthedark:gnomish_metal_strut"
+    "": {
+      "model": "afraidofthedark:block/gnomish_metal_strut"
     }
   }
 }

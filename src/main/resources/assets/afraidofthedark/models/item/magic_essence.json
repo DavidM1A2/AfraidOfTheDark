@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "afraidofthedark:items/magic_essence"
+    "layer0": "afraidofthedark:item/magic_essence"
   }
 }

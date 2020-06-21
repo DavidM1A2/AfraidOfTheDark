@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "afraidofthedark:blocks/gravewood_sapling"
+    "layer0": "afraidofthedark:block/gravewood_sapling"
   }
 }

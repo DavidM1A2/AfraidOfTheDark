@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "afraidofthedark:enarias_altar"
+    "": {
+      "model": "afraidofthedark:block/enarias_altar"
     }
   }
 }

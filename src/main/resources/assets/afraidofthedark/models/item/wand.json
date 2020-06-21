@@ -1,7 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "afraidofthedark:items/wand"
+    "layer0": "afraidofthedark:item/wand"
   },
   "display": {
     "thirdperson_righthand": {

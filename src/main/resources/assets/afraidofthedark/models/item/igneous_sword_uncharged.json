@@ -1,7 +1,7 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "afraidofthedark:items/igneous_sword_uncharged"
+    "layer0": "afraidofthedark:item/igneous_sword_uncharged"
   },
   "display": {
     "thirdperson_righthand": {

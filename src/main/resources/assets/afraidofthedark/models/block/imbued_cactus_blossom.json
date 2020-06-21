@@ -1,6 +1,6 @@
 {
   "parent": "block/cross",
   "textures": {
-    "cross": "afraidofthedark:blocks/imbued_cactus_blossom"
+    "cross": "afraidofthedark:block/imbued_cactus_blossom"
   }
 }

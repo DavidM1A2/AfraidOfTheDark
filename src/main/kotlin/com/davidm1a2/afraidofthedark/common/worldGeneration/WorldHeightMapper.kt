@@ -1,7 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.worldGeneration
 
 import com.davidm1a2.afraidofthedark.common.capabilities.world.OverworldHeightmap
-import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.world.IWorld
 import net.minecraft.world.WorldServer
@@ -12,7 +11,6 @@ import net.minecraft.world.gen.Heightmap
 import net.minecraftforge.event.terraingen.ChunkGeneratorEvent
 import net.minecraftforge.eventbus.api.EventPriority
 import net.minecraftforge.eventbus.api.SubscribeEvent
-import kotlin.math.ceil
 import kotlin.math.max
 import kotlin.math.min
 
@@ -31,6 +29,7 @@ class WorldHeightMapper {
      */
     @SubscribeEvent(priority = EventPriority.HIGH)
     fun onChunkPopulated(event: ChunkGeneratorEvent.ReplaceBiomeBlocks) {
+        /*
         // Get a reference to the world
         val world = event.world
 
@@ -57,6 +56,8 @@ class WorldHeightMapper {
 
         // Generate the height map for the chunk
         heightMapChunk(world, chunkX, chunkZ, chunkPredictionRange)
+
+         */
     }
 
     /**

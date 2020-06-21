@@ -1,7 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "afraidofthedark:items/star_metal_staff"
+    "layer0": "afraidofthedark:item/star_metal_staff"
   },
   "display": {
     "thirdperson_righthand": {

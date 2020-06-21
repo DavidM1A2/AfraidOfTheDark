@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "afraidofthedark:blocks/eldritch_obisidian"
+    "all": "afraidofthedark:block/eldritch_obisidian"
   }
 }

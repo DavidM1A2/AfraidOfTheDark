@@ -37,13 +37,14 @@ import java.util.function.Supplier
 @Mod(Constants.MOD_ID)
 class AfraidOfTheDark {
     init {
+        val forgeBus = MinecraftForge.EVENT_BUS
         val eventBus = FMLJavaModLoadingContext.get().modEventBus
         val context = ModLoadingContext.get()
 
         // Register our registry register
         eventBus.register(RegistryRegister())
         // If any changes in the config are detected, we trigger an event that we listen to here
-        eventBus.register(ConfigurationHandler())
+        forgeBus.register(ConfigurationHandler())
         // Register our block handler used to add all of our blocks to the game
         eventBus.register(BlockRegister())
         // Register our tile entity handler used to add all of our tile entities to the game
@@ -82,40 +83,38 @@ class AfraidOfTheDark {
         MinecraftForge.EVENT_BUS.register(dimensionRegister)
         // Register our research overlay display to draw on the screen, only need to do this client side
         if (EffectiveSide.get() == LogicalSide.CLIENT) {
-            eventBus.register(proxy.researchOverlay)
-            eventBus.register(KeyInputEventHandler)
+            forgeBus.register(proxy.researchOverlay)
+            forgeBus.register(KeyInputEventHandler)
         }
         // Forward any capability events to our capability handler
-        eventBus.register(CapabilityHandler())
+        forgeBus.register(CapabilityHandler())
         // Forward any chunk creation events to our world generation height mapper
-        eventBus.register(WorldHeightMapper())
+        forgeBus.register(WorldHeightMapper())
         // Forward any chunk creation events to our world structure planner. Use our world RNG to create a seed
-        eventBus.register(WorldStructurePlanner())
+        forgeBus.register(WorldStructurePlanner())
         // Register mod furnace fuels
         eventBus.register(FurnaceFuelRegister())
         // Register our flask of souls handler
-        eventBus.register(FlaskOfSoulsHandler())
+        forgeBus.register(FlaskOfSoulsHandler())
         // Register our nightmare handler
-        eventBus.register(NightmareHandler())
+        forgeBus.register(NightmareHandler())
         // Register our void chest handler
-        eventBus.register(VoidChestHandler())
+        forgeBus.register(VoidChestHandler())
         // Register our spell state handler
-        eventBus.register(SpellStateHandler())
+        forgeBus.register(SpellStateHandler())
         // Register our spell freeze handler
-        eventBus.register(SpellFreezeHandler())
+        forgeBus.register(SpellFreezeHandler())
         // Register our spell charm handler
-        eventBus.register(SpellCharmHandler())
+        forgeBus.register(SpellCharmHandler())
         // Register our block color handler used to color aotd leaves
         eventBus.register(ModColorRegister())
         // Register our AOTD world generator
         // GameRegistry.registerWorldGenerator(worldGenerator, configurationHandler.worldGenPriority)
         // We also need to register our world gen server tick handler
-        eventBus.register(AOTDWorldGenerator())
+        forgeBus.register(AOTDWorldGenerator())
         context.registerConfig(ModConfig.Type.CLIENT, ModConfigHolder.CLIENT_SPEC)
         context.registerConfig(ModConfig.Type.SERVER, ModConfigHolder.SERVER_SPEC)
         // context.registerExtensionPoint(ExtensionPoint.GUIFACTORY) { AOTDGuiHandler() }
-        // Register all AOTD packets
-        PacketRegister.initialize()
         eventBus.register(this)
         // Initialize entity renderers (client side only)
         proxy.initializeEntityRenderers()
@@ -129,6 +128,7 @@ class AfraidOfTheDark {
     fun commonSetupEvent(event: FMLCommonSetupEvent) {
         CapabilityRegister.register()
         RecipeFactoryRegister.register()
+        PacketRegister.initialize()
     }
 
     /**

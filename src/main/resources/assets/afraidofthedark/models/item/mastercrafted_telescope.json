@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "afraidofthedark:items/mastercrafted_telescope"
+    "layer0": "afraidofthedark:item/mastercrafted_telescope"
   }
 }

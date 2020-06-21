@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "afraidofthedark:imbued_cactus_blossom"
+    "": {
+      "model": "afraidofthedark:block/imbued_cactus_blossom"
     }
   }
 }

@@ -7,8 +7,7 @@
   ],
   "key": {
     "s": {
-      "type": "forge:ore_dict",
-      "ore": "stickWood"
+      "item": "minecraft:stick"
     },
     "g": {
       "item": "minecraft:glass"

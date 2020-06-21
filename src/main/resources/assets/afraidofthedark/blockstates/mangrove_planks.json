@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "afraidofthedark:mangrove_planks"
+    "": {
+      "model": "afraidofthedark:block/mangrove_planks"
     }
   }
 }

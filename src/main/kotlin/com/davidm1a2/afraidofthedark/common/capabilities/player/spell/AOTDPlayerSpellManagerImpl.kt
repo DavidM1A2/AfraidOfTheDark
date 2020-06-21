@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.player.spell
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.common.packets.capabilityPackets.ClearSpellsPacketProcessor
+import com.davidm1a2.afraidofthedark.common.packets.capabilityPackets.ClearSpellsPacket
 import com.davidm1a2.afraidofthedark.common.packets.capabilityPackets.SpellPacket
 import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.google.common.collect.BiMap
@@ -136,9 +136,9 @@ class AOTDPlayerSpellManagerImpl : IAOTDPlayerSpellManager {
     override fun syncAll(entityPlayer: EntityPlayer) {
         // Clear the existing spells first
         if (isServerSide(entityPlayer)) {
-            AfraidOfTheDark.packetHandler.sendTo(ClearSpellsPacketProcessor(), entityPlayer as EntityPlayerMP)
+            AfraidOfTheDark.packetHandler.sendTo(ClearSpellsPacket(), entityPlayer as EntityPlayerMP)
         } else {
-            AfraidOfTheDark.packetHandler.sendToServer(ClearSpellsPacketProcessor())
+            AfraidOfTheDark.packetHandler.sendToServer(ClearSpellsPacket())
         }
         // Go over each spell and sync them one by one. We do this to avoid a large memory overhead
         // of sending many spells in a single packet

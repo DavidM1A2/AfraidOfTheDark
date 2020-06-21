@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "afraidofthedark:blocks/desert_oasis"
+    "all": "afraidofthedark:block/desert_oasis"
   }
 }

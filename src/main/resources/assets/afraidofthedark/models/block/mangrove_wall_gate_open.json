@@ -1,6 +1,6 @@
 {
   "parent": "block/wall_gate_open",
   "textures": {
-    "texture": "afraidofthedark:blocks/mangrove_planks"
+    "texture": "afraidofthedark:block/mangrove_planks"
   }
 }
