@@ -123,7 +123,7 @@ abstract class AOTDGuiScreen : GuiScreen() {
         // If our inventory key closes the screen, test if that key was pressed
         if (this.inventoryToCloseGuiScreen()) {
             // if the keycode is the inventory key bind close the GUI screen
-            if (inventoryKeybindPressed()) {
+            if (inventoryKeybindPressed(character)) {
                 // Close the screen
                 entityPlayer.closeScreen()
                 GL11.glFlush()
@@ -236,7 +236,7 @@ abstract class AOTDGuiScreen : GuiScreen() {
     /**
      * @return True if the inventory keybind is pressed, false otherwise
      */
-    internal fun inventoryKeybindPressed(): Boolean {
-        return Minecraft.getInstance().gameSettings.keyBindInventory.isKeyDown
+    internal fun inventoryKeybindPressed(character: Char): Boolean {
+        return Minecraft.getInstance().gameSettings.keyBindInventory.key.name.toLowerCase() == character.toString().toLowerCase()
     }
 }

@@ -4,6 +4,10 @@ import com.davidm1a2.afraidofthedark.common.item.*
 import com.davidm1a2.afraidofthedark.common.item.crossbow.ItemCrossbow
 import com.davidm1a2.afraidofthedark.common.item.crossbow.ItemWristCrossbow
 import com.davidm1a2.afraidofthedark.common.item.crossbow.bolts.*
+import com.davidm1a2.afraidofthedark.common.item.eggs.ItemEnchantedFrogSpawnEgg
+import com.davidm1a2.afraidofthedark.common.item.eggs.ItemEnchantedSkeletonSpawnEgg
+import com.davidm1a2.afraidofthedark.common.item.eggs.ItemSplinterDroneSpawnEgg
+import com.davidm1a2.afraidofthedark.common.item.eggs.ItemWerewolfSpawnEgg
 import com.davidm1a2.afraidofthedark.common.item.telescope.ItemAdvancedTelescope
 import com.davidm1a2.afraidofthedark.common.item.telescope.ItemLens
 import com.davidm1a2.afraidofthedark.common.item.telescope.ItemMastercraftedTelescope
@@ -68,9 +72,12 @@ object ModItems {
     val CURSED_HEART = ItemCursedHeart()
     val CULTIST_TOME = ItemCultistTome()
     val ADVANCED_TELESCOPE = ItemAdvancedTelescope()
-
     val MASTERCRAFTED_TELESCOPE = ItemMastercraftedTelescope()
     val LENS = ItemLens()
+    val ENCHANTED_SKELETON_SPAWN_EGG = ItemEnchantedSkeletonSpawnEgg()
+    val WEREWOLF_SPAWN_EGG = ItemWerewolfSpawnEgg()
+    val SPLINTER_DRONE_SPAWN_EGG = ItemSplinterDroneSpawnEgg()
+    val ENCHANTED_FROG_SPAWN_EGG = ItemEnchantedFrogSpawnEgg()
 
     // An array containing a list of items that AOTD adds
     var ITEM_LIST = arrayOf(
@@ -129,6 +136,10 @@ object ModItems {
         CULTIST_TOME,
         ADVANCED_TELESCOPE,
         MASTERCRAFTED_TELESCOPE,
-        LENS
+        LENS,
+        ENCHANTED_SKELETON_SPAWN_EGG,
+        WEREWOLF_SPAWN_EGG,
+        SPLINTER_DRONE_SPAWN_EGG,
+        ENCHANTED_FROG_SPAWN_EGG
     )
 }

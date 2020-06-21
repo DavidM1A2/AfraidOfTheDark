@@ -115,6 +115,7 @@ class AfraidOfTheDark {
         context.registerConfig(ModConfig.Type.CLIENT, ModConfigHolder.CLIENT_SPEC)
         context.registerConfig(ModConfig.Type.SERVER, ModConfigHolder.SERVER_SPEC)
         eventBus.register(this)
+        MinecraftForge.EVENT_BUS.register(this)
         // Initialize entity renderers (client side only)
         proxy.initializeEntityRenderers()
         // Initialize tile entity renderers (also client side)

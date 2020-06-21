@@ -143,7 +143,7 @@ class SpellCraftingGUI(spell: Spell) : AOTDGuiScreen() {
 
         // If the inventory key closes the ui and is pressed open the spell list UI
         if (tablet.inventoryKeyClosesUI() && scroll.inventoryKeyClosesUI()) {
-            if (inventoryKeybindPressed()) {
+            if (inventoryKeybindPressed(character)) {
                 Minecraft.getInstance().displayGuiScreen(SpellListGUI())
             }
         }

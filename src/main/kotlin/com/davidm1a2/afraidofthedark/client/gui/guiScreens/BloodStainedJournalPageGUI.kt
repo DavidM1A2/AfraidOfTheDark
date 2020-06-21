@@ -346,7 +346,7 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
      */
     override fun charTyped(character: Char, keyCode: Int): Boolean {
         // If we press our inventory button close the UI and go to the journal UI
-        if (inventoryKeybindPressed()) {
+        if (inventoryKeybindPressed(character)) {
             Minecraft.getInstance().displayGuiScreen(BloodStainedJournalResearchGUI(false))
         } else if (character == 'a' || character == 'A' || keyCode == GLFW.GLFW_KEY_LEFT) {
             rewindPage()

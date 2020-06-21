@@ -20,13 +20,11 @@ object ModEntities {
         .tracker(50, 1, true)
         .build("${Constants.MOD_ID}:enchanted_skeleton")
         .setRegistryName(Constants.MOD_ID, "enchanted_skeleton")
-    //.egg(0x996600, 0xe69900)
 
     val WEREWOLF = EntityType.Builder.create(EntityWerewolf::class.java) { EntityWerewolf(it) }
         .tracker(50, 1, true)
         .build("${Constants.MOD_ID}:werewolf")
         .setRegistryName(Constants.MOD_ID, "werewolf")
-    //.egg(0x3B170B, 0x181907)
     //.spawn(EnumCreatureType.MONSTER, 25, 1, 4, ModBiomes.EERIE_FOREST) // Weight = 100 is for skeletons, use 1/4 of that
 
     val GHASTLY_ENARIA = EntityType.Builder.create(EntityGhastlyEnaria::class.java) { EntityGhastlyEnaria(it) }
@@ -38,7 +36,6 @@ object ModEntities {
         .tracker(50, 1, true)
         .build("${Constants.MOD_ID}:splinter_drone")
         .setRegistryName(Constants.MOD_ID, "splinter_drone")
-    //.egg(0xcc6600, 0x63300)
 
     val SPLINTER_DRONE_PROJECTILE = EntityType.Builder.create(EntitySplinterDroneProjectile::class.java) { EntitySplinterDroneProjectile(it) }
         .tracker(50, 1, true)
@@ -54,7 +51,7 @@ object ModEntities {
         .tracker(50, 1, true)
         .build("${Constants.MOD_ID}:enchanted_frog")
         .setRegistryName(Constants.MOD_ID, "enchanted_frog")
-    // .egg(0x92029c, 0xd4028e)
+    // .egg(, )
 
     // Spell entities
     val SPELL_PROJECTILE = EntityType.Builder.create(EntitySpellProjectile::class.java) { EntitySpellProjectile(it) }

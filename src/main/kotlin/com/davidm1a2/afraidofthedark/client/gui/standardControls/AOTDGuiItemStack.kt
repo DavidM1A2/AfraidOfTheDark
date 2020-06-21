@@ -97,7 +97,7 @@ class AOTDGuiItemStack(
             if (this.isHovered && !this.itemStack.isEmpty) {
                 // Show the item name and count
                 fontRenderer.drawStringWithShadow(
-                    "${itemStack.displayName} x${itemStack.count}",
+                    "${itemStack.displayName.formattedText} x${itemStack.count}",
                     this.getXScaled().toFloat(),
                     (this.getYScaled() - 5).toFloat(),
                     -0x1
