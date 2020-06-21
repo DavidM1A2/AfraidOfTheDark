@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.client.gui.base
 
+import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseMoveEvent
@@ -31,8 +32,8 @@ abstract class AOTDGuiScreen : GuiScreen() {
 
     val contentPane = AOTDGuiPanel(0, 0, Constants.GUI_WIDTH, Constants.GUI_HEIGHT, false)
     private val spriteSheetControllers = mutableListOf<SpriteSheetController>()
-    private var prevMouseX = 1.0
-    private var prevMouseY = 1.0
+    private var prevMouseX = 0
+    private var prevMouseY = 0
 
     /**
      * Called to initialize the GUI screen
@@ -201,27 +202,28 @@ abstract class AOTDGuiScreen : GuiScreen() {
 
     override fun tick() {
         // Check if we should fire a mouse move event
-        val mouseHelper = Minecraft.getInstance().mouseHelper
-        if (mouseHelper.mouseX != prevMouseX || mouseHelper.mouseY != prevMouseY) {
-            prevMouseX = mouseHelper.mouseX
-            prevMouseY = mouseHelper.mouseY
+        val mouseX = AOTDGuiUtility.getMouseXInMCCoord()
+        val mouseY = AOTDGuiUtility.getMouseYInMCCoord()
+        if (mouseX != prevMouseX || mouseY != prevMouseY) {
+            prevMouseX = mouseX
+            prevMouseY = mouseY
 
             // Fire the content pane's move listener
             contentPane.processMouseMoveInput(
                 AOTDMouseMoveEvent(
                     contentPane,
-                    prevMouseX.roundToInt(),
-                    prevMouseY.roundToInt(),
+                    prevMouseX,
+                    prevMouseY,
                     AOTDMouseMoveEvent.EventType.Move
                 )
             )
             // If the left mouse button is down, process the drag
-            if (mouseHelper.isLeftDown) {
+            if (AOTDGuiUtility.isLeftMouseDown()) {
                 contentPane.processMouseMoveInput(
                     AOTDMouseMoveEvent(
                         contentPane,
-                        prevMouseX.roundToInt(),
-                        prevMouseY.roundToInt(),
+                        prevMouseX,
+                        prevMouseY,
                         AOTDMouseMoveEvent.EventType.Drag
                     )
                 )

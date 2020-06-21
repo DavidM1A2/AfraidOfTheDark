@@ -62,8 +62,14 @@ object AOTDGuiUtility {
      * @return Returns the mouse's Y current position in MC coordinates
      */
     fun getMouseYInMCCoord(): Int {
-        val scaledHeight: Int = this.window.scaledHeight
-        return scaledHeight - minecraft.mouseHelper.mouseY.roundToInt() * scaledHeight / window.height - 1
+        return minecraft.mouseHelper.mouseY.roundToInt() * this.window.scaledHeight / window.height
+    }
+
+    /**
+     * @return True if LMB is down, false otherwise
+     */
+    fun isLeftMouseDown(): Boolean {
+        return minecraft.mouseHelper.isLeftDown
     }
 
     /**

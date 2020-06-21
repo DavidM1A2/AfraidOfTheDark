@@ -51,7 +51,7 @@ abstract class AOTDGuiComponent(x: Int, y: Int, width: Int, height: Int) {
      */
     open fun draw() {
         // Draw the bounding box for debug purposes
-        // this.drawBoundingBox();
+        // drawBoundingBox()
     }
 
     /**
