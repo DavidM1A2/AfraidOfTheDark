@@ -2,6 +2,7 @@ package com.davidm1a2.afraidofthedark.common.packets.animationPackets
 
 import com.davidm1a2.afraidofthedark.common.entity.mcAnimatorLib.IMCAnimatedModel
 import com.davidm1a2.afraidofthedark.common.packets.EntityPacketProcessor
+import net.minecraft.client.Minecraft
 import net.minecraft.network.PacketBuffer
 import net.minecraftforge.fml.network.NetworkDirection
 import net.minecraftforge.fml.network.NetworkEvent
@@ -34,7 +35,7 @@ class AnimationPacketProcessor : EntityPacketProcessor<AnimationPacket>() {
         // Only process client side
         if (ctx.direction == NetworkDirection.PLAY_TO_CLIENT) {
             // Grab the entity in the world by ID that the server wanted us to update
-            val entity = ctx.sender!!.world.getEntityByID(msg.entityID)
+            val entity = Minecraft.getInstance().player.world.getEntityByID(msg.entityID)
 
             // Ensure the entity is non-null and a MC animated entity
             if (entity is IMCAnimatedModel) {

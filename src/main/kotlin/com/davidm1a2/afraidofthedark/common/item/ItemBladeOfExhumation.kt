@@ -43,6 +43,7 @@ class ItemBladeOfExhumation : AOTDItemSword(
             if (player.getResearch().isResearched(ModResearches.BLADE_OF_EXHUMATION)) {
                 // 1 shot the skeleton
                 entity.attackEntityFrom(DamageSource.causePlayerDamage(player), Float.MAX_VALUE)
+                stack.damageItem(1, player)
             }
         }
 

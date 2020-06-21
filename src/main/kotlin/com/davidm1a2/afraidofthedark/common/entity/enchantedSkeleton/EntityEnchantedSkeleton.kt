@@ -23,7 +23,6 @@ import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.Entity
 import net.minecraft.entity.SharedMonsterAttributes
 import net.minecraft.entity.ai.*
-import net.minecraft.entity.item.EntityItem
 import net.minecraft.entity.monster.EntityMob
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.init.SoundEvents
@@ -178,15 +177,7 @@ class EntityEnchantedSkeleton(world: World) : EntityMob(ModEntities.ENCHANTED_SK
                 // If the blade of exhumation research is researched and the player is using a blade of exhumation drop one extra enchanted skeleton bone
                 if (playerResearch.isResearched(ModResearches.BLADE_OF_EXHUMATION)) {
                     if (killer.heldItemMainhand.item is ItemBladeOfExhumation) {
-                        world.spawnEntity(
-                            EntityItem(
-                                world,
-                                posX,
-                                posY + 1,
-                                posZ,
-                                ItemStack(ModItems.ENCHANTED_SKELETON_BONE)
-                            )
-                        )
+                        entityDropItem(ItemStack(this.dropItem), 1f)
                     }
                 }
             }
@@ -201,7 +192,7 @@ class EntityEnchantedSkeleton(world: World) : EntityMob(ModEntities.ENCHANTED_SK
      */
     override fun dropFewItems(wasRecentlyHit: Boolean, lootingModifier: Int) {
         // Drop exactly 3 bones, because 4 bones cause another skeleton to spawn
-        entityDropItem(this.dropItem, 3)
+        entityDropItem(ItemStack(this.dropItem, 3), 1f)
 
         // Have a 5% chance to drop a heart, increased by 5% per looting level
         if (rand.nextDouble() < 0.05 + 0.05 * lootingModifier) {

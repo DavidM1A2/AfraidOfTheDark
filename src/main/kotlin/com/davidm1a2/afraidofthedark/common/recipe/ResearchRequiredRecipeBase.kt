@@ -5,7 +5,10 @@ import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.registry.research.Research
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.inventory.*
+import net.minecraft.item.ItemStack
 import net.minecraft.item.crafting.IRecipe
+import net.minecraft.item.crafting.Ingredient
+import net.minecraft.util.NonNullList
 import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.world.World
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper
@@ -48,6 +51,23 @@ abstract class ResearchRequiredRecipeBase<T : IRecipe>(val baseRecipe: T, intern
 
         // The player has the research, so return true if the recipe matches or false otherwise
         return matches
+    }
+
+    override fun isDynamic(): Boolean {
+        return true
+    }
+
+    // Default methods can't be delgated, see: https://kotlinlang.org/docs/reference/java-to-kotlin-interop.html#using-in-delegates
+    override fun getRemainingItems(inventory: IInventory): NonNullList<ItemStack> {
+        return baseRecipe.getRemainingItems(inventory)
+    }
+
+    override fun getIngredients(): NonNullList<Ingredient> {
+        return baseRecipe.ingredients
+    }
+
+    override fun getGroup(): String {
+        return baseRecipe.group
     }
 
     companion object {

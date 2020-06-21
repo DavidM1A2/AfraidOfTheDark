@@ -18,7 +18,7 @@ open class AOTDItemSword(
     damageAmplifier: Int,
     attackSpeed: Float,
     properties: Properties,
-    displayInCreative: Boolean = false
+    displayInCreative: Boolean = true
 ) : ItemSword(toolMaterial, damageAmplifier, attackSpeed, properties.apply {
     if (displayInCreative) {
         group(Constants.AOTD_CREATIVE_TAB)
