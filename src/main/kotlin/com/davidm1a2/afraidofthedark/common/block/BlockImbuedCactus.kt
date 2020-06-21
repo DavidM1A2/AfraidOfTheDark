@@ -125,6 +125,17 @@ class BlockImbuedCactus : AOTDBlock(
         ) && !world.getBlockState(pos.up()).material.isLiquid
     }
 
+    override fun canSustainPlant(
+        iBlockState: IBlockState,
+        world: IBlockReader,
+        blockPos: BlockPos,
+        facing: EnumFacing,
+        iPlantable: IPlantable
+    ): Boolean {
+        val plantStateToPlace = iPlantable.getPlant(world, blockPos.offset(facing))
+        return plantStateToPlace.block == this || plantStateToPlace.block == ModBlocks.IMBUED_CACTUS_BLOSSOM
+    }
+
     override fun onEntityCollision(state: IBlockState, world: World, blockPos: BlockPos, entity: Entity) {
         if (entity !is EntityItem || entity.item.item != ModItems.DESERT_FRUIT) {
             entity.attackEntityFrom(DamageSource.CACTUS, 2.0f)
@@ -159,7 +170,7 @@ class BlockImbuedCactus : AOTDBlock(
         private const val MAX_HEIGHT = 3
         private const val MAX_AGE = 5
         private val AGE = IntegerProperty.create("age", 0, MAX_AGE)
-        private val CACTUS_COLLISION_SHAPE = makeCuboidShape(0.0625, 0.0, 0.0625, 0.9375, 0.9375, 0.9375)
-        private val CACTUS_SHAPE = makeCuboidShape(0.0625, 0.0, 0.0625, 0.9375, 1.0, 0.9375)
+        private val CACTUS_COLLISION_SHAPE = makeCuboidShape(1.0, 0.0, 1.0, 15.0, 15.0, 15.0)
+        private val CACTUS_SHAPE = makeCuboidShape(1.0, 0.0, 1.0, 15.0, 16.0, 15.0)
     }
 }

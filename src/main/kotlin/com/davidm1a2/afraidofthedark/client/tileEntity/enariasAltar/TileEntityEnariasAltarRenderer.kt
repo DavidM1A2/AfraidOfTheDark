@@ -16,7 +16,7 @@ import net.minecraftforge.api.distmarker.OnlyIn
 @OnlyIn(Dist.CLIENT)
 class TileEntityEnariasAltarRenderer : TileEntityRenderer<TileEntityEnariasAltar>() {
     private val model = TileEntityEnariasAltarModel()
-    private val texture = ResourceLocation("afraidofthedark:textures/blocks/enarias_altar_te.png")
+    private val texture = ResourceLocation("afraidofthedark:textures/block/enarias_altar_te.png")
 
     /**
      * Called to render the tile entity

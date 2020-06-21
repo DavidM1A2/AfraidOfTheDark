@@ -58,6 +58,6 @@ class BlockImbuedCactusBlossom : AOTDBlockBush(
     }
 
     companion object {
-        private val IMBUED_CACTUS_BLOSSOM_SHAPE = makeCuboidShape(0.2, 0.0, 0.2, 0.8, 1.0, 0.8)
+        private val IMBUED_CACTUS_BLOSSOM_SHAPE = makeCuboidShape(3.0, 0.0, 3.0, 12.0, 16.0, 12.0)
     }
 }

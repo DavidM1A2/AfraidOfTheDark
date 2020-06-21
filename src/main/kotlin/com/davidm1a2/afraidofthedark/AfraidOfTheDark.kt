@@ -60,7 +60,7 @@ class AfraidOfTheDark {
         // Register our sound handler used to add all of our mod sounds to the game
         eventBus.register(SoundRegister())
         // Register our sprite handler used to add all of our mod sprites for particles to the game
-        eventBus.register(SpriteRegister())
+        MinecraftForge.EVENT_BUS.register(SpriteRegister())
         // Register our recipe handler used to add all of our mod recipe shapes to the game
         eventBus.register(RecipeRegister())
         // Register our structure handler used to add all of our mod structures to the game
@@ -107,7 +107,7 @@ class AfraidOfTheDark {
         // Register our spell charm handler
         forgeBus.register(SpellCharmHandler())
         // Register our block color handler used to color aotd leaves
-        eventBus.register(ModColorRegister())
+        MinecraftForge.EVENT_BUS.register(ModColorRegister())
         // Register our AOTD world generator
         // GameRegistry.registerWorldGenerator(worldGenerator, configurationHandler.worldGenPriority)
         // We also need to register our world gen server tick handler

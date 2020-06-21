@@ -21,7 +21,7 @@ import kotlin.math.abs
  */
 @OnlyIn(Dist.CLIENT)
 class TileEntityVoidChestRenderer : TileEntityRenderer<TileEntityVoidChest>() {
-    private val voidChestTexture = ResourceLocation("afraidofthedark:textures/blocks/void_chest/void_chest.png")
+    private val voidChestTexture = ResourceLocation("afraidofthedark:textures/block/void_chest/void_chest.png")
     private val modelChest = ModelChest()
 
     /**
