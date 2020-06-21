@@ -88,6 +88,9 @@ class CapabilityHandler {
     fun onClonePlayer(event: Clone) {
         // The player only loses capabilities upon death
         if (event.isWasDeath) {
+            // The player needs to be "Alive" to read capabilities
+            event.original.revive()
+
             // Grab new and original player capabilities
             val originalPlayerBasics = event.original.getBasics()
             val newPlayerBasics = event.entityPlayer.getBasics()
@@ -103,6 +106,9 @@ class CapabilityHandler {
 
             val originalPlayerSpellManager = event.original.getSpellManager()
             val newPlayerSpellManager = event.entityPlayer.getSpellManager()
+
+            // Kill the player again
+            event.original.remove()
 
             // Don't copy PLAYER_SPELL_FREEZE_DATA, if the player dies they aren't frozen anymore
 

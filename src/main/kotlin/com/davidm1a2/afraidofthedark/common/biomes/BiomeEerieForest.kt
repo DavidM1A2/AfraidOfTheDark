@@ -2,6 +2,8 @@ package com.davidm1a2.afraidofthedark.common.biomes
 
 import com.davidm1a2.afraidofthedark.common.biomes.base.AOTDBiome
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
+import com.davidm1a2.afraidofthedark.common.constants.ModEntities
+import net.minecraft.entity.EnumCreatureType
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.gen.GenerationStage
 import net.minecraft.world.gen.feature.IFeatureConfig
@@ -46,6 +48,9 @@ class BiomeEerieForest : AOTDBiome(
                 AtSurfaceWithExtraConfig(10, 0.3f, 5)
             )
         )
+
+        // Werewolves
+        addSpawn(EnumCreatureType.MONSTER, SpawnListEntry(ModEntities.WEREWOLF, 25, 1, 4))
     }
 
     /**

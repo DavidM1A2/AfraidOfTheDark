@@ -9,6 +9,7 @@ import com.davidm1a2.afraidofthedark.common.entity.spell.projectile.EntitySpellP
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.EntitySplinterDrone
 import com.davidm1a2.afraidofthedark.common.entity.splinterDrone.EntitySplinterDroneProjectile
 import com.davidm1a2.afraidofthedark.common.entity.werewolf.EntityWerewolf
+import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 
 /**
@@ -19,67 +20,65 @@ object ModEntities {
     val ENCHANTED_SKELETON = EntityType.Builder.create(EntityEnchantedSkeleton::class.java) { EntityEnchantedSkeleton(it) }
         .tracker(50, 1, true)
         .build("${Constants.MOD_ID}:enchanted_skeleton")
-        .setRegistryName(Constants.MOD_ID, "enchanted_skeleton")
+        .setRegistryNameGeneric("enchanted_skeleton")
 
     val WEREWOLF = EntityType.Builder.create(EntityWerewolf::class.java) { EntityWerewolf(it) }
         .tracker(50, 1, true)
         .build("${Constants.MOD_ID}:werewolf")
-        .setRegistryName(Constants.MOD_ID, "werewolf")
-    //.spawn(EnumCreatureType.MONSTER, 25, 1, 4, ModBiomes.EERIE_FOREST) // Weight = 100 is for skeletons, use 1/4 of that
+        .setRegistryNameGeneric("werewolf")
 
     val GHASTLY_ENARIA = EntityType.Builder.create(EntityGhastlyEnaria::class.java) { EntityGhastlyEnaria(it) }
         .tracker(ModServerConfiguration.blocksBetweenIslands / 2, 1, true)
         .build("${Constants.MOD_ID}:ghastly_enaria")
-        .setRegistryName(Constants.MOD_ID, "ghastly_enaria")
+        .setRegistryNameGeneric("ghastly_enaria")
 
     val SPLINTER_DRONE = EntityType.Builder.create(EntitySplinterDrone::class.java) { EntitySplinterDrone(it) }
         .tracker(50, 1, true)
         .build("${Constants.MOD_ID}:splinter_drone")
-        .setRegistryName(Constants.MOD_ID, "splinter_drone")
+        .setRegistryNameGeneric("splinter_drone")
 
     val SPLINTER_DRONE_PROJECTILE = EntityType.Builder.create(EntitySplinterDroneProjectile::class.java) { EntitySplinterDroneProjectile(it) }
         .tracker(50, 1, true)
         .build("${Constants.MOD_ID}:splinter_drone_projectile")
-        .setRegistryName(Constants.MOD_ID, "splinter_drone_projectile")
+        .setRegistryNameGeneric("splinter_drone_projectile")
 
     val ENARIA = EntityType.Builder.create(EntityEnaria::class.java) { EntityEnaria(it) }
         .tracker(50, 1, true)
         .build("${Constants.MOD_ID}:enaria")
-        .setRegistryName(Constants.MOD_ID, "enaria")
+        .setRegistryNameGeneric("enaria")
 
     val ENCHANTED_FROG = EntityType.Builder.create(EntityEnchantedFrog::class.java) { EntityEnchantedFrog(it) }
         .tracker(50, 1, true)
         .build("${Constants.MOD_ID}:enchanted_frog")
-        .setRegistryName(Constants.MOD_ID, "enchanted_frog")
-    // .egg(, )
+        .setRegistryNameGeneric("enchanted_frog")
 
     // Spell entities
     val SPELL_PROJECTILE = EntityType.Builder.create(EntitySpellProjectile::class.java) { EntitySpellProjectile(it) }
         .tracker(50, 1, true)
         .build("${Constants.MOD_ID}:spell_projectile")
-        .setRegistryName(Constants.MOD_ID, "spell_projectile")
+        .setRegistryNameGeneric("spell_projectile")
 
     // 5 bolt entities
     val WOODEN_BOLT = EntityType.Builder.create(EntityWoodenBolt::class.java) { EntityWoodenBolt(it) }
         .tracker(50, 1, true)
         .build("${Constants.MOD_ID}:wooden_bolt")
-        .setRegistryName(Constants.MOD_ID, "wooden_bolt")
+        .setRegistryNameGeneric("wooden_bolt")
     val IRON_BOLT = EntityType.Builder.create(EntityIronBolt::class.java) { EntityIronBolt(it) }
         .tracker(50, 1, true)
         .build("${Constants.MOD_ID}:iron_bolt")
-        .setRegistryName(Constants.MOD_ID, "iron_bolt")
+        .setRegistryNameGeneric("iron_bolt")
     val SILVER_BOLT = EntityType.Builder.create(EntitySilverBolt::class.java) { EntitySilverBolt(it) }
         .tracker(50, 1, true)
         .build("${Constants.MOD_ID}:silver_bolt")
-        .setRegistryName(Constants.MOD_ID, "silver_bolt")
+        .setRegistryNameGeneric("silver_bolt")
     val IGNEOUS_BOLT = EntityType.Builder.create(EntityIgneousBolt::class.java) { EntityIgneousBolt(it) }
         .tracker(50, 1, true)
         .build("${Constants.MOD_ID}:igneous_bolt")
-        .setRegistryName(Constants.MOD_ID, "igneous_bolt")
+        .setRegistryNameGeneric("igneous_bolt")
     val STAR_METAL_BOLT = EntityType.Builder.create(EntityStarMetalBolt::class.java) { EntityStarMetalBolt(it) }
         .tracker(50, 1, true)
         .build("${Constants.MOD_ID}:star_metal_bolt")
-        .setRegistryName(Constants.MOD_ID, "star_metal_bolt")
+        .setRegistryNameGeneric("star_metal_bolt")
 
     // An array containing a list of entities that AOTD adds
     var ENTITY_LIST = arrayOf(
@@ -97,4 +96,12 @@ object ModEntities {
         IGNEOUS_BOLT,
         STAR_METAL_BOLT
     )
+
+    /**
+     * Special version of .setRegistryName that doesn't return EntityType<*> but EntityType<T> instead
+     */
+    private fun <T : Entity> EntityType<T>.setRegistryNameGeneric(name: String): EntityType<T> {
+        this.setRegistryName(Constants.MOD_ID, name)
+        return this
+    }
 }

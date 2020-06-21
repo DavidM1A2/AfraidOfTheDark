@@ -25,38 +25,41 @@ class SpellCharmHandler {
         // Server side processing
         if (event.type == TickEvent.Type.PLAYER && event.phase == TickEvent.Phase.START && event.side == LogicalSide.SERVER) {
             val entityPlayer = event.player
-            val playerCharmData = entityPlayer.getSpellCharmData()
+            // Dead players don't have capabilities
+            if (entityPlayer.isAlive) {
+                val playerCharmData = entityPlayer.getSpellCharmData()
 
-            // Ensure there's at least 1 charm tick remaining
-            if (playerCharmData.charmTicks > 0) {
-                // Reduce the charm ticks by 1
-                playerCharmData.charmTicks = playerCharmData.charmTicks - 1
+                // Ensure there's at least 1 charm tick remaining
+                if (playerCharmData.charmTicks > 0) {
+                    // Reduce the charm ticks by 1
+                    playerCharmData.charmTicks = playerCharmData.charmTicks - 1
 
-                // Force the player to look at the entity
-                val charmingEntityId = playerCharmData.charmingEntityId
-                val charmingEntity = (event.player.world as? WorldServer)?.getEntityFromUuid(charmingEntityId!!)
+                    // Force the player to look at the entity
+                    val charmingEntityId = playerCharmData.charmingEntityId
+                    val charmingEntity = (event.player.world as? WorldServer)?.getEntityFromUuid(charmingEntityId!!)
 
-                // If the player is non-null set the player's facing
-                if (charmingEntity != null) {
-                    // A player cant charm themselves
-                    if (entityPlayer.uniqueID != charmingEntityId) {
-                        val playerEyePosition = entityPlayer.getEyePosition(1.0f)
-                        // Compute the vector from the charming entity to the charmed entity
-                        val direction = charmingEntity.getEyePosition(1.0f)
-                            .subtract(playerEyePosition.x, playerEyePosition.y, playerEyePosition.z)
-                            .normalize()
+                    // If the player is non-null set the player's facing
+                    if (charmingEntity != null) {
+                        // A player cant charm themselves
+                        if (entityPlayer.uniqueID != charmingEntityId) {
+                            val playerEyePosition = entityPlayer.getEyePosition(1.0f)
+                            // Compute the vector from the charming entity to the charmed entity
+                            val direction = charmingEntity.getEyePosition(1.0f)
+                                .subtract(playerEyePosition.x, playerEyePosition.y, playerEyePosition.z)
+                                .normalize()
 
-                        // Convert 3d direction vector to pitch and yaw
-                        val yaw = (-atan2(direction.x, direction.z) * 180 / Math.PI).toFloat()
-                        val pitch = (-asin(direction.y) * 180 / Math.PI).toFloat()
+                            // Convert 3d direction vector to pitch and yaw
+                            val yaw = (-atan2(direction.x, direction.z) * 180 / Math.PI).toFloat()
+                            val pitch = (-asin(direction.y) * 180 / Math.PI).toFloat()
 
-                        // Set the player's look to be at the charming entity
-                        (entityPlayer as EntityPlayerMP).connection.setPlayerLocation(
-                            0.0, 0.0, 0.0,
-                            yaw,
-                            pitch,
-                            setOf(EnumFlags.X, EnumFlags.Y, EnumFlags.Z)
-                        )
+                            // Set the player's look to be at the charming entity
+                            (entityPlayer as EntityPlayerMP).connection.setPlayerLocation(
+                                0.0, 0.0, 0.0,
+                                yaw,
+                                pitch,
+                                setOf(EnumFlags.X, EnumFlags.Y, EnumFlags.Z)
+                            )
+                        }
                     }
                 }
             }
