@@ -1,8 +1,6 @@
 package com.davidm1a2.afraidofthedark
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark.Companion.packetHandler
-import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiHandler
-import com.davidm1a2.afraidofthedark.client.gui.guiScreens.BloodStainedJournalSignGUI
 import com.davidm1a2.afraidofthedark.client.keybindings.KeyInputEventHandler
 import com.davidm1a2.afraidofthedark.common.command.AOTDCommands
 import com.davidm1a2.afraidofthedark.common.constants.Constants
@@ -16,11 +14,9 @@ import com.davidm1a2.afraidofthedark.common.worldGeneration.WorldStructurePlanne
 import com.davidm1a2.afraidofthedark.proxy.ClientProxy
 import com.davidm1a2.afraidofthedark.proxy.IProxy
 import com.davidm1a2.afraidofthedark.proxy.ServerProxy
-import net.minecraft.client.gui.GuiScreen
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.DistExecutor
-import net.minecraftforge.fml.ExtensionPoint
 import net.minecraftforge.fml.LogicalSide
 import net.minecraftforge.fml.ModLoadingContext
 import net.minecraftforge.fml.common.Mod
@@ -30,8 +26,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
-import net.minecraftforge.fml.network.FMLPlayMessages
-import java.util.function.Function
 import java.util.function.Supplier
 
 /**
@@ -120,7 +114,6 @@ class AfraidOfTheDark {
         forgeBus.register(AOTDWorldGenerator())
         context.registerConfig(ModConfig.Type.CLIENT, ModConfigHolder.CLIENT_SPEC)
         context.registerConfig(ModConfig.Type.SERVER, ModConfigHolder.SERVER_SPEC)
-        context.registerExtensionPoint(ExtensionPoint.GUIFACTORY) { Function<FMLPlayMessages.OpenContainer, GuiScreen> { x -> BloodStainedJournalSignGUI() } }
         eventBus.register(this)
         // Initialize entity renderers (client side only)
         proxy.initializeEntityRenderers()

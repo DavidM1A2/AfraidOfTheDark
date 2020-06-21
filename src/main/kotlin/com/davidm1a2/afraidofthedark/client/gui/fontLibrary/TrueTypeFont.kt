@@ -519,21 +519,21 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
                 val width = bufferedImage.width
                 val height = bufferedImage.height
                 // Get the number of bytes per pixel
-                val bytesPerPixel = bufferedImage.colorModel.pixelSize
+                val bitsPerPixel = bufferedImage.colorModel.pixelSize
                 val byteBuffer: ByteBuffer
                 // Grab the data buffer used by the buffered image
                 val db = bufferedImage.data.dataBuffer
                 // If it's an int buffer write each int to the data buffer 4 bytes at a time
                 if (db is DataBufferInt) {
                     byteBuffer =
-                        ByteBuffer.allocateDirect(width * height * (bytesPerPixel / 8)).order(ByteOrder.nativeOrder())
-                    (bufferedImage.data.dataBuffer as DataBufferInt).data.forEach { byteBuffer.putInt(it) }
+                        ByteBuffer.allocateDirect(width * height * (bitsPerPixel / 8)).order(ByteOrder.nativeOrder())
+                    db.data.forEach { byteBuffer.putInt(it) }
                 }
                 // If it's a byte buffer write it directly into the buffer
                 else {
                     byteBuffer =
-                        ByteBuffer.allocateDirect(width * height * (bytesPerPixel / 8)).order(ByteOrder.nativeOrder())
-                    byteBuffer.put((bufferedImage.data.dataBuffer as DataBufferByte).data)
+                        ByteBuffer.allocateDirect(width * height * (bitsPerPixel / 8)).order(ByteOrder.nativeOrder())
+                    byteBuffer.put((db as DataBufferByte).data)
                 }
                 // We need to flip the bytes so they get drawn correctly
                 byteBuffer.flip()
@@ -544,6 +544,7 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
                 GL11.glGenTextures(textureBuffer)
 
                 val textureId = textureBuffer.get(0)
+                GL11.glEnable(GL11.GL_TEXTURE_2D)
                 GlStateManager.bindTexture(textureId)
 
                 GlStateManager.texParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_CLAMP)
@@ -554,7 +555,12 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
 
                 GlStateManager.texEnvf(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE.toFloat())
 
-                GlStateManager.texImage2D(
+                GlStateManager.pixelStorei(GL11.GL_UNPACK_ROW_LENGTH, 0)
+                GlStateManager.pixelStorei(GL11.GL_UNPACK_SKIP_ROWS, 0)
+                GlStateManager.pixelStorei(GL11.GL_UNPACK_SKIP_PIXELS, 0)
+                GlStateManager.pixelStorei(GL11.GL_UNPACK_ALIGNMENT, bitsPerPixel / 8)
+
+                GL11.glTexImage2D(
                     GL11.GL_TEXTURE_2D,
                     0,
                     GL11.GL_RGBA8,
@@ -563,8 +569,9 @@ class TrueTypeFont internal constructor(private val font: Font, private val anti
                     0,
                     GL11.GL_RGBA,
                     GL11.GL_UNSIGNED_BYTE,
-                    byteBuffer.asIntBuffer()
+                    byteBuffer
                 )
+                GL11.glDisable(GL11.GL_TEXTURE_2D)
 
                 // Return the texture ID
                 return textureId
