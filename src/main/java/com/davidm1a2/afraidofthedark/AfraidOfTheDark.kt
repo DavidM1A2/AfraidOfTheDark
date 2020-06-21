@@ -4,7 +4,6 @@ import com.davidm1a2.afraidofthedark.AfraidOfTheDark.Companion.packetHandler
 import com.davidm1a2.afraidofthedark.client.keybindings.KeyInputEventHandler
 import com.davidm1a2.afraidofthedark.common.command.AOTDCommands
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.constants.ModCapabilities
 import com.davidm1a2.afraidofthedark.common.constants.ModConfigHolder
 import com.davidm1a2.afraidofthedark.common.event.*
 import com.davidm1a2.afraidofthedark.common.event.register.*
@@ -128,7 +127,8 @@ class AfraidOfTheDark {
 
     @SubscribeEvent
     fun commonSetupEvent(event: FMLCommonSetupEvent) {
-        ModCapabilities.register()
+        CapabilityRegister.register()
+        RecipeFactoryRegister.register()
     }
 
     /**

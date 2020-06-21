@@ -1,6 +1,0 @@
-{
-  "recipes": {
-    "research_required_shaped_recipe": "com.davidm1a2.afraidofthedark.common.recipe.ResearchRequiredShapedRecipeFactory",
-    "research_required_shapeless_recipe": "com.davidm1a2.afraidofthedark.common.recipe.ResearchRequiredShapelessRecipeFactory"
-  }
-}
