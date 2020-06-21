@@ -76,7 +76,7 @@ abstract class Structure : ForgeRegistryEntry<Structure>() {
      * @return The unlocalized name of the structure
      */
     fun getUnlocalizedName(): String {
-        return "structure.${registryName!!}.name"
+        return "structure.${registryName!!.namespace}.${registryName!!.path}"
     }
 
     companion object {

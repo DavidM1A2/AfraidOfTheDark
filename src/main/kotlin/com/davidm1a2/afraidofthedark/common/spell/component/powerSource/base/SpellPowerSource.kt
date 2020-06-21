@@ -52,6 +52,6 @@ abstract class SpellPowerSource(id: ResourceLocation) :
      * @return Gets the unlocalized name of the component
      */
     override fun getUnlocalizedName(): String {
-        return "power_source.${registryName.toString()}.name"
+        return "power_source.${registryName!!.namespace}.${registryName!!.path}"
     }
 }

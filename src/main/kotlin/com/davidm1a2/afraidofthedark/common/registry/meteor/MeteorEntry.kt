@@ -38,7 +38,7 @@ abstract class MeteorEntry(
      * @return The unlocalized name of the meteor entry
      */
     fun getUnlocalizedName(): String {
-        return "meteor_entry.${registryName.toString()}.name"
+        return "meteor_entry.${registryName!!.namespace}.${registryName!!.path}"
     }
 
     companion object {

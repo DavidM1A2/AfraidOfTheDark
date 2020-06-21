@@ -1,10 +1,10 @@
 {
   "variants": {
     "type=top": {
-      "model": "afraidofthedark:block/gravewood_double_slab"
+      "model": "afraidofthedark:block/gravewood_slab_top"
     },
     "type=bottom": {
-      "model": "afraidofthedark:block/gravewood_half_slab"
+      "model": "afraidofthedark:block/gravewood_slab"
     },
     "type=double": {
       "model": "afraidofthedark:block/gravewood_planks"

@@ -1,21 +1,21 @@
 {
   "variants": {
     "facing=south,in_wall=false,open=false": {
-      "model": "afraidofthedark:block/sacred_mangrove_fence_gate_closed",
+      "model": "afraidofthedark:block/sacred_mangrove_fence_gate",
       "uvlock": true
     },
     "facing=west,in_wall=false,open=false": {
-      "model": "afraidofthedark:block/sacred_mangrove_fence_gate_closed",
+      "model": "afraidofthedark:block/sacred_mangrove_fence_gate",
       "uvlock": true,
       "y": 90
     },
     "facing=north,in_wall=false,open=false": {
-      "model": "afraidofthedark:block/sacred_mangrove_fence_gate_closed",
+      "model": "afraidofthedark:block/sacred_mangrove_fence_gate",
       "uvlock": true,
       "y": 180
     },
     "facing=east,in_wall=false,open=false": {
-      "model": "afraidofthedark:block/sacred_mangrove_fence_gate_closed",
+      "model": "afraidofthedark:block/sacred_mangrove_fence_gate",
       "uvlock": true,
       "y": 270
     },
@@ -39,21 +39,21 @@
       "y": 270
     },
     "facing=south,in_wall=true,open=false": {
-      "model": "afraidofthedark:block/sacred_mangrove_fence_gate_wall_closed",
+      "model": "afraidofthedark:block/sacred_mangrove_fence_gate_wall",
       "uvlock": true
     },
     "facing=west,in_wall=true,open=false": {
-      "model": "afraidofthedark:block/sacred_mangrove_fence_gate_wall_closed",
+      "model": "afraidofthedark:block/sacred_mangrove_fence_gate_wall",
       "uvlock": true,
       "y": 90
     },
     "facing=north,in_wall=true,open=false": {
-      "model": "afraidofthedark:block/sacred_mangrove_fence_gate_wall_closed",
+      "model": "afraidofthedark:block/sacred_mangrove_fence_gate_wall",
       "uvlock": true,
       "y": 180
     },
     "facing=east,in_wall=true,open=false": {
-      "model": "afraidofthedark:block/sacred_mangrove_fence_gate_wall_closed",
+      "model": "afraidofthedark:block/sacred_mangrove_fence_gate_wall",
       "uvlock": true,
       "y": 270
     },

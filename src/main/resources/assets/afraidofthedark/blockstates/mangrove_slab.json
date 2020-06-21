@@ -1,10 +1,10 @@
 {
   "variants": {
     "type=top": {
-      "model": "afraidofthedark:block/mangrove_double_slab"
+      "model": "afraidofthedark:block/mangrove_slab_top"
     },
     "type=bottom": {
-      "model": "afraidofthedark:block/mangrove_half_slab"
+      "model": "afraidofthedark:block/mangrove_slab"
     },
     "type=double": {
       "model": "afraidofthedark:block/mangrove_planks"

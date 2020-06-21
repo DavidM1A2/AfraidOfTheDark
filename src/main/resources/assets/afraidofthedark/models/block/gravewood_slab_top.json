@@ -1,5 +1,5 @@
 {
-  "parent": "block/upper_slab",
+  "parent": "block/slab_top",
   "textures": {
     "bottom": "afraidofthedark:block/gravewood_planks",
     "top": "afraidofthedark:block/gravewood_planks",

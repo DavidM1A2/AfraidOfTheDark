@@ -72,28 +72,28 @@ abstract class Research(data: ResourceLocation, val preRequisite: Research? = nu
      * @return The unlocalized name of the research
      */
     fun getUnlocalizedName(): String {
-        return "research.${registryName.toString()}.name"
+        return "research.${registryName!!.namespace}.${registryName!!.path}.name"
     }
 
     /**
      * @return The unlocalized tooltip of the research
      */
     fun getUnlocalizedTooltip(): String {
-        return "research.${registryName.toString()}.tooltip"
+        return "research.${registryName!!.namespace}.${registryName!!.path}.tooltip"
     }
 
     /**
      * @return The unlocalized pre text of the research
      */
     fun getUnlocalizedPreText(): String {
-        return "research.${registryName.toString()}.pre_text"
+        return "research.${registryName!!.namespace}.${registryName!!.path}.pre_text"
     }
 
     /**
      * @return The unlocalized text of the research
      */
     fun getUnlocalizedText(): String {
-        return "research.${registryName.toString()}.text"
+        return "research.${registryName!!.namespace}.${registryName!!.path}.text"
     }
 
     companion object {

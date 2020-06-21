@@ -106,7 +106,7 @@ abstract class SpellDeliveryMethod(id: ResourceLocation) :
      * @return Gets the unlocalized name of the component
      */
     override fun getUnlocalizedName(): String {
-        return "delivery_method.${registryName.toString()}.name"
+        return "delivery_method.${registryName!!.namespace}.${registryName!!.path}"
     }
 
     /**
