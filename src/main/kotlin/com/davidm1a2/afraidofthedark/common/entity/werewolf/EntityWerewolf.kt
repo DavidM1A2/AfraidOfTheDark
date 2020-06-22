@@ -152,10 +152,17 @@ class EntityWerewolf(world: World) : EntityMob(ModEntities.WEREWOLF, world), IMC
      */
     override fun attackEntityFrom(damageSource: DamageSource, damage: Float): Boolean {
         // If the damage was 'silver_damage' then we can apply it, otherwise we just do 1 'generic' damage
-        return if (damageSource.damageType == ModDamageSources.SILVER_DAMAGE) {
-            super.attackEntityFrom(damageSource, damage)
-        } else {
-            super.attackEntityFrom(DamageSource.GENERIC, 1f)
+        return when (damageSource.damageType) {
+            ModDamageSources.SILVER_DAMAGE -> {
+                super.attackEntityFrom(damageSource, damage)
+            }
+            // Out of world damage is caused by /kill
+            DamageSource.OUT_OF_WORLD.damageType -> {
+                super.attackEntityFrom(damageSource, damage)
+            }
+            else -> {
+                super.attackEntityFrom(DamageSource.GENERIC, 1f)
+            }
         }
     }
 
