@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.client.keybindings
 
 import com.davidm1a2.afraidofthedark.AfraidOfTheDark
-import com.davidm1a2.afraidofthedark.client.keybindings.KeyInputEventHandler.ROLL_VELOCITY
+import com.davidm1a2.afraidofthedark.client.keybindings.KeyInputEventHandler.Companion.ROLL_VELOCITY
 import com.davidm1a2.afraidofthedark.common.capabilities.getBasics
 import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
@@ -26,9 +26,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent
  *
  * @property ROLL_VELOCITY The velocity which the player rolls with the cloak of agility
  */
-object KeyInputEventHandler {
-    private const val ROLL_VELOCITY = 3.0
-
+class KeyInputEventHandler {
     /**
      * Called whenever a key is pressed
      *
@@ -193,5 +191,9 @@ object KeyInputEventHandler {
         } else {
             entityPlayer.sendMessage(TextComponentTranslation(LocalizationConstants.Generic.DONT_UNDERSTAND))
         }
+    }
+
+    companion object {
+        private const val ROLL_VELOCITY = 3.0
     }
 }

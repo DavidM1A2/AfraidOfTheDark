@@ -31,8 +31,7 @@ import net.minecraftforge.fml.network.PacketDistributor
  * @property animHandler Animation handler used by the werewolf
  * @property attacksAnyone Flag telling the werewolf if it is allowed to attack anyone or just players that have started AOTD
  */
-class EntityWerewolf(world: World) : EntityMob(ModEntities.WEREWOLF, world),
-    IMCAnimatedModel {
+class EntityWerewolf(world: World) : EntityMob(ModEntities.WEREWOLF, world), IMCAnimatedModel {
     private val animHandler = AnimationHandler(
         ChannelBite("Bite", 50.0f, 21, ChannelMode.LINEAR),
         ChannelRun("Run", 60.0f, 32, ChannelMode.LINEAR)

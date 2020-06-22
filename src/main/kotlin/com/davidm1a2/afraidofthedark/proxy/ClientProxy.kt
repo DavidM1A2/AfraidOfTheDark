@@ -9,6 +9,7 @@ import com.davidm1a2.afraidofthedark.client.entity.spell.projectile.RenderSpellP
 import com.davidm1a2.afraidofthedark.client.entity.splinterDrone.RenderSplinterDrone
 import com.davidm1a2.afraidofthedark.client.entity.splinterDrone.RenderSplinterDroneProjectile
 import com.davidm1a2.afraidofthedark.client.entity.werewolf.RenderWerewolf
+import com.davidm1a2.afraidofthedark.client.keybindings.KeyInputEventHandler
 import com.davidm1a2.afraidofthedark.client.keybindings.ModKeybindings.KEY_BINDING_LIST
 import com.davidm1a2.afraidofthedark.client.tileEntity.TileEntitySpellAltarRenderer
 import com.davidm1a2.afraidofthedark.client.tileEntity.TileEntityVoidChestRenderer
@@ -36,6 +37,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagList
 import net.minecraft.nbt.NBTTagString
 import net.minecraft.util.EnumHand
+import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.client.registry.ClientRegistry
 import net.minecraftforge.fml.client.registry.RenderingRegistry
 
@@ -47,9 +49,10 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry
 class ClientProxy : IProxy {
     override val researchOverlay = ResearchOverlayHandler()
 
-    /**
-     * Called to initialize entity renderers
-     */
+    override fun initializeResearchOverlayHandler() {
+        MinecraftForge.EVENT_BUS.register(researchOverlay)
+    }
+
     override fun initializeEntityRenderers() {
         // Register all of our renderers
         RenderingRegistry.registerEntityRenderingHandler(EntityEnchantedSkeleton::class.java) { RenderEnchantedSkeleton(it) }
@@ -67,9 +70,6 @@ class ClientProxy : IProxy {
         RenderingRegistry.registerEntityRenderingHandler(EntityEnchantedFrog::class.java) { RenderEnchantedFrog(it) }
     }
 
-    /**
-     * Called to initialize tile entity renderers
-     */
     override fun initializeTileEntityRenderers() {
         // Tell MC to render our special tile entities with the special renderer
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVoidChest::class.java, TileEntityVoidChestRenderer())
@@ -77,29 +77,17 @@ class ClientProxy : IProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEnariasAltar::class.java, TileEntityEnariasAltarRenderer())
     }
 
-    /**
-     * Called to register any key bindings
-     */
     override fun registerKeyBindings() {
+        MinecraftForge.EVENT_BUS.register(KeyInputEventHandler())
         KEY_BINDING_LIST.forEach { ClientRegistry.registerKeyBinding(it) }
     }
 
-    /**
-     * Opens the "Insanity's Heights" book on the client side, does nothing server side
-     *
-     * @param entityPlayer The player that opened the book
-     */
     override fun showInsanitysHeightsBook(entityPlayer: EntityPlayer) {
         // A hint book itemstack used purely to open the book GUI, it's never actually given to the player
         val hintBook = createHintBook()
         Minecraft.getInstance().displayGuiScreen(GuiScreenBook(entityPlayer, hintBook, false, EnumHand.MAIN_HAND))
     }
 
-    /**
-     * Creates a hint book to be used purely for displaying the book GUI
-     *
-     * @return The itemstack representing the hint book
-     */
     private fun createHintBook(): ItemStack {
         val toReturn = ItemStack(Items.WRITTEN_BOOK, 1)
         NBTHelper.setString(toReturn, "title", I18n.format("nightmarebook.title"))
@@ -109,11 +97,6 @@ class ClientProxy : IProxy {
         return toReturn
     }
 
-    /**
-     * Creates a tag list of strings representing pages in the insanity's heights book
-     *
-     * @return Creates a list of pages to be used by the book
-     */
     private fun createPages(): NBTTagList {
         val pages = NBTTagList()
         val bookText = I18n.format("nightmarebook.text").split(";;")
