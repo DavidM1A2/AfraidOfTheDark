@@ -107,6 +107,6 @@ class BlockVoidChest : AOTDBlockTileEntity(
         private val FACING_PROPERTY = BlockHorizontal.HORIZONTAL_FACING
 
         // The hitbox of the chest is smaller than usual
-        private val VOID_CHEST_SHAPE = Block.makeCuboidShape(0.0625, 0.0, 0.0625, 0.9375, 0.875, 0.9375)
+        private val VOID_CHEST_SHAPE = Block.makeCuboidShape(1.0, 0.0, 1.0, 15.0, 14.0, 15.0)
     }
 }

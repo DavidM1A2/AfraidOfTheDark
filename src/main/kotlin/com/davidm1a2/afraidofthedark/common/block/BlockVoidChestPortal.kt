@@ -45,7 +45,7 @@ class BlockVoidChestPortal : AOTDBlock(
                 // If the player is in the void chest send them to their stored dimension
                 if (world.dimension.type == ModDimensions.VOID_CHEST_TYPE) {
                     // Send the player to their previously stored dimension
-                    entity.changeDimension(playerVoidChestData.preTeleportDimension, ModDimensions.NOOP_TELEPORTER)
+                    entity.changeDimension(playerVoidChestData.preTeleportDimension!!, ModDimensions.NOOP_TELEPORTER)
                 } else {
                     // If we can research the research research it
                     if (playerResearch.canResearch(ModResearches.VOID_CHEST)) {

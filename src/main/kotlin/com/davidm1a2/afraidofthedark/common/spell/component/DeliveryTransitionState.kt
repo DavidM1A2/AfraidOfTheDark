@@ -81,7 +81,7 @@ class DeliveryTransitionState {
     constructor(nbt: NBTTagCompound) {
         spell = Spell(nbt.getCompound(NBT_SPELL))
         stageIndex = nbt.getInt(NBT_STAGE_INDEX)
-        world = ServerLifecycleHooks.getCurrentServer().getWorld(DimensionType.byName(ResourceLocation(nbt.getString(NBT_WORLD_ID)))!!)
+        world = ServerLifecycleHooks.getCurrentServer().getWorld(DimensionType.byName(ResourceLocation(nbt.getString(NBT_WORLD)))!!)
         position = Vec3d(
             nbt.getDouble(NBT_POSITION + "_x"),
             nbt.getDouble(NBT_POSITION + "_y"),
@@ -117,7 +117,7 @@ class DeliveryTransitionState {
         val nbt = NBTTagCompound()
         nbt.setTag(NBT_SPELL, spell.serializeNBT())
         nbt.setInt(NBT_STAGE_INDEX, stageIndex)
-        nbt.setString(NBT_WORLD_ID, world.dimension.type.registryName.toString())
+        nbt.setString(NBT_WORLD, DimensionType.func_212678_a(world.dimension.type).toString())
         nbt.setDouble(NBT_POSITION + "_x", position.x)
         nbt.setDouble(NBT_POSITION + "_y", position.y)
         nbt.setDouble(NBT_POSITION + "_z", position.z)
@@ -175,7 +175,7 @@ class DeliveryTransitionState {
         // Constants used for NBT serialization / deserialization
         private const val NBT_SPELL = "spell"
         private const val NBT_STAGE_INDEX = "stage_index"
-        private const val NBT_WORLD_ID = "world_id"
+        private const val NBT_WORLD = "world"
         private const val NBT_POSITION = "position"
         private const val NBT_BLOCK_POSITION = "block_position"
         private const val NBT_DIRECTION = "direction"

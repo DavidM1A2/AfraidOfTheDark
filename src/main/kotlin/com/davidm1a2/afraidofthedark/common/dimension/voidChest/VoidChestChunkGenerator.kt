@@ -1,9 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.dimension.voidChest
 
-import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
-import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.constants.ModServerConfiguration
-import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator
 import net.minecraft.entity.EnumCreatureType
 import net.minecraft.init.Blocks
 import net.minecraft.util.SharedSeedRandom
@@ -44,6 +41,7 @@ class VoidChestChunkGenerator(world: IWorld, biomeProvider: BiomeProvider) : Abs
         if (xPos % blocksBetweenIslands == 0 && z == 0) {
             for (i in 0..48) {
                 for (j in 0..48) {
+                    /*
                     // Create the floor
                     world.setBlockState(BlockPos(xPos + i, 100, z + j), barrierDefaultState, 3)
                     // Create the roof
@@ -56,11 +54,13 @@ class VoidChestChunkGenerator(world: IWorld, biomeProvider: BiomeProvider) : Abs
                     world.setBlockState(BlockPos(xPos + i, 100 + j, z + 0), barrierDefaultState, 3)
                     // Create the back wall
                     world.setBlockState(BlockPos(xPos + i, 100 + j, z + 48), barrierDefaultState, 3)
+
+                     */
                 }
             }
 
             // Generate the portal
-            SchematicGenerator.generateSchematic(ModSchematics.VOID_CHEST_PORTAL, world as World, BlockPos(xPos + 20, 100, -2))
+            // SchematicGenerator.generateSchematic(ModSchematics.VOID_CHEST_PORTAL, world as World, BlockPos(xPos + 20, 100, -2))
         }
     }
 
@@ -83,7 +83,10 @@ class VoidChestChunkGenerator(world: IWorld, biomeProvider: BiomeProvider) : Abs
     }
 
     override fun makeBase(chunk: IChunk) {
-        chunk.biomes.fill(ModBiomes.VOID_CHEST)
+        val x = chunk.pos.x
+        val z = chunk.pos.z
+        chunk.biomes = biomeProvider.getBiomes(x * 16, z * 16, 16, 16)
+        chunk.createHeightMap(Heightmap.Type.WORLD_SURFACE_WG, Heightmap.Type.OCEAN_FLOOR_WG)
         chunk.status = ChunkStatus.BASE
     }
 

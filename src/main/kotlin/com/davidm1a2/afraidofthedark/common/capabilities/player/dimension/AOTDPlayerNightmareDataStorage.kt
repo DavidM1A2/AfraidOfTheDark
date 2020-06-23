@@ -33,7 +33,7 @@ class AOTDPlayerNightmareDataStorage : IStorage<IAOTDPlayerNightmareData> {
         compound.setInt(NBT_POSITIONAL_INDEX, instance.positionalIndex)
         instance.preTeleportPlayerInventory?.let { compound.setTag(NBT_PRE_TELEPORT_INVENTORY, it) }
         instance.preTeleportPosition?.let { compound.setTag(NBT_PRE_TELEPORT_POSITION, NBTUtil.writeBlockPos(it)) }
-        instance.preTeleportDimension?.let { compound.setString(NBT_PRE_TELEPORT_DIMENSION, it.registryName.toString()) }
+        instance.preTeleportDimension?.let { compound.setString(NBT_PRE_TELEPORT_DIMENSION, DimensionType.func_212678_a(it).toString()) }
         return compound
     }
 

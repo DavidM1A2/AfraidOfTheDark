@@ -1,10 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
-import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
+import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EntityEnchantedFrog
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
-import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
@@ -12,6 +10,7 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.EnumHand
 import net.minecraft.util.text.TextComponentString
 import net.minecraft.world.World
+import net.minecraft.world.dimension.DimensionType
 import org.apache.logging.log4j.LogManager
 
 /**
@@ -27,7 +26,8 @@ class ItemDebug : AOTDItem("debug", Properties().maxStackSize(1), displayInCreat
     override fun onItemRightClick(worldIn: World, playerIn: EntityPlayer, handIn: EnumHand): ActionResult<ItemStack> {
         if (worldIn.isRemote) {
         } else {
-            SchematicGenerator.generateSchematic(ModSchematics.OBSERVATORY, worldIn, playerIn.position, null, ModLootTables.OBSERVATORY)
+            playerIn.changeDimension(DimensionType.OVERWORLD, ModDimensions.NOOP_TELEPORTER)
+            //SchematicGenerator.generateSchematic(ModSchematics.OBSERVATORY, worldIn, playerIn.position, null, ModLootTables.OBSERVATORY)
         }
         return super.onItemRightClick(worldIn, playerIn, handIn)
     }

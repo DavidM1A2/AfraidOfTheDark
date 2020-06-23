@@ -186,7 +186,7 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls", Propertie
                     tooltip.add(
                         TextComponentTranslation(
                             LocalizationConstants.Item.FLASK_OF_SOULS_TOOLTIP_COMPLETE_LINE1,
-                            EntityType.getById(getSpawnedEntity(stack)!!.toString())!!.translationKey
+                            TextComponentTranslation(EntityType.getById(getSpawnedEntity(stack)!!.toString())!!.translationKey)
                         )
                     )
                     tooltip.add(
@@ -199,7 +199,7 @@ class ItemFlaskOfSouls : AOTDItemWithPerItemCooldown("flask_of_souls", Propertie
                     tooltip.add(
                         TextComponentTranslation(
                             LocalizationConstants.Item.FLASK_OF_SOULS_TOOLTIP_INCOMPLETE_LINE1,
-                            EntityType.getById(getSpawnedEntity(stack)!!.toString())!!.translationKey
+                            TextComponentTranslation(EntityType.getById(getSpawnedEntity(stack)!!.toString())!!.translationKey)
                         )
                     )
                     tooltip.add(
