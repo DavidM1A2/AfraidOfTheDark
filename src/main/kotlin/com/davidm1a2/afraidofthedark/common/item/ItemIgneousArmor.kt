@@ -29,7 +29,7 @@ import kotlin.math.sqrt
  */
 class ItemIgneousArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
     AOTDItemArmor(baseName, ModArmorMaterials.IGNEOUS, equipmentSlot, Properties().defaultMaxDamage(0)) {
-    private val percentOfDamageBlocked = 0.8f
+    private val percentOfDamageBlocked = 0.9f
 
     /**
      * Gets the resource location path of the texture for the armor when worn by the player
@@ -76,30 +76,22 @@ class ItemIgneousArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
      * @param world     The world the player is in
      */
     override fun onArmorTick(stack: ItemStack, world: World, player: EntityPlayer) {
-        super.onArmorTick(stack, world, player)
-        // If the armor wearer is burning extinguish the fire
-        if (player.isBurning) {
-            // Ensure the player has the right research
-            if (player.getResearch().isResearched(ModResearches.IGNEOUS)) {
-                // If the player is wearing full armor then add armor set bonuses
-                if (isWearingFullArmor(player)) {
-                    player.extinguish()
+        // Dead players don't have capabilities
+        if (player.isAlive) {
+            // If the armor wearer is burning extinguish the fire
+            if (player.isBurning) {
+                // Ensure the player has the right research
+                if (player.getResearch().isResearched(ModResearches.IGNEOUS)) {
+                    // If the player is wearing full armor then add armor set bonuses
+                    if (isWearingFullArmor(player)) {
+                        player.extinguish()
+                    }
                 }
             }
         }
     }
 
-    /**
-     * Returns the amount of damage for a given item in an entities armor inventory
-     *
-     * @param entity The entity that is wearing the armor
-     * @param armorStack The armor item that is being worn
-     * @param source The damage source that hit the player
-     * @param amount The damage inflicted
-     * @param slot The slot containing the armor item
-     * @return The armor's properties for these damage types
-     */
-    override fun processDamage(entity: EntityLivingBase, armorStack: ItemStack, source: DamageSource, amount: Float, slot: EntityEquipmentSlot): Float {
+    override fun processDamage(entity: EntityLivingBase, armorStack: ItemStack, source: DamageSource, amount: Float, slot: EntityEquipmentSlot): Double {
         // Compute armor properties for players only
         if (entity is EntityPlayer) {
             // Ensure the player has the right research
@@ -127,19 +119,19 @@ class ItemIgneousArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
 
                 // Blocks all fire damage
                 if (FIRE_SOURCES.contains(source)) {
-                    return 0f
+                    return getRatio(slot)
                 }
                 // Blocks no true damage
                 else if (TRUE_DAMAGE_SOURCES.contains(source)) {
-                    return amount
+                    return 0.0
                 }
             } else {
                 // Armor is useless without research
-                return 0f
+                return 0.0
             }
         }
 
-        return amount * getRatio(slot) * percentOfDamageBlocked
+        return getRatio(slot) * percentOfDamageBlocked
     }
 
     /**
@@ -148,14 +140,14 @@ class ItemIgneousArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
      * @param slot The slot the armor is in
      * @return The ratio of protection of each piece reduced by the percent damage blocked
      */
-    private fun getRatio(slot: EntityEquipmentSlot): Float {
+    private fun getRatio(slot: EntityEquipmentSlot): Double {
         // Total protection of each piece
         val totalProtection = 3 + 6 + 8 + 3
         return when (slot) {
-            EntityEquipmentSlot.HEAD, EntityEquipmentSlot.FEET -> 3.0f / totalProtection * percentOfDamageBlocked
-            EntityEquipmentSlot.LEGS -> 6.0f / totalProtection * percentOfDamageBlocked
-            EntityEquipmentSlot.CHEST -> 8.0f / totalProtection * percentOfDamageBlocked
-            else -> 0.0f
+            EntityEquipmentSlot.HEAD, EntityEquipmentSlot.FEET -> 3.0 / totalProtection * percentOfDamageBlocked
+            EntityEquipmentSlot.LEGS -> 6.0 / totalProtection * percentOfDamageBlocked
+            EntityEquipmentSlot.CHEST -> 8.0 / totalProtection * percentOfDamageBlocked
+            else -> 0.0
         }
     }
 

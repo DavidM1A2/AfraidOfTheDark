@@ -3,6 +3,7 @@ package com.davidm1a2.afraidofthedark.common.item.core
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
+import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityLiving
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.entity.player.EntityPlayer
@@ -30,7 +31,7 @@ abstract class AOTDItemChargeableSword(
     damageAmplifier: Int,
     attackSpeed: Float,
     properties: Properties,
-    displayInCreative: Boolean = false
+    displayInCreative: Boolean = true
 ) : AOTDItemSword(baseName, toolMaterial, damageAmplifier, attackSpeed, properties.apply {
     // This is required to make the sword unbreakable
     defaultMaxDamage(0)
@@ -44,6 +45,14 @@ abstract class AOTDItemChargeableSword(
         }
     }
 
+    override fun onLeftClickEntity(stack: ItemStack, player: EntityPlayer, target: Entity): Boolean {
+        // Only charge on hitting entity living entities not armor stands
+        if (target is EntityPlayer || target is EntityLiving) {
+            addCharge(stack, percentChargePerAttack)
+        }
+        return super.onLeftClickEntity(stack, player, target)
+    }
+
     /**
      * Called when you hit an entity with the sword
      *
@@ -53,10 +62,6 @@ abstract class AOTDItemChargeableSword(
      * @return True to let the attack happen, false otherwise
      */
     override fun hitEntity(stack: ItemStack, target: EntityLivingBase, attacker: EntityLivingBase): Boolean {
-        // Only charge on hitting entity living entities not armor stands
-        if (target is EntityPlayer || target is EntityLiving) {
-            addCharge(stack, percentChargePerAttack)
-        }
         return true
     }
 

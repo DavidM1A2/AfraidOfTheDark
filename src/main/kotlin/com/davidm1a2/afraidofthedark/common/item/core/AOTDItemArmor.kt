@@ -33,7 +33,17 @@ abstract class AOTDItemArmor(
         this.setRegistryName("${Constants.MOD_ID}:$baseName")
     }
 
-    abstract fun processDamage(entity: EntityLivingBase, armorStack: ItemStack, source: DamageSource, amount: Float, slot: EntityEquipmentSlot): Float
+    /**
+     * Processes damage taken when wearing armor
+     *
+     * @param entity The entity being hit
+     * @param armorStack The armor itemstack
+     * @param source The source of the damage
+     * @param amount The amount of damage
+     * @param slot The slot the armor piece is in
+     * @return The percent of damage this specific armor piece blocks, should be between 0-10
+     */
+    abstract fun processDamage(entity: EntityLivingBase, armorStack: ItemStack, source: DamageSource, amount: Float, slot: EntityEquipmentSlot): Double
 
     /**
      * Tests if the player is wearing a full set of this armor type

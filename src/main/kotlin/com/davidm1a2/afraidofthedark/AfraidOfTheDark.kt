@@ -51,6 +51,7 @@ class AfraidOfTheDark {
         forgeBus.register(SpellStateHandler())
         forgeBus.register(SpellFreezeHandler())
         forgeBus.register(SpellCharmHandler())
+        forgeBus.register(ArmorHandler())
         forgeBus.register(ModColorRegister())
         forgeBus.register(AOTDWorldGenerator())
         forgeBus.register(this)

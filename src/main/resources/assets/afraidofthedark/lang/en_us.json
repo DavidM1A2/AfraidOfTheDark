@@ -319,7 +319,7 @@
   "tooltip.afraidofthedark.journal.unbound": "Unbound",
   "tooltip.afraidofthedark.journal.cheatsheet.line1": "Cheatsheet",
   "tooltip.afraidofthedark.journal.cheatsheet.line2": "Click researches to unlock them.",
-  "tooltip.afraidofthedark.research_scroll.part": "Scroll part %1$s/%2%$s of the research %3$s.",
+  "tooltip.afraidofthedark.research_scroll.part": "Scroll part %1$s/%2$s of the research %3$s.",
   "tooltip.afraidofthedark.research_scroll.complete": "%1$s",
   "tooltip.afraidofthedark.research_scroll.corrupt": "Scroll is corrupt.",
   "tooltip.afraidofthedark.star_metal_khopesh.effect1": "Right click to use an AOE knockback and",

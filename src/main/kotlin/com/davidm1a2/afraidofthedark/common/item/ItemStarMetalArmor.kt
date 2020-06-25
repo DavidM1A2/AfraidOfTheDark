@@ -29,7 +29,7 @@ import net.minecraftforge.api.distmarker.OnlyIn
  */
 class ItemStarMetalArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
     AOTDItemArmor(baseName, ModArmorMaterials.STAR_METAL, equipmentSlot, Properties().defaultMaxDamage(0)) {
-    private val percentOfDamageBlocked = 0.7f
+    private val percentOfDamageBlocked = 0.85f
 
     /**
      * Gets the resource location path of the texture for the armor when worn by the player
@@ -76,24 +76,27 @@ class ItemStarMetalArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
      * @param player    The player that is wearing the armor
      */
     override fun onArmorTick(itemStack: ItemStack, world: World, player: EntityPlayer) {
-        // We have to test client and server side since absorption is client side :(
-        // Test if the player has the star metal research
-        if (player.getResearch().isResearched(ModResearches.STAR_METAL)) {
-            // If the stack is ready to proc absorption, add 2 absorption hearts
-            if (readyToProcAbsorption(itemStack)) {
-                // The number of star metal armor pieces worn
-                val numberStarMetalPiecesWorn =
-                    player.inventory.armorInventory.map { it.item }.filterIsInstance<ItemStarMetalArmor>().count()
-                if (numberStarMetalPiecesWorn * ABSORPTION_PER_PIECE >= player.absorptionAmount) {
-                    // Add 4 to absorption up to a max for the proc
-                    player.absorptionAmount = (player.absorptionAmount + ABSORPTION_PER_PIECE).coerceIn(
-                        0f,
-                        numberStarMetalPiecesWorn * ABSORPTION_PER_PIECE.toFloat()
-                    )
-                }
+        // Dead players don't have capabilities
+        if (player.isAlive) {
+            // We have to test client and server side since absorption is client side :(
+            // Test if the player has the star metal research
+            if (player.getResearch().isResearched(ModResearches.STAR_METAL)) {
+                // If the stack is ready to proc absorption, add 2 absorption hearts
+                if (readyToProcAbsorption(itemStack)) {
+                    // The number of star metal armor pieces worn
+                    val numberStarMetalPiecesWorn =
+                        player.inventory.armorInventory.map { it.item }.filterIsInstance<ItemStarMetalArmor>().count()
+                    if (numberStarMetalPiecesWorn * ABSORPTION_PER_PIECE >= player.absorptionAmount) {
+                        // Add 4 to absorption up to a max for the proc
+                        player.absorptionAmount = (player.absorptionAmount + ABSORPTION_PER_PIECE).coerceIn(
+                            0f,
+                            numberStarMetalPiecesWorn * ABSORPTION_PER_PIECE.toFloat()
+                        )
+                    }
 
-                // Update the last proc time to now
-                NBTHelper.setLong(itemStack, NBT_LAST_ABSORPTION_PROC, System.currentTimeMillis())
+                    // Update the last proc time to now
+                    NBTHelper.setLong(itemStack, NBT_LAST_ABSORPTION_PROC, System.currentTimeMillis())
+                }
             }
         }
     }
@@ -105,42 +108,30 @@ class ItemStarMetalArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
      * @return True if absorption can be proc'd, false otherwise
      */
     private fun readyToProcAbsorption(itemStack: ItemStack): Boolean {
-        return !NBTHelper.hasTag(itemStack, NBT_LAST_ABSORPTION_PROC) || System.currentTimeMillis() > NBTHelper.getLong(
-            itemStack,
-            NBT_LAST_ABSORPTION_PROC
-        )!! + ABSORPTION_PROC_CD_MILLIS
+        return !NBTHelper.hasTag(itemStack, NBT_LAST_ABSORPTION_PROC) ||
+                System.currentTimeMillis() > NBTHelper.getLong(itemStack, NBT_LAST_ABSORPTION_PROC)!! + ABSORPTION_PROC_CD_MILLIS
     }
 
-    /**
-     * Returns the armor properties for a given item in the player's armor inventory
-     *
-     * @param entity The player that is wearing the armor
-     * @param armorStack  The armor item that is being worn
-     * @param source The damage source that hit the player
-     * @param amount The damage inflicted
-     * @param slot The slot containing the armor block
-     * @return The armor's properties for these damage types
-     */
-    override fun processDamage(entity: EntityLivingBase, armorStack: ItemStack, source: DamageSource, amount: Float, slot: EntityEquipmentSlot): Float {
+    override fun processDamage(entity: EntityLivingBase, armorStack: ItemStack, source: DamageSource, amount: Float, slot: EntityEquipmentSlot): Double {
         // Compute armor properties for players only
         if (entity is EntityPlayer) {
             // Ensure the player has the right research
             if (entity.getResearch().isResearched(ModResearches.STAR_METAL)) {
                 // No damage reduction against true sources
                 if (TRUE_DAMAGE_SOURCES.contains(source)) {
-                    return amount
+                    return 0.0
                 }
             } else {
                 // Armor is useless without research
-                return amount
+                return 0.0
             }
         } else {
             // Armor is useless without research
-            return amount
+            return 0.0
         }
 
         // Default armor protection if no special set bonus applies
-        return amount * getRatio(slot) * percentOfDamageBlocked
+        return getRatio(slot) * percentOfDamageBlocked
     }
 
     /**
@@ -149,14 +140,14 @@ class ItemStarMetalArmor(baseName: String, equipmentSlot: EntityEquipmentSlot) :
      * @param slot The slot the armor is in
      * @return The ratio of protection of each piece reduced by the percent damage blocked
      */
-    private fun getRatio(slot: EntityEquipmentSlot): Float {
+    private fun getRatio(slot: EntityEquipmentSlot): Double {
         // Total protection of each piece
         val totalProtection = 3 + 6 + 8 + 3
         return when (slot) {
-            EntityEquipmentSlot.HEAD, EntityEquipmentSlot.FEET -> 3.0f / totalProtection * percentOfDamageBlocked
-            EntityEquipmentSlot.LEGS -> 6.0f / totalProtection * percentOfDamageBlocked
-            EntityEquipmentSlot.CHEST -> 8.0f / totalProtection * percentOfDamageBlocked
-            else -> 0.0f
+            EntityEquipmentSlot.HEAD, EntityEquipmentSlot.FEET -> 3.0 / totalProtection * percentOfDamageBlocked
+            EntityEquipmentSlot.LEGS -> 6.0 / totalProtection * percentOfDamageBlocked
+            EntityEquipmentSlot.CHEST -> 8.0 / totalProtection * percentOfDamageBlocked
+            else -> 0.0
         }
     }
 

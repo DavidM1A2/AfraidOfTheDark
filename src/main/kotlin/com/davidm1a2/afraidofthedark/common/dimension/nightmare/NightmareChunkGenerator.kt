@@ -1,13 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.dimension.nightmare
 
-import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
-import com.davidm1a2.afraidofthedark.common.constants.ModServerConfiguration
-import com.davidm1a2.afraidofthedark.common.constants.ModStructures
-import com.davidm1a2.afraidofthedark.common.worldGeneration.relightChunk
 import net.minecraft.entity.EnumCreatureType
 import net.minecraft.util.SharedSeedRandom
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.ChunkPos
 import net.minecraft.world.IWorld
 import net.minecraft.world.World
 import net.minecraft.world.biome.Biome.SpawnListEntry
@@ -31,6 +26,7 @@ class NightmareChunkGenerator(world: IWorld, biomeProvider: BiomeProvider) : Abs
     }
 
     override fun decorate(worldGenRegion: WorldGenRegion) {
+        /*
         val x = worldGenRegion.mainChunkX
         val z = worldGenRegion.mainChunkZ
         // Grab some constants
@@ -60,6 +56,7 @@ class NightmareChunkGenerator(world: IWorld, biomeProvider: BiomeProvider) : Abs
                 world.relightChunk(chunkPos)
             }
         }
+        */
     }
 
     override fun getPossibleCreatures(creatureType: EnumCreatureType, pos: BlockPos): List<SpawnListEntry> {
@@ -81,7 +78,10 @@ class NightmareChunkGenerator(world: IWorld, biomeProvider: BiomeProvider) : Abs
     }
 
     override fun makeBase(chunk: IChunk) {
-        chunk.biomes.fill(ModBiomes.NIGHTMARE)
+        val x = chunk.pos.x
+        val z = chunk.pos.z
+        chunk.biomes = biomeProvider.getBiomes(x * 16, z * 16, 16, 16)
+        chunk.createHeightMap(Heightmap.Type.WORLD_SURFACE_WG, Heightmap.Type.OCEAN_FLOOR_WG)
         chunk.status = ChunkStatus.BASE
     }
 

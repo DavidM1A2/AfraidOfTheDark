@@ -20,12 +20,15 @@ class ArmorHandler {
             val armor = event.entityLiving.armorInventoryList.toList()
             // Only process armor with 4 pieces (helm, chest, legging, boot)
             if (armor.size == 4) {
-                armor.map {
+                val percentDamageBlocked = armor.sumByDouble {
                     val armorItem = it.item
                     if (armorItem is AOTDItemArmor) {
-                        event.amount = armorItem.processDamage(event.entityLiving, it, event.source, event.amount, armorItem.equipmentSlot)
+                        armorItem.processDamage(event.entityLiving, it, event.source, event.amount, armorItem.equipmentSlot)
+                    } else {
+                        0.0
                     }
                 }
+                event.amount = (event.amount * (1.0f - percentDamageBlocked.coerceIn(0.0, 1.0))).toFloat()
             }
         }
     }
