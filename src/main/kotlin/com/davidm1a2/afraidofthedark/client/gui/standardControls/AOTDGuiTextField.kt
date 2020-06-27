@@ -72,8 +72,8 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
         }
         // When a key is typed save that information
         this.addKeyListener {
-            if (it.eventType == AOTDKeyEvent.KeyEventType.Type) {
-                keyTyped(it.key, it.keyCode)
+            if (it.eventType == AOTDKeyEvent.KeyEventType.Press) {
+                keyTyped(it.getKeyName(), it.key)
             }
         }
     }
@@ -93,7 +93,7 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
      * @param character The character typed
      * @param keyCode   The code of the character typed
      */
-    private fun keyTyped(character: Char, keyCode: Int) {
+    private fun keyTyped(character: String?, keyCode: Int) {
         // Ensure the text field is focused
         if (this.isFocused) {
             // CTRL + A
@@ -128,11 +128,8 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
                     GLFW.GLFW_KEY_RIGHT -> {
                         // Not yet implemented
                     }
-                    else ->
-                        if (SharedConstants.isAllowedCharacter(character)) {
-                            // Add the character
-                            this.addText(character.toString())
-                        }
+                    // Add the character
+                    else -> character?.let { this.addText(SharedConstants.filterAllowedCharacters(it)) }
                 }
             }
         }

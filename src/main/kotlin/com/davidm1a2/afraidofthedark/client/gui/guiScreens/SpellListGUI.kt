@@ -11,7 +11,6 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getSpellManager
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModSounds
 import com.davidm1a2.afraidofthedark.common.spell.Spell
-import org.lwjgl.glfw.GLFW
 
 /**
  * Spell selection/list gui allows players to create spells and keybind them
@@ -72,13 +71,13 @@ class SpellListGUI : AOTDGuiScreen() {
 
         // When we press a key test if we are waiting for a keybind, if so set the spell's keybind
         contentPane.addKeyListener {
-            if (it.eventType == AOTDKeyEvent.KeyEventType.Type) {
+            if (it.eventType == AOTDKeyEvent.KeyEventType.Press) {
                 // If we're waiting on a keybind assign the keybind and update each spell
                 if (spellWaitingOnKeybind != null) {
                     // Test if the key down is bindable
-                    if (KeybindingUtils.isKeyBindable(it.keyCode)) {
+                    if (KeybindingUtils.isKeyBindable(it.key)) {
                         // Grab the keybind being held
-                        val keybind = KeybindingUtils.getCurrentlyHeldKeybind(it.keyCode, GLFW.glfwGetKeyScancode(it.keyCode))
+                        val keybind = KeybindingUtils.getCurrentlyHeldKeybind(it.key, it.scanCode)
                         // Keybind the spell
                         spellManager.keybindSpell(keybind, spellWaitingOnKeybind!!.spell)
                         // Update all gui spell's labels

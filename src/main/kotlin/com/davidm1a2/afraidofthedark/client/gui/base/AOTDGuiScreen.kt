@@ -11,8 +11,8 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.EntityPlayerSP
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.client.renderer.GlStateManager
-import org.lwjgl.opengl.GL11
-import java.io.IOException
+import net.minecraft.client.util.InputMappings
+import org.lwjgl.glfw.GLFW
 import kotlin.math.min
 import kotlin.math.round
 import kotlin.math.roundToInt
@@ -103,34 +103,50 @@ abstract class AOTDGuiScreen : GuiScreen() {
         return false
     }
 
-    /**
-     * Called whenever a key is typed, we ask our key handler to handle the event
-     *
-     * @param character The character typed
-     * @param keyCode   The code of the character typed
-     * @throws IOException forwarded from the super method
-     */
-    override fun charTyped(character: Char, keyCode: Int): Boolean {
+    override fun keyPressed(key: Int, scanCode: Int, modifiers: Int): Boolean {
         // Fire the process key event on our content pane
         this.contentPane.processKeyInput(
             AOTDKeyEvent(
                 this.contentPane,
-                character,
-                keyCode,
-                AOTDKeyEvent.KeyEventType.Type
+                key,
+                scanCode,
+                modifiers,
+                AOTDKeyEvent.KeyEventType.Press
             )
         )
-        // If our inventory key closes the screen, test if that key was pressed
-        if (this.inventoryToCloseGuiScreen()) {
-            // if the keycode is the inventory key bind close the GUI screen
-            if (inventoryKeybindPressed(character)) {
-                // Close the screen
-                entityPlayer.closeScreen()
-                GL11.glFlush()
+
+        if (super.keyPressed(key, scanCode, modifiers)) {
+            return true
+        } else {
+            // If our inventory key closes the screen, test if that key was pressed
+            if (this.inventoryToCloseGuiScreen()) {
+                // if the keycode is the inventory key bind close the GUI screen
+                if (isInventoryKeybind(key, scanCode)) {
+                    // Close the screen
+                    entityPlayer.closeScreen()
+                    return true
+                }
             }
         }
-        // Call super afterwards to finish any default MC processing
-        return super.charTyped(character, keyCode)
+
+        return false
+    }
+
+    override fun keyReleased(key: Int, scanCode: Int, modifiers: Int): Boolean {
+        val result = super.keyReleased(key, scanCode, modifiers)
+
+        // Fire the process key event on our content pane
+        this.contentPane.processKeyInput(
+            AOTDKeyEvent(
+                this.contentPane,
+                key,
+                scanCode,
+                modifiers,
+                AOTDKeyEvent.KeyEventType.Release
+            )
+        )
+
+        return result
     }
 
     /**
@@ -236,7 +252,12 @@ abstract class AOTDGuiScreen : GuiScreen() {
     /**
      * @return True if the inventory keybind is pressed, false otherwise
      */
-    internal fun inventoryKeybindPressed(character: Char): Boolean {
-        return Minecraft.getInstance().gameSettings.keyBindInventory.key.name.toLowerCase() == character.toString().toLowerCase()
+    internal fun isInventoryKeybind(key: Int, scanCode: Int): Boolean {
+        return key == GLFW.GLFW_KEY_ESCAPE || Minecraft.getInstance().gameSettings.keyBindInventory.isActiveAndMatches(
+            InputMappings.getInputByCode(
+                key,
+                scanCode
+            )
+        )
     }
 }

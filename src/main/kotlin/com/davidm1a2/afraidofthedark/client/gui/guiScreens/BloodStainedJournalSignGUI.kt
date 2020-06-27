@@ -137,7 +137,7 @@ class BloodStainedJournalSignGUI : AOTDGuiScreen() {
         }
         // When we type a character play a type sound
         this.nameSignField.addKeyListener {
-            if (it.eventType == AOTDKeyEvent.KeyEventType.Type) {
+            if (it.eventType == AOTDKeyEvent.KeyEventType.Press) {
                 if (nameSignField.isFocused) {
                     entityPlayer.playSound(ModSounds.KEY_TYPED, 0.4f, 0.8f)
                     it.consume()

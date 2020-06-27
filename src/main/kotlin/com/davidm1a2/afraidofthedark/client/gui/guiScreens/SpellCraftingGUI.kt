@@ -13,7 +13,6 @@ import com.davidm1a2.afraidofthedark.common.spell.Spell
 import com.davidm1a2.afraidofthedark.common.spell.SpellStage
 import com.davidm1a2.afraidofthedark.common.spell.component.SpellComponent
 import net.minecraft.client.Minecraft
-import java.io.IOException
 
 /**
  * Class representing the spell crating GUI screen used to edit spells
@@ -96,13 +95,22 @@ class SpellCraftingGUI(spell: Spell) : AOTDGuiScreen() {
         helpOverlay.isVisible = false
         // When pressing any key hide the overlay
         helpOverlay.addKeyListener {
-            if (it.eventType == AOTDKeyEvent.KeyEventType.Type) {
+            if (it.eventType == AOTDKeyEvent.KeyEventType.Press) {
                 it.source.isVisible = false
             }
         }
         // When pressing help on the tablet show the help overlay
         tablet.onHelp = { helpOverlay.isVisible = true }
         contentPane.add(helpOverlay)
+
+        contentPane.addKeyListener {
+            // If the inventory key closes the ui and is pressed open the spell list UI
+            if (tablet.inventoryKeyClosesUI() && scroll.inventoryKeyClosesUI()) {
+                if (isInventoryKeybind(it.key, it.scanCode)) {
+                    Minecraft.getInstance().displayGuiScreen(SpellListGUI())
+                }
+            }
+        }
     }
 
     /**
@@ -128,27 +136,6 @@ class SpellCraftingGUI(spell: Spell) : AOTDGuiScreen() {
             this.selectedComponent = null
             selectedCursorIcon.isVisible = false
         }
-    }
-
-    /**
-     * Called whenever a key is typed, we ask our key handler to handle the event
-     * Also open the spell list GUI
-     *
-     * @param character The character typed
-     * @param keyCode   The code of the character typed
-     * @throws IOException forwarded from the super method
-     */
-    override fun charTyped(character: Char, keyCode: Int): Boolean {
-        val toReturn = super.charTyped(character, keyCode)
-
-        // If the inventory key closes the ui and is pressed open the spell list UI
-        if (tablet.inventoryKeyClosesUI() && scroll.inventoryKeyClosesUI()) {
-            if (inventoryKeybindPressed(character)) {
-                Minecraft.getInstance().displayGuiScreen(SpellListGUI())
-            }
-        }
-
-        return toReturn
     }
 
     /**

@@ -25,11 +25,6 @@ object KeybindingUtils {
         GLFW.GLFW_KEY_RIGHT_SHIFT to "Right Shift"
     )
 
-    // Unbindable key scan codes
-    private val UNBINDABLE_KEY_SCANCODES = UNBINDABLE_KEYS.map {
-        it to GLFW.glfwGetKeyScancode(it)
-    }.toMap()
-
     /**
      * @param keyCode The code of the key to test
      * @return True if a keybindable key is down, false otherwise

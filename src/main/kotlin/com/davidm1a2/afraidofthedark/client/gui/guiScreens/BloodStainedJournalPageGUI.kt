@@ -207,6 +207,16 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
         // Hide the backward button if we're not on the first page
         backwardButton.isVisible = this.hasPageBackward()
 
+        contentPane.addKeyListener {
+            if (isInventoryKeybind(it.key, it.scanCode)) {
+                Minecraft.getInstance().displayGuiScreen(BloodStainedJournalResearchGUI(false))
+            } else if (it.key == GLFW.GLFW_KEY_A || it.key == GLFW.GLFW_KEY_LEFT) {
+                rewindPage()
+            } else if (it.key == GLFW.GLFW_KEY_D || it.key == GLFW.GLFW_KEY_RIGHT) {
+                advancePage()
+            }
+        }
+
         // Play a page turn sound to the player
         entityPlayer.playSound(ModSounds.PAGE_TURN, 1.0f, 1.0f)
     }
@@ -336,25 +346,6 @@ class BloodStainedJournalPageGUI(text: String, titleText: String, relatedItemRec
             // Add the page of text
             textOnEachPage.add(pageText)
         }
-    }
-
-    /**
-     * Called whenever a key is typed, we ask our key handler to handle the event
-     *
-     * @param character The character typed
-     * @param keyCode   The code of the character typed
-     */
-    override fun charTyped(character: Char, keyCode: Int): Boolean {
-        // If we press our inventory button close the UI and go to the journal UI
-        if (inventoryKeybindPressed(character)) {
-            Minecraft.getInstance().displayGuiScreen(BloodStainedJournalResearchGUI(false))
-        } else if (character == 'a' || character == 'A' || keyCode == GLFW.GLFW_KEY_LEFT) {
-            rewindPage()
-        } else if (character == 'd' || character == 'D' || keyCode == GLFW.GLFW_KEY_RIGHT) {
-            advancePage()
-        }
-
-        return super.charTyped(character, keyCode)
     }
 
     /**
