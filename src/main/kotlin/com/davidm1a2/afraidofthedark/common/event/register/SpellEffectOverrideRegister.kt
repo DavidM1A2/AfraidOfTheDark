@@ -10,7 +10,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.helper.TargetType
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
-import com.davidm1a2.afraidofthedark.common.world.WorldGenFast
+import com.davidm1a2.afraidofthedark.common.world.setBlockStateFast
 import net.minecraft.block.BlockAir
 import net.minecraft.init.Blocks
 import net.minecraft.init.SoundEvents
@@ -219,8 +219,7 @@ object SpellEffectOverrideRegister {
                                 if (distance < radius + threshhold && distance > radius - threshhold) {
                                     // If the block is air replace it with ice
                                     if (world.getBlockState(blockLocation).block is BlockAir) {
-                                        WorldGenFast.setBlockStateFast(
-                                            world,
+                                        world.setBlockStateFast(
                                             blockLocation,
                                             Blocks.ICE.defaultState,
                                             2 or 16
