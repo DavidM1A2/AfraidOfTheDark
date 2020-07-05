@@ -7,7 +7,6 @@ import net.minecraft.util.SharedSeedRandom
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IWorld
 import net.minecraft.world.World
-import net.minecraft.world.biome.Biome
 import net.minecraft.world.biome.Biome.SpawnListEntry
 import net.minecraft.world.biome.provider.BiomeProvider
 import net.minecraft.world.chunk.ChunkStatus
@@ -26,11 +25,6 @@ class VoidChestChunkGenerator(world: IWorld, biomeProvider: BiomeProvider) : Abs
 
     override fun carve(worldGenRegion: WorldGenRegion, stage: GenerationStage.Carving) {
         // Do nothing, there's nothing to carve out of void
-    }
-
-    override fun buildSurface(chunkIn: IChunk, biomesIn: Array<Biome>, random: SharedSeedRandom, seaLevel: Int) {
-        chunkIn.setBlockState()
-        super.buildSurface(chunkIn, biomesIn, random, seaLevel)
     }
 
     override fun decorate(region: WorldGenRegion) {
