@@ -4,7 +4,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.world.PlacedStructure
 import com.davidm1a2.afraidofthedark.common.capabilities.world.StructurePlan
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
-import com.davidm1a2.afraidofthedark.common.worldGeneration.relightChunk
+import com.davidm1a2.afraidofthedark.common.world.relightChunk
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.StringArgumentType.word
 import com.mojang.brigadier.builder.LiteralArgumentBuilder.literal

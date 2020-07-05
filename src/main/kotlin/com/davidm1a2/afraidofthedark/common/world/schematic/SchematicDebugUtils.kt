@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.worldGeneration.schematic
+package com.davidm1a2.afraidofthedark.common.world.schematic
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import net.minecraft.block.state.IBlockState

@@ -7,9 +7,9 @@ import com.davidm1a2.afraidofthedark.common.constants.ModConfigHolder
 import com.davidm1a2.afraidofthedark.common.event.*
 import com.davidm1a2.afraidofthedark.common.event.register.*
 import com.davidm1a2.afraidofthedark.common.packets.packetHandler.PacketHandler
-import com.davidm1a2.afraidofthedark.common.worldGeneration.AOTDWorldGenerator
-import com.davidm1a2.afraidofthedark.common.worldGeneration.WorldHeightMapper
-import com.davidm1a2.afraidofthedark.common.worldGeneration.WorldStructurePlanner
+import com.davidm1a2.afraidofthedark.common.world.AOTDWorldGenerator
+import com.davidm1a2.afraidofthedark.common.world.WorldHeightMapper
+import com.davidm1a2.afraidofthedark.common.world.WorldStructurePlanner
 import com.davidm1a2.afraidofthedark.proxy.ClientProxy
 import com.davidm1a2.afraidofthedark.proxy.IProxy
 import com.davidm1a2.afraidofthedark.proxy.ServerProxy

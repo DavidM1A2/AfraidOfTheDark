@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.world
 
-import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.Structure
+import com.davidm1a2.afraidofthedark.common.world.structure.base.Structure
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTTagList
 import net.minecraft.nbt.NBTTagString

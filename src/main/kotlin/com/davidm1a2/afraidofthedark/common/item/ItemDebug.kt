@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.common.item
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EntityEnchantedFrog
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
-import com.davidm1a2.afraidofthedark.common.worldGeneration.generateSchematic
+import com.davidm1a2.afraidofthedark.common.world.generateSchematic
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack

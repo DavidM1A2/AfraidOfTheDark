@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.capabilities.world
 
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
-import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.Structure
+import com.davidm1a2.afraidofthedark.common.world.structure.base.Structure
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.ResourceLocation

@@ -10,7 +10,7 @@ import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.helper.TargetType
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.AOTDSpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
-import com.davidm1a2.afraidofthedark.common.worldGeneration.WorldGenFast
+import com.davidm1a2.afraidofthedark.common.world.WorldGenFast
 import net.minecraft.block.BlockAir
 import net.minecraft.init.Blocks
 import net.minecraft.init.SoundEvents

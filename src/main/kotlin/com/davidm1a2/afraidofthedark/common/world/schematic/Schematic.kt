@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.worldGeneration.schematic
+package com.davidm1a2.afraidofthedark.common.world.schematic
 
 import net.minecraft.block.state.IBlockState
 import net.minecraft.nbt.NBTTagList

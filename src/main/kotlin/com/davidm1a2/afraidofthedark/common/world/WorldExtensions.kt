@@ -1,6 +1,6 @@
-package com.davidm1a2.afraidofthedark.common.worldGeneration
+package com.davidm1a2.afraidofthedark.common.world
 
-import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.Schematic
+import com.davidm1a2.afraidofthedark.common.world.schematic.Schematic
 import net.minecraft.entity.EntityType
 import net.minecraft.init.Blocks
 import net.minecraft.tileentity.TileEntity
@@ -111,10 +111,20 @@ private fun World.generateBlocks(schematic: Schematic, blockPos: BlockPos, chunk
                     // Structure void blocks represent air blocks in my schematic system. This allows for easy underground structure generation.
                     if (nextToPlace.block == Blocks.STRUCTURE_VOID) {
                         // Set the block to air
-                        WorldGenFast.setBlockStateFast(this, position, Blocks.AIR.defaultState, setBlockFlags)
+                        WorldGenFast.setBlockStateFast(
+                            this,
+                            position,
+                            Blocks.AIR.defaultState,
+                            setBlockFlags
+                        )
                     } else {
                         // Set the block state
-                        WorldGenFast.setBlockStateFast(this, position, nextToPlace, setBlockFlags)
+                        WorldGenFast.setBlockStateFast(
+                            this,
+                            position,
+                            nextToPlace,
+                            setBlockFlags
+                        )
                     }
                 }
             }

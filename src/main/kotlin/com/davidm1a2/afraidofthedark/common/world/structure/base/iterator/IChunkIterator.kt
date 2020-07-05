@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.iterator
+package com.davidm1a2.afraidofthedark.common.world.structure.base.iterator
 
 import net.minecraft.util.math.ChunkPos
 

@@ -2,8 +2,8 @@ package com.davidm1a2.afraidofthedark.common.item
 
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
-import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.CachedSchematic
-import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.SchematicDebugUtils
+import com.davidm1a2.afraidofthedark.common.world.schematic.CachedSchematic
+import com.davidm1a2.afraidofthedark.common.world.schematic.SchematicDebugUtils
 import net.minecraft.block.state.IBlockState
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.player.EntityPlayer

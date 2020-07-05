@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.worldGeneration
+package com.davidm1a2.afraidofthedark.common.world
 
 import com.davidm1a2.afraidofthedark.common.capabilities.world.OverworldHeightmap
 import net.minecraft.util.math.ChunkPos

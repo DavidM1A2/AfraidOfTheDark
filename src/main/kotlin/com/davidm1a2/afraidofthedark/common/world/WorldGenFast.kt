@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.worldGeneration
+package com.davidm1a2.afraidofthedark.common.world
 
 import net.minecraft.block.state.IBlockState
 import net.minecraft.tileentity.TileEntity
@@ -51,7 +51,8 @@ object WorldGenFast {
              */
 
             // We need to modify how the chunk sets block state too, call our internal chunk set block state
-            val iblockstate = setChunkBlockStateFast(chunk, pos, newState, (flags and 64) != 0)
+            val iblockstate =
+                setChunkBlockStateFast(chunk, pos, newState, (flags and 64) != 0)
             if (iblockstate == null) {
                 if (blockSnapshot != null) {
                     world.capturedBlockSnapshots.remove(blockSnapshot)

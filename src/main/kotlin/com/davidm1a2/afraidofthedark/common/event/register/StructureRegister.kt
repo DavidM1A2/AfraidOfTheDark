@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
 import com.davidm1a2.afraidofthedark.common.constants.ModStructures
-import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.Structure
+import com.davidm1a2.afraidofthedark.common.world.structure.base.Structure
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 

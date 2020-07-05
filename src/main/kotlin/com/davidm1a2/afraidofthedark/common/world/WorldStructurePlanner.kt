@@ -1,9 +1,9 @@
-package com.davidm1a2.afraidofthedark.common.worldGeneration
+package com.davidm1a2.afraidofthedark.common.world
 
 import com.davidm1a2.afraidofthedark.common.capabilities.world.OverworldHeightmap
 import com.davidm1a2.afraidofthedark.common.capabilities.world.StructurePlan
 import com.davidm1a2.afraidofthedark.common.constants.ModRegistries
-import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.Structure
+import com.davidm1a2.afraidofthedark.common.world.structure.base.Structure
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.world.IWorld

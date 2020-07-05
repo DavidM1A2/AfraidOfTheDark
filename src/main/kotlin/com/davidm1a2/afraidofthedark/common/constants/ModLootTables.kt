@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
-import com.davidm1a2.afraidofthedark.common.worldGeneration.LootTable
+import com.davidm1a2.afraidofthedark.common.world.LootTable
 import net.minecraft.init.Items
 import net.minecraft.item.Item
 import net.minecraft.util.ResourceLocation

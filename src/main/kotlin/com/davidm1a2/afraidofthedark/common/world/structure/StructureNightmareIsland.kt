@@ -1,10 +1,10 @@
-package com.davidm1a2.afraidofthedark.common.worldGeneration.structure
+package com.davidm1a2.afraidofthedark.common.world.structure
 
 import com.davidm1a2.afraidofthedark.common.capabilities.world.IHeightmap
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
-import com.davidm1a2.afraidofthedark.common.worldGeneration.generateSchematic
-import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.AOTDStructure
+import com.davidm1a2.afraidofthedark.common.world.generateSchematic
+import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.math.BlockPos

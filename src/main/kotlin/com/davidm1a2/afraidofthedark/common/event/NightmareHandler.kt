@@ -8,7 +8,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.*
 import com.davidm1a2.afraidofthedark.common.dimension.IslandUtility
 import com.davidm1a2.afraidofthedark.common.entity.enaria.EntityGhastlyEnaria
-import com.davidm1a2.afraidofthedark.common.worldGeneration.generateSchematic
+import com.davidm1a2.afraidofthedark.common.world.generateSchematic
 import net.minecraft.client.Minecraft
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.entity.player.EntityPlayerMP
