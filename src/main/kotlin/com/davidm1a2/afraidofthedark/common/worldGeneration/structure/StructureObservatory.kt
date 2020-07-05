@@ -2,9 +2,9 @@ package com.davidm1a2.afraidofthedark.common.worldGeneration.structure
 
 import com.davidm1a2.afraidofthedark.common.capabilities.world.IHeightmap
 import com.davidm1a2.afraidofthedark.common.capabilities.world.OverworldHeightmap
+import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
-import com.davidm1a2.afraidofthedark.common.constants.ModServerConfiguration
 import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.iterator.InteriorChunkIterator
@@ -62,7 +62,7 @@ class StructureObservatory : AOTDStructure("observatory") {
                 }
                 // 3% chance to generate in any chunks this fits in
                 else {
-                    0.03 * ModServerConfiguration.observatoryMultiplier
+                    0.03 * ModCommonConfiguration.observatoryMultiplier
                 }
             }
 

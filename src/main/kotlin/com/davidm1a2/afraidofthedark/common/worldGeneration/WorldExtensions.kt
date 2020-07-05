@@ -11,6 +11,5 @@ import net.minecraft.world.World
 fun World.relightChunk(chunkPos: ChunkPos) {
     val chunk = this.getChunk(chunkPos.x, chunkPos.z)
     chunk.generateSkylightMap()
-    chunk.enqueueRelightChecks()
     chunk.markDirty()
 }

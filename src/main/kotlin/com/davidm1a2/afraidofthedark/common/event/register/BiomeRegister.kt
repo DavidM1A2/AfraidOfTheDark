@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
 import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
-import com.davidm1a2.afraidofthedark.common.constants.ModServerConfiguration
+import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import net.minecraft.world.biome.Biome
 import net.minecraftforge.common.BiomeDictionary
 import net.minecraftforge.common.BiomeManager
@@ -26,11 +26,11 @@ class BiomeRegister {
         // Make sure the eerie forest can generate in warm and cool biomes
         BiomeManager.addBiome(
             BiomeManager.BiomeType.COOL,
-            BiomeEntry(ModBiomes.EERIE_FOREST, ModServerConfiguration.eerieBiomeFrequency)
+            BiomeEntry(ModBiomes.EERIE_FOREST, ModCommonConfiguration.eerieBiomeFrequency)
         )
         BiomeManager.addBiome(
             BiomeManager.BiomeType.WARM,
-            BiomeEntry(ModBiomes.EERIE_FOREST, ModServerConfiguration.eerieBiomeFrequency)
+            BiomeEntry(ModBiomes.EERIE_FOREST, ModCommonConfiguration.eerieBiomeFrequency)
         )
         // Make sure the eerie forest is registered as being compatible with forests, coniferous, and plains types
         BiomeDictionary.addTypes(

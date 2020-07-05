@@ -2,9 +2,9 @@ package com.davidm1a2.afraidofthedark.common.worldGeneration.structure
 
 import com.davidm1a2.afraidofthedark.common.capabilities.world.IHeightmap
 import com.davidm1a2.afraidofthedark.common.capabilities.world.OverworldHeightmap
+import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
-import com.davidm1a2.afraidofthedark.common.constants.ModServerConfiguration
 import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.iterator.InteriorChunkIterator
@@ -57,7 +57,7 @@ class StructureDesertOasis : AOTDStructure("desert_oasis") {
             override fun getResult(): Double {
                 val percentDesertTiles = numValidChunks / (numValidChunks + numNonValidChunks)
                 // 70% valid tiles required, .5% chance to spawn
-                return if (percentDesertTiles > 0.7) 0.005 * ModServerConfiguration.desertOasisMultiplier else 0.0
+                return if (percentDesertTiles > 0.7) 0.005 * ModCommonConfiguration.desertOasisMultiplier else 0.0
             }
 
             override fun getDefaultResult(): Double {

@@ -2,8 +2,8 @@ package com.davidm1a2.afraidofthedark.common.event
 
 import com.davidm1a2.afraidofthedark.common.capabilities.getVoidChestData
 import com.davidm1a2.afraidofthedark.common.constants.LocalizationConstants
+import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModDimensions
-import com.davidm1a2.afraidofthedark.common.constants.ModServerConfiguration
 import com.davidm1a2.afraidofthedark.common.dimension.IslandUtility
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.util.text.TextComponentTranslation
@@ -42,7 +42,7 @@ class VoidChestHandler {
                 }
 
                 // Compute the player's X position based on the index
-                val playerXBase = indexToGoTo * ModServerConfiguration.blocksBetweenIslands
+                val playerXBase = indexToGoTo * ModCommonConfiguration.blocksBetweenIslands
                 (event.player as EntityPlayerMP).connection.setPlayerLocation(playerXBase + 24.5, 104.0, 3.0, 0f, 0f)
             }
         }
@@ -163,7 +163,7 @@ class VoidChestHandler {
                 }
 
             // Compute the player's X position based on the index
-            val playerXBase = indexToGoTo * ModServerConfiguration.blocksBetweenIslands
+            val playerXBase = indexToGoTo * ModCommonConfiguration.blocksBetweenIslands
             // Set the player's position and rotation for some reason we have to use the connection object to send a packet instead of just using entityplayer#setPosition
             entityPlayer.connection.setPlayerLocation(playerXBase + 24.5, 104.0, 3.0, 0f, 0f)
         }

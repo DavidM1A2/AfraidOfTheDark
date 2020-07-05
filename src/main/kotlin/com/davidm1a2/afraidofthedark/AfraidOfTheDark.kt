@@ -41,7 +41,6 @@ class AfraidOfTheDark {
 
         forgeBus.register(SpriteRegister())
         forgeBus.register(dimensionRegister)
-        forgeBus.register(ConfigurationHandler())
         forgeBus.register(CapabilityHandler())
         forgeBus.register(WorldHeightMapper())
         forgeBus.register(WorldStructurePlanner())
@@ -74,10 +73,11 @@ class AfraidOfTheDark {
         modBus.register(MeteorEntryRegister())
         modBus.register(dimensionRegister)
         modBus.register(FurnaceFuelRegister())
+        modBus.register(ConfigurationHandler())
         modBus.register(this)
 
         context.registerConfig(ModConfig.Type.CLIENT, ModConfigHolder.CLIENT_SPEC)
-        context.registerConfig(ModConfig.Type.SERVER, ModConfigHolder.SERVER_SPEC)
+        context.registerConfig(ModConfig.Type.COMMON, ModConfigHolder.COMMON_SPEC)
 
         proxy.initializeResearchOverlayHandler()
         proxy.initializeEntityRenderers()

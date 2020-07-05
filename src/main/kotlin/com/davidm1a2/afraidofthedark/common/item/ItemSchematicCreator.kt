@@ -4,7 +4,7 @@ import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
 import com.davidm1a2.afraidofthedark.common.utility.NBTHelper
 import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.CachedSchematic
 import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.SchematicDebugUtils
-import net.minecraft.block.Block
+import net.minecraft.block.state.IBlockState
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.init.Blocks
@@ -113,7 +113,7 @@ class ItemSchematicCreator : AOTDItem("schematic_creator", Properties().maxStack
         }
 
         val nbtTileEntities = NBTTagList()
-        val blocks = Array<Block>(width * height * length) { Blocks.AIR }
+        val blocks = Array<IBlockState>(width * height * length) { Blocks.AIR.defaultState }
         val data = IntArray(width * height * length)
 
         var index = 0
@@ -122,10 +122,8 @@ class ItemSchematicCreator : AOTDItem("schematic_creator", Properties().maxStack
             for (z in smallPos.z..largePos.z) {
                 for (x in smallPos.x..largePos.x) {
                     val pos = BlockPos(x, y, z)
-                    val blockState = world.getBlockState(pos)
                     // Save the block, the metadata, and the tile entity if it exists
-                    blocks[index] = blockState.block
-                    data[index] = 0//= NBTUtil.writeBlockState(blockState)
+                    blocks[index] = world.getBlockState(pos)
                     world.getTileEntity(pos)?.let {
                         nbtTileEntities.add(it.serializeNBT().apply {
                             relativizeTileEntityPos(this, smallPos)
@@ -145,7 +143,6 @@ class ItemSchematicCreator : AOTDItem("schematic_creator", Properties().maxStack
             height.toShort(),
             length.toShort(),
             blocks,
-            data,
             nbtEntites
         )
 

@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.entity.enaria
 
-import com.davidm1a2.afraidofthedark.common.constants.ModServerConfiguration
+import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import net.minecraft.entity.SharedMonsterAttributes
 import net.minecraft.entity.ai.EntityAIBase
 import net.minecraft.entity.player.EntityPlayer
@@ -39,7 +39,7 @@ class GhastlyEnariaPlayerChase(private val enaria: EntityGhastlyEnaria) : Entity
      * Executes the task. Finds a nearby player and follows them
      */
     override fun startExecuting() {
-        val distanceBetweenIslands = ModServerConfiguration.blocksBetweenIslands
+        val distanceBetweenIslands = ModCommonConfiguration.blocksBetweenIslands
 
         // If the target player is null try and find a nearby player
         if (targetPlayer == null) {

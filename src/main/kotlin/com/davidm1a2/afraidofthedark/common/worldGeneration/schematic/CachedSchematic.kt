@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.worldGeneration.schematic
 
-import net.minecraft.block.Block
+import net.minecraft.block.state.IBlockState
 import net.minecraft.nbt.NBTTagList
 
 /**
@@ -22,8 +22,7 @@ class CachedSchematic internal constructor(
     private val width: Short,
     private val height: Short,
     private val length: Short,
-    private val blocks: Array<Block>,
-    private val data: IntArray,
+    private val blocks: Array<IBlockState>,
     private val entities: NBTTagList
 ) : Schematic {
     /**
@@ -64,15 +63,8 @@ class CachedSchematic internal constructor(
     /**
      * @return An array of blocks in the structure
      */
-    override fun getBlocks(): Array<Block> {
+    override fun getBlocks(): Array<IBlockState> {
         return blocks
-    }
-
-    /**
-     * @return An array of block metadata values in the schematic
-     */
-    override fun getData(): IntArray {
-        return data
     }
 
     /**

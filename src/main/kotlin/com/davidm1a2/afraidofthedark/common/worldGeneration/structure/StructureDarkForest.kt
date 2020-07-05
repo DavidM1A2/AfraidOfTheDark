@@ -3,9 +3,9 @@ package com.davidm1a2.afraidofthedark.common.worldGeneration.structure
 import com.davidm1a2.afraidofthedark.common.capabilities.world.IHeightmap
 import com.davidm1a2.afraidofthedark.common.capabilities.world.OverworldHeightmap
 import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
+import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
-import com.davidm1a2.afraidofthedark.common.constants.ModServerConfiguration
 import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.Schematic
 import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator.generateSchematic
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.AOTDStructure
@@ -129,7 +129,7 @@ class StructureDarkForest : AOTDStructure("dark_forest") {
         }
         // If the house is valid we're good to go, the chance to gen will be .2%
         else {
-            0.002 * ModServerConfiguration.darkForestMultiplier
+            0.002 * ModCommonConfiguration.darkForestMultiplier
         }
     }
 

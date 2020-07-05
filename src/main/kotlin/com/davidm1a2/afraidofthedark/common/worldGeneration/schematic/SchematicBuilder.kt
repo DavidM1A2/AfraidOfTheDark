@@ -1,11 +1,17 @@
 package com.davidm1a2.afraidofthedark.common.worldGeneration.schematic
 
 import com.davidm1a2.afraidofthedark.common.utility.ResourceUtil
+import com.electronwill.nightconfig.toml.TomlFormat
 import net.minecraft.nbt.CompressedStreamTools
-import net.minecraft.nbt.NBTTagString
+import net.minecraft.nbt.NBTTagCompound
+import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.ResourceLocation
-import net.minecraftforge.registries.ForgeRegistries
+import net.minecraftforge.common.util.Constants
+import net.minecraftforge.fml.loading.FMLPaths
 import org.apache.commons.io.FilenameUtils
+import org.apache.logging.log4j.LogManager
+import java.io.File
+import java.io.FileInputStream
 import java.io.IOException
 
 /**
@@ -50,7 +56,9 @@ class SchematicBuilder {
     fun build(): Schematic {
         requireNotNull(resourceLocation) { "Resource location must be specified!" }
 
-        return if (cacheEnabled) {
+        // We can't use ModCommonConfiguration.cacheStructures since that hasn't been loaded yet
+        // Instead we use a "hack" to read it from the file early
+        return if (USE_CACHE) {
             createCached()
         } else {
             createOnDemand()
@@ -78,25 +86,21 @@ class SchematicBuilder {
 
         // Read the entities and tile entities
         val tileEntities = nbtData.getList("TileEntities", 10)
-        val entities = nbtData.getList("Entities", 10)
 
-        // Read the block data
-        val data = nbtData.getIntArray("Data")
+        val entities = nbtData.getList("Entities", 10)
 
         // Read the block ids
         val blockIds = nbtData.getIntArray("BlockIds")
         // Read the map of block name to id
-        val blockMapNames = nbtData.getList("BlockIdNames", 8).map { (it as NBTTagString).string }
+        val blockMapData = nbtData.getList("BlockIdData", Constants.NBT.TAG_COMPOUND).map { (it as NBTTagCompound) }
 
         // Convert block names to block pointer references
-        val blockMapBlocks =
-            blockMapNames.map { ForgeRegistries.BLOCKS.getValue(ResourceLocation(it)) ?: throw IllegalStateException("Invalid schematic block found: $it}") }
-                .toTypedArray()
+        val blockMapBlocks = blockMapData.map { NBTUtil.readBlockState(it) }
         // Map each block id to block pointer
         val blocks = blockIds.map { blockMapBlocks[it] }.toTypedArray()
 
         // Return the schematic
-        return CachedSchematic(schematicName, tileEntities, width, height, length, blocks, data, entities)
+        return CachedSchematic(schematicName, tileEntities, width, height, length, blocks, entities)
     }
 
     /**
@@ -122,5 +126,23 @@ class SchematicBuilder {
 
         // Return the schematic
         return OnDemandSchematic(resourceLocation!!, schematicName, width, height, length)
+    }
+
+    companion object {
+        private val LOG = LogManager.getLogger()
+
+        private val USE_CACHE: Boolean
+
+        init {
+            val clientConfig = File(FMLPaths.CONFIGDIR.get().toString(), "afraidofthedark-common.toml")
+            USE_CACHE = FileInputStream(clientConfig).use {
+                try {
+                    TomlFormat.instance().createParser().parse(it).get<Boolean>("world_generation.cache_structures")
+                } catch (e: Throwable) {
+                    LOG.warn("Could not parse 'afraidofthedark-common-toml', defaulting to 'cache_structures = true'")
+                    true
+                }
+            }
+        }
     }
 }

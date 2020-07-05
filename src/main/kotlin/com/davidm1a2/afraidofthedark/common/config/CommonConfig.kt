@@ -1,14 +1,14 @@
 package com.davidm1a2.afraidofthedark.common.config
 
-import com.davidm1a2.afraidofthedark.common.constants.ModServerConfiguration
+import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import net.minecraftforge.common.ForgeConfigSpec
 
 /**
- * AfraidOfTheDark server config
+ * AfraidOfTheDark common config
  *
  * @param builder The builder to append each config option into
  */
-class ServerConfig(builder: ForgeConfigSpec.Builder) {
+class CommonConfig(builder: ForgeConfigSpec.Builder) {
     // Multipliers for each dungeon type
     private val cryptMultiplier: ForgeConfigSpec.DoubleValue
     private val darkForestMultiplier: ForgeConfigSpec.DoubleValue
@@ -97,17 +97,17 @@ class ServerConfig(builder: ForgeConfigSpec.Builder) {
     }
 
     fun reload() {
-        ModServerConfiguration.cryptMultiplier = cryptMultiplier.get()
-        ModServerConfiguration.darkForestMultiplier = darkForestMultiplier.get()
-        ModServerConfiguration.gnomishCityFrequency = gnomishCityFrequency.get()
-        ModServerConfiguration.voidChestMultiplier = voidChestMultiplier.get()
-        ModServerConfiguration.witchHutMultiplier = witchHutMultiplier.get()
-        ModServerConfiguration.desertOasisMultiplier = desertOasisMultiplier.get()
-        ModServerConfiguration.observatoryMultiplier = observatoryMultiplier.get()
-        ModServerConfiguration.eerieBiomeFrequency = eerieBiomeFrequency.get()
-        ModServerConfiguration.blocksBetweenIslands = blocksBetweenIslands.get()
-        ModServerConfiguration.worldGenPriority = worldGenPriority.get()
-        ModServerConfiguration.cacheStructures = cacheStructures.get()
-        ModServerConfiguration.cacheTimeout = cacheTimeout.get()
+        ModCommonConfiguration.cryptMultiplier = cryptMultiplier.get()
+        ModCommonConfiguration.darkForestMultiplier = darkForestMultiplier.get()
+        ModCommonConfiguration.gnomishCityFrequency = gnomishCityFrequency.get()
+        ModCommonConfiguration.voidChestMultiplier = voidChestMultiplier.get()
+        ModCommonConfiguration.witchHutMultiplier = witchHutMultiplier.get()
+        ModCommonConfiguration.desertOasisMultiplier = desertOasisMultiplier.get()
+        ModCommonConfiguration.observatoryMultiplier = observatoryMultiplier.get()
+        ModCommonConfiguration.eerieBiomeFrequency = eerieBiomeFrequency.get()
+        ModCommonConfiguration.blocksBetweenIslands = blocksBetweenIslands.get()
+        ModCommonConfiguration.worldGenPriority = worldGenPriority.get()
+        ModCommonConfiguration.cacheStructures = cacheStructures.get()
+        ModCommonConfiguration.cacheTimeout = cacheTimeout.get()
     }
 }

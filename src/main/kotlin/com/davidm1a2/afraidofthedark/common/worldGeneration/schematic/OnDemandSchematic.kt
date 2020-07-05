@@ -1,13 +1,14 @@
 package com.davidm1a2.afraidofthedark.common.worldGeneration.schematic
 
-import com.davidm1a2.afraidofthedark.common.constants.ModServerConfiguration
+import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.utility.ResourceUtil
-import net.minecraft.block.Block
+import net.minecraft.block.state.IBlockState
 import net.minecraft.nbt.CompressedStreamTools
+import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTTagList
-import net.minecraft.nbt.NBTTagString
+import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.ResourceLocation
-import net.minecraftforge.registries.ForgeRegistries
+import net.minecraftforge.common.util.Constants
 import org.apache.logging.log4j.LogManager
 import java.io.IOException
 import java.util.*
@@ -37,8 +38,7 @@ class OnDemandSchematic internal constructor(
 ) : Schematic {
     private var lastTimeAccessed: Long? = null
     private var tileEntities: NBTTagList? = null
-    private var blocks: Array<Block>? = null
-    private var data: IntArray? = null
+    private var blocks: Array<IBlockState>? = null
     private var entities: NBTTagList? = null
 
     init {
@@ -63,21 +63,15 @@ class OnDemandSchematic internal constructor(
                 tileEntities = nbtData.getList("TileEntities", 10)
                 entities = nbtData.getList("Entities", 10)
 
-                // Read the block data
-                data = nbtData.getIntArray("Data")
-
                 // Read the block ids
                 val blockIds = nbtData.getIntArray("BlockIds")
                 // Read the map of block name to id
-                val blockMapNames = nbtData.getList("BlockIdNames", 8).map { (it as NBTTagString).string }
+                val blockMapData = nbtData.getList("BlockIdData", Constants.NBT.TAG_COMPOUND).map { (it as NBTTagCompound) }
 
                 // Convert block names to block pointer references
-                val blockMapBlocks =
-                    blockMapNames.map {
-                        ForgeRegistries.BLOCKS.getValue(ResourceLocation(it)) ?: throw IllegalStateException("Invalid schematic block found: $it}")
-                    }.toTypedArray()
+                val blockMapBlocks = blockMapData.map { NBTUtil.readBlockState(it) }
                 // Map each block id to block pointer
-                blocks = blockIds.map { blockMapBlocks[it] }.toTypedArray()
+                this.blocks = blockIds.map { blockMapBlocks[it] }.toTypedArray()
 
                 logger.info("Loaded $name into memory.")
             } catch (e: IOException) {
@@ -96,7 +90,6 @@ class OnDemandSchematic internal constructor(
             lastTimeAccessed = null
             tileEntities = null
             blocks = null
-            data = null
             entities = null
             logger.info("Cleared $name from memory.")
         }
@@ -109,7 +102,7 @@ class OnDemandSchematic internal constructor(
     private fun isTimedOut(): Boolean {
         return if (lastTimeAccessed == null) {
             true
-        } else System.currentTimeMillis() - lastTimeAccessed!! > ModServerConfiguration.cacheTimeout
+        } else System.currentTimeMillis() - lastTimeAccessed!! > ModCommonConfiguration.cacheTimeout
     }
 
     /**
@@ -153,18 +146,9 @@ class OnDemandSchematic internal constructor(
      * @return An array of blocks in the structure
      */
     @Synchronized
-    override fun getBlocks(): Array<Block> {
+    override fun getBlocks(): Array<IBlockState> {
         demandCache()
         return blocks!!
-    }
-
-    /**
-     * @return An array of block metadata values in the schematic
-     */
-    @Synchronized
-    override fun getData(): IntArray {
-        demandCache()
-        return data!!
     }
 
     /**

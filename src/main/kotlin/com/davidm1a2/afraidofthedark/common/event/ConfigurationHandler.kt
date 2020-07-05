@@ -16,9 +16,10 @@ class ConfigurationHandler {
     @SubscribeEvent
     fun onModConfigEvent(event: ModConfig.ModConfigEvent) {
         // Reload client or server config based on spec type
-        when (event.config.spec) {
-            ModConfigHolder.CLIENT_SPEC -> ModConfigHolder.reloadClientConfig()
-            ModConfigHolder.SERVER_SPEC -> ModConfigHolder.reloadServerConfig()
+        if (event.config.spec === ModConfigHolder.CLIENT_SPEC) {
+            ModConfigHolder.reloadClientConfig()
+        } else if (event.config.spec === ModConfigHolder.COMMON_SPEC) {
+            ModConfigHolder.reloadCommonConfig()
         }
     }
 }

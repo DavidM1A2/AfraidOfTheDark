@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.dimension.voidChest
 
-import com.davidm1a2.afraidofthedark.common.constants.ModServerConfiguration
+import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import net.minecraft.entity.EnumCreatureType
 import net.minecraft.init.Blocks
 import net.minecraft.util.SharedSeedRandom
@@ -32,7 +32,7 @@ class VoidChestChunkGenerator(world: IWorld, biomeProvider: BiomeProvider) : Abs
         val z = region.mainChunkZ
 
         // The blocks between islands
-        val blocksBetweenIslands = ModServerConfiguration.blocksBetweenIslands
+        val blocksBetweenIslands = ModCommonConfiguration.blocksBetweenIslands
         // The X position in blockpos not chunkpos
         val xPos = x * 16
         // The barrier block state

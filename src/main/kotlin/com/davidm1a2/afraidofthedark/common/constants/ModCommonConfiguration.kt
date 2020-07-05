@@ -1,9 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
 /**
- * All the server-side configuration that AOTD gets from "afraidofthedark.cfg"
+ * All the common configuration that AOTD gets from "afraidofthedark.cfg"
  */
-object ModServerConfiguration {
+object ModCommonConfiguration {
     // Multipliers for each dungeon type
     var cryptMultiplier = 1.0
     var darkForestMultiplier = 1.0
@@ -27,8 +27,4 @@ object ModServerConfiguration {
 
     // Timeout to clear structures in milliseconds if cache is set to false
     var cacheTimeout = 0L
-
-    // The ID of the dimensions or 0 to mean "pick for me"
-    var nightmareDimensionId = 0
-    var voidChestDimensionId = 0
 }

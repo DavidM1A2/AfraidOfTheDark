@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.worldGeneration.schematic
 
-import net.minecraft.block.Block
+import net.minecraft.block.state.IBlockState
 import net.minecraft.nbt.NBTTagList
 
 /**
@@ -35,12 +35,7 @@ interface Schematic {
     /**
      * @return An array of blocks in the structure
      */
-    fun getBlocks(): Array<Block>
-
-    /**
-     * @return An array of block metadata values in the schematic
-     */
-    fun getData(): IntArray
+    fun getBlocks(): Array<IBlockState>
 
     /**
      * @return A list of entities in the schematic region

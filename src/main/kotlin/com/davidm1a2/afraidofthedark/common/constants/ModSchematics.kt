@@ -220,7 +220,7 @@ object ModSchematics {
     private fun load(path: String): Schematic {
         return SchematicBuilder()
             .withFile(ResourceLocation(Constants.MOD_ID, path))
-            .withCacheEnabled(ModServerConfiguration.cacheStructures)
+            .withCacheEnabled(ModCommonConfiguration.cacheStructures)
             .build()
     }
 }

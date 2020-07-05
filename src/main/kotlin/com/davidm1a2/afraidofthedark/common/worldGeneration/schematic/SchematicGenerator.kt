@@ -56,7 +56,6 @@ object SchematicGenerator {
         val posY = blockPos.y
         val posZ = blockPos.z
         val blocks = schematic.getBlocks()
-        val data = schematic.getData()
         val width = schematic.getWidth()
         val height = schematic.getHeight()
         val length = schematic.getLength()
@@ -77,12 +76,7 @@ object SchematicGenerator {
             endX = endX.coerceIn(chunkPos.xStart, chunkPos.xEnd + 1)
         }
 
-        // Fixes cascading world gen with leaves/fences
-        val setBlockFlags = 2 or 16
-
-        // Keep a list of indices we need to generate in phase 2 of the generation because they rely on other blocks
-        val phase2Blocks = mutableListOf<Int>()
-        val phase2Positions = mutableListOf<BlockPos>()
+        val setBlockFlags = 2
 
         ///
         /// Phase 1 is to generate all solid blocks, this should take most of the time
@@ -110,49 +104,19 @@ object SchematicGenerator {
                     val nextToPlace = blocks[index]
 
                     // If the block in the schematic is air then ignore it
-                    if (nextToPlace !== Blocks.AIR) {
+                    if (!nextToPlace.isAir) {
                         val position = BlockPos(x, y, z)
                         // Structure void blocks represent air blocks in my schematic system. This allows for easy underground structure generation.
-                        if (nextToPlace == Blocks.STRUCTURE_VOID) {
+                        if (nextToPlace.block == Blocks.STRUCTURE_VOID) {
                             // Set the block to air
                             WorldGenFast.setBlockStateFast(world, position, Blocks.AIR.defaultState, setBlockFlags)
                         } else {
-                            /*
-                            // If we can generate this block now do so
-                            if (!PHASE_2_BLOCKS.contains(nextToPlace)) {
-                                // Grab the blockstate to place
-                                @Suppress("DEPRECATION")
-                                val blockState = blocks[index].getStateFromMeta(data[index])
-                                // Otherwise set the block based on state from the data array
-                                WorldGenFast.setBlockStateFast(world, position, blockState, setBlockFlags)
-                            } else {
-                                phase2Blocks.add(index)
-                                phase2Positions.add(position)
-                            }
-                             */
+                            // Set the block state
+                            WorldGenFast.setBlockStateFast(world, position, nextToPlace, setBlockFlags)
                         }
                     }
                 }
             }
-        }
-
-        ///
-        /// Phase 2 is to generate all non-solid blocks that "hang off" or are "placed on" other blocks
-        ///
-
-        for (i in phase2Blocks.indices) {
-            /*
-            // Grab our stored off block index and blockpos
-            val index = phase2Blocks[i]
-            val position = phase2Positions[i]
-
-            // Grab the block state
-            @Suppress("DEPRECATION")
-            val blockState = blocks[index].getStateFromMeta(data[index])
-
-            // Set the block
-            WorldGenFast.setBlockStateFast(world, position, blockState, setBlockFlags)
-             */
         }
     }
 

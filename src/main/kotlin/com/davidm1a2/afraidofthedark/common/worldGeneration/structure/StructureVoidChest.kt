@@ -2,9 +2,9 @@ package com.davidm1a2.afraidofthedark.common.worldGeneration.structure
 
 import com.davidm1a2.afraidofthedark.common.capabilities.world.IHeightmap
 import com.davidm1a2.afraidofthedark.common.capabilities.world.OverworldHeightmap
+import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
-import com.davidm1a2.afraidofthedark.common.constants.ModServerConfiguration
 import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator.generateSchematic
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.iterator.InteriorChunkIterator
@@ -64,7 +64,7 @@ class StructureVoidChest : AOTDStructure("void_chest") {
                 }
                 // 0.2% chance to generate in any chunks this fits in
                 else {
-                    0.002 * ModServerConfiguration.voidChestMultiplier
+                    0.002 * ModCommonConfiguration.voidChestMultiplier
                 }
             }
 

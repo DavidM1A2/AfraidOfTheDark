@@ -1,8 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.worldGeneration.schematic
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
-import net.minecraft.block.Block
+import net.minecraft.block.state.IBlockState
 import net.minecraft.nbt.*
 import net.minecraft.util.ResourceLocation
 import org.apache.commons.lang3.StringUtils
@@ -27,9 +26,9 @@ object SchematicDebugUtils {
      * @param z The block's z position
      * @param block The block to set it to
      */
-    fun setBlock(schematic: Schematic, x: Int, y: Int, z: Int, block: Block) {
-        val width = ModSchematics.DESERT_OASIS.getWidth().toInt()
-        val length = ModSchematics.DESERT_OASIS.getLength().toInt()
+    fun setBlock(schematic: Schematic, x: Int, y: Int, z: Int, block: IBlockState) {
+        val width = schematic.getWidth().toInt()
+        val length = schematic.getLength().toInt()
 
         schematic.getBlocks()[x + y * length * width + z * width] = block
     }
@@ -71,14 +70,11 @@ object SchematicDebugUtils {
             // 3. Store each arbitrary block id
             // 4. Store the names of the corresponding block ids into an array
             var lastBlockId = 0
-            val idToBlock = mutableMapOf<String, Int>()
+            val stateToBlock = mutableMapOf<IBlockState, Int>()
             val blocks = schematic.getBlocks()
-            val blockIds = blocks.map { idToBlock.computeIfAbsent(it.registryName.toString()) { lastBlockId++ } }.toIntArray()
+            val blockIds = blocks.map { stateToBlock.computeIfAbsent(it) { lastBlockId++ } }.toIntArray()
             schematicNBT.setTag("BlockIds", NBTTagIntArray(blockIds))
-            schematicNBT.setTag("BlockIdNames", NBTTagList().apply { idToBlock.keys.forEach { add(NBTTagString(it)) } })
-
-            // Write all of the nbt data to disk
-            schematicNBT.setIntArray("Data", schematic.getData())
+            schematicNBT.setTag("BlockIdData", NBTTagList().apply { stateToBlock.keys.forEach { add(NBTUtil.writeBlockState(it)) } })
 
             // Write the nbt to the file
             FileOutputStream(file).use {
