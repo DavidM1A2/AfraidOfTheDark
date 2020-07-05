@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.world
 
 import com.davidm1a2.afraidofthedark.common.world.schematic.Schematic
+import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.EntityType
 import net.minecraft.init.Blocks
 import net.minecraft.tileentity.TileEntity
@@ -8,6 +9,11 @@ import net.minecraft.tileentity.TileEntityChest
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.world.World
+import net.minecraft.world.WorldType
+import net.minecraft.world.chunk.Chunk
+import net.minecraft.world.chunk.ChunkSection
+import net.minecraft.world.gen.Heightmap
+import net.minecraftforge.common.util.BlockSnapshot
 import java.util.*
 
 /**
@@ -111,16 +117,14 @@ private fun World.generateBlocks(schematic: Schematic, blockPos: BlockPos, chunk
                     // Structure void blocks represent air blocks in my schematic system. This allows for easy underground structure generation.
                     if (nextToPlace.block == Blocks.STRUCTURE_VOID) {
                         // Set the block to air
-                        WorldGenFast.setBlockStateFast(
-                            this,
+                        this.setBlockStateFast(
                             position,
                             Blocks.AIR.defaultState,
                             setBlockFlags
                         )
                     } else {
                         // Set the block state
-                        WorldGenFast.setBlockStateFast(
-                            this,
+                        this.setBlockStateFast(
                             position,
                             nextToPlace,
                             setBlockFlags
@@ -237,4 +241,125 @@ private fun isInsideChunk(x: Double, z: Double, chunkPos: ChunkPos): Boolean {
  */
 private fun isInsideChunk(blockPos: BlockPos, chunkPos: ChunkPos): Boolean {
     return blockPos.x >= chunkPos.xStart && blockPos.x <= chunkPos.xEnd && blockPos.z >= chunkPos.zStart && blockPos.z <= chunkPos.zEnd
+}
+
+/**
+ * Faster version of world.setBlockState() that does not perform any lighting computation
+ *
+ * @param pos      The position to set the block in
+ * @param newState The new state of the block
+ * @param flags    Any additional flags to pass down, see original setBlockState() for flag documentation
+ * @return True if the block was set, false otherwise
+ */
+fun World.setBlockStateFast(pos: BlockPos, newState: IBlockState, flags: Int): Boolean {
+    return if (World.isOutsideBuildHeight(pos)) {
+        false
+    } else if (!isRemote && worldInfo.terrainType === WorldType.DEBUG_ALL_BLOCK_STATES) {
+        false
+    } else {
+        val chunk = this.getChunk(pos)
+        // val block = newState.block
+        val immutablePos = pos.toImmutable() // Forge - prevent mutable BlockPos leaks
+        var blockSnapshot: BlockSnapshot? = null
+        if (captureBlockSnapshots && !isRemote) {
+            blockSnapshot = BlockSnapshot.getBlockSnapshot(this, immutablePos, flags)
+            capturedBlockSnapshots.add(blockSnapshot)
+        }
+
+        // val old = getBlockState(immutablePos)
+        // val oldLight = old.getLightValue(this, immutablePos)
+        // val oldOpacity = old.getOpacity(this, immutablePos)
+
+        val iblockstate = chunk.setBlockStateFast(immutablePos, newState, flags and 64 != 0)
+        if (iblockstate == null) {
+            if (blockSnapshot != null) capturedBlockSnapshots.remove(blockSnapshot)
+            false
+        } else {
+            // val iblockstate1 = getBlockState(immutablePos)
+            // if (iblockstate1.getOpacity(this, immutablePos) != oldOpacity || iblockstate1.getLightValue(this, immutablePos) != oldLight) {
+            //     profiler.startSection("checkLight")
+            //     checkLight(immutablePos)
+            //     profiler.endSection()
+            // }
+
+            if (blockSnapshot == null) { // Don't notify clients or update physics while capturing blockstates
+                markAndNotifyBlock(immutablePos, chunk, iblockstate, newState, flags)
+            }
+            true
+        }
+    }
+}
+
+/**
+ * Faster version of chunk.setBlockState() that does not perform any lighting computation or updates. It's copied
+ * exactly with some code commented out
+ *
+ * @param pos The blockpos to update
+ * @param state The state to set
+ * @return The set block state or null if the state wasn't set
+ */
+private fun Chunk.setBlockStateFast(pos: BlockPos, state: IBlockState, isMoving: Boolean): IBlockState? {
+    val i = pos.x and 15
+    val j = pos.y
+    val k = pos.z and 15
+    // val l = getHeightmap(Heightmap.Type.LIGHT_BLOCKING).getHeight(i, k)
+    val iblockstate = this.getBlockState(pos)
+    return if (iblockstate === state) {
+        null
+    } else {
+        val block = state.block
+        val block1 = iblockstate.block
+        var chunksection = sections[j shr 4]
+        // val j1 = iblockstate.getOpacity(world, pos) // Relocate old light value lookup here, so that it is called before TE is removed.
+        // var flag = false
+        if (chunksection === Chunk.EMPTY_SECTION) {
+            if (state.isAir) {
+                return null
+            }
+            chunksection = ChunkSection(j shr 4 shl 4, world.dimension.hasSkyLight())
+            sections[j shr 4] = chunksection
+            // flag = j >= l
+        }
+        chunksection[i, j and 15, k] = state
+        getHeightmap(Heightmap.Type.MOTION_BLOCKING).update(i, j, k, state)
+        getHeightmap(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES).update(i, j, k, state)
+        getHeightmap(Heightmap.Type.OCEAN_FLOOR).update(i, j, k, state)
+        getHeightmap(Heightmap.Type.WORLD_SURFACE).update(i, j, k, state)
+        if (!world.isRemote) {
+            iblockstate.onReplaced(world, pos, state, isMoving)
+        } else if (block1 !== block && iblockstate.hasTileEntity()) {
+            world.removeTileEntity(pos)
+        }
+        if (chunksection[i, j and 15, k].block !== block) {
+            null
+        } else {
+            // if (flag) {
+            //     generateSkylightMap()
+            // } else {
+            //     val i1 = state.getOpacity(world, pos)
+            //     relightBlock(i, j, k, state)
+            //     if (i1 != j1 && (i1 < j1 || getLightFor(EnumLightType.SKY, pos) > 0 || getLightFor(EnumLightType.BLOCK, pos) > 0)) {
+            //         propagateSkylightOcclusion(i, k)
+            //     }
+            // }
+            if (iblockstate.hasTileEntity()) {
+                val tileentity = this.getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK)
+                tileentity?.updateContainingBlockInfo()
+            }
+            if (!world.isRemote) {
+                state.onBlockAdded(world, pos, iblockstate)
+            }
+            if (state.hasTileEntity()) {
+                var tileentity1 = this.getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK)
+                if (tileentity1 == null) {
+                    tileentity1 = state.createTileEntity(world)
+                    world.setTileEntity(pos, tileentity1)
+                } else {
+                    tileentity1.updateContainingBlockInfo()
+                }
+            }
+            markDirty()
+            iblockstate
+        }
+    }
 }
