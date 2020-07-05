@@ -6,8 +6,8 @@ import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
+import com.davidm1a2.afraidofthedark.common.worldGeneration.generateSchematic
 import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.Schematic
-import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator.generateSchematic
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.iterator.IChunkIterator
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.processor.IChunkProcessor
@@ -152,7 +152,7 @@ class StructureDarkForest : AOTDStructure("dark_forest") {
             // Grab the schematic position
             val schematicPos = NBTUtil.readBlockPos(schematicNBT.getCompound(NBT_POSITION))
             // Generate the schematic
-            generateSchematic(schematic, world, schematicPos, chunkPos)
+            world.generateSchematic(schematic, schematicPos, chunkPos)
         }
 
         // Create trees second since they shouldn't override the house but can override props
@@ -166,12 +166,12 @@ class StructureDarkForest : AOTDStructure("dark_forest") {
             // Grab the schematic position
             val schematicPos = NBTUtil.readBlockPos(schematicNBT.getCompound(NBT_POSITION))
             // Generate the schematic
-            generateSchematic(schematic, world, schematicPos, chunkPos)
+            world.generateSchematic(schematic, schematicPos, chunkPos)
         }
 
         // Generate the bed house in the center last
         val housePos = NBTUtil.readBlockPos(data.getCompound(NBT_HOUSE_POSITION))
-        generateSchematic(ModSchematics.BED_HOUSE, world, housePos, chunkPos, ModLootTables.DARK_FOREST)
+        world.generateSchematic(ModSchematics.BED_HOUSE, housePos, chunkPos, ModLootTables.DARK_FOREST)
     }
 
     /**

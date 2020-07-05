@@ -6,7 +6,7 @@ import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
-import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator.generateSchematic
+import com.davidm1a2.afraidofthedark.common.worldGeneration.generateSchematic
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.iterator.InteriorChunkIterator
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.processor.IChunkProcessor
@@ -86,7 +86,7 @@ class StructureWitchHut : AOTDStructure("witch_hut") {
         // Grab the block pos from the NBT data
         val blockPos = getPosition(data)
         // This structure is simple, it is just the witch hut schematic
-        generateSchematic(ModSchematics.WITCH_HUT, world, blockPos, chunkPos, ModLootTables.WITCH_HUT)
+        world.generateSchematic(ModSchematics.WITCH_HUT, blockPos, chunkPos, ModLootTables.WITCH_HUT)
     }
 
     /**

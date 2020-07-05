@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.common.worldGeneration.structure
 import com.davidm1a2.afraidofthedark.common.capabilities.world.IHeightmap
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
-import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator.generateSchematic
+import com.davidm1a2.afraidofthedark.common.worldGeneration.generateSchematic
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.AOTDStructure
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTUtil
@@ -46,7 +46,7 @@ class StructureNightmareIsland : AOTDStructure("nightmare_island") {
         val blockPos = getPosition(data)
 
         // This structure is simple, it is just the crypt schematic
-        generateSchematic(ModSchematics.NIGHTMARE_ISLAND, world, blockPos, chunkPos, ModLootTables.NIGHTMARE_ISLAND)
+        world.generateSchematic(ModSchematics.NIGHTMARE_ISLAND, blockPos, chunkPos, ModLootTables.NIGHTMARE_ISLAND)
     }
 
     /**

@@ -5,7 +5,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.world.OverworldHeightma
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
-import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator
+import com.davidm1a2.afraidofthedark.common.worldGeneration.generateSchematic
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.iterator.InteriorChunkIterator
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.processor.IChunkProcessor
@@ -78,9 +78,8 @@ class StructureDesertOasis : AOTDStructure("desert_oasis") {
         val blockPos = getPosition(data)
 
         // Generate the oasis schematic first
-        SchematicGenerator.generateSchematic(
+        world.generateSchematic(
             ModSchematics.DESERT_OASIS,
-            world,
             blockPos,
             chunkPos,
             ModLootTables.DESERT_OASIS
@@ -88,9 +87,8 @@ class StructureDesertOasis : AOTDStructure("desert_oasis") {
 
         // Generate picks for each of the 5 plot types (small, small90, medium, medium90, large)
         (data.getTag(NBT_SMALL_PLOT_INDICES) as NBTTagIntArray).intArray.forEachIndexed { index, pick ->
-            SchematicGenerator.generateSchematic(
+            world.generateSchematic(
                 ModSchematics.DESERT_OASIS_SMALL_PLOTS[pick],
-                world,
                 blockPos.add(PlotType.Small.baseOffsets[index]),
                 chunkPos,
                 ModLootTables.DESERT_OASIS
@@ -98,9 +96,8 @@ class StructureDesertOasis : AOTDStructure("desert_oasis") {
         }
 
         (data.getTag(NBT_SMALL90_PLOT_INDICES) as NBTTagIntArray).intArray.forEachIndexed { index, pick ->
-            SchematicGenerator.generateSchematic(
+            world.generateSchematic(
                 ModSchematics.DESERT_OASIS_SMALL_PLOTS90[pick],
-                world,
                 blockPos.add(PlotType.Small90.baseOffsets[index]),
                 chunkPos,
                 ModLootTables.DESERT_OASIS
@@ -108,9 +105,8 @@ class StructureDesertOasis : AOTDStructure("desert_oasis") {
         }
 
         (data.getTag(NBT_MEDIUM_PLOT_INDICES) as NBTTagIntArray).intArray.forEachIndexed { index, pick ->
-            SchematicGenerator.generateSchematic(
+            world.generateSchematic(
                 ModSchematics.DESERT_OASIS_MEDIUM_PLOTS[pick],
-                world,
                 blockPos.add(PlotType.Medium.baseOffsets[index]),
                 chunkPos,
                 ModLootTables.DESERT_OASIS
@@ -118,9 +114,8 @@ class StructureDesertOasis : AOTDStructure("desert_oasis") {
         }
 
         (data.getTag(NBT_MEDIUM90_PLOT_INDICES) as NBTTagIntArray).intArray.forEachIndexed { index, pick ->
-            SchematicGenerator.generateSchematic(
+            world.generateSchematic(
                 ModSchematics.DESERT_OASIS_MEDIUM_PLOTS90[pick],
-                world,
                 blockPos.add(PlotType.Medium90.baseOffsets[index]),
                 chunkPos,
                 ModLootTables.DESERT_OASIS
@@ -128,9 +123,8 @@ class StructureDesertOasis : AOTDStructure("desert_oasis") {
         }
 
         (data.getTag(NBT_LARGE_PLOT_INDICES) as NBTTagIntArray).intArray.forEachIndexed { index, pick ->
-            SchematicGenerator.generateSchematic(
+            world.generateSchematic(
                 ModSchematics.DESERT_OASIS_LARGE_PLOTS[pick],
-                world,
                 blockPos.add(PlotType.Large.baseOffsets[index]),
                 chunkPos,
                 ModLootTables.DESERT_OASIS

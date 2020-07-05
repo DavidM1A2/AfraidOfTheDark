@@ -8,7 +8,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.getResearch
 import com.davidm1a2.afraidofthedark.common.constants.*
 import com.davidm1a2.afraidofthedark.common.dimension.IslandUtility
 import com.davidm1a2.afraidofthedark.common.entity.enaria.EntityGhastlyEnaria
-import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator
+import com.davidm1a2.afraidofthedark.common.worldGeneration.generateSchematic
 import net.minecraft.client.Minecraft
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.entity.player.EntityPlayerMP
@@ -386,11 +386,7 @@ class NightmareHandler {
         if (playerResearch.isResearched(ModResearches.ENARIA)) {
             // If enaria's alter does not exist generate the schematic
             if (nightmareWorld.getBlockState(islandPos.add(101, 74, 233)).block !== ModBlocks.ENARIAS_ALTAR) {
-                SchematicGenerator.generateSchematic(
-                    ModSchematics.ENARIAS_ALTAR,
-                    nightmareWorld,
-                    islandPos.add(67, 40, 179)
-                )
+                nightmareWorld.generateSchematic(ModSchematics.ENARIAS_ALTAR, islandPos.add(67, 40, 179))
             }
         }
     }

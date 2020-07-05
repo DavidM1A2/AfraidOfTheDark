@@ -3,7 +3,7 @@ package com.davidm1a2.afraidofthedark.common.item
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EntityEnchantedFrog
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
-import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator
+import com.davidm1a2.afraidofthedark.common.worldGeneration.generateSchematic
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
@@ -27,7 +27,7 @@ class ItemDebug : AOTDItem("debug", Properties().maxStackSize(1), displayInCreat
     override fun onItemRightClick(worldIn: World, playerIn: EntityPlayer, handIn: EnumHand): ActionResult<ItemStack> {
         if (worldIn.isRemote) {
         } else {
-            SchematicGenerator.generateSchematic(ModSchematics.LIST[i], worldIn, playerIn.position.add(1, 0, 1))
+            worldIn.generateSchematic(ModSchematics.LIST[i], playerIn.position.add(1, 0, 1))
             if (i++ > ModSchematics.LIST.size - 1) {
                 i = 0
             }

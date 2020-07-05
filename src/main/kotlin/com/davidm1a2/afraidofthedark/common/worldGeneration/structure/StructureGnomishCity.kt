@@ -4,7 +4,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.world.IHeightmap
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
-import com.davidm1a2.afraidofthedark.common.worldGeneration.schematic.SchematicGenerator.generateSchematic
+import com.davidm1a2.afraidofthedark.common.worldGeneration.generateSchematic
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.AOTDStructure
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.iterator.InteriorChunkIterator
 import com.davidm1a2.afraidofthedark.common.worldGeneration.structure.base.processor.IChunkProcessor
@@ -83,9 +83,8 @@ class StructureGnomishCity : AOTDStructure("gnomish_city") {
             when {
                 // If the index is 0-rooms.length it's a standard room
                 roomIndex >= 0 -> {
-                    generateSchematic(
+                    world.generateSchematic(
                         ModSchematics.GNOMISH_CITY_ROOMS[roomIndex],
-                        world,
                         roomPos,
                         chunkPos,
                         ModLootTables.GNOMISH_CITY
@@ -93,9 +92,8 @@ class StructureGnomishCity : AOTDStructure("gnomish_city") {
                 }
                 // If the index is DOWNWARD_INDEX then it is the stairs that lead downwards
                 roomIndex == STAIR_DOWNWARD_INDEX -> {
-                    generateSchematic(
+                    world.generateSchematic(
                         ModSchematics.ROOM_STAIR_DOWN,
-                        world,
                         roomPos,
                         chunkPos,
                         ModLootTables.GNOMISH_CITY
@@ -103,7 +101,7 @@ class StructureGnomishCity : AOTDStructure("gnomish_city") {
                 }
                 // If the index is UPWARD_INDEX then it is the stairs that lead upwards
                 roomIndex == STAIR_UPWARD_INDEX -> {
-                    generateSchematic(ModSchematics.ROOM_STAIR_UP, world, roomPos, chunkPos, ModLootTables.GNOMISH_CITY)
+                    world.generateSchematic(ModSchematics.ROOM_STAIR_UP, roomPos, chunkPos, ModLootTables.GNOMISH_CITY)
                 }
             }
         }
@@ -113,7 +111,7 @@ class StructureGnomishCity : AOTDStructure("gnomish_city") {
         for (i in 0 until tunnelsEW.size) {
             val tunnelEW = tunnelsEW.getCompound(i)
             val tunnelPos = NBTUtil.readBlockPos(tunnelEW.getCompound(NBT_POSITION))
-            generateSchematic(ModSchematics.TUNNEL_EW, world, tunnelPos, chunkPos)
+            world.generateSchematic(ModSchematics.TUNNEL_EW, tunnelPos, chunkPos)
         }
 
         // Generate the north-south tunnels, this is pretty straight forward. Grab the position and generate the schematic
@@ -121,17 +119,16 @@ class StructureGnomishCity : AOTDStructure("gnomish_city") {
         for (i in 0 until tunnelsNS.size) {
             val tunnelNS = tunnelsNS.getCompound(i)
             val tunnelPos = NBTUtil.readBlockPos(tunnelNS.getCompound(NBT_POSITION))
-            generateSchematic(ModSchematics.TUNNEL_NS, world, tunnelPos, chunkPos)
+            world.generateSchematic(ModSchematics.TUNNEL_NS, tunnelPos, chunkPos)
         }
 
         // Generate a set of two surface stairs on top of each other, one starting at the gnomish city stairwell
         // and one right above it to ensure the stairs are tall enough
         val surfaceStairs = data.getCompound(NBT_SURFACE_STAIRS)
         val surfaceStairsPos = NBTUtil.readBlockPos(surfaceStairs.getCompound(NBT_POSITION))
-        generateSchematic(ModSchematics.STAIRWELL, world, surfaceStairsPos, chunkPos)
-        generateSchematic(
+        world.generateSchematic(ModSchematics.STAIRWELL, surfaceStairsPos, chunkPos)
+        world.generateSchematic(
             ModSchematics.STAIRWELL,
-            world,
             surfaceStairsPos.add(0, ModSchematics.STAIRWELL.getHeight().toInt(), 0),
             chunkPos
         )
@@ -139,7 +136,7 @@ class StructureGnomishCity : AOTDStructure("gnomish_city") {
         // Generate enaria's lair at the bottom under the structure
         val enariasLair = data.getCompound(NBT_ENARIAS_LAIR)
         val enariasLairPos = NBTUtil.readBlockPos(enariasLair.getCompound(NBT_POSITION))
-        generateSchematic(ModSchematics.ENARIA_LAIR, world, enariasLairPos, chunkPos)
+        world.generateSchematic(ModSchematics.ENARIA_LAIR, enariasLairPos, chunkPos)
     }
 
     /**

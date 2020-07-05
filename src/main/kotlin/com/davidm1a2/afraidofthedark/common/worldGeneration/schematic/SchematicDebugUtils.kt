@@ -17,20 +17,18 @@ import java.io.IOException
 object SchematicDebugUtils {
     private val logger = LogManager.getLogger()
 
-    /**
-     * Sets a block in a schematic
-     *
-     * @param schematic The schematic to update
-     * @param x The block's x position
-     * @param y The block's y position
-     * @param z The block's z position
-     * @param block The block to set it to
-     */
     fun setBlock(schematic: Schematic, x: Int, y: Int, z: Int, block: IBlockState) {
         val width = schematic.getWidth().toInt()
         val length = schematic.getLength().toInt()
 
         schematic.getBlocks()[x + y * length * width + z * width] = block
+    }
+
+    fun getBlock(schematic: Schematic, x: Int, y: Int, z: Int): IBlockState {
+        val width = schematic.getWidth().toInt()
+        val length = schematic.getLength().toInt()
+
+        return schematic.getBlocks()[x + y * length * width + z * width]
     }
 
     /**
