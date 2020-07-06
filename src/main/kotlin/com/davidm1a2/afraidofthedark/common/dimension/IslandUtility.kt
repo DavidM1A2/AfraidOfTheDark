@@ -2,7 +2,6 @@ package com.davidm1a2.afraidofthedark.common.dimension
 
 import com.davidm1a2.afraidofthedark.common.capabilities.player.dimension.IAOTDIslandData
 import com.davidm1a2.afraidofthedark.common.capabilities.world.IslandVisitorData
-import net.minecraft.block.BlockAir
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
@@ -66,7 +65,9 @@ object IslandUtility {
         // If the material is solid and blocks movement it's valid
         return if (bottomBlockMaterial.isSolid && bottomBlockMaterial.blocksMovement()) {
             // Ensure the two blocks above are air
-            world.getBlockState(blockPos.up()).block is BlockAir && world.getBlockState(blockPos.up(2)).block is BlockAir
+            val blockUpOne = world.getBlockState(blockPos.up())
+            val blockUpTwo = world.getBlockState(blockPos.up(2))
+            return !blockUpOne.material.blocksMovement() && !blockUpTwo.material.blocksMovement()
         } else false
     }
 }

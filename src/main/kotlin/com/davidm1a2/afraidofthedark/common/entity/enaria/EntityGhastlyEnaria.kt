@@ -83,7 +83,7 @@ class EntityGhastlyEnaria(world: World) : EntityFlying(ModEntities.GHASTLY_ENARI
         // the world
         if (ticksExisted % PLAYER_BENIGN_CHECK_FREQUENCY == 20.0) {
             // Grab the distance between the nightamre islands
-            val distanceBetweenIslands = ModCommonConfiguration.blocksBetweenIslands
+            val distanceBetweenIslands = Constants.DISTANCE_BETWEEN_ISLANDS
             // Grab the closest player
             val closestPlayer = world.getClosestPlayer(posX, posY, posZ, distanceBetweenIslands / 2.toDouble(), false)
             // If the closest player is null enaria will be benign

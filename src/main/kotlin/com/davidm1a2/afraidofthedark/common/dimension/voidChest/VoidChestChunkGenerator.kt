@@ -1,12 +1,16 @@
 package com.davidm1a2.afraidofthedark.common.dimension.voidChest
 
-import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
+import com.davidm1a2.afraidofthedark.common.constants.Constants
+import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
+import com.davidm1a2.afraidofthedark.common.world.generateSchematic
+import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.EnumCreatureType
 import net.minecraft.init.Blocks
 import net.minecraft.util.SharedSeedRandom
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IWorld
 import net.minecraft.world.World
+import net.minecraft.world.biome.Biome
 import net.minecraft.world.biome.Biome.SpawnListEntry
 import net.minecraft.world.biome.provider.BiomeProvider
 import net.minecraft.world.chunk.ChunkStatus
@@ -23,45 +27,16 @@ import net.minecraft.world.gen.*
 class VoidChestChunkGenerator(world: IWorld, biomeProvider: BiomeProvider) : AbstractChunkGenerator<ChunkGenSettings>(world, biomeProvider) {
     private val noiseGen = NoiseGeneratorPerlin(SharedSeedRandom(seed), 4)
 
+    override fun buildSurface(chunkIn: IChunk, biomesIn: Array<Biome>, random: SharedSeedRandom, seaLevel: Int) {
+        // Do nothing, void does not have a surface
+    }
+
     override fun carve(worldGenRegion: WorldGenRegion, stage: GenerationStage.Carving) {
         // Do nothing, there's nothing to carve out of void
     }
 
     override fun decorate(region: WorldGenRegion) {
-        val x = region.mainChunkX
-        val z = region.mainChunkZ
-
-        // The blocks between islands
-        val blocksBetweenIslands = ModCommonConfiguration.blocksBetweenIslands
-        // The X position in blockpos not chunkpos
-        val xPos = x * 16
-        // The barrier block state
-        val barrierDefaultState = Blocks.BARRIER.defaultState
-        // If we've hit one of the critical chunks trigger a void chest generation
-        if (xPos % blocksBetweenIslands == 0 && z == 0) {
-            for (i in 0..48) {
-                for (j in 0..48) {
-                    /*
-                    // Create the floor
-                    world.setBlockState(BlockPos(xPos + i, 100, z + j), barrierDefaultState, 3)
-                    // Create the roof
-                    world.setBlockState(BlockPos(xPos + i, 100 + 48, z + j), barrierDefaultState, 3)
-                    // Create the left wall
-                    world.setBlockState(BlockPos(xPos + 0, 100 + i, z + j), barrierDefaultState, 3)
-                    // Create the right wall
-                    world.setBlockState(BlockPos(xPos + 48, 100 + i, z + j), barrierDefaultState, 3)
-                    // Create the front wall
-                    world.setBlockState(BlockPos(xPos + i, 100 + j, z + 0), barrierDefaultState, 3)
-                    // Create the back wall
-                    world.setBlockState(BlockPos(xPos + i, 100 + j, z + 48), barrierDefaultState, 3)
-
-                     */
-                }
-            }
-
-            // Generate the portal
-            // SchematicGenerator.generateSchematic(ModSchematics.VOID_CHEST_PORTAL, world as World, BlockPos(xPos + 20, 100, -2))
-        }
+        // Do nothing, there's nothing to decorate
     }
 
     override fun getPossibleCreatures(creatureType: EnumCreatureType, pos: BlockPos): List<SpawnListEntry> {
@@ -87,7 +62,46 @@ class VoidChestChunkGenerator(world: IWorld, biomeProvider: BiomeProvider) : Abs
         val z = chunk.pos.z
         chunk.biomes = biomeProvider.getBiomes(x * 16, z * 16, 16, 16)
         chunk.createHeightMap(Heightmap.Type.WORLD_SURFACE_WG, Heightmap.Type.OCEAN_FLOOR_WG)
+        createBarrierBox(chunk)
         chunk.status = ChunkStatus.BASE
+    }
+
+    private fun createBarrierBox(chunk: IChunk) {
+        val chunkPos = chunk.pos
+
+        val currentIsland = ((chunkPos.x - 1) * 16) / Constants.DISTANCE_BETWEEN_ISLANDS
+        // The X position in blockpos not chunkpos
+        val xPos = currentIsland * Constants.DISTANCE_BETWEEN_ISLANDS
+        // The barrier block state
+        val barrier = Blocks.BARRIER.defaultState
+        // If we've hit one of the critical chunks trigger a void chest generation
+        if (chunkPos.z == 0 || chunkPos.z == 1 || chunkPos.z == 2 || chunkPos.z == 3) {
+            for (i in 0..48) {
+                for (j in 0..48) {
+                    // Create the floor
+                    setBlockIfInChunk(chunk, BlockPos(xPos + i, 100, j), barrier)
+                    // Create the roof
+                    setBlockIfInChunk(chunk, BlockPos(xPos + i, 100 + 48, j), barrier)
+                    // Create the left wall
+                    setBlockIfInChunk(chunk, BlockPos(xPos + 0, 100 + i, j), barrier)
+                    // Create the right wall
+                    setBlockIfInChunk(chunk, BlockPos(xPos + 48, 100 + i, j), barrier)
+                    // Create the front wall
+                    setBlockIfInChunk(chunk, BlockPos(xPos + i, 100 + j, 0), barrier)
+                    // Create the back wall
+                    setBlockIfInChunk(chunk, BlockPos(xPos + i, 100 + j, 48), barrier)
+                }
+            }
+
+            // Generate the portal
+            chunk.generateSchematic(ModSchematics.VOID_CHEST_PORTAL, BlockPos(xPos + 20, 100, -2), chunkPos)
+        }
+    }
+
+    private fun setBlockIfInChunk(chunk: IChunk, blockPos: BlockPos, state: IBlockState) {
+        if (blockPos.x >= chunk.pos.xStart && blockPos.x <= chunk.pos.xEnd && blockPos.z >= chunk.pos.zStart && blockPos.z <= chunk.pos.zEnd) {
+            chunk.setBlockState(blockPos, state, false)
+        }
     }
 
     override fun spawnMobs(p0: WorldGenRegion) {

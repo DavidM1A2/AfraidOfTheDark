@@ -89,7 +89,7 @@ class NightmareHandler {
                                     // Grab the nearby player
                                     val entityPlayer = event.world.getClosestPlayerToEntity(
                                         entity,
-                                        ModCommonConfiguration.blocksBetweenIslands / 2.toDouble()
+                                        Constants.DISTANCE_BETWEEN_ISLANDS / 2.toDouble()
                                     )
 
                                     // If we have a valid nearby player teleport a new enaria to them. If we don't then just die (the player left the nightmare dimension)
@@ -290,7 +290,7 @@ class NightmareHandler {
             // Compute the player's index to go to
             val indexToGoTo = IslandUtility.getOrAssignPlayerPositionalIndex(nightmareWorld, playerNightmareData)
             // Compute the player's X position based on the index
-            val playerXBase = indexToGoTo * ModCommonConfiguration.blocksBetweenIslands
+            val playerXBase = indexToGoTo * Constants.DISTANCE_BETWEEN_ISLANDS
 
             // Set the player's position and rotation for some reason we have to use the connection object to send a packet instead of just using entityplayer#setPosition
             entityPlayer.connection.setPlayerLocation(playerXBase + 21.5, 74.0, 44.5, 0f, 0f)

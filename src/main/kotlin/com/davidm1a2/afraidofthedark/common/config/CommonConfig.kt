@@ -21,9 +21,6 @@ class CommonConfig(builder: ForgeConfigSpec.Builder) {
     // The eerie biome frequency
     private val eerieBiomeFrequency: ForgeConfigSpec.IntValue
 
-    // The number of blocks inbetween nightmare and void chest islands
-    private val blocksBetweenIslands: ForgeConfigSpec.IntValue
-
     // The priority to register the world generator at for AOTD
     private val worldGenPriority: ForgeConfigSpec.IntValue
 
@@ -74,11 +71,6 @@ class CommonConfig(builder: ForgeConfigSpec.Builder) {
             .translation("config.afraidofthedark:eerie_biome_frequency")
             .defineInRange("eerie_biome_frequency", 10, 0, 1000)
 
-        blocksBetweenIslands = builder
-            .comment("Sets the number of blocks that are between nightmare and void chest islands. All players are technically in the same world, so this ensure they never see each other.")
-            .translation("config.afraidofthedark:blocks_between_islands")
-            .defineInRange("blocks_between_islands", 1000, 100, 100000)
-
         worldGenPriority = builder
             .comment("Sets the priority for afraid of the dark world generation. Higher numbers result in world generation running after other mods.")
             .translation("config.afraidofthedark:world_gen_priority")
@@ -105,7 +97,6 @@ class CommonConfig(builder: ForgeConfigSpec.Builder) {
         ModCommonConfiguration.desertOasisMultiplier = desertOasisMultiplier.get()
         ModCommonConfiguration.observatoryMultiplier = observatoryMultiplier.get()
         ModCommonConfiguration.eerieBiomeFrequency = eerieBiomeFrequency.get()
-        ModCommonConfiguration.blocksBetweenIslands = blocksBetweenIslands.get()
         ModCommonConfiguration.worldGenPriority = worldGenPriority.get()
         ModCommonConfiguration.cacheStructures = cacheStructures.get()
         ModCommonConfiguration.cacheTimeout = cacheTimeout.get()

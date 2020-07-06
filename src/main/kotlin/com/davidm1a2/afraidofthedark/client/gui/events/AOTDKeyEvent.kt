@@ -4,15 +4,17 @@ import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiComponentWithEvents
 import org.lwjgl.glfw.GLFW
 
 /**
- * Class representing any AOTD gui events that have to do with pressing a key
- *
- * @constructor constructor initializes all final fields
- * @param source    The source of the key event
- * @param key       The key that was pressed
- * @param modifiers   The modifiers pressed with the key
- * @param eventType The type of the event that was fired
+ * Event fired when a key is pressed, released, or a char is typed. [key] and [scanCode] will be valid for Press and Release events,
+ * and [char] will be valid for a Type event. [eventType] indicates what kind of event [source] triggered.
  */
-class AOTDKeyEvent(source: AOTDGuiComponentWithEvents, val key: Int, val scanCode: Int, private val modifiers: Int, val eventType: KeyEventType) :
+class AOTDKeyEvent(
+    source: AOTDGuiComponentWithEvents,
+    val key: Int,
+    val scanCode: Int,
+    val char: Char,
+    private val modifiers: Int,
+    val eventType: KeyEventType
+) :
     AOTDEvent(source) {
     fun getKeyName(): String? {
         return GLFW.glfwGetKeyName(key, scanCode)
@@ -27,7 +29,8 @@ class AOTDKeyEvent(source: AOTDGuiComponentWithEvents, val key: Int, val scanCod
      */
     enum class KeyEventType {
         Press,
-        Release
+        Release,
+        Type
     }
 
     enum class Modifier(internal val mask: Int) {

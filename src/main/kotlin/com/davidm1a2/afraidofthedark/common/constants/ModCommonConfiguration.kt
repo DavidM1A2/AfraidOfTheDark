@@ -16,9 +16,6 @@ object ModCommonConfiguration {
     // The eerie biome frequency
     var eerieBiomeFrequency = 10
 
-    // The number of blocks inbetween nightmare and void chest islands
-    var blocksBetweenIslands = 1000
-
     // The priority to register the world generator at for AOTD
     var worldGenPriority = 0
 

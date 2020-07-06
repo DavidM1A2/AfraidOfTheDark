@@ -28,7 +28,7 @@ object ModEntities {
         .setRegistryNameGeneric("werewolf")
 
     val GHASTLY_ENARIA = EntityType.Builder.create(EntityGhastlyEnaria::class.java) { EntityGhastlyEnaria(it) }
-        .tracker(ModCommonConfiguration.blocksBetweenIslands / 2, 1, true)
+        .tracker(Constants.DISTANCE_BETWEEN_ISLANDS, 1, true)
         .build("${Constants.MOD_ID}:ghastly_enaria")
         .setRegistryNameGeneric("ghastly_enaria")
 

@@ -83,7 +83,7 @@ object AOTDGuiUtility {
             // Use string selection to store our text
             val stringSelection = StringSelection(text)
             // Set the clipboard's contents
-            Toolkit.getDefaultToolkit().systemClipboard.setContents(stringSelection, null)
+            Toolkit.getDefaultToolkit().systemClipboard.setContents(stringSelection, stringSelection)
         }
     }
 

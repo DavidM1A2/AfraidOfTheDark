@@ -33,4 +33,7 @@ object Constants {
 
     // All text will be rendered with this scale factor to avoid blurry text
     const val TEXT_SCALE_FACTOR = 0.25f
+
+    // The distance between nightmare and void chest islands
+    const val DISTANCE_BETWEEN_ISLANDS = 1000
 }

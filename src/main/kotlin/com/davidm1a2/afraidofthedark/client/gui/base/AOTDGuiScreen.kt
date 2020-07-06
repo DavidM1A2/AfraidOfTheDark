@@ -103,6 +103,22 @@ abstract class AOTDGuiScreen : GuiScreen() {
         return false
     }
 
+    override fun charTyped(char: Char, modifiers: Int): Boolean {
+        // Fire the process key event on our content pane
+        this.contentPane.processKeyInput(
+            AOTDKeyEvent(
+                this.contentPane,
+                Int.MIN_VALUE, // Default since we don't know what int the char corresponds to
+                Int.MIN_VALUE, // Default since we don't know what int the char corresponds to
+                char,
+                modifiers,
+                AOTDKeyEvent.KeyEventType.Type
+            )
+        )
+
+        return super.charTyped(char, modifiers)
+    }
+
     override fun keyPressed(key: Int, scanCode: Int, modifiers: Int): Boolean {
         // Fire the process key event on our content pane
         this.contentPane.processKeyInput(
@@ -110,6 +126,7 @@ abstract class AOTDGuiScreen : GuiScreen() {
                 this.contentPane,
                 key,
                 scanCode,
+                Char.MIN_VALUE, // Default since we don't know what char the int corresponds to
                 modifiers,
                 AOTDKeyEvent.KeyEventType.Press
             )
@@ -141,6 +158,7 @@ abstract class AOTDGuiScreen : GuiScreen() {
                 this.contentPane,
                 key,
                 scanCode,
+                Char.MIN_VALUE, // Default since we don't know what char the int corresponds to
                 modifiers,
                 AOTDKeyEvent.KeyEventType.Release
             )

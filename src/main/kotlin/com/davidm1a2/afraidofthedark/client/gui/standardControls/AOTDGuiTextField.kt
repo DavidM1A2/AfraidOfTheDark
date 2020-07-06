@@ -1,6 +1,5 @@
 package com.davidm1a2.afraidofthedark.client.gui.standardControls
 
-import com.davidm1a2.afraidofthedark.client.gui.AOTDGuiUtility
 import com.davidm1a2.afraidofthedark.client.gui.base.AOTDGuiContainer
 import com.davidm1a2.afraidofthedark.client.gui.base.TextAlignment
 import com.davidm1a2.afraidofthedark.client.gui.events.AOTDKeyEvent
@@ -8,7 +7,6 @@ import com.davidm1a2.afraidofthedark.client.gui.events.AOTDMouseEvent
 import com.davidm1a2.afraidofthedark.client.gui.fontLibrary.TrueTypeFont
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.GuiScreen
 import net.minecraft.util.SharedConstants
 import org.lwjgl.glfw.GLFW
 import java.awt.Color
@@ -72,8 +70,10 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
         }
         // When a key is typed save that information
         this.addKeyListener {
-            if (it.eventType == AOTDKeyEvent.KeyEventType.Press) {
-                keyTyped(it.getKeyName(), it.key)
+            if (it.eventType == AOTDKeyEvent.KeyEventType.Type) {
+                keyTyped(it)
+            } else if (it.eventType == AOTDKeyEvent.KeyEventType.Press) {
+                keyPressed(it)
             }
         }
     }
@@ -87,50 +87,49 @@ class AOTDGuiTextField(x: Int, y: Int, width: Int, height: Int, font: TrueTypeFo
         }
     }
 
-    /**
-     * Processes a key typed event
-     *
-     * @param character The character typed
-     * @param keyCode   The code of the character typed
-     */
-    private fun keyTyped(character: String?, keyCode: Int) {
+    private fun keyPressed(event: AOTDKeyEvent) {
         // Ensure the text field is focused
         if (this.isFocused) {
             // CTRL + A
-            if (GuiScreen.isCtrlKeyDown() && keyCode == GLFW.GLFW_KEY_A) {
+            if (event.hasModifier(AOTDKeyEvent.Modifier.CONTROL) && event.key == GLFW.GLFW_KEY_A) {
                 // Select all text, not yet implemented
             }
             // CTRL + C
-            else if (GuiScreen.isCtrlKeyDown() && keyCode == GLFW.GLFW_KEY_C) {
+            else if (event.hasModifier(AOTDKeyEvent.Modifier.CONTROL) && event.key == GLFW.GLFW_KEY_C) {
                 // Update the clipboard string
-                AOTDGuiUtility.setClipboardString(this.getText())
+                Minecraft.getInstance().keyboardListener.clipboardString = this.getText()
             }
             // Ctrl + V
-            else if (GuiScreen.isCtrlKeyDown() && keyCode == GLFW.GLFW_KEY_V) {
+            else if (event.hasModifier(AOTDKeyEvent.Modifier.CONTROL) && event.key == GLFW.GLFW_KEY_V) {
                 this.setText("")
-                this.addText(SharedConstants.filterAllowedCharacters(AOTDGuiUtility.getClipboardString()))
+                this.addText(SharedConstants.filterAllowedCharacters(Minecraft.getInstance().keyboardListener.clipboardString))
             }
             // CTRL + X
-            else if (GuiScreen.isCtrlKeyDown() && keyCode == GLFW.GLFW_KEY_X) {
-                AOTDGuiUtility.setClipboardString(this.getText())
+            else if (event.hasModifier(AOTDKeyEvent.Modifier.CONTROL) && event.key == GLFW.GLFW_KEY_X) {
+                Minecraft.getInstance().keyboardListener.clipboardString = this.getText()
                 this.setText("")
             }
             // Regular key typed
             else {
-                when (keyCode) {
-                    // Backspace removes 1 character
+                when (event.key) {
                     GLFW.GLFW_KEY_BACKSPACE -> this.removeChars(1)
-                    // Left arrow
                     GLFW.GLFW_KEY_LEFT -> {
                         // Not yet implemented
                     }
-                    // Right arrow
                     GLFW.GLFW_KEY_RIGHT -> {
                         // Not yet implemented
                     }
-                    // Add the character
-                    else -> character?.let { this.addText(SharedConstants.filterAllowedCharacters(it)) }
                 }
+            }
+        }
+    }
+
+    private fun keyTyped(event: AOTDKeyEvent) {
+        // Ensure the text field is focused
+        if (this.isFocused) {
+            val char = SharedConstants.filterAllowedCharacters(event.char.toString())
+            if (char.isNotBlank()) {
+                this.addText(char)
             }
         }
     }
