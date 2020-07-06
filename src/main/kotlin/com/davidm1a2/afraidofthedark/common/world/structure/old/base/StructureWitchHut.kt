@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.world.structure
+package com.davidm1a2.afraidofthedark.common.world.structure.old.base
 
 import com.davidm1a2.afraidofthedark.common.capabilities.world.IHeightmap
 import com.davidm1a2.afraidofthedark.common.capabilities.world.OverworldHeightmap
@@ -7,10 +7,9 @@ import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.world.generateSchematic
-import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
-import com.davidm1a2.afraidofthedark.common.world.structure.base.iterator.InteriorChunkIterator
-import com.davidm1a2.afraidofthedark.common.world.structure.base.processor.IChunkProcessor
-import net.minecraft.init.Biomes
+import com.davidm1a2.afraidofthedark.common.world.structure.old.base.iterator.InteriorChunkIterator
+import com.davidm1a2.afraidofthedark.common.world.structure.old.base.processor.IChunkProcessor
+import com.davidm1a2.afraidofthedark.common.world.structure.old.base.processor.LowestHeightChunkProcessor
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.math.BlockPos
@@ -21,11 +20,11 @@ import kotlin.math.max
 import kotlin.math.min
 
 /**
- * Crypt structure class
+ * Witch hut structure class
  *
- * @constructor just initializes the name
+ * @constructor just sets the registry name
  */
-class StructureCrypt : AOTDStructure("crypt") {
+class StructureWitchHut : AOTDStructure("witch_hut") {
     /**
      * Tests if this structure is valid for the given position
      *
@@ -40,27 +39,18 @@ class StructureCrypt : AOTDStructure("crypt") {
         biomeProvider: BiomeProvider
     ): Double {
         return processChunks(object : IChunkProcessor<Double> {
-            // Compute the minimum and maximum height over all the chunks that the crypt will cross over
+            // Compute the minimum and maximum height over all the chunks that the witch hut will cross over
             var minHeight = Int.MAX_VALUE
             var maxHeight = Int.MIN_VALUE
 
-            // Counters for the number of eerie forest chunks
-            var numEerieForestChunks = 0
-            var numOtherChunks = 0
             override fun processChunk(chunkPos: ChunkPos): Boolean {
                 val biomes = getBiomesInChunk(biomeProvider, chunkPos.x, chunkPos.z)
-                // Filter incompatible biomes
-                when {
-                    biomes.any { INCOMPATIBLE_BIOMES.contains(it) } -> {
-                        return false
-                    }
-                    biomes.contains(ModBiomes.EERIE_FOREST) -> {
-                        numEerieForestChunks++
-                    }
-                    else -> {
-                        numOtherChunks++
-                    }
+
+                // Witch huts can only spawn in eerie forests
+                if (!biomes.contains(ModBiomes.EERIE_FOREST) || biomes.size > 1) {
+                    return false
                 }
+
                 // Compute min and max height
                 minHeight = min(minHeight, heightmap.getLowestHeight(chunkPos))
                 maxHeight = max(maxHeight, heightmap.getHighestHeight(chunkPos))
@@ -68,17 +58,14 @@ class StructureCrypt : AOTDStructure("crypt") {
             }
 
             override fun getResult(): Double {
-                // If there's more than 5 blocks between the top and bottom block it's an invalid place for a crypt because it's not 'flat' enough
-                if (maxHeight - minHeight > 5) {
-                    return getDefaultResult()
+                // If there's more than 3 blocks between the top and bottom block it's an invalid place for a witch hut because it's not 'flat' enough
+                return if (maxHeight - minHeight > 3) {
+                    getDefaultResult()
                 }
-
-                // Compute how many chunks are eerie forest and how many are other biomes
-                val percentEerie = numEerieForestChunks.toDouble() / (numEerieForestChunks + numOtherChunks)
-                val percentOther = 1.0 - percentEerie
-
-                // 0.2% chance to spawn in other biomes, 2% chance to spawn in erie forests
-                return (percentEerie * 0.02 + percentOther * 0.002) * ModCommonConfiguration.cryptMultiplier
+                // 4% chance to generate in any chunks this fits in
+                else {
+                    0.04 * ModCommonConfiguration.witchHutMultiplier
+                }
             }
 
             override fun getDefaultResult(): Double {
@@ -92,14 +79,13 @@ class StructureCrypt : AOTDStructure("crypt") {
      *
      * @param world    The world to generate the structure in
      * @param chunkPos Optional chunk position of a chunk to generate in. If supplied all blocks generated must be in this chunk only!
-     * @param data     Data containing structure position
+     * @param data     NBT data containing the structure's position
      */
     override fun generate(world: World, chunkPos: ChunkPos, data: NBTTagCompound) {
-        // Get the position of the structure from the data compound
+        // Grab the block pos from the NBT data
         val blockPos = getPosition(data)
-
-        // This structure is simple, it is just the crypt schematic
-        world.generateSchematic(ModSchematics.CRYPT, blockPos, chunkPos, ModLootTables.CRYPT)
+        // This structure is simple, it is just the witch hut schematic
+        world.generateSchematic(ModSchematics.WITCH_HUT, blockPos, chunkPos, ModLootTables.WITCH_HUT)
     }
 
     /**
@@ -111,23 +97,17 @@ class StructureCrypt : AOTDStructure("crypt") {
      * @return The NBTTagCompound containing any data needed for generation. Sent in Structure::generate
      */
     override fun generateStructureData(world: World, blockPos: BlockPos, biomeProvider: BiomeProvider): NBTTagCompound {
-        @Suppress("NAME_SHADOWING")
-        var blockPos = blockPos
         val compound = NBTTagCompound()
 
-        // Compute the center block of the schematic
-        val centerBlock = blockPos.add(getXWidth() / 2, 0, getZLength() / 2)
-        // Convert that block to the chunk it is in
-        val centerChunk = ChunkPos(centerBlock)
-        // Compute the ground height at the center
-        val groundHeight = OverworldHeightmap.get(world).getLowestHeight(centerChunk)
-
-        // Set the schematic height to be underground + 3 blocks+, ensure it isn't below bedrock
-        val y = (groundHeight - ModSchematics.CRYPT.getHeight() + 3).coerceIn(5, Int.MAX_VALUE)
-        blockPos = BlockPos(blockPos.x, y, blockPos.z)
-
+        // Find the lowest y value containing a block
+        val groundLevel = processChunks(
+            LowestHeightChunkProcessor(OverworldHeightmap.get(world)),
+            InteriorChunkIterator(this, blockPos)
+        )
+        // Set the schematic at the lowest point in the chunk
+        val schematicPos = BlockPos(blockPos.x, groundLevel - 1, blockPos.z)
         // Update the NBT
-        compound.setTag(NBT_POSITION, NBTUtil.writeBlockPos(blockPos))
+        compound.setTag(NBT_POSITION, NBTUtil.writeBlockPos(schematicPos))
 
         return compound
     }
@@ -136,29 +116,15 @@ class StructureCrypt : AOTDStructure("crypt") {
      * @return The width of the structure in blocks
      */
     override fun getXWidth(): Int {
-        // For this structure the width is just the width of the crypt
-        return ModSchematics.CRYPT.getWidth().toInt()
+        // For this structure the width is just the width of the witch hut
+        return ModSchematics.WITCH_HUT.getWidth().toInt()
     }
 
     /**
      * @return The length of the structure in blocks
      */
     override fun getZLength(): Int {
-        // For this structure the length is just the length of the crypt
-        return ModSchematics.CRYPT.getLength().toInt()
-    }
-
-    companion object {
-        // A set of incompatible biomes
-        private val INCOMPATIBLE_BIOMES = setOf(
-            Biomes.OCEAN,
-            Biomes.DEEP_OCEAN,
-            Biomes.FROZEN_OCEAN,
-            Biomes.BEACH,
-            Biomes.FROZEN_RIVER,
-            Biomes.RIVER,
-            Biomes.THE_VOID,
-            Biomes.BEACH
-        )
+        // For this structure the length is just the length of the witch hut
+        return ModSchematics.WITCH_HUT.getLength().toInt()
     }
 }

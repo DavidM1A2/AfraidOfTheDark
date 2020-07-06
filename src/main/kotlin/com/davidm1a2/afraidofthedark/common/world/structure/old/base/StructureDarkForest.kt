@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.world.structure
+package com.davidm1a2.afraidofthedark.common.world.structure.old.base
 
 import com.davidm1a2.afraidofthedark.common.capabilities.world.IHeightmap
 import com.davidm1a2.afraidofthedark.common.capabilities.world.OverworldHeightmap
@@ -8,10 +8,9 @@ import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.world.generateSchematic
 import com.davidm1a2.afraidofthedark.common.world.schematic.Schematic
-import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
-import com.davidm1a2.afraidofthedark.common.world.structure.base.iterator.IChunkIterator
-import com.davidm1a2.afraidofthedark.common.world.structure.base.processor.IChunkProcessor
-import com.davidm1a2.afraidofthedark.common.world.structure.base.processor.LowestHeightChunkProcessor
+import com.davidm1a2.afraidofthedark.common.world.structure.old.base.iterator.IChunkIterator
+import com.davidm1a2.afraidofthedark.common.world.structure.old.base.processor.IChunkProcessor
+import com.davidm1a2.afraidofthedark.common.world.structure.old.base.processor.LowestHeightChunkProcessor
 import net.minecraft.init.Biomes
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTTagList

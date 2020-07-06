@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.world.structure.base.processor
+package com.davidm1a2.afraidofthedark.common.world.structure.old.base.processor
 
 import net.minecraft.util.math.ChunkPos
 

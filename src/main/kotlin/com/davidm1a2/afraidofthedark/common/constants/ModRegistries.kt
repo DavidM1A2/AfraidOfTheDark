@@ -6,7 +6,7 @@ import com.davidm1a2.afraidofthedark.common.registry.research.Research
 import com.davidm1a2.afraidofthedark.common.spell.component.deliveryMethod.base.SpellDeliveryMethod
 import com.davidm1a2.afraidofthedark.common.spell.component.effect.base.SpellEffect
 import com.davidm1a2.afraidofthedark.common.spell.component.powerSource.base.SpellPowerSource
-import com.davidm1a2.afraidofthedark.common.world.structure.base.Structure
+import com.davidm1a2.afraidofthedark.common.world.structure.old.base.Structure
 import net.minecraftforge.registries.IForgeRegistry
 
 /**

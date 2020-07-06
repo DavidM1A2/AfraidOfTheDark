@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.world.structure.base
+package com.davidm1a2.afraidofthedark.common.world.structure.old.base
 
 import com.davidm1a2.afraidofthedark.common.capabilities.world.IHeightmap
 import net.minecraft.nbt.NBTTagCompound

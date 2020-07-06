@@ -1,6 +1,6 @@
-package com.davidm1a2.afraidofthedark.common.world.structure.base.iterator
+package com.davidm1a2.afraidofthedark.common.world.structure.old.base.iterator
 
-import com.davidm1a2.afraidofthedark.common.world.structure.base.Structure
+import com.davidm1a2.afraidofthedark.common.world.structure.old.base.Structure
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
 

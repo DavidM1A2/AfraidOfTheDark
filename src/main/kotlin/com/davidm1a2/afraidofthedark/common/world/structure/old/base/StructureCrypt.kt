@@ -1,15 +1,14 @@
-package com.davidm1a2.afraidofthedark.common.world.structure
+package com.davidm1a2.afraidofthedark.common.world.structure.old.base
 
 import com.davidm1a2.afraidofthedark.common.capabilities.world.IHeightmap
 import com.davidm1a2.afraidofthedark.common.capabilities.world.OverworldHeightmap
+import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.world.generateSchematic
-import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
-import com.davidm1a2.afraidofthedark.common.world.structure.base.iterator.InteriorChunkIterator
-import com.davidm1a2.afraidofthedark.common.world.structure.base.processor.IChunkProcessor
-import com.davidm1a2.afraidofthedark.common.world.structure.base.processor.LowestHeightChunkProcessor
+import com.davidm1a2.afraidofthedark.common.world.structure.old.base.iterator.InteriorChunkIterator
+import com.davidm1a2.afraidofthedark.common.world.structure.old.base.processor.IChunkProcessor
 import net.minecraft.init.Biomes
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTUtil
@@ -21,18 +20,18 @@ import kotlin.math.max
 import kotlin.math.min
 
 /**
- * Void chest structure class
+ * Crypt structure class
  *
- * @constructor just sets the registry name
+ * @constructor just initializes the name
  */
-class StructureVoidChest : AOTDStructure("void_chest") {
+class StructureCrypt : AOTDStructure("crypt") {
     /**
      * Tests if this structure is valid for the given position
      *
      * @param blockPos      The position that the structure would begin at
      * @param heightmap     The heightmap to use in deciding if the structure will fit at the position
      * @param biomeProvider The provider used to generate the world, use biomeProvider.getBiomes() to get what biomes exist at a position
-     * @return A value between 0 and 1 which is the chance between 0% and 100% that a structure could spawn at the given position
+     * @return true if the structure fits at the position, false otherwise
      */
     override fun computeChanceToGenerateAt(
         blockPos: BlockPos,
@@ -40,17 +39,27 @@ class StructureVoidChest : AOTDStructure("void_chest") {
         biomeProvider: BiomeProvider
     ): Double {
         return processChunks(object : IChunkProcessor<Double> {
-            // Compute the minimum and maximum height over all the chunks that the void chest will cross over
+            // Compute the minimum and maximum height over all the chunks that the crypt will cross over
             var minHeight = Int.MAX_VALUE
             var maxHeight = Int.MIN_VALUE
 
+            // Counters for the number of eerie forest chunks
+            var numEerieForestChunks = 0
+            var numOtherChunks = 0
             override fun processChunk(chunkPos: ChunkPos): Boolean {
                 val biomes = getBiomesInChunk(biomeProvider, chunkPos.x, chunkPos.z)
-                // Void Chests only spawn in snowy biomes
-                if (biomes.none { COMPATIBLE_BIOMES.contains(it) }) {
-                    return false
+                // Filter incompatible biomes
+                when {
+                    biomes.any { INCOMPATIBLE_BIOMES.contains(it) } -> {
+                        return false
+                    }
+                    biomes.contains(ModBiomes.EERIE_FOREST) -> {
+                        numEerieForestChunks++
+                    }
+                    else -> {
+                        numOtherChunks++
+                    }
                 }
-
                 // Compute min and max height
                 minHeight = min(minHeight, heightmap.getLowestHeight(chunkPos))
                 maxHeight = max(maxHeight, heightmap.getHighestHeight(chunkPos))
@@ -58,14 +67,17 @@ class StructureVoidChest : AOTDStructure("void_chest") {
             }
 
             override fun getResult(): Double {
-                // If there's more than 8 blocks between the top and bottom block it's an invalid place for a void chest because it's not 'flat' enough
-                return if (maxHeight - minHeight > 8) {
-                    getDefaultResult()
+                // If there's more than 5 blocks between the top and bottom block it's an invalid place for a crypt because it's not 'flat' enough
+                if (maxHeight - minHeight > 5) {
+                    return getDefaultResult()
                 }
-                // 0.2% chance to generate in any chunks this fits in
-                else {
-                    0.002 * ModCommonConfiguration.voidChestMultiplier
-                }
+
+                // Compute how many chunks are eerie forest and how many are other biomes
+                val percentEerie = numEerieForestChunks.toDouble() / (numEerieForestChunks + numOtherChunks)
+                val percentOther = 1.0 - percentEerie
+
+                // 0.2% chance to spawn in other biomes, 2% chance to spawn in erie forests
+                return (percentEerie * 0.02 + percentOther * 0.002) * ModCommonConfiguration.cryptMultiplier
             }
 
             override fun getDefaultResult(): Double {
@@ -79,13 +91,14 @@ class StructureVoidChest : AOTDStructure("void_chest") {
      *
      * @param world    The world to generate the structure in
      * @param chunkPos Optional chunk position of a chunk to generate in. If supplied all blocks generated must be in this chunk only!
-     * @param data     NBT containing the void chest's position
+     * @param data     Data containing structure position
      */
     override fun generate(world: World, chunkPos: ChunkPos, data: NBTTagCompound) {
-        // Get the void chest's position from the NBT data
+        // Get the position of the structure from the data compound
         val blockPos = getPosition(data)
-        // This structure is simple, it is just the void chest schematic
-        world.generateSchematic(ModSchematics.VOID_CHEST, blockPos, chunkPos, ModLootTables.VOID_CHEST)
+
+        // This structure is simple, it is just the crypt schematic
+        world.generateSchematic(ModSchematics.CRYPT, blockPos, chunkPos, ModLootTables.CRYPT)
     }
 
     /**
@@ -101,13 +114,17 @@ class StructureVoidChest : AOTDStructure("void_chest") {
         var blockPos = blockPos
         val compound = NBTTagCompound()
 
-        // Find the lowest y value containing a block
-        val groundLevel = processChunks(
-            LowestHeightChunkProcessor(OverworldHeightmap.get(world)),
-            InteriorChunkIterator(this, blockPos)
-        )
-        // Set the schematic's position to the lowest point in the chunk
-        blockPos = BlockPos(blockPos.x, groundLevel - 7, blockPos.z)
+        // Compute the center block of the schematic
+        val centerBlock = blockPos.add(getXWidth() / 2, 0, getZLength() / 2)
+        // Convert that block to the chunk it is in
+        val centerChunk = ChunkPos(centerBlock)
+        // Compute the ground height at the center
+        val groundHeight = OverworldHeightmap.get(world).getLowestHeight(centerChunk)
+
+        // Set the schematic height to be underground + 3 blocks+, ensure it isn't below bedrock
+        val y = (groundHeight - ModSchematics.CRYPT.getHeight() + 3).coerceIn(5, Int.MAX_VALUE)
+        blockPos = BlockPos(blockPos.x, y, blockPos.z)
+
         // Update the NBT
         compound.setTag(NBT_POSITION, NBTUtil.writeBlockPos(blockPos))
 
@@ -118,26 +135,29 @@ class StructureVoidChest : AOTDStructure("void_chest") {
      * @return The width of the structure in blocks
      */
     override fun getXWidth(): Int {
-        return ModSchematics.VOID_CHEST.getWidth().toInt()
+        // For this structure the width is just the width of the crypt
+        return ModSchematics.CRYPT.getWidth().toInt()
     }
 
     /**
      * @return The length of the structure in blocks
      */
     override fun getZLength(): Int {
-        return ModSchematics.VOID_CHEST.getLength().toInt()
+        // For this structure the length is just the length of the crypt
+        return ModSchematics.CRYPT.getLength().toInt()
     }
 
     companion object {
-        // A set of compatible biomes
-        private val COMPATIBLE_BIOMES = setOf(
-            Biomes.SNOWY_BEACH,
-            Biomes.SNOWY_TAIGA,
-            Biomes.SNOWY_TAIGA_HILLS,
-            Biomes.SNOWY_TUNDRA,
+        // A set of incompatible biomes
+        private val INCOMPATIBLE_BIOMES = setOf(
+            Biomes.OCEAN,
+            Biomes.DEEP_OCEAN,
             Biomes.FROZEN_OCEAN,
+            Biomes.BEACH,
             Biomes.FROZEN_RIVER,
-            Biomes.ICE_SPIKES
+            Biomes.RIVER,
+            Biomes.THE_VOID,
+            Biomes.BEACH
         )
     }
 }

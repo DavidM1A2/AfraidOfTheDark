@@ -1,13 +1,12 @@
-package com.davidm1a2.afraidofthedark.common.world.structure
+package com.davidm1a2.afraidofthedark.common.world.structure.old.base
 
 import com.davidm1a2.afraidofthedark.common.capabilities.world.IHeightmap
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.world.generateSchematic
-import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
-import com.davidm1a2.afraidofthedark.common.world.structure.base.iterator.InteriorChunkIterator
-import com.davidm1a2.afraidofthedark.common.world.structure.base.processor.IChunkProcessor
+import com.davidm1a2.afraidofthedark.common.world.structure.old.base.iterator.InteriorChunkIterator
+import com.davidm1a2.afraidofthedark.common.world.structure.old.base.processor.IChunkProcessor
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTTagList
 import net.minecraft.nbt.NBTUtil
@@ -209,7 +208,10 @@ class StructureGnomishCity : AOTDStructure("gnomish_city") {
 
                     // If the room is the stair from surface to level 1 and the floor is upper (1) generate the stair room and stairwell
                     if (currentRoom == stairSurfaceTo1 && floor == 1) {
-                        room.setInt(NBT_ROOM_INDEX, STAIR_UPWARD_INDEX)
+                        room.setInt(
+                            NBT_ROOM_INDEX,
+                            STAIR_UPWARD_INDEX
+                        )
                         // Create an NBT for the surface stairs that are used to walk down into the gnomish city
                         val surfaceStairs = NBTTagCompound()
                         surfaceStairs.setTag(
@@ -220,15 +222,24 @@ class StructureGnomishCity : AOTDStructure("gnomish_city") {
                     }
                     // If the room is the stair from level 1 to 2 and the floor is upper (1) generate the stair room
                     else if (currentRoom == stairs1To2 && floor == 1) {
-                        room.setInt(NBT_ROOM_INDEX, STAIR_DOWNWARD_INDEX)
+                        room.setInt(
+                            NBT_ROOM_INDEX,
+                            STAIR_DOWNWARD_INDEX
+                        )
                     }
                     // If the room is the stair from level 1 to 2 and the floor is lower (0) generate the stair room
                     else if (currentRoom == stairs1To2 && floor == 0) {
-                        room.setInt(NBT_ROOM_INDEX, STAIR_UPWARD_INDEX)
+                        room.setInt(
+                            NBT_ROOM_INDEX,
+                            STAIR_UPWARD_INDEX
+                        )
                     }
                     // If the room is the stair from level 2 to enaria and the floor is lower (0) generate the stair room
                     else if (currentRoom == stairs2ToEnaria && floor == 0) {
-                        room.setInt(NBT_ROOM_INDEX, STAIR_DOWNWARD_INDEX)
+                        room.setInt(
+                            NBT_ROOM_INDEX,
+                            STAIR_DOWNWARD_INDEX
+                        )
 
                         // Create the enaria lair too to fit under this room
                         val enariaRoom = NBTTagCompound()

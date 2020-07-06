@@ -1,6 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.constants
 
-import com.davidm1a2.afraidofthedark.common.world.structure.*
+import com.davidm1a2.afraidofthedark.common.world.structure.old.base.*
 
 /**
  * A list of structures to be registered

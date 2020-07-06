@@ -1,16 +1,15 @@
-package com.davidm1a2.afraidofthedark.common.world.structure
+package com.davidm1a2.afraidofthedark.common.world.structure.old.base
 
 import com.davidm1a2.afraidofthedark.common.capabilities.world.IHeightmap
 import com.davidm1a2.afraidofthedark.common.capabilities.world.OverworldHeightmap
-import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModLootTables
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.world.generateSchematic
-import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
-import com.davidm1a2.afraidofthedark.common.world.structure.base.iterator.InteriorChunkIterator
-import com.davidm1a2.afraidofthedark.common.world.structure.base.processor.IChunkProcessor
-import com.davidm1a2.afraidofthedark.common.world.structure.base.processor.LowestHeightChunkProcessor
+import com.davidm1a2.afraidofthedark.common.world.structure.old.base.iterator.InteriorChunkIterator
+import com.davidm1a2.afraidofthedark.common.world.structure.old.base.processor.IChunkProcessor
+import com.davidm1a2.afraidofthedark.common.world.structure.old.base.processor.LowestHeightChunkProcessor
+import net.minecraft.init.Biomes
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.math.BlockPos
@@ -21,18 +20,18 @@ import kotlin.math.max
 import kotlin.math.min
 
 /**
- * Witch hut structure class
+ * Void chest structure class
  *
  * @constructor just sets the registry name
  */
-class StructureWitchHut : AOTDStructure("witch_hut") {
+class StructureVoidChest : AOTDStructure("void_chest") {
     /**
      * Tests if this structure is valid for the given position
      *
      * @param blockPos      The position that the structure would begin at
      * @param heightmap     The heightmap to use in deciding if the structure will fit at the position
      * @param biomeProvider The provider used to generate the world, use biomeProvider.getBiomes() to get what biomes exist at a position
-     * @return true if the structure fits at the position, false otherwise
+     * @return A value between 0 and 1 which is the chance between 0% and 100% that a structure could spawn at the given position
      */
     override fun computeChanceToGenerateAt(
         blockPos: BlockPos,
@@ -40,15 +39,14 @@ class StructureWitchHut : AOTDStructure("witch_hut") {
         biomeProvider: BiomeProvider
     ): Double {
         return processChunks(object : IChunkProcessor<Double> {
-            // Compute the minimum and maximum height over all the chunks that the witch hut will cross over
+            // Compute the minimum and maximum height over all the chunks that the void chest will cross over
             var minHeight = Int.MAX_VALUE
             var maxHeight = Int.MIN_VALUE
 
             override fun processChunk(chunkPos: ChunkPos): Boolean {
                 val biomes = getBiomesInChunk(biomeProvider, chunkPos.x, chunkPos.z)
-
-                // Witch huts can only spawn in eerie forests
-                if (!biomes.contains(ModBiomes.EERIE_FOREST) || biomes.size > 1) {
+                // Void Chests only spawn in snowy biomes
+                if (biomes.none { COMPATIBLE_BIOMES.contains(it) }) {
                     return false
                 }
 
@@ -59,13 +57,13 @@ class StructureWitchHut : AOTDStructure("witch_hut") {
             }
 
             override fun getResult(): Double {
-                // If there's more than 3 blocks between the top and bottom block it's an invalid place for a witch hut because it's not 'flat' enough
-                return if (maxHeight - minHeight > 3) {
+                // If there's more than 8 blocks between the top and bottom block it's an invalid place for a void chest because it's not 'flat' enough
+                return if (maxHeight - minHeight > 8) {
                     getDefaultResult()
                 }
-                // 4% chance to generate in any chunks this fits in
+                // 0.2% chance to generate in any chunks this fits in
                 else {
-                    0.04 * ModCommonConfiguration.witchHutMultiplier
+                    0.002 * ModCommonConfiguration.voidChestMultiplier
                 }
             }
 
@@ -80,13 +78,13 @@ class StructureWitchHut : AOTDStructure("witch_hut") {
      *
      * @param world    The world to generate the structure in
      * @param chunkPos Optional chunk position of a chunk to generate in. If supplied all blocks generated must be in this chunk only!
-     * @param data     NBT data containing the structure's position
+     * @param data     NBT containing the void chest's position
      */
     override fun generate(world: World, chunkPos: ChunkPos, data: NBTTagCompound) {
-        // Grab the block pos from the NBT data
+        // Get the void chest's position from the NBT data
         val blockPos = getPosition(data)
-        // This structure is simple, it is just the witch hut schematic
-        world.generateSchematic(ModSchematics.WITCH_HUT, blockPos, chunkPos, ModLootTables.WITCH_HUT)
+        // This structure is simple, it is just the void chest schematic
+        world.generateSchematic(ModSchematics.VOID_CHEST, blockPos, chunkPos, ModLootTables.VOID_CHEST)
     }
 
     /**
@@ -98,6 +96,8 @@ class StructureWitchHut : AOTDStructure("witch_hut") {
      * @return The NBTTagCompound containing any data needed for generation. Sent in Structure::generate
      */
     override fun generateStructureData(world: World, blockPos: BlockPos, biomeProvider: BiomeProvider): NBTTagCompound {
+        @Suppress("NAME_SHADOWING")
+        var blockPos = blockPos
         val compound = NBTTagCompound()
 
         // Find the lowest y value containing a block
@@ -105,10 +105,10 @@ class StructureWitchHut : AOTDStructure("witch_hut") {
             LowestHeightChunkProcessor(OverworldHeightmap.get(world)),
             InteriorChunkIterator(this, blockPos)
         )
-        // Set the schematic at the lowest point in the chunk
-        val schematicPos = BlockPos(blockPos.x, groundLevel - 1, blockPos.z)
+        // Set the schematic's position to the lowest point in the chunk
+        blockPos = BlockPos(blockPos.x, groundLevel - 7, blockPos.z)
         // Update the NBT
-        compound.setTag(NBT_POSITION, NBTUtil.writeBlockPos(schematicPos))
+        compound.setTag(NBT_POSITION, NBTUtil.writeBlockPos(blockPos))
 
         return compound
     }
@@ -117,15 +117,26 @@ class StructureWitchHut : AOTDStructure("witch_hut") {
      * @return The width of the structure in blocks
      */
     override fun getXWidth(): Int {
-        // For this structure the width is just the width of the witch hut
-        return ModSchematics.WITCH_HUT.getWidth().toInt()
+        return ModSchematics.VOID_CHEST.getWidth().toInt()
     }
 
     /**
      * @return The length of the structure in blocks
      */
     override fun getZLength(): Int {
-        // For this structure the length is just the length of the witch hut
-        return ModSchematics.WITCH_HUT.getLength().toInt()
+        return ModSchematics.VOID_CHEST.getLength().toInt()
+    }
+
+    companion object {
+        // A set of compatible biomes
+        private val COMPATIBLE_BIOMES = setOf(
+            Biomes.SNOWY_BEACH,
+            Biomes.SNOWY_TAIGA,
+            Biomes.SNOWY_TAIGA_HILLS,
+            Biomes.SNOWY_TUNDRA,
+            Biomes.FROZEN_OCEAN,
+            Biomes.FROZEN_RIVER,
+            Biomes.ICE_SPIKES
+        )
     }
 }

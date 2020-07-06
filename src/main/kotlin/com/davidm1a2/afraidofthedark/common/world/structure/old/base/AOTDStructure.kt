@@ -1,11 +1,11 @@
-package com.davidm1a2.afraidofthedark.common.world.structure.base
+package com.davidm1a2.afraidofthedark.common.world.structure.old.base
 
 import com.davidm1a2.afraidofthedark.common.capabilities.world.OverworldHeightmap
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.world.structure.base.iterator.IChunkIterator
-import com.davidm1a2.afraidofthedark.common.world.structure.base.iterator.InteriorChunkIterator
-import com.davidm1a2.afraidofthedark.common.world.structure.base.processor.IChunkProcessor
-import com.davidm1a2.afraidofthedark.common.world.structure.base.processor.LowestHeightChunkProcessor
+import com.davidm1a2.afraidofthedark.common.world.structure.old.base.iterator.IChunkIterator
+import com.davidm1a2.afraidofthedark.common.world.structure.old.base.iterator.InteriorChunkIterator
+import com.davidm1a2.afraidofthedark.common.world.structure.old.base.processor.IChunkProcessor
+import com.davidm1a2.afraidofthedark.common.world.structure.old.base.processor.LowestHeightChunkProcessor
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTUtil
 import net.minecraft.util.math.BlockPos

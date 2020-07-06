@@ -1,18 +1,19 @@
-package com.davidm1a2.afraidofthedark.common.world.structure.base.processor
+package com.davidm1a2.afraidofthedark.common.world.structure.old.base.processor
 
 import com.davidm1a2.afraidofthedark.common.capabilities.world.IHeightmap
 import net.minecraft.util.math.ChunkPos
-import kotlin.math.min
+import kotlin.math.round
 
 /**
- * Utility processor for finding the minimum ground height within a region
+ * Utility processor for finding the average ground height within a region
  *
  * @constructor initializes the heightmap field
  * @param heightmap The heightmap to use
- * @property minGroundHeight The minimum ground height
+ * @property heightSum The average ground height
  */
-class LowestHeightChunkProcessor(private val heightmap: IHeightmap) : IChunkProcessor<Int> {
-    private var minGroundHeight = 256
+class AverageHeightChunkProcessor(private val heightmap: IHeightmap) : IChunkProcessor<Int> {
+    private var heightSum = 0.0
+    private var datapoints = 0.0
 
     /**
      * Processes the X,Z chunk by finding the lowest point
@@ -22,8 +23,8 @@ class LowestHeightChunkProcessor(private val heightmap: IHeightmap) : IChunkProc
      */
     override fun processChunk(chunkPos: ChunkPos): Boolean {
         // Compute the ground height in the chunk
-        val groundHeight = heightmap.getLowestHeight(chunkPos)
-        minGroundHeight = min(minGroundHeight, groundHeight)
+        heightSum = heightSum + (heightmap.getLowestHeight(chunkPos) + heightmap.getHighestHeight(chunkPos)) / 2
+        datapoints++
         return true
     }
 
@@ -31,6 +32,6 @@ class LowestHeightChunkProcessor(private val heightmap: IHeightmap) : IChunkProc
      * @return The minimum ground height
      */
     override fun getResult(): Int {
-        return minGroundHeight
+        return round(heightSum / datapoints).toInt()
     }
 }
