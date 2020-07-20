@@ -1,9 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
+import com.davidm1a2.afraidofthedark.common.constants.ModStructures
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EntityEnchantedFrog
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
-import com.davidm1a2.afraidofthedark.common.world.generateSchematic
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
@@ -22,16 +21,12 @@ class ItemDebug : AOTDItem("debug", Properties().maxStackSize(1), displayInCreat
     ///
     /// Code below here is not documented due to its temporary nature used for testing
     ///
-    var i = 0
 
     override fun onItemRightClick(worldIn: World, playerIn: EntityPlayer, handIn: EnumHand): ActionResult<ItemStack> {
         if (worldIn.isRemote) {
         } else {
-            worldIn.generateSchematic(ModSchematics.LIST[i], playerIn.position.add(1, 0, 1))
-            if (i++ > ModSchematics.LIST.size - 1) {
-                i = 0
-            }
-            playerIn.sendMessage(TextComponentString("Next schematic is ${ModSchematics.LIST[i].getName()}"))
+            val pos = worldIn.findNearestStructure(ModStructures.CRYPT.structureName, playerIn.position, 100, false)
+            playerIn.sendMessage(TextComponentString("Crypt at: $pos"))
         }
         return super.onItemRightClick(worldIn, playerIn, handIn)
     }

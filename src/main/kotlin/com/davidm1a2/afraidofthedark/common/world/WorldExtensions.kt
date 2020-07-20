@@ -1,6 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.world
 
 import com.davidm1a2.afraidofthedark.common.world.schematic.Schematic
+import com.davidm1a2.afraidofthedark.common.world.structure.base.LootTable
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.EntityType
 import net.minecraft.init.Blocks
@@ -168,7 +169,7 @@ private fun World.generateTileEntities(
                 this.setTileEntity(tileEntityPosition, tileEntity)
                 // If the tile entity is a chest and we have a loot table then generate the chest
                 if (tileEntity is TileEntityChest && lootTable != null) {
-                    lootTable.generate(tileEntity)
+                    lootTable.generate(tileEntity, tileEntityCompound, random)
                 }
             }
         }

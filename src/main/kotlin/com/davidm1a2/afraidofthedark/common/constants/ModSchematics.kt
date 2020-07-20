@@ -211,6 +211,8 @@ object ModSchematics {
         DESERT_OASIS
     )
 
+    val NAME_TO_SCHEMATIC = LIST.map { it.getName() to it }.toMap()
+
     /**
      * Creates a schematic from the file path
      *

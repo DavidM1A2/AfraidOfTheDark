@@ -8,8 +8,6 @@ import com.davidm1a2.afraidofthedark.common.event.*
 import com.davidm1a2.afraidofthedark.common.event.register.*
 import com.davidm1a2.afraidofthedark.common.packets.packetHandler.PacketHandler
 import com.davidm1a2.afraidofthedark.common.world.AOTDWorldGenerator
-import com.davidm1a2.afraidofthedark.common.world.WorldHeightMapper
-import com.davidm1a2.afraidofthedark.common.world.WorldStructurePlanner
 import com.davidm1a2.afraidofthedark.proxy.ClientProxy
 import com.davidm1a2.afraidofthedark.proxy.IProxy
 import com.davidm1a2.afraidofthedark.proxy.ServerProxy
@@ -42,8 +40,6 @@ class AfraidOfTheDark {
         forgeBus.register(SpriteRegister())
         forgeBus.register(dimensionRegister)
         forgeBus.register(CapabilityHandler())
-        forgeBus.register(WorldHeightMapper())
-        forgeBus.register(WorldStructurePlanner())
         forgeBus.register(FlaskOfSoulsHandler())
         forgeBus.register(NightmareHandler())
         forgeBus.register(VoidChestHandler())
@@ -64,7 +60,6 @@ class AfraidOfTheDark {
         modBus.register(BiomeRegister())
         modBus.register(SoundRegister())
         modBus.register(RecipeRegister())
-        modBus.register(StructureRegister())
         modBus.register(SpellPowerSourceRegister())
         modBus.register(SpellDeliveryMethodRegister())
         modBus.register(SpellEffectRegister())
@@ -91,6 +86,7 @@ class AfraidOfTheDark {
         RecipeFactoryRegister.register()
         PacketRegister.initialize()
         EntityRegister.registerSpawnPlacements()
+        StructureRegister.register()
     }
 
     /**
