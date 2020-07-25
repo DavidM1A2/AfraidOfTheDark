@@ -4,11 +4,15 @@ import com.davidm1a2.afraidofthedark.common.biomes.base.AOTDBiome
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import com.davidm1a2.afraidofthedark.common.constants.ModEntities
 import net.minecraft.entity.EnumCreatureType
+import net.minecraft.init.Blocks
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.gen.GenerationStage
+import net.minecraft.world.gen.feature.Feature
 import net.minecraft.world.gen.feature.IFeatureConfig
+import net.minecraft.world.gen.feature.TallGrassConfig
 import net.minecraft.world.gen.feature.TreeFeature
 import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig
+import net.minecraft.world.gen.placement.FrequencyConfig
 import net.minecraft.world.gen.surfacebuilders.CompositeSurfaceBuilder
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig
 import java.awt.Color
@@ -46,6 +50,17 @@ class BiomeEerieForest : AOTDBiome(
                 IFeatureConfig.NO_FEATURE_CONFIG,
                 AT_SURFACE_WITH_EXTRA,
                 AtSurfaceWithExtraConfig(10, 0.3f, 5)
+            )
+        )
+
+        // Tall grass
+        addFeature(
+            GenerationStage.Decoration.VEGETAL_DECORATION,
+            createCompositeFeature(
+                Feature.TALL_GRASS,
+                TallGrassConfig(Blocks.GRASS.defaultState),
+                TWICE_SURFACE,
+                FrequencyConfig(4)
             )
         )
 

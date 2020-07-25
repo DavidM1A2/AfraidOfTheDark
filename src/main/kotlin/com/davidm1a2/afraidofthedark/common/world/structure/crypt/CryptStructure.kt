@@ -50,10 +50,11 @@ class CryptStructure : AOTDStructure<CryptConfig>() {
         val realWidth = ModSchematics.CRYPT.getWidth().toInt()
         val realLength = ModSchematics.CRYPT.getLength().toInt()
 
-        val biomes = chunkGen.biomeProvider.getBiomesInSquare(
-            xPos,
-            zPos,
-            max(realWidth, realLength)
+        val biomes = chunkGen.biomeProvider.getBiomes(
+            xPos - realWidth / 2,
+            zPos - realLength / 2,
+            realWidth,
+            realLength
         ).toSet()
 
         val frequency = biomes.map {
