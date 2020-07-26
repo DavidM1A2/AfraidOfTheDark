@@ -1,5 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.world.structure.crypt
 
+import com.davidm1a2.afraidofthedark.common.capabilities.world.StructureCollisionMap
 import com.davidm1a2.afraidofthedark.common.constants.Constants
 import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
@@ -28,12 +29,14 @@ class CryptStructure : AOTDStructure<CryptConfig>() {
     }
 
     override fun setupStructureIn(biome: Biome) {
-        if (biome !in INCOMPATIBLE_BIOMES) {
+        if (biome.category !in INCOMPATIBLE_BIOMES) {
             if (biome == ModBiomes.EERIE_FOREST) {
                 addToBiome(biome, CryptConfig(0.02 * ModCommonConfiguration.cryptMultiplier))
             } else {
                 addToBiome(biome, CryptConfig(0.002 * ModCommonConfiguration.cryptMultiplier))
             }
+        } else {
+            addToBiome(biome, CryptConfig(0.0))
         }
     }
 
@@ -44,29 +47,24 @@ class CryptStructure : AOTDStructure<CryptConfig>() {
     override fun hasStartAt(worldIn: IWorld, chunkGen: IChunkGenerator<*>, rand: Random, centerChunkX: Int, centerChunkZ: Int): Boolean {
         (rand as SharedSeedRandom).setLargeFeatureSeed(chunkGen.seed, centerChunkX, centerChunkZ)
 
-        val xPos = centerChunkX shl 4
-        val zPos = centerChunkZ shl 4
+        val xPos = centerChunkX * 16
+        val zPos = centerChunkZ * 16
 
         val realWidth = ModSchematics.CRYPT.getWidth().toInt()
         val realLength = ModSchematics.CRYPT.getLength().toInt()
 
-        val biomes = chunkGen.biomeProvider.getBiomes(
-            xPos - realWidth / 2,
-            zPos - realLength / 2,
-            realWidth,
-            realLength
-        ).toSet()
+        val biomes = chunkGen.biomeProvider.getBiomesInSquare(
+            xPos,
+            zPos,
+            max(realWidth, realLength)
+        )
 
         val frequency = biomes.map {
-            if (!chunkGen.hasStructure(it, this)) {
-                return false
-            } else {
-                val cryptConfig = chunkGen.getStructureConfig(it, this) as? CryptConfig
-                cryptConfig?.frequency ?: 0.0
-            }
+            val cryptConfig = chunkGen.getStructureConfig(it, this) as? CryptConfig
+            cryptConfig?.frequency ?: 0.0
         }.max() ?: 0.0
 
-        if (frequency == 0.0) {
+        if (rand.nextDouble() >= frequency) {
             return false
         }
 
@@ -84,12 +82,21 @@ class CryptStructure : AOTDStructure<CryptConfig>() {
             return false
         }
 
-        return rand.nextDouble() < frequency
+        val expectedStart = makeStart(worldIn, chunkGen, rand, centerChunkX, centerChunkZ)
+        val collisionMap = StructureCollisionMap.get(worldIn)
+        synchronized(collisionMap) {
+            return if (!collisionMap.isStructureBlocked(expectedStart)) {
+                collisionMap.insertStructure(expectedStart)
+                true
+            } else {
+                false
+            }
+        }
     }
 
     override fun makeStart(worldIn: IWorld, generator: IChunkGenerator<*>, random: SharedSeedRandom, centerChunkX: Int, centerChunkZ: Int): StructureStart {
-        val xPos = centerChunkX shl 4
-        val zPos = centerChunkZ shl 4
+        val xPos = centerChunkX * 16
+        val zPos = centerChunkZ * 16
         val centerBiome = generator.biomeProvider.getBiome(BlockPos(xPos + 8, 0, zPos + 8), Biomes.PLAINS)!!
 
         // The height of the structure = average of the 4 center corner's height
@@ -106,36 +113,13 @@ class CryptStructure : AOTDStructure<CryptConfig>() {
 
     companion object {
         private val INCOMPATIBLE_BIOMES = setOf(
-            Biomes.OCEAN,
-            Biomes.MOUNTAINS,
-            Biomes.SWAMP,
-            Biomes.RIVER,
-            Biomes.THE_END,
-            Biomes.FROZEN_OCEAN,
-            Biomes.FROZEN_RIVER,
-            Biomes.SNOWY_MOUNTAINS,
-            Biomes.BEACH,
-            Biomes.MOUNTAIN_EDGE,
-            Biomes.DEEP_OCEAN,
-            Biomes.STONE_SHORE,
-            Biomes.SNOWY_BEACH,
-            Biomes.END_MIDLANDS,
-            Biomes.END_HIGHLANDS,
-            Biomes.END_BARRENS,
-            Biomes.WARM_OCEAN,
-            Biomes.LUKEWARM_OCEAN,
-            Biomes.COLD_OCEAN,
-            Biomes.DEEP_WARM_OCEAN,
-            Biomes.DEEP_LUKEWARM_OCEAN,
-            Biomes.DEEP_COLD_OCEAN,
-            Biomes.DEEP_FROZEN_OCEAN,
-            Biomes.THE_VOID,
-            Biomes.DESERT_LAKES,
-            Biomes.GRAVELLY_MOUNTAINS,
-            Biomes.TAIGA_MOUNTAINS,
-            Biomes.ICE_SPIKES,
-            Biomes.SNOWY_TAIGA_MOUNTAINS,
-            Biomes.MODIFIED_GRAVELLY_MOUNTAINS
+            Biome.Category.BEACH,
+            Biome.Category.EXTREME_HILLS,
+            Biome.Category.ICY,
+            Biome.Category.NETHER,
+            Biome.Category.OCEAN,
+            Biome.Category.RIVER,
+            Biome.Category.THEEND
         )
     }
 }

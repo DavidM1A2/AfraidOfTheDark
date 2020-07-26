@@ -7,7 +7,6 @@ import com.davidm1a2.afraidofthedark.common.constants.ModConfigHolder
 import com.davidm1a2.afraidofthedark.common.event.*
 import com.davidm1a2.afraidofthedark.common.event.register.*
 import com.davidm1a2.afraidofthedark.common.packets.packetHandler.PacketHandler
-import com.davidm1a2.afraidofthedark.common.world.AOTDWorldGenerator
 import com.davidm1a2.afraidofthedark.proxy.ClientProxy
 import com.davidm1a2.afraidofthedark.proxy.IProxy
 import com.davidm1a2.afraidofthedark.proxy.ServerProxy
@@ -48,7 +47,6 @@ class AfraidOfTheDark {
         forgeBus.register(SpellCharmHandler())
         forgeBus.register(ArmorHandler())
         forgeBus.register(ModColorRegister())
-        forgeBus.register(AOTDWorldGenerator())
         forgeBus.register(this)
 
         modBus.register(RegistryRegister())
