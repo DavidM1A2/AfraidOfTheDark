@@ -1,10 +1,8 @@
-package com.davidm1a2.afraidofthedark.common.world.structure.crypt
+package com.davidm1a2.afraidofthedark.common.world.structure.voidchest
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
-import com.davidm1a2.afraidofthedark.common.world.WorldHeightmap
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
 import net.minecraft.init.Biomes
 import net.minecraft.util.SharedSeedRandom
@@ -15,30 +13,25 @@ import net.minecraft.world.dimension.DimensionType
 import net.minecraft.world.gen.IChunkGenerator
 import net.minecraft.world.gen.feature.structure.StructureStart
 import java.util.*
-import kotlin.math.roundToInt
 
-class CryptStructure : AOTDStructure<CryptConfig>() {
+class VoidChestStructure : AOTDStructure<VoidChestConfig>() {
     override fun getStructureName(): String {
-        return "${Constants.MOD_ID}:crypt"
+        return "${Constants.MOD_ID}:void_chest"
     }
 
     override fun getWidth(): Int {
-        return ModSchematics.CRYPT.getWidth().toInt()
+        return ModSchematics.VOID_CHEST.getWidth().toInt()
     }
 
     override fun getLength(): Int {
-        return ModSchematics.CRYPT.getLength().toInt()
+        return ModSchematics.VOID_CHEST.getLength().toInt()
     }
 
     override fun setupStructureIn(biome: Biome) {
-        if (biome.category !in INCOMPATIBLE_BIOMES) {
-            if (biome == ModBiomes.EERIE_FOREST) {
-                addToBiome(biome, CryptConfig(0.015 * ModCommonConfiguration.cryptMultiplier))
-            } else {
-                addToBiome(biome, CryptConfig(0.002 * ModCommonConfiguration.cryptMultiplier))
-            }
+        if (biome in COMPATIBLE_BIOMES) {
+            addToBiome(biome, VoidChestConfig(0.006 * ModCommonConfiguration.voidChestMultiplier))
         } else {
-            addToBiome(biome, CryptConfig(0.0))
+            addToBiome(biome, VoidChestConfig(0.0))
         }
     }
 
@@ -60,7 +53,7 @@ class CryptStructure : AOTDStructure<CryptConfig>() {
         val heights = getEdgeHeights(xPos, zPos, worldIn, chunkGen)
         val maxHeight = heights.max()!!
         val minHeight = heights.min()!!
-        if (maxHeight - minHeight > 5) {
+        if (maxHeight - minHeight > 8) {
             return false
         }
 
@@ -72,29 +65,17 @@ class CryptStructure : AOTDStructure<CryptConfig>() {
         val zPos = centerChunkZ * 16
         val centerBiome = generator.biomeProvider.getBiome(BlockPos(xPos + 8, 0, zPos + 8), Biomes.PLAINS)!!
 
-        // The height of the structure = average of the 4 center corner's height
-        val centerCorner1Height = WorldHeightmap.getHeight(xPos - 3, zPos - 3, worldIn, generator)
-        val centerCorner2Height = WorldHeightmap.getHeight(xPos + 3, zPos - 3, worldIn, generator)
-        val centerCorner3Height = WorldHeightmap.getHeight(xPos - 3, zPos + 3, worldIn, generator)
-        val centerCorner4Height = WorldHeightmap.getHeight(xPos + 3, zPos + 3, worldIn, generator)
-        val yPos = ((centerCorner1Height + centerCorner2Height + centerCorner3Height + centerCorner4Height) / 4.0).roundToInt()
-
-        // Set the schematic height to be underground + 3 blocks+, ensure it isn't below bedrock
-        val adjustedY = (yPos - ModSchematics.CRYPT.getHeight() + 3).coerceAtLeast(1)
-        return CryptStructureStart(worldIn, centerChunkX, adjustedY, centerChunkZ, centerBiome, random, generator.seed)
+        val yPos = getEdgeHeights(xPos, zPos, worldIn, generator).min()!!
+        return VoidChestStructureStart(worldIn, centerChunkX, yPos - 7, centerChunkZ, centerBiome, random, generator.seed)
     }
 
     companion object {
-        private val INCOMPATIBLE_BIOMES = setOf(
-            Biome.Category.BEACH,
-            Biome.Category.EXTREME_HILLS,
-            Biome.Category.ICY,
-            Biome.Category.NETHER,
-            Biome.Category.OCEAN,
-            Biome.Category.RIVER,
-            Biome.Category.THEEND,
-            Biome.Category.NONE,
-            Biome.Category.MUSHROOM
+        // A set of compatible biomes
+        private val COMPATIBLE_BIOMES = setOf(
+            Biomes.SNOWY_BEACH,
+            Biomes.SNOWY_TAIGA,
+            Biomes.SNOWY_TUNDRA,
+            Biomes.ICE_SPIKES
         )
     }
 }

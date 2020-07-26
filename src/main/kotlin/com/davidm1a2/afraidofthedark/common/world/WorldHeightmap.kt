@@ -7,8 +7,10 @@ import net.minecraft.world.chunk.Chunk
 import net.minecraft.world.chunk.ChunkPrimer
 import net.minecraft.world.chunk.IChunk
 import net.minecraft.world.chunk.UpgradeData
+import net.minecraft.world.gen.GenerationStage
 import net.minecraft.world.gen.Heightmap
 import net.minecraft.world.gen.IChunkGenerator
+import net.minecraft.world.gen.WorldGenRegion
 import java.util.concurrent.TimeUnit
 
 object WorldHeightmap {
@@ -17,7 +19,7 @@ object WorldHeightmap {
         .build<ChunkPos, Heightmap>()
 
     fun getHeight(x: Int, z: Int, world: IWorld, chunkGen: IChunkGenerator<*>): Int {
-        return getOrLoad(ChunkPos(x shr 4, z shr 4), world, chunkGen).getHeight(x and 4, z and 4)
+        return getOrLoad(ChunkPos(x shr 4, z shr 4), world, chunkGen).getHeight(x and 15, z and 15)
     }
 
     private fun getOrLoad(chunkPos: ChunkPos, world: IWorld, chunkGen: IChunkGenerator<*>): Heightmap {
@@ -26,6 +28,7 @@ object WorldHeightmap {
             if (chunk == null) {
                 chunk = ChunkPrimer(chunkPos, UpgradeData.EMPTY)
                 chunkGen.makeBase(chunk)
+                chunkGen.carve(WorldGenRegion(arrayOf(chunk), 1, 1, chunkPos.x, chunkPos.z, world.world), GenerationStage.Carving.AIR)
                 val heightmap = chunk.getHeightmap(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES)
                 if (heightmap == null) {
                     chunk.createHeightMap(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES)

@@ -1,5 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.world.structure.base
 
+import com.davidm1a2.afraidofthedark.common.capabilities.world.StructureCollisionMap
+import com.davidm1a2.afraidofthedark.common.world.WorldHeightmap
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet
 import net.minecraft.util.SharedSeedRandom
 import net.minecraft.util.math.BlockPos
@@ -16,8 +18,17 @@ import net.minecraft.world.gen.feature.structure.Structure
 import net.minecraft.world.gen.feature.structure.StructureStart
 import net.minecraft.world.gen.placement.IPlacementConfig
 import java.util.*
+import kotlin.math.max
 
 abstract class AOTDStructure<T : IFeatureConfig> : Structure<T>() {
+    abstract fun getWidth(): Int
+
+    abstract fun getLength(): Int
+
+    override fun getSize(): Int {
+        return (max(getWidth(), getLength()) + 15) / 16
+    }
+
     abstract fun setupStructureIn(biome: Biome)
 
     public abstract override fun getStructureName(): String
@@ -32,6 +43,42 @@ abstract class AOTDStructure<T : IFeatureConfig> : Structure<T>() {
                 IPlacementConfig.NO_PLACEMENT_CONFIG
             )
         )
+    }
+
+    protected fun doesNotCollide(worldIn: IWorld, chunkGen: IChunkGenerator<*>, rand: SharedSeedRandom, centerChunkX: Int, centerChunkZ: Int): Boolean {
+        val expectedStart = makeStart(worldIn, chunkGen, rand, centerChunkX, centerChunkZ)
+        val collisionMap = StructureCollisionMap.get(worldIn)
+        synchronized(collisionMap) {
+            return if (!collisionMap.isStructureBlocked(expectedStart)) {
+                collisionMap.insertStructure(expectedStart)
+                true
+            } else {
+                false
+            }
+        }
+    }
+
+    protected fun getEdgeHeights(x: Int, z: Int, worldIn: IWorld, chunkGen: IChunkGenerator<*>): Array<Int> {
+        val corner1Height = WorldHeightmap.getHeight(x - getWidth() / 2, z - getLength() / 2, worldIn, chunkGen)
+        val corner2Height = WorldHeightmap.getHeight(x + getWidth() / 2, z - getLength() / 2, worldIn, chunkGen)
+        val corner3Height = WorldHeightmap.getHeight(x - getWidth() / 2, z + getLength() / 2, worldIn, chunkGen)
+        val corner4Height = WorldHeightmap.getHeight(x + getWidth() / 2, z + getLength() / 2, worldIn, chunkGen)
+        val edge1Height = WorldHeightmap.getHeight(x, z - getLength() / 2, worldIn, chunkGen)
+        val edge2Height = WorldHeightmap.getHeight(x, z + getLength() / 2, worldIn, chunkGen)
+        val edge3Height = WorldHeightmap.getHeight(x - getWidth() / 2, z, worldIn, chunkGen)
+        val edge4Height = WorldHeightmap.getHeight(x + getWidth() / 2, z, worldIn, chunkGen)
+        val centerHeight = WorldHeightmap.getHeight(x, z, worldIn, chunkGen)
+        return arrayOf(corner1Height, corner2Height, corner3Height, corner4Height, edge1Height, edge2Height, edge3Height, edge4Height, centerHeight)
+    }
+
+    protected fun getInteriorConfigs(x: Int, z: Int, chunkGen: IChunkGenerator<*>): Sequence<T?> {
+        val biomes = chunkGen.biomeProvider.getBiomesInSquare(
+            x,
+            z,
+            max(getWidth(), getLength())
+        )
+
+        return biomes.asSequence().map { chunkGen.getStructureConfig(it, this) as? T }
     }
 
     // Don't use this version, it doesnt accept a world argument

@@ -1,8 +1,8 @@
 package com.davidm1a2.afraidofthedark.common.item
 
-import com.davidm1a2.afraidofthedark.common.constants.ModStructures
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EntityEnchantedFrog
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
+import com.davidm1a2.afraidofthedark.common.world.WorldHeightmap
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
@@ -10,7 +10,9 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.EnumHand
 import net.minecraft.util.text.TextComponentString
 import net.minecraft.world.World
+import net.minecraft.world.gen.Heightmap
 import org.apache.logging.log4j.LogManager
+import kotlin.math.roundToInt
 
 /**
  * Item that allows for modding debug, does nothing else
@@ -25,8 +27,17 @@ class ItemDebug : AOTDItem("debug", Properties().maxStackSize(1), displayInCreat
     override fun onItemRightClick(worldIn: World, playerIn: EntityPlayer, handIn: EnumHand): ActionResult<ItemStack> {
         if (worldIn.isRemote) {
         } else {
-            val pos = worldIn.findNearestStructure(ModStructures.WITCH_HUT.structureName, playerIn.position, 100, false)
-            playerIn.sendMessage(TextComponentString("Crypt at: $pos"))
+            playerIn.sendMessage(
+                TextComponentString(
+                    "Height: ${WorldHeightmap.getHeight(
+                        playerIn.posX.roundToInt(),
+                        playerIn.posZ.roundToInt(),
+                        worldIn,
+                        worldIn.chunkProvider.chunkGenerator
+                    )}"
+                )
+            )
+            playerIn.sendMessage(TextComponentString("Height2: ${worldIn.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, playerIn.position)}"))
         }
         return super.onItemRightClick(worldIn, playerIn, handIn)
     }

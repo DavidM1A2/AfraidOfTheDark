@@ -1,7 +1,6 @@
-package com.davidm1a2.afraidofthedark.common.world.structure.witchhut
+package com.davidm1a2.afraidofthedark.common.world.structure.observatory
 
 import com.davidm1a2.afraidofthedark.common.constants.Constants
-import com.davidm1a2.afraidofthedark.common.constants.ModBiomes
 import com.davidm1a2.afraidofthedark.common.constants.ModCommonConfiguration
 import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.world.structure.base.AOTDStructure
@@ -15,24 +14,24 @@ import net.minecraft.world.gen.IChunkGenerator
 import net.minecraft.world.gen.feature.structure.StructureStart
 import java.util.*
 
-class WitchHutStructure : AOTDStructure<WitchHutConfig>() {
+class ObservatoryStructure : AOTDStructure<ObservatoryConfig>() {
     override fun getStructureName(): String {
-        return "${Constants.MOD_ID}:witch_hut"
+        return "${Constants.MOD_ID}:observatory"
     }
 
     override fun getWidth(): Int {
-        return ModSchematics.WITCH_HUT.getWidth().toInt()
+        return ModSchematics.OBSERVATORY.getWidth().toInt()
     }
 
     override fun getLength(): Int {
-        return ModSchematics.WITCH_HUT.getLength().toInt()
+        return ModSchematics.OBSERVATORY.getLength().toInt()
     }
 
     override fun setupStructureIn(biome: Biome) {
-        if (biome == ModBiomes.EERIE_FOREST) {
-            addToBiome(biome, WitchHutConfig(0.03 * ModCommonConfiguration.witchHutMultiplier))
+        if (biome.category == Biome.Category.EXTREME_HILLS) {
+            addToBiome(biome, ObservatoryConfig(0.03 * ModCommonConfiguration.observatoryMultiplier))
         } else {
-            addToBiome(biome, WitchHutConfig(0.0))
+            addToBiome(biome, ObservatoryConfig(0.0))
         }
     }
 
@@ -54,7 +53,9 @@ class WitchHutStructure : AOTDStructure<WitchHutConfig>() {
         val heights = getEdgeHeights(xPos, zPos, worldIn, chunkGen)
         val maxHeight = heights.max()!!
         val minHeight = heights.min()!!
-        if (maxHeight - minHeight > 3) {
+        // If there's more than 3 blocks between the top and bottom block it's an invalid place for an observatory because it's not 'flat' enough
+        // If the flat spot is below y 70 it's also not a good spot
+        if (maxHeight - minHeight > 3 && minHeight <= 70) {
             return false
         }
 
@@ -64,9 +65,9 @@ class WitchHutStructure : AOTDStructure<WitchHutConfig>() {
     override fun makeStart(worldIn: IWorld, generator: IChunkGenerator<*>, random: SharedSeedRandom, centerChunkX: Int, centerChunkZ: Int): StructureStart {
         val xPos = centerChunkX * 16
         val zPos = centerChunkZ * 16
-        val centerBiome = generator.biomeProvider.getBiome(BlockPos(xPos + 8, 0, zPos + 8), Biomes.PLAINS)!!
+        val centerBiome = generator.biomeProvider.getBiome(BlockPos(xPos, 0, zPos), Biomes.PLAINS)!!
 
         val yPos = getEdgeHeights(xPos, zPos, worldIn, generator).min()!!
-        return WitchHutStructureStart(worldIn, centerChunkX, yPos - 1, centerChunkZ, centerBiome, random, generator.seed)
+        return ObservatoryStructureStart(worldIn, centerChunkX, yPos - 1, centerChunkZ, centerBiome, random, generator.seed)
     }
 }
