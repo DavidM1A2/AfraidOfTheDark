@@ -25,7 +25,7 @@ class ItemDebug : AOTDItem("debug", Properties().maxStackSize(1), displayInCreat
     override fun onItemRightClick(worldIn: World, playerIn: EntityPlayer, handIn: EnumHand): ActionResult<ItemStack> {
         if (worldIn.isRemote) {
         } else {
-            val pos = worldIn.findNearestStructure(ModStructures.CRYPT.structureName, playerIn.position, 100, false)
+            val pos = worldIn.findNearestStructure(ModStructures.WITCH_HUT.structureName, playerIn.position, 100, false)
             playerIn.sendMessage(TextComponentString("Crypt at: $pos"))
         }
         return super.onItemRightClick(worldIn, playerIn, handIn)

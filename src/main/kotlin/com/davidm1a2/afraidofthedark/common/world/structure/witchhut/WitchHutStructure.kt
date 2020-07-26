@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.world.structure.crypt
+package com.davidm1a2.afraidofthedark.common.world.structure.witchhut
 
 import com.davidm1a2.afraidofthedark.common.capabilities.world.StructureCollisionMap
 import com.davidm1a2.afraidofthedark.common.constants.Constants
@@ -17,26 +17,22 @@ import net.minecraft.world.gen.IChunkGenerator
 import net.minecraft.world.gen.feature.structure.StructureStart
 import java.util.*
 import kotlin.math.max
-import kotlin.math.roundToInt
+import kotlin.math.min
 
-class CryptStructure : AOTDStructure<CryptConfig>() {
+class WitchHutStructure : AOTDStructure<WitchHutConfig>() {
     override fun getStructureName(): String {
-        return "${Constants.MOD_ID}:crypt"
+        return "${Constants.MOD_ID}:witch_hut"
     }
 
     override fun getSize(): Int {
-        return (max(ModSchematics.CRYPT.getWidth().toInt(), ModSchematics.CRYPT.getLength().toInt()) + 15) / 16
+        return (max(ModSchematics.WITCH_HUT.getWidth().toInt(), ModSchematics.WITCH_HUT.getLength().toInt()) + 15) / 16
     }
 
     override fun setupStructureIn(biome: Biome) {
-        if (biome.category !in INCOMPATIBLE_BIOMES) {
-            if (biome == ModBiomes.EERIE_FOREST) {
-                addToBiome(biome, CryptConfig(0.02 * ModCommonConfiguration.cryptMultiplier))
-            } else {
-                addToBiome(biome, CryptConfig(0.002 * ModCommonConfiguration.cryptMultiplier))
-            }
+        if (biome == ModBiomes.EERIE_FOREST) {
+            addToBiome(biome, WitchHutConfig(0.04 * ModCommonConfiguration.witchHutMultiplier))
         } else {
-            addToBiome(biome, CryptConfig(0.0))
+            addToBiome(biome, WitchHutConfig(0.0))
         }
     }
 
@@ -50,8 +46,8 @@ class CryptStructure : AOTDStructure<CryptConfig>() {
         val xPos = centerChunkX * 16
         val zPos = centerChunkZ * 16
 
-        val realWidth = ModSchematics.CRYPT.getWidth().toInt()
-        val realLength = ModSchematics.CRYPT.getLength().toInt()
+        val realWidth = ModSchematics.WITCH_HUT.getWidth().toInt()
+        val realLength = ModSchematics.WITCH_HUT.getLength().toInt()
 
         val biomes = chunkGen.biomeProvider.getBiomesInSquare(
             xPos,
@@ -60,9 +56,9 @@ class CryptStructure : AOTDStructure<CryptConfig>() {
         )
 
         val frequency = biomes.map {
-            val cryptConfig = chunkGen.getStructureConfig(it, this) as? CryptConfig
-            cryptConfig?.frequency ?: 0.0
-        }.max() ?: 0.0
+            val witchHutConfig = chunkGen.getStructureConfig(it, this) as? WitchHutConfig
+            witchHutConfig?.frequency ?: 0.0
+        }.min() ?: 0.0
 
         if (rand.nextDouble() >= frequency) {
             return false
@@ -78,7 +74,7 @@ class CryptStructure : AOTDStructure<CryptConfig>() {
         val maxHeight = heights.max()!!
         val minHeight = heights.min()!!
 
-        if (maxHeight - minHeight > 5) {
+        if (maxHeight - minHeight > 3) {
             return false
         }
 
@@ -94,32 +90,20 @@ class CryptStructure : AOTDStructure<CryptConfig>() {
         }
     }
 
-    override fun makeStart(worldIn: IWorld, generator: IChunkGenerator<*>, random: SharedSeedRandom, centerChunkX: Int, centerChunkZ: Int): StructureStart {
-        val xPos = centerChunkX * 16
-        val zPos = centerChunkZ * 16
+    override fun makeStart(worldIn: IWorld, generator: IChunkGenerator<*>, random: SharedSeedRandom, x: Int, z: Int): StructureStart {
+        val xPos = x * 16
+        val zPos = z * 16
         val centerBiome = generator.biomeProvider.getBiome(BlockPos(xPos + 8, 0, zPos + 8), Biomes.PLAINS)!!
 
-        // The height of the structure = average of the 4 center corner's height
-        val centerCorner1Height = WorldHeightmap.getHeight(xPos - 3, zPos - 3, worldIn, generator)
-        val centerCorner2Height = WorldHeightmap.getHeight(xPos + 3, zPos - 3, worldIn, generator)
-        val centerCorner3Height = WorldHeightmap.getHeight(xPos - 3, zPos + 3, worldIn, generator)
-        val centerCorner4Height = WorldHeightmap.getHeight(xPos + 3, zPos + 3, worldIn, generator)
-        val yPos = ((centerCorner1Height + centerCorner2Height + centerCorner3Height + centerCorner4Height) / 4.0).roundToInt()
+        val realWidth = ModSchematics.WITCH_HUT.getWidth().toInt()
+        val realLength = ModSchematics.WITCH_HUT.getLength().toInt()
 
-        // Set the schematic height to be underground + 3 blocks+, ensure it isn't below bedrock
-        val adjustedY = (yPos - ModSchematics.CRYPT.getHeight() + 3).coerceAtLeast(1)
-        return CryptStructureStart(worldIn, centerChunkX, adjustedY, centerChunkZ, centerBiome, random, generator.seed)
-    }
+        val centerCorner1Height = WorldHeightmap.getHeight(xPos - realWidth / 2, zPos - realLength / 2, worldIn, generator)
+        val centerCorner2Height = WorldHeightmap.getHeight(xPos + realWidth / 2, zPos - realLength / 2, worldIn, generator)
+        val centerCorner3Height = WorldHeightmap.getHeight(xPos - realWidth / 2, zPos + realLength / 2, worldIn, generator)
+        val centerCorner4Height = WorldHeightmap.getHeight(xPos + realWidth / 2, zPos + realLength / 2, worldIn, generator)
+        val yPos = min(min(centerCorner1Height, centerCorner2Height), min(centerCorner3Height, centerCorner4Height))
 
-    companion object {
-        private val INCOMPATIBLE_BIOMES = setOf(
-            Biome.Category.BEACH,
-            Biome.Category.EXTREME_HILLS,
-            Biome.Category.ICY,
-            Biome.Category.NETHER,
-            Biome.Category.OCEAN,
-            Biome.Category.RIVER,
-            Biome.Category.THEEND
-        )
+        return WitchHutStructureStart(worldIn, x, yPos - 1, z, centerBiome, random, generator.seed)
     }
 }

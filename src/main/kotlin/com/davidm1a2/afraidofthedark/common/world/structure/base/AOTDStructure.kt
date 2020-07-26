@@ -20,6 +20,8 @@ import java.util.*
 abstract class AOTDStructure<T : IFeatureConfig> : Structure<T>() {
     abstract fun setupStructureIn(biome: Biome)
 
+    public abstract override fun getStructureName(): String
+
     fun addToBiome(biome: Biome, config: T) {
         biome.addStructure(this, config)
         biome.addFeature(

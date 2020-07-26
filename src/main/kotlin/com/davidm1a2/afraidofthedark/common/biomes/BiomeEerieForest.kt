@@ -32,7 +32,7 @@ class BiomeEerieForest : AOTDBiome(
         .scale(0.125f)
         .precipitation(RainType.RAIN)
         .temperature(0.7f)
-        .downfall(0.8f)
+        .downfall(0.5f)
         .waterFogColor(0x000042)
 ) {
     init {
