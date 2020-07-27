@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.block.sacred_mangrove
 
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDBlockSapling
-import com.davidm1a2.afraidofthedark.common.world.gen.tree.SacredMangroveTree
+import com.davidm1a2.afraidofthedark.common.world.tree.SacredMangroveTree
 import net.minecraft.block.material.Material
 
 /**
@@ -9,4 +9,7 @@ import net.minecraft.block.material.Material
  *
  * @constructor initializes the sapling with a name
  */
-class BlockSacredMangroveSapling : AOTDBlockSapling("sacred_mangrove_sapling", SacredMangroveTree(), Properties.create(Material.LEAVES))
+class BlockSacredMangroveSapling : AOTDBlockSapling(
+    "sacred_mangrove_sapling",
+    SacredMangroveTree(), Properties.create(Material.LEAVES)
+)

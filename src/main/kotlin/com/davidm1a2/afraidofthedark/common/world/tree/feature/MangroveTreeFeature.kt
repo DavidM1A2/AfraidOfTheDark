@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.world.gen.tree.feature
+package com.davidm1a2.afraidofthedark.common.world.tree.feature
 
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import net.minecraft.block.BlockLog
@@ -79,7 +79,10 @@ class MangroveTreeFeature(notify: Boolean) : AbstractTreeFeature<NoFeatureConfig
                 }
 
                 // Add a log at the current position
-                setBlockIfPossible(changedBlocks, world, currentPos, MANGROVE_LOG_UP)
+                setBlockIfPossible(
+                    changedBlocks, world, currentPos,
+                    MANGROVE_LOG_UP
+                )
 
                 // Have a 1/10 chance to generate an extra log one block up or down
                 if (random.nextDouble() < 0.1) {
@@ -110,7 +113,10 @@ class MangroveTreeFeature(notify: Boolean) : AbstractTreeFeature<NoFeatureConfig
                 }
 
                 // Set the block to log
-                setBlockIfPossible(changedBlocks, world, currentPos, MANGROVE_LOG_UP)
+                setBlockIfPossible(
+                    changedBlocks, world, currentPos,
+                    MANGROVE_LOG_UP
+                )
             }
         }
 
@@ -128,7 +134,10 @@ class MangroveTreeFeature(notify: Boolean) : AbstractTreeFeature<NoFeatureConfig
             }
 
             // Set the block to log
-            setBlockIfPossible(changedBlocks, world, currentPos, MANGROVE_LOG_UP)
+            setBlockIfPossible(
+                changedBlocks, world, currentPos,
+                MANGROVE_LOG_UP
+            )
 
             // Advance up the trunk
             currentPos = currentPos.up()
@@ -160,7 +169,10 @@ class MangroveTreeFeature(notify: Boolean) : AbstractTreeFeature<NoFeatureConfig
             // Iterate branch length number of times to create the logs required
             for (j in 0 until branchLength) {
                 // Create a log block
-                setBlockIfPossible(changedBlocks, world, currentBranchPos, MANGROVE_LOG_UP)
+                setBlockIfPossible(
+                    changedBlocks, world, currentBranchPos,
+                    MANGROVE_LOG_UP
+                )
                 // 10% chance to create a leaf cluster along the way
                 if (random.nextDouble() < 0.1) {
                     generateLeafCluster(changedBlocks, world, currentBranchPos, random)
@@ -187,7 +199,10 @@ class MangroveTreeFeature(notify: Boolean) : AbstractTreeFeature<NoFeatureConfig
      */
     private fun generateLeafCluster(changedBlocks: MutableSet<BlockPos>, world: IWorld, location: BlockPos, random: Random) {
         // Set the center to a mangrove log
-        setBlockIfPossible(changedBlocks, world, location, MANGROVE_LOG_UP)
+        setBlockIfPossible(
+            changedBlocks, world, location,
+            MANGROVE_LOG_UP
+        )
         // Leaf clusters will be 3 blocks tall and 5 wide
         for (x in -2..2) {
             for (y in -1..1) {
@@ -200,15 +215,24 @@ class MangroveTreeFeature(notify: Boolean) : AbstractTreeFeature<NoFeatureConfig
                             // 3% chance to create a 'vine' of hanging leaf blocks
                             if (random.nextDouble() < 0.03) {
                                 // Create a log at the base of the leaf block
-                                setBlockIfPossible(changedBlocks, world, leafPos, MANGROVE_LOG_UP)
+                                setBlockIfPossible(
+                                    changedBlocks, world, leafPos,
+                                    MANGROVE_LOG_UP
+                                )
                                 // Create a random length 'vine' 2-4 blocks long
                                 val vineLength = random.nextInt(3) + 2
                                 // Start at 1 so we don't try and replace our log block
                                 for (i in 1..vineLength) {
-                                    setBlockIfPossible(changedBlocks, world, leafPos.down(i), MANGROVE_LEAVES)
+                                    setBlockIfPossible(
+                                        changedBlocks, world, leafPos.down(i),
+                                        MANGROVE_LEAVES
+                                    )
                                 }
                             } else {
-                                setBlockIfPossible(changedBlocks, world, leafPos, MANGROVE_LEAVES)
+                                setBlockIfPossible(
+                                    changedBlocks, world, leafPos,
+                                    MANGROVE_LEAVES
+                                )
                             }
                         }
                     }

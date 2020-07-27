@@ -1,22 +1,21 @@
-package com.davidm1a2.afraidofthedark.common.world.gen.tree
+package com.davidm1a2.afraidofthedark.common.world.tree
 
-import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
+import com.davidm1a2.afraidofthedark.common.world.tree.feature.SacredMangroveTreeFeature
 import net.minecraft.block.trees.AbstractTree
 import net.minecraft.world.gen.feature.AbstractTreeFeature
 import net.minecraft.world.gen.feature.NoFeatureConfig
-import net.minecraft.world.gen.feature.TreeFeature
 import java.util.*
 
 /**
- * Gravewood tree generator
+ * Sacred mangrove tree generator
  */
-class GravewoodTree : AbstractTree() {
+class SacredMangroveTree : AbstractTree() {
     /**
      * Gets the tree feature
      *
      * @param random The RNG to use to pick a random tree feature
      */
     override fun getTreeFeature(random: Random): AbstractTreeFeature<NoFeatureConfig> {
-        return TreeFeature(true, 5, ModBlocks.GRAVEWOOD.defaultState, ModBlocks.GRAVEWOOD_LEAVES.defaultState, false)
+        return SacredMangroveTreeFeature(true)
     }
 }

@@ -1,7 +1,7 @@
 package com.davidm1a2.afraidofthedark.common.block.mangrove
 
 import com.davidm1a2.afraidofthedark.common.block.core.AOTDBlockSapling
-import com.davidm1a2.afraidofthedark.common.world.gen.tree.MangroveTree
+import com.davidm1a2.afraidofthedark.common.world.tree.MangroveTree
 import net.minecraft.block.material.Material
 
 /**

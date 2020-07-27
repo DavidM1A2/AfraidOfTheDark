@@ -1,4 +1,4 @@
-package com.davidm1a2.afraidofthedark.common.world.gen.tree.feature
+package com.davidm1a2.afraidofthedark.common.world.tree.feature
 
 import com.davidm1a2.afraidofthedark.common.constants.ModBlocks
 import net.minecraft.block.BlockLog
@@ -28,7 +28,10 @@ class SacredMangroveTreeFeature(notify: Boolean) : AbstractTreeFeature<NoFeature
     override fun place(changedBlocks: MutableSet<BlockPos>, world: IWorld, random: Random, pos: BlockPos): Boolean {
         // Create a trunk, it's always 5 blocks tall
         for (yOffset in 0 until TREE_HEIGHT) {
-            setBlockIfPossible(changedBlocks, world, pos.add(0, yOffset, 0), SACRED_MANGROVE_LOG_UP)
+            setBlockIfPossible(
+                changedBlocks, world, pos.add(0, yOffset, 0),
+                SACRED_MANGROVE_LOG_UP
+            )
         }
 
         val topLogPos = pos.add(0, TREE_HEIGHT - 1, 0)
@@ -43,7 +46,10 @@ class SacredMangroveTreeFeature(notify: Boolean) : AbstractTreeFeature<NoFeature
          */
         for (x in -2..2) {
             for (z in -2..2) {
-                setBlockIfPossible(changedBlocks, world, topLogPos.add(x, -1, z), SACRED_MANGROVE_LEAVES)
+                setBlockIfPossible(
+                    changedBlocks, world, topLogPos.add(x, -1, z),
+                    SACRED_MANGROVE_LEAVES
+                )
             }
         }
 
@@ -57,12 +63,21 @@ class SacredMangroveTreeFeature(notify: Boolean) : AbstractTreeFeature<NoFeature
          */
         for (x in -1..1) {
             for (z in -2..2) {
-                setBlockIfPossible(changedBlocks, world, topLogPos.add(x, 0, z), SACRED_MANGROVE_LEAVES)
+                setBlockIfPossible(
+                    changedBlocks, world, topLogPos.add(x, 0, z),
+                    SACRED_MANGROVE_LEAVES
+                )
             }
         }
         for (z in -1..1) {
-            setBlockIfPossible(changedBlocks, world, topLogPos.add(-2, 0, z), SACRED_MANGROVE_LEAVES)
-            setBlockIfPossible(changedBlocks, world, topLogPos.add(2, 0, z), SACRED_MANGROVE_LEAVES)
+            setBlockIfPossible(
+                changedBlocks, world, topLogPos.add(-2, 0, z),
+                SACRED_MANGROVE_LEAVES
+            )
+            setBlockIfPossible(
+                changedBlocks, world, topLogPos.add(2, 0, z),
+                SACRED_MANGROVE_LEAVES
+            )
         }
 
         /*
@@ -73,7 +88,10 @@ class SacredMangroveTreeFeature(notify: Boolean) : AbstractTreeFeature<NoFeature
          */
         for (x in -1..1) {
             for (z in -1..1) {
-                setBlockIfPossible(changedBlocks, world, topLogPos.add(x, 1, z), SACRED_MANGROVE_LEAVES)
+                setBlockIfPossible(
+                    changedBlocks, world, topLogPos.add(x, 1, z),
+                    SACRED_MANGROVE_LEAVES
+                )
             }
         }
 
@@ -84,8 +102,14 @@ class SacredMangroveTreeFeature(notify: Boolean) : AbstractTreeFeature<NoFeature
           x
          */
         for (i in -1..1) {
-            setBlockIfPossible(changedBlocks, world, topLogPos.add(0, 2, i), SACRED_MANGROVE_LEAVES)
-            setBlockIfPossible(changedBlocks, world, topLogPos.add(i, 2, 0), SACRED_MANGROVE_LEAVES)
+            setBlockIfPossible(
+                changedBlocks, world, topLogPos.add(0, 2, i),
+                SACRED_MANGROVE_LEAVES
+            )
+            setBlockIfPossible(
+                changedBlocks, world, topLogPos.add(i, 2, 0),
+                SACRED_MANGROVE_LEAVES
+            )
         }
 
         // True since the tree grew
