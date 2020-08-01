@@ -87,7 +87,7 @@ abstract class AOTDStructure<T : IFeatureConfig> : Structure<T>() {
     }
 
     // Use this instead of the above version without world
-    abstract fun hasStartAt(worldIn: IWorld, chunkGen: IChunkGenerator<*>, rand: Random, centerChunkX: Int, centerChunkZ: Int): Boolean
+    abstract fun hasStartAt(worldIn: IWorld, chunkGen: IChunkGenerator<*>, rand: SharedSeedRandom, centerChunkX: Int, centerChunkZ: Int): Boolean
 
     ///
     /// Code below is almost exactly the same as Structure.java, except one line change

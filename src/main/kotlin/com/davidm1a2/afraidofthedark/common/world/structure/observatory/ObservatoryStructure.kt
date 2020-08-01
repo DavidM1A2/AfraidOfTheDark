@@ -12,7 +12,6 @@ import net.minecraft.world.biome.Biome
 import net.minecraft.world.dimension.DimensionType
 import net.minecraft.world.gen.IChunkGenerator
 import net.minecraft.world.gen.feature.structure.StructureStart
-import java.util.*
 
 class ObservatoryStructure : AOTDStructure<ObservatoryConfig>() {
     override fun getStructureName(): String {
@@ -39,8 +38,8 @@ class ObservatoryStructure : AOTDStructure<ObservatoryConfig>() {
         return worldIn.dimension.type == DimensionType.OVERWORLD
     }
 
-    override fun hasStartAt(worldIn: IWorld, chunkGen: IChunkGenerator<*>, rand: Random, centerChunkX: Int, centerChunkZ: Int): Boolean {
-        (rand as SharedSeedRandom).setLargeFeatureSeed(chunkGen.seed, centerChunkX, centerChunkZ)
+    override fun hasStartAt(worldIn: IWorld, chunkGen: IChunkGenerator<*>, rand: SharedSeedRandom, centerChunkX: Int, centerChunkZ: Int): Boolean {
+        rand.setLargeFeatureSeed(chunkGen.seed, centerChunkX, centerChunkZ)
 
         val xPos = centerChunkX * 16
         val zPos = centerChunkZ * 16
@@ -63,6 +62,8 @@ class ObservatoryStructure : AOTDStructure<ObservatoryConfig>() {
     }
 
     override fun makeStart(worldIn: IWorld, generator: IChunkGenerator<*>, random: SharedSeedRandom, centerChunkX: Int, centerChunkZ: Int): StructureStart {
+        random.setLargeFeatureSeed(generator.seed, centerChunkX, centerChunkZ)
+
         val xPos = centerChunkX * 16
         val zPos = centerChunkZ * 16
         val centerBiome = generator.biomeProvider.getBiome(BlockPos(xPos, 0, zPos), Biomes.PLAINS)!!
