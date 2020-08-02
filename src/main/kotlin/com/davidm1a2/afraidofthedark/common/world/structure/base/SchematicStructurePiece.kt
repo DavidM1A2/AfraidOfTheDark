@@ -78,6 +78,11 @@ class SchematicStructurePiece() : StructurePiece() {
         }
     }
 
+    fun updateY(y: Int) {
+        boundingBox.minY = y
+        boundingBox.maxY = y + schematic.getHeight() - 1
+    }
+
     // Copy & Pasted from StructurePiece, used to expose the rotation and mirror fields
     override fun setCoordBaseMode(facing: EnumFacing?) {
         super.setCoordBaseMode(facing)

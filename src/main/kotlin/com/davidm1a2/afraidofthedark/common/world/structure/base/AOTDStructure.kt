@@ -58,24 +58,31 @@ abstract class AOTDStructure<T : IFeatureConfig> : Structure<T>() {
         }
     }
 
-    protected fun getEdgeHeights(x: Int, z: Int, worldIn: IWorld, chunkGen: IChunkGenerator<*>): Array<Int> {
-        val corner1Height = WorldHeightmap.getHeight(x - getWidth() / 2, z - getLength() / 2, worldIn, chunkGen)
-        val corner2Height = WorldHeightmap.getHeight(x + getWidth() / 2, z - getLength() / 2, worldIn, chunkGen)
-        val corner3Height = WorldHeightmap.getHeight(x - getWidth() / 2, z + getLength() / 2, worldIn, chunkGen)
-        val corner4Height = WorldHeightmap.getHeight(x + getWidth() / 2, z + getLength() / 2, worldIn, chunkGen)
-        val edge1Height = WorldHeightmap.getHeight(x, z - getLength() / 2, worldIn, chunkGen)
-        val edge2Height = WorldHeightmap.getHeight(x, z + getLength() / 2, worldIn, chunkGen)
-        val edge3Height = WorldHeightmap.getHeight(x - getWidth() / 2, z, worldIn, chunkGen)
-        val edge4Height = WorldHeightmap.getHeight(x + getWidth() / 2, z, worldIn, chunkGen)
+    protected fun getEdgeHeights(
+        x: Int,
+        z: Int,
+        worldIn: IWorld,
+        chunkGen: IChunkGenerator<*>,
+        width: Int = getWidth(),
+        length: Int = getLength()
+    ): Array<Int> {
+        val corner1Height = WorldHeightmap.getHeight(x - width / 2, z - length / 2, worldIn, chunkGen)
+        val corner2Height = WorldHeightmap.getHeight(x + width / 2, z - length / 2, worldIn, chunkGen)
+        val corner3Height = WorldHeightmap.getHeight(x - width / 2, z + length / 2, worldIn, chunkGen)
+        val corner4Height = WorldHeightmap.getHeight(x + width / 2, z + length / 2, worldIn, chunkGen)
+        val edge1Height = WorldHeightmap.getHeight(x, z - length / 2, worldIn, chunkGen)
+        val edge2Height = WorldHeightmap.getHeight(x, z + length / 2, worldIn, chunkGen)
+        val edge3Height = WorldHeightmap.getHeight(x - width / 2, z, worldIn, chunkGen)
+        val edge4Height = WorldHeightmap.getHeight(x + width / 2, z, worldIn, chunkGen)
         val centerHeight = WorldHeightmap.getHeight(x, z, worldIn, chunkGen)
         return arrayOf(corner1Height, corner2Height, corner3Height, corner4Height, edge1Height, edge2Height, edge3Height, edge4Height, centerHeight)
     }
 
-    protected fun getInteriorConfigs(x: Int, z: Int, chunkGen: IChunkGenerator<*>): Sequence<T?> {
+    protected fun getInteriorConfigs(x: Int, z: Int, chunkGen: IChunkGenerator<*>, width: Int = getWidth(), length: Int = getLength()): Sequence<T?> {
         val biomes = chunkGen.biomeProvider.getBiomesInSquare(
             x,
             z,
-            max(getWidth(), getLength())
+            max(width, length)
         )
 
         return biomes.asSequence().map { chunkGen.getStructureConfig(it, this) as? T }

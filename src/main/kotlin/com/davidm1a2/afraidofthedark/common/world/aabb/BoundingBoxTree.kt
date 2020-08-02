@@ -106,8 +106,8 @@ class BoundingBoxTree : INBTSerializable<NBTTagList> {
             if (node.isLeaf()) {
                 node.writeToList(toReturn)
             } else {
-                stack.push(node.leftChild!!)
-                stack.push(node.rightChild!!)
+                node.leftChild?.let { stack.push(it) }
+                node.rightChild?.let { stack.push(it) }
             }
         }
 

@@ -64,15 +64,17 @@ class DarkForestStructure : AOTDStructure<DarkForestConfig>() {
         val xPos = centerChunkX * 16
         val zPos = centerChunkZ * 16
 
-        val frequency = getInteriorConfigs(xPos, zPos, chunkGen).map { it?.frequency ?: 0.0 }.min() ?: 0.0
+        val frequency = getInteriorConfigs(xPos, zPos, chunkGen, bedHouseWidth, bedHouseLength)
+            .map { it?.frequency ?: 0.0 }
+            .min() ?: 0.0
         if (rand.nextDouble() >= frequency) {
             return false
         }
 
-        val heights = getEdgeHeights(xPos, zPos, worldIn, chunkGen)
+        val heights = getEdgeHeights(xPos, zPos, worldIn, chunkGen, bedHouseWidth, bedHouseLength)
         val maxHeight = heights.max()!!
         val minHeight = heights.min()!!
-        if (maxHeight - minHeight > 3) {
+        if (maxHeight - minHeight > 8) {
             return false
         }
 
@@ -80,12 +82,14 @@ class DarkForestStructure : AOTDStructure<DarkForestConfig>() {
     }
 
     override fun makeStart(worldIn: IWorld, generator: IChunkGenerator<*>, random: SharedSeedRandom, centerChunkX: Int, centerChunkZ: Int): StructureStart {
+        random.setLargeFeatureSeed(generator.seed, centerChunkX, centerChunkZ)
+
         val xPos = centerChunkX * 16
         val zPos = centerChunkZ * 16
         val centerBiome = generator.biomeProvider.getBiome(BlockPos(xPos, 0, zPos), Biomes.PLAINS)!!
 
-        val yPos = getEdgeHeights(xPos, zPos, worldIn, generator).min()!!
-        return DarkForestStructureStart(worldIn, centerChunkX, yPos - 1, centerChunkZ, centerBiome, random, generator.seed)
+        val yPos = getEdgeHeights(xPos, zPos, worldIn, generator, bedHouseWidth, bedHouseLength).min()!!
+        return DarkForestStructureStart(worldIn, generator, centerChunkX, yPos - 1, centerChunkZ, centerBiome, random, generator.seed, width, length)
     }
 
     companion object {

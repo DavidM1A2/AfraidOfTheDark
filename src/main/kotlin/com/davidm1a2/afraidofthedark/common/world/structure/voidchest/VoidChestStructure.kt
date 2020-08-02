@@ -64,7 +64,7 @@ class VoidChestStructure : AOTDStructure<VoidChestConfig>() {
 
         val xPos = centerChunkX * 16
         val zPos = centerChunkZ * 16
-        val centerBiome = generator.biomeProvider.getBiome(BlockPos(xPos + 8, 0, zPos + 8), Biomes.PLAINS)!!
+        val centerBiome = generator.biomeProvider.getBiome(BlockPos(xPos, 0, zPos), Biomes.PLAINS)!!
 
         val yPos = getEdgeHeights(xPos, zPos, worldIn, generator).min()!!
         return VoidChestStructureStart(worldIn, centerChunkX, yPos - 7, centerChunkZ, centerBiome, random, generator.seed)
