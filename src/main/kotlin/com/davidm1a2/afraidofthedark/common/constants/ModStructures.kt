@@ -5,6 +5,8 @@ import com.davidm1a2.afraidofthedark.common.world.structure.crypt.CryptStructure
 import com.davidm1a2.afraidofthedark.common.world.structure.crypt.CryptStructureStart
 import com.davidm1a2.afraidofthedark.common.world.structure.darkforest.DarkForestStructure
 import com.davidm1a2.afraidofthedark.common.world.structure.darkforest.DarkForestStructureStart
+import com.davidm1a2.afraidofthedark.common.world.structure.nightmareisland.NightmareIslandStructure
+import com.davidm1a2.afraidofthedark.common.world.structure.nightmareisland.NightmareIslandStructureStart
 import com.davidm1a2.afraidofthedark.common.world.structure.observatory.ObservatoryStructure
 import com.davidm1a2.afraidofthedark.common.world.structure.observatory.ObservatoryStructureStart
 import com.davidm1a2.afraidofthedark.common.world.structure.voidchest.VoidChestStructure
@@ -29,6 +31,7 @@ object ModStructures {
     val DARK_FOREST = DarkForestStructure()
     val VOID_CHEST_BOX = VoidChestBoxStructure()
     val VOID_CHEST_PORTAL = VoidChestPortalStructure()
+    val NIGHTMARE_ISLAND = NightmareIslandStructure()
 
     val STRUCTURES = listOf(
         CRYPT,
@@ -37,7 +40,8 @@ object ModStructures {
         OBSERVATORY,
         DARK_FOREST,
         VOID_CHEST_BOX,
-        VOID_CHEST_PORTAL
+        VOID_CHEST_PORTAL,
+        NIGHTMARE_ISLAND
     )
 
     val STRUCTURE_STARTS = listOf(
@@ -47,7 +51,8 @@ object ModStructures {
         OBSERVATORY to ObservatoryStructureStart::class.java,
         DARK_FOREST to DarkForestStructureStart::class.java,
         VOID_CHEST_BOX to VoidChestBoxStructureStart::class.java,
-        VOID_CHEST_PORTAL to VoidChestPortalStructureStart::class.java
+        VOID_CHEST_PORTAL to VoidChestPortalStructureStart::class.java,
+        NIGHTMARE_ISLAND to NightmareIslandStructureStart::class.java
     )
 
     val STRUCTURE_PIECES = listOf(

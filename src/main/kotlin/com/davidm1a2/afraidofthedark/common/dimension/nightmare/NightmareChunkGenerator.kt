@@ -25,40 +25,6 @@ class NightmareChunkGenerator(world: IWorld, biomeProvider: BiomeProvider) : Abs
         // Do nothing, there's nothing to carve out of void
     }
 
-    override fun decorate(worldGenRegion: WorldGenRegion) {
-        /*
-        val x = worldGenRegion.mainChunkX
-        val z = worldGenRegion.mainChunkZ
-        // Grab some constants
-        val islandWidth = ModStructures.NIGHTMARE_ISLAND.getXWidth()
-        val islandLength = ModStructures.NIGHTMARE_ISLAND.getZLength()
-        val blocksBetweenIslands = ModServerConfiguration.blocksBetweenIslands
-        // Compute the z position
-        val zPos = z * 16
-        // Ensure z is between [0, len(island)+15]
-        if (zPos >= 0 && zPos <= islandLength + 15) {
-            // Compute the x position
-            val xPos = x * 16
-            // Grab the island index
-            val islandIndex = xPos / blocksBetweenIslands
-            // Compute the relative x position of the island between 0 and blocksBetweenIslands
-            val relativeXPos = xPos % blocksBetweenIslands
-            // Ensure the relative x pos will have blocks inside of it
-            if (relativeXPos >= 0 && relativeXPos <= islandWidth + 15) {
-                // Compute the position the island would generate at
-                val islandPos = BlockPos(islandIndex * blocksBetweenIslands, 0, 0)
-                // Compute data for the structure
-                val data = ModStructures.NIGHTMARE_ISLAND.generateStructureData(world as World, islandPos, world.chunkProvider.chunkGenerator.biomeProvider)
-                val chunkPos = ChunkPos(x, z)
-                // Generate the chunk
-                ModStructures.NIGHTMARE_ISLAND.generate(world, chunkPos, data)
-                // Fix the lighting
-                world.relightChunk(chunkPos)
-            }
-        }
-        */
-    }
-
     override fun getPossibleCreatures(creatureType: EnumCreatureType, pos: BlockPos): List<SpawnListEntry> {
         return emptyList()
     }
