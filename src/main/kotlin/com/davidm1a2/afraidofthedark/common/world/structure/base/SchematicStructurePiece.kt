@@ -64,13 +64,13 @@ class SchematicStructurePiece() : StructurePiece() {
         ).map { it to this::fixStairState }.toTypedArray()
     )
 
-    constructor(x: Int, y: Int, z: Int, random: Random, schematic: Schematic, lootTable: LootTable? = null) : this() {
+    constructor(x: Int, y: Int, z: Int, random: Random, schematic: Schematic, lootTable: LootTable? = null, facing: EnumFacing? = null) : this() {
         this.schematic = schematic
         this.lootTable = lootTable
 
         // The first random number is always 0. No idea why
         random.nextInt(4)
-        coordBaseMode = EnumFacing.Plane.HORIZONTAL.random(random)
+        coordBaseMode = facing ?: EnumFacing.Plane.HORIZONTAL.random(random)
         boundingBox = if (coordBaseMode?.axis == EnumFacing.Axis.Z) {
             MutableBoundingBox(x, y, z, x + schematic.getWidth() - 1, y + schematic.getHeight() - 1, z + schematic.getLength() - 1)
         } else {

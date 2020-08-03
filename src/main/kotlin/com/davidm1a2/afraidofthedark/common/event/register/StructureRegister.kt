@@ -1,7 +1,6 @@
 package com.davidm1a2.afraidofthedark.common.event.register
 
 import com.davidm1a2.afraidofthedark.common.constants.ModStructures
-import com.davidm1a2.afraidofthedark.common.world.structure.base.SchematicStructurePiece
 import net.minecraft.world.gen.feature.Feature
 import net.minecraft.world.gen.feature.structure.StructureIO
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper
@@ -14,8 +13,10 @@ object StructureRegister {
     private val REGISTER_STRUCTURE = ObfuscationReflectionHelper.findMethod(StructureIO::class.java, "registerStructure", Class::class.java, String::class.java)
 
     fun register() {
-        // Register the schematic structure piece used by all AOTD structures
-        StructureIO.registerStructureComponent(SchematicStructurePiece::class.java, "afraidofthedark:schematic_structure_piece")
+        // Register the structure pieces
+        for ((name, clazz) in ModStructures.STRUCTURE_PIECES) {
+            StructureIO.registerStructureComponent(clazz, name.toString())
+        }
 
         // Register each structure feature
         for (structure in ModStructures.STRUCTURES) {
