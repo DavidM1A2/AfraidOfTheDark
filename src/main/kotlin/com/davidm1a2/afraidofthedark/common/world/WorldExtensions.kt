@@ -15,17 +15,6 @@ import net.minecraftforge.common.util.BlockSnapshot
 import java.util.*
 
 /**
- * Relights a chunk in a world, usually takes 10-400ms to execute
- *
- * @param chunkPos The chunk to relight
- */
-fun World.relightChunk(chunkPos: ChunkPos) {
-    val chunk = this.getChunk(chunkPos.x, chunkPos.z)
-    chunk.generateSkylightMap()
-    chunk.markDirty()
-}
-
-/**
  * Generates a specific chunk of a schematic in a world at a specific block position without loot
  *
  * @param schematic The schematic to generate
