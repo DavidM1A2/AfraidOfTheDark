@@ -10,7 +10,7 @@ import net.minecraftforge.registries.ForgeRegistries
  * Class used to register our structures into the game
  */
 object StructureRegister {
-    private val REGISTER_STRUCTURE = ObfuscationReflectionHelper.findMethod(StructureIO::class.java, "registerStructure", Class::class.java, String::class.java)
+    private val REGISTER_STRUCTURE = ObfuscationReflectionHelper.findMethod(StructureIO::class.java, "func_143034_b", Class::class.java, String::class.java)
 
     fun register() {
         // Register the structure pieces

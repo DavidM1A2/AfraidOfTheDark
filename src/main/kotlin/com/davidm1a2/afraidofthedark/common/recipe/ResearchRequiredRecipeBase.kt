@@ -83,13 +83,13 @@ abstract class ResearchRequiredRecipeBase<T : IRecipe>(val baseRecipe: T, intern
             try {
                 if (inventory is InventoryCrafting) {
                     // Attempt to grab the container the player is crafting in
-                    val container: Container = ObfuscationReflectionHelper.getPrivateValue(InventoryCrafting::class.java, inventory, "eventHandler")
+                    val container: Container = ObfuscationReflectionHelper.getPrivateValue(InventoryCrafting::class.java, inventory, "field_70465_c")
 
                     // Test if the container is a 2x2 grid or 'ContainerPlayer', if so return the player from the 'player' field
                     if (container is ContainerPlayer) {
-                        return ObfuscationReflectionHelper.getPrivateValue(ContainerPlayer::class.java, container, "player")
+                        return ObfuscationReflectionHelper.getPrivateValue(ContainerPlayer::class.java, container, "field_82862_h")
                     } else if (container is ContainerWorkbench) {
-                        return ObfuscationReflectionHelper.getPrivateValue(ContainerWorkbench::class.java, container, "player")
+                        return ObfuscationReflectionHelper.getPrivateValue(ContainerWorkbench::class.java, container, "field_192390_i")
                     }
                 }
             }

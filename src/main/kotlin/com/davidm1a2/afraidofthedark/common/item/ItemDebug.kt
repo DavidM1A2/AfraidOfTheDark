@@ -1,7 +1,9 @@
 package com.davidm1a2.afraidofthedark.common.item
 
+import com.davidm1a2.afraidofthedark.common.constants.ModSchematics
 import com.davidm1a2.afraidofthedark.common.entity.enchantedFrog.EntityEnchantedFrog
 import com.davidm1a2.afraidofthedark.common.item.core.AOTDItem
+import com.davidm1a2.afraidofthedark.common.world.generateSchematic
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
@@ -24,8 +26,7 @@ class ItemDebug : AOTDItem("debug", Properties().maxStackSize(1), displayInCreat
     override fun onItemRightClick(worldIn: World, playerIn: EntityPlayer, handIn: EnumHand): ActionResult<ItemStack> {
         if (worldIn.isRemote) {
         } else {
-            val pos = worldIn.findNearestStructure("afraidofthedark:gnomish_city", playerIn.position, 100, false)
-            playerIn.sendMessage(TextComponentString("Pos is: $pos"))
+            worldIn.generateSchematic(ModSchematics.ENARIA_LAIR, playerIn.position.add(1, 0, 1))
         }
         return super.onItemRightClick(worldIn, playerIn, handIn)
     }

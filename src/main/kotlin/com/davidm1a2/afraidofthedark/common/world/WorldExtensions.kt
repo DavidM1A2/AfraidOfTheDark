@@ -4,7 +4,6 @@ import com.davidm1a2.afraidofthedark.common.world.schematic.Schematic
 import com.davidm1a2.afraidofthedark.common.world.structure.base.LootTable
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.EntityType
-import net.minecraft.init.Blocks
 import net.minecraft.tileentity.TileEntity
 import net.minecraft.tileentity.TileEntityChest
 import net.minecraft.util.math.BlockPos
@@ -94,6 +93,13 @@ private fun World.generateBlocks(schematic: Schematic, blockPos: BlockPos, chunk
                 // Grab the reference to the next block to place
                 val nextToPlace = blocks[index]
 
+                // Set the block state
+                this.setBlockStateFast(
+                    BlockPos(x, y, z),
+                    nextToPlace,
+                    setBlockFlags
+                )
+                /*
                 // If the block in the schematic is air then ignore it
                 if (!nextToPlace.isAir) {
                     val position = BlockPos(x, y, z)
@@ -114,6 +120,7 @@ private fun World.generateBlocks(schematic: Schematic, blockPos: BlockPos, chunk
                         )
                     }
                 }
+                 */
             }
         }
     }
