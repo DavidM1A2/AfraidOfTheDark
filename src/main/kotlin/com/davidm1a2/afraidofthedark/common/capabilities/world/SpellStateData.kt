@@ -4,6 +4,7 @@ import com.davidm1a2.afraidofthedark.common.capabilities.world.storage.DelayedDe
 import com.davidm1a2.afraidofthedark.common.spell.component.DeliveryTransitionState
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTTagList
+import net.minecraft.world.WorldServer
 import net.minecraft.world.dimension.DimensionType
 import net.minecraft.world.storage.WorldSavedData
 import net.minecraftforge.common.util.Constants
@@ -88,12 +89,12 @@ class SpellStateData @JvmOverloads constructor(identifier: String = IDENTIFIER) 
          *
          * @return The data for that world or null if it is not present
          */
-        fun get(): SpellStateData {
+        fun get(): SpellStateData? {
             // Hardcoded to use overworld to simulate "global" data
-            val world = ServerLifecycleHooks.getCurrentServer().getWorld(DimensionType.OVERWORLD)
+            val world: WorldServer? = ServerLifecycleHooks.getCurrentServer().getWorld(DimensionType.OVERWORLD)
             // If we are on client side throw an exception
-            if (world.isRemote) {
-                throw UnsupportedOperationException("Attempted to get the SpellStateData client side!")
+            if (world == null || world.isRemote) {
+                return null
             }
             // Grab the storage object for all worlds (per server, not per world!)
             val storage = world.mapStorage!!

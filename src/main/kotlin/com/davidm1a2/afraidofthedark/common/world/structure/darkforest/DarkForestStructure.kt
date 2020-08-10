@@ -48,7 +48,7 @@ class DarkForestStructure : AOTDStructure<DarkForestConfig>() {
 
     override fun setupStructureIn(biome: Biome) {
         if (biome in COMPATIBLE_HOUSE_BIOMES) {
-            addToBiome(biome, DarkForestConfig(0.002 * ModCommonConfiguration.witchHutMultiplier))
+            addToBiome(biome, DarkForestConfig(0.002 * ModCommonConfiguration.darkForestMultiplier))
         } else {
             addToBiome(biome, DarkForestConfig(0.0))
         }

@@ -24,7 +24,7 @@ class ItemDebug : AOTDItem("debug", Properties().maxStackSize(1), displayInCreat
     override fun onItemRightClick(worldIn: World, playerIn: EntityPlayer, handIn: EnumHand): ActionResult<ItemStack> {
         if (worldIn.isRemote) {
         } else {
-            val pos = worldIn.findNearestStructure("afraidofthedark:void_chest_portal", playerIn.position, 100, false)
+            val pos = worldIn.findNearestStructure("afraidofthedark:gnomish_city", playerIn.position, 100, false)
             playerIn.sendMessage(TextComponentString("Pos is: $pos"))
         }
         return super.onItemRightClick(worldIn, playerIn, handIn)

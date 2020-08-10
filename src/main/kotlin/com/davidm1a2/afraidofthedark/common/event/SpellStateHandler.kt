@@ -18,8 +18,8 @@ class SpellStateHandler {
     @SubscribeEvent
     fun onServerTick(event: ServerTickEvent) {
         if (event.phase == TickEvent.Phase.START && event.type == TickEvent.Type.SERVER && event.side == LogicalSide.SERVER) {
-            // Doesn't matter what world we use, SpellStateData is global
-            SpellStateData.get().update()
+            // This can be null on the first server tick before everything is initialized
+            SpellStateData.get()?.update()
         }
     }
 }

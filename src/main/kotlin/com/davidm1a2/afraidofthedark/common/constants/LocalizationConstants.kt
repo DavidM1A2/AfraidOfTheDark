@@ -64,36 +64,6 @@ object LocalizationConstants {
         const val WRONG_DIMENSION = "message.afraidofthedark.void_chest.wrong_dimension"
     }
 
-    object Command {
-        const val HELP_HEADER = "message.afraidofthedark.command.help.header"
-        const val HELP_HELP = "message.afraidofthedark.command.help.help"
-        const val HELP_DUNGEON = "message.afraidofthedark.command.help.dungeon"
-
-        const val DUNGEON_HELP_HEADER = "message.afraidofthedark.command.dungeon.help.header"
-        const val DUNGEON_HELP_HELP = "message.afraidofthedark.command.dungeon.help.help"
-        const val DUNGEON_HELP_TYPES = "message.afraidofthedark.command.dungeon.help.types"
-        const val DUNGEON_HELP_LIST = "message.afraidofthedark.command.dungeon.help.list"
-        const val DUNGEON_HELP_LIST_TYPE = "message.afraidofthedark.command.dungeon.help.list.type"
-        const val DUNGEON_HELP_INFO = "message.afraidofthedark.command.dungeon.help.info"
-        const val DUNGEON_HELP_REGENERATE = "message.afraidofthedark.command.dungeon.help.regenerate"
-
-        const val DUNGEON_TYPES = "message.afraidofthedark.command.dungeon.types"
-
-        const val DUNGEON_INFO = "message.afraidofthedark.command.dungeon.info"
-        const val DUNGEON_INFO_EXTRA_NBT = "message.afraidofthedark.command.dungeon.info.extra_nbt"
-        const val DUNGEON_INFO_NO_STRUCTURES = "message.afraidofthedark.command.dungeon.info.no_structures"
-        const val DUNGEON_INFO_INVALID_WORLD = "message.afraidofthedark.command.dungeon.info.invalid_world"
-
-        const val DUNGEON_REGENERATE_NO_STRUCTURES = "message.afraidofthedark.command.dungeon.regenerate.no_structures"
-        const val DUNGEON_REGENERATE_INVALID_WORLD = "message.afraidofthedark.command.dungeon.regenerate.invalid_world"
-
-        const val DUNGEON_LIST_TYPE_HEADER = "message.afraidofthedark.command.dungeon.list_type.header"
-        const val DUNGEON_LIST_TYPE_UNKNOWN_TYPE = "message.afraidofthedark.command.dungeon.list_type.unknown_type"
-
-        const val DUNGEON_LIST_HEADER = "message.afraidofthedark.command.dungeon.list.header"
-        const val DUNGEON_LIST = "message.afraidofthedark.command.dungeon.list"
-    }
-
     object Enaria {
         const val DONT_UNDERSTAND = "message.afraidofthedark.enaria.dont_understand"
     }

@@ -36,7 +36,8 @@ abstract class AOTDStructure<T : IFeatureConfig> : Structure<T>() {
     fun addToBiome(biome: Biome, config: T) {
         biome.addStructure(this, config)
         biome.addFeature(
-            GenerationStage.Decoration.SURFACE_STRUCTURES, Biome.createCompositeFeature(
+            GenerationStage.Decoration.TOP_LAYER_MODIFICATION, // Top_Layer_Modification happens last so it has the highest priority
+            Biome.createCompositeFeature(
                 this,
                 config,
                 Biome.PASSTHROUGH,
@@ -79,13 +80,17 @@ abstract class AOTDStructure<T : IFeatureConfig> : Structure<T>() {
     }
 
     protected fun getInteriorConfigs(x: Int, z: Int, chunkGen: IChunkGenerator<*>, width: Int = getWidth(), length: Int = getLength()): Sequence<T?> {
-        val biomes = chunkGen.biomeProvider.getBiomesInSquare(
-            x,
-            z,
-            max(width, length)
-        )
-
-        return biomes.asSequence().map { chunkGen.getStructureConfig(it, this) as? T }
+        val biomeProvider = chunkGen.biomeProvider
+        return sequence {
+            for (xPos in x until x + width) {
+                for (zPos in z until z + length) {
+                    val biome = biomeProvider.getBiome(BlockPos(xPos, 0, zPos), null)
+                    if (biome != null) {
+                        yield(chunkGen.getStructureConfig(biome, this@AOTDStructure) as T?)
+                    }
+                }
+            }
+        }
     }
 
     // Don't use this version, it doesnt accept a world argument
