@@ -91,7 +91,7 @@ class SpellStateData @JvmOverloads constructor(identifier: String = IDENTIFIER) 
          */
         fun get(): SpellStateData? {
             // Hardcoded to use overworld to simulate "global" data
-            val world: WorldServer? = ServerLifecycleHooks.getCurrentServer().getWorld(DimensionType.OVERWORLD)
+            val world: WorldServer? = ServerLifecycleHooks.getCurrentServer()?.getWorld(DimensionType.OVERWORLD)
             // If we are on client side throw an exception
             if (world == null || world.isRemote) {
                 return null

@@ -27,15 +27,14 @@ class GnomishCityStructureStart : StructureStart {
         // Compute the stairs from surface to level 1, can be a random room
         val stairSurfaceTo1 = random.nextInt(9)
 
-        // We must place enaria's stairs here, unfortunately it's the only spot big enough to fit without
-        // breaking the bounding box of the 3x3 rooms
-        val stairs2ToEnaria = 7
+        val stairs2ToEnaria = listOf(1, 3, 5, 7)[random.nextInt(4)]
 
         // Compute the stairs from level 1 to level 2, can't be in the same spot as stairs from 'surface -> 1' or '2 -> enaria'
         var stairs1To2: Int
         do {
             stairs1To2 = random.nextInt(9)
         } while (stairSurfaceTo1 == stairs1To2 || stairs2ToEnaria == stairs1To2)
+        val stairs1To2Facing = EnumFacing.Plane.HORIZONTAL.random(random)
 
         val rooms = ModSchematics.GNOMISH_CITY_ROOMS
             .flatMap { listOf(it, it) }
@@ -82,7 +81,6 @@ class GnomishCityStructureStart : StructureStart {
                         }
                         // If the room is the stair from level 1 to 2 and the floor is upper (1) generate the stair room
                         currentRoom == stairs1To2 && floor == Floor.UPPER -> {
-                            println("Down room at $currentRoom at $roomPosX, $roomPosZ")
                             this.components.add(
                                 SchematicStructurePiece(
                                     roomPosX,
@@ -90,13 +88,13 @@ class GnomishCityStructureStart : StructureStart {
                                     roomPosZ,
                                     random,
                                     ModSchematics.ROOM_STAIR_DOWN,
-                                    ModLootTables.GNOMISH_CITY
+                                    ModLootTables.GNOMISH_CITY,
+                                    stairs1To2Facing
                                 )
                             )
                         }
                         // If the room is the stair from level 1 to 2 and the floor is lower (0) generate the stair room
                         currentRoom == stairs1To2 && floor == Floor.LOWER -> {
-                            println("Up room at $currentRoom at $roomPosX, $roomPosZ")
                             this.components.add(
                                 SchematicStructurePiece(
                                     roomPosX,
@@ -104,12 +102,16 @@ class GnomishCityStructureStart : StructureStart {
                                     roomPosZ,
                                     random,
                                     ModSchematics.ROOM_STAIR_UP,
-                                    ModLootTables.GNOMISH_CITY
+                                    ModLootTables.GNOMISH_CITY,
+                                    stairs1To2Facing
                                 )
                             )
                         }
                         // If the room is the stair from level 2 to enaria and the floor is lower (0) generate the stair room
                         currentRoom == stairs2ToEnaria && floor == Floor.LOWER -> {
+                            val enariaFloorSettings = EnariaFloorSettings.values().find { it.roomId == currentRoom }
+                                ?: throw IllegalArgumentException("Enaria floor settings can't be determined for room $currentRoom")
+
                             this.components.add(
                                 SchematicStructurePiece(
                                     roomPosX,
@@ -117,19 +119,20 @@ class GnomishCityStructureStart : StructureStart {
                                     roomPosZ,
                                     random,
                                     ModSchematics.ROOM_STAIR_DOWN,
-                                    ModLootTables.GNOMISH_CITY
+                                    ModLootTables.GNOMISH_CITY,
+                                    enariaFloorSettings.facing
                                 )
                             )
 
                             // Create the enaria lair too to fit under this room
                             this.components.add(
                                 SchematicStructurePiece(
-                                    cornerPosX + xIndex * 50 - 14,
+                                    cornerPosX + xIndex * 50 + enariaFloorSettings.xOffset,
                                     cornerPosY + floor.ordinal * 15,
-                                    cornerPosZ + zIndex * 50 - 73,
+                                    cornerPosZ + zIndex * 50 + enariaFloorSettings.zOffset,
                                     random,
                                     ModSchematics.ENARIA_LAIR,
-                                    facing = EnumFacing.NORTH
+                                    facing = enariaFloorSettings.facing
                                 )
                             )
                         }
@@ -190,6 +193,13 @@ class GnomishCityStructureStart : StructureStart {
     private enum class Floor {
         LOWER,
         UPPER
+    }
+
+    private enum class EnariaFloorSettings(internal val roomId: Int, internal val facing: EnumFacing, internal val xOffset: Int, internal val zOffset: Int) {
+        NORTH(7, EnumFacing.NORTH, -14, -73),
+        SOUTH(1, EnumFacing.SOUTH, -14, 12),
+        EAST(3, EnumFacing.EAST, 12, -14),
+        WEST(5, EnumFacing.WEST, -73, -14)
     }
 
     companion object {
